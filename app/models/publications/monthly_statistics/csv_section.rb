@@ -1,12 +1,13 @@
 module Publications
   module MonthlyStatistics
     class CSVSection
-      attr_reader :section_identifier, :records, :title_section
+      attr_reader :section_identifier, :records, :title_section, :headline_statistics
 
-      def initialize(section_identifier:, records:, title_section:)
+      def initialize(section_identifier:, records:, title_section:, headline_statistics:)
         @section_identifier = section_identifier
         @records = Array(records)
         @title_section = title_section
+        @headline_statistics = headline_statistics
       end
 
       def call
@@ -54,7 +55,7 @@ module Publications
       end
 
       def status_attributes_headers
-        I18n.t('publications.itt_monthly_report_generator.status').each_key.map do |status|
+        headline_statistics.keys.map do |status|
           status_title = I18n.t("publications.itt_monthly_report_generator.status.#{status}.title")
 
           ["#{status_title} this cycle", "#{status_title} last cycle"]
@@ -76,7 +77,7 @@ module Publications
       end
 
       def status_attributes(record)
-        I18n.t('publications.itt_monthly_report_generator.status').each_key.map do |status|
+        headline_statistics.each_key.map do |status|
           [
             column_value_for(record:, status:, cycle: :this_cycle),
             column_value_for(record:, status:, cycle: :last_cycle),

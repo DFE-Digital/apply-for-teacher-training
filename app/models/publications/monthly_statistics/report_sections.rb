@@ -41,14 +41,16 @@ module Publications
       def candidate_headline_statistics(data = {})
         application_metrics = bigquery_records[:candidate_headline_statistics]
 
-        data.tap do |_d|
-          I18n.t('publications.itt_monthly_report_generator.status').each_key do |status|
-            data[status] = {
-              title: I18n.t("publications.itt_monthly_report_generator.status.#{status}.title"),
-              this_cycle: column_value_for(application_metrics:, status:, cycle: :this_cycle),
-              last_cycle: column_value_for(application_metrics:, status:, cycle: :last_cycle),
-            }
-          end
+        I18n.t('publications.itt_monthly_report_generator.status').each_key do |status|
+          data[status] = {
+            title: I18n.t("publications.itt_monthly_report_generator.status.#{status}.title"),
+            this_cycle: column_value_for(application_metrics:, status:, cycle: :this_cycle),
+            last_cycle: column_value_for(application_metrics:, status:, cycle: :last_cycle),
+          }
+        end
+
+        data.reject do |_, status_data|
+          ::Publications::MonthlyStatistics::StatisticsDataProcessor.new(status_data:).violates_gdpr?
         end
       end
 
@@ -127,21 +129,21 @@ module Publications
     private
 
       def group_data_for_report(results:, title_column:, data: {}, extra_columns: {})
-        data.tap do |_d|
-          I18n.t('publications.itt_monthly_report_generator.status').each_key do |status|
-            data[status] = results.map do |application_metrics|
-              {
-                title: application_metrics.send(title_column),
-                this_cycle: column_value_for(application_metrics:, status:, cycle: :this_cycle),
-                last_cycle: column_value_for(application_metrics:, status:, cycle: :last_cycle),
-              }.tap do |row|
-                extra_columns.each do |field, column|
-                  row[field] = application_metrics.send(column[:attribute])
-                end
+        candidate_headline_statistics.each_key do |status|
+          data[status] = results.map do |application_metrics|
+            {
+              title: application_metrics.send(title_column),
+              this_cycle: column_value_for(application_metrics:, status:, cycle: :this_cycle),
+              last_cycle: column_value_for(application_metrics:, status:, cycle: :last_cycle),
+            }.tap do |row|
+              extra_columns.each do |field, column|
+                row[field] = application_metrics.send(column[:attribute])
               end
             end
           end
         end
+
+        data
       end
 
       def column_value_for(application_metrics:, status:, cycle:)

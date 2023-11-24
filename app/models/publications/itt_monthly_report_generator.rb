@@ -62,6 +62,7 @@ module Publications
           section_identifier:,
           records: bigquery_records[section_identifier],
           title_section: bigquery_title_section[section_identifier],
+          headline_statistics: report[:data][:candidate_headline_statistics][:data],
         ).call
       end
 
