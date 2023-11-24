@@ -12,11 +12,11 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
       number_of_candidates_submitted_to_date: 8586,
       number_of_candidates_submitted_to_same_date_previous_cycle: 5160,
       number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_date: 0,
-      number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_same_date_previous_cycle: 0,
+      number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_same_date_previous_cycle: 1,
       number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date: 246,
       number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle: 131,
-      number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_date: 1,
-      number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_same_date_previous_cycle: 0,
+      number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_date: 7,
+      number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_same_date_previous_cycle: 6,
       number_of_candidates_with_deferred_offers_from_this_cycle_to_date: 0,
       number_of_candidates_with_deferred_offers_from_this_cycle_to_same_date_previous_cycle: 0,
       number_of_candidates_with_offers_to_date: 598,
@@ -263,6 +263,11 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
             this_cycle: 285,
             last_cycle: 213,
           },
+          withdrawn: {
+            title: 'Withdrawn',
+            this_cycle: 7,
+            last_cycle: 6,
+          },
         },
       })
     end
@@ -312,13 +317,6 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
               title: '21',
               this_cycle: 200,
               last_cycle: 100,
-            },
-          ],
-          conditions_not_met: [
-            {
-              title: '21',
-              this_cycle: 30,
-              last_cycle: 15,
             },
           ],
         },
@@ -371,13 +369,6 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
                 title: 'Male',
                 this_cycle: 200,
                 last_cycle: 100,
-              },
-            ],
-            conditions_not_met: [
-              {
-                title: 'Male',
-                this_cycle: 30,
-                last_cycle: 15,
               },
             ],
           },
@@ -433,13 +424,6 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
                 last_cycle: 100,
               },
             ],
-            conditions_not_met: [
-              {
-                title: 'Gondor',
-                this_cycle: 30,
-                last_cycle: 15,
-              },
-            ],
           },
         },
       )
@@ -491,13 +475,6 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
                 title: 'Primary',
                 this_cycle: 200,
                 last_cycle: 100,
-              },
-            ],
-            conditions_not_met: [
-              {
-                title: 'Primary',
-                this_cycle: 30,
-                last_cycle: 15,
               },
             ],
           },
@@ -553,13 +530,6 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
                 last_cycle: 100,
               },
             ],
-            conditions_not_met: [
-              {
-                title: 'Higher education',
-                this_cycle: 30,
-                last_cycle: 15,
-              },
-            ],
           },
         },
       )
@@ -611,13 +581,6 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
                 title: 'Primary with English',
                 this_cycle: 200,
                 last_cycle: 100,
-              },
-            ],
-            conditions_not_met: [
-              {
-                title: 'Primary with English',
-                this_cycle: 30,
-                last_cycle: 15,
               },
             ],
           },
@@ -673,13 +636,6 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
                 last_cycle: 100,
               },
             ],
-            conditions_not_met: [
-              {
-                title: 'Drama',
-                this_cycle: 30,
-                last_cycle: 15,
-              },
-            ],
           },
         },
       )
@@ -731,13 +687,6 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
                 title: 'Hogsmeade',
                 this_cycle: 200,
                 last_cycle: 100,
-              },
-            ],
-            conditions_not_met: [
-              {
-                title: 'Hogsmeade',
-                this_cycle: 30,
-                last_cycle: 15,
               },
             ],
           },
@@ -870,26 +819,6 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
               subject: 'Music',
             },
           ],
-          conditions_not_met: [
-            {
-              title: 'Fangorn Forest',
-              this_cycle: 30,
-              last_cycle: 15,
-              subject: 'Geography',
-            },
-            {
-              title: 'Fangorn Forest',
-              this_cycle: 30,
-              last_cycle: 15,
-              subject: 'History',
-            },
-            {
-              title: 'Fangorn Forest',
-              this_cycle: 30,
-              last_cycle: 15,
-              subject: 'Music',
-            },
-          ],
         },
       )
     end
@@ -1019,83 +948,63 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
               subject: 'Mathematics',
             },
           ],
-          conditions_not_met: [
-            {
-              title: 'Isengard',
-              this_cycle: 30,
-              last_cycle: 15,
-              subject: 'Drama',
-            },
-            {
-              title: 'Isengard',
-              this_cycle: 30,
-              last_cycle: 15,
-              subject: 'Primary with Mathematics',
-            },
-            {
-              title: 'Isengard',
-              this_cycle: 30,
-              last_cycle: 15,
-              subject: 'Mathematics',
-            },
-          ],
         },
       )
     end
 
     it 'returns candidate headline statistics into CSV (ignoring status less than 3 records)' do
       expect(report[:formats][:csv][:candidate_headline_statistics]).to eq(
-        size: 330,
-        data: "Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle\n8586,5160,598,567,538,478,246,131,285,213\n",
+        size: 376,
+        data: "Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle\n8586,5160,598,567,538,478,246,131,285,213,7,6\n",
       )
     end
 
     it 'returns candidate age group into CSV' do
       expect(report[:formats][:csv][:candidate_age_group]).to eq(
-        size: 466,
-        data: "Age Group,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle,Offer conditions not met this cycle,Offer conditions not met last cycle\n21,400,200,598,567,20,10,100,50,285,213,200,100,30,15\n",
+        size: 388,
+        data: "Age Group,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle\n21,400,200,598,567,20,10,100,50,285,213,200,100\n",
       )
     end
 
     it 'returns candidate sex into CSV' do
       expect(report[:formats][:csv][:candidate_sex]).to eq(
-        size: 462,
-        data: "Sex,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle,Offer conditions not met this cycle,Offer conditions not met last cycle\nMale,400,200,598,567,20,10,100,50,285,213,200,100,30,15\n",
+        size: 384,
+        data: "Sex,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle\nMale,400,200,598,567,20,10,100,50,285,213,200,100\n",
       )
     end
 
     it 'returns candidate area into CSV' do
       expect(report[:formats][:csv][:candidate_area]).to eq(
-        size: 465,
-        data: "Area,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle,Offer conditions not met this cycle,Offer conditions not met last cycle\nGondor,400,200,598,567,20,10,100,50,285,213,200,100,30,15\n",
+        size: 387,
+        data: "Area,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle\nGondor,400,200,598,567,20,10,100,50,285,213,200,100\n",
       )
     end
 
     it 'returns candidate phase into CSV' do
       expect(report[:formats][:csv][:candidate_phase]).to eq(
-        size: 474,
-        data: "Course Phase,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle,Offer conditions not met this cycle,Offer conditions not met last cycle\nPrimary,400,200,598,567,20,10,100,50,285,213,200,100,30,15\n",
+        size: 396,
+        data: "Course Phase,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle\nPrimary,400,200,598,567,20,10,100,50,285,213,200,100\n",
       )
     end
 
     it 'returns candidate route into teaching into CSV' do
       expect(report[:formats][:csv][:candidate_route_into_teaching]).to eq(
-        size: 482,
-        data: "Course type,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle,Offer conditions not met this cycle,Offer conditions not met last cycle\nHigher education,400,200,598,567,20,10,100,50,285,213,200,100,30,15\n",
+        size: 404,
+        data: "Course type,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle\nHigher education,400,200,598,567,20,10,100,50,285,213,200,100\n",
       )
     end
 
     it 'returns provider area and subject into CSV' do
       expect(report[:formats][:csv][:candidate_provider_region_and_subject]).to eq(
-        size: 639,
-        data: "Region,Subject,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle,Offer conditions not met this cycle,Offer conditions not met last cycle\nFangorn Forest,Geography,400,200,598,567,20,10,100,50,285,213,200,100,30,15\nFangorn Forest,History,400,200,598,567,20,10,100,50,285,213,200,100,30,15\nFangorn Forest,Music,400,200,598,567,20,10,100,50,285,213,200,100,30,15\n",
+        size: 549,
+        data: "Region,Subject,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle\nFangorn Forest,Geography,400,200,598,567,20,10,100,50,285,213,200,100\nFangorn Forest,History,400,200,598,567,20,10,100,50,285,213,200,100\nFangorn Forest,Music,400,200,598,567,20,10,100,50,285,213,200,100\n",
       )
     end
 
     it 'returns candidate area and subject into CSV' do
       expect(report[:formats][:csv][:candidate_area_and_subject]).to eq(
-        size: 638,
-        data: "Area,Subject,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle,Offer conditions not met this cycle,Offer conditions not met last cycle\nIsengard,Drama,400,200,598,567,20,10,100,50,285,213,200,100,30,15\nIsengard,Primary with Mathematics,400,200,598,567,20,10,100,50,285,213,200,100,30,15\nIsengard,Mathematics,400,200,598,567,20,10,100,50,285,213,200,100,30,15\n",
+        size: 548,
+        data: "Area,Subject,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Withdrawn this cycle,Withdrawn last cycle\nIsengard,Drama,400,200,598,567,20,10,100,50,285,213,200,100\nIsengard,Primary with Mathematics,400,200,598,567,20,10,100,50,285,213,200,100\nIsengard,Mathematics,400,200,598,567,20,10,100,50,285,213,200,100\n",
       )
     end
   end

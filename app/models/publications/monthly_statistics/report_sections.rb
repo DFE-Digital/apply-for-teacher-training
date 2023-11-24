@@ -129,7 +129,7 @@ module Publications
     private
 
       def group_data_for_report(results:, title_column:, data: {}, extra_columns: {})
-        I18n.t('publications.itt_monthly_report_generator.status').each_key do |status|
+        candidate_headline_statistics.each_key do |status|
           data[status] = results.map do |application_metrics|
             {
               title: application_metrics.send(title_column),
@@ -143,9 +143,7 @@ module Publications
           end
         end
 
-        data.reject do |_, status_data|
-          ::Publications::MonthlyStatistics::StatisticsDataProcessor.new(status_data:).violates_gdpr?
-        end
+        data
       end
 
       def column_value_for(application_metrics:, status:, cycle:)
