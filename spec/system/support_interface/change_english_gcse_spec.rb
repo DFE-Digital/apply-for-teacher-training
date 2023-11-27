@@ -153,7 +153,7 @@ RSpec.feature 'Change english GCSE' do
   end
 
   def then_i_see_a_validation_error_about_uk_o_level_award_year
-    expect(page).to have_content('Enter a year before 1989 - GSCEs replaced O levels in 1988')
+    expect(page).to have_content('Enter a year before 1989 - GCSEs replaced O levels in 1988')
   end
 
   def then_i_see_a_validation_error_to_enter_details

@@ -41,7 +41,7 @@ en:
               invalid: Enter a real grade
             award_year:
               blank: Enter the year you gained your qualification
-              gce_o_level_in_future: Enter a year before %{date} - GSCEs replaced O levels in 1988
+              gce_o_level_in_future: Enter a year before %{date} - GCSEs replaced O levels in 1988
             qualification_type:
               blank: Select the type of qualification
               too_long: Type of qualification must be %{count} characters or less
@@ -80,7 +80,7 @@ en:
               invalid: Enter a real grade
             award_year:
               blank: Enter the year you gained your qualification
-              gce_o_level_in_future: Enter a year before %{date} - GSCEs replaced O levels in 1988
+              gce_o_level_in_future: Enter a year before %{date} - GCSEs replaced O levels in 1988
             other_uk_qualification_type:
               blank: Enter qualification name
               too_long: Type of degree must be %{count} characters or fewer
@@ -126,7 +126,7 @@ en:
               blank: Enter an English GCSE
             award_year:
               blank: Enter the year you gained your qualification
-              gce_o_level_in_future: Enter a year before %{date} - GSCEs replaced O levels in 1988
+              gce_o_level_in_future: Enter a year before %{date} - GCSEs replaced O levels in 1988
             qualification_type:
               blank: Select the type of qualification
               too_long: Type of qualification must be %{count} characters or less
