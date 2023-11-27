@@ -7,7 +7,7 @@ class EditableSections
   EDITABLE_SECTIONS = {
     'candidate_interface/personal_details' => {},
     'candidate_interface/contact_details' => {},
-    'candidate_interface/gsce/review' => { conditions: { subject: 'science' } } },
+    'candidate_interface/gcse/review' => { conditions: { subject: 'science' } } },
   }
 
   def initialize(application_form:, controller_path:, action:, params: {})
@@ -171,5 +171,5 @@ CandidateInterface::Degrees::ReviewController#complete
     app/controllers/candidate_interface/references/accept_offer/
     editable sections
 
-* Science GSCE
+* Science GCSE
     We might need to the normal checks BUT also the params[:subject]

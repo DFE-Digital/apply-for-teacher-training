@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::GcseYearForm, type: :model do
         form = described_class.new(qualification_type: 'gce_o_level', award_year: '2012')
         form.validate
 
-        expect(form.errors[:award_year]).to include('Enter a year before 1989 - GSCEs replaced O levels in 1988')
+        expect(form.errors[:award_year]).to include('Enter a year before 1989 - GCSEs replaced O levels in 1988')
       end
 
       it 'returns no error if award year is valid' do
