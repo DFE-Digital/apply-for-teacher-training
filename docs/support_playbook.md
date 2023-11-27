@@ -149,6 +149,21 @@ If the course doesn't exist in the previous cycle we'll need them to confirm the
 
 ## Offers
 
+### Rollback a providers offer
+
+To rollback a providers offer do the following: 
+
+- Set the status of the application choice back to `awaiting_provider_decision``
+- set `offer_at` back to `nil`
+- Set `decline_by_default_at` back to `nil`
+- Add the Zendesk ticket URL as the `audit_comment`
+
+E.G 
+
+```
+ApplicationForm.find(id).application_choices.find(id).update(status: 'awaiting_provider_decision', offered_at: nil, decline_by_default_at: nil, audit_comment: ADD ZENDESK TICKET URL HERE)
+```
+
 ### Make or change offer
 
 If the current application status is `awaiting_provider_decision` use [MakeOffer](../app/services/make_offer.rb) service.
