@@ -22,6 +22,7 @@ RSpec.feature 'A candidate withdraws their application', :bullet, :continuous_ap
     when_i_visit_the_application_dashboard
     and_i_click_the_withdraw_link_on_my_first_choice
     then_i_see_a_confirmation_page
+    and_i_do_not_see_the_interview_related_text
 
     when_i_click_to_confirm_withdrawal
     then_i_see_the_withdraw_choice_reason_page
@@ -45,6 +46,16 @@ RSpec.feature 'A candidate withdraws their application', :bullet, :continuous_ap
     and_the_candidate_has_received_an_email_with_information_on_apply_again
   end
 
+  scenario 'withdrawal for application choice with interviewing status' do
+    given_i_am_signed_in_as_a_candidate
+    and_i_have_an_application_choice_with_the_status_interviewing
+
+    when_i_visit_the_application_dashboard
+    and_i_click_the_withdraw_link_on_my_application_choice_with_the_status_interviewing
+    then_i_see_a_confirmation_page
+    and_i_also_see_the_interview_related_text
+  end
+
   def given_i_am_signed_in_as_a_candidate
     create_and_sign_in_candidate
   end
@@ -55,6 +66,11 @@ RSpec.feature 'A candidate withdraws their application', :bullet, :continuous_ap
     @second_application_choice = create(:application_choice, :awaiting_provider_decision, application_form: form)
     @provider_user = create(:provider_user, :with_notifications_enabled)
     create(:provider_permissions, provider_id: @application_choice.provider.id, provider_user_id: @provider_user.id)
+  end
+
+  def and_i_have_an_application_choice_with_the_status_interviewing
+    form = create(:completed_application_form, :with_completed_references, candidate: current_candidate)
+    @interviewing_application_choice = create(:application_choice, :interviewing, application_form: form)
   end
 
   def when_i_visit_the_application_dashboard
@@ -69,9 +85,21 @@ RSpec.feature 'A candidate withdraws their application', :bullet, :continuous_ap
     click_withdraw_link @second_application_choice
   end
 
+  def and_i_click_the_withdraw_link_on_my_application_choice_with_the_status_interviewing
+    click_withdraw_link @interviewing_application_choice
+  end
+
   def then_i_see_a_confirmation_page
-    expect(page).to have_content('Are you sure you want to withdraw this application?')
-    expect(page).to have_content('Any upcoming interviews will be cancelled.')
+    expect(page).to have_content("Once you have a total of #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS} unsuccessful or withdrawn applications, you will not be able to apply for any more courses until October #{RecruitmentCycle.real_current_year}")
+    expect(page).to have_content('Do not withdraw if you need to change information on your application. Tell your training provider instead.')
+  end
+
+  def and_i_also_see_the_interview_related_text
+    expect(page).to have_content('If you do withdraw, your scheduled interview for this application will be cancelled.')
+  end
+
+  def and_i_do_not_see_the_interview_related_text
+    expect(page).not_to have_content('If you do withdraw, your scheduled interview for this application will be cancelled.')
   end
 
   def when_i_click_to_confirm_withdrawal
