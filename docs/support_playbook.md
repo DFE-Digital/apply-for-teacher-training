@@ -48,7 +48,7 @@ Occasionally, there might be a request to unlock certain sections of an applicat
    - Support agents can use this to unlock specific sections of the application form for the candidate to edit.
 
 4. **Post-Editing:**
-   - Ask support to let you know once the candidate has completed their edits so you can deactivate the feature flag to lock the sections again.
+   - Ask support to let you know once they have unlocked the sections for the candidate so you can deactivate the feature flag again. The candidate will then have 5 days to make their edits.
 
 
 ## Work experience
