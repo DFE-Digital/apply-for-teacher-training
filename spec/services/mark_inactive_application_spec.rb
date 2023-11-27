@@ -11,7 +11,8 @@ RSpec.describe MarkInactiveApplication do
     end
 
     it 'updates inactive at field', time: Time.zone.local(2023, 11, 10) do
-      expect { mark_inactive_application.call }.to change(application_choice, :inactive_at).from(nil).to(Time.zone.local(2023, 11, 10))
+      mark_inactive_application.call
+      expect(application_choice.reload.inactive_at).to eq(Time.zone.local(2023, 11, 10))
     end
   end
 end

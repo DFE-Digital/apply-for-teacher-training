@@ -10,7 +10,7 @@ class MarkInactiveApplication
   def call
     ActiveRecord::Base.transaction do
       @state_change.inactivate!
-      application_choice.touch(:inactive_at)
+      application_choice.update!(inactive_at: Time.zone.now)
     end
   end
 end
