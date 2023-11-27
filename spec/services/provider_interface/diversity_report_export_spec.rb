@@ -17,16 +17,18 @@ RSpec.describe ProviderInterface::DiversityReportExport do
     end
 
     it 'creates and returns a zip file containing CSV files' do
-      zip_file = export.call
-      expect(zip_file).to be_a(String)
-      expect(File.exist?(zip_file)).to be(true)
+      Timecop.scale(100) do
+        zip_file = export.call
+        expect(zip_file).to be_a(String)
+        expect(File.exist?(zip_file)).to be(true)
 
-      %w[sex disability ethnicity age].each do |type|
-        csv_filename = "#{type}_*.csv"
-        expect(zip_file).to have_csv_files(csv_filename)
+        %w[sex disability ethnicity age].each do |type|
+          csv_filename = "#{type}_*.csv"
+          expect(zip_file).to have_csv_files(csv_filename)
 
-        csv_data = export.send("#{type}_export")
-        expect(zip_file).to have_csv_file_content(csv_filename, csv_data)
+          csv_data = export.send("#{type}_export")
+          expect(zip_file).to have_csv_file_content(csv_filename, csv_data)
+        end
       end
     end
   end
