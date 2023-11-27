@@ -70,8 +70,8 @@ RSpec.feature 'A candidate withdraws her application', :bullet, continuous_appli
   end
 
   def then_i_see_a_confirmation_page
-    expect(page).to have_content('Are you sure you want to withdraw this application?')
-    expect(page).to have_content('Any upcoming interviews will be cancelled.')
+    expect(page).to have_content("Once you have a total of 15 unsuccessful or withdrawn applications, you will not be able to apply for any more courses until October #{RecruitmentCycle.real_current_year}")
+    expect(page).to have_content('Do not withdraw if you need to change information on your application. Tell your training provider instead.')
   end
 
   def when_i_click_to_confirm_withdrawal
