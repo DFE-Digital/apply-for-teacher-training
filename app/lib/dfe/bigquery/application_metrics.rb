@@ -141,6 +141,7 @@ module DfE
           subject_filter_category: 'Total excluding Further Education',
           nonsubject_filter_category: 'Route into teaching',
         )
+        .order(nonsubject_filter: :asc)
         .to_sql
       end
 
@@ -151,6 +152,7 @@ module DfE
           subject_filter_category: 'Primary subject',
           nonsubject_filter_category: 'Total',
         )
+        .order(subject_filter: :asc)
         .to_sql
       end
 
