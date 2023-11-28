@@ -34,6 +34,7 @@ module CandidateInterface
       @type_form = GcseQualificationTypeForm.new(qualification_params)
 
       if @type_form.update(current_qualification)
+        current_application.update!(completed_field_name => nil)
         redirect_to next_gcse_path_after_edit
       else
         track_validation_error(@type_form)
@@ -88,6 +89,10 @@ module CandidateInterface
       if current_qualification.blank?
         redirect_to candidate_interface_application_form_path
       end
+    end
+
+    def completed_field_name
+      "#{@subject}_gcse_completed"
     end
   end
 end
