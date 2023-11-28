@@ -1,5 +1,7 @@
 class TimeLimitConfig
-  Rule = Struct.new(:from_date, :to_date, :limit)
+  def self.limits_for(rule)
+    rules[rule.to_sym]
+  end
 
   def self.minimum_hours_between_chaser_emails
     48
@@ -19,6 +21,12 @@ class TimeLimitConfig
 
   def self.additional_reference_chase_calendar_days
     28
+  end
+
+  Rule = Struct.new(:from_date, :to_date, :limit)
+
+  def self.new_rule(...)
+    Rule.new(...)
   end
 
   def self.stale_application_rules
@@ -42,7 +50,6 @@ class TimeLimitConfig
     }
   end
 
-  def self.limits_for(rule)
-    rules[rule.to_sym]
-  end
+  private_constant 'Rule'
+  private_class_method :rules, :stale_application_rules
 end

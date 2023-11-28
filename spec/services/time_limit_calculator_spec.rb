@@ -6,7 +6,7 @@ RSpec.describe TimeLimitCalculator do
   it 'returns default value with just a default time limit' do
     allow(TimeLimitConfig).to receive(:limits_for).and_return(
       [
-        TimeLimitConfig::Rule.new(nil, nil, 20),
+        TimeLimitConfig.new_rule(nil, nil, 20),
       ],
     )
     calculator = described_class.new(
@@ -23,8 +23,8 @@ RSpec.describe TimeLimitCalculator do
   it 'returns value for rule with `from_date` when effective date matches rule' do
     allow(TimeLimitConfig).to receive(:limits_for).and_return(
       [
-        TimeLimitConfig::Rule.new(nil, nil, 20),
-        TimeLimitConfig::Rule.new(10.days.ago, nil, 10),
+        TimeLimitConfig.new_rule(nil, nil, 20),
+        TimeLimitConfig.new_rule(10.days.ago, nil, 10),
       ],
     )
     calculator = described_class.new(
@@ -41,8 +41,8 @@ RSpec.describe TimeLimitCalculator do
   it 'returns value for default rule rather than one with `from_date` when effective date does not match rule' do
     allow(TimeLimitConfig).to receive(:limits_for).and_return(
       [
-        TimeLimitConfig::Rule.new(nil, nil, 20),
-        TimeLimitConfig::Rule.new(10.days.from_now, nil, 10),
+        TimeLimitConfig.new_rule(nil, nil, 20),
+        TimeLimitConfig.new_rule(10.days.from_now, nil, 10),
       ],
     )
     calculator = described_class.new(
@@ -59,9 +59,9 @@ RSpec.describe TimeLimitCalculator do
   it 'returns value for rule with `to_date` and `from_date` when effective date matches rule' do
     allow(TimeLimitConfig).to receive(:limits_for).and_return(
       [
-        TimeLimitConfig::Rule.new(nil, nil, 20),
-        TimeLimitConfig::Rule.new(10.days.ago, nil, 10),
-        TimeLimitConfig::Rule.new(5.days.ago, 5.days.from_now, 5),
+        TimeLimitConfig.new_rule(nil, nil, 20),
+        TimeLimitConfig.new_rule(10.days.ago, nil, 10),
+        TimeLimitConfig.new_rule(5.days.ago, 5.days.from_now, 5),
       ],
     )
     calculator = described_class.new(
