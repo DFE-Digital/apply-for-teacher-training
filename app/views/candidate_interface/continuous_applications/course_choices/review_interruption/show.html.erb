@@ -1,0 +1,24 @@
+<% content_for :title, t('page_titles.application_review_and_submit', provider_name: @application_choice.provider.name) %>
+<% content_for(:before_content, govuk_back_link_to(candidate_interface_continuous_applications_choices_path)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <div class="app-grid-column--grey">
+      <h1 class="govuk-heading-l">Give your application the best chance of success</h1>
+      <p class="govuk-body">Your personal statement is <%= "#{@word_count} #{'word'.pluralize(@word_count)}" %>.</p>
+      <p class="govuk-body">90% of successful candidates write about <%= ApplicationForm::RECOMMENDED_PERSONAL_STATEMENT_WORD_COUNT %> words or more for their personal statement.</p>
+      <p class="govuk-body">Increase your chances of getting an offer by adding more information to your personal statement.</p>
+    </div>
+
+    <div class="govuk-button-group app-course-choice__confirm-submission">
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+          Would you like to edit your personal statement before submitting your application?
+        </legend>
+      </fieldset>
+
+      <%= govuk_button_to('Edit your personal statement', candidate_interface_edit_becoming_a_teacher_path, method: :get) %>
+      <%= govuk_link_to('Continue without editing', candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice.id)) %>
+    </div>
+  </div>
+</div>

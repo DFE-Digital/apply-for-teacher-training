@@ -29,7 +29,7 @@
           <% if rejection_reason.feedback_type == 'reasons_for_rejection' %>
             <p class="govuk-body">“<%= rejection_reason.feedback %>”</p>
           <% elsif rejection_reason.feedback_type == 'rejection_reasons' %>
-             <%= render(CandidateInterface::ReviewRejectionReasonsComponent.new(rejection_reason.feedback)) %>
+            <%= render(CandidateInterface::ReviewRejectionReasonsComponent.new(rejection_reason.feedback)) %>
           <% end %>
         </blockquote>
       <% end %>

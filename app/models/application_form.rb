@@ -50,6 +50,7 @@ class ApplicationForm < ApplicationRecord
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
   MAXIMUM_NUMBER_OF_COURSE_CHOICES = 4
   MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS = 15
+  RECOMMENDED_PERSONAL_STATEMENT_WORD_COUNT = 500
 
   # Applications created after this date include a single personal statement
   # instead of 2 personal statement sections
