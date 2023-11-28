@@ -111,6 +111,9 @@ RSpec.feature 'Candidate accepts an offer', :continuous_applications do
     when_i_click_to_withdraw_my_application
     and_i_click_back
     then_i_see_the_new_dashboard_content
+
+    when_i_try_to_visit_the_course_selection
+    then_i_should_be_redirected_to_the_offer_dashboard
   end
 
   def given_i_am_signed_in
@@ -516,5 +519,13 @@ RSpec.feature 'Candidate accepts an offer', :continuous_applications do
     expect(
       back_link,
     ).to eq(candidate_interface_application_offer_dashboard_path)
+  end
+
+  def when_i_try_to_visit_the_course_selection
+    visit candidate_interface_continuous_applications_do_you_know_the_course_path
+  end
+
+  def then_i_should_be_redirected_to_the_offer_dashboard
+    expect(page).to have_current_path(candidate_interface_application_offer_dashboard_path)
   end
 end
