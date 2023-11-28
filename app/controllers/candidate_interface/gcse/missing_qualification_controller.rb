@@ -15,7 +15,7 @@ module CandidateInterface
 
     def create
       @gcse_missing_form = GcseMissingForm.new(qualification_missing_params)
-
+      @gcse_missing_form.subject = @subject
       if @gcse_missing_form.save(current_qualification)
         redirect_to candidate_interface_gcse_review_path
       else
@@ -27,6 +27,7 @@ module CandidateInterface
 
     def update
       @gcse_missing_form = GcseMissingForm.new(qualification_missing_params)
+      @gcse_missing_form.subject = @subject
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
 
       if @gcse_missing_form.save(current_qualification)
