@@ -6,6 +6,7 @@ module CandidateInterface
         before_action :redirect_to_your_applications_if_maximum_amount_of_unsuccessful_applications_have_been_reached, only: %i[new create]
         before_action :redirect_to_your_applications_if_cycle_is_over
         before_action :redirect_to_your_applications_if_submitted, only: %i[edit update]
+        before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
 
         def new
           @wizard = CourseSelectionWizard.new(
