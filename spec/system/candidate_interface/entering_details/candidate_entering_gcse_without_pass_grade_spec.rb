@@ -94,7 +94,7 @@ RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
   end
 
   def when_i_fill_in_the_explanation
-    fill_in 'If you have other evidence of having maths skills at the required standard, give details (optional)', with: 'Hard work and dedication'
+    fill_in 'Give evidence of having maths skills at the required standard', with: 'Hard work and dedication'
   end
 
   def and_i_fill_in_the_year
