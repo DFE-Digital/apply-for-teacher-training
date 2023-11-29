@@ -147,7 +147,7 @@ gem 'colorize'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 
 # BigQuery
-gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.11.1'
+gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.11.2'
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.9'
