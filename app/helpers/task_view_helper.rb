@@ -8,7 +8,7 @@ module TaskViewHelper
 
   def task_view_header(choice)
     yield (case choice&.task_view_group
-           when 1 then 'Received over 30 days ago - make a decision now'
+           when 1 then 'Received over 30 working days ago - make a decision now'
            when 2 then 'Received – make a decision'
            when 3 then 'Confirm deferred offers'
            when 4 then 'Give feedback: you did not make a decision in time'

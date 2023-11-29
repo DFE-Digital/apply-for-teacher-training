@@ -35,7 +35,7 @@ RSpec.describe TaskViewHelper do
       let(:id) { create(:application_choice, :inactive).id }
 
       it 'yields the heading' do
-        expect { |b| helper.task_view_header(choice, &b) }.to yield_with_args('Received over 30 days ago - make a decision now')
+        expect { |b| helper.task_view_header(choice, &b) }.to yield_with_args('Received over 30 working days ago - make a decision now')
       end
     end
 
