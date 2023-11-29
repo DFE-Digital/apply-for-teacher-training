@@ -148,7 +148,7 @@ GEM
       smart_properties
     bindata (2.4.15)
     bindex (0.8.1)
-    blazer (3.0.1)
+    blazer (3.0.2)
       activerecord (>= 6.1)
       chartkick (>= 5)
       railties (>= 6.1)
