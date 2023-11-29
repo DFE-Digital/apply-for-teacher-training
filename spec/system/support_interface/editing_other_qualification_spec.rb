@@ -67,7 +67,7 @@ RSpec.feature 'Editing other qualification' do
 
   def and_an_application_exists_with_an_other_level_qualification
     @form = create(:completed_application_form)
-    create(:other_qualification, application_form: @form)
+    create(:other_qualification, :non_uk, application_form: @form, institution_country: 'US')
   end
 
   def when_i_visit_the_application_page
@@ -81,7 +81,7 @@ RSpec.feature 'Editing other qualification' do
   end
 
   def then_i_should_see_that_the_other_qualification_radio_has_been_preselected
-    expect(find_by_id('support-interface-application-forms-edit-other-qualification-form-qualification-type-other-field')).to be_checked
+    expect(find_by_id('support-interface-application-forms-edit-other-qualification-form-qualification-type-non-uk-field')).to be_checked
   end
 
   def and_i_fill_in_the_as_level_details
@@ -170,6 +170,7 @@ RSpec.feature 'Editing other qualification' do
       within(all('tr.govuk-table__row')[0]) do
         expect(find_all('td.govuk-table__cell')[0]).to have_text('random qual from non uk country')
         expect(find_all('td.govuk-table__cell')[1]).to have_text('Waec')
+        expect(find_all('td.govuk-table__cell')[2]).to have_text('United States')
         expect(find_all('td.govuk-table__cell')[4]).to have_text('G')
         expect(find_all('td.govuk-table__cell')[3]).to have_text('2019')
       end
