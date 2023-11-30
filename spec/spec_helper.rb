@@ -142,7 +142,7 @@ RSpec.configure do |config|
 
   config.after do |example|
     if example.metadata[:js] && example.exception
-      save_timestamped_screenshot(Capybara.page, example.metadata)
+      save_timestamped_failures(Capybara.page, example.metadata)
     end
   end
 
@@ -152,17 +152,20 @@ RSpec.configure do |config|
   # config.profile_examples = 10
 end
 
-def save_timestamped_screenshot(page, meta)
+def save_timestamped_failures(page, meta)
   filename = File.basename(meta[:file_path])
   line_number = meta[:line_number]
   timestamp = Timecop.return do
     Time.zone.now.strftime('%Y_%m_%d-%H_%M_%S')
   end
 
-  screenshot_name = "#{filename}-#{line_number}-#{timestamp}.png"
-  screenshot_path = Rails.root.join('tmp', 'screenshots', screenshot_name)
+  file_name = "#{filename}-#{line_number}-#{timestamp}"
+  screenshot_path = Rails.root.join('tmp', 'failures', 'screenshots', "#{file_name}.png")
+  page_path = Rails.root.join('tmp', 'failures', 'pages', "#{file_name}.html")
 
   page.save_screenshot(screenshot_path)
+  page.save_page(page_path)
 
   puts "\n Screenshot: #{screenshot_path}"
+  puts "\n Page: #{page_path}"
 end

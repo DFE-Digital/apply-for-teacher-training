@@ -90,7 +90,7 @@ RSpec.describe ProviderMailer do
                       'Safeguarding issues - Harry Potter submitted an application for Computer Science - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
-                      'course name and code' => 'Computer Science (6IND)',
+                      'course name and code' => 'Computer S1cience (6IND)',
                       'safeguarding warning' => 'The application contains information about criminal convictions and professional misconduct.',
                       'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
                       'notification settings' => 'You can change your email notification settings',

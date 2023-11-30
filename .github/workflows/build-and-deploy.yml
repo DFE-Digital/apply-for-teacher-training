@@ -258,11 +258,11 @@ jobs:
           DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
           TEST_DATE_AND_TIME: ${{ matrix.offset-date }}
 
-      - name: Upload failure screenshots
+      - name: Upload failure screenshots and pages
         uses: actions/upload-artifact@v3
         with:
-          name: failure-screenshots
-          path: /app/tmp/screenshots/
+          name: failures-uploads
+          path: /app/tmp/failures/
         if: failure()
 
       - name: Read flakey test results
