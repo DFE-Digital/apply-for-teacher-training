@@ -5,7 +5,7 @@ module ProviderInterface
   private
 
     def redirect_if_unsuccessful
-      redirect_to provider_interface_application_choice_path(@application_choice) if @application_choice.application_unsuccessful?
+      redirect_to provider_interface_application_choice_path(@application_choice) if @application_choice.application_unsuccessful_without_inactive?
     end
 
     def set_references
