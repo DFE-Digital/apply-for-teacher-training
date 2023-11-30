@@ -86,6 +86,10 @@ class ApplicationChoice < ApplicationRecord
     ApplicationStateChange::UNSUCCESSFUL_STATES.include? status.to_sym
   end
 
+  def application_unsuccessful_without_inactive?
+    (ApplicationStateChange::UNSUCCESSFUL_STATES - %i[inactive]).include? status.to_sym
+  end
+
   def accepted_choice?
     ApplicationStateChange::ACCEPTED_STATES.include? status.to_sym
   end

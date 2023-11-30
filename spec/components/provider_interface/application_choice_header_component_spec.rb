@@ -131,7 +131,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
         allow(application_choice).to receive(:interviews).and_return(interviews)
       end
 
-      context 'when application is ended without success' do
+      context 'when the application has ended without success' do
         let(:interviews) { class_double(Interview, kept: []) }
 
         it 'does not render references tab' do
@@ -147,11 +147,11 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
         end
       end
 
-      context 'when application is success' do
+      context 'when the application is successful' do
         let(:interviews) { class_double(Interview, kept: []) }
 
         it 'renders references tab' do
-          %i[recruited offer_deferred accepted offered].each do |factory|
+          %i[recruited offer_deferred accepted offered inactive].each do |factory|
             application_choice = create(:application_choice, factory)
             result = render_inline(
               described_class.new(
