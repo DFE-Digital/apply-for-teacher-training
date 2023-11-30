@@ -14,7 +14,19 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     and_my_application_is_still_unsubmitted
     and_i_continue_with_my_application
 
-    when_i_choose_to_submit
+    when_i_click_to_review_my_application
+    then_i_see_a_interruption_page_for_personal_statement
+
+    when_i_continue_without_editing
+    then_i_should_see_the_review_and_submit_page
+    when_i_go_back
+
+    when_i_click_to_review_my_application
+    then_i_see_a_interruption_page_for_personal_statement
+
+    when_i_edit_my_personal_statement
+    and_i_continue_with_my_application
+    and_i_choose_to_submit
     then_i_can_see_my_application_has_been_successfully_submitted
     and_i_am_redirected_to_the_application_dashboard
     and_my_application_is_submitted
@@ -25,7 +37,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     when_i_click_view_application
     then_i_can_review_my_submitted_application
 
-    when_i_go_back_to_the_dashboard
+    when_i_go_back
 
     when_i_have_three_further_draft_choices
     then_i_can_no_longer_add_more_course_choices
@@ -67,7 +79,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     @course = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
     @course_option = create(:course_option, site:, course: @course)
     current_candidate.application_forms.delete_all
-    current_candidate.application_forms << build(:application_form, :completed)
+    current_candidate.application_forms << build(:application_form, :completed, becoming_a_teacher: 'I want to teach')
     @application_choice = create(:application_choice, :unsubmitted, course_option: @course_option, application_form: current_candidate.current_application)
   end
 
@@ -97,6 +109,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     when_i_click_to_review_my_application
     when_i_click_to_submit_my_application
   end
+  alias_method :and_i_choose_to_submit, :when_i_choose_to_submit
 
   def and_my_application_is_still_unsubmitted
     expect(@application_choice.reload).to be_unsubmitted
@@ -193,7 +206,25 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     expect(page).to have_content 'You can add 1 more application.'
   end
 
-  def when_i_go_back_to_the_dashboard
+  def when_i_go_back
     click_link 'Back'
+  end
+
+  def then_i_see_a_interruption_page_for_personal_statement
+    expect(page).to have_content 'Your personal statement is 4 words.'
+  end
+
+  def when_i_continue_without_editing
+    click_link 'Continue without editing'
+  end
+
+  def then_i_should_see_the_review_and_submit_page
+    expect(page).to have_current_path(candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice.id))
+  end
+
+  def when_i_edit_my_personal_statement
+    click_button 'Edit your personal statement'
+    fill_in 'candidate_interface_becoming_a_teacher_form[becoming_a_teacher]', with: Faker::Lorem.sentence(word_count: 500)
+    click_button t('continue')
   end
 end

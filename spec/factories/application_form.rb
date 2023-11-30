@@ -277,7 +277,7 @@ FactoryBot.define do
         new_prefix = DfE::ReferenceData::CountriesAndTerritories::UK_AND_CI_POSTCODE_PREFIX_COUNTRIES.one(address_line4).prefixes.sample
         Faker::Address.postcode.sub(/^[a-zA-Z]+/, new_prefix)
       }
-      becoming_a_teacher { Faker::Lorem.paragraph_by_chars(number: 500) }
+      becoming_a_teacher { Faker::Lorem.sentence(word_count: 500) }
       subject_knowledge { Faker::Lorem.paragraph_by_chars(number: 300) }
       work_history_explanation { Faker::Lorem.paragraph_by_chars(number: 400) }
       volunteering_experience { [true, false, nil].sample }
