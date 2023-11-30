@@ -2,11 +2,17 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::GcseMissingForm, type: :model do
   describe 'validations' do
-    valid_text = Faker::Lorem.sentence(word_count: 200)
-    long_text = Faker::Lorem.sentence(word_count: 201)
+    let(:valid_text) { Faker::Lorem.sentence(word_count: 50) }
+    let(:long_text) { Faker::Lorem.sentence(word_count: 51) }
+    let(:form) { described_class.new(missing_explanation: nil, subject: 'english') }
 
     it { is_expected.to allow_value(valid_text).for(:missing_explanation) }
     it { is_expected.not_to allow_value(long_text).for(:missing_explanation) }
+
+    it 'validates presence of missing explanation with the subject in the error message' do
+      form.valid?
+      expect(form.errors[:missing_explanation]).to include('Enter evidence of any English skills you have at the required standard')
+    end
   end
 
   describe '#build_from_qualification' do

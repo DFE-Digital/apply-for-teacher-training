@@ -1,10 +1,12 @@
 module CandidateInterface
   class GcseMissingForm
     include ActiveModel::Model
+    include GcseQualificationHelper
 
     attr_accessor :missing_explanation, :not_completed_explanation, :level, :subject, :qualification_type
 
-    validates :missing_explanation, word_count: { maximum: 200 }
+    validates :missing_explanation, word_count: { maximum: 50 }
+    validate :missing_explanation_presence
 
     def self.build_from_qualification(qualification)
       new(
@@ -30,6 +32,14 @@ module CandidateInterface
         )
       else
         qualification.update!(missing_explanation:)
+      end
+    end
+
+  private
+
+    def missing_explanation_presence
+      if missing_explanation.blank?
+        errors.add(:missing_explanation, :blank, subject: capitalize_english(@subject))
       end
     end
   end

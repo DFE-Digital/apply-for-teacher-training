@@ -6,19 +6,19 @@
           <%= t('gcse_edit_type.page_titles.equivalency', subject: capitalize_english(@subject)) %>
         </h1>
 
-        <p class="govuk-body">You can still apply for teacher training if you do not have a qualification which demonstrates this.<p>
+        <p class="govuk-body">You can give other evidence to show you have <%= capitalize_english(@subject) %> skills that are equal to a GCSE in <%= capitalize_english(@subject) %> at grade 4(C) or above.<p>
 
-        <p class="govuk-body">Some providers may let you sit an equivalency test to show you have the required skills.</p>
+        <p class="govuk-body">Some training providers may let you do an equivalency test to show you have the required skills.</p>
 
         <% if adviser_sign_up.available? %>
-          <p class="govuk-body">For advice, contact your chosen training provider or <%= govuk_link_to_with_utm_params('get a teacher training adviser', new_candidate_interface_adviser_sign_up_path, utm_campaign(params)) %>. An adviser can help you understand the qualifications you need and how to get them.</p>
+          <p class="govuk-body">Contact a <%= govuk_link_to_with_utm_params('teacher training adviser', new_candidate_interface_adviser_sign_up_path, utm_campaign(params)) %> or your chosen training provider if you need help understanding the qualifications you need and how to get them.</p>
         <% elsif adviser_sign_up.waiting_to_be_assigned_to_an_adviser? || adviser_sign_up.already_assigned_to_an_adviser? %>
-          <p class="govuk-body">For advice, contact your chosen training provider or speak to your teacher training adviser. Your adviser can help you understand the qualifications you need and how to get them.</p>
+          <p class="govuk-body">Contact your teacher training adviser or your chosen training provider if you need help understanding the qualifications you need and how to get them.</p>
         <% else %>
-          <p class="govuk-body">For advice, contact your chosen training provider or a <%= govuk_link_to_with_utm_params('teacher training adviser', I18n.t('get_into_teaching.url_get_an_adviser_start'), utm_campaign(params)) %>. An adviser can help you understand the qualifications you need and how to get them.</p>
+          <p class="govuk-body">Contact a <%= govuk_link_to_with_utm_params('teacher training adviser', I18n.t('get_into_teaching.url_get_an_adviser_start'), utm_campaign(params)) %> or your chosen training provider if you need help understanding the qualifications you need and how to get them.</p>
         <% end %>
 
-        <%= f.govuk_text_area :missing_explanation, label: { text: "If you have other evidence of having #{capitalize_english(@subject)} skills at the required standard, give details (optional)", size: 'm' }, rows: 12, max_words: 200, threshold: 90 do %>
+        <%= f.govuk_text_area :missing_explanation, label: { text: "Give evidence of having #{capitalize_english(@subject)} skills at the required standard", size: 'm' }, rows: 4, max_words: 50 do %>
         <% end %>
 
         <%= f.govuk_submit t('save_and_continue') %>
