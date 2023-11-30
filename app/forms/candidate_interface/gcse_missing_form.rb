@@ -39,7 +39,7 @@ module CandidateInterface
 
     def missing_explanation_presence
       if missing_explanation.blank?
-        errors.add(:missing_explanation, "Enter evidence of any #{capitalize_english(subject)} skills you have at the required standard")
+        errors.add(:missing_explanation, :blank, subject: capitalize_english(@subject))
       end
     end
   end

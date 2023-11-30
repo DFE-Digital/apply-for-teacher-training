@@ -158,3 +158,4 @@ en:
           attributes:
             missing_explanation:
               too_many_words: Evidence must be %{maximum} words or less
+              blank: Enter evidence of any %{subject} skills you have at the required standard
