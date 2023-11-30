@@ -8,6 +8,12 @@ class QualificationRowComponent < ViewComponent::Base
   end
 
   def country
-    qualification.international? ? COUNTRIES_AND_TERRITORIES[qualification.institution_country] : 'United Kingdom'
+    international? ? COUNTRIES_AND_TERRITORIES[qualification.institution_country] : 'United Kingdom'
+  end
+
+private
+
+  def international?
+    qualification.international? || qualification.non_uk_qualification_type?
   end
 end
