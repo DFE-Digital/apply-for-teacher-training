@@ -51,6 +51,11 @@ class ChaserSent < ApplicationRecord
 
     #### CandidateMailer ####
     candidate_decision_request: 'candidate_decision_request',
+    offer_10_day: 'offer_10_day',
+    offer_20_day: 'offer_20_day',
+    offer_30_day: 'offer_30_day',
+    offer_40_day: 'offer_40_day',
+    offer_50_day: 'offer_50_day',
 
     ######################################
     ####      Course unavailable      ####
