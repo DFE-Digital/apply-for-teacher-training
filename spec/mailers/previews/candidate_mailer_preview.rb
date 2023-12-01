@@ -116,6 +116,12 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.interview_cancelled(application_choice, interview, 'You contacted us to say you didn’t want to apply for this course any more.')
   end
 
+  def offer_10_day
+    application_form_with_course_choices([application_choice_with_offer])
+
+    CandidateMailer.offer_10_day(application_choice_with_offer)
+  end
+
   def new_offer_made
     application_form_with_name = FactoryBot.build_stubbed(
       :application_form,
