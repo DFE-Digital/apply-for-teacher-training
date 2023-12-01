@@ -20,6 +20,11 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
     then_i_should_see_the_gcse_country_form
 
     when_i_navigate_back_to_the_gcse_review_page
+    then_i_should_see_information_about_completing_my_application
+
+    when_i_click_complete_english_gcse_or_equivalent
+    and_i_mark_section_as_completed
+    and_i_navigate_back_to_the_gcse_review_page
     then_i_should_see_my_updated_gcse_qualification
 
     # GCSE English equivalent country
@@ -504,6 +509,21 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
 
   def when_i_navigate_back_to_the_gcse_review_page
     visit candidate_interface_application_review_path
+  end
+  alias_method :and_i_navigate_back_to_the_gcse_review_page, :when_i_navigate_back_to_the_gcse_review_page
+
+  def then_i_should_see_information_about_completing_my_application
+    expect(page).to have_content 'English GCSE or equivalent not marked as complete'
+  end
+
+  def when_i_click_complete_english_gcse_or_equivalent
+    click_link 'Complete English GCSE or equivalent'
+  end
+
+  def and_i_mark_section_as_completed
+    click_button t('save_and_continue')
+    choose 'Yes, I have completed this section'
+    click_button t('continue')
   end
 
   def then_i_should_see_my_updated_gcse_qualification
