@@ -262,6 +262,18 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def offer_20_day(application_choice)
+    @first_name = application_choice.application_form.first_name
+    @course_name = application_choice.current_course_option.course.name
+    @candidate = application_choice.application_form.candidate
+    @provider_name = application_choice.current_course_option.provider.name
+
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.offer_day.subject', provider_name: @provider_name),
+    )
+  end
+
   def declined_by_default(application_form)
     @declined_courses = application_form.application_choices.select(&:declined_by_default?)
     @declined_course_names = @declined_courses.map { |application_choice| "#{application_choice.current_course_option.course.name_and_code} at #{application_choice.current_course_option.course.provider.name}" }
