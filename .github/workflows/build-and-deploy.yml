@@ -259,11 +259,12 @@ jobs:
           TEST_DATE_AND_TIME: ${{ matrix.offset-date }}
 
       - name: Upload failure screenshots and pages
+        if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: failure-uploads
           path: /app/tmp/failures/
-        if: failure()
+          retention-days: 5
 
       - name: Read flakey test results
         id: set_flakey_test_results_var
