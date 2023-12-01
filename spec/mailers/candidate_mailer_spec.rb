@@ -225,6 +225,35 @@ RSpec.describe CandidateMailer do
     end
   end
 
+  describe 'Candidate offer 50 day mailer' do
+    let(:email) { mailer.offer_50_day(offer) }
+    let(:offer) do
+      build_stubbed(:application_choice, :offered,
+                    sent_to_provider_at: Time.zone.today,
+                    application_form: build_stubbed(:application_form, first_name: 'Fred'),
+                    course_option:)
+    end
+    let(:course_option) do
+      build_stubbed(:course_option, course: build_stubbed(:course,
+                                                          name: 'Applied Science (Psychology)',
+                                                          code: '3TT5', provider:))
+    end
+    let(:provider) { build_stubbed(:provider, name: 'Brighthurst Technical College') }
+
+    delegate :name, to: :provider, prefix: true
+
+    context 'when a candidate has one appication choice with offer' do
+      let(:application_choices) { [offer] }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        I18n.t!('candidate_mailer.offer_50_day.subject', provider_name: 'Brighthurst Technical College'),
+        'heading' => 'Hello Fred',
+        'provider name' => 'Brighthurst Technical College',
+      )
+    end
+  end
+
   describe '.decline_by_default' do
     let(:email) { mailer.declined_by_default(application_form) }
 
