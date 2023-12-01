@@ -45,16 +45,21 @@ module SupportInterface
           audit_comment:,
         }
         attrs[:country] = 'GB' if uk?
-        application_form.update(attrs)
+
+        ApplicationForm.with_unsafe_application_choice_touches do
+          application_form.update(attrs)
+        end
       end
 
       def save_address_type(application_form)
         return false unless valid?(:address_type)
 
-        application_form.update(
-          address_type:,
-          country: country.presence,
-        )
+        ApplicationForm.with_unsafe_application_choice_touches do
+          application_form.update(
+            address_type:,
+            country: country.presence,
+          )
+        end
       end
 
       def uk?
