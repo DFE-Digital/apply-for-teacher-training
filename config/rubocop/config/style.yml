@@ -97,6 +97,12 @@ Style/IdenticalConditionalBranches:
     # wizard.clear_state! duplication in commit method conditional
     - 'app/controllers/provider_interface/organisation_permissions_setup_controller.rb'
 
+Style/HashEachMethods:
+  Exclude: 
+    - 'app/lib/state_diagram.rb'
+    - 'spec/helpers/select_options_helper_spec.rb'
+    - 'app/forms/provider_interface/offer_wizard.rb'
+    
 Style/OptionalBooleanParameter:
   AllowedMethods:
     - perform
