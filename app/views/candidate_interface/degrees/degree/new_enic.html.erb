@@ -34,7 +34,7 @@
         <% end %>
       <% end %>
       <%= f.govuk_radio_button :have_enic_reference, 'No', label: { text: 'No' } do %>
-        <p class="govuk-body">Ask your training provider if they need a <%= t('service_name.enic.short_name') %> statement of comparability. <%= govuk_link_to_with_utm_params 'Chat online', t('get_into_teaching.url_online_chat'), utm_campaign(params), current_application.phase %> to get a free statement (it usually costs £49.50 plus VAT) or call <%= t('service_name.get_into_teaching') %> for free on <%= t('get_into_teaching.tel') %>.</p>
+        <p class="govuk-body">Ask your training provider if they need a <%= t('service_name.enic.short_name') %> statement of comparability. <%= govuk_link_to_with_utm_params 'Chat online', t('get_into_teaching.url_online_chat'), utm_campaign(params), current_application.phase %> to get a free statement (it usually costs £49.50 plus VAT) or call <%= t('service_name.get_into_teaching') %>on <%= t('get_into_teaching.tel') %>.</p>
       <% end %>
     <% end %>
     <%= f.govuk_submit t('save_and_continue') %>
