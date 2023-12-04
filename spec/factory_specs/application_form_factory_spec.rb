@@ -191,7 +191,7 @@ RSpec.describe 'ApplicationForm factory' do
     field :subject_knowledge, type: String
     field :work_history_explanation, type: String
     field :volunteering_experience, one_of: [true, false, nil]
-    field :phase, value: (phase || 'apply_1')
+    field :phase, value: phase || 'apply_1'
     field :recruitment_cycle_year, value: RecruitmentCycle.current_year
 
     context "if `first_nationality` is 'British'" do

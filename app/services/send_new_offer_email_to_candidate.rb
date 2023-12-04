@@ -17,7 +17,7 @@ private
 
   def pre_continuous_applications_withdrawn_mailers
     CandidateMailer.send(
-      "new_offer_#{mail_type(application_choice)}".to_sym,
+      :"new_offer_#{mail_type(application_choice)}",
       application_choice,
     ).deliver_later
   end

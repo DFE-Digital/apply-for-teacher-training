@@ -20,7 +20,7 @@ RSpec.describe 'Vendor API - Modifying reference state (sandbox)' do
       expect(response).to have_http_status(:ok)
     end
 
-    VendorAPI::VERSIONS.each do |version, _|
+    VendorAPI::VERSIONS.each_key do |version|
       context "on specific version #{version}" do
         let(:version) { version.gsub('pre', '') }
 
@@ -95,7 +95,7 @@ RSpec.describe 'Vendor API - Modifying reference state (sandbox)' do
       expect(response).to have_http_status(:ok)
     end
 
-    VendorAPI::VERSIONS.each do |version, _|
+    VendorAPI::VERSIONS.each_key do |version|
       context "on specific version #{version}" do
         let(:version) { version.gsub('pre', '') }
 

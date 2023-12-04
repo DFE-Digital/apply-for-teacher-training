@@ -85,7 +85,7 @@ module CandidateInterface
       return false if address_lines.include?(nil)
 
       address_lines.each.with_index(1) do |value, index|
-        value.length > MAX_LENGTH ? errors.add("address_line#{index}".to_sym, :international_too_long, count: MAX_LENGTH) : nil
+        value.length > MAX_LENGTH ? errors.add(:"address_line#{index}", :international_too_long, count: MAX_LENGTH) : nil
       end
     end
 

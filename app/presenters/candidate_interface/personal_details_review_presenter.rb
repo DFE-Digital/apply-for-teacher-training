@@ -19,7 +19,7 @@ module CandidateInterface
         nationality_row,
       ]
 
-      assembled_rows += (right_to_work_rows || [])
+      assembled_rows += right_to_work_rows || []
       assembled_rows.compact
     end
 

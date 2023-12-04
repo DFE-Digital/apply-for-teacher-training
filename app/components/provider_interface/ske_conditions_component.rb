@@ -31,7 +31,7 @@ module ProviderInterface
     end
 
     def subject
-      (ske_condition.subject.presence || @course.subjects.first&.name)
+      ske_condition.subject.presence || @course.subjects.first&.name
     end
 
     def remove_condition_path
