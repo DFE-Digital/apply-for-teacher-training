@@ -30,56 +30,6 @@ RSpec.describe CandidateMailer do
     magic_link_stubbing(candidate)
   end
 
-  describe '.new_offer_single_offer' do
-    let(:email) { mailer.new_offer_single_offer(application_choices.first) }
-    let(:application_choices) { [application_choice_with_offer] }
-
-    before do
-      allow(CourseOption).to receive(:find_by).with(id: application_choice_with_offer.current_course_option_id).and_return(application_choice_with_offer.current_course_option)
-    end
-
-    it_behaves_like(
-      'a mail with subject and content',
-      'Successful application for Brighthurst Technical College',
-      'heading' => 'Dear Bob',
-      'decline by default date' => "Respond by #{10.business_days.from_now.to_fs(:govuk_date)}",
-      'first_condition' => 'Be cool',
-      'deferral_guidance' => 'You can defer your offer and start your course a year later.',
-    )
-
-    context 'when the provider offers the candidate a different course option' do
-      let(:other_course) { build_stubbed(:course, name: 'Computer Science', code: 'X0FO', provider: other_provider) }
-      let(:other_option) { build_stubbed(:course_option, course: other_course) }
-      let(:application_choice_with_offer) { build_stubbed(:application_choice, :offered, offer:, current_course_option: other_option, course_option:) }
-
-      it_behaves_like(
-        'a mail with subject and content',
-        'Successful application for Falconholt Technical College',
-        'heading' => 'Dear Bob',
-        'course and provider' => 'offer from Falconholt Technical College to study Computer Science (X0FO)',
-        'decline by default date' => "Respond by #{10.business_days.from_now.to_fs(:govuk_date)}",
-        'deferral_guidance' => 'You can defer your offer and start your course a year later.',
-      )
-    end
-  end
-
-  describe '.new_offer_multiple_offers' do
-    let(:email) { mailer.new_offer_multiple_offers(application_choices.first) }
-    let(:application_choice_with_other_offer) { build_stubbed(:application_choice, :offered, offer: other_offer, course_option: other_option) }
-    let(:application_choices) { [application_choice_with_offer, application_choice_with_other_offer] }
-
-    it_behaves_like(
-      'a mail with subject and content',
-      'Successful application for Brighthurst Technical College',
-      'heading' => 'Dear Bob',
-      'decline by default date' => "Respond by #{10.business_days.from_now.to_fs(:govuk_date)}",
-      'first_condition' => 'Be cool',
-      'first_offer' => 'Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
-      'second_offers' => 'Forensic Science (E0FO) at Falconholt Technical College',
-      'deferral_guidance' => 'You can defer your offer and start your course a year later.',
-    )
-  end
-
   describe '.new_offer_decisions_pending' do
     let(:email) { mailer.new_offer_decisions_pending(application_choices.first) }
     let(:application_choices) { [application_choice_with_offer, awaiting_decision] }
