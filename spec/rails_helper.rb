@@ -164,10 +164,8 @@ RSpec.configure do |config|
     if example.metadata[:continuous_applications].present?
       FeatureFlag.activate(:continuous_applications)
       set_time(mid_cycle(2024))
-      CycleTimetable.reset_holidays
     elsif example.metadata.key?(:continuous_applications) && example.metadata[:continuous_applications].blank?
       set_time(mid_cycle(2023))
-      CycleTimetable.reset_holidays
       FeatureFlag.deactivate(:continuous_applications)
     end
   end
