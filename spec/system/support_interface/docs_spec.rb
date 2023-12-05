@@ -64,6 +64,11 @@ RSpec.feature 'Docs' do
       candidate_mailer-application_choice_submitted
       candidate_mailer-apply_to_another_course_after_30_working_days
       candidate_mailer-apply_to_multiple_courses_after_30_working_days
+      candidate_mailer-offer_10_day
+      candidate_mailer-offer_20_day
+      candidate_mailer-offer_30_day
+      candidate_mailer-offer_40_day
+      candidate_mailer-offer_50_day
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"

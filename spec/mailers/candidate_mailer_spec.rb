@@ -109,8 +109,7 @@ RSpec.describe CandidateMailer do
     end
   end
 
-  describe 'Candidate offer 10 day mailer' do
-    let(:email) { mailer.offer_10_day(offer) }
+  describe 'Offer X day mailers' do
     let(:offer) do
       build_stubbed(:application_choice, :offered,
                     sent_to_provider_at: Time.zone.today,
@@ -123,11 +122,10 @@ RSpec.describe CandidateMailer do
                                                           code: '3TT5', provider:))
     end
     let(:provider) { build_stubbed(:provider, name: 'Brighthurst Technical College') }
+    let(:application_choices) { [offer] }
 
-    delegate :name, to: :provider, prefix: true
-
-    context 'when a candidate has one appication choice with offer' do
-      let(:application_choices) { [offer] }
+    describe 'Offer 10 day mailer' do
+      let(:email) { mailer.offer_10_day(offer) }
 
       it_behaves_like(
         'a mail with subject and content',
@@ -136,27 +134,9 @@ RSpec.describe CandidateMailer do
         'provider name' => 'Brighthurst Technical College',
       )
     end
-  end
 
-  describe 'Candidate offer 20 day mailer' do
-    let(:email) { mailer.offer_20_day(offer) }
-    let(:offer) do
-      build_stubbed(:application_choice, :offered,
-                    sent_to_provider_at: Time.zone.today,
-                    application_form: build_stubbed(:application_form, first_name: 'Fred'),
-                    course_option:)
-    end
-    let(:course_option) do
-      build_stubbed(:course_option, course: build_stubbed(:course,
-                                                          name: 'Applied Science (Psychology)',
-                                                          code: '3TT5', provider:))
-    end
-    let(:provider) { build_stubbed(:provider, name: 'Brighthurst Technical College') }
-
-    delegate :name, to: :provider, prefix: true
-
-    context 'when a candidate has one appication choice with offer' do
-      let(:application_choices) { [offer] }
+    describe 'Offer 20 day mailer' do
+      let(:email) { mailer.offer_20_day(offer) }
 
       it_behaves_like(
         'a mail with subject and content',
@@ -165,27 +145,9 @@ RSpec.describe CandidateMailer do
         'provider name' => 'Brighthurst Technical College',
       )
     end
-  end
 
-  describe 'Candidate offer 30 day mailer' do
-    let(:email) { mailer.offer_30_day(offer) }
-    let(:offer) do
-      build_stubbed(:application_choice, :offered,
-                    sent_to_provider_at: Time.zone.today,
-                    application_form: build_stubbed(:application_form, first_name: 'Fred'),
-                    course_option:)
-    end
-    let(:course_option) do
-      build_stubbed(:course_option, course: build_stubbed(:course,
-                                                          name: 'Applied Science (Psychology)',
-                                                          code: '3TT5', provider:))
-    end
-    let(:provider) { build_stubbed(:provider, name: 'Brighthurst Technical College') }
-
-    delegate :name, to: :provider, prefix: true
-
-    context 'when a candidate has one appication choice with offer' do
-      let(:application_choices) { [offer] }
+    describe 'Offer 30 day mailer' do
+      let(:email) { mailer.offer_30_day(offer) }
 
       it_behaves_like(
         'a mail with subject and content',
@@ -194,27 +156,9 @@ RSpec.describe CandidateMailer do
         'provider name' => 'Brighthurst Technical College',
       )
     end
-  end
 
-  describe 'Candidate offer 40 day mailer' do
-    let(:email) { mailer.offer_40_day(offer) }
-    let(:offer) do
-      build_stubbed(:application_choice, :offered,
-                    sent_to_provider_at: Time.zone.today,
-                    application_form: build_stubbed(:application_form, first_name: 'Fred'),
-                    course_option:)
-    end
-    let(:course_option) do
-      build_stubbed(:course_option, course: build_stubbed(:course,
-                                                          name: 'Applied Science (Psychology)',
-                                                          code: '3TT5', provider:))
-    end
-    let(:provider) { build_stubbed(:provider, name: 'Brighthurst Technical College') }
-
-    delegate :name, to: :provider, prefix: true
-
-    context 'when a candidate has one appication choice with offer' do
-      let(:application_choices) { [offer] }
+    describe 'Offer 40 day mailer' do
+      let(:email) { mailer.offer_40_day(offer) }
 
       it_behaves_like(
         'a mail with subject and content',
@@ -223,27 +167,9 @@ RSpec.describe CandidateMailer do
         'provider name' => 'Brighthurst Technical College',
       )
     end
-  end
 
-  describe 'Candidate offer 50 day mailer' do
-    let(:email) { mailer.offer_50_day(offer) }
-    let(:offer) do
-      build_stubbed(:application_choice, :offered,
-                    sent_to_provider_at: Time.zone.today,
-                    application_form: build_stubbed(:application_form, first_name: 'Fred'),
-                    course_option:)
-    end
-    let(:course_option) do
-      build_stubbed(:course_option, course: build_stubbed(:course,
-                                                          name: 'Applied Science (Psychology)',
-                                                          code: '3TT5', provider:))
-    end
-    let(:provider) { build_stubbed(:provider, name: 'Brighthurst Technical College') }
-
-    delegate :name, to: :provider, prefix: true
-
-    context 'when a candidate has one appication choice with offer' do
-      let(:application_choices) { [offer] }
+    describe 'Offer 50 day mailer' do
+      let(:email) { mailer.offer_50_day(offer) }
 
       it_behaves_like(
         'a mail with subject and content',
