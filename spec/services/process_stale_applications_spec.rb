@@ -30,19 +30,20 @@ RSpec.describe ProcessStaleApplications do
   end
 
   it 'does not update already inactive applications' do
-    inactive_at = 1.business_days.ago
+    inactive_at = 1.business_days.ago.to_time
+
     application_choice = create(
       :application_choice,
       :inactive,
       :continuous_applications,
-      reject_by_default_at: 1.business_days.ago,
+      reject_by_default_at: 1.minute.ago,
       inactive_at:,
     )
     other_application_choice = create(
       :application_choice,
       :inactive,
       :continuous_applications,
-      reject_by_default_at: 1.business_day.ago,
+      reject_by_default_at: 1.minute.ago,
       inactive_at:,
     )
 
