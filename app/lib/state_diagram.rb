@@ -6,7 +6,7 @@ class StateDiagram
     states_to_show = []
 
     states = machine.workflow_spec.states.reject { |_, state| state.name.in?(ignore_states) }
-    states.each do |_, state|
+    states.each_value do |state|
       next if only_from_state && state.name != only_from_state.to_sym
 
       state.events.flat.each do |event|

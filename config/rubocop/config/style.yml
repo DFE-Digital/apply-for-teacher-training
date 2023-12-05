@@ -90,26 +90,19 @@ Style/NilLambda:
 
 Style/CombinableLoops:
   Exclude:
-    - 'app/presenters/support_interface/provider_relationships_diagram.rb'
+    - app/presenters/support_interface/provider_relationships_diagram.rb
 
 Style/IdenticalConditionalBranches:
   Exclude:
     # wizard.clear_state! duplication in commit method conditional
-    - 'app/controllers/provider_interface/organisation_permissions_setup_controller.rb'
+    - app/controllers/provider_interface/organisation_permissions_setup_controller.rb
 
-Style/HashEachMethods:
-  Exclude: 
-    - 'app/lib/state_diagram.rb'
-    - 'spec/helpers/select_options_helper_spec.rb'
-    - 'app/forms/provider_interface/offer_wizard.rb'
-    
 Style/OptionalBooleanParameter:
   AllowedMethods:
     - perform
 Style/FetchEnvVar:
   Enabled: false
 
-
 Style/RedundantLineContinuation:
   Exclude:
-    - 'app/lib/vendor_api/changes/*'
+    - app/lib/vendor_api/changes/*

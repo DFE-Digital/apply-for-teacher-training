@@ -107,7 +107,7 @@ module ProviderInterface
 
     def ske_conditions_attributes=(attributes)
       if ske_standard_course?
-        attributes.each do |_, attrs|
+        attributes.each_value do |attrs|
           ske_conditions.first.assign_attributes(attrs)
         end
       elsif language_course?
