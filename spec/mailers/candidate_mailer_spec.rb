@@ -109,59 +109,6 @@ RSpec.describe CandidateMailer do
     end
   end
 
-  describe 'Candidate decision chaser email' do
-    let(:email) { mailer.chase_candidate_decision(application_form) }
-    let(:offer) do
-      build_stubbed(:application_choice, :offered,
-                    sent_to_provider_at: Time.zone.today,
-                    course_option:)
-    end
-    let(:course_option) do
-      build_stubbed(:course_option, course: build_stubbed(:course,
-                                                          name: 'Applied Science (Psychology)',
-                                                          code: '3TT5', provider:))
-    end
-    let(:provider) { build_stubbed(:provider, name: 'Brighthurst Technical College') }
-
-    context 'when a candidate has one appication choice with offer' do
-      let(:application_choices) { [offer] }
-
-      it_behaves_like(
-        'a mail with subject and content',
-        I18n.t!('candidate_mailer.chase_candidate_decision.subject_singular'),
-        'heading' => 'Dear Fred',
-        'dbd date' => "respond by #{10.business_days.from_now.to_fs(:govuk_date)}",
-        'course name and code' => ' Applied Science (Psychology)',
-        'provider name' => 'Brighthurst Technical College',
-      )
-    end
-
-    context 'when a candidate has multiple application choices with offer' do
-      let(:second_offer) do
-        build_stubbed(:application_choice, :offered,
-                      sent_to_provider_at: Time.zone.today,
-                      course_option: second_course_option)
-      end
-      let(:second_course_option) do
-        build_stubbed(:course_option, course: build_stubbed(:course,
-                                                            name: 'Code Refactoring',
-                                                            code: 'CRF5',
-                                                            provider: other_provider))
-      end
-      let(:other_provider) { build_stubbed(:provider, name: 'Ting University') }
-      let(:application_choices) { [offer, second_offer] }
-
-      it_behaves_like(
-        'a mail with subject and content',
-        I18n.t!('candidate_mailer.chase_candidate_decision.subject_plural'),
-        'first course with offer' => 'Applied Science (Psychology)',
-        'first course provider with offer' => 'Brighthurst Technical College',
-        'second course with offer' => 'Code Refactoring',
-        'second course provider with offer' => 'Ting University',
-      )
-    end
-  end
-
   describe '.decline_by_default' do
     let(:email) { mailer.declined_by_default(application_form) }
 
