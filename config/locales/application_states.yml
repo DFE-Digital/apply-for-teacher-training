@@ -261,9 +261,6 @@ en:
         An email is sent to the candidate, the content of which depends on the state of the other application choices, whether there are other offers and whether there are pending decisions from providers.
       emails:
         - candidate_mailer-new_offer_made
-        - candidate_mailer-new_offer_single_offer
-        - candidate_mailer-new_offer_multiple_offers
-        - candidate_mailer-new_offer_decisions_pending
 
     awaiting_provider_decision-reject: &awaiting_provider_decision-reject
       name: Provider rejects
@@ -323,9 +320,6 @@ en:
         An email is sent to the candidate, the content of which depends on the state of the other application choices, whether there are other offers and whether there are pending decisions from providers.
       emails:
         - candidate_mailer-new_offer_made
-        - candidate_mailer-new_offer_single_offer
-        - candidate_mailer-new_offer_multiple_offers
-        - candidate_mailer-new_offer_decisions_pending
 
     interviewing-reject:
       name: Provider rejects
@@ -385,9 +379,6 @@ en:
         The provider is able to update their offer at any time before the candidate has accepted it. An updated offer may have different conditions or be for a different course.
       emails:
         - candidate_mailer-new_offer_made
-        - candidate_mailer-new_offer_single_offer
-        - candidate_mailer-new_offer_multiple_offers
-        - candidate_mailer-new_offer_decisions_pending
 
     offer-decline_by_default:
       name: Declined by default
@@ -493,9 +484,6 @@ en:
       description: ""
       emails:
         - candidate_mailer-new_offer_made
-        - candidate_mailer-new_offer_single_offer
-        - candidate_mailer-new_offer_multiple_offers
-        - candidate_mailer-new_offer_decisions_pending
 
     recruited-confirm_conditions_met:
       name: Provider confirms conditions are met
@@ -510,9 +498,6 @@ en:
       description: ""
       emails:
         - candidate_mailer-new_offer_made
-        - candidate_mailer-new_offer_single_offer
-        - candidate_mailer-new_offer_multiple_offers
-        - candidate_mailer-new_offer_decisions_pending
 
     pending_conditions-defer_offer:
       name: Provider defers offer
