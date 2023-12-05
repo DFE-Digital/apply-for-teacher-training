@@ -9,8 +9,10 @@ module CandidateInterface
       end
 
       def provider_cache_key
-        max_date = [Provider.maximum(:updated_at), Time.zone.now.beginning_of_day].max
-        @provider_cache_key ||= "provider-list-#{max_date}"
+        @provider_cache_key ||= begin
+          max_date = [Provider.maximum(:updated_at), Course.current_cycle.exposed_in_find.maximum(:updated_at)].compact.max
+          "provider-list-#{max_date}"
+        end
       end
 
       def available_providers
