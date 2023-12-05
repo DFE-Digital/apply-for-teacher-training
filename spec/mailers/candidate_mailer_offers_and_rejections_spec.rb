@@ -30,19 +30,6 @@ RSpec.describe CandidateMailer do
     magic_link_stubbing(candidate)
   end
 
-  describe '.new_offer_decisions_pending' do
-    let(:email) { mailer.new_offer_decisions_pending(application_choices.first) }
-    let(:application_choices) { [application_choice_with_offer, awaiting_decision] }
-
-    it_behaves_like(
-      'a mail with subject and content',
-      'Successful application for Brighthurst Technical College',
-      'heading' => 'Dear Bob',
-      'instructions' => 'You can wait to hear back about your other application(s) before accepting or declining any offers.',
-      'deferral_guidance' => 'You can defer your offer and start your course a year later.',
-    )
-  end
-
   describe 'rejection emails' do
     let(:future_applications) { 'Yes' }
     let(:rejection_reasons) do
