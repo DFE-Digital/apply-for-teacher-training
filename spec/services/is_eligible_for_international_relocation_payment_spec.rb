@@ -12,7 +12,7 @@ RSpec.describe IsEligibleForInternationalRelocationPayment do
     let(:application_choice) { create(:application_choice, course_option:, application_form:) }
     let(:first_nationality) { 'Azeri' }
     let(:right_to_work_or_study) { 'yes' }
-    let(:course_subject) { create(:subject, name: 'Colloquial Amaraic', code: 'A0') }
+    let(:course_subject) { create(:subject, name: 'Quantum Mechanics', code: 'F0') }
 
     context 'application meets all criteria' do
       it { is_expected.to be true }
@@ -33,7 +33,7 @@ RSpec.describe IsEligibleForInternationalRelocationPayment do
     context 'subject is modern languages' do
       let(:course_subject) { create(:subject, name: 'Spanish with Sichuanese', code: '15') }
 
-      it { is_expected.to be true }
+      it { is_expected.to be false }
     end
 
     context 'subject not eligible' do
