@@ -58,13 +58,13 @@ RSpec.describe MakeOffer do
     end
 
     describe 'if the provided details are correct' do
-      it 'then calls various services', continuous_applications: false do
-        set_declined_by_default = instance_double(SetDeclineByDefault, call: true)
+      it 'then calls various services' do
+        set_declined_by_default_to_end_of_cycle = instance_double(SetDeclineByDefaultToEndOfCycle, call: true)
         send_new_offer_email_to_candidate = instance_double(SendNewOfferEmailToCandidate, call: true)
 
-        allow(SetDeclineByDefault)
-            .to receive(:new).with(application_form: application_choice.application_form)
-                    .and_return(set_declined_by_default)
+        allow(SetDeclineByDefaultToEndOfCycle)
+            .to receive(:new).with(application_choice: application_choice)
+                    .and_return(set_declined_by_default_to_end_of_cycle)
         allow(SendNewOfferEmailToCandidate)
             .to receive(:new).with(application_choice:)
                     .and_return(send_new_offer_email_to_candidate)
@@ -72,8 +72,8 @@ RSpec.describe MakeOffer do
 
         make_offer.save!
 
-        expect(SetDeclineByDefault).to have_received(:new)
-        expect(set_declined_by_default).to have_received(:call)
+        expect(SetDeclineByDefaultToEndOfCycle).to have_received(:new)
+        expect(set_declined_by_default_to_end_of_cycle).to have_received(:call)
         expect(send_new_offer_email_to_candidate).to have_received(:call)
         expect(update_conditions_service).to have_received(:save)
         expect(application_choice).to have_received(:update_course_option_and_associated_fields!)
@@ -87,18 +87,6 @@ RSpec.describe MakeOffer do
              .and_return(cancel_upcoming_interviews)
         make_offer.save!
         expect(cancel_upcoming_interviews).to have_received(:call!)
-      end
-
-      context 'when the application form is in continuous application cycle', :continuous_applications do
-        let(:application_choice) { create(:application_choice, :awaiting_provider_decision, :continuous_applications) }
-
-        it 'calls DeclineByDefaultToEndOfCycle' do
-          allow(SetDeclineByDefaultToEndOfCycle)
-            .to receive(:new).and_return(instance_double(SetDeclineByDefaultToEndOfCycle, call: true))
-          make_offer.save!
-
-          expect(SetDeclineByDefaultToEndOfCycle).to have_received(:new)
-        end
       end
     end
 

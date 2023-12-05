@@ -28,11 +28,7 @@ class MakeOffer
             other_fields: { offered_at: Time.zone.now },
           )
 
-          if application_choice.continuous_applications?
-            SetDeclineByDefaultToEndOfCycle.new(application_choice: application_choice).call
-          else
-            SetDeclineByDefault.new(application_form: application_form).call
-          end
+          SetDeclineByDefaultToEndOfCycle.new(application_choice: application_choice).call
         end
 
         CancelUpcomingInterviews.new(
@@ -52,10 +48,6 @@ private
 
   def auth
     @auth ||= ProviderAuthorisation.new(actor:)
-  end
-
-  def application_form
-    @application_form ||= application_choice.application_form
   end
 
   def offer
