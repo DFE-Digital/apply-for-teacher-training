@@ -16,7 +16,7 @@
     <% end %>
   <% end %>
   <%= f.govuk_radio_button :have_enic_reference, 'No', label: { text: 'No' } do %>
-    <p class="govuk-body">Ask your training provider if they need a <%= t('service_name.enic.short_name') %> statement of comparability. You can get a free statement (this usually costs £49.50 plus VAT) by calling <%= t('service_name.get_into_teaching') %> for free on <%= t('get_into_teaching.tel') %>. Or <%= govuk_link_to_with_utm_params 'chat to an adviser using the online chat service', t('get_into_teaching.url_online_chat'), utm_campaign(params), current_application.phase %>.</p>
+    <p class="govuk-body">Ask your training provider if they need a <%= t('service_name.enic.short_name') %> statement of comparability. You can get a free statement (this usually costs £49.50 plus VAT) by calling <%= t('service_name.get_into_teaching') %> on <%= t('get_into_teaching.tel') %>. Or <%= govuk_link_to_with_utm_params 'chat to an adviser using the online chat service', t('get_into_teaching.url_online_chat'), utm_campaign(params), current_application.phase %>.</p>
   <% end %>
 <% end %>
 
