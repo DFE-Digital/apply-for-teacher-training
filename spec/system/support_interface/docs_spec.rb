@@ -26,7 +26,7 @@ RSpec.feature 'Docs' do
   end
 
   def when_i_visit_the_process_documentation
-    allow(ApplicationStateChange).to receive(:workflow_spec).and_return(Struct.new(:states).new([]))
+    allow(ApplicationStateChange).to receive(:workflow_spec).and_return(Struct.new(:states).new({}))
 
     visit support_interface_docs_provider_flow_path
   end
@@ -77,7 +77,7 @@ RSpec.feature 'Docs' do
   end
 
   def when_i_click_on_candidate_flow_documentation
-    allow(CandidateFlow).to receive(:workflow_spec).and_return(Struct.new(:states).new([]))
+    allow(CandidateFlow).to receive(:workflow_spec).and_return(Struct.new(:states).new({}))
 
     click_link 'Candidate flow'
   end

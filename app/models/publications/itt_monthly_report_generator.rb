@@ -26,7 +26,7 @@ module Publications
 
     def initialize(generation_date: Time.zone.now, publication_date: nil, model: MonthlyStatistics::MonthlyStatisticsReport)
       @generation_date = generation_date.to_time
-      @publication_date = (publication_date.presence || 1.week.after(@generation_date))
+      @publication_date = publication_date.presence || 1.week.after(@generation_date)
       @first_cycle_week = CycleTimetable.find_opens.beginning_of_week
       @report_expected_time = @generation_date.beginning_of_week(:sunday)
       @cycle_week = (@report_expected_time - first_cycle_week).seconds.in_weeks.round

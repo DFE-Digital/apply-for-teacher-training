@@ -36,7 +36,7 @@ class RejectionReasons
 
     def reasons_selected
       if selected_reasons && selected_reasons.empty?
-        key = (selected_reasons_attr_name || :base)
+        key = selected_reasons_attr_name || :base
         errors.add(key, RejectionReasons.translated_error(selected_reasons_attr_name))
       end
     end

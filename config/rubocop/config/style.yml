@@ -90,12 +90,12 @@ Style/NilLambda:
 
 Style/CombinableLoops:
   Exclude:
-    - 'app/presenters/support_interface/provider_relationships_diagram.rb'
+    - app/presenters/support_interface/provider_relationships_diagram.rb
 
 Style/IdenticalConditionalBranches:
   Exclude:
     # wizard.clear_state! duplication in commit method conditional
-    - 'app/controllers/provider_interface/organisation_permissions_setup_controller.rb'
+    - app/controllers/provider_interface/organisation_permissions_setup_controller.rb
 
 Style/OptionalBooleanParameter:
   AllowedMethods:
@@ -103,7 +103,6 @@ Style/OptionalBooleanParameter:
 Style/FetchEnvVar:
   Enabled: false
 
-
 Style/RedundantLineContinuation:
   Exclude:
-    - 'app/lib/vendor_api/changes/*'
+    - app/lib/vendor_api/changes/*

@@ -31,7 +31,7 @@ RSpec.describe ProviderInterface::UserCardComponent do
 
   context 'when the user has extra permissions' do
     let(:provider_user) do
-      provider_traits = ProviderPermissions::VALID_PERMISSIONS.map { |permission| "with_#{permission}".to_sym }
+      provider_traits = ProviderPermissions::VALID_PERMISSIONS.map { |permission| :"with_#{permission}" }
       create(:provider_user, :with_provider, *provider_traits.shuffle)
     end
 

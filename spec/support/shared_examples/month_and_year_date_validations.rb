@@ -1,9 +1,9 @@
 RSpec.shared_examples 'month and year date validations' do |date_field, validations|
   include DateAndYearConcerns
 
-  let("#{date_field}_day".to_sym) { date.day }
-  let("#{date_field}_month".to_sym) { date.month }
-  let("#{date_field}_year".to_sym) { date.year }
+  let(:"#{date_field}_day") { date.day }
+  let(:"#{date_field}_month") { date.month }
+  let(:"#{date_field}_year") { date.year }
 
   describe 'when in the future', if: validations[:future] do
     let(:date) { 40.years.from_now }
@@ -63,7 +63,7 @@ RSpec.shared_examples 'month and year date validations' do |date_field, validati
     let(:compared_attribute) { validations[:before] }
 
     it 'returns :before error' do
-      model.send("#{compared_attribute}_day=".to_sym, compared_value.day)
+      model.send(:"#{compared_attribute}_day=", compared_value.day)
       model.send("#{compared_attribute}_month=", compared_value.month)
       model.send("#{compared_attribute}_year=", compared_value.year)
 

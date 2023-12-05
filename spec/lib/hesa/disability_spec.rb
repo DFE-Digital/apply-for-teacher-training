@@ -26,7 +26,7 @@ RSpec.describe Hesa::Disability do
 
     context 'when using new values' do
       it 'keep same values' do
-        described_class::HESA_CONVERSION.each do |key, _value|
+        described_class::HESA_CONVERSION.each_key do |key|
           expect(
             described_class.convert_disabilities([key]),
           ).to eq([key])
