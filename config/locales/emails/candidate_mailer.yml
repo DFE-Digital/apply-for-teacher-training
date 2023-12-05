@@ -6,13 +6,6 @@ en:
       subject: "You’ve submitted your teacher training application"
     application_choice_submitted:
       <<: *application_submitted
-    candidate_offer:
-      single_offer:
-        subject: "Successful application for %{provider_name}"
-      multiple_offers:
-        subject: "Successful application for %{provider_name}"
-      decisions_pending:
-        subject: "Successful application for %{provider_name}"
     new_offer_made:
       subject: "Successful application for %{provider_name}"
     chase_candidate_decision:
