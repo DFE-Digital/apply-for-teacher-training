@@ -22,7 +22,7 @@ RSpec.describe Clockwork, :clockwork do
   end
 
   [
-    { worker: SendChaseEmailToCandidatesWorker, task: 'SendChaseEmailToCandidates' },
+    { worker: ChaseReferences, task: 'ChaseReferences' },
   ].each do |worker|
     describe 'worker schedule' do
       it 'runs the job every hour' do

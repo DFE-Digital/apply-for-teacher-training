@@ -8,9 +8,6 @@ en:
       <<: *application_submitted
     new_offer_made:
       subject: "Successful application for %{provider_name}"
-    chase_candidate_decision:
-      subject_singular: Make a decision on your teacher training application
-      subject_plural: Make a decision on your teacher training applications
     chase_reference:
       subject: "%{referee_name} has not replied to your request for a reference"
     chase_reference_again:
