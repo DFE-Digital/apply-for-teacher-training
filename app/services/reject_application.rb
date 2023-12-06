@@ -34,8 +34,6 @@ class RejectApplication
 
       CancelUpcomingInterviews.new(actor: @auth.actor, application_choice: @application_choice, cancellation_reason: I18n.t('interview_cancellation.reason.application_rejected')).call!
 
-      CancelOutstandingReferences.new(application_form: @application_choice.application_form).call!
-
       SendCandidateRejectionEmail.new(application_choice: @application_choice).call
     end
 

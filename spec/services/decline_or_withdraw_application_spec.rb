@@ -77,38 +77,6 @@ RSpec.describe DeclineOrWithdrawApplication do
 
         expect(cancel_service).to have_received(:call!)
       end
-
-      context 'CancelOutstandingReferences service' do
-        let(:cancel_service) { instance_double(CancelOutstandingReferences, call!: true) }
-        let(:application_form) { application_choice.application_form }
-
-        before do
-          allow(CancelOutstandingReferences)
-          .to receive(:new)
-          .with(
-            application_form:,
-          )
-          .and_return(cancel_service)
-        end
-
-        it 'is called when all applications have ended without success' do
-          unsuccessful_application_choices = [create(:application_choice, :rejected), create(:application_choice, :rejected), application_choice]
-          application_form.application_choices << unsuccessful_application_choices
-
-          described_class.new(application_choice:, actor: user).save!
-
-          expect(cancel_service).to have_received(:call!)
-        end
-
-        it 'is not called when there are applications that have not ended without success' do
-          application_choices_with_accepted_offer = [create(:application_choice, status: 'pending_conditions'), create(:application_choice, status: 'withdrawn'), application_choice]
-          application_form.application_choices << application_choices_with_accepted_offer
-
-          described_class.new(application_choice:, actor: user).save!
-
-          expect(cancel_service).not_to have_received(:call!)
-        end
-      end
     end
   end
 end

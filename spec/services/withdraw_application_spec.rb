@@ -40,37 +40,6 @@ RSpec.describe WithdrawApplication do
       expect(cancel_service).to have_received(:call!)
     end
 
-    context 'CancelOutstandingReferences service' do
-      let(:withdrawing_application) { create(:application_choice, status: :awaiting_provider_decision) }
-      let(:cancel_service) { instance_double(CancelOutstandingReferences, call!: true) }
-      let(:application_form) { withdrawing_application.application_form }
-
-      before do
-        allow(CancelOutstandingReferences)
-        .to receive(:new)
-        .with(application_form: withdrawing_application.application_form)
-        .and_return(cancel_service)
-      end
-
-      it 'is called when all applications have ended without success' do
-        unsuccessful_application_choices = [create(:application_choice, :rejected), create(:application_choice, :rejected), withdrawing_application]
-        application_form.application_choices << unsuccessful_application_choices
-
-        described_class.new(application_choice: withdrawing_application).save!
-
-        expect(cancel_service).to have_received(:call!)
-      end
-
-      it 'is not called when there are applications that have not ended without success' do
-        application_choices_accepted = [create(:application_choice, status: 'pending_conditions'), create(:application_choice, status: 'withdrawn'), withdrawing_application]
-        application_form.application_choices << application_choices_accepted
-
-        described_class.new(application_choice: withdrawing_application).save!
-
-        expect(cancel_service).not_to have_received(:call!)
-      end
-    end
-
     it 'sends a notification email to the training provider and ratifying provider', :sidekiq do
       training_provider = create(:provider)
       training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
