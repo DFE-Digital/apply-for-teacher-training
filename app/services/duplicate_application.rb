@@ -17,6 +17,7 @@ class DuplicateApplication
       phase: target_phase,
       previous_application_form_id: original_application_form.id,
       recruitment_cycle_year: @recruitment_cycle_year,
+      work_history_status: original_application_form.work_history_status || 'can_complete',
     )
 
     ApplicationForm.create!(attrs).tap do |new_application_form|

@@ -22,6 +22,26 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     then_i_can_add_course_choices
   end
 
+  scenario 'Candidate can see the add another job button in the new cycle' do
+    given_i_am_signed_in
+    and_i_have_an_application_with_a_rejection
+    and_the_apply2_deadline_passes
+    and_i_visit_my_application_complete_page
+    and_i_apply_again
+    and_the_next_cycle_opens
+    and_i_visit_my_application_complete_page
+    and_i_click_on_work_history
+    then_i_see_the_add_another_job_button
+  end
+
+  def and_i_click_on_work_history
+    click_link 'Work history'
+  end
+
+  def then_i_see_the_add_another_job_button
+    expect(page).to have_link('Add another job', href: '/candidate/application/restructured-work-history/new', class: 'govuk-button govuk-button--secondary')
+  end
+
   def given_i_am_signed_in
     @candidate = create(:candidate)
     login_as(@candidate)
@@ -30,6 +50,9 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   def and_i_have_an_application_with_a_rejection
     @application_form = create(:completed_application_form, :with_completed_references, candidate: @candidate)
     create(:application_choice, :rejected, application_form: @application_form)
+
+    job = create(:application_work_experience, application_form: @application_form)
+    @application_form.application_work_experiences << [job]
   end
 
   def when_the_apply2_deadline_passes
@@ -76,4 +99,8 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     expect(page).to have_content 'You can apply for up to 4 courses'
     click_link 'Choose your courses'
   end
+
+  alias_method :and_the_apply2_deadline_passes, :when_the_apply2_deadline_passes
+  alias_method :and_i_apply_again, :when_i_click_apply_again
+  alias_method :and_the_next_cycle_opens, :when_the_next_cycle_opens
 end
