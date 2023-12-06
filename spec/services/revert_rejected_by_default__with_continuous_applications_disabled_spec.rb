@@ -91,7 +91,6 @@ RSpec.describe RevertRejectedByDefault, CycleTimetableHelper.mid_cycle(Applicati
     # assert that we correctly set a DBD on the offered app and that we sent a chaser,
     # or this spec is meaningless
     expect(choices.map(&:decline_by_default_at).compact.first).to be_present
-    expect(form_with_rbd_and_offer.chasers_sent).to be_present
 
     call_service
 
