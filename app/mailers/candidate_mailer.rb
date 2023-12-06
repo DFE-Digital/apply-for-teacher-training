@@ -262,21 +262,6 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def chase_candidate_decision(application_form)
-    @application_choices = application_form.application_choices.select(&:offer?)
-    @dbd_date = @application_choices.first.decline_by_default_at.to_fs(:govuk_date).strip
-    @days_until_chaser = TimeLimitCalculator.new(rule: :chase_candidate_before_dbd, effective_date: @application_choices.first.sent_to_provider_at).call.fetch(:days)
-    @offers = @application_choices.map do |offer|
-      "#{offer.current_course_option.course.name_and_code} at #{offer.current_course_option.course.provider.name}"
-    end
-    subject_pluralisation = @application_choices.count > 1 ? 'plural' : 'singular'
-
-    email_for_candidate(
-      application_form,
-      subject: I18n.t!("candidate_mailer.chase_candidate_decision.subject_#{subject_pluralisation}"),
-    )
-  end
-
   def declined_by_default(application_form)
     @declined_courses = application_form.application_choices.select(&:declined_by_default?)
     @declined_course_names = @declined_courses.map { |application_choice| "#{application_choice.current_course_option.course.name_and_code} at #{application_choice.current_course_option.course.provider.name}" }

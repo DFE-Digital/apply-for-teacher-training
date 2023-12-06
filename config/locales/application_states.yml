@@ -170,7 +170,6 @@ en:
 
         We assume that all offers have some conditions, even if there are no academic conditions.
       emails:
-        - candidate_mailer-chase_candidate_decision
         - candidate_mailer-changed_offer
 
     recruited:
