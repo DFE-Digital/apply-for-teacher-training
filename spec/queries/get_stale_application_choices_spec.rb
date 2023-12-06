@@ -32,7 +32,7 @@ RSpec.describe GetStaleApplicationChoices do
     end
   end
 
-  it 'does not return an application with reject_by_default_at 1 working days ago if it has been interview already' do
+  it 'does not return an application with reject_by_default_at 1 working days ago if it has been interviewed already' do
     application_form = create_application(
       status: 'interviewing',
       reject_by_default_at: 1.business_days.ago,
