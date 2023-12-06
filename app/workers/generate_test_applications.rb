@@ -81,7 +81,7 @@ class GenerateTestApplications
         %i[withdrawn],
       ]
 
-     current_cycle_states += continuous_application_choices_states
+      current_cycle_states += continuous_application_choices_states
 
       current_cycle_states.each do |states|
         create(
