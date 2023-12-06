@@ -239,18 +239,6 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(@application_form, subject: I18n.t('candidate_mailer.new_offer_made.subject', provider_name: @course.provider.name))
   end
 
-  def new_offer_single_offer(application_choice)
-    new_offer(application_choice, :single_offer)
-  end
-
-  def new_offer_multiple_offers(application_choice)
-    new_offer(application_choice, :multiple_offers)
-  end
-
-  def new_offer_decisions_pending(application_choice)
-    new_offer(application_choice, :decisions_pending)
-  end
-
   def reference_received(reference)
     @reference = reference
     @selected_references = reference.application_form.application_references.creation_order.select(&:selected)
@@ -587,29 +575,6 @@ class CandidateMailer < ApplicationMailer
   end
 
 private
-
-  def new_offer(application_choice, template_name)
-    @application_choice = application_choice
-    course_option = CourseOption.find_by(id: @application_choice.current_course_option_id) || @application_choice.current_course_option
-    @provider_name = course_option.course.provider.name
-    @course_name = course_option.course.name_and_code
-    @conditions = @application_choice.offer.all_conditions_text
-    @offers = @application_choice.self_and_siblings.select(&:offer?).map do |application_choice_with_offer|
-      "#{application_choice_with_offer.current_course_option.course.name_and_code} at #{application_choice_with_offer.current_course_option.course.provider.name}"
-    end
-    @start_date = course_option.course.start_date.to_fs(:month_and_year)
-
-    email_for_candidate(
-      application_choice.application_form,
-      subject: I18n.t!(
-        "candidate_mailer.candidate_offer.#{template_name}.subject",
-        course_name: course_option.course.name_and_code,
-        provider_name: course_option.course.provider.name,
-      ),
-      template_path: 'candidate_mailer/new_offer',
-      template_name:,
-    )
-  end
 
   def email_for_candidate(application_form, args = {})
     @application_form = application_form
