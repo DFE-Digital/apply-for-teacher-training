@@ -1,4 +1,4 @@
-SINGLE_GCSE_GRADES = %w[9 8 7 6 5 4 3 2 1 A* A B C D E F G U].freeze
+SINGLE_GCSE_GRADES = %w[9 8 7 6 5 4 3 2 1 A* A B C C* D E F G U].freeze
 DOUBLE_GCSE_GRADES = %w[
   9-8
   9-9
@@ -21,6 +21,7 @@ DOUBLE_GCSE_GRADES = %w[
   A*A*
   AA
   AB
+  AC
   BB
   BC
   CC
