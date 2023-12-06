@@ -32,6 +32,16 @@ RSpec.describe GetStaleApplicationChoices do
     end
   end
 
+  it 'does not return an application with reject_by_default_at 1 working days ago if it has been interview already' do
+    application_form = create_application(
+      status: 'interviewing',
+      reject_by_default_at: 1.business_days.ago,
+    )
+    travel_temporarily_to(1.business_days.from_now) do
+      expect(described_class.call).not_to include application_form.application_choices.first
+    end
+  end
+
   it 'does not return an application with reject_by_default_at 1 working days in the future' do
     application_form = create_application(
       status: 'awaiting_provider_decision',
