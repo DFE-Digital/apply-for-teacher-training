@@ -48,19 +48,4 @@ RSpec.describe ConditionsNotMet do
     expect(offer).not_to be_nil
     expect(offer.conditions.first.status).to eq('unmet')
   end
-
-  it 'the CancelOutstandingReferencesService is called' do
-    cancel_service = instance_double(CancelOutstandingReferences, call!: true)
-
-    allow(CancelOutstandingReferences)
-    .to receive(:new)
-    .with(
-      application_form: application_choice.application_form,
-    )
-    .and_return(cancel_service)
-
-    described_class.new(application_choice:, actor: create(:support_user)).save
-
-    expect(cancel_service).to have_received(:call!)
-  end
 end

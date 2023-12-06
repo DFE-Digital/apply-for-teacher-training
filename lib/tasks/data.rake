@@ -17,7 +17,6 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::RemoveCandidateReferenceFlowFeatureFlag',
   'DataMigrations::RemoveNewDegreeFlowFeatureFlag',
   'DataMigrations::RemoveLockExternalReportFeatureFlag',
-  'DataMigrations::EndOfCycleCancelOutstandingReferences',
   'DataMigrations::ProviderInterviewDataFix',
   'DataMigrations::RemoveDataExportsFeatureFlag',
   'DataMigrations::BackfillSitesFromTempSites',

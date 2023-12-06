@@ -16,7 +16,6 @@ class ConditionsNotMet
       ApplicationStateChange.new(application_choice).conditions_not_met!
       application_choice.update!(conditions_not_met_at: Time.zone.now)
       application_choice.offer.conditions.each(&:unmet!)
-      CancelOutstandingReferences.new(application_form: application_choice.application_form).call!
       CandidateMailer.conditions_not_met(application_choice).deliver_later
     end
   rescue Workflow::NoTransitionAllowed

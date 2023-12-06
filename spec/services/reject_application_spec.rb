@@ -93,17 +93,5 @@ RSpec.describe RejectApplication do
       service.save
       expect(cancel_upcoming_interviews).to have_received(:call!)
     end
-
-    it 'calls the CancelOutstandingReferences service' do
-      cancel_outstanding_references = instance_double(CancelOutstandingReferences, call!: true)
-
-      allow(CancelOutstandingReferences)
-        .to receive(:new)
-        .with(application_form: application_choice.application_form)
-        .and_return(cancel_outstanding_references)
-
-      service.save
-      expect(cancel_outstanding_references).to have_received(:call!)
-    end
   end
 end
