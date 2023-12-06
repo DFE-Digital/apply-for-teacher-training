@@ -106,7 +106,3 @@ jobs:
 
         env:
           DEPLOY_ENV: ${{env.DEPLOY_ENV}}
-      - uses: geekyeggo/delete-artifact@v2
-        with:
-          name: failure-uploads
-          failOnError: false
