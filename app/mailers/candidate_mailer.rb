@@ -112,14 +112,6 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(application_choice.application_form)
   end
 
-  def application_rejected_all_applications_rejected(application_choice)
-    @course = application_choice.current_course_option.course
-    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
-    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
-
-    email_for_candidate(application_choice.application_form)
-  end
-
   def application_withdrawn_on_request(application_choice)
     @course = application_choice.current_course_option.course
     @provider_name = @course.provider.name
