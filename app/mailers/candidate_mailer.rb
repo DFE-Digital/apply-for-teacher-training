@@ -120,22 +120,6 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(@application_form)
   end
 
-  def application_withdrawn_on_request_offers_only(application_choice)
-    @offers = application_choice.self_and_siblings.select(&:offer?)
-    decline_by_default_at = @offers.sort_by(&:decline_by_default_at).map(&:decline_by_default_at).first
-    return if decline_by_default_at.blank?
-
-    @course = application_choice.current_course_option.course
-    @application_choice = application_choice
-    @respond_by_date = decline_by_default_at.to_fs(:govuk_date)
-    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
-
-    email_for_candidate(
-      application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.application_withdrawn_on_request_offers_only.subject', date: @respond_by_date),
-    )
-  end
-
   def feedback_received_for_application_rejected_by_default(application_choice, show_apply_again_guidance)
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @course = @application_choice.current_course_option.course

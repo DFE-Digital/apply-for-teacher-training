@@ -51,8 +51,6 @@ en:
       subject: Update on your application
     application_withdrawn_on_request:
       subject: Update on your application
-    application_withdrawn_on_request_offers_only:
-      subject: Update on your application - respond by %{date}
     application_withdrawn:
       subject:
         one: "You’ve withdrawn your application"
