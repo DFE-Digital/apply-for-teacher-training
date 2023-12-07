@@ -199,69 +199,6 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_rejected_all_applications_rejected(application_choice)
   end
 
-  def application_rejected_offers_only(reasons = :rejection_reasons)
-    application_form = FactoryBot.build(
-      :application_form,
-      first_name: 'Tyrell',
-      last_name: 'Wellick',
-      candidate:,
-      application_choices: [
-        FactoryBot.build(
-          :application_choice,
-          application_form:,
-          course_option:,
-          status: :rejected,
-          structured_rejection_reasons: send(reasons),
-          rejection_reasons_type: reasons.to_s,
-        ),
-        FactoryBot.build(
-          :application_choice,
-          :offered,
-          application_form:,
-          decline_by_default_at: 3.days.from_now,
-          course_option:,
-        ),
-        FactoryBot.build(
-          :application_choice,
-          :offered,
-          application_form:,
-          decline_by_default_at: 2.days.from_now,
-          course_option:,
-        ),
-      ],
-    )
-    CandidateMailer.application_rejected_offers_only(application_form.application_choices.first)
-  end
-
-  def application_rejected_via_vendor_api_offers_only
-    application_rejected_offers_only(:vendor_api_rejection_reasons)
-  end
-
-  def application_rejected_by_default_offers_only
-    application_form = FactoryBot.build(
-      :application_form,
-      first_name: 'Tyrell',
-      last_name: 'Wellick',
-      candidate:,
-      application_choices: [
-        FactoryBot.build(
-          :application_choice,
-          :rejected_by_default_with_feedback,
-          application_form:,
-          course_option:,
-        ),
-        FactoryBot.build(
-          :application_choice,
-          :offered,
-          application_form:,
-          decline_by_default_at: 3.days.from_now,
-          course_option:,
-        ),
-      ],
-    )
-    CandidateMailer.application_rejected_offers_only(application_form.application_choices.first)
-  end
-
   def application_withdrawn_on_request
     application_form_with_provided_references = FactoryBot.build_stubbed(
       :application_form,

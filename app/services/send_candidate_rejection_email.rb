@@ -18,10 +18,6 @@ class SendCandidateRejectionEmail
 private
 
   def pre_continuous_applications_rejection_mailers
-    if applications_with_offers_only?
-      CandidateMailer.application_rejected_offers_only(application_choice).deliver_later
-    else
-      CandidateMailer.application_rejected_all_applications_rejected(application_choice).deliver_later
-    end
+    CandidateMailer.application_rejected_all_applications_rejected(application_choice).deliver_later
   end
 end

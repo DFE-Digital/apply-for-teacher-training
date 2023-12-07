@@ -26,19 +26,6 @@ RSpec.describe SendCandidateRejectionEmail do
         end
       end
 
-      describe 'when all remaining applications are with offer' do
-        before do
-          application_choice_with_offer
-
-          allow(CandidateMailer).to receive(:application_rejected_offers_only).and_return(mail)
-          described_class.new(application_choice:).call
-        end
-
-        it 'the application_rejected_offers_only email is sent to the candidate' do
-          expect(CandidateMailer).to have_received(:application_rejected_offers_only).with(application_choice)
-        end
-      end
-
       describe 'when applications are withdrawn and another is rejected' do
         before do
           application_choice_withdrawn

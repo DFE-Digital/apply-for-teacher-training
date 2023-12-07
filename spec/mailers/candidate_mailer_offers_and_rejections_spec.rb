@@ -129,24 +129,6 @@ RSpec.describe CandidateMailer do
         end
       end
     end
-
-    describe '.application_rejected_offers_only', continuous_applications: false do
-      let(:email) { mailer.application_rejected_offers_only(application_choices.first) }
-      let(:application_choices) { [rejected, application_choice_with_offer, application_choice_with_offer] }
-
-      TestSuiteTimeMachine.travel_temporarily_to(mid_cycle(2023)) do
-        it_behaves_like(
-          'a mail with subject and content',
-          I18n.t!('candidate_mailer.application_rejected_offers_only.subject', date: 10.business_days.from_now.to_fs(:govuk_date)),
-          'heading' => 'Dear Bob',
-          'course name and code' => 'Forensic Science (E0FO)',
-          'rejection reasons' => 'Do not refer to yourself in the third person',
-          'other application details' => 'You’re not waiting for any other decisions.',
-          'first application details' => 'Brighthurst Technical College to study Applied Science (Psychology)',
-          'respond by date' => "will be automatically declined if you do not respond by #{10.business_days.from_now.to_fs(:govuk_date)}",
-        )
-      end
-    end
   end
 
   describe '.feedback_received_for_application_rejected_by_default' do
