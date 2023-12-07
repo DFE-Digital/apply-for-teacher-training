@@ -4,7 +4,7 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
   include DfESignInHelpers
   include CourseOptionHelpers
 
-  scenario 'A provider user withdraws an application at the request of a candidate', :continuous_applications do
+  scenario 'A provider user withdraws an application at the request of a candidate' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_the_withdraw_at_candidates_request_feature_flag_is_enabled
     and_i_am_permitted_to_make_decisions_for_my_provider

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::SendCandidateWithdrawnOnRequestEmail, :continuous_applications do
+RSpec.describe ProviderInterface::SendCandidateWithdrawnOnRequestEmail do
   describe '#call' do
     let(:mailer) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
 
