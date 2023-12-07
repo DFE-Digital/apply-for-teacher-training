@@ -120,14 +120,6 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(@application_form)
   end
 
-  def application_withdrawn_on_request_all_applications_withdrawn(application_choice)
-    @course = application_choice.current_course_option.course
-    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
-    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
-
-    email_for_candidate(application_choice.application_form)
-  end
-
   def application_withdrawn_on_request_one_offer_one_awaiting_decision(application_choice)
     @awaiting_decision = application_choice.self_and_siblings.find(&:decision_pending?)
     return if @awaiting_decision.reject_by_default_at.blank?

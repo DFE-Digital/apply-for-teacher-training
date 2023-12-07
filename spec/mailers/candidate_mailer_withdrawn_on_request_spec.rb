@@ -22,26 +22,6 @@ RSpec.describe CandidateMailer do
     magic_link_stubbing(candidate)
   end
 
-  describe '.application_withdrawn_on_request_all_applications_withdrawn' do
-    let(:email) { mailer.application_withdrawn_on_request_all_applications_withdrawn(application_choices.first) }
-    let(:application_choices) { [build_stubbed(:application_choice, :rejected, course_option:)] }
-
-    it_behaves_like(
-      'a mail with subject and content',
-      I18n.t!('candidate_mailer.application_withdrawn_on_request_all_applications_withdrawn.subject', provider_name: 'Arithmetic College'),
-      'heading' => 'Dear Fred',
-      'withdrawn sentence' => 'At your request, Arithmetic College has withdrawn your application to study Mathematics (M101)',
-      'link to support' => 'https://getintoteaching.education.gov.uk/help-and-support',
-      'apply again' => 'You can apply again',
-    )
-
-    it 'adds utm parameters when in production' do
-      allow(HostingEnvironment).to receive(:environment_name).and_return('production')
-
-      expect(email.body).to include('https://getintoteaching.education.gov.uk/help-and-support?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1')
-    end
-  end
-
   describe '.application_withdrawn_on_request_awaiting_decision_only' do
     let(:email) { mailer.application_withdrawn_on_request_awaiting_decision_only(application_choices.first) }
     let(:application_choices) { [build_stubbed(:application_choice, :awaiting_provider_decision, course_option:)] }

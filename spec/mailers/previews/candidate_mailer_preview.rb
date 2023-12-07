@@ -202,17 +202,6 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_withdrawn_on_request(application_choice)
   end
 
-  def application_withdrawn_on_request_all_applications_withdrawn
-    application_choice = FactoryBot.build_stubbed(
-      :application_choice,
-      application_form:,
-      course_option:,
-      status: :withdrawn,
-      withdrawn_at: Time.zone.now,
-    )
-    CandidateMailer.application_withdrawn_on_request_all_applications_withdrawn(application_choice)
-  end
-
   def application_withdrawn_on_request_one_offer_one_awaiting_decision
     application_form = FactoryBot.build_stubbed(
       :application_form,
