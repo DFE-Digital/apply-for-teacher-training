@@ -49,7 +49,7 @@ RSpec.describe GenerateTestApplications do
     expect(ApplicationForm.joins(:application_choices).where('application_choices.status': 'offer', phase: 'apply_2').where.not(previous_application_form_id: nil)).not_to be_empty
   end
 
-  it 'generates test applications for the next cycle', :continuous_applications, :sidekiq do
+  it 'generates test applications for the next cycle', :sidekiq do
     current_cycle = RecruitmentCycle.current_year
     provider = create(:provider)
 

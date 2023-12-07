@@ -28,7 +28,7 @@ class GenerateTestApplications
         %i[rejected rejected],
       ]
 
-      next_cycle_states += continuous_application_choices_states if FeatureFlag.active?(:continuous_applications)
+      next_cycle_states += continuous_application_choices_states
 
       next_cycle_states.each do |states|
         create(
@@ -81,9 +81,7 @@ class GenerateTestApplications
         %i[withdrawn],
       ]
 
-      if FeatureFlag.active?(:continuous_applications) && current_cycle > 2023
-        current_cycle_states += continuous_application_choices_states
-      end
+      current_cycle_states += continuous_application_choices_states
 
       current_cycle_states.each do |states|
         create(
