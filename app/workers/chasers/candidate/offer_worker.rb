@@ -3,19 +3,11 @@ module Chasers
     class OfferWorker
       include Sidekiq::Worker
 
-      DAYS_TO_CHASER_MAPPING = {
-        10 => :offer_10_day,
-        20 => :offer_20_day,
-        30 => :offer_30_day,
-        40 => :offer_40_day,
-        50 => :offer_50_day,
-      }.freeze
-
       def perform
-        OffersToChaseQuery::VALID_INTERVALS.each do |days|
-          chaser_type = mailer = DAYS_TO_CHASER_MAPPING.fetch(days)
+        Chasers::Candidate.chaser_to_date_range.each do |chaser_type, date_range|
+          mailer = chaser_type
 
-          OffersToChaseQuery.call(days:).find_each do |application_choice|
+          OffersToChaseQuery.call(chaser_type:, date_range:).find_each do |application_choice|
             Chasers::Candidate::OfferEmailService.call(mailer:, chaser_type:, application_choice:)
           end
         end

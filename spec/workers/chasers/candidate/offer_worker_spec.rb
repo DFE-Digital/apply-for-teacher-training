@@ -2,29 +2,25 @@ require 'rails_helper'
 
 RSpec.describe Chasers::Candidate::OfferWorker do
   let!(:application_choices) do
-    OffersToChaseQuery::VALID_INTERVALS.map do |interval|
+    Chasers::Candidate.chaser_to_date_range do |_chaser_type, start, _ending|
       create(:application_choice, :offer).tap do |choice|
-        choice.offer.update(created_at: (interval + 1).days.ago)
+        choice.offer.update(created_at: start)
       end
     end
   end
   let(:chaser_types) do
-    %i[
-      offer_10_day
-      offer_20_day
-      offer_30_day
-      offer_40_day
-      offer_50_day
-    ]
+    Chasers::Candidate.chaser_types
   end
   let(:mailers) { chaser_types }
   let(:groups) { application_choices.zip(chaser_types, mailers) }
 
   it 'calls the service for each chaser interval' do
     allow(Chasers::Candidate::OfferEmailService).to receive(:call).and_call_original
+    allow(OffersToChaseQuery).to receive(:call).and_call_original
 
     described_class.new.perform
 
+    expect(OffersToChaseQuery).to have_received(:call).with(chaser_type: Symbol, date_range: Range).exactly(5).times
     groups do |application_choice, chaser_type, mailer|
       expect(Chasers::Candidate::OfferEmailService).to have_received(:call).with(chaser_type:, mailer:, application_choice:)
     end
