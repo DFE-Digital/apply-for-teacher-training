@@ -6,6 +6,10 @@ RSpec.describe Chasers::Candidate::OfferEmailService do
   let(:chaser_type) { mailer }
 
   it 'sends an email and creates a ChaserSent' do
-    expect { described_class.call(chaser_type:, mailer:, application_choice:) }.to change { CandidateMailer.deliveries.count }.by(1).and change { ChaserSent.count }.by(1)
+    expect do
+      described_class.call(chaser_type:, mailer:, application_choice:)
+    end
+      .to change { CandidateMailer.deliveries.count }.by(1)
+      .and change { ChaserSent.count }.by(1)
   end
 end

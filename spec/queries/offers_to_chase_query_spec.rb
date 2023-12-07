@@ -47,7 +47,7 @@ RSpec.describe OffersToChaseQuery do
   context 'when days is 20 and offer made more than 20 and less than 30 days ago' do
     let(:days_range) { (20..30) }
 
-    it 'returns the appliation choice without a chaser' do
+    it 'returns the application choice without a chaser' do
       TestSuiteTimeMachine.travel_permanently_to(min_of_range.days.from_now + 10.seconds)
 
       expect(Time.zone.now).to be_between(min_of_range.days.since(offer_without_chaser.created_at), max_of_range.days.since(offer_without_chaser.created_at))
