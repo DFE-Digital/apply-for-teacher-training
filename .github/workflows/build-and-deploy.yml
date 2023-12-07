@@ -258,6 +258,14 @@ jobs:
           DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
           TEST_DATE_AND_TIME: ${{ matrix.offset-date }}
 
+      - name: Upload failure screenshots and pages
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: failure-uploads
+          path: /app/tmp/failures/
+          retention-days: 5
+
       - name: Read flakey test results
         id: set_flakey_test_results_var
         run: |
@@ -364,7 +372,7 @@ jobs:
         with:
           github-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
           target: minor
-          exclude: 'govuk-components,govuk_design_system_formbuilder,govuk-frontend'
+          exclude: "govuk-components,govuk_design_system_formbuilder,govuk-frontend"
           merge-method: merge
 
   deploy-aks-before-production:
