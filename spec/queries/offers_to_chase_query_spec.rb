@@ -1,58 +1,71 @@
 require 'rails_helper'
 
 RSpec.describe OffersToChaseQuery do
-  let!(:application_choice_without_offer) { create(:application_choice, :awaiting_provider_decision) }
-  let!(:application_choice_with_chaser) { create(:application_choice, :offer) }
-  let!(:chaser_sent) { create(:chaser_sent, chased: application_choice_with_chaser, chaser_type: "offer_#{min_of_range}_day") }
+  let(:application_choice_without_offer) { create(:application_choice, :awaiting_provider_decision) }
+  let(:application_choice_with_chaser) { create(:application_choice, :offer) }
+  let(:chaser_sent) { create(:chaser_sent, chased: application_choice_with_chaser, chaser_type: "offer_#{spread[1]}_day") }
 
-  let!(:application_choice_without_chaser) { create(:application_choice, :offer) }
+  let(:application_choice_without_chaser) { create(:application_choice, :offer) }
   let(:offer_without_chaser) { application_choice_without_chaser.offer }
 
-  let(:days_range) { (10..20) }
-  let(:min_of_range) { days_range.min }
-  let(:max_of_range) { days_range.max }
+  let(:chaser_type) { :offer_10_day }
 
-  before { chaser_sent }
+  let(:spread) { [20, 10] }
+  let(:date_range) { (spread[0].days.ago..spread[1].days.ago) }
+  let(:offset) { 0 }
 
-  context 'when days is not acceptable argument' do
-    let(:days_range) { (10..20) }
-
-    it 'raises an ArgumentError' do
-      expect { described_class.call(days: 3) }.to raise_error(ArgumentError)
+  before do
+    TestSuiteTimeMachine.travel_temporarily_to(spread[1].days.ago + offset) do
+      application_choice_without_offer
+      application_choice_with_chaser
+      chaser_sent
+      application_choice_without_chaser
     end
   end
 
-  context 'when days is 10 and offer made less than 10 days ago' do
-    let(:days_range) { (10..20) }
+  context 'when offers are made before the chaser sent range for offer_10_day' do
+    let(:offset) { 10.seconds }
 
     it 'returns empty collection' do
-      TestSuiteTimeMachine.travel_permanently_to(10.days.from_now - 1.second)
-      expect(offer_without_chaser.created_at).to be < 10.days.from_now
-      expect(described_class.call(days: 10)).to be_empty
+      expect(offer_without_chaser.created_at).to be > 10.days.ago
+      expect(described_class.call(chaser_type:, date_range:)).to be_empty
     end
   end
 
-  context 'when days is 10 and offer made more than 10 and less than 20 days ago' do
-    let(:days_range) { (10..20) }
-
-    it 'returns the appliation choice without a chaser' do
-      TestSuiteTimeMachine.travel_permanently_to(min_of_range.days.from_now + 10.seconds)
-
-      expect(Time.zone.now).to be_between(min_of_range.days.since(offer_without_chaser.created_at), max_of_range.days.since(offer_without_chaser.created_at))
-
-      expect(described_class.call(days: min_of_range)).to contain_exactly(application_choice_without_chaser)
-    end
-  end
-
-  context 'when days is 20 and offer made more than 20 and less than 30 days ago' do
-    let(:days_range) { (20..30) }
+  context 'when offers are made inside the range 20 to 10 days ago and chaser_type is offer_10_day' do
+    let(:spread) { [20, 10] }
+    let(:offset) { -10.seconds }
 
     it 'returns the application choice without a chaser' do
-      TestSuiteTimeMachine.travel_permanently_to(min_of_range.days.from_now + 10.seconds)
+      expect(date_range).to cover(offer_without_chaser.created_at)
 
-      expect(Time.zone.now).to be_between(min_of_range.days.since(offer_without_chaser.created_at), max_of_range.days.since(offer_without_chaser.created_at))
+      expect(described_class.call(chaser_type:, date_range:)).to contain_exactly(application_choice_without_chaser)
+    end
+  end
 
-      expect(described_class.call(days: min_of_range)).to contain_exactly(application_choice_without_chaser)
+  describe 'when the range is 20 to 30 days ago and offers are made inside the range' do
+    let(:spread) { [30, 20] }
+
+    context 'and chaser_type is offer_20_day and chaser has been sent for offer_20_day' do
+      let(:offset) { -10.seconds }
+      let(:chaser_type) { :offer_20_day }
+
+      it 'returns the application choice without a chaser sent' do
+        expect(date_range).to cover(offer_without_chaser.created_at)
+
+        expect(described_class.call(chaser_type:, date_range:)).to contain_exactly(application_choice_without_chaser)
+      end
+    end
+
+    context 'and chaser_type is offer_20_day and chaser only sent for offer_10_day' do
+      let(:offset) { -10.seconds }
+      let(:chaser_type) { :offer_10_day }
+
+      it 'returns the application choice no chaser sent and one with old chaser sent' do
+        expect(date_range).to cover(offer_without_chaser.created_at)
+
+        expect(described_class.call(chaser_type:, date_range:)).to contain_exactly(application_choice_without_chaser, application_choice_with_chaser)
+      end
     end
   end
 end
