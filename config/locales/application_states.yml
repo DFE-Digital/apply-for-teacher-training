@@ -270,7 +270,6 @@ en:
         An email is sent to the candidate, the content of which depends on the state of the other application choices, whether all choices have been rejected, whether there are other offers and whether there are pending decisions from providers.
       emails:
         - candidate_mailer-application_rejected_all_applications_rejected
-        - candidate_mailer-application_rejected_awaiting_decision_only
         - candidate_mailer-application_rejected_offers_only
 
     awaiting_provider_decision-withdraw: &awaiting_provider_decision-withdraw
@@ -328,7 +327,6 @@ en:
         An email is sent to the candidate, the content of which depends on the state of the other application choices, whether all choices have been rejected, whether there are other offers and whether there are pending decisions from providers.
       emails:
         - candidate_mailer-application_rejected_all_applications_rejected
-        - candidate_mailer-application_rejected_awaiting_decision_only
         - candidate_mailer-application_rejected_offers_only
 
     interviewing-withdraw:
@@ -391,7 +389,6 @@ en:
       description: As long as the candidate has not accepted the offer, the provider can reject the application.
       emails:
         - candidate_mailer-application_rejected_all_applications_rejected
-        - candidate_mailer-application_rejected_awaiting_decision_only
         - candidate_mailer-application_rejected_offers_only
 
     offer-accept:

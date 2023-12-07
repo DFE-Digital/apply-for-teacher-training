@@ -47,8 +47,6 @@ en:
       subject: Update on your application
     application_rejected_all_applications_rejected:
       subject: Update on your application - all decisions now made
-    application_rejected_awaiting_decision_only:
-      subject: Update on your application
     application_rejected_offers_only:
       subject: Update on your application - respond by %{date}
     application_withdrawn_on_request:

@@ -130,24 +130,6 @@ RSpec.describe CandidateMailer do
       end
     end
 
-    describe '.application_rejected_awaiting_decision_only', continuous_applications: false do
-      let(:email) { mailer.application_rejected_awaiting_decision_only(application_choices.first) }
-      let(:application_choices) { [rejected, awaiting_decision, interviewing] }
-
-      TestSuiteTimeMachine.travel_temporarily_to(mid_cycle(2023)) do
-        it_behaves_like(
-          'a mail with subject and content',
-          I18n.t!('candidate_mailer.application_rejected_awaiting_decision_only.subject'),
-          'heading' => 'Dear Bob',
-          'course name and code' => 'Forensic Science (E0FO)',
-          'rejection reasons' => 'Bad qualifications',
-          'other application details' => 'You’re waiting for decisions',
-          'first application' => 'Falconholt Technical College to study Forensic Science',
-          'decision day' => "They should make their decisions by #{40.business_days.from_now.to_fs(:govuk_date)}",
-        )
-      end
-    end
-
     describe '.application_rejected_offers_only', continuous_applications: false do
       let(:email) { mailer.application_rejected_offers_only(application_choices.first) }
       let(:application_choices) { [rejected, application_choice_with_offer, application_choice_with_offer] }
