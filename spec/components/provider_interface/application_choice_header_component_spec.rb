@@ -84,9 +84,8 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       let(:rejected_by_default) { true }
       let(:reject_by_default_days) { 40 }
 
-      it 'Give feedback button is presented' do
-        expect(result.css('.govuk-button').first.text).to eq('Give feedback')
-        expect(result.css('.govuk-button').first[:href]).to eq(new_provider_interface_rejection_path(application_choice))
+      it 'render tabs' do
+        expect(result.text.split.join(' ')).to eq('Rejected Application Notes Timeline')
       end
     end
 
@@ -182,34 +181,6 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
           )
         end
       end
-    end
-  end
-
-  describe '#rejection_reason_required' do
-    it 'is true for a rejected by default application without a rejection reason' do
-      application_choice = instance_double(ApplicationChoice, status: 'rejected', rejected_by_default: true, rejection_reason: nil, structured_rejection_reasons: nil)
-      allow(application_choice).to receive(:no_feedback?).and_return(true)
-
-      expect(described_class.new(application_choice:, provider_can_respond: true).rejection_reason_required?).to be true
-    end
-
-    it 'is false for a rejected by default application with a rejection reason' do
-      application_choice = instance_double(ApplicationChoice, status: 'rejected', rejected_by_default: true, rejection_reason: 'NO!')
-      allow(application_choice).to receive(:no_feedback?).and_return(false)
-
-      expect(described_class.new(application_choice:, provider_can_respond: true).rejection_reason_required?).to be false
-    end
-
-    it 'is false for a rejected application not rejected by default' do
-      application_choice = instance_double(ApplicationChoice, status: 'rejected', rejected_by_default: false, rejection_reason: nil)
-
-      expect(described_class.new(application_choice:, provider_can_respond: true).rejection_reason_required?).to be false
-    end
-
-    it 'is false for a non-rejected application' do
-      application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')
-
-      expect(described_class.new(application_choice:, provider_can_respond: true).rejection_reason_required?).to be false
     end
   end
 end

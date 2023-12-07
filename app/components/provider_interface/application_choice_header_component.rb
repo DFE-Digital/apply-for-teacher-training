@@ -28,8 +28,6 @@ module ProviderInterface
         ApplicationHeaderComponents::OfferWillBeDeclinedByDefaultComponent
       elsif deferred_offer?
         ApplicationHeaderComponents::DeferredOfferComponent
-      elsif rejection_reason_required?
-        ApplicationHeaderComponents::RejectionReasonRequiredComponent
       end
     end
 
@@ -52,7 +50,6 @@ module ProviderInterface
     def show_inset_text?
       respond_to_application? ||
         deferred_offer? ||
-        rejection_reason_required? ||
         awaiting_decision_but_cannot_respond? ||
         set_up_interview? ||
         offer_will_be_declined_by_default?
@@ -64,12 +61,6 @@ module ProviderInterface
 
     def deferred_offer?
       application_choice.status == 'offer_deferred'
-    end
-
-    def rejection_reason_required?
-      application_choice.status == 'rejected' &&
-        application_choice.rejected_by_default &&
-        application_choice.no_feedback?
     end
 
     def awaiting_decision_but_cannot_respond?

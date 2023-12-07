@@ -31,7 +31,7 @@ module ProviderInterface
 
     def commit
       @wizard = wizard_class.new(store)
-      flash_message = success_message
+      flash_message = 'Application rejected'
 
       if service.save
         @wizard.clear_state!
@@ -48,28 +48,14 @@ module ProviderInterface
       end
     end
 
-    def rbd_application_with_no_feedback?
-      @application_choice.rejected_by_default? && @application_choice.no_feedback?
-    end
-
-    helper_method :rbd_application_with_no_feedback?
-
   private
 
     def service
-      @service ||= service_class.new(
+      @service ||= RejectApplication.new(
         actor: current_provider_user,
         application_choice: @application_choice,
         structured_rejection_reasons: @wizard.to_model,
       )
-    end
-
-    def service_class
-      rbd_application_with_no_feedback? ? RejectByDefaultFeedback : RejectApplication
-    end
-
-    def success_message
-      rbd_application_with_no_feedback? ? 'Feedback given' : 'Application rejected'
     end
 
     def store

@@ -12,12 +12,7 @@
 
       <% content_for(:fieldset_legend) do %>
         <h1 class="govuk-heading-l">
-          <% if rbd_application_with_no_feedback? %>
-            <span class="govuk-caption-l">Give feedback - <%= @application_choice.application_form.full_name %></span>
-            Reasons the application was rejected
-          <% else %>
-            Tell <%= @application_choice.application_form.full_name %> why you are rejecting their application
-          <% end %>
+          Tell <%= @application_choice.application_form.full_name %> why you are rejecting their application
         </h1>
       <% end %>
 

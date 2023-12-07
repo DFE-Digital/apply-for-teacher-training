@@ -5,13 +5,8 @@
     <%= form_with model: @wizard, url: commit_provider_interface_rejections_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <% if rbd_application_with_no_feedback? %>
-        <span class="govuk-caption-l">Give feedback - <%= @application_choice.application_form.full_name %></span>
-        <h1 class="govuk-heading-l">Check details and give feedback</h1>
-      <% else %>
-        <span class="govuk-caption-l">Reject application - <%= @application_choice.application_form.full_name %></span>
-        <h1 class="govuk-heading-l">Check details and reject application</h1>
-      <% end %>
+      <span class="govuk-caption-l">Reject application - <%= @application_choice.application_form.full_name %></span>
+      <h1 class="govuk-heading-l">Check details and reject application</h1>
 
       <% if @interview_cancellation_presenter.render? %>
         <p class="govuk-body"><%= @interview_cancellation_presenter.text %></p>
@@ -61,11 +56,7 @@
           <p class="govuk-body"> Contact <%= @application_choice.current_course_option.course.provider.name %> if you would like to talk about their feedback.</p>
         </div>
 
-      <% if rbd_application_with_no_feedback? %>
-        <%= f.govuk_submit 'Give feedback' %>
-      <% else %>
-        <%= f.govuk_submit 'Reject application' %>
-      <% end %>
+      <%= f.govuk_submit 'Reject application' %>
     <% end %>
 
     <p class="govuk-body"><%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice), no_visited_state: true %></p>
