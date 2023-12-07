@@ -277,7 +277,6 @@ en:
       emails:
         - provider_mailer-application_withdrawn
         - candidate_mailer-application_withdrawn_on_request
-        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
 
     awaiting_provider_decision-inactivate:
@@ -329,7 +328,6 @@ en:
       emails:
         - provider_mailer-application_withdrawn
         - candidate_mailer-application_withdrawn_on_request
-        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
 
     interviewing-reject_by_default:
@@ -401,7 +399,6 @@ en:
       emails:
         - provider_mailer-declined
         - candidate_mailer-application_withdrawn_on_request
-        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
 
     pending_conditions-confirm_conditions_met:
@@ -432,7 +429,6 @@ en:
       emails:
         - provider_mailer-application_withdrawn
         - candidate_mailer-application_withdrawn_on_request
-        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
 
     recruited-withdraw:
@@ -442,7 +438,6 @@ en:
       emails:
         - provider_mailer-application_withdrawn
         - candidate_mailer-application_withdrawn_on_request
-        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
 
     rejected-give_feedback_for_application_rejected_by_default:
@@ -652,5 +647,4 @@ en:
       description: Candidates can withdraw at any time or ask the provider to withdraw the application on their behalf.
       emails:
         - candidate_mailer-application_withdrawn_on_request
-        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only

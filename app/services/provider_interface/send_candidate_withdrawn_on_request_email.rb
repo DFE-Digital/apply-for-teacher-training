@@ -19,11 +19,7 @@ module ProviderInterface
   private
 
     def pre_continuous_applications_withdrawn_mailers
-      if applications_awaiting_decision_only?
-        CandidateMailer.application_withdrawn_on_request_awaiting_decision_only(application_choice).deliver_later
-      elsif applications_with_offers_only?
-        CandidateMailer.application_withdrawn_on_request_offers_only(application_choice).deliver_later
-      end
+      CandidateMailer.application_withdrawn_on_request_offers_only(application_choice).deliver_later
     end
   end
 end
