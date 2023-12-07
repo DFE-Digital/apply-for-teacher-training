@@ -279,7 +279,6 @@ en:
         - candidate_mailer-application_withdrawn_on_request
         - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
-        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     awaiting_provider_decision-inactivate:
       name: Mark an application as inactive
@@ -332,7 +331,6 @@ en:
         - candidate_mailer-application_withdrawn_on_request
         - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
-        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     interviewing-reject_by_default:
       name: Rejected by default
@@ -405,7 +403,6 @@ en:
         - candidate_mailer-application_withdrawn_on_request
         - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
-        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     pending_conditions-confirm_conditions_met:
       name: Provider confirms conditions are met
@@ -437,7 +434,6 @@ en:
         - candidate_mailer-application_withdrawn_on_request
         - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
-        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     recruited-withdraw:
       name: Candidate withdraws
@@ -448,7 +444,6 @@ en:
         - candidate_mailer-application_withdrawn_on_request
         - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
-        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     rejected-give_feedback_for_application_rejected_by_default:
       name: Provider gives feedback for application rejected by default
@@ -659,4 +654,3 @@ en:
         - candidate_mailer-application_withdrawn_on_request
         - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
-        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision

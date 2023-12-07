@@ -120,19 +120,6 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(@application_form)
   end
 
-  def application_withdrawn_on_request_one_offer_one_awaiting_decision(application_choice)
-    @awaiting_decision = application_choice.self_and_siblings.find(&:decision_pending?)
-    return if @awaiting_decision.reject_by_default_at.blank?
-
-    @course = application_choice.current_course_option.course
-    @application_choice = application_choice
-    @offer = application_choice.self_and_siblings.find(&:offer?)
-    @awaiting_decision_by = @awaiting_decision.reject_by_default_at.to_fs(:govuk_date)
-    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
-
-    email_for_candidate(application_choice.application_form)
-  end
-
   def application_withdrawn_on_request_awaiting_decision_only(application_choice)
     @awaiting_decision = application_choice.self_and_siblings.select(&:decision_pending?)
     reject_by_default_at = @awaiting_decision.sort_by(&:reject_by_default_at).map(&:reject_by_default_at).last
