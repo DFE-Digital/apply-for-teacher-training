@@ -100,7 +100,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       end
     end
 
-    context 'when the application has had an offer and it is continuous applications', :continuous_applications do
+    context 'when the application has had an offer' do
       let(:application_choice) { create(:application_choice, :offered) }
 
       context 'when the offer was made today' do
