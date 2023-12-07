@@ -18,9 +18,7 @@ class SendCandidateRejectionEmail
 private
 
   def pre_continuous_applications_rejection_mailers
-    if applications_with_offer_and_awaiting_decision?
-      CandidateMailer.application_rejected_one_offer_one_awaiting_decision(application_choice).deliver_later
-    elsif applications_awaiting_decision_only?
+    if applications_awaiting_decision_only?
       CandidateMailer.application_rejected_awaiting_decision_only(application_choice).deliver_later
     elsif applications_with_offers_only?
       CandidateMailer.application_rejected_offers_only(application_choice).deliver_later

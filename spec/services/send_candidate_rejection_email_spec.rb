@@ -26,34 +26,6 @@ RSpec.describe SendCandidateRejectionEmail do
         end
       end
 
-      describe 'when there are applications both with offer and awaiting decision' do
-        before do
-          application_choice_with_offer
-          application_choice_awaiting_decision
-
-          allow(CandidateMailer).to receive(:application_rejected_one_offer_one_awaiting_decision).and_return(mail)
-          described_class.new(application_choice:).call
-        end
-
-        it 'the application_rejected_one_offer_one_awaiting_decision email is sent to the candidate' do
-          expect(CandidateMailer).to have_received(:application_rejected_one_offer_one_awaiting_decision).with(application_choice)
-        end
-      end
-
-      describe 'when there are applications both with offer and interviews' do
-        before do
-          application_choice_with_offer
-          application_choice_with_interview
-
-          allow(CandidateMailer).to receive(:application_rejected_one_offer_one_awaiting_decision).and_return(mail)
-          described_class.new(application_choice:).call
-        end
-
-        it 'the application_rejected_one_offer_one_awaiting_decision email is sent to the candidate' do
-          expect(CandidateMailer).to have_received(:application_rejected_one_offer_one_awaiting_decision).with(application_choice)
-        end
-      end
-
       describe 'when all remaining applications are awaiting decision' do
         before do
           application_choice_awaiting_decision
