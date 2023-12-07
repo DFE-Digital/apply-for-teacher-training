@@ -55,7 +55,7 @@ RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_
       attributes: {
         application_url: "http://localhost:3000/provider/applications/#{@provider.application_choices.first.id}",
         support_reference: @provider.application_forms.first.support_reference,
-        personal_statement: "Why do you want to be a teacher?: I believe I would be a first-rate teacher \n What is your subject knowledge?: Everything",
+        personal_statement: 'I believe I would be a first-rate teacher',
         interview_preferences: 'Not on a Wednesday',
         hesa_itt_data: nil,
         offer: nil,

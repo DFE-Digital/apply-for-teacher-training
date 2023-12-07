@@ -46,7 +46,7 @@ module VendorAPI
           phase: application_form.phase,
           updated_at: application_choice.updated_at.iso8601,
           submitted_at: application_form.submitted_at.iso8601,
-          personal_statement:,
+          personal_statement: application_choice.personal_statement,
           interview_preferences: application_form.interview_preferences,
           reject_by_default_at: application_choice.reject_by_default_at&.iso8601,
           recruited_at: application_choice.recruited_at,
@@ -78,15 +78,6 @@ module VendorAPI
 
     def status
       API_APPLICATION_STATES[application_choice.status.to_sym].presence || application_choice.status
-    end
-
-    def personal_statement
-      if application_form.continuous_applications?
-        application_choice.personal_statement
-      else
-        "Why do you want to be a teacher?: #{application_form.becoming_a_teacher} \n " \
-          "What is your subject knowledge?: #{application_form.subject_knowledge}"
-      end
     end
 
     def references
