@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Chasers::Candidate::OfferWorker do
   let!(:application_choices) do
-    Chasers::Candidate.chaser_to_date_range do |_chaser_type, start, _ending|
+    Chasers::Candidate.chaser_to_date_range.each_value do |date_range|
       create(:application_choice, :offer).tap do |choice|
-        choice.offer.update(created_at: start)
+        choice.offer.update(created_at: date_range.min)
       end
     end
   end

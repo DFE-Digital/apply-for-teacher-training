@@ -16,8 +16,6 @@ module Chasers
     def self.chaser_to_date_range
       OFFER_CHASERS_TO_INTERVALS.each_with_object({}) do |(chaser_type, (start, ending)), object|
         object[chaser_type] = (start.days.ago..ending.days.ago)
-
-        yield chaser_type, start.days.ago, ending.days.ago if block_given?
       end
     end
   end
