@@ -19,62 +19,33 @@ RSpec.describe 'ApplicationPresenter' do
     let(:non_uk_application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: non_uk_application_form) }
     let(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form) }
 
-    context 'continuous applications', continuous_applications: false do
-      let(:non_uk_fields) do
-        ApplicationForm::PUBLISHED_FIELDS - %w[becoming_a_teacher subject_knowledge postcode equality_and_diversity]
-      end
-      let(:uk_fields) do
-        ApplicationForm::PUBLISHED_FIELDS - %w[international_address right_to_work_or_study_details equality_and_diversity]
-      end
-
-      it 'looks at all fields which cause a touch' do
-        ApplicationForm::PUBLISHED_FIELDS.each do |field|
-          allow(non_uk_application_form).to receive(field).and_call_original
-          allow(application_choice.application_form).to receive(field).and_call_original
-        end
-
-        application_presenter.new(version, application_choice).serialized_json
-        application_presenter.new(version, non_uk_application_choice).serialized_json
-
-        non_uk_fields.each do |field|
-          expect(non_uk_application_form).to have_received(field).at_least(:once)
-        end
-
-        uk_fields.each do |field|
-          expect(application_choice.application_form).to have_received(field).at_least(:once)
-        end
-      end
+    let(:non_uk_fields) do
+      ApplicationForm::PUBLISHED_FIELDS - %w[becoming_a_teacher subject_knowledge postcode equality_and_diversity]
+    end
+    let(:uk_fields) do
+      ApplicationForm::PUBLISHED_FIELDS - %w[becoming_a_teacher subject_knowledge international_address right_to_work_or_study_details equality_and_diversity]
     end
 
-    context 'continuous applications', :continuous_applications do
-      let(:non_uk_fields) do
-        ApplicationForm::PUBLISHED_FIELDS - %w[becoming_a_teacher subject_knowledge postcode equality_and_diversity]
-      end
-      let(:uk_fields) do
-        ApplicationForm::PUBLISHED_FIELDS - %w[becoming_a_teacher subject_knowledge international_address right_to_work_or_study_details equality_and_diversity]
+    it 'looks at all fields which cause a touch' do
+      ApplicationForm::PUBLISHED_FIELDS.each do |field|
+        allow(non_uk_application_form).to receive(field).and_call_original
+        allow(application_choice.application_form).to receive(field).and_call_original
       end
 
-      it 'looks at all fields which cause a touch' do
-        ApplicationForm::PUBLISHED_FIELDS.each do |field|
-          allow(non_uk_application_form).to receive(field).and_call_original
-          allow(application_choice.application_form).to receive(field).and_call_original
-        end
+      application_presenter.new(version, application_choice).serialized_json
+      application_presenter.new(version, non_uk_application_choice).serialized_json
 
-        application_presenter.new(version, application_choice).serialized_json
-        application_presenter.new(version, non_uk_application_choice).serialized_json
+      non_uk_fields.each do |field|
+        expect(non_uk_application_form).to have_received(field).at_least(:once)
+      end
 
-        non_uk_fields.each do |field|
-          expect(non_uk_application_form).to have_received(field).at_least(:once)
-        end
-
-        uk_fields.each do |field|
-          expect(application_choice.application_form).to have_received(field).at_least(:once)
-        end
+      uk_fields.each do |field|
+        expect(application_choice.application_form).to have_received(field).at_least(:once)
       end
     end
 
     # recruitment_cycle_year added to method expectations because we must call it on the form to check for continuous applications
-    it 'doesn’t depend on any fields that don’t cause a touch', :aggeregate_failures do
+    it 'doesn’t depend on any fields that don’t cause a touch', :aggregate_failures do
       (ApplicationForm.attribute_names - %w[id created_at updated_at recruitment_cycle_year] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
         allow(non_uk_application_form).to receive(field).and_call_original
         allow(application_choice.application_form).to receive(field).and_call_original
@@ -156,24 +127,9 @@ RSpec.describe 'ApplicationPresenter' do
   describe '#personal_statement' do
     let(:choice_personal_statement) { 'choice statement' }
     let(:application_choice) { create(:application_choice, :with_completed_application_form, personal_statement: choice_personal_statement) }
-    let(:form_personal_statement) do
-      "Why do you want to be a teacher?: #{application_choice.application_form.becoming_a_teacher} \n " \
-        "What is your subject knowledge?: #{application_choice.application_form.subject_knowledge}"
-    end
 
-    it 'returns the form personal statement', continuous_applications: false do
-      expect(attributes[:personal_statement]).not_to eq(choice_personal_statement)
-      expect(attributes[:personal_statement]).to eq(form_personal_statement)
-    end
-
-    context 'when the application form is continuous applications', :continuous_applications do
-      let(:application_form) { create(:application_form, :completed, :continuous_applications) }
-      let(:application_choice) { create(:application_choice, application_form:, personal_statement: choice_personal_statement) }
-
-      it 'returns the choice personal statement' do
-        expect(attributes[:personal_statement]).to eq(choice_personal_statement)
-        expect(attributes[:personal_statement]).not_to eq(form_personal_statement)
-      end
+    it 'returns the choice personal statement' do
+      expect(attributes[:personal_statement]).to eq(choice_personal_statement)
     end
   end
 
