@@ -184,10 +184,54 @@ class ApplicationStateChange
     STATES_BY_CATEGORY
   end
 
-  states_by_category.each do |k, v|
-    define_singleton_method(k) do
-      v
-    end
+  ## States by Category methods
+
+  def self.decision_pending
+    states_by_category[:decision_pending]
+  end
+
+  def self.interviewable
+    states_by_category[:interviewable]
+  end
+
+  def self.offered
+    states_by_category[:offered]
+  end
+
+  def self.post_offered
+    states_by_category[:post_offered]
+  end
+
+  def self.accepted
+    states_by_category[:accepted]
+  end
+
+  def self.successful
+    states_by_category[:successful]
+  end
+
+  def self.unsuccessful
+    states_by_category[:unsuccessful]
+  end
+
+  def self.terminal
+    states_by_category[:terminal]
+  end
+
+  def self.in_progress
+    states_by_category[:in_progress]
+  end
+
+  def self.reapply
+    states_by_category[:reapply]
+  end
+
+  def self.not_visible_to_provider
+    states_by_category[:not_visible_to_provider]
+  end
+
+  def self.visible_to_provider
+    states_by_category[:visible_to_provider]
   end
 
   def persist_workflow_state(new_state)
