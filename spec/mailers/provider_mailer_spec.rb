@@ -27,22 +27,7 @@ RSpec.describe ProviderMailer do
   describe 'Send application submitted email' do
     let(:email) { described_class.application_submitted(provider_user, application_choice) }
 
-    context 'when not continuous applications', continuous_applications: false do
-      TestSuiteTimeMachine.travel_temporarily_to(mid_cycle(2023)) do
-        it_behaves_like('a mail with subject and content',
-                        'Harry Potter submitted an application for Computer Science - manage teacher training applications',
-                        'provider name' => 'Dear Johny English',
-                        'candidate name' => 'Harry Potter',
-                        'course name and code' => 'Computer Science (6IND)',
-                        'reject by default days' => 'after 123 working days',
-                        'reject by default date' => 40.days.from_now.to_fs(:govuk_date),
-                        'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
-                        'notification settings' => 'You can change your email notification settings',
-                        'footer' => 'Get help, report a problem or give feedback')
-      end
-    end
-
-    context 'when continuous applications', :continuous_applications do
+    context 'when a candidate submits an application' do
       it_behaves_like('a mail with subject and content',
                       'Harry Potter submitted an application for Computer Science - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
@@ -69,23 +54,7 @@ RSpec.describe ProviderMailer do
   describe 'Send application submitted with safeguarding issues email' do
     let(:email) { described_class.application_submitted_with_safeguarding_issues(provider_user, application_choice) }
 
-    context 'when not continuous applications', continuous_applications: false do
-      TestSuiteTimeMachine.travel_temporarily_to(mid_cycle(2023)) do
-        it_behaves_like('a mail with subject and content',
-                        'Safeguarding issues - Harry Potter submitted an application for Computer Science - manage teacher training applications',
-                        'provider name' => 'Dear Johny English',
-                        'candidate name' => 'Harry Potter',
-                        'course name and code' => 'Computer Science (6IND)',
-                        'safeguarding warning' => 'The application contains information about criminal convictions and professional misconduct.',
-                        'reject by default days' => 'after 123 working days',
-                        'reject by default date' => 40.days.from_now.to_fs(:govuk_date),
-                        'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
-                        'notification settings' => 'You can change your email notification settings',
-                        'footer' => 'Get help, report a problem or give feedback')
-      end
-    end
-
-    context 'when continuous applications', :continuous_applications do
+    context 'when a candidate submits an application' do
       it_behaves_like('a mail with subject and content',
                       'Safeguarding issues - Harry Potter submitted an application for Computer Science - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
