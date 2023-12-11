@@ -109,6 +109,77 @@ RSpec.describe CandidateMailer do
     end
   end
 
+  describe 'Offer X day mailers' do
+    let(:offer) do
+      build_stubbed(:application_choice, :offered,
+                    sent_to_provider_at: Time.zone.today,
+                    application_form: build_stubbed(:application_form, first_name: 'Fred'),
+                    course_option:)
+    end
+    let(:course_option) do
+      build_stubbed(:course_option, course: build_stubbed(:course,
+                                                          name: 'Applied Science (Psychology)',
+                                                          code: '3TT5', provider:))
+    end
+    let(:provider) { build_stubbed(:provider, name: 'Brighthurst Technical College') }
+    let(:application_choices) { [offer] }
+
+    describe 'Offer 10 day mailer' do
+      let(:email) { mailer.offer_10_day(offer) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        I18n.t!('candidate_mailer.offer_day.subject', provider_name: 'Brighthurst Technical College'),
+        'heading' => 'Hello Fred',
+        'provider name' => 'Brighthurst Technical College',
+      )
+    end
+
+    describe 'Offer 20 day mailer' do
+      let(:email) { mailer.offer_20_day(offer) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        I18n.t!('candidate_mailer.offer_day.subject', provider_name: 'Brighthurst Technical College'),
+        'heading' => 'Hello Fred',
+        'provider name' => 'Brighthurst Technical College',
+      )
+    end
+
+    describe 'Offer 30 day mailer' do
+      let(:email) { mailer.offer_30_day(offer) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        I18n.t!('candidate_mailer.offer_day.subject', provider_name: 'Brighthurst Technical College'),
+        'heading' => 'Hello Fred',
+        'provider name' => 'Brighthurst Technical College',
+      )
+    end
+
+    describe 'Offer 40 day mailer' do
+      let(:email) { mailer.offer_40_day(offer) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        I18n.t!('candidate_mailer.offer_day.subject', provider_name: 'Brighthurst Technical College'),
+        'heading' => 'Hello Fred',
+        'provider name' => 'Brighthurst Technical College',
+      )
+    end
+
+    describe 'Offer 50 day mailer' do
+      let(:email) { mailer.offer_50_day(offer) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        I18n.t!('candidate_mailer.offer_50_day.subject', provider_name: 'Brighthurst Technical College'),
+        'heading' => 'Hello Fred',
+        'provider name' => 'Brighthurst Technical College',
+      )
+    end
+  end
+
   describe '.decline_by_default' do
     let(:email) { mailer.declined_by_default(application_form) }
 

@@ -12,6 +12,10 @@ en:
       subject: "%{referee_name} has not replied to your request for a reference"
     chase_reference_again:
       subject: "%{referee_name} has not replied to your request for a reference"
+    offer_day:
+      subject: Respond to your teacher training offer from %{provider_name}
+    offer_50_day:
+      subject: You must respond to your teacher training offer from %{provider_name}
     offer_withdrawn:
       subject: "Offer withdrawn by %{provider_name}"
     offer_accepted:

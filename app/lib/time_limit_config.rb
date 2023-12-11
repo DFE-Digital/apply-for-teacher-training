@@ -1,25 +1,7 @@
 class TimeLimitConfig
-  class Days
-    attr_reader :count, :type
-
-    def initialize(count:, type:)
-      raise ArgumentError, 'Argument is not an integer' unless count.is_a?(Integer)
-      raise ArgumentError, 'Argument is not :calendar or :working' unless (type == :calendar) || (type == :working)
-
-      @count = count
-      @type = type
-    end
-
-    def to_days
-      type == :calendar ? count.days : count.business_days
-    end
-
-    def to_s
-      "#{@count} #{@type} #{'day'.pluralize(@count)}"
-    end
+  def self.limits_for(rule)
+    rules[rule.to_sym]
   end
-
-  Rule = Struct.new(:from_date, :to_date, :limit)
 
   def self.minimum_hours_between_chaser_emails
     48
@@ -39,6 +21,12 @@ class TimeLimitConfig
 
   def self.additional_reference_chase_calendar_days
     28
+  end
+
+  Rule = Struct.new(:from_date, :to_date, :limit)
+
+  def self.new_rule(...)
+    Rule.new(...)
   end
 
   def self.stale_application_rules
@@ -62,7 +50,6 @@ class TimeLimitConfig
     }
   end
 
-  def self.limits_for(rule)
-    rules[rule.to_sym]
-  end
+  private_constant 'Rule'
+  private_class_method :rules, :stale_application_rules
 end
