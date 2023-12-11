@@ -86,7 +86,7 @@ RSpec.describe CandidateMailer do
 
     before { allow(EmailLogInterceptor).to receive(:generate_reference).and_return('fake-ref-123') }
 
-    context 'when the candidate receives a rejection and continuous applications', :continuous_applications do
+    context 'when the candidate receives a rejection' do
       it_behaves_like(
         'a mail with subject and content',
         I18n.t!('candidate_mailer.application_rejected.subject'),
