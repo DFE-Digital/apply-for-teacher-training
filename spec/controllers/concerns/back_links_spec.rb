@@ -30,7 +30,7 @@ RSpec.describe BackLinks do
         request.set_header('PATH_INFO', routes.candidate_interface_withdraw_path(1))
       end
 
-      it 'returns path to application details' do
+      it 'returns path to application choices' do
         expect(instance.send(:application_form_path)).to eq routes.candidate_interface_continuous_applications_choices_path
       end
     end
