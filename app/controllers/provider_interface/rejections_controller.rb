@@ -31,13 +31,12 @@ module ProviderInterface
 
     def commit
       @wizard = wizard_class.new(store)
-      flash_message = success_message
 
       if service.save
         @wizard.clear_state!
         OfferWizard.new(offer_store).clear_state!
 
-        flash[:success] = flash_message
+        flash[:success] = 'Application rejected'
         redirect_to provider_interface_application_choice_feedback_path(@application_choice)
       else
         @back_link_path = new_provider_interface_rejection_path(@application_choice)
@@ -48,28 +47,14 @@ module ProviderInterface
       end
     end
 
-    def rbd_application_with_no_feedback?
-      @application_choice.rejected_by_default? && @application_choice.no_feedback?
-    end
-
-    helper_method :rbd_application_with_no_feedback?
-
   private
 
     def service
-      @service ||= service_class.new(
+      @service ||= RejectApplication.new(
         actor: current_provider_user,
         application_choice: @application_choice,
         structured_rejection_reasons: @wizard.to_model,
       )
-    end
-
-    def service_class
-      rbd_application_with_no_feedback? ? RejectByDefaultFeedback : RejectApplication
-    end
-
-    def success_message
-      rbd_application_with_no_feedback? ? 'Feedback given' : 'Application rejected'
     end
 
     def store
