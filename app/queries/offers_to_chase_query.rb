@@ -4,8 +4,9 @@
 class OffersToChaseQuery
   def self.call(chaser_type:, date_range:)
     ApplicationChoice
-      .joins(:offer)
+      .offer
       .where.not(id: ChaserSent.send(chaser_type).select(:chased_id).where(chased_type: 'ApplicationChoice'))
-      .where('offers.created_at': date_range)
+      .where(current_recruitment_cycle_year: CycleTimetable.current_year)
+      .where('application_choices.offered_at': date_range)
   end
 end
