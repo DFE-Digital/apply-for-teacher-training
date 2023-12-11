@@ -112,55 +112,6 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(application_choice.application_form)
   end
 
-  def application_rejected_all_applications_rejected(application_choice)
-    @course = application_choice.current_course_option.course
-    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
-    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
-
-    email_for_candidate(application_choice.application_form)
-  end
-
-  def application_rejected_one_offer_one_awaiting_decision(application_choice)
-    @awaiting_decision = application_choice.self_and_siblings.find(&:decision_pending?)
-    return if @awaiting_decision.reject_by_default_at.blank?
-
-    @course = application_choice.current_course_option.course
-    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
-    @offer = application_choice.self_and_siblings.find(&:offer?)
-    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
-    @awaiting_decision_by = @awaiting_decision.reject_by_default_at.to_fs(:govuk_date)
-
-    email_for_candidate(application_choice.application_form)
-  end
-
-  def application_rejected_awaiting_decision_only(application_choice)
-    @awaiting_decision = application_choice.self_and_siblings.select(&:decision_pending?)
-    reject_by_default_at = @awaiting_decision.sort_by(&:reject_by_default_at).map(&:reject_by_default_at).last
-    return if reject_by_default_at.blank?
-
-    @course = application_choice.current_course_option.course
-    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
-    @awaiting_decisions_by = reject_by_default_at.to_fs(:govuk_date)
-
-    email_for_candidate(application_choice.application_form)
-  end
-
-  def application_rejected_offers_only(application_choice)
-    @offers = application_choice.self_and_siblings.select(&:offer?)
-    decline_by_default_at = @offers.sort_by(&:decline_by_default_at).map(&:decline_by_default_at).first
-    return if decline_by_default_at.blank?
-
-    @course = application_choice.current_course_option.course
-    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
-    @respond_by_date = decline_by_default_at.to_fs(:govuk_date)
-    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
-
-    email_for_candidate(
-      application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.application_rejected_offers_only.subject', date: @respond_by_date),
-    )
-  end
-
   def application_withdrawn_on_request(application_choice)
     @course = application_choice.current_course_option.course
     @provider_name = @course.provider.name
