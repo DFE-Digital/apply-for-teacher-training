@@ -277,10 +277,6 @@ en:
       emails:
         - provider_mailer-application_withdrawn
         - candidate_mailer-application_withdrawn_on_request
-        - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
-        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
-        - candidate_mailer-application_withdrawn_on_request_offers_only
-        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     awaiting_provider_decision-inactivate:
       name: Mark an application as inactive
@@ -331,10 +327,6 @@ en:
       emails:
         - provider_mailer-application_withdrawn
         - candidate_mailer-application_withdrawn_on_request
-        - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
-        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
-        - candidate_mailer-application_withdrawn_on_request_offers_only
-        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     interviewing-reject_by_default:
       name: Rejected by default
@@ -405,10 +397,6 @@ en:
       emails:
         - provider_mailer-declined
         - candidate_mailer-application_withdrawn_on_request
-        - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
-        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
-        - candidate_mailer-application_withdrawn_on_request_offers_only
-        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     pending_conditions-confirm_conditions_met:
       name: Provider confirms conditions are met
@@ -438,10 +426,6 @@ en:
       emails:
         - provider_mailer-application_withdrawn
         - candidate_mailer-application_withdrawn_on_request
-        - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
-        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
-        - candidate_mailer-application_withdrawn_on_request_offers_only
-        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     recruited-withdraw:
       name: Candidate withdraws
@@ -450,10 +434,6 @@ en:
       emails:
         - provider_mailer-application_withdrawn
         - candidate_mailer-application_withdrawn_on_request
-        - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
-        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
-        - candidate_mailer-application_withdrawn_on_request_offers_only
-        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     rejected-give_feedback_for_application_rejected_by_default:
       name: Provider gives feedback for application rejected by default
@@ -662,7 +642,3 @@ en:
       description: Candidates can withdraw at any time or ask the provider to withdraw the application on their behalf.
       emails:
         - candidate_mailer-application_withdrawn_on_request
-        - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
-        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
-        - candidate_mailer-application_withdrawn_on_request_offers_only
-        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision

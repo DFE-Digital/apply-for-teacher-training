@@ -78,12 +78,7 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
 
   def and_the_candidate_receives_an_email_about_the_withdrawal
     open_email(@application_choice.application_form.candidate.email_address)
-
-    if @application_choice.continuous_applications?
-      expect(current_email.subject).to have_content 'Update on your application'
-    else
-      expect(current_email.subject).to have_content 'Update on your application - all decisions now made'
-    end
+    expect(current_email.subject).to have_content 'Update on your application'
   end
 
   def and_the_interview_has_been_cancelled

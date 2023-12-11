@@ -1,6 +1,4 @@
 class SendCandidateRejectionEmail
-  include CandidateApplications
-
   attr_reader :application_choice
 
   def initialize(application_choice:)
