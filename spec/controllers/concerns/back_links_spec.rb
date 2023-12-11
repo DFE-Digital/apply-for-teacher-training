@@ -15,39 +15,23 @@ RSpec.describe BackLinks do
 
     let(:instance) { BackLinkController.new }
 
-    context 'with legacy applications', continuous_applications: false do
-      it 'excludes deferrals' do
-        expect(instance.send(:application_form_path)).to eq routes.candidate_interface_application_form_path
+    context 'default application home' do
+      let(:application_form) { create(:application_form) }
+
+      it 'returns path to application details' do
+        expect(instance.send(:application_form_path)).to eq routes.candidate_interface_continuous_applications_details_path
       end
     end
 
-    context 'with submitted applications', continuous_applications: false do
-      let(:application_form) { create(:application_form, :submitted) }
+    context 'when referer matches "withdraw"' do
+      let(:application_form) { create(:application_form) }
 
-      it 'returns path to review submitted' do
-        expect(instance.send(:application_form_path)).to eq routes.candidate_interface_application_review_submitted_path
-      end
-    end
-
-    describe 'continuous applications', :continuous_applications do
-      context 'default application home' do
-        let(:application_form) { create(:application_form) }
-
-        it 'returns path to application details' do
-          expect(instance.send(:application_form_path)).to eq routes.candidate_interface_continuous_applications_details_path
-        end
+      before do
+        request.set_header('PATH_INFO', routes.candidate_interface_withdraw_path(1))
       end
 
-      context 'when referer matches "withdraw"' do
-        let(:application_form) { create(:application_form) }
-
-        before do
-          request.set_header('PATH_INFO', routes.candidate_interface_withdraw_path(1))
-        end
-
-        it 'returns path to application details' do
-          expect(instance.send(:application_form_path)).to eq routes.candidate_interface_continuous_applications_choices_path
-        end
+      it 'returns path to application details' do
+        expect(instance.send(:application_form_path)).to eq routes.candidate_interface_continuous_applications_choices_path
       end
     end
   end
