@@ -1,7 +1,5 @@
 module ProviderInterface
   class SendCandidateWithdrawnOnRequestEmail
-    include CandidateApplications
-
     attr_reader :application_choice, :helper
 
     def initialize(application_choice:)
