@@ -10,9 +10,7 @@ RSpec.describe Chasers::Candidate::OfferWorker do
     context 'when applications are offered in different periods' do
       let!(:application_choices) do
         Chasers::Candidate.chaser_to_date_range.each_value do |date_range|
-          create(:application_choice, :offer).tap do |choice|
-            choice.offer.update(created_at: date_range.min)
-          end
+          create(:application_choice, :offer, offered_at: date_range.min)
         end
       end
       let(:chaser_types) do
