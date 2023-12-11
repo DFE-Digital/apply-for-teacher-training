@@ -41,18 +41,16 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, :wi
       expect(application_form.audits.last.comment).to eq 'It was on a zendesk ticket.'
     end
 
-    context 'continuous applications', :continuous_applications do
-      it 'doesnt update the associated ApplicationChoice' do
-        application_form = create(:application_form, :continuous_applications)
-        application_choice = create(:application_choice, application_form: application_form)
-        form = described_class.new(becoming_a_teacher: 'I really want to teach.', audit_comment: 'It was on a zendesk ticket.')
+    it 'doesnt update the associated ApplicationChoice' do
+      application_form = create(:application_form, :continuous_applications)
+      application_choice = create(:application_choice, application_form: application_form)
+      form = described_class.new(becoming_a_teacher: 'I really want to teach.', audit_comment: 'It was on a zendesk ticket.')
 
-        form.save(application_form)
+      form.save(application_form)
 
-        expect(application_choice.reload.personal_statement).not_to eq 'I really want to teach.'
-        expect(application_form.becoming_a_teacher).to eq 'I really want to teach.'
-        expect(application_form.audits.last.comment).to eq 'It was on a zendesk ticket.'
-      end
+      expect(application_choice.reload.personal_statement).not_to eq 'I really want to teach.'
+      expect(application_form.becoming_a_teacher).to eq 'I really want to teach.'
+      expect(application_form.audits.last.comment).to eq 'It was on a zendesk ticket.'
     end
 
     context 'when saving personal_statement records fails' do
