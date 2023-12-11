@@ -3,6 +3,7 @@ module SupportInterface
     layout 'support_layout'
     before_action :authenticate_support_user!
     before_action :set_user_context
+    rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
     helper_method :current_support_user, :dfe_sign_in_user
 
