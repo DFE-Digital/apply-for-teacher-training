@@ -19,28 +19,6 @@ The new offer is:
 <% end %>
 
 
-<% if FeatureFlag.inactive?(:continuous_applications) %>
-
-  <% if @is_awaiting_decision %>
-
-  # You can accept the offer or wait to hear back about other applications
-
-  <%= render "wait_or_respond" %>
-
-  <% else %>
-
-  # Make a decision by <%= @application_choice.decline_by_default_at.to_fs(:govuk_date) %>
-
-  If you do not respond by <%= @application_choice.decline_by_default_at.to_fs(:govuk_date) %>, your <%= 'offer'.pluralize(@offers.length) %> will be declined automatically.
-
-  <% if @offers.count > 1 %>
-  <%= render "offer_list" %>
-  <% end %>
-
-<% end %>
-
-<% end %>
-
 [Sign in to your account to respond to your offer](<%= candidate_magic_link(@application_choice.application_form.candidate) %>).
 
 Contact <%= @current_course_option.course.provider.name %> directly if you have any questions about this.

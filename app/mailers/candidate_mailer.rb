@@ -278,10 +278,6 @@ class CandidateMailer < ApplicationMailer
     @conditions = @application_choice.offer.all_conditions_text
     @course_option = @application_choice.course_option
     @current_course_option = @application_choice.current_course_option
-    @is_awaiting_decision = application_choice.self_and_siblings.decision_pending.any?
-    @offers = @application_choice.self_and_siblings.select(&:offer?).map do |choice|
-      "#{choice.current_course_option.course.name_and_code} at #{choice.current_course_option.course.provider.name}"
-    end
     @qualification = qualification_text(@current_course_option)
 
     email_for_candidate(
