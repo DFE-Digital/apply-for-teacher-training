@@ -17,7 +17,7 @@ class ApplicationFormStateInferrer
       :never_signed_in
     elsif application_choices.empty? || all_states_are?('unsubmitted') || all_states_are?('application_not_sent')
       as_new?(application_form) ? :unsubmitted_not_started_form : :unsubmitted_in_progress
-    elsif any_state_is?('awaiting_provider_decision') || any_state_is?('interviewing')
+    elsif any_state_is?('awaiting_provider_decision') || any_state_is?('interviewing') || any_state_is?('inactive')
       :awaiting_provider_decisions
     elsif any_state_is?('offer')
       # Offer, but no awaiting means we're waiting on the candidate
@@ -30,6 +30,8 @@ class ApplicationFormStateInferrer
       :offer_deferred
     elsif (states.uniq.map(&:to_sym) - ApplicationStateChange::UNSUCCESSFUL_STATES).empty?
       :ended_without_success
+    elsif any_state_is?('unsubmitted')
+      :unsubmitted_in_progress
     else
       :unknown_state
     end

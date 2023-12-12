@@ -88,5 +88,14 @@ RSpec.describe ApplicationFormStateInferrer do
 
       expect(state).to be(:ended_without_success)
     end
+
+    it 'is awaiting provider decision when the application is inactive' do
+      application_form = create(:application_form)
+      create(:application_choice, :inactive, application_form:)
+
+      state = described_class.new(application_form).state
+
+      expect(state).to be(:awaiting_provider_decisions)
+    end
   end
 end
