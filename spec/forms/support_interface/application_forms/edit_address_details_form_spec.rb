@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type: :model do
+  before { RequestStore.store[:allow_unsafe_application_choice_touches] = false }
+
   describe '.build_from_application_form' do
     it 'creates an object based on the provided ApplicationForm' do
       data = {
@@ -18,14 +20,8 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
   end
 
   describe '#save_address' do
-    it 'returns false if not valid' do
-      details_form = described_class.new
-
-      expect(details_form.save_address(ApplicationForm.new)).to be(false)
-    end
-
-    it 'updates the provided ApplicationForm with the address fields if valid' do
-      data = {
+    let(:data) do
+      {
         address_line1: Faker::Address.street_name,
         address_line2: Faker::Address.street_address,
         address_line3: Faker::Address.city,
@@ -34,6 +30,15 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
         address_type: 'uk',
         audit_comment: 'Updated as part of Zendesk ticket 12345',
       }
+    end
+
+    it 'returns false if not valid' do
+      details_form = described_class.new
+
+      expect(details_form.save_address(ApplicationForm.new)).to be(false)
+    end
+
+    it 'updates the provided ApplicationForm with the address fields if valid' do
       application_form = build(:application_form)
       details_form = described_class.new(data)
       data[:postcode] = 'BN1 1AA'
@@ -42,6 +47,17 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
       expect(details_form.save_address(application_form)).to be(true)
       expect(application_form).to have_attributes(data)
       expect(application_form.international_address).to be_nil
+    end
+
+    it 'updates the provided ApplicationForm from a previous cycle' do
+      application_form = create(:application_form, recruitment_cycle_year: CycleTimetable.previous_year)
+      create(:application_choice, :awaiting_provider_decision, application_form:)
+      details_form = described_class.new(data)
+      data[:postcode] = 'BN1 1AA'
+      data.except!(:audit_comment)
+
+      expect(details_form.save_address(application_form)).to be(true)
+      expect(application_form.reload).to have_attributes(data)
     end
 
     it 'updates the provided ApplicationForm with the international address field if valid' do
@@ -63,11 +79,23 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
   end
 
   describe '#save_address_type' do
-    it 'updates the provided ApplicationForm with the address type fields for a valid UK address' do
-      data = {
+    let(:data) do
+      {
         address_type: 'uk',
       }
+    end
+
+    it 'updates the provided ApplicationForm with the address type fields for a valid UK address' do
       application_form = build(:application_form)
+      details_form = described_class.new(data)
+
+      expect(details_form.save_address_type(application_form)).to be(true)
+      expect(application_form).to have_attributes(data)
+    end
+
+    it 'updates the provided ApplicationForm from a previous cycle' do
+      application_form = create(:application_form, address_type: 'Other', recruitment_cycle_year: CycleTimetable.previous_year)
+      create(:application_choice, :awaiting_provider_decision, application_form:)
       details_form = described_class.new(data)
 
       expect(details_form.save_address_type(application_form)).to be(true)
