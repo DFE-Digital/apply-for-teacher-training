@@ -403,7 +403,6 @@ namespace :candidate_interface, path: '/candidate' do
       patch '/provider/:provider_id/courses/edit' => 'course_choices/course_selection#update'
 
       post '/provider/:provider_id/courses/:course_id' => 'course_choices/study_mode_selection#create'
-      get '/provider/:provider_id/courses/:course_id/edit' => 'course_choices/study_mode_selection#edit', as: :edit_course_choices_study_mode
       patch '/provider/:provider_id/courses/:course_id/edit' => 'course_choices/study_mode_selection#update'
 
       get '/provider/:provider_id/courses/:course_id/full' => 'course_choices/course_selection#full', as: :course_choices_full

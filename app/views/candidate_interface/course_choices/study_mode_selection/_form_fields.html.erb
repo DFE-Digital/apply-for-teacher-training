@@ -1,6 +1,0 @@
-<%= f.govuk_radio_buttons_fieldset :study_mode, legend: { text: t('page_titles.which_study_mode'), size: 'xl', tag: 'h1' } do %>
-  <%= f.govuk_radio_button :study_mode, :full_time, label: { text: 'Full time' }, link_errors: true %>
-  <%= f.govuk_radio_button :study_mode, :part_time, label: { text: 'Part time' } %>
-<% end %>
-
-<%= f.govuk_submit t('continue') %>

@@ -1,20 +1,6 @@
 module CandidateInterface
   module CourseChoices
     class StudyModeSelectionController < BaseController
-      def edit
-        @course_choice_id = params[:course_choice_id]
-        current_application_choice = current_application.application_choices.find(@course_choice_id)
-        @return_to = return_to_after_edit(default: candidate_interface_course_choices_review_path)
-
-        @application_review = params['return-to'] || params[:return_to]
-
-        @pick_study_mode = PickStudyModeForm.new(
-          provider_id: params.fetch(:provider_id),
-          course_id: params.fetch(:course_id),
-          study_mode: current_application_choice.current_course_option.study_mode,
-        )
-      end
-
       def create
         @pick_study_mode = PickStudyModeForm.new(
           provider_id: params.fetch(:provider_id),
