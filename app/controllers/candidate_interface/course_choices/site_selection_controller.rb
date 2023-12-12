@@ -8,7 +8,6 @@ module CandidateInterface
       def edit
         @course_choice_id = params[:course_choice_id]
         current_application_choice = current_application.application_choices.find(@course_choice_id)
-        new_course_choice = Course.find(params[:course_id])
 
         @pick_site = PickSiteForm.new(
           course_option_id: current_application_choice.course_option_id.to_s,
