@@ -17,11 +17,7 @@ module CandidateInterface
         @return_to = return_to_after_edit(default: candidate_interface_course_choices_review_path)
         @application_review = params['return-to'] || params[:return_to]
 
-        @return_to_path = if new_course_choice.currently_has_both_study_modes_available?
-                            candidate_interface_edit_course_choices_study_mode_path(course_choice_id: @course_choice_id, return_to: @application_review, start_edit: params[:start_edit])
-                          else
-                            candidate_interface_edit_course_choices_course_path(course_choice_id: @course_choice_id, return_to: @application_review)
-                          end
+        @return_to_path = candidate_interface_edit_course_choices_course_path(course_choice_id: @course_choice_id, return_to: @application_review)
       end
 
       def create
