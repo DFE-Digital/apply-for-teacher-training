@@ -79,34 +79,6 @@ RSpec.describe ProviderMailer do
     end
   end
 
-  describe 'Send application rejected by default email' do
-    context 'when the provider user can make decisions' do
-      let(:email) { described_class.application_rejected_by_default(provider_user, application_choice, can_make_decisions: true) }
-
-      it_behaves_like('a mail with subject and content',
-                      'Harry Potter’s application was automatically rejected - manage teacher training applications',
-                      'provider name' => 'Dear Johny English',
-                      'candidate name' => 'Harry Potter',
-                      'course name and code' => 'Computer Science (6IND)',
-                      'reject by default days' => 'within 123 working days',
-                      'feedback_text' => 'Tell Harry Potter why their application was unsuccessful:',
-                      'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
-                      'notification settings' => 'You can change your email notification settings',
-                      'footer' => 'Get help, report a problem or give feedback')
-    end
-
-    context 'when the provider user cannot make decisions' do
-      let(:email) { described_class.application_rejected_by_default(provider_user, application_choice, can_make_decisions: false) }
-
-      it_behaves_like('a mail with subject and content',
-                      'Harry Potter’s application was automatically rejected - manage teacher training applications',
-                      'provider name' => 'Dear Johny English',
-                      'candidate name' => 'Harry Potter',
-                      'course name and code' => 'Computer Science (6IND)',
-                      'reject by default days' => 'within 123 working days')
-    end
-  end
-
   describe '.reference_received' do
     let(:provider) { create(:provider, code: 'ABC', user: provider_user) }
     let(:site) { create(:site, provider:) }

@@ -44,17 +44,6 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
-  def application_rejected_by_default(provider_user, application_choice, can_make_decisions:)
-    @application = map_application_choice_params(application_choice)
-    @provider_can_give_feedback = can_make_decisions
-
-    email_for_provider(
-      provider_user,
-      application_choice.application_form,
-      subject: I18n.t!('provider_mailer.application_rejected_by_default.subject', candidate_name: @application.candidate_name),
-    )
-  end
-
   def reference_received(provider_user:, application_choice:, reference:, course:)
     @reference = reference
     @candidate_name = reference.application_form.full_name
@@ -260,7 +249,6 @@ private
       :submitted_at,
       :application_choice_id,
       :application_choice,
-      :rbd_days,
       :support_reference,
       :international_relocation_payment_eligible,
     ).new(
@@ -270,7 +258,6 @@ private
       application_choice.application_form.submitted_at&.to_fs(:govuk_date),
       application_choice.id,
       application_choice,
-      application_choice.reject_by_default_days,
       application_choice.application_form.support_reference,
       IsEligibleForInternationalRelocationPayment.new(application_choice).call,
     )

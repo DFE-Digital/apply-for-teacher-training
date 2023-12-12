@@ -15,8 +15,6 @@ en:
       subject: "%{candidate_name} submitted an application for %{course_name}"
     application_submitted_with_safeguarding_issues:
       subject: "Safeguarding issues - %{candidate_name} submitted an application for %{course_name}"
-    application_rejected_by_default:
-      subject: "%{candidate_name}’s application was automatically rejected"
     reference_received:
       subject: "%{candidate_name}’s %{ordinance} reference received"
     application_withdrawn:
