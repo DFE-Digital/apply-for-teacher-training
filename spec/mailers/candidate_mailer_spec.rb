@@ -38,7 +38,7 @@ RSpec.describe CandidateMailer do
   subject(:mailer) { described_class }
 
   describe '.application_submitted' do
-    let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: 5.days.from_now) }
+    let(:application_choice) { build_stubbed(:application_choice) }
     let(:application_form) {
       build_stubbed(:application_form, first_name: 'Jimbo',
                                        candidate:,
@@ -46,20 +46,7 @@ RSpec.describe CandidateMailer do
     }
     let(:email) { mailer.application_submitted(application_form) }
 
-    context 'when not continuous applications', continuous_applications: false do
-      TestSuiteTimeMachine.travel_temporarily_to(mid_cycle(2023)) do
-        it_behaves_like(
-          'a mail with subject and content',
-          I18n.t!('candidate_mailer.application_submitted.subject'),
-          'intro' => 'You’ve submitted an application for',
-          'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token',
-          'dynamic paragraph' => 'Your training provider will contact you if they would like to organise an interview',
-          'reject_by_default date' => 5.days.from_now.to_fs(:govuk_date),
-        )
-      end
-    end
-
-    context 'when continuous applications', :continuous_applications do
+    context 'when the candidate submits an application' do
       it_behaves_like(
         'a mail with subject and content',
         I18n.t!('candidate_mailer.application_submitted.subject'),
@@ -99,7 +86,7 @@ RSpec.describe CandidateMailer do
 
     before { allow(EmailLogInterceptor).to receive(:generate_reference).and_return('fake-ref-123') }
 
-    context 'when the candidate receives a rejection and continuous applications', :continuous_applications do
+    context 'when the candidate receives a rejection' do
       it_behaves_like(
         'a mail with subject and content',
         I18n.t!('candidate_mailer.application_rejected.subject'),

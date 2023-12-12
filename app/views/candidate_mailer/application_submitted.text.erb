@@ -25,7 +25,3 @@ Hello <%= @application_form.first_name %>
   Your training provider will contact you if they would like to organise an interview.
 
 <% end %>
-
-<% if FeatureFlag.inactive?(:continuous_applications) %>
-They have until <%= @reject_by_default_date %> to make a decision on your application.
-<% end %>

@@ -26,7 +26,6 @@ class CandidateMailer < ApplicationMailer
   def application_submitted(application_form)
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
     @application_choice = application_form.application_choices.first
-    @reject_by_default_date = @application_choice.reject_by_default_at.to_fs(:govuk_date)
 
     email_for_candidate(
       application_form,
@@ -279,10 +278,6 @@ class CandidateMailer < ApplicationMailer
     @conditions = @application_choice.offer.all_conditions_text
     @course_option = @application_choice.course_option
     @current_course_option = @application_choice.current_course_option
-    @is_awaiting_decision = application_choice.self_and_siblings.decision_pending.any?
-    @offers = @application_choice.self_and_siblings.select(&:offer?).map do |choice|
-      "#{choice.current_course_option.course.name_and_code} at #{choice.current_course_option.course.provider.name}"
-    end
     @qualification = qualification_text(@current_course_option)
 
     email_for_candidate(
