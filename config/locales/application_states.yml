@@ -289,8 +289,6 @@ en:
       by: system
       description: |
         An application is rejected by default (RBD) if the provider does not make an offer within 40 working days after they have received an application.
-      emails:
-        - provider_mailer-application_rejected_by_default
 
     inactive-make_offer: *awaiting_provider_decision-make_offer
     inactive-interview: *awaiting_provider_decision-interview
@@ -333,8 +331,6 @@ en:
       by: system
       description: |
         An application is rejected by default (RBD) if the provider does not make an offer within 40 working days after they have received an application.
-      emails:
-        - provider_mailer-application_rejected_by_default
 
     interviewing-cancel_interview:
       name: Provider cancels the interview
