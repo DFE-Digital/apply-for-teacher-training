@@ -31,7 +31,6 @@ module CandidateInterface
       [
         course_row(application_choice),
         application_number_row(application_choice),
-        study_mode_row(application_choice),
         location_row(application_choice),
         type_row(application_choice),
         course_length_row(application_choice),
@@ -156,30 +155,6 @@ module CandidateInterface
         html_attributes: {
           data: {
             qa: 'course-choice-location',
-          },
-        },
-      }
-    end
-
-    def study_mode_row(application_choice)
-      return unless application_choice.current_course.full_time_or_part_time?
-
-      change_path = candidate_interface_edit_course_choices_study_mode_path(
-        application_choice.provider.id,
-        application_choice.current_course.id,
-        change_path_params(application_choice),
-      )
-
-      {
-        key: 'Full time or part time',
-        value: application_choice.current_course_option.study_mode.humanize,
-        action: {
-          href: change_path,
-          visually_hidden_text: "study mode for #{application_choice.current_course.name_and_code}",
-        },
-        html_attributes: {
-          data: {
-            qa: 'course-choice-study-mode',
           },
         },
       }

@@ -11,7 +11,6 @@ RSpec.feature 'Selecting a study mode', :continuous_applications do
     then_i_can_only_select_sites_with_a_part_time_course
 
     when_i_select_a_site
-    and_i_visit_my_course_choices_page
     then_i_see_my_course_choice
 
     given_there_is_a_single_site_full_time_course_option
@@ -94,14 +93,12 @@ RSpec.feature 'Selecting a study mode', :continuous_applications do
   end
 
   def and_i_visit_my_course_choices_page
-    visit candidate_interface_course_choices_review_path
+    visit candidate_interface_continuous_applications_course_review_path(@current_candidate.application_choices.last.id)
   end
 
   def then_i_see_my_course_choice
-    within("#course-choice-#{application_choice.id}") do
-      expect(page).to have_text @course.name
-      expect(page).to have_text 'Part time'
-    end
+    expect(page).to have_text @course.name
+    expect(page).to have_text 'Part time'
   end
 
   def given_there_is_a_single_site_full_time_course_option
@@ -146,10 +143,8 @@ RSpec.feature 'Selecting a study mode', :continuous_applications do
   end
 
   def then_the_site_is_resolved_automatically_and_i_see_the_course_choice
-    within("#course-choice-#{application_choice.id}") do
-      expect(page).to have_text @single_site_course.name
-      expect(page).to have_text 'Full time'
-    end
+    expect(page).to have_text @single_site_course.name
+    expect(page).to have_text 'Full time'
   end
 
   def application_choice

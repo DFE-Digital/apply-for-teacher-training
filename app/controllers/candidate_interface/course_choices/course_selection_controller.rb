@@ -40,12 +40,6 @@ module CandidateInterface
             @pick_course.provider_id,
             @pick_course.course_id,
           )
-        elsif @pick_course.currently_has_both_study_modes_available?
-          redirect_to candidate_interface_course_choices_study_mode_path(
-            @pick_course.provider_id,
-            @pick_course.course_id,
-            course_choice_id: params[:course_choice_id],
-          )
         elsif @pick_course.single_site?
           course_option = @pick_course.available_course_options.first
           AddOrUpdateCourseChoice.new(
@@ -83,13 +77,6 @@ module CandidateInterface
             @pick_course.course_id,
             return_to: params[:return_to],
             previous_course_choice_id: params[:course_choice_id],
-          )
-        elsif @pick_course.currently_has_both_study_modes_available?
-          redirect_to candidate_interface_edit_course_choices_study_mode_path(
-            @pick_course.provider_id,
-            @pick_course.course_id,
-            course_choice_id: params[:course_choice_id],
-            return_to: params[:return_to],
           )
         elsif @pick_course.single_site?
           course_option = @pick_course.available_course_options.first

@@ -79,26 +79,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, :mid_cycle, typ
       end
     end
 
-    context 'When a course has both study modes available' do
-      let(:application_choice) { application_form.application_choices.first }
-      let(:result) { render_inline(described_class.new(application_form:)) }
-
-      before do
-        application_choice.course.update!(study_mode: 'full_time_or_part_time')
-      end
-
-      it 'renders study mode values' do
-        expect(result.css('.govuk-summary-list__key').text).to include('Full time or part time')
-        expect(result.css('.govuk-summary-list__value').text).to include(application_choice.current_course_option.study_mode.humanize.to_s)
-      end
-
-      it 'renders the study mode change link' do
-        expect(result.css('.govuk-summary-list__actions').text).to include(
-          "Change study mode for #{application_choice.course.name_and_code}",
-        )
-      end
-    end
-
     context 'When a course has one available study mode' do
       let(:application_choice) { application_form.application_choices.first }
 
@@ -375,11 +355,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, :mid_cycle, typ
 
       before do
         application_choice.course.update!(study_mode: 'full_time_or_part_time')
-      end
-
-      it 'renders study mode values' do
-        expect(result.css('.govuk-summary-list__key').text).to include('Full time or part time')
-        expect(result.css('.govuk-summary-list__value').text).to include(application_choice.current_course_option.study_mode.humanize.to_s)
       end
 
       it 'renders without the change link' do
