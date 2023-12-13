@@ -254,7 +254,7 @@ en:
         release_notes: Release notes
         lifecycle: Lifecycle
         alpha_release_notes: Alpha release notes
-        draft: Draft Version 1.3
+        draft: Draft Version 1.4
       register_api_docs:
         reference: Apply for teacher training - Register API
     provider:

@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe 'API Docs - GET /api-docs/spec*.yml' do
   let(:latest_released_version) { AllowedCrossNamespaceUsage::VendorAPIInfo.released_version }
 
+  before do
+    allow(HostingEnvironment).to receive(:production?).and_return(true)
+  end
+
   describe 'GET /api-docs/spec.yml' do
     it 'returns the most recent spec in YAML format' do
       get '/api-docs/spec.yml'

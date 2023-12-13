@@ -1,0 +1,38 @@
+---
+openapi: 3.0.0
+info:
+  version: v1.4
+  title: Apply API
+  contact:
+    name: DfE
+    email: becomingateacher@digital.education.gov.uk
+  description: |
+    API for DfE’s Apply for teacher training service.
+    Endpoints with the `/applications` prefix are considered stable.
+    Experimental endpoints prefixed with `/test-data` may change or be removed.
+servers:
+  - description: Sandbox (test environment for vendors)
+    url: https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.4
+  - description: Production
+    url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.4
+components:
+  schemas:
+    Qualification:
+      type: object
+      additionalProperties: false
+      properties:
+        currently_completing_qualification:
+          type: boolean
+          description: The response to the “Are you currently studying to retake your GCSE?” question.
+          example: true
+          nullable: true
+        not_completed_explanation:
+          type: text
+          description: The explanation if "currently_completing_qualification" is false
+          example: true
+          nullable: true
+        other_uk_qualification_type:
+          type: text
+          description: The response to "Another UK qualification" - "Qualification name"
+          example: true
+          nullable: true

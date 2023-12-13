@@ -54,5 +54,8 @@ module VendorAPI
       Changes::MarkPhaseAsDeprecated,
       Changes::RemoveReferencesWhenApplicationIsUnsuccessful,
     ],
+    '1.4pre' => [
+      Changes::V14::AddGcseCompletingQualificationData,
+    ],
   }.freeze
 end
