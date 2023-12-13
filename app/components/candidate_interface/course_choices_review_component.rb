@@ -4,7 +4,6 @@ module CandidateInterface
 
     def initialize(
       application_form:,
-      editable: true,
       heading_level: 2,
       show_status: false,
       show_incomplete: false,
@@ -16,7 +15,6 @@ module CandidateInterface
     )
 
       @application_form = application_form
-      @editable = editable
       @heading_level = heading_level
       @show_status = show_status
       @show_incomplete = show_incomplete
@@ -53,10 +51,6 @@ module CandidateInterface
       application_choices.any? do |application_choice|
         withdrawable?(application_choice)
       end
-    end
-
-    def show_missing_banner?
-      @show_incomplete && !@application_form.course_choices_completed && @editable
     end
 
     def course_change_path(application_choice)
