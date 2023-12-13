@@ -404,7 +404,6 @@ namespace :candidate_interface, path: '/candidate' do
 
       get '/provider/:provider_id/courses/:course_id/full' => 'course_choices/course_selection#full', as: :course_choices_full
 
-      get '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/site_selection#new', as: :course_choices_site
       post '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/site_selection#create'
       get '/provider/:provider_id/courses/:course_id/:study_mode/edit' => 'course_choices/site_selection#edit', as: :edit_course_choices_site
       patch '/provider/:provider_id/courses/:course_id/:study_mode/edit' => 'course_choices/site_selection#update'

@@ -1,10 +1,6 @@
 module CandidateInterface
   module CourseChoices
     class SiteSelectionController < BaseController
-      def new
-        @pick_site = PickSiteForm.new
-      end
-
       def edit
         @course_choice_id = params[:course_choice_id]
         current_application_choice = current_application.application_choices.find(@course_choice_id)
