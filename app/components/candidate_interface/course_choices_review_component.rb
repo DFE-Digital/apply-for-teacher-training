@@ -70,12 +70,12 @@ module CandidateInterface
 
     def site_change_path(application_choice)
       if multiple_sites?(application_choice)
-        candidate_interface_edit_course_choices_site_path(
-          application_choice.provider.id,
-          application_choice.current_course.id,
-          application_choice.current_course_option.study_mode,
-          change_path_params(application_choice),
-        )
+        # candidate_interface_edit_course_choices_site_path(
+        #   application_choice.provider.id,
+        #   application_choice.current_course.id,
+        #   application_choice.current_course_option.study_mode,
+        #   change_path_params(application_choice),
+        # )
       end
     end
 
