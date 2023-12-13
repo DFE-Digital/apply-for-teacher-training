@@ -30,10 +30,8 @@ class TimeLimitConfig
   end
 
   def self.stale_application_rules
-    working_days = FeatureFlag.active?(:continuous_applications) ? 30 : 40
-
     [
-      Rule.new(nil, nil, working_days),
+      Rule.new(nil, nil, 30),
       Rule.new(Time.zone.local(RecruitmentCycle.current_year, 6, 30, 23, 59, 59), nil, 20),
     ]
   end
