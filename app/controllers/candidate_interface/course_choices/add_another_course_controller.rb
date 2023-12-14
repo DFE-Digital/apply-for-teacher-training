@@ -1,10 +1,6 @@
 module CandidateInterface
   module CourseChoices
     class AddAnotherCourseController < BaseController
-      def ask
-        @add_another_course = AddAnotherCourseForm.new
-      end
-
       def decide
         @add_another_course = AddAnotherCourseForm.new(add_another_course_params)
         return render :ask unless @add_another_course.valid?
