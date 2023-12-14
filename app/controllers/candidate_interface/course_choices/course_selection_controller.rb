@@ -3,35 +3,6 @@ module CandidateInterface
     class CourseSelectionController < BaseController
       before_action { redirect_to_continuous_applications(action_name) if current_application.continuous_applications? }
 
-      def create
-        course_id = params.dig(:candidate_interface_pick_course_form, :course_id)
-
-        @pick_course = PickCourseForm.new(
-          provider_id: params.fetch(:provider_id),
-          course_id:,
-          application_form: current_application,
-        )
-        render :new and return unless @pick_course.valid?
-
-        redirect_to_review_page_if_course_already_added(current_application, course_id)
-        return if performed?
-
-        if !@pick_course.available?
-          redirect_to candidate_interface_course_choices_full_path(
-            @pick_course.provider_id,
-            @pick_course.course_id,
-          )
-        elsif @pick_course.single_site?
-          course_option = @pick_course.available_course_options.first
-          AddOrUpdateCourseChoice.new(
-            course_option_id: course_option.id,
-            application_form: current_application,
-            controller: self,
-            id_of_course_choice_to_replace: params[:course_choice_id],
-          ).call
-        end
-      end
-
       def update
         course_id = params.dig(:candidate_interface_pick_course_form, :course_id)
 
