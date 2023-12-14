@@ -1,8 +1,6 @@
 module CandidateInterface
   module CourseChoices
     class CourseSelectionController < BaseController
-      before_action { redirect_to_continuous_applications(action_name) if current_application.continuous_applications? }
-
       def update
         course_id = params.dig(:candidate_interface_pick_course_form, :course_id)
 
@@ -56,13 +54,6 @@ module CandidateInterface
         if application_form.contains_course? course
           flash[:info] = I18n.t!('errors.application_choices.already_added', course_name_and_code: course.name_and_code)
           redirect_to candidate_interface_course_choices_review_path
-        end
-      end
-
-      def redirect_to_continuous_applications(action)
-        case action
-        when /new/
-          redirect_to candidate_interface_continuous_applications_which_course_are_you_applying_to_path(params['provider_id'])
         end
       end
     end
