@@ -14,7 +14,7 @@ module CandidateInterface
         )
         render :new and return unless @pick_provider.valid?
 
-        redirect_to candidate_interface_course_choices_course_path(@pick_provider.provider_id)
+        redirect_to candidate_interface_edit_course_choices_course_path(@pick_provider.provider_id)
       end
 
     private

@@ -3,13 +3,6 @@ module CandidateInterface
     class CourseSelectionController < BaseController
       before_action { redirect_to_continuous_applications(action_name) if current_application.continuous_applications? }
 
-      def new
-        @pick_course = PickCourseForm.new(
-          provider_id: params.fetch(:provider_id),
-          application_form: current_application,
-        )
-      end
-
       def edit
         @course_choice_id = params[:course_choice_id]
         current_application_choice = current_application.application_choices.find(@course_choice_id)
@@ -93,14 +86,10 @@ module CandidateInterface
       def full
         @course = Course.find(params[:course_id])
 
-        @return_to_path = if params[:return_to].nil?
-                            candidate_interface_course_choices_course_path(@course.provider)
-                          else
-                            candidate_interface_edit_course_choices_course_path(
-                              course_choice_id: params[:previous_course_choice_id],
-                              return_to: params[:return_to],
-                            )
-                          end
+        @return_to_path = candidate_interface_edit_course_choices_course_path(
+          course_choice_id: params[:previous_course_choice_id],
+          return_to: params[:return_to],
+        )
       end
 
     private
