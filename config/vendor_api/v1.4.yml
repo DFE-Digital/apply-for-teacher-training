@@ -26,7 +26,7 @@ components:
           description: The response to the “Are you currently studying to retake your GCSE?” question.
           example: true
           nullable: true
-        not_completed_explanation:
+        missing_explanation:
           type: text
           description: The explanation if "currently_completing_qualification" is false
           example: true

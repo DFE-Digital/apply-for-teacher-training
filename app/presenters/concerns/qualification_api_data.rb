@@ -154,7 +154,7 @@ private
 
     {
       currently_completing_qualification: qualification[:currently_completing_qualification],
-      not_completed_explanation: qualification[:not_completed_explanation],
+      missing_explanation: qualification[:missing_explanation],
       other_uk_qualification_type: qualification[:other_uk_qualification_type],
     }
   end

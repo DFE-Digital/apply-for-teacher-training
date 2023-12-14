@@ -16,7 +16,7 @@ RSpec.describe 'ApplicationPresenter' do
         create(
           :gcse_qualification,
           currently_completing_qualification: true,
-          not_completed_explanation: 'I will be taking an equivalency test in a few weeks',
+          missing_explanation: 'I will be taking an equivalency test in a few weeks',
           other_uk_qualification_type: 'Equivalency test',
           application_form: application_form,
         )
@@ -24,7 +24,7 @@ RSpec.describe 'ApplicationPresenter' do
 
       it 'returns the correct GCSEs fields' do
         expect(gcse[:currently_completing_qualification]).to be true
-        expect(gcse[:not_completed_explanation]).to eq 'I will be taking an equivalency test in a few weeks'
+        expect(gcse[:missing_explanation]).to eq 'I will be taking an equivalency test in a few weeks'
         expect(gcse[:other_uk_qualification_type]).to eq 'Equivalency test'
       end
     end
