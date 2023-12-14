@@ -398,7 +398,6 @@ namespace :candidate_interface, path: '/candidate' do
       post '/provider' => 'course_choices/provider_selection#create'
 
       post '/provider/:provider_id/courses' => 'course_choices/course_selection#create'
-      get '/provider/:provider_id/courses/edit' => 'course_choices/course_selection#edit', as: :edit_course_choices_course
       patch '/provider/:provider_id/courses/edit' => 'course_choices/course_selection#update'
 
       get '/provider/:provider_id/courses/:course_id/full' => 'course_choices/course_selection#full', as: :course_choices_full
