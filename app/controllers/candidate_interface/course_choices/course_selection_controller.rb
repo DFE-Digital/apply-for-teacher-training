@@ -48,13 +48,6 @@ module CandidateInterface
             controller: self,
             id_of_course_choice_to_replace: params[:course_choice_id],
           ).call
-        else
-          redirect_to candidate_interface_course_choices_site_path(
-            @pick_course.provider_id,
-            @pick_course.course_id,
-            @pick_course.available_study_modes_with_vacancies.first,
-            course_choice_id: params[:course_choice_id],
-          )
         end
       end
 

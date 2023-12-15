@@ -4,7 +4,6 @@ module CandidateInterface
 
     def initialize(
       application_form:,
-      editable: true,
       heading_level: 2,
       show_status: false,
       show_incomplete: false,
@@ -16,7 +15,6 @@ module CandidateInterface
     )
 
       @application_form = application_form
-      @editable = editable
       @heading_level = heading_level
       @show_status = show_status
       @show_incomplete = show_incomplete
@@ -52,30 +50,6 @@ module CandidateInterface
     def any_withdrawable?
       application_choices.any? do |application_choice|
         withdrawable?(application_choice)
-      end
-    end
-
-    def show_missing_banner?
-      @show_incomplete && !@application_form.course_choices_completed && @editable
-    end
-
-    def course_change_path(application_choice)
-      if multiple_courses?(application_choice) || application_choice.course_full?
-        candidate_interface_edit_course_choices_course_path(
-          application_choice.provider.id,
-          change_path_params(application_choice),
-        )
-      end
-    end
-
-    def site_change_path(application_choice)
-      if multiple_sites?(application_choice)
-        candidate_interface_edit_course_choices_site_path(
-          application_choice.provider.id,
-          application_choice.current_course.id,
-          application_choice.current_course_option.study_mode,
-          change_path_params(application_choice),
-        )
       end
     end
 
@@ -116,7 +90,6 @@ module CandidateInterface
         key: 'Course',
         value: course_row_value(application_choice),
         action: {
-          href: course_change_path(application_choice),
           visually_hidden_text: "course choice for #{application_choice.current_course.name_and_code}",
         },
         html_attributes: {
@@ -149,7 +122,6 @@ module CandidateInterface
         key: 'Location',
         value: "#{application_choice.current_site.name}\n#{application_choice.current_site.full_address}",
         action: {
-          href: site_change_path(application_choice),
           visually_hidden_text: "location for #{application_choice.current_course.name_and_code}",
         },
         html_attributes: {

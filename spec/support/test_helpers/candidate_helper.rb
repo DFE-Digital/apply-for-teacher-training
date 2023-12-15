@@ -365,7 +365,7 @@ module CandidateHelper
     choose 'Yes'
     click_button t('save_and_continue')
 
-    if has_selector?("input[type='radio'][value='#{grade}']")
+    if has_selector?('label', text: grade)
       choose grade
     else
       choose 'Yes'

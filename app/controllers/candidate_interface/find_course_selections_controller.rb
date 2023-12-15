@@ -22,12 +22,6 @@ module CandidateInterface
       if CourseOption.where(course_id: course.id).one?
         course_option = CourseOption.where(course_id: course.id).first
         pick_site_for_course(course_option.id)
-      else
-        redirect_to candidate_interface_course_choices_site_path(
-          provider_id: course.provider_id,
-          course_id: course.id,
-          study_mode: course.study_mode,
-        )
       end
     end
 

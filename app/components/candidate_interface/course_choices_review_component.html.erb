@@ -1,46 +1,6 @@
 <% application_choices.each do |application_choice| %>
   <div class="<%= container_class(application_choice) %>" id="course-choice-<%= application_choice.id %>" data-qa="application-choice-<%= application_choice.id %>">
-    <% if CycleTimetable.can_add_course_choice?(application_choice.application_form) && @editable %>
-      <% if application_choice.course_not_available? %>
-        <%= render(UnavailableComponent.new(
-          title: 'You cannot apply to this course as it is not running',
-          reason: "#{application_choice.provider.name} have decided not to run this course.",
-        )) %>
-      <% elsif course_not_open_for_applications_yet?(application_choice) %>
-        <%= render(UnavailableComponent.new(
-          title: "You‘ll be able to apply for this course from #{application_choice.course.applications_open_from.to_fs(:govuk_date)}.",
-          lead_in: 'You need to either:',
-          alternatives: [
-            "wait until #{application_choice.course.applications_open_from.to_fs(:govuk_date)}",
-            'delete or change this course choice',
-          ],
-        )) %>
-      <% elsif application_choice.course_full? %>
-        <%= render(UnavailableComponent.new(
-          title: 'You cannot apply to this course as there are no places left on it',
-          alternatives: [
-            'You need to either remove or change this course choice.',
-            "#{application_choice.course.provider.name} may be able to recommend an alternative course.",
-          ],
-        )) %>
-      <% elsif application_choice.site_full? || application_choice.site_invalid? %>
-        <%= render(UnavailableComponent.new(
-          title: 'You cannot apply to this course as the chosen location is full',
-          alternatives: [
-            'You need to either change the location or delete this course choice.',
-          ],
-        )) %>
-      <% elsif application_choice.study_mode_full? %>
-        <%= render(UnavailableComponent.new(
-          title: 'You cannot apply to this course as the chosen study mode is full',
-          alternatives: [
-            (govuk_link_to('pick a new location', site_change_path(application_choice)) if site_change_path(application_choice)),
-          ],
-        )) %>
-      <% end %>
-    <% end %>
-
-    <%= render(SummaryCardComponent.new(rows: course_choice_rows(application_choice), editable: @editable)) do %>
+    <%= render(SummaryCardComponent.new(rows: course_choice_rows(application_choice), editable: false)) do %>
       <%= render(SummaryCardHeaderComponent.new(title: application_choice.current_course.provider.name, heading_level: @heading_level)) do %>
         <div class="app-summary-card__actions">
           <% if application_choice.offer? %>
@@ -53,18 +13,9 @@
               <%= t('application_form.courses.withdraw') %>
               <span class="govuk-visually-hidden"> <%= application_choice.current_course.name_and_code %></span>
             <% end %>
-          <% elsif @editable %>
-            <%= govuk_link_to candidate_interface_confirm_destroy_course_choice_path(application_choice.id), data: { action: :delete } do %>
-              <%= t('application_form.courses.delete') %>
-              <span class="govuk-visually-hidden"> <%= application_choice.current_course.name_and_code %></span>
-            <% end %>
           <% end %>
         </div>
       <% end %>
     <% end %>
   </div>
-<% end %>
-
-<% if show_missing_banner? %>
-  <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :course_choices, section_path: candidate_interface_course_choices_choose_path, error: @missing_error)) %>
 <% end %>
