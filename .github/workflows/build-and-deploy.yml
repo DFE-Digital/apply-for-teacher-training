@@ -260,7 +260,7 @@ jobs:
 
       - name: Upload failure screenshots and pages
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: failure-uploads
           path: /app/tmp/failures/
