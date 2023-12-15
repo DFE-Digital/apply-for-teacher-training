@@ -13,7 +13,6 @@ module CandidateInterface
     delegate(
       :flash,
       :redirect_to,
-      :candidate_interface_course_choices_add_another_course_path,
       :candidate_interface_course_choices_choose_path,
       :candidate_interface_application_form_path,
       :candidate_interface_course_choices_review_path,
