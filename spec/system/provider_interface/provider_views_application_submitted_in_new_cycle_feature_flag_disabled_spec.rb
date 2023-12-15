@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider views application submitted in new cycle' do
+RSpec.feature 'Provider views application submitted in new cycle', skip: 'Delete with FeatureFlag' do
   include CandidateHelper
   include CourseOptionHelpers
   include DfESignInHelpers
