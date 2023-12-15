@@ -397,8 +397,6 @@ namespace :candidate_interface, path: '/candidate' do
       get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider
       post '/provider' => 'course_choices/provider_selection#create'
 
-      get '/provider/:provider_id/courses/:course_id/full' => 'course_choices/course_selection#full', as: :course_choices_full
-
       get '/confirm-selection/:course_id' => 'find_course_selections#confirm_selection', as: :course_confirm_selection
       get '/confirm_selection/:course_id', to: redirect('/candidate/application/courses/confirm-selection/%{course_id}')
       post '/complete-selection/:course_id' => 'find_course_selections#complete_selection', as: :course_complete_selection
