@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering subject knowledge', continuous_applications: false do
+RSpec.feature 'Entering subject knowledge', :continuous_applications do
   include CandidateHelper
 
   it 'Candidate submits their subject knowledge' do
@@ -8,7 +8,6 @@ RSpec.feature 'Entering subject knowledge', continuous_applications: false do
 
     given_i_am_signed_in
     and_i_visit_the_site
-    and_i_have_chosen_a_course
 
     when_i_click_on_subject_knowledge
     and_i_submit_the_form
@@ -41,12 +40,7 @@ RSpec.feature 'Entering subject knowledge', continuous_applications: false do
   end
 
   def and_i_visit_the_site
-    visit candidate_interface_application_form_path
-  end
-
-  def and_i_have_chosen_a_course
-    click_link 'Choose your course'
-    candidate_fills_in_apply_again_course_choice
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def when_i_click_on_subject_knowledge

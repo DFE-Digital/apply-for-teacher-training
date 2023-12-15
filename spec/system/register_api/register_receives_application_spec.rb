@@ -2,7 +2,7 @@ require 'rails_helper'
 
 # This is an end-to-end test for the API response. To test complex logic in
 # the presenter, see spec/presenters/register_api/single_application_presenter_spec.rb.
-RSpec.feature 'Register receives an application data', continuous_applications: false, time: CycleTimetableHelper.mid_cycle(2023) do
+RSpec.feature 'Register receives an application data', :continuous_applications, time: CycleTimetableHelper.mid_cycle(2024) do
   include CandidateHelper
 
   it 'A candidate is recruited' do

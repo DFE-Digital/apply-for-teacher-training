@@ -1,17 +1,18 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits the application', continuous_applications: false do
+RSpec.feature 'Candidate submits the application', :continuous_applications, time: CycleTimetableHelper.mid_cycle do
   include CandidateHelper
 
   it 'Candidate with a completed application' do
+    FeatureFlag.activate(:one_personal_statement)
     given_i_am_signed_in
     then_i_should_see_that_i_have_made_no_choices
 
     when_i_have_completed_my_application
     and_i_have_received_2_references
-    and_i_review_my_application
+    and_i_review_my_application_details
     then_i_should_see_all_sections_are_complete
-    and_i_can_see_my_course_choices
+
     and_i_can_see_my_personal_details
     and_i_can_see_my_contact_details
     and_i_can_see_my_disability_disclosure
@@ -20,17 +21,19 @@ RSpec.feature 'Candidate submits the application', continuous_applications: fals
     and_i_can_see_my_degree
     and_i_can_see_my_gcses
     and_i_can_see_my_other_qualification
-    and_i_can_see_my_becoming_a_teacher_info
-    and_i_can_see_my_subject_knowlegde_info
+    and_i_can_see_my_personal_statement_info
     and_i_can_see_my_interview_preferences
     and_i_can_see_my_referees
     and_i_can_see_my_equality_and_diversity_answers
 
+    and_i_visit_the_application_choices_page
+    and_i_can_see_my_course_choices
+
     when_i_confirm_my_application
     and_i_submit_the_application
-    and_i_skip_feedback
+    # and_i_skip_feedback
     then_i_can_see_my_application_has_been_successfully_submitted
-    and_i_am_redirected_to_the_application_dashboard
+    and_i_am_redirected_to_the_application_choices
     and_i_receive_an_email_confirmation
 
     when_i_click_view_application
@@ -42,12 +45,8 @@ RSpec.feature 'Candidate submits the application', continuous_applications: fals
   end
 
   def then_i_should_see_that_i_have_made_no_choices
-    visit candidate_interface_application_form_path
-    expect(page).to have_content(t('application_form.courses.intro'))
-    visit candidate_interface_application_review_submitted_path
-    expect(page).to have_content(t('application_form.courses.intro'))
-    visit candidate_interface_application_complete_path
-    expect(page).to have_content(t('application_form.courses.intro'))
+    visit candidate_interface_continuous_applications_choices_path
+    expect(page).to have_content(t('candidate_interface.applications_left_message.default_message', maximum_number_of_course_choices: 4))
   end
 
   def when_i_have_completed_my_application
@@ -60,9 +59,8 @@ RSpec.feature 'Candidate submits the application', continuous_applications: fals
     end
   end
 
-  def and_i_review_my_application
-    and_i_visit_the_application_form_page
-    when_i_click_on_check_your_answers
+  def and_i_review_my_application_details
+    and_i_visit_the_application_details_page
   end
 
   def then_i_should_see_all_sections_are_complete
@@ -77,77 +75,102 @@ RSpec.feature 'Candidate submits the application', continuous_applications: fals
   end
 
   def and_i_can_see_my_personal_details
+    click_link 'Personal information'
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content '6 April 1990'
     expect(page).to have_content 'British and American'
+    click_link 'Back to your details'
   end
 
   def and_i_can_see_my_contact_details
+    click_link 'Contact information'
     expect(page).to have_content '07700 900 982'
     expect(page).to have_content '42 Much Wow Street'
     expect(page).to have_content 'London'
     expect(page).to have_content 'SW1P 3BT'
+    click_link 'Back to your details'
   end
 
   def and_i_can_see_my_disability_disclosure
+    click_link 'Ask for support if you’re disabled'
     expect(page).to have_content 'Yes'
     expect(page).to have_content 'I have difficulty climbing stairs'
+    click_link 'Back to your details'
   end
 
   def and_i_can_see_my_safeguarding_issues
+    click_link 'Declare any safeguarding issues'
     expect(page).to have_content 'Yes'
     expect(page).to have_content 'I have a criminal conviction.'
+    click_link 'Back to your details'
   end
 
   def and_i_can_see_my_volunteering_roles
+    click_link 'Unpaid experience'
     expect(page).to have_content 'Tour guide'
     expect(page).to have_content 'National Trust'
+    click_link 'Back to your details'
   end
 
   def and_i_can_see_my_degree
+    click_link 'Degree'
     expect(page).to have_content 'BA (Hons) Aerospace engineering'
     expect(page).to have_content 'ThinkSpace Education'
     expect(page).to have_content 'First-class honours'
     expect(page).to have_content '2009'
+    click_link 'Back to your details'
   end
 
   def and_i_can_see_my_gcses
+    click_link 'English GCSE or equivalent'
     expect(page).to have_content '1990'
+    click_link 'Back to your details'
   end
 
   def and_i_can_see_my_other_qualification
+    click_link 'A levels and other qualifications'
     expect(page).to have_content 'A level Believing in the Heart of the Cards'
     expect(page).to have_content 'A'
     expect(page).to have_content '2015'
+    click_link 'Back to your details'
   end
 
-  def and_i_can_see_my_becoming_a_teacher_info
+  def and_i_can_see_my_personal_statement_info
+    click_link 'Your personal statement'
     expect(page).to have_content 'I believe I would be a first-rate teacher'
+    click_link 'Back to your details'
   end
 
-  def and_i_can_see_my_subject_knowlegde_info
-    expect(page).to have_content 'Everything'
-  end
+  # def and_i_can_see_my_subject_knowlegde_info
+  #   expect(page).to have_content 'Everything'
+  #   click_link 'Back to your details'
+  # end
 
   def and_i_can_see_my_interview_preferences
+    click_link 'Interview availability'
     expect(page).to have_content 'Not on a Wednesday'
+    click_link 'Back to your details'
   end
 
   def and_i_can_see_my_referees
+    click_link 'References to be requested if you accept an offer'
     expect(page).to have_content('Terri Tudor')
     expect(page).to have_content('Anne Other')
+    click_link 'Back to your details'
   end
 
   def and_i_can_see_my_equality_and_diversity_answers
+    click_link 'Equality and diversity questions'
     expect(page).to have_content('Prefer not to say')
+    click_link 'Back to your details'
   end
 
-  def and_i_visit_the_application_form_page
-    visit candidate_interface_application_form_path
+  def and_i_visit_the_application_details_page
+    visit candidate_interface_continuous_applications_details_path
   end
 
-  def when_i_click_on_check_your_answers
-    click_link 'Check and submit your application'
+  def and_i_visit_the_application_choices_page
+    visit candidate_interface_continuous_applications_choices_path
   end
 
   def when_i_confirm_my_application
@@ -168,7 +191,9 @@ RSpec.feature 'Candidate submits the application', continuous_applications: fals
   end
 
   def and_i_submit_the_application
-    click_button 'Send application'
+    click_button 'Review application'
+    click_link 'Continue without editing'
+    click_button 'Confirm and submit application'
   end
 
   def and_i_skip_feedback
@@ -185,29 +210,22 @@ RSpec.feature 'Candidate submits the application', continuous_applications: fals
     expect(current_email).to have_content 'Primary (2XT2) at Gorse SCITT'
   end
 
-  def and_i_am_redirected_to_the_application_dashboard
-    expect(page).to have_content t('page_titles.application_dashboard')
+  def and_i_am_redirected_to_the_application_choices
+    expect(page).to have_content t('page_titles.continuous_applications.your_applications')
     expect(page).to have_content 'Gorse SCITT'
   end
 
   def when_i_click_view_application
-    within '.app-summary-card__actions' do
+    within '.govuk-summary-card__title-wrapper' do
       click_link 'View application'
     end
   end
 
   def then_i_can_see_my_submitted_application
-    expect(page).to have_content t('page_titles.submitted_application')
+    expect(page).to have_current_path(candidate_interface_continuous_applications_course_review_path(ApplicationChoice.last.id))
+    expect(page).to have_content 'Awaiting decision'
     expect(page).to have_content Time.zone.now.to_fs(:govuk_date)
     expect(page).to have_content 'Gorse SCITT'
-    expect(page).to have_content 'Lando Calrissian'
-    expect(page).to have_content '07700 900 982'
-    expect(page).to have_content 'Tour guide'
-    expect(page).to have_content 'BA (Hons) Aerospace engineering'
-    expect(page).to have_content 'A level Believing in the Heart of the Cards'
-    expect(page).to have_content 'I believe I would be a first-rate teacher'
-    expect(page).to have_content 'Everything'
-    expect(page).to have_content 'Not on a Wednesday'
-    expect(page).to have_content 'Terri Tudor'
+    expect(page).to have_content 'Personal statement'
   end
 end

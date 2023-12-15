@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits application with feedback form previously completed', continuous_applications: false do
+RSpec.feature 'Candidate submits application with feedback form previously completed', :continuous_applications do
   include CandidateHelper
 
   it 'Candidate submits application, skips feedback and goes straight to the application dashboard' do
@@ -30,7 +30,7 @@ RSpec.feature 'Candidate submits application with feedback form previously compl
   end
 
   def and_i_see_the_application_dashboard_and_success_message
-    expect(page).to have_current_path(candidate_interface_application_complete_path)
+    expect(page).to have_current_path(candidate_interface_continuous_applications_choices_path)
     expect(page).to have_content('Application submitted')
   end
 end
