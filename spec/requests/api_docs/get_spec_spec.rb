@@ -19,6 +19,8 @@ RSpec.describe 'API Docs - GET /api-docs/spec*.yml' do
 
   describe 'GET /api-docs/spec-draft.yml' do
     context 'when the draft feature flag is active' do
+      let(:development_version) { AllowedCrossNamespaceUsage::VendorAPIInfo.development_version }
+
       around do |example|
         FeatureFlag.activate(:draft_vendor_api_specification) { example.run }
       end
@@ -28,7 +30,7 @@ RSpec.describe 'API Docs - GET /api-docs/spec*.yml' do
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to match('openapi: 3.0.0')
-        expect(response.body).to match(/version: v#{latest_released_version}$/)
+        expect(response.body).to match(/version: v#{development_version}$/)
       end
     end
 
