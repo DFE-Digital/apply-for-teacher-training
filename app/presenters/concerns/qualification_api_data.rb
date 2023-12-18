@@ -61,6 +61,10 @@ module QualificationAPIData
     false
   end
 
+  def include_completing_qualification?
+    false
+  end
+
   def qualifications_of_level(level)
     application_form.application_qualifications.select do |qualification|
       qualification.level == level
@@ -84,7 +88,9 @@ module QualificationAPIData
       institution_details: institution_details(qualification),
       awarding_body: nil,
       equivalency_details: qualification.composite_equivalency_details,
-    }.merge(HesaQualificationFieldsPresenter.new(qualification).to_hash)
+    }
+    .merge(HesaQualificationFieldsPresenter.new(qualification).to_hash)
+    .merge(completing_qualification(qualification))
   end
 
   def subject_code(qualification)
@@ -139,5 +145,17 @@ module QualificationAPIData
                                                  grade: hash['grade'],
                                                  id: hash['public_id'])
     end
+  end
+
+private
+
+  def completing_qualification(qualification)
+    return {} unless include_completing_qualification? && qualification.gcse?
+
+    {
+      currently_completing_qualification: qualification[:currently_completing_qualification],
+      missing_explanation: qualification[:missing_explanation],
+      other_uk_qualification_type: qualification[:other_uk_qualification_type],
+    }
   end
 end

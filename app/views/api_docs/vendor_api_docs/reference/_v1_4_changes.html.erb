@@ -1,0 +1,16 @@
+<h2 class="govuk-heading-l" id="important">Version 1.4 changes</h2>
+
+<p class="govuk-heading-s">Add GCSE qualifications data</p>
+
+<p class="govuk-body">
+  Ensure we send the following fields over the API, as part of the "qualifications"."gcses" object:
+</p>
+
+<p class="govuk-body">
+  The following fields have been added to the <%= govuk_link_to 'qualifications', '#qualifications-object' %> objects, under the <code>gcses</code> array:
+</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li><code>currently_completing_qualification</code> (boolean, optional)</li>
+  <li><code>missing_explanation</code>  (text, optional)</li>
+  <li><code>other_uk_qualification_type</code> (string, optional)</li>
+</ul>

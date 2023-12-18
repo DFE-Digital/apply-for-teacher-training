@@ -5,6 +5,7 @@ module VendorAPI
   VERSION_1_1 = '1.1'.freeze
   VERSION_1_2 = '1.2'.freeze
   VERSION_1_3 = '1.3'.freeze
+  VERSION_1_4 = '1.4pre'.freeze
   VERSION = VERSION_1_3
 
   VERSIONS = {
@@ -53,6 +54,9 @@ module VendorAPI
       Changes::WorkHistory::MarkDescriptionAsOptional,
       Changes::MarkPhaseAsDeprecated,
       Changes::RemoveReferencesWhenApplicationIsUnsuccessful,
+    ],
+    '1.4pre' => [
+      Changes::V14::AddGcseCompletingQualificationData,
     ],
   }.freeze
 end

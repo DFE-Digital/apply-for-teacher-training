@@ -9,10 +9,11 @@ Incrementing the API to major versions is currently not supported.
 Minor version updates are only for non-breaking changes. A key design principle is maintaining backwards compatibility with all prior minor versions.
 
 When incrementing a minor version, the following changes can be introduced:
- - Adding fields to an existing schema
- - Adding a new action to an existing controller
- - Adding a new nested resource
- - Adding metadata fields
+
+- Adding fields to an existing schema
+- Adding a new action to an existing controller
+- Adding a new nested resource
+- Adding metadata fields
 
 Fields, routes and endpoints cannot be removed once they have been introduced.
 
@@ -41,6 +42,7 @@ When introducing a new field or changing the behavior of existing fields, create
 The presenter module needs to implement the `schema` method, and deep merge into the returned value.
 
 For example, to add a new `date_and_time` field to an existing `InterviewPresenter` schema, there are three key steps:
+
 1. Introduce a new presenter module
 2. Create a change class
 3. Include the change class in the Vendor API
@@ -390,6 +392,7 @@ end
 ### Add tests for the controller changes
 
 For each new controller action, add a request spec:
+
 - `spec/requests/vendor_api/v1.2/post_create_feedback_spec.rb`
 - `spec/requests/vendor_api/v1.2/post_update_feedback_spec.rb`
 
