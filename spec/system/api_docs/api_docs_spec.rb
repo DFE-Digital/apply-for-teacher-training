@@ -4,6 +4,9 @@ RSpec.feature 'API docs' do
   scenario 'User browses through the API docs' do
     given_i_am_a_vendor
     i_can_browse_the_api_docs
+
+    when_i_enter_an_incorrect_api_version_in_the_url
+    then_i_get_redirected_to_the_latest_production_version
   end
 
   def given_i_am_a_vendor
@@ -32,5 +35,13 @@ RSpec.feature 'API docs' do
 
     click_link 'When emails are sent'
     expect(page).to have_content 'we send these notifications'
+  end
+
+  def when_i_enter_an_incorrect_api_version_in_the_url
+    visit api_docs_versioned_reference_path(api_version: 'v1.1.1')
+  end
+
+  def then_i_get_redirected_to_the_latest_production_version
+    expect(page).to have_current_path api_docs_versioned_reference_path(api_version: "v#{VendorAPI::VERSION}"), ignore_query: true
   end
 end
