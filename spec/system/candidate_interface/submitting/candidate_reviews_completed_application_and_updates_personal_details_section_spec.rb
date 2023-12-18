@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate is redirected correctly', continuous_applications: false do
+RSpec.feature 'Candidate is redirected correctly', :continuous_applications do
   include CandidateHelper
 
   it 'Candidate reviews completed application and updates personal details section' do
@@ -10,14 +10,15 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
     then_i_should_see_all_sections_are_complete
 
     # name
+    click_link 'Personal information'
     when_i_click_change_name
     then_i_should_see_the_personal_details_form
 
     when_i_click_back
-    then_i_should_be_redirected_to_the_application_review_page
+    then_i_should_be_redirected_to_the_personal_information_review_page
 
     when_i_update_my_name
-    then_i_should_be_redirected_to_the_application_review_page
+    then_i_should_be_redirected_to_the_personal_information_review_page
     and_i_should_see_my_updated_name
 
     # date of birth
@@ -25,10 +26,10 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
     then_i_should_see_the_personal_details_form
 
     when_i_click_back
-    then_i_should_be_redirected_to_the_application_review_page
+    then_i_should_be_redirected_to_the_personal_information_review_page
 
     when_i_update_my_date_of_birth
-    then_i_should_be_redirected_to_the_application_review_page
+    then_i_should_be_redirected_to_the_personal_information_review_page
     and_i_should_see_my_updated_date_of_birth
 
     # nationality
@@ -36,21 +37,23 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
     then_i_should_see_the_nationality_form
 
     when_i_click_back
-    then_i_should_be_redirected_to_the_application_review_page
+    then_i_should_be_redirected_to_the_personal_information_review_page
 
     when_i_update_my_nationality
-    then_i_should_be_redirected_to_the_application_review_page
+    then_i_should_be_redirected_to_the_personal_information_review_page
     and_i_should_see_my_updated_nationality
 
     # phone number
+    when_i_click_back
+    click_link 'Contact information'
     when_i_click_change_phone_number
     then_i_should_see_the_phone_number_form
 
     when_i_click_back
-    then_i_should_be_redirected_to_the_application_review_page
+    then_i_should_be_redirected_to_the_contact_information_review_page
 
     when_i_update_my_phone_number
-    then_i_should_be_redirected_to_the_application_review_page
+    then_i_should_be_redirected_to_the_contact_information_review_page
     and_i_should_see_my_updated_phone_number
 
     # address
@@ -58,10 +61,10 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
     then_i_should_see_the_address_type_form
 
     when_i_click_back
-    then_i_should_be_redirected_to_the_application_review_page
+    then_i_should_be_redirected_to_the_contact_information_review_page
 
     when_i_update_my_address
-    then_i_should_be_redirected_to_the_application_review_page
+    then_i_should_be_redirected_to_the_contact_information_review_page
     and_i_should_see_my_updated_address
   end
 
@@ -75,7 +78,6 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
 
   def and_i_review_my_application
     and_i_visit_the_application_form_page
-    when_i_click_on_check_your_answers
   end
 
   def then_i_should_see_all_sections_are_complete
@@ -85,11 +87,7 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
   end
 
   def and_i_visit_the_application_form_page
-    visit candidate_interface_application_form_path
-  end
-
-  def when_i_click_on_check_your_answers
-    click_link 'Check and submit your application'
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def when_i_click_change_name
@@ -123,27 +121,31 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
   end
 
   def then_i_should_see_the_personal_details_form
-    expect(page).to have_current_path(candidate_interface_edit_name_and_dob_path('return-to' => 'application-review'))
+    expect(page).to have_current_path(candidate_interface_edit_name_and_dob_path)
   end
 
   def then_i_should_see_the_nationality_form
-    expect(page).to have_current_path(candidate_interface_edit_nationalities_path('return-to' => 'application-review'))
+    expect(page).to have_current_path(candidate_interface_edit_nationalities_path)
   end
 
   def then_i_should_see_the_phone_number_form
-    expect(page).to have_current_path(candidate_interface_edit_phone_number_path('return-to' => 'application-review'))
+    expect(page).to have_current_path(candidate_interface_edit_phone_number_path)
   end
 
   def then_i_should_see_the_address_type_form
-    expect(page).to have_current_path(candidate_interface_edit_address_type_path('return-to' => 'application-review'))
+    expect(page).to have_current_path(candidate_interface_edit_address_type_path)
   end
 
   def when_i_click_back
     click_link 'Back'
   end
 
-  def then_i_should_be_redirected_to_the_application_review_page
-    expect(page).to have_current_path(candidate_interface_application_review_path)
+  def then_i_should_be_redirected_to_the_personal_information_review_page
+    expect(page).to have_current_path(candidate_interface_personal_details_show_path)
+  end
+
+  def then_i_should_be_redirected_to_the_contact_information_review_page
+    expect(page).to have_current_path(candidate_interface_contact_information_review_path)
   end
 
   def when_i_update_my_name
