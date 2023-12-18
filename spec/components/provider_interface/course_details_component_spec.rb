@@ -158,7 +158,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
   it 'renders the study mode' do
     render_text = row_text_selector(:full_or_part_time, render)
 
-    expect(render_text).to include('Full or part time')
+    expect(render_text).to include('Full time or part time')
     expect(render_text).to include('Full time')
   end
 
