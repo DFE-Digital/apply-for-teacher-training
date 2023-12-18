@@ -1,6 +1,7 @@
 en:
   application_form:
     personal_statement:
+      label: Your personal statement
       review:
         label: Personal statement
       becoming_a_teacher:
