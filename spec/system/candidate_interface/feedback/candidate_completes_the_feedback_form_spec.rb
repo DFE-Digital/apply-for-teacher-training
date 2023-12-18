@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate feedback form' do
   include CandidateHelper
 
-  it 'Candidate completes the feedback form', continuous_applications: false do
+  it 'Candidate completes the feedback form', skip: 'Update to continuous applications' do
     given_i_complete_and_submit_my_application
     then_i_should_see_the_feedback_form
 

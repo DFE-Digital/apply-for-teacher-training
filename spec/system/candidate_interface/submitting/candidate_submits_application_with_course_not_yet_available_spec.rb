@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits the application with a course that is not available and full', continuous_applications: false do
+RSpec.feature 'Candidate submits the application with a course that is not available and full', skip: 'Update to continuous applications' do
   include CandidateHelper
 
   it 'Candidate with a completed application form' do

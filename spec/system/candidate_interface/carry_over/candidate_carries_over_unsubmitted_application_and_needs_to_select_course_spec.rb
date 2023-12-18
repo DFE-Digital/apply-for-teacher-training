@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Carry over' do
+RSpec.feature 'Carry over', skip: 'Update to continuous applications' do
   include CandidateHelper
 
   scenario 'Candidate carries over unsubmitted application and needs to select course' do

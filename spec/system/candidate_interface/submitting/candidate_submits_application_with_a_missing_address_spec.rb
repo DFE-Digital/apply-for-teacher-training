@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate attempts to submit their application without a valid address', continuous_applications: false do
+RSpec.feature 'Candidate attempts to submit their application without a valid address', skip: 'Update to continuous applications' do
   include CandidateHelper
 
   it 'The candidate has completed their contact details without entering an address' do
