@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SetDeclineByDefaultToEndOfCycle do
   describe '#call' do
     let(:factory_options) { {} }
-    let(:application_choice) { create(:application_choice, state, :with_completed_application_form, :continuous_applications, **factory_options) }
+    let(:application_choice) { create(:application_choice, state, :with_completed_application_form, **factory_options) }
     let(:state) { :awaiting_provider_decision }
 
     subject(:call_service) { described_class.new(application_choice:).call }
