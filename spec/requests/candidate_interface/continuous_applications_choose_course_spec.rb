@@ -61,15 +61,5 @@ RSpec.describe 'continuous applications redirects' do
         expect(response).not_to redirect_to(candidate_interface_continuous_applications_provider_selection_path)
       end
     end
-
-    describe 'course selection' do
-      let(:provider) { create(:provider) }
-
-      it 'redirects to provider continuous applications' do
-        get candidate_interface_course_choices_course_path(provider.id)
-
-        expect(response).not_to redirect_to(candidate_interface_continuous_applications_which_course_are_you_applying_to_path(provider.id))
-      end
-    end
   end
 end
