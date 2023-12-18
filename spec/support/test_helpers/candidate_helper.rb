@@ -114,7 +114,85 @@ module CandidateHelper
     given_courses_exist
     create_and_sign_in_candidate(candidate:)
 
-    if RSpec.current_example.metadata[:continuous_applications]
+    if !RSpec.current_example.metadata[:continuous_applications] == false
+      visit candidate_interface_application_form_path
+      click_link 'Choose your courses'
+
+      candidate_fills_in_apply_again_course_choice
+
+      click_link t('page_titles.personal_information.heading')
+      candidate_fills_in_personal_details(international:)
+
+      click_link t('page_titles.contact_information')
+      candidate_fills_in_contact_details
+
+      click_link t('page_titles.work_history')
+
+      candidate_fills_in_restructured_work_experience
+      candidate_fills_in_restructured_work_experience_break
+
+      if with_referees
+        candidate_provides_two_referees
+        receive_references
+        advance_time_to(5.minutes.from_now)
+        mark_references_as_complete
+      end
+
+      click_link t('page_titles.volunteering.short')
+
+      candidate_fills_in_restructured_volunteering_role
+
+      click_link t('page_titles.training_with_a_disability')
+      candidate_fills_in_disability_info
+
+      click_link t('page_titles.suitability_to_work_with_children')
+      candidate_fills_in_safeguarding_issues
+
+      click_link t('page_titles.degree')
+      candidate_fills_in_their_degree
+
+      click_link 'Maths GCSE or equivalent'
+      candidate_fills_in_their_maths_gcse
+
+      click_link 'English GCSE or equivalent'
+      candidate_fills_in_their_english_gcse
+
+      click_link 'Science GCSE or equivalent'
+      candidate_explains_a_missing_gcse
+
+      click_link(international ? 'Other qualifications' : 'A levels and other qualifications')
+      candidate_fills_in_their_other_qualifications
+
+      if FeatureFlag.active?(:one_personal_statement)
+        click_link t('application_form.personal_statement.label')
+      else
+        click_link 'Why you want to teach'
+      end
+      candidate_fills_in_becoming_a_teacher
+
+      if !FeatureFlag.active?(:one_personal_statement)
+        click_link 'Your suitability to teach a subject or age group'
+        candidate_fills_in_subject_knowledge
+      end
+
+      click_link t('page_titles.interview_preferences.heading')
+      candidate_fills_in_interview_preferences
+
+      click_link 'Equality and diversity questions'
+      if international
+        candidate_fills_in_diversity_information(school_meals: false)
+      else
+        candidate_fills_in_diversity_information
+      end
+
+      if international
+        click_link t('page_titles.efl.review')
+        choose 'No, English is not a foreign language to me'
+        click_button 'Continue'
+        choose 'Yes, I have completed this section'
+        click_button 'Continue'
+      end
+    else
       ##########################################
       #
       # Filling out Your Details
@@ -220,97 +298,13 @@ module CandidateHelper
 
       click_link 'Science GCSE or equivalent'
       candidate_explains_a_missing_gcse
-    else
-      visit candidate_interface_application_form_path
-      click_link 'Choose your courses'
-
-      candidate_fills_in_apply_again_course_choice
-
-      click_link t('page_titles.personal_information.heading')
-      candidate_fills_in_personal_details(international:)
-
-      click_link t('page_titles.contact_information')
-      candidate_fills_in_contact_details
-
-      click_link t('page_titles.work_history')
-
-      candidate_fills_in_restructured_work_experience
-      candidate_fills_in_restructured_work_experience_break
-
-      if with_referees
-        candidate_provides_two_referees
-        receive_references
-        advance_time_to(5.minutes.from_now)
-        mark_references_as_complete
-      end
-
-      click_link t('page_titles.volunteering.short')
-
-      candidate_fills_in_restructured_volunteering_role
-
-      click_link t('page_titles.training_with_a_disability')
-      candidate_fills_in_disability_info
-
-      click_link t('page_titles.suitability_to_work_with_children')
-      candidate_fills_in_safeguarding_issues
-
-      click_link t('page_titles.degree')
-      candidate_fills_in_their_degree
-
-      click_link 'Maths GCSE or equivalent'
-      candidate_fills_in_their_maths_gcse
-
-      click_link 'English GCSE or equivalent'
-      candidate_fills_in_their_english_gcse
-
-      click_link 'Science GCSE or equivalent'
-      candidate_explains_a_missing_gcse
-
-      click_link(international ? 'Other qualifications' : 'A levels and other qualifications')
-      candidate_fills_in_their_other_qualifications
-
-      if FeatureFlag.active?(:one_personal_statement)
-        click_link t('application_form.personal_statement.label')
-      else
-        click_link 'Why you want to teach'
-      end
-      candidate_fills_in_becoming_a_teacher
-
-      if !FeatureFlag.active?(:one_personal_statement)
-        click_link 'Your suitability to teach a subject or age group'
-        candidate_fills_in_subject_knowledge
-      end
-
-      click_link t('page_titles.interview_preferences.heading')
-      candidate_fills_in_interview_preferences
-
-      click_link 'Equality and diversity questions'
-      if international
-        candidate_fills_in_diversity_information(school_meals: false)
-      else
-        candidate_fills_in_diversity_information
-      end
-
-      if international
-        click_link t('page_titles.efl.review')
-        choose 'No, English is not a foreign language to me'
-        click_button 'Continue'
-        choose 'Yes, I have completed this section'
-        click_button 'Continue'
-      end
     end
 
     @application = ApplicationForm.last
   end
 
   def candidate_reviews_application
-    if RSpec.current_example.metadata[:continuous_applications]
-      visit candidate_interface_continuous_applications_choices_path
-
-      click_link 'Continue application'
-      click_button 'Review application'
-      click_link 'Continue without editing'
-    else
+    if !RSpec.current_example.metadata[:continuous_applications] == false
       visit candidate_interface_application_form_path
 
       click_link 'Check and submit your application'
@@ -318,20 +312,19 @@ module CandidateHelper
 
       # Is there anything else you would like to tell us about your application?
       click_button 'Send application'
+    else
+      visit candidate_interface_continuous_applications_choices_path
+
+      click_link 'Continue application'
+      click_button 'Review application'
+      click_link 'Continue without editing'
     end
 
     @application = ApplicationForm.last
   end
 
   def candidate_submits_application
-    if RSpec.current_example.metadata[:continuous_applications]
-      visit candidate_interface_continuous_applications_choices_path
-
-      click_link 'Continue application'
-      click_button 'Review application'
-      click_link 'Continue without editing'
-      click_button 'Confirm and submit application'
-    else
+    if !RSpec.current_example.metadata[:continuous_applications] == false
       visit candidate_interface_application_form_path
 
       click_link 'Check and submit your application'
@@ -339,6 +332,13 @@ module CandidateHelper
 
       # Is there anything else you would like to tell us about your application?
       click_button 'Send application'
+    else
+      visit candidate_interface_continuous_applications_choices_path
+
+      click_link 'Continue application'
+      click_button 'Review application'
+      click_link 'Continue without editing'
+      click_button 'Confirm and submit application'
     end
 
     @application = ApplicationForm.last
@@ -490,8 +490,10 @@ module CandidateHelper
   end
 
   def candidate_fills_in_primary_course_choice
-    visit candidate_interface_continuous_applications_choices_path
-    click_link 'Add application'
+    if RSpec.current_example.metadata[:continuous_applications] != false
+      visit candidate_interface_continuous_applications_choices_path
+      click_link 'Add application'
+    end
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
 
