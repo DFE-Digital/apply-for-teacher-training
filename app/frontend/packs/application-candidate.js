@@ -9,7 +9,7 @@ import 'accessible-autocomplete/dist/accessible-autocomplete.min.css'
 import '../styles/application-candidate.scss'
 import cookieBanners from './cookies/cookie-banners'
 
-require.context('govuk-frontend/govuk/assets')
+require.context('govuk-frontend/dist/govuk')
 
 govUKFrontendInitAll()
 
