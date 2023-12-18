@@ -33,7 +33,7 @@ class AddDefaultPermissionsForProviderRelationships < ActiveRecord::Migration[6.
     end
 
     # Find any orgs with no signed DSA.
-    providers_with_no_signed_dsa = Provider.where.not(id: ProviderAgreement.all.pluck(:provider_id))
+    providers_with_no_signed_dsa = Provider.where.not(id: ProviderAgreement.all.select(:provider_id))
 
     # Assign the manage orgs permission to the first user for each of these.
     providers_with_no_signed_dsa.each do |provider|
