@@ -33,12 +33,13 @@
   background: none;
 }
 
-@media (width >= 48.0625em) {
+@media (min-width: 48.0625em) {
   .moj-filter-layout__filter {
     max-width: 310px;
     margin-right: govuk-spacing(6);
   }
 }
+
 
 .moj-filter__header {
   background: govuk-colour("white");
