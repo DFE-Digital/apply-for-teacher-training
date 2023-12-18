@@ -20,6 +20,7 @@ en:
     url: https://www.gov.uk
     terms_conditions_url: https://www.gov.uk/help/terms-conditions
     safeguarding: https://www.gov.uk/tell-employer-or-college-about-criminal-record
+    check_if_you_need_visa: https://www.gov.uk/check-uk-visa
   teacher_training_courses_api:
     documentation_url: https://api.publish-teacher-training-courses.service.gov.uk/
   publish_teacher_training_courses:
@@ -47,7 +48,6 @@ en:
     url_references: https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/teacher-training-references
   train_to_teach_in_england:
     url: https://www.gov.uk/government/publications/train-to-teach-in-england-non-uk-applicants/train-to-teach-in-england-non-uk-applicants#visas-and-immigration
-    url_citizen_visa: https://getintoteaching.education.gov.uk/non-uk-teachers/visas-for-non-uk-trainees
   register_of_sponsor_licences:
     url: https://www.gov.uk/government/publications/register-of-licensed-sponsors-students
   ability_net:
