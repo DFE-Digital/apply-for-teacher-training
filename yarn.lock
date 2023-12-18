@@ -3459,6 +3459,7 @@ devtools-protocol@0.0.1232444:
   resolved "https://codeload.github.com/DFE-Digital/dfe-autocomplete/tar.gz/36d80e6b5bba67c92cd9ec6982a4e536d1889aed"
   dependencies:
     accessible-autocomplete "^2.0.4"
+    govuk-frontend "^3.14.0"
 
 diff-sequences@^29.6.3:
   version "29.6.3"
@@ -4629,7 +4630,12 @@ gopd@^1.0.1:
   dependencies:
     get-intrinsic "^1.1.3"
 
-"govuk-frontend@^3.0.0 || ^4.0.0", govuk-frontend@^4.7.0:
+govuk-frontend@5.0.0-beta.2:
+  version "5.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-5.0.0-beta.2.tgz#293cf121c6ed379647fd2ac948a6e11f359c2f7c"
+  integrity sha512-ELp6skcgCj5lFt6NqeFE1g+kDSRVc8Jk6W071FOi6vrr/m4dUxhiatYo2YMabIcSsyVRmVSLQTPAT0mxpbEFBg==
+
+"govuk-frontend@^3.0.0 || ^4.0.0":
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-4.7.0.tgz#69950b6c2e69f435ffe9aa60d8dee232dac977de"
   integrity sha512-0OsdCusF5qvLWwKziU8zqxiC0nq6WP0ZQuw51ymZ/1V0tO71oIKMlSLN2S9bm8RcEGSoidPt2A34gKxePrLjvg==
