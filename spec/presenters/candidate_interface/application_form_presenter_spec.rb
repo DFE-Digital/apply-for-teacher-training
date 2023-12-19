@@ -571,40 +571,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
-  describe '#subject_knowledge_completed?' do
-    it 'returns true if the interview prefrences section is completed' do
-      application_form = build(:application_form, subject_knowledge_completed: true)
-      presenter = described_class.new(application_form)
-
-      expect(presenter).to be_subject_knowledge_completed
-    end
-
-    it 'returns false if the subject knowledge section is incomplete' do
-      application_form = build(:application_form, subject_knowledge_completed: false)
-      presenter = described_class.new(application_form)
-
-      expect(presenter).not_to be_subject_knowledge_completed
-    end
-  end
-
-  describe '#subject_knowledge_valid?' do
-    it 'returns true if the subject knowledge section is valid' do
-      application_form = build(:completed_application_form, subject_knowledge_completed: false)
-      presenter = described_class.new(application_form)
-
-      expect(presenter).to be_subject_knowledge_valid
-    end
-
-    it 'returns false if the subject knowledge section is invalid' do
-      invalid_text = Faker::Lorem.sentence(word_count: 401)
-      application_form = build(:application_form, subject_knowledge_completed: false, subject_knowledge: invalid_text)
-
-      presenter = described_class.new(application_form)
-
-      expect(presenter).not_to be_subject_knowledge_valid
-    end
-  end
-
   describe '#interview_preferences_completed?' do
     it 'returns true if the interview preferences section is completed' do
       application_form = build(:application_form, interview_preferences_completed: true)

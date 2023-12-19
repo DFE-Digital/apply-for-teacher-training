@@ -52,10 +52,6 @@ class ApplicationForm < ApplicationRecord
   MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS = 15
   RECOMMENDED_PERSONAL_STATEMENT_WORD_COUNT = 500
 
-  # Applications created after this date include a single personal statement
-  # instead of 2 personal statement sections
-  SINGLE_PERSONAL_STATEMENT_FROM = DateTime.new(2023, 4, 24, 9, 0)
-
   BEGINNING_OF_FREE_SCHOOL_MEALS = Date.new(1964, 9, 1)
   # Free school meals were means tested from around 1980 onwards under
   # changes brought in by the Education Act 1980. Based on this, we don’t need
@@ -76,7 +72,6 @@ class ApplicationForm < ApplicationRecord
     references
     safeguarding_issues
     science_gcse
-    subject_knowledge
     training_with_a_disability
     volunteering
     work_history
@@ -167,7 +162,7 @@ class ApplicationForm < ApplicationRecord
 
   PUBLISHED_FIELDS = %w[
     first_name last_name support_reference phase submitted_at
-    becoming_a_teacher subject_knowledge interview_preferences
+    becoming_a_teacher interview_preferences
     date_of_birth domicile right_to_work_or_study_details
     english_main_language other_language_details
     disability_disclosure further_information safeguarding_issues_status
@@ -195,10 +190,6 @@ class ApplicationForm < ApplicationRecord
     end
 
     application_choices.touch_all
-  end
-
-  def single_personal_statement?
-    created_at.nil? || created_at >= SINGLE_PERSONAL_STATEMENT_FROM
   end
 
   def submitted?
@@ -497,10 +488,6 @@ class ApplicationForm < ApplicationRecord
     if reviewable?(:becoming_a_teacher)
       update!(becoming_a_teacher_completed: nil)
     end
-
-    if reviewable?(:subject_knowledge)
-      update!(subject_knowledge_completed: nil)
-    end
   end
 
   def rejection_reasons(section)
@@ -550,10 +537,6 @@ class ApplicationForm < ApplicationRecord
       public_send("#{section}_completed_at=", (value ? Time.zone.now : nil))
       super(value)
     end
-  end
-
-  def single_personal_statement_application?
-    FeatureFlag.active?(:one_personal_statement) && single_personal_statement?
   end
 
   def continuous_applications?
