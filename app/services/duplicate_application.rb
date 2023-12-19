@@ -27,20 +27,6 @@ class DuplicateApplication
         )
       end
 
-      if FeatureFlag.active?(:one_personal_statement) && !original_application_form.single_personal_statement?
-        original_becoming_a_teacher = original_application_form.becoming_a_teacher
-        original_subject_knowledge = original_application_form.subject_knowledge
-        merged_personal_statement = "#{original_becoming_a_teacher}\n\n#{original_subject_knowledge}"
-
-        new_application_form.update!(
-          becoming_a_teacher_completed: false,
-          becoming_a_teacher: merged_personal_statement,
-          subject_knowledge: nil,
-          subject_knowledge_completed: nil,
-          subject_knowledge_completed_at: nil,
-        )
-      end
-
       if !original_application_form.restructured_immigration_status? &&
          new_application_form.restructured_immigration_status? &&
          !new_application_form.british_or_irish?
