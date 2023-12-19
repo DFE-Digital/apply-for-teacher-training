@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       end
 
       it 'shows change link on study mode' do
-        expect(links).to include("Change study mode for #{application_choice.current_course.name_and_code}")
+        expect(links).to include("Change full time or part time for #{application_choice.current_course.name_and_code}")
       end
     end
 

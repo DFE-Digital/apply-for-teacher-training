@@ -55,13 +55,13 @@ module CandidateInterface
 
       def study_mode_row
         {
-          key: 'Study mode',
+          key: 'Full time or part time',
           value: current_course_option.study_mode.humanize.to_s,
         }.tap do |row|
           if unsubmitted? && current_course.currently_has_both_study_modes_available?
             row[:action] = {
               href: candidate_interface_edit_continuous_applications_course_study_mode_path(application_choice.id, current_course.id),
-              visually_hidden_text: "study mode for #{current_course.name_and_code}",
+              visually_hidden_text: "full time or part time for #{current_course.name_and_code}",
             }
           end
         end

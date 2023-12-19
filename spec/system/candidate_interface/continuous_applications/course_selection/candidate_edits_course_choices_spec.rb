@@ -8,7 +8,7 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
     given_i_am_signed_in
     and_there_is_a_course_with_one_course_option
     and_there_is_a_course_with_multiple_course_options
-    and_there_is_a_course_with_both_study_modes_but_one_site
+    and_there_is_a_course_with_both_full_time_and_part_time_but_one_site
 
     when_i_visit_my_application_page
     and_i_click_on_course_choices
@@ -16,7 +16,7 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
     when_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
     and_i_choose_the_third_course_as_my_first_course_choice
-    and_i_choose_the_full_time_study_mode
+    and_i_choose_full_time
     then_i_should_be_on_the_application_choice_review_page
 
     then_i_should_be_on_the_application_choice_review_page
@@ -28,28 +28,28 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
 
     and_i_should_see_the_updated_change_course_link
     and_i_should_not_see_a_change_location_link
-    and_i_should_not_see_a_change_study_mode_link
+    and_i_should_not_see_a_change_full_time_or_part_time_link
 
     when_i_click_to_add_another_course
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
     and_i_choose_the_multi_site_course_as_my_second_course_choice
-    and_i_choose_the_full_time_study_mode
+    and_i_choose_full_time
     and_i_choose_the_first_site
     then_i_should_be_on_the_application_choice_review_page
 
     then_i_should_be_on_the_application_choice_review_page
     and_i_should_see_the_first_site
     and_i_should_see_a_change_location_link
-    and_i_should_see_a_change_study_mode_link
+    and_i_should_see_a_change_full_time_or_part_time_link
 
     when_i_click_to_add_another_course
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
     and_i_choose_the_single_site_course_as_my_third_course_choice
-    and_i_choose_the_full_time_study_mode
+    and_i_choose_full_time
     then_i_should_be_on_the_application_choice_review_page
-    and_i_should_see_another_change_study_mode_link
+    and_i_should_see_another_change_full_time_or_part_time_link
     and_i_should_not_see_another_change_location_link
 
     when_i_visit_my_application_page
@@ -59,19 +59,19 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
     then_i_should_be_on_the_application_choice_review_page
     and_i_should_see_the_updated_site
 
-    when_i_click_to_change_the_study_mode_of_the_second_course_choice
-    and_i_choose_part_time_study_mode
+    when_i_click_to_change_full_time_or_part_time_of_the_second_course_choice
+    and_i_choose_part_time
     and_i_am_asked_to_select_site
-    and_i_choose_the_first_site_that_offers_part_time_study_mode
+    and_i_choose_the_first_site_that_offers_part_time
     then_i_should_be_on_the_application_choice_review_page
-    and_i_should_see_the_updated_study_mode_for_the_second_choice
+    and_i_should_see_the_updated_full_time_or_part_time_section_for_the_second_choice
 
     when_i_visit_my_application_page
     and_i_click_to_continue_my_third_course_choice
-    when_i_click_to_change_the_study_mode_of_the_third_course_choice
-    and_i_choose_part_time_study_mode
+    when_i_click_to_change_full_time_or_part_time_of_the_third_course_choice
+    and_i_choose_part_time
     then_i_should_be_on_the_application_choice_review_page
-    and_i_should_see_the_updated_study_mode_for_the_third_choice
+    and_i_should_see_the_updated_full_time_or_part_time_section_for_the_third_choice
   end
 
   def given_i_am_signed_in
@@ -97,7 +97,7 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
     course_option_for_provider(provider: @provider, course: @provider.courses.second, study_mode: 'part_time')
   end
 
-  def and_there_is_a_course_with_both_study_modes_but_one_site
+  def and_there_is_a_course_with_both_full_time_and_part_time_but_one_site
     create(:course, :open_on_apply, :with_both_study_modes, name: 'Entomology', provider: @provider)
 
     site = create(:site, provider: @provider)
@@ -151,8 +151,8 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
     expect(page).not_to have_content("Change location for #{@provider.courses.first.name}")
   end
 
-  def and_i_should_not_see_a_change_study_mode_link
-    expect(page).not_to have_content("Change study mode for #{@provider.courses.first.name}")
+  def and_i_should_not_see_a_change_full_time_or_part_time_link
+    expect(page).not_to have_content("Change full time or part time for #{@provider.courses.first.name}")
   end
 
   def when_i_click_to_add_another_course
@@ -168,7 +168,7 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
     click_button t('continue')
   end
 
-  def and_i_choose_the_full_time_study_mode
+  def and_i_choose_full_time
     choose 'Full time'
     click_button t('continue')
   end
@@ -186,8 +186,8 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
     expect(page).to have_content("Change location for #{@provider.courses.second.name}")
   end
 
-  def and_i_should_see_a_change_study_mode_link
-    expect(page).to have_content("Change study mode for #{@provider.courses.second.name}")
+  def and_i_should_see_a_change_full_time_or_part_time_link
+    expect(page).to have_content("Change full time or part time for #{@provider.courses.second.name}")
   end
 
   def and_i_choose_the_single_site_course_as_my_third_course_choice
@@ -195,8 +195,8 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
     click_button t('continue')
   end
 
-  def and_i_should_see_another_change_study_mode_link
-    expect(page).to have_content("Change study mode for #{@provider.courses.third.name}")
+  def and_i_should_see_another_change_full_time_or_part_time_link
+    expect(page).to have_content("Change full time or part time for #{@provider.courses.third.name}")
   end
 
   def and_i_should_not_see_another_change_location_link
@@ -216,11 +216,11 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
     expect(page).to have_content(@provider.courses.second.course_options.second.site.name)
   end
 
-  def when_i_click_to_change_the_study_mode_of_the_second_course_choice
-    click_change_link "study mode for #{@provider.courses.second.name_and_code}"
+  def when_i_click_to_change_full_time_or_part_time_of_the_second_course_choice
+    click_change_link "full time or part time for #{@provider.courses.second.name_and_code}"
   end
 
-  def and_i_choose_part_time_study_mode
+  def and_i_choose_part_time
     choose 'Part time'
     click_button t('continue')
   end
@@ -230,21 +230,21 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
     expect(page).to have_content('Which location are you interested in?')
   end
 
-  def and_i_choose_the_first_site_that_offers_part_time_study_mode
+  def and_i_choose_the_first_site_that_offers_part_time
     choose @provider.courses.second.course_options.third.site.name
     click_button t('continue')
   end
 
-  def and_i_should_see_the_updated_study_mode_for_the_second_choice
-    expect(page).to have_content("Study mode\nPart time")
+  def and_i_should_see_the_updated_full_time_or_part_time_section_for_the_second_choice
+    expect(page).to have_content("Full time or part time\nPart time")
   end
 
-  def when_i_click_to_change_the_study_mode_of_the_third_course_choice
-    click_change_link "study mode for #{@provider.courses.third.name_and_code}"
+  def when_i_click_to_change_full_time_or_part_time_of_the_third_course_choice
+    click_change_link "full time or part time for #{@provider.courses.third.name_and_code}"
   end
 
-  def and_i_should_see_the_updated_study_mode_for_the_third_choice
-    expect(page).to have_content("Study mode\nPart time")
+  def and_i_should_see_the_updated_full_time_or_part_time_section_for_the_third_choice
+    expect(page).to have_content("Full time or part time\nPart time")
   end
 
   def when_i_click_to_change_the_course_of_my_third_choice
