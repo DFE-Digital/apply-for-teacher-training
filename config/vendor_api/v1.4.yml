@@ -27,12 +27,12 @@ components:
           example: true
           nullable: true
         missing_explanation:
-          type: text
+          type: string (limited to 50 words)
           description: The explanation if "currently_completing_qualification" is false
-          example: true
+          example: "I have an equivalent qualification."
           nullable: true
         other_uk_qualification_type:
-          type: text
+          type: string (limited to 100 characters )
           description: The response to "Another UK qualification" - "Qualification name"
-          example: true
+          example: "Foundational Diploma"
           nullable: true
