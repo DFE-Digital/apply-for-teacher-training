@@ -120,11 +120,11 @@ private
             label: 'Teaching knowledge, ability and interview performance',
             selected_reasons: [
               {
-                id: 'subject_knowledge',
-                label: 'Subject knowledge',
+                id: 'teaching_demonstration',
+                label: 'Teaching demonstration',
                 details: {
-                  id: 'subject_knowledge_details',
-                  text: 'We do not feel that you have the required level of subject knowledge in Geography',
+                  id: 'teaching_demonstration_details',
+                  text: 'A bad demonstration.',
                 },
               },
             ],
@@ -226,7 +226,7 @@ private
     within '#teaching-knowledge' do
       expect(page).to have_content('20% 1 of 5 rejections included this category')
       expect(page).to have_content('0% 0 of 2 rejections in January included this category')
-      expect(page).to have_content('January within this category Subject knowledge 20% 1 of 5 100% 1 of 1 0% 0 of 2 0% 0 of 0')
+      expect(page).to have_content('January within this category Teaching demonstration 20% 1 of 5 100% 1 of 1 0% 0 of 2 0% 0 of 0')
     end
 
     within '#communication-and-scheduling' do
@@ -275,18 +275,18 @@ private
   end
 
   def and_i_click_on_a_sub_reason
-    click_link 'Subject knowledge'
+    click_link 'Teaching demonstration'
   end
 
   def then_i_can_see_a_list_of_applications_for_that_sub_reason
     expect(page).to have_current_path(
       support_interface_reasons_for_rejection_application_choices_path(
-        structured_rejection_reasons: { teaching_knowledge: 'subject_knowledge' },
+        structured_rejection_reasons: { teaching_knowledge: 'teaching_demonstration' },
         recruitment_cycle_year: RecruitmentCycle.current_year,
       ),
     )
 
-    expect(page).to have_css('h1', text: 'Subject Knowledge')
+    expect(page).to have_css('h1', text: 'Teaching Demonstration')
 
     [
       @application_choice1,
@@ -298,7 +298,7 @@ private
     expect(page).to have_link("##{@application_choice2.id}")
 
     within "#application-choice-section-#{@application_choice2.id}" do
-      expect(page.text).to eq("Application choice ##{@application_choice2.id}\nTeaching Knowledge\nWe do not feel that you have the required level of subject knowledge in Geography\nCommunication And Scheduling\nNo response to our interview invite via email and telephone calls.")
+      expect(page.text).to eq("Application choice ##{@application_choice2.id}\nTeaching Knowledge\nA bad demonstration.\nCommunication And Scheduling\nNo response to our interview invite via email and telephone calls.")
     end
   end
 end
