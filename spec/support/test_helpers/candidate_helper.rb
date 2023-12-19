@@ -13,7 +13,6 @@ module CandidateHelper
     science_gcse
     efl
     becoming_a_teacher
-    subject_knowledge
     interview_preferences
     references_selected
     equality_and_diversity
@@ -80,13 +79,8 @@ module CandidateHelper
       click_link(international ? 'Other qualifications' : 'A levels and other qualifications')
       candidate_fills_in_their_other_qualifications
 
-      click_link 'Why you want to teach'
-      candidate_fills_in_becoming_a_teacher
-
-      if !FeatureFlag.active?(:one_personal_statement)
-        click_link 'Your suitability to teach a subject or age group'
-        candidate_fills_in_subject_knowledge
-      end
+      click_link 'Your personal statement'
+      candidate_fills_in_personal_statement
 
       click_link t('page_titles.interview_preferences.heading')
       candidate_fills_in_interview_preferences
@@ -155,17 +149,8 @@ module CandidateHelper
       click_link(international ? 'Other qualifications' : 'A levels and other qualifications')
       candidate_fills_in_their_other_qualifications
 
-      if FeatureFlag.active?(:one_personal_statement)
-        click_link t('application_form.personal_statement.label')
-      else
-        click_link 'Why you want to teach'
-      end
-      candidate_fills_in_becoming_a_teacher
-
-      if !FeatureFlag.active?(:one_personal_statement)
-        click_link 'Your suitability to teach a subject or age group'
-        candidate_fills_in_subject_knowledge
-      end
+      click_link t('application_form.personal_statement.label')
+      candidate_fills_in_personal_statement
 
       click_link t('page_titles.interview_preferences.heading')
       candidate_fills_in_interview_preferences
@@ -812,20 +797,8 @@ module CandidateHelper
     click_button t('continue')
   end
 
-  def candidate_fills_in_becoming_a_teacher
-    if FeatureFlag.active?(:one_personal_statement)
-      fill_in t('application_form.personal_statement.label'), with: 'I believe I would be a first-rate teacher'
-    else
-      fill_in t('application_form.personal_statement.becoming_a_teacher.label'), with: 'I believe I would be a first-rate teacher'
-    end
-    click_button t('continue')
-    # Confirmation page
-    choose t('application_form.completed_radio')
-    click_button t('continue')
-  end
-
-  def candidate_fills_in_subject_knowledge
-    fill_in t('application_form.personal_statement.subject_knowledge.label'), with: 'Everything'
+  def candidate_fills_in_personal_statement
+    fill_in t('application_form.personal_statement.label'), with: 'I believe I would be a first-rate teacher'
     click_button t('continue')
     # Confirmation page
     choose t('application_form.completed_radio')

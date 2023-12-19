@@ -143,30 +143,12 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
   describe 'validations' do
     let(:application_form) { create(:application_form) }
 
-    before do
-      FeatureFlag.activate(:one_personal_statement)
-    end
-
     it { is_expected.not_to validate_presence_of(:becoming_a_teacher) }
 
-    context 'new single personal statement' do
+    context 'personal statement' do
       before do
-        application_form.update!(created_at: ApplicationForm::SINGLE_PERSONAL_STATEMENT_FROM + 1.day)
         @valid_text = Faker::Lorem.sentence(word_count: 1000)
         @invalid_text = Faker::Lorem.sentence(word_count: 1001)
-      end
-
-      subject { described_class.build_from_application(application_form) }
-
-      it { is_expected.to allow_value(@valid_text).for(:becoming_a_teacher) }
-      it { is_expected.not_to allow_value(@invalid_text).for(:becoming_a_teacher) }
-    end
-
-    context 'old personal statement' do
-      before do
-        application_form.update!(created_at: ApplicationForm::SINGLE_PERSONAL_STATEMENT_FROM - 1.day)
-        @valid_text = Faker::Lorem.sentence(word_count: 600)
-        @invalid_text = Faker::Lorem.sentence(word_count: 601)
       end
 
       subject { described_class.build_from_application(application_form) }

@@ -1,10 +1,6 @@
 <section id="personal-statement-section" class="app-section govuk-!-width-two-thirds">
   <h2 class="govuk-heading-m govuk-!-font-size-27" id="personal-statement"><%= t('personal_statement.title') %></h2>
 
-  <% unless application_form.single_personal_statement_application? %>
-    <h3 class="govuk-heading-s"><%= t('personal_statement.vocation') %>
-  <% end %>
-
     <% if @editable %>
       <%= govuk_link_to support_interface_application_form_edit_becoming_a_teacher_path, class: 'govuk-body' do %>
         Change <span class="govuk-visually-hidden">answer to ‘<%= t('personal_statement.vocation') %>’</span>
@@ -13,32 +9,10 @@
   </h3>
 
   <%= govuk_details(summary_text: 'Guidance given to candidates', classes: 'govuk-!-margin-bottom-4') do %>
-    <% if application_form.single_personal_statement_application? %>
-      <%= render 'candidate_interface/personal_statement/guidance' %>
-    <% else %>
-      <%= render 'candidate_interface/personal_statement/guidance_old' %>
-    <% end %>
+    <%= render 'candidate_interface/personal_statement/guidance' %>
   <% end %>
 
   <%= simple_format becoming_a_teacher, class: 'govuk-body' %>
-
-  <% unless application_form.single_personal_statement_application? %>
-
-    <h3 class="govuk-heading-s"><%= t('personal_statement.subject_knowledge') %>
-      <% if @editable %>
-        <%= govuk_link_to support_interface_application_form_edit_subject_knowledge_path, class: 'govuk-body' do %>
-          Change <span class="govuk-visually-hidden">answer to ‘<%= t('personal_statement.subject_knowledge') %>’</span>
-        <% end %>
-      <% end %>
-    </h3>
-
-    <%= govuk_details(summary_text: 'Guidance given to candidates', classes: 'govuk-!-margin-bottom-4') do %>
-      <%= render 'candidate_interface/subject_knowledge/guidance' %>
-    <% end %>
-
-    <%= simple_format subject_knowledge, class: 'govuk-body' %>
-
-  <% end %>
 
   <h2 class="govuk-heading-m"><%= t('personal_statement.further_information') %></h2>
   <%= simple_format further_information, class: 'govuk-body' %>

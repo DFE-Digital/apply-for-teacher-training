@@ -110,15 +110,12 @@ ApplicationQualification.find(_id).update!(start_year: '2011', award_year: '2014
 
 ### Update personal statement
 
-The personal statement is split into database fields:
+The personal statement uses the following database field:
 
 - `becoming_a_teacher` - Why do you want to be a teacher? (‘Vocation' in support)
-- `subject_knowledge` - Why are you suited to teach your subjects or age group?
-
-Make sure you know which part you are amending. Add `\r\n\r\n` for carriage return.
 
 ```ruby
-ApplicationForm.find(_id).update!(becoming_a_teacher: 'new text', subject_knowledge: 'new_text', audit_comment: 'Updating grade following a support request, ticket ZENDESK-LINK')
+ApplicationForm.find(_id).update!(becoming_a_teacher: 'new text', audit_comment: 'Updating grade following a support request, ticket ZENDESK-LINK')
 ```
 
 ## Courses and course locations
@@ -151,14 +148,14 @@ If the course doesn't exist in the previous cycle we'll need them to confirm the
 
 ### Rollback a providers offer
 
-To rollback a providers offer do the following: 
+To rollback a providers offer do the following:
 
 - Set the status of the application choice back to `awaiting_provider_decision``
 - set `offer_at` back to `nil`
 - Set `decline_by_default_at` back to `nil`
 - Add the Zendesk ticket URL as the `audit_comment`
 
-E.G 
+E.G
 
 ```
 ApplicationForm.find(id).application_choices.find(id).update(status: 'awaiting_provider_decision', offered_at: nil, decline_by_default_at: nil, audit_comment: ADD ZENDESK TICKET URL HERE)

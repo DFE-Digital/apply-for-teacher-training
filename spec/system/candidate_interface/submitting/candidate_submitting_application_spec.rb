@@ -21,7 +21,7 @@ RSpec.feature 'Candidate submits the application', skip: 'Update to continuous a
     and_i_can_see_my_degree
     and_i_can_see_my_gcses
     and_i_can_see_my_other_qualification
-    and_i_can_see_my_personal_statement_info
+    and_i_can_see_my_personal_statement
     and_i_can_see_my_interview_preferences
     and_i_can_see_my_referees
     and_i_can_see_my_equality_and_diversity_answers
@@ -134,16 +134,11 @@ RSpec.feature 'Candidate submits the application', skip: 'Update to continuous a
     click_link 'Back to your details'
   end
 
-  def and_i_can_see_my_personal_statement_info
+  def and_i_can_see_my_personal_statement
     click_link 'Your personal statement'
     expect(page).to have_content 'I believe I would be a first-rate teacher'
     click_link 'Back to your details'
   end
-
-  # def and_i_can_see_my_subject_knowlegde_info
-  #   expect(page).to have_content 'Everything'
-  #   click_link 'Back to your details'
-  # end
 
   def and_i_can_see_my_interview_preferences
     click_link 'Interview availability'
@@ -222,5 +217,13 @@ RSpec.feature 'Candidate submits the application', skip: 'Update to continuous a
     expect(page).to have_content Time.zone.now.to_fs(:govuk_date)
     expect(page).to have_content 'Gorse SCITT'
     expect(page).to have_content 'Personal statement'
+    expect(page).to have_content 'Lando Calrissian'
+    expect(page).to have_content '07700 900 982'
+    expect(page).to have_content 'Tour guide'
+    expect(page).to have_content 'BA (Hons) Aerospace engineering'
+    expect(page).to have_content 'A level Believing in the Heart of the Cards'
+    expect(page).to have_content 'I believe I would be a first-rate teacher'
+    expect(page).to have_content 'Not on a Wednesday'
+    expect(page).to have_content 'Terri Tudor'
   end
 end

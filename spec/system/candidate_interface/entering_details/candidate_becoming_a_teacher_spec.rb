@@ -39,7 +39,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"', continuous_applicat
   end
 
   def when_i_click_on_becoming_a_teacher
-    click_link t('page_titles.becoming_a_teacher')
+    click_link 'Your personal statement'
   end
 
   def and_a_validation_error_is_logged_for_becoming_a_teacher
@@ -52,17 +52,15 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"', continuous_applicat
   end
 
   def and_i_fill_in_some_details_but_omit_some_required_details
-    scope = 'application_form.personal_statement'
-    fill_in t('becoming_a_teacher.label', scope:), with: 'Hello world'
+    fill_in 'Your personal statement', with: 'Hello world'
   end
 
   def and_i_fill_in_an_answer
-    scope = 'application_form.personal_statement'
-    fill_in t('becoming_a_teacher.label', scope:), with: 'Hello world'
+    fill_in 'Your personal statement', with: 'Hello world'
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'Why you want to teach'
+    expect(page).to have_content 'Personal statement'
     expect(page).to have_content 'Hello world'
   end
 
@@ -79,12 +77,11 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"', continuous_applicat
   end
 
   def and_i_fill_in_a_different_answer
-    scope = 'application_form.personal_statement'
-    fill_in t('becoming_a_teacher.label', scope:), with: 'Hello world again'
+    fill_in 'Your personal statement', with: 'Hello world again'
   end
 
   def then_i_can_check_my_revised_answers
-    expect(page).to have_content 'Why you want to teach'
+    expect(page).to have_content 'Personal statement'
     expect(page).to have_content 'Hello world again'
   end
 
@@ -93,10 +90,10 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"', continuous_applicat
   end
 
   def then_i_should_see_the_form
-    expect(page).to have_content(t('page_titles.becoming_a_teacher'))
+    expect(page).to have_content(t('page_titles.personal_statement'))
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#why-you-want-to-teach-badge-id', text: 'Completed')
+    expect(page).to have_css('#your-personal-statement-badge-id', text: 'Completed')
   end
 end

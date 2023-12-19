@@ -4,19 +4,9 @@
 <%= form_with model: @section_complete_form, url: candidate_interface_becoming_a_teacher_complete_path, method: :patch do |f| %>
   <%= f.govuk_error_summary %>
 
-  <% if @application_form.single_personal_statement_application? %>
-    <h1 class="govuk-heading-xl">
-      <%= t('page_titles.personal_statement') %>
-      <% if @application_form.subject_knowledge.nil? && @application_form&.previous_application_form&.subject_knowledge.present? %>
-        <p class="govuk-body govuk-!-margin-top-2 govuk-!-margin-bottom-0">Your personal statement has been combined into one statement instead of two.</p>
-        <p class="govuk-body">You do not need to change anything, but you should check it.</p>
-      <% end %>
-    </h1>
-  <% else %>
-    <h1 class="govuk-heading-xl">
-      <%= t('page_titles.becoming_a_teacher') %>
-    </h1>
-  <% end %>
+  <h1 class="govuk-heading-xl">
+    <%= t('page_titles.personal_statement') %>
+  </h1>
 
   <% if @application_form.review_pending?(:becoming_a_teacher) %>
     <%= govuk_inset_text do %>

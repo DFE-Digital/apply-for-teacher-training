@@ -75,38 +75,13 @@
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.personal_statement') %></h2>
 
   <ol class="app-task-list">
-
-    <% if application_form.single_personal_statement_application? %>
-
-      <li class="app-task-list__item">
-        <%= render(TaskListItemComponent.new(
-          text: t('application_form.personal_statement.label'),
-          completed: application_form_presenter.becoming_a_teacher_completed?,
-          path: application_form_presenter.becoming_a_teacher_path,
-        )) %>
-      </li>
-
-    <% else %>
-
-      <li class="app-task-list__item">
-        <%= render(TaskListItemComponent.new(
-          text: t('page_titles.becoming_a_teacher'),
-          completed: application_form_presenter.becoming_a_teacher_completed?,
-          path: application_form_presenter.becoming_a_teacher_path,
-          custom_status: application_form_presenter.becoming_a_teacher_review_pending? ? 'Review' : nil,
-          custom_color: application_form_presenter.becoming_a_teacher_review_pending? ? 'pink' : nil,
-        )) %>
-      </li>
-      <li class="app-task-list__item">
-        <%= render(TaskListItemComponent.new(
-          text: t('page_titles.subject_knowledge'),
-          completed: application_form_presenter.subject_knowledge_completed?,
-          path: application_form_presenter.subject_knowledge_path,
-          custom_status: application_form_presenter.subject_knowledge_review_pending? ? 'Review' : nil,
-          custom_color: application_form_presenter.subject_knowledge_review_pending? ? 'pink' : nil,
-        )) %>
-      </li>
-    <% end %>
+    <li class="app-task-list__item">
+      <%= render(TaskListItemComponent.new(
+        text: 'Your personal statement',
+        completed: application_form_presenter.becoming_a_teacher_completed?,
+        path: application_form_presenter.becoming_a_teacher_path,
+      )) %>
+    </li>
   </ol>
 </section>
 

@@ -82,7 +82,7 @@ module CandidateInterface
     def becoming_a_teacher_params
       strip_whitespace params.require(:candidate_interface_becoming_a_teacher_form).permit(
         :becoming_a_teacher,
-      ).merge(single_personal_statement: current_application.single_personal_statement?)
+      )
     end
 
     def form_params
