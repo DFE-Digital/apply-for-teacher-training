@@ -780,7 +780,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
       described_class.new(application_choice).as_json
       described_class.new(non_uk_application_choice).as_json
 
-      not_included_in_register_api = %w[phase becoming_a_teacher subject_knowledge interview_preferences further_information safeguarding_issues_status work_history_breaks phone_number]
+      not_included_in_register_api = %w[phase becoming_a_teacher interview_preferences further_information safeguarding_issues_status work_history_breaks phone_number]
 
       (ApplicationForm::PUBLISHED_FIELDS - %w[postcode equality_and_diversity] - not_included_in_register_api).each do |field|
         expect(non_uk_application_form).to have_received(field).at_least(:once)

@@ -8,11 +8,6 @@ en:
         change_action: why you want to be a teacher
         label: Why do you want to be a teacher?
         complete_hint_text: Proofread this section carefully for spelling and grammar. Ask someone you trust for their opinion. Ensure this is all your own work as plagiarism will be penalised.
-      subject_knowledge:
-        key: Why are you suited to teach your subjects or age group?
-        change_action: evidence of subject knowledge
-        label: Why are you suited to teach your subjects or age group?
-        complete_hint_text: Proofread this section carefully for spelling and grammar. Ask someone you trust for their opinion. Ensure this is all your own work as plagiarism will be penalised.
 
   activemodel:
     errors:
@@ -20,12 +15,6 @@ en:
         candidate_interface/becoming_a_teacher_form:
           attributes:
             becoming_a_teacher:
-              too_many_words:
-                one: Your answer must be %{maximum} words or less. You have %{count} word too many.
-                other: Your answer must be %{maximum} words or less. You have %{count} words too many.
-        candidate_interface/subject_knowledge_form:
-          attributes:
-            subject_knowledge:
               too_many_words:
                 one: Your answer must be %{maximum} words or less. You have %{count} word too many.
                 other: Your answer must be %{maximum} words or less. You have %{count} words too many.

@@ -26,12 +26,6 @@ en:
       audit_comment:
         label: Audit log comment
         hint: This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here
-    edit_subject_knowledge_form:
-      subject_knowledge:
-        label: Edit subject knowledge
-      audit_comment:
-        label: Audit log comment
-        hint: This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here
     edit_address_details_form:
       address_types:
         label: Where does the candidate live?
@@ -189,13 +183,6 @@ en:
             becoming_a_teacher:
               blank: Tell us why the candidate wants to be a teacher
               too_many_words: Tell us why the candidate wants to be a teacher in %{maximum} words or less
-            audit_comment:
-              blank: You must provide an audit comment
-        support_interface/application_forms/edit_subject_knowledge_form:
-          attributes:
-            subject_knowledge:
-              blank: Tell us the candidate’s subject knowledge
-              too_many_words: Tell us about the candidate’s subject knowledge in %{maximum} words or less
             audit_comment:
               blank: You must provide an audit comment
         support_interface/application_forms/edit_gcse_award_year_form:

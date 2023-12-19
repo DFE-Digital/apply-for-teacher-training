@@ -9,7 +9,6 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
     and_my_organisation_has_received_an_application_without_restructured_work_history
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface
-    and_the_feature_flag_is_active
 
     when_i_visit_that_application_in_the_provider_interface
 
@@ -29,10 +28,6 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
     and_i_should_see_diversity_information_section
     and_i_should_see_a_link_to_download_as_pdf
     and_i_should_see_the_candidates_references
-  end
-
-  def and_the_feature_flag_is_active
-    FeatureFlag.activate(:one_personal_statement)
   end
 
   def and_i_should_not_see_the_safeguarding_declaration_details
@@ -70,10 +65,8 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
     course_option = course_option_for_provider_code(provider_code: 'ABC')
     application_form = create(
       :application_form,
-      created_at: ApplicationForm::SINGLE_PERSONAL_STATEMENT_FROM - 1.day,
       submitted_at: Time.zone.now,
       becoming_a_teacher: 'This is my personal statement',
-      subject_knowledge: 'This is my subject knowledge',
       interview_preferences: 'Any date is fine',
       further_information: 'Nothing further to add',
       english_main_language: true,
@@ -226,9 +219,8 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   end
 
   def and_i_should_see_the_candidates_personal_statement
+    expect(page).to have_content 'Personal statement'
     expect(page).to have_content 'This is my personal statement'
-    expect(page).to have_content 'This is my subject knowledge'
-    expect(page).to have_content 'Any date is fine'
     expect(page).to have_content 'Nothing further to add'
   end
 

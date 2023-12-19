@@ -10,7 +10,6 @@ RSpec.feature 'Provider views application submitted in new cycle', skip: 'Delete
   end
 
   it 'but started in the previous one' do
-    given_the_feature_flag_is_disabled
     given_i_am_signed_in_as_a_candidate
     when_i_have_an_unsubmitted_application_without_a_course
     and_the_new_recruitment_cycle_begins
@@ -42,10 +41,6 @@ RSpec.feature 'Provider views application submitted in new cycle', skip: 'Delete
     when_i_visit_the_provider_page
     then_i_can_see_a_filter_for_the_current_recruitment_cycle_year
     then_i_can_see_and_load_the_candidates_application
-  end
-
-  def given_the_feature_flag_is_disabled
-    FeatureFlag.deactivate(:one_personal_statement)
   end
 
   def given_i_am_signed_in_as_a_candidate

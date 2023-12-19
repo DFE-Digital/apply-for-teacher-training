@@ -131,15 +131,6 @@ namespace :candidate_interface, path: '/candidate' do
       patch '/complete' => 'personal_statement#complete', as: :becoming_a_teacher_complete
     end
 
-    scope '/subject-knowledge' do
-      get '/' => 'subject_knowledge#new', as: :new_subject_knowledge
-      patch '/' => 'subject_knowledge#create'
-      get '/edit' => 'subject_knowledge#edit', as: :edit_subject_knowledge
-      patch '/edit' => 'subject_knowledge#update'
-      get '/review' => 'subject_knowledge#show', as: :subject_knowledge_show
-      patch '/complete' => 'subject_knowledge#complete', as: :subject_knowledge_complete
-    end
-
     scope '/interview-availability' do
       get '/' => 'interview_availability#new', as: :new_interview_preferences
       patch '/' => 'interview_availability#create'

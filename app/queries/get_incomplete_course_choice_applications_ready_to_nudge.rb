@@ -3,7 +3,6 @@ class GetIncompleteCourseChoiceApplicationsReadyToNudge
   MAIL_TEMPLATE = 'nudge_unsubmitted_with_incomplete_courses'.freeze
   COMPLETION_ATTRS = %w[
     becoming_a_teacher_completed
-    subject_knowledge_completed
     references_completed
   ].freeze
 
