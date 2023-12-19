@@ -4,7 +4,6 @@ RSpec.feature 'Candidate submits the application', skip: 'Update to continuous a
   include CandidateHelper
 
   it 'Candidate with a completed application' do
-    FeatureFlag.activate(:one_personal_statement)
     given_i_am_signed_in
     then_i_should_see_that_i_have_made_no_choices
 

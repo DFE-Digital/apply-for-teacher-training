@@ -6,7 +6,6 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
   include CandidateHelper
 
   before do
-    FeatureFlag.activate(:one_personal_statement)
     create_and_sign_in_candidate
   end
 

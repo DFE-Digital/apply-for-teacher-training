@@ -71,9 +71,6 @@ RSpec.feature 'International candidate submits the application', :continuous_app
     click_link 'English GCSE or equivalent'
     candidate_fills_in_their_english_gcse
 
-    click_link 'Science GCSE or equivalent'
-    candidate_explains_a_missing_gcse
-
     click_link 'Your personal statement'
     candidate_fills_in_personal_statement
 

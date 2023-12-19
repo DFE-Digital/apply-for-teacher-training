@@ -542,17 +542,8 @@ module CandidateHelper
     click_link(international ? 'Other qualifications' : 'A levels and other qualifications')
     candidate_fills_in_their_other_qualifications
 
-    if FeatureFlag.active?(:one_personal_statement)
-      click_link t('application_form.personal_statement.label')
-    else
-      click_link 'Why you want to teach'
-    end
-    candidate_fills_in_becoming_a_teacher
-
-    if !FeatureFlag.active?(:one_personal_statement)
-      click_link 'Your suitability to teach a subject or age group'
-      candidate_fills_in_subject_knowledge
-    end
+    click_link t('application_form.personal_statement.label')
+    candidate_fills_in_personal_statement
 
     click_link t('page_titles.interview_preferences.heading')
     candidate_fills_in_interview_preferences

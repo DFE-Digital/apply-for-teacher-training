@@ -3,12 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Entering "Personal statement"' do
   include CandidateHelper
 
-  before do
-    TestSuiteTimeMachine.travel_permanently_to(ApplicationForm::SINGLE_PERSONAL_STATEMENT_FROM + 1.day)
-  end
-
   scenario 'Candidate submits personal statement' do
-    given_the_feature_flag_is_active
     given_i_am_signed_in
     and_i_visit_the_site
 
@@ -42,10 +37,6 @@ RSpec.feature 'Entering "Personal statement"' do
 
     when_i_click_on_personal_statement
     then_i_can_check_my_revised_answers
-  end
-
-  def given_the_feature_flag_is_active
-    FeatureFlag.activate(:one_personal_statement)
   end
 
   def given_i_am_signed_in
