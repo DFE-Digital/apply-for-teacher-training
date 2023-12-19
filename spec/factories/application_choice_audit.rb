@@ -92,6 +92,16 @@ FactoryBot.define do
       end
     end
 
+    trait :with_inactive_offer do
+      application_choice factory: %i[application_choice offered]
+
+      changes do
+        {
+          'status' => %w[inactive offer],
+        }
+      end
+    end
+
     trait :with_withdrawn_offer do
       application_choice factory: %i[application_choice offer_withdrawn]
 
