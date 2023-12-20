@@ -557,8 +557,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def continuous_applications?
-    @continuous_applications ||= recruitment_cycle_year >= CONTINUOUS_APPLICATIONS_CYCLE_YEAR &&
-                                 FeatureFlag.active?(:continuous_applications)
+    @continuous_applications ||= recruitment_cycle_year >= CONTINUOUS_APPLICATIONS_CYCLE_YEAR
   end
 
   module ColumnSectionMapping
