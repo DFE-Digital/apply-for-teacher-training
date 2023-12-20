@@ -79,7 +79,7 @@ module CandidateHelper
       click_link(international ? 'Other qualifications' : 'A levels and other qualifications')
       candidate_fills_in_their_other_qualifications
 
-      click_link 'Your personal statement'
+      click_link t('application_form.personal_statement.label')
       candidate_fills_in_personal_statement
 
       click_link t('page_titles.interview_preferences.heading')

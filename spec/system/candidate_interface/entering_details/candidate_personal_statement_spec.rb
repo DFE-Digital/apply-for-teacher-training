@@ -9,15 +9,13 @@ RSpec.feature 'Entering "Personal statement"' do
 
     when_i_click_on_personal_statement
     and_i_submit_the_form
-    then_i_should_return_to_the_application
+    then_i_should_be_told_to_write_my_personl_statement
 
-    when_i_click_on_personal_statement
-    and_i_fill_in_more_than_1000_words
+    when_i_fill_in_more_than_1000_words
     and_i_submit_the_form
     then_i_should_see_a_review_page
     and_i_should_see_that_my_personal_statement_is_over_the_word_limit
 
-    when_i_click_to_edit_my_answer
     when_i_fill_in_an_answer
     and_i_submit_the_form
     then_i_can_check_my_answers
@@ -68,7 +66,7 @@ RSpec.feature 'Entering "Personal statement"' do
     fill_in 'Your personal statement', with: 'Hello world'
   end
 
-  def and_i_fill_in_more_than_1000_words
+  def when_i_fill_in_more_than_1000_words
     fill_in 'Your personal statement', with: ('test ' * 1_001)
   end
 
@@ -128,7 +126,7 @@ RSpec.feature 'Entering "Personal statement"' do
     expect(page).to have_css('#your-personal-statement-badge-id', text: 'Completed')
   end
 
-  def then_i_should_return_to_the_application
-    expect(page).to have_content('Your application')
+  def then_i_should_be_told_to_write_my_personl_statement
+    expect(page).to have_content('Write your personal statement')
   end
 end

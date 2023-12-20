@@ -256,12 +256,8 @@ module CandidateInterface
       application_form.becoming_a_teacher_completed
     end
 
-    def becoming_a_teacher_present?
-      BecomingATeacherForm.build_from_application(application_form).present?
-    end
-
     def becoming_a_teacher_path
-      if becoming_a_teacher_completed? || becoming_a_teacher_present?
+      if becoming_a_teacher_completed?
         Rails.application.routes.url_helpers.candidate_interface_becoming_a_teacher_show_path
       else
         Rails.application.routes.url_helpers.candidate_interface_new_becoming_a_teacher_path

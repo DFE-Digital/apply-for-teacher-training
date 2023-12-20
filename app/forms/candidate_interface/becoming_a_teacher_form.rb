@@ -5,8 +5,7 @@ module CandidateInterface
     attr_accessor :becoming_a_teacher
 
     validates :becoming_a_teacher, word_count: { maximum: 1000 }
-
-    delegate :blank?, to: :becoming_a_teacher
+    validates :becoming_a_teacher, presence: true
 
     def self.build_from_application(application_form)
       new(
@@ -21,6 +20,8 @@ module CandidateInterface
     end
 
     def save(application_form)
+      return false unless valid?
+
       if application_form.continuous_applications?
         application_form.update!(
           becoming_a_teacher:,
@@ -35,12 +36,6 @@ module CandidateInterface
             .application_choices
             .all? { |choice| choice.update!(personal_statement: becoming_a_teacher) }
         end
-      end
-    end
-
-    def presence_of_statement
-      if becoming_a_teacher.blank?
-        errors.add(:becoming_a_teacher, 'Write your personal statement')
       end
     end
   end

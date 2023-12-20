@@ -8,10 +8,6 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"', continuous_applicat
     and_i_visit_the_site
 
     when_i_click_on_becoming_a_teacher
-    and_i_submit_the_form
-    then_i_should_return_to_the_application
-
-    when_i_click_on_becoming_a_teacher
     and_i_fill_in_an_answer
     and_i_submit_the_form
     then_i_can_check_my_answers
