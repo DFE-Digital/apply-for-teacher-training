@@ -4,10 +4,13 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
   include DfESignInHelpers
   include CourseOptionHelpers
 
-  scenario 'A provider user withdraws an application at the request of a candidate' do
+  before do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_the_withdraw_at_candidates_request_feature_flag_is_enabled
     and_i_am_permitted_to_make_decisions_for_my_provider
+  end
+
+  scenario 'A provider user withdraws an application at the request of a candidate' do
     and_my_organisation_has_received_an_application_with_an_interview
     and_i_sign_in_to_the_provider_interface
 
@@ -23,6 +26,15 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
 
     when_i_visit_the_decline_or_withdraw_page
     then_i_get_redirected_to_the_application_choice
+  end
+
+  scenario 'A provider user can withdraw an inactive application' do
+    and_my_organisation_has_received_an_inactive_application_with_an_interview
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_visit_a_submitted_application
+    and_i_click_a_link_to_withdraw_at_candidates_request
+    then_i_see_the_interview_cancellation_explanation
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -41,6 +53,12 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
   def and_my_organisation_has_received_an_application_with_an_interview
     course_option = course_option_for_provider_code(provider_code: @provider.code)
     @application_choice = create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, course_option:)
+    @interview = create(:interview, application_choice: @application_choice)
+  end
+
+  def and_my_organisation_has_received_an_inactive_application_with_an_interview
+    course_option = course_option_for_provider_code(provider_code: @provider.code)
+    @application_choice = create(:application_choice, :inactive, course_option:)
     @interview = create(:interview, application_choice: @application_choice)
   end
 
