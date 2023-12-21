@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Apply again with four choices', continuous_applications: false do
   include CandidateHelper
 
-  it 'Candidate applies again with four choices' do
+  skip 'Apply again should be deleted' do
     given_i_am_after_apply_1_deadline
     given_i_am_signed_in_as_a_candidate
     and_the_one_personal_statement_feature_flag_is_active
