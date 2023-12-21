@@ -31,7 +31,6 @@ RSpec.feature 'Candidate submits the application', skip: 'Update to continuous a
 
     when_i_confirm_my_application
     and_i_submit_the_application
-    # and_i_skip_feedback
     then_i_can_see_my_application_has_been_successfully_submitted
     and_i_am_redirected_to_the_application_choices
     and_i_receive_an_email_confirmation
@@ -194,10 +193,6 @@ RSpec.feature 'Candidate submits the application', skip: 'Update to continuous a
     click_button 'Review application'
     click_link 'Continue without editing'
     click_button 'Confirm and submit application'
-  end
-
-  def and_i_skip_feedback
-    click_button 'Continue'
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted
