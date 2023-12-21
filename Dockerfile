@@ -18,7 +18,8 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     SECRET_KEY_BASE=TestKey \
     BLAZER_DATABASE_URL=testURL \
     GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey \
-    REDIS_CACHE_URL=redis://127.0.0.1:6379
+    REDIS_CACHE_URL=redis://127.0.0.1:6379 \
+    NODE_OPTIONS=--openssl-legacy-provider
 
 WORKDIR /app
 
