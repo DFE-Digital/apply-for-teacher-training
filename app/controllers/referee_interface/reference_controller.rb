@@ -112,7 +112,7 @@ module RefereeInterface
     def refuse_feedback
       @refuse_feedback_form = RefuseFeedbackForm.build_from_reference(reference:)
       @application = reference.application_form
-      @provider_name = @application.application_choices.select(&:accepted_choice?).first.provider.name
+      @accepted_choice = @application.application_choices.find(&:accepted_choice?)
     end
 
     def confirm_feedback_refusal
