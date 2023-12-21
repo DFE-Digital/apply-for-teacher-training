@@ -8,6 +8,7 @@ updates:
     ignore:
       - dependency-name: faker
       - dependency-name: sidekiq
+      - dependency-name: omniauth
   - package-ecosystem: npm
     directory: "/"
     schedule:
