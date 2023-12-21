@@ -454,6 +454,124 @@ module CandidateHelper
     click_button t('continue')
   end
 
+  def candidate_fills_in_secondary_course_choice_with_incomplete_details
+    visit candidate_interface_continuous_applications_choices_path
+    click_link 'Add application'
+    choose 'Yes, I know where I want to apply'
+    click_button t('continue')
+
+    select 'Gorse SCITT (1N1)'
+    click_button t('continue')
+
+    choose 'Drama (2397)'
+    click_button t('continue')
+  end
+
+  def candidate_fills_in_secondary_course_choice
+    visit candidate_interface_continuous_applications_choices_path
+    click_link 'Add application'
+    choose 'Yes, I know where I want to apply'
+    click_button t('continue')
+
+    select 'Gorse SCITT (1N1)'
+    click_button t('continue')
+
+    choose 'Drama (2397)'
+    click_button t('continue')
+
+    click_button 'Review application'
+    click_link 'Continue without editing'
+    click_button 'Confirm and submit application'
+
+    if !FeatureFlag.active?(:continuous_applications)
+      choose t('application_form.completed_radio')
+      click_button t('continue')
+    end
+  end
+
+  def candidate_completes_details_except_science(with_referees: true, international: false, candidate: current_candidate)
+    given_courses_exist
+    create_and_sign_in_candidate(candidate:)
+
+    ##########################################
+    #
+    # Filling out Your Details
+    #
+    ##########################################
+
+    visit candidate_interface_continuous_applications_details_path
+
+    click_link t('page_titles.personal_information.heading')
+    candidate_fills_in_personal_details(international:)
+
+    click_link t('page_titles.contact_information')
+    candidate_fills_in_contact_details
+
+    click_link t('page_titles.work_history')
+
+    candidate_fills_in_restructured_work_experience
+    candidate_fills_in_restructured_work_experience_break
+
+    if with_referees
+      candidate_provides_two_referees
+      receive_references
+      advance_time_to(5.minutes.from_now)
+      mark_references_as_complete
+    end
+
+    click_link t('page_titles.volunteering.short')
+
+    candidate_fills_in_restructured_volunteering_role
+
+    click_link t('page_titles.training_with_a_disability')
+    candidate_fills_in_disability_info
+
+    click_link t('page_titles.suitability_to_work_with_children')
+    candidate_fills_in_safeguarding_issues
+
+    click_link t('page_titles.degree')
+    candidate_fills_in_their_degree
+
+    click_link 'Maths GCSE or equivalent'
+    candidate_fills_in_their_maths_gcse
+
+    click_link 'English GCSE or equivalent'
+    candidate_fills_in_their_english_gcse
+
+    click_link(international ? 'Other qualifications' : 'A levels and other qualifications')
+    candidate_fills_in_their_other_qualifications
+
+    if FeatureFlag.active?(:one_personal_statement)
+      click_link t('application_form.personal_statement.label')
+    else
+      click_link 'Why you want to teach'
+    end
+    candidate_fills_in_becoming_a_teacher
+
+    if !FeatureFlag.active?(:one_personal_statement)
+      click_link 'Your suitability to teach a subject or age group'
+      candidate_fills_in_subject_knowledge
+    end
+
+    click_link t('page_titles.interview_preferences.heading')
+    candidate_fills_in_interview_preferences
+
+    click_link 'Equality and diversity questions'
+    if international
+      candidate_fills_in_diversity_information(school_meals: false)
+    else
+      candidate_fills_in_diversity_information
+    end
+
+    if international
+      click_link t('page_titles.efl.review')
+      choose 'No, English is not a foreign language to me'
+      click_button 'Continue'
+      choose 'Yes, I have completed this section'
+      click_button 'Continue'
+    end
+  end
+
   def candidate_fills_in_their_degree
     and_the_candidate_add_the_degree(
       degree_level: 'Bachelor degree',
