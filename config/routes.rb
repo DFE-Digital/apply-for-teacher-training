@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   draw 'api/vendor'
 
   get '/auth/dfe/callback' => 'dfe_sign_in#callback'
-  post '/auth/developer/callback' => 'dfe_sign_in#bypass_callback'
+  get '/auth/developer/callback' => 'dfe_sign_in#bypass_callback'
   get '/auth/dfe/sign-out' => 'dfe_sign_in#redirect_after_dsi_signout'
 
   direct :find do
