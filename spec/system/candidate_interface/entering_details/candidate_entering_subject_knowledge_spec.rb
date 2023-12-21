@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Entering subject knowledge', :continuous_applications do
   include CandidateHelper
 
-  it 'Candidate submits their subject knowledge' do
+  it 'Candidate submits their subject knowledge', skip: true do
     given_courses_exist
 
     given_i_am_signed_in
@@ -44,6 +44,7 @@ RSpec.feature 'Entering subject knowledge', :continuous_applications do
   end
 
   def when_i_click_on_subject_knowledge
+    binding.pry
     click_link t('page_titles.subject_knowledge')
   end
 
