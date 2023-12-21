@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Submitting an application', skip: 'Update to continuous applications' do
+RSpec.feature 'Submitting an application', :continuous_applications do
   include CandidateHelper
 
   it 'Candidate submits complete application' do
@@ -34,18 +34,11 @@ RSpec.feature 'Submitting an application', skip: 'Update to continuous applicati
   end
 
   def and_i_submit_the_application
-    visit candidate_interface_application_form_path
-    click_link 'Check and submit your application'
-    click_link t('continue')
+    candidate_submits_application
   end
   alias_method :when_i_submit_the_application, :and_i_submit_the_application
 
   def then_i_can_see_my_application_has_been_successfully_submitted
-    # Send application to training providers
-    click_button 'Send application'
-
-    # Your feedback
-    click_button 'Continue'
     expect(page).to have_content 'Application submitted'
   end
 
@@ -55,7 +48,7 @@ RSpec.feature 'Submitting an application', skip: 'Update to continuous applicati
   end
 
   def then_i_can_see_a_warning_message
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
     expect(page).to have_content('You’ve created more than one account.')
     expect(page).not_to have_button('Check and submit')
   end

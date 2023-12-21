@@ -1,10 +1,9 @@
 require 'rails_helper'
 
-RSpec.feature 'Carry over', skip: 'Update to continuous applications', time: CycleTimetableHelper.mid_cycle(2022) do
+RSpec.feature 'Carry over', :continuous_applications, skip: 'Carry over does not work in 2024', time: CycleTimetableHelper.mid_cycle(2024) do
   include CandidateHelper
 
   it 'Candidate carries over unsubmitted application with a course to new cycle' do
-    given_the_feature_flag_is_disabled
     given_i_am_signed_in_as_a_candidate
     when_i_have_an_unsubmitted_application
     and_the_recruitment_cycle_ends
@@ -33,10 +32,6 @@ RSpec.feature 'Carry over', skip: 'Update to continuous applications', time: Cyc
     and_i_receive_references
     and_i_submit_my_application
     then_my_application_is_awaiting_provider_decision
-  end
-
-  def given_the_feature_flag_is_disabled
-    FeatureFlag.deactivate(:one_personal_statement)
   end
 
   def given_i_am_signed_in_as_a_candidate
@@ -85,7 +80,7 @@ RSpec.feature 'Carry over', skip: 'Update to continuous applications', time: Cyc
   end
 
   def and_i_visit_the_application_dashboard
-    visit candidate_interface_application_complete_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def then_i_am_redirected_to_the_carry_over_interstitial
