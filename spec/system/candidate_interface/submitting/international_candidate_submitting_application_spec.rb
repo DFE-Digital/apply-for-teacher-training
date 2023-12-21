@@ -5,6 +5,7 @@ RSpec.feature 'International candidate submits the application', :continuous_app
   include EFLHelper
 
   it 'International candidate completes and submits an application' do
+    FeatureFlag.deactivate(:one_personal_statement)
     given_i_am_signed_in
 
     when_i_have_completed_everything_except_the_efl_and_other_qualifications_section
