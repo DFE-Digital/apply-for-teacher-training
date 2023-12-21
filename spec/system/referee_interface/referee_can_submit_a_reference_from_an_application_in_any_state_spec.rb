@@ -10,6 +10,7 @@ RSpec.feature 'Referee can submit reference in any application choice states', :
     and_the_candidate_withdrawns_from_the_application
 
     when_i_click_on_the_link_within_the_email
+    then_i_should_see_a_message_about_the_candidate
     and_i_select_yes_to_giving_a_reference
     then_i_am_asked_to_confirm_my_relationship_with_the_candidate
 
@@ -68,6 +69,10 @@ RSpec.feature 'Referee can submit reference in any application choice states', :
 
   def when_i_click_on_the_link_within_the_email
     click_sign_in_link(current_email)
+  end
+
+  def then_i_should_see_a_message_about_the_candidate
+    expect(page).to have_content("#{current_candidate.current_application.full_name} has said you can give them a reference for their teacher training application.")
   end
 
   def and_i_select_yes_to_giving_a_reference
