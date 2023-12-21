@@ -86,6 +86,27 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     end
   end
 
+  context 'when an application has a status change from inactive' do
+    it 'renders the component including the inactive event' do
+      inactive_offer_audit = create(
+        :application_choice_audit,
+        :with_inactive_offer,
+        user: provider_user,
+        created_at: 3.days.ago,
+      )
+      application_choice = application_choice_with_audits([inactive_offer_audit])
+
+      rendered = render_inline(described_class.new(application_choice:))
+      expect(rendered.text).to include 'Timeline'
+      expect(rendered.text).to include 'Offer made'
+      expect(rendered.text).to include 'Bob Roberts'
+      expect(rendered.text).to include 3.days.ago.to_fs(:govuk_date_and_time)
+      expect(rendered.css('a').text).to include 'View offer'
+      expect(rendered.css('.govuk-visually-hidden').text).to eq "Offer made: Bob Roberts #{3.days.ago.to_fs(:govuk_date_and_time)}"
+      expect(rendered.css('a').attr('href').value).to eq provider_interface_application_choice_offer_path(application_choice)
+    end
+  end
+
   context 'for an application with a note' do
     let(:application_choice) { create(:application_choice) }
 

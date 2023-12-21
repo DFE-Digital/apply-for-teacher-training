@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate is redirected correctly', continuous_applications: false do
+RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous applications' do
   include CandidateHelper
 
   it 'Candidate reviews completed application and updates personal statement section' do

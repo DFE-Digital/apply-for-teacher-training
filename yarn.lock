@@ -8539,10 +8539,10 @@ stylehacks@^4.0.0:
     postcss "^7.0.0"
     postcss-selector-parser "^3.0.0"
 
-stylelint-config-gds@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/stylelint-config-gds/-/stylelint-config-gds-1.1.0.tgz#c47db839b37549c49a96fde15011d76440c7e5eb"
-  integrity sha512-oc9qmd/7HFYIPwyJNusdKT+vxLXECAg9hcv4kIaec/MHz9n1ryf0nzgAhnKkatArxczK00FpoyyRPQwfa6b9eA==
+stylelint-config-gds@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/stylelint-config-gds/-/stylelint-config-gds-1.1.1.tgz#9a7706913e567745cb62c9e105429e8216d8bfae"
+  integrity sha512-MKz0zojmXwEdjV7FG0OSGH8SXA9MxoKo566cGo4EIkx0nPg8t+5GzaJvBgtxn6T6m9pq5DO6DshGbg91Y6BSaQ==
   dependencies:
     stylelint-config-standard "^34.0.0"
     stylelint-config-standard-scss "^11.1.0"

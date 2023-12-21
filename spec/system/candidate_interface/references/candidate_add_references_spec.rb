@@ -349,11 +349,7 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
   end
 
   def then_i_should_be_redirected_to_my_application_or_details
-    if continuous_applications_enabled?
-      expect(page).to have_current_path candidate_interface_continuous_applications_details_path
-    else
-      expect(page).to have_current_path candidate_interface_application_form_path
-    end
+    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
   end
 
   def and_i_delete_the_second_referee
@@ -371,11 +367,7 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
 
   def then_my_application_references_should_be_incomplete
     expect(@application.reload.references_completed).to be false
-    if FeatureFlag.active?(:continuous_applications)
-      click_link 'Back to your details'
-    else
-      click_link 'Back to application'
-    end
+    click_link 'Back to your details'
     expect(safeguarding_section.text.downcase).to include('references to be requested if you accept an offer incomplete')
   end
 

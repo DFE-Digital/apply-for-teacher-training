@@ -86,12 +86,6 @@ RSpec.describe ApplicationForm do
       end
     end
 
-    context 'when feature flag is off', continuous_applications: false do
-      it 'returns false' do
-        expect(application_form).not_to be_continuous_applications
-      end
-    end
-
     context 'when recruitment cycle is before continuous applications delivery' do
       let(:recruitment_cycle_year) { 2023 }
 
