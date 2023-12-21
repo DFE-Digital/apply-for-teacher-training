@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering their other qualifications', :mid_cycle, continuous_applications: false do
+RSpec.feature 'Entering their other qualifications', :mid_cycle do
   include CandidateHelper
 
   scenario 'Candidate submits their other qualifications' do
@@ -95,8 +95,8 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle, continuous_appl
     and_i_delete_my_remaining_qualifications
     then_i_see_the_select_qualification_type_page
 
-    when_i_click_back_to_application_form
-    then_i_see_the_section_is_marked_as_incomplete
+    when_i_click_back_to_your_details
+    then_i_see_the_your_details_page
   end
 
   def given_i_am_signed_in
@@ -376,11 +376,13 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle, continuous_appl
     and_i_confirm_that_i_want_to_delete_my_additional_qualification
   end
 
-  def when_i_click_back_to_application_form
-    click_link 'Back to application'
+  def when_i_click_back_to_your_details
+    click_link 'Back to your details'
   end
 
-  def then_i_see_the_section_is_marked_as_incomplete
-    expect(page).to have_css('#a-levels-and-other-qualifications-badge-id', text: 'Incomplete')
+  def then_i_see_the_your_details_page
+    within '.govuk-heading-xl' do
+      expect(page).to have_content 'Your details'
+    end
   end
 end
