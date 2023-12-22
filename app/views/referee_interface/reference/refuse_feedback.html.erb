@@ -17,11 +17,11 @@
         <p class="govuk-body">
           <%= @application.full_name %> has accepted an offer from <%= @accepted_choice.provider.name %> for a place on a teacher training course.
           They’ve said that you can give them a reference.
-        <p>
+        </p>
       <% else %>
         <p class="govuk-body">
           <%= @application.full_name %> has said you can give them a reference for their teacher training application.
-        <p>
+        </p>
       <% end %>
 
       <p class="govuk-body">Your reference will not be sent to  <%= @application.full_name %>.</p>
