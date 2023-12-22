@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate viewing Science GCSE', :continuous_applications, skip: 'Fix secondary courses' do
+RSpec.feature 'Candidate viewing Science GCSE', :continuous_applications do
   include CandidateHelper
 
   it 'Candidate views a Science GCSE only when a primary course is chosen' do
@@ -90,5 +90,16 @@ RSpec.feature 'Candidate viewing Science GCSE', :continuous_applications, skip: 
     visit candidate_interface_continuous_applications_choices_path
     click_link 'Add application'
     candidate_fills_in_primary_course_choice_without_science_gcse
+  end
+
+  def candidate_fills_in_primary_course_choice_without_science_gcse
+    choose 'Yes, I know where I want to apply'
+    click_button t('continue')
+
+    select 'Gorse SCITT (1N1)'
+    click_button t('continue')
+
+    choose 'Primary (2XT2)'
+    click_button t('continue')
   end
 end
