@@ -12,7 +12,7 @@ module ProviderInterface
     validate :at_least_one_provider_is_selected, if: :actor_has_more_than_one_provider?
 
     def selected_years
-      recruitment_cycle_years.map(&:to_i)
+      recruitment_cycle_years.compact_blank
     end
 
     def providers_that_actor_belongs_to

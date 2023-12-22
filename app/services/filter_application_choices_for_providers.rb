@@ -5,6 +5,7 @@ class FilterApplicationChoicesForProviders
     return application_choices if filters.empty?
 
     combined_query = ApplicationChoice.includes(
+      :candidate,
       current_course_option: [
         :site,
         course: %i[provider accredited_provider course_subjects],
@@ -27,7 +28,7 @@ class FilterApplicationChoicesForProviders
       if candidate_application_number_match
         application_choices.where(id: candidate_application_number_match[0])
       else
-        application_choices.joins(:application_form).where("CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{candidates_name_or_number.squish}%")
+        application_choices.joins(:application_form).where("CONCAT(application_forms.first_name, ' ', application_forms.last_name) ILIKE ?", "%#{candidates_name_or_number.squish}%")
       end
     end
 
@@ -85,6 +86,12 @@ class FilterApplicationChoicesForProviders
       application_choices.where(current_course_option: { study_mode: })
     end
 
+    def hide_in_reporting(application_choices, hide_in_reporting)
+      return application_choices if hide_in_reporting.nil?
+
+      application_choices.where(candidate: { hide_in_reporting: })
+    end
+
     def create_filter_query(application_choices, filters)
       filtered_application_choices = search(application_choices, filters[:candidate_name])
       filtered_application_choices = recruitment_cycle_year(filtered_application_choices, filters[:recruitment_cycle_year])
@@ -93,6 +100,7 @@ class FilterApplicationChoicesForProviders
       filtered_application_choices = status(filtered_application_choices, filters[:status])
       filtered_application_choices = course_subject(filtered_application_choices, filters[:subject])
       filtered_application_choices = study_mode(filtered_application_choices, filters[:study_mode])
+      filtered_application_choices = hide_in_reporting(filtered_application_choices, filters[:hide_in_reporting])
       provider_location(filtered_application_choices, filters[:provider_location])
     end
   end

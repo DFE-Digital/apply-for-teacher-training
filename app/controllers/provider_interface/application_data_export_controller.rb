@@ -14,7 +14,7 @@ module ProviderInterface
       if @application_data_export_form.valid?
         providers = @application_data_export_form.selected_providers
         cycle_years = @application_data_export_form.selected_years
-        statuses = @application_data_export_form.selected_statuses
+        status = @application_data_export_form.selected_statuses
 
         data = GetApplicationChoicesForProviders
           .call(
@@ -33,13 +33,19 @@ module ProviderInterface
               application_form: %i[candidate english_proficiency application_qualifications],
             ],
           )
-          .where('courses.recruitment_cycle_year' => cycle_years)
-          .where(status: statuses)
-          .where('candidates.hide_in_reporting': false)
+
+        application_choices = FilterApplicationChoicesForProviders.call(
+          application_choices: data,
+          filters: {
+            status:,
+            recruitment_cycle_year: cycle_years,
+            hide_in_reporting: false,
+          },
+        )
 
         filename = csv_filename(export_name: 'application-data', cycle_years:, providers:)
 
-        stream_csv(data:, filename:) do |row|
+        stream_csv(data: application_choices, filename:) do |row|
           ApplicationDataExport.export_row(row)
         end
       else
