@@ -167,7 +167,7 @@ group :test do
   gem 'rspec-retry', git: 'https://github.com/DFE-Digital/rspec-retry.git', branch: 'main'
   gem 'ruby-jmeter'
   gem 'selenium-webdriver'
-  gem 'shoulda-matchers', '~> 5.3'
+  gem 'shoulda-matchers', '~> 6.0'
   gem 'simplecov-cobertura', require: false
   gem 'simplecov', require: false
   gem 'super_diff'
