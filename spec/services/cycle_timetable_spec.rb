@@ -16,8 +16,6 @@ RSpec.describe CycleTimetable do
   let(:one_hour_after_find_reopens) { described_class.find_reopens(this_year) + 1.hour }
   let(:three_days_before_find_reopens) { described_class.find_reopens(this_year) - 3.days }
   let(:twenty_days_after_next_year_cycle_opens) { 20.business_days.after(described_class.apply_opens(next_year)).end_of_day }
-  let(:one_hour_before_show_summer_recruitment_banner) { described_class::CYCLE_DATES[next_next_year][:show_summer_recruitment_banner] - 1.hour }
-  let(:one_hour_after_show_summer_recruitment_banner) { described_class::CYCLE_DATES[next_next_year][:show_summer_recruitment_banner] + 1.hour }
 
   describe '.current_year' do
     it 'is this_year if we are in the middle of the this_year cycle' do
@@ -83,6 +81,13 @@ RSpec.describe CycleTimetable do
   end
 
   describe '.show_summer_recruitment_banner?' do
+    let(:one_hour_before_show_summer_recruitment_banner) do
+      described_class.date(:show_summer_recruitment_banner) - 1.hour
+    end
+    let(:one_hour_after_show_summer_recruitment_banner) do
+      described_class.date(:show_summer_recruitment_banner) + 1.hour
+    end
+
     it 'returns false before the configured date' do
       travel_temporarily_to(one_hour_before_show_summer_recruitment_banner) do
         expect(described_class.show_summer_recruitment_banner?).to be false
