@@ -6,8 +6,7 @@ FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
-    libxml2-dev libxslt-dev ttf-freefont nodejs yarn tzdata libpq libxml2 libxslt graphviz \
-    openssl1.1-compat
+    libxml2-dev libxslt-dev ttf-freefont nodejs yarn tzdata libpq libxml2 libxslt graphviz
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
@@ -59,7 +58,7 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
 
 RUN apk -U upgrade && \
     apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz \
-    ttf-dejavu ttf-droid ttf-freefont ttf-liberation libx11 openssl && \
+    ttf-dejavu ttf-droid ttf-freefont ttf-liberation libx11 openssl gcompat && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
