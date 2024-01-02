@@ -7,7 +7,7 @@ FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
     libxml2-dev libxslt-dev ttf-freefont nodejs yarn tzdata libpq libxml2 libxslt graphviz \
-    openssl gcompat
+    openssl1.1-compat
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
