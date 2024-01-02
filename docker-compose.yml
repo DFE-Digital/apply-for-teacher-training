@@ -11,6 +11,7 @@ services:
   web:
     build: .
     image: apply-for-teacher-training
+    platform: linux/x86_64
     ports:
       - "3000:3000"
     depends_on:

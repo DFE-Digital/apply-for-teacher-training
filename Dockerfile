@@ -1,5 +1,5 @@
 # To use or update to a ruby version, change {BASE_RUBY_IMAGE}
-ARG BASE_RUBY_IMAGE=ruby:3.1-alpine3.19
+ARG BASE_RUBY_IMAGE=ruby:3.2.2-alpine
 
 # Stage 1: gems-node-modules, build gems and node modules.
 FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
@@ -7,7 +7,7 @@ FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
     libxml2-dev libxslt-dev ttf-freefont nodejs yarn tzdata libpq libxml2 libxslt graphviz \
-    openssl libssl3
+    openssl gcompat
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
