@@ -7,7 +7,7 @@ RSpec.feature 'Referee can submit reference in any application choice states', :
     given_i_am_a_referee_of_an_application
     and_i_received_the_initial_reference_request_email
     then_i_receive_an_email_with_a_reference_request
-    and_the_candidate_withdrawns_from_the_application
+    and_the_candidate_withdraws_from_the_application
 
     when_i_click_on_the_link_within_the_email
     then_i_should_see_a_message_about_the_candidate
@@ -51,7 +51,7 @@ RSpec.feature 'Referee can submit reference in any application choice states', :
     @application_choice = create(:application_choice, :accepted, application_form: @application)
   end
 
-  def and_the_candidate_withdrawns_from_the_application
+  def and_the_candidate_withdraws_from_the_application
     @application_choice.update!(
       status: 'withdrawn',
       withdrawn_at: Time.zone.now,
