@@ -225,9 +225,9 @@ GEM
       smart_properties
     erubi (1.12.0)
     excon (0.104.0)
-    factory_bot (6.4.2)
+    factory_bot (6.4.5)
       activesupport (>= 5.0.0)
-    factory_bot_rails (6.4.2)
+    factory_bot_rails (6.4.3)
       factory_bot (~> 6.4)
       railties (>= 5.0.0)
     faker (2.22.0)
@@ -423,7 +423,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.6.1)
-    nokogiri (1.15.5)
+    nokogiri (1.16.0)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     notiffany (0.1.3)
