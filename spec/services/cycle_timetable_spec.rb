@@ -82,10 +82,10 @@ RSpec.describe CycleTimetable do
 
   describe '.show_summer_recruitment_banner?' do
     let(:one_hour_before_show_summer_recruitment_banner) do
-      CycleTimetable.date(:show_summer_recruitment_banner) - 1.hour
+      described_class.date(:show_summer_recruitment_banner) - 1.hour
     end
     let(:one_hour_after_show_summer_recruitment_banner) do
-      CycleTimetable.date(:show_summer_recruitment_banner) + 1.hour
+      described_class.date(:show_summer_recruitment_banner) + 1.hour
     end
 
     it 'returns false before the configured date' do
