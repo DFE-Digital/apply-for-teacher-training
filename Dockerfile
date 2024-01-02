@@ -1,13 +1,12 @@
 # To use or update to a ruby version, change {BASE_RUBY_IMAGE}
-ARG BASE_RUBY_IMAGE=ruby:3.2.2-alpine
+ARG BASE_RUBY_IMAGE=ruby:3.2.2-alpine3.16
 
 # Stage 1: gems-node-modules, build gems and node modules.
 FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
-    libxml2-dev libxslt-dev ttf-freefont nodejs yarn tzdata libpq libxml2 libxslt graphviz \
-    libx11 openssl gcompat
+    libxml2-dev libxslt-dev ttf-freefont nodejs yarn tzdata libpq libxml2 libxslt graphviz
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
@@ -19,8 +18,7 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     SECRET_KEY_BASE=TestKey \
     BLAZER_DATABASE_URL=testURL \
     GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey \
-    REDIS_CACHE_URL=redis://127.0.0.1:6379 \
-    NODE_OPTIONS=--openssl-legacy-provider
+    REDIS_CACHE_URL=redis://127.0.0.1:6379
 
 WORKDIR /app
 
@@ -59,7 +57,7 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
 
 RUN apk -U upgrade && \
     apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz \
-    ttf-dejavu ttf-droid ttf-freefont ttf-liberation libx11 openssl gcompat && \
+    ttf-dejavu ttf-droid ttf-freefont ttf-liberation libx11 openssl && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
