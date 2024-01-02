@@ -330,7 +330,7 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     hashdiff (1.0.1)
     hashie (5.0.0)
-    holidays (8.6.0)
+    holidays (8.7.1)
     html-attributes-utils (1.0.2)
       activesupport (>= 6.1.4.4)
     http (5.1.1)
