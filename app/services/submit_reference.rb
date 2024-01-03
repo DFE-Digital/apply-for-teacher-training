@@ -27,6 +27,8 @@ class SubmitReference
 private
 
   def notify_provider_users
+    return if accepted_application.blank?
+
     NotificationsList.for(accepted_application, include_ratifying_provider: true, event: :reference_received).uniq.each do |provider_user|
       ProviderMailer.reference_received(
         provider_user: provider_user,
