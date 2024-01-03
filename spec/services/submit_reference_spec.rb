@@ -67,6 +67,17 @@ RSpec.describe SubmitReference, :sidekiq do
       )
     end
 
+    context 'when there are no accepted applications' do
+      it 'does not call the notifications service' do
+        allow(NotificationsList).to receive(:for).and_call_original
+        application_choice = create(:application_choice, :withdrawn)
+        reference_one = create(:reference, :feedback_requested, application_form: application_choice.application_form)
+        described_class.new(reference: reference_one).save!
+
+        expect(NotificationsList).not_to have_received(:for)
+      end
+    end
+
     context 'when the second reference is received' do
       it 'does not alter the state of any outstanding references' do
         application_form = create(:application_form)
