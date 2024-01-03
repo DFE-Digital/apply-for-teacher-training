@@ -35,8 +35,8 @@ module APIDocs
 
     private
 
-      def spec(**options)
-        render plain: VendorAPISpecification.new(**options).as_yaml, content_type: 'text/yaml'
+      def spec(**)
+        render plain: VendorAPISpecification.new(**).as_yaml, content_type: 'text/yaml'
       end
     end
   end
