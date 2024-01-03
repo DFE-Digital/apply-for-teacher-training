@@ -58,6 +58,12 @@ RSpec.feature 'Provider user exporting applications to a csv', mid_cycle: false 
     @application_second_provider = create(:application_choice,
                                           :accepted,
                                           course_option: create(:course_option, course: course_second_provider))
+
+    @application_deferred_submitted_previous_cycle_offered_current_cycle =
+      create(:application_choice,
+             :accepted,
+             course_option: create(:course_option, course: course_previous_year),
+             current_course_option: create(:course_option, course: course))
   end
 
   def when_i_visit_the_export_applications_page
@@ -92,6 +98,7 @@ RSpec.feature 'Provider user exporting applications to a csv', mid_cycle: false 
     expect_export_to_include_data_for_application(csv_data, @application_deferred)
     expect_export_to_include_data_for_application(csv_data, @application_declined)
     expect_export_to_include_data_for_application(csv_data, @application_withdrawn)
+    expect_export_to_include_data_for_application(csv_data, @application_deferred_submitted_previous_cycle_offered_current_cycle)
     expect(csv_data['Application number']).not_to include(@application_accepted_previous_cycle.id.to_s)
     expect(csv_data['Application number']).not_to include(@application_second_provider.id.to_s)
   end
@@ -113,6 +120,7 @@ RSpec.feature 'Provider user exporting applications to a csv', mid_cycle: false 
     expect_export_to_include_data_for_application(csv_data, @application_accepted)
     expect_export_to_include_data_for_application(csv_data, @application_deferred)
     expect_export_to_include_data_for_application(csv_data, @application_accepted_previous_cycle)
+    expect_export_to_include_data_for_application(csv_data, @application_deferred_submitted_previous_cycle_offered_current_cycle)
     expect(csv_data['Application number']).not_to include(@application_declined.id.to_s)
     expect(csv_data['Application number']).not_to include(@application_withdrawn.id.to_s)
     expect(csv_data['Application number']).not_to include(@application_second_provider.id.to_s)
@@ -122,7 +130,7 @@ RSpec.feature 'Provider user exporting applications to a csv', mid_cycle: false 
     expect(csv_data['Application number']).to include(application.id.to_s)
     expect(csv_data['Email address']).to include(application.application_form.candidate.email_address)
     expect(csv_data['Training provider code']).to include(application.provider.code)
-    expect(csv_data['Course code']).to include(application.course.code)
+    expect(csv_data['Course code']).to include(application.current_course.code)
   end
 
   def and_there_is_an_error_lurking_in_the_export
