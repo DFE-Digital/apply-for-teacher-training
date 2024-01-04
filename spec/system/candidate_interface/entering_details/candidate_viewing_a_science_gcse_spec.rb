@@ -11,11 +11,11 @@ RSpec.feature 'Candidate viewing Science GCSE', :continuous_applications do
     when_i_complete_your_details
     then_i_dont_see_science_gcse_is_incomplete_below_the_section
 
-    when_i_choose_a_secondary_course
-    then_i_dont_see_a_science_gcse_validation_error
-
     when_i_choose_a_primary_course
     then_i_see_science_gcse_is_incomplete_below_the_section
+
+    when_i_choose_a_secondary_course
+    then_i_dont_see_a_science_gcse_validation_error
 
     and_i_am_on_your_application_page
     then_i_see_science_gcse
