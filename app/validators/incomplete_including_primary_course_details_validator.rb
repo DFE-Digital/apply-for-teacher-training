@@ -1,6 +1,10 @@
 class IncompleteIncludingPrimaryCourseDetailsValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, application_choice)
-    return unless science_gcse_incomplete_and_others?(application_choice)
+    application_form_sections = CandidateInterface::ApplicationFormSections.new(
+      application_choice:,
+      application_form: application_choice.application_form,
+    )
+    return unless application_form_sections.science_gcse_incomplete_and_others?
 
     record.errors.add(
       attribute,
@@ -20,14 +24,5 @@ private
       include ActionView::Helpers::UrlHelper
       include GovukLinkHelper
     end.new
-  end
-
-  def science_gcse_incomplete_and_others?(application_choice)
-    sections(application_choice).incomplete_sections.length > 1 &&
-      sections(application_choice).incomplete_sections.any? { |section| section.name == :science_gcse }
-  end
-
-  def sections(application_choice)
-    CandidateInterface::ApplicationFormSections.new(application_form: application_choice.application_form, application_choice:)
   end
 end

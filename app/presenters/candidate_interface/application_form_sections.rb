@@ -5,6 +5,18 @@ module CandidateInterface
       @application_choice = application_choice
     end
 
+    def science_gcse_incomplete_and_others?
+      primary_course? &&
+        incomplete_sections.size > 1 &&
+        incomplete_sections.any?(science_gcse?)
+    end
+
+    def only_science_gcse_incomplete?
+      primary_course? &&
+        incomplete_sections? &&
+        incomplete_sections.all?(science_gcse?)
+    end
+
     def all_completed?
       all_sections.map(&:second).all?
     end
@@ -16,6 +28,18 @@ module CandidateInterface
     delegate :incomplete_sections, to: :presenter
 
   private
+
+    def primary_course?
+      application_choice.current_course.primary_course?
+    end
+
+    def science_gcse?
+      ->(section) { section.name == :science_gcse }
+    end
+
+    def incomplete_sections?
+      incomplete_sections.present?
+    end
 
     attr_reader :application_form, :application_choice
 

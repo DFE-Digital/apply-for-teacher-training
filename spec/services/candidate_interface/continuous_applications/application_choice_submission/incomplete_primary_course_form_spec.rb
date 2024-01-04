@@ -11,7 +11,7 @@ RSpec.describe 'Incomplete primary course form details', time: CycleTimetableHel
       include GovukLinkHelper
     end.new
   end
-  let(:course) { create(:course, :open_on_apply, :with_course_options) }
+  let(:course) { create(:course, :open_on_apply, :primary, :with_course_options) }
   let(:application_form) { create(:application_form, :completed) }
   let(:application_choice) { create(:application_choice, :unsubmitted, application_form:, course:) }
 
@@ -22,14 +22,27 @@ RSpec.describe 'Incomplete primary course form details', time: CycleTimetableHel
   end
 
   context 'only science gcse section incomplete' do
-    let(:course) { create(:course, :open_on_apply) }
     let(:course_option) { create(:course_option, course:) }
     let(:application_form) { create(:application_form, :completed, science_gcse_completed: false) }
     let(:application_choice) { create(:application_choice, :unsubmitted, course_option:, application_form:) }
 
-    it 'adds error to application choice' do
-      expect(application_choice_submission).not_to be_valid
-      expect(application_choice_submission.errors[:application_choice]).to include(message)
+    context 'when primary course choice' do
+      let(:course) { create(:course, :open_on_apply, :primary) }
+
+      it 'adds error to application choice' do
+        expect(application_choice_submission).not_to be_valid
+        expect(application_choice_submission.errors[:application_choice]).to include(message)
+      end
+    end
+
+    context 'when secondary course choice' do
+      let(:course) { create(:course, :open_on_apply, :secondary) }
+
+      it 'valid application choice' do
+        application_choice_submission.valid?
+
+        expect(application_choice_submission.errors).to be_empty
+      end
     end
   end
 
