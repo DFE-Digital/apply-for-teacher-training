@@ -13,7 +13,7 @@ module CandidateInterface
 
     def only_science_gcse_incomplete?
       primary_course? &&
-        incomplete_sections? &&
+        incomplete_sections.present? &&
         incomplete_sections.all?(science_gcse?)
     end
 
@@ -35,10 +35,6 @@ module CandidateInterface
 
     def science_gcse?
       ->(section) { section.name == :science_gcse }
-    end
-
-    def incomplete_sections?
-      incomplete_sections.present?
     end
 
     attr_reader :application_form, :application_choice
