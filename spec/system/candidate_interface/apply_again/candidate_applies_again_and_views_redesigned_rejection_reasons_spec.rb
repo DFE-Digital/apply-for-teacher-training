@@ -67,17 +67,6 @@ RSpec.feature 'Apply again' do
     end
   end
 
-<<<<<<< HEAD
-=======
-  def when_i_review_subject_knowledge
-    click_link_or_button 'Your suitability to teach a subject or age group'
-  end
-
-  def then_i_can_see_subject_knowledge_feedback
-    expect(page).to have_content 'Subject knowledge needs improving'
-  end
-
->>>>>>> 978d529f8 (Replace click_button and click_link with click_link_or_button)
   def when_i_review_becoming_a_teacher
     visit candidate_interface_application_form_path
     click_link_or_button 'Why you want to teach'

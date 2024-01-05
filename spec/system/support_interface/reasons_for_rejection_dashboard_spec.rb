@@ -275,7 +275,7 @@ private
   end
 
   def and_i_click_on_a_sub_reason
-    click_link 'Teaching demonstration'
+    click_link_or_button 'Teaching demonstration'
   end
 
   def then_i_can_see_a_list_of_applications_for_that_sub_reason

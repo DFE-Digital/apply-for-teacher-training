@@ -94,12 +94,12 @@ RSpec.feature 'Candidate viewing Science GCSE', :continuous_applications do
 
   def candidate_fills_in_primary_course_choice_without_science_gcse
     choose 'Yes, I know where I want to apply'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     select 'Gorse SCITT (1N1)'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     choose 'Primary (2XT2)'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 end

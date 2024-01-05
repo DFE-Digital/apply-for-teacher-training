@@ -134,7 +134,7 @@ RSpec.feature 'Candidate submits the application', skip: 'Update to continuous a
   end
 
   def and_i_can_see_my_personal_statement
-    click_link 'Your personal statement'
+    click_link_or_button 'Your personal statement'
     expect(page).to have_content 'I believe I would be a first-rate teacher'
     click_link_or_button 'Back to your details'
   end

@@ -790,7 +790,7 @@ module CandidateHelper
 
   def candidate_fills_in_personal_statement
     fill_in t('application_form.personal_statement.label'), with: 'I believe I would be a first-rate teacher'
-    click_button t('continue')
+    click_link_or_button t('continue')
     # Confirmation page
     choose t('application_form.completed_radio')
     click_link_or_button t('continue')

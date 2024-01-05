@@ -83,7 +83,9 @@ RSpec.describe 'A provider with an expired DSI fallback link' do
   end
 
   def when_i_click_on_sign_in
-    find('button', text: 'Sign in').click
+    # rubocop:disable Capybara/ClickLinkOrButtonStyle
+    click_button('Sign in')
+    # rubocop:enable Capybara/ClickLinkOrButtonStyle
   end
 
   def then_i_am_signed_in

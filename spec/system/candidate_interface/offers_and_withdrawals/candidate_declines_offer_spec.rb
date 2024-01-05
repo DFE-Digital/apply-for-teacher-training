@@ -65,7 +65,9 @@ RSpec.feature 'Candidate declines an offer', continuous_applications: false do
   end
 
   def when_i_click_on_view_and_respond_to_my_first_offer_link
-    click_link_or_button href: candidate_interface_offer_path(@application_choice)
+    within("[data-qa='application-choice-#{@application_choice.id}']") do
+      click_link_or_button text: 'Respond to offer'
+    end
   end
 
   def and_i_decline_the_offer
@@ -93,7 +95,9 @@ RSpec.feature 'Candidate declines an offer', continuous_applications: false do
   end
 
   def when_i_click_on_view_and_respond_to_my_last_offer_link
-    click_link_or_button href: candidate_interface_offer_path(@application_choice2)
+    within("[data-qa='application-choice-#{@application_choice2.id}']") do
+      click_link_or_button text: 'Respond to offer'
+    end
   end
 
   def then_the_candidate_is_sent_an_email_about_apply_again

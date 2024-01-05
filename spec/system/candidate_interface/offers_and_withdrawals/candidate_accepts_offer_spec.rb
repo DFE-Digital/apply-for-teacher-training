@@ -165,7 +165,9 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_click_on_view_and_respond_to_offer_link
-    click_link_or_button href: candidate_interface_offer_path(@application_choice)
+    within("[data-qa='application-choice-#{@application_choice.id}']") do
+      click_link_or_button text: 'Respond to offer'
+    end
   end
 
   def then_i_see_the_offer
