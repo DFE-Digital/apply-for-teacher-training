@@ -29,16 +29,16 @@ class TestSuiteTimeMachine
     end
   end
 
-  def self.advance_time_to(datetime, **kwargs)
+  def self.advance_time_to(datetime, **)
     if datetime < Time.zone.now
       raise TimeTravelError, "TestSuiteTimeMachine.advance_time_to cannot be called with a date in the past (#{datetime})"
     end
 
-    travel_permanently_to(datetime, **kwargs)
+    travel_permanently_to(datetime, **)
   end
 
-  def self.advance_time_by(duration, **kwargs)
-    advance_time_to(Time.zone.now + duration, **kwargs)
+  def self.advance_time_by(duration, **)
+    advance_time_to(Time.zone.now + duration, **)
   end
 
   def self.advance
