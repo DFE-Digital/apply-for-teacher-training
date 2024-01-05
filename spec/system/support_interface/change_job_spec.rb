@@ -41,7 +41,7 @@ RSpec.feature 'Change job' do
   end
 
   def and_i_click_to_change_job
-    click_link_or_button(href: support_interface_application_form_edit_job_path(@application_form, @job))
+    click_link_or_button(text: 'Change role details')
   end
 
   def when_i_click_update

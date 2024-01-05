@@ -41,7 +41,7 @@ RSpec.feature 'Change volunteering role' do
   end
 
   def and_i_click_to_change_volunteering_role
-    click_link_or_button(href: support_interface_application_form_edit_volunteering_role_path(@application_form, @volunteering_role))
+    click_link_or_button(text: 'Change role details')
   end
 
   def when_i_click_update

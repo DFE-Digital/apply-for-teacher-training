@@ -83,7 +83,7 @@ RSpec.describe 'A provider with an expired DSI fallback link' do
   end
 
   def when_i_click_on_sign_in
-    click_link_or_button 'Sign in'
+    find('button', text: 'Sign in').click
   end
 
   def then_i_am_signed_in
