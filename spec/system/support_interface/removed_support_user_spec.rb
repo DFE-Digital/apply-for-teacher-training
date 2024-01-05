@@ -35,7 +35,7 @@ RSpec.describe 'A removed support user attempts to authenticate via DfE Sign-in'
   end
 
   def when_i_sign_in_via_dfe_sign_in
-    click_button 'Sign in using DfE Sign-in'
+    click_link_or_button 'Sign in using DfE Sign-in'
   end
 
   def then_i_should_not_be_authorized

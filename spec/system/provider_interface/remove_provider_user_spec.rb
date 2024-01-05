@@ -47,20 +47,20 @@ RSpec.describe 'Organisation users' do
   end
 
   def when_i_click_on_the_users_link_for(provider)
-    click_link 'Organisation settings', match: :first
-    click_link("Users #{provider.name}")
+    click_link_or_button 'Organisation settings', match: :first
+    click_link_or_button("Users #{provider.name}")
   end
 
   def and_i_click_on_the_user_to_remove
-    click_link @user_to_remove.full_name
+    click_link_or_button @user_to_remove.full_name
   end
 
   def and_i_click_delete_user
-    click_link 'Remove user'
+    click_link_or_button 'Remove user'
   end
 
   def and_i_confirm_i_want_to_delete_this_user
-    click_button 'Remove user'
+    click_link_or_button 'Remove user'
   end
 
   def then_i_see_the_success_message

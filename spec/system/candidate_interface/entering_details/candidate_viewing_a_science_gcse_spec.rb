@@ -30,7 +30,7 @@ RSpec.feature 'Candidate viewing Science GCSE', :continuous_applications do
   end
 
   def and_i_complete_science_gcse
-    click_link t('sections.science_gcse')
+    click_link_or_button t('sections.science_gcse')
     candidate_explains_a_missing_gcse
   end
 
@@ -73,13 +73,13 @@ RSpec.feature 'Candidate viewing Science GCSE', :continuous_applications do
 
   def choose_a_secondary_course
     visit candidate_interface_continuous_applications_choices_path
-    click_link t('section_items.add_application')
+    click_link_or_button t('section_items.add_application')
     candidate_fills_in_secondary_course_choice
   end
 
   def when_i_go_to_submit_my_application
     visit candidate_interface_continuous_applications_choices_path
-    click_link t('application_form.continuous_applications.courses.continue_application')
+    click_link_or_button t('application_form.continuous_applications.courses.continue_application')
   end
 
   def then_i_dont_see_a_science_gcse_validation_error
@@ -88,7 +88,7 @@ RSpec.feature 'Candidate viewing Science GCSE', :continuous_applications do
 
   def when_i_choose_a_primary_course
     visit candidate_interface_continuous_applications_choices_path
-    click_link 'Add application'
+    click_link_or_button 'Add application'
     candidate_fills_in_primary_course_choice_without_science_gcse
   end
 

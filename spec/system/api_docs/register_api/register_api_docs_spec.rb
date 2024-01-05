@@ -16,7 +16,7 @@ RSpec.feature 'Register API docs' do
   end
 
   def and_i_can_see_the_release_notes
-    click_link 'Release notes'
+    click_link_or_button 'Release notes'
     expect(page).to have_content '7 April 2021'
   end
 end

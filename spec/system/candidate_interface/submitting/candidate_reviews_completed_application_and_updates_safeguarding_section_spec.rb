@@ -44,17 +44,17 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_on_check_your_answers
-    click_link 'Check and submit your application'
+    click_link_or_button 'Check and submit your application'
   end
 
   def when_i_click_safeguarding_issues
     within('[data-qa="safeguarding-issues"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_should_be_redirected_to_the_application_review_page
@@ -68,7 +68,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   def when_i_update_safeguarding_issues
     when_i_click_safeguarding_issues
     choose 'No'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_should_see_my_updated_safeguarding_issues

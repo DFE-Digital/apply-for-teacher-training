@@ -41,7 +41,7 @@ RSpec.feature 'Candidate can see their structured reasons for rejection when rev
   end
 
   def when_i_apply_again
-    click_button 'Apply again'
+    click_link_or_button 'Apply again'
   end
 
   def then_i_can_see_rejection_reasons_from_the_earlier_application

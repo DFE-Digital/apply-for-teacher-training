@@ -33,7 +33,7 @@ RSpec.feature 'Editing degree' do
 
   def and_i_click_the_change_link_next_to_the_first_degree
     within('[data-qa="degree-qualification"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
@@ -49,7 +49,7 @@ RSpec.feature 'Editing degree' do
   end
 
   def and_i_submit_the_form
-    click_button 'Update'
+    click_link_or_button 'Update'
   end
 
   def then_i_should_see_a_flash_message
@@ -64,7 +64,7 @@ RSpec.feature 'Editing degree' do
   end
 
   def and_i_should_see_my_details_comment_in_the_audit_log
-    click_link 'History'
+    click_link_or_button 'History'
     expect(page).to have_content 'Got to change it'
   end
 end

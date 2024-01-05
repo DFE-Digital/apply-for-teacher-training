@@ -41,7 +41,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_click_on_work_history
-    click_link t('page_titles.work_history')
+    click_link_or_button t('page_titles.work_history')
   end
 
   def then_i_should_see_the_start_page
@@ -50,11 +50,11 @@ RSpec.feature 'Entering their work history' do
 
   def then_i_choose_that_i_have_work_history_to_add
     choose 'Yes'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def and_i_click_add_a_first_job
-    click_link 'Add a job'
+    click_link_or_button 'Add a job'
   end
 
   def then_i_should_see_the_add_a_job_page
@@ -86,7 +86,7 @@ RSpec.feature 'Entering their work history' do
       choose 'No'
     end
 
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_a_two_month_break_between_my_job_and_now
@@ -109,13 +109,13 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_click_to_explain_my_break_for_the_last_2_months
-    click_link 'add a reason for this break', match: :first
+    click_link_or_button 'add a reason for this break', match: :first
   end
 
   def when_i_enter_a_reason_for_my_break_for_the_last_2_months
     fill_in 'Enter reasons for break in work history', with: 'Painting is tiring.'
 
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_my_reason_for_my_break_for_the_last_2_months_on_the_review_page
@@ -123,11 +123,11 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_delete_my_job
-    click_link 'Delete job Microsoft Painter for Department for Education'
+    click_link_or_button 'Delete job Microsoft Painter for Department for Education'
   end
 
   def and_i_confirm_i_want_to_delete_my_job
-    click_button 'Yes I’m sure - delete this job'
+    click_link_or_button 'Yes I’m sure - delete this job'
   end
 
   def and_i_should_not_see_my_previous_break_entry

@@ -42,7 +42,7 @@ RSpec.feature 'Candidate changing their GCSE type' do
   end
 
   def and_i_click_on_the_maths_gcse_link
-    click_link 'Maths GCSE or equivalent'
+    click_link_or_button 'Maths GCSE or equivalent'
   end
 
   def then_i_see_the_add_gcse_maths_page
@@ -54,7 +54,7 @@ RSpec.feature 'Candidate changing their GCSE type' do
   end
 
   def and_i_click_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_add_grade_page

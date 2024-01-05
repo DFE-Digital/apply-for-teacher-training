@@ -35,7 +35,7 @@ RSpec.describe 'A support user authenticates via DfE Sign-in but is not authoriz
   end
 
   def when_i_sign_in_via_dfe_sign_in
-    click_button 'Sign in using DfE Sign-in'
+    click_link_or_button 'Sign in using DfE Sign-in'
   end
 
   def then_i_should_be_see_the_not_authorized_page

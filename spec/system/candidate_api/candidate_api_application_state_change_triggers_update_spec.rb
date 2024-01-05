@@ -50,7 +50,7 @@ RSpec.feature 'Candidate API application status change', :continuous_application
     @email = "#{SecureRandom.hex}@example.com"
     visit candidate_interface_sign_up_path
     fill_in t('authentication.sign_up.email_address.label'), with: @email
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_my_application_status_is_never_signed_in

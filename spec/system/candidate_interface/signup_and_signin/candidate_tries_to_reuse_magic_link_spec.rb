@@ -22,7 +22,7 @@ RSpec.feature 'Candidate account' do
   def when_i_sign_in_and_out
     visit candidate_interface_sign_in_path
     fill_in 'Email address', with: current_candidate.email_address
-    click_button t('continue')
+    click_link_or_button t('continue')
     open_email(current_candidate.email_address)
     expect(current_email.subject).to have_content t('authentication.sign_in.email.subject')
 
@@ -33,7 +33,7 @@ RSpec.feature 'Candidate account' do
       expect(page).to have_content 'Sign out'
     end
 
-    click_link 'Sign out'
+    click_link_or_button 'Sign out'
     expect(page).to have_current_path(candidate_interface_create_account_or_sign_in_path)
   end
 
@@ -46,7 +46,7 @@ RSpec.feature 'Candidate account' do
   end
 
   def when_i_get_a_new_magic_link
-    click_button 'Email me a new link'
+    click_link_or_button 'Email me a new link'
 
     open_email(current_candidate.email_address)
     @new_magic_link = current_email.find_css('a').first

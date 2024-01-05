@@ -35,13 +35,13 @@ RSpec.feature 'Stop submission of incomplete references', :with_audited do
 
   def and_i_select_yes_to_giving_a_reference
     choose 'Yes, I can give them a reference'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_confirm_my_relationship_with_the_candidate
     expect(page).to have_content("Confirm how #{@application.full_name} knows you")
     choose 'Yes'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_manually_skip_ahead_to_the_review_page
@@ -49,7 +49,7 @@ RSpec.feature 'Stop submission of incomplete references', :with_audited do
   end
 
   def then_i_cannot_submit_the_reference
-    click_button 'Submit reference'
+    click_link_or_button 'Submit reference'
     expect(page).to have_content 'Cannot submit a reference without answers to all questions'
     expect(ApplicationReference.feedback_provided).to be_empty
   end

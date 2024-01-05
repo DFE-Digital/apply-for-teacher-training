@@ -57,7 +57,7 @@ RSpec.feature 'Provider views an application in new cycle' do
   end
 
   def when_i_click_on_an_application
-    click_link @my_provider_choice.application_form.full_name
+    click_link_or_button @my_provider_choice.application_form.full_name
   end
 
   def then_i_should_be_on_the_application_view_page
@@ -67,7 +67,7 @@ RSpec.feature 'Provider views an application in new cycle' do
   end
 
   def when_i_click_on_the_references_tab
-    click_link 'References'
+    click_link_or_button 'References'
   end
 
   def then_i_see_the_candidates_references
@@ -90,7 +90,7 @@ RSpec.feature 'Provider views an application in new cycle' do
   end
 
   def and_i_revisit_references
-    click_link 'References'
+    click_link_or_button 'References'
   end
 
   def then_i_see_the_reference_received_section

@@ -62,11 +62,11 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_on_check_your_answers
-    click_link 'Check and submit your application'
+    click_link_or_button 'Check and submit your application'
   end
 
   def when_i_click_complete_contact_details
-    click_link 'Complete your contact details'
+    click_link_or_button 'Complete your contact details'
   end
 
   def then_i_should_see_the_phone_number_form
@@ -75,7 +75,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
 
   def when_i_enter_a_phone_number_and_submit
     fill_in 'Phone number', with: '0736519012'
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def then_i_should_see_the_contact_information_review_page
@@ -84,7 +84,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
 
   def and_i_select_section_complete_and_submit
     choose t('application_form.completed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_not_see_the_complete_form
@@ -96,16 +96,16 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
     when_i_click_change_address
 
     choose 'In the UK'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     find(:css, "[autocomplete='address-line1']").fill_in with: '42 Much Wow Street'
     fill_in t('application_form.contact_details.address_line3.label.uk'), with: 'London'
     fill_in t('application_form.contact_details.postcode.label.uk'), with: 'SW1P 3BT'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_click_change_address
     within('[data-qa="contact-details-address"]') do
-      click_link 'Enter address'
+      click_link_or_button 'Enter address'
     end
   end
 

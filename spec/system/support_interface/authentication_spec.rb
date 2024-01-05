@@ -50,7 +50,7 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
   end
 
   def when_i_sign_in_via_dfe_sign_in
-    click_button 'Sign in using DfE Sign-in'
+    click_link_or_button 'Sign in using DfE Sign-in'
   end
 
   def then_i_should_be_redirected_to_the_support_interface_users_path
@@ -73,7 +73,7 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
   end
 
   def when_i_click_sign_out
-    click_link 'Sign out'
+    click_link_or_button 'Sign out'
   end
 
   def then_i_should_see_the_login_page_again

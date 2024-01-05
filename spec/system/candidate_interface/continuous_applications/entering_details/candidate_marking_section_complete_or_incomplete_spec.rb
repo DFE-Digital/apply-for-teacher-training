@@ -49,7 +49,7 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
   end
 
   def and_i_click_on_your_details
-    click_link 'Your details'
+    click_link_or_button 'Your details'
   end
 
   def then_i_do_not_see_the_incomplete_text
@@ -101,10 +101,10 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
 
   def mark_section(section:, complete:)
     complete_choice = complete.present? ? 'Yes, I have completed this section' : 'No, I’ll come back to it later'
-    click_link 'Your details'
-    click_link section
+    click_link_or_button 'Your details'
+    click_link_or_button section
     choose(complete_choice)
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def when_i_visit_the_applications_page
@@ -116,7 +116,7 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
   end
 
   def when_i_click_on_your_details
-    click_link 'your details'
+    click_link_or_button 'your details'
   end
 
   def then_i_dont_see_the_incomplete_applications_text

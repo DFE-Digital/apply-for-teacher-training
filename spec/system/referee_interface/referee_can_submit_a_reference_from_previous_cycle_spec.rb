@@ -129,7 +129,7 @@ RSpec.feature 'Referee can submit reference', :with_audited, time: CycleTimetabl
 
   def and_i_select_yes_to_giving_a_reference
     choose 'Yes, I can give them a reference'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_am_asked_to_confirm_my_relationship_with_the_candidate
@@ -137,11 +137,11 @@ RSpec.feature 'Referee can submit reference', :with_audited, time: CycleTimetabl
   end
 
   def when_i_click_on_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_click_on_save
-    click_button t('save')
+    click_link_or_button t('save')
   end
 
   def then_i_see_an_error_to_confirm_my_relationship_with_the_candidate
@@ -201,11 +201,11 @@ RSpec.feature 'Referee can submit reference', :with_audited, time: CycleTimetabl
   end
 
   def and_i_click_on_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_click_on_save
-    click_button t('save')
+    click_link_or_button t('save')
   end
 
   def then_i_see_the_reference_comment_page
@@ -222,19 +222,19 @@ RSpec.feature 'Referee can submit reference', :with_audited, time: CycleTimetabl
   end
 
   def when_i_click_change_how_they_know_me
-    click_link 'Change your confirmation of how they know you'
+    click_link_or_button 'Change your confirmation of how they know you'
   end
 
   def when_i_click_change_how_i_know_them
-    click_link 'Change how you know them'
+    click_link_or_button 'Change how you know them'
   end
 
   def when_i_click_change_reference
-    click_link 'Change reference'
+    click_link_or_button 'Change reference'
   end
 
   def when_i_click_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def and_i_amend_the_relationship
@@ -249,7 +249,7 @@ RSpec.feature 'Referee can submit reference', :with_audited, time: CycleTimetabl
   end
 
   def when_i_click_change_safeguarding_concerns
-    click_link 'Change whether you know any reason they should not work with children'
+    click_link_or_button 'Change whether you know any reason they should not work with children'
   end
 
   def and_i_amend_the_safeguarding_concerns
@@ -264,11 +264,11 @@ RSpec.feature 'Referee can submit reference', :with_audited, time: CycleTimetabl
   end
 
   def and_i_click_the_submit_reference_button
-    click_button t('referee.review.submit')
+    click_link_or_button t('referee.review.submit')
   end
 
   def and_i_click_the_finish_button
-    click_button t('referee.questionnaire.submit')
+    click_link_or_button t('referee.questionnaire.submit')
   end
 
   def then_i_see_am_told_i_submitted_my_reference

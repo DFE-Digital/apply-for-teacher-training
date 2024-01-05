@@ -45,11 +45,11 @@ RSpec.feature 'Entering their disability information', continuous_applications: 
   end
 
   def when_i_click_on_check_your_answers
-    click_link 'Check and submit your application'
+    click_link_or_button 'Check and submit your application'
   end
 
   def when_i_submit_my_application
-    click_link t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_visit_training_with_a_disability_section
@@ -77,11 +77,11 @@ RSpec.feature 'Entering their disability information', continuous_applications: 
   end
 
   def when_i_click_on_training_with_a_disability
-    click_link t('page_titles.training_with_a_disability')
+    click_link_or_button t('page_titles.training_with_a_disability')
   end
 
   def when_i_click_on_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_a_section_complete_error
@@ -95,7 +95,7 @@ RSpec.feature 'Entering their disability information', continuous_applications: 
   end
 
   def and_i_submit_the_form
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_can_check_my_answers
@@ -122,7 +122,7 @@ RSpec.feature 'Entering their disability information', continuous_applications: 
   end
 
   def and_i_submit_my_details
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_see_the_form

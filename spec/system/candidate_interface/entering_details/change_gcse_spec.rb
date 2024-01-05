@@ -47,7 +47,7 @@ RSpec.feature 'Change GCSE' do
   end
 
   def and_click_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_should_see_a_validation_error_for_my_qualification_type

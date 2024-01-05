@@ -37,7 +37,7 @@ RSpec.feature 'Deleting references' do
 
   def and_i_click_the_delete_link_next_to_reference
     within_summary_card('Dumbledore') do
-      click_link 'Delete'
+      click_link_or_button 'Delete'
     end
   end
 
@@ -46,7 +46,7 @@ RSpec.feature 'Deleting references' do
   end
 
   def when_i_submit_the_confirmation_form
-    click_button 'Permanently delete reference'
+    click_link_or_button 'Permanently delete reference'
   end
 
   def then_i_should_see_blank_zendesk_url_error_message
@@ -67,7 +67,7 @@ RSpec.feature 'Deleting references' do
   end
 
   def and_i_should_see_my_zendesk_ticket_in_the_audit_log
-    click_link 'History'
+    click_link_or_button 'History'
     expect(page).to have_content 'Destroy Application Reference'
     expect(page).to have_content 'https://becomingateacher.zendesk.com/agent/tickets/12345'
   end

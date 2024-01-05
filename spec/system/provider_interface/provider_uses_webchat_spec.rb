@@ -52,7 +52,7 @@ RSpec.feature 'Provider uses webchat' do
   end
 
   def and_when_i_click_the_link_i_see_a_popup
-    click_link 'Speak to an adviser now'
+    click_link_or_button 'Speak to an adviser now'
 
     expect(page.evaluate_script('window.zendeskPopupOpen')).to be true
   end

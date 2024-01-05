@@ -34,12 +34,12 @@ RSpec.feature 'Candidate edits their choice section', :continuous_applications d
 
   def and_i_click_delete_a_choice
     within "#course-choice-#{@first_application_choice.id}" do
-      click_link 'Remove'
+      click_link_or_button 'Remove'
     end
   end
 
   def and_i_confirm_i_want_to_delete_the_choice
-    click_button t('application_form.continuous_applications.courses.confirm_delete')
+    click_link_or_button t('application_form.continuous_applications.courses.confirm_delete')
   end
 
   def then_i_should_see_only_one_application

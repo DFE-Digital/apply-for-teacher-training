@@ -151,7 +151,7 @@ RSpec.feature 'Degrees' do
   alias_method :when_the_user_visits_degree_section_using_address_bar, :when_i_view_the_degree_section
 
   def when_i_click_on_degree
-    click_link 'Degree'
+    click_link_or_button 'Degree'
   end
 
   def and_i_click_to_change_my_undergraduate_degree_type
@@ -159,7 +159,7 @@ RSpec.feature 'Degrees' do
   end
 
   def and_i_click_the_back_link
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_am_taken_back_to_the_degree_review_page
@@ -167,7 +167,7 @@ RSpec.feature 'Degrees' do
   end
 
   def and_i_click_on_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_am_taken_to_the_specific_degree_type_page

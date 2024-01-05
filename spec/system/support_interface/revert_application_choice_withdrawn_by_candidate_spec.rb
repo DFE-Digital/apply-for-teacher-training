@@ -55,7 +55,7 @@ RSpec.feature 'Revert a withdrawn application choice' do
   end
 
   def when_i_click_on_an_application
-    click_link @application_form.full_name
+    click_link_or_button @application_form.full_name
   end
 
   def and_i_am_on_the_correct_application_page
@@ -69,7 +69,7 @@ RSpec.feature 'Revert a withdrawn application choice' do
   end
 
   def when_i_click_on_the_revert_withdrawal_link
-    click_link 'Revert withdrawal'
+    click_link_or_button 'Revert withdrawal'
   end
 
   def then_i_see_the_revert_withdrawal_page
@@ -77,7 +77,7 @@ RSpec.feature 'Revert a withdrawn application choice' do
   end
 
   def and_i_click_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
   alias_method :when_i_click_continue, :and_i_click_continue
 

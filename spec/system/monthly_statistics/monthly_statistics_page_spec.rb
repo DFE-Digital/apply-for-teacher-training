@@ -48,7 +48,7 @@ RSpec.feature 'Monthly statistics page', mid_cycle: false do
   end
 
   def when_i_click_a_link
-    click_link 'Applications by status (CSV)'
+    click_link_or_button 'Applications by status (CSV)'
   end
 
   def then_a_csv_downloads

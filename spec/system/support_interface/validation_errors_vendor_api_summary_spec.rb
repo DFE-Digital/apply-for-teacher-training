@@ -33,10 +33,10 @@ RSpec.feature 'Validation errors Vendor API summary' do
 
   def when_i_navigate_to_the_validation_errors_summary_page
     visit support_interface_path
-    click_link 'Performance'
-    click_link 'Validation errors'
-    click_link 'Vendor API validation errors'
-    click_link 'Validation error summary'
+    click_link_or_button 'Performance'
+    click_link_or_button 'Validation errors'
+    click_link_or_button 'Vendor API validation errors'
+    click_link_or_button 'Validation error summary'
   end
 
   def then_i_should_see_numbers_for_the_past_week_month_and_all_time
@@ -44,7 +44,7 @@ RSpec.feature 'Validation errors Vendor API summary' do
   end
 
   def when_i_click_on_link_to_the_applications_request_errors
-    click_link '/api/v1/applications'
+    click_link_or_button '/api/v1/applications'
   end
 
   def then_i_should_see_errors_for_the_applications_request_only

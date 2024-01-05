@@ -44,7 +44,7 @@ RSpec.feature 'References' do
 
   def and_i_have_to_carry_my_application_over
     expect(page).to have_current_path candidate_interface_start_carry_over_path
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_see_the_references_section
@@ -56,7 +56,7 @@ RSpec.feature 'References' do
   end
 
   def when_i_click_on_the_references_section
-    click_link 'References to be requested if you accept an offer'
+    click_link_or_button 'References to be requested if you accept an offer'
   end
 
   def and_i_visit_the_application_dashboard

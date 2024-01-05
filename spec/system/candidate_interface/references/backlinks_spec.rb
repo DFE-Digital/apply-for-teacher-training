@@ -78,11 +78,11 @@ RSpec.feature 'References' do
   end
 
   def and_i_click_add_your_references
-    click_link 'References to be requested if you accept an offer'
+    click_link_or_button 'References to be requested if you accept an offer'
   end
 
   def and_i_click_to_add_a_reference
-    click_link 'Add reference'
+    click_link_or_button 'Add reference'
   end
 
   def and_i_select_academic
@@ -96,7 +96,7 @@ RSpec.feature 'References' do
   end
 
   def and_i_click_the_backlink
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_see_the_name_page_with_my_referees_name
@@ -147,19 +147,19 @@ RSpec.feature 'References' do
   end
 
   def when_i_click_change_on_the_references_name
-    click_link 'Change name for Jesse Pinkman'
+    click_link_or_button 'Change name for Jesse Pinkman'
   end
 
   def when_i_click_change_on_email_address
-    click_link 'Change email address for Jesse Pinkman'
+    click_link_or_button 'Change email address for Jesse Pinkman'
   end
 
   def when_i_click_change_on_the_reference_type
-    click_link 'Change reference type for Jesse Pinkman'
+    click_link_or_button 'Change reference type for Jesse Pinkman'
   end
 
   def when_i_click_change_on_relationship
-    click_link 'Change relationship for Jesse Pinkman'
+    click_link_or_button 'Change relationship for Jesse Pinkman'
   end
 
   def then_i_see_my_referees_details
@@ -187,11 +187,11 @@ RSpec.feature 'References' do
 private
 
   def and_i_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_click_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_click_save_and_continue

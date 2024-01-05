@@ -28,7 +28,7 @@ RSpec.feature 'Candidate submits the application with a course that is not avail
   end
 
   def and_i_submit_my_application
-    click_link 'Check and submit your application'
+    click_link_or_button 'Check and submit your application'
   end
 
   def then_i_see_a_message_that_i_cannot_submit_my_application

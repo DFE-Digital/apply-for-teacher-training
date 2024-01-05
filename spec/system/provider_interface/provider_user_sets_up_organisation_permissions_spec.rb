@@ -89,7 +89,7 @@ RSpec.feature 'Setting up organisation permissions' do
   end
 
   def when_i_click_set_up_organisation_permissions
-    click_link 'Set up organisation permissions'
+    click_link_or_button 'Set up organisation permissions'
   end
 
   def then_i_see_the_first_relationship
@@ -104,7 +104,7 @@ RSpec.feature 'Setting up organisation permissions' do
   end
 
   def and_i_click_on_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_see_the_next_relationship
@@ -129,7 +129,7 @@ RSpec.feature 'Setting up organisation permissions' do
   end
 
   def when_i_click_on_change
-    click_link 'Change', match: :first
+    click_link_or_button 'Change', match: :first
   end
 
   def and_i_change_the_provider_permission
@@ -148,7 +148,7 @@ RSpec.feature 'Setting up organisation permissions' do
   end
 
   def and_i_click_on_save_organisation_permissions
-    click_button 'Save organisation permissions'
+    click_link_or_button 'Save organisation permissions'
   end
 
   def then_i_see_the_success_page

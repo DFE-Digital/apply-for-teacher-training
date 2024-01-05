@@ -36,7 +36,7 @@ RSpec.feature 'Editing reference' do
 
   def and_i_click_the_change_link_on_personal_statement
     within('#personal-statement-section') do
-      click_link 'Change', match: :first
+      click_link_or_button 'Change', match: :first
     end
   end
 
@@ -46,7 +46,7 @@ RSpec.feature 'Editing reference' do
   end
 
   def when_i_submit_the_update_form
-    click_button 'Update'
+    click_link_or_button 'Update'
   end
 
   def then_i_should_see_blank_audit_comment_error_message
@@ -71,7 +71,7 @@ RSpec.feature 'Editing reference' do
   end
 
   def and_i_should_see_my_comment_in_the_audit_log
-    click_link 'History'
+    click_link_or_button 'History'
     expect(page).to have_content 'Updated as part of Zen Desk ticket #12345'
   end
 end

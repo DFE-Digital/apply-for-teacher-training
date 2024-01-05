@@ -80,11 +80,11 @@ RSpec.feature 'Entering an international degree' do
   end
 
   def when_i_click_on_degree
-    click_link 'Degree'
+    click_link_or_button 'Degree'
   end
 
   def and_i_click_add_degree
-    click_link 'Add a degree'
+    click_link_or_button 'Add a degree'
   end
 
   def then_i_can_see_the_country_page
@@ -97,11 +97,11 @@ RSpec.feature 'Entering an international degree' do
   end
 
   def and_i_click_on_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_click_on_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_fill_in_the_type
@@ -190,7 +190,7 @@ RSpec.feature 'Entering an international degree' do
   end
 
   def when_i_click_on_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_click_on_continue

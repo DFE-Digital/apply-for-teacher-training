@@ -58,8 +58,8 @@ RSpec.feature 'See monthly statistics in support interface' do
 
   def when_i_enter_on_monthly_statistics_support_page
     visit support_interface_path
-    click_link 'Performance'
-    click_link 'Monthly Statistics reports'
+    click_link_or_button 'Performance'
+    click_link_or_button 'Monthly Statistics reports'
   end
 
   def then_i_should_see_all_generated_monthly_statistics_reports
@@ -70,7 +70,7 @@ RSpec.feature 'See monthly statistics in support interface' do
   end
 
   def when_i_click_on_the_report_not_published_yet
-    click_link 'November 2023'
+    click_link_or_button 'November 2023'
   end
 
   def then_i_should_see_the_draft_report
@@ -81,7 +81,7 @@ RSpec.feature 'See monthly statistics in support interface' do
   end
 
   def and_i_click_on_the_published_report
-    click_link 'October 2023'
+    click_link_or_button 'October 2023'
   end
 
   def then_i_should_see_the_published_report
@@ -92,7 +92,7 @@ RSpec.feature 'See monthly statistics in support interface' do
   end
 
   def and_i_click_on_the_report_from_old_cycle
-    click_link 'September 2023'
+    click_link_or_button 'September 2023'
   end
 
   def then_i_should_see_the_old_cycle_published_report

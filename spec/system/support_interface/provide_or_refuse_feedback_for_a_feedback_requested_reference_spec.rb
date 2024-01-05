@@ -36,7 +36,7 @@ RSpec.feature 'Support user can access the RefereeInterface' do
   end
 
   def and_click_the_provide_feedback_link
-    click_link 'Give feedback'
+    click_link_or_button 'Give feedback'
   end
 
   def then_i_see_the_reference_relationship_page
@@ -44,16 +44,16 @@ RSpec.feature 'Support user can access the RefereeInterface' do
   end
 
   def and_click_the_refuse_feedback_link
-    click_link 'decline to give a reference'
+    click_link_or_button 'decline to give a reference'
   end
 
   def and_i_decline_to_give_a_reference
     choose 'No, I’m unable to give a reference'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_confirm_i_dont_want_to_give_a_reference
-    click_button 'Yes, I am unable to give a reference'
+    click_link_or_button 'Yes, I am unable to give a reference'
   end
 
   def when_the_candidates_reference_is_in_the_feedback_provided_state

@@ -33,7 +33,7 @@ RSpec.describe 'A provider user signs out of DSI as well as Apply' do
   end
 
   def and_i_sign_in_via_dfe_sign_in
-    click_button 'Sign in using DfE Sign-in'
+    click_link_or_button 'Sign in using DfE Sign-in'
   end
 
   def when_i_click_on_sign_out
@@ -41,7 +41,7 @@ RSpec.describe 'A provider user signs out of DSI as well as Apply' do
     allow_any_instance_of(DfESignInUser).to receive(:needs_dsi_signout?).and_return(true)
     # rubocop:enable RSpec/AnyInstance
     ClimateControl.modify DFE_SIGN_IN_ISSUER: 'https://identityprovider.gov.uk' do
-      click_link 'Sign out'
+      click_link_or_button 'Sign out'
     end
   end
 

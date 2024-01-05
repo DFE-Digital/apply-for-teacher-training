@@ -62,7 +62,7 @@ RSpec.feature 'A candidate withdraws her application', :bullet, continuous_appli
   end
 
   def and_i_click_the_withdraw_link_on_my_first_choice
-    click_link 'Withdraw', match: :first
+    click_link_or_button 'Withdraw', match: :first
   end
 
   def and_i_click_the_withdraw_link_on_my_final_choice
@@ -75,7 +75,7 @@ RSpec.feature 'A candidate withdraws her application', :bullet, continuous_appli
   end
 
   def when_i_click_to_confirm_withdrawal
-    click_button 'Yes I’m sure – withdraw this application'
+    click_link_or_button 'Yes I’m sure – withdraw this application'
   end
 
   def then_i_see_the_withdraw_choice_reason_page
@@ -96,7 +96,7 @@ RSpec.feature 'A candidate withdraws her application', :bullet, continuous_appli
   end
 
   def when_i_submit_the_questionnaire_without_choosing_options
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_am_asked_to_choose_my_reasons
@@ -108,7 +108,7 @@ RSpec.feature 'A candidate withdraws her application', :bullet, continuous_appli
   end
 
   def and_i_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_my_application_dashboard

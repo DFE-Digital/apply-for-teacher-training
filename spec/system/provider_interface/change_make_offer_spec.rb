@@ -73,11 +73,11 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_click_an_application_choice_awaiting_decision
-    click_link application_choice.application_form.full_name
+    click_link_or_button application_choice.application_form.full_name
   end
 
   def and_i_click_on_make_decision
-    click_link 'Make decision'
+    click_link_or_button 'Make decision'
   end
 
   def then_i_see_the_decision_page
@@ -104,7 +104,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_the_review_page_is_loaded
@@ -193,7 +193,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def when_i_send_the_offer
-    click_button 'Send offer'
+    click_link_or_button 'Send offer'
   end
 
   def then_i_see_that_the_offer_was_successfuly_made

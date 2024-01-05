@@ -65,7 +65,7 @@ RSpec.feature 'Candidate entering GCSE English details' do
   end
 
   def and_i_click_on_the_english_gcse_link
-    click_link 'English GCSE or equivalent'
+    click_link_or_button 'English GCSE or equivalent'
   end
 
   def then_i_see_the_add_gcse_english_page
@@ -77,7 +77,7 @@ RSpec.feature 'Candidate entering GCSE English details' do
   end
 
   def and_i_click_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_the_english_gcse_grade_page
@@ -149,7 +149,7 @@ RSpec.feature 'Candidate entering GCSE English details' do
   end
 
   def when_i_click_to_change_my_grades
-    click_link 'Change grade for GCSE'
+    click_link_or_button 'Change grade for GCSE'
   end
 
   def then_i_see_the_grades_i_entered_in_the_form

@@ -17,23 +17,23 @@ RSpec.feature 'API docs' do
     visit api_docs_home_path
     expect(page).to have_content 'This is API documentation'
 
-    click_link 'Usage scenarios'
+    click_link_or_button 'Usage scenarios'
     expect(page).to have_content 'The scenarios on this page'
 
-    click_link 'API reference'
+    click_link_or_button 'API reference'
     expect(page).to have_content 'Developing on the API'
     expect(page).to have_content 'Field lengths summary'
 
-    click_link 'Release notes'
+    click_link_or_button 'Release notes'
     expect(page).to have_content 'For a log of pre-release changes, see the alpha release notes'
 
-    click_link 'Get help'
+    click_link_or_button 'Get help'
     expect(page).to have_content 'If you have any questions or'
 
-    click_link 'Lifecycle'
+    click_link_or_button 'Lifecycle'
     expect(page).to have_content 'Application lifecycle'
 
-    click_link 'When emails are sent'
+    click_link_or_button 'When emails are sent'
     expect(page).to have_content 'we send these notifications'
   end
 

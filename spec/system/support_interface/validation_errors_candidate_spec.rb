@@ -26,9 +26,9 @@ RSpec.feature 'Validation errors Candidate' do
 
   def and_i_enter_invalid_contact_details
     visit candidate_interface_application_form_path
-    click_link t('page_titles.contact_information')
+    click_link_or_button t('page_titles.contact_information')
     fill_in t('application_form.contact_details.phone_number.label'), with: 'ABCDEF'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def given_i_am_a_support_user
@@ -37,9 +37,9 @@ RSpec.feature 'Validation errors Candidate' do
 
   def when_i_navigate_to_the_validation_errors_page
     visit support_interface_path
-    click_link 'Performance'
-    click_link 'Validation errors'
-    click_link 'Candidate validation errors'
+    click_link_or_button 'Performance'
+    click_link_or_button 'Validation errors'
+    click_link_or_button 'Candidate validation errors'
   end
 
   def then_i_should_see_a_list_of_error_groups
@@ -49,7 +49,7 @@ RSpec.feature 'Validation errors Candidate' do
   end
 
   def when_i_click_on_a_group
-    click_link('Phone number')
+    click_link_or_button('Phone number')
   end
 
   def then_i_should_see_a_list_of_individual_errors
@@ -60,7 +60,7 @@ RSpec.feature 'Validation errors Candidate' do
   end
 
   def when_i_click_on_link_in_breadcrumb_trail
-    click_link 'Validation errors'
+    click_link_or_button 'Validation errors'
   end
 
   def then_i_should_be_back_on_index_page

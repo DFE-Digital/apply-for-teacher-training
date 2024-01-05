@@ -56,7 +56,7 @@ RSpec.feature 'An application was changed to another provider' do
   end
 
   def when_i_click_on_the_individual_application
-    click_link @application_choice.application_form.full_name
+    click_link_or_button @application_choice.application_form.full_name
   end
 
   def then_i_can_see_only_the_application_and_offer_tabs
@@ -64,7 +64,7 @@ RSpec.feature 'An application was changed to another provider' do
   end
 
   def when_i_click_on_the_offer_tab
-    click_link 'Offer'
+    click_link_or_button 'Offer'
   end
 
   def navigation_tabs

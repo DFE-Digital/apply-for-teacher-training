@@ -31,7 +31,7 @@ RSpec.feature 'Candidate submits restructured work history' do
   end
 
   def when_i_click_on_work_history
-    click_link t('page_titles.work_history')
+    click_link_or_button t('page_titles.work_history')
   end
 
   def then_i_should_see_the_start_page
@@ -40,11 +40,11 @@ RSpec.feature 'Candidate submits restructured work history' do
 
   def when_i_choose_that_i_have_work_history_to_add
     choose 'Yes'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def and_i_click_add_a_first_job
-    click_link 'Add a job'
+    click_link_or_button 'Add a job'
   end
 
   def then_i_should_see_the_add_a_job_page
@@ -57,7 +57,7 @@ RSpec.feature 'Candidate submits restructured work history' do
       fill_in 'Year', with: '1999'
     end
 
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_should_see_date_validation_errors
@@ -95,7 +95,7 @@ RSpec.feature 'Candidate submits restructured work history' do
       choose 'Yes'
     end
 
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_should_see_the_work_history_review_page
@@ -103,6 +103,6 @@ RSpec.feature 'Candidate submits restructured work history' do
   end
 
   def and_i_click_on_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 end

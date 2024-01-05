@@ -47,7 +47,7 @@ RSpec.feature 'Deleting and replacing a degree', continuous_applications: false 
   end
 
   def when_i_click_on_degree
-    click_link 'Degree'
+    click_link_or_button 'Degree'
   end
 
   def and_i_click_on_change_country
@@ -55,7 +55,7 @@ RSpec.feature 'Deleting and replacing a degree', continuous_applications: false 
   end
 
   def and_i_click_the_back_link
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_see_the_undergraduate_degree_form
@@ -64,7 +64,7 @@ RSpec.feature 'Deleting and replacing a degree', continuous_applications: false 
   end
 
   def when_i_click_add_degree
-    click_link 'Add a degree'
+    click_link_or_button 'Add a degree'
   end
 
   def when_i_choose_united_kingdom
@@ -104,7 +104,7 @@ RSpec.feature 'Deleting and replacing a degree', continuous_applications: false 
   end
 
   def and_i_click_on_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_can_check_my_undergraduate_degree
@@ -112,7 +112,7 @@ RSpec.feature 'Deleting and replacing a degree', continuous_applications: false 
   end
 
   def when_i_add_another_degree
-    click_link t('application_form.degree.another.button')
+    click_link_or_button t('application_form.degree.another.button')
     when_i_choose_united_kingdom
     and_i_click_on_save_and_continue
     choose 'Doctorate (PhD)'
@@ -132,7 +132,7 @@ RSpec.feature 'Deleting and replacing a degree', continuous_applications: false 
   end
 
   def when_i_click_on_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_click_on_continue
@@ -174,7 +174,7 @@ RSpec.feature 'Deleting and replacing a degree', continuous_applications: false 
   end
 
   def and_i_submit_the_add_another_degree_form
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_can_check_my_additional_degree
@@ -183,7 +183,7 @@ RSpec.feature 'Deleting and replacing a degree', continuous_applications: false 
   end
 
   def and_i_click_on_delete_degree
-    click_link(t('application_form.degree.delete'), match: :first)
+    click_link_or_button(t('application_form.degree.delete'), match: :first)
   end
 
   def when_i_click_on_delete_degree
@@ -192,7 +192,7 @@ RSpec.feature 'Deleting and replacing a degree', continuous_applications: false 
   end
 
   def and_i_confirm_that_i_want_to_delete_my_additional_degree
-    click_button t('application_form.degree.confirm_delete')
+    click_link_or_button t('application_form.degree.confirm_delete')
   end
 
   def and_i_confirm_that_i_want_to_delete_my_degree

@@ -132,12 +132,12 @@ RSpec.feature 'Change science GCSE' do
 
   def and_i_click_to_change_my_science_gcse
     within('.app-edit-qualification') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def and_i_click_update
-    click_button 'Update details'
+    click_link_or_button 'Update details'
   end
 
   def when_i_choose_uk_o_level

@@ -32,8 +32,8 @@ RSpec.feature 'Managing support users' do
   end
 
   def and_i_click_the_manange_support_users_link
-    click_link 'Settings'
-    click_link 'Support users'
+    click_link_or_button 'Settings'
+    click_link_or_button 'Support users'
   end
 
   def and_i_enter_the_users_email_and_dsi_uid
@@ -42,11 +42,11 @@ RSpec.feature 'Managing support users' do
   end
 
   def and_i_click_the_add_user_link
-    click_link 'Add support user'
+    click_link_or_button 'Add support user'
   end
 
   def and_i_click_add_user
-    click_button 'Add support user'
+    click_link_or_button 'Add support user'
   end
 
   def then_i_should_see_the_list_of_support_users
@@ -58,7 +58,7 @@ RSpec.feature 'Managing support users' do
   end
 
   def when_i_go_back_to_the_manage_support_users_page
-    click_link 'Support users'
+    click_link_or_button 'Support users'
   end
 
   def and_i_submit_the_same_email_address_again
@@ -68,7 +68,7 @@ RSpec.feature 'Managing support users' do
   end
 
   def when_i_click_on_the_user
-    click_link 'harrison@example.com'
+    click_link_or_button 'harrison@example.com'
   end
 
   def then_i_can_see_the_audit_history

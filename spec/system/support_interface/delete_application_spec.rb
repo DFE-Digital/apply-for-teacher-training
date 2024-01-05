@@ -59,7 +59,7 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
   end
 
   def when_i_click_delete_application
-    click_button('Delete all application data')
+    click_link_or_button('Delete all application data')
   end
 
   def then_i_see_a_confirmation_page_prompting_for_an_audit_comment
@@ -73,7 +73,7 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
   end
 
   def when_i_delete_the_account
-    click_button 'Delete candidate account'
+    click_link_or_button 'Delete candidate account'
   end
 
   def then_i_see_a_validation_error
@@ -87,7 +87,7 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
   def when_i_add_an_audit_comment_and_click_continue
     fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/123'
     check 'I have read the guidance'
-    click_button 'Delete candidate account'
+    click_link_or_button 'Delete candidate account'
   end
 
   def then_i_see_the_application_page

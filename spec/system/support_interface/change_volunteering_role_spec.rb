@@ -41,11 +41,11 @@ RSpec.feature 'Change volunteering role' do
   end
 
   def and_i_click_to_change_volunteering_role
-    click_link(href: support_interface_application_form_edit_volunteering_role_path(@application_form, @volunteering_role))
+    click_link_or_button(href: support_interface_application_form_edit_volunteering_role_path(@application_form, @volunteering_role))
   end
 
   def when_i_click_update
-    click_button 'Update details'
+    click_link_or_button 'Update details'
   end
   alias_method :and_i_click_update, :when_i_click_update
 

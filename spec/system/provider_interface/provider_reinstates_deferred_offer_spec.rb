@@ -98,7 +98,7 @@ RSpec.feature 'Provider reinstates deferred offer' do
   end
 
   def when_i_click_to_review_the_deferred_offer
-    click_link 'Confirm deferred offer'
+    click_link_or_button 'Confirm deferred offer'
   end
 
   def then_i_can_see_the_details_of_the_deferred_offer
@@ -106,13 +106,13 @@ RSpec.feature 'Provider reinstates deferred offer' do
   end
 
   def and_i_can_specify_if_offer_conditions_are_still_met
-    click_link t('continue')
+    click_link_or_button t('continue')
     choose 'Yes, all conditions are still met'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_cannot_click_to_continue
-    expect { click_button t('continue') }.to raise_error Capybara::ElementNotFound
+    expect { click_link_or_button t('continue') }.to raise_error Capybara::ElementNotFound
   end
 
   def and_i_can_review_the_new_offer_conditions_and_details
@@ -120,7 +120,7 @@ RSpec.feature 'Provider reinstates deferred offer' do
   end
 
   def when_i_click_to_reinstate_the_offer
-    click_button 'Confirm offer'
+    click_link_or_button 'Confirm offer'
   end
 
   def then_i_see_a_success_flash_message

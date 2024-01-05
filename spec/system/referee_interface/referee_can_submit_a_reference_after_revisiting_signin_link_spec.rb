@@ -54,7 +54,7 @@ RSpec.feature 'Referee can submit reference', :with_audited do
 
   def and_i_select_yes_to_giving_a_reference
     choose 'Yes, I can give them a reference'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_confirm_that_the_described_relationship_is_correct
@@ -62,7 +62,7 @@ RSpec.feature 'Referee can submit reference', :with_audited do
     within_fieldset('Is this description accurate?') do
       choose 'Yes'
     end
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_the_safeguarding_page
@@ -71,7 +71,7 @@ RSpec.feature 'Referee can submit reference', :with_audited do
 
   def when_i_choose_the_candidate_is_suitable_for_working_with_children
     choose 'No'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_the_reference_comment_page
@@ -81,7 +81,7 @@ RSpec.feature 'Referee can submit reference', :with_audited do
 
   def when_i_fill_in_the_reference_field
     fill_in 'Reference', with: 'This is a reference for the candidate.'
-    click_button t('save')
+    click_link_or_button t('save')
   end
 
   def then_i_see_the_reference_review_page
@@ -89,7 +89,7 @@ RSpec.feature 'Referee can submit reference', :with_audited do
   end
 
   def and_i_click_the_submit_reference_button
-    click_button t('referee.review.submit')
+    click_link_or_button t('referee.review.submit')
   end
 
   def then_i_see_am_told_i_submitted_my_reference

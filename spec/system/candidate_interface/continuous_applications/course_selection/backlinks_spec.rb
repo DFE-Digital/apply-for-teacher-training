@@ -61,29 +61,29 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
   end
 
   def and_i_click_on_course_choices
-    click_link 'Your application'
-    click_link 'Add application'
+    click_link_or_button 'Your application'
+    click_link_or_button 'Add application'
   end
 
   def when_i_choose_that_i_know_where_i_want_to_apply
     choose 'Yes, I know where I want to apply'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_choose_a_provider
     select @provider.name_and_code
     # find('div.autocomplete__wrapper').click
     # find('ul.autocomplete__menu li', text: @provider.name_and_code).click
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_choose_the_third_course_as_my_first_course_choice
     choose @provider.courses.third.name_and_code
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_click_the_back_link
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_see_a_back_link_to_study_mode_choice
@@ -92,7 +92,7 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
 
   def and_i_choose_the_full_time_study_mode
     choose 'Full time'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_be_on_the_application_choice_review_page
@@ -104,11 +104,11 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
   end
 
   def and_i_view_the_application_
-    click_link 'View application'
+    click_link_or_button 'View application'
   end
 
   def and_i_click_the_back_to_application_link
-    click_link 'Back to your application'
+    click_link_or_button 'Back to your application'
   end
 
   def then_i_see_the_application_page

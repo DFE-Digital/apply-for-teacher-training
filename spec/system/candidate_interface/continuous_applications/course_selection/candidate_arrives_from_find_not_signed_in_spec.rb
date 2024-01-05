@@ -81,7 +81,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
   def and_i_go_to_sign_in
     choose 'Yes, sign in'
     fill_in 'Email', with: @email
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     open_email(@email)
     click_magic_link_in_email
@@ -111,7 +111,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
 
   def when_i_say_yes
     choose 'Yes'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_see_the_courses_review_page
@@ -163,7 +163,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
 
   def and_i_select_the_part_time_study_mode
     choose 'Part time'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_see_the_course_choices_site_page
@@ -181,7 +181,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
   end
 
   def when_i_sign_out
-    click_link 'Sign out'
+    click_link_or_button 'Sign out'
   end
 
   def and_i_should_be_informed_i_have_already_selected_that_course

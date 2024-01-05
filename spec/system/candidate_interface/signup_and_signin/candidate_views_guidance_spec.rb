@@ -23,7 +23,7 @@ RSpec.feature 'Candidate visits the sign-in page and views guidance' do
   end
 
   def and_i_click_on_the_guidance_link
-    click_link 'Read how the application process works'
+    click_link_or_button 'Read how the application process works'
   end
 
   def then_i_am_taken_to_the_guidance_page

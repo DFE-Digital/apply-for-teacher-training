@@ -41,18 +41,18 @@ RSpec.feature 'Selecting a course', :continuous_applications do
   end
 
   def and_i_click_on_course_choices
-    click_link 'Your application'
-    click_link 'Add application'
+    click_link_or_button 'Your application'
+    click_link_or_button 'Add application'
   end
 
   def and_i_choose_that_i_know_where_i_want_to_apply
     choose 'Yes, I know where I want to apply'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_choose_the_same_provider
     select 'Gorse SCITT (1N1)'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_see_the_course_and_its_description
@@ -62,6 +62,6 @@ RSpec.feature 'Selecting a course', :continuous_applications do
 
   def and_i_choose_the_same_course
     choose 'Primary (2XT2)'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 end

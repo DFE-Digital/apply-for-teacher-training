@@ -91,8 +91,8 @@ RSpec.feature 'See Duplicate candidate matches' do
   end
 
   def and_i_click_the_duplicate_matches_tab
-    click_link 'Candidates'
-    click_link 'Duplicate candidate matches'
+    click_link_or_button 'Candidates'
+    click_link_or_button 'Duplicate candidate matches'
   end
 
   def then_i_should_see_list_of_under_review_duplicates
@@ -101,37 +101,37 @@ RSpec.feature 'See Duplicate candidate matches' do
   end
 
   def and_i_click_on_a_match_that_is_not_resolved
-    click_link '2 candidates with postcode W6 9BH and DOB 8 Aug 1998'
+    click_link_or_button '2 candidates with postcode W6 9BH and DOB 8 Aug 1998'
   end
 
   def and_i_click_the_back_link
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def when_i_click_on_a_the_resolved_link
-    click_link 'Resolved'
+    click_link_or_button 'Resolved'
   end
 
   def when_i_search_for_a_duplicate_match_by_email
     fill_in :query, with: @bob.email_address
-    click_button 'Apply filters'
+    click_link_or_button 'Apply filters'
   end
 
   def when_i_search_for_a_resolved_duplicate_match_by_email
     fill_in :query, with: @alice.email_address
-    click_button 'Apply filters'
+    click_link_or_button 'Apply filters'
   end
 
   def when_i_click_on_resolve
-    click_button 'Mark as resolved'
+    click_link_or_button 'Mark as resolved'
   end
 
   def when_i_click_on_a_the_under_review_link
-    click_link 'Under review'
+    click_link_or_button 'Under review'
   end
 
   def and_i_click_on_a_duplicate
-    click_link '2 candidates with postcode W6 9BH and DOB 8 Aug 1998'
+    click_link_or_button '2 candidates with postcode W6 9BH and DOB 8 Aug 1998'
   end
 
   def i_should_be_taken_to_the_under_review_view
@@ -139,7 +139,7 @@ RSpec.feature 'See Duplicate candidate matches' do
   end
 
   def and_click_on_a_match_that_is_resolved
-    click_link '2 candidates with postcode W3 6ET and DOB 12 Oct 1999'
+    click_link_or_button '2 candidates with postcode W3 6ET and DOB 12 Oct 1999'
   end
 
   def i_should_be_taken_to_the_resolved_view

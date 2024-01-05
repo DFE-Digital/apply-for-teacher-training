@@ -59,7 +59,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_on_the_application
-    click_link 'Candy Dayte'
+    click_link_or_button 'Candy Dayte'
   end
 
   def then_i_should_see_the_current_conditions
@@ -67,7 +67,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_on_change_conditions
-    click_link 'Change conditions'
+    click_link_or_button 'Change conditions'
   end
 
   def then_i_see_the_condition_edit_form_with_a_warning
@@ -79,7 +79,7 @@ RSpec.feature 'Add course to submitted application' do
   def when_i_add_a_new_condition_and_click_update_conditions_without_a_support_ticket_url
     check 'Fitness to train to teach check'
     fill_in 'Condition 2', with: 'Learn to play piano'
-    click_button 'Update conditions'
+    click_link_or_button 'Update conditions'
   end
 
   def then_i_see_a_validation_error
@@ -91,7 +91,7 @@ RSpec.feature 'Add course to submitted application' do
     check 'Fitness to train to teach check'
     fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
     fill_in 'Condition 2', with: 'Learn to play piano'
-    click_button 'Update conditions'
+    click_link_or_button 'Update conditions'
   end
 
   def then_i_see_the_new_condition_as_well_as_the_original_ones
@@ -107,7 +107,7 @@ RSpec.feature 'Add course to submitted application' do
     fill_in 'Condition 1', with: ''
     fill_in 'Condition 2', with: ''
     fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
-    click_button 'Update conditions'
+    click_link_or_button 'Update conditions'
   end
 
   def then_i_see_a_confirmation_page_about_candidate_being_recruited
@@ -116,7 +116,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_yes_im_sure
-    click_button 'Yes I\'m sure - make offer unconditional and recruit candidate'
+    click_link_or_button 'Yes I\'m sure - make offer unconditional and recruit candidate'
   end
 
   def then_i_see_that_the_candidate_has_been_recruited_and_conditions_have_been_removed

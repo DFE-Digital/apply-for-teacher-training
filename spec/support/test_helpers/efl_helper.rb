@@ -8,7 +8,7 @@ module EFLHelper
   end
 
   def when_i_click_on_the_efl_section_link
-    click_link efl_link_text
+    click_link_or_button efl_link_text
   end
 
   def and_i_declare_a_non_english_speaking_nationality

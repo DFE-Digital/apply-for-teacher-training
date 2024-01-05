@@ -19,7 +19,7 @@ RSpec.feature 'Data set documentation' do
   end
 
   def and_i_click_on_the_tad_export_documentation
-    click_link 'View documentation for TAD applications'
+    click_link_or_button 'View documentation for TAD applications'
   end
 
   def then_i_see_the_data_set_documentation

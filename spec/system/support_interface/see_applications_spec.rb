@@ -46,7 +46,7 @@ RSpec.feature 'See applications' do
 
   def when_i_search_by_application_choice_id
     fill_in :application_choice_id, with: @application_with_reference.application_choices.first.id
-    click_button 'Apply filters'
+    click_link_or_button 'Apply filters'
   end
 
   def then_i_see_only_the_associated_application
@@ -56,12 +56,12 @@ RSpec.feature 'See applications' do
   end
 
   def and_i_clear_filters
-    click_link 'Clear filters'
+    click_link_or_button 'Clear filters'
   end
 
   def when_i_search_for_an_application
     fill_in :q, with: @completed_application.candidate.email_address
-    click_button 'Apply filters'
+    click_link_or_button 'Apply filters'
   end
 
   def then_i_see_only_that_application
@@ -72,7 +72,7 @@ RSpec.feature 'See applications' do
 
   def when_my_search_returns_nothing
     fill_in :q, with: 'STRING THAT WILL NEVER MATCH'
-    click_button 'Apply filters'
+    click_link_or_button 'Apply filters'
   end
 
   def then_i_see_a_message_saying_there_are_no_applications
@@ -80,7 +80,7 @@ RSpec.feature 'See applications' do
   end
 
   def when_i_follow_the_link_to_applications
-    click_link 'Applications'
+    click_link_or_button 'Applications'
   end
 
   def then_i_should_see_the_application_references

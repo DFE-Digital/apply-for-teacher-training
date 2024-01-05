@@ -45,7 +45,7 @@ RSpec.feature 'Generate test data for provider via support', :sandbox, sidekiq: 
   end
 
   def when_i_click_on_generate_test_applications
-    click_button 'Generate test applications'
+    click_link_or_button 'Generate test applications'
   end
 
   def then_i_see_that_the_job_has_been_scheduled

@@ -116,15 +116,15 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
   end
 
   def when_i_click_on_references_section
-    click_link 'References'
+    click_link_or_button 'References'
   end
 
   def when_i_click_add_reference
-    click_link 'Add reference'
+    click_link_or_button 'Add reference'
   end
 
   def when_i_click_to_add_another_reference
-    click_link 'Add another reference'
+    click_link_or_button 'Add another reference'
   end
 
   def then_i_see_the_type_page
@@ -148,11 +148,11 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
   end
 
   def and_i_click_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_see_the_referee_name_page
@@ -248,7 +248,7 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
   end
 
   def when_i_click_change_on_the_references_name
-    click_link 'Change name for Walter White'
+    click_link_or_button 'Change name for Walter White'
   end
 
   def and_i_input_a_new_name
@@ -260,7 +260,7 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
   end
 
   def when_i_click_change_on_email_address
-    click_link 'Change email address for Jessie Pinkman'
+    click_link_or_button 'Change email address for Jessie Pinkman'
   end
 
   def and_i_input_a_new_email_address
@@ -272,7 +272,7 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
   end
 
   def when_i_click_change_on_the_reference_type
-    click_link 'Change reference type for Jessie Pinkman'
+    click_link_or_button 'Change reference type for Jessie Pinkman'
   end
 
   def and_i_choose_professional
@@ -284,7 +284,7 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
   end
 
   def when_i_click_change_on_relationship
-    click_link 'Change relationship for Jessie Pinkman'
+    click_link_or_button 'Change relationship for Jessie Pinkman'
   end
 
   def and_i_input_my_relationship_to_the_referee
@@ -341,7 +341,7 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
 
   def when_i_mark_the_section_as_complete
     choose 'Yes, I have completed this section'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def and_the_references_section_is_marked_as_completed
@@ -362,12 +362,12 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
   end
 
   def and_i_confirm_the_deletion
-    click_button 'Yes I’m sure - delete this reference'
+    click_link_or_button 'Yes I’m sure - delete this reference'
   end
 
   def then_my_application_references_should_be_incomplete
     expect(@application.reload.references_completed).to be false
-    click_link 'Back to your details'
+    click_link_or_button 'Back to your details'
     expect(safeguarding_section.text.downcase).to include('references to be requested if you accept an offer incomplete')
   end
 

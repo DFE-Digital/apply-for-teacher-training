@@ -22,16 +22,16 @@ RSpec.feature 'Add Other qualification' do
 
   def and_i_select_the_options_for_other_qualification
     choose 'Yes'
-    click_button t('continue')
+    click_link_or_button t('continue')
     choose 'Other'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_provide_my_qualification_details
     fill_in 'Assessment name', with: 'Pearson Test of English'
     fill_in 'Score or grade', with: '90'
     fill_in 'When did you complete the assessment?', with: '1999'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_can_review_my_qualification
@@ -46,7 +46,7 @@ RSpec.feature 'Add Other qualification' do
 
     expect(page).to have_field('When did you complete the assessment?', with: '1999')
     fill_in 'When did you complete the assessment?', with: '2001'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
     expect(page).to have_content '2001'
@@ -55,11 +55,11 @@ RSpec.feature 'Add Other qualification' do
 
   def and_i_can_complete_this_section
     choose t('application_form.incomplete_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Incomplete')
-    click_link efl_link_text
+    click_link_or_button efl_link_text
     choose t('application_form.completed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Completed')
   end
 end

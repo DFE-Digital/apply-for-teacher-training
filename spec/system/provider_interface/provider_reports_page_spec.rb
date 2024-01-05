@@ -34,7 +34,7 @@ RSpec.feature 'Provider reports page' do
 
   def when_i_visit_the_reports_page_and_i_click_the_export_data_link
     visit provider_interface_reports_path
-    click_link 'Export application data'
+    click_link_or_button 'Export application data'
   end
 
   def when_i_visit_the_reports_page
@@ -43,13 +43,13 @@ RSpec.feature 'Provider reports page' do
 
   def then_i_should_see_a_link_to_the_data_export_page
     expect(page).to have_link('Export data for Higher Education Statistics Agency (HESA)')
-    click_link('Export data for Higher Education Statistics Agency (HESA)')
+    click_link_or_button('Export data for Higher Education Statistics Agency (HESA)')
     then_i_should_be_redirected_to_the_hesa_export_page
   end
 
   def then_i_should_see_a_link_to_the_hesa_export_page
     expect(page).to have_link('Export data for Higher Education Statistics Agency (HESA)')
-    click_link('Export data for Higher Education Statistics Agency (HESA)')
+    click_link_or_button('Export data for Higher Education Statistics Agency (HESA)')
     then_i_should_be_redirected_to_the_hesa_export_page
   end
 

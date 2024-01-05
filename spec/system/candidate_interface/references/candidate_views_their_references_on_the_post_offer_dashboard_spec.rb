@@ -62,7 +62,7 @@ RSpec.feature 'Post-offer references', :with_audited, continuous_applications: f
   end
 
   def when_i_click_on_my_requested_reference
-    click_link @pending_reference.name
+    click_link_or_button @pending_reference.name
   end
 
   alias_method :and_i_click_on_my_requested_reference, :when_i_click_on_my_requested_reference
@@ -80,7 +80,7 @@ RSpec.feature 'Post-offer references', :with_audited, continuous_applications: f
   end
 
   def when_i_click_send_a_reminder
-    click_link 'Send a reminder'
+    click_link_or_button 'Send a reminder'
   end
 
   def then_i_see_the_reminder_confirmation_page
@@ -90,7 +90,7 @@ RSpec.feature 'Post-offer references', :with_audited, continuous_applications: f
   end
 
   def when_i_confirm_i_want_to_send_the_reminder
-    click_button 'Send a reminder'
+    click_link_or_button 'Send a reminder'
   end
 
   def then_i_see_the_updated_history
@@ -98,11 +98,11 @@ RSpec.feature 'Post-offer references', :with_audited, continuous_applications: f
   end
 
   def when_i_go_back_to_the_dashboard
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def and_i_click_cancel_request
-    click_link 'Cancel request'
+    click_link_or_button 'Cancel request'
   end
 
   def then_i_see_the_cancellation_confirmation_page
@@ -112,7 +112,7 @@ RSpec.feature 'Post-offer references', :with_audited, continuous_applications: f
   end
 
   def when_i_confirm_i_want_to_cancel_the_request
-    click_button 'Cancel reference request'
+    click_link_or_button 'Cancel reference request'
   end
 
   def then_i_see_the_status_change

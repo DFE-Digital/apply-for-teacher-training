@@ -44,7 +44,7 @@ RSpec.feature 'Organisation settings' do
 
   def when_i_click_on_the_organisation_settings_link
     within('#navigation') do
-      click_link('Organisation settings')
+      click_link_or_button('Organisation settings')
     end
   end
 

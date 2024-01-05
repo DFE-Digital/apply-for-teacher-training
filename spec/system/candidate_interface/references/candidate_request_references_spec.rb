@@ -84,15 +84,15 @@ RSpec.feature 'New References', :with_audited, continuous_applications: false, t
   end
 
   def when_i_click_request_another_reference
-    click_link 'Request another reference'
+    click_link_or_button 'Request another reference'
   end
 
   def and_i_click_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def and_i_click_save_and_continue
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def then_the_back_link_should_point_to_the_offer_dashboard_page
@@ -195,23 +195,23 @@ RSpec.feature 'New References', :with_audited, continuous_applications: false, t
   end
 
   def and_i_click_on_my_reference
-    click_link 'Aragorn'
+    click_link_or_button 'Aragorn'
   end
 
   def when_i_click_to_change_the_reference_name
-    click_link 'Change name for Aragorn'
+    click_link_or_button 'Change name for Aragorn'
   end
 
   def when_i_click_to_change_the_reference_type
-    click_link 'Change reference type for Aragorn the Middle earth king'
+    click_link_or_button 'Change reference type for Aragorn the Middle earth king'
   end
 
   def when_i_click_to_change_the_reference_email_address
-    click_link 'Change email address for Aragorn the Middle earth king'
+    click_link_or_button 'Change email address for Aragorn the Middle earth king'
   end
 
   def when_i_click_to_change_the_reference_relationship
-    click_link 'Change relationship for Aragorn the Middle earth king'
+    click_link_or_button 'Change relationship for Aragorn the Middle earth king'
   end
 
   def and_when_i_change_the_reference_name
@@ -235,7 +235,7 @@ RSpec.feature 'New References', :with_audited, continuous_applications: false, t
   end
 
   def and_i_click_to_request_the_reference
-    click_button 'Send reference request'
+    click_link_or_button 'Send reference request'
   end
 
   def then_the_reference_should_be_requested
@@ -252,7 +252,7 @@ RSpec.feature 'New References', :with_audited, continuous_applications: false, t
   end
 
   def and_i_click_cancel_request_from_the_list_page
-    click_link 'cancel request'
+    click_link_or_button 'cancel request'
   end
 
   def back_link

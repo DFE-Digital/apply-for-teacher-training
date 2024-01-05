@@ -44,11 +44,11 @@ RSpec.feature 'Providers and courses' do
   end
 
   def and_i_click_on_courses
-    click_link 'Courses'
+    click_link_or_button 'Courses'
   end
 
   def and_i_click_on_the_csv_button
-    click_link 'courses as CSV'
+    click_link_or_button 'courses as CSV'
   end
 
   def then_i_should_get_a_csv_with_all_the_courses

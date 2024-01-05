@@ -65,7 +65,7 @@ RSpec.feature 'Candidate entering GCSE details', continuous_applications: false 
   end
 
   def and_i_click_on_the_maths_gcse_link
-    click_link 'Maths GCSE or equivalent'
+    click_link_or_button 'Maths GCSE or equivalent'
   end
 
   def when_i_select_gcse_option
@@ -73,7 +73,7 @@ RSpec.feature 'Candidate entering GCSE details', continuous_applications: false 
   end
 
   def and_i_click_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_do_not_select_any_gcse_option; end
@@ -163,7 +163,7 @@ RSpec.feature 'Candidate entering GCSE details', continuous_applications: false 
   end
 
   def and_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_click_continue
@@ -171,7 +171,7 @@ RSpec.feature 'Candidate entering GCSE details', continuous_applications: false 
   end
 
   def when_i_click_on_the_english_gcse_link
-    click_link 'English GCSE or equivalent'
+    click_link_or_button 'English GCSE or equivalent'
   end
 
   def then_i_see_add_english_grade_page

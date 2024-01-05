@@ -46,7 +46,7 @@ RSpec.feature 'Managing provider users v2' do
 
   def and_i_click_remove_on_the_first_provider
     within("[data-qa=\"provider-id-#{@provider_one.id}\"]") do
-      click_link 'Remove access'
+      click_link_or_button 'Remove access'
     end
   end
 
@@ -55,7 +55,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def when_i_click_yes_i_am_sure
-    click_button 'Yes I’m sure - remove access'
+    click_link_or_button 'Yes I’m sure - remove access'
   end
 
   def then_i_should_see_a_flash_message

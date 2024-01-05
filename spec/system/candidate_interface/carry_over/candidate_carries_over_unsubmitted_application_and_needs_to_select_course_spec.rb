@@ -76,7 +76,7 @@ RSpec.feature 'Carry over', skip: 'Update to continuous applications' do
   end
 
   def when_i_click_on_start_now
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_a_copy_of_my_application
@@ -84,7 +84,7 @@ RSpec.feature 'Carry over', skip: 'Update to continuous applications' do
   end
 
   def when_i_view_referees
-    click_link 'References to be requested if you accept an offer'
+    click_link_or_button 'References to be requested if you accept an offer'
   end
 
   def then_i_can_see_the_referees_i_previously_added
@@ -93,7 +93,7 @@ RSpec.feature 'Carry over', skip: 'Update to continuous applications' do
   end
 
   def when_i_return_to_application
-    click_link 'Back to application'
+    click_link_or_button 'Back to application'
   end
 
   def then_i_can_see_that_i_need_to_select_courses_when_apply_reopens

@@ -51,7 +51,7 @@ RSpec.feature 'Candidate changing UK GCSE to international qualification' do
   end
 
   def and_i_click_on_the_maths_gcse_link
-    click_link 'Maths GCSE or equivalent'
+    click_link_or_button 'Maths GCSE or equivalent'
   end
 
   def when_i_select_gcse_option
@@ -59,7 +59,7 @@ RSpec.feature 'Candidate changing UK GCSE to international qualification' do
   end
 
   def and_i_click_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_visit_the_candidate_application_page

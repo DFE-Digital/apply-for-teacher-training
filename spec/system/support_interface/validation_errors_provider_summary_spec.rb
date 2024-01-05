@@ -31,7 +31,7 @@ RSpec.feature 'Validation errors provider summary' do
   end
 
   def and_i_enter_an_invalid_interview_time
-    click_link 'Set up interview'
+    click_link_or_button 'Set up interview'
 
     tomorrow = 1.day.from_now
     fill_in 'Day', with: tomorrow.day
@@ -42,7 +42,7 @@ RSpec.feature 'Validation errors provider summary' do
 
     fill_in 'Address or online meeting details', with: 'We will let you know'
 
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def given_i_am_a_support_user
@@ -51,10 +51,10 @@ RSpec.feature 'Validation errors provider summary' do
 
   def when_i_navigate_to_the_validation_errors_summary_page
     visit support_interface_path
-    click_link 'Performance'
-    click_link 'Validation errors'
-    click_link 'Provider validation errors'
-    click_link 'Validation error summary'
+    click_link_or_button 'Performance'
+    click_link_or_button 'Validation errors'
+    click_link_or_button 'Provider validation errors'
+    click_link_or_button 'Validation error summary'
   end
 
   def then_i_should_see_numbers_for_the_past_week_month_and_all_time
@@ -62,7 +62,7 @@ RSpec.feature 'Validation errors provider summary' do
   end
 
   def when_i_click_on_link_to_drilldown_contact_details_form_errors
-    click_link 'Interview wizard'
+    click_link_or_button 'Interview wizard'
   end
 
   def then_i_should_see_errors_for_contact_details_form_only

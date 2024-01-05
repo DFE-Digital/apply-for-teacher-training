@@ -52,20 +52,20 @@ RSpec.feature 'Editing account status' do
   end
 
   def and_i_click_the_duplicate_matches_tab
-    click_link 'Candidates'
-    click_link 'Duplicate candidate matches'
+    click_link_or_button 'Candidates'
+    click_link_or_button 'Duplicate candidate matches'
   end
 
   def and_i_click_on_the_match_link
-    click_link '2 candidates with postcode W6 9BH and DOB 8 Aug 1998'
+    click_link_or_button '2 candidates with postcode W6 9BH and DOB 8 Aug 1998'
   end
 
   def and_i_click_on_the_email_address_link
-    click_link 'exemplar1@example.com'
+    click_link_or_button 'exemplar1@example.com'
   end
 
   def and_click_on_block_account_link
-    click_link 'Block account'
+    click_link_or_button 'Block account'
   end
 
   def then_i_should_see_three_options
@@ -89,7 +89,7 @@ RSpec.feature 'Editing account status' do
   end
 
   def when_i_click_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_should_see_candidate_account_status_as_access_locked
@@ -101,7 +101,7 @@ RSpec.feature 'Editing account status' do
   end
 
   def when_i_click_to_change_candidate_account_status
-    click_link 'Change'
+    click_link_or_button 'Change'
   end
 
   def and_account_access_locked_should_be_selected

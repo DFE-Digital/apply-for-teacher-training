@@ -117,7 +117,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_i_click_the_sign_out_button
-    click_link 'Sign out'
+    click_link_or_button 'Sign out'
   end
 
   def and_my_organisation_has_courses_with_applications_without_accredited_providers
@@ -167,7 +167,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def when_i_filter_by_provider_location
     find_by_id("provider_location-#{site.provider_id}_#{site.name}_#{site.code}").set(true)
-    click_button('Apply filters')
+    click_link_or_button('Apply filters')
   end
 
   def and_i_expect_the_relevant_provider_location_tags_to_be_visible
@@ -176,7 +176,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def when_i_filter_by_recruitment_cycle
     find(:css, "#recruitment_cycle_year-#{RecruitmentCycle.current_year}").set(true)
-    click_button('Apply filters')
+    click_link_or_button('Apply filters')
   end
 
   def then_i_only_see_applications_for_that_recruitment_cycle
@@ -259,7 +259,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def when_i_filter_for_rejected_applications
     find_by_id('status-rejected').set(true)
-    click_button('Apply filters')
+    click_link_or_button('Apply filters')
   end
 
   def then_only_rejected_applications_should_be_visible
@@ -278,7 +278,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   def when_i_filter_for_applications_that_i_do_not_have
     find_by_id('status-rejected').set(false)
     find_by_id('status-pending_conditions').set(true)
-    click_button('Apply filters')
+    click_link_or_button('Apply filters')
   end
 
   def then_i_should_see_the_no_filter_results_error_message
@@ -289,7 +289,7 @@ RSpec.feature 'Providers should be able to filter applications' do
     find_by_id('status-pending_conditions').set(false)
     find_by_id('status-rejected').set(true)
     find_by_id('status-offer').set(true)
-    click_button('Apply filters')
+    click_link_or_button('Apply filters')
   end
 
   def then_only_rejected_and_offered_applications_should_be_visible
@@ -300,7 +300,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_clear_the_filters
-    click_link('Clear filters')
+    click_link_or_button('Clear filters')
   end
 
   def then_i_expect_all_applications_to_be_visible
@@ -313,12 +313,12 @@ RSpec.feature 'Providers should be able to filter applications' do
   def when_i_filter_by_providers
     find(:css, "#provider-#{current_provider.id}").set(true)
     find(:css, "#provider-#{second_provider.id}").set(true)
-    click_button('Apply filters')
+    click_link_or_button('Apply filters')
   end
 
   def when_i_filter_by_a_specific_provider
     find(:css, "#provider-#{current_provider.id}").set(true)
-    click_button('Apply filters')
+    click_link_or_button('Apply filters')
   end
 
   def then_i_only_see_applications_for_a_given_provider
@@ -329,7 +329,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def and_i_filter_by_accredited_provider
     find(:css, "#accredited_provider-#{accredited_provider2.id}").set(true)
-    click_button('Apply filters')
+    click_link_or_button('Apply filters')
   end
 
   def then_i_only_see_applications_for_a_given_accredited_provider
@@ -349,7 +349,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_click_to_remove_a_tag
-    click_link('Hoth Teacher Training')
+    click_link_or_button('Hoth Teacher Training')
   end
 
   def then_i_expect_that_tag_not_to_be_visible
@@ -366,7 +366,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_click_to_remove_an_accredited_provider_tag
-    click_link('Wimleydown University')
+    click_link_or_button('Wimleydown University')
   end
 
   def then_i_expect_all_applications_to_be_visible_again

@@ -68,12 +68,12 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
 
   def and_i_click_to_change_the_editable_sections
     within_summary_row 'Is this application editable' do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def and_i_click_update
-    click_button 'Update'
+    click_link_or_button 'Update'
   end
 
   def then_i_see_a_validation_message
@@ -93,7 +93,7 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
   end
 
   def and_click_update
-    click_button 'Update'
+    click_link_or_button 'Update'
   end
 
   def then_i_see_the_application_page
@@ -110,7 +110,7 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
   end
 
   def when_i_signout
-    click_link 'Sign out'
+    click_link_or_button 'Sign out'
   end
 
   def when_candidate_with_submitted_application_logged_in
@@ -120,10 +120,10 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
   end
 
   def then_candidate_can_edit_degrees
-    click_link 'Your details'
-    click_link 'Degree'
+    click_link_or_button 'Your details'
+    click_link_or_button 'Degree'
     expect(page).to have_content('Change country for Bachelor of Science, Rocket, School of Awesomeness, 2020')
-    click_link 'Change country for Bachelor of Science, Rocket, School of Awesomeness, 2020'
+    click_link_or_button 'Change country for Bachelor of Science, Rocket, School of Awesomeness, 2020'
     choose 'Another country'
     select 'Brazil', from: 'Country or territory'
     and_i_click_save_and_continue
@@ -132,10 +132,10 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
   end
 
   def and_candidate_can_edit_english_gcse
-    click_link 'Your details'
-    click_link 'English GCSE or equivalent'
+    click_link_or_button 'Your details'
+    click_link_or_button 'English GCSE or equivalent'
     expect(page).to have_content('Change qualification for GCSE, english')
-    click_link 'Change qualification for GCSE, english'
+    click_link_or_button 'Change qualification for GCSE, english'
     choose 'UK O level (from before 1989)'
     and_i_click_save_and_continue
     fill_in 'Grade', with: 'BB'
@@ -148,7 +148,7 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
     expect(page).to have_content('1988')
     expect(page).to have_content('Change qualification for UK O level (from before 1989), english')
 
-    click_link 'Change qualification for UK O level (from before 1989), english'
+    click_link_or_button 'Change qualification for UK O level (from before 1989), english'
     choose 'GCSE'
     and_i_click_save_and_continue
 
@@ -171,23 +171,23 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
   end
 
   def then_candidate_can_not_edit_degrees
-    click_link 'Your details'
-    click_link 'Degree'
+    click_link_or_button 'Your details'
+    click_link_or_button 'Degree'
     expect(page).to have_no_content('Change')
     visit candidate_interface_degree_country_path
     and_i_should_be_redirected_to_your_details_page
   end
 
   def and_candidate_can_not_edit_english_gcse
-    click_link 'Your details'
-    click_link 'English GCSE or equivalent'
+    click_link_or_button 'Your details'
+    click_link_or_button 'English GCSE or equivalent'
     expect(page).to have_no_content('Change')
     visit candidate_interface_edit_gcse_english_grade_path
     and_i_should_be_redirected_to_your_details_page
   end
 
   def and_i_click_save_and_continue
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def and_i_should_be_redirected_to_your_details_page

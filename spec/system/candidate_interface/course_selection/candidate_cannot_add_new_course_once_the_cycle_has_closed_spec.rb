@@ -67,7 +67,7 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   end
 
   def when_i_click_review_your_application
-    click_link 'Review your application'
+    click_link_or_button 'Review your application'
   end
 
   def when_i_try_to_visit_the_pick_provider_page
@@ -107,6 +107,6 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   end
 
   def when_i_click_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 end

@@ -78,20 +78,20 @@ RSpec.feature 'Remove offer conditions' do
   end
 
   def and_i_navigate_to_the_offer_tab
-    click_link 'Offer'
+    click_link_or_button 'Offer'
   end
 
   def and_i_click_on_add_or_change_conditions
-    click_link 'Add or change conditions'
+    click_link_or_button 'Add or change conditions'
   end
 
   alias_method :when_i_click_on_add_or_change_conditions, :and_i_click_on_add_or_change_conditions
 
   def and_i_remove_all_conditions
-    click_button 'Remove condition 3'
-    click_button 'Remove condition 2'
-    click_button 'Remove condition 1'
-    click_button 'Continue'
+    click_link_or_button 'Remove condition 3'
+    click_link_or_button 'Remove condition 2'
+    click_link_or_button 'Remove condition 1'
+    click_link_or_button 'Continue'
   end
 
   def then_i_expect_to_see_the_updated_conditions
@@ -105,11 +105,11 @@ RSpec.feature 'Remove offer conditions' do
     expect(page).to have_no_content @conditions.first.text
     expect(page).to have_no_content @conditions.second.text
     expect(page).to have_no_content @conditions.third.text
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def when_i_send_the_new_offer
-    click_button 'Send new offer'
+    click_link_or_button 'Send new offer'
   end
 
   def then_the_candidate_should_have_the_new_conditions

@@ -41,11 +41,11 @@ RSpec.feature 'Entering interview preferences' do
   end
 
   def when_i_click_on_interview_preferences
-    click_link t('page_titles.interview_preferences.heading')
+    click_link_or_button t('page_titles.interview_preferences.heading')
   end
 
   def and_i_submit_the_form
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_click_to_change_my_answer
@@ -82,11 +82,11 @@ RSpec.feature 'Entering interview preferences' do
   end
 
   def and_i_submit_my_interview_preferences
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_click_on_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_a_section_complete_error

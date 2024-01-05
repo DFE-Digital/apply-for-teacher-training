@@ -46,14 +46,14 @@ RSpec.feature 'Viewing course choices' do
   def when_i_add_an_english_gcse
     visit candidate_interface_gcse_details_new_type_path(subject: 'english')
     choose 'GCSE'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     check 'English (Single award)'
     within '#candidate-interface-english-gcse-grade-form-english-gcses-english-single-award-conditional' do
       fill_in 'Grade', with: 'C'
     end
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     fill_in 'Year', with: '2008'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_visit_the_course_choice_review_page
@@ -102,11 +102,11 @@ RSpec.feature 'Viewing course choices' do
     visit candidate_interface_gcse_review_path(subject: 'english')
     click_change_link('qualification for GCSE, english')
     choose 'I do not have a qualification in English yet'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     click_change_link('how you expect to gain this qualification')
     choose 'Yes'
     fill_in 'Details of the qualification you’re studying for', with: 'GCSE English'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_can_view_course_choices_with_pending_guidance_text
@@ -127,7 +127,7 @@ RSpec.feature 'Viewing course choices' do
     visit candidate_interface_gcse_review_path(subject: 'english')
     click_change_link('how you expect to gain this qualification')
     choose 'No'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_can_view_course_choices_with_equivalency_guidance_text

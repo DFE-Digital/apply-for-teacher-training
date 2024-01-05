@@ -175,7 +175,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_click_on_view_and_respond_to_offer_link
-    click_link href: candidate_interface_offer_path(@application_choice)
+    click_link_or_button href: candidate_interface_offer_path(@application_choice)
   end
 
   def then_i_see_the_offer
@@ -189,7 +189,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_continue_without_selecting_a_response
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_and_error_message
@@ -198,7 +198,7 @@ RSpec.feature 'Candidate accepts an offer' do
 
   def when_i_accept_one_offer
     choose 'Accept offer and conditions'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_be_seeing_my_references
@@ -216,7 +216,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_click_delete_the_first_reference
-    click_link "Delete reference from #{@application_form.application_references.creation_order.first.name}"
+    click_link_or_button "Delete reference from #{@application_form.application_references.creation_order.first.name}"
   end
 
   def then_the_back_link_should_point_to_the_accept_offer_page
@@ -230,7 +230,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_confirm_delete
-    click_button 'Yes I’m sure - delete this reference'
+    click_link_or_button 'Yes I’m sure - delete this reference'
   end
 
   def then_i_should_see_an_error_message
@@ -292,15 +292,15 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_click_to_add_another_reference
-    click_link 'Add another reference'
+    click_link_or_button 'Add another reference'
   end
 
   def and_i_click_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def and_i_click_save_and_continue
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def and_i_add_a_reference_type
@@ -372,11 +372,11 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_click_to_change_the_reference_name
-    click_link 'Change name for Gimli'
+    click_link_or_button 'Change name for Gimli'
   end
 
   def and_i_click_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
   alias_method :when_i_click_back, :and_i_click_back
 
@@ -390,7 +390,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_click_to_change_the_reference_type
-    click_link 'Change reference type for Legolas'
+    click_link_or_button 'Change reference type for Legolas'
   end
 
   def when_i_change_the_reference_type
@@ -403,7 +403,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_click_to_change_the_reference_email_address
-    click_link 'Change email address for Legolas'
+    click_link_or_button 'Change email address for Legolas'
   end
 
   def when_i_change_the_reference_email_address
@@ -416,7 +416,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_click_to_change_the_reference_relationship
-    click_link 'Change relationship for Legolas'
+    click_link_or_button 'Change relationship for Legolas'
   end
 
   def when_i_change_the_reference_relationship
@@ -430,7 +430,7 @@ RSpec.feature 'Candidate accepts an offer' do
 
   def and_i_confirm_the_acceptance
     expect(page).to have_content 'Your other applications will be withdrawn and any upcoming interviews will be cancelled.'
-    click_button 'Accept offer'
+    click_link_or_button 'Accept offer'
   end
 
   def then_i_see_a_flash_message_telling_me_i_have_accepted_the_offer
@@ -476,7 +476,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_add_reference_relationship
-    click_link 'Enter how you know them and for how long'
+    click_link_or_button 'Enter how you know them and for how long'
     fill_in 'How do you know Aragorn and how long have you known them?', with: 'Middle earth'
     and_i_click_save_and_continue
   end
@@ -510,11 +510,11 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_click_to_view_my_application
-    click_link 'View application'
+    click_link_or_button 'View application'
   end
 
   def when_i_click_to_withdraw_my_application
-    click_link 'Withdraw from the course'
+    click_link_or_button 'Withdraw from the course'
   end
 
   def then_i_see_the_course_with_an_accepted_offer

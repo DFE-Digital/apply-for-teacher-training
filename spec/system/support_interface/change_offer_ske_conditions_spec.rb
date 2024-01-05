@@ -68,7 +68,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_on_the_application
-    click_link 'Candy Dayte'
+    click_link_or_button 'Candy Dayte'
   end
 
   def then_i_should_see_the_current_conditions
@@ -76,7 +76,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_on_change_conditions
-    click_link 'Change conditions'
+    click_link_or_button 'Change conditions'
   end
 
   def then_i_see_the_condition_edit_form_with_a_warning
@@ -89,7 +89,7 @@ RSpec.feature 'Add course to submitted application' do
     choose('Yes')
     choose('Their degree subject was not Biology')
     choose('8 weeks')
-    click_button 'Update conditions'
+    click_link_or_button 'Update conditions'
   end
 
   def then_i_see_a_validation_error
@@ -102,7 +102,7 @@ RSpec.feature 'Add course to submitted application' do
     choose('Yes')
     choose('Their degree subject was not Biology')
     choose('8 weeks')
-    click_button 'Update conditions'
+    click_link_or_button 'Update conditions'
   end
 
   def then_i_see_the_new_ske_condition
@@ -116,7 +116,7 @@ RSpec.feature 'Add course to submitted application' do
     choose('Yes')
     choose('Their degree subject was not Biology')
     choose('20 weeks')
-    click_button 'Update conditions'
+    click_link_or_button 'Update conditions'
   end
 
   def then_i_see_the_updated_ske_condition
@@ -128,7 +128,7 @@ RSpec.feature 'Add course to submitted application' do
   def and_i_delete_the_ske_condition
     fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
     choose('No')
-    click_button 'Update conditions'
+    click_link_or_button 'Update conditions'
   end
 
   def then_i_see_that_the_ske_condition_has_been_removed

@@ -51,12 +51,12 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_on_check_your_answers
-    click_link 'Check and submit your application'
+    click_link_or_button 'Check and submit your application'
   end
 
   def when_i_click_change_on_efl
     within('[data-qa="english-as-a-foreign-language"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
@@ -65,7 +65,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_should_be_redirected_to_the_application_review_page
@@ -75,28 +75,28 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   def when_i_change_efl_response_and_enter_toefl_details
     when_i_click_change_on_efl
     choose 'Yes'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
     choose 'Test of English as a Foreign Language'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
     fill_in 'Total score', with: '95'
     fill_in 'TOEFL registration number', with: '0000 0000 1234 5678'
     fill_in 'When did you complete the assessment?', with: '2010'
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
     choose 'Yes, I have completed this section'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def when_i_change_toefl_score
     when_i_click_change_on_efl_score
     fill_in 'Total score', with: '85'
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
     choose 'Yes, I have completed this section'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def when_i_click_change_on_efl_score
     within('[data-qa="english-as-a-foreign-language-total-score"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 end

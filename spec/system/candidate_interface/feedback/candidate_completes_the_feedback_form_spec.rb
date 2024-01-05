@@ -33,7 +33,7 @@ RSpec.feature 'Candidate feedback form' do
   end
 
   def and_click_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_see_the_application_dashboard_and_success_message

@@ -38,7 +38,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_click_on_other_qualifications
-    click_link t('page_titles.other_qualifications')
+    click_link_or_button t('page_titles.other_qualifications')
   end
 
   def then_i_see_the_select_qualification_type_page
@@ -48,7 +48,7 @@ RSpec.feature 'Entering their other qualifications' do
   def when_i_attempt_to_add_a_btec
     choose 'Other'
     fill_in 'candidate-interface-other-qualification-type-form-other-uk-qualification-type-field', with: 'BTEC'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_the_add_btec_qualifications_form
@@ -61,7 +61,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_i_submit_the_other_qualification_form
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_validation_errors_for_my_qualification
@@ -70,7 +70,7 @@ RSpec.feature 'Entering their other qualifications' do
 
   def when_i_complete_the_form
     choose 'Merit'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_my_btec_on_the_review_page
@@ -95,7 +95,7 @@ RSpec.feature 'Entering their other qualifications' do
 
   def and_change_qualification_to_gcse
     choose 'GCSE'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_see_simple_grade_prompt
@@ -106,7 +106,7 @@ RSpec.feature 'Entering their other qualifications' do
   def when_i_submit_gcse_details
     fill_in t('application_form.other_qualification.grade.label'), with: 'C'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2013'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_my_gcse_on_the_review_page

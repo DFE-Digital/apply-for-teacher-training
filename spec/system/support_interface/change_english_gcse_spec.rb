@@ -111,13 +111,13 @@ RSpec.feature 'Change english GCSE' do
 
   def and_i_click_to_change_my_english_gcse
     within('.app-edit-qualification') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
   alias_method :when_i_click_to_change_my_english_gcse, :and_i_click_to_change_my_english_gcse
 
   def when_i_click_update
-    click_button 'Update details'
+    click_link_or_button 'Update details'
   end
   alias_method :and_i_click_update, :when_i_click_update
 

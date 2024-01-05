@@ -44,12 +44,12 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_on_check_your_answers
-    click_link 'Check and submit your application'
+    click_link_or_button 'Check and submit your application'
   end
 
   def when_i_click_change_on_my_personal_statement
     within('[data-qa="becoming-a-teacher"]') do
-      click_link 'Edit your personal statement'
+      click_link_or_button 'Edit your personal statement'
     end
   end
 
@@ -58,7 +58,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_should_be_redirected_to_the_application_review_page
@@ -68,7 +68,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   def when_i_update_my_personal_statement
     when_i_click_change_on_my_personal_statement
     fill_in 'Your personal statement', with: 'All the dev jobs were taken.'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def and_i_should_see_my_updated_personal_statement_response

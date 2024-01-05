@@ -41,12 +41,12 @@ RSpec.describe 'Reject an application with interviews' do
 
   def when_i_respond_to_an_application
     visit provider_interface_application_choice_path(@application_choice)
-    click_link 'Make decision'
+    click_link_or_button 'Make decision'
   end
 
   def and_i_choose_to_reject_it
     choose 'Reject application'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_give_reasons_why_i_am_rejecting_the_application
@@ -65,7 +65,7 @@ RSpec.describe 'Reject an application with interviews' do
     check 'rejection-reasons-selected-reasons-other-field'
     fill_in 'rejection-reasons-other-details-field', with: 'There are so many other reasons why your application was rejected...'
 
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_the_cancellation_of_interviews_message_is_shown
@@ -73,7 +73,7 @@ RSpec.describe 'Reject an application with interviews' do
   end
 
   def and_i_submit_the_reasons_for_rejection
-    click_button 'Reject application'
+    click_link_or_button 'Reject application'
   end
 
   def and_the_interview_is_cancelled

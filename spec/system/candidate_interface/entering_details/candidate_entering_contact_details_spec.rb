@@ -64,7 +64,7 @@ RSpec.feature 'Entering their contact information' do
   end
 
   def when_i_click_on_contact_information
-    click_link t('page_titles.contact_information')
+    click_link_or_button t('page_titles.contact_information')
   end
 
   def and_i_incorrectly_fill_in_my_phone_number
@@ -72,7 +72,7 @@ RSpec.feature 'Entering their contact information' do
   end
 
   def and_i_submit_my_phone_number
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_should_see_validation_errors_for_my_phone_number
@@ -93,7 +93,7 @@ RSpec.feature 'Entering their contact information' do
   end
 
   def and_i_submit_no_address_type
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_should_see_validation_errors_for_my_address_type
@@ -103,7 +103,7 @@ RSpec.feature 'Entering their contact information' do
   def when_i_select_live_in_uk
     expect(page).to have_content('Where do you live?')
     choose 'In the UK'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_incorrectly_fill_in_my_address
@@ -123,7 +123,7 @@ RSpec.feature 'Entering their contact information' do
   end
 
   def and_i_submit_my_address
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_can_check_my_answers
@@ -160,7 +160,7 @@ RSpec.feature 'Entering their contact information' do
     expect(page).to have_content('Where do you live?')
     choose 'Outside the UK'
     select('India', from: t('application_form.contact_details.country.label'))
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_incorrectly_fill_in_my_international_address
@@ -195,7 +195,7 @@ RSpec.feature 'Entering their contact information' do
   end
 
   def and_i_submit_my_details
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_submit_my_details

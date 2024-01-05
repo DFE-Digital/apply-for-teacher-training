@@ -40,9 +40,9 @@ RSpec.feature 'References' do
 
   def and_i_can_add_more_reference_requests
     visit candidate_interface_references_start_path
-    click_link 'Add another reference'
+    click_link_or_button 'Add another reference'
     choose 'Academic'
-    click_button t('continue')
+    click_link_or_button t('continue')
     candidate_fills_in_referee(name: 'Anne Other')
 
     expect(page).to have_content('Change reference type for Anne Other')

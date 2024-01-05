@@ -58,8 +58,8 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def and_i_go_to_the_users_page
-    click_link 'Organisation settings', match: :first
-    click_link 'Users', match: :first
+    click_link_or_button 'Organisation settings', match: :first
+    click_link_or_button 'Users', match: :first
   end
 
   def then_i_cannot_see_the_invite_user_button
@@ -75,7 +75,7 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def when_i_click_on_invite_user
-    click_link 'Add user'
+    click_link_or_button 'Add user'
   end
 
   def then_i_see_a_personal_details_form
@@ -89,7 +89,7 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def and_i_click_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_see_a_duplicate_email_validation_error
@@ -133,7 +133,7 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def when_i_click_to_change_the_first_name
-    click_link 'Change First name'
+    click_link_or_button 'Change First name'
   end
 
   def when_i_change_the_first_name
@@ -146,7 +146,7 @@ RSpec.feature 'Provider user invitation' do
 
   def when_i_commit_the_changes
     dsi_api_response(success: true)
-    click_button 'Add user'
+    click_link_or_button 'Add user'
   end
 
   def then_i_see_a_success_message

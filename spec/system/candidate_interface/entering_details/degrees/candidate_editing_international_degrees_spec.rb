@@ -23,7 +23,7 @@ RSpec.feature 'Editing a degree' do
   end
 
   def when_i_click_on_degree
-    click_link 'Degree'
+    click_link_or_button 'Degree'
   end
 
   def and_i_create_an_international_degree
@@ -57,7 +57,7 @@ RSpec.feature 'Editing a degree' do
   end
 
   def and_i_click_on_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_can_check_an_additional_degree_is_not_created
@@ -65,7 +65,7 @@ RSpec.feature 'Editing a degree' do
   end
 
   def and_i_click_add_degree
-    click_link 'Add a degree'
+    click_link_or_button 'Add a degree'
   end
 
   def when_i_select_another_country

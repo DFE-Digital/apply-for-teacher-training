@@ -43,11 +43,11 @@ def i_should_see_the_immigration_status_column
 end
 
 def when_i_click_change_immigration_status
-  click_link 'Change immigration status'
+  click_link_or_button 'Change immigration status'
 end
 
 def when_i_click_the_change_link_next_right_to_work
-  click_link('Change right to work or study')
+  click_link_or_button('Change right to work or study')
 end
 
 def and_i_choose_yes
@@ -56,7 +56,7 @@ def and_i_choose_yes
 end
 
 def and_i_continue
-  click_button 'Save and continue'
+  click_link_or_button 'Save and continue'
 end
 
 def and_i_choose_other_and_fill_in_the_details

@@ -27,7 +27,7 @@ RSpec.feature 'Candidate signs in and starts blank application in Sandbox', :san
   def when_i_fill_in_the_sign_in_form
     visit candidate_interface_sign_in_path
     fill_in t('authentication.sign_up.email_address.label'), with: @candidate.email_address
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_click_on_the_link_in_my_email_and_sign_in
@@ -42,7 +42,7 @@ RSpec.feature 'Candidate signs in and starts blank application in Sandbox', :san
 
   def when_i_select_blank_application_and_submit_the_form
     choose 'Start with a blank application form'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_am_taken_to_the_blank_application_page

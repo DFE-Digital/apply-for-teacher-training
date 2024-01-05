@@ -57,7 +57,7 @@ RSpec.feature 'Emails are suppressed in Sandbox' do
 
   def then_i_should_see_the_email_in_the_email_log
     within('[data-qa="sub-navigation"]') do
-      click_link 'Emails (Sandbox only)'
+      click_link_or_button 'Emails (Sandbox only)'
     end
 
     expect(page).to have_content("accepted your offer for #{@application_choice.current_course.name}")

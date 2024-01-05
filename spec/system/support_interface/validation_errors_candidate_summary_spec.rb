@@ -23,9 +23,9 @@ RSpec.feature 'Validation errors candidate summary' do
 
   def and_i_enter_invalid_contact_details
     visit candidate_interface_application_form_path
-    click_link t('page_titles.contact_information')
+    click_link_or_button t('page_titles.contact_information')
     fill_in t('application_form.contact_details.phone_number.label'), with: 'ABCDEF'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def given_i_am_a_support_user
@@ -34,10 +34,10 @@ RSpec.feature 'Validation errors candidate summary' do
 
   def when_i_navigate_to_the_validation_errors_summary_page
     visit support_interface_path
-    click_link 'Performance'
-    click_link 'Validation errors'
-    click_link 'Candidate validation errors'
-    click_link 'Validation error summary'
+    click_link_or_button 'Performance'
+    click_link_or_button 'Validation errors'
+    click_link_or_button 'Candidate validation errors'
+    click_link_or_button 'Validation error summary'
   end
 
   def then_i_should_see_numbers_for_the_past_week_month_and_all_time
@@ -45,7 +45,7 @@ RSpec.feature 'Validation errors candidate summary' do
   end
 
   def when_i_click_on_link_to_drilldown_contact_details_form_errors
-    click_link 'Contact details form'
+    click_link_or_button 'Contact details form'
   end
 
   def then_i_should_see_errors_for_contact_details_form_only

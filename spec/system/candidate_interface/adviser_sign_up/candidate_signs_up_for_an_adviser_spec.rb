@@ -83,7 +83,7 @@ RSpec.feature 'Candidate signs up for an adviser', :js, continuous_applications:
   end
 
   def when_i_click_the_sign_up_button
-    click_button t('application_form.adviser_sign_up.submit_text')
+    click_link_or_button t('application_form.adviser_sign_up.submit_text')
   end
 
   def then_i_should_see_validation_errors_for_preferred_teaching_subject

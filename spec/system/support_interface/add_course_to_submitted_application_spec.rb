@@ -56,11 +56,11 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_on_an_application
-    click_link 'Alice Wunder'
+    click_link_or_button 'Alice Wunder'
   end
 
   def when_i_click_on_add_a_course
-    click_link 'Add a course'
+    click_link_or_button 'Add a course'
   end
 
   def then_i_should_see_the_course_search_page
@@ -68,7 +68,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_search
-    click_button 'Search'
+    click_link_or_button 'Search'
   end
 
   def then_i_should_see_a_course_code_blank_validation_error
@@ -93,7 +93,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_search_again
-    click_link 'Search again'
+    click_link_or_button 'Search again'
   end
 
   def then_i_should_see_the_course_search_page_with_the_course_code_i_entered
@@ -119,7 +119,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_add_course_to_application
-    click_button 'Add course to application'
+    click_link_or_button 'Add course to application'
   end
 
   def then_i_should_see_an_add_course_validation_error

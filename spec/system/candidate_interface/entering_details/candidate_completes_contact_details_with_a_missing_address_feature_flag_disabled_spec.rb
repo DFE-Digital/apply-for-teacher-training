@@ -35,7 +35,7 @@ RSpec.feature 'Candidate attempts to submit their application without a valid ad
 
   def when_i_click_contact_details_link_from_dashboard
     visit candidate_interface_application_form_path
-    click_link 'Contact information'
+    click_link_or_button 'Contact information'
   end
 
   def then_i_see_populated_telephone_number_form
@@ -46,11 +46,11 @@ RSpec.feature 'Candidate attempts to submit their application without a valid ad
   end
 
   def when_i_click_continue
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def when_i_click_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_see_populated_address_type_form

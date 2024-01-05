@@ -45,20 +45,20 @@ RSpec.feature 'Apply again' do
     given_courses_exist
 
     visit candidate_interface_application_complete_path
-    click_button 'Apply again'
+    click_link_or_button 'Apply again'
 
-    click_link 'Choose your course'
+    click_link_or_button 'Choose your course'
     candidate_fills_in_apply_again_with_four_course_choices
     candidate_completes_the_section
 
-    click_link 'Select 2 references'
+    click_link_or_button 'Select 2 references'
     choose 'Yes, I have completed this section'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def candidate_completes_the_section
     choose 'Yes, I have completed this section'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_becoming_a_teacher_needs_review
@@ -67,9 +67,20 @@ RSpec.feature 'Apply again' do
     end
   end
 
+<<<<<<< HEAD
+=======
+  def when_i_review_subject_knowledge
+    click_link_or_button 'Your suitability to teach a subject or age group'
+  end
+
+  def then_i_can_see_subject_knowledge_feedback
+    expect(page).to have_content 'Subject knowledge needs improving'
+  end
+
+>>>>>>> 978d529f8 (Replace click_button and click_link with click_link_or_button)
   def when_i_review_becoming_a_teacher
     visit candidate_interface_application_form_path
-    click_link 'Why you want to teach'
+    click_link_or_button 'Why you want to teach'
   end
 
   def then_i_can_see_becoming_a_teacher_feedback
@@ -79,9 +90,9 @@ RSpec.feature 'Apply again' do
   def when_i_confirm_i_have_reviewed_becoming_a_teacher
     visit candidate_interface_application_form_path
 
-    click_link 'Why you want to teach'
+    click_link_or_button 'Why you want to teach'
     choose t('application_form.reviewed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_becoming_a_teacher_no_longer_needs_review
@@ -91,14 +102,14 @@ RSpec.feature 'Apply again' do
   end
 
   def and_i_can_set_it_back_to_unreviewed
-    click_link 'Why you want to teach'
+    click_link_or_button 'Why you want to teach'
     choose t('application_form.incomplete_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_submit_my_application
-    click_link 'Check and submit your application'
-    click_button t('continue')
+    click_link_or_button 'Check and submit your application'
+    click_link_or_button t('continue')
   end
 
   def then_i_am_informed_that_i_have_not_reviewed_these_sections
@@ -108,22 +119,22 @@ RSpec.feature 'Apply again' do
   end
 
   def and_i_can_submit_once_i_have_reviewed
-    click_link 'Why do you want to be a teacher'
-    click_button t('continue')
+    click_link_or_button 'Why do you want to be a teacher'
+    click_link_or_button t('continue')
     choose t('application_form.reviewed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
 
-    click_link 'Check and submit'
+    click_link_or_button 'Check and submit'
     expect(page).to have_no_css becoming_a_teacher_error_container
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     candidate_fills_in_diversity_information
 
     # Is there anything else you would like to tell us about your application?
     choose 'No'
-    click_button 'Send application'
+    click_link_or_button 'Send application'
 
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     expect(page).to have_content 'Application submitted'
   end

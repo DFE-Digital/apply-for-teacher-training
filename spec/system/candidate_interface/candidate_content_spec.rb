@@ -29,7 +29,7 @@ RSpec.feature 'Candidate content' do
   end
 
   def when_i_click_on_accessibility
-    within('.govuk-footer') { click_link t('layout.support_links.accessibility') }
+    within('.govuk-footer') { click_link_or_button t('layout.support_links.accessibility') }
   end
 
   def then_i_can_see_the_accessibility_statement
@@ -41,7 +41,7 @@ RSpec.feature 'Candidate content' do
   end
 
   def when_i_click_on_the_cookies_page
-    within('.govuk-footer') { click_link t('layout.support_links.cookies') }
+    within('.govuk-footer') { click_link_or_button t('layout.support_links.cookies') }
   end
 
   def and_i_can_no_longer_see_the_cookie_banner
@@ -55,12 +55,12 @@ RSpec.feature 'Candidate content' do
 
   def and_i_can_opt_in_to_tracking_website_usage
     choose 'Yes'
-    click_button 'Save cookie settings'
+    click_link_or_button 'Save cookie settings'
     expect(page).to have_content('Your cookie preferences have been updated')
   end
 
   def when_i_click_on_complaints
-    within('.govuk-footer') { click_link t('layout.support_links.candidate_complaints') }
+    within('.govuk-footer') { click_link_or_button t('layout.support_links.candidate_complaints') }
   end
 
   def then_i_can_see_the_complaints_page
@@ -68,7 +68,7 @@ RSpec.feature 'Candidate content' do
   end
 
   def when_i_click_on_the_privacy_policy
-    within('.govuk-footer') { click_link t('layout.support_links.privacy_policy') }
+    within('.govuk-footer') { click_link_or_button t('layout.support_links.privacy_policy') }
   end
 
   def then_i_can_see_the_privacy_policy
@@ -76,7 +76,7 @@ RSpec.feature 'Candidate content' do
   end
 
   def when_i_click_on_the_terms_of_use
-    within('.govuk-footer') { click_link t('layout.support_links.terms_of_use') }
+    within('.govuk-footer') { click_link_or_button t('layout.support_links.terms_of_use') }
   end
 
   def then_i_can_see_the_terms_candidate

@@ -41,7 +41,7 @@ RSpec.feature 'A candidate withdraws with upcoming interviews', :continuous_appl
 
   def and_i_click_the_withdraw_link_on_my_first_choice
     within "#course-choice-#{@application_choice.id}" do
-      click_link 'Withdraw'
+      click_link_or_button 'Withdraw'
     end
   end
 
@@ -50,7 +50,7 @@ RSpec.feature 'A candidate withdraws with upcoming interviews', :continuous_appl
   end
 
   def when_i_click_to_confirm_withdrawal
-    click_button 'Yes I’m sure – withdraw this application'
+    click_link_or_button 'Yes I’m sure – withdraw this application'
   end
 
   def then_i_see_the_withdraw_choice_reason_page
@@ -63,7 +63,7 @@ RSpec.feature 'A candidate withdraws with upcoming interviews', :continuous_appl
   end
 
   def and_i_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_my_application_dashboard

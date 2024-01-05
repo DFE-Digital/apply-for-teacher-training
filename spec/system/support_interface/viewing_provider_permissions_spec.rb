@@ -55,12 +55,12 @@ RSpec.feature 'Viewing provider-provider permissions via support' do
   end
 
   def when_i_visit_the_training_provider
-    click_link 'Providers'
-    click_link 'Numan College'
+    click_link_or_button 'Providers'
+    click_link_or_button 'Numan College'
   end
 
   def and_click_users
-    click_link 'Users'
+    click_link_or_button 'Users'
   end
 
   def then_i_should_see_the_training_provider_permissions_diagram
@@ -69,8 +69,8 @@ RSpec.feature 'Viewing provider-provider permissions via support' do
 
   def when_i_visit_the_ratifying_provider
     visit '/support'
-    click_link 'Providers'
-    click_link 'Oldman University'
+    click_link_or_button 'Providers'
+    click_link_or_button 'Oldman University'
   end
 
   def then_i_should_see_the_ratifying_provider_permissions_diagram
@@ -79,8 +79,8 @@ RSpec.feature 'Viewing provider-provider permissions via support' do
 
   def when_i_visit_the_ratifying_provider_with_no_permissions
     visit '/support'
-    click_link 'Providers'
-    click_link 'Staffordshire University (S72)'
+    click_link_or_button 'Providers'
+    click_link_or_button 'Staffordshire University (S72)'
   end
 
   def then_i_should_clearly_see_that_no_permissions_have_been_setup

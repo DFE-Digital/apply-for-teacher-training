@@ -54,7 +54,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def when_i_click_on_work_history
-    click_link t('page_titles.work_history')
+    click_link_or_button t('page_titles.work_history')
   end
 
   def then_i_should_see_the_start_page
@@ -63,11 +63,11 @@ RSpec.feature 'Entering reasons for their work history breaks' do
 
   def then_i_choose_that_i_have_work_history_to_add
     choose 'Yes'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def and_i_click_add_a_first_job
-    click_link 'Add a job'
+    click_link_or_button 'Add a job'
   end
 
   def then_i_should_see_the_add_a_job_page
@@ -99,11 +99,11 @@ RSpec.feature 'Entering reasons for their work history breaks' do
       choose 'No'
     end
 
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_click_on_add_another_job
-    click_link t('application_form.restructured_work_history.another.button'), match: :first
+    click_link_or_button t('application_form.restructured_work_history.another.button'), match: :first
   end
 
   def and_i_add_another_job_that_covers_two_months_ago
@@ -131,7 +131,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
       choose 'No'
     end
 
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_a_two_months_break_between_my_first_job_and_my_second_job
@@ -147,7 +147,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def when_i_click_to_explain_my_first_break
-    click_link 'add a reason for this break', match: :first
+    click_link_or_button 'add a reason for this break', match: :first
   end
 
   def then_i_see_the_start_and_end_date_filled_in_for_first_break
@@ -160,7 +160,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   def when_i_enter_a_reason_for_my_first_break
     fill_in 'Enter reasons for break in work history', with: 'Painting is tiring.'
 
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_my_reason_for_my_first_break_on_the_review_page
@@ -169,7 +169,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
 
   def when_i_mark_this_section_as_completed
     choose t('application_form.completed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
     expect(page).to have_content(t('page_titles.application_form'))
   end
 
@@ -178,13 +178,13 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def and_i_click_to_change_my_first_break
-    click_link "Change entry for break between #{6.months.ago.to_fs(:short_month_and_year)} and #{3.months.ago.to_fs(:short_month_and_year)}"
+    click_link_or_button "Change entry for break between #{6.months.ago.to_fs(:short_month_and_year)} and #{3.months.ago.to_fs(:short_month_and_year)}"
   end
 
   def and_i_change_my_reason_for_my_first_break
     fill_in 'Enter reasons for break in work history', with: 'Some updated reason about painting.'
 
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_my_updated_reason_for_my_first_break_on_the_review_page
@@ -200,7 +200,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def when_i_click_on_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_a_section_complete_error
@@ -208,11 +208,11 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def and_i_click_to_delete_my_first_break
-    click_link "Delete entry for break between #{6.months.ago.to_fs(:short_month_and_year)} and #{3.months.ago.to_fs(:short_month_and_year)}"
+    click_link_or_button "Delete entry for break between #{6.months.ago.to_fs(:short_month_and_year)} and #{3.months.ago.to_fs(:short_month_and_year)}"
   end
 
   def and_i_confirm_i_want_to_delete_my_first_break
-    click_button 'Yes I’m sure - delete this entry'
+    click_link_or_button 'Yes I’m sure - delete this entry'
   end
 
   def then_i_no_longer_see_my_reason_on_the_review_page

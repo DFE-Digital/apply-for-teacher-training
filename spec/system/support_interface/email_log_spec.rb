@@ -121,7 +121,7 @@ RSpec.feature 'Email log' do
     fill_in :q, with: 'harry@example'
     uncheck 'Permanent failure'
     uncheck 'Delivered'
-    click_button 'Apply filters'
+    click_link_or_button 'Apply filters'
   end
 
   def then_i_see_only_emails_that_match_the_supplied_address

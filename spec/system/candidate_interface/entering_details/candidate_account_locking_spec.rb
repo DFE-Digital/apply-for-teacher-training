@@ -30,7 +30,7 @@ RSpec.feature 'Candidate account locking' do
   end
 
   def when_i_click_on_contact_information
-    click_link t('page_titles.contact_information')
+    click_link_or_button t('page_titles.contact_information')
   end
 
   def then_i_am_redirected_to_the_account_locked_page
@@ -41,7 +41,7 @@ RSpec.feature 'Candidate account locking' do
   def when_i_try_to_login_again
     visit candidate_interface_sign_in_path
     fill_in t('authentication.sign_up.email_address.label'), with: @email_address
-    click_button t('continue')
+    click_link_or_button t('continue')
     open_email(@email_address)
     click_magic_link_in_email
     confirm_sign_in

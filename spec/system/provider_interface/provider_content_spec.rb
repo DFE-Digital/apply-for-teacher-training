@@ -35,7 +35,7 @@ RSpec.feature 'Provider content' do
   end
 
   def when_i_click_on_accessibility
-    within('.govuk-footer') { click_link t('layout.support_links.accessibility') }
+    within('.govuk-footer') { click_link_or_button t('layout.support_links.accessibility') }
   end
 
   def then_i_can_see_the_accessibility_statement
@@ -47,7 +47,7 @@ RSpec.feature 'Provider content' do
   end
 
   def when_i_click_on_the_cookies_page
-    within('.govuk-footer') { click_link t('layout.support_links.cookies') }
+    within('.govuk-footer') { click_link_or_button t('layout.support_links.cookies') }
   end
 
   def and_i_can_no_longer_see_the_cookie_banner
@@ -60,12 +60,12 @@ RSpec.feature 'Provider content' do
 
   def and_i_can_opt_in_to_tracking_website_usage
     choose 'Yes'
-    click_button 'Save cookie settings'
+    click_link_or_button 'Save cookie settings'
     expect(page).to have_content('Your cookie preferences have been updated')
   end
 
   def when_i_click_on_privacy
-    within('.govuk-footer') { click_link t('layout.support_links.privacy') }
+    within('.govuk-footer') { click_link_or_button t('layout.support_links.privacy') }
   end
 
   def then_i_can_see_the_privacy_notices
@@ -73,7 +73,7 @@ RSpec.feature 'Provider content' do
   end
 
   def when_i_click_on_service_privacy_notice
-    click_link 'Service privacy notice'
+    click_link_or_button 'Service privacy notice'
   end
 
   def then_i_can_see_the_service_privacy_notice
@@ -81,7 +81,7 @@ RSpec.feature 'Provider content' do
   end
 
   def and_i_click_on_online_chat_privacy_notice
-    click_link 'Online chat privacy notice'
+    click_link_or_button 'Online chat privacy notice'
   end
 
   def then_i_can_see_the_online_chat_privacy_notice
@@ -89,7 +89,7 @@ RSpec.feature 'Provider content' do
   end
 
   def when_i_click_on_the_service_guidance
-    within('.govuk-footer') { click_link t('layout.support.provider_service_guidance') }
+    within('.govuk-footer') { click_link_or_button t('layout.support.provider_service_guidance') }
   end
 
   def then_i_can_see_the_service_guidance_provider
@@ -97,7 +97,7 @@ RSpec.feature 'Provider content' do
   end
 
   def when_i_click_on_the_roadmap
-    within('.govuk-footer') { click_link t('layout.support_links.roadmap') }
+    within('.govuk-footer') { click_link_or_button t('layout.support_links.roadmap') }
   end
 
   def then_i_can_see_the_roadmap

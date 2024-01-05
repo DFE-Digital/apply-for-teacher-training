@@ -47,36 +47,36 @@ RSpec.feature 'Viewing course choices' do
   def when_i_add_a_two_two_degree
     visit candidate_interface_degree_review_path
 
-    click_link 'Add a degree'
+    click_link_or_button 'Add a degree'
 
     choose 'United Kingdom'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     choose 'Bachelor degree'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     select 'History', from: 'What subject is your degree?'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     choose 'Bachelor of Arts (BA)'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     select 'University of Warwick', from: 'candidate_interface_degree_wizard[university]'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     expect(page).to have_content('Have you completed your degree?')
     choose 'Yes'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     choose 'Lower second-class honours (2:2)'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2006'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     fill_in t('page_titles.what_year_did_you_graduate'), with: '2009'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     choose t('application_form.completed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_visit_the_course_choice_review_page
@@ -110,7 +110,7 @@ RSpec.feature 'Viewing course choices' do
     visit candidate_interface_degree_review_path
     click_change_link('grade')
     choose 'Pass'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_can_view_course_choices_with_relevant_guidance_for_all_courses

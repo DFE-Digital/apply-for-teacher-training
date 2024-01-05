@@ -92,36 +92,36 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_on_check_your_answers
-    click_link 'Check and submit your application'
+    click_link_or_button 'Check and submit your application'
   end
 
   def when_i_click_change_role
     within('[data-qa="volunteering-role"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_organisation
     within('[data-qa="volunteering-organisation"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_working_with_children
     within('[data-qa="volunteering-working-with-children"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_length
     within('[data-qa="volunteering-length"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_details
     within('[data-qa="volunteering-details"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
@@ -135,7 +135,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_should_be_redirected_to_the_application_review_page
@@ -145,13 +145,13 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   def when_i_update_the_role
     when_i_click_change_role
     fill_in 'Your role', with: 'School Assistant'
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def when_i_update_the_organisation
     when_i_click_change_organisation
     fill_in 'Organisation where you gained experience or volunteered', with: 'Reigate Priory'
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def when_i_update_working_with_children
@@ -160,7 +160,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
     within('[data-qa="working-with-children"]') do
       choose 'No'
     end
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def when_i_update_the_length
@@ -170,14 +170,14 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
       fill_in 'Month', with: '11'
     end
 
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def when_i_update_the_details
     when_i_click_change_details
 
     fill_in 'Enter details of your time commitment and responsibilities', with: 'Part time trainee'
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def and_i_should_see_the_updated_role
@@ -188,19 +188,19 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
 
   def when_i_click_change_working_with_children
     within('[data-qa="volunteering-working-with-children"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_length
     within('[data-qa="volunteering-length"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_details
     within('[data-qa="volunteering-details"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 

@@ -39,7 +39,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in from two separate devic
   end
 
   def and_i_sign_in_via_dfe_sign_in
-    click_button 'Sign in using DfE Sign-in'
+    click_link_or_button 'Sign in using DfE Sign-in'
   end
 
   def then_i_am_redirected_to_the_provider_interface_applications_path
@@ -47,7 +47,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in from two separate devic
   end
 
   def when_i_click_sign_out
-    click_link 'Sign out'
+    click_link_or_button 'Sign out'
   end
 
   def and_sign_in_from_a_different_device
@@ -55,7 +55,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in from two separate devic
     browser.clear_cookies
 
     visit provider_interface_applications_path
-    click_button 'Sign in using DfE Sign-in'
+    click_link_or_button 'Sign in using DfE Sign-in'
   end
 
   def then_i_receive_a_confirmation_email_with_correct_details
@@ -66,7 +66,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in from two separate devic
   def and_i_sign_in_again_from_the_same_device
     clear_emails
     visit provider_interface_sign_in_path
-    click_button 'Sign in using DfE Sign-in'
+    click_link_or_button 'Sign in using DfE Sign-in'
   end
 
   def then_i_should_not_receive_a_new_notification_email

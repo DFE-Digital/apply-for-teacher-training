@@ -49,7 +49,7 @@ RSpec.describe 'A support with an expired DSI fallback link' do
 
   def when_i_provide_my_email_address
     fill_in 'Email address', with: 'sUpPoRt@example.com '
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_receive_an_email_with_a_signin_link
@@ -66,7 +66,7 @@ RSpec.describe 'A support with an expired DSI fallback link' do
   end
 
   def when_i_click_on_sign_in
-    click_button 'Sign in'
+    click_link_or_button 'Sign in'
   end
 
   def then_i_am_signed_in
@@ -76,7 +76,7 @@ RSpec.describe 'A support with an expired DSI fallback link' do
   end
 
   def when_i_sign_out
-    click_link 'Sign out'
+    click_link_or_button 'Sign out'
   end
 
   def then_i_am_not_signed_in
@@ -90,6 +90,6 @@ RSpec.describe 'A support with an expired DSI fallback link' do
   end
 
   def when_i_request_a_new_token
-    click_button 'Request another link to sign in'
+    click_link_or_button 'Request another link to sign in'
   end
 end

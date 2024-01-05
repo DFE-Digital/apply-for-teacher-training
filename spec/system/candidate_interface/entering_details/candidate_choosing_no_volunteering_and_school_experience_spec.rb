@@ -27,7 +27,7 @@ RSpec.feature 'Choosing no volunteering and school experience' do
   end
 
   def when_i_click_on_volunteering_with_children_and_young_people
-    click_link t('page_titles.volunteering.short')
+    click_link_or_button t('page_titles.volunteering.short')
   end
 
   def then_i_am_asked_if_i_have_experience_volunteering_with_young_people_or_in_school
@@ -35,7 +35,7 @@ RSpec.feature 'Choosing no volunteering and school experience' do
   end
 
   def when_i_omit_choosing_if_i_have_experience
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_validation_errors
@@ -49,7 +49,7 @@ RSpec.feature 'Choosing no volunteering and school experience' do
   end
 
   def and_i_submit_the_volunteering_experience_form
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_how_to_get_school_experience

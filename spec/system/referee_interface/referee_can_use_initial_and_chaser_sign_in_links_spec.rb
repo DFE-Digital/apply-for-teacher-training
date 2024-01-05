@@ -38,7 +38,7 @@ RSpec.feature 'Referee can use sign in link in the initial and chaser email' do
 
   def and_i_select_yes_to_giving_a_reference
     choose 'Yes, I can give them a reference'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_am_asked_to_confirm_my_relationship_with_the_candidate

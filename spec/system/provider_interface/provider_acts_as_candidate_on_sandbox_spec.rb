@@ -46,7 +46,7 @@ RSpec.describe 'A Provider can sign in as a candidate' do
   end
 
   def and_i_click_on_the_sign_in_button
-    click_button 'Sign in as this candidate'
+    click_link_or_button 'Sign in as this candidate'
   end
 
   def then_i_am_redirected_to_the_candidate_interface

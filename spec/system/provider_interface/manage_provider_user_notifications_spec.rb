@@ -21,11 +21,11 @@ RSpec.feature 'Managing notifications' do
   end
 
   def when_i_go_to_my_account
-    click_link t('page_titles.provider.account')
+    click_link_or_button t('page_titles.provider.account')
   end
 
   def and_i_click_on_the_notification_settings_link
-    click_link(t('page_titles.provider.email_notifications'))
+    click_link_or_button(t('page_titles.provider.email_notifications'))
   end
 
   def then_i_can_see_all_notifications_are_on_by_default
@@ -38,7 +38,7 @@ RSpec.feature 'Managing notifications' do
     ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |type|
       choose "provider-user-notification-preferences-#{type.to_s.dasherize}-false-field"
     end
-    click_button 'Save settings'
+    click_link_or_button 'Save settings'
   end
 
   def then_my_notification_preferences_are_updated

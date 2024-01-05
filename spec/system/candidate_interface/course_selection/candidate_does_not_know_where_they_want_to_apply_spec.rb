@@ -24,14 +24,14 @@ RSpec.feature 'Selecting a course', continuous_applications: false do
   end
 
   def and_i_click_on_course_choices
-    click_link 'Choose your courses'
+    click_link_or_button 'Choose your courses'
   end
 
   def and_i_choose_that_i_do_not_know_where_i_want_to_apply
     within_fieldset 'Do you know which course you want to apply to?' do
       choose 'No, I need to find a course'
     end
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_should_be_on_the_find_a_course_page
@@ -40,7 +40,7 @@ RSpec.feature 'Selecting a course', continuous_applications: false do
   end
 
   def when_i_click_continue
-    click_link 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_am_sent_to_find
