@@ -106,7 +106,7 @@ RSpec.feature 'Candidate account' do
   end
 
   def then_i_should_be_signed_out
-    expect(page).not_to have_selector :link_or_button, 'Sign out'
+    expect(page).to have_no_selector :link_or_button, 'Sign out'
     expect(page).to have_current_path(candidate_interface_create_account_or_sign_in_path)
   end
 

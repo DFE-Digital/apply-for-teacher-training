@@ -264,7 +264,7 @@ private
       @application_choice3,
       @application_choice5,
       @application_choice6,
-    ].each { |application_choice| expect(page).not_to have_link("##{application_choice.id}") }
+    ].each { |application_choice| expect(page).to have_no_link("##{application_choice.id}") }
 
     within "#application-choice-section-#{@application_choice1.id}" do
       expect(page.text).to eq("Application choice ##{@application_choice1.id}\nQualifications\nThe statement lack detail and depthNo maths GCSE at minimum grade 4 or C, or equivalent\nSafeguarding\nSome safeguarding concern")
@@ -294,7 +294,7 @@ private
       @application_choice4,
       @application_choice5,
       @application_choice6,
-    ].each { |application_choice| expect(page).not_to have_link("##{application_choice.id}") }
+    ].each { |application_choice| expect(page).to have_no_link("##{application_choice.id}") }
     expect(page).to have_link("##{@application_choice2.id}")
 
     within "#application-choice-section-#{@application_choice2.id}" do

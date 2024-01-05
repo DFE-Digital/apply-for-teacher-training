@@ -32,7 +32,7 @@ RSpec.feature 'Generate test data for provider via support', :sandbox, sidekiq: 
   alias_method :and_i_visit_the_support_provider_applications_page, :when_i_visit_the_support_provider_applications_page
 
   def then_i_will_not_see_the_generate_test_data_button
-    expect(page).not_to have_button 'Generate test applications'
+    expect(page).to have_no_button 'Generate test applications'
   end
 
   def when_the_provider_has_courses_open_on_apply

@@ -66,7 +66,7 @@ RSpec.feature 'Candidate applying again' do
   end
 
   def then_i_cannot_change_referee_details
-    expect(page).not_to have_link('Change')
+    expect(page).to have_no_link('Change')
   end
 
   def when_i_delete_a_referee
@@ -75,7 +75,7 @@ RSpec.feature 'Candidate applying again' do
   end
 
   def then_i_can_see_i_only_have_one_referee
-    expect(page).not_to have_content @completed_references[0].name
+    expect(page).to have_no_content @completed_references[0].name
     expect(page).to have_content @completed_references[1].name
   end
 

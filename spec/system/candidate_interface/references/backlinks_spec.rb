@@ -167,8 +167,8 @@ RSpec.feature 'References' do
   end
 
   def and_i_should_not_see_academic_or_the_first_name_i_input
-    expect(page).not_to have_content('Academic')
-    expect(page).not_to have_content('Walter White')
+    expect(page).to have_no_content('Academic')
+    expect(page).to have_no_content('Walter White')
   end
 
   def then_i_see_the_review_references_page

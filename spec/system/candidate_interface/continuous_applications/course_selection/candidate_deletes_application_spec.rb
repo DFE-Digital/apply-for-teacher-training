@@ -43,7 +43,7 @@ RSpec.feature 'Candidate edits their choice section', :continuous_applications d
   end
 
   def then_i_should_see_only_one_application
-    expect(page).not_to have_content(@first_application_choice.current_course.name_and_code)
+    expect(page).to have_no_content(@first_application_choice.current_course.name_and_code)
   end
 
   def and_visit_my_application_page

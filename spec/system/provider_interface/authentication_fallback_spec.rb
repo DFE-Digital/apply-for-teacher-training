@@ -128,12 +128,12 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
 
   def then_i_am_not_signed_in
     within 'header' do
-      expect(page).not_to have_content @email
+      expect(page).to have_no_content @email
     end
   end
 
   def then_i_do_not_see_a_confirm_sign_in_page
-    expect(page).not_to have_content 'Confirm sign in'
+    expect(page).to have_no_content 'Confirm sign in'
   end
 
   def and_i_am_asked_to_sign_in_the_normal_way

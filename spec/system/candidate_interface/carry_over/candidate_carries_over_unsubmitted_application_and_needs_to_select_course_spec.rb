@@ -98,6 +98,6 @@ RSpec.feature 'Carry over', skip: 'Update to continuous applications' do
 
   def then_i_can_see_that_i_need_to_select_courses_when_apply_reopens
     expect(page).to have_content("You can find courses from 9am on #{CycleTimetable.find_reopens.to_fs(:govuk_date)}. You can keep making changes to your application until then.")
-    expect(page).not_to have_link 'Choose your courses'
+    expect(page).to have_no_link 'Choose your courses'
   end
 end

@@ -99,7 +99,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def then_i_should_see_simple_grade_prompt
-    expect(page).not_to have_field('Merit')
+    expect(page).to have_no_field('Merit')
     expect(page).to have_field('Grade')
   end
 
@@ -112,7 +112,7 @@ RSpec.feature 'Entering their other qualifications' do
   def then_i_see_my_gcse_on_the_review_page
     expect(page).to have_current_path(candidate_interface_review_other_qualifications_path)
 
-    expect(page).not_to have_content('BTEC')
+    expect(page).to have_no_content('BTEC')
     expect(page).to have_content('GCSE')
     expect(page).to have_content('Music Theory')
     expect(page).to have_content('2013')

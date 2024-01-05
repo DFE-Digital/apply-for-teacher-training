@@ -151,10 +151,10 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def then_i_see_the_start_and_end_date_filled_in_for_first_break
-    expect(page).to have_selector("input[value='#{6.months.ago.month}']")
-    expect(page).to have_selector("input[value='#{6.months.ago.year}']")
-    expect(page).to have_selector("input[value='#{3.months.ago.month}']")
-    expect(page).to have_selector("input[value='#{3.months.ago.year}']")
+    expect(page).to have_css("input[value='#{6.months.ago.month}']")
+    expect(page).to have_css("input[value='#{6.months.ago.year}']")
+    expect(page).to have_css("input[value='#{3.months.ago.month}']")
+    expect(page).to have_css("input[value='#{3.months.ago.year}']")
   end
 
   def when_i_enter_a_reason_for_my_first_break
@@ -216,6 +216,6 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def then_i_no_longer_see_my_reason_on_the_review_page
-    expect(page).not_to have_content('Some updated reason about painting.')
+    expect(page).to have_no_content('Some updated reason about painting.')
   end
 end

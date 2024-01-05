@@ -248,7 +248,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
   end
 
   def then_i_should_not_see_an_incomplete_as_level_qualification
-    expect(page).not_to have_content('AS level')
+    expect(page).to have_no_content('AS level')
     expect(all('.govuk-summary-list__value').last.text).not_to eq 'Not entered'
   end
 
@@ -263,10 +263,10 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
   end
 
   def then_i_can_only_see_two_qualifications
-    expect(page).not_to have_content 'A level Losing to Yugi'
+    expect(page).to have_no_content 'A level Losing to Yugi'
     expect(page).to have_content('A level Oh')
     expect(page).to have_content('Access Course History, English and Psychology')
-    expect(page).not_to have_content('AS level')
+    expect(page).to have_no_content('AS level')
   end
 
   def when_i_click_to_change_my_first_qualification
@@ -315,7 +315,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
   end
 
   def and_the_section_is_not_completed
-    expect(page).not_to have_css('#academic-and-other-relevant-qualifications-badge-id', text: 'Completed')
+    expect(page).to have_no_css('#academic-and-other-relevant-qualifications-badge-id', text: 'Completed')
   end
 
   def then_i_can_check_my_answers

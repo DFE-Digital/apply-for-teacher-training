@@ -28,7 +28,7 @@ RSpec.describe Publications::DataTableComponent do
 
   it 'does not render the "with-offers" table' do
     result = render_inline(component)
-    expect(result).not_to have_css('#age-with_offers')
+    expect(result).to have_no_css('#age-with_offers')
   end
 
   it 'shows the right data in the right cell' do

@@ -52,7 +52,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
 
   def then_i_should_see_all_sections_are_complete_except_contact_details
     application_form_sections.excluding(:contact_details).each do |section|
-      expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
+      expect(page).to have_no_css "[data-qa='incomplete-#{section}']"
     end
     expect(page).to have_css "[data-qa='incomplete-contact_details']"
   end
@@ -88,8 +88,8 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def then_i_should_not_see_the_complete_form
-    expect(page).not_to have_field(t('application_form.completed_radio'))
-    expect(page).not_to have_button(t('save_and_continue'))
+    expect(page).to have_no_field(t('application_form.completed_radio'))
+    expect(page).to have_no_button(t('save_and_continue'))
   end
 
   def when_i_set_my_address

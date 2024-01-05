@@ -49,6 +49,6 @@ RSpec.feature 'See applications for accredited provider' do
   end
 
   def but_not_the_applications_from_other_providers
-    expect(page).not_to have_link 'Bert'
+    expect(page).to have_no_link 'Bert'
   end
 end

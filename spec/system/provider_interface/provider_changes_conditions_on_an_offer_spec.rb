@@ -115,14 +115,14 @@ RSpec.feature 'Change offer conditions' do
   def then_i_expect_to_see_the_updated_conditions
     expect(page).to have_content @condition.text
     expect(page).to have_content 'condition'
-    expect(page).not_to have_content 'and another'
+    expect(page).to have_no_content 'and another'
   end
 
   def then_i_should_not_see_the_removed_condition
     expect(page).to have_content 'Conditions of offer'
     expect(page).to have_content @condition.text
     expect(page).to have_content 'condition'
-    expect(page).not_to have_content 'and another'
+    expect(page).to have_no_content 'and another'
     click_button 'Continue'
   end
 

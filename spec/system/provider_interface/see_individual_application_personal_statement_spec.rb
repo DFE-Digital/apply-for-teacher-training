@@ -32,7 +32,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
 
   def and_i_should_not_see_the_safeguarding_declaration_details
     expect(page).to have_content('Criminal record and professional misconduct')
-    expect(page).not_to have_content('View information disclosed by the candidate')
+    expect(page).to have_no_content('View information disclosed by the candidate')
   end
 
   def then_i_should_see_the_safeguarding_declaration_section
@@ -186,8 +186,8 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
         expect(page).to have_content 'May 2020 - Present'
 
         # Volunteering is not editable
-        expect(page).not_to have_content 'Change'
-        expect(page).not_to have_content 'Delete'
+        expect(page).to have_no_content 'Change'
+        expect(page).to have_no_content 'Delete'
       end
       within 'section:eq(2)' do
         expect(page).to have_content 'Unexplained break (3 years and 1 month)'
@@ -208,7 +208,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
         expect(page).to have_content 'Smuggler - Part time'
         expect(page).to have_content 'March 2018 - September 2018'
         expect(page).to have_content 'The Empire'
-        expect(page).not_to have_content 'Worked with children'
+        expect(page).to have_no_content 'Worked with children'
       end
 
       within 'section:eq(6)' do
@@ -244,7 +244,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
     expect(page).to have_content 'Companion droid'
     expect(page).to have_content 'The possibility of successfully'
 
-    expect(page).not_to have_content 'BB-8'
+    expect(page).to have_no_content 'BB-8'
   end
 
   def and_i_should_see_the_disability_disclosure

@@ -42,11 +42,11 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
   end
 
   def and_i_should_not_see_support_menu
-    expect(page).not_to have_link 'Candidates'
-    expect(page).not_to have_link 'Providers'
-    expect(page).not_to have_link 'Performance'
-    expect(page).not_to have_link 'Settings'
-    expect(page).not_to have_link 'Documentation'
+    expect(page).to have_no_link 'Candidates'
+    expect(page).to have_no_link 'Providers'
+    expect(page).to have_no_link 'Performance'
+    expect(page).to have_no_link 'Settings'
+    expect(page).to have_no_link 'Documentation'
   end
 
   def when_i_sign_in_via_dfe_sign_in

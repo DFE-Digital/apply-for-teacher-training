@@ -71,7 +71,7 @@ RSpec.feature 'Carry over', skip: 'Update to continuous applications', time: Cyc
   end
 
   def then_i_cannot_submit_my_application
-    expect(page).not_to have_link('Check and submit your application')
+    expect(page).to have_no_link('Check and submit your application')
   end
 
   def and_i_am_redirected_to_the_carry_over_interstitial

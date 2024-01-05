@@ -35,7 +35,7 @@ def when_i_visit_the_application_page
 end
 
 def i_should_not_see_the_immigration_status_column
-  expect(page).not_to have_content 'Immigration status'
+  expect(page).to have_no_content 'Immigration status'
 end
 
 def i_should_see_the_immigration_status_column

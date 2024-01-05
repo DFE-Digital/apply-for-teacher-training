@@ -109,7 +109,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
   end
 
   def then_i_expect_that_tag_not_to_be_visible
-    expect(page).not_to have_css('.app-checkbox-filter__tag', text: 'Mathematics')
+    expect(page).to have_no_css('.app-checkbox-filter__tag', text: 'Mathematics')
   end
 
   def and_i_should_see_all_the_applications
@@ -137,7 +137,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
   end
 
   def and_i_dont_see_the_search_box
-    expect(page).not_to have_css('#subject-checkbox-filter__filter-input')
+    expect(page).to have_no_css('#subject-checkbox-filter__filter-input')
   end
 
   def when_i_filter_by_provider_and_a_subject

@@ -95,15 +95,15 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
   end
 
   def and_the_application_is_now_deleted
-    expect(page).not_to have_content(@candidate_email)
+    expect(page).to have_no_content(@candidate_email)
     within_summary_row 'First name' do
-      expect(page).not_to have_content(@candidate_first_name)
+      expect(page).to have_no_content(@candidate_first_name)
     end
     within_summary_row 'Last name' do
-      expect(page).not_to have_content(@candidate_last_name)
+      expect(page).to have_no_content(@candidate_last_name)
     end
     within_summary_row 'Date of birth' do
-      expect(page).not_to have_content(@candidate_dob)
+      expect(page).to have_no_content(@candidate_dob)
     end
   end
 end

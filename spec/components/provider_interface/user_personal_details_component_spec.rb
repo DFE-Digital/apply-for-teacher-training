@@ -14,7 +14,7 @@ RSpec.describe ProviderInterface::UserPersonalDetailsComponent do
 
   context 'when the change_path is nil' do
     it 'does not render change links' do
-      expect(page).not_to have_link
+      expect(page).to have_no_link
     end
   end
 

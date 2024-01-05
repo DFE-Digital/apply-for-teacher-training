@@ -72,6 +72,6 @@ RSpec.feature 'See activity log' do
     expect(page).to have_content @choice3.current_course.name
     expect(page).to have_content @choice2.current_course.name
     expect(page).to have_content @choice1.current_course.name
-    expect(page).not_to have_content @choice4.current_course.name
+    expect(page).to have_no_content @choice4.current_course.name
   end
 end

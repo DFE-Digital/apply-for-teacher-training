@@ -63,7 +63,7 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def then_i_cannot_see_the_invite_user_button
-    expect(page).not_to have_link('Add user')
+    expect(page).to have_no_link('Add user')
   end
 
   def given_i_can_manage_users

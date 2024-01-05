@@ -120,7 +120,7 @@ RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
   end
 
   def and_the_not_completed_explanation_has_been_reset
-    expect(page).not_to have_content 'Hard work and dedication'
+    expect(page).to have_no_content 'Hard work and dedication'
     expect(ApplicationQualification.last.not_completed_explanation).to be_nil
   end
 end

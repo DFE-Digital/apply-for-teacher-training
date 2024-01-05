@@ -27,7 +27,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
       render_inline(described_class.new(declined_offer))
 
-      expect(page).not_to have_css '.govuk-summary-list__actions a', text: 'Reinstate offer'
+      expect(page).to have_no_css '.govuk-summary-list__actions a', text: 'Reinstate offer'
     end
 
     it 'Does not render a link to the reinstate offer page if the application choice is declined by default' do
@@ -37,7 +37,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
       render_inline(described_class.new(application_choice))
 
-      expect(page).not_to have_css '.govuk-summary-list__actions a', text: 'Reinstate offer'
+      expect(page).to have_no_css '.govuk-summary-list__actions a', text: 'Reinstate offer'
     end
   end
 
@@ -91,7 +91,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       it 'does not render the SKE component' do
         result = render_inline(described_class.new(application_choice_without_ske))
 
-        expect(result).not_to have_content('Subject knowledge enhancement course')
+        expect(result).to have_no_content('Subject knowledge enhancement course')
       end
     end
   end
@@ -211,7 +211,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       )
       render_inline(described_class.new(rejected_application_choice))
 
-      expect(page).not_to have_css '.govuk-summary-list__actions a', text: 'Revert rejection'
+      expect(page).to have_no_css '.govuk-summary-list__actions a', text: 'Revert rejection'
     end
   end
 
@@ -239,7 +239,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
       render_inline(described_class.new(withdrawn_application))
 
-      expect(page).not_to have_css '.govuk-summary-list__actions a', text: 'Revert withdrawal'
+      expect(page).to have_no_css '.govuk-summary-list__actions a', text: 'Revert withdrawal'
     end
   end
 
@@ -322,7 +322,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
         application_choice_id: application_choice.id,
       )
 
-      expect(page).to have_selector(".govuk-summary-list__actions a[href='#{change_course_path}']", text: 'Change course choice')
+      expect(page).to have_css(".govuk-summary-list__actions a[href='#{change_course_path}']", text: 'Change course choice')
     end
   end
 

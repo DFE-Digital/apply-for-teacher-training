@@ -135,7 +135,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
         model = CandidateInterface::DegreeWizard.new(store, degree_params.merge({ completed: 'Yes' }))
         render_inline(described_class.new(model:))
 
-        expect(page).not_to have_css('.govuk-hint')
+        expect(page).to have_no_css('.govuk-hint')
       end
     end
   end

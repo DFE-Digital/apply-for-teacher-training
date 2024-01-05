@@ -173,7 +173,7 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
   def then_candidate_can_not_edit_degrees
     click_link 'Your details'
     click_link 'Degree'
-    expect(page).not_to have_content('Change')
+    expect(page).to have_no_content('Change')
     visit candidate_interface_degree_country_path
     and_i_should_be_redirected_to_your_details_page
   end
@@ -181,7 +181,7 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
   def and_candidate_can_not_edit_english_gcse
     click_link 'Your details'
     click_link 'English GCSE or equivalent'
-    expect(page).not_to have_content('Change')
+    expect(page).to have_no_content('Change')
     visit candidate_interface_edit_gcse_english_grade_path
     and_i_should_be_redirected_to_your_details_page
   end
@@ -195,7 +195,7 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
   end
 
   def and_candidate_can_not_delete_degrees
-    expect(page).not_to have_content('Delete')
+    expect(page).to have_no_content('Delete')
     visit candidate_interface_confirm_degree_destroy_path(@degree)
     and_i_should_be_redirected_to_your_details_page
   end

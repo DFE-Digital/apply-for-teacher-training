@@ -328,9 +328,9 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
   end
 
   def and_i_should_not_see_the_complete_section
-    expect(page).not_to have_content('Have you completed this section?')
-    expect(page).not_to have_content('Yes, I have completed this section')
-    expect(page).not_to have_content('No, I’ll come back to it later')
+    expect(page).to have_no_content('Have you completed this section?')
+    expect(page).to have_no_content('Yes, I have completed this section')
+    expect(page).to have_no_content('No, I’ll come back to it later')
   end
 
   def and_i_should_see_the_complete_section

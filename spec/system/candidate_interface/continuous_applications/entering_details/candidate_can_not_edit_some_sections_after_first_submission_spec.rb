@@ -63,10 +63,10 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
   end
 
   def then_i_can_see_that_is_not_editable
-    expect(page).not_to have_content('Have you completed this section?')
-    expect(page).not_to have_content('Yes, I have completed this section')
-    expect(page).not_to have_content('Change')
-    expect(page).not_to have_content('Any changes you make will be included in applications you’ve already submitted.')
+    expect(page).to have_no_content('Have you completed this section?')
+    expect(page).to have_no_content('Yes, I have completed this section')
+    expect(page).to have_no_content('Change')
+    expect(page).to have_no_content('Any changes you make will be included in applications you’ve already submitted.')
     expect(page.all('button').map(&:text)).not_to include('Continue')
   end
 
@@ -89,7 +89,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
   end
 
   def and_i_can_not_edit_the_section_unpaid_experience
-    expect(page).not_to have_content('Add another role')
+    expect(page).to have_no_content('Add another role')
 
     visit candidate_interface_edit_volunteering_role_path(
       current_candidate.current_application.application_volunteering_experiences.last,
@@ -107,7 +107,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
   end
 
   def and_i_can_not_edit_the_section_degree
-    expect(page).not_to have_content('Add another degree')
+    expect(page).to have_no_content('Add another degree')
     visit candidate_interface_degree_country_path
 
     and_i_should_be_redirected_to_your_details_page
@@ -132,7 +132,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
   end
 
   def and_i_can_not_edit_the_section_references
-    expect(page).not_to have_content('Add another reference')
+    expect(page).to have_no_content('Add another reference')
 
     visit candidate_interface_references_edit_name_path(
       current_candidate.current_application.application_references.last,

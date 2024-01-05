@@ -43,7 +43,7 @@ RSpec.feature 'Sign in as provider user' do
   end
 
   def and_i_can_tell_this_is_an_impersonation_from_the_sign_out_link
-    expect(page).not_to have_content('Sign out')
+    expect(page).to have_no_content('Sign out')
     expect(page).to have_content('Support')
   end
 

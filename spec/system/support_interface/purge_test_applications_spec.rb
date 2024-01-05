@@ -54,7 +54,7 @@ RSpec.feature 'Purge test applications' do
   end
 
   def then_i_see_only_one_candidate
-    expect(page).not_to have_content('bob@example.com')
+    expect(page).to have_no_content('bob@example.com')
     expect(page).to have_content('alice@example.net')
   end
 end

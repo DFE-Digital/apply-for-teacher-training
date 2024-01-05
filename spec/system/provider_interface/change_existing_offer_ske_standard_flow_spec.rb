@@ -300,7 +300,7 @@ RSpec.feature 'Provider changes an existing offer' do
   end
 
   def and_the_ske_conditions_should_not_be_displayed
-    expect(page).not_to have_content('Subject knowledge enhancement course')
+    expect(page).to have_no_content('Subject knowledge enhancement course')
   end
 
   def then_the_conditions_page_is_loaded
@@ -325,7 +325,7 @@ RSpec.feature 'Provider changes an existing offer' do
 
   def then_the_correct_conditions_are_displayed
     expect(page).to have_field('Condition 2', with: 'A* on Maths A Level')
-    expect(page).not_to have_field('Condition 3', with: 'Go to the cinema')
+    expect(page).to have_no_field('Condition 3', with: 'Go to the cinema')
   end
 
   def then_the_review_page_is_loaded
@@ -361,7 +361,7 @@ RSpec.feature 'Provider changes an existing offer' do
   end
 
   def and_i_can_see_the_new_offer_condition
-    expect(page).not_to have_content('Fitness to train to teach check')
+    expect(page).to have_no_content('Fitness to train to teach check')
     expect(page).to have_content('Disclosure and Barring Service (DBS) check')
   end
 

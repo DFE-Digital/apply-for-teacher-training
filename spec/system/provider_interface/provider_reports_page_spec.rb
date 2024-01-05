@@ -97,7 +97,7 @@ RSpec.feature 'Provider reports page' do
       '2022 to 2023 recruitment cycle performance',
       href: provider_interface_reports_provider_mid_cycle_report_path(provider_id: @provider_user.providers.first),
     )
-    expect(page).not_to have_link(
+    expect(page).to have_no_link(
       '2022 to 2023 recruitment cycle performance',
       href: provider_interface_reports_provider_mid_cycle_report_path(provider_id: @provider_user.providers.last),
     )

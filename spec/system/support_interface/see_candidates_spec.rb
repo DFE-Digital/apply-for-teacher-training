@@ -68,7 +68,7 @@ RSpec.feature 'See candidates' do
 
   def then_i_see_that_candidate
     expect(page).to have_content('Never signed in')
-    expect(page).not_to have_content('Sign up email bounced')
+    expect(page).to have_no_content('Sign up email bounced')
   end
 
   def then_i_see_that_candidate_too

@@ -90,7 +90,7 @@ RSpec.feature 'Provider reinstates deferred offer' do
   end
 
   def then_i_do_not_see_a_prompt_to_review_the_deferred_offer
-    expect(page).not_to have_content 'Confirm deferred offer'
+    expect(page).to have_no_content 'Confirm deferred offer'
   end
 
   def then_i_see_a_prompt_to_review_the_deferred_offer

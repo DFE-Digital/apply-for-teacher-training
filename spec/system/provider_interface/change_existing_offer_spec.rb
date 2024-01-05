@@ -190,7 +190,7 @@ RSpec.feature 'Provider changes an existing offer' do
 
   def then_the_correct_conditions_are_displayed
     expect(page).to have_field('Condition 2', with: 'A* on Maths A Level')
-    expect(page).not_to have_field('Condition 3', with: 'Go to the cinema')
+    expect(page).to have_no_field('Condition 3', with: 'Go to the cinema')
   end
 
   def then_the_review_page_is_loaded

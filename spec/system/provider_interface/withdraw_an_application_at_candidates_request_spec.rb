@@ -91,7 +91,7 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
   alias_method :then_i_get_redirected_to_the_application_choice, :then_i_see_a_message_confirming_that_the_application_has_been_withdrawn
 
   def and_i_can_no_longer_see_the_withdraw_at_candidates_request_link
-    expect(page).not_to have_link 'Withdraw at candidate’s request'
+    expect(page).to have_no_link 'Withdraw at candidate’s request'
   end
 
   def and_the_candidate_receives_an_email_about_the_withdrawal

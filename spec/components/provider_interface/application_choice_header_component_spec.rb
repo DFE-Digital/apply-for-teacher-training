@@ -141,7 +141,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
                 application_choice:,
               ),
             )
-            expect(result).not_to have_link('References')
+            expect(result).to have_no_link('References')
           end
         end
       end

@@ -51,8 +51,8 @@ RSpec.feature 'See applications' do
 
   def then_i_see_only_the_associated_application
     expect(page).to have_content @application_with_reference.full_name
-    expect(page).not_to have_content @unsubmitted_application.full_name
-    expect(page).not_to have_content @completed_application.full_name
+    expect(page).to have_no_content @unsubmitted_application.full_name
+    expect(page).to have_no_content @completed_application.full_name
   end
 
   def and_i_clear_filters
@@ -66,8 +66,8 @@ RSpec.feature 'See applications' do
 
   def then_i_see_only_that_application
     expect(page).to have_content @completed_application.candidate.email_address
-    expect(page).not_to have_content @application_with_reference.candidate.email_address
-    expect(page).not_to have_content @unsubmitted_application.candidate.email_address
+    expect(page).to have_no_content @application_with_reference.candidate.email_address
+    expect(page).to have_no_content @unsubmitted_application.candidate.email_address
   end
 
   def when_my_search_returns_nothing

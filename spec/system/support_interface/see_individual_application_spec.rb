@@ -138,8 +138,8 @@ RSpec.feature 'See an application' do
 
   def and_i_should_not_see_reference_from_second_referee
     within page.all('[data-qa="reference"]').to_a.second do
-      expect(page).not_to have_content('This is my feedback')
-      expect(page).not_to have_content('They can be contacted')
+      expect(page).to have_no_content('This is my feedback')
+      expect(page).to have_no_content('They can be contacted')
     end
   end
 end

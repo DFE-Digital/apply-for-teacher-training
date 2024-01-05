@@ -53,7 +53,7 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
   end
 
   def then_i_do_not_see_the_incomplete_text
-    expect(page).not_to have_text 'Complete these sections so that you can start applying to courses. Your details will be shared with the training provider when you apply.'
+    expect(page).to have_no_text 'Complete these sections so that you can start applying to courses. Your details will be shared with the training provider when you apply.'
   end
 
   def then_i_see_the_incomplete_text
@@ -120,7 +120,7 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
   end
 
   def then_i_dont_see_the_incomplete_applications_text
-    expect(page).not_to have_text('You will not be able to submit applications until you have completed your details.')
+    expect(page).to have_no_text('You will not be able to submit applications until you have completed your details.')
   end
 
   def when_i_visit_the_details_page
@@ -134,9 +134,9 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
   end
 
   def then_i_dont_see_the_complete_details_text
-    expect(page).not_to have_text('You can add your applications.')
-    expect(page).not_to have_text('You have completed your details')
-    expect(page).not_to have_text('You can now start applying to courses.')
+    expect(page).to have_no_text('You can add your applications.')
+    expect(page).to have_no_text('You have completed your details')
+    expect(page).to have_no_text('You can now start applying to courses.')
   end
 
   def when_i_add_the_maximum_number_of_choices

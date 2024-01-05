@@ -76,7 +76,7 @@ RSpec.feature 'A candidate can edit some sections after first submission', :cont
 
     expect(current_candidate.current_application.reload.full_name).to eq('Robert Frank')
 
-    expect(page).not_to have_link('Change nationality')
+    expect(page).to have_no_link('Change nationality')
   end
 
   def when_i_save_and_continue

@@ -99,7 +99,7 @@ RSpec.feature 'A candidate withdraws their application', :bullet, :continuous_ap
   end
 
   def and_i_do_not_see_the_interview_related_text
-    expect(page).not_to have_content('If you do withdraw, your scheduled interview for this application will be cancelled.')
+    expect(page).to have_no_content('If you do withdraw, your scheduled interview for this application will be cancelled.')
   end
 
   def when_i_click_to_confirm_withdrawal

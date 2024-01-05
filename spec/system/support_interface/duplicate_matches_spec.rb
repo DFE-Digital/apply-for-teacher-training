@@ -97,7 +97,7 @@ RSpec.feature 'See Duplicate candidate matches' do
 
   def then_i_should_see_list_of_under_review_duplicates
     expect(page).to have_content('2 candidates with postcode W6 9BH and DOB 8 Aug 1998')
-    expect(page).not_to have_link('2 candidates with postcode W3 6ET')
+    expect(page).to have_no_link('2 candidates with postcode W3 6ET')
   end
 
   def and_i_click_on_a_match_that_is_not_resolved
@@ -170,6 +170,6 @@ RSpec.feature 'See Duplicate candidate matches' do
 
   def then_i_should_see_list_of_resolved_duplicates
     expect(page).to have_content('2 candidates with postcode W3 6ET and DOB 12 Oct 1999')
-    expect(page).not_to have_link('2 candidates with postcode W6 9BH')
+    expect(page).to have_no_link('2 candidates with postcode W6 9BH')
   end
 end

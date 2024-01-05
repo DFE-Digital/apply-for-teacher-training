@@ -53,7 +53,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
 
   def then_i_should_see_all_sections_are_complete
     application_form_sections.each do |section|
-      expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
+      expect(page).to have_no_css "[data-qa='incomplete-#{section}']"
     end
   end
 
@@ -113,7 +113,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
     within('[data-qa="selected-references"]') do
       expect(page).to have_content @first_reference.name
       expect(page).to have_content @third_reference.name
-      expect(page).not_to have_content @second_reference.name
+      expect(page).to have_no_content @second_reference.name
     end
   end
 

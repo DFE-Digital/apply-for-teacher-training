@@ -106,7 +106,7 @@ RSpec.feature 'Email log' do
     visit support_interface_email_log_path(delivery_status: 'delivered')
 
     within '.moj-filter-layout__content' do
-      expect(page).not_to have_content 'Permanent failure'
+      expect(page).to have_no_content 'Permanent failure'
     end
   end
 
@@ -127,6 +127,6 @@ RSpec.feature 'Email log' do
   def then_i_see_only_emails_that_match_the_supplied_address
     expect(page).to have_css('tbody tr', count: 3)
     expect(page).to have_content 'harry@example.com'
-    expect(page).not_to have_content 'severus.snape@example.com'
+    expect(page).to have_no_content 'severus.snape@example.com'
   end
 end

@@ -34,7 +34,7 @@ RSpec.feature 'API tokens' do
 
   def then_that_provider_should_no_longer_have_an_api_token
     within '.govuk-table' do
-      expect(page).not_to have_content('Provider 1')
+      expect(page).to have_no_content('Provider 1')
     end
   end
 

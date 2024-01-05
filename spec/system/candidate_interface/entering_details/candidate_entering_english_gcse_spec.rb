@@ -102,7 +102,7 @@ RSpec.feature 'Candidate entering GCSE English details' do
   end
 
   def and_i_enter_an_invalid_grade
-    within find_by_id('candidate-interface-english-gcse-grade-form-english-gcses-english-single-award-conditional') do
+    within '#candidate-interface-english-gcse-grade-form-english-gcses-english-single-award-conditional' do
       fill_in('Grade', with: 'AWESOME')
     end
   end
@@ -124,13 +124,13 @@ RSpec.feature 'Candidate entering GCSE English details' do
   end
 
   def and_i_enter_a_valid_english_gcse
-    within find_by_id('candidate-interface-english-gcse-grade-form-english-gcses-other-english-gcse-conditional') do
+    within '#candidate-interface-english-gcse-grade-form-english-gcses-other-english-gcse-conditional' do
       fill_in('What English GCSE do you have?', with: 'Cockney rhyming slang')
     end
   end
 
   def and_i_enter_a_valid_other_english_grade
-    within find_by_id('candidate-interface-english-gcse-grade-form-english-gcses-other-english-gcse-conditional') do
+    within '#candidate-interface-english-gcse-grade-form-english-gcses-other-english-gcse-conditional' do
       fill_in('Grade', with: 'A*')
     end
   end
@@ -158,7 +158,7 @@ RSpec.feature 'Candidate entering GCSE English details' do
   end
 
   def when_i_enter_a_new_grade
-    within find_by_id('candidate-interface-english-gcse-grade-form-english-gcses-other-english-gcse-conditional') do
+    within '#candidate-interface-english-gcse-grade-form-english-gcses-other-english-gcse-conditional' do
       fill_in('Grade', with: 'B')
     end
     and_i_click_save_and_continue

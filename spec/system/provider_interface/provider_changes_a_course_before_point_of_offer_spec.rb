@@ -125,7 +125,7 @@ RSpec.feature 'Provider changes a course' do
 
   def then_i_cannot_change_the_course
     within('[data-qa="course-details"]') do
-      expect(page).not_to have_content 'Change'
+      expect(page).to have_no_content 'Change'
     end
   end
 

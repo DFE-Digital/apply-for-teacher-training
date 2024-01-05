@@ -73,7 +73,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   end
 
   def and_i_enter_an_invalid_grade
-    within find_by_id('candidate-interface-science-gcse-grade-form-gcse-science-science-single-award-conditional') do
+    within '#candidate-interface-science-gcse-grade-form-gcse-science-science-single-award-conditional' do
       fill_in('Grade', with: 'SHIZZ')
     end
   end
@@ -83,7 +83,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   end
 
   def then_i_enter_a_valid_grade
-    within find_by_id('candidate-interface-science-gcse-grade-form-gcse-science-science-single-award-conditional') do
+    within '#candidate-interface-science-gcse-grade-form-gcse-science-science-single-award-conditional' do
       fill_in('Grade', with: 'A')
     end
   end
@@ -93,7 +93,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   end
 
   def then_i_enter_a_valid_grade
-    within find_by_id('candidate-interface-science-gcse-grade-form-gcse-science-science-single-award-conditional') do
+    within '#candidate-interface-science-gcse-grade-form-gcse-science-science-single-award-conditional' do
       fill_in('Grade', with: 'A')
     end
   end

@@ -148,11 +148,11 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
   end
 
   def and_i_should_not_see_a_change_location_link
-    expect(page).not_to have_content("Change location for #{@provider.courses.first.name}")
+    expect(page).to have_no_content("Change location for #{@provider.courses.first.name}")
   end
 
   def and_i_should_not_see_a_change_full_time_or_part_time_link
-    expect(page).not_to have_content("Change full time or part time for #{@provider.courses.first.name}")
+    expect(page).to have_no_content("Change full time or part time for #{@provider.courses.first.name}")
   end
 
   def when_i_click_to_add_another_course
@@ -200,7 +200,7 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
   end
 
   def and_i_should_not_see_another_change_location_link
-    expect(page).not_to have_content("Change location for #{@provider.courses.third.name}")
+    expect(page).to have_no_content("Change location for #{@provider.courses.third.name}")
   end
 
   def when_i_click_to_change_the_location_of_the_second_course_choice

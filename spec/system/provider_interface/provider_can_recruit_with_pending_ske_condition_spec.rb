@@ -104,7 +104,7 @@ RSpec.feature 'Confirm conditions met' do
   end
 
   def then_i_should_not_see_button_to_recruit_with_pending_conditions
-    expect(page).not_to have_button('Recruit candidate with pending conditions')
+    expect(page).to have_no_button('Recruit candidate with pending conditions')
   end
 
   def then_i_should_see_button_to_recruit_with_pending_conditions
@@ -194,7 +194,7 @@ RSpec.feature 'Confirm conditions met' do
 
   def then_i_see_the_offer_page_without_a_flash_message
     expect(page).to have_current_path(provider_interface_application_choice_offer_path(application_choice_id: @application_choice.id))
-    expect(page).not_to have_content('Applicant recruited with conditions pending')
+    expect(page).to have_no_content('Applicant recruited with conditions pending')
   end
 
   def then_i_see_the_offer_page_with_a_flash_message
@@ -227,6 +227,6 @@ RSpec.feature 'Confirm conditions met' do
 
   def then_i_see_application_is_recruited_with_all_conditions_met
     expect(page).to have_content('Recruited')
-    expect(page).not_to have_content('SKE conditions pending')
+    expect(page).to have_no_content('SKE conditions pending')
   end
 end

@@ -66,7 +66,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSummaryCom
         let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course:) }
 
         it 'renders the course full info and `Change` link without the `View application` link' do
-          expect(result).not_to have_css('.govuk-inset-text')
+          expect(result).to have_no_css('.govuk-inset-text')
           expect(result.text).not_to include('You cannot apply to this course as there are no places left on it')
           expect(result.text).not_to include('You need to either remove or change this course choice')
           expect(result.text).not_to include("#{application_choice.course.provider.name} may be able to recommend an alternative course.")

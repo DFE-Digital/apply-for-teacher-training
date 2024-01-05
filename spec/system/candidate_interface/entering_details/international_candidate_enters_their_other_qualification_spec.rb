@@ -248,7 +248,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def then_i_do_not_see_the_incomplete_application
-    expect(page).not_to have_content('Advanced Rules')
+    expect(page).to have_no_content('Advanced Rules')
   end
 
   def then_i_should_see_the_form

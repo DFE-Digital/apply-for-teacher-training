@@ -29,9 +29,9 @@ RSpec.describe 'A support user authenticates via DfE Sign-in but is not authoriz
   end
 
   def and_i_should_not_see_support_menu
-    expect(page).not_to have_link 'Applications'
-    expect(page).not_to have_link 'APITokens'
-    expect(page).not_to have_link 'Vendors'
+    expect(page).to have_no_link 'Applications'
+    expect(page).to have_no_link 'APITokens'
+    expect(page).to have_no_link 'Vendors'
   end
 
   def when_i_sign_in_via_dfe_sign_in

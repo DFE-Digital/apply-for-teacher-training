@@ -139,10 +139,10 @@ RSpec.feature 'Entering a Masters degree' do
   def then_i_can_see_the_grade_page_with_masters_grade_options
     expect(page).to have_content('What grade is your degree?')
 
-    expect(page).not_to have_field('First-class honours')
-    expect(page).not_to have_field('Upper second-class honours (2:1)')
-    expect(page).not_to have_field('Lower second-class honours (2:2)')
-    expect(page).not_to have_field('Third-class honours')
+    expect(page).to have_no_field('First-class honours')
+    expect(page).to have_no_field('Upper second-class honours (2:1)')
+    expect(page).to have_no_field('Lower second-class honours (2:2)')
+    expect(page).to have_no_field('Third-class honours')
 
     expect(page).to have_field('Distinction')
     expect(page).to have_field('Merit')

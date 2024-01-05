@@ -55,7 +55,7 @@ RSpec.feature 'Candidate updates their contact information from an international
   end
 
   def then_i_do_not_have_the_option_to_complete
-    expect(page).not_to have_field('Yes, I have completed this section')
-    expect(page).not_to have_button('Continue')
+    expect(page).to have_no_field('Yes, I have completed this section')
+    expect(page).to have_no_button('Continue')
   end
 end

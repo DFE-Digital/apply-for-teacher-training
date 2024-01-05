@@ -512,7 +512,7 @@ RSpec.feature 'Candidate accepts an offer', :continuous_applications do
   end
 
   def and_i_dont_see_the_course_without_an_offer
-    expect(page).not_to have_content @other_application_choice.course.name_and_code
+    expect(page).to have_no_content @other_application_choice.course.name_and_code
   end
 
   def and_the_back_link_should_point_to_the_offer_dashboard_page

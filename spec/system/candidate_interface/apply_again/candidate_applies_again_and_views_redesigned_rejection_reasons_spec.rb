@@ -114,7 +114,7 @@ RSpec.feature 'Apply again' do
     click_button t('continue')
 
     click_link 'Check and submit'
-    expect(page).not_to have_css becoming_a_teacher_error_container
+    expect(page).to have_no_css becoming_a_teacher_error_container
     click_button t('continue')
 
     candidate_fills_in_diversity_information

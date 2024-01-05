@@ -114,7 +114,7 @@ RSpec.feature 'Entering their disability information', continuous_applications: 
 
   def then_i_can_check_my_revised_answers
     expect(page).to have_content 'No'
-    expect(page).not_to have_content 'I have difficulty climbing stairs'
+    expect(page).to have_no_content 'I have difficulty climbing stairs'
   end
 
   def when_i_mark_the_section_as_completed

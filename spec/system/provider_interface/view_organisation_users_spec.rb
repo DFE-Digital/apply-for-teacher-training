@@ -107,6 +107,6 @@ RSpec.feature 'Organisation users' do
   end
 
   def and_i_cannot_see_change_links
-    expect(page).not_to have_link('Change Manage interviews')
+    expect(page).to have_no_link('Change Manage interviews')
   end
 end

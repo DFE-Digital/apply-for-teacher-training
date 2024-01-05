@@ -81,7 +81,7 @@ RSpec.describe 'A support with an expired DSI fallback link' do
 
   def then_i_am_not_signed_in
     within 'header' do
-      expect(page).not_to have_content @email
+      expect(page).to have_no_content @email
     end
   end
 

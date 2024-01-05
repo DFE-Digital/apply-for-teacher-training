@@ -53,7 +53,7 @@ RSpec.feature 'Managing provider users v2' do
   def then_i_see_providers_with_courses
     expect(page).to have_content 'Example provider'
     expect(page).to have_content 'Another provider'
-    expect(page).not_to have_content 'Not shown provider'
+    expect(page).to have_no_content 'Not shown provider'
   end
 
   def when_i_visit_the_support_console

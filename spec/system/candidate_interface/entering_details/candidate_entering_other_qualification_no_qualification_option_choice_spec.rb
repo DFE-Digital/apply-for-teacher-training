@@ -109,7 +109,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_i_dont_see_my_no_other_qualification_selected
-    expect(page).not_to have_content('I do not want to add any A levels and other qualifications')
+    expect(page).to have_no_content('I do not want to add any A levels and other qualifications')
   end
 
   def and_see_my_other_uk_qualification_has_the_correct_format

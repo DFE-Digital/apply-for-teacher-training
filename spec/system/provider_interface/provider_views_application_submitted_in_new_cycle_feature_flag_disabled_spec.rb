@@ -84,7 +84,7 @@ RSpec.feature 'Provider views application submitted in new cycle', skip: 'Delete
   end
 
   def then_i_cannot_submit_my_application
-    expect(page).not_to have_link('Check and submit your application')
+    expect(page).to have_no_link('Check and submit your application')
   end
 
   def and_i_am_redirected_to_the_carry_over_interstitial
@@ -171,7 +171,7 @@ RSpec.feature 'Provider views application submitted in new cycle', skip: 'Delete
 
   def then_i_can_see_a_filter_for_the_current_recruitment_cycle_year
     find(:css, "#recruitment_cycle_year-#{RecruitmentCycle.current_year}").set(true)
-    expect(page).not_to have_css("#recruitment_cycle_year-#{RecruitmentCycle.current_year - 2}")
+    expect(page).to have_no_css("#recruitment_cycle_year-#{RecruitmentCycle.current_year - 2}")
   end
 
   def then_i_can_see_and_load_the_candidates_application

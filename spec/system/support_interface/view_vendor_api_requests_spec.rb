@@ -95,7 +95,7 @@ RSpec.feature 'Vendor API Requests' do
   end
 
   def then_i_only_see_api_requests_filtered_by_status
-    expect(page).not_to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
+    expect(page).to have_no_css('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
     expect(page).to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
     expect(page).to have_css('p.govuk-body', exact_text: '/api/v1/applications/9999/offer')
   end
@@ -112,7 +112,7 @@ RSpec.feature 'Vendor API Requests' do
   def then_i_see_api_requests_filtered_by_request_method
     expect(page).to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
     expect(page).to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
-    expect(page).not_to have_css('p.govuk-body', exact_text: '/api/v1/applications/9999/offer')
+    expect(page).to have_no_css('p.govuk-body', exact_text: '/api/v1/applications/9999/offer')
   end
 
   def when_i_search_for_a_specific_request_path
@@ -122,7 +122,7 @@ RSpec.feature 'Vendor API Requests' do
 
   def then_i_only_see_api_requests_filtered_by_the_search
     expect(page).to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
-    expect(page).not_to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
+    expect(page).to have_no_css('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
   end
 
   def when_i_filter_by_provider
@@ -132,7 +132,7 @@ RSpec.feature 'Vendor API Requests' do
   end
 
   def then_i_only_see_api_requests_filtered_by_provider
-    expect(page).not_to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
+    expect(page).to have_no_css('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
     expect(page).to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
   end
 end

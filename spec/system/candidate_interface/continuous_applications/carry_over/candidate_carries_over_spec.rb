@@ -273,12 +273,12 @@ private
   end
 
   def then_i_should_not_see_the_add_course_button
-    expect(page).not_to have_content('Add application')
+    expect(page).to have_no_content('Add application')
     expect(page).to have_content("Applications for courses starting in September #{RecruitmentCycle.current_year} are closed.")
   end
 
   def and_i_should_not_see_previous_applications_heading
-    expect(page).not_to have_content('Previous applications')
+    expect(page).to have_no_content('Previous applications')
   end
 
   def and_i_should_see_previous_applications_heading

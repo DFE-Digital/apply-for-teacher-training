@@ -51,7 +51,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def then_i_should_not_see_the_provider_user_listed
-    expect(page).not_to have_content("#{@provider_user.first_name} #{@provider_user.last_name}")
+    expect(page).to have_no_content("#{@provider_user.first_name} #{@provider_user.last_name}")
   end
 
   def when_i_click_add_user

@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::BecomingATeacherReviewComponent, type: :compo
     it 'renders component without an edit link' do
       render_inline(described_class.new(application_form:, editable: false))
 
-      expect(page).not_to have_link('Edit your personal statement')
+      expect(page).to have_no_link('Edit your personal statement')
     end
   end
 

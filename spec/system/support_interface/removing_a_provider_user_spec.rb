@@ -63,7 +63,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def and_i_should_see_that_the_user_is_no_longer_associated_with_that_provider
-    expect(page).not_to have_selector("[data-qa=\"provider-id-#{@provider_one.id}\"]")
+    expect(page).to have_no_css("[data-qa=\"provider-id-#{@provider_one.id}\"]")
   end
 
   def and_the_user_should_receive_an_email_about_being_removed_from_the_provider

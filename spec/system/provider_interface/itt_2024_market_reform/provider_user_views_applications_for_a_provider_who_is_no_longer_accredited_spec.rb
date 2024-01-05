@@ -58,7 +58,7 @@ RSpec.feature 'ITT 2024 market reform – viewing applications after a provider 
     expect(page).to have_link 'I applied for the 2023 course self ratified by the provider who will lose accreditation'
     expect(page).to have_link 'I applied for the 2023 partner course ratified by the provider who will lose accreditation'
 
-    expect(page).not_to have_link 'I applied for the 2023 partner course ratified by the provider who will keep accreditation'
+    expect(page).to have_no_link 'I applied for the 2023 partner course ratified by the provider who will keep accreditation'
   end
 
   def when_i_sign_in_as_the_provider_who_will_keep_accreditation
@@ -68,8 +68,8 @@ RSpec.feature 'ITT 2024 market reform – viewing applications after a provider 
   def then_i_see_the_correct_2023_applications_for_the_provider_who_will_keep_accreditation
     expect(page).to have_link 'I applied for the 2023 partner course ratified by the provider who will keep accreditation'
 
-    expect(page).not_to have_link 'I applied for the 2023 course self ratified by the provider who will lose accreditation'
-    expect(page).not_to have_link 'I applied for the 2023 partner course ratified by the provider who will lose accreditation'
+    expect(page).to have_no_link 'I applied for the 2023 course self ratified by the provider who will lose accreditation'
+    expect(page).to have_no_link 'I applied for the 2023 partner course ratified by the provider who will lose accreditation'
   end
 
   def when_i_sign_in_as_the_partner_provider
@@ -80,7 +80,7 @@ RSpec.feature 'ITT 2024 market reform – viewing applications after a provider 
     expect(page).to have_link 'I applied for the 2023 partner course ratified by the provider who will lose accreditation'
     expect(page).to have_link 'I applied for the 2023 partner course ratified by the provider who will keep accreditation'
 
-    expect(page).not_to have_link 'I applied for the 2023 course self ratified by the provider who will lose accreditation'
+    expect(page).to have_no_link 'I applied for the 2023 course self ratified by the provider who will lose accreditation'
   end
 
   def when_the_2024_cycle_is_open
@@ -102,8 +102,8 @@ RSpec.feature 'ITT 2024 market reform – viewing applications after a provider 
   def then_i_see_the_correct_2024_applications_for_the_provider_who_lost_accreditation
     expect(page).to have_link 'I applied for the 2024 course for the provider who lost accreditation and is now ratified by the provider who kept accreditation'
 
-    expect(page).not_to have_link 'I applied for the 2024 partner course ratified by the provider who kept accreditation'
-    expect(page).not_to have_link 'I applied for the 2024 course self ratified by the provider who kept accreditation'
+    expect(page).to have_no_link 'I applied for the 2024 partner course ratified by the provider who kept accreditation'
+    expect(page).to have_no_link 'I applied for the 2024 course self ratified by the provider who kept accreditation'
   end
 
   def then_i_see_the_correct_2024_applications_for_the_provider_who_kept_accreditation
@@ -115,7 +115,7 @@ RSpec.feature 'ITT 2024 market reform – viewing applications after a provider 
   def then_i_see_the_correct_2024_applications_for_the_partner_provider
     expect(page).to have_link 'I applied for the 2024 partner course ratified by the provider who kept accreditation'
 
-    expect(page).not_to have_link 'I applied for the 2024 course for the provider who lost accreditation and is now ratified by the provider who kept accreditation'
-    expect(page).not_to have_link 'I applied for the 2024 course self ratified by the provider who kept accreditation'
+    expect(page).to have_no_link 'I applied for the 2024 course for the provider who lost accreditation and is now ratified by the provider who kept accreditation'
+    expect(page).to have_no_link 'I applied for the 2024 course self ratified by the provider who kept accreditation'
   end
 end

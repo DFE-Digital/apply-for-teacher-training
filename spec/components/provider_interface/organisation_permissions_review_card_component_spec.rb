@@ -62,7 +62,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
 
       it 'renders headings at the level specified' do
         expect(page).to have_css('h4.app-summary-card__title')
-        expect(page).not_to have_css('h2.app-summary-card__title')
+        expect(page).to have_no_css('h2.app-summary-card__title')
       end
     end
   end

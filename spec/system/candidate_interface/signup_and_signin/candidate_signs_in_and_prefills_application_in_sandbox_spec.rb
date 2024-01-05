@@ -60,14 +60,14 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox
   end
 
   def and_my_application_has_been_filled_in
-    expect(page).not_to have_content 'Incomplete'
-    expect(page).not_to have_content 'In progress'
+    expect(page).to have_no_content 'Incomplete'
+    expect(page).to have_no_content 'In progress'
   end
 
   def when_i_click_submit_and_continue_and_send
     click_link 'Check and submit your application'
     click_link t('continue')
-    expect(page).not_to have_content 'There is a problem'
+    expect(page).to have_no_content 'There is a problem'
 
     click_button 'Send application'
   end

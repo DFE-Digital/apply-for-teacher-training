@@ -68,11 +68,11 @@ RSpec.describe 'Organisation users' do
   end
 
   def and_the_user_no_longer_belongs_to_the_provider
-    expect(page).not_to have_content(@user_to_remove.full_name)
+    expect(page).to have_no_content(@user_to_remove.full_name)
     expect(@user_to_remove.reload.providers).to contain_exactly(@read_only_provider)
   end
 
   def then_i_cannot_see_a_link_to_delete_the_user
-    expect(page).not_to have_link('Remove user')
+    expect(page).to have_no_link('Remove user')
   end
 end

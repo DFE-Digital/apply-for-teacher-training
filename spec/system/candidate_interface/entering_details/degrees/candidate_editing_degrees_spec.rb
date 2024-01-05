@@ -284,8 +284,8 @@ RSpec.feature 'Editing a degree' do
 
   def then_i_can_check_my_revised_undergraduate_degree_type_again
     expect(page).to have_content 'Level 6 Diploma'
-    expect(page).not_to have_content 'Master of Arts'
-    expect(page).not_to have_content 'MA'
+    expect(page).to have_no_content 'Master of Arts'
+    expect(page).to have_no_content 'MA'
   end
 
   def when_i_click_to_change_my_undergraduate_degree_type_again

@@ -72,7 +72,7 @@ RSpec.feature 'Candidate adding incomplete referees' do
   end
 
   def and_i_cant_see_the_choose_reference_link
-    expect(page).not_to have_link('Choose a type of referee')
+    expect(page).to have_no_link('Choose a type of referee')
   end
 
   def then_i_get_redirected_to_the_application_page
@@ -101,7 +101,7 @@ RSpec.feature 'Candidate adding incomplete referees' do
 
   def then_i_see_that_referee_is_not_created
     visit candidate_interface_references_review_path
-    expect(page.text).not_to have_content('Academic')
+    expect(page.text).to have_no_content('Academic')
   end
 
   def when_i_provide_incomplete_referee_details

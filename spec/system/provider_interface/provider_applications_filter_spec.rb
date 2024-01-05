@@ -138,17 +138,17 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def then_i_do_not_expect_to_see_the_accredited_providers_filter_heading
     expect(page).to have_content('Filter')
-    expect(page).not_to have_content('Accredited provider')
+    expect(page).to have_no_content('Accredited provider')
   end
 
   def then_i_should_see_locations_that_belong_to_all_of_the_selected_providers_that_have_more_than_one_site
     expect(page).to have_content('Locations for Hoth Teacher Training')
     expect(page).to have_content('Locations for Caladan University')
-    expect(page).not_to have_content('Locations for University of Arrakis')
+    expect(page).to have_no_content('Locations for University of Arrakis')
   end
 
   def then_i_should_only_see_locations_that_belong_to_that_provider
-    expect(page).not_to have_content('Locations for Caladan University')
+    expect(page).to have_no_content('Locations for Caladan University')
   end
 
   def then_location_filters_should_be_visible
@@ -156,12 +156,12 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_location_filters_should_not_be_visible
-    expect(page).not_to have_content('Locations for')
+    expect(page).to have_no_content('Locations for')
   end
 
   def then_i_only_see_applications_for_that_provider_location
-    expect(page).not_to have_content('Adam Jones')
-    expect(page).not_to have_content('Tom Jones')
+    expect(page).to have_no_content('Adam Jones')
+    expect(page).to have_no_content('Tom Jones')
     expect(page).to have_content('Jim James')
   end
 
@@ -180,7 +180,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_only_see_applications_for_that_recruitment_cycle
-    expect(page).not_to have_content('Anne Blast')
+    expect(page).to have_no_content('Anne Blast')
   end
 
   def and_i_expect_the_relevant_recruitment_cycle_tags_to_be_visible
@@ -264,10 +264,10 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def then_only_rejected_applications_should_be_visible
     expect(page).to have_css('.app-application-cards', text: 'Rejected')
-    expect(page).not_to have_css('.app-application-cards', text: 'Offer')
-    expect(page).not_to have_css('.app-application-cards', text: 'Application withdrawn')
-    expect(page).not_to have_css('.app-application-cards', text: 'Declined')
-    expect(page).not_to have_css('.app-application-cards', text: 'Offer withdrawn')
+    expect(page).to have_no_css('.app-application-cards', text: 'Offer')
+    expect(page).to have_no_css('.app-application-cards', text: 'Application withdrawn')
+    expect(page).to have_no_css('.app-application-cards', text: 'Declined')
+    expect(page).to have_no_css('.app-application-cards', text: 'Offer withdrawn')
   end
 
   def and_the_rejected_tickbox_should_still_be_checked
@@ -295,8 +295,8 @@ RSpec.feature 'Providers should be able to filter applications' do
   def then_only_rejected_and_offered_applications_should_be_visible
     expect(page).to have_css('.app-application-cards', text: 'Rejected')
     expect(page).to have_css('.app-application-cards', text: 'Offer')
-    expect(page).not_to have_css('.app-application-cards', text: 'Application withdrawn')
-    expect(page).not_to have_css('.app-application-cards', text: 'Declined')
+    expect(page).to have_no_css('.app-application-cards', text: 'Application withdrawn')
+    expect(page).to have_no_css('.app-application-cards', text: 'Declined')
   end
 
   def when_i_clear_the_filters
@@ -324,7 +324,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   def then_i_only_see_applications_for_a_given_provider
     expect(page).to have_css('.app-application-cards', text: 'Hoth Teacher Training')
     expect(page).to have_css('.app-application-cards', text: 'Caladan University')
-    expect(page).not_to have_css('.app-application-cards', text: 'University of Arrakis')
+    expect(page).to have_no_css('.app-application-cards', text: 'University of Arrakis')
   end
 
   def and_i_filter_by_accredited_provider
@@ -335,12 +335,12 @@ RSpec.feature 'Providers should be able to filter applications' do
   def then_i_only_see_applications_for_a_given_accredited_provider
     expect(page).to have_content('Adam Jones')
     expect(page).to have_content('Tom Jones')
-    expect(page).not_to have_content('Jim James')
+    expect(page).to have_no_content('Jim James')
   end
 
   def then_i_expect_the_relevant_accredited_provider_tags_to_be_visible
     expect(page).to have_css('.moj-filter-tags', text: 'Wimleydown University')
-    expect(page).not_to have_css('.moj-filter-tags', text: 'College of Dumbervale')
+    expect(page).to have_no_css('.moj-filter-tags', text: 'College of Dumbervale')
   end
 
   def then_i_expect_the_relevant_provider_tags_to_be_visible
@@ -353,7 +353,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_expect_that_tag_not_to_be_visible
-    expect(page).not_to have_css('.moj-filter-tags', text: 'Hoth Teacher Training')
+    expect(page).to have_no_css('.moj-filter-tags', text: 'Hoth Teacher Training')
     expect(page).to have_css('.moj-filter-tags', text: 'Caladan University')
   end
 

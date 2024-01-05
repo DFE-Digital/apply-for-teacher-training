@@ -98,10 +98,10 @@ RSpec.feature 'Entering their work history' do
   end
 
   def then_i_see_the_start_and_end_date_filled_for_adding_another_job_that_covers_the_last_2_months
-    expect(page).to have_selector("input[value='#{3.months.ago.month}']")
-    expect(page).to have_selector("input[value='#{3.months.ago.year}']")
-    expect(page).to have_selector("input[value='#{Date.current.month}']")
-    expect(page).to have_selector("input[value='#{Date.current.year}']")
+    expect(page).to have_css("input[value='#{3.months.ago.month}']")
+    expect(page).to have_css("input[value='#{3.months.ago.year}']")
+    expect(page).to have_css("input[value='#{Date.current.month}']")
+    expect(page).to have_css("input[value='#{Date.current.year}']")
   end
 
   def given_i_am_on_review_work_history_page
@@ -131,6 +131,6 @@ RSpec.feature 'Entering their work history' do
   end
 
   def and_i_should_not_see_my_previous_break_entry
-    expect(page).not_to have_content('Painting is tiring.')
+    expect(page).to have_no_content('Painting is tiring.')
   end
 end

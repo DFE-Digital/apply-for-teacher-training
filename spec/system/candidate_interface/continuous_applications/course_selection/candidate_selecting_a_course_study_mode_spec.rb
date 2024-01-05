@@ -83,7 +83,7 @@ RSpec.feature 'Selecting a study mode', :continuous_applications do
       expect(radios.count).to eq 2
       expect(page).to have_text('Site 1')
       expect(page).to have_text('Site 2')
-      expect(page).not_to have_text('Site 3')
+      expect(page).to have_no_text('Site 3')
     end
   end
 

@@ -76,6 +76,6 @@ RSpec.feature 'Organisation settings' do
   end
 
   def and_i_cannot_see_a_link_to_manage_organisation_permissions_for_the_second_provider
-    expect(page).not_to have_content("Organisation permissions #{@second_provider.name}")
+    expect(page).to have_no_content("Organisation permissions #{@second_provider.name}")
   end
 end

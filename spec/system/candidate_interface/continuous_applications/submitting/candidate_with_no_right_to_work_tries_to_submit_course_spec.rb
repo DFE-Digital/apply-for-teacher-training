@@ -149,8 +149,8 @@ RSpec.feature 'Candidate with no right to work or study', :continuous_applicatio
   end
 
   def then_i_should_not_see_an_error_message_that_the_course_does_not_sponsor_visa
-    expect(page).not_to have_content('Visa sponsorship is not available for this course.')
-    expect(page).not_to have_content('Find a course that has visa sponsorship')
+    expect(page).to have_no_content('Visa sponsorship is not available for this course.')
+    expect(page).to have_no_content('Find a course that has visa sponsorship')
   end
 
   def and_i_submit_the_application

@@ -63,7 +63,7 @@ RSpec.feature 'Deleting references' do
   end
 
   def and_i_should_not_see_the_deleted_reference_details
-    expect(page).not_to have_content 'Dumbledore'
+    expect(page).to have_no_content 'Dumbledore'
   end
 
   def and_i_should_see_my_zendesk_ticket_in_the_audit_log

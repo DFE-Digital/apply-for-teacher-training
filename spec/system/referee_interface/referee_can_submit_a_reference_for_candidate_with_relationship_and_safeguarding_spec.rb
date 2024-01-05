@@ -293,7 +293,7 @@ RSpec.feature 'Referee can submit reference', :with_audited do
 
   def then_i_see_the_thank_you_page
     expect(page).to have_content('Thank you')
-    expect(page).not_to have_content('You do not need to give a reference anymore.')
+    expect(page).to have_no_content('You do not need to give a reference anymore.')
   end
 
   def and_i_am_told_i_will_be_contacted

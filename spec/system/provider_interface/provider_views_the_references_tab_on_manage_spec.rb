@@ -94,7 +94,7 @@ RSpec.feature 'Provider views an application in new cycle' do
   end
 
   def then_i_see_the_reference_received_section
-    expect(page).not_to have_content pre_offer_message
+    expect(page).to have_no_content pre_offer_message
     expect(page).to have_content 'Requested references'
     expect(page).to have_content 'The candidate has requested 2 references.'
     expect(page).to have_content @my_provider_choice.application_form.application_references.creation_order.first.feedback

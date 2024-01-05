@@ -56,15 +56,15 @@ RSpec.feature 'Candidate viewing Science GCSE', :continuous_applications do
   end
 
   def then_i_do_not_see_a_science_gcse_validation_error
-    expect(page).not_to have_content('To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent.')
+    expect(page).to have_no_content('To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent.')
   end
 
   def then_i_dont_see_science_gcse
-    expect(page).not_to have_content(t('sections.science_gcse'))
+    expect(page).to have_no_content(t('sections.science_gcse'))
   end
 
   def then_i_dont_see_science_gcse_is_incomplete_below_the_section
-    expect(page).not_to have_content(t('review_application.science_gcse.incomplete'))
+    expect(page).to have_no_content(t('review_application.science_gcse.incomplete'))
   end
 
   def choose_a_primary_course
@@ -83,7 +83,7 @@ RSpec.feature 'Candidate viewing Science GCSE', :continuous_applications do
   end
 
   def then_i_dont_see_a_science_gcse_validation_error
-    expect(page).not_to have_content(t('activemodel.errors.models.candidate_interface/continuous_applications/application_choice_submission.attributes.application_choice.incomplete_primary_course_details', link_to_science: 'Add your science'))
+    expect(page).to have_no_content(t('activemodel.errors.models.candidate_interface/continuous_applications/application_choice_submission.attributes.application_choice.incomplete_primary_course_details', link_to_science: 'Add your science'))
   end
 
   def when_i_choose_a_primary_course

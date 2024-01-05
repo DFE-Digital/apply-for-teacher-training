@@ -132,6 +132,6 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def then_i_see_that_the_ske_condition_has_been_removed
-    expect(page).not_to have_content('Subject knowledge enhancement course')
+    expect(page).to have_no_content('Subject knowledge enhancement course')
   end
 end

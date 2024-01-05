@@ -152,7 +152,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   end
 
   def and_i_do_not_see_the_set_up_interview_button
-    expect(page).not_to have_button 'Set up interview'
+    expect(page).to have_no_button 'Set up interview'
   end
 
   def then_i_navigate_back_to_the_interviews_tab
@@ -261,7 +261,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
 
   def and_the_interview_tab_is_not_available
     within '.app-tab-navigation__list' do
-      expect(page).not_to have_content('Interviews')
+      expect(page).to have_no_content('Interviews')
     end
   end
 end

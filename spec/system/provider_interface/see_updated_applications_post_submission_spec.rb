@@ -48,7 +48,7 @@ RSpec.feature 'See updated applications post-submission' do
 
   def then_the_distantly_updated_candidate_card_has_no_updated_notice
     within("##{dom_id(@distantly_updated)}") do
-      expect(page).not_to have_content('updated on ')
+      expect(page).to have_no_content('updated on ')
     end
   end
 
@@ -111,7 +111,7 @@ RSpec.feature 'See updated applications post-submission' do
   end
 
   def then_i_should_not_see_the_updated_recently_notification
-    expect(page).not_to have_content 'View the timeline for their updates'
+    expect(page).to have_no_content 'View the timeline for their updates'
   end
 
   def and_i_visit_the_distantly_updated_application

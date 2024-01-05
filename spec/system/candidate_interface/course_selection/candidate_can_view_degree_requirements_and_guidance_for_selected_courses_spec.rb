@@ -94,15 +94,15 @@ RSpec.feature 'Viewing course choices' do
     within "#course-choice-#{@choice2.id}" do
       expect(page).to have_content('Degree requirements')
       expect(page).to have_content('2:2 degree or higher (or equivalent)')
-      expect(page).not_to have_content('You said you have a 2:2 degree.')
-      expect(page).not_to have_content("You can:\nfind a course that has a lower degree requirement contact the provider to see if they will still consider your application")
+      expect(page).to have_no_content('You said you have a 2:2 degree.')
+      expect(page).to have_no_content("You can:\nfind a course that has a lower degree requirement contact the provider to see if they will still consider your application")
     end
 
     within "#course-choice-#{@choice3.id}" do
       expect(page).to have_content('Degree requirements')
       expect(page).to have_content('Third-class degree or higher (or equivalent)')
-      expect(page).not_to have_content('You said you have a 2:2 degree.')
-      expect(page).not_to have_content("You can:\nfind a course that has a lower degree requirement contact the provider to see if they will still consider your application")
+      expect(page).to have_no_content('You said you have a 2:2 degree.')
+      expect(page).to have_no_content("You can:\nfind a course that has a lower degree requirement contact the provider to see if they will still consider your application")
     end
   end
 

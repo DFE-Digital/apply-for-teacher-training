@@ -68,7 +68,7 @@ RSpec.feature 'Selecting a course', :continuous_applications do
   end
 
   def and_i_see_that_i_can_apply_to_a_different_provider
-    expect(page).not_to have_content('apply to a different course offered by Gorse SCITT')
+    expect(page).to have_no_content('apply to a different course offered by Gorse SCITT')
     expect(page).to have_content('You can apply to a different training provider.')
   end
 

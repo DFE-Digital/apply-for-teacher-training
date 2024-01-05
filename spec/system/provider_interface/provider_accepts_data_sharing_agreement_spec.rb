@@ -113,10 +113,10 @@ RSpec.feature 'Accept data sharing agreement' do
 
   def and_i_cannot_navigate_to_pages_i_do_not_have_access_to
     expect(page).to have_link 'Sign out'
-    expect(page).not_to have_link 'Organisations'
-    expect(page).not_to have_link 'Users'
-    expect(page).not_to have_link 'Account'
-    expect(page).not_to have_link 'Applications'
+    expect(page).to have_no_link 'Organisations'
+    expect(page).to have_no_link 'Users'
+    expect(page).to have_no_link 'Account'
+    expect(page).to have_no_link 'Applications'
   end
 
   def and_i_can_proceed_to_set_up_organisation_permissions

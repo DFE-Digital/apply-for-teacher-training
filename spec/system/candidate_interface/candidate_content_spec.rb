@@ -45,7 +45,7 @@ RSpec.feature 'Candidate content' do
   end
 
   def and_i_can_no_longer_see_the_cookie_banner
-    expect(page).not_to have_content('We use cookies to collect information about how you use Apply for teacher training')
+    expect(page).to have_no_content('We use cookies to collect information about how you use Apply for teacher training')
   end
 
   def then_i_can_see_the_cookies_page

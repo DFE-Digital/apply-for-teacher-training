@@ -30,7 +30,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupCheckComponent do
     let(:relationships) { create_list(:provider_relationship_permissions, 2, training_provider: current_provider_user.providers.first) }
 
     it 'does not render the provider name' do
-      expect(page).not_to have_css('h2.govuk-heading-m')
+      expect(page).to have_no_css('h2.govuk-heading-m')
     end
 
     it 'renders the summary card headings with an h2 tag' do
