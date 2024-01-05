@@ -14,8 +14,8 @@ RSpec.describe 'Incomplete details including primary course form details', time:
       include GovukLinkHelper
     end.new
   end
-  let(:course) { create(:course, :open_on_apply, level: 'primary') }
-  let(:course_option) { create(:course_option, :open_on_apply) }
+  let(:course) { create(:course, :open_on_apply, :primary) }
+  let(:course_option) { create(:course_option, :open_on_apply, course:) }
   let(:application_form) { create(:application_form, :completed) }
   let(:application_choice) { create(:application_choice, :unsubmitted, application_form:, course_option:) }
 
@@ -29,9 +29,21 @@ RSpec.describe 'Incomplete details including primary course form details', time:
     let(:application_form) { create(:application_form, :completed, degrees_completed: false, science_gcse_completed: false) }
     let(:application_choice) { create(:application_choice, :unsubmitted, course_option:, application_form:) }
 
-    it 'adds error to application choice' do
-      expect(application_choice_submission).not_to be_valid
-      expect(application_choice_submission.errors[:application_choice]).to include(message)
+    context 'when primary courses' do
+      it 'adds error to application choice' do
+        expect(application_choice_submission).not_to be_valid
+        expect(application_choice_submission.errors[:application_choice]).to include(message)
+      end
+    end
+
+    context 'when secondary courses' do
+      let(:course) { create(:course, :open_on_apply, :secondary) }
+
+      it 'does not add an error to incomplete science GCSE' do
+        application_choice_submission.valid?
+
+        expect(application_choice_submission.errors.map(&:type)).to eq([:incomplete_details])
+      end
     end
   end
 

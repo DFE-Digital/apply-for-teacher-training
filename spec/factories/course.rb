@@ -36,6 +36,14 @@ FactoryBot.define do
       accredited_provider { create(:provider) }
     end
 
+    trait :primary do
+      level { 'primary' }
+    end
+
+    trait :secondary do
+      level { 'secondary' }
+    end
+
     trait :with_provider_relationship_permissions do
       with_accredited_provider
 
