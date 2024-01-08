@@ -380,19 +380,6 @@ namespace :candidate_interface, path: '/candidate' do
     end
 
     scope '/courses' do
-      get '/choose' => 'course_choices/course_decision#ask', as: :course_choices_choose
-      post '/choose' => 'course_choices/course_decision#decide'
-      get '/find-a-course' => 'course_choices/course_decision#go_to_find', as: :go_to_find
-      get '/find_a_course', to: redirect('/candidate/application/courses/find-a-course')
-
-      get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider
-      post '/provider' => 'course_choices/provider_selection#create'
-
-      get '/confirm-selection/:course_id' => 'find_course_selections#confirm_selection', as: :course_confirm_selection
-      get '/confirm_selection/:course_id', to: redirect('/candidate/application/courses/confirm-selection/%{course_id}')
-      post '/complete-selection/:course_id' => 'find_course_selections#complete_selection', as: :course_complete_selection
-      get '/complete_selection/:course_id', to: redirect('/candidate/application/courses/complete-selection/%{course_id}')
-
       get '/review' => 'application_choices#review', as: :course_choices_review
       patch '/review' => 'application_choices#complete', as: :course_choices_complete
 
