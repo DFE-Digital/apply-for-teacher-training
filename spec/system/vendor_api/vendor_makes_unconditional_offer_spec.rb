@@ -49,9 +49,9 @@ RSpec.feature 'Vendor makes unconditional offer', time: CycleTimetableHelper.mid
     visit candidate_interface_offer_path(@application_choice)
 
     choose 'Accept offer'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
 
-    click_button 'Accept offer'
+    click_link_or_button 'Accept offer'
   end
 
   def then_the_candidate_sees_that_they_have_accepted_the_offer

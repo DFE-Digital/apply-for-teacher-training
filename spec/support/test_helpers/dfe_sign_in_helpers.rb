@@ -15,14 +15,14 @@ module DfESignInHelpers
   def provider_signs_in_using_dfe_sign_in
     visit provider_interface_path
     find("a[href='#{provider_interface_sign_in_path}']", match: :first).click
-    click_button 'Sign in using DfE Sign-in'
+    click_link_or_button 'Sign in using DfE Sign-in'
   end
 
   alias and_i_sign_in_to_the_provider_interface provider_signs_in_using_dfe_sign_in
 
   def support_user_signs_in_using_dfe_sign_in
     visit support_interface_sign_in_path
-    click_button 'Sign in using DfE Sign-in'
+    click_link_or_button 'Sign in using DfE Sign-in'
   end
 
   def sign_in_as_support_user
@@ -105,12 +105,12 @@ module DfESignInHelpers
   end
 
   def sign_in_as(email_address:, dfe_sign_in_uid:)
-    click_link('Sign out') if has_link?('Sign out', wait: 0)
+    click_link_or_button('Sign out') if has_link?('Sign out', wait: 0)
     browser = Capybara.current_session.driver.browser
     browser.clear_cookies
     provider_exists_in_dfe_sign_in(email_address:, dfe_sign_in_uid:)
     visit provider_interface_applications_path
-    click_button 'Sign in using DfE Sign-in'
+    click_link_or_button 'Sign in using DfE Sign-in'
     visit provider_interface_path
   end
 end

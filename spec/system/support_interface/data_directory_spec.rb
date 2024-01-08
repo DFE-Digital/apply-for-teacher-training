@@ -55,7 +55,7 @@ RSpec.feature 'Data export', sidekiq: false do
   alias_method :when_i_go_back_to_the_data_directory_page, :when_i_visit_the_data_directory_page
 
   def and_i_click_on_view_export_information
-    click_link 'Active provider user permissions'
+    click_link_or_button 'Active provider user permissions'
   end
 
   def then_i_see_the_export_documentation
@@ -66,7 +66,7 @@ RSpec.feature 'Data export', sidekiq: false do
 
   def when_i_click_the_generate_new_export_button
     Sidekiq::Worker.clear_all
-    click_button 'Generate new export'
+    click_link_or_button 'Generate new export'
   end
 
   def and_i_see_that_the_export_has_started
@@ -83,7 +83,7 @@ RSpec.feature 'Data export', sidekiq: false do
   end
 
   def and_i_click_the_download_link
-    click_link 'Download export'
+    click_link_or_button 'Download export'
   end
 
   def then_the_export_is_downloaded
@@ -92,11 +92,11 @@ RSpec.feature 'Data export', sidekiq: false do
 
   def when_i_go_back_to_the_export_page
     visit @url
-    click_link 'Active provider user permissions'
+    click_link_or_button 'Active provider user permissions'
   end
 
   def and_i_click_on_the_export_history
-    click_link 'History'
+    click_link_or_button 'History'
   end
 
   def then_i_see_a_record_of_my_completed_export
@@ -106,7 +106,7 @@ RSpec.feature 'Data export', sidekiq: false do
   end
 
   def and_i_click_on_the_full_export_history
-    click_link 'a history of all requested exports'
+    click_link_or_button 'a history of all requested exports'
   end
 
   def then_i_see_a_list_of_all_exports

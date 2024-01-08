@@ -16,11 +16,11 @@ module OfferStepsHelper
   end
 
   def and_i_click_an_application_choice_awaiting_decision
-    click_link application_choice.application_form.full_name
+    click_link_or_button application_choice.application_form.full_name
   end
 
   def and_i_click_on_make_decision
-    click_link 'Make decision'
+    click_link_or_button 'Make decision'
   end
 
   def then_i_see_the_decision_page
@@ -43,19 +43,19 @@ module OfferStepsHelper
   end
 
   def when_i_add_further_conditions
-    click_button 'Add another condition'
+    click_link_or_button 'Add another condition'
     fill_in('provider_interface_offer_wizard[further_conditions][0][text]', with: 'A* on Maths A Level')
     expect(page.current_url).to include('#provider-interface-offer-wizard-further-conditions-0-text-field')
   end
 
   def and_i_add_and_remove_another_condition
-    click_button 'Add another condition'
+    click_link_or_button 'Add another condition'
     fill_in('provider_interface_offer_wizard[further_conditions][1][text]', with: 'A condition that will be removed')
-    click_button 'Remove condition 2'
+    click_link_or_button 'Remove condition 2'
   end
 
   def and_i_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_the_review_page_is_loaded
@@ -109,7 +109,7 @@ module OfferStepsHelper
     @selected_course_option = @provider_available_course_option
 
     within(all('.govuk-summary-list__row')[1]) do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
@@ -158,7 +158,7 @@ module OfferStepsHelper
     @selected_course_option = @selected_provider_available_course_option
 
     within(all('.govuk-summary-list__row')[0]) do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
@@ -177,7 +177,7 @@ module OfferStepsHelper
   end
 
   def when_i_send_the_offer
-    click_button 'Send offer'
+    click_link_or_button 'Send offer'
   end
 
   def then_i_see_that_the_offer_was_successfuly_made

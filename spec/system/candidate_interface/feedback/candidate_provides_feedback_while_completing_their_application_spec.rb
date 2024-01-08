@@ -27,11 +27,11 @@ RSpec.feature 'Candidate provides feedback during the application process' do
   end
 
   def and_i_click_on_the_references_section
-    click_link 'References to be requested if you accept an offer'
+    click_link_or_button 'References to be requested if you accept an offer'
   end
 
   def and_i_click_there_is_an_issue_with_the_section
-    click_link t('application_feedback.feedback_link')
+    click_link_or_button t('application_feedback.feedback_link')
   end
 
   def then_i_see_the_application_feedback_page
@@ -45,7 +45,7 @@ RSpec.feature 'Candidate provides feedback during the application process' do
     )
     choose t('application_feedback.consent_to_be_contacted.yes', email_address: @candidate.email_address)
 
-    click_button t('application_feedback.submit')
+    click_link_or_button t('application_feedback.submit')
   end
 
   def then_i_see_the_thank_you_page

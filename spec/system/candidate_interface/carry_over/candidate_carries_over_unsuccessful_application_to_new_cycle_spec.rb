@@ -35,7 +35,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def and_i_click_on_work_history
-    click_link 'Work history'
+    click_link_or_button 'Work history'
   end
 
   def then_i_see_the_add_another_job_button
@@ -66,7 +66,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def and_i_click_go_to_my_application_form
-    click_link 'Go to your application form'
+    click_link_or_button 'Go to your application form'
   end
 
   def then_i_see_the_carry_over_inset_text
@@ -75,19 +75,19 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def when_i_click_apply_again
-    click_button 'Apply again'
+    click_link_or_button 'Apply again'
   end
 
   def then_i_can_see_application_details
     expect(page).to have_content('Personal information Completed')
-    click_link 'Personal information'
+    click_link_or_button 'Personal information'
     expect(page).to have_content(@application_form.full_name)
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_can_see_that_no_courses_are_selected_and_i_cannot_add_any_yet
     expect(page).to have_content "You can find courses from 9am on #{CycleTimetable.find_reopens.to_fs(:govuk_date)}. You can keep making changes to your application until then."
-    expect(page).not_to have_link 'Course choice'
+    expect(page).to have_no_link 'Course choice'
   end
 
   def when_the_next_cycle_opens
@@ -97,7 +97,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   def then_i_can_add_course_choices
     expect(page).to have_content('Choose your courses Incomplete')
     expect(page).to have_content 'You can apply for up to 4 courses'
-    click_link 'Choose your courses'
+    click_link_or_button 'Choose your courses'
   end
 
   alias_method :and_the_apply2_deadline_passes, :when_the_apply2_deadline_passes

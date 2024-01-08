@@ -46,7 +46,7 @@ RSpec.feature 'Entering "Personal statement"' do
   end
 
   def when_i_click_on_personal_statement
-    click_link 'Your personal statement'
+    click_link_or_button 'Your personal statement'
   end
 
   def then_i_should_see_a_validation_error
@@ -84,7 +84,7 @@ RSpec.feature 'Entering "Personal statement"' do
   end
 
   def and_i_submit_the_form
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
   alias_method :when_i_try_to_continue, :and_i_submit_the_form
 
@@ -102,7 +102,7 @@ RSpec.feature 'Entering "Personal statement"' do
   end
 
   def when_i_click_to_edit_my_answer
-    click_link('Edit your personal statement')
+    click_link_or_button('Edit your personal statement')
   end
 
   def then_i_can_check_my_revised_answers

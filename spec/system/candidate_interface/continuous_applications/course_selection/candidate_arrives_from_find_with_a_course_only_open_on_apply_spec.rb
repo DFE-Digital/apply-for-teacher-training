@@ -50,7 +50,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course params', :co
 
   def when_i_confirm_the_course
     choose 'Yes'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_should_be_redirected_to_the_course_review_path

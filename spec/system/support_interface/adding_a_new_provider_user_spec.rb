@@ -53,7 +53,7 @@ RSpec.feature 'Managing provider users v2' do
   def then_i_see_providers_with_courses
     expect(page).to have_content 'Example provider'
     expect(page).to have_content 'Another provider'
-    expect(page).not_to have_content 'Not shown provider'
+    expect(page).to have_no_content 'Not shown provider'
   end
 
   def when_i_visit_the_support_console
@@ -61,24 +61,24 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def and_i_navigate_to_provider_users_page
-    click_link 'Providers'
+    click_link_or_button 'Providers'
   end
 
   def and_i_filter_providers_by_having_courses
     check 'With courses'
-    click_button 'Apply filters'
+    click_link_or_button 'Apply filters'
   end
 
   def and_i_click_add_user
-    click_link 'Add user'
+    click_link_or_button 'Add user'
   end
 
   def when_i_click_on_a_provider
-    click_link 'Example provider (ABC)'
+    click_link_or_button 'Example provider (ABC)'
   end
 
   def and_i_click_on_users
-    click_link 'Users'
+    click_link_or_button 'Users'
   end
 
   def and_i_submit_the_form
@@ -110,7 +110,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def when_i_submit_the_form
-    click_button 'Add user'
+    click_link_or_button 'Add user'
   end
 
   def then_i_see_blank_validation_errors
@@ -142,7 +142,7 @@ RSpec.feature 'Managing provider users v2' do
 
     fill_in :q, with: 'harrison'
     check 'Never signed in'
-    click_button 'Apply filters'
+    click_link_or_button 'Apply filters'
   end
 
   def and_i_should_see_the_user_i_created
@@ -152,7 +152,7 @@ RSpec.feature 'Managing provider users v2' do
   def when_i_filter_the_list_of_provider_users_by_id
     @new_user = ProviderUser.find_by(email_address: 'harrison@example.com')
     fill_in :q, with: @new_user.id
-    click_button 'Apply filters'
+    click_link_or_button 'Apply filters'
   end
 
   def and_the_user_should_be_sent_a_welcome_email

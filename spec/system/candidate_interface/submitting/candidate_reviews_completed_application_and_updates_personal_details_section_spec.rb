@@ -10,7 +10,7 @@ RSpec.feature 'Candidate is redirected correctly', :continuous_applications do
     then_i_should_see_all_sections_are_complete
 
     # name
-    click_link 'Personal information'
+    click_link_or_button 'Personal information'
     when_i_click_change_name
     then_i_should_see_the_personal_details_form
 
@@ -45,7 +45,7 @@ RSpec.feature 'Candidate is redirected correctly', :continuous_applications do
 
     # phone number
     when_i_click_back
-    click_link 'Contact information'
+    click_link_or_button 'Contact information'
     when_i_click_change_phone_number
     then_i_should_see_the_phone_number_form
 
@@ -82,7 +82,7 @@ RSpec.feature 'Candidate is redirected correctly', :continuous_applications do
 
   def then_i_should_see_all_sections_are_complete
     application_form_sections.each do |section|
-      expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
+      expect(page).to have_no_css "[data-qa='incomplete-#{section}']"
     end
   end
 
@@ -92,31 +92,31 @@ RSpec.feature 'Candidate is redirected correctly', :continuous_applications do
 
   def when_i_click_change_name
     within('[data-qa="personal-details-name"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_date_of_birth
     within('[data-qa="personal-details-dob"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_nationality
     within('[data-qa="personal-details-nationality"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_phone_number
     within('[data-qa="contact-details-phone-number"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_address
     within('[data-qa="contact-details-address"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
@@ -137,7 +137,7 @@ RSpec.feature 'Candidate is redirected correctly', :continuous_applications do
   end
 
   def when_i_click_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_should_be_redirected_to_the_personal_information_review_page
@@ -151,35 +151,35 @@ RSpec.feature 'Candidate is redirected correctly', :continuous_applications do
   def when_i_update_my_name
     when_i_click_change_name
     fill_in 'First name', with: 'Ruddeger'
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def when_i_update_my_date_of_birth
     when_i_click_change_date_of_birth
     fill_in 'Day', with: '2'
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def when_i_update_my_nationality
     when_i_click_change_nationality
 
     check 'Irish'
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def when_i_update_my_phone_number
     when_i_click_change_phone_number
 
     fill_in 'Phone number', with: '0736519012'
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def when_i_update_my_address
     when_i_click_change_address
 
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
     fill_in 'Town or city', with: 'Auckland'
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def and_i_should_see_my_updated_name

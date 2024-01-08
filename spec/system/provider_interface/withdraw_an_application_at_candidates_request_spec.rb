@@ -71,7 +71,7 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
   end
 
   def and_i_click_a_link_to_withdraw_at_candidates_request
-    click_link 'Withdraw at candidate’s request'
+    click_link_or_button 'Withdraw at candidate’s request'
   end
 
   def then_i_see_the_interview_cancellation_explanation
@@ -81,7 +81,7 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
   def when_i_confirm_the_withdrawal
     expect(page).to have_content('Confirm that the candidate wants to withdraw their application')
 
-    click_button 'Withdraw application'
+    click_link_or_button 'Withdraw application'
   end
 
   def then_i_see_a_message_confirming_that_the_application_has_been_withdrawn
@@ -91,7 +91,7 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
   alias_method :then_i_get_redirected_to_the_application_choice, :then_i_see_a_message_confirming_that_the_application_has_been_withdrawn
 
   def and_i_can_no_longer_see_the_withdraw_at_candidates_request_link
-    expect(page).not_to have_link 'Withdraw at candidate’s request'
+    expect(page).to have_no_link 'Withdraw at candidate’s request'
   end
 
   def and_the_candidate_receives_an_email_about_the_withdrawal

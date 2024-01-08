@@ -27,8 +27,8 @@ RSpec.feature 'Candidate attempts to submit their application without a valid ad
   end
 
   def when_i_submit_my_application
-    click_link 'Check and submit your application'
-    click_link t('continue')
+    click_link_or_button 'Check and submit your application'
+    click_link_or_button t('continue')
   end
 
   def then_i_cannot_proceed
@@ -37,23 +37,23 @@ RSpec.feature 'Candidate attempts to submit their application without a valid ad
   end
 
   def when_i_complete_my_contact_details
-    click_link 'Complete your contact details'
-    click_link 'Enter address'
+    click_link_or_button 'Complete your contact details'
+    click_link_or_button 'Enter address'
 
     choose 'In the UK'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     find(:css, "[autocomplete='address-line1']").fill_in with: '42 Much Wow Street'
     fill_in t('application_form.contact_details.address_line3.label.uk'), with: 'London'
     fill_in t('application_form.contact_details.postcode.label.uk'), with: 'SW1P 3BT'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     choose t('application_form.completed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_can_proceed
-    click_link 'Check and submit your application'
-    click_link t('continue')
+    click_link_or_button 'Check and submit your application'
+    click_link_or_button t('continue')
 
     expect(page).to have_content('Send application to training providers')
   end

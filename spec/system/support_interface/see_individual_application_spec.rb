@@ -67,7 +67,7 @@ RSpec.feature 'See an application' do
   end
 
   def when_i_click_on_a_completed_application
-    click_link @completed_application.full_name
+    click_link_or_button @completed_application.full_name
   end
 
   def then_i_should_be_on_the_application_view_page
@@ -109,11 +109,11 @@ RSpec.feature 'See an application' do
   end
 
   def when_i_return_to_the_support_page
-    click_link 'Candidates', match: :prefer_exact
+    click_link_or_button 'Candidates', match: :prefer_exact
   end
 
   def and_i_click_on_an_unsubmitted_application
-    click_link @unsubmitted_application.candidate.email_address
+    click_link_or_button @unsubmitted_application.candidate.email_address
   end
 
   def then_i_should_see_a_summary_of_the_unsubmitted_application
@@ -125,7 +125,7 @@ RSpec.feature 'See an application' do
   end
 
   def and_i_click_on_an_application_with_a_reference
-    click_link @application_with_reference.full_name
+    click_link_or_button @application_with_reference.full_name
   end
 
   def then_i_should_see_the_reference_from_first_referee
@@ -138,8 +138,8 @@ RSpec.feature 'See an application' do
 
   def and_i_should_not_see_reference_from_second_referee
     within page.all('[data-qa="reference"]').to_a.second do
-      expect(page).not_to have_content('This is my feedback')
-      expect(page).not_to have_content('They can be contacted')
+      expect(page).to have_no_content('This is my feedback')
+      expect(page).to have_no_content('They can be contacted')
     end
   end
 end

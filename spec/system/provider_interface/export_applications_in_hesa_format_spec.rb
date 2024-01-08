@@ -47,7 +47,7 @@ RSpec.feature 'Export applications in HESA format' do
   end
 
   def and_i_click_export_hesa_data
-    click_link 'Export data for Higher Education Statistics Agency (HESA)'
+    click_link_or_button 'Export data for Higher Education Statistics Agency (HESA)'
   end
 
   def then_i_can_see_links_to_the_report_for_the_current_and_previous_cycles
@@ -56,7 +56,7 @@ RSpec.feature 'Export applications in HESA format' do
   end
 
   def and_i_can_download_application_data_as_csv_for_the_current_recruitment_cycle
-    click_link "Export data for #{RecruitmentCycle.previous_year} to #{RecruitmentCycle.current_year} (CSV)"
+    click_link_or_button "Export data for #{RecruitmentCycle.previous_year} to #{RecruitmentCycle.current_year} (CSV)"
 
     csv = CSV.parse(page.body, headers: true)
     expect(csv.headers).to eq(%w[id status first_name last_name date_of_birth nationality
@@ -72,7 +72,7 @@ RSpec.feature 'Export applications in HESA format' do
 
   def and_i_can_download_application_data_as_csv_for_the_previous_recruitment_cycle
     visit provider_interface_reports_hesa_exports_path
-    click_link "Export data for #{RecruitmentCycle.previous_year - 1} to #{RecruitmentCycle.previous_year} (CSV)"
+    click_link_or_button "Export data for #{RecruitmentCycle.previous_year - 1} to #{RecruitmentCycle.previous_year} (CSV)"
 
     csv = CSV.parse(page.body, headers: true)
     expect(csv.headers).to eq(%w[id status first_name last_name date_of_birth nationality

@@ -49,11 +49,11 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
   end
 
   def and_i_click_on_your_details
-    click_link 'Your details'
+    click_link_or_button 'Your details'
   end
 
   def then_i_do_not_see_the_incomplete_text
-    expect(page).not_to have_text 'Complete these sections so that you can start applying to courses. Your details will be shared with the training provider when you apply.'
+    expect(page).to have_no_text 'Complete these sections so that you can start applying to courses. Your details will be shared with the training provider when you apply.'
   end
 
   def then_i_see_the_incomplete_text
@@ -101,10 +101,10 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
 
   def mark_section(section:, complete:)
     complete_choice = complete.present? ? 'Yes, I have completed this section' : 'No, I’ll come back to it later'
-    click_link 'Your details'
-    click_link section
+    click_link_or_button 'Your details'
+    click_link_or_button section
     choose(complete_choice)
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def when_i_visit_the_applications_page
@@ -116,11 +116,11 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
   end
 
   def when_i_click_on_your_details
-    click_link 'your details'
+    click_link_or_button 'your details'
   end
 
   def then_i_dont_see_the_incomplete_applications_text
-    expect(page).not_to have_text('You will not be able to submit applications until you have completed your details.')
+    expect(page).to have_no_text('You will not be able to submit applications until you have completed your details.')
   end
 
   def when_i_visit_the_details_page
@@ -134,9 +134,9 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
   end
 
   def then_i_dont_see_the_complete_details_text
-    expect(page).not_to have_text('You can add your applications.')
-    expect(page).not_to have_text('You have completed your details')
-    expect(page).not_to have_text('You can now start applying to courses.')
+    expect(page).to have_no_text('You can add your applications.')
+    expect(page).to have_no_text('You have completed your details')
+    expect(page).to have_no_text('You can now start applying to courses.')
   end
 
   def when_i_add_the_maximum_number_of_choices

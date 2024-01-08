@@ -33,7 +33,7 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
   end
 
   def when_i_click_on_complete_your_equality_and_diversity_questions
-    click_link 'Complete your equality and diversity questions'
+    click_link_or_button 'Complete your equality and diversity questions'
   end
 
   def then_i_should_be_redirected_to_the_sex_page
@@ -53,7 +53,7 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
   end
 
   def when_i_click_on_check_your_answers
-    click_link 'Check and submit your application'
+    click_link_or_button 'Check and submit your application'
   end
 
   def then_i_should_be_redirected_to_the_application_review_page

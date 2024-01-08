@@ -19,8 +19,8 @@ RSpec.feature 'Candidate attempts to submit their application with a removed sit
   end
 
   def when_i_submit_my_application
-    click_link 'Check and submit your application'
-    click_link t('continue')
+    click_link_or_button 'Check and submit your application'
+    click_link_or_button t('continue')
   end
 
   def then_i_cannot_proceed

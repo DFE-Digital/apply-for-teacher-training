@@ -73,7 +73,7 @@ RSpec.feature 'Carry over', skip: 'Update to continuous applications', time: Cyc
   end
 
   def then_i_cannot_submit_my_application
-    expect(page).not_to have_link('Check and submit your application')
+    expect(page).to have_no_link('Check and submit your application')
   end
 
   def and_i_am_redirected_to_the_carry_over_interstitial
@@ -81,11 +81,11 @@ RSpec.feature 'Carry over', skip: 'Update to continuous applications', time: Cyc
   end
 
   def when_i_click_on_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def and_i_click_go_to_my_application_form
-    click_link 'Go to your application form'
+    click_link_or_button 'Go to your application form'
   end
 
   def then_i_see_a_copy_of_my_application
@@ -93,7 +93,7 @@ RSpec.feature 'Carry over', skip: 'Update to continuous applications', time: Cyc
   end
 
   def when_i_view_referees
-    click_link 'References to be requested if you accept an offer'
+    click_link_or_button 'References to be requested if you accept an offer'
   end
 
   def then_i_can_see_the_referees_i_previously_added
@@ -102,7 +102,7 @@ RSpec.feature 'Carry over', skip: 'Update to continuous applications', time: Cyc
   end
 
   def when_i_view_courses
-    click_link 'Back to application'
+    click_link_or_button 'Back to application'
   end
 
   def then_i_can_see_that_i_need_to_select_courses
@@ -111,23 +111,23 @@ RSpec.feature 'Carry over', skip: 'Update to continuous applications', time: Cyc
 
   def and_i_select_a_course
     given_courses_exist
-    click_link 'Choose your course'
+    click_link_or_button 'Choose your course'
 
     choose 'Yes, I know where I want to apply'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     select 'Gorse SCITT (1N1)'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     choose 'Primary (2XT2)'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     expect(page).to have_content('You can add 3 more courses')
   end
 
   def and_i_complete_the_section
     choose t('application_form.completed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_receive_references

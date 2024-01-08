@@ -77,7 +77,7 @@ RSpec.feature 'Referee can submit reference in any application choice states', :
 
   def and_i_select_yes_to_giving_a_reference
     choose 'Yes, I can give them a reference'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_am_asked_to_confirm_my_relationship_with_the_candidate
@@ -85,7 +85,7 @@ RSpec.feature 'Referee can submit reference in any application choice states', :
   end
 
   def when_i_click_on_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_confirm_that_the_described_relationship_is_correct
@@ -105,11 +105,11 @@ RSpec.feature 'Referee can submit reference in any application choice states', :
   end
 
   def and_i_click_on_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_click_on_save
-    click_button t('save')
+    click_link_or_button t('save')
   end
 
   def then_i_see_the_reference_comment_page
@@ -126,11 +126,11 @@ RSpec.feature 'Referee can submit reference in any application choice states', :
   end
 
   def and_i_click_the_submit_reference_button
-    click_button t('referee.review.submit')
+    click_link_or_button t('referee.review.submit')
   end
 
   def and_i_click_the_finish_button
-    click_button t('referee.questionnaire.submit')
+    click_link_or_button t('referee.questionnaire.submit')
   end
 
   def then_i_see_am_told_i_submitted_my_reference
@@ -151,7 +151,7 @@ RSpec.feature 'Referee can submit reference in any application choice states', :
 
   def then_i_see_the_thank_you_page
     expect(page).to have_content('Thank you')
-    expect(page).not_to have_content('You do not need to give a reference anymore.')
+    expect(page).to have_no_content('You do not need to give a reference anymore.')
   end
 
   def and_i_am_told_i_will_be_contacted

@@ -25,7 +25,7 @@ RSpec.feature 'Candidate tries to sign in without an account' do
 
   def and_i_submit_my_email_address
     fill_in t('authentication.sign_up.email_address.label'), with: @email
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_receive_an_email_inviting_me_to_sign_up

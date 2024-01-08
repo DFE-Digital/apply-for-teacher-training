@@ -51,7 +51,7 @@ RSpec.feature 'Editing address' do
   end
 
   def and_i_click_the_change_link_next_to_address
-    click_link('Change address')
+    click_link_or_button('Change address')
   end
 
   def then_i_should_see_the_address_type_page
@@ -60,7 +60,7 @@ RSpec.feature 'Editing address' do
 
   def when_i_select_uk
     choose 'In the UK'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_should_see_the_uk_address_details_form
@@ -69,7 +69,7 @@ RSpec.feature 'Editing address' do
   end
 
   def when_i_submit_the_update_form
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
   alias_method :and_i_submit_the_update_form, :when_i_submit_the_update_form
 
@@ -95,14 +95,14 @@ RSpec.feature 'Editing address' do
   end
 
   def and_i_should_see_my_details_comment_in_the_audit_log
-    click_link 'History'
+    click_link_or_button 'History'
     expect(page).to have_content 'Updated as part of Zen Desk ticket #12345'
   end
 
   def and_i_select_outside_the_uk
     choose 'Outside the UK'
     select('India', from: t('application_form.contact_details.country.label'))
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_should_see_the_international_address_details_form
@@ -129,7 +129,7 @@ RSpec.feature 'Editing address' do
   end
 
   def and_i_should_see_my_international_address_details_comment_in_the_audit_log
-    click_link 'History'
+    click_link_or_button 'History'
     expect(page).to have_content 'Updated as part of Zen Desk ticket #56789'
   end
 end

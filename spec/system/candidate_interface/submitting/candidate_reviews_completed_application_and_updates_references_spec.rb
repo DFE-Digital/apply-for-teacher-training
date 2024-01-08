@@ -53,7 +53,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
 
   def then_i_should_see_all_sections_are_complete
     application_form_sections.each do |section|
-      expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
+      expect(page).to have_no_css "[data-qa='incomplete-#{section}']"
     end
   end
 
@@ -85,17 +85,17 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_on_check_your_answers
-    click_link 'Check and submit your application'
+    click_link_or_button 'Check and submit your application'
   end
 
   def when_i_click_change_references
     within('[data-qa="selected-references"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_back
-    click_link 'Back to application'
+    click_link_or_button 'Back to application'
   end
 
   def then_i_should_be_redirected_to_the_application_review_page
@@ -106,14 +106,14 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
     when_i_click_change_references
     uncheck @second_reference.name
     check @third_reference.name
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def and_i_should_see_my_updated_references
     within('[data-qa="selected-references"]') do
       expect(page).to have_content @first_reference.name
       expect(page).to have_content @third_reference.name
-      expect(page).not_to have_content @second_reference.name
+      expect(page).to have_no_content @second_reference.name
     end
   end
 
@@ -146,11 +146,11 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def and_i_click_save_and_continue
-    click_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def and_i_click_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def reference_link(text)

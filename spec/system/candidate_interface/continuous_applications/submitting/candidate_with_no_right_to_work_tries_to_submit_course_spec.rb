@@ -131,8 +131,8 @@ RSpec.feature 'Candidate with no right to work or study', :continuous_applicatio
 
   def when_i_choose_a_provider
     visit candidate_interface_application_form_path
-    click_link 'Your application'
-    click_link 'Add application'
+    click_link_or_button 'Your application'
+    click_link_or_button 'Add application'
     choose 'Yes, I know where I want to apply'
     and_i_click_continue
     select 'Gorse SCITT (1N1)'
@@ -140,7 +140,7 @@ RSpec.feature 'Candidate with no right to work or study', :continuous_applicatio
   end
 
   def and_i_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_see_an_error_message_that_the_course_does_not_sponsor_visa
@@ -149,8 +149,8 @@ RSpec.feature 'Candidate with no right to work or study', :continuous_applicatio
   end
 
   def then_i_should_not_see_an_error_message_that_the_course_does_not_sponsor_visa
-    expect(page).not_to have_content('Visa sponsorship is not available for this course.')
-    expect(page).not_to have_content('Find a course that has visa sponsorship')
+    expect(page).to have_no_content('Visa sponsorship is not available for this course.')
+    expect(page).to have_no_content('Find a course that has visa sponsorship')
   end
 
   def and_i_submit_the_application
@@ -160,11 +160,11 @@ RSpec.feature 'Candidate with no right to work or study', :continuous_applicatio
   end
 
   def when_i_click_to_review_my_application
-    click_button 'Review application'
+    click_link_or_button 'Review application'
   end
 
   def when_i_click_to_submit_my_application
-    click_button 'Confirm and submit application'
+    click_link_or_button 'Confirm and submit application'
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted

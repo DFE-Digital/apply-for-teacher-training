@@ -32,11 +32,11 @@ RSpec.describe 'Primary Navigation', continuous_applications: false do
   end
 
   def when_i_click_on_personal_information
-    click_link 'Personal information'
+    click_link_or_button 'Personal information'
   end
 
   def when_i_click_on_your_applications
-    click_link 'Your applications'
+    click_link_or_button 'Your applications'
   end
 
   def then_i_should_see_your_details_as_active

@@ -47,7 +47,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
 
   def then_i_should_see_all_sections_are_complete
     application_form_sections.each do |section|
-      expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
+      expect(page).to have_no_css "[data-qa='incomplete-#{section}']"
     end
   end
 
@@ -56,19 +56,19 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_on_check_your_answers
-    click_link 'Check and submit your application'
+    click_link_or_button 'Check and submit your application'
   end
 
   def when_i_click_ask_for_support
     within('[data-qa="adjustments-support-confirmation"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_interview_needs
     summary = first('[data-qa="adjustments-interview-preferences"]')
     within(summary) do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
@@ -85,19 +85,19 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def when_i_update_ask_for_support_status
     when_i_click_ask_for_support
     choose 'No'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_update_interview_needs
     when_i_click_interview_needs
     choose 'No'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_should_see_my_updated_ask_for_support_status

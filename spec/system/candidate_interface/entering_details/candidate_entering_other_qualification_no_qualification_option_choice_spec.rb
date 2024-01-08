@@ -56,7 +56,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_click_on_other_qualifications
-    click_link t('page_titles.other_qualifications')
+    click_link_or_button t('page_titles.other_qualifications')
   end
 
   def then_i_see_the_select_qualification_type_page
@@ -77,12 +77,12 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_i_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
   alias_method :when_i_click_continue, :and_i_click_continue
 
   def and_click_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_choose_other
@@ -109,7 +109,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_i_dont_see_my_no_other_qualification_selected
-    expect(page).not_to have_content('I do not want to add any A levels and other qualifications')
+    expect(page).to have_no_content('I do not want to add any A levels and other qualifications')
   end
 
   def and_see_my_other_uk_qualification_has_the_correct_format
@@ -120,21 +120,21 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_select_add_another_qualification
-    click_link 'Add a qualification'
+    click_link_or_button 'Add a qualification'
   end
 
   def when_i_click_on_delete_my_first_qualification
     within(all('.app-summary-card')[0]) do
-      click_link(t('application_form.other_qualification.delete'))
+      click_link_or_button(t('application_form.other_qualification.delete'))
     end
   end
 
   def and_i_confirm_that_i_want_to_delete_my_additional_qualification
-    click_button t('application_form.other_qualification.confirm_delete')
+    click_link_or_button t('application_form.other_qualification.confirm_delete')
   end
 
   def when_i_click_on_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_mark_this_section_as_completed

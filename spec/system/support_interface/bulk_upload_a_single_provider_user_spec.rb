@@ -74,11 +74,11 @@ RSpec.feature 'bulk upload provider users' do
   end
 
   def and_i_click_on_users
-    click_link 'Users'
+    click_link_or_button 'Users'
   end
 
   def and_i_click_add_multiple_users
-    click_link 'Add multiple users'
+    click_link_or_button 'Add multiple users'
   end
 
   def then_i_should_see_the_add_multiple_user_form
@@ -99,7 +99,7 @@ RSpec.feature 'bulk upload provider users' do
   end
 
   def and_i_click_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def when_i_click_continue
@@ -135,7 +135,7 @@ RSpec.feature 'bulk upload provider users' do
   end
 
   def when_i_click_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_should_see_the_provider_user_review_page
@@ -145,11 +145,11 @@ RSpec.feature 'bulk upload provider users' do
   end
 
   def and_i_click_add_users
-    click_button 'Add users'
+    click_link_or_button 'Add users'
   end
 
   def when_i_click_add_users
-    click_button 'Add users'
+    click_link_or_button 'Add users'
   end
 
   def and_the_permissions_i_selected_are_checked

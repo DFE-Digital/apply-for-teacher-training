@@ -51,11 +51,11 @@ RSpec.feature 'Provider withdraws an offer' do
   end
 
   def and_i_navigate_to_the_offer_tab
-    click_link 'Offer'
+    click_link_or_button 'Offer'
   end
 
   def when_i_click_on_withdraw_application
-    click_link 'Withdraw offer'
+    click_link_or_button 'Withdraw offer'
   end
 
   def then_i_see_a_form_prompting_for_reasons
@@ -71,7 +71,7 @@ RSpec.feature 'Provider withdraws an offer' do
   end
 
   def and_i_click_to_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_am_asked_to_confirm_withdrawal_of_the_offer
@@ -86,7 +86,7 @@ RSpec.feature 'Provider withdraws an offer' do
   end
 
   def when_i_confirm_withdrawal_of_the_offer
-    click_button 'Withdraw offer'
+    click_link_or_button 'Withdraw offer'
   end
 
   def then_i_am_sent_to_the_application_feedback_tab

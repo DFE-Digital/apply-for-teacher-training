@@ -48,7 +48,7 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
 
   def when_i_do_not_provide_my_email_address
     fill_in 'Email address', with: ''
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_a_validation_error
@@ -57,7 +57,7 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
 
   def when_i_provide_my_email_address
     fill_in 'Email address', with: 'sUpPoRt@example.com '
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_receive_an_email_with_a_signin_link
@@ -74,7 +74,7 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
   end
 
   def when_i_click_on_sign_in
-    click_button 'Sign in'
+    click_link_or_button 'Sign in'
   end
 
   def then_i_am_signed_in
@@ -84,7 +84,7 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
   end
 
   def when_i_sign_out
-    click_link 'Sign out'
+    click_link_or_button 'Sign out'
   end
 
   def given_the_feature_flag_is_switched_off
@@ -93,7 +93,7 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
 
   def then_i_am_not_signed_in
     within 'header' do
-      expect(page).not_to have_content @email
+      expect(page).to have_no_content @email
     end
   end
 
@@ -106,7 +106,7 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
   end
 
   def then_i_do_not_see_a_confirm_sign_in_page
-    expect(page).not_to have_content 'Confirm sign in'
+    expect(page).to have_no_content 'Confirm sign in'
   end
 
   def and_i_am_asked_to_sign_in_the_normal_way

@@ -27,8 +27,8 @@ RSpec.feature 'User permissions page' do
   end
 
   def when_i_click_on_the_account_profile_link
-    click_link('Your account')
-    click_link('Your user permissions')
+    click_link_or_button('Your account')
+    click_link_or_button('Your user permissions')
   end
 
   def then_i_see_the_user_permissions_page_with_my_providers

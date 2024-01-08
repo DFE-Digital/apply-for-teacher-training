@@ -32,11 +32,11 @@ RSpec.feature 'Unavailable choices' do
 
   def when_i_visit_the_performance_tab_in_support
     visit support_interface_candidates_path
-    click_link 'Performance'
+    click_link_or_button 'Performance'
   end
 
   def and_i_click_on_unavailable_choices
-    click_link 'Applications with unavailable choices'
+    click_link_or_button 'Applications with unavailable choices'
   end
 
   def then_i_can_see_a_summary_of_unavailable_choices
@@ -48,7 +48,7 @@ RSpec.feature 'Unavailable choices' do
   end
 
   def when_i_click_on_applications_with_no_vacancies
-    click_link('Course has no vacancies')
+    click_link_or_button('Course has no vacancies')
   end
 
   def then_i_can_see_the_list_of_applications_without_vacancies

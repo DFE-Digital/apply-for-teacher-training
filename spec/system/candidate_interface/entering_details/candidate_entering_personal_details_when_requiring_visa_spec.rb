@@ -15,7 +15,7 @@ RSpec.feature 'Entering personal details', time: Time.zone.local(RecruitmentCycl
   end
 
   def and_i_can_complete_personal_information_with_non_british_or_irish_nationality
-    click_link t('page_titles.personal_information.heading')
+    click_link_or_button t('page_titles.personal_information.heading')
 
     # Basic details
     scope = 'application_form.personal_details'
@@ -24,11 +24,11 @@ RSpec.feature 'Entering personal details', time: Time.zone.local(RecruitmentCycl
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'
     fill_in 'Year', with: '1937'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     # Nationality
     check 'British'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     expect(page).to have_current_path candidate_interface_personal_details_show_path
 
     # Go back and change nationality
@@ -37,12 +37,12 @@ RSpec.feature 'Entering personal details', time: Time.zone.local(RecruitmentCycl
     within all('.govuk-form-group')[1] do
       select 'Pakistani'
     end
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     # Right to work or study
     expect(page).to have_content 'Do you already have the right to work or study in the UK?'
     choose 'No'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     # Review
     expect(page).to have_current_path candidate_interface_personal_details_show_path
@@ -54,7 +54,7 @@ RSpec.feature 'Entering personal details', time: Time.zone.local(RecruitmentCycl
 
   def and_i_can_mark_the_section_complete
     choose t('application_form.completed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     expect(page).to have_css('#personal-information-badge-id', text: 'Completed')
   end

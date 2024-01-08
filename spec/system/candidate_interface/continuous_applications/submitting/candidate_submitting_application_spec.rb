@@ -89,20 +89,20 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
 
   def and_i_continue_with_my_application
     visit candidate_interface_continuous_applications_choices_path
-    click_link 'Continue application', match: :first
+    click_link_or_button 'Continue application', match: :first
   end
 
   def and_i_review_my_application
     visit candidate_interface_continuous_applications_choices_path
-    click_link 'View application', match: :first
+    click_link_or_button 'View application', match: :first
   end
 
   def and_i_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_save_as_draft
-    click_link 'Save as draft'
+    click_link_or_button 'Save as draft'
   end
 
   def when_i_choose_to_submit
@@ -140,7 +140,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
   end
 
   def when_i_click_view_application
-    click_link 'View application', match: :first
+    click_link_or_button 'View application', match: :first
   end
 
   def and_my_application_is_submitted
@@ -184,17 +184,17 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
   alias_method :then_i_still_cannot_add_course_choices, :then_i_can_no_longer_add_more_course_choices
 
   def when_i_submit_one_of_my_draft_applications
-    click_link 'Continue application', match: :first
+    click_link_or_button 'Continue application', match: :first
     when_i_click_to_review_my_application
     when_i_click_to_submit_my_application
   end
 
   def when_i_click_to_review_my_application
-    click_button 'Review application'
+    click_link_or_button 'Review application'
   end
 
   def when_i_click_to_submit_my_application
-    click_button 'Confirm and submit application'
+    click_link_or_button 'Confirm and submit application'
   end
 
   def when_one_of_my_applications_becomes_inactive
@@ -207,7 +207,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
   end
 
   def when_i_go_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_see_a_interruption_page_for_personal_statement
@@ -215,7 +215,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
   end
 
   def when_i_continue_without_editing
-    click_link 'Continue without editing'
+    click_link_or_button 'Continue without editing'
   end
 
   def then_i_should_see_the_review_and_submit_page
@@ -223,8 +223,8 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
   end
 
   def when_i_edit_my_personal_statement
-    click_button 'Edit your personal statement'
+    click_link_or_button 'Edit your personal statement'
     fill_in 'candidate_interface_becoming_a_teacher_form[becoming_a_teacher]', with: Faker::Lorem.sentence(word_count: 500)
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 end

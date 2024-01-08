@@ -27,16 +27,16 @@ RSpec.feature 'Editing application details' do
   end
 
   def when_i_update_the_applicant_nationality
-    click_link 'Details'
-    click_link 'Change nationality'
+    click_link_or_button 'Details'
+    click_link_or_button 'Change nationality'
     uncheck 'British'
     check 'Citizen of a different country'
     select 'Armenian', from: 'support-interface-application-forms-nationalities-form-other-nationality1-field'
     fill_in 'Audit log comment', with: 'Changed nationality details - zendesk ticket 1234'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     choose 'Not yet'
     fill_in 'Audit log comment', with: 'Changed nationality details - zendesk ticket 1234'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_the_updated_nationality
@@ -46,7 +46,7 @@ RSpec.feature 'Editing application details' do
       expect(page).to have_content 'Not yet'
     end
 
-    click_link 'History'
+    click_link_or_button 'History'
     expect(page).to have_content 'Changed nationality details - zendesk ticket 1234'
   end
 
@@ -63,7 +63,7 @@ RSpec.feature 'Editing application details' do
   end
 
   def and_i_click_the_change_link_next_to_first_name
-    all('[data-qa="personal-information"] .govuk-summary-list__actions')[0].click_link 'Change first name'
+    all('[data-qa="personal-information"] .govuk-summary-list__actions')[0].click_link_or_button 'Change first name'
   end
 
   def and_i_fill_in_all_fields_with_blank_values
@@ -113,7 +113,7 @@ RSpec.feature 'Editing application details' do
   end
 
   def and_i_submit_the_update_form
-    click_button 'Update'
+    click_link_or_button 'Update'
   end
 
   def then_i_should_see_a_flash_message
@@ -138,7 +138,7 @@ RSpec.feature 'Editing application details' do
   end
 
   def and_i_should_see_my_comment_in_the_audit_log
-    click_link 'History'
+    click_link_or_button 'History'
     expect(page).to have_content 'https://becomingateacher.zendesk.com/12345'
   end
 

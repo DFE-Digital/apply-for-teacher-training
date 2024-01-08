@@ -25,8 +25,8 @@ RSpec.feature 'Candidate submits application with feedback form previously compl
   end
 
   def then_i_should_not_see_the_feedback_form
-    expect(page).not_to have_content(t('page_titles.your_feedback'))
-    expect(page).not_to have_content('How satisfied are you with this service? (optional)')
+    expect(page).to have_no_content(t('page_titles.your_feedback'))
+    expect(page).to have_no_content('How satisfied are you with this service? (optional)')
   end
 
   def and_i_see_the_application_dashboard_and_success_message

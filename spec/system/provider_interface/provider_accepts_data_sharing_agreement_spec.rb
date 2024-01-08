@@ -87,12 +87,12 @@ RSpec.feature 'Accept data sharing agreement' do
 
   def when_i_agree_to_the_data_sharing_agreement
     check 'Example Provider agrees to comply with the data sharing practices outlined in this agreement', allow_label_click: true
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_agree_to_the_data_sharing_agreement_again
     check 'Another Provider agrees to comply with the data sharing practices outlined in this agreement', allow_label_click: true
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_can_see_the_data_sharing_agreement_success_page
@@ -107,20 +107,20 @@ RSpec.feature 'Accept data sharing agreement' do
   end
 
   def then_i_can_navigate_to_the_provider_interface
-    click_link 'view applications'
+    click_link_or_button 'view applications'
     expect(page).to have_current_path provider_interface_applications_path
   end
 
   def and_i_cannot_navigate_to_pages_i_do_not_have_access_to
     expect(page).to have_link 'Sign out'
-    expect(page).not_to have_link 'Organisations'
-    expect(page).not_to have_link 'Users'
-    expect(page).not_to have_link 'Account'
-    expect(page).not_to have_link 'Applications'
+    expect(page).to have_no_link 'Organisations'
+    expect(page).to have_no_link 'Users'
+    expect(page).to have_no_link 'Account'
+    expect(page).to have_no_link 'Applications'
   end
 
   def and_i_can_proceed_to_set_up_organisation_permissions
-    click_link 'Continue'
+    click_link_or_button 'Continue'
 
     expect(page).to have_content('Set up organisation permissions')
   end

@@ -84,7 +84,7 @@ RSpec.feature 'Provider views application submitted in new cycle', skip: 'Delete
   end
 
   def then_i_cannot_submit_my_application
-    expect(page).not_to have_link('Check and submit your application')
+    expect(page).to have_no_link('Check and submit your application')
   end
 
   def and_i_am_redirected_to_the_carry_over_interstitial
@@ -92,11 +92,11 @@ RSpec.feature 'Provider views application submitted in new cycle', skip: 'Delete
   end
 
   def when_i_click_on_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def and_i_click_go_to_my_application_form
-    click_link 'Go to your application form'
+    click_link_or_button 'Go to your application form'
   end
 
   def then_i_see_a_copy_of_my_application
@@ -104,7 +104,7 @@ RSpec.feature 'Provider views application submitted in new cycle', skip: 'Delete
   end
 
   def when_i_view_referees
-    click_link 'References to be requested if you accept an offer'
+    click_link_or_button 'References to be requested if you accept an offer'
   end
 
   def then_i_can_see_the_referees_i_previously_added
@@ -113,7 +113,7 @@ RSpec.feature 'Provider views application submitted in new cycle', skip: 'Delete
   end
 
   def when_i_view_courses
-    click_link 'Back to application'
+    click_link_or_button 'Back to application'
   end
 
   def then_i_can_see_that_i_need_to_select_courses
@@ -122,23 +122,23 @@ RSpec.feature 'Provider views application submitted in new cycle', skip: 'Delete
 
   def and_i_select_a_course
     given_courses_exist
-    click_link 'Choose your course'
+    click_link_or_button 'Choose your course'
 
     choose 'Yes, I know where I want to apply'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     select 'Gorse SCITT (1N1)'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     choose 'Primary (2XT2)'
-    click_button t('continue')
+    click_link_or_button t('continue')
     expect(page).to have_content('Primary (2XT2)')
     expect(page).to have_content('You can add 3 more courses')
   end
 
   def and_i_complete_the_section
     choose t('application_form.completed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_receive_references
@@ -171,10 +171,10 @@ RSpec.feature 'Provider views application submitted in new cycle', skip: 'Delete
 
   def then_i_can_see_a_filter_for_the_current_recruitment_cycle_year
     find(:css, "#recruitment_cycle_year-#{RecruitmentCycle.current_year}").set(true)
-    expect(page).not_to have_css("#recruitment_cycle_year-#{RecruitmentCycle.current_year - 2}")
+    expect(page).to have_no_css("#recruitment_cycle_year-#{RecruitmentCycle.current_year - 2}")
   end
 
   def then_i_can_see_and_load_the_candidates_application
-    click_link @application_form.full_name
+    click_link_or_button @application_form.full_name
   end
 end

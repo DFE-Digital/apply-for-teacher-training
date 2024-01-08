@@ -32,12 +32,12 @@ RSpec.feature 'Change qualification' do
   def then_i_can_change_my_qualification
     click_change_link('type of assessment')
     choose 'Test of English as a Foreign Language (TOEFL)'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     fill_in 'TOEFL registration number', with: '0000 0000'
     fill_in 'Total score', with: '10'
     fill_in 'When did you complete the assessment?', with: '2007'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
     expect(page).to have_content 'TOEFL'

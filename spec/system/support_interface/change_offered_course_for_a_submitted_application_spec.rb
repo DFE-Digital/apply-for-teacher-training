@@ -87,11 +87,11 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_on_an_application
-    click_link 'Alice Wunder'
+    click_link_or_button 'Alice Wunder'
   end
 
   def when_i_click_on_change_offered_course
-    click_link 'Change offered course'
+    click_link_or_button 'Change offered course'
   end
 
   def then_i_should_see_the_change_offered_course_search_page
@@ -102,7 +102,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_search
-    click_button 'Search'
+    click_link_or_button 'Search'
   end
 
   def then_i_should_see_a_course_code_blank_validation_error
@@ -130,11 +130,11 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_search_again
-    click_link 'Search again'
+    click_link_or_button 'Search again'
   end
 
   def when_i_click_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def and_i_enter_a_course_code_for_a_course_that_has_the_same_ratifying_provider
@@ -169,7 +169,7 @@ RSpec.feature 'Add course to submitted application' do
   alias_method :when_i_select_a_course_with_no_vacancies, :when_i_select_a_course
 
   def when_i_click_to_change_the_offered_course
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def and_i_click_to_change_the_offered_course
@@ -205,7 +205,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def and_i_click_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_am_redirected_to_the_application_form_page

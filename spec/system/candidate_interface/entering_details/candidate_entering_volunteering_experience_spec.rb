@@ -40,7 +40,7 @@ RSpec.feature 'Entering volunteering experience' do
   end
 
   def when_i_click_on_unpaid_experience
-    click_link t('page_titles.volunteering.short')
+    click_link_or_button t('page_titles.volunteering.short')
   end
 
   def then_i_should_see_the_start_page
@@ -52,7 +52,7 @@ RSpec.feature 'Entering volunteering experience' do
   end
 
   def and_i_submit_the_volunteering_experience_form
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_the_add_volunteering_role_form
@@ -72,7 +72,7 @@ RSpec.feature 'Entering volunteering experience' do
   end
 
   def and_i_submit_the_form
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_both_estimate_boxes_should_remain_checked
@@ -114,11 +114,11 @@ RSpec.feature 'Entering volunteering experience' do
     end
 
     fill_in t('application_form.volunteering.details.label'), with: 'I volunteered.'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_click_on_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_a_section_complete_error
@@ -127,7 +127,7 @@ RSpec.feature 'Entering volunteering experience' do
 
   def when_i_mark_this_section_as_completed
     choose t('application_form.completed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_see_the_section_is_completed

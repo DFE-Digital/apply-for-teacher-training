@@ -25,16 +25,16 @@ RSpec.feature 'API tokens' do
     row = page.find('td', text: @provider_1.name).ancestor('tr')
 
     within row do
-      click_link 'Revoke'
+      click_link_or_button 'Revoke'
     end
 
     expect(page).to have_content('Confirm revocation')
-    click_button 'Revoke'
+    click_link_or_button 'Revoke'
   end
 
   def then_that_provider_should_no_longer_have_an_api_token
     within '.govuk-table' do
-      expect(page).not_to have_content('Provider 1')
+      expect(page).to have_no_content('Provider 1')
     end
   end
 

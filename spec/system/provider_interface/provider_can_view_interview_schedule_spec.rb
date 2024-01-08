@@ -75,7 +75,7 @@ RSpec.describe 'A Provider user' do
   end
 
   def and_i_click_interview_schedule
-    click_link 'Interview schedule'
+    click_link_or_button 'Interview schedule'
   end
 
   def then_i_see_the_upcoming_interviews
@@ -89,7 +89,7 @@ RSpec.describe 'A Provider user' do
   end
 
   def and_i_click_past_interviews
-    click_link 'Past interviews'
+    click_link_or_button 'Past interviews'
   end
 
   def then_i_see_the_past_interviews
@@ -103,7 +103,7 @@ RSpec.describe 'A Provider user' do
   end
 
   def and_i_can_verify_that_the_correct_information_is_presented
-    click_link 'Upcoming interviews'
+    click_link_or_button 'Upcoming interviews'
     expect(page).to have_content("Today (#{@interviews.last.date_and_time.to_fs(:govuk_date)})")
     within(:xpath, "////div[@class='app-interview-card'][1]") do
       expect(page).to have_content(@application_choice.course.name)

@@ -34,7 +34,7 @@ RSpec.feature 'International candidate submits the application', :continuous_app
   end
 
   def when_i_submit_my_application
-    click_button 'Confirm and submit application'
+    click_link_or_button 'Confirm and submit application'
   end
 
   def when_i_have_completed_everything_except_the_efl_and_other_qualifications_section
@@ -43,41 +43,41 @@ RSpec.feature 'International candidate submits the application', :continuous_app
     given_courses_exist
     visit candidate_interface_continuous_applications_details_path
 
-    click_link t('page_titles.personal_information.heading')
+    click_link_or_button t('page_titles.personal_information.heading')
     candidate_fills_in_personal_details(international: true)
 
-    click_link t('page_titles.contact_information')
+    click_link_or_button t('page_titles.contact_information')
     candidate_fills_in_international_contact_details
 
-    click_link t('page_titles.work_history')
+    click_link_or_button t('page_titles.work_history')
     candidate_fills_in_restructured_work_experience
     candidate_fills_in_restructured_work_experience_break
 
-    click_link t('page_titles.volunteering.short')
+    click_link_or_button t('page_titles.volunteering.short')
     candidate_fills_in_restructured_volunteering_role
 
-    click_link t('page_titles.training_with_a_disability')
+    click_link_or_button t('page_titles.training_with_a_disability')
     candidate_fills_in_disability_info
 
-    click_link t('page_titles.suitability_to_work_with_children')
+    click_link_or_button t('page_titles.suitability_to_work_with_children')
     candidate_fills_in_safeguarding_issues
 
-    click_link t('page_titles.degree')
+    click_link_or_button t('page_titles.degree')
     candidate_fills_in_their_degree
 
-    click_link 'Maths GCSE or equivalent'
+    click_link_or_button 'Maths GCSE or equivalent'
     candidate_fills_in_their_maths_gcse
 
-    click_link 'English GCSE or equivalent'
+    click_link_or_button 'English GCSE or equivalent'
     candidate_fills_in_their_english_gcse
 
-    click_link 'Your personal statement'
+    click_link_or_button 'Your personal statement'
     candidate_fills_in_personal_statement
 
-    click_link t('page_titles.interview_preferences.heading')
+    click_link_or_button t('page_titles.interview_preferences.heading')
     candidate_fills_in_interview_preferences
 
-    click_link 'Equality and diversity questions'
+    click_link_or_button 'Equality and diversity questions'
     candidate_fills_in_diversity_information(school_meals: false)
 
     candidate_provides_two_referees
@@ -86,11 +86,11 @@ RSpec.feature 'International candidate submits the application', :continuous_app
   end
 
   def when_i_review_my_choices
-    click_link 'Your applications'
+    click_link_or_button 'Your applications'
   end
 
   def when_i_review_my_details
-    click_link 'Your details'
+    click_link_or_button 'Your details'
   end
 
   def then_i_should_see_the_efl_and_other_qualifications_section_is_incomplete
@@ -103,18 +103,18 @@ RSpec.feature 'International candidate submits the application', :continuous_app
   end
 
   def when_i_complete_the_efl_section
-    click_link 'complete your details'
+    click_link_or_button 'complete your details'
     candidate_fills_in_efl_section
   end
 
   def and_i_complete_the_other_qualifications_section
-    click_link 'Other qualifications'
+    click_link_or_button 'Other qualifications'
     candidate_fills_in_their_other_qualifications
   end
 
   def then_i_should_see_all_sections_are_complete
     application_form_sections.each do |section|
-      expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
+      expect(page).to have_no_css "[data-qa='incomplete-#{section}']"
     end
   end
 

@@ -63,7 +63,7 @@ RSpec.feature 'Candidate submits the application', skip: 'Update to continuous a
 
   def then_i_should_see_all_sections_are_complete
     application_form_sections.each do |section|
-      expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
+      expect(page).to have_no_css "[data-qa='incomplete-#{section}']"
     end
   end
 
@@ -73,89 +73,89 @@ RSpec.feature 'Candidate submits the application', skip: 'Update to continuous a
   end
 
   def and_i_can_see_my_personal_details
-    click_link 'Personal information'
+    click_link_or_button 'Personal information'
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content '6 April 1990'
     expect(page).to have_content 'British and American'
-    click_link 'Back to your details'
+    click_link_or_button 'Back to your details'
   end
 
   def and_i_can_see_my_contact_details
-    click_link 'Contact information'
+    click_link_or_button 'Contact information'
     expect(page).to have_content '07700 900 982'
     expect(page).to have_content '42 Much Wow Street'
     expect(page).to have_content 'London'
     expect(page).to have_content 'SW1P 3BT'
-    click_link 'Back to your details'
+    click_link_or_button 'Back to your details'
   end
 
   def and_i_can_see_my_disability_disclosure
-    click_link 'Ask for support if you’re disabled'
+    click_link_or_button 'Ask for support if you’re disabled'
     expect(page).to have_content 'Yes'
     expect(page).to have_content 'I have difficulty climbing stairs'
-    click_link 'Back to your details'
+    click_link_or_button 'Back to your details'
   end
 
   def and_i_can_see_my_safeguarding_issues
-    click_link 'Declare any safeguarding issues'
+    click_link_or_button 'Declare any safeguarding issues'
     expect(page).to have_content 'Yes'
     expect(page).to have_content 'I have a criminal conviction.'
-    click_link 'Back to your details'
+    click_link_or_button 'Back to your details'
   end
 
   def and_i_can_see_my_volunteering_roles
-    click_link 'Unpaid experience'
+    click_link_or_button 'Unpaid experience'
     expect(page).to have_content 'Tour guide'
     expect(page).to have_content 'National Trust'
-    click_link 'Back to your details'
+    click_link_or_button 'Back to your details'
   end
 
   def and_i_can_see_my_degree
-    click_link 'Degree'
+    click_link_or_button 'Degree'
     expect(page).to have_content 'BA (Hons) Aerospace engineering'
     expect(page).to have_content 'ThinkSpace Education'
     expect(page).to have_content 'First-class honours'
     expect(page).to have_content '2009'
-    click_link 'Back to your details'
+    click_link_or_button 'Back to your details'
   end
 
   def and_i_can_see_my_gcses
-    click_link 'English GCSE or equivalent'
+    click_link_or_button 'English GCSE or equivalent'
     expect(page).to have_content '1990'
-    click_link 'Back to your details'
+    click_link_or_button 'Back to your details'
   end
 
   def and_i_can_see_my_other_qualification
-    click_link 'A levels and other qualifications'
+    click_link_or_button 'A levels and other qualifications'
     expect(page).to have_content 'A level Believing in the Heart of the Cards'
     expect(page).to have_content 'A'
     expect(page).to have_content '2015'
-    click_link 'Back to your details'
+    click_link_or_button 'Back to your details'
   end
 
   def and_i_can_see_my_personal_statement
-    click_link 'Your personal statement'
+    click_link_or_button 'Your personal statement'
     expect(page).to have_content 'I believe I would be a first-rate teacher'
-    click_link 'Back to your details'
+    click_link_or_button 'Back to your details'
   end
 
   def and_i_can_see_my_interview_preferences
-    click_link 'Interview availability'
+    click_link_or_button 'Interview availability'
     expect(page).to have_content 'Not on a Wednesday'
-    click_link 'Back to your details'
+    click_link_or_button 'Back to your details'
   end
 
   def and_i_can_see_my_referees
-    click_link 'References to be requested if you accept an offer'
+    click_link_or_button 'References to be requested if you accept an offer'
     expect(page).to have_content('Terri Tudor')
     expect(page).to have_content('Anne Other')
-    click_link 'Back to your details'
+    click_link_or_button 'Back to your details'
   end
 
   def and_i_can_see_my_equality_and_diversity_answers
-    click_link 'Equality and diversity questions'
+    click_link_or_button 'Equality and diversity questions'
     expect(page).to have_content('Prefer not to say')
-    click_link 'Back to your details'
+    click_link_or_button 'Back to your details'
   end
 
   def and_i_visit_the_application_details_page
@@ -167,7 +167,7 @@ RSpec.feature 'Candidate submits the application', skip: 'Update to continuous a
   end
 
   def when_i_confirm_my_application
-    click_link t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_choose_to_add_further_information_but_omit_adding_details
@@ -184,9 +184,9 @@ RSpec.feature 'Candidate submits the application', skip: 'Update to continuous a
   end
 
   def and_i_submit_the_application
-    click_button 'Review application'
-    click_link 'Continue without editing'
-    click_button 'Confirm and submit application'
+    click_link_or_button 'Review application'
+    click_link_or_button 'Continue without editing'
+    click_link_or_button 'Confirm and submit application'
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted
@@ -206,7 +206,7 @@ RSpec.feature 'Candidate submits the application', skip: 'Update to continuous a
 
   def when_i_click_view_application
     within '.govuk-summary-card__title-wrapper' do
-      click_link 'View application'
+      click_link_or_button 'View application'
     end
   end
 

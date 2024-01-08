@@ -71,11 +71,11 @@ RSpec.feature 'See application history', :with_audited do
   end
 
   def when_i_click_on_an_application
-    click_link 'Alice Wunder'
+    click_link_or_button 'Alice Wunder'
   end
 
   def when_i_click_on_an_application_history
-    click_link 'History'
+    click_link_or_button 'History'
   end
 
   def then_i_should_be_able_to_see_history_events

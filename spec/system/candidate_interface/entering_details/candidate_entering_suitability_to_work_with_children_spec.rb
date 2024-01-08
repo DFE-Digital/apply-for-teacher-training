@@ -44,7 +44,7 @@ RSpec.feature 'Entering their suitability to work with children' do
   end
 
   def when_i_click_on_declaring_any_safeguarding_issues
-    click_link t('page_titles.suitability_to_work_with_children')
+    click_link_or_button t('page_titles.suitability_to_work_with_children')
   end
 
   def then_i_see_declaring_any_safeguarding_issues_form
@@ -60,7 +60,7 @@ RSpec.feature 'Entering their suitability to work with children' do
   end
 
   def and_i_click_on_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_my_relevant_information
@@ -86,7 +86,7 @@ RSpec.feature 'Entering their suitability to work with children' do
   end
 
   def when_i_click_on_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_a_section_complete_error

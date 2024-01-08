@@ -73,6 +73,6 @@ RSpec.feature 'Candidate becomes eligible for an adviser' do
   end
 
   def then_i_should_not_see_the_adviser_cta
-    expect(page).not_to have_link(t('application_form.adviser_sign_up.call_to_action.available.button_text'))
+    expect(page).to have_no_link(t('application_form.adviser_sign_up.call_to_action.available.button_text'))
   end
 end

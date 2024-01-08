@@ -37,7 +37,7 @@ RSpec.feature 'Refusing to give a reference' do
   end
 
   def when_i_click_the_reference_link
-    current_email.click_link(give_feedback_url)
+    current_email.click_link_or_button(give_feedback_url)
   end
 
   def then_i_see_the_give_a_reference_page
@@ -47,7 +47,7 @@ RSpec.feature 'Refusing to give a reference' do
 
   def when_i_select_no_to_giving_a_reference
     choose 'No, I’m unable to give a reference'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_see_the_confirmation_page
@@ -55,7 +55,7 @@ RSpec.feature 'Refusing to give a reference' do
   end
 
   def and_i_confirm_that_i_wont_give_a_reference
-    click_button 'Yes, I am unable to give a reference'
+    click_link_or_button 'Yes, I am unable to give a reference'
   end
 
   def and_a_slack_notification_is_sent

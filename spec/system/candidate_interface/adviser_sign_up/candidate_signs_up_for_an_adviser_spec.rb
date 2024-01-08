@@ -83,7 +83,7 @@ RSpec.feature 'Candidate signs up for an adviser', :js, continuous_applications:
   end
 
   def when_i_click_the_sign_up_button
-    click_button t('application_form.adviser_sign_up.submit_text')
+    click_link_or_button t('application_form.adviser_sign_up.submit_text')
   end
 
   def then_i_should_see_validation_errors_for_preferred_teaching_subject
@@ -118,7 +118,7 @@ RSpec.feature 'Candidate signs up for an adviser', :js, continuous_applications:
   end
 
   def and_the_adviser_cta_be_replaced_with_the_waiting_to_be_assigned_message
-    expect(page).not_to have_link(t('application_form.adviser_sign_up.call_to_action.available.button_text'))
+    expect(page).to have_no_link(t('application_form.adviser_sign_up.call_to_action.available.button_text'))
     expect(page).to have_text(t('application_form.adviser_sign_up.call_to_action.waiting_to_be_assigned.text'))
   end
 

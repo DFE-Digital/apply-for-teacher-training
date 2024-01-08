@@ -69,11 +69,11 @@ RSpec.feature 'Entering a Masters degree' do
   end
 
   def when_i_click_on_degree
-    click_link 'Degree'
+    click_link_or_button 'Degree'
   end
 
   def and_i_click_add_degree
-    click_link 'Add a degree'
+    click_link_or_button 'Add a degree'
   end
 
   def then_i_can_see_the_country_page
@@ -85,11 +85,11 @@ RSpec.feature 'Entering a Masters degree' do
   end
 
   def and_i_click_on_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_click_on_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_fill_in_the_type
@@ -139,10 +139,10 @@ RSpec.feature 'Entering a Masters degree' do
   def then_i_can_see_the_grade_page_with_masters_grade_options
     expect(page).to have_content('What grade is your degree?')
 
-    expect(page).not_to have_field('First-class honours')
-    expect(page).not_to have_field('Upper second-class honours (2:1)')
-    expect(page).not_to have_field('Lower second-class honours (2:2)')
-    expect(page).not_to have_field('Third-class honours')
+    expect(page).to have_no_field('First-class honours')
+    expect(page).to have_no_field('Upper second-class honours (2:1)')
+    expect(page).to have_no_field('Lower second-class honours (2:2)')
+    expect(page).to have_no_field('Third-class honours')
 
     expect(page).to have_field('Distinction')
     expect(page).to have_field('Merit')

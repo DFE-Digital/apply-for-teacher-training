@@ -58,7 +58,7 @@ RSpec.feature 'Candidate edits their volunteering section' do
   end
 
   def when_i_click_the_volunteering_section_link
-    click_link 'Unpaid experience'
+    click_link_or_button 'Unpaid experience'
   end
 
   def and_i_click_to_change_my_role
@@ -72,7 +72,7 @@ RSpec.feature 'Candidate edits their volunteering section' do
   end
 
   def and_i_click_on_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_the_volunteering_section_should_be_marked_as_incomplete
@@ -84,7 +84,7 @@ RSpec.feature 'Candidate edits their volunteering section' do
   end
 
   def and_i_click_on_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_visit_my_application_page
@@ -92,11 +92,11 @@ RSpec.feature 'Candidate edits their volunteering section' do
   end
 
   def and_i_click_delete_role
-    click_link t('application_form.volunteering.delete.action')
+    click_link_or_button t('application_form.volunteering.delete.action')
   end
 
   def and_i_confirm_i_want_to_delete_the_role
-    click_button t('application_form.volunteering.delete.confirm')
+    click_link_or_button t('application_form.volunteering.delete.confirm')
   end
 
   def and_i_mark_the_section_as_incomplete

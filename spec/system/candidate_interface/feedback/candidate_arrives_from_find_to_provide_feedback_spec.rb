@@ -36,7 +36,7 @@ RSpec.describe 'Candidate providing feedback on Find' do
     fill_in t('find_feedback.feedback.label.course'), with: 'Make it better.'
     fill_in 'Email address (optional)', with: 'email'
 
-    click_button 'Submit feedback'
+    click_link_or_button 'Submit feedback'
   end
 
   def then_i_am_asked_to_provide_a_valid_email_address
@@ -45,7 +45,7 @@ RSpec.describe 'Candidate providing feedback on Find' do
 
   def when_i_provide_a_valid_email_address
     fill_in 'Email address (optional)', with: 'email@gmail.com'
-    click_button 'Submit feedback'
+    click_link_or_button 'Submit feedback'
   end
 
   def then_i_am_thanked_for_my_feedback
@@ -69,7 +69,7 @@ RSpec.describe 'Candidate providing feedback on Find' do
     fill_in t('find_feedback.feedback.label.results'), with: 'The pagination numbers are off.'
     fill_in 'Email address (optional)', with: 'email@gmail.com'
 
-    click_button 'Submit feedback'
+    click_link_or_button 'Submit feedback'
   end
 
   def and_my_feedback_on_the_results_page_has_been_persisted
@@ -89,7 +89,7 @@ RSpec.describe 'Candidate providing feedback on Find' do
     fill_in t('find_feedback.feedback.label.unknown'), with: 'The pagination numbers are off.'
     fill_in 'Email address (optional)', with: 'email@gmail.com'
 
-    click_button 'Submit feedback'
+    click_link_or_button 'Submit feedback'
   end
 
   def then_i_am_told_i_need_path_and_controller_params_to_give_feedback
@@ -99,6 +99,6 @@ RSpec.describe 'Candidate providing feedback on Find' do
 
   def and_i_fill_in_the_hidden_field_designed_to_catch_bots
     fill_in 'Do not fill in. To catch bots', with: 'bleep bloop'
-    click_button 'Submit feedback'
+    click_link_or_button 'Submit feedback'
   end
 end

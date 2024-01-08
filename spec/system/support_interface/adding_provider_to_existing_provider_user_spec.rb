@@ -47,15 +47,15 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def and_i_click_on_users
-    click_link 'Users'
+    click_link_or_button 'Users'
   end
 
   def then_i_should_not_see_the_provider_user_listed
-    expect(page).not_to have_content("#{@provider_user.first_name} #{@provider_user.last_name}")
+    expect(page).to have_no_content("#{@provider_user.first_name} #{@provider_user.last_name}")
   end
 
   def when_i_click_add_user
-    click_link 'Add user'
+    click_link_or_button 'Add user'
   end
 
   def and_i_enter_the_users_details
@@ -71,7 +71,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def and_i_submit_the_form
-    click_button 'Add user'
+    click_link_or_button 'Add user'
   end
 
   def then_i_should_see_the_provider_user_has_been_successfully_added

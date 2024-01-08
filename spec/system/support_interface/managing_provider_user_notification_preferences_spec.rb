@@ -37,16 +37,16 @@ RSpec.feature 'Managing provider user notification preferences' do
   end
 
   def and_i_navigate_to_provider_users_page
-    click_link 'Providers'
-    click_link 'Provider users'
+    click_link_or_button 'Providers'
+    click_link_or_button 'Provider users'
   end
 
   def and_i_click_on_the_user
-    click_link @provider_user.full_name
+    click_link_or_button @provider_user.full_name
   end
 
   def and_i_click_the_change_link
-    click_link 'Change email notifications'
+    click_link_or_button 'Change email notifications'
   end
 
   def then_i_can_see_all_notifications_are_on_by_default
@@ -59,7 +59,7 @@ RSpec.feature 'Managing provider user notification preferences' do
     ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |type|
       choose "provider-user-notification-preferences-#{type.to_s.dasherize}-false-field"
     end
-    click_button 'Save settings'
+    click_link_or_button 'Save settings'
   end
 
   def then_the_notification_preferences_are_updated

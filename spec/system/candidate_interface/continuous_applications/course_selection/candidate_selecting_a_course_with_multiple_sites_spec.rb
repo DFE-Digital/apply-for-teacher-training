@@ -33,8 +33,8 @@ RSpec.feature 'Selecting a course with multiple sites', :continuous_applications
   end
 
   def and_i_click_on_course_choices
-    click_link 'Your application'
-    click_link 'Add application'
+    click_link_or_button 'Your application'
+    click_link_or_button 'Add application'
   end
 
   def then_i_should_see_an_error_message_about_to_select_if_i_know_which_course
@@ -59,7 +59,7 @@ RSpec.feature 'Selecting a course with multiple sites', :continuous_applications
 
   def and_i_choose_a_provider
     select 'Gorse SCITT (1N1)'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_see_a_course_and_its_description
@@ -68,7 +68,7 @@ RSpec.feature 'Selecting a course with multiple sites', :continuous_applications
   end
 
   def when_submit_without_choosing_a_course
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_see_an_error
@@ -77,12 +77,12 @@ RSpec.feature 'Selecting a course with multiple sites', :continuous_applications
 
   def and_i_choose_a_course
     choose 'Primary (2XT2)'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_choose_a_course_with_multiple_study_modes_where_one_is_full
     choose 'Physics (1ABZ)'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_the_address
@@ -91,7 +91,7 @@ RSpec.feature 'Selecting a course with multiple sites', :continuous_applications
 
   def and_i_choose_a_location
     choose 'Main site'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_visit_my_course_choices_page
@@ -104,7 +104,7 @@ RSpec.feature 'Selecting a course with multiple sites', :continuous_applications
   end
 
   def when_i_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_click_continue
@@ -135,7 +135,7 @@ RSpec.feature 'Selecting a course with multiple sites', :continuous_applications
   end
 
   def and_i_return_to_my_applications
-    click_link 'Back to your applications'
+    click_link_or_button 'Back to your applications'
   end
 
   def and_i_see_my_course_choices

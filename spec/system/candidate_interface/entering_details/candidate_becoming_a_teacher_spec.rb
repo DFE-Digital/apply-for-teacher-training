@@ -35,7 +35,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"', continuous_applicat
   end
 
   def when_i_click_on_becoming_a_teacher
-    click_link 'Your personal statement'
+    click_link_or_button 'Your personal statement'
   end
 
   def and_a_validation_error_is_logged_for_becoming_a_teacher
@@ -61,7 +61,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"', continuous_applicat
   end
 
   def and_i_submit_the_form
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_return_to_the_application
@@ -69,7 +69,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"', continuous_applicat
   end
 
   def when_i_click_to_change_my_answer
-    click_link('Edit your personal statement')
+    click_link_or_button('Edit your personal statement')
   end
 
   def and_i_fill_in_a_different_answer

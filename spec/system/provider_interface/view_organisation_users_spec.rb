@@ -57,7 +57,7 @@ RSpec.feature 'Organisation users' do
   end
 
   def when_i_go_to_organisation_settings
-    click_link 'Organisation settings', match: :first
+    click_link_or_button 'Organisation settings', match: :first
   end
 
   def then_i_see_users_links_for_both_providers
@@ -66,7 +66,7 @@ RSpec.feature 'Organisation users' do
   end
 
   def when_i_view_users_for(provider)
-    click_link "Users #{provider.name}"
+    click_link_or_button "Users #{provider.name}"
   end
 
   alias_method :and_i_view_users_for, :when_i_view_users_for
@@ -81,7 +81,7 @@ RSpec.feature 'Organisation users' do
   end
 
   def when_i_click_on_the(user)
-    click_link user.full_name
+    click_link_or_button user.full_name
   end
 
   def then_i_see_personal_details_for(user)
@@ -107,6 +107,6 @@ RSpec.feature 'Organisation users' do
   end
 
   def and_i_cannot_see_change_links
-    expect(page).not_to have_link('Change Manage interviews')
+    expect(page).to have_no_link('Change Manage interviews')
   end
 end

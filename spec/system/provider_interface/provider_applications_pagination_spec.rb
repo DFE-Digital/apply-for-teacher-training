@@ -54,8 +54,8 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def then_i_should_not_see_a_paginator
-    expect(page).not_to have_link('Next')
-    expect(page).not_to have_content('Showing 1 to')
+    expect(page).to have_no_link('Next')
+    expect(page).to have_no_content('Showing 1 to')
   end
 
   def given_my_organisation_has_more_than_30_applications
@@ -78,7 +78,7 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def when_i_click_next
-    click_link 'Next'
+    click_link_or_button 'Next'
   end
 
   def then_i_should_see_page_2
@@ -86,7 +86,7 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def when_i_click_prev
-    click_link 'Previous'
+    click_link_or_button 'Previous'
   end
 
   def then_i_should_see_a_paginator_for_page_2
@@ -96,7 +96,7 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def then_i_should_not_see_a_paginator
-    expect(page).not_to have_link('Next')
-    expect(page).not_to have_content('Showing 1 to')
+    expect(page).to have_no_link('Next')
+    expect(page).to have_no_content('Showing 1 to')
   end
 end

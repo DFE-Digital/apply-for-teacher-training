@@ -50,7 +50,7 @@ RSpec.feature 'Candidate applying again' do
   end
 
   def and_i_click_on_apply_again
-    click_button 'Apply again'
+    click_link_or_button 'Apply again'
   end
 
   def and_i_am_told_my_new_application_is_ready_to_edit
@@ -62,28 +62,28 @@ RSpec.feature 'Candidate applying again' do
   end
 
   def when_i_view_referees
-    click_link 'Review your references'
+    click_link_or_button 'Review your references'
   end
 
   def then_i_cannot_change_referee_details
-    expect(page).not_to have_link('Change')
+    expect(page).to have_no_link('Change')
   end
 
   def when_i_delete_a_referee
-    click_link "Delete reference #{@completed_references[0].name}"
-    click_button I18n.t('application_form.references.delete_reference.confirm')
+    click_link_or_button "Delete reference #{@completed_references[0].name}"
+    click_link_or_button I18n.t('application_form.references.delete_reference.confirm')
   end
 
   def then_i_can_see_i_only_have_one_referee
-    expect(page).not_to have_content @completed_references[0].name
+    expect(page).to have_no_content @completed_references[0].name
     expect(page).to have_content @completed_references[1].name
   end
 
   def when_i_add_a_new_referee
-    click_link 'Request a second reference'
-    click_link t('continue')
+    click_link_or_button 'Request a second reference'
+    click_link_or_button t('continue')
     choose 'Academic'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     candidate_fills_in_referee(
       name: 'Bob Lawblob',
@@ -92,7 +92,7 @@ RSpec.feature 'Candidate applying again' do
     )
 
     choose 'Yes, send a reference request now'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     @new_reference = ApplicationReference.find_by!(email_address: 'bob@lawblob.com')
   end

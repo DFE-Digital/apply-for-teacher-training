@@ -30,7 +30,7 @@ RSpec.feature 'Do a thing feature' do
   end
 
   def when_i_press_a_button
-    click_button 'Do the thing'
+    click_link_or_button 'Do the thing'
   end
 
   def then_something_should_happen
@@ -73,7 +73,7 @@ RSpec.feature 'Do a thing feature' do
 
   # Bad: a parameterised method
   def when_i_press_a_button(text)
-    click_button(text)
+    click_link_or_button(text)
   end
 
   def then_something_else_should_happen

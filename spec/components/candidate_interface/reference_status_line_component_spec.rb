@@ -26,7 +26,7 @@ RSpec.describe CandidateInterface::ReferenceStatusLineComponent, type: :componen
     reference.update!(feedback_status: :feedback_requested, requested_at: Time.zone.now)
 
     render_inline(described_class.new(reference)) do |rendered_component|
-      expect(rendered_component).not_to have_text 'send a reminder'
+      expect(rendered_component).to have_no_text 'send a reminder'
       expect(rendered_component).to have_text '- cancel request'
 
       travel_temporarily_to(49.hours.from_now) do

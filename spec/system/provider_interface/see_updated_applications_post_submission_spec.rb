@@ -48,7 +48,7 @@ RSpec.feature 'See updated applications post-submission' do
 
   def then_the_distantly_updated_candidate_card_has_no_updated_notice
     within("##{dom_id(@distantly_updated)}") do
-      expect(page).not_to have_content('updated on ')
+      expect(page).to have_no_content('updated on ')
     end
   end
 
@@ -97,7 +97,7 @@ RSpec.feature 'See updated applications post-submission' do
   end
 
   def when_i_click_on_the_recently_updated_application
-    click_link @recently_updated.application_form.full_name
+    click_link_or_button @recently_updated.application_form.full_name
   end
 
   def then_i_should_be_on_the_application_view_page
@@ -111,16 +111,16 @@ RSpec.feature 'See updated applications post-submission' do
   end
 
   def then_i_should_not_see_the_updated_recently_notification
-    expect(page).not_to have_content 'View the timeline for their updates'
+    expect(page).to have_no_content 'View the timeline for their updates'
   end
 
   def and_i_visit_the_distantly_updated_application
-    click_link @distantly_updated.application_form.full_name
+    click_link_or_button @distantly_updated.application_form.full_name
   end
 
   def when_i_click_on_applications_in_the_navigation_bar
     within '.app-primary-navigation' do
-      click_link 'Applications'
+      click_link_or_button 'Applications'
     end
   end
 end

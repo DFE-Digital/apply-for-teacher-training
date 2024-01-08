@@ -18,7 +18,7 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
   end
 
   def and_i_can_complete_personal_information_stating_that_i_need_a_visa_sponsorship
-    click_link t('page_titles.personal_information.heading')
+    click_link_or_button t('page_titles.personal_information.heading')
 
     # Basic details
     scope = 'application_form.personal_details'
@@ -27,19 +27,19 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'
     fill_in 'Year', with: '1937'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     # Nationality
     check 'Citizen of a different country'
     within all('.govuk-form-group')[1] do
       select 'Pakistani'
     end
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     # Right to work or study
     expect(page).to have_content('Do you already have the right to work or study in the UK?')
     choose 'No'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     # Review
     expect(page).to have_current_path candidate_interface_personal_details_show_path
@@ -53,11 +53,11 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
     click_change_link('if you have the right to work or study in the UK')
     expect(page).to have_content('Do you already have the right to work or study in the UK?')
     choose 'Yes'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     expect(page).to have_content('What is your immigration status?')
     fill_in 'What is your immigration status?', with: 'I have permanent residence'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_personal_details_show_path
     expect(page).to have_content('Name')
@@ -74,15 +74,15 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
     within all('.govuk-form-group')[1] do
       select 'French'
     end
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     expect(page).to have_content('Do you already have the right to work or study in the UK?')
     choose 'Yes'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     expect(page).to have_content('What is your immigration status?')
     choose 'EU settled status'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_personal_details_show_path
     expect(page).to have_content("Nationality\nFrench")
@@ -95,7 +95,7 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
 
     expect(page).to have_content('What is your immigration status?')
     choose 'EU pre-settled status'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_personal_details_show_path
     expect(page).to have_content("Immigration status\nEU pre-settled status")
@@ -103,7 +103,7 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
 
   def and_i_can_mark_the_section_complete
     choose t('application_form.completed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     expect(page).to have_css('#personal-information-badge-id', text: 'Completed')
   end

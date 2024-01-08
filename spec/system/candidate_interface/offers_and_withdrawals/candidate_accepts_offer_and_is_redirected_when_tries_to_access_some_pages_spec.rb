@@ -54,15 +54,15 @@ RSpec.feature 'Candidate is redirected when tries to see your details after acce
   end
 
   def when_i_click_to_view_my_submitted_application
-    click_link 'View application'
+    click_link_or_button 'View application'
   end
 
   def when_i_click_to_withdraw_my_application
-    click_link 'Withdraw from the course'
+    click_link_or_button 'Withdraw from the course'
   end
 
   def and_i_click_back_to_my_offer
-    click_link 'Back to your offer'
+    click_link_or_button 'Back to your offer'
   end
 
   def when_i_try_to_enter_a_specific_section

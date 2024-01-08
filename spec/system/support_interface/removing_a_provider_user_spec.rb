@@ -46,7 +46,7 @@ RSpec.feature 'Managing provider users v2' do
 
   def and_i_click_remove_on_the_first_provider
     within("[data-qa=\"provider-id-#{@provider_one.id}\"]") do
-      click_link 'Remove access'
+      click_link_or_button 'Remove access'
     end
   end
 
@@ -55,7 +55,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def when_i_click_yes_i_am_sure
-    click_button 'Yes I’m sure - remove access'
+    click_link_or_button 'Yes I’m sure - remove access'
   end
 
   def then_i_should_see_a_flash_message
@@ -63,7 +63,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def and_i_should_see_that_the_user_is_no_longer_associated_with_that_provider
-    expect(page).not_to have_selector("[data-qa=\"provider-id-#{@provider_one.id}\"]")
+    expect(page).to have_no_css("[data-qa=\"provider-id-#{@provider_one.id}\"]")
   end
 
   def and_the_user_should_receive_an_email_about_being_removed_from_the_provider

@@ -49,7 +49,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def when_i_click_on_personal_information
-    click_link t('page_titles.personal_information.heading')
+    click_link_or_button t('page_titles.personal_information.heading')
   end
 
   def and_i_fill_in_some_details_but_omit_some_required_details
@@ -79,7 +79,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def and_i_submit_the_form
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_the_nationality_page
@@ -131,7 +131,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def and_i_submit_my_details
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_submit_my_details

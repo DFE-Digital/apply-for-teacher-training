@@ -15,7 +15,7 @@ RSpec.describe TextOrdinalizer do
     expect(described_class.call(10)).to match('tenth')
   end
 
-  it 'will revert to "Nth" written numbers after ten' do
+  it 'reverts to "Nth" written numbers after ten' do
     expect(described_class.call(11)).to match('11th')
   end
 end

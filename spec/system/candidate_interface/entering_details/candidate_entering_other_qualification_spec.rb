@@ -108,7 +108,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
   end
 
   def when_i_click_on_other_qualifications
-    click_link t('page_titles.other_qualifications')
+    click_link_or_button t('page_titles.other_qualifications')
   end
 
   def then_i_see_the_select_qualification_type_page
@@ -117,11 +117,11 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
 
   def when_i_select_add_a_level_qualification
     choose 'A level'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
   alias_method :when_i_click_continue, :and_i_click_continue
 
@@ -137,7 +137,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
 
   def when_i_submit_in_some_of_my_qualification_but_omit_some_required_details
     fill_in t('application_form.other_qualification.subject.label'), with: 'Believing in the Heart of the Cards'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_validation_errors_for_my_qualification
@@ -152,11 +152,11 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
 
   def and_i_choose_to_add_another_a_level_qualification
     choose 'Yes, add another A level'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_click_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_the_year_field_is_pre_populated_with_my_previous_details
@@ -173,7 +173,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
 
   def and_i_choose_a_different_type_of_qualification
     choose 'Yes, add a different qualification'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_choose_other
@@ -229,7 +229,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
   end
 
   def when_i_select_add_another_qualification
-    click_link 'Add another qualification'
+    click_link_or_button 'Add another qualification'
   end
 
   def and_choose_as_level
@@ -248,25 +248,25 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
   end
 
   def then_i_should_not_see_an_incomplete_as_level_qualification
-    expect(page).not_to have_content('AS level')
+    expect(page).to have_no_content('AS level')
     expect(all('.govuk-summary-list__value').last.text).not_to eq 'Not entered'
   end
 
   def when_i_click_on_delete_my_first_qualification
     within(all('.app-summary-card')[0]) do
-      click_link(t('application_form.other_qualification.delete'))
+      click_link_or_button(t('application_form.other_qualification.delete'))
     end
   end
 
   def and_i_confirm_that_i_want_to_delete_my_additional_qualification
-    click_button t('application_form.other_qualification.confirm_delete')
+    click_link_or_button t('application_form.other_qualification.confirm_delete')
   end
 
   def then_i_can_only_see_two_qualifications
-    expect(page).not_to have_content 'A level Losing to Yugi'
+    expect(page).to have_no_content 'A level Losing to Yugi'
     expect(page).to have_content('A level Oh')
     expect(page).to have_content('Access Course History, English and Psychology')
-    expect(page).not_to have_content('AS level')
+    expect(page).to have_no_content('AS level')
   end
 
   def when_i_click_to_change_my_first_qualification
@@ -311,11 +311,11 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
   end
 
   def when_i_click_on_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_the_section_is_not_completed
-    expect(page).not_to have_css('#academic-and-other-relevant-qualifications-badge-id', text: 'Completed')
+    expect(page).to have_no_css('#academic-and-other-relevant-qualifications-badge-id', text: 'Completed')
   end
 
   def then_i_can_check_my_answers
@@ -351,7 +351,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
 
   def when_i_delete_my_incomplete_qualification
     within(all('.app-summary-card')[2]) do
-      click_link(t('application_form.other_qualification.delete'))
+      click_link_or_button(t('application_form.other_qualification.delete'))
     end
   end
 
@@ -377,7 +377,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
   end
 
   def when_i_click_back_to_your_details
-    click_link 'Back to your details'
+    click_link_or_button 'Back to your details'
   end
 
   def then_i_see_the_your_details_page

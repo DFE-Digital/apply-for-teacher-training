@@ -41,7 +41,7 @@ RSpec.feature 'Candidate can see their structured reasons for rejection when rev
   end
 
   def when_i_apply_again
-    click_button 'Apply again'
+    click_link_or_button 'Apply again'
   end
 
   def then_i_can_see_rejection_reasons_from_the_earlier_application
@@ -56,7 +56,7 @@ RSpec.feature 'Candidate can see their structured reasons for rejection when rev
   def and_i_should_not_see_a_link_to_the_course_on_find
     course_name = @application_choice_with_feedback.current_course.name_and_code
     expect(page).to have_content(course_name)
-    expect(page).not_to have_link(course_name)
+    expect(page).to have_no_link(course_name)
   end
 
   def and_i_should_see_application_with_unstructured_feedback
@@ -67,6 +67,6 @@ RSpec.feature 'Candidate can see their structured reasons for rejection when rev
 
   def and_i_should_not_see_application_without_feedback
     course_name = @application_choice_without_feedback.current_course.name_and_code
-    expect(page).not_to have_content(course_name)
+    expect(page).to have_no_content(course_name)
   end
 end

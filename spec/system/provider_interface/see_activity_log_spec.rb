@@ -64,7 +64,7 @@ RSpec.feature 'See activity log' do
   end
 
   def when_i_click_on_the_activity_log_tab
-    click_link 'Activity log'
+    click_link_or_button 'Activity log'
   end
 
   def then_i_should_see_events_for_all_applications_belonging_to_my_providers
@@ -72,6 +72,6 @@ RSpec.feature 'See activity log' do
     expect(page).to have_content @choice3.current_course.name
     expect(page).to have_content @choice2.current_course.name
     expect(page).to have_content @choice1.current_course.name
-    expect(page).not_to have_content @choice4.current_course.name
+    expect(page).to have_no_content @choice4.current_course.name
   end
 end

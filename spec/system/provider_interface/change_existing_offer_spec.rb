@@ -121,11 +121,11 @@ RSpec.feature 'Provider changes an existing offer' do
   end
 
   def and_i_click_an_application_choice_with_an_offer
-    click_link application_choice.application_form.full_name
+    click_link_or_button application_choice.application_form.full_name
   end
 
   def and_i_click_on_the_offer_tab
-    click_link 'Offer'
+    click_link_or_button 'Offer'
   end
 
   def then_i_see_the_offer_details
@@ -135,7 +135,7 @@ RSpec.feature 'Provider changes an existing offer' do
 
   def when_i_choose_to_change_the_provider
     within(all('.govuk-summary-list__row')[0]) do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
@@ -148,7 +148,7 @@ RSpec.feature 'Provider changes an existing offer' do
   end
 
   def and_i_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_select_a_different_course
@@ -178,19 +178,19 @@ RSpec.feature 'Provider changes an existing offer' do
   end
 
   def when_i_add_a_further_condition
-    click_button 'Add another condition'
+    click_link_or_button 'Add another condition'
     fill_in('provider_interface_offer_wizard[further_conditions][1][text]', with: 'A* on Maths A Level')
   end
 
   def and_i_add_another_and_then_remove_a_further_condition
-    click_button 'Add another condition'
+    click_link_or_button 'Add another condition'
     fill_in('provider_interface_offer_wizard[further_conditions][2][text]', with: 'Go to the cinema')
-    click_button 'Remove condition 3'
+    click_link_or_button 'Remove condition 3'
   end
 
   def then_the_correct_conditions_are_displayed
     expect(page).to have_field('Condition 2', with: 'A* on Maths A Level')
-    expect(page).not_to have_field('Condition 3', with: 'Go to the cinema')
+    expect(page).to have_no_field('Condition 3', with: 'Go to the cinema')
   end
 
   def then_the_review_page_is_loaded
@@ -210,7 +210,7 @@ RSpec.feature 'Provider changes an existing offer' do
   end
 
   def when_i_send_the_offer
-    click_button 'Send new offer'
+    click_link_or_button 'Send new offer'
   end
 
   def then_i_see_that_the_offer_was_successfully_updated
@@ -220,6 +220,6 @@ RSpec.feature 'Provider changes an existing offer' do
   end
 
   def when_i_choose_to_change_the_conditions
-    click_link 'Add or change conditions'
+    click_link_or_button 'Add or change conditions'
   end
 end

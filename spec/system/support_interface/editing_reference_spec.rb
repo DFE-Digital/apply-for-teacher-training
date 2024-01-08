@@ -51,7 +51,7 @@ RSpec.feature 'Editing reference' do
   def and_i_click_the_change_link_next_to_referee_name
     within_summary_card('Dumbledore') do
       within_summary_row('Name') do
-        click_link 'Change'
+        click_link_or_button 'Change'
       end
     end
   end
@@ -64,7 +64,7 @@ RSpec.feature 'Editing reference' do
   end
 
   def when_i_submit_the_update_form
-    click_button 'Update'
+    click_link_or_button 'Update'
   end
   alias_method :and_i_submit_the_update_form, :when_i_submit_the_update_form
 
@@ -90,13 +90,13 @@ RSpec.feature 'Editing reference' do
   end
 
   def and_i_should_see_my_details_comment_in_the_audit_log
-    click_link 'History'
+    click_link_or_button 'History'
     expect(page).to have_content 'Updated as part of Zen Desk ticket #12345'
   end
 
   def and_i_click_the_change_link_next_to_feedback
     within_summary_card('McGonagall') do
-      click_link 'Add reference'
+      click_link_or_button 'Add reference'
     end
   end
 
@@ -121,7 +121,7 @@ RSpec.feature 'Editing reference' do
   end
 
   def and_i_should_see_my_feedback_comment_in_the_audit_log
-    click_link 'History'
+    click_link_or_button 'History'
     expect(page).to have_content 'Updated as part of Zen Desk ticket #12346'
   end
 end

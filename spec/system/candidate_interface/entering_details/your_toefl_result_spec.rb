@@ -22,16 +22,16 @@ RSpec.feature 'Your TOEFL result' do
 
   def and_i_select_the_options_for_toefl
     choose 'Yes'
-    click_button t('continue')
+    click_link_or_button t('continue')
     choose 'Test of English as a Foreign Language'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_provide_my_toefl_details
     fill_in 'TOEFL registration number', with: '123456'
     fill_in 'Total score', with: '10'
     fill_in 'When did you complete the assessment?', with: '1999'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_can_review_my_qualification
@@ -45,7 +45,7 @@ RSpec.feature 'Your TOEFL result' do
     click_change_link 'registration number'
     expect(page).to have_field('TOEFL registration number', with: '123456')
     fill_in 'TOEFL registration number', with: '888'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
     expect(page).to have_content '888'
@@ -54,11 +54,11 @@ RSpec.feature 'Your TOEFL result' do
 
   def and_i_can_complete_this_section
     choose t('application_form.incomplete_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Incomplete')
-    click_link efl_link_text
+    click_link_or_button efl_link_text
     choose t('application_form.completed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Completed')
   end
 end

@@ -23,7 +23,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
     # section complete
     when_i_mark_the_work_experience_section_as_incomplete
     and_i_review_my_application
-    and_i_click_link_complete_your_work_history
+    and_i_click_link_or_button_complete_your_work_history
 
     when_i_click_back
     then_i_should_be_redirected_to_the_application_review_page
@@ -73,9 +73,9 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
 
   def when_i_mark_the_work_experience_section_as_incomplete
     visit candidate_interface_application_form_path
-    click_link 'Work history'
+    click_link_or_button 'Work history'
     choose t('application_form.incomplete_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_review_my_application
@@ -83,13 +83,13 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
     when_i_click_on_check_your_answers
   end
 
-  def and_i_click_link_complete_your_work_history
-    click_link 'Complete your work history'
+  def and_i_click_link_or_button_complete_your_work_history
+    click_link_or_button 'Complete your work history'
   end
 
   def then_i_should_see_all_sections_are_complete
     application_form_sections.each do |section|
-      expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
+      expect(page).to have_no_css "[data-qa='incomplete-#{section}']"
     end
   end
 
@@ -106,7 +106,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_on_check_your_answers
-    click_link 'Check and submit your application'
+    click_link_or_button 'Check and submit your application'
   end
 
   def then_i_should_be_redirected_to_the_application_review_page
@@ -114,23 +114,23 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def when_i_click_change_job
-    click_link 'Change job'
+    click_link_or_button 'Change job'
   end
 
   def when_i_click_delete_job
-    click_link 'Delete job'
+    click_link_or_button 'Delete job'
   end
 
   def when_i_click_change_work_break
-    click_link 'Change entry for break'
+    click_link_or_button 'Change entry for break'
   end
 
   def when_i_click_delete_work_break
-    click_link 'Delete entry for break'
+    click_link_or_button 'Delete entry for break'
   end
 
   def when_i_update_job
@@ -140,31 +140,31 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
       fill_in 'Month', with: '3'
     end
 
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_update_work_break
     when_i_click_change_work_break
     fill_in 'Enter reasons for break in work history', with: 'The Nostromo blew up'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_update_work_history_completed
-    and_i_click_link_complete_your_work_history
+    and_i_click_link_or_button_complete_your_work_history
 
     choose t('application_form.completed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def when_i_delete_job
     when_i_click_delete_job
-    click_button t('application_form.restructured_work_history.delete_job.confirm')
+    click_link_or_button t('application_form.restructured_work_history.delete_job.confirm')
   end
 
   def when_i_delete_work_break
     when_i_click_delete_work_break
 
-    click_button 'Yes I’m sure - delete this entry'
+    click_link_or_button 'Yes I’m sure - delete this entry'
   end
 
   def then_i_should_see_the_job_form

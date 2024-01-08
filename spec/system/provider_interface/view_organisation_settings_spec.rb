@@ -44,7 +44,7 @@ RSpec.feature 'Organisation settings' do
 
   def when_i_click_on_the_organisation_settings_link
     within('#navigation') do
-      click_link('Organisation settings')
+      click_link_or_button('Organisation settings')
     end
   end
 
@@ -76,6 +76,6 @@ RSpec.feature 'Organisation settings' do
   end
 
   def and_i_cannot_see_a_link_to_manage_organisation_permissions_for_the_second_provider
-    expect(page).not_to have_content("Organisation permissions #{@second_provider.name}")
+    expect(page).to have_no_content("Organisation permissions #{@second_provider.name}")
   end
 end

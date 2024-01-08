@@ -37,7 +37,7 @@ RSpec.feature 'Candidate updates their contact information from an international
   end
 
   def when_i_click_on_contact_information
-    click_link t('page_titles.contact_information')
+    click_link_or_button t('page_titles.contact_information')
   end
 
   def then_i_see_my_contact_details_are_complete
@@ -45,17 +45,17 @@ RSpec.feature 'Candidate updates their contact information from an international
   end
 
   def when_i_change_to_an_international_address
-    click_link('Change address')
+    click_link_or_button('Change address')
     choose('In the UK')
-    click_button('Save and continue')
+    click_link_or_button('Save and continue')
   end
 
   def and_i_click_the_back_button
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_do_not_have_the_option_to_complete
-    expect(page).not_to have_field('Yes, I have completed this section')
-    expect(page).not_to have_button('Continue')
+    expect(page).to have_no_field('Yes, I have completed this section')
+    expect(page).to have_no_button('Continue')
   end
 end

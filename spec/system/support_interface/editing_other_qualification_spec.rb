@@ -76,7 +76,7 @@ RSpec.feature 'Editing other qualification' do
 
   def and_i_click_the_change_link_next_to_the_as_level_qualification
     within('[data-qa="qualifications-table-a-levels-and-other-qualifications"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
@@ -198,7 +198,7 @@ RSpec.feature 'Editing other qualification' do
   end
 
   def and_i_submit_the_form
-    click_button 'Update'
+    click_link_or_button 'Update'
   end
 
   alias_method :when_i_submit_the_form, :and_i_submit_the_form
@@ -208,7 +208,7 @@ RSpec.feature 'Editing other qualification' do
   end
 
   def and_i_see_my_zendesk_ticket_in_the_audit_log
-    click_link 'History'
+    click_link_or_button 'History'
     expect(page).to have_content 'https://becomingateacher.zendesk.com/agent/tickets/12345'
   end
 

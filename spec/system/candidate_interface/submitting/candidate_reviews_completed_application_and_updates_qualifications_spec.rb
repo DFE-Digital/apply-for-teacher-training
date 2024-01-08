@@ -187,7 +187,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_on_check_your_answers
-    click_link 'Check and submit your application'
+    click_link_or_button 'Check and submit your application'
   end
 
   def and_i_review_my_application
@@ -197,12 +197,12 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
 
   def then_i_should_see_all_sections_are_complete
     application_form_sections.each do |section|
-      expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
+      expect(page).to have_no_css "[data-qa='incomplete-#{section}']"
     end
   end
 
   def when_i_click_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_should_be_redirected_to_the_application_review_page
@@ -211,91 +211,91 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
 
   def when_i_click_change_english_gcse_qualification
     within('[data-qa="gcse-english-qualification"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_english_gcse_country
     within('[data-qa="gcse-country"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_enic_statement
     within('[data-qa="gcse-enic-statement"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_english_gcse_grade
     within('[data-qa="gcse-english-grade"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_english_gcse_year
     within('[data-qa="gcse-english-award-year"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_other_qualification_type
     within('[data-qa="other-qualifications-type"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_other_qualification_grade
     within('[data-qa="other-qualifications-grade"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_degree_level
     within('[data-qa="degree-type"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_degree_subject
     within('[data-qa="degree-subject"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_degree_university
     within('[data-qa="degree-institution"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_degree_completion_status
     within('[data-qa="degree-completion-status"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_degree_grade
     within('[data-qa="degree-grade"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_degree_start_year
     within('[data-qa="degree-start-year"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_degree_enic_comparability
     within('[data-qa="degree-enic-comparability"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
   def when_i_click_change_degree_country
     within('[data-qa="degree-country"]') do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
@@ -364,45 +364,45 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
       fill_in 'Qualification name', with: 'School Certificate English'
     end
 
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_update_english_gcse_country
     when_i_click_change_english_gcse_country
 
     select 'New Zealand'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_update_enic_statement
     when_i_click_change_enic_statement
 
     choose 'No'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_update_english_gcse_grade
     when_i_click_change_english_gcse_grade
     choose 'Other'
     fill_in 'Grade', with: 'C'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_update_english_gcse_year
     when_i_click_change_english_gcse_year
     fill_in 'Year', with: '1980'
 
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_update_the_degree_level
     when_i_click_change_degree_level
 
     choose 'Master’s degree'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     choose 'Master of Arts (MA)'
 
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_update_the_other_qualification_type
@@ -412,64 +412,64 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
     within '#candidate-interface-other-qualification-type-form-qualification-type-non-uk-conditional' do
       fill_in 'Qualification name', with: 'First Aid Certificate'
     end
-    click_button t('continue')
+    click_link_or_button t('continue')
     select 'New Zealand'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_update_the_other_qualification_grade
     when_i_click_change_other_qualification_grade
 
     fill_in 'Grade', with: 'C'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_update_the_degree_subject
     when_i_click_change_degree_subject
 
     select 'Computer science', from: 'What subject is your degree?'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_update_the_degree_university
     when_i_click_change_degree_university
 
     select 'University of Warwick', from: 'candidate_interface_degree_wizard[university]'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_update_degree_completion_status
     when_i_click_change_degree_completion_status
 
     choose 'Yes'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     and_i_fill_out_the_graduation_year
   end
 
   def and_i_fill_out_the_graduation_year
     fill_in t('page_titles.what_year_did_you_graduate'), with: '2009'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_update_the_degree_enic_comparability
     when_i_click_change_degree_enic_comparability
 
     choose 'No'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_update_degree_grade
     when_i_click_change_degree_grade
 
     choose 'Distinction'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_update_degree_start_year
     when_i_click_change_degree_start_year
 
     fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2000'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_change_to_an_international_degree
@@ -477,34 +477,34 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
 
     choose 'Another country'
     select 'France'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     select 'Mathematics', from: 'What subject is your degree?'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     fill_in 'candidate_interface_degree_wizard[international_type]', with: 'Diplôme'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     fill_in 'candidate_interface_degree_wizard[university]', with: 'University of Paris'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     choose 'Yes'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     choose 'Yes'
     fill_in 'candidate_interface_degree_wizard[other_grade]', with: '94%'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2010'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     fill_in t('page_titles.what_year_did_you_graduate'), with: '2014'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
 
     choose 'Yes'
     fill_in 'UK ENIC reference number', with: '0123456789'
     choose 'Doctor of Philosophy degree'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_navigate_back_to_the_gcse_review_page
@@ -517,13 +517,13 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_click_complete_english_gcse_or_equivalent
-    click_link 'Complete English GCSE or equivalent'
+    click_link_or_button 'Complete English GCSE or equivalent'
   end
 
   def and_i_mark_section_as_completed
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     choose 'Yes, I have completed this section'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_see_my_updated_gcse_qualification

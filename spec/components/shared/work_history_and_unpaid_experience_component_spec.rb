@@ -94,7 +94,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
     it 'renders the correct details' do
       expect(page).to have_css('dl', class: 'govuk-summary-list') do |summary|
         expect(summary).to have_css('dd', class: 'govuk-summary-list__value', text: 'Yes')
-        expect(summary).not_to have_css('dd', class: 'govuk-summary-list__value', text: 'No')
+        expect(summary).to have_no_css('dd', class: 'govuk-summary-list__value', text: 'No')
       end
 
       expect(page).to have_css('h3#work-history-subheader', class: 'govuk-heading-m') do |subheader|

@@ -84,7 +84,7 @@ RSpec.feature 'Docs' do
   def when_i_click_on_candidate_flow_documentation
     allow(CandidateFlow).to receive(:workflow_spec).and_return(Struct.new(:states).new({}))
 
-    click_link 'Candidate flow'
+    click_link_or_button 'Candidate flow'
   end
 
   def then_the_candidate_flow_diagram_is_generated
@@ -96,11 +96,11 @@ RSpec.feature 'Docs' do
   end
 
   def when_i_click_on_the_end_of_cycle_documentation
-    click_link 'Cycle timeline'
+    click_link_or_button 'Cycle timeline'
   end
 
   def when_i_click_on_qualifications_documentation
-    click_link 'Qualifications'
+    click_link_or_button 'Qualifications'
   end
 
   def then_i_can_see_the_apply_reopens_date

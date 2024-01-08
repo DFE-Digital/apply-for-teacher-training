@@ -29,18 +29,18 @@ RSpec.feature 'Managing provider-provider permissions via support' do
   end
 
   def when_i_visit_the_first_provider
-    click_link 'Providers'
-    click_link 'Numan College'
+    click_link_or_button 'Providers'
+    click_link_or_button 'Numan College'
   end
 
   def and_click_relationships
-    click_link 'Relationships'
+    click_link_or_button 'Relationships'
   end
 
   def and_set_invalid_relationships
     # check no checkboxes
 
-    click_button 'Update relationships'
+    click_link_or_button 'Update relationships'
   end
 
   def then_i_should_see_an_error
@@ -54,7 +54,7 @@ RSpec.feature 'Managing provider-provider permissions via support' do
       end
     end
 
-    click_button 'Update relationships'
+    click_link_or_button 'Update relationships'
   end
 
   def then_the_relationships_should_be_updated

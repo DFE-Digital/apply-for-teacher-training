@@ -76,7 +76,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course with multipl
 
   def when_i_confirm_the_course
     choose 'Yes'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_should_be_redirected_to_the_course_site_path
@@ -91,7 +91,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course with multipl
 
   def when_i_choose_a_location
     choose 'Main site'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_be_redirected_to_the_course_review_path

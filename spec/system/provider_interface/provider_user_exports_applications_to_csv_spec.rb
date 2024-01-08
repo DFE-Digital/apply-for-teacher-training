@@ -71,7 +71,7 @@ RSpec.feature 'Provider user exporting applications to a csv', mid_cycle: false 
   end
 
   def click_export_data
-    click_button 'Export application data (CSV)'
+    click_link_or_button 'Export application data (CSV)'
   end
 
   def and_i_fill_in_the_form_incorrectly

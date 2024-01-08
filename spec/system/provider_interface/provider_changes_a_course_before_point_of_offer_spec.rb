@@ -116,22 +116,22 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def and_i_click_an_application_choice_that_is_interviewing
-    click_link application_choice.application_form.full_name
+    click_link_or_button application_choice.application_form.full_name
   end
 
   def and_i_click_an_application_choice_that_is_recruited
-    click_link recruited_application_choice.application_form.full_name
+    click_link_or_button recruited_application_choice.application_form.full_name
   end
 
   def then_i_cannot_change_the_course
     within('[data-qa="course-details"]') do
-      expect(page).not_to have_content 'Change'
+      expect(page).to have_no_content 'Change'
     end
   end
 
   def and_i_click_on_change_the_training_provider
     within(all('.govuk-summary-list__row').find { |e| e.text.include?('Training provider') }) do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
@@ -145,7 +145,7 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def and_i_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   alias_method :when_i_click_continue, :and_i_click_continue
@@ -199,7 +199,7 @@ RSpec.feature 'Provider changes a course' do
     @selected_course_option = @provider_available_course_option
 
     within(all('.govuk-summary-list__row')[1]) do
-      click_link 'Change'
+      click_link_or_button 'Change'
     end
   end
 
@@ -208,11 +208,11 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def when_i_click_back
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def when_i_click_update_course
-    click_button 'Update course'
+    click_link_or_button 'Update course'
   end
 
   def then_i_see_the_changed_offer_details

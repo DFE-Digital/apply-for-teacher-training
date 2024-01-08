@@ -50,6 +50,6 @@ RSpec.feature 'Submitting an application', :continuous_applications do
   def then_i_can_see_a_warning_message
     visit candidate_interface_continuous_applications_details_path
     expect(page).to have_content('You’ve created more than one account.')
-    expect(page).not_to have_button('Check and submit')
+    expect(page).to have_no_button('Check and submit')
   end
 end

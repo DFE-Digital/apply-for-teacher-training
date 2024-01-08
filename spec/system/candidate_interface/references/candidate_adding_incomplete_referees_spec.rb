@@ -59,12 +59,12 @@ RSpec.feature 'Candidate adding incomplete referees' do
   end
 
   def when_i_click_on_the_choose_reference_link
-    click_link 'Choose a type of referee'
+    click_link_or_button 'Choose a type of referee'
   end
 
   def when_i_try_to_complete_the_section
     choose 'Yes, I have completed this section'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_see_a_validation_error_message
@@ -72,7 +72,7 @@ RSpec.feature 'Candidate adding incomplete referees' do
   end
 
   def and_i_cant_see_the_choose_reference_link
-    expect(page).not_to have_link('Choose a type of referee')
+    expect(page).to have_no_link('Choose a type of referee')
   end
 
   def then_i_get_redirected_to_the_application_page
@@ -90,27 +90,27 @@ RSpec.feature 'Candidate adding incomplete referees' do
 
   def when_i_provide_a_referee_type_only
     visit candidate_interface_references_start_path
-    click_link 'Add reference'
+    click_link_or_button 'Add reference'
     and_i_select_a_referee_type
   end
 
   def and_i_select_a_referee_type
     choose 'Academic'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_that_referee_is_not_created
     visit candidate_interface_references_review_path
-    expect(page.text).not_to have_content('Academic')
+    expect(page.text).to have_no_content('Academic')
   end
 
   def when_i_provide_incomplete_referee_details
     visit candidate_interface_references_start_path
-    click_link 'Add reference'
+    click_link_or_button 'Add reference'
     choose 'Academic'
-    click_button t('continue')
+    click_link_or_button t('continue')
     fill_in t('application_form.references.name.label'), with: 'Mike Dean'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_that_the_incomplete_referee_is_created
@@ -123,12 +123,12 @@ RSpec.feature 'Candidate adding incomplete referees' do
   end
 
   def when_i_click_to_add_the_email_address
-    click_link 'Enter email address'
+    click_link_or_button 'Enter email address'
   end
 
   def and_i_provide_a_valid_email_address
     fill_in t('application_form.references.email_address.label', referee_name: 'Mike Dean'), with: 'mike.dean@example.com'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_am_redirected_to_the_review_page
@@ -136,12 +136,12 @@ RSpec.feature 'Candidate adding incomplete referees' do
   end
 
   def when_i_click_to_add_the_relationship
-    click_link 'Enter how you know them and for how long'
+    click_link_or_button 'Enter how you know them and for how long'
   end
 
   def and_i_provide_a_valid_relationship_to_referee
     fill_in t('application_form.references.relationship.label', referee_name: 'Mike Dean'), with: 'Gave me a yellow card'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_see_that_referee_is_now_complete

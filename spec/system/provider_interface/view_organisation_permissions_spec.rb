@@ -67,17 +67,17 @@ RSpec.feature 'Organisation permissions' do
   end
 
   def when_i_go_to_organisation_settings
-    click_link t('page_titles.provider.organisation_settings'), match: :first
+    click_link_or_button t('page_titles.provider.organisation_settings'), match: :first
   end
 
   def then_i_can_see_the_correct_organisation_permissions_links
     expect(page).to have_link("Organisation permissions #{@manage_orgs_provider.name}")
     expect(page).to have_link("Organisation permissions #{@read_only_provider.name}")
-    expect(page).not_to have_link("Organisation permissions #{@no_open_courses_provider.name}")
+    expect(page).to have_no_link("Organisation permissions #{@no_open_courses_provider.name}")
   end
 
   def and_i_click_on_organisation_permissions_for_the_provider_i_can_manage
-    click_link "Organisation permissions #{@manage_orgs_provider.name}"
+    click_link_or_button "Organisation permissions #{@manage_orgs_provider.name}"
   end
 
   def then_i_can_see_the_permissions_with_change_links
@@ -86,12 +86,12 @@ RSpec.feature 'Organisation permissions' do
   end
 
   def and_i_click_on_organisation_permissions_for_the_provider_i_cannot_manage
-    click_link "Organisation permissions #{@read_only_provider.name}"
+    click_link_or_button "Organisation permissions #{@read_only_provider.name}"
   end
 
   def then_i_can_see_the_permissions_that_have_been_set_up_without_change_links
     expect(page).to have_css('h2', text: "#{@read_only_provider.name} and #{@set_up_read_only_partner.name}")
-    expect(page).not_to have_css('.app-summary-card__actions > a')
+    expect(page).to have_no_css('.app-summary-card__actions > a')
   end
 
   def and_i_can_see_non_set_up_permissions

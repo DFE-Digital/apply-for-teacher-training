@@ -232,7 +232,7 @@ private
   end
 
   def when_i_click_apply_again
-    click_button 'Apply again'
+    click_link_or_button 'Apply again'
   end
 
   def and_i_have_course_choices
@@ -242,10 +242,10 @@ private
   end
 
   def and_i_submit_my_application_again
-    click_link 'Check and submit your application'
-    click_link 'Continue'
-    click_button 'Send application'
-    click_button 'Continue'
+    click_link_or_button 'Check and submit your application'
+    click_link_or_button 'Continue'
+    click_link_or_button 'Send application'
+    click_link_or_button 'Continue'
   end
 
   def when_i_got_rejected_by_a_provider
@@ -260,7 +260,7 @@ private
   end
 
   def when_i_carry_over
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_should_be_redirected_to_continuous_application_details_page
@@ -269,16 +269,16 @@ private
   end
 
   def when_i_go_to_your_applications_tab
-    click_link 'Your application'
+    click_link_or_button 'Your application'
   end
 
   def then_i_should_not_see_the_add_course_button
-    expect(page).not_to have_content('Add application')
+    expect(page).to have_no_content('Add application')
     expect(page).to have_content("Applications for courses starting in September #{RecruitmentCycle.current_year} are closed.")
   end
 
   def and_i_should_not_see_previous_applications_heading
-    expect(page).not_to have_content('Previous applications')
+    expect(page).to have_no_content('Previous applications')
   end
 
   def and_i_should_see_previous_applications_heading
@@ -300,7 +300,7 @@ private
   def then_i_see_a_copy_of_my_application
     expect(page).to have_title('Your details')
 
-    click_link 'Personal information'
+    click_link_or_button 'Personal information'
     expect(page).to have_content(date_of_birth.to_fs(:govuk_date))
     and_my_application_should_be_on_the_new_cycle
   end

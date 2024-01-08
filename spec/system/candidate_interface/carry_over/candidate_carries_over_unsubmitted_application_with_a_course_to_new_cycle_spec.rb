@@ -88,7 +88,7 @@ RSpec.feature 'Carry over', :continuous_applications, skip: 'Carry over does not
   end
 
   def when_i_click_on_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_see_a_copy_of_my_application
@@ -96,7 +96,7 @@ RSpec.feature 'Carry over', :continuous_applications, skip: 'Carry over does not
   end
 
   def when_i_view_referees
-    click_link 'References to be requested if you accept an offer'
+    click_link_or_button 'References to be requested if you accept an offer'
   end
 
   def then_i_can_see_the_referees_i_previously_added
@@ -105,7 +105,7 @@ RSpec.feature 'Carry over', :continuous_applications, skip: 'Carry over does not
   end
 
   def when_i_view_courses
-    click_link 'Back to application'
+    click_link_or_button 'Back to application'
   end
 
   def then_i_can_see_that_i_need_to_select_courses
@@ -114,23 +114,23 @@ RSpec.feature 'Carry over', :continuous_applications, skip: 'Carry over does not
 
   def when_i_add_a_course
     given_courses_exist
-    click_link 'Choose your course'
+    click_link_or_button 'Choose your course'
 
     choose 'Yes, I know where I want to apply'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     select 'Gorse SCITT (1N1)'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     choose 'Primary (2XT2)'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     expect(page).to have_content('Primary (2XT2)')
     expect(page).to have_content('You can add 3 more courses')
   end
 
   def and_i_visit_the_course_choices_section
-    click_link 'Choose your courses'
+    click_link_or_button 'Choose your courses'
   end
 
   def then_i_see_the_course_choice_review_page
@@ -138,16 +138,16 @@ RSpec.feature 'Carry over', :continuous_applications, skip: 'Carry over does not
   end
 
   def when_i_add_another_course
-    click_link 'Add another course'
+    click_link_or_button 'Add another course'
 
     choose 'Yes, I know where I want to apply'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     select 'Gorse SCITT (1N1)'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     choose 'Drama (2397)'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     expect(page).to have_content('Drama (2397)')
     expect(page).to have_content('You can add 2 more course')
@@ -155,7 +155,7 @@ RSpec.feature 'Carry over', :continuous_applications, skip: 'Carry over does not
 
   def and_i_complete_the_section
     choose t('application_form.completed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_receive_references

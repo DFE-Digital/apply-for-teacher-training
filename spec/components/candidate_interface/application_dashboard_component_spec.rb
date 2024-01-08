@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardComponent do
 
         render_result = render_inline(described_class.new(application_form:))
 
-        expect(render_result).not_to have_css('h1')
+        expect(render_result).to have_no_css('h1')
       end
     end
   end

@@ -35,7 +35,7 @@ RSpec.feature 'A sandbox user arriving from Find with a course and provider code
 
   def and_i_confirm_i_am_not_already_signed_up
     choose 'No, I need to create an account'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_the_sign_up_page
@@ -44,7 +44,7 @@ RSpec.feature 'A sandbox user arriving from Find with a course and provider code
 
   def when_i_sign_up
     fill_in t('authentication.sign_up.email_address.label'), with: @email
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     open_email(@email)
     expect(current_email.subject).to have_content t('authentication.sign_up.email.subject')
@@ -65,11 +65,11 @@ RSpec.feature 'A sandbox user arriving from Find with a course and provider code
 
   def when_i_select_prefill_application
     choose 'Start with the form filled in automatically'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_the_course_choice_has_been_added_to_my_application
-    click_link 'Choose your courses'
+    click_link_or_button 'Choose your courses'
     expect(page).to have_content(@course_on_apply.name_and_code)
   end
 end

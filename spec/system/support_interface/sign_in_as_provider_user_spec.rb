@@ -34,16 +34,16 @@ RSpec.feature 'Sign in as provider user' do
   end
 
   def when_i_click_the_sign_in_button
-    click_button 'Sign in as this provider user'
+    click_link_or_button 'Sign in as this provider user'
   end
 
   def then_i_am_logged_in_as_the_provider_user
-    click_link 'Visit Manage'
+    click_link_or_button 'Visit Manage'
     expect(page).to have_content 'Data sharing agreement'
   end
 
   def and_i_can_tell_this_is_an_impersonation_from_the_sign_out_link
-    expect(page).not_to have_content('Sign out')
+    expect(page).to have_no_content('Sign out')
     expect(page).to have_content('Support')
   end
 
@@ -52,7 +52,7 @@ RSpec.feature 'Sign in as provider user' do
 
     ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
       check "#{provider_name} agrees to comply with the data sharing practices outlined in this agreement"
-      click_button t('continue')
+      click_link_or_button t('continue')
     end
   end
 
@@ -61,11 +61,11 @@ RSpec.feature 'Sign in as provider user' do
   end
 
   def when_i_click_to_return_to_support
-    click_link 'Support'
+    click_link_or_button 'Support'
   end
 
   def and_i_click_on_stop_impersonating_this_user
-    click_link 'Stop impersonating this user'
+    click_link_or_button 'Stop impersonating this user'
   end
 
   def and_i_visit_the_provider_interface

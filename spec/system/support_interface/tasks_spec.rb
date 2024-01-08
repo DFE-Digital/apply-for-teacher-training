@@ -24,7 +24,7 @@ RSpec.feature 'Tasks', sidekiq: false do
   end
 
   def and_i_click_on_generate_test_applications
-    click_button 'Generate test application'
+    click_link_or_button 'Generate test application'
   end
 
   def then_i_see_that_the_job_has_been_scheduled
@@ -32,7 +32,7 @@ RSpec.feature 'Tasks', sidekiq: false do
   end
 
   def and_when_i_click_on_generate_fake_provider
-    click_button 'Create a fake provider'
+    click_link_or_button 'Create a fake provider'
   end
 
   def then_i_see_new_providers_details_and_api_token

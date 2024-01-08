@@ -79,7 +79,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent, type: :componen
     let(:editable) { false }
 
     it 'does not include change links' do
-      expect(rendered_content).not_to have_link('Change')
+      expect(rendered_content).to have_no_link('Change')
     end
   end
 
@@ -90,7 +90,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent, type: :componen
     }
 
     it 'does not include the Type row' do
-      expect(rendered_content).not_to have_content('Type')
+      expect(rendered_content).to have_no_content('Type')
     end
   end
 

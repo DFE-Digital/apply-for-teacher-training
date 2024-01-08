@@ -65,7 +65,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_on_the_application
-    click_link 'Candy Dayte'
+    click_link_or_button 'Candy Dayte'
   end
 
   def then_i_should_see_the_current_conditions
@@ -73,7 +73,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_on_change_conditions
-    click_link 'Change conditions'
+    click_link_or_button 'Change conditions'
   end
 
   def then_i_see_the_condition_edit_form_with_a_warning
@@ -94,7 +94,7 @@ RSpec.feature 'Add course to submitted application' do
       choose('Their degree subject was not German')
       choose('12 weeks')
     end
-    click_button 'Update conditions'
+    click_link_or_button 'Update conditions'
   end
 
   def then_i_see_the_new_ske_conditions
@@ -115,7 +115,7 @@ RSpec.feature 'Add course to submitted application' do
       choose('Their degree subject was not German')
       choose('16 weeks')
     end
-    click_button 'Update conditions'
+    click_link_or_button 'Update conditions'
   end
 
   def then_i_see_the_updated_ske_condition
@@ -129,10 +129,10 @@ RSpec.feature 'Add course to submitted application' do
     uncheck('French')
     uncheck('German')
     check('No, a SKE course is not required')
-    click_button 'Update conditions'
+    click_link_or_button 'Update conditions'
   end
 
   def then_i_see_that_the_ske_condition_has_been_removed
-    expect(page).not_to have_content('Subject knowledge enhancement course')
+    expect(page).to have_no_content('Subject knowledge enhancement course')
   end
 end

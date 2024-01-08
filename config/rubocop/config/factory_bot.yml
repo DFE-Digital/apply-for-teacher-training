@@ -5,3 +5,6 @@ FactoryBot/CreateList:
 
 FactoryBot/FactoryAssociationWithStrategy:
   Enabled: false
+
+FactoryBot/ExcessiveCreateList:
+  Enabled: false

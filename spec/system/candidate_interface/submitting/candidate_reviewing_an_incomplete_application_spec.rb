@@ -19,19 +19,19 @@ RSpec.feature 'Candidate reviewing an incomplete application' do
 
   def when_i_visit_the_review_application_page
     visit candidate_interface_application_form_path
-    click_link 'Check and submit your application'
+    click_link_or_button 'Check and submit your application'
   end
 
   def then_i_should_be_able_to_click_through_and_complete_each_required_section
     (application_form_sections - %i[science_gcse efl]).each do |section|
       within "#incomplete-#{section}-error" do
-        expect(page).to have_selector("a[data-qa='incomplete-#{section}']")
+        expect(page).to have_css("a[data-qa='incomplete-#{section}']")
       end
     end
   end
 
   def when_i_confirm_my_application
-    click_link t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_see_an_error_that_i_have_not_completed_everything

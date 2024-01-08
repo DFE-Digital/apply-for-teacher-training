@@ -56,7 +56,7 @@ RSpec.feature 'Reasons for rejection dashboard', time: Time.zone.local(2023, 1, 
   end
 
   def and_i_click_on_the_reasons_for_rejection_dashboard_link_for_the_current_cycle
-    click_link "#{RecruitmentCycle.cycle_name} (starts #{RecruitmentCycle.current_year}) - current"
+    click_link_or_button "#{RecruitmentCycle.cycle_name} (starts #{RecruitmentCycle.current_year}) - current"
   end
 
   def then_i_should_see_reasons_for_rejection_dashboard
@@ -244,7 +244,7 @@ private
   end
 
   def when_i_click_on_a_top_level_reason
-    click_link 'Qualifications'
+    click_link_or_button 'Qualifications'
   end
 
   def then_i_can_see_a_list_of_applications_for_that_reason
@@ -264,7 +264,7 @@ private
       @application_choice3,
       @application_choice5,
       @application_choice6,
-    ].each { |application_choice| expect(page).not_to have_link("##{application_choice.id}") }
+    ].each { |application_choice| expect(page).to have_no_link("##{application_choice.id}") }
 
     within "#application-choice-section-#{@application_choice1.id}" do
       expect(page.text).to eq("Application choice ##{@application_choice1.id}\nQualifications\nThe statement lack detail and depthNo maths GCSE at minimum grade 4 or C, or equivalent\nSafeguarding\nSome safeguarding concern")
@@ -275,7 +275,7 @@ private
   end
 
   def and_i_click_on_a_sub_reason
-    click_link 'Teaching demonstration'
+    click_link_or_button 'Teaching demonstration'
   end
 
   def then_i_can_see_a_list_of_applications_for_that_sub_reason
@@ -294,7 +294,7 @@ private
       @application_choice4,
       @application_choice5,
       @application_choice6,
-    ].each { |application_choice| expect(page).not_to have_link("##{application_choice.id}") }
+    ].each { |application_choice| expect(page).to have_no_link("##{application_choice.id}") }
     expect(page).to have_link("##{@application_choice2.id}")
 
     within "#application-choice-section-#{@application_choice2.id}" do

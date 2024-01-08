@@ -63,11 +63,11 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   end
 
   def and_there_is_not_a_link_to_the_course_choices_section
-    expect(page).not_to have_link('Choose your courses')
+    expect(page).to have_no_link('Choose your courses')
   end
 
   def when_i_click_review_your_application
-    click_link 'Review your application'
+    click_link_or_button 'Review your application'
   end
 
   def when_i_try_to_visit_the_pick_provider_page
@@ -107,6 +107,6 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   end
 
   def when_i_click_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 end

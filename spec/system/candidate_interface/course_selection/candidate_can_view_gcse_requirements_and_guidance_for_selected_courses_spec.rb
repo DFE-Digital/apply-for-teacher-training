@@ -46,14 +46,14 @@ RSpec.feature 'Viewing course choices' do
   def when_i_add_an_english_gcse
     visit candidate_interface_gcse_details_new_type_path(subject: 'english')
     choose 'GCSE'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     check 'English (Single award)'
     within '#candidate-interface-english-gcse-grade-form-english-gcses-english-single-award-conditional' do
       fill_in 'Grade', with: 'C'
     end
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     fill_in 'Year', with: '2008'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_visit_the_course_choice_review_page
@@ -62,39 +62,39 @@ RSpec.feature 'Viewing course choices' do
 
   def then_i_can_view_course_choices_without_gcse_requirements
     within "#course-choice-#{@choice1.id}" do
-      expect(page).not_to have_content('GCSE requirements')
+      expect(page).to have_no_content('GCSE requirements')
     end
 
     within "#course-choice-#{@choice2.id}" do
-      expect(page).not_to have_content('GCSE requirements')
+      expect(page).to have_no_content('GCSE requirements')
     end
   end
 
   def then_i_can_view_course_choices_without_pending_guidance_text
     within "#course-choice-#{@choice1.id}" do
       expect(page).to have_content('GCSE requirements')
-      expect(page).not_to have_content('This provider will consider candidates with pending GCSEs')
+      expect(page).to have_no_content('This provider will consider candidates with pending GCSEs')
     end
 
     within "#course-choice-#{@choice2.id}" do
       expect(page).to have_content('GCSE requirements')
-      expect(page).not_to have_content('This provider does not consider candidates with pending GCSEs')
-      expect(page).not_to have_content('You said you’re currently studying for a qualification in English')
-      expect(page).not_to have_content("You can:\nfind a course that does accept pending GCSEs contact the provider to see if they will still consider your application")
+      expect(page).to have_no_content('This provider does not consider candidates with pending GCSEs')
+      expect(page).to have_no_content('You said you’re currently studying for a qualification in English')
+      expect(page).to have_no_content("You can:\nfind a course that does accept pending GCSEs contact the provider to see if they will still consider your application")
     end
   end
 
   def and_i_can_view_course_choices_without_equivalency_guidance_text
     within "#course-choice-#{@choice1.id}" do
       expect(page).to have_content('GCSE requirements')
-      expect(page).not_to have_content('This provider will not accept equivalency tests')
-      expect(page).not_to have_content('You said you do not have a qualification in English')
-      expect(page).not_to have_content('You can:\nfind a course that does accept equivalency tests contact the provider to see if they will still consider your application')
+      expect(page).to have_no_content('This provider will not accept equivalency tests')
+      expect(page).to have_no_content('You said you do not have a qualification in English')
+      expect(page).to have_no_content('You can:\nfind a course that does accept equivalency tests contact the provider to see if they will still consider your application')
     end
 
     within "#course-choice-#{@choice2.id}" do
       expect(page).to have_content('GCSE requirements')
-      expect(page).not_to have_content('This provider will accept equivalency tests in English')
+      expect(page).to have_no_content('This provider will accept equivalency tests in English')
     end
   end
 
@@ -102,11 +102,11 @@ RSpec.feature 'Viewing course choices' do
     visit candidate_interface_gcse_review_path(subject: 'english')
     click_change_link('qualification for GCSE, english')
     choose 'I do not have a qualification in English yet'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
     click_change_link('how you expect to gain this qualification')
     choose 'Yes'
     fill_in 'Details of the qualification you’re studying for', with: 'GCSE English'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_can_view_course_choices_with_pending_guidance_text
@@ -127,7 +127,7 @@ RSpec.feature 'Viewing course choices' do
     visit candidate_interface_gcse_review_path(subject: 'english')
     click_change_link('how you expect to gain this qualification')
     choose 'No'
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_can_view_course_choices_with_equivalency_guidance_text

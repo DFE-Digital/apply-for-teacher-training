@@ -9,7 +9,7 @@ RSpec.describe TestEmailInterceptor do
     expect(message.perform_deliveries).to be false
   end
 
-  it 'will let other emails be delivered' do
+  it 'lets other emails be delivered' do
     message = Mail::Message.new(to: ['test@no-example.com'])
 
     described_class.delivering_email(message)

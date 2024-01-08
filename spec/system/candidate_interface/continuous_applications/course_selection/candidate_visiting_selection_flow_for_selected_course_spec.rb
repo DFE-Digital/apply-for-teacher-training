@@ -57,7 +57,7 @@ RSpec.feature 'Selecting a course', :continuous_applications do
   end
 
   def when_i_click_the_back_link
-    click_link 'Back'
+    click_link_or_button 'Back'
   end
 
   def then_i_am_on_my_applications_page

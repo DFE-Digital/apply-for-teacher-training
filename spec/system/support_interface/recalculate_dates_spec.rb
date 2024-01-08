@@ -20,7 +20,7 @@ RSpec.feature 'Recalculate dates task', sidekiq: false do
   end
 
   def and_i_click_on_recalculate_dates
-    click_button 'Recalculate dates'
+    click_link_or_button 'Recalculate dates'
   end
 
   def then_i_see_that_the_job_has_been_scheduled

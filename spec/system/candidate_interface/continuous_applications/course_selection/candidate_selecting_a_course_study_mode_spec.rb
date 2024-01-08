@@ -60,21 +60,21 @@ RSpec.feature 'Selecting a study mode', :continuous_applications do
 
   def when_i_select_a_part_time_course
     visit candidate_interface_continuous_applications_choices_path
-    click_link 'Add application'
+    click_link_or_button 'Add application'
 
     choose 'Yes, I know where I want to apply'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     select @provider.name
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     choose @course.name
-    click_button t('continue')
+    click_link_or_button t('continue')
 
-    click_button t('continue')
+    click_link_or_button t('continue')
     expect(page).to have_text 'Select if the course is full time or part time'
     choose 'Part time'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_can_only_select_sites_with_a_part_time_course
@@ -83,13 +83,13 @@ RSpec.feature 'Selecting a study mode', :continuous_applications do
       expect(radios.count).to eq 2
       expect(page).to have_text('Site 1')
       expect(page).to have_text('Site 2')
-      expect(page).not_to have_text('Site 3')
+      expect(page).to have_no_text('Site 3')
     end
   end
 
   def when_i_select_a_site
     choose @first_site.name
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_visit_my_course_choices_page
@@ -127,19 +127,19 @@ RSpec.feature 'Selecting a study mode', :continuous_applications do
 
   def when_i_select_the_single_site_full_time_course
     visit candidate_interface_continuous_applications_choices_path
-    click_link 'Add application'
+    click_link_or_button 'Add application'
 
     choose 'Yes, I know where I want to apply'
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     select @provider.name
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     choose @single_site_course.name
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     choose 'Full time'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_the_site_is_resolved_automatically_and_i_see_the_course_choice

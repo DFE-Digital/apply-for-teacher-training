@@ -27,7 +27,7 @@ RSpec.describe 'candidate_interface/degrees/review/show' do
     end
 
     it 'does not render the complete section component' do
-      expect(rendered).not_to have_text('Have you completed this section?')
+      expect(rendered).to have_no_text('Have you completed this section?')
     end
   end
 
@@ -45,7 +45,7 @@ RSpec.describe 'candidate_interface/degrees/review/show' do
     end
 
     it 'does not render the complete section component' do
-      expect(rendered).not_to have_text('Have you completed this section?')
+      expect(rendered).to have_no_text('Have you completed this section?')
     end
   end
 
@@ -57,7 +57,7 @@ RSpec.describe 'candidate_interface/degrees/review/show' do
     end
 
     it 'does not tell the user to add their degree' do
-      expect(rendered).not_to have_text('Add your bachelor’s degree even if you have not got your grade yet.')
+      expect(rendered).to have_no_text('Add your bachelor’s degree even if you have not got your grade yet.')
     end
 
     it 'includes a link (styled as a secondary button) to add another degree' do

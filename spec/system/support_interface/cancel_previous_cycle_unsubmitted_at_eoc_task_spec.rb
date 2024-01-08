@@ -30,11 +30,11 @@ RSpec.feature 'Cancel previous cycle unsubmitted applications support task', :si
   end
 
   def and_i_click_on_cancel_unsubmitted_task
-    click_link 'Cancel applications'
+    click_link_or_button 'Cancel applications'
   end
 
   def and_i_click_the_i_am_sure_button
-    click_button 'Yes, I’m sure – cancel all unsubmitted applications'
+    click_link_or_button 'Yes, I’m sure – cancel all unsubmitted applications'
   end
 
   def then_i_see_that_the_job_has_been_scheduled

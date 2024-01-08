@@ -44,7 +44,7 @@ RSpec.describe 'API Docs - GET /api-docs/reference' do
 
     expect(response.body).to have_link '1.0', href: '/api-docs/v1.0/reference'
     expect(response.body).to have_link '1.1', href: '/api-docs/v1.1/reference'
-    expect(response.body).not_to have_link '1.2', href: '/api-docs/v1.1/reference'
+    expect(response.body).to have_no_link '1.2', href: '/api-docs/v1.1/reference'
   end
 
   it 'returns paths and components for the draft version' do

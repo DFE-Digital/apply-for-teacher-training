@@ -30,8 +30,8 @@ RSpec.feature 'Undo reference refusal' do
   end
 
   def when_i_undo_the_refusal
-    click_link 'Undo refusal for Harry'
-    click_button 'Undo refusal'
+    click_link_or_button 'Undo refusal for Harry'
+    click_link_or_button 'Undo refusal'
   end
 
   def then_the_refusal_is_undone

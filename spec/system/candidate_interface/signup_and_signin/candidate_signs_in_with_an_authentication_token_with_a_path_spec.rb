@@ -59,7 +59,7 @@ RSpec.feature 'Candidates authentication token has the path attribute populated'
   end
 
   def given_i_am_signed_out
-    click_link 'Sign out'
+    click_link_or_button 'Sign out'
   end
 
   def and_i_have_an_expired_token_associated_with_the_personal_statement_path
@@ -74,7 +74,7 @@ RSpec.feature 'Candidates authentication token has the path attribute populated'
   end
 
   def and_i_request_a_new_link
-    click_button 'Email me a new link'
+    click_link_or_button 'Email me a new link'
   end
 
   def when_i_click_on_the_link_in_my_email

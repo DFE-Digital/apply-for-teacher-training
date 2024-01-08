@@ -55,7 +55,7 @@ RSpec.feature 'Reinstate offer to a declined course choice' do
   end
 
   def when_i_click_on_an_application
-    click_link @application_form.full_name
+    click_link_or_button @application_form.full_name
   end
 
   def and_i_am_on_the_correct_application_page
@@ -69,7 +69,7 @@ RSpec.feature 'Reinstate offer to a declined course choice' do
   end
 
   def when_i_click_on_the_reinstate_offer_link
-    click_link 'Reinstate offer'
+    click_link_or_button 'Reinstate offer'
   end
 
   def then_i_see_the_reinstate_offer_page
@@ -77,7 +77,7 @@ RSpec.feature 'Reinstate offer to a declined course choice' do
   end
 
   def and_i_click_continue
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
   alias_method :when_i_click_continue, :and_i_click_continue
 

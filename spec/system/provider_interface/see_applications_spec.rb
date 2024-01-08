@@ -58,7 +58,7 @@ RSpec.feature 'See applications' do
   end
 
   def when_i_click_on_an_application
-    click_link @my_provider_choice1.application_form.full_name
+    click_link_or_button @my_provider_choice1.application_form.full_name
   end
 
   def then_i_should_be_on_the_application_view_page

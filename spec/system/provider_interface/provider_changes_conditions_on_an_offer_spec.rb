@@ -84,21 +84,21 @@ RSpec.feature 'Change offer conditions' do
   end
 
   def and_i_navigate_to_the_offer_tab
-    click_link 'Offer'
+    click_link_or_button 'Offer'
   end
 
   def and_i_click_on_add_or_change_conditions
-    click_link 'Add or change conditions'
+    click_link_or_button 'Add or change conditions'
   end
 
   alias_method :when_i_click_on_add_or_change_conditions, :and_i_click_on_add_or_change_conditions
 
   def and_i_add_further_conditions
-    click_button 'Add another condition'
+    click_link_or_button 'Add another condition'
     fill_in 'Condition 2', with: 'condition'
-    click_button 'Add another condition'
+    click_link_or_button 'Add another condition'
     fill_in 'Condition 3', with: 'and another'
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_see_the_new_conditions
@@ -108,26 +108,26 @@ RSpec.feature 'Change offer conditions' do
   end
 
   def and_i_remove_a_condition
-    click_button 'Remove condition 3'
-    click_button 'Continue'
+    click_link_or_button 'Remove condition 3'
+    click_link_or_button 'Continue'
   end
 
   def then_i_expect_to_see_the_updated_conditions
     expect(page).to have_content @condition.text
     expect(page).to have_content 'condition'
-    expect(page).not_to have_content 'and another'
+    expect(page).to have_no_content 'and another'
   end
 
   def then_i_should_not_see_the_removed_condition
     expect(page).to have_content 'Conditions of offer'
     expect(page).to have_content @condition.text
     expect(page).to have_content 'condition'
-    expect(page).not_to have_content 'and another'
-    click_button 'Continue'
+    expect(page).to have_no_content 'and another'
+    click_link_or_button 'Continue'
   end
 
   def when_i_send_the_new_offer
-    click_button 'Send new offer'
+    click_link_or_button 'Send new offer'
   end
 
   def then_the_candidate_should_have_the_new_conditions

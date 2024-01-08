@@ -42,11 +42,11 @@ RSpec.feature 'Purge test applications' do
   end
 
   def and_i_click_on_the_delete_test_applications_button
-    click_link 'Delete test applications'
+    click_link_or_button 'Delete test applications'
   end
 
   def and_i_click_the_i_am_sure_button
-    click_button 'Yes, I’m sure – delete all test applications'
+    click_link_or_button 'Yes, I’m sure – delete all test applications'
   end
 
   def then_i_see_a_message_telling_me_a_job_has_been_queued
@@ -54,7 +54,7 @@ RSpec.feature 'Purge test applications' do
   end
 
   def then_i_see_only_one_candidate
-    expect(page).not_to have_content('bob@example.com')
+    expect(page).to have_no_content('bob@example.com')
     expect(page).to have_content('alice@example.net')
   end
 end

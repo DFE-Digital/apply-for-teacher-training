@@ -53,7 +53,7 @@ RSpec.feature 'Candidate account' do
 
   def and_i_submit_my_email_address(email)
     fill_in t('authentication.sign_up.email_address.label'), with: email
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_receive_an_email_with_a_signup_link(email)
@@ -89,29 +89,29 @@ RSpec.feature 'Candidate account' do
   end
 
   def and_enter_my_personal_information(name)
-    click_link 'Personal information'
+    click_link_or_button 'Personal information'
     fill_in 'First name', with: name
     fill_in 'Last name', with: 'Smith'
     fill_in 'Day', with: '1'
     fill_in 'Month', with: '1'
     fill_in 'Year', with: '1990'
 
-    click_button 'Save and continue'
-    click_link 'Apply for teacher training'
+    click_link_or_button 'Save and continue'
+    click_link_or_button 'Apply for teacher training'
   end
 
   def then_i_am_signed_in_with(name)
-    click_link 'Personal information'
+    click_link_or_button 'Personal information'
 
-    expect(page).to have_selector("input[value=#{name}]")
+    expect(page).to have_css("input[value=#{name}]")
   end
 
   def when_i_click_the_sign_out_button
-    click_link 'Sign out'
+    click_link_or_button 'Sign out'
   end
 
   def then_i_should_be_signed_out
-    expect(page).not_to have_selector :link_or_button, 'Sign out'
+    expect(page).to have_no_selector :link_or_button, 'Sign out'
     expect(page).to have_current_path(candidate_interface_create_account_or_sign_in_path)
   end
 end

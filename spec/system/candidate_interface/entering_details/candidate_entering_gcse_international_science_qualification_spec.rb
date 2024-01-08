@@ -42,7 +42,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   end
 
   def and_i_click_on_the_science_gcse_link
-    click_link 'Science GCSE or equivalent'
+    click_link_or_button 'Science GCSE or equivalent'
   end
 
   def then_i_see_the_add_gcse_science_page
@@ -57,7 +57,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   end
 
   def and_i_click_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_select_the_country_i_studied_in

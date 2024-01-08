@@ -30,7 +30,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_click_on_work_history
-    click_link t('page_titles.work_history')
+    click_link_or_button t('page_titles.work_history')
   end
 
   def then_i_should_see_the_start_page
@@ -39,7 +39,7 @@ RSpec.feature 'Entering their work history' do
 
   def when_i_choose_that_i_have_been_in_full_time_education
     choose t('application_form.restructured_work_history.full_time_education.label')
-    click_button 'Continue'
+    click_link_or_button 'Continue'
   end
 
   def then_i_should_see_the_work_history_review_page
@@ -55,7 +55,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def and_i_click_on_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_should_see_the_form

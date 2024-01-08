@@ -62,11 +62,11 @@ RSpec.feature 'Candidate account' do
 
   def and_i_submit_my_email_address(email = @email)
     fill_in t('authentication.sign_up.email_address.label'), with: email
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_submit_without_entering_an_email
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_submit_my_email_address_in_uppercase
@@ -102,11 +102,11 @@ RSpec.feature 'Candidate account' do
   end
 
   def when_i_click_the_sign_out_button
-    click_link 'Sign out'
+    click_link_or_button 'Sign out'
   end
 
   def then_i_should_be_signed_out
-    expect(page).not_to have_selector :link_or_button, 'Sign out'
+    expect(page).to have_no_selector :link_or_button, 'Sign out'
     expect(page).to have_current_path(candidate_interface_create_account_or_sign_in_path)
   end
 
@@ -122,7 +122,7 @@ RSpec.feature 'Candidate account' do
 
   def and_i_submit_an_invalid_email_address
     fill_in t('authentication.sign_up.email_address.label'), with: 'invalid email'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_form_errors_on_the_page

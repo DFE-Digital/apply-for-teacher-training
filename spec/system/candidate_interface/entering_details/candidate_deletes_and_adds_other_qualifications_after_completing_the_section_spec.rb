@@ -57,7 +57,7 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
   end
 
   def when_i_click_the_other_qualifications_link
-    click_link 'A levels and other qualifications'
+    click_link_or_button 'A levels and other qualifications'
   end
 
   def and_visit_my_application_page
@@ -70,7 +70,7 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
 
   def and_i_change_my_qualification_type
     choose 'A level'
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_i_change_my_qualification_details
@@ -80,7 +80,7 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
   end
 
   def and_i_click_on_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_mark_the_section_as_incomplete
@@ -96,22 +96,22 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
   end
 
   def and_i_click_on_delete_degree
-    click_link(t('application_form.degree.delete'))
+    click_link_or_button(t('application_form.degree.delete'))
   end
 
   def and_i_confirm_that_i_want_to_delete_my_additional_degree
-    click_button t('application_form.degree.confirm_delete')
+    click_link_or_button t('application_form.degree.confirm_delete')
   end
 
   def and_i_click_on_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def and_click_on_delete_my_additional_qualification
-    click_link(t('application_form.other_qualification.delete'))
+    click_link_or_button(t('application_form.other_qualification.delete'))
   end
 
   def and_i_confirm_that_i_want_to_delete_my_qualification
-    click_button t('application_form.other_qualification.confirm_delete')
+    click_link_or_button t('application_form.other_qualification.confirm_delete')
   end
 end

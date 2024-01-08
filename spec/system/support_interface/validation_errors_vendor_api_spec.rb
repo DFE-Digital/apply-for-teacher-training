@@ -36,9 +36,9 @@ RSpec.feature 'Validation errors Vendor API' do
 
   def when_i_navigate_to_the_validation_errors_page
     visit support_interface_path
-    click_link 'Performance'
-    click_link 'Validation errors'
-    click_link 'Vendor API validation errors'
+    click_link_or_button 'Performance'
+    click_link_or_button 'Validation errors'
+    click_link_or_button 'Vendor API validation errors'
   end
 
   def then_i_should_see_a_list_of_error_groups
@@ -47,7 +47,7 @@ RSpec.feature 'Validation errors Vendor API' do
   end
 
   def when_i_click_on_a_group
-    click_link('ParameterInvalid')
+    click_link_or_button('ParameterInvalid')
   end
 
   def then_i_should_see_a_list_of_individual_errors
@@ -59,7 +59,7 @@ RSpec.feature 'Validation errors Vendor API' do
   end
 
   def when_i_click_on_link_in_breadcrumb_trail
-    click_link 'Vendor API'
+    click_link_or_button 'Vendor API'
   end
 
   def then_i_should_be_back_on_index_page

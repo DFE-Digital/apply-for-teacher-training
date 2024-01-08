@@ -86,12 +86,12 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def and_i_am_an_international_candidate
-    click_link t('page_titles.personal_information.heading')
+    click_link_or_button t('page_titles.personal_information.heading')
     candidate_fills_in_personal_details(international: true)
   end
 
   def when_i_click_on_other_qualifications
-    click_link t('page_titles.other_qualifications_international')
+    click_link_or_button t('page_titles.other_qualifications_international')
   end
 
   def then_i_see_the_select_qualification_type_page
@@ -118,7 +118,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def and_i_click_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_the_other_qualifications_form
@@ -134,7 +134,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def and_i_submit_the_other_qualification_form
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_validation_errors_for_my_qualification
@@ -161,7 +161,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def and_click_save_and_continue
-    click_button t('save_and_continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_see_the_other_qualification_review_page
@@ -216,7 +216,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def when_i_click_add_another_qualification
-    click_link 'Add another qualification'
+    click_link_or_button 'Add another qualification'
   end
 
   def when_i_visit_the_review_page
@@ -236,7 +236,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
   def and_leave_grade_and_subject_blank; end
 
   def when_i_click_on_continue
-    click_button t('continue')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_a_section_complete_error
@@ -248,7 +248,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def then_i_do_not_see_the_incomplete_application
-    expect(page).not_to have_content('Advanced Rules')
+    expect(page).to have_no_content('Advanced Rules')
   end
 
   def then_i_should_see_the_form

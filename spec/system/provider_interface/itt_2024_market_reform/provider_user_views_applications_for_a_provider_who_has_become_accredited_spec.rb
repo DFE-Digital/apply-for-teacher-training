@@ -72,8 +72,8 @@ RSpec.feature 'ITT 2024 market reform – viewing applications after a provider 
     expect(page).to have_link 'I applied to the partner provider who will gain accreditation 2023 course ratified by the first accredited provider'
     expect(page).to have_link 'I applied to the partner provider who will gain accreditation 2023 course ratified by the second accredited provider'
 
-    expect(page).not_to have_link 'I applied to the 2023 course self ratified by the second accredited provider'
-    expect(page).not_to have_link 'I applied to the partner provider 2023 course ratified by the second accredited provider'
+    expect(page).to have_no_link 'I applied to the 2023 course self ratified by the second accredited provider'
+    expect(page).to have_no_link 'I applied to the partner provider 2023 course ratified by the second accredited provider'
   end
 
   def when_i_sign_in_as_the_second_accredited_provider
@@ -93,9 +93,9 @@ RSpec.feature 'ITT 2024 market reform – viewing applications after a provider 
   def then_i_see_the_correct_2023_applications_for_the_first_accredited_provider
     expect(page).to have_link 'I applied to the partner provider who will gain accreditation 2023 course ratified by the first accredited provider'
 
-    expect(page).not_to have_link 'I applied to the partner provider who will gain accreditation 2023 course ratified by the second accredited provider'
-    expect(page).not_to have_link 'I applied to the partner provider 2023 course ratified by the second accredited provider'
-    expect(page).not_to have_link 'I applied to the 2023 course self ratified by the second accredited provider'
+    expect(page).to have_no_link 'I applied to the partner provider who will gain accreditation 2023 course ratified by the second accredited provider'
+    expect(page).to have_no_link 'I applied to the partner provider 2023 course ratified by the second accredited provider'
+    expect(page).to have_no_link 'I applied to the 2023 course self ratified by the second accredited provider'
   end
 
   def when_i_sign_in_as_the_partner_provider
@@ -105,9 +105,9 @@ RSpec.feature 'ITT 2024 market reform – viewing applications after a provider 
   def then_i_see_the_correct_2023_applications_for_the_partner_provider
     expect(page).to have_link 'I applied to the partner provider 2023 course ratified by the second accredited provider'
 
-    expect(page).not_to have_link 'I applied to the partner provider who will gain accreditation 2023 course ratified by the first accredited provider'
-    expect(page).not_to have_link 'I applied to the partner provider who will gain accreditation 2023 course ratified by the second accredited provider'
-    expect(page).not_to have_link 'I applied to the 2023 course self ratified by the second accredited provider'
+    expect(page).to have_no_link 'I applied to the partner provider who will gain accreditation 2023 course ratified by the first accredited provider'
+    expect(page).to have_no_link 'I applied to the partner provider who will gain accreditation 2023 course ratified by the second accredited provider'
+    expect(page).to have_no_link 'I applied to the 2023 course self ratified by the second accredited provider'
   end
 
   def when_the_2024_cycle_is_open
@@ -135,28 +135,28 @@ RSpec.feature 'ITT 2024 market reform – viewing applications after a provider 
     expect(page).to have_link 'I applied to the 2024 course self ratified by the provider that gained accreditation'
     expect(page).to have_link 'I applied to the 2024 partner provider course that is ratified by the provider that gained accreditation'
 
-    expect(page).not_to have_link 'I applied to the 2024 course self ratified by the second accredited proivder'
-    expect(page).not_to have_link 'I applied to the 2024 course self ratified by the first accredited provider'
+    expect(page).to have_no_link 'I applied to the 2024 course self ratified by the second accredited proivder'
+    expect(page).to have_no_link 'I applied to the 2024 course self ratified by the first accredited provider'
   end
 
   def then_i_see_the_correct_2024_applications_for_the_second_accredited_provider
     expect(page).to have_link 'I applied to the 2024 course self ratified by the second accredited proivder'
     expect(page).to have_link 'I applied to the 2024 partner provider course ratified by the second accredited provider'
 
-    expect(page).not_to have_link 'I applied to the 2024 partner provider course that is ratified by the provider that gained accreditation'
-    expect(page).not_to have_link 'I applied to the 2024 course self ratified by the provider that gained accreditation'
+    expect(page).to have_no_link 'I applied to the 2024 partner provider course that is ratified by the provider that gained accreditation'
+    expect(page).to have_no_link 'I applied to the 2024 course self ratified by the provider that gained accreditation'
   end
 
   def then_i_see_the_correct_2024_applications_for_the_first_accredited_provider
     expect(page).to have_link 'I applied to the 2024 course self ratified by the first accredited provider'
 
-    expect(page).not_to have_link 'I applied to the 2024 course self ratified by the provider that gained accreditation'
+    expect(page).to have_no_link 'I applied to the 2024 course self ratified by the provider that gained accreditation'
   end
 
   def then_i_see_the_correct_2024_applications_for_the_partner_provider
     expect(page).to have_link 'I applied to the 2024 partner provider course that is ratified by the provider that gained accreditation'
     expect(page).to have_link 'I applied to the 2024 partner provider course ratified by the second accredited provider'
 
-    expect(page).not_to have_link 'I applied to the 2024 course self ratified by the provider that gained accreditation'
+    expect(page).to have_no_link 'I applied to the 2024 course self ratified by the provider that gained accreditation'
   end
 end
