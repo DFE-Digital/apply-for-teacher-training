@@ -765,24 +765,6 @@ RSpec.describe CandidateInterface::DegreeWizard do
       end
     end
 
-    describe '#sanitize_country' do
-      let(:stored_data) { {}.to_json }
-      let(:attrs) { { uk_or_non_uk: 'uk', country: 'FR', current_step: :country } }
-
-      it 'clears country' do
-        wizard = described_class.new(store, attrs)
-        expect(wizard.country).to be_nil
-        expect(wizard.uk_or_non_uk).to eq 'uk'
-      end
-
-      it 'does not clear country if another country selected' do
-        new_attrs = attrs.merge(uk_or_non_uk: 'Another country')
-        wizard = described_class.new(store, new_attrs)
-        expect(wizard.country).to eq 'FR'
-        expect(wizard.uk_or_non_uk).to eq 'Another country'
-      end
-    end
-
     context 'sanitize_grade' do
       let(:stored_data) { {}.to_json }
       let(:attrs) { { grade: 'First-class honours', other_grade: '94%', current_step: :grade } }

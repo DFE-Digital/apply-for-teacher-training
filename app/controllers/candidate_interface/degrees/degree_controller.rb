@@ -41,6 +41,7 @@ module CandidateInterface
       alias new_enic new
 
       def update(current_step)
+        set_country_for_uk
         @wizard = DegreeWizard.new(degree_store, degree_params.merge({ current_step: }))
 
         if @wizard.valid_for_current_step?
@@ -67,6 +68,10 @@ module CandidateInterface
       end
 
     private
+
+      def set_country_for_uk
+        params[:candidate_interface_degree_wizard][:country] = 'GB' if params[:candidate_interface_degree_wizard][:uk_or_non_uk] == 'uk'
+      end
 
       def next_step!
         if @wizard.next_step == :review
