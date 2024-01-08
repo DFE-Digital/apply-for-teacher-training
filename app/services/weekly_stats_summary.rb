@@ -16,7 +16,7 @@ class WeeklyStatsSummary
       :yes_vote: #{pluralize(number_with_delimiter(offers_made(current_cycle_period, current_year, domestic)), 'total offer')} made | This point last cycle we had #{number_with_delimiter(offers_made(previous_cycle_period, previous_year, domestic))}
       :handshake: #{pluralize(number_with_delimiter(offers_accepted(current_cycle_period, current_year, domestic)), 'total offer')} accepted | This point last cycle we had #{number_with_delimiter(offers_accepted(previous_cycle_period, previous_year, domestic))}
       :no_vote: #{pluralize(number_with_delimiter(rejections_issued(current_cycle_period, current_year, domestic)), 'total rejection')} issued | This point last cycle we had #{number_with_delimiter(rejections_issued(previous_cycle_period, previous_year, domestic))}
-      :sleeping: #{pluralize(inactive_applications(current_cycle_period, current_year, domestic), 'application')} turned to inactive
+      :sleeping: #{pluralize(number_with_delimiter(inactive_applications(current_cycle_period, current_year, domestic)), 'application')} turned to inactive
       #{teacher} #{pluralize(number_with_delimiter(candidates_recruited(current_cycle_period, current_year, domestic)), 'total candidate')} recruited | This point last cycle we had #{number_with_delimiter(candidates_recruited(previous_cycle_period, previous_year, domestic))}
 
       *International applications :earth_#{%w[africa americas asia].sample}:*
@@ -25,7 +25,7 @@ class WeeklyStatsSummary
       :yes_vote: #{pluralize(number_with_delimiter(offers_made(current_cycle_period, current_year, international)), 'total offer')} made | This point last cycle we had #{number_with_delimiter(offers_made(previous_cycle_period, previous_year, international))}
       :handshake: #{pluralize(number_with_delimiter(offers_accepted(current_cycle_period, current_year, international)), 'total offer')} accepted | This point last cycle we had #{number_with_delimiter(offers_accepted(previous_cycle_period, previous_year, international))}
       :no_vote: #{pluralize(number_with_delimiter(rejections_issued(current_cycle_period, current_year, international)), 'total rejection')} issued | This point last cycle we had #{number_with_delimiter(rejections_issued(previous_cycle_period, previous_year, international))}
-      :sleeping: #{pluralize(inactive_applications(current_cycle_period, current_year, international), 'application')} turned to inactive
+      :sleeping: #{pluralize(number_with_delimiter(inactive_applications(current_cycle_period, current_year, international)), 'application')} turned to inactive
       #{teacher} #{pluralize(number_with_delimiter(candidates_recruited(current_cycle_period, current_year, international)), 'total candidate')} recruited | This point last cycle we had #{number_with_delimiter(candidates_recruited(previous_cycle_period, previous_year, international))}
 
 
