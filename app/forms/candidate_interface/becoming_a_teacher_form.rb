@@ -22,21 +22,9 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      if application_form.continuous_applications?
-        application_form.update!(
-          becoming_a_teacher:,
-        )
-      else
-        ActiveRecord::Base.transaction do
-          application_form.update!(
-            becoming_a_teacher:,
-          )
-
-          application_form
-            .application_choices
-            .all? { |choice| choice.update!(personal_statement: becoming_a_teacher) }
-        end
-      end
+      application_form.update!(
+        becoming_a_teacher:,
+      )
     end
   end
 end
