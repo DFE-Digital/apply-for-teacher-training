@@ -98,40 +98,6 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
           expect(history_item.feedback_type).to eq('rejection_reasons')
         end
       end
-
-      context 'when reasons selected for the `subject_knowledge` section' do
-        let(:rejection_reasons) do
-          {
-            selected_reasons: [
-              {
-                id: 'teaching_knowledge',
-                label: 'Teaching knowledge, ability and interview performance',
-                selected_reasons: [
-                  {
-                    id: 'subject_knowledge',
-                    label: 'Subject knowledge',
-                    details: {
-                      id: 'subject_knowledge_details',
-                      text: 'Subject knowledge bad',
-                    },
-                  },
-                ],
-              },
-            ],
-          }
-        end
-
-        it 'returns the related rejections in history items' do
-          history_items = described_class.all_previous_applications(current_application_form, :subject_knowledge)
-
-          history_item = history_items.first
-          expect(history_items.count).to eq(1)
-          expect(history_item.provider_name).to eq(application_choice1.provider.name)
-          expect(history_item.section).to eq(:subject_knowledge)
-          expect(history_item.feedback.flat_map(&:details).map(&:text)).to contain_exactly('Subject knowledge bad')
-          expect(history_item.feedback_type).to eq('rejection_reasons')
-        end
-      end
     end
 
     it 'ignores application choices with no relevant feedback' do

@@ -24,7 +24,6 @@ class DeleteApplication
     uk_residency_status
     work_history_explanation
     becoming_a_teacher
-    subject_knowledge
     interview_preferences
     work_history_breaks
     volunteering_experience

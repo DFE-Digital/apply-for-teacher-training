@@ -10,8 +10,6 @@ module SupportInterface
         title_for_top_level_reason('quality_of_application_y_n') => y_n_to_boolean(reasons_for_rejection.quality_of_application_y_n),
         label_for_subreason('quality_of_application_y_n', 'personal_statement') => subreason_exists?(reasons_for_rejection.quality_of_application_which_parts_needed_improvement, 'personal_statement'),
         label_for_subreason_detail('quality_of_application_y_n', 'personal_statement_what_to_improve_details') => reasons_for_rejection.quality_of_application_personal_statement_what_to_improve,
-        label_for_subreason('quality_of_application_y_n', 'subject_knowledge') => subreason_exists?(reasons_for_rejection.quality_of_application_which_parts_needed_improvement, 'subject_knowledge'),
-        label_for_subreason_detail('quality_of_application_y_n', 'subject_knowledge_what_to_improve_details') => reasons_for_rejection.quality_of_application_subject_knowledge_what_to_improve,
         label_for_subreason_detail('quality_of_application_y_n', 'other_what_to_improve_details') => reasons_for_rejection.quality_of_application_other_what_to_improve,
         label_for_subreason_detail('quality_of_application_y_n', 'other_details') => reasons_for_rejection.quality_of_application_other_details,
         title_for_top_level_reason('qualifications_y_n') => y_n_to_boolean(reasons_for_rejection.qualifications_y_n),

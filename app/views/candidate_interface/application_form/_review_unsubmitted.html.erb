@@ -97,17 +97,6 @@
       return_to_application_review: true,
     )) %>
   </div>
-  <% unless application_form.single_personal_statement? %>
-    <div data-qa="subject-knowledge">
-      <%= render(CandidateInterface::SubjectKnowledgeReviewComponent.new(
-        application_form: application_form,
-        editable: editable,
-        missing_error: nil,
-        submitting_application: true,
-        return_to_application_review: true,
-      )) %>
-    </div>
-  <% end %>
 </section>
 
 <section class="govuk-!-margin-bottom-8">

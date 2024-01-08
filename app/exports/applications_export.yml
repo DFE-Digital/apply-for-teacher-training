@@ -151,12 +151,6 @@ custom_columns:
     description: Date second nationality was last updated
     example: 2020-11-01T00:00:00+00:00
 
-  subject_knowledge_last_updated_at:
-    type: string
-    format: date-time
-    description: Date subject knowledge was last updated
-    example: 2020-11-01T00:00:00+00:00
-
   volunteering_completed_last_updated_at:
     type: string
     format: date-time

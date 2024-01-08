@@ -90,17 +90,19 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
       it 'redirects to application form page' do
         patch candidate_interface_new_becoming_a_teacher_path, params: params
 
-        expect(response).to redirect_to(candidate_interface_application_form_path)
+        expect(response.body).to match(/Write your personal statement/)
+        expect(response).not_to have_http_status(:redirect)
       end
     end
 
     context 'when becoming_a_teacher is invalid' do
       let(:becoming_a_teacher) { 'Some ' * 1001 }
 
-      it 'redirects to review page' do
+      it 'does not redirect' do
         patch candidate_interface_new_becoming_a_teacher_path, params: params
 
-        expect(response).to redirect_to(candidate_interface_becoming_a_teacher_show_path)
+        expect(response.body).to match(/Your answer must be 1000 words or less/)
+        expect(response).not_to have_http_status(:redirect)
       end
     end
   end
@@ -109,20 +111,22 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
     context 'when becoming_a_teacher is blank' do
       let(:becoming_a_teacher) { '' }
 
-      it 'redirects to application form page' do
+      it 'does not redirect' do
         patch candidate_interface_new_becoming_a_teacher_path, params: params
 
-        expect(response).to redirect_to(candidate_interface_application_form_path)
+        expect(response.body).to match(/Write your personal statement/)
+        expect(response).not_to have_http_status(:redirect)
       end
     end
 
     context 'when becoming_a_teacher is invalid' do
       let(:becoming_a_teacher) { 'Some ' * 1001 }
 
-      it 'redirects to review page' do
+      it 'does not redirect' do
         patch candidate_interface_edit_becoming_a_teacher_path, params: params
 
-        expect(response).to redirect_to(candidate_interface_becoming_a_teacher_show_path)
+        expect(response.body).to match(/Your answer must be 1000 words or less/)
+        expect(response).not_to have_http_status(:redirect)
       end
     end
 

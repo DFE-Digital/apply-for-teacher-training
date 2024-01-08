@@ -7,13 +7,11 @@ RSpec.feature 'Apply again' do
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_unsuccessful_application_with_rejection_reasons
     when_i_apply_again
-    then_subject_knowledge_needs_review
     then_becoming_a_teacher_needs_review
-    and_i_can_review_subject_knowledge
-    and_i_can_review_becoming_a_teacher
+    and_i_can_review_personal_statement
 
-    when_i_confirm_i_have_reviewed_becoming_a_teacher
-    then_becoming_a_teacher_no_longer_needs_review
+    when_i_confirm_i_have_reviewed_personal_statement
+    then_personal_statement_no_longer_needs_review
     and_i_can_set_it_back_to_unreviewed
 
     when_i_submit_my_application
@@ -39,7 +37,6 @@ RSpec.feature 'Apply again' do
 
     choice.update!(
       structured_rejection_reasons: {
-        quality_of_application_subject_knowledge_what_to_improve: 'Subject knowledge needs improving',
         quality_of_application_personal_statement_what_to_improve: 'Personal statement needs improving',
       },
     )
@@ -65,37 +62,25 @@ RSpec.feature 'Apply again' do
     click_button 'Continue'
   end
 
-  def then_subject_knowledge_needs_review
-    within_task_list_item('Your suitability to teach a subject or age group') do
-      expect(page).to have_css('.govuk-tag', text: 'Review')
-    end
-  end
-
   def then_becoming_a_teacher_needs_review
     within_task_list_item('Why you want to teach') do
       expect(page).to have_css('.govuk-tag', text: 'Review')
     end
   end
 
-  def and_i_can_review_subject_knowledge
-    click_link 'Your suitability to teach a subject or age group'
-    expect(page).to have_content 'Subject knowledge needs improving'
-    visit candidate_interface_application_form_path
-  end
-
-  def and_i_can_review_becoming_a_teacher
+  def and_i_can_review_personal_statement
     click_link 'Why you want to teach'
     expect(page).to have_content 'Personal statement needs improving'
     visit candidate_interface_application_form_path
   end
 
-  def when_i_confirm_i_have_reviewed_becoming_a_teacher
+  def when_i_confirm_i_have_reviewed_personal_statement
     click_link 'Why you want to teach'
     choose t('application_form.reviewed_radio')
     click_button t('continue')
   end
 
-  def then_becoming_a_teacher_no_longer_needs_review
+  def then_personal_statement_no_longer_needs_review
     within_task_list_item('Why you want to teach') do
       expect(page).to have_css('.govuk-tag', text: 'Completed')
     end
@@ -116,10 +101,6 @@ RSpec.feature 'Apply again' do
     within becoming_a_teacher_error_container do
       expect(page).to have_content 'Why you want to teach not marked as reviewed'
     end
-
-    within subject_knowledge_error_container do
-      expect(page).to have_content 'Suitability to teach your subjects or age group not marked as reviewed'
-    end
   end
 
   def and_i_can_submit_once_i_have_reviewed
@@ -127,13 +108,9 @@ RSpec.feature 'Apply again' do
     click_button t('continue')
     choose t('application_form.reviewed_radio')
     click_button t('continue')
-    click_link 'Your suitability to teach a subject or age group'
-    choose t('application_form.reviewed_radio')
-    click_button t('continue')
 
     click_link 'Check and submit'
     expect(page).not_to have_css becoming_a_teacher_error_container
-    expect(page).not_to have_css subject_knowledge_error_container
     click_button t('continue')
 
     candidate_fills_in_diversity_information
@@ -151,9 +128,5 @@ private
 
   def becoming_a_teacher_error_container
     '#incomplete-becoming_a_teacher-error'
-  end
-
-  def subject_knowledge_error_container
-    '#incomplete-subject_knowledge-error'
   end
 end

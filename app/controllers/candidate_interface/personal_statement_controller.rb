@@ -43,16 +43,19 @@ module CandidateInterface
       @becoming_a_teacher_form = BecomingATeacherForm.build_from_params(becoming_a_teacher_params)
       @return_to = return_to_after_edit(default: candidate_interface_becoming_a_teacher_show_path)
 
-      @becoming_a_teacher_form.save(current_application)
-
       unless @becoming_a_teacher_form.valid?
         set_section_to_incomplete_if_completed
       end
 
-      if @becoming_a_teacher_form.blank?
-        redirect_to candidate_interface_application_form_path
+      if @becoming_a_teacher_form.save(current_application)
+        if @becoming_a_teacher_form.blank?
+          redirect_to candidate_interface_application_form_path
+        else
+          redirect_to @return_to[:back_path]
+        end
       else
-        redirect_to @return_to[:back_path]
+        track_validation_error(@becoming_a_teacher_form)
+        render :edit
       end
     end
 
@@ -82,7 +85,7 @@ module CandidateInterface
     def becoming_a_teacher_params
       strip_whitespace params.require(:candidate_interface_becoming_a_teacher_form).permit(
         :becoming_a_teacher,
-      ).merge(single_personal_statement: current_application.single_personal_statement?)
+      )
     end
 
     def form_params

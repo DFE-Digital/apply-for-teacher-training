@@ -22,8 +22,6 @@ RSpec.describe SupportInterface::FlatReasonsForRejectionPresenter, type: :presen
           quality_of_application: true,
           personal_statement: true,
           personal_statement_what_to_improve: 'Use a spellchecker',
-          subject_knowledge: true,
-          subject_knowledge_what_to_improve: 'Claiming to be the \'world\'s leading expert\' seemed a bit strong',
           quality_of_application_what_to_improve: 'Study harder',
           quality_of_application_other_reason_details: 'Lights on but nobody home',
           qualifications: true,

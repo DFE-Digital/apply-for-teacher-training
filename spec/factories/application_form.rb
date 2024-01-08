@@ -278,7 +278,6 @@ FactoryBot.define do
         Faker::Address.postcode.sub(/^[a-zA-Z]+/, new_prefix)
       }
       becoming_a_teacher { Faker::Lorem.sentence(word_count: 500) }
-      subject_knowledge { Faker::Lorem.paragraph_by_chars(number: 300) }
       work_history_explanation { Faker::Lorem.paragraph_by_chars(number: 400) }
       volunteering_experience { [true, false, nil].sample }
       phase { :apply_1 }
@@ -313,7 +312,6 @@ FactoryBot.define do
       references_completed { true }
       safeguarding_issues_completed { true }
       science_gcse_completed { true }
-      subject_knowledge_completed { true }
       training_with_a_disability_completed { true }
       volunteering_completed { true }
       work_history_completed { true }

@@ -6,7 +6,6 @@ RSpec.describe DuplicateApplication do
       @original_application_form = create(
         :completed_application_form,
         :with_gcses,
-        created_at: ApplicationForm::SINGLE_PERSONAL_STATEMENT_FROM - 1.day,
         work_experiences_count: 1,
         volunteering_experiences_count: 1,
         full_work_history: true,
@@ -53,23 +52,12 @@ RSpec.describe DuplicateApplication do
       expect(duplicate_application_form).not_to be_references_completed
     end
 
-    context 'moving to the new personal statement' do
-      before do
-        FeatureFlag.activate(:one_personal_statement)
-      end
+    it 'marks the personal statement as completed' do
+      expect(duplicate_application_form).to be_becoming_a_teacher_completed
+    end
 
-      it 'marks the personal statement as incomplete' do
-        expect(duplicate_application_form).not_to be_becoming_a_teacher_completed
-      end
-
-      it 'merges the personal statement' do
-        original_two_statements = "#{@original_application_form.becoming_a_teacher}\n\n#{@original_application_form.subject_knowledge}"
-        expect(duplicate_application_form.becoming_a_teacher).to eq original_two_statements
-      end
-
-      it 'sets the subject knowledge to nil' do
-        expect(duplicate_application_form.subject_knowledge).to be_nil
-      end
+    it 'merges the personal statement' do
+      expect(duplicate_application_form.becoming_a_teacher).to eq @original_application_form.becoming_a_teacher
     end
   end
 
@@ -78,25 +66,6 @@ RSpec.describe DuplicateApplication do
 
     it 'marks reference as complete' do
       expect(duplicate_application_form).to be_references_completed
-    end
-
-    context 'moving to the new personal statement' do
-      before do
-        FeatureFlag.activate(:one_personal_statement)
-      end
-
-      it 'marks the personal statement as incomplete' do
-        expect(duplicate_application_form).not_to be_becoming_a_teacher_completed
-      end
-
-      it 'merges the personal statement' do
-        original_two_statements = "#{@original_application_form.becoming_a_teacher}\n\n#{@original_application_form.subject_knowledge}"
-        expect(duplicate_application_form.becoming_a_teacher).to eq original_two_statements
-      end
-
-      it 'sets the subject knowledge to nil' do
-        expect(duplicate_application_form.subject_knowledge).to be_nil
-      end
     end
 
     context 'when the candidate has cancelled references' do

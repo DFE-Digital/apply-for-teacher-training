@@ -3,26 +3,19 @@ require 'rails_helper'
 RSpec.feature 'Entering "Personal statement"' do
   include CandidateHelper
 
-  before do
-    TestSuiteTimeMachine.travel_permanently_to(ApplicationForm::SINGLE_PERSONAL_STATEMENT_FROM + 1.day)
-  end
-
   scenario 'Candidate submits personal statement' do
-    given_the_feature_flag_is_active
     given_i_am_signed_in
     and_i_visit_the_site
 
     when_i_click_on_personal_statement
     and_i_submit_the_form
-    then_i_should_return_to_the_application
+    then_i_should_be_told_to_write_my_personl_statement
 
-    when_i_click_on_personal_statement
-    and_i_fill_in_more_than_1000_words
+    when_i_fill_in_more_than_1000_words
     and_i_submit_the_form
     then_i_should_see_a_review_page
     and_i_should_see_that_my_personal_statement_is_over_the_word_limit
 
-    when_i_click_to_edit_my_answer
     when_i_fill_in_an_answer
     and_i_submit_the_form
     then_i_can_check_my_answers
@@ -42,10 +35,6 @@ RSpec.feature 'Entering "Personal statement"' do
 
     when_i_click_on_personal_statement
     then_i_can_check_my_revised_answers
-  end
-
-  def given_the_feature_flag_is_active
-    FeatureFlag.activate(:one_personal_statement)
   end
 
   def given_i_am_signed_in
@@ -77,7 +66,7 @@ RSpec.feature 'Entering "Personal statement"' do
     fill_in 'Your personal statement', with: 'Hello world'
   end
 
-  def and_i_fill_in_more_than_1000_words
+  def when_i_fill_in_more_than_1000_words
     fill_in 'Your personal statement', with: ('test ' * 1_001)
   end
 
@@ -137,7 +126,7 @@ RSpec.feature 'Entering "Personal statement"' do
     expect(page).to have_css('#your-personal-statement-badge-id', text: 'Completed')
   end
 
-  def then_i_should_return_to_the_application
-    expect(page).to have_content('Your application')
+  def then_i_should_be_told_to_write_my_personl_statement
+    expect(page).to have_content('Write your personal statement')
   end
 end

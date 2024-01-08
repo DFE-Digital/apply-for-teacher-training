@@ -3,7 +3,6 @@ class PersonalStatementComponent < ViewComponent::Base
   include ViewHelper
 
   delegate :becoming_a_teacher,
-           :subject_knowledge,
            :further_information,
            to: :application_form
 

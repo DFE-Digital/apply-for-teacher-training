@@ -27,9 +27,6 @@ en:
             personal_statement_other_details:
               blank: Enter details about reasons related to personal statement
               size: Details about reasons related to personal statement must be 100 words or fewer
-            subject_knowledge_details:
-              blank: Enter details about subject knowledge
-              size: Details about subject knowledge must be 100 words or fewer
             safeguarding_knowledge_details:
               blank: Enter details about safeguarding knowledge
               size: Details about safeguarding knowledge must be 100 words or fewer

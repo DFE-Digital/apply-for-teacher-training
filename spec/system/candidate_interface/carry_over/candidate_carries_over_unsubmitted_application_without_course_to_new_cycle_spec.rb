@@ -4,7 +4,6 @@ RSpec.feature 'Carry over', skip: 'Update to continuous applications', time: Cyc
   include CandidateHelper
 
   it 'Candidate carries over unsubmitted application without course to new cycle' do
-    given_the_feature_flag_is_disabled
     given_i_am_signed_in_as_a_candidate
     when_i_have_an_unsubmitted_application_without_a_course
     and_the_recruitment_cycle_ends
@@ -29,10 +28,6 @@ RSpec.feature 'Carry over', skip: 'Update to continuous applications', time: Cyc
     and_i_receive_references
     and_i_submit_my_application
     and_my_application_is_awaiting_provider_decision
-  end
-
-  def given_the_feature_flag_is_disabled
-    FeatureFlag.deactivate(:one_personal_statement)
   end
 
   def given_i_am_signed_in_as_a_candidate

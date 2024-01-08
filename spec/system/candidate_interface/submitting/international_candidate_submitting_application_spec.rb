@@ -5,7 +5,6 @@ RSpec.feature 'International candidate submits the application', :continuous_app
   include EFLHelper
 
   it 'International candidate completes and submits an application' do
-    FeatureFlag.deactivate(:one_personal_statement)
     given_i_am_signed_in
 
     when_i_have_completed_everything_except_the_efl_and_other_qualifications_section
@@ -72,11 +71,8 @@ RSpec.feature 'International candidate submits the application', :continuous_app
     click_link 'English GCSE or equivalent'
     candidate_fills_in_their_english_gcse
 
-    click_link 'Why you want to teach'
-    candidate_fills_in_becoming_a_teacher
-
-    click_link 'Your suitability to teach a subject or age group'
-    candidate_fills_in_subject_knowledge
+    click_link 'Your personal statement'
+    candidate_fills_in_personal_statement
 
     click_link t('page_titles.interview_preferences.heading')
     candidate_fills_in_interview_preferences

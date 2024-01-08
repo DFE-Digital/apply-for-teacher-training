@@ -188,7 +188,6 @@ RSpec.describe 'ApplicationForm factory' do
     field :address_line4, type: String
     field :postcode, type: String
     field :becoming_a_teacher, type: String
-    field :subject_knowledge, type: String
     field :work_history_explanation, type: String
     field :volunteering_experience, one_of: [true, false, nil]
     field :phase, value: phase || 'apply_1'
@@ -242,7 +241,6 @@ RSpec.describe 'ApplicationForm factory' do
     field :references_completed, value: true
     field :safeguarding_issues_completed, value: true
     field :science_gcse_completed, value: true
-    field :subject_knowledge_completed, value: true
     field :training_with_a_disability_completed, value: true
     field :volunteering_completed, value: true
     field :work_history_completed, value: true

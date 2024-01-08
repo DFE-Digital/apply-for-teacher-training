@@ -42,9 +42,6 @@ namespace :support_interface, path: '/support' do
     get '/becoming-a-teacher' => 'application_forms/personal_statement#edit_becoming_a_teacher', as: :application_form_edit_becoming_a_teacher
     patch '/becoming-a-teacher' => 'application_forms/personal_statement#update_becoming_a_teacher'
 
-    get '/subject-knowledge' => 'application_forms/personal_statement#edit_subject_knowledge', as: :application_form_edit_subject_knowledge
-    patch '/subject-knowledge' => 'application_forms/personal_statement#update_subject_knowledge'
-
     get '/applicant-address-type' => 'application_forms/address_type#edit', as: :application_form_edit_address_type
     post '/applicant-address-type' => 'application_forms/address_type#update', as: :application_form_update_address_type
     get '/applicant-address-details' => 'application_forms/address_details#edit', as: :application_form_edit_address_details

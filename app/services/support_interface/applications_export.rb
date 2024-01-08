@@ -58,7 +58,6 @@ module SupportInterface
           phone_number
           postcode
           second_nationality
-          subject_knowledge
           volunteering_completed
           volunteering_experience
           work_history_breaks

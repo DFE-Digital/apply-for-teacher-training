@@ -99,7 +99,7 @@ RSpec.describe GetActivityLogEvents, :with_audited do
         application_choice: choice,
         changes: {
           'interview_preferences' => %w[This That],
-          'subject_knowledge_completed' => [true, false],
+          'becoming_a_teacher_completed' => %w[true false],
         },
       )
 

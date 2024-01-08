@@ -43,7 +43,6 @@ RSpec.describe SupportInterface::ApplicationsExport, :with_audited do
       expect(row[:support_reference]).to eql('PJ9825')
       expect(row[:application_state]).to be(:awaiting_provider_decisions)
       expect(row[:form_updated_at]).to eql(time_to_freeze)
-      expect(row[:subject_knowledge_last_updated_at]).to be_nil
       expect(row[:volunteering_experience_last_updated_at]).to eql(time_to_freeze)
       expect(row[:courses_last_updated_at]).to eql(time_to_freeze)
     end

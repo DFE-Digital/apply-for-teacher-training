@@ -161,7 +161,6 @@ RSpec.describe ApplicationChoiceExportDecorator do
                   'Not scratch so much',
                   'QUALITY OF APPLICATION',
                   'Use a spellchecker',
-                  "Claiming to be the 'world's leading expert' seemed a bit strong",
                   'Lights on but nobody home',
                   'Study harder',
                   'QUALIFICATIONS',
