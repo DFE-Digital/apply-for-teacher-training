@@ -121,8 +121,6 @@ shared:
     - safeguarding_issues_status
     - science_gcse_completed
     - second_nationality
-    - subject_knowledge
-    - subject_knowledge_completed
     - submitted_at
     - support_reference
     - third_nationality
@@ -150,7 +148,6 @@ shared:
     - references_completed_at
     - safeguarding_issues_completed_at
     - science_gcse_completed_at
-    - subject_knowledge_completed_at
     - training_with_a_disability_completed_at
     - volunteering_completed_at
     - work_history_completed_at
