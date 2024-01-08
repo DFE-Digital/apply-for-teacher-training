@@ -33,7 +33,6 @@ class FeatureFlag
     [:support_user_revert_withdrawn_offer, 'Allows a support user to revert an application withdrawn by the candidate', 'James Glenn'],
     [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
     [:reference_nudges, 'Nudge emails for candidates that have incomplete references', 'Steve Hook'],
-    [:is_this_feedback_helpful_survey, 'Candidates will be able to tell us if the rejection feedback is helpful', 'James Glenn'],
     [:sample_applications_factory, 'An alternate generator for test/sample applications, uses `SampleApplicationsFactory` in place of `TestApplications.new`', 'Elliot Crosby-McCullough + Tomas Destefi'],
     [:adviser_sign_up, 'Allow candidates to sign up for a teacher training adviser', 'Ross Oliver'],
     [:structured_reference_condition, 'Structured reference condition that can be added as a condition to an offer', 'Tomas Destefi'],
