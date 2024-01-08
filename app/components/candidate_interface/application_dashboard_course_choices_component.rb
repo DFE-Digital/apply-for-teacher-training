@@ -197,8 +197,6 @@ module CandidateInterface
       return unless application_choice.rejected?
       return unless application_choice.rejection_reason.present? || application_choice.structured_rejection_reasons.present?
 
-      activate_rejection_feedback_button = FeatureFlag.active?(:is_this_feedback_helpful_survey)
-
       {
         key: 'Feedback',
         value: render(
@@ -206,7 +204,7 @@ module CandidateInterface
             application_choice:,
             render_link_to_find_when_rejected_on_qualifications: @render_link_to_find_when_rejected_on_qualifications,
             rejection_reasons_component: CandidateInterface::RejectionReasons::RejectionReasonsComponent,
-            feedback_button: activate_rejection_feedback_button,
+            feedback_button: true,
           ),
         ),
       }
