@@ -186,14 +186,14 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#training_with_a_disability_completed?' do
-    it 'returns true if training with a disabilitty section is completed' do
+    it 'returns true if training with a disability section is completed' do
       application_form = build(:completed_application_form)
       presenter = described_class.new(application_form)
 
       expect(presenter).to be_training_with_a_disability_completed
     end
 
-    it 'returns false if maths training with a disabilitty section is incomplete' do
+    it 'returns false if maths training with a disability section is incomplete' do
       application_form = build(:application_form)
       presenter = described_class.new(application_form)
 
@@ -588,7 +588,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#interview_preferences_valid?' do
-    it 'returns true if the intervew preference section is valid' do
+    it 'returns true if the interview preference section is valid' do
       application_form = build(:completed_application_form, interview_preferences_completed: false)
       presenter = described_class.new(application_form)
 

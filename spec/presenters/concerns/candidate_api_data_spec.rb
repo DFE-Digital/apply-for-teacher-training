@@ -23,7 +23,7 @@ RSpec.describe CandidateAPIData do
     let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form:) }
 
     describe '#uk_residency_status' do
-      context 'when the candidates nationalties include UK' do
+      context 'when the candidates nationalities include UK' do
         let(:application_form) { create(:application_form, :minimum_info, first_nationality: 'Irish', second_nationality: 'British') }
 
         it 'returns UK Citizen' do
@@ -31,7 +31,7 @@ RSpec.describe CandidateAPIData do
         end
       end
 
-      context 'when the candidates nationalties is Irish' do
+      context 'when the candidates nationalities is Irish' do
         let(:application_form) { create(:application_form, :minimum_info, first_nationality: 'Canadian', second_nationality: 'Irish') }
 
         it 'returns Irish Citizen' do

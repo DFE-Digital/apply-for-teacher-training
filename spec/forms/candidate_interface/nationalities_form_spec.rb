@@ -45,9 +45,9 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
     end
   end
 
-  describe '.candidates_nationalties' do
+  describe '.candidates_nationalities' do
     context 'when other is true' do
-      it 'returns a unique array of the candidates selected nationalties' do
+      it 'returns a unique array of the candidates selected nationalities' do
         nationalities = described_class.new(
           british: 'British',
           irish: 'Irish',
@@ -61,7 +61,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
     end
 
     context 'when other is nil' do
-      it 'returns a unique array of the candidates selected nationalties' do
+      it 'returns a unique array of the candidates selected nationalities' do
         nationalities = described_class.new(
           british: 'British',
           irish: 'Irish',

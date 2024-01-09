@@ -61,7 +61,7 @@ RSpec.describe WorkExperienceAPIData do
       let(:break1) { build_stubbed(:application_work_history_break, start_date: february2019, end_date: april2019, reason: 'I was watching TV.') }
       let(:break2) { build_stubbed(:application_work_history_break, start_date: september2019, end_date: december2019, reason: 'I was playing games.') }
 
-      it 'returns a concatentation of application_work_history_breaks of an application' do
+      it 'returns a concatenation of application_work_history_breaks of an application' do
         expect(presenter.work_history_break_explanation).to eq(
           "February 2019 to April 2019: I was watching TV.\n\nSeptember 2019 to December 2019: I was playing games.",
         )
