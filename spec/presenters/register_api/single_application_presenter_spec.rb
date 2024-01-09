@@ -205,7 +205,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
       expect(response[:attributes][:candidate][:nationality]).to eq(%w[GB US])
     end
 
-    it 'returns sorted array of nationalties so British or Irish are first' do
+    it 'returns sorted array of nationalities so British or Irish are first' do
       application_form = create(:application_form,
                                 :minimum_info,
                                 first_nationality: 'Canadian',
@@ -232,7 +232,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
   end
 
   describe 'attributes.candidate.uk_residency_status' do
-    it 'returns UK Citizen if the candidates nationalties include UK' do
+    it 'returns UK Citizen if the candidates nationalities include UK' do
       application_form = create(:application_form,
                                 :minimum_info,
                                 first_nationality: 'Irish',
@@ -244,7 +244,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
       expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('UK Citizen')
     end
 
-    it 'returns Irish Citizen if the candidates nationalties is Irish' do
+    it 'returns Irish Citizen if the candidates nationalities is Irish' do
       application_form = create(:application_form,
                                 :minimum_info,
                                 first_nationality: 'Canadian',
@@ -415,7 +415,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
       expect(response.dig(:attributes, :candidate, :english_language_qualifications)).to eq('Name: TOEFL, Grade: 20, Awarded: 1999')
     end
 
-    it 'prefers to return description of the candidate\'s EFL qualification over the deprecatd english_language_details' do
+    it 'prefers to return description of the candidate\'s EFL qualification over the deprecated english_language_details' do
       application_form = create(
         :completed_application_form,
         english_language_details: 'I have taken some exams but I do not remember the names',
