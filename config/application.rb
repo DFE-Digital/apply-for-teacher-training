@@ -29,7 +29,7 @@ require './app/lib/rack_exceptions_app'
 
 require_relative "../lib/modules/aws_ip_ranges"
 
-require 'pdfkit'
+require 'grover'
 
 module ApplyForPostgraduateTeacherTraining
   class Application < Rails::Application
@@ -74,7 +74,7 @@ module ApplyForPostgraduateTeacherTraining
     config.middleware.use ServiceUnavailableMiddleware
     config.middleware.insert_after ActionDispatch::HostAuthorization, RedirectToServiceGovUkMiddleware
     config.middleware.use VendorAPIRequestMiddleware
-    config.middleware.use PDFKit::Middleware, { print_media_type: true, page_size: "A4" }, disposition: 'attachment', only: [%r[^/provider/applications/\d+]]
+    config.middleware.use Grover::Middleware
     config.skylight.environments = ENV['SKYLIGHT_ENABLE'].to_s == 'true' ? [Rails.env] : []
 
     config.after_initialize do |app|

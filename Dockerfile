@@ -6,13 +6,12 @@ FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
-    libxml2-dev libxslt-dev ttf-freefont nodejs yarn tzdata libpq libxml2 libxslt graphviz
+    libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 libxslt graphviz chromium
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
-ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
-    RAILS_ENV=production \
+ENV RAILS_ENV=production \
     GOVUK_NOTIFY_API_KEY=TestKey \
     AUTHORISED_HOSTS=127.0.0.1 \
     SECRET_KEY_BASE=TestKey \
@@ -46,8 +45,7 @@ RUN bundle exec rake assets:precompile && \
 # If a existing base image name is specified Stage 1 & 2 will not be built and gems and dev packages will be used from the supplied image.
 FROM ${BASE_RUBY_IMAGE} AS production
 
-ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
-    LANG=en_GB.UTF-8 \
+ENV LANG=en_GB.UTF-8 \
     RAILS_ENV=production \
     GOVUK_NOTIFY_API_KEY=TestKey \
     AUTHORISED_HOSTS=127.0.0.1 \
@@ -57,7 +55,7 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
 
 RUN apk -U upgrade && \
     apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz \
-    ttf-dejavu ttf-droid ttf-freefont ttf-liberation libx11 openssl && \
+    ttf-dejavu ttf-droid ttf-liberation libx11 openssl nodejs chromium && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
