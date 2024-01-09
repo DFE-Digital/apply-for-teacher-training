@@ -7,7 +7,9 @@ Grover.configure do |config|
       left: '1.5cm',
       right: '1.5cm',
     },
-    emulate_media: 'print',
+    print_background: true,
+    scale: 0.8,
+    launch_args: ['--disable-dev-shm-usage', '--no-sandbox', '--disable-setuid-sandbox'],
   }
   config.ignore_path = /^(?!\/provider\/applications\/\d+)/
 end
