@@ -41,6 +41,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
       }),
       safeguarding: result(1, 1, {}),
       teaching_knowledge: result(6, 3, {
+        'subject_knowledge' => result(1, 1),
         'teaching_knowledge_other' => result(1, 1),
         'teaching_role_knowledge' => result(1, 1),
         'teaching_demonstration' => result(1, 1),

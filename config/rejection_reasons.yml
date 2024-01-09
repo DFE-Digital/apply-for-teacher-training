@@ -50,6 +50,12 @@
   :label: Teaching knowledge, ability and interview performance
   :reasons_visually_hidden: for rejecting due to teaching knowledge or interview performance
   :reasons:
+  - :id: subject_knowledge
+    :label: Subject knowledge
+    :details:
+      :id: subject_knowledge_details
+      :label: Details
+      :visually_hidden: about issues with their subject knowledge
   - :id: safeguarding_knowledge
     :label: Safeguarding knowledge
     :details:

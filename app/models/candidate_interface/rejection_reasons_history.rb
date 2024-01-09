@@ -98,6 +98,10 @@ module CandidateInterface
         .compact
     end
 
+    def feedback_for_subject_knowledge(rejection_reasons)
+      [rejection_reasons.find('subject_knowledge')].compact
+    end
+
     def map_section_to_method
       case section
       when :becoming_a_teacher
