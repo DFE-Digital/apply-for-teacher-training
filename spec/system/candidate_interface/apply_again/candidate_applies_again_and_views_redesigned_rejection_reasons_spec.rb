@@ -81,7 +81,7 @@ RSpec.feature 'Apply again' do
   end
 
   def when_i_review_subject_knowledge
-    click_link 'Your suitability to teach a subject or age group'
+    click_link_or_button 'Your suitability to teach a subject or age group'
   end
 
   def then_i_can_see_subject_knowledge_feedback
@@ -137,9 +137,9 @@ RSpec.feature 'Apply again' do
     click_link_or_button t('continue')
     choose t('application_form.reviewed_radio')
     click_link_or_button t('continue')
-    click_link 'Your suitability to teach a subject or age group'
+    click_link_or_button 'Your suitability to teach a subject or age group'
     choose t('application_form.reviewed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     click_link_or_button 'Check and submit'
     expect(page).to have_no_css becoming_a_teacher_error_container

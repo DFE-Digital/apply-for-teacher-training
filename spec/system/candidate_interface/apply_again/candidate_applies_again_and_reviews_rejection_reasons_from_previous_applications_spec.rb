@@ -10,7 +10,7 @@ RSpec.feature 'Apply again' do
     then_subject_knowledge_needs_review
     then_becoming_a_teacher_needs_review
     and_i_can_review_personal_statement
-        and_i_can_review_subject_knowledge
+    and_i_can_review_subject_knowledge
     and_i_can_review_becoming_a_teacher
 
     when_i_confirm_i_have_reviewed_personal_statement
@@ -79,7 +79,7 @@ RSpec.feature 'Apply again' do
   end
 
   def and_i_can_review_subject_knowledge
-    click_link 'Your suitability to teach a subject or age group'
+    click_link_or_button 'Your suitability to teach a subject or age group'
     expect(page).to have_content 'Subject knowledge needs improving'
     visit candidate_interface_application_form_path
   end
@@ -128,9 +128,9 @@ RSpec.feature 'Apply again' do
     click_link_or_button t('continue')
     choose t('application_form.reviewed_radio')
     click_link_or_button t('continue')
-    click_link 'Your suitability to teach a subject or age group'
+    click_link_or_button 'Your suitability to teach a subject or age group'
     choose t('application_form.reviewed_radio')
-    click_button t('continue')
+    click_link_or_button t('continue')
 
     click_link_or_button 'Check and submit'
     expect(page).to have_no_css becoming_a_teacher_error_container
