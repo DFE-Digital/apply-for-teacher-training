@@ -61,8 +61,10 @@ The initial iteration of structured rejection reasons stores data in the followi
   "quality_of_application_other_what_to_improve": "Study harder",
   "quality_of_application_which_parts_needed_improvement": [
     "personal_statement",
+    "subject_knowledge",
     "other"
   ],
+  "quality_of_application_subject_knowledge_what_to_improve": "Claiming to be the 'world's leading expert' seemed a bit strong",
   "quality_of_application_personal_statement_what_to_improve": "Use a spellchecker",
   "safeguarding_y_n": "Yes",
   "safeguarding_concerns": [

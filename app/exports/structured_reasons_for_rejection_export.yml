@@ -71,6 +71,15 @@ custom_columns:
     description: What could the candidate do to improve their personal statement?
     example: Dont use pour spelling and grammer.
 
+  subject_knowledge:
+    type: boolean
+    description: Was the reason for rejection related to the quality of their subject knowledge?
+
+  subject_knowledge_what_to_improve:
+    type: string
+    description: What could the candidate do to improve their subject knowledge?
+    example: Keep up to date with the latest curriculum content.
+
   quality_of_application_other_reason_details:
     type: string
     description: Was the reason for rejection related to the quality of some other aspect?

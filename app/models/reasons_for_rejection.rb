@@ -42,6 +42,7 @@ class ReasonsForRejection
     quality_of_application_y_n: {
       quality_of_application_which_parts_needed_improvement: {
         personal_statement: :quality_of_application_personal_statement_what_to_improve,
+        subject_knowledge: :quality_of_application_subject_knowledge_what_to_improve,
         other: %i[quality_of_application_other_details quality_of_application_other_what_to_improve],
       },
     },
@@ -77,6 +78,7 @@ class ReasonsForRejection
               :qualifications_which_qualifications, :honesty_and_professionalism_concerns, :safeguarding_concerns
   attr_accessor :candidate_behaviour_y_n, :candidate_behaviour_what_to_improve, :candidate_behaviour_other,
                 :quality_of_application_y_n, :quality_of_application_personal_statement_what_to_improve,
+                :quality_of_application_subject_knowledge_what_to_improve,
                 :quality_of_application_other_details,
                 :quality_of_application_other_what_to_improve,
                 :qualifications_y_n, :qualifications_other_details,

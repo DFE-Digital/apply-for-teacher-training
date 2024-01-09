@@ -13,8 +13,9 @@ RSpec.describe RejectionReasons::ReasonsForRejectionComponent do
         candidate_behaviour_other: 'Shouted a lot',
         candidate_behaviour_what_to_improve: 'Speak calmly',
         quality_of_application_y_n: 'Yes',
-        quality_of_application_which_parts_needed_improvement: %w[personal_statement],
+        quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
         quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
+        quality_of_application_subject_knowledge_what_to_improve: 'Write in the first person',
         qualifications_y_n: 'Yes',
         qualifications_which_qualifications: %w[no_english_gcse no_science_gcse no_degree],
         performance_at_interview_y_n: 'Yes',
@@ -48,6 +49,7 @@ RSpec.describe RejectionReasons::ReasonsForRejectionComponent do
 
       expect(result.css('h3.govuk-heading-s').text).to include('Quality of application')
       expect(html).to include('Do not refer to yourself in the third person')
+      expect(html).to include('Write in the first person')
 
       expect(result.css('h3.govuk-heading-s').text).to include('Qualifications')
       expect(html).to include('No English GCSE grade 4 (C) or above, or valid equivalent')

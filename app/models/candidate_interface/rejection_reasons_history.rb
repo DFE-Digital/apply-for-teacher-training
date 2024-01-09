@@ -98,10 +98,16 @@ module CandidateInterface
         .compact
     end
 
+    def feedback_for_subject_knowledge(rejection_reasons)
+      [rejection_reasons.find('subject_knowledge')].compact
+    end
+
     def map_section_to_method
       case section
       when :becoming_a_teacher
         :quality_of_application_personal_statement_what_to_improve
+      when :subject_knowledge
+        :quality_of_application_subject_knowledge_what_to_improve
       else
         raise UnsupportedSectionError
       end

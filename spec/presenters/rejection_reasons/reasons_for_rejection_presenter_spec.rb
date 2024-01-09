@@ -41,14 +41,16 @@ RSpec.describe RejectionReasons::ReasonsForRejectionPresenter do
       let(:reasons) do
         {
           quality_of_application_y_n: 'Yes',
-          quality_of_application_which_parts_needed_improvement: %w[personal_statement],
+          quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
           quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
+          quality_of_application_subject_knowledge_what_to_improve: 'Write in the first person',
         }
       end
 
       it 'returns a hash with the relevant title and reasons' do
         expect(rejected_application_choice.rejection_reasons).to eq(
-          { 'Quality of application' => ['Do not refer to yourself in the third person'] },
+          { 'Quality of application' => ['Do not refer to yourself in the third person',
+                                         'Write in the first person'] },
         )
       end
     end
