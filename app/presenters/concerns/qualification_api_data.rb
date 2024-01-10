@@ -26,9 +26,10 @@ module QualificationAPIData
   def format_degrees
     qualifications_of_level('degree').map do |qualification|
       qualification_hash = qualification_to_hash(qualification)
+      sanitized_institution_name = qualification_hash[:institution_details].gsub(/, GB\z/, '')
       grade = Hesa::Grade.find_by_description(qualification_hash[:grade])
       subject = Hesa::Subject.find_by_name(qualification_hash[:subject])
-      institution = Hesa::Institution.find_by_name(qualification_hash[:institution_details])
+      institution = Hesa::Institution.find_by_name(sanitized_institution_name)
       degree_type = Hesa::DegreeType.find_by_abbreviation_or_name(qualification.qualification_type)
       old_grades = HESA_DEGREE_GRADES.map { |e| e[1] }
 
