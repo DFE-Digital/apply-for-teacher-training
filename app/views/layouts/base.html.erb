@@ -67,8 +67,11 @@
     <% when 'support_interface' %>
       <%= javascript_pack_tag 'application-support' %>
     <% when 'provider_interface' %>
-      <%= render 'shared/zendesk_snippet' if FeatureFlag.active?(:enable_chat_support) %>
       <%= javascript_pack_tag 'application-provider' %>
+      <% if FeatureFlag.active?(:enable_chat_support) %>
+        <%= render 'shared/zendesk_snippet' %>
+        <%= javascript_pack_tag 'user-support-webchat' %>
+      <% end %>
     <% when 'publications' %>
       <%= javascript_pack_tag 'application-publications' %>
     <% when /api_docs/ %>
