@@ -20,8 +20,8 @@
     "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.2.2",
     "standard": "^17.1.0",
-    "stylelint": "^15.11.0",
-    "stylelint-config-gds": "^1.1.1"
+    "stylelint": "^16.1.0",
+    "stylelint-config-gds": "^2.0.0"
   },
   "scripts": {
     "lint": "standard 'app/frontend/packs'",
