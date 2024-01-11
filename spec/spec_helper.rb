@@ -140,29 +140,8 @@ RSpec.configure do |config|
   config.include(Clockwork::Test::RSpec::Matchers)
   config.after(:each, :clockwork) { Clockwork::Test.clear! }
 
-  config.after do |example|
-    if example.metadata[:js] && example.exception
-      save_failure_files(Capybara.page, example.metadata)
-    end
-  end
-
   # Print the 10 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
   # particularly slow.
   # config.profile_examples = 10
-end
-
-def save_failure_files(page, meta)
-  filename = File.basename(meta[:file_path])
-  line_number = meta[:line_number]
-
-  file_name = "#{filename}-#{line_number}"
-  screenshot_path = Rails.root.join('tmp', 'failures', 'screenshots', "#{file_name}.png")
-  page_path = Rails.root.join('tmp', 'failures', 'pages', "#{file_name}.html")
-
-  page.save_screenshot(screenshot_path)
-  page.save_page(page_path)
-
-  puts "\n Screenshot: #{screenshot_path}"
-  puts "\n Page: #{page_path}"
 end
