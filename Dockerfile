@@ -18,7 +18,6 @@ ENV RAILS_ENV=production \
     BLAZER_DATABASE_URL=testURL \
     GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey \
     REDIS_CACHE_URL=redis://127.0.0.1:6379 \
-    NODE_OPTIONS=--openssl-legacy-provider \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 WORKDIR /app
