@@ -76,9 +76,7 @@ RSpec.describe AcceptOffer do
     }.to change { application_choice.accepted_at }.to(Time.zone.now)
   end
 
-  it 'calls AcceptUnconditionalOffer when the feature is enabled and the offer is unconditional' do
-    FeatureFlag.activate(:unconditional_offers_via_api)
-
+  it 'calls AcceptUnconditionalOffer when the offer is unconditional' do
     application_choice = create(:application_choice,
                                 :offered,
                                 offer: build(:unconditional_offer))

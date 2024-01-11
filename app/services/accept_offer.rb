@@ -8,9 +8,7 @@ class AcceptOffer
   def save!
     return unless valid?
 
-    if FeatureFlag.active?(:unconditional_offers_via_api) && unconditional_offer?
-      return AcceptUnconditionalOffer.new(application_choice:).save!
-    end
+    return AcceptUnconditionalOffer.new(application_choice:).save! if unconditional_offer?
 
     ActiveRecord::Base.transaction do
       ApplicationStateChange.new(application_choice).accept!
