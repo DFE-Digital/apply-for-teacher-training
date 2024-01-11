@@ -61,17 +61,6 @@
           You can find courses from 9am on <%= CycleTimetable.find_reopens.to_fs(:govuk_date) %>. You can keep making changes to your application until then.
         </p>
       </section>
-    <% else %>
-      <% unless @application_form_presenter.application_form.continuous_applications? %>
-        <% if @application_form_presenter.candidate_has_previously_applied? && @application_form_presenter.previous_application_choices_unsuccessful? %>
-          <%= render(CandidateInterface::RejectionReasonsComponent.new(application_form: @application_form_presenter.previous_application_form)) %>
-        <% end %>
-
-        <%= render(CandidateInterface::ApplicationFormCourseChoicesComponent.new(
-            number_of_choices: @application_form_presenter.application_form.application_choices.count,
-            completed: @application_form_presenter.course_choices_completed?,
-          )) %>
-      <% end %>
     <% end %>
 
     <% cache(@application_cache_key, expires_in: 5.minutes) do %>
@@ -88,20 +77,20 @@
     <% elsif completed_application_form?(@application_form_presenter.application_form) &&
         CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) &&
         @application_form_presenter.can_add_more_choices? %>
-    <div class="app-grid-column--grey">
-      <h2 class="govuk-heading-m">You have completed your details</h2>
-      <p class="govuk-body">You can now start applying to courses.</p>
-      <%= govuk_button_link_to t('section_items.add_application'), candidate_interface_continuous_applications_do_you_know_the_course_path %>
-    </div>
-  <% end %>
-</div>
+      <div class="app-grid-column--grey">
+        <h2 class="govuk-heading-m">You have completed your details</h2>
+        <p class="govuk-body">You can now start applying to courses.</p>
+        <%= govuk_button_link_to t('section_items.add_application'), candidate_interface_continuous_applications_do_you_know_the_course_path %>
+      </div>
+    <% end %>
+  </div>
 
-<div class="govuk-grid-column-one-third">
-  <%= render partial: '/candidate_interface/shared/support', locals: { support_reference: @application_form_presenter.support_reference } %>
+  <div class="govuk-grid-column-one-third">
+    <%= render partial: '/candidate_interface/shared/support', locals: { support_reference: @application_form_presenter.support_reference } %>
 
-  <% if @application_form_presenter.candidate_has_previously_applied? %>
-    <h2 class="govuk-heading-s"><%= t('section_groups.previous_applications') %></h2>
-    <%= render(CandidateInterface::LinksToPreviousApplicationsComponent.new(application_form: @application_form_presenter.application_form)) %>
-  <% end %>
-</div>
+    <% if @application_form_presenter.candidate_has_previously_applied? %>
+      <h2 class="govuk-heading-s"><%= t('section_groups.previous_applications') %></h2>
+      <%= render(CandidateInterface::LinksToPreviousApplicationsComponent.new(application_form: @application_form_presenter.application_form)) %>
+    <% end %>
+  </div>
 </div>

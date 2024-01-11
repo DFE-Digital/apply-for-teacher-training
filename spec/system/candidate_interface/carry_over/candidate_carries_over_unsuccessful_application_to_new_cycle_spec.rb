@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Candidate can carry over unsuccessful application to a new recruitment cycle after the apply 2 deadline' do
+  include CandidateHelper
+
   before do
-    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(2023))
   end
 
   scenario 'when an unsuccessful candidate returns in the next recruitment cycle they can re-apply by carrying over their original application' do
@@ -13,12 +15,9 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     and_i_visit_my_application_complete_page
     then_i_see_the_carry_over_inset_text
 
-    when_i_click_apply_again
-    then_i_can_see_application_details
-    and_i_can_see_that_no_courses_are_selected_and_i_cannot_add_any_yet
-
     when_the_next_cycle_opens
     and_i_visit_my_application_complete_page
+    and_i_carry_over_my_application
     then_i_can_add_course_choices
   end
 
@@ -27,7 +26,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     and_i_have_an_application_with_a_rejection
     and_the_apply2_deadline_passes
     and_i_visit_my_application_complete_page
-    and_i_apply_again
+    and_i_carry_over_my_application
     and_the_next_cycle_opens
     and_i_visit_my_application_complete_page
     and_i_click_on_work_history
@@ -74,33 +73,14 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     expect(page).to have_content "You can apply for courses starting in the #{next_recruitment_year_range} academic year instead."
   end
 
-  def when_i_click_apply_again
-    click_link_or_button 'Apply again'
-  end
-
-  def then_i_can_see_application_details
-    expect(page).to have_content('Personal information Completed')
-    click_link_or_button 'Personal information'
-    expect(page).to have_content(@application_form.full_name)
-    click_link_or_button t('continue')
-  end
-
-  def and_i_can_see_that_no_courses_are_selected_and_i_cannot_add_any_yet
-    expect(page).to have_content "You can find courses from 9am on #{CycleTimetable.find_reopens.to_fs(:govuk_date)}. You can keep making changes to your application until then."
-    expect(page).to have_no_link 'Course choice'
-  end
-
   def when_the_next_cycle_opens
     advance_time_to(after_apply_reopens)
   end
 
-  def then_i_can_add_course_choices
-    expect(page).to have_content('Choose your courses Incomplete')
-    expect(page).to have_content 'You can apply for up to 4 courses'
-    click_link_or_button 'Choose your courses'
+  def and_i_carry_over_my_application
+    click_link_or_button 'Apply again'
   end
 
   alias_method :and_the_apply2_deadline_passes, :when_the_apply2_deadline_passes
-  alias_method :and_i_apply_again, :when_i_click_apply_again
   alias_method :and_the_next_cycle_opens, :when_the_next_cycle_opens
 end
