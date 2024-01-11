@@ -138,6 +138,14 @@ module MinisterialReport
     '24' => :modern_foreign_languages,
   }.freeze
 
+  INTERNATIONAL_RELOCATION_PAYMENT_SUBJECTS = {
+    'F0' => :physics,
+    'F3' => :physics,
+    '15' => :french,
+    '17' => :german,
+    '22' => :spanish,
+  }.freeze
+
   APPLICATIONS_REPORT_STATUS_MAPPING = {
     unsubmitted: %i[applications],
     application_not_sent: %i[applications],

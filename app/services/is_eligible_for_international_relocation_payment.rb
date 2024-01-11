@@ -1,7 +1,7 @@
 class IsEligibleForInternationalRelocationPayment
   delegate :application_form, to: :application_choice
 
-  ELIGIBLE_SUBJECTS = %i[physics].freeze
+  ELIGIBLE_SUBJECTS = %i[physics french german spanish].freeze
 
   def initialize(application_choice)
     @application_choice = application_choice
@@ -27,7 +27,7 @@ private
 
   def eligible_subject?
     subject_codes.any? do |code|
-      subject_mapping = MinisterialReport::SUBJECT_CODE_MAPPINGS[code]
+      subject_mapping = MinisterialReport::INTERNATIONAL_RELOCATION_PAYMENT_SUBJECTS[code]
       ELIGIBLE_SUBJECTS.include?(subject_mapping)
     end
   end
