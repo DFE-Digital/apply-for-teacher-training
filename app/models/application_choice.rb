@@ -88,6 +88,10 @@ class ApplicationChoice < ApplicationRecord
     ApplicationStateChange.unsuccessful.include? status.to_sym
   end
 
+  def in_progress?
+    ApplicationStateChange.in_progress.include? status.to_sym
+  end
+
   def application_unsuccessful_without_inactive?
     (ApplicationStateChange::UNSUCCESSFUL_STATES - %i[inactive]).include? status.to_sym
   end

@@ -614,4 +614,12 @@ RSpec.describe ApplicationChoice do
       end
     end
   end
+
+  describe '#in_progress?' do
+    let(:application_choice) { build(:application_choice, :inactive) }
+
+    it 'returns false for inactive application choices' do
+      expect(application_choice.in_progress?).to be(false)
+    end
+  end
 end
