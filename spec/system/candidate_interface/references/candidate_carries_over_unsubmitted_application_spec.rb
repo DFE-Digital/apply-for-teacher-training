@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'References' do
   include CandidateHelper
 
-  scenario 'Candidate carries over their application to the new cycle', continuous_applications: false do
+  scenario 'Candidate carries over their application to the new cycle' do
     given_i_am_signed_in
     and_i_have_an_unsubmitted_application_with_references
 

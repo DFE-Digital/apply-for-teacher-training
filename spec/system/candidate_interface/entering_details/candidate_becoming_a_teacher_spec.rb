@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering "Why do you want to be a teacher?"', continuous_applications: false do
+RSpec.feature 'Entering "Why do you want to be a teacher?"' do
   include CandidateHelper
 
   scenario 'Candidate submits why they want to be a teacher' do

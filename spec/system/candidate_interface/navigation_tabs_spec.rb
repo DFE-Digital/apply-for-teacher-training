@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Primary Navigation', continuous_applications: false do
+RSpec.describe 'Primary Navigation' do
   include CandidateHelper
   scenario 'highlights the primary navigation' do
     given_i_am_signed_in
@@ -8,7 +8,7 @@ RSpec.describe 'Primary Navigation', continuous_applications: false do
     then_i_should_see_your_application_as_active
   end
 
-  scenario 'highlights the primary navigation correct item for continuous applications', :continuous_applications, :js do
+  scenario 'highlights the primary navigation correct item for continuous applications', :js do
     given_i_am_signed_in
     when_i_visit_the_application_dashboard
     then_i_should_see_your_details_as_active

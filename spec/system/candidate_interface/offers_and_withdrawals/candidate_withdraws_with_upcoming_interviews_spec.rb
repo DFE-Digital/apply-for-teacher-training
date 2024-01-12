@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'A candidate withdraws with upcoming interviews', continuous_applications: false do
+RSpec.feature 'A candidate withdraws with upcoming interviews' do
   include CandidateHelper
 
   scenario 'successful withdrawal' do

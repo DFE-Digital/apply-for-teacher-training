@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering their disability information', continuous_applications: false do
+RSpec.feature 'Entering their disability information' do
   include CandidateHelper
 
   scenario 'Candidate submits their disability information' do
