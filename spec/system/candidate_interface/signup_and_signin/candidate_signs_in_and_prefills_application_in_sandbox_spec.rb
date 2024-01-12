@@ -16,8 +16,7 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox
     and_there_is_a_flash_saying_the_application_was_prefilled
     and_my_application_has_been_filled_in
 
-    when_i_click_submit_and_continue_and_send
-    and_i_skip_feedback
+    when_i_submitted_one_application
     then_my_application_is_submitted_successfully
   end
 
@@ -52,7 +51,7 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox
   end
 
   def then_i_am_taken_to_the_application_page
-    expect(page).to have_current_path(candidate_interface_application_form_path)
+    expect(page).to have_current_path(candidate_interface_continuous_applications_choices_path)
   end
 
   def and_there_is_a_flash_saying_the_application_was_prefilled
@@ -64,16 +63,11 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox
     expect(page).to have_no_content 'In progress'
   end
 
-  def when_i_click_submit_and_continue_and_send
-    click_link_or_button 'Check and submit your application'
-    click_link_or_button t('continue')
-    expect(page).to have_no_content 'There is a problem'
-
-    click_link_or_button 'Send application'
-  end
-
-  def and_i_skip_feedback
-    click_link_or_button 'Continue'
+  def when_i_submitted_one_application
+    click_link_or_button 'Your applications'
+    click_link_or_button 'Continue application'
+    click_link_or_button 'Review application'
+    click_link_or_button 'Confirm and submit application'
   end
 
   def then_my_application_is_submitted_successfully
