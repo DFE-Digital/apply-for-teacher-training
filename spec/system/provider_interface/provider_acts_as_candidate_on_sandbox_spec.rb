@@ -50,7 +50,7 @@ RSpec.describe 'A Provider can sign in as a candidate' do
   end
 
   def then_i_am_redirected_to_the_candidate_interface
-    expect(page).to have_current_path(candidate_interface_application_complete_path)
+    expect(page).to have_current_path(candidate_interface_continuous_applications_choices_path)
   end
 
   def and_i_see_a_flash_message
