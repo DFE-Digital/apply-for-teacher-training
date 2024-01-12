@@ -29,7 +29,7 @@ RSpec.describe ApplicationStateChange do
         interviewable: %i[awaiting_provider_decision interviewing],
         accepted: %i[conditions_not_met offer_deferred pending_conditions recruited],
         offered: %i[conditions_not_met declined offer offer_deferred offer_withdrawn pending_conditions recruited],
-        post_offered: %i[conditions_not_met declined declined offer offer_deferred offer_withdrawn offer_withdrawn pending_conditions recruited],
+        post_offered: %i[conditions_not_met declined declined offer_deferred offer_withdrawn offer_withdrawn pending_conditions recruited],
         unsuccessful: %i[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn application_not_sent inactive],
         successful: %i[offer offer_deferred pending_conditions recruited],
         decision_pending: %i[awaiting_provider_decision interviewing],
