@@ -4,6 +4,7 @@ RSpec.describe 'Primary Navigation' do
   include CandidateHelper
   scenario 'highlights the primary navigation' do
     given_i_am_signed_in
+    and_i_have_pre_continuous_applications_submitted
     when_i_visit_the_application_dashboard
     then_i_should_see_your_application_as_active
   end
@@ -25,6 +26,20 @@ RSpec.describe 'Primary Navigation' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def and_i_have_pre_continuous_applications_submitted
+    application_form = create(
+      :application_form,
+      :submitted,
+      recruitment_cycle_year: 2023,
+      candidate: current_candidate,
+    )
+    create(
+      :application_choice,
+      :awaiting_provider_decision,
+      application_form:,
+    )
   end
 
   def when_i_visit_the_application_dashboard
