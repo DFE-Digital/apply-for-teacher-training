@@ -57,7 +57,7 @@ RSpec.feature 'Candidate entering GCSE details' do
     then_i_see_add_english_grade_page
 
     when_i_choose_to_return_later
-    then_i_am_returned_to_the_application_form
+    then_i_am_returned_to_the_application_form_details
   end
 
   def given_i_am_signed_in
@@ -192,7 +192,7 @@ RSpec.feature 'Candidate entering GCSE details' do
     choose t('application_form.incomplete_radio')
   end
 
-  def then_i_am_returned_to_the_application_form
-    expect(page).to have_current_path candidate_interface_application_form_path
+  def then_i_am_returned_to_the_application_form_details
+    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
   end
 end
