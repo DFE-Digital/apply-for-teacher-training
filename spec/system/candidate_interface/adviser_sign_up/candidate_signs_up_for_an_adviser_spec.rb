@@ -105,7 +105,7 @@ RSpec.feature 'Candidate signs up for an adviser', :js do
   end
 
   def then_i_should_be_redirected_to_the_application_form_page
-    expect(page).to have_current_path(candidate_interface_application_form_path)
+    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
   end
 
   def and_i_should_see_the_success_message
