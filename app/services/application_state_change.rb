@@ -190,6 +190,10 @@ class ApplicationStateChange
     states_by_category[:decision_pending]
   end
 
+  def self.decision_pending_and_inactive
+    states_by_category[:decision_pending_and_inactive]
+  end
+
   def self.interviewable
     states_by_category[:interviewable]
   end
