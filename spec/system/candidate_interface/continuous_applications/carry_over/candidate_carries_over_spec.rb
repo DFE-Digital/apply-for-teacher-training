@@ -36,8 +36,7 @@ RSpec.feature 'Carry over', :continuous_applications, :sidekiq do
     then_i_should_be_asked_to_apply_again
 
     when_i_click_apply_again
-    and_i_have_course_choices
-    and_i_submit_my_application_again
+    and_i_have_submitted_course_choices
     and_today_is_after_apply_2_deadline
     and_i_sign_in_again
     then_i_should_be_redirected_to_complete_page
@@ -235,17 +234,10 @@ private
     click_link_or_button 'Apply again'
   end
 
-  def and_i_have_course_choices
+  def and_i_have_submitted_course_choices
     application_form = current_candidate.application_forms.find_by(phase: 'apply_2')
-    create(:application_choice, :unsubmitted, application_form:)
-    application_form.update!(course_choices_completed: true, becoming_a_teacher_completed: true)
-  end
-
-  def and_i_submit_my_application_again
-    click_link_or_button 'Check and submit your application'
-    click_link_or_button 'Continue'
-    click_link_or_button 'Send application'
-    click_link_or_button 'Continue'
+    create(:application_choice, :awaiting_provider_decision, application_form:)
+    application_form.update!(submitted_at: Time.zone.now, becoming_a_teacher_completed: true)
   end
 
   def when_i_got_rejected_by_a_provider
