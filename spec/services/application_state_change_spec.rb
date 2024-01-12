@@ -26,7 +26,7 @@ RSpec.describe ApplicationStateChange do
       expect(described_class.states_by_category).to include(
         not_visible_to_provider: %i[unsubmitted cancelled application_not_sent],
         visible_to_provider: %i[awaiting_provider_decision conditions_not_met declined inactive interviewing offer offer_deferred offer_withdrawn pending_conditions recruited rejected withdrawn],
-        interviewable: %i[awaiting_provider_decision interviewing],
+        interviewable: %i[awaiting_provider_decision interviewing inactive],
         accepted: %i[conditions_not_met offer_deferred pending_conditions recruited],
         offered: %i[conditions_not_met declined offer offer_deferred offer_withdrawn pending_conditions recruited],
         post_offered: %i[conditions_not_met declined declined offer_deferred offer_withdrawn offer_withdrawn pending_conditions recruited],
