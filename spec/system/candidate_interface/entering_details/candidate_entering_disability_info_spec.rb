@@ -7,10 +7,8 @@ RSpec.feature 'Entering their disability information' do
     given_i_am_signed_in
     and_i_visit_the_site
 
-    when_i_click_on_check_your_answers
-    then_i_see_training_with_a_disability_is_incomplete_below_the_section
-
-    when_i_submit_my_application
+    when_i_enter_equality_and_diversity_section
+    when_i_click_on_continue
     then_i_see_a_training_with_a_disability_validation_error
 
     when_i_visit_the_site
@@ -44,12 +42,8 @@ RSpec.feature 'Entering their disability information' do
     visit candidate_interface_application_form_path
   end
 
-  def when_i_click_on_check_your_answers
-    click_link_or_button 'Check and submit your application'
-  end
-
-  def when_i_submit_my_application
-    click_link_or_button t('continue')
+  def when_i_enter_equality_and_diversity_section
+    click_link_or_button 'Equality and diversity questions'
   end
 
   def when_i_visit_training_with_a_disability_section
@@ -60,15 +54,9 @@ RSpec.feature 'Entering their disability information' do
     expect(page).to have_content(t('page_titles.application_form'))
   end
 
-  def then_i_see_training_with_a_disability_is_incomplete_below_the_section
-    within('#incomplete-training_with_a_disability-error') do
-      expect(page).to have_content(t('review_application.training_with_a_disability.incomplete'))
-    end
-  end
-
   def then_i_see_a_training_with_a_disability_validation_error
     within('.govuk-error-summary') do
-      expect(page).to have_content(t('review_application.training_with_a_disability.incomplete'))
+      expect(page).to have_content('Select your sex or ‘Prefer not to say’')
     end
   end
 
