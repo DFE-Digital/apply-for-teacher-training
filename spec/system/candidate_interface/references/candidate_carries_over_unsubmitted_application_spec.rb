@@ -24,7 +24,7 @@ RSpec.feature 'References' do
   end
 
   def and_i_have_an_unsubmitted_application_with_references
-    @application_form = create(:completed_application_form, submitted_at: nil, candidate: @candidate)
+    @application_form = create(:completed_application_form, recruitment_cycle_year: 2023, submitted_at: nil, candidate: @candidate)
 
     @pending_reference = create(:reference, :feedback_requested, application_form: @application_form)
     @declined_reference = create(:reference, :feedback_refused, application_form: @application_form)
@@ -60,11 +60,7 @@ RSpec.feature 'References' do
   end
 
   def and_i_visit_the_application_dashboard
-    if FeatureFlag.active?(:continuous_applications)
-      visit candidate_interface_continuous_applications_details_path
-    else
-      visit candidate_interface_application_complete_path
-    end
+    visit candidate_interface_application_complete_path
   end
 
   def and_references_is_marked_as_incomplete
