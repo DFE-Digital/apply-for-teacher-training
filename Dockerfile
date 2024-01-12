@@ -41,6 +41,10 @@ COPY . .
 RUN bundle exec rake assets:precompile && \
     rm -rf tmp/* log/* /tmp/*
 
+# Uses .yarnclean to filter node_module deletion 
+# https://classic.yarnpkg.com/lang/en/docs/cli/autoclean/
+RUN yarn autoclean -F 
+
 # Stage 2: production, copy application code and compiled assets to base ruby image.
 # Depends on assets-precompile stage which can be cached from a pre-built image
 # by specifying a fully qualified image name or will default to packages-prod thereby rebuilding all 3 stages above.
