@@ -5,7 +5,6 @@ RSpec.feature 'Revert a withdrawn application choice' do
 
   scenario 'Support user can reverse a course choice that has been withdrawn in error' do
     given_i_am_a_support_user
-    and_the_revert_withdrawal_feature_flag_is_on
     and_there_is_a_withdrawn_application_in_the_system
     and_i_visit_the_support_page
 
@@ -34,10 +33,6 @@ RSpec.feature 'Revert a withdrawn application choice' do
 
   def given_i_am_a_support_user
     sign_in_as_support_user
-  end
-
-  def and_the_revert_withdrawal_feature_flag_is_on
-    FeatureFlag.activate(:support_user_revert_withdrawn_offer)
   end
 
   def and_there_is_a_withdrawn_application_in_the_system

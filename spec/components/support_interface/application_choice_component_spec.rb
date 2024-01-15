@@ -219,9 +219,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     let(:application_form) { create(:completed_application_form) }
     let(:withdrawn_application) { create(:application_choice, :withdrawn, application_form:) }
 
-    it 'renders a link to revert the withdrawn application when `revert_withdrawn_offer` flag is active' do
-      FeatureFlag.activate(:support_user_revert_withdrawn_offer)
-
+    it 'renders a link to revert the withdrawn application' do
       result = render_inline(described_class.new(withdrawn_application))
 
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
@@ -235,7 +233,6 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
     it 'does not render a link to revert the withdrawn application when the candidate has accepted an offer' do
       create(:application_choice, :accepted, application_form:)
-      FeatureFlag.activate(:support_user_revert_withdrawn_offer)
 
       render_inline(described_class.new(withdrawn_application))
 
