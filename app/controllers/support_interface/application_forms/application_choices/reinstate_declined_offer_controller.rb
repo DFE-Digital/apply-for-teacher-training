@@ -2,7 +2,7 @@ module SupportInterface
   module ApplicationForms
     module ApplicationChoices
       class ReinstateDeclinedOfferController < BaseController
-        before_action :build_application_form, :build_application_choice, :redirect_to_application_form_unless_declined_and_reinstate_offer_flag_active
+        before_action :build_application_form, :build_application_choice, :redirect_to_application_form_unless_declined
 
         def confirm_reinstate_offer
           @declined_course_choice = ReinstateDeclinedOfferForm.new
@@ -25,8 +25,8 @@ module SupportInterface
           params.require(:support_interface_application_forms_reinstate_declined_offer_form).permit(:status, :audit_comment_ticket, :accept_guidance)
         end
 
-        def redirect_to_application_form_unless_declined_and_reinstate_offer_flag_active
-          redirect_to support_interface_application_form_path(@application_form.id) unless FeatureFlag.active?(:support_user_reinstate_offer) && @application_choice.declined?
+        def redirect_to_application_form_unless_declined
+          redirect_to support_interface_application_form_path(@application_form.id) unless @application_choice.declined?
         end
       end
     end

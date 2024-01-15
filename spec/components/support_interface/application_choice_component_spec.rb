@@ -8,9 +8,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       create(:application_choice, :with_completed_application_form, :declined)
     end
 
-    it 'Renders a link to the reinstate offer page when the reinstate flag is active' do
-      FeatureFlag.activate(:support_user_reinstate_offer)
-
+    it 'Renders a link to the reinstate offer page if the application choice is not declined by default' do
       result = render_inline(described_class.new(declined_offer))
 
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
@@ -22,18 +20,8 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       expect(result.css('.govuk-summary-list__actions').text.strip).to include('Reinstate offer')
     end
 
-    it 'Does not render a link to the reinstate offer page when the reinstate flag is not active' do
-      FeatureFlag.deactivate(:support_user_reinstate_offer)
-
-      render_inline(described_class.new(declined_offer))
-
-      expect(page).to have_no_css '.govuk-summary-list__actions a', text: 'Reinstate offer'
-    end
-
     it 'Does not render a link to the reinstate offer page if the application choice is declined by default' do
       application_choice = create(:application_choice, :with_completed_application_form, :declined_by_default)
-
-      FeatureFlag.activate(:support_user_reinstate_offer)
 
       render_inline(described_class.new(application_choice))
 
