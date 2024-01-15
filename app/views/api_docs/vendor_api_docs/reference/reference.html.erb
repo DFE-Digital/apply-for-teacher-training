@@ -73,10 +73,10 @@
 
 <p class="govuk-body">
   We have a production environment and a sandbox environment.
-  When version 1.3 is launched initially for testing, it will only be accessible
-  in the sandbox environment by determining the version in the URL as so:
-  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.3',
-                    'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.3' %>.
+  When version <%= version %> is initially launched for testing, it will only be accessible
+  within the sandbox environment. Use the version value as specified in the following URL:
+  <%= govuk_link_to "https://sandbox.apply-for-teacher-training.service.gov.uk/api/#{version}",
+  "https://sandbox.apply-for-teacher-training.service.gov.uk/api/#{version}" %>.
   Only after testing is complete, the production environment will automatically upgrade
   to the latest minor version without the need to update the URL.
 </p>
