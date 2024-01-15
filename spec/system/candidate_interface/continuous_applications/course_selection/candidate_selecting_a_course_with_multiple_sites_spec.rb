@@ -94,10 +94,6 @@ RSpec.feature 'Selecting a course with multiple sites', :continuous_applications
     click_link_or_button t('continue')
   end
 
-  def and_i_visit_my_course_choices_page
-    visit candidate_interface_course_choices_review_path
-  end
-
   def then_i_see_my_completed_course_choice
     expect(page).to have_content('Gorse SCITT')
     expect(page).to have_content('Primary (2XT2)')

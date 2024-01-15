@@ -29,15 +29,9 @@ RSpec.feature 'Carry over', :continuous_applications, :sidekiq do
   end
 
   scenario 'candidate carries over submitted application by applying again' do
-    given_i_have_rejected_submitted_application
-    and_today_is_after_apply_1_deadline
-
-    when_i_sign_in
-    then_i_should_be_asked_to_apply_again
-
-    when_i_click_apply_again
-    and_i_have_submitted_course_choices
+    given_i_have_rejected_submitted_application_in_apply_1_and_apply_again_from_2023
     and_today_is_after_apply_2_deadline
+
     and_i_sign_in_again
     then_i_should_be_redirected_to_complete_page
 
@@ -164,6 +158,16 @@ private
     )
   end
 
+  def given_i_have_rejected_submitted_application_in_apply_1_and_apply_again_from_2023
+    given_i_have_rejected_submitted_application
+    and_i_have_applied_again_in_2023
+    and_i_have_submitted_apply_again_course_choices
+  end
+
+  def and_i_have_applied_again_in_2023
+    DuplicateApplication.new(@application_form, target_phase: 'apply_2').duplicate
+  end
+
   def given_i_have_submitted_application
     @application_form = create(
       :completed_application_form,
@@ -234,7 +238,7 @@ private
     click_link_or_button 'Apply again'
   end
 
-  def and_i_have_submitted_course_choices
+  def and_i_have_submitted_apply_again_course_choices
     application_form = current_candidate.application_forms.find_by(phase: 'apply_2')
     create(:application_choice, :awaiting_provider_decision, application_form:)
     application_form.update!(submitted_at: Time.zone.now, becoming_a_teacher_completed: true)
