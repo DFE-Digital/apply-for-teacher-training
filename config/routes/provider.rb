@@ -12,6 +12,7 @@ namespace :provider_interface, path: '/provider' do
   get '/service-guidance/dates-and-deadlines', to: 'content#dates_and_deadlines'
   get '/covid-19-guidance', to: redirect('/')
   get '/organisation-permissions-guidance', to: 'content#organisation_permissions'
+  get '/guidance-for-using-ai', to: 'content#guidance_for_using_ai'
 
   resources :cookie_preferences, only: 'create', path: 'cookie-preferences'
   post '/cookie-preferences-hide-confirmation', to: 'cookie_preferences#hide_confirmation', as: :cookie_preferences_hide_confirmation
