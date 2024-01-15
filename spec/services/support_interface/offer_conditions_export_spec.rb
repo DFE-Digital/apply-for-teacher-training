@@ -45,7 +45,7 @@ RSpec.describe SupportInterface::OfferConditionsExport do
                                           create(:application_choice, :withdrawn)]
       apply_1_form = create(:completed_application_form,
                             application_choices: unsuccessful_application_choices)
-      apply_2_form = ApplyAgain.new(apply_1_form).call
+      apply_2_form = DuplicateApplication.new(apply_1_form, target_phase: 'apply_2').duplicate
       create(:application_choice, :offered, application_form: apply_2_form)
 
       phases = described_class.new.offers.map { |o| o[:phase] }
