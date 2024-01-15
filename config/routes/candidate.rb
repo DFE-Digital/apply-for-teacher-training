@@ -379,14 +379,6 @@ namespace :candidate_interface, path: '/candidate' do
       delete '/delete/:id' => 'continuous_applications/application_choices#destroy'
     end
 
-    scope '/courses' do
-      get '/review' => 'application_choices#review', as: :course_choices_review
-      patch '/review' => 'application_choices#complete', as: :course_choices_complete
-
-      get '/delete/:id' => 'application_choices#confirm_destroy', as: :confirm_destroy_course_choice
-      delete '/delete/:id' => 'application_choices#destroy'
-    end
-
     scope '/choice/:id' do
       get '/offer' => 'decisions#offer', as: :offer
       post '/offer/respond' => 'decisions#respond_to_offer', as: :respond_to_offer
