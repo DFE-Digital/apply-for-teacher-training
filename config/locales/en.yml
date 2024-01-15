@@ -122,6 +122,7 @@ en:
     service_privacy_notice: Service privacy notice
     online_chat_privacy_notice: Online chat privacy notice
     terms_candidate: Terms and conditions
+    guidance_for_using_ai: Using ChatGPT and AI on Apply for teacher training
     service_guidance_provider: How to use this service
     cookies_candidate: Cookies
     cookies_provider: Cookies
@@ -335,6 +336,7 @@ en:
       cookies: Cookies
       candidate_complaints: Make a complaint or give feedback
       terms_of_use: Terms and conditions
+      guidance_for_using_ai: Guidance for using AI
       privacy_policy: Privacy
       privacy: Privacy
       roadmap: Changes to this service

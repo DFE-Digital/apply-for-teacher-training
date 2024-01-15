@@ -20,6 +20,7 @@ namespace :candidate_interface, path: '/candidate' do
   get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
   get '/providers', to: 'content#providers', as: :providers
   get '/terms-of-use', to: 'content#terms_candidate', as: :terms
+  get '/guidance-for-using-ai', to: 'content#guidance_for_using_ai'
   post '/feedback-survey' => 'rejection_feedback_survey#new', as: :rejection_feedback_survey
 
   resources :cookie_preferences, only: 'create', path: 'cookie-preferences'

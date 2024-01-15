@@ -26,6 +26,10 @@ module CandidateInterface
       render 'content/terms_candidate'
     end
 
+    def guidance_for_using_ai
+      render 'content/guidance_for_using_ai'
+    end
+
     def complaints
       render 'content/complaints'
     end
