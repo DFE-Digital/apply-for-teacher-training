@@ -52,15 +52,6 @@ module CandidateInterface
       @show_incomplete && !@application_form.course_choices_completed && @editable
     end
 
-    def course_change_path(application_choice)
-      if multiple_courses?(application_choice)
-        candidate_interface_course_choices_course_path(
-          application_choice.current_course.provider.id,
-          course_choice_id: application_choice.id,
-        )
-      end
-    end
-
     def container_class(application_choice)
       return unless @editable
 
