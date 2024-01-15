@@ -8,7 +8,6 @@ RSpec.feature 'See activity log' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
     and_i_have_a_manage_account
     and_my_organisation_has_applications
-    and_the_provider_activity_log_feature_flag_is_on
     and_i_sign_in_to_the_provider_interface
 
     when_i_click_on_the_activity_log_tab
@@ -52,10 +51,6 @@ RSpec.feature 'See activity log' do
 
     @choice5 = create(:application_choice, :offered, course_option: course_option5)
     create(:application_form_audit, application_choice: @choice5, changes: { 'date_of_birth' => %w[01-01-2000 01-02-2002] })
-  end
-
-  def and_the_provider_activity_log_feature_flag_is_on
-    FeatureFlag.activate(:provider_activity_log)
   end
 
   def and_i_should_see_the_applications_menu_item_highlighted
