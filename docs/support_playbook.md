@@ -144,8 +144,9 @@ This is possible via the support UI.
 
 If the course doesn't exist in the previous cycle we'll need them to confirm the offer first, then we can change the course to the new course in the current cycle.
 
-If the course details changed from one cycle to another the provider users
-will ask to support to change. To confirm a deferral via console:
+## Confirm deferral in the console
+
+If the course details have changed from one cycle to another, provider users should contact support to request the changes. To confirm a deferral through the console:
 
 ```ruby
 application_choice = ApplicationChoice.find(ID_OF_APPLICATION_CHOICE)
@@ -155,17 +156,17 @@ new_course_option = CourseOption.find(ID_OF_NEW_COURSE_OPTION)
 application_choice.update_course_option_and_associated_fields!(new_course_option, audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
 ```
 
-If is an **conditional offer** the candidate would be in pending conditions state:
+A **unconditional offer** would move the candidate to a pending conditions state:
 
 ```ruby
 # change the status to pending conditions (if is a conditional deferred offer)
 application_choice.update!(status: 'pending_conditions', audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
 ```
 
-If is an **unconditional offer** the candidate would be in recruited state:
+A **unconditional offer** would move the candidate to a recruited state:
 
 ```ruby
-# change the status to pending conditions (if is a unconditional deferred offer)
+# change the status to recruited (if is an unconditional deferred offer)
 application_choice.update!(status: 'recruited', audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
 ```
 
