@@ -27,7 +27,6 @@ class FeatureFlag
 
   TEMPORARY_FEATURE_FLAGS = [
     [:support_user_reinstate_offer, 'Allows a support users to reinstate a declined course choice offer', 'James Glenn'],
-    [:support_user_revert_withdrawn_offer, 'Allows a support user to revert an application withdrawn by the candidate', 'James Glenn'],
     [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
     [:reference_nudges, 'Nudge emails for candidates that have incomplete references', 'Steve Hook'],
     [:sample_applications_factory, 'An alternate generator for test/sample applications, uses `SampleApplicationsFactory` in place of `TestApplications.new`', 'Elliot Crosby-McCullough + Tomas Destefi'],
