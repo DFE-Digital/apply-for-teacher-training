@@ -26,8 +26,19 @@ RSpec.feature 'Provider content' do
     when_i_click_on_the_service_guidance
     then_i_can_see_the_service_guidance_provider
 
+    when_click_on_guidance_for_using_ai
+    then_i_can_see_the_ai_guidance
+
     when_i_click_on_the_roadmap
     then_i_can_see_the_roadmap
+  end
+
+  def when_click_on_guidance_for_using_ai
+    within('.govuk-footer') { click_link_or_button t('layout.support_links.guidance_for_using_ai') }
+  end
+
+  def then_i_can_see_the_ai_guidance
+    expect(page).to have_content(t('page_titles.guidance_for_using_ai'))
   end
 
   def given_i_am_on_the_provider_interface

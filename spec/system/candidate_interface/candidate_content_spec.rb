@@ -22,6 +22,17 @@ RSpec.feature 'Candidate content' do
 
     when_i_click_on_the_terms_of_use
     then_i_can_see_the_terms_candidate
+
+    when_click_on_guidance_for_using_ai
+    then_i_can_see_the_ai_guidance
+  end
+
+  def when_click_on_guidance_for_using_ai
+    within('.govuk-footer') { click_link_or_button t('layout.support_links.guidance_for_using_ai') }
+  end
+
+  def then_i_can_see_the_ai_guidance
+    expect(page).to have_content(t('page_titles.guidance_for_using_ai'))
   end
 
   def given_i_am_on_the_start_page
