@@ -156,7 +156,7 @@ new_course_option = CourseOption.find(ID_OF_NEW_COURSE_OPTION)
 application_choice.update_course_option_and_associated_fields!(new_course_option, audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
 ```
 
-A **unconditional offer** would move the candidate to a pending conditions state:
+A **conditional offer** would move the candidate to a pending conditions state:
 
 ```ruby
 # change the status to pending conditions (if is a conditional deferred offer)
