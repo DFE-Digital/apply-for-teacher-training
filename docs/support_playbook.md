@@ -163,7 +163,7 @@ A **conditional offer** would move the candidate to a pending conditions state:
 application_choice.update!(status: 'pending_conditions', audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
 ```
 
-A **unconditional offer** would move the candidate to a recruited state:
+An **unconditional offer** would move the candidate to a recruited state:
 
 ```ruby
 # change the status to recruited (if is an unconditional deferred offer)
