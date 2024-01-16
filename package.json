@@ -2,7 +2,7 @@
   "name": "apply-for-teacher-training",
   "private": true,
   "engines": {
-    "node": "16.x",
+    "node": "20.x",
     "yarn": "^1.22.0"
   },
   "dependencies": {
@@ -12,7 +12,8 @@
     "dfe-autocomplete": "github:DFE-Digital/dfe-autocomplete",
     "govuk-frontend": "^4.7.0",
     "jquery": "^3.7.1",
-    "postcss": "^8.4.33"
+    "postcss": "^8.4.33",
+    "puppeteer": "^21.7.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",

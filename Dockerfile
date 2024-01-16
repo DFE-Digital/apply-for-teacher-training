@@ -1,24 +1,25 @@
 # To use or update to a ruby version, change {BASE_RUBY_IMAGE}
-ARG BASE_RUBY_IMAGE=ruby:3.2.2-alpine3.16
+ARG BASE_RUBY_IMAGE=ruby:3.2.2-alpine3.19
 
 # Stage 1: gems-node-modules, build gems and node modules.
 FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
-    libxml2-dev libxslt-dev ttf-freefont nodejs yarn tzdata libpq libxml2 libxslt graphviz
+    libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 libxslt graphviz chromium
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
-ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
-    RAILS_ENV=production \
+ENV RAILS_ENV=production \
     GOVUK_NOTIFY_API_KEY=TestKey \
     AUTHORISED_HOSTS=127.0.0.1 \
     SECRET_KEY_BASE=TestKey \
     BLAZER_DATABASE_URL=testURL \
     GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey \
-    REDIS_CACHE_URL=redis://127.0.0.1:6379
+    REDIS_CACHE_URL=redis://127.0.0.1:6379 \
+    NODE_OPTIONS=--openssl-legacy-provider \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 WORKDIR /app
 
@@ -38,7 +39,7 @@ RUN yarn install --check-files
 COPY . .
 
 RUN bundle exec rake assets:precompile && \
-    rm -rf tmp/* log/* node_modules /tmp/*
+    rm -rf tmp/* log/* /tmp/*
 
 # Stage 2: production, copy application code and compiled assets to base ruby image.
 # Depends on assets-precompile stage which can be cached from a pre-built image
@@ -46,18 +47,18 @@ RUN bundle exec rake assets:precompile && \
 # If a existing base image name is specified Stage 1 & 2 will not be built and gems and dev packages will be used from the supplied image.
 FROM ${BASE_RUBY_IMAGE} AS production
 
-ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
-    LANG=en_GB.UTF-8 \
+ENV LANG=en_GB.UTF-8 \
     RAILS_ENV=production \
     GOVUK_NOTIFY_API_KEY=TestKey \
     AUTHORISED_HOSTS=127.0.0.1 \
     SECRET_KEY_BASE=TestKey \
     GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey \
-    REDIS_CACHE_URL=redis://127.0.0.1:6379
+    REDIS_CACHE_URL=redis://127.0.0.1:6379 \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 RUN apk -U upgrade && \
     apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz \
-    ttf-dejavu ttf-droid ttf-freefont ttf-liberation libx11 openssl && \
+    ttf-dejavu ttf-droid ttf-liberation libx11 openssl nodejs chromium && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
