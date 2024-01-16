@@ -160,13 +160,7 @@ module CandidateInterface
     end
 
     def country_changed?
-      if existing_degree.institution_country.nil?
-        country.present?
-      elsif existing_degree.institution_country.present?
-        country.blank?
-      else
-        false
-      end
+      existing_degree.institution_country != country
     end
 
     def degree_level_back_link
