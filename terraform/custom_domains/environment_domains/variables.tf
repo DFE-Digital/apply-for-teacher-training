@@ -18,3 +18,10 @@ variable "latency_threshold" {
 variable "percent_5xx_threshold" {
   default = 15
 }
+
+variable "alert_window_size" {
+  type        = string
+  nullable    = false
+  default     = "PT15M"
+  description = "The period of time that is used to monitor alert activity e.g PT1M, PT5M, PT15M, PT30M, PT1H, PT6H or PT12H"
+}
