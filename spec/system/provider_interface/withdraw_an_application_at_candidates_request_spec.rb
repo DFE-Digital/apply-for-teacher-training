@@ -6,7 +6,6 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
 
   before do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_the_withdraw_at_candidates_request_feature_flag_is_enabled
     and_i_am_permitted_to_make_decisions_for_my_provider
   end
 
@@ -39,10 +38,6 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
 
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
-  end
-
-  def and_the_withdraw_at_candidates_request_feature_flag_is_enabled
-    FeatureFlag.activate(:withdraw_at_candidates_request)
   end
 
   def and_i_am_permitted_to_make_decisions_for_my_provider

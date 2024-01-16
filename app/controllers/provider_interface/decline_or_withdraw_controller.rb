@@ -1,6 +1,5 @@
 module ProviderInterface
   class DeclineOrWithdrawController < ProviderInterfaceController
-    before_action :render_404_unless_feature_flag_active
     before_action :set_application_choice
     before_action :requires_make_decisions_permission
     before_action :redirect_to_application_choice_if_not_withdrawable_or_declinable
@@ -23,10 +22,6 @@ module ProviderInterface
     end
 
   private
-
-    def render_404_unless_feature_flag_active
-      render_404 unless FeatureFlag.active?(:withdraw_at_candidates_request)
-    end
 
     def redirect_to_application_choice_if_not_withdrawable_or_declinable
       return if withdrawable_or_declinable?
