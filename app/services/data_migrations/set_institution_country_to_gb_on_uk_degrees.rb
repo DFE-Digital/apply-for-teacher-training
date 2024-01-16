@@ -1,11 +1,11 @@
 module DataMigrations
   class SetInstitutionCountryToGbOnUkDegrees
     TIMESTAMP = 20240111093629
-    MANUAL_RUN = false
+    MANUAL_RUN = true
 
     def change
-      application_qualifications.each do |application_qualification|
-        application_qualification.update(institution_country: 'GB')
+      application_qualifications.find_each do |application_qualification|
+        application_qualification.update_columns(institution_country: 'GB')
       end
     end
 
