@@ -924,7 +924,7 @@ RSpec.describe CandidateMailer do
       'a mail with subject and content',
       'Increase your chances of receiving an offer for teacher training',
       'greeting' => 'Hello Fred',
-      'content' => 'While you wait for a response on these applications',
+      'content' => 'While you wait for a response on these applications, you can apply to 4 more courses at different training providers',
     )
   end
 end
