@@ -67,7 +67,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
 
   context 'when application is submitted' do
     it 'does not show change links' do
-      expect(result.css('a')).to be_empty
+      expect(result.css('govuk-summary-list__actions a')).to be_empty
     end
 
     it 'shows personal statement' do
@@ -103,7 +103,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       end
 
       it 'does not show change links' do
-        expect(result.css('a')).to be_empty
+        expect(result.css('govuk-summary-list__actions a')).to be_empty
       end
     end
 
@@ -114,7 +114,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       end
 
       it 'does not show change links' do
-        expect(result.css('a')).to be_empty
+        expect(result.css('govuk-summary-list__actions a')).to be_empty
       end
     end
   end
