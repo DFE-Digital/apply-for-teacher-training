@@ -158,7 +158,7 @@ GEM
     brakeman (6.1.1)
       racc
     builder (3.2.4)
-    bullet (7.1.5)
+    bullet (7.1.6)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     business_time (0.13.0)
@@ -192,7 +192,7 @@ GEM
       matrix
       ruby-rc4 (>= 0.1.5)
     commonmarker (0.23.10)
-    concurrent-ruby (1.2.2)
+    concurrent-ruby (1.2.3)
     connection_pool (2.4.1)
     crack (0.4.5)
       rexml
