@@ -18,6 +18,7 @@ module CandidateInterface
           application_number_row,
           submitted_at_row,
           course_info_row,
+          qualifications_row,
           study_mode_row,
           location_row,
         ].compact
@@ -60,6 +61,13 @@ module CandidateInterface
             }
           end
         end
+      end
+
+      def qualifications_row
+        {
+          key: 'Qualifications',
+          value: (current_course.qualifications || []).map(&:upcase).to_sentence,
+        }
       end
 
       def study_mode_row
