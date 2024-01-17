@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
   end
 
   let(:application_choice) do
-    create(:application_choice, :awaiting_provider_decision, personal_statement:)
+    create(:application_choice, :awaiting_provider_decision, personal_statement:, sent_to_provider_at: 1.week.ago)
   end
   let(:course) { application_choice.current_course }
   let(:provider) { application_choice.current_provider }
@@ -74,6 +74,12 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       expect(result.text).to include("Application number#{application_choice.id}")
     end
 
+    it 'shows the duration since submitted' do
+      travel_temporarily_to('1 January 2024') do
+        expect(result.text).to include('Application submitted25 December 2023 at 12am (midnight) (7 days ago)')
+      end
+    end
+
     context 'when course has multiple study modes' do
       before do
         create(
@@ -102,7 +108,6 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       it 'does not show change links' do
         expect(result.css('a')).to be_empty
       end
-
     end
   end
 end
