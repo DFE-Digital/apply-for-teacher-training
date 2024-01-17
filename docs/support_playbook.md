@@ -166,7 +166,7 @@ application_choice.update!(status: 'pending_conditions', audit_comment: 'https:/
 An **unconditional offer** would move the candidate to a recruited state:
 
 ```ruby
-# change the status to recruited (if is an unconditional deferred offer)
+# change the status to recruited (if it is an unconditional deferred offer)
 application_choice.update!(status: 'recruited', audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
 ```
 
