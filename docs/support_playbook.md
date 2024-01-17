@@ -144,6 +144,32 @@ This is possible via the support UI.
 
 If the course doesn't exist in the previous cycle we'll need them to confirm the offer first, then we can change the course to the new course in the current cycle.
 
+## Confirm deferral in the console
+
+If the course details have changed from one cycle to another, provider users should contact support to request the changes. To confirm a deferral through the console:
+
+```ruby
+application_choice = ApplicationChoice.find(ID_OF_APPLICATION_CHOICE)
+new_course_option = CourseOption.find(ID_OF_NEW_COURSE_OPTION)
+
+# confirm the deferral in a new course
+application_choice.update_course_option_and_associated_fields!(new_course_option, audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
+```
+
+A **conditional offer** would move the candidate to a pending conditions state:
+
+```ruby
+# change the status to pending conditions (if it is a conditional deferred offer)
+application_choice.update!(status: 'pending_conditions', audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
+```
+
+An **unconditional offer** would move the candidate to a recruited state:
+
+```ruby
+# change the status to recruited (if it is an unconditional deferred offer)
+application_choice.update!(status: 'recruited', audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
+```
+
 ## Offers
 
 ### Rollback a providers offer
