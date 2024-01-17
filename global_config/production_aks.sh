@@ -1,5 +1,6 @@
 CONFIG=production_aks
 APP_ENV=${CONFIG}
+DNS_ENV=production
 CONFIG_SHORT=pd
 AZURE_SUBSCRIPTION=s189-teacher-services-cloud-production
 RESOURCE_NAME_PREFIX=s189p01

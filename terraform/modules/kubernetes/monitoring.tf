@@ -42,6 +42,7 @@ resource "azurerm_monitor_metric_alert" "postgres_cpu" {
   resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
   scopes              = [azurerm_postgresql_flexible_server.postgres-server[0].id]
   description         = "Action will be triggered when cpu use is greater than 60%"
+  window_size         = var.alert_window_size
 
   criteria {
     metric_namespace = "Microsoft.DBforPostgreSQL/flexibleServers"

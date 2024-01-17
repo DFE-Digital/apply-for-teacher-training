@@ -309,13 +309,13 @@ domains-infra-apply: domains-infra-init # make apply domains-infra-apply
 
 domains-init: set-production-subscription set-azure-account
 	$(if $(PR_NUMBER), $(eval APP_ENV=${PR_NUMBER}))
-	terraform -chdir=terraform/custom_domains/environment_domains init -upgrade -reconfigure -backend-config=workspace_variables/${DOMAINS_ID}_${APP_ENV}_backend.tfvars
+	terraform -chdir=terraform/custom_domains/environment_domains init -upgrade -reconfigure -backend-config=workspace_variables/${DOMAINS_ID}_${DNS_ENV}_backend.tfvars
 
 domains-plan: domains-init  # make apply qa domains-plan
-	terraform -chdir=terraform/custom_domains/environment_domains plan -var-file workspace_variables/${DOMAINS_ID}_${APP_ENV}.tfvars.json
+	terraform -chdir=terraform/custom_domains/environment_domains plan -var-file workspace_variables/${DOMAINS_ID}_${DNS_ENV}.tfvars.json
 
 domains-apply: domains-init # make apply qa domains-apply
-	terraform -chdir=terraform/custom_domains/environment_domains apply -var-file workspace_variables/${DOMAINS_ID}_${APP_ENV}.tfvars.json ${AUTO_APPROVE}
+	terraform -chdir=terraform/custom_domains/environment_domains apply -var-file workspace_variables/${DOMAINS_ID}_${DNS_ENV}.tfvars.json ${AUTO_APPROVE}
 
 domains-destroy: domains-init # make apply qa domains-destroy
-	terraform -chdir=terraform/custom_domains/environment_domains destroy -var-file workspace_variables/${DOMAINS_ID}_${APP_ENV}.tfvars.json
+	terraform -chdir=terraform/custom_domains/environment_domains destroy -var-file workspace_variables/${DOMAINS_ID}_${DNS_ENV}.tfvars.json

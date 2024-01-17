@@ -1,5 +1,6 @@
 CONFIG=sandbox_aks
 APP_ENV=${CONFIG}
+DNS_ENV=sandbox
 CONFIG_SHORT=sbx
 AZURE_SUBSCRIPTION=s189-teacher-services-cloud-production
 RESOURCE_NAME_PREFIX=s189p01

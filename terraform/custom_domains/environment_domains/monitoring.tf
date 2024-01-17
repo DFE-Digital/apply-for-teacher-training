@@ -27,6 +27,7 @@ resource "azurerm_monitor_metric_alert" "fd_total_latency" {
   resource_group_name = var.hosted_zone[each.key].resource_group_name
   scopes              = [data.azurerm_cdn_frontdoor_profile.zone[each.key].id]
   description         = "Action will be triggered when avg latency is greater than 1500ms"
+  window_size         = var.alert_window_size
 
   criteria {
     metric_namespace = "Microsoft.Cdn/profiles"
@@ -60,6 +61,7 @@ resource "azurerm_monitor_metric_alert" "fd_percent_5xx" {
   resource_group_name = var.hosted_zone[each.key].resource_group_name
   scopes              = [data.azurerm_cdn_frontdoor_profile.zone[each.key].id]
   description         = "Action will be triggered when 5xx failures greater than 10%"
+  window_size         = var.alert_window_size
 
   criteria {
     metric_namespace = "Microsoft.Cdn/profiles"
