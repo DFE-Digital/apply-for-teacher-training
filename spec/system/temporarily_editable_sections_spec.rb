@@ -127,7 +127,7 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
     choose 'Another country'
     select 'Brazil', from: 'Country or territory'
     and_i_click_save_and_continue
-    expect(page).to have_current_path(candidate_interface_degree_review_path)
+    expect(page).to have_current_path(candidate_interface_degree_subject_path)
     expect(page).to have_content('Brazil')
   end
 
