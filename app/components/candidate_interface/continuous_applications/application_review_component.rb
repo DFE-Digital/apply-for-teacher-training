@@ -51,7 +51,7 @@ module CandidateInterface
       def course_info_row
         {
           key: 'Course',
-          value: current_course.name_and_code,
+          value: govuk_link_to(current_course.name_and_code, current_course.find_url, { target: '_blank', rel: 'noopener' }),
         }.tap do |row|
           if unsubmitted?
             row[:action] = {

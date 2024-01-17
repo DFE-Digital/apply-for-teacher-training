@@ -22,6 +22,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       expect(links).to include("Change course for #{application_choice.current_course.name_and_code}")
     end
 
+    it 'shows link to course on find' do
+      expect(links).to include(application_choice.current_course.name_and_code)
+    end
+
     it 'does not show the application number' do
       expect(result.text).not_to include('Application number')
     end
@@ -78,6 +82,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       travel_temporarily_to('1 January 2024') do
         expect(result.text).to include('Application submitted25 December 2023 at 12am (midnight) (7 days ago)')
       end
+    end
+
+    it 'shows link to course on find' do
+      expect(links).to include(application_choice.current_course.name_and_code)
     end
 
     context 'when course has multiple study modes' do
