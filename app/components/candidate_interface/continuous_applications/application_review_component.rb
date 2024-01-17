@@ -15,6 +15,7 @@ module CandidateInterface
       def rows
         [
           status_row,
+          application_number_row,
           submitted_at_row,
           course_info_row,
           study_mode_row,
@@ -31,6 +32,12 @@ module CandidateInterface
             ApplicationStatusTagComponent.new(application_choice:, display_info_text: false),
           ),
         }
+      end
+
+      def application_number_row
+        return unless application_choice.sent_to_provider_at
+
+        { key: 'Application number', value: application_choice.id }
       end
 
       def submitted_at_row
