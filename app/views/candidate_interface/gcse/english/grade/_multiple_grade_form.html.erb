@@ -15,26 +15,26 @@
 
   <%= f.govuk_check_boxes_fieldset :english_gcses, legend: { text: t('multiple_gcse_edit_grade.question'), size: 'm' } do %>
     <%= f.govuk_check_box :english_gcses, 'english_single_award', label: { text: t('multiple_gcse_edit_grade.answers.english_single_award') }, link_errors: true do %>
-      <%= f.govuk_text_field :grade_english_single, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
+      <%= f.govuk_text_field :grade_english_single, label: { text: 'Grade for English (Single award)' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
     <% end %>
     <%= f.govuk_check_box :english_gcses, 'english_double_award', label: { text: t('multiple_gcse_edit_grade.answers.english_double_award') } do %>
-      <%= f.govuk_text_field :grade_english_double, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.double_award') }, width: 4 %>
+      <%= f.govuk_text_field :grade_english_double, label: { text: 'Grade for English (Double award)' }, hint: { text: t('multiple_gcse_edit_grade.hints.double_award') }, width: 4 %>
     <% end %>
     <%= f.govuk_check_box :english_gcses, 'english_language', label: { text: t('multiple_gcse_edit_grade.answers.english_language') } do %>
-      <%= f.govuk_text_field :grade_english_language, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
+      <%= f.govuk_text_field :grade_english_language, label: { text: 'Grade for English Language' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
     <% end %>
     <%= f.govuk_check_box :english_gcses, 'english_literature', label: { text: t('multiple_gcse_edit_grade.answers.english_literature') } do %>
-      <%= f.govuk_text_field :grade_english_literature, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
+      <%= f.govuk_text_field :grade_english_literature, label: { text: 'Grade for English Literature' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
     <% end %>
     <%= f.govuk_check_box :english_gcses, 'english_studies_single_award', label: { text: t('multiple_gcse_edit_grade.answers.english_studies_single_award') } do %>
-      <%= f.govuk_text_field :grade_english_studies_single, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
+      <%= f.govuk_text_field :grade_english_studies_single, label: { text: 'Grade for English Studies (Single award)' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
     <% end %>
     <%= f.govuk_check_box :english_gcses, 'english_studies_double_award', label: { text: t('multiple_gcse_edit_grade.answers.english_studies_double_award') } do %>
-      <%= f.govuk_text_field :grade_english_studies_double, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.double_award') }, width: 4 %>
+      <%= f.govuk_text_field :grade_english_studies_double, label: { text: 'Grade for English Studies (Double award)' }, hint: { text: t('multiple_gcse_edit_grade.hints.double_award') }, width: 4 %>
     <% end %>
     <%= f.govuk_check_box :english_gcses, 'other_english_gcse', label: { text: t('multiple_gcse_edit_grade.answers.other_english_gcse') } do %>
       <%= f.govuk_text_field :other_english_gcse_name, label: { text: t('multiple_gcse_edit_grade.answers.other_english_gcse_name') } %>
-      <%= f.govuk_text_field :grade_other_english_gcse, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
+      <%= f.govuk_text_field :grade_other_english_gcse, label: { text: 'Grade for other English GCSE' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
     <% end %>
   <% end %>
 <% end %>
