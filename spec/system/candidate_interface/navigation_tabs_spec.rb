@@ -32,7 +32,7 @@ RSpec.describe 'Primary Navigation' do
     application_form = create(
       :application_form,
       :submitted,
-      recruitment_cycle_year: 2023,
+      :pre_continuous_applications,
       candidate: current_candidate,
     )
     create(
