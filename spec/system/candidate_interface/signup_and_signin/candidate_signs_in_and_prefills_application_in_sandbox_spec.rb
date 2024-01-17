@@ -16,7 +16,7 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox
     and_there_is_a_flash_saying_the_application_was_prefilled
     and_my_application_has_been_filled_in
 
-    when_i_submitted_one_application
+    when_i_submit_an_application
     then_my_application_is_submitted_successfully
   end
 
@@ -63,7 +63,7 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox
     expect(page).to have_no_content 'In progress'
   end
 
-  def when_i_submitted_one_application
+  def when_i_submit_an_application
     click_link_or_button 'Your applications'
     click_link_or_button 'Continue application'
     click_link_or_button 'Review application'
