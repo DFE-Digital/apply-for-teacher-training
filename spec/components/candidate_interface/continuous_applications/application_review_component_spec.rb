@@ -26,6 +26,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       expect(links).to include(application_choice.current_course.name_and_code)
     end
 
+    it 'shows the course qualifications' do
+      expect(result.text).to include("Qualifications#{course.qualifications.map(&:upcase).to_sentence}")
+    end
+
     it 'does not show the application number' do
       expect(links).not_to include("Application number #{application_choice.id}")
     end
@@ -76,6 +80,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
 
     it 'shows the application number' do
       expect(result.text).to include("Application number#{application_choice.id}")
+    end
+
+    it 'shows the course qualifications' do
+      expect(result.text).to include("Qualifications#{course.qualifications.map(&:upcase).to_sentence}")
     end
 
     it 'shows the duration since submitted' do
