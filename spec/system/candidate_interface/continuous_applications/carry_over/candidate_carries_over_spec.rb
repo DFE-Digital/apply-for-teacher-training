@@ -29,7 +29,7 @@ RSpec.feature 'Carry over', :continuous_applications, :sidekiq do
   end
 
   scenario 'candidate carries over submitted application by applying again' do
-    given_i_have_rejected_submitted_application_in_apply_1_and_apply_again_from_2023
+    given_i_have_rejected_application_in_apply_1_and_apply_again_from_2023
     and_today_is_after_apply_2_deadline
 
     and_i_sign_in_again
@@ -103,7 +103,7 @@ RSpec.feature 'Carry over', :continuous_applications, :sidekiq do
   end
 
   scenario 'candidate carries over submitted application after find opens deadline' do
-    given_i_have_rejected_submitted_application
+    given_i_have_rejected_application
     and_today_is_after_find_reopens
 
     when_i_sign_in
@@ -142,7 +142,7 @@ private
     end
   end
 
-  def given_i_have_rejected_submitted_application
+  def given_i_have_rejected_application
     @application_form = create(
       :completed_application_form,
       date_of_birth:,
@@ -158,8 +158,8 @@ private
     )
   end
 
-  def given_i_have_rejected_submitted_application_in_apply_1_and_apply_again_from_2023
-    given_i_have_rejected_submitted_application
+  def given_i_have_rejected_application_in_apply_1_and_apply_again_from_2023
+    given_i_have_rejected_application
     and_i_have_applied_again_in_2023
     and_i_have_submitted_apply_again_course_choices
   end
