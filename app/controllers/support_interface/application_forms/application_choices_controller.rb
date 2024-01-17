@@ -2,7 +2,7 @@ module SupportInterface
   module ApplicationForms
     class ApplicationChoicesController < SupportInterfaceController
       before_action :build_application_form, :build_application_choice
-      before_action :redirect_to_application_form_unless_declined_and_flag_active, only: %i[reinstate_offer confirm_reinstate_offer]
+      before_action :redirect_to_application_form_unless_declined, only: %i[reinstate_offer confirm_reinstate_offer]
 
       def confirm_reinstate_offer
         @declined_course_choice = ReinstateDeclinedOfferForm.new
@@ -89,10 +89,10 @@ module SupportInterface
       def build_application_choice
         @application_choice = @application_form.application_choices.find(params[:application_choice_id])
       end
-
-      def redirect_to_application_form_unless_declined_and_flag_active
-        redirect_to support_interface_application_form_path(@application_form.id) unless FeatureFlag.active?(:support_user_reinstate_offer) && @application_choice.declined?
-      end
     end
+  end
+
+  def redirect_to_application_form_unless_declined
+    redirect_to support_interface_application_form_path(@application_form.id) unless @application_choice.declined?
   end
 end
