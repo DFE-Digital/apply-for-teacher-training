@@ -159,7 +159,7 @@ application_choice.update_course_option_and_associated_fields!(new_course_option
 A **conditional offer** would move the candidate to a pending conditions state:
 
 ```ruby
-# change the status to pending conditions (if is a conditional deferred offer)
+# change the status to pending conditions (if it is a conditional deferred offer)
 application_choice.update!(status: 'pending_conditions', audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
 ```
 
