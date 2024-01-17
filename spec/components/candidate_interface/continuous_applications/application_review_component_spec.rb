@@ -22,6 +22,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       expect(links).to include("Change course for #{application_choice.current_course.name_and_code}")
     end
 
+    it 'does not show the application number' do
+      expect(result.text).not_to include('Application number')
+    end
+
     it 'does not show the personal statement' do
       expect(result.text).not_to include(personal_statement)
     end
@@ -66,6 +70,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       expect(result.text).to include(personal_statement)
     end
 
+    it 'shows the application number' do
+      expect(result.text).to include("Application number#{application_choice.id}")
+    end
+
     context 'when course has multiple study modes' do
       before do
         create(
@@ -94,6 +102,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       it 'does not show change links' do
         expect(result.css('a')).to be_empty
       end
+
     end
   end
 end
