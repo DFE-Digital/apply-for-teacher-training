@@ -49,7 +49,7 @@ module CandidateInterface
       def course_info_row
         {
           key: 'Course',
-          value: current_course.name_and_code,
+          value: govuk_link_to(current_course.name_and_code, "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{current_course.provider.code}/#{current_course.code}", { target: '_blank', rel: 'noopener' }),
         }.tap do |row|
           if unsubmitted?
             row[:action] = {
