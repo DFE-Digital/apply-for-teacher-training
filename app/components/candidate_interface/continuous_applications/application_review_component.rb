@@ -43,7 +43,7 @@ module CandidateInterface
       def submitted_at_row
         return unless application_choice.sent_to_provider_at
 
-        { key: 'Application submitted', value: application_choice.sent_to_provider_at.to_fs(:govuk_date_and_time) }
+        { key: 'Application submitted', value: "#{application_choice.sent_to_provider_at.to_fs(:govuk_date_and_time)} (#{time_ago_in_words(application_choice.sent_to_provider_at)} ago)" }
       end
 
       def course_info_row
