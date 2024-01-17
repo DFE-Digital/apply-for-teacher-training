@@ -3,13 +3,35 @@ require 'rails_helper'
 RSpec.feature 'Editing a degree' do
   include CandidateHelper
 
-  scenario 'editing international degree' do
+  before do
     given_i_am_signed_in
     when_i_view_the_degree_section
     and_i_create_an_international_degree
+  end
+
+  scenario 'editing international degree' do
     and_when_i_click_the_browser_back_button
     and_i_click_on_save_and_continue
     then_i_can_check_an_additional_degree_is_not_created
+  end
+
+  scenario 'changing an international degree to a UK degree' do
+    and_i_click_change_country
+    and_i_choose_uk
+    and_i_click_on_save_and_continue
+    then_i_should_start_the_add_degree_flow_from_the_beginning
+  end
+
+  def then_i_should_start_the_add_degree_flow_from_the_beginning
+    expect(page).to have_text('What type of degree is it?')
+  end
+
+  def and_i_choose_uk
+    choose('United Kingdom')
+  end
+
+  def and_i_click_change_country
+    click_on 'Change country'
   end
 
   def given_i_am_signed_in
