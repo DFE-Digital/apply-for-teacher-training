@@ -22,6 +22,33 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
       before { form.immigration_status = 'other' }
 
       it { is_expected.to validate_presence_of(:right_to_work_or_study_details) }
+
+      context 'right_to_work_or_study_details is 7 words or less' do
+        before { form.right_to_work_or_study_details = 'This is less than seven words' }
+
+        it 'is valid' do
+          expect(form.valid?).to be true
+          expect(form.errors[:right_to_work_or_study_details]).to be_empty
+        end
+      end
+
+      context 'right_to_work_or_study_details is exactly 7 words' do
+        before { form.right_to_work_or_study_details = 'This sentence is exactly seven words long' }
+
+        it 'is valid' do
+          expect(form.valid?).to be true
+          expect(form.errors[:right_to_work_or_study_details]).to be_empty
+        end
+      end
+
+      context 'right_to_work_or_study_details is more than 7 words' do
+        before { form.right_to_work_or_study_details = 'This sentence has more than seven words in it' }
+
+        it 'is not valid' do
+          expect(form.valid?).to be false
+          expect(form.errors[:right_to_work_or_study_details]).to include('Must be 7 words or less')
+        end
+      end
     end
 
     context 'when immigration_status is NOT other' do

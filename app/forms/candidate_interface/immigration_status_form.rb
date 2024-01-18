@@ -7,7 +7,7 @@ module CandidateInterface
 
     validates :immigration_status, presence: true
     validates :right_to_work_or_study_details, presence: true, if: :other_immigration_status?
-    validates :right_to_work_or_study_details, word_count: { maximum: 200 }
+    validates :right_to_work_or_study_details, word_count: { maximum: 7 }
 
     def self.build_from_application(application_form)
       new(
