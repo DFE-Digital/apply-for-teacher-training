@@ -158,6 +158,36 @@ RSpec.describe Course do
     end
   end
 
+  describe 'qualificaitons_to_s' do
+    subject { course.qualifications_to_s }
+
+    let(:course) { build(:course, qualifications:) }
+
+    context 'when [qts pgce]' do
+      let(:qualifications) { %w[qts pgce] }
+
+      it { is_expected.to eq('PGCE with QTS') }
+    end
+
+    context 'when [qts pgde]' do
+      let(:qualifications) { %w[qts pgde] }
+
+      it { is_expected.to eq('PGDE with QTS') }
+    end
+
+    context 'when [qts]' do
+      let(:qualifications) { %w[qts] }
+
+      it { is_expected.to eq('QTS') }
+    end
+
+    context 'when [pgce]' do
+      let(:qualifications) { %w[pgce] }
+
+      it { is_expected.to eq('PGCE') }
+    end
+  end
+
   describe '#ske_graduation_cutoff_date' do
     let(:course) { build(:course, start_date: Date.new(2023, 1, 1)) }
 
