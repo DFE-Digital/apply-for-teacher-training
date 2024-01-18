@@ -27,19 +27,11 @@ module CandidateInterface
   private
 
     def course_choices_page
-      if current_application.continuous_applications?
-        candidate_interface_continuous_applications_choices_path
-      else
-        candidate_interface_course_choices_review_path
-      end
+      candidate_interface_continuous_applications_choices_path
     end
 
     def confirm_selection_page
-      if current_application.continuous_applications?
-        candidate_interface_continuous_applications_course_confirm_selection_path(course_from_find.id)
-      else
-        candidate_interface_course_confirm_selection_path(course_from_find.id)
-      end
+      candidate_interface_continuous_applications_course_confirm_selection_path(course_from_find.id)
     end
 
     def redirect_to_path_if_path_params_are_present

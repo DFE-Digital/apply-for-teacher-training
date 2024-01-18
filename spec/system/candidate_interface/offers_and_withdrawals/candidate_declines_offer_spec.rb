@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate declines an offer', continuous_applications: false do
+RSpec.feature 'Candidate declines an offer' do
   include CourseOptionHelpers
 
   scenario 'Candidate views an offer and declines' do
@@ -31,6 +31,7 @@ RSpec.feature 'Candidate declines an offer', continuous_applications: false do
   def and_i_have_multiple_offers
     @application_form = create(
       :application_form,
+      :completed,
       first_name: 'Harry',
       last_name: 'Potter',
       candidate: @candidate,
@@ -65,6 +66,8 @@ RSpec.feature 'Candidate declines an offer', continuous_applications: false do
   end
 
   def when_i_click_on_view_and_respond_to_my_first_offer_link
+    click_link_or_button 'Your applications'
+
     within("[data-qa='application-choice-#{@application_choice.id}']") do
       click_link_or_button text: 'Respond to offer'
     end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate tries to sign up using magic link with an invalid token', continuous_applications: false do
+RSpec.feature 'Candidate tries to sign up using magic link with an invalid token' do
   include SignInHelper
 
   scenario 'Candidate signs in and receives an email inviting them to sign up' do
@@ -71,7 +71,7 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
   end
 
   def then_i_see_my_application_form
-    expect(page).to have_current_path(candidate_interface_application_form_path)
+    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
   end
 
   def when_click_on_the_apply_for_teacher_training_link_in_the_header
@@ -79,6 +79,6 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
   end
 
   def then_i_should_see_the_application_page
-    expect(page).to have_current_path(candidate_interface_application_form_path)
+    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
   end
 end

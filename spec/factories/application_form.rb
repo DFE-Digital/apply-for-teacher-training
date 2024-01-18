@@ -373,6 +373,10 @@ FactoryBot.define do
       recruitment_cycle_year { 2024 }
     end
 
+    trait :pre_continuous_applications do
+      recruitment_cycle_year { 2023 }
+    end
+
     trait :carry_over do
       completed
       recruitment_cycle_year { CycleTimetable.current_year }

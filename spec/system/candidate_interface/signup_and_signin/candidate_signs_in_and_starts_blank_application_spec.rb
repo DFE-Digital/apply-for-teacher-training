@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate signs in and starts blank application in Sandbox', :sandbox, continuous_applications: false do
+RSpec.feature 'Candidate signs in and starts blank application in Sandbox', :sandbox do
   include SignInHelper
 
   scenario 'User is directed to prefill option page and chooses to start a blank application' do
@@ -46,7 +46,7 @@ RSpec.feature 'Candidate signs in and starts blank application in Sandbox', :san
   end
 
   def then_i_am_taken_to_the_blank_application_page
-    expect(page).to have_current_path(candidate_interface_application_form_path)
+    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
     expect(page).to have_no_content 'This application has been prefilled with example data'
     expect(page).to have_content 'Personal information Incomplete'
   end

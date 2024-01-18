@@ -860,6 +860,15 @@ module CandidateHelper
     )
   end
 
+  def then_i_can_add_course_choices
+    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
+    click_link_or_button 'Your applications'
+    expect(page).to have_current_path(candidate_interface_continuous_applications_choices_path)
+    expect(page).to have_content('You can add up to 4 applications at a time.')
+    click_link_or_button 'Add application'
+    expect(page).to have_current_path(candidate_interface_continuous_applications_do_you_know_the_course_path)
+  end
+
   def application_choice
     current_candidate.current_application.application_choices.last
   end

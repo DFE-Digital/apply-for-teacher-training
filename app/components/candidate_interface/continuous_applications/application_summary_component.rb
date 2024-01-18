@@ -1,6 +1,7 @@
 module CandidateInterface
   module ContinuousApplications
-    class ApplicationSummaryComponent < ApplicationDashboardCourseChoicesComponent
+    class ApplicationSummaryComponent < ViewComponent::Base
+      include CourseChoicesRowHelper
       attr_reader :application_choice
       delegate :unsubmitted?, :current_course, :current_course_option, :course_full?, to: :application_choice
       delegate :name_and_code, :description, :study_mode, :course_length, to: :current_course
@@ -39,39 +40,6 @@ module CandidateInterface
         return unless @application_choice.course_full? && application_choice.unsubmitted?
 
         'govuk-inset-text app-inset-text--narrow-border app-inset-text--important govuk-!-padding-top-0 govuk-!-padding-bottom-0'
-      end
-
-    private
-
-      def course_info_row
-        {
-          key: 'Course',
-          value: [
-            name_and_code,
-            description,
-            course_details,
-          ],
-        }.tap do |row|
-          if unsubmitted? && course_full?
-            row[:action] = {
-              href: candidate_interface_edit_continuous_applications_which_course_are_you_applying_to_path(application_choice.id),
-              visually_hidden_text: "course for #{current_course.name_and_code}",
-            }
-          end
-        end
-      end
-
-      def course_details
-        [
-          DisplayCourseLength.call(course_length:),
-        ].compact.join(' ')
-      end
-
-      def application_choice_status_row
-        {
-          key: 'Status',
-          value: render(ContinuousApplications::ApplicationStatusTagComponent.new(application_choice:)),
-        }
       end
     end
   end

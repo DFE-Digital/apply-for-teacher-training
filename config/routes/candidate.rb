@@ -77,7 +77,6 @@ namespace :candidate_interface, path: '/candidate' do
     end
 
     get '/review/submitted/:id' => 'application_form#review_previous_application', as: :review_previous_application
-    post '/apply-again' => 'submitted_application_form#apply_again', as: :apply_again
 
     get '/start-carry-over' => 'carry_over#start', as: :start_carry_over
     post '/carry-over' => 'carry_over#create', as: :carry_over
@@ -378,27 +377,6 @@ namespace :candidate_interface, path: '/candidate' do
       post '/:id/submit' => 'continuous_applications/application_choices#submit', as: :continuous_applications_submit_course_choice
       get '/delete/:id' => 'continuous_applications/application_choices#confirm_destroy', as: :continuous_applications_confirm_destroy_course_choice
       delete '/delete/:id' => 'continuous_applications/application_choices#destroy'
-    end
-
-    scope '/courses' do
-      get '/choose' => 'course_choices/course_decision#ask', as: :course_choices_choose
-      post '/choose' => 'course_choices/course_decision#decide'
-      get '/find-a-course' => 'course_choices/course_decision#go_to_find', as: :go_to_find
-      get '/find_a_course', to: redirect('/candidate/application/courses/find-a-course')
-
-      get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider
-      post '/provider' => 'course_choices/provider_selection#create'
-
-      get '/confirm-selection/:course_id' => 'find_course_selections#confirm_selection', as: :course_confirm_selection
-      get '/confirm_selection/:course_id', to: redirect('/candidate/application/courses/confirm-selection/%{course_id}')
-      post '/complete-selection/:course_id' => 'find_course_selections#complete_selection', as: :course_complete_selection
-      get '/complete_selection/:course_id', to: redirect('/candidate/application/courses/complete-selection/%{course_id}')
-
-      get '/review' => 'application_choices#review', as: :course_choices_review
-      patch '/review' => 'application_choices#complete', as: :course_choices_complete
-
-      get '/delete/:id' => 'application_choices#confirm_destroy', as: :confirm_destroy_course_choice
-      delete '/delete/:id' => 'application_choices#destroy'
     end
 
     scope '/choice/:id' do

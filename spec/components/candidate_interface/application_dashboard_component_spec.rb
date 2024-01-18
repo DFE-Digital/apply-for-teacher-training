@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplicationDashboardComponent do
-  describe '#title', continuous_applications: false do
+  describe '#title' do
     it 'renders the correct title for an application with a single application choice' do
       application_form = create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision])
 
@@ -29,19 +29,6 @@ RSpec.describe CandidateInterface::ApplicationDashboardComponent do
       render_result = render_inline(described_class.new(application_form:))
 
       expect(render_result).to have_css('h1', text: 'Your application')
-    end
-
-    context 'continuous applications', :continuous_applications, time: mid_cycle do
-      it 'renders no title when continuous applications' do
-        application_form = create_application_form_with_course_choices(
-          statuses: %w[awaiting_provider_decision],
-          apply_again: true,
-        )
-
-        render_result = render_inline(described_class.new(application_form:))
-
-        expect(render_result).to have_no_css('h1')
-      end
     end
   end
 

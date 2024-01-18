@@ -7,18 +7,8 @@
     )) do %>
       <div class="app-summary-card__actions">
         <%= govuk_link_to 'View application', candidate_interface_application_review_submitted_path %>
-        <% if !application_choice.offer? && !withdrawable?(application_choice) && @editable %>
-          <%= govuk_link_to candidate_interface_confirm_destroy_course_choice_path(application_choice.id), data: { action: :delete } do %>
-            <%= t('application_form.courses.delete') %>
-            <span class="govuk-visually-hidden"> <%= application_choice.current_course.name_and_code %></span>
-          <% end %>
-        <% end %>
       </div>
     <% end %>
   <% end %>
   </div>
-<% end %>
-
-<% if show_missing_banner? %>
-  <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :course_choices, section_path: candidate_interface_course_choices_choose_path, error: @missing_error)) %>
 <% end %>

@@ -6,9 +6,4 @@
   <p class="govuk-body">
     <%= govuk_link_to 'Respond to offer', candidate_interface_offer_path(application_choice.id) %>
   </p>
-  <% unless application_choice.continuous_applications? %>
-    <p class="govuk-body">
-      <%= respond_to_offer_detail %>
-    </p>
-  <% end %>
 <% end %>

@@ -4,7 +4,7 @@ RSpec.describe 'A Provider can sign in as a candidate' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  scenario 'when viewing an application on non-production environments', continuous_applications: false do
+  scenario 'when viewing an application on non-production environments' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_my_organisation_has_received_an_application
@@ -50,7 +50,7 @@ RSpec.describe 'A Provider can sign in as a candidate' do
   end
 
   def then_i_am_redirected_to_the_candidate_interface
-    expect(page).to have_current_path(candidate_interface_application_complete_path)
+    expect(page).to have_current_path(candidate_interface_continuous_applications_choices_path)
   end
 
   def and_i_see_a_flash_message
