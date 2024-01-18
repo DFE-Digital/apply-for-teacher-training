@@ -181,6 +181,15 @@ class Course < ApplicationRecord
     course_options.available.pluck(:site_id).uniq.many?
   end
 
+  def qualifications_to_s
+    case qualifications.sort
+    in ['pgce', 'qts'] then 'PGCE with QTS'
+    in ['pgde', 'qts'] then 'PGDE with QTS'
+    else
+      qualifications.first.upcase
+    end
+  end
+
 private
 
   def touch_application_choices_and_forms
