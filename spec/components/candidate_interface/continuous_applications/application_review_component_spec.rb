@@ -6,16 +6,17 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
   end
 
   let(:application_choice) do
-    create(:application_choice, :awaiting_provider_decision, personal_statement:, sent_to_provider_at: 1.week.ago)
+    create(:application_choice, :awaiting_provider_decision, personal_statement:, sent_to_provider_at: 1.week.ago, course: course)
   end
-  let(:course) { application_choice.current_course }
+  let(:course) { create(:course, :with_course_options, course_length:) }
+  let(:course_length) { 'OneYear' }
   let(:provider) { application_choice.current_provider }
   let(:links) { result.css('a').map(&:text) }
   let(:personal_statement) { 'some personal statement' }
 
   context 'when application is unsubmitted' do
     let(:application_choice) do
-      create(:application_choice, :unsubmitted, personal_statement:)
+      create(:application_choice, :unsubmitted, personal_statement:, course:)
     end
 
     it 'shows change course link' do
@@ -28,6 +29,38 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
 
     it 'shows the course qualifications' do
       expect(result.text).to include("Qualifications#{course.qualifications.map(&:upcase).to_sentence}")
+    end
+
+    describe 'course_length' do
+      context 'course_length is standard' do
+        let(:course_length) { '10 months' }
+
+        it 'shows the course length as is' do
+          expect(result.text).to include("Course length#{course.course_length}")
+        end
+      end
+
+      context 'course_length is blank' do
+        let(:course_length) { nil }
+
+        it 'shows the course length as unset' do
+          expect(result.text).to include('Course lengthunset')
+        end
+      end
+
+      context 'course_length is OneYear' do
+        it 'shows the course length as 1 year' do
+          expect(result.text).to include('Course length1 year')
+        end
+      end
+
+      context 'course_length is TwoYear' do
+        let(:course_length) { 'TwoYears' }
+
+        it 'shows the course length as 2 years' do
+          expect(result.text).to include('Course length2 years')
+        end
+      end
     end
 
     it 'does not show the application number' do
@@ -95,6 +128,39 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     it 'shows link to course on find' do
       expect(links).to include(application_choice.current_course.name_and_code)
     end
+
+    describe 'course_length' do
+      context 'course_length is standard' do
+        let(:course_length) { '10 months' }
+
+        it 'shows the course length as is' do
+          expect(result.text).to include("Course length#{course.course_length}")
+        end
+      end
+
+      context 'course_length is blank' do
+        let(:course_length) { nil }
+
+        it 'shows the course length as unset' do
+          expect(result.text).to include('Course lengthunset')
+        end
+      end
+
+      context 'course_length is OneYear' do
+        it 'shows the course length as 1 year' do
+          expect(result.text).to include('Course length1 year')
+        end
+      end
+
+      context 'course_length is TwoYear' do
+        let(:course_length) { 'TwoYears' }
+
+        it 'shows the course length as 2 years' do
+          expect(result.text).to include('Course length2 years')
+        end
+      end
+    end
+
 
     context 'when course has multiple study modes' do
       before do

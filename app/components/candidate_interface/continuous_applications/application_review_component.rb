@@ -19,6 +19,7 @@ module CandidateInterface
           submitted_at_row,
           course_info_row,
           qualifications_row,
+          course_length_row,
           study_mode_row,
           location_row,
         ].compact
@@ -65,6 +66,20 @@ module CandidateInterface
         {
           key: 'Qualifications',
           value: (current_course.qualifications || []).map(&:upcase).to_sentence,
+        }
+      end
+
+      def course_length_row
+        formatted = {
+          'OneYear' => '1 year',
+          'TwoYears' => '2 years',
+        }
+
+        value = formatted[current_course.course_length] || current_course.course_length || 'unset'
+
+        {
+          key: 'Course length',
+          value:,
         }
       end
 
