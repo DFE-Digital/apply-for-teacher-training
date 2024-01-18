@@ -8,7 +8,7 @@
     <%= f.govuk_radio_button :immigration_status, 'eu_settled', label: { text: 'EU settled status' }, link_errors: true %>
     <%= f.govuk_radio_button :immigration_status, 'eu_pre_settled', label: { text: 'EU pre-settled status' } %>
     <%= f.govuk_radio_button :immigration_status, 'other', label: { text: 'Other' } do %>
-      <%= f.govuk_text_area(
+      <%= f.govuk_text_field(
         :right_to_work_or_study_details,
         label: { text: 'Immigration status', size: 's' },
         hint: { text: 'For example, “Indefinite leave to remain”' },
