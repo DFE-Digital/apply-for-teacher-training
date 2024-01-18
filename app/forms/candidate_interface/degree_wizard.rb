@@ -160,13 +160,7 @@ module CandidateInterface
     end
 
     def country_changed?
-      if existing_degree.institution_country.nil?
-        country.present?
-      elsif existing_degree.institution_country.present?
-        country.blank?
-      else
-        false
-      end
+      existing_degree.institution_country != country
     end
 
     def degree_level_back_link
@@ -282,7 +276,7 @@ module CandidateInterface
           application_form_id:,
           level: 'degree',
           international: false,
-          institution_country: nil,
+          institution_country: country,
           qualification_type: qualification_type_attributes,
           qualification_type_hesa_code: hesa_type_code,
           qualification_level:,
@@ -325,7 +319,6 @@ module CandidateInterface
 
     def sanitize_attrs(attrs)
       sanitize_uk_or_non_uk(attrs)
-      sanitize_country(attrs)
       sanitize_type(attrs)
       sanitize_degree_level(attrs)
       sanitize_grade(attrs)
@@ -664,12 +657,6 @@ module CandidateInterface
                      university: nil, start_year: nil, award_year: nil, international_type: nil, grade: nil,
                      other_grade: nil, have_enic_reference: nil, enic_reference: nil, comparable_uk_degree: nil)
 
-      end
-    end
-
-    def sanitize_country(attrs)
-      if attrs[:uk_or_non_uk] == 'uk' && attrs[:current_step] == :country
-        attrs[:country] = nil
       end
     end
 
