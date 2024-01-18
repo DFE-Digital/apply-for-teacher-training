@@ -15,8 +15,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
   let(:personal_statement) { 'some personal statement' }
 
   context 'when application is unsubmitted' do
+    let(:application_form) { create(:application_form, becoming_a_teacher:) }
+    let(:becoming_a_teacher) { 'becoming a teacher' }
     let(:application_choice) do
-      create(:application_choice, :unsubmitted, personal_statement:, course:)
+      create(:application_choice, :unsubmitted, personal_statement:, course:, application_form:)
     end
 
     it 'shows change course link' do
@@ -67,8 +69,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       expect(links).not_to include("Application number #{application_choice.id}")
     end
 
-    it 'does not show the personal statement' do
-      expect(result.text).not_to include(personal_statement)
+    it 'shows the application forms becoming_a_teacher as the personal statement' do
+      expect(result.text).to include("Personal statement#{becoming_a_teacher}")
     end
 
     context 'when course has multiple study modes' do
@@ -161,6 +163,9 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       end
     end
 
+    it 'shows the personal statement' do
+      expect(result).to have_content("Personal statement\n#{personal_statement}")
+    end
 
     context 'when course has multiple study modes' do
       before do
