@@ -1,22 +1,59 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComponent do
+  shared_examples_for 'course length row' do
+    describe 'course_length' do
+      context 'course_length is standard' do
+        let(:course_length) { '10 months' }
+
+        it 'shows the course length as is' do
+          expect(result.text).to include("Course length#{course.course_length}")
+        end
+      end
+
+      context 'course_length is blank' do
+        let(:course_length) { nil }
+
+        it 'shows the course length as blank' do
+          expect(result.text).to include('Course length')
+        end
+      end
+
+      context 'course_length is OneYear' do
+        it 'shows the course length as 1 year' do
+          expect(result.text).to include('Course length1 year')
+        end
+      end
+
+      context 'course_length is TwoYear' do
+        let(:course_length) { 'TwoYears' }
+
+        it 'shows the course length as 2 years' do
+          expect(result.text).to include('Course lengthUp to 2 years')
+        end
+      end
+    end
+  end
+
   subject(:result) do
     render_inline(described_class.new(application_choice:))
   end
 
   let(:application_choice) do
-    create(:application_choice, :awaiting_provider_decision, personal_statement:, sent_to_provider_at: 1.week.ago)
+    create(:application_choice, :awaiting_provider_decision, personal_statement:, sent_to_provider_at: 1.week.ago, course:)
   end
-  let(:course) { application_choice.current_course }
+  let(:course) { create(:course, :with_course_options, course_length:) }
+  let(:course_length) { 'OneYear' }
   let(:provider) { application_choice.current_provider }
   let(:links) { result.css('a').map(&:text) }
   let(:personal_statement) { 'some personal statement' }
 
   context 'when application is unsubmitted' do
     let(:application_choice) do
-      create(:application_choice, :unsubmitted, personal_statement:)
+      create(:application_choice, :unsubmitted, personal_statement:, course:)
     end
+
+    it_behaves_like 'course length row'
 
     it 'shows change course link' do
       expect(links).to include("Change course for #{application_choice.current_course.name_and_code}")
@@ -70,6 +107,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
   end
 
   context 'when application is submitted' do
+    it_behaves_like 'course length row'
+
     it 'does not show change links' do
       expect(result.css('govuk-summary-list__actions a')).to be_empty
     end
