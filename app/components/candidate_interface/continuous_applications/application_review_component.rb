@@ -8,10 +8,6 @@ module CandidateInterface
         @application_choice = application_choice
       end
 
-      def show_personal_statement?
-        @application_choice.submitted? && @application_choice.personal_statement.present?
-      end
-
       def rows
         [
           status_row,
@@ -22,6 +18,7 @@ module CandidateInterface
           course_length_row,
           study_mode_row,
           location_row,
+          personal_statement_row,
         ].compact
       end
 
@@ -104,6 +101,19 @@ module CandidateInterface
             }
           end
         end
+      end
+
+      def personal_statement_row
+        value = if unsubmitted?
+                  @application_choice.application_form.becoming_a_teacher
+                else
+                  @application_choice.personal_statement
+                end
+
+        {
+          key: 'Personal statement',
+          value: value,
+        }
       end
     end
   end
