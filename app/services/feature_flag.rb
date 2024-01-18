@@ -23,17 +23,17 @@ class FeatureFlag
     [:lock_external_report_to_january_2022, 'Lock the current external report to January 2022', 'Apply team'],
     [:unlock_application_for_editing, 'Allow the candidate to make edits to their application form post submission', 'Find and Apply team'],
     [:monthly_statistics_preview, 'Preview unpublished monthly statistics reports', 'Tomas'],
+    [:draft_vendor_api_specification, 'The specification for upcoming vendor API releases', 'Abeer Salameh'],
+    [:adviser_sign_up, 'Allow candidates to sign up for a teacher training adviser', 'Ross Oliver'],
+    [:monthly_statistics_redirected, 'Redirect requests for Publications Monthly Statistics to temporarily unavailable', 'Iain McNulty'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
-    [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
     [:reference_nudges, 'Nudge emails for candidates that have incomplete references', 'Steve Hook'],
     [:sample_applications_factory, 'An alternate generator for test/sample applications, uses `SampleApplicationsFactory` in place of `TestApplications.new`', 'Elliot Crosby-McCullough + Tomas Destefi'],
-    [:adviser_sign_up, 'Allow candidates to sign up for a teacher training adviser', 'Ross Oliver'],
     [:structured_reference_condition, 'Structured reference condition that can be added as a condition to an offer', 'Tomas Destefi'],
     [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
     [:course_has_vacancies, 'Using the new publish status to set a course as open or closed', 'Tomas & James'],
-    [:monthly_statistics_redirected, 'Redirect requests for Publications Monthly Statistics to temporarily unavailable', 'Iain McNulty'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
