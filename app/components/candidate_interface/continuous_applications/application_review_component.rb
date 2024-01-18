@@ -65,7 +65,7 @@ module CandidateInterface
       def qualifications_row
         {
           key: 'Qualifications',
-          value: (current_course.qualifications || []).map(&:upcase).to_sentence,
+          value: current_course.qualifications_to_s,
         }
       end
 
