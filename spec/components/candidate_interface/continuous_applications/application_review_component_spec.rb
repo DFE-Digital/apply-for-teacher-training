@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     end
 
     it 'shows the course qualifications' do
-      expect(result.text).to include("Qualifications#{course.qualifications.map(&:upcase).to_sentence}")
+      expect(result.text).to include("Qualifications#{course.qualifications_to_s}")
     end
 
     describe 'course_length' do
@@ -116,7 +116,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     end
 
     it 'shows the course qualifications' do
-      expect(result.text).to include("Qualifications#{course.qualifications.map(&:upcase).to_sentence}")
+      expect(result.text).to include("Qualifications#{course.qualifications_to_s}")
     end
 
     it 'shows the duration since submitted' do
