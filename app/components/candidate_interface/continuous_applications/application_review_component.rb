@@ -2,7 +2,11 @@ module CandidateInterface
   module ContinuousApplications
     class ApplicationReviewComponent < ViewComponent::Base
       attr_reader :application_choice
-      delegate :unsubmitted?, :current_course, :current_course_option, to: :application_choice
+      delegate :interviewing?,
+               :unsubmitted?,
+               :current_course,
+               :current_course_option,
+               to: :application_choice
 
       def initialize(application_choice:)
         @application_choice = application_choice
@@ -19,6 +23,7 @@ module CandidateInterface
           study_mode_row,
           location_row,
           personal_statement_row,
+          interview_row,
         ].compact
       end
 
@@ -118,6 +123,17 @@ module CandidateInterface
         {
           key: 'Personal statement',
           value: value,
+        }
+      end
+
+      def interview_row
+        return unless interviewing?
+
+        interview = application_choice.interviews.last
+
+        {
+          key: 'Interview',
+          value: render(InterviewSummaryComponent.new(interview:)),
         }
       end
     end
