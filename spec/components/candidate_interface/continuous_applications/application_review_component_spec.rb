@@ -69,6 +69,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       expect(result.text).to include("Qualifications#{course.qualifications_to_s}")
     end
 
+    it 'does not show the interview row' do
+      expect(result.text).not_to include('Interview')
+    end
+
     it 'does not show the application number' do
       expect(result.text).not_to include('Application number')
     end
@@ -111,6 +115,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
   context 'when application is submitted' do
     it_behaves_like 'course length row'
 
+    it 'shows the application status' do
+      expect(result.text).to include('StatusAwaiting decision')
+    end
+
     it 'does not show change links' do
       expect(result.css('govuk-summary-list__actions a')).to be_empty
     end
@@ -141,6 +149,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       expect(result).to have_content("Personal statement\n#{personal_statement}")
     end
 
+    it 'does not show the interview row' do
+      expect(result.text).not_to include('Interview')
+    end
+
     context 'when course has multiple study modes' do
       before do
         create(
@@ -169,6 +181,16 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       it 'does not show change links' do
         expect(result.css('govuk-summary-list__actions a')).to be_empty
       end
+    end
+  end
+
+  context 'when application is interviewing' do
+    let(:application_choice) do
+      create(:application_choice, :interviewing, interviews: [create(:interview)])
+    end
+
+    it 'shows interview row' do
+      expect(result.text).to include('InterviewYou have an interview scheduled')
     end
   end
 end
