@@ -1,6 +1,7 @@
 module CandidateInterface
   module ContinuousApplications
     class ApplicationChoicesController < ::CandidateInterface::ContinuousApplicationsController
+      before_action SubmissionPermissionFilter
       before_action :redirect_to_your_applications_if_submitted
 
       def submit
