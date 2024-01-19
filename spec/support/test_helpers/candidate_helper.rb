@@ -467,6 +467,7 @@ module CandidateHelper
     choose 'Drama (2397)'
     click_link_or_button t('continue')
   end
+  alias candidate_adds_a_draft_application candidate_fills_in_secondary_course_choice_with_incomplete_details
 
   def candidate_fills_in_secondary_course_choice
     visit candidate_interface_continuous_applications_choices_path

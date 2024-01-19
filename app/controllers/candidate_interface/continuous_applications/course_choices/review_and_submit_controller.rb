@@ -2,6 +2,7 @@ module CandidateInterface
   module ContinuousApplications
     module CourseChoices
       class ReviewAndSubmitController < BaseController
+        before_action SubmissionPermissionFilter
         before_action :redirect_to_your_applications_if_submitted
         before_action :redirect_to_course_choice_review_unless_ready_to_submit
 
