@@ -106,6 +106,20 @@ class ApplicationForm < ApplicationRecord
   enum immigration_status: {
     eu_settled: 'eu_settled',
     eu_pre_settled: 'eu_pre_settled',
+    indefinite_leave_to_remain_in_the_uk: 'indefinite_leave_to_remain_in_the_uk',
+    student_visa: 'student_visa',
+    graduate_visa: 'graduate_visa',
+    skilled_worker_visa: 'skilled_worker_visa',
+    dependent_on_partners_student_visa_or_dependent_on_partners_skilled_worker_visa: 'dependent_on_partners_student_visa_or_dependent_on_partners_skilled_worker_visa',
+    family_visa: 'family_visa',
+    british_national_overseas_visa: 'british_national_overseas_visa',
+    uk_ancestry_visa: 'uk_ancestry_visa',
+    high_potential_individual_visa: 'high_potential_individual_visa',
+    youth_mobility_scheme: 'youth_mobility_scheme',
+    india_young_professionals_scheme_visa: 'india_young_professionals_scheme_visa',
+    ukraine_family_scheme_or_ukraine_sponsorship_scheme_visa: 'ukraine_family_scheme_or_ukraine_sponsorship_scheme_visa',
+    afghan_citizens_resettlement_scheme_or_afghan_relocations_and_assistance_policy: 'afghan_citizens_resettlement_scheme_or_afghan_relocations_and_assistance_policy',
+    refugee_status: 'refugee_status',
     other: 'other',
   }
 
