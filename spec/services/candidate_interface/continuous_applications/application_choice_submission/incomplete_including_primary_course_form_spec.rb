@@ -25,7 +25,7 @@ RSpec.describe 'Incomplete details including primary course form details', time:
     end
   end
 
-  context 'science gcse section and other details incomplete' do
+  context 'science gcse section incomplete and other details incomplete' do
     let(:application_form) { create(:application_form, :completed, degrees_completed: false, science_gcse_completed: false) }
     let(:application_choice) { create(:application_choice, :unsubmitted, course_option:, application_form:) }
 
