@@ -6,7 +6,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
   scenario 'Candidate with a completed application' do
     given_i_am_signed_in
 
-    when_i_have_completed_my_application_and_added_primary_as_course_choice
+    when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice
     and_i_continue_with_my_application
 
     when_i_save_as_draft
@@ -49,21 +49,47 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     then_i_am_able_to_add_another_choice
   end
 
-  scenario 'Candidate with an application missing the science GCSE' do
+  scenario 'Candidate with a primary application missing the science GCSE' do
     given_i_am_signed_in
 
-    when_i_have_completed_my_application_and_added_primary_as_course_choice
+    when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice
     when_i_have_not_completed_science_gcse
     and_i_continue_with_my_application
 
     then_i_should_see_an_error_message_that_i_should_complete_the_science_gcse
+
+    when_i_click_on_the_error_message
+    then_i_should_be_on_science_gcse_section
+  end
+
+  scenario 'Candidate with a primary application missing the science GCSE and missing other sections' do
+    given_i_am_signed_in
+
+    when_i_have_an_incomplete_application_and_have_added_primary_as_a_course_choice
+    when_i_have_not_completed_science_gcse
+    and_i_continue_with_my_application
+
+    then_i_should_see_an_error_message_that_i_should_complete_the_science_gcse
+
+    when_i_click_on_the_error_message
+    then_i_should_be_on_your_details_page
   end
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
   end
 
-  def when_i_have_completed_my_application_and_added_primary_as_course_choice
+  def when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice
+    given_i_have_a_primary_course_choice(application_form_completed: true)
+  end
+
+  def when_i_have_an_incomplete_application_and_have_added_primary_as_a_course_choice
+    given_i_have_a_primary_course_choice(application_form_completed: false)
+  end
+
+  def given_i_have_a_primary_course_choice(application_form_completed:)
+    completed_section_trait = application_form_completed.present? ? :completed : :minimum_info
+
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     site = create(
       :site,
@@ -79,7 +105,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     @course = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
     @course_option = create(:course_option, site:, course: @course)
     current_candidate.application_forms.delete_all
-    current_candidate.application_forms << build(:application_form, :completed, becoming_a_teacher: 'I want to teach')
+    current_candidate.application_forms << build(:application_form, completed_section_trait, becoming_a_teacher: 'I want to teach')
     @application_choice = create(:application_choice, :unsubmitted, course_option: @course_option, application_form: current_candidate.current_application)
   end
 
@@ -226,5 +252,17 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     click_link_or_button 'Edit your personal statement'
     fill_in 'candidate_interface_becoming_a_teacher_form[becoming_a_teacher]', with: Faker::Lorem.sentence(word_count: 500)
     click_link_or_button t('continue')
+  end
+
+  def when_i_click_on_the_error_message
+    click_link_or_button 'Add your science GCSE grade (or equivalent)'
+  end
+
+  def then_i_should_be_on_science_gcse_section
+    expect(page).to have_current_path(candidate_interface_gcse_details_new_type_path(subject: 'science'))
+  end
+
+  def then_i_should_be_on_your_details_page
+    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
   end
 end

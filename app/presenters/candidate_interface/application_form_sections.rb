@@ -25,13 +25,13 @@ module CandidateInterface
       sections_with_completion.find { |section| section[0] == section_name }&.second
     end
 
-    delegate :incomplete_sections, to: :presenter
-
-  private
-
     def primary_course?
       application_choice.current_course.primary_course?
     end
+
+    delegate :incomplete_sections, to: :presenter
+
+  private
 
     def science_gcse?
       ->(section) { section.name == :science_gcse }
