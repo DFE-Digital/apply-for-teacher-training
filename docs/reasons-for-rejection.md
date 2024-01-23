@@ -2,7 +2,7 @@
 
 **Updated: January 2024**
 
-Apply allows Provider users and vendor API users to reject applications.
+Apply allows provider users and vendor API users to reject applications.
 It is necessary to give reasons for rejecting the application.
 
 ### History
