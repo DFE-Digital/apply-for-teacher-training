@@ -136,7 +136,7 @@ Currently Providers can write rejections to the `rejection_reason` field via a s
 
 [Reject V1](https://www.apply-for-teacher-training.service.gov.uk/api-docs/v1.4/reference#post-applications-application_id-reject)
 
-[Reject by Code](https://www.apply-for-teacher-training.service.gov.uk/api-docs/v1.4/reference#post-applications-application_id-reject-by-codes)
+[Reject by code](https://www.apply-for-teacher-training.service.gov.uk/api-docs/v1.4/reference#post-applications-application_id-reject-by-codes)
 
 ## Structured rejection reasons JSON formats
 
