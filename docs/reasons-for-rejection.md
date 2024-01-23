@@ -132,7 +132,7 @@ Attributes are dymanically defined on the [`RejectionsWizard`](https://github.co
 
 ## Vendor API
 
-Currently Providers can write rejections to the `rejection_reason` field via a string parameter and `structured_rejection_reasons` via Codes.
+Currently providers can write rejections to the `rejection_reason` field via a string parameter and `structured_rejection_reasons` via codes.
 
 [Reject V1](https://www.apply-for-teacher-training.service.gov.uk/api-docs/v1.4/reference#post-applications-application_id-reject)
 
