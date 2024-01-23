@@ -63,10 +63,9 @@ module CandidateInterface
         {
           key: 'Feedback',
           value: render(
-            RejectionsComponent.new(
+            CandidateInterface::RejectionsComponent.new(
               application_choice:,
               render_link_to_find_when_rejected_on_qualifications: @render_link_to_find_when_rejected_on_qualifications,
-              rejection_reasons_component: CandidateInterface::RejectionReasons::RejectionReasonsComponent,
               feedback_button: true,
             ),
           ),

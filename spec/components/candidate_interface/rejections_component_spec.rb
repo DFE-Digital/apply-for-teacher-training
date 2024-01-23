@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RejectionsComponent do
+RSpec.describe CandidateInterface::RejectionsComponent do
   describe 'when the rejection reason is simple text' do
     let(:application_choice) { build_stubbed(:application_choice, :rejected, rejection_reason: 'Something bad') }
 
