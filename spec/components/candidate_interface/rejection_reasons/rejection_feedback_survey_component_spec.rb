@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RejectionReasons::RejectionFeedbackSurveyComponent do
+RSpec.describe CandidateInterface::RejectionReasons::RejectionFeedbackSurveyComponent do
   describe 'rendered component' do
     let(:application_choice) { create(:application_choice, :rejected) }
 

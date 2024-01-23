@@ -15,7 +15,7 @@ module CandidateInterface
     def render_rejection_feedback_survey_button
       return unless @feedback_button
 
-      render ::RejectionReasons::RejectionFeedbackSurveyComponent.new(application_choice:)
+      render RejectionReasons::RejectionFeedbackSurveyComponent.new(application_choice:)
     end
 
     def component_for_rejection_reasons_type
