@@ -5,16 +5,8 @@
 class RejectionsComponent < ViewComponent::Base
   attr_reader :application_choice
 
-  def initialize(application_choice:, render_link_to_find_when_rejected_on_qualifications: false, feedback_button: false)
+  def initialize(application_choice:)
     @application_choice = application_choice
-    @render_link_to_find_when_rejected_on_qualifications = render_link_to_find_when_rejected_on_qualifications
-    @feedback_button = feedback_button
-  end
-
-  def render_rejection_feedback_survey_button
-    return unless @feedback_button
-
-    render RejectionReasons::RejectionFeedbackSurveyComponent.new(application_choice:)
   end
 
   def component_for_rejection_reasons_type
@@ -28,12 +20,10 @@ class RejectionsComponent < ViewComponent::Base
     end
   end
 
+private
+
   def structured_rejection_reasons_attrs
-    {
-      application_choice:,
-      reasons:,
-      render_link_to_find_when_rejected_on_qualifications: @render_link_to_find_when_rejected_on_qualifications,
-    }
+    { application_choice:, reasons: }
   end
 
   def reasons
