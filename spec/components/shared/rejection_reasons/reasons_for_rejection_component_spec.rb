@@ -4,9 +4,9 @@ RSpec.describe RejectionReasons::ReasonsForRejectionComponent do
   describe 'rendered component' do
     let(:provider) { build_stubbed(:provider, name: 'The University of Metal') }
     let(:course) { build_stubbed(:course, provider:) }
-    let(:application_choice) { build_stubbed(:application_choice) }
+    let(:application_choice) { build_stubbed(:application_choice, structured_rejection_reasons:) }
     let(:future_applications) { 'Yes' }
-    let(:reasons_for_rejection_attrs) do
+    let(:structured_rejection_reasons) do
       {
         candidate_behaviour_y_n: 'Yes',
         candidate_behaviour_what_did_the_candidate_do: %w[other didnt_reply_to_interview_offer],
@@ -32,14 +32,12 @@ RSpec.describe RejectionReasons::ReasonsForRejectionComponent do
       }
     end
 
-    let(:reasons_for_rejection) { ReasonsForRejection.new(reasons_for_rejection_attrs) }
-
     before do
       allow(application_choice).to receive_messages(provider: provider, course: course)
     end
 
     it 'renders rejection reason answers under headings' do
-      result = render_inline(described_class.new(application_choice:, reasons: reasons_for_rejection))
+      result = render_inline(described_class.new(application_choice:))
       html = result.to_html
 
       expect(result.css('h3.govuk-heading-s').text).to include('Something you did')
@@ -71,7 +69,7 @@ RSpec.describe RejectionReasons::ReasonsForRejectionComponent do
     end
 
     it 'renders link to course requirements when rejected on qualifications is true' do
-      result = render_inline(described_class.new(application_choice:, reasons: reasons_for_rejection, render_link_to_find_when_rejected_on_qualifications: true))
+      result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
       html = result.to_html
 
       expect(result.css('h3.govuk-heading-s').text).to include('Qualifications')
@@ -85,7 +83,7 @@ RSpec.describe RejectionReasons::ReasonsForRejectionComponent do
       let(:future_applications) { nil }
 
       it 'does not render the answer' do
-        result = render_inline(described_class.new(application_choice:, reasons: reasons_for_rejection))
+        result = render_inline(described_class.new(application_choice:))
 
         expect(result.css('h3.govuk-heading-s').text).not_to include('Future applications')
       end

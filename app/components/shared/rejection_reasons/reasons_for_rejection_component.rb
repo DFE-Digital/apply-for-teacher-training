@@ -5,11 +5,10 @@
 class RejectionReasons::ReasonsForRejectionComponent < ViewComponent::Base
   include ViewHelper
 
-  attr_reader :application_choice, :reasons
+  attr_reader :application_choice
 
-  def initialize(application_choice:, reasons:, render_link_to_find_when_rejected_on_qualifications: false)
+  def initialize(application_choice:, render_link_to_find_when_rejected_on_qualifications: false)
     @application_choice = application_choice
-    @reasons = reasons
     @render_link_to_find_when_rejected_on_qualifications = render_link_to_find_when_rejected_on_qualifications
   end
 
@@ -26,5 +25,9 @@ class RejectionReasons::ReasonsForRejectionComponent < ViewComponent::Base
     )
 
     "View the course requirements on #{link}.".html_safe
+  end
+
+  def reasons
+    ::ReasonsForRejection.new(application_choice.structured_rejection_reasons)
   end
 end

@@ -4,7 +4,7 @@
 #
 module CandidateInterface
   class RejectionsComponent < ViewComponent::Base
-    attr_reader :application_choice
+    attr_reader :application_choice, :render_link_to_find_when_rejected_on_qualifications
 
     def initialize(application_choice:, render_link_to_find_when_rejected_on_qualifications: false, feedback_button: false)
       @application_choice = application_choice
@@ -30,19 +30,7 @@ module CandidateInterface
     end
 
     def structured_rejection_reasons_attrs
-      {
-        application_choice:,
-        reasons:,
-        render_link_to_find_when_rejected_on_qualifications: @render_link_to_find_when_rejected_on_qualifications,
-      }
-    end
-
-    def reasons
-      if application_choice.rejection_reasons_type == 'reasons_for_rejection'
-        ::ReasonsForRejection.new(application_choice.structured_rejection_reasons)
-      else
-        ::RejectionReasons.new(application_choice.structured_rejection_reasons)
-      end
+      { application_choice:, render_link_to_find_when_rejected_on_qualifications: }
     end
   end
 end

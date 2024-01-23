@@ -5,11 +5,10 @@
 class RejectionReasons::RejectionReasonsComponent < ViewComponent::Base
   include ViewHelper
 
-  attr_reader :application_choice, :reasons, :editable
+  attr_reader :application_choice, :editable
 
-  def initialize(application_choice:, reasons:, render_link_to_find_when_rejected_on_qualifications: false, editable: false)
+  def initialize(application_choice:, render_link_to_find_when_rejected_on_qualifications: false, editable: false)
     @application_choice = application_choice
-    @reasons = reasons
     @render_link_to_find_when_rejected_on_qualifications = render_link_to_find_when_rejected_on_qualifications
     @editable = editable
   end
@@ -31,6 +30,10 @@ class RejectionReasons::RejectionReasonsComponent < ViewComponent::Base
 
   def editable?
     editable
+  end
+
+  def reasons
+    ::RejectionReasons.new(application_choice.structured_rejection_reasons)
   end
 
   def render_link_to_find?(reason)
