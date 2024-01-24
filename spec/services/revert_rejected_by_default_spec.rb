@@ -35,8 +35,6 @@ RSpec.describe RevertRejectedByDefault, CycleTimetableHelper.mid_cycle(Applicati
     create(:application_form).tap do |form|
       create(:application_choice, :rejected_by_default, application_form: form)
       create(:application_choice, :accepted, application_form: form)
-
-      SetDeclineByDefault.new(application_form: form).call
     end
   end
 

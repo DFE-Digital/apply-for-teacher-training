@@ -29,7 +29,6 @@ class RejectApplication
           rejection_reasons_type:,
           rejected_at: Time.zone.now,
         )
-        SetDeclineByDefault.new(application_form: @application_choice.application_form).call
       end
 
       CancelUpcomingInterviews.new(actor: @auth.actor, application_choice: @application_choice, cancellation_reason: I18n.t('interview_cancellation.reason.application_rejected')).call!

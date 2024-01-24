@@ -10,7 +10,6 @@ class WithdrawApplication
         withdrawn_at: Time.zone.now,
         withdrawn_or_declined_for_candidate_by_provider: false,
       )
-      SetDeclineByDefault.new(application_form: application_choice.application_form).call
     end
 
     CancelUpcomingInterviews.new(

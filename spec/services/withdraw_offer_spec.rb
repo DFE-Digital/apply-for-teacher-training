@@ -44,20 +44,6 @@ RSpec.describe WithdrawOffer do
       expect(application_choice.reload.status).to eq 'offer'
     end
 
-    it 'calls SetDeclineByDefault given a valid reason' do
-      application_choice = create(:application_choice, status: :offer)
-      allow(SetDeclineByDefault).to receive(:new).and_call_original
-
-      withdrawal_reason = 'We are so sorry...'
-      described_class.new(
-        actor: create(:support_user),
-        application_choice:,
-        offer_withdrawal_reason: withdrawal_reason,
-      ).save
-
-      expect(SetDeclineByDefault).to have_received(:new).with(application_form: application_choice.application_form)
-    end
-
     it 'sends an email to the candidate', :sidekiq do
       application_choice = create(:application_choice, status: :offer)
       withdrawal_reason = 'We messed up big time'

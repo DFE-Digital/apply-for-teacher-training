@@ -27,8 +27,6 @@ class ChangeOffer
             course_option,
             other_fields: { offer_changed_at: Time.zone.now },
           )
-
-          SetDeclineByDefault.new(application_form: application_choice.application_form).call
         end
 
         CandidateMailer.changed_offer(application_choice).deliver_later
