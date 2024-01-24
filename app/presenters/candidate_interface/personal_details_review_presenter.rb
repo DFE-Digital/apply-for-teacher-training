@@ -101,39 +101,21 @@ module CandidateInterface
       ]
 
       if @application_form.immigration_status
-        rows << if EU_EEA_SWISS_COUNTRY_CODES.intersect?(@application_form.nationalities.map { |name| NATIONALITIES_BY_NAME[name] })
-                  {
-                    key: I18n.t('application_form.personal_details.immigration_status.label'),
-                    value: formatted_immigration_status,
-                    action: (if @editable && !@application_form.submitted_applications?
-                               {
-                                 href: candidate_interface_edit_immigration_status_path(return_to_params),
-                                 visually_hidden_text: I18n.t('application_form.personal_details.immigration_status.change_action'),
-                               }
-                             end),
-                    html_attributes: {
-                      data: {
-                        qa: 'personal_details_immigration_status',
-                      },
-                    },
-                  }
-                else
-                  {
-                    key: 'Visa or Immigration status',
-                    value: formatted_immigration_status,
-                    action: (if @editable && !@application_form.submitted_applications?
-                               {
-                                 href: candidate_interface_edit_immigration_status_path(return_to_params),
-                                 visually_hidden_text: I18n.t('application_form.personal_details.visa_or_immigration_status.change_action'),
-                               }
-                             end),
-                    html_attributes: {
-                      data: {
-                        qa: 'personal_details_visa_or_immigration_status',
-                      },
-                    },
-                  }
-                end
+        rows << {
+          key: EU_EEA_SWISS_COUNTRY_CODES.intersect?(@application_form.nationalities.map { |name| NATIONALITIES_BY_NAME[name] }) ? I18n.t('application_form.personal_details.immigration_status.label') : I18n.t('application_form.personal_details.visa_or_immigration_status.label'),
+          value: formatted_immigration_status,
+          action: (if @editable && !@application_form.submitted_applications?
+                     {
+                       href: candidate_interface_edit_immigration_status_path(return_to_params),
+                       visually_hidden_text: EU_EEA_SWISS_COUNTRY_CODES.intersect?(@application_form.nationalities.map { |name| NATIONALITIES_BY_NAME[name] }) ? I18n.t('application_form.personal_details.immigration_status.change_action') : I18n.t('application_form.personal_details.visa_or_immigration_status.change_action'),
+                     }
+                   end),
+          html_attributes: {
+            data: {
+              qa: EU_EEA_SWISS_COUNTRY_CODES.intersect?(@application_form.nationalities.map { |name| NATIONALITIES_BY_NAME[name] }) ? 'personal_details_immigration_status' : 'personal_details_visa_or_immigration_status',
+            },
+          },
+        }
       end
       rows
     end
