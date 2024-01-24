@@ -319,6 +319,51 @@ FactoryBot.define do
       end
     end
 
+    trait :reasons_for_rejection do
+      rejected
+      rejection_reason { nil }
+      rejection_reasons_type { 'reasons_for_rejection' }
+      structured_rejection_reasons do
+        {
+          course_full_y_n: 'No',
+          candidate_behaviour_y_n: 'Yes',
+          candidate_behaviour_other: 'Persistent scratching',
+          candidate_behaviour_what_to_improve: 'Not scratch so much',
+          candidate_behaviour_what_did_the_candidate_do: %w[didnt_reply_to_interview_offer didnt_attend_interview other],
+          honesty_and_professionalism_y_n: 'Yes',
+          honesty_and_professionalism_concerns_other_details: nil,
+          honesty_and_professionalism_concerns: %w[information_false_or_inaccurate references],
+          honesty_and_professionalism_concerns_plagiarism_details: nil,
+          honesty_and_professionalism_concerns_references_details: 'Clearly not a popular student',
+          honesty_and_professionalism_concerns_information_false_or_inaccurate_details: 'Fake news',
+          offered_on_another_course_y_n: 'No',
+          offered_on_another_course_details: nil,
+          performance_at_interview_y_n: 'Yes',
+          performance_at_interview_what_to_improve: 'Be fully dressed',
+          qualifications_y_n: 'Yes',
+          qualifications_other_details: 'All the other stuff',
+          qualifications_which_qualifications: %w[no_english_gcse other],
+          quality_of_application_y_n: 'Yes',
+          quality_of_application_other_details: 'Lights on but nobody home',
+          quality_of_application_other_what_to_improve: 'Study harder',
+          quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge other],
+          quality_of_application_subject_knowledge_what_to_improve: 'Claiming to be the \'world\'s leading expert\' seemed a bit strong',
+          quality_of_application_personal_statement_what_to_improve: 'Use a spellchecker',
+          safeguarding_y_n: 'Yes',
+          safeguarding_concerns: %w[other],
+          safeguarding_concerns_other_details: 'We need to run further checks',
+          safeguarding_concerns_vetting_disclosed_information_details: nil,
+          safeguarding_concerns_candidate_disclosed_information_details: nil,
+          cannot_sponsor_visa_y_n: 'No',
+          cannot_sponsor_visa_details: nil,
+          interested_in_future_applications_y_n: nil,
+          why_are_you_rejecting_this_application: nil,
+          other_advice_or_feedback_y_n: nil,
+          other_advice_or_feedback_details: nil,
+        }
+      end
+    end
+
     trait :rejected_by_default do
       rejected
 
