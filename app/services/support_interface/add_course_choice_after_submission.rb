@@ -8,16 +8,13 @@ module SupportInterface
     end
 
     def call
-      application_choice = ApplicationChoice.new(
+      ApplicationChoice.new(
         application_form:,
         status: 'unsubmitted',
-      )
-
-      application_choice.configure_initial_course_choice!(course_option)
-
-      SendApplicationToProvider.call(application_choice)
-
-      application_choice
+      ).tap do |choice|
+        choice.configure_initial_course_choice!(course_option)
+        CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(choice).call
+      end
     end
   end
 end
