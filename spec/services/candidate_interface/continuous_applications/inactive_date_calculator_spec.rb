@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::InactiveDateCalculator, :continuous_applications do
+RSpec.describe CandidateInterface::ContinuousApplications::InactiveDateCalculator do
   subject(:calculator) { described_class.new(application_choice:, effective_date: Time.zone.now) }
 
   let(:application_choice) { create(:application_choice, :unsubmitted) }
@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::InactiveDateCalculato
     ].freeze
 
     submitted_vs_inactive_dates.each do |submitted, correct_rbd, test_case|
-      it "is correct when the application is delivered #{test_case}", :continuous_applications do
+      it "is correct when the application is delivered #{test_case}" do
         travel_temporarily_to(Time.zone.parse(submitted)) do
           expect(calculator.inactive_date).to be_within(1.second).of(Time.zone.parse(correct_rbd))
         end

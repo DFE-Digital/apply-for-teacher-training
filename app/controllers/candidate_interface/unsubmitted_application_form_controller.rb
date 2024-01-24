@@ -2,7 +2,6 @@ module CandidateInterface
   class UnsubmittedApplicationFormController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
     before_action :redirect_to_application_if_between_cycles, except: %w[show review]
-    before_action :render_error_if_continuous_applications_active, only: %w[submit]
     before_action :redirect_to_new_continuous_applications_if_active, only: %w[show]
     before_action :redirect_to_carry_over, except: %w[review]
     before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
@@ -31,17 +30,6 @@ module CandidateInterface
         @reference_section_errors = @application_form_presenter.reference_section_errors
 
         render 'candidate_interface/unsubmitted_application_form/review' and return
-      end
-    end
-
-    def submit
-      SubmitApplication.new(current_application).call
-
-      if current_application.feedback_form_complete?
-        flash[:success] = t('application_form.submit_application_success.title')
-        redirect_to candidate_interface_application_complete_path
-      else
-        redirect_to candidate_interface_feedback_form_path
       end
     end
 

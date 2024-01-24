@@ -221,9 +221,11 @@ private
       StateChangeNotifier.disable_notifications do
         fast_forward
 
-        SubmitApplication.new(@application_form).call
+        @application_form.update!(submitted_at: Time.zone.now)
 
         @application_form.application_choices.each do |choice|
+          CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(choice).call
+
           choice.update_columns(
             sent_to_provider_at: time,
             updated_at: time,

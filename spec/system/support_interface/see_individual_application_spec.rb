@@ -36,9 +36,9 @@ RSpec.feature 'See an application' do
       references_state: :feedback_requested,
     )
 
-    create(:application_choice, application_form: @completed_application, status: 'unsubmitted')
+    application_choice = create(:application_choice, application_form: @completed_application, status: 'unsubmitted')
 
-    SubmitApplication.new(@completed_application).call
+    CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(application_choice).call
     @unsubmitted_application = create(:application_form)
     @application_with_reference = create(
       :completed_application_form,

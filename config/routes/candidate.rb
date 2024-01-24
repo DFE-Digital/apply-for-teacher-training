@@ -66,7 +66,6 @@ namespace :candidate_interface, path: '/candidate' do
     get '/' => 'unsubmitted_application_form#show', as: :application_form
     get '/review' => 'unsubmitted_application_form#review', as: :application_review
     get '/submit' => 'unsubmitted_application_form#submit_show', as: :application_submit_show
-    post '/submit' => 'unsubmitted_application_form#submit', as: :application_submit
 
     get '/complete' => 'submitted_application_form#complete', as: :application_complete
     get '/review/submitted' => 'submitted_application_form#review_submitted', as: :application_review_submitted
