@@ -61,7 +61,7 @@ def and_i_can_edit_the_right_to_work
 end
 
 def and_i_can_edit_the_immigration_status
-  expect(page).to have_content('Change immigration status')
+  expect(page).to have_content('Change visa or immigration status')
 end
 
 def then_i_cant_edit_the_nationality
