@@ -2,6 +2,7 @@ module CandidateInterface
   class ImmigrationStatusForm
     include ActiveModel::Model
     include ActiveModel::Validations::Callbacks
+    include CandidateDetailsHelper
 
     attr_accessor :immigration_status, :right_to_work_or_study_details, :nationalities
 
@@ -29,7 +30,7 @@ module CandidateInterface
     def eu_nationality?
       return false if nationalities.blank?
 
-      EU_EEA_SWISS_COUNTRY_CODES.intersect?(nationalities.map { |name| NATIONALITIES_BY_NAME[name] })
+      includes_eu_eea_swiss?(nationalities)
     end
 
     def other_immigration_status?
