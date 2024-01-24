@@ -281,6 +281,44 @@ FactoryBot.define do
       rejected_at { (sent_to_provider_at || Time.zone.now) + 1.second }
     end
 
+    trait :rejected_reason do
+      rejected
+    end
+
+    trait :rejected_reasons do
+      rejected
+      rejection_reason { nil }
+      rejection_reasons_type { 'rejection_reasons' }
+      structured_rejection_reasons do
+        {
+          selected_reasons: [
+            {
+              id: 'qualifications',
+              label: 'Qualifications',
+              details: {
+                id: 'qualifications_details', text: 'We could find no record of your GCSEs.'
+              },
+            },
+            {
+              id: 'personal_statement',
+              label: 'Personal statement',
+              details: {
+                id: 'personal_statement_details', text: 'We do not accept applications written in Old Norse.'
+              },
+            },
+            {
+              id: 'references',
+              label: 'References',
+              details: {
+                id: 'references_details',
+                text: 'We do not accept references from close family members, such as your mum.',
+              },
+            },
+          ],
+        }
+      end
+    end
+
     trait :rejected_by_default do
       rejected
 
