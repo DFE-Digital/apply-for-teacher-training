@@ -1,17 +1,5 @@
 <%= render 'support_interface/settings/settings_navigation', title: 'Tasks' %>
 
-<section class="app-section">
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m">Recalculate dates</h2>
-      <p class="govuk-body">This task runs the <code>RecalculateDates</code> worker when we add or remove business time holidays in response to things like COVID-19.</p>
-    </div>
-    <div class="govuk-grid-column-one-third">
-      <%= govuk_button_to 'Recalculate dates', support_interface_run_task_path('recalculate_dates'), secondary: true %>
-    </div>
-  </div>
-</section>
-
 <section class="app-section app-section--with-top-border">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
