@@ -210,6 +210,12 @@ class ApplicationForm < ApplicationRecord
     submitted_at.present?
   end
 
+  def defined_immigration_status?
+    self.class.immigration_statuses.keys
+         .reject { |immigration_status| immigration_status == 'other' }
+         .any? { |immigration_status| send("#{immigration_status}?") }
+  end
+
   def awaiting_provider_decisions?
     application_choices.decision_pending.any?
   end
