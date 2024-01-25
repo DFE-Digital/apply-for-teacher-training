@@ -119,6 +119,7 @@ en:
     languages: Is English your main language?
     immigration_right_to_work: Right to work or study in the UK
     immigration_status: What is your immigration status?
+    visa_or_immigration_status: Visa or immigration status
     review_application: Review your application
     data_sharing_agreement: Data sharing agreement
     accessibility: Accessibility statement
