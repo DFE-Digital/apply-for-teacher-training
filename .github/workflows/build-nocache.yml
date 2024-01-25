@@ -38,7 +38,7 @@ jobs:
 
       - uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS_AKS_TEST }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Validate Azure Key Vault secrets
         uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
