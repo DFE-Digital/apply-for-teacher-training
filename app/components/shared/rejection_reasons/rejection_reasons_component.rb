@@ -27,7 +27,7 @@ class RejectionReasons::RejectionReasonsComponent < ViewComponent::Base
   end
 
   def reasons
-    ::RejectionReasons.new(application_choice.structured_rejection_reasons)
+    ::RejectionReasons.new(application_choice.structured_rejection_reasons).selected_reasons
   end
 
   def render_link_to_find?(reason)

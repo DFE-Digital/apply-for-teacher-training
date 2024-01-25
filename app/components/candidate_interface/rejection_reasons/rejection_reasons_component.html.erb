@@ -1,4 +1,4 @@
-<% reasons.selected_reasons.each do |reason| %>
+<% reasons.each do |reason| %>
   <div class="app-rejection">
     <h3 class="govuk-heading-s"><%= reason.label %></h3>
     <% if reason.details&.text.present? %>
