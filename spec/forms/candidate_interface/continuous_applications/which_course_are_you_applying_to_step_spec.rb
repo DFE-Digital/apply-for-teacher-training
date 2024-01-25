@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouAppl
       expect(which_course_are_you_applying_to_step).to validate_presence_of(:provider_id)
     end
 
-    context 'validates uniqueness of course_choice', :continuous_applications do
+    context 'validates uniqueness of course_choice' do
       let(:provider_id) { provider.id }
       let(:course_id) { course.id }
 
@@ -65,7 +65,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouAppl
     end
   end
 
-  context 'validates reapplication of course_choice', :continuous_applications do
+  context 'validates reapplication of course_choice' do
     let(:provider_id) { provider.id }
     let(:course_id) { course.id }
 
