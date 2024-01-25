@@ -389,11 +389,6 @@ module CandidateHelper
     click_link_or_button 'Review application'
     click_link_or_button 'Continue without editing'
     click_link_or_button 'Confirm and submit application'
-
-    if !FeatureFlag.active?(:continuous_applications)
-      choose t('application_form.completed_radio')
-      click_link_or_button t('continue')
-    end
   end
 
   def candidate_completes_details_except_science(with_referees: true, international: false, candidate: current_candidate)
@@ -777,9 +772,5 @@ module CandidateHelper
 
   def application_choice
     current_candidate.current_application.application_choices.last
-  end
-
-  def and_the_continuous_applications_feature_is_disabled
-    FeatureFlag.deactivate(:continuous_applications)
   end
 end
