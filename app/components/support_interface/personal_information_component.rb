@@ -1,5 +1,7 @@
 module SupportInterface
   class PersonalInformationComponent < ViewComponent::Base
+    include CandidateDetailsHelper
+
     MISSING = '<em>Not provided</em>'.html_safe
     RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES = {
       'yes' => 'Yes',
@@ -105,7 +107,7 @@ module SupportInterface
       return unless application_form.right_to_work_or_study == 'yes'
 
       row = {
-        key: 'Immigration status',
+        key: visa_or_immigration_status_text,
         value: FormatResidencyDetailsService.new(application_form:).residency_details_value,
       }
       return row unless editable?
@@ -113,7 +115,7 @@ module SupportInterface
       row.merge(
         action: {
           href: support_interface_application_form_edit_immigration_status_path(application_form),
-          visually_hidden_text: 'immigration status',
+          visually_hidden_text: visa_or_immigration_status_text.downcase,
         },
       )
     end
@@ -137,6 +139,10 @@ module SupportInterface
 
     def editable?
       application_form.editable?
+    end
+
+    def visa_or_immigration_status_text
+      includes_eu_eea_swiss?(application_form.nationalities) ? 'Immigration status' : 'Visa or immigration status'
     end
   end
 end
