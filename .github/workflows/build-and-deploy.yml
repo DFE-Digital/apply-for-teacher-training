@@ -20,6 +20,8 @@ permissions:
 
 jobs:
   build:
+    environment:
+      name: review_aks
     name: Build
     runs-on: ubuntu-latest
     env:
@@ -68,7 +70,7 @@ jobs:
 
       - uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS_AKS_TEST }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - uses: DFE-Digital/keyvault-yaml-secret@v1
         id: get-secret
@@ -332,7 +334,7 @@ jobs:
         uses: ./.github/actions/deploy_v2/
         with:
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY_AKS }}
-          azure-credentials: ${{ secrets.AZURE_CREDENTIALS_AKS_TEST }}
+          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
           environment: review_aks
           pr-number: ${{ github.event.pull_request.number }}
           sha: ${{ needs.build.outputs.IMAGE_TAG }}
