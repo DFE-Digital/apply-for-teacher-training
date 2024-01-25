@@ -4,18 +4,14 @@
       <dt class="govuk-summary-list__key"><%= reason.label %></dt>
       <dd class="govuk-summary-list__value">
         <% if reason.details&.text.present? %>
-          <% paragraphs(reason.details.text).each do |paragraph| %>
-            <p><%= paragraph %></p>
-          <% end %>
+          <%= simple_format(reason.details.text) %>
         <% elsif reason.selected_reasons.present? %>
           <ul class="govuk-list govuk-list--spaced">
             <% reason.selected_reasons.each do |nested_reason| %>
               <% if nested_reason.details %>
                 <li>
                   <p><%= nested_reason.label %>:</p>
-                  <% paragraphs(nested_reason.details.text).each do |paragraph| %>
-                    <p><%= paragraph %></p>
-                  <% end %>
+                  <%= simple_format(nested_reason.details.text) %>
                 </li>
               <% else %>
                 <li><%= nested_reason.label %></li>
