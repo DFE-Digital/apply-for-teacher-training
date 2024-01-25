@@ -110,7 +110,7 @@ class ApplicationForm < ApplicationRecord
     student_visa: 'student_visa',
     graduate_visa: 'graduate_visa',
     skilled_worker_visa: 'skilled_worker_visa',
-    dependent_on_partners_student_visa_or_dependent_on_partners_skilled_worker_visa: 'dependent_on_partners_student_visa_or_dependent_on_partners_skilled_worker_visa',
+    dependent_on_partners_or_parents_visa: 'dependent_on_partners_student_visa_or_dependent_on_partners_skilled_worker_visa',
     family_visa: 'family_visa',
     british_national_overseas_visa: 'british_national_overseas_visa',
     uk_ancestry_visa: 'uk_ancestry_visa',

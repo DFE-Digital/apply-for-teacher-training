@@ -24,9 +24,9 @@ RSpec.describe 'Choosing visa or immigration status' do
     then_i_should_see_the_correct_visa_in_the_summary('Skilled Worker visa')
 
     when_click_change_immigration_status
-    and_i_choose_the_visa('Dependent on partner’s student visa or dependent on partner’s Skilled Worker visa')
+    and_i_choose_the_visa('Dependent on partner’s or parent’s visa')
     and_i_click_save_and_continue
-    then_i_should_see_the_correct_visa_in_the_summary('Dependent on partner’s student visa or dependent on partner’s Skilled Worker visa')
+    then_i_should_see_the_correct_visa_in_the_summary('Dependent on partner’s or parent’s visa')
 
     when_click_change_immigration_status
     and_i_choose_the_visa('Family visa')
