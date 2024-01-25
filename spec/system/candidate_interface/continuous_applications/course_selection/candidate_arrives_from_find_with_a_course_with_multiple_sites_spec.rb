@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate arrives from Find with provider and course with multiple sites', :continuous_applications do
+RSpec.feature 'Candidate arrives from Find with provider and course with multiple sites' do
   include CandidateHelper
 
   scenario 'The provider is only accepting applications on the Apply service' do

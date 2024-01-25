@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Post-offer references', :continuous_applications, :with_audited do
+RSpec.feature 'Post-offer references', :with_audited do
   include CandidateHelper
 
   scenario 'Candidate views their references on the post offer dashboard' do

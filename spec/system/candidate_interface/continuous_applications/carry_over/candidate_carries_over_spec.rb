@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Carry over', :continuous_applications, :sidekiq do
+RSpec.feature 'Carry over', :sidekiq do
   include CandidateHelper
 
   before do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 TestSection = Struct.new(:identifier, :title)
-RSpec.feature 'A candidate can edit some sections after first submission', :continuous_applications do
+RSpec.feature 'A candidate can edit some sections after first submission' do
   include SignInHelper
   include CandidateHelper
 

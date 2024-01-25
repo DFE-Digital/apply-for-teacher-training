@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits the application', :continuous_applications do
+RSpec.feature 'Candidate submits the application' do
   include CandidateHelper
 
   scenario 'Candidate with incomplete application seeing the error message' do

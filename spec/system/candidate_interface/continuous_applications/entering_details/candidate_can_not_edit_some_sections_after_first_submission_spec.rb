@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 NonEditableSection = Struct.new(:identifier, :title)
-RSpec.feature 'A candidate can not edit some sections after first submission', :continuous_applications do
+RSpec.feature 'A candidate can not edit some sections after first submission' do
   include SignInHelper
   include CandidateHelper
 

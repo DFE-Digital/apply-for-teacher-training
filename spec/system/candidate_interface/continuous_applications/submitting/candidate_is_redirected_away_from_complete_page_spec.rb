@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Redirects away from complete page', :continuous_applications do
+RSpec.feature 'Redirects away from complete page' do
   include CandidateHelper
 
   scenario 'Candidate with an application' do

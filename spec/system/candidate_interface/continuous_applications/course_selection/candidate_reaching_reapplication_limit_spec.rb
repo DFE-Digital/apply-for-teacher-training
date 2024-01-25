@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a course', :continuous_applications do
+RSpec.feature 'Selecting a course' do
   include CandidateHelper
 
   it 'Candidate selects a course they have already been rejected from twice' do

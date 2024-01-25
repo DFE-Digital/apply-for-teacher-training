@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Marking section as complete or incomplete', :continuous_applications do
+RSpec.feature 'Marking section as complete or incomplete' do
   include CandidateHelper
 
   scenario 'when marking section redirects the user' do

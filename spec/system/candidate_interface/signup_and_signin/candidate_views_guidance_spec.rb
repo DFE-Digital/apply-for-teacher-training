@@ -2,16 +2,11 @@ require 'rails_helper'
 
 RSpec.feature 'Candidate visits the sign-in page and views guidance' do
   scenario 'User can open the guidance page with dates for the current recruitment cycle year' do
-    when_the_continuous_applications_feature_is_enabled
     and_the_recruitment_cycle_year_is_2024
     and_i_visit_the_sign_in_page
     and_i_click_on_the_guidance_link
     then_i_am_taken_to_the_guidance_page
     and_i_can_see_the_correct_dates
-  end
-
-  def when_the_continuous_applications_feature_is_enabled
-    FeatureFlag.activate(:continuous_applications)
   end
 
   def and_the_recruitment_cycle_year_is_2024

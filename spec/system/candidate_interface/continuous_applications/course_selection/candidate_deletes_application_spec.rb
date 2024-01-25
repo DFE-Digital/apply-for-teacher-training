@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate edits their choice section', :continuous_applications do
+RSpec.feature 'Candidate edits their choice section' do
   include CandidateHelper
 
   it 'Candidate deletes and adds additional courses' do
