@@ -6,6 +6,18 @@ This file keeps a record of meaningful changes to the user experience, and the d
 
 ## Candidate interface (Apply for teacher training)
 
+### 2024-01-25 - Improve interaction with the Visa/immigration status questions
+
+Some users have a difficult time understanding what they are being asked when presented with an 'immigration status' 
+question. This change aims to address the issues found during the last round of research.
+
+For non EEA candidates who have the right to work, we changed the free text field to a user-friendly radio button list 
+so users can select the most relevant preset option.
+
+For both EEA and non EEA candidates, we changed the 'other' text area to a text field and reduced the word count to 7.
+
+[Design history entry](https://becoming-a-teacher.design-history.education.gov.uk/apply-for-teacher-training/improving-the-visa-and-immigration-status-question/)
+
 ### 2023-07-04 - Reword and rename the Interview Needs section to Interview Availability
 
 The scope of the Interview Needs section is to gather information about the candidates interview availability.
