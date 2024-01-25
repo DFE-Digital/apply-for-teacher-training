@@ -229,10 +229,9 @@ module CandidateHelper
   end
 
   def candidate_fills_in_apply_again_course_choice
-    if RSpec.current_example.metadata[:continuous_applications] != false
-      visit candidate_interface_continuous_applications_choices_path
-      click_link_or_button 'Add application'
-    end
+    visit candidate_interface_continuous_applications_choices_path
+    click_link_or_button 'Add application'
+
     choose 'Yes, I know where I want to apply'
     click_link_or_button t('continue')
 
