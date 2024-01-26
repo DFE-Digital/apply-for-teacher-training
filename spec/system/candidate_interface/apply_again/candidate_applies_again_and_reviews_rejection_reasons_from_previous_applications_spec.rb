@@ -81,13 +81,13 @@ RSpec.feature 'Apply again' do
   def and_i_can_review_subject_knowledge
     click_link_or_button 'Your suitability to teach a subject or age group'
     expect(page).to have_content 'Subject knowledge needs improving'
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def and_i_can_review_personal_statement
     click_link_or_button 'Why you want to teach'
     expect(page).to have_content 'Personal statement needs improving'
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def when_i_confirm_i_have_reviewed_personal_statement

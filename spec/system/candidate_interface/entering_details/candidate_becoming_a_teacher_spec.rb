@@ -31,7 +31,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
   end
 
   def and_i_visit_the_site
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def when_i_click_on_becoming_a_teacher

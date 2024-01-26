@@ -18,7 +18,7 @@ module CandidateInterface
         flash[:warning] = 'You cannot mark this section complete with incomplete contact details.'
         redirect_to candidate_interface_contact_information_review_path
       elsif @section_complete_form.save(current_application, :contact_details_completed)
-        redirect_to candidate_interface_application_form_path
+        redirect_to candidate_interface_continuous_applications_details_path
       else
         track_validation_error(@section_complete_form)
         render :show

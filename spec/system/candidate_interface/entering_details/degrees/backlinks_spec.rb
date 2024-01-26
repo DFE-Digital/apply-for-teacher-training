@@ -145,7 +145,7 @@ RSpec.feature 'Degrees' do
   end
 
   def when_i_view_the_degree_section
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
     when_i_click_on_degree
   end
   alias_method :when_the_user_visits_degree_section_using_address_bar, :when_i_view_the_degree_section

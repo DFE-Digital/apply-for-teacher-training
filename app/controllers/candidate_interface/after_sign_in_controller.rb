@@ -54,7 +54,7 @@ module CandidateInterface
       if current_application.submitted?
         redirect_to candidate_interface_application_complete_path
       else
-        redirect_to candidate_interface_application_form_path
+        redirect_to candidate_interface_continuous_applications_details_path
       end
     end
 

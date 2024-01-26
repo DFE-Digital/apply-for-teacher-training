@@ -113,11 +113,11 @@ module CandidateInterface
     end
 
     def redirect_to_application_form_unless_submitted
-      redirect_to candidate_interface_application_form_path unless current_application.submitted?
+      redirect_to candidate_interface_continuous_applications_details_path unless current_application.submitted?
     end
 
     def redirect_to_application_if_signed_in
-      redirect_to candidate_interface_application_form_path if candidate_signed_in?
+      redirect_to candidate_interface_continuous_applications_details_path if candidate_signed_in?
     end
 
     def current_application

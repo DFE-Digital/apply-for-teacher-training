@@ -19,7 +19,7 @@ module CandidateInterface
 
     def carry_over
       CarryOverApplication.new(current_application).call
-      redirect_to candidate_interface_application_form_path
+      redirect_to candidate_interface_continuous_applications_details_path
     end
   end
 end

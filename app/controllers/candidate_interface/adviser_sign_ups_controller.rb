@@ -11,7 +11,7 @@ module CandidateInterface
 
         track_adviser_sign_up
 
-        redirect_to candidate_interface_application_form_path
+        redirect_to candidate_interface_continuous_applications_details_path
       else
         track_validation_error(@adviser_sign_up)
         render :new

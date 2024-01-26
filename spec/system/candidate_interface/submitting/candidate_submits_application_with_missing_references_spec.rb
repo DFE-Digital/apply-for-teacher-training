@@ -35,7 +35,7 @@ RSpec.feature 'Candidate attempts to submit their application without valid refe
     create(:reference, :not_requested_yet, application_form: current_candidate.current_application)
     create(:reference, :not_requested_yet, application_form: current_candidate.current_application)
     current_candidate.current_application.update!(references_completed: true)
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def then_i_can_proceed

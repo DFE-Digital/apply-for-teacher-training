@@ -199,7 +199,7 @@ module CandidateHelper
   end
 
   def mark_references_as_complete
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
 
     click_link_or_button 'References to be requested if you accept an offer'
 
@@ -653,7 +653,7 @@ module CandidateHelper
       relationship: 'First boss',
     )
 
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def candidate_fills_in_their_maths_gcse

@@ -18,7 +18,7 @@ module CandidateInterface
 
         render :show
       elsif @section_complete_form.save(current_application, :other_qualifications_completed)
-        redirect_to candidate_interface_application_form_path
+        redirect_to candidate_interface_continuous_applications_details_path
       else
         track_validation_error(@section_complete_form)
         render :show

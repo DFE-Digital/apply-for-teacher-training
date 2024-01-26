@@ -82,7 +82,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def and_i_visit_the_site
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def and_i_am_an_international_candidate

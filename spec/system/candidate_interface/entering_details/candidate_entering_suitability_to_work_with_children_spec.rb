@@ -36,7 +36,7 @@ RSpec.feature 'Entering their suitability to work with children' do
   end
 
   def when_i_visit_the_site
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def then_i_see_declaring_any_safeguarding_issues

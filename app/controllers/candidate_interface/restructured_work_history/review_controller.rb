@@ -9,7 +9,7 @@ module CandidateInterface
     def complete
       @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(form_params)
-      @return_to = return_to_after_edit(default: candidate_interface_application_form_path)
+      @return_to = return_to_after_edit(default: candidate_interface_continuous_applications_details_path)
 
       if @section_complete_form.save(current_application, :work_history_completed)
         redirect_to @return_to[:back_path]

@@ -72,7 +72,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def when_i_mark_the_work_experience_section_as_incomplete
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
     click_link_or_button 'Work history'
     choose t('application_form.incomplete_radio')
     click_link_or_button t('continue')
@@ -94,7 +94,7 @@ RSpec.feature 'Candidate is redirected correctly', skip: 'Update to continuous a
   end
 
   def and_i_visit_the_application_form_page
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def then_i_should_see_the_work_break_form

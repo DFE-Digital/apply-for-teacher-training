@@ -304,7 +304,7 @@ private
   def and_i_sign_in_again
     logout
     login_as(current_candidate)
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def and_my_application_should_be_on_the_new_cycle

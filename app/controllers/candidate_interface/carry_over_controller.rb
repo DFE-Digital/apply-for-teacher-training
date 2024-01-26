@@ -9,7 +9,7 @@ module CandidateInterface
 
     def create
       CarryOverApplication.new(current_application).call
-      redirect_to candidate_interface_application_form_path
+      redirect_to candidate_interface_continuous_applications_details_path
     end
 
   private
@@ -17,7 +17,7 @@ module CandidateInterface
     def redirect_if_already_carried_over
       return if current_application.carry_over?
 
-      redirect_to candidate_interface_application_form_path
+      redirect_to candidate_interface_continuous_applications_details_path
     end
   end
 end

@@ -20,12 +20,12 @@ RSpec.feature 'View EFL form' do
   end
 
   def then_i_cannot_see_the_efl_section_link
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
     expect(page).to have_no_link efl_link_text
   end
 
   def then_i_can_see_the_efl_section_link
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
     expect(page).to have_link efl_link_text
   end
 

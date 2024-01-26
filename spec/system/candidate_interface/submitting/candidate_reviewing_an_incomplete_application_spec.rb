@@ -18,7 +18,7 @@ RSpec.feature 'Candidate reviewing an incomplete application' do
   end
 
   def when_i_visit_the_review_application_page
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
     click_link_or_button 'Check and submit your application'
   end
 
