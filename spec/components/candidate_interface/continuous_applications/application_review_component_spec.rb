@@ -193,4 +193,14 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       expect(result.text).to include('InterviewYou have an interview scheduled')
     end
   end
+
+  context 'when application is rejected' do
+    let(:application_choice) do
+      create(:application_choice, :rejected_reasons)
+    end
+
+    it 'shows reasons for rejection row' do
+      expect(result.text).to include('Reasons for rejection')
+    end
+  end
 end

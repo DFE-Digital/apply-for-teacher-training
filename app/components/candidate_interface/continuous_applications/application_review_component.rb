@@ -24,6 +24,7 @@ module CandidateInterface
           location_row,
           personal_statement_row,
           interview_row,
+          rejection_reasons_row,
         ].compact
       end
 
@@ -129,6 +130,22 @@ module CandidateInterface
         {
           key: 'Interview',
           value: render(InterviewSummaryComponent.new(interview:)),
+        }
+      end
+
+      def rejection_reasons_row
+        return unless application_choice.rejected?
+        return unless application_choice.rejection_reason.present? || application_choice.structured_rejection_reasons.present?
+
+        {
+          key: 'Reasons for rejection',
+          value: render(
+            CandidateInterface::RejectionsComponent.new(
+              application_choice:,
+              render_link_to_find_when_rejected_on_qualifications: true,
+              feedback_button: true,
+            ),
+          ),
         }
       end
     end
