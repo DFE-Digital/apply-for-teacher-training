@@ -146,8 +146,6 @@ module CandidateInterface
     def next_equality_and_diversity_page(next_page)
       if params[:return_to] == 'review'
         candidate_interface_review_equality_and_diversity_path
-      elsif params[:return_to] == 'application-review'
-        candidate_interface_application_review_path
       else
         next_page
       end
@@ -166,8 +164,6 @@ module CandidateInterface
     def set_review_back_link
       @review_back_link = if params[:return_to] == 'review'
                             candidate_interface_review_equality_and_diversity_path
-                          elsif params[:return_to] == 'application-review'
-                            candidate_interface_application_review_path
                           end
     end
   end

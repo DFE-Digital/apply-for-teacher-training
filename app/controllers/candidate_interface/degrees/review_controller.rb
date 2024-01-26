@@ -7,7 +7,6 @@ module CandidateInterface
         @application_form = current_application
         @section_complete_form = SectionCompleteForm.new(completed: current_application.degrees_completed)
         @wizard = DegreeWizard.new(degree_store)
-        @wizard.return_to_application_review = nil
         @wizard.save_state!
       end
 

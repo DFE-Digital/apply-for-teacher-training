@@ -42,7 +42,7 @@ module CandidateInterface
                   :subject_raw, :other_type_raw, :university_raw, :other_grade_raw,
                   :type, :international_type, :grade, :completed,
                   :start_year, :award_year, :have_enic_reference, :enic_reference,
-                  :comparable_uk_degree, :application_form_id, :id, :recruitment_cycle_year, :path_history, :return_to_application_review
+                  :comparable_uk_degree, :application_form_id, :id, :recruitment_cycle_year, :path_history
     attr_writer :subject, :other_type, :university, :other_grade
 
     validates :uk_or_non_uk, presence: true, on: :country
@@ -131,13 +131,7 @@ module CandidateInterface
     end
 
     def back_to_review
-      application_review_page = Rails.application.routes.url_helpers.candidate_interface_application_review_path
-
-      if referer&.include?(application_review_page) || return_to_application_review.present?
-        application_review_page
-      else
-        Rails.application.routes.url_helpers.candidate_interface_degree_review_path
-      end
+      Rails.application.routes.url_helpers.candidate_interface_degree_review_path
     end
 
     def reviewing_and_unchanged_country?
@@ -150,8 +144,7 @@ module CandidateInterface
 
     def reviewing_and_from_wizard_page
       reviewing? && !(
-        referer&.include?(Rails.application.routes.url_helpers.candidate_interface_degree_review_path) ||
-        referer&.include?(Rails.application.routes.url_helpers.candidate_interface_application_review_path)
+        referer&.include?(Rails.application.routes.url_helpers.candidate_interface_degree_review_path)
       )
     end
 

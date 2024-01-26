@@ -28,8 +28,6 @@ module CandidateInterface
       def next_path
         if qualification_status == 'has_qualification'
           candidate_interface_english_foreign_language_type_path(return_to_params)
-        elsif return_to == 'application-review'
-          candidate_interface_application_review_path
         else
           candidate_interface_english_foreign_language_review_path
         end

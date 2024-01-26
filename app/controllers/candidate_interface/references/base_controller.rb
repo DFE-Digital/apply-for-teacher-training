@@ -15,15 +15,11 @@ module CandidateInterface
       end
 
       def return_to_path
-        if params[:return_to] == 'review'
-          candidate_interface_references_review_path
-        elsif params[:return_to] == 'application-review'
-          candidate_interface_application_review_path
-        end
+        candidate_interface_references_review_path if params[:return_to] == 'review'
       end
 
       def next_step
-        redirect_to return_to_path || candidate_interface_application_review_path
+        redirect_to return_to_path
       end
 
       def redirect_to_review_page_unless_reference_is_editable

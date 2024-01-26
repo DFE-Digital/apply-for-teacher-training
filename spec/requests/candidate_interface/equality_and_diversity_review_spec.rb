@@ -25,15 +25,6 @@ RSpec.describe 'PUT candidate/application/equality-and-diversity' do
     end
   end
 
-  context 'when changing an answer from the application review page' do
-    it 'redirects to the application review page' do
-      paths.each do |path|
-        patch public_send(path, return_to: 'application-review'), params: { candidate_interface_equality_and_diversity_sex_form: { sex: 'female' }, candidate_interface_equality_and_diversity_disabilities_form: { disabilities: ['Other'] }, candidate_interface_equality_and_diversity_ethnic_background_form: { ethnic_background: 'Roma' } }
-        expect(response).to redirect_to(candidate_interface_application_review_path)
-      end
-    end
-  end
-
   context 'when changing an answer from the equality flow' do
     it 'does not redirect to review page' do
       paths.each do |path|

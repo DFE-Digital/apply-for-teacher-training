@@ -30,8 +30,6 @@ module CandidateInterface
         @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
 
         if @personal_details_form.save(current_application)
-          return redirect_to candidate_interface_application_review_path if redirect_back_to_application_review_page?
-
           redirect_to candidate_interface_personal_details_show_path
         else
           track_validation_error(@personal_details_form)

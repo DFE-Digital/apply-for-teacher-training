@@ -33,7 +33,6 @@ module CandidateInterface
         @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
 
         if @nationalities_form.save(current_application)
-          return redirect_to candidate_interface_application_review_path if redirect_back_to_application_review_page?
           return redirect_to candidate_interface_immigration_right_to_work_path if !british_or_irish?
 
           redirect_to candidate_interface_personal_details_show_path
