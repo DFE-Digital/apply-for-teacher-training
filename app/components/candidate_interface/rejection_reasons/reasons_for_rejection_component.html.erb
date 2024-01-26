@@ -26,11 +26,11 @@
         <% reasons.quality_of_application_which_parts_needed_improvement.each do |reason| %>
           <li>
             <% if reason == 'other' %>
-              <%= simple_format(reasons.quality_of_application_other_details)%>
-              <%= simple_format(reasons.quality_of_application_other_what_to_improve)%>
+              <%= simple_format(reasons.quality_of_application_other_details) %>
+              <%= simple_format(reasons.quality_of_application_other_what_to_improve) %>
             <% else %>
-              <%= simple_format(t("reasons_for_rejection.quality_of_application.#{reason}"))%>
-              <%= simple_format(reasons.send(:"quality_of_application_#{reason}_what_to_improve"))%>
+              <%= simple_format(t("reasons_for_rejection.quality_of_application.#{reason}")) %>
+              <%= simple_format(reasons.send(:"quality_of_application_#{reason}_what_to_improve")) %>
             <% end %>
           </li>
         <% end %>
@@ -47,7 +47,7 @@
         <% reasons.qualifications_which_qualifications.each do |reason| %>
           <li>
             <% if reason == 'other' %>
-              <%= simple_format(reasons.qualifications_other_details)%>
+              <%= simple_format(reasons.qualifications_other_details) %>
             <% else %>
               <p><%= t("reasons_for_rejection.qualifications_which_qualifications.#{reason}") %>.</p>
             <% end %>
