@@ -22,13 +22,12 @@ RSpec.describe CandidateInterface::RejectionsComponent do
     end
 
     it 'renders a link to find when rejected on qualifications' do
-      provider = build_stubbed(:provider)
       course = build_stubbed(:course)
-      allow(application_choice).to receive_messages(provider: provider, course: course)
+      allow(application_choice).to receive_messages(course: course)
 
       result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
       expect(result.text).to include('View the course requirements on')
-      expect(result.css('.govuk-link')[0][:href]).to eq("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{provider.code}/#{course.code}#section-entry")
+      expect(result.css('.govuk-link')[0][:href]).to eq("#{course.find_url}#section-entry")
       expect(result.css('.govuk-link')[0].text).to eq('Find postgraduate teacher training courses')
     end
   end
