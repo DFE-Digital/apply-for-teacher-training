@@ -1,160 +1,183 @@
 <% if reasons.candidate_behaviour_y_n == 'Yes' %>
   <div class="app-rejection">
-    <h3 class="govuk-heading-s">Something you did</h3>
-    <ul class="govuk-list govuk-list--spaced">
-      <% reasons.candidate_behaviour_what_did_the_candidate_do.each do |reason| %>
-        <li>
-          <% if reason == 'other' %>
-            <%= simple_format(reasons.candidate_behaviour_other) %>
-            <%= simple_format(reasons.candidate_behaviour_what_to_improve) %>
-          <% else %>
-            <p><%= t("reasons_for_rejection.candidate_behaviour_what_did_the_candidate_do.#{reason}") %>.</p>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
+    <p class="govuk-body app-rejection__label">Something you did:</p>
+    <%= govuk_inset_text(classes: 'app-rejection__body govuk-!-margin-top-2') do %>
+      <ul class="govuk-list govuk-list--spaced">
+        <% reasons.candidate_behaviour_what_did_the_candidate_do.each do |reason| %>
+          <li>
+            <% if reason == 'other' %>
+              <%= simple_format(reasons.candidate_behaviour_other) %>
+              <%= simple_format(reasons.candidate_behaviour_what_to_improve) %>
+            <% else %>
+              <p><%= t("reasons_for_rejection.candidate_behaviour_what_did_the_candidate_do.#{reason}") %>.</p>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
   </div>
 <% end %>
 
 <% if reasons.quality_of_application_y_n == 'Yes' %>
   <div class="app-rejection">
-    <h3 class="govuk-heading-s">Quality of application</h3>
-    <ul class="govuk-list govuk-list--spaced">
-      <% reasons.quality_of_application_which_parts_needed_improvement.each do |reason| %>
-        <li>
-          <% if reason == 'other' %>
-            <%= simple_format(reasons.quality_of_application_other_details)%>
-            <%= simple_format(reasons.quality_of_application_other_what_to_improve)%>
-          <% else %>
-            <%= simple_format(t("reasons_for_rejection.quality_of_application.#{reason}"))%>
-            <%= simple_format(reasons.send(:"quality_of_application_#{reason}_what_to_improve"))%>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
+    <p class="govuk-body app-rejection__label">Quality of application:</p>
+    <%= govuk_inset_text(classes: 'app-rejection__body govuk-!-margin-top-2') do %>
+      <ul class="govuk-list govuk-list--spaced">
+        <% reasons.quality_of_application_which_parts_needed_improvement.each do |reason| %>
+          <li>
+            <% if reason == 'other' %>
+              <%= simple_format(reasons.quality_of_application_other_details)%>
+              <%= simple_format(reasons.quality_of_application_other_what_to_improve)%>
+            <% else %>
+              <%= simple_format(t("reasons_for_rejection.quality_of_application.#{reason}"))%>
+              <%= simple_format(reasons.send(:"quality_of_application_#{reason}_what_to_improve"))%>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
   </div>
 <% end %>
 
 <% if reasons.qualifications_y_n == 'Yes' %>
   <div class="app-rejection">
-    <h3 class="govuk-heading-s">Qualifications</h3>
-    <ul class="govuk-list govuk-list--spaced">
-      <% reasons.qualifications_which_qualifications.each do |reason| %>
-        <li>
-          <% if reason == 'other' %>
-            <%= simple_format(reasons.qualifications_other_details)%>
-          <% else %>
-            <p><%= t("reasons_for_rejection.qualifications_which_qualifications.#{reason}") %>.</p>
-          <% end %>
-        </li>
-      <% end %>
-      <%= link_to_find_when_rejected_on_qualifications(application_choice) if @render_link_to_find_when_rejected_on_qualifications %>
-    </ul>
+    <p class="govuk-body app-rejection__label">Qualifications:</p>
+    <%= govuk_inset_text(classes: 'app-rejection__body govuk-!-margin-top-2') do %>
+      <ul class="govuk-list govuk-list--spaced">
+        <% reasons.qualifications_which_qualifications.each do |reason| %>
+          <li>
+            <% if reason == 'other' %>
+              <%= simple_format(reasons.qualifications_other_details)%>
+            <% else %>
+              <p><%= t("reasons_for_rejection.qualifications_which_qualifications.#{reason}") %>.</p>
+            <% end %>
+          </li>
+        <% end %>
+        <%= link_to_find_when_rejected_on_qualifications(application_choice) if @render_link_to_find_when_rejected_on_qualifications %>
+      </ul>
+    <% end %>
   </div>
 <% end %>
 
 <% if reasons.performance_at_interview_y_n == 'Yes' %>
   <div class="app-rejection">
-    <h3 class="govuk-heading-s">Performance at interview</h3>
-    <%= simple_format(reasons.performance_at_interview_what_to_improve, class: 'govuk-body govuk-!-margin-bottom-3') %>
+    <p class="govuk-body app-rejection__label">Performance at interview:</p>
+    <%= govuk_inset_text(classes: 'app-rejection__body govuk-!-margin-top-2') do %>
+      <%= simple_format(reasons.performance_at_interview_what_to_improve, class: 'govuk-body govuk-!-margin-bottom-3') %>
+    <% end %>
   </div>
 <% end %>
 
 <% if reasons.course_full_y_n == 'Yes' %>
   <div class="app-rejection">
-    <h3 class="govuk-heading-s">Course full</h3>
-    <p><%= t('reasons_for_rejection.full_course.reason') %> </p>
+    <p class="govuk-body app-rejection__label">Course full:</p>
+    <%= govuk_inset_text(classes: 'app-rejection__body govuk-!-margin-top-2') do %>
+      <p><%= t('reasons_for_rejection.full_course.reason') %> </p>
+    <% end %>
   </div>
 <% end %>
 
 <% if reasons.offered_on_another_course_y_n == 'Yes' %>
   <div class="app-rejection">
-    <h3 class="govuk-heading-s">They offered you a place on another course</h3>
-    <%= simple_format(reasons.offered_on_another_course_details) %>
+    <p class="govuk-body app-rejection__label">They offered you a place on another course:</p>
+    <%= govuk_inset_text(classes: 'app-rejection__body govuk-!-margin-top-2') do %>
+      <%= simple_format(reasons.offered_on_another_course_details) %>
+    <% end %>
   </div>
 <% end %>
 
 <% if reasons.honesty_and_professionalism_y_n == 'Yes' %>
   <div class="app-rejection">
-    <h3 class="govuk-heading-s">Honesty and professionalism</h3>
-    <ul class="govuk-list govuk-list--spaced">
-      <% if reasons.honesty_and_professionalism_concerns_information_false_or_inaccurate_details.present? %>
-        <li>
-
-    <%= simple_format(reasons.honesty_and_professionalism_concerns_information_false_or_inaccurate_details) %>
-        </li>
-      <% end %>
-      <% if reasons.honesty_and_professionalism_concerns_plagiarism_details.present? %>
-        <li>
-    <%= simple_format(reasons.honesty_and_professionalism_concerns_plagiarism_details) %>
-        </li>
-      <% end %>
-      <% if reasons.honesty_and_professionalism_concerns_references_details.present? %>
-        <li>
-    <%= simple_format(reasons.honesty_and_professionalism_concerns_references_details) %>
-        </li>
-      <% end %>
-      <% if reasons.honesty_and_professionalism_concerns_other_details.present? %>
-        <li>
-          <%= simple_format(reasons.honesty_and_professionalism_concerns_other_details) %>
-        </li>
-      <% end %>
-    </ul>
+    <p class="govuk-body app-rejection__label">Honesty and professionalism:</p>
+    <%= govuk_inset_text(classes: 'app-rejection__body govuk-!-margin-top-2') do %>
+      <ul class="govuk-list govuk-list--spaced">
+        <% if reasons.honesty_and_professionalism_concerns_information_false_or_inaccurate_details.present? %>
+          <li>
+            <%= simple_format(reasons.honesty_and_professionalism_concerns_information_false_or_inaccurate_details) %>
+          </li>
+        <% end %>
+        <% if reasons.honesty_and_professionalism_concerns_plagiarism_details.present? %>
+          <li>
+            <%= simple_format(reasons.honesty_and_professionalism_concerns_plagiarism_details) %>
+          </li>
+        <% end %>
+        <% if reasons.honesty_and_professionalism_concerns_references_details.present? %>
+          <li>
+            <%= simple_format(reasons.honesty_and_professionalism_concerns_references_details) %>
+          </li>
+        <% end %>
+        <% if reasons.honesty_and_professionalism_concerns_other_details.present? %>
+          <li>
+            <%= simple_format(reasons.honesty_and_professionalism_concerns_other_details) %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
   </div>
 <% end %>
 
 <% if reasons.safeguarding_y_n == 'Yes' %>
   <div class="app-rejection">
-    <h3 class="govuk-heading-s">Safeguarding issues</h3>
-    <ul class="govuk-list govuk-list--spaced">
-      <% if reasons.safeguarding_concerns_candidate_disclosed_information_details.present? %>
-        <li>
-          <%= simple_format(reasons.safeguarding_concerns_candidate_disclosed_information_details) %>
-        </li>
-      <% end %>
-      <% if reasons.safeguarding_concerns_vetting_disclosed_information_details.present? %>
-        <li>
-          <%= simple_format(reasons.safeguarding_concerns_vetting_disclosed_information_details) %>
-        </li>
-      <% end %>
-      <% if reasons.safeguarding_concerns_other_details.present? %>
-        <li>
-          <%= simple_format(reasons.safeguarding_concerns_other_details) %>
-        </li>
-      <% end %>
-    </ul>
+    <p class="govuk-body app-rejection__label">Safeguarding issues:</p>
+    <%= govuk_inset_text(classes: 'app-rejection__body govuk-!-margin-top-2') do %>
+      <ul class="govuk-list govuk-list--spaced">
+        <% if reasons.safeguarding_concerns_candidate_disclosed_information_details.present? %>
+          <li>
+            <%= simple_format(reasons.safeguarding_concerns_candidate_disclosed_information_details) %>
+          </li>
+        <% end %>
+        <% if reasons.safeguarding_concerns_vetting_disclosed_information_details.present? %>
+          <li>
+            <%= simple_format(reasons.safeguarding_concerns_vetting_disclosed_information_details) %>
+          </li>
+        <% end %>
+        <% if reasons.safeguarding_concerns_other_details.present? %>
+          <li>
+            <%= simple_format(reasons.safeguarding_concerns_other_details) %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
   </div>
 <% end %>
 
 <% if reasons.cannot_sponsor_visa_y_n == 'Yes' %>
   <div class="app-rejection">
-    <h3 class="govuk-heading-s"><%= I18n.t('reasons_for_rejection.cannot_sponsor_visa.title') %></h3>
-    <%= simple_format(reasons.cannot_sponsor_visa_details, class: 'govuk-body govuk-!-margin-bottom-3') %>
+    <p class="govuk-body app-rejection__label"><%= I18n.t('reasons_for_rejection.cannot_sponsor_visa.title') %>:</p>
+    <%= govuk_inset_text(classes: 'app-rejection__body govuk-!-margin-top-2') do %>
+      <%= simple_format(reasons.cannot_sponsor_visa_details, class: 'govuk-body govuk-!-margin-bottom-3') %>
+    <% end %>
   </div>
 <% end %>
 
 <% if reasons.why_are_you_rejecting_this_application.present? %>
   <div class="app-rejection">
-    <h3 class="govuk-heading-s"><%= I18n.t('reasons_for_rejection.why_are_you_rejecting_this_application.title') %></h3>
-    <%= simple_format(reasons.why_are_you_rejecting_this_application, class: 'govuk-body govuk-!-margin-bottom-3') %>
+    <p class="govuk-body app-rejection__label"><%= I18n.t('reasons_for_rejection.why_are_you_rejecting_this_application.title') %>:</p>
+    <%= govuk_inset_text(classes: 'app-rejection__body govuk-!-margin-top-2') do %>
+      <%= simple_format(reasons.why_are_you_rejecting_this_application, class: 'govuk-body govuk-!-margin-bottom-3') %>
+    <% end %>
   </div>
 <% end %>
 
 <% if reasons.other_advice_or_feedback_y_n == 'Yes' %>
   <div class="app-rejection">
-    <h3 class="govuk-heading-s">Additional feedback</h3>
-    <%= simple_format(reasons.other_advice_or_feedback_details, class: 'govuk-body govuk-!-margin-bottom-3') %>
+    <p class="govuk-body app-rejection__label">Additional feedback:</p>
+    <%= govuk_inset_text(classes: 'app-rejection__body govuk-!-margin-top-2') do %>
+      <%= simple_format(reasons.other_advice_or_feedback_details, class: 'govuk-body govuk-!-margin-bottom-3') %>
+    <% end %>
   </div>
 <% end %>
 
 <% if %w[Yes No].include?(reasons.interested_in_future_applications_y_n) %>
   <div class="app-rejection">
-    <h3 class="govuk-heading-s">Future applications</h3>
-    <p class="govuk-body">
-      <%= I18n.t(
-        "reasons_for_rejection.interested_in_future_applications.reason.#{reasons.interested_in_future_applications_y_n.downcase}",
-        provider_name: application_choice.provider.name,
-      ) %>
-    </p>
+    <p class="govuk-body app-rejection__label">Future applications:</p>
+    <%= govuk_inset_text(classes: 'app-rejection__body govuk-!-margin-top-2') do %>
+      <p class="govuk-body">
+        <%= I18n.t(
+          "reasons_for_rejection.interested_in_future_applications.reason.#{reasons.interested_in_future_applications_y_n.downcase}",
+          provider_name: application_choice.provider.name,
+        ) %>
+      </p>
+    <% end %>
   </div>
 <% end %>
