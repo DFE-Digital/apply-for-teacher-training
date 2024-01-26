@@ -54,7 +54,7 @@ Defines whether client sends encrypted post. This is mostly for dotnet apps.
 - Secret: Access to [DSI public API](https://github.com/DFE-Digital/login.dfe.public-api) which is specific to DSI, not OAuth. It is generated, must be stored as secret and provided to the Apply webapp.
 
 ## Application variables
-- `DFE_SIGN_IN_SECRET`: Secret string used to encore/decode the payload when communicating with DSI. It it generated on the manage service page in OpenID Connect / Client secret
+- `DFE_SIGN_IN_SECRET`: Secret string used to encode/decode the payload when communicating with DSI. It it generated on the manage service page in OpenID Connect / Client secret
 - `DSI_API_URL`: DSI API endpoint to access extra data from the API. May point to preprod or prod DSI environment.
 - `DSI_API_SECRET`: Secret string used to decode the payload from DSI API. It it generated on the manage service page in API / Secret.
 - `DFE_SIGN_IN_CLIENT_ID`: Client ID used to connect to DSI via OIDC. It it set on the manage service page in OpenID Connect / Client Id.
