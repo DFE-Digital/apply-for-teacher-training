@@ -23,7 +23,7 @@ module CandidateInterface
       when 'rejection_reasons', 'vendor_api_rejection_reasons'
         CandidateInterface::RejectionReasons::RejectionReasonsComponent.new(**structured_rejection_reasons_attrs)
       when 'reasons_for_rejection'
-        ::RejectionReasons::ReasonsForRejectionComponent.new(**structured_rejection_reasons_attrs)
+        CandidateInterface::RejectionReasons::ReasonsForRejectionComponent.new(**structured_rejection_reasons_attrs)
       else
         ::RejectionReasons::RejectionReasonComponent.new(application_choice:)
       end
