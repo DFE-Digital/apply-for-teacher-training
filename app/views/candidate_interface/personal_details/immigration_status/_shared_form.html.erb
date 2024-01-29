@@ -15,8 +15,6 @@
 <% else %>
 
   <h1 class="govuk-heading-l"><%= t('page_titles.visa_or_immigration_status') %></h1>
-
-  <%= f.hidden_field :immigration_status, value: 'other' %>
   <%= f.govuk_radio_buttons_fieldset :right_to_work_or_study_details,
     legend: { text: 'Select your visa or immigration status' } do %>
       <%= f.govuk_radio_button :immigration_status, :indefinite_leave_to_remain_in_the_uk, label: { text: t('application_form.personal_details.immigration_status.values.indefinite_leave_to_remain_in_the_uk') } %>
