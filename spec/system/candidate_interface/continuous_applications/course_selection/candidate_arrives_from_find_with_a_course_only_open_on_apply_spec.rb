@@ -12,6 +12,11 @@ RSpec.feature 'Candidate arrives from Find with provider and course params', :co
     given_i_am_signed_in
 
     when_i_follow_a_link_from_find
+    then_i_am_redirected_to_the_full_course_path
+
+    given_there_are_courses_available
+
+    when_i_follow_a_link_from_find
     then_i_am_redirected_to_the_course_confirm_selection_page
 
     when_i_confirm_the_course
@@ -21,6 +26,9 @@ RSpec.feature 'Candidate arrives from Find with provider and course params', :co
   def given_there_is_a_provider_with_a_course_that_is_only_accepting_applications_on_apply
     @provider = create(:provider, code: '8N5', name: 'Snape University')
     @course = create(:course, :open_on_apply, name: 'Potions', provider: @provider, recruitment_cycle_year: 2024)
+  end
+
+  def given_there_are_courses_available
     create(:course_option, course: @course)
   end
 
@@ -40,6 +48,13 @@ RSpec.feature 'Candidate arrives from Find with provider and course params', :co
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def then_i_am_redirected_to_the_full_course_path
+    expect(page).to have_current_path candidate_interface_continuous_applications_full_course_selection_path(
+      @provider.id,
+      @course.id,
+    )
   end
 
   def then_i_am_redirected_to_the_course_confirm_selection_page
