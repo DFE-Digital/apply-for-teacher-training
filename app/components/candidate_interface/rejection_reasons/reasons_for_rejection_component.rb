@@ -13,10 +13,10 @@ module CandidateInterface
       @render_link_to_find_when_rejected_on_qualifications = render_link_to_find_when_rejected_on_qualifications
     end
 
-    def link_to_find_when_rejected_on_qualifications(application_choice)
+    def link_to_find_when_rejected_on_qualifications
       link = govuk_link_to(
         'Find postgraduate teacher training courses',
-        "#{application_choice.course.find_url}#section-entry",
+        "#{@application_choice.course.find_url}#section-entry",
       )
 
       "View the course requirements on #{link}.".html_safe
