@@ -21,7 +21,7 @@
         <% else %>
           <p><%= I18n.t("rejection_reasons.#{reason.id}.description") %></p>
         <% end %>
-        <%= link_to_find_when_rejected_on_qualifications(application_choice) if render_link_to_find?(reason) %>
+        <%= link_to_find_when_rejected_on_qualifications if render_link_to_find?(reason) %>
       </dd>
       <% if editable? %>
         <dd class="govuk-summary-list__actions">
