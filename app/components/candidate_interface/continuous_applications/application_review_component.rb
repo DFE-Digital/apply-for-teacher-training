@@ -148,6 +148,10 @@ module CandidateInterface
           ),
         }
       end
+
+      def show_withdraw?
+        ApplicationStateChange.new(@application_choice).can_withdraw?
+      end
     end
   end
 end

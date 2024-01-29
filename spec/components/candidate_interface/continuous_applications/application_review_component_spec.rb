@@ -110,6 +110,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
         expect(links).to include("Change location for #{application_choice.current_course.name_and_code}")
       end
     end
+
+    it 'does not show withdraw CTA' do
+      expect(result.text).not_to include('withdraw this application')
+    end
   end
 
   context 'when application is submitted' do
@@ -170,6 +174,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       it 'does not show change links' do
         expect(result.css('govuk-summary-list__actions a')).to be_empty
       end
+
+      it 'shows withdraw CTA' do
+        expect(result.text).to include('withdraw this application')
+      end
     end
 
     context 'when course has multiple sites' do
@@ -192,6 +200,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     it 'shows interview row' do
       expect(result.text).to include('InterviewYou have an interview scheduled')
     end
+
+    it 'shows withdraw CTA' do
+      expect(result.text).to include('withdraw this application')
+    end
   end
 
   context 'when application is rejected' do
@@ -201,6 +213,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
 
     it 'shows reasons for rejection row' do
       expect(result.text).to include('Reasons for rejection')
+    end
+
+    it 'does not show withdraw CTA' do
+      expect(result.text).not_to include('withdraw this application')
     end
   end
 end
