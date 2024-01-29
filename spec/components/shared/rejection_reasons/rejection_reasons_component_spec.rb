@@ -69,9 +69,8 @@ RSpec.describe RejectionReasons::RejectionReasonsComponent do
     end
 
     it 'renders a link to find for qualifications' do
-      provider = build_stubbed(:provider)
       course = build_stubbed(:course)
-      allow(application_choice).to receive_messages(provider: provider, course: course)
+      allow(application_choice).to receive_messages(course: course)
 
       result = render_inline(
         described_class.new(
@@ -85,7 +84,7 @@ RSpec.describe RejectionReasons::RejectionReasonsComponent do
 
       expect(result.css('.govuk-link').size).to eq(1)
       link_element = result.css('.govuk-summary-list__value').first.css('.govuk-link').first
-      expect(link_element[:href]).to eq("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{provider.code}/#{course.code}#section-entry")
+      expect(link_element[:href]).to eq("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course.provider.code}/#{course.code}#section-entry")
       expect(link_element.text).to eq('Find postgraduate teacher training courses')
     end
 
