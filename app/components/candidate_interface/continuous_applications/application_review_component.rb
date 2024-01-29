@@ -149,6 +149,10 @@ module CandidateInterface
         }
       end
 
+      def show_what_happens_next?
+        ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES.include?(@application_choice.status.to_sym)
+      end
+
       def show_withdraw?
         ApplicationStateChange.new(@application_choice).can_withdraw?
       end
