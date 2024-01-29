@@ -14,6 +14,8 @@ permissions:
 jobs:
   build:
     name: build
+    environment:
+      name: review_aks
     runs-on: ubuntu-latest
     env:
       DOCKER_IMAGE: ghcr.io/dfe-digital/apply-teacher-training
@@ -38,7 +40,7 @@ jobs:
 
       - uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS_AKS_TEST }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Validate Azure Key Vault secrets
         uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
