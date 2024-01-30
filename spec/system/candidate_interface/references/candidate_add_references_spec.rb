@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
+RSpec.feature 'References' do
   include CandidateHelper
 
   scenario 'Candidate adds a new reference' do
