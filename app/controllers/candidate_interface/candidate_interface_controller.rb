@@ -99,10 +99,6 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path if no_offers_accepted_or_deferred_and_not_recruited?
     end
 
-    def render_error_if_continuous_applications_active
-      render_404 && return if current_application.continuous_applications?
-    end
-
     def redirect_to_new_continuous_applications_if_active
       return if !current_application.continuous_applications? || current_application.any_offer_accepted?
 
@@ -118,7 +114,11 @@ module CandidateInterface
     end
 
     def redirect_to_application_if_signed_in
-      redirect_to candidate_interface_continuous_applications_details_path if candidate_signed_in?
+      if candidate_signed_in?
+        return redirect_to_new_continuous_applications_if_active if current_application.continuous_applications?
+
+        redirect_to candidate_interface_application_complete_path
+      end
     end
 
     def render_application_feedback_component
