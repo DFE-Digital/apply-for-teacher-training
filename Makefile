@@ -86,14 +86,14 @@ apply:
 pentest:
 	$(eval APP_ENV=pentest)
 
-review_aks:
+review_aks: test-cluster
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
 	$(eval include global_config/review_aks.sh)
 	$(eval APP_NAME_SUFFIX=review-$(PR_NUMBER))
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 
-dv_review_aks: ## make dv_review_aks deploy PR_NUMBER=2222 CLUSTER=cluster1
+dv_review_aks: test-cluster ## make dv_review_aks deploy PR_NUMBER=2222 CLUSTER=cluster1
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
 	$(if $(CLUSTER), , $(error Missing environment variable "CLUSTER", Please specify a dev cluster name (eg 'cluster1')))
 	$(eval include global_config/dv_review_aks.sh)
@@ -102,7 +102,7 @@ dv_review_aks: ## make dv_review_aks deploy PR_NUMBER=2222 CLUSTER=cluster1
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 	$(eval export TF_VAR_cluster=$(CLUSTER))
 
-pt_review_aks:
+pt_review_aks: test-cluster
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
 	$(if $(NAMESPACE), , $(error Missing environment variable "NAMESPACE", Please specify a namespace for your review app))
 	$(eval include global_config/pt_review_aks.sh)
@@ -112,19 +112,20 @@ pt_review_aks:
 	$(eval export TF_VAR_namespace=$(NAMESPACE))
 	$(if $(FD), $(eval export TF_VAR_gov_uk_host_names=["$(PR_NUMBER).apply-for-teacher-training.service.gov.uk","$(PR_NUMBER).apply-for-teacher-training.education.gov.uk"]))
 
-loadtest_aks:
+loadtest_aks: test-cluster
 	$(eval include global_config/loadtest_aks.sh)
 
-qa_aks:
+qa_aks: test-cluster
 	$(eval include global_config/qa_aks.sh)
 
-staging_aks:
+staging_aks: test-cluster
 	$(eval include global_config/staging_aks.sh)
 
-sandbox_aks:
+sandbox_aks: production-cluster
 	$(eval include global_config/sandbox_aks.sh)
 
-production_aks:
+production_aks: production-cluster
+	$(if $(or ${SKIP_CONFIRM}, ${CONFIRM_PRODUCTION}), , $(error Missing CONFIRM_PRODUCTION=yes))
 	$(eval include global_config/production_aks.sh)
 
 qa: qa_aks
@@ -133,9 +134,9 @@ sandbox: sandbox_aks
 production: production_aks
 
 ci:
-	$(eval export CONFIRM_DELETE=true)
 	$(eval export AUTO_APPROVE=-auto-approve)
 	$(eval export NO_IMAGE_TAG_DEFAULT=true)
+	$(eval SKIP_CONFIRM=true)
 
 set-azure-resource-group-tags: ##Tags that will be added to resource group on its creation in ARM template
 	$(eval RG_TAGS=$(shell echo '{"Portfolio": "Early Years and Schools Group", "Parent Business":"Teacher Training and Qualifications", "Product" : "Apply for postgraduate teacher training", "Service Line": "Teaching Workforce", "Service": "Teacher services", "Service Offering": "Apply for postgraduate teacher training", "Environment" : "$(ENV_TAG)"}' | jq . ))
@@ -172,14 +173,6 @@ edit-app-secrets: read-keyvault-config install-fetch-config set-azure-account ##
 edit-infra-secrets: read-keyvault-config install-fetch-config set-azure-account ## Edit Infra Secrets, eg: make qa edit-infra-secrets
 	bin/fetch_config.rb -s azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_INFRA_SECRET_NAME} \
 		-e -d azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_INFRA_SECRET_NAME} -f yaml -c
-
-read-cluster-config:
-	$(eval CLUSTER=$(shell jq -r '.cluster' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
-	$(eval NAMESPACE=$(shell jq -r '.namespace' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
-	$(eval CONFIG_LONG=$(shell jq -r '.env_config' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
-
-get-cluster-credentials: read-cluster-config set-azure-account ## make <config> get-cluster-credentials [ENVIRONMENT=<clusterX>]
-	az aks get-credentials --overwrite-existing -g ${RESOURCE_NAME_PREFIX}-tsc-${CLUSTER_SHORT}-rg -n ${RESOURCE_NAME_PREFIX}-tsc-${CLUSTER}-aks
 
 .PHONY: shell
 shell: get-cluster-credentials ## Open a shell on the app instance on AKS, eg: make qa shell
@@ -319,3 +312,15 @@ domains-apply: domains-init # make apply qa domains-apply
 
 domains-destroy: domains-init # make apply qa domains-destroy
 	terraform -chdir=terraform/custom_domains/environment_domains destroy -var-file workspace_variables/${DOMAINS_ID}_${DNS_ENV}.tfvars.json
+
+test-cluster:
+	$(eval CLUSTER_RESOURCE_GROUP_NAME=s189t01-tsc-ts-rg)
+	$(eval CLUSTER_NAME=s189t01-tsc-test-aks)
+
+production-cluster:
+	$(eval CLUSTER_RESOURCE_GROUP_NAME=s189p01-tsc-pd-rg)
+	$(eval CLUSTER_NAME=s189p01-tsc-production-aks)
+
+get-cluster-credentials: set-azure-account
+	az aks get-credentials --overwrite-existing -g ${CLUSTER_RESOURCE_GROUP_NAME} -n ${CLUSTER_NAME}
+	kubelogin convert-kubeconfig -l $(if ${GITHUB_ACTIONS},spn,azurecli)

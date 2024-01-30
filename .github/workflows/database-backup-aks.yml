@@ -42,21 +42,7 @@ jobs:
         echo "STORAGE_ACCOUNT_NAME=${RESOURCE_NAME_PREFIX}${SERVICE_SHORT}dbbkp${CONFIG_SHORT}sa" >> $GITHUB_ENV
 
         tf_vars_file=terraform/aks/workspace_variables/production_aks.tfvars.json
-        cluster=$(jq -r '.cluster' ${tf_vars_file})
-        case "${cluster}" in
-          test)
-            echo "CLUSTER_RG=s189t01-tsc-ts-rg" >> $GITHUB_ENV
-            echo "CLUSTER_NAME=s189t01-tsc-test-aks" >> $GITHUB_ENV
-            ;;
-          production)
-            echo "CLUSTER_RG=s189p01-tsc-pd-rg" >> $GITHUB_ENV
-            echo "CLUSTER_NAME=s189p01-tsc-production-aks" >> $GITHUB_ENV
-            ;;
-          *)
-            echo "Unknown cluster"
-            exit 1
-            ;;
-        esac
+
         echo "BACKUP_FILE_NAME=apply_production_$(date +"%F")" >> $GITHUB_ENV
 
     - name: Install kubectl
@@ -67,8 +53,12 @@ jobs:
     - name: K8 setup
       shell: bash
       run: |
-        az aks get-credentials -g ${{ env.CLUSTER_RG }} -n ${{ env.CLUSTER_NAME }}
+        make ci production_aks get-cluster-credentials
         make install-konduit
+
+    - uses: DFE-Digital/github-actions/set-kubelogin-environment@master
+      with:
+        azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Back up Azure database
       shell: bash

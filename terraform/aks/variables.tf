@@ -12,8 +12,6 @@ variable "paas_snapshot_databases_to_deploy" { default = 0 }
 variable "deploy_snapshot_database" { default = false}
 
 # Key Vault variables
-variable "azure_credentials" { default = null }
-
 variable "key_vault_name" {}
 variable "key_vault_infra_secret_name" {}
 variable "key_vault_app_secret_name" {}
@@ -85,7 +83,6 @@ variable "alert_window_size" {
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
 
-  azure_credentials = try(jsondecode(var.azure_credentials), null)
   app_secrets       = yamldecode(data.azurerm_key_vault_secret.app_secrets.value)
   infra_secrets     = yamldecode(data.azurerm_key_vault_secret.infra_secrets.value)
 
@@ -160,4 +157,28 @@ locals {
   }
   cluster_name = "${local.cluster[var.cluster].cluster_resource_prefix}-aks"
   app_resource_group_name = "${var.azure_resource_prefix}-${var.service_short}-${var.config_short}-rg"
+
+  kubelogin_args_map = {
+    spn = [
+      "get-token",
+      "--login",
+      "spn",
+      "--environment",
+      "AzurePublicCloud",
+      "--tenant-id",
+      data.azurerm_client_config.current.tenant_id,
+      "--server-id",
+      "6dae42f8-4368-4678-94ff-3960e28e3630" # See https://azure.github.io/kubelogin/concepts/aks.html
+    ],
+    azurecli = [
+      "get-token",
+      "--login",
+      "azurecli",
+      "--server-id",
+      "6dae42f8-4368-4678-94ff-3960e28e3630"
+    ]
+  }
+  azure_RBAC_enabled = length(data.azurerm_kubernetes_cluster.main.azure_active_directory_role_based_access_control) > 0
+  spn_authentication = contains(keys(data.environment_variables.github_actions.items), "GITHUB_ACTIONS")
+  kubelogin_args = local.spn_authentication ? local.kubelogin_args_map["spn"] : local.kubelogin_args_map["azurecli"]
 }

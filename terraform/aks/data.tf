@@ -17,3 +17,9 @@ data "azurerm_kubernetes_cluster" "main" {
   name                = try(local.cluster_name, null)
   resource_group_name = try(local.cluster[var.cluster].cluster_resource_group_name, null)
 }
+
+data "azurerm_client_config" "current" {}
+
+data "environment_variables" "github_actions" {
+  filter = "GITHUB_ACTIONS"
+}

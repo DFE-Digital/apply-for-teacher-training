@@ -33,7 +33,6 @@ jobs:
         id: deploy_app_v2
         uses: ./.github/actions/deploy_v2/
         with:
-          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
           azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
           environment: ${{ github.event.inputs.environment }}
           sha: ${{ github.event.inputs.sha }}
