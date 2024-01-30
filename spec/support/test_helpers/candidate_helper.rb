@@ -253,18 +253,6 @@ module CandidateHelper
     click_link_or_button t('continue')
   end
 
-  def and_the_candidate_add_a_reference(type:, name:, email:, relationship:)
-    click_link_or_button(page.all('a').map(&:text).find { |link| ['Add reference', 'Add another reference'].include?(link) })
-    choose type
-    click_link_or_button t('continue')
-    fill_in 'What’s the name of the person who can give a reference?', with: name
-    click_link_or_button t('save_and_continue')
-    fill_in "What is #{name}’s email address?", with: email
-    click_link_or_button t('save_and_continue')
-    fill_in "How do you know #{name} and how long have you known them?", with: relationship
-    click_link_or_button t('save_and_continue')
-  end
-
   def receive_references
     application_form = ApplicationForm.last
     first_reference = application_form.application_references.creation_order.first
@@ -872,10 +860,6 @@ module CandidateHelper
 
   def application_choice
     current_candidate.current_application.application_choices.last
-  end
-
-  def continuous_applications_enabled?
-    FeatureFlag.active?(:continuous_applications)
   end
 
   def and_the_continuous_applications_feature_is_disabled
