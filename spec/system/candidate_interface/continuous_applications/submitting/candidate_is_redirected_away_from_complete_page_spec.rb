@@ -10,7 +10,7 @@ RSpec.feature 'Redirects away from complete page' do
 
       given_i_am_signed_in
       and_i_have_an_application_choice
-      when_i_visit_the_complete_page
+      when_i_visit_the_application_complete_page
       then_i_should_be_redirected_away_from_complete_page
     end
   end
@@ -20,12 +20,8 @@ RSpec.feature 'Redirects away from complete page' do
   end
 
   def and_i_have_an_application_choice
-    application_form = create(:application_form, candidate: @candidate)
+    application_form = create(:application_form, :completed, :submitted, candidate: @candidate)
     create(:application_choice, @status, application_form:)
-  end
-
-  def when_i_visit_the_complete_page
-    visit candidate_interface_application_complete_path
   end
 
   def then_i_should_be_redirected_away_from_complete_page
