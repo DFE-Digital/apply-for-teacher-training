@@ -1,173 +1,10 @@
 ---
 :shared:
-  :audits:
-    - id
-    - auditable_id
-    - auditable_type
-    - associated_id
-    - associated_type
-    - user_id
-    - user_type
-    - username
-    - action
-    - audited_changes
-    - version
-    - comment
-    - remote_address
-    - request_uuid
-    - created_at
-  :blazer_queries:
-    - id
-    - creator_id
-    - name
-    - description
-    - statement
-    - data_source
-    - status
-    - created_at
-    - updated_at
-  :blazer_dashboard_queries:
-    - id
-    - dashboard_id
-    - query_id
-    - position
-    - created_at
-    - updated_at
-  :blazer_dashboards:
-    - id
-    - creator_id
-    - name
-    - created_at
-    - updated_at
-  :blazer_checks:
-    - id
-    - creator_id
-    - query_id
-    - state
-    - schedule
-    - emails
-    - slack_channels
-    - check_type
-    - message
-    - last_run_at
-    - created_at
-    - updated_at
-  :blazer_audits:
-    - id
-    - user_id
-    - query_id
-    - statement
-    - data_source
-    - created_at
-  :monthly_statistics_reports:
-    - id
-    - created_at
-    - updated_at
-    - statistics
-    - month
-    - generation_date
-    - publication_date
-  :provider_mid_cycle_reports:
-    - id
-    - statistics
-    - publication_date
-    - provider_id
-    - created_at
-    - updated_at
-  :national_mid_cycle_reports:
-    - id
-    - statistics
-    - publication_date
-    - created_at
-    - updated_at
-  :vendor_api_users:
-    - id
-    - full_name
-    - email_address
-    - vendor_user_id
-    - vendor_api_token_id
-    - created_at
-    - updated_at
-  :vendor_api_tokens:
-    - hashed_token
-  :vendor_api_requests:
-    - request_body
-  :validation_errors:
-    - details
-  :support_users:
-    - id
-    - dfe_sign_in_uid
-    - created_at
-    - updated_at
-    - email_address
-    - last_signed_in_at
-    - first_name
-    - last_name
-    - discarded_at
-  :provider_user_notifications:
-    - chase_provider_decision
-  :provider_users:
-    - email_address
-    - first_name
-    - last_name
-  :interviews:
-    - additional_details
-    - cancellation_reason
-  :find_feedback:
-    - email_address
-  :features:
-    - id
-    - name
-    - active
-    - created_at
-    - updated_at
-  :english_proficiencies:
-    - no_qualification_details
-  :emails:
-    - to
-    - body
-  :fraud_matches:
-    - id
-    - candidate_last_contacted_at
-    - recruitment_cycle_year
-    - last_name
-    - date_of_birth
-    - postcode
-    - blocked
-    - created_at
-    - updated_at
-    - resolved
-  :data_migrations:
-    - id
-    - service_name
-    - timestamp
-    - created_at
-    - updated_at
-  :data_exports:
-    - id
-    - name
-    - data
-    - completed_at
-    - initiator_type
-    - initiator_id
-    - created_at
-    - updated_at
-    - export_type
-  :authentication_tokens:
-    - id
-    - hashed_token
-    - created_at
-    - updated_at
-    - user_id
-    - user_type
-    - used_at
-    - path
-  :references:
-    - email_address
-    - name
-    - relationship
-    - safeguarding_concerns
-    - relationship_correction
+  :application_choices:
+    - provider_ids
+    - current_recruitment_cycle_year
+  :application_feedback:
+    - section
   :application_forms:
     - first_name
     - last_name
@@ -184,15 +21,72 @@
     - longitude
     - subject_knowledge_completed_at
     - feedback_form_complete
-  :application_feedback:
-    - section
-  :application_choices:
-    - provider_ids
-    - current_recruitment_cycle_year
-  :site_settings:
+  :audits:
     - id
+    - auditable_id
+    - auditable_type
+    - associated_id
+    - associated_type
+    - user_id
+    - user_type
+    - username
+    - action
+    - audited_changes
+    - version
+    - comment
+    - remote_address
+    - request_uuid
+    - created_at
+  :authentication_tokens:
+    - id
+    - hashed_token
+    - created_at
+    - updated_at
+    - user_id
+    - user_type
+    - used_at
+    - path
+  :blazer_audits:
+    - id
+    - user_id
+    - query_id
+    - statement
+    - data_source
+    - created_at
+  :blazer_checks:
+    - id
+    - creator_id
+    - query_id
+    - state
+    - schedule
+    - emails
+    - slack_channels
+    - check_type
+    - message
+    - last_run_at
+    - created_at
+    - updated_at
+  :blazer_dashboards:
+    - id
+    - creator_id
     - name
-    - value
+    - created_at
+    - updated_at
+  :blazer_dashboard_queries:
+    - id
+    - dashboard_id
+    - query_id
+    - position
+    - created_at
+    - updated_at
+  :blazer_queries:
+    - id
+    - creator_id
+    - name
+    - description
+    - statement
+    - data_source
+    - status
     - created_at
     - updated_at
   :candidates:
@@ -202,3 +96,109 @@
     - unsubscribed_from_emails
     - submission_blocked
     - account_locked
+  :data_exports:
+    - id
+    - name
+    - data
+    - completed_at
+    - initiator_type
+    - initiator_id
+    - created_at
+    - updated_at
+    - export_type
+  :data_migrations:
+    - id
+    - service_name
+    - timestamp
+    - created_at
+    - updated_at
+  :emails:
+    - to
+    - body
+  :english_proficiencies:
+    - no_qualification_details
+  :features:
+    - id
+    - name
+    - active
+    - created_at
+    - updated_at
+  :find_feedback:
+    - email_address
+  :fraud_matches:
+    - id
+    - candidate_last_contacted_at
+    - recruitment_cycle_year
+    - last_name
+    - date_of_birth
+    - postcode
+    - blocked
+    - created_at
+    - updated_at
+    - resolved
+  :interviews:
+    - additional_details
+    - cancellation_reason
+  :monthly_statistics_reports:
+    - id
+    - created_at
+    - updated_at
+    - statistics
+    - month
+    - generation_date
+    - publication_date
+  :national_mid_cycle_reports:
+    - id
+    - statistics
+    - publication_date
+    - created_at
+    - updated_at
+  :provider_mid_cycle_reports:
+    - id
+    - statistics
+    - publication_date
+    - provider_id
+    - created_at
+    - updated_at
+  :provider_users:
+    - email_address
+    - first_name
+    - last_name
+  :provider_user_notifications:
+    - chase_provider_decision
+  :references:
+    - email_address
+    - name
+    - relationship
+    - safeguarding_concerns
+    - relationship_correction
+  :site_settings:
+    - id
+    - name
+    - value
+    - created_at
+    - updated_at
+  :support_users:
+    - id
+    - dfe_sign_in_uid
+    - created_at
+    - updated_at
+    - email_address
+    - last_signed_in_at
+    - first_name
+    - last_name
+    - discarded_at
+  :validation_errors:
+    - details
+  :vendor_api_requests:
+    - request_body
+  :vendor_api_tokens:
+    - hashed_token
+  :vendor_api_users:
+    - id
+    - full_name
+    - email_address
+    - vendor_user_id
+    - vendor_api_token_id
+    - created_at
+    - updated_at
