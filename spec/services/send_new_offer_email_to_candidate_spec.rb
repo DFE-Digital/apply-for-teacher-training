@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendNewOfferEmailToCandidate, :continuous_applications do
+RSpec.describe SendNewOfferEmailToCandidate do
   describe '#call' do
     def setup_application
       @candidate = create(:candidate)

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Edit courses on continuous applications', :continuous_applications do
+RSpec.describe 'Edit courses on continuous applications' do
   include Devise::Test::IntegrationHelpers
   let(:candidate) { create(:candidate) }
   let(:application_form) { create(:application_form, candidate:) }

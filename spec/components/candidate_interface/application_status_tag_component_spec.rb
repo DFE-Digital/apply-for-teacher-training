@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ApplicationStatusTagComponent, :continuous_applications do
+RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
   let(:course) { create(:course) }
 
   ApplicationStateChange.valid_states.each do |state_name|

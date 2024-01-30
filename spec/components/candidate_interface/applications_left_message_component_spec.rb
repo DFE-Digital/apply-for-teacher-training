@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ApplicationsLeftMessageComponent, :continuous_applications do
+RSpec.describe CandidateInterface::ApplicationsLeftMessageComponent do
   let(:application_form) { create(:application_form) }
 
   subject(:message) do

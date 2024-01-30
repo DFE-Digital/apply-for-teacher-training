@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Redirects when reviewing before submission', :continuous_applications do
+RSpec.describe 'Redirects when reviewing before submission' do
   include Devise::Test::IntegrationHelpers
   let(:candidate) { create(:candidate) }
 

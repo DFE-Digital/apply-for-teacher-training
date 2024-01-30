@@ -14,13 +14,13 @@ RSpec.describe ApplicationDates do
   end
 
   describe '#submitted_at' do
-    context 'when not continuous applications', continuous_applications: false do
+    context 'when not continuous applications' do
       it 'returns date that application was submitted on' do
         expect(application_dates.submitted_at).to eql(submitted_at)
       end
     end
 
-    context 'when continuous applications', :continuous_applications do
+    context 'when continuous applications' do
       context 'when application is submitted' do
         let(:sent_to_provider_at) { 10.days.ago }
 
