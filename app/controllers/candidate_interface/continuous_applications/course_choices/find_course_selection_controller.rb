@@ -3,6 +3,7 @@ module CandidateInterface
     module CourseChoices
       class FindCourseSelectionController < BaseController
         include Concerns::DuplicateCourseRedirect
+        include Concerns::FullCourseRedirect
 
       private
 
