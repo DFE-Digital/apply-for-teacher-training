@@ -22,7 +22,7 @@ RSpec.feature 'Candidate viewing booked interviews' do
   end
 
   def when_i_view_my_application_dashboard
-    visit candidate_interface_application_complete_path
+    visit candidate_interface_continuous_applications_choices_path
   end
 
   def then_i_can_see_details_about_my_booked_interviews
