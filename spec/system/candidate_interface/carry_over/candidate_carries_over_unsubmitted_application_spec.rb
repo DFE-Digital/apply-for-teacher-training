@@ -16,6 +16,9 @@ RSpec.feature 'Carry over unsubmitted application' do
 
     when_i_click_on_the_references_section
     then_i_see_the_new_states_of_my_references
+
+    when_i_visit_the_application_complete_page
+    then_i_should_be_on_your_details_page
   end
 
   def given_i_am_signed_in

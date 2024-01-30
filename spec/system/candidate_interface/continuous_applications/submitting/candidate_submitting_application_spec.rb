@@ -261,8 +261,4 @@ RSpec.feature 'Candidate submits the application' do
   def then_i_should_be_on_science_gcse_section
     expect(page).to have_current_path(candidate_interface_gcse_details_new_type_path(subject: 'science'))
   end
-
-  def then_i_should_be_on_your_details_page
-    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
-  end
 end

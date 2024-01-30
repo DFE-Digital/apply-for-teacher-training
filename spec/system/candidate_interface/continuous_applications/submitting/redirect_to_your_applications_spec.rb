@@ -50,10 +50,6 @@ RSpec.feature 'Candidate submission' do
     application_form
   end
 
-  def then_i_should_be_on_your_details_page
-    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
-  end
-
   def application_form
     create(
       :completed_application_form,
