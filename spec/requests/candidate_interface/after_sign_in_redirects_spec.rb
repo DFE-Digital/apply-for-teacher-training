@@ -11,14 +11,27 @@ RSpec.describe 'After sign in redirects' do
   end
 
   context 'when course from find is not present' do
+    let(:candidate) { create(:candidate, course_from_find: nil) }
+
     context 'when application is pre continuous applications' do
+      let!(:application_form) { create(:application_form, :completed, :pre_continuous_applications, candidate: candidate) }
+
+      it 'redirects to application complete path' do
+        get candidate_interface_interstitial_path
+        expect(response).to redirect_to(candidate_interface_application_complete_path)
+      end
     end
 
     context 'when application is continuous applications' do
+      let!(:application_form) { create(:application_form, :minimum_info, :continuous_applications, candidate: candidate) }
+
+      it 'redirects to application complete path' do
+        get candidate_interface_interstitial_path
+        follow_redirect!
+        expect(response).to redirect_to(candidate_interface_continuous_applications_details_path)
+      end
     end
   end
-
-  #    before_action :redirect_to_path_if_path_params_are_present
 
   context 'when application submitted and non continuous applications' do
     let!(:application_form) { create(:application_form, :completed, :pre_continuous_applications, candidate: candidate) }
