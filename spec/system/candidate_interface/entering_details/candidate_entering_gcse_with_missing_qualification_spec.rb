@@ -32,7 +32,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_visit_the_candidate_application_page
-    visit '/candidate/application'
+    visit root_path
   end
 
   def given_i_am_not_signed_in; end

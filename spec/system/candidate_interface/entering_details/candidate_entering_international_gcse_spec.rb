@@ -61,7 +61,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   def given_i_am_not_signed_in; end
 
   def when_i_visit_the_candidate_application_page
-    visit '/candidate/application'
+    visit root_path
   end
 
   def and_i_click_on_the_maths_gcse_link

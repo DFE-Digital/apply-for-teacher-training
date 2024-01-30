@@ -5,14 +5,11 @@ RSpec.feature 'Candidate attempts to add course via Find to application from pre
 
   scenario 'The candidate cannot add course to an application from the previous cycle' do
     given_i_have_made_an_application_in_the_previous_cycle
-
-    travel_temporarily_to('2021-03-02') do
-      given_i_am_signed_in
-      and_there_are_course_options
-
-      when_i_visit_the_site_with_a_course_id_from_find
-      then_i_see_that_my_application_must_be_carried_over
-    end
+    and_a_new_cycle_starts
+    and_i_am_signed_in
+    and_there_are_course_options
+    when_i_visit_the_site_with_a_course_id_from_find
+    then_i_see_that_my_application_must_be_carried_over
   end
 
   def given_i_have_made_an_application_in_the_previous_cycle
@@ -28,7 +25,11 @@ RSpec.feature 'Candidate attempts to add course via Find to application from pre
     end
   end
 
-  def given_i_am_signed_in
+  def and_a_new_cycle_starts
+    advance_time_to(mid_cycle(2024))
+  end
+
+  def and_i_am_signed_in
     create_and_sign_in_candidate
   end
 

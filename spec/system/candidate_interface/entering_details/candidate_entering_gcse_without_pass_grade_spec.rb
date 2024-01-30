@@ -57,7 +57,7 @@ RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
   end
 
   def when_i_visit_the_candidate_application_page
-    visit '/candidate/application'
+    visit root_path
   end
 
   def then_i_see_the_add_gcse_maths_page

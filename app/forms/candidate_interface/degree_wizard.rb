@@ -143,9 +143,7 @@ module CandidateInterface
     end
 
     def reviewing_and_from_wizard_page
-      reviewing? && !(
-        referer&.include?(Rails.application.routes.url_helpers.candidate_interface_degree_review_path)
-      )
+      reviewing? && !referer&.include?(Rails.application.routes.url_helpers.candidate_interface_degree_review_path)
     end
 
     def existing_degree

@@ -59,70 +59,6 @@ RSpec.feature 'Degrees' do
     then_i_am_taken_back_to_the_degree_review_page
   end
 
-  scenario 'Candidate editing degree from application review page' do
-    given_i_am_signed_in
-    and_i_have_completed_the_degree_section
-    when_i_visit_the_application_review_page
-    and_i_click_to_change_my_undergraduate_degree_type
-    and_i_click_the_back_link
-    then_i_am_taken_back_to_the_application_review_page
-
-    when_i_click_to_change_my_undergraduate_degree_type
-    and_i_click_on_save_and_continue
-    then_i_am_taken_to_the_specific_degree_type_page
-    and_i_click_the_back_link
-    then_i_am_taken_back_to_the_degree_type_page
-    and_i_click_the_back_link
-    then_i_am_taken_back_to_the_application_review_page
-
-    when_i_click_to_change_my_completion_status
-    and_i_click_on_save_and_continue
-    and_i_click_the_back_link
-    then_i_am_taken_back_to_the_degree_complete_page
-    and_i_click_the_back_link
-    then_i_am_taken_back_to_the_application_review_page
-
-    when_i_click_to_change_my_university
-    and_i_click_the_back_link
-    then_i_am_taken_back_to_the_application_review_page
-
-    when_i_click_to_change_my_country
-    and_i_choose_another_country
-    and_i_click_on_save_and_continue
-    and_i_fill_in_a_subject
-    and_i_click_on_save_and_continue
-    and_i_click_the_back_link
-    then_i_am_taken_back_to_the_subject_page
-    and_i_click_the_back_link
-    then_i_am_taken_back_to_the_country_page
-    and_i_click_the_back_link
-    then_i_am_taken_back_to_the_application_review_page
-
-    given_that_i_have_a_completed_international_degree
-    when_i_visit_the_application_review_page
-    and_i_click_to_change_my_undergraduate_degree_completion_status
-    when_i_choose_yes
-    and_i_click_on_save_and_continue
-    then_i_am_taken_to_the_award_year_page
-    and_i_fill_out_the_year
-    and_i_click_on_save_and_continue
-    then_i_am_taken_to_the_enic_page
-    and_i_click_the_back_link
-    then_i_am_taken_to_the_award_year_page
-    and_i_click_the_back_link
-    then_i_am_taken_to_the_degree_complete_page
-
-    when_the_user_visits_degree_section_using_address_bar
-    and_i_click_to_change_my_university_again
-    and_i_click_the_back_link
-    then_i_am_taken_back_to_the_degree_review_page
-
-    when_i_visit_the_application_review_page_using_address_bar
-    and_i_click_to_change_my_subject
-    and_i_click_the_back_link
-    then_i_am_taken_back_to_the_application_review_page
-  end
-
   def given_i_am_signed_in
     @candidate = create(:candidate)
     login_as(@candidate)
@@ -262,10 +198,6 @@ RSpec.feature 'Degrees' do
     visit candidate_interface_application_review_path
   end
   alias_method :when_i_visit_the_application_review_page_using_address_bar, :when_i_visit_the_application_review_page
-
-  def then_i_am_taken_back_to_the_application_review_page
-    expect(page).to have_current_path(candidate_interface_application_review_path)
-  end
 
   def and_i_click_to_change_my_university_again
     university_row = find('.govuk-summary-list__row', text: 'institution', match: :first)

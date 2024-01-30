@@ -60,6 +60,11 @@ module CandidateInterface
     end
     helper_method :back_link_text
 
+    def current_application
+      @current_application ||= current_candidate.current_application
+    end
+    helper_method :current_application
+
   private
 
     def track_adviser_offering
@@ -112,18 +117,9 @@ module CandidateInterface
       end
     end
 
-    def redirect_to_application_form_unless_submitted
-      redirect_to candidate_interface_continuous_applications_details_path unless current_application.submitted?
-    end
-
     def redirect_to_application_if_signed_in
       redirect_to candidate_interface_continuous_applications_details_path if candidate_signed_in?
     end
-
-    def current_application
-      @current_application ||= current_candidate.current_application
-    end
-    helper_method :current_application
 
     def render_application_feedback_component
       @render_application_feedback_component = true
