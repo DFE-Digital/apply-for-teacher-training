@@ -153,6 +153,9 @@
     - publication_date
     - created_at
     - updated_at
+  :providers:
+    - email_address
+    - phone_number
   :provider_mid_cycle_reports:
     - id
     - statistics
