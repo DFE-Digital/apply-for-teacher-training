@@ -19,17 +19,11 @@ Example: Activate `*-teacher-services-cloud-test`. It will be approved automatic
 $ az login
 ```
 
-Select account for az:
-
-```
-$ az account set -s *-teacher-services-cloud-test
-```
-
 Get access credentials for a managed Kubernetes cluster (passing the
-resource group and the name):
+environment name):
 
 ```
-$ az aks get-credentials -g some-resource-group -n some-name
+$ make qa_aks get-cluster-credentials
 ```
 
 ## Show namespaces

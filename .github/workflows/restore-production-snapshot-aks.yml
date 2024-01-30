@@ -29,26 +29,13 @@ jobs:
         run: |
           tf_vars_file=terraform/aks/workspace_variables/${{ github.event.inputs.environment }}_aks.tfvars.json
           tf_backend_vars_file=terraform/aks/workspace_variables/${{ github.event.inputs.environment }}_aks_backend.tfvars
-          CLUSTER=$(jq -r '.cluster' ${tf_vars_file})
+
           echo "APP_NAME=apply-$(jq -r '.paas_app_environment' ${tf_vars_file})" >> $GITHUB_ENV
           echo "STORAGE_ACCOUNT_RG=$(awk '/resource_group_name/ {print $3}' ${tf_backend_vars_file} | tr -d '"')" >> $GITHUB_ENV
           . ./global_config/${{ github.event.inputs.environment }}_aks.sh
           SERVICE_SHORT=att
           echo "STORAGE_ACCOUNT_NAME=${RESOURCE_NAME_PREFIX}${SERVICE_SHORT}dbbkp${CONFIG_SHORT}sa" >> $GITHUB_ENV
 
-          case ${CLUSTER} in
-            test)
-              echo "CLUSTER_RG=s189t01-tsc-ts-rg" >> $GITHUB_ENV
-              echo "CLUSTER_NAME=s189t01-tsc-test-aks" >> $GITHUB_ENV
-              ;;
-            production)
-              echo "CLUSTER_RG=s189p01-tsc-pd-rg" >> $GITHUB_ENV
-              echo "CLUSTER_NAME=s189p01-tsc-production-aks" >> $GITHUB_ENV
-              ;;
-            *)
-              echo "unknown cluster"
-              ;;
-          esac
           echo "BACKUP_ARCHIVE_NAME=apply_${{ github.event.inputs.environment }}_$(date +"%F").sql.gz" >> $GITHUB_ENV
           echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
           echo "DB_NAME=apply-postgres-${{ github.event.inputs.environment }}-snapshot" >> $GITHUB_ENV
@@ -84,8 +71,14 @@ jobs:
       - name: K8 setup
         shell: bash
         run: |
-          az aks get-credentials -g ${CLUSTER_RG} -n ${CLUSTER_NAME}
+          make ci ${ENVIRONMENT}_aks get-cluster-credentials
           make install-konduit
+        env:
+          ENVIRONMENT=${{ github.event.inputs.environment }}
+
+      - uses: DFE-Digital/github-actions/set-kubelogin-environment@master
+        with:
+          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Restore backup to AKS snapshot database
         shell: bash

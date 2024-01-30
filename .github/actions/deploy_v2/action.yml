@@ -2,8 +2,6 @@ name: deploy_v2
 description: Deploys application to AKS
 
 inputs:
-  arm-access-key:
-    required: true
   azure-credentials:
     required: true
   environment:
@@ -77,15 +75,16 @@ runs:
           ${{ env.KEY_VAULT_APP_SECRET_NAME }}
           ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
 
+    - uses: DFE-Digital/github-actions/set-kubelogin-environment@master
+      with:
+        azure-credentials: ${{ inputs.azure-credentials }}
+
     - name: Terraform init, plan & apply
       shell: bash
-      run: make ${{ inputs.environment }} ci deploy
+      run: make ci ${{ inputs.environment }} deploy
       env:
-        ARM_ACCESS_KEY: ${{ inputs.arm-access-key }}
         IMAGE_TAG: ${{ inputs.sha }}
         PR_NUMBER: ${{ inputs.pr-number }}
-        TF_VAR_azure_credentials: ${{ inputs.azure-credentials }}
-        CONFIRM_PRODUCTION: true
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
@@ -111,7 +110,7 @@ runs:
       shell: bash
       if: inputs.pr-number != ''
       run: |
-        az aks get-credentials -g s189t01-tsc-ts-rg -n s189t01-tsc-test-aks
+        make ci review_aks get-cluster-credentials PR_NUMBER=${{ inputs.pr-number }}
         kubectl exec -n bat-qa deployment/apply-review-${{ inputs.pr-number }} -- sh -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/rake setup_review_app_data"
 
     - name: Notify Slack channel on job failure

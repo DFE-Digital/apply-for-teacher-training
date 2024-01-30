@@ -13,6 +13,10 @@ terraform {
       source = "hashicorp/kubernetes"
       version = "2.17.0"
     }
+    environment = {
+      source  = "EppO/environment"
+      version = "1.3.5"
+    }
   }
   backend "azurerm" {
   }
@@ -22,10 +26,6 @@ provider "azurerm" {
   features {}
 
   skip_provider_registration = true
-  subscription_id            = try(local.azure_credentials.subscriptionId, null)
-  client_id                  = try(local.azure_credentials.clientId, null)
-  client_secret              = try(local.azure_credentials.clientSecret, null)
-  tenant_id                  = try(local.azure_credentials.tenantId, null)
 }
 
 provider "statuscake" {
@@ -33,8 +33,21 @@ provider "statuscake" {
 }
 
 provider "kubernetes" {
-  host                   = try(data.azurerm_kubernetes_cluster.main.kube_config.0.host, null)
-  client_certificate     = try(base64decode(data.azurerm_kubernetes_cluster.main.kube_config.0.client_certificate), null)
-  client_key             = try(base64decode(data.azurerm_kubernetes_cluster.main.kube_config.0.client_key), null)
-  cluster_ca_certificate = try(base64decode(data.azurerm_kubernetes_cluster.main.kube_config.0.cluster_ca_certificate), null)
+  host                   = data.azurerm_kubernetes_cluster.main.kube_config.0.host
+  client_certificate     = (local.azure_RBAC_enabled ? null :
+    base64decode(data.azurerm_kubernetes_cluster.main.kube_config.0.client_certificate)
+  )
+  client_key             = (local.azure_RBAC_enabled ? null :
+    base64decode(data.azurerm_kubernetes_cluster.main.kube_config.0.client_key)
+  )
+  cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.main.kube_config.0.cluster_ca_certificate)
+
+  dynamic "exec" {
+    for_each = local.azure_RBAC_enabled ? [1] : []
+    content {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      command     = "kubelogin"
+      args        = local.kubelogin_args
+    }
+  }
 }
