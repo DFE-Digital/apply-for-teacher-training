@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_25_084531) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_30_110547) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -679,6 +679,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_25_084531) do
     t.float "latitude"
     t.float "longitude"
     t.bigint "vendor_id"
+    t.string "email_address"
+    t.string "phone_number"
     t.index ["code"], name: "index_providers_on_code", unique: true
     t.index ["vendor_id"], name: "index_providers_on_vendor_id"
   end
