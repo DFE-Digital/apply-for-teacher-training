@@ -1,8 +1,6 @@
 module CandidateInterface
   class PersonalStatementController < SectionController
     include AdviserStatus
-
-    before_action { redirect_to_dashboard_if_submitted unless current_application.continuous_applications? }
     before_action :render_application_feedback_component
 
     def show
