@@ -23,11 +23,10 @@ RSpec.describe 'After sign in redirects' do
     end
 
     context 'when application is continuous applications' do
-      let!(:application_form) { create(:application_form, :minimum_info, :continuous_applications, candidate: candidate) }
+      let!(:application_form) { create(:application_form, :minimum_info, :continuous_applications, submitted_at: nil, candidate: candidate) }
 
-      it 'redirects to application complete path' do
+      it 'redirects to application details path' do
         get candidate_interface_interstitial_path
-        follow_redirect!
         expect(response).to redirect_to(candidate_interface_continuous_applications_details_path)
       end
     end
