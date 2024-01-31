@@ -8,6 +8,11 @@ RSpec.feature 'Carry over application to a new cycle in different states', time:
     @application_form = create(:application_form, :completed, :pre_continuous_applications, candidate: @candidate)
   end
 
+  scenario 'Candidate carries over unsubmitted application to new cycle through the carry over insterstitial' do
+    given_i_have_an_unsubmitted_application_from_last_cycle
+    then_i_can_carry_over_my_application_to_the_new_cycle_using_the_carry_over_interstitial
+  end
+
   scenario 'Candidate carries over application_not_sent application to new cycle' do
     given_i_have_an_application_not_sent_from_last_cycle
     then_i_can_carry_over_my_application_to_the_new_cycle
@@ -47,6 +52,11 @@ RSpec.feature 'Carry over application to a new cycle in different states', time:
     then_i_should_be_on_the_post_offer_dashboard
   end
 
+  def given_i_have_an_unsubmitted_application_from_last_cycle
+    @application_form.update!(submitted_at: nil)
+    create(:application_choice, :unsubmitted, application_form: @application_form)
+  end
+
   def given_i_have_an_application_conditions_not_met_from_last_cycle
     create(:application_choice, :conditions_not_met, application_form: @application_form)
   end
@@ -83,6 +93,18 @@ RSpec.feature 'Carry over application to a new cycle in different states', time:
     then_i_am_ask_to_apply_for_courses_into_the_new_recruitment_cycle
 
     when_i_carry_over
+    then_my_application_should_be_into_the_new_cycle
+    and_i_should_be_in_your_details_page
+  end
+
+  def then_i_can_carry_over_my_application_to_the_new_cycle_using_the_carry_over_interstitial
+    and_i_am_signed_in_as_a_candidate
+
+    when_i_sign_in_again
+    and_i_visit_the_application_dashboard
+    then_i_am_ask_to_apply_for_courses_into_the_new_recruitment_cycle
+
+    when_i_carry_over_through_carry_over_interstitial
     then_my_application_should_be_into_the_new_cycle
     and_i_should_be_in_your_details_page
   end
@@ -158,5 +180,9 @@ RSpec.feature 'Carry over application to a new cycle in different states', time:
 
   def then_i_should_be_on_the_post_offer_dashboard
     expect(page).to have_current_path(candidate_interface_application_offer_dashboard_path)
+  end
+
+  def when_i_carry_over_through_carry_over_interstitial
+    click_link_or_button 'Continue'
   end
 end
