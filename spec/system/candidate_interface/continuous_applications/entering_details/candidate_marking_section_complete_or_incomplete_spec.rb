@@ -83,6 +83,8 @@ RSpec.feature 'Marking section as complete or incomplete' do
       :with_gcses,
       :with_a_levels,
       :with_degree,
+      full_work_history: true,
+      volunteering_experiences_count: 1,
       candidate: current_candidate,
       submitted_at: nil,
     )
