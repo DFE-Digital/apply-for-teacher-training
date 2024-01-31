@@ -2,6 +2,7 @@ module CandidateInterface
   class PersonalStatementController < SectionController
     include AdviserStatus
     before_action :render_application_feedback_component
+    before_action :redirect_to_dashboard_if_submitted
 
     def show
       @application_form = current_application

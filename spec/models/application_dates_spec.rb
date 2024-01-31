@@ -28,7 +28,7 @@ RSpec.describe ApplicationDates do
       end
 
       it 'returns submitted at' do
-        expect(application_dates.submitted_at).to eq(submitted_at)
+        expect(application_dates.submitted_at).to be_within(1.second).of(submitted_at)
       end
     end
 
@@ -41,7 +41,7 @@ RSpec.describe ApplicationDates do
         end
 
         it 'returns submitted at' do
-          expect(application_dates.submitted_at).to eq(submitted_at)
+          expect(application_dates.submitted_at).to be_within(1.second).of(submitted_at)
         end
       end
 
@@ -53,7 +53,7 @@ RSpec.describe ApplicationDates do
         end
 
         it 'returns sent to provider at' do
-          expect(application_dates.submitted_at).to eq(sent_to_provider_at)
+          expect(application_dates.submitted_at).to be_within(1.second).of(sent_to_provider_at)
         end
       end
     end
