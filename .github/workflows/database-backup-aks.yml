@@ -50,15 +50,15 @@ jobs:
       with:
         version: 'v1.26.1' # default is latest stable
 
+    - uses: DFE-Digital/github-actions/set-kubelogin-environment@master
+      with:
+        azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+
     - name: K8 setup
       shell: bash
       run: |
         make ci production_aks get-cluster-credentials
         make install-konduit
-
-    - uses: DFE-Digital/github-actions/set-kubelogin-environment@master
-      with:
-        azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Back up Azure database
       shell: bash
