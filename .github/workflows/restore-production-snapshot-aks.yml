@@ -68,6 +68,10 @@ jobs:
           az config set core.only_show_errors=true
           az storage azcopy blob download --container ${BACKUP_CONTAINER} --source ${BACKUP_ARCHIVE_NAME} --destination ${BACKUP_ARCHIVE_NAME}
 
+      - uses: DFE-Digital/github-actions/set-kubelogin-environment@master
+        with:
+          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: K8 setup
         shell: bash
         run: |
@@ -75,10 +79,6 @@ jobs:
           make install-konduit
         env:
           ENVIRONMENT=${{ github.event.inputs.environment }}
-
-      - uses: DFE-Digital/github-actions/set-kubelogin-environment@master
-        with:
-          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Restore backup to AKS snapshot database
         shell: bash
