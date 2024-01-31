@@ -276,7 +276,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def available_application_choices
-    continuous_applications? ? application_choices.size - count_unsuccessful_choices : application_choices.size
+    application_choices.size - count_unsuccessful_choices
   end
 
   def count_unsuccessful_choices(count_inactive: true)
@@ -377,11 +377,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def maximum_number_of_course_choices?
-    if continuous_applications?
-      applications_left.zero?
-    else
-      application_choices.count >= maximum_number_of_course_choices
-    end
+    applications_left.zero?
   end
 
   def applications_left
