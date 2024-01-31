@@ -20,15 +20,27 @@ RSpec.describe ApplicationDates do
       end
     end
 
-    context 'when continuous applications' do
-      context 'when application is submitted' do
-        let(:sent_to_provider_at) { 10.days.ago }
+    context 'when before continuous applications' do
+      let(:submitted_at) { 1.month.ago }
 
+      let(:application_form) do
+        create(:application_form, :pre_continuous_applications, submitted_at:, application_choices: [application_choice])
+      end
+
+      it 'returns submitted at' do
+        expect(application_dates.submitted_at).to eq(submitted_at)
+      end
+    end
+
+    context 'when continuous applications' do
+      let(:submitted_at) { 1.month.ago }
+
+      context 'when application is submitted' do
         before do
-          create(:application_choice, :awaiting_provider_decision, application_form:, sent_to_provider_at:)
+          create(:application_choice, :awaiting_provider_decision, application_form:, sent_to_provider_at: 1.day.ago)
         end
 
-        it 'returns sent to provider at' do
+        it 'returns submitted at' do
           expect(application_dates.submitted_at).to eq(submitted_at)
         end
       end
