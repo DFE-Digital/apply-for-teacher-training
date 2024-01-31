@@ -157,8 +157,18 @@ module CandidateInterface
         ApplicationStateChange.new(@application_choice).can_withdraw?
       end
 
+      def show_provider_contact_details?
+        return false unless provider.email_address || provider.phone_number
+
+        application_choice.status.in?(%w[offer awaiting_provider_decision inactive interviewing])
+      end
+
       def can_add_more_choices?
         application_choice.application_form.can_add_more_choices?
+      end
+
+      def provider
+        application_choice.current_provider
       end
     end
   end

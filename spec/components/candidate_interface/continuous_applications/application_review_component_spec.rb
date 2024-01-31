@@ -44,9 +44,9 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
   let(:application_choice) do
     create(:application_choice, :awaiting_provider_decision, personal_statement:, sent_to_provider_at: 1.week.ago, course:)
   end
-  let(:course) { create(:course, :with_course_options, course_length:) }
+  let(:provider) { create(:provider) }
+  let(:course) { create(:course, :with_course_options, course_length:, provider:) }
   let(:course_length) { 'OneYear' }
-  let(:provider) { application_choice.current_provider }
   let(:links) { result.css('a').map(&:text) }
   let(:personal_statement) { 'some personal statement' }
 
@@ -119,6 +119,14 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
 
     it 'does not show withdraw CTA' do
       expect(result.text).not_to include('withdraw this application')
+    end
+
+    describe 'does not show provider contact information' do
+      context 'when provider has phone and email' do
+        it 'show provider contact information' do
+          expect(result.text).not_to include('Contact training provider')
+        end
+      end
     end
   end
 
@@ -201,11 +209,43 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     it 'shows withdraw CTA' do
       expect(result.text).to include('withdraw this application')
     end
+
+    describe 'show provider contact information' do
+      context 'when provider has phone and email' do
+        it 'show provider contact information' do
+          expect(result.text).to include('Contact training provider',
+                                         "Call on #{provider.phone_number}",
+                                         "email at #{provider.email_address}")
+        end
+      end
+
+      context 'when provider has only phone' do
+        let(:provider) do
+          create(:provider, email_address: nil)
+        end
+
+        it 'show provider phone number' do
+          expect(result.text).to include('Contact training provider',
+                                         "Call on #{provider.phone_number}")
+        end
+      end
+
+      context 'when provider has only email' do
+        let(:provider) do
+          create(:provider, phone_number: nil)
+        end
+
+        it 'show provider contact information' do
+          expect(result.text).to include('Contact training provider',
+                                         "Email at #{provider.email_address}")
+        end
+      end
+    end
   end
 
   context 'when application is interviewing' do
     let(:application_choice) do
-      create(:application_choice, :interviewing, interviews: [create(:interview)])
+      create(:application_choice, :interviewing, interviews: [create(:interview)], course:)
     end
 
     it 'shows interview row' do
@@ -220,11 +260,43 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     it 'shows withdraw CTA' do
       expect(result.text).to include('withdraw this application')
     end
+
+    describe 'show provider contact information' do
+      context 'when provider has phone and email' do
+        it 'show provider contact information' do
+          expect(result.text).to include('Contact training provider',
+                                         "Call on #{provider.phone_number}",
+                                         "email at #{provider.email_address}")
+        end
+      end
+
+      context 'when provider has only phone' do
+        let(:provider) do
+          create(:provider, email_address: nil)
+        end
+
+        it 'show provider phone number' do
+          expect(result.text).to include('Contact training provider',
+                                         "Call on #{provider.phone_number}")
+        end
+      end
+
+      context 'when provider has only email' do
+        let(:provider) do
+          create(:provider, phone_number: nil)
+        end
+
+        it 'show provider contact information' do
+          expect(result.text).to include('Contact training provider',
+                                         "Email at #{provider.email_address}")
+        end
+      end
+    end
   end
 
   context 'when application is inactive' do
     let(:application_choice) do
-      create(:application_choice, :inactive)
+      create(:application_choice, :inactive, course:)
     end
 
     context 'when application cannot make more choices' do
@@ -248,11 +320,43 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     it 'shows withdraw CTA' do
       expect(result.text).to include('withdraw this application')
     end
+
+    describe 'show provider contact information' do
+      context 'when provider has phone and email' do
+        it 'show provider contact information' do
+          expect(result.text).to include('Contact training provider',
+                                         "Call on #{provider.phone_number}",
+                                         "email at #{provider.email_address}")
+        end
+      end
+
+      context 'when provider has only phone' do
+        let(:provider) do
+          create(:provider, email_address: nil)
+        end
+
+        it 'show provider phone number' do
+          expect(result.text).to include('Contact training provider',
+                                         "Call on #{provider.phone_number}")
+        end
+      end
+
+      context 'when provider has only email' do
+        let(:provider) do
+          create(:provider, phone_number: nil)
+        end
+
+        it 'show provider contact information' do
+          expect(result.text).to include('Contact training provider',
+                                         "Email at #{provider.email_address}")
+        end
+      end
+    end
   end
 
   context 'when application is rejected' do
     let(:application_choice) do
-      create(:application_choice, :rejected_reasons)
+      create(:application_choice, :rejected_reasons, course:)
     end
 
     it 'shows reasons for rejection row' do
@@ -265,6 +369,14 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
 
     it 'does not show withdraw CTA' do
       expect(result.text).not_to include('withdraw this application')
+    end
+
+    describe 'does not show provider contact information' do
+      context 'when provider has phone and email' do
+        it 'show provider contact information' do
+          expect(result.text).not_to include('Contact training provider')
+        end
+      end
     end
   end
 end

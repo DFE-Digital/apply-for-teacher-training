@@ -24,7 +24,21 @@
         <li>get help from a <%= govuk_link_to 'teacher training adviser', t('get_into_teaching.url_get_an_adviser_signup'), target: '_blank' %></li>
       </ul>
     <% end %>
-    </div>
+  </div>
+<% end %>
+
+<% if show_provider_contact_details? %>
+  <div class="provider-contact-details govuk-!-margin-bottom-6">
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-1">Contact training provider</h2>
+    <p class="govuk-body">Contact <%= application_choice.current_course.provider.name %> if you have any questions about your application.</p>
+    <% if provider.phone_number && provider.email_address %>
+      <p class="govuk-body">Call on <%= link_to(provider.phone_number, "tel:#{provider.phone_number}") %> or email at <%= mail_to(provider.email_address) %></p>
+    <% elsif provider.phone_number %>
+      <p class="govuk-body">Call on <%= link_to(provider.phone_number, "tel:#{provider.phone_number}") %></p>
+    <% elsif provider.email_address %>
+      <p class="govuk-body">Email at <%= mail_to(provider.email_address) %></p>
+    <% end %>
+  </div>
 <% end %>
 
 <% if show_withdraw? %>
