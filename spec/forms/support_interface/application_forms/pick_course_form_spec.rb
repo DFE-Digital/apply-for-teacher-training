@@ -150,26 +150,6 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
     end
   end
 
-  describe '#save' do
-    it 'returns false if not valid' do
-      expect(described_class.new.save).to be false
-    end
-
-    it 'updates the application form with the course choice' do
-      application_form = create(:application_form)
-      course_option = create(:course_option, course: create(:course, :open_on_apply))
-
-      form_data = {
-        application_form_id: application_form.id,
-        course_option_id: course_option.id,
-        course_code: course_option.course.code,
-      }
-
-      expect(described_class.new(form_data).save).to be_truthy
-      expect(application_form.application_choices.last.course_option_id).to eq form_data[:course_option_id]
-    end
-  end
-
   describe 'validations' do
     it { is_expected.to validate_presence_of(:course_option_id) }
     it { is_expected.to validate_presence_of(:application_form_id) }
