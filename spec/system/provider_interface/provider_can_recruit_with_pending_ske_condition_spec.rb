@@ -212,7 +212,7 @@ RSpec.feature 'Confirm conditions met' do
   end
 
   def then_i_see_the_offer_page_with_a_message_about_pending_ske_conditions
-    visit '/'
+    visit candidate_interface_application_offer_dashboard_path
     expect(page).to have_content('Remember to complete your subject knowledge enhancement course to meet the conditions of this offer.')
   end
 
