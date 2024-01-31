@@ -18,7 +18,7 @@ module ProviderInterface
       first_degree_end = year_to_iso8601 first_degree_year(application, :award_year)
 
       {
-        'id' => application.application_form.support_reference,
+        'id' => application.id,
         'status' => application.status,
         'first_name' => application.application_form.first_name,
         'last_name' => application.application_form.last_name,

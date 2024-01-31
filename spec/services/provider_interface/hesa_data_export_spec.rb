@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::HesaDataExport do
   shared_examples_for 'an exported HESA row' do
     it 'includes candidate and HESA data' do
-      expect(export_row['id']).to eq(application_with_offer.application_form.support_reference)
+      expect(export_row['id']).to eq(application_with_offer.id)
       expect(export_row['status']).to eq(application_with_offer.status)
       expect(export_row['first_name']).to eq(application_with_offer.application_form.first_name)
       expect(export_row['last_name']).to eq(application_with_offer.application_form.last_name)

@@ -64,7 +64,7 @@ RSpec.feature 'Export applications in HESA format' do
                                  study_mode SBJCA QLAIM FIRSTDEG DEGTYPE DEGSBJ DEGCLSS institution_country DEGSTDT DEGENDDT
                                  institution_details sex disabilities ethnicity])
 
-    expect(csv['id'].sort).to eq(@applications.map { |a| a.application_form.support_reference }.sort)
+    expect(csv['id'].sort).to eq(@applications.map { |a| a.id.to_s }.sort)
     expect(csv['email'].sort).to eq(@applications.map { |a| a.application_form.candidate.email_address }.sort)
     expect(csv['provider_code'].sort).to eq(@applications.map { |a| a.provider.code }.sort)
     expect(csv['course_code'].sort).to eq(@applications.map { |a| a.course.code }.sort)
@@ -80,7 +80,7 @@ RSpec.feature 'Export applications in HESA format' do
                                  study_mode SBJCA QLAIM FIRSTDEG DEGTYPE DEGSBJ DEGCLSS institution_country DEGSTDT DEGENDDT
                                  institution_details sex disabilities ethnicity])
 
-    expect(csv['id'].sort).to eq(@last_years_applications.map { |a| a.application_form.support_reference }.sort)
+    expect(csv['id'].sort).to eq(@last_years_applications.map { |a| a.id.to_s }.sort)
     expect(csv['email'].sort).to eq(@last_years_applications.map { |a| a.application_form.candidate.email_address }.sort)
     expect(csv['provider_code'].sort).to eq(@last_years_applications.map { |a| a.provider.code }.sort)
     expect(csv['course_code'].sort).to eq(@last_years_applications.map { |a| a.course.code }.sort)
