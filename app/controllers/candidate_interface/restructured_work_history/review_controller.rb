@@ -12,7 +12,7 @@ module CandidateInterface
       @return_to = return_to_after_edit(default: candidate_interface_continuous_applications_details_path)
 
       if @section_complete_form.save(current_application, :work_history_completed)
-        redirect_to @return_to[:back_path]
+        redirect_to_new_continuous_applications_if_eligible
       else
         track_validation_error(@section_complete_form)
         render :show

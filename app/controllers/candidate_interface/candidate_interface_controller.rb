@@ -99,7 +99,7 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path if no_offers_accepted_or_deferred_and_not_recruited?
     end
 
-    def redirect_to_new_continuous_applications_if_active
+    def redirect_to_new_continuous_applications_if_eligible
       return if !current_application.continuous_applications? || current_application.any_offer_accepted?
 
       completed_application_form = CandidateInterface::CompletedApplicationForm.new(
@@ -115,7 +115,7 @@ module CandidateInterface
 
     def redirect_to_application_if_signed_in
       if candidate_signed_in?
-        return redirect_to_new_continuous_applications_if_active if current_application.continuous_applications?
+        return redirect_to_new_continuous_applications_if_eligible if current_application.continuous_applications?
 
         redirect_to candidate_interface_application_complete_path
       end
