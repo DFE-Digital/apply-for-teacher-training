@@ -8,9 +8,9 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
   let(:application_choice) do
     create(:application_choice, :awaiting_provider_decision, personal_statement:, sent_to_provider_at: 1.week.ago, course: course)
   end
-  let(:course) { create(:course, :with_course_options, course_length:) }
+  let(:provider) { create(:provider) }
+  let(:course) { create(:course, :with_course_options, course_length:, provider:) }
   let(:course_length) { 'OneYear' }
-  let(:provider) { application_choice.current_provider }
   let(:links) { result.css('a').map(&:text) }
   let(:personal_statement) { 'some personal statement' }
 
@@ -206,6 +206,38 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
 
       it 'does not show change links' do
         expect(result.css('govuk-summary-list__actions a')).to be_empty
+      end
+    end
+
+    describe 'show provider contact information' do
+      context 'when provider has phone and email' do
+        it 'show provider contact information' do
+          expect(result.text).to include('Contact training provider',
+                                         "Call on #{provider.phone_number}",
+                                         "email at #{provider.email_address}")
+        end
+      end
+
+      context 'when provider has only phone' do
+        let(:provider) do
+          create(:provider, email_address: nil)
+        end
+
+        it 'show provider phone number' do
+          expect(result.text).to include('Contact training provider',
+                                         "Call on #{provider.phone_number}")
+        end
+      end
+
+      context 'when provider has only email' do
+        let(:provider) do
+          create(:provider, phone_number: nil)
+        end
+
+        it 'show provider contact information' do
+          expect(result.text).to include('Contact training provider',
+                                         "Email at #{provider.email_address}")
+        end
       end
     end
   end
