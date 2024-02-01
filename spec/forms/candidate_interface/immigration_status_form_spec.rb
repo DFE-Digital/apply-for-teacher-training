@@ -28,7 +28,6 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
 
         it 'is valid' do
           expect(form.valid?).to be true
-          expect(form.errors[:right_to_work_or_study_details]).to be_empty
         end
       end
 
@@ -37,7 +36,6 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
 
         it 'is valid' do
           expect(form.valid?).to be true
-          expect(form.errors[:right_to_work_or_study_details]).to be_empty
         end
       end
 
