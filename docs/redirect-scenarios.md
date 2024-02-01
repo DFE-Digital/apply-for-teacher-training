@@ -116,6 +116,20 @@ to carry over ("Continue")
 Expectation: Be on 2024 recruitment cycle (see your details tab, your
 applications tab etc)
 
+# Locked
+
+## Scenario 13: Locked accounts can't sign in!
+
+You can lock an account via support by:
+
+1. Entering on the application form page
+2. Click on the candidate emails in the breadcrumb
+3. Click on the link "Block account"
+4. Choose to locked the account
+5. Save
+
+Now try to login with this locked account.
+
 # Questions or scenarios that we might need to test?
 
 * Do we have more scenarios? (Add a course from find?)
