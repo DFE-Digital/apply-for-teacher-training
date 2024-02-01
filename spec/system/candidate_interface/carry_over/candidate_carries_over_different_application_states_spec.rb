@@ -8,6 +8,21 @@ RSpec.feature 'Carry over application to a new cycle in different states', time:
     @application_form = create(:application_form, :completed, :pre_continuous_applications, candidate: @candidate)
   end
 
+  # To avoid infinite redirects for "QA" data or any other data states that
+  # might cause odd behaviour on carry over
+  scenario 'Candidate sees complete page when submitted at has value but courses choices does not have submission' do
+    given_i_have_an_empty_submitted_application_from_last_cycle
+    and_i_am_signed_in_as_a_candidate
+    when_i_sign_in_again
+    and_i_visit_the_application_dashboard
+    then_i_should_be_on_the_pages_that_is_possible_to_carry_over_an_application
+  end
+
+  scenario 'Candidate carries over empty application to new cycle through the carry over insterstitial' do
+    given_i_have_an_empty_application_from_last_cycle
+    then_i_can_carry_over_my_application_to_the_new_cycle_using_the_carry_over_interstitial
+  end
+
   scenario 'Candidate carries over unsubmitted application to new cycle through the carry over insterstitial' do
     given_i_have_an_unsubmitted_application_from_last_cycle
     then_i_can_carry_over_my_application_to_the_new_cycle_using_the_carry_over_interstitial
@@ -50,6 +65,16 @@ RSpec.feature 'Carry over application to a new cycle in different states', time:
     and_i_am_signed_in_as_a_candidate
     when_i_visit_any_page
     then_i_should_be_on_the_post_offer_dashboard
+  end
+
+  def given_i_have_an_empty_submitted_application_from_last_cycle
+    @application_form.update!(submitted_at: 1.year.ago)
+    @application_form.application_choices.delete_all
+  end
+
+  def given_i_have_an_empty_application_from_last_cycle
+    @application_form.update!(submitted_at: nil)
+    @application_form.application_choices.delete_all
   end
 
   def given_i_have_an_unsubmitted_application_from_last_cycle
