@@ -2,6 +2,8 @@ FactoryBot.define do
   factory :provider do
     code { Faker::Alphanumeric.unique.alphanumeric(number: 3).upcase }
     name { Faker::University.name }
+    phone_number { Faker::PhoneNumber.phone_number }
+    email_address { Faker::Internet.email }
     region_code { 'london' }
 
     transient do

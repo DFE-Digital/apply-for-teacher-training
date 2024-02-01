@@ -34,6 +34,8 @@ module TeacherTrainingPublicAPI
         region_code: provider_from_api.region_code&.strip,
         postcode: provider_from_api.postcode&.strip,
         name: provider_from_api.name,
+        phone_number: provider_from_api.telephone,
+        email_address: provider_from_api.email,
         provider_type: provider_from_api.provider_type,
         latitude: provider_from_api.try(:latitude),
         longitude: provider_from_api.try(:longitude),
