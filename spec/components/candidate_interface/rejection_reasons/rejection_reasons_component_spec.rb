@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RejectionReasons::RejectionReasonsComponent do
+RSpec.describe CandidateInterface::RejectionReasons::RejectionReasonsComponent do
   describe 'rendered component' do
     let(:provider) { build_stubbed(:provider, name: 'The University of Metal') }
     let(:application_choice) { build_stubbed(:application_choice, structured_rejection_reasons:) }
@@ -47,30 +47,33 @@ RSpec.describe RejectionReasons::RejectionReasonsComponent do
     it 'renders rejection reasons as a summary list' do
       result = render_inline(described_class.new(application_choice:))
 
-      expect(result.css('.govuk-summary-list__key').map(&:text)).to eq([
-        'Qualifications',
-        'References',
-        'Course full',
-        'Other',
+      expect(result.css('.app-rejection__label').map(&:text)).to eq([
+        'Qualifications:',
+        'References:',
+        'Course full:',
+        'Other:',
       ])
-      expect(result.css('.govuk-summary-list__value ul li').map { |li| li.text.gsub(/\s+/, ' ').strip }).to eq([
+      expect(result.css('.app-rejection__body ul li').text).to include(
         'No maths GCSE at minimum grade 4 or C, or equivalent.',
         'No English GCSE at minimum grade 4 or C, or equivalent.',
         'No science GCSE at minimum grade 4 or C, or equivalent.',
-        'Degree does not meet course requirements: A degree in falconry is no use.',
-      ])
-      expect(result.css('.govuk-summary-list__value p').map(&:text).map(&:strip)).to eq([
+      )
+      expect(result.css('.app-rejection__body ul li p').map(&:text).map(&:strip)).to eq([
         'Degree does not meet course requirements:',
         'A degree in falconry is no use.',
+      ])
+      expect(result.css('.app-rejection__body p').text).to include(
         'A close family member, suchas your mother, cannot give a reference.',
         'The course is full.',
         'Here are some additional details',
-      ])
+      )
     end
 
     it 'renders a link to find for qualifications' do
+      provider = build_stubbed(:provider)
       course = build_stubbed(:course)
       allow(application_choice).to receive_messages(course: course)
+      allow(course).to receive_messages(provider: provider)
 
       result = render_inline(
         described_class.new(
@@ -79,20 +82,13 @@ RSpec.describe RejectionReasons::RejectionReasonsComponent do
         ),
       )
 
-      expect(result.css('.govuk-summary-list__key').first.text).to eq('Qualifications')
-      expect(result.css('.govuk-summary-list__value').first.text).to include('View the course requirements on Find postgraduate teacher training courses')
+      expect(result.css('.app-rejection__label').first.text).to eq('Qualifications:')
+      expect(result.css('.app-rejection').first.css('p').last.text).to include('View the course requirements on Find postgraduate teacher training courses')
 
       expect(result.css('.govuk-link').size).to eq(1)
-      link_element = result.css('.govuk-summary-list__value').first.css('.govuk-link').first
-      expect(link_element[:href]).to eq("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course.provider.code}/#{course.code}#section-entry")
+      link_element = result.css('.app-rejection').first.css('.govuk-link').first
+      expect(link_element[:href]).to eq("#{course.find_url}#section-entry")
       expect(link_element.text).to eq('Find postgraduate teacher training courses')
-    end
-
-    it 'renders change links' do
-      result = render_inline(described_class.new(application_choice:, editable: true))
-
-      expect(result.css('.govuk-summary-list__actions a').first.text).to eq('Change')
-      expect(result.css('.govuk-summary-list__actions a').first['href']).to eq("/provider/applications/#{application_choice.id}/rejections/new")
     end
   end
 end

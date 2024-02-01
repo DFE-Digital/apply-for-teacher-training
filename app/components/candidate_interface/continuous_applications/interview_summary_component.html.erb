@@ -1,0 +1,13 @@
+<p class="govuk-body">You have an interview scheduled for <%= date %> at <%= time %>.</p>
+<% if details || location %>
+  <p class="govuk-body">Information from provider:</p>
+  <div class="govuk-inset-text govuk-!-margin-bottom-2 govuk-!-margin-top-0">
+    <% if location %>
+      <p class="govuk-body"><%= location %></p>
+    <% end %>
+    <% if details %>
+      <p class="govuk-body"><%= details %></p>
+    <% end %>
+  </div>
+<% end %>
+<p class="govuk-body">The provider will send more details about the interview by email.</p>

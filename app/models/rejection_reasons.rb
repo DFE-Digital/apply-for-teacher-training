@@ -14,17 +14,17 @@ class RejectionReasons
 
   class << self
     def from_config(config: configuration)
-      instance = new
-      instance.reasons = config[:reasons].map { |rattrs| Reason.new(rattrs) }
-      instance
+      new.tap do |instance|
+        instance.reasons = config[:reasons].map { |rattrs| Reason.new(rattrs) }
+      end
     end
 
     def inflate(model)
-      instance = new
-      instance.selected_reasons = from_config.reasons.dup
+      new.tap do |instance|
+        instance.selected_reasons = from_config.reasons.dup
         .select { |r| model.send(:selected_reasons)&.include?(r.id) }
         .map { |reason| reason.inflate(model) }
-      instance
+      end
     end
 
     def configuration
@@ -41,7 +41,7 @@ class RejectionReasons
 
     super(attrs)
 
-    @selected_reasons = attrs[:selected_reasons].map { |rattrs| Reason.new(rattrs) } if attrs.key?(:selected_reasons)
+    @selected_reasons = attrs[:selected_reasons]&.map { |rattrs| Reason.new(rattrs) }
   end
 
   def find(identifier)

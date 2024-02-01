@@ -13,16 +13,10 @@ class RejectionReasons::RejectionReasonsComponent < ViewComponent::Base
     @editable = editable
   end
 
-  def paragraphs(input)
-    return [] if input.blank?
-
-    input.split("\r\n")
-  end
-
-  def link_to_find_when_rejected_on_qualifications(application_choice)
+  def link_to_find_when_rejected_on_qualifications
     link = govuk_link_to(
       'Find postgraduate teacher training courses',
-      "#{I18n.t('find_postgraduate_teacher_training.production_url')}course/#{application_choice.provider.code}/#{application_choice.course.code}#section-entry",
+      "#{@application_choice.course.find_url}#section-entry",
     )
 
     "View the course requirements on #{link}.".html_safe
@@ -33,7 +27,7 @@ class RejectionReasons::RejectionReasonsComponent < ViewComponent::Base
   end
 
   def reasons
-    ::RejectionReasons.new(application_choice.structured_rejection_reasons)
+    ::RejectionReasons.new(application_choice.structured_rejection_reasons).selected_reasons
   end
 
   def render_link_to_find?(reason)

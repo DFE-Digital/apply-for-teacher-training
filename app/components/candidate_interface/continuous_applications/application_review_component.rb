@@ -2,23 +2,29 @@ module CandidateInterface
   module ContinuousApplications
     class ApplicationReviewComponent < ViewComponent::Base
       attr_reader :application_choice
-      delegate :unsubmitted?, :current_course, :current_course_option, to: :application_choice
+      delegate :interviewing?,
+               :unsubmitted?,
+               :current_course,
+               :current_course_option,
+               to: :application_choice
 
       def initialize(application_choice:)
         @application_choice = application_choice
       end
 
-      def show_personal_statement?
-        @application_choice.submitted? && @application_choice.personal_statement.present?
-      end
-
       def rows
         [
           status_row,
+          application_number_row,
           submitted_at_row,
           course_info_row,
+          qualifications_row,
+          course_length_row,
           study_mode_row,
           location_row,
+          personal_statement_row,
+          interview_row,
+          rejection_reasons_row,
         ].compact
       end
 
@@ -33,16 +39,24 @@ module CandidateInterface
         }
       end
 
+      def application_number_row
+        return unless application_choice.sent_to_provider_at
+
+        { key: 'Application number', value: application_choice.id }
+      end
+
       def submitted_at_row
         return unless application_choice.sent_to_provider_at
 
-        { key: 'Application submitted', value: application_choice.sent_to_provider_at.to_fs(:govuk_date_and_time) }
+        value = "#{application_choice.sent_to_provider_at.to_fs(:govuk_date_and_time)} (#{time_ago_in_words(application_choice.sent_to_provider_at)} ago)"
+
+        { key: 'Application submitted', value: }
       end
 
       def course_info_row
         {
           key: 'Course',
-          value: current_course.name_and_code,
+          value: govuk_link_to(current_course.name_and_code, current_course.find_url, { target: '_blank', rel: 'noopener' }),
         }.tap do |row|
           if unsubmitted?
             row[:action] = {
@@ -51,6 +65,20 @@ module CandidateInterface
             }
           end
         end
+      end
+
+      def qualifications_row
+        {
+          key: 'Qualifications',
+          value: current_course.qualifications_to_s,
+        }
+      end
+
+      def course_length_row
+        {
+          key: 'Course length',
+          value: DisplayCourseLength.call(course_length: current_course.course_length),
+        }
       end
 
       def study_mode_row
@@ -79,6 +107,46 @@ module CandidateInterface
             }
           end
         end
+      end
+
+      def personal_statement_row
+        value = if unsubmitted?
+                  @application_choice.application_form.becoming_a_teacher
+                else
+                  @application_choice.personal_statement
+                end
+
+        {
+          key: 'Personal statement',
+          value: value,
+        }
+      end
+
+      def interview_row
+        return unless interviewing?
+
+        interview = application_choice.interviews.last
+
+        {
+          key: 'Interview',
+          value: render(InterviewSummaryComponent.new(interview:)),
+        }
+      end
+
+      def rejection_reasons_row
+        return unless application_choice.rejected?
+        return unless application_choice.rejection_reason.present? || application_choice.structured_rejection_reasons.present?
+
+        {
+          key: 'Reasons for rejection',
+          value: render(
+            CandidateInterface::RejectionsComponent.new(
+              application_choice:,
+              render_link_to_find_when_rejected_on_qualifications: true,
+              feedback_button: true,
+            ),
+          ),
+        }
       end
     end
   end
