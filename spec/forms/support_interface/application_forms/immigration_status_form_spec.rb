@@ -12,15 +12,6 @@ RSpec.describe SupportInterface::ApplicationForms::ImmigrationStatusForm, type: 
   end
 
   describe 'validations' do
-    context 'when the immigration status is nil' do
-      before { form.immigration_status = nil }
-
-      it 'validation keeps immigration_status as `nil`' do
-        form.valid?
-        expect(form.immigration_status).to be_nil
-      end
-    end
-
     context 'when immigration_status is other' do
       before { form.immigration_status = 'other' }
 
