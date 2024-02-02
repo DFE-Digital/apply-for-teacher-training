@@ -30,6 +30,18 @@ RSpec.describe 'After sign in redirects' do
         expect(response).to redirect_to(candidate_interface_continuous_applications_details_path)
       end
     end
+
+    context 'when application contains an accepted offer' do
+      let!(:application_form) do
+        create(:application_form, :minimum_info, :continuous_applications, submitted_at: nil, candidate: candidate)
+      end
+
+      it 'redirects to application details path' do
+        create(:application_choice, :accepted, application_form:)
+        get candidate_interface_interstitial_path
+        expect(response).to redirect_to(candidate_interface_application_offer_dashboard_path)
+      end
+    end
   end
 
   context 'when application submitted and non continuous applications' do
