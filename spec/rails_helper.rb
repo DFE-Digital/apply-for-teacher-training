@@ -147,7 +147,7 @@ RSpec.configure do |config|
     end
   end
 
-  config.before do |_example|
+  config.before do
     RequestStore.store[:allow_unsafe_application_choice_touches] = true
 
     if ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on'
