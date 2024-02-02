@@ -20,7 +20,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.2.4",
     "standard": "^17.1.0",
-    "stylelint": "^16.2.0",
+    "stylelint": "^16.2.1",
     "stylelint-config-gds": "^2.0.0"
   },
   "scripts": {
