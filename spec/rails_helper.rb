@@ -23,7 +23,6 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 require 'dotenv/rails'
 
-require 'test_suite_time_machine'
 TestSuiteTimeMachine.pretend_it_is(ENV.fetch('TEST_DATE_AND_TIME', 'real_world'))
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
@@ -96,9 +95,6 @@ RSpec.configure do |config|
   config.include CycleTimetableHelper
   config.extend CycleTimetableHelper
   config.include TestSuiteTimeMachine::RSpecHelpers
-  config.before(:each, :time) do |example|
-    set_time(example.metadata[:time])
-  end
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
