@@ -13,7 +13,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent, :continuous_ap
     it 'tells the candidate why their application was not sent to their provider(s)' do
       application_choice = create(:application_choice, :application_not_sent, course:)
       result = render_inline(described_class.new(application_choice:))
-      expect(result.text).to include('Your application was not sent for this course because references were not given before the deadline.')
+      expect(result.text).to include('Your application was not sent for this course because it was not submitted before the deadline.')
     end
   end
 

@@ -6,7 +6,7 @@
 <% if @display_info_text %>
   <% if @application_choice.application_not_sent? %>
     <p class="govuk-body govuk-!-margin-top-2">
-      Your application was not sent for this course because references were not given before the deadline.
+      Your application was not sent for this course because it was not submitted before the deadline.
     </p>
   <% elsif @application_choice.unsubmitted? && @application_choice.course_available? %>
     <p class="govuk-body govuk-!-margin-top-2">
