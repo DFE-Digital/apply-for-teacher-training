@@ -13,7 +13,6 @@ RSpec.feature 'Carry over application to a new cycle in different states', time:
   scenario 'Candidate sees complete page when submitted at has value but courses choices does not have submission' do
     given_i_have_an_empty_submitted_application_from_last_cycle
     and_i_am_signed_in_as_a_candidate
-    when_i_sign_in_again
     and_i_visit_the_application_dashboard
     then_i_should_be_on_the_pages_that_is_possible_to_carry_over_an_application
   end
@@ -112,11 +111,8 @@ RSpec.feature 'Carry over application to a new cycle in different states', time:
 
   def then_i_can_carry_over_my_application_to_the_new_cycle
     and_i_am_signed_in_as_a_candidate
-
-    when_i_sign_in_again
     and_i_visit_the_application_dashboard
     then_i_am_ask_to_apply_for_courses_into_the_new_recruitment_cycle
-
     when_i_carry_over
     then_my_application_should_be_into_the_new_cycle
     and_i_should_be_in_your_details_page
@@ -124,11 +120,8 @@ RSpec.feature 'Carry over application to a new cycle in different states', time:
 
   def then_i_can_carry_over_my_application_to_the_new_cycle_using_the_carry_over_interstitial
     and_i_am_signed_in_as_a_candidate
-
-    when_i_sign_in_again
     and_i_visit_the_application_dashboard
     then_i_am_ask_to_apply_for_courses_into_the_new_recruitment_cycle
-
     when_i_carry_over_through_carry_over_interstitial
     then_my_application_should_be_into_the_new_cycle
     and_i_should_be_in_your_details_page
