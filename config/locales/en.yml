@@ -36,9 +36,11 @@ en:
     url: https://getintoteaching.education.gov.uk
     url_applying: https://getintoteaching.education.gov.uk/steps-to-become-a-teacher#step-5
     url_get_an_adviser_start: https://getintoteaching.education.gov.uk/teacher-training-advisers
+    url_get_an_adviser_signup: https://getintoteaching.education.gov.uk/teacher-training-adviser/sign_up/identity
     url_events: https://getintoteaching.education.gov.uk/events/about-get-into-teaching-events
     url_international_candidates: https://getintoteaching.education.gov.uk/non-uk-teachers
     url_support_if_you_are_disabled: https://getintoteaching.education.gov.uk/funding-and-support/if-youre-disabled
+    url_funding_and_support: https://getintoteaching.education.gov.uk/funding-and-support
     url_online_chat: https://getintoteaching.education.gov.uk/help-and-support
     url_get_school_experience: https://getintoteaching.education.gov.uk/is-teaching-right-for-me/get-school-experience
     url_ways_to_train: https://getintoteaching.education.gov.uk/train-to-be-a-teacher
@@ -46,6 +48,7 @@ en:
     url_if_you_dont_have_a_degree: https://getintoteaching.education.gov.uk/train-to-be-a-teacher/if-you-dont-have-a-degree
     url_subject_knowledge_enhancement: https://getintoteaching.education.gov.uk/train-to-be-a-teacher/subject-knowledge-enhancement
     url_references: https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/teacher-training-references
+    url_teacher_training_interview: https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/teacher-training-interview
   train_to_teach_in_england:
     url: https://www.gov.uk/government/publications/train-to-teach-in-england-non-uk-applicants/train-to-teach-in-england-non-uk-applicants#visas-and-immigration
   register_of_sponsor_licences:
