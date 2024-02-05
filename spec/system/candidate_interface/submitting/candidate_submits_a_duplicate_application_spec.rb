@@ -27,8 +27,8 @@ RSpec.feature 'Submitting a duplicate application' do
   end
 
   def then_i_can_see_an_interstitial_page_that_i_cant_submit
-    expect(page).to have_content('You’ve created more than one account.')
-    expect(page).to have_content('You can apply for up to 4 courses at a time.')
+    expect(page).to have_content('You cannot submit this application')
+    expect(page).to have_content('This may be because you have more than one account.')
     expect(page).to have_no_button('Check and submit')
   end
 end
