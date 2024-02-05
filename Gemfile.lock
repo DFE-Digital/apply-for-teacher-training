@@ -156,7 +156,7 @@ GEM
       csv
       railties (>= 6.1)
       safely_block (>= 0.4)
-    brakeman (6.1.1)
+    brakeman (6.1.2)
       racc
     builder (3.2.4)
     bullet (7.1.6)
