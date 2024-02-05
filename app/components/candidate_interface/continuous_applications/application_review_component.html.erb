@@ -1,1 +1,8 @@
 <%= render SummaryListComponent.new(rows: rows) %>
+
+<% if show_withdraw? %>
+  <div class="govuk-!-margin-bottom-6">
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-1">Withdraw your application</h2>
+    <p class="govuk-body">You can <%= govuk_link_to 'withdraw this application', candidate_interface_withdraw_path(application_choice) %> if you no longer wish to be considered for this course.</p>
+  </div>
+<% end %>
