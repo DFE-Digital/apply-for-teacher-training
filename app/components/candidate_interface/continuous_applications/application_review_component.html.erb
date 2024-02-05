@@ -19,7 +19,7 @@
         <p class="govuk-body">The provider will review your application and let you know when they have made a decision. In the meantime, you can:</p>
         <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-8">
           <% if can_add_more_choices? %>
-          <li>submit another application while you wait for a decision on this one</li>
+          <li><%= govuk_link_to 'submit another application', candidate_interface_continuous_applications_do_you_know_the_course_path %> while you wait for a decision on this one</li>
           <% end %>
           <li>contact the provider directly if you have any questions</li>
           <li>find out more about <%= govuk_link_to 'funding your training', t('get_into_teaching.url_funding_and_support'), target: '_blank' %></li>
