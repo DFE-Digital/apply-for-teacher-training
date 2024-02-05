@@ -183,7 +183,7 @@ class ApplicationForm < ApplicationRecord
     address_line1 address_line2 address_line3 address_line4
     international_address country postcode equality_and_diversity
     work_history_breaks first_nationality second_nationality third_nationality
-    fourth_nationality fifth_nationality phone_number
+    fourth_nationality fifth_nationality phone_number immigration_status
   ].freeze
 
   before_save do |form|
@@ -211,9 +211,9 @@ class ApplicationForm < ApplicationRecord
   end
 
   def defined_immigration_status?
-    self.class.immigration_statuses.keys
-         .reject { |immigration_status| immigration_status == 'other' }
-         .any? { |immigration_status| send("#{immigration_status}?") }
+    return false if other?
+
+    ApplicationForm.immigration_statuses.keys.include?(immigration_status)
   end
 
   def awaiting_provider_decisions?

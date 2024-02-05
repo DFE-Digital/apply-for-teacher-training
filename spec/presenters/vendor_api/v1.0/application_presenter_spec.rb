@@ -20,10 +20,10 @@ RSpec.describe 'ApplicationPresenter' do
     let(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form) }
 
     let(:non_uk_fields) do
-      ApplicationForm::PUBLISHED_FIELDS - %w[becoming_a_teacher postcode equality_and_diversity]
+      ApplicationForm::PUBLISHED_FIELDS - %w[becoming_a_teacher postcode equality_and_diversity immigration_status]
     end
     let(:uk_fields) do
-      ApplicationForm::PUBLISHED_FIELDS - %w[becoming_a_teacher international_address right_to_work_or_study_details equality_and_diversity]
+      ApplicationForm::PUBLISHED_FIELDS - %w[becoming_a_teacher international_address right_to_work_or_study_details equality_and_diversity immigration_status]
     end
 
     it 'looks at all fields which cause a touch' do
