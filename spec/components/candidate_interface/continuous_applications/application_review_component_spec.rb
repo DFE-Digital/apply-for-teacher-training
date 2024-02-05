@@ -36,8 +36,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
   end
 
   subject(:result) do
-    render_inline(described_class.new(application_choice:))
+    render_inline(component)
   end
+
+  let(:component) { described_class.new(application_choice:) }
 
   let(:application_choice) do
     create(:application_choice, :awaiting_provider_decision, personal_statement:, sent_to_provider_at: 1.week.ago, course:)
@@ -225,13 +227,26 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       create(:application_choice, :inactive)
     end
 
-    it 'show what happens next information' do
-      expect(result.text).to include('What happens next',
-                                         'The provider will review your application and let you know when they have made a decision. In the meantime, you can:')
+    context 'when application cannot make more choices' do
+      it 'show what happens next information' do
+        expect(result.text).to include('What happens next',
+                                       'The provider will review your application and let you know when they have made a decision. In the meantime, you can:')
+      end
+
+      it 'does not hint to add more choices' do
+        allow(component).to receive(:can_add_more_choices?).and_return(false)
+        expect(result.text).not_to include('submit another')
+      end
     end
 
-    it 'does not show withdraw CTA' do
-      expect(result.text).not_to include('withdraw this application')
+    context 'when application can make more choices' do
+      it 'shows hint to add more choices' do
+        expect(result.text).to include('submit another')
+      end
+    end
+
+    it 'shows withdraw CTA' do
+      expect(result.text).to include('withdraw this application')
     end
   end
 

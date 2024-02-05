@@ -156,6 +156,10 @@ module CandidateInterface
       def show_withdraw?
         ApplicationStateChange.new(@application_choice).can_withdraw?
       end
+
+      def can_add_more_choices?
+        application_choice.application_form.can_add_more_choices?
+      end
     end
   end
 end
