@@ -3,29 +3,28 @@
 <% if show_what_happens_next? %>
   <div class="govuk-!-margin-bottom-6">
     <h2 class="govuk-heading-m govuk-!-margin-bottom-1">What happens next</h2>
-    <% case application_choice.status %>
-      <% when *%w(awaiting_provider_decision) %>
-        <p class="govuk-body">The provider will review your application and let your know when they have a made a decision. In the meantime, you can:</p>
-        <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-8">
-          <li>contact the provider directly if you have any questions</li>
-          <li>find out more about <%= govuk_link_to('funding your training', t('get_into_teaching.url_funding_and_support'), target: '_blank') %></li>
-          <li>get help from a <%= govuk_link_to('teacher training advisor', t('get_into_teaching.url_get_an_adviser_signup'), target: '_blank') %></li>
-        </ul>
-      </div>
-      <% when *%w(interviewing) %>
-        <p class="govuk-body">Congratulations on being invited for an interview! This is an important stage in successfully getting a place on a teacher training course.</p>
-        <p class="govuk-body">Learn more about what to expect and <%= govuk_link_to 'how to prepare for an interview', t('get_into_teaching.url_teacher_training_interview'), target: '_blank' %>.</p>
-      <% when *%w(inactive) %>
-        <p class="govuk-body">The provider will review your application and let you know when they have made a decision. In the meantime, you can:</p>
-        <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-8">
-          <% if can_add_more_choices? %>
-          <li><%= govuk_link_to 'submit another application', candidate_interface_continuous_applications_do_you_know_the_course_path %> while you wait for a decision on this one</li>
-          <% end %>
-          <li>contact the provider directly if you have any questions</li>
-          <li>find out more about <%= govuk_link_to 'funding your training', t('get_into_teaching.url_funding_and_support'), target: '_blank' %></li>
-          <li>get help from a <%= govuk_link_to 'teacher training adviser', t('get_into_teaching.url_get_an_adviser_signup'), target: '_blank' %></li>
-        </ul>
-  <% end %>
+    <% if application_choice.awaiting_provider_decision? %>
+      <p class="govuk-body">The provider will review your application and let your know when they have a made a decision. In the meantime, you can:</p>
+      <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-8">
+        <li>contact the provider directly if you have any questions</li>
+        <li>find out more about <%= govuk_link_to('funding your training', t('get_into_teaching.url_funding_and_support'), target: '_blank') %></li>
+        <li>get help from a <%= govuk_link_to('teacher training advisor', t('get_into_teaching.url_get_an_adviser_signup'), target: '_blank') %></li>
+      </ul>
+    <% elsif application_choice.interviewing? %>
+      <p class="govuk-body">Congratulations on being invited for an interview! This is an important stage in successfully getting a place on a teacher training course.</p>
+      <p class="govuk-body">Learn more about what to expect and <%= govuk_link_to 'how to prepare for an interview', t('get_into_teaching.url_teacher_training_interview'), target: '_blank' %>.</p>
+    <% elsif application_choice.inactive? %>
+      <p class="govuk-body">The provider will review your application and let you know when they have made a decision. In the meantime, you can:</p>
+      <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-8">
+        <% if can_add_more_choices? %>
+        <li><%= govuk_link_to 'submit another application', candidate_interface_continuous_applications_do_you_know_the_course_path %> while you wait for a decision on this one</li>
+        <% end %>
+        <li>contact the provider directly if you have any questions</li>
+        <li>find out more about <%= govuk_link_to 'funding your training', t('get_into_teaching.url_funding_and_support'), target: '_blank' %></li>
+        <li>get help from a <%= govuk_link_to 'teacher training adviser', t('get_into_teaching.url_get_an_adviser_signup'), target: '_blank' %></li>
+      </ul>
+    <% end %>
+    </div>
 <% end %>
 
 <% if show_withdraw? %>
