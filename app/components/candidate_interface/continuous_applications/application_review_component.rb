@@ -157,8 +157,7 @@ module CandidateInterface
         ApplicationStateChange.new(@application_choice).can_withdraw?
       end
 
-      def show_provider_contact_details?
-        return false unless provider.email_address || provider.phone_number
+      def show_provider_contact_component?
         application_states = %w[
           awaiting_provider_decision
           inactive
