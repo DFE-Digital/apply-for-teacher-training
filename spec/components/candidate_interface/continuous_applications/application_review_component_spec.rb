@@ -36,8 +36,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
   end
 
   subject(:result) do
-    render_inline(described_class.new(application_choice:))
+    render_inline(component)
   end
+
+  let(:component) { described_class.new(application_choice:) }
 
   let(:application_choice) do
     create(:application_choice, :awaiting_provider_decision, personal_statement:, sent_to_provider_at: 1.week.ago, course:)
@@ -111,12 +113,16 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       end
     end
 
+    it 'does not show what happens next information' do
+      expect(result.text).not_to include('What happens next')
+    end
+
     it 'does not show withdraw CTA' do
       expect(result.text).not_to include('withdraw this application')
     end
   end
 
-  context 'when application is submitted' do
+  context 'when application is submitted (awaiting_provider_decision)' do
     it_behaves_like 'course length row'
 
     it 'shows the application status' do
@@ -174,10 +180,6 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       it 'does not show change links' do
         expect(result.css('govuk-summary-list__actions a')).to be_empty
       end
-
-      it 'shows withdraw CTA' do
-        expect(result.text).to include('withdraw this application')
-      end
     end
 
     context 'when course has multiple sites' do
@@ -190,6 +192,15 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
         expect(result.css('govuk-summary-list__actions a')).to be_empty
       end
     end
+
+    it 'show what happens next information' do
+      expect(result.text).to include('What happens next',
+                                     'The provider will review your application and let your know when they have a made a decision. In the meantime, you can:')
+    end
+
+    it 'shows withdraw CTA' do
+      expect(result.text).to include('withdraw this application')
+    end
   end
 
   context 'when application is interviewing' do
@@ -199,6 +210,39 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
 
     it 'shows interview row' do
       expect(result.text).to include('InterviewYou have an interview scheduled')
+    end
+
+    it 'show what happens next information' do
+      expect(result.text).to include('What happens next',
+                                     'Congratulations on being invited for an interview! This is an important stage in successfully getting a place on a teacher training course.')
+    end
+
+    it 'shows withdraw CTA' do
+      expect(result.text).to include('withdraw this application')
+    end
+  end
+
+  context 'when application is inactive' do
+    let(:application_choice) do
+      create(:application_choice, :inactive)
+    end
+
+    context 'when application cannot make more choices' do
+      it 'show what happens next information' do
+        expect(result.text).to include('What happens next',
+                                       'The provider will review your application and let you know when they have made a decision. In the meantime, you can:')
+      end
+
+      it 'does not hint to add more choices' do
+        allow(component).to receive(:can_add_more_choices?).and_return(false)
+        expect(result.text).not_to include('submit another')
+      end
+    end
+
+    context 'when application can make more choices' do
+      it 'shows hint to add more choices' do
+        expect(result.text).to include('submit another')
+      end
     end
 
     it 'shows withdraw CTA' do
@@ -213,6 +257,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
 
     it 'shows reasons for rejection row' do
       expect(result.text).to include('Reasons for rejection')
+    end
+
+    it 'does not show what happens next information' do
+      expect(result.text).not_to include('What happens next')
     end
 
     it 'does not show withdraw CTA' do
