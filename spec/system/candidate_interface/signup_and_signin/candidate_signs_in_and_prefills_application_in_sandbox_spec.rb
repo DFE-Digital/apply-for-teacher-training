@@ -12,7 +12,7 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox
     then_i_am_taken_to_the_prefill_application_page
 
     when_i_select_prefill_and_submit_the_form
-    then_i_am_taken_to_the_application_page
+    then_i_am_taken_to_your_applications_page
     and_there_is_a_flash_saying_the_application_was_prefilled
     and_my_application_has_been_filled_in
 
@@ -50,8 +50,8 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox
     click_link_or_button t('continue')
   end
 
-  def then_i_am_taken_to_the_application_page
-    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
+  def then_i_am_taken_to_your_applications_page
+    expect(page).to have_current_path(candidate_interface_continuous_applications_choices_path)
   end
 
   def and_there_is_a_flash_saying_the_application_was_prefilled
