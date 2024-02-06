@@ -26,7 +26,7 @@ RSpec.feature 'Candidate attempts to add course via Find to application from pre
   end
 
   def and_a_new_cycle_starts
-    advance_time_to(mid_cycle(2024))
+    advance_time_to(mid_cycle(CycleTimetable.current_year))
   end
 
   def and_i_am_signed_in
