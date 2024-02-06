@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 RSpec.feature 'Post-offer references', :with_audited do
   include CandidateHelper
 

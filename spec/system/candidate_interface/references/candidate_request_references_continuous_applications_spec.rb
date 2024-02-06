@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 RSpec.feature 'New References', :with_audited do
   include CandidateHelper
 

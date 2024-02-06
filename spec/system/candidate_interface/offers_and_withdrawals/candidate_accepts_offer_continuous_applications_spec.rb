@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 RSpec.feature 'Candidate accepts an offer' do
   include CourseOptionHelpers
 
