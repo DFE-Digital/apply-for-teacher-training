@@ -13,9 +13,10 @@ module CandidateInterface
         if @prefill_application_or_not_form.prefill?
           prefill_candidate_application_form
           flash[:info] = 'This application has been prefilled with example data'
+          return redirect_to candidate_interface_continuous_applications_choices_path
         end
 
-        redirect_to candidate_interface_continuous_applications_choices_path
+        redirect_to candidate_interface_continuous_applications_details_path
       else
         track_validation_error(@prefill_application_or_not_form)
         render :new
