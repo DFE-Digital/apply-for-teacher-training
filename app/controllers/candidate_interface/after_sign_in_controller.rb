@@ -2,7 +2,7 @@ module CandidateInterface
   class AfterSignInController < CandidateInterfaceController
     before_action :redirect_to_prefill_if_sandbox_user_has_blank_application
     before_action :redirect_to_path_if_path_params_are_present
-    before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited, unless: :course_from_find?
+    before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
     before_action :redirect_to_application_form_unless_course_from_find_is_present
 
     def interstitial
@@ -63,10 +63,6 @@ module CandidateInterface
       store = PrefillApplicationStateStore::RailsCache.new(current_user.id)
       data = { course_id: course_from_find.id }
       store.write(data)
-    end
-
-    def course_from_find?
-      course_from_find.present?
     end
   end
 end

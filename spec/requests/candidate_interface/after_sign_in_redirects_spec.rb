@@ -36,9 +36,22 @@ RSpec.describe 'After sign in redirects' do
         create(:application_form, :minimum_info, :continuous_applications, submitted_at: nil, candidate: candidate)
       end
 
-      it 'redirects to application details path' do
+      it 'redirects to application offer dashboard path' do
         create(:application_choice, :accepted, application_form:)
         get candidate_interface_interstitial_path
+        expect(response).to redirect_to(candidate_interface_application_offer_dashboard_path)
+      end
+    end
+
+    context 'when application contains an accepted offer and access the root page' do
+      let!(:application_form) do
+        create(:application_form, :minimum_info, :continuous_applications, submitted_at: nil, candidate: candidate)
+      end
+
+      it 'redirects to application offer dashboard path' do
+        create(:application_choice, :accepted, application_form:)
+        get root_path
+        follow_redirect!
         expect(response).to redirect_to(candidate_interface_application_offer_dashboard_path)
       end
     end
