@@ -42,7 +42,8 @@ module CandidateInterface
                   :subject_raw, :other_type_raw, :university_raw, :other_grade_raw,
                   :type, :international_type, :grade, :completed,
                   :start_year, :award_year, :have_enic_reference, :enic_reference,
-                  :comparable_uk_degree, :application_form_id, :id, :recruitment_cycle_year, :path_history
+                  :comparable_uk_degree, :application_form_id, :id, :recruitment_cycle_year, :path_history,
+                  :return_to_application_review
     attr_writer :subject, :other_type, :university, :other_grade
 
     validates :uk_or_non_uk, presence: true, on: :country
