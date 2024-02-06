@@ -781,4 +781,8 @@ module CandidateHelper
   def then_i_should_be_on_your_details_page
     expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
   end
+
+  def then_i_should_be_on_the_post_offer_dashboard
+    expect(page).to have_current_path(candidate_interface_application_offer_dashboard_path)
+  end
 end
