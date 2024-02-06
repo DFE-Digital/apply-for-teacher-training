@@ -121,12 +121,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       expect(result.text).not_to include('withdraw this application')
     end
 
-    describe 'does not show provider contact information' do
-      context 'when provider has phone and email' do
-        it 'show provider contact information' do
-          expect(result.text).not_to include('Contact training provider')
-        end
-      end
+    it 'does not show provider contact information' do
+      expect(result.text).not_to include('Contact training provider')
     end
   end
 
@@ -210,36 +206,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       expect(result.text).to include('withdraw this application')
     end
 
-    describe 'show provider contact information' do
-      context 'when provider has phone and email' do
-        it 'show provider contact information' do
-          expect(result.text).to include('Contact training provider',
-                                         "Call on #{provider.phone_number}",
-                                         "email at #{provider.email_address}")
-        end
-      end
-
-      context 'when provider has only phone' do
-        let(:provider) do
-          create(:provider, email_address: nil)
-        end
-
-        it 'show provider phone number' do
-          expect(result.text).to include('Contact training provider',
-                                         "Call on #{provider.phone_number}")
-        end
-      end
-
-      context 'when provider has only email' do
-        let(:provider) do
-          create(:provider, phone_number: nil)
-        end
-
-        it 'show provider contact information' do
-          expect(result.text).to include('Contact training provider',
-                                         "Email at #{provider.email_address}")
-        end
-      end
+    it 'shows provider contact information' do
+      expect(result.text).to include('Contact training provider')
     end
   end
 
@@ -261,36 +229,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       expect(result.text).to include('withdraw this application')
     end
 
-    describe 'show provider contact information' do
-      context 'when provider has phone and email' do
-        it 'show provider contact information' do
-          expect(result.text).to include('Contact training provider',
-                                         "Call on #{provider.phone_number}",
-                                         "email at #{provider.email_address}")
-        end
-      end
-
-      context 'when provider has only phone' do
-        let(:provider) do
-          create(:provider, email_address: nil)
-        end
-
-        it 'show provider phone number' do
-          expect(result.text).to include('Contact training provider',
-                                         "Call on #{provider.phone_number}")
-        end
-      end
-
-      context 'when provider has only email' do
-        let(:provider) do
-          create(:provider, phone_number: nil)
-        end
-
-        it 'show provider contact information' do
-          expect(result.text).to include('Contact training provider',
-                                         "Email at #{provider.email_address}")
-        end
-      end
+    it 'shows provider contact information' do
+      expect(result.text).to include('Contact training provider')
     end
   end
 
@@ -321,36 +261,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       expect(result.text).to include('withdraw this application')
     end
 
-    describe 'show provider contact information' do
-      context 'when provider has phone and email' do
-        it 'show provider contact information' do
-          expect(result.text).to include('Contact training provider',
-                                         "Call on #{provider.phone_number}",
-                                         "email at #{provider.email_address}")
-        end
-      end
-
-      context 'when provider has only phone' do
-        let(:provider) do
-          create(:provider, email_address: nil)
-        end
-
-        it 'show provider phone number' do
-          expect(result.text).to include('Contact training provider',
-                                         "Call on #{provider.phone_number}")
-        end
-      end
-
-      context 'when provider has only email' do
-        let(:provider) do
-          create(:provider, phone_number: nil)
-        end
-
-        it 'show provider contact information' do
-          expect(result.text).to include('Contact training provider',
-                                         "Email at #{provider.email_address}")
-        end
-      end
+    it 'shows provider contact information' do
+      expect(result.text).to include('Contact training provider')
     end
   end
 
@@ -371,12 +283,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
       expect(result.text).not_to include('withdraw this application')
     end
 
-    describe 'does not show provider contact information' do
-      context 'when provider has phone and email' do
-        it 'show provider contact information' do
-          expect(result.text).not_to include('Contact training provider')
-        end
-      end
+    it 'does not show provider contact information' do
+      expect(result.text).not_to include('Contact training provider')
     end
   end
 end

@@ -159,8 +159,14 @@ module CandidateInterface
 
       def show_provider_contact_details?
         return false unless provider.email_address || provider.phone_number
+        application_states = %w[
+          awaiting_provider_decision
+          inactive
+          interviewing
+          offer
+        ]
 
-        application_choice.status.in?(%w[offer awaiting_provider_decision inactive interviewing])
+        application_choice.status.in?(application_states)
       end
 
       def can_add_more_choices?

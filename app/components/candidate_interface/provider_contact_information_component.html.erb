@@ -1,0 +1,11 @@
+<div class="govuk-!-margin-bottom-6">
+  <h2 class="govuk-heading-m govuk-!-margin-bottom-1">Contact training provider</h2>
+  <p class="govuk-body">Contact <%= provider.name %> if you have any questions about your application.</p>
+  <% if show_email_and_phone? %>
+    <p class="govuk-body">Call on <%= govuk_link_to(provider.phone_number, "tel:#{provider.phone_number}") %> or email at <%= govuk_mail_to(provider.email_address) %></p>
+  <% elsif show_only_phone? %>
+    <p class="govuk-body">Call on <%= govuk_link_to(provider.phone_number, "tel:#{provider.phone_number}") %></p>
+  <% elsif show_only_email? %>
+    <p class="govuk-body">Email at <%= govuk_mail_to(provider.email_address) %></p>
+  <% end %>
+</div>
