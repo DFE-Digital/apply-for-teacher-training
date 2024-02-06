@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Carry over', :continuous_applications, :sidekiq do
+RSpec.feature 'Carry over', :sidekiq do
   include CandidateHelper
 
   before do
@@ -20,60 +20,6 @@ RSpec.feature 'Carry over', :continuous_applications, :sidekiq do
     when_i_go_to_your_applications_tab
     then_i_should_not_see_the_add_course_button
     and_i_should_not_see_previous_applications_heading
-
-    when_i_visit_add_course_url
-    then_i_should_be_redirect_to_your_applications_tab
-
-    when_i_visit_the_old_complete_page
-    then_i_should_be_redirected_to_continuous_application_details_page
-  end
-
-  scenario 'candidate carries over submitted application by applying again' do
-    given_i_have_rejected_application_in_apply_1_and_apply_again_from_2023
-    and_today_is_after_apply_2_deadline
-
-    and_i_sign_in_again
-    then_i_should_be_redirected_to_complete_page
-
-    when_i_got_rejected_by_a_provider
-    and_i_sign_in
-    then_i_should_be_asked_to_carry_over_as_apply_again
-
-    when_i_click_apply_again
-    then_i_should_be_redirected_to_continuous_application_details_page
-
-    when_i_go_to_your_applications_tab
-    then_i_should_not_see_the_add_course_button
-    and_i_should_not_see_previous_applications_heading
-
-    when_i_visit_add_course_url
-    then_i_should_be_redirect_to_your_applications_tab
-
-    when_i_visit_the_old_complete_page
-    then_i_should_be_redirected_to_continuous_application_details_page
-  end
-
-  scenario 'candidate carries over application rejected by default at the end of cycle' do
-    given_today_is_one_day_before_apply_1_deadline
-    given_i_have_submitted_application
-
-    when_i_sign_in
-    then_i_should_be_redirected_to_complete_page
-
-    given_today_is_after_apply_2_deadline
-    and_i_sign_in_again
-    then_i_should_be_redirected_to_complete_page
-
-    given_today_is_after_rejected_by_default_date
-    and_all_pending_applications_in_the_cycle_are_rejected
-    and_i_sign_in_again
-    then_i_should_be_asked_to_carry_over_as_apply_again
-
-    when_i_click_apply_again
-    then_i_should_be_redirected_to_continuous_application_details_page
-
-    when_i_go_to_your_applications_tab
-    then_i_should_not_see_the_add_course_button
 
     when_i_visit_add_course_url
     then_i_should_be_redirect_to_your_applications_tab
@@ -179,9 +125,8 @@ private
 
     create(
       :application_choice,
-      :awaiting_provider_decision,
+      :rejected,
       application_form: @application_form,
-      reject_by_default_at: CycleTimetable.reject_by_default,
     )
   end
 
@@ -304,7 +249,7 @@ private
   def and_i_sign_in_again
     logout
     login_as(current_candidate)
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def and_my_application_should_be_on_the_new_cycle

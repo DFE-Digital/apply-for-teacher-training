@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-RSpec.feature 'Process Stale applications', :continuous_applications, :sidekiq do
+RSpec.feature 'Process Stale applications', :sidekiq do
   include CourseOptionHelpers
 
   scenario 'An application is marked as inactive', :with_audited do
     given_there_is_a_provider_user_for_the_provider_course
-    and_the_continuous_applications_feature_is_enabled
     and_there_is_a_candidate
     and_an_application_is_ready_to_be_marked_as_inactive
     when_we_process_stale_applications
@@ -15,10 +14,6 @@ RSpec.feature 'Process Stale applications', :continuous_applications, :sidekiq d
   def given_there_is_a_provider_user_for_the_provider_course
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
     @provider_user = Provider.find_by(code: 'ABC').provider_users.first
-  end
-
-  def and_the_continuous_applications_feature_is_enabled
-    FeatureFlag.activate(:continuous_applications)
   end
 
   def and_there_is_a_candidate

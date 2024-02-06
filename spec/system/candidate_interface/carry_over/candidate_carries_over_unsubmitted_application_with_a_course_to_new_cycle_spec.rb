@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Carry over', :continuous_applications, skip: 'Carry over does not work in 2024', time: CycleTimetableHelper.mid_cycle(2024) do
+RSpec.feature 'Carry over', skip: 'Carry over does not work in 2024', time: CycleTimetableHelper.mid_cycle(2024) do
   include CandidateHelper
 
   it 'Candidate carries over unsubmitted application with a course to new cycle' do

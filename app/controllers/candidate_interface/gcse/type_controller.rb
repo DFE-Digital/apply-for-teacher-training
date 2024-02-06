@@ -87,7 +87,7 @@ module CandidateInterface
 
     def redirect_to_application_form_if_current_qualification_missing
       if current_qualification.blank?
-        redirect_to candidate_interface_application_form_path
+        redirect_to candidate_interface_continuous_applications_details_path
       end
     end
 

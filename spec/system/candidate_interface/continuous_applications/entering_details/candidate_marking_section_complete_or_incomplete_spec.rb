@@ -1,16 +1,32 @@
 require 'rails_helper'
 
-RSpec.feature 'Marking section as complete or incomplete', :continuous_applications do
+RSpec.feature 'Marking section as complete or incomplete' do
   include CandidateHelper
 
-  scenario 'when marking section redirects the user' do
-    given_i_have_a_completed_application_form
-    when_i_sign_in
-    and_i_mark_a_section_as_incomplete
-    then_i_should_be_redirected_to_your_details_page
-    when_i_mark_a_section_as_complete
-    and_all_sections_are_complete
-    then_i_should_be_redirected_to_your_applications_page
+  [
+    'Personal information',
+    'Contact information',
+    'English GCSE or equivalent',
+    'Maths GCSE or equivalent',
+    'A levels and other qualifications',
+    'Degree',
+    'Work history',
+    'Unpaid experience',
+    'Ask for support if you’re disabled',
+    'Interview availability',
+    'References to be requested if you accept an offer',
+    'Declare any safeguarding issues',
+    'Equality and diversity questions',
+  ].each do |section_name|
+    scenario "when marking section '#{section_name}' redirects the user" do
+      given_i_have_a_completed_application_form
+      when_i_sign_in
+      and_i_mark_the_section_as_incomplete(section_name)
+      then_i_should_be_redirected_to_your_details_page
+      when_i_mark_the_section_as_complete(section_name)
+      and_all_sections_are_complete
+      then_i_should_be_redirected_to_your_applications_page
+    end
   end
 
   scenario 'when not all sections are complete' do
@@ -64,6 +80,11 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
     @application_form = create(
       :application_form,
       :completed,
+      :with_gcses,
+      :with_a_levels,
+      :with_degree,
+      full_work_history: true,
+      volunteering_experiences_count: 1,
       candidate: current_candidate,
       submitted_at: nil,
     )
@@ -143,5 +164,13 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
     (ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES - 1).times do
       create(:application_choice, :unsubmitted, application_form: @application_form)
     end
+  end
+
+  def and_i_mark_the_section_as_incomplete(section_name)
+    mark_section(section: section_name, complete: false)
+  end
+
+  def when_i_mark_the_section_as_complete(section_name)
+    mark_section(section: section_name, complete: true)
   end
 end

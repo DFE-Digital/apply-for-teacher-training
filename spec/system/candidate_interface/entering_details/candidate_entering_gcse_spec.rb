@@ -79,7 +79,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   def when_i_do_not_select_any_gcse_option; end
 
   def when_i_visit_the_candidate_application_page
-    visit '/candidate/application'
+    visit root_path
   end
 
   def then_i_see_the_add_gcse_maths_page

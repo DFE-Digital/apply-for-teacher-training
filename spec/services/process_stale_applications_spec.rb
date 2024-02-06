@@ -5,21 +5,18 @@ RSpec.describe ProcessStaleApplications do
     application_choice = create(
       :application_choice,
       :awaiting_provider_decision,
-      :continuous_applications,
       reject_by_default_at: 1.business_days.ago,
     )
 
     other_application_choice = create(
       :application_choice,
       :awaiting_provider_decision,
-      :continuous_applications,
       reject_by_default_at: 1.business_day.from_now,
     )
 
     interviewing_application_choice = create(
       :application_choice,
       :interviewing,
-      :continuous_applications,
       reject_by_default_at: 1.business_day.from_now,
     )
 
@@ -35,13 +32,11 @@ RSpec.describe ProcessStaleApplications do
     application_choice = create(
       :application_choice,
       :inactive,
-      :continuous_applications,
       inactive_at:,
     )
     other_application_choice = create(
       :application_choice,
       :inactive,
-      :continuous_applications,
       inactive_at:,
     )
 

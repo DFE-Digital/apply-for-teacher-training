@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Unlocking non editable sections temporarily via support', :continuous_applications do
+RSpec.feature 'Unlocking non editable sections temporarily via support' do
   include DfESignInHelpers
   include CandidateHelper
 

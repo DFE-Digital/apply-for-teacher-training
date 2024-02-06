@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a course', :continuous_applications do
+RSpec.feature 'Selecting a course' do
   include CandidateHelper
 
   it 'Candidate is redirected when visiting later steps on a duplicate course selection' do
@@ -41,7 +41,7 @@ RSpec.feature 'Selecting a course', :continuous_applications do
   end
 
   def when_i_visit_the_site
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def and_i_visit_the_study_mode_selection_for_my_existing_course_selection

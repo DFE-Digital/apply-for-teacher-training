@@ -43,7 +43,7 @@ module CandidateInterface
       @section_complete_form = SectionCompleteForm.new(form_params)
 
       if @section_complete_form.save(current_application, :safeguarding_issues_completed)
-        redirect_to candidate_interface_application_form_path
+        redirect_to_new_continuous_applications_if_eligible
       else
         track_validation_error(@section_complete_form)
         render :show

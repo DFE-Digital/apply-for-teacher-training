@@ -96,7 +96,7 @@ module CandidateInterface
       @section_complete_form = EqualityAndDiversityCompleteForm.new(form_params.merge(current_application:))
 
       if @section_complete_form.save(current_application, :equality_and_diversity_completed)
-        redirect_to candidate_interface_application_form_path
+        redirect_to_new_continuous_applications_if_eligible
       else
         track_validation_error(@section_complete_form)
         render :review
@@ -146,8 +146,6 @@ module CandidateInterface
     def next_equality_and_diversity_page(next_page)
       if params[:return_to] == 'review'
         candidate_interface_review_equality_and_diversity_path
-      elsif params[:return_to] == 'application-review'
-        candidate_interface_application_review_path
       else
         next_page
       end
@@ -166,8 +164,6 @@ module CandidateInterface
     def set_review_back_link
       @review_back_link = if params[:return_to] == 'review'
                             candidate_interface_review_equality_and_diversity_path
-                          elsif params[:return_to] == 'application-review'
-                            candidate_interface_application_review_path
                           end
     end
   end

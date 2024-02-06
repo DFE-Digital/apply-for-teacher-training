@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Candidate accepts an offer' do
   include CourseOptionHelpers
 
-  before do
-    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1) + 1.day)
-  end
-
   scenario 'Candidate views an offer and accepts' do
     given_i_am_signed_in
     and_i_have_2_offers_on_my_choices
@@ -15,7 +11,6 @@ RSpec.feature 'Candidate accepts an offer' do
     when_i_visit_the_application_dashboard
     and_i_click_on_view_and_respond_to_offer_link
     then_i_see_the_offer
-    and_i_am_told_my_other_offer_will_be_automatically_declined
 
     when_i_continue_without_selecting_a_response
     then_i_see_and_error_message
@@ -161,7 +156,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_visit_the_application_dashboard
-    visit candidate_interface_application_complete_path
+    visit candidate_interface_continuous_applications_choices_path
   end
 
   def and_i_click_on_view_and_respond_to_offer_link
@@ -174,10 +169,6 @@ RSpec.feature 'Candidate accepts an offer' do
     provider = @course_option.course.provider.name
     expect(page).to have_content(provider)
     expect(page).to have_content(t('page_titles.decisions.offer'))
-  end
-
-  def and_i_am_told_my_other_offer_will_be_automatically_declined
-    expect(page).to have_content('If you accept this offer, your other offer will be automatically declined.')
   end
 
   def when_i_continue_without_selecting_a_response

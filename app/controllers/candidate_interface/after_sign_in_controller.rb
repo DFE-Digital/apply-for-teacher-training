@@ -2,6 +2,7 @@ module CandidateInterface
   class AfterSignInController < CandidateInterfaceController
     before_action :redirect_to_prefill_if_sandbox_user_has_blank_application
     before_action :redirect_to_path_if_path_params_are_present
+    before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
     before_action :redirect_to_application_form_unless_course_from_find_is_present
 
     def interstitial
@@ -51,11 +52,7 @@ module CandidateInterface
     def redirect_to_application_form_unless_course_from_find_is_present
       return false unless course_from_find.nil?
 
-      if current_application.submitted?
-        redirect_to candidate_interface_application_complete_path
-      else
-        redirect_to candidate_interface_application_form_path
-      end
+      redirect_to_application_if_signed_in
     end
 
     def course_from_find

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits application with feedback form previously completed', :continuous_applications do
+RSpec.feature 'Candidate submits application with feedback form previously completed' do
   include CandidateHelper
 
   it 'Candidate submits application, skips feedback and goes straight to the application dashboard' do

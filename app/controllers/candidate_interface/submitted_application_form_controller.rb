@@ -1,8 +1,8 @@
 module CandidateInterface
   class SubmittedApplicationFormController < CandidateInterfaceController
+    before_action AlreadyCarriedOverFilter, only: %i[complete]
     before_action :redirect_to_application_form_unless_submitted, except: %i[start_carry_over carry_over]
     before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited, only: %i[complete]
-    before_action :redirect_to_new_continuous_applications_if_active, only: %i[complete review_submitted]
 
     def review_submitted
       @application_form = current_application
@@ -19,7 +19,11 @@ module CandidateInterface
 
     def carry_over
       CarryOverApplication.new(current_application).call
-      redirect_to candidate_interface_application_form_path
+      redirect_to candidate_interface_continuous_applications_details_path
+    end
+
+    def redirect_to_application_form_unless_submitted
+      redirect_to candidate_interface_start_carry_over_path unless current_application.submitted?
     end
   end
 end

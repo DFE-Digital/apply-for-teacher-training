@@ -32,8 +32,8 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
       expect(response).to have_http_status(:ok)
     end
 
-    context 'when the application form is submitted', continuous_applications: false do
-      let(:application_form) { create(:application_form, :submitted, candidate: candidate) }
+    context 'when the application form is from an old cycle' do
+      let(:application_form) { create(:application_form, :submitted, :pre_continuous_applications, candidate: candidate) }
 
       it 'redirects to the dashboard' do
         get candidate_interface_becoming_a_teacher_show_path
@@ -42,7 +42,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
       end
     end
 
-    context 'when the application form is submitted in continuous applications', :continuous_applications do
+    context 'when the application form is submitted in continuous applications' do
       let(:application_form) { create(:application_form, :submitted, :continuous_applications, candidate: candidate) }
 
       it 'responds with 200' do
@@ -63,8 +63,8 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
         expect(response).to redirect_to(candidate_interface_becoming_a_teacher_show_path)
       end
 
-      context 'when the application form is submitted', continuous_applications: false do
-        let(:application_form) { create(:application_form, :submitted, candidate: candidate) }
+      context 'when the application form is from an old cycle' do
+        let(:application_form) { create(:application_form, :pre_continuous_applications, :submitted, candidate: candidate) }
 
         it 'redirects to the complete page' do
           patch candidate_interface_new_becoming_a_teacher_path, params: params
@@ -73,7 +73,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
         end
       end
 
-      context 'when the application form is submitted in continuous applications', :continuous_applications do
+      context 'when the application form is submitted in continuous applications' do
         let(:application_form) { create(:application_form, :submitted, :continuous_applications, candidate: candidate) }
 
         it 'redirects to the review page' do
@@ -139,8 +139,8 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
         expect(response).to redirect_to(candidate_interface_becoming_a_teacher_show_path)
       end
 
-      context 'when the application form is submitted', continuous_applications: false do
-        let!(:application_form) { create(:application_form, :submitted, candidate: candidate) }
+      context 'when the application form is from old cycles' do
+        let!(:application_form) { create(:application_form, :submitted, :pre_continuous_applications, candidate: candidate) }
 
         it 'redirects to the complete page' do
           patch candidate_interface_edit_becoming_a_teacher_path, params: params
@@ -149,7 +149,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
         end
       end
 
-      context 'when the application form is submitted in continuous applications', :continuous_applications do
+      context 'when the application form is submitted in continuous applications' do
         let!(:application_form) { create(:application_form, :submitted, :continuous_applications, candidate: candidate) }
 
         it 'redirects to the review page' do

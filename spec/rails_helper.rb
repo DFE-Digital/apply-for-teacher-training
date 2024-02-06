@@ -143,7 +143,7 @@ RSpec.configure do |config|
     end
   end
 
-  config.before do |example|
+  config.before do
     RequestStore.store[:allow_unsafe_application_choice_touches] = true
 
     if ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on'
@@ -154,15 +154,6 @@ RSpec.configure do |config|
       Feature.insert_all(records)
 
       FeatureFlag.deactivate(:adviser_sign_up)
-    end
-
-    # Make sure that this check run after the feature flags are turn on
-    if example.metadata[:continuous_applications].present?
-      FeatureFlag.activate(:continuous_applications)
-      set_time(mid_cycle(2024))
-    elsif example.metadata.key?(:continuous_applications) && example.metadata[:continuous_applications].blank?
-      set_time(mid_cycle(2023))
-      FeatureFlag.deactivate(:continuous_applications)
     end
   end
 

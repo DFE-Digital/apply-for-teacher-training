@@ -17,8 +17,6 @@ module CandidateInterface
       @return_to = return_to_after_edit(default: candidate_interface_restructured_work_history_review_path)
 
       if @work_break.save(current_application)
-        return redirect_to candidate_interface_application_review_path if redirect_back_to_application_review_page?
-
         redirect_to candidate_interface_restructured_work_history_review_path
       else
         track_validation_error(@work_break)
@@ -47,9 +45,7 @@ module CandidateInterface
       current_work_history_break.destroy!
       current_application.application_work_experiences.reload
 
-      if redirect_back_to_application_review_page?
-        redirect_to candidate_interface_application_review_path
-      elsif current_application.application_work_experiences.present? || current_application.application_work_history_breaks.present?
+      if current_application.application_work_experiences.present? || current_application.application_work_history_breaks.present?
         redirect_to candidate_interface_restructured_work_history_review_path
       else
         current_application.update!(work_history_completed: nil)

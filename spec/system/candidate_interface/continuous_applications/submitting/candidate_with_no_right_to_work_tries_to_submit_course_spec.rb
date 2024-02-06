@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate with no right to work or study', :continuous_applications do
+RSpec.feature 'Candidate with no right to work or study' do
   include CandidateHelper
 
   before do
@@ -130,7 +130,7 @@ RSpec.feature 'Candidate with no right to work or study', :continuous_applicatio
   end
 
   def when_i_choose_a_provider
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
     click_link_or_button 'Your application'
     click_link_or_button 'Add application'
     choose 'Yes, I know where I want to apply'

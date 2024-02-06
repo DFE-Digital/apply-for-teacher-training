@@ -47,7 +47,7 @@ class NavigationItems
       end
 
       [
-        NavigationItem.new(application_title, candidate_interface_application_form_path, true),
+        NavigationItem.new(application_title, candidate_interface_continuous_applications_details_path, true),
       ]
     end
 

@@ -12,10 +12,6 @@ module SupportInterface
         GenerateTestApplications.perform_async(true)
         flash[:success] = 'Scheduled job to generate next cycle test applications - this might take a while!'
         redirect_to support_interface_tasks_path
-      when 'recalculate_dates'
-        RecalculateDates.perform_async
-        flash[:success] = 'Scheduled job to recalculate dates'
-        redirect_to support_interface_tasks_path
       when 'delete_test_applications'
         DeleteTestApplications.perform_async
         flash[:success] = 'Scheduled job to delete test applications'

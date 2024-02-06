@@ -32,7 +32,7 @@ module CandidateInterface
       decline = DeclineOffer.new(application_choice: @application_choice.reload)
       decline.save!
       flash[:success] = "You have declined your offer for #{@application_choice.current_course.name_and_code} at #{@application_choice.provider.name}"
-      redirect_to candidate_interface_application_complete_path
+      redirect_to candidate_interface_continuous_applications_choices_path
     end
 
     def accept_offer
@@ -44,7 +44,7 @@ module CandidateInterface
 
       if @accept_offer.save!
         flash[:success] = "You have accepted your offer for #{@application_choice.current_course.name_and_code} at #{@application_choice.provider.name}"
-        redirect_to candidate_interface_application_complete_path
+        redirect_to candidate_interface_continuous_applications_choices_path
       else
         track_validation_error(@accept_offer)
         render :accept_offer

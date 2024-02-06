@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Primary Navigation' do
   include CandidateHelper
-  scenario 'highlights the primary navigation' do
+  scenario 'highlights the primary navigation for pre continuous applications' do
     given_i_am_signed_in
     and_i_have_pre_continuous_applications_submitted
     when_i_visit_the_application_dashboard
@@ -37,13 +37,13 @@ RSpec.describe 'Primary Navigation' do
     )
     create(
       :application_choice,
-      :awaiting_provider_decision,
+      :rejected,
       application_form:,
     )
   end
 
   def when_i_visit_the_application_dashboard
-    visit(candidate_interface_application_form_path)
+    visit(candidate_interface_continuous_applications_details_path)
   end
 
   def when_i_click_on_personal_information

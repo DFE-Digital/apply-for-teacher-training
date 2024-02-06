@@ -24,29 +24,8 @@ module SupportInterface
         end
       end
 
-      def new
-        @pick_course = PickCourseForm.new(
-          course_code:,
-          application_form_id:,
-        )
-      end
-
       def edit
         @change_course_choice = ChangeCourseChoiceForm.new
-      end
-
-      def create
-        @pick_course = PickCourseForm.new(
-          course_option_id:,
-          course_code:,
-          application_form_id:,
-        )
-
-        if @pick_course.save
-          redirect_to support_interface_application_form_path
-        else
-          render :new
-        end
       end
 
       def update

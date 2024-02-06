@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate with submitted applications', :continuous_applications do
+RSpec.feature 'Candidate with submitted applications' do
   include CandidateHelper
 
   scenario 'Application becomes inactive' do

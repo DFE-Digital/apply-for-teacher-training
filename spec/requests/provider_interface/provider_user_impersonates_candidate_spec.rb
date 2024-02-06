@@ -26,12 +26,21 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
         )
     end
 
-    it 'redirects to Candidate Interface if candidate associated with user’s providers', continuous_applications: false do
-      post provider_interface_impersonate_candidate_path(application_choice.application_form.candidate)
-      expect(response).to have_http_status :found
+    context 'when pre continuous applications' do
+      let(:application_choice) do
+        create(:application_choice,
+               :rejected,
+               application_form: create(:application_form, :completed, :pre_continuous_applications),
+               course_option:)
+      end
 
-      get candidate_interface_application_complete_path
-      expect(response).to have_http_status :ok # a 200 response suggests a candidate session
+      it 'redirects to Candidate Interface if candidate associated with user’s providers' do
+        post provider_interface_impersonate_candidate_path(application_choice.application_form.candidate)
+        expect(response).to have_http_status :found
+
+        get candidate_interface_application_complete_path
+        expect(response).to have_http_status :ok # a 200 response suggests a candidate session
+      end
     end
 
     it 'redirects back to Provider Interface if candidate is not associated with user’s providers' do
@@ -40,7 +49,7 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
       post provider_interface_impersonate_candidate_path(unrelated_application.application_form.candidate)
       expect(response).to have_http_status :found
 
-      get candidate_interface_application_form_path
+      get candidate_interface_continuous_applications_details_path
       expect(response).to have_http_status :found # no candidate session redirects to candidate_interface_path
     end
 

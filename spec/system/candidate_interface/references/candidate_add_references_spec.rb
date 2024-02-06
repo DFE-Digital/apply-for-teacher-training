@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
+RSpec.feature 'References' do
   include CandidateHelper
 
   scenario 'Candidate adds a new reference' do
@@ -112,7 +112,7 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
   end
 
   def when_i_visit_the_site
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def when_i_click_on_references_section

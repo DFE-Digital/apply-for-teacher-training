@@ -21,7 +21,7 @@ module CandidateInterface
         flash[:warning] = 'You cannot mark this section complete with incomplete GCSE information.'
         redirect_to candidate_interface_gcse_review_path(subject: @subject)
       elsif @section_complete_form.save(current_application, @field_name.to_sym)
-        redirect_to candidate_interface_application_form_path
+        redirect_to_new_continuous_applications_if_eligible
       else
         track_validation_error(@section_complete_form)
         render :show

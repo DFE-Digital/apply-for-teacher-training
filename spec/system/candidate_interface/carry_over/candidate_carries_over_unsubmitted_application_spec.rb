@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'References' do
+RSpec.feature 'Carry over unsubmitted application' do
   include CandidateHelper
 
   scenario 'Candidate carries over their application to the new cycle' do
@@ -16,6 +16,9 @@ RSpec.feature 'References' do
 
     when_i_click_on_the_references_section
     then_i_see_the_new_states_of_my_references
+
+    when_i_visit_the_application_complete_page
+    then_i_should_be_on_your_details_page
   end
 
   def given_i_am_signed_in
@@ -60,7 +63,7 @@ RSpec.feature 'References' do
   end
 
   def and_i_visit_the_application_dashboard
-    visit candidate_interface_application_complete_path
+    visit root_path
   end
 
   def and_references_is_marked_as_incomplete

@@ -7,7 +7,6 @@ module CandidateInterface
         @application_form = current_application
         @section_complete_form = SectionCompleteForm.new(completed: current_application.degrees_completed)
         @wizard = DegreeWizard.new(degree_store)
-        @wizard.return_to_application_review = nil
         @wizard.save_state!
       end
 
@@ -20,7 +19,7 @@ module CandidateInterface
           flash[:warning] = 'You cannot mark this section complete with incomplete degree information.'
           redirect_to candidate_interface_degree_review_path
         elsif @section_complete_form.save(current_application, :degrees_completed)
-          redirect_to candidate_interface_application_form_path
+          redirect_to_new_continuous_applications_if_eligible
         else
           track_validation_error(@section_complete_form)
           render :show

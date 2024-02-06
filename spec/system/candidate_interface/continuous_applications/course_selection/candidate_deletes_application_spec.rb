@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate edits their choice section', :continuous_applications do
+RSpec.feature 'Candidate edits their choice section' do
   include CandidateHelper
 
   it 'Candidate deletes and adds additional courses' do
@@ -47,7 +47,7 @@ RSpec.feature 'Candidate edits their choice section', :continuous_applications d
   end
 
   def and_visit_my_application_page
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def and_if_i_try_mannually_to_enter_on_delete_the_url_for_my_submitted_choice

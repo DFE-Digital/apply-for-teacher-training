@@ -4,6 +4,8 @@ module CandidateInterface
       before_action :set_references, only: %i[show complete]
       before_action :set_destroy_backlink, only: %i[confirm_destroy_reference]
       before_action :redirect_to_review_page, unless: -> { @reference }, only: %i[confirm_destroy_reference destroy]
+      skip_before_action ::UnsuccessfulCarryOverFilter, only: %i[confirm_destroy_reference destroy]
+      skip_before_action ::CarryOverFilter, only: %i[confirm_destroy_reference destroy]
 
       def show
         @section_complete_form = ReferenceSectionCompleteForm.new(
@@ -18,7 +20,7 @@ module CandidateInterface
         )
 
         if @application_form.complete_references_information? && @section_complete_form.save(current_application, :references_completed)
-          redirect_to candidate_interface_application_form_path
+          redirect_to_new_continuous_applications_if_eligible
         else
           track_validation_error(@section_complete_form)
           render :show

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate adding incomplete referees' do
   include CandidateHelper
 
-  it 'Candidate adds incomplete referees and then completes them', :continuous_applications do
+  it 'Candidate adds incomplete referees and then completes them' do
     given_i_am_signed_in
     and_i_have_provided_my_personal_details
 

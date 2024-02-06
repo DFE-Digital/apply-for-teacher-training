@@ -12,8 +12,6 @@ module ViewHelper
              'Back to your details'
            elsif url.to_s.end_with?(candidate_interface_continuous_applications_choices_path)
              'Back to your applications'
-           elsif url.to_s.end_with?(candidate_interface_application_form_path)
-             'Back to application'
            end
 
     text ||= body

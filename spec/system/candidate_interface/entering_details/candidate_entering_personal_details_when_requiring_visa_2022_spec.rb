@@ -14,7 +14,7 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
 
   def and_i_am_signed_in
     create_and_sign_in_candidate
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def and_i_can_complete_personal_information_stating_that_i_need_a_visa_sponsorship

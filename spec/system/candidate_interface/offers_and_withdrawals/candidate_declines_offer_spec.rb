@@ -20,7 +20,7 @@ RSpec.feature 'Candidate declines an offer' do
     when_i_click_on_view_and_respond_to_my_last_offer_link
     and_i_decline_the_offer
     and_i_confirm_the_decline
-    then_the_candidate_is_sent_an_email_about_apply_again
+    then_the_candidate_is_sent_an_email
   end
 
   def given_i_am_signed_in
@@ -62,7 +62,7 @@ RSpec.feature 'Candidate declines an offer' do
   end
 
   def when_i_visit_the_application_dashboard
-    visit candidate_interface_application_complete_path
+    visit candidate_interface_continuous_applications_choices_path
   end
 
   def when_i_click_on_view_and_respond_to_my_first_offer_link
@@ -103,7 +103,7 @@ RSpec.feature 'Candidate declines an offer' do
     end
   end
 
-  def then_the_candidate_is_sent_an_email_about_apply_again
+  def then_the_candidate_is_sent_an_email
     open_email(@application_form.candidate.email_address)
     expect(current_email.subject).to have_content 'You’ve declined an offer: next steps'
   end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Receives rejection email', :continuous_applications do
+RSpec.feature 'Receives rejection email' do
   include CandidateHelper
 
   scenario 'Receives rejection email' do

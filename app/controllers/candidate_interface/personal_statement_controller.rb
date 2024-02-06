@@ -1,9 +1,8 @@
 module CandidateInterface
   class PersonalStatementController < SectionController
     include AdviserStatus
-
-    before_action { redirect_to_dashboard_if_submitted unless current_application.continuous_applications? }
     before_action :render_application_feedback_component
+    before_action :redirect_to_dashboard_if_submitted
 
     def show
       @application_form = current_application
@@ -29,7 +28,7 @@ module CandidateInterface
 
       if @becoming_a_teacher_form.save(current_application)
         if @becoming_a_teacher_form.blank?
-          redirect_to candidate_interface_application_form_path
+          redirect_to candidate_interface_continuous_applications_details_path
         else
           redirect_to candidate_interface_becoming_a_teacher_show_path
         end
@@ -49,7 +48,7 @@ module CandidateInterface
 
       if @becoming_a_teacher_form.save(current_application)
         if @becoming_a_teacher_form.blank?
-          redirect_to candidate_interface_application_form_path
+          redirect_to candidate_interface_continuous_applications_details_path
         else
           redirect_to @return_to[:back_path]
         end
@@ -67,7 +66,7 @@ module CandidateInterface
       @section_complete_form = SectionCompleteForm.new(form_params)
 
       if @section_complete_form.save(current_application, :becoming_a_teacher_completed)
-        redirect_to candidate_interface_application_form_path
+        redirect_to_new_continuous_applications_if_eligible
       else
         track_validation_error(@section_complete_form)
         render :show

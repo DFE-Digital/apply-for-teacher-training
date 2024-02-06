@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a course with multiple sites', :continuous_applications do
+RSpec.feature 'Selecting a course with multiple sites' do
   include CandidateHelper
 
   it 'Candidate selects a course choice' do
@@ -29,7 +29,7 @@ RSpec.feature 'Selecting a course with multiple sites', :continuous_applications
   end
 
   def when_i_visit_the_site
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def and_i_click_on_course_choices

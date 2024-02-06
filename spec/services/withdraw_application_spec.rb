@@ -14,16 +14,6 @@ RSpec.describe WithdrawApplication do
       expect(choice.withdrawn_or_declined_for_candidate_by_provider).to be false
     end
 
-    it 'calls SetDeclineByDefault with the withdrawn application’s application_form' do
-      decline_by_default = instance_double(SetDeclineByDefault, call: nil)
-      withdrawing_application = create(:application_choice, status: :awaiting_provider_decision)
-      allow(SetDeclineByDefault).to receive(:new).and_return(decline_by_default)
-
-      described_class.new(application_choice: withdrawing_application).save!
-
-      expect(SetDeclineByDefault).to have_received(:new).with(application_form: withdrawing_application.application_form)
-    end
-
     it 'cancels upcoming interviews for the withdrawn application' do
       cancel_service = instance_double(CancelUpcomingInterviews, call!: true)
       withdrawing_application = create(:application_choice, status: :interviewing)

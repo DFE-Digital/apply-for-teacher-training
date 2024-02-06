@@ -33,15 +33,6 @@ module SupportInterface
         course_radio_options_for(courses_for_other_providers(provider))
       end
 
-      def save
-        return false unless valid?(:save)
-
-        SupportInterface::AddCourseChoiceAfterSubmission.new(
-          application_form:,
-          course_option:,
-        ).call
-      end
-
       def applicant_name
         application_form.full_name
       end

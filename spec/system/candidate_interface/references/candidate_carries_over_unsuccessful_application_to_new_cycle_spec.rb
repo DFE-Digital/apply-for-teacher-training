@@ -2,15 +2,14 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate can carry over unsuccessful application to a new recruitment cycle after the apply 2 deadline and move the references' do
   before do
-    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(2022))
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(2023))
   end
 
   scenario 'when an unsuccessful candidate returns in the next recruitment cycle they can re-apply by carrying over their original application' do
     given_i_am_signed_in
-
     and_i_have_an_application_with_a_rejection_and_references
 
-    when_the_apply2_deadline_passes
+    when_a_new_cycle_starts
     and_i_visit_my_application_complete_page
     then_i_see_the_carry_over_inset_text
 
@@ -38,8 +37,8 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     )
   end
 
-  def when_the_apply2_deadline_passes
-    advance_time_to(after_apply_2_deadline(2022))
+  def when_a_new_cycle_starts
+    advance_time_to(mid_cycle(2024))
   end
 
   def and_i_visit_my_application_complete_page
@@ -49,7 +48,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def then_i_see_the_carry_over_inset_text
-    expect(page).to have_content 'You can apply for courses starting in the 2023 to 2024 academic year instead.'
+    expect(page).to have_content 'You can apply for courses starting in the 2024 to 2025 academic year instead.'
   end
 
   def when_i_click_apply_again

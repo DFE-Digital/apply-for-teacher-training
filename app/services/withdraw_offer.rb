@@ -25,7 +25,6 @@ class WithdrawOffer
           offer_withdrawal_reason: @offer_withdrawal_reason,
           offer_withdrawn_at: Time.zone.now,
         )
-        SetDeclineByDefault.new(application_form: @application_choice.application_form).call
       end
 
       CandidateMailer.offer_withdrawn(@application_choice).deliver_later

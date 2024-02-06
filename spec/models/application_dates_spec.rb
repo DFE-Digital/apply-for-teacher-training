@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationDates do
-  let(:submitted_at) { Time.zone.local(2019, 5, 1, 12, 0, 0).end_of_day }
+  let(:submitted_at) { Time.zone.local(CycleTimetable.current_year, 5, 1, 12, 0, 0).end_of_day }
 
   let(:application_form) do
     create(:application_form, submitted_at:, application_choices: [application_choice])
@@ -14,22 +14,28 @@ RSpec.describe ApplicationDates do
   end
 
   describe '#submitted_at' do
-    context 'when not continuous applications', continuous_applications: false do
-      it 'returns date that application was submitted on' do
-        expect(application_dates.submitted_at).to eql(submitted_at)
+    context 'when before continuous applications' do
+      let(:submitted_at) { Time.zone.local(2023, 5, 1, 12, 0, 0).end_of_day }
+
+      let(:application_form) do
+        create(:application_form, :pre_continuous_applications, submitted_at:, application_choices: [application_choice])
+      end
+
+      it 'returns submitted at' do
+        expect(application_dates.submitted_at).to be_within(1.second).of(submitted_at)
       end
     end
 
-    context 'when continuous applications', :continuous_applications do
-      context 'when application is submitted' do
-        let(:sent_to_provider_at) { 10.days.ago }
+    context 'when continuous applications' do
+      let(:submitted_at) { 1.month.ago }
 
+      context 'when application is submitted' do
         before do
-          create(:application_choice, :awaiting_provider_decision, application_form:, sent_to_provider_at:)
+          create(:application_choice, :awaiting_provider_decision, application_form:, sent_to_provider_at: 1.day.ago)
         end
 
-        it 'returns sent to provider at' do
-          expect(application_dates.submitted_at).to eq(submitted_at)
+        it 'returns submitted at' do
+          expect(application_dates.submitted_at).to be_within(1.second).of(submitted_at)
         end
       end
 
@@ -41,7 +47,7 @@ RSpec.describe ApplicationDates do
         end
 
         it 'returns sent to provider at' do
-          expect(application_dates.submitted_at).to eq(sent_to_provider_at)
+          expect(application_dates.submitted_at).to be_within(1.second).of(sent_to_provider_at)
         end
       end
     end
@@ -53,7 +59,7 @@ RSpec.describe ApplicationDates do
     end
 
     it 'returns date that providers will respond by when reject_by_default_at is set' do
-      reject_by_default_at = Time.zone.local(2019, 6, 28, 23, 59, 59)
+      reject_by_default_at = Time.zone.local(CycleTimetable.current_year, 6, 28, 23, 59, 59)
       application_form.application_choices.each do |application_choice|
         application_choice.update(reject_by_default_at:)
       end

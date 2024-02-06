@@ -50,7 +50,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def and_i_visit_the_site
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def when_i_click_on_work_history
@@ -192,7 +192,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def when_i_visit_the_application_form_page
-    visit candidate_interface_application_form_path
+    visit candidate_interface_continuous_applications_details_path
   end
 
   def then_the_work_history_section_is_complete

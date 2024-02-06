@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submission', :continuous_applications do
+RSpec.feature 'Candidate submission' do
   include CandidateHelper
 
   scenario 'when candidate submitted at least once' do
@@ -48,10 +48,6 @@ RSpec.feature 'Candidate submission', :continuous_applications do
 
   def given_i_have_in_progress_application_form
     application_form
-  end
-
-  def then_i_should_be_on_your_details_page
-    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
   end
 
   def application_form

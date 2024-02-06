@@ -1,4 +1,16 @@
 module SignInHelper
+  def and_i_go_to_sign_in(candidate:)
+    visit root_path
+    choose 'Yes, sign in'
+    fill_in 'Email', with: candidate.email_address
+    click_link_or_button t('continue')
+
+    open_email(candidate.email_address)
+    click_magic_link_in_email
+    confirm_sign_in
+    login_as(candidate) # Make sure is logged in from warden
+  end
+
   def click_magic_link_in_email
     current_email.find_css('a').first.click
   end

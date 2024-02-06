@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'A candidate can not edit some personal details after first submission', :continuous_applications do
+RSpec.feature 'A candidate can not edit some personal details after first submission' do
   include SignInHelper
   include CandidateHelper
 

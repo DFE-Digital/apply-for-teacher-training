@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe NavigationItems do
   let(:current_application) { current_candidate.current_application }
 
-  describe '.candidate_primary_navigation', :continuous_applications do
+  describe '.candidate_primary_navigation' do
     let(:current_candidate) { nil }
     let(:current_controller) { nil }
     let(:navigation_items) { described_class.candidate_primary_navigation(current_candidate:, current_controller:).map(&:text) }

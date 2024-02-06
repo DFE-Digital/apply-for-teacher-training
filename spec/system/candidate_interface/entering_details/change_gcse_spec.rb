@@ -6,7 +6,7 @@ RSpec.feature 'Change GCSE' do
   scenario 'Candidate changes their GCSE qualification type' do
     given_i_am_signed_in
     when_i_have_a_completed_english_gcse
-    and_i_visit_the_application_review_page
+    and_i_visit_the_english_review_page
     then_i_click_to_change_the_english_qualification_type
 
     when_i_choose_other_uk_qualification
@@ -32,8 +32,8 @@ RSpec.feature 'Change GCSE' do
     application_form.update!(english_gcse_completed: true)
   end
 
-  def and_i_visit_the_application_review_page
-    visit candidate_interface_application_review_path
+  def and_i_visit_the_english_review_page
+    visit candidate_interface_gcse_review_path(subject: 'english')
   end
 
   def then_i_click_to_change_the_english_qualification_type

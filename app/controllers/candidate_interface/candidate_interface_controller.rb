@@ -60,6 +60,11 @@ module CandidateInterface
     end
     helper_method :back_link_text
 
+    def current_application
+      @current_application ||= current_candidate.current_application
+    end
+    helper_method :current_application
+
   private
 
     def track_adviser_offering
@@ -94,11 +99,7 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path if no_offers_accepted_or_deferred_and_not_recruited?
     end
 
-    def render_error_if_continuous_applications_active
-      render_404 && return if current_application.continuous_applications?
-    end
-
-    def redirect_to_new_continuous_applications_if_active
+    def redirect_to_new_continuous_applications_if_eligible
       return if !current_application.continuous_applications? || current_application.any_offer_accepted?
 
       completed_application_form = CandidateInterface::CompletedApplicationForm.new(
@@ -112,18 +113,13 @@ module CandidateInterface
       end
     end
 
-    def redirect_to_application_form_unless_submitted
-      redirect_to candidate_interface_application_form_path unless current_application.submitted?
-    end
-
     def redirect_to_application_if_signed_in
-      redirect_to candidate_interface_application_form_path if candidate_signed_in?
-    end
+      if candidate_signed_in?
+        return redirect_to_new_continuous_applications_if_eligible if current_application.continuous_applications?
 
-    def current_application
-      @current_application ||= current_candidate.current_application
+        redirect_to candidate_interface_application_complete_path
+      end
     end
-    helper_method :current_application
 
     def render_application_feedback_component
       @render_application_feedback_component = true

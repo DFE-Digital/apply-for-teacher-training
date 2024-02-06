@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Decline by default' do
-  scenario 'An application is declined by default', :continuous_applications do
+  scenario 'An application is declined by default' do
     when_i_have_an_offer_waiting_for_my_decision
     and_when_the_decline_by_default_limit_has_been_exceeded
     then_the_application_choice_is_declined

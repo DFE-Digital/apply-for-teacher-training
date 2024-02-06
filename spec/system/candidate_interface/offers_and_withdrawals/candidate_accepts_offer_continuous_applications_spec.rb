@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate accepts an offer', :continuous_applications do
+RSpec.feature 'Candidate accepts an offer' do
   include CourseOptionHelpers
 
   scenario 'Candidate views an offer and accepts' do
@@ -161,7 +161,7 @@ RSpec.feature 'Candidate accepts an offer', :continuous_applications do
   end
 
   def when_i_visit_the_application_dashboard
-    visit candidate_interface_application_complete_path
+    visit candidate_interface_continuous_applications_choices_path
   end
 
   def and_i_click_on_view_and_respond_to_offer_link

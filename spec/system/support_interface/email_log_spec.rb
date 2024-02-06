@@ -46,9 +46,9 @@ RSpec.feature 'Email log' do
       candidate: @candidate,
     )
 
-    create(:application_choice, application_form: @completed_application, status: 'unsubmitted')
+    application_choice = create(:application_choice, application_form: @completed_application, status: 'unsubmitted')
 
-    SubmitApplication.new(@completed_application).call
+    CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(application_choice).call
   end
 
   def and_an_email_with_an_application_id_is_sent

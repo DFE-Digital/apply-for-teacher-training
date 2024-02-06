@@ -4,19 +4,7 @@ module BackLinks
   extend ActiveSupport::Concern
 
   def return_to_after_edit(default:)
-    if redirect_back_to_application_review_page?
-      { back_path: candidate_interface_application_review_path, params: redirect_back_to_application_review_page_params }
-    else
-      { back_path: default, params: {} }
-    end
-  end
-
-  def redirect_back_to_application_review_page_params
-    { 'return-to' => 'application-review' }
-  end
-
-  def redirect_back_to_application_review_page?
-    params['return-to'] == 'application-review' || params[:return_to] == 'application-review'
+    { back_path: default, params: {} }
   end
 
   # Method to determine the path to the candidates current dashboard based on
