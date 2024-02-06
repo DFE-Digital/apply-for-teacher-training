@@ -1,7 +1,9 @@
-<h2 class="govuk-heading-m">Delete draft application</h2>
-<p class="govuk-body">
-  You can <%= govuk_link_to('delete your draft application', candidate_interface_continuous_applications_confirm_destroy_course_choice_path(@application_choice.id), data: { action: :delete }, class: 'red-link') %> if you no longer want to apply for <%= @application_choice.current_course.name_and_code %> at <%= @application_choice.current_course.provider.name %>.
-</p>
+<% if @show_delete_application %>
+  <h2 class="govuk-heading-m">Delete draft application</h2>
+  <p class="govuk-body">
+    You can <%= govuk_link_to('delete your draft application', candidate_interface_continuous_applications_confirm_destroy_course_choice_path(@application_choice.id), data: { action: :delete }, class: 'red-link') %> if you no longer want to apply for <%= @application_choice.current_course.name_and_code %> at <%= @application_choice.current_course.provider.name %>.
+  </p>
+<% end %>
 
 <% if application_can_submit? %>
   <h2 class="govuk-heading-m">Review and submit your application</h2>
