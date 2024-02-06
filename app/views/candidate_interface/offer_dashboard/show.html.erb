@@ -1,3 +1,7 @@
 <%= render @application_choice.status do %>
   <%= render 'references_and_conditions' %>
+
+  <% if show_provider_contact_component? %>
+    <%= render(CandidateInterface::ProviderContactInformationComponent.new(provider: @provider)) %>
+  <% end %>
 <% end %>

@@ -9,6 +9,7 @@ RSpec.feature 'Post-offer references', :with_audited do
 
     when_i_visit_the_application_dashboard
     then_i_should_see_the_post_offer_dashboard
+    and_i_see_the_provider_contact_information
 
     when_i_click_on_my_requested_reference
     then_i_see_my_referee_information
@@ -72,6 +73,10 @@ RSpec.feature 'Post-offer references', :with_audited do
     expect(page).to have_content(@pending_reference.email_address)
     expect(page).to have_content(@pending_reference.referee_type.humanize)
     expect(page).to have_content(@pending_reference.relationship)
+  end
+
+  def and_i_see_the_provider_contact_information
+    expect(page).to have_content("Contact #{@application_choice.current_provider.name} if you have")
   end
 
   def and_my_available_actions

@@ -10,6 +10,15 @@ module CandidateInterface
       @application_choice = choices.pending_conditions.first || choices.recruited.first || choices.offer_deferred.first
       @provider_name = @application_choice.current_provider.name
       @course_name_and_code = @application_choice.current_course.name_and_code
+      @provider = @application_choice.current_provider
+    end
+
+    helper_method def show_provider_contact_component?
+      @application_choice.status.in?(%w[
+        offer_deferred
+        pending_conditions
+        recruited
+      ])
     end
 
   private
