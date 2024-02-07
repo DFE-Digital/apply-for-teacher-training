@@ -1,4 +1,4 @@
-<% content_for :browser_title, title_with_error_prefix(t("support_interface.page_titles.#{@immigration_status_form.eu_nationality? ? 'immigration_status' : 'visa_or_immigration_status'}"), @immigration_status_form.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix(t("support_interface.page_titles.#{@immigration_status_form.visa_or_immigration_status(@application_form)}"), @immigration_status_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@application_form)) %>
 
 <div class="govuk-grid-row">

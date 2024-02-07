@@ -36,5 +36,13 @@ module CandidateInterface
     def other_immigration_status?
       immigration_status == 'other'
     end
+
+    def visa_or_immigration_status(application_form)
+      if includes_eu_eea_swiss?(application_form.nationalities)
+        'immigration_status'
+      else
+        'visa_or_immigration_status'
+      end
+    end
   end
 end

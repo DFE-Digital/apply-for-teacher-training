@@ -103,18 +103,26 @@ module CandidateInterface
 
       if @application_form.immigration_status
         rows << {
-          key: I18n.t("application_form.personal_details.#{includes_eu_eea_swiss?(@application_form.nationalities) ? 'immigration_status' : 'visa_or_immigration_status'}.label"),
+          key: I18n.t("application_form.personal_details.#{visa_or_immigration_status}.label"),
           value: formatted_immigration_status,
           action: if @editable && !@application_form.submitted_applications?
                     {
                       href: candidate_interface_edit_immigration_status_path(return_to_params),
-                      visually_hidden_text: I18n.t("application_form.personal_details.#{includes_eu_eea_swiss?(@application_form.nationalities) ? 'immigration_status' : 'visa_or_immigration_status'}.change_action"),
+                      visually_hidden_text: I18n.t("application_form.personal_details.#{visa_or_immigration_status}.change_action"),
                     }
                   end,
-          html_attributes: { data: { qa: "personal_details_#{includes_eu_eea_swiss?(@application_form.nationalities) ? 'immigration_status' : 'visa_or_immigration_status'}" } },
+          html_attributes: { data: { qa: "personal_details_#{visa_or_immigration_status}" } },
         }
       end
       rows
+    end
+
+    def visa_or_immigration_status
+      if includes_eu_eea_swiss?(@application_form.nationalities)
+        'immigration_status'
+      else
+        'visa_or_immigration_status'
+      end
     end
 
     def british_or_irish?
