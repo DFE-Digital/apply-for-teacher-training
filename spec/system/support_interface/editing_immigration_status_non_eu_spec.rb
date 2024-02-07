@@ -93,20 +93,6 @@ RSpec.feature 'immigration status, non eu' do
     then_i_should_see_the_correct_visa_in_the_summary('Refugee Status')
   end
 
-  def and_i_add_an_audit_comment
-    fill_in 'Audit log comment', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
-  end
-
-  def then_i_should_see_the_correct_visa_in_the_summary(visa_summary_text)
-    within '.govuk-summary-list__row', text: 'Visa or immigration status' do
-      expect(page).to have_text(visa_summary_text)
-    end
-  end
-
-  def when_i_choose_the_visa(visa)
-    choose visa
-  end
-
   def given_i_am_a_support_user
     sign_in_as_support_user
   end
@@ -119,16 +105,26 @@ RSpec.feature 'immigration status, non eu' do
     visit support_interface_application_form_path(@form)
   end
 
-  def i_should_see_the_immigration_status_column
-    expect(page).to have_content 'Immigration status'
-  end
-
   def and_i_click_change_immigration_status
     click_link_or_button 'Change visa or immigration status'
   end
 
+  def when_i_choose_the_visa(visa)
+    choose visa
+  end
+
+  def and_i_add_an_audit_comment
+    fill_in 'Audit log comment', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+  end
+
   def and_i_click_save_and_continue
     click_link_or_button 'Save and continue'
+  end
+
+  def then_i_should_see_the_correct_visa_in_the_summary(visa_summary_text)
+    within '.govuk-summary-list__row', text: 'Visa or immigration status' do
+      expect(page).to have_text(visa_summary_text)
+    end
   end
 
   alias_method :when_click_change_immigration_status, :and_i_click_change_immigration_status
