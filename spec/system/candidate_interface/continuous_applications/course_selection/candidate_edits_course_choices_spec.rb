@@ -18,7 +18,6 @@ RSpec.feature 'Candidate edits course choices' do
     and_i_choose_the_third_course_as_my_first_course_choice
     and_i_choose_full_time
     then_i_should_be_on_the_application_choice_review_page
-    and_i_should_not_see_the_delete_draft_application_link
     and_i_should_see_a_change_course_link
 
     when_i_click_to_change_the_course_for_the_first_course_choice
@@ -28,7 +27,6 @@ RSpec.feature 'Candidate edits course choices' do
     and_i_should_see_the_updated_change_course_link
     and_i_should_not_see_a_change_location_link
     and_i_should_not_see_a_change_full_time_or_part_time_link
-    and_i_should_not_see_the_delete_draft_application_link
 
     when_i_click_to_add_another_course
     and_i_choose_that_i_know_where_i_want_to_apply
@@ -38,10 +36,10 @@ RSpec.feature 'Candidate edits course choices' do
     and_i_choose_the_first_site
     then_i_should_be_on_the_application_choice_review_page
 
+    then_i_should_be_on_the_application_choice_review_page
     and_i_should_see_the_first_site
     and_i_should_see_a_change_location_link
     and_i_should_see_a_change_full_time_or_part_time_link
-    and_i_should_not_see_the_delete_draft_application_link
 
     when_i_click_to_add_another_course
     and_i_choose_that_i_know_where_i_want_to_apply
@@ -51,17 +49,13 @@ RSpec.feature 'Candidate edits course choices' do
     then_i_should_be_on_the_application_choice_review_page
     and_i_should_see_another_change_full_time_or_part_time_link
     and_i_should_not_see_another_change_location_link
-    and_i_should_not_see_the_delete_draft_application_link
 
     when_i_visit_my_application_page
     when_i_click_to_continue_my_second_course_choice
-    then_i_should_see_the_delete_draft_application_link
-
     when_i_click_to_change_the_location_of_the_second_course_choice
     and_i_choose_the_second_site
     then_i_should_be_on_the_application_choice_review_page
     and_i_should_see_the_updated_site
-    and_i_should_not_see_the_delete_draft_application_link
 
     when_i_click_to_change_full_time_or_part_time_of_the_second_course_choice
     and_i_choose_part_time
@@ -69,7 +63,6 @@ RSpec.feature 'Candidate edits course choices' do
     and_i_choose_the_first_site_that_offers_part_time
     then_i_should_be_on_the_application_choice_review_page
     and_i_should_see_the_updated_full_time_or_part_time_section_for_the_second_choice
-    and_i_should_not_see_the_delete_draft_application_link
 
     when_i_visit_my_application_page
     and_i_click_to_continue_my_third_course_choice
@@ -77,7 +70,6 @@ RSpec.feature 'Candidate edits course choices' do
     and_i_choose_part_time
     then_i_should_be_on_the_application_choice_review_page
     and_i_should_see_the_updated_full_time_or_part_time_section_for_the_third_choice
-    and_i_should_not_see_the_delete_draft_application_link
   end
 
   def given_i_am_signed_in
@@ -284,13 +276,5 @@ RSpec.feature 'Candidate edits course choices' do
 
   def then_i_should_be_on_the_application_choice_review_page
     expect(page).to have_current_path(/candidate\/application\/continuous-applications\/[0-9]*\/review/)
-  end
-
-  def and_i_should_not_see_the_delete_draft_application_link
-    expect(page).to have_no_content('delete your draft application')
-  end
-
-  def then_i_should_see_the_delete_draft_application_link
-    expect(page).to have_content('delete your draft application')
   end
 end
