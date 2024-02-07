@@ -1,4 +1,5 @@
 name: Backup Azure production database to Azure storage
+concurrency: build_and_deploy_main
 
 on:
   workflow_dispatch:
