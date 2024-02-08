@@ -77,6 +77,7 @@ RSpec.feature 'Marking section as complete or incomplete' do
   end
 
   def given_i_have_a_completed_application_form
+    @candidate = create(:candidate)
     @application_form = create(
       :application_form,
       :completed,
@@ -85,14 +86,14 @@ RSpec.feature 'Marking section as complete or incomplete' do
       :with_degree,
       full_work_history: true,
       volunteering_experiences_count: 1,
-      candidate: current_candidate,
+      candidate: @candidate,
       submitted_at: nil,
     )
     create(:application_choice, :unsubmitted, application_form: @application_form)
   end
 
   def when_i_sign_in
-    login_as(current_candidate)
+    login_as(@candidate)
     visit root_path
   end
 
