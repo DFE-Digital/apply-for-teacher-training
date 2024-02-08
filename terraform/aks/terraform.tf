@@ -40,6 +40,10 @@ module "kubernetes" {
   service_short                       = var.service_short
   azure_maintenance_window            = var.azure_maintenance_window
   alert_window_size                   = var.alert_window_size
+  database_username                   = module.postgres.username
+  database_password                   = module.postgres.password
+  database_host                       = module.postgres.host
+  database_port                       = module.postgres.port
 }
 
 module "statuscake" {
