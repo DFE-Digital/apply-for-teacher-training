@@ -62,6 +62,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_bachelor_degree do
+      after(:create) do |application_form, _|
+        create(:degree_qualification, :bachelor, application_form:)
+      end
+    end
+
     trait :with_degree do
       after(:create) do |application_form, _|
         create(:degree_qualification, application_form:)

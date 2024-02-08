@@ -116,6 +116,10 @@ FactoryBot.define do
         grade { Adviser::ApplicationFormValidations::APPLICABLE_DOMESTIC_DEGREE_GRADES.sample }
         qualification_level { Adviser::ApplicationFormValidations::APPLICABLE_DOMESTIC_DEGREE_LEVELS.sample }
       end
+
+      trait :bachelor do
+        qualification_type { Hesa::DegreeType.all.map(&:name).grep(/Bachelor/).first }
+      end
     end
 
     factory :non_uk_degree_qualification do
