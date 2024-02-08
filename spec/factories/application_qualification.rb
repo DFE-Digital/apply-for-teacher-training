@@ -118,7 +118,7 @@ FactoryBot.define do
       end
 
       trait :bachelor do
-        qualification_type { Hesa::DegreeType.all.map(&:name).grep(/Bachelor/).first }
+        qualification_type { Hesa::DegreeType.where(level: :bachelor).first.name }
       end
     end
 
