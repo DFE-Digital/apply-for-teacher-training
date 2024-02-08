@@ -107,7 +107,7 @@ gem 'clockwork'
 gem 'rack-attack'
 
 # For outgoing http requests
-gem 'http', '5.2.0'
+gem 'http', '5.1.1'
 
 # For DSI api integration
 gem 'jwt'
