@@ -296,8 +296,9 @@ module CandidateHelper
       click_link_or_button t('save_and_continue')
       choose 'Yes'
       click_link_or_button t('save_and_continue')
+      choose 'Other'
       fill_in(
-        'What is your immigration status?',
+        'Enter visa type or immigration status',
         with: 'I have settled status',
       )
     else

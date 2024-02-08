@@ -180,10 +180,12 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
   end
 
   context 'when the candidate has selected they have the right to work or study' do
-    let(:nationalities_form) { build(:nationalities_form, first_nationality: 'German') }
+    let(:first_nationality) { 'German' }
+    let(:nationalities_form) { build(:nationalities_form, first_nationality: first_nationality) }
     let(:application_form) do
       build(
         :application_form,
+        first_nationality: first_nationality,
         right_to_work_or_study: 'yes',
         immigration_status: 'other',
         right_to_work_or_study_details: 'I have permanent residence',
@@ -201,14 +203,34 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
           'personal_details_immigration_right_to_work',
         ),
       )
-      expect(expected_rows).to include(
-        row_for(
-          :immigration_status,
-          'I have permanent residence',
-          candidate_interface_edit_immigration_status_path('return-to' => 'application-review'),
-          'personal_details_immigration_status',
-        ),
-      )
+    end
+
+    context 'when the candidate is from europe' do
+      it "renders the label 'Immigration status'" do
+        expect(expected_rows).to include(
+          row_for(
+            :immigration_status,
+            'I have permanent residence',
+            candidate_interface_edit_immigration_status_path('return-to' => 'application-review'),
+            'personal_details_immigration_status',
+          ),
+        )
+      end
+    end
+
+    context 'when the candidate is from outside of europe' do
+      let(:first_nationality) { 'Jamaica' }
+
+      it "renders the label 'Visa or Immigration status'" do
+        expect(expected_rows).to include(
+          row_for(
+            :visa_or_immigration_status,
+            'I have permanent residence',
+            candidate_interface_edit_immigration_status_path('return-to' => 'application-review'),
+            'personal_details_visa_or_immigration_status',
+          ),
+        )
+      end
     end
 
     context 'when the candidate has submitted their application' do

@@ -1,23 +1,17 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
-  subject(:form) { described_class.new }
+RSpec.describe SupportInterface::ApplicationForms::ImmigrationStatusForm, type: :model do
+  subject(:form) { described_class.new(form_data) }
 
   let(:form_data) do
     {
       immigration_status: 'other',
       right_to_work_or_study_details: 'I have settled status',
+      audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345',
     }
   end
 
   describe 'validations' do
-    context 'when the immigration status is nil' do
-      it 'validation keeps immigration_status as `nil`' do
-        expect(form.valid?).to be false
-        expect(form.immigration_status).to be_nil
-      end
-    end
-
     context 'when immigration_status is other' do
       before { form.immigration_status = 'other' }
 
@@ -28,6 +22,7 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
 
         it 'is valid' do
           expect(form.valid?).to be true
+          expect(form.errors[:right_to_work_or_study_details]).to be_empty
         end
       end
 
@@ -36,6 +31,7 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
 
         it 'is valid' do
           expect(form.valid?).to be true
+          expect(form.errors[:right_to_work_or_study_details]).to be_empty
         end
       end
 
@@ -57,7 +53,15 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
   end
 
   describe '.build_from_application' do
+    let(:form_data) do
+      {
+        immigration_status: 'other',
+        right_to_work_or_study_details: 'I have settled status',
+      }
+    end
+
     it 'creates an object based on the provided ApplicationForm' do
+      form.audit_comment = nil
       application_form = ApplicationForm.new(form_data)
       form = described_class.build_from_application(application_form)
       expect(form).to have_attributes(form_data)

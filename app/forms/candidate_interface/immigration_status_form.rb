@@ -2,12 +2,13 @@ module CandidateInterface
   class ImmigrationStatusForm
     include ActiveModel::Model
     include ActiveModel::Validations::Callbacks
+    include CandidateDetailsHelper
 
     attr_accessor :immigration_status, :right_to_work_or_study_details, :nationalities
 
     validates :immigration_status, presence: true
     validates :right_to_work_or_study_details, presence: true, if: :other_immigration_status?
-    validates :right_to_work_or_study_details, word_count: { maximum: 200 }
+    validates :right_to_work_or_study_details, word_count: { maximum: 7 }
 
     def self.build_from_application(application_form)
       new(
@@ -29,11 +30,19 @@ module CandidateInterface
     def eu_nationality?
       return false if nationalities.blank?
 
-      EU_EEA_SWISS_COUNTRY_CODES.intersect?(nationalities.map { |name| NATIONALITIES_BY_NAME[name] })
+      includes_eu_eea_swiss?(nationalities)
     end
 
     def other_immigration_status?
       immigration_status == 'other'
+    end
+
+    def visa_or_immigration_status(application_form)
+      if includes_eu_eea_swiss?(application_form.nationalities)
+        'immigration_status'
+      else
+        'visa_or_immigration_status'
+      end
     end
   end
 end

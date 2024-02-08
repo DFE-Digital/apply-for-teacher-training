@@ -5,27 +5,40 @@
     :immigration_status,
     legend: { text: t('page_titles.immigration_status'), size: 'l' },
   ) do %>
-    <%= f.govuk_radio_button :immigration_status, 'eu_settled', label: { text: 'EU settled status' }, link_errors: true %>
-    <%= f.govuk_radio_button :immigration_status, 'eu_pre_settled', label: { text: 'EU pre-settled status' } %>
+    <%= f.govuk_radio_button :immigration_status, 'eu_settled', label: { text: t('application_form.personal_details.immigration_status.values.eu_settled') }, link_errors: true %>
+    <%= f.govuk_radio_button :immigration_status, 'eu_pre_settled', label: { text: t('application_form.personal_details.immigration_status.values.eu_pre_settled') } %>
+    <%= f.govuk_radio_divider 'or' %>
     <%= f.govuk_radio_button :immigration_status, 'other', label: { text: 'Other' } do %>
-      <%= f.govuk_text_area(
-        :right_to_work_or_study_details,
-        label: { text: 'Immigration status', size: 's' },
-        hint: { text: 'For example, “Indefinite leave to remain”' },
-        max_words: 200,
-        threshold: 90,
-      ) %>
+      <%= f.govuk_text_field(:right_to_work_or_study_details, label: { text: 'Enter immigration status' }) %>
     <% end %>
   <% end %>
 <% else %>
-  <%= f.hidden_field :immigration_status, value: 'other' %>
-  <%= f.govuk_text_area(
-    :right_to_work_or_study_details,
-    label: { text: t('page_titles.immigration_status'), size: 'l' },
-    hint: { text: 'Enter your visa type or immigration status. For example, “Student visa, expires 28 August 2025”, “Indefinite leave to remain” or “Family visa”' },
-    max_words: 200,
-    threshold: 90,
-  ) %>
-<% end %>
 
+  <h1 class="govuk-heading-l"><%= t('page_titles.visa_or_immigration_status') %></h1>
+  <%= f.govuk_radio_buttons_fieldset :right_to_work_or_study_details,
+    legend: { text: 'Select your visa or immigration status' } do %>
+
+      <% scope = 'application_form.personal_details.immigration_status.values' %>
+      <%= f.govuk_radio_button :immigration_status, :indefinite_leave_to_remain_in_the_uk, label: { text: t('indefinite_leave_to_remain_in_the_uk', scope:) } %>
+      <%= f.govuk_radio_button :immigration_status, :student_visa, label: { text: t('student_visa', scope:) } %>
+      <%= f.govuk_radio_button :immigration_status, :graduate_visa, label: { text: t('graduate_visa', scope:) } %>
+      <%= f.govuk_radio_button :immigration_status, :skilled_worker_visa, label: { text: t('skilled_worker_visa', scope:) } %>
+      <%= f.govuk_radio_button :immigration_status, :dependent_on_partners_or_parents_visa, label: { text: t('dependent_on_partners_or_parents_visa', scope:) } %>
+      <%= f.govuk_radio_button :immigration_status, :family_visa, label: { text: t('family_visa', scope:) } %>
+      <%= f.govuk_radio_button :immigration_status, :british_national_overseas_visa, label: { text: t('british_national_overseas_visa', scope:) } %>
+      <%= f.govuk_radio_button :immigration_status, :uk_ancestry_visa, label: { text: t('uk_ancestry_visa', scope:) } %>
+      <%= f.govuk_radio_button :immigration_status, :high_potential_individual_visa, label: { text: t('high_potential_individual_visa', scope:) } %>
+      <%= f.govuk_radio_button :immigration_status, :youth_mobility_scheme, label: { text: t('youth_mobility_scheme', scope:) } %>
+      <%= f.govuk_radio_button :immigration_status, :india_young_professionals_scheme_visa, label: { text: t('india_young_professionals_scheme_visa', scope:) } %>
+      <%= f.govuk_radio_button :immigration_status, :ukraine_family_scheme_or_ukraine_sponsorship_scheme_visa, label: { text: t('ukraine_family_scheme_or_ukraine_sponsorship_scheme_visa', scope:) } %>
+      <%= f.govuk_radio_button :immigration_status, :afghan_citizens_resettlement_scheme_or_afghan_relocations_and_assistance_policy, label: { text: t('afghan_citizens_resettlement_scheme_or_afghan_relocations_and_assistance_policy', scope:) } %>
+      <%= f.govuk_radio_button :immigration_status, :refugee_status, label: { text: t('refugee_status', scope:) } %>
+      <%= f.govuk_radio_divider 'or' %>
+
+      <%= f.govuk_radio_button :immigration_status, :other, label: { text: t('other', scope:) } do %>
+        <%= f.govuk_text_field(:right_to_work_or_study_details, label: { text: 'Enter visa type or immigration status' }) %>
+      <% end %>
+
+  <% end %>
+<% end %>
 <%= f.govuk_submit t('save_and_continue') %>

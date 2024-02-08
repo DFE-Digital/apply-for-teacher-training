@@ -55,8 +55,9 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
     choose 'Yes'
     click_link_or_button t('save_and_continue')
 
-    expect(page).to have_content('What is your immigration status?')
-    fill_in 'What is your immigration status?', with: 'I have permanent residence'
+    choose 'Other'
+    expect(page).to have_content('Select your visa or immigration status')
+    fill_in 'Enter visa type or immigration status', with: 'I have permanent residence'
     click_link_or_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_personal_details_show_path

@@ -786,7 +786,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
         expect(non_uk_application_form).to have_received(field).at_least(:once)
       end
 
-      (ApplicationForm::PUBLISHED_FIELDS - %w[international_address right_to_work_or_study_details equality_and_diversity] - not_included_in_register_api).each do |field|
+      (ApplicationForm::PUBLISHED_FIELDS - %w[international_address right_to_work_or_study_details equality_and_diversity immigration_status] - not_included_in_register_api).each do |field|
         expect(application_choice.application_form).to have_received(field).at_least(:once)
       end
     end
