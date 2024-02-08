@@ -8,7 +8,11 @@
         <%= t('page_titles.continuous_applications_destroy_course_choice') %>
       </h1>
 
-      <%= f.govuk_submit t('application_form.continuous_applications.courses.confirm_delete'), warning: true %>
+      <div class="govuk-button-group app-course-choice__confirm-submission">
+        <%= f.govuk_submit t('application_form.continuous_applications.courses.confirm_delete'), warning: true %>
+
+        <%= govuk_link_to 'Cancel', candidate_interface_continuous_applications_course_review_path(@application_choice.id) %>
+      </div>
     <% end %>
   </div>
 </div>

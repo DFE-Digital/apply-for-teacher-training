@@ -44,7 +44,7 @@ en:
       description: This application is in a state that we do not recognise. Please report this to a developer.
   continuous_applications:
     candidate_application_states:
-      unsubmitted: Not sent
+      unsubmitted: Draft
       awaiting_provider_decision: Awaiting decision
       inactive: Awaiting decision
       interviewing: Interviewing

@@ -29,7 +29,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSummaryCom
     end
 
     it 'renders the status' do
-      expect(result.text).to include('StatusNot sent')
+      expect(result.text).to include('StatusDraft')
     end
 
     it 'renders the continue application link' do

@@ -29,8 +29,6 @@ module CandidateInterface
       end
 
       def status_row
-        return unless application_choice.sent_to_provider_at
-
         {
           key: 'Status',
           value: render(

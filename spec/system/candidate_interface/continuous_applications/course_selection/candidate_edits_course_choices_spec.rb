@@ -18,8 +18,6 @@ RSpec.feature 'Candidate edits course choices' do
     and_i_choose_the_third_course_as_my_first_course_choice
     and_i_choose_full_time
     then_i_should_be_on_the_application_choice_review_page
-
-    then_i_should_be_on_the_application_choice_review_page
     and_i_should_see_a_change_course_link
 
     when_i_click_to_change_the_course_for_the_first_course_choice
