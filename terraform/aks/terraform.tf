@@ -38,7 +38,6 @@ module "kubernetes" {
   postgres_version                    = var.postgres_version
   config_short                        = var.config_short
   service_short                       = var.service_short
-  deploy_snapshot_database            = var.deploy_snapshot_database
   azure_maintenance_window            = var.azure_maintenance_window
   alert_window_size                   = var.alert_window_size
 }

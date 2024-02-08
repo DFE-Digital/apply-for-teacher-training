@@ -5,12 +5,6 @@ variable "paas_app_environment" {}
 
 variable "paas_docker_image" {}
 
-variable "paas_postgres_snapshot_service_plan" { default = "small-11" }
-
-variable "paas_snapshot_databases_to_deploy" { default = 0 }
-
-variable "deploy_snapshot_database" { default = false}
-
 # Key Vault variables
 variable "key_vault_name" {}
 variable "key_vault_infra_secret_name" {}
