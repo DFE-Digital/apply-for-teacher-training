@@ -10,7 +10,7 @@ module ProviderInterface
           'Application number' => application.id,
           'Recruitment cycle' => RecruitmentCycle.cycle_name(application.application_form.recruitment_cycle_year),
           'Status' => I18n.t("provider_application_states.#{application.status}", default: application.status),
-          'Received date' => application.application_form.submitted_at,
+          'Received date' => application.sent_to_provider_at,
           'Updated date' => application.updated_at,
           'First name' => application.application_form.first_name,
           'Last name' => application.application_form.last_name,
