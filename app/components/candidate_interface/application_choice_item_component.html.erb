@@ -1,0 +1,18 @@
+<div class="app-application-item">
+  <a href="<%= candidate_interface_continuous_applications_course_review_path(application_choice.id) %>">
+    <div class="app-application-item__body">
+      <div class="app-application-item__status_tag">
+        <%= render(CandidateInterface::ContinuousApplications::ApplicationStatusTagComponent.new(application_choice:, display_info_text: false)) %>
+      </div>
+      <div class="app-application-item__details">
+        <div class="app-application-item__provider_id">
+          <h3 class="govuk-heading-s">
+            <%= provider_name %>
+          </h3>
+          <p class="govuk-body-s govuk-hint govuk-!-margin-left-2 govuk-!-font-size-16"><%= application_id %></p>
+        </div>
+        <p class="govuk-body-s"><%= course_name %> - <%= study_mode %> at <%= site_name %></p>
+      </div>
+    </div>
+  </a>
+</div>
