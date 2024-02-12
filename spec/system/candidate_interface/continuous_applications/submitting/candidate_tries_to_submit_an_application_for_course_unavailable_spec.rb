@@ -65,7 +65,7 @@ RSpec.feature 'Candidate tries to submit an application choice which the course 
   end
 
   def and_i_confirm_to_remove_the_application
-    click_link_or_button 'Yes I’m sure - remove this application'
+    click_link_or_button 'Yes I’m sure - delete this application'
   end
 
   def then_my_application_choice_should_be_removed
