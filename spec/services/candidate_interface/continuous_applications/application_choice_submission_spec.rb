@@ -76,7 +76,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
         end
       end
 
-      context 'when candidate has right to work but course does not sponsor visa' do
+      context 'when candidate has no right to work but course does not sponsor visa' do
         let(:application_form) { create(:application_form, :completed, first_nationality: 'American', right_to_work_or_study: 'no', efl_completed: true) }
         let(:course) { create(:course, :with_course_options, :open_on_apply, funding_type: 'fee', can_sponsor_student_visa: false, level: 'secondary') }
 

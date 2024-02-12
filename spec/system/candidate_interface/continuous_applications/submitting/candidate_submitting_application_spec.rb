@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Candidate submits the application' do
   include CandidateHelper
   include SignInHelper
-  include CandidateSubmissionHelper
 
   scenario 'Candidate with a completed application' do
     given_i_am_signed_in

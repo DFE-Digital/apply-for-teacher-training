@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.feature 'Selecting a course' do
   include CandidateHelper
-  include CandidateSubmissionHelper
 
   it 'Candidate selects a course choice' do
     given_i_am_signed_in
