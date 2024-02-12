@@ -6,7 +6,7 @@ module UtmLinkHelper
 
   def govuk_link_to_with_utm_params(link_text, link_url, utm_campaign, utm_content = nil, **extra_options)
     url = construct_url(link_url, utm_campaign, utm_content)
-    govuk_link_to link_text.to_s, url.to_s, extra_options
+    govuk_link_to link_text.to_s, url.to_s, **extra_options
   end
 
   def email_link_with_utm_params(link_url, utm_campaign, utm_content)
