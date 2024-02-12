@@ -16,7 +16,7 @@ So `inactive` is considered "not in progress".
 
 There is a limit on the number of open appliations a candidate can have on their application form. When an application becomes `inactive` they can add a new application beyond the limit.
 
-We use `DetectInvariantsDailyCheck#detect_submitted_applications_with_more_than_the_max_unsuccessful_choices` to check for candidates with more than the permitted number of in progress applicaitons.
+We use `DetectInvariantsDailyCheck#detect_submitted_applications_with_more_than_the_max_unsuccessful_choices` to check for candidates with more than the permitted number of in progress applications.
 
 ```ruby
   # app/workers/detect_invariants_daily_check.rb:90

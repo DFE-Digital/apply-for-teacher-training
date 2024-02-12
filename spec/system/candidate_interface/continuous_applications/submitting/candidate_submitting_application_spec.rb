@@ -7,6 +7,7 @@ RSpec.feature 'Candidate submits the application' do
   scenario 'Candidate with a completed application' do
     given_i_am_signed_in
 
+    # One choice, unsubmitted
     when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice
     and_i_continue_with_my_application
 
@@ -28,6 +29,7 @@ RSpec.feature 'Candidate submits the application' do
     when_i_edit_my_personal_statement
     and_i_continue_with_my_application
     and_i_choose_to_submit
+    # One submitted application
     then_i_can_see_my_application_has_been_successfully_submitted
     and_i_am_redirected_to_the_application_dashboard
     and_my_application_is_submitted
@@ -40,6 +42,7 @@ RSpec.feature 'Candidate submits the application' do
 
     when_i_go_back
 
+    # 1 submitted, 3 draft
     when_i_have_three_further_draft_choices
     then_i_can_no_longer_add_more_course_choices
 
@@ -47,6 +50,7 @@ RSpec.feature 'Candidate submits the application' do
     then_i_still_cannot_add_course_choices
 
     when_one_of_my_applications_becomes_inactive
+    page.driver.browser.refresh
     then_i_am_able_to_add_another_choice
   end
 
