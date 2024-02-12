@@ -50,7 +50,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Application number' => application_choice.id,
         'Recruitment cycle' => RecruitmentCycle.cycle_name(application_choice.application_form.recruitment_cycle_year),
         'Status' => I18n.t("provider_application_states.#{application_choice.status}", default: application_choice.status),
-        'Received date' => application_choice.application_form.submitted_at,
+        'Received date' => application_choice.sent_to_provider_at,
         'Updated date' => application_choice.updated_at,
         'First name' => application_choice.application_form.first_name,
         'Last name' => application_choice.application_form.last_name,
