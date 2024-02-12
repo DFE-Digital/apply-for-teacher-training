@@ -35,7 +35,7 @@ module ViewHelper
   end
 
   def bat_contact_mail_to(name = 'becomingateacher<wbr>@digital.education.gov.uk', html_options: {})
-    govuk_mail_to('becomingateacher@digital.education.gov.uk', name.html_safe, html_options)
+    govuk_mail_to('becomingateacher@digital.education.gov.uk', name.html_safe, **html_options)
   end
 
   def submitted_at_date
