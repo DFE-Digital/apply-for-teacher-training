@@ -29,7 +29,7 @@ $moj-images-path: "~@ministryofjustice/frontend/moj/assets/images/";
 $govuk-new-link-styles: true;
 
 // Shared (govuk-frontend)
-@import "~govuk-frontend/govuk/all";
+@import "govuk-frontend/dist/govuk/all";
 
 // Shared (base HTML elements)
 @import "code";
