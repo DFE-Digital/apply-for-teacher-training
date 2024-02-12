@@ -44,9 +44,9 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
   let(:application_choice) do
     create(:application_choice, :awaiting_provider_decision, personal_statement:, sent_to_provider_at: 1.week.ago, course:)
   end
-  let(:course) { create(:course, :with_course_options, course_length:) }
+  let(:provider) { create(:provider) }
+  let(:course) { create(:course, :with_course_options, course_length:, provider:) }
   let(:course_length) { 'OneYear' }
-  let(:provider) { application_choice.current_provider }
   let(:links) { result.css('a').map(&:text) }
   let(:personal_statement) { 'some personal statement' }
 
@@ -119,6 +119,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
 
     it 'does not show withdraw CTA' do
       expect(result.text).not_to include('withdraw this application')
+    end
+
+    it 'does not show provider contact information' do
+      expect(result.text).not_to include('Contact training provider')
     end
   end
 
@@ -201,11 +205,15 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     it 'shows withdraw CTA' do
       expect(result.text).to include('withdraw this application')
     end
+
+    it 'shows provider contact information' do
+      expect(result.text).to include('Contact training provider')
+    end
   end
 
   context 'when application is interviewing' do
     let(:application_choice) do
-      create(:application_choice, :interviewing, interviews: [create(:interview)])
+      create(:application_choice, :interviewing, interviews: [create(:interview)], course:)
     end
 
     it 'shows interview row' do
@@ -220,11 +228,15 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     it 'shows withdraw CTA' do
       expect(result.text).to include('withdraw this application')
     end
+
+    it 'shows provider contact information' do
+      expect(result.text).to include('Contact training provider')
+    end
   end
 
   context 'when application is inactive' do
     let(:application_choice) do
-      create(:application_choice, :inactive)
+      create(:application_choice, :inactive, course:)
     end
 
     context 'when application cannot make more choices' do
@@ -248,11 +260,15 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     it 'shows withdraw CTA' do
       expect(result.text).to include('withdraw this application')
     end
+
+    it 'shows provider contact information' do
+      expect(result.text).to include('Contact training provider')
+    end
   end
 
   context 'when application is rejected' do
     let(:application_choice) do
-      create(:application_choice, :rejected_reasons)
+      create(:application_choice, :rejected_reasons, course:)
     end
 
     it 'shows reasons for rejection row' do
@@ -265,6 +281,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
 
     it 'does not show withdraw CTA' do
       expect(result.text).not_to include('withdraw this application')
+    end
+
+    it 'does not show provider contact information' do
+      expect(result.text).not_to include('Contact training provider')
     end
   end
 end

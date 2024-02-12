@@ -1,6 +1,6 @@
 <h2 class="govuk-heading-m">References</h2>
 
-<%= render CandidateInterface::ReferenceConditionHeaderComponent.new(reference_condition: @application_choice.offer.reference_condition, provider_name: @provider_name) %>
+<%= render CandidateInterface::ReferenceConditionHeaderComponent.new(reference_condition: @application_choice.offer.reference_condition, provider_name: @provider.name) %>
 
 <%= render CandidateInterface::ReferencesComponent.new(application_form: @application_form, reference_condition: @application_choice.offer.reference_condition) %>
 
@@ -16,7 +16,7 @@
 <% unless @application_choice.unconditional_offer? %>
   <h2 class="govuk-heading-m">Offer conditions</h2>
   <% unless @application_choice.recruited? && @application_choice.all_conditions_met? %>
-    <p class="govuk-body"><%= @provider_name %> will mark these conditions as met once you’ve completed them.</p>
+    <p class="govuk-body"><%= @provider.name %> will mark these conditions as met once you’ve completed them.</p>
   <% end %>
   <%= render CandidateInterface::ConditionsComponent.new(application_choice: @application_choice) %>
 <% end %>

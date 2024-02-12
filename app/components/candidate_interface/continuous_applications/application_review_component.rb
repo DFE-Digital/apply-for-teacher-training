@@ -155,8 +155,23 @@ module CandidateInterface
         ApplicationStateChange.new(@application_choice).can_withdraw?
       end
 
+      def show_provider_contact_component?
+        application_states = %w[
+          awaiting_provider_decision
+          inactive
+          interviewing
+          offer
+        ]
+
+        application_choice.status.in?(application_states)
+      end
+
       def can_add_more_choices?
         application_choice.application_form.can_add_more_choices?
+      end
+
+      def provider
+        application_choice.current_provider
       end
     end
   end
