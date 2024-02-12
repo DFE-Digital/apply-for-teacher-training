@@ -35,8 +35,10 @@ module CandidateSubmissionHelper
     click_link_or_button 'Continue without editing'
   end
 
-  def then_i_should_be_on_the_review_and_submit_page(application_choice:)
-    expect(page).to have_current_path(candidate_interface_continuous_applications_course_review_and_submit_path(application_choice.id))
+  def then_i_should_be_on_the_review_and_submit_page
+    expect(page).to have_current_path(
+      candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice.id),
+    )
   end
 
   def then_i_should_see_that_the_course_is_full

@@ -1,17 +1,11 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate tries to submit an application choice which the course is unavailable' do
+RSpec.feature 'Candidate tries to submit an application choice when the course is unavailable' do
   include SignInHelper
   include CandidateSubmissionHelper
   before do
     given_i_am_signed_in
     and_i_have_one_application_in_draft
-  end
-
-  after do
-    when_i_click_to_remove_the_application
-    and_i_confirm_to_remove_the_application
-    then_my_application_choice_should_be_removed
   end
 
   scenario 'Course becomes full' do
@@ -20,6 +14,9 @@ RSpec.feature 'Candidate tries to submit an application choice which the course 
     then_i_should_see_that_the_course_is_full
     when_i_visit_the_review_page_directly
     then_i_should_see_the_course_unavailable_error_message
+    when_i_click_to_remove_the_application
+    and_i_confirm_to_remove_the_application
+    then_my_application_choice_should_be_removed
   end
 
   scenario 'Invalid course location' do
@@ -28,12 +25,18 @@ RSpec.feature 'Candidate tries to submit an application choice which the course 
     then_i_should_not_see_the_continue_application_link
     when_i_visit_the_review_page_directly
     then_i_should_see_the_course_unavailable_error_message
+    when_i_click_to_remove_the_application
+    and_i_confirm_to_remove_the_application
+    then_my_application_choice_should_be_removed
   end
 
   scenario 'Course not exposed in find' do
     and_my_course_choice_is_not_exposed_in_find_anymore
     when_i_continue_my_draft_application
     then_i_should_see_the_course_unavailable_error_message
+    when_i_click_to_remove_the_application
+    and_i_confirm_to_remove_the_application
+    then_my_application_choice_should_be_removed
   end
 
   def and_my_course_choice_becomes_full

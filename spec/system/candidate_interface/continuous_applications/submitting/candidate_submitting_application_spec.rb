@@ -20,7 +20,7 @@ RSpec.feature 'Candidate submits the application' do
     then_i_see_a_interruption_page_for_personal_statement
 
     when_i_continue_without_editing
-    then_i_should_be_on_the_review_and_submit_page(application_choice: @application_choice)
+    then_i_should_be_on_the_review_and_submit_page
     when_i_go_back
 
     when_i_click_to_review_my_application

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate tries to submit an application choice which the course is closed' do
+RSpec.feature 'Candidate tries to submit an application choice when the course is closed' do
   include SignInHelper
   include CandidateSubmissionHelper
   before do
@@ -8,7 +8,7 @@ RSpec.feature 'Candidate tries to submit an application choice which the course 
     and_i_have_one_application_in_draft
   end
 
-  scenario 'Apply is open but course not open for applications', time: mid_cycle(CycleTimetable.current_year) do
+  scenario 'Apply is open but course not open for applications', time: CycleTimetableHelper.mid_cycle(CycleTimetable.current_year) do
     and_my_course_choice_is_not_open_for_applications
     when_i_continue_my_draft_application
     then_i_should_see_the_course_closed_error_message
