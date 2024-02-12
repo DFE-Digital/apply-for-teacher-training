@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Selecting a course' do
   include CandidateHelper
+  include CandidateSubmissionHelper
 
   it 'Candidate selects a course choice' do
     given_i_am_signed_in
@@ -159,11 +160,6 @@ RSpec.feature 'Selecting a course' do
 
   def when_i_visit_the_course_choices_page
     visit candidate_interface_continuous_applications_choices_path
-  end
-
-  def then_i_should_see_that_the_course_is_full
-    expect(page).to have_content('You cannot apply to this course as there are no places left on it')
-    expect(page).to have_content('You need to either remove or change this course choice.')
   end
 
   def and_i_can_change_the_course
