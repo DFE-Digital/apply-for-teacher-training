@@ -21,7 +21,7 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 require 'rspec/rails'
-require 'dotenv/rails'
+require 'dotenv/load'
 
 TestSuiteTimeMachine.pretend_it_is(ENV.fetch('TEST_DATE_AND_TIME', 'real_world'))
 

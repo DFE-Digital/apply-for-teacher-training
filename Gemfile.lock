@@ -217,10 +217,7 @@ GEM
       activerecord (>= 4.2, < 8)
     docile (1.4.0)
     domain_name (0.6.20240107)
-    dotenv (2.8.1)
-    dotenv-rails (2.8.1)
-      dotenv (= 2.8.1)
-      railties (>= 3.2)
+    dotenv (3.0.0)
     dry-initializer (3.1.1)
     erb_lint (0.5.0)
       activesupport
@@ -814,7 +811,7 @@ DEPENDENCIES
   dfe-autocomplete!
   dfe-reference-data!
   discard
-  dotenv-rails
+  dotenv
   erb_lint
   factory_bot_rails
   faker (= 2.22.0)

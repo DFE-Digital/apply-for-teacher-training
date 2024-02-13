@@ -13,7 +13,7 @@ module HostingEnvironment
     if Rails.env.production?
       "https://#{hostname}"
     else
-      require 'dotenv/rails'
+      require 'dotenv/load'
       # Foreman will override $PORT to 3100, 3200 etc depending on position in
       # the Procfile. This means that e.g. emails sent via Sidekiq in
       # development will have the wrong port number on them and the links won't
