@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Candidate submits the application' do
   include CandidateHelper
+  include SignInHelper
 
   scenario 'Candidate with a completed application' do
     given_i_am_signed_in
@@ -18,7 +19,7 @@ RSpec.feature 'Candidate submits the application' do
     then_i_see_a_interruption_page_for_personal_statement
 
     when_i_continue_without_editing
-    then_i_should_see_the_review_and_submit_page
+    then_i_should_be_on_the_review_and_submit_page
     when_i_go_back
 
     when_i_click_to_review_my_application
@@ -75,10 +76,6 @@ RSpec.feature 'Candidate submits the application' do
     then_i_should_be_on_your_details_page
   end
 
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
-  end
-
   def when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice
     given_i_have_a_primary_course_choice(application_form_completed: true)
   end
@@ -116,11 +113,6 @@ RSpec.feature 'Candidate submits the application' do
   def and_i_continue_with_my_application
     visit candidate_interface_continuous_applications_choices_path
     click_link_or_button 'Continue application', match: :first
-  end
-
-  def and_i_review_my_application
-    visit candidate_interface_continuous_applications_choices_path
-    click_link_or_button 'View application', match: :first
   end
 
   def and_i_click_continue
@@ -209,20 +201,6 @@ RSpec.feature 'Candidate submits the application' do
   end
   alias_method :then_i_still_cannot_add_course_choices, :then_i_can_no_longer_add_more_course_choices
 
-  def when_i_submit_one_of_my_draft_applications
-    click_link_or_button 'Continue application', match: :first
-    when_i_click_to_review_my_application
-    when_i_click_to_submit_my_application
-  end
-
-  def when_i_click_to_review_my_application
-    click_link_or_button 'Review application'
-  end
-
-  def when_i_click_to_submit_my_application
-    click_link_or_button 'Confirm and submit application'
-  end
-
   def when_one_of_my_applications_becomes_inactive
     @current_candidate.current_application.application_choices.where(status: 'awaiting_provider_decision').first.update!(status: 'inactive')
   end
@@ -238,14 +216,6 @@ RSpec.feature 'Candidate submits the application' do
 
   def then_i_see_a_interruption_page_for_personal_statement
     expect(page).to have_content 'Your personal statement is 4 words.'
-  end
-
-  def when_i_continue_without_editing
-    click_link_or_button 'Continue without editing'
-  end
-
-  def then_i_should_see_the_review_and_submit_page
-    expect(page).to have_current_path(candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice.id))
   end
 
   def when_i_edit_my_personal_statement

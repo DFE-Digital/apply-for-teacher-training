@@ -1,4 +1,9 @@
 module SignInHelper
+  def given_i_am_signed_in
+    @current_candidate ||= create(:candidate)
+    login_as(@current_candidate)
+  end
+
   def and_i_go_to_sign_in(candidate:)
     visit root_path
     choose 'Yes, sign in'
