@@ -12,7 +12,7 @@ module CandidateInterface
     end
 
     def verify_continuous_applications
-      render_404 unless current_application&.continuous_applications?
+      render_404 if current_application&.v23?
     end
   end
 end

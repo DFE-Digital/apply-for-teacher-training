@@ -68,8 +68,6 @@ class ApplicationChoice < ApplicationRecord
   scope :accepted, -> { where(status: ApplicationStateChange::ACCEPTED_STATES) }
   scope :inactive_past_day, -> { inactive.where(inactive_at: 1.day.ago..Time.zone.now) }
 
-  delegate :continuous_applications?, to: :application_form
-
   def submitted?
     !unsubmitted?
   end

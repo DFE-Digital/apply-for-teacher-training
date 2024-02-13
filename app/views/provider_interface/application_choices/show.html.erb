@@ -77,10 +77,10 @@
 
 <%= render LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
 
-<% if @application_choice.application_form.continuous_applications? %>
-  <%= render ProviderInterface::ChoicePersonalStatementComponent.new(application_choice: @application_choice) %>
-<% else %>
+<% if @application_choice.application_form.v23? %>
   <%= render PersonalStatementComponent.new(application_form: @application_choice.application_form) %>
+<% else %>
+  <%= render ProviderInterface::ChoicePersonalStatementComponent.new(application_choice: @application_choice) %>
 <% end %>
 
 <%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>

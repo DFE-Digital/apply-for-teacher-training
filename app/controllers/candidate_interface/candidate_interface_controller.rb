@@ -38,17 +38,17 @@ module CandidateInterface
     # Should the current request be considered as made under the Your
     # applications tab
     def choices_controller?
-      @choices_controller ||= if current_application.continuous_applications?
-                                choices_controllers = Regexp.compile(APPLICATION_CHOICE_CONTROLLER_PATHS.join('|'))
+      return false if current_application.v23?
 
-                                if controller_path.match?(choices_controllers)
-                                  true
-                                elsif controller_path.match('candidate_interface/guidance')
-                                  request.referer&.match?('choices')
-                                end
-                              else
-                                false
-                              end
+      @choices_controller ||= begin
+        choices_controllers = Regexp.compile(APPLICATION_CHOICE_CONTROLLER_PATHS.join('|'))
+
+        if controller_path.match?(choices_controllers)
+          true
+        elsif controller_path.match('candidate_interface/guidance')
+          request.referer&.match?('choices')
+        end
+      end
     end
 
     def back_link_text
@@ -82,7 +82,7 @@ module CandidateInterface
     end
 
     def redirect_to_dashboard_if_submitted
-      return if current_application.continuous_applications?
+      return unless current_application.v23?
 
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
     end
@@ -100,7 +100,7 @@ module CandidateInterface
     end
 
     def redirect_to_new_continuous_applications_if_eligible
-      return if !current_application.continuous_applications? || current_application.any_offer_accepted?
+      return if current_application.v23? || current_application.any_offer_accepted?
 
       completed_application_form = CandidateInterface::CompletedApplicationForm.new(
         application_form: current_application,
@@ -115,9 +115,9 @@ module CandidateInterface
 
     def redirect_to_application_if_signed_in
       if candidate_signed_in?
-        return redirect_to_new_continuous_applications_if_eligible if current_application.continuous_applications?
+        return redirect_to candidate_interface_application_complete_path if current_application.v23?
 
-        redirect_to candidate_interface_application_complete_path
+        redirect_to_new_continuous_applications_if_eligible
       end
     end
 

@@ -44,7 +44,7 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe '#continuous_applications?' do
+  describe '#v23?' do
     subject(:application_form) do
       create(:application_form, recruitment_cycle_year:)
     end
@@ -53,7 +53,7 @@ RSpec.describe ApplicationForm do
       let(:recruitment_cycle_year) { 2024 }
 
       it 'returns true' do
-        expect(application_form).to be_continuous_applications
+        expect(application_form).not_to be_v23
       end
     end
 
@@ -61,7 +61,7 @@ RSpec.describe ApplicationForm do
       let(:recruitment_cycle_year) { 2023 }
 
       it 'returns false' do
-        expect(application_form).not_to be_continuous_applications
+        expect(application_form).to be_v23
       end
     end
   end
