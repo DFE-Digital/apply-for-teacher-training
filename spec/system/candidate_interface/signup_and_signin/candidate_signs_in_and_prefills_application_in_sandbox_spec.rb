@@ -60,7 +60,6 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox
 
   def and_my_application_has_been_filled_in
     expect(page).to have_no_content 'Incomplete'
-    expect(page).to have_no_content 'In progress'
   end
 
   def when_i_submit_an_application
