@@ -1401,7 +1401,7 @@
   dependencies:
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
-
+    
 "@jridgewell/trace-mapping@^0.3.18":
   version "0.3.18"
   resolved "https://registry.yarnpkg.com/@jridgewell/trace-mapping/-/trace-mapping-0.3.18.tgz#25783b2086daf6ff1dcb53c9249ae480e4dd4cd6"
@@ -1423,7 +1423,7 @@
   resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-1.8.1.tgz#6bac39524ba406533d1ce51c55d4c8ff96ad358e"
   integrity sha512-HNl8XXbNje/NtQRlGM57CTLlAGBTW+ziGTBkxXHDn7VauKNz418PnErDlKRWeaHIyc6V9twI5EbOj4lFCsvasw==
   dependencies:
-    govuk-frontend "^3.0.0 || ^4.0.0"
+    govuk-frontend "^5.0.0"
     moment "^2.27.0"
 
 "@nodelib/fs.scandir@2.1.5":
@@ -4657,11 +4657,14 @@ gopd@^1.0.1:
   dependencies:
     get-intrinsic "^1.1.3"
 
+<<<<<<< HEAD
 "govuk-frontend@^3.0.0 || ^4.0.0":
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-4.7.0.tgz#69950b6c2e69f435ffe9aa60d8dee232dac977de"
   integrity sha512-0OsdCusF5qvLWwKziU8zqxiC0nq6WP0ZQuw51ymZ/1V0tO71oIKMlSLN2S9bm8RcEGSoidPt2A34gKxePrLjvg==
 
+=======
+>>>>>>> eadef092ed ([1238] Bump MOJ frontend to 2.1)
 govuk-frontend@^5.0.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-5.1.0.tgz#55e520940b587ddd023e96251efaa076acc9bd5f"
