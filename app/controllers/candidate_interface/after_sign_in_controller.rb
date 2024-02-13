@@ -8,7 +8,7 @@ module CandidateInterface
     def interstitial
       current_candidate.update!(course_from_find_id: nil)
 
-      if current_application.submitted? && !current_application.continuous_applications?
+      if current_application.submitted? && current_application.v23?
         redirect_to candidate_interface_application_complete_path
       elsif current_application.contains_course?(course_from_find)
         flash[:warning] = "You have already added an application for #{course_from_find.name}. #{view_context.link_to('Find a different course to apply to', find_url, class: 'govuk-link')}."

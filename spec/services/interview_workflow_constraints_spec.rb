@@ -20,7 +20,7 @@ RSpec.describe InterviewWorkflowConstraints do
       let(:interview) { build(:interview, application_choice:, skip_application_choice_status_update: true) }
 
       it 'does not raises InterviewWorkflowError' do
-        expect { workflow_constraints.create! }.not_to raise_error(InterviewWorkflowConstraints::WorkflowError)
+        expect { workflow_constraints.create! }.not_to raise_error
       end
     end
   end

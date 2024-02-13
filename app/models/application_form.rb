@@ -555,8 +555,8 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
-  def continuous_applications?
-    @continuous_applications ||= recruitment_cycle_year >= CONTINUOUS_APPLICATIONS_CYCLE_YEAR
+  def v23?
+    @v23 ||= recruitment_cycle_year < CONTINUOUS_APPLICATIONS_CYCLE_YEAR
   end
 
   module ColumnSectionMapping

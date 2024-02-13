@@ -72,7 +72,7 @@ module CandidateInterface
       if @withdrawal_feedback_form.save(@application_choice)
         flash[:success] = "Your application for #{@application_choice.current_course.name_and_code} at #{@application_choice.provider.name} has been withdrawn"
 
-        redirect_to applications_list_page
+        redirect_to your_applications_or_carry_over_page
       else
         track_validation_error(@withdrawal_feedback_form)
         @provider = @application_choice.provider
@@ -84,11 +84,11 @@ module CandidateInterface
 
   private
 
-    def applications_list_page
-      if @application_choice.continuous_applications?
-        candidate_interface_continuous_applications_choices_path
-      else
+    def your_applications_or_carry_over_page
+      if current_application.v23?
         candidate_interface_application_complete_path
+      else
+        candidate_interface_continuous_applications_choices_path
       end
     end
 

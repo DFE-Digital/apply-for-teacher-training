@@ -1,84 +1,84 @@
 <% case try(:current_namespace) %>
 <% when 'candidate_interface' %>
   <%= render(HeaderComponent.new(
-    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border",
-    service_name: service_name,
-    service_link: service_link,
-  )) %>
+              classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border",
+              service_name: service_name,
+              service_link: service_link,
+            )) %>
   <%= render PhaseBannerComponent.new(no_border: current_candidate.present?) %>
   <% if current_candidate %>
-    <% if current_candidate.current_application.continuous_applications? %>
+    <% if current_candidate.current_application.v23? %>
       <%= render(PrimaryNavigationComponent.new(
-        items: NavigationItems.candidate_primary_navigation(current_candidate:, current_controller: controller),
-        items_right: [NavigationItems::NavigationItem.new('Sign out', candidate_interface_sign_out_path)],
-      )) %>
+                  items: NavigationItems.for_candidate_primary_nav(current_candidate, controller),
+                  items_right: [NavigationItems::NavigationItem.new('Sign out', candidate_interface_sign_out_path)],
+                )) %>
     <% else %>
       <%= render(PrimaryNavigationComponent.new(
-        items: NavigationItems.for_candidate_primary_nav(current_candidate, controller),
-        items_right: [NavigationItems::NavigationItem.new('Sign out', candidate_interface_sign_out_path)],
-      )) %>
+                  items: NavigationItems.candidate_primary_navigation(current_candidate:, current_controller: controller),
+                  items_right: [NavigationItems::NavigationItem.new('Sign out', candidate_interface_sign_out_path)],
+                )) %>
+    <% end %>
   <% end %>
-<% end %>
 <% when 'support_interface' %>
   <%= render(HeaderComponent.new(
-    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
-    product_name: service_name,
-    homepage_url: service_link,
-    service_link: service_link,
-    phase_tag: true,
-    navigation_items: NavigationItems.for_support_account_nav(try(:current_support_user)),
-    navigation_classes: 'govuk-header__navigation--end',
-  )) %>
+        classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
+        product_name: service_name,
+        homepage_url: service_link,
+        service_link: service_link,
+        phase_tag: true,
+        navigation_items: NavigationItems.for_support_account_nav(try(:current_support_user)),
+        navigation_classes: 'govuk-header__navigation--end',
+      )) %>
   <%= render(PrimaryNavigationComponent.new(
-    items: NavigationItems.for_support_primary_nav(try(:current_support_user), controller),
-  )) %>
+        items: NavigationItems.for_support_primary_nav(try(:current_support_user), controller),
+      )) %>
   <%= yield(:navigation) if content_for?(:navigation) %>
 <% when 'provider_interface' %>
   <%= render(HeaderComponent.new(
-    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
-    product_name: service_name,
-    homepage_url: service_link,
-    service_link: service_link,
-    navigation_items: NavigationItems.for_provider_account_nav(try(:current_provider_user), controller, performing_setup: @provider_setup&.pending?),
-    navigation_classes: 'govuk-header__navigation--end',
-  )) %>
+      classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
+      product_name: service_name,
+      homepage_url: service_link,
+      service_link: service_link,
+      navigation_items: NavigationItems.for_provider_account_nav(try(:current_provider_user), controller, performing_setup: @provider_setup&.pending?),
+      navigation_classes: 'govuk-header__navigation--end',
+    )) %>
   <% if controller.controller_name == 'start_page' %>
     <%= render(PhaseBannerComponent.new(
-      feedback_link: ProviderInterface::FEEDBACK_LINK,
-    )) %>
+        feedback_link: ProviderInterface::FEEDBACK_LINK,
+      )) %>
   <% elsif controller.controller_name.in? %w[sessions provider_agreements] %>
     <%= render(PhaseBannerComponent.new(
-      feedback_link: ProviderInterface::FEEDBACK_LINK,
-    )) %>
+        feedback_link: ProviderInterface::FEEDBACK_LINK,
+      )) %>
   <% else %>
     <%= render(PhaseBannerComponent.new(
-      no_border: true,
-      feedback_link: ProviderInterface::FEEDBACK_LINK,
-    )) %>
+        no_border: true,
+        feedback_link: ProviderInterface::FEEDBACK_LINK,
+      )) %>
     <%= render(PrimaryNavigationComponent.new(
-      items: NavigationItems.for_provider_primary_nav(try(:current_provider_user), controller, performing_setup: @provider_setup&.pending?),
-    )) %>
+        items: NavigationItems.for_provider_primary_nav(try(:current_provider_user), controller, performing_setup: @provider_setup&.pending?),
+      )) %>
   <% end %>
 <% when 'vendor_api_docs' %>
   <%= render(HeaderComponent.new(
-    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
-    product_name: service_name,
-    service_link: service_link,
-    phase_tag: true,
-  )) %>
+      classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
+      product_name: service_name,
+      service_link: service_link,
+      phase_tag: true,
+    )) %>
   <%= render(PrimaryNavigationComponent.new(
-    items: NavigationItems.for_vendor_api_docs(controller),
-  )) %>
+      items: NavigationItems.for_vendor_api_docs(controller),
+    )) %>
 <% when 'register_api_docs' %>
   <%= render(HeaderComponent.new(
-    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
-    product_name: service_name,
-    service_link: service_link,
-    phase_tag: true,
-  )) %>
+      classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
+      product_name: service_name,
+      service_link: service_link,
+      phase_tag: true,
+    )) %>
   <%= render(PrimaryNavigationComponent.new(
-    items: NavigationItems.for_register_api_docs(controller),
-  )) %>
+      items: NavigationItems.for_register_api_docs(controller),
+    )) %>
 <% else %>
   <% components_url = '/rails/view_components' if request.path.match(/^\/rails\/view_components/) %>
   <% components_name = 'ViewComponent Previews' if request.path.match(/^\/rails\/view_components/) %>
