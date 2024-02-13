@@ -1,0 +1,10 @@
+en:
+  candidate_interface:
+    application_tabs:
+      all: All applications
+      offers_received: Offers received
+      draft: Draft
+      unsuccessful: Unsuccessful
+      in_progress: In progress
+      withdraw: Withdraw
+      declined: Declined
