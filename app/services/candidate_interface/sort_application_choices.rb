@@ -9,8 +9,8 @@ module CandidateInterface
             WHEN (status IN ('unsubmitted', 'application_not_sent', 'cancelled')) THEN 2
             WHEN (status IN ('rejected', 'conditions_not_met')) THEN 3
             WHEN (status IN ('interviewing', 'inactive', 'awaiting_provider_decision')) THEN 4
-            WHEN (status IN ('declined')) THEN 5
-            WHEN (status IN ('offer_withdrawn', 'withdrawn')) THEN 6
+            WHEN (status IN ('offer_withdrawn', 'withdrawn')) THEN 5
+            WHEN (status IN ('declined')) THEN 6
             ELSE 10
           END AS application_choices_group
           FROM application_choices application

@@ -1,10 +1,6 @@
 .tabs-component {
   margin-bottom: govuk-spacing(4);
 
-  @media print {
-    display: none !important;
-  }
-
   @include govuk-media-query ($from: desktop) {
     border-bottom: 1px solid $govuk-border-colour;
     margin-bottom: govuk-spacing(7);
