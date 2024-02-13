@@ -78,7 +78,7 @@ module CandidateInterface
       render_404 unless @application_choice.offer?
     end
 
-    def redirect_to_dashboard_if_submitted
+    def redirect_v23_applications_to_complete_page_if_submitted_and_not_carried_over
       return unless current_application.v23?
 
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
