@@ -43,11 +43,8 @@ module CandidateInterface
       @choices_controller ||= begin
         choices_controllers = Regexp.compile(APPLICATION_CHOICE_CONTROLLER_PATHS.join('|'))
 
-        if controller_path.match?(choices_controllers)
-          true
-        elsif controller_path.match('candidate_interface/guidance')
-          request.referer&.match?('choices')
-        end
+        controller_path.match?(choices_controllers) ||
+          (controller_path.match('candidate_interface/guidance') && request.referer&.match?('choices'))
       end
     end
 
