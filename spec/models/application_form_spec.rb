@@ -1,19 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationForm do
-  describe '#applications_left' do
-    let(:application_form) { create(:application_form) }
-
-    it 'rejects unsuccessful applications on the count' do
-      create(:application_choice, :awaiting_provider_decision, application_form:)
-      create(:application_choice, :rejected, application_form:)
-      create(:application_choice, :inactive, application_form:)
-
-      expect(application_form.applications_left).to be(3)
-    end
-  end
-
-  describe '#maximum_number_of_course_choices?' do
+  describe '#cannot_add_more_choices?' do
     let(:application_form) { create(:application_form) }
 
     context 'when max number of choices' do
@@ -27,7 +15,7 @@ RSpec.describe ApplicationForm do
       end
 
       it 'returns true' do
-        expect(application_form).to be_maximum_number_of_course_choices
+        expect(application_form.cannot_add_more_choices?).to be(true)
       end
     end
 
@@ -39,7 +27,7 @@ RSpec.describe ApplicationForm do
       end
 
       it 'returns false' do
-        expect(application_form).not_to be_maximum_number_of_course_choices
+        expect(application_form.cannot_add_more_choices?).to be(false)
       end
     end
   end
@@ -337,49 +325,49 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe '#choices_left_to_make' do
+  describe '#number_of_slots_left' do
     it 'returns the number of choices that an candidate can make in the first instance' do
       application_form = create(:application_form)
 
-      expect(application_form.reload.choices_left_to_make).to eq(4)
+      expect(application_form.reload.number_of_slots_left).to eq(4)
 
       create(:application_choice, application_form:)
 
-      expect(application_form.reload.choices_left_to_make).to eq(3)
+      expect(application_form.reload.number_of_slots_left).to eq(3)
 
       create(:application_choice, application_form:)
 
-      expect(application_form.reload.choices_left_to_make).to eq(2)
+      expect(application_form.reload.number_of_slots_left).to eq(2)
 
       create(:application_choice, application_form:)
 
-      expect(application_form.reload.choices_left_to_make).to eq(1)
+      expect(application_form.reload.number_of_slots_left).to eq(1)
 
       create(:application_choice, application_form:)
 
-      expect(application_form.reload.choices_left_to_make).to eq(0)
+      expect(application_form.reload.number_of_slots_left).to eq(0)
     end
 
     it 'returns the number of choices that a candidate can make in Apply 2' do
       application_form = create(:application_form, phase: 'apply_2')
 
-      expect(application_form.reload.choices_left_to_make).to eq(4)
+      expect(application_form.reload.number_of_slots_left).to eq(4)
 
       create(:application_choice, application_form:)
 
-      expect(application_form.reload.choices_left_to_make).to eq(3)
+      expect(application_form.reload.number_of_slots_left).to eq(3)
 
       create(:application_choice, application_form:)
 
-      expect(application_form.reload.choices_left_to_make).to eq(2)
+      expect(application_form.reload.number_of_slots_left).to eq(2)
 
       create(:application_choice, application_form:)
 
-      expect(application_form.reload.choices_left_to_make).to eq(1)
+      expect(application_form.reload.number_of_slots_left).to eq(1)
 
       create(:application_choice, application_form:)
 
-      expect(application_form.reload.choices_left_to_make).to eq(0)
+      expect(application_form.reload.number_of_slots_left).to eq(0)
     end
   end
 
@@ -944,25 +932,6 @@ RSpec.describe ApplicationForm do
 
       it 'when all flags are true' do
         expect(application_form.qualifications_completed?).to be(true)
-      end
-    end
-  end
-
-  describe '#support_cannot_add_course_choice?' do
-    let(:application_form) { create(:application_form) }
-
-    context 'when an application form has four submitted choices' do
-      it 'returns true' do
-        create_list(:application_choice, 4, :awaiting_provider_decision, application_form:)
-        expect(application_form.support_cannot_add_course_choice?).to be true
-      end
-    end
-
-    context 'when an application has two submitted choices and one unsuccessful one' do
-      it 'returns false' do
-        create_list(:application_choice, 2, :awaiting_provider_decision, application_form:)
-        create(:application_choice, :rejected, application_form:)
-        expect(application_form.support_cannot_add_course_choice?).to be false
       end
     end
   end

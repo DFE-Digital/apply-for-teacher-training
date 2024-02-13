@@ -506,7 +506,7 @@ class CandidateMailer < ApplicationMailer
       }
     end
 
-    @choices_remaining = application_form.applications_left
+    @choices_remaining = application_form.number_of_slots_left
     @submitted_at = application_choices.first.sent_to_provider_at.to_date.to_fs(:govuk_date)
 
     email_for_candidate(
