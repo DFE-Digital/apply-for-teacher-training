@@ -97,13 +97,13 @@ Create the same qualification locally, turn the relevant fields into JSON, paste
 **Change grade**
 
 ```ruby
-ApplicationQualification.find(_id).update!(grade: 'D', audit_comment: 'Updating grade following a support request, ticket ZENDESK-LINK')
+ApplicationQualification.find(ID).update!(grade: 'D', audit_comment: 'Updating grade following a support request, ticket ZENDESK_URL')
 ```
 
 **Change start and graduation date**
 
 ```ruby
-ApplicationQualification.find(_id).update!(start_year: '2011', award_year: '2014', audit_comment: 'Updating an application after a user requested a change, ticket ZENDESK-LINK'
+ApplicationQualification.find(ID).update!(start_year: '2011', award_year: '2014', audit_comment: 'Updating an application after a user requested a change, ticket ZENDESK_URL'
 ```
 
 ## Personal statement
@@ -115,7 +115,7 @@ The personal statement uses the following database field:
 - `becoming_a_teacher` - Why do you want to be a teacher? (‘Vocation' in support)
 
 ```ruby
-ApplicationForm.find(_id).update!(becoming_a_teacher: 'new text', audit_comment: 'Updating grade following a support request, ticket ZENDESK-LINK')
+ApplicationForm.find(ID).update!(becoming_a_teacher: 'new text', audit_comment: 'Updating grade following a support request, ticket ZENDESK_URL')
 ```
 
 ## Courses and course locations
@@ -125,9 +125,10 @@ ApplicationForm.find(_id).update!(becoming_a_teacher: 'new text', audit_comment:
 This is possible via the support UI, except in the case where the provider has requested a change from a non-salaried to a salaried course:
 
 ```ruby
-non_salaried_application_choice = ApplicationChoice.find [APPLICATION_CHOICE_ID]
-salaried_course_option = CourseOption.find [COURSE_OPTION_ID]
-audit_comment = 'https://becomingateacher.zendesk.com/agent/tickets/[TICKET_ID]'
+non_salaried_application_choice = ApplicationChoice.find(APPLICATION_CHOICE_ID)
+salaried_course_option = CourseOption.find(COURSE_OPTION_ID)
+audit_comment = ZENDESK_URL
+
 non_salaried_application_choice.update_course_option_and_associated_fields!(
   salaried_course_option,
   audit_comment:,
@@ -149,9 +150,9 @@ If the course doesn't exist in the previous cycle we'll need them to confirm the
 If the course details have changed from one cycle to another, provider users should contact support to request the changes. To confirm a deferral through the console:
 
 ```ruby
-application_choice = ApplicationChoice.find(ID_OF_APPLICATION_CHOICE)
-new_course_option = CourseOption.find(ID_OF_NEW_COURSE_OPTION)
-zendesk_url = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+application_choice = ApplicationChoice.find(APPLICATION_CHOICE_ID)
+new_course_option = CourseOption.find(NEW_COURSE_OPTION_ID)
+zendesk_url = ZENDESK_URL
 
 # confirm the deferral in a new course
 application_choice.update_course_option_and_associated_fields!(new_course_option, audit_comment: zendesk_url)
@@ -185,7 +186,7 @@ To rollback a providers offer do the following:
 E.G
 
 ```
-ApplicationForm.find(id).application_choices.find(id).update(status: 'awaiting_provider_decision', offered_at: nil, decline_by_default_at: nil, audit_comment: ADD ZENDESK TICKET URL HERE)
+ApplicationForm.find(ID).application_choices.find(id).update(status: 'awaiting_provider_decision', offered_at: nil, decline_by_default_at: nil, audit_comment: ZENDESK_URL)
 ```
 
 ### Make or change offer
@@ -237,7 +238,7 @@ This must be done manually via the console.
 
 ```ruby
 choice = ApplicationChoice.find(id)
-choice.update!(status: "interviewing", offer_withdrawal_reason: nil, offer_withdrawn_at: nil, audit_comment: "Support request ...")
+choice.update!(status: "interviewing", offer_withdrawal_reason: nil, offer_withdrawn_at: nil, audit_comment: ZENDESK_URL)
 ```
 
 ### Revert a candidate withdrawn application
@@ -251,7 +252,7 @@ It can happen that a candidate started training but forgot to accept the offer i
 Update [ApplicationChoice](../app/models/application_choice.rb) to `recruited`.
 
 ```ruby
-ApplicationChoice.find(_id).update!(status: :recruited, decline_by_default_at: nil, audit_comment: "Support request: #{_zendesk_url}")
+ApplicationChoice.find(_id).update!(status: :recruited, decline_by_default_at: nil, audit_comment: "ZENDESK_URL")
 ```
 
 ## Delete an account / application
@@ -357,13 +358,13 @@ ReinstateReference which will revert the reference from 'cancelled' to
 'feedback_request' and will send an email to the referee as well.
 
 ```ruby
-  ReinstateReference.new(reference, audit_comment: 'zen-desk ticket url').call
+  ReinstateReference.new(reference, audit_comment: ZENDESK_URL).call
 ```
 
 ### Disable notifications for an HEI's users and all users at SDs for which they are the sole accredited body
 
 ```ruby
-provider = Provider.find(id)
+provider = Provider.find(ID)
 providers_with_courses_we_ratify = Provider.where(id: provider.accredited_courses.distinct.pluck(:provider_id))
 providers_exclusively_ratified_by_us = providers_with_courses_we_ratify.select do |p|
   Course.where(provider_id: p).distinct.pluck(:accredited_provider_id) == [provider.id]
