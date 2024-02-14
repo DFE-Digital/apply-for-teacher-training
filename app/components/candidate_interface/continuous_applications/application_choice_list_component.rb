@@ -3,12 +3,14 @@ module CandidateInterface
     class ApplicationChoiceListComponent < ViewComponent::Base
       attr_reader :application_form, :application_choices
 
+      ALL_APPLICATIONS_TAB = 'all'.freeze
       ApplicationTab = Struct.new(:text, :link, :active?, keyword_init: true)
 
-      def initialize(application_form:, application_choices:)
+      def initialize(application_form:, application_choices:, current_tab_name: nil)
         @application_form = application_form
         @application_choices = application_choices
-        @application_tabs = %w[all offers_received draft unsuccessful in_progress withdraw declined]
+        @tabs = [ALL_APPLICATIONS_TAB, @application_choices.map(&:application_choices_group)].flatten.compact_blank.uniq
+        @current_tab_name = current_tab_name
       end
 
       def render?
@@ -16,41 +18,31 @@ module CandidateInterface
       end
 
       def tabs
-        all_tabs.values_at(*application_choices_groups)
+        @tabs.map do |tab|
+          ApplicationTab.new(
+            text: I18n.t("candidate_interface.application_tabs.#{tab}"),
+            link: candidate_interface_continuous_applications_choices_path(current_tab_name: tab),
+            active?: tab == current_tab_name,
+          )
+        end
       end
 
       def current_tab_application_choices
         return @application_choices if all_applications?
 
-        @application_choices.select do |application_choice|
-          application_choice.application_choices_group == @application_tabs.index(params[:application_choices_group])
-        end
+        @application_choices.select { |application_choice| application_choice.application_choices_group == current_tab_name }
       end
 
     private
 
-      def active_tab?(application_choices_group)
-        (all_applications? && application_choices_group == 'all') || application_choices_group == params[:application_choices_group]
-      end
-
-      def all_tabs
-        @application_tabs.map do |application_tab|
-          ApplicationTab.new(
-            text: I18n.t("candidate_interface.application_tabs.#{application_tab}"),
-            link: candidate_interface_continuous_applications_choices_path(application_choices_group: application_tab),
-            active?: active_tab?(application_tab),
-          )
-        end
-      end
-
-      def application_choices_groups
-        [@application_tabs.index('all'), @application_choices.map(&:application_choices_group)].flatten.uniq
-      end
-
       def all_applications?
-        params[:application_choices_group].blank? ||
-          params[:application_choices_group] == 'all' ||
-          @application_tabs.exclude?(params[:application_choices_group])
+        current_tab_name == ALL_APPLICATIONS_TAB
+      end
+
+      def current_tab_name
+        return ALL_APPLICATIONS_TAB if @current_tab_name.blank? || @tabs.exclude?(@current_tab_name)
+
+        @current_tab_name
       end
     end
   end

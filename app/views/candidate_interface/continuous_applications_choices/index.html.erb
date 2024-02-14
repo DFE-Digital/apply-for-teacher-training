@@ -61,6 +61,6 @@
       <% end %>
     <% end %>
 
-    <%= render CandidateInterface::ContinuousApplications::ApplicationChoiceListComponent.new(application_form: current_application, application_choices: @application_choices) %>
+    <%= render CandidateInterface::ContinuousApplications::ApplicationChoiceListComponent.new(application_form: current_application, application_choices: @application_choices, current_tab_name: params[:current_tab_name]) %>
   <% end %>
 </div>
