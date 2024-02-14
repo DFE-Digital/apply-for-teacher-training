@@ -151,23 +151,24 @@ If the course details have changed from one cycle to another, provider users sho
 ```ruby
 application_choice = ApplicationChoice.find(ID_OF_APPLICATION_CHOICE)
 new_course_option = CourseOption.find(ID_OF_NEW_COURSE_OPTION)
+zendesk_url = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
 
 # confirm the deferral in a new course
-application_choice.update_course_option_and_associated_fields!(new_course_option, audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
+application_choice.update_course_option_and_associated_fields!(new_course_option, audit_comment: zendesk_url)
 ```
 
 A **conditional offer** would move the candidate to a pending conditions state:
 
 ```ruby
 # change the status to pending conditions (if it is a conditional deferred offer)
-application_choice.update!(status: 'pending_conditions', audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
+application_choice.update!(status: 'pending_conditions', audit_comment: zendesk_url)
 ```
 
 An **unconditional offer** would move the candidate to a recruited state:
 
 ```ruby
 # change the status to recruited (if it is an unconditional deferred offer)
-application_choice.update!(status: 'recruited', audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
+application_choice.update!(status: 'recruited', audit_comment: zendesk_url)
 ```
 
 ## Offers
@@ -234,7 +235,7 @@ before adding a new course choice via the Support UI.
 
 This must be done manually via the console.
 
-```
+```ruby
 choice = ApplicationChoice.find(id)
 choice.update!(status: "interviewing", offer_withdrawal_reason: nil, offer_withdrawn_at: nil, audit_comment: "Support request ...")
 ```
@@ -355,7 +356,7 @@ If we need to reinstate a reference we have a service called
 ReinstateReference which will revert the reference from 'cancelled' to
 'feedback_request' and will send an email to the referee as well.
 
-```
+```ruby
   ReinstateReference.new(reference, audit_comment: 'zen-desk ticket url').call
 ```
 
@@ -427,7 +428,7 @@ If you need to, you can get into the rails console to look for various things
 `$ bin/rails c`
 
 To see if a provider name exists
-```
+```ruby
 => Provider.where(provider_name: "University of BAT")
 ```
 
