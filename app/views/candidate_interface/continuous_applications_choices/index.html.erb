@@ -61,6 +61,6 @@
       <% end %>
     <% end %>
 
-    <%= render CandidateInterface::ContinuousApplications::DashboardComponent.new(application_form: @application_form_presenter.application_form) %>
+    <%= render CandidateInterface::ContinuousApplications::ApplicationChoiceListComponent.new(application_form: current_application, application_choices: @application_choices) %>
   <% end %>
 </div>
