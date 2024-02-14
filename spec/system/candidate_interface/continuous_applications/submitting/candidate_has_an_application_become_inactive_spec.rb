@@ -19,7 +19,8 @@ RSpec.feature 'Candidate with submitted applications' do
   def and_i_have_submitted_applications
     current_candidate.application_forms << build(:application_form, :completed)
     current_candidate.current_application.application_choices << build_list(:application_choice, 4, :awaiting_provider_decision)
-    current_candidate.current_application.application_choices.last.update(reject_by_default_at: Time.zone.now)
+    @application_choice = current_candidate.current_application.application_choices.last
+    @application_choice.update(reject_by_default_at: Time.zone.now)
   end
 
   def when_one_of_my_applications_becomes_inactive
@@ -29,8 +30,11 @@ RSpec.feature 'Candidate with submitted applications' do
   end
 
   def then_i_can_see_the_change_in_content
-    visit candidate_interface_continuous_applications_choices_path
-    expect(page).to have_content('You can add an application for a different training provider while you wait for a decision on this application.')
+    and_i_visit_application_choices_list
+    when_i_click_to_view_my_application
+    expect(page).to have_content(
+      'You can add an application for a different training provider while you wait for a decision on this application.',
+    )
   end
 
   def and_i_can_add_another_application

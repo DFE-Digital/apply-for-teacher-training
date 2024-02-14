@@ -807,8 +807,17 @@ module CandidateHelper
     visit candidate_interface_continuous_applications_choices_path
   end
 
-  def when_i_click_to_continue_my_application
-    click_link_or_button 'Continue application', match: :first
+  def and_i_continue_with_my_application
+    and_i_visit_application_choices_list
+    when_i_click_to_view_my_application
+  end
+
+  def and_i_visit_application_choices_list
+    visit candidate_interface_continuous_applications_choices_path
+  end
+
+  def when_i_click_to_view_my_application
+    click_link_or_button @application_choice.current_course.provider.name
   end
 
   def when_i_click_to_review_my_application
@@ -832,5 +841,9 @@ module CandidateHelper
   def then_i_should_see_that_the_course_is_full
     expect(page).to have_content('You cannot apply to this course as there are no places left on it')
     expect(page).to have_content('You need to either remove or change this course choice.')
+  end
+
+  def and_i_click_continue
+    click_link_or_button t('continue')
   end
 end

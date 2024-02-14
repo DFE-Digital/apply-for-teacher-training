@@ -50,7 +50,7 @@ module CandidateInterface
       def all_applications?
         params[:application_choices_group].blank? ||
           params[:application_choices_group] == 'all' ||
-            @application_tabs.exclude?(params[:application_choices_group])
+          @application_tabs.exclude?(params[:application_choices_group])
       end
     end
   end
