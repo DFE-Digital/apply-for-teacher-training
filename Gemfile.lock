@@ -828,7 +828,7 @@ DEPENDENCIES
   grover
   guard-rspec
   holidays
-  http (= 5.2.0)
+  http
   humanize
   json-schema
   json_api_client
