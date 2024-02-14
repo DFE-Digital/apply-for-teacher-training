@@ -19,7 +19,7 @@ RSpec.feature 'A candidate withdraws their application', :bullet do
     given_i_am_signed_in_as_a_candidate
     and_i_have_multiple_application_choice_awaiting_provider_decision
 
-    when_i_visit_the_application_dashboard
+    and_i_visit_application_choices_list
     and_i_click_the_withdraw_link_on_my_first_choice
     then_i_see_a_confirmation_page
     and_i_do_not_see_the_interview_related_text
@@ -36,21 +36,21 @@ RSpec.feature 'A candidate withdraws their application', :bullet do
     when_i_try_to_visit_the_withdraw_page
     then_i_see_the_page_not_found
 
-    when_i_visit_the_application_dashboard
+    and_i_visit_application_choices_list
     and_i_click_the_withdraw_link_on_my_final_choice
     then_i_see_a_confirmation_page
 
     when_i_click_to_confirm_withdrawal
     when_i_select_my_reasons
     and_i_click_continue
-    and_the_candidate_has_received_an_email_with_information_on_apply_again
+    and_the_candidate_has_received_an_email
   end
 
   scenario 'withdrawal for application choice with interviewing status' do
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_application_choice_with_the_status_interviewing
 
-    when_i_visit_the_application_dashboard
+    and_i_visit_application_choices_list
     and_i_click_the_withdraw_link_on_my_application_choice_with_the_status_interviewing
     then_i_see_a_confirmation_page
     and_i_also_see_the_interview_related_text
@@ -73,20 +73,19 @@ RSpec.feature 'A candidate withdraws their application', :bullet do
     @interviewing_application_choice = create(:application_choice, :interviewing, application_form: form)
   end
 
-  def when_i_visit_the_application_dashboard
-    visit candidate_interface_continuous_applications_choices_path
-  end
-
   def and_i_click_the_withdraw_link_on_my_first_choice
-    click_withdraw_link @application_choice
+    when_i_click_to_view_my_application
+    when_i_click_to_withdraw_my_application
   end
 
   def and_i_click_the_withdraw_link_on_my_final_choice
-    click_withdraw_link @second_application_choice
+    click_link_or_button @second_application_choice.course.provider.name
+    when_i_click_to_withdraw_my_application
   end
 
   def and_i_click_the_withdraw_link_on_my_application_choice_with_the_status_interviewing
-    click_withdraw_link @interviewing_application_choice
+    click_link_or_button @interviewing_application_choice.course.provider.name
+    when_i_click_to_withdraw_my_application
   end
 
   def then_i_see_a_confirmation_page
@@ -147,14 +146,8 @@ RSpec.feature 'A candidate withdraws their application', :bullet do
     expect(page).to have_content("Your application for #{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.provider.name} has been withdrawn")
   end
 
-  def and_the_candidate_has_received_an_email_with_information_on_apply_again
+  def and_the_candidate_has_received_an_email
     open_email(@application_choice.application_form.candidate.email_address)
     expect(current_email.subject).to have_content 'You’ve withdrawn your application'
-  end
-
-  def click_withdraw_link(application_choice)
-    within "#course-choice-#{application_choice.id}" do
-      click_link_or_button 'Withdraw'
-    end
   end
 end

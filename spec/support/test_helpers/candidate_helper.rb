@@ -846,4 +846,8 @@ module CandidateHelper
   def and_i_click_continue
     click_link_or_button t('continue')
   end
+
+  def when_i_click_to_withdraw_my_application
+    click_link_or_button 'withdraw this application'
+  end
 end

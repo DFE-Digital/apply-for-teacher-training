@@ -40,9 +40,8 @@ RSpec.feature 'A candidate withdraws with upcoming interviews' do
   end
 
   def and_i_click_the_withdraw_link_on_my_first_choice
-    within "#course-choice-#{@application_choice.id}" do
-      click_link_or_button 'Withdraw'
-    end
+    when_i_click_to_view_my_application
+    when_i_click_to_withdraw_my_application
   end
 
   def then_i_see_a_confirmation_page
