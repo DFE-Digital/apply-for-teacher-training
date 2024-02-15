@@ -176,6 +176,7 @@ RSpec.feature 'Candidate submits the application' do
 
   def when_i_have_three_further_draft_choices
     @current_candidate.current_application.application_choices << build_list(:application_choice, 3, :unsubmitted)
+    @application_choice = @current_candidate.current_application.application_choices.unsubmitted.first
   end
 
   def then_i_can_no_longer_add_more_course_choices

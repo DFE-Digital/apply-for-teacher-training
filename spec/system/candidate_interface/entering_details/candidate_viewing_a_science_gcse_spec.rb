@@ -21,7 +21,7 @@ RSpec.feature 'Candidate viewing Science GCSE' do
     then_i_see_science_gcse
     and_i_complete_science_gcse
 
-    when_i_go_to_submit_my_application
+    when_i_go_to_view_my_application
     then_i_do_not_see_a_science_gcse_validation_error
   end
 
@@ -77,9 +77,9 @@ RSpec.feature 'Candidate viewing Science GCSE' do
     candidate_fills_in_secondary_course_choice
   end
 
-  def when_i_go_to_submit_my_application
-    visit candidate_interface_continuous_applications_choices_path
-    click_link_or_button t('application_form.continuous_applications.courses.continue_application')
+  def when_i_go_to_view_my_application
+    @application_choice = current_candidate.current_application.application_choices.unsubmitted.first
+    page.find_link(nil, href: candidate_interface_continuous_applications_course_review_path(@application_choice.id)).click
   end
 
   def then_i_dont_see_a_science_gcse_validation_error

@@ -11,6 +11,7 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
   scenario 'Course becomes full' do
     and_my_course_choice_becomes_full
     when_i_visit_my_applications
+    and_i_click_to_view_my_application
     then_i_should_see_that_the_course_is_full
     when_i_visit_the_review_page_directly
     then_i_should_see_the_course_unavailable_error_message
@@ -22,8 +23,7 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
   scenario 'Invalid course location' do
     and_my_course_location_is_not_valid_anymore
     when_i_visit_my_applications
-    then_i_should_not_see_the_continue_application_link
-    when_i_visit_the_review_page_directly
+    and_i_click_to_view_my_application
     then_i_should_see_the_course_unavailable_error_message
     when_i_click_to_remove_the_application
     and_i_confirm_to_remove_the_application
