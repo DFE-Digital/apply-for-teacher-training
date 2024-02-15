@@ -800,7 +800,7 @@ module CandidateHelper
 
   def when_i_continue_my_draft_application
     when_i_visit_my_applications
-    when_i_click_to_continue_my_application
+    when_i_click_to_view_my_application
   end
 
   def when_i_visit_my_applications
