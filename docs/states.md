@@ -50,3 +50,9 @@ These are groupings of states that allow us to define behaviour for a any applic
 |REAPPLY_STATUSES|rejected<br>cancelled<br>withdrawn<br>declined<br>offer_withdrawn|If an pplication is in these states, the candidate can apply for the course again|
 |TERMINAL_STATES|UNSUCCESSFUL_STATES<br>recruited|Used only in ApplicationMonitor (SupportInterface)|
 |IN_PROGRESS_STATES|DECISION_PENDING_STATUSES<br>ACCEPTED_STATES<br>offer|Applications which have been submitted and are still under consideration|
+
+## Diagram
+
+**Regenerate this diagram with `bundle exec rake generate_state_diagram`.**
+
+![Diagram of all states and relationships](states/states.png)

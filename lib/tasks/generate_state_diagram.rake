@@ -4,7 +4,7 @@ task generate_state_diagram: :environment do
 
   Workflow::Draw.workflow_diagram(
     ApplicationStateChange,
-    name: 'docs/states',
+    name: 'docs/states/states',
     orientation: 'portrait',
   )
 end
