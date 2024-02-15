@@ -1,5 +1,5 @@
 <div class="app-application-item">
-  <a href="<%= candidate_interface_continuous_applications_course_review_path(application_choice.id) %>">
+  <a href="<%= view_application_path  %>">
     <div class="app-application-item__body">
       <div class="app-application-item__status_tag">
         <%= render(CandidateInterface::ContinuousApplications::ApplicationStatusTagComponent.new(application_choice:, display_info_text: false)) %>
