@@ -187,19 +187,6 @@ RSpec.feature 'Candidate submits the application' do
   end
   alias_method :then_i_still_cannot_add_course_choices, :then_i_can_no_longer_add_more_course_choices
 
-<<<<<<< HEAD
-=======
-  def when_i_submit_one_of_my_draft_applications
-    when_i_click_to_view_my_draft_application
-    when_i_click_to_review_my_application
-    when_i_click_to_submit_my_application
-  end
-
-  def when_i_click_to_view_my_draft_application
-    click_link_or_button @current_candidate.current_application.application_choices.unsubmitted.first.course.provider.name
-  end
-
->>>>>>> a5c8a5235 (Change system specs to click on the provider name link)
   def when_one_of_my_applications_becomes_inactive
     @current_candidate.current_application.application_choices.where(status: 'awaiting_provider_decision').first.update!(status: 'inactive')
   end
