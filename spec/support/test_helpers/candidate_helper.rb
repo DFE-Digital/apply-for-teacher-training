@@ -133,7 +133,7 @@ module CandidateHelper
   def candidate_submits_application
     visit candidate_interface_continuous_applications_choices_path
 
-    click_link_or_button 'Continue application'
+    click_link_or_button 'Gorse SCITT'
     click_link_or_button 'Review application'
     click_link_or_button 'Continue without editing'
     click_link_or_button 'Confirm and submit application'
