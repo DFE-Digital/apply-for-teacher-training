@@ -212,12 +212,30 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
   end
 
   context 'when application is interviewing' do
+    let(:cancelled_interview) do
+      create(:interview, :cancelled, location: 'cancelled location')
+    end
+    let(:interviews) do
+      [
+        create(:interview, location: 'interview 1'),
+        create(:interview, location: 'interview 2'),
+        cancelled_interview,
+      ]
+    end
     let(:application_choice) do
-      create(:application_choice, :interviewing, interviews: [create(:interview)], course:)
+      create(:application_choice, :interviewing, interviews:, course:)
     end
 
     it 'shows interview row' do
       expect(result.text).to include('InterviewYou have an interview scheduled')
+    end
+
+    it 'shows all interviews' do
+      expect(result.text).to include('interview 1', 'interview 2')
+    end
+
+    it 'excludes cancelled interviews' do
+      expect(result.text).not_to include(cancelled_interview.location)
     end
 
     it 'show what happens next information' do
