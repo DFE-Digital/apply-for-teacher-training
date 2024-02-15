@@ -258,20 +258,33 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     end
 
     context 'when application cannot make more choices' do
+      before do
+        allow(component).to receive(:can_add_more_choices?).and_return(false)
+      end
+
       it 'show what happens next information' do
         expect(result.text).to include('What happens next',
                                        'The provider will review your application and let you know when they have made a decision. In the meantime, you can:')
       end
 
       it 'does not hint to add more choices' do
-        allow(component).to receive(:can_add_more_choices?).and_return(false)
         expect(result.text).not_to include('submit another')
+      end
+
+      it 'does not show a warning text' do
+        expect(result.text).not_to include('You can add an application for a different training provider while you wait for a decision on this application')
       end
     end
 
     context 'when application can make more choices' do
       it 'shows hint to add more choices' do
         expect(result.text).to include('submit another')
+      end
+
+      it 'does not show a warning text' do
+        expect(result.text).to have_content(
+          'You can add an application for a different training provider while you wait for a decision on this application.',
+        )
       end
     end
 
