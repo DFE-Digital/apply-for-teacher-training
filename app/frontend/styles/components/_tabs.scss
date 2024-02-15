@@ -48,18 +48,17 @@
         padding-bottom: govuk-spacing(2);
       }
 
-      &[aria-current] {
-        &::before {
-          background-color: govuk-colour('light-blue');
-          bottom: 0;
-          content: '';
-          display: block;
-          height: govuk-spacing(1);
-          left: 0;
-          position: absolute;
-          width: 100%;
-        }
-      }
     }
+  }
+
+  .tabs-component-navigation__link[aria-current]::before {
+    background-color: govuk-colour('light-blue');
+    bottom: 0;
+    content: '';
+    display: block;
+    height: govuk-spacing(1);
+    left: 0;
+    position: absolute;
+    width: 100%;
   }
 }
