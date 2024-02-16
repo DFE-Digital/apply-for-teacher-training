@@ -11,6 +11,9 @@ RSpec.describe 'Candidates sees all their applications' do
     given_i_have_application_choices_in_all_states_possible_for_the_navigation
     when_i_visit_my_applications
     then_i_should_see_all_the_tabs
+    when_i_visit_my_applications_passing_an_non_existent_tab_name
+    then_i_should_see_all_the_tabs
+    and_all_applications_tab_should_be_selected
   end
 
   scenario 'showing some tabs depending of what kind of application choices states candidate has' do
@@ -89,6 +92,17 @@ RSpec.describe 'Candidates sees all their applications' do
     and_i_should_only_see_applications_in(state: :rejected)
   end
 
+  def when_i_visit_my_applications_passing_an_non_existent_tab_name
+    visit candidate_interface_continuous_applications_choices_path(current_tab_name: 'this-does-not-exist')
+  end
+
+  def and_all_applications_tab_should_be_selected
+    current_tab = tabs_links.find { |tab_link| tab_link['aria-current'].present? }
+
+    expect(current_tab).to be_present
+    expect(current_tab.text).to eq('All applications')
+  end
+
 private
 
   def and_i_should_only_see_applications_in(state:)
@@ -114,6 +128,10 @@ private
   end
 
   def tabs
-    page.all('.tabs-component a').map(&:text)
+    tabs_links.map(&:text)
+  end
+
+  def tabs_links
+    page.all('.tabs-component a')
   end
 end
