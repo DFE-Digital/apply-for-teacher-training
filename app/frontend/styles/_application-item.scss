@@ -43,6 +43,7 @@
   @include govuk-media-query($from: tablet) {
     flex-direction: row-reverse;
     margin-bottom: 0;
+    padding-left: 10px;
 
     &__status_tag {
       margin-bottom: govuk-spacing(0);
