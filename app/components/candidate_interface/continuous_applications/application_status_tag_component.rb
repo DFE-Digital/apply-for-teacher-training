@@ -9,7 +9,7 @@ module CandidateInterface
         case application_choice.status
         when 'unsubmitted'
           'blue'
-        when 'awaiting_provider_decision', 'interviewing', 'inactive'
+        when 'awaiting_provider_decision', 'inactive'
           'purple'
         when 'conditions_not_met', 'declined', 'cancelled'
           'red'
@@ -17,7 +17,7 @@ module CandidateInterface
           'green'
         when 'offer_withdrawn'
           'pink'
-        when 'offer_deferred', 'application_not_sent'
+        when 'offer_deferred', 'application_not_sent', 'interviewing'
           'yellow'
         when 'rejected', 'withdrawn'
           'orange'
