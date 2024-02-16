@@ -8,13 +8,13 @@ RSpec.feature 'Candidate with submitted applications' do
     given_i_am_signed_in
     and_i_have_submitted_applications
     when_one_of_my_applications_becomes_inactive
-    and_i_visit_application_choices_list
+    when_i_visit_my_applications
     then_i_can_add_another_application
     when_i_click_to_view_my_application
     then_i_can_see_the_change_in_content
     and_i_can_see_the_inactive_warning_content
     given_i_can_not_add_more_choices
-    and_i_visit_application_choices_list
+    when_i_visit_my_applications
     when_i_click_to_view_my_application
     then_i_can_not_see_the_inactive_warning_text
   end

@@ -159,7 +159,7 @@ RSpec.feature 'Selecting a course' do
 
   def when_i_visit_the_course_choices_page
     @application_choice = current_candidate.current_application.application_choices.first
-    and_i_visit_application_choices_list
+    when_i_visit_my_applications
   end
 
   def then_i_should_see_that_the_course_is_full

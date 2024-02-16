@@ -7,7 +7,7 @@ RSpec.describe 'CandidateInterface ApplicationChoice index' do
     given_i_am_signed_in
     and_i_have_a_rejected_application
 
-    when_i_visit_application_choices_list
+    when_i_visit_my_applications
     and_i_click_to_view_my_application
     then_i_see_my_application_shows_the_application_rejection_reason
     and_i_see_the_rejection_feedback_form

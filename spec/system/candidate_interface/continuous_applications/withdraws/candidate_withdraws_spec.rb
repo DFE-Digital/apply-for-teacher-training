@@ -19,7 +19,7 @@ RSpec.feature 'A candidate withdraws their application', :bullet do
     given_i_am_signed_in_as_a_candidate
     and_i_have_multiple_application_choice_awaiting_provider_decision
 
-    and_i_visit_application_choices_list
+    when_i_visit_my_applications
     and_i_click_the_withdraw_link_on_my_first_choice
     then_i_see_a_confirmation_page
     and_i_do_not_see_the_interview_related_text
@@ -36,7 +36,7 @@ RSpec.feature 'A candidate withdraws their application', :bullet do
     when_i_try_to_visit_the_withdraw_page
     then_i_see_the_page_not_found
 
-    and_i_visit_application_choices_list
+    when_i_visit_my_applications
     and_i_click_the_withdraw_link_on_my_final_choice
     then_i_see_a_confirmation_page
 
@@ -50,7 +50,7 @@ RSpec.feature 'A candidate withdraws their application', :bullet do
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_application_choice_with_the_status_interviewing
 
-    and_i_visit_application_choices_list
+    when_i_visit_my_applications
     and_i_click_the_withdraw_link_on_my_application_choice_with_the_status_interviewing
     then_i_see_a_confirmation_page
     and_i_also_see_the_interview_related_text

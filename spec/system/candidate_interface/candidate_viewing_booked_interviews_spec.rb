@@ -7,7 +7,7 @@ RSpec.feature 'Candidate viewing booked interviews' do
     given_i_am_signed_in
     and_i_have_interviews_booked
     and_i_have_interviews_cancelled
-    when_i_visit_application_choices_list
+    when_i_visit_my_applications
     and_i_click_to_view_my_application
     then_i_can_see_details_about_my_booked_interviews
     and_i_can_not_see_the_cancelled_interviews

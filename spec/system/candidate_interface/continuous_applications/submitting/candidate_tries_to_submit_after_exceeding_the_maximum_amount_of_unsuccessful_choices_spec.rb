@@ -45,7 +45,7 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def and_i_go_to_submit_my_application
-    and_i_visit_application_choices_list
+    when_i_visit_my_applications
     when_i_click_to_view_my_application
     when_i_click_to_review_my_application
     when_i_click_to_submit_my_application

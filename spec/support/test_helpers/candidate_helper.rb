@@ -808,14 +808,9 @@ module CandidateHelper
   end
 
   def and_i_continue_with_my_application
-    and_i_visit_application_choices_list
+    when_i_visit_my_applications
     when_i_click_to_view_my_application
   end
-
-  def when_i_visit_application_choices_list
-    visit candidate_interface_continuous_applications_choices_path
-  end
-  alias and_i_visit_application_choices_list when_i_visit_application_choices_list
 
   def when_i_click_to_view_my_application
     click_link_or_button @application_choice.current_course.provider.name
