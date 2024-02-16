@@ -1,25 +1,26 @@
 <%= render ServiceInformationBanner.new(namespace: :candidate) %>
 <div class="govuk-grid-row">
-  <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
-    <%= t('page_titles.continuous_applications.your_applications') %>
-  </h1>
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+      <%= t('page_titles.continuous_applications.your_applications') %>
+    </h1>
 
-  <% if CycleTimetable.today_is_between_apply_1_deadline_and_find_reopens? %>
-    <p class="govuk-body govuk-!-margin-top-6">Applications for courses starting in September <%= RecruitmentCycle.current_year %> are closed.</p>
-    <p class="govuk-body"> From <%= CycleTimetable.find_reopens.to_fs(:govuk_time_and_date) %>, you can <%= govuk_link_to(
-      'find postgraduate teacher training courses',
-      t('find_postgraduate_teacher_training.production_url'),
-    ) %> starting in September <%= RecruitmentCycle.next_year %>.</p>
+    <% if CycleTimetable.today_is_between_apply_1_deadline_and_find_reopens? %>
+      <p class="govuk-body govuk-!-margin-top-6">Applications for courses starting in September <%= RecruitmentCycle.current_year %> are closed.</p>
+      <p class="govuk-body"> From <%= CycleTimetable.find_reopens.to_fs(:govuk_time_and_date) %>, you can <%= govuk_link_to(
+        'find postgraduate teacher training courses',
+        t('find_postgraduate_teacher_training.production_url'),
+      ) %> starting in September <%= RecruitmentCycle.next_year %>.</p>
 
-    <p class="govuk-body">You’ll be able to apply to courses from <%= CycleTimetable.apply_reopens.to_fs(:govuk_time_and_date) %>.</p>
+      <p class="govuk-body">You’ll be able to apply to courses from <%= CycleTimetable.apply_reopens.to_fs(:govuk_time_and_date) %>.</p>
 
-    <p class="govuk-body">While you wait, you can:</p>
+      <p class="govuk-body">While you wait, you can:</p>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li><%= govuk_link_to('continue making changes to your details to get ready to apply', candidate_interface_continuous_applications_details_path) %></li>
-      <li><%= govuk_link_to('read about how the application process works', candidate_interface_guidance_path) %>
-      </li>
-    </ul>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><%= govuk_link_to('continue making changes to your details to get ready to apply', candidate_interface_continuous_applications_details_path) %></li>
+        <li><%= govuk_link_to('read about how the application process works', candidate_interface_guidance_path) %>
+        </li>
+      </ul>
 
   <% else %>
 
@@ -62,5 +63,6 @@
     <% end %>
 
     <%= render CandidateInterface::ContinuousApplications::ApplicationChoiceListComponent.new(application_form: current_application, application_choices: @application_choices, current_tab_name: params[:current_tab_name]) %>
-  <% end %>
+    <% end %>
+  </div>
 </div>
