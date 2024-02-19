@@ -114,9 +114,20 @@ module CandidateInterface
                   @application_choice.personal_statement
                 end
 
+        number_of_words = value.to_s.split.size
+
+        if number_of_words > 40
+          value = value
+            .then { |text| sanitize(text, class: 'govuk-body') } # Sanitizes text before handling html safe
+            .then { |text| text.truncate_words(40, omission: ' ') }
+            .then { |text| "#{text} <span id='show-more-show-less-text' class='govuk-visually-hidden'>#{value[text.size..-1]}</span>" }
+            .then { |text| "#{text} #{govuk_link_to('Show more', '#', id: 'show-more-show-less')}" }
+            .then(&:html_safe)
+        end
+
         {
           key: 'Personal statement',
-          value: value,
+          value:,
         }
       end
 
