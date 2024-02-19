@@ -9,7 +9,7 @@ module CandidateInterface
       def initialize(application_form:, application_choices:, current_tab_name: nil)
         @application_form = application_form
         @application_choices = application_choices
-        @tabs = [ALL_APPLICATIONS_TAB, @application_choices.map(&:application_choices_group)].flatten.compact_blank.uniq
+        @tabs = [ALL_APPLICATIONS_TAB, @application_choices.map(&:application_choices_group_name)].flatten.compact_blank.uniq
         @current_tab_name = current_tab_name
       end
 
@@ -30,7 +30,7 @@ module CandidateInterface
       def current_tab_application_choices
         return @application_choices if all_applications?
 
-        @application_choices.select { |application_choice| application_choice.application_choices_group == current_tab_name }
+        @application_choices.select { |application_choice| application_choice.application_choices_group_name == current_tab_name }
       end
 
     private

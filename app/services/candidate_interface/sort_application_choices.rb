@@ -12,7 +12,7 @@ module CandidateInterface
             WHEN (status IN ('offer_withdrawn', 'withdrawn')) THEN 'withdrawn'
             WHEN (status IN ('declined')) THEN 'declined'
             ELSE ''
-          END AS application_choices_group,
+          END AS application_choices_group_name,
           CASE
             WHEN (status IN ('offer')) THEN 1
             WHEN (status IN ('unsubmitted', 'application_not_sent', 'cancelled')) THEN 2
