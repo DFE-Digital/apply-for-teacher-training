@@ -372,7 +372,8 @@ GEM
       faraday (>= 0.15.2, < 2.0)
       faraday_middleware (>= 0.9.0, < 2.0)
       rack (>= 0.2)
-    jwt (2.7.1)
+    jwt (2.8.0)
+      base64
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
