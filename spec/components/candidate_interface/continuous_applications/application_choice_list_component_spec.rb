@@ -39,7 +39,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceList
         'Draft',
         'Unsuccessful',
         'In progress',
-        'Withdraw',
+        'Withdrawn',
         'Declined',
       ])
     end
@@ -89,7 +89,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceList
     end
   end
 
-  %w[offers_received draft unsuccessful in_progress withdraw declined].each do |tab|
+  %w[offers_received draft unsuccessful in_progress withdrawn declined].each do |tab|
     context "when passing #{tab} as current tab" do
       let(:application_choice_list_component) do
         described_class.new(application_form:, application_choices:, current_tab_name: tab)
