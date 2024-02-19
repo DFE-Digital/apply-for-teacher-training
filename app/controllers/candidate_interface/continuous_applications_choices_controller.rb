@@ -4,6 +4,13 @@ module CandidateInterface
 
     def index
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
+      @application_choices = CandidateInterface::SortApplicationChoices.call(
+        application_choices:
+          current_application
+            .application_choices
+            .includes(:course, :site, :provider, :current_course, :current_course_option, :interviews)
+            .includes(offer: :conditions),
+      )
     end
   end
 end

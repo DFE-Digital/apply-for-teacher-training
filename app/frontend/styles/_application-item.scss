@@ -1,4 +1,6 @@
 .app-application-item {
+  border-bottom: 1px solid $govuk-border-colour;
+
   a {
     text-decoration: none;
   }
@@ -41,7 +43,7 @@
   @include govuk-media-query($from: tablet) {
     flex-direction: row-reverse;
     margin-bottom: 0;
-    margin-left: govuk-spacing(2);
+    padding-left: govuk-spacing(2);
 
     &__status_tag {
       margin-bottom: govuk-spacing(0);

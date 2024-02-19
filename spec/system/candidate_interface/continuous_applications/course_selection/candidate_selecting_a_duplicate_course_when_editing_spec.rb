@@ -10,7 +10,7 @@ RSpec.feature 'Selecting a course' do
 
     when_i_visit_the_site
     and_i_click_on_course_choices
-    and_i_click_to_edit_the_first_application
+    and_i_click_to_view_the_first_application
     and_i_click_to_change_course
     and_i_choose_the_course_on_the_second_application
     then_i_should_be_on_the_application_choice_duplicate_page
@@ -58,10 +58,8 @@ RSpec.feature 'Selecting a course' do
     click_link_or_button 'Your application'
   end
 
-  def and_i_click_to_edit_the_first_application
-    within("div[data-qa='application-choice-#{@application_one.id}']") do
-      click_link_or_button 'Continue application'
-    end
+  def and_i_click_to_view_the_first_application
+    page.find_link(nil, href: candidate_interface_continuous_applications_course_review_path(@application_one.id)).click
   end
 
   def when_i_click_back

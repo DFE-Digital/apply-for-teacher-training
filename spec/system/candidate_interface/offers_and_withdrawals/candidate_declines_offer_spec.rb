@@ -2,14 +2,15 @@ require 'rails_helper'
 
 RSpec.feature 'Candidate declines an offer' do
   include CourseOptionHelpers
+  include CandidateHelper
 
   scenario 'Candidate views an offer and declines' do
     given_i_am_signed_in
     and_i_have_multiple_offers
 
-    when_i_visit_the_application_dashboard
+    when_i_visit_my_applications
 
-    when_i_click_on_view_and_respond_to_my_first_offer_link
+    and_i_click_to_view_my_application
     and_i_decline_the_offer
     and_i_confirm_the_decline
 
@@ -39,10 +40,8 @@ RSpec.feature 'Candidate declines an offer' do
       support_reference: '123A',
     )
 
-    provider = create(:provider, code: 'ABC')
-
-    @course_option = course_option_for_provider(provider:)
-    course_option2 = course_option_for_provider(provider:)
+    @course_option = create(:course_option)
+    course_option2 = create(:course_option)
 
     @application_choice = create(
       :application_choice,
@@ -61,18 +60,6 @@ RSpec.feature 'Candidate declines an offer' do
     @provider_user = create(:provider_user, :with_notifications_enabled, providers: [@application_choice.provider])
   end
 
-  def when_i_visit_the_application_dashboard
-    visit candidate_interface_continuous_applications_choices_path
-  end
-
-  def when_i_click_on_view_and_respond_to_my_first_offer_link
-    click_link_or_button 'Your applications'
-
-    within("[data-qa='application-choice-#{@application_choice.id}']") do
-      click_link_or_button text: 'Respond to offer'
-    end
-  end
-
   def and_i_decline_the_offer
     choose 'Decline offer'
     click_link_or_button t('continue')
@@ -87,9 +74,7 @@ RSpec.feature 'Candidate declines an offer' do
   end
 
   def and_i_see_that_i_declined_the_offer
-    within "[data-qa=application-choice-#{@application_choice.id}]" do
-      expect(page).to have_content 'Offer declined'
-    end
+    expect(page).to have_content 'Offer declined'
   end
 
   def and_the_provider_receives_a_notification
@@ -98,9 +83,8 @@ RSpec.feature 'Candidate declines an offer' do
   end
 
   def when_i_click_on_view_and_respond_to_my_last_offer_link
-    within("[data-qa='application-choice-#{@application_choice2.id}']") do
-      click_link_or_button text: 'Respond to offer'
-    end
+    @application_choice = @application_choice2
+    when_i_click_to_view_my_application
   end
 
   def then_the_candidate_is_sent_an_email

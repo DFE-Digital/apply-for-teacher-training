@@ -1,0 +1,9 @@
+<nav class="tabs-component">
+  <ul class="tabs-component-navigation__list">
+    <% tabs.each do |tab| %>
+      <li class="tabs-component-navigation__item">
+        <%= govuk_link_to tab.text, tab.link, class: 'tabs-component-navigation__link', aria: { current: ('page' if tab.active?) } %>
+      </li>
+    <% end %>
+  </ul>
+</nav>

@@ -8,7 +8,8 @@ RSpec.feature 'Candidate edits their choice section' do
     and_i_have_applications
 
     when_i_visit_the_course_choices_page
-    and_i_click_delete_a_choice
+    when_i_click_to_view_my_application
+    and_i_click_delete_your_draft_application
     and_i_confirm_i_want_to_delete_the_choice
     and_visit_my_application_page
     then_i_should_see_only_one_application
@@ -45,16 +46,11 @@ RSpec.feature 'Candidate edits their choice section' do
     @application_form = create(:application_form, candidate: @candidate, course_choices_completed: true)
     @first_application_choice = create(:application_choice, :unsubmitted, application_form: @application_form)
     @second_application_choice = create(:application_choice, :awaiting_provider_decision, application_form: @application_form)
+    @application_choice = @first_application_choice
   end
 
   def when_i_visit_the_course_choices_page
     visit candidate_interface_continuous_applications_choices_path
-  end
-
-  def and_i_click_delete_a_choice
-    within "#course-choice-#{@first_application_choice.id}" do
-      click_link_or_button 'Remove'
-    end
   end
 
   def and_i_confirm_i_want_to_delete_the_choice

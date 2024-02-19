@@ -2,14 +2,15 @@ require 'rails_helper'
 
 RSpec.feature 'Candidate accepts an offer' do
   include CourseOptionHelpers
+  include CandidateHelper
 
   scenario 'Candidate views an offer and accepts' do
     given_i_am_signed_in
     and_i_have_2_offers_on_my_choices
     and_1_choice_that_is_awaiting_provider_decision
 
-    when_i_visit_the_application_dashboard
-    and_i_click_on_view_and_respond_to_offer_link
+    when_i_visit_my_applications
+    and_i_click_to_view_my_application
     then_i_see_the_offer
 
     when_i_continue_without_selecting_a_response
@@ -157,12 +158,6 @@ RSpec.feature 'Candidate accepts an offer' do
 
   def when_i_visit_the_application_dashboard
     visit candidate_interface_continuous_applications_choices_path
-  end
-
-  def and_i_click_on_view_and_respond_to_offer_link
-    within("[data-qa='application-choice-#{@application_choice.id}']") do
-      click_link_or_button text: 'Respond to offer'
-    end
   end
 
   def then_i_see_the_offer

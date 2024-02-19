@@ -45,22 +45,10 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def and_i_go_to_submit_my_application
-    visit candidate_interface_continuous_applications_choices_path
-    click_link_or_button 'Continue application', match: :first
+    when_i_visit_my_applications
+    when_i_click_to_view_my_application
     when_i_click_to_review_my_application
     when_i_click_to_submit_my_application
-  end
-
-  def when_i_click_to_review_my_application
-    click_link_or_button 'Review application'
-  end
-
-  def when_i_click_to_submit_my_application
-    click_link_or_button 'Confirm and submit application'
-  end
-
-  def and_i_click_continue
-    click_link_or_button t('continue')
   end
 
   def and_my_application_is_still_unsubmitted

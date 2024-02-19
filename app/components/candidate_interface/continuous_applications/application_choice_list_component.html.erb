@@ -1,0 +1,5 @@
+<%= render CandidateInterface::TabsComponent.new(tabs:) %>
+
+<% current_tab_application_choices.each do |application_choice| %>
+  <%= render CandidateInterface::ApplicationChoiceItemComponent.new(application_choice:) %>
+<% end %>

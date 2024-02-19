@@ -123,11 +123,9 @@ module CandidateInterface
       def interview_row
         return unless interviewing?
 
-        interview = application_choice.interviews.last
-
         {
           key: 'Interview',
-          value: render(InterviewSummaryComponent.new(interview:)),
+          value: @application_choice.interviews.kept.map { |interview| render(InterviewSummaryComponent.new(interview:)) },
         }
       end
 

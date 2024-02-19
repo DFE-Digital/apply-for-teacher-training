@@ -35,7 +35,7 @@ RSpec.feature 'Candidate submits the application' do
     and_i_can_see_i_have_three_choices_left
     # and_i_receive_an_email_confirmation
 
-    when_i_click_view_application
+    when_i_click_to_view_my_application
     then_i_can_review_my_submitted_application
 
     when_i_go_back
@@ -110,15 +110,6 @@ RSpec.feature 'Candidate submits the application' do
     @application_choice.application_form.update!(science_gcse_completed: false)
   end
 
-  def and_i_continue_with_my_application
-    visit candidate_interface_continuous_applications_choices_path
-    click_link_or_button 'Continue application', match: :first
-  end
-
-  def and_i_click_continue
-    click_link_or_button t('continue')
-  end
-
   def when_i_save_as_draft
     click_link_or_button 'Save as draft'
   end
@@ -157,10 +148,6 @@ RSpec.feature 'Candidate submits the application' do
     expect(page).to have_content 'Gorse SCITT'
   end
 
-  def when_i_click_view_application
-    click_link_or_button 'View application', match: :first
-  end
-
   def and_my_application_is_submitted
     expect(@application_choice.reload).to be_awaiting_provider_decision
   end
@@ -169,7 +156,6 @@ RSpec.feature 'Candidate submits the application' do
     expect(@current_candidate.current_application.application_choices).to contain_exactly(@application_choice)
     expect(page).to have_content 'Gorse SCITT'
     expect(page).to have_content 'Primary (2XT2)'
-    expect(page).to have_content 'PGCE with QTS full time'
     expect(page).to have_content 'Awaiting decision'
   end
 
@@ -190,6 +176,7 @@ RSpec.feature 'Candidate submits the application' do
 
   def when_i_have_three_further_draft_choices
     @current_candidate.current_application.application_choices << build_list(:application_choice, 3, :unsubmitted)
+    @application_choice = @current_candidate.current_application.application_choices.unsubmitted.first
   end
 
   def then_i_can_no_longer_add_more_course_choices

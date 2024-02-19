@@ -1,3 +1,7 @@
+<% if application_choice.inactive? && can_add_more_choices? %>
+  <%= govuk_warning_text(text: "Application submitted #{time_ago_in_words(application_choice.sent_to_provider_at)} ago. You can #{govuk_link_to('add an application', candidate_interface_continuous_applications_do_you_know_the_course_path)} for a different training provider while you wait for a decision on this application.".html_safe) %>
+<% end %>
+
 <%= render SummaryListComponent.new(rows: rows) %>
 
 <% if show_what_happens_next? %>

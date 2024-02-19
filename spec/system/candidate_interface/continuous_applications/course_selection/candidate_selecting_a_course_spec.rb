@@ -34,6 +34,7 @@ RSpec.feature 'Selecting a course' do
 
     when_the_course_is_full
     when_i_visit_the_course_choices_page
+    when_i_click_to_view_my_application
     then_i_should_see_that_the_course_is_full
     and_i_can_change_the_course
 
@@ -144,9 +145,8 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_i_see_my_course_choices
-    within("#course-choice-#{application_choice.id}") do
-      expect(page).to have_content('Primary (2XT2)')
-    end
+    expect(page).to have_content(application_choice.course.provider.name)
+    expect(page).to have_content('Primary (2XT2)')
   end
 
   def then_i_should_be_on_the_application_choices_page
@@ -158,7 +158,13 @@ RSpec.feature 'Selecting a course' do
   end
 
   def when_i_visit_the_course_choices_page
-    visit candidate_interface_continuous_applications_choices_path
+    @application_choice = current_candidate.current_application.application_choices.first
+    when_i_visit_my_applications
+  end
+
+  def then_i_should_see_that_the_course_is_full
+    expect(page).to have_content('You cannot submit this application as the course is no longer available.')
+    expect(page).to have_content('Remove this application and search for other courses.')
   end
 
   def and_i_can_change_the_course

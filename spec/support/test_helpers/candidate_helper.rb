@@ -133,7 +133,7 @@ module CandidateHelper
   def candidate_submits_application
     visit candidate_interface_continuous_applications_choices_path
 
-    click_link_or_button 'Continue application'
+    click_link_or_button 'Gorse SCITT'
     click_link_or_button 'Review application'
     click_link_or_button 'Continue without editing'
     click_link_or_button 'Confirm and submit application'
@@ -356,7 +356,7 @@ module CandidateHelper
   def candidate_reviews_application
     visit candidate_interface_continuous_applications_choices_path
 
-    click_link_or_button 'Continue application'
+    click_link_or_button 'Gorse SCITT'
     click_link_or_button 'Review application'
     click_link_or_button 'Continue without editing'
   end
@@ -793,23 +793,29 @@ module CandidateHelper
   end
 
   def when_i_submit_one_of_my_draft_applications
-    when_i_click_to_continue_my_application
+    when_i_click_to_view_my_application
     when_i_click_to_review_my_application
     when_i_click_to_submit_my_application
   end
 
   def when_i_continue_my_draft_application
     when_i_visit_my_applications
-    when_i_click_to_continue_my_application
+    when_i_click_to_view_my_application
   end
 
   def when_i_visit_my_applications
     visit candidate_interface_continuous_applications_choices_path
   end
 
-  def when_i_click_to_continue_my_application
-    click_link_or_button 'Continue application', match: :first
+  def and_i_continue_with_my_application
+    when_i_visit_my_applications
+    when_i_click_to_view_my_application
   end
+
+  def when_i_click_to_view_my_application
+    click_link_or_button @application_choice.current_course.provider.name
+  end
+  alias and_i_click_to_view_my_application when_i_click_to_view_my_application
 
   def when_i_click_to_review_my_application
     click_link_or_button 'Review application'
@@ -830,7 +836,15 @@ module CandidateHelper
   end
 
   def then_i_should_see_that_the_course_is_full
-    expect(page).to have_content('You cannot apply to this course as there are no places left on it')
-    expect(page).to have_content('You need to either remove or change this course choice.')
+    expect(page).to have_content('You cannot submit this application as the course is no longer available.')
+    expect(page).to have_content('Remove this application and search for other courses.')
+  end
+
+  def and_i_click_continue
+    click_link_or_button t('continue')
+  end
+
+  def when_i_click_to_withdraw_my_application
+    click_link_or_button 'withdraw this application'
   end
 end

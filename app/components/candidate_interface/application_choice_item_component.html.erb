@@ -1,5 +1,5 @@
 <div class="app-application-item">
-  <a href="<%= candidate_interface_continuous_applications_course_review_path(application_choice.id) %>">
+  <%= govuk_link_to view_application_path do %>
     <div class="app-application-item__body">
       <div class="app-application-item__status_tag">
         <%= render(CandidateInterface::ContinuousApplications::ApplicationStatusTagComponent.new(application_choice:, display_info_text: false)) %>
@@ -14,5 +14,5 @@
         <p class="govuk-body-s"><%= course_name %> - <%= study_mode %> at <%= site_name %></p>
       </div>
     </div>
-  </a>
+  <% end %>
 </div>

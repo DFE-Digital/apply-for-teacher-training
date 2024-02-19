@@ -255,19 +255,13 @@ RSpec.feature 'Candidate edits course choices' do
   end
 
   def when_i_click_to_continue_my_second_course_choice
-    second_course_choice = current_candidate.current_application.application_choices.second
-
-    within "#course-choice-#{second_course_choice.id}" do
-      click_link_or_button 'Continue application'
-    end
+    @application_choice = current_candidate.current_application.application_choices.second
+    and_i_click_to_continue_my_application
   end
 
   def and_i_click_to_continue_my_third_course_choice
-    third_course_choice = current_candidate.current_application.application_choices.third
-
-    within "#course-choice-#{third_course_choice.id}" do
-      click_link_or_button 'Continue application'
-    end
+    @application_choice = current_candidate.current_application.application_choices.third
+    and_i_click_to_continue_my_application
   end
 
   def then_i_am_told_that_i_have_already_added_that_course
@@ -276,5 +270,9 @@ RSpec.feature 'Candidate edits course choices' do
 
   def then_i_should_be_on_the_application_choice_review_page
     expect(page).to have_current_path(/candidate\/application\/continuous-applications\/[0-9]*\/review/)
+  end
+
+  def and_i_click_to_continue_my_application
+    page.find_link(nil, href: candidate_interface_continuous_applications_course_review_path(@application_choice.id)).click
   end
 end

@@ -24,4 +24,12 @@ class CandidateInterface::ApplicationChoiceItemComponent < ViewComponent::Base
   def site_name
     application_choice.site.name
   end
+
+  def view_application_path
+    if application_choice.offer?
+      candidate_interface_offer_path(application_choice.id)
+    else
+      candidate_interface_continuous_applications_course_review_path(application_choice.id)
+    end
+  end
 end

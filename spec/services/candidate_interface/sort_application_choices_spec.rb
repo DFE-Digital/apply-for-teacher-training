@@ -7,79 +7,79 @@ RSpec.describe CandidateInterface::SortApplicationChoices do
       described_class.call(application_choices: ApplicationChoice.all).first
     end
 
-    it 'application_choices_group' do
-      expect(model).to respond_to(:application_choices_group)
+    it 'application_choices_group_number' do
+      expect(model).to respond_to(:application_choices_group_number)
     end
   end
 
-  describe '#application_choices_group' do
+  describe '#application_choices_group_number' do
     let(:application_choice) do
       described_class.call(application_choices: ApplicationChoice.all).first
     end
 
     it 'when application has an offer' do
       create(:application_choice, :offer)
-      expect(application_choice.application_choices_group).to eq(1)
+      expect(application_choice.application_choices_group_number).to eq(1)
     end
 
     it 'when application is unsubmitted' do
       create(:application_choice, :unsubmitted)
-      expect(application_choice.application_choices_group).to eq(2)
+      expect(application_choice.application_choices_group_number).to eq(2)
     end
 
     it 'when application is application_not_sent' do
       create(:application_choice, :application_not_sent)
-      expect(application_choice.application_choices_group).to eq(2)
+      expect(application_choice.application_choices_group_number).to eq(2)
     end
 
     it 'when application is cancelled' do
       create(:application_choice, :cancelled)
-      expect(application_choice.application_choices_group).to eq(2)
+      expect(application_choice.application_choices_group_number).to eq(2)
     end
 
     it 'when application is rejected' do
       create(:application_choice, :rejected)
-      expect(application_choice.application_choices_group).to eq(3)
+      expect(application_choice.application_choices_group_number).to eq(3)
     end
 
     it 'when application is conditions_not_met' do
       create(:application_choice, :conditions_not_met)
-      expect(application_choice.application_choices_group).to eq(3)
+      expect(application_choice.application_choices_group_number).to eq(3)
     end
 
     it 'when application is interviewing' do
       create(:application_choice, :interviewing)
-      expect(application_choice.application_choices_group).to eq(4)
+      expect(application_choice.application_choices_group_number).to eq(4)
     end
 
     it 'when application is inactive' do
       create(:application_choice, :inactive)
-      expect(application_choice.application_choices_group).to eq(4)
+      expect(application_choice.application_choices_group_number).to eq(4)
     end
 
     it 'when application is awaiting_provider_decision' do
       create(:application_choice, :awaiting_provider_decision)
-      expect(application_choice.application_choices_group).to eq(4)
-    end
-
-    it 'when application is declined' do
-      create(:application_choice, :declined)
-      expect(application_choice.application_choices_group).to eq(5)
+      expect(application_choice.application_choices_group_number).to eq(4)
     end
 
     it 'when application is withdrawn' do
       create(:application_choice, :withdrawn)
-      expect(application_choice.application_choices_group).to eq(6)
+      expect(application_choice.application_choices_group_number).to eq(5)
     end
 
     it 'when application is offer withdrawn' do
       create(:application_choice, :offer_withdrawn)
-      expect(application_choice.application_choices_group).to eq(6)
+      expect(application_choice.application_choices_group_number).to eq(5)
+    end
+
+    it 'when application is declined' do
+      create(:application_choice, :declined)
+      expect(application_choice.application_choices_group_number).to eq(6)
     end
 
     it 'when application status is not mapped' do
       create(:application_choice, :recruited)
-      expect(application_choice.application_choices_group).to eq(10)
+      expect(application_choice.application_choices_group_number).to eq(10)
     end
   end
 
@@ -111,7 +111,7 @@ RSpec.describe CandidateInterface::SortApplicationChoices do
       ]
     end
 
-    it 'according to their application_choices_group and updated_at' do
+    it 'according to their application_choices_group_number and updated_at' do
       expected = application_choices.reverse
       result = described_class.call(application_choices: ApplicationChoice.all)
       expect(result).to match_array(expected)
