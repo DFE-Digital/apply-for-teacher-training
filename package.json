@@ -21,7 +21,9 @@
     "prettier": "^3.2.5",
     "standard": "^17.1.0",
     "stylelint": "^16.2.1",
-    "stylelint-config-gds": "^2.0.0"
+    "stylelint-config-gds": "^2.0.0",
+    "stylelint-config-recess-order": "^4.6.0",
+    "stylelint-order": "^6.0.4"
   },
   "scripts": {
     "lint": "standard 'app/frontend/packs'",
@@ -43,16 +45,5 @@
       "zE",
       "CustomEvent"
     ]
-  },
-  "stylelint": {
-    "extends": "stylelint-config-gds/scss",
-    "rules": {
-      "value-keyword-case": [
-        "lower",
-        {
-          "camelCaseSvgKeywords": true
-        }
-      ]
-    }
   }
 }
