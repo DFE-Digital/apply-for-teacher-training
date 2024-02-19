@@ -80,6 +80,10 @@ class ApplicationChoice < ApplicationRecord
     ApplicationStateChange::OFFERED_STATES.exclude? status.to_sym
   end
 
+  def application_in_progress?
+    ApplicationStateChange::IN_PROGRESS_STATES.include? status.to_sym
+  end
+
   def application_unsuccessful?
     ApplicationStateChange::UNSUCCESSFUL_STATES.include? status.to_sym
   end

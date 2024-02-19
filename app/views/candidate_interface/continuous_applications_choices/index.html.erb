@@ -25,7 +25,7 @@
 
     <% else %>
 
-      <% if @application_form_presenter.reached_maximum_unsuccessful_choices? %>
+      <% if @application_form_presenter.application_limit_reached? %>
         <p class="govuk-body">You cannot submit any more applications because you have <%= ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS %> unsuccessful applications.</p>
         <p class="govuk-body">You’ll be able to apply again in <%= CycleTimetable.apply_reopens.to_fs(:month_and_year) %> when applications open for courses starting in September <%= CycleTimetable.next_year %>.</p>
         <p class="govuk-body">Email <%= govuk_mail_to('becomingateacher@digital.education.gov.uk') %> if you need help with your applications.</p>

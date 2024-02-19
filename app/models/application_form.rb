@@ -287,37 +287,51 @@ class ApplicationForm < ApplicationRecord
     ended_without_success? && CycleTimetable.apply_2_deadline_has_passed?(self)
   end
 
-  def choices_left_to_make
-    number_of_choices_candidate_can_make - available_application_choices
+  ##########################################
+  #
+  # Limiting choices on applications form
+  #
+  ##########################################
+
+  def application_limit_reached?
+    application_choices.count(&:application_unsuccessful?) >= MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS
   end
 
-  def number_of_choices_candidate_can_make
-    MAXIMUM_NUMBER_OF_COURSE_CHOICES
-  end
-
-  def available_application_choices
-    application_choices.size - count_unsuccessful_choices
-  end
-
-  def count_unsuccessful_choices(count_inactive: true)
-    application_choices.count { |choice| (count_inactive || choice.status.to_sym != :inactive) && ApplicationStateChange::UNSUCCESSFUL_STATES.include?(choice.status.to_sym) }
-  end
-
-  def reached_maximum_unsuccessful_choices?
-    count_unsuccessful_choices(count_inactive: false) >= MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS
-  end
-
-  def can_submit_further_applications?
-    count_of_in_progress_applications < MAXIMUM_NUMBER_OF_COURSE_CHOICES
-  end
-
-  def count_of_in_progress_applications
-    application_choices.count { |choice| ApplicationStateChange::IN_PROGRESS_STATES.include?(choice.status.to_sym) }
-  end
+  ## A slot represents the availability of one course choice
 
   def can_add_more_choices?
-    choices_left_to_make.positive?
+    number_of_slots_left.positive?
   end
+
+  def can_submit_more_choices?
+    number_of_in_progress_slots_left.positive?
+  end
+
+  def cannot_add_more_choices?
+    number_of_slots_left.zero?
+  end
+
+  def number_of_slots_left
+    MAXIMUM_NUMBER_OF_COURSE_CHOICES - number_of_slots_taken
+  end
+
+  def number_of_in_progress_slots_left
+    MAXIMUM_NUMBER_OF_COURSE_CHOICES - number_of_in_progress_slots_taken
+  end
+
+  def number_of_slots_taken
+    slots_taken.count
+  end
+
+  def number_of_in_progress_slots_taken
+    application_choices.count(&:application_in_progress?)
+  end
+
+  def slots_taken
+    application_choices.reject(&:application_unsuccessful?)
+  end
+
+  ## End Limiting choices on applications form
 
   def recruited?
     application_choices.recruited.any?
@@ -396,36 +410,8 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
-  def maximum_number_of_course_choices?
-    applications_left.zero?
-  end
-
-  def applications_left
-    maximum_number_of_course_choices - number_of_in_progress_applications
-  end
-
-  def number_of_in_progress_applications
-    in_progress_applications.count
-  end
-
-  def in_progress_applications
-    application_choices.reject(&:application_unsuccessful?)
-  end
-
   def submitted_applications?
     application_choices.map(&:sent_to_provider_at).any?
-  end
-
-  def support_cannot_add_course_choice?
-    number_of_unsuccessful_application_choices >= maximum_number_of_course_choices
-  end
-
-  def number_of_unsuccessful_application_choices
-    application_choices.where.not(status: ApplicationStateChange::UNSUCCESSFUL_STATES).count
-  end
-
-  def maximum_number_of_course_choices
-    MAXIMUM_NUMBER_OF_COURSE_CHOICES
   end
 
   def editable?

@@ -71,9 +71,8 @@ Regenerate this diagram with `bundle exec rake erd`.
 
 ### Application states
 
-![All of the states and transitions in the app](docs/states.png)
+[See detailed documentation here](docs/states.md)
 
-Regenerate this diagram with `bundle exec rake generate_state_diagram`.
 
 ## Dependencies
 

@@ -104,7 +104,7 @@ module CandidateInterface
         end
 
         def redirect_to_your_applications_if_maximum_amount_of_unsuccessful_applications_have_been_reached
-          redirect_to candidate_interface_continuous_applications_choices_path if current_application.reached_maximum_unsuccessful_choices?
+          redirect_to candidate_interface_continuous_applications_choices_path if current_application.application_limit_reached?
         end
       end
     end

@@ -3,9 +3,8 @@ module CandidateInterface
     attr_reader :application_form
 
     delegate :submitted?,
-             :maximum_number_of_course_choices?,
-             :maximum_number_of_course_choices,
-             :applications_left,
+             :cannot_add_more_choices?,
+             :number_of_slots_left,
              to: :application_form
 
     def initialize(application_form)
@@ -29,18 +28,18 @@ module CandidateInterface
     def maximum_number_of_applications_message
       return [default_message] unless submitted?
 
-      if maximum_number_of_course_choices?
+      if cannot_add_more_choices?
         [
-          t('candidate_interface.applications_left_message.can_not_add_more_heading', maximum_number_of_course_choices:),
+          t('candidate_interface.applications_left_message.can_not_add_more_heading', maximum_number_of_course_choices: ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES),
           t('candidate_interface.applications_left_message.can_not_add_more_message'),
         ]
       else
-        [t('candidate_interface.applications_left_message.can_add_more', count: applications_left)]
+        [t('candidate_interface.applications_left_message.can_add_more', count: number_of_slots_left)]
       end
     end
 
     def default_message
-      t('candidate_interface.applications_left_message.default_message', maximum_number_of_course_choices:)
+      t('candidate_interface.applications_left_message.default_message', maximum_number_of_course_choices: ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES)
     end
   end
 end

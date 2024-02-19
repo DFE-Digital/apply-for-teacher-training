@@ -9,7 +9,7 @@ module CandidateInterface
              :candidate_has_previously_applied?,
              :can_add_more_choices?,
              :english_main_language,
-             :reached_maximum_unsuccessful_choices?,
+             :application_limit_reached?,
              :first_name,
              :first_nationality,
              :previous_application_form,
