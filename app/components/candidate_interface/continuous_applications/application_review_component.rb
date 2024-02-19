@@ -120,7 +120,7 @@ module CandidateInterface
           value = value
             .then { |text| sanitize(text, class: 'govuk-body') } # Sanitizes text before handling html safe
             .then { |text| text.truncate_words(40, omission: ' ') }
-            .then { |text| "#{text} <span id='show-more-show-less-text' class='govuk-visually-hidden'>#{value[text.size..-1]}</span>" }
+            .then { |text| "#{text} <span id='show-more-show-less-text' tabindex='-1' class='govuk-visually-hidden'>#{value[text.size..-1]}</span>" }
             .then { |text| "#{text} #{govuk_link_to('Show more', '#', id: 'show-more-show-less')}" }
             .then(&:html_safe)
         end
