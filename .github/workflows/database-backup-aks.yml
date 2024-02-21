@@ -64,7 +64,7 @@ jobs:
     - name: Back up Azure database
       shell: bash
       run: |
-        bin/konduit.sh apply-production -- pg_dump -E utf8 --compress=1 --clean --if-exists --no-owner --verbose --no-password -f ${BACKUP_FILE_NAME}.sql.gz
+        bin/konduit.sh -t 7200 apply-production -- pg_dump -E utf8 --compress=1 --clean --if-exists --no-owner --verbose --no-password -f ${BACKUP_FILE_NAME}.sql.gz
 
     - name: Set Connection String
       run: |
