@@ -110,6 +110,10 @@ variable "pdb_min_available" {
 variable "config_short" {}
 variable "service_short" {}
 variable "azure_maintenance_window" {}
+variable "database_username" {}
+variable "database_password" {}
+variable "database_host" {}
+variable "database_port" {}
 
 variable "alert_window_size" {
   type        = string
@@ -122,11 +126,12 @@ locals {
   app_config_name                      = "apply-config-${var.app_environment}"
   app_secrets_name                     = "apply-secrets-${var.app_environment}"
   backing_services_resource_group_name = "${var.cluster.cluster_resource_prefix}-bs-rg"
-  database_host                        = var.deploy_azure_backing_services ? azurerm_postgresql_flexible_server.postgres-server[0].fqdn : local.postgres_service_name
-  database_url                         = "postgres://postgres:${var.postgres_admin_password}@${local.database_host}:5432/${local.postgres_service_name}"
+  database_url                         = "postgres://${var.database_username}:${var.database_password}@${var.database_host}:${var.database_port}/${local.postgres_service_name}"
   hostname                             = var.cluster.dns_zone_prefix != null ? "${local.webapp_name}.${var.cluster.dns_zone_prefix}.teacherservices.cloud" : "${local.webapp_name}.teacherservices.cloud"
   postgres_dns_zone                    = var.cluster.dns_zone_prefix != null ? "${var.cluster.dns_zone_prefix}.internal.postgres.database.azure.com" : "production.internal.postgres.database.azure.com"
   postgres_server_name                 = "${var.azure_resource_prefix}-${var.service_short}-${var.app_environment}-psql"
+  # We don't use the att_<env> database created by the postgres module as the app connects to the
+  # existing one with the local.postgres_service_name name
   postgres_service_name                = "apply-postgres-${var.app_environment}"
   redis_dns_zone                       = "privatelink.redis.cache.windows.net"
   redis_cache_name                     = "${var.azure_resource_prefix}-${var.service_short}-${var.app_environment}-redis-cache"

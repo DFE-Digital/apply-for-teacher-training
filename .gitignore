@@ -67,6 +67,8 @@ jmeter.log
 *.tfstate
 .terraform
 terraform/*token*
+bin/terrafile
+terraform/aks/vendor/
 
 # Key Vault secrets management script used in Makefile
 bin/fetch_config.rb

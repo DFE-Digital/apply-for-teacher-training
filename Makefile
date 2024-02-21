@@ -5,6 +5,8 @@ RSPEC_RESULTS_PATH=/rspec-results
 INTEGRATION_TEST_PATTERN=spec/{system,requests}/**/*_spec.rb
 COVERAGE_RESULT_PATH=/app/coverage
 SERVICE_SHORT=att
+SERVICE_NAME=apply
+TERRAFILE_VERSION=0.8
 
 define copy_to_host
 	## Obtains the results folder from within the stopped container and copies it to the local file system on the agent.
@@ -181,14 +183,16 @@ shell: get-cluster-credentials ## Open a shell on the app instance on AKS, eg: m
 	$(if ${APP_NAME_SUFFIX}, $(eval APP_NAME=apply-clock-worker-${APP_NAME_SUFFIX}), $(eval APP_NAME=apply-clock-worker-${PAAS_APP_ENV}))
 	kubectl -n ${NAMESPACE} -ti exec "deployment/${APP_NAME}" -- sh -c "cd /app && /usr/local/bin/bundle exec rails console -- --noautocomplete"
 
-deploy-init:
+deploy-init: bin/terrafile
 	$(if $(or $(IMAGE_TAG), $(NO_IMAGE_TAG_DEFAULT)), , $(eval export IMAGE_TAG=main))
 	$(if $(IMAGE_TAG), , $(error Missing environment variable "IMAGE_TAG"))
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show
+	./bin/terrafile -p terraform/aks/vendor/modules -f terraform/aks/workspace_variables/$(CONFIG)_Terrafile
 	terraform -chdir=terraform/$(PLATFORM) init -reconfigure -upgrade -backend-config=./workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
+	$(eval export TF_VAR_service_name=${SERVICE_NAME})
 
 deploy-plan: deploy-init
 	terraform -chdir=terraform/$(PLATFORM) plan -var-file=./workspace_variables/$(APP_ENV).tfvars.json ${TF_VARS}
@@ -324,3 +328,7 @@ production-cluster:
 get-cluster-credentials: set-azure-account
 	az aks get-credentials --overwrite-existing -g ${CLUSTER_RESOURCE_GROUP_NAME} -n ${CLUSTER_NAME}
 	kubelogin convert-kubeconfig -l $(if ${GITHUB_ACTIONS},spn,azurecli)
+
+bin/terrafile: ## Install terrafile to manage terraform modules
+	curl -sL https://github.com/coretech/terrafile/releases/download/v${TERRAFILE_VERSION}/terrafile_${TERRAFILE_VERSION}_$$(uname)_x86_64.tar.gz \
+		| tar xz -C ./bin terrafile

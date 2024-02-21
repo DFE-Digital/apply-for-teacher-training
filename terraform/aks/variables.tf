@@ -74,6 +74,9 @@ variable "alert_window_size" {
   description = "The period of time that is used to monitor alert activity e.g PT1M, PT5M, PT15M, PT30M, PT1H, PT6H or PT12H"
 }
 
+# NEW
+variable "service_name" {}
+
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
 
