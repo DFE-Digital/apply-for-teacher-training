@@ -80,7 +80,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     end
 
     it 'shows the application forms becoming_a_teacher as the personal statement' do
-      expect(result.text).to include("Personal statement#{becoming_a_teacher}")
+      expect(result.text).to include("Personal statement  #{becoming_a_teacher}")
     end
 
     context 'when course has multiple study modes' do
@@ -160,7 +160,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     end
 
     it 'shows the personal statement' do
-      expect(result).to have_content("Personal statement\n#{personal_statement}")
+      expect(result).to have_content("Personal statement\n  #{personal_statement}")
     end
 
     it 'does not show the interview row' do

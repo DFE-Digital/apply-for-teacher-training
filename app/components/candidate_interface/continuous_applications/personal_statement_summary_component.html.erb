@@ -1,0 +1,9 @@
+<% if full_personal_statement? %>
+  <%= personal_statement %>
+<% else %>
+  <%= personal_statement_short_version %>
+  <span id="app-remaining-personal-statement" tabindex='-1' class='govuk-visually-hidden'>
+    <%= personal_statement_remaining_version %>
+  </span>
+  <%= govuk_link_to('Show more', '#', class: 'app-show-more-show-less', data: { container: 'app-remaining-personal-statement', 'show-more': 'Show more', 'show-less': 'Show less' }) %>
+<% end %>
