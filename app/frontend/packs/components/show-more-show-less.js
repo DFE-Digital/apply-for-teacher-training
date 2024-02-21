@@ -1,34 +1,38 @@
 function ShowMoreShowLess () {
-  this.link = document.getElementById('show-more-show-less')
-  this.container = document.getElementById('show-more-show-less-text');
-  this.isLess = true;
-  this.lessText = "Show less";
-  this.moreText = "Show more";
+  this.showMoreLinks = document.getElementsByClassName('app-show-more-show-less')
 
-  this.addButtonListener()
+  const context = this
+
+  if (context.showMoreLinks.length) {
+    [].forEach.call(context.showMoreLinks, function(showMoreLink) {
+      context.setShowMoreLinkListener(showMoreLink)
+    });
+  }
 }
 
-ShowMoreShowLess.prototype.addButtonListener = function () {
-  let context = this;
+ShowMoreShowLess.prototype.setShowMoreLinkListener = function (showMoreLink) {
+  showMoreLink.addEventListener('click', this.expandContractTarget)
+}
 
-  this.link.addEventListener('click', function (e) {
-    e.preventDefault()
+ShowMoreShowLess.prototype.expandContractTarget = function (event) {
+  event.preventDefault()
 
-    if (context.isLess) {
-      context.isLess = false;
-     // context.container.style.display = 'block';
-      context.container.classList.remove('govuk-visually-hidden');
-      context.link.innerHTML = context.lessText;
-      context.container.focus();
-      context.link.setAttribute('aria-expanded', true);
-    } else {
-      context.isLess = true;
-      // context.container.style.display = 'none';
-      context.container.classList.add('govuk-visually-hidden');
-      context.link.innerHTML = context.moreText;
-      context.link.setAttribute('aria-expanded', false);
-    }
-  }, false)
+  const link = event.target;
+  const container = document.getElementById(link.getAttribute('data-container'))
+  const lessText = link.getAttribute('data-show-less')
+  const moreText = link.getAttribute('data-show-more')
+  const isExpanded = link.getAttribute('aria-expanded')
+
+  if (isExpanded && isExpanded == 'true') {
+    container.classList.add('govuk-visually-hidden')
+    link.text = moreText
+    link.setAttribute('aria-expanded', false)
+  } else {
+    container.classList.remove('govuk-visually-hidden')
+    link.text = lessText
+    container.focus()
+    link.setAttribute('aria-expanded', true)
+  }
 }
 
 const showMoreShowLess = () => new ShowMoreShowLess()
