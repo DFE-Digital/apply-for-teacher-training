@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: 6c992b64df6909a4e5e82dc27e2237c8db915865
-  tag: v1.11.7
+  revision: a925362b48b9745d8704bf556e1399af2e70d74e
+  branch: update-import-job-entity-check
   specs:
-    dfe-analytics (1.11.7)
+    dfe-analytics (1.11.6)
       google-cloud-bigquery (~> 1.38)
       request_store_rails (~> 2)
 
