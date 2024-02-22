@@ -4,9 +4,9 @@ function ShowMoreShowLess () {
   const context = this
 
   if (context.showMoreLinks.length) {
-    [].forEach.call(context.showMoreLinks, function(showMoreLink) {
+    [].forEach.call(context.showMoreLinks, function (showMoreLink) {
       context.setShowMoreLinkListener(showMoreLink)
-    });
+    })
   }
 }
 
@@ -17,13 +17,13 @@ ShowMoreShowLess.prototype.setShowMoreLinkListener = function (showMoreLink) {
 ShowMoreShowLess.prototype.expandContractTarget = function (event) {
   event.preventDefault()
 
-  const link = event.target;
+  const link = event.target
   const container = document.getElementById(link.getAttribute('data-container'))
   const lessText = link.getAttribute('data-show-less')
   const moreText = link.getAttribute('data-show-more')
   const isExpanded = link.getAttribute('aria-expanded')
 
-  if (isExpanded && isExpanded == 'true') {
+  if (isExpanded === 'true') {
     container.classList.add('govuk-visually-hidden')
     link.text = moreText
     link.setAttribute('aria-expanded', false)
