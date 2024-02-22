@@ -64,36 +64,36 @@ module TeacherTrainingPublicAPI
     end
 
     def assign_course_attributes(course, course_from_api, recruitment_cycle_year)
-      course.uuid = course_from_api.uuid
-      course.code = course_from_api.code
-      course.name = course_from_api.name
-      course.level = course_from_api.level
-      course.study_mode = study_mode(course_from_api)
-      course.description = course_from_api.summary
-      course.start_date = course_from_api.start_date
-      course.course_length = course_from_api.course_length
-      course.applications_open_from = course_from_api.applications_open_from
-      course.recruitment_cycle_year = recruitment_cycle_year
-      course.exposed_in_find = course_from_api.findable
-      course.can_sponsor_skilled_worker_visa = course_from_api.can_sponsor_skilled_worker_visa
-      course.can_sponsor_student_visa = course_from_api.can_sponsor_student_visa
-      course.funding_type = course_from_api.funding_type
-      course.program_type = course_from_api.program_type
-      course.age_range = age_range_in_years(course_from_api)
-      course.withdrawn = course_from_api.state == 'withdrawn'
-      course.qualifications = course_from_api.qualifications
-      course.degree_grade = course_from_api.degree_grade
-      course.degree_subject_requirements = course_from_api.degree_subject_requirements
-      course.accept_pending_gcse = course_from_api.accept_pending_gcse
-      course.accept_gcse_equivalency = course_from_api.accept_gcse_equivalency
       course.accept_english_gcse_equivalency = course_from_api.accept_english_gcse_equivalency
+      course.accept_gcse_equivalency = course_from_api.accept_gcse_equivalency
       course.accept_maths_gcse_equivalency = course_from_api.accept_maths_gcse_equivalency
+      course.accept_pending_gcse = course_from_api.accept_pending_gcse
       course.accept_science_gcse_equivalency = course_from_api.accept_science_gcse_equivalency
       course.additional_gcse_equivalencies = course_from_api.additional_gcse_equivalencies
+      course.age_range = age_range_in_years(course_from_api)
+      course.applications_open_from = course_from_api.applications_open_from
+      course.can_sponsor_skilled_worker_visa = course_from_api.can_sponsor_skilled_worker_visa
+      course.can_sponsor_student_visa = course_from_api.can_sponsor_student_visa
+      course.code = course_from_api.code
+      course.course_length = course_from_api.course_length
+      course.degree_grade = course_from_api.degree_grade
+      course.degree_subject_requirements = course_from_api.degree_subject_requirements
+      course.description = course_from_api.summary
+      course.exposed_in_find = course_from_api.findable
       course.fee_details = course_from_api.fee_details
-      course.fee_international = course_from_api.fee_international
       course.fee_domestic = course_from_api.fee_domestic
+      course.fee_international = course_from_api.fee_international
+      course.funding_type = course_from_api.funding_type
+      course.level = course_from_api.level
+      course.name = course_from_api.name
+      course.program_type = course_from_api.program_type
+      course.qualifications = course_from_api.qualifications
+      course.recruitment_cycle_year = recruitment_cycle_year
       course.salary_details = course_from_api.salary_details
+      course.start_date = course_from_api.start_date
+      course.study_mode = study_mode(course_from_api)
+      course.uuid = course_from_api.uuid
+      course.withdrawn = course_from_api.state == 'withdrawn'
       course_from_api.subject_codes.each do |code|
         subject = ::Subject.find_or_initialize_by(code:)
         course.subjects << subject unless course.course_subjects.exists?(subject_id: subject.id)
