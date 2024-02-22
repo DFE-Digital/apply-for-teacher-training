@@ -15,7 +15,7 @@ RSpec.describe 'Personal statement', :js do
     then_i_should_see_the_full_personal_statement
   end
 
-  scenario 'when application is unsubmitted and showing short personal statement version' do
+  scenario 'when application is unsubmitted and personal statement is long' do
     given_i_have_an_unsubmitted_application_with_long_personal_statement
     when_i_visit_my_applications
     when_i_click_to_view_my_application
@@ -33,7 +33,7 @@ RSpec.describe 'Personal statement', :js do
     then_i_should_see_the_full_personal_statement
   end
 
-  scenario 'when application is submitted and showing short personal statement version' do
+  scenario 'when application is submitted and personal statement is long' do
     given_i_have_an_submitted_application_with_long_personal_statement
     when_i_visit_my_applications
     when_i_click_to_view_my_application
@@ -67,8 +67,12 @@ RSpec.describe 'Personal statement', :js do
     'short personal statement'
   end
 
+  def first_part_long_personal_statement
+    number_of_words_to_display_the_show_more_link.times.map { 'long' }.join(' ')
+  end
+
   def long_personal_statement
-    "#{'long' * 40} #{remaining_personal_statement}"
+    "#{first_part_long_personal_statement} #{remaining_personal_statement}"
   end
 
   def remaining_personal_statement
@@ -80,8 +84,8 @@ RSpec.describe 'Personal statement', :js do
   end
 
   def then_i_should_see_only_the_short_personal_statement
-    expect(page).to have_content('long' * 40)
-    expect(page).not_to have_content(remaining_personal_statement)
+    expect(page).to have_content(first_part_long_personal_statement)
+    expect(page).to have_no_content(remaining_personal_statement)
   end
 
   def when_i_click_show_more
@@ -89,11 +93,15 @@ RSpec.describe 'Personal statement', :js do
   end
 
   def then_i_should_see_the_whole_personal_statement
-    expect(page).to have_content('long' * 40)
+    expect(page).to have_content(first_part_long_personal_statement)
     expect(page).to have_content(remaining_personal_statement)
   end
 
   def when_i_click_show_less
     click_link_or_button 'Show less'
+  end
+
+  def number_of_words_to_display_the_show_more_link
+    CandidateInterface::ContinuousApplications::PersonalStatementSummaryComponent::MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT
   end
 end
