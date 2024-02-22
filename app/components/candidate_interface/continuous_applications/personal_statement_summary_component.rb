@@ -1,7 +1,7 @@
 module CandidateInterface
   module ContinuousApplications
     class PersonalStatementSummaryComponent < ViewComponent::Base
-      MAXIMUM_CHARACTERS_FULL_PERSONAL_STATEMENT = 40
+      MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT = 40
       attr_reader :application_choice
       delegate :unsubmitted?,
                to: :application_choice
@@ -13,12 +13,12 @@ module CandidateInterface
       def full_personal_statement?
         number_of_words = personal_statement.to_s.split.size
 
-        number_of_words <= MAXIMUM_CHARACTERS_FULL_PERSONAL_STATEMENT
+        number_of_words <= MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT
       end
 
       def personal_statement_short_version
         personal_statement.truncate_words(
-          MAXIMUM_CHARACTERS_FULL_PERSONAL_STATEMENT,
+          MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT,
           omission: ' ',
         )
       end
