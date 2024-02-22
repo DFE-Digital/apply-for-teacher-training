@@ -10,8 +10,6 @@ variable "key_vault_name" {}
 variable "key_vault_infra_secret_name" {}
 variable "key_vault_app_secret_name" {}
 
-variable "postgres_version" { default = "11" }
-
 variable "gov_uk_host_names" {
   default = []
   type    = list(any)
@@ -22,13 +20,6 @@ variable "statuscake_alerts" {
   type    = map(any)
   default = {}
 }
-
-# Restore DB variables
-variable "paas_restore_db_from_db_instance" { default = "" }
-
-variable "paas_restore_db_from_point_in_time_before" { default = "" }
-
-variable "paas_enable_external_logging" { default = true }
 
 # Kubernetes variables
 variable "namespace" { default = "" }
@@ -44,8 +35,6 @@ variable "webapp_startup_command" { default = null }
 variable "azure_resource_prefix" {}
 
 variable "enable_alerting" { default = false }
-variable "pg_actiongroup_name" { default = false }
-variable "pg_actiongroup_rg" { default = false }
 variable "webapp_memory_max" { default = "1Gi" }
 variable "worker_memory_max" { default = "1Gi" }
 variable "secondary_worker_memory_max" { default = "1Gi" }
@@ -67,15 +56,13 @@ variable "pdb_min_available" { default = null }
 variable "config_short" {}
 variable "service_short" {}
 variable "azure_maintenance_window" { default = null }
-variable "alert_window_size" {
-  type        = string
-  nullable    = false
-  default     = "PT5M"
-  description = "The period of time that is used to monitor alert activity e.g PT1M, PT5M, PT15M, PT30M, PT1H, PT6H or PT12H"
-}
 
 # NEW
 variable "service_name" {}
+variable "redis_server_version" {
+  type    = string
+  default = "6"
+}
 
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
