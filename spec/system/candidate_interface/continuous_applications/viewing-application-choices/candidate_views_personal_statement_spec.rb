@@ -85,7 +85,7 @@ RSpec.describe 'Personal statement', :js do
 
   def then_i_should_see_only_the_short_personal_statement
     expect(page).to have_content(first_part_long_personal_statement)
-    expect(page).to have_no_content(remaining_personal_statement)
+    expect(remaining_personal_statement_element[:class]).to eq('govuk-visually-hidden')
   end
 
   def when_i_click_show_more
@@ -94,7 +94,7 @@ RSpec.describe 'Personal statement', :js do
 
   def then_i_should_see_the_whole_personal_statement
     expect(page).to have_content(first_part_long_personal_statement)
-    expect(page).to have_content(remaining_personal_statement)
+    expect(remaining_personal_statement_element[:class]).not_to include('govuk-visually-hidden')
   end
 
   def when_i_click_show_less
@@ -103,5 +103,9 @@ RSpec.describe 'Personal statement', :js do
 
   def number_of_words_to_display_the_show_more_link
     CandidateInterface::ContinuousApplications::PersonalStatementSummaryComponent::MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT
+  end
+
+  def remaining_personal_statement_element
+    page.find('#app-remaining-personal-statement')
   end
 end
