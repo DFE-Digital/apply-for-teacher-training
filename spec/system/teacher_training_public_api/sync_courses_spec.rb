@@ -49,6 +49,7 @@ RSpec.feature 'Sync courses', :sidekiq do
           state: 'published',
           qualifications: %w[qts pgce],
           accredited_body_code: '',
+          application_status: 'open',
           uuid: @course_uuid,
           can_sponsor_skilled_worker_visa: false,
           can_sponsor_student_visa: false,
@@ -68,6 +69,7 @@ RSpec.feature 'Sync courses', :sidekiq do
           age_minimum: 3,
           state: 'published',
           qualifications: %w[qts pgce],
+          application_status: 'closed',
           accredited_body_code: 'DEF',
           can_sponsor_skilled_worker_visa: true,
           can_sponsor_student_visa: true,
@@ -103,6 +105,7 @@ RSpec.feature 'Sync courses', :sidekiq do
     expect(course).not_to be_nil
     expect(course.can_sponsor_skilled_worker_visa).to be true
     expect(course.can_sponsor_student_visa).to be true
+    expect(course.application_status).to eq 'closed'
   end
 
   def and_it_creates_a_corresponding_provider_relationship
@@ -118,6 +121,7 @@ RSpec.feature 'Sync courses', :sidekiq do
     expect(course.withdrawn).to be false
     expect(course.can_sponsor_skilled_worker_visa).to be false
     expect(course.can_sponsor_student_visa).to be false
+    expect(course.application_status).to eq 'open'
   end
 
   def and_it_sets_the_last_synced_timestamp
