@@ -106,6 +106,6 @@ RSpec.describe 'Personal statement', :js do
   end
 
   def remaining_personal_statement_element
-    page.find('#app-remaining-personal-statement')
+    page.find(id: 'app-remaining-personal-statement')
   end
 end
