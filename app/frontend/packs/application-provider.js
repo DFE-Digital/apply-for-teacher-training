@@ -6,7 +6,7 @@ import checkboxSearchFilter from './components/checkbox_search_filter'
 import '../styles/application-provider.scss'
 import cookieBanners from './cookies/cookie-banners'
 
-require.context('govuk-frontend/dist/govuk')
+require.context('govuk-frontend/dist/govuk/assets')
 
 govUKFrontendInitAll()
 initWarnOnUnsavedChanges()

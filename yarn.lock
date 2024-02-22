@@ -3482,7 +3482,7 @@ devtools-protocol@0.0.1249869:
   resolved "https://registry.yarnpkg.com/devtools-protocol/-/devtools-protocol-0.0.1249869.tgz#000c3cf1afc189a18db98135a50d4a8f95a47d29"
   integrity sha512-Ctp4hInA0BEavlUoRy9mhGq0i+JSo/AwVyX2EFgZmV1kYB+Zq+EMBAn52QWu6FbRr10hRb6pBl420upbp4++vg==
 
-"dfe-autocomplete@github:DFE-Digital/dfe-autocomplete":
+"dfe-autocomplete@github:DFE-Digital/dfe-autocomplete#8e7389ff62a38bc8880323f6c58eed9c8d10f080":
   version "0.0.1"
   resolved "https://codeload.github.com/DFE-Digital/dfe-autocomplete/tar.gz/36d80e6b5bba67c92cd9ec6982a4e536d1889aed"
   dependencies:
