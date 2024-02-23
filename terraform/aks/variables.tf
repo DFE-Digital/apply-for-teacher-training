@@ -52,7 +52,6 @@ variable "redis_cache_sku_name" { default = "Standard" }
 variable "redis_queue_capacity" { default = 1 }
 variable "redis_queue_family" { default = "C" }
 variable "redis_queue_sku_name" { default = "Standard" }
-variable "pdb_min_available" { default = null }
 variable "config_short" {}
 variable "service_short" {}
 variable "azure_maintenance_window" { default = null }
@@ -74,7 +73,6 @@ variable "alert_window_size" {
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
 
-  app_secrets       = yamldecode(data.azurerm_key_vault_secret.app_secrets.value)
   infra_secrets     = yamldecode(data.azurerm_key_vault_secret.infra_secrets.value)
 
   app_env_values_from_yaml = try(yamldecode(file("${path.module}/workspace-variables/${var.paas_app_environment}_app_env.yml")), {})
@@ -172,4 +170,6 @@ locals {
   azure_RBAC_enabled = length(data.azurerm_kubernetes_cluster.main.azure_active_directory_role_based_access_control) > 0
   spn_authentication = contains(keys(data.environment_variables.github_actions.items), "GITHUB_ACTIONS")
   kubelogin_args = local.spn_authentication ? local.kubelogin_args_map["spn"] : local.kubelogin_args_map["azurecli"]
+  webapp_startup_command               = var.webapp_startup_command == null ? null : ["/bin/sh", "-c", var.webapp_startup_command]
+
 }
