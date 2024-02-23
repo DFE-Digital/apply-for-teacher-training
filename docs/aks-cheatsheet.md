@@ -8,15 +8,16 @@ All examples below show qa usage and you should adapt accordingly.
 
 ### Raising a PIM request
 
-You need to activate the role in the desired cluster below:
-<https://portal.azure.com/?Microsoft_Azure_PIMCommon=true#view/Microsoft_Azure_PIMCommon/ActivationMenuBlade/~/azurerbac>
+You need to activate the group role in the desired cluster below:
+
+<https://portal.azure.com/?Microsoft_Azure_PIMCommon=true&feature.msaljs=true#view/Microsoft_Azure_PIMCommon/ActivationMenuBlade/~/aadgroup/provider/aadgroup>
 
 Example: Activate `*-teacher-services-cloud-test`. It will be approved automatically after a few seconds
 
 ### Azure setup
 
 ```sh
-az login
+az login --use-device-code
 ```
 
 Get access credentials for a managed Kubernetes cluster (passing the
