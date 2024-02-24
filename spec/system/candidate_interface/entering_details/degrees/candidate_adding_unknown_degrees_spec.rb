@@ -232,7 +232,7 @@ RSpec.feature 'Adding an unknown degree', :js do
   end
 
   def and_that_the_section_is_completed
-    expect(find_by_id('degree-badge-id').text).to eq('COMPLETED')
+    expect(find_by_id('degree-badge-id').text).to eq('Completed')
   end
 
   def then_i_can_check_my_answers
