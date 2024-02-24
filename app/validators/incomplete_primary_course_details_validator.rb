@@ -1,4 +1,8 @@
 class IncompletePrimaryCourseDetailsValidator < ActiveModel::EachValidator
+  include ActionView::Helpers::UrlHelper
+  include GovukLinkHelper
+  include GovukVisuallyHiddenHelper
+
   def validate_each(record, attribute, application_choice)
     application_form_sections = CandidateInterface::ApplicationFormSections.new(
       application_choice:,
@@ -23,17 +27,10 @@ class IncompletePrimaryCourseDetailsValidator < ActiveModel::EachValidator
 private
 
   def link_to_science
-    view.govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_gcse_details_new_type_path('science'))
+    govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_gcse_details_new_type_path('science'))
   end
 
   def link_to_details
-    view.govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_details_path)
-  end
-
-  def view
-    Class.new do
-      include ActionView::Helpers::UrlHelper
-      include GovukLinkHelper
-    end.new
+    govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_details_path)
   end
 end

@@ -1,4 +1,8 @@
 class IncompleteDetailsValidator < ActiveModel::EachValidator
+  include ActionView::Helpers::UrlHelper
+  include GovukLinkHelper
+  include GovukVisuallyHiddenHelper
+
   def validate_each(record, attribute, application_choice)
     sections = CandidateInterface::ApplicationFormSections.new(
       application_form: application_choice.application_form,
@@ -16,13 +20,6 @@ class IncompleteDetailsValidator < ActiveModel::EachValidator
 private
 
   def link_to_details
-    view.govuk_link_to('complete your details', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_details_path)
-  end
-
-  def view
-    Class.new do
-      include ActionView::Helpers::UrlHelper
-      include GovukLinkHelper
-    end.new
+    govuk_link_to('complete your details', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_details_path)
   end
 end

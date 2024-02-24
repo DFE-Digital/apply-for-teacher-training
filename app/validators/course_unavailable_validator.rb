@@ -1,4 +1,8 @@
 class CourseUnavailableValidator < ActiveModel::EachValidator
+  include ActionView::Helpers::UrlHelper
+  include GovukLinkHelper
+  include GovukVisuallyHiddenHelper
+
   def validate_each(record, attribute, application_choice)
     course = application_choice.current_course
 
@@ -16,13 +20,6 @@ class CourseUnavailableValidator < ActiveModel::EachValidator
 private
 
   def link_to_remove(application_choice)
-    view.govuk_link_to('Remove this application', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_confirm_destroy_course_choice_path(application_choice.id))
-  end
-
-  def view
-    Class.new do
-      include ActionView::Helpers::UrlHelper
-      include GovukLinkHelper
-    end.new
+    govuk_link_to('Remove this application', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_confirm_destroy_course_choice_path(application_choice.id))
   end
 end

@@ -2,6 +2,8 @@ module CandidateInterface
   module ContinuousApplications
     class ApplicationChoiceSubmission
       include ActiveModel::Model
+      include GovukVisuallyHiddenHelper
+
       attr_accessor :application_choice
 
       delegate :application_form, to: :application_choice

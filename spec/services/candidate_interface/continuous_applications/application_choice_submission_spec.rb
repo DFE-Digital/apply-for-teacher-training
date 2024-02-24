@@ -1,15 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubmission do
+  include ActionView::Helpers::UrlHelper
+  include GovukLinkHelper
+  include GovukVisuallyHiddenHelper
+
   subject(:application_choice_submission) { described_class.new(application_choice:) }
 
   let(:routes) { Rails.application.routes.url_helpers }
-  let(:view) do
-    Class.new do
-      include ActionView::Helpers::UrlHelper
-      include GovukLinkHelper
-    end.new
-  end
 
   describe 'validations' do
     context 'immigration_status validation' do
@@ -17,7 +15,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
       let(:application_form) { create(:application_form, :completed) }
       let(:application_choice) { create(:application_choice, :unsubmitted, course:, application_form:) }
       let(:link_to_find) do
-        view.govuk_link_to(
+        govuk_link_to(
           'Find a course that has visa sponsorship',
           routes.find_url,
           target: '_blank',
@@ -183,7 +181,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
         <<~MSG.chomp
           You cannot submit this application as the course is no longer available.
 
-          #{view.govuk_link_to('Remove this application', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_confirm_destroy_course_choice_path(application_choice.id))} and search for other courses.
+          #{govuk_link_to('Remove this application', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_confirm_destroy_course_choice_path(application_choice.id))} and search for other courses.
         MSG
       end
     end
@@ -249,12 +247,12 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
       end
 
       def link_to_details_error_message
-        link_to_details = view.govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_details_path)
+        link_to_details = govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_details_path)
         t('activemodel.errors.models.candidate_interface/continuous_applications/application_choice_submission.attributes.application_choice.incomplete_details_including_primary_course_details', link_to_details:)
       end
 
       def link_to_gcse_error_message
-        link_to_science = view.govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_gcse_details_new_type_path('science'))
+        link_to_science = govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_gcse_details_new_type_path('science'))
 
         t('activemodel.errors.models.candidate_interface/continuous_applications/application_choice_submission.attributes.application_choice.incomplete_primary_course_details', link_to_science:)
       end
@@ -282,7 +280,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
 
       def incomplete_details_error_message
         <<~MSG.chomp
-          You cannot submit this application until you #{view.govuk_link_to('complete your details', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_details_path)}.
+          You cannot submit this application until you #{govuk_link_to('complete your details', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_details_path)}.
 
           Your application will be saved as a draft while you finish adding your details.
         MSG

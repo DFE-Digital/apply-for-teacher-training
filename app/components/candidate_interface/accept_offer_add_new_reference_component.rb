@@ -1,6 +1,7 @@
 module CandidateInterface
   class AcceptOfferAddNewReferenceComponent < ViewComponent::Base
     include AddNewReferenceHelpers
+    include GovukVisuallyHiddenHelper
 
     attr_reader :application_form, :application_choice
 
