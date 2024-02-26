@@ -52,17 +52,7 @@ class DuplicateApplication
       end
 
       if original_application_form.equality_and_diversity?
-        original_application_form_sex = original_application_form.equality_and_diversity['sex'].to_s
-        hesa_data = Hesa::Sex.find(original_application_form_sex.downcase, @recruitment_cycle_year)
-        hesa_sex = hesa_data&.hesa_code
-        sex = hesa_data&.type || original_application_form_sex
-
-        new_application_form.update!(
-          equality_and_diversity: original_application_form.equality_and_diversity.merge(
-            hesa_sex:,
-            sex:,
-          ),
-        )
+        carry_over_equality_and_diversity_data(original_application_form:, new_application_form:)
       end
 
       original_references = original_application_form.application_references
@@ -84,8 +74,7 @@ class DuplicateApplication
         change_references_to_not_requested_yet(references_cancelled_at_eoc)
       end
 
-      references_completed = apply_again? && new_application_form.complete_references_information?
-      new_application_form.update!(references_completed:)
+      new_application_form.update!(references_completed: false)
 
       original_application_form.application_work_history_breaks.each do |w|
         new_application_form.application_work_history_breaks.create!(
@@ -97,6 +86,20 @@ class DuplicateApplication
 
 private
 
+  def carry_over_equality_and_diversity_data(original_application_form:, new_application_form:)
+    hesa_converter = HesaConverter.new(application_form: original_application_form, recruitment_cycle_year: @recruitment_cycle_year)
+
+    new_application_form.update!(
+      equality_and_diversity: original_application_form.equality_and_diversity.merge(
+        hesa_sex: hesa_converter.hesa_sex,
+        sex: hesa_converter.sex,
+        hesa_disabilities: hesa_converter.hesa_disabilities,
+        disabilities: hesa_converter.disabilities,
+        hesa_ethnicity: hesa_converter.hesa_ethnicity,
+      ),
+    )
+  end
+
   def infer_currently_working(application_experience)
     return application_experience.currently_working unless application_experience.currently_working.nil?
 
@@ -106,9 +109,5 @@ private
 
   def change_references_to_not_requested_yet(references)
     references.update_all(feedback_status: 'not_requested_yet')
-  end
-
-  def apply_again?
-    target_phase == 'apply_2'
   end
 end
