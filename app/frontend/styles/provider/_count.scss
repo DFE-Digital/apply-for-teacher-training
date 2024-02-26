@@ -1,5 +1,6 @@
 .app-count {
   display: inline-block;
+
   color: govuk-colour("blue");
 
   @include govuk-media-query($from: tablet) {
@@ -8,9 +9,12 @@
 }
 
 .app-count__item {
-  margin-right: govuk-spacing(4);
   display: flex;
+
   flex-direction: column-reverse;
+
+  margin-right: govuk-spacing(4);
+
   text-decoration: none;
 
   @include govuk-media-query($from: tablet) {
@@ -24,6 +28,11 @@
 }
 
 .app-count__value {
-  @include govuk-font($size: 80, $weight: bold, $line-height: .75, $tabular: true);
+  @include govuk-font(
+    $size: 80,
+    $weight: bold,
+    $line-height: 0.75,
+    $tabular: true
+  );
   margin: 0;
 }

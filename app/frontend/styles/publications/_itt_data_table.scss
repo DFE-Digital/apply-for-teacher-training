@@ -1,10 +1,12 @@
 .itt-report-tabs.govuk-tabs {
   padding: govuk-spacing(2);
+
   background-color: govuk-colour("light-grey");
 
   .govuk-tabs {
     &__list {
       display: flex;
+
       flex-wrap: wrap;
 
       border-bottom: govuk-spacing(0);
@@ -16,33 +18,41 @@
 
     &__tab {
       padding-bottom: 2px;
+
       color: $govuk-link-colour;
-      cursor: pointer;
       text-decoration: underline;
+
+      cursor: pointer;
     }
 
     &__list-item {
-      margin-right: 0;
       padding: govuk-spacing(2);
-      border: govuk-spacing(0);
-      background-color: transparent;
+      margin-right: 0;
+
       text-align: left;
+
+      background-color: transparent;
+      border: govuk-spacing(0);
     }
 
     // This is a hack to prevent the text from changing the size of the element when it becomes bold.
     // Make the ::before element take up the same amount of space the element would if it were bold.
     &__list-item a::before {
       display: block;
-      content: attr(title);
-      font-weight: bold;
+
       height: 0;
       overflow: hidden;
+
+      font-weight: bold;
+
       visibility: hidden;
+      content: attr(title);
     }
     // end hack
 
     &__list-item--selected {
       margin-top: govuk-spacing(0);
+
       font-weight: $govuk-font-weight-bold;
     }
 

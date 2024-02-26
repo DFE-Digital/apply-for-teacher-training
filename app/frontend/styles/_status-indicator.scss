@@ -1,12 +1,15 @@
 .app-status-indicator {
+  display: inline-flex;
+
   align-items: center;
+  justify-content: center;
+
+  width: govuk-spacing(1);
+  height: govuk-spacing(1);
+  margin-right: govuk-spacing(1);
+
   border: 4px currentColor solid;
   border-radius: 100%;
-  display: inline-flex;
-  height: govuk-spacing(1);
-  justify-content: center;
-  width: govuk-spacing(1);
-  margin-right: govuk-spacing(1);
 }
 
 .app-status-indicator--filled {

@@ -1,21 +1,20 @@
 .app-count {
   display: inline-block;
 
-  margin-left: 3px;
-
   // Display as a 28px x 28px circle, which will expand into a wider
   // lozenge shape when there are 3 digits or more.
   min-width: 24px;
   height: 28px;
-  padding-left: 2px;
   padding-right: 2px;
-  border-radius: 14px;
+  padding-left: 2px;
+  margin-left: 3px;
+
+  font-weight: bold;
   line-height: 28px;
+  color: govuk-colour("white");
+  text-align: center;
   vertical-align: middle;
 
   background-color: $govuk-brand-colour;
-  color: govuk-colour("white");
-
-  font-weight: bold;
-  text-align: center;
+  border-radius: 14px;
 }

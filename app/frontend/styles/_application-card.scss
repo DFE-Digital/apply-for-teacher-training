@@ -16,6 +16,7 @@
   .govuk-tag {
     @include govuk-font($size: 14);
     padding: 2px govuk-spacing(1);
+
     white-space: nowrap;
   }
 
@@ -37,9 +38,11 @@
   }
 
   &__header {
-    align-items: baseline;
     display: flex;
+
     flex-wrap: wrap;
+
+    align-items: baseline;
     justify-content: space-between;
   }
 
@@ -69,6 +72,7 @@
 
     @include govuk-media-query($from: tablet) {
       flex-direction: column;
+
       text-align: right;
     }
   }

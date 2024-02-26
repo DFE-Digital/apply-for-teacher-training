@@ -5,9 +5,10 @@
 @import "dfe-autocomplete/src/dfe-autocomplete";
 
 .app-data-set-documentation--datatype {
-  color: $govuk-secondary-text-colour;
   margin: 0;
+
   font-weight: normal;
+  color: $govuk-secondary-text-colour;
 }
 
 .app-link--warning {
