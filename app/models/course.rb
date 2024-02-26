@@ -25,6 +25,11 @@ class Course < ApplicationRecord
   SKE_GRADUATION_CUTOFF_THRESHOLD = 5.years
 
   # This enum is copied verbatim from Find to maintain consistency
+  enum application_status: {
+    closed: 0,
+    open: 1,
+  }, _prefix: :application_status
+
   enum level: {
     primary: 'Primary',
     secondary: 'Secondary',

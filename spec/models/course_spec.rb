@@ -1,16 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Course do
-  describe 'a valid course' do
-    subject(:course) { create(:course) }
+  subject(:course) { build(:course) }
 
+  describe 'a valid course' do
     it { is_expected.to validate_presence_of :level }
     it { is_expected.to validate_uniqueness_of(:code).scoped_to(%i[recruitment_cycle_year provider_id]) }
+    it { is_expected.to be_application_status_closed }
   end
 
   describe '#currently_has_both_study_modes_available?' do
-    let(:course) { build(:course) }
-
     it 'is true when a course has full time and part time course options' do
       create(:course_option, :full_time, course:)
       create(:course_option, :part_time, course:)
@@ -27,8 +26,6 @@ RSpec.describe Course do
   end
 
   describe '#available_study_modes_with_vacancies' do
-    let(:course) { build(:course) }
-
     it 'returns an array of unique study modes for course options with available vacancies' do
       create_list(:course_option, 2, :no_vacancies, :full_time, course:)
       create(:course_option, :part_time, course:)
