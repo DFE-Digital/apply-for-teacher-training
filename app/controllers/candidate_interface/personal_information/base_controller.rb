@@ -12,9 +12,8 @@ module CandidateInterface
       def edit
         @wizard = PersonalInformationWizard.new(
           current_step:,
-          step_params: update_params,
+          step_params:,
           current_application:,
-          application_choice:,
           edit: true,
         )
       end
