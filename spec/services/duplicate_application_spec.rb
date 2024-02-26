@@ -372,6 +372,24 @@ RSpec.describe DuplicateApplication do
         end
       end
 
+      context 'when new added fields between cycles like "Roma"' do
+        [
+          { hesa_code: '168', expected_conversion: '168', ethnic_background: 'Roma' },
+        ].each do |ethnic_data|
+          it "carries over #{ethnic_data[:ethnic_background]} to HESA code '#{ethnic_data[:expected_conversion]}'" do
+            @original_application_form.update!(
+              recruitment_cycle_year: 2023,
+              equality_and_diversity: @original_application_form.equality_and_diversity.merge(
+                hesa_ethnicity: ethnic_data[:hesa_code],
+                ethnic_background: ethnic_data[:ethnic_background],
+              ),
+            )
+
+            expect(duplicate_application_form.equality_and_diversity['hesa_ethnicity']).to eq(ethnic_data[:expected_conversion])
+          end
+        end
+      end
+
       context 'when 2023 cycle application' do
         HesaEthnicityCollections::HESA_ETHNICITIES_2023_2024.to_h.each do |hesa_code, ethnic_background|
           it "carries over as the same ethnic data for '#{ethnic_background}'" do

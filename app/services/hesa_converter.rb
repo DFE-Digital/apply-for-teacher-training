@@ -25,9 +25,17 @@ class HesaConverter
 
   def hesa_ethnicity
     if @application_form.equality_and_diversity['ethnic_background'].present?
-      Hesa::Ethnicity.all(@recruitment_cycle_year).find do |ethnicity|
-        ethnicity.value == @application_form.equality_and_diversity['ethnic_background']
-      end&.hesa_code
+      hesa_code = Hesa::Ethnicity.find_without_conversion(
+        @application_form.equality_and_diversity['ethnic_background'],
+        @recruitment_cycle_year,
+      )&.hesa_code
+
+      if hesa_code.blank? && @application_form.equality_and_diversity['hesa_ethnicity'].present?
+        ethnic_value = HesaEthnicityCollections::HESA_ETHNICITIES_2019_2020.to_h[@application_form.equality_and_diversity['hesa_ethnicity']]
+        hesa_code = Hesa::Ethnicity.find_without_conversion(ethnic_value, @recruitment_cycle_year)&.hesa_code
+      end
+
+      hesa_code || @application_form.equality_and_diversity['hesa_ethnicity']
     end
   end
 
