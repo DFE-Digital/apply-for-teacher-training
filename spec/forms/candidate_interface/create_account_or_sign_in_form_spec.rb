@@ -31,7 +31,9 @@ RSpec.describe CandidateInterface::CreateAccountOrSignInForm, type: :model do
 
   describe '#email' do
     context 'when existing_account is true' do
-      let(:form) { described_class.new(existing_account: 'true') }
+      subject(:form) { described_class.new(existing_account: 'true') }
+
+      it_behaves_like 'an email address valid for notify', :email
 
       it 'validates presence' do
         expect(form).not_to be_valid
@@ -48,7 +50,7 @@ RSpec.describe CandidateInterface::CreateAccountOrSignInForm, type: :model do
     end
 
     context 'when existing_account is false' do
-      let(:form) { described_class.new(existing_account: 'false') }
+      subject(:form) { described_class.new(existing_account: 'false') }
 
       it 'is valid without an email' do
         expect(form).to be_valid

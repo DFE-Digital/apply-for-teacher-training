@@ -9,6 +9,8 @@ RSpec.describe CandidateInterface::Reference::RefereeEmailAddressForm, type: :mo
       allow(form).to receive_messages(email_address_unique: true, email_address_not_own: true)
     end
 
+    it_behaves_like 'an email address valid for notify'
+
     it { is_expected.to validate_presence_of(:email_address) }
 
     one_hundred_character_email = "#{SecureRandom.hex(44)}@example.com"

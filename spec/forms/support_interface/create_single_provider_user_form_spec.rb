@@ -25,6 +25,8 @@ RSpec.describe SupportInterface::CreateSingleProviderUserForm do
   subject(:provider_user_form) { described_class.new(form_params) }
 
   describe 'validations' do
+    it_behaves_like 'an email address valid for notify'
+
     context 'first name must be present' do
       let(:first_name) { '' }
 

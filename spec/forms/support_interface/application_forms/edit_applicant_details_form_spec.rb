@@ -6,6 +6,8 @@ RSpec.describe SupportInterface::ApplicationForms::EditApplicantDetailsForm, typ
   let(:application_form) { build(:application_form, :minimum_info) }
 
   describe 'validations' do
+    it_behaves_like 'an email address valid for notify'
+
     it { is_expected.to validate_presence_of(:first_name) }
     it { is_expected.to validate_presence_of(:last_name) }
     it { is_expected.to validate_presence_of(:email_address) }

@@ -8,9 +8,10 @@ RSpec.describe Candidate do
   describe 'a valid candidate' do
     subject { create(:candidate) }
 
+    it_behaves_like 'an email address valid for notify'
+
     it { is_expected.to validate_presence_of :email_address }
     it { is_expected.to validate_length_of(:email_address).is_at_most(100) }
-    it { is_expected.to allow_value('user@example.com').for(:email_address) }
     it { is_expected.not_to allow_value('foo').for(:email_address) }
     it { is_expected.not_to allow_value(Faker::Lorem.characters(number: 251)).for(:email_address) }
   end
