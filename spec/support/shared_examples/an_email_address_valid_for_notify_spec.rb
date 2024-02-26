@@ -29,7 +29,7 @@ RSpec.shared_examples 'an email address valid for notify' do |field_name = :emai
     'user@sub.xn--5hx875a.example.com',             # With subdomain and IDN
 
     # Email address with different TLD
-    'user@example.co.uk',                            # With UK TLD
+    'user@example.co.uk', # With UK TLD
 
     'user.name+tag!@domain.com',        # Special characters in the local part
     'user@sub.domain.co.uk',            # Multiple subdomains
