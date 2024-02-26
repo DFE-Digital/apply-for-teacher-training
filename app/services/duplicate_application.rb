@@ -51,6 +51,20 @@ class DuplicateApplication
         new_application_form.update!(degrees_completed: false)
       end
 
+      if original_application_form.equality_and_diversity?
+        original_application_form_sex = original_application_form.equality_and_diversity['sex'].to_s
+        hesa_data = Hesa::Sex.find(original_application_form_sex.downcase, @recruitment_cycle_year)
+        hesa_sex = hesa_data&.hesa_code
+        sex = original_application_form_sex == 'Prefer not to say' ? original_application_form_sex : hesa_data&.type
+
+        new_application_form.update!(
+          equality_and_diversity: original_application_form.equality_and_diversity.merge(
+            hesa_sex:,
+            sex:,
+          ),
+        )
+      end
+
       original_references = original_application_form.application_references
         .includes([:reference_tokens])
         .creation_order
