@@ -65,4 +65,14 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
       expect(result.text).not_to include('Opened on Apply at')
     end
   end
+
+  describe 'course closed by provider' do
+    it 'displays the course is closed' do
+      result = render_inline(
+        described_class.new(course: create(:course, application_status: 'closed')),
+      )
+
+      expect(result.text).to include('Closed by provider?Closed')
+    end
+  end
 end
