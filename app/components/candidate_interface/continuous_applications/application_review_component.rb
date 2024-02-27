@@ -108,15 +108,9 @@ module CandidateInterface
       end
 
       def personal_statement_row
-        value = if unsubmitted?
-                  @application_choice.application_form.becoming_a_teacher
-                else
-                  @application_choice.personal_statement
-                end
-
         {
           key: 'Personal statement',
-          value: value,
+          value: render(PersonalStatementSummaryComponent.new(application_choice:)),
         }
       end
 

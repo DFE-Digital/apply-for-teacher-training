@@ -8,6 +8,7 @@ import nationalitiesComponent from './nationalities-component'
 import 'accessible-autocomplete/dist/accessible-autocomplete.min.css'
 import '../styles/application-candidate.scss'
 import cookieBanners from './cookies/cookie-banners'
+import showMoreShowLess from './components/show-more-show-less'
 
 require.context('govuk-frontend/dist/govuk/assets')
 
@@ -24,3 +25,4 @@ candidateAutosuggestInputs.forEach((autoSuggestInput) => {
 initWarnOnUnsavedChanges()
 nationalitiesComponent()
 cookieBanners()
+showMoreShowLess()
