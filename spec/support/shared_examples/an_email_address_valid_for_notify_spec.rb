@@ -57,9 +57,9 @@ RSpec.shared_examples 'an email address valid for notify' do |field_name = :emai
     'user@-example.com',            # Hyphen at the beginning of the domain
     'user@example-.com',            # Hyphen at the end of the domain
     'user@[192.168.1.1]',           # IP address in square brackets
-    'user@[IPv6:2001:db8::1]', # IPv6 address in square brackets
-    'user@example..com', # Double dots in the domain part
-    'user@example.c', # TLD shorter than 2 characters
+    'user@[IPv6:2001:db8::1]',      # IPv6 address in square brackets
+    'user@example..com',            # Double dots in the domain part
+    'user@example.c',               # TLD shorter than 2 characters
     'user@sub_domain-.example.com', # Hyphen at the end of the subdomain
     'user@sub_domain.-example.com', # Dot at the end of the subdomain
     'user@sub_domain-.example.com', # Hyphen at the end of the subdomain
