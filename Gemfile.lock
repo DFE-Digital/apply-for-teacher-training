@@ -746,7 +746,7 @@ GEM
     webfinger (1.2.0)
       activesupport
       httpclient (>= 2.4)
-    webmock (3.22.0)
+    webmock (3.23.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -892,7 +892,7 @@ DEPENDENCIES
   uk_postcode
   view_component
   web-console (>= 3.3.0)
-  webmock (~> 3.22)
+  webmock (~> 3.23)
   webpacker
   workflow
   yabeda-gc
