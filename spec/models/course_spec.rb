@@ -141,10 +141,10 @@ RSpec.describe Course do
       another_closed_course = create(:course, applications_open_from: 2.months.ago, exposed_in_find: true, application_status: 'closed')
       yet_another_closed_course = create(:course, applications_open_from: 2.months.ago, exposed_in_find: false, application_status: 'open')
 
-      expect(closed_course.open?).to eq false
-      expect(open_course.open?).to eq true
-      expect(another_closed_course.open?).to eq false
-      expect(yet_another_closed_course.open?).to eq false
+      expect(closed_course.open?).to be false
+      expect(open_course.open?).to be true
+      expect(another_closed_course.open?).to be false
+      expect(yet_another_closed_course.open?).to be false
     end
   end
 
