@@ -30,7 +30,7 @@
           </td>
           <td class="govuk-table__cell">
             <% if provider.courses.any? %>
-              <%= provider.courses.current_cycle.open_for_applications.size %> out of
+              <%= provider.courses.current_cycle.open.size %> out of
               <%= provider.courses.current_cycle.size %>
             <% else %>
               No courses available

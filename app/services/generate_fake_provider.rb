@@ -12,7 +12,7 @@ class GenerateFakeProvider
     unique_course_codes(10).each do |code|
       generate_course_options_for FactoryBot.create(
         :course,
-        :open_on_apply,
+        :open,
         :with_both_study_modes,
         provider: training_provider,
         code:,
@@ -26,7 +26,7 @@ class GenerateFakeProvider
     unique_course_codes(3).each do |code|
       generate_course_options_for FactoryBot.create(
         :course,
-        :open_on_apply,
+        :open,
         :with_both_study_modes,
         provider: test_provider,
         accredited_provider_id: ratifying_provider.id,

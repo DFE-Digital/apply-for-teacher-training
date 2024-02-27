@@ -5,7 +5,7 @@ RSpec.describe CourseValidations, type: :model do
 
   let(:application_choice) { nil }
   let(:course_option) { create(:course_option, course:) }
-  let(:course) { create(:course, :open_on_apply) }
+  let(:course) { create(:course, :open) }
 
   context 'validations' do
     it { is_expected.to validate_presence_of(:course_option) }
@@ -13,7 +13,7 @@ RSpec.describe CourseValidations, type: :model do
     describe '#identical_to_existing_course?' do
       context 'when the course details are identical to the existing course' do
         let(:application_choice) { create(:application_choice, current_course_option: course_option, course_option:) }
-        let(:course_option) { build(:course_option, :open_on_apply) }
+        let(:course_option) { build(:course_option, :open) }
 
         it 'raises an IdenticalCourseError' do
           expect { course_choice.valid? }.to raise_error(IdenticalCourseError)
@@ -23,8 +23,8 @@ RSpec.describe CourseValidations, type: :model do
 
     describe '#course_already_exists_on_application?' do
       let(:course) { create(:course, :with_accredited_provider) }
-      let(:course_option) { create(:course_option, :open_on_apply, course:) }
-      let(:course_option2) { create(:course_option, :open_on_apply, course:) }
+      let(:course_option) { create(:course_option, :open, course:) }
+      let(:course_option2) { create(:course_option, :open, course:) }
       let(:existing_application_choice) { build(:application_choice, :unsubmitted, current_course_option: course_option, course_option:) }
       let(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option2, course_option: course_option2) }
       let!(:application_form) { create(:application_form, application_choices: [existing_application_choice, application_choice]) }
@@ -71,8 +71,8 @@ RSpec.describe CourseValidations, type: :model do
         let(:candidate) { create(:candidate) }
         let(:application_choice) { create(:application_choice, current_course_option:) }
         let!(:application_form) { create(:application_form, phase: 'apply_1', candidate:, application_choices: [application_choice]) }
-        let(:current_course_option) { create(:course_option, :open_on_apply) }
-        let(:course_option) { build(:course_option, :open_on_apply) }
+        let(:current_course_option) { create(:course_option, :open) }
+        let(:course_option) { build(:course_option, :open) }
 
         it 'adds a :different_ratifying_provider error' do
           expect(course_choice).not_to be_valid

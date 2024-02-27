@@ -11,7 +11,7 @@ FactoryBot.define do
     end
 
     trait :open_on_apply do
-      course { association :course, :open_on_apply, recruitment_cycle_year: }
+      course { association :course, :open, recruitment_cycle_year: }
     end
 
     trait :with_course_uuid do

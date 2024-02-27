@@ -7,7 +7,7 @@ RSpec.describe ProviderInterface::CoursesController do
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }
   let(:application_form) { build(:application_form, :minimum_info) }
-  let(:course) { create(:course, :open_on_apply, provider:) }
+  let(:course) { create(:course, :open, provider:) }
   let(:course_option) { create(:course_option, course:) }
   let(:wizard_attrs) { {} }
   let(:request) { put provider_interface_application_choice_course_path(application_choice) }

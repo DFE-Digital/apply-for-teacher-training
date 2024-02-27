@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ProviderOnboardingMonitor do
   let!(:provider) { create(:provider, :no_users) }
-  let!(:course) { create(:course, :open_on_apply, provider:) }
+  let!(:course) { create(:course, :open, provider:) }
   let!(:user) { create(:provider_user, providers: [provider], last_signed_in_at: 1.day.ago) }
 
   describe '.providers_with_no_users' do
@@ -20,7 +20,7 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
       end
 
       context 'when a provider only has courses in the previous year' do
-        let!(:course) { create(:course, :open_on_apply, :previous_year, provider:) }
+        let!(:course) { create(:course, :open, :previous_year, provider:) }
 
         it 'does not return the provider' do
           expect(described_class.new.providers_with_no_users).to be_empty
@@ -28,7 +28,7 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
       end
 
       context 'when a provider has multiple courses in the current year' do
-        let!(:another_course) { create(:course, :open_on_apply, provider:) }
+        let!(:another_course) { create(:course, :open, provider:) }
 
         it 'returns the provider and no duplicates' do
           expect(described_class.new.providers_with_no_users).to contain_exactly(provider)
@@ -54,7 +54,7 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
       end
 
       context 'when a provider only has courses in the previous year' do
-        let!(:course) { create(:course, :open_on_apply, :previous_year, provider:) }
+        let!(:course) { create(:course, :open, :previous_year, provider:) }
 
         it 'does not return the provider' do
           expect(described_class.new.providers_where_no_user_has_logged_in).to be_empty
@@ -141,7 +141,7 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
     end
 
     context 'when a provider only has courses in the previous year' do
-      let!(:course) { create(:course, :open_on_apply, :previous_year, provider:) }
+      let!(:course) { create(:course, :open, :previous_year, provider:) }
       let!(:application) { create(:application_choice, course_option: build(:course_option, course:), offered_at: 3.weeks.ago) }
 
       it 'does not return the provider' do

@@ -72,7 +72,7 @@ RSpec.feature 'bulk upload provider users' do
   def and_a_provider_exists
     @provider = create(:provider, name: 'Gorse SCITT', code: 'ABC')
 
-    create(:course, :open_on_apply, provider: @provider)
+    create(:course, :open, provider: @provider)
   end
 
   def when_i_visit_the_providers_page

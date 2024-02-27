@@ -18,7 +18,7 @@ RSpec.feature 'A candidate with an accepted offer arriving from Find' do
   end
 
   def and_the_course_i_selected_only_has_one_site
-    @course = create(:course, :open_on_apply, name: 'History')
+    @course = create(:course, :open, name: 'History')
     @site = create(:site, provider: @course.provider)
     create(:course_option, site: @site, course: @course)
   end

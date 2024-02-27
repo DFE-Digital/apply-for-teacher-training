@@ -30,11 +30,11 @@ RSpec.describe GetAllChangeOptionsFromOfferedOption do
 
     it 'includes all courses offered by current option\'s provider (subject to status, study_mode and year)' do
       provider = course_option.course.provider
-      true_alternative = create(:course, :open_on_apply, :full_time, provider:)
+      true_alternative = create(:course, :open, :full_time, provider:)
       not_open = create(:course, provider:, open_on_apply: false)
-      wrong_year = create(:course, :open_on_apply, provider:, recruitment_cycle_year: 2019)
-      part_time_only = create(:course, :open_on_apply, :part_time, provider:)
-      both_study_modes = create(:course, :open_on_apply, :with_both_study_modes, provider:)
+      wrong_year = create(:course, :open, provider:, recruitment_cycle_year: 2019)
+      part_time_only = create(:course, :open, :part_time, provider:)
+      both_study_modes = create(:course, :open, :with_both_study_modes, provider:)
 
       expect(returned_hash[:available_courses]).to include(course_option.course)
       expect(returned_hash[:available_courses]).to include(true_alternative)

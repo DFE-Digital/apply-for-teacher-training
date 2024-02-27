@@ -173,7 +173,7 @@ RSpec.describe ProviderRelationshipPermissions do
     end
 
     context 'there is an open course' do
-      let!(:course) { create(:course, :open_on_apply, provider: training_provider, accredited_provider: ratifying_provider) }
+      let!(:course) { create(:course, :open, provider: training_provider, accredited_provider: ratifying_provider) }
 
       it 'returns false' do
         expect(relationship.providers_have_open_course?).to be(true)
@@ -190,7 +190,7 @@ RSpec.describe ProviderRelationshipPermissions do
 
     let!(:no_course_relationship) { create(:provider_relationship_permissions) }
     let!(:unopened_course_relationship) { create_relationship_with_course }
-    let!(:open_course_relationship) { create_relationship_with_course(course_traits: [:open_on_apply]) }
+    let!(:open_course_relationship) { create_relationship_with_course(course_traits: [:open]) }
     let!(:open_course_in_previous_cycle_relationship) { create_relationship_with_course(course_traits: %i[open_on_apply previous_year]) }
 
     it 'only returns the open_course_relationship' do
