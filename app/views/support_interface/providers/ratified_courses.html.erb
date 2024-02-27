@@ -2,7 +2,7 @@
 
 <% RecruitmentCycle.years_visible_in_support.each do |year| %>
   <% if @ratified_courses[year] %>
-    <h2 class="govuk-heading-m"><%= year %>: ratifies <%= pluralize(@ratified_courses[year].size, 'course') %> (<%= @ratified_courses[year].count(&:open_on_apply?) %> on DfE Apply)</h2>
+    <h2 class="govuk-heading-m"><%= year %>: ratifies <%= pluralize(@ratified_courses[year].size, 'course') %> (<%= @ratified_courses[year].count(&:open_for_application?) %> on DfE Apply)</h2>
 
     <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @ratified_courses[year])) %>
   <% else %>

@@ -37,7 +37,7 @@ module SupportInterface
       # Special case when the course is in the future but has been imported with an application_status of 'open'
       return govuk_tag(text: 'Closed on Apply', colour: 'blue') if course.recruitment_cycle_year == RecruitmentCycle.next_year
 
-      if course.open_for_applications?
+      if course.open?
         govuk_tag(text: 'Open on Apply', colour: 'green')
       elsif course.exposed_in_find?
         govuk_tag(text: 'Closed on Apply', colour: 'blue')
