@@ -7,7 +7,7 @@
 <% if @provider.courses.any? %>
   <% @courses_by_year.each do |year, courses| %>
     <% if courses.any? %>
-      <h2 class="govuk-heading-m"><%= year %>: <%= pluralize(courses.size, 'course') %> (<%= courses.count(&:open_on_apply?) %> on DfE Apply) <%= t('.not_yet_published') if RecruitmentCycle.next_year == year %></h2>
+      <h2 class="govuk-heading-m"><%= year %>: <%= pluralize(courses.size, 'course') %> (<%= courses.count(&:open_for_applications?) %> on DfE Apply) <%= t('.not_yet_published') if RecruitmentCycle.next_year == year %></h2>
 
       <% if RecruitmentCycle.next_year == year %>
         <p class="govuk-body"><%= t('.courses_published_recruitment_opens') %></p>
