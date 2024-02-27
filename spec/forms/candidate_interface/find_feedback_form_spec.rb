@@ -12,6 +12,8 @@ RSpec.describe CandidateInterface::FindFeedbackForm, type: :model do
   end
 
   describe 'validations' do
+    it_behaves_like 'an email address valid for notify'
+
     it { is_expected.to validate_presence_of(:path) }
     it { is_expected.to validate_presence_of(:find_controller) }
     it { is_expected.to validate_presence_of(:feedback) }

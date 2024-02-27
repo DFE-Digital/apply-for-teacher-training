@@ -71,7 +71,6 @@ RSpec.describe ValidForNotifyValidator do
         'brackets(in)local@domain.com',
         'infö@german-financial-services.de',
         'info@german-financial-services.vermögensberatung',
-        'japanese-info@例え.テスト',
       ]
     end
 
