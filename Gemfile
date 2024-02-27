@@ -17,7 +17,8 @@ gem 'tzinfo-data'
 
 gem 'webpacker'
 gem 'google-cloud-bigquery'
-gem 'govuk-components', '~> 4.1.2'
+
+gem 'govuk-components', '~> 5.0.0'
 gem 'govuk_design_system_formbuilder', '~> 5.1.0'
 
 # GOV.UK Notify

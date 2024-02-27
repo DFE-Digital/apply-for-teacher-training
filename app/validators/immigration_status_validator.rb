@@ -1,4 +1,8 @@
 class ImmigrationStatusValidator < ActiveModel::EachValidator
+  include ActionView::Helpers::UrlHelper
+  include GovukLinkHelper
+  include GovukVisuallyHiddenHelper
+
   def validate_each(record, attribute, application_choice)
     return if did_not_add_nationality_yet?(application_choice) ||
               immigration_right_to_work?(application_choice) ||
@@ -18,17 +22,10 @@ class ImmigrationStatusValidator < ActiveModel::EachValidator
   end
 
   def link_to_find
-    view.govuk_link_to('Find a course that has visa sponsorship', url_helpers.find_url, target: '_blank', rel: 'nofollow')
+    govuk_link_to('Find a course that has visa sponsorship', url_helpers.find_url, target: '_blank', rel: 'nofollow')
   end
 
 private
-
-  def view
-    Class.new do
-      include ActionView::Helpers::UrlHelper
-      include GovukLinkHelper
-    end.new
-  end
 
   def url_helpers
     Rails.application.routes.url_helpers

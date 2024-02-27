@@ -3,7 +3,7 @@ import SortableTable from './sortable-table'
 
 import '../styles/application-publications.scss'
 
-require.context('govuk-frontend/govuk/assets')
+require.context('govuk-frontend/dist/govuk/assets')
 govUKFrontendInitAll()
 
 /* eslint-disable no-new */
