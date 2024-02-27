@@ -99,7 +99,9 @@ private
   end
 
   def any_accepted_offers?
-    (application_choice.self_and_siblings - [application_choice]).map(&:status).map(&:to_sym).intersect?(ApplicationStateChange::ACCEPTED_STATES)
+    (application_choice.self_and_siblings - [application_choice])
+      .map(&:status).map(&:to_sym)
+      .intersect?(ApplicationStateChange::ACCEPTED_STATES - [:conditions_not_met])
   end
 
   def candidate_in_apply_2?
