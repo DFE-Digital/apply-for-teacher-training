@@ -14,7 +14,7 @@
   @include govuk-responsive-margin(2, "bottom");
 
   .govuk-tag {
-    @include govuk-font($size: 14, $weight: "bold");
+    @include govuk-font($size: 14);
     padding: 2px govuk-spacing(1);
     white-space: nowrap;
   }
