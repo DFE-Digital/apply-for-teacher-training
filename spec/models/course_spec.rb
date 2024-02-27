@@ -123,6 +123,31 @@ RSpec.describe Course do
     end
   end
 
+  describe '#open_for_applications' do
+    it 'returns expected courses' do
+      open_course = create(:course, applications_open_from: 2.months.ago, exposed_in_find: true, application_status: 'open')
+      create(:course, applications_open_from: 2.months.from_now, exposed_in_find: true, application_status: 'open')
+      create(:course, applications_open_from: 2.months.ago, exposed_in_find: false, application_status: 'open')
+      create(:course, applications_open_from: 2.months.ago, exposed_in_find: true, application_status: 'closed')
+
+      expect(described_class.open_for_applications).to contain_exactly(open_course)
+    end
+  end
+
+  describe '#open_for_applications?' do
+    it 'returns true if course is currently open for applications' do
+      open_course = create(:course, applications_open_from: 2.months.ago, exposed_in_find: true, application_status: 'open')
+      closed_course = create(:course, applications_open_from: 2.months.from_now, exposed_in_find: true, application_status: 'open')
+      another_closed_course = create(:course, applications_open_from: 2.months.ago, exposed_in_find: true, application_status: 'closed')
+      yet_another_closed_course = create(:course, applications_open_from: 2.months.ago, exposed_in_find: false, application_status: 'open')
+
+      expect(closed_course.open_for_applications?).to eq false
+      expect(open_course.open_for_applications?).to eq true
+      expect(another_closed_course.open_for_applications?).to eq false
+      expect(yet_another_closed_course.open_for_applications?).to eq false
+    end
+  end
+
   describe '#find_url' do
     let(:course) { create(:course) }
 
