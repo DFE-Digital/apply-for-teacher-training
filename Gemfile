@@ -150,7 +150,7 @@ gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.11.7'
 
 group :development do
-  gem 'listen', '>= 3.0.5', '< 3.9'
+  gem 'listen', '>= 3.0.5', '< 3.10'
   gem 'rails-erd'
   gem 'web-console', '>= 3.3.0'
 end
