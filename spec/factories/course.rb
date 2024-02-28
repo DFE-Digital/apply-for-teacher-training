@@ -25,12 +25,12 @@ FactoryBot.define do
       exposed_in_find { false }
     end
 
-    # trait :open_on_apply do
-    #   open_on_apply { true }
-    #   exposed_in_find { true }
-    #   opened_on_apply_at { 2.months.ago }
-    #   applications_open_from { 2.months.ago }
-    # end
+    trait :open_on_apply do
+      open_on_apply { true }
+      exposed_in_find { true }
+      opened_on_apply_at { 2.months.ago }
+      applications_open_from { 2.months.ago }
+    end
 
     trait :open do
       applications_open_from { 2.months.ago }

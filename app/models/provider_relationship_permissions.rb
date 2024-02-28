@@ -13,7 +13,7 @@ class ProviderRelationshipPermissions < ApplicationRecord
       ON provider_relationship_permissions.training_provider_id = courses.provider_id
       AND provider_relationship_permissions.ratifying_provider_id = courses.accredited_provider_id
     SQL
-    joins(course_joins_sql).merge(Course.current_cycle.open_on_apply).distinct
+    joins(course_joins_sql).merge(Course.current_cycle.open).distinct
   }
 
   def self.all_relationships_for_providers(providers)
@@ -46,7 +46,7 @@ class ProviderRelationshipPermissions < ApplicationRecord
   end
 
   def providers_have_open_course?
-    Course.current_cycle.open_on_apply.exists?(provider: training_provider, accredited_provider: ratifying_provider)
+    Course.current_cycle.open.exists?(provider: training_provider, accredited_provider: ratifying_provider)
   end
 
 private

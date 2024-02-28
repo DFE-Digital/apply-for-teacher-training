@@ -7,7 +7,7 @@
       <%= t('page_titles.duplicate_application_selection', course_name: @course.name_and_code, provider_name: @course.provider.name) %>
     </h1>
 
-    <% if @course.provider.courses.current_cycle.open_on_apply.open.exposed_in_find.count > 1 %>
+    <% if @course.provider.courses.current_cycle.open.exposed_in_find.count > 1 %>
       <p class="govuk-body">You can:</p>
       <ul class="govuk-list govuk-list--bullet">
 
