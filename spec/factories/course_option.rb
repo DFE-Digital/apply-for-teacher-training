@@ -10,7 +10,7 @@ FactoryBot.define do
       recruitment_cycle_year { RecruitmentCycle.current_year }
     end
 
-    trait :open_on_apply do
+    trait :open do
       course { association :course, :open, recruitment_cycle_year: }
     end
 
