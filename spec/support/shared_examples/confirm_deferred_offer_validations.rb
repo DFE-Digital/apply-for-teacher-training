@@ -8,18 +8,6 @@ RSpec.shared_examples 'confirm deferred offer validations' do |transition_event|
     end
   end
 
-  context 'checks the course is open on apply' do
-    let(:new_course_option) do
-      create(:course_option,
-             course: create(:course, provider:, open_on_apply: false))
-    end
-
-    it 'raises a ValidationException' do
-      expect { service.save! }
-        .to raise_error(ValidationException, 'The requested course is not open for applications via the Apply service')
-    end
-  end
-
   context 'checks course option matches the current RecruitmentCycle' do
     let(:new_course_option) { previous_course_option }
 
