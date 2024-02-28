@@ -268,7 +268,7 @@ RSpec.describe CandidateMailer do
                                 application_references: [referee1, referee2])
     end
     let(:referee1) { create(:reference, name: 'Jenny', feedback_status: :feedback_requested) }
-    let(:referee2) { create(:reference, name: 'Luke',  feedback_status: :feedback_requested) }
+    let(:referee2) { create(:reference, name: 'Luke', feedback_status: :feedback_requested) }
     let(:email) { mailer.withdraw_last_application_choice(application_form_with_references) }
 
     context 'when a candidate has 1 course choice that was withdrawn' do
@@ -468,17 +468,34 @@ RSpec.describe CandidateMailer do
   end
 
   describe '.reinstated_offer' do
-    let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
-    let(:offer) do
-      build_stubbed(:application_choice, :offered,
-                    sent_to_provider_at: Time.zone.today,
-                    offer: build_stubbed(:offer, conditions: [build_stubbed(:text_condition, description: 'Be cool')]),
-                    course_option:)
+    let(:course_option) {
+      build_stubbed(:course_option,
+                    course: build_stubbed(
+                      :course,
+                      name: 'Mathematics',
+                      code: 'M101',
+                      start_date: Time.zone.local(2024, 9, 6),
+                      provider: build_stubbed(
+                        :provider,
+                        name: 'Arithmetic College',
+                      ),
+                    ))
+    }
+
+    let(:application_form) do
+      build_stubbed(:application_form,
+                    first_name: 'Fred')
     end
-    let(:application_choices) { [offer] }
+
+    let(:application_choice_with_conditional_offer) do
+      build_stubbed(:application_choice, :offered,
+                    application_form:,
+                    offer: build_stubbed(:offer, conditions: [build_stubbed(:text_condition, description: 'Be cool')]),
+                    current_course_option: course_option)
+    end
     let(:email) do
       described_class.reinstated_offer(
-        application_form.application_choices.first,
+        application_choice_with_conditional_offer,
       )
     end
 
@@ -487,6 +504,7 @@ RSpec.describe CandidateMailer do
       'Your deferred offer to study Mathematics (M101) has been confirmed by Arithmetic College',
       'greeting' => 'Dear Fred',
       'details' => 'Arithmetic College has confirmed your deferred offer to study',
+      'start_date' => 'The course starts in September 2024', # Course Start Date = Time.zone.local(2024, 9, 6)
       'pending condition text' => 'You still need to meet the following condition',
       'pending condition' => 'Be cool',
     )
