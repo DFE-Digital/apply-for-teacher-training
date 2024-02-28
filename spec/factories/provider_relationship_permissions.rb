@@ -18,7 +18,7 @@ FactoryBot.define do
       after(:build) do |_, evaluator|
         create(
           :course,
-          :open_on_apply,
+          :open,
           provider: evaluator.training_provider,
           accredited_provider: evaluator.ratifying_provider,
         )
