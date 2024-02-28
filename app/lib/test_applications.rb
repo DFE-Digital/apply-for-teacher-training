@@ -109,7 +109,7 @@ private
       last_name = candidate.current_application.last_name
       previous_application_form = candidate.current_application
     elsif carry_over
-      courses_from_last_year = Course.open_on_apply.in_cycle(recruitment_cycle_year - 1).sample(rand(1..3))
+      courses_from_last_year = Course.open.in_cycle(recruitment_cycle_year - 1).sample(rand(1..3))
       create_application_to_courses(
         recruitment_cycle_year: recruitment_cycle_year - 1,
         courses: courses_from_last_year,
