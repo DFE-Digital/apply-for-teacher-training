@@ -13,7 +13,7 @@ module ProviderInterface
   private
 
     def provider_has_no_relationships?
-      ProviderRelationshipPermissions.all_relationships_for_providers([provider]).providers_have_open_course.none?
+      ProviderRelationshipPermissions.all_relationships_for_providers([provider]).providers_with_course_in_current_cycle.none?
     end
 
     def form_legend
