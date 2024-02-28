@@ -1,7 +1,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
 name: Build and Deploy
-concurrency: build_and_deploy_${{ github.ref_name }}
+concurrency:
+  group: build_and_deploy_${{ github.ref_name }}
+  cancel-in-progress: true
 
 on:
   push:
