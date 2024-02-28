@@ -33,9 +33,8 @@ module ProviderInterface
     end
 
     def course_option_still_available
-      if current_step != 'new'
-        errors.add(:course_option_in_new_cycle, "No matching course option in #{RecruitmentCycle.current_year}") unless course_option_in_new_cycle
-        errors.add(:course_option_in_new_cycle, 'New course option is not open on Apply') unless course_option_in_new_cycle&.course&.application_status_open?
+      if current_step != 'new' && !course_option_in_new_cycle
+        errors.add(:course_option_in_new_cycle, "No matching course option in #{RecruitmentCycle.current_year}")
       end
     end
 
