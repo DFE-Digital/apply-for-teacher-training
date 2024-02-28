@@ -138,6 +138,16 @@ RSpec.describe OfferValidations, type: :model do
         end
       end
 
+      context 'when a provider attempts to make an offer when conditions not met sibling exists' do
+        let!(:application_form) { create(:application_form, application_choices: [application_choice, other_application_choice]) }
+        let(:application_choice) { build(:application_choice, :offered, current_course_option: course_option) }
+        let!(:other_application_choice) { build(:application_choice, :conditions_not_met) }
+
+        it 'is valid' do
+          expect(offer).to be_valid
+        end
+      end
+
       context 'when a provider attempts to revert a rejection on an application that is not the last one on apply_2' do
         let(:candidate) { create(:candidate) }
         let(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option, created_at: 1.day.ago) }

@@ -75,7 +75,7 @@ class OfferValidations
       errors.add(:base, :application_rejected_by_default)
     end
 
-    if any_accepted_offers?
+    if can_not_receive_other_offers?
       errors.add(:base, :other_offer_already_accepted)
     end
 
@@ -98,8 +98,10 @@ private
     end
   end
 
-  def any_accepted_offers?
-    (application_choice.self_and_siblings - [application_choice]).map(&:status).map(&:to_sym).intersect?(ApplicationStateChange::ACCEPTED_STATES)
+  def can_not_receive_other_offers?
+    (application_choice.self_and_siblings - [application_choice])
+      .map(&:status).map(&:to_sym)
+      .intersect?(ApplicationStateChange::ACCEPTED_STATES - [:conditions_not_met])
   end
 
   def candidate_in_apply_2?
