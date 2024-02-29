@@ -4,7 +4,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
   describe 'course data' do
     it 'renders the correct data for a course' do
       course = create(:course,
-                      :open_on_apply,
+                      :open,
                       name: 'My course',
                       code: 'ABC',
                       level: 'secondary',
@@ -22,7 +22,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
 
       expect(fields['Course']).to eq('My course (ABC)')
       expect(fields['Cycle']).to eq('2020')
-      expect(fields['Status']).to match(/Open on Apply/)
+      expect(fields['Status'].strip).to eq('Open')
       expect(fields).not_to have_key('Accredited body')
     end
 
@@ -48,7 +48,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       let!(:course_with_accredited_provider) do
         create(
           :course,
-          :open_on_apply,
+          :open,
           provider:,
           name: 'My course',
           code: 'ABC',
@@ -61,7 +61,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       let!(:course_without_accredited_provider) do
         create(
           :course,
-          :open_on_apply,
+          :open,
           provider:,
           name: 'My self-ratified course',
           code: 'DEF',
@@ -80,6 +80,40 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
 
         without_accredited = render_result.at_css("[data-qa=\"course-#{course_without_accredited_provider.id}\"]").text
         expect(without_accredited).not_to include('No users on Apply')
+      end
+    end
+
+    describe 'status_row' do
+      subject { render_inline(described_class.new(provider: course.provider, courses: [course])).css('.govuk-table__cell').text }
+
+      context 'course is open' do
+        let(:course) { create(:course, :open) }
+
+        it { is_expected.to match(/Open/) }
+      end
+
+      context 'course is not exposed in find' do
+        let(:course) { create(:course, :open, exposed_in_find: false) }
+
+        it { is_expected.to match(/Hidden in Find/) }
+      end
+
+      context 'course is closed by provider' do
+        let(:course) { create(:course, :open, application_status: 'closed') }
+
+        it { is_expected.to match(/Closed by Provider/) }
+      end
+
+      context 'course is not open yet' do
+        let(:course) { create(:course, :open, applications_open_from: 1.day.from_now) }
+
+        it { is_expected.to match(/Unpublished/) }
+      end
+
+      context 'course is next recruitment cycle' do
+        let(:course) { create(:course, :open, recruitment_cycle_year: CycleTimetable.next_year) }
+
+        it { is_expected.to match(/Unpublished/) }
       end
     end
   end

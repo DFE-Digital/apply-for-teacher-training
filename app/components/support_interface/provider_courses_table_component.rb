@@ -34,15 +34,16 @@ module SupportInterface
     attr_reader :provider, :courses
 
     def status_tag(course)
-      # Special case when the course is in the future but has been imported with a status of open_on_apply
-      return govuk_tag(text: 'Closed on Apply', colour: 'blue') if course.recruitment_cycle_year == RecruitmentCycle.next_year
-
-      if course.open_on_apply?
-        govuk_tag(text: open_on_apply_message(course), colour: 'green')
-      elsif course.exposed_in_find?
-        govuk_tag(text: 'Closed on Apply', colour: 'blue')
-      else
+      if course.recruitment_cycle_year == RecruitmentCycle.next_year
+        govuk_tag(text: 'Unpublished', colour: 'blue')
+      elsif course.open?
+        govuk_tag(text: 'Open', colour: 'green')
+      elsif !course.exposed_in_find?
         govuk_tag(text: 'Hidden in Find', colour: 'grey')
+      elsif course.application_status_closed?
+        govuk_tag(text: 'Closed by Provider', colour: 'blue')
+      else # rubocop:disable Lint/DuplicateBranch
+        govuk_tag(text: 'Unpublished', colour: 'blue')
       end
     end
 
