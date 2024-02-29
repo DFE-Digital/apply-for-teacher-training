@@ -1,15 +1,18 @@
 .app-toc {
   display: table;
+
   font-size: 16px;
 }
 
 .app-toc__link {
   display: table-row;
+
   text-decoration: none;
 }
 
 .app-toc__number {
   display: table-cell;
+
   width: 24px;
 }
 

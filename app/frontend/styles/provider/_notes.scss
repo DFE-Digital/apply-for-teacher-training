@@ -14,8 +14,9 @@
 
   .meta {
     @include govuk-font($size: 16);
-    color: govuk-colour("dark-grey");
     margin-top: 5px;
     margin-bottom: 0;
+
+    color: govuk-colour("dark-grey");
   }
 }
