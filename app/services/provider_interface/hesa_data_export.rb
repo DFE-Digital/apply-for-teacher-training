@@ -96,6 +96,8 @@ module ProviderInterface
     end
 
     def first_degree_year(application, year_type)
+      return '' if application.first_degree.blank?
+
       application.first_degree.send year_type
     end
 

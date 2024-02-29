@@ -267,6 +267,10 @@ class ApplicationChoice < ApplicationRecord
     RecentlyUpdatedApplicationChoice.new(application_choice: self).call
   end
 
+  def degree_apprenticeship?
+    Array(course_option.course.qualifications).include?('pgta')
+  end
+
 private
 
   def set_initial_status
