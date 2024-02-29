@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'GET /register-api/applications' do
   include RegisterAPISpecHelper
 
-  it 'does not allow access when passing a non existent API token' do
+  it 'returns unauthorised when passing a non existent API token' do
     get_api_request "/register-api/applications?recruitment_cycle_year=#{RecruitmentCycle.current_year}", token: 'this-token-does-not-exist'
     expect(response).to have_http_status(:unauthorized)
     expect(parsed_response).to be_valid_against_openapi_schema('UnauthorizedResponse')
