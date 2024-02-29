@@ -55,9 +55,5 @@ module SupportInterface
         )
       end
     end
-
-    def open_on_apply_message(course)
-      course.recruitment_cycle_year > 2021 ? 'Open on Apply' : 'Open on Apply & UCAS'
-    end
   end
 end
