@@ -1,3 +1,3 @@
 output "url" {
-  value = module.web_application.url
+  value = "https://${module.kubernetes.hostname}/"
 }

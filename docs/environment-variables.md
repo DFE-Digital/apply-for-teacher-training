@@ -45,3 +45,36 @@ make qa edit-app-secrets         | Edit app secrets for `qa` environment        
 make staging edit-app-secrets    | Edit app secrets for `staging` environment    | s121-findpostgraduateteachertraining-test
 make sandbox edit-app-secrets    | Edit app secrets for `sandbox` environment    | s121-findpostgraduateteachertraining-production
 make production edit-app-secrets | Edit app secrets for `production` environment | s121-findpostgraduateteachertraining-production
+
+### View the current app environment variables
+
+The `cf env <app-name>` command can be used to view/verify the current environment variables for the app.
+Example: `cf env apply-qa` to view the environment variables for the apply web app.
+
+App Name                        | Space
+------------------------------- |---------
+apply-qa                        | bat-qa
+apply-clock-qa                  | bat-qa
+apply-worker-qa                 | bat-qa
+apply-secondary-worker-qa       | bat-qa
+apply-staging                   | bat-staging
+apply-clock-staging             | bat-staging
+apply-worker-staging            | bat-staging
+apply-secondary-worker-staging  | bat-staging
+apply-sandbox                   | bat-prod
+apply-clock-sandbox             | bat-prod
+apply-worker-sandbox            | bat-prod
+apply-secondary-worker-sandbox  | bat-prod
+apply-prod                      | bat-prod
+apply-clock-prod                | bat-prod
+apply-worker-prod               | bat-prod
+apply-secondary-worker-prod     | bat-prod
+
+### Ad-hoc environment variable changes
+`cf set-env <app-name>` can be used to make changes to the environment variables without having to do a full deployment.
+But please note that any change will be overridden during the next deployment.
+
+```
+cf set-env apply-qa <ENV_VAR_NAME> <VALUE> ## sets ENV_VAR_NAME=VALUE
+cf restart apply-qa --strategy rolling ## restart app without causing downtime for the change to be reflected
+```

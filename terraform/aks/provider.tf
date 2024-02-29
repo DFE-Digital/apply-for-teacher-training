@@ -1,5 +1,5 @@
 terraform {
-  required_version = "= 1.7.4"
+  required_version = "~> 1.3.5"
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -12,6 +12,10 @@ terraform {
     kubernetes = {
       source = "hashicorp/kubernetes"
       version = "2.17.0"
+    }
+    environment = {
+      source  = "EppO/environment"
+      version = "1.3.5"
     }
   }
   backend "azurerm" {
@@ -29,17 +33,21 @@ provider "statuscake" {
 }
 
 provider "kubernetes" {
-  host                   = module.cluster_data.kubernetes_host
-  client_certificate     = module.cluster_data.kubernetes_client_certificate
-  client_key             = module.cluster_data.kubernetes_client_key
-  cluster_ca_certificate = module.cluster_data.kubernetes_cluster_ca_certificate
+  host                   = data.azurerm_kubernetes_cluster.main.kube_config.0.host
+  client_certificate     = (local.azure_RBAC_enabled ? null :
+    base64decode(data.azurerm_kubernetes_cluster.main.kube_config.0.client_certificate)
+  )
+  client_key             = (local.azure_RBAC_enabled ? null :
+    base64decode(data.azurerm_kubernetes_cluster.main.kube_config.0.client_key)
+  )
+  cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.main.kube_config.0.cluster_ca_certificate)
 
   dynamic "exec" {
-    for_each = module.cluster_data.azure_RBAC_enabled ? [1] : []
+    for_each = local.azure_RBAC_enabled ? [1] : []
     content {
       api_version = "client.authentication.k8s.io/v1beta1"
       command     = "kubelogin"
-      args        = module.cluster_data.kubelogin_args
+      args        = local.kubelogin_args
     }
   }
 }

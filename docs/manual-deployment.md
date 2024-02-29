@@ -26,22 +26,30 @@ This process assumes that the build and test stage has completed without error a
 Make commands can be run from the root of the repo to deploy a specific version to one of the environments.
 
 1. Grab the commit sha to be used from either the [Apply ops dashboard](http://apply-ops-dashboard.azurewebsites.net) or the [build workflow](https://github.com/DFE-Digital/apply-for-teacher-training/actions/workflows/build.yml). This is only required to deploy a particular commit instead of the current `main` branch.
+1. Copy a passcode for the cf cli from https://login.london.cloud.service.gov.uk/passcode
 1. Login to Azure via `az` cli:
     ```
     az login
     ```
 1. From the root of the repo you can run the below command to deploy the app.
     ```
-    make <ENV> deploy IMAGE_TAG=<COMMIT_SHA>
-    eg: make qa deploy IMAGE_TAG=4ebb7d13010839b1ab2b7ae0dfef57460a5101f3
+    make <ENV> deploy IMAGE_TAG=<COMMIT_SHA> passcode=<CF_SSO_CODE>
+    eg: make qa deploy IMAGE_TAG=4ebb7d13010839b1ab2b7ae0dfef57460a5101f3 passcode=XXXXXX
     ```
     To deploy `main`, simply use:
     ```
-    make <ENV> deploy
-    eg: make qa deploy
+    make <ENV> deploy passcode=<CF_SSO_CODE>
+    eg: make qa deploy passcode=XXXXXX
     ```
 
     This will list the changes about to be deployed and prompt for a confirmation, you can type "yes" to confirm and the changes will be applied.
+
+    Environment | make command          | PIM required |
+    ----------- | --------------------- | -----------  |
+    qa          | make qa deploy        |  no
+    staging     | make staging deploy   |  yes (s121-findpostgraduateteachertraining-test)
+    sandbox     | make sandbox deploy   |  yes (s121-findpostgraduateteachertraining-production)
+    production  | make prod deploy      |  yes (s121-findpostgraduateteachertraining-production)
 
     You can also just preview the changes by running `deploy-plan` instead of `deploy` in the above command.
 1. Check the `#twd_apply_tech` Slack channel for any runtime errors from
