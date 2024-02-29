@@ -19,7 +19,8 @@ module ServiceAPIUserAuthentication
   def authorized?
     authenticate_with_http_token do |token|
       @authenticating_token = AuthenticationToken.find_by_hashed_token(user_type: 'ServiceAPIUser', raw_token: token)
-      @authenticating_token.user_id == ServiceAPIUser.find_by(authorized_api: self.class.name.deconstantize).id
+
+      @authenticating_token.present? && @authenticating_token.user_id == ServiceAPIUser.find_by(authorized_api: self.class.name.deconstantize).id
     end
   end
 
