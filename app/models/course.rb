@@ -131,6 +131,10 @@ class Course < ApplicationRecord
     !exposed_in_find
   end
 
+  def open?
+    applications_open_from <= Time.zone.today && exposed_in_find && application_status_open?
+  end
+
   def open_for_applications?
     applications_open_from <= Time.zone.today
   end
