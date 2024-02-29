@@ -27,7 +27,7 @@ module "web_application" {
   environment                = local.app_name_suffix
   service_name               = var.service_name
   is_web = true
-  docker_image               = var.paas_docker_image
+  docker_image               = var.docker_image
   replicas                   = var.webapp_replicas
   max_memory                 = var.webapp_memory_max
   cluster_configuration_map  = module.cluster_data.configuration_map
@@ -47,7 +47,7 @@ module "main_worker" {
   service_name               = var.service_name
   name                       = "worker"
   is_web                     = false
-  docker_image               = var.paas_docker_image
+  docker_image               = var.docker_image
   replicas                   = var.worker_replicas
   max_memory                 = var.worker_memory_max
   cluster_configuration_map  = module.cluster_data.configuration_map
@@ -66,7 +66,7 @@ module "secondary_worker" {
   environment                = local.app_name_suffix
   service_name               = var.service_name
   name                       = "secondary-worker"
-  docker_image               = var.paas_docker_image
+  docker_image               = var.docker_image
   replicas                   = var.secondary_worker_replicas
   max_memory                 = var.secondary_worker_memory_max
   cluster_configuration_map  = module.cluster_data.configuration_map
@@ -85,7 +85,7 @@ module "clock_worker" {
   environment                = local.app_name_suffix
   service_name               = var.service_name
   name                       = "clock-worker"
-  docker_image               = var.paas_docker_image
+  docker_image               = var.docker_image
   replicas                   = var.clock_worker_replicas
   max_memory                 = var.clock_worker_memory_max
   cluster_configuration_map  = module.cluster_data.configuration_map

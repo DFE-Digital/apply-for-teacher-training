@@ -1,9 +1,9 @@
 variable "app_name_suffix" { default = null }
 
 # PaaS variables
-variable "paas_app_environment" {}
+variable "app_environment" {}
 
-variable "paas_docker_image" {}
+variable "docker_image" {}
 
 # Key Vault variables
 variable "key_vault_name" {}
@@ -71,11 +71,11 @@ variable "alert_window_size" {
 }
 
 locals {
-  app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
+  app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.app_environment
 
   infra_secrets     = yamldecode(data.azurerm_key_vault_secret.infra_secrets.value)
 
-  app_env_values_from_yaml = try(yamldecode(file("${path.module}/workspace-variables/${var.paas_app_environment}_app_env.yml")), {})
+  app_env_values_from_yaml = try(yamldecode(file("${path.module}/workspace-variables/${var.app_environment}_app_env.yml")), {})
 
   review_url_vars = var.app_name_suffix != null ? {
     "CUSTOM_HOSTNAME"  = "apply-${local.app_name_suffix}.${module.cluster_data.ingress_domain}"

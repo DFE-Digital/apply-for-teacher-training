@@ -179,14 +179,14 @@ edit-infra-secrets: read-keyvault-config install-fetch-config set-azure-account 
 .PHONY: shell
 shell: get-cluster-credentials ## Open a shell on the app instance on AKS, eg: make qa shell
 	$(eval NAMESPACE=$(shell jq -r '.namespace' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
-	$(eval PAAS_APP_ENV=$(shell jq -r '.paas_app_environment' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
-	$(if ${APP_NAME_SUFFIX}, $(eval APP_NAME=apply-clock-worker-${APP_NAME_SUFFIX}), $(eval APP_NAME=apply-clock-worker-${PAAS_APP_ENV}))
+	$(eval APP_ENV=$(shell jq -r '.app_environment' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
+	$(if ${APP_NAME_SUFFIX}, $(eval APP_NAME=apply-clock-worker-${APP_NAME_SUFFIX}), $(eval APP_NAME=apply-clock-worker-${APP_ENV}))
 	kubectl -n ${NAMESPACE} -ti exec "deployment/${APP_NAME}" -- sh -c "cd /app && /usr/local/bin/bundle exec rails console -- --noautocomplete"
 
 deploy-init: bin/terrafile
 	$(if $(or $(IMAGE_TAG), $(NO_IMAGE_TAG_DEFAULT)), , $(eval export IMAGE_TAG=main))
 	$(if $(IMAGE_TAG), , $(error Missing environment variable "IMAGE_TAG"))
-	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
+	$(eval export TF_VAR_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show
