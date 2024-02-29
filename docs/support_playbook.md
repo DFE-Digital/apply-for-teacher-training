@@ -381,19 +381,7 @@ users_to_disable_notifications_for.map { |u| u.update!(send_notifications: false
 
 To help test the Vendor API integrations in Sandbox, Providers will request they be added to the Publish Sandbox, where they can add test courses.
 
-Get access to the `bat-prod` space on cloud foundry.
-
-Target the space using this:
-
-`$ cf target -s bat-prod`
-
-Set your role as a space developer using the command below
-
-`$ cf set-space-role email@email.com dfe bat-prod SpaceDeveloper`
-
-You can now ssh into the sandbox env
-
-`$ cf ssh teacher-training-api-sandbox`
+Raise PIM and run `make <env> ssh`
 
 Once you're in, `$ cd /app`
 
