@@ -91,4 +91,6 @@ locals {
   app_resource_group_name = "${var.azure_resource_prefix}-${var.service_short}-${var.config_short}-rg"
 
   webapp_startup_command = var.webapp_startup_command == null ? null : ["/bin/sh", "-c", var.webapp_startup_command]
+  postgres_service_name = "apply-postgres-${var.app_environment}"
+  database_url          = "postgres://${module.postgres.username}:${module.postgres.password}@${module.postgres.host}:${module.postgres.port}/${local.postgres_service_name}"
 }
