@@ -1,6 +1,55 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComponent do
+  shared_examples_for 'course fee row' do
+    describe 'course_fee' do
+      context 'where course is not fee-based' do
+        let(:fee_domestic) { 9250 }
+        let(:fee_international) { 23820 }
+        let(:funding_type) { %w[salary apprenticeship].sample }
+
+        it 'does not show course fee row' do
+          expect(result.text).not_to include 'UK students: £9,250'
+          expect(result.text).not_to include 'International students: £23,820'
+          expect(result.text).not_to include 'Course fee'
+        end
+      end
+
+      context 'where domestic and international fees present' do
+        let(:fee_domestic) { 9250 }
+        let(:fee_international) { 23820 }
+
+        it 'shows both domestic and international fees' do
+          expect(result.text).to include 'Course fee'
+          expect(result.text).to include 'UK students: £9,250'
+          expect(result.text).to include 'International students: £23,820'
+        end
+      end
+
+      context 'where only domestic fees are present' do
+        let(:fee_domestic) { 9250 }
+        let(:fee_international) { nil }
+
+        it 'shows only domestic fees' do
+          expect(result.text).to include 'Course fee'
+          expect(result.text).to include 'UK students: £9,250'
+          expect(result.text).not_to include 'International students:'
+        end
+      end
+
+      context 'where only international fees are present' do
+        let(:fee_domestic) { nil }
+        let(:fee_international) { 23820 }
+
+        it 'shows only international fees' do
+          expect(result.text).to include 'Course fee'
+          expect(result.text).not_to include 'UK students:'
+          expect(result.text).to include 'International students: £23,820'
+        end
+      end
+    end
+  end
+
   shared_examples_for 'course length row' do
     describe 'course_length' do
       context 'course_length is standard' do
@@ -45,7 +94,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     create(:application_choice, :awaiting_provider_decision, personal_statement:, sent_to_provider_at: 1.week.ago, course:)
   end
   let(:provider) { create(:provider) }
-  let(:course) { create(:course, :with_course_options, course_length:, provider:) }
+  let(:course) { create(:course, :with_course_options, course_length:, provider:, fee_domestic:, fee_international:, funding_type:) }
+  let(:fee_domestic) { nil }
+  let(:fee_international) { nil }
+  let(:funding_type) { 'fee' }
   let(:course_length) { 'OneYear' }
   let(:links) { result.css('a').map(&:text) }
   let(:personal_statement) { 'some personal statement' }
@@ -58,6 +110,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     end
 
     it_behaves_like 'course length row'
+    it_behaves_like 'course fee row'
 
     it 'shows change course link' do
       expect(links).to include("Change course for #{application_choice.current_course.name_and_code}")

@@ -1,6 +1,7 @@
 module CandidateInterface
   module ContinuousApplications
     class CourseReviewComponent < CourseChoicesReviewComponent
+      include ContinuousApplications::CourseFeeRowHelper
       attr_reader :application_choice
 
       def initialize(application_choice:)
@@ -11,6 +12,7 @@ module CandidateInterface
       def rows
         [
           course_row(application_choice),
+          course_fee_row(application_choice.current_course),
           application_number_row(application_choice),
           study_mode_row(application_choice),
           location_row(application_choice),

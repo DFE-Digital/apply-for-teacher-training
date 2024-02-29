@@ -582,3 +582,8 @@ en:
       long: "%e %B %Y %H:%M"
       long_with_seconds: "%e %B %Y %H:%M:%S"
       time: "%H:%M"
+  number:
+    currency:
+      format:
+        unit: "£"
+        precision: 0
