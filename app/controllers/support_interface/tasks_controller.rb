@@ -24,10 +24,6 @@ module SupportInterface
         CancelPreviousCycleUnsubmittedApplicationsWorker.perform_async
         flash[:success] = 'Scheduled job to cancel unsubmitted applications, from the previous cycle, that reached end-of-cycle'
         redirect_to support_interface_tasks_path
-      when 'open_all_courses_on_apply'
-        OpenAllCoursesOnApplyWorker.perform_async
-        flash[:success] = 'Scheduled job to make all courses open on Apply'
-        redirect_to support_interface_tasks_path
       else
         render_404
       end
