@@ -187,7 +187,7 @@ You can also use our [contact form](https://form.education.gov.uk/en/AchieveForm
 
 If we cannot resolve your issue, you have the right to raise it with the [Information Commissioner's Office (ICO)](https://ico.org.uk/).
 
-Once a candidate has enrolled with a teacher training provider, we will not be able to ask them to remove personal data from their systems as they will be a data controller for this data. You’ll need to contact the provider directly.
+Once a candidate has enrolled with a teacher training provider, we will not be able to ask them to remove personal data from their systems as they will be a data controller for this data. You will need to contact the provider directly.
 
 ### Keeping our privacy notice up to date
 

@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
       result = render_inline(described_class.new(application_choice:, current_provider_user: provider_user))
 
       expect(result.text).not_to include('You cannot view this because you do not have permission to view sex, disability and ethnicity information.')
-      expect(result.text).not_to include("You'll be able to view this if the candidate accepts an offer for this application.")
+      expect(result.text).not_to include('You will be able to view this if the candidate accepts an offer for this application.')
     end
   end
 
@@ -163,7 +163,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
             .update!(view_diversity_information: true)
           result = render_inline(described_class.new(application_choice:, current_provider_user: provider_user))
 
-          expect(result.text).to include("You'll be able to view this if the candidate accepts an offer for this application.")
+          expect(result.text).to include('You will be able to view this if the candidate accepts an offer for this application.')
           expect(result.text).not_to include('Which of the following best describes your Asian or Asian British background?')
         end
       end
@@ -212,7 +212,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
             .update!(view_diversity_information: true)
           result = render_inline(described_class.new(application_choice:, current_provider_user: provider_user))
 
-          expect(result.text).to include("You'll be able to view this if the candidate accepts an offer for this application.")
+          expect(result.text).to include('You will be able to view this if the candidate accepts an offer for this application.')
         end
       end
 
@@ -257,7 +257,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
             .update!(view_diversity_information: true)
           result = render_inline(described_class.new(application_choice:, current_provider_user: provider_user))
 
-          expect(result.text).to include("You'll be able to view this if the candidate accepts an offer for this application.")
+          expect(result.text).to include('You will be able to view this if the candidate accepts an offer for this application.')
         end
       end
 

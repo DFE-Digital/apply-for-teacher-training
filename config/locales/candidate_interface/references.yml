@@ -51,7 +51,7 @@ en:
       send_reminder:
         post_offer_action: Send a reminder
         confirm: Send a reminder
-        remind_again: "You’ll be able to send a reminder from %{remind_again_at}"
+        remind_again: "You will be able to send a reminder from %{remind_again_at}"
         cancel: No - I’ve changed my mind
       cancel_request:
         action: Cancel request

@@ -1,6 +1,6 @@
 <% if ske_conditions.one? %>
   <p class="govuk-body">
-    If you accept this offer, you’ll need to do <%= presenter.course_description %>. This is to help you improve your subject knowledge because <%= presenter.reason %>.
+    If you accept this offer, you will need to do <%= presenter.course_description %>. This is to help you improve your subject knowledge because <%= presenter.reason %>.
   </p>
 
   <p class="govuk-body">
@@ -8,7 +8,7 @@
   </p>
 
   <p class="govuk-body">
-    The course will be free and you’ll receive £175 per week. How and when this is paid will depend on your provider.
+    The course will be free and you will receive £175 per week. How and when this is paid will depend on your provider.
   </p>
 
   <p class="govuk-body">
@@ -21,7 +21,7 @@
   </ul>
 <% else %>
   <p class="govuk-body">
-    If you accept this offer, you’ll need to do:
+    If you accept this offer, you will need to do:
   </p>
   <ul class="govuk-list govuk-list--bullet">
     <% ske_conditions.each do |sc| %>
@@ -43,7 +43,7 @@
     You should complete these courses before your teacher training starts in <%= training_starts.to_fs(:month_and_year) %>.
   </p>
   <p class="govuk-body">
-    The courses will be free and you’ll receive £175 per week. How and when this is paid will depend on your provider.
+    The courses will be free and you will receive £175 per week. How and when this is paid will depend on your provider.
   </p>
   <p class="govuk-body">
     You can choose how you study your courses. Courses can be:

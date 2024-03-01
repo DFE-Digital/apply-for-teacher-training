@@ -9,7 +9,7 @@
 
       <p class="govuk-body">You are creating an account for <%= @authentication_token.user.email_address %>.</p>
 
-      <p class="govuk-body">You will not need a password. You’ll be sent an email with a new link each time you sign in to continue your application.</p>
+      <p class="govuk-body">You will not need a password. You will be sent an email with a new link each time you sign in to continue your application.</p>
 
       <%= hidden_field_tag :token, params[:token], html: { autocomplete: 'off' } %>
       <div class="govuk-button-group">

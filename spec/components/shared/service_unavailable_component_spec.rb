@@ -8,7 +8,7 @@ RSpec.describe ServiceUnavailableComponent do
   end
 
   it 'renders details about when the page will be available again' do
-    expect(result.text).to include('You’ll be able to use the service from 3pm on Monday 11 October 2021')
+    expect(result.text).to include('You will be able to use the service from 3pm on Monday 11 October 2021')
   end
 
   context 'when the hosting environment is sandbox', :sandbox do

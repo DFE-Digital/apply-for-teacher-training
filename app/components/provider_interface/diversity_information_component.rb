@@ -30,7 +30,7 @@ module ProviderInterface
 
     def row_value(value)
       return 'You cannot view this because you do not have permission to view sex, disability and ethnicity information.' unless current_user_has_permission_to_view_diversity_information?
-      return "You'll be able to view this if the candidate accepts an offer for this application." unless application_in_correct_state?
+      return 'You will be able to view this if the candidate accepts an offer for this application.' unless application_in_correct_state?
 
       value
     end
