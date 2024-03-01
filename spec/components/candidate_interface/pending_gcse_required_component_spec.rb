@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
         )
 
         result = render_inline(described_class.new(application_choice2, application_form.application_qualifications))
-        expect(result.text).to include('You said you’re currently studying for a qualification in English')
+        expect(result.text).to include('You said you are currently studying for a qualification in English')
       end
     end
 
@@ -63,7 +63,7 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
         )
 
         result = render_inline(described_class.new(application_choice2, application_form.application_qualifications.sort_by(&:subject)))
-        expect(result.text).to include('You said you’re currently studying for a qualification in English and maths')
+        expect(result.text).to include('You said you are currently studying for a qualification in English and maths')
       end
     end
 
@@ -89,7 +89,7 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
         )
 
         result = render_inline(described_class.new(application_choice2, application_form.application_qualifications.sort_by(&:subject)))
-        expect(result.text).to include('You said you’re currently studying for a qualification in English, maths and science')
+        expect(result.text).to include('You said you are currently studying for a qualification in English, maths and science')
       end
     end
   end

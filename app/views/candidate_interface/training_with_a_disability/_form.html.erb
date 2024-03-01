@@ -4,19 +4,19 @@
   <%= t('page_titles.training_with_a_disability') %>
 </h1>
 
-<p class="govuk-body">You might benefit from extra support if you’re disabled, have a mental health condition or educational needs.</p>
+<p class="govuk-body">You might benefit from extra support if you are disabled, have a mental health condition or educational needs.</p>
 <p class="govuk-body">Teacher training providers may be able to make adjustments, such as:</p>
 <ul class="govuk-list govuk-list--bullet">
   <li>organising equipment like a hearing loop or an adapted keyboard</li>
   <li>putting you in touch with support staff if you have a mental health condition</li>
   <li>making sure classrooms are wheelchair accessible</li>
 </ul>
-<p class="govuk-body">If you’re disabled it’s against the law to discriminate against you. Training providers must not:</p>
+<p class="govuk-body">If you are disabled it’s against the law to discriminate against you. Training providers must not:</p>
 <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-4">
   <li>ask disability or health questions if they’re not relevant to your ability to become a teacher</li>
-  <li>reject your application because you’re disabled</li>
+  <li>reject your application because you are disabled</li>
 </ul>
-<p class="govuk-body"><%= govuk_link_to_with_utm_params 'Get support training to teach if you’re disabled', I18n.t('get_into_teaching.url_support_if_you_are_disabled'), utm_campaign(params), @current_application.phase %>.</p>
+<p class="govuk-body"><%= govuk_link_to_with_utm_params 'Get support training to teach if you are disabled', I18n.t('get_into_teaching.url_support_if_you_are_disabled'), utm_campaign(params), @current_application.phase %>.</p>
 
 <%= f.govuk_radio_buttons_fieldset :disclose_disability, legend: { text: t('application_form.training_with_a_disability.disclose_disability.label'), size: 'm' } do %>
   <%= f.govuk_radio_button :disclose_disability, 'yes', label: { text: t('application_form.training_with_a_disability.disclose_disability.yes') }, link_errors: true do %>

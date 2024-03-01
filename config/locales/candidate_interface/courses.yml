@@ -38,7 +38,7 @@ en:
         candidate_interface/pick_site_form:
           attributes:
             course_option_id:
-              blank: Select which location you’re interested in
+              blank: Select which location you are interested in
         candidate_interface/course_chosen_form:
           attributes:
             choice:

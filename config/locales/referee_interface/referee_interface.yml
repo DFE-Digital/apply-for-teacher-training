@@ -46,7 +46,7 @@ en:
         'no':
           label: No, do not contact me
       consent_to_be_contacted_details:
-        label: Please let us know when you’re available and give a phone number
+        label: Please let us know when you are available and give a phone number
       submit: Finish
   reference_confirmation_email:
     subject: Teacher training reference submitted for %{candidate_name}

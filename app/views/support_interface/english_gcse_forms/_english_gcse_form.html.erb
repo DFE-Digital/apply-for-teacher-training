@@ -57,7 +57,7 @@
   <%= f.govuk_radio_button :qualification_type, :missing, label: { text: t('application_form.gcse.qualification_types.missing', subject: capitalize_english(f.object.subject)) } do %>
       <%= f.govuk_radio_buttons_fieldset :not_yet_completed, legend: { text: "Are you currently studying for a GCSE in #{capitalize_english(f.object.subject)}, or equivalent?" } do %>
         <%= f.govuk_radio_button :currently_completing_qualification, true, label: { text: 'Yes' }, link_errors: true do %>
-              <%= f.govuk_text_area :not_completed_explanation, label: { text: 'Details of the qualification you’re studying for', size: 's' }, rows: 12, max_words: 200, threshold: 90 do %>
+              <%= f.govuk_text_area :not_completed_explanation, label: { text: 'Details of the qualification you are studying for', size: 's' }, rows: 12, max_words: 200, threshold: 90 do %>
               <% end %>
         <% end %>
         <%= f.govuk_radio_button :currently_completing_qualification, false, label: { text: 'No' } do %>

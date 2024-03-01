@@ -734,7 +734,7 @@ RSpec.describe CandidateMailer do
         "Apply for teacher training starting in the #{CycleTimetable.current_year} to #{CycleTimetable.next_year} academic year",
         'greeting' => 'Dear Fred',
         'academic_year' => "#{CycleTimetable.current_year} to #{CycleTimetable.next_year}",
-        'details' => 'Courses can fill up quickly, so apply as soon as you’re ready.',
+        'details' => 'Courses can fill up quickly, so apply as soon as you are ready.',
       )
     end
 

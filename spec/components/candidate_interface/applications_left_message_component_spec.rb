@@ -50,7 +50,7 @@ RSpec.describe CandidateInterface::ApplicationsLeftMessageComponent do
         create(:application_choice, :inactive, application_form:)
         create(:application_choice, :awaiting_provider_decision, application_form:)
         create(:application_choice, :awaiting_provider_decision, application_form:)
-        expect(message).to include('You cannot add any more applications because you’re waiting for decisions on 4 others.')
+        expect(message).to include('You cannot add any more applications because you are waiting for decisions on 4 others.')
         expect(message).to include('If one of your applications is unsuccessful, or you withdraw or remove it, you will be able to add another application.')
       end
     end

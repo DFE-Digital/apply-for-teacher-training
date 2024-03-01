@@ -23,10 +23,10 @@ Each data controller is responsible for complying with data protection legislati
 
 ### The personal data we collect and how we collect it
 
-The personal data we collect will depend on whether you’re a candidate, work for a training provider or give a reference.
+The personal data we collect will depend on whether you are a candidate, work for a training provider or give a reference.
 
-#### The data we collect if you’re a candidate
-If you’re a candidate using Apply, we collect the information that you enter directly when you apply. This includes personal information, such as your:
+#### The data we collect if you are a candidate
+If you are a candidate using Apply, we collect the information that you enter directly when you apply. This includes personal information, such as your:
 
 - first name
 - last name
@@ -89,10 +89,10 @@ We’ll also call you on the phone number you give, to ask whether you would lik
 
 #### If you start teacher training
 
-If you’re recruited to a teacher training course, your data will also be shared
+If you are recruited to a teacher training course, your data will also be shared
 between Apply and Register trainee teachers, which are both delivered by the Department for Education. This is so we can register you as a trainee teacher.
 
-If you’re successfully recruited to a teacher training course, your data will also be shared between Apply and Teaching Vacancies, which are both delivered by the Department for Education. This will allow us to contact you so we can provide support as you look for a role upon qualifying as a teacher. Sign up to the service is voluntary.
+If you are successfully recruited to a teacher training course, your data will also be shared between Apply and Teaching Vacancies, which are both delivered by the Department for Education. This will allow us to contact you so we can provide support as you look for a role upon qualifying as a teacher. Sign up to the service is voluntary.
 
 #### Safeguarding and fraud
 
@@ -118,14 +118,14 @@ We use some user data to improve our services. For example, we’ll look at any 
 
 #### If you give a reference
 
-We ask if you’re willing to participate in user research when you submit a reference. If you have given us your consent we may contact you to participate in user research.
+We ask if you are willing to participate in user research when you submit a reference. If you have given us your consent we may contact you to participate in user research.
 If you want to withdraw your consent to participate in user research at any time, you can contact us at becomingateacher@digital.education.gov.uk.
 
-#### If you’re a provider
+#### If you are a provider
 
 We may contact you to ask if you would like to participate in user research. This helps us improve our services and policies and further our purpose of recruiting high quality teachers.
 
-#### If you’re a candidate
+#### If you are a candidate
 
 We may contact you to ask if you would like to participate in user research. This helps us improve our services and policies and further our purpose of recruiting high quality teachers. You do not have to participate, and choosing to participate or not won’t affect your application in any way. You can opt out of being contacted for user research at any time using the form below, you will still receive all other communications about your application.
 [Opt out of being contacted for research](https://forms.gle/dkZtK1g8ipKTD3s66).

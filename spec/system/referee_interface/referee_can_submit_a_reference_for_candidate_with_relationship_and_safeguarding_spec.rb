@@ -310,6 +310,6 @@ RSpec.feature 'Referee can submit reference', :with_audited do
 
   def when_i_choose_to_be_contactable
     choose t('referee.questionnaire.consent_to_be_contacted.yes.label')
-    fill_in 'Please let us know when you’re available', with: 'anytime 012345 678900'
+    fill_in 'Please let us know when you are available', with: 'anytime 012345 678900'
   end
 end

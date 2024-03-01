@@ -191,7 +191,7 @@ en:
       heading: Interview availability
       edit: Edit your interview availability
       review: Check your interview availability
-    training_with_a_disability: Ask for support if you’re disabled
+    training_with_a_disability: Ask for support if you are disabled
     suitability_to_work_with_children: Declare any safeguarding issues
     thank_you: Thank you for your feedback
     english_gcse: English GCSE or equivalent
@@ -426,13 +426,13 @@ en:
         withdraw_offer:
           attributes:
             offer_withdrawal_reason:
-              blank: Explain why you’re withdrawing the offer
+              blank: Explain why you are withdrawing the offer
         reject_application:
           attributes:
             rejection_reason:
-              blank: Explain why you’re rejecting the application
+              blank: Explain why you are rejecting the application
               too_long: |
-                The explanation for why you’re rejecting the application must be
+                The explanation for why you are rejecting the application must be
                 %{count} characters or fewer
         provider_interface/provider_user_invitation_wizard:
           attributes:
@@ -473,7 +473,7 @@ en:
         adviser/sign_up:
           attributes:
             preferred_teaching_subject_id:
-              inclusion: Select a subject you’re interested in teaching
+              inclusion: Select a subject you are interested in teaching
 
   activerecord:
     attributes:

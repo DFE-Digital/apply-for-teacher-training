@@ -21,7 +21,7 @@ en:
         course_site:
           attributes:
             course_option_id:
-              blank: Select which location you’re interested in
+              blank: Select which location you are interested in
         find_course_selection:
           attributes:
             confirm:

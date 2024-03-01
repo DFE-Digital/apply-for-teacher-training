@@ -65,7 +65,7 @@ en:
             currently_completing_qualification:
               inclusion: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
             not_completed_explanation:
-              blank: Enter details of the qualification you’re studying for
+              blank: Enter details of the qualification you are studying for
               too_many_words: Qualification details must be %{maximum} words or less
             currently_completing_qualification:
               blank: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
@@ -85,7 +85,7 @@ en:
               blank: Enter qualification name
               too_long: Type of degree must be %{count} characters or fewer
             not_completed_explanation:
-              blank: Enter details of the qualification you’re studying for
+              blank: Enter details of the qualification you are studying for
               too_many_words: Qualification details must be %{maximum} words or less
             audit_comment:
               blank: You must provide an audit comment
@@ -150,7 +150,7 @@ en:
             currently_completing_qualification:
               inclusion: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
             not_completed_explanation:
-              blank: Enter details of the qualification you’re studying for
+              blank: Enter details of the qualification you are studying for
               too_many_words: Qualification details must be %{maximum} words or less
             currently_completing_qualification:
               blank: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent

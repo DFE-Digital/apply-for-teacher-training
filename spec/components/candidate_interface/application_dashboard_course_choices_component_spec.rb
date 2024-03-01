@@ -149,7 +149,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
       )
       expect(rendered_component).to summarise(
         key: 'Status',
-        value: "Offer received What to do if you’re unable to start training in #{application_choice.course_option.course.start_date.to_fs(:month_and_year)} You can defer your offer and start your course a year later. Contact #{application_choice.course_option.course.provider.name} to ask if it’s possible to defer, this will not affect your existing offer. If your provider agrees, you’ll need to accept the offer first.",
+        value: "Offer received What to do if you are unable to start training in #{application_choice.course_option.course.start_date.to_fs(:month_and_year)} You can defer your offer and start your course a year later. Contact #{application_choice.course_option.course.provider.name} to ask if it’s possible to defer, this will not affect your existing offer. If your provider agrees, you will need to accept the offer first.",
       )
       expect(rendered_component).to summarise(
         key: 'Conditions',

@@ -24,7 +24,7 @@ We’re always looking to improve the accessibility of this service. If you find
 
 ## Enforcement procedure
 
-If you’re not happy with our response to a complaint, [contact the Equality Advisory and Support Service (EASS)](https://www.equalityadvisoryservice.com/).
+If you are not happy with our response to a complaint, [contact the Equality Advisory and Support Service (EASS)](https://www.equalityadvisoryservice.com/).
 
 The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’).
 
