@@ -1,15 +1,21 @@
-**Title:** Architecture Decision Record - Support for TDA/PGTA Courses
+# 21. Add PGTA/TDA Courses to Apply / Manage
 
-**Date:** [Date]
+**Date:** 01/03/2024
 
-**Status:** Proposed
+## Status:
 
-**Glossary:** TDA/PGTA - The degree apprenticeship
+Proposed
 
-**Context:**
+## Glossary
+
+TDA/PGTA - The degree apprenticeship
+
+## Context
+
 Trainee teachers can now pursue degrees through apprenticeships, offering them a pathway into the profession while gaining practical experience and earning a salary. These degree apprenticeships, known as TDA/PGTA courses, allow trainees to study for undergraduate or master's degrees while working, with off-the-job training integrated into their work schedule. As part of our platform-wide initiative to support TDA/PGTA courses, several enhancements and modifications are proposed across various modules.
 
-**Decision:**
+## Decision:
+
 1. **Publish Integration Enhancement:**
    - Modify the Publish integration to accommodate TDA courses, aligning with the platform-wide decision to support TDA/PGTA courses across all modules.
 
@@ -37,7 +43,8 @@ Trainee teachers can now pursue degrees through apprenticeships, offering them a
 9. **Hide Degrees Section for TDA Applications:**
    - Omit displaying the degrees section in Manage when providers view individual applications for TDA courses, as degrees are not a requirement for these programs.
 
-**Consequences:**
+## Consequences
+
 - **Improved System Compatibility:** These changes ensure that the platform effectively supports TDA/PGTA courses across all modules, enhancing compatibility and user experience.
 - **Enhanced Visibility and Efficiency:** The addition of TDA-related features and filters in interfaces such as Support and Manage improves visibility and efficiency in managing TDA applications for providers.
-- **Communication and Collaboration:** Effective communication with vendors, designers, and teams such as Register is crucial to ensure seamless integration and understanding of the changes related to TDA/PGTA courses.
+- **Communication and Collaboration:** Effective communication with vendors, designers, and teams such as Register, Providers and Vendors is crucial to ensure seamless integration and understanding of the changes related to TDA/PGTA courses.
