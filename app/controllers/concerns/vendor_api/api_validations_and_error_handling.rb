@@ -69,7 +69,7 @@ module VendorAPI
         errors: [
           {
             error: 'NotFound',
-            message: "Unable to find #{model_name}(s)",
+            message: "Unable to find #{model_name}s",
           },
         ],
       }

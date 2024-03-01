@@ -64,7 +64,7 @@ en:
     not_specified: Not entered
   multiple_gcse_edit_grade:
     page_title: What English GCSE did you do?
-    question: Select the GCSE(s) you did and include your grade
+    question: Select the GCSEs you did and include your grade
     answers:
       english_single_award: English (Single award)
       english_double_award: English (Double award)

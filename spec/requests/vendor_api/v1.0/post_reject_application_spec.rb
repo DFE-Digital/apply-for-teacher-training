@@ -87,6 +87,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject' do
 
     expect(response).to have_http_status(:not_found)
     expect(parsed_response)
-      .to contain_schema_with_error('NotFoundResponse', 'Unable to find Application(s)')
+      .to contain_schema_with_error('NotFoundResponse', 'Unable to find Applications')
   end
 end

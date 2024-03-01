@@ -88,7 +88,7 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
     end
   end
 
-  context 'application has missing gcse(s) and equivalencies are not accepted' do
+  context 'application has missing gcses and equivalencies are not accepted' do
     context 'application has one missing gcse and course does not accept them' do
       it 'renders the gcse row with guidance' do
         create(

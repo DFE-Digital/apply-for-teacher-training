@@ -1282,7 +1282,7 @@ components:
             "$ref": "#/components/schemas/Error"
           example:
           - error: NotFound
-            message: Unable to find Application(s)
+            message: Unable to find Applications
     UnauthorizedResponse:
       type: object
       required:

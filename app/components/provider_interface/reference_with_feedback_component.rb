@@ -87,7 +87,7 @@ module ProviderInterface
       return nil unless reference.has_safeguarding_concerns_to_declare?
 
       {
-        key: 'Reason(s) given by referee why this candidate should not work with children',
+        key: 'Reasons given by referee why this candidate should not work with children',
         value: safeguarding_concerns,
       }
     end

@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
   end
 
   context 'when the application choice is in the application_not_sent state' do
-    it 'tells the candidate why their application was not sent to their provider(s)' do
+    it 'tells the candidate why their application was not sent to their providers' do
       application_choice = create(:application_choice, :application_not_sent, course:)
       result = render_inline(described_class.new(application_choice:))
       expect(result.text).to include('Your application was not sent for this course because it was not submitted before the deadline.')

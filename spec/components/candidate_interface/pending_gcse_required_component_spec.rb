@@ -31,7 +31,7 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
     end
   end
 
-  context 'application has pending gcse(s) that are not accepted' do
+  context 'application has pending gcses that are not accepted' do
     context 'application has one pending gcse and course does not accept them' do
       it 'renders the gcse row with guidance' do
         create(
