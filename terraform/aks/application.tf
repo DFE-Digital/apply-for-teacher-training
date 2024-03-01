@@ -11,7 +11,7 @@ module "application_configuration" {
 
   secret_variables = {
     DATABASE_URL        = local.database_url
-    BLAZER_DATABASE_URL = module.postgres.url
+    BLAZER_DATABASE_URL = local.database.url
     REDIS_URL           = module.redis-queue.url
     REDIS_CACHE_URL     = module.redis-cache.url
   }
