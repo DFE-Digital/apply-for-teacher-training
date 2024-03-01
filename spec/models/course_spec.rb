@@ -43,6 +43,40 @@ RSpec.describe Course do
     end
   end
 
+  describe '.open' do
+    context 'when course is open' do
+      let(:course) { create(:course, :open) }
+
+      it 'returns open course' do
+        expect(described_class.open).to include(course)
+      end
+    end
+
+    context 'when not exposed_in_find' do
+      let(:course) { create(:course, :open, exposed_in_find: false) }
+
+      it 'does not return the course' do
+        expect(described_class.open).not_to include(course)
+      end
+    end
+
+    context 'when course is due to open tomorrow' do
+      let(:course) { create(:course, :open, applications_open_from: 1.day.from_now) }
+
+      it 'does not return the course' do
+        expect(described_class.open).not_to include(course)
+      end
+    end
+
+    context 'when course is closed by provider' do
+      let(:course) { create(:course, :open, application_status: 'closed') }
+
+      it 'does not return the course' do
+        expect(described_class.open).not_to include(course)
+      end
+    end
+  end
+
   describe '#currently_has_both_study_modes_available?' do
     it 'is true when a course has full time and part time course options' do
       create(:course_option, :full_time, course:)
