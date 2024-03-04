@@ -23,17 +23,23 @@
     "stylelint": "^16.2.1",
     "stylelint-config-gds": "^2.0.0",
     "stylelint-config-recess-order": "^4.6.0",
-    "stylelint-order": "^6.0.4"
+    "stylelint-order": "^6.0.4",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2"
   },
   "scripts": {
     "lint": "standard 'app/frontend/packs'",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "husky"
   },
   "jest": {
     "testEnvironment": "jsdom",
     "roots": [
       "app"
     ]
+  },
+  "lint-staged": {
+    "*_spec.rb": "bundle exec rubocop -P --only RSpec/NoShouldInSpecs"
   },
   "standard": {
     "env": [
