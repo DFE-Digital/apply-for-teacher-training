@@ -1,6 +1,6 @@
-const propertyGroups = require("stylelint-config-recess-order/groups");
+import propertyGroups from "stylelint-config-recess-order/groups";
 
-module.exports = {
+export default  {
   extends: ["stylelint-config-gds/scss", "stylelint-config-recess-order"],
   plugins: ["stylelint-order"],
   rules: {
