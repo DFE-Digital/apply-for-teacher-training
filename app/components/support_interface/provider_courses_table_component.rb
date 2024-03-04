@@ -35,15 +35,15 @@ module SupportInterface
 
     def status_tag(course)
       if course.recruitment_cycle_year == RecruitmentCycle.next_year
-        govuk_tag(text: 'Unpublished', colour: 'blue')
+        govuk_tag(text: t('unpublished.text'), colour: t('unpublished.colour'))
       elsif course.open?
-        govuk_tag(text: 'Open', colour: 'green')
+        govuk_tag(text: t('open.text'), colour: t('open.colour'))
       elsif !course.exposed_in_find?
-        govuk_tag(text: 'Hidden in Find', colour: 'grey')
+        govuk_tag(text: t('hidden.text'), colour: t('hidden.colour'))
       elsif course.application_status_closed?
-        govuk_tag(text: 'Closed by Provider', colour: 'blue')
+        govuk_tag(text: t('closed.text'), colour: t('closed.colour'))
       else # rubocop:disable Lint/DuplicateBranch
-        govuk_tag(text: 'Unpublished', colour: 'blue')
+        govuk_tag(text: t('unpublished.text'), colour: t('unpublished.colour'))
       end
     end
 

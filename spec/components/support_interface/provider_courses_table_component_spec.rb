@@ -101,7 +101,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       context 'course is closed by provider' do
         let(:course) { create(:course, :open, application_status: 'closed') }
 
-        it { is_expected.to match(/Closed by Provider/) }
+        it { is_expected.to match(/Closed by provider/) }
       end
 
       context 'course is not open yet' do
