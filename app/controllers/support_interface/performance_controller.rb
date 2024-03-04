@@ -38,13 +38,13 @@ module SupportInterface
     end
 
     def unavailable_choices
-      redirect_to support_interface_unavailable_choices_disabled_courses_path
+      redirect_to support_interface_unavailable_choices_closed_courses_path
     end
 
-    def unavailable_choices_disabled_courses
+    def unavailable_choices_closed_courses
       unavailable_choices_detail(
-        :applications_to_disabled_courses,
-        'Applications to courses that are no longer available on Apply',
+        :applications_to_closed_courses,
+        'Applications to courses that are closed by provider',
       )
     end
 

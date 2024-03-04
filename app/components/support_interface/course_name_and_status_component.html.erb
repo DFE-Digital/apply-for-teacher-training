@@ -8,7 +8,7 @@
 <% end %>
 
 <% if course_option.course_closed_on_apply? %>
-  <%= govuk_tag(text: 'Course closed on Apply', colour: 'yellow') %>
+  <%= govuk_tag(text: 'Course closed by provider', colour: 'yellow') %>
 <% end %>
 
 <% if course_option.course_full? %>
