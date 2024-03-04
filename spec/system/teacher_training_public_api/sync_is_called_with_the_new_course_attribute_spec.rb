@@ -5,7 +5,6 @@ RSpec.feature 'Sync sites' do
 
   it 'a site has no vacancies and is not set to vacancies by the sync' do
     given_there_is_a_provider_and_has_two_courses_on_apply
-    and_course_vacancies_feature_flag_is_on
     and_that_the_courses_exists_on_the_ttapi
 
     when_sync_provider_is_called_with_an_open_course
@@ -13,10 +12,6 @@ RSpec.feature 'Sync sites' do
 
     when_sync_provider_is_called_with_a_closed_course
     then_the_site_has_no_vacancies
-  end
-
-  def and_course_vacancies_feature_flag_is_on
-    FeatureFlag.activate(:course_has_vacancies)
   end
 
   def given_there_is_a_provider_and_has_two_courses_on_apply
