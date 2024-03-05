@@ -16,7 +16,7 @@ We’ve also made the text in the service as simple as possible to understand.
 
 If you need to use the service in a different way, email <%= bat_contact_mail_to %>.
 
-We’ll respond within 5 working days.
+We will respond within 5 working days.
 
 ## Reporting accessibility problems with this service
 
@@ -38,7 +38,7 @@ This service is fully compliant with the [Web Content Accessibility Guidelines v
 
 ## What we’re doing to improve accessibility
 
-We’ll continue to test the accessibility of this service as it develops.
+We will continue to test the accessibility of this service as it develops.
 
 ## Preparation of this accessibility statement
 

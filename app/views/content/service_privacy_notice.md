@@ -83,9 +83,9 @@ Processing applications includes:
 - analysing application and service usage data (including the outcome of applications)
 - using information from education providers and information from the Apply service for analysis and research about initial teacher training
 
-Your data will also be shared between Apply and Get Into Teaching, which are both delivered by the Department for Education. This is to support your application journey. For example, we’ll send you relevant information and support opportunities.
+Your data will also be shared between Apply and Get Into Teaching, which are both delivered by the Department for Education. This is to support your application journey. For example, we will send you relevant information and support opportunities.
 
-We’ll also call you on the phone number you give, to ask whether you would like help from a teacher training adviser.
+We will also call you on the phone number you give, to ask whether you would like help from a teacher training adviser.
 
 #### If you start teacher training
 
@@ -114,7 +114,7 @@ Processing references includes:
 
 ### Building a better teacher training application process
 
-We use some user data to improve our services. For example, we’ll look at any feedback you give us about our services so we can improve them.
+We use some user data to improve our services. For example, we will look at any feedback you give us about our services so we can improve them.
 
 #### If you give a reference
 
@@ -131,7 +131,7 @@ We may contact you to ask if you would like to participate in user research. Thi
 [Opt out of being contacted for research](https://forms.gle/dkZtK1g8ipKTD3s66).
 
 ### Getting insight to make government policy better
-We’ll analyse your data to help us inform government policy around teacher recruitment and retention.
+We will analyse your data to help us inform government policy around teacher recruitment and retention.
 
 If you use other digital services for which the data controller is also the Department for Education (for example, Find postgraduate teacher training, or Get Into Teaching), we may use your IP address to understand how you are using these services. This allows us to ensure that public funds are being spent effectively.
 
@@ -157,9 +157,9 @@ We have a data sharing agreement with providers so that they are clear about the
 
 #### Sharing candidate data with people who give references
 
-We’ll share candidate names with referees so that each referee can identify the candidate and give a reference.
+We will share candidate names with referees so that each referee can identify the candidate and give a reference.
 
-We’ll share additional information to help the referee identify the candidate, such as how the candidate knows the referee.
+We will share additional information to help the referee identify the candidate, such as how the candidate knows the referee.
 
 #### External organisations who process data
 
@@ -191,6 +191,6 @@ Once a candidate has enrolled with a teacher training provider, we will not be a
 
 ### Keeping our privacy notice up to date
 
-We’ll update this privacy notice when required. You should regularly review the notice.
+We will update this privacy notice when required. You should regularly review the notice.
 
 This version was last updated on 11 April 2023.

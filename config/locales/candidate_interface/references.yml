@@ -68,7 +68,7 @@ en:
         cancelled: Training providers will not see any information about this reference request.
         cancelled_at_end_of_cycle: The referee did not respond before courses closed.
         email_bounced: The reference request never reached your referee.
-        not_requested_yet: We’ll contact your referees after you submit your application.
+        not_requested_yet: We will contact your referees after you submit your application.
         awaiting_reference_sent_less_than_5_days_ago: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
         awaiting_reference_sent_more_than_5_days_ago: Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
       add_reference:

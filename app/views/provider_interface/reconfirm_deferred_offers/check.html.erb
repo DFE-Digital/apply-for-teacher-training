@@ -18,7 +18,7 @@
 
       <p class="govuk-body">
         <% and_remind = ' and remind them of the conditions for it' unless @wizard.conditions_met? %>
-        We’ll email the candidate to confirm their new offer<%= and_remind %>.
+        We will email the candidate to confirm their new offer<%= and_remind %>.
       </p>
 
       <%= f.govuk_submit 'Confirm offer' %>

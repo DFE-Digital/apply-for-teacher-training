@@ -6,11 +6,11 @@ en:
     success: New referee request sent to candidate
     not_responded:
       option: Explain the referee has not responded
-      confirm_text: We’ll send an email to explain that their referee (%{referee_name}) has not responded.
+      confirm_text: We will send an email to explain that their referee (%{referee_name}) has not responded.
     refused:
       option: Explain the referee will not give a reference
-      confirm_text: We’ll send an email to explain that their referee (%{referee_name}) will not give a reference.
+      confirm_text: We will send an email to explain that their referee (%{referee_name}) will not give a reference.
     email_bounced:
       option: Explain the referee’s email has bounced
-      confirm_text: We’ll send an email to explain their referee’s email has bounced.
+      confirm_text: We will send an email to explain their referee’s email has bounced.
     auto_approve_feedback: Automatically approved.
