@@ -42,7 +42,7 @@ jobs:
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
 
-      - uses: azure/login@v1
+      - uses: azure/login@v2
         if: env.TF_STATE_EXISTS == 'true'
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
