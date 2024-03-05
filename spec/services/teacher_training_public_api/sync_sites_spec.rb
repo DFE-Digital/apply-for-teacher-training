@@ -168,10 +168,6 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
     end
 
     context 'when course is closed' do
-      before do
-        FeatureFlag.activate(:course_has_vacancies)
-      end
-
       it 'updates corresponding course options to no vacancies' do
         described_class.new.perform(
           provider.id,

@@ -69,19 +69,9 @@ module TeacherTrainingPublicAPI
         study_mode:,
       )
 
-      if FeatureFlag.active?(:course_has_vacancies)
-        course_option.update!(vacancy_status:)
-      else
-        # if course_option.vacancy_status != vacancy_status.to_s
-        # new courses - always set to vacancies
-        # old courses - keep the same (no vacancies will continue to be no
-        # vacancies, and those with vacancies will continue forever until we
-        # change to the new attribute from Find)
-        course_option.update!(vacancy_status: 'vacancies') unless course_option.no_vacancies?
-      end
+      course_option.update!(vacancy_status:)
 
       @updates.merge!(course_option: true) if !@incremental_sync
-      # end
     end
 
     def vacancy_status
