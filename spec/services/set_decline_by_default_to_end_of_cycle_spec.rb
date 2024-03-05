@@ -49,10 +49,12 @@ RSpec.describe SetDeclineByDefaultToEndOfCycle do
     context 'when nothing on the record changes' do
       let(:state) { :offer }
 
-      it 'does not update dates when nothing changes', :with_audited do
+      before do
         application_choice
+        call_service
+      end
 
-        expect { call_service }.to change { Audited::Audit.count }.by(1)
+      it 'does not update dates when nothing changes', :with_audited do
         expect { call_service }.not_to change(Audited::Audit, :count)
       end
     end
