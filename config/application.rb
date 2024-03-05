@@ -78,9 +78,9 @@ module ApplyForPostgraduateTeacherTraining
 
     config.i18n.load_path += Dir[Rails.root.join("config/locales/**/*.{rb,yml}")]
 
+    config.middleware.insert_before Rack::Sendfile, RedirectToServiceGovUkMiddleware
     config.middleware.use RequestIdentityMiddleware
     config.middleware.use ServiceUnavailableMiddleware
-    config.middleware.insert_after ActionDispatch::HostAuthorization, RedirectToServiceGovUkMiddleware
     config.middleware.use VendorAPIRequestMiddleware
     config.middleware.use Grover::Middleware
     config.skylight.environments = ENV["SKYLIGHT_ENABLE"].to_s == "true" ? [Rails.env] : []
