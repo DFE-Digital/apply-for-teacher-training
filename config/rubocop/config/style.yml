@@ -3,9 +3,21 @@
 Style/AndOr:
   EnforcedStyle: conditionals
 
+# Exclude Rails generated files
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: single_quotes
+  Exclude:
+    - config/boot.rb
+    - config/application.rb
+    - config/environment.rb
+    - config/environments/*
+    - config/initializers/assets.rb
+    - config/initializers/content_security_policy.rb
+    - config/initializers/filter_parameter_logging.rb
+    - config/initializers/inflections.rb
+    - bin/rails
+    - bin/rake
 
 # sometimes reduce is fine
 Style/EachWithObject:
@@ -30,6 +42,17 @@ Style/ConditionalAssignment:
 
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
+  Exclude:
+    - config/boot.rb
+    - config/application.rb
+    - config/environment.rb
+    - config/environments/*
+    - config/initializers/assets.rb
+    - config/initializers/content_security_policy.rb
+    - config/initializers/filter_parameter_logging.rb
+    - config/initializers/inflections.rb
+    - bin/rails
+    - bin/rake
 
 Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: comma
