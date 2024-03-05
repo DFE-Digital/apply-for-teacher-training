@@ -562,7 +562,7 @@ RSpec.describe CandidateMailer do
           'greeting' => 'Dear Fred',
           'details' => 'The details of your interview for Geography (G100) have been updated.',
           'interview with new course details' => 'The interview is with Hogwards.',
-          'new course' => 'It’s now for Mathematics (M101).',
+          'new course' => 'It is now for Mathematics (M101).',
           'interview date' => '15 January 2021',
           'interview time' => '9:30am',
           'interview location' => 'Hogwarts Castle',
@@ -575,7 +575,7 @@ RSpec.describe CandidateMailer do
         let(:email) { mailer.interview_updated(application_choice_with_interview, interview, previous_course) }
 
         it 'the email does not contain any new course details' do
-          expect(email.body).not_to include('It’s now for Mathematics (M101).')
+          expect(email.body).not_to include('It is now for Mathematics (M101).')
         end
       end
 

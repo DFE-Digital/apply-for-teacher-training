@@ -1,6 +1,6 @@
 This statement applies to the ‘Manage teacher training applications’ service.
 
-‘Manage teacher training applications’ is run by the Department for Education. It’s designed to be used by as many people as possible. You should be able to:
+‘Manage teacher training applications’ is run by the Department for Education. It is designed to be used by as many people as possible. You should be able to:
 
 * change colours, contrast levels and fonts
 * zoom in up to 300% without problems
