@@ -127,7 +127,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       )
 
       render_inline(described_class.new(audit: permissions.audits.last)) do |rendered_component|
-        assert_includes rendered_component, 'Access granted for The School of Roke'
+        expect(rendered_component).to include('Access granted for The School of Roke')
       end
     end
 
@@ -141,7 +141,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       permissions.save
 
       render_inline(described_class.new(audit: permissions.audits.last)) do
-        assert_includes rendered_component, 'Permissions changed for The School of Roke'
+        expect(rendered_component).to include('Permissions changed for The School of Roke')
       end
     end
 
@@ -159,7 +159,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       render_inline(
         described_class.new(audit: permissions.audits.find_by(action: 'update')),
       ) do |rendered_component|
-        assert_includes rendered_component, 'Permissions changed for The School of Roke'
+        expect(rendered_component).to include('Permissions changed for The School of Roke')
       end
     end
 
@@ -178,7 +178,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       render_inline(
         described_class.new(audit: permissions.audits.find_by(action: 'update')),
       ) do |rendered_component|
-        assert_includes rendered_component, 'Permissions changed for a provider'
+        expect(rendered_component).to include('Permissions changed for a provider')
       end
     end
 
@@ -191,7 +191,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       permissions.destroy
 
       render_inline(described_class.new(audit: permissions.audits.last)) do |rendered_component|
-        assert_includes rendered_component, 'Access revoked for The School of Roke'
+        expect(rendered_component).to include('Access revoked for The School of Roke')
       end
     end
   end
@@ -208,7 +208,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
         ratifying_provider_can_view_safeguarding_information: true,
       )
       render_inline(described_class.new(audit: permissions.audits.last)) do |rendered_component|
-        assert_includes rendered_component, 'Permission relationship between training provider A and ratifying provider B created'
+        expect(rendered_component).to include('Permission relationship between training provider A and ratifying provider B created')
       end
     end
 
@@ -225,7 +225,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
         ratifying_provider_can_make_decisions: true,
       )
       render_inline(described_class.new(audit: permissions.audits.last)) do |rendered_component|
-        assert_includes rendered_component, 'Permission relationship between training provider A and ratifying provider B changed'
+        expect(rendered_component).to include('Permission relationship between training provider A and ratifying provider B changed')
       end
     end
   end
