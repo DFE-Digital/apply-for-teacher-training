@@ -51,6 +51,14 @@ GIT
     rspec-retry (0.7.0)
       rspec-core (> 3.3)
 
+GIT
+  remote: https://github.com/active-hash/active_hash.git
+  revision: 195b1e9d8be81de0e610325af07efce0b7b9f3ea
+  ref: 195b1e9
+  specs:
+    active_hash (3.2.1)
+      activesupport (>= 5.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -103,8 +111,6 @@ GEM
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    active_hash (3.2.1)
-      activesupport (>= 5.0.0)
     activejob (7.1.3.2)
       activesupport (= 7.1.3.2)
       globalid (>= 0.3.6)
@@ -825,7 +831,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_hash
+  active_hash!
   activerecord-cte
   ar-sequence
   archive-zip
