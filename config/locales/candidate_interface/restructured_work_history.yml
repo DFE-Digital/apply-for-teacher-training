@@ -6,14 +6,14 @@ en:
       full_time_education:
         label: No, I have always been in full time education
         review_label: Do you have any work history?
-        change_action: explanation of why you’ve been out of the workplace
+        change_action: explanation of why you have been out of the workplace
       can_not_complete:
         label: No, I do not have any work history
       explanation:
-        label: Tell us why you’ve been out of the workplace
+        label: Tell us why you have been out of the workplace
         hint_text: For example, ‘I have been unemployed’, ‘I have been volunteering’ or ‘I have been caring for a child’
-        review_label: Explanation of why you’ve been out of the workplace
-        change_action: explanation of why you’ve been out of the workplace
+        review_label: Explanation of why you have been out of the workplace
+        change_action: explanation of why you have been out of the workplace
       role:
         label: Job title or role
         review_label: Job title or role
@@ -63,8 +63,8 @@ en:
             choice:
               blank: Select whether you have any work history
             explanation:
-              blank: Tell us why you’ve been out of the workplace
-              too_many_words: Why you’ve been out of the workplace must be %{maximum} words or less
+              blank: Tell us why you have been out of the workplace
+              too_many_words: Why you have been out of the workplace must be %{maximum} words or less
         candidate_interface/restructured_work_history/work_history_break_form:
           attributes:
             start_date:

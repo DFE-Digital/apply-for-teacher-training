@@ -36,7 +36,7 @@ en:
     permissions_granted:
       subject: "%{permissions_granted_by_user} added you to %{organisation}"
     permissions_granted_by_support:
-      subject: "You've been added to %{organisation}"
+      subject: "You have been added to %{organisation}"
     permissions_updated:
       subject: "%{permissions_updated_by_user} updated your permissions for %{organisation}"
     permissions_updated_by_support:
@@ -44,7 +44,7 @@ en:
     permissions_removed:
       subject: "%{permissions_removed_by_user} has removed you from %{organisation}"
     permissions_removed_by_support:
-      subject: "You've been removed from %{organisation}"
+      subject: "You have been removed from %{organisation}"
     apply_service_is_now_open:
       subject: "Candidates can now apply"
     find_service_is_now_open:

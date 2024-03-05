@@ -3,7 +3,7 @@ en:
     reference_received:
       subject: "%{referee_name} has given you a reference"
     application_submitted: &application_submitted
-      subject: "You’ve submitted your teacher training application"
+      subject: "You have submitted your teacher training application"
     application_choice_submitted:
       <<: *application_submitted
     new_offer_made:
@@ -19,9 +19,9 @@ en:
     offer_withdrawn:
       subject: "Offer withdrawn by %{provider_name}"
     offer_accepted:
-      subject: "You’ve accepted %{provider_name}’s offer to study %{course_name_and_code}"
+      subject: "You have accepted %{provider_name}’s offer to study %{course_name_and_code}"
     unconditional_offer_accepted:
-      subject: "You’ve accepted %{provider_name}’s offer to study %{course_name_and_code}"
+      subject: "You have accepted %{provider_name}’s offer to study %{course_name_and_code}"
     new_referee_request:
       not_responded:
         subject: "%{referee_name} has not replied to your request for a reference"
@@ -53,14 +53,14 @@ en:
       subject: Update on your application
     application_withdrawn:
       subject:
-        one: "You’ve withdrawn your application"
-        other: "You’ve withdrawn your applications"
+        one: "You have withdrawn your application"
+        other: "You have withdrawn your applications"
     application_declined:
-      subject: "You’ve declined an offer: next steps"
+      subject: "You have declined an offer: next steps"
     conditions_statuses_changed:
       subject: "%{provider_name} has updated the status of your conditions for %{course_name}"
     conditions_met:
-      subject: "You’ve met your conditions to study %{course_name}"
+      subject: "You have met your conditions to study %{course_name}"
     conditions_not_met:
       subject: "You did not meet the offer conditions for %{course_name}"
     changed_offer:

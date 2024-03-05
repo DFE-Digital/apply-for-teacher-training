@@ -4,7 +4,7 @@ en:
       academic: their academic record
       school_based: their role and responsibilities at work
       professional: their role and responsibilities at work
-      character: activities you’ve done together
+      character: activities you have done together
     reference_request:
       subject: Teacher training reference needed for %{candidate_name}
       email_entry: entry.409316871

@@ -240,7 +240,7 @@ RSpec.feature 'Referee can submit reference', :with_audited, time: CycleTimetabl
   def and_i_amend_the_relationship
     within_fieldset('Is this description accurate?') do
       choose 'No, I’ll give a more accurate description'
-      fill_in "How you know #{@application.full_name} and how long you’ve known them", with: 'he is not my friend'
+      fill_in "How you know #{@application.full_name} and how long you have known them", with: 'he is not my friend'
     end
   end
 

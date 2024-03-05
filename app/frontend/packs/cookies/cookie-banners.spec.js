@@ -29,7 +29,7 @@ const templateHTML = `
         <h2 class="govuk-cookie-banner__heading">Cookies on [Service name]</h2>
         <div class="govuk-cookie-banner__content">
           <p>
-            You’ve
+            You have
             <span id="user-answer"></span>
               analytics cookies. You can
             <a data-qa="cookie-banner__preference-link" class="govuk-link" href="/cookies">change your cookie settings</a>

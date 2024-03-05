@@ -64,7 +64,7 @@ If a candidate says that you can give them a reference, they’ll tell us:
 
 - your name
 - your email address
-- how you know them and how long you’ve known them
+- how you know them and how long you have known them
 - the type of reference you can give (for example, academic or professional)
 
 ### How we use your data

@@ -329,9 +329,9 @@ RSpec.describe ProviderMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      "You've been added to Hogwards University - manage teacher training applications",
+      'You have been added to Hogwards University - manage teacher training applications',
       'salutation' => 'Dear Princess Fiona',
-      'heading' => "You've been added to Hogwards University. You can now manage their teacher training applications.",
+      'heading' => 'You have been added to Hogwards University. You can now manage their teacher training applications.',
       'make decisions' => 'make offers and reject application',
       'view diversity' => 'view sex, disability and ethnicity information',
       'dsi info' => 'If you do not have a DfE Sign-in account, you should have received an email with instructions from dfe.signin@education.gov.uk.',
@@ -431,9 +431,9 @@ RSpec.describe ProviderMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      "You've been removed from Hogwards University - manage teacher training applications",
+      'You have been removed from Hogwards University - manage teacher training applications',
       'salutation' => 'Dear Princess Fiona',
-      'heading' => "You've been removed from Hogwards University. You can no longer manage their teacher training applications.",
+      'heading' => 'You have been removed from Hogwards University. You can no longer manage their teacher training applications.',
       'footer' => 'Get help, report a problem or give feedback',
     )
   end

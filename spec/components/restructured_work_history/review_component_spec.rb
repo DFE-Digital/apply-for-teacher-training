@@ -98,9 +98,9 @@ RSpec.describe RestructuredWorkHistory::ReviewComponent do
       it 'renders component asking for an explanation' do
         result = render_inline(described_class.new(application_form: application_form_with_no_experience))
 
-        expect(result.text).to include('Explanation of why you’ve been out of the workplace')
+        expect(result.text).to include('Explanation of why you have been out of the workplace')
         expect(result.text).to include('I no work.')
-        expect(result.text).to include('Change explanation of why you’ve been out of the workplace')
+        expect(result.text).to include('Change explanation of why you have been out of the workplace')
       end
     end
   end
@@ -137,7 +137,7 @@ RSpec.describe RestructuredWorkHistory::ReviewComponent do
       it 'renders component asking for an explanation' do
         result = render_inline(described_class.new(application_form: application_form_with_no_experience, editable: false))
 
-        expect(result.text).to include('Explanation of why you’ve been out of the workplace')
+        expect(result.text).to include('Explanation of why you have been out of the workplace')
         expect(result.text).to include('I no work.')
         expect(result.text).not_to include('Change explanation')
       end

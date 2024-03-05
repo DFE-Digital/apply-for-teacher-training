@@ -12,11 +12,11 @@ RSpec.feature 'Confirm conditions met' do
 
     when_i_navigate_to_an_offer_accepted_by_the_candidate
     and_i_navigate_to_the_offer_tab
-    then_i_should_see_change_offer_text
+    then_i_see_change_offer_text
 
     when_i_click_on_confirm_conditions
-    then_i_should_see_a_summary_of_the_standard_conditions
-    then_i_should_see_a_summary_of_the_ske_condition
+    then_i_see_a_summary_of_the_standard_conditions
+    then_i_see_a_summary_of_the_ske_condition
 
     when_i_select_they_have_met_all_the_standard_conditions
     when_i_select_they_have_met_the_ske_conditions
@@ -27,7 +27,7 @@ RSpec.feature 'Confirm conditions met' do
     and_the_candidate_is_recruited
     and_the_candidate_receives_an_email_notification
     and_i_navigate_to_the_offer_tab
-    then_i_should_see_change_offer_text
+    then_i_see_change_offer_text
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -69,7 +69,7 @@ RSpec.feature 'Confirm conditions met' do
     click_link_or_button 'Offer'
   end
 
-  def then_i_should_see_change_offer_text
+  def then_i_see_change_offer_text
     expect(page).to have_content 'To change this offer, send proof that the candidate agrees and details of the changes to becomingateacher@digital.education.gov.uk.'
   end
 
@@ -77,7 +77,7 @@ RSpec.feature 'Confirm conditions met' do
     click_link_or_button 'Update status of conditions'
   end
 
-  def then_i_should_see_a_summary_of_the_standard_conditions
+  def then_i_see_a_summary_of_the_standard_conditions
     within '.app-box' do
       @conditions.each do |condition|
         expect(page).to have_content(condition.text)
@@ -85,7 +85,7 @@ RSpec.feature 'Confirm conditions met' do
     end
   end
 
-  def then_i_should_see_a_summary_of_the_ske_condition
+  def then_i_see_a_summary_of_the_ske_condition
     within '.app-box' do
       expect(page).to have_content(@ske_condition.subject)
     end
@@ -127,6 +127,6 @@ RSpec.feature 'Confirm conditions met' do
   def and_the_candidate_receives_an_email_notification
     open_email(@application_choice.application_form.candidate.email_address)
 
-    expect(current_email.subject).to have_content 'You’ve met your conditions to study'
+    expect(current_email.subject).to have_content 'You have met your conditions to study'
   end
 end

@@ -13,7 +13,7 @@ en:
       'no':
         label: 'No, I’ll give a more accurate description'
     relationship_correction:
-      label: How you know %{full_name} and how long you’ve known them
+      label: How you know %{full_name} and how long you have known them
     any_safeguarding_concerns:
       'yes':
         label: 'Yes, I know a reason why they should not work with children'

@@ -48,8 +48,8 @@
               body.with_row do |row|
                 row.with_cell(text: CycleTimetable.apply_1_deadline.to_fs(:govuk_date_and_time))
                 row.with_cell do
-                  "<p class='govuk-body'>If you’ve not already applied for teacher training, you will not be able to apply after #{CycleTimetable.apply_1_deadline.to_fs(:govuk_date)}.</p>
-                   <p class='govuk-body govuk-!-margin-bottom-0'>If you’ve already applied, but your applications were unsuccessful, you can continue to apply for courses until #{CycleTimetable.apply_2_deadline.to_fs(:govuk_date_and_time)}.</p>".html_safe
+                  "<p class='govuk-body'>If you have not already applied for teacher training, you will not be able to apply after #{CycleTimetable.apply_1_deadline.to_fs(:govuk_date)}.</p>
+                   <p class='govuk-body govuk-!-margin-bottom-0'>If you have already applied, but your applications were unsuccessful, you can continue to apply for courses until #{CycleTimetable.apply_2_deadline.to_fs(:govuk_date_and_time)}.</p>".html_safe
                 end
               end
               body.with_row do |row|
