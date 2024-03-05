@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe AWSIpRanges do
+RSpec.describe Modules::AWSIpRanges do
   describe '.cloudfront_ips' do
     before do
       aws_ip_ranges = Rails.root.join('spec/examples/aws_ip_ranges.json').read
-      stub_request(:get, AWSIpRanges::PATH).to_return(body: aws_ip_ranges, status: 200)
+      stub_request(:get, Modules::AWSIpRanges::PATH).to_return(body: aws_ip_ranges, status: 200)
     end
 
     it 'returns the CLOUDFRONT ip in the GLOBAL or eu-west-2 area' do
@@ -15,7 +15,7 @@ RSpec.describe AWSIpRanges do
 
     context 'when there was any connectivity issue' do
       before do
-        stub_request(:get, AWSIpRanges::PATH).to_timeout
+        stub_request(:get, Modules::AWSIpRanges::PATH).to_timeout
       end
 
       it 'returns an empty array' do
@@ -31,7 +31,7 @@ RSpec.describe AWSIpRanges do
 
     context 'when another type of Net::HTTP error is raised' do
       before do
-        stub_request(:get, AWSIpRanges::PATH).to_raise(Net::ProtocolError)
+        stub_request(:get, Modules::AWSIpRanges::PATH).to_raise(Net::ProtocolError)
       end
 
       it 'returns an empty array' do
@@ -48,7 +48,7 @@ RSpec.describe AWSIpRanges do
     context 'when the response was 403 and not JSON' do
       before do
         aws_ip_ranges = Rails.root.join('spec/examples/bad_aws_ip_ranges.xml').read
-        stub_request(:get, AWSIpRanges::PATH).to_return(body: aws_ip_ranges, status: 403)
+        stub_request(:get, Modules::AWSIpRanges::PATH).to_return(body: aws_ip_ranges, status: 403)
       end
 
       it 'returns an empty array' do

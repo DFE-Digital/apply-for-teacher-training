@@ -160,7 +160,7 @@ Rails.application.configure do
                                              # Add AWS IP addresses to trusted proxy list
                                              [
                                                ActionDispatch::RemoteIp::TRUSTED_PROXIES,
-                                               AWSIpRanges.cloudfront_ips.map { |proxy| IPAddr.new(proxy) },
+                                               Modules::AWSIpRanges.cloudfront_ips.map { |proxy| IPAddr.new(proxy) },
                                              ].flatten
                                            end
 end
