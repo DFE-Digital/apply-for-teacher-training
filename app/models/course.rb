@@ -13,6 +13,7 @@ class Course < ApplicationRecord
   scope :open_on_apply, -> { exposed_in_find.where(open_on_apply: true) }
   scope :exposed_in_find, -> { where(exposed_in_find: true) }
   scope :open_for_applications, -> { where('courses.applications_open_from <= ?', Time.zone.today) }
+  scope :open, -> { application_status_open.exposed_in_find.where('courses.applications_open_from <= ?', Time.zone.today) }
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
   scope :previous_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.previous_year) }
   scope :in_cycle, ->(year) { where(recruitment_cycle_year: year) }
@@ -129,6 +130,10 @@ class Course < ApplicationRecord
 
   def not_available?
     !exposed_in_find
+  end
+
+  def open?
+    applications_open_from <= Time.zone.today && exposed_in_find && application_status_open?
   end
 
   def open_for_applications?

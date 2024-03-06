@@ -20,12 +20,14 @@ RSpec.feature 'Unavailable choices' do
   end
 
   def and_there_are_candidates_and_application_forms_in_the_system
-    application_to_open_course = create(:application_choice, status: 'awaiting_provider_decision')
-    application_to_open_course.course.update! open_on_apply: true
-    application_to_closed_course = create(:application_choice, status: 'awaiting_provider_decision')
-    application_to_closed_course.course.update! open_on_apply: false
-    application_to_hidden_course = create(:application_choice, status: 'awaiting_provider_decision')
-    application_to_hidden_course.course.update! open_on_apply: true, exposed_in_find: false
+    open_course = create(:course, :open, :with_course_options)
+    hidden_course = create(:course, :open, :with_course_options, exposed_in_find: false)
+    # application_to_open_course
+    create(:application_choice, course: open_course, status: 'awaiting_provider_decision')
+    # application_to_closed_course
+    create(:application_choice, status: 'awaiting_provider_decision')
+    # application_to_hidden_course
+    create(:application_choice, course: hidden_course, status: 'awaiting_provider_decision')
     @application_with_no_vacancies = create(:application_choice, status: 'awaiting_provider_decision', course_option: create(:course_option, vacancy_status: 'no_vacancies'))
     create(:application_choice, status: 'awaiting_provider_decision', course_option: create(:course_option, site_still_valid: false))
   end
@@ -41,7 +43,7 @@ RSpec.feature 'Unavailable choices' do
 
   def then_i_can_see_a_summary_of_unavailable_choices
     expect(page).to have_content('Applications with unavailable choices')
-    expect(page).to have_content('Course removed from Apply (3)')
+    expect(page).to have_content('Course closed by provider (3)')
     expect(page).to have_content('Course removed from Find (1)')
     expect(page).to have_content('Course has no vacancies (1)')
     expect(page).to have_content('Site no longer exists (1)')

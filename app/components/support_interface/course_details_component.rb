@@ -9,7 +9,7 @@ module SupportInterface
     end
 
     def rows
-      rows = [
+      [
         {
           key: 'Recruitment cycle year',
           value: course.recruitment_cycle_year,
@@ -79,6 +79,10 @@ module SupportInterface
           value: course.in_next_cycle ? govuk_link_to(course.in_next_cycle.year_name_and_code, support_interface_course_path(course.in_next_cycle)) : 'None',
         },
         {
+          key: 'Closed by provider?',
+          value: course.application_status_open? ? govuk_tag(text: 'Open', colour: 'green') : govuk_tag(text: 'Closed', colour: 'red'),
+        },
+        {
           key: 'Find status',
           value: course.exposed_in_find? ? govuk_tag(text: 'Shown on Find', colour: 'green') : govuk_tag(text: 'Hidden on Find', colour: 'grey'),
           action: {
@@ -87,27 +91,14 @@ module SupportInterface
           },
         },
         {
-          key: 'Apply status',
-          value: course.open_on_apply? ? govuk_tag(text: open_on_apply_message(course), colour: 'green') : govuk_tag(text: 'Not open on Apply', colour: 'blue'),
+          key: 'Apply from Find link',
+          value: '',
           action: {
             href: candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code),
             text: 'Start page on Apply',
           },
         },
       ]
-
-      if course.open_on_apply?
-        rows.push({
-          key: 'Opened on Apply at',
-          value: course.opened_on_apply_at.to_fs(:govuk_date_and_time),
-        })
-      end
-
-      rows
-    end
-
-    def open_on_apply_message(course)
-      course.recruitment_cycle_year > 2021 ? 'Open on Apply' : 'Open on Apply & UCAS'
     end
   end
 end

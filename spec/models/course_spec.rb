@@ -9,6 +9,74 @@ RSpec.describe Course do
     it { is_expected.to be_application_status_closed }
   end
 
+  describe '#open?' do
+    context 'when all conditions are satisfied' do
+      let(:course) { create(:course, :open) }
+
+      it 'returns true' do
+        expect(course).to be_open
+      end
+    end
+
+    context 'when applications_open_from is in the future' do
+      let(:course) { create(:course, :open, applications_open_from: 1.day.from_now) }
+
+      it 'returns false' do
+        expect(course).not_to be_open
+      end
+    end
+
+    context 'when application_status is closed' do
+      let(:course) { create(:course, :open, application_status: 'closed') }
+
+      it 'returns false' do
+        expect(course).not_to be_open
+      end
+    end
+
+    context 'when exposed_in_find is false' do
+      let(:course) { create(:course, :open, exposed_in_find: false) }
+
+      it 'returns false' do
+        expect(course).not_to be_open
+      end
+    end
+  end
+
+  describe '.open' do
+    context 'when course is open' do
+      let(:course) { create(:course, :open) }
+
+      it 'returns open course' do
+        expect(described_class.open).to include(course)
+      end
+    end
+
+    context 'when not exposed_in_find' do
+      let(:course) { create(:course, :open, exposed_in_find: false) }
+
+      it 'does not return the course' do
+        expect(described_class.open).not_to include(course)
+      end
+    end
+
+    context 'when course is due to open tomorrow' do
+      let(:course) { create(:course, :open, applications_open_from: 1.day.from_now) }
+
+      it 'does not return the course' do
+        expect(described_class.open).not_to include(course)
+      end
+    end
+
+    context 'when course is closed by provider' do
+      let(:course) { create(:course, :open, application_status: 'closed') }
+
+      it 'does not return the course' do
+        expect(described_class.open).not_to include(course)
+      end
+    end
+  end
+
   describe '#currently_has_both_study_modes_available?' do
     it 'is true when a course has full time and part time course options' do
       create(:course_option, :full_time, course:)

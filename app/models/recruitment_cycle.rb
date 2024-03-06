@@ -26,6 +26,10 @@ module RecruitmentCycle
     CycleTimetable.next_year
   end
 
+  def self.next_year?(year)
+    year == CycleTimetable.next_year
+  end
+
   def self.previous_year
     current_year - 1
   end

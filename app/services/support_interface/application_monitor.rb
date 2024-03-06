@@ -1,15 +1,15 @@
 module SupportInterface
   class ApplicationMonitor
-    def applications_to_disabled_courses
+    def applications_to_closed_courses
       active_applications
         .joins(application_choices: { course_option: :course })
-        .where('courses.open_on_apply' => false)
+        .where('courses.application_status' => 'closed')
     end
 
     def applications_to_hidden_courses
       active_applications
         .joins(application_choices: { course_option: :course })
-        .where('courses.open_on_apply' => true, 'courses.exposed_in_find' => false)
+        .where('courses.exposed_in_find' => false)
     end
 
     def applications_to_removed_sites

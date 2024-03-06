@@ -34,15 +34,16 @@ module SupportInterface
     attr_reader :provider, :courses
 
     def status_tag(course)
-      # Special case when the course is in the future but has been imported with a status of open_on_apply
-      return govuk_tag(text: 'Closed on Apply', colour: 'blue') if course.recruitment_cycle_year == RecruitmentCycle.next_year
-
-      if course.open_on_apply?
-        govuk_tag(text: open_on_apply_message(course), colour: 'green')
-      elsif course.exposed_in_find?
-        govuk_tag(text: 'Closed on Apply', colour: 'blue')
-      else
-        govuk_tag(text: 'Hidden in Find', colour: 'grey')
+      if RecruitmentCycle.next_year?(course.recruitment_cycle_year)
+        govuk_tag(text: t('unpublished.text'), colour: t('unpublished.colour'))
+      elsif course.open?
+        govuk_tag(text: t('open.text'), colour: t('open.colour'))
+      elsif !course.exposed_in_find?
+        govuk_tag(text: t('hidden.text'), colour: t('hidden.colour'))
+      elsif course.application_status_closed?
+        govuk_tag(text: t('closed.text'), colour: t('closed.colour'))
+      else # rubocop:disable Lint/DuplicateBranch
+        govuk_tag(text: t('unpublished.text'), colour: t('unpublished.colour'))
       end
     end
 
@@ -53,10 +54,6 @@ module SupportInterface
           support_interface_provider_path(provider),
         )
       end
-    end
-
-    def open_on_apply_message(course)
-      course.recruitment_cycle_year > 2021 ? 'Open on Apply' : 'Open on Apply & UCAS'
     end
   end
 end
