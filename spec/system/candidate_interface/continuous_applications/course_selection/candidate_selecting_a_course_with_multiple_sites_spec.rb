@@ -164,7 +164,7 @@ RSpec.feature 'Selecting a course with multiple sites' do
       address_line4: 'West Yorkshire',
       postcode: 'LS8 5DQ',
     )
-    @multi_site_course = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
+    @multi_site_course = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
     create(:course_option, site: first_site, course: @multi_site_course)
     create(:course_option, site: second_site, course: @multi_site_course)
   end

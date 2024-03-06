@@ -67,7 +67,7 @@ module ProviderInterface
     end
 
     def provider_relationships_to_display
-      ProviderRelationshipPermissions.includes(:training_provider, :ratifying_provider).all_relationships_for_providers([provider]).providers_have_open_course
+      ProviderRelationshipPermissions.includes(:training_provider, :ratifying_provider).all_relationships_for_providers([provider]).providers_with_course_in_current_cycle
     end
 
     def sort_relationships_by_provider_name(relationships, provider)

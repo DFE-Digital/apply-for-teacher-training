@@ -1,5 +1,5 @@
 <%= render 'provider_navigation', title: 'Applications' %>
-<% if HostingEnvironment.sandbox_mode? && @provider.courses.open_on_apply.any? %>
+<% if HostingEnvironment.sandbox_mode? && @provider.courses.open.any? %>
   <%= render SandboxFeatureComponent.new(
     description: 'This task generates 100 new applications for the current provider, with one course choice per application.',
   ) do %>

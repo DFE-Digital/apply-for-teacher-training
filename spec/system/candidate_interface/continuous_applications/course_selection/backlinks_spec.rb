@@ -30,13 +30,13 @@ RSpec.feature 'Candidate edits course choices' do
 
   def and_there_is_a_course_with_one_course_option
     @provider = create(:provider)
-    create(:course, :open_on_apply, name: 'English', provider: @provider, study_mode: :full_time)
+    create(:course, :open, name: 'English', provider: @provider, study_mode: :full_time)
 
     course_option_for_provider(provider: @provider, course: @provider.courses.first)
   end
 
   def and_there_is_a_course_with_multiple_course_options
-    create(:course, :open_on_apply, :with_both_study_modes, name: 'Maths', provider: @provider)
+    create(:course, :open, :with_both_study_modes, name: 'Maths', provider: @provider)
 
     # Sites with full time study mode
     course_option_for_provider(provider: @provider, course: @provider.courses.second, study_mode: 'full_time')
@@ -48,7 +48,7 @@ RSpec.feature 'Candidate edits course choices' do
   end
 
   def and_there_is_a_course_with_both_study_modes_but_one_site
-    create(:course, :open_on_apply, :with_both_study_modes, name: 'Entomology', provider: @provider)
+    create(:course, :open, :with_both_study_modes, name: 'Entomology', provider: @provider)
 
     site = create(:site, provider: @provider)
 

@@ -9,7 +9,7 @@ RSpec.describe ReinstateConditionsMet do
 
   let(:provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }
-  let(:original_course) { create(:course, :open_on_apply, :previous_year_but_still_available, provider:) }
+  let(:original_course) { create(:course, :open, :previous_year_but_still_available, provider:) }
   let(:previous_course_option) { create(:course_option, course: original_course) }
   let(:new_course_option) { create(:course_option, course: original_course.in_next_cycle) }
   let(:application_choice) { create(:application_choice, :offer_deferred, course_option: previous_course_option) }

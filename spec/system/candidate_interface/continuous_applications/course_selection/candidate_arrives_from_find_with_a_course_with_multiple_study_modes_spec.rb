@@ -37,7 +37,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course with multipl
     @course = create(
       :course,
       :with_both_study_modes,
-      :open_on_apply,
+      :open,
       provider: @provider,
       name: 'Software Engineering',
     )

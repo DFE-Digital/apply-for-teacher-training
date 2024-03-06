@@ -66,7 +66,7 @@ RSpec.feature 'Setting up organisation permissions' do
       ratifying_provider: @another_ratifying_provider,
       training_provider: @training_provider,
     )
-    create(:course, :open_on_apply, provider: @training_provider, accredited_provider: @another_ratifying_provider)
+    create(:course, :open, provider: @training_provider, accredited_provider: @another_ratifying_provider)
 
     @ratifying_provider_relationship = create(
       :provider_relationship_permissions,
@@ -74,7 +74,7 @@ RSpec.feature 'Setting up organisation permissions' do
       ratifying_provider: @ratifying_provider,
       training_provider: @another_training_provider,
     )
-    create(:course, :open_on_apply, provider: @another_training_provider, accredited_provider: @ratifying_provider)
+    create(:course, :open, provider: @another_training_provider, accredited_provider: @ratifying_provider)
   end
 
   alias_method :when_i_sign_in_to_the_provider_interface, :and_i_sign_in_to_the_provider_interface

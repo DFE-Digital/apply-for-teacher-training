@@ -56,7 +56,7 @@ RSpec.describe ProviderAuthorisation do
     let(:ratified_course) do
       create(
         :course,
-        :open_on_apply,
+        :open,
         provider: training_provider,
         accredited_provider: ratifying_provider,
       )

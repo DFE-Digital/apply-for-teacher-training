@@ -32,7 +32,7 @@ class TestProvider
   end
 
   def self.generate_courses(previous_cycle, test_provider)
-    trait = previous_cycle ? :previous_year : :open_on_apply
+    trait = previous_cycle ? :previous_year : :open
     FactoryBot.create_list(:course, 3, trait, provider: test_provider)
   end
 

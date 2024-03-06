@@ -49,7 +49,7 @@ RSpec.describe ProviderSetup do
     let(:provider_user) { create(:provider_user, :with_provider, :with_manage_organisations) }
     let(:provider_for_user) { provider_user.providers.first }
     let(:other_provider) { create(:provider) }
-    let!(:course) { create(:course, :open_on_apply, accredited_provider: other_provider, provider: provider_for_user) }
+    let!(:course) { create(:course, :open, accredited_provider: other_provider, provider: provider_for_user) }
 
     let(:provider_setup) { described_class.new(provider_user:) }
 
@@ -75,7 +75,7 @@ RSpec.describe ProviderSetup do
 
       context 'when there is another relationship to set up' do
         let(:other_ratifying_provider) { create(:provider) }
-        let!(:other_course) { create(:course, :open_on_apply, accredited_provider: other_ratifying_provider, provider: provider_for_user) }
+        let!(:other_course) { create(:course, :open, accredited_provider: other_ratifying_provider, provider: provider_for_user) }
         let!(:other_permission_to_set_up) do
           create(
             :provider_relationship_permissions,
@@ -127,7 +127,7 @@ RSpec.describe ProviderSetup do
     end
 
     context 'when the provider user is part of the ratifying provider' do
-      let!(:course) { create(:course, :open_on_apply, accredited_provider: provider_for_user, provider: other_provider) }
+      let!(:course) { create(:course, :open, accredited_provider: provider_for_user, provider: other_provider) }
       let!(:permission_to_set_up) do
         create(
           :provider_relationship_permissions,

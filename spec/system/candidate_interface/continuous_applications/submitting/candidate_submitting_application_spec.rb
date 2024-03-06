@@ -99,7 +99,7 @@ RSpec.feature 'Candidate submits the application' do
       address_line4: 'MORLEY, lEEDS',
       postcode: 'LS27 0LZ',
     )
-    @course = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
+    @course = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
     @course_option = create(:course_option, site:, course: @course)
     current_candidate.application_forms.delete_all
     current_candidate.application_forms << build(:application_form, completed_section_trait, becoming_a_teacher: 'I want to teach')

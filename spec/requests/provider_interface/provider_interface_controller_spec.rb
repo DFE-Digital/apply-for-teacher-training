@@ -18,7 +18,7 @@ RSpec.describe ProviderInterface::ProviderInterfaceController do
 
   context 'when there are permissions requiring setup' do
     let(:ratifying_provider) { create(:provider) }
-    let!(:course) { create(:course, :open_on_apply, accredited_provider: ratifying_provider, provider:) }
+    let!(:course) { create(:course, :open, accredited_provider: ratifying_provider, provider:) }
     let!(:permissions) do
       create(
         :provider_relationship_permissions,

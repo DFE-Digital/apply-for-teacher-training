@@ -30,7 +30,7 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
 
   describe '#opened_on_apply_message' do
     it 'shows Open on Apply when course in current cycle' do
-      course = create(:course, :open_on_apply, recruitment_cycle_year: RecruitmentCycle.current_year)
+      course = create(:course, :open, recruitment_cycle_year: RecruitmentCycle.current_year)
       result = render_inline(
         described_class.new(course:),
       )
@@ -38,7 +38,7 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
     end
 
     it 'shows Open on Apply & UCAS when course in previous cycle or earlier' do
-      course = create(:course, :open_on_apply, recruitment_cycle_year: 2021)
+      course = create(:course, :open, recruitment_cycle_year: 2021)
       result = render_inline(
         described_class.new(course:),
       )
@@ -48,7 +48,7 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
 
   describe 'showing Opened on Apply at' do
     it 'shows the date when the course is open' do
-      course = create(:course, :open_on_apply)
+      course = create(:course, :open)
 
       result = render_inline(
         described_class.new(course:),
@@ -63,6 +63,16 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
         described_class.new(course:),
       )
       expect(result.text).not_to include('Opened on Apply at')
+    end
+  end
+
+  describe 'provider manually closed course' do
+    it 'displays the course is closed' do
+      result = render_inline(
+        described_class.new(course: create(:course, application_status: 'closed')),
+      )
+
+      expect(result.text).to include('Provider manually closed')
     end
   end
 end

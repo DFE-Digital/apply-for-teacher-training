@@ -9,7 +9,7 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
   let(:ratifying_provider) { create(:provider) }
 
   let(:application_form) { build(:application_form, :minimum_info) }
-  let(:course) { build(:course, :open_on_apply, provider:, accredited_provider: ratifying_provider) }
+  let(:course) { build(:course, :open, provider:, accredited_provider: ratifying_provider) }
   let(:course_option) { build(:course_option, course:) }
 
   scenario 'Setting offer conditions' do

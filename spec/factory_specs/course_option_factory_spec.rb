@@ -22,9 +22,9 @@ RSpec.describe 'CourseOption factory' do
     field :vacancy_status, value: 'vacancies'
     field :site_still_valid, value: true
 
-    trait :open_on_apply do
+    trait :open do
       it 'associates a course which is open on apply' do
-        expect(record.course).to be_open_on_apply
+        expect(record.course).to be_open
       end
 
       describe 'transient `recruitment_cycle_year`' do

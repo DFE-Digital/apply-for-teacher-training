@@ -6,7 +6,7 @@ RSpec.describe ProviderInterface::Interviews::ChecksController do
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions, :with_set_up_interviews) }
   let(:provider) { provider_user.providers.first }
   let(:application_form) { build(:application_form, :minimum_info) }
-  let(:course) { build(:course, :open_on_apply, provider:) }
+  let(:course) { build(:course, :open, provider:) }
   let(:course_option) { build(:course_option, course:) }
   let!(:interview) { create(:interview, application_choice:) }
 
@@ -22,7 +22,7 @@ RSpec.describe ProviderInterface::Interviews::ChecksController do
         :course,
         :with_accredited_provider,
         :with_provider_relationship_permissions,
-        :open_on_apply,
+        :open,
         provider:,
       )
     end

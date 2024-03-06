@@ -118,8 +118,33 @@ RSpec.describe Course do
     end
 
     it 'does not update the timestamp if course already open' do
-      course = create(:course, :open_on_apply)
+      course = create(:course, :open)
       expect { course.open! }.not_to change(course, :opened_on_apply_at)
+    end
+  end
+
+  describe '#open' do
+    it 'returns expected courses' do
+      open_course = create(:course, applications_open_from: 2.months.ago, exposed_in_find: true, application_status: 'open')
+      create(:course, applications_open_from: 2.months.from_now, exposed_in_find: true, application_status: 'open')
+      create(:course, applications_open_from: 2.months.ago, exposed_in_find: false, application_status: 'open')
+      create(:course, applications_open_from: 2.months.ago, exposed_in_find: true, application_status: 'closed')
+
+      expect(described_class.open).to contain_exactly(open_course)
+    end
+  end
+
+  describe '#open?' do
+    it 'returns true if course is currently open for applications' do
+      open_course = create(:course, applications_open_from: 2.months.ago, exposed_in_find: true, application_status: 'open')
+      closed_course = create(:course, applications_open_from: 2.months.from_now, exposed_in_find: true, application_status: 'open')
+      another_closed_course = create(:course, applications_open_from: 2.months.ago, exposed_in_find: true, application_status: 'closed')
+      yet_another_closed_course = create(:course, applications_open_from: 2.months.ago, exposed_in_find: false, application_status: 'open')
+
+      expect(closed_course.open?).to be false
+      expect(open_course.open?).to be true
+      expect(another_closed_course.open?).to be false
+      expect(yet_another_closed_course.open?).to be false
     end
   end
 

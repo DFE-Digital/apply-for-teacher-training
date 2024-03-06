@@ -145,7 +145,7 @@ private
   end
 
   def courses_from_cycle(year)
-    courses = Course.open_on_apply.in_cycle([RecruitmentCycle.current_year, year].min)
+    courses = Course.open.in_cycle([RecruitmentCycle.current_year, year].min)
 
     if dev_support_user
       courses = courses.where(provider: dev_support_user.providers)

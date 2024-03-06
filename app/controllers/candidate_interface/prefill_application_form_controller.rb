@@ -54,7 +54,7 @@ module CandidateInterface
       {
         recruitment_cycle_year: RecruitmentCycle.current_year,
         states: [:unsubmitted_with_completed_references],
-        courses_to_apply_to: Course.current_cycle.open_on_apply.joins(:course_options).merge(CourseOption.available),
+        courses_to_apply_to: Course.current_cycle.open.joins(:course_options).merge(CourseOption.available),
         candidate: current_candidate,
       }.tap do |options|
         store = PrefillApplicationStateStore::RailsCache.new(current_candidate.id)

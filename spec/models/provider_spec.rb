@@ -17,7 +17,7 @@ RSpec.describe Provider do
     subject(:result) { provider.all_courses_open_in_current_cycle? }
 
     it 'is true if all the provider’s other courses are open on apply except courses hidden in Find' do
-      create(:course, :open_on_apply, provider:)
+      create(:course, :open, provider:)
       create(:course, provider:, exposed_in_find: false)
 
       expect(result).to be true
@@ -43,7 +43,7 @@ RSpec.describe Provider do
       subject(:result) { provider.all_courses_open_in_current_cycle?(exclude_ratified_courses: true) }
 
       it 'is true if the provider’s ratified courses are not open but its own are' do
-        create(:course, :open_on_apply, provider:)
+        create(:course, :open, provider:)
         create(:course, accredited_provider: provider, exposed_in_find: true, open_on_apply: false)
 
         expect(result).to be true

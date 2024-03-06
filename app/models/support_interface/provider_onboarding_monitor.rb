@@ -15,7 +15,7 @@ module SupportInterface
 
     def permissions_not_set_up
       @permissions_not_set_up ||= ProviderRelationshipPermissions
-                                    .providers_have_open_course
+                                    .providers_with_course_in_current_cycle
                                     .where(setup_at: nil)
     end
 

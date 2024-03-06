@@ -4,7 +4,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
   include VendorAPISpecHelpers
 
   it 'generates test data' do
-    create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
+    create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
 
     post_api_request '/api/v1.0/test-data/generate?count=1'
 
@@ -26,7 +26,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
 
   describe 'next_cycle' do
     it 'generates test data in the next cycle' do
-      create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
+      create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
 
       post_api_request '/api/v1.0/test-data/generate?count=1&next_cycle=true'
 
@@ -35,7 +35,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
     end
 
     it 'ignores the previous cycle param' do
-      create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
+      create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
 
       post_api_request '/api/v1.0/test-data/generate?count=1&next_cycle=true&previous_cycle=false'
 
@@ -46,8 +46,8 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
   end
 
   it 'respects the courses_per_application= parameter' do
-    create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
-    create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
+    create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
+    create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
 
     post_api_request '/api/v1.0/test-data/generate?count=1&courses_per_application=2'
 
@@ -57,9 +57,9 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
   end
 
   it 'does not generate more than three application_choices per application' do
-    create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
-    create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
-    create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
+    create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
+    create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
+    create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
 
     post_api_request '/api/v1.0/test-data/generate?count=1&courses_per_application=99'
 
@@ -68,8 +68,8 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
   end
 
   it 'generates applications only to courses that the provider ratifies when for_training_courses=true' do
-    create(:course_option, course: create(:course, :open_on_apply, accredited_provider: currently_authenticated_provider))
-    expected_option = create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
+    create(:course_option, course: create(:course, :open, accredited_provider: currently_authenticated_provider))
+    expected_option = create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
 
     post_api_request '/api/v1.0/test-data/generate?count=1&courses_per_application=1&for_training_courses=true'
 
@@ -93,8 +93,8 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
   end
 
   it 'generates applications only to courses that the provider ratifies when for_ratified_courses=true' do
-    create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
-    expected_option = create(:course_option, course: create(:course, :open_on_apply, accredited_provider: currently_authenticated_provider))
+    create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
+    expected_option = create(:course_option, course: create(:course, :open, accredited_provider: currently_authenticated_provider))
 
     post_api_request '/api/v1.0/test-data/generate?count=1&courses_per_application=1&for_ratified_courses=true'
 
@@ -131,8 +131,8 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
   end
 
   it 'generates applications only to courses that the provider ratifies when for_test_provider_courses=true' do
-    create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
-    create(:course_option, course: create(:course, :open_on_apply, accredited_provider: currently_authenticated_provider))
+    create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
+    create(:course_option, course: create(:course, :open, accredited_provider: currently_authenticated_provider))
 
     post_api_request '/api/v1.0/test-data/generate?count=1&for_test_provider_courses=true'
 
@@ -141,7 +141,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
   end
 
   it 'returns responses conforming to the schema' do
-    create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
+    create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
 
     post_api_request '/api/v1.0/test-data/generate?count=1'
 
@@ -149,7 +149,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
   end
 
   it 'returns error responses on invalid input' do
-    create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
+    create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
 
     post_api_request '/api/v1.0/test-data/generate?count=1&courses_per_application=2'
 
@@ -157,7 +157,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
   end
 
   it 'returns error when you ask for zero courses per application' do
-    create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
+    create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
 
     post_api_request '/api/v1.0/test-data/generate?count=1&courses_per_application=0'
 

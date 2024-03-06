@@ -49,7 +49,7 @@ RSpec.feature 'Candidate with no right to work or study' do
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     @course_can_sponsor_student_visa = create(
       :course,
-      :open_on_apply,
+      :open,
       name: 'Modern Languages',
       code: 'S397',
       provider: @provider,
@@ -59,7 +59,7 @@ RSpec.feature 'Candidate with no right to work or study' do
     )
     @course_can_not_sponsor_student_visa = create(
       :course,
-      :open_on_apply,
+      :open,
       name: 'English',
       code: 'Q3X1',
       provider: @provider,
@@ -69,7 +69,7 @@ RSpec.feature 'Candidate with no right to work or study' do
     )
     @course_can_sponsor_skilled_worker_visa = create(
       :course,
-      :open_on_apply,
+      :open,
       name: 'History',
       code: 'V1X1',
       provider: @provider,
@@ -79,7 +79,7 @@ RSpec.feature 'Candidate with no right to work or study' do
     )
     @course_can_not_sponsor_skilled_worker_visa = create(
       :course,
-      :open_on_apply,
+      :open,
       name: 'Physics',
       code: 'F3X1',
       provider: @provider,

@@ -6,7 +6,7 @@ RSpec.describe SupportInterface::TADProviderStatsExport, :bullet do
   describe 'documentation' do
     before do
       provider = create(:provider)
-      course_option_for_provider(provider:, course: create(:course, :open_on_apply, provider:))
+      course_option_for_provider(provider:, course: create(:course, :open, provider:))
     end
 
     it_behaves_like 'a data export'

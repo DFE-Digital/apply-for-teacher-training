@@ -19,7 +19,7 @@ module ProviderInterface
     end
 
     def self_ratifying_provider?
-      ProviderRelationshipPermissions.all_relationships_for_providers([@provider]).providers_have_open_course.none?
+      ProviderRelationshipPermissions.all_relationships_for_providers([@provider]).providers_with_course_in_current_cycle.none?
     end
 
     def can_perform_permission_y_n?(permission)

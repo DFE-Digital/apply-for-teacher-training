@@ -18,7 +18,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
 
   context 'when there are permissions requiring setup' do
     let(:ratifying_provider) { create(:provider) }
-    let!(:course) { create(:course, :open_on_apply, accredited_provider: ratifying_provider, provider:) }
+    let!(:course) { create(:course, :open, accredited_provider: ratifying_provider, provider:) }
     let(:store) { instance_double(WizardStateStores::RedisStore) }
     let(:wizard_store_value) { { 'relationship_ids' => [permissions.id] }.to_json }
     let!(:permissions) do
@@ -91,7 +91,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
 
   context 'when there are no permissions requiring setup' do
     let(:ratifying_provider) { create(:provider) }
-    let!(:course) { create(:course, :open_on_apply, accredited_provider: ratifying_provider, provider:) }
+    let!(:course) { create(:course, :open, accredited_provider: ratifying_provider, provider:) }
     let!(:permissions) do
       create(
         :provider_relationship_permissions,

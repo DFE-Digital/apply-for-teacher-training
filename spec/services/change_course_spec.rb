@@ -74,7 +74,7 @@ RSpec.describe ChangeCourse do
 
     describe 'if the change is invalid' do
       let(:application_choice) { create(:application_choice, status: :awaiting_provider_decision, current_course_option: course_option, course_option:) }
-      let(:course_option) { create(:course_option, :open_on_apply) }
+      let(:course_option) { create(:course_option, :open) }
 
       let(:provider_user) do
         create(:provider_user,

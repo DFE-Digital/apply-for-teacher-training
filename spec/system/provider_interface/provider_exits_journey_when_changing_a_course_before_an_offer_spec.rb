@@ -50,7 +50,7 @@ RSpec.feature 'Provider exits journey when changing a course' do
   end
 
   def and_the_provider_has_multiple_courses
-    @selected_course = create(:course, :open_on_apply, study_mode: :full_time, provider:, accredited_provider: ratifying_provider)
+    @selected_course = create(:course, :open, study_mode: :full_time, provider:, accredited_provider: ratifying_provider)
 
     create(:course_option, :full_time, course:)
     create(:course_option, :full_time, course: @selected_course)

@@ -5,7 +5,7 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
   let(:permission) { :make_decisions }
   let(:render) { render_inline(described_class.new(provider:, permission:)) }
 
-  def create_partner_provider_where(partner_provider_type:, permission_applies:, course_open: true, relationship_set_up: true)
+  def create_partner_provider_where(partner_provider_type:, permission_applies:, course_current_cycle: true, relationship_set_up: true)
     my_provider_type = partner_provider_type == :training ? :ratifying : :training
 
     partner_provider = create(:provider)
@@ -20,8 +20,8 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
       "#{my_provider_type}_provider_can_#{permission}": permission_applies,
       "#{partner_provider_type}_provider_can_#{permission}": !permission_applies,
     )
-    if course_open
-      create(:course, :open_on_apply, provider: relationship.training_provider, accredited_provider: relationship.ratifying_provider)
+    if course_current_cycle
+      create(:course, provider: relationship.training_provider, accredited_provider: relationship.ratifying_provider)
     end
 
     partner_provider
@@ -42,10 +42,10 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
         .to include('It currently applies to courses you work on with all of your partner organisations:')
     end
 
-    context 'when there is a relationship without an open course' do
-      let!(:no_course_partner) { create_partner_provider_where(partner_provider_type: :training, course_open: false, permission_applies: true) }
+    context 'when there is a relationship without a current cycle course' do
+      let!(:no_course_partner) { create_partner_provider_where(partner_provider_type: :training, course_current_cycle: false, permission_applies: true) }
 
-      it 'does not render the name of the partner with no open course' do
+      it 'does not render the name of the partner with no current cycle course' do
         expect(render.css('#partners-for-which-permission-applies li').map(&:text)).not_to include(no_course_partner.name)
       end
     end
@@ -76,10 +76,10 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
         .to include('It currently does not apply to courses you work on with any of your partner organisations:')
     end
 
-    context 'when there is a relationship without an open course' do
-      let!(:no_course_partner) { create_partner_provider_where(partner_provider_type: :training, course_open: false, permission_applies: false) }
+    context 'when there is a relationship without a current cycle course' do
+      let!(:no_course_partner) { create_partner_provider_where(partner_provider_type: :training, course_current_cycle: false, permission_applies: false) }
 
-      it 'does not render the name of the partner with no open course' do
+      it 'does not render the name of the partner with no current cycle course' do
         expect(render.css('#partners-for-which-permission-does-not-apply li').map(&:text)).not_to include(no_course_partner.name)
       end
     end

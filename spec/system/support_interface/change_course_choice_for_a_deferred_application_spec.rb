@@ -51,7 +51,7 @@ RSpec.feature 'Change course choice for a deferred application' do
   end
 
   def and_i_enter_a_course_code_for_a_course
-    @course_option = create(:course_option, course: create(:course, :open_on_apply, funding_type: 'fee', provider: @application_choice.provider))
+    @course_option = create(:course_option, course: create(:course, :open, funding_type: 'fee', provider: @application_choice.provider))
     @course_code = @course_option.course.code
     fill_in('Provider code', with: @application_choice.provider.code)
     fill_in('Course code', with: @course_code)

@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationMonitor do
-  let(:open_course) { create(:course, :open_on_apply) }
+  let(:open_course) { create(:course, :open) }
   let(:closed_course) { create(:course, open_on_apply: false) }
 
-  let(:visible_course) { create(:course, :open_on_apply, exposed_in_find: true) }
-  let(:hidden_course) { create(:course, :open_on_apply, exposed_in_find: false) }
+  let(:visible_course) { create(:course, :open, exposed_in_find: true) }
+  let(:hidden_course) { create(:course, :open, exposed_in_find: false) }
 
   describe '#applications_to_disabled_courses' do
     it 'returns applications to courses that have been disabled' do

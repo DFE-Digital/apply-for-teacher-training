@@ -24,7 +24,7 @@ RSpec.feature 'Selecting a course' do
 
   def and_there_is_one_course_option
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
-    @course = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
+    @course = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
     create(:course_option, course: @course)
   end
 

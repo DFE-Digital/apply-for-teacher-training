@@ -6,9 +6,9 @@ RSpec.feature 'Provider reinstates deferred offer' do
   include ProviderUserPermissionsHelper
 
   let(:provider) { Provider.find_by(code: 'ABC') }
-  let(:course_current_year) { create(:course, :open_on_apply, provider:) }
-  let(:course_previous_year) { create(:course, :open_on_apply, :previous_year, provider:) }
-  let(:course_previous_year_but_still_available) { create(:course, :open_on_apply, :previous_year_but_still_available, provider:) }
+  let(:course_current_year) { create(:course, :open, provider:) }
+  let(:course_previous_year) { create(:course, :open, :previous_year, provider:) }
+  let(:course_previous_year_but_still_available) { create(:course, :open, :previous_year_but_still_available, provider:) }
 
   let(:choices) do
     {

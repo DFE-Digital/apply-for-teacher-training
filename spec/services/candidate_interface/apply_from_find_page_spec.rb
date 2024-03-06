@@ -4,7 +4,7 @@ RSpec.describe CandidateInterface::ApplyFromFindPage do
   include TeacherTrainingPublicAPIHelper
 
   before do
-    create(:course, :open_on_apply, code: 'ABC1', provider: create(:provider, code: 'ABC'))
+    create(:course, :open, code: 'ABC1', provider: create(:provider, code: 'ABC'))
   end
 
   describe '#candidate_has_application_in_wrong_cycle?' do
