@@ -268,7 +268,7 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def degree_apprenticeship?
-    Array(course_option.course.qualifications).include?('pgta')
+    Array(course_option.course.qualifications).include?('tda')
   end
 
 private
