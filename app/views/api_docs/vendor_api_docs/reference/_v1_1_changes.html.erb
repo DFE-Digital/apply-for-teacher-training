@@ -37,7 +37,7 @@
 </p>
 <p class="govuk-heading-s">Withdrawing applications</p>
 <p class="govuk-body">
-  We now support <%= govuk_link_to 'withdrawing', '#post-applications-application_id-withdraw' %> an application at the candidate’s request. If an application is withdrawn at a candidate’s request, it will either transition to the <code>declined</code> state if the application is in the <code>offer</code> state, or the <code>withdrawn</code> state if it’s in any other state. We currently don't require a reason for when an application is withdrawn at a candidate’s request.
+  We now support <%= govuk_link_to 'withdrawing', '#post-applications-application_id-withdraw' %> an application at the candidate’s request. If an application is withdrawn at a candidate’s request, it will either transition to the <code>declined</code> state if the application is in the <code>offer</code> state, or the <code>withdrawn</code> state if it is in any other state. We currently don't require a reason for when an application is withdrawn at a candidate’s request.
 </p>
 <p class="govuk-body">
   If an application is withdrawn at a candidate’s request the field <code>withdrawn_or_declined_for_candidate</code> will be set to true to determine the difference between a normal withdrawal and one at a candidate’s request. Also either the <code>offer_declined_at</code> field or the <code>date</code> field, inside the existing <%= govuk_link_to 'Withdrawal Object', '#withdrawal-object' %>, will be populated with the timestamp the application was withdrawn or declined.

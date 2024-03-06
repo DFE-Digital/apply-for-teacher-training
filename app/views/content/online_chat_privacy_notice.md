@@ -38,9 +38,9 @@ Do not enter any personal data into the chat unless we ask you for it.
 
 ### How we use your data
 
-We’ll use your data to help you manage teacher training applications.
+We will use your data to help you manage teacher training applications.
 
-We’ll also analyse and consolidate data from support requests to help us understand how we can improve our services.
+We will also analyse and consolidate data from support requests to help us understand how we can improve our services.
 
 ### How we protect your data
 
@@ -49,7 +49,7 @@ Zendesk is required to process and protect your personal data under strict condi
 
 ### How long we keep your data
 
-We’ll delete the data we hold on you 3 years after you first contact us.
+We will delete the data we hold on you 3 years after you first contact us.
 
 ### Your rights
 Under the DPA 2018 and UK GDPR and the lawful basis of public task in the public interest, you have the right to:

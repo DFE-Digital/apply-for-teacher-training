@@ -51,7 +51,7 @@ RSpec.describe RefereeMailer do
     it 'adds additional guidance for character references' do
       reference.referee_type = :character
 
-      expect(email.body).to include('for example about activities you’ve done together')
+      expect(email.body).to include('for example about activities you have done together')
     end
 
     %i[professional school_based].each do |referee_type|

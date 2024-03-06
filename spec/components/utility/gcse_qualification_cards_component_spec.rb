@@ -107,7 +107,7 @@ RSpec.describe GcseQualificationCardsComponent, type: :component do
       end
     end
 
-    context 'when it’s of type missing' do
+    context 'when it is of type missing' do
       let(:application_form) do
         create(
           :application_form,

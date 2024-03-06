@@ -30,6 +30,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolmen
     post_api_request '/api/v1.0/applications/non-existent-id/confirm-enrolment'
 
     expect(response).to have_http_status(:not_found)
-    expect(parsed_response).to contain_schema_with_error('NotFoundResponse', 'Unable to find Application(s)')
+    expect(parsed_response).to contain_schema_with_error('NotFoundResponse', 'Unable to find Applications')
   end
 end

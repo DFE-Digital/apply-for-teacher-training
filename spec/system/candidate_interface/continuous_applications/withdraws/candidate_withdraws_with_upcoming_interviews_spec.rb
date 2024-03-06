@@ -70,7 +70,7 @@ RSpec.feature 'A candidate withdraws with upcoming interviews' do
   end
 
   def and_that_my_application_has_been_withdrawn
-    expect(page).to have_content("You’ve withdrawn your application for #{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.provider.name}")
+    expect(page).to have_content("You have withdrawn your application for #{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.provider.name}")
   end
 
   def and_the_provider_has_received_an_email

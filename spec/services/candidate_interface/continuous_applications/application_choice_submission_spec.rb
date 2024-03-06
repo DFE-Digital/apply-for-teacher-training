@@ -104,7 +104,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
 
           expect(application_choice_submission).not_to be_valid
           expect(application_choice_submission.errors[:application_choice]).to include(
-            "This course is not yet open to applications. You’ll be able to submit your application on #{1.day.from_now.to_fs(:govuk_date)}.",
+            "This course is not yet open to applications. You will be able to submit your application on #{1.day.from_now.to_fs(:govuk_date)}.",
           )
         end
       end
@@ -113,7 +113,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
         it 'adds error to application choice', time: CycleTimetableHelper.after_find_opens do
           expect(application_choice_submission).not_to be_valid
           expect(application_choice_submission.errors[:application_choice]).to include(
-            "This course is not yet open to applications. You’ll be able to submit your application on #{CycleTimetable.apply_opens.to_fs(:govuk_date)}.",
+            "This course is not yet open to applications. You will be able to submit your application on #{CycleTimetable.apply_opens.to_fs(:govuk_date)}.",
           )
         end
       end
@@ -125,7 +125,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
         it 'adds error to application choice' do
           expect(application_choice_submission).not_to be_valid
           expect(application_choice_submission.errors[:application_choice]).to include(
-            "This course is not yet open to applications. You’ll be able to submit your application on #{course.applications_open_from.to_fs(:govuk_date)}.",
+            "This course is not yet open to applications. You will be able to submit your application on #{course.applications_open_from.to_fs(:govuk_date)}.",
           )
         end
       end

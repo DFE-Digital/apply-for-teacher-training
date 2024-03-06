@@ -14,7 +14,7 @@ module CandidateInterface
         end
 
         if exists_duplicate_application?(scope, record)
-          record.errors.add :base, :duplicate_application_selection, message: 'You’ve already applied for this course'
+          record.errors.add :base, :duplicate_application_selection, message: 'You have already applied for this course'
         end
       end
 

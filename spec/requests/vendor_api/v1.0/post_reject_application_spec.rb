@@ -79,7 +79,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject' do
     expect(response).to have_http_status(:unprocessable_entity)
     expect(parsed_response)
       .to contain_schema_with_error('UnprocessableEntityResponse',
-                                    'Rejection reason Explain why you’re rejecting the application')
+                                    'Rejection reason Explain why you are rejecting the application')
   end
 
   it 'returns not found error when the application was not found' do
@@ -87,6 +87,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject' do
 
     expect(response).to have_http_status(:not_found)
     expect(parsed_response)
-      .to contain_schema_with_error('NotFoundResponse', 'Unable to find Application(s)')
+      .to contain_schema_with_error('NotFoundResponse', 'Unable to find Applications')
   end
 end

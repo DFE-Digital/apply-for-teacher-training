@@ -16,7 +16,7 @@
 <% unless @application_choice.unconditional_offer? %>
   <h2 class="govuk-heading-m">Offer conditions</h2>
   <% unless @application_choice.recruited? && @application_choice.all_conditions_met? %>
-    <p class="govuk-body"><%= @provider.name %> will mark these conditions as met once you’ve completed them.</p>
+    <p class="govuk-body"><%= @provider.name %> will mark these conditions as met once you have completed them.</p>
   <% end %>
   <%= render CandidateInterface::ConditionsComponent.new(application_choice: @application_choice) %>
 <% end %>

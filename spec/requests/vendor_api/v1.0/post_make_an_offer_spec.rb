@@ -262,7 +262,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
       post_api_request '/api/v1.0/applications/non-existent-id/offer', params: request_body
 
       expect(response).to have_http_status(:not_found)
-      expect(parsed_response).to contain_schema_with_error('NotFoundResponse', 'Unable to find Application(s)')
+      expect(parsed_response).to contain_schema_with_error('NotFoundResponse', 'Unable to find Applications')
     end
 
     it 'does not process the conditions if they are not provided correctly' do

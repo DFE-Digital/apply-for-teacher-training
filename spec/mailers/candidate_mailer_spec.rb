@@ -50,7 +50,7 @@ RSpec.describe CandidateMailer do
       it_behaves_like(
         'a mail with subject and content',
         I18n.t!('candidate_mailer.application_submitted.subject'),
-        'intro' => 'You’ve submitted an application for',
+        'intro' => 'You have submitted an application for',
         'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token',
         'dynamic paragraph' => 'Your training provider will contact you if they would like to organise an interview',
       )
@@ -69,7 +69,7 @@ RSpec.describe CandidateMailer do
     it_behaves_like(
       'a mail with subject and content',
       I18n.t!('candidate_mailer.application_choice_submitted.subject'),
-      'intro' => 'You’ve submitted an application for',
+      'intro' => 'You have submitted an application for',
       'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token',
       'dynamic paragraph' => 'Your training provider will contact you if they would like to organise an interview',
     )
@@ -276,9 +276,9 @@ RSpec.describe CandidateMailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'You’ve withdrawn your application',
+        'You have withdrawn your application',
         'heading' => 'Hello Fred',
-        'application_withdrawn' => 'You’ve withdrawn your application',
+        'application_withdrawn' => 'You have withdrawn your application',
       )
     end
 
@@ -288,9 +288,9 @@ RSpec.describe CandidateMailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'You’ve withdrawn your application',
+        'You have withdrawn your application',
         'heading' => 'Hello Fred',
-        'application_withdrawn' => 'You’ve withdrawn your application',
+        'application_withdrawn' => 'You have withdrawn your application',
       )
     end
 
@@ -299,8 +299,8 @@ RSpec.describe CandidateMailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'You’ve withdrawn your applications',
-        'application_withdrawn' => 'You’ve withdrawn your application',
+        'You have withdrawn your applications',
+        'application_withdrawn' => 'You have withdrawn your application',
       )
     end
   end
@@ -311,7 +311,7 @@ RSpec.describe CandidateMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'You’ve declined an offer: next steps',
+      'You have declined an offer: next steps',
       'greeting' => 'Hello Fred',
       'content' => 'declined your offer to study',
     )
@@ -381,14 +381,14 @@ RSpec.describe CandidateMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
+      'You have accepted Arithmetic College’s offer to study Mathematics (M101)',
       'greeting' => 'Hello Fred',
-      'offer_details' => 'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
+      'offer_details' => 'You have accepted Arithmetic College’s offer to study Mathematics (M101)',
       'sign in link' => 'Sign into your account',
     )
 
     it 'includes reference text' do
-      expect(email.body).to include('you’ve met your offer conditions')
+      expect(email.body).to include('you have met your offer conditions')
       expect(email.body).to include('check the progress of your reference requests')
     end
   end
@@ -447,9 +447,9 @@ RSpec.describe CandidateMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'You’ve met your conditions to study Mathematics (M101) at Arithmetic College',
+      'You have met your conditions to study Mathematics (M101) at Arithmetic College',
       'greeting' => 'Dear Fred',
-      'met_conditions_text' => 'Arithmetic College has confirmed that you’ve met the conditions of your offer.',
+      'met_conditions_text' => 'Arithmetic College has confirmed that you have met the conditions of your offer.',
     )
 
     context 'with a pending SKE condition' do
@@ -459,9 +459,9 @@ RSpec.describe CandidateMailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'You’ve met your conditions to study Mathematics (M101) at Arithmetic College',
+        'You have met your conditions to study Mathematics (M101) at Arithmetic College',
         'greeting' => 'Dear Fred',
-        'met_conditions_text' => 'Arithmetic College has confirmed that you’ve met the conditions of your offer.',
+        'met_conditions_text' => 'Arithmetic College has confirmed that you have met the conditions of your offer.',
         'pending_ske_conditions_text' => 'Remember to complete your subject knowledge enhancement (SKE) course to meet the conditions of this offer.',
       )
     end
@@ -505,9 +505,9 @@ RSpec.describe CandidateMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
+      'You have accepted Arithmetic College’s offer to study Mathematics (M101)',
       'greeting' => 'Hello Fred',
-      'offer_details' => 'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
+      'offer_details' => 'You have accepted Arithmetic College’s offer to study Mathematics (M101)',
       'sign in link' => 'Sign into your account',
     )
   end
@@ -562,7 +562,7 @@ RSpec.describe CandidateMailer do
           'greeting' => 'Dear Fred',
           'details' => 'The details of your interview for Geography (G100) have been updated.',
           'interview with new course details' => 'The interview is with Hogwards.',
-          'new course' => 'It’s now for Mathematics (M101).',
+          'new course' => 'It is now for Mathematics (M101).',
           'interview date' => '15 January 2021',
           'interview time' => '9:30am',
           'interview location' => 'Hogwarts Castle',
@@ -575,7 +575,7 @@ RSpec.describe CandidateMailer do
         let(:email) { mailer.interview_updated(application_choice_with_interview, interview, previous_course) }
 
         it 'the email does not contain any new course details' do
-          expect(email.body).not_to include('It’s now for Mathematics (M101).')
+          expect(email.body).not_to include('It is now for Mathematics (M101).')
         end
       end
 
@@ -734,7 +734,7 @@ RSpec.describe CandidateMailer do
         "Apply for teacher training starting in the #{CycleTimetable.current_year} to #{CycleTimetable.next_year} academic year",
         'greeting' => 'Dear Fred',
         'academic_year' => "#{CycleTimetable.current_year} to #{CycleTimetable.next_year}",
-        'details' => 'Courses can fill up quickly, so apply as soon as you’re ready.',
+        'details' => 'Courses can fill up quickly, so apply as soon as you are ready.',
       )
     end
 

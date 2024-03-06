@@ -16,7 +16,7 @@ en:
         label: Email address
     sign_in_without_account:
       email:
-        subject: Check the email address you’re using to apply for teacher training
+        subject: Check the email address you are using to apply for teacher training
     expired_token:
       heading: The link you used to sign in has expired
       button: Email me a new link

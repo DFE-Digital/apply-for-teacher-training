@@ -39,7 +39,7 @@
       },
     },
   ) do |message| %>
-    <p class="govuk-body">You’ve <span id="user-answer"></span> analytics cookies. You can <%= govuk_link_to('change your cookie settings', namespace_cookies_path, data: { qa: 'cookie-banner__preference-link' }) %> at any time.</p>
+    <p class="govuk-body">You have <span id="user-answer"></span> analytics cookies. You can <%= govuk_link_to('change your cookie settings', namespace_cookies_path, data: { qa: 'cookie-banner__preference-link' }) %> at any time.</p>
     <% message.with_action { button_tag('Hide cookie message', class: 'govuk-button', data: { 'accept-cookie': 'hide-banner' }) } %>
   <% end %>
 

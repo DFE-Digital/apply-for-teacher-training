@@ -83,7 +83,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent, type: :componen
     end
   end
 
-  context 'when there is no referee_type saved (as it’s an old reference)' do
+  context 'when there is no referee_type saved (as it is an old reference)' do
     let(:reference) {
       create(:reference, :not_requested_yet,
              referee_type: nil)

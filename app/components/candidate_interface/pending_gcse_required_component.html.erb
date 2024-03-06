@@ -1,7 +1,7 @@
 <% if pending_gcse_and_course_can_accept? %>
   <%= govuk_inset_text(classes: 'govuk-inset-text app-inset-text--narrow-border app-inset-text--important govuk-!-margin-top-0 govuk-!-padding-bottom-1') do %>
     <div class="app-inset-text__title">This provider does not consider candidates with pending GCSEs</div>
-      <p class="govuk-body">You said you’re currently studying for a qualification in <%= pending_gcse_text %></p>
+      <p class="govuk-body">You said you are currently studying for a qualification in <%= pending_gcse_text %></p>
       <p class="govuk-body">You can:</p>
 
       <ul class="govuk-list govuk-list--bullet">

@@ -9,7 +9,7 @@ en:
       decline:
         label: Decline offer
     accept_offer:
-      references_description: When you accept your offer, we’ll send emails to the people you said could give you references.
+      references_description: When you accept your offer, we will send emails to the people you said could give you references.
       change_reference_details: You can change the reference details before you accept the offer.
       confirm: Accept offer
     decline_offer:
@@ -33,6 +33,6 @@ en:
         'no':
           label: No, do not contact me about my experience of using the service
       contact_details:
-        label: Please let us know when you’re available and give a phone number.
+        label: Please let us know when you are available and give a phone number.
       success:
         flash: Thank you for your feedback.

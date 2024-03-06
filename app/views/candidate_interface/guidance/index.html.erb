@@ -38,7 +38,7 @@
                    <p class='govuk-body'>Training providers will have 40 working days to decide to offer you a place on a course. Holiday periods in England over December and March or April are not included in the 40 working days. Each course you apply to will show the date for when providers need to respond by.</p>
                    <p class='govuk-body'>If training providers do not respond in time, your application will be unsuccessful.</p>
                    <p class='govuk-body'>You can apply to #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES} courses again if all your applications are unsuccessful.</p>
-                   <p class='govuk-body govuk-!-margin-bottom-0'>You’ll have 10 working days to respond to any offers you receive. If you do not respond, the offer will be automatically declined.</p>".html_safe
+                   <p class='govuk-body govuk-!-margin-bottom-0'>You will have 10 working days to respond to any offers you receive. If you do not respond, the offer will be automatically declined.</p>".html_safe
                 end
               end
               body.with_row do |row|
@@ -48,8 +48,8 @@
               body.with_row do |row|
                 row.with_cell(text: CycleTimetable.apply_1_deadline.to_fs(:govuk_date_and_time))
                 row.with_cell do
-                  "<p class='govuk-body'>If you’ve not already applied for teacher training, you will not be able to apply after #{CycleTimetable.apply_1_deadline.to_fs(:govuk_date)}.</p>
-                   <p class='govuk-body govuk-!-margin-bottom-0'>If you’ve already applied, but your applications were unsuccessful, you can continue to apply for courses until #{CycleTimetable.apply_2_deadline.to_fs(:govuk_date_and_time)}.</p>".html_safe
+                  "<p class='govuk-body'>If you have not already applied for teacher training, you will not be able to apply after #{CycleTimetable.apply_1_deadline.to_fs(:govuk_date)}.</p>
+                   <p class='govuk-body govuk-!-margin-bottom-0'>If you have already applied, but your applications were unsuccessful, you can continue to apply for courses until #{CycleTimetable.apply_2_deadline.to_fs(:govuk_date_and_time)}.</p>".html_safe
                 end
               end
               body.with_row do |row|
@@ -87,8 +87,8 @@
                 row.with_cell do
                   "<p class=\"govuk-body\">Start applying to courses. You can apply to #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES} courses, they can fill up quickly so you should apply as soon as you can.</p>
                    <p class=\"govuk-body\">You can withdraw an application at any time and apply to a different course if you want to.</p>
-                   <p class=\"govuk-body\">If training providers do not respond to an application within 30 working days, you’ll be able to apply to another course while you wait for a response. We’ll tell you if the provider has not responded in time.</p>
-                   <p class=\"govuk-body\">You’ll get an email if you receive an offer from a training provider.</p>".html_safe
+                   <p class=\"govuk-body\">If training providers do not respond to an application within 30 working days, you will be able to apply to another course while you wait for a response. We will tell you if the provider has not responded in time.</p>
+                   <p class=\"govuk-body\">You will get an email if you receive an offer from a training provider.</p>".html_safe
                 end
               end
               body.with_row do |row|

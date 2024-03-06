@@ -154,7 +154,7 @@ RSpec.feature 'Change maths GCSE' do
   end
 
   def then_i_see_a_validation_error_to_enter_details
-    expect(page).to have_content('Enter details of the qualification you’re studying for')
+    expect(page).to have_content('Enter details of the qualification you are studying for')
   end
 
   def and_i_choose_scottish_national_gcse
@@ -180,7 +180,7 @@ RSpec.feature 'Change maths GCSE' do
   end
 
   def when_i_added_the_details_of_the_qualification
-    fill_in 'Details of the qualification you’re studying for', with: 'I am studying'
+    fill_in 'Details of the qualification you are studying for', with: 'I am studying'
   end
 
   def and_i_add_the_candidate_is_not_studying_for_gcse

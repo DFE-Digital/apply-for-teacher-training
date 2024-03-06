@@ -149,11 +149,11 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
       )
       expect(rendered_component).to summarise(
         key: 'Status',
-        value: "Offer received What to do if you’re unable to start training in #{application_choice.course_option.course.start_date.to_fs(:month_and_year)} You can defer your offer and start your course a year later. Contact #{application_choice.course_option.course.provider.name} to ask if it’s possible to defer, this will not affect your existing offer. If your provider agrees, you’ll need to accept the offer first.",
+        value: "Offer received What to do if you are unable to start training in #{application_choice.course_option.course.start_date.to_fs(:month_and_year)} You can defer your offer and start your course a year later. Contact #{application_choice.course_option.course.provider.name} to ask if it is possible to defer, this will not affect your existing offer. If your provider agrees, you will need to accept the offer first.",
       )
       expect(rendered_component).to summarise(
         key: 'Conditions',
-        value: 'DBS check Get a haircut Contact the provider to find out more about these conditions. They’ll confirm your place once you’ve met the conditions and they’ve checked your references.',
+        value: 'DBS check Get a haircut Contact the provider to find out more about these conditions. They’ll confirm your place once you have met the conditions and they’ve checked your references.',
       )
     end
 
@@ -169,7 +169,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
       )
       expect(rendered_component).to summarise(
         key: 'Conditions',
-        value: 'Contact the provider to find out more about any conditions. They’ll confirm your place once you’ve met any conditions and they’ve checked your references.',
+        value: 'Contact the provider to find out more about any conditions. They’ll confirm your place once you have met any conditions and they’ve checked your references.',
       )
     end
 

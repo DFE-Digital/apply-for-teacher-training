@@ -44,14 +44,14 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
 
   def then_i_should_see_the_course_closed_error_message
     expect(page).to have_content(
-      "This course is not yet open to applications. You’ll be able to submit your application on #{@application_choice.current_course.applications_open_from.to_fs(:govuk_date)}.",
+      "This course is not yet open to applications. You will be able to submit your application on #{@application_choice.current_course.applications_open_from.to_fs(:govuk_date)}.",
     )
     expect(page).to have_no_content('Review application')
   end
 
   def then_i_should_see_the_course_closed_error_message_until_apply_opens
     expect(page).to have_content(
-      "This course is not yet open to applications. You’ll be able to submit your application on #{CycleTimetable.apply_opens.to_fs(:govuk_date)}.",
+      "This course is not yet open to applications. You will be able to submit your application on #{CycleTimetable.apply_opens.to_fs(:govuk_date)}.",
     )
     expect(page).to have_no_content('Review application')
   end

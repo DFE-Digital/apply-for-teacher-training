@@ -137,7 +137,7 @@ RSpec.describe AcceptOffer do
 
       expect { described_class.new(application_choice:).save! }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(ActionMailer::Base.deliveries.first.to).to eq [application_choice.application_form.candidate.email_address]
-      expect(ActionMailer::Base.deliveries.first.subject).to match(/You’ve accepted/)
+      expect(ActionMailer::Base.deliveries.first.subject).to match(/You have accepted/)
     end
   end
 end

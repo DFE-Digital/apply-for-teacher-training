@@ -7,7 +7,7 @@ en:
         professional:
           label: Professional, such as a manager
         school_based:
-          label: School experience, such as from the headteacher of a school you’ve been working in
+          label: School experience, such as from the headteacher of a school you have been working in
         character:
           label: Character, such as a mentor or someone you know from volunteering
       name:
@@ -51,7 +51,7 @@ en:
       send_reminder:
         post_offer_action: Send a reminder
         confirm: Send a reminder
-        remind_again: "You’ll be able to send a reminder from %{remind_again_at}"
+        remind_again: "You will be able to send a reminder from %{remind_again_at}"
         cancel: No - I’ve changed my mind
       cancel_request:
         action: Cancel request
@@ -68,7 +68,7 @@ en:
         cancelled: Training providers will not see any information about this reference request.
         cancelled_at_end_of_cycle: The referee did not respond before courses closed.
         email_bounced: The reference request never reached your referee.
-        not_requested_yet: We’ll contact your referees after you submit your application.
+        not_requested_yet: We will contact your referees after you submit your application.
         awaiting_reference_sent_less_than_5_days_ago: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
         awaiting_reference_sent_more_than_5_days_ago: Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
       add_reference:

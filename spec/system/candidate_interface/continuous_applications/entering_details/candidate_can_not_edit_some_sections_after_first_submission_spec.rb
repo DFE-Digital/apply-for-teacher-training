@@ -26,7 +26,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission' do
       when_i_click_on_the_section_in_your_details_page
       then_i_can_see_that_is_not_editable
       and_i_can_not_edit_the_section
-      and_the_section_should_still_be_complete
+      and_the_section_still_be_complete
     end
   end
 
@@ -66,7 +66,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission' do
     expect(page).to have_no_content('Have you completed this section?')
     expect(page).to have_no_content('Yes, I have completed this section')
     expect(page).to have_no_content('Change')
-    expect(page).to have_no_content('Any changes you make will be included in applications you’ve already submitted.')
+    expect(page).to have_no_content('Any changes you make will be included in applications you have already submitted.')
     expect(page.all('button').map(&:text)).not_to include('Continue')
   end
 
@@ -80,7 +80,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission' do
     end
   end
 
-  def and_the_section_should_still_be_complete
+  def and_the_section_still_be_complete
     click_link_or_button 'Your details'
 
     expect(
@@ -95,7 +95,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission' do
       current_candidate.current_application.application_volunteering_experiences.last,
     )
 
-    and_i_should_be_redirected_to_your_details_page
+    and_i_be_redirected_to_your_details_page
   end
 
   def and_i_can_not_edit_the_section_other_qualifications
@@ -103,32 +103,32 @@ RSpec.feature 'A candidate can not edit some sections after first submission' do
       current_candidate.current_application.application_qualifications.a_levels.first,
     )
 
-    and_i_should_be_redirected_to_your_details_page
+    and_i_be_redirected_to_your_details_page
   end
 
   def and_i_can_not_edit_the_section_degree
     expect(page).to have_no_content('Add another degree')
     visit candidate_interface_degree_country_path
 
-    and_i_should_be_redirected_to_your_details_page
+    and_i_be_redirected_to_your_details_page
   end
 
   def and_i_can_not_edit_the_section_safeguarding
     visit candidate_interface_edit_safeguarding_path
 
-    and_i_should_be_redirected_to_your_details_page
+    and_i_be_redirected_to_your_details_page
   end
 
   def and_i_can_not_edit_the_section_english_gcse
     visit candidate_interface_edit_gcse_english_grade_path
 
-    and_i_should_be_redirected_to_your_details_page
+    and_i_be_redirected_to_your_details_page
   end
 
   def and_i_can_not_edit_the_section_maths_gcse
     visit candidate_interface_edit_gcse_maths_grade_path
 
-    and_i_should_be_redirected_to_your_details_page
+    and_i_be_redirected_to_your_details_page
   end
 
   def and_i_can_not_edit_the_section_references
@@ -138,7 +138,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission' do
       current_candidate.current_application.application_references.last,
     )
 
-    and_i_should_be_redirected_to_your_details_page
+    and_i_be_redirected_to_your_details_page
   end
 
   def and_i_can_not_edit_the_section_work_history
@@ -146,7 +146,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission' do
       current_candidate.current_application.application_work_experiences.last,
     )
 
-    and_i_should_be_redirected_to_your_details_page
+    and_i_be_redirected_to_your_details_page
   end
 
   def when_i_save_and_continue
@@ -195,7 +195,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission' do
     expect(current_candidate.current_application.reload.becoming_a_teacher).to eq('Repellat qui et')
   end
 
-  def and_i_should_be_redirected_to_your_details_page
+  def and_i_be_redirected_to_your_details_page
     expect(page).to have_current_path candidate_interface_continuous_applications_details_path
   end
 

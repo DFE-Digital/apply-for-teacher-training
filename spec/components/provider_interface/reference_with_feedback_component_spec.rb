@@ -82,7 +82,7 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
         expect(safeguarding_row[:value]).to eq('Yes')
 
         expect(safeguarding_concerns_row[:key]).to eq(
-          'Reason(s) given by referee why this candidate should not work with children',
+          'Reasons given by referee why this candidate should not work with children',
         )
         expect(safeguarding_concerns_row[:value]).to eq(reference.safeguarding_concerns)
       end

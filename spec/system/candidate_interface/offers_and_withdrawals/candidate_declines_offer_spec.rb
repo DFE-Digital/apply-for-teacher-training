@@ -89,6 +89,6 @@ RSpec.feature 'Candidate declines an offer' do
 
   def then_the_candidate_is_sent_an_email
     open_email(@application_form.candidate.email_address)
-    expect(current_email.subject).to have_content 'You’ve declined an offer: next steps'
+    expect(current_email.subject).to have_content 'You have declined an offer: next steps'
   end
 end

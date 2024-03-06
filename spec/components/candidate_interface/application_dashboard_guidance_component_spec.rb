@@ -38,7 +38,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardGuidanceComponent do
       statuses: %w[declined pending_conditions rejected],
     )
     result = render_inline(described_class.new(application_form:))
-    expect(result.text).to include("You’ve accepted the offer from #{application_form.application_choices.pending_conditions.first.provider.name}")
+    expect(result.text).to include("You have accepted the offer from #{application_form.application_choices.pending_conditions.first.provider.name}")
   end
 
   it 'displays correct message when an offer has been deferred' do
@@ -46,7 +46,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardGuidanceComponent do
       statuses: %w[declined offer_deferred rejected],
     )
     result = render_inline(described_class.new(application_form:))
-    expect(result.text).to include('You’ve chosen to defer your course')
+    expect(result.text).to include('You have chosen to defer your course')
   end
 
   it 'displays correct message when conditions have been met' do

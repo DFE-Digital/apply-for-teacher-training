@@ -26,7 +26,7 @@ en:
         hint_text: If you are studying for your qualification, give your predicted grade.
       award_year:
         label: Year qualification awarded
-        hint_text: For example, 1998. If you are studying for your qualification, indicate when you’ll achieve it.
+        hint_text: For example, 1998. If you are studying for your qualification, indicate when you will achieve it.
         review_label: Year awarded
         change_action: year
       another:

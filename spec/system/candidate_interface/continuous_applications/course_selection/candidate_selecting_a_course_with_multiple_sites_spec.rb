@@ -181,7 +181,7 @@ RSpec.feature 'Selecting a course with multiple sites' do
 
   def then_i_should_be_seeing_an_error_message
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select which location you’re interested in')
+    expect(page).to have_content('Select which location you are interested in')
   end
 
   def application_choice

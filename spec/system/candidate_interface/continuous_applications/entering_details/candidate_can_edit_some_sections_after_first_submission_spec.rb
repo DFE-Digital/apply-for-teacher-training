@@ -12,7 +12,7 @@ RSpec.feature 'A candidate can edit some sections after first submission' do
   [
     TestSection.new(:personal_information, 'Personal information'),
     TestSection.new(:contact_information, 'Contact information'),
-    TestSection.new(:ask_for_support_if_you_are_disabled, 'Ask for support if you’re disabled'),
+    TestSection.new(:ask_for_support_if_you_are_disabled, 'Ask for support if you are disabled'),
     TestSection.new(:interview_availability, 'Interview availability'),
     TestSection.new(:equality_and_diversity_information, 'Equality and diversity questions'),
     TestSection.new(:personal_statement, 'Your personal statement'),
@@ -24,10 +24,10 @@ RSpec.feature 'A candidate can edit some sections after first submission' do
       when_i_click_on_the_section_in_your_details_page
       then_i_can_see_that_is_editable
       and_i_can_edit_the_section
-      and_the_section_should_still_be_complete
+      and_the_section_still_be_complete
       when_i_click_on_the_section_in_your_details_page
       when_i_click_continue
-      then_the_section_should_still_be_complete
+      then_the_section_still_be_complete
     end
   end
 
@@ -49,7 +49,7 @@ RSpec.feature 'A candidate can edit some sections after first submission' do
   end
 
   def and_i_can_edit_the_section
-    expect(page).to have_content('Any changes you make will be included in applications you’ve already submitted.') unless @section.identifier == :personal_statement
+    expect(page).to have_content('Any changes you make will be included in applications you have already submitted.') unless @section.identifier == :personal_statement
     method_name = "and_i_can_edit_the_section_#{@section.identifier}"
 
     if respond_to?(method_name)
@@ -59,14 +59,14 @@ RSpec.feature 'A candidate can edit some sections after first submission' do
     end
   end
 
-  def and_the_section_should_still_be_complete
+  def and_the_section_still_be_complete
     click_link_or_button 'Your details'
 
     expect(
       section_status,
     ).to eq("#{@section.title} Completed")
   end
-  alias_method :then_the_section_should_still_be_complete, :and_the_section_should_still_be_complete
+  alias_method :then_the_section_still_be_complete, :and_the_section_still_be_complete
 
   def and_i_can_edit_the_section_personal_information
     click_link_or_button 'Change name'
