@@ -81,7 +81,7 @@ RSpec.describe 'Reject an application' do
     check 'Course full'
     fill_in 'Details (optional) about the course being full', with: 'Other courses exist'
 
-    check 'rejection-reasons-selected-reasons-other-field'
+    check 'provider-interface-rejections-wizard-selected-reasons-other-field'
     fill_in 'Details of other reasons', with: 'There are so many other reasons why your application was rejected...'
   end
 

@@ -50,20 +50,20 @@ RSpec.describe 'Reject an application with interviews' do
   end
 
   def then_i_give_reasons_why_i_am_rejecting_the_application
-    check 'rejection-reasons-selected-reasons-qualifications-field'
-    check 'rejection-reasons-qualifications-selected-reasons-no-maths-gcse-field'
-    check 'rejection-reasons-qualifications-selected-reasons-unverified-qualifications-field'
-    fill_in 'rejection-reasons-unverified-qualifications-details-field', with: 'We can find no evidence of your GCSEs'
+    check 'provider-interface-rejections-wizard-selected-reasons-qualifications-field'
+    check 'provider-interface-rejections-wizard-qualifications-selected-reasons-no-maths-gcse-field'
+    check 'provider-interface-rejections-wizard-qualifications-selected-reasons-unverified-qualifications-field'
+    fill_in 'provider-interface-rejections-wizard-unverified-qualifications-details-field', with: 'We can find no evidence of your GCSEs'
 
-    check 'rejection-reasons-selected-reasons-personal-statement-field'
-    check 'rejection-reasons-personal-statement-selected-reasons-quality-of-writing-field'
-    fill_in 'rejection-reasons-quality-of-writing-details-field', with: 'We do not accept applications written in morse code'
-    check 'rejection-reasons-personal-statement-selected-reasons-personal-statement-other-field'
-    fill_in 'rejection-reasons-personal-statement-other-details-field', with: 'This was wayyyyy too personal'
+    check 'provider-interface-rejections-wizard-selected-reasons-personal-statement-field'
+    check 'provider-interface-rejections-wizard-personal-statement-selected-reasons-quality-of-writing-field'
+    fill_in 'provider-interface-rejections-wizard-quality-of-writing-details-field', with: 'We do not accept applications written in morse code'
+    check 'provider-interface-rejections-wizard-personal-statement-selected-reasons-personal-statement-other-field'
+    fill_in 'provider-interface-rejections-wizard-personal-statement-other-details-field', with: 'This was wayyyyy too personal'
 
-    check 'rejection-reasons-selected-reasons-course-full-field'
-    check 'rejection-reasons-selected-reasons-other-field'
-    fill_in 'rejection-reasons-other-details-field', with: 'There are so many other reasons why your application was rejected...'
+    check 'provider-interface-rejections-wizard-selected-reasons-course-full-field'
+    check 'provider-interface-rejections-wizard-selected-reasons-other-field'
+    fill_in 'provider-interface-rejections-wizard-other-details-field', with: 'There are so many other reasons why your application was rejected...'
 
     click_link_or_button t('continue')
   end
