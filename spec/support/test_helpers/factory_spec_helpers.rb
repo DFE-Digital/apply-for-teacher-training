@@ -7,7 +7,7 @@ module FactorySpecHelpers
     end
   end
 
-  def trait(name, aliased_to: nil, &block)
+  def trait(name, aliased_to: nil, &)
     if aliased_to
       describe("trait :#{name}") do
         let(:traits) { [name] }
@@ -15,7 +15,7 @@ module FactorySpecHelpers
         it_behaves_like("trait :#{aliased_to}")
       end
     else
-      shared_examples("trait :#{name}", &block)
+      shared_examples("trait :#{name}", &)
       describe("trait :#{name}") do
         let(:traits) { [name] }
 
