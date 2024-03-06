@@ -24,10 +24,10 @@ RSpec.describe 'Clearing the wizard cache' do
 
     and_i_go_back
     and_i_go_back_again
-    then_i_should_be_on_the_application_page
+    then_i_am_on_the_application_page
 
     when_i_click_set_up_an_interview
-    then_i_should_see_an_empty_interview_form
+    then_i_see_an_empty_interview_form
   end
 
   # check ReasonsForRejectionController for configuration
@@ -43,10 +43,10 @@ RSpec.describe 'Clearing the wizard cache' do
     and_i_select_why_i_am_rejecting_the_application
     and_i_go_back
     and_i_go_back_again
-    then_i_should_be_on_the_decision_page
+    then_i_am_on_the_decision_page
 
     when_i_choose_to_reject_application
-    then_i_should_see_a_cleared_reasons_for_rejection_page
+    then_i_see_a_cleared_reasons_for_rejection_page
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -101,11 +101,11 @@ RSpec.describe 'Clearing the wizard cache' do
 
   alias_method :and_i_go_back_again, :and_i_go_back
 
-  def then_i_should_be_on_the_application_page
+  def then_i_am_on_the_application_page
     expect(page).to have_current_path(provider_interface_application_choice_path(application_choice))
   end
 
-  def then_i_should_see_an_empty_interview_form
+  def then_i_see_an_empty_interview_form
     expect(page).to have_content('Set up an interview')
 
     expect(page.find_field('Day').value).to be_nil
@@ -115,30 +115,30 @@ RSpec.describe 'Clearing the wizard cache' do
     expect(page.find_field('Address or online meeting details').value).to be_empty
   end
 
-  def then_i_should_be_on_the_decision_page
+  def then_i_am_on_the_decision_page
     expect(page).to have_current_path(new_provider_interface_application_choice_decision_path(application_choice))
   end
 
   def and_i_select_why_i_am_rejecting_the_application
-    check 'rejection-reasons-selected-reasons-qualifications-field'
-    check 'rejection-reasons-qualifications-selected-reasons-no-maths-gcse-field'
-    check 'rejection-reasons-qualifications-selected-reasons-unverified-qualifications-field'
-    fill_in 'rejection-reasons-unverified-qualifications-details-field', with: 'We can find no evidence of your GCSEs'
+    check 'provider-interface-rejections-wizard-selected-reasons-qualifications-field'
+    check 'provider-interface-rejections-wizard-qualifications-selected-reasons-no-maths-gcse-field'
+    check 'provider-interface-rejections-wizard-qualifications-selected-reasons-unverified-qualifications-field'
+    fill_in 'provider-interface-rejections-wizard-unverified-qualifications-details-field', with: 'We can find no evidence of your GCSEs'
 
-    check 'rejection-reasons-selected-reasons-personal-statement-field'
-    check 'rejection-reasons-personal-statement-selected-reasons-quality-of-writing-field'
-    fill_in 'rejection-reasons-quality-of-writing-details-field', with: 'We do not accept applications written in morse code'
-    check 'rejection-reasons-personal-statement-selected-reasons-personal-statement-other-field'
-    fill_in 'rejection-reasons-personal-statement-other-details-field', with: 'This was wayyyyy too personal'
+    check 'provider-interface-rejections-wizard-selected-reasons-personal-statement-field'
+    check 'provider-interface-rejections-wizard-personal-statement-selected-reasons-quality-of-writing-field'
+    fill_in 'provider-interface-rejections-wizard-quality-of-writing-details-field', with: 'We do not accept applications written in morse code'
+    check 'provider-interface-rejections-wizard-personal-statement-selected-reasons-personal-statement-other-field'
+    fill_in 'provider-interface-rejections-wizard-personal-statement-other-details-field', with: 'This was wayyyyy too personal'
 
-    check 'rejection-reasons-selected-reasons-course-full-field'
-    check 'rejection-reasons-selected-reasons-other-field'
-    fill_in 'rejection-reasons-other-details-field', with: 'There are so many other reasons why your application was rejected...'
+    check 'provider-interface-rejections-wizard-selected-reasons-course-full-field'
+    check 'provider-interface-rejections-wizard-selected-reasons-other-field'
+    fill_in 'provider-interface-rejections-wizard-other-details-field', with: 'There are so many other reasons why your application was rejected...'
 
     click_link_or_button t('continue')
   end
 
-  def then_i_should_see_a_cleared_reasons_for_rejection_page
+  def then_i_see_a_cleared_reasons_for_rejection_page
     click_link_or_button t('continue')
 
     within '.govuk-error-summary' do

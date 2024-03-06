@@ -53,7 +53,7 @@ module ProviderInterface
       @service ||= RejectApplication.new(
         actor: current_provider_user,
         application_choice: @application_choice,
-        structured_rejection_reasons: @wizard.to_model,
+        structured_rejection_reasons: @wizard.object,
       )
     end
 
@@ -68,7 +68,7 @@ module ProviderInterface
     end
 
     def rejection_reasons_params
-      params.require(:rejection_reasons).permit(*wizard_class.single_attribute_names, collection_attributes)
+      params.require(:provider_interface_rejections_wizard).permit(*wizard_class.single_attribute_names, collection_attributes)
     end
 
     def collection_attributes
