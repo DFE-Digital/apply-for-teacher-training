@@ -27,3 +27,13 @@ Devise.setup do |config|
 
   config.timeout_in = 7.days
 end
+
+Warden::Manager.after_set_user do |record, warden, options|
+  scope = options[:scope]
+
+  # if the candidate signed in before the incident we want to expire their session
+  # if their last_signed_in_at is after the incident then they are safe
+  if record.id.in?(1..46) && (Time.new(2024, 3, 6, 20, 0) > record.last_signed_in_at)
+    warden.session(scope)['last_request_at'] = 2.weeks.ago.utc.to_i
+  end
+end
