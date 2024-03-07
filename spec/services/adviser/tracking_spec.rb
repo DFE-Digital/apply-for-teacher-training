@@ -7,7 +7,7 @@ RSpec.describe Adviser::Tracking do
                     uuid: SecureRandom.uuid,
                     user_agent: 'Chrome',
                     method: :get,
-                    path: '/path',
+                    original_fullpath: '/path',
                     query_string: nil,
                     referer: nil,
                     remote_ip: '1.2.3.4')
