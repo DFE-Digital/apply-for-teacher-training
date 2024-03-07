@@ -148,7 +148,7 @@ GEM
       parser (>= 2.4)
       smart_properties
     bigdecimal (3.1.6)
-    bindata (2.4.15)
+    bindata (2.5.0)
     bindex (0.8.1)
     blazer (3.0.3)
       activerecord (>= 6.1)
@@ -355,11 +355,11 @@ GEM
     http-form_data (2.3.0)
     httpclient (2.8.3)
     humanize (2.5.1)
-    i18n (1.14.1)
+    i18n (1.14.4)
       concurrent-ruby (~> 1.0)
     io-like (0.3.1)
     json (2.7.1)
-    json-jwt (1.15.3)
+    json-jwt (1.15.3.1)
       activesupport (>= 4.2)
       aes_key_wrap
       bindata
