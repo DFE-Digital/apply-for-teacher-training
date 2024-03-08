@@ -30,6 +30,8 @@ Devise.setup do |config|
 end
 
 Warden::Manager.after_set_user do |record, warden, options|
+  next unless FeatureFlag.active?(:incident_eviction)
+
   deploy_time = ENV.fetch('INCIDENT_240306_FIX_DEPLOYMENT_TIME', Time.zone.local(2024, 3, 11, 14).to_fs(:iso8601))
   next if Time.zone.now < Time.zone.parse(deploy_time)
 

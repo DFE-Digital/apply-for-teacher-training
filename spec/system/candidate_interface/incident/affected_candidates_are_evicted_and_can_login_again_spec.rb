@@ -8,7 +8,8 @@ RSpec.feature 'User gets logged out and can immediately log back in' do
 
   context 'when environment variable is set' do
     before do
-      ENV['INCIDENT_240306_FIX_DEPLOYMENT_TIME'] = 3.days.from_now.to_fs(:iso8601)
+      FeatureFlag.activate(:incident_eviction)
+      stub_const('ENV', ENV.to_h.merge('INCIDENT_240306_FIX_DEPLOYMENT_TIME' => 3.days.from_now.to_fs(:iso8601)))
     end
 
     scenario 'Affected candidates are signed out and can log back in' do
@@ -34,7 +35,7 @@ RSpec.feature 'User gets logged out and can immediately log back in' do
 
   context 'when the environment variable is not set' do
     before do
-      ENV['INCIDENT_240306_FIX_DEPLOYMENT_TIME'] = nil
+      FeatureFlag.activate(:incident_eviction)
     end
 
     scenario 'Affected candidates are signed out and can log back in', time: Time.zone.local(2024, 3, 11, 14) - 1.day do
