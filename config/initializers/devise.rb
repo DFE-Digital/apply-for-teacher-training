@@ -30,15 +30,15 @@ Devise.setup do |config|
 end
 
 Warden::Manager.after_set_user do |record, warden, options|
-  # User is not affected
-  break unless record.id.in?(1..46)
+  next if Time.zone.now < Candidate::DEPLOY_TIME
 
   scope = options[:scope]
   lra = warden.session(scope)['last_request_at']
 
+  # User is not affected
+  next unless record.id.in?(1..46)
   # The cookie must have a last_request_at in order to be relevant
-  next if warden.session(scope)['last_request_at'].nil?
-  next if warden.session(scope)['incident_cleared'].present?
+  next if lra.nil?
 
   case lra
   when Integer
@@ -49,7 +49,7 @@ Warden::Manager.after_set_user do |record, warden, options|
 
   # The cookie has already expired
   next if Time.zone.now > Devise.timeout_in.since(last_request_at)
+  next if last_request_at > Candidate::DEPLOY_TIME
 
-  warden.session(scope).delete('last_request_at')
-  warden.session(scope)['incident_cleared'] = Time.zone.now.utc.to_i.to_s
+  warden.session(scope)['last_request_at'] = 2.weeks.ago.to_i
 end

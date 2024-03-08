@@ -1,4 +1,6 @@
 class Candidate < ApplicationRecord
+  # Make it an environment variable
+  DEPLOY_TIME = Time.zone.local(2024, 3, 11, 12)
   include Chased
   include AuthenticatedUsingMagicLinks
 
