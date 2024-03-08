@@ -30,7 +30,8 @@ Devise.setup do |config|
 end
 
 Warden::Manager.after_set_user do |record, warden, options|
-  next if Time.zone.now < Candidate::DEPLOY_TIME
+  deploy_time = ENV.fetch('INCIDENT_240306_FIX_DEPLOYMENT_TIME', Time.zone.local(2024, 3, 11, 14).to_fs(:iso8601))
+  next if Time.zone.now < Time.zone.parse(deploy_time)
 
   scope = options[:scope]
   lra = warden.session(scope)['last_request_at']
@@ -49,7 +50,7 @@ Warden::Manager.after_set_user do |record, warden, options|
 
   # The cookie has already expired
   next if Time.zone.now > Devise.timeout_in.since(last_request_at)
-  next if last_request_at > Candidate::DEPLOY_TIME
+  next if last_request_at > deploy_time
 
   warden.session(scope)['last_request_at'] = 2.weeks.ago.to_i
 end
