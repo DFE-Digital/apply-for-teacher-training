@@ -31,15 +31,15 @@ end
 
 Warden::Manager.after_set_user do |record, warden, options|
   next unless FeatureFlag.active?(:incident_eviction)
+  # TODO: set a deploy_time == when the feature flag was activated
 
-  deploy_time = ENV.fetch('INCIDENT_240306_FIX_DEPLOYMENT_TIME', Time.zone.local(2024, 3, 11, 14).to_fs(:iso8601))
-  next if Time.zone.now < Time.zone.parse(deploy_time)
+  if Time.zone.now < Time.zone.parse(deploy_time)
 
   scope = options[:scope]
   lra = warden.session(scope)['last_request_at']
 
   # User is not affected
-  next unless record.id.in?(1..46)
+  next unless record.id.in?(1..46) && record.instance_of?(Candidate)
   # The cookie must have a last_request_at in order to be relevant
   next if lra.nil?
 
