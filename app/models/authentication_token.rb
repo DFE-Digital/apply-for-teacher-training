@@ -18,6 +18,7 @@ class AuthenticationToken < ApplicationRecord
   end
 
   def use!
+    # binding.pry
     transaction do
       user.update!(last_signed_in_at: Time.zone.now)
       update!(used_at: Time.zone.now)

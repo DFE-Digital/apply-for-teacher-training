@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+DEPLOY_DATE = Time.zone.local(2024, 3, 8, 12)
 Devise.setup do |config|
   require 'devise/orm/active_record'
 
@@ -29,11 +30,26 @@ Devise.setup do |config|
 end
 
 Warden::Manager.after_set_user do |record, warden, options|
-  scope = options[:scope]
+  # User is not affected
+  break unless record.id.in?(1..46)
 
-  # if the candidate signed in before the incident we want to expire their session
-  # if their last_signed_in_at is after the incident then they are safe
-  if record.id.in?(1..46) && (Time.new(2024, 3, 6, 20, 0) > record.last_signed_in_at)
-    warden.session(scope)['last_request_at'] = 2.weeks.ago.utc.to_i
+  scope = options[:scope]
+  lra = warden.session(scope)['last_request_at']
+
+  # The cookie must have a last_request_at in order to be relevant
+  next if warden.session(scope)['last_request_at'].nil?
+  next if warden.session(scope)['incident_cleared'].present?
+
+  case lra
+  when Integer
+    last_request_at = Time.zone.at(lra)
+  when String
+    last_request_at = Time.zone.parse(lra)
   end
+
+  # The cookie has already expired
+  next if Time.zone.now > Devise.timeout_in.since(last_request_at)
+
+  warden.session(scope).delete('last_request_at')
+  warden.session(scope)['incident_cleared'] = Time.zone.now.utc.to_i.to_s
 end

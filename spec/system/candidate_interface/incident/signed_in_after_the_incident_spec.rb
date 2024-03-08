@@ -1,10 +1,12 @@
 require 'rails_helper'
+require_relative 'incident_helper'
 
-RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox do
+RSpec.feature 'Signed in after the incident' do
   include SignInHelper
   include CandidateHelper
+  include IncidentHelper
 
-  scenario 'User with incident id is not signed out again' do
+  scenario 'New login with incident id is not signed out again', time: Time.zone.local(2024, 3, 9) do
     given_i_am_a_candidate_with_a_rejected_id
     and_i_last_signed_in_after_the_incident
 
@@ -19,7 +21,7 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox
   end
 
   def and_i_last_signed_in_after_the_incident
-    @candidate.last_signed_in_at = Time.new(2024, 3, 7, 12, 0)
+    @candidate.last_signed_in_at = Time.zone.local(2024, 3, 7, 12, 0)
   end
 
   def when_i_am_signed_in

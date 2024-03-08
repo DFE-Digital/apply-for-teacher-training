@@ -53,6 +53,8 @@ module CandidateInterface
       if authentication_token&.still_valid?
         candidate = authentication_token.user
         candidate.update!(candidate_api_updated_at: Time.zone.now) if candidate.last_signed_in_at.nil?
+        # This calls Devise sign in
+        # This is where our checks are so they never reach us
         sign_in(candidate, scope: :candidate)
         set_user_context(candidate.id)
         authentication_token.use!
