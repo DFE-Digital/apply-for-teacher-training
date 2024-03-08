@@ -194,7 +194,7 @@ class Course < ApplicationRecord
     in ['pgde', 'qts'] then 'PGDE with QTS'
     in ['qts', 'tda'] then 'TDA with QTS'
     else
-      qualifications.first.upcase
+      qualifications.map(&:upcase).join(' with ')
     end
   end
 
