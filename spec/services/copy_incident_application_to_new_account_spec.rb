@@ -78,11 +78,6 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
         @first_choice = create(:application_choice, :awaiting_provider_decision, application_form: @original_application_form)
         @second_choice = create(:application_choice, :awaiting_provider_decision, application_form: @original_application_form)
         @unsubmitted_choice = create(:application_choice, :unsubmitted, application_form: @original_application_form)
-
-        @duplicate_application_form = described_class.new(
-          original_application_form: @original_application_form,
-          candidate_email_address: 'some.email@example.com',
-        ).call!
       end
 
       it 'creates new candidate with new emails address' do
