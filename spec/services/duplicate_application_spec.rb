@@ -123,7 +123,7 @@ RSpec.describe DuplicateApplication do
           another_candidate.application_forms.delete_all
           duplicate_application_form = described_class.new(
             @original_application_form,
-            target_phase: 'apply_2',
+            target_phase:,
             candidate_id: another_candidate.id,
           ).duplicate
 
@@ -140,7 +140,7 @@ RSpec.describe DuplicateApplication do
           previous_cycle_application_form = create(:application_form, becoming_a_teacher_completed: false, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate: another_candidate)
           duplicate_application_form = described_class.new(
             @original_application_form,
-            target_phase: 'apply_2',
+            target_phase:,
             candidate_id: another_candidate.id,
           ).duplicate
 
@@ -160,7 +160,7 @@ RSpec.describe DuplicateApplication do
 
           duplicate_application_form = described_class.new(
             @original_application_form,
-            target_phase: 'apply_2',
+            target_phase:,
             candidate_id: another_candidate.id,
           ).duplicate
 
