@@ -19,7 +19,7 @@ RSpec.describe Course do
     end
 
     context 'when applications_open_from is nil' do
-      let(:course) { create(:course, applications_open_from: nil) }
+      let(:course) { create(:course, :open, applications_open_from: nil) }
 
       it 'returns false' do
         expect(course.open?).to be false
