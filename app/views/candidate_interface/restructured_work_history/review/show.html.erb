@@ -8,7 +8,7 @@
 
   <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
 
-  <% if @application_form.can_complete? %>
+  <% if @application_form.can_complete? && @section_policy.can_edit? %>
     <div class="govuk-!-width-two-thirds">
       <p class="govuk-body">Enter all the jobs you have had since you left school.</p>
       <p class="govuk-body">Explain any gaps in your work history. For example, raising children, unemployment or illness.</p>
