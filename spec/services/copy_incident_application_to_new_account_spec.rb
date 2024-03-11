@@ -17,8 +17,8 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
     end
   end
 
-  context 'when candidate does not have an application form' do
-    it 'assigns the original application to the candidate in current cycle' do
+  context 'when candidate does not have an existing application form' do
+    it 'copies the original application to the new candidate in current recruitment cycle' do
       another_candidate = create(:candidate)
       another_candidate.application_forms.delete_all
       duplicate_application_form = described_class.new(
@@ -34,7 +34,7 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
   end
 
   context 'when candidate does have an application form in previous cycle' do
-    it 'assigns the original application to the candidate in current cycle' do
+    it 'copies the original application to the new candidate in current recruitment cycle with a link to their previous application' do
       another_candidate = create(:candidate)
       previous_cycle_application_form = create(:application_form, becoming_a_teacher_completed: false, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate: another_candidate)
       duplicate_application_form = described_class.new(
