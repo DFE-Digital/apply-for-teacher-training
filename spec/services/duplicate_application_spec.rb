@@ -120,6 +120,7 @@ RSpec.describe DuplicateApplication do
       context 'when candidate does not have an application form' do
         it 'assigns the original application to the candidate in current cycle' do
           another_candidate = create(:candidate)
+          another_candidate.application_forms.delete_all
           duplicate_application_form = described_class.new(
             @original_application_form,
             target_phase: 'apply_2',
@@ -136,7 +137,7 @@ RSpec.describe DuplicateApplication do
       context 'when candidate does have an application form in previous cycle' do
         it 'assigns the original application to the candidate in current cycle' do
           another_candidate = create(:candidate)
-          previous_cycle_application_form = create(:application_form, becoming_a_teacher_completed: false, recruitment_cycle_year: RecruitmentCycle.previous_year)
+          previous_cycle_application_form = create(:application_form, becoming_a_teacher_completed: false, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate: another_candidate)
           duplicate_application_form = described_class.new(
             @original_application_form,
             target_phase: 'apply_2',
@@ -146,6 +147,7 @@ RSpec.describe DuplicateApplication do
           expect(duplicate_application_form).to be_becoming_a_teacher_completed
           expect(duplicate_application_form.candidate_id).to be(another_candidate.id)
           expect(duplicate_application_form.recruitment_cycle_year).to be(RecruitmentCycle.current_year)
+          expect(duplicate_application_form.previous_application_form_id).to eq(previous_cycle_application_form.id)
           expect(duplicate_application_form.previous_application_form).to eq(previous_cycle_application_form)
           expect(another_candidate.current_application.previous_application_form).to eq(previous_cycle_application_form)
         end
@@ -154,7 +156,7 @@ RSpec.describe DuplicateApplication do
       context 'when candidate does have an application form in current cycle' do
         it 'assigns the original application as current application for the candidate in current cycle' do
           another_candidate = create(:candidate)
-          current_cycle_application_form = create(:application_form, becoming_a_teacher_completed: false, created_at: 1.day.ago)
+          current_cycle_application_form = create(:application_form, becoming_a_teacher_completed: false, created_at: 1.day.ago, candidate: another_candidate)
 
           duplicate_application_form = described_class.new(
             @original_application_form,
