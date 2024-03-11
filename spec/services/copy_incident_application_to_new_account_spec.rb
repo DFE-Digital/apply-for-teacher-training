@@ -24,7 +24,7 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
       duplicate_application_form = described_class.new(
         original_application_form: @original_application_form,
         candidate_email_address: another_candidate.email_address,
-      ).call
+      ).call!
 
       expect(duplicate_application_form).to be_becoming_a_teacher_completed
       expect(duplicate_application_form.candidate_id).to be(another_candidate.id)
@@ -40,7 +40,7 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
       duplicate_application_form = described_class.new(
         original_application_form: @original_application_form,
         candidate_email_address: another_candidate.email_address,
-      ).call
+      ).call!
 
       expect(duplicate_application_form).to be_becoming_a_teacher_completed
       expect(duplicate_application_form.candidate_id).to be(another_candidate.id)
@@ -59,7 +59,7 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
       duplicate_application_form = described_class.new(
         original_application_form: @original_application_form,
         candidate_email_address: another_candidate.email_address,
-      ).call
+      ).call!
 
       expect(duplicate_application_form).to be_becoming_a_teacher_completed
       expect(duplicate_application_form.candidate_id).to be(another_candidate.id)
@@ -82,14 +82,14 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
         @duplicate_application_form = described_class.new(
           original_application_form: @original_application_form,
           candidate_email_address: 'some.email@example.com',
-        ).call
+        ).call!
       end
 
       it 'creates new candidate with new emails address' do
         duplicate_application_form = described_class.new(
           original_application_form: @original_application_form,
           candidate_email_address: 'some.email@example.com',
-        ).call
+        ).call!
         expect(duplicate_application_form.candidate).to be_persisted
         expect(duplicate_application_form.candidate.email_address).to eq('some.email@example.com')
       end
@@ -98,7 +98,7 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
         duplicate_application_form = described_class.new(
           original_application_form: @original_application_form,
           candidate_email_address: 'some.email@example.com',
-        ).call
+        ).call!
 
         expect(duplicate_application_form.application_choices.map(&:current_course).map(&:name)).to contain_exactly(@first_choice.current_course.name, @second_choice.current_course.name, @unsubmitted_choice.current_course.name)
         expect(duplicate_application_form.application_choices.map(&:provider)).to contain_exactly(@first_choice.provider, @second_choice.provider, @unsubmitted_choice.provider)
@@ -113,7 +113,7 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
         duplicate_application_form = described_class.new(
           original_application_form: @original_application_form,
           candidate_email_address: 'some.email@example.com',
-        ).call
+        ).call!
         expect(duplicate_application_form.application_choices).to be_empty
       end
     end
@@ -125,7 +125,7 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
         duplicate_application_form = described_class.new(
           original_application_form: @original_application_form,
           candidate_email_address: 'some.email@example.com',
-        ).call
+        ).call!
 
         expect(duplicate_application_form).to be_references_completed
       end
@@ -138,7 +138,7 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
         duplicate_application_form = described_class.new(
           original_application_form: @original_application_form,
           candidate_email_address: 'some.email@example.com',
-        ).call
+        ).call!
 
         expect(duplicate_application_form).not_to be_references_completed
       end
