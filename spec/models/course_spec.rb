@@ -18,6 +18,14 @@ RSpec.describe Course do
       end
     end
 
+    context 'when applications_open_from is nil' do
+      let(:course) { create(:course, :open, applications_open_from: nil) }
+
+      it 'returns false' do
+        expect(course.open?).to be false
+      end
+    end
+
     context 'when applications_open_from is in the future' do
       let(:course) { create(:course, :open, applications_open_from: 1.day.from_now) }
 
