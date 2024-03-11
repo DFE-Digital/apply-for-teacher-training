@@ -11,7 +11,6 @@ module CandidateInterface
     def create_account_or_sign_in_handler
       @create_account_or_sign_in_form = CreateAccountOrSignInForm.new(create_account_or_sign_in_params)
       render :create_account_or_sign_in and return unless @create_account_or_sign_in_form.valid?
-      # binding.pry
 
       if @create_account_or_sign_in_form.existing_account?
         SignInCandidate.new(@create_account_or_sign_in_form.email, self).call
