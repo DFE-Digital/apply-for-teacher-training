@@ -57,4 +57,5 @@ Warden::Manager.after_set_user do |record, warden, options|
   # Set the last_request_at so that the session has timed out.
   # Then Devise will log the user out.
   warden.session(scope)['last_request_at'] = 2.weeks.ago.to_i
+  Rails.logger.info "Candidate with id #{record.id} has been logged out"
 end
