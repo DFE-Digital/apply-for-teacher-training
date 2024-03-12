@@ -89,6 +89,22 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
         expect(duplicate_application_form.candidate.email_address).to eq('some.email@example.com')
       end
 
+      it 'creates one candidate with same emails address but in uppercase' do
+        duplicate_application_form = described_class.new(
+          original_application_form: @original_application_form,
+          candidate_email_address: 'some.email@example.com',
+        ).call!
+        described_class.new(
+          original_application_form: @original_application_form,
+          candidate_email_address: 'SOME.EMAIL@example.com',
+        ).call!
+        described_class.new(
+          original_application_form: @original_application_form,
+          candidate_email_address: 'SOME.EMAIL@example.com',
+        ).call!
+        expect(Candidate.pluck(:id)).to contain_exactly(@original_application_form.candidate_id, duplicate_application_form.candidate_id)
+      end
+
       it 'copies application choices in awaiting provider decision' do
         duplicate_application_form = described_class.new(
           original_application_form: @original_application_form,

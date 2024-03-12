@@ -3,7 +3,7 @@ class CopyIncidentApplicationToNewAccount
 
   def initialize(original_application_form:, candidate_email_address:)
     @original_application_form = original_application_form
-    @candidate_email_address = candidate_email_address
+    @candidate_email_address = candidate_email_address.downcase
   end
 
   def call!
