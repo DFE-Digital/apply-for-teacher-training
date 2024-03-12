@@ -44,7 +44,9 @@ class CopyIncidentApplicationToNewAccount
       original_application_choice = original_application_form.application_choices.find_by(course_option: application_choice.course_option)
       next unless original_application_choice.awaiting_provider_decision?
 
-      if CandidateInterface::ContinuousApplications::ApplicationChoiceSubmission.new(application_choice:).valid?
+      application_choice_submission = CandidateInterface::ContinuousApplications::ApplicationChoiceSubmission.new(application_choice:)
+      log("Submit application choice #{application_choice.id}. Valid?: #{application_choice_submission.valid?}")
+      if application_choice_submission.valid?
         CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(application_choice).call
       end
     end
