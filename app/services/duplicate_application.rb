@@ -1,10 +1,11 @@
 class DuplicateApplication
   attr_reader :original_application_form, :target_phase
 
-  def initialize(original_application_form, target_phase:, recruitment_cycle_year: RecruitmentCycle.current_year)
+  def initialize(original_application_form, target_phase:, recruitment_cycle_year: RecruitmentCycle.current_year, candidate_id: nil)
     @original_application_form = original_application_form
     @target_phase = target_phase
     @recruitment_cycle_year = recruitment_cycle_year
+    @candidate_id = candidate_id
   end
 
   IGNORED_ATTRIBUTES = %w[id created_at updated_at submitted_at course_choices_completed phase support_reference english_main_language english_language_details other_language_details feedback_form_complete].freeze
@@ -19,6 +20,13 @@ class DuplicateApplication
       recruitment_cycle_year: @recruitment_cycle_year,
       work_history_status: original_application_form.work_history_status || 'can_complete',
     )
+
+    if @candidate_id.present?
+      candidate = Candidate.find(@candidate_id)
+      attrs = ActiveSupport::HashWithIndifferentAccess.new(attrs)
+      attrs['candidate_id'] = @candidate_id
+      attrs['previous_application_form_id'] = candidate.application_forms.order(:created_at, :id).last&.id
+    end
 
     ApplicationForm.create!(attrs).tap do |new_application_form|
       original_application_form.application_work_experiences.each do |w|
