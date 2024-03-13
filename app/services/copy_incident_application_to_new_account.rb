@@ -34,7 +34,11 @@ class CopyIncidentApplicationToNewAccount
     log("Copying #{original_application_form.application_choices.count} application choices to application form #{new_application_form.id}")
     original_application_form.application_choices.each do |original_application_choice|
       course_option = original_application_choice.course_option
-      new_application_form.application_choices.new.configure_initial_course_choice!(course_option)
+      new_application_choice = new_application_form.application_choices.new
+      new_application_choice.configure_initial_course_choice!(course_option)
+
+      # updating personal statement for unsubmitted application choices
+      new_application_choice.update(personal_statement: original_application_choice.personal_statement)
     end
 
     # Submit application choices - only from awaiting provider decisions - from
@@ -46,9 +50,14 @@ class CopyIncidentApplicationToNewAccount
 
       application_choice_submission = CandidateInterface::ContinuousApplications::ApplicationChoiceSubmission.new(application_choice:)
       log("Submit application choice #{application_choice.id}. Valid?: #{application_choice_submission.valid?}")
-      if application_choice_submission.valid?
-        CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(application_choice).call
-      end
+      next unless application_choice_submission.valid?
+
+      CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(application_choice).call
+
+      # updating personal statement because the submit application choices
+      # copies the current personal statement from the new created form at
+      # the time of submission (line above)
+      application_choice.update(personal_statement: original_application_choice.personal_statement)
     end
 
     new_application_form
