@@ -39,8 +39,8 @@ RSpec.feature 'Managing provider users v2' do
     @provider_one = create(:provider, name: 'Example provider one', code: 'ABC')
     @provider_two = create(:provider, name: 'Example provider two', code: 'DEF')
 
-    create(:course, :open_on_apply, provider: @provider_one)
-    create(:course, :open_on_apply, provider: @provider_two)
+    create(:course, :open, provider: @provider_one)
+    create(:course, :open, provider: @provider_two)
   end
 
   def and_a_provider_user_exists_for_both_provider

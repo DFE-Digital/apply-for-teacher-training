@@ -62,7 +62,7 @@ RSpec.describe DetectInvariantsHourlyCheck do
     end
 
     it 'ignores withdrawn and rejected application choices submitted with the same course' do
-      course = create(:course)
+      course = create(:course, :open)
       course_option1 = create(:course_option, course:)
       course_option2 = create(:course_option, course:)
       course_option3 = create(:course_option, course:)

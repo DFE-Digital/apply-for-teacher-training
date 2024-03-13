@@ -6,7 +6,7 @@ RSpec.describe SupportInterface::TADProviderStatsExport, :bullet do
   describe 'documentation' do
     before do
       provider = create(:provider)
-      course_option_for_provider(provider:, course: create(:course, :open_on_apply, provider:))
+      course_option_for_provider(provider:, course: create(:course, :open, provider:))
     end
 
     it_behaves_like 'a data export'
@@ -50,10 +50,10 @@ RSpec.describe SupportInterface::TADProviderStatsExport, :bullet do
       provider_one = create(:provider, code: 'ABC1', name: 'Tehanu')
       provider_two = create(:provider, code: 'DEF2', name: 'Anarres')
 
-      course_option_for_provider(provider: provider_one, course: create(:course, :open_on_apply, name: 'History', provider: provider_one, code: 'XYZ'))
-      course_option_for_provider(provider: provider_one, course: create(:course, :open_on_apply, name: 'Biology', provider: provider_one))
-      course_option_for_provider(provider: provider_two, course: create(:course, :open_on_apply, name: 'Science book', provider: provider_two))
-      course_option_for_provider(provider: provider_two, course: create(:course, :open_on_apply, name: 'French I took', provider: provider_two))
+      course_option_for_provider(provider: provider_one, course: create(:course, :open, name: 'History', provider: provider_one, code: 'XYZ'))
+      course_option_for_provider(provider: provider_one, course: create(:course, :open, name: 'Biology', provider: provider_one))
+      course_option_for_provider(provider: provider_two, course: create(:course, :open, name: 'Science book', provider: provider_two))
+      course_option_for_provider(provider: provider_two, course: create(:course, :open, name: 'French I took', provider: provider_two))
       course_option_for_provider(provider: provider_two, recruitment_cycle_year: RecruitmentCycle.previous_year)
       course_option_for_provider(provider: provider_two, recruitment_cycle_year: RecruitmentCycle.previous_year)
       # we get a row per course

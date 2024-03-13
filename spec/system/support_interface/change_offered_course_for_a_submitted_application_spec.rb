@@ -110,7 +110,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_fill_in_the_course_code_for_a_course_that_is_not_associated_with_the_ratifying_provider
-    @other_providers_course_option = create(:course_option, course: create(:course, :open_on_apply))
+    @other_providers_course_option = create(:course_option, course: create(:course, :open))
     @course_code = @other_providers_course_option.course.code
     fill_in('Course code', with: @course_code)
   end
@@ -138,13 +138,13 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def and_i_enter_a_course_code_for_a_course_that_has_the_same_ratifying_provider
-    @course_option = create(:course_option, course: create(:course, :open_on_apply, provider: @application_choice.provider))
+    @course_option = create(:course_option, course: create(:course, :open, provider: @application_choice.provider))
     @course_code = @course_option.course.code
     fill_in('Course code', with: @course_code)
   end
 
   def and_i_enter_a_course_code_for_a_course_that_has_no_vacancies
-    @course_option = create(:course_option, :no_vacancies, course: create(:course, :open_on_apply, funding_type: 'fee', provider: @application_choice.provider))
+    @course_option = create(:course_option, :no_vacancies, course: create(:course, :open, funding_type: 'fee', provider: @application_choice.provider))
     @course_code = @course_option.course.code
     fill_in('Course code', with: @course_code)
   end
@@ -231,9 +231,9 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def and_i_enter_a_course_code_which_is_available_at_the_same_provider_and_at_other_providers
-    course_at_same_provider = create(:course, :open_on_apply, funding_type: 'fee', provider: @application_choice.provider)
+    course_at_same_provider = create(:course, :open, funding_type: 'fee', provider: @application_choice.provider)
     @course_code = course_at_same_provider.code
-    course_at_different_provider = create(:course, :open_on_apply, funding_type: 'fee', provider: create(:provider), code: @course_code)
+    course_at_different_provider = create(:course, :open, funding_type: 'fee', provider: create(:provider), code: @course_code)
 
     @course_option_same_provider = create(:course_option, course: course_at_same_provider)
     @course_option_different_provider = create(:course_option, course: course_at_different_provider)

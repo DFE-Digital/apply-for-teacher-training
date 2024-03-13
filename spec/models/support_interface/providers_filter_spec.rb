@@ -4,7 +4,7 @@ RSpec.describe SupportInterface::ProvidersFilter do
   describe '#filter_records' do
     it 'filters by having one or more courses' do
       provider_with_course = create(:provider, :unsigned)
-      create(:course, :open_on_apply, provider: provider_with_course)
+      create(:course, :open, provider: provider_with_course)
       create(:provider, :unsigned)
       providers = Provider.all
       filter = described_class.new(params: { onboarding_stages: %w[with_courses] })
