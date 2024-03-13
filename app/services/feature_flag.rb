@@ -36,6 +36,13 @@ class FeatureFlag
     [:incident_eviction, 'Evicting potential ghost users from affected candidate accounts', 'Lori Bailey'],
   ].freeze
 
+  NUDGE_FEATURE_FLAGS = [
+    [:reference_nudges, 'Nudge emails for candidates that have incomplete references', 'Steve Hook'],
+    [:unsubmitted_nudges, 'Nudge emails for candidates who have unsubmitted applications that are otherwise complete', 'Lori Bailey'],
+    [:personal_statement_nudges, 'Nudge emails for candidates with incomplete personal statements', 'Lori Bailey'],
+    [:course_choice_nudges, 'Nudge emails for candidates with complete applications, but no course choices', 'Lori Bailey'],
+  ].freeze
+
   CACHE_EXPIRES_IN = 1.day
   FEATURE_FLAG_STATUSES_CACHE_KEY = 'feature-flag-statuses'.freeze
 
@@ -48,7 +55,7 @@ class FeatureFlag
     enable_chat_support
   ].freeze
 
-  FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).to_h do |name, description, owner|
+  FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS + NUDGE_FEATURE_FLAGS).to_h do |name, description, owner|
     [name, FeatureFlag.new(name:, description:, owner:)]
   end.with_indifferent_access.freeze
 
