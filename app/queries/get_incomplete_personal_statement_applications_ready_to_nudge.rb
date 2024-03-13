@@ -17,5 +17,10 @@ class GetIncompletePersonalStatementApplicationsReadyToNudge
       .current_cycle
       .where(INCOMPLETION_ATTRS.map { |attr| "#{attr} = false" }.join(' AND '))
       .has_not_received_email(MAILER, MAIL_TEMPLATE)
+      .joins(
+        "LEFT OUTER JOIN \"application_choices\" ON \"application_choices\".application_form_id = application_forms.id AND \"application_choices\".status = 'unsubmitted'",
+      )
+      .group('application_forms.id')
+      .having('count("application_choices".id) between 1 AND 4')
   end
 end
