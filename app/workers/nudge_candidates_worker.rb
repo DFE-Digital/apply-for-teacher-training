@@ -7,17 +7,17 @@ class NudgeCandidatesWorker
     Nudge.new(
       GetUnsubmittedApplicationsReadyToNudge,
       :nudge_unsubmitted,
-      nil,
+      :unsubmitted_nudges,
     ),
     Nudge.new(
       GetIncompleteCourseChoiceApplicationsReadyToNudge,
       :nudge_unsubmitted_with_incomplete_courses,
-      nil,
+      :course_choice_nudges,
     ),
     Nudge.new(
       GetIncompletePersonalStatementApplicationsReadyToNudge,
       :nudge_unsubmitted_with_incomplete_personal_statement,
-      nil,
+      :personal_statement_nudges,
     ),
     Nudge.new(
       GetIncompleteReferenceApplicationsReadyToNudge,
