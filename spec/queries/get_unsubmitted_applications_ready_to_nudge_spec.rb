@@ -1,7 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
-  it 'returns unsubmitted applications that are complete' do
+  it 'returns unsubmitted applications that are complete with 1-4 draft choices' do
+    application_form = create(
+      :completed_application_form,
+      :with_completed_references,
+      submitted_at: nil,
+    )
+    create_list(:application_choice, 4, application_form:)
+    application_form.update_columns(updated_at: 10.days.ago)
+
+    expect(described_class.new.call).to include(application_form)
+  end
+
+  it 'omits unsubmitted applications that are complete without draft choices' do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
@@ -9,7 +21,19 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     )
     application_form.update_columns(updated_at: 10.days.ago)
 
-    expect(described_class.new.call).to include(application_form)
+    expect(described_class.new.call).to eq []
+  end
+
+  it 'omits unsubmitted applications that are complete with > 4 draft choices' do
+    application_form = create(
+      :completed_application_form,
+      :with_completed_references,
+      submitted_at: nil,
+    )
+    create_list(:application_choice, 5, application_form:)
+    application_form.update_columns(updated_at: 10.days.ago)
+
+    expect(described_class.new.call).to eq []
   end
 
   it 'omits submitted applications that are complete' do
@@ -58,6 +82,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
       first_nationality: 'British',
       efl_completed: false,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
