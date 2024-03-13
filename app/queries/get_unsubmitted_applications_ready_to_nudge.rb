@@ -35,5 +35,10 @@ class GetUnsubmittedApplicationsReadyToNudge
             "first_nationality IN (#{uk_and_irish})",
           ),
         ))
+      .joins(
+        "LEFT OUTER JOIN \"application_choices\" ON \"application_choices\".application_form_id = application_forms.id AND \"application_choices\".status = 'unsubmitted'",
+      )
+      .group('application_forms.id')
+      .having('count("application_choices".id) between 1 AND 4')
   end
 end
