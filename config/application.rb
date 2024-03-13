@@ -39,7 +39,7 @@ module ApplyForPostgraduateTeacherTraining
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w(assets tasks generators rubocop))
+    config.autoload_lib(ignore: %w[assets tasks generators rubocop])
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -66,6 +66,10 @@ module ApplyForPostgraduateTeacherTraining
     config.time_zone = "London"
 
     config.action_view.default_form_builder = GOVUKDesignSystemFormBuilder::FormBuilder
+
+    # Make `sanitize` strip all tags by default
+    # https://guides.rubyonrails.org/action_view_helpers.html#sanitizehelper
+    config.action_view.sanitized_allowed_tags = %w[]
 
     config.i18n.exception_handler = proc { |exception| raise exception.to_exception }
     config.i18n.raise_on_missing_translations = true
