@@ -21,9 +21,9 @@ RSpec.describe GenerateTestApplicationsForProvider, :sidekiq do
   end
 
   before do
-    create(:course_option)
-    3.times { create(:course_option, course: create(:course, :open_on_apply, provider:)) }
-    3.times { create(:course_option, course: create(:course, :open_on_apply, accredited_provider: provider)) }
+    training_provider = create(:provider)
+    3.times { create(:course_option, course: create(:course, :open, provider:)) }
+    3.times { create(:course_option, course: create(:course, :open, provider: training_provider, accredited_provider: provider)) }
     3.times { create(:course_option, course: create(:course, :previous_year, provider:)) }
   end
 
