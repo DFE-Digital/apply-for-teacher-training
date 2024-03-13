@@ -12,24 +12,24 @@ RSpec.feature 'bulk upload provider users' do
     when_i_visit_the_providers_page
     and_i_click_on_users
     and_i_click_add_multiple_users
-    then_i_should_see_the_add_multiple_user_form
+    then_i_see_the_add_multiple_user_form
 
     when_i_click_continue
-    then_i_should_see_a_user_details_form_validation_error
+    then_i_see_a_user_details_form_validation_error
 
     when_i_enter_the_provider_users_details
     and_i_click_continue
-    then_i_should_see_the_permissions_form_for_the_provider_user
+    then_i_see_the_permissions_form_for_the_provider_user
 
     when_i_click_back
-    then_i_should_see_the_add_multiple_user_form
+    then_i_see_the_add_multiple_user_form
 
     when_i_click_continue
-    then_i_should_see_the_permissions_form_for_the_provider_user
+    then_i_see_the_permissions_form_for_the_provider_user
 
     when_i_remove_the_provider_users_first_name
     and_i_click_continue
-    then_i_should_see_a_first_name_blank_validation_error
+    then_i_see_a_first_name_blank_validation_error
 
     when_i_enter_a_new_email_address_for_the_first_user
     and_i_add_permissions_for_the_first_user
@@ -37,13 +37,13 @@ RSpec.feature 'bulk upload provider users' do
     then_i_can_see_the_check_users_page
 
     when_i_click_back
-    then_i_should_see_the_permissions_form_for_the_provider_user
+    then_i_see_the_permissions_form_for_the_provider_user
 
     when_i_click_continue
     then_i_can_see_the_check_users_page
 
     when_i_click_change_within_the_provider_user_summary
-    then_i_should_see_the_permissions_form_for_the_provider_user
+    then_i_see_the_permissions_form_for_the_provider_user
     and_the_permissions_i_selected_are_checked
 
     when_i_edit_permissions_for_the_first_user
@@ -81,7 +81,7 @@ RSpec.feature 'bulk upload provider users' do
     click_link_or_button 'Add multiple users'
   end
 
-  def then_i_should_see_the_add_multiple_user_form
+  def then_i_see_the_add_multiple_user_form
     expect(page).to have_content("Add users to #{@provider.name}")
   end
 
@@ -94,7 +94,7 @@ RSpec.feature 'bulk upload provider users' do
     fill_in 'support_interface_create_single_provider_user_form[first_name]', with: nil
   end
 
-  def then_i_should_see_a_first_name_blank_validation_error
+  def then_i_see_a_first_name_blank_validation_error
     expect(page).to have_content('Enter a first name')
   end
 
@@ -106,11 +106,11 @@ RSpec.feature 'bulk upload provider users' do
     and_i_click_continue
   end
 
-  def then_i_should_see_a_user_details_form_validation_error
+  def then_i_see_a_user_details_form_validation_error
     expect(page).to have_content("Enter the users' details")
   end
 
-  def then_i_should_see_the_permissions_form_for_the_provider_user
+  def then_i_see_the_permissions_form_for_the_provider_user
     expect(page).to have_content('Add user (1 of 1)')
     expect(page).to have_content(@provider.name)
     expect(page).to have_field('support_interface_create_single_provider_user_form[last_name]', with: 'Smith')
@@ -138,7 +138,7 @@ RSpec.feature 'bulk upload provider users' do
     click_link_or_button 'Back'
   end
 
-  def then_i_should_see_the_provider_user_review_page
+  def then_i_see_the_provider_user_review_page
     expect(page).to have_content("#{@provder_name} Check details and add users")
     expect(page).to have_content('first_name_one')
     expect(page).to have_content('first_name_two')

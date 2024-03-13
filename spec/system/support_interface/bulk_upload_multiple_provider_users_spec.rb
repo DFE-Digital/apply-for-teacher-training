@@ -12,40 +12,40 @@ RSpec.feature 'bulk upload provider users' do
     when_i_visit_the_providers_page
     and_i_click_on_users
     and_i_click_add_multiple_users
-    then_i_should_see_the_add_multiple_user_form
+    then_i_see_the_add_multiple_user_form
 
     when_i_click_continue
-    then_i_should_see_a_form_validation_error
+    then_i_see_a_form_validation_error
 
     when_i_enter_the_users_details
     and_i_click_continue
-    then_i_should_see_the_permissions_form_for_the_first_user
+    then_i_see_the_permissions_form_for_the_first_user
 
     when_i_click_back
-    then_i_should_see_the_add_multiple_user_form
+    then_i_see_the_add_multiple_user_form
 
     when_i_click_continue
     and_i_edit_the_email_address_for_the_first_user
     and_i_add_permissions_for_the_first_user
     and_i_click_continue
-    then_i_should_see_the_permissions_form_for_the_second_user
+    then_i_see_the_permissions_form_for_the_second_user
 
     when_i_click_back
-    then_i_should_see_the_permissions_form_for_the_first_user
+    then_i_see_the_permissions_form_for_the_first_user
 
     when_i_click_continue
     and_i_add_permissions_for_the_second_user
     and_i_click_continue
-    then_i_should_see_the_provider_user_review_page
+    then_i_see_the_provider_user_review_page
 
     when_i_click_back
-    then_i_should_see_the_permissions_form_for_the_second_user
+    then_i_see_the_permissions_form_for_the_second_user
 
     when_i_click_continue
     then_i_can_see_the_check_users_page
 
     when_i_click_change_within_the_second_user_summary
-    then_i_should_see_the_edit_permissions_form_for_the_second_user
+    then_i_see_the_edit_permissions_form_for_the_second_user
     and_the_permissions_i_selected_are_checked
 
     when_i_click_back
@@ -87,7 +87,7 @@ RSpec.feature 'bulk upload provider users' do
     click_link_or_button 'Add multiple users'
   end
 
-  def then_i_should_see_the_add_multiple_user_form
+  def then_i_see_the_add_multiple_user_form
     expect(page).to have_content("Add users to #{@provider.name}")
   end
 
@@ -104,11 +104,11 @@ RSpec.feature 'bulk upload provider users' do
     and_i_click_continue
   end
 
-  def then_i_should_see_a_form_validation_error
+  def then_i_see_a_form_validation_error
     expect(page).to have_content("Enter the users' details")
   end
 
-  def then_i_should_see_the_permissions_form_for_the_first_user
+  def then_i_see_the_permissions_form_for_the_first_user
     expect(page).to have_content('Add user (1 of 2)')
     expect(page).to have_content(@provider.name)
     expect(page).to have_field('support_interface_create_single_provider_user_form[first_name]', with: 'first_name_one')
@@ -123,13 +123,13 @@ RSpec.feature 'bulk upload provider users' do
     check 'Access diversity information'
   end
 
-  def then_i_should_see_the_permissions_form_for_the_second_user
+  def then_i_see_the_permissions_form_for_the_second_user
     expect(page).to have_content('Add user (2 of 2)')
     expect(page).to have_content(@provider.name)
     expect(page).to have_field('support_interface_create_single_provider_user_form[last_name]', with: 'last_name_two')
   end
 
-  def then_i_should_see_the_edit_permissions_form_for_the_second_user
+  def then_i_see_the_edit_permissions_form_for_the_second_user
     expect(page).to have_content('Add user (2 of 2)')
     expect(page).to have_content(@provider.name)
     expect(page).to have_field('support_interface_create_single_provider_user_form[last_name]', with: 'last_name_two')
@@ -156,7 +156,7 @@ RSpec.feature 'bulk upload provider users' do
     click_link_or_button 'Back'
   end
 
-  def then_i_should_see_the_provider_user_review_page
+  def then_i_see_the_provider_user_review_page
     expect(page).to have_content("#{@provder_name} Check details and add users")
     expect(page).to have_content('first_name_one')
     expect(page).to have_content('first_name_two')

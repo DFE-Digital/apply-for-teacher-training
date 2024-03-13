@@ -13,10 +13,10 @@ RSpec.feature 'Provider onboarding monitoring page' do
 
     and_i_visit_the_provider_onboarding_page
 
-    then_i_should_see_the_provider_with_no_users
-    and_i_should_see_the_provider_with_users_that_have_never_signed_in
-    and_i_should_see_the_provider_who_has_not_set_up_relationship_permissions
-    and_i_should_see_the_provider_who_has_not_made_a_decision_in_the_last_7_days
+    then_i_see_the_provider_with_no_users
+    and_i_see_the_provider_with_users_that_have_never_signed_in
+    and_i_see_the_provider_who_has_not_set_up_relationship_permissions
+    and_i_see_the_provider_who_has_not_made_a_decision_in_the_last_7_days
   end
 
   def given_i_am_a_support_user
@@ -54,25 +54,25 @@ RSpec.feature 'Provider onboarding monitoring page' do
     create(:application_choice, :rejected_by_default, course:, rejected_at: 1.day.ago)
   end
 
-  def then_i_should_see_the_provider_with_no_users
+  def then_i_see_the_provider_with_no_users
     within('[data-qa="no-users"]') do
       expect(page).to have_link 'No users'
     end
   end
 
-  def and_i_should_see_the_provider_with_users_that_have_never_signed_in
+  def and_i_see_the_provider_with_users_that_have_never_signed_in
     within('[data-qa="no-users-logged-in"]') do
       expect(page).to have_link 'Users have not signed in'
     end
   end
 
-  def and_i_should_see_the_provider_who_has_not_set_up_relationship_permissions
+  def and_i_see_the_provider_who_has_not_set_up_relationship_permissions
     within('[data-qa="permissions-not-set-up"]') do
       expect(page).to have_content 'Relationships not set up'
     end
   end
 
-  def and_i_should_see_the_provider_who_has_not_made_a_decision_in_the_last_7_days
+  def and_i_see_the_provider_who_has_not_made_a_decision_in_the_last_7_days
     within('[data-qa="no-decisions"]') do
       expect(page).to have_content 'No decisions made'
     end
