@@ -26,6 +26,13 @@
     }
   }
 
+  &__provider_id .govuk-body-s {
+    margin-bottom: 0;
+    margin-left: govuk-spacing(1);
+
+    color: $govuk-secondary-text-colour;
+  }
+
   &__choice_id {
     color: govuk-color("mid-grey");
   }

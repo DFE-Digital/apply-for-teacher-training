@@ -1,12 +1,12 @@
 <%= render ServiceInformationBanner.new(namespace: :candidate) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+    <h1 class="govuk-heading-xl">
       <%= t('page_titles.continuous_applications.your_applications') %>
     </h1>
 
     <% if CycleTimetable.today_is_between_apply_1_deadline_and_find_reopens? %>
-      <p class="govuk-body govuk-!-margin-top-6">Applications for courses starting in September <%= RecruitmentCycle.current_year %> are closed.</p>
+      <p class="govuk-body">Applications for courses starting in September <%= RecruitmentCycle.current_year %> are closed.</p>
       <p class="govuk-body"> From <%= CycleTimetable.find_reopens.to_fs(:govuk_time_and_date) %>, you can <%= govuk_link_to(
         'find postgraduate teacher training courses',
         t('find_postgraduate_teacher_training.production_url'),
@@ -63,6 +63,6 @@
     <% end %>
 
     <%= render CandidateInterface::ContinuousApplications::ApplicationChoiceListComponent.new(application_form: current_application, application_choices: @application_choices, current_tab_name: params[:current_tab_name]) %>
-    <% end %>
+  <% end %>
   </div>
 </div>
