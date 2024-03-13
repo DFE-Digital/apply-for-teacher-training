@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
-  it 'returns unsubmitted applications that are complete except for having no references' do
+  it 'omits unsubmitted application that are complete, with no references, but no application choices' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
@@ -11,16 +11,30 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       updated_at: 10.days.ago,
     )
 
-    expect(described_class.new.call).to include(application_form)
+    expect(described_class.new.call).to eq([])
   end
 
-  it 'returns unsubmitted applications that are complete except for having only one requested references' do
+  it 'omits unsubmitted application that are complete, with no references, but greater than 4 application choices' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
-      references_count: 1,
-      references_state: :feedback_requested,
+      references_count: 0,
     )
+    create_list(:application_choice, 5, application_form:)
+    application_form.update_columns(
+      updated_at: 10.days.ago,
+    )
+
+    expect(described_class.new.call).to eq([])
+  end
+
+  it 'returns unsubmitted applications that are complete with 1-4 application choices except for having no references' do
+    application_form = create(
+      :completed_application_form,
+      submitted_at: nil,
+      references_count: 0,
+    )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -28,13 +42,29 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to include(application_form)
   end
 
-  it 'returns unsubmitted applications that are complete except for having only one provided references' do
+  it 'returns unsubmitted applications that are complete with 1-4 application choices except for having only one requested references' do
+    application_form = create(
+      :completed_application_form,
+      submitted_at: nil,
+      references_count: 1,
+      references_state: :feedback_requested,
+    )
+    create(:application_choice, application_form:)
+    application_form.update_columns(
+      updated_at: 10.days.ago,
+    )
+
+    expect(described_class.new.call).to include(application_form)
+  end
+
+  it 'returns unsubmitted applications that are complete with 1-4 application choices except for having only one provided references' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
       references_count: 1,
       references_state: :feedback_provided,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -42,13 +72,14 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to include(application_form)
   end
 
-  it 'omits unsubmitted applications that have 2 requested references' do
+  it 'omits unsubmitted applications with 1-4 application choices that have 2 requested references' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
       references_count: 2,
       references_state: :feedback_requested,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -62,6 +93,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       submitted_at: 10.days.ago,
       references_count: 0,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(updated_at: 10.days.ago)
 
     expect(described_class.new.call).to eq([])
@@ -81,12 +113,13 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to eq([])
   end
 
-  it 'omits applications that have been edited in the past week' do
+  it 'omits applications with 1-4 application choices that have been edited in the past week' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
       references_count: 0,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 5.days.ago,
     )
@@ -94,7 +127,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to eq([])
   end
 
-  it 'includes uk applications that have not completed EFL section' do
+  it 'includes uk applications with 1-4 application choices that have not completed EFL section' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
@@ -102,6 +135,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       efl_completed: false,
       references_count: 0,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -109,7 +143,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to include(application_form)
   end
 
-  it 'omits international applications that have not completed EFL section' do
+  it 'omits international applications with 1-4 application choices that have not completed EFL section' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
@@ -117,6 +151,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       efl_completed: false,
       references_count: 0,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -124,7 +159,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to eq([])
   end
 
-  it 'omits primary course applications that have not completed GCSE Science section' do
+  it 'omits primary course applications with 1-4 application choices that have not completed GCSE Science section' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
@@ -148,7 +183,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to eq([])
   end
 
-  it 'includes primary course applications that have completed GCSE Science section' do
+  it 'includes primary course applications with 1-4 application choices that have completed GCSE Science section' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
@@ -172,13 +207,14 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to include(application_form)
   end
 
-  it 'omits applications that were started in a previous cycle' do
+  it 'omits applications with 1-4 application choices that were started in a previous cycle' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
       recruitment_cycle_year: RecruitmentCycle.previous_year,
       references_count: 0,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -192,6 +228,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       submitted_at: nil,
       references_count: 0,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(updated_at: 10.days.ago)
     create(
       :email,
@@ -210,6 +247,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       recruitment_cycle_year: RecruitmentCycle.previous_year,
       references_count: 0,
     )
+    create(:application_choice, application_form: application_form1)
     application_form1.update_columns(
       updated_at: 10.days.ago,
     )
@@ -219,6 +257,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       recruitment_cycle_year: RecruitmentCycle.current_year,
       references_count: 0,
     )
+    create(:application_choice, application_form: application_form2)
     application_form2.update_columns(
       updated_at: 10.days.ago,
     )

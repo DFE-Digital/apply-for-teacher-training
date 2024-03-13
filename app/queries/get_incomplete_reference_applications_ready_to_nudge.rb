@@ -37,7 +37,10 @@ class GetIncompleteReferenceApplicationsReadyToNudge
     .joins(
       "LEFT OUTER JOIN \"references\" ON \"references\".application_form_id = application_forms.id AND \"references\".feedback_status IN ('feedback_requested', 'feedback_provided')",
     )
+    .joins(
+      "LEFT OUTER JOIN \"application_choices\" ON \"application_choices\".application_form_id = application_forms.id AND \"application_choices\".status = 'unsubmitted'",
+    )
     .group('application_forms.id')
-    .having('count("references".id) < 2')
+    .having('count("references".id) < 2 AND count("application_choices".id) between 1 AND 4')
   end
 end
