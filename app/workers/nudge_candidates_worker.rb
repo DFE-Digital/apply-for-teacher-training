@@ -39,8 +39,13 @@ class NudgeCandidatesWorker
   # This method can be run manually via a Rails console to perform a dry-run to
   # see who will be sent a nudge email without actually sending anything.
   def dry_run(nudge)
-    nudge.query_class.new.call.find_each do |application_form|
-      puts "Sending email for application form #{Rails.application.routes.url_helpers.support_interface_application_form_url(application_form.id)}"
+    Rails.logger.debug { "Dry run for #{nudge.mailer_action}" }
+    if nudge.feature_flag.nil? || FeatureFlag.active?(nudge.feature_flag)
+      nudge.query_class.new.call.find_each do |application_form|
+        Rails.logger.debug { "Sending email for application form #{Rails.application.routes.url_helpers.support_interface_application_form_url(application_form.id)}" }
+      end
+    else
+      Rails.logger.debug { "#{nudge.mailer_action} is behind a feature flag and no emails will be sent" }
     end
   end
 
