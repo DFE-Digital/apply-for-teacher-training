@@ -180,7 +180,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
 
     context 'for any other year' do
       let(:course_option) do
-        course = create(:course, :open_on_apply, recruitment_cycle_year: RecruitmentCycle.previous_year - 1)
+        course = create(:course, :open, recruitment_cycle_year: RecruitmentCycle.previous_year - 1)
         create(:course_option, course:)
       end
 

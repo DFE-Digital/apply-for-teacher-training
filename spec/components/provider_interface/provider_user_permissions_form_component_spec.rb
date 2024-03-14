@@ -54,7 +54,7 @@ RSpec.describe ProviderInterface::ProviderUserPermissionsFormComponent do
   context 'when the provider has partner organisations' do
     before do
       relationship = create(:provider_relationship_permissions, training_provider: provider)
-      create(:course, :open_on_apply, provider:, accredited_provider: relationship.ratifying_provider)
+      create(:course, :open, provider:, accredited_provider: relationship.ratifying_provider)
 
       allow(ProviderInterface::ProviderPartnerPermissionBreakdownComponent).to receive(:new).with(provider:, permission: anything).and_call_original
     end

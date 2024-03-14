@@ -34,7 +34,7 @@ RSpec.feature 'Organisation settings' do
   end
 
   def and_its_relationship_permissions_have_already_been_set_up
-    course = create(:course, :open_on_apply, :with_accredited_provider, provider: @first_provider)
+    course = create(:course, :open, :with_accredited_provider, provider: @first_provider)
     create(
       :provider_relationship_permissions,
       training_provider: @first_provider,
