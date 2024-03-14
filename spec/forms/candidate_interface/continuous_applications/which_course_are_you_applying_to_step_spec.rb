@@ -9,12 +9,12 @@ RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouAppl
     create(
       :course,
       :with_both_study_modes,
-      :open_on_apply,
+      :open,
       provider:,
       name: 'Software Engineering',
     )
   end
-  let(:course_option) { create(:course_option, :open_on_apply, :full_time, course:) }
+  let(:course_option) { create(:course_option, :open, :full_time, course:) }
   let(:current_application) { create(:application_form, :completed, candidate:, submitted_at: nil) }
   let(:application_choice) { nil }
   let(:edit) { false }
@@ -113,7 +113,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouAppl
       create(
         :course,
         :with_both_study_modes,
-        :open_on_apply,
+        :open,
         provider:,
         name: 'Software Engineering',
       )
