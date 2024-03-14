@@ -34,8 +34,8 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def and_i_have_a_primary_and_secondary_application_choice
-    secondary = create(:course, :with_course_options, :open_on_apply, :secondary, funding_type: 'fee', can_sponsor_student_visa: true)
-    primary = create(:course, :with_course_options, :open_on_apply, :primary, funding_type: 'fee', can_sponsor_student_visa: true)
+    secondary = create(:course, :with_course_options, :open, :secondary, funding_type: 'fee', can_sponsor_student_visa: true)
+    primary = create(:course, :with_course_options, :open, :primary, funding_type: 'fee', can_sponsor_student_visa: true)
 
     secondary_course_option = create(:course_option, course: secondary)
     primary_course_option = create(:course_option, course: primary)

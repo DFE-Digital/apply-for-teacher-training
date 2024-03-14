@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :component do
   let(:application_form) { create(:application_form) }
 
-  let(:course_option1) { create(:course_option, course: create(:course, :open_on_apply, accept_pending_gcse: true)) }
-  let(:course_option2) { create(:course_option, course: create(:course, :open_on_apply, accept_pending_gcse: false)) }
+  let(:course_option1) { create(:course_option, course: create(:course, accept_pending_gcse: true)) }
+  let(:course_option2) { create(:course_option, course: create(:course, accept_pending_gcse: false)) }
 
   let(:application_choice1) do
     build_stubbed(

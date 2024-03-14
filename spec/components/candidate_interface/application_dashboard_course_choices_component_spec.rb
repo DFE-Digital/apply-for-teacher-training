@@ -23,7 +23,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
 
     before do
       provider = application_form.application_choices.first.provider
-      create(:course, :open_on_apply, provider:, study_mode: :full_time)
+      create(:course, provider:, study_mode: :full_time)
     end
 
     it 'renders without the course choice change link' do

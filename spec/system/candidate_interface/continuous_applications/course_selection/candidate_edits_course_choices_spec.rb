@@ -78,13 +78,13 @@ RSpec.feature 'Candidate edits course choices' do
 
   def and_there_is_a_course_with_one_course_option
     @provider = create(:provider)
-    create(:course, :open_on_apply, name: 'English', provider: @provider, study_mode: :full_time)
+    create(:course, :open, name: 'English', provider: @provider, study_mode: :full_time)
 
     course_option_for_provider(provider: @provider, course: @provider.courses.first)
   end
 
   def and_there_is_a_course_with_multiple_course_options
-    create(:course, :open_on_apply, :with_both_study_modes, name: 'Maths', provider: @provider)
+    create(:course, :open, :with_both_study_modes, name: 'Maths', provider: @provider)
 
     # Sites with full time study mode
     course_option_for_provider(provider: @provider, course: @provider.courses.second, study_mode: 'full_time')
@@ -96,7 +96,7 @@ RSpec.feature 'Candidate edits course choices' do
   end
 
   def and_there_is_a_course_with_both_full_time_and_part_time_but_one_site
-    create(:course, :open_on_apply, :with_both_study_modes, name: 'Entomology', provider: @provider)
+    create(:course, :open, :with_both_study_modes, name: 'Entomology', provider: @provider)
 
     site = create(:site, provider: @provider)
 
@@ -245,15 +245,6 @@ RSpec.feature 'Candidate edits course choices' do
     expect(page).to have_content("Full time or part time\nPart time")
   end
 
-  def when_i_click_to_change_the_course_of_my_third_choice
-    click_change_link "course for #{@provider.courses.third.name_and_code}"
-  end
-
-  def and_i_select_the_course_associated_with_my_second_choice
-    choose @provider.courses.second.name_and_code
-    click_link_or_button t('continue')
-  end
-
   def when_i_click_to_continue_my_second_course_choice
     @application_choice = current_candidate.current_application.application_choices.second
     and_i_click_to_continue_my_application
@@ -262,10 +253,6 @@ RSpec.feature 'Candidate edits course choices' do
   def and_i_click_to_continue_my_third_course_choice
     @application_choice = current_candidate.current_application.application_choices.third
     and_i_click_to_continue_my_application
-  end
-
-  def then_i_am_told_that_i_have_already_added_that_course
-    expect(page).to have_content t('errors.application_choices.already_added', course_name_and_code: @provider.courses.second.name_and_code)
   end
 
   def then_i_am_on_the_application_choice_review_page

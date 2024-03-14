@@ -53,7 +53,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
   end
 
   def and_the_course_i_selected_only_has_one_site
-    @course = create(:course, :open_on_apply, name: 'Potions')
+    @course = create(:course, :open, name: 'Potions')
     @site = create(:site, provider: @course.provider)
     create(:course_option, site: @site, course: @course)
   end
@@ -149,7 +149,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
   def given_the_course_i_selected_has_multiple_sites
     @course_with_multiple_sites = create(
       :course,
-      :open_on_apply,
+      :open,
       :with_both_study_modes,
       name: 'Herbology',
     )

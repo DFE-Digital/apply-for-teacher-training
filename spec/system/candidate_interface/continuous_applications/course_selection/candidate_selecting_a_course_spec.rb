@@ -64,7 +64,7 @@ RSpec.feature 'Selecting a course' do
       address_line4: 'MORLEY, lEEDS',
       postcode: 'LS27 0LZ',
     )
-    @course = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
+    @course = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
     create(:course_option, site:, course: @course)
   end
 

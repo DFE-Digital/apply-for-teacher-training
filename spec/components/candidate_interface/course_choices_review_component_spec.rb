@@ -24,7 +24,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, :mid_cycle, typ
 
       before do
         provider = application_form.application_choices.first.provider
-        build(:course, :open_on_apply, provider:, study_mode: :full_time)
+        build(:course, provider:, study_mode: :full_time)
       end
 
       it 'renders without the course choice change link' do
