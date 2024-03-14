@@ -11,16 +11,16 @@ RSpec.feature 'Candidate submits the application' do
     and_i_have_incomplete_sections_on_my_personal_statement
     and_i_have_a_primary_and_secondary_application_choice
     when_i_go_to_secondary_review_page
-    then_i_should_be_seeing_an_error_message
+    then_i_see_an_error_message
   end
 
   scenario 'Candidate with primary application missing one section which is not science GCSE' do
     and_i_have_incomplete_sections_which_is_not_science_gcse
     and_i_have_a_primary_and_secondary_application_choice
     when_i_go_to_primary_review_page
-    then_i_should_be_seeing_an_error_message
+    then_i_see_an_error_message
     when_i_go_to_secondary_review_page
-    then_i_should_be_seeing_an_error_message
+    then_i_see_an_error_message
   end
 
   def and_i_have_incomplete_sections_on_my_personal_statement
@@ -52,7 +52,7 @@ RSpec.feature 'Candidate submits the application' do
     visit candidate_interface_continuous_applications_course_review_path(@primary_application_choice)
   end
 
-  def then_i_should_be_seeing_an_error_message
+  def then_i_see_an_error_message
     expect(page).to have_content('You cannot submit this application until you complete your details.')
   end
 end

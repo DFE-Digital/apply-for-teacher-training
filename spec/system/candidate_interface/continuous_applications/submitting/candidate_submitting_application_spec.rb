@@ -19,7 +19,7 @@ RSpec.feature 'Candidate submits the application' do
     then_i_see_a_interruption_page_for_personal_statement
 
     when_i_continue_without_editing
-    then_i_should_be_on_the_review_and_submit_page
+    then_i_am_on_the_review_and_submit_page
     when_i_go_back
 
     when_i_click_to_review_my_application
@@ -57,10 +57,10 @@ RSpec.feature 'Candidate submits the application' do
     when_i_have_not_completed_science_gcse
     and_i_continue_with_my_application
 
-    then_i_should_see_an_error_message_that_i_should_complete_the_science_gcse
+    then_i_see_an_error_message_that_i_must_complete_the_science_gcse
 
     when_i_click_on_the_error_message
-    then_i_should_be_on_science_gcse_section
+    then_i_am_on_science_gcse_section
   end
 
   scenario 'Candidate with a primary application missing the science GCSE and missing other sections' do
@@ -70,10 +70,10 @@ RSpec.feature 'Candidate submits the application' do
     when_i_have_not_completed_science_gcse
     and_i_continue_with_my_application
 
-    then_i_should_see_an_error_message_that_i_should_complete_the_science_gcse
+    then_i_see_an_error_message_that_i_must_complete_the_science_gcse
 
     when_i_click_on_the_error_message
-    then_i_should_be_on_your_details_page
+    then_i_am_on_your_details_page
   end
 
   def when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice
@@ -129,12 +129,12 @@ RSpec.feature 'Candidate submits the application' do
     expect(page).to have_content 'Primary (2XT2)'
   end
 
-  def then_i_should_see_an_error_message_that_i_should_choose_an_option
+  def then_i_see_an_error_message_that_i_must_choose_an_option
     expect(page).to have_content 'There is a problem'
     expect(page).to have_content 'Select if you want to submit your application or save it as a draft'
   end
 
-  def then_i_should_see_an_error_message_that_i_should_complete_the_science_gcse
+  def then_i_see_an_error_message_that_i_must_complete_the_science_gcse
     expect(page).to have_content 'To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent.'
     expect(page).to have_content 'Your application will be saved as a draft while you finish adding your details.'
   end
@@ -215,7 +215,7 @@ RSpec.feature 'Candidate submits the application' do
     click_link_or_button 'Add your science GCSE grade (or equivalent)'
   end
 
-  def then_i_should_be_on_science_gcse_section
+  def then_i_am_on_science_gcse_section
     expect(page).to have_current_path(candidate_interface_gcse_details_new_type_path(subject: 'science'))
   end
 end

@@ -20,7 +20,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course params' do
     then_i_am_redirected_to_the_course_confirm_selection_page
 
     when_i_confirm_the_course
-    then_i_should_be_redirected_to_the_course_review_path
+    then_i_am_redirected_to_the_course_review_path
   end
 
   def given_there_is_a_provider_with_a_course_that_is_only_accepting_applications_on_apply
@@ -68,7 +68,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course params' do
     click_link_or_button 'Continue'
   end
 
-  def then_i_should_be_redirected_to_the_course_review_path
+  def then_i_am_redirected_to_the_course_review_path
     expect(page).to have_current_path(
       candidate_interface_continuous_applications_course_review_path(application_choice_id: application_choice.id),
     )

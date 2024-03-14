@@ -15,10 +15,10 @@ RSpec.feature 'Candidate arrives from Find with provider and course params' do
     then_i_am_redirected_to_the_course_confirm_selection_page
 
     when_i_dont_answer
-    then_i_should_see_an_error_message
+    then_i_see_an_error_message
 
     when_i_say_no
-    then_i_should_be_redirected_to_your_applications_tab
+    then_i_am_redirected_to_your_applications_tab
   end
 
   def given_there_is_a_provider_with_a_course_that_is_only_accepting_applications_on_apply
@@ -55,7 +55,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course params' do
     click_link_or_button 'Continue'
   end
 
-  def then_i_should_see_an_error_message
+  def then_i_see_an_error_message
     expect(page).to have_content(
       I18n.t('activemodel.errors.models.find_course_selection.attributes.confirm.blank'),
     )
@@ -66,7 +66,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course params' do
     click_link_or_button 'Continue'
   end
 
-  def then_i_should_be_redirected_to_your_applications_tab
+  def then_i_am_redirected_to_your_applications_tab
     expect(page).to have_current_path(
       candidate_interface_continuous_applications_choices_path,
     )

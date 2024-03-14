@@ -10,7 +10,7 @@ RSpec.feature 'A candidate with an accepted offer arriving from Find' do
     and_i_have_an_accepted_offer
     and_the_course_i_selected_only_has_one_site
     when_i_arrive_at_the_apply_from_find
-    then_i_should_be_on_the_post_offer_dashboard
+    then_i_am_on_the_post_offer_dashboard
   end
 
   def given_i_am_signed_out

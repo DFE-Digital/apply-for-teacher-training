@@ -15,16 +15,16 @@ RSpec.feature 'Candidate arrives from Find with provider and course with multipl
     then_i_am_redirected_to_the_course_confirm_selection_page
 
     when_i_confirm_the_course
-    then_i_should_be_redirect_to_the_course_study_mode_path
+    then_i_am_redirect_to_the_course_study_mode_path
 
-    then_i_should_see_the_provider_name_in_caption
+    then_i_see_the_provider_name_in_caption
     when_i_choose_the_study_mode
-    then_i_should_be_redirected_to_the_course_site_path
+    then_i_am_redirected_to_the_course_site_path
 
-    then_i_should_see_the_provider_name_in_caption
+    then_i_see_the_provider_name_in_caption
 
     when_i_choose_a_location
-    then_i_should_be_redirected_to_the_course_review_path
+    then_i_am_redirected_to_the_course_review_path
   end
 
   def given_there_is_a_provider_with_a_course_that_is_only_accepting_applications_on_apply
@@ -91,7 +91,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course with multipl
     click_link_or_button 'Continue'
   end
 
-  def then_i_should_be_redirected_to_the_course_site_path
+  def then_i_am_redirected_to_the_course_site_path
     expect(page).to have_current_path(
       candidate_interface_continuous_applications_course_site_path(
         @provider.id,
@@ -111,20 +111,20 @@ RSpec.feature 'Candidate arrives from Find with provider and course with multipl
     click_link_or_button t('continue')
   end
 
-  def then_i_should_be_redirect_to_the_course_study_mode_path
+  def then_i_am_redirect_to_the_course_study_mode_path
     expect(page).to have_text 'Full time or part time?'
     expect(page).to have_current_path(
       candidate_interface_continuous_applications_course_study_mode_path(@provider.id, @course.id),
     )
   end
 
-  def then_i_should_be_redirected_to_the_course_review_path
+  def then_i_am_redirected_to_the_course_review_path
     expect(page).to have_current_path(
       candidate_interface_continuous_applications_course_review_path(application_choice_id: application_choice.id),
     )
   end
 
-  def then_i_should_see_the_provider_name_in_caption
+  def then_i_see_the_provider_name_in_caption
     expect(page.first('.govuk-caption-xl').text).to eq('Vim masters')
   end
 end
