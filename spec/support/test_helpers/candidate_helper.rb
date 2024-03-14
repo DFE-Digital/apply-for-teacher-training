@@ -761,6 +761,7 @@ module CandidateHelper
       candidate_interface_continuous_applications_course_review_path(application_choice_id: application_choice.id),
     )
   end
+  alias then_i_am_on_the_application_choice_review_page then_i_should_be_on_the_application_choice_review_page
 
   def then_i_can_add_course_choices
     expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
@@ -782,10 +783,12 @@ module CandidateHelper
   def then_i_should_be_on_your_details_page
     expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
   end
+  alias then_i_am_on_your_details_page then_i_should_be_on_your_details_page
 
   def then_i_should_be_on_the_post_offer_dashboard
     expect(page).to have_current_path(candidate_interface_application_offer_dashboard_path)
   end
+  alias then_i_am_on_the_post_offer_dashboard then_i_should_be_on_the_post_offer_dashboard
 
   def and_i_have_one_application_in_draft
     @application_form = create(:application_form, :completed, candidate: @current_candidate)
@@ -834,11 +837,13 @@ module CandidateHelper
       candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice.id),
     )
   end
+  alias then_i_am_on_the_review_and_submit_page then_i_should_be_on_the_review_and_submit_page
 
   def then_i_should_see_that_the_course_is_full
     expect(page).to have_content('You cannot submit this application as the course is no longer available.')
     expect(page).to have_content('Remove this application and search for other courses.')
   end
+  alias then_i_see_that_the_course_is_full then_i_should_see_that_the_course_is_full
 
   def and_i_click_continue
     click_link_or_button t('continue')
