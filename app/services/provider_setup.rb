@@ -28,7 +28,7 @@ class ProviderSetup
 
   def relationships_pending
     manageable_relationships.select do |relationship|
-      (relationship.setup_at.blank? || relationship.invalid?) && relationship.providers_have_open_course?
+      (relationship.setup_at.blank? || relationship.invalid?) && relationship.providers_have_current_cycle_course?
     end
   end
 

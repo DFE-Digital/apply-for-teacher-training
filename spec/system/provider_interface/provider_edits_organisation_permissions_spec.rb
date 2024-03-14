@@ -38,7 +38,7 @@ RSpec.feature 'Provider edits organisation permissions' do
       training_provider: @training_provider,
       ratifying_provider: @ratifying_provider,
     )
-    create(:course, :open_on_apply, provider: @training_provider, accredited_provider: @ratifying_provider)
+    create(:course, :open, provider: @training_provider, accredited_provider: @ratifying_provider)
 
     @training_provider_users = create_list(:provider_user, 2, providers: [@training_provider])
     @training_provider_users.each { |user| user.provider_permissions.where(provider: @training_provider).update_all(manage_organisations: true) }
