@@ -18,6 +18,12 @@ RSpec.describe 'Sync from Teacher Training API' do
 
     when_sync_provider_is_called
     then_the_part_time_course_option_is_set_to_no_vacancies
+    and_the_full_time_course_option_is_set_to_have_vacancies
+
+    given_the_course_becomes_part_time
+    when_sync_provider_is_called
+    then_the_full_time_course_option_is_set_to_no_vacancies
+    and_then_part_time_course_option_is_set_to_have_vacancies
   end
 
   def given_there_is_a_full_time_course_on_the_teacher_training_api
@@ -70,10 +76,31 @@ RSpec.describe 'Sync from Teacher Training API' do
                                                vacancy_status: 'full_time_vacancies')
   end
 
+  def given_the_course_becomes_part_time
+    stub_teacher_training_api_course_with_site(provider_code: 'ABC',
+                                               course_code: 'ABC1',
+                                               course_attributes: [{ accredited_body_code: nil, study_mode: 'part_time' }],
+                                               site_code: 'A',
+                                               vacancy_status: 'part_time_vacancies')
+  end
+
   def then_the_part_time_course_option_is_set_to_no_vacancies
     expect(@course.course_options.count).to eq 2
-    expect(@course.course_options.last.study_mode).to eq 'part_time'
-    # All new courses are being set to having vacancies due to Find changes
-    expect(@course.course_options.last.vacancy_status).to eq 'vacancies'
+    expect(@course.course_options.part_time.last.no_vacancies?).to be true
+  end
+
+  def and_the_full_time_course_option_is_set_to_have_vacancies
+    expect(@course.course_options.count).to eq 2
+    expect(@course.course_options.full_time.last.vacancies?).to be true
+  end
+
+  def then_the_full_time_course_option_is_set_to_no_vacancies
+    expect(@course.course_options.count).to eq 2
+    expect(@course.course_options.full_time.last.no_vacancies?).to be true
+  end
+
+  def and_then_part_time_course_option_is_set_to_have_vacancies
+    expect(@course.course_options.count).to eq 2
+    expect(@course.course_options.part_time.last.vacancies?).to be true
   end
 end
