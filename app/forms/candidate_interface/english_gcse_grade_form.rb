@@ -26,6 +26,8 @@ module CandidateInterface
                   :award_year
 
     validates :grade, presence: true, on: :grade
+    validates :grade, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_GRADE_LENGTH }
+    validates :other_grade, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_GRADE_LENGTH }
     validates :other_grade, presence: true, if: :grade_is_other?
     validate :validate_grade_format, on: :grade, unless: :multiple_gcse? || :new_record?
     validate :validate_grades_format, on: :constituent_grades, if: :multiple_gcse?, unless: :new_record?

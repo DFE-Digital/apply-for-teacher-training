@@ -2,12 +2,15 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
   describe 'validations' do
+    it { is_expected.to validate_length_of(:grade).is_at_most(256) }
+
     context 'when grade is "other"' do
       let(:form) { subject }
 
       before { allow(form).to receive(:grade_is_other?).and_return(true) }
 
       it { is_expected.to validate_presence_of(:other_grade) }
+      it { is_expected.to validate_length_of(:other_grade).is_at_most(256) }
     end
 
     context 'when qualification type is GCSE' do
