@@ -190,20 +190,6 @@ class ApplicationQualification < ApplicationRecord
       REQUIRED_GCSE_SUBJECTS.include?(subject)
   end
 
-  # We are doing almost a similar as set public id but forcing generation
-  # of new ids for constituent_grades.
-  # This should be deleted after the incident
-  #
-  def update_constituent_grades_public_ids
-    if constituent_grades.present? && subject != SCIENCE_TRIPLE_AWARD
-      grades_with_ids = constituent_grades.transform_values do |grade|
-        grade.merge({ public_id: next_available_public_id })
-      end
-
-      update(constituent_grades: grades_with_ids)
-    end
-  end
-
 private
 
   def set_public_id

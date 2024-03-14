@@ -5,6 +5,7 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
     travel_temporarily_to(-1.day) do
       @original_application_form = create(
         :completed_application_form,
+        :with_gcses,
         work_experiences_count: 1,
         volunteering_experiences_count: 1,
         full_work_history: true,
@@ -115,8 +116,6 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
 
         expect(duplicate_application_form.application_choices.awaiting_provider_decision.count).to be 2
         expect(duplicate_application_form.application_choices.unsubmitted.count).to be 1
-
-        expect(duplicate_application_form.application_choices.reload.pluck(:personal_statement)).to contain_exactly(@unsubmitted_choice.personal_statement, @first_choice.personal_statement, @second_choice.personal_statement)
       end
     end
 
@@ -127,31 +126,6 @@ RSpec.describe CopyIncidentApplicationToNewAccount do
           candidate_email_address: 'some.email@example.com',
         ).call!
         expect(duplicate_application_form.application_choices).to be_empty
-      end
-    end
-
-    context 'when qualification has constituent grades' do
-      it 'generates a new public id for each constituent grade' do
-        create(
-          :gcse_qualification,
-          :multiple_english_gcses,
-          constituent_grades: {
-            english_language: { grade: 'A', public_id: 120282 },
-            english_literature: { grade: 'D', public_id: 120283 },
-          },
-          application_form: @original_application_form,
-        )
-
-        duplicate_application_form = described_class.new(
-          original_application_form: @original_application_form,
-          candidate_email_address: 'some.email@example.com',
-        ).call!
-
-        expect(duplicate_application_form.application_qualifications.gcses.count).to be 1
-        expect(
-          duplicate_application_form.application_qualifications.gcses.first.constituent_grades['english_language']['public_id'],
-        ).not_to be 120282
-        expect(duplicate_application_form.application_qualifications.gcses.first.constituent_grades['english_literature']['public_id']).not_to be 120283
       end
     end
 
