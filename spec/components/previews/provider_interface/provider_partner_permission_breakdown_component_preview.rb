@@ -15,7 +15,7 @@ module ProviderInterface
                           training_provider_can_make_decisions: false,
                           ratifying_provider: provider,
                           ratifying_provider_can_make_decisions: true)
-        FactoryBot.create(:course, :open_on_apply, provider: training_provider, accredited_provider: provider)
+        FactoryBot.create(:course, :open, provider: training_provider, accredited_provider: provider)
       end
 
       allowed_ratifying_providers.each do |training_provider|
@@ -24,7 +24,7 @@ module ProviderInterface
                           ratifying_provider_can_make_decisions: false,
                           training_provider: provider,
                           training_provider_can_make_decisions: true)
-        FactoryBot.create(:course, :open_on_apply, provider:, accredited_provider: training_provider)
+        FactoryBot.create(:course, :open, provider:, accredited_provider: training_provider)
       end
 
       prohibited_training_providers.each do |training_provider|
@@ -33,7 +33,7 @@ module ProviderInterface
                           training_provider:,
                           training_provider_can_make_decisions: true,
                           ratifying_provider_can_make_decisions: false)
-        FactoryBot.create(:course, :open_on_apply, provider: training_provider, accredited_provider: provider)
+        FactoryBot.create(:course, :open, provider: training_provider, accredited_provider: provider)
       end
 
       prohibited_ratifying_providers.each do |training_provider|
@@ -42,7 +42,7 @@ module ProviderInterface
                           training_provider: provider,
                           training_provider_can_make_decisions: false,
                           ratifying_provider_can_make_decisions: true)
-        FactoryBot.create(:course, :open_on_apply, provider:, accredited_provider: training_provider)
+        FactoryBot.create(:course, :open, provider:, accredited_provider: training_provider)
       end
 
       render ProviderPartnerPermissionBreakdownComponent.new(
@@ -62,7 +62,7 @@ module ProviderInterface
                           training_provider_can_make_decisions: false,
                           ratifying_provider: provider,
                           ratifying_provider_can_make_decisions: true)
-        FactoryBot.create(:course, :open_on_apply, provider: training_provider, accredited_provider: provider)
+        FactoryBot.create(:course, :open, provider: training_provider, accredited_provider: provider)
       end
 
       allowed_ratifying_providers.each do |training_provider|
@@ -71,7 +71,7 @@ module ProviderInterface
                           ratifying_provider_can_make_decisions: false,
                           training_provider: provider,
                           training_provider_can_make_decisions: true)
-        FactoryBot.create(:course, :open_on_apply, provider:, accredited_provider: training_provider)
+        FactoryBot.create(:course, :open, provider:, accredited_provider: training_provider)
       end
 
       render ProviderPartnerPermissionBreakdownComponent.new(
@@ -91,7 +91,7 @@ module ProviderInterface
                           training_provider:,
                           training_provider_can_make_decisions: true,
                           ratifying_provider_can_make_decisions: false)
-        FactoryBot.create(:course, :open_on_apply, provider: training_provider, accredited_provider: provider)
+        FactoryBot.create(:course, :open, provider: training_provider, accredited_provider: provider)
       end
 
       prohibited_ratifying_providers.each do |training_provider|
@@ -100,7 +100,7 @@ module ProviderInterface
                           training_provider: provider,
                           training_provider_can_make_decisions: false,
                           ratifying_provider_can_make_decisions: true)
-        FactoryBot.create(:course, :open_on_apply, provider:, accredited_provider: training_provider)
+        FactoryBot.create(:course, :open, provider:, accredited_provider: training_provider)
       end
 
       render ProviderPartnerPermissionBreakdownComponent.new(
