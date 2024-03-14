@@ -167,6 +167,33 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
       end
     end
 
+    context 'when course changes from both study modes to just part time' do
+      context 'and the course already has full time and part time course options' do
+        it 'deletes only full time course options' do
+          create(:course_option, course:, study_mode: :full_time)
+          create(:course_option, course:, study_mode: :part_time)
+          course.update(study_mode: :part_time)
+          expect { perform_job }.to change(CourseOption, :count).by(-1)
+          expect(course.course_options.full_time.any?).to eq false
+          expect(course.course_options.part_time.count).to eq 1
+        end
+      end
+    end
+
+    context 'when course changes from both study modes to just full time' do
+      context 'and the course already has full time and part time course options' do
+        it 'deletes only part time options' do
+          create(:course_option, course:, study_mode: :full_time)
+          create(:course_option, course:, study_mode: :part_time)
+          course.update(study_mode: :full_time)
+
+          expect { perform_job }.to change(CourseOption, :count).by(-1)
+          expect(course.course_options.part_time.any?).to eq false
+          expect(course.course_options.full_time.count).to eq 1
+        end
+      end
+    end
+
     context 'when course is closed' do
       it 'updates corresponding course options to no vacancies' do
         described_class.new.perform(

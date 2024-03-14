@@ -24,6 +24,7 @@ module TeacherTrainingPublicAPI
       sites.each do |site_from_api|
         site = sync_site(site_from_api)
         create_course_options_for_site(site, site_from_api.location_status)
+        remove_course_options_that_do_not_match_study_mode
       end
 
       handle_course_options_with_invalid_sites(sites)
@@ -51,6 +52,18 @@ module TeacherTrainingPublicAPI
     def create_course_options_for_site(site, site_status)
       study_modes(course).each do |study_mode|
         create_course_options(site, study_mode, site_status)
+      end
+    end
+
+    def remove_course_options_that_do_not_match_study_mode
+      # Remove part_time course options if the course is full_time
+      if course.full_time? && course.course_options.part_time.any?
+        course.course_options.part_time.destroy_all
+      end
+
+      # Remove full_time course options if the course is part_time
+      if course.part_time? && course.course_options.full_time.any?
+        course.course_options.full_time.destroy_all
       end
     end
 
