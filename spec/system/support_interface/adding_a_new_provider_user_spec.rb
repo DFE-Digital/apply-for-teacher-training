@@ -17,7 +17,7 @@ RSpec.feature 'Managing provider users v2' do
     when_i_click_on_a_provider
     and_i_click_on_users
     and_i_click_add_user
-    then_i_should_see_the_add_user_form
+    then_i_see_the_add_user_form
 
     when_i_submit_the_form
     then_i_see_blank_validation_errors
@@ -30,8 +30,8 @@ RSpec.feature 'Managing provider users v2' do
     and_i_check_permission_to_make_decisions
     and_i_check_permission_to_view_diversity_information
     and_i_submit_the_form
-    then_i_should_see_the_provider_user_has_been_successfully_added
-    and_the_user_should_be_sent_a_welcome_email
+    then_i_see_the_provider_user_has_been_successfully_added
+    and_the_user_is_sent_a_welcome_email
   end
 
   def given_dfe_signin_is_configured
@@ -44,9 +44,9 @@ RSpec.feature 'Managing provider users v2' do
 
   def and_providers_exist
     @provider = create(:provider, name: 'Example provider', code: 'ABC')
-    create(:course, :open_on_apply, provider: @provider)
+    create(:course, :open, provider: @provider)
     @provider2 = create(:provider, name: 'Another provider', code: 'DEF')
-    create(:course, :open_on_apply, provider: @provider2)
+    create(:course, :open, provider: @provider2)
     create(:provider, name: 'Not shown provider', code: 'GHI')
   end
 
@@ -129,11 +129,11 @@ RSpec.feature 'Managing provider users v2' do
     when_i_enter_the_users_email_and_name
   end
 
-  def then_i_should_see_the_add_user_form
+  def then_i_see_the_add_user_form
     expect(page).to have_content('Add user to Example provider')
   end
 
-  def then_i_should_see_the_provider_user_has_been_successfully_added
+  def then_i_see_the_provider_user_has_been_successfully_added
     expect(page).to have_content('User Harrison Bergeron added')
   end
 
@@ -145,7 +145,7 @@ RSpec.feature 'Managing provider users v2' do
     click_link_or_button 'Apply filters'
   end
 
-  def and_i_should_see_the_user_i_created
+  def and_i_see_the_user_i_created
     expect(page).to have_content('harrison@example.com')
   end
 
@@ -155,7 +155,7 @@ RSpec.feature 'Managing provider users v2' do
     click_link_or_button 'Apply filters'
   end
 
-  def and_the_user_should_be_sent_a_welcome_email
+  def and_the_user_is_sent_a_welcome_email
     open_email('harrison@example.com')
     expect(current_email.subject).to have_content t('provider_mailer.permissions_granted_by_support.subject', organisation: @provider.name)
   end

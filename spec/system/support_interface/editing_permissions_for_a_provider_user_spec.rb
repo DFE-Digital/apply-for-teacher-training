@@ -12,7 +12,7 @@ RSpec.feature 'Managing provider users v2' do
 
     when_i_visit_the_first_provider_page
     and_i_click_on_users
-    then_i_should_see_the_provider_user_listed
+    then_i_see_the_provider_user_listed
 
     when_i_click_update_permissions
     then_i_see_the_edit_permissions_form
@@ -22,7 +22,7 @@ RSpec.feature 'Managing provider users v2' do
     and_i_check_permission_to_access_diversity_information_for_the_second_provider
     and_i_click_save_permissions
     then_i_can_see_the_provider_user_page
-    then_i_should_see_the_provider_user_has_been_successfully_added
+    then_i_see_the_provider_user_has_been_successfully_added
     and_the_provider_user_has_manage_user_permissions_for_the_first_provider
     and_access_diversity_info_permissions_for_the_second_provider
   end
@@ -39,8 +39,8 @@ RSpec.feature 'Managing provider users v2' do
     @provider_one = create(:provider, name: 'Example provider one', code: 'ABC')
     @provider_two = create(:provider, name: 'Example provider two', code: 'DEF')
 
-    create(:course, :open_on_apply, provider: @provider_one)
-    create(:course, :open_on_apply, provider: @provider_two)
+    create(:course, :open, provider: @provider_one)
+    create(:course, :open, provider: @provider_two)
   end
 
   def and_a_provider_user_exists_for_both_provider
@@ -55,7 +55,7 @@ RSpec.feature 'Managing provider users v2' do
     click_link_or_button 'Users'
   end
 
-  def then_i_should_see_the_provider_user_listed
+  def then_i_see_the_provider_user_listed
     expect(page).to have_content("#{@provider_user.first_name} #{@provider_user.last_name}")
   end
 
@@ -104,7 +104,7 @@ RSpec.feature 'Managing provider users v2' do
     end
   end
 
-  def then_i_should_see_the_provider_user_has_been_successfully_added
+  def then_i_see_the_provider_user_has_been_successfully_added
     expect(page).to have_content("User #{@provider_user.first_name} #{@provider_user.last_name} updated")
   end
 
