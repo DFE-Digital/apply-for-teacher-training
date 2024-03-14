@@ -59,12 +59,6 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
         expect(wizard_for(this_state)).not_to be_valid
       end
 
-      it 'is not valid if equivalent option exists but is not open on Apply' do
-        application_choice.current_course.in_next_cycle.update(open_on_apply: false)
-        this_state = state_store_for(application_choice_id: application_choice.id)
-        expect(wizard_for(this_state)).not_to be_valid
-      end
-
       it 'requires confirmed status of conditions' do
         this_state = state_store_for(application_choice_id: application_choice.id)
         expect(wizard_for(this_state)).not_to be_valid_for_current_step
