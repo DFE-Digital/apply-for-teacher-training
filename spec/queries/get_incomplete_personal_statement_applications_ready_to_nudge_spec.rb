@@ -8,6 +8,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
       submitted_at: nil,
       becoming_a_teacher_completed: false,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -22,6 +23,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
       becoming_a_teacher_completed: true,
       references_completed: false,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -36,6 +38,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
       submitted_at: nil,
       becoming_a_teacher_completed: true,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 8.days.ago,
     )
@@ -50,6 +53,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
       submitted_at: nil,
       becoming_a_teacher_completed: false,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 6.days.ago,
     )
@@ -63,7 +67,6 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
       :with_completed_references,
       submitted_at: nil,
       becoming_a_teacher_completed: false,
-      course_choices_completed: false,
     )
     application_form.update_columns(
       updated_at: 10.days.ago,
@@ -79,6 +82,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
       submitted_at: nil,
       becoming_a_teacher_completed: false,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
