@@ -56,7 +56,7 @@ RSpec.describe ProviderAuthorisation do
     let(:ratified_course) do
       create(
         :course,
-        :open_on_apply,
+        :open,
         provider: training_provider,
         accredited_provider: ratifying_provider,
       )
@@ -66,7 +66,7 @@ RSpec.describe ProviderAuthorisation do
     let(:self_ratified_course) do
       create(
         :course,
-        :open_on_apply,
+        :open,
         provider: training_provider,
       )
     end
@@ -465,7 +465,7 @@ RSpec.describe ProviderAuthorisation do
   describe '#can_set_up_interviews?' do
     let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option:) }
     let(:course_option) { create(:course_option, course:) }
-    let(:course) { create(:course, :open_on_apply) }
+    let(:course) { create(:course, :open) }
 
     context 'for a support user' do
       subject(:auth_context) { described_class.new(actor: support_user) }
@@ -518,7 +518,7 @@ RSpec.describe ProviderAuthorisation do
       let(:provider_user) { create(:provider_user, :with_provider) }
 
       context 'with set_up_interviews permissions for the course training provider' do
-        let(:course) { create(:course, :open_on_apply, provider:) }
+        let(:course) { create(:course, :open, provider:) }
         let(:provider) { provider_user.providers.first }
 
         before do
@@ -532,7 +532,7 @@ RSpec.describe ProviderAuthorisation do
       end
 
       context 'with set_up_interviews permissions for the course accredited provider' do
-        let(:course) { create(:course, :open_on_apply, accredited_provider: provider) }
+        let(:course) { create(:course, :open, accredited_provider: provider) }
         let(:provider) { provider_user.providers.first }
 
         it 'is true' do
