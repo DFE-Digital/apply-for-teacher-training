@@ -13,11 +13,6 @@ class GetIncompleteCourseChoiceApplicationsReadyToNudge
       .with_completion(COMPLETION_ATTRS)
       .current_cycle
       .has_not_received_email(MAILER, MAIL_TEMPLATE)
-      .where(
-        'NOT EXISTS (:application_choices)',
-        application_choices: ApplicationChoice
-          .select(1)
-          .where('application_choices.application_form_id = application_forms.id'),
-      )
+      .where.missing(:application_choices)
   end
 end

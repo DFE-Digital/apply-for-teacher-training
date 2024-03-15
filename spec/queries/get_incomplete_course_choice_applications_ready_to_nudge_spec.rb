@@ -6,7 +6,6 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
       :completed_application_form,
       :with_completed_references,
       submitted_at: nil,
-      course_choices_completed: false,
     )
     application_form.update_columns(
       updated_at: 10.days.ago,
@@ -20,12 +19,11 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
       :completed_application_form,
       :with_completed_references,
       submitted_at: nil,
-      course_choices_completed: false,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
-    create(:application_choice, application_form:)
 
     expect(described_class.new.call).to eq([])
   end
@@ -35,8 +33,8 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
       :completed_application_form,
       :with_completed_references,
       submitted_at: Time.zone.now,
-      course_choices_completed: false,
     )
+    create(:application_choice, status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.sample, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -49,7 +47,6 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
       :completed_application_form,
       :with_completed_references,
       submitted_at: nil,
-      course_choices_completed: false,
     )
     application_form.update_columns(
       references_completed: false,
@@ -64,7 +61,6 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
       :completed_application_form,
       :with_completed_references,
       submitted_at: nil,
-      course_choices_completed: false,
     )
     application_form.update_columns(
       becoming_a_teacher_completed: false,
