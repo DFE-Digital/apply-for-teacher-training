@@ -4,7 +4,7 @@ RSpec.describe OfferValidations, type: :model do
 
   let(:application_choice) { nil }
   let(:course_option) { create(:course_option, course:) }
-  let(:course) { create(:course, :open_on_apply) }
+  let(:course) { create(:course, :open) }
   let(:conditions) { [] }
 
   context 'validations' do
@@ -65,7 +65,7 @@ RSpec.describe OfferValidations, type: :model do
 
       context 'when the offer details differ only by reference condition' do
         let(:candidate) { create(:candidate) }
-        let(:current_course_option) { create(:course_option, :open_on_apply) }
+        let(:current_course_option) { create(:course_option, :open) }
         let(:application_choice) { create(:application_choice, :offered, current_course_option:, candidate:) }
         let(:course_option) { application_choice.course_option }
         let(:conditions) { application_choice.offer.all_conditions_text }
@@ -82,7 +82,7 @@ RSpec.describe OfferValidations, type: :model do
 
       context 'when the offer details differ only by SKE condition' do
         let(:candidate) { create(:candidate) }
-        let(:current_course_option) { create(:course_option, :open_on_apply) }
+        let(:current_course_option) { create(:course_option, :open) }
         let(:application_choice) { create(:application_choice, :offered, current_course_option:, candidate:) }
         let(:course_option) { application_choice.course_option }
         let(:conditions) { application_choice.offer.all_conditions_text }
@@ -103,8 +103,8 @@ RSpec.describe OfferValidations, type: :model do
         let(:candidate) { create(:candidate) }
         let(:application_choice) { create(:application_choice, :offered, current_course_option:) }
         let!(:application_form) { create(:application_form, phase: 'apply_1', candidate:, application_choices: [application_choice]) }
-        let(:current_course_option) { create(:course_option, :open_on_apply) }
-        let(:course_option) { build(:course_option, :open_on_apply) }
+        let(:current_course_option) { create(:course_option, :open) }
+        let(:course_option) { build(:course_option, :open) }
         let(:conditions) { application_choice.offer.all_conditions_text }
 
         it 'adds a :different_ratifying_provider error' do
