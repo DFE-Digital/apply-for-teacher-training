@@ -14,6 +14,10 @@ FactoryBot.define do
       course { association :course, :open_on_apply, recruitment_cycle_year: }
     end
 
+    trait :open do
+      course { association :course, :open, recruitment_cycle_year: }
+    end
+
     trait :with_course_uuid do
       course { association :course, :uuid, recruitment_cycle_year: }
     end
