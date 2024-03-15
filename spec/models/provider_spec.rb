@@ -11,46 +11,6 @@ RSpec.describe Provider do
     end
   end
 
-  describe '#all_courses_open_in_current_cycle?' do
-    let(:provider) { create(:provider) }
-
-    subject(:result) { provider.all_courses_open_in_current_cycle? }
-
-    it 'is true if all the provider’s other courses are open on apply except courses hidden in Find' do
-      create(:course, :open_on_apply, provider:)
-      create(:course, provider:, exposed_in_find: false)
-
-      expect(result).to be true
-    end
-
-    it 'is false if the provider’s other courses are a mixture of open on apply and open on UCAS' do
-      create(:course, provider:, exposed_in_find: true, open_on_apply: false)
-
-      expect(result).to be false
-    end
-
-    it 'is false if the provider’s other courses including ratified courses are a mixture of open on Apply and open on UCAS' do
-      create(:course, accredited_provider: provider, exposed_in_find: true, open_on_apply: false)
-
-      expect(result).to be false
-    end
-
-    it 'is false if the provider has no courses' do
-      expect(result).to be false
-    end
-
-    context 'exclude_ratified_courses: true' do
-      subject(:result) { provider.all_courses_open_in_current_cycle?(exclude_ratified_courses: true) }
-
-      it 'is true if the provider’s ratified courses are not open but its own are' do
-        create(:course, :open_on_apply, provider:)
-        create(:course, accredited_provider: provider, exposed_in_find: true, open_on_apply: false)
-
-        expect(result).to be true
-      end
-    end
-  end
-
   describe '#lacks_admin_users?' do
     let(:provider) { create(:provider, :no_users) }
 
