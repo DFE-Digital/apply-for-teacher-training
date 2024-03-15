@@ -3,7 +3,7 @@ class GetOpenCoursesByProviderAndRegion
 
   def self.call
     Course
-      .open_on_apply
+      .open
       .current_cycle
       .includes(:provider)
       .order('providers.region_code', 'providers.name')
