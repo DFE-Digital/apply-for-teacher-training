@@ -25,6 +25,13 @@ FileUtils.chdir APP_ROOT do
   #   FileUtils.cp 'config/database.yml.sample', 'config/database.yml'
   # end
 
+  puts "\n== Checking redis =="
+  system! 'command -v redis-cli > /dev/null'
+
+
+  puts "\n== Checking postgres =="
+  system! 'command -v psql > /dev/null'
+
   puts "\n== Preparing database =="
   system! 'bin/rails db:prepare'
 
@@ -33,4 +40,7 @@ FileUtils.chdir APP_ROOT do
 
   puts "\n== Restarting application server =="
   system! 'bin/rails restart'
+
+  puts "\n== Setting up local dev data =="
+  system! 'bundle exec rake setup_local_dev_data'
 end
