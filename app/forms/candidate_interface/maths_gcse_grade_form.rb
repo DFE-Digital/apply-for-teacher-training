@@ -4,6 +4,8 @@ module CandidateInterface
 
     attr_accessor :grade, :qualification_type, :other_grade
     validates :grade, :qualification_type, presence: true
+    validates :grade, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_GRADE_LENGTH }
+    validates :other_grade, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_GRADE_LENGTH }
     validates :other_grade, presence: true, if: :grade_is_other?
     validate :validate_grade_format
 

@@ -16,6 +16,8 @@ module CandidateInterface
                   :physics_grade,
                   :chemistry_grade
     validates :other_grade, presence: true, if: :grade_is_other?
+    validates :other_grade, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_GRADE_LENGTH }
+    validates :grade, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_GRADE_LENGTH }
     validate :grade_length
     validate :grade_format, unless: :new_record?
     validate :triple_award_grade_format

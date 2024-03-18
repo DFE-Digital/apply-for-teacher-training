@@ -34,6 +34,7 @@ module SupportInterface
     validates_with ZendeskUrlValidator
 
     validates :grade, presence: true, unless: ->(record) { record.missing_qualification? || record.gcse? }
+    validates :grade, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_GRADE_LENGTH }
     validates :award_year, presence: true, year: { future: true }, unless: :missing_qualification?
     validates :award_year, o_level_award_year: true, unless: ->(c) { c.errors.attribute_names.include?(:award_year) }
 
