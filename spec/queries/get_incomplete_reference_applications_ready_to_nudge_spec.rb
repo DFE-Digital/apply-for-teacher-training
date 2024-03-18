@@ -7,6 +7,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       submitted_at: nil,
       references_count: 0,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -21,6 +22,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       references_count: 1,
       references_state: :feedback_requested,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -35,6 +37,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       references_count: 1,
       references_state: :feedback_provided,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -49,6 +52,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       references_count: 2,
       references_state: :feedback_requested,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -62,6 +66,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       submitted_at: 10.days.ago,
       references_count: 0,
     )
+    create(:application_choice, status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.sample, application_form:)
     application_form.update_columns(updated_at: 10.days.ago)
 
     expect(described_class.new.call).to eq([])
@@ -73,6 +78,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       submitted_at: nil,
       references_count: 0,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       personal_details_completed: false,
       updated_at: 10.days.ago,
@@ -87,6 +93,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       submitted_at: nil,
       references_count: 0,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 5.days.ago,
     )
@@ -102,6 +109,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       efl_completed: false,
       references_count: 0,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -117,6 +125,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       efl_completed: false,
       references_count: 0,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -179,6 +188,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       recruitment_cycle_year: RecruitmentCycle.previous_year,
       references_count: 0,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -192,12 +202,26 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       submitted_at: nil,
       references_count: 0,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(updated_at: 10.days.ago)
     create(
       :email,
       mailer: 'candidate_mailer',
       mail_template: 'nudge_unsubmitted_with_incomplete_references',
       application_form:,
+    )
+
+    expect(described_class.new.call).to eq([])
+  end
+
+  it 'omits applications without application choices' do
+    application_form = create(
+      :completed_application_form,
+      submitted_at: nil,
+      references_count: 0,
+    )
+    application_form.update_columns(
+      updated_at: 10.days.ago,
     )
 
     expect(described_class.new.call).to eq([])
@@ -219,6 +243,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       recruitment_cycle_year: RecruitmentCycle.current_year,
       references_count: 0,
     )
+    create(:application_choice, application_form: application_form2)
     application_form2.update_columns(
       updated_at: 10.days.ago,
     )

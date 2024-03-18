@@ -1,7 +1,7 @@
 class GetUnsubmittedApplicationsReadyToNudge
   MAILER = 'candidate_mailer'.freeze
   MAIL_TEMPLATE = 'nudge_unsubmitted'.freeze
-  COMMON_COMPLETION_ATTRS = (ApplicationForm::SECTION_COMPLETED_FIELDS - %w[science_gcse efl])
+  COMMON_COMPLETION_ATTRS = (ApplicationForm::SECTION_COMPLETED_FIELDS - %w[science_gcse efl course_choices])
     .map { |field| "#{field}_completed" }.freeze
 
   def call
@@ -16,6 +16,7 @@ class GetUnsubmittedApplicationsReadyToNudge
       .with_completion(COMMON_COMPLETION_ATTRS)
       .current_cycle
       .has_not_received_email(MAILER, MAIL_TEMPLATE)
+      .includes(:application_choices).where('application_choices.status': 'unsubmitted')
       .and(ApplicationForm
         .where(science_gcse_completed: true)
         .or(

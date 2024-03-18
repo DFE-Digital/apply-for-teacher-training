@@ -7,6 +7,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
       :with_completed_references,
       submitted_at: nil,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(updated_at: 10.days.ago)
 
     expect(described_class.new.call).to include(application_form)
@@ -18,6 +19,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
       :with_completed_references,
       submitted_at: 10.days.ago,
     )
+    create(:application_choice, status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.sample, application_form:)
     application_form.update_columns(updated_at: 10.days.ago)
 
     expect(described_class.new.call).to eq([])
@@ -29,6 +31,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
       :with_completed_references,
       submitted_at: nil,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       references_completed: false,
       updated_at: 10.days.ago,
@@ -43,6 +46,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
       :with_completed_references,
       submitted_at: nil,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 5.days.ago,
     )
@@ -58,6 +62,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
       first_nationality: 'British',
       efl_completed: false,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -73,6 +78,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
       first_nationality: 'French',
       efl_completed: false,
     )
+    create(:application_choice, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -155,6 +161,19 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
       mail_template: 'nudge_unsubmitted',
       application_form:,
     )
+
+    expect(described_class.new.call).to eq([])
+  end
+
+  it 'omits applications without draft course choices' do
+    application_form = create(
+      :completed_application_form,
+      :with_completed_references,
+      submitted_at: nil,
+      first_nationality: 'British',
+      efl_completed: false,
+    )
+    application_form.update_columns(updated_at: 10.days.ago)
 
     expect(described_class.new.call).to eq([])
   end

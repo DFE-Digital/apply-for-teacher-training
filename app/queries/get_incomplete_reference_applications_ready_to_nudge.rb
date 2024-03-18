@@ -16,17 +16,17 @@ class GetIncompleteReferenceApplicationsReadyToNudge
       .with_completion(COMMON_COMPLETION_ATTRS)
       .has_not_received_email(MAILER, MAIL_TEMPLATE)
       .and(ApplicationForm
-      .where(science_gcse_completed: true)
-      .or(
-        ApplicationForm.where(
-          'NOT EXISTS (:primary)',
-          primary: ApplicationChoice
-            .select(1)
-            .joins(:course)
-            .where('application_choices.application_form_id = application_forms.id')
-            .where('courses.level': 'primary'),
-        ),
-      ))
+        .where(science_gcse_completed: true)
+        .or(
+          ApplicationForm.where(
+            'NOT EXISTS (:primary)',
+            primary: ApplicationChoice
+              .select(1)
+              .joins(:course)
+              .where('application_choices.application_form_id = application_forms.id')
+              .where('courses.level': 'primary'),
+          ),
+        ))
     .and(ApplicationForm
       .where(efl_completed: true)
       .or(
@@ -37,7 +37,10 @@ class GetIncompleteReferenceApplicationsReadyToNudge
     .joins(
       "LEFT OUTER JOIN \"references\" ON \"references\".application_form_id = application_forms.id AND \"references\".feedback_status IN ('feedback_requested', 'feedback_provided')",
     )
+    .joins(
+      "LEFT OUTER JOIN \"application_choices\" ON \"application_choices\".application_form_id = application_forms.id AND \"application_choices\".status = 'unsubmitted'",
+    )
     .group('application_forms.id')
-    .having('count("references".id) < 2')
+    .having('count("references".id) < 2 AND count("application_choices".id) > 0')
   end
 end
