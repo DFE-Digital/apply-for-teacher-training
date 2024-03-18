@@ -6,7 +6,7 @@ RSpec.describe 'A Provider user' do
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in) }
   let(:provider) { provider_user.providers.first }
   let(:application_form) { create(:application_form) }
-  let(:course) { create(:course, :open_on_apply, provider:) }
+  let(:course) { create(:course, :open, provider:) }
 
   before do
     TestSuiteTimeMachine.travel_permanently_to(Time.zone.now.midday)

@@ -76,7 +76,7 @@ RSpec.describe ProviderInterface::ApplicationHeaderComponents::DeferredOfferComp
 
   describe '#deferred_offer_in_current_cycle?' do
     it 'is true for a deferred offer without an open offered option' do
-      course_option = instance_double(CourseOption, course: instance_double(Course, open_on_apply: false))
+      course_option = instance_double(CourseOption, course: instance_double(Course))
       application_choice = instance_double(ApplicationChoice, status: 'offer_deferred', recruitment_cycle: RecruitmentCycle.current_year)
       allow(course_option).to receive(:in_next_cycle).and_return(false)
       allow(application_choice).to receive(:current_course_option).and_return(course_option)
@@ -85,7 +85,7 @@ RSpec.describe ProviderInterface::ApplicationHeaderComponents::DeferredOfferComp
     end
 
     it 'is false for a deferred offer with an open offered option' do
-      course_option = instance_double(CourseOption, course: instance_double(Course, open_on_apply: false))
+      course_option = instance_double(CourseOption, course: instance_double(Course))
       application_choice = instance_double(ApplicationChoice, status: 'offer_deferred', recruitment_cycle: RecruitmentCycle.current_year)
       allow(course_option).to receive(:in_next_cycle).and_return(course_option)
       allow(application_choice).to receive(:current_course_option).and_return(course_option)
@@ -94,7 +94,7 @@ RSpec.describe ProviderInterface::ApplicationHeaderComponents::DeferredOfferComp
     end
 
     it 'is false for a deferred offer from the previous cycle' do
-      course_option = instance_double(CourseOption, course: instance_double(Course, open_on_apply: false))
+      course_option = instance_double(CourseOption, course: instance_double(Course))
       application_choice = instance_double(ApplicationChoice, status: 'offer_deferred', recruitment_cycle: RecruitmentCycle.previous_year)
       allow(course_option).to receive(:in_next_cycle).and_return(course_option)
       allow(application_choice).to receive(:current_course_option).and_return(course_option)

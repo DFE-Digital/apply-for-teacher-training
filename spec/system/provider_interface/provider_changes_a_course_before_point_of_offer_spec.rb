@@ -83,10 +83,10 @@ RSpec.feature 'Provider changes a course' do
     @selected_provider = create(:provider)
     create(:provider_permissions, provider: @selected_provider, provider_user:, make_decisions: true, set_up_interviews: true)
     courses = [create(:course, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider),
-               create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider)]
+               create(:course, :open, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider)]
     @selected_course = courses.sample
 
-    @one_mode_and_location_course = create(:course, :open_on_apply, study_mode: :full_time, provider: @selected_provider, accredited_provider: ratifying_provider)
+    @one_mode_and_location_course = create(:course, :open, study_mode: :full_time, provider: @selected_provider, accredited_provider: ratifying_provider)
     @one_mode_and_location_course_option = create(:course_option, :full_time, site: create(:site, provider: @one_mode_and_location_course.provider), course: @one_mode_and_location_course)
 
     course_options = [create(:course_option, :part_time, course: @selected_course),

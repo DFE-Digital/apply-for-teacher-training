@@ -13,7 +13,7 @@
             <%= t('page_titles.provider.users') %><span class="govuk-visually-hidden"> <%= provider.name %></span>
           <% end %>
         </li>
-        <% if ProviderRelationshipPermissions.all_relationships_for_providers([provider]).providers_have_open_course.any? %>
+        <% if ProviderRelationshipPermissions.all_relationships_for_providers([provider]).providers_with_current_cycle_course.any? %>
           <li>
             <%= govuk_link_to provider_interface_organisation_settings_organisation_organisation_permissions_path(provider) do %>
               <%= t('page_titles.provider.organisation_permissions') %><span class="govuk-visually-hidden"> <%= provider.name %></span>

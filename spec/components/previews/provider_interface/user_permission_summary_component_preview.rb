@@ -50,7 +50,7 @@ module ProviderInterface
                           training_provider_can_view_diversity_information: random_boolean_value,
                           ratifying_provider_can_view_diversity_information: !random_boolean_value)
 
-        FactoryBot.create(:course, :open_on_apply, provider: training_provider, accredited_provider: provider)
+        FactoryBot.create(:course, :open, provider: training_provider, accredited_provider: provider)
       end
 
       other_providers.each do |training_provider|
@@ -64,7 +64,7 @@ module ProviderInterface
                           training_provider_can_view_diversity_information: !other_random_boolean_value,
                           ratifying_provider_can_view_diversity_information: other_random_boolean_value)
 
-        FactoryBot.create(:course, :open_on_apply, provider: training_provider, accredited_provider: provider)
+        FactoryBot.create(:course, :open, provider: training_provider, accredited_provider: provider)
       end
 
       provider_user

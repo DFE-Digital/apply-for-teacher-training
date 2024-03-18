@@ -96,14 +96,6 @@ RSpec.describe ProviderSetup do
           expect(provider_setup.next_relationship_pending).to be_nil
         end
       end
-
-      context 'when the provider has no courses open on apply' do
-        let!(:course) { create(:course, accredited_provider: other_provider, provider: provider_for_user, open_on_apply: false) }
-
-        it 'returns nil' do
-          expect(provider_setup.next_relationship_pending).to be_nil
-        end
-      end
     end
 
     context 'when all permissions are set up already' do

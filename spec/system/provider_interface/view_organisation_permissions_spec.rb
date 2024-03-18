@@ -56,7 +56,7 @@ RSpec.feature 'Organisation permissions' do
   end
 
   def create_open_course_for_relationship(relationship)
-    create(:course, :open_on_apply, provider: relationship.training_provider, accredited_provider: relationship.ratifying_provider)
+    create(:course, :open, provider: relationship.training_provider, accredited_provider: relationship.ratifying_provider)
   end
 
   def and_i_belong_to_a_provider_with_no_open_courses
