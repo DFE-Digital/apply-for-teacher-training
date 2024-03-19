@@ -1,5 +1,18 @@
 # Apply Dev Support Playbook
 
+1. References
+2. Work Experience
+3. Qualifications
+4. Personal Statement
+5. Course and locations
+6. Confirm deferral
+7. Offers
+8. Withdraw
+9. Delete account / application
+10. Permissions
+11. Publish Sandbox
+12. Candidate sign in
+
 ## Support Trello board
 
 https://trello.com/b/dcWOMFyp/
@@ -79,6 +92,27 @@ experience.update(
   audit_comment: "Updated on candidate's request: https://becomingateacher.zendesk.com/"
 )
 ```
+## Work history break
+
+### Add Work history break
+
+Create a new ApplicationWorkHistoryBreak of the appropriate type and save it against the ApplicationForm.
+```ruby
+APPLICATION_FORM_ID=
+START_DATE = Date.new(year, month, day)
+END_DATE = Date.new(year, month, day)
+REASON = ''
+
+ApplicationForm.find(APPLICATION_FORM_ID)
+  application_work_history_breaks
+  .create(
+    start_date: START_DATE,
+    end_date: END_DATE,
+    reason: REASON
+)
+
+```
+
 
 ## Qualifications
 
