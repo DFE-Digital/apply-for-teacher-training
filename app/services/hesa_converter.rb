@@ -1,10 +1,11 @@
 class HesaConverter
-  attr_reader :application_form, :recruitment_cycle_year
+  attr_reader :application_form, :recruitment_cycle_year, :hesa_sex_data
 
   def initialize(application_form:, recruitment_cycle_year:)
     @application_form = application_form
     @recruitment_cycle_year = recruitment_cycle_year
     @application_form_sex = application_form.equality_and_diversity['sex'].to_s
+    @hesa_sex_data = Hesa::Sex.find(@application_form_sex.downcase, @recruitment_cycle_year)
   end
 
   def hesa_sex
@@ -40,13 +41,6 @@ class HesaConverter
   end
 
 private
-
-  def hesa_sex_data
-    @hesa_sex_data ||= Hesa::Sex.find(
-      @application_form_sex.downcase,
-      @recruitment_cycle_year,
-    )
-  end
 
   def converted_disabilities
     if @application_form.equality_and_diversity['disabilities'].blank?
