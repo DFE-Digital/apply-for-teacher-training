@@ -44,176 +44,109 @@ RSpec.describe HesaConverter do
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2023, hesa_sex: '3', sex: 'Intersex', expected_hesa_sex: '12', expected_sex: 'other' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2023, hesa_sex: nil, sex: 'Prefer not to say', expected_hesa_sex: nil, expected_sex: 'Prefer not to say' }
 
-  #    context 'when field is HESA disabilities' do
-  #      let(:recruitment_cycle) { RecruitmentCycle.current_year }
-  #
-  #      before do
-  #        @original_application_form.update!(
-  #          recruitment_cycle_year: recruitment_cycle,
-  #          equality_and_diversity: @original_application_form.equality_and_diversity.merge(
-  #            hesa_disabilities:,
-  #            disabilities:,
-  #          ),
-  #        )
-  #      end
-  #
-  #      context 'when nil' do
-  #        let(:hesa_disabilities) { nil }
-  #        let(:disabilities) { nil }
-  #
-  #        it 'carries over empty disabilities' do
-  #          expect(duplicate_application_form.equality_and_diversity['hesa_disabilities']).to eq(['95'])
-  #          expect(duplicate_application_form.equality_and_diversity['disabilities']).to eq(
-  #            ['I do not have any of these disabilities or health conditions'],
-  #          )
-  #        end
-  #      end
-  #
-  #      context 'when empty' do
-  #        let(:hesa_disabilities) { [] }
-  #        let(:disabilities) { [] }
-  #
-  #        it 'carries over empty disabilities' do
-  #          expect(duplicate_application_form.equality_and_diversity['hesa_disabilities']).to eq(['95'])
-  #          expect(duplicate_application_form.equality_and_diversity['disabilities']).to eq(
-  #            ['I do not have any of these disabilities or health conditions'],
-  #          )
-  #        end
-  #      end
-  #
-  #      context 'when converting all default disabilities from 2021' do
-  #        let(:recruitment_cycle) { 2021 }
-  #        let(:hesa_disabilities) do
-  #          HesaDisabilityCollections::HESA_DISABILITIES_2021_2022.map { |hesa| hesa[0] } - ['00']
-  #        end
-  #        let(:disabilities) do
-  #          [
-  #            'Learning difficulty',
-  #            'Social or communication impairment',
-  #            'Long-standing illness',
-  #            'Mental health condition',
-  #            'Physical disability or mobility issue',
-  #            'Deaf',
-  #            'Blind',
-  #            'Some other disability',
-  #          ]
-  #        end
-  #
-  #        it 'carries over disabilities' do
-  #          expect(duplicate_application_form.equality_and_diversity['hesa_disabilities']).to eq(
-  #            %w[51 53 54 55 56 57 58 96],
-  #          )
-  #          expect(duplicate_application_form.equality_and_diversity['disabilities']).to contain_exactly('Autistic spectrum condition or another condition affecting speech, language, communication or social skills', 'Blindness or a visual impairment not corrected by glasses', 'Deafness or a serious hearing impairment', 'Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference', 'Long-term illness', 'Mental health condition', 'Physical disability or mobility issue', 'Some other disability')
-  #        end
-  #      end
-  #
-  #      context "when converting 'no disabilities' from 2021" do
-  #        let(:recruitment_cycle) { 2021 }
-  #        let(:hesa_disabilities) { ['00'] }
-  #        let(:disabilities) { [] }
-  #
-  #        it 'carries over disabilities' do
-  #          expect(duplicate_application_form.equality_and_diversity['hesa_disabilities']).to eq(['95'])
-  #          expect(duplicate_application_form.equality_and_diversity['disabilities']).to eq(
-  #            ['I do not have any of these disabilities or health conditions'],
-  #          )
-  #        end
-  #      end
-  #
-  #      context 'when carry over prefer not to say from 2022' do
-  #        let(:recruitment_cycle) { 2022 }
-  #        let(:hesa_disabilities) { ['98'] }
-  #        let(:disabilities) { [HesaDisabilityValues::PREFER_NOT_TO_SAY] }
-  #
-  #        it 'carries over disabilities' do
-  #          expect(duplicate_application_form.equality_and_diversity['hesa_disabilities']).to eq(['98'])
-  #          expect(duplicate_application_form.equality_and_diversity['disabilities']).to eq(
-  #            ['Prefer not to say'],
-  #          )
-  #        end
-  #      end
-  #
-  #      context 'when converting all default disabilities from 2022' do
-  #        let(:recruitment_cycle) { 2022 }
-  #        let(:hesa_disabilities) do
-  #          HesaDisabilityCollections::HESA_DISABILITIES_2022_2023.map { |hesa| hesa[0] }
-  #        end
-  #        let(:disabilities) do
-  #          [
-  #            'Learning difficulty',
-  #            'Social or communication impairment',
-  #            'Long-standing illness',
-  #            'Mental health condition',
-  #            'Physical disability or mobility issue',
-  #            'Deaf',
-  #            'Blind',
-  #            'Cancer year ago',
-  #          ]
-  #        end
-  #
-  #        it 'converts to latest HESA disabilities' do
-  #          expect(duplicate_application_form.equality_and_diversity['hesa_disabilities']).to eq(
-  #            %w[51 53 54 55 56 57 58 96],
-  #          )
-  #          expect(duplicate_application_form.equality_and_diversity['disabilities']).to contain_exactly(
-  #            'Autistic spectrum condition or another condition affecting speech, language, communication or social skills',
-  #            'Blindness or a visual impairment not corrected by glasses',
-  #            'Deafness or a serious hearing impairment',
-  #            'Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference',
-  #            'Long-term illness',
-  #            'Mental health condition',
-  #            'Physical disability or mobility issue',
-  #            'Cancer year ago',
-  #          )
-  #        end
-  #      end
-  #
-  #      context 'when converting disabilities from 2023 cycle' do
-  #        let(:recruitment_cycle) { 2023 }
-  #        let(:hesa_disabilities) { %w[53 58 59 57 51 54 55 56 96] }
-  #        let(:disabilities) do
-  #          [
-  #            'Autistic spectrum condition or another condition affecting speech, language, communication or social skills',
-  #            'Blindness or a visual impairment not corrected by glasses',
-  #            'Condition affecting motor, cognitive, social and emotional skills, speech or language since childhood',
-  #            'Deafness or a serious hearing impairment',
-  #            'Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference',
-  #            'Long-term illness',
-  #            'Mental health condition',
-  #            'Physical disability or mobility issue',
-  #            'Other disability like x',
-  #          ]
-  #        end
-  #
-  #        it 'carries over and keep the same values' do
-  #          expect(duplicate_application_form.equality_and_diversity['hesa_disabilities']).to eq(hesa_disabilities)
-  #          expect(duplicate_application_form.equality_and_diversity['disabilities']).to eq(disabilities)
-  #        end
-  #      end
-  #
-  #      context 'when candidate has other disabilities' do
-  #        let(:hesa_disabilities) { ['96'] }
-  #        let(:disabilities) { ['Some other disability'] }
-  #
-  #        it 'carries over and keep the same values' do
-  #          expect(duplicate_application_form.equality_and_diversity['hesa_disabilities']).to eq(['96'])
-  #          expect(duplicate_application_form.equality_and_diversity['disabilities']).to eq(disabilities)
-  #        end
-  #      end
-  #
-  #      context 'when candidate has a default and other disabilities' do
-  #        let(:hesa_disabilities) { %w[51 96] }
-  #        let(:disabilities) { ['Learning difficulty', 'Autism'] }
-  #
-  #        it 'carries over and keep the same values' do
-  #          expect(duplicate_application_form.equality_and_diversity['hesa_disabilities']).to eq(%w[51 96])
-  #          expect(duplicate_application_form.equality_and_diversity['disabilities']).to eq(
-  #            ['Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference', 'Autism'],
-  #          )
-  #        end
-  #      end
-  #    end
-  #
+  shared_examples 'convert disabilities field' do |data|
+    it "converts old HESA codes from #{data[:recruitment_cycle_year]} cycle for '#{data[:disabilities]}' into the most up to date HESA codes" do
+      recruitment_cycle_year = data[:recruitment_cycle_year]
+      application_form = create(:application_form, :completed)
+      application_form.update!(
+        recruitment_cycle_year:,
+        equality_and_diversity: application_form.equality_and_diversity.merge(
+          hesa_disabilities: data[:hesa_disabilities],
+          disabilities: data[:disabilities],
+        ),
+      )
+      hesa_converter = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year)
+      expect(hesa_converter.hesa_disabilities).to eq(data[:expected_hesa_disabilities])
+      expect(hesa_converter.disabilities).to eq(data[:expected_disabilities])
+    end
+  end
+
+  it_behaves_like 'convert disabilities field', { recruitment_cycle_year: 2020, disabilities: nil, hesa_disabilities: nil, expected_hesa_disabilities: nil, expected_disabilities: nil }
+  it_behaves_like 'convert disabilities field', {
+    recruitment_cycle_year: 2021,
+    hesa_disabilities: %w[51 53 54 55 56 57 58 96],
+    disabilities: [
+      'Learning difficulty',
+      'Social or communication impairment',
+      'Long-standing illness',
+      'Mental health condition',
+      'Physical disability or mobility issue',
+      'Deaf',
+      'Blind',
+      'Some other disability',
+    ],
+    expected_hesa_disabilities: %w[51 53 54 55 56 57 58 96],
+    expected_disabilities: [
+      'Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference',
+      'Autistic spectrum condition or another condition affecting speech, language, communication or social skills',
+      'Long-term illness',
+      'Mental health condition',
+      'Physical disability or mobility issue',
+      'Deafness or a serious hearing impairment',
+      'Blindness or a visual impairment not corrected by glasses',
+      'Some other disability',
+    ],
+  }
+  # Converting consciously chosen 'no disabilities' option
+  it_behaves_like 'convert disabilities field', { recruitment_cycle_year: 2021, disabilities: [], hesa_disabilities: ['00'], expected_hesa_disabilities: ['95'], expected_disabilities: ['I do not have any of these disabilities or health conditions'] }
+  it_behaves_like 'convert disabilities field', { recruitment_cycle_year: 2022, disabilities: [], hesa_disabilities: [], expected_hesa_disabilities: nil, expected_disabilities: nil }
+  it_behaves_like 'convert disabilities field', { recruitment_cycle_year: 2022, disabilities: ['Prefer not to say'], hesa_disabilities: [], expected_hesa_disabilities: ['98'], expected_disabilities: ['Prefer not to say'] }
+  it_behaves_like 'convert disabilities field', { recruitment_cycle_year: 2022, disabilities: ['Prefer not to say'], hesa_disabilities: nil, expected_hesa_disabilities: ['98'], expected_disabilities: ['Prefer not to say'] }
+  it_behaves_like 'convert disabilities field', {
+    recruitment_cycle_year: 2022,
+    hesa_disabilities: %w[51 53 54 55 56 57 58 96],
+    disabilities: [
+      'Learning difficulty',
+      'Social or communication impairment',
+      'Long-standing illness',
+      'Mental health condition',
+      'Physical disability or mobility issue',
+      'Deaf',
+      'Blind',
+      'Some other disability',
+    ],
+    expected_hesa_disabilities: %w[51 53 54 55 56 57 58 96],
+    expected_disabilities: [
+      'Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference',
+      'Autistic spectrum condition or another condition affecting speech, language, communication or social skills',
+      'Long-term illness',
+      'Mental health condition',
+      'Physical disability or mobility issue',
+      'Deafness or a serious hearing impairment',
+      'Blindness or a visual impairment not corrected by glasses',
+      'Some other disability',
+    ],
+  }
+  it_behaves_like 'convert disabilities field', {
+    recruitment_cycle_year: 2023,
+    hesa_disabilities: %w[51 53 59 54 55 56 57 58 96],
+    disabilities: [
+      'Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference',
+      'Autistic spectrum condition or another condition affecting speech, language, communication or social skills',
+      'Condition affecting motor, cognitive, social and emotional skills, speech or language since childhood',
+      'Long-term illness',
+      'Mental health condition',
+      'Physical disability or mobility issue',
+      'Deafness or a serious hearing impairment',
+      'Blindness or a visual impairment not corrected by glasses',
+      'Other disability like x',
+    ],
+    expected_hesa_disabilities: %w[51 53 59 54 55 56 57 58 96],
+    expected_disabilities: [
+      'Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference',
+      'Autistic spectrum condition or another condition affecting speech, language, communication or social skills',
+      'Condition affecting motor, cognitive, social and emotional skills, speech or language since childhood',
+      'Long-term illness',
+      'Mental health condition',
+      'Physical disability or mobility issue',
+      'Deafness or a serious hearing impairment',
+      'Blindness or a visual impairment not corrected by glasses',
+      'Other disability like x',
+    ],
+  }
+  it_behaves_like 'convert disabilities field', { recruitment_cycle_year: 2023, disabilities: ['Some other disability'], hesa_disabilities: ['96'], expected_hesa_disabilities: ['96'], expected_disabilities: ['Some other disability'] }
+  it_behaves_like 'convert disabilities field', { recruitment_cycle_year: 2023, disabilities: ['Learning difficulty', 'Some other disability'], hesa_disabilities: %w[51 96], expected_hesa_disabilities: %w[51 96], expected_disabilities: ['Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference', 'Some other disability'] }
+
   #    context 'when field is HESA ethnicities' do
   #      context 'when ethnic background is nil' do
   #        it 'carries over as the same ethnic data for' do
