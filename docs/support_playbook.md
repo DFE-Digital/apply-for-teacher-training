@@ -23,8 +23,6 @@ You can add a course to a submitted application in the Support UI if the maximum
 
 ## References
 
-# References
-
 ### Re-send a reference email for a referee
 
 First consider simply sending the referee a link to the reference form. Use the email log to find the body of the original reference request (or a chaser) and pick out the URL.
