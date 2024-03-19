@@ -1,17 +1,18 @@
 # Apply Dev Support Playbook
 
 1. [References](#references)
-2. Work Experience
-3. Qualifications
-4. Personal Statement
-5. Course and locations
-6. Confirm deferral
-7. Offers
-8. Withdraw
-9. Delete account / application
-10. Permissions
-11. Publish Sandbox
-12. Candidate sign in
+2. [Work Experience](#work-experience)
+3. [Work History Break](#work-history-break)
+4. [Qualifications](#qualifications)
+5. [Personal Statement](#personal-statement)
+6. [Course and locations](#course-and-locations)
+7. [Confirm deferral](#confirm-deferral)
+8. [Offers](#offers)
+9. [Withdraw](#withdraw)
+10. [Delete account or application](#delete-account-or-application)
+11. [Permissions](#permissions)
+12. [Publish Sandbox](#publish-sandbox)
+13. [Candidate sign in](#candidate-sign-in)
 
 ## Support Trello board
 
