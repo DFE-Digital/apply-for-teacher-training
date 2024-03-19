@@ -5,14 +5,14 @@
 3. [Work History Break](#work-history-break)
 4. [Qualifications](#qualifications)
 5. [Personal Statement](#personal-statement)
-6. [Course and locations](#course-and-locations)
+6. [Courses and locations](#course-and-course-locations)
 7. [Confirm deferral](#confirm-deferral)
 8. [Offers](#offers)
-9. [Withdraw](#withdraw)
-10. [Delete account or application](#delete-account-or-application)
-11. [Permissions](#permissions)
+9. [Withdraw](#withdraw-an-application)
+10. [Delete account or application](#delete-an-account--application)
+11. [Permissions](#provider-users-and-permissions)
 12. [Publish Sandbox](#publish-sandbox)
-13. [Candidate sign in](#candidate-sign-in)
+13. [Candidate sign in](#candidate-lgoin-issues)
 
 ## Support Trello board
 
@@ -180,7 +180,7 @@ This is possible via the support UI.
 
 If the course doesn't exist in the previous cycle we'll need them to confirm the offer first, then we can change the course to the new course in the current cycle.
 
-## Confirm deferral in the console
+## Confirm deferral
 
 If the course details have changed from one cycle to another, provider users should contact support to request the changes. To confirm a deferral through the console:
 
@@ -255,7 +255,7 @@ In this case, other applications belonging to the candidate may be automatically
 
 [Withdraw Offer Service](../app/services/withdraw_offer.rb)
 
-## Withdrawn an application
+## Withdraw an application
 
 We offer a convenient service called the "Withdraw Application Service" that
 facilitates the withdrawal of an application.
