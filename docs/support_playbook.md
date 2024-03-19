@@ -1,6 +1,6 @@
 # Apply Dev Support Playbook
 
-1. References
+1. [References](#references)
 2. Work Experience
 3. Qualifications
 4. Personal Statement
@@ -22,6 +22,8 @@ https://trello.com/b/dcWOMFyp/
 You can add a course to a submitted application in the Support UI if the maximum number of course choices has not been exceeded.
 
 ## References
+
+# References
 
 ### Re-send a reference email for a referee
 
