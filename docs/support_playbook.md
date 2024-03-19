@@ -5,14 +5,14 @@
 3. [Work History Break](#work-history-break)
 4. [Qualifications](#qualifications)
 5. [Personal Statement](#personal-statement)
-6. [Courses and locations](#course-and-course-locations)
+6. [Courses and locations](#courses-and-course-locations)
 7. [Confirm deferral](#confirm-deferral)
 8. [Offers](#offers)
 9. [Withdraw](#withdraw-an-application)
 10. [Delete account or application](#delete-an-account--application)
 11. [Permissions](#provider-users-and-permissions)
 12. [Publish Sandbox](#publish-sandbox)
-13. [Candidate sign in](#candidate-lgoin-issues)
+13. [Candidate sign in](#candidate-login-issues)
 
 ## Support Trello board
 
