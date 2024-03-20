@@ -103,15 +103,16 @@ APPLICATION_FORM_ID=
 START_DATE = Date.new(year, month, day)
 END_DATE = Date.new(year, month, day)
 REASON = ''
+ZENDESK_URL = ''
 
 ApplicationForm.find(APPLICATION_FORM_ID)
   application_work_history_breaks
   .create(
     start_date: START_DATE,
     end_date: END_DATE,
-    reason: REASON
+    reason: REASON,
+    audit_comment: ZENDESK_URL
 )
-
 ```
 
 
