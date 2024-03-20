@@ -1,17 +1,15 @@
-require 'active_support/core_ext/integer/time'
+require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
-
-  if HostingEnvironment.review?
-    # On Heroku we don't have a read replica, so use the main database connection.
-    config.x.read_only_database_url = ENV.fetch('DATABASE_URL')
-  else
-    config.x.read_only_database_url = ENV.fetch('BLAZER_DATABASE_URL')
-  end
+  config.x.read_only_database_url = if HostingEnvironment.review?
+                                      # On Heroku we don't have a read replica, so use the main database connection.
+                                      ENV.fetch("DATABASE_URL")
+                                    else
+                                      ENV.fetch("BLAZER_DATABASE_URL")
+                                    end
 
   # Code is not reloaded between requests.
-  config.cache_classes = true
+  config.enable_reloading = false
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
@@ -20,30 +18,36 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
-  config.cache_store = :redis_cache_store, { url: ENV.fetch('REDIS_CACHE_URL') }
-
-  # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
-  # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
+  # Ensures that a master key has been made available in ENV["RAILS_MASTER_KEY"], config/master.key, or an environment
+  # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).
   # config.require_master_key = true
 
-  # Disable serving static files from the `/public` folder by default since
-  # Apache or NGINX already handles this.
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  # Disable serving static files from `public/`, relying on NGINX/Apache to do so instead.
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
-  if ENV.key?('RAILS_ASSETS_HOST')
-    # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-    config.action_controller.asset_host = ENV['RAILS_ASSETS_HOST']
-  end
+  # Compress CSS using a preprocessor.
+  # config.assets.css_compressor = :sass
+
+  # Do not fall back to assets pipeline if a precompiled asset is missed.
+  config.assets.compile = false
+
+  # Enable serving of images, stylesheets, and JavaScripts from an asset server.
+  config.action_controller.asset_host = ENV["RAILS_ASSETS_HOST"]
 
   # Specifies the header that your server uses for sending files.
-  # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
-  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
+  # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
+  # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
-  # https://edgeapi.rubyonrails.org/classes/ActionDispatch/SSL.html
+  # Assume all access to the app is happening through a SSL-terminating reverse proxy.
+  # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
+  # config.assume_ssl = true
+
+  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
+
   config.ssl_options = {
     # `force_ssl` by default does a redirect of non-https domains to https. That does not work
     # in our case, because SSL is terminated at the Azure layer.
@@ -56,17 +60,35 @@ Rails.application.configure do
     hsts: true,
   }
 
+  # Log to STDOUT by default
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+    .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
+    .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
+
+  # Prepend all log lines with the following tags.
+  config.log_tags = [ :request_id ]
+
+  # "info" includes generic and useful information about system operation, but avoids logging too much
+  # information to avoid inadvertent exposure of personally identifiable information (PII). If you
+  # want to log everything, set the level to "debug".
+  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
+
+  # Use a different cache store in production.
+  config.cache_store = :redis_cache_store, { url: ENV.fetch("REDIS_CACHE_URL") }
+
+
   # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter     = :resque
+  # config.active_job.queue_adapter = :resque
   # config.active_job.queue_name_prefix = "apply_for_postgraduate_teacher_training_production"
 
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :notify
   config.action_mailer.notify_settings = {
-    api_key: ENV.fetch('GOVUK_NOTIFY_API_KEY')
+    api_key: ENV.fetch("GOVUK_NOTIFY_API_KEY"),
   }
 
-  # for default_url_options, see config/initializers/default_url_options.rb
+  # Send deprecation notices to registered listeners.
+  config.active_support.deprecation = :notify
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -76,45 +98,23 @@ Rails.application.configure do
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
 
-  # Send deprecation notices to registered listeners.
-  config.active_support.deprecation = :notify
-
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
-
-  # Logging configuration
-  config.log_level = :info
-
-  # log to STDOUT using standard verbose format + request_id + timestamp
-  config.log_tags = [ :request_id ] # prepend these to log lines
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # Enable DNS rebinding protection and other `Host` header attacks.
+  # config.hosts = [
+  #   "example.com",     # Allow requests from example.com
+  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
+  # ]
+  # Skip DNS rebinding protection for the default health check endpoint.
+  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
   config.active_record.logger = nil # Don't log SQL in production
 
   config.rails_semantic_logger.add_file_appender = false
-
-  # Inserts middleware to perform automatic connection switching.
-  # The `database_selector` hash is used to pass options to the DatabaseSelector
-  # middleware. The `delay` is used to determine how long to wait after a write
-  # to send a subsequent read to the primary.
-  #
-  # The `database_resolver` class is used by the middleware to determine which
-  # database is appropriate to use based on the time delay.
-  #
-  # The `database_resolver_context` class is used by the middleware to set
-  # timestamps for the last write to the primary. The resolver uses the context
-  # class timestamps to determine how long to wait before reading from the
-  # replica.
-  #
-  # By default Rails will store a last write timestamp in the session. The
-  # DatabaseSelector middleware is designed as such you can define your own
-  # strategy for connection switching and pass that into the middleware through
-  # these configuration options.
-  # config.active_record.database_selector = { delay: 2.seconds }
-  # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
-  # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   class FixAzureXForwardedForMiddleware
     def initialize(app)
@@ -136,13 +136,13 @@ Rails.application.configure do
       req = Rack::Request.new(env)
 
       if req.forwarded_for.present?
-        env['HTTP_X_FORWARDED_FOR'] = req.forwarded_for.join(',')
+        env["HTTP_X_FORWARDED_FOR"] = req.forwarded_for.join(",")
       end
 
       # preserves access to sidekiq web
       # see https://github.com/sinatra/sinatra/blob/master/rack-protection/lib/rack/protection/ip_spoofing.rb#L17
-      if env['HTTP_X_CLIENT_IP'].present?
-        env['HTTP_CLIENT_IP'] = env['HTTP_X_CLIENT_IP']
+      if env["HTTP_X_CLIENT_IP"].present?
+        env["HTTP_CLIENT_IP"] = env["HTTP_X_CLIENT_IP"]
       end
 
       @app.call(env)
@@ -152,15 +152,15 @@ Rails.application.configure do
   config.middleware.insert_before ActionDispatch::RemoteIp, FixAzureXForwardedForMiddleware
 
   # Don't add AWS IP ranges on AKS.
-  if ENV['KUBERNETES_SERVICE_HOST'].present?
-    config.action_dispatch.trusted_proxies = [
-      ActionDispatch::RemoteIp::TRUSTED_PROXIES,
-    ]
-  else
-    # Add AWS IP addresses to trusted proxy list
-    config.action_dispatch.trusted_proxies = [
-      ActionDispatch::RemoteIp::TRUSTED_PROXIES,
-      AWSIpRanges.cloudfront_ips.map { |proxy| IPAddr.new(proxy) },
-    ].flatten
-  end
+  config.action_dispatch.trusted_proxies = if ENV["KUBERNETES_SERVICE_HOST"].present?
+                                             [
+                                               ActionDispatch::RemoteIp::TRUSTED_PROXIES,
+                                             ]
+                                           else
+                                             # Add AWS IP addresses to trusted proxy list
+                                             [
+                                               ActionDispatch::RemoteIp::TRUSTED_PROXIES,
+                                               Modules::AWSIpRanges.cloudfront_ips.map { |proxy| IPAddr.new(proxy) },
+                                             ].flatten
+                                           end
 end

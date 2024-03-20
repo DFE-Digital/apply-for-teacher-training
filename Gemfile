@@ -5,7 +5,7 @@ ruby '3.2.2'
 
 gem 'timeliness'
 
-gem 'rails', '~> 7.0'
+gem 'rails', '~> 7.1'
 
 gem 'puma', '~> 6.4'
 gem 'pg', '~> 1.5.6'
@@ -58,7 +58,8 @@ gem 'oj'
 # This gem adds support for sequences in the schema.rb
 gem 'ar-sequence'
 
-gem 'active_hash'
+# Source gem from rubygems after ActiveHash version > 3.2.1
+gem 'active_hash', github: 'active-hash/active_hash', ref: '195b1e9'
 
 # Allows the use of common table expressions / WITH statements
 # in active record queries; may eventually be merged into Rails

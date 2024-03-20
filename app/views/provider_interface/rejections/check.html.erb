@@ -23,7 +23,7 @@
           <p class="govuk-body">They’ve given the following feedback to explain their decision:</p>
 
           <div class="govuk-inset-text">
-            <% @wizard.to_model.selected_reasons.as_json.each do |reason| %>
+            <% @wizard.object.selected_reasons.as_json.each do |reason| %>
               <h1 class="govuk-heading-m"><%= reason[:label] %></h1>
               <% if reason[:selected_reasons].nil? %>
                 <p class="govuk-body"><%= reason[:text] %></p>
