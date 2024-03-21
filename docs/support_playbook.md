@@ -1,5 +1,19 @@
 # Apply Dev Support Playbook
 
+1. [References](#references)
+2. [Work Experience](#work-experience)
+3. [Work History Break](#work-history-break)
+4. [Qualifications](#qualifications)
+5. [Personal Statement](#personal-statement)
+6. [Courses and locations](#courses-and-course-locations)
+7. [Confirm deferral](#confirm-deferral)
+8. [Offers](#offers)
+9. [Withdraw](#withdraw-an-application)
+10. [Delete account or application](#delete-an-account--application)
+11. [Permissions](#provider-users-and-permissions)
+12. [Publish Sandbox](#publish-sandbox)
+13. [Candidate sign in](#candidate-login-issues)
+
 ## Support Trello board
 
 https://trello.com/b/dcWOMFyp/
@@ -79,6 +93,28 @@ experience.update(
   audit_comment: "Updated on candidate's request: https://becomingateacher.zendesk.com/"
 )
 ```
+## Work history break
+
+### Add Work history break
+
+Create a new ApplicationWorkHistoryBreak of the appropriate type and save it against the ApplicationForm.
+```ruby
+APPLICATION_FORM_ID=
+START_DATE = Date.new(year, month, day)
+END_DATE = Date.new(year, month, day)
+REASON = ''
+ZENDESK_URL = ''
+
+ApplicationForm.find(APPLICATION_FORM_ID)
+  application_work_history_breaks
+  .create(
+    start_date: START_DATE,
+    end_date: END_DATE,
+    reason: REASON,
+    audit_comment: ZENDESK_URL
+)
+```
+
 
 ## Qualifications
 
@@ -145,7 +181,7 @@ This is possible via the support UI.
 
 If the course doesn't exist in the previous cycle we'll need them to confirm the offer first, then we can change the course to the new course in the current cycle.
 
-## Confirm deferral in the console
+## Confirm deferral
 
 If the course details have changed from one cycle to another, provider users should contact support to request the changes. To confirm a deferral through the console:
 
@@ -220,7 +256,7 @@ In this case, other applications belonging to the candidate may be automatically
 
 [Withdraw Offer Service](../app/services/withdraw_offer.rb)
 
-## Withdrawn an application
+## Withdraw an application
 
 We offer a convenient service called the "Withdraw Application Service" that
 facilitates the withdrawal of an application.
