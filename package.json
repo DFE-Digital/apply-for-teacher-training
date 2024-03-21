@@ -12,7 +12,7 @@
     "dfe-autocomplete": "github:DFE-Digital/dfe-autocomplete#8e7389ff62a38bc8880323f6c58eed9c8d10f080",
     "govuk-frontend": "^5.0.0",
     "jquery": "^3.7.1",
-    "postcss": "^8.4.37",
+    "postcss": "^8.4.38",
     "puppeteer": "^22.6.0"
   },
   "devDependencies": {
