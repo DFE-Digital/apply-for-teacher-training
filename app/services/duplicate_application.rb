@@ -91,7 +91,7 @@ private
     hesa_converter = HesaConverter.new(application_form: original_application_form, recruitment_cycle_year: @recruitment_cycle_year)
 
     new_application_form.update!(
-      equality_and_diversity_completed: equality_and_diversity_all_answers_provided_and_up_to_date?,
+      equality_and_diversity_completed: equality_and_diversity_all_answers_provided?,
       equality_and_diversity: original_application_form.equality_and_diversity.merge(
         hesa_sex: hesa_converter.hesa_sex,
         sex: hesa_converter.sex,
@@ -116,7 +116,7 @@ private
     )
   end
 
-  def equality_and_diversity_all_answers_provided_and_up_to_date?
+  def equality_and_diversity_all_answers_provided?
     EQUALITY_AND_DIVERSITY_ATTRIBUTES.all? { |attribute| @original_application_form.equality_and_diversity[attribute].present? }
   end
 
