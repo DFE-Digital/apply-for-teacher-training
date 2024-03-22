@@ -73,6 +73,10 @@ Regenerate this diagram with `bundle exec rake erd`.
 
 [See detailed documentation here](docs/states.md)
 
+### Apply APIs
+
+This app provides several APIs for programmatic access to the Apply service. [Read about them here](/docs/apply-apis.md).
+
 ## Dependencies
 
 ### Production dependencies
