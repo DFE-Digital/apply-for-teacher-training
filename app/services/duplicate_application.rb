@@ -98,7 +98,21 @@ private
         hesa_disabilities: hesa_converter.hesa_disabilities,
         disabilities: hesa_converter.disabilities,
         hesa_ethnicity: hesa_converter.hesa_ethnicity,
-      )
+      ),
+    )
+  rescue StandardError
+    Sentry.capture_message(
+      "Could not migrate equality_and_diversity data from application form '#{original_application_form.id}' to the #{@recruitment_cycle_year} cycle. The carried over application had incomplete equality_and_diversity information, requiring the candidate to re-answer the section questions again.",
+    )
+
+    new_application_form.update!(
+      equality_and_diversity_completed: false,
+      equality_and_diversity: original_application_form.equality_and_diversity.merge(
+        sex: nil,
+        disabilities: [],
+        ethnic_group: nil,
+        ethnic_background: nil,
+      ),
     )
   end
 

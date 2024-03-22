@@ -181,6 +181,25 @@ RSpec.describe DuplicateApplication do
     end
   end
 
+  context 'when conversion returns an error' do
+    it 'sets the E&D section as complete' do
+      allow(Sentry).to receive(:capture_message)
+      converter = instance_double(HesaConverter, hesa_sex: '10', sex: 'female', hesa_disabilities: ['96'], disabilities: ['Other'])
+      allow(HesaConverter).to receive(:new).and_return(converter)
+      allow(converter).to receive(:hesa_ethnicity).and_raise(StandardError)
+      expect(duplicate_application_form).not_to be_equality_and_diversity_completed
+
+      expect(Sentry).to have_received(:capture_message)
+
+      expect(duplicate_application_form.equality_and_diversity).to include(
+        'sex' => nil,
+        'disabilities' => [],
+        'ethnic_group' => nil,
+        'ethnic_background' => nil,
+      )
+    end
+  end
+
   context 'convert equality and diversity from a cycle that HESA did change' do
     before do
       @original_application_form.update!(
