@@ -100,9 +100,9 @@ private
         hesa_ethnicity: hesa_converter.hesa_ethnicity,
       ),
     )
-  rescue StandardError => exception
+  rescue StandardError => e
     Sentry.capture_message(
-      "Could not migrate equality_and_diversity data from application form '#{original_application_form.id}' to the #{@recruitment_cycle_year} cycle. The carried over application had incomplete equality_and_diversity information, requiring the candidate to re-answer the section questions again. Exception caught: #{exception.message}",
+      "Could not migrate equality_and_diversity data from application form '#{original_application_form.id}' to the #{@recruitment_cycle_year} cycle. The carried over application had incomplete equality_and_diversity information, requiring the candidate to re-answer the section questions again. Exception caught: #{e.message}",
     )
 
     new_application_form.update!(

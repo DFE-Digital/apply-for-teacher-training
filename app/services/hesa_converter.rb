@@ -27,7 +27,7 @@ class HesaConverter
     ethnicity_data[:hesa_ethnicity]
   end
 
-  private
+private
 
   def application_form_sex
     @application_form_sex ||= equality_and_diversity['sex'].to_s
@@ -49,7 +49,7 @@ class HesaConverter
 
       {
         hesa_disabilities: [no_disability.hesa_code],
-        disabilities: [I18n.t('equality_and_diversity.disabilities.no.label')]
+        disabilities: [I18n.t('equality_and_diversity.disabilities.no.label')],
       }
     else
       disabilities = Hesa::Disability.convert_disabilities(application_form_disabilities)
@@ -64,11 +64,11 @@ class HesaConverter
   end
 
   def ethnicity_data
-    return {} unless equality_and_diversity['ethnic_background'].present?
+    return {} if equality_and_diversity['ethnic_background'].blank?
 
     hesa_code = Hesa::Ethnicity.find_without_conversion(
       equality_and_diversity['ethnic_background'],
-      recruitment_cycle_year
+      recruitment_cycle_year,
     )&.hesa_code
 
     if hesa_code.blank? && equality_and_diversity['hesa_ethnicity'].present?
@@ -77,7 +77,7 @@ class HesaConverter
     end
 
     {
-      hesa_ethnicity: hesa_code || equality_and_diversity['hesa_ethnicity']
+      hesa_ethnicity: hesa_code || equality_and_diversity['hesa_ethnicity'],
     }
   end
 
@@ -85,4 +85,3 @@ class HesaConverter
     Array(equality_and_diversity['hesa_disabilities']) == ['00']
   end
 end
-
