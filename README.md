@@ -8,12 +8,12 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 ## Live environments
 
-| Name       | URL                                                                  | Description                                                          | AKS namespace    | PaaS application |
-| ---------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | ------------- |----------------- |
-| Production | [www](https://www.apply-for-teacher-training.service.gov.uk)         | Public site                                                          | `bat-production`    | `apply-prod`     |
-| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk) | Demo environment for software vendors who integrate with our API     | `bat-production`    | `apply-sandbox`  |
-| Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk) | For internal use by DfE to test deploys                              | `bat-staging` | `apply-staging`  |
-| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from main| `bat-qa`      | `apply-qa`       |
+| Name       | URL                                                                  | Description                                                           | AKS namespace    | PaaS application |
+| ---------- | -------------------------------------------------------------------- | --------------------------------------------------------------------- | ---------------- | ---------------- |
+| Production | [www](https://www.apply-for-teacher-training.service.gov.uk)         | Public site                                                           | `bat-production` | `apply-prod`     |
+| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk) | Demo environment for software vendors who integrate with our API      | `bat-production` | `apply-sandbox`  |
+| Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk) | For internal use by DfE to test deploys                               | `bat-staging`    | `apply-staging`  |
+| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from main | `bat-qa`         | `apply-qa`       |
 
 ## Table of Contents
 
@@ -73,6 +73,9 @@ Regenerate this diagram with `bundle exec rake erd`.
 
 [See detailed documentation here](docs/states.md)
 
+### Apply APIs
+
+This app provides several APIs for programmatic access to the Apply service. [Read about them here](/docs/apply-apis.md).
 
 ## Dependencies
 
@@ -131,7 +134,7 @@ Once those dependencies are installed, run `bundle install` to install required 
 1. Start the postgres service: `sudo service postgresql start` on Linux or `brew services start postgresql` on Mac
 1. Populate the `DB_` relevant environment variables with the correct values (those are: `DB_USERNAME`, `DB_PASSWORD`, `DB_HOSTNAME` and `DB_PORT`)
 1. Then local development databases and data can be set up: `bundle exec rake db:setup`
-(You may wish to [set up development data](#development-data) at this point)
+   (You may wish to [set up development data](#development-data) at this point)
 
 #### Running the app
 
