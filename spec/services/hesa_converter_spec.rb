@@ -183,6 +183,20 @@ RSpec.describe HesaConverter do
   it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2022, hesa_ethnicity: '98', expected_hesa_ethnicity: '998', ethnic_background: 'Prefer not to say' }
   it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2023, hesa_ethnicity: nil, ethnic_background: nil, expected_hesa_ethnicity: nil }
 
+  # Free text fields or old ethnic background options from older cycles
+  it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2022, ethnic_background: 'White', hesa_ethnicity: '10', expected_hesa_ethnicity: '160' }
+  it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2022, ethnic_background: 'American', hesa_ethnicity: '10', expected_hesa_ethnicity: '160' }
+  it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2022, ethnic_background: 'Albaninan', hesa_ethnicity: '10', expected_hesa_ethnicity: '160' }
+  it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2022, ethnic_background: 'British, English, Northern Irish, Scottish, or Welsh', hesa_ethnicity: '10', expected_hesa_ethnicity: '160' }
+  it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2022, ethnic_background: 'Gypsy or Traveller', hesa_ethnicity: '15', expected_hesa_ethnicity: '163' }
+  it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2022, ethnic_background: 'African', hesa_ethnicity: '22', expected_hesa_ethnicity: '120' }
+  it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2022, ethnic_background: 'Asian or Asian British - Pakistani', hesa_ethnicity: '32', expected_hesa_ethnicity: '104' }
+  it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2022, ethnic_background: 'Other Black background', hesa_ethnicity: '29', expected_hesa_ethnicity: '139' }
+  it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2022, ethnic_background: 'Another Black background', hesa_ethnicity: '29', expected_hesa_ethnicity: '139' }
+  it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2022, ethnic_background: 'Indian', hesa_ethnicity: '31', expected_hesa_ethnicity: '103' }
+  it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2022, ethnic_background: 'Other Asian background', hesa_ethnicity: '39', expected_hesa_ethnicity: '119' }
+  it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2022, ethnic_background: 'Another Asian background', hesa_ethnicity: '39', expected_hesa_ethnicity: '119' }
+
   # New ethnicity was added in 2023 cycle
   it_behaves_like 'convert ethnicity field', { recruitment_cycle_year: 2023, hesa_ethnicity: '168', expected_hesa_ethnicity: '168', ethnic_background: 'Roma' }
 

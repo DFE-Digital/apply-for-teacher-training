@@ -9,6 +9,7 @@ class DuplicateApplication
 
   IGNORED_ATTRIBUTES = %w[id created_at updated_at submitted_at course_choices_completed phase support_reference english_main_language english_language_details other_language_details feedback_form_complete].freeze
   IGNORED_CHILD_ATTRIBUTES = %w[id created_at updated_at application_form_id public_id].freeze
+  EQUALITY_AND_DIVERSITY_ATTRIBUTES = %w[sex disabilities ethnic_group ethnic_background].freeze
 
   def duplicate
     attrs = original_application_form.attributes.except(
@@ -90,14 +91,19 @@ private
     hesa_converter = HesaConverter.new(application_form: original_application_form, recruitment_cycle_year: @recruitment_cycle_year)
 
     new_application_form.update!(
+      equality_and_diversity_completed: equality_and_diversity_all_answers_provided_and_up_to_date?,
       equality_and_diversity: original_application_form.equality_and_diversity.merge(
         hesa_sex: hesa_converter.hesa_sex,
         sex: hesa_converter.sex,
         hesa_disabilities: hesa_converter.hesa_disabilities,
         disabilities: hesa_converter.disabilities,
         hesa_ethnicity: hesa_converter.hesa_ethnicity,
-      ),
+      )
     )
+  end
+
+  def equality_and_diversity_all_answers_provided_and_up_to_date?
+    EQUALITY_AND_DIVERSITY_ATTRIBUTES.all? { |attribute| @original_application_form.equality_and_diversity[attribute].present? }
   end
 
   def infer_currently_working(application_experience)

@@ -1,5 +1,6 @@
 class HesaConverter
   attr_reader :application_form, :recruitment_cycle_year
+  delegate :equality_and_diversity, to: :application_form
 
   def initialize(application_form:, recruitment_cycle_year:)
     @application_form = application_form
@@ -29,11 +30,11 @@ class HesaConverter
   private
 
   def application_form_sex
-    @application_form_sex ||= application_form.equality_and_diversity['sex'].to_s
+    @application_form_sex ||= equality_and_diversity['sex'].to_s
   end
 
   def application_form_disabilities
-    @application_form_disabilities ||= @application_form.equality_and_diversity['disabilities']
+    @application_form_disabilities ||= equality_and_diversity['disabilities']
   end
 
   def hesa_sex_data
@@ -63,25 +64,25 @@ class HesaConverter
   end
 
   def ethnicity_data
-    return {} unless @application_form.equality_and_diversity['ethnic_background'].present?
+    return {} unless equality_and_diversity['ethnic_background'].present?
 
     hesa_code = Hesa::Ethnicity.find_without_conversion(
-      @application_form.equality_and_diversity['ethnic_background'],
+      equality_and_diversity['ethnic_background'],
       recruitment_cycle_year
     )&.hesa_code
 
-    if hesa_code.blank? && @application_form.equality_and_diversity['hesa_ethnicity'].present?
-      ethnic_value = HesaEthnicityCollections::HESA_ETHNICITIES_2019_2020.to_h[@application_form.equality_and_diversity['hesa_ethnicity']]
+    if hesa_code.blank? && equality_and_diversity['hesa_ethnicity'].present?
+      ethnic_value = HesaEthnicityCollections::HESA_ETHNICITIES_2019_2020.to_h[equality_and_diversity['hesa_ethnicity']]
       hesa_code = Hesa::Ethnicity.find_without_conversion(ethnic_value, recruitment_cycle_year)&.hesa_code
     end
 
     {
-      hesa_ethnicity: hesa_code || @application_form.equality_and_diversity['hesa_ethnicity']
+      hesa_ethnicity: hesa_code || equality_and_diversity['hesa_ethnicity']
     }
   end
 
   def candidate_chosen_no_disabilities?
-    Array(@application_form.equality_and_diversity['hesa_disabilities']) == ['00']
+    Array(equality_and_diversity['hesa_disabilities']) == ['00']
   end
 end
 
