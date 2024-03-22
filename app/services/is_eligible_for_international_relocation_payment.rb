@@ -8,6 +8,8 @@ class IsEligibleForInternationalRelocationPayment
   end
 
   def call
+    return false if FeatureFlag.active?(:hide_international_relocation_payment)
+
     international? && eligible_subject? && right_to_work_or_study?
   end
 
