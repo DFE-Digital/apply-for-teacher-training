@@ -65,4 +65,16 @@ RSpec.describe ReinstatePendingConditions do
   describe 'validations' do
     include_examples 'confirm deferred offer validations', :reinstate_pending_conditions
   end
+
+  context 'when sending the email' do
+    it 'sends reinstated offer email with correct content', :sidekiq do
+      new_course_option.course.update!(start_date: original_course.start_date + 1.year)
+
+      expect {
+        service.save!
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+      expect(ActionMailer::Base.deliveries.first.body.raw_source).to include(new_course_option.course.start_date.to_fs(:month_and_year))
+    end
+  end
 end
