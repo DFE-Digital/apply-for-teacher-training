@@ -4,20 +4,6 @@ RSpec.feature 'Provider changes a course' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
-  let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_set_up_interviews) }
-  let(:provider) { provider_user.providers.first }
-  let(:ratifying_provider) { create(:provider) }
-  let(:application_form) { build(:application_form, :minimum_info) }
-  let!(:application_choice) do
-    create(:application_choice, :awaiting_provider_decision,
-           application_form:,
-           course_option:)
-  end
-  let(:course) do
-    build(:course, :full_time, provider:, accredited_provider: ratifying_provider)
-  end
-  let(:course_option) { build(:course_option, course:) }
-
   scenario 'Changing a course choice before point of offer' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
@@ -63,7 +49,8 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def given_i_am_a_provider_user
-    user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
+    @provider_user = create(:provider_user, :with_dfe_sign_in, :with_set_up_interviews)
+    user_exists_in_dfe_sign_in(email_address: @provider_user.email_address)
   end
 
   def and_i_am_permitted_to_make_decisions_for_my_provider
@@ -76,12 +63,22 @@ RSpec.feature 'Provider changes a course' do
 
   def and_the_provider_user_can_offer_multiple_provider_courses
     @selected_provider = create(:provider)
-    create(:provider_permissions, provider: @selected_provider, provider_user:, make_decisions: true, set_up_interviews: true)
-    courses = [create(:course, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider),
-               create(:course, :open, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider)]
+
+    @provider = @provider_user.providers.first
+    @ratifying_provider = create(:provider)
+    @course = build(:course, :full_time, provider: @provider, accredited_provider: @ratifying_provider)
+    @course_option = build(:course_option, course: @course)
+    @application_form = build(:application_form, :minimum_info)
+
+    @application_choice = create(:application_choice, :awaiting_provider_decision,
+                                 application_form: @application_form,
+                                 course_option: @course_option)
+    create(:provider_permissions, provider: @selected_provider, provider_user: @provider_user, make_decisions: true, set_up_interviews: true)
+    courses = [create(:course, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: @ratifying_provider),
+               create(:course, :open, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: @ratifying_provider)]
     @selected_course = courses.sample
 
-    @one_mode_and_location_course = create(:course, :open, study_mode: :full_time, provider: @selected_provider, accredited_provider: ratifying_provider)
+    @one_mode_and_location_course = create(:course, :open, study_mode: :full_time, provider: @selected_provider, accredited_provider: @ratifying_provider)
     @one_mode_and_location_course_option = create(:course_option, :full_time, site: create(:site, provider: @one_mode_and_location_course.provider), course: @one_mode_and_location_course)
 
     course_options = [create(:course_option, :part_time, course: @selected_course),
@@ -91,15 +88,15 @@ RSpec.feature 'Provider changes a course' do
 
     create(
       :provider_relationship_permissions,
-      training_provider: provider,
-      ratifying_provider:,
+      training_provider: @provider,
+      ratifying_provider: @ratifying_provider,
       ratifying_provider_can_make_decisions: true,
     )
 
     create(
       :provider_relationship_permissions,
       training_provider: @selected_provider,
-      ratifying_provider:,
+      ratifying_provider: @ratifying_provider,
       ratifying_provider_can_make_decisions: true,
     )
 
@@ -111,7 +108,7 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def and_i_click_an_application_choice_that_is_interviewing
-    click_link_or_button application_choice.application_form.full_name
+    click_link_or_button @application_choice.application_form.full_name
   end
 
   def and_i_click_on_change_the_training_provider
@@ -121,7 +118,7 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def then_i_see_a_list_of_training_providers_to_select_from
-    expect(page).to have_content "Update course - #{application_form.full_name}"
+    expect(page).to have_content "Update course - #{@application_form.full_name}"
     expect(page).to have_content 'Training provider'
   end
 
@@ -136,7 +133,7 @@ RSpec.feature 'Provider changes a course' do
   alias_method :when_i_click_continue, :and_i_click_continue
 
   def then_i_see_a_list_of_courses_to_select_from
-    expect(page).to have_content "Update course - #{application_form.full_name}"
+    expect(page).to have_content "Update course - #{@application_form.full_name}"
     expect(page).to have_content 'Course'
   end
 
@@ -151,7 +148,7 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def then_no_study_mode_is_pre_selected
-    expect(page).to have_content "Update course - #{application_form.full_name}"
+    expect(page).to have_content "Update course - #{@application_form.full_name}"
     expect(page).to have_content 'Full time or part time'
     expect(find_field('Full time')).not_to be_checked
     expect(find_field('Part time')).not_to be_checked
@@ -162,7 +159,7 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def then_i_am_taken_to_the_change_location_page
-    expect(page).to have_content "Update course - #{application_form.full_name}"
+    expect(page).to have_content "Update course - #{@application_form.full_name}"
     expect(page).to have_content 'Location'
   end
 
@@ -175,7 +172,7 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def then_the_review_page_is_loaded
-    expect(page).to have_content "Update course - #{application_form.full_name}"
+    expect(page).to have_content "Update course - #{@application_form.full_name}"
     expect(page).to have_content 'Check details and update course'
   end
 
