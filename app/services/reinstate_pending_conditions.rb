@@ -23,8 +23,8 @@ class ReinstatePendingConditions
             course_option,
             other_fields: { recruited_at: nil },
           )
-          CandidateMailer.reinstated_offer(application_choice).deliver_later
         end
+        CandidateMailer.reinstated_offer(application_choice).deliver_later
       end
     else
       raise ValidationException, deferred_offer.errors.map(&:message)
