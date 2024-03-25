@@ -33,7 +33,6 @@ class FeatureFlag
     [:sample_applications_factory, 'An alternate generator for test/sample applications, uses `SampleApplicationsFactory` in place of `TestApplications.new`', 'Elliot Crosby-McCullough + Tomas Destefi'],
     [:structured_reference_condition, 'Structured reference condition that can be added as a condition to an offer', 'Tomas Destefi'],
     [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
-    [:hide_international_relocation_payment, 'Hides international relocation information when active', 'Lori Bailey'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
