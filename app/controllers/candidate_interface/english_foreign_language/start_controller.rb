@@ -6,7 +6,7 @@ module CandidateInterface
       end
 
       def edit
-        @start_form = EnglishForeignLanguage::StartForm.new.fill(current_application.english_proficiency)
+        @start_form = EnglishForeignLanguage::StartForm.new.fill(current_application.english_proficiency || current_application.build_english_proficiency)
         @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
       end
 
