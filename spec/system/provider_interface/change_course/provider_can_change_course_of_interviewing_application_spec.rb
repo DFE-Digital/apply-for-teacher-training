@@ -4,7 +4,19 @@ RSpec.feature 'Provider changes a course' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
-  scenario 'Changing a course choice before point of offer' do
+  # Create 3 providers
+  # -- Permissions
+  # 1. Provider user is only directly associated with one (@source_provider)
+  # 2. Provider user has 'decisions' and 'interviews' permissions on the @target_provider
+  # 3. The provider user can change the course of a candidate from the provider
+  #    they are directly associated with to another provider which they have been
+  #    given permissions on
+  #
+  # -- What is being tested in the UI
+  # 1. Test that the provider user can change the provider, course, study_mode and location from @source_provider to @target_provider
+  # 2. Also demonstrate that the provider user can start the change from the course level
+  #
+  scenario 'Changing an interviewing application course' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_i_sign_in_to_the_provider_interface
@@ -62,45 +74,50 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def and_the_provider_user_can_offer_multiple_provider_courses
-    @selected_provider = create(:provider)
+    @target_provider = create(:provider)
 
-    @provider = @provider_user.providers.first
+    @source_provider = @provider_user.providers.first
     @ratifying_provider = create(:provider)
-    @course = build(:course, :full_time, provider: @provider, accredited_provider: @ratifying_provider)
+
+    @course = build(:course, :full_time, provider: @source_provider, accredited_provider: @ratifying_provider)
     @course_option = build(:course_option, course: @course)
+
     @application_form = build(:application_form, :minimum_info)
 
     @application_choice = create(:application_choice, :awaiting_provider_decision,
                                  application_form: @application_form,
                                  course_option: @course_option)
-    create(:provider_permissions, provider: @selected_provider, provider_user: @provider_user, make_decisions: true, set_up_interviews: true)
-    courses = [create(:course, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: @ratifying_provider),
-               create(:course, :open, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: @ratifying_provider)]
-    @selected_course = courses.sample
 
-    @one_mode_and_location_course = create(:course, :open, study_mode: :full_time, provider: @selected_provider, accredited_provider: @ratifying_provider)
+    create(:provider_permissions, provider: @target_provider, provider_user: @provider_user, make_decisions: true, set_up_interviews: true)
+
+    binding.pry
+    courses = [create(:course, study_mode: :full_time_or_part_time, provider: @target_provider, accredited_provider: @ratifying_provider),
+               create(:course, :open, study_mode: :full_time_or_part_time, provider: @target_provider, accredited_provider: @ratifying_provider)]
+    @target_course = courses.sample
+
+    @one_mode_and_location_course = create(:course, :open, study_mode: :full_time, provider: @target_provider, accredited_provider: @ratifying_provider)
     @one_mode_and_location_course_option = create(:course_option, :full_time, site: create(:site, provider: @one_mode_and_location_course.provider), course: @one_mode_and_location_course)
 
-    course_options = [create(:course_option, :part_time, course: @selected_course),
-                      create(:course_option, :full_time, course: @selected_course),
-                      create(:course_option, :full_time, course: @selected_course),
-                      create(:course_option, :part_time, course: @selected_course)]
+    course_options = [create(:course_option, :part_time, course: @target_course),
+                      create(:course_option, :full_time, course: @target_course),
+                      create(:course_option, :full_time, course: @target_course),
+                      create(:course_option, :part_time, course: @target_course)]
 
     create(
       :provider_relationship_permissions,
-      training_provider: @provider,
+      training_provider: @source_provider,
       ratifying_provider: @ratifying_provider,
       ratifying_provider_can_make_decisions: true,
     )
 
     create(
       :provider_relationship_permissions,
-      training_provider: @selected_provider,
+      training_provider: @target_provider,
       ratifying_provider: @ratifying_provider,
       ratifying_provider_can_make_decisions: true,
     )
 
-    @selected_course_option = course_options.sample
+    @target_course_option = course_options.sample
   end
 
   def when_i_visit_the_provider_interface
@@ -123,7 +140,7 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def when_i_select_a_different_provider
-    choose @selected_provider.name_and_code
+    choose @target_provider.name_and_code
   end
 
   def and_i_click_continue
@@ -140,7 +157,7 @@ RSpec.feature 'Provider changes a course' do
   alias_method :then_i_am_taken_to_the_change_course_page, :then_i_see_a_list_of_courses_to_select_from
 
   def when_i_select_a_different_course
-    choose @selected_course.name_and_code
+    choose @target_course.name_and_code
   end
 
   def then_i_dont_see_the_study_mode_page
@@ -155,7 +172,7 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def when_i_select_a_study_mode
-    choose @selected_course_option.study_mode.humanize
+    choose @target_course_option.study_mode.humanize
   end
 
   def then_i_am_taken_to_the_change_location_page
@@ -164,7 +181,7 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def when_i_select_a_new_location
-    choose @selected_course_option.site_name
+    choose @target_course_option.site_name
   end
 
   def and_i_select_a_new_location
@@ -177,9 +194,6 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def when_i_click_change_course
-    @selected_course = @provider_available_course
-    @selected_course_option = @provider_available_course_option
-
     within(all('.govuk-summary-list__row')[1]) do
       click_link_or_button 'Change'
     end
