@@ -90,7 +90,7 @@ RSpec.describe DuplicateApplication do
       )
     end
 
-    it 'sets the ethnicity as blank' do
+    it 'sets the ethnicity as nil' do
       expect(duplicate_application_form.equality_and_diversity['ethnic_background']).to be_nil
     end
 
