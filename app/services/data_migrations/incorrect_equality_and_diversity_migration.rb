@@ -6,7 +6,7 @@ module DataMigrations
       (equality_and_diversity->'hesa_sex' ?| array['1', '2', '3']) OR
       (equality_and_diversity->'hesa_ethnicity' ?| array['10','15','21','22','29','31','32','33','34','39','41','42','43','49','50','80','90','98']) OR
       (equality_and_diversity->'hesa_disabilities' ?| array['00','08']) OR
-      (equality_and_diversity->'disabilities' ?| array['Learning difficulty', 'Social or communication impairment', 'Long-standing illness', 'Physical disability or mobility issue', 'Deaf', 'Blind'])
+      (equality_and_diversity->'disabilities' ?| array['Learning difficulty', 'Social or communication impairment', 'Long-standing illness', 'Deaf', 'Blind'])
     SQL
 
     def change(limit: nil)

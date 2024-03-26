@@ -58,7 +58,6 @@ RSpec.describe DataMigrations::IncorrectEqualityAndDiversityMigration do
         @learning_difficulty = create(:application_form, equality_and_diversity: { disabilities: ['Learning difficulty'] })
         @social_impairment = create(:application_form, equality_and_diversity: { disabilities: ['Social or communication impairment'] })
         @long_standing = create(:application_form, equality_and_diversity: { disabilities: ['Long-standing illness'] })
-        @physical_disability = create(:application_form, equality_and_diversity: { disabilities: ['Physical disability or mobility issue'] })
         @deaf = create(:application_form, equality_and_diversity: { disabilities: ['Deaf'] })
         @blind = create(:application_form, equality_and_diversity: { disabilities: ['Blind'] })
       end
@@ -68,7 +67,6 @@ RSpec.describe DataMigrations::IncorrectEqualityAndDiversityMigration do
           @learning_difficulty,
           @social_impairment,
           @long_standing,
-          @physical_disability,
           @deaf,
           @blind,
         )
@@ -87,10 +85,6 @@ RSpec.describe DataMigrations::IncorrectEqualityAndDiversityMigration do
         expect(@long_standing.reload.equality_and_diversity['hesa_disabilities']).to eq(['54'])
         expect(@long_standing.equality_and_diversity['disabilities']).to eq(
           ['Long-term illness'],
-        )
-        expect(@physical_disability.reload.equality_and_diversity['hesa_disabilities']).to eq(['56'])
-        expect(@physical_disability.reload.equality_and_diversity['disabilities']).to eq(
-          ['Physical disability or mobility issue'],
         )
         expect(@deaf.reload.equality_and_diversity['hesa_disabilities']).to eq(['57'])
         expect(@deaf.equality_and_diversity['disabilities']).to eq(
