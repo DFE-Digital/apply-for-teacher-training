@@ -10,7 +10,7 @@ task _reset_qa: %i[
   backup_support_users
   truncate_qa_database
   restore_support_users
-  sync_dev_providers_and_open_courses
+  sync_dev_providers
   generate_test_applications
   create_persona_users
 ]
