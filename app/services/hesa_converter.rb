@@ -1,7 +1,4 @@
 class HesaConverter
-  attr_reader :application_form, :recruitment_cycle_year
-  delegate :equality_and_diversity, to: :application_form
-
   def initialize(application_form:, recruitment_cycle_year:)
     @application_form = application_form
     @recruitment_cycle_year = recruitment_cycle_year
@@ -28,6 +25,9 @@ class HesaConverter
   end
 
 private
+
+  attr_reader :application_form, :recruitment_cycle_year
+  delegate :equality_and_diversity, to: :application_form
 
   def application_form_sex
     @application_form_sex ||= equality_and_diversity['sex'].to_s
