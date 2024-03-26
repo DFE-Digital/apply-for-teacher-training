@@ -8,18 +8,18 @@ RSpec.describe GenerateTestApplications do
     current_cycle = RecruitmentCycle.current_year
 
     # necessary to test 'cancelled' state
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: 2020))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: 2020))
 
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: previous_cycle))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: previous_cycle))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: previous_cycle))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: previous_cycle))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: previous_cycle))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: previous_cycle))
 
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle))
 
     slack_request = stub_request(:post, 'https://example.com')
 
@@ -53,11 +53,11 @@ RSpec.describe GenerateTestApplications do
     current_cycle = RecruitmentCycle.current_year
     provider = create(:provider)
 
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider:))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider:))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider:))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider:))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
 
     ClimateControl.modify(STATE_CHANGE_SLACK_URL: 'https://example.com') do
       described_class.new.perform(true)
