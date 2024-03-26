@@ -2,6 +2,7 @@ DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
   'DataMigrations::RemoveIncidentEvictionFeatureFlag',
   'DataMigrations::RemoveCourseHasVacanciesFeatureFlag',
+  'DataMigrations::IncorrectEqualityAndDiversityMigration',
   'DataMigrations::SetInstitutionCountryToGbOnUkDegrees',
   'DataMigrations::RemoveSupportUserReinstateOfferFeatureFlag',
   'DataMigrations::RemoveSupportUserRevertWithdrawnOfferFeatureFlag',
