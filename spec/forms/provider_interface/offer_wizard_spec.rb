@@ -313,31 +313,6 @@ RSpec.describe ProviderInterface::OfferWizard do
       context 'when a ske condition is required' do
         let(:ske_conditions) { [SkeCondition.new] }
 
-        context 'and the course is religious education' do
-          let(:application_choice) { create(:application_choice) }
-          let(:application_choice_id) { application_choice.id }
-          let(:course_option_id) { application_choice.current_course_option.id }
-
-          before do
-            application_choice.course_option.course.subjects.delete_all
-            application_choice.course_option.course.subjects << build(:subject, code: 'V6', name: 'Religious Education')
-            allow(store).to receive(:write)
-          end
-
-          context 'and the current step is :ske_reason' do
-            let(:current_step) { :ske_reason }
-
-            it 'sets the SKE length to 8 weeks' do
-              wizard.next_step
-              expect(wizard.ske_conditions.first.length).to eq('8')
-            end
-
-            it 'skips the length step' do
-              expect(wizard.next_step).to eq(:conditions)
-            end
-          end
-        end
-
         context 'and the course is a modern language' do
           let(:current_step) { :select_option }
           let(:application_choice) { create(:application_choice) }
@@ -536,7 +511,7 @@ RSpec.describe ProviderInterface::OfferWizard do
         context 'when ske is required' do
           before do
             wizard.course_option.course.subjects.delete_all
-            wizard.course_option.course.subjects << build(:subject, code: 'C1', name: 'biology')
+            wizard.course_option.course.subjects << build(:subject, code: 'F1', name: 'Chemistry')
           end
 
           it 'returns :ske_requirements' do

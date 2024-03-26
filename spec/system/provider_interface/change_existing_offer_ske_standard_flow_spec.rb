@@ -75,7 +75,7 @@ RSpec.feature 'Provider changes an existing offer' do
     and_i_click_continue
 
     then_the_review_page_is_loaded
-    and_the_ske_conditions_should_be_displayed
+    and_the_ske_conditions_be_displayed
     and_i_can_confirm_the_changed_offer_details
 
     when_i_choose_to_edit_the_ske_condition
@@ -87,23 +87,23 @@ RSpec.feature 'Provider changes an existing offer' do
     and_i_click_continue
     and_i_click_continue
     then_the_review_page_is_loaded
-    and_the_modified_ske_conditions_should_be_displayed
+    and_the_modified_ske_conditions_be_displayed
     and_i_can_confirm_the_changed_offer_details
 
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfully_updated
-    and_the_modified_ske_conditions_should_be_displayed
+    and_the_modified_ske_conditions_be_displayed
 
     # Toggle the standard conditions and save
     when_i_choose_to_change_the_conditions
     and_i_click_continue
     then_the_review_page_is_loaded
-    and_the_modified_ske_conditions_should_be_displayed
+    and_the_modified_ske_conditions_be_displayed
 
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfully_updated
     and_i_can_see_the_new_offer_condition
-    and_the_modified_ske_conditions_should_be_displayed
+    and_the_modified_ske_conditions_be_displayed
 
     # Change provider and course to a subject that does NOT permit SKE conditions
     when_i_choose_to_change_the_course
@@ -119,12 +119,12 @@ RSpec.feature 'Provider changes an existing offer' do
     and_i_click_continue
 
     then_the_review_page_is_loaded
-    and_the_ske_conditions_should_not_be_displayed
+    and_the_ske_conditions_not_be_displayed
     and_i_can_confirm_the_changed_offer_details_for_the_non_ske_course
 
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfully_updated
-    and_the_ske_conditions_should_not_be_displayed
+    and_the_ske_conditions_not_be_displayed
   end
 
   def given_i_am_a_provider_user
@@ -142,7 +142,7 @@ RSpec.feature 'Provider changes an existing offer' do
   def given_the_provider_user_can_offer_multiple_provider_courses
     @selected_provider = create(:provider)
     create(:provider_permissions, provider: @selected_provider, provider_user:, make_decisions: true)
-    @ske_subject = create(:subject, code: 'C1', name: 'Biology')
+    @ske_subject = create(:subject, code: 'F1', name: 'Chemistry')
     @non_ske_subject = create(:subject, code: 'W1', name: 'Art and design')
     courses = create_list(:course, 2, subjects: [@ske_subject], study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider)
     @selected_course = courses.sample
@@ -285,21 +285,21 @@ RSpec.feature 'Provider changes an existing offer' do
     choose '12 weeks'
   end
 
-  def and_the_ske_conditions_should_be_displayed
+  def and_the_ske_conditions_be_displayed
     expect(page).to have_content('Subject knowledge enhancement course')
     expect(page).to have_content("Subject\n#{@ske_subject.name}")
     expect(page).to have_content("Length\n8 weeks")
     expect(page).to have_content("Reason\nTheir degree subject was not #{@ske_subject.name}")
   end
 
-  def and_the_modified_ske_conditions_should_be_displayed
+  def and_the_modified_ske_conditions_be_displayed
     expect(page).to have_content('Subject knowledge enhancement course')
     expect(page).to have_content("Subject\n#{@ske_subject.name}")
     expect(page).to have_content("Length\n12 weeks")
     expect(page).to have_content("Reason\nTheir degree subject was not #{@ske_subject.name}")
   end
 
-  def and_the_ske_conditions_should_not_be_displayed
+  def and_the_ske_conditions_not_be_displayed
     expect(page).to have_no_content('Subject knowledge enhancement course')
   end
 
