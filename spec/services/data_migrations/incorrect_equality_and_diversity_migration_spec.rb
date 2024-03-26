@@ -23,6 +23,17 @@ RSpec.describe DataMigrations::IncorrectEqualityAndDiversityMigration do
         expect(@prefer_not_to_say.reload.equality_and_diversity['hesa_sex']).to be_nil
       end
 
+      it 'creates an audit record' do
+        expect {
+          described_class.new.change
+        }.to change { @male.audits.count }.by(1)
+
+        audit = @male.audits.last
+        expect(audit.comment).to eq('E&D fixing incorrect and outdated HESA values')
+        expect(audit.action).to eq('update')
+        expect(audit.username).to eq('DataMigration')
+      end
+
       it 'converts to the uptodate hesa values' do
         described_class.new.change
 

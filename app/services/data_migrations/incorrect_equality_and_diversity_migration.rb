@@ -16,13 +16,19 @@ module DataMigrations
           recruitment_cycle_year: RecruitmentCycle.current_year,
         )
 
-        application_form.update_columns(
-          equality_and_diversity: application_form.equality_and_diversity.merge(
-            'hesa_sex' => hesa_converter.hesa_sex,
-            'hesa_disabilities' => hesa_converter.hesa_disabilities,
-            'disabilities' => hesa_converter.disabilities,
-            'hesa_ethnicity' => hesa_converter.hesa_ethnicity,
-          ),
+        equality_and_diversity = application_form.equality_and_diversity.merge(
+          'hesa_sex' => hesa_converter.hesa_sex,
+          'hesa_disabilities' => hesa_converter.hesa_disabilities,
+          'disabilities' => hesa_converter.disabilities,
+          'hesa_ethnicity' => hesa_converter.hesa_ethnicity,
+        )
+
+        application_form.update_columns(equality_and_diversity:)
+        application_form.audits.create!(
+          comment: 'E&D fixing incorrect and outdated HESA values',
+          audited_changes: { equality_and_diversity: },
+          action: :update,
+          username: 'DataMigration',
         )
       end
     end
