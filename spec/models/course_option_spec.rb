@@ -53,24 +53,6 @@ RSpec.describe CourseOption do
     end
   end
 
-  describe '#course_closed_on_apply?' do
-    it 'returns true if course is not open on apply' do
-      option = build_stubbed(
-        :course_option,
-        course: build_stubbed(:course, open_on_apply: false),
-      )
-      expect(option.course_closed_on_apply?).to be true
-    end
-
-    it 'returns false if course is open on apply' do
-      option = build_stubbed(
-        :course_option,
-        course: build_stubbed(:course, :open_on_apply),
-      )
-      expect(option.course_closed_on_apply?).to be false
-    end
-  end
-
   describe '#course_full?' do
     let(:course) { course_option_under_test.course }
 

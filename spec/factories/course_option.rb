@@ -10,10 +10,6 @@ FactoryBot.define do
       recruitment_cycle_year { RecruitmentCycle.current_year }
     end
 
-    trait :open_on_apply do
-      course { association :course, :open_on_apply, recruitment_cycle_year: }
-    end
-
     trait :open do
       course { association :course, :open, recruitment_cycle_year: }
     end
@@ -67,7 +63,6 @@ FactoryBot.define do
           new_course = course_option.course.dup
           new_course.update!(
             code: course_option.course.code,
-            open_on_apply: true,
             recruitment_cycle_year: course_option.course.recruitment_cycle_year + 1,
           )
         end

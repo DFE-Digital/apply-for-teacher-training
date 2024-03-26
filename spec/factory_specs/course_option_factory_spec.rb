@@ -22,20 +22,6 @@ RSpec.describe 'CourseOption factory' do
     field :vacancy_status, value: 'vacancies'
     field :site_still_valid, value: true
 
-    trait :open_on_apply do
-      it 'associates a course which is open on apply' do
-        expect(record.course).to be_open_on_apply
-      end
-
-      describe 'transient `recruitment_cycle_year`' do
-        let(:attributes) { { recruitment_cycle_year: 2020 } }
-
-        it 'sets the recruitment cycle year on the course' do
-          expect(record.course.recruitment_cycle_year).to eq(2020)
-        end
-      end
-    end
-
     trait :with_course_uuid do
       it 'associates a course with a UUID' do
         expect(record.course.uuid).to be_present
