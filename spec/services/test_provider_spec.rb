@@ -28,10 +28,10 @@ RSpec.describe TestProvider do
 
     context 'when there are 3 or more existing open courses with course options' do
       let!(:test_provider_courses) do
-        create_list(:course_option, 3, course: create(:course, :open_on_apply, provider: test_provider)).map(&:course)
+        create_list(:course_option, 3, course: create(:course, :open, provider: test_provider)).map(&:course)
       end
       let!(:test_provider_courses_without_options) do
-        create(:course, :open_on_apply, provider: test_provider)
+        create(:course, :open, provider: test_provider)
       end
 
       it 'returns the list of courses run by the training provider' do
@@ -41,8 +41,8 @@ RSpec.describe TestProvider do
 
     context 'when there are fewer than 3 existing open courses' do
       let!(:test_provider_courses) do
-        create(:course, :open_on_apply, provider: test_provider)
-        create_list(:course, 3, :open_on_apply, :previous_year, provider: test_provider)
+        create(:course, :open, provider: test_provider)
+        create_list(:course, 3, :open, :previous_year, provider: test_provider)
         create_list(:course, 3, provider: test_provider)
       end
 
@@ -50,7 +50,6 @@ RSpec.describe TestProvider do
         courses = described_class.training_courses(previous_cycle)
 
         expect(courses.count).to be >= 3
-        expect(courses.where(open_on_apply: false)).to be_empty
         expect(courses.previous_cycle).to be_empty
       end
     end
@@ -81,7 +80,6 @@ RSpec.describe TestProvider do
 
         expect(courses.count).to be >= 3
         expect(courses.pluck(:recruitment_cycle_year).uniq).to eq([RecruitmentCycle.previous_year])
-        expect(courses.where(open_on_apply: true)).to be_empty
         expect(courses.current_cycle).to be_empty
       end
     end
