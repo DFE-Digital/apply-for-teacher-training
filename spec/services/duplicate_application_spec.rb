@@ -50,7 +50,7 @@ RSpec.describe DuplicateApplication do
       )
     end
 
-    it 'sets disabilities as empty' do
+    it 'sets disabilities as nil' do
       expect(duplicate_application_form.equality_and_diversity['disabilities']).to be_nil
     end
 
@@ -70,7 +70,7 @@ RSpec.describe DuplicateApplication do
       )
     end
 
-    it 'sets disabilities as empty' do
+    it 'sets disabilities as nil' do
       expect(duplicate_application_form.equality_and_diversity['disabilities']).to be_nil
     end
 
