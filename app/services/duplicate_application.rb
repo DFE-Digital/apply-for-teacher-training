@@ -102,7 +102,7 @@ private
     )
   rescue StandardError => e
     Sentry.capture_message(
-      "Could not migrate equality_and_diversity data from application form '#{original_application_form.id}' to the #{@recruitment_cycle_year} cycle. The carried over application had incomplete equality_and_diversity information, requiring the candidate to re-answer the section questions again. Exception caught: #{e.message}",
+      "Could not migrate equality_and_diversity data from application form '#{original_application_form.id}' from #{original_application_form.recruitment_cycle_year} cycle to the #{@recruitment_cycle_year} cycle. The carried over application had incomplete equality_and_diversity information, requiring the candidate to re-answer the section questions again. Exception caught: #{e.message}",
     )
 
     new_application_form.update!(
