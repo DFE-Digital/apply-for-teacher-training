@@ -61,23 +61,13 @@ class SkeCondition < OfferCondition
   def length_for_ske_courses
     return if length.blank?
 
-    if religious_education_course? && length != SKE_LENGTHS.first.to_s
-      errors.add(
-        :length,
-        :invalid_length,
-        allowed_values: SkeCondition::SKE_LENGTHS.first,
-      )
-    elsif SKE_LENGTHS.exclude?(length.to_i)
+    if SKE_LENGTHS.exclude?(length.to_i)
       errors.add(
         :length,
         :invalid_length,
         allowed_values: SkeCondition::SKE_LENGTHS.to_sentence(last_word_connector: ' or '),
       )
     end
-  end
-
-  def religious_education_course?
-    subject_code&.in?(Subject::SKE_RE_COURSES)
   end
 
   def subject_code
