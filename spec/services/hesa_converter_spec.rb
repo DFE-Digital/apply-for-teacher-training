@@ -4,8 +4,8 @@ RSpec.describe HesaConverter do
   shared_examples 'convert sex field' do |data|
     it "converts old hesa codes from #{data[:recruitment_cycle_year]} cycle for '#{data[:sex]}' into the most up to date HESA codes" do
       recruitment_cycle_year = data[:recruitment_cycle_year]
-      application_form = create(:application_form, :completed)
-      application_form.update!(
+      application_form = build(:application_form, :completed)
+      application_form.assign_attributes(
         recruitment_cycle_year:,
         equality_and_diversity: application_form.equality_and_diversity.merge(
           hesa_sex: data[:hesa_sex],
@@ -23,7 +23,7 @@ RSpec.describe HesaConverter do
     end
   end
 
-  # Below I added all scenarios I could caught in the DB from 2020 til 2024
+  # Below I added all scenarios I could catch in the DB from 2020 til 2024
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2020, hesa_sex: '1', sex: 'female', expected_hesa_sex: '10' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2020, hesa_sex: '2', sex: 'male', expected_hesa_sex: '11' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2020, hesa_sex: nil, sex: 'Prefer not to say', expected_hesa_sex: nil, expected_sex: 'Prefer not to say' }
@@ -47,8 +47,8 @@ RSpec.describe HesaConverter do
   shared_examples 'convert disabilities field' do |data|
     it "converts old HESA codes from #{data[:recruitment_cycle_year]} cycle for '#{data[:disabilities]}' into the most up to date HESA codes" do
       recruitment_cycle_year = data[:recruitment_cycle_year]
-      application_form = create(:application_form, :completed)
-      application_form.update!(
+      application_form = build(:application_form, :completed)
+      application_form.assign_attributes(
         recruitment_cycle_year:,
         equality_and_diversity: application_form.equality_and_diversity.merge(
           hesa_disabilities: data[:hesa_disabilities],
@@ -150,8 +150,8 @@ RSpec.describe HesaConverter do
   shared_examples 'convert ethnicity field' do |data|
     it "converts old HESA codes from #{data[:recruitment_cycle_year]} cycle for '#{data[:ethnic_background]}' into the most up to date HESA codes" do
       recruitment_cycle_year = data[:recruitment_cycle_year]
-      application_form = create(:application_form, :completed)
-      application_form.update!(
+      application_form = build(:application_form, :completed)
+      application_form.assign_attributes(
         recruitment_cycle_year:,
         equality_and_diversity: application_form.equality_and_diversity.merge(
           hesa_ethnicity: data[:hesa_ethnicity],
