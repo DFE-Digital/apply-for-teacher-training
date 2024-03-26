@@ -52,20 +52,6 @@ class Provider < ApplicationRecord
     Course.where(accredited_provider: self)
   end
 
-  def all_courses_open_in_current_cycle?(exclude_ratified_courses: false)
-    courses_to_check = exclude_ratified_courses ? courses : accredited_courses.or(courses)
-
-    open_in_find = courses_to_check.current_cycle.exposed_in_find
-
-    open_in_find.any? && open_in_find.all?(&:open_on_apply?)
-  end
-
-  def any_courses_open_in_current_cycle?(exclude_ratified_courses: false)
-    courses_to_check = exclude_ratified_courses ? courses : accredited_courses.or(courses)
-
-    courses_to_check.current_cycle.open_on_apply.any?
-  end
-
   def application_forms
     ApplicationForm.where(id: application_choices.select(:application_form_id))
   end
