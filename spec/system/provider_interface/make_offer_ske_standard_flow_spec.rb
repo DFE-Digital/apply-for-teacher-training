@@ -41,7 +41,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
 
     then_the_ske_standard_flow_is_loaded
     when_i_dont_select_any_ske_answer
-    then_i_should_see_a_error_message_to_select_if_ske_required
+    then_i_see_a_error_message_to_select_if_ske_required
 
     when_i_select_no_ske_required
     and_i_click_continue
@@ -54,14 +54,14 @@ RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
     then_the_ske_reason_page_is_loaded
 
     when_i_dont_give_a_ske_reason
-    then_i_should_see_a_error_message_to_give_a_reason_for_ske
+    then_i_see_a_error_message_to_give_a_reason_for_ske
 
     when_i_add_a_ske_reason
     and_i_click_continue
     then_the_ske_length_page_is_loaded
 
     when_i_dont_answer_ske_length
-    then_i_should_see_a_error_message_to_give_a_ske_course_length
+    then_i_see_a_error_message_to_give_a_ske_course_length
 
     when_i_answer_the_ske_length
     and_i_click_continue
@@ -115,7 +115,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
   def given_the_course_subject_requires_ske
     application_choice.course_option.course.subjects.delete_all
     application_choice.course_option.course.subjects << build(
-      :subject, code: 'C1', name: 'Biology'
+      :subject, code: 'F1', name: 'Chemistry'
     )
   end
 
@@ -134,7 +134,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
     click_link_or_button 'Continue'
   end
 
-  def then_i_should_see_a_error_message_to_select_if_ske_required
+  def then_i_see_a_error_message_to_select_if_ske_required
     expect(page).to have_content('There is a problem')
     expect(page).to have_content('Select whether you require the candidate to do a course')
   end
@@ -159,7 +159,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
     click_link_or_button 'Continue'
   end
 
-  def then_i_should_see_a_error_message_to_give_a_reason_for_ske
+  def then_i_see_a_error_message_to_give_a_reason_for_ske
     expect(page).to have_content('There is a problem')
     expect(page).to have_content('Select why the candidate needs to take a course')
   end
@@ -176,7 +176,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
     click_link_or_button 'Continue'
   end
 
-  def then_i_should_see_a_error_message_to_give_a_ske_course_length
+  def then_i_see_a_error_message_to_give_a_ske_course_length
     expect(page).to have_content('There is a problem')
     expect(page).to have_content('Select how long the course must be')
   end

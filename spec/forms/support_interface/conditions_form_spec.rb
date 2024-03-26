@@ -364,15 +364,5 @@ RSpec.describe SupportInterface::ConditionsForm do
     it 'returns a CheckBoxOption for each possible length' do
       expect(@form.ske_length_options.size).to eq(6)
     end
-
-    it 'returns a single CheckBoxOption for religious education courses' do
-      @application_choice.course_option.course.subjects.delete_all
-      @application_choice.course_option.course.subjects << build(
-        :subject,
-        code: 'V6',
-        name: 'Religious instruction',
-      )
-      expect(@form.ske_length_options.size).to eq(1)
-    end
   end
 end
