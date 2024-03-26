@@ -9,8 +9,8 @@ module DataMigrations
       (equality_and_diversity->'disabilities' ?| array['Learning difficulty', 'Social or communication impairment', 'Long-standing illness', 'Physical disability or mobility issue', 'Deaf', 'Blind'])
     SQL
 
-    def change
-      records.find_each do |application_form|
+    def change(limit: nil)
+      records(limit:).find_each do |application_form|
         hesa_converter = HesaConverter.new(
           application_form:,
           recruitment_cycle_year: RecruitmentCycle.current_year,
@@ -28,10 +28,10 @@ module DataMigrations
     end
 
     # rubocop:disable Rails/Output
-    def dry_run
+    def dry_run(limit: nil)
       puts "Number of records to change #{records.count}"
 
-      records.find_each do |application_form|
+      records(limit:).find_each do |application_form|
         hesa_converter = HesaConverter.new(
           application_form:,
           recruitment_cycle_year: RecruitmentCycle.current_year,
@@ -41,16 +41,18 @@ module DataMigrations
         puts "HESA sex: before: '#{application_form.equality_and_diversity['hesa_sex']}', after: '#{hesa_converter.hesa_sex}'"
         puts "HESA disabilities: before: '#{application_form.equality_and_diversity['hesa_disabilities']}', after: '#{hesa_converter.hesa_disabilities}'"
         puts "Disabilities: before: '#{application_form.equality_and_diversity['disabilities']}', after: '#{hesa_converter.disabilities}'"
-        puts "HESA ethnicity: before: '#{application_form.equality_and_diversity['ethnic_background']} - #{application_form.equality_and_diversity['hesa_ethnicity']}', after: '#{hesa_converter.hesa_ethnicity}'"
+        puts "HESA ethnicity: before: #{application_form.equality_and_diversity['ethnic_background']} - '#{application_form.equality_and_diversity['hesa_ethnicity']}', after: '#{hesa_converter.hesa_ethnicity}'"
         puts '=' * 80
       end
     end
     # rubocop:enable Rails/Output
 
-    def records
-      ApplicationForm.where.not(equality_and_diversity: nil)
+    def records(limit: nil)
+      scope = ApplicationForm.where.not(equality_and_diversity: nil)
         .where(recruitment_cycle_year: RecruitmentCycle.current_year)
         .where(OLD_HESA_VALUES)
+      scope = scope.order(created_at: :asc).limit(limit) if limit.present?
+      scope
     end
   end
 end

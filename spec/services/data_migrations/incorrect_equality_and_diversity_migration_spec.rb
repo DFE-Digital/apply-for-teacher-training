@@ -4,7 +4,7 @@ RSpec.describe DataMigrations::IncorrectEqualityAndDiversityMigration do
   describe '#change' do
     context 'when outdated hesa sex code' do
       before do
-        @male = create(:application_form, equality_and_diversity: { hesa_sex: '1', sex: 'male' })
+        @male = create(:application_form, equality_and_diversity: { hesa_sex: '1', sex: 'male' }, created_at: 10.days.ago)
         @female = create(:application_form, equality_and_diversity: { hesa_sex: '2', sex: 'female' })
         @intersex = create(:application_form, equality_and_diversity: { hesa_sex: '3', sex: 'intersex' })
         @prefer_not_to_say = create(:application_form, equality_and_diversity: { hesa_sex: nil, sex: 'Prefer not to say' })
@@ -12,6 +12,15 @@ RSpec.describe DataMigrations::IncorrectEqualityAndDiversityMigration do
 
       it 'returns the expected records' do
         expect(described_class.new.records).to contain_exactly(@male, @female, @intersex)
+      end
+
+      it 'pass a limit in case we want to do in parts' do
+        described_class.new.change(limit: 1)
+
+        expect(@male.reload.equality_and_diversity['hesa_sex']).to eq('11')
+        expect(@female.reload.equality_and_diversity['hesa_sex']).to eq('2')
+        expect(@intersex.reload.equality_and_diversity['hesa_sex']).to eq('3')
+        expect(@prefer_not_to_say.reload.equality_and_diversity['hesa_sex']).to be_nil
       end
 
       it 'converts to the uptodate hesa values' do
