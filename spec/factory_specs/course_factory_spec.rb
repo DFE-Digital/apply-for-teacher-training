@@ -41,13 +41,6 @@ RSpec.describe 'Course factory' do
       field :exposed_in_find?, value: false
     end
 
-    trait :open_on_apply do
-      field :open_on_apply?, value: true
-      field :exposed_in_find?, value: true
-      field :opened_on_apply_at, presence: true
-      field :applications_open_from, presence: true
-    end
-
     trait :with_accredited_provider do
       field :accredited_provider, presence: true
 
@@ -73,7 +66,6 @@ RSpec.describe 'Course factory' do
     end
 
     trait :ucas_only do
-      field :open_on_apply?, value: false
       field :exposed_in_find?, value: true
     end
 

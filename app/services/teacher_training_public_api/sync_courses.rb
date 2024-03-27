@@ -40,12 +40,9 @@ module TeacherTrainingPublicAPI
       assign_course_attributes(course, course_from_api, recruitment_cycle_year)
       add_accredited_provider(course, course_from_api[:accredited_body_code], recruitment_cycle_year)
 
-      new_course = course.new_record?
-
       @updates.merge!(courses: true) if !incremental_sync && course.changed?
 
       course.save!
-      course.open! if new_course
 
       job_args = [
         provider.id,
