@@ -5,16 +5,12 @@ class Subject < ApplicationRecord
   validates :code, uniqueness: true
 
   SKE_STANDARD_COURSES = %w[
-    C1
     F1
     11
-    DT
-    Q3
     16
     G1
     F0
     F3
-    V6
   ].freeze
 
   SKE_LANGUAGE_COURSES = %w[
@@ -31,9 +27,5 @@ class Subject < ApplicationRecord
   SKE_PHYSICS_COURSES = %w[
     F0
     F3
-  ].freeze
-
-  SKE_RE_COURSES = %w[
-    V6
   ].freeze
 end
