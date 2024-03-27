@@ -76,7 +76,18 @@
 
 .app-filter {
   @include govuk-media-query($from: tablet) {
+    // stylelint-disable declaration-no-important
+    position: relative !important;
+    // stylelint-enable declaration-no-important
+
     margin-bottom: govuk-spacing(3);
+  }
+
+  // Fix for fixed position of layout filters for mobile
+  @include govuk-media-query($from: mobile) {
+    // stylelint-disable declaration-no-important
+    position: relative !important;
+    // stylelint-enable declaration-no-important
   }
 }
 
