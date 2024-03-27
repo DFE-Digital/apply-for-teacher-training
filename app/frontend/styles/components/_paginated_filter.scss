@@ -80,6 +80,17 @@
   }
 }
 
+// Fix for fixed position of layout filters
+.js-enabled .moj-filter-layout__filter {
+  @include govuk-media-query($from: tablet) {
+    position: relative;
+  }
+
+  @include govuk-media-query($from: mobile) {
+    position: relative;
+  }
+}
+
 // Apply GOV.UK focus styles - only needed with js.
 .js-enabled .app-filter:focus {
   outline: $govuk-focus-width solid $govuk-focus-colour;
