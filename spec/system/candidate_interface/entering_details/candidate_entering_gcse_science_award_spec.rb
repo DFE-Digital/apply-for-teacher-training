@@ -34,7 +34,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   end
 
   def and_i_wish_to_apply_to_a_course_that_requires_gcse_science
-    course = create(:course, :open_on_apply, name: 'Science')
+    course = create(:course, :open, name: 'Science')
     course_option = create(:course_option, course:)
     current_candidate.current_application.application_choices << create(:application_choice, course_option:)
   end

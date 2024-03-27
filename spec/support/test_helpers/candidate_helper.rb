@@ -212,16 +212,16 @@ module CandidateHelper
     site = create(:site, name: 'Main site', code: '-', provider: @provider, uuid: '9ad872fe-9461-4db6-a82a-f24b9a651bf2')
     course =
       Course.find_by(code: '2XT2', provider: @provider) ||
-      create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
+      create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
     course2 =
       Course.find_by(code: '2397', provider: @provider) ||
-      create(:course, :open_on_apply, name: 'Drama', level: 'secondary', code: '2397', provider: @provider, start_date: Date.new(2020, 9, 1))
+      create(:course, :open, name: 'Drama', level: 'secondary', code: '2397', provider: @provider, start_date: Date.new(2020, 9, 1))
     course3 =
       Course.find_by(code: '6Z9H', provider: @provider) ||
-      create(:course, :open_on_apply, name: 'English', level: 'secondary', code: '6Z9H', provider: @provider, start_date: Date.new(2020, 9, 1))
+      create(:course, :open, name: 'English', level: 'secondary', code: '6Z9H', provider: @provider, start_date: Date.new(2020, 9, 1))
     course4 =
       Course.find_by(code: '2392', provider: @provider) ||
-      create(:course, :open_on_apply, name: 'Biology', level: 'secondary', code: '2392', provider: @provider, start_date: Date.new(2020, 9, 1))
+      create(:course, :open, name: 'Biology', level: 'secondary', code: '2392', provider: @provider, start_date: Date.new(2020, 9, 1))
     create(:course_option, site:, course:) unless CourseOption.find_by(site:, course:, study_mode: :full_time)
     create(:course_option, site:, course: course2) unless CourseOption.find_by(site:, course: course2, study_mode: :full_time)
     create(:course_option, site:, course: course3) unless CourseOption.find_by(site:, course: course3, study_mode: :full_time)
@@ -761,6 +761,7 @@ module CandidateHelper
       candidate_interface_continuous_applications_course_review_path(application_choice_id: application_choice.id),
     )
   end
+  alias then_i_am_on_the_application_choice_review_page then_i_should_be_on_the_application_choice_review_page
 
   def then_i_can_add_course_choices
     expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
@@ -782,10 +783,12 @@ module CandidateHelper
   def then_i_should_be_on_your_details_page
     expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
   end
+  alias then_i_am_on_your_details_page then_i_should_be_on_your_details_page
 
   def then_i_should_be_on_the_post_offer_dashboard
     expect(page).to have_current_path(candidate_interface_application_offer_dashboard_path)
   end
+  alias then_i_am_on_the_post_offer_dashboard then_i_should_be_on_the_post_offer_dashboard
 
   def and_i_have_one_application_in_draft
     @application_form = create(:application_form, :completed, candidate: @current_candidate)
@@ -834,11 +837,13 @@ module CandidateHelper
       candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice.id),
     )
   end
+  alias then_i_am_on_the_review_and_submit_page then_i_should_be_on_the_review_and_submit_page
 
   def then_i_should_see_that_the_course_is_full
     expect(page).to have_content('You cannot submit this application as the course is no longer available.')
     expect(page).to have_content('Remove this application and search for other courses.')
   end
+  alias then_i_see_that_the_course_is_full then_i_should_see_that_the_course_is_full
 
   def and_i_click_continue
     click_link_or_button t('continue')

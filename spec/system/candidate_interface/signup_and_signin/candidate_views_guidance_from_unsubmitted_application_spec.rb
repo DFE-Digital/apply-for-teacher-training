@@ -13,7 +13,7 @@ RSpec.feature 'Candidate signs in and starts blank application' do
   end
 
   def given_a_course_is_available
-    create(:course_option, course: create(:course, :open_on_apply))
+    create(:course_option, course: create(:course, :open))
   end
 
   def and_i_am_a_candidate_with_a_blank_application

@@ -31,7 +31,7 @@ RSpec.feature 'Selecting a course' do
     provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
 
     site = create(:site, provider:)
-    @course_one = create(:course, :open_on_apply, :with_both_study_modes, name: 'Primary', code: '2XT2', provider:)
+    @course_one = create(:course, :open, :with_both_study_modes, name: 'Primary', code: '2XT2', provider:)
     create(:course_option, site:, course: @course_one, study_mode: :full_time)
     create(:course_option, site:, course: @course_one, study_mode: :part_time)
   end

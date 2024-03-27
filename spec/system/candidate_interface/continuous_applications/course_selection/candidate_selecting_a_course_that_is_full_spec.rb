@@ -31,7 +31,7 @@ RSpec.feature 'Selecting a course' do
 
   def and_the_course_has_no_course_options
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
-    @course = create(:course, :open_on_apply, :with_no_vacancies, name: 'Primary', code: '2XT2', provider: @provider)
+    @course = create(:course, :open, :with_no_vacancies, name: 'Primary', code: '2XT2', provider: @provider)
   end
 
   def when_i_visit_the_site
@@ -73,7 +73,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def when_the_provider_adds_more_vacancies
-    create(:course, :open_on_apply, :with_course_options, provider: @provider)
+    create(:course, :open, :with_course_options, provider: @provider)
   end
 
   def then_i_see_that_i_can_apply_to_another_course

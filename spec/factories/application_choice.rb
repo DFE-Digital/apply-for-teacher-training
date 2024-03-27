@@ -19,7 +19,7 @@ FactoryBot.define do
     course_option do
       course&.course_options&.first || association(
         :course_option,
-        :open_on_apply,
+        :open,
         recruitment_cycle_year: recruitment_cycle_year || application_form.recruitment_cycle_year,
       )
     end
@@ -66,7 +66,7 @@ FactoryBot.define do
       course_option do
         association(
           :course_option,
-          :open_on_apply,
+          :open,
           :with_course_uuid,
           recruitment_cycle_year: application_form.recruitment_cycle_year,
         )

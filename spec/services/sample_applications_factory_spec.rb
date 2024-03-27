@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe SampleApplicationsFactory do
   it 'generates an application with choices in the given states' do
-    create(:course_option, course: create(:course, :open_on_apply))
-    create(:course_option, course: create(:course, :open_on_apply))
+    create(:course_option, course: create(:course))
+    create(:course_option, course: create(:course))
 
     choices = described_class.create_application(
       states: %i[offer rejected],
@@ -15,7 +15,7 @@ RSpec.describe SampleApplicationsFactory do
   end
 
   it 'creates a realistic timeline for a recruited application' do
-    courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+    courses_we_want = create_list(:course_option, 2, course: create(:course)).map(&:course)
 
     application_choice = described_class.create_application(
       states: %i[recruited],
@@ -34,7 +34,7 @@ RSpec.describe SampleApplicationsFactory do
   end
 
   it 'creates a realistic timeline for an offered application' do
-    courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+    courses_we_want = create_list(:course_option, 2, course: create(:course)).map(&:course)
 
     application_choice = described_class.create_application(
       states: %i[offer],
@@ -52,9 +52,9 @@ RSpec.describe SampleApplicationsFactory do
     provider = create(:provider)
     ratifying_provider = create(:provider)
 
-    course_to_make_original_offer_for = create(:course_option, course: create(:course, :open_on_apply, provider:, accredited_provider: ratifying_provider)).course
-    create(:course_option, course: create(:course, :open_on_apply, provider:, accredited_provider: ratifying_provider)).course
-    create(:course_option, course: create(:course, :open_on_apply, provider:))
+    course_to_make_original_offer_for = create(:course_option, course: create(:course, provider:, accredited_provider: ratifying_provider)).course
+    create(:course_option, course: create(:course, provider:, accredited_provider: ratifying_provider)).course
+    create(:course_option, course: create(:course, provider:))
 
     application_choice = described_class.create_application(
       states: %i[course_changed_after_offer],
@@ -66,7 +66,7 @@ RSpec.describe SampleApplicationsFactory do
 
   it 'generates an application for the specified candidate' do
     expected_candidate = create(:candidate)
-    courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+    courses_we_want = create_list(:course_option, 2, course: create(:course)).map(&:course)
 
     application_choice = described_class.create_application(
       states: %i[unsubmitted],
@@ -93,7 +93,7 @@ RSpec.describe SampleApplicationsFactory do
 
   describe 'supplying our own courses' do
     it 'creates applications only for the supplied courses' do
-      course_we_want = create(:course_option, course: create(:course, :open_on_apply)).course
+      course_we_want = create(:course_option, course: create(:course)).course
 
       choices = described_class.create_application(states: %i[offer], courses_to_apply_to: [course_we_want])
 
@@ -101,7 +101,7 @@ RSpec.describe SampleApplicationsFactory do
     end
 
     it 'creates the right number of applications' do
-      courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+      courses_we_want = create_list(:course_option, 2, course: create(:course)).map(&:course)
 
       choices = described_class.create_application(states: %i[offer], courses_to_apply_to: courses_we_want)
 
@@ -111,7 +111,7 @@ RSpec.describe SampleApplicationsFactory do
 
   describe 'full work history' do
     it 'creates applications with work experience as well as explained and unexplained breaks' do
-      create(:course_option, course: create(:course, :open_on_apply))
+      create(:course_option, course: create(:course))
 
       choices = described_class.create_application(courses_to_apply_to: Course.all, states: %i[awaiting_provider_decision])
 
@@ -123,7 +123,7 @@ RSpec.describe SampleApplicationsFactory do
 
   describe 'reference completion' do
     let(:courses_we_want) do
-      create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+      create_list(:course_option, 2, course: create(:course)).map(&:course)
     end
 
     let(:application_choice) do
@@ -168,7 +168,7 @@ RSpec.describe SampleApplicationsFactory do
   describe 'scheduled interview' do
     context 'when between reject by default and find reopens', time: after_reject_by_default do
       it 'does not generate an interview' do
-        courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+        courses_we_want = create_list(:course_option, 2, course: create(:course)).map(&:course)
 
         application_choice = described_class.create_application(
           states: %i[interviewing],
@@ -182,7 +182,7 @@ RSpec.describe SampleApplicationsFactory do
 
     context 'when after find reopens', time: after_find_reopens do
       it 'generates an interview for application choices in the interviewing state' do
-        courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+        courses_we_want = create_list(:course_option, 2, course: create(:course)).map(&:course)
 
         application_choice = described_class.create_application(
           states: %i[interviewing],
@@ -197,7 +197,7 @@ RSpec.describe SampleApplicationsFactory do
 
   describe 'apply again' do
     it 'generates 2 applications, one in the past and one current' do
-      create(:course_option, course: create(:course, :open_on_apply))
+      create(:course_option, course: create(:course))
       described_class.create_application(recruitment_cycle_year: RecruitmentCycle.current_year, states: %i[awaiting_provider_decision], courses_to_apply_to: Course.current_cycle, apply_again: true)
       new_form = ApplicationForm.last
       previous_form = new_form.previous_application_form
@@ -213,7 +213,7 @@ RSpec.describe SampleApplicationsFactory do
 
   describe 'carried over' do
     it 'raises error if apply again is true' do
-      create(:course_option, course: create(:course, :open_on_apply))
+      create(:course_option, course: create(:course))
 
       expect {
         described_class.create_application(
@@ -226,7 +226,7 @@ RSpec.describe SampleApplicationsFactory do
     end
 
     it 'generates an application to courses from the year before' do
-      create(:course_option, course: create(:course, :open_on_apply))
+      create(:course_option, course: create(:course))
 
       described_class.create_application(states: %i[awaiting_provider_decision], courses_to_apply_to: Course.current_cycle, carry_over: true)
 
@@ -241,7 +241,7 @@ RSpec.describe SampleApplicationsFactory do
   end
 
   it 'marks any submitted application choices as just updated' do
-    create(:course_option, course: create(:course, :open_on_apply))
+    create(:course_option, course: create(:course))
 
     choices = described_class.create_application(
       courses_to_apply_to: Course.all,

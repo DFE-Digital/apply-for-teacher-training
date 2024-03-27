@@ -9,7 +9,6 @@ class TestProvider
     test_provider = find_or_create
 
     existing_courses = test_provider.courses.joins(:course_options).where(
-      open_on_apply: !previous_cycle,
       recruitment_cycle_year: recruitment_cycle_year(previous_cycle),
     )
 
@@ -32,7 +31,7 @@ class TestProvider
   end
 
   def self.generate_courses(previous_cycle, test_provider)
-    trait = previous_cycle ? :previous_year : :open_on_apply
+    trait = previous_cycle ? :previous_year : :open
     FactoryBot.create_list(:course, 3, trait, provider: test_provider)
   end
 

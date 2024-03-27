@@ -13,10 +13,10 @@ RSpec.feature 'Selecting a course' do
     and_i_click_to_view_the_first_application
     and_i_click_to_change_course
     and_i_choose_the_course_on_the_second_application
-    then_i_should_be_on_the_application_choice_duplicate_page
+    then_i_am_on_the_application_choice_duplicate_page
 
     when_i_click_back
-    then_i_should_be_on_the_course_choice_page
+    then_i_am_on_the_course_choice_page
   end
 
   def given_i_am_signed_in
@@ -35,13 +35,13 @@ RSpec.feature 'Selecting a course' do
 
   def and_there_are_course_options
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
-    @course_one = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
-    @course_two = create(:course, :open_on_apply, name: 'Secondary', code: '2XP2', provider: @provider)
+    @course_one = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
+    @course_two = create(:course, :open, name: 'Secondary', code: '2XP2', provider: @provider)
     create(:course_option, course: @course_one)
     create(:course_option, course: @course_two)
   end
 
-  def then_i_should_be_on_the_application_choice_duplicate_page
+  def then_i_am_on_the_application_choice_duplicate_page
     expect(page).to have_content('You already have an application for Secondary (2XP2) at Gorse SCITT')
   end
 
@@ -66,7 +66,7 @@ RSpec.feature 'Selecting a course' do
     click_link_or_button 'Back'
   end
 
-  def then_i_should_be_on_the_course_choice_page
+  def then_i_am_on_the_course_choice_page
     expect(page).to have_current_path(candidate_interface_continuous_applications_which_course_are_you_applying_to_path(@provider))
   end
 end

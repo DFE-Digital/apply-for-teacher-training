@@ -10,7 +10,7 @@ RSpec.feature 'A candidate with an accepted offer arriving from Find' do
     and_i_have_an_accepted_offer
     and_the_course_i_selected_only_has_one_site
     when_i_arrive_at_the_apply_from_find
-    then_i_should_be_on_the_post_offer_dashboard
+    then_i_am_on_the_post_offer_dashboard
   end
 
   def given_i_am_signed_out
@@ -18,7 +18,7 @@ RSpec.feature 'A candidate with an accepted offer arriving from Find' do
   end
 
   def and_the_course_i_selected_only_has_one_site
-    @course = create(:course, :open_on_apply, name: 'History')
+    @course = create(:course, :open, name: 'History')
     @site = create(:site, provider: @course.provider)
     create(:course_option, site: @site, course: @course)
   end
