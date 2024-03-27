@@ -174,15 +174,6 @@ class Course < ApplicationRecord
     accredited_provider || provider
   end
 
-  def open!
-    return if persisted? && open_on_apply
-
-    update!(
-      open_on_apply: true,
-      opened_on_apply_at: Time.zone.now,
-    )
-  end
-
   def ske_graduation_cutoff_date
     start_date - SKE_GRADUATION_CUTOFF_THRESHOLD
   end
