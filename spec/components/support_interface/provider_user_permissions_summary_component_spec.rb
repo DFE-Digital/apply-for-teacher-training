@@ -19,7 +19,7 @@ RSpec.describe SupportInterface::ProviderUserPermissionsSummaryComponent do
 
     rendered_component = render_inline(described_class.new(provider_user))
 
-    expect(rendered_component.css('.govuk-summary-list__key').text).to eq("#{another_provider.name_and_code}#{provider.name_and_code}")
+    expect(rendered_component.css('.govuk-summary-list__key').text).to eq("#{another_provider.name_and_code}(Provider permissions)#{provider.name_and_code}(Provider permissions)")
   end
 
   it 'renders an empty state when there are no permissions' do
