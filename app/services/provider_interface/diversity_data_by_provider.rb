@@ -184,7 +184,7 @@ module ProviderInterface
     def status_bucket_for(application_form)
       if application_form.statuses.include?('recruited')
         :recruited
-      elsif application_form.statuses.any? { |status| ApplicationStateChange::OFFERED_STATES.include?(status.to_sym) }
+      elsif application_form.statuses.any? { |status| ApplicationStateChange.offered.include?(status.to_sym) }
         :offer
       else
         :applied

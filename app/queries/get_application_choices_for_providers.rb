@@ -23,7 +23,7 @@ class GetApplicationChoicesForProviders
     raise MissingProvider if providers.blank? || providers.any?(&:blank?)
 
     provider_ids = providers.map(&:id)
-    statuses = exclude_deferrals ? ApplicationStateChange.states_visible_to_provider_without_deferred : ApplicationStateChange.states_visible_to_provider
+    statuses = exclude_deferrals ? ApplicationStateChange.states_visible_to_provider_without_deferred : ApplicationStateChange.visible_to_provider
 
     ApplicationChoice
       .where(provider_ids_check(provider_ids))

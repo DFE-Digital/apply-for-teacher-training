@@ -2,7 +2,7 @@ module SupportInterface
   class ApplicationStateError < StandardError; end
 
   class ChangeApplicationChoiceCourseOption
-    VALID_STATES = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER
+    VALID_STATES = ApplicationStateChange.visible_to_provider
 
     attr_reader :application_choice, :provider_id, :course_code, :study_mode, :site_code, :audit_comment
     attr_accessor :confirm_course_change

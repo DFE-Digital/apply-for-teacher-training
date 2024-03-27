@@ -53,11 +53,11 @@ RSpec.describe ApplicationChoice do
       expect(described_class.reappliable).to be_empty
     end
 
-    it 'scopes to REAPPLY_STATUSES choices' do
-      (ApplicationStateChange.valid_states - ApplicationStateChange::REAPPLY_STATUSES).each do |state|
+    it 'scopes to .reapply choices' do
+      (ApplicationStateChange.valid_states - ApplicationStateChange.reapply).each do |state|
         create(:application_choice, status: state)
       end
-      reappliable = ApplicationStateChange::REAPPLY_STATUSES.map do |state|
+      reappliable = ApplicationStateChange.reapply.map do |state|
         create(:application_choice, status: state)
       end
 
@@ -73,7 +73,7 @@ RSpec.describe ApplicationChoice do
     end
 
     it 'scopes to awaiting_provider_decision and interviewing application choices' do
-      (ApplicationStateChange.valid_states - ApplicationStateChange::DECISION_PENDING_STATUSES).each do |state|
+      (ApplicationStateChange.valid_states - ApplicationStateChange.decision_pending).each do |state|
         create(:application_choice, status: state)
       end
       choice_awaiting_decision = create(:application_choice, :awaiting_provider_decision)
@@ -93,13 +93,13 @@ RSpec.describe ApplicationChoice do
     it 'returns all pending_conditions, conditions_not_met, recruited or offer_deferred statuses' do
       ApplicationStateChange.valid_states.each { |state| create(:application_choice, status: state) }
 
-      expect(described_class.accepted.map(&:status)).to match_array(ApplicationStateChange::ACCEPTED_STATES.map(&:to_s))
+      expect(described_class.accepted.map(&:status)).to match_array(ApplicationStateChange.accepted.map(&:to_s))
     end
   end
 
   describe '#decision_pending?' do
     it 'returns false for choices in states not requiring provider action' do
-      (ApplicationStateChange.valid_states - ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES).each do |state|
+      (ApplicationStateChange.valid_states - ApplicationStateChange.decision_pending_and_inactive).each do |state|
         application_choice = build_stubbed(:application_choice, status: state)
         expect(application_choice.decision_pending?).to be(false)
       end
@@ -254,7 +254,7 @@ RSpec.describe ApplicationChoice do
     end
 
     context 'when the application is in a reappliable state' do
-      ApplicationStateChange::REAPPLY_STATUSES.each do |status|
+      ApplicationStateChange.reapply.each do |status|
         it "does not enforce unique application form and course option when status is '#{status}'" do
           create(:application_choice, application_form:, course_option:, status: status)
 
@@ -612,6 +612,14 @@ RSpec.describe ApplicationChoice do
       it 'is not recently updated' do
         expect(choice).not_to be_updated_recently_since_submitted
       end
+    end
+  end
+
+  describe '#in_progress?' do
+    let(:application_choice) { build(:application_choice, :inactive) }
+
+    it 'returns false for inactive application choices' do
+      expect(application_choice.in_progress?).to be(false)
     end
   end
 end

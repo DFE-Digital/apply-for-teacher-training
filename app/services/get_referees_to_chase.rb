@@ -1,6 +1,6 @@
 class GetRefereesToChase
   attr_accessor :chase_referee_by, :rejected_chased_ids
-  APPLICATION_STATUSES = ApplicationStateChange::SUCCESSFUL_STATES - [:offer]
+  APPLICATION_STATUSES = ApplicationStateChange.successful - [:offer]
 
   def initialize(chase_referee_by:, rejected_chased_ids:)
     @chase_referee_by = chase_referee_by

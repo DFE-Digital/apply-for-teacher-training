@@ -101,7 +101,7 @@ private
   def can_not_receive_other_offers?
     (application_choice.self_and_siblings - [application_choice])
       .map(&:status).map(&:to_sym)
-      .intersect?(ApplicationStateChange::ACCEPTED_STATES - [:conditions_not_met])
+      .intersect?(ApplicationStateChange.exclusive_offer)
   end
 
   def candidate_in_apply_2?

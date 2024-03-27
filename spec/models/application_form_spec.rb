@@ -943,7 +943,7 @@ RSpec.describe ApplicationForm do
     let(:course_option_not_applied) { build(:course_option, course:) }
 
     context 'when the candidate cannot reapply for it' do
-      (ApplicationStateChange.valid_states - ApplicationStateChange.reapply_states).each do |status|
+      (ApplicationStateChange.valid_states - ApplicationStateChange.reapply).each do |status|
         it "returns true when status is #{status}" do
           create(:application_choice, status.to_sym, course_option: course_option_applied, application_form:)
           expect(application_form.contains_course?(course)).to be true
@@ -952,7 +952,7 @@ RSpec.describe ApplicationForm do
     end
 
     context 'when the candidate can reapply for it' do
-      ApplicationStateChange.reapply_states.each do |status|
+      ApplicationStateChange.reapply.each do |status|
         it "returns false when the states is #{status}" do
           create(:application_choice, status.to_sym, course:, application_form:)
           expect(application_form.contains_course?(course)).to be false

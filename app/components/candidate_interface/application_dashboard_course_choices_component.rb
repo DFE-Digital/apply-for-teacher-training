@@ -99,7 +99,7 @@ module CandidateInterface
         .includes(:course, :site, :provider, :current_course, :current_course_option, :interviews)
         .includes(offer: :conditions)
         .order(id: :asc)
-        .select { |ac| ac.status.to_sym.in?(ApplicationStateChange::ACCEPTED_STATES) }
+        .select { |ac| ac.status.to_sym.in?(ApplicationStateChange.accepted) }
     end
 
     def all_application_choices
@@ -111,7 +111,7 @@ module CandidateInterface
     end
 
     def application_choice_with_accepted_state_present?
-      @application_form.application_choices.any? { |ac| ApplicationStateChange::ACCEPTED_STATES.include?(ac.status.to_sym) }
+      @application_form.application_choices.any? { |ac| ApplicationStateChange.accepted.include?(ac.status.to_sym) }
     end
 
     def withdraw_row(application_choice)

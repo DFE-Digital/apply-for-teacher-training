@@ -61,11 +61,11 @@ class ApplicationChoice < ApplicationRecord
     vendor_api_rejection_reasons: 'vendor_api_rejection_reasons', # Rejection reasons via the Vendor API.
   }, _prefix: :rejection_reasons_type
 
-  scope :reappliable, -> { where(status: ApplicationStateChange.reapply_states) }
+  scope :reappliable, -> { where(status: ApplicationStateChange.reapply) }
   scope :not_reappliable, -> { where(status: ApplicationStateChange.non_reapply_states) }
-  scope :decision_pending, -> { where(status: ApplicationStateChange::DECISION_PENDING_STATUSES) }
-  scope :decision_pending_and_inactive, -> { where(status: ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES) }
-  scope :accepted, -> { where(status: ApplicationStateChange::ACCEPTED_STATES) }
+  scope :decision_pending, -> { where(status: ApplicationStateChange.decision_pending) }
+  scope :decision_pending_and_inactive, -> { where(status: ApplicationStateChange.decision_pending_and_inactive) }
+  scope :accepted, -> { where(status: ApplicationStateChange.accepted) }
   scope :inactive_past_day, -> { inactive.where(inactive_at: 1.day.ago..Time.zone.now) }
 
   def submitted?
@@ -73,11 +73,11 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def decision_pending?
-    ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES.include? status.to_sym
+    ApplicationStateChange.decision_pending_and_inactive.include? status.to_sym
   end
 
   def pre_offer?
-    ApplicationStateChange::OFFERED_STATES.exclude? status.to_sym
+    ApplicationStateChange.offered.exclude? status.to_sym
   end
 
   def application_in_progress?
@@ -85,7 +85,11 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def application_unsuccessful?
-    ApplicationStateChange::UNSUCCESSFUL_STATES.include? status.to_sym
+    ApplicationStateChange.unsuccessful.include? status.to_sym
+  end
+
+  def in_progress?
+    ApplicationStateChange.in_progress.include? status.to_sym
   end
 
   def application_unsuccessful_without_inactive?
@@ -93,7 +97,7 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def accepted_choice?
-    ApplicationStateChange::ACCEPTED_STATES.include? status.to_sym
+    ApplicationStateChange.accepted.include? status.to_sym
   end
 
   def different_offer?

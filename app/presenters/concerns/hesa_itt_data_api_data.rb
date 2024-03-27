@@ -3,7 +3,7 @@ module HesaIttDataAPIData
   HESA_DISABILITY_OTHER = '96'.freeze
 
   def hesa_itt_data
-    return nil unless ApplicationStateChange::ACCEPTED_STATES.include?(application_choice.status.to_sym)
+    return nil unless ApplicationStateChange.accepted.include?(application_choice.status.to_sym)
 
     unless (data = application_form&.equality_and_diversity).nil?
       hesa_codes(data).merge(additional_hesa_itt_data(data))

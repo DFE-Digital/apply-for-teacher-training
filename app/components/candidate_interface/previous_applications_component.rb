@@ -41,11 +41,11 @@ module CandidateInterface
 
     def application_choices_without_accepted_states
       current_application_choices
-        .reject { |ac| ApplicationStateChange::ACCEPTED_STATES.include?(ac.status.to_sym) }
+        .reject { |ac| ApplicationStateChange.accepted.include?(ac.status.to_sym) }
     end
 
     def application_choice_has_accepted_state_present?
-      current_application_choices.any? { |ac| ApplicationStateChange::ACCEPTED_STATES.include?(ac.status.to_sym) }
+      current_application_choices.any? { |ac| ApplicationStateChange.accepted.include?(ac.status.to_sym) }
     end
 
     def current_application_choices

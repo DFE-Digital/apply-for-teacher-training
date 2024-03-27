@@ -1,7 +1,7 @@
 class InterviewValidations
   include ActiveModel::Model
 
-  APPLICATION_STATES_ALLOWING_CHANGES = ApplicationStateChange::INTERVIEWABLE_STATES.map(&:to_s).freeze
+  APPLICATION_STATES_ALLOWING_CHANGES = ApplicationStateChange.interviewable.map(&:to_s).freeze
 
   attr_reader :interview, :today
 

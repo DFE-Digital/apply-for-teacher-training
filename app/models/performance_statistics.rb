@@ -71,7 +71,7 @@ class PerformanceStatistics
 
   def form_ended_without_success_sql
     sql = 'ARRAY_AGG(DISTINCT ch.status)'
-    ApplicationStateChange::UNSUCCESSFUL_STATES.each do |state|
+    ApplicationStateChange.unsuccessful.each do |state|
       sql = "ARRAY_REMOVE(#{sql}, '#{state}')"
     end
 
@@ -222,7 +222,7 @@ private
   def application_choices
     choices = ApplicationChoice
       .joins(application_form: :candidate)
-      .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+      .where(status: ApplicationStateChange.visible_to_provider)
       .where('candidates.hide_in_reporting' => false)
 
     if year

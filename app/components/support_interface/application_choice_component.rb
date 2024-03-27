@@ -159,7 +159,7 @@ module SupportInterface
     end
 
     def visible_over_vendor_api?
-      ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.include?(application_choice.status.to_sym)
+      ApplicationStateChange.visible_to_provider.include?(application_choice.status.to_sym)
     end
 
     def visible_over_register_api?
@@ -232,7 +232,7 @@ module SupportInterface
     def any_successful_application_choices?(application_choice)
       choice_statuses = application_choice.application_form.application_choices.map(&:status)
 
-      choice_statuses.any? { |choice_status| ApplicationStateChange::ACCEPTED_STATES.include? choice_status.to_sym }
+      choice_statuses.any? { |choice_status| ApplicationStateChange.accepted.include? choice_status.to_sym }
     end
   end
 end
