@@ -77,17 +77,12 @@
 .app-filter {
   @include govuk-media-query($from: tablet) {
     margin-bottom: govuk-spacing(3);
-  }
-}
-
-// Fix for fixed position of layout filters
-.js-enabled .moj-filter-layout__filter {
-  @include govuk-media-query($from: tablet) {
-    position: relative;
+    position: relative !important;
   }
 
+  // Fix for fixed position of layout filters for mobile
   @include govuk-media-query($from: mobile) {
-    position: relative;
+    position: relative !important;
   }
 }
 
