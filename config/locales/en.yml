@@ -391,7 +391,6 @@ en:
               blank: You have not chosen an alternative provider
             course_id:
               blank: You have not chosen a new course
-              not_open_on_apply: Course not open on Apply
             study_mode:
               blank: Select full time or part time
               unsupported: Please specify a valid study mode
@@ -417,12 +416,10 @@ en:
           attributes:
             course_option:
               blank: could not be found
-              not_open_on_apply: is not open for applications via the Apply service
         make_an_offer:
           attributes:
             course_option:
               blank: could not be found
-              not_open_on_apply: is not open for applications via the Apply service
         withdraw_offer:
           attributes:
             offer_withdrawal_reason:
@@ -454,7 +451,6 @@ en:
           attributes:
             course_option:
               blank: The offered course does not exist in this recruitment cycle
-              not_open_on_apply: The requested course is not open for applications via the Apply service
               not_in_current_cycle: Only applications deferred in the previous recruitment cycle can be confirmed
         provider_interface/rejected_by_default_feedback_form:
           attributes:
