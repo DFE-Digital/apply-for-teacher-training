@@ -60,11 +60,6 @@ FactoryBot.define do
       end
     end
 
-    trait :ucas_only do
-      open_on_apply { false }
-      exposed_in_find { true }
-    end
-
     trait :with_both_study_modes do
       study_mode { :full_time_or_part_time }
     end

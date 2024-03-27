@@ -65,10 +65,6 @@ RSpec.describe 'Course factory' do
       end
     end
 
-    trait :ucas_only do
-      field :exposed_in_find?, value: true
-    end
-
     trait :with_both_study_modes do
       field :study_mode, value: 'full_time_or_part_time'
     end
