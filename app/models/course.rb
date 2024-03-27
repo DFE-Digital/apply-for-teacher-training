@@ -10,7 +10,6 @@ class Course < ApplicationRecord
   validates :level, presence: true
   validates :code, uniqueness: { scope: %i[recruitment_cycle_year provider_id] }
 
-  scope :open_on_apply, -> { exposed_in_find.where(open_on_apply: true) }
   scope :exposed_in_find, -> { where(exposed_in_find: true) }
   scope :open_for_applications, -> { where('courses.applications_open_from <= ?', Time.zone.today) }
   scope :open, -> { application_status_open.exposed_in_find.where('courses.applications_open_from <= ?', Time.zone.today) }
