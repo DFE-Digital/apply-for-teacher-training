@@ -27,9 +27,9 @@ RSpec.feature 'Changing a course' do
 
   def and_there_are_course_options
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
-    @course = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
+    @course = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
     create(:course_option, course: @course)
-    @another_course = create(:course, :open_on_apply, name: 'Primary with Science', code: '4MM5', provider: @provider)
+    @another_course = create(:course, :open, name: 'Primary with Science', code: '4MM5', provider: @provider)
     create(:course_option, course: @another_course)
   end
 
