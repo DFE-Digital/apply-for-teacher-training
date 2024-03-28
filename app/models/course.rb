@@ -123,10 +123,6 @@ class Course < ApplicationRecord
     course_options.available.present?
   end
 
-  def closed_on_apply?
-    !open_on_apply
-  end
-
   def not_available?
     !exposed_in_find
   end

@@ -101,9 +101,9 @@ module CandidateInterface
             next
           end
 
-          if choice.course_closed_on_apply?
+          if choice.course_application_status_closed?
             error_list << ApplicationChoiceError.new(
-              choice.course_closed_on_apply_error, choice.id
+              choice.course_application_status_closed, choice.id
             )
             next
           end

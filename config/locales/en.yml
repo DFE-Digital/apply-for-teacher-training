@@ -568,7 +568,7 @@ en:
       site_full: Your chosen location for ‘%{descriptor}’ has no vacancies
       site_invalid: The location you have chosen for ‘%{descriptor}’ has been removed by the provider. Choose a different location.
       study_mode_full: Your chosen location for ‘%{descriptor}’ has no %{study_mode} vacancies
-      course_closed_on_apply: ‘%{course_name_and_code}’ at %{provider_name} is not available on Apply for teacher training anymore
+      course_application_status_closed: ‘%{course_name_and_code}’ at %{provider_name} has been closed for applications
       already_added: You have already added %{course_name_and_code}
   date:
     formats:
