@@ -20,7 +20,7 @@ module Dateable
         define_method("days_since_#{date_field}") do
           return unless send(field_name)
 
-          (Time.zone.now.beginning_of_day - send(field_name).beginning_of_day).to_i / 1.day
+          (Time.zone.now - send(field_name)).seconds.in_days.round
         end
       end
     end
