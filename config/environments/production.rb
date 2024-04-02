@@ -65,17 +65,18 @@ Rails.application.configure do
     .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
     .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 
-  # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
-
   # "info" includes generic and useful information about system operation, but avoids logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII). If you
   # want to log everything, set the level to "debug".
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
+  config.log_tags = [:request_id]                         # Prepend all log lines with the following tags.
+  config.log_format = :json                               # For parsing in Logit
+  config.rails_semantic_logger.add_file_appender = false  # Don't log to file
+  config.active_record.logger = nil                       # Don't log SQL
+
   # Use a different cache store in production.
   config.cache_store = :redis_cache_store, { url: ENV.fetch("REDIS_CACHE_URL") }
-
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter = :resque
@@ -111,10 +112,6 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
-
-  config.active_record.logger = nil # Don't log SQL in production
-
-  config.rails_semantic_logger.add_file_appender = false
 
   class FixAzureXForwardedForMiddleware
     def initialize(app)
