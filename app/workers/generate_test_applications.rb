@@ -145,13 +145,13 @@ private
   end
 
   def courses_from_cycle(year)
-    courses = Course.open_on_apply.in_cycle([RecruitmentCycle.current_year, year].min)
+    courses = Course.with_course_options.in_cycle([RecruitmentCycle.current_year, year].min)
 
     if dev_support_user
       courses = courses.where(provider: dev_support_user.providers)
     end
 
-    courses
+    courses.distinct
   end
 
   def continuous_application_choices_states
