@@ -250,7 +250,6 @@ private
       :application_choice_id,
       :application_choice,
       :support_reference,
-      :international_relocation_payment_eligible,
     ).new(
       application_choice.application_form.full_name,
       application_choice.current_course_option.course.name_and_code,
@@ -259,7 +258,6 @@ private
       application_choice.id,
       application_choice,
       application_choice.application_form.support_reference,
-      IsEligibleForInternationalRelocationPayment.new(application_choice).call,
     )
   end
 end
