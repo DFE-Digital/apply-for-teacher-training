@@ -36,7 +36,7 @@ desc 'Sync some pilot-enabled providers'
 task sync_dev_providers: :environment do
   puts 'Syncing data from TTAPI...'
 
-  provider_codes = %w[1JA 24J 24P D39 S72 4T7 1N1 Y50 L34 D86 K60 H72 W53]
+  provider_codes = %w[1JA 24J 24P D39 S72 4T7 1N1 Y50 L34 D86 K60 H72 W53 1TZ]
   provider_codes.each do |code|
     provider_from_api = TeacherTrainingPublicAPI::Provider
         .where(year: RecruitmentCycle.current_year)
