@@ -4,19 +4,19 @@ RSpec.describe CandidateInterface::GroupedProviderCoursesComponent do
   let(:course) { create(:course) }
 
   before do
-    allow(GetOpenCoursesByProviderAndRegion).to receive(:call).and_return(
+    allow(GetCoursesByProviderAndRegion).to receive(:call).and_return(
       {
         'north_west' => [
-          GetOpenCoursesByProviderAndRegion::RegionProviderCourses.new('north_west', course.provider.name, [course]),
-          GetOpenCoursesByProviderAndRegion::RegionProviderCourses.new('north_west', 'Westerly Sixth Form', []),
+          GetCoursesByProviderAndRegion::RegionProviderCourses.new('north_west', course.provider.name, [course]),
+          GetCoursesByProviderAndRegion::RegionProviderCourses.new('north_west', 'Westerly Sixth Form', []),
         ],
         'south_east' => [
-          GetOpenCoursesByProviderAndRegion::RegionProviderCourses.new('south_east', 'Southerly College', []),
-          GetOpenCoursesByProviderAndRegion::RegionProviderCourses.new('south_east', 'Easterly Sixth Form', []),
+          GetCoursesByProviderAndRegion::RegionProviderCourses.new('south_east', 'Southerly College', []),
+          GetCoursesByProviderAndRegion::RegionProviderCourses.new('south_east', 'Easterly Sixth Form', []),
         ],
         nil => [
-          GetOpenCoursesByProviderAndRegion::RegionProviderCourses.new(nil, 'Wimbley College', []),
-          GetOpenCoursesByProviderAndRegion::RegionProviderCourses.new(nil, 'Worbley Sixth Form', []),
+          GetCoursesByProviderAndRegion::RegionProviderCourses.new(nil, 'Wimbley College', []),
+          GetCoursesByProviderAndRegion::RegionProviderCourses.new(nil, 'Worbley Sixth Form', []),
         ],
       },
     )

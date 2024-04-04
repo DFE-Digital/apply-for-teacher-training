@@ -1,4 +1,4 @@
-class GetOpenCoursesByProviderAndRegion
+class GetCoursesByProviderAndRegion
   RegionProviderCourses = Struct.new(:region_code, :provider_name, :courses)
 
   def self.call
