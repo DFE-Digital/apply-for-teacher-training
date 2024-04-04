@@ -7,7 +7,7 @@
   <%= govuk_tag(text: 'Course removed from Find', colour: 'yellow') %>
 <% end %>
 
-<% if course_option.course_closed_on_apply? %>
+<% if course_option.course_application_status_closed? %>
   <%= govuk_tag(text: 'Course closed by provider', colour: 'yellow') %>
 <% end %>
 

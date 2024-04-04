@@ -185,20 +185,6 @@ RSpec.describe Course do
     end
   end
 
-  describe '#open!' do
-    it 'sets both open_on_apply and opened_on_apply_at' do
-      course = create(:course)
-      course.open!
-      expect(course.open_on_apply).to be(true)
-      expect(course.opened_on_apply_at).to eq(Time.zone.now)
-    end
-
-    it 'does not update the timestamp if course already open' do
-      course = create(:course, :open_on_apply)
-      expect { course.open! }.not_to change(course, :opened_on_apply_at)
-    end
-  end
-
   describe '#find_url' do
     let(:course) { create(:course) }
 

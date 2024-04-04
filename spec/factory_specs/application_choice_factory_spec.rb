@@ -30,11 +30,6 @@ RSpec.describe 'ApplicationChoice factory' do
       expect { record }.to change(CourseOption, :count).by(1)
     end
 
-    it 'creates 1 course which is open-on-apply' do
-      expect { record }.to change(Course, :count).by(1)
-      expect(Course.last).to be_open_on_apply
-    end
-
     context 'if a recruitment year is set on a provided form' do
       let(:attributes) do
         {

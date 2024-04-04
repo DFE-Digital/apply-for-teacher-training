@@ -10,7 +10,6 @@ class Course < ApplicationRecord
   validates :level, presence: true
   validates :code, uniqueness: { scope: %i[recruitment_cycle_year provider_id] }
 
-  scope :open_on_apply, -> { exposed_in_find.where(open_on_apply: true) }
   scope :exposed_in_find, -> { where(exposed_in_find: true) }
   scope :open_for_applications, -> { where('courses.applications_open_from <= ?', Time.zone.today) }
   scope :open, -> { application_status_open.exposed_in_find.where('courses.applications_open_from <= ?', Time.zone.today) }
@@ -124,10 +123,6 @@ class Course < ApplicationRecord
     course_options.available.present?
   end
 
-  def closed_on_apply?
-    !open_on_apply
-  end
-
   def not_available?
     !exposed_in_find
   end
@@ -172,15 +167,6 @@ class Course < ApplicationRecord
 
   def ratifying_provider
     accredited_provider || provider
-  end
-
-  def open!
-    return if persisted? && open_on_apply
-
-    update!(
-      open_on_apply: true,
-      opened_on_apply_at: Time.zone.now,
-    )
   end
 
   def ske_graduation_cutoff_date

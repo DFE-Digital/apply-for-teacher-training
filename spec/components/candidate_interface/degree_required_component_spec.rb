@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
   let(:application_form) { create(:application_form) }
 
-  let(:course_option) { create(:course_option, course: create(:course, :open_on_apply, degree_grade: 'two_one')) }
+  let(:course_option) { create(:course_option, course: create(:course, degree_grade: 'two_one')) }
 
   let(:application_choice) do
     build_stubbed(
@@ -22,7 +22,7 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
   end
 
   context 'application has uk degree and but degree grade marked as not_required' do
-    let(:course_option) { create(:course_option, course: create(:course, :open_on_apply, degree_grade: 'not_required')) }
+    let(:course_option) { create(:course_option, course: create(:course, degree_grade: 'not_required')) }
     let(:application_choice) do
       build_stubbed(
         :application_choice,

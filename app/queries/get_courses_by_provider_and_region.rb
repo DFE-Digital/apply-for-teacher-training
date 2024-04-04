@@ -1,9 +1,8 @@
-class GetOpenCoursesByProviderAndRegion
+class GetCoursesByProviderAndRegion
   RegionProviderCourses = Struct.new(:region_code, :provider_name, :courses)
 
   def self.call
     Course
-      .open_on_apply
       .current_cycle
       .includes(:provider)
       .order('providers.region_code', 'providers.name')

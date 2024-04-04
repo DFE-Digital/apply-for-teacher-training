@@ -12,7 +12,7 @@ class CreateExampleProviderUsersWithPermissions
       email_address: 'support@example.com',
       first_name: 'Susan',
       last_name: 'Upport',
-    }, %w[1JA 24J], {
+    }, %w[1JA 24J 1TZ], {
       manage_users: true,
       manage_organisations: true,
       set_up_interviews: true,

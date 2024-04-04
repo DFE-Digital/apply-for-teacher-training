@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
 
   describe 'validations' do
     context 'immigration_status validation' do
-      let(:course) { create(:course, :with_course_options, :open_on_apply, level: 'secondary') }
+      let(:course) { create(:course, :with_course_options, :open, level: 'secondary') }
       let(:application_form) { create(:application_form, :completed) }
       let(:application_choice) { create(:application_choice, :unsubmitted, course:, application_form:) }
       let(:link_to_find) do
@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
           create(
             :course,
             :with_course_options,
-            :open_on_apply,
+            :open,
             funding_type: 'fee',
             can_sponsor_student_visa: true,
             level: 'secondary',
@@ -76,7 +76,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
 
       context 'when candidate has no right to work but course does not sponsor visa' do
         let(:application_form) { create(:application_form, :completed, first_nationality: 'American', right_to_work_or_study: 'no', efl_completed: true) }
-        let(:course) { create(:course, :with_course_options, :open_on_apply, funding_type: 'fee', can_sponsor_student_visa: false, level: 'secondary') }
+        let(:course) { create(:course, :with_course_options, :open, funding_type: 'fee', can_sponsor_student_visa: false, level: 'secondary') }
 
         it 'adds error to application choice' do
           expect(application_choice_submission).not_to be_valid
@@ -88,7 +88,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
     end
 
     context 'applications_closed validation' do
-      let(:course) { create(:course, :with_course_options, :open_on_apply, level: 'secondary') }
+      let(:course) { create(:course, :with_course_options, :open, level: 'secondary') }
       let(:application_form) { create(:application_form, :completed) }
       let(:application_choice) { create(:application_choice, :unsubmitted, course:, application_form:) }
 
@@ -132,13 +132,13 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
     end
 
     context 'course_unavailable validation' do
-      let(:course) { build(:course, :open_on_apply, course_options: []) }
+      let(:course) { build(:course, :open, course_options: []) }
       let(:course_option) { create(:course_option, course: course) }
       let(:application_form) { create(:application_form, :completed) }
       let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
 
       context 'all validations pass' do
-        let(:course) { build(:course, :open_on_apply, :with_course_options) }
+        let(:course) { build(:course, :open, :with_course_options) }
 
         it 'adds no errors to application choice submission' do
           expect(application_choice_submission).to be_valid
@@ -156,7 +156,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
       end
 
       context 'course not exposed in find' do
-        let(:course) { build(:course, :open_on_apply, exposed_in_find: false, course_options: []) }
+        let(:course) { build(:course, :open, exposed_in_find: false, course_options: []) }
         let(:application_form) { create(:application_form, :minimum_info) }
         let(:application_choice) { create(:application_choice, course_option: course_option, application_form:) }
 
@@ -187,8 +187,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
     end
 
     context 'incomplete_primary_course_details validation' do
-      let(:course_option) { create(:course_option, :open_on_apply, course:) }
-      let(:course) { create(:course, :open_on_apply, :primary, :with_course_options) }
+      let(:course_option) { create(:course_option, course:) }
+      let(:course) { create(:course, :open, :primary, :with_course_options) }
       let(:application_form) { create(:application_form, :completed) }
       let(:application_choice) { create(:application_choice, :unsubmitted, application_form:, course:) }
 
@@ -202,7 +202,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
         let(:course_option) { create(:course_option, course:) }
         let(:application_form) { create(:application_form, :completed, science_gcse_completed: false) }
         let(:application_choice) { create(:application_choice, :unsubmitted, course_option:, application_form:) }
-        let(:course) { create(:course, :open_on_apply, :primary) }
+        let(:course) { create(:course, :open, :primary) }
 
         it 'adds error to application choice' do
           expect(application_choice_submission).not_to be_valid
@@ -211,7 +211,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
       end
 
       context 'when secondary course choice with only science gcse section incomplete' do
-        let(:course) { create(:course, :open_on_apply, :secondary) }
+        let(:course) { create(:course, :open, :secondary) }
         let(:course_option) { create(:course_option, course:) }
         let(:application_form) { create(:application_form, :completed, science_gcse_completed: false) }
         let(:application_choice) { create(:application_choice, :unsubmitted, course_option:, application_form:) }
@@ -234,7 +234,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
       end
 
       context 'when secondary courses with science gcse section incomplete and other details incomplete' do
-        let(:course) { create(:course, :open_on_apply, :secondary) }
+        let(:course) { create(:course, :open, :secondary) }
         let(:course_option) { create(:course_option, course:) }
         let(:application_form) { create(:application_form, :completed, degrees_completed: false, science_gcse_completed: false) }
         let(:application_choice) { create(:application_choice, :unsubmitted, course_option:, application_form:) }

@@ -12,12 +12,12 @@ RSpec.feature 'Selecting a course' do
     and_i_click_on_course_choices
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
-    then_i_should_see_a_course_and_its_description
+    then_i_see_a_course_and_its_description
 
     when_i_choose_a_course_rejected_twice
-    then_i_should_be_on_the_reached_reapplication_limit_page
+    then_i_am_on_the_reached_reapplication_limit_page
     when_i_click_back
-    then_i_should_be_on_the_course_choice_page
+    then_i_am_on_the_course_choice_page
   end
 
   def given_i_am_signed_in
@@ -27,7 +27,7 @@ RSpec.feature 'Selecting a course' do
 
   def and_there_are_course_options
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
-    @course = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
+    @course = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
     create(:course_option, course: @course)
   end
 
@@ -55,7 +55,7 @@ RSpec.feature 'Selecting a course' do
     click_link_or_button t('continue')
   end
 
-  def then_i_should_see_a_course_and_its_description
+  def then_i_see_a_course_and_its_description
     expect(page).to have_content(@course.name_and_code)
     expect(page).to have_content(@course.description)
   end
@@ -65,7 +65,7 @@ RSpec.feature 'Selecting a course' do
     click_link_or_button t('continue')
   end
 
-  def then_i_should_be_on_the_reached_reapplication_limit_page
+  def then_i_am_on_the_reached_reapplication_limit_page
     expect(page).to have_content('You cannot apply to this training provider and course again')
     expect(page).to have_content('You have applied to Gorse SCITT and Primary (2XT2) twice and have been unsuccessful.')
   end
@@ -74,7 +74,7 @@ RSpec.feature 'Selecting a course' do
     click_link_or_button 'Back'
   end
 
-  def then_i_should_be_on_the_course_choice_page
+  def then_i_am_on_the_course_choice_page
     expect(page.current_url).to end_with(candidate_interface_continuous_applications_which_course_are_you_applying_to_path(provider_id: @provider.id))
   end
 end

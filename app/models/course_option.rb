@@ -27,7 +27,7 @@ class CourseOption < ApplicationRecord
     selectable.where(vacancy_status: 'vacancies')
   }
 
-  delegate :full?, :withdrawn?, :closed_on_apply?, :not_available?, to: :course, prefix: true
+  delegate :full?, :withdrawn?, :application_status_closed?, :not_available?, to: :course, prefix: true
 
   def no_vacancies?
     vacancy_status == 'no_vacancies'

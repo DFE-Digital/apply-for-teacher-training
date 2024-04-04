@@ -26,7 +26,7 @@ RSpec.describe GenerateFakeProvider do
         courses = fake_provider.courses
 
         expect(courses.count).to eq(10)
-        expect(courses).to all(be_open_on_apply)
+        expect(courses).to all(be_open)
         expect(courses.map(&:course_options)).to all(be_present)
       end
 
@@ -35,7 +35,7 @@ RSpec.describe GenerateFakeProvider do
         permission = fake_provider.ratifying_provider_permissions.first
 
         expect(accredited_courses.count).to eq(3)
-        expect(accredited_courses).to all(be_open_on_apply)
+        expect(accredited_courses).to all(be_open)
         expect(accredited_courses.map(&:course_options)).to all(be_present)
         expect(permission.ratifying_provider_can_make_decisions).to be(true)
       end
