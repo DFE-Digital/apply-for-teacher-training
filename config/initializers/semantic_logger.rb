@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'request_store_rails'
 return unless defined? SemanticLogger
 
 class CustomLogFormatter < SemanticLogger::Formatters::Raw
@@ -40,7 +39,7 @@ private
   end
 end
 
-unless Rails.env.development? || Rails.env.test?
+unless Rails.env.local?
   Clockwork.configure { |config| config[:logger] = SemanticLogger[Clockwork] if defined?(Clockwork) }
   SemanticLogger.add_appender(
     io: STDOUT,
