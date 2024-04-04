@@ -40,7 +40,7 @@ private
   end
 end
 
-unless HostingEnvironment.development? || Rails.env.test?
+unless Rails.env.development? || Rails.env.test?
   Clockwork.configure { |config| config[:logger] = SemanticLogger[Clockwork] if defined?(Clockwork) }
   SemanticLogger.add_appender(
     io: STDOUT,
