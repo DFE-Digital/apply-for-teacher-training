@@ -40,13 +40,7 @@ private
   end
 end
 
-if HostingEnvironment.development?
-  SemanticLogger.add_appender(
-    file_name: Rails.root.join('log/development.log').to_s,
-    level: Rails.application.config.log_level,
-    formatter: CustomLogFormatter.new,
-  )
-else
+unless HostingEnvironment.development? || Rails.env.test?
   Clockwork.configure { |config| config[:logger] = SemanticLogger[Clockwork] if defined?(Clockwork) }
   SemanticLogger.add_appender(
     io: STDOUT,
