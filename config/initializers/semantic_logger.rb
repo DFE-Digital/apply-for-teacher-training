@@ -26,9 +26,8 @@ class CustomLogFormatter < SemanticLogger::Formatters::Raw
     end
 
     # Remove post parameters if it's a PUT, POST, or PATCH request
-    if method_is_post_or_put_or_patch?
-      hash[:payload] ||= {}
-      hash[:payload][:params] = {} if hash[:payload].nil?
+    if method_is_post_or_put_or_patch? && hash.dig(:payload, :params).present?
+      hash[:payload][:params].clear
     end
 
     hash.to_json
