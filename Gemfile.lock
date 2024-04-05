@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: c78bc69726ab74c18200b7983ad1c8b27ed56ed1
-  tag: v1.12.2
+  revision: 80015465040513020d0c2b3a2ae45d4f05f3b547
+  tag: v1.12.3
   specs:
-    dfe-analytics (1.12.2)
+    dfe-analytics (1.12.3)
       google-cloud-bigquery (~> 1.38)
       request_store_rails (~> 2)
 
@@ -295,7 +295,7 @@ GEM
     geocoder (1.8.2)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-apis-bigquery_v2 (0.66.0)
+    google-apis-bigquery_v2 (0.67.0)
       google-apis-core (>= 0.14.0, < 2.a)
     google-apis-core (0.14.1)
       addressable (~> 2.5, >= 2.5.1)
@@ -517,7 +517,7 @@ GEM
       pry (>= 0.10.4)
     psych (5.1.2)
       stringio
-    public_suffix (5.0.4)
+    public_suffix (5.0.5)
     puma (6.4.2)
       nio4r (~> 2.0)
     racc (1.7.3)
