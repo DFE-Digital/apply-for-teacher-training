@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'request_store_rails'
 return unless defined? SemanticLogger
 
 class CustomLogFormatter < SemanticLogger::Formatters::Raw
@@ -26,9 +25,8 @@ class CustomLogFormatter < SemanticLogger::Formatters::Raw
     end
 
     # Remove post parameters if it's a PUT, POST, or PATCH request
-    if method_is_post_or_put_or_patch?
-      hash[:payload] ||= {}
-      hash[:payload][:params] = {} if hash[:payload].nil?
+    if method_is_post_or_put_or_patch? && hash.dig(:payload, :params).present?
+      hash[:payload][:params].clear
     end
 
     hash.to_json
@@ -41,13 +39,7 @@ private
   end
 end
 
-if HostingEnvironment.development?
-  SemanticLogger.add_appender(
-    file_name: Rails.root.join('log/development.log').to_s,
-    level: Rails.application.config.log_level,
-    formatter: CustomLogFormatter.new,
-  )
-else
+unless Rails.env.local?
   Clockwork.configure { |config| config[:logger] = SemanticLogger[Clockwork] if defined?(Clockwork) }
   SemanticLogger.add_appender(
     io: STDOUT,
