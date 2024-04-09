@@ -8,7 +8,7 @@ RSpec.describe QualificationValueHelper do
       it 'capitalises and concatenates the values' do
         @course = build_stubbed(:course, qualifications: %w[qts pgce])
 
-        expect(qualification_text(course_option)).to eq 'PGCE with QTS'
+        expect(qualification_text(course_option)).to eq 'QTS with PGCE'
       end
     end
 

@@ -135,7 +135,7 @@ module CandidateInterface
     def type_row(application_choice)
       {
         key: 'Type',
-        value: application_choice.current_course.description,
+        value: application_choice.current_course.description_to_s,
       }
     end
 

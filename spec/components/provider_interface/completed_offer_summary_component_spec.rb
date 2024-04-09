@@ -117,7 +117,7 @@ RSpec.describe ProviderInterface::CompletedOfferSummaryComponent do
     expect(row_text_selector(:location, render)).to include(course_option.site.full_address("\n"))
     expect(row_text_selector(:full_or_part_time, render)).to include(course_option.study_mode.humanize)
     expect(row_text_selector(:accredited_provider, render)).to include(course_option.course.accredited_provider.name_and_code)
-    expect(row_text_selector(:qualification, render)).to include('PGCE with QTS')
+    expect(row_text_selector(:qualification, render)).to include('QTS with PGCE')
     expect(row_text_selector(:funding_type, render)).to include(course_option.course.funding_type.humanize)
   end
 
