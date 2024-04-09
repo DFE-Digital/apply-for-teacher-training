@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_04_154616) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_09_134457) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -396,7 +396,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_04_154616) do
     t.datetime "updated_at", null: false
     t.string "level"
     t.boolean "exposed_in_find"
-    t.boolean "open_on_apply", default: false, null: false
     t.integer "recruitment_cycle_year", null: false
     t.string "study_mode", limit: 1, default: "F", null: false
     t.string "financial_support"
@@ -410,7 +409,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_04_154616) do
     t.string "program_type"
     t.boolean "withdrawn"
     t.uuid "uuid"
-    t.datetime "opened_on_apply_at", precision: nil
     t.string "degree_grade"
     t.string "degree_subject_requirements"
     t.boolean "accept_pending_gcse"
@@ -429,7 +427,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_04_154616) do
     t.integer "application_status", default: 0, null: false
     t.index ["applications_open_from"], name: "index_courses_on_applications_open_from"
     t.index ["code"], name: "index_courses_on_code"
-    t.index ["exposed_in_find", "open_on_apply"], name: "index_courses_on_exposed_in_find_and_open_on_apply"
     t.index ["provider_id"], name: "index_courses_on_provider_id"
     t.index ["recruitment_cycle_year", "provider_id", "code"], name: "index_courses_on_cycle_provider_and_code", unique: true
   end
