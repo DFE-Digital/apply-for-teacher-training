@@ -142,7 +142,7 @@ module SupportInterface
     end
 
     def visa_or_immigration_status_text
-      includes_eu_eea_swiss?(application_form.nationalities) ? 'Immigration status' : 'Visa or immigration status'
+      'Visa or immigration status'
     end
   end
 end
