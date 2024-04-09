@@ -87,6 +87,7 @@ module ApplyForPostgraduateTeacherTraining
     config.middleware.use ServiceUnavailableMiddleware
     config.middleware.use VendorAPIRequestMiddleware
     config.middleware.use Grover::Middleware
+    config.skylight.probes += %w(redis)
     config.skylight.environments = ENV["SKYLIGHT_ENABLE"].to_s == "true" ? [Rails.env] : []
 
     config.after_initialize do |app|
