@@ -1,17 +1,30 @@
-<% content_for :browser_title, title_with_error_prefix(t("support_interface.page_titles.#{@immigration_status_form.visa_or_immigration_status(@application_form)}"), @immigration_status_form.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix(t('support_interface.page_titles.visa_or_immigration_status'), @immigration_status_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@application_form)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= t('support_interface.page_titles.visa_or_immigration_status') %></h1>
+
     <%= form_with model: @immigration_status_form, url: support_interface_application_form_edit_immigration_status_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
       <% if @immigration_status_form.eu_nationality? %>
         <%= f.govuk_radio_buttons_fieldset(
         :immigration_status,
-        legend: { text: t('support_interface.page_titles.immigration_status'), size: 'l' },
+        legend: { text: 'Select your visa or immigration status' },
       ) do %>
-        <%= f.govuk_radio_button :immigration_status, :eu_settled, label: { text: t('support_interface.edit_immigration_status.values.eu_settled') }, link_errors: true %>
-        <%= f.govuk_radio_button :immigration_status, :eu_pre_settled, label: { text: t('support_interface.edit_immigration_status.values.eu_pre_settled') } %>
+      <% scope = 'support_interface.edit_immigration_status.values' %>
+        <%= f.govuk_radio_button :immigration_status, :eu_settled, label: { text: t('eu_settled', scope:) }, link_errors: true %>
+        <%= f.govuk_radio_button :immigration_status, :eu_pre_settled, label: { text: t('eu_pre_settled', scope:) } %>
+        <%= f.govuk_radio_button :immigration_status, :indefinite_leave_to_remain_in_the_uk, label: { text: t('indefinite_leave_to_remain_in_the_uk', scope:) } %>
+        <%= f.govuk_radio_button :immigration_status, :student_visa, label: { text: t('student_visa', scope:) } %>
+        <%= f.govuk_radio_button :immigration_status, :graduate_visa, label: { text: t('graduate_visa', scope:) } %>
+        <%= f.govuk_radio_button :immigration_status, :skilled_worker_visa, label: { text: t('skilled_worker_visa', scope:) } %>
+        <%= f.govuk_radio_button :immigration_status, :dependent_on_partners_or_parents_visa, label: { text: t('dependent_on_partners_or_parents_visa', scope:) } %>
+        <%= f.govuk_radio_button :immigration_status, :family_visa, label: { text: t('family_visa', scope:) } %>
+        <%= f.govuk_radio_button :immigration_status, :uk_ancestry_visa, label: { text: t('uk_ancestry_visa', scope:) } %>
+        <%= f.govuk_radio_button :immigration_status, :high_potential_individual_visa, label: { text: t('high_potential_individual_visa', scope:) } %>
+        <%= f.govuk_radio_button :immigration_status, :youth_mobility_scheme, label: { text: t('youth_mobility_scheme', scope:) } %>
+        <%= f.govuk_radio_button :immigration_status, :refugee_status, label: { text: t('refugee_status', scope:) } %>
         <%= f.govuk_radio_divider 'or' %>
         <%= f.govuk_radio_button :immigration_status, :other, label: { text: t('support_interface.edit_immigration_status.values.other') } do %>
           <%= f.govuk_text_field(
@@ -21,7 +34,6 @@
         <% end %>
       <% end %>
       <% else %>
-      <h1 class="govuk-heading-l"><%= t('support_interface.page_titles.visa_or_immigration_status') %></h1>
         <%= f.govuk_radio_buttons_fieldset :right_to_work_or_study_details,
         legend: { text: 'Select your visa or immigration status' } do %>
           <% scope = 'support_interface.edit_immigration_status.values' %>
