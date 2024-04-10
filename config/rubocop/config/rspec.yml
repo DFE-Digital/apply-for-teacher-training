@@ -103,5 +103,5 @@ RSpec/SortMetadata:
 RSpec/IndexedLet:
   Enabled: false
 
-RSpec/Rails/NegationBeValid:
+RSpecRails/NegationBeValid:
   Enabled: true
