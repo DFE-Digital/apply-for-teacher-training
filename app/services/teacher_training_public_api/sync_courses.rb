@@ -24,6 +24,8 @@ module TeacherTrainingPublicAPI
         end
       end
 
+      SyncProviderRelationships.new(@provider).call
+
       raise_update_error(@updates) unless suppress_sync_update_errors
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
@@ -58,6 +60,8 @@ module TeacherTrainingPublicAPI
       else
         TeacherTrainingPublicAPI::SyncSites.new.perform(*job_args)
       end
+
+      course
     end
 
     def assign_course_attributes(course, course_from_api, recruitment_cycle_year)
@@ -111,6 +115,32 @@ module TeacherTrainingPublicAPI
     end
 
     def add_accredited_provider(course, accredited_body_code, recruitment_cycle_year)
+      #
+      # Scenario 1: Ratifying provider: West Essex SCITT
+      #
+      #  Courses from Publish API:
+      #
+      #    Primary (32QJ) accredited_body_code: 2BB
+      #    Primary (R050) accredited_body_code: 2BB
+      #    Primary (SEND) (G199) accredited_body_code: nil
+      #
+      #  Here we will be receiving the courses and we should keep the
+      #  provider relationship permissions for the following providers:
+      #  West Essex SCITT
+      #  West Essex SCITT (St John's C of E Primary School)
+      #
+      #
+      # Scenario 2: Provider with other relationship: ORTU Trust (Gable Hall)
+      #
+      #   2 Courses from Publish API as an example (they have more but all the
+      #   same):
+      #   English (2CP9) - accredited_body_code: M82
+      #   Mathematics (2CPB) - accredited_body_code: M82
+      #
+      # Here we need to delete the  provider relationship permissions row
+      # between relationship that this provider doesn't have anymore!
+      # e.g West Essex SCITT
+      #
       if accredited_body_code.present? && course.provider.code != accredited_body_code
         accredited_provider = ::Provider.find_by(code: accredited_body_code)
         accredited_provider = create_new_accredited_provider(accredited_body_code, recruitment_cycle_year) if accredited_provider.nil?
