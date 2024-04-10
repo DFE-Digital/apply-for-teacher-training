@@ -1,4 +1,6 @@
 class Course < ApplicationRecord
+  self.ignored_columns += %w[open_on_apply opened_on_apply_at]
+
   belongs_to :provider
   has_many :course_options
   has_many :application_choices, through: :course_options
