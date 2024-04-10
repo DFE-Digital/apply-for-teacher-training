@@ -7,49 +7,35 @@
 
     <%= form_with model: @immigration_status_form, url: support_interface_application_form_edit_immigration_status_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
-      <% if @immigration_status_form.eu_nationality? %>
-        <%= f.govuk_radio_buttons_fieldset(
-        :immigration_status,
-        legend: { text: 'Select your visa or immigration status' },
-      ) do %>
-      <% scope = 'support_interface.edit_immigration_status.values' %>
-        <%= f.govuk_radio_button :immigration_status, :eu_settled, label: { text: t('eu_settled', scope:) }, link_errors: true %>
-        <%= f.govuk_radio_button :immigration_status, :eu_pre_settled, label: { text: t('eu_pre_settled', scope:) } %>
-        <%= f.govuk_radio_button :immigration_status, :indefinite_leave_to_remain_in_the_uk, label: { text: t('indefinite_leave_to_remain_in_the_uk', scope:) } %>
-        <%= f.govuk_radio_button :immigration_status, :student_visa, label: { text: t('student_visa', scope:) } %>
-        <%= f.govuk_radio_button :immigration_status, :graduate_visa, label: { text: t('graduate_visa', scope:) } %>
-        <%= f.govuk_radio_button :immigration_status, :skilled_worker_visa, label: { text: t('skilled_worker_visa', scope:) } %>
-        <%= f.govuk_radio_button :immigration_status, :dependent_on_partners_or_parents_visa, label: { text: t('dependent_on_partners_or_parents_visa', scope:) } %>
-        <%= f.govuk_radio_button :immigration_status, :family_visa, label: { text: t('family_visa', scope:) } %>
-        <%= f.govuk_radio_button :immigration_status, :uk_ancestry_visa, label: { text: t('uk_ancestry_visa', scope:) } %>
-        <%= f.govuk_radio_button :immigration_status, :high_potential_individual_visa, label: { text: t('high_potential_individual_visa', scope:) } %>
-        <%= f.govuk_radio_button :immigration_status, :youth_mobility_scheme, label: { text: t('youth_mobility_scheme', scope:) } %>
-        <%= f.govuk_radio_button :immigration_status, :refugee_status, label: { text: t('refugee_status', scope:) } %>
-        <%= f.govuk_radio_divider 'or' %>
-        <%= f.govuk_radio_button :immigration_status, :other, label: { text: t('support_interface.edit_immigration_status.values.other') } do %>
-          <%= f.govuk_text_field(
-                :right_to_work_or_study_details,
-                label: { text: 'Enter Immigration status' },
-              ) %>
-        <% end %>
-      <% end %>
-      <% else %>
-        <%= f.govuk_radio_buttons_fieldset :right_to_work_or_study_details,
+       <%= f.govuk_radio_buttons_fieldset :immigration_status,
         legend: { text: 'Select your visa or immigration status' } do %>
           <% scope = 'support_interface.edit_immigration_status.values' %>
+
+          <% if @immigration_status_form.eu_nationality? %>
+            <%= f.govuk_radio_button :immigration_status, :eu_settled, label: { text: t('eu_settled', scope:) }, link_errors: true %>
+            <%= f.govuk_radio_button :immigration_status, :eu_pre_settled, label: { text: t('eu_pre_settled', scope:) } %>
+          <% end %>
+
           <%= f.govuk_radio_button :immigration_status, :indefinite_leave_to_remain_in_the_uk, label: { text: t('indefinite_leave_to_remain_in_the_uk', scope:) } %>
           <%= f.govuk_radio_button :immigration_status, :student_visa, label: { text: t('student_visa', scope:) } %>
           <%= f.govuk_radio_button :immigration_status, :graduate_visa, label: { text: t('graduate_visa', scope:) } %>
           <%= f.govuk_radio_button :immigration_status, :skilled_worker_visa, label: { text: t('skilled_worker_visa', scope:) } %>
           <%= f.govuk_radio_button :immigration_status, :dependent_on_partners_or_parents_visa, label: { text: t('dependent_on_partners_or_parents_visa', scope:) } %>
           <%= f.govuk_radio_button :immigration_status, :family_visa, label: { text: t('family_visa', scope:) } %>
-          <%= f.govuk_radio_button :immigration_status, :british_national_overseas_visa, label: { text: t('british_national_overseas_visa', scope:) } %>
+
+          <% unless @immigration_status_form.eu_nationality? %>
+            <%= f.govuk_radio_button :immigration_status, :british_national_overseas_visa, label: { text: t('british_national_overseas_visa', scope:) } %>
+          <% end %>
           <%= f.govuk_radio_button :immigration_status, :uk_ancestry_visa, label: { text: t('uk_ancestry_visa', scope:) } %>
           <%= f.govuk_radio_button :immigration_status, :high_potential_individual_visa, label: { text: t('high_potential_individual_visa', scope:) } %>
           <%= f.govuk_radio_button :immigration_status, :youth_mobility_scheme, label: { text: t('youth_mobility_scheme', scope:) } %>
-          <%= f.govuk_radio_button :immigration_status, :india_young_professionals_scheme_visa, label: { text: t('india_young_professionals_scheme_visa', scope:) } %>
-          <%= f.govuk_radio_button :immigration_status, :ukraine_family_scheme_or_ukraine_sponsorship_scheme_visa, label: { text: t('ukraine_family_scheme_or_ukraine_sponsorship_scheme_visa', scope:) } %>
-          <%= f.govuk_radio_button :immigration_status, :afghan_citizens_resettlement_scheme_or_afghan_relocations_and_assistance_policy, label: { text: t('afghan_citizens_resettlement_scheme_or_afghan_relocations_and_assistance_policy', scope:) } %>
+
+          <% unless @immigration_status_form.eu_nationality? %>
+            <%= f.govuk_radio_button :immigration_status, :india_young_professionals_scheme_visa, label: { text: t('india_young_professionals_scheme_visa', scope:) } %>
+            <%= f.govuk_radio_button :immigration_status, :ukraine_family_scheme_or_ukraine_sponsorship_scheme_visa, label: { text: t('ukraine_family_scheme_or_ukraine_sponsorship_scheme_visa', scope:) } %>
+            <%= f.govuk_radio_button :immigration_status, :afghan_citizens_resettlement_scheme_or_afghan_relocations_and_assistance_policy, label: { text: t('afghan_citizens_resettlement_scheme_or_afghan_relocations_and_assistance_policy', scope:) } %>
+          <% end %>
+
           <%= f.govuk_radio_button :immigration_status, :refugee_status, label: { text: t('refugee_status', scope:) } %>
           <%= f.govuk_radio_divider 'or' %>
 
@@ -57,7 +43,6 @@
             <%= f.govuk_text_field(:right_to_work_or_study_details, label: { text: 'Enter visa type or immigration status' }) %>
           <% end %>
         <% end %>
-      <% end %>
 
       <%= f.govuk_text_field(
             :audit_comment,
