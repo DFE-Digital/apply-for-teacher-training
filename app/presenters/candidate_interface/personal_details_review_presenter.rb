@@ -110,7 +110,7 @@ module CandidateInterface
                       visually_hidden_text: I18n.t('application_form.personal_details.visa_or_immigration_status.change_action'),
                     }
                   end,
-          html_attributes: { data: { qa: "personal_details_visa_or_immigration_status'}" } },
+          html_attributes: { data: { qa: 'personal_details_visa_or_immigration_status' } },
         }
       end
       rows

@@ -81,7 +81,7 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
     choose 'Yes'
     click_link_or_button t('save_and_continue')
 
-    expect(page).to have_content('What is your immigration status?')
+    expect(page).to have_content('Visa or immigration status')
     choose 'EU settled status'
     click_link_or_button t('save_and_continue')
 
@@ -92,9 +92,9 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
   end
 
   def and_i_can_change_immigration_status
-    click_change_link('immigration status')
+    click_change_link('visa or immigration status')
 
-    expect(page).to have_content('What is your immigration status?')
+    expect(page).to have_content('Visa or immigration status')
     choose 'EU pre-settled status'
     click_link_or_button t('save_and_continue')
 

@@ -1,24 +1,24 @@
 require 'rails_helper'
 
-RSpec.feature 'Editing immigration status' do
+RSpec.feature 'Editing visa or immigration status' do
   include DfESignInHelpers
 
-  scenario 'Support user edits immigration status', :with_audited do
+  scenario 'Support user edits visa or immigration status', :with_audited do
     given_i_am_a_support_user
     and_an_application_exists
 
     when_i_visit_the_application_page
-    i_should_not_see_the_immigration_status_column
+    i_do_not_see_the_visa_or_immigration_status_column
 
     when_i_click_the_change_link_next_right_to_work
     and_i_choose_yes
     and_i_continue
-    i_should_see_the_immigration_status_column
+    i_see_the_visa_or_immigration_status_column
 
-    when_i_click_change_immigration_status
+    when_i_click_change_visa_or_immigration_status
     and_i_choose_other_and_fill_in_the_details
     and_i_continue
-    then_i_should_see_the_text_i_submitted
+    then_i_see_the_text_i_submitted
   end
 end
 
@@ -34,16 +34,16 @@ def when_i_visit_the_application_page
   visit support_interface_application_form_path(@form)
 end
 
-def i_should_not_see_the_immigration_status_column
-  expect(page).to have_no_content 'Immigration status'
+def i_do_not_see_the_visa_or_immigration_status_column
+  expect(page).to have_no_content 'Visa or immigration status'
 end
 
-def i_should_see_the_immigration_status_column
-  expect(page).to have_content 'Immigration status'
+def i_see_the_visa_or_immigration_status_column
+  expect(page).to have_content 'Visa or immigration status'
 end
 
-def when_i_click_change_immigration_status
-  click_link_or_button 'Change immigration status'
+def when_i_click_change_visa_or_immigration_status
+  click_link_or_button 'Change visa or immigration status'
 end
 
 def when_i_click_the_change_link_next_right_to_work
@@ -65,6 +65,6 @@ def and_i_choose_other_and_fill_in_the_details
   fill_in 'support_interface_application_forms_immigration_status_form[audit_comment]', with: 'Updated as part of Zendesk ticket #12345'
 end
 
-def then_i_should_see_the_text_i_submitted
+def then_i_see_the_text_i_submitted
   expect(page).to have_content 'I live here forever'
 end
