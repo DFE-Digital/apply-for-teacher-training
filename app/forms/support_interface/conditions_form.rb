@@ -103,11 +103,7 @@ module SupportInterface
     end
 
     def ske_length_options
-      if religious_education_course?
-        [CheckBoxOption.new(SkeCondition::SKE_LENGTHS.first.to_s, "#{SkeCondition::SKE_LENGTHS.first} weeks")]
-      else
-        SkeCondition::SKE_LENGTHS.map { |length| CheckBoxOption.new(length.to_s, "#{length} weeks") }
-      end
+      SkeCondition::SKE_LENGTHS.map { |length| CheckBoxOption.new(length.to_s, "#{length} weeks") }
     end
 
     def ske_reason_options(subject:)
@@ -139,10 +135,6 @@ module SupportInterface
 
     def physics_course?
       subject_mapping.in?(Subject::SKE_PHYSICS_COURSES)
-    end
-
-    def religious_education_course?
-      subject_mapping.in?(Subject::SKE_RE_COURSES)
     end
 
     def ske_standard_course?
