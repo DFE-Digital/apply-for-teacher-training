@@ -64,14 +64,14 @@ RSpec.describe 'Choosing visa or immigration status' do
     then_i_see_the_correct_visa_in_the_summary('Ukraine Family Scheme or Ukraine Sponsorship Scheme visa')
 
     when_click_change_immigration_status
-    and_i_choose_the_visa('Afghan citizens resettlement scheme or Afghan Relocations and Assistance Policy')
+    and_i_choose_the_visa('Afghan Citizens Resettlement Scheme (ACRS) or Afghan Relocations and Assistance Policy (ARAP)')
     and_i_click_save_and_continue
-    then_i_see_the_correct_visa_in_the_summary('Afghan citizens resettlement scheme or Afghan Relocations and Assistance Policy')
+    then_i_see_the_correct_visa_in_the_summary('Afghan Citizens Resettlement Scheme (ACRS) or Afghan Relocations and Assistance Policy (ARAP)')
 
     when_click_change_immigration_status
-    and_i_choose_the_visa('Refugee Status')
+    and_i_choose_the_visa('Refugee status')
     and_i_click_save_and_continue
-    then_i_see_the_correct_visa_in_the_summary('Refugee Status')
+    then_i_see_the_correct_visa_in_the_summary('Refugee status')
   end
 
   scenario 'eu candidate who has the right to work' do
@@ -109,14 +109,14 @@ RSpec.describe 'Choosing visa or immigration status' do
       expect(page).to have_text('UK Ancestry visa')
       expect(page).to have_text('High Potential Individual visa')
       expect(page).to have_text('Youth Mobility Scheme')
-      expect(page).to have_text('Refugee Status')
+      expect(page).to have_text('Refugee status')
       expect(page).to have_text('Other')
 
       expect(page).to have_no_text('British National (Overseas) visa')
       expect(page).to have_no_text('India Young Professionals Scheme visa')
       expect(page).to have_no_text('Ukraine Family Scheme or Ukraine Sponsorship Scheme visa')
       expect(page).to have_no_text('India Young Professionals Scheme visa')
-      expect(page).to have_no_text('Afghan citizens resettlement scheme or Afghan Relocations and Assistance Policy')
+      expect(page).to have_no_text('Afghan Citizens Resettlement Scheme (ACRS) or Afghan Relocations and Assistance Policy (ARAP)')
     end
   end
 

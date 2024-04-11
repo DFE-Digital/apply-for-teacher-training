@@ -81,16 +81,16 @@ RSpec.feature 'Editing visa or immigration status, non eu' do
     then_i_see_the_correct_visa_in_the_summary('Ukraine Family Scheme or Ukraine Sponsorship Scheme visa')
 
     when_click_change_immigration_status
-    and_i_choose_the_visa('Afghan citizens resettlement scheme or Afghan Relocations and Assistance Policy')
+    and_i_choose_the_visa('Afghan Citizens Resettlement Scheme (ACRS) or Afghan Relocations and Assistance Policy (ARAP)')
     and_i_add_an_audit_comment
     and_i_click_save_and_continue
-    then_i_see_the_correct_visa_in_the_summary('Afghan citizens resettlement scheme or Afghan Relocations and Assistance Policy')
+    then_i_see_the_correct_visa_in_the_summary('Afghan Citizens Resettlement Scheme (ACRS) or Afghan Relocations and Assistance Policy (ARAP)')
 
     when_click_change_immigration_status
-    and_i_choose_the_visa('Refugee Status')
+    and_i_choose_the_visa('Refugee status')
     and_i_add_an_audit_comment
     and_i_click_save_and_continue
-    then_i_see_the_correct_visa_in_the_summary('Refugee Status')
+    then_i_see_the_correct_visa_in_the_summary('Refugee status')
   end
 
   def given_i_am_a_support_user

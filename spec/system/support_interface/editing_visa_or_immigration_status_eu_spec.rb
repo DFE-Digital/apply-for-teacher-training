@@ -96,13 +96,13 @@ def then_i_am_presented_with_the_correct_eu_options
     expect(page).to have_text('UK Ancestry visa')
     expect(page).to have_text('High Potential Individual visa')
     expect(page).to have_text('Youth Mobility Scheme')
-    expect(page).to have_text('Refugee Status')
+    expect(page).to have_text('Refugee status')
     expect(page).to have_text('Other')
 
     expect(page).to have_no_text('British National (Overseas) visa')
     expect(page).to have_no_text('India Young Professionals Scheme visa')
     expect(page).to have_no_text('Ukraine Family Scheme or Ukraine Sponsorship Scheme visa')
     expect(page).to have_no_text('India Young Professionals Scheme visa')
-    expect(page).to have_no_text('Afghan citizens resettlement scheme or Afghan Relocations and Assistance Policy')
+    expect(page).to have_no_text('Afghan Citizens Resettlement Scheme (ACRS) or Afghan Relocations and Assistance Policy (ARAP)')
   end
 end
