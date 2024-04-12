@@ -209,6 +209,25 @@ RSpec.describe ProviderInterface::OfferWizard do
           expect(wizard.provider_id).to eq(10)
         end
       end
+
+      context 'when stored values does not contain a course' do
+        let(:wizard) do
+          described_class.new(store, { course_id: course_id })
+        end
+        let(:stored_data) { { course_option_id: 3, study_mode: :full_time, provider_id: 10 }.to_json }
+        let(:course_id) { 5 }
+
+        before do
+          allow(store).to receive(:read).and_return(stored_data)
+        end
+
+        it 'does not reset the study mode and course_option_id' do
+          expect(wizard.study_mode).to eq 'full_time'
+          expect(wizard.course_option_id).to be 3
+          expect(wizard.course_id).to eq(course_id)
+          expect(wizard.provider_id).to eq(10)
+        end
+      end
     end
   end
 
