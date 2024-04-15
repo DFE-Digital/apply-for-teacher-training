@@ -28,6 +28,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::CourseSelectionStore 
     let(:course) do
       create(
         :course,
+        :open,
         :with_both_study_modes,
         provider:,
         name: 'Software Engineering',
@@ -111,6 +112,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::CourseSelectionStore 
     let(:course) do
       create(
         :course,
+        :open,
         :with_both_study_modes,
         provider:,
         name: 'Software Engineering',
