@@ -839,11 +839,10 @@ module CandidateHelper
   end
   alias then_i_am_on_the_review_and_submit_page then_i_should_be_on_the_review_and_submit_page
 
-  def then_i_should_see_that_the_course_is_full
+  def then_i_see_that_the_course_is_unavailable
     expect(page).to have_content('You cannot submit this application as the course is no longer available.')
     expect(page).to have_content('Remove this application and search for other courses.')
   end
-  alias then_i_see_that_the_course_is_full then_i_should_see_that_the_course_is_full
 
   def and_i_click_continue
     click_link_or_button t('continue')

@@ -8,35 +8,51 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
     and_i_have_one_application_in_draft
   end
 
+  scenario 'Course becomes closed' do
+    and_my_course_choice_becomes_closed
+    when_i_visit_my_applications
+    and_i_click_to_view_my_application
+    then_i_see_that_the_course_is_unavailable
+    when_i_visit_the_review_page_directly
+    then_i_see_the_course_unavailable_error_message
+    when_i_click_to_remove_the_application
+    and_i_confirm_to_remove_the_application
+    then_my_application_choice_is_removed
+  end
+
   scenario 'Course becomes full' do
     and_my_course_choice_becomes_full
     when_i_visit_my_applications
     and_i_click_to_view_my_application
-    then_i_should_see_that_the_course_is_full
+    then_i_see_that_the_course_is_unavailable
     when_i_visit_the_review_page_directly
-    then_i_should_see_the_course_unavailable_error_message
+    then_i_see_the_course_unavailable_error_message
     when_i_click_to_remove_the_application
     and_i_confirm_to_remove_the_application
-    then_my_application_choice_should_be_removed
+    then_my_application_choice_is_removed
   end
 
   scenario 'Invalid course location' do
     and_my_course_location_is_not_valid_anymore
     when_i_visit_my_applications
     and_i_click_to_view_my_application
-    then_i_should_see_the_course_unavailable_error_message
+    then_i_see_the_course_unavailable_error_message
     when_i_click_to_remove_the_application
     and_i_confirm_to_remove_the_application
-    then_my_application_choice_should_be_removed
+    then_my_application_choice_is_removed
   end
 
   scenario 'Course not exposed in find' do
     and_my_course_choice_is_not_exposed_in_find_anymore
     when_i_continue_my_draft_application
-    then_i_should_see_the_course_unavailable_error_message
+    then_i_see_the_course_unavailable_error_message
     when_i_click_to_remove_the_application
     and_i_confirm_to_remove_the_application
-    then_my_application_choice_should_be_removed
+    then_my_application_choice_is_removed
+  end
+
+  def and_my_course_choice_becomes_closed
+    @application_choice.current_course.update(application_status: 'closed')
   end
 
   def and_my_course_choice_becomes_full
@@ -51,11 +67,11 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
     @application_choice.current_course.update(exposed_in_find: false)
   end
 
-  def then_i_should_see_the_course_unavailable_error_message
+  def then_i_see_the_course_unavailable_error_message
     expect(page).to have_content('You cannot submit this application as the course is no longer available.')
   end
 
-  def then_i_should_not_see_the_continue_application_link
+  def then_i_not_see_the_continue_application_link
     expect(page).to have_no_content('Continue application')
   end
 
@@ -71,7 +87,7 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
     click_link_or_button 'Yes I’m sure - delete this application'
   end
 
-  def then_my_application_choice_should_be_removed
+  def then_my_application_choice_is_removed
     expect(@application_form.reload.application_choices.count).to be_zero
   end
 end

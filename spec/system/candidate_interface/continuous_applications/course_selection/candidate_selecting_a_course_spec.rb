@@ -35,7 +35,7 @@ RSpec.feature 'Selecting a course' do
     when_the_course_is_full
     when_i_visit_the_course_choices_page
     when_i_click_to_view_my_application
-    then_i_see_that_the_course_is_full
+    then_i_see_that_the_course_is_unavailable
     and_i_can_change_the_course
 
     given_the_provider_has_over_twenty_courses
@@ -162,7 +162,7 @@ RSpec.feature 'Selecting a course' do
     when_i_visit_my_applications
   end
 
-  def then_i_see_that_the_course_is_full
+  def then_i_see_that_the_course_is_unavailable
     expect(page).to have_content('You cannot submit this application as the course is no longer available.')
     expect(page).to have_content('Remove this application and search for other courses.')
   end
