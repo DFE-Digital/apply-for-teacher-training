@@ -56,6 +56,7 @@ en:
         afghan_citizens_resettlement_scheme_or_afghan_relocations_and_assistance_policy: Afghan Citizens Resettlement Scheme (ACRS) or Afghan Relocations and Assistance Policy (ARAP)
         refugee_status: Refugee status
         other: Other
+      visa_or_immigration_status_text: 'Visa or immigration status'
 
     audit_comment_ticket:
       label: 'Zendesk ticket URL'

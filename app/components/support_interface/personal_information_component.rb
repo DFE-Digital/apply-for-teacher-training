@@ -107,7 +107,7 @@ module SupportInterface
       return unless application_form.right_to_work_or_study == 'yes'
 
       row = {
-        key: visa_or_immigration_status_text,
+        key: I18n.t('support_interface.edit_immigration_status.visa_or_immigration_status_text'),
         value: FormatResidencyDetailsService.new(application_form:).residency_details_value,
       }
       return row unless editable?
@@ -115,7 +115,7 @@ module SupportInterface
       row.merge(
         action: {
           href: support_interface_application_form_edit_immigration_status_path(application_form),
-          visually_hidden_text: visa_or_immigration_status_text.downcase,
+          visually_hidden_text: I18n.t('support_interface.edit_immigration_status.visa_or_immigration_status_text').downcase,
         },
       )
     end
@@ -139,10 +139,6 @@ module SupportInterface
 
     def editable?
       application_form.editable?
-    end
-
-    def visa_or_immigration_status_text
-      'Visa or immigration status'
     end
   end
 end
