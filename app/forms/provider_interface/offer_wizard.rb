@@ -324,7 +324,7 @@ module ProviderInterface
     end
 
     def sanitize_attrs(attrs)
-      if !last_saved_state.empty? && attrs[:course_id].present? && last_saved_state['course_id'] != attrs[:course_id]
+      if !last_saved_state.empty? && attrs[:course_id].present? && last_saved_state['course_id'].present? && last_saved_state['course_id'] != attrs[:course_id]
         attrs.merge!(study_mode: nil, course_option_id: nil)
       end
       attrs
