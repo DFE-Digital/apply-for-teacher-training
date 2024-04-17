@@ -16,6 +16,7 @@ en:
       short_name_with_naric: UK ENIC or NARIC
       full_name: UK ENIC (the UK agency that recognises international qualifications and skills)
       url: https://www.enic.org.uk
+      statement_of_comparability_url: https://www.enic.org.uk/Qualifications/SOC/Default.aspx
   govuk:
     url: https://www.gov.uk
     terms_conditions_url: https://www.gov.uk/help/terms-conditions
