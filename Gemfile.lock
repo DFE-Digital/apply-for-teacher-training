@@ -329,7 +329,7 @@ GEM
       html-attributes-utils (~> 1.0.0, >= 1.0.0)
       pagy (>= 6, < 8)
       view_component (>= 3.9, < 3.12)
-    govuk_design_system_formbuilder (5.3.1)
+    govuk_design_system_formbuilder (5.3.2)
       actionview (>= 6.1)
       activemodel (>= 6.1)
       activesupport (>= 6.1)
@@ -440,7 +440,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2023.1205)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.5)
+    mini_portile2 (2.8.6)
     minitest (5.22.3)
     multi_json (1.15.0)
     multipart-post (2.4.0)
@@ -865,7 +865,7 @@ DEPENDENCIES
   get_into_teaching_api_client_faraday!
   google-cloud-bigquery
   govuk-components (~> 5.3.1)
-  govuk_design_system_formbuilder (~> 5.3.1)
+  govuk_design_system_formbuilder (~> 5.3.2)
   govuk_markdown
   grover
   guard-rspec
