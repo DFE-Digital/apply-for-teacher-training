@@ -18,9 +18,9 @@ module ProviderInterface
           flash[:success] = t('.success')
         rescue IdenticalCourseError
           @wizard.clear_state!
-          flash[:warning] = [t('.failure'), 'the candidate has already applied to this course']
+          flash[:warning] = [t('.failure.title'), t('.failure.identical_course')]
         rescue ExistingCourseError
-          flash[:warning] = [t('.failure'), 'the candidate has already added this course to their application form']
+          flash[:warning] = [t('.failure.title'), t('.failure.existing_course')]
         end
       else
         @wizard.clear_state!
