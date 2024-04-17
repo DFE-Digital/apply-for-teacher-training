@@ -42,7 +42,7 @@ RSpec.describe SupportInterface::PersonalInformationComponent do
 
   it 'does not render right to work fields if nationality is British or Irish' do
     expect(result.text).not_to include('Has the right to work or study in the UK?')
-    expect(result.text).not_to include('Immigration status')
+    expect(result.text).not_to include('Visa or immigration status')
   end
 
   it 'shows change links' do
@@ -96,7 +96,7 @@ RSpec.describe SupportInterface::PersonalInformationComponent do
       end
 
       it 'renders the immigration status row' do
-        expect(result.css('.govuk-summary-list__key').text).to include('Immigration status')
+        expect(result.css('.govuk-summary-list__key').text).to include('Visa or immigration status')
         expect(result.css('.govuk-summary-list__value').text).to include('EU settled status')
       end
     end
@@ -109,7 +109,7 @@ RSpec.describe SupportInterface::PersonalInformationComponent do
       end
 
       it 'renders the residency_details_row' do
-        expect(result.css('.govuk-summary-list__key').text).to include('Immigration status')
+        expect(result.css('.govuk-summary-list__key').text).to include('Visa or immigration status')
         expect(result.css('.govuk-summary-list__value').text).to include('Indefinite leave to remain')
       end
     end
@@ -118,7 +118,7 @@ RSpec.describe SupportInterface::PersonalInformationComponent do
       before { application_form.right_to_work_or_study = 'no' }
 
       it 'does not render the immigration status row' do
-        expect(result.css('.govuk-summary-list__key').text).not_to include('Immigration status')
+        expect(result.css('.govuk-summary-list__key').text).not_to include('Visa or immigration status')
       end
     end
 
@@ -126,7 +126,7 @@ RSpec.describe SupportInterface::PersonalInformationComponent do
       before { application_form.right_to_work_or_study = 'decide_later' }
 
       it 'does not render the immigration status row' do
-        expect(result.css('.govuk-summary-list__key').text).not_to include('Immigration status')
+        expect(result.css('.govuk-summary-list__key').text).not_to include('Visa or immigration status')
       end
     end
   end

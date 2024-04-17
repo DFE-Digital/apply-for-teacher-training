@@ -209,10 +209,10 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
       it "renders the label 'Immigration status'" do
         expect(expected_rows).to include(
           row_for(
-            :immigration_status,
+            :visa_or_immigration_status,
             'I have permanent residence',
             candidate_interface_edit_immigration_status_path('return-to' => 'application-review'),
-            'personal_details_immigration_status',
+            'personal_details_visa_or_immigration_status',
           ),
         )
       end
@@ -250,10 +250,10 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
         )
         expect(expected_rows).to include(
           row_for(
-            :immigration_status,
+            :visa_or_immigration_status,
             'I have permanent residence',
             nil,
-            'personal_details_immigration_status',
+            'personal_details_visa_or_immigration_status',
           ),
         )
       end

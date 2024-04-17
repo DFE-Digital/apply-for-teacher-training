@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix(t("page_titles.#{@form.visa_or_immigration_status(current_application)}"), @form.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.visa_or_immigration_status'), @form.errors.any?) %>
 
 <% content_for :before_content, govuk_back_link_to(candidate_interface_immigration_right_to_work_path, 'Back') %>
 
