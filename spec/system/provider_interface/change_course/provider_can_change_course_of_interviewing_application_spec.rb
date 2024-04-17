@@ -90,7 +90,6 @@ RSpec.feature 'Provider changes a course' do
 
     create(:provider_permissions, provider: @target_provider, provider_user: @provider_user, make_decisions: true, set_up_interviews: true)
 
-    binding.pry
     courses = [create(:course, study_mode: :full_time_or_part_time, provider: @target_provider, accredited_provider: @ratifying_provider),
                create(:course, :open, study_mode: :full_time_or_part_time, provider: @target_provider, accredited_provider: @ratifying_provider)]
     @target_course = courses.sample
