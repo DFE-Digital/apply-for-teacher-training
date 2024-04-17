@@ -30,7 +30,29 @@ RSpec.feature 'Provider user exporting applications to a csv', mid_cycle: false 
 
     when_i_visit_the_export_applications_page
     and_i_fill_out_the_form_for_applications_this_year_of_any_status_for_the_first_provider
-    then_the_team_should_have_received_an_error_notification
+    then_the_team_have_received_an_error_notification
+  end
+
+  scenario 'disconnects during the download' do
+    given_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
+    and_my_organisation_has_courses_with_applications
+    and_i_sign_in_to_the_provider_interface
+    and_client_disconnect_during_the_export
+
+    when_i_visit_the_export_applications_page
+    and_i_fill_out_the_form_for_applications_this_year_of_any_status_for_the_first_provider
+    then_the_application_handle_the_disconnect_gracefully
+  end
+
+  scenario 'io error during the download' do
+    given_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
+    and_my_organisation_has_courses_with_applications
+    and_i_sign_in_to_the_provider_interface
+    and_there_is_an_io_error_during_the_export
+
+    when_i_visit_the_export_applications_page
+    and_i_fill_out_the_form_for_applications_this_year_of_any_status_for_the_first_provider
+    then_the_application_handle_the_disconnect_gracefully
   end
 
   def given_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
@@ -140,8 +162,24 @@ RSpec.feature 'Provider user exporting applications to a csv', mid_cycle: false 
     allow(Sentry).to receive(:capture_exception)
   end
 
-  def then_the_team_should_have_received_an_error_notification
+  def and_client_disconnect_during_the_export
+    # rubocop:disable RSpec/AnyInstance
+    allow_any_instance_of(ActionDispatch::Response::Buffer).to receive(:write).and_raise(ActionController::Live::ClientDisconnected.new('Client disconnected during streaming'))
+    # rubocop:enable RSpec/AnyInstance
+  end
+
+  def and_there_is_an_io_error_during_the_export
+    # rubocop:disable RSpec/AnyInstance
+    allow_any_instance_of(ActionDispatch::Response::Buffer).to receive(:write).and_raise(IOError.new('Client disconnected during streaming'))
+    # rubocop:enable RSpec/AnyInstance
+  end
+
+  def then_the_team_have_received_an_error_notification
     expect(ProviderInterface::ApplicationDataExport).to have_received(:export_row).with(@application_deferred)
     expect(Sentry).to have_received(:capture_exception).with(instance_of(ActionController::BadRequest), anything)
+  end
+
+  def then_the_application_handle_the_disconnect_gracefully
+    expect(page.status_code).to be(200)
   end
 end
