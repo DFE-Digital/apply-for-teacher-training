@@ -40,7 +40,7 @@ module SupportInterface
         },
         {
           key: 'Description',
-          value: course.description,
+          value: course.description_to_s,
         },
         {
           key: 'Start date',

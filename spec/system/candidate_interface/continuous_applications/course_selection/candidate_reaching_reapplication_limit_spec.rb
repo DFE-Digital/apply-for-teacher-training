@@ -57,7 +57,7 @@ RSpec.feature 'Selecting a course' do
 
   def then_i_see_a_course_and_its_description
     expect(page).to have_content(@course.name_and_code)
-    expect(page).to have_content(@course.description)
+    expect(page).to have_content(@course.description_to_s)
   end
 
   def when_i_choose_a_course_rejected_twice

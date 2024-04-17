@@ -13,7 +13,7 @@ module CandidateInterface
       @radio_available_courses ||= available_courses.map do |course|
         label = course.name_and_code
         label += ' – No vacancies' unless course.available?
-        hint = course.description
+        hint = course.description_to_s
 
         RadioOption.new(course.id, label, hint)
       end

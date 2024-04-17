@@ -202,7 +202,7 @@ RSpec.describe Course do
       let(:course) { build(:course, accredited_provider: build(:provider)) }
 
       it 'returns the accredited provider' do
-        result_string = "#{course.description} - #{course.accredited_provider.name}"
+        result_string = "#{course.description_to_s} - #{course.accredited_provider.name}"
 
         expect(course.description_and_accredited_provider).to eq(result_string)
       end
@@ -212,12 +212,36 @@ RSpec.describe Course do
       let(:course) { build(:course) }
 
       it 'returns the provider' do
-        expect(course.description_and_accredited_provider).to eq(course.description)
+        expect(course.description_and_accredited_provider).to eq(course.description_to_s)
       end
     end
   end
 
-  describe 'qualificaitons_to_s' do
+  describe '#description_to_s' do
+    subject { course.description_to_s }
+
+    let(:course) { build(:course, description:) }
+
+    context 'when nil' do
+      let(:description) { nil }
+
+      it { is_expected.to eq('') }
+    end
+
+    context 'when contains pgce with qts' do
+      let(:description) { 'PGCE with QTS, full time or part time' }
+
+      it { is_expected.to eq('QTS with PGCE, full time or part time') }
+    end
+
+    context 'when contains pgde with qts' do
+      let(:description) { 'PGDE with QTS, full time or part time' }
+
+      it { is_expected.to eq(course.description) }
+    end
+  end
+
+  describe '#qualifications_to_s' do
     subject { course.qualifications_to_s }
 
     let(:course) { build(:course, qualifications:) }
@@ -231,7 +255,7 @@ RSpec.describe Course do
     context 'when [qts pgce]' do
       let(:qualifications) { %w[qts pgce] }
 
-      it { is_expected.to eq('PGCE with QTS') }
+      it { is_expected.to eq('QTS with PGCE') }
     end
 
     context 'when [qts pgde]' do

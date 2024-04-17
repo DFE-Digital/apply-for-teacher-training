@@ -179,7 +179,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, :mid_cycle, typ
       result = render_inline(described_class.new(application_form:, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Type')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('PGCE with QTS part time')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('QTS with PGCE part time')
     end
   end
 

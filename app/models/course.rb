@@ -70,11 +70,11 @@ class Course < ApplicationRecord
   }
 
   def name_and_description
-    "#{name} #{description}"
+    "#{name} #{description_to_s}"
   end
 
   def name_provider_and_description
-    "#{name} #{accredited_provider&.name} #{description}"
+    "#{name} #{accredited_provider&.name} #{description_to_s}"
   end
 
   def year_name_and_code
@@ -86,7 +86,7 @@ class Course < ApplicationRecord
   end
 
   def name_code_and_description
-    "#{name} (#{code}) – #{description}"
+    "#{name} (#{code}) – #{description_to_s}"
   end
 
   def name_code_and_provider
@@ -98,7 +98,7 @@ class Course < ApplicationRecord
   end
 
   def name_description_provider_and_age_range
-    "#{name} #{description} #{accredited_provider&.name} #{age_range}"
+    "#{name} #{description_to_s} #{accredited_provider&.name} #{age_range}"
   end
 
   def provider_and_name_code
@@ -106,7 +106,7 @@ class Course < ApplicationRecord
   end
 
   def description_and_accredited_provider
-    accredited_provider ? "#{description} - #{accredited_provider&.name}" : description.to_s
+    accredited_provider ? "#{description_to_s} - #{accredited_provider&.name}" : description_to_s
   end
 
   def currently_has_both_study_modes_available?
@@ -183,11 +183,17 @@ class Course < ApplicationRecord
     return '' if qualifications.blank?
 
     case qualifications.sort
-    in ['pgce', 'qts'] then 'PGCE with QTS'
+    in ['pgce', 'qts'] then 'QTS with PGCE'
     in ['pgde', 'qts'] then 'PGDE with QTS'
     else
       qualifications.first.upcase
     end
+  end
+
+  def description_to_s
+    # This terminology comes directly from Publish API inside the description
+    # and we need to invert when we show in Apply.
+    @description_to_s ||= description.to_s.gsub('PGCE with QTS', 'QTS with PGCE')
   end
 
 private

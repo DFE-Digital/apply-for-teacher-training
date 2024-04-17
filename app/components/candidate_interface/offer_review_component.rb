@@ -92,7 +92,7 @@ module CandidateInterface
     def course_row_value
       if CycleTimetable.find_down?
         tag.p(@course_choice.current_course.name_and_code, class: 'govuk-!-margin-bottom-0') +
-          tag.p(@course_choice.current_course.description, class: 'govuk-body')
+          tag.p(@course_choice.current_course.description_to_s, class: 'govuk-body')
       else
         govuk_link_to(
           @course_choice.current_course.name_and_code,
@@ -100,7 +100,7 @@ module CandidateInterface
           target: '_blank',
           rel: 'noopener',
         ) +
-          tag.p(@course_choice.current_course.description, class: 'govuk-body')
+          tag.p(@course_choice.current_course.description_to_s, class: 'govuk-body')
       end
     end
 

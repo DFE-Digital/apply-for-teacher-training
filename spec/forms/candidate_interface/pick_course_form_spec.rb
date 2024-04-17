@@ -21,9 +21,9 @@ RSpec.describe CandidateInterface::PickCourseForm do
       )
 
       expect(form.radio_available_courses.map(&:hint)).to contain_exactly(
-        'PGCE with QTS full time',
+        'QTS with PGCE full time',
         'Custom description',
-        'PGCE with QTS full time',
+        'QTS with PGCE full time',
       )
     end
   end
@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
         :open,
         name: 'English',
         code: '456',
-        description: 'PGCE with QTS full time',
+        description: 'QTS with PGCE full time',
         provider:,
       )
       create(
@@ -74,9 +74,9 @@ RSpec.describe CandidateInterface::PickCourseForm do
         expect(
           form.radio_available_courses.map(&:hint),
         ).to contain_exactly(
-          'PGCE with QTS full time',
+          'QTS with PGCE full time',
           'PGCE full time',
-          'PGCE with QTS full time',
+          'QTS with PGCE full time',
         )
       end
     end
@@ -86,7 +86,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
         expect(
           form.dropdown_available_courses.map(&:name),
         ).to contain_exactly(
-          'English (456) – PGCE with QTS full time – No vacancies',
+          'English (456) – QTS with PGCE full time – No vacancies',
           'English (789) – PGCE full time – No vacancies',
           'Maths (123)',
         )
@@ -134,7 +134,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
         expect(form.dropdown_available_courses.map(&:name)).to contain_exactly(
           'English (789)',
           'Maths (123) – PGCE full time',
-          'Maths (456) – PGCE with QTS full time',
+          'Maths (456) – QTS with PGCE full time',
         )
       end
     end
@@ -172,7 +172,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
 
         expect(form.dropdown_available_courses.map(&:name)).to contain_exactly(
           'Maths (123) – PGCE full time',
-          'Maths (456) – PGCE with QTS full time',
+          'Maths (456) – QTS with PGCE full time',
         )
       end
     end
@@ -181,8 +181,8 @@ RSpec.describe CandidateInterface::PickCourseForm do
       it 'returns the course name_code_and_age_range' do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
-        maths4to8 = create(:course, :open, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
-        maths8to12 = create(:course, :open, name: 'Maths', code: '456', age_range: '8 to 12', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
+        maths4to8 = create(:course, :open, name: 'Maths', code: '123', description: 'QTS with PGCE full time', provider:, accredited_provider: provider2)
+        maths8to12 = create(:course, :open, name: 'Maths', code: '456', age_range: '8 to 12', description: 'QTS with PGCE full time', provider:, accredited_provider: provider2)
         create(:course_option, course: maths4to8)
         create(:course_option, course: maths8to12)
 
@@ -196,7 +196,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
       it 'returns course name and code' do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
-        maths123 = create(:course, :open, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
+        maths123 = create(:course, :open, name: 'Maths', code: '123', description: 'QTS with PGCE full time', provider:, accredited_provider: provider2)
         maths456 = create(:course, :open, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
         create(:course_option, course: maths123)
         create(:course_option, course: maths456)

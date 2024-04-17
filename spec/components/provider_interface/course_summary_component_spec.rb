@@ -107,7 +107,7 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
     render_text = row_text_selector(:qualification, render)
 
     expect(render_text).to include('Qualification')
-    expect(render_text).to include('PGCE with QTS')
+    expect(render_text).to include('QTS with PGCE')
   end
 
   it 'renders the funding type' do
