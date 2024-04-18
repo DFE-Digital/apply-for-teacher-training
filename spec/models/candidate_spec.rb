@@ -261,4 +261,11 @@ RSpec.describe Candidate do
       end
     end
   end
+
+  describe '#pseudonymised_id' do
+    it 'returns the pseudonymised id based on the candidate id' do
+      candidate = build_stubbed(:candidate, id: 0)
+      expect(candidate.pseudonymised_id).to eq '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9'
+    end
+  end
 end
