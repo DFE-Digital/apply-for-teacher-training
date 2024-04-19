@@ -40,7 +40,7 @@ module ProviderInterface
     end
 
     def disability_value
-      disabilities = Array(equality_and_diversity.fetch('disabilities', []))
+      disabilities = Array(equality_and_diversity['disabilities'])
       disability_list_items = disabilities.map do |disability|
         "<li>#{disability} </li>"
       end
