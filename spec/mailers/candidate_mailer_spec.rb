@@ -92,7 +92,7 @@ RSpec.describe CandidateMailer do
         I18n.t!('candidate_mailer.application_rejected.subject'),
         'intro' => 'Thank you for your application to study Mathematics at Arithmetic College',
         'rejection reasons' => 'Missing your English GCSE',
-        'realistic job preview' => 'respond to these classroom scenarios',
+        'realistic job preview' => 'Try the realistic job preview tool',
         'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?utm_campaign=\w{64}&utm_source/,
       )
     end
@@ -180,7 +180,7 @@ RSpec.describe CandidateMailer do
         'You did not respond to your offer: next steps',
         'heading' => 'Dear Fred',
         'days left to respond' => '10 working days',
-        'realistic job preview' => 'respond to these classroom scenarios',
+        'realistic job preview' => 'Try the realistic job preview tool',
         'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?utm_campaign=\w{64}&utm_source/,
       )
     end
@@ -191,7 +191,7 @@ RSpec.describe CandidateMailer do
       it_behaves_like(
         'a mail with subject and content',
         'You did not respond to your offers: next steps',
-        'realistic job preview' => 'respond to these classroom scenarios',
+        'realistic job preview' => 'Try the realistic job preview tool',
         'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?utm_campaign=\w{64}&utm_source/,
       )
     end
@@ -210,7 +210,7 @@ RSpec.describe CandidateMailer do
           'heading' => 'Dear Fred',
           'DBD_days_they_had_to_respond' => '10 working days',
           'still_interested' => 'If now’s the right time for you',
-          'realistic job preview' => 'respond to these classroom scenarios',
+          'realistic job preview' => 'Try the realistic job preview tool',
           'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?utm_campaign=\w{64}&utm_source/,
         )
       end
@@ -227,7 +227,7 @@ RSpec.describe CandidateMailer do
           'heading' => 'Dear Fred',
           'DBD_days_they_had_to_respond' => '10 working days',
           'apply_next_cycle' => 'You can apply again for courses starting in the 2022 to 2023 academic year.',
-          'realistic job preview' => 'respond to these classroom scenarios',
+          'realistic job preview' => 'Try the realistic job preview tool',
           'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?utm_campaign=\w{64}&utm_source/,
         )
       end
@@ -246,7 +246,7 @@ RSpec.describe CandidateMailer do
         'heading' => 'Dear Fred',
         'DBD_days_they_had_to_respond' => '10 working days',
         'still_interested' => 'If now’s the right time for you',
-        'realistic job preview' => 'respond to these classroom scenarios',
+        'realistic job preview' => 'Try the realistic job preview tool',
         'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?utm_campaign=\w{64}&utm_source/,
       )
     end
@@ -259,7 +259,7 @@ RSpec.describe CandidateMailer do
         'Application withdrawn automatically',
         'heading' => 'Dear Fred',
         'days left to respond' => '10 working days',
-        'realistic job preview' => 'respond to these classroom scenarios',
+        'realistic job preview' => 'Try the realistic job preview tool',
         'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?utm_campaign=\w{64}&utm_source/,
       )
     end
@@ -272,7 +272,7 @@ RSpec.describe CandidateMailer do
         'Applications withdrawn automatically',
         'heading' => 'Dear Fred',
         'days left to respond' => '10 working days',
-        'realistic job preview' => 'respond to these classroom scenarios',
+        'realistic job preview' => 'Try the realistic job preview tool',
         'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?utm_campaign=\w{64}&utm_source/,
       )
     end
@@ -298,7 +298,7 @@ RSpec.describe CandidateMailer do
         'You have withdrawn your application',
         'heading' => 'Hello Fred',
         'application_withdrawn' => 'You have withdrawn your application',
-        'realistic job preview' => 'respond to these classroom scenarios',
+        'realistic job preview' => 'Try the realistic job preview tool',
         'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?utm_campaign=\w{64}&utm_source/,
       )
     end
@@ -335,7 +335,7 @@ RSpec.describe CandidateMailer do
       'You have declined an offer: next steps',
       'greeting' => 'Hello Fred',
       'content' => 'declined your offer to study',
-      'realistic job preview' => 'respond to these classroom scenarios',
+      'realistic job preview' => 'Try the realistic job preview tool',
       'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?utm_campaign=\w{64}&utm_source/,
     )
   end
@@ -387,7 +387,7 @@ RSpec.describe CandidateMailer do
       'greeting' => 'Dear Fred',
       'offer details' => 'Arachnid College has withdrawn their offer for you to study Mathematics (M101)',
       'withdrawal reason' => 'You lied to us about secretly being Spiderman',
-      'realistic job preview' => 'respond to these classroom scenarios',
+      'realistic job preview' => 'Try the realistic job preview tool',
       'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?utm_campaign=\w{64}&utm_source/,
     )
   end
@@ -835,7 +835,7 @@ RSpec.describe CandidateMailer do
         'greeting' => 'Hello Fred',
         'details' => 'has withdrawn your application for',
         'content' => 'If now’s the right time for you, you can still apply for teacher training again this year.',
-        'realistic job preview' => 'respond to these classroom scenarios',
+        'realistic job preview' => 'Try the realistic job preview tool',
         'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?utm_campaign=\w{64}&utm_source/,
       )
     end
