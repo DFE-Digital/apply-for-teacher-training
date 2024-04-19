@@ -166,9 +166,6 @@ module SupportInterface
       work_history = application_form.application_work_experiences.sort_by(&:start_date)
       existing_breaks = application_form.application_work_history_breaks.sort_by(&:start_date)
 
-      work_history_with_breaks = Array(work_history)
-      existing_breaks.each { |existing_break| work_history_with_breaks << existing_break }
-
       if work_history.any?
         timeline_in_months = month_range(
           start_date: start_of_working_life(application_form),
