@@ -22,17 +22,17 @@
 
     <% case try(:current_namespace) %>
     <% when 'candidate_interface' %>
-      <%= stylesheet_pack_tag 'application-candidate', media: 'all' %>
+      <%= stylesheet_link_tag 'application-candidate', media: 'all', defer: true %>
     <% when 'support_interface' %>
-      <%= stylesheet_pack_tag 'application-support', media: 'all' %>
+      <%= stylesheet_link_tag 'application-support', media: 'all', defer: true %>
     <% when 'provider_interface' %>
-      <%= stylesheet_pack_tag 'application-provider', media: 'all' %>
+      <%= stylesheet_link_tag 'application-provider', media: 'all', defer: true %>
     <% when 'publications' %>
-      <%= stylesheet_pack_tag 'application-publications', media: 'all' %>
+      <%= stylesheet_link_tag 'application-publications', media: 'all', defer: true %>
     <% when /api_docs/ %>
-      <%= stylesheet_pack_tag 'application-api-docs', media: 'all' %>
+      <%= stylesheet_link_tag 'application-api-docs', media: 'all', defer: true %>
     <% else %>
-      <%= stylesheet_pack_tag 'application', media: 'all' %>
+      <%= stylesheet_link_tag 'application', media: 'all', defer: true %>
     <% end %>
   </head>
 
