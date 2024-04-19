@@ -166,8 +166,7 @@ module SupportInterface
       work_history = application_form.application_work_experiences.sort_by(&:start_date)
       existing_breaks = application_form.application_work_history_breaks.sort_by(&:start_date)
 
-      work_history_with_breaks = []
-      work_history.each { |job| work_history_with_breaks << job }
+      work_history_with_breaks = Array(work_history)
       existing_breaks.each { |existing_break| work_history_with_breaks << existing_break }
 
       if work_history.any?

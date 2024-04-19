@@ -25,9 +25,8 @@ class RestructuredWorkHistoryWithBreaks
   end
 
   def timeline
-    work_history_with_breaks = []
+    work_history_with_breaks = Array(@work_history)
 
-    @work_history.each { |job| work_history_with_breaks << job }
     @existing_breaks.each { |existing_break| work_history_with_breaks << existing_break }
 
     if @work_history.any?
