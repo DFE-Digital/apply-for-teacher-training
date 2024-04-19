@@ -194,3 +194,5 @@ group :development, :test do
   gem 'pry'
   gem 'rspec-rails', require: false
 end
+
+gem 'cssbundling-rails', '~> 1.4'

@@ -13,7 +13,8 @@
     "govuk-frontend": "^5.4.0",
     "jquery": "^3.7.1",
     "postcss": "^8.4.39",
-    "puppeteer": "^22.13.1"
+    "puppeteer": "^22.13.1",
+    "sass": "^1.75.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
@@ -30,7 +31,8 @@
   "scripts": {
     "lint": "standard 'app/frontend/packs'",
     "test": "jest",
-    "prepare": "husky"
+    "prepare": "husky",
+    "build:css": "sass ./app/frontend/styles/application.scss:./app/assets/builds/application.css ./app/frontend/styles/application-api-docs.scss:./app/assets/builds/application-api-docs.css ./app/frontend/styles/application-candidate.scss:./app/assets/builds/application-candidate.css ./app/frontend/styles/application-provider.scss:./app/assets/builds/application-provider.css ./app/frontend/styles/application-publications.scss:./app/assets/builds/application-publications.css ./app/frontend/styles/application-support.scss:./app/assets/builds/application-support.css --no-source-map --load-path=node_modules"
   },
   "jest": {
     "testEnvironment": "jsdom",
