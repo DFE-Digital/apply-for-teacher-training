@@ -1,4 +1,4 @@
-# 23. Mid-cycle Reporting
+# 23. Per-provider Reporting
 
 **Date:** 19/04/2024
 
@@ -16,10 +16,10 @@ We will use the existing format & content as our baseline for an appropriately a
 
 ## Proposition:
 
-The previous implementation of the mid-cycle report (2022-23) should be removed as the data will be significantly different from this years report - this year has a Candidate focus rather than Application focus.
-As such we have decided to remove the mid-cycle report from the UI and purge the data.
+The previous implementation of the Mid-cycle Report (2022-23) should be removed as the data will be significantly different from this years report - this year has a Candidate focus rather than Application focus.
+As such we have decided to remove the Mid-cycle Report from the UI and purge the data.
 
-The new report will use a combination of last year's UI blended with data concepts used in the implementation of Monthly Reporting.
+The new (Per-provider) report will use a combination of last year's Mid-cycle Report UI blended with data concepts used in the implementation of Monthly Reporting.
 
 We have decided to sync data for each provider in the early hours of Monday morning as this is when the refreshed data is available from BigQuery. We will consider the scenario of the data not being available for the current week in BigQuery - in which case we should not attempt to update the data in Manage.
 
