@@ -40,11 +40,12 @@ module ProviderInterface
     end
 
     def disability_value
-      disabilities = equality_and_diversity['disabilities'].map do |disability|
+      disabilities = Array(equality_and_diversity.fetch('disabilities', []))
+      disability_list_items = disabilities.map do |disability|
         "<li>#{disability} </li>"
       end
 
-      "<ul class=\"govuk-list\">#{disabilities.join}</ul>"
+      "<ul class=\"govuk-list\">#{disability_list_items.join}</ul>"
     end
 
     def application_in_correct_state?
