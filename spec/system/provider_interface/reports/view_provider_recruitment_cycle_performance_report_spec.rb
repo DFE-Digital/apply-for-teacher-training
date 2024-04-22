@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Visit provider recruitment performance report page' do
   include DfESignInHelpers
 
+  before { FeatureFlag.activate(:recruitment_performance_report) }
+
   scenario 'provider report has been generated' do
     given_a_provider_and_provider_user_exists
     and_a_provider_recruitment_performance_report_has_been_generated

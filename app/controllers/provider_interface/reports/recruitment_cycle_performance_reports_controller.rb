@@ -1,12 +1,12 @@
 module ProviderInterface
   module Reports
-    class RecruitmentPerformanceReportsController < ProviderInterfaceController
+    class RecruitmentCyclePerformanceReportsController < ProviderInterfaceController
       before_action :redirect_if_feature_inactive
 
       def show
         @provider = current_user.providers.find(provider_id)
-        @provider_data = Publications::ProviderRecruitmentPerformanceReport.where(provider: @provider).last&.statistics
-        @national_data = Publications::NationalRecruitmentPerformanceReport.last&.statistics
+        @provider_data = Publications::ProviderRecruitmentCyclePerformanceReport.where(provider: @provider).last&.statistics
+        @national_data = Publications::NationalRecruitmentCyclePerformanceReport.last&.statistics
       end
 
     private
