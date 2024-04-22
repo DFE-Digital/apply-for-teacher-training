@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature 'Visit national recruitment cycle performance report page' do
-  before { FeatureFlag.activate(:recruitment_cycle_performance_report) }
+RSpec.feature 'Visit national recruitment performance report page' do
+  before { FeatureFlag.activate(:recruitment_performance_report) }
 
   scenario 'national report has been generated' do
     given_a_national_recruitment_performance_report_has_been_generated
