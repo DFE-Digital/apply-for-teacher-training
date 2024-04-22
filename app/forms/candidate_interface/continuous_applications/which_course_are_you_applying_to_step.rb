@@ -50,8 +50,7 @@ module CandidateInterface
       end
 
       def next_edit_step_path(next_step_klass)
-        classes_without_edit = [DuplicateCourseSelectionStep, FullCourseSelectionStep, ClosedCourseSelectionStep]
-        return next_step_path(next_step_klass) if classes_without_edit.include?(next_step_klass)
+        return next_step_path(next_step_klass) unless next_step_klass.new.next_step
 
         super
       end
