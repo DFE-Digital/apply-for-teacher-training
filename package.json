@@ -32,7 +32,7 @@
     "lint": "standard 'app/frontend/packs'",
     "test": "jest",
     "prepare": "husky",
-    "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css ./app/assets/stylesheets/application-api-docs.scss:./app/assets/builds/application-api-docs.css ./app/assets/stylesheets/application-candidate.scss:./app/assets/builds/application-candidate.css ./app/assets/stylesheets/application-provider.scss:./app/assets/builds/application-provider.css ./app/assets/stylesheets/application-support.scss:./app/assets/builds/application-support.css --no-source-map --load-path=node_modules"
+    "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css ./app/assets/stylesheets/application-api-docs.scss:./app/assets/builds/application-api-docs.css ./app/assets/stylesheets/application-candidate.scss:./app/assets/builds/application-candidate.css ./app/assets/stylesheets/application-provider.scss:./app/assets/builds/application-provider.css ./app/assets/stylesheets/application-publications.scss:./app/assets/builds/application-publications.css ./app/assets/stylesheets/application-support.scss:./app/assets/builds/application-support.css --no-source-map --load-path=node_modules"
   },
   "jest": {
     "testEnvironment": "jsdom",
