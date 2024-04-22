@@ -189,4 +189,4 @@ group :development, :test do
   gem 'rspec-rails', require: false
 end
 
-gem "cssbundling-rails", "~> 1.4"
+gem 'cssbundling-rails', '~> 1.4'
