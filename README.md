@@ -8,12 +8,12 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 ## Live environments
 
-| Name       | URL                                                                  | Description                                                           | AKS namespace    | PaaS application |
-| ---------- | -------------------------------------------------------------------- | --------------------------------------------------------------------- | ---------------- | ---------------- |
-| Production | [www](https://www.apply-for-teacher-training.service.gov.uk)         | Public site                                                           | `bat-production` | `apply-prod`     |
-| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk) | Demo environment for software vendors who integrate with our API      | `bat-production` | `apply-sandbox`  |
-| Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk) | For internal use by DfE to test deploys                               | `bat-staging`    | `apply-staging`  |
-| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from main | `bat-qa`         | `apply-qa`       |
+| Name       | URL                                                                  | Description                                                           | AKS namespace    |
+| ---------- | -------------------------------------------------------------------- | --------------------------------------------------------------------- | ---------------- |
+| Production | [www](https://www.apply-for-teacher-training.service.gov.uk)         | Public site                                                           | `bat-production` |
+| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk) | Demo environment for software vendors who integrate with our API      | `bat-production` |
+| Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk) | For internal use by DfE to test deploys                               | `bat-staging`    |
+| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from main | `bat-qa`         |
 
 ## Table of Contents
 
@@ -23,7 +23,6 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 - [DfE Sign-in](#dfe-sign-in)
 
 ## Guides
-
 
 ### Infra
 - [Deploy the application](/docs/developer/deployment.md)
@@ -46,7 +45,6 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 - [Connect to a production database](/docs/developer/connecting-to-databases.md)
 - [Testing style guide](/docs/developer/testing-styleguide.md)
 - [Performance monitoring](/docs/infra/performance-monitoring.md)
-
 
 ## How the application works
 
@@ -80,15 +78,15 @@ This app provides several APIs for programmatic access to the Apply service. [Re
 
 ### Production dependencies
 
-- [Ruby](.ruby-version)
-- Node.js – see [package.json](package.json) for version
-- Yarn – see [package.json](package.json) for version
-- PostgreSQL 14
-- Redis 6.0.x
+- [Ruby](.ruby-version) 3.2.3
+- Node.js – 20.11.0
+- Yarn – 1.22.19
+- PostgreSQL – 14
+- Redis – 6.0.x
 
 ### Development dependencies
 
-There are two ways to run the application in development. Running a local development environment is the most common approach but it is also possible to run in local Docker containers.
+See [Developer setup](docs/development/developer-setup.md)
 
 [Developer setup](docs/development/developer-setup.md)
 
