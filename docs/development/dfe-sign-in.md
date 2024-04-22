@@ -9,6 +9,31 @@ DfE sign-in has the following environments:
 - [Preprod](https://pp-services.signin.education.gov.uk/)
 - [Production](https://services.signin.education.gov.uk/): used by Apply staging, sandbox, production
 
+## DfE Sign-in
+
+The Provider interface at `/provider` and Support interface at
+`/support` are both protected by DfE's SSO provider DfE Sign-in.
+
+### Environments
+
+In development and QA we use the **Test** environment of DfE Sign-in:
+
+[Manage console (test)](https://test-manage.signin.education.gov.uk)
+
+```sh
+# .env
+DFE_SIGN_IN_ISSUER=https://test-oidc.signin.education.gov.uk
+```
+
+In staging, production and sandbox we use the **Production** environment of DfE Sign-in:
+
+[Manage console (production)](https://manage.signin.education.gov.uk)
+
+```sh
+# .env
+DFE_SIGN_IN_ISSUER=https://oidc.signin.education.gov.uk
+```
+
 ## Service configuration
 
 The configuration is done via the DSI "Manage" application:
