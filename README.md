@@ -23,15 +23,6 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 ## Guides
 
-### Infra
-- [Deploy the application](/docs/developer/deployment.md)
-- [Environment variables](/docs/environment-variables.md)
-- [Pipeline Variables](/docs/infra/pipeline-variables.md)
-- [Restore a database](/docs/infra/database-restore.md)
-- [Set up a new environment](/docs/infra/new-environment.md)
-- [Swapping App Service Slots](/docs/infra/swap-slots-pipeline.md)
-- [Docker for DevOps](/docs/infra/docker-for-devops.md)
-
 ### Development
 - [Developer on-boarding](/docs/developer/developer-onboarding.md)
 - [Developer setup](/docs/developer/developer-setup.md)
@@ -42,6 +33,15 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 - [Understanding the different course option fields](/docs/developer/course-options.md)
 - [DfE Sign-in](/docs/development/dfe-sign-in.md)
 - [Adding PostgreSQL extensions](/docs/developer/postgres_extension.md)
+
+### Infra
+- [Deploy the application](/docs/developer/deployment.md)
+- [Environment variables](/docs/environment-variables.md)
+- [Pipeline Variables](/docs/infra/pipeline-variables.md)
+- [Restore a database](/docs/infra/database-restore.md)
+- [Set up a new environment](/docs/infra/new-environment.md)
+- [Swapping App Service Slots](/docs/infra/swap-slots-pipeline.md)
+- [Docker for DevOps](/docs/infra/docker-for-devops.md)
 
 ### General
 - [Connect to a production database](/docs/developer/connecting-to-databases.md)
