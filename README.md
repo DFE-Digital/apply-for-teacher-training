@@ -17,33 +17,36 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 ## Table of Contents
 
-- [Documentation](#documentation)
+- [Overview](#how-the-application-works)
 - [Dependencies](#dependencies)
 - [Development environment](#development-environment)
 - [DfE Sign-in](#dfe-sign-in)
 
 ## Guides
 
-- [Developer on-boarding](/docs/developer-onboarding.md)
-- [Connect to a production database](/docs/connecting-to-databases.md)
-- [Deploy the application](/docs/deployment.md)
+
+### Infra
+- [Deploy the application](/docs/developer/deployment.md)
 - [Environment variables](/docs/environment-variables.md)
-- [Frontend development](/docs/frontend.md)
-- [Pipeline Variables](/docs/pipeline-variables.md)
-- [Restore a database](/docs/database-restore.md)
-- [Set up a new environment](/docs/new-environment.md)
-- [Testing style guide](/docs/testing-styleguide.md)
-- [Rails components](/docs/components.md)
-- [Docker for DevOps](/docs/docker-for-devops.md)
-- [Swapping App Service Slots](/docs/swap-slots-pipeline.md)
-- [Performance monitoring](/docs/performance-monitoring.md)
-- [Understanding the different course option fields](/docs/course-options.md)
-- [Developing in GitHub Codespaces](/docs/codespaces.md)
-- [Adding PostgreSQL extensions](/docs/postgres_extension.md)
+- [Pipeline Variables](/docs/infra/pipeline-variables.md)
+- [Restore a database](/docs/infra/database-restore.md)
+- [Set up a new environment](/docs/infra/new-environment.md)
+- [Swapping App Service Slots](/docs/infra/swap-slots-pipeline.md)
+- [Docker for DevOps](/docs/infra/docker-for-devops.md)
 
-We keep track of the things we learn:
+### Dev
+- [Developer on-boarding](/docs/developer/developer-onboarding.md)
+- [Rails components](/docs/developer/components.md)
+- [Understanding the different course option fields](/docs/developer/course-options.md)
+- [Developing in GitHub Codespaces](/docs/developer/codespaces.md)
+- [Adding PostgreSQL extensions](/docs/developer/postgres_extension.md)
+- [Frontend development](/docs/developer/frontend.md)
 
-- [Lessons learned](/docs/lessons-learned.md)
+### General
+- [Connect to a production database](/docs/developer/connecting-to-databases.md)
+- [Testing style guide](/docs/developer/testing-styleguide.md)
+- [Performance monitoring](/docs/infra/performance-monitoring.md)
+
 
 ## How the application works
 
@@ -51,13 +54,9 @@ The application has a number of different interfaces for different types of user
 
 ![Diagram of the Apply interfaces](docs/architecture-context.svg)
 
-<!-- Want to update the diagram? See https://docs.google.com/presentation/d/1_VEUY0RXZpUrS3YuAoS6KcZs9h5hKOSjLnQistz5jp8/edit#slide=id.g8791ae7f92_0_359 -->
-
 ### Architecture
 
 ![Diagram of the technical architecture](docs/tech-architecture.svg)
-
-<!-- Want to update the diagram? See https://docs.google.com/presentation/d/1_VEUY0RXZpUrS3YuAoS6KcZs9h5hKOSjLnQistz5jp8/edit#slide=id.g8791ae7f92_0_359 -->
 
 We keep track of architecture decisions in [Architecture Decision Records (ADRs)](/adr).
 
@@ -75,7 +74,7 @@ Regenerate this diagram with `bundle exec rake erd`.
 
 ### Apply APIs
 
-This app provides several APIs for programmatic access to the Apply service. [Read about them here](/docs/apply-apis.md).
+This app provides several APIs for programmatic access to the Apply service. [Read about them here](/docs/development/apply-apis.md).
 
 ## Dependencies
 
@@ -84,8 +83,8 @@ This app provides several APIs for programmatic access to the Apply service. [Re
 - [Ruby](.ruby-version)
 - Node.js – see [package.json](package.json) for version
 - Yarn – see [package.json](package.json) for version
-- PostgreSQL 11
-- Redis 5.0.x
+- PostgreSQL 14
+- Redis 7.0.x
 
 ### Development dependencies
 
