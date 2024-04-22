@@ -14,7 +14,7 @@ This document describes the on-boardng steps for new Developers when they join t
 ### Getting familiar with AKS
 
 You will need to request space developer access every day in order to gain access to production.
-See the [AKS cheatsheet](/docs/aks-cheatsheet.md) to learn how to do this, and for other helpful tips.
+See the [AKS cheatsheet](/docs/infra/aks-cheatsheet.md) to learn how to do this, and for other helpful tips.
 
 ### Azure CIP
 
@@ -32,7 +32,7 @@ Note: You can also navigate to the Add Support User page by logging into support
 
 # Additional reading
 
-Have a read through [Teacher Services technical documentation](https://teacher-services-tech-docs.london.cloudapps.digital/#teacher-services-technical-documentation) and [DfE Technical Guidance](https://technical-guidance.education.gov.uk/).
+Have a read through [Teacher Services technical documentation](https://tech-docs.teacherservices.cloud/) and [DfE Technical Guidance](https://technical-guidance.education.gov.uk/).
 
 # Developer Slack Channels
 
