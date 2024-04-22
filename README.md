@@ -19,8 +19,7 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 - [Dependencies](#dependencies)
 - [Overview](#how-the-application-works)
-- [Development environment](#development-environment)
-- [DfE Sign-in](#dfe-sign-in)
+- [License](#licence)
 
 ## Guides
 
@@ -33,17 +32,19 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 - [Swapping App Service Slots](/docs/infra/swap-slots-pipeline.md)
 - [Docker for DevOps](/docs/infra/docker-for-devops.md)
 
-### Dev
+### Development
 - [Developer on-boarding](/docs/developer/developer-onboarding.md)
-- [Rails components](/docs/developer/components.md)
-- [Understanding the different course option fields](/docs/developer/course-options.md)
-- [Developing in GitHub Codespaces](/docs/developer/codespaces.md)
-- [Adding PostgreSQL extensions](/docs/developer/postgres_extension.md)
+- [Developer setup](/docs/developer/developer-setup.md)
 - [Frontend development](/docs/developer/frontend.md)
+- [Rails components](/docs/developer/components.md)
+- [Developing in GitHub Codespaces](/docs/developer/codespaces.md)
+- [Testing style guide](/docs/developer/testing-styleguide.md)
+- [Understanding the different course option fields](/docs/developer/course-options.md)
+- [DfE Sign-in](/docs/development/dfe-sign-in.md)
+- [Adding PostgreSQL extensions](/docs/developer/postgres_extension.md)
 
 ### General
 - [Connect to a production database](/docs/developer/connecting-to-databases.md)
-- [Testing style guide](/docs/developer/testing-styleguide.md)
 - [Performance monitoring](/docs/infra/performance-monitoring.md)
 
 
@@ -51,11 +52,13 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 ### Production dependencies
 
-- [Ruby](.ruby-version) 3.2.3
-- Node.js – 20.11.0
-- Yarn – 1.22.19
-- PostgreSQL – 14
-- Redis – 6.0.x
+| Dependency            | Version   |
+| ---                   | --        |
+| [Ruby](.ruby-version) | 3.2.3     |
+| Node.js               | – 20.11.0 |
+| Yarn                  | 1.22.19   |
+| PostgreSQL            | 14        |
+| Redis                 | 6.0.x     |
 
 ### Development dependencies
 
