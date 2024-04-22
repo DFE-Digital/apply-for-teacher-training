@@ -1,6 +1,15 @@
 # Developer Setup
 
-## Local dependencies
+There are two ways to run the application in development. Running a local development environment is the most common approach but it is also possible to run in local Docker containers.
+
+## Running the app
+
+ 1. [Metal](#metal)
+ 2. [Docker](#docker)
+
+## Metal
+
+### Local dependencies
 
 The most common way to run a development version of the application is run with local dependencies.
 
@@ -30,13 +39,6 @@ asdf plugin add yarn
 # To install (or update, following a change to .tool-versions)
 asdf install
 ```
-
-## Running the app
-
- 1. [Metal](#metal)
- 2. [Docker](#docker)
-
-### Metal
 
 1. Install the dependencies listed above
 2. Make sure Redis and Postgres are running as services
