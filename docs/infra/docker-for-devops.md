@@ -29,7 +29,7 @@ dev-build             prod-minify ━━━(copy app and compiled assets)━━�
 
 The following files are used in Apply's docker compose implementation.
 
-- [docker-compose.yml](../docker-compose.yml)
+- [docker-compose.yml](/docker-compose.yml)
   - This file contains the components of the docker environment that are common to both local development and Azure production deployments. This file defines the images required for the Postgres database, Redis cache, application and worker instances and their dependencies.
 - [docker-compose.override.yml](../docker-compose.override.yml)
   - The override file is automatically loaded at run time by docker compose if it exists and contains overrides to the main `docker-compose.yml` file that apply only to development environments. These overrides include the use of local volumes for data persistance and targeting the 'dev-build' image.
