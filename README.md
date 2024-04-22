@@ -17,8 +17,8 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 ## Table of Contents
 
-- [Overview](#how-the-application-works)
 - [Dependencies](#dependencies)
+- [Overview](#how-the-application-works)
 - [Development environment](#development-environment)
 - [DfE Sign-in](#dfe-sign-in)
 
@@ -45,6 +45,21 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 - [Connect to a production database](/docs/developer/connecting-to-databases.md)
 - [Testing style guide](/docs/developer/testing-styleguide.md)
 - [Performance monitoring](/docs/infra/performance-monitoring.md)
+
+
+## Dependencies
+
+### Production dependencies
+
+- [Ruby](.ruby-version) 3.2.3
+- Node.js – 20.11.0
+- Yarn – 1.22.19
+- PostgreSQL – 14
+- Redis – 6.0.x
+
+### Development dependencies
+
+See [Developer setup](docs/development/developer-setup.md)
 
 ## How the application works
 
@@ -73,30 +88,6 @@ Regenerate this diagram with `bundle exec rake erd`.
 ### Apply APIs
 
 This app provides several APIs for programmatic access to the Apply service. [Read about them here](/docs/development/apply-apis.md).
-
-## Dependencies
-
-### Production dependencies
-
-- [Ruby](.ruby-version) 3.2.3
-- Node.js – 20.11.0
-- Yarn – 1.22.19
-- PostgreSQL – 14
-- Redis – 6.0.x
-
-### Development dependencies
-
-See [Developer setup](docs/development/developer-setup.md)
-
-[Developer setup](docs/development/developer-setup.md)
-
-## Review apps
-
-When a new PR is opened, you have the option to deploy a review app into the `bat-qa` namespace. A deployment is initiated by adding the `deploy` label either when the PR is created or retrospectively. The app is destroyed when the PR is closed.
-
-Review apps have `HOSTING_ENVIRONMENT` set to `review`, an empty database which gets seeded with local dev data, and a URL which will be `https://apply-review-{PR_NUMBER}.test.teacherservices.cloud/candidate/account/`.
-
-Management of review apps follow the same processes as our standard AKS based apps.
 
 ## License
 
