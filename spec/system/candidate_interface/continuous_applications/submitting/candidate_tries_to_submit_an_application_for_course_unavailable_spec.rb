@@ -15,6 +15,7 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
     then_i_see_that_the_course_is_unavailable
     when_i_visit_the_review_page_directly
     then_i_see_the_course_unavailable_error_message
+    and_i_do_not_see_notice_to_delete_draft
     when_i_click_to_remove_the_application
     and_i_confirm_to_remove_the_application
     then_my_application_choice_is_removed
@@ -27,6 +28,7 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
     then_i_see_that_the_course_is_unavailable
     when_i_visit_the_review_page_directly
     then_i_see_the_course_unavailable_error_message
+    and_i_do_not_see_notice_to_delete_draft
     when_i_click_to_remove_the_application
     and_i_confirm_to_remove_the_application
     then_my_application_choice_is_removed
@@ -37,6 +39,7 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
     when_i_visit_my_applications
     and_i_click_to_view_my_application
     then_i_see_the_course_unavailable_error_message
+    and_i_do_not_see_notice_to_delete_draft
     when_i_click_to_remove_the_application
     and_i_confirm_to_remove_the_application
     then_my_application_choice_is_removed
@@ -46,6 +49,7 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
     and_my_course_choice_is_not_exposed_in_find_anymore
     when_i_continue_my_draft_application
     then_i_see_the_course_unavailable_error_message
+    and_i_do_not_see_notice_to_delete_draft
     when_i_click_to_remove_the_application
     and_i_confirm_to_remove_the_application
     then_my_application_choice_is_removed
@@ -67,8 +71,14 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
     @application_choice.current_course.update(exposed_in_find: false)
   end
 
+  def and_i_do_not_see_notice_to_delete_draft
+    expect(page).to have_no_content('Delete draft application')
+  end
+
   def then_i_see_the_course_unavailable_error_message
-    expect(page).to have_content('You cannot submit this application as the course is no longer available.')
+    within('.govuk-warning-text') do
+      expect(page).to have_content('You cannot submit this application as the course is no longer available.')
+    end
   end
 
   def then_i_not_see_the_continue_application_link
