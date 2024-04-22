@@ -297,6 +297,16 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
         end
       end
 
+      context 'when candidate has conditions not met and can submit further applications' do
+        let(:application_form) { create(:completed_application_form) }
+        let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
+
+        it 'is valid' do
+          create_list(:application_choice, 4, :conditions_not_met, application_form:)
+          expect(application_choice_submission).to be_valid
+        end
+      end
+
       context 'when candidate can not submit further applications' do
         let(:application_form) { create(:completed_application_form, submitted_application_choices_count: 4) }
         let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
