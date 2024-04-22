@@ -24,19 +24,19 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 ## Guides
 
 ### Development
-- [Developer on-boarding](/docs/developer/developer-onboarding.md)
-- [Developer setup](/docs/developer/developer-setup.md)
-- [Frontend development](/docs/developer/frontend.md)
-- [Rails components](/docs/developer/components.md)
-- [Developing in GitHub Codespaces](/docs/developer/codespaces.md)
-- [Testing style guide](/docs/developer/testing-styleguide.md)
-- [Understanding the different course option fields](/docs/developer/course-options.md)
+- [Developer on-boarding](/docs/development/developer-onboarding.md)
+- [Developer setup](/docs/development/developer-setup.md)
+- [Frontend development](/docs/development/frontend.md)
+- [Rails components](/docs/development/components.md)
+- [Developing in GitHub Codespaces](/docs/development/codespaces.md)
+- [Testing style guide](/docs/development/testing-styleguide.md)
+- [Understanding the different course option fields](/docs/development/course-options.md)
 - [DfE Sign-in](/docs/development/dfe-sign-in.md)
-- [Adding PostgreSQL extensions](/docs/developer/postgres_extension.md)
+- [Adding PostgreSQL extensions](/docs/development/postgres_extension.md)
 
 ### Infra
-- [Deploy the application](/docs/developer/deployment.md)
-- [Environment variables](/docs/environment-variables.md)
+- [Deploy the application](/docs/infra/deployment.md)
+- [Environment variables](/docs/infra/environment-variables.md)
 - [Pipeline Variables](/docs/infra/pipeline-variables.md)
 - [Restore a database](/docs/infra/database-restore.md)
 - [Set up a new environment](/docs/infra/new-environment.md)
