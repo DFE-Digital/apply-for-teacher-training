@@ -1,6 +1,6 @@
 # How to: create and deploy a new environment in Azure
 
-All the steps required to create and deploy to an Azure environment are written in the [Pipelines deploy template file](../azure/pipelines/templates/deploy.yml). This template is referenced inside the main Azure Pipelines configuration file and reused with appropriate parameters for the required environment.
+All the steps required to create and deploy to an Azure environment are written in the [Pipelines deploy template file](/azure/pipelines/templates/deploy.yml). This template is referenced inside the main Azure Pipelines configuration file and reused with appropriate parameters for the required environment.
 
 ## Configure Variable Groups in Azure DevOps
 For deploying to a new environment, we need to configure the required variables in a variable group that will hold the values to be passed as parameters to the pipeline deployment steps.
@@ -25,11 +25,11 @@ There are two deployment stages defined in `build.yml`, `deploy_qa` and `deploy_
 
 To create or deploy to a new environment, create a new stage in the pipeline by cloning an existing stage and modifying the run conditions and variables.
 
-Use [build.yml](../azure/pipelines/build.yml) for new dev/test environments and [release.yml](../azure/pipelines/release.yml) for environments in production.
+Use [build.yml](/azure/pipelines/build.yml) for new dev/test environments and [release.yml](/azure/pipelines/release.yml) for environments in production.
 
-Make sure to change the `subscriptionPrefix` and `subscriptionName` to reflect the correct Azure Subscription to be used for the new environment.  
+Make sure to change the `subscriptionPrefix` and `subscriptionName` to reflect the correct Azure Subscription to be used for the new environment.
 
-The value used for `resourceEnvironmentName` should be used as the prefix for the host value defined inside the `authorisedHosts` variable in the variable group.  
+The value used for `resourceEnvironmentName` should be used as the prefix for the host value defined inside the `authorisedHosts` variable in the variable group.
 
 `customAvailabilityMonitors` value should be changed to be used the same host as defined in `authorisedHosts`.
 

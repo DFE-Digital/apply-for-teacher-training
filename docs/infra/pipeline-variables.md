@@ -7,7 +7,7 @@ Each environment has three tiers of pipelines variables, listed below and starti
 1. `APPLY - Shared Variables` - This group is used for all environment deployments in Apply only and covers credentials and configuration common to all of Apply's environment.
 1. `APPLY - ENV - EnvironmentName` - These groups are named in correspondance with the envioronments to which they apply and contain credentials and configuration variables specific to those environments.
 
-**NOTE: If a new variable group is required for any reason, make sure that you update the references to the variables groups appropriately in the `Set Deployment Type for Resource Group` PowerShell task in the** [deploy.yml](../azure/pipelines/templates/deploy.yml) **pipeline file. Failure to do so may result in the short form of the release pipeline running when a full ARM deployment is actually required.**
+**NOTE: If a new variable group is required for any reason, make sure that you update the references to the variables groups appropriately in the `Set Deployment Type for Resource Group` PowerShell task in the** [deploy.yml](/azure/pipelines/templates/deploy.yml) **pipeline file. Failure to do so may result in the short form of the release pipeline running when a full ARM deployment is actually required.**
 
 ## Availability Monitoring
 
