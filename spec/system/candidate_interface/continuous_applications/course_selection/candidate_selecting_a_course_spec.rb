@@ -162,11 +162,6 @@ RSpec.feature 'Selecting a course' do
     when_i_visit_my_applications
   end
 
-  def then_i_see_that_the_course_is_unavailable
-    expect(page).to have_content('You cannot submit this application as the course is no longer available.')
-    expect(page).to have_content('Remove this application and search for other courses.')
-  end
-
   def and_i_can_change_the_course
     click_link_or_button 'Change'
     expect(page).to have_content('Which course are you applying to?')

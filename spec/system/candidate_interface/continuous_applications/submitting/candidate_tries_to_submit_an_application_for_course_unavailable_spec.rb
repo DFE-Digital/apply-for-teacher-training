@@ -12,9 +12,9 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
     and_my_course_choice_becomes_closed
     when_i_visit_my_applications
     and_i_click_to_view_my_application
-    then_i_see_that_the_course_is_unavailable
+    then_i_see_that_the_course_is_closed
     when_i_visit_the_review_page_directly
-    then_i_see_the_course_unavailable_error_message
+    then_i_see_the_course_closed_error_message
     and_i_do_not_see_notice_to_delete_draft
     when_i_click_to_remove_the_application
     and_i_confirm_to_remove_the_application
@@ -75,6 +75,12 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
     expect(page).to have_no_content('Delete draft application')
   end
 
+  def then_i_see_the_course_closed_error_message
+    within('.govuk-warning-text') do
+      expect(page).to have_content('You cannot submit this application because the course has closed.')
+    end
+  end
+
   def then_i_see_the_course_unavailable_error_message
     within('.govuk-warning-text') do
       expect(page).to have_content('You cannot submit this application as the course is no longer available.')
@@ -99,5 +105,10 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
 
   def then_my_application_choice_is_removed
     expect(@application_form.reload.application_choices.count).to be_zero
+  end
+
+  def then_i_see_that_the_course_is_closed
+    expect(page).to have_content('You cannot submit this application because the course has closed.')
+    expect(page).to have_content('Remove this application and search for other courses.')
   end
 end
