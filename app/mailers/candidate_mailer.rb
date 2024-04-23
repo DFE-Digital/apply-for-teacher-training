@@ -537,7 +537,11 @@ private
     candidate_interface_authenticate_url({ token: raw_token }.merge(utm_args))
   end
 
-  helper_method :candidate_magic_link
+  def candidate_realistic_job_preview_link(candidate)
+    realistic_job_preview_url({ utm_campaign: candidate.pseudonymised_id }.merge(utm_args))
+  end
+
+  helper_method :candidate_magic_link, :candidate_realistic_job_preview_link
 
   def uid
     @uid ||= EmailLogInterceptor.generate_reference
