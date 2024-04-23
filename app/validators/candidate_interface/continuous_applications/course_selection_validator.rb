@@ -1,7 +1,5 @@
 module CandidateInterface
   module ContinuousApplications
-    # Validates that the course choice is not duplicated
-    # Conditional exists to remove the course that is being edited from the checks for duplication
     class CourseSelectionValidator < ActiveModel::Validator
       ALLOWED_REAPPLICATION_LIMIT = 2
 
