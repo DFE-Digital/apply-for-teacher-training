@@ -3,22 +3,37 @@ require 'rails_helper'
 RSpec.feature 'Visit provider recruitment performance report page' do
   include DfESignInHelpers
 
-  before { FeatureFlag.activate(:recruitment_performance_report) }
+  describe 'Feature flag is active' do
+    before { FeatureFlag.activate(:recruitment_performance_report) }
 
-  scenario 'provider report has been generated' do
-    given_a_provider_and_provider_user_exists
-    and_a_provider_recruitment_performance_report_has_been_generated
-    and_national_recruitment_performance_report_has_been_generated
-    and_i_am_signed_in_as_provider_user
-    and_i_visit_the_provider_recruitment_report_page
-    then_i_see_the_report
+    scenario 'provider report has been generated' do
+      given_a_provider_and_provider_user_exists
+      and_a_provider_recruitment_performance_report_has_been_generated
+      and_national_recruitment_performance_report_has_been_generated
+      and_i_am_signed_in_as_provider_user
+      and_i_visit_the_provider_recruitment_report_page
+      then_i_see_the_report
+    end
+
+    scenario 'provider report has not been generated' do
+      given_a_provider_and_provider_user_exists
+      and_i_am_signed_in_as_provider_user
+      and_i_visit_the_provider_recruitment_report_page
+      then_i_see_no_report_message
+    end
   end
 
-  scenario 'provider report has not been generated' do
-    given_a_provider_and_provider_user_exists
-    and_i_am_signed_in_as_provider_user
-    and_i_visit_the_provider_recruitment_report_page
-    then_i_see_no_report_message
+  describe 'Feature flag is inactive' do
+    before { FeatureFlag.deactivate(:recruitment_performance_report) }
+
+    scenario 'trying to view the report' do
+      given_a_provider_and_provider_user_exists
+      and_a_provider_recruitment_performance_report_has_been_generated
+      and_national_recruitment_performance_report_has_been_generated
+      and_i_am_signed_in_as_provider_user
+      and_i_visit_the_provider_recruitment_report_page
+      then_i_am_redirected_to_reports_page
+    end
   end
 
 private
@@ -55,4 +70,8 @@ private
     provider_signs_in_using_dfe_sign_in
   end
   alias_method :given_i_am_signed_in_as_provider_user, :and_i_am_signed_in_as_provider_user
+
+  def then_i_am_redirected_to_reports_page
+    expect(page).to have_current_path provider_interface_reports_path
+  end
 end
