@@ -92,6 +92,16 @@ class FilterApplicationChoicesForProviders
       application_choices.where(candidate: { hide_in_reporting: })
     end
 
+    def course_type(application_choices, course_type_filter)
+      return application_choices if course_type_filter.blank? || course_type_filter.compact_blank.sort == ['non_tda', 'tda']
+
+      if course_type_filter.include?('tda')
+        application_choices.joins(:course).where("courses.qualifications ? 'tda'")
+      else
+        application_choices.joins(:course).where.not("courses.qualifications ? 'tda' ")
+      end
+    end
+
     def create_filter_query(application_choices, filters)
       filtered_application_choices = search(application_choices, filters[:candidate_name])
       filtered_application_choices = recruitment_cycle_year(filtered_application_choices, filters[:recruitment_cycle_year])
@@ -101,6 +111,7 @@ class FilterApplicationChoicesForProviders
       filtered_application_choices = course_subject(filtered_application_choices, filters[:subject])
       filtered_application_choices = study_mode(filtered_application_choices, filters[:study_mode])
       filtered_application_choices = hide_in_reporting(filtered_application_choices, filters[:hide_in_reporting])
+      filtered_application_choices = course_type(filtered_application_choices, filters[:course_type])
       provider_location(filtered_application_choices, filters[:provider_location])
     end
   end

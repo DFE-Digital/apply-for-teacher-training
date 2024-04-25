@@ -20,7 +20,7 @@ module ProviderInterface
     end
 
     def filters
-      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter << subject_filter << study_modes_filter).concat(provider_locations_filters).compact
+      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter << subject_filter << study_modes_filter << graduation_filters).concat(provider_locations_filters).compact
     end
 
     def filtered?
@@ -44,7 +44,7 @@ module ProviderInterface
   private
 
     def parse_params(params)
-      compact_params(params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: [], subject: [], study_mode: []).to_h)
+      compact_params(params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: [], subject: [], study_mode: [], course_type: []).to_h)
     end
 
     def save_filter_state!
@@ -81,6 +81,26 @@ module ProviderInterface
         heading: 'Recruitment cycle',
         name: 'recruitment_cycle_year',
         options: cycle_options,
+      }
+    end
+
+    def graduation_filters
+      {
+        type: :checkboxes,
+        heading: 'Course type',
+        name: 'course_type',
+        options: [
+          {
+            value: 'non_tda',
+            label: 'Postgraduate courses',
+            checked: applied_filters[:course_type]&.include?('non_tda'),
+          },
+          {
+            value: 'tda',
+            label: 'Teaching degree apprenticeship (TDA) courses',
+            checked: applied_filters[:course_type]&.include?('tda'),
+          }
+        ]
       }
     end
 
