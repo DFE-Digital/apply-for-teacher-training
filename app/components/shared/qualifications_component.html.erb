@@ -8,6 +8,10 @@
       show_hesa_codes: show_hesa_codes,
       editable: editable?,
     ) %>
+  <% else %>
+    <h3 class="govuk-heading-m" id="degrees">Degree</h3>
+
+    <p class="govuk-body">A degree is not required for a teacher degree apprenticeship (TDA).</p>
   <% end %>
   <%= render GcseQualificationCardsComponent.new(application_form, editable: editable?) %>
   <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, header: 'A levels and other qualifications', subheader: 'Details of A levels and other qualifications', editable: editable?) %>
