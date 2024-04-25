@@ -6,7 +6,7 @@ task setup_review_app_data: :environment do
   end
 end
 
-task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses] do
+task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers] do
   puts 'Creating a support & provider user with DfE Sign-in UID `dev-support` and email `support@example.com`...'
   SupportUser.create!(
     dfe_sign_in_uid: 'dev-support',
@@ -32,11 +32,11 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
   UpdateDuplicateMatchesWorker.new.perform
 end
 
-desc 'Sync some pilot-enabled providers and open all their courses'
-task sync_dev_providers_and_open_courses: :environment do
+desc 'Sync some pilot-enabled providers'
+task sync_dev_providers: :environment do
   puts 'Syncing data from TTAPI...'
 
-  provider_codes = %w[1JA 24J 24P D39 S72 4T7 1N1 Y50 L34 D86 K60 H72 W53]
+  provider_codes = %w[1JA 24J 24P D39 S72 4T7 1N1 Y50 L34 D86 K60 H72 W53 1TZ]
   provider_codes.each do |code|
     provider_from_api = TeacherTrainingPublicAPI::Provider
         .where(year: RecruitmentCycle.current_year)
@@ -47,8 +47,6 @@ task sync_dev_providers_and_open_courses: :environment do
     TeacherTrainingPublicAPI::SyncProvider.new(
       provider_from_api:, recruitment_cycle_year: RecruitmentCycle.previous_year,
     ).call(run_in_background: false)
-
-    Provider.find_by(code:).courses.previous_cycle.exposed_in_find.update_all(open_on_apply: true, opened_on_apply_at: Time.zone.now)
 
     TeacherTrainingPublicAPI::SyncProvider.new(
       provider_from_api:, recruitment_cycle_year: RecruitmentCycle.current_year,

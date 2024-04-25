@@ -1,16 +1,3 @@
 <%= render 'course_navigation', title: 'Details' %>
 
 <%= render SupportInterface::CourseDetailsComponent.new(course: @course) %>
-
-<hr class="govuk-section-break govuk-section-break--xl">
-
-<%= form_with model: @course, url: support_interface_course_path(@course), method: :post do |f| %>
-  <%= f.govuk_error_summary %>
-
-  <%= f.govuk_radio_buttons_fieldset :open_on_apply, legend: { text: 'Where can candidates apply for this course?', size: 'm' } do %>
-    <%= f.govuk_radio_button :open_on_apply, true, label: { text: 'Apply and UCAS' }, link_errors: true %>
-    <%= f.govuk_radio_button :open_on_apply, false, label: { text: 'UCAS only' } %>
-  <% end %>
-
-  <%= f.govuk_submit 'Update' %>
-<% end %>

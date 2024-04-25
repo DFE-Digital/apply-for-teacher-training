@@ -1,14 +1,14 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.2.2'
+ruby '3.2.3'
 
 gem 'timeliness'
 
-gem 'rails', '~> 7.0'
+gem 'rails', '~> 7.1'
 
 gem 'puma', '~> 6.4'
-gem 'pg', '~> 1.5.5'
+gem 'pg', '~> 1.5.6'
 gem 'blazer'
 gem 'sprockets-rails'
 
@@ -18,8 +18,8 @@ gem 'tzinfo-data'
 gem 'webpacker'
 gem 'google-cloud-bigquery'
 
-gem 'govuk-components', '~> 5.2.1'
-gem 'govuk_design_system_formbuilder', '~> 5.2.0'
+gem 'govuk-components', '~> 5.3.1'
+gem 'govuk_design_system_formbuilder', '~> 5.3.1'
 
 # GOV.UK Notify
 gem 'mail-notify'
@@ -58,7 +58,8 @@ gem 'oj'
 # This gem adds support for sequences in the schema.rb
 gem 'ar-sequence'
 
-gem 'active_hash'
+# Source gem from rubygems after ActiveHash version > 3.2.1
+gem 'active_hash', github: 'active-hash/active_hash', ref: '195b1e9'
 
 # Allows the use of common table expressions / WITH statements
 # in active record queries; may eventually be merged into Rails
@@ -98,7 +99,7 @@ gem 'yabeda-prometheus'
 # Logging
 gem 'request_store_rails'
 gem 'request_store-sidekiq'
-gem 'rails_semantic_logger', group: %w[production]
+gem 'rails_semantic_logger', group: %w[development production]
 
 # Background processing
 gem 'sidekiq', '< 7'
@@ -132,7 +133,7 @@ gem 'archive-zip'
 # Geocoding
 gem 'geocoder'
 
-gem 'dfe-reference-data', require: 'dfe/reference_data', github: 'DFE-Digital/dfe-reference-data', tag: 'v3.1.4'
+gem 'dfe-reference-data', require: 'dfe/reference_data', github: 'DFE-Digital/dfe-reference-data', tag: 'v3.3.0'
 gem 'dfe-autocomplete', require: 'dfe/autocomplete', github: 'DFE-Digital/dfe-autocomplete', tag: 'v0.1.0'
 
 gem 'strip_attributes'
@@ -147,7 +148,7 @@ gem 'colorize'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 
 # BigQuery
-gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.11.7'
+gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.12.3'
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.10'
@@ -167,7 +168,7 @@ group :test do
   gem 'rspec-retry', git: 'https://github.com/DFE-Digital/rspec-retry.git', branch: 'main'
   gem 'ruby-jmeter'
   gem 'selenium-webdriver'
-  gem 'shoulda-matchers', '~> 6.1'
+  gem 'shoulda-matchers', '~> 6.2'
   gem 'simplecov-cobertura', require: false
   gem 'simplecov', require: false
   gem 'super_diff'

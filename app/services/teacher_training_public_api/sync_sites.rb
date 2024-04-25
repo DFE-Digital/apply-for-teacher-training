@@ -24,6 +24,7 @@ module TeacherTrainingPublicAPI
       sites.each do |site_from_api|
         site = sync_site(site_from_api)
         create_course_options_for_site(site, site_from_api.location_status)
+        close_course_options_that_do_not_match_study_mode
       end
 
       handle_course_options_with_invalid_sites(sites)
@@ -54,6 +55,18 @@ module TeacherTrainingPublicAPI
       end
     end
 
+    def close_course_options_that_do_not_match_study_mode
+      # Close part_time course options if the course is full_time
+      if course.full_time? && course.course_options.part_time.any?
+        course.course_options.part_time.update_all(vacancy_status: :no_vacancies)
+      end
+
+      # Close full_time course options if the course is part_time
+      if course.part_time? && course.course_options.full_time.any?
+        course.course_options.full_time.update_all(vacancy_status: :no_vacancies)
+      end
+    end
+
     def study_modes(course)
       both_modes = %w[full_time part_time]
       return both_modes if course.full_time_or_part_time?
@@ -69,19 +82,9 @@ module TeacherTrainingPublicAPI
         study_mode:,
       )
 
-      if FeatureFlag.active?(:course_has_vacancies)
-        course_option.update!(vacancy_status:)
-      else
-        # if course_option.vacancy_status != vacancy_status.to_s
-        # new courses - always set to vacancies
-        # old courses - keep the same (no vacancies will continue to be no
-        # vacancies, and those with vacancies will continue forever until we
-        # change to the new attribute from Find)
-        course_option.update!(vacancy_status: 'vacancies') unless course_option.no_vacancies?
-      end
+      course_option.update!(vacancy_status:)
 
       @updates.merge!(course_option: true) if !@incremental_sync
-      # end
     end
 
     def vacancy_status

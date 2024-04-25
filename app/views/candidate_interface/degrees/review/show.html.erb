@@ -5,9 +5,9 @@
   <%= f.govuk_error_summary %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <fieldset class="govuk-fieldset govuk-fieldset__legend--l">
+      <h1 class="govuk-heading-xl">
         <%= t('page_titles.degree') %>
-      </fieldset>
+      </h1>
 
       <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application: @application_form) %>
 

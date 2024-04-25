@@ -6,7 +6,7 @@ RSpec.describe ProviderInterface::RejectionsController do
 
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }
-  let(:course_option) { build(:course_option, course: build(:course, :open_on_apply, provider:)) }
+  let(:course_option) { build(:course_option, course: build(:course, :open, provider:)) }
   let(:application_choice) do
     create(:application_choice,
            status:,

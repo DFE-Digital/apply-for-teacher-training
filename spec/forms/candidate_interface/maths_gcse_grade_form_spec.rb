@@ -7,6 +7,8 @@ RSpec.describe CandidateInterface::MathsGcseGradeForm, type: :model do
     let(:form) { described_class.new(grade: 'D', qualification_type: 'gcse') }
 
     it { is_expected.to validate_presence_of(:grade) }
+    it { is_expected.to validate_length_of(:grade).is_at_most(256) }
+    it { is_expected.to validate_length_of(:other_grade).is_at_most(256) }
 
     context 'when grade is "other"' do
       let(:form) { described_class.new(grade: 'other', other_grade: 'D', qualification_type: 'gcse') }

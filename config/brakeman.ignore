@@ -26,13 +26,13 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "b66efa91e04d1b02e4521f8a617809adda7a0dc470daa75fa2e22770d8e0c538",
+      "fingerprint": "28d64e5d66c0dce5bb41ca5b85a1751bdd7190b07aa55b1af003c090e7f8863a",
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/services/notifications_list.rb",
-      "line": 23,
+      "line": 26,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choice.provider.provider_users.joins(:notification_preferences).where(\"provider_user_notifications.#{{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first}\" => true)",
+      "code": "application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users).joins(:notification_preferences).where(\"provider_user_notifications.#{{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first}\" => true)",
       "render_path": null,
       "location": {
         "type": "method",
@@ -40,52 +40,6 @@
         "method": "s(:self).for"
       },
       "user_input": "{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first",
-      "confidence": "Weak",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "1cee5ab174657cbdebb3e1ac4432c226aef489c6961a8c1512d187d1ff62ed08",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/components/provider_interface/provider_partner_permission_breakdown_component.rb",
-      "line": 43,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "provider.ratifying_provider_permissions.providers_have_open_course.where(\"ratifying_provider_can_#{permission}\" => permission_applies)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ProviderInterface::ProviderPartnerPermissionBreakdownComponent",
-        "method": "training_provider_partner_ids_where"
-      },
-      "user_input": "permission",
-      "confidence": "Weak",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "2f2a4ac33ee8b6f5ab24b525613cbcd62fde4c7ec1a9d6956ab0012dd08ef828",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/services/provider_interface/sort_application_choices.rb",
-      "line": 16,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choices.from(\"(\\n  SELECT a.*,\\n    CASE\\n      WHEN #{awaiting_provider_decision_urgent} THEN 1\\n      WHEN #{deferred_offers_pending_reconfirmation} THEN 2\\n      WHEN #{about_to_be_rejected_automatically} THEN 3\\n      WHEN #{give_feedback_for_rbd} THEN 4\\n      WHEN #{awaiting_provider_decision_non_urgent} THEN 5\\n      WHEN #{interviewing_non_urgent} THEN 6\\n      WHEN #{pending_conditions_previous_cycle} THEN 7\\n      WHEN #{waiting_on_candidate} THEN 8\\n      WHEN #{pending_conditions_current_cycle} THEN 9\\n      WHEN #{successful_candidates} THEN 10\\n      WHEN #{deferred_offers_current_cycle} THEN 11\\n      ELSE 999\\n    END AS task_view_group,\\n    #{pg_days_left_to_respond} AS pg_days_left_to_respond\\n\\n    FROM application_choices a\\n) AS application_choices\\n\".squish)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ProviderInterface::SortApplicationChoices",
-        "method": "s(:self).for_task_view"
-      },
-      "user_input": "awaiting_provider_decision_urgent",
       "confidence": "Weak",
       "cwe_id": [
         89
@@ -141,20 +95,20 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "28d64e5d66c0dce5bb41ca5b85a1751bdd7190b07aa55b1af003c090e7f8863a",
+      "fingerprint": "384f45931b605f924ee51295a701f7c00e52715b7437d1f864bda1271c150af7",
       "check_name": "SQL",
       "message": "Possible SQL injection",
-      "file": "app/services/notifications_list.rb",
-      "line": 26,
+      "file": "app/components/provider_interface/provider_partner_permission_breakdown_component.rb",
+      "line": 43,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users).joins(:notification_preferences).where(\"provider_user_notifications.#{{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first}\" => true)",
+      "code": "provider.ratifying_provider_permissions.providers_with_current_cycle_course.where(\"ratifying_provider_can_#{permission}\" => permission_applies)",
       "render_path": null,
       "location": {
         "type": "method",
-        "class": "NotificationsList",
-        "method": "s(:self).for"
+        "class": "ProviderInterface::ProviderPartnerPermissionBreakdownComponent",
+        "method": "training_provider_partner_ids_where"
       },
-      "user_input": "{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first",
+      "user_input": "permission",
       "confidence": "Weak",
       "cwe_id": [
         89
@@ -348,13 +302,36 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "b55ce37e4d245f02f20918d612a3abfcbff43d41f0a114e8a31907157e65121a",
+      "fingerprint": "b66efa91e04d1b02e4521f8a617809adda7a0dc470daa75fa2e22770d8e0c538",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/notifications_list.rb",
+      "line": 23,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "application_choice.provider.provider_users.joins(:notification_preferences).where(\"provider_user_notifications.#{{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first}\" => true)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "NotificationsList",
+        "method": "s(:self).for"
+      },
+      "user_input": "{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "baee8f95666b7ed7fee05665c97f0ba1a818683e958f940ccf8c7ffd980fdb64",
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/components/provider_interface/provider_partner_permission_breakdown_component.rb",
       "line": 50,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "provider.training_provider_permissions.providers_have_open_course.where(\"training_provider_can_#{permission}\" => permission_applies)",
+      "code": "provider.training_provider_permissions.providers_with_current_cycle_course.where(\"training_provider_can_#{permission}\" => permission_applies)",
       "render_path": null,
       "location": {
         "type": "method",
@@ -415,6 +392,6 @@
       "note": ""
     }
   ],
-  "updated": "2023-11-21 11:44:41 +0000",
-  "brakeman_version": "6.0.1"
+  "updated": "2024-03-15 09:07:25 +0000",
+  "brakeman_version": "6.1.2"
 }

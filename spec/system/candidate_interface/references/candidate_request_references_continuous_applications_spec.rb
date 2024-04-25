@@ -8,52 +8,52 @@ RSpec.feature 'New References', :with_audited do
     and_i_have_an_accepted_offer
 
     when_i_visit_the_application_dashboard
-    then_i_should_see_the_post_offer_dashboard
+    then_i_see_the_post_offer_dashboard
 
     when_i_click_request_another_reference
 
-    then_the_back_link_should_point_to_the_offer_dashboard_page
-    and_i_should_be_on_start_page
+    then_the_back_link_point_to_the_offer_dashboard_page
+    and_i_be_on_start_page
     and_i_click_continue
-    and_i_should_be_on_the_add_type_page
+    and_i_be_on_the_add_type_page
     and_i_choose_character
     and_i_click_continue
-    and_i_should_be_on_the_add_name_page
-    and_the_back_link_should_point_to_the_add_type_page
+    and_i_be_on_the_add_name_page
+    and_the_back_link_point_to_the_add_type_page
     and_i_fill_in_the_reference_name
     and_i_click_save_and_continue
-    and_i_should_be_on_add_email_address_page
-    and_the_back_link_should_point_to_the_add_name_page
+    and_i_be_on_add_email_address_page
+    and_the_back_link_point_to_the_add_name_page
     and_i_click_save_and_continue
-    then_i_should_see_the_email_error_validation_message
+    then_i_see_the_email_error_validation_message
     when_i_fill_the_email_address
     and_i_click_save_and_continue
-    and_i_should_be_on_add_relationship_page
-    and_the_back_link_should_point_to_the_add_email_address_page
+    and_i_be_on_add_relationship_page
+    and_the_back_link_point_to_the_add_email_address_page
     and_i_fill_in_the_relationship
     and_i_click_save_and_continue
-    and_i_should_be_on_check_your_answers
-    and_the_button_request_a_reference_should_be_on_the_page
-    and_the_reference_should_be_not_sent_yet
+    and_i_be_on_check_your_answers
+    and_the_button_request_a_reference_be_on_the_page
+    and_the_reference_be_not_sent_yet
     and_i_return_to_the_offer_dashboard
     and_i_click_on_my_reference
-    and_i_should_be_on_check_your_answers
+    and_i_be_on_check_your_answers
     when_i_click_to_change_the_reference_name
     and_when_i_change_the_reference_name
-    and_i_should_be_on_check_your_answers
+    and_i_be_on_check_your_answers
     when_i_click_to_change_the_reference_type
     and_when_i_change_the_reference_type
-    and_i_should_be_on_check_your_answers
+    and_i_be_on_check_your_answers
     when_i_click_to_change_the_reference_email_address
     and_when_i_change_the_reference_email_address
-    and_i_should_be_on_check_your_answers
+    and_i_be_on_check_your_answers
     when_i_click_to_change_the_reference_relationship
     and_i_change_the_reference_relationship
-    and_i_should_be_on_check_your_answers
+    and_i_be_on_check_your_answers
     and_i_click_to_request_the_reference
-    then_the_reference_should_be_requested
+    then_the_reference_be_requested
     and_i_click_cancel_request_from_the_list_page
-    then_the_back_link_should_point_to_the_offer_dashboard_page
+    then_the_back_link_point_to_the_offer_dashboard_page
   end
 
   def given_i_am_signed_in
@@ -77,9 +77,9 @@ RSpec.feature 'New References', :with_audited do
     visit candidate_interface_application_complete_path
   end
 
-  def then_i_should_see_the_post_offer_dashboard
+  def then_i_see_the_post_offer_dashboard
     expect(page).to have_content("Your offer for #{@application_choice.current_course.name_and_code}")
-    expect(page).to have_content("You’ve accepted an offer from #{@application_choice.course_option.course.provider.name} to study #{@application_choice.course.name_and_code}.")
+    expect(page).to have_content("You have accepted an offer from #{@application_choice.course_option.course.provider.name} to study #{@application_choice.course.name_and_code}.")
     expect(page).to have_content('References')
     expect(page).to have_content('Offer conditions')
     expect(page).to have_content("#{@application_choice.offer.conditions.first.text} Pending", normalize_ws: true)
@@ -97,25 +97,25 @@ RSpec.feature 'New References', :with_audited do
     click_link_or_button 'Save and continue'
   end
 
-  def then_the_back_link_should_point_to_the_offer_dashboard_page
+  def then_the_back_link_point_to_the_offer_dashboard_page
     expect(
       back_link,
     ).to eq(candidate_interface_application_offer_dashboard_path)
   end
 
-  def and_i_should_be_on_start_page
+  def and_i_be_on_start_page
     expect(page).to have_current_path(candidate_interface_request_reference_references_start_path)
   end
 
-  def and_i_should_be_on_the_add_type_page
+  def and_i_be_on_the_add_type_page
     expect(page).to have_current_path(candidate_interface_request_reference_references_type_path)
   end
 
-  def and_i_should_be_on_the_add_name_page
+  def and_i_be_on_the_add_name_page
     expect(page).to have_current_path(candidate_interface_request_reference_references_name_path('character'))
   end
 
-  def and_the_back_link_should_point_to_the_add_type_page
+  def and_the_back_link_point_to_the_add_type_page
     expect(back_link).to eq(candidate_interface_request_reference_references_type_path('character'))
   end
 
@@ -127,7 +127,7 @@ RSpec.feature 'New References', :with_audited do
     fill_in 'What’s the name of the person who can give a reference?', with: 'Aragorn'
   end
 
-  def and_i_should_be_on_add_email_address_page
+  def and_i_be_on_add_email_address_page
     expect(page).to have_current_path(
       candidate_interface_request_reference_references_email_address_path(
         @application_form.reload.application_references.creation_order.last.id,
@@ -135,7 +135,7 @@ RSpec.feature 'New References', :with_audited do
     )
   end
 
-  def and_the_back_link_should_point_to_the_add_name_page
+  def and_the_back_link_point_to_the_add_name_page
     expect(back_link).to eq(
       candidate_interface_request_reference_references_name_path(
         'character',
@@ -144,7 +144,7 @@ RSpec.feature 'New References', :with_audited do
     )
   end
 
-  def and_i_should_be_on_add_email_address_page
+  def and_i_be_on_add_email_address_page
     expect(page).to have_current_path(
       candidate_interface_request_reference_references_email_address_path(
         @application_form.reload.application_references.creation_order.last.id,
@@ -156,11 +156,11 @@ RSpec.feature 'New References', :with_audited do
     fill_in 'What is Aragorn’s email address?', with: 'elendil@education.gov.uk'
   end
 
-  def then_i_should_see_the_email_error_validation_message
+  def then_i_see_the_email_error_validation_message
     expect(page).to have_content("There is a problem\nEnter their email address")
   end
 
-  def and_i_should_be_on_add_relationship_page
+  def and_i_be_on_add_relationship_page
     expect(page).to have_current_path(
       candidate_interface_request_reference_references_relationship_path(
         @application_form.reload.application_references.creation_order.last.id,
@@ -168,7 +168,7 @@ RSpec.feature 'New References', :with_audited do
     )
   end
 
-  def and_the_back_link_should_point_to_the_add_email_address_page
+  def and_the_back_link_point_to_the_add_email_address_page
     expect(back_link).to eq(
       candidate_interface_request_reference_references_email_address_path(
         @application_form.reload.application_references.creation_order.last.id,
@@ -180,7 +180,7 @@ RSpec.feature 'New References', :with_audited do
     fill_in 'How do you know Aragorn and how long have you known them?', with: 'Lord of the rings'
   end
 
-  def and_i_should_be_on_check_your_answers
+  def and_i_be_on_check_your_answers
     expect(page).to have_current_path(
       candidate_interface_references_request_reference_review_path(
         @application_form.reload.application_references.creation_order.last.id,
@@ -188,11 +188,11 @@ RSpec.feature 'New References', :with_audited do
     )
   end
 
-  def and_the_button_request_a_reference_should_be_on_the_page
+  def and_the_button_request_a_reference_be_on_the_page
     expect(page.all('button').map(&:text)).to include('Send reference request')
   end
 
-  def and_the_reference_should_be_not_sent_yet
+  def and_the_reference_be_not_sent_yet
     expect(@application_form.reload.application_references.creation_order.last.feedback_status).to eq('not_requested_yet')
   end
 
@@ -244,7 +244,7 @@ RSpec.feature 'New References', :with_audited do
     click_link_or_button 'Send reference request'
   end
 
-  def then_the_reference_should_be_requested
+  def then_the_reference_be_requested
     expect(@application_form.reload.application_references.creation_order.last.feedback_status).to eq('feedback_requested')
     expect(reference_row.text).to include('Requested')
   end

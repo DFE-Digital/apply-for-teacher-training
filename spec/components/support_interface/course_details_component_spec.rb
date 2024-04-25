@@ -28,41 +28,24 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
     }.not_to raise_error
   end
 
-  describe '#opened_on_apply_message' do
-    it 'shows Open on Apply when course in current cycle' do
-      course = create(:course, :open_on_apply, recruitment_cycle_year: RecruitmentCycle.current_year)
+  describe 'course closed by provider' do
+    it 'displays the course is closed' do
       result = render_inline(
-        described_class.new(course:),
+        described_class.new(course: create(:course, application_status: 'closed')),
       )
-      expect(result.text).to include('Open on Apply')
-    end
 
-    it 'shows Open on Apply & UCAS when course in previous cycle or earlier' do
-      course = create(:course, :open_on_apply, recruitment_cycle_year: 2021)
-      result = render_inline(
-        described_class.new(course:),
-      )
-      expect(result.text).to include('Open on Apply & UCAS')
+      expect(result.text).to include('Closed by provider?Closed')
     end
   end
 
-  describe 'showing Opened on Apply at' do
-    it 'shows the date when the course is open' do
-      course = create(:course, :open_on_apply)
-
-      result = render_inline(
+  describe 'Apply from Find Link row' do
+    it 'displays the link from Find' do
+      course = create(:course, application_status: 'closed')
+      render_inline(
         described_class.new(course:),
       )
-      expect(result.text).to include('Opened on Apply at')
-    end
 
-    it 'does not show the date when the course is not open' do
-      course = create(:course, :ucas_only)
-
-      result = render_inline(
-        described_class.new(course:),
-      )
-      expect(result.text).not_to include('Opened on Apply at')
+      expect(page).to have_link(text: 'Start page on Apply', href: "/candidate/apply?courseCode=#{course.code}&providerCode=#{course.provider.code}")
     end
   end
 end

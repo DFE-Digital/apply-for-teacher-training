@@ -4,7 +4,10 @@
 $code-00: govuk-colour("light-grey"); // Default background
 $code-01: #f5f5f5; // Lighter background (unused)
 $code-02: #bfc1c3; // Selection background
-$code-03: darken($govuk-secondary-text-colour, 2%); // Comments, invisibles, line highlighting
+$code-03: darken(
+  $govuk-secondary-text-colour,
+  2%
+); // Comments, invisibles, line highlighting
 $code-04: #e8e8e8; // Dark foreground (unused)
 $code-05: $govuk-text-colour; // Default foreground, caret, delimiters, operators
 $code-06: #ffffff; // Light foreground (unused)
@@ -23,23 +26,26 @@ $code-insert-bg: #def8ca;
 $code-delete-bg: #fadddd;
 
 .app-json-code-sample {
-  background: $code-00;
-  color: $code-05;
   padding: 3px 5px;
+
   font-family: Monaco, Consolas, "Lucida Console", monospace;
   font-size: 15px;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+  color: $code-05;
   -ms-word-break: break-all;
   word-break: break-all;
   word-break: break-word;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
   white-space: break-spaces;
+
+  background: $code-00;
 
   .c,   // Comment
   .cm,  // Comment.Multiline
   .cp,  // Comment.Preproc
   .c1,  // Comment.Single
-  .cs { // Comment.Special
+  .cs {
+    // Comment.Special
     color: $code-03;
   }
 
@@ -47,30 +53,36 @@ $code-delete-bg: #fadddd;
   .kc,  // Keyword.Constant
   .kd,  // Keyword.Declaration
   .kp,  // Keyword.Pseudo
-  .kr { // Keyword.Reserved
+  .kr {
+    // Keyword.Reserved
     color: $code-0e;
   }
 
-  .kn { // Keyword.Namespace
+  .kn {
+    // Keyword.Namespace
     color: $code-0c;
   }
 
-  .kt { // Keyword.Type
+  .kt {
+    // Keyword.Type
     color: $code-0a;
   }
 
   .o,   // Operator
-  .ow { // Operator.Word
+  .ow {
+    // Operator.Word
     color: $code-0c;
   }
 
   .nc,  // Name.Class
-  .nn { // Name.Namespace
+  .nn {
+    // Name.Namespace
     color: $code-0a;
   }
 
   .na,  // Name.Attribute
-  .nf { // Name.Function
+  .nf {
+    // Name.Function
     color: $code-0d;
   }
 
@@ -78,28 +90,34 @@ $code-delete-bg: #fadddd;
   .no,  // Name.Constant
   .vc,  // Name.Variable.Class
   .vg,  // Name.Variable.Global
-  .vi { // Name.Variable.Instance
+  .vi {
+    // Name.Variable.Instance
     color: $code-08;
   }
 
-  .nd { // Name.Decorator
+  .nd {
+    // Name.Decorator
     color: $code-0c;
   }
 
   .nt,  // Name.Tag
-  .nx { // Name.Other
+  .nx {
+    // Name.Other
     color: $code-09;
   }
 
-  .ne { // Name.Exception
+  .ne {
+    // Name.Exception
     color: $code-0f;
   }
 
-  .l { // Literal
+  .l {
+    // Literal
     color: $code-09;
   }
 
-  .ld { // Literal.Date
+  .ld {
+    // Literal.Date
     color: $code-0b;
   }
 
@@ -108,70 +126,84 @@ $code-delete-bg: #fadddd;
   .mh,  // Literal.Number.Hex
   .mi,  // Literal.Number.Integer
   .il,  // Literal.Number.Integer.Long
-  .mo { // Literal.Number.Oct
+  .mo {
+    // Literal.Number.Oct
     color: $code-09;
   }
 
   .s,   // Literal.String
   .sb,  // Literal.String.Backtick
   .s2,  // Literal.String.Double
-  .sh { // Literal.String.Heredoc
+  .sh {
+    // Literal.String.Heredoc
     color: $code-0b;
   }
 
   .sx,  // Literal.String.Other
   .sr,  // Literal.String.Regex
   .s1,  // Literal.String.Single
-  .ss { // Literal.String.Symbol
+  .ss {
+    // Literal.String.Symbol
     color: $code-0b;
   }
 
   .se,  // Literal.String.Escape
-  .si { // Literal.String.Interpol
+  .si {
+    // Literal.String.Interpol
     color: $code-09;
   }
 
-  .sd { // Literal.String.Doc
+  .sd {
+    // Literal.String.Doc
     color: $code-03;
   }
 
-  .gi { // Generic.Inserted
+  .gi {
+    // Generic.Inserted
     background-color: $code-insert-bg;
   }
 
-  .gd { // Generic.Deleted
+  .gd {
+    // Generic.Deleted
     background-color: $code-delete-bg;
   }
 
-  .hll { // Highlight
+  .hll {
+    // Highlight
     background-color: $code-02;
   }
 
   .err, // Error
   .gr, // Generic.Error
-  .gt { // Generic.Traceback
+  .gt {
+    // Generic.Traceback
     color: $code-0f;
   }
 
-  .gs { // Generic.Strong
+  .gs {
+    // Generic.Strong
     font-weight: bold;
   }
 
-  .ge { // Generic.Emph
+  .ge {
+    // Generic.Emph
     font-style: italic;
   }
 
-  .gh { // Generic.Heading
+  .gh {
+    // Generic.Heading
     font-weight: bold;
   }
 
-  .gu { // Generic.Subheading
+  .gu {
+    font-weight: bold;
+    // Generic.Subheading
     color: $code-0a;
-    font-weight: bold;
   }
 
-  .gp { // Generic.Prompt
-    color: $code-03;
+  .gp {
     font-weight: bold;
+    // Generic.Prompt
+    color: $code-03;
   }
 }

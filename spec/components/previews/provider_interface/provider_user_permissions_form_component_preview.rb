@@ -27,7 +27,7 @@ module ProviderInterface
 
     def setup_relationship_for(provider)
       relationship = FactoryBot.create(:provider_relationship_permissions, training_provider: provider)
-      FactoryBot.create(:course, :open_on_apply, provider:, accredited_provider: relationship.ratifying_provider)
+      FactoryBot.create(:course, :open, provider:, accredited_provider: relationship.ratifying_provider)
     end
 
     def form_model_for(provider)

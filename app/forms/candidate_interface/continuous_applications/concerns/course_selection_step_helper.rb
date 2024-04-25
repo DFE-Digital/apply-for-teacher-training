@@ -5,7 +5,7 @@ module CandidateInterface
         delegate :application_choice, to: :store
 
         def next_edit_step_path(next_step_klass)
-          return next_step_path(next_step_klass) if next_step == :course_review
+          return next_step_path(next_step_klass) if next_step.in?(%i[course_review reached_reapplication_limit])
 
           route_name = next_step_klass.model_name.singular_route_key
           url_helpers.public_send(

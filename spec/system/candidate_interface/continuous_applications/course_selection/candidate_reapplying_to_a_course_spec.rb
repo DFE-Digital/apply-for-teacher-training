@@ -12,10 +12,10 @@ RSpec.feature 'Selecting a course' do
     and_i_click_on_course_choices
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_the_same_provider
-    then_i_should_see_the_course_and_its_description
+    then_i_see_the_course_and_its_description
 
     and_i_choose_the_same_course
-    then_i_should_be_on_the_application_choice_review_page
+    then_i_am_on_the_application_choice_review_page
   end
 
   def given_i_am_signed_in
@@ -24,12 +24,15 @@ RSpec.feature 'Selecting a course' do
 
   def and_there_is_one_course_option
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
-    @course = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
+    @course = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
     create(:course_option, course: @course)
   end
 
-  def then_i_should_be_on_the_application_choice_duplicate_page
-    expect(page).to have_content('You already have an application for Primary (2XT2) at Gorse SCITT')
+  def then_i_am_on_the_application_choice_review_page
+    expect(application_choice).to be_present
+    expect(page).to have_current_path(
+      candidate_interface_continuous_applications_course_review_path(application_choice_id: application_choice.id),
+    )
   end
 
   def and_i_have_a_rejected_application
@@ -55,9 +58,9 @@ RSpec.feature 'Selecting a course' do
     click_link_or_button t('continue')
   end
 
-  def then_i_should_see_the_course_and_its_description
+  def then_i_see_the_course_and_its_description
     expect(page).to have_content(@course.name_and_code)
-    expect(page).to have_content(@course.description)
+    expect(page).to have_content(@course.description_to_s)
   end
 
   def and_i_choose_the_same_course

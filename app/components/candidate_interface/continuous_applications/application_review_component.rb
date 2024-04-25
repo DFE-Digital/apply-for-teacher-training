@@ -1,6 +1,7 @@
 module CandidateInterface
   module ContinuousApplications
     class ApplicationReviewComponent < ViewComponent::Base
+      include ContinuousApplications::CourseFeeRowHelper
       attr_reader :application_choice
       delegate :interviewing?,
                :unsubmitted?,
@@ -18,6 +19,7 @@ module CandidateInterface
           application_number_row,
           submitted_at_row,
           course_info_row,
+          course_fee_row(current_course),
           qualifications_row,
           course_length_row,
           study_mode_row,

@@ -1,4 +1,3 @@
-require 'teacher_training_public_api/sync_check'
 require 'healthchecks'
 
 OkComputer.mount_at = 'integrations/monitoring'

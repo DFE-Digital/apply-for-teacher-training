@@ -25,10 +25,9 @@ FactoryBot.define do
       exposed_in_find { false }
     end
 
-    trait :open_on_apply do
-      open_on_apply { true }
+    trait :open do
+      application_status { 'open' }
       exposed_in_find { true }
-      opened_on_apply_at { 2.months.ago }
       applications_open_from { 2.months.ago }
     end
 
@@ -52,11 +51,6 @@ FactoryBot.define do
                training_provider: evaluator.provider,
                ratifying_provider: evaluator.accredited_provider)
       end
-    end
-
-    trait :ucas_only do
-      open_on_apply { false }
-      exposed_in_find { true }
     end
 
     trait :with_both_study_modes do

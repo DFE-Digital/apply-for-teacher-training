@@ -68,7 +68,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: azure/login@v1
+      - uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
@@ -145,7 +145,7 @@ jobs:
         tests: [rubocop, erblint, brakeman, yarn_lint]
         include:
           - tests: rubocop
-            command: bundle exec rubocop --format clang --parallel
+            command: bundle exec rubocop --format clang --parallel --except RSpec/NoShouldInSpecs
           - tests: erblint
             command: bundle exec rake erblint
           - tests: brakeman

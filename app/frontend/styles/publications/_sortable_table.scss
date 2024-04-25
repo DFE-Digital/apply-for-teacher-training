@@ -1,19 +1,23 @@
 [aria-sort] button,
 [aria-sort] button:hover {
+  position: relative;
+
+  padding: 0 10px 0 0;
+  margin: 0;
+
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: inherit;
+  color: #005ea5;
+  text-align: inherit;
+
+  cursor: pointer;
+
   background-color: transparent;
   border-width: 0;
   -webkit-box-shadow: 0 0 0 0;
   -moz-box-shadow: 0 0 0 0;
   box-shadow: 0 0 0 0;
-  color: #005ea5;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: inherit;
-  padding: 0 10px 0 0;
-  position: relative;
-  text-align: inherit;
-  font-size: 1em;
-  margin: 0;
 }
 
 [aria-sort]:first-child button {
@@ -21,19 +25,23 @@
 }
 
 [aria-sort] button::before {
-  content: " \25bc";
   position: absolute;
-  right: -2px;
   top: 9px;
-  font-size: .5em;
+  right: -2px;
+
+  font-size: 0.5em;
+
+  content: " \25bc";
 }
 
 [aria-sort] button::after {
-  content: " \25b2";
   position: absolute;
-  right: -2px;
   top: 1px;
-  font-size: .5em;
+  right: -2px;
+
+  font-size: 0.5em;
+
+  content: " \25b2";
 }
 
 [aria-sort="ascending"] button::before,
@@ -42,28 +50,34 @@
 }
 
 [aria-sort="ascending"] button::after {
-  content: " \25b2";
-  font-size: .7em;
   position: absolute;
-  right: -2px;
   top: 2px;
+  right: -2px;
+
+  font-size: 0.7em;
+
+  content: " \25b2";
 }
 
 [aria-sort="descending"] button::after {
-  content: " \25bc";
-  font-size: .7em;
   position: absolute;
-  right: -2px;
   top: 2px;
+  right: -2px;
+
+  font-size: 0.7em;
+
+  content: " \25bc";
 }
 
 .sortable-table-status {
   position: absolute;
+
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
   overflow: hidden;
   clip: rect(0 0 0 0);
-  height: 1px;
-  width: 1px;
-  margin: -1px;
-  padding: 0;
+
   border: 0;
 }

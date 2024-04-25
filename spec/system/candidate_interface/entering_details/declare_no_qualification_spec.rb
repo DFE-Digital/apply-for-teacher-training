@@ -21,7 +21,7 @@ RSpec.feature 'Declare no EFL qualification' do
   def when_i_declare_i_have_no_qualification
     choose 'No, I have not done an English as a foreign language assessment'
     fill_in(
-      'If you’re planning on doing an assessment, give details here',
+      'If you are planning on doing an assessment, give details here',
       with: 'I’m working towards an IELTS.',
     )
     click_link_or_button t('continue')

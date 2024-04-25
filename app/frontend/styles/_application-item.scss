@@ -18,11 +18,19 @@
 
   &__provider_id {
     display: flex;
+
     align-items: center;
 
     & > * {
       margin-bottom: 0;
     }
+  }
+
+  &__provider_id .govuk-body-s {
+    margin-bottom: 0;
+    margin-left: govuk-spacing(1);
+
+    color: $govuk-secondary-text-colour;
   }
 
   &__choice_id {
@@ -36,14 +44,18 @@
 
 .app-application-item__body {
   display: flex;
+
   flex-direction: column;
+
   justify-content: space-between;
+
   padding: govuk-spacing(4) 0;
 
   @include govuk-media-query($from: tablet) {
     flex-direction: row-reverse;
-    margin-bottom: 0;
+
     padding-left: govuk-spacing(2);
+    margin-bottom: 0;
 
     &__status_tag {
       margin-bottom: govuk-spacing(0);

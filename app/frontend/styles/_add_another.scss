@@ -1,8 +1,9 @@
 .app-add-condition {
   &__item {
-    margin: 0;
-    padding: 0;
     position: relative;
+
+    padding: 0;
+    margin: 0;
 
     &:first-of-type {
       margin-top: 0;
@@ -16,26 +17,30 @@
 
   &__title {
     float: left;
-    padding: 4px 0;
     width: 100%;
+    padding: 4px 0;
   }
 
   &__remove-button {
-    color: govuk-colour("blue");
     padding: 0;
-    box-shadow: none;
-    background: none;
+
+    color: govuk-colour("blue");
     text-decoration: underline;
 
+    background: none;
+    box-shadow: none;
+
     &:hover {
-      background: none;
       color: $govuk-link-hover-colour;
       text-decoration: underline;
+
+      background: none;
     }
 
     &:focus {
-      background: $govuk-focus-colour;
       color: $govuk-focus-text-colour;
+
+      background: $govuk-focus-colour;
     }
   }
 
@@ -45,8 +50,11 @@
 }
 
 .app-add-condition__heading:focus {
-  background-color: $govuk-focus-colour;
   color: $govuk-focus-text-colour;
-  box-shadow: 0 -2px $govuk-focus-colour, 0 4px $govuk-focus-text-colour;
+
+  background-color: $govuk-focus-colour;
   outline: none;
+  box-shadow:
+    0 -2px $govuk-focus-colour,
+    0 4px $govuk-focus-text-colour;
 }

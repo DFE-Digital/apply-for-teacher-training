@@ -14,6 +14,10 @@ module Hesa
       all(cycle_year).find { |hesa_ethnicity| hesa_ethnicity.value == converted_value }
     end
 
+    def self.find_without_conversion(value, cycle_year)
+      Hesa::Ethnicity.all(cycle_year).find { |ethnicity| ethnicity.value == value }
+    end
+
     def self.convert_to_hesa_value(background)
       hesa_conversion = {
         'British, English, Northern Irish, Scottish, or Welsh' => HesaEthnicityValues::WHITE,

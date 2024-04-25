@@ -32,7 +32,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/defer-o
 
         expect(response).to have_http_status(:not_found)
         expect(parsed_response).to contain_schema_with_error('NotFoundResponse',
-                                                             'Unable to find Application(s)',
+                                                             'Unable to find Applications',
                                                              '1.1')
       end
     end

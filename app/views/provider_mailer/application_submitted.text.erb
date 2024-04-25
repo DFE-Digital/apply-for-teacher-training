@@ -8,6 +8,4 @@ View the application:
 
 If you do not respond to this application within 30 working days, <%= @application.candidate_name %> will be able to submit a further application to a different training provider.
 
-<%= render 'international_relocation_payment' if @application.international_relocation_payment_eligible %>
-
 <% content_for :additional_footer_content do %><%= render 'notification_preferences' %><% end %>

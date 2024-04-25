@@ -16,17 +16,17 @@ Dear <%= @application_form.first_name %>
 
 <% if @offers.length == 1 %>
 
-You’ve received an offer from <%= @offers.first.course_option.course.provider.name %> to study <%= @offers.first.course_option.course.name %>. You’re not waiting for any other decisions.
+You have received an offer from <%= @offers.first.course_option.course.provider.name %> to study <%= @offers.first.course_option.course.name %>. You are not waiting for any other decisions.
 
 <% else %>
 
-You’ve received offers from:
+You have received offers from:
 
 <% @offers.each do |offer| %>
   - <%= offer.course_option.course.provider.name %> to study <%= offer.course_option.course.name %>
 <% end %>
 
-You’re not waiting for any other decisions.
+You are not waiting for any other decisions.
 
 <% end %>
 

@@ -10,7 +10,7 @@ RSpec.feature 'Add course to submitted application' do
     and_i_visit_the_support_page
 
     when_i_click_on_the_application
-    then_i_should_see_the_current_conditions
+    then_i_see_the_current_conditions
 
     when_i_click_on_change_conditions
     then_i_see_the_condition_edit_form_with_a_warning
@@ -59,7 +59,7 @@ RSpec.feature 'Add course to submitted application' do
   def and_the_course_subject_requires_ske
     @application_choice.course_option.course.subjects.delete_all
     @application_choice.course_option.course.subjects << build(
-      :subject, code: 'C1', name: 'Biology'
+      :subject, code: 'F1', name: 'Chemistry'
     )
   end
 
@@ -71,7 +71,7 @@ RSpec.feature 'Add course to submitted application' do
     click_link_or_button 'Candy Dayte'
   end
 
-  def then_i_should_see_the_current_conditions
+  def then_i_see_the_current_conditions
     expect(page).to have_content("Conditions\nBe cool")
   end
 
@@ -87,7 +87,7 @@ RSpec.feature 'Add course to submitted application' do
 
   def when_i_add_a_new_ske_condition_and_click_update_conditions_without_a_support_ticket_url
     choose('Yes')
-    choose('Their degree subject was not Biology')
+    choose('Their degree subject was not Chemistry')
     choose('8 weeks')
     click_link_or_button 'Update conditions'
   end
@@ -100,7 +100,7 @@ RSpec.feature 'Add course to submitted application' do
   def when_i_add_a_new_ske_condition_and_click_update_conditions_with_a_support_ticket_url
     fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
     choose('Yes')
-    choose('Their degree subject was not Biology')
+    choose('Their degree subject was not Chemistry')
     choose('8 weeks')
     click_link_or_button 'Update conditions'
   end
@@ -108,13 +108,13 @@ RSpec.feature 'Add course to submitted application' do
   def then_i_see_the_new_ske_condition
     expect(page).to have_content('Subject knowledge enhancement course')
     expect(page).to have_content("Length\n8 weeks")
-    expect(page).to have_content("Reason\nTheir degree subject was not Biology")
+    expect(page).to have_content("Reason\nTheir degree subject was not Chemistry")
   end
 
   def and_i_change_the_length_of_the_ske_condition
     fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
     choose('Yes')
-    choose('Their degree subject was not Biology')
+    choose('Their degree subject was not Chemistry')
     choose('20 weeks')
     click_link_or_button 'Update conditions'
   end
@@ -122,7 +122,7 @@ RSpec.feature 'Add course to submitted application' do
   def then_i_see_the_updated_ske_condition
     expect(page).to have_content('Subject knowledge enhancement course')
     expect(page).to have_content("Length\n20 weeks")
-    expect(page).to have_content("Reason\nTheir degree subject was not Biology")
+    expect(page).to have_content("Reason\nTheir degree subject was not Chemistry")
   end
 
   def and_i_delete_the_ske_condition

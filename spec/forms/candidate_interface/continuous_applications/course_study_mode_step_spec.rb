@@ -18,7 +18,6 @@ RSpec.describe CandidateInterface::ContinuousApplications::CourseStudyModeStep d
       create(
         :course,
         :with_both_study_modes,
-        :open_on_apply,
         provider:,
         name: 'Software Engineering',
       )

@@ -1,9 +1,10 @@
 .tabs-component {
   margin-bottom: 0;
 
-  @include govuk-media-query ($from: desktop) {
-    border-bottom: 1px solid $govuk-border-colour;
+  @include govuk-media-query($from: desktop) {
     margin-bottom: 0;
+
+    border-bottom: 1px solid $govuk-border-colour;
   }
 
   .govuk-link {
@@ -20,45 +21,53 @@
 
   &-navigation {
     &__list {
+      padding: 0;
+
       font-size: 0;
       list-style: none;
-      padding: 0;
     }
 
     &__item {
       display: inline-block;
+
+      margin-top: 0;
+      margin-right: govuk-spacing(4);
+      margin-bottom: 0;
+
       font-size: 1rem;
       line-height: 1.25;
-      margin-bottom: 0;
-      margin-right: govuk-spacing(4);
-      margin-top: 0;
     }
 
     &__link {
       @include govuk-font(19);
+      position: relative;
 
       display: block;
-      font-weight: bold;
-      padding-bottom: govuk-spacing(3);
+
       padding-top: govuk-spacing(3);
-      position: relative;
+      padding-bottom: govuk-spacing(3);
+
+      font-weight: bold;
       text-decoration: none;
 
       &:focus {
         padding-bottom: govuk-spacing(2);
       }
-
     }
   }
 
   .tabs-component-navigation__link[aria-current]::before {
-    background-color: govuk-colour('light-blue');
-    bottom: 0;
-    content: '';
-    display: block;
-    height: govuk-spacing(1);
-    left: 0;
     position: absolute;
+    bottom: 0;
+    left: 0;
+
+    display: block;
+
     width: 100%;
+    height: govuk-spacing(1);
+
+    content: "";
+
+    background-color: govuk-colour("light-blue");
   }
 }

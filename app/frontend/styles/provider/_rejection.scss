@@ -1,7 +1,8 @@
 .app-rejection {
-  margin-bottom: govuk-spacing(6);
-  padding-right: 70px;
   position: relative;
+
+  padding-right: 70px;
+  margin-bottom: govuk-spacing(6);
 
   p {
     margin-bottom: 0;
@@ -20,10 +21,11 @@
   }
 
   .app-rejection__actions {
-    margin: 0;
     position: absolute;
-    right: 0;
     top: 0;
+    right: 0;
+
+    margin: 0;
   }
 }
 

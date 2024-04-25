@@ -1,7 +1,6 @@
 class ApplicationChoice < ApplicationRecord
   include Chased
   include TouchApplicationFormState
-  include Dateable
 
   before_create :set_initial_status
 
@@ -30,7 +29,6 @@ class ApplicationChoice < ApplicationRecord
 
   has_associated_audits
   audited associated_with: :application_form
-  dateable :sent_to_provider, :offered
 
   # Note that prior to October 2020, we used to have awaiting_references and
   # application_complete statuses. These will still show up in older audit logs.
@@ -118,11 +116,11 @@ class ApplicationChoice < ApplicationRecord
     I18n.t('errors.application_choices.course_not_available', descriptor: course.provider_and_name_code)
   end
 
-  delegate :course_closed_on_apply?, to: :course_option
+  delegate :course_application_status_closed?, to: :course_option
 
-  def course_closed_on_apply_error
+  def course_application_status_closed
     I18n.t(
-      'errors.application_choices.course_closed_on_apply',
+      'errors.application_choices.course_application_status_closed',
       course_name_and_code: course.name_and_code,
       provider_name: course.provider.name,
     )
@@ -165,7 +163,7 @@ class ApplicationChoice < ApplicationRecord
   def course_option_availability_error?
     [
       course_not_available?,
-      course_closed_on_apply?,
+      course_application_status_closed?,
       course_full?,
       site_full?,
       study_mode_full?,
@@ -271,7 +269,21 @@ class ApplicationChoice < ApplicationRecord
     Array(course_option.course.qualifications).include?('tda')
   end
 
+  def days_since_sent_to_provider
+    days_since_calculation(sent_to_provider_at)
+  end
+
+  def days_since_offered
+    days_since_calculation(offered_at)
+  end
+
 private
+
+  def days_since_calculation(date_field)
+    return if date_field.blank?
+
+    (Time.zone.now - date_field).seconds.in_days.round
+  end
 
   def set_initial_status
     self.status ||= 'unsubmitted'

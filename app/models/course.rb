@@ -1,4 +1,6 @@
 class Course < ApplicationRecord
+  self.ignored_columns += %w[open_on_apply opened_on_apply_at] # rubocop:disable Rails/UnusedIgnoredColumns
+
   belongs_to :provider
   has_many :course_options
   has_many :application_choices, through: :course_options
@@ -10,9 +12,9 @@ class Course < ApplicationRecord
   validates :level, presence: true
   validates :code, uniqueness: { scope: %i[recruitment_cycle_year provider_id] }
 
-  scope :open_on_apply, -> { exposed_in_find.where(open_on_apply: true) }
   scope :exposed_in_find, -> { where(exposed_in_find: true) }
   scope :open_for_applications, -> { where('courses.applications_open_from <= ?', Time.zone.today) }
+  scope :open, -> { application_status_open.exposed_in_find.where('courses.applications_open_from <= ?', Time.zone.today) }
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
   scope :previous_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.previous_year) }
   scope :in_cycle, ->(year) { where(recruitment_cycle_year: year) }
@@ -68,11 +70,11 @@ class Course < ApplicationRecord
   }
 
   def name_and_description
-    "#{name} #{description}"
+    "#{name} #{description_to_s}"
   end
 
   def name_provider_and_description
-    "#{name} #{accredited_provider&.name} #{description}"
+    "#{name} #{accredited_provider&.name} #{description_to_s}"
   end
 
   def year_name_and_code
@@ -84,7 +86,7 @@ class Course < ApplicationRecord
   end
 
   def name_code_and_description
-    "#{name} (#{code}) – #{description}"
+    "#{name} (#{code}) – #{description_to_s}"
   end
 
   def name_code_and_provider
@@ -96,7 +98,7 @@ class Course < ApplicationRecord
   end
 
   def name_description_provider_and_age_range
-    "#{name} #{description} #{accredited_provider&.name} #{age_range}"
+    "#{name} #{description_to_s} #{accredited_provider&.name} #{age_range}"
   end
 
   def provider_and_name_code
@@ -104,7 +106,7 @@ class Course < ApplicationRecord
   end
 
   def description_and_accredited_provider
-    accredited_provider ? "#{description} - #{accredited_provider&.name}" : description.to_s
+    accredited_provider ? "#{description_to_s} - #{accredited_provider&.name}" : description_to_s
   end
 
   def currently_has_both_study_modes_available?
@@ -123,12 +125,12 @@ class Course < ApplicationRecord
     course_options.available.present?
   end
 
-  def closed_on_apply?
-    !open_on_apply
-  end
-
   def not_available?
     !exposed_in_find
+  end
+
+  def open?
+    applications_open_from.present? && applications_open_from <= Time.zone.today && exposed_in_find && application_status_open?
   end
 
   def open_for_applications?
@@ -169,15 +171,6 @@ class Course < ApplicationRecord
     accredited_provider || provider
   end
 
-  def open!
-    return if persisted? && open_on_apply
-
-    update!(
-      open_on_apply: true,
-      opened_on_apply_at: Time.zone.now,
-    )
-  end
-
   def ske_graduation_cutoff_date
     start_date - SKE_GRADUATION_CUTOFF_THRESHOLD
   end
@@ -190,12 +183,18 @@ class Course < ApplicationRecord
     return '' if qualifications.blank?
 
     case qualifications.sort
-    in ['pgce', 'qts'] then 'PGCE with QTS'
+    in ['pgce', 'qts'] then 'QTS with PGCE'
     in ['pgde', 'qts'] then 'PGDE with QTS'
     in ['qts', 'tda'] then 'TDA with QTS'
     else
       qualifications.map(&:upcase).join(' with ')
     end
+  end
+
+  def description_to_s
+    # This terminology comes directly from Publish API inside the description
+    # and we need to invert when we show in Apply.
+    @description_to_s ||= description.to_s.gsub('PGCE with QTS', 'QTS with PGCE')
   end
 
 private

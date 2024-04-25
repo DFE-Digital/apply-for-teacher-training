@@ -55,7 +55,7 @@ RSpec.describe CandidateMailer do
         I18n.t!('candidate_mailer.new_referee_request.not_responded.subject', referee_name: 'Jolyne Doe'),
         'heading' => 'They have not replied yet',
         'description' => 'You asked Jolyne Doe for a reference for your teacher training application. They have not replied yet.',
-        'urgency' => 'It’s important that Arithmetic College receives your references as soon as possible.',
+        'urgency' => 'It is important that Arithmetic College receives your references as soon as possible.',
       )
     end
 
@@ -67,7 +67,7 @@ RSpec.describe CandidateMailer do
         'a mail with subject and content',
         I18n.t!('candidate_mailer.new_referee_request.refused.subject', referee_name: 'Jolyne Doe'),
         body: 'Jolyne Doe has said that they’re unable to give you a reference.',
-        'urgency' => 'It’s important that Arithmetic College receives your references as soon as possible.',
+        'urgency' => 'It is important that Arithmetic College receives your references as soon as possible.',
       )
     end
 

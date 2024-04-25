@@ -24,7 +24,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, :mid_cycle, typ
 
       before do
         provider = application_form.application_choices.first.provider
-        build(:course, :open_on_apply, provider:, study_mode: :full_time)
+        build(:course, provider:, study_mode: :full_time)
       end
 
       it 'renders without the course choice change link' do
@@ -179,7 +179,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, :mid_cycle, typ
       result = render_inline(described_class.new(application_form:, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Type')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('PGCE with QTS part time')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('QTS with PGCE part time')
     end
   end
 

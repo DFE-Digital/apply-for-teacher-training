@@ -745,7 +745,7 @@ components:
             "$ref": "#/components/schemas/Error"
           example:
           - error: NotFound
-            message: Unable to find Application(s)
+            message: Unable to find Applications
     OkResponse:
       type: object
       required:

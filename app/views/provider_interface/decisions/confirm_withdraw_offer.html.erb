@@ -21,7 +21,7 @@
         { key: 'Reasons for withdrawal', value: @withdraw_offer.offer_withdrawal_reason },
       ]) %>
 
-      <%= govuk_warning_text(text: 'We’ll tell the candidate you withdrew your offer, and share your reasons.') %>
+      <%= govuk_warning_text(text: 'We will tell the candidate you withdrew your offer, and share your reasons.') %>
 
       <%= f.hidden_field :offer_withdrawal_reason %>
       <%= f.govuk_submit 'Withdraw offer', warning: true %>

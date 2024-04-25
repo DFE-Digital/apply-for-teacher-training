@@ -39,14 +39,14 @@ module ProviderInterface
 
     def training_provider_partner_ids_where(permission_applies:)
       provider.ratifying_provider_permissions
-              .providers_have_open_course
+              .providers_with_current_cycle_course
               .where("ratifying_provider_can_#{permission}" => permission_applies)
               .pluck(:training_provider_id)
     end
 
     def ratifying_provider_partner_ids_where(permission_applies:)
       provider.training_provider_permissions
-              .providers_have_open_course
+              .providers_with_current_cycle_course
               .where("training_provider_can_#{permission}" => permission_applies)
               .pluck(:ratifying_provider_id)
     end

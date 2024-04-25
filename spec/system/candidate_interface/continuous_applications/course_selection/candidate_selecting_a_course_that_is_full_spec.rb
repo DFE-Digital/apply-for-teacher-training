@@ -11,17 +11,17 @@ RSpec.feature 'Selecting a course' do
     and_i_click_on_course_choices
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
-    then_i_should_see_a_course_and_its_description
+    then_i_see_a_course_and_its_description
 
     and_i_choose_a_course_with_no_vacancies
-    then_i_should_be_on_the_application_choice_duplicate_page
+    then_i_be_on_the_application_choice_duplicate_page
     and_i_see_that_i_can_apply_to_a_different_provider
 
     when_the_provider_adds_more_vacancies
     then_i_see_that_i_can_apply_to_another_course
 
     when_i_click_back
-    then_i_should_be_on_the_course_choice_page
+    then_i_be_on_the_course_choice_page
   end
 
   def given_i_am_signed_in
@@ -31,7 +31,7 @@ RSpec.feature 'Selecting a course' do
 
   def and_the_course_has_no_course_options
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
-    @course = create(:course, :open_on_apply, :with_no_vacancies, name: 'Primary', code: '2XT2', provider: @provider)
+    @course = create(:course, :open, :with_no_vacancies, name: 'Primary', code: '2XT2', provider: @provider)
   end
 
   def when_i_visit_the_site
@@ -53,9 +53,9 @@ RSpec.feature 'Selecting a course' do
     click_link_or_button t('continue')
   end
 
-  def then_i_should_see_a_course_and_its_description
+  def then_i_see_a_course_and_its_description
     expect(page).to have_content(@course.name_and_code)
-    expect(page).to have_content(@course.description)
+    expect(page).to have_content(@course.description_to_s)
   end
 
   def and_i_choose_a_course_with_no_vacancies
@@ -63,8 +63,8 @@ RSpec.feature 'Selecting a course' do
     click_link_or_button t('continue')
   end
 
-  def then_i_should_be_on_the_application_choice_duplicate_page
-    expect(page).to have_content('Unfortunately, you cannot apply to Primary (2XT2) because it’s now full')
+  def then_i_be_on_the_application_choice_duplicate_page
+    expect(page).to have_content('Unfortunately, you cannot apply to Primary (2XT2) because it is now full')
   end
 
   def and_i_see_that_i_can_apply_to_a_different_provider
@@ -73,7 +73,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def when_the_provider_adds_more_vacancies
-    create(:course, :open_on_apply, :with_course_options, provider: @provider)
+    create(:course, :open, :with_course_options, provider: @provider)
   end
 
   def then_i_see_that_i_can_apply_to_another_course
@@ -87,7 +87,7 @@ RSpec.feature 'Selecting a course' do
     click_link_or_button 'Back'
   end
 
-  def then_i_should_be_on_the_course_choice_page
+  def then_i_be_on_the_course_choice_page
     expect(page.current_url).to end_with(candidate_interface_continuous_applications_which_course_are_you_applying_to_path(provider_id: @provider.id))
   end
 end

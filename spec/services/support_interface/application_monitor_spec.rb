@@ -1,37 +1,37 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationMonitor do
-  let(:open_course) { create(:course, :open_on_apply) }
-  let(:closed_course) { create(:course, open_on_apply: false) }
+  let(:open_course) { create(:course, :open, :with_course_options) }
+  let(:closed_course) { create(:course, application_status: 'closed') }
 
-  let(:visible_course) { create(:course, :open_on_apply, exposed_in_find: true) }
-  let(:hidden_course) { create(:course, :open_on_apply, exposed_in_find: false) }
+  let(:visible_course) { create(:course, :open, :with_course_options) }
+  let(:hidden_course) { create(:course, :open, exposed_in_find: false) }
 
-  describe '#applications_to_disabled_courses' do
-    it 'returns applications to courses that have been disabled' do
-      closed_course_option = create(:course_option, course: closed_course)
-      application_to_open_course = create(:application_choice, course: open_course, status: 'awaiting_provider_decision')
-      application_to_closed_course = create(:application_choice, course_option: closed_course_option, status: 'awaiting_provider_decision')
-      rejected_application_to_closed_course = create(:application_choice, course: closed_course, status: 'rejected')
+  describe '#applications_to_closed_courses' do
+    it 'returns applications to courses that have been closed' do
+      closed_course_option                  = create(:course_option, course: closed_course)
+      application_to_closed_course          = create(:application_choice, course_option: closed_course_option, status: 'awaiting_provider_decision')
+      # application_to_open_course
+      create(:application_choice, course: open_course, status: 'awaiting_provider_decision')
+      # rejected_application_to_closed_course
+      create(:application_choice, course: closed_course, status: 'rejected')
 
-      applications = described_class.new.applications_to_disabled_courses
+      applications = described_class.new.applications_to_closed_courses
 
-      expect(applications.map(&:id)).not_to include(application_to_open_course.application_form_id)
-      expect(applications.map(&:id)).not_to include(rejected_application_to_closed_course.application_form_id)
-      expect(applications.map(&:id)).to include(application_to_closed_course.application_form_id)
+      expect(applications).to contain_exactly(application_to_closed_course.application_form)
     end
   end
 
   describe '#applications_to_hidden_courses' do
     it 'returns applications to courses that have been removed from Find' do
       hidden_course_option = create(:course_option, course: hidden_course)
-      application_to_visible_course = create(:application_choice, course: visible_course, status: 'awaiting_provider_decision')
       application_to_hidden_course = create(:application_choice, course_option: hidden_course_option, status: 'awaiting_provider_decision')
+      # application_to_visible_course
+      create(:application_choice, course: visible_course, status: 'awaiting_provider_decision')
 
       applications = described_class.new.applications_to_hidden_courses
 
-      expect(applications.map(&:id)).not_to include(application_to_visible_course.application_form_id)
-      expect(applications.map(&:id)).to include(application_to_hidden_course.application_form_id)
+      expect(applications).to contain_exactly(application_to_hidden_course.application_form)
     end
   end
 

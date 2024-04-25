@@ -15,7 +15,7 @@ RSpec.describe CandidateInterface::EditableSectionWarning do
 
       it 'renders message' do
         expect(result.text).to include(
-          'Any changes you make will be included in applications you’ve already submitted.',
+          'Any changes you make will be included in applications you have already submitted.',
         )
       end
 

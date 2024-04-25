@@ -34,7 +34,7 @@ RSpec.describe RefereeInterface::FeedbackHintsComponent do
       render_inline(described_class.new(reference:))
 
       expect(rendered_content).to have_text('details of how you know Hal Brand')
-      expect(rendered_content).to have_text('things they’ve done or you’ve done together')
+      expect(rendered_content).to have_text('things they’ve done or you have done together')
       expect(rendered_content).to have_css('li', count: 2)
     end
   end

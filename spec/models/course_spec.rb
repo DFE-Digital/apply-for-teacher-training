@@ -9,6 +9,82 @@ RSpec.describe Course do
     it { is_expected.to be_application_status_closed }
   end
 
+  describe '#open?' do
+    context 'when all conditions are satisfied' do
+      let(:course) { create(:course, :open) }
+
+      it 'returns true' do
+        expect(course).to be_open
+      end
+    end
+
+    context 'when applications_open_from is nil' do
+      let(:course) { create(:course, :open, applications_open_from: nil) }
+
+      it 'returns false' do
+        expect(course.open?).to be false
+      end
+    end
+
+    context 'when applications_open_from is in the future' do
+      let(:course) { create(:course, :open, applications_open_from: 1.day.from_now) }
+
+      it 'returns false' do
+        expect(course).not_to be_open
+      end
+    end
+
+    context 'when application_status is closed' do
+      let(:course) { create(:course, :open, application_status: 'closed') }
+
+      it 'returns false' do
+        expect(course).not_to be_open
+      end
+    end
+
+    context 'when exposed_in_find is false' do
+      let(:course) { create(:course, :open, exposed_in_find: false) }
+
+      it 'returns false' do
+        expect(course).not_to be_open
+      end
+    end
+  end
+
+  describe '.open' do
+    context 'when course is open' do
+      let(:course) { create(:course, :open) }
+
+      it 'returns open course' do
+        expect(described_class.open).to include(course)
+      end
+    end
+
+    context 'when not exposed_in_find' do
+      let(:course) { create(:course, :open, exposed_in_find: false) }
+
+      it 'does not return the course' do
+        expect(described_class.open).not_to include(course)
+      end
+    end
+
+    context 'when course is due to open tomorrow' do
+      let(:course) { create(:course, :open, applications_open_from: 1.day.from_now) }
+
+      it 'does not return the course' do
+        expect(described_class.open).not_to include(course)
+      end
+    end
+
+    context 'when course is closed by provider' do
+      let(:course) { create(:course, :open, application_status: 'closed') }
+
+      it 'does not return the course' do
+        expect(described_class.open).not_to include(course)
+      end
+    end
+  end
+
   describe '#currently_has_both_study_modes_available?' do
     it 'is true when a course has full time and part time course options' do
       create(:course_option, :full_time, course:)
@@ -109,20 +185,6 @@ RSpec.describe Course do
     end
   end
 
-  describe '#open!' do
-    it 'sets both open_on_apply and opened_on_apply_at' do
-      course = create(:course)
-      course.open!
-      expect(course.open_on_apply).to be(true)
-      expect(course.opened_on_apply_at).to eq(Time.zone.now)
-    end
-
-    it 'does not update the timestamp if course already open' do
-      course = create(:course, :open_on_apply)
-      expect { course.open! }.not_to change(course, :opened_on_apply_at)
-    end
-  end
-
   describe '#find_url' do
     let(:course) { create(:course) }
 
@@ -140,7 +202,7 @@ RSpec.describe Course do
       let(:course) { build(:course, accredited_provider: build(:provider)) }
 
       it 'returns the accredited provider' do
-        result_string = "#{course.description} - #{course.accredited_provider.name}"
+        result_string = "#{course.description_to_s} - #{course.accredited_provider.name}"
 
         expect(course.description_and_accredited_provider).to eq(result_string)
       end
@@ -150,12 +212,36 @@ RSpec.describe Course do
       let(:course) { build(:course) }
 
       it 'returns the provider' do
-        expect(course.description_and_accredited_provider).to eq(course.description)
+        expect(course.description_and_accredited_provider).to eq(course.description_to_s)
       end
     end
   end
 
-  describe 'qualificaitons_to_s' do
+  describe '#description_to_s' do
+    subject { course.description_to_s }
+
+    let(:course) { build(:course, description:) }
+
+    context 'when nil' do
+      let(:description) { nil }
+
+      it { is_expected.to eq('') }
+    end
+
+    context 'when contains pgce with qts' do
+      let(:description) { 'PGCE with QTS, full time or part time' }
+
+      it { is_expected.to eq('QTS with PGCE, full time or part time') }
+    end
+
+    context 'when contains pgde with qts' do
+      let(:description) { 'PGDE with QTS, full time or part time' }
+
+      it { is_expected.to eq(course.description) }
+    end
+  end
+
+  describe '#qualifications_to_s' do
     subject { course.qualifications_to_s }
 
     let(:course) { build(:course, qualifications:) }
@@ -169,7 +255,7 @@ RSpec.describe Course do
     context 'when [qts pgce]' do
       let(:qualifications) { %w[qts pgce] }
 
-      it { is_expected.to eq('PGCE with QTS') }
+      it { is_expected.to eq('QTS with PGCE') }
     end
 
     context 'when [qts pgde]' do

@@ -21,7 +21,7 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
       "#{partner_provider_type}_provider_can_#{permission}": !permission_applies,
     )
     if course_open
-      create(:course, :open_on_apply, provider: relationship.training_provider, accredited_provider: relationship.ratifying_provider)
+      create(:course, :open, provider: relationship.training_provider, accredited_provider: relationship.ratifying_provider)
     end
 
     partner_provider

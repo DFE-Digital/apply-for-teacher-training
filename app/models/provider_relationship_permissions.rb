@@ -7,13 +7,13 @@ class ProviderRelationshipPermissions < ApplicationRecord
   validate :at_least_one_active_permission_in_pair, if: -> { setup_at.present? || validation_context == :setup }
   audited associated_with: :training_provider
 
-  scope :providers_have_open_course, lambda {
+  scope :providers_with_current_cycle_course, lambda {
     course_joins_sql = <<-SQL
       JOIN courses
       ON provider_relationship_permissions.training_provider_id = courses.provider_id
       AND provider_relationship_permissions.ratifying_provider_id = courses.accredited_provider_id
     SQL
-    joins(course_joins_sql).merge(Course.current_cycle.open_on_apply).distinct
+    joins(course_joins_sql).merge(Course.current_cycle).distinct
   }
 
   def self.all_relationships_for_providers(providers)
@@ -45,8 +45,8 @@ class ProviderRelationshipPermissions < ApplicationRecord
     end
   end
 
-  def providers_have_open_course?
-    Course.current_cycle.open_on_apply.exists?(provider: training_provider, accredited_provider: ratifying_provider)
+  def providers_have_current_cycle_course?
+    Course.current_cycle.exists?(provider: training_provider, accredited_provider: ratifying_provider)
   end
 
 private

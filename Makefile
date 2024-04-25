@@ -150,9 +150,6 @@ set-azure-account:
 	echo "Logging on to ${AZURE_SUBSCRIPTION}"
 	az account set -s $(AZURE_SUBSCRIPTION)
 
-read-deployment-config:
-	$(eval export POSTGRES_DATABASE_NAME=apply-postgres-${APP_NAME_SUFFIX})
-
 read-keyvault-config:
 	$(eval KEY_VAULT_NAME=$(shell jq -r '.key_vault_name' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
 	$(eval KEY_VAULT_APP_SECRET_NAME=$(shell jq -r '.key_vault_app_secret_name' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
@@ -179,14 +176,14 @@ edit-infra-secrets: read-keyvault-config install-fetch-config set-azure-account 
 .PHONY: shell
 shell: get-cluster-credentials ## Open a shell on the app instance on AKS, eg: make qa shell
 	$(eval NAMESPACE=$(shell jq -r '.namespace' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
-	$(eval PAAS_APP_ENV=$(shell jq -r '.paas_app_environment' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
-	$(if ${APP_NAME_SUFFIX}, $(eval APP_NAME=apply-clock-worker-${APP_NAME_SUFFIX}), $(eval APP_NAME=apply-clock-worker-${PAAS_APP_ENV}))
+	$(eval APP_ENV=$(shell jq -r '.app_environment' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
+	$(if ${APP_NAME_SUFFIX}, $(eval APP_NAME=apply-${APP_NAME_SUFFIX}-clock-worker), $(eval APP_NAME=apply-${APP_ENV}-clock-worker))
 	kubectl -n ${NAMESPACE} -ti exec "deployment/${APP_NAME}" -- sh -c "cd /app && /usr/local/bin/bundle exec rails console -- --noautocomplete"
 
 deploy-init: bin/terrafile
 	$(if $(or $(IMAGE_TAG), $(NO_IMAGE_TAG_DEFAULT)), , $(eval export IMAGE_TAG=main))
 	$(if $(IMAGE_TAG), , $(error Missing environment variable "IMAGE_TAG"))
-	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
+	$(eval export TF_VAR_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show
@@ -202,67 +199,6 @@ deploy: deploy-init
 
 destroy: deploy-init
 	terraform -chdir=terraform/$(PLATFORM) destroy -var-file=./workspace_variables/$(APP_ENV).tfvars.json ${TF_VARS} $(AUTO_APPROVE)
-
-.PHONY: stop-all-apps
-stop-all-apps: ## Stops web, clock and worker apps, make qa stop-all-apps CONFIRM_STOP=1
-	$(if $(CONFIRM_STOP), , $(error stop-all-apps can only run with CONFIRM_STOP))
-	cf target -s ${SPACE}
-	cf stop apply-${APP_NAME_SUFFIX} && \
-	cf stop apply-clock-${APP_NAME_SUFFIX} && \
-	cf stop apply-worker-${APP_NAME_SUFFIX}
-
-.PHONY: get-image-tag
-get-image-tag: ## make qa get-image-tag
-	$(eval export TAG=$(shell cf target -s ${SPACE} 1> /dev/null && cf app apply-${APP_NAME_SUFFIX} | awk -F : '$$1 == "docker image" {print $$3}'))
-	@echo ${TAG}
-
-.PHONY: get-postgres-instance-guid
-get-postgres-instance-guid: ## Gets the postgres service instance's guid
-	cf target -s ${SPACE} > /dev/null
-	cf service apply-postgres-${APP_NAME_SUFFIX} --guid
-
-.PHONY: rename-postgres-service
-rename-postgres-service: ## make qa rename-postgres-service NEW_NAME_SUFFIX=backup CONFIRM_RENAME=y
-	$(if $(CONFIRM_RENAME), , $(error can only run with CONFIRM_RENAME))
-	$(if $(NEW_NAME_SUFFIX), , $(error NEW_NAME_SUFFIX is required))
-	cf target -s ${SPACE} > /dev/null
-	cf rename-service apply-postgres-${APP_NAME_SUFFIX} apply-postgres-${APP_NAME_SUFFIX}-$(NEW_NAME_SUFFIX)
-
-.PHONY: remove-postgres-tf-state
-remove-postgres-tf-state: deploy-init ## make qa remove-postgres-tf-state PASSCODE=
-	cd terraform/paas && terraform state rm module.paas.cloudfoundry_service_instance.postgres && \
-	  terraform state rm module.paas.cloudfoundry_service_key.postgres-readonly-key
-
-.PHONY: restore-postgres
-restore-postgres: deploy-init ## make qa restore-postgres DB_INSTANCE_GUID="<cf service db-name --guid>" BEFORE_TIME="" IMAGE_TAG=<COMMIT_SHA> PASSCODE=<auth code from https://login.london.cloud.service.gov.uk/passcode>
-	cf target -s ${SPACE} > /dev/null
-	$(if $(DB_INSTANCE_GUID), , $(error can only run with DB_INSTANCE_GUID, get it by running `make ${SPACE} get-postgres-instance-guid`))
-	$(if $(BEFORE_TIME), , $(error can only run with BEFORE_TIME, eg BEFORE_TIME="2021-09-14 16:00:00"))
-	$(eval export TF_VAR_paas_restore_db_from_db_instance=$(DB_INSTANCE_GUID))
-	$(eval export TF_VAR_paas_restore_db_from_point_in_time_before=$(BEFORE_TIME))
-	echo "Restoring apply-postgres-${APP_NAME_SUFFIX} from $(TF_VAR_paas_restore_db_from_db_instance) before $(TF_VAR_paas_restore_db_from_point_in_time_before)"
-	make ${APP_ENV} deploy
-
-enable-maintenance: ## make qa enable-maintenance / make production enable-maintenance CONFIRM_PRODUCTION=y
-	$(if $(HOSTNAME), $(eval REAL_HOSTNAME=${HOSTNAME}), $(eval REAL_HOSTNAME=${APP_ENV}))
-	cf target -s ${SPACE}
-	cd service_unavailable_page && cf push
-	cf map-route apply-unavailable apply-for-teacher-training.service.gov.uk --hostname ${REAL_HOSTNAME}
-	echo Waiting 5s for route to be registered... && sleep 5
-	cf unmap-route apply-${APP_ENV} apply-for-teacher-training.service.gov.uk --hostname ${REAL_HOSTNAME}
-
-disable-maintenance: ## make qa disable-maintenance / make production disable-maintenance CONFIRM_PRODUCTION=y
-	$(if $(HOSTNAME), $(eval REAL_HOSTNAME=${HOSTNAME}), $(eval REAL_HOSTNAME=${APP_ENV}))
-	cf target -s ${SPACE}
-	cf map-route apply-${APP_ENV} apply-for-teacher-training.service.gov.uk --hostname ${REAL_HOSTNAME}
-	echo Waiting 5s for route to be registered... && sleep 5
-	cf unmap-route apply-unavailable apply-for-teacher-training.service.gov.uk --hostname ${REAL_HOSTNAME}
-	cf delete -rf apply-unavailable
-
-restore-data-from-nightly-backup: read-deployment-config read-keyvault-config # make production restore-data-from-nightly-backup CONFIRM_PRODUCTION=YES CONFIRM_RESTORE=YES BACKUP_DATE="yyyy-mm-dd"
-	bin/download-nightly-backup APPLY-BACKUP-STORAGE-CONNECTION-STRING ${KEY_VAULT_NAME} ${APP_NAME_SUFFIX}-db-backup apply_${APP_NAME_SUFFIX}_ ${BACKUP_DATE}
-	$(if $(CONFIRM_RESTORE), , $(error Restore can only run with CONFIRM_RESTORE))
-	bin/restore-nightly-backup ${SPACE} ${POSTGRES_DATABASE_NAME} apply_${APP_NAME_SUFFIX}_ ${BACKUP_DATE}
 
 set-what-if:
 	$(eval WHAT_IF=--what-if)

@@ -1,5 +1,5 @@
 Hello <%= @application_form.first_name %>
 
-You’ve withdrawn your <%= 'application'.pluralize(@withdrawn_course_names.size) %> for <%= @withdrawn_course_names.to_sentence %>.
+You have withdrawn your <%= 'application'.pluralize(@withdrawn_course_names.size) %> for <%= @withdrawn_course_names.to_sentence %>.
 
 <%= render 'still_interested_content' %>

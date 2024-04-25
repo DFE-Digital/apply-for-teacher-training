@@ -1,6 +1,6 @@
 This statement applies to the ‘Manage teacher training applications’ service.
 
-‘Manage teacher training applications’ is run by the Department for Education. It’s designed to be used by as many people as possible. You should be able to:
+‘Manage teacher training applications’ is run by the Department for Education. It is designed to be used by as many people as possible. You should be able to:
 
 * change colours, contrast levels and fonts
 * zoom in up to 300% without problems
@@ -16,7 +16,7 @@ We’ve also made the text in the service as simple as possible to understand.
 
 If you need to use the service in a different way, email <%= bat_contact_mail_to %>.
 
-We’ll respond within 5 working days.
+We will respond within 5 working days.
 
 ## Reporting accessibility problems with this service
 
@@ -24,7 +24,7 @@ We’re always looking to improve the accessibility of this service. If you find
 
 ## Enforcement procedure
 
-If you’re not happy with our response to a complaint, [contact the Equality Advisory and Support Service (EASS)](https://www.equalityadvisoryservice.com/).
+If you are not happy with our response to a complaint, [contact the Equality Advisory and Support Service (EASS)](https://www.equalityadvisoryservice.com/).
 
 The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’).
 
@@ -38,7 +38,7 @@ This service is fully compliant with the [Web Content Accessibility Guidelines v
 
 ## What we’re doing to improve accessibility
 
-We’ll continue to test the accessibility of this service as it develops.
+We will continue to test the accessibility of this service as it develops.
 
 ## Preparation of this accessibility statement
 

@@ -1,7 +1,9 @@
 code {
-  background-color: govuk-colour("light-grey");
-  font-family: monospace;
   padding: 2px 5px;
+
+  font-family: monospace;
+
+  background-color: govuk-colour("light-grey");
 
   .govuk-panel--confirmation & {
     background-color: transparent;

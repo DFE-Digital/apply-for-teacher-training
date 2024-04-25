@@ -10,7 +10,7 @@ RSpec.feature 'Generate test data for provider via support', :sandbox, sidekiq: 
     when_i_visit_the_support_provider_applications_page
     then_i_will_not_see_the_generate_test_data_button
 
-    when_the_provider_has_courses_open_on_apply
+    when_the_provider_has_courses_open
     and_i_visit_the_support_provider_applications_page
     then_i_see_the_generate_test_data_button
 
@@ -35,8 +35,8 @@ RSpec.feature 'Generate test data for provider via support', :sandbox, sidekiq: 
     expect(page).to have_no_button 'Generate test applications'
   end
 
-  def when_the_provider_has_courses_open_on_apply
-    course = create(:course, :open_on_apply, provider: @provider)
+  def when_the_provider_has_courses_open
+    course = create(:course, :open, provider: @provider)
     create(:course_option, course:)
   end
 

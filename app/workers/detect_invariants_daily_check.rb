@@ -88,18 +88,23 @@ class DetectInvariantsDailyCheck
   end
 
   def detect_submitted_applications_with_more_than_the_max_unsuccessful_choices
+    # Why this total? They could have all their course choices rejected
+    # Then they will have that many more than the max number of unsuccessful applications
+    total_number_of_possible_unsuccessful_applications =
+      ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS +
+      ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES - 1
     applications_with_too_many_unsuccessful_choices = ApplicationForm
       .joins(:application_choices)
       .where(application_choices: { status: (ApplicationStateChange::UNSUCCESSFUL_STATES - %i[inactive]) })
       .group('application_forms.id')
-      .having("count(application_choices) > #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS}")
+      .having("count(application_choices) > #{total_number_of_possible_unsuccessful_applications.to_i}")
       .sort
 
     if applications_with_too_many_unsuccessful_choices.any?
       urls = applications_with_too_many_unsuccessful_choices.map { |application_form_id| helpers.support_interface_application_form_url(application_form_id) }
 
       message = <<~MSG
-        The following application forms have been submitted with more than #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS.humanize} unsuccessful course choices
+        The following application forms have been submitted with more than #{total_number_of_possible_unsuccessful_applications.humanize} unsuccessful course choices
 
         #{urls.join("\n")}
       MSG

@@ -162,10 +162,6 @@ module ProviderInterface
       subject_mapping.in?(Subject::SKE_PHYSICS_COURSES)
     end
 
-    def religious_education_course?
-      subject_mapping.in?(Subject::SKE_RE_COURSES)
-    end
-
     def ske_standard_course?
       subject_mapping.in?(Subject::SKE_STANDARD_COURSES)
     end
@@ -328,7 +324,7 @@ module ProviderInterface
     end
 
     def sanitize_attrs(attrs)
-      if !last_saved_state.empty? && attrs[:course_id].present? && last_saved_state['course_id'] != attrs[:course_id]
+      if !last_saved_state.empty? && attrs[:course_id].present? && last_saved_state['course_id'].present? && last_saved_state['course_id'] != attrs[:course_id]
         attrs.merge!(study_mode: nil, course_option_id: nil)
       end
       attrs
@@ -372,8 +368,6 @@ module ProviderInterface
         { study_mode: available_study_modes.first } if available_study_modes.length == 1
       when :locations
         { course_option_id: available_course_options.first.id } if available_course_options.length == 1
-      when :ske_length
-        { ske_conditions_attributes: { 0 => { length: '8' } } } if religious_education_course?
       end
     end
 

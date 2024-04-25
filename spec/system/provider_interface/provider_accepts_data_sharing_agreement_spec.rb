@@ -68,7 +68,7 @@ RSpec.feature 'Accept data sharing agreement' do
     provider = Provider.find_by(code: 'ABC')
     ratifying_provider = create(:provider)
     ratifying_provider.provider_users << provider_user
-    create(:course, :open_on_apply, provider:, accredited_provider: ratifying_provider)
+    create(:course, :open, provider:, accredited_provider: ratifying_provider)
     provider_user.provider_permissions.where(provider:).update_all(manage_organisations: true)
     create(:provider_relationship_permissions, setup_at: nil, training_provider: provider, ratifying_provider:)
   end

@@ -20,7 +20,7 @@ module RefereeInterface
         school_based: repeated,
         professional: repeated,
         academic: ['when their course started and ended', 'their academic record'],
-        character: ["details of how you know #{candidate_full_name}", 'things they’ve done or you’ve done together'],
+        character: ["details of how you know #{candidate_full_name}", 'things they’ve done or you have done together'],
       }
 
       hints[referee_type.to_sym]

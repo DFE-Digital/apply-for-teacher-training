@@ -10,40 +10,40 @@ RSpec.feature 'Selecting a course' do
     when_i_visit_the_site
     and_i_click_on_course_choices
     and_i_click_continue
-    then_i_should_see_an_error_message_about_to_select_if_i_know_which_course
+    then_i_see_an_error_message_about_to_select_if_i_know_which_course
 
     and_i_choose_that_i_know_where_i_want_to_apply
 
     and_i_click_continue
-    then_i_should_see_an_error_message_about_to_select_provider
+    then_i_see_an_error_message_about_to_select_provider
     and_i_choose_a_provider
-    then_i_should_see_a_course_and_its_description
+    then_i_see_a_course_and_its_description
 
     and_i_click_the_back_link
-    then_i_should_see_the_provider_chosen_selected
+    then_i_see_the_provider_chosen_selected
     and_i_click_continue
-    then_i_should_see_the_provider_name_in_caption
+    then_i_see_the_provider_name_in_caption
 
     when_submit_without_choosing_a_course
-    then_i_should_see_an_error
+    then_i_see_an_error
     and_i_choose_a_course
-    then_i_should_be_on_the_application_choice_review_page
+    then_i_am_on_the_application_choice_review_page
     and_i_click_the_back_button
-    then_i_should_be_on_the_application_choices_page
+    then_i_am_on_the_application_choices_page
     and_i_see_my_course_choices
 
     when_the_course_is_full
     when_i_visit_the_course_choices_page
     when_i_click_to_view_my_application
-    then_i_should_see_that_the_course_is_full
+    then_i_see_that_the_course_is_full
     and_i_can_change_the_course
 
     given_the_provider_has_over_twenty_courses
     and_i_click_on_course_choices
     when_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
-    then_i_should_see_the_provider_name_in_caption
-    then_the_course_choices_should_be_a_dropdown
+    then_i_see_the_provider_name_in_caption
+    then_the_course_choices_am_a_dropdown
     and_the_select_box_has_no_value_selected
   end
 
@@ -64,7 +64,7 @@ RSpec.feature 'Selecting a course' do
       address_line4: 'MORLEY, lEEDS',
       postcode: 'LS27 0LZ',
     )
-    @course = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
+    @course = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
     create(:course_option, site:, course: @course)
   end
 
@@ -77,7 +77,7 @@ RSpec.feature 'Selecting a course' do
     click_link_or_button 'Add application'
   end
 
-  def then_i_should_see_an_error_message_about_to_select_if_i_know_which_course
+  def then_i_see_an_error_message_about_to_select_if_i_know_which_course
     expect(page).to have_content('Select if you know which course you want to apply to')
   end
 
@@ -90,7 +90,7 @@ RSpec.feature 'Selecting a course' do
     and_i_choose_that_i_know_where_i_want_to_apply
   end
 
-  def then_i_should_see_an_error_message_about_to_select_provider
+  def then_i_see_an_error_message_about_to_select_provider
     within('.govuk-error-summary') do
       expect(page).to have_content('There is a problem')
       expect(page).to have_content('Select a training provider')
@@ -102,16 +102,16 @@ RSpec.feature 'Selecting a course' do
     click_link_or_button t('continue')
   end
 
-  def then_i_should_see_a_course_and_its_description
+  def then_i_see_a_course_and_its_description
     expect(page).to have_content(@course.name_and_code)
-    expect(page).to have_content(@course.description)
+    expect(page).to have_content(@course.description_to_s)
   end
 
   def when_submit_without_choosing_a_course
     click_link_or_button t('continue')
   end
 
-  def then_i_should_see_an_error
+  def then_i_see_an_error
     expect(page).to have_content 'Select a course'
   end
 
@@ -132,7 +132,7 @@ RSpec.feature 'Selecting a course' do
     create_list(:course, 20, provider: @provider, exposed_in_find: true)
   end
 
-  def then_the_course_choices_should_be_a_dropdown
+  def then_the_course_choices_am_a_dropdown
     expect(page.find('select#which-course-are-you-applying-to-course-id-field')).to be_present
   end
 
@@ -149,7 +149,7 @@ RSpec.feature 'Selecting a course' do
     expect(page).to have_content('Primary (2XT2)')
   end
 
-  def then_i_should_be_on_the_application_choices_page
+  def then_i_am_on_the_application_choices_page
     expect(page.current_url).to end_with(candidate_interface_continuous_applications_choices_path)
   end
 
@@ -162,7 +162,7 @@ RSpec.feature 'Selecting a course' do
     when_i_visit_my_applications
   end
 
-  def then_i_should_see_that_the_course_is_full
+  def then_i_see_that_the_course_is_full
     expect(page).to have_content('You cannot submit this application as the course is no longer available.')
     expect(page).to have_content('Remove this application and search for other courses.')
   end
@@ -176,11 +176,11 @@ RSpec.feature 'Selecting a course' do
     click_link_or_button 'Back'
   end
 
-  def then_i_should_see_the_provider_chosen_selected
+  def then_i_see_the_provider_chosen_selected
     expect(page).to have_select('Which training provider are you applying to?', selected: 'Gorse SCITT (1N1)')
   end
 
-  def then_i_should_see_the_provider_name_in_caption
+  def then_i_see_the_provider_name_in_caption
     expect(page.first('.govuk-caption-xl').text).to eq('Gorse SCITT')
   end
 end

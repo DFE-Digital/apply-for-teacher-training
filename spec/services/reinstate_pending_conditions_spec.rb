@@ -9,7 +9,7 @@ RSpec.describe ReinstatePendingConditions do
 
   let(:provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }
-  let(:original_course) { create(:course, :open_on_apply, :previous_year_but_still_available, provider:) }
+  let(:original_course) { create(:course, :previous_year_but_still_available, provider:) }
   let(:previous_course_option) { create(:course_option, course: original_course) }
   let(:new_course_option) { create(:course_option, course: original_course.in_next_cycle) }
   let(:application_choice) { create(:application_choice, :offer_deferred, course_option: previous_course_option) }
@@ -64,5 +64,17 @@ RSpec.describe ReinstatePendingConditions do
 
   describe 'validations' do
     include_examples 'confirm deferred offer validations', :reinstate_pending_conditions
+  end
+
+  context 'when sending the email' do
+    it 'sends reinstated offer email with correct content', :sidekiq do
+      new_course_option.course.update!(start_date: original_course.start_date + 1.year)
+
+      expect {
+        service.save!
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+      expect(ActionMailer::Base.deliveries.first.body.raw_source).to include(new_course_option.course.start_date.to_fs(:month_and_year))
+    end
   end
 end

@@ -48,6 +48,8 @@ class ApplicationQualification < ApplicationRecord
   ].freeze
   MAX_QUALIFICATION_TYPE_LENGTH = 256
 
+  MAX_QUALIFICATION_GRADE_LENGTH = 256
+
   belongs_to :application_form, touch: true
   has_one :candidate, through: :application_form
 

@@ -235,8 +235,6 @@ shared:
     - id
     - level
     - name
-    - open_on_apply
-    - opened_on_apply_at
     - program_type
     - provider_id
     - qualifications

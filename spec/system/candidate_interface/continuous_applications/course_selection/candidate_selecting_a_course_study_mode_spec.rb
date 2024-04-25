@@ -33,7 +33,7 @@ RSpec.feature 'Selecting a study mode' do
     @course = create(
       :course,
       :with_both_study_modes,
-      :open_on_apply,
+      :open,
       provider: @provider,
       name: 'Software Engineering',
     )
@@ -105,7 +105,7 @@ RSpec.feature 'Selecting a study mode' do
     @single_site_course = create(
       :course,
       :with_both_study_modes,
-      :open_on_apply,
+      :open,
       provider: @provider,
       name: 'MS Painting',
     )

@@ -191,9 +191,9 @@ RSpec.describe CandidateMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'You’ve met your conditions to study Forensic Science (E0FO) at Falconholt Technical College',
+      'You have met your conditions to study Forensic Science (E0FO) at Falconholt Technical College',
       'heading' => 'Dear Bob',
-      'title' => 'you’ve met the conditions of your offer',
+      'title' => 'you have met the conditions of your offer',
       'provider name' => 'Falconholt Technical College',
       'start date' => 'June 2049',
       'contact info' => 'Contact Falconholt Technical College',

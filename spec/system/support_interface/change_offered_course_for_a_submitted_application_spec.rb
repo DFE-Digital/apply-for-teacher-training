@@ -12,22 +12,22 @@ RSpec.feature 'Add course to submitted application' do
 
   scenario 'Support user adds course to submitted application' do
     when_i_click_on_change_offered_course
-    then_i_should_see_the_change_offered_course_search_page
+    then_i_see_the_change_offered_course_search_page
 
     when_i_click_search
-    then_i_should_see_a_course_code_blank_validation_error
+    then_i_see_a_course_code_blank_validation_error
 
     when_i_fill_in_the_course_code_for_a_course_that_is_not_associated_with_the_ratifying_provider
     and_i_click_search
-    then_i_should_see_the_course_results_page_with_results
+    then_i_see_the_course_results_page_with_results
 
     when_i_click_back
     and_i_enter_a_course_code_for_a_course_that_has_the_same_ratifying_provider
     and_i_click_search
-    then_i_should_see_the_course_results_page_with_results
+    then_i_see_the_course_results_page_with_results
 
     when_i_click_to_change_the_offered_course
-    then_i_should_see_an_add_course_validation_error
+    then_i_see_an_add_course_validation_error
 
     when_i_select_a_course
     and_i_click_to_change_the_offered_course
@@ -38,15 +38,15 @@ RSpec.feature 'Add course to submitted application' do
     and_i_confirm_changing_the_offer
     and_i_click_continue
     then_i_am_redirected_to_the_application_form_page
-    and_i_should_see_new_course_has_been_offered
+    and_i_see_new_course_has_been_offered
   end
 
   scenario 'Support user changes offered course for a submitted application to a course with no vacancies' do
     when_i_click_on_change_offered_course
-    then_i_should_see_the_change_offered_course_search_page
+    then_i_see_the_change_offered_course_search_page
     and_i_enter_a_course_code_for_a_course_that_has_no_vacancies
     and_i_click_search
-    then_i_should_see_the_course_results_page_with_results
+    then_i_see_the_course_results_page_with_results
 
     when_i_select_a_course_with_no_vacancies
     and_i_click_to_change_the_offered_course
@@ -62,15 +62,15 @@ RSpec.feature 'Add course to submitted application' do
     when_i_confirm_changing_the_course
     and_i_click_continue
     then_i_am_redirected_to_the_application_form_page
-    and_i_should_see_new_course_with_no_vacancies_has_been_offered
+    and_i_see_new_course_with_no_vacancies_has_been_offered
   end
 
   scenario 'Support user changes offered course where the new course is also available at other providers' do
     when_i_click_on_change_offered_course
     and_i_enter_a_course_code_which_is_available_at_the_same_provider_and_at_other_providers
     and_i_click_search
-    then_i_should_see_the_course_results_page_with_results_for_the_same_provider
-    and_i_should_see_the_course_results_page_with_results_for_other_providers
+    then_i_see_the_course_results_page_with_results_for_the_same_provider
+    and_i_see_the_course_results_page_with_results_for_other_providers
   end
 
   def given_i_am_a_support_user
@@ -94,7 +94,7 @@ RSpec.feature 'Add course to submitted application' do
     click_link_or_button 'Change offered course'
   end
 
-  def then_i_should_see_the_change_offered_course_search_page
+  def then_i_see_the_change_offered_course_search_page
     expect(page).to have_current_path support_interface_application_form_application_choice_change_offered_course_search_path(
       application_form_id: @application_form.id,
       application_choice_id: @application_choice.id,
@@ -105,12 +105,12 @@ RSpec.feature 'Add course to submitted application' do
     click_link_or_button 'Search'
   end
 
-  def then_i_should_see_a_course_code_blank_validation_error
+  def then_i_see_a_course_code_blank_validation_error
     expect(page).to have_content 'Please enter a course code'
   end
 
   def when_i_fill_in_the_course_code_for_a_course_that_is_not_associated_with_the_ratifying_provider
-    @other_providers_course_option = create(:course_option, course: create(:course, :open_on_apply))
+    @other_providers_course_option = create(:course_option, course: create(:course, :open))
     @course_code = @other_providers_course_option.course.code
     fill_in('Course code', with: @course_code)
   end
@@ -119,7 +119,7 @@ RSpec.feature 'Add course to submitted application' do
     when_i_click_search
   end
 
-  def then_i_should_see_the_course_results_page_with_no_results
+  def then_i_see_the_course_results_page_with_no_results
     expect(page).to have_current_path support_interface_application_form_application_choice_choose_offered_course_option_path(
       application_form_id: @application_form.id,
       application_choice_id: @application_choice.id,
@@ -138,18 +138,18 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def and_i_enter_a_course_code_for_a_course_that_has_the_same_ratifying_provider
-    @course_option = create(:course_option, course: create(:course, :open_on_apply, provider: @application_choice.provider))
+    @course_option = create(:course_option, course: create(:course, :open, provider: @application_choice.provider))
     @course_code = @course_option.course.code
     fill_in('Course code', with: @course_code)
   end
 
   def and_i_enter_a_course_code_for_a_course_that_has_no_vacancies
-    @course_option = create(:course_option, :no_vacancies, course: create(:course, :open_on_apply, funding_type: 'fee', provider: @application_choice.provider))
+    @course_option = create(:course_option, :no_vacancies, course: create(:course, :open, funding_type: 'fee', provider: @application_choice.provider))
     @course_code = @course_option.course.code
     fill_in('Course code', with: @course_code)
   end
 
-  def then_i_should_see_the_course_results_page_with_results
+  def then_i_see_the_course_results_page_with_results
     expect(page).to have_current_path support_interface_application_form_application_choice_choose_offered_course_option_path(
       application_form_id: @application_form.id,
       application_choice_id: @application_choice.id,
@@ -159,7 +159,7 @@ RSpec.feature 'Add course to submitted application' do
     expect(page).to have_content "Choose a course to replace #{@application_choice.course.name_and_code}"
   end
 
-  def then_i_should_see_an_add_course_validation_error
+  def then_i_see_an_add_course_validation_error
     expect(page).to have_content('Please select a course')
   end
 
@@ -212,11 +212,11 @@ RSpec.feature 'Add course to submitted application' do
     expect(page).to have_current_path support_interface_application_form_path(application_form_id: @application_form.id)
   end
 
-  def and_i_should_see_new_course_has_been_offered
+  def and_i_see_new_course_has_been_offered
     expect(page).to have_current_path support_interface_application_form_path(application_form_id: @application_form.id)
     expect(page).to have_content("#{RecruitmentCycle.current_year}: #{@course_option.course.name} (#{@course_option.course.code})")
   end
-  alias_method :and_i_should_see_new_course_with_no_vacancies_has_been_offered, :and_i_should_see_new_course_has_been_offered
+  alias_method :and_i_see_new_course_with_no_vacancies_has_been_offered, :and_i_see_new_course_has_been_offered
 
   def then_i_see_a_warning_message
     expect(page).to have_content(I18n.t('support_interface.errors.messages.course_full_error'))
@@ -231,9 +231,9 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def and_i_enter_a_course_code_which_is_available_at_the_same_provider_and_at_other_providers
-    course_at_same_provider = create(:course, :open_on_apply, funding_type: 'fee', provider: @application_choice.provider)
+    course_at_same_provider = create(:course, :open, funding_type: 'fee', provider: @application_choice.provider)
     @course_code = course_at_same_provider.code
-    course_at_different_provider = create(:course, :open_on_apply, funding_type: 'fee', provider: create(:provider), code: @course_code)
+    course_at_different_provider = create(:course, :open, funding_type: 'fee', provider: create(:provider), code: @course_code)
 
     @course_option_same_provider = create(:course_option, course: course_at_same_provider)
     @course_option_different_provider = create(:course_option, course: course_at_different_provider)
@@ -241,7 +241,7 @@ RSpec.feature 'Add course to submitted application' do
     fill_in('Course code', with: @course_code)
   end
 
-  def then_i_should_see_the_course_results_page_with_results_for_the_same_provider
+  def then_i_see_the_course_results_page_with_results_for_the_same_provider
     expect(page).to have_content("Choose a course to replace #{@application_choice.course.name_and_code}")
 
     expect(page).to have_content("Courses from the same provider (#{@application_choice.provider.name_and_code})")
@@ -250,7 +250,7 @@ RSpec.feature 'Add course to submitted application' do
     end
   end
 
-  def and_i_should_see_the_course_results_page_with_results_for_other_providers
+  def and_i_see_the_course_results_page_with_results_for_other_providers
     expect(page).to have_content('Courses from other providers')
     within '.other-providers' do
       expect(page).to have_content("#{@course_option_different_provider.course.provider.name_and_code} – #{@course_option_different_provider.course.name_and_code}")

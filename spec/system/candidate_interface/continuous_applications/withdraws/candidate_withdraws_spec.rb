@@ -148,6 +148,6 @@ RSpec.feature 'A candidate withdraws their application', :bullet do
 
   def and_the_candidate_has_received_an_email
     open_email(@application_choice.application_form.candidate.email_address)
-    expect(current_email.subject).to have_content 'You’ve withdrawn your application'
+    expect(current_email.subject).to have_content 'You have withdrawn your application'
   end
 end

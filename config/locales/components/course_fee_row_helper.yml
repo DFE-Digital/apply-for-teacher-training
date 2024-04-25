@@ -1,0 +1,5 @@
+en:
+  course_fee_row_helper:
+    course_fee: Course fee
+    domestic_fee: "UK students: %{fee}"
+    international_fee: "International students: %{fee}"

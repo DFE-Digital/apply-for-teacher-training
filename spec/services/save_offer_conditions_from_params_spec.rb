@@ -67,6 +67,10 @@ RSpec.describe SaveOfferConditionsFromParams do
 
         let(:application_choice) { offer.application_choice }
 
+        before do
+          ActiveJob::Base.queue_adapter = :test
+        end
+
         it 'sends the offer creation events to DfE Analytics' do
           service.save
 

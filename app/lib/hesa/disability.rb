@@ -1,6 +1,7 @@
 module Hesa
   class Disability
     DisabilityStruct = Struct.new(:hesa_code, :value, :uuid)
+    NO_DISABILITY_UUID = 'b14e142a-adfe-4646-af5d-8236b6a5b48d'.freeze
     OLD_HESA_CONVERSION = {
       'no' => HesaDisabilityValues::NONE,
       'Multiple' => HesaDisabilityValues::MULTIPLE,
@@ -47,6 +48,10 @@ module Hesa
           disability
         end
       end
+    end
+
+    def self.no_disability(recruitment_cycle_year:)
+      all(recruitment_cycle_year).find { |disability| disability.uuid == NO_DISABILITY_UUID }
     end
 
     def self.convert_to_hesa_value(disability)

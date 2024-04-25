@@ -16,6 +16,7 @@ en:
       short_name_with_naric: UK ENIC or NARIC
       full_name: UK ENIC (the UK agency that recognises international qualifications and skills)
       url: https://www.enic.org.uk
+      statement_of_comparability_url: https://www.enic.org.uk/Qualifications/SOC/Default.aspx
   govuk:
     url: https://www.gov.uk
     terms_conditions_url: https://www.gov.uk/help/terms-conditions
@@ -164,12 +165,12 @@ en:
     restructured_work_history_review: Check your work history
     edit_job: Edit job
     add_another_degree: Add another degree
-    work_history_explanation: Tell us why you’ve been out of the workplace
+    work_history_explanation: Tell us why you have been out of the workplace
     destroy_degree: Are you sure you want to delete this degree?
     choose_course: Choose your course
     courses: Courses
     course_choices: Course choices
-    full_course: Unfortunately, you cannot apply to %{course_name} because it’s now full
+    full_course: Unfortunately, you cannot apply to %{course_name} because it is now full
     destroy_course_choice: Are you sure you want to delete this choice?
     continuous_applications_destroy_course_choice: Are you sure you want to delete this draft application?
     do_you_know: Do you know which course you want to apply to?
@@ -191,7 +192,7 @@ en:
       heading: Interview availability
       edit: Edit your interview availability
       review: Check your interview availability
-    training_with_a_disability: Ask for support if you’re disabled
+    training_with_a_disability: Ask for support if you are disabled
     suitability_to_work_with_children: Declare any safeguarding issues
     thank_you: Thank you for your feedback
     english_gcse: English GCSE or equivalent
@@ -333,7 +334,7 @@ en:
       telephone: Telephone
       online_chat: Online chat
       talk_to_adviser: Talk to an adviser online
-      response_time: You’ll get a response within 5 working days, or one working day for urgent requests.
+      response_time: You will get a response within 5 working days, or one working day for urgent requests.
       provider_service_guidance: How to use this service
     support_links:
       title: Support links
@@ -391,7 +392,6 @@ en:
               blank: You have not chosen an alternative provider
             course_id:
               blank: You have not chosen a new course
-              not_open_on_apply: Course not open on Apply
             study_mode:
               blank: Select full time or part time
               unsupported: Please specify a valid study mode
@@ -417,22 +417,20 @@ en:
           attributes:
             course_option:
               blank: could not be found
-              not_open_on_apply: is not open for applications via the Apply service
         make_an_offer:
           attributes:
             course_option:
               blank: could not be found
-              not_open_on_apply: is not open for applications via the Apply service
         withdraw_offer:
           attributes:
             offer_withdrawal_reason:
-              blank: Explain why you’re withdrawing the offer
+              blank: Explain why you are withdrawing the offer
         reject_application:
           attributes:
             rejection_reason:
-              blank: Explain why you’re rejecting the application
+              blank: Explain why you are rejecting the application
               too_long: |
-                The explanation for why you’re rejecting the application must be
+                The explanation for why you are rejecting the application must be
                 %{count} characters or fewer
         provider_interface/provider_user_invitation_wizard:
           attributes:
@@ -454,7 +452,6 @@ en:
           attributes:
             course_option:
               blank: The offered course does not exist in this recruitment cycle
-              not_open_on_apply: The requested course is not open for applications via the Apply service
               not_in_current_cycle: Only applications deferred in the previous recruitment cycle can be confirmed
         provider_interface/rejected_by_default_feedback_form:
           attributes:
@@ -473,7 +470,7 @@ en:
         adviser/sign_up:
           attributes:
             preferred_teaching_subject_id:
-              inclusion: Select a subject you’re interested in teaching
+              inclusion: Select a subject you are interested in teaching
 
   activerecord:
     attributes:
@@ -570,9 +567,9 @@ en:
       course_not_available: You cannot apply to ‘%{descriptor}’ because it is not running
       course_full: You cannot apply to ‘%{descriptor}’ because it has no vacancies
       site_full: Your chosen location for ‘%{descriptor}’ has no vacancies
-      site_invalid: The location you’ve chosen for ‘%{descriptor}’ has been removed by the provider. Choose a different location.
+      site_invalid: The location you have chosen for ‘%{descriptor}’ has been removed by the provider. Choose a different location.
       study_mode_full: Your chosen location for ‘%{descriptor}’ has no %{study_mode} vacancies
-      course_closed_on_apply: ‘%{course_name_and_code}’ at %{provider_name} is not available on Apply for teacher training anymore
+      course_application_status_closed: ‘%{course_name_and_code}’ at %{provider_name} has been closed for applications
       already_added: You have already added %{course_name_and_code}
   date:
     formats:
@@ -582,3 +579,8 @@ en:
       long: "%e %B %Y %H:%M"
       long_with_seconds: "%e %B %Y %H:%M:%S"
       time: "%H:%M"
+  number:
+    currency:
+      format:
+        unit: "£"
+        precision: 0

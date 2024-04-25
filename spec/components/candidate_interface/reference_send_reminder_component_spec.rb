@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::ReferenceSendReminderComponent, type: :compon
         reference = create(:reference, :feedback_requested, reminder_sent_at: nil, application_form:)
         result = render_inline(described_class.new(reference))
         expect(result.text).to include(t('application_form.references.send_reminder.post_offer_action'))
-        expect(result.text).not_to include('You’ll be able')
+        expect(result.text).not_to include('You will be able')
       end
     end
 
@@ -18,7 +18,7 @@ RSpec.describe CandidateInterface::ReferenceSendReminderComponent, type: :compon
         reference = create(:reference, :feedback_requested, reminder_sent_at: 49.hours.ago, application_form:)
         result = render_inline(described_class.new(reference))
         expect(result.text).to include(t('application_form.references.send_reminder.post_offer_action'))
-        expect(result.text).not_to include('You’ll be able')
+        expect(result.text).not_to include('You will be able')
       end
     end
   end

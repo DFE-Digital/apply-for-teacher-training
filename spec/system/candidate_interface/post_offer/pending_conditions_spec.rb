@@ -11,7 +11,7 @@ RSpec.feature 'Post-offer dashboard' do
 
     when_i_visit_the_application_dashboard
     then_i_see_that_i_have_accepted_my_offer
-    and_i_should_see_my_references
+    and_i_see_my_references
     and_i_see_my_offer_conditions
     and_i_see_the_publisher_contact_information
     and_i_see_a_link_to_view_the_application

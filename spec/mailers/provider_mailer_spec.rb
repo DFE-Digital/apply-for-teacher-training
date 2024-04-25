@@ -37,18 +37,6 @@ RSpec.describe ProviderMailer do
                       'notification settings' => 'You can change your email notification settings',
                       'footer' => 'Get help, report a problem or give feedback')
     end
-
-    context 'eligible for international relocation payment' do
-      before do
-        allow(IsEligibleForInternationalRelocationPayment)
-          .to receive(:new)
-          .and_return(instance_double(IsEligibleForInternationalRelocationPayment, call: true))
-      end
-
-      it_behaves_like('a mail with subject and content',
-                      'Harry Potter submitted an application for Computer Science - manage teacher training applications',
-                      'international relocation' => 'help with the financial costs of moving')
-    end
   end
 
   describe 'Send application submitted with safeguarding issues email' do
@@ -64,18 +52,6 @@ RSpec.describe ProviderMailer do
                       'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
                       'notification settings' => 'You can change your email notification settings',
                       'footer' => 'Get help, report a problem or give feedback')
-    end
-
-    context 'eligible for international relocation payment' do
-      before do
-        allow(IsEligibleForInternationalRelocationPayment)
-          .to receive(:new)
-          .and_return(instance_double(IsEligibleForInternationalRelocationPayment, call: true))
-      end
-
-      it_behaves_like('a mail with subject and content',
-                      'Safeguarding issues - Harry Potter submitted an application for Computer Science - manage teacher training applications',
-                      'international relocation' => 'help with the financial costs of moving')
     end
   end
 
@@ -329,9 +305,9 @@ RSpec.describe ProviderMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      "You've been added to Hogwards University - manage teacher training applications",
+      'You have been added to Hogwards University - manage teacher training applications',
       'salutation' => 'Dear Princess Fiona',
-      'heading' => "You've been added to Hogwards University. You can now manage their teacher training applications.",
+      'heading' => 'You have been added to Hogwards University. You can now manage their teacher training applications.',
       'make decisions' => 'make offers and reject application',
       'view diversity' => 'view sex, disability and ethnicity information',
       'dsi info' => 'If you do not have a DfE Sign-in account, you should have received an email with instructions from dfe.signin@education.gov.uk.',
@@ -431,9 +407,9 @@ RSpec.describe ProviderMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      "You've been removed from Hogwards University - manage teacher training applications",
+      'You have been removed from Hogwards University - manage teacher training applications',
       'salutation' => 'Dear Princess Fiona',
-      'heading' => "You've been removed from Hogwards University. You can no longer manage their teacher training applications.",
+      'heading' => 'You have been removed from Hogwards University. You can no longer manage their teacher training applications.',
       'footer' => 'Get help, report a problem or give feedback',
     )
   end
@@ -499,7 +475,7 @@ RSpec.describe ProviderMailer do
       'Set up organisation permissions - manage teacher training applications',
       'salutation' => 'Dear Johny English',
       'main paragraph' => 'Candidates can now find courses you run with:',
-      'partner providers' => "- University of Croydon\r\n- University of Purley",
+      'partner providers' => /- University of Croydon\s+- University of Purley/,
       'relationship_setup_paragraph' => 'Either you or these partner organisations',
       'when_to_setup_relationship' => 'unless your partner organisations set them up',
       'link to applications' => 'http://localhost:3000/provider/applications',
@@ -524,9 +500,9 @@ RSpec.describe ProviderMailer do
       'salutation' => 'Dear Johny English',
       'main paragraph' => 'Candidates can now find courses you run with the partner organisations listed below.',
       'first relationship group' => 'For University of Dundee, you need to set up permissions for courses you work on with:',
-      'first group of partner providers' => "- University of Broughty Ferry\r\n- University of Carnoustie",
+      'first group of partner providers' => /- University of Broughty Ferry\s+- University of Carnoustie/,
       'second relationship group' => 'For University of Selsdon, you need to set up permissions for courses you work on with:',
-      'second group of partner providers' => "- University of Croydon\r\n- University of Purley",
+      'second group of partner providers' => /- University of Croydon\s+- University of Purley/,
       'link to applications' => 'http://localhost:3000/provider/applications',
       'footer' => 'Get help, report a problem or give feedback',
     )

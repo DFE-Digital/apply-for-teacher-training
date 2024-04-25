@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :component do
   let(:application_form) { create(:application_form) }
 
-  let(:course_option1) { create(:course_option, course: create(:course, :open_on_apply, accept_gcse_equivalency: true, accept_english_gcse_equivalency: true, accept_maths_gcse_equivalency: true, accept_science_gcse_equivalency: true)) }
-  let(:course_option2) { create(:course_option, course: create(:course, :open_on_apply, accept_gcse_equivalency: false, accept_english_gcse_equivalency: false, accept_maths_gcse_equivalency: false, accept_science_gcse_equivalency: false)) }
-  let(:course_option3) { create(:course_option, course: create(:course, :open_on_apply, accept_gcse_equivalency: true, accept_english_gcse_equivalency: false, accept_maths_gcse_equivalency: true, accept_science_gcse_equivalency: false)) }
+  let(:course_option1) { create(:course_option, course: create(:course, accept_gcse_equivalency: true, accept_english_gcse_equivalency: true, accept_maths_gcse_equivalency: true, accept_science_gcse_equivalency: true)) }
+  let(:course_option2) { create(:course_option, course: create(:course, accept_gcse_equivalency: false, accept_english_gcse_equivalency: false, accept_maths_gcse_equivalency: false, accept_science_gcse_equivalency: false)) }
+  let(:course_option3) { create(:course_option, course: create(:course, accept_gcse_equivalency: true, accept_english_gcse_equivalency: false, accept_maths_gcse_equivalency: true, accept_science_gcse_equivalency: false)) }
 
   let(:application_choice1) do
     build_stubbed(
@@ -88,7 +88,7 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
     end
   end
 
-  context 'application has missing gcse(s) and equivalencies are not accepted' do
+  context 'application has missing gcses and equivalencies are not accepted' do
     context 'application has one missing gcse and course does not accept them' do
       it 'renders the gcse row with guidance' do
         create(

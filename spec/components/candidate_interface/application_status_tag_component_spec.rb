@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
   end
 
   context 'when the application choice is in the application_not_sent state' do
-    it 'tells the candidate why their application was not sent to their provider(s)' do
+    it 'tells the candidate why their application was not sent to their providers' do
       application_choice = create(:application_choice, :application_not_sent, course:)
       result = render_inline(described_class.new(application_choice:))
       expect(result.text).to include('Your application was not sent for this course because it was not submitted before the deadline.')
@@ -84,7 +84,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
       )
       result = render_inline(described_class.new(application_choice:))
 
-      expect(result.text).not_to include('You’ll get a decision on your application by')
+      expect(result.text).not_to include('You will get a decision on your application by')
     end
   end
 
@@ -162,7 +162,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
         application_choice = create(:application_choice, :offer, course:)
         result = render_inline(described_class.new(application_choice:))
 
-        expect(result.text).to include('If your provider agrees, you’ll need to accept the offer first.')
+        expect(result.text).to include('If your provider agrees, you will need to accept the offer first.')
       end
     end
   end
@@ -202,7 +202,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
       )
       result = render_inline(described_class.new(application_choice:))
 
-      expect(result.text).not_to include('You’ll get a decision on your application by')
+      expect(result.text).not_to include('You will get a decision on your application by')
     end
   end
 

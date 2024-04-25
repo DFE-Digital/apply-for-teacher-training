@@ -5,7 +5,8 @@
 }
 
 .app-grid-column--grey {
-  background-color: $app-grey;
   padding: govuk-spacing(6) govuk-spacing(6) govuk-spacing(2) govuk-spacing(6);
   margin-bottom: govuk-spacing(6);
+
+  background-color: $app-grey;
 }

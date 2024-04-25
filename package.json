@@ -6,32 +6,40 @@
     "yarn": "^1.22.0"
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^2.1.0",
+    "@ministryofjustice/frontend": "^2.1.2",
     "@rails/webpacker": "^5.4.4",
     "accessible-autocomplete": "^2.0.4",
     "dfe-autocomplete": "github:DFE-Digital/dfe-autocomplete#8e7389ff62a38bc8880323f6c58eed9c8d10f080",
-    "govuk-frontend": "^5.0.0",
+    "govuk-frontend": "^5.3.0",
     "jquery": "^3.7.1",
-    "postcss": "^8.4.35",
-    "puppeteer": "^22.3.0"
+    "postcss": "^8.4.38",
+    "puppeteer": "^22.6.3"
   },
   "devDependencies": {
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.2.5",
     "standard": "^17.1.0",
-    "stylelint": "^16.2.1",
-    "stylelint-config-gds": "^2.0.0"
+    "stylelint": "^16.3.1",
+    "stylelint-config-gds": "^2.0.0",
+    "stylelint-config-recess-order": "^4.6.0",
+    "stylelint-order": "^6.0.4",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2"
   },
   "scripts": {
     "lint": "standard 'app/frontend/packs'",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "husky"
   },
   "jest": {
     "testEnvironment": "jsdom",
     "roots": [
       "app"
     ]
+  },
+  "lint-staged": {
+    "*_spec.rb": "bundle exec rubocop -P --only RSpec/NoShouldInSpecs"
   },
   "standard": {
     "env": [
@@ -43,16 +51,5 @@
       "zE",
       "CustomEvent"
     ]
-  },
-  "stylelint": {
-    "extends": "stylelint-config-gds/scss",
-    "rules": {
-      "value-keyword-case": [
-        "lower",
-        {
-          "camelCaseSvgKeywords": true
-        }
-      ]
-    }
   }
 }

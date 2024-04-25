@@ -6,8 +6,9 @@
   }
 
   &__cta {
-    margin: govuk-spacing(1) 0;
     display: none;
+
+    margin: govuk-spacing(1) 0;
 
     .js-enabled & {
       display: block;
@@ -21,10 +22,11 @@
   }
 
   .govuk-form-group {
-    clear: both;
     display: inline-block;
-    margin-bottom: 0;
+
     margin-top: govuk-spacing(2);
+    margin-bottom: 0;
+    clear: both;
 
     @include mq($from: desktop) {
       margin: 0;
@@ -55,7 +57,8 @@
   .sortedby-label {
     @include mq($from: desktop) {
       display: inline;
-      margin-right: .5em;
+
+      margin-right: 0.5em;
     }
   }
 }

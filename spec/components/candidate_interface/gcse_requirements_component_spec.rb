@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::GcseRequirementsComponent, type: :component do
   let(:application_form) { create(:application_form) }
 
-  let(:course_option) { create(:course_option, course: create(:course, :open_on_apply, accept_pending_gcse: true, accept_gcse_equivalency: true, accept_english_gcse_equivalency: true)) }
+  let(:course_option) { create(:course_option, course: create(:course, accept_pending_gcse: true, accept_gcse_equivalency: true, accept_english_gcse_equivalency: true)) }
 
   let(:application_choice) do
     build_stubbed(

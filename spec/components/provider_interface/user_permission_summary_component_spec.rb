@@ -46,7 +46,7 @@ RSpec.describe ProviderInterface::UserPermissionSummaryComponent, type: :control
                setup_at: nil)
       end
 
-      create(:course, :open_on_apply, provider: allowed_providers.first, accredited_provider: provider)
+      create(:course, :open, provider: allowed_providers.first, accredited_provider: provider)
     end
 
     describe 'rendering details about each permission' do

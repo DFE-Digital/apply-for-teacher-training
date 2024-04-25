@@ -33,7 +33,7 @@ RSpec.describe DeleteReference do
 
       described_class.new.call(reference: reference_to_delete)
 
-      expect { reference_to_delete.reload }.to raise_error(ActiveRecord::RecordNotFound, "Couldn't find ApplicationReference with 'id'=#{reference_to_delete.id}")
+      expect { reference_to_delete.reload }.to raise_error(ActiveRecord::RecordNotFound, /Couldn't find ApplicationReference with/)
       expect(application_form.application_references.count).to eq 1
     end
 

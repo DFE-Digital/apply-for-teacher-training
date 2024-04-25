@@ -2,7 +2,7 @@ Hello <%= @application_form.first_name %>
 
 <% if @application_form.application_choices.count > 1 %>
 
-  You’ve submitted an application for:
+  You have submitted an application for:
 
 <% @application_form.application_choices.each do |application_choice| %>
   * <%= application_choice.course_option.course.provider.name %> - <%= application_choice.course_option.course.name %> (<%= application_choice.course_option.course.code %>)
@@ -10,7 +10,7 @@ Hello <%= @application_form.first_name %>
 
 <% else %>
 
-  You’ve submitted an application for <%= @application_choice.course_option.course.name_and_code %> at <%= @application_choice.course_option.course.provider.name %>.
+  You have submitted an application for <%= @application_choice.course_option.course.name_and_code %> at <%= @application_choice.course_option.course.provider.name %>.
 
 <% end %>
 

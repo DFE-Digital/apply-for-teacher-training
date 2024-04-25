@@ -8,13 +8,14 @@
 }
 
 .metadata-wrapper {
-  border-top: 1px solid govuk-colour("mid-grey");
   margin: 0 $govuk-gutter-half;
+
+  border-top: 1px solid govuk-colour("mid-grey");
 }
 
 .metadata-column {
-  padding-left: 0;
   padding-top: 15px;
+  padding-left: 0;
 }
 
 .gem-c-metadata {
@@ -36,6 +37,7 @@
 
 .gem-c-metadata.direction-rtl {
   direction: rtl;
+
   text-align: start;
 }
 
@@ -59,14 +61,15 @@
 }
 
 .gem-c-metadata__term {
-  margin-top: .5em;
+  margin-top: 0.5em;
 
   @include govuk-media-query($from: tablet) {
     box-sizing: border-box;
+
     float: left;
-    clear: left;
     padding-right: govuk-spacing(1);
     margin-top: 0;
+    clear: left;
   }
 }
 
@@ -75,8 +78,8 @@
   clear: right;
 
   @include govuk-media-query($from: tablet) {
-    padding-left: govuk-spacing(1);
     padding-right: 0;
+    padding-left: govuk-spacing(1);
   }
 }
 

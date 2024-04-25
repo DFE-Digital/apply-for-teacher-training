@@ -1,18 +1,18 @@
 <%= render ServiceInformationBanner.new(namespace: :candidate) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+    <h1 class="govuk-heading-xl">
       <%= t('page_titles.continuous_applications.your_applications') %>
     </h1>
 
     <% if CycleTimetable.today_is_between_apply_1_deadline_and_find_reopens? %>
-      <p class="govuk-body govuk-!-margin-top-6">Applications for courses starting in September <%= RecruitmentCycle.current_year %> are closed.</p>
+      <p class="govuk-body">Applications for courses starting in September <%= RecruitmentCycle.current_year %> are closed.</p>
       <p class="govuk-body"> From <%= CycleTimetable.find_reopens.to_fs(:govuk_time_and_date) %>, you can <%= govuk_link_to(
         'find postgraduate teacher training courses',
         t('find_postgraduate_teacher_training.production_url'),
       ) %> starting in September <%= RecruitmentCycle.next_year %>.</p>
 
-      <p class="govuk-body">You’ll be able to apply to courses from <%= CycleTimetable.apply_reopens.to_fs(:govuk_time_and_date) %>.</p>
+      <p class="govuk-body">You will be able to apply to courses from <%= CycleTimetable.apply_reopens.to_fs(:govuk_time_and_date) %>.</p>
 
       <p class="govuk-body">While you wait, you can:</p>
 
@@ -26,7 +26,7 @@
 
     <% if @application_form_presenter.application_limit_reached? %>
       <p class="govuk-body">You cannot submit any more applications because you have <%= ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS %> unsuccessful applications.</p>
-      <p class="govuk-body">You’ll be able to apply again in <%= CycleTimetable.apply_reopens.to_fs(:month_and_year) %> when applications open for courses starting in September <%= CycleTimetable.next_year %>.</p>
+      <p class="govuk-body">You will be able to apply again in <%= CycleTimetable.apply_reopens.to_fs(:month_and_year) %> when applications open for courses starting in September <%= CycleTimetable.next_year %>.</p>
       <p class="govuk-body">Email <%= govuk_mail_to('becomingateacher@digital.education.gov.uk') %> if you need help with your applications.</p>
     <% else %>
       <% unless @application_form_presenter.can_add_more_choices? %>
@@ -46,7 +46,7 @@
 
         <p class="govuk-body">Training providers offer places on courses as people apply throughout the year. Courses stay open until they are full.</p>
 
-        <p class="govuk-body">Courses can fill up quickly, so you should apply as soon as you’re ready rather than putting it off.</p>
+        <p class="govuk-body">Courses can fill up quickly, so you should apply as soon as you are ready rather than putting it off.</p>
 
         <p class="govuk-body">
         <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %>.
@@ -63,6 +63,6 @@
     <% end %>
 
     <%= render CandidateInterface::ContinuousApplications::ApplicationChoiceListComponent.new(application_form: current_application, application_choices: @application_choices, current_tab_name: params[:current_tab_name]) %>
-    <% end %>
+  <% end %>
   </div>
 </div>

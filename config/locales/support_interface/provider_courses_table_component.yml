@@ -1,0 +1,13 @@
+en:
+  unpublished:
+    text: Unpublished
+    colour: blue
+  closed:
+    text: Closed by provider
+    colour: red
+  hidden:
+    text: Hidden in Find
+    colour: grey
+  open:
+    text: Open
+    colour: green

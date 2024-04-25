@@ -3,11 +3,11 @@ Dear <%= @application_form.first_name %>
 The details of your interview for <%= @previous_course_name_and_code || @updated_course_name_and_code %> have been updated.
 
 <% if @updated_course_name_and_code %>
-  The interview is with <%= @provider_name %>. It’s now for <%= @updated_course_name_and_code %>.
+  The interview is with <%= @provider_name %>. It is now for <%= @updated_course_name_and_code %>.
 
-  It’s at <%= @interview.time %> on <%= @interview.date %>.
+  It is at <%= @interview.time %> on <%= @interview.date %>.
 <% else %>
-  The interview is with <%= @provider_name %>. It’s at <%= @interview.time %> on <%= @interview.date %>. 
+  The interview is with <%= @provider_name %>. It is at <%= @interview.time %> on <%= @interview.date %>.
 <% end %>
 
 Address or online meeting details:
@@ -15,7 +15,7 @@ Address or online meeting details:
 ^ <%= @interview.location %>
 
 <% if @interview.additional_details.present? %>
-  Additional details: 
+  Additional details:
 
   ^ <%= @interview.additional_details %>
 <% end %>

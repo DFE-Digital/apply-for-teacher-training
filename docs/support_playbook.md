@@ -1,5 +1,19 @@
 # Apply Dev Support Playbook
 
+1. [References](#references)
+2. [Work Experience](#work-experience)
+3. [Work History Break](#work-history-break)
+4. [Qualifications](#qualifications)
+5. [Personal Statement](#personal-statement)
+6. [Courses and locations](#courses-and-course-locations)
+7. [Confirm deferral](#confirm-deferral)
+8. [Offers](#offers)
+9. [Withdraw](#withdraw-an-application)
+10. [Delete account or application](#delete-an-account--application)
+11. [Permissions](#provider-users-and-permissions)
+12. [Publish Sandbox](#publish-sandbox)
+13. [Candidate sign in](#candidate-login-issues)
+
 ## Support Trello board
 
 https://trello.com/b/dcWOMFyp/
@@ -79,6 +93,28 @@ experience.update(
   audit_comment: "Updated on candidate's request: https://becomingateacher.zendesk.com/"
 )
 ```
+## Work history break
+
+### Add Work history break
+
+Create a new ApplicationWorkHistoryBreak of the appropriate type and save it against the ApplicationForm.
+```ruby
+APPLICATION_FORM_ID=
+START_DATE = Date.new(year, month, day)
+END_DATE = Date.new(year, month, day)
+REASON = ''
+ZENDESK_URL = ''
+
+ApplicationForm.find(APPLICATION_FORM_ID)
+  application_work_history_breaks
+  .create(
+    start_date: START_DATE,
+    end_date: END_DATE,
+    reason: REASON,
+    audit_comment: ZENDESK_URL
+)
+```
+
 
 ## Qualifications
 
@@ -145,7 +181,7 @@ This is possible via the support UI.
 
 If the course doesn't exist in the previous cycle we'll need them to confirm the offer first, then we can change the course to the new course in the current cycle.
 
-## Confirm deferral in the console
+## Confirm deferral
 
 If the course details have changed from one cycle to another, provider users should contact support to request the changes. To confirm a deferral through the console:
 
@@ -220,6 +256,50 @@ In this case, other applications belonging to the candidate may be automatically
 
 [Withdraw Offer Service](../app/services/withdraw_offer.rb)
 
+## Withdraw an application
+
+We offer a convenient service called the "Withdraw Application Service" that
+facilitates the withdrawal of an application.
+
+This service ensures the following actions are taken:
+
+1. The application status is changed to "withdrawn."
+2. The withdrawal timestamp is set to the current time.
+3. Any upcoming interviews associated with the application are canceled.
+4. An email is sent to the candidate if it is their last successful application.
+5. Emails are dispatched to all provider users associated with the application choice.
+
+To call the service:
+
+```ruby
+  application_choice = ApplicationChoice.find(ID_OF_THE_APPLICATION)
+  WithdrawApplication.new(application_choice:).save!
+```
+
+If you prefer not to execute any of the aforementioned actions automatically,
+you can manually withdraw the application by following these steps:
+
+```ruby
+# Fetch the application choice
+application_choice = ApplicationChoice.find(ID_OF_THE_APPLICATION)
+
+# Verify the application form ID
+application_form_id = application_choice.application_form.id
+
+# Verify the candidate's email address
+candidate_email = application_choice.application_form.c
+
+# application choice status is updated to "withdrawn" and
+# we provide an audit comment.
+# It also records the timestamp of the withdrawal and specifies that
+# it was not withdrawn or declined by the provider on behalf of the candidate.
+application_choice.update!(
+  status: 'withdrawn',
+  audit_comment: 'Some audit comment',
+  withdrawn_at: Time.zone.now,
+  withdrawn_or_declined_for_candidate_by_provider: false,
+)
+```
 
 ### Revert a rejection
 
@@ -381,19 +461,7 @@ users_to_disable_notifications_for.map { |u| u.update!(send_notifications: false
 
 To help test the Vendor API integrations in Sandbox, Providers will request they be added to the Publish Sandbox, where they can add test courses.
 
-Get access to the `bat-prod` space on cloud foundry.
-
-Target the space using this:
-
-`$ cf target -s bat-prod`
-
-Set your role as a space developer using the command below
-
-`$ cf set-space-role email@email.com dfe bat-prod SpaceDeveloper`
-
-You can now ssh into the sandbox env
-
-`$ cf ssh teacher-training-api-sandbox`
+Raise PIM and run `make <env> ssh`
 
 Once you're in, `$ cd /app`
 

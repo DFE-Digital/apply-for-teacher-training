@@ -11,8 +11,9 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
 
   def post_cancellation!(reason:, skip_schema_check: false)
     request_body = { data: { reason: } }
-    expect(request_body[:data]).to be_valid_against_openapi_schema('CancelInterview', '1.1') \
-      unless skip_schema_check
+    unless skip_schema_check
+      expect(request_body[:data]).to be_valid_against_openapi_schema('CancelInterview', '1.1')
+    end
 
     post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/#{interview.id}/cancel", params: request_body
   end
@@ -78,7 +79,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         post_cancellation! reason: 'A reason'
 
         expect(response).to have_http_status(:not_found)
-        expect(parsed_response).to contain_schema_with_error('NotFoundResponse', 'Unable to find Application(s)', '1.1')
+        expect(parsed_response).to contain_schema_with_error('NotFoundResponse', 'Unable to find Applications', '1.1')
       end
     end
 
