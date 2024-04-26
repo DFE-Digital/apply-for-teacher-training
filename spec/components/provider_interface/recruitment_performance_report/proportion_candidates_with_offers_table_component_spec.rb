@@ -12,27 +12,27 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::ProportionCandid
 
     expect(page).to have_content provider.name
     expect(page).to have_content 'All providers'
-    expect(page).to have_content 'Subjects'
+    expect(page).to have_content 'Subject'
     ['This cycle', 'Last cycle'].each do |heading|
       expect(page).to have_element('th', scope: 'col', class: 'govuk-table__header', text: heading).twice
     end
 
     expect(page).to have_no_content 'Percentage change'
     primary_row = page.find('tr.govuk-table__row', text: 'Primary')
-    expect(primary_row).to have_content '40%'
-    expect(primary_row).to have_content '57%'
-    expect(primary_row).to have_content '48%'
+    expect(primary_row).to have_content '53%'
+    expect(primary_row).to have_content '14%'
     expect(primary_row).to have_content '55%'
+    expect(primary_row).to have_content '59%'
 
     %w[Primary Secondary].each do |heading|
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: heading)
     end
 
-    all_subject_headings.each do |heading|
+    secondary_subject_headings.each do |heading|
       expect(page).to have_element(
         'th',
         scope: 'row',
-        class: 'govuk-table__header recruitment_performance_report_table__header--secondary-subject',
+        class: 'govuk-table__header recruitment_performance_report_table-subject-rows__secondary-subject-row-heading',
         text: heading,
       )
     end
@@ -49,18 +49,18 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::ProportionCandid
       expect(page).to have_table('4. Proportion of candidates with an offer')
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')
       expect(page).not_to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
-      all_subject_headings.each do |heading|
+      secondary_subject_headings.each do |heading|
         expect(page).to have_element(
           'th',
           scope: 'row',
-          class: 'govuk-table__header recruitment_performance_report_table__header--secondary-subject',
+          class: 'govuk-table__header recruitment_performance_report_table-subject-rows__secondary-subject-row-heading',
           text: heading,
         )
       end
     end
   end
 
-  describe 'provider report only has' do
+  describe 'provider report only has primary data' do
     it 'does not render secondary data' do
       provider_report = create(:provider_recruitment_performance_report, :primary_only)
       provider = provider_report.provider
@@ -71,7 +71,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::ProportionCandid
       expect(page).to have_table('4. Proportion of candidates with an offer')
       expect(page).not_to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
-      all_subject_headings.each do |heading|
+      secondary_subject_headings.each do |heading|
         expect(page).not_to have_element(
           'th',
           scope: 'row',
@@ -82,22 +82,17 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::ProportionCandid
     end
   end
 
-  def all_subject_headings
+  def secondary_subject_headings
     ['Art & Design',
      'Biology',
-     'Business Studies',
-     'Chemistry',
-     'Classics',
-     'Computing',
      'Design & Technology',
-     'Drama',
      'English',
      'Geography',
      'History',
      'Mathematics',
-     'Modern Foreign Languages',
      'Music',
      'Others',
+     'Physical Education',
      'Physics',
      'Religious Education']
   end

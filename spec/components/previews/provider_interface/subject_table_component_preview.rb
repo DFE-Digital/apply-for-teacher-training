@@ -22,10 +22,12 @@ module ProviderInterface
 
       render ProviderInterface::RecruitmentPerformanceReport::SubjectTableComponent.new(
         provider_report.provider,
-        table_caption: 'Table including percentage change data',
+        table_caption: 'candidates_who_have_submitted_applications',
         summary_row: row_builder.summary_row,
         subject_rows: row_builder.subject_rows,
-      )
+      ) do
+        content_tag(:p, class: 'govuk-body') { 'Description of table goes here' }
+      end
     end
 
     def without_percentage_change_data
@@ -35,12 +37,14 @@ module ProviderInterface
         national_statistics: national_report.statistics,
       )
 
-      render ProviderInterface::RecruitmentPerformanceReport::SubjectTableComponent.new(
+      render ProviderInterface::RecruitmentPerformanceReport::SubjectTableWithProportionsOnlyComponent.new(
         provider_report.provider,
-        table_caption: 'Table without percentage change data',
+        table_caption: 'offers_accepted',
         summary_row: row_builder.summary_row,
         subject_rows: row_builder.subject_rows,
-      )
+      ) do
+        content_tag(:p, class: 'govuk-body') { 'Description of table goes here' }
+      end
     end
 
   private

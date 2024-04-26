@@ -11,6 +11,10 @@ FIELD_MAPPING_WITHOUT_CHANGE = {
   last_cycle: 'number_of_candidates_submitted_to_same_date_previous_cycle',
 }.freeze
 
+FIELD_MAPPING_THIS_CYCLE_ONLY = {
+  this_cycle: 'number_of_candidates_submitted_to_date',
+}.freeze
+
 RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
   describe '#summary row' do
     it 'returns only the summary data row' do
@@ -66,6 +70,30 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
       end
     end
 
+    describe 'a field mapping only include this cycle' do
+      it 'only includes this cycle only data' do
+        provider_statistics = create(:provider_recruitment_performance_report).statistics
+        national_statistics = create(:national_recruitment_performance_report).statistics
+
+        rows = described_class.new(
+          field_mapping: FIELD_MAPPING_THIS_CYCLE_ONLY,
+          provider_statistics:,
+          national_statistics:,
+        ).subject_rows
+
+        rows_with_percentage_change = rows.find_all do |row|
+          row.percentage_change.present? || row.national_percentage_change.present?
+        end
+
+        rows_with_last_cycle_data = rows.find_all do |row|
+          row.last_cycle.present? || row.national_last_cycle.present?
+        end
+
+        expect(rows_with_percentage_change.empty?).to be true
+        expect(rows_with_last_cycle_data.empty?).to be true
+      end
+    end
+
     describe 'provider has primary only data' do
       it 'returns only primary rows' do
         provider_statistics = create(:provider_recruitment_performance_report, :primary_only).statistics
@@ -94,7 +122,10 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         ).subject_rows
 
         subjects = rows.map(&:title)
-        expect(subjects).to contain_exactly('Secondary', 'Art & Design', 'Biology', 'Business Studies', 'Chemistry', 'Classics', 'Computing', 'Design & Technology', 'Drama', 'English', 'Geography', 'History', 'Mathematics', 'Modern Foreign Languages', 'Music', 'Others', 'Physics', 'Religious Education')
+        expect(subjects).to contain_exactly('Secondary', 'Art & Design', 'Biology', 'Chemistry', 'Computing',
+                                            'Design & Technology', 'Drama', 'English', 'Geography', 'History',
+                                            'Mathematics', 'Modern Foreign Languages', 'Music', 'Others',
+                                            'Physical Education', 'Physics', 'Religious Education')
       end
     end
 
@@ -118,9 +149,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         # Individual secondary subjects
         ['Secondary subject', 'Art & Design'],
         ['Secondary subject', 'Biology'],
-        ['Secondary subject', 'Business Studies'],
         ['Secondary subject', 'Chemistry'],
-        ['Secondary subject', 'Classics'],
         ['Secondary subject', 'Computing'],
         ['Secondary subject', 'Design & Technology'],
         ['Secondary subject', 'Drama'],
@@ -131,6 +160,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         ['Secondary subject', 'Modern Foreign Languages'],
         ['Secondary subject', 'Music'],
         ['Secondary subject', 'Others'],
+        ['Secondary subject', 'Physical Education'],
         ['Secondary subject', 'Physics'],
         ['Secondary subject', 'Religious Education'],
       ]

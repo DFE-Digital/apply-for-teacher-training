@@ -13,6 +13,7 @@ RSpec.feature 'Visit provider recruitment performance report page' do
       and_i_am_signed_in_as_provider_user
       and_i_visit_the_provider_recruitment_report_page
       then_i_see_the_report
+      and_i_can_navigate_to_report_sections
     end
 
     scenario 'provider report has not been generated' do
@@ -57,9 +58,71 @@ private
 
   def then_i_see_the_report
     expect(page).to have_content('Recruitment performance weekly report 2023 to 2024')
-    expect(page).to have_content("This report shows your organisation's initial teacher training (ITT) recruitment performance so far this recruitment cycle")
-    expect(page).to have_content('2. Candidates who have submitted applications')
-    expect(page).to have_content('4. Proportion of candidates with an offer')
+    expect(page).to have_content('This report shows your organisation’s initial teacher training (ITT) recruitment performance so far this recruitment cycle, starting on 3 October 2023.')
+  end
+
+  def and_i_can_navigate_to_report_sections
+    expect(page).to have_link('About this data', href: '#about_this_data')
+    expect(page).to have_css(
+      'h1',
+      text: '1. About this data',
+      id: 'about_this_data',
+    )
+
+    expect(page).to have_link(
+      'Candidates who have submitted applications',
+      href: '#candidates_who_have_submitted_applications',
+    )
+    expect(page).to have_css(
+      'h1',
+      text: '2. Candidates who have submitted applications',
+      id: 'candidates_who_have_submitted_applications',
+    )
+
+    expect(page).to have_link('Candidates with an offer', href: '#candidates_with_an_offer')
+    expect(page).to have_css(
+      'h1',
+      text: '3. Candidates with an offer',
+      id: 'candidates_with_an_offer',
+    )
+
+    expect(page).to have_link('Proportion of candidates with an offer', href: '#proportion_of_candidates_with_an_offer')
+    expect(page).to have_css(
+      'h1',
+      text: '4. Proportion of candidates with an offer',
+      id: 'proportion_of_candidates_with_an_offer',
+    )
+
+    expect(page).to have_link('Offers accepted', href: '#offers_accepted')
+    expect(page).to have_css(
+      'h1',
+      text: '5. Offers accepted',
+      id: 'offers_accepted',
+    )
+
+    expect(page).to have_link('Deferrals', href: '#candidate_deferrals')
+    expect(page).to have_css(
+      'h1',
+      text: '6. Deferrals',
+      id: 'candidate_deferrals',
+    )
+
+    expect(page).to have_link('Candidates rejected', href: '#candidates_rejected')
+    expect(page).to have_css(
+      'h1',
+      text: '7. Candidates rejected',
+      id: 'candidates_rejected',
+    )
+
+    expect(page).to have_link(
+      'Proportion of candidates who have waited more than 30 days for a response',
+      href: '#proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response',
+    )
+    expect(page).to have_css(
+      'h1',
+      text: '8. Proportion of candidates who have waited more than 30 days for a response',
+      id: 'proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response',
+    )
   end
 
   def then_i_see_no_report_message
