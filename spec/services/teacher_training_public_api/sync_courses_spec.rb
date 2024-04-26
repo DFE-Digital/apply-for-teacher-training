@@ -16,22 +16,22 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
       allow(TeacherTrainingPublicAPI::SyncSites).to receive(:perform_async).and_return(true)
     end
 
-    context 'when courses are published' do
+    context 'when the API course has a published state' do
       let(:stubbed_api_course_state) { 'published' }
 
-      it 'creates the courses' do
+      it 'creates the course' do
         expect { perform_job }.to change(provider.courses, :count)
       end
     end
 
-    context 'when the API courses are withdrawn' do
+    context 'when the API course has a withdrawn state' do
       let(:stubbed_api_course_state) { 'withdrawn' }
 
-      it 'creates the courses' do
+      it 'creates the course' do
         expect { perform_job }.to change(provider.courses, :count)
       end
 
-      context 'when the course is published' do
+      context 'when the Course exists and has not been withdrawn' do
         let(:uuid) { SecureRandom.uuid }
         let!(:course) { create(:course, provider: provider, withdrawn: false, uuid: uuid) }
         let(:stubbed_attributes) {
@@ -40,25 +40,25 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
           ]
         }
 
-        it 'updates the course to withdrawn' do
+        it 'updates the Course to withdrawn' do
           expect { perform_job }.not_to change(Course, :count)
           expect(course.reload.withdrawn).to be_truthy
         end
       end
     end
 
-    context 'when the API courses are rolled_over' do
+    context 'when the API course has a rolled_over state' do
       let(:stubbed_api_course_state) { 'rolled_over' }
 
-      it 'does not create the courses' do
+      it 'does not create the course' do
         expect { perform_job }.not_to change(Course, :count)
       end
     end
 
-    context 'when the API courses are draft' do
+    context 'when the API course has a draft state' do
       let(:stubbed_api_course_state) { 'draft' }
 
-      it 'does not create the courses' do
+      it 'does not create the course' do
         expect { perform_job }.not_to change(Course, :count)
       end
     end
