@@ -9,17 +9,15 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
       described_class.new.perform(provider.id,
                                   RecruitmentCycle.current_year)
     end
-
-    let(:specified_attributes) { [{ accredited_body_code: nil }] }
+    let(:stubbed_attributes) { [{ accredited_body_code: nil, state: stubbed_api_course_state }] }
 
     before do
-      stub_teacher_training_api_courses(provider_code: provider.code, specified_attributes:)
+      stub_teacher_training_api_courses(provider_code: provider.code, specified_attributes: stubbed_attributes)
       allow(TeacherTrainingPublicAPI::SyncSites).to receive(:perform_async).and_return(true)
     end
 
     context 'when courses are published' do
-      let(:api_course_state) { 'published' }
-      let(:specified_attributes) { [{ accredited_body_code: nil, state: api_course_state }] }
+      let(:stubbed_api_course_state) { 'published' }
 
       it 'creates the courses' do
         expect { perform_job }.to change(provider.courses, :count)
@@ -27,8 +25,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
     end
 
     context 'when the API courses are withdrawn' do
-      let(:api_course_state) { 'withdrawn' }
-      let(:specified_attributes) { [{ accredited_body_code: nil, state: api_course_state }] }
+      let(:stubbed_api_course_state) { 'withdrawn' }
 
       it 'creates the courses' do
         expect { perform_job }.to change(provider.courses, :count)
@@ -37,9 +34,9 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
       context 'when the course is published' do
         let(:uuid) { SecureRandom.uuid }
         let!(:course) { create(:course, provider: provider, withdrawn: false, uuid: uuid) }
-        let(:specified_attributes) {
+        let(:stubbed_attributes) {
           [
-            { accredited_body_code: nil, state: api_course_state, uuid: uuid },
+            { accredited_body_code: nil, state: stubbed_api_course_state, uuid: uuid },
           ]
         }
 
@@ -51,8 +48,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
     end
 
     context 'when the API courses are rolled_over' do
-      let(:api_course_state) { 'rolled_over' }
-      let(:specified_attributes) { [{ accredited_body_code: nil, state: api_course_state }] }
+      let(:stubbed_api_course_state) { 'rolled_over' }
 
       it 'does not create the courses' do
         expect { perform_job }.not_to change(Course, :count)
@@ -60,8 +56,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
     end
 
     context 'when the API courses are draft' do
-      let(:api_course_state) { 'draft' }
-      let(:specified_attributes) { [{ accredited_body_code: nil, state: api_course_state }] }
+      let(:stubbed_api_course_state) { 'draft' }
 
       it 'does not create the courses' do
         expect { perform_job }.not_to change(Course, :count)
