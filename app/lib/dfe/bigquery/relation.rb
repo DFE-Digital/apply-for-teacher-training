@@ -8,7 +8,7 @@ module DfE
       delegate :where, :order, to: :table
 
       def query(sql_query)
-        ::DfE::Bigquery.client.query(sql_query).map { |result| new(result) }
+        ::DfE::Bigquery.client.query(sql_query).map { |result| result_class.new(result) }
       end
 
       def table_name

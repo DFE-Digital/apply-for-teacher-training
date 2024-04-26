@@ -10,7 +10,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
 
   describe '.candidate_headline_statistics' do
     subject(:application_metrics) do
-      described_class.candidate_headline_statistics(cycle_week: 7)
+      described_class.new(cycle_week: 7).candidate_headline_statistics
     end
 
     let(:results) do
@@ -49,7 +49,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
 
   describe '.age_group' do
     subject(:application_metrics) do
-      described_class.age_group(cycle_week: 7)
+      described_class.new(cycle_week: 7).age_group
     end
 
     let(:results) do
@@ -98,7 +98,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
 
   describe '.sex' do
     subject(:application_metrics) do
-      described_class.sex(cycle_week: 7)
+      described_class.new(cycle_week: 7).sex
     end
 
     let(:results) do
@@ -157,7 +157,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
 
   describe '.area' do
     subject(:application_metrics) do
-      described_class.area(cycle_week: 7)
+      described_class.new(cycle_week: 7).area
     end
 
     let(:results) do
@@ -208,7 +208,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
 
   describe '.phase' do
     subject(:application_metrics) do
-      described_class.phase(cycle_week: 7)
+      described_class.new(cycle_week: 7).phase
     end
 
     let(:results) do
@@ -261,7 +261,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
 
   describe '.route_into_teaching' do
     subject(:application_metrics) do
-      described_class.route_into_teaching(cycle_week: 7)
+      described_class.new(cycle_week: 7).route_into_teaching
     end
 
     let(:results) do
@@ -313,7 +313,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
 
   describe '.primary_subject' do
     subject(:application_metrics) do
-      described_class.primary_subject(cycle_week: 7)
+      described_class.new(cycle_week: 7).primary_subject
     end
 
     let(:results) do
@@ -365,7 +365,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
 
   describe '.secondary_subject' do
     subject(:application_metrics) do
-      described_class.secondary_subject(cycle_week: 7)
+      described_class.new(cycle_week: 7).secondary_subject
     end
 
     let(:results) do
@@ -417,7 +417,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
 
   describe '.provider_region' do
     subject(:application_metrics) do
-      described_class.provider_region(cycle_week: 7)
+      described_class.new(cycle_week: 7).provider_region
     end
 
     let(:results) do

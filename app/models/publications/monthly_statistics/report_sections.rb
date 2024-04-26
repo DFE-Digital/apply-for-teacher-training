@@ -3,17 +3,17 @@ module Publications
     module ReportSections
       def bigquery_records
         @bigquery_records ||= {
-          candidate_headline_statistics: DfE::Bigquery::ApplicationMetrics.candidate_headline_statistics(cycle_week:),
-          candidate_age_group: ::DfE::Bigquery::ApplicationMetrics.age_group(cycle_week:),
-          candidate_sex: ::DfE::Bigquery::ApplicationMetrics.sex(cycle_week:),
-          candidate_area: ::DfE::Bigquery::ApplicationMetrics.area(cycle_week:),
-          candidate_phase: ::DfE::Bigquery::ApplicationMetrics.phase(cycle_week:),
-          candidate_route_into_teaching: ::DfE::Bigquery::ApplicationMetrics.route_into_teaching(cycle_week:),
-          candidate_primary_subject: ::DfE::Bigquery::ApplicationMetrics.primary_subject(cycle_week:),
-          candidate_secondary_subject: ::DfE::Bigquery::ApplicationMetrics.secondary_subject(cycle_week:),
-          candidate_provider_region: ::DfE::Bigquery::ApplicationMetrics.provider_region(cycle_week:),
-          candidate_provider_region_and_subject: ::DfE::Bigquery::ApplicationMetrics.provider_region_and_subject(cycle_week:),
-          candidate_area_and_subject: ::DfE::Bigquery::ApplicationMetrics.candidate_area_and_subject(cycle_week:),
+          candidate_headline_statistics: client.candidate_headline_statistics,
+          candidate_age_group: client.age_group,
+          candidate_sex: client.sex,
+          candidate_area: client.area,
+          candidate_phase: client.phase,
+          candidate_route_into_teaching: client.route_into_teaching,
+          candidate_primary_subject: client.primary_subject,
+          candidate_secondary_subject: client.secondary_subject,
+          candidate_provider_region: client.provider_region,
+          candidate_provider_region_and_subject: client.provider_region_and_subject,
+          candidate_area_and_subject: client.candidate_area_and_subject,
         }
       end
 

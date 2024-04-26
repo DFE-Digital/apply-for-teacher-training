@@ -26,6 +26,7 @@ module DfE
       CONFIGURABLES.select { |value| config.send(value).nil? }
     end
 
+    # @return [Google::Cloud::Bigquery::Project]
     def self.client
       @client ||= begin
         raise(ConfigurationError, "DfE::Bigquery: missing required config values: #{missing_config}") unless valid_config?
