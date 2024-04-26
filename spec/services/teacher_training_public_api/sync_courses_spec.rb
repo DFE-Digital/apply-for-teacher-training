@@ -10,13 +10,62 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
                                   RecruitmentCycle.current_year)
     end
 
+    let(:specified_attributes) { [{ accredited_body_code: nil }] }
+
     before do
-      stub_teacher_training_api_courses(provider_code: provider.code, specified_attributes: [{ accredited_body_code: nil }])
+      stub_teacher_training_api_courses(provider_code: provider.code, specified_attributes:)
       allow(TeacherTrainingPublicAPI::SyncSites).to receive(:perform_async).and_return(true)
     end
 
-    it 'creates courses' do
-      expect { perform_job }.to change(provider.courses, :count)
+    context 'when courses are published' do
+      let(:api_course_state) { 'published' }
+      let(:specified_attributes) { [{ accredited_body_code: nil, state: api_course_state }] }
+
+      it 'creates the courses' do
+        expect { perform_job }.to change(provider.courses, :count)
+      end
+    end
+
+    context 'when the API courses are withdrawn' do
+      let(:api_course_state) { 'withdrawn' }
+      let(:specified_attributes) { [{ accredited_body_code: nil, state: api_course_state }] }
+
+      it 'creates the courses' do
+        expect { perform_job }.to change(provider.courses, :count)
+      end
+
+      context 'when the course is published' do
+        let(:uuid) { SecureRandom.uuid }
+        let!(:course) { create(:course, provider: provider, withdrawn: false, uuid: uuid) }
+        let(:specified_attributes) {
+          [
+            { accredited_body_code: nil, state: api_course_state, uuid: uuid },
+          ]
+        }
+
+        it 'updates the course to withdrawn' do
+          expect { perform_job }.not_to change(Course, :count)
+          expect(course.reload.withdrawn).to be_truthy
+        end
+      end
+    end
+
+    context 'when the API courses are rolled_over' do
+      let(:api_course_state) { 'rolled_over' }
+      let(:specified_attributes) { [{ accredited_body_code: nil, state: api_course_state }] }
+
+      it 'does not create the courses' do
+        expect { perform_job }.not_to change(Course, :count)
+      end
+    end
+
+    context 'when the API courses are draft' do
+      let(:api_course_state) { 'draft' }
+      let(:specified_attributes) { [{ accredited_body_code: nil, state: api_course_state }] }
+
+      it 'does not create the courses' do
+        expect { perform_job }.not_to change(Course, :count)
+      end
     end
   end
 end

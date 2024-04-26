@@ -7,6 +7,8 @@ module TeacherTrainingPublicAPI
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority
 
+    API_COURSE_DRAFT_STATES = %w[rolled_over draft].freeze
+
     def perform(provider_id, recruitment_cycle_year, incremental_sync = true, suppress_sync_update_errors = false, run_in_background: true)
       @provider = ::Provider.find(provider_id)
       @run_in_background = run_in_background
@@ -32,6 +34,8 @@ module TeacherTrainingPublicAPI
   private
 
     def create_or_update_course(course_from_api, recruitment_cycle_year, incremental_sync, suppress_sync_update_errors)
+      return if course_from_api.state.in?(API_COURSE_DRAFT_STATES)
+
       course = provider.courses.find_or_initialize_by(
         uuid: course_from_api.uuid,
         recruitment_cycle_year:,
