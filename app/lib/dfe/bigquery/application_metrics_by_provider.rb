@@ -96,6 +96,9 @@ module DfE
            number_of_candidates_with_offers_to_same_date_previous_cycle
            number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle
 
+           offer_rate_to_date
+           offer_rate_to_same_date_previous_cycle
+
            number_of_candidates_accepted_to_date
            number_of_candidates_accepted_to_same_date_previous_cycle
            number_of_candidates_accepted_to_date_as_proportion_of_last_cycle
@@ -126,6 +129,8 @@ module DfE
                     :number_of_candidates_with_offers_to_date,
                     :number_of_candidates_with_offers_to_same_date_previous_cycle,
                     :number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle,
+                    :offer_rate_to_date,
+                    :offer_rate_to_same_date_previous_cycle,
                     :number_of_candidates_accepted_to_date,
                     :number_of_candidates_accepted_to_same_date_previous_cycle,
                     :number_of_candidates_accepted_to_date_as_proportion_of_last_cycle,
