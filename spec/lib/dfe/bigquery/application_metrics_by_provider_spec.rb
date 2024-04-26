@@ -12,6 +12,18 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
       described_class.new(cycle_week: 18, provider_id: 1337).candidate_all
     end
 
+    # Bigquery returns `provider.id` as :id
+    let(:bigquery_results) do
+      [
+        {
+          number_of_candidates_submitted_to_date: 100,
+          id: 1337,
+          cycle_week: 18,
+          recruitment_cycle_year: 2024,
+        },
+      ]
+    end
+
     let(:results) do
       [
         {
@@ -25,7 +37,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
 
     before do
       allow(client).to receive(:query)
-        .with(<<~SQL).and_return(results)
+        .with(<<~SQL).and_return(bigquery_results)
           SELECT nonprovider_filter, nonprovider_filter_category, cycle_week, recruitment_cycle_year, provider.id, number_of_candidates_submitted_to_date, number_of_candidates_submitted_to_same_date_previous_cycle, number_of_candidates_submitted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_offers_to_date, number_of_candidates_with_offers_to_same_date_previous_cycle, number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle, number_of_candidates_accepted_to_date, number_of_candidates_accepted_to_same_date_previous_cycle, number_of_candidates_accepted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates
           FROM dataform.application_metrics_by_provider
           WHERE provider.id = "1337"
@@ -56,6 +68,19 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
       described_class.new(cycle_week: 18, provider_id: 1337).candidate_submitted_to_date
     end
 
+    let(:bigquery_results) do
+      [
+        {
+          number_of_candidates_submitted_to_date: 10,
+          number_of_candidates_submitted_to_same_date_previous_cycle: 100,
+          number_of_candidates_submitted_to_date_as_proportion_of_last_cycle: 0.1,
+          id: 1337,
+          cycle_week: 18,
+          recruitment_cycle_year: 2024,
+        },
+      ]
+    end
+
     let(:results) do
       [
         {
@@ -71,7 +96,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
 
     before do
       allow(client).to receive(:query)
-        .with(<<~SQL).and_return(results)
+        .with(<<~SQL).and_return(bigquery_results)
           SELECT nonprovider_filter, nonprovider_filter_category, cycle_week, recruitment_cycle_year, provider.id, number_of_candidates_submitted_to_date, number_of_candidates_submitted_to_same_date_previous_cycle, number_of_candidates_submitted_to_date_as_proportion_of_last_cycle
           FROM dataform.application_metrics_by_provider
           WHERE provider.id = "1337"

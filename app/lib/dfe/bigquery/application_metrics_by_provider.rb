@@ -140,6 +140,8 @@ module DfE
 
         def initialize(attributes)
           attributes.each do |key, value|
+            key = 'provider_id' if key == :id
+
             if respond_to?(key)
               instance_variable_set("@#{key}", value)
             end
