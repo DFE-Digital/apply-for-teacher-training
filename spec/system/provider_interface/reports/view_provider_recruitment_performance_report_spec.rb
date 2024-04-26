@@ -58,6 +58,8 @@ private
   def then_i_see_the_report
     expect(page).to have_content('Recruitment performance weekly report 2023 to 2024')
     expect(page).to have_content("This report shows your organisation's initial teacher training (ITT) recruitment performance so far this recruitment cycle")
+    expect(page).to have_content('2. Candidates who have submitted applications')
+    expect(page).to have_content('4. Proportion of candidates with an offer')
   end
 
   def then_i_see_no_report_message
