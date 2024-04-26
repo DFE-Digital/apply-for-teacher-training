@@ -15,12 +15,12 @@ module TeacherTrainingPublicAPI
       @incremental_sync = incremental_sync
       @updates = {}
 
-      scope = TeacherTrainingPublicAPI::Course.where(
+      provider_courses_from_api = TeacherTrainingPublicAPI::Course.where(
         year: recruitment_cycle_year,
         provider_code: @provider.code,
       ).paginate(per_page: 500)
 
-      scope.each do |course_from_api|
+      provider_courses_from_api.each do |course_from_api|
         ActiveRecord::Base.transaction do
           create_or_update_course(course_from_api, recruitment_cycle_year, @incremental_sync, suppress_sync_update_errors)
         end

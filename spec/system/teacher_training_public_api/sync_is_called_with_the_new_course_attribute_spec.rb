@@ -5,7 +5,7 @@ RSpec.feature 'Sync sites' do
 
   it 'a site has no vacancies and is not set to vacancies by the sync' do
     given_there_is_a_provider_and_has_two_courses_on_apply
-    and_that_the_courses_exists_on_the_ttapi
+    and_that_both_courses_exists_on_the_ttapi
 
     when_sync_provider_is_called_with_an_open_course
     then_the_site_has_vacancies
@@ -23,7 +23,7 @@ RSpec.feature 'Sync sites' do
     @second_course = create(:course, code: 'ABC2', provider: @provider, name: 'Secondary')
   end
 
-  def and_that_the_courses_exists_on_the_ttapi
+  def and_that_both_courses_exists_on_the_ttapi
     stub_teacher_training_api_course_with_site(provider_code: 'ABC',
                                                course_code: 'ABC1',
                                                site_code: 'A',
