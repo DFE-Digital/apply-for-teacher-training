@@ -18,25 +18,11 @@ module DfE
         :'dataform.application_metrics_by_provider'
       end
 
-      ### Candidates queries
-
-      def candidate_submitted_to_date
-        query(candidate_submitted_to_date_query)
-      end
-
-      def candidate_submitted_to_date_query
-        select('nonprovider_filter, nonprovider_filter_category, cycle_week, recruitment_cycle_year, provider.id, number_of_candidates_submitted_to_date, number_of_candidates_submitted_to_same_date_previous_cycle, number_of_candidates_submitted_to_date_as_proportion_of_last_cycle')
-        .where(
-          'provider.id': @provider_id,
-          cycle_week:,
-          recruitment_cycle_year:,
-        ).where(
-          '(nonprovider_filter_category IN ("Secondary subject", "Primary subject") OR nonprovider_filter IN ("Primary", "Secondary"))',
-        )
-        .to_sql
-      end
-
       ### Candidate All query
+
+      def candidate_all
+        query(candidate_all_query)
+      end
 
       def candidate_all_query
         select(select_columns.join(', '))
@@ -51,10 +37,6 @@ module DfE
             OR nonprovider_filter = "All"
           )
         SQL
-      end
-
-      def candidate_all
-        query(candidate_all_query)
       end
 
       ### National queries
