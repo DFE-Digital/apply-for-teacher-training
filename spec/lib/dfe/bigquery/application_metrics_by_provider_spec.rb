@@ -7,9 +7,9 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
     allow(DfE::Bigquery).to receive(:client).and_return(client)
   end
 
-  describe '.candidate_all' do
+  describe '.provider_data' do
     subject(:provider_statistics) do
-      described_class.new(cycle_week: 18, provider_id: 1337).candidate_all
+      described_class.new(cycle_week: 18, provider_id: 1337).provider_data
     end
 
     # Bigquery returns `provider.id` as :id
@@ -122,9 +122,9 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
     end
   end
 
-  describe '.national_all' do
+  describe '.national_data' do
     subject(:provider_statistics) do
-      described_class.new(cycle_week: 18).national_all
+      described_class.new(cycle_week: 18).national_data
     end
 
     let(:results) do

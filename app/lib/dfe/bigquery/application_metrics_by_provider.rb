@@ -52,11 +52,11 @@ module DfE
 
       ### Candidate All query
 
-      def candidate_all
-        query(candidate_all_query)
+      def provider_data
+        query(provider_data_query)
       end
 
-      def candidate_all_query
+      def provider_data_query
         select(SELECT_COLUMNS.join(', '))
         .where(
           'provider.id': @provider_id,
@@ -73,11 +73,11 @@ module DfE
 
       ### National queries
 
-      def national_all
-        query(national_all_query)
+      def national_data
+        query(national_data_query)
       end
 
-      def national_all_query
+      def national_data_query
         select(SELECT_COLUMNS.join(', '))
         .where(
           cycle_week:,
