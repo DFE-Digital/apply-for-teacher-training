@@ -1010,60 +1010,34 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
   end
 
   def stub_application_metrics(cycle_week:)
-    allow(DfE::Bigquery::ApplicationMetrics).to receive(:candidate_headline_statistics)
-      .with(cycle_week:)
-      .and_return(DfE::Bigquery::ApplicationMetrics.new(candidate_headline_statistics))
+    application_metrics = instance_double(DfE::Bigquery::ApplicationMetrics)
 
-    allow(DfE::Bigquery::ApplicationMetrics).to receive(:age_group)
+    allow(DfE::Bigquery::ApplicationMetrics).to receive(:new)
       .with(cycle_week:)
-      .and_return([DfE::Bigquery::ApplicationMetrics.new(age_group)])
+      .and_return(application_metrics)
 
-    allow(DfE::Bigquery::ApplicationMetrics).to receive(:sex)
-      .with(cycle_week:)
-      .and_return([DfE::Bigquery::ApplicationMetrics.new(sex)])
+    allow(application_metrics).to receive(:candidate_headline_statistics)
+      .and_return(DfE::Bigquery::ApplicationMetrics::Result.new(candidate_headline_statistics))
 
-    allow(DfE::Bigquery::ApplicationMetrics).to receive(:area)
-      .with(cycle_week:)
-      .and_return([DfE::Bigquery::ApplicationMetrics.new(area)])
-
-    allow(DfE::Bigquery::ApplicationMetrics).to receive(:phase)
-      .with(cycle_week:)
-      .and_return([DfE::Bigquery::ApplicationMetrics.new(phase)])
-
-    allow(DfE::Bigquery::ApplicationMetrics).to receive(:route_into_teaching)
-      .with(cycle_week:)
-      .and_return([DfE::Bigquery::ApplicationMetrics.new(route_into_teaching)])
-
-    allow(DfE::Bigquery::ApplicationMetrics).to receive(:primary_subject)
-      .with(cycle_week:)
-      .and_return([DfE::Bigquery::ApplicationMetrics.new(primary_subject)])
-
-    allow(DfE::Bigquery::ApplicationMetrics).to receive(:secondary_subject)
-      .with(cycle_week:)
-      .and_return([DfE::Bigquery::ApplicationMetrics.new(secondary_subject)])
-
-    allow(DfE::Bigquery::ApplicationMetrics).to receive(:provider_region)
-      .with(cycle_week:)
-      .and_return([DfE::Bigquery::ApplicationMetrics.new(provider_region)])
-
-    allow(DfE::Bigquery::ApplicationMetrics).to receive(:provider_region_and_subject)
-      .with(cycle_week:)
-      .and_return(
-        [
-          DfE::Bigquery::ApplicationMetrics.new(first_provider_region_and_subject),
-          DfE::Bigquery::ApplicationMetrics.new(second_provider_region_and_subject),
-          DfE::Bigquery::ApplicationMetrics.new(third_provider_region_and_subject),
-        ],
-      )
-
-    allow(DfE::Bigquery::ApplicationMetrics).to receive(:candidate_area_and_subject)
-      .with(cycle_week:)
-      .and_return(
-        [
-          DfE::Bigquery::ApplicationMetrics.new(first_candidate_area_and_subject),
-          DfE::Bigquery::ApplicationMetrics.new(second_candidate_area_and_subject),
-          DfE::Bigquery::ApplicationMetrics.new(third_candidate_area_and_subject),
-        ],
-      )
+    allow(application_metrics).to receive_messages(
+      age_group: [DfE::Bigquery::ApplicationMetrics::Result.new(age_group)],
+      sex: [DfE::Bigquery::ApplicationMetrics::Result.new(sex)],
+      phase: [DfE::Bigquery::ApplicationMetrics::Result.new(phase)],
+      area: [DfE::Bigquery::ApplicationMetrics::Result.new(area)],
+      route_into_teaching: [DfE::Bigquery::ApplicationMetrics::Result.new(route_into_teaching)],
+      primary_subject: [DfE::Bigquery::ApplicationMetrics::Result.new(primary_subject)],
+      secondary_subject: [DfE::Bigquery::ApplicationMetrics::Result.new(secondary_subject)],
+      provider_region: [DfE::Bigquery::ApplicationMetrics::Result.new(provider_region)],
+      provider_region_and_subject: [
+        DfE::Bigquery::ApplicationMetrics::Result.new(first_provider_region_and_subject),
+        DfE::Bigquery::ApplicationMetrics::Result.new(second_provider_region_and_subject),
+        DfE::Bigquery::ApplicationMetrics::Result.new(third_provider_region_and_subject),
+      ],
+      candidate_area_and_subject: [
+        DfE::Bigquery::ApplicationMetrics::Result.new(first_candidate_area_and_subject),
+        DfE::Bigquery::ApplicationMetrics::Result.new(second_candidate_area_and_subject),
+        DfE::Bigquery::ApplicationMetrics::Result.new(third_candidate_area_and_subject),
+      ],
+    )
   end
 end

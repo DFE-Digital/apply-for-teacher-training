@@ -16,6 +16,7 @@ module Publications
       candidate_area_and_subject
     ].freeze
 
+    attr_reader :client
     attr_accessor :generation_date,
                   :publication_date,
                   :month,
@@ -30,6 +31,7 @@ module Publications
       @first_cycle_week = CycleTimetable.find_opens.beginning_of_week
       @report_expected_time = @generation_date.beginning_of_week(:sunday)
       @cycle_week = (@report_expected_time - first_cycle_week).seconds.in_weeks.round
+      @client = DfE::Bigquery::ApplicationMetrics.new(cycle_week:)
       @month = @generation_date.strftime('%Y-%m')
       @model = model
     end
