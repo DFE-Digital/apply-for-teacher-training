@@ -29,6 +29,12 @@ RSpec.describe CycleTimetable do
         expect(described_class.current_year).to eq(next_year)
       end
     end
+
+    it 'returns this_year for the date of `apply_opens`' do
+      travel_temporarily_to(described_class.apply_opens(this_year)) do
+        expect(described_class.current_year).to eq(this_year)
+      end
+    end
   end
 
   describe '.next_year' do

@@ -114,7 +114,8 @@ class CycleTimetable
     CYCLE_DATES.keys.detect do |year|
       return year if last_recruitment_cycle_year?(year)
 
-      now.between?(CYCLE_DATES[year][:find_opens], CYCLE_DATES[year + 1][:find_opens])
+      start = (CYCLE_DATES[year][:find_opens] - 1.second).end_of_hour
+      now.between?(start, CYCLE_DATES[year + 1][:find_opens])
     end
   end
 
