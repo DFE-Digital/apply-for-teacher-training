@@ -118,7 +118,6 @@ On a mac:
 brew install asdf
 asdf plugin add ruby
 asdf plugin add nodejs
-asdf plugin add yarn
 
 # To install (or update, following a change to .tool-versions)
 asdf install
@@ -131,7 +130,7 @@ Once those dependencies are installed, run `bundle install` to install required 
 
 #### Local db setup
 
-1. Start the postgres service: `sudo service postgresql start` on Linux or `brew services start postgresql` on Mac
+1. Start the postgres service: `sudo service postgresql start` on Linux or `brew services start postgresql@14` on Mac
 1. Populate the `DB_` relevant environment variables with the correct values (those are: `DB_USERNAME`, `DB_PASSWORD`, `DB_HOSTNAME` and `DB_PORT`)
 1. Then local development databases and data can be set up: `bundle exec rake db:setup`
    (You may wish to [set up development data](#development-data) at this point)
@@ -140,8 +139,8 @@ Once those dependencies are installed, run `bundle install` to install required 
 
 To run the application locally:
 
-1. Run `yarn` to install dependencies for the web app to run
-2. Run `foreman start` to launch the app on <http://localhost:3000>
+1. Run `bin/setup` to install dependencies for the web app to run
+2. Run `bin/dev` to launch the app on <http://localhost:3000> or <https://apply-manage.localhost>.
 
 ### Running the application in Docker
 
