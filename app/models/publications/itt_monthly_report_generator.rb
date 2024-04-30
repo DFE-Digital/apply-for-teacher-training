@@ -20,7 +20,6 @@ module Publications
     attr_accessor :generation_date,
                   :publication_date,
                   :month,
-                  :first_cycle_week,
                   :report_expected_time,
                   :cycle_week,
                   :model
@@ -30,7 +29,7 @@ module Publications
       @publication_date = publication_date.presence || 1.week.after(@generation_date)
       @first_cycle_week = CycleTimetable.find_opens.beginning_of_week
       @report_expected_time = @generation_date.beginning_of_week(:sunday)
-      @cycle_week = (@report_expected_time - first_cycle_week).seconds.in_weeks.round
+      @cycle_week = CycleTimetable.current_cycle_week(@report_expected_time)
       @client = DfE::Bigquery::ApplicationMetrics.new(cycle_week:)
       @month = @generation_date.strftime('%Y-%m')
       @model = model
