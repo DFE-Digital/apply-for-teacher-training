@@ -16,13 +16,13 @@ module Publications
       candidate_area_and_subject
     ].freeze
 
-    attr_reader :client
-    attr_accessor :generation_date,
-                  :publication_date,
-                  :month,
-                  :report_expected_time,
-                  :cycle_week,
-                  :model
+    attr_reader :client,
+                :generation_date,
+                :publication_date,
+                :month,
+                :report_expected_time,
+                :cycle_week,
+                :model
 
     def initialize(generation_date: Time.zone.now, publication_date: nil, model: MonthlyStatistics::MonthlyStatisticsReport)
       @generation_date = generation_date.to_time
