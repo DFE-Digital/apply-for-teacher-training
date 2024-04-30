@@ -284,6 +284,12 @@ class CycleTimetable
     schedule.fetch(name)
   end
 
+  def self.current_cycle_week(time = Time.zone.now)
+    first_week_start = CycleTimetable.find_opens.beginning_of_week
+    weeks = (time - first_week_start).seconds.in_weeks.floor.succ
+    weeks <= 52 ? weeks : weeks % 52
+  end
+
   def self.current_cycle_schedule
     # Make sure this setting only has effect on non-production environments
     return :real if HostingEnvironment.production?

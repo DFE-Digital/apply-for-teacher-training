@@ -646,4 +646,49 @@ RSpec.describe CycleTimetable do
       end
     end
   end
+
+  describe '.current_cycle_week' do
+    # The week before find opens
+    let(:date) { Time.zone.local(2023, 10, 1) }
+
+    context 'the last week of the previous cycle' do
+      it 'returns 52' do
+        travel_temporarily_to(date) do
+          expect(described_class.current_cycle_week).to be 52
+        end
+      end
+    end
+
+    context 'when first apply cycle week' do
+      it 'returns 1' do
+        travel_temporarily_to(date + 1.week) do
+          expect(described_class.current_cycle_week).to be 1
+        end
+      end
+    end
+
+    context 'when mid cycle' do
+      it 'returns the week number' do
+        travel_temporarily_to(date + 5.weeks) do
+          expect(described_class.current_cycle_week).to be 5
+        end
+      end
+    end
+
+    context 'when last cycle week' do
+      it 'returns 52' do
+        travel_temporarily_to(date + 52.weeks) do
+          expect(described_class.current_cycle_week).to be 52
+        end
+      end
+    end
+
+    context 'the first week of the next cycle' do
+      it 'returns 1' do
+        travel_temporarily_to(date + 53.weeks) do
+          expect(described_class.current_cycle_week).to be 1
+        end
+      end
+    end
+  end
 end
