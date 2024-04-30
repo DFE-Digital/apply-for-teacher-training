@@ -654,7 +654,7 @@ RSpec.describe CycleTimetable do
   end
 
   describe '.current_cycle_week' do
-    # The week before find opens
+    # Sunday the week before find opens
     let(:date) { Time.zone.local(2023, 10, 1) }
 
     context 'the last week of the previous cycle' do
@@ -665,10 +665,26 @@ RSpec.describe CycleTimetable do
       end
     end
 
-    context 'when first apply cycle week' do
+    context 'when Monday first week' do
       it 'returns 1' do
-        travel_temporarily_to(date + 1.week) do
+        travel_temporarily_to(date + 1.day) do
           expect(described_class.current_cycle_week).to be 1
+        end
+      end
+    end
+
+    context 'when Sunday first week' do
+      it 'returns 1' do
+        travel_temporarily_to(date + 7.days) do
+          expect(described_class.current_cycle_week).to be 1
+        end
+      end
+    end
+
+    context 'when Monday second week' do
+      it 'returns 2' do
+        travel_temporarily_to(date + 8.days) do
+          expect(described_class.current_cycle_week).to be 2
         end
       end
     end
@@ -689,11 +705,17 @@ RSpec.describe CycleTimetable do
       end
     end
 
-    context 'the first week of the next cycle' do
+    context 'when the first week of the next cycle' do
       it 'returns 1' do
         travel_temporarily_to(date + 53.weeks) do
           expect(described_class.current_cycle_week).to be 1
         end
+      end
+    end
+
+    context 'when the first week of the next cycle passed explicitly' do
+      it 'returns 1' do
+        expect(described_class.current_cycle_week(date + 53.weeks)).to be 1
       end
     end
   end
