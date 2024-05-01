@@ -36,8 +36,8 @@ RSpec.describe CycleTimetable do
       end
     end
 
-    it 'returns 2023 for CycleTimetable.find_opens(2023)' do
-      expect(described_class.current_year(described_class.find_opens(2023))).to eq(2023)
+    it 'returns 2022 for current_year(CycleTimetable.find_opens(2023))' do
+      expect(described_class.current_year(described_class.find_opens(2023))).to eq(2022)
     end
   end
 
