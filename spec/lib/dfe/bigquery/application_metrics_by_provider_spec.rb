@@ -204,4 +204,24 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
       expect(provider_statistics.first.number_of_candidates_submitted_to_date).to be 100
     end
   end
+
+  describe described_class::Result do
+    let(:result) { described_class.new({ provider_id: 123, nonprovider_filter: 'Primary' }) }
+
+    describe 'attr_readers' do
+      it 'has attr_reader for nonprovider_filter' do
+        expect(result).to respond_to(:nonprovider_filter)
+      end
+
+      it 'has no attr_reader for nonprovider_filter_category' do
+        expect(result).to respond_to(:nonprovider_filter_category)
+      end
+    end
+
+    describe '#attributes' do
+      it 'returns the correct #attributes' do
+        expect(result.attributes).to eq({ 'provider_id' => 123, 'nonprovider_filter' => 'Primary' })
+      end
+    end
+  end
 end
