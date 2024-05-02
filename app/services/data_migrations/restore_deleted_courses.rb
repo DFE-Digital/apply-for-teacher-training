@@ -26,8 +26,6 @@ module DataMigrations
         ",2023-10-09 23:00:00,,,,,f,f,0
       CSV
 
-
-
       # Add Course Subjects from CSV
       course_subjects_csv = <<~CSV
         id,course_id,subject_id,created_at,updated_at
@@ -55,7 +53,6 @@ module DataMigrations
         CourseSubject.insert_all(CSV.parse(course_subjects_csv, headers: true).map(&:to_h))
         CourseOption.insert_all(CSV.parse(course_options_csv, headers: true).map(&:to_h))
       end
-
     end
   end
 end
