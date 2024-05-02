@@ -26,7 +26,7 @@ module DataMigrations
         ",2023-10-09 23:00:00,,,,,f,f,0
       CSV
 
-      Course.insert_all(CSV.parse(courses_csv, headers: true).map(&:to_h))
+
 
       # Add Course Subjects from CSV
       course_subjects_csv = <<~CSV
@@ -37,8 +37,6 @@ module DataMigrations
         69215,60784,2,2023-10-02 23:14:11.383158,2023-10-02 23:14:11.383158
         75066,66304,2,2023-10-02 23:20:20.995782,2023-10-02 23:20:20.995782
       CSV
-
-      CourseSubject.insert_all(CSV.parse(course_subjects_csv, headers: true).map(&:to_h))
 
       # Add Course Choices from CSV
       course_options_csv = <<~CSV
@@ -52,7 +50,12 @@ module DataMigrations
         206650,66304,vacancies,2023-10-02 23:20:47.177202,2023-10-02 23:20:47.177202,full_time,t,13522635
       CSV
 
-      CourseOption.insert_all(CSV.parse(course_options_csv, headers: true).map(&:to_h))
+      ActiveRecord::Base.transaction do
+        Course.insert_all(CSV.parse(courses_csv, headers: true).map(&:to_h))
+        CourseSubject.insert_all(CSV.parse(course_subjects_csv, headers: true).map(&:to_h))
+        CourseOption.insert_all(CSV.parse(course_options_csv, headers: true).map(&:to_h))
+      end
+
     end
   end
 end
