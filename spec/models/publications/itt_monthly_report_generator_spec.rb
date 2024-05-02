@@ -108,24 +108,6 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
   end
 
-  describe '#first_cycle_week' do
-    context 'when we are on 2023 recruitment cycle' do
-      it 'returns first monday week of beginning of the cycle' do
-        travel_temporarily_to(Time.zone.local(2023, 9, 1)) do
-          expect(described_class.new.first_cycle_week).to eq(Time.zone.local(2022, 10, 3))
-        end
-      end
-    end
-
-    context 'when we are on 2024 recruitment cycle' do
-      it 'returns first monday week of beginning of the cycle' do
-        travel_temporarily_to(Time.zone.local(2023, 11, 15)) do
-          expect(described_class.new.first_cycle_week).to eq(Time.zone.local(2023, 10, 2))
-        end
-      end
-    end
-  end
-
   describe '#report_expected_time' do
     it 'returns the last Sunday of the expected generation time' do
       generation_date = Time.zone.local(2023, 11, 8)

@@ -29,6 +29,16 @@ RSpec.describe CycleTimetable do
         expect(described_class.current_year).to eq(next_year)
       end
     end
+
+    it 'returns this_year for the date of `apply_opens`' do
+      travel_temporarily_to(described_class.apply_opens(this_year)) do
+        expect(described_class.current_year).to eq(this_year)
+      end
+    end
+
+    it 'returns 2022 for current_year(CycleTimetable.find_opens(2023))' do
+      expect(described_class.current_year(described_class.find_opens(2023))).to eq(2022)
+    end
   end
 
   describe '.next_year' do
@@ -643,6 +653,73 @@ RSpec.describe CycleTimetable do
       travel_temporarily_to('10 Dec 2024') do
         described_class.reset_holidays
         expect(30.business_days.from_now).to eq(Time.zone.parse('7 Feb 2025'))
+      end
+    end
+  end
+
+  describe '.current_cycle_week' do
+    # Sunday the week before find opens
+    let(:date) { Time.zone.local(2023, 10, 1) }
+
+    context 'the last week of the previous cycle' do
+      it 'returns 52' do
+        travel_temporarily_to(date) do
+          expect(described_class.current_cycle_week).to be 52
+        end
+      end
+    end
+
+    context 'when Monday first week' do
+      it 'returns 1' do
+        travel_temporarily_to(date + 1.day) do
+          expect(described_class.current_cycle_week).to be 1
+        end
+      end
+    end
+
+    context 'when Sunday first week' do
+      it 'returns 1' do
+        travel_temporarily_to(date + 7.days) do
+          expect(described_class.current_cycle_week).to be 1
+        end
+      end
+    end
+
+    context 'when Monday second week' do
+      it 'returns 2' do
+        travel_temporarily_to(date + 8.days) do
+          expect(described_class.current_cycle_week).to be 2
+        end
+      end
+    end
+
+    context 'when mid cycle' do
+      it 'returns the week number' do
+        travel_temporarily_to(date + 5.weeks) do
+          expect(described_class.current_cycle_week).to be 5
+        end
+      end
+    end
+
+    context 'when last cycle week' do
+      it 'returns 52' do
+        travel_temporarily_to(date + 52.weeks) do
+          expect(described_class.current_cycle_week).to be 52
+        end
+      end
+    end
+
+    context 'when the first week of the next cycle' do
+      it 'returns 1' do
+        travel_temporarily_to(date + 53.weeks) do
+          expect(described_class.current_cycle_week).to be 1
+        end
+      end
+    end
+
+    context 'when the first week of the next cycle passed explicitly' do
+      it 'returns 1' do
+        expect(described_class.current_cycle_week(date + 53.weeks)).to be 1
       end
     end
   end
