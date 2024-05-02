@@ -61,4 +61,44 @@ RSpec.describe Clockwork, :clockwork do
       expect { Clockwork::Test.block_for(job).call }.not_to raise_error
     end
   end
+
+  context 'when the performance report is in season' do
+    before do
+      allow(RecruitmentPerformanceReportTimetable).to receive(:report_season?).and_return(true)
+    end
+
+    it 'runs the report scheduler every Monday' do
+      start_time = Time.zone.now.beginning_of_week.change(hour: 5)
+      end_time = Time.zone.now.beginning_of_week.change(hour: 6)
+
+      Clockwork::Test.run(
+        start_time:,
+        end_time:,
+        tick_speed: 1.minute,
+        file: './config/clock.rb',
+      )
+
+      expect(Clockwork::Test.manager.send(:history).jobs).to include('Schedule Recruitment Performance reports')
+    end
+  end
+
+  context 'when the performance report is out season' do
+    before do
+      allow(RecruitmentPerformanceReportTimetable).to receive(:report_season?).and_return(nil)
+    end
+
+    it 'does not run the report scheduler every Monday' do
+      start_time = Time.zone.now.beginning_of_week.change(hour: 5)
+      end_time = Time.zone.now.beginning_of_week.change(hour: 6)
+
+      Clockwork::Test.run(
+        start_time:,
+        end_time:,
+        tick_speed: 1.minute,
+        file: './config/clock.rb',
+      )
+
+      expect(Clockwork::Test.manager.send(:history).jobs).not_to include('Schedule Recruitment Performance reports')
+    end
+  end
 end
