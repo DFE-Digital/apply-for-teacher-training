@@ -30,7 +30,7 @@ RSpec.feature 'Export applications in HESA format' do
     course = create(:course, provider: providers.first)
     course_option = create(:course_option, course:)
     @applications = create_list(:application_choice,
-                                10,
+                                5,
                                 :accepted,
                                 course_option:)
 
