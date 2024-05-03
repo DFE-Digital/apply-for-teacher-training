@@ -2,6 +2,7 @@ module ProviderInterface
   class HesaDataExport
     class MissingSubjectCodeHECOSMapping < StandardError; end
     NO_INFORMATION_GIVEN_STRING = 'no information shared'.freeze
+    NO_DEGREE = 'no degree'.freeze
 
     attr_reader :actor, :recruitment_cycle_year
 
@@ -14,9 +15,6 @@ module ProviderInterface
       return {} if application_choice.blank?
 
       application = ApplicationChoiceHesaExportDecorator.new(application_choice)
-      first_degree_start = year_to_iso8601 first_degree_year(application, :start_year)
-      first_degree_end = year_to_iso8601 first_degree_year(application, :award_year)
-
       {
         'id' => application.id,
         'status' => application.status,
@@ -38,9 +36,9 @@ module ProviderInterface
         'DEGTYPE' => pad_hesa_value(application.first_degree, :qualification_type_hesa_code, 3),
         'DEGSBJ' => pad_hesa_value(application.first_degree, :subject_hesa_code, 4),
         'DEGCLSS' => pad_hesa_value(application.first_degree, :grade_hesa_code, 2),
-        'institution_country' => application.first_degree.institution_country,
-        'DEGSTDT' => first_degree_start,
-        'DEGENDDT' => first_degree_end,
+        'institution_country' => application.first_degree.present? ? application.first_degree.institution_country : NO_DEGREE,
+        'DEGSTDT' => first_degree_start(application),
+        'DEGENDDT' => first_degree_end(application),
         'institution_details' => pad_hesa_value(application.first_degree, :institution_hesa_code, 4),
       }.merge(diversity_information(application))
     end
@@ -53,8 +51,20 @@ module ProviderInterface
 
   private
 
+    def first_degree_start(application)
+      return NO_DEGREE unless application.degrees?
+
+      year_to_iso8601 first_degree_year(application, :start_year)
+    end
+
+    def first_degree_end(application)
+      return NO_DEGREE unless application.degrees?
+
+      year_to_iso8601 first_degree_year(application, :award_year)
+    end
+
     def pad_hesa_value(degree, method, pad_by)
-      return 'no degree' if degree.blank?
+      return NO_DEGREE if degree.blank?
 
       code = degree.send(method)
       return 'no data' if code.blank?

@@ -109,6 +109,37 @@ RSpec.describe ProviderInterface::HesaDataExport do
       end
     end
 
+    context 'when application is the degree apprenticeship and does not have a degree' do
+      let(:application_without_a_degree) do
+        create(:application_choice,
+               :accepted,
+               application_form: create(:application_form, :minimum_info),
+               course_option:)
+      end
+
+      subject(:export_row) do
+        described_class.new(actor: provider_user, recruitment_cycle_year: 2018).export_row(application_without_a_degree)
+      end
+
+      %w[DEGTYPE DEGSBJ DEGCLSS institution_country DEGSTDT DEGENDDT institution_details].each do |field|
+        it "export the row leaving HESA field '#{field}' blank" do
+          expect(export_row[field]).to eq('no degree')
+        end
+      end
+
+      it 'export the row as the degree section is incomplete' do
+        expect(export_row['FIRSTDEG']).to be_zero
+      end
+
+      it 'export the row with application fields' do
+        expect(export_row['id']).to eq(application_without_a_degree.id)
+        expect(export_row['status']).to eq(application_without_a_degree.status)
+        expect(export_row['first_name']).to eq(application_without_a_degree.application_form.first_name)
+        expect(export_row['last_name']).to eq(application_without_a_degree.application_form.last_name)
+        expect(export_row['date_of_birth']).to eq(application_without_a_degree.application_form.date_of_birth)
+      end
+    end
+
     context 'when hesa disabilities is stored as string' do
       let(:hesa_disabilities) { '55' }
 
