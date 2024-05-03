@@ -268,3 +268,20 @@ get-cluster-credentials: set-azure-account
 bin/terrafile: ## Install terrafile to manage terraform modules
 	curl -sL https://github.com/coretech/terrafile/releases/download/v${TERRAFILE_VERSION}/terrafile_${TERRAFILE_VERSION}_$$(uname)_x86_64.tar.gz \
 		| tar xz -C ./bin terrafile
+
+maintenance-image-push:
+	$(if ${GITHUB_TOKEN},, $(error Provide a valid Github token with write:packages permissions as GITHUB_TOKEN variable))
+	$(if ${MAINTENANCE_IMAGE_TAG},, $(eval export MAINTENANCE_IMAGE_TAG=$(shell date +%s)))
+	docker build -t ghcr.io/dfe-digital/apply-teacher-training-maintenance:${MAINTENANCE_IMAGE_TAG} maintenance_page
+	echo ${GITHUB_TOKEN} | docker login ghcr.io -u USERNAME --password-stdin
+	docker push ghcr.io/dfe-digital/apply-teacher-training-maintenance:${MAINTENANCE_IMAGE_TAG}
+
+maintenance-fail-over: get-cluster-credentials
+	$(eval export CONFIG)
+	./maintenance_page/scripts/failover.sh
+
+enable-maintenance: maintenance-image-push maintenance-fail-over
+
+disable-maintenance: get-cluster-credentials
+	$(eval export CONFIG)
+	./maintenance_page/scripts/failback.sh
