@@ -122,7 +122,7 @@ RSpec.describe ProviderInterface::HesaDataExport do
       end
 
       %w[DEGTYPE DEGSBJ DEGCLSS institution_country DEGSTDT DEGENDDT institution_details].each do |field|
-        it "export the row leaving HESA field '#{field}' blank" do
+        it "export the row setting HESA field '#{field}' to 'no degree'" do
           expect(export_row[field]).to eq('no degree')
         end
       end
