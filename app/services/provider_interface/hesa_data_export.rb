@@ -33,13 +33,13 @@ module ProviderInterface
         'SBJCA' => subject_codes(application),
         'QLAIM' => qualification_aim(application),
         'FIRSTDEG' => application.degrees_completed_flag,
-        'DEGTYPE' => pad_hesa_value(application.first_degree, :qualification_type_hesa_code, 3),
-        'DEGSBJ' => pad_hesa_value(application.first_degree, :subject_hesa_code, 4),
-        'DEGCLSS' => pad_hesa_value(application.first_degree, :grade_hesa_code, 2),
-        'institution_country' => application.degrees? ? application.first_degree.institution_country : NO_DEGREE,
-        'DEGSTDT' => first_degree_start(application),
-        'DEGENDDT' => first_degree_end(application),
-        'institution_details' => pad_hesa_value(application.first_degree, :institution_hesa_code, 4),
+        'DEGTYPE' => application.first_degree.qualification_type_hesa_code,
+        'DEGSBJ' => application.first_degree.subject_hesa_code,
+        'DEGCLSS' => application.first_degree.grade_hesa_code,
+        'institution_country' => application.first_degree.institution_country,
+        'DEGSTDT' => application.first_degree.start_year,
+        'DEGENDDT' => application.first_degree.award_year,
+        'institution_details' => application.first_degree.institution_hesa_code,
       }.merge(diversity_information(application))
     end
 
@@ -50,27 +50,6 @@ module ProviderInterface
     end
 
   private
-
-    def first_degree_start(application)
-      return NO_DEGREE unless application.degrees?
-
-      year_to_iso8601 first_degree_year(application, :start_year)
-    end
-
-    def first_degree_end(application)
-      return NO_DEGREE unless application.degrees?
-
-      year_to_iso8601 first_degree_year(application, :award_year)
-    end
-
-    def pad_hesa_value(degree, method, pad_by)
-      return NO_DEGREE if degree.blank?
-
-      code = degree.send(method)
-      return 'no data' if code.blank?
-
-      code.to_s.rjust(pad_by, '0')
-    end
 
     def diversity_information(application)
       return { 'sex' => NO_INFORMATION_GIVEN_STRING, 'disabilities' => NO_INFORMATION_GIVEN_STRING, 'ethnicity' => NO_INFORMATION_GIVEN_STRING } if application.application_form.equality_and_diversity.blank?
@@ -103,14 +82,6 @@ module ProviderInterface
       return '020' if application.course.name =~ /^QTS/
 
       '021'
-    end
-
-    def first_degree_year(application, year_type)
-      application.first_degree.send year_type
-    end
-
-    def year_to_iso8601(year)
-      "#{year}-01-01" if year
     end
   end
 end
