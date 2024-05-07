@@ -38,17 +38,11 @@ class DegreeHesaExportDecorator
     year_to_iso8601(fetch_attribute(:award_year))
   end
 
-  def method_missing(method, *args, &block)
-    return nil unless @degree
-
-    @degree.send(method, *args, &block)
+  def enic_reference
+    fetch_attribute(:enic_reference)
   end
 
-  def respond_to_missing?(method, include_private = false)
-    @degree.respond_to?(method, include_private) || super
-  end
-
-  private
+private
 
   def fetch_attribute(attribute)
     @degree&.send(attribute)

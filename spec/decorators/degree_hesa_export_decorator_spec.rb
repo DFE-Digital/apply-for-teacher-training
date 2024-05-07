@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe DegreeHesaExportDecorator do
-  let(:degree) { double('Degree') }
+  let(:degree) { build(:degree_qualification) }
 
   subject(:decorator) { described_class.new(degree) }
 
@@ -149,12 +149,12 @@ RSpec.describe DegreeHesaExportDecorator do
     end
   end
 
-  describe '#method_missing' do
-    context 'when degree is present' do
-      before { allow(degree).to receive(:enic_reference).and_return('abc') }
+  describe '#enic_reference' do
+    let(:degree) { build(:degree_qualification) }
 
+    context 'when degree is present' do
       it 'returns the award year in ISO8601 format' do
-        expect(decorator.enic_reference).to eq('abc')
+        expect(decorator.enic_reference).to eq(degree.enic_reference)
       end
     end
 
@@ -163,24 +163,6 @@ RSpec.describe DegreeHesaExportDecorator do
 
       it 'returns nil' do
         expect(decorator.enic_reference).to be_nil
-      end
-    end
-  end
-
-  describe '#respond_to_missing?' do
-    context 'when degree is present' do
-      before { allow(degree).to receive(:enic_reference).and_return('abc') }
-
-      it 'returns the award year in ISO8601 format' do
-        expect(decorator.respond_to?(:enic_reference)).to be_truthy
-      end
-    end
-
-    context 'when degree is nil' do
-      let(:degree) { nil }
-
-      it 'returns nil' do
-        expect(decorator.respond_to?(:enic_reference)).to be_falsey
       end
     end
   end
