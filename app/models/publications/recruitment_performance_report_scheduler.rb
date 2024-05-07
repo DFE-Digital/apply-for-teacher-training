@@ -15,7 +15,8 @@ module Publications
     end
 
     def schedule_provider_report
-      ProvidersForRecruitmentPerformanceReportQuery.call(cycle_week:)
+      ProvidersForRecruitmentPerformanceReportQuery
+        .call(cycle_week:)
         .find_each do |provider|
         Publications::ProviderRecruitmentPerformanceReportWorker
           .perform_async(
