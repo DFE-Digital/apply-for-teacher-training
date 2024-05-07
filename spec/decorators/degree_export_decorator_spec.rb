@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DegreeHesaExportDecorator do
+RSpec.describe DegreeExportDecorator do
   let(:degree) { build(:degree_qualification) }
 
   subject(:decorator) { described_class.new(degree) }
@@ -122,6 +122,14 @@ RSpec.describe DegreeHesaExportDecorator do
       end
     end
 
+    context 'when start year is nil' do
+      before { allow(degree).to receive(:start_year).and_return(nil) }
+
+      it 'returns nil' do
+        expect(decorator.start_year).to be_nil
+      end
+    end
+
     context 'when degree is nil' do
       let(:degree) { nil }
 
@@ -137,6 +145,14 @@ RSpec.describe DegreeHesaExportDecorator do
 
       it 'returns the award year in ISO8601 format' do
         expect(decorator.award_year).to eq('2022-01-01')
+      end
+    end
+
+    context 'when award year is nil' do
+      before { allow(degree).to receive(:award_year).and_return(nil) }
+
+      it 'returns nil' do
+        expect(decorator.award_year).to be_nil
       end
     end
 

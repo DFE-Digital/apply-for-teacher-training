@@ -15,6 +15,8 @@ module ProviderInterface
       return {} if application_choice.blank?
 
       application = ApplicationChoiceHesaExportDecorator.new(application_choice)
+      first_degree = DegreeExportDecorator.new(application.first_degree)
+
       {
         'id' => application.id,
         'status' => application.status,
@@ -33,13 +35,13 @@ module ProviderInterface
         'SBJCA' => subject_codes(application),
         'QLAIM' => qualification_aim(application),
         'FIRSTDEG' => application.degrees_completed_flag,
-        'DEGTYPE' => application.first_degree.qualification_type_hesa_code,
-        'DEGSBJ' => application.first_degree.subject_hesa_code,
-        'DEGCLSS' => application.first_degree.grade_hesa_code,
-        'institution_country' => application.first_degree.institution_country,
-        'DEGSTDT' => application.first_degree.start_year,
-        'DEGENDDT' => application.first_degree.award_year,
-        'institution_details' => application.first_degree.institution_hesa_code,
+        'DEGTYPE' => first_degree.qualification_type_hesa_code,
+        'DEGSBJ' => first_degree.subject_hesa_code,
+        'DEGCLSS' => first_degree.grade_hesa_code,
+        'institution_country' => first_degree.institution_country,
+        'DEGSTDT' => first_degree.start_year,
+        'DEGENDDT' => first_degree.award_year,
+        'institution_details' => first_degree.institution_hesa_code,
       }.merge(diversity_information(application))
     end
 

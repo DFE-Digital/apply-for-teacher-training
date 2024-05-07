@@ -1,4 +1,4 @@
-class DegreeHesaExportDecorator
+class DegreeExportDecorator
   attr_reader :degree
   NO_DEGREE = 'no degree'.freeze
 
@@ -50,13 +50,15 @@ private
 
   def pad_attribute(attribute, pad_by)
     value = fetch_attribute(attribute)
-    return NO_DEGREE if value.blank?
+    return NO_DEGREE if @degree.blank?
+    return if value.blank?
 
     value.to_s.rjust(pad_by, '0')
   end
 
   def year_to_iso8601(year)
-    return NO_DEGREE if year.blank?
+    return NO_DEGREE if @degree.blank?
+    return if year.blank?
 
     "#{year}-01-01" if year
   end

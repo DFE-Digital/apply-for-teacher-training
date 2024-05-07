@@ -26,12 +26,10 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
   end
 
   def first_degree
-    degree = application_form
+    application_form
       .application_qualifications
       .select(&:degree?)
       .min_by(&:created_at)
-
-    DegreeHesaExportDecorator.new(degree)
   end
 
   def nationalities
