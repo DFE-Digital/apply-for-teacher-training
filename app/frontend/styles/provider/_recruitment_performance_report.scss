@@ -1,0 +1,31 @@
+.recruitment_performance_report_table {
+  &__header--border-left,
+  &__subhead--border-left {
+    padding-left: govuk-spacing(2);
+
+    text-align: center;
+
+    border-left: $govuk-border-width-narrow solid $govuk-border-colour;
+  }
+
+  &__header--no-border,
+  &__subhead--no-border, {
+    text-align: center;
+  }
+
+  &__cell--border-left {
+    padding-left: govuk-spacing(2);
+
+    border-left: $govuk-border-width-narrow solid $govuk-border-colour;
+  }
+
+  &__header--secondary-subject {
+    padding-left: govuk-spacing(2);
+
+    font-weight: $govuk-font-weight-regular;
+  }
+
+  &__row-summary {
+    padding-top: govuk-spacing(2);
+  }
+}

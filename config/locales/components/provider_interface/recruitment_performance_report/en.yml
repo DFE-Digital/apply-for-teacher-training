@@ -1,0 +1,14 @@
+en:
+  subject_table_component:
+    this_cycle: This cycle
+    last_cycle: Last cycle
+    percentage_change: Percentage change
+    national_this_cycle: This cycle
+    national_last_cycle: Last cycle
+    national_percentage_change: Percentage change
+    all_providers: All providers
+    subjects: Subjects
+    all_subjects: All subjects
+    caption_proportion_candidates_with_offers: '4. Proportion of candidates with an offer'
+    caption_submitted_applications_table: '2. Candidates who have submitted applications'
+
