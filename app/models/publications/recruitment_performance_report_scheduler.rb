@@ -8,6 +8,8 @@ module Publications
   private
 
     def schedule_national_report
+      return if Publications::NationalRecruitmentPerformanceReport.exists?(cycle_week:)
+
       Publications::NationalRecruitmentPerformanceReportWorker
         .perform_async(cycle_week:)
     end
@@ -27,6 +29,7 @@ module Publications
         .joins(courses: { course_options: :application_choices })
         .where(courses: { recruitment_cycle_year: CycleTimetable.current_year })
         .where('application_choices.created_at < ?', Time.zone.today.beginning_of_week)
+        .where.not(id: Publications::ProviderRecruitmentPerformanceReport.select('provider_id id').where(cycle_week:))
         .merge(ApplicationChoice.visible_to_provider)
     end
 

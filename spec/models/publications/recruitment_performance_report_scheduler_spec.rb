@@ -53,6 +53,29 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
       described_class.new.call
       expect(provider_worker).not_to have_received(:perform_async).with(provider_id: provider_with_application.id)
     end
+
+    it 'does not create a new Provider report worker when an existing report exists' do
+      TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2024, 4, 21, 18, 0))
+      provider_with_application
+
+      advance_time_to(1.day.from_now)
+
+      Publications::ProviderRecruitmentPerformanceReport.create!(
+        provider: provider_with_application,
+        statistics: {},
+        publication_date: Time.zone.today,
+        cycle_week: previous_cycle_week,
+      )
+
+      described_class.new.call
+
+      expect(provider_worker).not_to(
+        have_received(:perform_async).with(
+          cycle_week: previous_cycle_week,
+          provider_id: provider_with_application.id,
+        ),
+      )
+    end
   end
 
   context 'national report is generated' do
@@ -63,6 +86,18 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
     it 'creates a National report' do
       described_class.new.call
       expect(national_worker).to have_received(:perform_async).with(cycle_week: previous_cycle_week)
+    end
+
+    it 'does not create a National report worker when a report already exists' do
+      Publications::NationalRecruitmentPerformanceReport.create!(
+        statistics: {},
+        publication_date: Time.zone.today,
+        cycle_week: previous_cycle_week,
+      )
+
+      described_class.new.call
+
+      expect(national_worker).not_to have_received(:perform_async).with(cycle_week: previous_cycle_week)
     end
   end
 end
