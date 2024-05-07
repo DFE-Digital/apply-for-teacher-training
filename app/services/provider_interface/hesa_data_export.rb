@@ -2,7 +2,6 @@ module ProviderInterface
   class HesaDataExport
     class MissingSubjectCodeHECOSMapping < StandardError; end
     NO_INFORMATION_GIVEN_STRING = 'no information shared'.freeze
-    NO_DEGREE = 'no degree'.freeze
 
     attr_reader :actor, :recruitment_cycle_year
 
