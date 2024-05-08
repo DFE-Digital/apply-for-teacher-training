@@ -21,6 +21,8 @@ module CandidateInterface
       end
 
       def review_path
+        return candidate_interface_continuous_applications_course_tda_review_interruption_path(application_choice.id) if tda_and_has_a_degree?
+
         if short_personal_statement?
           candidate_interface_continuous_applications_course_review_interruption_path(application_choice.id)
         else
@@ -29,6 +31,10 @@ module CandidateInterface
       end
 
     private
+
+      def tda_and_has_a_degree?
+        @application_choice.degree_apprenticeship? && !@application_choice.application_form.application_qualifications.degrees.count.zero?
+      end
 
       def short_personal_statement?
         application_choice.application_form.becoming_a_teacher.scan(/\S+/).size < recommended_word_count
