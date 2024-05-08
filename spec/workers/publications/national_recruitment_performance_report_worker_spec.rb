@@ -12,7 +12,7 @@ RSpec.describe Publications::NationalRecruitmentPerformanceReportWorker do
 
   describe '#perform' do
     it 'calls the National Report Generator' do
-      described_class.new.perform
+      described_class.new.perform(cycle_week)
 
       expect(@instance).to have_received(:call)
       expect(Publications::NationalRecruitmentPerformanceReportGenerator).to have_received(:new).with(cycle_week:, generation_date:, publication_date:)

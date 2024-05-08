@@ -28,7 +28,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
     it 'creates a National report' do
       described_class.new.call
 
-      expect(national_worker).to have_received(:perform_async).with(cycle_week: previous_cycle_week)
+      expect(national_worker).to have_received(:perform_async).with(previous_cycle_week)
     end
 
     it 'does not create a National report worker when a report already exists' do
@@ -40,7 +40,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
 
       described_class.new.call
 
-      expect(national_worker).not_to have_received(:perform_async).with(cycle_week: previous_cycle_week)
+      expect(national_worker).not_to have_received(:perform_async).with(previous_cycle_week)
     end
   end
 end

@@ -11,7 +11,7 @@ module Publications
       return if Publications::NationalRecruitmentPerformanceReport.exists?(cycle_week:)
 
       Publications::NationalRecruitmentPerformanceReportWorker
-        .perform_async(cycle_week:)
+        .perform_async(cycle_week)
     end
 
     def schedule_provider_report

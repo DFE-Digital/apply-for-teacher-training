@@ -4,7 +4,7 @@ module Publications
 
     sidekiq_options retry: 3, queue: :default
 
-    def perform(cycle_week: CycleTimetable.current_cycle_week.pred)
+    def perform(cycle_week)
       Publications::NationalRecruitmentPerformanceReportGenerator.new(
         cycle_week:,
         generation_date:,
