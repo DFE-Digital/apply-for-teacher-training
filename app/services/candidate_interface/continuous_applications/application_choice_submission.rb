@@ -12,6 +12,7 @@ module CandidateInterface
                 applications_closed: { if: :validate_choice? },
                 course_unavailable: { if: :validate_choice? },
                 incomplete_primary_course_details: { if: :validate_choice? },
+                incomplete_tda_course_details: { if: :validate_choice? },
                 incomplete_details: { if: :validate_choice? },
                 can_add_more_choices: true
 

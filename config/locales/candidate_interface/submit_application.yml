@@ -19,6 +19,12 @@ en:
                 You cannot submit this application until you %{link_to_details}.
 
                 Your application will be saved as a draft while you finish adding your details.
+              incomplete_details_a_levels:
+                To apply for a %{course_level} course, you need an A level in %{course_subject} at grade 1 or above, or equivalent.
+
+                %{link_to_details} and complete the rest of your details. You can then submit your application.
+
+                Your application will be saved as a draft while you finish adding your details.
               incomplete_details_including_primary_course_details: |-
                 To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent.
 
