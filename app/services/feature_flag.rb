@@ -35,6 +35,7 @@ class FeatureFlag
     [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
     [:teacher_degree_apprenticeship, 'The degree apprenticeship program', 'Tomas Destefi'],
     [:recruitment_performance_report, 'The new and improved mid-cycle report', 'Lori Bailey'],
+    [:recruitment_performance_report_generator, 'Toggle the Recruitment Performance Report generation', 'Iain McNulty'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
