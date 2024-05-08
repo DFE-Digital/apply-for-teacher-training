@@ -13,7 +13,7 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportWorker do
 
   describe '#perform' do
     it 'calls the Provider Report Generator' do
-      described_class.new.perform(cycle_week:, provider_id:)
+      described_class.new.perform(provider_id, cycle_week)
 
       expect(@instance).to have_received(:call)
       expect(Publications::ProviderRecruitmentPerformanceReportGenerator).to have_received(:new).with(cycle_week:, generation_date:, publication_date:, provider_id:)

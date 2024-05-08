@@ -20,8 +20,8 @@ module Publications
         .find_each do |provider|
         Publications::ProviderRecruitmentPerformanceReportWorker
           .perform_async(
-            provider_id: provider.id,
-            cycle_week:,
+            provider.id,
+            cycle_week,
           )
       end
     end

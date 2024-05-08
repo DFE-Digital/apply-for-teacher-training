@@ -16,7 +16,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
     it 'creates a report for a provider who received an application last week' do
       described_class.new.call
 
-      expect(provider_worker).to have_received(:perform_async).with(provider_id: provider.id, cycle_week: previous_cycle_week)
+      expect(provider_worker).to have_received(:perform_async).with(provider.id, previous_cycle_week)
     end
   end
 
