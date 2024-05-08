@@ -1,0 +1,25 @@
+<% content_for :title, t('page_titles.application_review_and_submit', provider_name: @application_choice.provider.name) %>
+<% content_for(:before_content, govuk_back_link_to(candidate_interface_continuous_applications_choices_path)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <div class="app-grid-column--grey">
+      <h1 class="govuk-heading-l">Are you sure you want to apply for a teacher degree apprenticeship?</h1>
+      <p class="govuk-body">You've told us you have a degree, which might make you eligible for postgraduate teacher training.</p>
+      <p class="govuk-body">Teacher degree apprenticeships are 4 years, and postgraduate teacher training courses are usually one year.</p>
+      <p class="govuk-body"><%= govuk_link_to 'Find out about the different ways to train to be a teacher', 'https://getintoteaching.education.gov.uk/train-to-be-a-teacher' %>.</p>
+      <p class="govuk-body">For support and advice, you can also speak to a <% govuk_link_to 'teacher training advisor', 'https://getintoteaching.education.gov.uk/teacher-training-adviser/sign_up/identity' %> for free.</p>
+    </div>
+
+    <div class="govuk-button-group app-course-choice__confirm-submission">
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+          Would you like to continue and apply for this course?
+        </legend>
+      </fieldset>
+
+      <%= govuk_button_to('Continue and apply for this course', candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice.id), method: :get) %>
+      <%= govuk_link_to('Go to your account', candidate_interface_continuous_applications_details_path) %>
+    </div>
+  </div>
+</div>
