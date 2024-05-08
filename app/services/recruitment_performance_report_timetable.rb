@@ -3,7 +3,7 @@ module RecruitmentPerformanceReportTimetable
   LAST_CYCLE_WEEK_REPORT = 51
 
   def self.report_season?
-    CycleTimetable.current_cycle_week.between?(FIRST_CYCLE_WEEK_REPORT, LAST_CYCLE_WEEK_REPORT)
+    CycleTimetable.current_cycle_week.between?(FIRST_CYCLE_WEEK_REPORT, LAST_CYCLE_WEEK_REPORT) && FeatureFlag.active?(:recruitment_performance_report_generator)
   end
 
   # Generation and Publication date are the same (today) for now until we
