@@ -220,7 +220,11 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
 
     describe '#attributes' do
       it 'returns the correct #attributes' do
-        expect(result.attributes).to eq({ 'provider_id' => 123, 'nonprovider_filter' => 'Primary' })
+        expect(result.attributes).to include({
+          'provider_id' => 123,
+          'nonprovider_filter' => 'Primary',
+          'number_of_candidates_submitted_to_same_date_previous_cycle' => nil,
+        })
       end
     end
   end

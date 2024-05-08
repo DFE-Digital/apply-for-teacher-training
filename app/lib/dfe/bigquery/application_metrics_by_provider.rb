@@ -113,8 +113,7 @@ module DfE
 
         def attributes
           ATTRIBUTES.each_with_object({}) do |curr, obj|
-            val = public_send(curr)
-            obj[curr.to_s] = val if val
+            obj[curr.to_s] = public_send(curr)
           end
         end
       end
