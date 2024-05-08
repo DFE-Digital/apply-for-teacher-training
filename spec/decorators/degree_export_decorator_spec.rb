@@ -164,22 +164,4 @@ RSpec.describe DegreeExportDecorator do
       end
     end
   end
-
-  describe '#enic_reference' do
-    let(:degree) { build(:degree_qualification) }
-
-    context 'when degree is present' do
-      it 'returns the award year in ISO8601 format' do
-        expect(decorator.enic_reference).to eq(degree.enic_reference)
-      end
-    end
-
-    context 'when degree is nil' do
-      let(:degree) { nil }
-
-      it 'returns nil' do
-        expect(decorator.enic_reference).to be_nil
-      end
-    end
-  end
 end

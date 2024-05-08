@@ -38,10 +38,6 @@ class DegreeExportDecorator
     year_to_iso8601(fetch_attribute(:award_year))
   end
 
-  def enic_reference
-    fetch_attribute(:enic_reference)
-  end
-
 private
 
   def fetch_attribute(attribute)
@@ -49,8 +45,9 @@ private
   end
 
   def pad_attribute(attribute, pad_by)
-    value = fetch_attribute(attribute)
     return NO_DEGREE if @degree.blank?
+
+    value = fetch_attribute(attribute)
     return if value.blank?
 
     value.to_s.rjust(pad_by, '0')
