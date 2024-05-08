@@ -98,7 +98,8 @@ module DfE
       def result_class = self.class::Result
 
       class Result
-        attr_reader(*SELECT_COLUMNS.dup.delete_if { |s| s[/\./] }.push('provider_id'))
+        ATTRIBUTES = SELECT_COLUMNS.map { |column| column.to_s.tr('.', '_') }
+        attr_reader(*ATTRIBUTES)
 
         def initialize(attributes)
           attributes.each do |key, value|
@@ -107,6 +108,12 @@ module DfE
             if respond_to?(key)
               instance_variable_set("@#{key}", value)
             end
+          end
+        end
+
+        def attributes
+          ATTRIBUTES.each_with_object({}) do |curr, obj|
+            obj[curr.to_s] = public_send(curr)
           end
         end
       end

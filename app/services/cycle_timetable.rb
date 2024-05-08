@@ -288,9 +288,8 @@ class CycleTimetable
   end
 
   def self.current_cycle_week(time = Time.zone.now)
-    first_week_start = CycleTimetable.find_opens(current_year(time)).beginning_of_week
-    weeks = (time - first_week_start).seconds.in_weeks.floor.succ
-    weeks <= 52 ? weeks : weeks % 52
+    weeks = (time.to_date - find_opens(current_year(time)).beginning_of_week.to_date).to_i / 7
+    (weeks % 52).succ
   end
 
   def self.current_cycle_schedule

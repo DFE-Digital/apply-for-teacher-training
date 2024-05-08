@@ -23,6 +23,27 @@ RSpec.describe ApplicationChoice do
     end
   end
 
+  describe '.visible_to_provider' do
+    it 'returns nothing when there are no records with status in visible_to_provider' do
+      (ApplicationStateChange.valid_states - ApplicationStateChange.states_visible_to_provider).each do |status|
+        create(:application_choice, status:)
+      end
+
+      expect(described_class.visible_to_provider).to be_empty
+    end
+
+    it 'scopes to visible_to_provider choices' do
+      (ApplicationStateChange.valid_states - ApplicationStateChange.states_visible_to_provider).each do |state|
+        create(:application_choice, status: state)
+      end
+      visible_to_provider = ApplicationStateChange.states_visible_to_provider.map do |state|
+        create(:application_choice, status: state)
+      end
+
+      expect(described_class.visible_to_provider.pluck(:status)).to match_array(visible_to_provider.map(&:status))
+    end
+  end
+
   describe '.not_reappliable' do
     it 'returns nothing when there are no records with status in non_reapply_states' do
       (ApplicationStateChange.valid_states - ApplicationStateChange.non_reapply_states).each do |status|
