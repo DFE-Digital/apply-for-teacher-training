@@ -5,16 +5,32 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
   subject(:generator) { described_class.new(provider_id:, cycle_week:) }
 
   before do
-    @attributes = [{ 'provider_id' => provider_id, 'nonprovider_filter' => 'Primary' }]
-    stub_bigquery_application_metrics_by_provider_request(@attributes)
+    @stubbed_response = application_metrics_by_provider_results(
+      {
+        nonprovider_filter: 'Primary',
+        nonprovider_filter_category: nil,
+        cycle_week: nil,
+        recruitment_cycle_year: nil,
+        id: provider_id,
+      },
+    )
+
+    stub_bigquery_application_metrics_by_provider_request(@stubbed_response)
   end
 
   let(:cycle_week) { 12 }
   let(:provider_id) { create(:provider).id }
   let(:generation_date) { Time.zone.today }
+  # BigQuery returns symbols, #attributes returns strings
+  # BigQuery returns :id, for 'provider.id'
+  let(:attributes) do
+    @stubbed_response.first[:provider_id] = @stubbed_response.first.delete(:id)
+    @stubbed_response.first.stringify_keys!
+    @stubbed_response
+  end
 
   it 'returns data' do
-    expect(generator.data).to eq(@attributes)
+    expect(generator.data).to eq(attributes)
   end
 
   describe '#call' do
@@ -32,7 +48,7 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
           'publication_date' => Time.zone.today,
           'generation_date' => Time.zone.today,
           'cycle_week' => cycle_week,
-          'statistics' => @attributes,
+          'statistics' => attributes,
         })
       end
     end
@@ -50,7 +66,7 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
           'publication_date' => generation_date,
           'generation_date' => generation_date,
           'cycle_week' => 15,
-          'statistics' => @attributes,
+          'statistics' => attributes,
         })
       end
     end
@@ -70,7 +86,7 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
           'publication_date' => generation_date,
           'generation_date' => generation_date,
           'cycle_week' => cycle_week,
-          'statistics' => @attributes,
+          'statistics' => attributes,
         })
       end
     end
