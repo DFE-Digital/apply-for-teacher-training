@@ -91,7 +91,7 @@ runs:
       with:
         bundler-cache: true
 
-    - uses: DFE-Digital/keyvault-yaml-secret@1721-update-node-for-keyvault-yaml-secret
+    - uses: DFE-Digital/keyvault-yaml-secret@1721-update-node-for-keyvault-yaml-secret-test
       id: get_smoke_test_secrets
       with:
         keyvault: ${{ env.KEY_VAULT_NAME }}

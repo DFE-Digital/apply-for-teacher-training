@@ -72,7 +72,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - uses: DFE-Digital/keyvault-yaml-secret@1721-update-node-for-keyvault-yaml-secret
+      - uses: DFE-Digital/keyvault-yaml-secret@1721-update-node-for-keyvault-yaml-secret-test
         id: get-secret
         with:
           keyvault: ${{ env.KEY_VAULT_NAME }}
