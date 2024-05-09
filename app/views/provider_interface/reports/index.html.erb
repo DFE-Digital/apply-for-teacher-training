@@ -5,6 +5,58 @@
     <h1 class="govuk-heading-l">
       <%= t('page_titles.provider.reports') %>
     </h1>
+
+    <% if FeatureFlag.active?(:recruitment_performance_report) %>
+      <% if @performance_reports %>
+        <h2 class="govuk-heading-m">
+          Weekly recruitment performance report
+        </h2>
+      <% end %>
+
+      <% @providers.select { _1.performance_reports.any? }.each do |provider| %>
+        <h3 class="govuk-heading-s"><%= provider.name %></h3>
+        <% report = provider.performance_reports.last %>
+        <ul class="govuk-list govuk-list--spaced">
+          <li><%= govuk_link_to("Weekly report for week ending #{report.publication_date.to_fs(:date_and_time)}", provider_interface_reports_provider_recruitment_performance_report_path(provider.id)) %></li>
+        </ul>
+      <% end %>
+    <% else %>
+      <h2 class="govuk-heading-m">
+        Mid-cycle recruitment performance report
+      </h2>
+
+      <% @providers.select { mid_cycle_report_present_for?(_1) }.each do |provider| %>
+        <h3 class="govuk-heading-s"><%= provider.name %></h3>
+
+        <ul class="govuk-list govuk-list--spaced">
+          <li>
+            <% if mid_cycle_report_present_for?(provider) %>
+              <%= govuk_link_to mid_cycle_report_label_for(provider), provider_interface_reports_provider_mid_cycle_report_path(provider_id: provider) %>
+            <% end %>
+          </li>
+        </ul>
+      <% end %>
+    <% end %>
+
+    <h2 class="govuk-heading-m">Application data for this recruitment cycle</h2>
+    <% @providers.each do |provider| %>
+      <% if @providers.many? %>
+        <h3 class="govuk-heading-s"><%= provider.name %></h3>
+      <% end %>
+      <ul class="govuk-list govuk-list--spaced">
+        <li>
+          <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider) %>
+        </li>
+        <li>
+          <%= govuk_link_to t('page_titles.provider.diversity_report'), provider_interface_reports_provider_diversity_report_path(provider_id: provider) %>
+        </li>
+        <li>
+          <%= govuk_link_to t('page_titles.provider.withdrawal_report'), provider_interface_reports_provider_withdrawal_report_path(provider_id: provider) %>
+        </li>
+      </ul>
+    <% end %>
+
+    <h2 class="govuk-heading-m">Download and export</h2>
     <ul class="govuk-list govuk-list--spaced">
       <li>
         <%= govuk_link_to t('page_titles.provider.export_application_data'), provider_interface_new_application_data_export_path %>
@@ -12,39 +64,6 @@
       <li>
         <%= govuk_link_to t('page_titles.provider.export_hesa_data'), provider_interface_reports_hesa_exports_path %>
       </li>
-      <% if @providers.one? %>
-        <li>
-          <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: @providers.first) %>
-        </li>
-        <li>
-          <%= govuk_link_to t('page_titles.provider.diversity_report'), provider_interface_reports_provider_diversity_report_path(provider_id: @providers.first) %>
-        </li>
-        <li>
-          <%= govuk_link_to t('page_titles.provider.withdrawal_report'), provider_interface_reports_provider_withdrawal_report_path(provider_id: @providers.first) %>
-        </li>
-        <% if mid_cycle_report_present_for?(@providers.first) %>
-          <%= govuk_link_to mid_cycle_report_label_for(@providers.first), provider_interface_reports_provider_mid_cycle_report_path(provider_id: @providers.first) %>
-        <% end %>
-      <% end %>
     </ul>
-    <% if @providers.many? %>
-      <% @providers.each do |provider| %>
-        <h2 class="govuk-heading-m"><%= provider.name %></h2>
-        <ul class="govuk-list govuk-list--spaced">
-          <li>
-            <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider) %>
-          </li>
-          <li>
-            <%= govuk_link_to t('page_titles.provider.diversity_report'), provider_interface_reports_provider_diversity_report_path(provider_id: provider) %>
-          </li>
-          <li>
-            <%= govuk_link_to t('page_titles.provider.withdrawal_report'), provider_interface_reports_provider_withdrawal_report_path(provider_id: provider) %>
-          </li>
-          <% if mid_cycle_report_present_for?(provider) %>
-            <%= govuk_link_to mid_cycle_report_label_for(provider), provider_interface_reports_provider_mid_cycle_report_path(provider_id: provider) %>
-          <% end %>
-        </ul>
-      <% end %>
-    <% end %>
   </div>
 </div>
