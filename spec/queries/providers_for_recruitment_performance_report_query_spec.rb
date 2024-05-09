@@ -27,7 +27,7 @@ RSpec.describe ProvidersForRecruitmentPerformanceReportQuery do
     expect(query).to contain_exactly(application_last_week)
   end
 
-  it 'selects distinct providers when a provider has more than one appliation' do
+  it 'selects distinct providers when a provider has more than one application' do
     TestSuiteTimeMachine.travel_temporarily_to(1.week.ago) do
       application_last_week
       create(:application_choice, :awaiting_provider_decision, course_option: application_last_week.course_options.first)
