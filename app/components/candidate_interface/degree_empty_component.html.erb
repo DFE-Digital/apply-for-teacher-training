@@ -2,6 +2,10 @@
 
 <p class="govuk-body">Add your bachelor's degree even if you have not got your grade yet.</p>
 
-<p class="govuk-body">You can also add any other degrees that you have, or you are working towards. You do not need a degree if you are applying for a teacher degree apprenticeship (TDA).</p>
+<p class="govuk-body">You can also add any other degrees that you have, or you are working towards.</p>
+
+<p class="govuk-body">
+You do not need a degree if you are applying for a <%= govuk_link_to 'teacher degree apprenticeship (TDA)', 'https://get-into-teaching-app-review-3945.test.teacherservices.cloud/train-to-be-a-teacher/teacher-degree-apprenticeships', target: '_blank' %>.
+</p>
 
 <%= govuk_button_link_to degrees.empty? ? t('application_form.degree.add.button') : t('application_form.degree.another.button'), candidate_interface_degree_country_path, primary: true %>
