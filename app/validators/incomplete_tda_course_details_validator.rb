@@ -15,7 +15,7 @@ class IncompleteTdaCourseDetailsValidator < ActiveModel::EachValidator
         :incomplete_details_a_levels,
         link_to_details:,
         course_level:,
-        course_subject: '[subject]',
+        course_subject: 'Mathematics',
       )
     end
   end
