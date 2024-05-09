@@ -33,6 +33,14 @@ Rails.application.routes.draw do
     end
   end
 
+  direct :realistic_job_preview do |params|
+    uri = URI('https://platform.teachersuccess.co.uk/p/XK4rV0xN16')
+    if params.present?
+      uri.query = URI.encode_www_form(params)
+    end
+    uri.to_s
+  end
+
   namespace :integrations, path: '/integrations' do
     post '/notify/callback' => 'notify#callback'
     get '/feature-flags' => 'feature_flags#index'

@@ -17,7 +17,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, :sidekiq do
       end
     end
 
-    context 'when intremental sync is off' do
+    context 'when incremental sync is off' do
       before do
         allow(Sentry).to receive(:capture_exception)
         stub_teacher_training_api_providers_with_multiple_pages

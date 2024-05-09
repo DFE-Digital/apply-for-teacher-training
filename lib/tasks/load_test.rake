@@ -102,10 +102,8 @@ namespace :load_test do
   task setup_vendor_api_tokens: :environment do
     check_environment!
 
-    unhashed_tokens = []
-
-    provider_codes.each do |code|
-      unhashed_tokens << VendorAPIToken.create_with_random_token!(provider: Provider.find_by(code:))
+    unhashed_tokens = provider_codes.map do |code|
+      VendorAPIToken.create_with_random_token!(provider: Provider.find_by(code:))
     end
 
     Rails.root.join('jmeter/plans/vendor_api_keys.txt').binwrite(unhashed_tokens.join(' '))

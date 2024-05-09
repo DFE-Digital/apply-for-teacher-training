@@ -75,6 +75,11 @@ class Candidate < ApplicationRecord
     last_signed_in_at.nil?
   end
 
+  def pseudonymised_id
+    # Implementation matches https://github.com/DFE-Digital/dfe-analytics/blob/80015465040513020d0c2b3a2ae45d4f05f3b547/lib/dfe/analytics.rb#L207
+    Digest::SHA2.hexdigest(id.to_s)
+  end
+
 private
 
   def downcase_email

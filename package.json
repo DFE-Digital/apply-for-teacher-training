@@ -6,23 +6,23 @@
     "yarn": "^1.22.0"
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^2.1.2",
+    "@ministryofjustice/frontend": "^2.1.3",
     "@rails/webpacker": "^5.4.4",
     "accessible-autocomplete": "^2.0.4",
     "dfe-autocomplete": "github:DFE-Digital/dfe-autocomplete#8e7389ff62a38bc8880323f6c58eed9c8d10f080",
-    "govuk-frontend": "^5.3.0",
+    "govuk-frontend": "^5.3.1",
     "jquery": "^3.7.1",
     "postcss": "^8.4.38",
-    "puppeteer": "^22.6.3"
+    "puppeteer": "^22.8.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.2.5",
     "standard": "^17.1.0",
-    "stylelint": "^16.3.1",
+    "stylelint": "^16.4.0",
     "stylelint-config-gds": "^2.0.0",
-    "stylelint-config-recess-order": "^4.6.0",
+    "stylelint-config-recess-order": "^5.0.1",
     "stylelint-order": "^6.0.4",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2"

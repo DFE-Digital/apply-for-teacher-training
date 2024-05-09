@@ -1,0 +1,10 @@
+<%= content_for :title, 'Recruitment performance weekly report 2023 to 2024 - Apply for teacher training - GOV.UK' %>
+<h1 class="govuk-heading-l">Recruitment performance weekly report 2023 to 2024</h1>
+
+<% if @national_data.present? && @provider_data.present? %>
+  <p class="govuk-body">This report shows your organisation's initial teacher training (ITT) recruitment performance so far this recruitment cycle</p>
+  <%= render ProviderInterface::RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(@provider, @provider_data, @national_data) %>
+  <%= render ProviderInterface::RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent.new(@provider, @provider_data, @national_data) %>
+<% else %>
+  <p class="govuk-body">This report is not ready to view.</p>
+<% end %>

@@ -25,10 +25,7 @@ class RestructuredWorkHistoryWithBreaks
   end
 
   def timeline
-    work_history_with_breaks = []
-
-    @work_history.each { |job| work_history_with_breaks << job }
-    @existing_breaks.each { |existing_break| work_history_with_breaks << existing_break }
+    work_history_with_breaks = [].concat(@work_history, @existing_breaks)
 
     if @work_history.any?
       timeline_in_months = month_range(

@@ -114,7 +114,10 @@ class CycleTimetable
     CYCLE_DATES.keys.detect do |year|
       return year if last_recruitment_cycle_year?(year)
 
-      now.between?(CYCLE_DATES[year][:find_opens], CYCLE_DATES[year + 1][:find_opens])
+      start = CYCLE_DATES[year][:find_opens]
+      ending = CYCLE_DATES[year + 1][:find_opens]
+
+      now.between?(start, ending)
     end
   end
 
@@ -282,6 +285,11 @@ class CycleTimetable
                end
 
     schedule.fetch(name)
+  end
+
+  def self.current_cycle_week(time = Time.zone.now)
+    weeks = (time.to_date - find_opens(current_year(time)).beginning_of_week.to_date).to_i / 7
+    (weeks % 52).succ
   end
 
   def self.current_cycle_schedule

@@ -1,0 +1,20 @@
+<% content_for :title, t('page_titles.full_course') %>
+<% content_for(:before_content, govuk_back_link_to(@wizard.previous_step_path)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.closed_course', course_name: @course.name_and_code) %>
+    </h1>
+
+    <% if @course.provider.course_options.available.any? %>
+      <p class="govuk-body">You can:</p>
+      <ul class="govuk-list govuk-list--bullet govuk-!-padding-bottom-8">
+        <li>apply to a <%= govuk_link_to 'different course', candidate_interface_continuous_applications_which_course_are_you_applying_to_path(provider_id: @course.provider.id) %> offered by <%= @course.provider.name %></li>
+        <li>apply to a <%= govuk_link_to 'different training provider', candidate_interface_continuous_applications_provider_selection_path %></li>
+      </ul>
+    <% else %>
+      <p class="govuk-body">You can apply to a <%= govuk_link_to 'different training provider', candidate_interface_continuous_applications_provider_selection_path %>.</p>
+    <% end %>
+  </div>
+</div>

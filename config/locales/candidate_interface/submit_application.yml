@@ -15,6 +15,10 @@ en:
                 You cannot submit this application as the course is no longer available.
 
                 %{link_to_remove} and search for other courses.
+              course_closed: |-
+                You cannot submit this application because the course has closed.
+
+                %{link_to_remove} and search for other courses.
               incomplete_details: |-
                 You cannot submit this application until you %{link_to_details}.
 

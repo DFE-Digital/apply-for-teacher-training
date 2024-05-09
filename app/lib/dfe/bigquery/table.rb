@@ -5,7 +5,20 @@ module DfE
 
       def initialize(name:)
         @name = name
+        @select = '*'
         @conditions = []
+      end
+
+      def select(columns)
+        @select = if columns.is_a? Array
+                    columns.join(', ')
+                  elsif columns.is_a? String
+                    columns
+                  else
+                    @select
+                  end
+
+        self
       end
 
       def where(conditions)
@@ -22,7 +35,7 @@ module DfE
       end
 
       def to_sql
-        base_sql = "SELECT *\nFROM #{name}\n"
+        base_sql = "SELECT #{@select}\nFROM #{name}\n"
 
         if @conditions.present?
           @conditions.each_with_index do |condition, index|

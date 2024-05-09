@@ -8,13 +8,22 @@ class CourseUnavailableValidator < ActiveModel::EachValidator
 
     return if !course.full? &&
               application_choice.course_option.site_still_valid? &&
-              course.exposed_in_find?
+              course.exposed_in_find? &&
+              course.application_status_open?
 
-    record.errors.add(
-      attribute,
-      :course_unavailable,
-      link_to_remove: link_to_remove(application_choice),
-    )
+    if course.application_status_closed?
+      record.errors.add(
+        attribute,
+        :course_closed,
+        link_to_remove: link_to_remove(application_choice),
+      )
+    else
+      record.errors.add(
+        attribute,
+        :course_unavailable,
+        link_to_remove: link_to_remove(application_choice),
+      )
+    end
   end
 
 private

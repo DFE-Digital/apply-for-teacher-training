@@ -16,7 +16,7 @@ class ApplicationStateChange
   REAPPLY_STATUSES = %i[rejected cancelled withdrawn declined offer_withdrawn].freeze
 
   TERMINAL_STATES = UNSUCCESSFUL_STATES + %i[recruited].freeze
-  IN_PROGRESS_STATES = DECISION_PENDING_STATUSES + ACCEPTED_STATES + %i[offer].freeze
+  IN_PROGRESS_STATES = DECISION_PENDING_STATUSES + ACCEPTED_STATES + %i[offer].freeze - %i[conditions_not_met]
 
   attr_reader :application_choice
 

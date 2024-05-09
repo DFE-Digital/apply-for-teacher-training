@@ -16,20 +16,20 @@ module Publications
       candidate_area_and_subject
     ].freeze
 
-    attr_accessor :generation_date,
-                  :publication_date,
-                  :month,
-                  :first_cycle_week,
-                  :report_expected_time,
-                  :cycle_week,
-                  :model
+    attr_reader :client,
+                :generation_date,
+                :publication_date,
+                :month,
+                :report_expected_time,
+                :cycle_week,
+                :model
 
     def initialize(generation_date: Time.zone.now, publication_date: nil, model: MonthlyStatistics::MonthlyStatisticsReport)
       @generation_date = generation_date.to_time
       @publication_date = publication_date.presence || 1.week.after(@generation_date)
-      @first_cycle_week = CycleTimetable.find_opens.beginning_of_week
       @report_expected_time = @generation_date.beginning_of_week(:sunday)
-      @cycle_week = (@report_expected_time - first_cycle_week).seconds.in_weeks.round
+      @cycle_week = CycleTimetable.current_cycle_week(@report_expected_time)
+      @client = DfE::Bigquery::ApplicationMetrics.new(cycle_week:)
       @month = @generation_date.strftime('%Y-%m')
       @model = model
     end
@@ -71,7 +71,7 @@ module Publications
     alias statistics to_h
 
     def period
-      "From #{first_cycle_week.to_fs(:govuk_date)} to #{report_expected_time.to_fs(:govuk_date)}"
+      "From #{CycleTimetable.find_opens.beginning_of_week.to_fs(:govuk_date)} to #{report_expected_time.to_fs(:govuk_date)}"
     end
   end
 end

@@ -70,10 +70,16 @@ variable "alert_window_size" {
   description = "The period of time that is used to monitor alert activity e.g PT1M, PT5M, PT15M, PT30M, PT1H, PT6H or PT12H"
 }
 
+# Remove when all environments are migrated to the terraform DB
+variable "use_terraform_db" {
+  description = "Connect app to the database created by terraform"
+  default     = false
+}
+
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.app_environment
 
-  infra_secrets     = yamldecode(data.azurerm_key_vault_secret.infra_secrets.value)
+  infra_secrets = yamldecode(data.azurerm_key_vault_secret.infra_secrets.value)
 
   app_env_values_from_yaml = try(yamldecode(file("${path.module}/workspace-variables/${var.app_environment}_app_env.yml")), {})
 
@@ -91,6 +97,7 @@ locals {
   app_resource_group_name = "${var.azure_resource_prefix}-${var.service_short}-${var.config_short}-rg"
 
   webapp_startup_command = var.webapp_startup_command == null ? null : ["/bin/sh", "-c", var.webapp_startup_command]
-  postgres_service_name = "apply-postgres-${var.app_environment}"
-  database_url          = "postgres://${module.postgres.username}:${module.postgres.password}@${module.postgres.host}:${module.postgres.port}/${local.postgres_service_name}"
+
+  legacy_database_url = "postgres://${module.postgres.username}:${module.postgres.password}@${module.postgres.host}:${module.postgres.port}/apply-postgres-${var.app_environment}"
+  database_url        = var.use_terraform_db ? module.postgres.url : local.legacy_database_url
 }

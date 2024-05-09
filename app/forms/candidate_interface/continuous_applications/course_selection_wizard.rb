@@ -13,6 +13,7 @@ module CandidateInterface
           { duplicate_course_selection: DuplicateCourseSelectionStep },
           { reached_reapplication_limit: ReachedReapplicationLimitStep },
           { full_course_selection: FullCourseSelectionStep },
+          { closed_course_selection: ClosedCourseSelectionStep },
           { course_study_mode: CourseStudyModeStep },
           { course_site: CourseSiteStep },
           { find_course_selection: FindCourseSelectionStep },

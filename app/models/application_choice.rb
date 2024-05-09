@@ -59,6 +59,7 @@ class ApplicationChoice < ApplicationRecord
     vendor_api_rejection_reasons: 'vendor_api_rejection_reasons', # Rejection reasons via the Vendor API.
   }, _prefix: :rejection_reasons_type
 
+  scope :visible_to_provider, -> { where(status: ApplicationStateChange.states_visible_to_provider) }
   scope :reappliable, -> { where(status: ApplicationStateChange.reapply_states) }
   scope :not_reappliable, -> { where(status: ApplicationStateChange.non_reapply_states) }
   scope :decision_pending, -> { where(status: ApplicationStateChange::DECISION_PENDING_STATUSES) }
