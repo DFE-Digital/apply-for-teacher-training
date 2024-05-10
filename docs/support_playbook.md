@@ -13,6 +13,7 @@
 11. [Permissions](#provider-users-and-permissions)
 12. [Publish Sandbox](#publish-sandbox)
 13. [Candidate sign in](#candidate-login-issues)
+14. [Candidate email address](#switch-email-addresses)
 
 ## Support Trello board
 
@@ -520,3 +521,28 @@ Check logs in Kibana. If there is a 422 Unprocessable Entity response for this u
 > You are experiencing the problem because your browser is storing some old data. We would suggest closing all the tabs, which have Apply service open and clicking the link again: https://www.apply-for-teacher-training.service.gov.uk/candidate/account
 >
 > If this problem persists please get in touch and we will investigate further.
+
+
+## Switch email addresses
+
+```ruby
+og_email_address = 'some-person-og@example.com'
+dup_email_address = 'some-person-dup@example.com'
+dummy_email_address = "holding-email-address@example.com"
+
+audit_comment = "Switching emails following a support request, ticket ZENDESK_URL"
+
+og_candidate = Candidate.find_by!(email_address: og_email_address)
+dup_candidate = Candidate.find_by!(email_address: dup_email_address)
+
+Candidate.transaction do
+  # Set the email address of the duplicate candidate to a dummy email address
+  dup_candidate.update!(email_address: dummy_email_address, audit_comment: audit_comment)
+
+  # Set the email address of the original candidate to the duplicate email address
+  og_candidate.update!(email_address: dup_email_address, audit_comment: audit_comment)
+
+  # Set the email address of the duplicate candidate to the original email address
+  dup_candidate.update!(email_address: og_email_address, audit_comment: audit_comment)
+end
+```
