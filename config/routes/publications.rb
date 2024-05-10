@@ -7,5 +7,4 @@ namespace :publications, path: '/publications' do
   get '/monthly-statistics/:month/:export_type' => 'monthly_statistics#download', as: :monthly_report_download
 
   get '/mid-cycle-report' => 'mid_cycle_report#show', as: :mid_cycle_report
-  get '/recruitment-performance-report' => 'recruitment_performance_reports#show', as: :recruitment_performance_reports
 end
