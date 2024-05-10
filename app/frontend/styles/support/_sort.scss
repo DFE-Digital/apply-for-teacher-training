@@ -35,7 +35,7 @@
 
   .govuk-button {
     float: right;
-    margin: govuk-spacing(2) 0 0 0;
+    margin: govuk-spacing(2) 0 0;
 
     @include mq($from: desktop) {
       margin: 0 0 0 govuk-spacing(2);
