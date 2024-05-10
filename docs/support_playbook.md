@@ -142,6 +142,14 @@ ApplicationQualification.find(ID).update!(grade: 'D', audit_comment: 'Updating g
 ApplicationQualification.find(ID).update!(start_year: '2011', award_year: '2014', audit_comment: 'Updating an application after a user requested a change, ticket ZENDESK_URL'
 ```
 
+**Delete a Qualification**
+
+```ruby
+application_qualification = ApplicationQualification.find(ID)
+application_qualification.audit_comment = 'Deleting a qualification following a support request, ticket ZENDESK_URL'
+application_qualification.destroy!
+```
+
 ## Personal statement
 
 ### Update personal statement
@@ -498,7 +506,7 @@ If you need to, you can get into the rails console to look for various things
 
 To see if a provider name exists
 ```ruby
-=> Provider.where(provider_name: "University of BAT")
+Provider.where(provider_name: "University of BAT")
 ```
 
 Adding a new provider involves setting the provider name and code - I found these by going onto the [apply sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk/support/providers?onboarding_stages%5B%5D=synced&onboarding_stages%5B%5D=dsa_signed), and looking for the required provider. This had the exact name and code.
