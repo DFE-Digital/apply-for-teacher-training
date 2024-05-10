@@ -49,7 +49,7 @@ jobs:
           SECRETS: |
             ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
 
-      - uses: DFE-Digital/keyvault-yaml-secret@v1
+      - uses: DFE-Digital/keyvault-yaml-secret@v1.0.6
         id: get-secret
         with:
           keyvault: ${{ env.KEY_VAULT_NAME }}
