@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent do
-  it 'renders the report with expected columns and formats' do
+  it 'renders the report with expected columns and formats', :aggregate_failures do
     provider_report = create(:provider_recruitment_performance_report)
     provider = provider_report.provider
     national_statistics = create(:national_recruitment_performance_report).statistics
@@ -39,7 +39,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::ProportionCandid
   end
 
   describe 'provider report only has secondary data' do
-    it 'does not render primary data' do
+    it 'does not render primary data', :aggregate_failures do
       provider_report = create(:provider_recruitment_performance_report, :secondary_only)
       provider = provider_report.provider
       national_statistics = create(:national_recruitment_performance_report).statistics
@@ -61,7 +61,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::ProportionCandid
   end
 
   describe 'provider report only has primary data' do
-    it 'does not render secondary data' do
+    it 'does not render secondary data', :aggregate_failures do
       provider_report = create(:provider_recruitment_performance_report, :primary_only)
       provider = provider_report.provider
       national_statistics = create(:national_recruitment_performance_report).statistics

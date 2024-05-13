@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::RecruitmentPerformanceReport::DeferralsTableComponent do
-  it 'renders the report with expected columns and formats' do
+  it 'renders the report with expected columns and formats', :aggregate_failures do
     provider_report = create(:provider_recruitment_performance_report)
     provider = provider_report.provider
     national_statistics = create(:national_recruitment_performance_report).statistics
