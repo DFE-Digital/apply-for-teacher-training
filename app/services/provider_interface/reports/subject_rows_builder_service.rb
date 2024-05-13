@@ -5,6 +5,7 @@ module ProviderInterface
       SECONDARY_SUBJECT = "#{SECONDARY} subject".freeze
       PRIMARY = 'Primary'.freeze
       LEVEL = 'Level'.freeze
+      ALL = 'All'.freeze
 
       def initialize(field_mapping:, provider_statistics:, national_statistics:)
         @field_mapping = field_mapping
@@ -20,14 +21,16 @@ module ProviderInterface
       end
 
       def summary_row
-        rows.find { |row| row.title == 'All' && row.level == 'All' }
+        rows.find { |row| row.title == ALL && row.level == ALL }
       end
 
     private
 
+      attr_reader :field_mapping, :provider_statistics, :national_statistics
+
       def rows
         @rows ||= provider_statistics.map do |row|
-          next if row[this_cycle].blank? && row[last_cycle].blank?
+          next if row_has_no_data?(row)
 
           national_row = national_statistics.find do |national_stat|
             [national_stat[title], national_stat[level]] == [row[title], row[level]]
@@ -39,18 +42,26 @@ module ProviderInterface
         end&.compact
       end
 
-      attr_reader :field_mapping, :provider_statistics, :national_statistics
+      def row_has_no_data?(row)
+        # We never want to accidentally omit the summary row.
+        return false if row[title] == ALL && row[level] == ALL
+
+        # If this cycle and last cycle are both nil, 0, 0.0
+        # blank? returns false for 0.0, but zero? returns true
+        (row[this_cycle].nil? || row[this_cycle].zero?) &&
+          (row[last_cycle].nil? || row[last_cycle].zero?)
+      end
 
       def subject_from_row(row, national_row)
         SubjectRow.new(
           title: row[title],
           level: row[level],
-          percentage_change: row[percentage_change] || nil,
           this_cycle: row[this_cycle],
           last_cycle: row[last_cycle],
-          national_this_cycle: national_row[this_cycle] || 'Not available',
-          national_last_cycle: national_row[last_cycle] || 'Not available',
-          national_percentage_change: national_row[percentage_change] || nil,
+          percentage_change: row[percentage_change],
+          national_this_cycle: national_row[this_cycle],
+          national_last_cycle: national_row[last_cycle],
+          national_percentage_change: national_row[percentage_change],
         )
       end
 
@@ -72,10 +83,6 @@ module ProviderInterface
 
       def level
         'nonprovider_filter_category'
-      end
-
-      def include_percentage_change?
-        field_mapping.keys(&:to_sym).include? :percentage_change
       end
     end
 

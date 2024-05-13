@@ -1,0 +1,20 @@
+<%= render ProviderInterface::RecruitmentPerformanceReport::SubjectTableWithProportionsOnlyComponent.new(
+  @provider,
+  table_caption: 'proportion_of_candidates_with_an_offer',
+  subject_rows: @row_builder.subject_rows,
+  summary_row: @row_builder.summary_row,
+) do %>
+  <span>
+    <p class="govuk-body">
+      <%= t('proportion_candidates_with_offers_table_component.proportion_of_all_candidates', provider_name: @provider.name) %>
+    </p>
+    <p class="govuk-body">
+      <%= t('proportion_candidates_with_offers_table_component.table_includes') %>
+    </p>
+    <%= govuk_list([
+                     t('proportion_candidates_with_offers_table_component.li_one'),
+                     t('proportion_candidates_with_offers_table_component.li_two'),
+                     t('proportion_candidates_with_offers_table_component.li_three'),
+         ], type: :bullet) %>
+  </span>
+<% end %>

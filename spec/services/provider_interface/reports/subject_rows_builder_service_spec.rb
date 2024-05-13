@@ -1,24 +1,32 @@
 require 'rails_helper'
 
-FIELD_MAPPING_WITH_CHANGE = {
-  this_cycle: 'number_of_candidates_submitted_to_date',
-  last_cycle: 'number_of_candidates_submitted_to_same_date_previous_cycle',
-  percentage_change: 'number_of_candidates_submitted_to_date_as_proportion_of_last_cycle',
-}.freeze
-
-FIELD_MAPPING_WITHOUT_CHANGE = {
-  this_cycle: 'number_of_candidates_submitted_to_date',
-  last_cycle: 'number_of_candidates_submitted_to_same_date_previous_cycle',
-}.freeze
-
 RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
+  let(:field_mapping_with_change) do
+    {
+      this_cycle: 'number_of_candidates_submitted_to_date',
+      last_cycle: 'number_of_candidates_submitted_to_same_date_previous_cycle',
+      percentage_change: 'number_of_candidates_submitted_to_date_as_proportion_of_last_cycle',
+    }
+  end
+
+  let(:field_mapping_without_change) do
+    {
+      this_cycle: 'number_of_candidates_submitted_to_date',
+      last_cycle: 'number_of_candidates_submitted_to_same_date_previous_cycle',
+    }
+  end
+
+  let(:field_mapping_this_cycle_only) do
+    { this_cycle: 'number_of_candidates_submitted_to_date' }
+  end
+
   describe '#summary row' do
     it 'returns only the summary data row' do
       provider_statistics = create(:provider_recruitment_performance_report).statistics
       national_statistics = create(:national_recruitment_performance_report).statistics
 
       summary_row = described_class.new(
-        field_mapping: FIELD_MAPPING_WITH_CHANGE,
+        field_mapping: field_mapping_with_change,
         provider_statistics:,
         national_statistics:,
       ).summary_row
@@ -34,7 +42,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         national_statistics = create(:national_recruitment_performance_report).statistics
 
         rows = described_class.new(
-          field_mapping: FIELD_MAPPING_WITH_CHANGE,
+          field_mapping: field_mapping_with_change,
           provider_statistics:,
           national_statistics:,
         ).subject_rows
@@ -53,7 +61,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         national_statistics = create(:national_recruitment_performance_report).statistics
 
         rows = described_class.new(
-          field_mapping: FIELD_MAPPING_WITHOUT_CHANGE,
+          field_mapping: field_mapping_without_change,
           provider_statistics:,
           national_statistics:,
         ).subject_rows
@@ -66,13 +74,37 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
       end
     end
 
+    describe 'a field mapping only include this cycle' do
+      it 'only includes this cycle only data' do
+        provider_statistics = create(:provider_recruitment_performance_report).statistics
+        national_statistics = create(:national_recruitment_performance_report).statistics
+
+        rows = described_class.new(
+          field_mapping: field_mapping_this_cycle_only,
+          provider_statistics:,
+          national_statistics:,
+        ).subject_rows
+
+        rows_with_percentage_change = rows.find_all do |row|
+          row.percentage_change.present? || row.national_percentage_change.present?
+        end
+
+        rows_with_last_cycle_data = rows.find_all do |row|
+          row.last_cycle.present? || row.national_last_cycle.present?
+        end
+
+        expect(rows_with_percentage_change.empty?).to be true
+        expect(rows_with_last_cycle_data.empty?).to be true
+      end
+    end
+
     describe 'provider has primary only data' do
       it 'returns only primary rows' do
         provider_statistics = create(:provider_recruitment_performance_report, :primary_only).statistics
         national_statistics = create(:national_recruitment_performance_report).statistics
 
         rows = described_class.new(
-          field_mapping: FIELD_MAPPING_WITHOUT_CHANGE,
+          field_mapping: field_mapping_with_change,
           provider_statistics:,
           national_statistics:,
         ).subject_rows
@@ -88,13 +120,16 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         national_statistics = create(:national_recruitment_performance_report).statistics
 
         rows = described_class.new(
-          field_mapping: FIELD_MAPPING_WITHOUT_CHANGE,
+          field_mapping: field_mapping_without_change,
           provider_statistics:,
           national_statistics:,
         ).subject_rows
 
         subjects = rows.map(&:title)
-        expect(subjects).to contain_exactly('Secondary', 'Art & Design', 'Biology', 'Business Studies', 'Chemistry', 'Classics', 'Computing', 'Design & Technology', 'Drama', 'English', 'Geography', 'History', 'Mathematics', 'Modern Foreign Languages', 'Music', 'Others', 'Physics', 'Religious Education')
+        expect(subjects).to contain_exactly('Secondary', 'Art & Design', 'Biology', 'Chemistry', 'Computing',
+                                            'Design & Technology', 'Drama', 'English', 'Geography', 'History',
+                                            'Mathematics', 'Modern Foreign Languages', 'Music', 'Others',
+                                            'Physical Education', 'Physics', 'Religious Education')
       end
     end
 
@@ -102,7 +137,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
       provider_statistics = create(:provider_recruitment_performance_report).statistics
       national_statistics = create(:national_recruitment_performance_report).statistics
       rows = described_class.new(
-        field_mapping: FIELD_MAPPING_WITHOUT_CHANGE,
+        field_mapping: field_mapping_without_change,
         provider_statistics:,
         national_statistics:,
       ).subject_rows
@@ -118,9 +153,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         # Individual secondary subjects
         ['Secondary subject', 'Art & Design'],
         ['Secondary subject', 'Biology'],
-        ['Secondary subject', 'Business Studies'],
         ['Secondary subject', 'Chemistry'],
-        ['Secondary subject', 'Classics'],
         ['Secondary subject', 'Computing'],
         ['Secondary subject', 'Design & Technology'],
         ['Secondary subject', 'Drama'],
@@ -131,6 +164,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         ['Secondary subject', 'Modern Foreign Languages'],
         ['Secondary subject', 'Music'],
         ['Secondary subject', 'Others'],
+        ['Secondary subject', 'Physical Education'],
         ['Secondary subject', 'Physics'],
         ['Secondary subject', 'Religious Education'],
       ]

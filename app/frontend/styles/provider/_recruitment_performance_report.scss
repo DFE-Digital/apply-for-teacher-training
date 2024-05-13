@@ -1,31 +1,47 @@
-.recruitment_performance_report_table {
-  &__header--border-left,
-  &__subhead--border-left {
+.recruitment-performance-report-table {
+  &__heading {
     padding-left: govuk-spacing(2);
 
     text-align: center;
 
+    border-bottom: none;
     border-left: $govuk-border-width-narrow solid $govuk-border-colour;
   }
 
-  &__header--no-border,
-  &__subhead--no-border, {
-    text-align: center;
+  &__heading--no-border {
+    border-bottom: none;
+    border-left: none;
+  }
+
+  &__subheading {
+    border-top: none;
+    border-bottom: $govuk-border-width-narrow solid $govuk-border-colour;
+  }
+
+  &__subheading--border-left {
+    padding-left: govuk-spacing(2);
+
+    border-left: $govuk-border-width-narrow solid $govuk-border-colour;
+  }
+
+  &__cell--secondary-subject {
+    padding-left: govuk-spacing(2);
+
+    font-weight: $govuk-font-weight-regular;
+  }
+
+  &__cell--summary {
+    padding-top: govuk-spacing(2);
+
+    font-weight: $govuk-font-weight-bold;
+
+    border-top: $govuk-border-width-narrow solid $govuk-border-colour;
+    border-bottom: none;
   }
 
   &__cell--border-left {
     padding-left: govuk-spacing(2);
 
     border-left: $govuk-border-width-narrow solid $govuk-border-colour;
-  }
-
-  &__header--secondary-subject {
-    padding-left: govuk-spacing(2);
-
-    font-weight: $govuk-font-weight-regular;
-  }
-
-  &__row-summary {
-    padding-top: govuk-spacing(2);
   }
 }

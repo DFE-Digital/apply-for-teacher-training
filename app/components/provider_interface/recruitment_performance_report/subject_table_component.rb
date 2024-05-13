@@ -12,28 +12,14 @@ module ProviderInterface
       def format_number(row, column_name)
         number = row.send(column_name)
 
-        # The field may be 'Not available'
-        return number unless number.respond_to?(:to_i)
+        # We want nil to read 'Not available'
+        return t('shared.not_available') if number.nil?
 
-        # If we aren't showing percentage change data, it's because the other columns are also percentages
-        # (ie. comparing proportions of proportions doesn't make sense)
-        if !show_percentage_change_data? || column_name.in?(%i[percentage_change national_percentage_change])
-          number_to_percentage(number.to_d * 100, precision: 0)
+        if column_name.in?(%i[percentage_change national_percentage_change])
+          number_to_percentage((number - 1) * 100, precision: 0)
         else
-          number_with_delimiter(number.to_i)
+          number_with_delimiter(number)
         end
-      end
-
-      def show_percentage_change_data?
-        @show_percentage_change_data ||= subject_rows.any? { |subject_row| subject_row.percentage_change.present? }
-      end
-
-      def colspan
-        show_percentage_change_data? ? '3' : '2'
-      end
-
-      def width
-        show_percentage_change_data? ? 'one-third' : 'one-half'
       end
 
       def provider_name
@@ -41,31 +27,47 @@ module ProviderInterface
       end
 
       def columns
-        table_columns = %i[this_cycle last_cycle national_this_cycle national_last_cycle]
-        if show_percentage_change_data?
-          table_columns.insert(2, :percentage_change)
-          table_columns.append(:national_percentage_change)
-        end
-
-        table_columns
+        %i[last_cycle this_cycle percentage_change national_last_cycle national_this_cycle national_percentage_change]
       end
 
-      def subheading_html_attributes(column_name)
-        html_class = column_name == :national_this_cycle ? 'border-left' : 'no-border'
+      def colspan
+        columns.length / 2
+      end
 
-        { html_attributes: { class: "recruitment_performance_report_table__subhead--#{html_class}" } }
+      def subheading_html_attributes(column_name = '')
+        html_class = ['recruitment-performance-report-table__subheading']
+
+        if column_name.in?(%i[last_cycle national_last_cycle])
+          html_class << 'recruitment-performance-report-table__subheading--border-left'
+        end
+
+        { html_attributes: { class: html_class } }
       end
 
       def numeric_html_attributes(column_name)
-        return {} unless column_name == :national_this_cycle
+        return {} unless column_name.in?(%i[last_cycle national_last_cycle])
 
-        { html_attributes: { class: 'recruitment_performance_report_table__cell--border-left' } }
+        { html_attributes: { class: 'recruitment-performance-report-table__cell--border-left' } }
       end
 
       def level_html_attributes(subject_row)
         return {} if subject_row.level == 'Level'
 
-        { html_attributes: { class: 'recruitment_performance_report_table__header--secondary-subject' } }
+        html_class = 'recruitment-performance-report-table__cell--secondary-subject'
+
+        { html_attributes: { class: html_class } }
+      end
+
+      def summary_heading_html_attributes
+        %w[govuk-table__cell recruitment-performance-report-table__cell--summary]
+      end
+
+      def summary_row_html_attributes(column_name)
+        html_class = %w[govuk-table__cell govuk-table__cell--numeric recruitment-performance-report-table__cell--summary]
+        if column_name.in?(%i[last_cycle national_last_cycle])
+          html_class << 'recruitment-performance-report-table__cell--border-left'
+        end
+        { html_attributes: { class: html_class } }
       end
     end
   end

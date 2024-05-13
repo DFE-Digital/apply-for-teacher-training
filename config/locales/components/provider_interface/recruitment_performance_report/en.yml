@@ -1,4 +1,41 @@
 en:
+  shared:
+    empty_state: There is no data available to display.
+    all_providers: All providers
+    subject: Subject
+    all_subjects: All subjects
+    not_available: Not available
+  deferrals_table_component:
+    caption: 6. Deferrals
+    deferrals: Deferrals
+    deferrals_last_cycle_to_this_cycle: Deferrals from last cycle to this cycle
+    deferrals_this_cycle_to_next: Deferrals this cycle (so far) to next cycle
+    description_one: >
+      The number of deferred offers from %{provider_name} so far this recruitment cycle, compared to national level
+      data.
+    description_two: >
+      This table includes candidates who have received an offer this cycle but deferred it to the next cycle, excluding
+      offers for withdrawn applications. Candidates who deferred again to the next cycle after that, are included in the
+      cycle they first deferred in.
+  proportion_with_inactive_applications_table_component:
+    caption: 8. Proportion of candidates who have waited more than 30 days for a response
+    description_one: >
+      The proportion of candidates who have waited for 30 days or more for %{provider_name} to respond to their
+      application, compared with national level data.
+    description_two: >
+      Responding to an offer includes actions such as making an offer, interviewing or rejecting the candidate's
+      application.
+    description_three: >
+      This is the first recruitment cycle in which we have collected this data, so it is not possible to show a
+      comparison with last cycle.
+  proportion_candidates_with_offers_table_component:
+    proportion_of_all_candidates: >
+      The proportion of all candidates who submitted one or more applications to %{provider_name} who have received an
+      offer so far this recruitment cycle, compared to national level data.
+    table_includes: "This table includes:"
+    li_one: candidates who have received one or more offers this cycle
+    li_two: applications which were then withdrawn or deferred by the provider
+    li_three: candidates who withdrew or deferred their applications
   subject_table_component:
     this_cycle: This cycle
     last_cycle: Last cycle
@@ -6,9 +43,36 @@ en:
     national_this_cycle: This cycle
     national_last_cycle: Last cycle
     national_percentage_change: Percentage change
-    all_providers: All providers
-    subjects: Subjects
-    all_subjects: All subjects
-    caption_proportion_candidates_with_offers: '4. Proportion of candidates with an offer'
-    caption_submitted_applications_table: '2. Candidates who have submitted applications'
+    candidates_who_have_submitted_applications: 2. Candidates who have submitted applications
+    candidates_with_an_offer: 3. Candidates with an offer
+    proportion_of_candidates_with_an_offer: 4. Proportion of candidates with an offer
+    offers_accepted: 5. Offers accepted
+    candidates_rejected: 7. Candidates rejected
+  submitted_applications_table_component:
+    description_one: >
+      The number of candidates who have submitted one or more applications to %{provider_name} so far this recruitment
+      cycle, compared to national level data.
+    description_two: Candidates who withdrew or deferred their applications are included.
+  candidates_with_offers_table_component:
+    candidates_who_have_received_offer: >
+      Candidates who have received one or more offers from %{provider_name} so far this recruitment cycle, compared to
+      national level.
+    table_includes: "This table includes:"
+    li_one: candidates who have received one or more offers this cycle
+    li_two: applications which were then withdrawn or deferred by the provider
+    li_three: candidates who withdrew or deferred their applications
+  offers_accepted_table_component:
+    description_one: >
+      The number of candidates who have accepted an offer from %{provider_name} so far this recruitment cycle, compared
+      to national level data.
+    description_two: >
+      The table includes candidates who accepted and then deferred an offer from the provider in a previous cycle, which
+      has been reconfirmed this cycle.
+    table_does_not_include: "The table does not include applications:"
+    li_one: with offers withdrawn by the provider
+    li_two: with offers withdrawn by candidates
+    li_three: with offers deferred until the next cycle
+  candidates_rejected_table_component:
+    description_one: The number of candidates who have had all their applications to %{provider_name} rejected so far this recruitment cycle.
+    description_two: If a candidate has had all their applications rejected by %{provider_name}  but still have applications waiting for a decision with other providers, they will appear as rejected in your data but not the national data.
 

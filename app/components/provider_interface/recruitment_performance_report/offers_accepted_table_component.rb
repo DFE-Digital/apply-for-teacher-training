@@ -1,9 +1,10 @@
 module ProviderInterface
   module RecruitmentPerformanceReport
-    class ProportionCandidatesWithOffersTableComponent < ViewComponent::Base
+    class OffersAcceptedTableComponent < ViewComponent::Base
       BIG_QUERY_COLUMN_NAMES_MAPPING = {
-        this_cycle: 'offer_rate_to_date',
-        last_cycle: 'offer_rate_to_same_date_previous_cycle',
+        this_cycle: 'number_of_candidates_accepted_to_date',
+        last_cycle: 'number_of_candidates_accepted_to_same_date_previous_cycle',
+        percentage_change: 'number_of_candidates_accepted_to_date_as_proportion_of_last_cycle',
       }.freeze
 
       def initialize(provider, provider_statistics, national_statistics)

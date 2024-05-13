@@ -292,6 +292,15 @@ class CycleTimetable
     (weeks % 52).succ
   end
 
+  def self.start_of_cycle_week(cycle_week, time = Time.zone.now)
+    year = current_year(time)
+    cycle_week %= 52
+    cycle_week -= 1
+
+    start_of_week = find_opens(year).beginning_of_week + cycle_week.weeks
+    [start_of_week, find_opens(year)].max
+  end
+
   def self.current_cycle_schedule
     # Make sure this setting only has effect on non-production environments
     return :real if HostingEnvironment.production?

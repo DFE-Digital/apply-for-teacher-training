@@ -1,0 +1,15 @@
+<%= render ProviderInterface::RecruitmentPerformanceReport::SubjectTableComponent.new(
+  @provider,
+  table_caption: 'candidates_who_have_submitted_applications',
+  subject_rows: @row_builder.subject_rows,
+  summary_row: @row_builder.summary_row,
+) do %>
+  <span>
+    <p class="govuk-body">
+      <%= t('submitted_applications_table_component.description_one', provider_name: @provider.name) %>
+    </p>
+    <p class="govuk-body">
+      <%= t('submitted_applications_table_component.description_two') %>
+    </p>
+  </span>
+<% end %>
