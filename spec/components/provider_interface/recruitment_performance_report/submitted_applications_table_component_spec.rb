@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::SubmittedApplica
       expect(page).to have_element(
         'th',
         scope: 'row',
-        class: 'govuk-table__header recruitment_performance_report_table-subject-rows__secondary-subject-row-heading',
+        class: 'govuk-table__header recruitment-performance-report-table-subject-rows__secondary-subject-row-heading',
         text: heading,
       )
     end
@@ -54,7 +54,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::SubmittedApplica
         expect(page).to have_element(
           'th',
           scope: 'row',
-          class: 'govuk-table__header recruitment_performance_report_table-subject-rows__secondary-subject-row-heading',
+          class: 'govuk-table__header recruitment-performance-report-table-subject-rows__secondary-subject-row-heading',
           text: heading,
         )
       end

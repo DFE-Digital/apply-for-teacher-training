@@ -2,7 +2,7 @@
   <div class="govuk-grid-column-full">
     <%= govuk_table do |table| %>
       <%= table.with_caption do %>
-        <%= content_tag(:h1, class: 'govuk-heading-m', id: table_caption) do %>
+        <%= content_tag(:h2, class: 'govuk-heading-m', id: table_caption) do %>
           <%= t("subject_table_component.#{table_caption}") %>
         <% end %>
         <%= content %>
@@ -20,11 +20,11 @@
         <%= table.with_head do |head| %>
           <%= head.with_row do |row| %>
             <%= row.with_cell(scope: false,
-                              html_attributes: { class: 'recruitment_performance_report_table-heading__no-border' }) %>
+                              html_attributes: { class: 'recruitment-performance-report-table-heading__no-border' }) %>
             <%= row.with_cell(text: provider_name, colspan:, scope: 'colgroup',
-                              html_attributes: { class: 'recruitment_performance_report_table-heading' }) %>
+                              html_attributes: { class: 'recruitment-performance-report-table-heading' }) %>
             <%= row.with_cell(text: t('shared.all_providers'), colspan:, scope: 'colgroup',
-                              html_attributes: { class: 'recruitment_performance_report_table-heading' }) %>
+                              html_attributes: { class: 'recruitment-performance-report-table-heading' }) %>
           <% end %>
 
           <%= head.with_row do |row| %>

@@ -1,4 +1,4 @@
-.recruitment_performance_report_table-heading {
+.recruitment-performance-report-table-heading {
   padding-left: govuk-spacing(2);
 
   text-align: center;
@@ -11,7 +11,7 @@
   }
 }
 
-.recruitment_performance_report_table-subheading {
+.recruitment-performance-report-table-subheading {
   border-bottom: $govuk-border-width-narrow solid $govuk-border-colour;
 
   &__border-left {
@@ -21,7 +21,7 @@
   }
 }
 
-.recruitment_performance_report_table-subject-rows {
+.recruitment-performance-report-table-subject-rows {
   &__border-left {
     padding-left: govuk-spacing(2);
 
@@ -35,7 +35,7 @@
   }
 }
 
-.recruitment_performance_report_table-summary-row {
+.recruitment-performance-report-table-summary-row {
   padding-top: govuk-spacing(2);
 
   font-weight: $govuk-font-weight-bold;

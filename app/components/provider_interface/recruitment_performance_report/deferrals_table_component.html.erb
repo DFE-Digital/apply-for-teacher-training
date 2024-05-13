@@ -3,9 +3,9 @@
     <%= govuk_table do |table| %>
       <%= table.with_caption do %>
         <span>
-          <h1 class="govuk-heading-m" id="candidate_deferrals">
+          <h2 class="govuk-heading-m" id="candidate_deferrals">
             <%= t('deferrals_table_component.caption') %>
-          </h1>
+          </h2>
           <% if deferral_rows.empty? %>
             <p class="govuk-body"><%= t('shared.empty_state') %></p>
           <% end %>
@@ -20,11 +20,11 @@
       <%= table.with_head do |head| %>
         <%= head.with_row do |row| %>
           <%= row.with_cell(text: t('deferrals_table_component.deferrals'),
-                            html_attributes: { class: 'recruitment_performance_report_table-subheading' }) %>
+                            html_attributes: { class: 'recruitment-performance-report-table-subheading' }) %>
           <%= row.with_cell(text: provider_name, numeric: true,
-                            html_attributes: { class: 'recruitment_performance_report_table-subheading' }) %>
+                            html_attributes: { class: 'recruitment-performance-report-table-subheading' }) %>
           <%= row.with_cell(text: t('shared.all_providers'), numeric: true,
-                            html_attributes: { class: 'recruitment_performance_report_table-subheading' }) %>
+                            html_attributes: { class: 'recruitment-performance-report-table-subheading' }) %>
         <% end %>
       <% end %>
       <% table.with_body do |body| %>

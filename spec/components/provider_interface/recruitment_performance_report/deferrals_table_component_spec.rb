@@ -15,7 +15,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::DeferralsTableCo
       expect(page).to have_element(
         'th',
         scope: 'col',
-        class: 'govuk-table__header govuk-table__header--numeric recruitment_performance_report_table-subheading',
+        class: 'govuk-table__header govuk-table__header--numeric recruitment-performance-report-table-subheading',
         text: heading,
       )
     end

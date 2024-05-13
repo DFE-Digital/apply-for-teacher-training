@@ -35,10 +35,10 @@ module ProviderInterface
       end
 
       def subheading_html_attributes(column_name = '')
-        html_class = ['recruitment_performance_report_table-subheading']
+        html_class = ['recruitment-performance-report-table-subheading']
 
         if column_name.in?(%i[last_cycle national_last_cycle])
-          html_class << 'recruitment_performance_report_table-subheading__border-left'
+          html_class << 'recruitment-performance-report-table-subheading__border-left'
         end
 
         { html_attributes: { class: html_class } }
@@ -47,25 +47,25 @@ module ProviderInterface
       def numeric_html_attributes(column_name)
         return {} unless column_name.in?(%i[last_cycle national_last_cycle])
 
-        { html_attributes: { class: 'recruitment_performance_report_table-subject-rows__border-left' } }
+        { html_attributes: { class: 'recruitment-performance-report-table-subject-rows__border-left' } }
       end
 
       def level_html_attributes(subject_row)
         return {} if subject_row.level == 'Level'
 
-        html_class = 'recruitment_performance_report_table-subject-rows__secondary-subject-row-heading'
+        html_class = 'recruitment-performance-report-table-subject-rows__secondary-subject-row-heading'
 
         { html_attributes: { class: html_class } }
       end
 
       def summary_heading_html_attributes
-        %w[govuk-table__cell recruitment_performance_report_table-summary-row]
+        %w[govuk-table__cell recruitment-performance-report-table-summary-row]
       end
 
       def summary_row_html_attributes(column_name)
-        html_class = %w[govuk-table__cell govuk-table__cell--numeric recruitment_performance_report_table-summary-row]
+        html_class = %w[govuk-table__cell govuk-table__cell--numeric recruitment-performance-report-table-summary-row]
         if column_name.in?(%i[last_cycle national_last_cycle])
-          html_class << 'recruitment_performance_report_table-summary-row__border-left'
+          html_class << 'recruitment-performance-report-table-summary-row__border-left'
         end
         { html_attributes: { class: html_class } }
       end

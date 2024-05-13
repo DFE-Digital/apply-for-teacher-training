@@ -16,7 +16,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::ProportionWithIn
       expect(page).to have_element(
         'th',
         scope: 'col',
-        class: 'govuk-table__header govuk-table__header--numeric recruitment_performance_report_table-subheading',
+        class: 'govuk-table__header govuk-table__header--numeric recruitment-performance-report-table-subheading',
         text: heading,
       )
     end
@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::ProportionWithIn
       expect(page).to have_element(
         'th',
         scope: 'row',
-        class: 'govuk-table__header recruitment_performance_report_table-subject-rows__secondary-subject-row-heading',
+        class: 'govuk-table__header recruitment-performance-report-table-subject-rows__secondary-subject-row-heading',
         text: heading,
       )
     end

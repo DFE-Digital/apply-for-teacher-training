@@ -1,28 +1,32 @@
 require 'rails_helper'
 
-FIELD_MAPPING_WITH_CHANGE = {
-  this_cycle: 'number_of_candidates_submitted_to_date',
-  last_cycle: 'number_of_candidates_submitted_to_same_date_previous_cycle',
-  percentage_change: 'number_of_candidates_submitted_to_date_as_proportion_of_last_cycle',
-}.freeze
-
-FIELD_MAPPING_WITHOUT_CHANGE = {
-  this_cycle: 'number_of_candidates_submitted_to_date',
-  last_cycle: 'number_of_candidates_submitted_to_same_date_previous_cycle',
-}.freeze
-
-FIELD_MAPPING_THIS_CYCLE_ONLY = {
-  this_cycle: 'number_of_candidates_submitted_to_date',
-}.freeze
-
 RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
+  let(:field_mapping_with_change) do
+    {
+      this_cycle: 'number_of_candidates_submitted_to_date',
+      last_cycle: 'number_of_candidates_submitted_to_same_date_previous_cycle',
+      percentage_change: 'number_of_candidates_submitted_to_date_as_proportion_of_last_cycle',
+    }
+  end
+
+  let(:field_mapping_without_change) do
+    {
+      this_cycle: 'number_of_candidates_submitted_to_date',
+      last_cycle: 'number_of_candidates_submitted_to_same_date_previous_cycle',
+    }
+  end
+
+  let(:field_mapping_this_cycle_only) do
+    { this_cycle: 'number_of_candidates_submitted_to_date' }
+  end
+
   describe '#summary row' do
     it 'returns only the summary data row' do
       provider_statistics = create(:provider_recruitment_performance_report).statistics
       national_statistics = create(:national_recruitment_performance_report).statistics
 
       summary_row = described_class.new(
-        field_mapping: FIELD_MAPPING_WITH_CHANGE,
+        field_mapping: field_mapping_with_change,
         provider_statistics:,
         national_statistics:,
       ).summary_row
@@ -38,7 +42,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         national_statistics = create(:national_recruitment_performance_report).statistics
 
         rows = described_class.new(
-          field_mapping: FIELD_MAPPING_WITH_CHANGE,
+          field_mapping: field_mapping_with_change,
           provider_statistics:,
           national_statistics:,
         ).subject_rows
@@ -57,7 +61,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         national_statistics = create(:national_recruitment_performance_report).statistics
 
         rows = described_class.new(
-          field_mapping: FIELD_MAPPING_WITHOUT_CHANGE,
+          field_mapping: field_mapping_without_change,
           provider_statistics:,
           national_statistics:,
         ).subject_rows
@@ -76,7 +80,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         national_statistics = create(:national_recruitment_performance_report).statistics
 
         rows = described_class.new(
-          field_mapping: FIELD_MAPPING_THIS_CYCLE_ONLY,
+          field_mapping: field_mapping_this_cycle_only,
           provider_statistics:,
           national_statistics:,
         ).subject_rows
@@ -100,7 +104,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         national_statistics = create(:national_recruitment_performance_report).statistics
 
         rows = described_class.new(
-          field_mapping: FIELD_MAPPING_WITHOUT_CHANGE,
+          field_mapping: field_mapping_with_change,
           provider_statistics:,
           national_statistics:,
         ).subject_rows
@@ -116,7 +120,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         national_statistics = create(:national_recruitment_performance_report).statistics
 
         rows = described_class.new(
-          field_mapping: FIELD_MAPPING_WITHOUT_CHANGE,
+          field_mapping: field_mapping_without_change,
           provider_statistics:,
           national_statistics:,
         ).subject_rows
@@ -133,7 +137,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
       provider_statistics = create(:provider_recruitment_performance_report).statistics
       national_statistics = create(:national_recruitment_performance_report).statistics
       rows = described_class.new(
-        field_mapping: FIELD_MAPPING_WITHOUT_CHANGE,
+        field_mapping: field_mapping_without_change,
         provider_statistics:,
         national_statistics:,
       ).subject_rows

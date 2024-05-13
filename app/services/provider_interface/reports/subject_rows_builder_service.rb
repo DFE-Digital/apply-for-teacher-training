@@ -48,8 +48,8 @@ module ProviderInterface
 
         # If this cycle and last cycle are both nil, 0, 0.0
         # blank? returns false for 0.0, but zero? returns true
-        (row[this_cycle].blank? || row[this_cycle].zero?) &&
-          (row[last_cycle].blank? || row[last_cycle].zero?)
+        (row[this_cycle].nil? || row[this_cycle].zero?) &&
+          (row[last_cycle].nil? || row[last_cycle].zero?)
       end
 
       def subject_from_row(row, national_row)
@@ -57,11 +57,11 @@ module ProviderInterface
           title: row[title],
           level: row[level],
           this_cycle: row[this_cycle],
-          last_cycle: row[last_cycle] || nil,
-          percentage_change: row[percentage_change] || nil,
-          national_this_cycle: national_row[this_cycle] || nil,
-          national_last_cycle: national_row[last_cycle] || nil,
-          national_percentage_change: national_row[percentage_change] || nil,
+          last_cycle: row[last_cycle],
+          percentage_change: row[percentage_change],
+          national_this_cycle: national_row[this_cycle],
+          national_last_cycle: national_row[last_cycle],
+          national_percentage_change: national_row[percentage_change],
         )
       end
 
