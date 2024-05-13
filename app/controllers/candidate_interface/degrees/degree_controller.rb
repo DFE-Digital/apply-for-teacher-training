@@ -12,7 +12,7 @@ module CandidateInterface
         if @degree.answered_has_degree?
           redirect_to candidate_interface_degree_country_path
         else
-          current_application.update!(degrees_completed: true)
+          current_application.reload.update!(degrees_completed: true)
           redirect_to candidate_interface_continuous_applications_details_path
         end
       end

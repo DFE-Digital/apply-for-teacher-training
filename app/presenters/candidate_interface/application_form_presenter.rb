@@ -229,7 +229,7 @@ module CandidateInterface
     end
 
     def no_degree_and_degree_not_completed?
-      application_form.application_qualifications.degrees.count.zero? && !degrees_completed?
+      application_form.no_degree_and_degree_not_completed?
     end
 
     def maths_gcse_completed?

@@ -39,7 +39,7 @@ module CandidateInterface
 
       def set_completed_if_only_foundation_degrees
         if only_foundation_degrees?
-          current_application.update!(degrees_completed: nil)
+          current_application.update!(degrees_completed: nil) if !current_application.degrees_completed?
         end
       end
 
