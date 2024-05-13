@@ -41,19 +41,19 @@ module ProviderInterface
       def level_html_attributes(subject_row)
         return {} if subject_row.level == 'Level'
 
-        html_class = 'recruitment-performance-report-table-subject-rows__secondary-subject-row-heading'
+        html_class = 'recruitment-performance-report-table__cell--secondary-subject'
 
         { html_attributes: { class: html_class } }
       end
 
       def summary_heading_html_attributes
-        %w[govuk-table__cell recruitment-performance-report-table-summary-row]
+        %w[govuk-table__cell recruitment-performance-report-table__cell--summary]
       end
 
       def summary_row_html_attributes(_column_name)
         html_class = %w[govuk-table__cell
                         govuk-table__cell--numeric
-                        recruitment-performance-report-table-summary-row]
+                        recruitment-performance-report-table__cell--summary]
 
         { html_attributes: { class: html_class } }
       end

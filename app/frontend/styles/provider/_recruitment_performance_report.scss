@@ -1,52 +1,47 @@
-.recruitment-performance-report-table-heading {
-  padding-left: govuk-spacing(2);
+.recruitment-performance-report-table {
+  &__heading {
+    padding-left: govuk-spacing(2);
 
-  text-align: center;
+    text-align: center;
 
-  border-bottom: none;
-  border-left: $govuk-border-width-narrow solid $govuk-border-colour;
-
-  &__no-border {
     border-bottom: none;
+    border-left: $govuk-border-width-narrow solid $govuk-border-colour;
   }
-}
 
-.recruitment-performance-report-table-subheading {
-  border-bottom: $govuk-border-width-narrow solid $govuk-border-colour;
+  &__heading--no-border {
+    border-bottom: none;
+    border-left: none;
+  }
 
-  &__border-left {
+  &__subheading {
+    border-top: none;
+    border-bottom: $govuk-border-width-narrow solid $govuk-border-colour;
+  }
+
+  &__subheading--border-left {
     padding-left: govuk-spacing(2);
 
     border-left: $govuk-border-width-narrow solid $govuk-border-colour;
   }
-}
 
-.recruitment-performance-report-table-subject-rows {
-  &__border-left {
-    padding-left: govuk-spacing(2);
-
-    border-left: $govuk-border-width-narrow solid $govuk-border-colour;
-  }
-
-  &__secondary-subject-row-heading {
+  &__cell--secondary-subject {
     padding-left: govuk-spacing(2);
 
     font-weight: $govuk-font-weight-regular;
   }
-}
 
-.recruitment-performance-report-table-summary-row {
-  padding-top: govuk-spacing(2);
+  &__cell--summary {
+    padding-top: govuk-spacing(2);
 
-  font-weight: $govuk-font-weight-bold;
+    font-weight: $govuk-font-weight-bold;
 
-  border-top: $govuk-border-width-narrow solid $govuk-border-colour;
-  border-bottom: none;
+    border-top: $govuk-border-width-narrow solid $govuk-border-colour;
+    border-bottom: none;
+  }
 
-  &__border-left {
+  &__cell--border-left {
     padding-left: govuk-spacing(2);
 
     border-left: $govuk-border-width-narrow solid $govuk-border-colour;
   }
 }
-

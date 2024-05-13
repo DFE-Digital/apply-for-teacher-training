@@ -20,11 +20,11 @@
         <%= table.with_head do |head| %>
           <%= head.with_row do |row| %>
             <%= row.with_cell(scope: false,
-                              html_attributes: { class: 'recruitment-performance-report-table-heading__no-border' }) %>
+                              html_attributes: { class: 'recruitment-performance-report-table__heading--no-border' }) %>
             <%= row.with_cell(text: provider_name, colspan:, scope: 'colgroup',
-                              html_attributes: { class: 'recruitment-performance-report-table-heading' }) %>
+                              html_attributes: { class: 'recruitment-performance-report-table__heading' }) %>
             <%= row.with_cell(text: t('shared.all_providers'), colspan:, scope: 'colgroup',
-                              html_attributes: { class: 'recruitment-performance-report-table-heading' }) %>
+                              html_attributes: { class: 'recruitment-performance-report-table__heading' }) %>
           <% end %>
 
           <%= head.with_row do |row| %>

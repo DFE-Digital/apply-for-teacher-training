@@ -35,10 +35,10 @@ module ProviderInterface
       end
 
       def subheading_html_attributes(column_name = '')
-        html_class = ['recruitment-performance-report-table-subheading']
+        html_class = ['recruitment-performance-report-table__subheading']
 
         if column_name.in?(%i[last_cycle national_last_cycle])
-          html_class << 'recruitment-performance-report-table-subheading__border-left'
+          html_class << 'recruitment-performance-report-table__subheading--border-left'
         end
 
         { html_attributes: { class: html_class } }
@@ -47,25 +47,25 @@ module ProviderInterface
       def numeric_html_attributes(column_name)
         return {} unless column_name.in?(%i[last_cycle national_last_cycle])
 
-        { html_attributes: { class: 'recruitment-performance-report-table-subject-rows__border-left' } }
+        { html_attributes: { class: 'recruitment-performance-report-table__cell--border-left' } }
       end
 
       def level_html_attributes(subject_row)
         return {} if subject_row.level == 'Level'
 
-        html_class = 'recruitment-performance-report-table-subject-rows__secondary-subject-row-heading'
+        html_class = 'recruitment-performance-report-table__cell--secondary-subject'
 
         { html_attributes: { class: html_class } }
       end
 
       def summary_heading_html_attributes
-        %w[govuk-table__cell recruitment-performance-report-table-summary-row]
+        %w[govuk-table__cell recruitment-performance-report-table__cell--summary]
       end
 
       def summary_row_html_attributes(column_name)
-        html_class = %w[govuk-table__cell govuk-table__cell--numeric recruitment-performance-report-table-summary-row]
+        html_class = %w[govuk-table__cell govuk-table__cell--numeric recruitment-performance-report-table__cell--summary]
         if column_name.in?(%i[last_cycle national_last_cycle])
-          html_class << 'recruitment-performance-report-table-summary-row__border-left'
+          html_class << 'recruitment-performance-report-table__cell--border-left'
         end
         { html_attributes: { class: html_class } }
       end

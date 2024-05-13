@@ -32,7 +32,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::ProportionCandid
       expect(page).to have_element(
         'th',
         scope: 'row',
-        class: 'govuk-table__header recruitment-performance-report-table-subject-rows__secondary-subject-row-heading',
+        class: 'govuk-table__header recruitment-performance-report-table__cell--secondary-subject',
         text: heading,
       )
     end
@@ -53,7 +53,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::ProportionCandid
         expect(page).to have_element(
           'th',
           scope: 'row',
-          class: 'govuk-table__header recruitment-performance-report-table-subject-rows__secondary-subject-row-heading',
+          class: 'govuk-table__header recruitment-performance-report-table__cell--secondary-subject',
           text: heading,
         )
       end
