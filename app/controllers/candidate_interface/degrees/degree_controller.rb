@@ -1,6 +1,22 @@
 module CandidateInterface
   module Degrees
     class DegreeController < BaseController
+
+      def new_degree_question
+        @degree = current_application.application_qualifications.degrees.new
+      end
+
+      def update_degree_question
+        @degree = current_application.application_qualifications.degrees.new(params.require(:application_qualification).permit(:university_degree_status))
+
+        if @degree.answered_has_degree?
+          redirect_to candidate_interface_degree_country_path
+        else
+          current_application.update!(degrees_completed: true)
+          redirect_to candidate_interface_continuous_applications_details_path
+        end
+      end
+
       def new
         degree_attrs = { application_form_id: current_application.id }
         degree_attrs[:id] = params[:id] if params.key?(:id)
