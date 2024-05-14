@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apply-maintenance
+  labels:
+    app: apply-maintenance
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: apply-maintenance
+  template:
+    metadata:
+      labels:
+        app: apply-maintenance
+    spec:
+      nodeSelector:
+        teacherservices.cloud/node_pool: applications
+        kubernetes.io/os: linux
+      containers:
+      - name: apply-maintenance
+        image: ghcr.io/dfe-digital/apply-teacher-training-maintenance:#MAINTENANCE_IMAGE_TAG#
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: 64M
+            cpu: 0.1
+          limits:
+            memory: 64M
+            cpu: 1

@@ -36,6 +36,8 @@ module "web_application" {
   command                    = local.webapp_startup_command
   probe_path                 = "/check"
   web_external_hostnames     = var.gov_uk_host_names
+
+  send_traffic_to_maintenance_page = var.send_traffic_to_maintenance_page
 }
 
 module "main_worker" {

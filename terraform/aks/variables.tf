@@ -76,6 +76,11 @@ variable "use_terraform_db" {
   default     = false
 }
 
+variable "send_traffic_to_maintenance_page" {
+  default     = false
+  description = "During a maintenance operation, keep sending traffic to the maintenance page instead of resetting the ingress"
+}
+
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.app_environment
 

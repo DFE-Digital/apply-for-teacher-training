@@ -1,0 +1,33 @@
+name: Enable maintenance
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        type: string
+        options:
+        - qa
+        - production
+
+jobs:
+  enable-maintenance:
+    name: Disable maintenance app
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Set ARM and kubelogin environment
+      uses: DFE-Digital/github-actions/set-kubelogin-environment@master
+      with:
+        azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Disable maintenance app
+      run: make ${{ inputs.environment }}_aks disable-maintenance

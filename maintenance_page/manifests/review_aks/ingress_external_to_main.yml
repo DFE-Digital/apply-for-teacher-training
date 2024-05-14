@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: review-colin.apply-for-teacher-training.service.gov.uk
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: review-colin.apply-for-teacher-training.service.gov.uk
+    http:
+      paths:
+      - pathType: ImplementationSpecific
+        backend:
+          service:
+            name: apply-review-9252
+            port:
+              number: 80
