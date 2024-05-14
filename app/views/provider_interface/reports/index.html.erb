@@ -19,7 +19,7 @@
         <% end %>
         <% report = provider.performance_reports.last %>
         <ul class="govuk-list govuk-list--spaced">
-          <li><%= govuk_link_to("Weekly report for week ending #{report.reporting_date.to_fs(:govuk_date)}", provider_interface_reports_provider_recruitment_performance_report_path(provider.id)) %></li>
+          <li><%= govuk_link_to("Weekly report for week ending #{report.reporting_end_date.to_fs(:govuk_date)}", provider_interface_reports_provider_recruitment_performance_report_path(provider.id)) %></li>
         </ul>
       <% end %>
     <% else %>
