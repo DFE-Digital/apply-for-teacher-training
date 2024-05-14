@@ -17,7 +17,7 @@
         <h3 class="govuk-heading-s"><%= provider.name %></h3>
         <% report = provider.performance_reports.last %>
         <ul class="govuk-list govuk-list--spaced">
-          <li><%= govuk_link_to("Weekly report for week ending #{report.publication_date.to_fs(:date_and_time)}", provider_interface_reports_provider_recruitment_performance_report_path(provider.id)) %></li>
+          <li><%= govuk_link_to("Weekly report for #{report.reporting_date.to_fs(:govuk_date)}", provider_interface_reports_provider_recruitment_performance_report_path(provider.id)) %></li>
         </ul>
       <% end %>
     <% else %>
