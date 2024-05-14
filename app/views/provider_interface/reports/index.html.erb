@@ -9,7 +9,7 @@
     <% if FeatureFlag.active?(:recruitment_performance_report) %>
       <% if @performance_reports %>
         <h2 class="govuk-heading-m">
-          Weekly recruitment performance report
+          <%= t('.performance_report_heading') %>
         </h2>
       <% end %>
 
@@ -42,7 +42,7 @@
       <% end %>
     <% end %>
 
-    <h2 class="govuk-heading-m">Application data for this recruitment cycle</h2>
+    <h2 class="govuk-heading-m"><%= t('.application_data_heading') %></h2>
     <% @providers.each do |provider| %>
       <% if @providers.many? %>
         <h3 class="govuk-heading-s"><%= provider.name %></h3>
@@ -60,7 +60,7 @@
       </ul>
     <% end %>
 
-    <h2 class="govuk-heading-m">Download and export</h2>
+    <h2 class="govuk-heading-m"><%= t('.download_export_heading') %></h2>
     <ul class="govuk-list govuk-list--spaced">
       <li>
         <%= govuk_link_to t('page_titles.provider.export_application_data'), provider_interface_new_application_data_export_path %>
