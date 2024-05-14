@@ -23,9 +23,11 @@
         </ul>
       <% end %>
     <% else %>
+      <% if @providers.any? { mid_cycle_report_present_for?(_1) } %>
       <h2 class="govuk-heading-m">
         Mid-cycle recruitment performance report
       </h2>
+      <% end %>
 
       <% @providers.select { mid_cycle_report_present_for?(_1) }.each do |provider| %>
         <h3 class="govuk-heading-s"><%= provider.name %></h3>
