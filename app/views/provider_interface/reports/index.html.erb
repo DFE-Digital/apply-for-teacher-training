@@ -14,7 +14,9 @@
       <% end %>
 
       <% @providers.select { _1.performance_reports.any? }.each do |provider| %>
-        <h3 class="govuk-heading-s"><%= provider.name %></h3>
+        <% if @providers.many? %>
+          <h3 class="govuk-heading-s"><%= provider.name %></h3>
+        <% end %>
         <% report = provider.performance_reports.last %>
         <ul class="govuk-list govuk-list--spaced">
           <li><%= govuk_link_to("Weekly report for week ending #{report.reporting_date.to_fs(:govuk_date)}", provider_interface_reports_provider_recruitment_performance_report_path(provider.id)) %></li>
