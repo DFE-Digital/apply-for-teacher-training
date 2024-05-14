@@ -31,7 +31,7 @@ RSpec.feature 'Provider with two providers reports index' do
   def then_the_page_has_the_right_content
     expect(page).to have_css('h1', text: 'Reports')
     expect(page).to have_css('h2', text: 'Weekly recruitment performance report')
-    expect(page).to have_link('Weekly report for week ending 2024-06-01', href: provider_interface_reports_provider_recruitment_performance_report_path(@provider))
+    expect(page).to have_link('Weekly report for week ending 5 May 2024', href: provider_interface_reports_provider_recruitment_performance_report_path(@provider))
     expect(page).to have_css('h2', text: 'Application data for this recruitment cycle')
     expect(page).to have_link('Export application data', href: provider_interface_new_application_data_export_path)
     expect(page).to have_link('Export data for Higher Education Statistics Agency (HESA)', href: provider_interface_reports_hesa_exports_path)
