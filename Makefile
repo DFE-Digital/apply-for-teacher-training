@@ -268,3 +268,20 @@ get-cluster-credentials: set-azure-account
 bin/terrafile: ## Install terrafile to manage terraform modules
 	curl -sL https://github.com/coretech/terrafile/releases/download/v${TERRAFILE_VERSION}/terrafile_${TERRAFILE_VERSION}_$$(uname)_x86_64.tar.gz \
 		| tar xz -C ./bin terrafile
+
+maintenance-image-push: ## Build and push maintenance page image: make production maintenance-image-push GITHUB_TOKEN=x [MAINTENANCE_IMAGE_TAG=y]
+	$(if ${GITHUB_TOKEN},, $(error Provide a valid Github token with write:packages permissions as GITHUB_TOKEN variable))
+	$(if ${MAINTENANCE_IMAGE_TAG},, $(eval export MAINTENANCE_IMAGE_TAG=$(shell date +%s)))
+	docker build -t ghcr.io/dfe-digital/apply-teacher-training-maintenance:${MAINTENANCE_IMAGE_TAG} maintenance_page
+	echo ${GITHUB_TOKEN} | docker login ghcr.io -u USERNAME --password-stdin
+	docker push ghcr.io/dfe-digital/apply-teacher-training-maintenance:${MAINTENANCE_IMAGE_TAG}
+
+maintenance-fail-over: get-cluster-credentials ## Fail main app over to the maintenance page: make production maintenance-fail-over
+	$(eval export CONFIG)
+	./maintenance_page/scripts/failover.sh
+
+enable-maintenance: maintenance-image-push maintenance-fail-over ## Build, push, fail over: make production enable-maintenance GITHUB_TOKEN=x [MAINTENANCE_IMAGE_TAG=y]
+
+disable-maintenance: get-cluster-credentials ## Fail back to the main app: make production disable-maintenance
+	$(eval export CONFIG)
+	./maintenance_page/scripts/failback.sh
