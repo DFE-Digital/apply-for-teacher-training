@@ -724,6 +724,18 @@ RSpec.describe CycleTimetable do
     end
   end
 
+  describe '#cycle_week_date_range' do
+    let(:date) { Time.zone.local(2023, 10, 30) }
+
+    before { TestSuiteTimeMachine.travel_permanently_to(date) }
+
+    it 'returns the correct date range for cycle_week 5' do
+      cycle_week_date_range = described_class.cycle_week_date_range(5)
+
+      expect(cycle_week_date_range).to eql(date.all_week)
+    end
+  end
+
   describe '#start_of_cycle_week' do
     context 'without time argument' do
       let(:date) { Time.zone.local(2023, 10, 30) }
