@@ -287,19 +287,31 @@ class CycleTimetable
     schedule.fetch(name)
   end
 
+  #
+  # cycle_week methods
+  #
+
   def self.current_cycle_week(time = Time.zone.now)
     weeks = (time.to_date - find_opens(current_year(time)).beginning_of_week.to_date).to_i / 7
     (weeks % 52).succ
   end
 
-  def self.start_of_cycle_week(cycle_week, time = Time.zone.now)
+  def self.cycle_week_date_range(cycle_week, time = Time.zone.now)
     year = current_year(time)
     cycle_week %= 52
     cycle_week -= 1
 
-    start_of_week = find_opens(year).beginning_of_week + cycle_week.weeks
-    [start_of_week, find_opens(year)].max
+    start_of_week = find_opens(year) + cycle_week.weeks
+    start_of_week.all_week
   end
+
+  def self.start_of_cycle_week(...)
+    cycle_week_date_range(...).first
+  end
+
+  #
+  # cycle_schedule methods
+  #
 
   def self.current_cycle_schedule
     # Make sure this setting only has effect on non-production environments

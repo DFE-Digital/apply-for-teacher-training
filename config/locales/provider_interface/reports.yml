@@ -1,6 +1,10 @@
 en:
   provider_interface:
     reports:
+      index:
+        performance_report_heading: Weekly recruitment performance report
+        application_data_heading: Application data for this recruitment cycle
+        download_export_heading: Download and export
       hesa:
         diversity_text: Sex, disability and ethnicity information will be marked as confidential if you do not have permission to view it.
         download_link: 'Export data for %{cycle_name} (CSV)'
