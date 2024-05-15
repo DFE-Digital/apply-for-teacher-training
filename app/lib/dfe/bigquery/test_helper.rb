@@ -16,7 +16,11 @@ module DfE
         bigquery_client = instance_double(Google::Cloud::Bigquery::Project)
         allow(DfE::Bigquery).to receive(:client).and_return(bigquery_client)
 
-        allow(bigquery_client).to receive(:query).and_return(application_metrics_by_provider_results(stub_results&.first))
+        if stub_results.present?
+          allow(bigquery_client).to receive(:query).and_return(application_metrics_by_provider_results(stub_results&.first))
+        else
+          allow(bigquery_client).to receive(:query).and_return(stub_results)
+        end
       end
 
       def application_metrics_results(options = {})
