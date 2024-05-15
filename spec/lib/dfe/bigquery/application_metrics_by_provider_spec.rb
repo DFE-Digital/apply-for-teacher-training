@@ -120,10 +120,22 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
       expect(provider_statistics.first.number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates).to eq 12
       expect(provider_statistics.first.number_of_candidates_submitted_to_date).to be 100
     end
+
+    context 'when the api returns no data for the provider id' do
+      let(:bigquery_results) { [] }
+
+      before do
+        allow(client).to receive(:query).with(anything).and_return(bigquery_results)
+      end
+
+      it 'returns an empty array' do
+        expect(provider_statistics).to be_empty
+      end
+    end
   end
 
   describe '.national_data' do
-    subject(:provider_statistics) do
+    subject(:national_statistics) do
       described_class.new(cycle_week: 18).national_data
     end
 
@@ -176,32 +188,44 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
     end
 
     it 'returns the first result' do
-      expect(provider_statistics.as_json).to eq(results.as_json)
+      expect(national_statistics.as_json).to eq(results.as_json)
     end
 
     it 'assigns the attributes for the application metrics', :aggregate_failures do
-      expect(provider_statistics.first.nonprovider_filter).to eq 'Level'
-      expect(provider_statistics.first.nonprovider_filter_category).to eq 'Primary'
-      expect(provider_statistics.first.cycle_week).to eq 18
-      expect(provider_statistics.first.recruitment_cycle_year).to eq 2024
-      expect(provider_statistics.first.number_of_candidates_submitted_to_date).to eq 100
-      expect(provider_statistics.first.number_of_candidates_submitted_to_same_date_previous_cycle).to eq 200
-      expect(provider_statistics.first.number_of_candidates_submitted_to_date_as_proportion_of_last_cycle).to eq 0.5
-      expect(provider_statistics.first.number_of_candidates_with_offers_to_date).to eq 10
-      expect(provider_statistics.first.number_of_candidates_with_offers_to_same_date_previous_cycle).to eq 5
-      expect(provider_statistics.first.number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle).to eq 2
-      expect(provider_statistics.first.number_of_candidates_accepted_to_date).to eq 1
-      expect(provider_statistics.first.number_of_candidates_accepted_to_same_date_previous_cycle).to eq 10
-      expect(provider_statistics.first.number_of_candidates_accepted_to_date_as_proportion_of_last_cycle).to eq 0.1
-      expect(provider_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date).to eq 12
-      expect(provider_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle).to eq 12
-      expect(provider_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle).to eq 0
-      expect(provider_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date).to eq 12
-      expect(provider_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle).to eq 12
-      expect(provider_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle).to eq 0
-      expect(provider_statistics.first.number_of_candidates_who_had_an_inactive_application_this_cycle_to_date).to eq 12
-      expect(provider_statistics.first.number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates).to eq 12
-      expect(provider_statistics.first.number_of_candidates_submitted_to_date).to be 100
+      expect(national_statistics.first.nonprovider_filter).to eq 'Level'
+      expect(national_statistics.first.nonprovider_filter_category).to eq 'Primary'
+      expect(national_statistics.first.cycle_week).to eq 18
+      expect(national_statistics.first.recruitment_cycle_year).to eq 2024
+      expect(national_statistics.first.number_of_candidates_submitted_to_date).to eq 100
+      expect(national_statistics.first.number_of_candidates_submitted_to_same_date_previous_cycle).to eq 200
+      expect(national_statistics.first.number_of_candidates_submitted_to_date_as_proportion_of_last_cycle).to eq 0.5
+      expect(national_statistics.first.number_of_candidates_with_offers_to_date).to eq 10
+      expect(national_statistics.first.number_of_candidates_with_offers_to_same_date_previous_cycle).to eq 5
+      expect(national_statistics.first.number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle).to eq 2
+      expect(national_statistics.first.number_of_candidates_accepted_to_date).to eq 1
+      expect(national_statistics.first.number_of_candidates_accepted_to_same_date_previous_cycle).to eq 10
+      expect(national_statistics.first.number_of_candidates_accepted_to_date_as_proportion_of_last_cycle).to eq 0.1
+      expect(national_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date).to eq 12
+      expect(national_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle).to eq 12
+      expect(national_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle).to eq 0
+      expect(national_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date).to eq 12
+      expect(national_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle).to eq 12
+      expect(national_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle).to eq 0
+      expect(national_statistics.first.number_of_candidates_who_had_an_inactive_application_this_cycle_to_date).to eq 12
+      expect(national_statistics.first.number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates).to eq 12
+      expect(national_statistics.first.number_of_candidates_submitted_to_date).to be 100
+    end
+
+    context 'when the api returns no data' do
+      let(:bigquery_results) { [] }
+
+      before do
+        allow(client).to receive(:query).with(anything).and_return(bigquery_results)
+      end
+
+      it 'returns an empty array' do
+        expect(national_statistics).to be_empty
+      end
     end
   end
 
@@ -213,7 +237,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
         expect(result).to respond_to(:nonprovider_filter)
       end
 
-      it 'has no attr_reader for nonprovider_filter_category' do
+      it 'has attr_reader for nonprovider_filter_category' do
         expect(result).to respond_to(:nonprovider_filter_category)
       end
     end
