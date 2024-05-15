@@ -1,11 +1,15 @@
 .recruitment-performance-report-table {
+  &__wrapper {
+    padding-bottom: govuk-spacing(4);
+  }
+
   &__heading {
     padding-left: govuk-spacing(2);
 
     text-align: center;
 
     border-bottom: none;
-    border-left: $govuk-border-width-narrow solid $govuk-border-colour;
+    border-left: 1px solid $govuk-border-colour;
   }
 
   &__heading--no-border {
@@ -21,7 +25,7 @@
   &__subheading--border-left {
     padding-left: govuk-spacing(2);
 
-    border-left: $govuk-border-width-narrow solid $govuk-border-colour;
+    border-left: 1px solid $govuk-border-colour;
   }
 
   &__cell--secondary-subject {
@@ -42,6 +46,6 @@
   &__cell--border-left {
     padding-left: govuk-spacing(2);
 
-    border-left: $govuk-border-width-narrow solid $govuk-border-colour;
+    border-left: 1px solid $govuk-border-colour;
   }
 }
