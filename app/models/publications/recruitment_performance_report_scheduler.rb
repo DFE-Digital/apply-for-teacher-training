@@ -1,11 +1,17 @@
 module Publications
   class RecruitmentPerformanceReportScheduler
+    def initialize(cycle_week: CycleTimetable.current_cycle_week.pred)
+      @cycle_week = cycle_week
+    end
+
     def call
       schedule_national_report
       schedule_provider_report
     end
 
   private
+
+    attr_accessor :cycle_week
 
     def schedule_national_report
       return if Publications::NationalRecruitmentPerformanceReport.exists?(cycle_week:)
@@ -24,10 +30,6 @@ module Publications
             cycle_week,
           )
       end
-    end
-
-    def cycle_week
-      CycleTimetable.current_cycle_week.pred
     end
   end
 end
