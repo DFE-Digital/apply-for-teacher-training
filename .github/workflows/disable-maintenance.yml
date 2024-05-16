@@ -1,17 +1,17 @@
-name: Enable maintenance
+name: Disable maintenance
 
 on:
   workflow_dispatch:
     inputs:
       environment:
         required: true
-        type: string
+        type: choice
         options:
         - qa
         - production
 
 jobs:
-  enable-maintenance:
+  disable-maintenance:
     name: Disable maintenance app
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
@@ -20,7 +20,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - uses: azure/login@v1
+    - uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 

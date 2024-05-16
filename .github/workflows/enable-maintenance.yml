@@ -5,7 +5,7 @@ on:
     inputs:
       environment:
         required: true
-        type: string
+        type: choice
         options:
         - qa
         - production
@@ -25,11 +25,11 @@ jobs:
       uses: DFE-Digital/github-actions/build-docker-image@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        dockerfile-path: service_unavailable_page/Dockerfile
+        dockerfile-path: maintenance_page/Dockerfile
         docker-repository: ghcr.io/dfe-digital/apply-teacher-training-maintenance
         context: maintenance_page
 
-    - uses: azure/login@v1
+    - uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
