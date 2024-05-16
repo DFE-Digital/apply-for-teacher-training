@@ -17,11 +17,16 @@ module Publications
     end
 
     def call
+      if data.empty?
+        Rails.logger.info("No recruitment performance data was received for #{provider_id}")
+        return
+      end
+
       Publications::ProviderRecruitmentPerformanceReport.create!(provider_id:, statistics: data, cycle_week:, publication_date:, generation_date:)
     end
 
     def data
-      client.provider_data.map(&:attributes)
+      @data ||= client.provider_data.map(&:attributes)
     end
   end
 end
