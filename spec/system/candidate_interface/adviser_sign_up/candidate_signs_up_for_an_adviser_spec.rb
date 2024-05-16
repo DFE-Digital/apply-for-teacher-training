@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate signs up for an adviser', :js do
+RSpec.describe 'Candidate signs up for an adviser', :js do
   include_context 'get into teaching api stubbed endpoints'
 
   include CandidateHelper
@@ -17,19 +17,19 @@ RSpec.feature 'Candidate signs up for an adviser', :js do
     and_i_visit_the_application_form_page
 
     when_i_click_on_the_adviser_cta
-    then_i_should_be_on_the_adviser_sign_up_page
+    then_i_am_on_the_adviser_sign_up_page
 
     when_i_click_the_sign_up_button
-    then_i_should_see_validation_errors_for_preferred_teaching_subject
-    and_the_validation_error_should_be_tracked
+    then_i_see_validation_errors_for_preferred_teaching_subject
+    and_the_validation_error_is_tracked
 
     when_i_select_a_preferred_teaching_subject(preferred_teaching_subject.value)
     when_i_click_the_sign_up_button
-    then_i_should_be_redirected_to_the_application_form_page
-    and_i_should_see_the_success_message
+    then_i_am_redirected_to_the_application_form_page
+    and_i_see_the_success_message
     and_the_adviser_cta_be_replaced_with_the_waiting_to_be_assigned_message
-    and_an_adviser_sign_up_job_should_be_enqueued
-    and_the_sign_up_should_be_tracked
+    and_an_adviser_sign_up_job_is_enqueued
+    and_the_sign_up_is_tracked
   end
 
   def given_i_am_signed_in
@@ -78,7 +78,7 @@ RSpec.feature 'Candidate signs up for an adviser', :js do
     find("a[href='#{new_candidate_interface_adviser_sign_up_path}']", match: :first).click
   end
 
-  def then_i_should_be_on_the_adviser_sign_up_page
+  def then_i_am_on_the_adviser_sign_up_page
     expect(page).to have_current_path(new_candidate_interface_adviser_sign_up_path)
   end
 
@@ -86,13 +86,13 @@ RSpec.feature 'Candidate signs up for an adviser', :js do
     click_link_or_button t('application_form.adviser_sign_up.submit_text')
   end
 
-  def then_i_should_see_validation_errors_for_preferred_teaching_subject
+  def then_i_see_validation_errors_for_preferred_teaching_subject
     expect(page).to have_content(
       t('activemodel.errors.models.adviser/sign_up.attributes.preferred_teaching_subject_id.inclusion'),
     )
   end
 
-  def and_the_validation_error_should_be_tracked
+  def and_the_validation_error_is_tracked
     last_error = ValidationError.last
     expect(last_error).to have_attributes({
       form_object: Adviser::SignUp.name,
@@ -104,15 +104,15 @@ RSpec.feature 'Candidate signs up for an adviser', :js do
     find('label', text: subject).click
   end
 
-  def then_i_should_be_redirected_to_the_application_form_page
+  def then_i_am_redirected_to_the_application_form_page
     expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
   end
 
-  def and_i_should_see_the_success_message
+  def and_i_see_the_success_message
     expect(page).to have_content(t('application_form.adviser_sign_up.flash.success'))
   end
 
-  def and_an_adviser_sign_up_job_should_be_enqueued
+  def and_an_adviser_sign_up_job_is_enqueued
     expect(AdviserSignUpWorker).to have_received(:perform_async)
       .with(@application_form.id, preferred_teaching_subject.id).once
   end
@@ -122,7 +122,7 @@ RSpec.feature 'Candidate signs up for an adviser', :js do
     expect(page).to have_text(t('application_form.adviser_sign_up.call_to_action.waiting_to_be_assigned.text'))
   end
 
-  def and_the_sign_up_should_be_tracked
+  def and_the_sign_up_is_tracked
     expect(:candidate_signed_up_for_adviser).to have_been_enqueued_as_analytics_events
   end
 end

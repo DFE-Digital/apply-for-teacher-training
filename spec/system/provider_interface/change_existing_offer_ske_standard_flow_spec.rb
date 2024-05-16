@@ -287,16 +287,16 @@ RSpec.feature 'Provider changes an existing offer' do
 
   def and_the_ske_conditions_be_displayed
     expect(page).to have_content('Subject knowledge enhancement course')
-    expect(page).to have_content("Subject\n#{@ske_subject.name}")
-    expect(page).to have_content("Length\n8 weeks")
-    expect(page).to have_content("Reason\nTheir degree subject was not #{@ske_subject.name}")
+    expect(page).to have_content("Subject #{@ske_subject.name}")
+    expect(page).to have_content('Length 8 weeks')
+    expect(page).to have_content("Reason Their degree subject was not #{@ske_subject.name}")
   end
 
   def and_the_modified_ske_conditions_be_displayed
     expect(page).to have_content('Subject knowledge enhancement course')
-    expect(page).to have_content("Subject\n#{@ske_subject.name}")
-    expect(page).to have_content("Length\n12 weeks")
-    expect(page).to have_content("Reason\nTheir degree subject was not #{@ske_subject.name}")
+    expect(page).to have_content("Subject #{@ske_subject.name}")
+    expect(page).to have_content('Length 12 weeks')
+    expect(page).to have_content("Reason Their degree subject was not #{@ske_subject.name}")
   end
 
   def and_the_ske_conditions_not_be_displayed

@@ -9,7 +9,7 @@ RSpec.feature 'Add course to submitted application' do
     and_i_visit_the_support_page
 
     when_i_click_on_the_application
-    then_i_should_see_the_current_conditions
+    then_i_see_the_current_conditions
 
     when_i_click_on_change_conditions
     then_i_see_the_condition_edit_form_with_a_warning
@@ -62,8 +62,8 @@ RSpec.feature 'Add course to submitted application' do
     click_link_or_button 'Candy Dayte'
   end
 
-  def then_i_should_see_the_current_conditions
-    expect(page).to have_content("Conditions\nBe cool")
+  def then_i_see_the_current_conditions
+    expect(page).to have_content('Conditions Be cool')
   end
 
   def when_i_click_on_change_conditions
@@ -122,8 +122,6 @@ RSpec.feature 'Add course to submitted application' do
   def then_i_see_that_the_candidate_has_been_recruited_and_conditions_have_been_removed
     expect(page).to have_current_path(support_interface_application_form_path(@application_choice.application_form_id))
     expect(page).to have_content('Recruited')
-    expect(page.all('.govuk-summary-list__row').map(&:text)).to include(
-      "Conditions\nNo conditions added\nChange conditions",
-    )
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Conditions No conditions added Change conditions')
   end
 end

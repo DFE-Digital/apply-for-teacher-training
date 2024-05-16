@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Process Stale applications', :sidekiq do
+RSpec.describe 'Process Stale applications', :sidekiq do
   include CourseOptionHelpers
 
   scenario 'An application is marked as inactive', :with_audited do
@@ -8,7 +8,7 @@ RSpec.feature 'Process Stale applications', :sidekiq do
     and_there_is_a_candidate
     and_an_application_is_ready_to_be_marked_as_inactive
     when_we_process_stale_applications
-    then_the_application_should_be_inactive
+    then_the_application_is_inactive
   end
 
   def given_there_is_a_provider_user_for_the_provider_course
@@ -42,7 +42,7 @@ RSpec.feature 'Process Stale applications', :sidekiq do
     end
   end
 
-  def then_the_application_should_be_inactive
+  def then_the_application_is_inactive
     expect(@application_choice.reload.status).to eq('inactive')
   end
 end

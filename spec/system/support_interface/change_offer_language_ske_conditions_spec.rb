@@ -10,7 +10,7 @@ RSpec.feature 'Add course to submitted application' do
     and_i_visit_the_support_page
 
     when_i_click_on_the_application
-    then_i_should_see_the_current_conditions
+    then_i_see_the_current_conditions
 
     when_i_click_on_change_conditions
     then_i_see_the_condition_edit_form_with_a_warning
@@ -68,8 +68,8 @@ RSpec.feature 'Add course to submitted application' do
     click_link_or_button 'Candy Dayte'
   end
 
-  def then_i_should_see_the_current_conditions
-    expect(page).to have_content("Conditions\nBe cool")
+  def then_i_see_the_current_conditions
+    expect(page).to have_content('Conditions Be cool')
   end
 
   def when_i_click_on_change_conditions
@@ -99,8 +99,8 @@ RSpec.feature 'Add course to submitted application' do
 
   def then_i_see_the_new_ske_conditions
     expect(page).to have_content('Subject knowledge enhancement course')
-    expect(page).to have_content("Length\n8 weeks")
-    expect(page).to have_content("Reason\nTheir degree subject was not German")
+    expect(page).to have_content('Length 8 weeks')
+    expect(page).to have_content('Reason Their degree subject was not German')
   end
 
   def and_i_change_the_length_of_the_ske_condition
@@ -120,8 +120,8 @@ RSpec.feature 'Add course to submitted application' do
 
   def then_i_see_the_updated_ske_condition
     expect(page).to have_content('Subject knowledge enhancement course')
-    expect(page).to have_content("Length\n16 weeks")
-    expect(page).to have_content("Reason\nTheir degree subject was not German")
+    expect(page).to have_content('Length 16 weeks')
+    expect(page).to have_content('Reason Their degree subject was not German')
   end
 
   def and_i_delete_the_ske_condition
