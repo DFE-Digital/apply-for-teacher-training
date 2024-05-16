@@ -68,7 +68,7 @@ RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
     expect(page).to have_content 'Maths GCSE or equivalent'
 
     expect(page).to have_content 'GCSE'
-    expect(page).to have_content "Grade\nD"
+    expect(page).to have_content 'Grade D'
     expect(page).to have_content 'Hard work and dedication'
     expect(page).to have_content '1990'
   end
@@ -116,7 +116,7 @@ RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
   end
 
   def then_i_see_the_review_page_with_new_details
-    expect(page).to have_content "Grade\nB"
+    expect(page).to have_content 'Grade B'
   end
 
   def and_the_not_completed_explanation_has_been_reset

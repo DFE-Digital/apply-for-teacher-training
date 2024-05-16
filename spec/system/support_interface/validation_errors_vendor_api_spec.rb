@@ -9,13 +9,13 @@ RSpec.feature 'Validation errors Vendor API' do
     and_vendor_api_requests_for_applications_have_been_made
 
     when_i_navigate_to_the_validation_errors_page
-    then_i_should_see_a_list_of_error_groups
+    then_i_see_a_list_of_error_groups
 
     when_i_click_on_a_group
-    then_i_should_see_a_list_of_individual_errors
+    then_i_see_a_list_of_individual_errors
 
     when_i_click_on_link_in_breadcrumb_trail
-    then_i_should_be_back_on_index_page
+    then_i_am_back_on_index_page
   end
 
   def given_i_am_a_support_user
@@ -41,7 +41,7 @@ RSpec.feature 'Validation errors Vendor API' do
     click_link_or_button 'Vendor API validation errors'
   end
 
-  def then_i_should_see_a_list_of_error_groups
+  def then_i_see_a_list_of_error_groups
     expect(page).to have_content('/api/v1/applications: ParameterInvalid')
     expect(page).to have_content('2')
   end
@@ -50,10 +50,10 @@ RSpec.feature 'Validation errors Vendor API' do
     click_link_or_button('ParameterInvalid')
   end
 
-  def then_i_should_see_a_list_of_individual_errors
+  def then_i_see_a_list_of_individual_errors
     expect(page).to have_content('Showing errors on the ParameterInvalid field in /api/v1/applications by all providers')
-    expect(page).to have_content("Query string:\n\"since=2019-01-012222\"")
-    expect(page).to have_content("Request body:\n{ \"since\": \"2019-01-012222\" }")
+    expect(page).to have_content('Query string: "since=2019-01-012222"')
+    expect(page).to have_content('Request body: { "since": "2019-01-012222" }')
     expect(page).to have_content('/api/v1/applications: ParameterInvalid')
     expect(page).to have_content('Parameter is invalid (should be ISO8601): since')
   end
@@ -62,7 +62,7 @@ RSpec.feature 'Validation errors Vendor API' do
     click_link_or_button 'Vendor API'
   end
 
-  def then_i_should_be_back_on_index_page
+  def then_i_am_back_on_index_page
     expect(page).to have_current_path(support_interface_validation_errors_vendor_api_path)
   end
 end

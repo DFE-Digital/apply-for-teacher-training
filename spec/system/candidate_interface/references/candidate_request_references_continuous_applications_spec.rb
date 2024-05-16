@@ -157,7 +157,7 @@ RSpec.feature 'New References', :with_audited do
   end
 
   def then_i_see_the_email_error_validation_message
-    expect(page).to have_content("There is a problem\nEnter their email address")
+    expect(page).to have_content('There is a problem Enter their email address')
   end
 
   def and_i_be_on_add_relationship_page

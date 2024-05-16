@@ -4,6 +4,7 @@ require 'capybara/rspec'
 if ENV['TEST_ENV_NUMBER']
   Capybara.server_port = 9887 + ENV['TEST_ENV_NUMBER'].to_i
 end
+Capybara.default_normalize_ws = true
 
 options = Selenium::WebDriver::Chrome::Options.new.tap do |opts|
   opts.add_argument('--no-sandbox')
