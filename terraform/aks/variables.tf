@@ -70,12 +70,6 @@ variable "alert_window_size" {
   description = "The period of time that is used to monitor alert activity e.g PT1M, PT5M, PT15M, PT30M, PT1H, PT6H or PT12H"
 }
 
-# Remove when all environments are migrated to the terraform DB
-variable "use_terraform_db" {
-  description = "Connect app to the database created by terraform"
-  default     = false
-}
-
 variable "send_traffic_to_maintenance_page" {
   default     = false
   description = "During a maintenance operation, keep sending traffic to the maintenance page instead of resetting the ingress"
@@ -102,7 +96,4 @@ locals {
   app_resource_group_name = "${var.azure_resource_prefix}-${var.service_short}-${var.config_short}-rg"
 
   webapp_startup_command = var.webapp_startup_command == null ? null : ["/bin/sh", "-c", var.webapp_startup_command]
-
-  legacy_database_url = "postgres://${module.postgres.username}:${module.postgres.password}@${module.postgres.host}:${module.postgres.port}/apply-postgres-${var.app_environment}"
-  database_url        = var.use_terraform_db ? module.postgres.url : local.legacy_database_url
 }
