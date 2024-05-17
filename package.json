@@ -39,7 +39,7 @@
     ]
   },
   "lint-staged": {
-    "*_spec.rb": "bundle exec rubocop -P --only RSpec/NoShouldInSpecs RSpec/UseDescribeSystemSpecs"
+    "*_spec.rb": "bundle exec rubocop -P --only RSpec/NoShouldInSpecs,RSpec/UseDescribeSystemSpecs"
   },
   "standard": {
     "env": [
