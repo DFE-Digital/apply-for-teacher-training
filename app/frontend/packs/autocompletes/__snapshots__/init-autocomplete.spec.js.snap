@@ -18,6 +18,7 @@ exports[`initAutocomplete should instantiate an autocomplete 1`] = `
       class="autocomplete__wrapper"
     >
       <div
+        class="autocomplete__status"
         style="border: 0px; height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;"
       >
         <div
