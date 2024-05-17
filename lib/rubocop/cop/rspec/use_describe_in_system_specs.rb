@@ -1,7 +1,7 @@
 module RuboCop
   module Cop
     module RSpec
-      class RSpecDescribeSystemSpecs < Base
+      class UseDescribeSystemSpecs < Base
         extend AutoCorrector
         include RangeHelp
 
