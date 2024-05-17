@@ -1,17 +1,18 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <div class="recruitment-performance-report-table__wrapper">
-      <%= govuk_table do |table| %>
-        <%= table.with_caption do %>
-          <%= content_tag(:h2, class: 'govuk-heading-m', id: table_caption) do %>
-            <%= t("subject_table_component.#{table_caption}") %>
-          <% end %>
-          <%= content %>
-        <% end %>
+    <%= content_tag(:h2, class: 'govuk-heading-m', id: table_caption) do %>
+      <%= t("subject_table_component.#{table_caption}") %>
+    <% end %>
+    <%= content %>
 
-        <% if subject_rows.empty? %>
-          <p class="govuk-body"><%= t('shared.empty_state') %></p>
-        <% else %>
+    <% if subject_rows.empty? %>
+      <p class="govuk-body"><%= t('shared.empty_state') %></p>
+    <% else %>
+      <div class="recruitment-performance-report-table__wrapper">
+        <%= govuk_table do |table| %>
+          <%= table.with_caption(text: t("subject_table_component.#{table_caption}"),
+                                 html_attributes: { class: 'govuk-visually-hidden' }) %>
+
           <%= table.with_colgroup do |colgroup| %>
             <%= colgroup.with_col(span: 1) %>
             <%= colgroup.with_col(span: colspan) %>
