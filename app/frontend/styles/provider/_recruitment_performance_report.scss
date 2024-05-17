@@ -1,6 +1,7 @@
 .recruitment-performance-report-table {
   &__wrapper {
-    padding-bottom: govuk-spacing(4);
+    margin-bottom: govuk-spacing(4);
+    overflow-x: auto;
   }
 
   &__heading {

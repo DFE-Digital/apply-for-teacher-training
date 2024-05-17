@@ -1,20 +1,18 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <div class="recruitment-performance-report-table__wrapper">
+    <h2 class="govuk-heading-m" id="candidate_deferrals">
+      <%= t('deferrals_table_component.caption') %>
+    </h2>
+    <p class="govuk-body"><%= t('deferrals_table_component.description_one', provider_name:) %></p>
+    <p class="govuk-body"><%= t('deferrals_table_component.description_two') %></p>
 
+    <% if deferral_rows.empty? %>
+      <p class="govuk-body"><%= t('shared.empty_state') %></p>
+    <% else %>
+    <div class="recruitment-performance-report-table__wrapper">
       <%= govuk_table do |table| %>
-        <%= table.with_caption do %>
-          <span>
-            <h2 class="govuk-heading-m" id="candidate_deferrals">
-              <%= t('deferrals_table_component.caption') %>
-            </h2>
-            <% if deferral_rows.empty? %>
-              <p class="govuk-body"><%= t('shared.empty_state') %></p>
-            <% end %>
-            <p class="govuk-body"><%= t('deferrals_table_component.description_one', provider_name:) %></p>
-            <p class="govuk-body"><%= t('deferrals_table_component.description_two') %></p>
-          </span>
-        <% end %>
+        <%= table.with_caption(text: t('deferrals_table_component.caption'),
+                               html_attributes: { class: 'govuk-visually-hidden' }) %>
         <%= table.with_head do |head| %>
           <%= head.with_row do |row| %>
             <%= row.with_cell(text: t('deferrals_table_component.deferrals'),
@@ -35,6 +33,7 @@
           <% end %>
         <% end %>
       <% end %>
+    <% end %>
     </div>
   </div>
 </div>
