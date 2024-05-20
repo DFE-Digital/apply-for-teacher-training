@@ -52,13 +52,13 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 ### Production dependencies
 
-| Dependency            | Version   |
-| ---                   | --        |
-| [Ruby](.ruby-version) | 3.2.3     |
-| Node.js               | – 20.11.0 |
-| Yarn                  | 1.22.19   |
-| PostgreSQL            | 14        |
-| Redis                 | 6.0.x     |
+| Dependency            | Version |
+| ---                   | --      |
+| [Ruby](.ruby-version) | 3.2.3   |
+| Node.js               | 20.11.0 |
+| Yarn                  | 1.22.19 |
+| PostgreSQL            | 14      |
+| Redis                 | 6.0.x   |
 
 ### Development dependencies
 
