@@ -1,10 +1,11 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: 80015465040513020d0c2b3a2ae45d4f05f3b547
-  tag: v1.12.3
+  revision: d2299142d986e46d1c86d415dc9b8b215f7245ab
+  tag: v1.12.7
   specs:
-    dfe-analytics (1.12.3)
+    dfe-analytics (1.12.7)
       google-cloud-bigquery (~> 1.38)
+      httparty (~> 0.21)
       request_store_rails (~> 2)
 
 GIT
@@ -297,9 +298,9 @@ GEM
       csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-apis-bigquery_v2 (0.67.0)
-      google-apis-core (>= 0.14.0, < 2.a)
-    google-apis-core (0.14.1)
+    google-apis-bigquery_v2 (0.70.0)
+      google-apis-core (>= 0.15.0, < 2.a)
+    google-apis-core (0.15.0)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (~> 1.9)
       httpclient (>= 2.8.1, < 3.a)
@@ -371,6 +372,10 @@ GEM
     http-cookie (1.0.5)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
+    httparty (0.22.0)
+      csv
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     httpclient (2.8.3)
     humanize (3.1.0)
     i18n (1.14.5)
@@ -445,7 +450,9 @@ GEM
     mini_portile2 (2.8.6)
     minitest (5.23.0)
     multi_json (1.15.0)
-    multipart-post (2.4.0)
+    multi_xml (0.7.1)
+      bigdecimal (~> 3.1)
+    multipart-post (2.4.1)
     mutex_m (0.2.0)
     nenv (0.3.0)
     net-imap (0.4.11)
