@@ -331,7 +331,7 @@ GEM
       html-attributes-utils (~> 1.0.0, >= 1.0.0)
       pagy (>= 6, < 9)
       view_component (>= 3.9, < 3.13)
-    govuk_design_system_formbuilder (5.3.3)
+    govuk_design_system_formbuilder (5.4.0)
       actionview (>= 6.1)
       activemodel (>= 6.1)
       activesupport (>= 6.1)
@@ -522,7 +522,7 @@ GEM
     public_suffix (5.0.5)
     puma (6.4.2)
       nio4r (~> 2.0)
-    racc (1.7.3)
+    racc (1.8.0)
     rack (2.2.9)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
@@ -870,7 +870,7 @@ DEPENDENCIES
   get_into_teaching_api_client_faraday!
   google-cloud-bigquery
   govuk-components (~> 5.4.0)
-  govuk_design_system_formbuilder (~> 5.3.3)
+  govuk_design_system_formbuilder (~> 5.4.0)
   govuk_markdown
   grover
   guard-rspec
