@@ -167,13 +167,8 @@ RSpec.describe ProviderInterface::HesaDataExport do
     context 'when there is an unknown subject code' do
       let(:subjects) { [create(:subject, code: 'F3'), create(:subject, code: 'X9'), create(:subject, code: 'missing-value')] }
 
-      before { allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::MissingSubjectCodeHECOSMapping)) }
-
-      it 'captures code in Sentry error' do
-        export_row
-        expect(Sentry).to have_received(:capture_exception).with(
-          described_class::MissingSubjectCodeHECOSMapping.new("Could not map Subject code: 'missing-value' to HECOS code"),
-        )
+      it 'ignores unknown subjects' do
+        expect(export_row).to include({ 'SBJCA' => '100425 101277' })
       end
 
       it_behaves_like 'an exported HESA row'
