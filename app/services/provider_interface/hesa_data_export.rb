@@ -71,7 +71,6 @@ module ProviderInterface
     def subject_codes(application)
       hecos_subject_codes = application.course.subject_codes.compact.map do |code|
         mapping = Hesa::SubjectCode.find_by_code(code)
-        Sentry.capture_exception(MissingSubjectCodeHECOSMapping.new("Could not map Subject code: '#{code}' to HECOS code")) if mapping.nil?
 
         mapping
       end
