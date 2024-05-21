@@ -16,13 +16,13 @@ If an environment variable is required for use in the local development environm
 
 `VARIABLE_NAME=Value`
 
-The [.env.example](../.env.example) file contains the essential environment variables that must exist for local development builds to succeed.
+The [.env.example](/.env.example) file contains the essential environment variables that must exist for local development builds to succeed.
 
 ## Docker Compose
 
 For docker compose to make the necessary environment variables available in the container at run time they must be declared in the relevant docker-compose file.
 
-* [docker-compose.yml](../docker-compose.yml) - Variables that are required for local dev should be defined the *environment* section in this file. This will in general only be for the database.
+* [docker-compose.yml](/docker-compose.yml) - Variables that are required for local dev should be defined the *environment* section in this file. This will in general only be for the database.
 
 ## Deploy Pipeline
 

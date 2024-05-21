@@ -14,7 +14,7 @@ The apply service uses a single image for the 'clock' and 'worker' Azure Contain
 
 The way that developers and the production service interact with the Docker image varies and consequently we have different build targets in our Dockerfile based on the same baseline image and application codebase. The most significant difference is that the production image is not bundled with any of the build dependencies to save space and reduce the number of potential vulnerability sources. The dev version of the image is over 1GB in size, the production image is nearer 200MB.
 
-The diagram below shows the hierachy of the image layers used to build our final **dev-build** and **prod-build** target images that are used by the developers and Azure deployments respectively. The images are defined in the [Dockerfile](../Dockerfile)
+The diagram below shows the hierachy of the image layers used to build our final **dev-build** and **prod-build** target images that are used by the developers and Azure deployments respectively. The images are defined in the [Dockerfile](/Dockerfile)
 
 ```
                ┏━━━━━━━━━━━━━━━━━━━━━ ruby:2.6.6-alpine ━━━━━━━━━━━━━━━━━━━━━┓
@@ -29,18 +29,18 @@ dev-build             prod-minify ━━━(copy app and compiled assets)━━�
 
 The following files are used in Apply's docker compose implementation.
 
-- [docker-compose.yml](../docker-compose.yml)
+- [docker-compose.yml](/docker-compose.yml)
   - This file contains the components of the docker environment that are common to both local development and Azure production deployments. This file defines the images required for the Postgres database, Redis cache, application and worker instances and their dependencies.
-- [docker-compose.override.yml](../docker-compose.override.yml)
+- [docker-compose.override.yml](/docker-compose.override.yml)
   - The override file is automatically loaded at run time by docker compose if it exists and contains overrides to the main `docker-compose.yml` file that apply only to development environments. These overrides include the use of local volumes for data persistance and targeting the 'dev-build' image.
-- [docker-compose.azure.yml](../docker-compose.azure.yml)
+- [docker-compose.azure.yml](/docker-compose.azure.yml)
   - The azure override file contains the overrides specific to the production image used in Azure. These changes include targeting the 'prod-build' image, configuring bundler not to include development dependencies and changing the image name to a format that can be pushed to DockerHub.
 
 The Azure pipeline is configures docker compose to use the `docker-compose.azure.yml` file for overrides instead of the default `docker-compose.override.yml` in line 38 of the `azure-pipelines.yml` file. To run a production build locally you must rename the azure file to become the override file as described in the instructions later in this document.
 
 ## Makefile
 
-To make interacting with the Docker images simpler the developers have created a [Makefile](../Makefile). Some useful commands from this Makefile are summarised below:
+To make interacting with the Docker images simpler the developers have created a [Makefile](/Makefile). Some useful commands from this Makefile are summarised below:
 - `make build`: This will build the target docker image as specified in your Docker compose file.
 - `make setup`: This will build the target docker image if not already present and set up the database.
 
@@ -68,7 +68,7 @@ _NOTE: The environment variables below that are set to 'test' will be sufficient
 ### Building and running the 'dev-build' image target locally
 
 1. Launch a terminal and clone the `apply-for-teacher-training` Git repo.
-1. Create a copy of the [.env.development](../.env.development) file and name it `.env`.
+1. Create a copy of the [.env.development](/.env.development) file and name it `.env`.
 1. Edit the `.env` file ane append the following additional envrionment variables to the end of the file.
    - `GOVUK_NOTIFY_API_KEY=test`
    - `RAILS_ENV=development`
@@ -81,15 +81,15 @@ _NOTE: The environment variables below that are set to 'test' will be sufficient
 Under normal circumstances you will seldom need to run a build using these instructions. It is only required if a build in Azure fails and you need to reproduce the failure locally to debug.
 
 1. Launch a terminal and clone the `apply-for-teacher-training` Git repo.
-1. Create a copy of the [.env.development](../.env.development) file and name it `.env`.
+1. Create a copy of the [.env.development](/.env.development) file and name it `.env`.
 1. Edit the `.env` file and append the following additional envrionment variables to the end of the file.
    - `GOVUK_NOTIFY_API_KEY=test`
    - `RAILS_ENV=production`
    - `SECRET_KEY_BASE=test`
    - `AUTHORISED_HOSTS=localhost` (_NOTE: If you are not running the Docker image locally this variable will need to be set to the hostname or IP address of the host running the service. This variable can accept multiple values as a comma separated list if required._)
    - `RAILS_SERVE_STATIC_FILES=true`
-1. Take a backup of the [docker-compose.override.yml](../docker-compose.override.yml) file by renaming it to something else of your choosing.
-1. Take a copy of the [docker-compose.azure.yml](../docker-compose.azure.yml) and name it `docker-compose.override.yml` to replace the file you backed up in the previous step.
+1. Take a backup of the [docker-compose.override.yml](/docker-compose.override.yml) file by renaming it to something else of your choosing.
+1. Take a copy of the [docker-compose.azure.yml](/docker-compose.azure.yml) and name it `docker-compose.override.yml` to replace the file you backed up in the previous step.
 1. Open the new `docker-compose.override.yml` file and make the following changes to it:
    - Delete the line that starts `image:`
    - Remove `=${railsSecretKeyBase}` from the end of the line `- SECRET_KEY_BASE=${railsSecretKeyBase}`

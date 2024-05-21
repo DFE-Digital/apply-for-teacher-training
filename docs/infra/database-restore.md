@@ -11,7 +11,7 @@ This document assumes that only the data in the database itself is at fault and 
 ## Prerequisites
 
 To carry out a production database restore routine you will be required to have the following software installed:
-- PostgreSQL 9.6.x client (specifically `pg_dump` and `pg_restore`)
+- PostgreSQL 14.x client (specifically `pg_dump` and `pg_restore`)
 
 ## Instructions
 

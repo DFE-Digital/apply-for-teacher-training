@@ -8,42 +8,61 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 ## Live environments
 
-| Name       | URL                                                                  | Description                                                           | AKS namespace    | PaaS application |
-| ---------- | -------------------------------------------------------------------- | --------------------------------------------------------------------- | ---------------- | ---------------- |
-| Production | [www](https://www.apply-for-teacher-training.service.gov.uk)         | Public site                                                           | `bat-production` | `apply-prod`     |
-| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk) | Demo environment for software vendors who integrate with our API      | `bat-production` | `apply-sandbox`  |
-| Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk) | For internal use by DfE to test deploys                               | `bat-staging`    | `apply-staging`  |
-| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from main | `bat-qa`         | `apply-qa`       |
+| Name       | URL                                                                  | Description                                                           | AKS namespace    |
+| ---------- | -------------------------------------------------------------------- | --------------------------------------------------------------------- | ---------------- |
+| Production | [www](https://www.apply-for-teacher-training.service.gov.uk)         | Public site                                                           | `bat-production` |
+| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk) | Demo environment for software vendors who integrate with our API      | `bat-production` |
+| Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk) | For internal use by DfE to test deploys                               | `bat-staging`    |
+| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from main | `bat-qa`         |
 
 ## Table of Contents
 
-- [Documentation](#documentation)
 - [Dependencies](#dependencies)
-- [Development environment](#development-environment)
-- [DfE Sign-in](#dfe-sign-in)
+- [Overview](#how-the-application-works)
+- [License](#licence)
 
 ## Guides
 
-- [Developer on-boarding](/docs/developer-onboarding.md)
-- [Connect to a production database](/docs/connecting-to-databases.md)
-- [Deploy the application](/docs/deployment.md)
-- [Environment variables](/docs/environment-variables.md)
-- [Frontend development](/docs/frontend.md)
-- [Pipeline Variables](/docs/pipeline-variables.md)
-- [Restore a database](/docs/database-restore.md)
-- [Set up a new environment](/docs/new-environment.md)
-- [Testing style guide](/docs/testing-styleguide.md)
-- [Rails components](/docs/components.md)
-- [Docker for DevOps](/docs/docker-for-devops.md)
-- [Swapping App Service Slots](/docs/swap-slots-pipeline.md)
-- [Performance monitoring](/docs/performance-monitoring.md)
-- [Understanding the different course option fields](/docs/course-options.md)
-- [Developing in GitHub Codespaces](/docs/codespaces.md)
-- [Adding PostgreSQL extensions](/docs/postgres_extension.md)
+### Development
+- [Developer on-boarding](/docs/development/developer-onboarding.md)
+- [Developer setup](/docs/development/developer-setup.md)
+- [Frontend development](/docs/development/frontend.md)
+- [Rails components](/docs/development/components.md)
+- [Developing in GitHub Codespaces](/docs/development/codespaces.md)
+- [Testing style guide](/docs/development/testing-styleguide.md)
+- [Understanding the different course option fields](/docs/development/course-options.md)
+- [DfE Sign-in](/docs/development/dfe-sign-in.md)
+- [Adding PostgreSQL extensions](/docs/development/postgres_extension.md)
 
-We keep track of the things we learn:
+### Infra
+- [Deploy the application](/docs/infra/deployment.md)
+- [Environment variables](/docs/infra/environment-variables.md)
+- [Pipeline Variables](/docs/infra/pipeline-variables.md)
+- [Restore a database](/docs/infra/database-restore.md)
+- [Set up a new environment](/docs/infra/new-environment.md)
+- [Swapping App Service Slots](/docs/infra/swap-slots-pipeline.md)
+- [Docker for DevOps](/docs/infra/docker-for-devops.md)
 
-- [Lessons learned](/docs/lessons-learned.md)
+### General
+- [Connect to a production database](/docs/developer/connecting-to-databases.md)
+- [Performance monitoring](/docs/infra/performance-monitoring.md)
+
+
+## Dependencies
+
+### Production dependencies
+
+| Dependency            | Version |
+| ---                   | --      |
+| [Ruby](.ruby-version) | 3.2.3   |
+| Node.js               | 20.11.0 |
+| Yarn                  | 1.22.19 |
+| PostgreSQL            | 14      |
+| Redis                 | 6.0.x   |
+
+### Development dependencies
+
+See [Developer setup](docs/development/developer-setup.md)
 
 ## How the application works
 
@@ -51,13 +70,9 @@ The application has a number of different interfaces for different types of user
 
 ![Diagram of the Apply interfaces](docs/architecture-context.svg)
 
-<!-- Want to update the diagram? See https://docs.google.com/presentation/d/1_VEUY0RXZpUrS3YuAoS6KcZs9h5hKOSjLnQistz5jp8/edit#slide=id.g8791ae7f92_0_359 -->
-
 ### Architecture
 
 ![Diagram of the technical architecture](docs/tech-architecture.svg)
-
-<!-- Want to update the diagram? See https://docs.google.com/presentation/d/1_VEUY0RXZpUrS3YuAoS6KcZs9h5hKOSjLnQistz5jp8/edit#slide=id.g8791ae7f92_0_359 -->
 
 We keep track of architecture decisions in [Architecture Decision Records (ADRs)](/adr).
 
@@ -75,198 +90,7 @@ Regenerate this diagram with `bundle exec rake erd`.
 
 ### Apply APIs
 
-This app provides several APIs for programmatic access to the Apply service. [Read about them here](/docs/apply-apis.md).
-
-## Dependencies
-
-### Production dependencies
-
-- [Ruby](.ruby-version)
-- Node.js – see [package.json](package.json) for version
-- Yarn – see [package.json](package.json) for version
-- PostgreSQL 11
-- Redis 5.0.x
-
-### Development dependencies
-
-There are two ways to run the application in development. Running a local development environment is the most common approach but it is also possible to run in local Docker containers.
-
-## Development environment
-
-### Running the application with local dependencies
-
-The most common way to run a development version of the application is run with local dependencies.
-
-#### Local development dependencies
-
-- `postgresql`
-- `redis`
-- Graphviz 2.22+ (`brew install graphviz`) to generate the [domain model diagram](#domain-model)
-- [`ruby`](.tool-versions)
-- [`nodejs`](.tool-versions)
-- `chromedriver` (you will need chromedriver and a version of Chrome installed to run the full test suite)
-
-The recommended way to install language runtimes (ie Ruby and Node) is using
-the `asdf` version manager tool ([documentation](https://asdf-vm.com/)). `asdf`
-considers a file called `.tool-versions` in the repository root when deciding
-which version of each language to install or use.
-
-On a mac:
-
-```bash
-# The first time
-brew install asdf
-asdf plugin add ruby
-asdf plugin add nodejs
-
-# To install (or update, following a change to .tool-versions)
-asdf install
-```
-
-You'll also need to copy `.env.example` to `.env` and fill in the secrets.
-This will populate required environment variables
-
-Once those dependencies are installed, run `bundle install` to install required gems.
-
-#### Local db setup
-
-1. Start the postgres service: `sudo service postgresql start` on Linux or `brew services start postgresql@14` on Mac
-1. Populate the `DB_` relevant environment variables with the correct values (those are: `DB_USERNAME`, `DB_PASSWORD`, `DB_HOSTNAME` and `DB_PORT`)
-1. Then local development databases and data can be set up: `bundle exec rake db:setup`
-   (You may wish to [set up development data](#development-data) at this point)
-
-#### Running the app
-
-To run the application locally:
-
-1. Run `bin/setup` to install dependencies for the web app to run
-2. Run `bin/dev` to launch the app on <http://localhost:3000> or <https://apply-manage.localhost>.
-
-### Running the application in Docker
-
-As an alternative to that, it's also possible to run the application in Docker:
-
-#### Docker dependencies
-
-- `docker`
-- `docker-compose`
-- Graphviz 2.22+ (`brew install graphviz`) to generate the [domain model diagram](#domain-model)
-
-#### Running the app
-
-Install the above dependencies, and then:
-
-1. Copy `.env.example` to `.env` and fill in the secrets
-1. Run `make setup`
-1. Run `make serve` to launch the app on <https://localhost:3000>
-
-See `Makefile` for the steps involved in building and running the app.
-
-### Development data
-
-The course and training provider data in the Apply service comes from its
-sister service `Publish`. To populate your local database with course data from
-`Publish`, first start the redis service (`redis-server`) and then run `bundle exec rake setup_local_dev_data`.
-
-Among other things, this task also creates a support user with DfE Sign-in UID
-`dev-support` that you can use to sign in to the Support interface in your
-development environment, and a provider user with the UID `dev-provider`.
-
-### Background processing
-
-Certain features depend on Sidekiq running. e.g. Mailers and some of the
-business rules that set time-dependent state on applications. In order
-to run a local version of Sidekiq you need to make sure Redis is installed and
-running and then run Sidekiq. The simplest way to do that is with
-`docker-compose` (see below) or `foreman`. e.g.
-
-    foreman start
-
-### Docker Workflow
-
-Under `docker-compose`, the database uses a Docker volume to persist
-storage across `docker-compose up`s and `docker-compose down`s. For
-want of cross-platform compatibility between JavaScript libraries, the
-app's `node_modules` folder is also stored in a persistent Docker
-volume.
-
-Running `make setup` will blow away and recreate those volumes,
-destroying any data you have created in development. It is necessary
-to run it at least once before the app will boot in Docker.
-
-## DfE Sign-in
-
-The Provider interface at `/provider` and Support interface at
-`/support` are both protected by DfE's SSO provider DfE Sign-in.
-
-### Environments
-
-In development and QA we use the **Test** environment of DfE Sign-in:
-
-[Manage console (test)](https://test-manage.signin.education.gov.uk)
-
-```sh
-# .env
-DFE_SIGN_IN_ISSUER=https://test-oidc.signin.education.gov.uk
-```
-
-In staging, production and sandbox we use the **Production** environment of DfE Sign-in:
-
-[Manage console (production)](https://manage.signin.education.gov.uk)
-
-```sh
-# .env
-DFE_SIGN_IN_ISSUER=https://oidc.signin.education.gov.uk
-```
-
-### Local development
-
-Creating and signing in to the candidate interfaces requires clicking a link
-sent via email using GOV.UK Notify.
-
-In development mode, the contents of the emails sent is saved to a log file, which
-you can see by running:
-
-```
-tail -f log/mail.log
-```
-
-Signing in to the Provider interface requires a network connection and a user
-account on DfE Sign-in. In development you can eliminate this dependency by
-setting `BYPASS_DFE_SIGN_IN=true` in your `.env` file. This replaces the sign in
-flow with a dialog allowing you to specify a DfE Sign-in UID and Email address
-for your current session.
-
-### Provider permissions
-
-We decide what to show providers based on their DfE Sign-in UID.
-
-To grant a user permission to view a provider’s applications, visit
-/support/users/providers and create a user, specifying their DfE Sign-in UID
-and the relevant provider.
-
-### Support permissions
-
-There is a `support_users` database table that lists all the DfE Sign-in
-accounts that have access to the Support interface based on their DfE
-Sign-in UID. There is only one privilege level, either you have access
-to everything or nothing.
-
-You can add a new support user using the `create_support_user` rake
-task. You need to supply a DfE Sign-in UID and an email address, e.g.
-
-    bundle exec rails "create_support_user[alice, alice@example.com]"
-
-Note that only the UID is used for lookup. The email address serves only
-as a label.
-
-## Review apps
-
-When a new PR is opened, you have the option to deploy a review app into the `bat-qa` namespace. A deployment is initiated by adding the `deploy` label either when the PR is created or retrospectively. The app is destroyed when the PR is closed.
-
-Review apps have `HOSTING_ENVIRONMENT` set to `review`, an empty database which gets seeded with local dev data, and a URL which will be `https://apply-review-{PR_NUMBER}.test.teacherservices.cloud/candidate/account/`.
-
-Management of review apps follow the same processes as our standard AKS based apps.
+This app provides several APIs for programmatic access to the Apply service. [Read about them here](/docs/development/apply-apis.md).
 
 ## License
 
