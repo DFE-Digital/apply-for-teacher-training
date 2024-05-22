@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   get '/auth/developer/callback' => 'dfe_sign_in#bypass_callback'
   get '/auth/dfe/sign-out' => 'dfe_sign_in#redirect_after_dsi_signout'
 
+  get '/messenger', to: 'messenger#index'
+
   direct :find do
     if HostingEnvironment.sandbox_mode?
       I18n.t('find_postgraduate_teacher_training.sandbox_url')
