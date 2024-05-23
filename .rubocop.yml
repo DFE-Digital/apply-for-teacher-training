@@ -84,6 +84,9 @@ Rails/RedundantActiveRecordAllMethod:
 Rails/FindEach:
   Enabled: false
 
+Rails/WhereRange:
+  Enabled: false
+
 Rails/CreateTableWithTimestamps:
   Exclude:
     - 'db/migrate/20191022145559_install_audited.rb'
