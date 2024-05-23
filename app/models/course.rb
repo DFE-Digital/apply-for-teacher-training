@@ -1,5 +1,5 @@
 class Course < ApplicationRecord
-  self.ignored_columns += %w[open_on_apply opened_on_apply_at] # rubocop:disable Rails/UnusedIgnoredColumns
+  self.ignored_columns += %w[open_on_apply opened_on_apply_at]
 
   belongs_to :provider
   has_many :course_options
