@@ -213,7 +213,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
     end
 
     it 'shows the personal statement' do
-      expect(result).to have_content("Personal statement\n  #{personal_statement}")
+      expect(result).to have_content("Personal statement #{personal_statement}")
     end
 
     it 'does not show the interview row' do

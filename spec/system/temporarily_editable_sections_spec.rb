@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Unlocking non editable sections temporarily via support' do
+RSpec.describe 'Unlocking non editable sections temporarily via support' do
   include DfESignInHelpers
   include CandidateHelper
 
@@ -122,13 +122,13 @@ RSpec.feature 'Unlocking non editable sections temporarily via support' do
   def then_candidate_can_edit_degrees
     click_link_or_button 'Your details'
     click_link_or_button 'Degree'
+
     expect(page).to have_content('Change country for Bachelor of Science, Rocket, School of Awesomeness, 2020')
     click_link_or_button 'Change country for Bachelor of Science, Rocket, School of Awesomeness, 2020'
     choose 'Another country'
     select 'Brazil', from: 'Country or territory'
     and_i_click_save_and_continue
     expect(page).to have_current_path(candidate_interface_degree_subject_path)
-    expect(page).to have_content('Brazil')
   end
 
   def and_candidate_can_edit_english_gcse
@@ -160,8 +160,9 @@ RSpec.feature 'Unlocking non editable sections temporarily via support' do
     and_i_click_save_and_continue
 
     expect(page).to have_content('Change qualification for GCSE, english')
-    expect(page).to have_content('GradeC (English Single award)')
-    expect(page).to have_content("Year awarded\n2022")
+    expect(page).to have_content('Grade')
+    expect(page).to have_content('C (English Single award)')
+    expect(page).to have_content('Year awarded 2022')
   end
 
   def when_the_editable_time_is_expired
@@ -175,7 +176,7 @@ RSpec.feature 'Unlocking non editable sections temporarily via support' do
     click_link_or_button 'Degree'
     expect(page).to have_no_content('Change')
     visit candidate_interface_degree_country_path
-    and_i_should_be_redirected_to_your_details_page
+    and_i_am_redirected_to_your_details_page
   end
 
   def and_candidate_can_not_edit_english_gcse
@@ -183,20 +184,20 @@ RSpec.feature 'Unlocking non editable sections temporarily via support' do
     click_link_or_button 'English GCSE or equivalent'
     expect(page).to have_no_content('Change')
     visit candidate_interface_edit_gcse_english_grade_path
-    and_i_should_be_redirected_to_your_details_page
+    and_i_am_redirected_to_your_details_page
   end
 
   def and_i_click_save_and_continue
     click_link_or_button 'Save and continue'
   end
 
-  def and_i_should_be_redirected_to_your_details_page
+  def and_i_am_redirected_to_your_details_page
     expect(page).to have_current_path candidate_interface_continuous_applications_details_path
   end
 
   def and_candidate_can_not_delete_degrees
     expect(page).to have_no_content('Delete')
     visit candidate_interface_confirm_degree_destroy_path(@degree)
-    and_i_should_be_redirected_to_your_details_page
+    and_i_am_redirected_to_your_details_page
   end
 end

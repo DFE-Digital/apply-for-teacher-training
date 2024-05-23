@@ -234,7 +234,7 @@ RSpec.feature 'Candidate edits course choices' do
   end
 
   def and_i_see_the_updated_full_time_or_part_time_section_for_the_second_choice
-    expect(page).to have_content("Full time or part time\nPart time")
+    expect(page).to have_content('Full time or part time Part time')
   end
 
   def when_i_click_to_change_full_time_or_part_time_of_the_third_course_choice
@@ -242,7 +242,7 @@ RSpec.feature 'Candidate edits course choices' do
   end
 
   def and_i_see_the_updated_full_time_or_part_time_section_for_the_third_choice
-    expect(page).to have_content("Full time or part time\nPart time")
+    expect(page).to have_content('Full time or part time Part time')
   end
 
   def when_i_click_to_continue_my_second_course_choice

@@ -117,19 +117,19 @@ RSpec.feature 'Provider user invitation' do
 
   def and_i_see_the_specified_personal_details
     expect(page).to have_css('h2', text: 'Personal details')
-    expect(page).to have_css('.govuk-summary-list__row', text: "First name\nJohnathy")
-    expect(page).to have_css('.govuk-summary-list__row', text: "Last name\nSmithinson")
-    expect(page).to have_css('.govuk-summary-list__row', text: "Email address\njohn.smith@example.com")
+    expect(page).to have_css('.govuk-summary-list__row', text: 'First name Johnathy')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Last name Smithinson')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Email address john.smith@example.com')
   end
 
   def and_i_see_the_selected_permissions
     expect(page).to have_css('h2', text: 'User permissions')
-    expect(page).to have_css('.govuk-summary-list__row', text: "Manage users\nYes")
-    expect(page).to have_css('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
-    expect(page).to have_css('.govuk-summary-list__row', text: "Manage interviews\nNo")
-    expect(page).to have_css('.govuk-summary-list__row', text: "Make offers and reject applications\nNo")
-    expect(page).to have_css('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nNo")
-    expect(page).to have_css('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nYes")
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Manage users Yes')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Manage organisation permissions No')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Manage interviews No')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Make offers and reject applications No')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'View criminal convictions and professional misconduct No')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'View sex, disability and ethnicity information Yes')
   end
 
   def when_i_click_to_change_the_first_name
@@ -141,7 +141,7 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def and_i_see_the_first_name_has_been_updated
-    expect(page).to have_css('.govuk-summary-list__row', text: "First name\nJack")
+    expect(page).to have_css('.govuk-summary-list__row', text: 'First name Jack')
   end
 
   def when_i_commit_the_changes

@@ -72,7 +72,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def then_i_see_the_current_conditions
-    expect(page).to have_content("Conditions\nBe cool")
+    expect(page).to have_content('Conditions Be cool')
   end
 
   def when_i_click_on_change_conditions
@@ -107,8 +107,8 @@ RSpec.feature 'Add course to submitted application' do
 
   def then_i_see_the_new_ske_condition
     expect(page).to have_content('Subject knowledge enhancement course')
-    expect(page).to have_content("Length\n8 weeks")
-    expect(page).to have_content("Reason\nTheir degree subject was not Chemistry")
+    expect(page).to have_content('Length 8 weeks')
+    expect(page).to have_content('Reason Their degree subject was not Chemistry')
   end
 
   def and_i_change_the_length_of_the_ske_condition
@@ -121,8 +121,8 @@ RSpec.feature 'Add course to submitted application' do
 
   def then_i_see_the_updated_ske_condition
     expect(page).to have_content('Subject knowledge enhancement course')
-    expect(page).to have_content("Length\n20 weeks")
-    expect(page).to have_content("Reason\nTheir degree subject was not Chemistry")
+    expect(page).to have_content('Length 20 weeks')
+    expect(page).to have_content('Reason Their degree subject was not Chemistry')
   end
 
   def and_i_delete_the_ske_condition

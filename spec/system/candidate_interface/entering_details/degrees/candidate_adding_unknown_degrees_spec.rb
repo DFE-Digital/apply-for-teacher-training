@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Adding an unknown degree', :js do
+RSpec.describe 'Adding an unknown degree', :js do
   include CandidateHelper
 
   scenario 'Candidate enters their degree' do
@@ -61,7 +61,7 @@ RSpec.feature 'Adding an unknown degree', :js do
     # Mark section as complete
     when_i_mark_this_section_as_completed
     and_i_click_on_continue
-    then_i_should_see_the_form
+    then_i_see_the_form
     and_that_the_section_is_completed
     when_i_click_on_degree
     then_i_can_check_my_answers
@@ -71,7 +71,7 @@ RSpec.feature 'Adding an unknown degree', :js do
   scenario 'Candidate enters a custom degree subject that has an incorrect auto-suggestion' do
     given_i_am_at_the_degree_subject_page
     when_i_fill_in_the_subject_with_a_custom_subject_that_has_an_incorrect_auto_suggestion
-    then_the_custom_subject_should_have_remained_filled_in
+    then_the_custom_subject_remains_filled_in
   end
 
   def given_i_am_at_the_degree_subject_page
@@ -98,7 +98,7 @@ RSpec.feature 'Adding an unknown degree', :js do
     find_by_id('main-content').click
   end
 
-  def then_the_custom_subject_should_have_remained_filled_in
+  def then_the_custom_subject_remains_filled_in
     expect(@input.value).to eq('History of Art and History')
   end
 
@@ -227,7 +227,7 @@ RSpec.feature 'Adding an unknown degree', :js do
     when_i_click_on_continue
   end
 
-  def then_i_should_see_the_form
+  def then_i_see_the_form
     expect(page).to have_content(t('page_titles.application_form'))
   end
 

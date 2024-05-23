@@ -94,12 +94,12 @@ RSpec.feature 'Organisation users' do
 
   def and_i_can_see_their_user_permissions
     expect(page).to have_css('h2', text: 'User permissions')
-    expect(page).to have_css('.govuk-summary-list__row', text: "Manage users\nNo")
-    expect(page).to have_css('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
-    expect(page).to have_css('.govuk-summary-list__row', text: "Manage interviews\nNo")
-    expect(page).to have_css('.govuk-summary-list__row', text: "Make offers and reject applications\nNo")
-    expect(page).to have_css('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nNo")
-    expect(page).to have_css('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Manage users No')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Manage organisation permissions No')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Manage interviews No')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Make offers and reject applications No')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'View criminal convictions and professional misconduct No')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'View sex, disability and ethnicity information No')
   end
 
   def and_i_can_see_change_links

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Change offer conditions' do
+RSpec.describe 'Change offer conditions' do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
@@ -21,10 +21,10 @@ RSpec.feature 'Change offer conditions' do
     then_i_expect_to_see_the_updated_conditions
 
     when_i_click_on_add_or_change_conditions
-    then_i_should_not_see_the_removed_condition
+    then_i_does_not_see_the_removed_condition
 
     when_i_send_the_new_offer
-    then_the_candidate_should_have_the_new_conditions
+    then_the_candidate_has_the_new_conditions
   end
 
   scenario 'Provider user changes the conditions on an offer with javascript off', js: false do
@@ -43,10 +43,10 @@ RSpec.feature 'Change offer conditions' do
     then_i_expect_to_see_the_updated_conditions
 
     when_i_click_on_add_or_change_conditions
-    then_i_should_not_see_the_removed_condition
+    then_i_does_not_see_the_removed_condition
 
     when_i_send_the_new_offer
-    then_the_candidate_should_have_the_new_conditions
+    then_the_candidate_has_the_new_conditions
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -118,7 +118,7 @@ RSpec.feature 'Change offer conditions' do
     expect(page).to have_no_content 'and another'
   end
 
-  def then_i_should_not_see_the_removed_condition
+  def then_i_does_not_see_the_removed_condition
     expect(page).to have_content 'Conditions of offer'
     expect(page).to have_content @condition.text
     expect(page).to have_content 'condition'
@@ -130,7 +130,7 @@ RSpec.feature 'Change offer conditions' do
     click_link_or_button 'Send new offer'
   end
 
-  def then_the_candidate_should_have_the_new_conditions
+  def then_the_candidate_has_the_new_conditions
     conditions = @application_choice.reload.offer.non_structured_conditions_text
     expect(conditions).to contain_exactly(@condition.text, 'condition')
   end

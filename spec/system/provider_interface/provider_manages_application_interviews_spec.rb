@@ -24,7 +24,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
     then_i_see_an_error_message
 
     and_i_go_back
-    then_i_should_be_on_the_application_page
+    then_i_am_on_the_application_page
 
     and_i_click_set_up_an_interview
     and_i_fill_out_the_interview_form(days_in_future: 1, time: '10pm')
@@ -53,7 +53,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
     then_i_see_a_validation_error
 
     and_i_go_back
-    then_i_should_be_on_the_application_interviews_page
+    then_i_am_on_the_application_interviews_page
 
     when_i_click_to_cancel_an_interview
     and_i_enter_a_valid_cancellation_reason
@@ -127,11 +127,11 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
     expect(page).to have_content 'There is a problem'
   end
 
-  def then_i_should_be_on_the_application_page
+  def then_i_am_on_the_application_page
     expect(page).to have_current_path(provider_interface_application_choice_path(application_choice))
   end
 
-  def then_i_should_be_on_the_application_interviews_page
+  def then_i_am_on_the_application_interviews_page
     expect(page).to have_current_path(provider_interface_application_choice_interviews_path(application_choice))
   end
 
@@ -182,10 +182,10 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
 
   def and_i_confirm_the_interview_details
     expect(page).to have_content('Check and send new interview details')
-    expect(page).to have_content("Date\n#{2.days.from_now.to_fs(:govuk_date)}")
-    expect(page).to have_content("Start time\n10am")
-    expect(page).to have_content("Address or online meeting details\nZoom meeting")
-    expect(page).to have_content("Additional details\nBusiness casual")
+    expect(page).to have_content("Date #{2.days.from_now.to_fs(:govuk_date)}")
+    expect(page).to have_content('Start time 10am')
+    expect(page).to have_content('Address or online meeting details Zoom meeting')
+    expect(page).to have_content('Additional details Business casual')
 
     click_link_or_button 'Change', match: :first
 
@@ -193,7 +193,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
 
     click_link_or_button 'Continue'
 
-    expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
+    expect(page).to have_content('Additional details Business casual, first impressions are important')
 
     click_link_or_button 'Send new interview details'
   end
@@ -201,8 +201,8 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   def then_i_can_see_the_interview_was_updated
     expect(page).to have_content('Interview changed')
     expect(page).to have_content("#{2.days.from_now.to_fs(:govuk_date)} at 10am")
-    expect(page).to have_content("Address or online meeting details\nZoom meeting")
-    expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
+    expect(page).to have_content('Address or online meeting details Zoom meeting')
+    expect(page).to have_content('Additional details Business casual, first impressions are important')
   end
 
   def when_i_click_to_cancel_an_interview

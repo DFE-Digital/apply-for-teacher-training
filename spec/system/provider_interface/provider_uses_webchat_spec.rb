@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider uses webchat' do
+RSpec.describe 'Provider uses webchat' do
   include DfESignInHelpers
 
   scenario 'controlling the widget via a link in the footer', :js do
@@ -10,14 +10,14 @@ RSpec.feature 'Provider uses webchat' do
     when_i_visit_the_provider_interface
     and_there_is_no_support_agent_online
 
-    then_i_should_see_a_placeholder_in_the_footer
+    then_i_see_a_placeholder_in_the_footer
 
     when_a_support_agent_comes_online
-    then_i_should_see_a_link_in_the_footer
+    then_i_see_a_link_in_the_footer
     and_when_i_click_the_link_i_see_a_popup
 
     when_the_support_agent_goes_offline
-    then_i_should_be_informed_chat_is_unavailable
+    then_i_am_informed_chat_is_unavailable
   end
 
   def given_i_am_a_provider_user
@@ -39,7 +39,7 @@ RSpec.feature 'Provider uses webchat' do
 
   def and_there_is_no_support_agent_online; end
 
-  def then_i_should_see_a_placeholder_in_the_footer
+  def then_i_see_a_placeholder_in_the_footer
     expect(page).to have_content('You cannot use online chat')
   end
 
@@ -47,7 +47,7 @@ RSpec.feature 'Provider uses webchat' do
     page.evaluate_script('setZendeskStatus("online")')
   end
 
-  def then_i_should_see_a_link_in_the_footer
+  def then_i_see_a_link_in_the_footer
     expect(page).to have_content('Speak to an adviser now')
   end
 
@@ -61,7 +61,7 @@ RSpec.feature 'Provider uses webchat' do
     page.evaluate_script('setZendeskStatus("offline")')
   end
 
-  def then_i_should_be_informed_chat_is_unavailable
+  def then_i_am_informed_chat_is_unavailable
     expect(page).to have_content('Available Monday to Friday')
   end
 end

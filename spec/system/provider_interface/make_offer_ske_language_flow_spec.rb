@@ -47,33 +47,33 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
 
     then_the_ske_language_flow_is_loaded
     when_i_dont_select_any_ske_answer
-    then_i_should_see_a_error_message_to_select_language
+    then_i_see_a_error_message_to_select_language
 
     and_i_select_language_and_the_no_option
     and_i_click_continue
-    then_i_should_see_a_error_message_to_select_one_or_the_other_language
+    then_i_see_a_error_message_to_select_one_or_the_other_language
 
     when_i_select_three_languages
     and_i_click_continue
-    then_i_should_see_an_error_message_to_select_no_more_than_2_languages
+    then_i_see_an_error_message_to_select_no_more_than_2_languages
 
     when_i_select_two_languages
     and_i_click_continue
     then_the_ske_reason_page_is_loaded
 
     when_i_dont_give_a_ske_reason
-    then_i_should_see_a_error_message_to_give_a_reason_for_ske_for_all_languages
+    then_i_see_a_error_message_to_give_a_reason_for_ske_for_all_languages
 
     when_i_add_a_ske_reason_for_all_languages
     and_i_click_continue
     then_the_ske_length_page_is_loaded
 
     when_i_dont_answer_ske_length
-    then_i_should_see_a_error_message_to_give_a_ske_course_length_for_all_languages
+    then_i_see_a_error_message_to_give_a_ske_course_length_for_all_languages
 
     when_i_select_both_ske_courses_over_8_weeks
     and_i_click_continue
-    then_i_should_see_a_error_message_to_select_at_least_one_8_week_course
+    then_i_see_a_error_message_to_select_at_least_one_8_week_course
 
     when_i_answer_the_ske_length
     and_i_click_continue
@@ -86,7 +86,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
     and_i_click_continue
     then_the_review_page_is_loaded
     and_i_can_confirm_my_answers
-    and_the_ske_conditions_should_be_displayed
+    and_the_ske_conditions_is_displayed
 
     when_i_click_change_course
     then_i_am_taken_to_the_change_course_page
@@ -142,7 +142,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
     click_link_or_button 'Continue'
   end
 
-  def then_i_should_see_a_error_message_to_select_language
+  def then_i_see_a_error_message_to_select_language
     expect(page).to have_content('There is a problem')
     expect(page).to have_content('Select whether you require the candidate to do a course')
   end
@@ -152,7 +152,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
     check 'No, a SKE course is not required'
   end
 
-  def then_i_should_see_a_error_message_to_select_one_or_the_other_language
+  def then_i_see_a_error_message_to_select_one_or_the_other_language
     expect(page).to have_content('Select a language, or select ‘No, a SKE course is not required’')
   end
 
@@ -166,7 +166,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
     check 'German'
   end
 
-  def then_i_should_see_an_error_message_to_select_no_more_than_2_languages
+  def then_i_see_an_error_message_to_select_no_more_than_2_languages
     expect(page).to have_content('Select no more than 2 languages')
   end
 
@@ -201,12 +201,12 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
     click_link_or_button 'Continue'
   end
 
-  def then_i_should_see_a_error_message_to_give_a_reason_for_ske_for_all_languages
+  def then_i_see_a_error_message_to_give_a_reason_for_ske_for_all_languages
     expect(page).to have_content('There is a problem')
     expect(page).to have_content('Select why the candidate needs to take a course')
   end
 
-  def then_i_should_see_a_error_message_to_give_a_reason_for_ske
+  def then_i_see_a_error_message_to_give_a_reason_for_ske
     expect(page).to have_content('There is a problem')
     expect(page).to have_content('Select why the candidate needs to take a course')
   end
@@ -229,17 +229,17 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
     form_groups.last.choose('12 weeks')
   end
 
-  def then_i_should_see_a_error_message_to_give_a_ske_course_length_for_all_languages
+  def then_i_see_a_error_message_to_give_a_ske_course_length_for_all_languages
     expect(page).to have_content('There is a problem')
     expect(page).to have_content('Select how long the course must be')
   end
 
-  def then_i_should_see_a_error_message_to_give_a_ske_course_length
+  def then_i_see_a_error_message_to_give_a_ske_course_length
     expect(page).to have_content('There is a problem')
     expect(page).to have_content('Select how long the course must be')
   end
 
-  def then_i_should_see_a_error_message_to_select_at_least_one_8_week_course
+  def then_i_see_a_error_message_to_select_at_least_one_8_week_course
     expect(page).to have_content('There is a problem')
     expect(page).to have_content('Select one language course that’s 8 weeks, the other course can be between 8 and 28 weeks')
   end
@@ -253,12 +253,12 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
     page.all('.govuk-form-group')
   end
 
-  def and_the_ske_conditions_should_be_displayed
+  def and_the_ske_conditions_is_displayed
     %w[French Spanish].each do |language|
       expect(page).to have_content('Subject knowledge enhancement course')
-      expect(page).to have_content("Subject\n#{language}")
-      expect(page).to have_content("Length\n12 weeks")
-      expect(page).to have_content("Reason\nTheir degree subject was not #{language}")
+      expect(page).to have_content("Subject #{language}")
+      expect(page).to have_content('Length 12 weeks')
+      expect(page).to have_content("Reason Their degree subject was not #{language}")
     end
   end
 

@@ -89,12 +89,12 @@ RSpec.feature 'User permissions' do
 
   def then_i_see_the_check_page
     expect(page).to have_content('Check and save user permissions')
-    expect(page).to have_css('.govuk-summary-list__row', text: "Manage users\nNo")
-    expect(page).to have_css('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
-    expect(page).to have_css('.govuk-summary-list__row', text: "Manage interviews\nYes")
-    expect(page).to have_css('.govuk-summary-list__row', text: "Make offers and reject applications\nYes")
-    expect(page).to have_css('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nYes")
-    expect(page).to have_css('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Manage users No')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Manage organisation permissions No')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Manage interviews Yes')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Make offers and reject applications Yes')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'View criminal convictions and professional misconduct Yes')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'View sex, disability and ethnicity information No')
   end
 
   def when_i_click_change
@@ -112,12 +112,12 @@ RSpec.feature 'User permissions' do
   end
 
   def and_i_see_the_modified_permissions
-    expect(page).to have_css('.govuk-summary-list__row', text: "Manage users\nYes")
-    expect(page).to have_css('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
-    expect(page).to have_css('.govuk-summary-list__row', text: "Manage interviews\nNo")
-    expect(page).to have_css('.govuk-summary-list__row', text: "Make offers and reject applications\nYes")
-    expect(page).to have_css('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nYes")
-    expect(page).to have_css('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nYes")
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Manage users Yes')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Manage organisation permissions No')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Manage interviews No')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Make offers and reject applications Yes')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'View criminal convictions and professional misconduct Yes')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'View sex, disability and ethnicity information Yes')
   end
 
   def when_i_submit_the_modified_permissions
