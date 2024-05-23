@@ -67,7 +67,7 @@
       <%= javascript_pack_tag 'application-provider' %>
       <% if FeatureFlag.active?(:enable_chat_support) %>
         <%= render 'shared/zendesk_snippet' %>
-        <%# javascript_pack_tag 'user-support-webchat' %>
+        <%= javascript_pack_tag 'user-support-webchat' %>
         <%# javascript_pack_tag 'zendesk-chat' %>
       <% end %>
     <% when 'publications' %>

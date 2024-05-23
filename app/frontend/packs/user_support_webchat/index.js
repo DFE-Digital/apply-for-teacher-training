@@ -5,6 +5,7 @@ function UserSupportWebchat () {
   this.setupElements()
   this.addButtonListener()
   this.addStatusChangeListener()
+  this.addZendeskButtonListener()
 }
 
 UserSupportWebchat.prototype.configureWidget = function () {
@@ -15,6 +16,15 @@ UserSupportWebchat.prototype.configureWidget = function () {
       }
     }
   }
+}
+
+UserSupportWebchat.prototype.addZendeskButtonListener = function () {
+  this.button = document.getElementById('zendesk-link')
+  this.button.addEventListener('click', function (e) {
+    e.preventDefault()
+    console.log("button click")
+    window.open("/messenger", "", "width=100, height=100")
+  }, false)
 }
 
 UserSupportWebchat.prototype.setupElements = function () {
