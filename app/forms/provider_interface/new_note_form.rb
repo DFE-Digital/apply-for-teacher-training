@@ -8,7 +8,7 @@ module ProviderInterface
     delegate :errors, to: :service
 
     def initialize(attrs = {})
-      super(attrs)
+      super
       @service = CreateNote.new(
         application_choice:,
         user:,
