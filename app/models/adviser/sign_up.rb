@@ -13,12 +13,12 @@ class Adviser::SignUp
 
   validates :preferred_teaching_subject_id, inclusion: { in: :teaching_subject_ids, allow_blank: false }
 
-  def initialize(application_form, *args, **kwargs)
+  def initialize(application_form, *, **)
     @application_form = application_form
     @availability = Adviser::SignUpAvailability.new(application_form)
     @teaching_subjects = Adviser::TeachingSubjects.new
 
-    super(*args, **kwargs)
+    super(*, **)
   end
 
   def save

@@ -4,7 +4,7 @@ return unless defined? SemanticLogger
 
 class CustomLogFormatter < SemanticLogger::Formatters::Raw
   def call(log, logger)
-    super(log, logger)
+    super
 
     # Add custom fields
     hash['domain'] = HostingEnvironment.hostname

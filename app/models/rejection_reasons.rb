@@ -39,7 +39,7 @@ class RejectionReasons
   def initialize(attrs = {})
     attrs.deep_symbolize_keys!
 
-    super(attrs)
+    super
 
     @selected_reasons = attrs[:selected_reasons]&.map { |rattrs| Reason.new(rattrs) }
   end
