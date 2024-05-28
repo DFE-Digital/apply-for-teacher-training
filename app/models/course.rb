@@ -58,6 +58,7 @@ class Course < ApplicationRecord
     scitt_programme: 'SC',
     scitt_salaried_programme: 'SSC',
     pg_teaching_apprenticeship: 'TA',
+    teacher_degree_apprenticeship: 'TDA',
   }
 
   enum degree_grade: {

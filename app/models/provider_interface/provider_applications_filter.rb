@@ -20,7 +20,7 @@ module ProviderInterface
     end
 
     def filters
-      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter << subject_filter << study_modes_filter).concat(provider_locations_filters).compact
+      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter << subject_filter << study_modes_filter << course_type_filter).concat(provider_locations_filters).compact
     end
 
     def filtered?
@@ -44,7 +44,7 @@ module ProviderInterface
   private
 
     def parse_params(params)
-      compact_params(params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: [], subject: [], study_mode: []).to_h)
+      compact_params(params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: [], subject: [], study_mode: [], course_type: []).to_h)
     end
 
     def save_filter_state!
@@ -98,6 +98,31 @@ module ProviderInterface
         heading: 'Status',
         name: 'status',
         options: status_options,
+      }
+    end
+
+    def course_type_filter
+      return unless FeatureFlag.active?(:teacher_degree_apprenticeship)
+
+      postgraduate_courses_param_name = 'postgraduate_courses'
+      teacher_degree_apprenticeship_param_name = 'teacher_degree_apprenticeship_courses'
+
+      {
+        type: :checkboxes,
+        heading: 'Course type',
+        name: 'course_type',
+        options: [
+          {
+            value: postgraduate_courses_param_name,
+            label: 'Postgraduate courses',
+            checked: applied_filters[:course_type]&.include?(postgraduate_courses_param_name),
+          },
+          {
+            value: teacher_degree_apprenticeship_param_name,
+            label: 'Teaching degree apprenticeship (TDA) courses',
+            checked: applied_filters[:course_type]&.include?(teacher_degree_apprenticeship_param_name),
+          },
+        ],
       }
     end
 
