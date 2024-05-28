@@ -36,6 +36,7 @@ module "web_application" {
   command                    = local.webapp_startup_command
   probe_path                 = "/check"
   web_external_hostnames     = var.gov_uk_host_names
+  enable_logit               = var.enable_logit
 
   send_traffic_to_maintenance_page = var.send_traffic_to_maintenance_page
 }
@@ -57,6 +58,7 @@ module "main_worker" {
   kubernetes_secret_name     = module.application_configuration.kubernetes_secret_name
   command                    = ["bundle", "exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-main.yml"]
   probe_command              = ["pgrep", "-f", "sidekiq"]
+  enable_logit               = var.enable_logit
 }
 
 module "secondary_worker" {
@@ -76,6 +78,7 @@ module "secondary_worker" {
   kubernetes_secret_name     = module.application_configuration.kubernetes_secret_name
   command                    = ["bundle", "exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-secondary.yml"]
   probe_command              = ["pgrep", "-f", "sidekiq"]
+  enable_logit               = var.enable_logit
 }
 
 module "clock_worker" {
@@ -95,4 +98,5 @@ module "clock_worker" {
   kubernetes_secret_name     = module.application_configuration.kubernetes_secret_name
   command                    = ["bundle", "exec", "clockwork", "config/clock.rb"]
   probe_command              = ["pgrep", "-f", "clockwork"]
+  enable_logit               = var.enable_logit
 }

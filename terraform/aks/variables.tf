@@ -75,6 +75,8 @@ variable "send_traffic_to_maintenance_page" {
   description = "During a maintenance operation, keep sending traffic to the maintenance page instead of resetting the ingress"
 }
 
+variable "enable_logit" { default = false }
+
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.app_environment
 
