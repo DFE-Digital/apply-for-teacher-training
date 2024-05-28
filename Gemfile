@@ -172,7 +172,7 @@ group :test do
   gem 'simplecov-cobertura', require: false
   gem 'simplecov', require: false
   gem 'super_diff'
-  gem 'test_suite_time_machine', '~> 1.0'
+  gem 'test_suite_time_machine', '~> 2.0'
   gem 'timecop'
   gem 'webmock', '~> 3.23'
 end
