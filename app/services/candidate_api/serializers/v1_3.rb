@@ -2,7 +2,7 @@ module CandidateAPI
   module Serializers
     class V13 < Base
       def serialize(candidates)
-        super(candidates).map do |candidate|
+        super.map do |candidate|
           candidate[:attributes][:application_forms].each do |form|
             application_form = ApplicationForm.find(form[:id])
             form.merge!(

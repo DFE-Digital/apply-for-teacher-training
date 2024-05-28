@@ -1,7 +1,7 @@
 class Healthchecks::NotifyCheck < OkComputer::Check
-  def initialize(*args, force_pass: false, **kwargs, &block)
+  def initialize(*, force_pass: false, **, &)
     @force_pass = force_pass
-    super(*args, **kwargs, &block)
+    super(*, **, &)
   end
 
   def check

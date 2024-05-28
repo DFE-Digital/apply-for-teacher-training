@@ -3,7 +3,7 @@ class ApplicationQualificationDecorator < SimpleDelegator
 
   def initialize(qualification)
     @qualification = qualification
-    super(qualification)
+    super
   end
 
   def grade_details
