@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate viewing booked interviews' do
+RSpec.describe 'Candidate viewing booked interviews' do
   include CandidateHelper
   include ActiveSupport::Testing::TimeHelpers
 
@@ -58,6 +58,6 @@ RSpec.feature 'Candidate viewing booked interviews' do
 private
 
   def travel_by_days(number_of_days)
-    travel_to number_of_days.days.from_now
+    advance_time_to number_of_days.days.from_now
   end
 end
