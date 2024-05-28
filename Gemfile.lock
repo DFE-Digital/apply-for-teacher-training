@@ -756,7 +756,7 @@ GEM
       activesupport (>= 3)
       attr_required (>= 0.0.5)
       httpclient (>= 2.4)
-    test_suite_time_machine (1.0.0)
+    test_suite_time_machine (2.0.0)
       timecop (~> 0.9)
     thor (1.3.1)
     timecop (0.9.8)
@@ -931,7 +931,7 @@ DEPENDENCIES
   strip_attributes
   strong_migrations
   super_diff
-  test_suite_time_machine (~> 1.0)
+  test_suite_time_machine (~> 2.0)
   timecop
   timeliness
   tzinfo-data
