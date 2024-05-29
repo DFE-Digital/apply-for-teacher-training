@@ -5,6 +5,8 @@ dfe_sign_in_secret = ENV['DFE_SIGN_IN_SECRET']
 dfe_sign_in_redirect_uri = URI.join(HostingEnvironment.application_url, '/auth/dfe/callback')
 dfe_sign_in_issuer_uri = ENV['DFE_SIGN_IN_ISSUER'].present? ? URI(ENV['DFE_SIGN_IN_ISSUER']) : nil
 
+onelogin_issuer_uri = URI("https://oidc.integration.account.gov.uk/")
+
 options = {
   name: :dfe,
   discovery: true,
@@ -24,20 +26,45 @@ options = {
   ("#{dfe_sign_in_issuer_uri}:#{dfe_sign_in_issuer_uri.port}" if dfe_sign_in_issuer_uri.present?),
 }
 
-# this needs to be declared inline or zeitwerk complains about autoloading during initialization
-# it cannot just be a local function as other parts of the codebase depend on it
-module ::DfESignIn
-  def self.bypass?
-    (HostingEnvironment.review? || HostingEnvironment.loadtest? || Rails.env.development?) && ENV['BYPASS_DFE_SIGN_IN'] == 'true'
-  end
+
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :openid_connect, {
+    name: :onelogin,
+    discovery: true,
+    response_type: :code,
+    send_scope_to_token_endpoint: false,
+    client_id: "FQW6Hoy7thpXR6Qdf1e1_Ch_d4M",
+    scope: %i[profile],
+    path_prefix: "/authorize",
+    callback_path: "/auth/onelogin/callback",
+    issuer: "https://oidc.integration.account.gov.uk",
+    nonce: "aEwkamaos5B",
+    state: "STATE",
+    vtr: "Cl",
+    client_options: {
+      port: onelogin_issuer_uri&.port,
+      scheme: onelogin_issuer_uri&.scheme,
+      host: onelogin_issuer_uri&.host,
+      identifier: "FQW6Hoy7thpXR6Qdf1e1_Ch_d4M",
+      redirect_uri: "http://localhost:3000/candidate/account",
+    },
+  }
 end
 
-if DfESignIn.bypass?
-  Rails.application.config.middleware.use OmniAuth::Builder do
-    provider :developer,
-             fields: %i[uid email first_name last_name],
-             uid_field: :uid
-  end
-else
-  Rails.application.config.middleware.use OmniAuth::Strategies::OpenIDConnect, options
-end
+# # this needs to be declared inline or zeitwerk complains about autoloading during initialization
+# # it cannot just be a local function as other parts of the codebase depend on it
+# module ::DfESignIn
+#   def self.bypass?
+#     (HostingEnvironment.review? || HostingEnvironment.loadtest? || Rails.env.development?) && ENV['BYPASS_DFE_SIGN_IN'] == 'true'
+#   end
+# end
+
+# if DfESignIn.bypass?
+#   Rails.application.config.middleware.use OmniAuth::Builder do
+#     provider :developer,
+#              fields: %i[uid email first_name last_name],
+#              uid_field: :uid
+#   end
+# else
+#   Rails.application.config.middleware.use OmniAuth::Strategies::OpenIDConnect, options
+# end
