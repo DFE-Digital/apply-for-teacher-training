@@ -6,8 +6,12 @@ services:
       - db_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=developmentpassword
+    ports:
+      - 5432:5432
   redis:
     image: redis:alpine
+    ports:
+      - 6379:6379
   web:
     build: .
     image: apply-for-teacher-training
