@@ -160,4 +160,6 @@ Rails.application.configure do
                                                Modules::AWSIpRanges.cloudfront_ips.map { |proxy| IPAddr.new(proxy) },
                                              ].flatten
                                            end
+
+  config.active_storage.service = :azure
 end

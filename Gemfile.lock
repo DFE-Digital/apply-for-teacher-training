@@ -154,6 +154,8 @@ GEM
     audited (5.4.3)
       activerecord (>= 5.0, < 7.2)
       request_store (~> 1.2)
+    azure-blob (0.4.1)
+      rexml
     base64 (0.2.0)
     bcrypt (3.1.20)
     better_html (2.0.2)
@@ -853,6 +855,7 @@ DEPENDENCIES
   ar-sequence
   archive-zip
   audited
+  azure-blob
   blazer
   brakeman
   bullet

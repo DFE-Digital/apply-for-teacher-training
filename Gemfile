@@ -150,6 +150,9 @@ gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 # BigQuery
 gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.12.7'
 
+# Azure Blob Storage
+gem 'azure-blob'
+
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.10'
   gem 'rails-erd'

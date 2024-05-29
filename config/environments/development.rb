@@ -102,4 +102,6 @@ Rails.application.configure do
   config.hosts << "host.docker.internal"
   # Allow Github Codespaces
   config.hosts << ".preview.app.github.dev"
+
+  config.active_storage.service = :local
 end
