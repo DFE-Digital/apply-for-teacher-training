@@ -22,9 +22,10 @@ class DataExporter
     Rails.logger.info 'Finished CSV generation'
 
     Rails.logger.info 'Started writing CSV'
+
     data_export.update!(
-      data: csv_data,
-      completed_at: Time.zone.now,
+      file: { io: CSV.new(csv_data).to_io, filename: data_export.filename },
+      completed_at: Time.current,
     )
 
     Rails.logger.info 'Finished writing CSV. Sidekiq done'

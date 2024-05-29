@@ -100,7 +100,7 @@ module DataAPI
 
     def serve_export(export)
       export.update!(audit_comment: "File downloaded via API using token ID #{@authenticating_token.id}")
-      send_data export.data, filename: export.filename
+      send_data export.file.download, filename: export.filename
     end
 
     def statement_timeout

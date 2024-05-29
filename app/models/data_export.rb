@@ -233,6 +233,9 @@ class DataExport < ApplicationRecord
   }.freeze
 
   belongs_to :initiator, polymorphic: true, optional: true
+
+  has_one_attached :file
+
   audited except: [:data]
 
   def filename
