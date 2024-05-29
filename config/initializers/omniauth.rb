@@ -5,7 +5,6 @@ dfe_sign_in_secret = ENV['DFE_SIGN_IN_SECRET']
 dfe_sign_in_redirect_uri = URI.join(HostingEnvironment.application_url, '/auth/dfe/callback')
 dfe_sign_in_issuer_uri = ENV['DFE_SIGN_IN_ISSUER'].present? ? URI(ENV['DFE_SIGN_IN_ISSUER']) : nil
 
-onelogin_issuer_uri = URI("https://oidc.integration.account.gov.uk/")
 
 options = {
   name: :dfe,
@@ -27,29 +26,52 @@ options = {
 }
 
 
+onelogin_issuer_uri = URI("https://oidc.integration.account.gov.uk/")
+
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :openid_connect, {
     name: :onelogin,
     discovery: true,
-    response_type: :code,
+    scope: %i[openid email],
+    allow_authorize_params: %i[session_id trn_token],
     send_scope_to_token_endpoint: false,
-    client_id: "FQW6Hoy7thpXR6Qdf1e1_Ch_d4M",
-    scope: %i[profile],
+    pkce: true,
     path_prefix: "/authorize",
     callback_path: "/auth/onelogin/callback",
-    issuer: "https://oidc.integration.account.gov.uk",
-    nonce: "aEwkamaos5B",
-    state: "STATE",
-    vtr: "Cl",
+    authorization_endpoint: "https://oidc.integration.account.gov.uk/authorize",
+    token_endpoint: "https://oidc.integration.account.gov.uk/token",
+    registration_endpoint: "https://oidc.integration.account.gov.uk/connect/register",
+    issuer: "https://oidc.integration.account.gov.uk/",
+    jwks_uri: "https://oidc.integration.account.gov.uk/.well-known/jwks.json",
+    #state: Proc.new { SecureRandom.hex(32) },
+    require_state: false,
     client_options: {
       port: onelogin_issuer_uri&.port,
       scheme: onelogin_issuer_uri&.scheme,
       host: onelogin_issuer_uri&.host,
-      identifier: "FQW6Hoy7thpXR6Qdf1e1_Ch_d4M",
+      identifier: "esc5Ek1Jd1P_JX7U_eYcU6XgKBI",
       redirect_uri: "http://localhost:3000/candidate/account",
+      secret: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqEzXYcrW44Xr4/5/otrKE8fILryC9c3wyhRUuw7ELGRZUBLLFr0K9EKYxK4q1qq8KmcEggbnN6lR63rctimfzRPsqORkRoVaGeLOIKobhlFv57mljbCovd8q+m1z3oHP5aQOqkHsqln/TMX6v6dkz9U0ChS/Wd3TG2JKmMP7FBtucYw4RaR5fzoQVSW8jrtsDGasuhtQgXNNlhJj5QPY3XLtOhG4RnHeYUAQo1IUc17n5LEXaigafhMYbl1+Je4XeKGZLO42sRpWalexa5m7bcRzoeLDSmfydxeNxeEh8/VFBtZySlHhIQUuUPv2G89ZfHjFAvLjXxzPyklnmYswRQIDAQAB"
     },
   }
 end
+
+#Rails.application.config.middleware.use OmniAuth::Builder do
+#  provider :openid_connect, {
+#    name: :my_provider,
+#    scope: [:openid, :email, :profile, :address],
+#    response_type: :code,
+#    uid_field: "preferred_username",
+#    client_options: {
+#      port: 443,
+#      scheme: "https",
+#      host: "myprovider.com",
+#      identifier: ENV["OP_CLIENT_ID"],
+#      secret: ENV["OP_SECRET_KEY"],
+#      redirect_uri: "http://myapp.com/users/auth/openid_connect/callback",
+#    },
+#  }
+#end
 
 # # this needs to be declared inline or zeitwerk complains about autoloading during initialization
 # # it cannot just be a local function as other parts of the codebase depend on it
