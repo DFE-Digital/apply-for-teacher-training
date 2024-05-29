@@ -2,6 +2,9 @@ module ProviderInterface
   class ProviderApplicationsFilter
     include FilterParamsHelper
 
+    POSTGRADUATE_COURSES_PARAM_NAME = 'postgraduate_courses'.freeze
+    TEACHER_DEGREE_APPRENTICESHIP_PARAM_NAME = 'teacher_degree_apprenticeship_courses'.freeze
+
     attr_accessor :available_filters, :filter_selections, :provider_user
     attr_reader :applied_filters
 
@@ -104,23 +107,20 @@ module ProviderInterface
     def course_type_filter
       return unless FeatureFlag.active?(:teacher_degree_apprenticeship)
 
-      postgraduate_courses_param_name = 'postgraduate_courses'
-      teacher_degree_apprenticeship_param_name = 'teacher_degree_apprenticeship_courses'
-
       {
         type: :checkboxes,
-        heading: 'Course type',
+        heading: I18n.t('provider_interface.filters.course_type.heading'),
         name: 'course_type',
         options: [
           {
-            value: postgraduate_courses_param_name,
-            label: 'Postgraduate courses',
-            checked: applied_filters[:course_type]&.include?(postgraduate_courses_param_name),
+            value: POSTGRADUATE_COURSES_PARAM_NAME,
+            label: I18n.t('provider_interface.filters.course_type.option_one'),
+            checked: applied_filters[:course_type]&.include?(POSTGRADUATE_COURSES_PARAM_NAME),
           },
           {
-            value: teacher_degree_apprenticeship_param_name,
-            label: 'Teaching degree apprenticeship (TDA) courses',
-            checked: applied_filters[:course_type]&.include?(teacher_degree_apprenticeship_param_name),
+            value: TEACHER_DEGREE_APPRENTICESHIP_PARAM_NAME,
+            label: I18n.t('provider_interface.filters.course_type.option_two'),
+            checked: applied_filters[:course_type]&.include?(TEACHER_DEGREE_APPRENTICESHIP_PARAM_NAME),
           },
         ],
       }
