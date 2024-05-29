@@ -21,6 +21,7 @@ RSpec.describe 'Providers should be able to filter applications' do
     and_i_am_permitted_to_see_applications_from_multiple_providers
     and_my_organisation_has_courses_with_applications
     and_i_sign_in_to_the_provider_interface
+    and_teacher_degree_apprenticeship_feature_flag_is_inactive
 
     when_i_visit_the_provider_page
 
@@ -145,6 +146,10 @@ RSpec.describe 'Providers should be able to filter applications' do
 
   def and_teacher_degree_apprenticeship_feature_flag_is_active
     FeatureFlag.activate(:teacher_degree_apprenticeship)
+  end
+
+  def and_teacher_degree_apprenticeship_feature_flag_is_inactive
+    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def and_my_organisation_has_courses_with_applications_without_accredited_providers
