@@ -1,5 +1,6 @@
 Rails.application.config.after_initialize do
   Rails::MailersController.class_eval do
+    include ActionView::Helpers::UrlHelper
     include Rails.application.routes.url_helpers
 
     around_action :rollback_changes, only: :preview
