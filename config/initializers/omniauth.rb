@@ -43,10 +43,10 @@ Rails.application.config.middleware.use OmniAuth::Builder do
              userinfo_endpoint: "/oauth2/userinfo",
              #host: URI(ENV.fetch("ONELOGIN_API_DOMAIN", "not_set")).host,
              host: onelogin_issuer_uri.host,
-             identifier: "esc5Ek1Jd1P_JX7U_eYcU6XgKBI",
+             identifier: "FQW6Hoy7thpXR6Qdf1e1_Ch_d4M",
              #jwks_uri: ENV["ONELOGIN_JWKS_URI"],
              port: 443,
-             redirect_uri: "http://localhost:3000/auth/onelogin/callback",
+             redirect_uri: "http://localhost:3000/candidate/account",
              scheme: "https",
              #secret: ENV["ONELOGIN_CLIENT_SECRET"]
            },
@@ -54,7 +54,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
            issuer: "https://oidc.integration.account.gov.uk/",
            path_prefix: "/auth",
            pkce: true,
-           post_logout_redirect_uri: "http://localhost:3000/qualifications/sign-out",
+           post_logout_redirect_uri: "http://localhost:3000/candidate/account",
            response_type: :code,
-           scope: %w[openid email]
+           scope: %w[openid]
 end

@@ -4,6 +4,12 @@ class OmniauthCallbacksController < ApplicationController
     "access-your-teaching-qualifications"
   end
 
+  def sign_out
+    reset_session
+
+    redirect_to("/auth/onelogin/logout")
+  end
+
   def complete
     #auth = request.env["omniauth.auth"]
     #provider = auth.provider

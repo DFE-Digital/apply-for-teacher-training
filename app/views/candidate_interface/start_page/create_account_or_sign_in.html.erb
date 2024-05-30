@@ -10,6 +10,14 @@
   )
 %>
 
+<%=
+  govuk_button_to(
+    "SIGN OUT",
+    "/auth/onelogin/sign_out",
+    method: :get
+  )
+%>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
