@@ -24,6 +24,10 @@ class CustomLogFormatter < SemanticLogger::Formatters::Raw
       hash['ctx'] = ctx
     end
 
+    if hash['payload'].present?
+      hash['payload'].reject! { |key, _| SANITIZED_REQUEST_PARAMS.include?(key.to_sym) }
+    end
+
     # Remove post parameters if it's a PUT, POST, or PATCH request
     if method_is_post_or_put_or_patch? && hash.dig(:payload, :params).present?
       hash[:payload][:params].clear
