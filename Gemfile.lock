@@ -209,7 +209,7 @@ GEM
       matrix
       ruby-rc4 (>= 0.1.5)
     commonmarker (0.23.10)
-    concurrent-ruby (1.2.3)
+    concurrent-ruby (1.3.1)
     connection_pool (2.4.1)
     crack (1.0.0)
       bigdecimal
@@ -443,7 +443,7 @@ GEM
     mime-types-data (3.2023.1205)
     mini_mime (1.1.5)
     mini_portile2 (2.8.6)
-    minitest (5.23.0)
+    minitest (5.23.1)
     multi_json (1.15.0)
     multipart-post (2.4.0)
     mutex_m (0.2.0)
