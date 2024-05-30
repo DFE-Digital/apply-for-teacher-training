@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   get '/auth/developer/callback' => 'dfe_sign_in#bypass_callback'
   get '/auth/dfe/sign-out' => 'dfe_sign_in#redirect_after_dsi_signout'
 
-  get "/auth/onelogin/callback", to: "onelogin#callback"
+  get "/auth/onelogin/callback", to: "omniauth_callbacks#complete"
 
   direct :find do
     if HostingEnvironment.sandbox_mode?
