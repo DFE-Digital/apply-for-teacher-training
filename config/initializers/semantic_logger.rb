@@ -25,7 +25,7 @@ class CustomLogFormatter < SemanticLogger::Formatters::Raw
     end
 
     if hash['payload'].present?
-      hash['payload'].reject! { |key, _| SANITIZED_REQUEST_PARAMS.include?(key.to_sym) }
+      hash['payload'].reject! { |key, _| SANITIZED_REQUEST_PARAMS.map(&:to_s).include?(key) }
     end
 
     # Remove post parameters if it's a PUT, POST, or PATCH request
