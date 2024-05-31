@@ -69,6 +69,15 @@ FactoryBot.define do
       uuid { SecureRandom.uuid }
     end
 
+    trait :teacher_degree_apprenticeship do
+      apprenticeship
+      full_time
+      description { 'Teacher degree apprenticeship with QTS full time teaching apprenticeship' }
+
+      qualifications { %w[qts undergraduate_degree] }
+      program_type { 'teacher_degree_apprenticeship' }
+    end
+
     trait :previous_year do
       recruitment_cycle_year { RecruitmentCycle.previous_year }
     end

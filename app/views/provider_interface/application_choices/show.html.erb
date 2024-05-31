@@ -73,7 +73,7 @@
 
 <%= render WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_choice.application_form) %>
 
-<%= render QualificationsComponent.new(application_form: @application_choice.application_form, application_choice_state: @application_choice.status) %>
+<%= render QualificationsComponent.new(application_form: @application_choice.application_form, application_choice: @application_choice) %>
 
 <%= render LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
 
