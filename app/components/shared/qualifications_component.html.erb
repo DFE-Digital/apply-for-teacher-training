@@ -9,9 +9,9 @@
       editable: editable?,
     ) %>
   <% else %>
-    <h3 class="govuk-heading-m" id="degrees">Degree</h3>
+    <h3 class="govuk-heading-m" id="degrees"><%= I18n.t('provider_interface.degree.heading') %></h3>
 
-    <p class="govuk-body">A degree is not required for a teacher degree apprenticeship (TDA).</p>
+    <p class="govuk-body"><%= I18n.t('provider_interface.degree.teacher_degree_apprenticeship_message') %></p>
   <% end %>
   <%= render GcseQualificationCardsComponent.new(application_form, editable: editable?) %>
   <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, header: 'A levels and other qualifications', subheader: 'Details of A levels and other qualifications', editable: editable?) %>
