@@ -34,6 +34,12 @@ module ::DfESignIn
   end
 end
 
+private_key = OpenSSL::PKey::RSA.new <<-PEM
+-----BEGIN PRIVATE KEY-----
+Private key here
+-----END PRIVATE KEY-----
+PEM
+
 onelogin_issuer_uri = URI("https://oidc.integration.account.gov.uk/")
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :dfe_openid_connect,
@@ -51,8 +57,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
              port: 443,
              redirect_uri: "http://localhost:3000/auth/onelogin/callback",
              scheme: "https",
-             vtr: "Cl.Cm.P0",
-             private_key: #key
+             private_key: private_key,
            },
            discovery: true,
            issuer: "https://oidc.integration.account.gov.uk/",
@@ -61,3 +66,4 @@ Rails.application.config.middleware.use OmniAuth::Builder do
            response_type: :code,
            scope: %w[email openid]
 end
+

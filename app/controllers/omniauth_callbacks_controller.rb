@@ -6,36 +6,27 @@ class OmniauthCallbacksController < ApplicationController
 
   def complete
     auth = request.env["omniauth.auth"]
-    puts "auth"
-    puts "auth"
-    puts "auth"
-    puts auth
-    #candidate = Candidate.find_by_email(auth.info.email)
+    candidate = Candidate.find_by_email_address(auth.info.email)
+    session[:onelogin_id_token] = auth.credentials.id_token
 
-    #  redirect_to continuous_applications_choices_path
-    #if candidate
-    #  redirect_to continuous_applications_choices_path
-    #else
-    #  redirect_to candidate_interface_create_account_or_sign_in_path
-    #end
-    #provider = auth.provider
-    #@user = User.from_auth(auth)
-    #session[:"#{provider}_user_id"] = @user.id
-    #session[:"#{provider}_user_token"] = auth.credentials.token
-    #session[:"#{provider}_user_token_expiry"] = auth.credentials.expires_in.seconds.from_now.to_i
-    #session[:"#{provider}_id_token"] = auth.credentials.id_token
+    if candidate
+      puts "Candidate #{candidate.email_address}"
+      redirect_to candidate_interface_create_account_or_sign_in_path
+    else
+      raise "Candidate not found"
+    end
 
-    #log_auth_credentials_in_development(auth)
-    #redirect_to qualifications_dashboard_path
   end
 
   def sign_out
+    id_token = session[:onelogin_id_token]
     reset_session
-    redirect_to "/auth/onelogin/logout"
+
+    redirect_to "/auth/onelogin/logout?id_token_hint=#{id_token}"
   end
 
   def sign_out_complete
-    rediret_to candidate_interface_create_account_or_sign_in_path
+    redirect_to candidate_interface_create_account_or_sign_in_path
   end
 
   private
