@@ -5,7 +5,19 @@ class OmniauthCallbacksController < ApplicationController
   end
 
   def complete
-    #auth = request.env["omniauth.auth"]
+    auth = request.env["omniauth.auth"]
+    puts "auth"
+    puts "auth"
+    puts "auth"
+    puts auth
+    #candidate = Candidate.find_by_email(auth.info.email)
+
+    #  redirect_to continuous_applications_choices_path
+    #if candidate
+    #  redirect_to continuous_applications_choices_path
+    #else
+    #  redirect_to candidate_interface_create_account_or_sign_in_path
+    #end
     #provider = auth.provider
     #@user = User.from_auth(auth)
     #session[:"#{provider}_user_id"] = @user.id
@@ -15,7 +27,15 @@ class OmniauthCallbacksController < ApplicationController
 
     #log_auth_credentials_in_development(auth)
     #redirect_to qualifications_dashboard_path
-    puts "CALLBACKKKK"
+  end
+
+  def sign_out
+    reset_session
+    redirect_to "/auth/onelogin/logout"
+  end
+
+  def sign_out_complete
+    rediret_to candidate_interface_create_account_or_sign_in_path
   end
 
   private

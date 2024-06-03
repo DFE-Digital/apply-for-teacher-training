@@ -28,33 +28,36 @@ options = {
   ("#{dfe_sign_in_issuer_uri}:#{dfe_sign_in_issuer_uri.port}" if dfe_sign_in_issuer_uri.present?),
 }
 
-onelogin_issuer_uri = URI("https://oidc.integration.account.gov.uk/")
+module ::DfESignIn
+  def self.bypass?
+    (HostingEnvironment.review? || HostingEnvironment.loadtest? || Rails.env.development?) && ENV['BYPASS_DFE_SIGN_IN'] == 'true'
+  end
+end
 
+onelogin_issuer_uri = URI("https://oidc.integration.account.gov.uk/")
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :dfe_openid_connect,
            name: :onelogin,
            allow_authorize_params: %i[session_id trn_token],
-           callback_path: "/auth/onelogin",
-           send_scope_to_token_endpoint: false,
+           callback_path: "/auth/onelogin/callback",
+           client_auth_method: :jwt_bearer,
            client_options: {
              authorization_endpoint: "/oauth2/authorize",
              end_session_endpoint: "/oauth2/logout",
              token_endpoint: "/oauth2/token",
              userinfo_endpoint: "/oauth2/userinfo",
-             #host: URI(ENV.fetch("ONELOGIN_API_DOMAIN", "not_set")).host,
              host: onelogin_issuer_uri.host,
              identifier: "esc5Ek1Jd1P_JX7U_eYcU6XgKBI",
-             #jwks_uri: ENV["ONELOGIN_JWKS_URI"],
              port: 443,
              redirect_uri: "http://localhost:3000/auth/onelogin/callback",
              scheme: "https",
-             #secret: ENV["ONELOGIN_CLIENT_SECRET"]
+             vtr: "Cl.Cm.P0",
+             private_key: #key
            },
            discovery: true,
            issuer: "https://oidc.integration.account.gov.uk/",
            path_prefix: "/auth",
-           pkce: true,
-           post_logout_redirect_uri: "http://localhost:3000/qualifications/sign-out",
+           post_logout_redirect_uri: "http://localhost:3000/auth/onelogin/sign-out-complete",
            response_type: :code,
-           scope: %w[openid email]
+           scope: %w[email openid]
 end

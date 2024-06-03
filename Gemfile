@@ -39,6 +39,7 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth_openid_connect'
 gem 'omniauth-rails_csrf_protection'
+gem "omniauth-oauth2", "~> 1.8"
 
 gem 'workflow'
 gem 'audited'
