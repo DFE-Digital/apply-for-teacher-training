@@ -24,7 +24,7 @@ module Hesa
         'Irish' => HesaEthnicityValues::WHITE_IRISH,
         'Roma' => HesaEthnicityValues::WHITE_ROMA,
         'Irish Traveller or Gypsy' => HesaEthnicityValues::GYPSY_OR_TRAVELLER,
-        'Another White background' => HesaEthnicityValues::WHITE,
+        'Another White background' => HesaEthnicityValues::OTHER_WHITE,
         'Prefer not to say' => HesaEthnicityValues::INFORMATION_REFUSED,
         'Bangladeshi' => HesaEthnicityValues::BANGLADESHI,
         'Chinese' => HesaEthnicityValues::CHINESE,
