@@ -5,15 +5,15 @@
     <%= render DegreeQualificationCardsComponent.new(
       application_form.application_qualifications.degrees,
       application_choice_state: application_choice_state,
-      show_hesa_codes: show_hesa_codes,
-      editable: editable?,
+      show_hesa_codes: false,
+      editable: false,
     ) %>
   <% else %>
     <h3 class="govuk-heading-m" id="degrees"><%= I18n.t('provider_interface.degree.heading') %></h3>
 
     <p class="govuk-body"><%= I18n.t('provider_interface.degree.teacher_degree_apprenticeship_message') %></p>
   <% end %>
-  <%= render GcseQualificationCardsComponent.new(application_form, editable: editable?) %>
-  <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, header: 'A levels and other qualifications', subheader: 'Details of A levels and other qualifications', editable: editable?) %>
+  <%= render GcseQualificationCardsComponent.new(application_form, editable: false) %>
+  <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, header: 'A levels and other qualifications', subheader: 'Details of A levels and other qualifications', editable: false) %>
   <%= render EflQualificationCardComponent.new(application_form) %>
 </section>
