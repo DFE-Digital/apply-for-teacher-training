@@ -119,6 +119,22 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
         )
       end
     end
+
+    context 'regression other white ethnicity' do
+      let(:application_form) { build(:application_form, equality_and_diversity: { 'ethnic_group' => 'White' }) }
+
+      it 'updates the application form with the white ethnic background value if other background is not provided' do
+        form = described_class.new(ethnic_background: 'Another White background', other_background: nil)
+
+        form.save(application_form)
+
+        expect(application_form.equality_and_diversity).to eq(
+          'ethnic_group' => 'White',
+          'ethnic_background' => 'Another White background',
+          'hesa_ethnicity' => '179',
+        )
+      end
+    end
   end
 
   describe 'validations' do
