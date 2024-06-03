@@ -10,13 +10,7 @@
   )
 %>
 
-<%=
-  govuk_button_to(
-    "SIGN OUT",
-    "/auth/onelogin/sign_out",
-    method: :get
-  )
-%>
+<%= govuk_link_to 'Sign out', auth_onelogin_sign_out_path %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

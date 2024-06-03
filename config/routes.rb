@@ -24,7 +24,8 @@ Rails.application.routes.draw do
   get '/auth/dfe/sign-out' => 'dfe_sign_in#redirect_after_dsi_signout'
 
   get "/auth/onelogin/callback", to: "omniauth_callbacks#complete"
-  get "/auth/onelogin/sign_out", to: "omniauth_callbacks#sign_out"
+  get "/auth/onelogin/sign-out", to: "omniauth_callbacks#sign_out"
+  get "/auth/onelogin/sign-out-complete", to: "omniauth_callbacks#sign_out_complete"
 
   direct :find do
     if HostingEnvironment.sandbox_mode?
