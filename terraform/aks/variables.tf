@@ -75,6 +75,22 @@ variable "send_traffic_to_maintenance_page" {
   description = "During a maintenance operation, keep sending traffic to the maintenance page instead of resetting the ingress"
 }
 
+variable "create_storage_account" {
+  description = "Flag to create storage account for data_exports"
+  type        = bool
+  default     = false
+}
+
+variable "data_exports_storage_account_name" {
+  type    = string
+  default = null
+}
+
+variable "account_replication_type" {
+  type    = string
+  default = "LRS"
+}
+
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.app_environment
 
