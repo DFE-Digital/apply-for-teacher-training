@@ -1,26 +1,27 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate becomes eligible for an adviser' do
+RSpec.describe 'Candidate becomes eligible for an adviser' do
   include CandidateHelper
 
   it 'displays the adviser sign up CTA when eligible' do
     given_i_am_signed_in
     and_enqueued_jobs_are_not_performed
     and_the_adviser_sign_up_feature_flag_is_disabled
+    and_analytics_is_enabled
 
     when_i_have_an_eligible_application
     and_the_candidate_does_not_matchback
     and_i_visit_the_application_form_page
-    then_i_should_not_see_the_adviser_cta
+    then_i_do_not_see_the_adviser_cta
 
     when_the_adviser_sign_up_feature_flag_is_enabled
     and_i_visit_the_application_form_page
-    then_i_should_see_the_adviser_cta
-    and_the_adviser_offering_should_be_tracked
+    then_i_do_see_the_adviser_cta
+    and_the_adviser_offering_is_tracked
 
     when_i_remove_my_degrees
     and_i_visit_the_application_form_page
-    then_i_should_not_see_the_adviser_cta
+    then_i_do_not_see_the_adviser_cta
   end
 
   def given_i_am_signed_in
@@ -30,6 +31,10 @@ RSpec.feature 'Candidate becomes eligible for an adviser' do
 
   def and_enqueued_jobs_are_not_performed
     ActiveJob::Base.queue_adapter = :test
+  end
+
+  def and_analytics_is_enabled
+    allow(DfE::Analytics).to receive(:enabled?).and_return(true)
   end
 
   def and_the_adviser_sign_up_feature_flag_is_disabled
@@ -60,11 +65,11 @@ RSpec.feature 'Candidate becomes eligible for an adviser' do
     create(:application_form_eligible_for_adviser, candidate: @candidate)
   end
 
-  def then_i_should_see_the_adviser_cta
+  def then_i_do_see_the_adviser_cta
     expect(page).to have_link(t('application_form.adviser_sign_up.call_to_action.available.button_text'))
   end
 
-  def and_the_adviser_offering_should_be_tracked
+  def and_the_adviser_offering_is_tracked
     expect(:candidate_offered_adviser).to have_been_enqueued_as_analytics_events
   end
 
@@ -72,7 +77,7 @@ RSpec.feature 'Candidate becomes eligible for an adviser' do
     @candidate.current_application.application_qualifications.degrees.destroy_all
   end
 
-  def then_i_should_not_see_the_adviser_cta
+  def then_i_do_not_see_the_adviser_cta
     expect(page).to have_no_link(t('application_form.adviser_sign_up.call_to_action.available.button_text'))
   end
 end
