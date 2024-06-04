@@ -5,6 +5,12 @@ module CandidateInterface
       @application_choice = application_choice
     end
 
+    def all_completed_for_degree_apprenticeship?
+      application_choice.degree_apprenticeship? &&
+        incomplete_sections.size == 1 &&
+          incomplete_sections.all? { |section| section.name == :degrees }
+    end
+
     def science_gcse_incomplete_and_others?
       primary_course? &&
         incomplete_sections.size > 1 &&

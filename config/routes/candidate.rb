@@ -297,6 +297,9 @@ namespace :candidate_interface, path: '/candidate' do
         get '/country' => 'degrees/degree#new_country', as: :degree_country
         post '/country' => 'degrees/degree#update_country'
 
+        get '/do-you-have-a-degree' => 'degrees/degree#new_degree_question', as: :degree_question
+        post '/do-you-have-a-degree' => 'degrees/degree#update_degree_question'
+
         get '/edit/:id/:step' => 'degrees/degree#edit', as: :degree_edit
 
         get '/level' => 'degrees/degree#new_degree_level', as: :degree_degree_level
@@ -347,6 +350,7 @@ namespace :candidate_interface, path: '/candidate' do
       post '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#create'
       get '/:application_choice_id/review' => 'continuous_applications/course_choices/review#show', as: :continuous_applications_course_review
       get '/:application_choice_id/review-interruption' => 'continuous_applications/course_choices/review_interruption#show', as: :continuous_applications_course_review_interruption
+      get '/:application_choice_id/tda/review-interruption' => 'continuous_applications/course_choices/tda_review_interruption#show', as: :continuous_applications_course_tda_review_interruption
       get '/:application_choice_id/review-and-submit' => 'continuous_applications/course_choices/review_and_submit#show', as: :continuous_applications_course_review_and_submit
       get '/blocked-submissions' => 'continuous_applications/course_choices/blocked_submissions#show', as: :continuous_applications_blocked_submissions
 

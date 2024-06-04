@@ -266,6 +266,10 @@ class ApplicationChoice < ApplicationRecord
     RecentlyUpdatedApplicationChoice.new(application_choice: self).call
   end
 
+  def degree_apprenticeship?
+    Array(course_option.course.qualifications).include?('tda')
+  end
+
   def days_since_sent_to_provider
     days_since_calculation(sent_to_provider_at)
   end

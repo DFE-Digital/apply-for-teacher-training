@@ -36,7 +36,7 @@ module SupportInterface
         },
         {
           key: 'Qualifications',
-          value: (course.qualifications || []).map(&:upcase).to_sentence,
+          value: course.qualifications_to_s,
         },
         {
           key: 'Description',

@@ -41,11 +41,23 @@
       )) %>
     </li>
     <li class="app-task-list__item">
-      <%= render(TaskListItemComponent.new(
-        text: t('page_titles.degree'),
-        completed: application_form_presenter.degrees_completed?,
-        path: application_form_presenter.degrees_path,
-      )) %>
+
+      <% if application_form_presenter.no_degree_and_degree_not_completed? %>
+        <%= render(TaskListItemComponent.new(
+          text: t('page_titles.degree'),
+          completed: application_form_presenter.degrees_completed?,
+          path: candidate_interface_degree_question_path,
+        )) %>
+
+
+      <% else %>
+
+        <%= render(TaskListItemComponent.new(
+          text: t('page_titles.degree'),
+          completed: application_form_presenter.degrees_completed?,
+          path: application_form_presenter.degrees_path,
+        )) %>
+      <% end%>
     </li>
   </ol>
 </section>

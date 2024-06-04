@@ -2,6 +2,8 @@ class ApplicationQualification < ApplicationRecord
   include TouchApplicationChoices
   include TouchApplicationFormState
 
+  attr_accessor :university_degree_status
+
   EXPECTED_DEGREE_DATA = %i[
     qualification_type
     subject
@@ -81,6 +83,10 @@ class ApplicationQualification < ApplicationRecord
 
   def missing_qualification?
     qualification_type == 'missing'
+  end
+
+  def answered_has_degree?
+    ActiveModel::Type::Boolean.new.cast(university_degree_status)
   end
 
   def incomplete_degree_information?

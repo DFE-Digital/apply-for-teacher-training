@@ -30,6 +30,10 @@ module CandidateInterface
       ].compact
     end
 
+    def render?
+      @degrees.present?
+    end
+
     def show_missing_banner?
       @show_incomplete && !@application_form.degrees_completed && @editable
     end

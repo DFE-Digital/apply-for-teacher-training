@@ -228,6 +228,10 @@ module CandidateInterface
       application_form.degrees_completed
     end
 
+    def no_degree_and_degree_not_completed?
+      application_form.no_degree_and_degree_not_completed?
+    end
+
     def maths_gcse_completed?
       application_form.maths_gcse_completed
     end

@@ -8,7 +8,10 @@ class IncompleteDetailsValidator < ActiveModel::EachValidator
       application_form: application_choice.application_form,
       application_choice:,
     )
-    return if sections.all_completed?
+    return if sections.all_completed? ||
+      # if course is degree apprenticeship and the candidate completes the
+      # required sections (excluding degrees)
+      sections.all_completed_for_degree_apprenticeship?
 
     record.errors.add(
       attribute,

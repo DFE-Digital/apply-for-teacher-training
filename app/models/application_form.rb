@@ -622,6 +622,18 @@ class ApplicationForm < ApplicationRecord
       Time.zone.now < editable_until
   end
 
+  def no_degree_and_degree_not_completed?
+    no_degrees? && !degrees_completed?
+  end
+
+  def no_degree_and_degree_completed?
+    no_degrees? && degrees_completed?
+  end
+
+  def no_degrees?
+    application_qualifications.degrees.count.zero?
+  end
+
 private
 
   def geocode_address_and_update_region_if_required

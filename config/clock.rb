@@ -53,9 +53,9 @@ class Clock
   every(1.day, 'SendStatsSummaryToSlack', at: '17:00', if: ->(period) { period.wday.between?(1, 4) }) { SendStatsSummaryToSlack.new.perform }
 
   # Weekly jobs
-  every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: 'Saturday 00:59') do
-    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false)
-  end
+  #every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: 'Saturday 00:59') do
+  #  TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false)
+  #end
 
   every(7.days, 'TADSubjectDomicileNationalityExport', at: 'Sunday 23:59') do
     DataAPI::TADSubjectDomicileNationalityExport.run_weekly
