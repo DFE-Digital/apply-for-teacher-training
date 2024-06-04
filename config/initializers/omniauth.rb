@@ -54,7 +54,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
              host: onelogin_issuer_uri.host,
              identifier: "esc5Ek1Jd1P_JX7U_eYcU6XgKBI",
              port: 443,
-             redirect_uri: "http://localhost:3000/candidate/account",
+             redirect_uri: "http://localhost:3000/auth/onelogin/callback",
              scheme: "https",
              private_key: private_key,
            },
