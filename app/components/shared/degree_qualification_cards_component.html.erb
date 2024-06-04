@@ -35,7 +35,7 @@
             <% end %>
             <% if editable? %>
               <br>
-              <%= govuk_link_to 'Change', support_interface_application_form_edit_degree_path(degree_id: degree.id) %>
+              <%= govuk_link_to 'Change', support_interface_application_form_edit_degree_path(application_form_id: degree.application_form_id, degree_id: degree.id) %>
             <% end %>
           </dl>
         </div>

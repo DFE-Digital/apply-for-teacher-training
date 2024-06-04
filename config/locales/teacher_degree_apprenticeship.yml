@@ -1,0 +1,5 @@
+en:
+  provider_interface:
+    degree:
+      heading: Degree
+      teacher_degree_apprenticeship_message:  A degree is not required for a teacher degree apprenticeship (TDA).

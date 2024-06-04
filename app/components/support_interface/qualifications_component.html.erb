@@ -1,0 +1,12 @@
+<section class="app-section">
+  <h2 class="govuk-heading-m govuk-!-font-size-27" id="qualifications">Qualifications</h2>
+
+  <%= render DegreeQualificationCardsComponent.new(
+    application_form.application_qualifications.degrees,
+    show_hesa_codes: true,
+    editable: true,
+  ) %>
+  <%= render GcseQualificationCardsComponent.new(application_form, editable: true) %>
+  <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, header: 'A levels and other qualifications', subheader: 'Details of A levels and other qualifications', editable: true) %>
+  <%= render EflQualificationCardComponent.new(application_form) %>
+</section>
