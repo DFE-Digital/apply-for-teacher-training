@@ -2,8 +2,8 @@ module ProviderInterface
   class ProviderApplicationsFilter
     include FilterParamsHelper
 
-    POSTGRADUATE_COURSES_PARAM_NAME = 'postgraduate_courses'.freeze
-    TEACHER_DEGREE_APPRENTICESHIP_PARAM_NAME = 'teacher_degree_apprenticeship_courses'.freeze
+    POSTGRADUATE_PARAM_NAME = 'postgraduate'.freeze
+    TEACHER_DEGREE_APPRENTICESHIP_PARAM_NAME = 'teacher_degree_apprenticeship'.freeze
 
     attr_accessor :available_filters, :filter_selections, :provider_user
     attr_reader :applied_filters
@@ -113,13 +113,13 @@ module ProviderInterface
         name: 'course_type',
         options: [
           {
-            value: POSTGRADUATE_COURSES_PARAM_NAME,
-            label: I18n.t('provider_interface.filters.course_type.option_one'),
-            checked: applied_filters[:course_type]&.include?(POSTGRADUATE_COURSES_PARAM_NAME),
+            value: POSTGRADUATE_PARAM_NAME,
+            label: I18n.t('provider_interface.filters.course_type.postgraduate'),
+            checked: applied_filters[:course_type]&.include?(POSTGRADUATE_PARAM_NAME),
           },
           {
             value: TEACHER_DEGREE_APPRENTICESHIP_PARAM_NAME,
-            label: I18n.t('provider_interface.filters.course_type.option_two'),
+            label: I18n.t('provider_interface.filters.course_type.teacher_degree_apprenticeship'),
             checked: applied_filters[:course_type]&.include?(TEACHER_DEGREE_APPRENTICESHIP_PARAM_NAME),
           },
         ],

@@ -95,7 +95,7 @@ class FilterApplicationChoicesForProviders
     def course_type(application_choices, course_type_filter)
       return application_choices if course_type_filter.blank? || all_course_types?(course_type_filter)
 
-      if course_type_filter.include?('teacher_degree_apprenticeship_courses')
+      if course_type_filter.include?(ProviderInterface::ProviderApplicationsFilter::TEACHER_DEGREE_APPRENTICESHIP_PARAM_NAME)
         application_choices.joins(:current_course).where(current_course: { program_type: 'TDA' })
       else
         application_choices.joins(:current_course).where.not(current_course: { program_type: 'TDA' })
@@ -103,7 +103,7 @@ class FilterApplicationChoicesForProviders
     end
 
     def all_course_types?(course_type_filter)
-      course_type_filter.compact_blank.sort == %w[postgraduate_courses teacher_degree_apprenticeship_courses]
+      course_type_filter.compact_blank.sort == [ProviderInterface::ProviderApplicationsFilter::POSTGRADUATE_PARAM_NAME, ProviderInterface::ProviderApplicationsFilter::TEACHER_DEGREE_APPRENTICESHIP_PARAM_NAME]
     end
 
     def create_filter_query(application_choices, filters)
