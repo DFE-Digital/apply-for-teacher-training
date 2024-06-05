@@ -229,3 +229,4 @@
   - unsubscribed_from_emails
   - submission_blocked
   - account_locked
+  - one_login_uid

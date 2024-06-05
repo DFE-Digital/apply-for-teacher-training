@@ -2,6 +2,9 @@
 
 <%= render ServiceInformationBanner.new(namespace: :candidate) %>
 
+<%= govuk_button_to('Sign in with GOVUK One Login', '/auth/onelogin', method: :post) %>
+<%= govuk_link_to 'GOVUK One Login signout', auth_onelogin_sign_out_path %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
