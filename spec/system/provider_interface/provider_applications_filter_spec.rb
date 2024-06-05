@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Providers should be able to filter applications' do
+RSpec.describe 'Providers should be able to filter applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
@@ -21,32 +21,35 @@ RSpec.feature 'Providers should be able to filter applications' do
     and_i_am_permitted_to_see_applications_from_multiple_providers
     and_my_organisation_has_courses_with_applications
     and_i_sign_in_to_the_provider_interface
+    and_teacher_degree_apprenticeship_feature_flag_is_inactive
 
     when_i_visit_the_provider_page
 
     then_i_expect_to_see_the_filter_dialogue
 
-    then_i_location_filters_should_not_be_visible
+    then_location_filters_are_not_visible
 
     then_i_can_see_applications_from_the_previous_year_too
 
+    and_teacher_degree_apprenticeship_filter_is_not_visible
+
     when_i_filter_for_rejected_applications
-    then_only_rejected_applications_should_be_visible
-    and_a_rejected_tag_should_be_visible
-    and_the_rejected_tickbox_should_still_be_checked
+    then_only_rejected_applications_are_visible
+    and_a_rejected_tag_is_visible
+    and_the_rejected_tickbox_is_checked
 
     when_i_filter_for_applications_that_i_do_not_have
-    then_i_should_see_the_no_filter_results_error_message
+    then_i_see_the_no_filter_results_error_message
     then_i_expect_to_see_the_filter_dialogue
 
     when_i_filter_for_rejected_and_offered_applications
-    then_only_rejected_and_offered_applications_should_be_visible
+    then_only_rejected_and_offered_applications_are_visible
 
     when_i_clear_the_filters
     then_i_expect_all_applications_to_be_visible
 
     when_i_filter_by_providers
-    then_location_filters_should_be_visible
+    then_location_filters_are_visible
     then_i_only_see_applications_for_a_given_provider
     then_i_expect_the_relevant_provider_tags_to_be_visible
 
@@ -61,11 +64,11 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_click_to_remove_an_accredited_provider_tag
 
     when_i_filter_by_providers
-    then_i_should_see_locations_that_belong_to_all_of_the_selected_providers_that_have_more_than_one_site
+    then_i_see_locations_that_belong_to_all_of_the_selected_providers_that_have_more_than_one_site
 
     when_i_clear_the_filters
     when_i_filter_by_a_specific_provider
-    then_i_should_only_see_locations_that_belong_to_that_provider
+    then_i_only_see_locations_that_belong_to_that_provider
 
     when_i_filter_by_provider_location
     then_i_only_see_applications_for_that_provider_location
@@ -116,8 +119,37 @@ RSpec.feature 'Providers should be able to filter applications' do
     and_i_click_the_sign_out_button
   end
 
+  scenario 'when the teacher degree apprenticeship feature flag is active' do
+    given_i_am_a_provider_user_with_dfe_sign_in
+    and_teacher_degree_apprenticeship_feature_flag_is_active
+    and_i_am_permitted_to_see_applications_from_multiple_providers
+    and_my_organisation_has_courses_with_applications_without_accredited_providers
+    and_my_organisation_has_courses_that_awards_a_degree
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_visit_the_provider_page
+    then_teacher_degree_apprenticeship_filter_is_visible
+
+    when_i_filter_by_postgraduate_courses
+    then_i_only_see_postgraduate_applications
+
+    when_i_filter_by_teacher_degree_apprenticeship_courses
+    then_i_only_see_teacher_degree_apprenticeship_applications
+
+    when_i_check_both_course_types_filter
+    then_i_see_postgraduate_and_teacher_degree_apprenticeship_applications
+  end
+
   def and_i_click_the_sign_out_button
     click_link_or_button 'Sign out'
+  end
+
+  def and_teacher_degree_apprenticeship_feature_flag_is_active
+    FeatureFlag.activate(:teacher_degree_apprenticeship)
+  end
+
+  def and_teacher_degree_apprenticeship_feature_flag_is_inactive
+    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def and_my_organisation_has_courses_with_applications_without_accredited_providers
@@ -136,26 +168,62 @@ RSpec.feature 'Providers should be able to filter applications' do
            build(:application_form, first_name: 'Greg', last_name: 'Taft'), updated_at: 4.days.ago)
   end
 
+  def and_my_organisation_has_courses_that_awards_a_degree
+    course_option_one = course_option_for_provider(provider: current_provider,
+                                                   site:,
+                                                   course: build(:course,
+                                                                 :teacher_degree_apprenticeship,
+                                                                 name: 'Alchemy',
+                                                                 provider: current_provider))
+
+    course_option_two = course_option_for_provider(provider: second_provider, course: build(:course, :teacher_degree_apprenticeship, name: 'Science', provider: second_provider))
+
+    course_option_three = course_option_for_provider(provider: second_provider, course: build(:course, :teacher_degree_apprenticeship, name: 'Biology', provider: second_provider))
+
+    create(:application_choice, :awaiting_provider_decision, course_option: course_option_one, status: 'withdrawn', application_form:
+           build(:application_form, first_name: 'Andres', last_name: 'Bartell'), updated_at: 5.days.ago)
+
+    create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'offer', application_form:
+           build(:application_form, first_name: 'Quinton', last_name: 'Marks'), updated_at: 4.days.ago)
+
+    create(:application_choice, :awaiting_provider_decision, current_course_option: course_option_three, status: 'offer', application_form:
+           build(:application_form, first_name: 'Leland', last_name: 'Harris'), updated_at: 4.days.ago)
+  end
+
+  def and_teacher_degree_apprenticeship_filter_is_not_visible
+    expect(page).to have_content('Filter')
+    expect(page).to have_no_content('Course type')
+    expect(page).to have_no_content('Postgraduate courses')
+    expect(page).to have_no_content('Teaching degree apprenticeship (TDA) courses')
+  end
+
+  def then_teacher_degree_apprenticeship_filter_is_visible
+    expect(page).to have_content('Filter')
+    expect(page).to have_content('Course type')
+    expect(page).to have_content('Postgraduate courses')
+    expect(page).to have_content('Teaching degree apprenticeship (TDA) courses')
+  end
+
   def then_i_do_not_expect_to_see_the_accredited_providers_filter_heading
     expect(page).to have_content('Filter')
     expect(page).to have_no_content('Accredited provider')
   end
 
-  def then_i_should_see_locations_that_belong_to_all_of_the_selected_providers_that_have_more_than_one_site
+  def then_i_see_locations_that_belong_to_all_of_the_selected_providers_that_have_more_than_one_site
     expect(page).to have_content('Locations for Hoth Teacher Training')
     expect(page).to have_content('Locations for Caladan University')
     expect(page).to have_no_content('Locations for University of Arrakis')
   end
 
-  def then_i_should_only_see_locations_that_belong_to_that_provider
+  def then_i_only_see_locations_that_belong_to_that_provider
     expect(page).to have_no_content('Locations for Caladan University')
   end
 
-  def then_location_filters_should_be_visible
+  def then_location_filters_are_visible
     expect(page).to have_content('Locations for')
   end
 
-  def then_i_location_filters_should_not_be_visible
+  def then_location_filters_are_not_visible
     expect(page).to have_no_content('Locations for')
   end
 
@@ -167,7 +235,48 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def when_i_filter_by_provider_location
     find_by_id("provider_location-#{site.provider_id}_#{site.name}_#{site.code}").set(true)
-    click_link_or_button('Apply filters')
+    and_i_apply_the_filters
+  end
+
+  def when_i_filter_by_postgraduate_courses
+    check 'Postgraduate courses'
+    and_i_apply_the_filters
+  end
+
+  def then_i_only_see_postgraduate_applications
+    expect(page).to have_content('Jim James')
+    expect(page).to have_content('Greg Taft')
+    expect(page).to have_no_content('Andres Bartell')
+    expect(page).to have_no_content('Quinton Marks')
+    expect(page).to have_no_content('Leland Harris')
+  end
+
+  def when_i_filter_by_teacher_degree_apprenticeship_courses
+    uncheck 'Postgraduate courses'
+    check 'Teaching degree apprenticeship (TDA) courses'
+    and_i_apply_the_filters
+  end
+
+  def then_i_only_see_teacher_degree_apprenticeship_applications
+    expect(page).to have_content('Andres Bartell')
+    expect(page).to have_content('Quinton Marks')
+    expect(page).to have_content('Leland Harris')
+    expect(page).to have_no_content('Jim James')
+    expect(page).to have_no_content('Greg Taft')
+  end
+
+  def when_i_check_both_course_types_filter
+    check 'Postgraduate courses'
+    check 'Teaching degree apprenticeship (TDA) courses'
+    and_i_apply_the_filters
+  end
+
+  def then_i_see_postgraduate_and_teacher_degree_apprenticeship_applications
+    expect(page).to have_content('Andres Bartell')
+    expect(page).to have_content('Quinton Marks')
+    expect(page).to have_content('Leland Harris')
+    expect(page).to have_content('Jim James')
+    expect(page).to have_content('Greg Taft')
   end
 
   def and_i_expect_the_relevant_provider_location_tags_to_be_visible
@@ -262,7 +371,7 @@ RSpec.feature 'Providers should be able to filter applications' do
     click_link_or_button('Apply filters')
   end
 
-  def then_only_rejected_applications_should_be_visible
+  def then_only_rejected_applications_are_visible
     expect(page).to have_css('.app-application-cards', text: 'Rejected')
     expect(page).to have_no_css('.app-application-cards', text: 'Offer')
     expect(page).to have_no_css('.app-application-cards', text: 'Application withdrawn')
@@ -270,7 +379,7 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).to have_no_css('.app-application-cards', text: 'Offer withdrawn')
   end
 
-  def and_the_rejected_tickbox_should_still_be_checked
+  def and_the_rejected_tickbox_is_checked
     rejected_checkbox = find_by_id('status-rejected')
     expect(rejected_checkbox.checked?).to be(true)
   end
@@ -281,7 +390,7 @@ RSpec.feature 'Providers should be able to filter applications' do
     click_link_or_button('Apply filters')
   end
 
-  def then_i_should_see_the_no_filter_results_error_message
+  def then_i_see_the_no_filter_results_error_message
     expect(page).to have_content('There are no results for the selected filter.')
   end
 
@@ -292,7 +401,7 @@ RSpec.feature 'Providers should be able to filter applications' do
     click_link_or_button('Apply filters')
   end
 
-  def then_only_rejected_and_offered_applications_should_be_visible
+  def then_only_rejected_and_offered_applications_are_visible
     expect(page).to have_css('.app-application-cards', text: 'Rejected')
     expect(page).to have_css('.app-application-cards', text: 'Offer')
     expect(page).to have_no_css('.app-application-cards', text: 'Application withdrawn')
@@ -361,7 +470,7 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).to have_css('.app-application-cards', text: 'Caladan University')
   end
 
-  def and_a_rejected_tag_should_be_visible
+  def and_a_rejected_tag_is_visible
     expect(page).to have_css('.moj-filter-tags', text: 'Rejected')
   end
 
@@ -373,5 +482,9 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).to have_content('Adam Jones')
     expect(page).to have_content('Tom Jones')
     expect(page).to have_content('Jim James')
+  end
+
+  def and_i_apply_the_filters
+    click_link_or_button('Apply filters')
   end
 end

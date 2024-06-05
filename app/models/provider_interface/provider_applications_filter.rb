@@ -2,6 +2,9 @@ module ProviderInterface
   class ProviderApplicationsFilter
     include FilterParamsHelper
 
+    POSTGRADUATE_PARAM_NAME = 'postgraduate'.freeze
+    TEACHER_DEGREE_APPRENTICESHIP_PARAM_NAME = 'teacher_degree_apprenticeship'.freeze
+
     attr_accessor :available_filters, :filter_selections, :provider_user
     attr_reader :applied_filters
 
@@ -20,7 +23,7 @@ module ProviderInterface
     end
 
     def filters
-      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter << subject_filter << study_modes_filter).concat(provider_locations_filters).compact
+      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter << subject_filter << study_modes_filter << course_type_filter).concat(provider_locations_filters).compact
     end
 
     def filtered?
@@ -44,7 +47,7 @@ module ProviderInterface
   private
 
     def parse_params(params)
-      compact_params(params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: [], subject: [], study_mode: []).to_h)
+      compact_params(params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: [], subject: [], study_mode: [], course_type: []).to_h)
     end
 
     def save_filter_state!
@@ -98,6 +101,28 @@ module ProviderInterface
         heading: 'Status',
         name: 'status',
         options: status_options,
+      }
+    end
+
+    def course_type_filter
+      return unless FeatureFlag.active?(:teacher_degree_apprenticeship)
+
+      {
+        type: :checkboxes,
+        heading: I18n.t('provider_interface.filters.course_type.heading'),
+        name: 'course_type',
+        options: [
+          {
+            value: POSTGRADUATE_PARAM_NAME,
+            label: I18n.t('provider_interface.filters.course_type.postgraduate'),
+            checked: applied_filters[:course_type]&.include?(POSTGRADUATE_PARAM_NAME),
+          },
+          {
+            value: TEACHER_DEGREE_APPRENTICESHIP_PARAM_NAME,
+            label: I18n.t('provider_interface.filters.course_type.teacher_degree_apprenticeship'),
+            checked: applied_filters[:course_type]&.include?(TEACHER_DEGREE_APPRENTICESHIP_PARAM_NAME),
+          },
+        ],
       }
     end
 
