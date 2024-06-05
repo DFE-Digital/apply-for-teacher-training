@@ -119,7 +119,7 @@ RSpec.describe 'Providers should be able to filter applications' do
     and_i_click_the_sign_out_button
   end
 
-  scenario 'when teacher degree apprenticeship is active' do
+  scenario 'when the teacher degree apprenticeship feature flag is active' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_teacher_degree_apprenticeship_feature_flag_is_active
     and_i_am_permitted_to_see_applications_from_multiple_providers
