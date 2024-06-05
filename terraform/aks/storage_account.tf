@@ -1,6 +1,6 @@
 resource "azurerm_storage_account" "data_exports_sa" {
   count                    = var.create_storage_account ? 1 : 0
-  name                     = var.data_exports_storage_account_name
+  name                     = local.exp_storage_account_name
   resource_group_name      = local.app_resource_group_name
   location                 = "UK South"
   account_tier             = "Standard"
@@ -30,6 +30,6 @@ resource "azurerm_storage_account" "data_exports_sa" {
 resource "azurerm_storage_container" "data_exports_container" {
   count                  = var.create_storage_account ? 1 : 0
   name                   = "storage"
-  storage_account_name   = azurerm_storage_account.data_exports_sa[0].name
+  storage_account_name   = azurerm_storage_account.data_exports_sa[count.index].name
   container_access_type  = "private"
 }

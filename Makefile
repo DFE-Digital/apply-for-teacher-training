@@ -92,8 +92,10 @@ review_aks: test-cluster
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
 	$(eval include global_config/review_aks.sh)
 	$(eval APP_NAME_SUFFIX=review-$(PR_NUMBER))
+	$(eval EXP_STORAGE_ACCOUNT_NAME=s189t01attexprv$(PR_NUMBER)sa)
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
+	$(eval export TF_VAR_exp_storage_account_name=s189t01attexprv$(PR_NUMBER)sa)
 
 dv_review_aks: test-cluster ## make dv_review_aks deploy PR_NUMBER=2222 CLUSTER=cluster1
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
