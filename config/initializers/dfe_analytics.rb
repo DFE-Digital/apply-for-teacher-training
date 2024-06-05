@@ -49,4 +49,8 @@ DfE::Analytics.configure do |config|
   # to all events we send to BigQuery.
   #
   config.environment = HostingEnvironment.environment_name
+
+  # Schedule a maintenance window during which no events are streamed to BigQuery
+  # in the format of '22-01-2024 19:30..22-01-2024 20:30' (UTC).
+  config.bigquery_maintenance_window = '05-06-2024 18:15..05-06-2024 18:30'
 end
