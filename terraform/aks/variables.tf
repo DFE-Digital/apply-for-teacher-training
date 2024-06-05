@@ -91,8 +91,15 @@ variable "account_replication_type" {
   default = "LRS"
 }
 
+variable "exp_storage_account_name" {
+  type    = string
+  default = null
+}
+
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.app_environment
+
+  exp_storage_account_name = var.exp_storage_account_name != null ? var.exp_storage_account_name : var.data_exports_storage_account_name
 
   infra_secrets = yamldecode(data.azurerm_key_vault_secret.infra_secrets.value)
 
@@ -112,4 +119,8 @@ locals {
   app_resource_group_name = "${var.azure_resource_prefix}-${var.service_short}-${var.config_short}-rg"
 
   webapp_startup_command = var.webapp_startup_command == null ? null : ["/bin/sh", "-c", var.webapp_startup_command]
+
+  azure_storage_account_name = var.create_storage_account ? azurerm_storage_account.data_exports_sa[0].name : ""
+  azure_storage_access_key   = var.create_storage_account ? azurerm_storage_account.data_exports_sa[0].primary_access_key : ""
+  azure_storage_container    = var.create_storage_account ? azurerm_storage_container.data_exports_container[0].name : ""
 }
