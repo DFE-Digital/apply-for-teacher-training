@@ -10,3 +10,5 @@ shared:
     - dfe_sign_in_uid
   validation_errors:
     - user_id
+  emails:
+    - subject

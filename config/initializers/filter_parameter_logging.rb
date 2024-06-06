@@ -20,5 +20,6 @@ SANITIZED_REQUEST_PARAMS = %i[
   password
   phone_number
   postcode
+  subject
 ].freeze
 Rails.application.config.filter_parameters += SANITIZED_REQUEST_PARAMS
