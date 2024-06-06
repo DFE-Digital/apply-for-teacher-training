@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'A candidate withdraws their application', :bullet do
+RSpec.describe 'A candidate withdraws their application', :bullet do
   include CandidateHelper
 
   # bullet complains about wanting an includes on associated objects.
@@ -24,12 +24,14 @@ RSpec.feature 'A candidate withdraws their application', :bullet do
     then_i_see_a_confirmation_page
     and_i_do_not_see_the_interview_related_text
 
-    when_i_click_to_confirm_withdrawal
+    when_i_click_continue
     then_i_see_the_withdraw_choice_reason_page
-    and_the_provider_has_received_an_email
+
+    when_i_click_to_confirm_withdrawal
+    then_i_see_error('Select all withdrawal reasons that apply')
 
     when_i_select_my_reasons
-    and_i_click_continue
+    when_i_click_to_confirm_withdrawal
     then_i_see_my_application_dashboard
     and_i_am_thanked_for_my_feedback
 
@@ -40,10 +42,11 @@ RSpec.feature 'A candidate withdraws their application', :bullet do
     and_i_click_the_withdraw_link_on_my_final_choice
     then_i_see_a_confirmation_page
 
-    when_i_click_to_confirm_withdrawal
+    when_i_click_continue
     when_i_select_my_reasons
-    and_i_click_continue
+    when_i_click_to_confirm_withdrawal
     and_the_candidate_has_received_an_email
+    and_the_provider_has_received_an_email
   end
 
   scenario 'withdrawal for application choice with interviewing status' do
@@ -105,8 +108,22 @@ RSpec.feature 'A candidate withdraws their application', :bullet do
     click_link_or_button 'Yes I’m sure – withdraw this application'
   end
 
+  def when_i_click_continue
+    click_link_or_button 'Yes I’m sure – continue to withdraw'
+  end
+
   def then_i_see_the_withdraw_choice_reason_page
     expect(page).to have_current_path candidate_interface_withdrawal_feedback_path(@application_choice.id)
+  end
+
+  def then_i_see_error(message)
+    within('.govuk-error-summary') do
+      expect(page).to have_content message
+    end
+
+    within('.govuk-form-group--error') do
+      expect(page).to have_content message
+    end
   end
 
   def when_i_try_to_visit_the_withdraw_page
@@ -132,10 +149,6 @@ RSpec.feature 'A candidate withdraws their application', :bullet do
 
   def when_i_select_my_reasons
     check 'I’m going to apply (or have applied) to a different course at the same training provider', match: :first
-  end
-
-  def and_i_click_continue
-    click_link_or_button t('continue')
   end
 
   def then_i_see_my_application_dashboard

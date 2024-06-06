@@ -16,6 +16,8 @@ en:
       confirm: Yes I’m sure – decline this offer
     withdraw:
       confirm: Yes I’m sure – withdraw this application
+      continue: Yes I’m sure – continue to withdraw
+      back: No – back to applications
     withdrawal_feedback:
       feedback:
         'yes':

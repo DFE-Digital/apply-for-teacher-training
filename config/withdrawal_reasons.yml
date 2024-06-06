@@ -22,3 +22,5 @@
   :label: I have concerns about training with a disability or health condition
 - :id: circumstances_changed
   :label: I do not want to train to be a teacher anymore
+- :id: reason_not_listed
+  :label: My reason is not listed here

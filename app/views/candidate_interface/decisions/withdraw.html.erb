@@ -1,5 +1,5 @@
 <% content_for :title, t('page_titles.decisions.withdraw') %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_continuous_applications_details_path, back_link_text, force_text: true) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_continuous_applications_choices_path, back_link_text, force_text: true) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -17,6 +17,9 @@
       <p class="govuk-body">If you do withdraw, your scheduled interview for this application will be cancelled.</p>
     <% end %>
 
-    <%= govuk_button_to t('decisions.withdraw.confirm'), candidate_interface_withdraw_path, warning: true %>
+    <div class="govuk-button-group app-course-choice__confirm-submission">
+      <%= govuk_button_to t('decisions.withdraw.continue'), candidate_interface_withdrawal_feedback_path, method: :get %>
+      <%= govuk_link_to t('decisions.withdraw.back'), candidate_interface_continuous_applications_choices_path %>
+    </div>
   </div>
 </div>

@@ -3,7 +3,7 @@ module CandidateInterface
     before_action :set_application_choice
     before_action :check_that_candidate_can_decline, only: %i[decline_offer confirm_decline]
     before_action :check_that_candidate_can_accept, only: %i[accept_offer confirm_accept]
-    before_action :check_that_candidate_can_withdraw, only: %i[withdraw confirm_withdraw]
+    before_action :check_that_candidate_can_withdraw, only: %i[withdraw]
     before_action :check_that_candidate_has_an_offer, only: %i[offer respond_to_offer]
 
     def offer
@@ -53,28 +53,21 @@ module CandidateInterface
 
     def withdraw; end
 
-    def confirm_withdraw
-      withdrawal = WithdrawApplication.new(application_choice: @application_choice)
-      withdrawal.save!
-
-      redirect_to candidate_interface_withdrawal_feedback_path
-    end
-
     def withdrawal_feedback
-      @withdrawal_feedback_form = WithdrawalFeedbackForm.new
+      @withdrawal_form = WithdrawalForm.new
       @provider = @application_choice.provider
       @course = @application_choice.current_course
     end
 
     def confirm_withdrawal_feedback
-      @withdrawal_feedback_form = WithdrawalFeedbackForm.new(withdrawal_feedback_params)
+      @withdrawal_form = WithdrawalForm.new(withdrawal_feedback_params)
 
-      if @withdrawal_feedback_form.save(@application_choice)
+      if @withdrawal_form.save(@application_choice)
         flash[:success] = "Your application for #{@application_choice.current_course.name_and_code} at #{@application_choice.provider.name} has been withdrawn"
 
         redirect_to your_applications_or_carry_over_page
       else
-        track_validation_error(@withdrawal_feedback_form)
+        track_validation_error(@withdrawal_form)
         @provider = @application_choice.provider
         @course = @application_choice.current_course
 
@@ -114,7 +107,7 @@ module CandidateInterface
     end
 
     def withdrawal_feedback_params
-      params.fetch(:candidate_interface_withdrawal_feedback_form).permit(:explanation, selected_reasons: [])
+      params.fetch(:candidate_interface_withdrawal_form).permit(:explanation, selected_reasons: [])
     end
 
     def course_choice_rows

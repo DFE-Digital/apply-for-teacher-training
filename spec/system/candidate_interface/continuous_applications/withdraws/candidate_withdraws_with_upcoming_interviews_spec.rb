@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'A candidate withdraws with upcoming interviews' do
+RSpec.describe 'A candidate withdraws with upcoming interviews' do
   include CandidateHelper
 
   scenario 'successful withdrawal' do
@@ -11,11 +11,11 @@ RSpec.feature 'A candidate withdraws with upcoming interviews' do
     and_i_click_the_withdraw_link_on_my_first_choice
     then_i_see_a_confirmation_page
 
-    when_i_click_to_confirm_withdrawal
+    when_i_click_to_continue
     then_i_see_the_withdraw_choice_reason_page
 
     when_i_select_my_reasons
-    and_i_click_continue
+    when_i_click_to_confirm_withdrawal
     then_i_see_my_application_dashboard
 
     and_the_provider_has_received_an_email
@@ -52,6 +52,10 @@ RSpec.feature 'A candidate withdraws with upcoming interviews' do
     click_link_or_button 'Yes I’m sure – withdraw this application'
   end
 
+  def when_i_click_to_continue
+    click_link_or_button 'Continue'
+  end
+
   def then_i_see_the_withdraw_choice_reason_page
     expect(page).to have_current_path candidate_interface_withdrawal_feedback_path(@application_choice.id)
   end
@@ -59,10 +63,6 @@ RSpec.feature 'A candidate withdraws with upcoming interviews' do
   def when_i_select_my_reasons
     check 'I’m going to apply (or have applied) to a different course at the same training provider'
     check 'I have concerns that I will not have time to train'
-  end
-
-  def and_i_click_continue
-    click_link_or_button t('continue')
   end
 
   def then_i_see_my_application_dashboard
