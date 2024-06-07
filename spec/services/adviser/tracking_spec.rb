@@ -15,6 +15,8 @@ RSpec.describe Adviser::Tracking do
 
   subject(:tracker) { described_class.new(current_user_double, request_double) }
 
+  before { allow(DfE::Analytics).to receive(:enabled?).and_return(true) }
+
   describe '.candidate_signed_up_for_adviser' do
     before { tracker.candidate_signed_up_for_adviser }
 

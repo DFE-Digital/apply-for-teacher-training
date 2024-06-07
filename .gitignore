@@ -47,6 +47,7 @@ testArtifacts/*
 
 # dotenv
 .env
+.env.*.local
 .envrc
 
 # Mac OS thumbnail DBs

@@ -10,10 +10,13 @@ module "application_configuration" {
   config_variables = local.app_env_values
 
   secret_variables = {
-    DATABASE_URL        = module.postgres.url
-    BLAZER_DATABASE_URL = module.postgres.url
-    REDIS_URL           = module.redis-queue.url
-    REDIS_CACHE_URL     = module.redis-cache.url
+    DATABASE_URL               = module.postgres.url
+    BLAZER_DATABASE_URL        = module.postgres.url
+    REDIS_URL                  = module.redis-queue.url
+    REDIS_CACHE_URL            = module.redis-cache.url
+    AZURE_STORAGE_ACCOUNT_NAME = local.azure_storage_account_name
+    AZURE_STORAGE_ACCESS_KEY   = local.azure_storage_access_key
+    AZURE_STORAGE_CONTAINER    = local.azure_storage_container
   }
 
   secret_yaml_key = var.key_vault_app_secret_name

@@ -27,6 +27,10 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
     StateStores::RedisStore.new(key: "#{described_class::STATE_STORE_KEY}_#{provider_user.id}")
   end
 
+  before do
+    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
+  end
+
   describe '#filters' do
     let(:headings) { filter.filters.map { |f| f[:heading] } }
     let(:params) { ActionController::Parameters.new }
@@ -65,6 +69,23 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
 
           expect(filter.filters.size).to eq(expected_number_of_filters)
           expect(headings).not_to include('Provider')
+        end
+      end
+
+      context 'when teacher degree apprenticeship feature flag active' do
+        let(:filter) do
+          described_class.new(params:,
+                              provider_user:,
+                              state_store:)
+        end
+
+        before do
+          FeatureFlag.activate(:teacher_degree_apprenticeship)
+        end
+
+        it 'does include the course type filter' do
+          expect(filter.filters.size).to be(7)
+          expect(headings).to include('Course type')
         end
       end
     end

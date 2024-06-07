@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.2.3'
+ruby '3.2.4'
 
 gem 'timeliness'
 
@@ -148,7 +148,7 @@ gem 'colorize'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 
 # BigQuery
-gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.12.3'
+gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.12.7'
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.10'

@@ -1,0 +1,8 @@
+en:
+  provider_interface:
+    filters:
+      course_type:
+        heading: 'Course type'
+        postgraduate: 'Postgraduate courses'
+        teacher_degree_apprenticeship: 'Teaching degree apprenticeship (TDA) courses'
+
