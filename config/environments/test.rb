@@ -67,4 +67,6 @@ Rails.application.configure do
   config.active_job.queue_adapter = :inline
 
   config.x.read_only_database_url = "postgres://localhost/bat_apply_test"
+
+  config.active_storage.service = :test
 end
