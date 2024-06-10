@@ -1,4 +1,3 @@
-#ActiveSupport.on_load(:action_controller, run_once: true) do
 Rails.application.config.after_initialize do
   Rails::MailersController.class_eval do
     include Rails.application.routes.url_helpers

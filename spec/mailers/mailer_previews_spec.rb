@@ -5,7 +5,7 @@ RSpec.describe 'Mailer previews' do
     describe preview do
       preview.emails.each do |email|
         it email do
-          expect { preview.call(email) }.not_to raise_error
+          expect { preview.new.public_send(email) }.not_to raise_error
         end
       end
     end
