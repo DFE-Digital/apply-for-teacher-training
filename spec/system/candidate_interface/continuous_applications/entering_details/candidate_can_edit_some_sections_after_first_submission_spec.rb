@@ -19,6 +19,7 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
     TestSection.new(:interview_availability, 'Interview availability'),
     TestSection.new(:equality_and_diversity_information, 'Equality and diversity questions'),
     TestSection.new(:personal_statement, 'Your personal statement'),
+    TestSection.new(:work_history, 'Work history'),
   ].each do |section|
     scenario "candidate can edit section '#{section.title}' after submission" do
       @section = section
@@ -35,7 +36,7 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
   end
 
   def given_i_already_have_one_submitted_application
-    application_form = create(:application_form, :completed, candidate: current_candidate)
+    application_form = create(:application_form, :completed, candidate: current_candidate, work_history_status: :can_complete, full_work_history: true)
     create(:application_choice, :awaiting_provider_decision, application_form:)
   end
 
@@ -130,6 +131,33 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
     click_link_or_button 'Continue'
 
     expect(current_candidate.current_application.reload.becoming_a_teacher).to eq('Repellat qui et')
+  end
+
+  def and_i_can_edit_the_section_work_history
+    expect(page).to have_content('Enter all the jobs you have had since you left school.')
+
+    click_link_or_button 'Add another job'
+    fill_in 'Name of employer', with: 'Some Employer'
+    fill_in 'Job title or role', with: 'Some job title'
+    choose 'Full time (usually at least 35 hours a week)'
+
+    within('[data-qa="start-date"]') do
+      fill_in 'Month', with: '5'
+      fill_in 'Year', with: '2014'
+    end
+
+    within('[data-qa="currently-working"]') do
+      choose 'Yes'
+    end
+
+    within('[data-qa="relevant-skills"]') do
+      choose 'Yes'
+    end
+
+    click_link_or_button 'Save and continue'
+
+    expect(current_candidate.current_application.reload.application_work_experiences.last.role).to eq('Some job title')
+    expect(current_candidate.current_application.reload.application_work_experiences.last.employment_status).to eq('full_time')
   end
 
   def section_status
