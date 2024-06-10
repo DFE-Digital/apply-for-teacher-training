@@ -113,6 +113,7 @@ module ApplyForPostgraduateTeacherTraining
       becoming_a_teacher
       science_gcse
       efl
+      work_history
     ]
     config.x.sections.editable_window_days = 5
   end

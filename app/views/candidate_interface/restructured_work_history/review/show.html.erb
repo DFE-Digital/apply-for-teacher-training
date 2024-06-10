@@ -14,15 +14,12 @@
       <p class="govuk-body">Explain any gaps in your work history. For example, raising children, unemployment or illness.</p>
     </div>
 
-    <% if @application_form.application_work_experiences.blank? %>
-      <%= govuk_button_link_to 'Add a job', candidate_interface_new_restructured_work_history_path %>
-    <% else %>
-      <%= govuk_button_link_to candidate_interface_new_restructured_work_history_path, secondary: true do %>
-        <%= @application_form.application_work_experiences.any? ? t('application_form.restructured_work_history.another.button') : t('application_form.restructured_work_history.add.button') %>
-      <% end %>
+    <%= govuk_button_link_to candidate_interface_new_restructured_work_history_path, secondary: @application_form.application_work_experiences.any? do %>
+      <%= @application_form.application_work_experiences.any? ? t('application_form.restructured_work_history.another.button') : t('application_form.restructured_work_history.add.button') %>
     <% end %>
   <% end %>
 
+<!--  can_complete == true-->
   <% unless @application_form.can_complete? && @application_form.application_work_experiences.blank? %>
     <%= render RestructuredWorkHistory::ReviewComponent.new(application_form: @application_form, editable: @section_policy.can_edit?, deletable: @section_policy.can_delete?) %>
 
