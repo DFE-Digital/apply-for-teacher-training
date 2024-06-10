@@ -477,7 +477,7 @@ GEM
       shellany (~> 0.0)
     notifications-ruby-client (5.4.0)
       jwt (>= 1.5, < 3)
-    oj (3.16.3)
+    oj (3.16.4)
       bigdecimal (>= 3.0)
     okcomputer (1.18.5)
     omniauth (2.1.2)
