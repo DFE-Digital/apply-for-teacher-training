@@ -24,7 +24,7 @@ gem 'govuk_design_system_formbuilder', '~> 5.4.0'
 # GOV.UK Notify
 gem 'mail-notify'
 
-gem 'notifications-ruby-client'
+gem 'notifications-ruby-client', '~> 6.1.0'
 
 gem 'govuk_markdown'
 
