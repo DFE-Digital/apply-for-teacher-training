@@ -275,6 +275,9 @@ GEM
     faraday-encoding (0.0.5)
       faraday
     faraday-excon (1.1.0)
+    faraday-gzip (2.0.1)
+      faraday (>= 1.0)
+      zlib (~> 3.0)
     faraday-http-cache (2.5.0)
       faraday (>= 0.8)
     faraday-httpclient (1.0.1)
@@ -396,12 +399,12 @@ GEM
       httpclient
     json-schema (4.3.0)
       addressable (>= 2.8)
-    json_api_client (1.22.0)
-      activemodel (>= 3.2.0)
-      activesupport (>= 3.2.0)
+    json_api_client (1.23.0)
+      activemodel (>= 6.0.0)
+      activesupport (>= 6.0.0)
       addressable (~> 2.2)
-      faraday (>= 0.15.2, < 2.0)
-      faraday_middleware (>= 0.9.0, < 2.0)
+      faraday (>= 1.10, < 3.0)
+      faraday-gzip (>= 1.0, < 3.0)
       rack (>= 0.2)
     jwt (2.8.1)
       base64
@@ -845,6 +848,7 @@ GEM
       sidekiq
       yabeda (~> 0.6)
     zeitwerk (2.6.14)
+    zlib (3.1.0)
 
 PLATFORMS
   ruby
