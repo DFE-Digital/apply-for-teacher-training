@@ -154,7 +154,7 @@ GEM
     audited (5.4.3)
       activerecord (>= 5.0, < 7.2)
       request_store (~> 1.2)
-    azure-blob (0.4.1)
+    azure-blob (0.4.2)
       rexml
     base64 (0.2.0)
     bcrypt (3.1.20)
@@ -628,8 +628,8 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     retriable (3.1.2)
-    rexml (3.2.8)
-      strscan (>= 3.0.9)
+    rexml (3.2.9)
+      strscan
     rouge (4.2.1)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
