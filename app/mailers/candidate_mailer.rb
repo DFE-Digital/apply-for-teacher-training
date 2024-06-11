@@ -538,7 +538,7 @@ private
   end
 
   def candidate_realistic_job_preview_link(candidate)
-    realistic_job_preview_url({ utm_campaign: candidate.pseudonymised_id }.merge(utm_args))
+    realistic_job_preview_url({ id: candidate.pseudonymised_id }.merge(utm_args))
   end
 
   helper_method :candidate_magic_link, :candidate_realistic_job_preview_link
