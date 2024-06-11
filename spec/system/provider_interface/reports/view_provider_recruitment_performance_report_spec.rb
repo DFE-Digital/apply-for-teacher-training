@@ -1,40 +1,23 @@
 require 'rails_helper'
 
-RSpec.feature 'Visit provider recruitment performance report page' do
+RSpec.describe 'Visit provider recruitment performance report page' do
   include DfESignInHelpers
 
-  describe 'Feature flag is active' do
-    before { FeatureFlag.activate(:recruitment_performance_report) }
-
-    scenario 'provider report has been generated' do
-      given_a_provider_and_provider_user_exists
-      and_a_provider_recruitment_performance_report_has_been_generated
-      and_national_recruitment_performance_report_has_been_generated
-      and_i_am_signed_in_as_provider_user
-      and_i_visit_the_provider_recruitment_report_page
-      then_i_see_the_report
-      and_i_can_navigate_to_report_sections
-    end
-
-    scenario 'provider report has not been generated' do
-      given_a_provider_and_provider_user_exists
-      and_i_am_signed_in_as_provider_user
-      and_i_visit_the_provider_recruitment_report_page
-      then_i_see_no_report_message
-    end
+  scenario 'provider report has been generated' do
+    given_a_provider_and_provider_user_exists
+    and_a_provider_recruitment_performance_report_has_been_generated
+    and_national_recruitment_performance_report_has_been_generated
+    and_i_am_signed_in_as_provider_user
+    and_i_visit_the_provider_recruitment_report_page
+    then_i_see_the_report
+    and_i_can_navigate_to_report_sections
   end
 
-  describe 'Feature flag is inactive' do
-    before { FeatureFlag.deactivate(:recruitment_performance_report) }
-
-    scenario 'trying to view the report' do
-      given_a_provider_and_provider_user_exists
-      and_a_provider_recruitment_performance_report_has_been_generated
-      and_national_recruitment_performance_report_has_been_generated
-      and_i_am_signed_in_as_provider_user
-      and_i_visit_the_provider_recruitment_report_page
-      then_i_am_redirected_to_reports_page
-    end
+  scenario 'provider report has not been generated' do
+    given_a_provider_and_provider_user_exists
+    and_i_am_signed_in_as_provider_user
+    and_i_visit_the_provider_recruitment_report_page
+    then_i_see_no_report_message
   end
 
 private
