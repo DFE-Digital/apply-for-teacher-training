@@ -38,7 +38,8 @@ private
     return false unless feature_active?
 
     refresh_adviser_status_from_git_api
-  rescue GetIntoTeachingApiClient::ApiError => e
+  rescue StandardError => e
+    Sentry.capture_message('GIT API has returned an error. This error is only logged into Sentry and the candidate is not seeing an error page. But the teacher training advisor feature was not active for this request due to this error. It is recommend to contact the GIT team on #twd_git_bat')
     Sentry.capture_exception(e)
 
     false

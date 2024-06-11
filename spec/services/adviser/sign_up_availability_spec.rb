@@ -35,9 +35,29 @@ RSpec.describe Adviser::SignUpAvailability do
 
       it 'captures the exception' do
         allow(Sentry).to receive(:capture_exception)
+        allow(Sentry).to receive(:capture_message)
 
         precheck_method_under_test
 
+        expect(Sentry).to have_received(:capture_message)
+        expect(Sentry).to have_received(:capture_exception).with(error)
+      end
+    end
+
+    context 'when the candidate cannot be retrieved because other errors' do
+      let(:error) { Faraday::Error.new('Some error') }
+
+      before { allow(candidate_matchback_double).to receive(:matchback).and_raise(error) }
+
+      it { expect(precheck_method_under_test).to be(false) }
+
+      it 'captures the exception' do
+        allow(Sentry).to receive(:capture_exception)
+        allow(Sentry).to receive(:capture_message)
+
+        precheck_method_under_test
+
+        expect(Sentry).to have_received(:capture_message)
         expect(Sentry).to have_received(:capture_exception).with(error)
       end
     end

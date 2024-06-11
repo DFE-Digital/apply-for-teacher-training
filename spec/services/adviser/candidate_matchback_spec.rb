@@ -35,8 +35,14 @@ RSpec.describe Adviser::CandidateMatchback do
       expect(candidate_matchback.matchback).to be_nil
     end
 
-    it 're-raises when the API responds with any other error' do
+    it 're-raises when the API responds with error' do
       error = GetIntoTeachingApiClient::ApiError.new(code: 500)
+      allow(api_double).to receive(:matchback_candidate).with(existing_candidate_request).and_raise(error)
+      expect { candidate_matchback.matchback }.to raise_error(error)
+    end
+
+    it 're-raises when the API responds with any other error' do
+      error = Faraday::Error.new('Some error')
       allow(api_double).to receive(:matchback_candidate).with(existing_candidate_request).and_raise(error)
       expect { candidate_matchback.matchback }.to raise_error(error)
     end
