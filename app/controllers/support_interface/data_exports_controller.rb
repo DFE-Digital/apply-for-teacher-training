@@ -46,9 +46,10 @@ module SupportInterface
     end
 
     def download
-      data_export = DataExport.find(params[:id])
+      data_export = DataExport.where.associated(:file_attachment).find(params[:id])
       data_export.update!(audit_comment: 'File downloaded')
-      send_data data_export.data, filename: data_export.filename, disposition: :attachment
+
+      redirect_to rails_blob_path(data_export.file, disposition: 'attachment')
     end
 
     def data_set_documentation
