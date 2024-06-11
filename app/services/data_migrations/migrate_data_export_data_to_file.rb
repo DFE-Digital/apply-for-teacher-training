@@ -1,7 +1,7 @@
 module DataMigrations
   class MigrateDataExportDataToFile
     TIMESTAMP = 20240528140244
-    MANUAL_RUN = false
+    MANUAL_RUN = true
 
     def change
       DataExport.find_each do |data_export|
