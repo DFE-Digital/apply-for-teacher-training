@@ -34,7 +34,6 @@ class FeatureFlag
     [:structured_reference_condition, 'Structured reference condition that can be added as a condition to an offer', 'Tomas Destefi'],
     [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
     [:teacher_degree_apprenticeship, 'The degree apprenticeship program', 'Tomas Destefi'],
-    [:recruitment_performance_report, 'The new and improved mid-cycle report', 'Lori Bailey'],
     [:recruitment_performance_report_generator, 'Toggle the Recruitment Performance Report generation', 'Iain McNulty'],
   ].freeze
 

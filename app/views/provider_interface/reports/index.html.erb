@@ -6,40 +6,20 @@
       <%= t('page_titles.provider.reports') %>
     </h1>
 
-    <% if FeatureFlag.active?(:recruitment_performance_report) %>
-      <% if @performance_reports %>
-        <h2 class="govuk-heading-m">
-          <%= t('.performance_report_heading') %>
-        </h2>
-      <% end %>
-
-      <% @providers.select { _1.performance_reports.any? }.each do |provider| %>
-        <% if @providers.many? %>
-          <h3 class="govuk-heading-s"><%= provider.name %></h3>
-        <% end %>
-        <% report = provider.performance_reports.last %>
-        <ul class="govuk-list govuk-list--spaced">
-          <li><%= govuk_link_to("Weekly report for week ending #{report.reporting_end_date.to_fs(:govuk_date)}", provider_interface_reports_provider_recruitment_performance_report_path(provider.id)) %></li>
-        </ul>
-      <% end %>
-    <% else %>
-      <% if @providers.any? { mid_cycle_report_present_for?(_1) } %>
+    <% if @performance_reports %>
       <h2 class="govuk-heading-m">
-        Mid-cycle recruitment performance report
+        <%= t('.performance_report_heading') %>
       </h2>
-      <% end %>
+    <% end %>
 
-      <% @providers.select { mid_cycle_report_present_for?(_1) }.each do |provider| %>
+    <% @providers.select { _1.performance_reports.any? }.each do |provider| %>
+      <% if @providers.many? %>
         <h3 class="govuk-heading-s"><%= provider.name %></h3>
-
-        <ul class="govuk-list govuk-list--spaced">
-          <li>
-            <% if mid_cycle_report_present_for?(provider) %>
-              <%= govuk_link_to mid_cycle_report_label_for(provider), provider_interface_reports_provider_mid_cycle_report_path(provider_id: provider) %>
-            <% end %>
-          </li>
-        </ul>
       <% end %>
+      <% report = provider.performance_reports.last %>
+      <ul class="govuk-list govuk-list--spaced">
+        <li><%= govuk_link_to("Weekly report for week ending #{report.reporting_end_date.to_fs(:govuk_date)}", provider_interface_reports_provider_recruitment_performance_report_path(provider.id)) %></li>
+      </ul>
     <% end %>
 
     <h2 class="govuk-heading-m"><%= t('.application_data_heading') %></h2>
