@@ -28,6 +28,7 @@ AllCops:
   Exclude:
     - 'bin/*'
     - 'db/schema.rb'
+    - 'db/secondary_schema.rb'
     - 'node_modules/**/*'
     - 'config/application.rb'
     - 'config/puma.rb'

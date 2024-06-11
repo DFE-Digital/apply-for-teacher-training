@@ -21,6 +21,13 @@ jobs:
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
+    env:
+      DB_HOSTNAME: localhost
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      DB_PORT: 5432
+      SECONDARY_DATABASE_URL: postgresql://postgres:password@localhost:5432
+
     steps:
       # Check-out current branch
       - name: Checkout PR branch
@@ -41,20 +48,10 @@ jobs:
       # Set up development database
       - name: Setup development database
         run: bundle exec rails db:setup
-        env:
-          DB_HOSTNAME: localhost
-          DB_USERNAME: postgres
-          DB_PASSWORD: password
-          DB_PORT: 5432
 
       # Get all enums in changed models
       - name: Check for changed enums
         run: bundle exec ruby .github/scripts/enums_in_models.rb >enums_after.log
-        env:
-          DB_HOSTNAME: localhost
-          DB_USERNAME: postgres
-          DB_PASSWORD: password
-          DB_PORT: 5432
 
       # Keep a copy of the detection script
       - name: Preserve the detection script
@@ -69,11 +66,6 @@ jobs:
         run: |
           bundle install
           bundle exec ruby /tmp/enums_in_models.rb enums_after.log >enums_before.log
-        env:
-          DB_HOSTNAME: localhost
-          DB_USERNAME: postgres
-          DB_PASSWORD: password
-          DB_PORT: 5432
 
       # Diff definitions before and after
       - name: Check for changed enums

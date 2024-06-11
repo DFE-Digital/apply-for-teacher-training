@@ -242,8 +242,9 @@ jobs:
         DB_HOSTNAME: postgres
         DB_USERNAME: postgres
         DB_PASSWORD: postgres
-        REDIS_URL: redis://redis:6379/0
         DB_PORT: 5432
+        SECONDARY_DATABASE_URL: postgres://postgres:postgres@postgres:5432
+        REDIS_URL: redis://redis:6379/0
     steps:
       - name: Setup Parallel Database
         run: bundle exec rake parallel:setup

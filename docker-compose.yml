@@ -8,6 +8,15 @@ services:
     ports:
       - 5432:5432
 
+  secondary-db:
+    image: postgres:14-alpine
+    volumes:
+      - secondary_db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=developmentpassword
+    ports:
+      - 5433:5432
+
   redis:
     image: redis:alpine
     ports:
@@ -15,3 +24,4 @@ services:
 
 volumes:
   db_data:
+  secondary_db_data:

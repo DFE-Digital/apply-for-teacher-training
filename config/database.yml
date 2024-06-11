@@ -1,4 +1,4 @@
-default: &default
+primary: &primary
   adapter: postgresql
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: <%= ENV['DB_USERNAME'] %>
@@ -11,16 +11,40 @@ default: &default
   keepalives_interval: 10
   keepalives_count: 3
 
+secondary: &secondary
+  adapter: postgresql
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: <%= ENV["SECONDARY_DATABASE_URL"] %>
+  migrations_paths: db/secondary_migrate
+  keepalives: 1
+  keepalives_idle: 60
+  keepalives_interval: 10
+  keepalives_count: 3
+
 development:
-  <<: *default
-  database: <%= ENV.fetch('DB_DATABASE', 'bat_apply_development') %>
+  primary:
+    <<: *primary
+    database: <%= ENV.fetch('DB_DATABASE', 'bat_apply_development') %>
+  secondary:
+    <<: *secondary
+    database: <%= ENV.fetch('SECONDARY_DB_DATABASE', 'bat_apply_secondary_development') %>
 
 test:
-  <<: *default
-  database: bat_apply_test<%= ENV['TEST_ENV_NUMBER'] %>
-  variables:
-    idle_in_transaction_session_timeout: 0
+  primary:
+    <<: *primary
+    database: bat_apply_test<%= ENV['TEST_ENV_NUMBER'] %>
+    variables:
+      idle_in_transaction_session_timeout: 0
+  secondary:
+    <<: *secondary
+    database: bat_apply_secondary_test<%= ENV['TEST_ENV_NUMBER'] %>
+    variables:
+      idle_in_transaction_session_timeout: 0
 
 production:
-  <<: *default
-  sslmode: <%= ENV.fetch("DB_SSLMODE") { "require" } %>
+  primary:
+    <<: *primary
+    sslmode: <%= ENV.fetch("DB_SSLMODE") { "require" } %>
+  secondary:
+    <<: *secondary
+    sslmode: <%= ENV.fetch("SECONDARY_DB_SSLMODE") { "require" } %>
