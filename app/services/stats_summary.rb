@@ -8,7 +8,7 @@ class StatsSummary
 
       :wave: #{pluralize(candidate_signups(today), 'candidate signup')} | #{candidate_signups(this_day_last_year)} last cycle
 
-      *Domestic applications :gb:*
+      *Domestic applications :gb: :flag-ie:*
 
       :#{mailbox_emoji(applications_submitted(today, domestic))}: #{pluralize(applications_submitted(today, domestic), 'application')} submitted | #{applications_submitted(this_day_last_year, domestic)} last cycle
       :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_made(today, domestic), 'offer')} made | #{offers_made(this_day_last_year, domestic)} last cycle

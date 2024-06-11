@@ -10,7 +10,7 @@ class WeeklyStatsSummary
 
       :key: #{pluralize(number_with_delimiter(candidate_signups(current_cycle_period)), 'total candidate signup')} | This point last cycle we had #{number_with_delimiter(candidate_signups(previous_cycle_period))}
 
-      *Domestic applications :gb:*
+      *Domestic applications :gb: :flag-ie:*
 
       :postbox: #{pluralize(number_with_delimiter(applications_submitted(current_cycle_period, current_year, domestic)), 'total application')} submitted | This point last cycle we had #{number_with_delimiter(applications_submitted(previous_cycle_period, previous_year, domestic))}
       :yes_vote: #{pluralize(number_with_delimiter(offers_made(current_cycle_period, current_year, domestic)), 'total offer')} made | This point last cycle we had #{number_with_delimiter(offers_made(previous_cycle_period, previous_year, domestic))}
