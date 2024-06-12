@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_28_092412) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_12_093136) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -575,13 +575,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_092412) do
     t.date "publication_date"
   end
 
-  create_table "national_mid_cycle_reports", force: :cascade do |t|
-    t.json "statistics"
-    t.date "publication_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "national_recruitment_performance_reports", force: :cascade do |t|
     t.json "statistics"
     t.integer "cycle_week", null: false
@@ -636,15 +629,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_092412) do
     t.datetime "updated_at", null: false
     t.index ["provider_id"], name: "index_provider_agreements_on_provider_id"
     t.index ["provider_user_id"], name: "index_provider_agreements_on_provider_user_id"
-  end
-
-  create_table "provider_mid_cycle_reports", force: :cascade do |t|
-    t.json "statistics"
-    t.date "publication_date"
-    t.bigint "provider_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["provider_id"], name: "index_provider_mid_cycle_reports_on_provider_id"
   end
 
   create_table "provider_recruitment_performance_reports", force: :cascade do |t|
@@ -915,7 +899,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_092412) do
   add_foreign_key "offers", "application_choices", on_delete: :cascade
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
-  add_foreign_key "provider_mid_cycle_reports", "providers"
   add_foreign_key "provider_recruitment_performance_reports", "providers"
   add_foreign_key "provider_relationship_permissions", "providers", column: "ratifying_provider_id"
   add_foreign_key "provider_relationship_permissions", "providers", column: "training_provider_id"
