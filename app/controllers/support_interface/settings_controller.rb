@@ -36,23 +36,6 @@ module SupportInterface
       redirect_to support_interface_cycles_path
     end
 
-    def mid_cycle_report; end
-
-    def mid_cycle_report_upload
-      publication_date = Date.new(
-        *params.slice('publication_date(1i)', 'publication_date(2i)', 'publication_date(3i)').values.map(&:to_i),
-      )
-
-      provider_csv = CSV.parse(params.require(:provider_data).read, headers: true)
-      Publications::ProviderMidCycleReport.ingest(provider_csv, publication_date)
-
-      national_csv = CSV.parse(params.require(:national_data).read, headers: true)
-      Publications::NationalMidCycleReport.ingest(national_csv, publication_date)
-
-      flash[:success] = 'Mid cycle reports uploaded'
-      redirect_to support_interface_mid_cycle_report_path
-    end
-
     def notify_template; end
 
     def send_notify_template
