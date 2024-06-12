@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Email log' do
+RSpec.describe 'Email log' do
   include DfESignInHelpers
 
   it 'Emails are logged' do
@@ -35,7 +35,9 @@ RSpec.feature 'Email log' do
     ).deliver_now
 
     open_email('harry@example.com')
-    expect(current_email.header('reference')).to start_with("#{HostingEnvironment.environment_name}-sign_up_email-#{@candidate.id}-")
+    reference = current_email.base.email["reference"].first.value
+
+    expect(reference).to start_with("#{HostingEnvironment.environment_name}-sign_up_email-#{@candidate.id}-")
   end
 
   def and_an_application_is_submitted
@@ -57,7 +59,10 @@ RSpec.feature 'Email log' do
     ).deliver_now
 
     open_email('harry@example.com')
-    expect(current_email.header('reference')).not_to be_nil
+    reference = current_email.base.email["reference"].first.value
+    current_email.deliver
+
+    expect(reference).not_to be_nil
   end
 
   def and_i_visit_the_email_log

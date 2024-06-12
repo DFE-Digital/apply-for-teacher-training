@@ -48,7 +48,7 @@ RSpec.describe CancelInterview do
       expect(associated_audit.audited_changes.keys).to eq(%w[cancelled_at cancellation_reason])
       expect(associated_audit.audited_changes['cancellation_reason']).to eq([nil, 'There is a global pandemic going on'])
 
-      expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('interview_cancelled')
+      expect(ActionMailer::Base.deliveries.first['rails-mail-template'].first.value).to eq('interview_cancelled')
     end
 
     it 'touches the application choice' do
