@@ -6,10 +6,10 @@
     <p class="govuk-body"><%= t('deferrals_table_component.description_one', provider_name:) %></p>
     <p class="govuk-body"><%= t('deferrals_table_component.description_two') %></p>
 
+    <div class="recruitment-performance-report-table__wrapper">
     <% if deferral_rows.empty? %>
       <p class="govuk-body"><%= t('shared.empty_state') %></p>
     <% else %>
-    <div class="recruitment-performance-report-table__wrapper">
       <%= govuk_table do |table| %>
         <%= table.with_caption(text: t('deferrals_table_component.caption'),
                                html_attributes: { class: 'govuk-visually-hidden' }) %>

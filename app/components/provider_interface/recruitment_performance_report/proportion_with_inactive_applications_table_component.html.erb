@@ -9,11 +9,11 @@
     <p class="govuk-body"><%= t('proportion_with_inactive_applications_table_component.description_two') %></p>
     <p class="govuk-body"><%= t('proportion_with_inactive_applications_table_component.description_three') %></p>
 
+    <div class="recruitment-performance-report-table__wrapper">
     <% if subject_rows.empty? %>
       <p class="govuk-body"><%= t('shared.empty_state') %></p>
     <% else %>
 
-    <div class="recruitment-performance-report-table__wrapper">
       <%= govuk_table do |table| %>
         <%= table.with_caption(text: t('proportion_with_inactive_applications_table_component.caption'),
                                html_attributes: { class: 'govuk-visually-hidden' }) %>
