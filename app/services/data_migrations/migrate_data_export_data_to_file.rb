@@ -4,8 +4,10 @@ module DataMigrations
     MANUAL_RUN = true
 
     def change
-      DataExport.find_each do |data_export|
-        data_export.file.attach(io: CSV.new(data_export.data).to_io, filename: data_export.filename)
+      BatchDelivery.new(relation: DataExport.all, stagger_over: 4.hours, batch_size: 10).each do |next_batch_time, data_exports|
+        data_exports.each do |data_export|
+          DataExportFileMigrationWorker.perform_at(next_batch_time, data_export.id)
+        end
       end
     end
   end
