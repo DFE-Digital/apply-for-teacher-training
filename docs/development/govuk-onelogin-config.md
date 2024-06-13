@@ -30,6 +30,6 @@ To set up the configuration correctly, follow these steps:
    - Add the private key to the `GOVUK_LOGIN_PRIVATE_KEY` environment variable.
 
 8. **Test**
-     - If all was setup correctly, when you attempt to sign in, you should be redirected and prompted to enter a username and password to authenticate against the `https://oidc.integration.account.gov.uk/`. The details can be found in the (admin console)[https://admin.sign-in.service.gov.uk/services]
+     - If all was setup correctly, when you attempt to sign in, you should be redirected and prompted to enter a username and password to authenticate against the `https://oidc.integration.account.gov.uk/`. The details can be found in the [admin console](https://admin.sign-in.service.gov.uk/services)
 
 By following these steps, you will have correctly configured your application to use the GOV.UK One Login service.
