@@ -11,7 +11,6 @@ module SupportInterface
       @application_choice.update!(
         status: :pending_conditions,
         recruited_at: nil,
-        accepted_at: nil,
         audit_comment: "Support request to revert recruited application to pending conditions: #{@zendesk_ticket}",
       )
     end
