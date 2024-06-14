@@ -1,6 +1,6 @@
 module CandidateInterface
   module ContinuousApplications
-    class DuplicateCourseSelectionStep < DfE::WizardStep
+    class DuplicateCourseSelectionStep < DfE::Wizard::Step
       include Concerns::CourseSelectionStepHelper
       attr_accessor :provider_id, :course_id
       validates :provider_id, :course_id, presence: true
