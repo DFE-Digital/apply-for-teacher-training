@@ -357,6 +357,33 @@ Whatever is decided, we should (at a minimum) do the following:
 - Add fake data where not possible (`email_address`)
 - `Candidate.find_by(email_address: 'old_email').update!(email_address: 'deleted_on_user_requestX@example.com')`
 
+### Withdraw existing Applications and force Delete Candidate's Applications
+```ruby
+# Withdraw existing Applications
+candidate = Candidate.find(CANDIDATE_ID)
+
+candidate.application_forms.each do |application_form|
+  application_form.application_choices.each do |application_choice|
+    next unless ApplicationStateChange.new(application_choice).can_withdraw?
+
+    WithdrawApplication.new(application_choice: application_choice).save!
+  end
+end
+
+puts candidate.application_choices.pluck(:id, :status)
+# Check these are all withdrawn/ended before proceeding
+
+# Delete the candidate's applications
+candidate.application_forms.each do |application_form|
+  DeleteApplication.new(
+    actor: SupportUser.find_by(email_address: YOUR_SUPPORT_EMAIL),
+    application_form: application_form,
+    zendesk_url: 'Deleted following a support request, ticket ZENDESK_URL',
+    force: true
+  ).call!
+end
+```
+
 ## Provider users and permissions
 
 ### Provider login issues
