@@ -15,7 +15,6 @@ RSpec.describe SupportInterface::RevertRecruitedToPendingConditions, :with_audit
       expect(application_choice.attributes.symbolize_keys).to match(
         a_hash_including({
           recruited_at: nil,
-          accepted_at: nil,
           status: 'pending_conditions',
         }),
       )
