@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'References' do
+RSpec.describe 'References' do
   include CandidateHelper
 
   it 'Candidate adds a new reference' do
@@ -91,7 +91,7 @@ RSpec.feature 'References' do
   end
 
   def and_i_fill_in_my_references_name
-    fill_in 'candidate-interface-reference-referee-name-form-name-field', with: 'Walter White'
+    fill_in 'What’s the name of the person who can give a reference?', with: 'Walter White'
     and_i_click_save_and_continue
   end
 
@@ -117,12 +117,12 @@ RSpec.feature 'References' do
   end
 
   def and_i_change_my_references_name
-    fill_in 'candidate-interface-reference-referee-name-form-name-field', with: 'Jesse Pinkman'
+    fill_in 'What’s the name of the person who can give a reference?', with: 'Jesse Pinkman'
     and_i_click_save_and_continue
   end
 
   def and_i_provide_an_email_address
-    fill_in 'candidate-interface-reference-referee-email-address-form-email-address-field', with: 'j.pinkman@example.com'
+    fill_in 'What is Jesse Pinkman’s email address?' , with: 'j.pinkman@example.com'
     and_i_click_save_and_continue
   end
 
@@ -131,7 +131,7 @@ RSpec.feature 'References' do
   end
 
   def and_provide_my_relationship_to_the_referee
-    fill_in 'candidate-interface-reference-referee-relationship-form-relationship-field', with: 'Through nefarious behaviour.'
+    fill_in 'How do you know Jesse Pinkman and how long have you known them?', with: 'Through nefarious behaviour.'
     and_i_click_save_and_continue
   end
 
@@ -172,16 +172,16 @@ RSpec.feature 'References' do
   end
 
   def then_i_see_the_review_references_page
-    expect(page).to have_current_path candidate_interface_references_review_path
+    expect(page).to have_current_path candidate_interface_references_review_path('candidate-details')
   end
 
   def when_i_try_and_visit_the_new_type_path_with_a_feedback_provided_reference_id
     @feedback_provided_reference = create(:reference, :feedback_provided, referee_type: 'academic', application_form: @application)
-    visit candidate_interface_references_type_path(@feedback_provided_reference.referee_type, @feedback_provided_reference.id)
+    visit candidate_interface_references_type_path('candidate-details', @feedback_provided_reference.referee_type, @feedback_provided_reference.id)
   end
 
   def when_i_try_and_visit_the_new_name_path_with_a_feedback_provided_reference_id
-    visit candidate_interface_references_name_path(@feedback_provided_reference.referee_type, @feedback_provided_reference.id)
+    visit candidate_interface_references_name_path('candidate-details', @feedback_provided_reference.referee_type, @feedback_provided_reference.id)
   end
 
 private

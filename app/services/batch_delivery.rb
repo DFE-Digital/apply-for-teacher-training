@@ -9,7 +9,7 @@ class BatchDelivery
 
   def each(&block)
     next_batch_time = Time.zone.now
-    relation_count = relation.length # use length instead of count to account for GROUP_BY queries
+    relation_count = relation.send(count_method)
     interval_between_batches ||= begin
       number_of_batches = (relation_count.to_f / batch_size).ceil
       number_of_batches < 2 ? stagger_over : stagger_over / (number_of_batches - 1).to_f
@@ -19,5 +19,13 @@ class BatchDelivery
       block.call(next_batch_time, applications)
       next_batch_time += interval_between_batches
     end
+  end
+
+private
+
+  def count_method
+    # The count_method depends on whether or not the relation is grouped or not for performance reasons
+    # Use either GroupedRelationBatchDelivery if your relation is grouped.
+    :count
   end
 end

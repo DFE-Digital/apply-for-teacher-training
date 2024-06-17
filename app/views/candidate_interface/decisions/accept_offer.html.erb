@@ -24,16 +24,18 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <%= render CandidateInterface::AcceptOfferAddNewReferenceComponent.new(
-            application_form: current_application,
-            application_choice: @application_choice,
-          ) %>
+        application_form: current_application,
+        application_choice: @application_choice,
+        reference_process: 'accept-offer',
+      ) %>
 
       <%= render(
-            CandidateInterface::AcceptOfferReviewComponent.new(
-              application_form: current_application,
-              application_choice: @application_choice,
-            ),
-          ) %>
+        CandidateInterface::AcceptOfferReviewComponent.new(
+          application_form: current_application,
+          application_choice: @application_choice,
+          reference_process: 'accept-offer',
+        ),
+      ) %>
     </div>
   </div>
   <div class="govuk-grid-row">

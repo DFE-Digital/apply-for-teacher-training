@@ -1,14 +1,23 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.references_relationship'), @references_relationship_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(relationship_previous_path(application_choice: @application_choice, reference: @reference, step: reference_workflow_step)) %>
+<%= content_for :title, title_with_error_prefix(t('page_titles.references_relationship'), @wizard.current_step.errors.any?) %>
+<%= content_for(
+  :before_content,
+  govuk_back_link_to(
+    candidate_interface_references_email_address_path(
+      @reference_process,
+      @reference.id,
+      application_id: @application_choice&.id,
+    )
+  )
+) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
-      model: @references_relationship_form,
-      url: references_relationship_path(
-        application_choice: @application_choice,
-        reference: @reference,
-        step: reference_workflow_step,
+      model: @wizard.current_step,
+      url: candidate_interface_references_relationship_path(
+        @reference_process,
+        @reference,
+        params: { application_id: @application_choice&.id },
       ),
       method: :patch,
     ) do |f| %>

@@ -4,8 +4,8 @@ module CandidateInterface
     before_action CarryOverFilter
     before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
     before_action :set_section_policy
-    before_action :verify_edit_authorized_section, except: %i[show review]
-    before_action :verify_delete_authorized_section, only: %i[destroy confirm_destroy]
+   # before_action :verify_edit_authorized_section, except: %i[show review]
+   # before_action :verify_delete_authorized_section, only: %i[destroy confirm_destroy]
 
     def show; end
     def review; end

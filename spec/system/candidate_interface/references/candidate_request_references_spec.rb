@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'New References', :with_audited, time: CycleTimetableHelper.after_apply_1_deadline do
+RSpec.describe 'New References', :with_audited, time: CycleTimetableHelper.after_apply_1_deadline do
   include CandidateHelper
 
   scenario 'Candidate request their references on the post offer dashboard' do
@@ -15,6 +15,7 @@ RSpec.feature 'New References', :with_audited, time: CycleTimetableHelper.after_
     then_the_back_link_point_to_the_offer_dashboard_page
     and_i_be_on_start_page
     and_i_click_continue
+
     and_i_be_on_the_add_type_page
     and_i_choose_character
     and_i_click_continue
@@ -38,6 +39,9 @@ RSpec.feature 'New References', :with_audited, time: CycleTimetableHelper.after_
     and_i_be_on_check_your_answers
     when_i_click_to_change_the_reference_name
     and_when_i_change_the_reference_name
+
+
+
     and_i_be_on_check_your_answers
     when_i_click_to_change_the_reference_type
     and_when_i_change_the_reference_type
@@ -102,19 +106,34 @@ RSpec.feature 'New References', :with_audited, time: CycleTimetableHelper.after_
   end
 
   def and_i_be_on_start_page
-    expect(page).to have_current_path(candidate_interface_request_reference_references_start_path)
+    expect(page).to have_current_path(candidate_interface_request_reference_references_start_path('request-reference'))
   end
 
   def and_i_be_on_the_add_type_page
-    expect(page).to have_current_path(candidate_interface_request_reference_references_type_path)
+    expect(page).to have_current_path(
+      candidate_interface_references_type_path(
+        'request-reference',
+         return_to_path: candidate_interface_request_reference_references_start_path('request-reference')
+      )
+    )
   end
 
   def and_i_be_on_the_add_name_page
-    expect(page).to have_current_path(candidate_interface_request_reference_references_name_path('character'))
+    expect(page).to have_current_path(
+      candidate_interface_references_name_path(
+        'request-reference',
+        'character'
+      )
+   )
   end
 
   def and_the_back_link_point_to_the_add_type_page
-    expect(back_link).to eq(candidate_interface_request_reference_references_type_path('character'))
+    expect(back_link).to eq(
+      candidate_interface_references_type_path(
+        'request-reference',
+        'character'
+      )
+    )
   end
 
   def and_i_choose_character
@@ -127,7 +146,8 @@ RSpec.feature 'New References', :with_audited, time: CycleTimetableHelper.after_
 
   def and_i_be_on_add_email_address_page
     expect(page).to have_current_path(
-      candidate_interface_request_reference_references_email_address_path(
+      candidate_interface_references_email_address_path(
+        'request-reference',
         @application_form.reload.application_references.creation_order.last.id,
       ),
     )
@@ -135,7 +155,8 @@ RSpec.feature 'New References', :with_audited, time: CycleTimetableHelper.after_
 
   def and_the_back_link_point_to_the_add_name_page
     expect(back_link).to eq(
-      candidate_interface_request_reference_references_name_path(
+      candidate_interface_references_name_path(
+        'request-reference',
         'character',
         @application_form.reload.application_references.creation_order.last.id,
       ),
@@ -144,7 +165,8 @@ RSpec.feature 'New References', :with_audited, time: CycleTimetableHelper.after_
 
   def and_i_be_on_add_email_address_page
     expect(page).to have_current_path(
-      candidate_interface_request_reference_references_email_address_path(
+      candidate_interface_references_email_address_path(
+        'request-reference',
         @application_form.reload.application_references.creation_order.last.id,
       ),
     )
@@ -156,7 +178,8 @@ RSpec.feature 'New References', :with_audited, time: CycleTimetableHelper.after_
 
   def and_i_be_on_add_relationship_page
     expect(page).to have_current_path(
-      candidate_interface_request_reference_references_relationship_path(
+      candidate_interface_references_relationship_path(
+        'request-reference',
         @application_form.reload.application_references.creation_order.last.id,
       ),
     )
@@ -164,7 +187,8 @@ RSpec.feature 'New References', :with_audited, time: CycleTimetableHelper.after_
 
   def and_the_back_link_point_to_the_add_email_address_page
     expect(back_link).to eq(
-      candidate_interface_request_reference_references_email_address_path(
+      candidate_interface_references_email_address_path(
+        'request-reference',
         @application_form.reload.application_references.creation_order.last.id,
       ),
     )
@@ -176,7 +200,8 @@ RSpec.feature 'New References', :with_audited, time: CycleTimetableHelper.after_
 
   def and_i_be_on_check_your_answers
     expect(page).to have_current_path(
-      candidate_interface_references_request_reference_review_path(
+      candidate_interface_new_references_review_path(
+        'request-reference',
         @application_form.reload.application_references.creation_order.last.id,
       ),
     )

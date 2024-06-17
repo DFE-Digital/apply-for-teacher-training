@@ -11,7 +11,11 @@
 
       <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
 
-      <%= render CandidateInterface::AddNewReferenceComponent.new(current_application:, section_policy: @section_policy) %>
+      <%= render CandidateInterface::AddNewReferenceComponent.new(
+        current_application:,
+        section_policy: @section_policy,
+        reference_process: 'candidate-details',
+      ) %>
     </div>
   </div>
 
@@ -22,6 +26,7 @@
       deletable: @section_policy.can_delete?,
       references: @references,
       heading_level: 3,
+      reference_process: @reference_process,
     ),
   ) %>
 

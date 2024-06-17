@@ -1,6 +1,7 @@
 module CandidateInterface
   module References
     class BaseController < SectionController
+      before_action :set_reference_process
       before_action :render_application_feedback_component, :set_reference, :set_edit_backlink
       before_action :redirect_v23_applications_to_complete_page_if_submitted_and_not_carried_over
       rescue_from ActiveRecord::RecordNotFound, with: :render_404
@@ -14,10 +15,6 @@ module CandidateInterface
                                       .find_by(id: params[:id])
       end
 
-      def return_to_path
-        candidate_interface_references_review_path if params[:return_to] == 'review'
-      end
-
       def next_step
         redirect_to return_to_path
       end
@@ -29,7 +26,11 @@ module CandidateInterface
       end
 
       def set_edit_backlink
-        @edit_backlink = return_to_path || candidate_interface_references_review_path
+        @edit_backlink = params[:return_to_path] || candidate_interface_references_review_path(params[:reference_process]) ### Do we get into this or? Can we remove it?
+      end
+
+      def set_reference_process
+        @reference_process = params[:reference_process]
       end
     end
   end

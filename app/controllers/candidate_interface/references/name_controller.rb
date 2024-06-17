@@ -1,44 +1,79 @@
 module CandidateInterface
   module References
     class NameController < BaseController
+      include RequestReferenceOfferDashboard
+
       before_action :verify_name_is_editable, only: %i[new create]
       before_action :redirect_to_review_page_unless_reference_is_editable, :set_edit_backlink, only: %i[edit update]
+      before_action :application_choice
+      before_action :set_wizard, only: %i[create update]
 
       def new
-        @reference_name_form = Reference::RefereeNameForm.build_from_reference(@reference)
+        @wizard = ReferenceWizard.new(
+          current_step: :reference_name,
+          step_params: ActionController::Parameters.new(
+            {
+              reference_name: {
+                name: @reference.blank? ? nil : @reference.name
+              }
+            }
+          )
+        )
       end
 
       def edit
-        @reference_name_form = Reference::RefereeNameForm.build_from_reference(@reference)
+        @wizard = ReferenceWizard.new(
+          current_step: :reference_name,
+          step_params: ActionController::Parameters.new(
+            {
+              reference_name: {
+                name: @reference.name
+              }
+            }
+          )
+        )
       end
 
       def create
-        @reference_name_form = Reference::RefereeNameForm.new(referee_name_param)
-
-        if @reference_name_form.save(current_application, params[:referee_type], reference: @reference)
-          redirect_to next_path
+        if @wizard.save
+          redirect_to @wizard.next_step
         else
-          track_validation_error(@reference_name_form)
+          track_validation_error(@wizard.current_step)
           render :new
         end
       end
 
       def update
-        @reference_name_form = Reference::RefereeNameForm.new(referee_name_param)
-
-        if @reference_name_form.update(@reference)
-          next_step
+        if @wizard.save
+          redirect_to @wizard.next_step
         else
-          track_validation_error(@reference_name_form)
+          track_validation_error(@wizard.current_step)
           render :edit
         end
       end
 
     private
 
-      def next_path
-        candidate_interface_references_email_address_path(
-          @reference&.id || current_application.application_references.creation_order.last.id,
+      def application_choice
+        @application_choice ||= @current_application.application_choices.find_by_id(params[:application_id])
+      end
+
+      def set_wizard
+        @wizard = ReferenceWizard.new(
+          current_step: :reference_name,
+          reference_process: @reference_process,
+          application_choice: @application_choice,
+          current_application:,
+          reference: @reference,
+          return_to_path: params[:return_to_path],
+          step_params: ActionController::Parameters.new(
+            {
+              reference_name: {
+                name: params.dig(:name, :name),
+                referee_type: params[:referee_type] || @reference&.referee_type,
+              }
+            }
+          )
         )
       end
 

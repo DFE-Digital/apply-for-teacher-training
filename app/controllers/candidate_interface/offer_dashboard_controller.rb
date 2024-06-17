@@ -23,7 +23,7 @@ module CandidateInterface
   private
 
     def redirect_to_review_if_application_not_requested_yet
-      redirect_to candidate_interface_references_request_reference_review_path(@reference) if @reference.not_requested_yet?
+      redirect_to candidate_interface_new_references_review_path('request-reference', @reference) if @reference.not_requested_yet?
     end
 
     def set_reference

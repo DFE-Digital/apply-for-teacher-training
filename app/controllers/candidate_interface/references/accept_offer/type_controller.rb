@@ -10,6 +10,25 @@ module CandidateInterface
           params[:id],
         )
       end
+
+      private
+
+      def set_wizard
+        @wizard = ReferenceWizard.new(
+          current_step: :reference_type,
+          reference_process: :accept_offer,
+          reference: @reference,
+          return_to_path: return_to_path,
+          application_choice:,
+          step_params: ActionController::Parameters.new(
+            {
+              reference_type: {
+                referee_type: params.dig(:type, :referee_type)
+              }
+            }
+          )
+        )
+      end
     end
   end
 end

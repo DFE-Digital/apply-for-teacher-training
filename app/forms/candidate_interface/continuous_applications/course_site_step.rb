@@ -1,6 +1,6 @@
 module CandidateInterface
   module ContinuousApplications
-    class CourseSiteStep < DfE::WizardStep
+    class CourseSiteStep < DfE::Wizard::Step
       include Concerns::CourseSelectionStepHelper
       attr_accessor :provider_id, :course_id, :study_mode, :course_option_id
       validates :course_option_id, presence: true

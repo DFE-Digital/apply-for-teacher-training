@@ -1,16 +1,26 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.references_type'), @reference_type_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(type_previous_path(application_choice: @application_choice, step: reference_workflow_step)) %>
+<%= content_for :title, title_with_error_prefix(t('page_titles.references_type'), @wizard.current_step.errors.any?) %>
+<%= content_for(
+  :before_content,
+  govuk_back_link_to(
+    type_previous_path(
+      application_choice: @application_choice,
+      return_to_path: params[:return_to_path],
+      reference_process: @reference_process
+    )
+  )
+) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
-      model: @reference_type_form,
-      url: references_type_path(
-        application_choice: @application_choice,
-        referee_type: params[:referee_type],
-        reference_id: params[:id],
-        return_to: { return_to: params[:return_to] },
-        step: reference_workflow_step,
+      model: @wizard.current_step,
+      url: candidate_interface_references_type_path(
+        @reference_process,
+        params[:referee_type],
+        params[:id],
+        params: {
+          application_id: @application_choice&.id
+        },
       ),
       method: :post,
     ) do |f| %>

@@ -123,24 +123,109 @@ ApplicationForm.find(APPLICATION_FORM_ID)
 
 We've seen this happen due to a `nil` value for `predicted_grade`. To fix this update `predicted_grade` to false.
 
-### Update qualifications
-
-**Adding equivalency**
-
-TODO: rewrite this section
+### Creating a qualification
+(section reviewed 17 June 2024)
 
 Create the same qualification locally, turn the relevant fields into JSON, paste that into the prod shell, parse it and assigned attrs 😥 `qualification.as_json(only: [fields]).to_json`
 
-**Change grade**
+### Update qualifications
+(section reviewed 17 June 2024)
+
+**Adding equivalency**
+
+If you are asked to add an ENIC number to a qualification, you should first make sure that what you are being asked to do is reflected on the ENIC statement. If you are in doubt refer it back to support or to policy.
+
+`equivalency_details` is a field on the `ApplicationQualification` model, but it is not used. Do not add any data to this field. There is a card on trello to remove it from the database.
+For all international qualifications, you'll have to include an `institution_country`: https://github.com/DFE-Digital/apply-for-teacher-training/blob/78c9421d8582f63cfdec564b5c0677bfd787552c/config/initializers/countries_and_territories.rb
+
+***Degrees***
+
+It is most likely that you will only need to update the `enic_reference` and `comparable_uk_degree`, but you should look at the other relevant fields to make sure they also make sense
+
+Some notes about the required fields:
+
+- `enic_number` This is a 10 digit number on the ENIC statement of comparability. It's call 'UK ENIC reference' on the statement.
+- `comparable_uk_degree` This is an enum, use one of these valid options https://github.com/DFE-Digital/apply-for-teacher-training/blob/7d61f9887494aae093ced34f587d5870528ba786/app/models/application_qualification.rb`
 
 ```ruby
-ApplicationQualification.find(ID).update!(grade: 'D', audit_comment: 'Updating grade following a support request, ticket ZENDESK_URL')
+ApplicationQualification.find(QUALIFICATION_ID).update!(
+  enic_number:,
+  comparable_uk_degree:,
+  audit_comment: ZENDESK_URL,
+
+  # Other things to check against the ENIC certificate
+  level: 'degree',
+  institution_name:,
+  institution_country:,
+  qualification_type: 'non_uk',
+  non_uk_qualification_type: nil, # not to be confused with the comparable_uk_degree. This can should be blank for degrees
+  award_year: AWARD_YEAR,
+  equivalency_details: nil,
+  )
+````
+
+You may also be asked to remove ENIC / comparable_uk_degree information if the candidate has entered something like, 'awaiting response'. Just set the `enic_reference` and `comparable_uk_degree` to nil.
+
+***GCSEs***
+
+Some notes about the required fields:
+- `enic_number` This is a 10 digit number on the ENIC statement of comparability. It's call 'UK ENIC reference' on the statement.
+- `subject` usually one of the required GCSE subjects https://github.com/DFE-Digital/apply-for-teacher-training/blob/7d61f9887494aae093ced34f587d5870528ba786/app/models/application_qualification.rb#L41
+- `non_uk_qualification_type` Free text. Usually something like 'High School diploma', it should match what is on the ENIC certificate
+- `comparable_uk_qualification`. This is a string, not an enum. The possible text values are here: https://github.com/DFE-Digital/apply-for-teacher-training/blob/d95efba0a432715760e1686880e83e9bdbf8821e/config/locales/candidate_interface/gcse.yml#L42.
+For example, use 'GCSE (grades A*-C / 9-4)' NOT 'gcse'.
+
+```ruby
+ApplicationQualification.find(QUALIFICATION_ID).update!(
+  level: 'gcse',
+  enic_number:,
+  subject:,
+  non_uk_qualification_type:,
+  comparable_uk_qualification:,
+  audit_comment: ZENDESK_URL,
+
+  # Other things to check against the ENIC certificate
+  comparable_uk_degree: nil,
+  qualification_type: 'non_uk',
+  award_year:,
+  institution_country:,
+  )
+````
+
+**Change grade**
+
+***UK Degrees***
+
+In addition to changing the `grade`, you also need to update:
+- `grade_hesa_code`,
+- `degree_grade_uuid`
+- `predicted_grade`
+
+For UK degrees, The `grade` is a string. You can get possible strings with `Hesa::Grade.all.map { |grade| grade.name }`
+
+```ruby
+ApplicationQualification.find(ID).update!(
+  grade:, # One of the strings defined above for UK degrees
+  grade_hesa_code: Hesa::Grade.find_by_description(grade).hesa_code,
+  degree_grade_uuid: Hesa::Grade.find_by_description(grade).id,
+  predicted_grade:, # must be true or false, not nil. Nil will make it impossible to submit an application later.
+  audit_comment: 'Updating grade following a support request, ticket ZENDESK_URL',
+)
+```
+
+***Other qualifications***
+
+```ruby
+ApplicationQualification.find(ID).update!(
+  grade: 'D',
+  audit_comment: 'Updating grade following a support request, ticket ZENDESK_URL'
+)
 ```
 
 **Change start and graduation date**
 
 ```ruby
-ApplicationQualification.find(ID).update!(start_year: '2011', award_year: '2014', audit_comment: 'Updating an application after a user requested a change, ticket ZENDESK_URL'
+ApplicationQualification.find(ID).update!(start_year: '2011', award_year: '2014', audit_comment: 'Updating an application after a user requested a change, ticket ZENDESK_URL')
 ```
 
 **Delete a Qualification**
