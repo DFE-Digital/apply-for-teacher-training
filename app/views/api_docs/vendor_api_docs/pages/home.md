@@ -124,9 +124,9 @@ This means that if you use the major version URL, you do not need to update stud
 
 For example, after version `1.1` is released you can use:
 
-- <https://apply-for-teacher-training.service.gov.uk/api/v1.0> for version `1.0`
-- <https://apply-for-teacher-training.service.gov.uk/api/v1.1> for version `1.1`
-- <https://apply-for-teacher-training.service.gov.uk/api/v1> for version `1.1` - but if version `1.2` is released then this URL will give you version `1.2` instead
+- <https://www.apply-for-teacher-training.service.gov.uk/api/v1.0> for version `1.0`
+- <https://www.apply-for-teacher-training.service.gov.uk/api/v1.1> for version `1.1`
+- <https://www.apply-for-teacher-training.service.gov.uk/api/v1> for version `1.1` - but if version `1.2` is released then this URL will give you version `1.2` instead
 
 ## How applications are updated
 
