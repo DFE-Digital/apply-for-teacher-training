@@ -1,4 +1,6 @@
 class DataExport < ApplicationRecord
+  self.ignored_columns += %w[data]
+
   EXPORT_TYPES = {
     active_provider_user_permissions: {
       name: 'Active provider user permissions',
