@@ -194,8 +194,32 @@ ApplicationQualification.find(QUALIFICATION_ID).update!(
 
 **Change grade**
 
+***UK Degrees***
+
+In addition to changing the `grade`, you also need to update:
+- `grade_hesa_code`,
+- `degree_grade_uuid`
+- `predicted_grade`
+
+For UK degrees, The `grade` is a string. You can get possible strings with `Hesa::Grade.all.map { |grade| grade.name }`
+
 ```ruby
-ApplicationQualification.find(ID).update!(grade: 'D', audit_comment: 'Updating grade following a support request, ticket ZENDESK_URL')
+ApplicationQualification.find(ID).update!(
+  grade:, # One of the strings defined above for UK degrees
+  grade_hesa_code: Hesa::Grade.find_by_description(grade).hesa_code,
+  degree_grade_uuid: Hesa::Grade.find_by_description(grade).id,
+  predicted_grade:, # must be true or false, not nil. Nil will make it impossible to submit an application later.
+  audit_comment: 'Updating grade following a support request, ticket ZENDESK_URL',
+)
+```
+
+***Other qualifications***
+
+```ruby
+ApplicationQualification.find(ID).update!(
+  grade: 'D',
+  audit_comment: 'Updating grade following a support request, ticket ZENDESK_URL'
+)
 ```
 
 **Change start and graduation date**
