@@ -13,7 +13,7 @@
     "govuk-frontend": "^5.4.0",
     "jquery": "^3.7.1",
     "postcss": "^8.4.38",
-    "puppeteer": "^22.11.0"
+    "puppeteer": "^22.11.2"
   },
   "devDependencies": {
     "jest": "^29.7.0",
