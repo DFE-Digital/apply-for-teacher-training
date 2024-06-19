@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_12_093136) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_19_135756) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -379,6 +379,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_12_093136) do
     t.boolean "unsubscribed_from_emails", default: false
     t.boolean "submission_blocked", default: false, null: false
     t.boolean "account_locked", default: false, null: false
+    t.string "govuk_one_login_uid"
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
     t.index ["fraud_match_id"], name: "index_candidates_on_fraud_match_id"
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
