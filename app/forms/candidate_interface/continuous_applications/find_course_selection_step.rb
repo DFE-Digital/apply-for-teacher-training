@@ -1,6 +1,6 @@
 module CandidateInterface
   module ContinuousApplications
-    class FindCourseSelectionStep < DfE::WizardStep
+    class FindCourseSelectionStep < DfE::Wizard::Step
       include Concerns::CourseSelectionStepHelper
       attr_accessor :course_id, :confirm
       validates :course_id, :confirm, presence: true

@@ -1,6 +1,6 @@
 module CandidateInterface
   module ContinuousApplications
-    class DoYouKnowTheCourseStep < DfE::WizardStep
+    class DoYouKnowTheCourseStep < DfE::Wizard::Step
       attr_accessor :answer
       validates :answer, presence: true
 
