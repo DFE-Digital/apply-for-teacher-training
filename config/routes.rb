@@ -23,6 +23,12 @@ Rails.application.routes.draw do
   get '/auth/developer/callback' => 'dfe_sign_in#bypass_callback'
   get '/auth/dfe/sign-out' => 'dfe_sign_in#redirect_after_dsi_signout'
 
+  get '/auth/onelogin/callback', to: 'omniauth_callbacks#complete'
+  get '/auth/onelogin/sign-out', to: 'omniauth_callbacks#sign_out'
+  get '/auth/onelogin/sign-out-complete', to: 'omniauth_callbacks#sign_out_complete'
+
+  get 'auth/onelogin/logout', to: 'sessions#logout', as: 'logout_onelogin'
+
   direct :find do
     if HostingEnvironment.sandbox_mode?
       I18n.t('find_postgraduate_teacher_training.sandbox_url')
