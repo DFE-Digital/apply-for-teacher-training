@@ -25,7 +25,7 @@ private
 
   def count_method
     # The count_method depends on whether or not the relation is grouped or not for performance reasons
-    # Use either GroupedRelationBatchDelivery or NonGroupedRelationBatchDelivery
-    raise NotImplementedError
+    # Use either GroupedRelationBatchDelivery if your relation is grouped.
+    :count
   end
 end
