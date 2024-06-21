@@ -55,20 +55,21 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.show_apply_1_deadline_banner?' do
-    it 'returns true before the configured date and it is an unsuccessful apply_1 application' do
-      application_form = build(:application_form, phase: 'apply_1')
+  describe '.show_apply_deadline_banner?' do
+    it 'returns true before the deadline and the choices have not ben successful' do
+      application_choices = [build(:application_choice, :withdrawn)]
+      application_form = build(:application_form, application_choices:)
 
       travel_temporarily_to(one_hour_before_apply1_deadline) do
-        expect(described_class.show_apply_1_deadline_banner?(application_form)).to be true
+        expect(described_class.show_apply_deadline_banner?(application_form)).to be true
       end
     end
 
-    it 'returns false if it is a apply_2 application' do
-      application_form = build(:application_form, phase: 'apply_2')
+    it 'returns true if there are no application choices' do
+      application_form = build(:application_form)
 
       travel_temporarily_to(one_hour_before_apply1_deadline) do
-        expect(described_class.show_apply_1_deadline_banner?(application_form)).to be false
+        expect(described_class.show_apply_deadline_banner?(application_form)).to be true
       end
     end
 
@@ -77,15 +78,15 @@ RSpec.describe CycleTimetable do
       application_form = build(:application_form, phase: 'apply_1', application_choices: [application_choice])
 
       travel_temporarily_to(one_hour_before_apply1_deadline) do
-        expect(described_class.show_apply_1_deadline_banner?(application_form)).to be false
+        expect(described_class.show_apply_deadline_banner?(application_form)).to be false
       end
     end
 
     it 'returns false after the configured date' do
       application_form = build(:application_form, phase: 'apply_1')
 
-      travel_temporarily_to(one_hour_after_apply1_deadline) do
-        expect(described_class.show_apply_1_deadline_banner?(application_form)).to be false
+      travel_temporarily_to(one_hour_after_apply2_deadline) do
+        expect(described_class.show_apply_deadline_banner?(application_form)).to be false
       end
     end
   end
@@ -113,33 +114,6 @@ RSpec.describe CycleTimetable do
     it 'returns false after apply 1 closes' do
       travel_temporarily_to(described_class.apply_1_deadline(2022) + 1.hour) do
         expect(described_class.show_summer_recruitment_banner?).to be false
-      end
-    end
-  end
-
-  describe '.show_apply_2_deadline_banner?' do
-    it 'returns true before the configured date and it is a phase 2 application' do
-      application_form = build(:application_form, phase: 'apply_2')
-
-      travel_temporarily_to(one_hour_before_apply2_deadline) do
-        expect(described_class.show_apply_2_deadline_banner?(application_form)).to be true
-      end
-    end
-
-    it 'returns false if it is a successful apply_1 application' do
-      application_choice = build(:application_choice, :offered)
-      application_form = build(:application_form, phase: 'apply_1', application_choices: [application_choice])
-
-      travel_temporarily_to(one_hour_before_apply2_deadline) do
-        expect(described_class.show_apply_2_deadline_banner?(application_form)).to be false
-      end
-    end
-
-    it 'returns false after the configured date' do
-      unsuccessful_application_form = build(:application_form, phase: 'apply_2', application_choices: [build(:application_choice, :rejected)])
-
-      travel_temporarily_to(one_hour_after_apply2_deadline) do
-        expect(described_class.show_apply_2_deadline_banner?(unsuccessful_application_form)).to be false
       end
     end
   end

@@ -1,4 +1,4 @@
 <%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
-  <% notification_banner.with_heading(text: "The deadline for applying to courses starting in the #{academic_year} academic year is #{deadline[:time]} on #{deadline[:date]}") %>
-  <p class="govuk-body">Courses may fill up before then. Check course availability with your provider.</p>
+  <% notification_banner.with_heading(text: t('heading', academic_year:, deadline_time: deadline[:time], deadline_date: deadline[:date])) %>
+  <p class="govuk-body"><%= t('text') %></p>
 <% end %>

@@ -7,15 +7,14 @@ class CandidateInterface::DeadlineBannerComponent < ViewComponent::Base
   end
 
   def render?
-    flash_empty && render_deadline_banner?
+    flash_empty && CycleTimetable.show_apply_deadline_banner?(@application_form)
   end
 
   def deadline
-    if CycleTimetable.show_apply_2_deadline_banner?(@application_form)
-      apply_2_deadline
-    else
-      apply_1_deadline
-    end
+    {
+      date: CycleTimetable.date(:apply_2_deadline).to_fs(:govuk_date),
+      time: CycleTimetable.date(:apply_2_deadline).to_fs(:govuk_time),
+    }
   end
 
   def academic_year
@@ -23,24 +22,6 @@ class CandidateInterface::DeadlineBannerComponent < ViewComponent::Base
   end
 
 private
-
-  def render_deadline_banner?
-    CycleTimetable.show_apply_1_deadline_banner?(@application_form) || CycleTimetable.show_apply_2_deadline_banner?(@application_form)
-  end
-
-  def apply_1_deadline
-    {
-      date: CycleTimetable.date(:apply_1_deadline).to_fs(:govuk_date),
-      time: CycleTimetable.date(:apply_1_deadline).to_fs(:govuk_time),
-    }
-  end
-
-  def apply_2_deadline
-    {
-      date: CycleTimetable.date(:apply_2_deadline).to_fs(:govuk_date),
-      time: CycleTimetable.date(:apply_2_deadline).to_fs(:govuk_time),
-    }
-  end
 
   def application_form_recruitment_cycle_year
     @application_form.recruitment_cycle_year
