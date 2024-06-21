@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ReferenceWizard < DfE::Wizard
+  class ReferenceWizard < DfE::Wizard::Base
     attr_accessor :reference_process, :current_application, :application_choice,
       :reference, :return_to_path
 

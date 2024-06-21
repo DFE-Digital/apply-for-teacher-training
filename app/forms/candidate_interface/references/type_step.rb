@@ -1,6 +1,6 @@
 module CandidateInterface
   module References
-    class TypeStep < DfE::WizardStep
+    class TypeStep < DfE::Wizard::Step
       include Rails.application.routes.url_helpers
 
       attr_accessor :referee_type, :return_to_path

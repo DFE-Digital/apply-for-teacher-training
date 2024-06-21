@@ -1,6 +1,6 @@
 module CandidateInterface
   module References
-    class NameStep < DfE::WizardStep
+    class NameStep < DfE::Wizard::Step
       include Rails.application.routes.url_helpers
       attr_accessor :name, :referee_type
       delegate :reference_process, :current_application, :reference,

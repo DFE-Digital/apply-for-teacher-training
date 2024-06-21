@@ -1,5 +1,5 @@
 module CandidateInterface
-  class References::RelationshipStep < DfE::WizardStep
+  class References::RelationshipStep < DfE::Wizard::Step
     include Rails.application.routes.url_helpers
     attr_accessor :relationship
     delegate :reference_process, :application_choice, :return_to_path, :reference,

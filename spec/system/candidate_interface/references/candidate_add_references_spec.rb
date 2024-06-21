@@ -166,7 +166,7 @@ RSpec.describe 'References' do
     and_i_click_save_and_continue
   end
 
-  def then_i_am_be_told_to_provide_a_name
+  def then_i_am_told_to_provide_a_name
     expect(page).to have_content('Enter the name of the person who can give a reference')
   end
 

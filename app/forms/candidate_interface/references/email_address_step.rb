@@ -1,5 +1,5 @@
 module CandidateInterface
-  class References::EmailAddressStep < DfE::WizardStep
+  class References::EmailAddressStep < DfE::Wizard::Step
     include Rails.application.routes.url_helpers
     attr_accessor :email_address
     delegate :reference_process, :reference, :return_to_path,

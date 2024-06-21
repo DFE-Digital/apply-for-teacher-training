@@ -106,14 +106,14 @@ RSpec.describe 'New References', :with_audited, time: CycleTimetableHelper.after
   end
 
   def and_i_be_on_start_page
-    expect(page).to have_current_path(candidate_interface_request_reference_references_start_path('request-reference'))
+    expect(page).to have_current_path(candidate_interface_start_new_reference_path('request-reference'))
   end
 
   def and_i_be_on_the_add_type_page
     expect(page).to have_current_path(
       candidate_interface_references_type_path(
         'request-reference',
-         return_to_path: candidate_interface_request_reference_references_start_path('request-reference')
+         return_to_path: candidate_interface_start_new_reference_path('request-reference')
       )
     )
   end
