@@ -12,6 +12,10 @@
       <li>say whether they know of any reason why you should not work with children</li>
     </ul>
 
-    <%= govuk_button_to(t('continue'), candidate_interface_request_reference_references_type_path, method: :get) %>
+    <%= govuk_button_to(
+      'Continue',
+      candidate_interface_references_type_path('request-reference'),
+      method: :get,
+    ) %>
   </div>
 </div>

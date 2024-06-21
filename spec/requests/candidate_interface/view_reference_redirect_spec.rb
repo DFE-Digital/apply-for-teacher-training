@@ -24,7 +24,7 @@ RSpec.describe 'Candidate Interface - Redirects when reference is not requested 
       create(:application_choice, :accepted, application_form:)
       reference = create(:reference, :not_requested_yet, application_form:)
       get candidate_interface_application_offer_dashboard_reference_path(reference)
-      expect(response).to redirect_to(candidate_interface_references_request_reference_review_path(reference))
+      expect(response).to redirect_to(candidate_interface_new_references_review_path('request-reference', reference))
     end
   end
 end

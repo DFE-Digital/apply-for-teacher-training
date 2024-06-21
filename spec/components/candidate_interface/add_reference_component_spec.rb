@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
       result = render_inline(described_class.new(application_form))
 
       expect(link_text(result)).to eq 'Request a reference'
-      expect(href(result)).to eq '/candidate/application/references/start'
+      expect(href(result)).to eq '/candidate/application/references/candidate-details/start'
       expect(body_text(result)).to eq 'You need to get 2 references back before you can submit your application.'
     end
   end
@@ -23,7 +23,7 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
       result = render_inline(described_class.new(application_form))
 
       expect(link_text(result)).to eq 'Request a second reference'
-      expect(href(result)).to eq '/candidate/application/references/start'
+      expect(href(result)).to eq '/candidate/application/references/candidate-details/start'
       expect(body_text(result)).to eq 'You need to get 2 references back before you can submit your application.'
     end
   end
@@ -38,7 +38,7 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
       expected_first_para = 'You can add more referees to increase the chances of getting 2 references quickly.'
 
       expect(link_text(result)).to eq 'Request another reference'
-      expect(href(result)).to eq '/candidate/application/references/start'
+      expect(href(result)).to eq '/candidate/application/references/candidate-details/start'
       expect(body_text(result)).to eq expected_first_para
     end
   end
@@ -50,7 +50,7 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
 
       result = render_inline(described_class.new(application_form))
       expect(link_text(result)).to eq 'Request another reference'
-      expect(href(result)).to eq '/candidate/application/references/start'
+      expect(href(result)).to eq '/candidate/application/references/candidate-details/start'
       expect(body_text(result)).to eq 'You can add as many referees as you like but you can only submit 2 with your application.'
     end
   end

@@ -1,9 +1,8 @@
 module CandidateInterface
   class ReferencesReviewComponent < ViewComponent::Base
-    include ReferencesPathHelper
     attr_reader :references, :editable
 
-    def initialize(application_form:, references:, application_choice: nil, editable: true, heading_level: 2, return_to_application_review: false, missing_error: false, deletable: true)
+    def initialize(application_form:, references:, reference_process:, application_choice: nil, editable: true, heading_level: 2, return_to_application_review: false, missing_error: false, deletable: true)
       @application_form = application_form
       @application_choice = application_choice
       @references = references
@@ -12,6 +11,7 @@ module CandidateInterface
       @missing_error = missing_error
       @return_to_application_review = return_to_application_review
       @deletable = deletable
+      @reference_process = reference_process
     end
 
     def show_missing_banner?
@@ -21,7 +21,7 @@ module CandidateInterface
     def incomplete_section_params
       {
         section: :references_selected,
-        section_path: candidate_interface_references_review_path,
+        section_path: candidate_interface_references_review_path(@reference_process),
         error: @missing_error,
       }.merge(incomplete_section_content)
     end
@@ -74,11 +74,10 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: reference_edit_name_path(
-                       application_choice: @application_choice,
-                       reference: reference,
-                       return_to: return_to_params,
-                       step: reference_workflow_step,
+                     href: candidate_interface_references_edit_name_path(
+                       @reference_process,
+                       reference,
+                       params: edit_path_params(reference),
                      ),
                      visually_hidden_text: "name for #{reference.name}",
                    },
@@ -92,11 +91,10 @@ module CandidateInterface
     end
 
     def email_row(reference)
-      edit_email_path = reference_edit_email_address_path(
-        application_choice: @application_choice,
-        reference: reference,
-        return_to: return_to_params,
-        step: reference_workflow_step,
+      edit_email_path = candidate_interface_references_edit_email_address_path(
+        @reference_process,
+        reference,
+        params: edit_path_params(reference),
       )
       action = if reference.feedback_provided?
                  {}
@@ -123,11 +121,10 @@ module CandidateInterface
     end
 
     def relationship_row(reference)
-      edit_relationship_path = reference_edit_relationship_path(
-        application_choice: @application_choice,
-        reference: reference,
-        return_to: return_to_params,
-        step: reference_workflow_step,
+      edit_relationship_path = candidate_interface_references_edit_relationship_path(
+        @reference_process,
+        reference,
+        params: edit_path_params(reference),
       )
       action = if reference.feedback_provided?
                  {}
@@ -160,11 +157,10 @@ module CandidateInterface
                  else
                    {
                      action: {
-                       href: reference_edit_type_path(
-                         application_choice: @application_choice,
-                         reference: reference,
-                         return_to: return_to_params,
-                         step: reference_workflow_step,
+                       href: candidate_interface_references_edit_type_path(
+                         @reference_process,
+                         reference,
+                         params: edit_path_params(reference),
                        ),
                        visually_hidden_text: "reference type for #{reference.name}",
                      },
@@ -177,7 +173,7 @@ module CandidateInterface
         }.merge(action)
       else
         type_path = candidate_interface_references_edit_type_path(
-          { id: reference.id }.merge(return_to_params.symbolize_keys),
+          { id: reference.id }.merge(edit_path_params(reference).symbolize_keys),
         )
         {
           key: t('review_application.references.type.label'),
@@ -203,11 +199,24 @@ module CandidateInterface
       render CandidateInterface::ReferenceStatusesComponent.new(reference:)
     end
 
-    def return_to_params
-      if @return_to_application_review
-        { 'return_to' => 'application-review' }
-      else
-        { 'return_to' => 'review' }
+    def edit_path_params(reference)
+      {
+        application_id: @application_choice&.id,
+        return_to_path: return_to_path(reference),
+      }
+    end
+
+    def return_to_path(reference)
+      case @reference_process
+      when 'candidate-details'
+        candidate_interface_references_review_path(@reference_process)
+      when 'accept-offer'
+        candidate_interface_accept_offer_path(@application_choice)
+      when 'request-reference'
+        candidate_interface_new_references_review_path(
+          @reference_process,
+          reference,
+        )
       end
     end
 
@@ -216,7 +225,7 @@ module CandidateInterface
     end
 
     def confirm_destroy_path(reference)
-      candidate_interface_confirm_destroy_new_reference_path(reference)
+      candidate_interface_confirm_destroy_new_reference_path(@reference_process, reference)
     end
   end
 end

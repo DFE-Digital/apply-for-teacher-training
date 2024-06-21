@@ -10,7 +10,7 @@ RSpec.describe 'Candidate Interface - Request references' do
 
   context 'when offer is not accepted' do
     it 'redirects to the complete path' do
-      get candidate_interface_request_reference_references_start_path
+      get candidate_interface_references_start_path('request-reference')
 
       expect(response).to redirect_to(candidate_interface_application_complete_path)
     end
@@ -21,7 +21,7 @@ RSpec.describe 'Candidate Interface - Request references' do
       application_form = create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: 2023, candidate:)
       create(:application_choice, :accepted, application_form:)
 
-      get candidate_interface_references_request_reference_review_path(12345)
+      get candidate_interface_new_references_review_path('request-reference', 12345)
 
       expect(response).to have_http_status(:not_found)
     end
@@ -33,7 +33,7 @@ RSpec.describe 'Candidate Interface - Request references' do
       create(:application_choice, :accepted, application_form:)
       reference = create(:reference, :feedback_provided, application_form:)
 
-      post candidate_interface_references_request_reference_request_feedback_path(reference)
+      post candidate_interface_references_request_feedback_path('request-reference', reference)
       expect(response).to have_http_status(:not_found)
     end
   end
@@ -44,7 +44,8 @@ RSpec.describe 'Candidate Interface - Request references' do
       create(:application_choice, :accepted, application_form:)
       reference = create(:reference, :not_requested_yet, application_form:)
 
-      post candidate_interface_references_request_reference_request_feedback_path(reference)
+      post candidate_interface_references_request_feedback_path('request-reference', reference)
+
       expect(reference.reload).to be_feedback_requested
       expect(response).to redirect_to(candidate_interface_application_offer_dashboard_path)
     end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate provides feedback during the application process' do
+RSpec.describe 'Candidate provides feedback during the application process' do
   include CandidateHelper
 
   it 'Candidate gives feedback while completing their applications' do
@@ -54,7 +54,7 @@ RSpec.feature 'Candidate provides feedback during the application process' do
 
   def and_my_first_set_of_feedback_has_been_collected
     expect(@application.application_feedback.count).to eq 1
-    expect(@application.application_feedback.last.path).to eq '/candidate/application/references/review'
+    expect(@application.application_feedback.last.path).to eq '/candidate/application/references/candidate-details/review'
     expect(@application.application_feedback.last.page_title).to eq t('page_titles.references')
     expect(@application.application_feedback.last.feedback).to eq 'Me no understand.'
     expect(@application.application_feedback.last.consent_to_be_contacted).to be true
