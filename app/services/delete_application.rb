@@ -21,7 +21,6 @@ class DeleteApplication
     country
     postcode
     disability_disclosure
-    uk_residency_status
     work_history_explanation
     becoming_a_teacher
     interview_preferences
