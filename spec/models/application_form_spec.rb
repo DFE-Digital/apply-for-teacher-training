@@ -326,30 +326,8 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#number_of_slots_left' do
-    it 'returns the number of choices that an candidate can make in the first instance' do
+    it 'returns the number of choices that a candidate can make in Apply' do
       application_form = create(:application_form)
-
-      expect(application_form.reload.number_of_slots_left).to eq(4)
-
-      create(:application_choice, application_form:)
-
-      expect(application_form.reload.number_of_slots_left).to eq(3)
-
-      create(:application_choice, application_form:)
-
-      expect(application_form.reload.number_of_slots_left).to eq(2)
-
-      create(:application_choice, application_form:)
-
-      expect(application_form.reload.number_of_slots_left).to eq(1)
-
-      create(:application_choice, application_form:)
-
-      expect(application_form.reload.number_of_slots_left).to eq(0)
-    end
-
-    it 'returns the number of choices that a candidate can make in Apply 2' do
-      application_form = create(:application_form, phase: 'apply_2')
 
       expect(application_form.reload.number_of_slots_left).to eq(4)
 
@@ -775,7 +753,7 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe '#not_submitted_and_apply_1_deadline_has_passed?' do
+  describe '#not_submitted_and_apply_deadline_has_passed?' do
     context 'application has been submitted' do
       it 'returns false' do
         travel_temporarily_to(mid_cycle) do
@@ -786,30 +764,10 @@ RSpec.describe ApplicationForm do
       end
     end
 
-    context 'phase 1 application has not been submitted and apply 1 deadline has passed' do
+    context 'application has not been submitted and apply deadline has passed' do
       it 'returns true' do
-        travel_temporarily_to(after_apply_1_deadline) do
-          application_form = build(:application_form, phase: 'apply_1')
-
-          expect(application_form.not_submitted_and_deadline_has_passed?).to be(true)
-        end
-      end
-    end
-
-    context 'phase 2 application has not been submitted and apply 1 deadline has passed' do
-      it 'returns false' do
-        travel_temporarily_to(after_apply_1_deadline) do
-          application_form = build(:application_form, phase: 'apply_2')
-
-          expect(application_form.not_submitted_and_deadline_has_passed?).to be(false)
-        end
-      end
-    end
-
-    context 'phase 2 application has not been submitted and apply 2 deadline has passed' do
-      it 'returns true' do
-        travel_temporarily_to(after_apply_2_deadline) do
-          application_form = build(:application_form, phase: 'apply_2')
+        travel_temporarily_to(after_apply_deadline) do
+          application_form = build(:application_form)
 
           expect(application_form.not_submitted_and_deadline_has_passed?).to be(true)
         end
@@ -817,36 +775,36 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe '#unsucessful_and_apply_2_deadline_has_passed?' do
+  describe '#unsucessful_and_apply_deadline_has_passed?' do
     context 'application ended with success' do
       it 'returns false' do
-        travel_temporarily_to(CycleTimetable.apply_2_deadline) do
+        travel_temporarily_to(CycleTimetable.apply_deadline) do
           application_choice = build(:application_choice, :offered)
-          application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
+          application_form = build(:application_form, application_choices: [application_choice])
 
-          expect(application_form.unsuccessful_and_apply_2_deadline_has_passed?).to be(false)
+          expect(application_form.unsuccessful_and_apply_deadline_has_passed?).to be(false)
         end
       end
     end
 
-    context 'phase 2 application ended without success and apply 2 deadline has passed' do
+    context 'application ended without success and apply deadline has passed' do
       it 'returns true' do
-        travel_temporarily_to(after_apply_2_deadline) do
+        travel_temporarily_to(after_apply_deadline) do
           application_choice = build(:application_choice, :rejected)
-          application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
+          application_form = build(:application_form, application_choices: [application_choice])
 
-          expect(application_form.unsuccessful_and_apply_2_deadline_has_passed?).to be(true)
+          expect(application_form.unsuccessful_and_apply_deadline_has_passed?).to be(true)
         end
       end
     end
 
-    context 'phase 2 application ended without success and apply 2 deadline has not passed' do
+    context 'application ended without success and apply deadline has not passed' do
       it 'returns false' do
-        travel_temporarily_to(after_apply_1_deadline) do
+        travel_temporarily_to(before_apply_deadline) do
           application_choice = build(:application_choice, :rejected)
-          application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
+          application_form = build(:application_form, application_choices: [application_choice])
 
-          expect(application_form.unsuccessful_and_apply_2_deadline_has_passed?).to be(false)
+          expect(application_form.unsuccessful_and_apply_deadline_has_passed?).to be(false)
         end
       end
     end
