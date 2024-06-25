@@ -49,7 +49,7 @@ RSpec.describe SupportInterface::OfferConditionsExport do
       create(:application_choice, :offered, application_form: duplicate_apply_form)
 
       phases = described_class.new.offers.map { |o| o[:phase] }
-      expect(phases).to eq(%w[apply_1 apply_2])
+      expect(phases).to eq(%w[apply_1 apply_1])
     end
 
     it 'contains qualification information' do

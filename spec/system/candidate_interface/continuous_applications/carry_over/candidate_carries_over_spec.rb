@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Carry over', :sidekiq do
+RSpec.describe 'Carry over', :sidekiq do
   include CandidateHelper
 
   before do
@@ -12,20 +12,20 @@ RSpec.feature 'Carry over', :sidekiq do
     and_today_is_after_apply_deadline
 
     when_i_sign_in
-    then_i_should_be_asked_to_carry_over
+    then_i_am_asked_to_carry_over
 
     when_i_carry_over
-    then_i_should_be_redirected_to_continuous_application_details_page
+    then_i_am_redirected_to_continuous_application_details_page
 
     when_i_go_to_your_applications_tab
-    then_i_should_not_see_the_add_course_button
-    and_i_should_not_see_previous_applications_heading
+    then_i_do_not_see_the_add_course_button
+    and_i_do_not_see_previous_applications_heading
 
     when_i_visit_add_course_url
-    then_i_should_be_redirect_to_your_applications_tab
+    then_i_am_redirect_to_your_applications_tab
 
     when_i_visit_the_old_complete_page
-    then_i_should_be_redirected_to_continuous_application_details_page
+    then_i_am_redirected_to_continuous_application_details_page
   end
 
   scenario 'candidate carries over unsubmitted application after find opens deadline' do
@@ -33,19 +33,19 @@ RSpec.feature 'Carry over', :sidekiq do
     and_today_is_after_find_reopens
 
     when_i_sign_in
-    then_i_should_be_asked_to_carry_over
+    then_i_am_asked_to_carry_over
 
     when_i_carry_over
-    then_i_should_be_redirected_to_continuous_application_details_page
+    then_i_am_redirected_to_continuous_application_details_page
 
     when_i_go_to_your_applications_tab
-    then_i_should_not_see_the_add_course_button
+    then_i_do_not_see_the_add_course_button
 
     when_i_visit_add_course_url
-    then_i_should_be_redirect_to_your_applications_tab
+    then_i_am_redirect_to_your_applications_tab
 
     when_i_visit_the_old_complete_page
-    then_i_should_be_redirected_to_continuous_application_details_page
+    then_i_am_redirected_to_continuous_application_details_page
   end
 
   scenario 'candidate carries over submitted application after find opens deadline' do
@@ -53,19 +53,19 @@ RSpec.feature 'Carry over', :sidekiq do
     and_today_is_after_find_reopens
 
     when_i_sign_in
-    then_i_should_be_asked_to_carry_over_as_apply_again
+    then_i_am_asked_to_carry_over_as_apply_again
 
     when_i_click_apply_again
-    then_i_should_be_redirected_to_continuous_application_details_page
+    then_i_am_redirected_to_continuous_application_details_page
 
     when_i_go_to_your_applications_tab
-    then_i_should_not_see_the_add_course_button
+    then_i_do_not_see_the_add_course_button
 
     when_i_visit_add_course_url
-    then_i_should_be_redirect_to_your_applications_tab
+    then_i_am_redirect_to_your_applications_tab
 
     when_i_visit_the_old_complete_page
-    then_i_should_be_redirected_to_continuous_application_details_page
+    then_i_am_redirected_to_continuous_application_details_page
   end
 
 private
@@ -111,7 +111,7 @@ private
   end
 
   def and_i_have_applied_again_in_2023
-    DuplicateApplication.new(@application_form, target_phase: 'apply_2').duplicate
+    DuplicateApplication.new(@application_form).duplicate
   end
 
   def given_i_have_submitted_application
@@ -157,12 +157,12 @@ private
   end
   alias_method :and_i_sign_in, :when_i_sign_in
 
-  def then_i_should_be_asked_to_carry_over
+  def then_i_am_asked_to_carry_over
     expect(page).to have_current_path candidate_interface_start_carry_over_path
   end
 
-  def then_i_should_be_asked_to_carry_over_as_apply_again
-    then_i_should_be_asked_to_apply_again
+  def then_i_am_asked_to_carry_over_as_apply_again
+    then_i_am_asked_to_apply_again
     expect(carry_over_apply_again_form[:action]).to eq(candidate_interface_carry_over_path)
   end
 
@@ -170,8 +170,8 @@ private
     page.all('button').find { |button| button.text == 'Apply again' }.first(:xpath, './/..')
   end
 
-  def then_i_should_be_asked_to_apply_again
-    then_i_should_be_redirected_to_complete_page
+  def then_i_am_asked_to_apply_again
+    then_i_am_redirected_to_complete_page
     expect(page).to have_content('Apply again')
   end
 
@@ -192,7 +192,7 @@ private
     end
   end
 
-  def then_i_should_be_redirected_to_complete_page
+  def then_i_am_redirected_to_complete_page
     expect(page).to have_current_path(candidate_interface_application_complete_path)
   end
 
@@ -200,7 +200,7 @@ private
     click_link_or_button 'Continue'
   end
 
-  def then_i_should_be_redirected_to_continuous_application_details_page
+  def then_i_am_redirected_to_continuous_application_details_page
     expect(page).to have_current_path candidate_interface_continuous_applications_details_path
     then_i_see_a_copy_of_my_application
   end
@@ -209,12 +209,12 @@ private
     click_link_or_button 'Your application'
   end
 
-  def then_i_should_not_see_the_add_course_button
+  def then_i_do_not_see_the_add_course_button
     expect(page).to have_no_content('Add application')
     expect(page).to have_content("Applications for courses starting in September #{RecruitmentCycle.current_year} are closed.")
   end
 
-  def and_i_should_not_see_previous_applications_heading
+  def and_i_do_not_see_previous_applications_heading
     expect(page).to have_no_content('Previous applications')
   end
 
@@ -226,7 +226,7 @@ private
     visit candidate_interface_continuous_applications_do_you_know_the_course_path
   end
 
-  def then_i_should_be_redirect_to_your_applications_tab
+  def then_i_am_redirect_to_your_applications_tab
     expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
   end
 
@@ -239,7 +239,7 @@ private
 
     click_link_or_button 'Personal information'
     expect(page).to have_content(date_of_birth.to_fs(:govuk_date))
-    and_my_application_should_be_on_the_new_cycle
+    and_my_application_is_on_the_new_cycle
   end
 
   def and_i_sign_in_again
@@ -248,7 +248,7 @@ private
     visit candidate_interface_continuous_applications_details_path
   end
 
-  def and_my_application_should_be_on_the_new_cycle
+  def and_my_application_is_on_the_new_cycle
     expect(current_candidate.current_application.reload.recruitment_cycle_year).to be(2024)
   end
 

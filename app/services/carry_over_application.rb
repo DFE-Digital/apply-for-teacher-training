@@ -8,7 +8,6 @@ class CarryOverApplication
 
     DuplicateApplication.new(
       @application_form,
-      target_phase: 'apply_1',
       recruitment_cycle_year:,
     ).duplicate
   end
@@ -26,7 +25,7 @@ private
   end
 
   def recruitment_cycle_year
-    if Time.zone.now > CycleTimetable.apply_1_deadline
+    if Time.zone.now > CycleTimetable.apply_deadline
       RecruitmentCycle.next_year
     else
       RecruitmentCycle.current_year

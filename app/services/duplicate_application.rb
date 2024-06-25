@@ -1,9 +1,8 @@
 class DuplicateApplication
-  attr_reader :original_application_form, :target_phase
+  attr_reader :original_application_form
 
-  def initialize(original_application_form, target_phase:, recruitment_cycle_year: RecruitmentCycle.current_year)
+  def initialize(original_application_form, recruitment_cycle_year: RecruitmentCycle.current_year)
     @original_application_form = original_application_form
-    @target_phase = target_phase
     @recruitment_cycle_year = recruitment_cycle_year
   end
 
@@ -15,7 +14,6 @@ class DuplicateApplication
     attrs = original_application_form.attributes.except(
       *IGNORED_ATTRIBUTES,
     ).merge(
-      phase: target_phase,
       previous_application_form_id: original_application_form.id,
       recruitment_cycle_year: @recruitment_cycle_year,
       work_history_status: original_application_form.work_history_status || 'can_complete',

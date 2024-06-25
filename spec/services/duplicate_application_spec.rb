@@ -21,10 +21,9 @@ RSpec.describe DuplicateApplication do
   end
 
   subject(:duplicate_application_form) do
-    described_class.new(@original_application_form, target_phase:).duplicate
+    described_class.new(@original_application_form).duplicate
   end
 
-  let(:target_phase) { 'apply_1' }
   let(:recruitment_cycle_year) { RecruitmentCycle.current_year }
 
   it 'marks reference as incomplete' do

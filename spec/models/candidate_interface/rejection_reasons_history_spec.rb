@@ -196,7 +196,7 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
   private
 
     def apply_again!(application_form)
-      DuplicateApplication.new(application_form, target_phase: :apply_2).duplicate
+      DuplicateApplication.new(application_form).duplicate
     end
   end
 end

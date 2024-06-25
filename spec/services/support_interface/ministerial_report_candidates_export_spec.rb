@@ -23,30 +23,30 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_withdrawn
       ]) do
         [[:art_and_design,           1, 1, 0, 1, 0, 0],
-         [:biology,                  2, 1, 1, 0, 1, 0],
+         [:biology,                  3, 1, 1, 0, 1, 1],
          [:business_studies,         1, 1, 1, 0, 0, 0],
          [:chemistry,                1, 0, 0, 0, 1, 0],
          [:classics,                 0, 0, 0, 0, 0, 0],
          [:computing,                0, 0, 0, 0, 0, 0],
          [:design_and_technology,    0, 0, 0, 0, 0, 0],
-         [:drama,                    0, 0, 0, 0, 0, 0],
+         [:drama,                    2, 0, 0, 0, 2, 0],
          [:english,                  1, 0, 0, 0, 0, 1],
-         [:further_education,        1, 1, 1, 0, 0, 0],
+         [:further_education,        1, 0, 0, 0, 1, 0],
          [:geography,                0, 0, 0, 0, 0, 0],
          [:history,                  0, 0, 0, 0, 0, 0],
          [:mathematics,              1, 0, 0, 0, 1, 0],
-         [:modern_foreign_languages, 1, 0, 0, 0, 1, 0],
+         [:modern_foreign_languages, 2, 1, 1, 0, 1, 0],
          [:music,                    0, 0, 0, 0, 0, 0],
          [:other,                    2, 1, 1, 0, 0, 1],
          [:physical_education,       0, 0, 0, 0, 0, 0],
-         [:physics,                  0, 0, 0, 0, 0, 0],
+         [:physics,                  1, 0, 0, 0, 0, 1],
          [:religious_education,      0, 0, 0, 0, 0, 0],
-         [:stem,                     4, 1, 1, 0, 3, 0],
-         [:ebacc,                    6, 1, 1, 0, 4, 1],
+         [:stem,                     6, 1, 1, 0, 3, 2],
+         [:ebacc,                    9, 2, 2, 0, 4, 3],
          [:primary,                  4, 3, 2, 0, 0, 0],
-         [:secondary,                10, 4, 3, 1, 4, 2],
+         [:secondary,                15, 5, 4, 1, 6, 4],
          [:split,                    1, 1, 1, 0, 0, 0],
-         [:total,                    15, 8, 6, 1, 4, 2]]
+         [:total,                    20, 9, 7, 1, 6, 4]]
       end
     end
 
