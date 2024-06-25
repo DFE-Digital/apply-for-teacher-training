@@ -115,22 +115,22 @@ RSpec.describe PerformanceStatistics do
 
   describe '#candidate_count' do
     it 'returns the total number of candidates that were created during a given cycle' do
-      travel_temporarily_to(CycleTimetable.find_opens(2020) + 1.day) do
+      travel_temporarily_to(CycleTimetable.find_opens(2023) + 1.day) do
         create_list(:candidate, 2)
       end
-      travel_temporarily_to(CycleTimetable.apply_2_deadline(2020) + 1.day) do
+      travel_temporarily_to(CycleTimetable.apply_deadline(2023) + 1.day) do
         create_list(:candidate, 3)
       end
 
-      expect(described_class.new(2020).candidate_count).to eq(2)
-      expect(described_class.new(2021).candidate_count).to eq(3)
+      expect(described_class.new(2023).candidate_count).to eq(2)
+      expect(described_class.new(2024).candidate_count).to eq(3)
     end
 
     it 'returns the total number of candidates that exist when no cycle is given' do
-      travel_temporarily_to(2020, 1, 5) do
+      travel_temporarily_to(2023, 1, 5) do
         create_list(:candidate, 2)
       end
-      travel_temporarily_to(2020, 12, 25) do
+      travel_temporarily_to(2023, 12, 25) do
         create_list(:candidate, 3)
       end
 
@@ -138,12 +138,12 @@ RSpec.describe PerformanceStatistics do
     end
 
     it 'does not take into account any application forms that a candidate may have' do
-      travel_temporarily_to(2020, 1, 5) do
-        create(:application_form, recruitment_cycle_year: 2021)
+      travel_temporarily_to(2023, 1, 5) do
+        create(:application_form, recruitment_cycle_year: 2024)
       end
 
-      expect(described_class.new(2020).candidate_count).to eq(1)
-      expect(described_class.new(2021).candidate_count).to eq(0)
+      expect(described_class.new(2023).candidate_count).to eq(1)
+      expect(described_class.new(2024).candidate_count).to eq(0)
     end
   end
 

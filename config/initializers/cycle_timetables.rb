@@ -51,6 +51,7 @@ OLDER_CYCLE_DATES = {
     apply_opens: Time.zone.local(2018, 10, 13, 9),
     apply_1_deadline: Time.zone.local(2019, 8, 24, 18),
     apply_2_deadline: Time.zone.local(2019, 9, 18, 18),
+    apply_deadline: Time.zone.local(2019, 9, 18, 18),
     reject_by_default: Time.zone.local(2019, 9, 29, 23, 59, 59),
     find_closes: Time.zone.local(2019, 10, 3, 23, 59, 59),
     holidays: {},
@@ -62,6 +63,7 @@ OLDER_CYCLE_DATES = {
     show_summer_recruitment_banner: Time.zone.local(2020, 7, 1, 9),
     apply_1_deadline: Time.zone.local(2020, 8, 24, 18),
     apply_2_deadline: Time.zone.local(2020, 9, 18, 18),
+    apply_deadline: Time.zone.local(2020, 9, 18, 18), # Adding an 'apply_deadline' for backward compatibility.
     reject_by_default: Time.zone.local(2021, 9, 29, 23, 59, 59),
     find_closes: Time.zone.local(2020, 10, 3, 23, 59, 59),
     holidays: {},
@@ -73,6 +75,7 @@ OLDER_CYCLE_DATES = {
     show_summer_recruitment_banner: Time.zone.local(2020, 7, 1, 9),
     apply_1_deadline: Time.zone.local(2021, 9, 7, 18),
     apply_2_deadline: Time.zone.local(2021, 9, 21, 18),
+    apply_deadline: Time.zone.local(2021, 9, 21, 18), # Adding an 'apply_deadline' for backward compatibility.
     reject_by_default: Time.zone.local(2021, 9, 29, 23, 59, 59),
     find_closes: Time.zone.local(2021, 10, 4, 23, 59, 59),
     holidays: {
@@ -87,6 +90,7 @@ OLDER_CYCLE_DATES = {
     show_summer_recruitment_banner: Time.zone.local(2022, 7, 1), # 20 working days before reject by default date
     apply_1_deadline: Time.zone.local(2022, 9, 6, 18), # 1st Tuesday of September
     apply_2_deadline: Time.zone.local(2022, 9, 20, 18), # 2 weeks after Apply 1 deadline
+    apply_deadline: Time.zone.local(2022, 9, 20, 18), # Addling an 'apply_deadline' for backward compatibility
     reject_by_default: Time.zone.local(2022, 9, 28, 23, 59, 59), # 1 week and a day after Apply 2 deadline
     find_closes: Time.zone.local(2022, 10, 3, 23, 59, 59), # The evening before the find opens in the new cycle
     holidays: {
