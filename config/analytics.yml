@@ -125,7 +125,6 @@ shared:
     - support_reference
     - third_nationality
     - training_with_a_disability_completed
-    - uk_residency_status
     - updated_at
     - volunteering_completed
     - volunteering_experience
