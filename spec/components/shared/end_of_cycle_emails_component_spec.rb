@@ -6,8 +6,7 @@ RSpec.describe EndOfCycleEmailsComponent do
       result = render_inline(described_class.new)
 
       expect(result.css('.govuk-table__body a').map(&:text)).to eq([
-        'Apply 1 deadline reminder',
-        'Apply 2 deadline reminder',
+        'Apply deadline reminder',
         'Find has opened',
         'Apply has opened',
         'Find is now open (providers)',
@@ -22,8 +21,7 @@ RSpec.describe EndOfCycleEmailsComponent do
 
       expect(result.css('.govuk-table__body a').map(&:text)).to eq([])
       expect(result.css('.govuk-table__body th').map(&:text)).to eq([
-        'Apply 1 deadline reminder',
-        'Apply 2 deadline reminder',
+        'Apply deadline reminder',
         'Find has opened',
         'Apply has opened',
         'Find is now open (providers)',
