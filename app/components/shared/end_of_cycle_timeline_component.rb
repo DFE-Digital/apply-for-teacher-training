@@ -7,7 +7,7 @@ class EndOfCycleTimelineComponent < ViewComponent::Base
   }.freeze
 
   def initialize
-    @cycle_timetable = CycleTimetable::CYCLE_DATES[CycleTimetable.current_year].merge(
+    @cycle_timetable = CYCLE_DATES[CycleTimetable.current_year].merge(
       {
         find_reopens: CycleTimetable.find_reopens,
         apply_reopens: CycleTimetable.apply_reopens,
