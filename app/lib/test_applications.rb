@@ -25,7 +25,6 @@ class TestApplications
     recruitment_cycle_year:,
     states:,
     courses_to_apply_to:,
-    apply_again: false,
     carry_over: false,
     course_full: false,
     candidate: nil,
@@ -43,7 +42,6 @@ class TestApplications
         recruitment_cycle_year:,
         states:,
         courses:,
-        apply_again:,
         carry_over:,
         candidate:,
         incomplete_references:,
@@ -84,7 +82,6 @@ private
     recruitment_cycle_year:,
     states:,
     courses:,
-    apply_again: false,
     carry_over: false,
     candidate: nil,
     application_in_past: false,
@@ -92,23 +89,7 @@ private
   )
     raise CourseAndStateNumbersDoNotMatchError unless courses.count == states.count
 
-    if apply_again
-      raise OnlyOneCourseWhenApplyingAgainError unless states.one?
-
-      create_application_to_courses(
-        application_in_past: true,
-        recruitment_cycle_year:,
-        courses:,
-        states: [:rejected],
-        candidate:,
-      )
-
-      initialize_time(recruitment_cycle_year, application_in_past:)
-      candidate = candidate.presence || Candidate.last
-      first_name = candidate.current_application.first_name
-      last_name = candidate.current_application.last_name
-      previous_application_form = candidate.current_application
-    elsif carry_over
+    if carry_over
       courses_from_last_year = Course.with_course_options.distinct.in_cycle(recruitment_cycle_year - 1).sample(rand(1..3))
       create_application_to_courses(
         recruitment_cycle_year: recruitment_cycle_year - 1,
@@ -161,7 +142,6 @@ private
           created_at: time,
           updated_at: time,
           recruitment_cycle_year:,
-          phase: apply_again ? 'apply_2' : 'apply_1',
           previous_application_form:,
           references_count: 0,
         )
@@ -563,7 +543,7 @@ private
       end
     else
       earliest_date = CycleTimetable.apply_opens(recruitment_cycle_year)
-      latest_date = CycleTimetable.apply_1_deadline(recruitment_cycle_year)
+      latest_date = CycleTimetable.apply_deadline(recruitment_cycle_year)
     end
 
     @time = rand(earliest_date..latest_date)
