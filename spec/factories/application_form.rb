@@ -406,8 +406,8 @@ FactoryBot.define do
 
     trait :apply_again do
       completed
-      created_at { CycleTimetableHelper.before_apply_2_deadline }
-      updated_at { CycleTimetableHelper.before_apply_2_deadline }
+      created_at { CycleTimetableHelper.before_apply_deadline }
+      updated_at { CycleTimetableHelper.before_apply_deadline }
       recruitment_cycle_year { CycleTimetable.current_year }
       phase { 'apply_2' }
 

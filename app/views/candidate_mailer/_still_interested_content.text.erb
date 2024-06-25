@@ -1,4 +1,4 @@
-<% if CycleTimetable.between_cycles_apply_2? %>
+<% if CycleTimetable.between_cycles? %>
 
 You can apply again for courses starting in the <%= "#{RecruitmentCycle.next_year} to #{RecruitmentCycle.next_year + 1}" %> academic year.
 

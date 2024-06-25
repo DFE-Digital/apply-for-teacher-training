@@ -126,9 +126,9 @@ RSpec.describe Candidate do
       end
     end
 
-    context 'after the apply1 deadline' do
+    context 'after the apply deadline' do
       around do |example|
-        travel_temporarily_to(CycleTimetable.apply_1_deadline + 1.day) do
+        travel_temporarily_to(CycleTimetable.apply_deadline + 1.day) do
           example.run
         end
       end

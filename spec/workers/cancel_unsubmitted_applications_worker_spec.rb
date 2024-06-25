@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CancelUnsubmittedApplicationsWorker do
-  describe '#perform', time: after_apply_2_deadline do
+  describe '#perform', time: after_apply_deadline do
     let(:unsubmitted_application_from_this_year) do
       create(:application_form,
              submitted_at: nil,

@@ -9,7 +9,7 @@ RSpec.feature 'Carry over', :sidekiq do
 
   scenario 'candidate carries over unsubmitted application after apply 1 deadline' do
     given_i_have_unsubmitted_application
-    and_today_is_after_apply_1_deadline
+    and_today_is_after_apply_deadline
 
     when_i_sign_in
     then_i_should_be_asked_to_carry_over
@@ -134,18 +134,14 @@ private
     ProcessStaleApplicationsWorker.perform_async
   end
 
-  def given_today_is_one_day_before_apply_1_deadline
-    TestSuiteTimeMachine.travel_permanently_to(after_apply_1_deadline - 1.day)
+  def and_today_is_after_apply_deadline
+    TestSuiteTimeMachine.travel_permanently_to(after_apply_deadline)
   end
 
-  def and_today_is_after_apply_1_deadline
-    TestSuiteTimeMachine.travel_permanently_to(after_apply_1_deadline)
+  def and_today_is_after_apply_deadline
+    TestSuiteTimeMachine.travel_permanently_to(after_apply_deadline)
   end
-
-  def and_today_is_after_apply_2_deadline
-    TestSuiteTimeMachine.travel_permanently_to(after_apply_2_deadline)
-  end
-  alias_method :given_today_is_after_apply_2_deadline, :and_today_is_after_apply_2_deadline
+  alias_method :given_today_is_after_apply_deadline, :and_today_is_after_apply_deadline
 
   def given_today_is_after_rejected_by_default_date
     TestSuiteTimeMachine.travel_permanently_to(after_reject_by_default)

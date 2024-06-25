@@ -40,7 +40,7 @@ class Candidate < ApplicationRecord
 
   def current_application
     application_form = application_forms.order(:created_at, :id).last
-    application_form || if Time.zone.now > CycleTimetable.apply_1_deadline
+    application_form || if Time.zone.now > CycleTimetable.apply_deadline
                           application_forms.create!(recruitment_cycle_year: CycleTimetable.next_year)
                         else
                           application_forms.create!

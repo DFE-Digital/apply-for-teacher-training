@@ -43,10 +43,10 @@ RSpec.describe SupportInterface::OfferConditionsExport do
     it 'returns phase information for each offer' do
       unsuccessful_application_choices = [create(:application_choice, :declined),
                                           create(:application_choice, :withdrawn)]
-      apply_1_form = create(:completed_application_form,
-                            application_choices: unsuccessful_application_choices)
-      apply_2_form = DuplicateApplication.new(apply_1_form, target_phase: 'apply_2').duplicate
-      create(:application_choice, :offered, application_form: apply_2_form)
+      original_apply_form = create(:completed_application_form,
+                                   application_choices: unsuccessful_application_choices)
+      duplicate_apply_form = DuplicateApplication.new(original_apply_form).duplicate
+      create(:application_choice, :offered, application_form: duplicate_apply_form)
 
       phases = described_class.new.offers.map { |o| o[:phase] }
       expect(phases).to eq(%w[apply_1 apply_2])
