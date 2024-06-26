@@ -138,5 +138,29 @@ RSpec.describe DetectInvariantsHourlyCheck do
 
       expect(Sentry).not_to have_received(:capture_exception)
     end
+
+    context 'when HostingEnvironment is review' do
+      it 'doesn’t check API sync on review apps' do
+        allow(HostingEnvironment).to receive(:review?).and_return(true)
+        allow(TeacherTrainingPublicAPI::SyncCheck).to receive(:check)
+
+        described_class.new.perform
+
+        expect(TeacherTrainingPublicAPI::SyncCheck).not_to have_received(:check)
+        expect(Sentry).not_to have_received(:capture_exception)
+      end
+    end
+
+    context 'when HostingEnvironment is not review' do
+      it 'check API sync on not on review apps' do
+        allow(HostingEnvironment).to receive(:review?).and_return(false)
+        allow(TeacherTrainingPublicAPI::SyncCheck).to receive(:check)
+
+        described_class.new.perform
+
+        expect(TeacherTrainingPublicAPI::SyncCheck).to have_received(:check)
+        expect(Sentry).to have_received(:capture_exception)
+      end
+    end
   end
 end
