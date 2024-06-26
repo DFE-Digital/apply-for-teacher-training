@@ -138,11 +138,13 @@ class CycleTimetable
   end
 
   def self.apply_deadline_first_reminder
-    (apply_deadline - 2.months).beginning_of_week + 1.week
+    # For 2024, date confirmed is Wednesday 17 July at 6pm
+    apply_deadline - 2.months
   end
 
   def self.apply_deadline_second_reminder
-    (apply_deadline - 1.month).beginning_of_week + 1.week
+    # For 2024, date confirmed is Saturday 17 September at 6pm
+    apply_deadline - 1.month
   end
 
   def self.between_cycles?
