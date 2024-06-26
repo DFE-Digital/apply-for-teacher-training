@@ -5,7 +5,7 @@ class DetectInvariantsHourlyCheck
   SIDEKIQ_LATENCY_THRESHOLD = 120
 
   def perform
-    detect_course_sync_not_succeeded_for_an_hour
+    detect_course_sync_not_succeeded_for_an_hour unless HostingEnvironment.review?
     detect_high_sidekiq_retries_queue_length
     detect_high_sidekiq_latency
     detect_unauthorised_application_form_edits
