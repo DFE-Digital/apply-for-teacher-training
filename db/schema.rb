@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_19_142631) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_25_105759) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -146,7 +146,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_19_142631) do
     t.datetime "submitted_at", precision: nil
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
-    t.string "uk_residency_status"
     t.boolean "work_history_completed"
     t.text "work_history_explanation"
     t.boolean "degrees_completed"
