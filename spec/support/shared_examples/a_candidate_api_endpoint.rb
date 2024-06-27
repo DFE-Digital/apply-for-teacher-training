@@ -55,7 +55,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_vers
   end
 
   it 'does not return candidates without application forms which signed up during the previous recruitment_cycle' do
-    create(:candidate, created_at: CycleTimetable.apply_1_deadline(RecruitmentCycle.previous_year))
+    create(:candidate, created_at: CycleTimetable.apply_deadline(RecruitmentCycle.previous_year))
 
     get_api_request "#{path}?updated_since=#{CGI.escape(2.years.ago.iso8601)}", token: candidate_api_token
 
@@ -64,7 +64,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_vers
   end
 
   it 'does not return candidates who only have application forms in the previous cycle' do
-    candidate = create(:candidate, created_at: CycleTimetable.apply_1_deadline(RecruitmentCycle.previous_year))
+    candidate = create(:candidate, created_at: CycleTimetable.apply_deadline(RecruitmentCycle.previous_year))
     create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate:)
 
     get_api_request "#{path}?updated_since=#{CGI.escape(2.years.ago.iso8601)}", token: candidate_api_token

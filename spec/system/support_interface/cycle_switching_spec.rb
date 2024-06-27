@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Cycle switching' do
+RSpec.describe 'Cycle switching' do
   include DfESignInHelpers
 
   scenario 'Support user switches cycle schedule' do
@@ -27,11 +27,11 @@ RSpec.feature 'Cycle switching' do
   end
 
   def when_i_click_to_choose_a_new_schedule
-    choose 'Apply 1 deadline has passed'
+    choose 'Apply deadline has passed'
     click_link_or_button 'Update point in recruitment cycle'
   end
 
   def then_the_schedule_is_updated
-    expect(page).to have_content("Apply 1 deadline #{CycleTimetable.apply_1_deadline.to_fs(:govuk_date)}")
+    expect(page).to have_content("Apply deadline #{CycleTimetable.apply_deadline.to_fs(:govuk_date)}")
   end
 end

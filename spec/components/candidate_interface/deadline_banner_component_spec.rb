@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::DeadlineBannerComponent, type: :component do
       result = render_inline(described_class.new(application_form:, flash_empty: flash.empty?))
 
       expect(result.text).to include(
-        "The deadline for applying to courses starting in #{academic_year} is #{deadline_time(:apply_2_deadline)} on #{deadline_date(:apply_2_deadline)}",
+        "The deadline for applying to courses starting in #{academic_year} is #{deadline_time(:apply_deadline)} on #{deadline_date(:apply_deadline)}",
       )
     end
   end

@@ -26,7 +26,7 @@
       <%= RecruitmentCycle.cycle_name(RecruitmentCycle.previous_year) %>
     </h2>
     <p class="govuk-body">
-      <%= t('provider_interface.reports.hesa.previous_cycle.info', start_date: CycleTimetable.apply_opens(RecruitmentCycle.previous_year).to_fs(:govuk_date), end_date: CycleTimetable.apply_2_deadline(RecruitmentCycle.previous_year).to_fs(:govuk_date)) %>
+      <%= t('provider_interface.reports.hesa.previous_cycle.info', start_date: CycleTimetable.apply_opens(RecruitmentCycle.previous_year).to_fs(:govuk_date), end_date: CycleTimetable.apply_deadline(RecruitmentCycle.previous_year).to_fs(:govuk_date)) %>
     </p>
     <p class="govuk-body">
       <%= govuk_link_to t('provider_interface.reports.hesa.download_link', cycle_name: RecruitmentCycle.cycle_name(RecruitmentCycle.previous_year)),

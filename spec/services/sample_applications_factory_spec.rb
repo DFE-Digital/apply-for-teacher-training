@@ -203,10 +203,10 @@ RSpec.describe SampleApplicationsFactory do
       previous_form = new_form.previous_application_form
 
       expect(previous_form).not_to be_nil
-      expect(previous_form.created_at).to be_between(CycleTimetable.apply_opens, CycleTimetable.apply_1_deadline)
+      expect(previous_form.created_at).to be_between(CycleTimetable.apply_opens, CycleTimetable.apply_deadline)
       expect(previous_form.phase).to eq('apply_1')
       expect(new_form).not_to be_nil
-      expect(new_form.created_at).to be_between(CycleTimetable.apply_1_deadline, CycleTimetable.apply_2_deadline)
+      expect(new_form.created_at).to be_between(CycleTimetable.apply_opens, CycleTimetable.apply_deadline)
       expect(new_form.phase).to eq('apply_2')
     end
   end

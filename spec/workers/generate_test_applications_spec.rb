@@ -44,9 +44,6 @@ RSpec.describe GenerateTestApplications do
 
     # there is at least one successful carried over application
     expect(ApplicationForm.joins(:application_choices).where('application_choices.status': 'offer', phase: 'apply_1').where.not(previous_application_form_id: nil)).not_to be_empty
-
-    # there is at least one successful apply again application
-    expect(ApplicationForm.joins(:application_choices).where('application_choices.status': 'offer', phase: 'apply_2').where.not(previous_application_form_id: nil)).not_to be_empty
   end
 
   it 'generates test applications for the next cycle', :sidekiq do

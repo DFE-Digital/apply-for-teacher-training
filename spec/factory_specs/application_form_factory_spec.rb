@@ -346,8 +346,8 @@ RSpec.describe 'ApplicationForm factory' do
     it_behaves_like 'trait :completed', phase: 'apply_2'
 
     field :recruitment_cycle_year, value: RecruitmentCycle.current_year
-    field :created_at, value: CycleTimetableHelper.before_apply_2_deadline
-    field :updated_at, value: CycleTimetableHelper.before_apply_2_deadline
+    field :created_at, value: CycleTimetableHelper.before_apply_deadline
+    field :updated_at, value: CycleTimetableHelper.before_apply_deadline
 
     it 'associates a previous application form in the current year' do
       expect(record.previous_application_form).to be_present

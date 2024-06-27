@@ -92,10 +92,10 @@ class GenerateTestApplications
       end
 
       create(recruitment_cycle_year: current_cycle, states: %i[unsubmitted], course_full: true, courses_to_apply_to: current_cycle_courses)
-      create(recruitment_cycle_year: current_cycle, states: %i[awaiting_provider_decision], apply_again: true, courses_to_apply_to: current_cycle_courses)
+      create(recruitment_cycle_year: current_cycle, states: %i[awaiting_provider_decision], courses_to_apply_to: current_cycle_courses)
       create(recruitment_cycle_year: current_cycle, states: %i[awaiting_provider_decision], carry_over: true, courses_to_apply_to: current_cycle_courses)
       create(recruitment_cycle_year: current_cycle, states: %i[offer rejected], carry_over: true, courses_to_apply_to: current_cycle_courses)
-      create(recruitment_cycle_year: current_cycle, states: %i[offer], apply_again: true, courses_to_apply_to: current_cycle_courses)
+      create(recruitment_cycle_year: current_cycle, states: %i[offer], courses_to_apply_to: current_cycle_courses)
     end
 
     StateChangeNotifier.disable_notifications do
@@ -109,7 +109,6 @@ private
     recruitment_cycle_year:,
     states:,
     courses_to_apply_to:,
-    apply_again: false,
     carry_over: false,
     course_full: false
   )
@@ -120,7 +119,6 @@ private
 
     ApplicationForm.with_unsafe_application_choice_touches do
       factory.create_application(
-        apply_again:,
         carry_over:,
         states:,
         recruitment_cycle_year:,

@@ -201,7 +201,7 @@ RSpec.describe CandidateMailer do
 
       context 'when it is before the apply_2_deadline' do
         before do
-          allow(CycleTimetable).to receive(:between_cycles_apply_2?).and_return(false)
+          allow(CycleTimetable).to receive(:between_cycles?).and_return(false)
         end
 
         it_behaves_like(
@@ -217,7 +217,7 @@ RSpec.describe CandidateMailer do
 
       context 'when it is after the apply_2_deadline' do
         before do
-          allow(CycleTimetable).to receive_messages(between_cycles_apply_2?: true, apply_opens: Date.new(2021, 10, 13))
+          allow(CycleTimetable).to receive_messages(between_cycles?: true, apply_opens: Date.new(2021, 10, 13))
           allow(RecruitmentCycle).to receive(:next_year).and_return(2022)
         end
 
@@ -237,7 +237,7 @@ RSpec.describe CandidateMailer do
       let(:application_choices) { [dbd_application, dbd_application, build_stubbed(:application_choice, status: 'rejected')] }
 
       before do
-        allow(CycleTimetable).to receive(:between_cycles_apply_2?).and_return(false)
+        allow(CycleTimetable).to receive(:between_cycles?).and_return(false)
       end
 
       it_behaves_like(
@@ -713,29 +713,16 @@ RSpec.describe CandidateMailer do
   end
 
   describe '.deadline_reminder' do
-    context 'when a candidate is in Apply 1' do
+    context 'when a candidate has provided a first name' do
       let(:email) { mailer.eoc_deadline_reminder(application_form) }
-      let(:application_form) { build_stubbed(:application_form, phase: 'apply_1', first_name: 'Fred') }
+      let(:application_form) { build_stubbed(:application_form, first_name: 'Fred') }
 
       it_behaves_like(
         'a mail with subject and content',
         'Submit your teacher training application before courses fill up',
         'heading' => 'Dear Fred',
         'cycle_details' => "as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year.",
-        'details' => "The deadline to submit your application is 6pm on #{CycleTimetable.apply_1_deadline.to_fs(:govuk_date)}",
-      )
-    end
-
-    context 'when a candidate is in Apply 2' do
-      let(:email) { mailer.eoc_deadline_reminder(application_form) }
-      let(:application_form) { build_stubbed(:application_form, phase: 'apply_2', first_name: 'Fred') }
-
-      it_behaves_like(
-        'a mail with subject and content',
-        'Submit your teacher training application before courses fill up',
-        'heading' => 'Dear Fred',
-        'cycle_details' => "as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year.",
-        'details' => "The deadline to submit your application is 6pm on #{CycleTimetable.apply_2_deadline.to_fs(:govuk_date)}",
+        'details' => "The deadline to submit your application is 6pm on #{CycleTimetable.apply_deadline.to_fs(:govuk_date)}",
       )
     end
 

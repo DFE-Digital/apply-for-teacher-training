@@ -12,8 +12,8 @@ class CandidateInterface::DeadlineBannerComponent < ViewComponent::Base
 
   def deadline
     {
-      date: CycleTimetable.date(:apply_2_deadline).to_fs(:govuk_date),
-      time: CycleTimetable.date(:apply_2_deadline).to_fs(:govuk_time),
+      date: CycleTimetable.date(:apply_deadline).to_fs(:govuk_date),
+      time: CycleTimetable.date(:apply_deadline).to_fs(:govuk_time),
     }
   end
 

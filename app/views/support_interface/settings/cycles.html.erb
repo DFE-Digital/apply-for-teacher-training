@@ -35,8 +35,7 @@
 <p class="govuk-body">(Today is <%= CycleTimetable.current_date.to_date.to_fs(:govuk_date) %>)</p>
 
 <%= render SummaryListComponent.new(rows: {
-  'Apply 1 deadline' => CycleTimetable.apply_1_deadline.to_fs(:govuk_date_and_time),
-  'Apply 2 deadline' => CycleTimetable.apply_2_deadline.to_fs(:govuk_date_and_time),
+  'Apply deadline' => CycleTimetable.apply_deadline.to_fs(:govuk_date_and_time),
   'Find closes on' => CycleTimetable.find_closes.to_fs(:govuk_date_and_time),
   'Find reopens on' => CycleTimetable.find_reopens.to_fs(:govuk_date_and_time),
   'Apply reopens on' => CycleTimetable.apply_reopens.to_fs(:govuk_date_and_time),

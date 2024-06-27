@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.feature 'Service performance' do
+RSpec.describe 'Service performance' do
   include DfESignInHelpers
 
   before do
-    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline(2021))
+    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_deadline(2021))
   end
 
   scenario 'View service statistics' do
@@ -13,8 +13,8 @@ RSpec.feature 'Service performance' do
 
     when_i_visit_the_performance_dashboard_in_support
 
-    then_i_should_see_the_total_count_of_candidates
-    and_i_should_see_the_total_count_of_application_forms
+    then_i_see_the_total_count_of_candidates
+    and_i_see_the_total_count_of_application_forms
 
     when_there_are_candidates_that_have_never_signed_in
     and_i_visit_the_performance_dashboard_in_support
@@ -50,11 +50,11 @@ RSpec.feature 'Service performance' do
 
   alias_method :and_i_visit_the_performance_dashboard_in_support, :when_i_visit_the_performance_dashboard_in_support
 
-  def then_i_should_see_the_total_count_of_candidates
+  def then_i_see_the_total_count_of_candidates
     expect(page).to have_content '3 unique candidates'
   end
 
-  def and_i_should_see_the_total_count_of_application_forms
+  def and_i_see_the_total_count_of_application_forms
     expect(page).to have_content '3 application forms'
   end
 

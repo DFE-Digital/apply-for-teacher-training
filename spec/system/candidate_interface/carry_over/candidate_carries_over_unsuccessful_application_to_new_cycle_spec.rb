@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate can carry over unsuccessful application to a new recruitment cycle after the apply 2 deadline' do
+RSpec.describe 'Candidate can carry over unsuccessful application to a new recruitment cycle after the apply deadline' do
   include CandidateHelper
 
   before do
@@ -11,7 +11,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     given_i_am_signed_in
     and_i_have_an_application_with_a_rejection
 
-    when_the_apply2_deadline_passes
+    when_the_apply_deadline_passes
     and_i_visit_my_application_complete_page
     then_i_see_the_carry_over_inset_text
 
@@ -24,7 +24,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   scenario 'Candidate can see the add another job button in the new cycle' do
     given_i_am_signed_in
     and_i_have_an_application_with_a_rejection
-    and_the_apply2_deadline_passes
+    and_the_apply_deadline_passes
     and_i_visit_my_application_complete_page
     and_i_carry_over_my_application
     and_the_next_cycle_opens
@@ -54,8 +54,8 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     @application_form.application_work_experiences << [job]
   end
 
-  def when_the_apply2_deadline_passes
-    advance_time_to(after_apply_2_deadline)
+  def when_the_apply_deadline_passes
+    advance_time_to(after_apply_deadline)
   end
 
   def and_i_visit_my_application_complete_page
@@ -81,6 +81,6 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     click_link_or_button 'Apply again'
   end
 
-  alias_method :and_the_apply2_deadline_passes, :when_the_apply2_deadline_passes
+  alias_method :and_the_apply_deadline_passes, :when_the_apply_deadline_passes
   alias_method :and_the_next_cycle_opens, :when_the_next_cycle_opens
 end

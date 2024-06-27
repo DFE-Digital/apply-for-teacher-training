@@ -278,15 +278,15 @@ class ApplicationForm < ApplicationRecord
   end
 
   def carry_over?
-    previous_recruitment_cycle? && (not_submitted_and_deadline_has_passed? || unsuccessful_and_apply_2_deadline_has_passed?)
+    previous_recruitment_cycle? && (not_submitted_and_deadline_has_passed? || unsuccessful_and_apply_deadline_has_passed?)
   end
 
   def not_submitted_and_deadline_has_passed?
-    !submitted? && ((apply_1? && CycleTimetable.apply_1_deadline_has_passed?(self)) || (apply_2? && CycleTimetable.apply_2_deadline_has_passed?(self)))
+    !submitted? && CycleTimetable.apply_deadline_has_passed?(self)
   end
 
-  def unsuccessful_and_apply_2_deadline_has_passed?
-    ended_without_success? && CycleTimetable.apply_2_deadline_has_passed?(self)
+  def unsuccessful_and_apply_deadline_has_passed?
+    ended_without_success? && CycleTimetable.apply_deadline_has_passed?(self)
   end
 
   ##########################################

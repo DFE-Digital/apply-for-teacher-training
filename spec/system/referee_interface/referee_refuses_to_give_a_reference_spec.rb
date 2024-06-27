@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.feature 'Refusing to give a reference' do
+RSpec.describe 'Refusing to give a reference' do
   include CandidateHelper
 
   before do
-    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline(2021))
+    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_deadline(2021))
   end
 
   scenario 'Referee refuses to give a reference' do
@@ -19,7 +19,7 @@ RSpec.feature 'Refusing to give a reference' do
     and_i_confirm_that_i_wont_give_a_reference
     and_a_slack_notification_is_sent
     then_an_email_is_sent_to_the_candidate
-    then_i_should_see_the_thank_you_page
+    then_i_see_the_thank_you_page
   end
 
   def given_i_am_a_referee_of_an_application
@@ -68,7 +68,7 @@ RSpec.feature 'Refusing to give a reference' do
     expect(current_email.subject).to have_content('Terri Tudor is unable to give you a reference')
   end
 
-  def then_i_should_see_the_thank_you_page
+  def then_i_see_the_thank_you_page
     expect(page).to have_content('Thank you')
   end
 

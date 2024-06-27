@@ -8,7 +8,6 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesBatchWorker, :sidekiq do
       create(
         :application_form,
         candidate:,
-        phase: 'apply_1',
         application_choices: [create(:application_choice, :application_not_sent)],
         recruitment_cycle_year: RecruitmentCycle.current_year,
       )
@@ -27,7 +26,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesBatchWorker, :sidekiq do
     end
 
     it 'does nothing if the email was already sent' do
-      allow(CycleTimetable).to receive(:apply_1_deadline).and_return(1.day.ago)
+      allow(CycleTimetable).to receive(:apply_deadline).and_return(1.day.ago)
 
       candidate.current_application.chasers_sent.create(
         chaser_type: :eoc_deadline_reminder,

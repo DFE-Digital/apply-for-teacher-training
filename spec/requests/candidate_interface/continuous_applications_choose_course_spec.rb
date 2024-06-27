@@ -10,7 +10,7 @@ RSpec.describe 'continuous applications redirects' do
 
   context 'when cycle is over' do
     it 'redirects the user when trying to add a course from find' do
-      TestSuiteTimeMachine.travel_permanently_to(after_apply_1_deadline + 1.day)
+      TestSuiteTimeMachine.travel_permanently_to(after_apply_deadline + 1.day)
       provider = create(:provider, code: '8N5', name: 'Snape University')
       course = create(:course, name: 'Potions', provider:)
 

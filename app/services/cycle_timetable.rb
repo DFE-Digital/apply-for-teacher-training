@@ -1,98 +1,5 @@
 class CycleTimetable
   # These dates are configuration for when the previous cycle ends and the next cycle starts
-  # The 2019 dates are made up so we can generate sensible test data
-  CYCLE_DATES = {
-    2019 => {
-      find_opens: Time.zone.local(2018, 10, 6, 9),
-      apply_opens: Time.zone.local(2018, 10, 13, 9),
-      apply_1_deadline: Time.zone.local(2019, 8, 24, 18),
-      apply_2_deadline: Time.zone.local(2019, 9, 18, 18),
-      reject_by_default: Time.zone.local(2019, 9, 29, 23, 59, 59),
-      find_closes: Time.zone.local(2019, 10, 3, 23, 59, 59),
-      holidays: {},
-    },
-    2020 => {
-      find_opens: Time.zone.local(2019, 10, 6, 9),
-      apply_opens: Time.zone.local(2019, 10, 13, 9),
-      show_deadline_banner: Time.zone.local(2020, 8, 1, 9),
-      show_summer_recruitment_banner: Time.zone.local(2020, 7, 1, 9),
-      apply_1_deadline: Time.zone.local(2020, 8, 24, 18),
-      apply_2_deadline: Time.zone.local(2020, 9, 18, 18),
-      reject_by_default: Time.zone.local(2021, 9, 29, 23, 59, 59),
-      find_closes: Time.zone.local(2020, 10, 3, 23, 59, 59),
-      holidays: {},
-    },
-    2021 => {
-      find_opens: Time.zone.local(2020, 10, 6, 9),
-      apply_opens: Time.zone.local(2020, 10, 13, 9),
-      show_deadline_banner: Time.zone.local(2021, 8, 1, 9),
-      show_summer_recruitment_banner: Time.zone.local(2020, 7, 1, 9),
-      apply_1_deadline: Time.zone.local(2021, 9, 7, 18),
-      apply_2_deadline: Time.zone.local(2021, 9, 21, 18),
-      reject_by_default: Time.zone.local(2021, 9, 29, 23, 59, 59),
-      find_closes: Time.zone.local(2021, 10, 4, 23, 59, 59),
-      holidays: {
-        christmas: Date.new(2020, 12, 20)..Date.new(2021, 1, 1),
-        easter: Date.new(2021, 4, 2)..Date.new(2021, 4, 16),
-      },
-    },
-    2022 => {
-      find_opens: Time.zone.local(2021, 10, 5, 9),
-      apply_opens: Time.zone.local(2021, 10, 12, 9),
-      show_deadline_banner: Time.zone.local(2022, 8, 2, 9), # 5 weeks before Apply 1 deadline
-      show_summer_recruitment_banner: Time.zone.local(2022, 7, 1), # 20 working days before reject by default date
-      apply_1_deadline: Time.zone.local(2022, 9, 6, 18), # 1st Tuesday of September
-      apply_2_deadline: Time.zone.local(2022, 9, 20, 18), # 2 weeks after Apply 1 deadline
-      reject_by_default: Time.zone.local(2022, 9, 28, 23, 59, 59), # 1 week and a day after Apply 2 deadline
-      find_closes: Time.zone.local(2022, 10, 3, 23, 59, 59), # The evening before the find opens in the new cycle
-      holidays: {
-        christmas: Date.new(2021, 12, 14)..Date.new(2022, 1, 16),
-        easter: Date.new(2022, 4, 4)..Date.new(2022, 4, 18),
-      },
-    },
-    2023 => {
-      find_opens: Time.zone.local(2022, 10, 4, 9), # First Tuesday of October
-      apply_opens: Time.zone.local(2022, 10, 11, 9), # Second Tuesday of October
-      show_deadline_banner: Time.zone.local(2023, 8, 1, 9), # 5 weeks before Apply 1 deadline
-      show_summer_recruitment_banner: Time.zone.local(2023, 7, 1), # To be defined the dates for this banner
-      apply_1_deadline: Time.zone.local(2023, 9, 5, 18), # 1st Tuesday of September
-      apply_2_deadline: Time.zone.local(2023, 9, 19, 18), # 2 weeks after Apply 1 deadline
-      reject_by_default: Time.zone.local(2023, 9, 27, 23, 59, 59), # 1 week and a day after Apply 2 deadline
-      find_closes: Time.zone.local(2023, 10, 2, 23, 59, 59), # The evening before the find opens in the new cycle
-      holidays: {
-        christmas: Date.new(2022, 12, 19)..Date.new(2023, 1, 6),
-        easter: Date.new(2023, 3, 27)..Date.new(2023, 4, 10),
-      },
-    },
-    2024 => {
-      find_opens: Time.zone.local(2023, 10, 3, 9), # First Tuesday of October
-      apply_opens: Time.zone.local(2023, 10, 10, 9), # Second Tuesday of October
-      show_summer_recruitment_banner: Time.zone.local(2024, 7, 1),
-      show_deadline_banner: Time.zone.local(2024, 7, 30, 9), # 5 weeks before Apply 1 deadline
-      apply_1_deadline: Time.zone.local(2024, 9, 3, 18), # 1st Tuesday of September
-      apply_2_deadline: Time.zone.local(2024, 9, 17, 18), # 2 weeks after Apply 1 deadline
-      reject_by_default: Time.zone.local(2024, 9, 25, 23, 59, 59), # 1 week and a day after Apply 2 deadline
-      find_closes: Time.zone.local(2024, 9, 30, 23, 59, 59), # The evening before the find opens in the new cycle
-      holidays: {
-        christmas: Date.new(2023, 12, 18)..Date.new(2024, 1, 5),
-        easter: Date.new(2024, 3, 18)..Date.new(2024, 4, 1),
-      },
-    },
-    2025 => {
-      find_opens: Time.zone.local(2024, 10, 1, 9), # First Tuesday of October
-      apply_opens: Time.zone.local(2024, 10, 8, 9), # Second Tuesday of October
-      show_summer_recruitment_banner: Time.zone.local(2025, 7, 1),
-      show_deadline_banner: Time.zone.local(2025, 7, 29, 9), # 5 weeks before Apply 1 deadline
-      apply_1_deadline: Time.zone.local(2025, 9, 2, 18), # 1st Tuesday of September
-      apply_2_deadline: Time.zone.local(2025, 9, 16, 18), # 2 weeks after Apply 1 deadline
-      reject_by_default: Time.zone.local(2025, 9, 24, 23, 59, 59), # 1 week and a day after Apply 2 deadline
-      find_closes: Time.zone.local(2025, 10, 1, 23, 59, 59), # The evening before the find opens in the new cycle
-      holidays: {
-        christmas: Date.new(2024, 12, 18)..Date.new(2025, 1, 5),
-        easter: Date.new(2025, 3, 18)..Date.new(2025, 4, 1),
-      },
-    },
-  }.freeze
 
   def self.real_next_year
     real_current_year + 1
@@ -129,10 +36,6 @@ class CycleTimetable
     current_year - 1
   end
 
-  def self.between_cycles?(phase)
-    phase == 'apply_1' ? between_cycles_apply_1? : between_cycles_apply_2?
-  end
-
   def self.current_date
     now = Time.zone.now
     now.change(year: current_year) unless current_cycle_schedule == :real
@@ -140,16 +43,12 @@ class CycleTimetable
   end
 
   def self.show_apply_deadline_banner?(application_form)
-    current_date.between?(date(:show_deadline_banner), date(:apply_2_deadline)) &&
+    current_date.between?(date(:show_deadline_banner), date(:apply_deadline)) &&
       !application_form.successful?
   end
 
-  def self.show_summer_recruitment_banner?
-    current_date.between?(date(:show_summer_recruitment_banner), date(:apply_1_deadline))
-  end
-
-  def self.between_apply_1_deadline_and_find_closes?
-    current_date.between?(CycleTimetable.apply_1_deadline, CycleTimetable.find_closes)
+  def self.between_apply_deadline_and_find_closes?
+    current_date.between?(CycleTimetable.apply_deadline, CycleTimetable.find_closes)
   end
 
   def self.between_reject_by_default_and_find_reopens?
@@ -180,19 +79,14 @@ class CycleTimetable
     end
   end
 
-  def self.apply_1_deadline(year = current_year)
-    date(:apply_1_deadline, year)
-  end
-
-  def self.apply_2_deadline(year = current_year)
-    date(:apply_2_deadline, year)
+  def self.apply_deadline(year = current_year)
+    date(:apply_deadline, year)
   end
 
   def self.next_apply_deadline
     deadlines = [
-      date(:apply_1_deadline),
-      date(:apply_2_deadline),
-      date(:apply_1_deadline, next_year),
+      date(:apply_deadline),
+      date(:apply_deadline, next_year),
     ]
     deadlines.find { |deadline| deadline > current_date }
   end
@@ -243,32 +137,20 @@ class CycleTimetable
     real_schedule_for(year).fetch(:holidays)
   end
 
-  def self.apply_1_deadline_first_reminder
-    (apply_1_deadline - 2.months).beginning_of_week + 1.week
+  def self.apply_deadline_first_reminder
+    # For 2024, date confirmed is Wednesday 17 July at 6pm
+    apply_deadline - 2.months
   end
 
-  def self.apply_1_deadline_second_reminder
-    (apply_1_deadline - 1.month).beginning_of_week + 1.week
+  def self.apply_deadline_second_reminder
+    # For 2024, date confirmed is Saturday 17 September at 6pm
+    apply_deadline - 1.month
   end
 
-  def self.apply_2_deadline_first_reminder
-    (apply_2_deadline - 2.months).beginning_of_week + 1.week
-  end
-
-  def self.apply_2_deadline_second_reminder
-    (apply_2_deadline - 1.month).beginning_of_week + 1.week
-  end
-
-  def self.between_cycles_apply_1?
-    (current_date > apply_1_deadline &&
-      current_date < apply_reopens) ||
-      current_date < apply_opens
-  end
-
-  def self.between_cycles_apply_2?
-    (current_date > apply_2_deadline &&
-      current_date < apply_reopens) ||
-      current_date < apply_opens
+  def self.between_cycles?
+    current_date.before?(apply_opens) || # In the current cycle, when find is open, but apply is not
+      (CYCLE_DATES[next_year].present? && # We need to evaluated the next year to compare these dates
+      current_date.between?(apply_deadline, apply_reopens)) # The current cycle deadline has passed, but apply has not reopened for the next cycle
   end
 
   def self.date(name, year = current_year)
@@ -326,8 +208,7 @@ class CycleTimetable
         apply_opens: 8.days.from_now,
         show_deadline_banner: 9.days.from_now,
         show_summer_recruitment_banner: 9.days.from_now,
-        apply_1_deadline: 10.days.from_now,
-        apply_2_deadline: 11.days.from_now,
+        apply_deadline: 11.days.from_now,
         reject_by_default: 12.days.from_now,
         find_closes: 13.days.from_now,
       },
@@ -336,8 +217,7 @@ class CycleTimetable
         apply_opens: 8.days.ago,
         show_deadline_banner: 7.days.ago,
         show_summer_recruitment_banner: 7.days.ago,
-        apply_1_deadline: 6.days.ago,
-        apply_2_deadline: 5.days.ago,
+        apply_deadline: 5.days.ago,
         reject_by_default: 4.days.ago,
         find_closes: 3.days.ago,
       },
@@ -350,8 +230,7 @@ class CycleTimetable
           apply_opens: 6.days.ago,
           show_deadline_banner: 1.day.from_now,
           show_summer_recruitment_banner: 1.day.from_now,
-          apply_1_deadline: 2.days.from_now,
-          apply_2_deadline: 3.days.from_now,
+          apply_deadline: 3.days.from_now,
           reject_by_default: 4.days.from_now,
           find_closes: 5.days.from_now,
         },
@@ -364,36 +243,20 @@ class CycleTimetable
           apply_opens: 6.days.ago,
           show_deadline_banner: 1.day.ago,
           show_summer_recruitment_banner: 1.day.ago,
-          apply_1_deadline: 1.day.from_now,
-          apply_2_deadline: 2.days.from_now,
+          apply_deadline: 2.days.from_now,
           reject_by_default: 3.days.from_now,
           find_closes: 4.days.from_now,
         },
         next_year => next_and_previous[next_year],
         previous_year => next_and_previous[previous_year],
       },
-      today_is_after_apply_1_deadline_passed: {
-        current_year => {
-          find_opens: 7.days.ago,
-          apply_opens: 6.days.ago,
-          show_deadline_banner: 3.days.ago,
-          show_summer_recruitment_banner: 3.days.ago,
-          apply_1_deadline: 1.day.ago,
-          apply_2_deadline: 2.days.from_now,
-          reject_by_default: 3.days.from_now,
-          find_closes: 4.days.from_now,
-        },
-        next_year => next_and_previous[next_year],
-        previous_year => next_and_previous[previous_year],
-      },
-      today_is_after_apply_2_deadline_passed: {
+      today_is_after_apply_deadline_passed: {
         current_year => {
           find_opens: 7.days.ago,
           apply_opens: 6.days.ago,
           show_deadline_banner: 4.days.ago,
           show_summer_recruitment_banner: 4.days.ago,
-          apply_1_deadline: 3.days.ago,
-          apply_2_deadline: 1.day.ago,
+          apply_deadline: 3.days.ago,
           reject_by_default: 1.day.from_now,
           find_closes: 2.days.from_now,
         },
@@ -406,8 +269,7 @@ class CycleTimetable
           apply_opens: 6.days.ago,
           show_deadline_banner: 5.days.ago,
           show_summer_recruitment_banner: 5.days.ago,
-          apply_1_deadline: 4.days.ago,
-          apply_2_deadline: 3.days.ago,
+          apply_deadline: 3.days.ago,
           reject_by_default: 2.days.ago,
           find_closes: 1.day.ago,
         },
@@ -420,8 +282,7 @@ class CycleTimetable
           apply_opens: 3.days.from_now,
           show_deadline_banner: 4.days.from_now,
           show_summer_recruitment_banner: 5.days.from_now,
-          apply_1_deadline: 6.days.from_now,
-          apply_2_deadline: 7.days.from_now,
+          apply_deadline: 7.days.from_now,
           reject_by_default: 8.days.from_now,
           find_closes: 9.days.from_now,
         },
@@ -434,8 +295,7 @@ class CycleTimetable
           apply_opens: 6.days.ago,
           show_deadline_banner: 1.day.ago,
           show_summer_recruitment_banner: 1.day.ago,
-          apply_1_deadline: 1.day.from_now,
-          apply_2_deadline: 2.days.from_now,
+          apply_deadline: 2.days.from_now,
           reject_by_default: 3.days.from_now,
           find_closes: 4.days.from_now,
         },
@@ -467,8 +327,8 @@ class CycleTimetable
     false
   end
 
-  def self.today_is_between_apply_1_deadline_and_find_reopens?
-    current_date.between?(apply_1_deadline, find_reopens)
+  def self.today_is_between_apply_deadline_and_find_reopens?
+    current_date.between?(apply_deadline, find_reopens)
   end
 
   def self.before_apply_reopens?
@@ -479,27 +339,18 @@ class CycleTimetable
     year == CYCLE_DATES.keys.last
   end
 
-  def self.currently_mid_cycle?(application_form)
-    (application_form.apply_1? && !current_date.between?(apply_1_deadline, find_reopens)) ||
-      (application_form.apply_2? && !current_date.between?(apply_2_deadline, find_reopens))
+  def self.currently_mid_cycle?(_application_form)
+    !current_date.between?(apply_deadline, find_reopens)
   end
 
-  def self.apply_1_deadline_has_passed?(application_form)
+  def self.apply_deadline_has_passed?(application_form)
     recruitment_cycle_year = application_form.recruitment_cycle_year
 
-    current_date > apply_1_deadline(recruitment_cycle_year)
-  end
-
-  def self.apply_2_deadline_has_passed?(application_form)
-    recruitment_cycle_year = application_form.recruitment_cycle_year
-
-    current_date > apply_2_deadline(recruitment_cycle_year)
+    current_date > apply_deadline(recruitment_cycle_year)
   end
 
   def self.need_to_send_deadline_reminder?
-    return :apply_1 if current_date.to_date == apply_1_deadline_first_reminder.to_date || current_date.to_date == apply_1_deadline_second_reminder.to_date
-
-    :apply_2 if current_date.to_date == apply_2_deadline_first_reminder.to_date || current_date.to_date == apply_2_deadline_second_reminder.to_date
+    current_date.to_date == apply_deadline_first_reminder.to_date || current_date.to_date == apply_deadline_second_reminder.to_date
   end
 
   def self.send_find_has_opened_email?
