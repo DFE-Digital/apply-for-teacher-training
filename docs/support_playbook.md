@@ -71,6 +71,47 @@ Occasionally, there might be a request to unlock certain sections of an applicat
 ### Add Work Experience
 
 Create a new ApplicationWorkExperience of the appropriate type and save it against the ApplicationForm.
+This will usually involve ending a most recent ApplicationWorkExperience.
+
+```ruby
+application_form = ApplicationForm.find_by(id: APPLICATION_FORM_ID)
+ended_job = application_form.application_work_experiences.find_by(id: LAST_WORK_EXPERIENCE_ID)
+ended_date = Date.new()
+
+ApplicationWorkExperience.transaction do
+   ended_job.update!(end_date: ended_date,
+                     currently_working: false,
+                     audit_comment: 'Updated end date following a support request, ticket ZENDESK_URL')
+
+   job_form_params = {
+     role: "Some Role",
+     organisation: "Some Organisation",
+     commitment: 'full_time', # full_time, part_time
+     start_date_day: 1,
+     start_date_month: 11,
+     start_date_year: 2024,
+     start_date_unknown: 'false', # 'true', 'false' strings
+     currently_working: 'true', # 'true', 'false' strings
+     end_date_day: nil,
+     end_date_month: nil,
+     end_date_year: nil,
+     end_date_unknown: 'false', # 'true', 'false' strings
+     relevant_skills: 'true' # 'true', 'false' strings
+   }
+
+   job_form = CandidateInterface::RestructuredWorkHistory::JobForm.new(job_form_params)
+   job_form.save(application_form)
+
+end
+
+created_job = application_form.application_work_experiences.find_by(id: NEW_WORK_EXPERIENCE_ID)
+created_job.audits.where(action: "create").first.update(comment: "Created following a support request, ticket ZENDESK_URL")
+```
+
+Message to the support agent:
+>Application Work Experience (id: LAST_WORK_EXPERIENCE_ID) updated with end date ENDED_DATE and currently_working set to false.
+>A new Application Work Experience (id: NEW_WORK_EXPERIENCE_ID) created with the details provided.
+
 
 ### Update Work Experience
 
