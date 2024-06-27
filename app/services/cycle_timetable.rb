@@ -95,6 +95,10 @@ class CycleTimetable
     date(:reject_by_default, year)
   end
 
+  def self.cancel_unsubmitted_applications?
+    current_date.to_date == apply_deadline.to_date
+  end
+
   def self.find_closes(year = current_year)
     date(:find_closes, year)
   end

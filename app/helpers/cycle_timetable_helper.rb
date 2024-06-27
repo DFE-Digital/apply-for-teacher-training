@@ -17,6 +17,10 @@ module_function
     CycleTimetable.apply_deadline(year) + 1.day
   end
 
+  def cancel_application_deadline(year = CycleTimetable.current_year)
+    CycleTimetable.apply_deadline(year)
+  end
+
   def before_apply_deadline(year = CycleTimetable.current_year)
     CycleTimetable.apply_deadline(year) - 1.day
   end

@@ -642,4 +642,40 @@ RSpec.describe CycleTimetable do
       end
     end
   end
+
+  describe '#cancel_unsubmitted_applicaions?' do
+    before { TestSuiteTimeMachine.travel_permanently_to(date) }
+
+    context 'mid-cycle' do
+      let(:date) { mid_cycle }
+
+      it 'returns false' do
+        expect(described_class.cancel_unsubmitted_applications?).to be false
+      end
+    end
+
+    context 'on reject by default date' do
+      let(:date) { described_class.reject_by_default }
+
+      it 'returns false' do
+        expect(described_class.cancel_unsubmitted_applications?).to be false
+      end
+    end
+
+    context 'on cancel date' do
+      let(:date) { cancel_application_deadline }
+
+      it 'returns false' do
+        expect(described_class.cancel_unsubmitted_applications?).to be true
+      end
+    end
+
+    context 'after find reopens' do
+      let(:date) { after_apply_reopens }
+
+      it 'returns false' do
+        expect(described_class.cancel_unsubmitted_applications?).to be false
+      end
+    end
+  end
 end
