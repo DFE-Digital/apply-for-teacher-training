@@ -1,14 +1,15 @@
 require 'rails_helper'
 
-RSpec.feature 'Post-offer references', :with_audited, time: CycleTimetable.apply_opens(2024) do
+RSpec.describe 'Post-offer references', :with_audited do
   include CandidateHelper
 
   scenario 'Candidate views their references on the post offer dashboard' do
     given_i_am_signed_in
-    and_i_have_an_accepted_offer_from_previous_cycle
+    and_i_have_an_accepted_offer
 
     when_i_visit_the_application_dashboard
     then_i_see_the_post_offer_dashboard
+    and_i_see_the_provider_contact_information
 
     when_i_click_on_my_requested_reference
     then_i_see_my_referee_information
@@ -37,8 +38,8 @@ RSpec.feature 'Post-offer references', :with_audited, time: CycleTimetable.apply
     login_as(@candidate)
   end
 
-  def and_i_have_an_accepted_offer_from_previous_cycle
-    @application_form = create(:completed_application_form, candidate: @candidate, recruitment_cycle_year: 2023)
+  def and_i_have_an_accepted_offer
+    @application_form = create(:completed_application_form, candidate: @candidate, recruitment_cycle_year: 2024)
     @pending_reference = create(:reference, :feedback_requested, reminder_sent_at: nil, application_form: @application_form)
     @completed_reference = create(:reference, :feedback_provided, application_form: @application_form)
 
@@ -74,6 +75,10 @@ RSpec.feature 'Post-offer references', :with_audited, time: CycleTimetable.apply
     expect(page).to have_content(@pending_reference.relationship)
   end
 
+  def and_i_see_the_provider_contact_information
+    expect(page).to have_content("Contact #{@application_choice.current_provider.name} if you have")
+  end
+
   def and_my_available_actions
     expect(page).to have_content('Send a reminder')
     expect(page).to have_content('Cancel request')
@@ -85,7 +90,7 @@ RSpec.feature 'Post-offer references', :with_audited, time: CycleTimetable.apply
 
   def then_i_see_the_reminder_confirmation_page
     expect(page).to have_content("Would you like to send a reminder to #{@pending_reference.name}?")
-    expect(page).to have_current_path(candidate_interface_references_new_reminder_path(@pending_reference.id))
+    expect(page).to have_current_path(candidate_interface_references_new_reminder_path('request-reference', @pending_reference.id))
     expect(page).to have_content("They’ll also get an automatic reminder on #{@pending_reference.next_automated_chase_at.strftime('%-d %B %Y')}.")
   end
 
@@ -106,7 +111,7 @@ RSpec.feature 'Post-offer references', :with_audited, time: CycleTimetable.apply
   end
 
   def then_i_see_the_cancellation_confirmation_page
-    expect(page).to have_current_path(candidate_interface_references_confirm_cancel_reference_path(@pending_reference.id))
+    expect(page).to have_current_path(candidate_interface_references_confirm_cancel_reference_path('request-reference', @pending_reference.id))
     expect(page).to have_content("Are you sure you want to cancel the request for a reference from #{@pending_reference.name}?")
     expect(page).to have_content('We will tell them that they no longer need to give a reference.')
   end

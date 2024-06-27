@@ -13,7 +13,7 @@ RSpec.describe 'Candidate Interface - Redirects acepted offer' do
       application_form = create(:application_form, recruitment_cycle_year: 2023, candidate:)
       reference = create(:reference, :feedback_requested, application_form:)
 
-      delete candidate_interface_destroy_new_reference_path(reference)
+      delete candidate_interface_destroy_new_reference_path('candidate-details', reference)
       expect(response).to redirect_to(candidate_interface_references_review_path)
     end
   end
@@ -24,7 +24,7 @@ RSpec.describe 'Candidate Interface - Redirects acepted offer' do
       reference = create(:reference, :feedback_requested, application_form:)
       reference.destroy
 
-      delete candidate_interface_destroy_new_reference_path(reference)
+      delete candidate_interface_destroy_new_reference_path('candidate-details', reference)
       expect(response).to redirect_to(candidate_interface_references_review_path)
     end
   end

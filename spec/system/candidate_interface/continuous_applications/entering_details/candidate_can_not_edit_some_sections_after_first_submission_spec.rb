@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 NonEditableSection = Struct.new(:identifier, :title)
-RSpec.feature 'A candidate can not edit some sections after first submission' do
+RSpec.describe 'A candidate can not edit some sections after first submission' do
   include SignInHelper
   include CandidateHelper
 
@@ -135,6 +135,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission' do
     expect(page).to have_no_content('Add another reference')
 
     visit candidate_interface_references_edit_name_path(
+      'candidate-details',
       current_candidate.current_application.application_references.last,
     )
 

@@ -637,7 +637,7 @@ module CandidateHelper
   end
 
   def candidate_provides_two_referees
-    visit candidate_interface_references_start_path
+    visit candidate_interface_references_start_path('candidate-details')
     click_link_or_button 'Add reference'
     choose 'Academic'
     click_link_or_button t('continue')

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate accepts an offer' do
+RSpec.describe 'Candidate accepts an offer' do
   include CourseOptionHelpers
   include CandidateHelper
 
@@ -248,9 +248,10 @@ RSpec.feature 'Candidate accepts an offer' do
     expect(
       back_link,
     ).to eq(
-      candidate_interface_accept_offer_references_type_path(
-        @application_choice,
+      candidate_interface_references_type_path(
+        'accept-offer',
         'school-based',
+        application_id: @application_choice.id,
       ),
     )
   end
@@ -259,10 +260,11 @@ RSpec.feature 'Candidate accepts an offer' do
     expect(
       back_link,
     ).to eq(
-      candidate_interface_accept_offer_references_name_path(
-        @application_choice,
+      candidate_interface_references_name_path(
+        'accept-offer',
         'school-based',
         @application_form.reload.application_references.creation_order.last.id,
+        application_id: @application_choice.id,
       ),
     )
   end
@@ -271,9 +273,10 @@ RSpec.feature 'Candidate accepts an offer' do
     expect(
       back_link,
     ).to eq(
-      candidate_interface_accept_offer_references_email_address_path(
-        @application_choice,
+      candidate_interface_references_email_address_path(
+        'accept-offer',
         @application_form.reload.application_references.creation_order.last.id,
+        application_id: @application_choice.id,
       ),
     )
   end
@@ -307,53 +310,61 @@ RSpec.feature 'Candidate accepts an offer' do
 
   def and_i_be_on_the_add_type_page
     expect(page).to have_current_path(
-      candidate_interface_accept_offer_references_type_path(@application_choice),
+      candidate_interface_references_type_path(
+        'accept-offer',
+        application_id: @application_choice.id,
+      ),
     )
   end
 
   def and_i_be_on_the_existing_add_type_page
     expect(page).to have_current_path(
-      candidate_interface_accept_offer_references_type_path(
-        @application_choice,
+      candidate_interface_references_type_path(
+        'accept-offer',
         'professional',
         @application_form.reload.application_references.creation_order.last.id,
+        application_id: @application_choice.id,
       ),
     )
   end
 
   def and_i_be_on_the_add_name_page
     expect(page).to have_current_path(
-      candidate_interface_accept_offer_references_name_path(
-        @application_choice,
+      candidate_interface_references_name_path(
+        'accept-offer',
         'school-based',
+        application_id: @application_choice.id,
       ),
     )
   end
 
   def and_i_be_on_the_existing_add_name_page
     expect(page).to have_current_path(
-      candidate_interface_accept_offer_references_name_path(
-        @application_choice,
+      candidate_interface_references_name_path(
+        'accept-offer',
         'professional',
         @application_form.reload.application_references.creation_order.last.id,
+        application_id: @application_choice.id,
       ),
     )
   end
 
   def and_i_be_on_add_email_address_page
     expect(page).to have_current_path(
-      candidate_interface_accept_offer_references_email_address_path(
-        @application_choice,
+      candidate_interface_references_email_address_path(
+        'accept-offer',
         @application_form.reload.application_references.creation_order.last.id,
+        application_id: @application_choice,
       ),
     )
   end
 
   def and_i_be_on_add_relationship_page
     expect(page).to have_current_path(
-      candidate_interface_accept_offer_references_relationship_path(
-        @application_choice,
+      candidate_interface_references_relationship_path(
+        'accept-offer',
         @application_form.reload.application_references.creation_order.last.id,
+        application_id: @application_choice.id,
       ),
     )
   end
