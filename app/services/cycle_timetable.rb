@@ -148,9 +148,9 @@ class CycleTimetable
   end
 
   def self.between_cycles?
-    (CYCLE_DATES[next_year].present? && # We need to evaluated the next year in order to compare dates.
-      current_date.between?(apply_deadline, apply_reopens)) ||
-      current_date.before?(apply_opens)
+    current_date.before?(apply_opens) || # In the current cycle, when find is open, but apply is not
+      (CYCLE_DATES[next_year].present? && # We need to evaluated the next year to compare these dates
+      current_date.between?(apply_deadline, apply_reopens)) # The current cycle deadline has passed, but apply has not reopened for the next cycle
   end
 
   def self.date(name, year = current_year)
