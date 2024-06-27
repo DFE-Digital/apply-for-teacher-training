@@ -1,8 +1,6 @@
 # The Application Form is filled in and submitted by the Candidate. Candidates
 # can initially apply to 3 different courses, represented by an Application Choice.
 class ApplicationForm < ApplicationRecord
-  self.ignored_columns += %w[uk_residency_status]
-
   audited
   has_associated_audits
   geocoded_by :address_formatted_for_geocoding, params: { region: 'uk' }
