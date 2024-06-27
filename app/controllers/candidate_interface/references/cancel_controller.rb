@@ -26,11 +26,7 @@ module CandidateInterface
     private
 
       def set_backlink
-        @back_link = return_to_path || candidate_interface_application_offer_dashboard_reference_path(@reference)
-      end
-
-      def return_to_path
-        candidate_interface_application_offer_dashboard_path if params[:return_to] == 'offer-dashboard'
+        @back_link = params[:return_to_path] || candidate_interface_application_offer_dashboard_reference_path(@reference)
       end
     end
   end

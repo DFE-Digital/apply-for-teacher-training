@@ -5,7 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @reference,
-      url: candidate_interface_references_new_reminder_path(@reference),
+      url: candidate_interface_references_new_reminder_path(@reference_process, @reference),
       method: :post,
     ) do |f| %>
       <h1 class="govuk-heading-l">

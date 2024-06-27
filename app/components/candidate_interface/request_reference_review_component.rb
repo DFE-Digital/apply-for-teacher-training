@@ -2,8 +2,9 @@ module CandidateInterface
   class RequestReferenceReviewComponent < ReferencesReviewComponent
     attr_reader :reference
 
-    def initialize(reference)
+    def initialize(reference, reference_process:)
       @reference = reference
+      @reference_process = reference_process
     end
 
     def edit_type_path(reference)

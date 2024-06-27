@@ -439,68 +439,16 @@ namespace :candidate_interface, path: '/candidate' do
       patch '/review' => 'english_foreign_language/review#complete', as: :english_foreign_language_complete
     end
 
-    scope '/references' do
+    scope '/references/:reference_process', constraints: { reference_process: /(candidate-details|accept-offer|request-reference)/ } do
       get '/start' => 'references/review#show', as: :references_start
+      get '/request-new-reference' => 'references/review#new', as: :request_new_reference
 
       get '/type/edit/:id' => 'references/type#edit', as: :references_edit_type
       patch '/type/edit/:id' => 'references/type#update'
       get '/type/(:referee_type)/(:id)' => 'references/type#new', as: :references_type
       post '/type/(:referee_type)/(:id)' => 'references/type#create'
 
-      scope '/accept-offer/:application_id' do
-        get '/type/edit/:id' => 'references/accept_offer/type#edit', as: :accept_offer_references_edit_type
-        patch '/type/edit/:id' => 'references/accept_offer/type#update'
-        get '/type/(:referee_type)/(:id)' => 'references/accept_offer/type#new', as: :accept_offer_references_type
-        post '/type/(:referee_type)/(:id)' => 'references/accept_offer/type#create'
-
-        scope '/name/:referee_type/(:id)', constraints: { referee_type: /(academic|professional|school-based|character)/ } do
-          get '/' => 'references/accept_offer/name#new', as: :accept_offer_references_name
-          patch '/' => 'references/accept_offer/name#create'
-        end
-        get '/name/edit/:id' => 'references/accept_offer/name#edit', as: :accept_offer_references_edit_name
-        patch '/name/edit/:id' => 'references/accept_offer/name#update'
-
-        get '/email/:id' => 'references/accept_offer/email_address#new', as: :accept_offer_references_email_address
-        patch '/email/:id' => 'references/accept_offer/email_address#create'
-        get '/email/edit/:id' => 'references/accept_offer/email_address#edit', as: :accept_offer_references_edit_email_address
-        patch '/email/edit/:id' => 'references/accept_offer/email_address#update'
-
-        get '/relationship/:id' => 'references/accept_offer/relationship#new', as: :accept_offer_references_relationship
-        patch '/relationship/:id' => 'references/accept_offer/relationship#create'
-        get '/relationship/edit/:id' => 'references/accept_offer/relationship#edit', as: :accept_offer_references_edit_relationship
-        patch '/relationship/edit/:id' => 'references/accept_offer/relationship#update'
-
-        get '/review/delete-reference/:id' => 'references/accept_offer/review#confirm_destroy_reference', as: :accept_offer_confirm_destroy_new_reference
-        delete '/review/delete/:id' => 'references/accept_offer/review#destroy', as: :accept_offer_destroy_new_reference
-      end
-
-      scope '/request-references' do
-        get '/start/' => 'references/request_reference/start#new', as: :request_reference_references_start
-        get '/type/edit/:id' => 'references/request_reference/type#edit', as: :request_reference_references_edit_type
-        patch '/type/edit/:id' => 'references/request_reference/type#update'
-        get '/type/(:referee_type)/(:id)' => 'references/request_reference/type#new', as: :request_reference_references_type
-        post '/type/(:referee_type)/(:id)' => 'references/request_reference/type#create'
-
-        scope '/name/:referee_type/(:id)', constraints: { referee_type: /(academic|professional|school-based|character)/ } do
-          get '/' => 'references/request_reference/name#new', as: :request_reference_references_name
-          patch '/' => 'references/request_reference/name#create'
-        end
-        get '/name/edit/:id' => 'references/request_reference/name#edit', as: :request_reference_references_edit_name
-        patch '/name/edit/:id' => 'references/request_reference/name#update'
-
-        get '/email/:id' => 'references/request_reference/email_address#new', as: :request_reference_references_email_address
-        patch '/email/:id' => 'references/request_reference/email_address#create'
-        get '/email/edit/:id' => 'references/request_reference/email_address#edit', as: :request_reference_references_edit_email_address
-        patch '/email/edit/:id' => 'references/request_reference/email_address#update'
-
-        get '/relationship/:id' => 'references/request_reference/relationship#new', as: :request_reference_references_relationship
-        patch '/relationship/:id' => 'references/request_reference/relationship#create'
-        get '/relationship/edit/:id' => 'references/request_reference/relationship#edit', as: :request_reference_references_edit_relationship
-        patch '/relationship/edit/:id' => 'references/request_reference/relationship#update'
-
-        get '/review/:id' => 'references/request_reference/review#new', as: :references_request_reference_review
-        post '/review/:id' => 'references/request_reference/review#request_feedback', as: :references_request_reference_request_feedback
-      end
+      get '/review' => 'references/review#show', as: :references_review
 
       scope '/name/:referee_type/(:id)', constraints: { referee_type: /(academic|professional|school-based|character)/ } do
         get '/' => 'references/name#new', as: :references_name
@@ -519,7 +467,6 @@ namespace :candidate_interface, path: '/candidate' do
       get '/relationship/edit/:id' => 'references/relationship#edit', as: :references_edit_relationship
       patch '/relationship/edit/:id' => 'references/relationship#update'
 
-      get '/review' => 'references/review#show', as: :references_review
       get '/review/delete-reference/:id' => 'references/review#confirm_destroy_reference', as: :confirm_destroy_new_reference
       delete '/review/delete/:id' => 'references/review#destroy', as: :destroy_new_reference
 
@@ -530,6 +477,9 @@ namespace :candidate_interface, path: '/candidate' do
       patch '/cancel/:id' => 'references/cancel#confirm'
 
       patch '/review' => 'references/review#complete', as: :references_complete
+
+      get '/review/:id' => 'references/review#review', as: :new_references_review
+      post '/review/:id' => 'references/review#request_feedback', as: :references_request_feedback
     end
 
     scope '/equality-and-diversity' do

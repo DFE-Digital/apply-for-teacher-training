@@ -1,1 +1,9 @@
-<%= govuk_button_link_to t('application_form.references.add_reference', count: application_form.application_references.count), candidate_interface_accept_offer_references_type_path(@application_choice), **options_for_add_reference_link %>
+<%= govuk_button_link_to(
+    t('application_form.references.add_reference',
+    count: application_form.application_references.count),
+    candidate_interface_references_type_path(
+      'accept-offer',
+      application_id: @application_choice.id,
+    ),
+    **options_for_add_reference_link,
+  ) %>

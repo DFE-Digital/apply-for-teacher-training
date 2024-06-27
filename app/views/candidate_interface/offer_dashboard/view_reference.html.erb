@@ -46,7 +46,7 @@
     <div class="govuk-button-group">
       <%= render(CandidateInterface::ReferenceSendReminderComponent.new(@reference)) %>
 
-      <%= govuk_link_to candidate_interface_references_confirm_cancel_reference_path(@reference.id) do %>
+      <%= govuk_link_to candidate_interface_references_confirm_cancel_reference_path('request-reference', @reference.id) do %>
         <%= t('application_form.references.cancel_request.action') %>
         <span class="govuk-visually-hidden"> <%= @reference.name %></span>
       <% end %>

@@ -69,6 +69,8 @@ module CandidateInterface
     end
 
     def check_that_candidate_can_accept
+      return render_404 if @application_choice.nil?
+
       unless ApplicationStateChange.new(@application_choice).can_accept?
         render_404
       end

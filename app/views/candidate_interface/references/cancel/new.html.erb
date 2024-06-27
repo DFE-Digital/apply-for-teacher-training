@@ -5,7 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @reference,
-      url: candidate_interface_references_confirm_cancel_reference_path(@reference.id),
+      url: candidate_interface_references_confirm_cancel_reference_path(@reference_process, @reference.id),
       method: :patch,
     ) do |f| %>
       <h1 class="govuk-heading-l">
