@@ -1,12 +1,15 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.references_email_address', referee_name: @reference.name), @reference_email_address_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(email_address_previous_path(application_choice: @application_choice, referee_type: @reference.referee_type.dasherize, reference_id: @reference.id, step: reference_workflow_step)) %>
+<%= content_for :title, title_with_error_prefix(t('page_titles.references_email_address', referee_name: @reference.name), @wizard.current_step.errors.any?) %>
+<%= content_for(:before_content, govuk_back_link_to(@wizard.current_step.previous_step)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
-      model: @reference_email_address_form,
-      scope: 'candidate_interface_reference_referee_email_address_form',
-      url: references_email_address_path(application_choice: @application_choice, reference: @reference, step: reference_workflow_step),
+      model: @wizard.current_step,
+      url: candidate_interface_references_email_address_path(
+        @reference_process,
+        @reference,
+        params: { application_id: @application_choice&.id },
+      ),
       method: :patch,
       html: { novalidate: true },
     ) do |f| %>
