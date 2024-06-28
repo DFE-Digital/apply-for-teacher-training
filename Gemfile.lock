@@ -1,11 +1,12 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: d2299142d986e46d1c86d415dc9b8b215f7245ab
-  tag: v1.12.7
+  revision: fd56ad1f2c54a8cb917aa8b88a961c256cd55967
+  tag: v1.12.8
   specs:
-    dfe-analytics (1.12.7)
+    dfe-analytics (1.12.8)
       google-cloud-bigquery (~> 1.38)
       httparty (~> 0.21)
+      multi_xml (~> 0.6.0)
       request_store_rails (~> 2)
 
 GIT
@@ -227,7 +228,7 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
-    csv (3.2.8)
+    csv (3.3.0)
     date (3.3.4)
     db-query-matchers (0.12.0)
       activesupport (>= 4.0, < 7.2)
@@ -466,8 +467,7 @@ GEM
     mini_portile2 (2.8.7)
     minitest (5.24.0)
     multi_json (1.15.0)
-    multi_xml (0.7.1)
-      bigdecimal (~> 3.1)
+    multi_xml (0.6.0)
     multipart-post (2.4.1)
     mutex_m (0.2.0)
     nenv (0.3.0)
