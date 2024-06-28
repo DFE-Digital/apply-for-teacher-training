@@ -1,11 +1,12 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: d2299142d986e46d1c86d415dc9b8b215f7245ab
-  tag: v1.12.7
+  revision: fd56ad1f2c54a8cb917aa8b88a961c256cd55967
+  tag: v1.12.8
   specs:
-    dfe-analytics (1.12.7)
+    dfe-analytics (1.12.8)
       google-cloud-bigquery (~> 1.38)
       httparty (~> 0.21)
+      multi_xml (~> 0.6.0)
       request_store_rails (~> 2)
 
 GIT
@@ -148,8 +149,8 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
-    addressable (2.8.6)
-      public_suffix (>= 2.0.2, < 6.0)
+    addressable (2.8.7)
+      public_suffix (>= 2.0.2, < 7.0)
     aes_key_wrap (1.1.0)
     anyway_config (2.6.3)
       ruby-next-core (~> 1.0)
@@ -227,7 +228,7 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
-    csv (3.2.8)
+    csv (3.3.0)
     date (3.3.4)
     db-query-matchers (0.12.0)
       activesupport (>= 4.0, < 7.2)
@@ -312,7 +313,7 @@ GEM
       csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-apis-bigquery_v2 (0.70.0)
+    google-apis-bigquery_v2 (0.72.0)
       google-apis-core (>= 0.15.0, < 2.a)
     google-apis-core (0.15.0)
       addressable (~> 2.5, >= 2.5.1)
@@ -466,8 +467,7 @@ GEM
     mini_portile2 (2.8.7)
     minitest (5.24.0)
     multi_json (1.15.0)
-    multi_xml (0.7.1)
-      bigdecimal (~> 3.1)
+    multi_xml (0.6.0)
     multipart-post (2.4.1)
     mutex_m (0.2.0)
     nenv (0.3.0)
@@ -542,7 +542,7 @@ GEM
       pry (>= 0.13.0)
     psych (5.1.2)
       stringio
-    public_suffix (5.0.5)
+    public_suffix (6.0.0)
     puma (6.4.2)
       nio4r (~> 2.0)
     racc (1.8.0)
@@ -641,7 +641,7 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     retriable (3.1.2)
-    rexml (3.3.0)
+    rexml (3.3.1)
       strscan
     rouge (4.3.0)
     rspec (3.13.0)
