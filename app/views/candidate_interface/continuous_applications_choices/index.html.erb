@@ -1,6 +1,7 @@
 <%= render ServiceInformationBanner.new(namespace: :candidate) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
+    <%= render(CandidateInterface::DeadlineBannerComponent.new(application_form: current_application, flash_empty: flash.empty?)) %>
     <h1 class="govuk-heading-xl">
       <%= t('page_titles.continuous_applications.your_applications') %>
     </h1>
