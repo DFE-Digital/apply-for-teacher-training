@@ -65,4 +65,4 @@
   </section>
 <% end %>
 
-<%= render(PaginatorComponent.new(scope: @vendor_api_requests)) %>
+<%= govuk_pagination(pagy: @pagy) %>

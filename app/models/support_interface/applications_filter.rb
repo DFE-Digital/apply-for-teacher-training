@@ -1,5 +1,6 @@
 module SupportInterface
   class ApplicationsFilter
+    include Pagy::Backend
     include FilterParamsHelper
 
     attr_reader :applied_filters
@@ -9,18 +10,6 @@ module SupportInterface
     end
 
     def filter_records(application_forms)
-      application_forms = application_forms
-        .joins(
-          :candidate,
-        )
-        .preload(
-          :candidate,
-          application_choices: { current_course_option: { course: :provider } },
-        )
-        .distinct
-        .order(updated_at: :desc)
-        .page(applied_filters[:page] || 1).per(30)
-
       if applied_filters[:q].present?
         application_forms = application_forms.where("CONCAT(application_forms.first_name, ' ', application_forms.last_name, ' ', candidates.email_address, ' ', application_forms.support_reference) ILIKE ?", "%#{applied_filters[:q].squish}%")
       end
@@ -50,7 +39,6 @@ module SupportInterface
       end
 
       if applied_filters[:nationality].present? && applied_filters[:nationality].one?
-
         is_international = ActiveModel::Type::Boolean.new.cast(applied_filters[:nationality].first)
 
         application_forms = if is_international
@@ -66,7 +54,20 @@ module SupportInterface
           .where('application_choices.provider_ids @> ?', "{#{applied_filters[:provider_id]}}")
       end
 
-      application_forms
+      pagy, records = pagy(
+        application_forms
+          .joins(:candidate)
+          .preload(
+            :candidate,
+            application_choices: { current_course_option: { course: :provider } }
+          )
+          .distinct
+          .order(updated_at: :desc),
+        page: applied_filters[:page] || 1,
+        items: 30
+      )
+
+      { pagy: pagy, records: records }
     end
 
     def filters

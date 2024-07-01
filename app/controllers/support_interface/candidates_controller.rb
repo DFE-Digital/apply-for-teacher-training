@@ -4,9 +4,8 @@ module SupportInterface
 
     def index
       @candidates = Candidate
-        .includes(application_forms: :application_choices)
-        .order(updated_at: :desc)
-        .page(params[:page] || 1).per(30)
+                      .includes(application_forms: :application_choices)
+                      .order(updated_at: :desc)
 
       @filter = SupportInterface::CandidatesFilter.new(params:)
 
@@ -18,6 +17,8 @@ module SupportInterface
         candidate_number = @filter.applied_filters[:candidate_number].tr('^0-9', '')
         @candidates = @candidates.where(id: candidate_number)
       end
+
+      @pagy, @candidates = pagy(@candidates, page: params[:page], items: 30)
     end
 
     def show

@@ -1,5 +1,6 @@
 module SupportInterface
   class AuditTrailComponent < ViewComponent::Base
+    include Pagy::Backend
     include ViewHelper
 
     def initialize(audited_thing:)
@@ -19,7 +20,9 @@ module SupportInterface
         audits = audits.where(auditable_type: params[:auditable_type])
       end
 
-      audits.includes(:user).order('created_at desc').page(params[:page] || 1).per(60)
+      audits = audits.includes(:user).order(created_at: :desc)
+
+      pagy(audits, page: params[:page], items: 60)
     end
 
     attr_reader :audited_thing

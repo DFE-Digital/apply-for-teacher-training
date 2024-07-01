@@ -2,7 +2,5 @@
   <%= render FilterComponent.new(filter: filter) do |component| %>
 
     <%= content %>
-
-    <%= render(PaginatorComponent.new(scope: collection)) %>
   <% end %>
 </div>

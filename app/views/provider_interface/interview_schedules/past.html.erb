@@ -19,7 +19,7 @@
           <% end %>
         <% end %>
       </div>
-      <%= render(PaginatorComponent.new(scope: @interviews)) %>
+      <%= govuk_pagination(pagy: @pagy) %>
     <% else %>
       <p>No past interviews</p>
     <% end %>
