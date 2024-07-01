@@ -9,7 +9,7 @@ module SupportInterface
       providers_scope = @filter.filter_records(
         Provider
           .includes(:courses, :provider_agreements, :provider_users)
-          .order(:name)
+          .order(:name),
       )
 
       @pagy, @providers = pagy(providers_scope, items: 30)

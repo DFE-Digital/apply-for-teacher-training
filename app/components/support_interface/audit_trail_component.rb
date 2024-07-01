@@ -22,7 +22,7 @@ module SupportInterface
 
       audits = audits.includes(:user).order(created_at: :desc)
 
-      pagy(audits, page: params[:page], items: 60)
+      pagy(audits, items: 60)
     end
 
     attr_reader :audited_thing

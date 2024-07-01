@@ -18,7 +18,7 @@ module SupportInterface
         @candidates = @candidates.where(id: candidate_number)
       end
 
-      @pagy, @candidates = pagy(@candidates, page: params[:page], items: 30)
+      @pagy, @candidates = pagy(@candidates, items: 30)
     end
 
     def show

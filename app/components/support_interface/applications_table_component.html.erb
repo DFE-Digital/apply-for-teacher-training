@@ -1,4 +1,4 @@
-<% forms = application_forms.is_a?(Hash) ? application_forms[:records] : application_forms %>
+<% forms = application_forms.is_a?(Array) ? application_forms.last : application_forms %>
 
 <% if forms.any? %>
   <% forms.each do |application_form| %>
