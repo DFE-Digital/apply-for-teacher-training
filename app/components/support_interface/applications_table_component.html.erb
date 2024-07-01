@@ -1,7 +1,5 @@
-<% forms = application_forms.is_a?(Hash) ? application_forms[:records] : application_forms %>
-
-<% if forms.any? %>
-  <% forms.each do |application_form| %>
+<% if application_forms.any? %>
+  <% application_forms.each do |application_form| %>
     <%= render SupportInterface::ApplicationCardComponent.new(application_form: application_form, heading_level: @row_heading_level) %>
   <% end %>
 <% else %>

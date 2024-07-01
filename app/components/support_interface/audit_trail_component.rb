@@ -3,31 +3,40 @@ module SupportInterface
     include Pagy::Backend
     include ViewHelper
 
+    ITEMS_LIMIT_PER_PAGE = 60
+
     def initialize(audited_thing:)
       @audited_thing = audited_thing
     end
 
     def audits
-      audits = if audited_thing.is_a? Provider
-                 provider_audits
-               elsif audited_thing.is_a? ApplicationForm
-                 application_audits
-               else
-                 standard_audits
-               end
+      audits = fetch_audits_by_type
 
       if params[:auditable_type]
         audits = audits.where(auditable_type: params[:auditable_type])
       end
 
-      audits = audits.includes(:user).order(created_at: :desc)
+      audits.includes(:user).order(created_at: :desc)
+    end
 
-      pagy(audits, page: params[:page], items: 60)
+    def pagination
+      pagy(audits, items: ITEMS_LIMIT_PER_PAGE).first
     end
 
     attr_reader :audited_thing
 
   private
+
+    def fetch_audits_by_type
+      case audited_thing
+      when Provider
+        provider_audits
+      when ApplicationForm
+        application_audits
+      else
+        standard_audits
+      end
+    end
 
     def provider_audits
       audited_thing.own_and_associated_audits.unscope(:order).or(

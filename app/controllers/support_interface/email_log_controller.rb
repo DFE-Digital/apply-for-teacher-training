@@ -26,7 +26,7 @@ module SupportInterface
         emails = emails.where(column => @filter.applied_filters[column])
       end
 
-      @pagy, @emails = pagy(emails, page: params[:page], items: 30)
+      @pagy, @emails = pagy(emails, items: 30)
     end
   end
 end

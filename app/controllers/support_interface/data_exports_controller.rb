@@ -19,7 +19,6 @@ module SupportInterface
       @pagy, @data_exports = pagy(@data_exports, items: PAGE_SIZE)
     end
 
-
     def view_export_information
       @data_export = DataExport::EXPORT_TYPES[params[:data_export_type].to_sym]
     end

@@ -44,6 +44,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchBreadcrumbComponent do
 
     it 'renders the link back to communication' do
       reason_path = support_interface_reasons_for_rejection_application_choices_path(
+        page: 1,
         'structured_rejection_reasons[id]' => 'communication_and_scheduling',
         'recruitment_cycle_year' => RecruitmentCycle.current_year,
       )

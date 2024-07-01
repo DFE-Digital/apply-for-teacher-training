@@ -54,20 +54,18 @@ module SupportInterface
           .where('application_choices.provider_ids @> ?', "{#{applied_filters[:provider_id]}}")
       end
 
-      pagy, records = pagy(
+      pagy(
         application_forms
           .joins(:candidate)
           .preload(
             :candidate,
-            application_choices: { current_course_option: { course: :provider } }
+            application_choices: { current_course_option: { course: :provider } },
           )
           .distinct
           .order(updated_at: :desc),
         page: applied_filters[:page] || 1,
-        items: 30
+        items: 30,
       )
-
-      { pagy: pagy, records: records }
     end
 
     def filters

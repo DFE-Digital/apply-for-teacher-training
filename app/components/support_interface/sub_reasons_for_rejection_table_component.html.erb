@@ -19,6 +19,7 @@
               <%= govuk_link_to(
                 sub_reason_label(sub_reason),
                 support_interface_reasons_for_rejection_application_choices_path(
+                  page: 1,
                   "structured_rejection_reasons[#{sub_reason_key}]": sub_reason,
                   recruitment_cycle_year: recruitment_cycle_year,
                 ),

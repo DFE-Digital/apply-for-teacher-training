@@ -71,16 +71,16 @@ module SupportInterface
 
   private
 
-  def unavailable_choices_detail(category, title)
-    @monitor = SupportInterface::ApplicationMonitor.new
-    @application_forms = @monitor.send(category)
-    @pagy, @application_forms = pagy(@application_forms, items: 30)
+    def unavailable_choices_detail(category, title)
+      @monitor = SupportInterface::ApplicationMonitor.new
+      @application_forms = @monitor.send(category)
+      @pagy, @application_forms = pagy(@application_forms, items: 30)
 
-    render(
-      :unavailable_choices_detail,
-      locals: { title: title }
-    )
-  end
+      render(
+        :unavailable_choices_detail,
+        locals: { title: title },
+      )
+    end
 
     def year_param
       params.fetch(:year, RecruitmentCycle.current_year)

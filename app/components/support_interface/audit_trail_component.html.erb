@@ -1,5 +1,3 @@
-<% @pagy, @audits = audits %>
-
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
@@ -8,10 +6,10 @@
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-    <% @audits.each do |audit| %>
+    <% audits.each do |audit| %>
       <%= render SupportInterface::AuditTrailItemComponent.new(audit: audit) %>
     <% end %>
   </tbody>
 </table>
 
-<%= govuk_pagination(pagy: @pagy) %>
+<%= govuk_pagination(pagy: pagination) %>

@@ -2,9 +2,7 @@ module SupportInterface
   class ApplicationFormsController < SupportInterfaceController
     def index
       @filter = SupportInterface::ApplicationsFilter.new(params:)
-      result = @filter.filter_records(ApplicationForm)
-      @pagy = result[:pagy]
-      @application_forms = result[:records]
+      @pagy, @application_forms = @filter.filter_records(ApplicationForm)
     end
 
     def show
