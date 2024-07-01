@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CancelUnsubmittedApplicationsWorker do
-  describe '#perform', time: after_apply_deadline do
+  describe '#perform' do
     let(:unsubmitted_application_from_this_year) do
       create(:application_form,
              submitted_at: nil,
@@ -28,48 +28,80 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
                             recruitment_cycle_year: RecruitmentCycle.current_year))
     end
 
-    it 'cancels any unsubmitted applications from the last cycle' do
-      unsubmitted_application_from_this_year
-      unsubmitted_application_from_last_year
-
-      hidden_application_from_this_year = create(
-        :application_form,
-        submitted_at: nil,
-        candidate: create(:candidate, hide_in_reporting: true),
-        recruitment_cycle_year: RecruitmentCycle.current_year,
-        application_choices: [create_an_application_choice(:unsubmitted, current_year_course_option)],
-      )
-
-      rejected_application_from_this_year = create(
-        :application_form,
-        recruitment_cycle_year: RecruitmentCycle.current_year,
-        application_choices: [create_an_application_choice(:rejected, current_year_course_option)],
-      )
-
-      unsubmitted_cancelled_application_from_this_year = create(
-        :application_form,
-        submitted_at: nil,
-        recruitment_cycle_year: RecruitmentCycle.current_year,
-        application_choices: [create_an_application_choice(:application_not_sent, current_year_course_option)],
-      )
-
-      described_class.new.perform
-
-      expect(unsubmitted_application_from_this_year.reload.application_choices.first).to be_application_not_sent
-      expect(unsubmitted_application_from_last_year.reload.application_choices.first).not_to be_application_not_sent
-      expect(rejected_application_from_this_year.reload.application_choices.first).not_to be_application_not_sent
-      expect(hidden_application_from_this_year.reload.application_choices.first).not_to be_application_not_sent
-      expect(unsubmitted_cancelled_application_from_this_year.reload.application_choices.first).to be_application_not_sent
+    let(:hidden_application_from_this_year) do
+      create(:application_form,
+             submitted_at: nil,
+             candidate: create(:candidate, hide_in_reporting: true),
+             recruitment_cycle_year: RecruitmentCycle.current_year,
+             application_choices: [create_an_application_choice(:unsubmitted, current_year_course_option)])
     end
 
-    it 'does not run once in the new cycle' do
-      travel_temporarily_to(CycleTimetable.apply_opens) do
-        unsubmitted_application_from_this_year
-        unsubmitted_application_from_last_year
+    let(:rejected_application_from_this_year) do
+      create(:application_form,
+             recruitment_cycle_year: RecruitmentCycle.current_year,
+             application_choices: [create_an_application_choice(:rejected, current_year_course_option)])
+    end
 
-        task = described_class.new.perform
+    let(:unsubmitted_cancelled_application_from_this_year) do
+      create(:application_form,
+             submitted_at: nil,
+             recruitment_cycle_year: RecruitmentCycle.current_year,
+             application_choices: [create_an_application_choice(:application_not_sent, current_year_course_option)])
+    end
 
-        expect(task).to eq []
+    let(:create_test_applications) do
+      unsubmitted_cancelled_application_from_this_year
+      rejected_application_from_this_year
+      hidden_application_from_this_year
+      unsubmitted_application_from_last_year
+      unsubmitted_application_from_this_year
+    end
+
+    context 'for previous cycle, current cycle, next cycle' do
+      [RecruitmentCycle.previous_year, RecruitmentCycle.current_year, RecruitmentCycle.next_year].each do |year|
+        context 'on cancel application deadline', time: cancel_application_deadline(year) do
+          it 'cancels applications' do
+            create_test_applications
+
+            described_class.new.perform
+
+            expect(unsubmitted_application_from_this_year.reload.application_choices.first).to be_application_not_sent
+            expect(unsubmitted_application_from_last_year.reload.application_choices.first).not_to be_application_not_sent
+            expect(rejected_application_from_this_year.reload.application_choices.first).not_to be_application_not_sent
+            expect(hidden_application_from_this_year.reload.application_choices.first).not_to be_application_not_sent
+            expect(unsubmitted_cancelled_application_from_this_year.reload.application_choices.first).to be_application_not_sent
+          end
+        end
+
+        context 'between cycles, but not on cancel date', time: after_apply_deadline(year) do
+          it 'does not cancel any applications' do
+            create_test_applications
+
+            task = described_class.new.perform
+
+            expect(task).to eq []
+          end
+        end
+
+        context 'in mid-cycle', time: mid_cycle(year) do
+          it 'does not run once in the middle of a cycle' do
+            create_test_applications
+
+            task = described_class.new.perform
+
+            expect(task).to eq []
+          end
+        end
+
+        context 'after_apply_reopens', time: after_apply_reopens(year) do
+          it 'does not run once the new cycle starts' do
+            create_test_applications
+
+            task = described_class.new.perform
+
+            expect(task).to eq []
+          end
+        end
       end
     end
   end

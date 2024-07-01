@@ -10,7 +10,7 @@ class CancelUnsubmittedApplicationsWorker
 private
 
   def unsubmitted_applications_from_earlier_cycle
-    return [] unless CycleTimetable.between_cycles?
+    return [] unless CycleTimetable.cancel_unsubmitted_applications?
 
     ApplicationForm
       .where(submitted_at: nil)
