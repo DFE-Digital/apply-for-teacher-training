@@ -3,14 +3,16 @@ module SupportInterface
     DUPLICATE_MATCHES_PER_PAGE = 100
 
     def index
-      @matches = duplicate_matches(resolved: resolved?).page(params[:page]).per(DUPLICATE_MATCHES_PER_PAGE)
-      @under_review_count = duplicate_matches(resolved: false).count
-
       @filter = SupportInterface::DuplicateMatchesFilter.new(params:)
 
       if @filter.applied_filters[:query].present?
-        @matches = @matches.joins(:candidates).where('CONCAT(email_address) ILIKE ?', "%#{@filter.applied_filters[:query]}%")
+        matches_scope = duplicate_matches(resolved: resolved?).joins(:candidates).where('CONCAT(email_address) ILIKE ?', "%#{@filter.applied_filters[:query]}%")
+      else
+        matches_scope = duplicate_matches(resolved: resolved?)
       end
+
+      @pagy, @matches = pagy(matches_scope, items: DUPLICATE_MATCHES_PER_PAGE)
+      @under_review_count = duplicate_matches(resolved: false).count
     end
 
     def show

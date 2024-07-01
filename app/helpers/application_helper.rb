@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include Pagy::Frontend
+
   SERVICES = { candidate_interface: 'apply',
                provider_interface: 'manage',
                support_interface: 'support',

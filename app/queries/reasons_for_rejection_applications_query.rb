@@ -9,13 +9,11 @@ class ReasonsForRejectionApplicationsQuery
 
   def call
     application_choices = ApplicationChoice
-      .where(current_recruitment_cycle_year: recruitment_cycle_year)
-      .where.not(structured_rejection_reasons: nil)
-      .order(created_at: :desc)
-      .page(filters[:page])
-      .per(30)
+                            .where(current_recruitment_cycle_year: recruitment_cycle_year)
+                            .where.not(structured_rejection_reasons: nil)
+                            .order(created_at: :desc)
 
-    apply_filters(application_choices)
+    @pagy, @application_choices = pagy(apply_filters(application_choices), items: 30)
   end
 
 private

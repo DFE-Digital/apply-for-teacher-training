@@ -1,5 +1,6 @@
 module ProviderInterface
   class ApplicationChoicesController < ProviderInterfaceController
+    include Pagy::Backend
     include ClearWizardCache
 
     before_action :set_application_choice, :set_workflow_flags, except: %i[index]
@@ -32,7 +33,8 @@ module ProviderInterface
         application_choices: with_includes.where(id: application_choices),
       )
 
-      @application_choices = application_choices.page(params[:page] || 1).per(30).load
+      @pagy, @application_choices = pagy(application_choices, items: 30)
+      @application_choices.load
     end
 
     def show

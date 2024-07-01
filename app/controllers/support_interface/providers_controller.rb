@@ -6,12 +6,13 @@ module SupportInterface
     def index
       @filter = SupportInterface::ProvidersFilter.new(params:)
 
-      @providers = @filter.filter_records(
+      providers_scope = @filter.filter_records(
         Provider
           .includes(:courses, :provider_agreements, :provider_users)
           .order(:name)
-          .page(params[:page] || 1).per(30),
       )
+
+      @pagy, @providers = pagy(providers_scope, items: 30)
     end
 
     def show

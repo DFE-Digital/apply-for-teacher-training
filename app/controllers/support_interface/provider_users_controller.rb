@@ -1,14 +1,15 @@
 module SupportInterface
   class ProviderUsersController < SupportInterfaceController
     def index
-      @provider_users = ProviderUser
+      provider_users_scope = ProviderUser
         .includes(providers: %i[training_provider_permissions ratifying_provider_permissions])
-        .page(params[:page] || 1).per(30)
 
       @filter = SupportInterface::ProviderUsersFilter.new(params:)
 
-      @provider_users = scope_by_use_of_service(@filter)
-      @provider_users = scope_by_search_term(@filter)
+      provider_users_scope = scope_by_use_of_service(provider_users_scope, @filter)
+      provider_users_scope = scope_by_search_term(provider_users_scope, @filter)
+
+      @pagy, @provider_users = pagy(provider_users_scope, items: 30)
     end
 
     def show
@@ -37,23 +38,24 @@ module SupportInterface
 
   private
 
-    def scope_by_use_of_service(filter)
-      if filter.applied_filters[:use_of_service] == %w[never_signed_in]
-        @provider_users.where(last_signed_in_at: nil)
-      elsif filter.applied_filters[:use_of_service] == %w[has_signed_in]
-        @provider_users.where.not(last_signed_in_at: nil)
+    def scope_by_use_of_service(scope, filter)
+      case filter.applied_filters[:use_of_service]
+      when 'never_signed_in'
+        scope.where(last_signed_in_at: nil)
+      when 'has_signed_in'
+        scope.where.not(last_signed_in_at: nil)
       else
-        @provider_users
+        scope
       end
     end
 
-    def scope_by_search_term(filter)
-      return @provider_users if filter.applied_filters[:q].blank?
+    def scope_by_search_term(scope, filter)
+      return scope if filter.applied_filters[:q].blank?
 
       if filter.applied_filters[:q] =~ /^\d+$/
-        @provider_users.where(id: filter.applied_filters[:q])
+        scope.where(id: filter.applied_filters[:q])
       else
-        @provider_users.where("CONCAT(first_name, ' ', last_name, ' ', email_address) ILIKE ?", "%#{filter.applied_filters[:q]}%")
+        scope.where("CONCAT(first_name, ' ', last_name, ' ', email_address) ILIKE ?", "%#{filter.applied_filters[:q]}%")
       end
     end
   end
