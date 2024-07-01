@@ -465,7 +465,7 @@ GEM
     mime-types-data (3.2023.1205)
     mini_mime (1.1.5)
     mini_portile2 (2.8.7)
-    minitest (5.24.0)
+    minitest (5.24.1)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.4.1)
@@ -523,7 +523,7 @@ GEM
     parallel (1.25.1)
     parallel_tests (4.7.1)
       parallel
-    parser (3.3.2.0)
+    parser (3.3.3.0)
       ast (~> 2.4.1)
       racc
     patience_diff (1.2.0)
@@ -684,7 +684,7 @@ GEM
       rubocop (~> 1.41)
     rubocop-factory_bot (2.26.0)
       rubocop (~> 1.41)
-    rubocop-rails (2.25.0)
+    rubocop-rails (2.25.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
