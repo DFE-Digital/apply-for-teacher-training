@@ -63,7 +63,7 @@ RSpec.describe 'Cycle redirects' do
           candidate_interface_review_volunteering_path,
           candidate_interface_degree_review_path,
           candidate_interface_review_other_qualifications_path,
-          candidate_interface_references_review_path,
+          candidate_interface_references_review_path('candidate-details'),
           candidate_interface_review_equality_and_diversity_path,
           candidate_interface_review_safeguarding_path,
           candidate_interface_becoming_a_teacher_show_path,

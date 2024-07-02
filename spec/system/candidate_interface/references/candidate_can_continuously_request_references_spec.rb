@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'References' do
+RSpec.describe 'References' do
   include CandidateHelper
 
   it 'the candidate can continue to request and add references on an unsubmitted application' do
@@ -33,13 +33,13 @@ RSpec.feature 'References' do
   end
 
   def then_i_still_have_a_reference_request_outstanding
-    visit candidate_interface_references_review_path
+    visit candidate_interface_references_review_path('candidate-details')
     expect(page).to have_content('has already given a reference', count: 2)
     expect(page).to have_content('Change reference type for', count: 1)
   end
 
   def and_i_can_add_more_reference_requests
-    visit candidate_interface_references_start_path
+    visit candidate_interface_references_start_path('candidate-details')
     click_link_or_button 'Add another reference'
     choose 'Academic'
     click_link_or_button t('continue')

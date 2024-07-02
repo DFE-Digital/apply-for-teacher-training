@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate adding incomplete referees' do
+RSpec.describe 'Candidate adding incomplete referees' do
   include CandidateHelper
 
   it 'Candidate adds incomplete referees and then completes them' do
@@ -50,11 +50,17 @@ RSpec.feature 'Candidate adding incomplete referees' do
   end
 
   def when_i_visit_the_references_review_page
-    visit candidate_interface_references_review_path
+    visit candidate_interface_references_review_path('candidate-details')
   end
 
   def then_i_see_the_choose_reference_link
-    href = candidate_interface_references_edit_type_path(@reference.id, return_to: 'review')
+    href = candidate_interface_references_edit_type_path(
+      'candidate-details',
+      @reference.id,
+      params: {
+        return_to_path: candidate_interface_references_review_path('candidate-details'),
+      },
+    )
     expect(page).to have_link('Choose a type of referee', href:)
   end
 
@@ -89,7 +95,7 @@ RSpec.feature 'Candidate adding incomplete referees' do
   end
 
   def when_i_provide_a_referee_type_only
-    visit candidate_interface_references_start_path
+    visit candidate_interface_references_start_path('candidate-details')
     click_link_or_button 'Add reference'
     and_i_select_a_referee_type
   end
@@ -100,12 +106,12 @@ RSpec.feature 'Candidate adding incomplete referees' do
   end
 
   def then_i_see_that_referee_is_not_created
-    visit candidate_interface_references_review_path
+    visit candidate_interface_references_review_path('candidate-details')
     expect(page.text).to have_no_content('Academic')
   end
 
   def when_i_provide_incomplete_referee_details
-    visit candidate_interface_references_start_path
+    visit candidate_interface_references_start_path('candidate-details')
     click_link_or_button 'Add reference'
     choose 'Academic'
     click_link_or_button t('continue')
@@ -114,7 +120,7 @@ RSpec.feature 'Candidate adding incomplete referees' do
   end
 
   def then_i_see_that_the_incomplete_referee_is_created
-    visit candidate_interface_references_review_path
+    visit candidate_interface_references_review_path('candidate-details')
 
     within_summary_row('Name') { expect(page.text).to have_content('Mike Dean') }
     within_summary_row('Email') { expect(page).to have_link('Enter email address') }
@@ -132,7 +138,7 @@ RSpec.feature 'Candidate adding incomplete referees' do
   end
 
   def then_i_am_redirected_to_the_review_page
-    expect(page).to have_current_path candidate_interface_references_review_path
+    expect(page).to have_current_path candidate_interface_references_review_path('candidate-details')
   end
 
   def when_i_click_to_add_the_relationship

@@ -1,50 +1,51 @@
 module CandidateInterface
   module References
     class EmailAddressController < BaseController
+      include ReferenceBeforeActions
+
       before_action :redirect_to_review_page_unless_reference_is_editable, :verify_email_is_editable
-      before_action :set_edit_backlink, only: %i[edit update]
-      before_action :set_email_address_form, only: %i[create update]
+      before_action :set_wizard, only: %i[new edit create update]
 
-      def new
-        @reference_email_address_form = Reference::RefereeEmailAddressForm.build_from_reference(@reference)
-      end
+      def new; end
 
-      def edit
-        @reference_email_address_form = Reference::RefereeEmailAddressForm.build_from_reference(@reference)
-      end
+      def edit; end
 
       def create
-        if @reference_email_address_form.save(@reference)
-          redirect_to next_path
+        if @wizard.save
+          redirect_to @wizard.next_step
         else
-          track_validation_error(@reference_email_address_form)
+          track_validation_error(@wizard.current_step)
           render :new
         end
       end
 
       def update
-        if @reference_email_address_form.save(@reference)
-          next_step
+        if @wizard.save
+          redirect_to @wizard.next_step
         else
-          track_validation_error(@reference_email_address_form)
+          track_validation_error(@wizard.current_step)
           render :edit
         end
       end
 
     private
 
-      def next_path
-        candidate_interface_references_relationship_path(@reference.id)
-      end
-
-      def set_email_address_form
-        @reference_email_address_form = Reference::RefereeEmailAddressForm.new(referee_email_address_param)
-      end
-
-      def referee_email_address_param
-        strip_whitespace(params)
-          .require(:candidate_interface_reference_referee_email_address_form).permit(:email_address)
-          .merge!(reference_id: @reference.id)
+      def set_wizard
+        @wizard = ReferenceWizard.new(
+          current_step: :reference_email_address,
+          reference_process: @reference_process,
+          application_choice: @application_choice,
+          current_application: current_candidate.current_application,
+          reference: @reference,
+          return_to_path: params[:return_to_path],
+          step_params: ActionController::Parameters.new(
+            {
+              reference_email_address: {
+                email_address: params.dig(:email_address, :email_address) || @reference&.email_address,
+              },
+            },
+          ),
+        )
       end
 
       def verify_email_is_editable

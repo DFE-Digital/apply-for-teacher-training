@@ -88,21 +88,24 @@ en:
           attributes:
             add_another_referee:
               blank: Select if you want to add another referee
-        candidate_interface/reference/referee_type_form:
-          attributes:
-            referee_type:
-              blank: Choose a type of referee
-        candidate_interface/reference/referee_name_form:
+        name:
           attributes:
             name:
               blank: Enter the name of the person who can give a reference
               too_short: Name of the person who can give a reference must be %{count} characters or more
-        candidate_interface/reference/referee_email_address_form:
+        type:
           attributes:
-            email_address:
-              blank: Enter their email address
-              duplicate: There’s already a reference request for this email address
-              own: Enter an email address that’s not your own
+            referee_type:
+              blank: Choose a type of referee
+        email_address:
+          blank: Enter their email address
+          duplicate: There’s already a reference request for this email address
+          own: Enter an email address that’s not your own
+        relationship:
+          attributes:
+            relationship:
+              blank: Enter how you know them and for how long
+              too_long: How you know them and for how long in 500 characters or fewer
         candidate_interface/reference/referee_relationship_form:
           attributes:
             relationship:

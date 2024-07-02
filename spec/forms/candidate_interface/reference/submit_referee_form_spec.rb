@@ -14,16 +14,18 @@ RSpec.describe CandidateInterface::Reference::SubmitRefereeForm, type: :model do
 
     describe '.all_details_provided?' do
       let(:reference) { create(:reference) }
-      let(:type_double) { instance_double(CandidateInterface::Reference::RefereeTypeForm) }
-      let(:name_double) { instance_double(CandidateInterface::Reference::RefereeNameForm) }
-      let(:relationship_double) { instance_double(CandidateInterface::Reference::RefereeRelationshipForm) }
-      let(:email_address_double) { instance_double(CandidateInterface::Reference::RefereeEmailAddressForm) }
+      let(:type_double) { instance_double(CandidateInterface::Reference::TypeStep) }
+      let(:name_double) { instance_double(CandidateInterface::Reference::NameStep) }
+      let(:email_address_double) { instance_double(CandidateInterface::Reference::EmailAddressStep) }
+      let(:relationship_double) { instance_double(CandidateInterface::Reference::RelationshipStep) }
+      let(:reference_wizard) { instance_double(CandidateInterface::ReferenceWizard, current_step: email_address_double) }
 
       before do
-        allow(CandidateInterface::Reference::RefereeTypeForm).to receive(:build_from_reference).with(reference).and_return(type_double)
-        allow(CandidateInterface::Reference::RefereeNameForm).to receive(:build_from_reference).with(reference).and_return(name_double)
-        allow(CandidateInterface::Reference::RefereeRelationshipForm).to receive(:build_from_reference).with(reference).and_return(relationship_double)
-        allow(CandidateInterface::Reference::RefereeEmailAddressForm).to receive(:build_from_reference).with(reference).and_return(email_address_double)
+        allow(CandidateInterface::Reference::TypeStep).to receive(:new).with(referee_type: reference.referee_type).and_return(type_double)
+        allow(CandidateInterface::Reference::NameStep).to receive(:new).with(name: reference.name, referee_type: reference.referee_type).and_return(name_double)
+        allow(CandidateInterface::ReferenceWizard).to receive(:new).and_return(reference_wizard)
+        allow(CandidateInterface::Reference::RelationshipStep).to receive(:new).with(relationship: reference.relationship).and_return(relationship_double)
+
         allow(type_double).to receive(:valid?).and_return true
         allow(name_double).to receive(:valid?).and_return true
         allow(relationship_double).to receive(:valid?).and_return true
@@ -33,10 +35,9 @@ RSpec.describe CandidateInterface::Reference::SubmitRefereeForm, type: :model do
       it 'builds the referee attribute forms and checks they are valid' do
         described_class.new(submit: 'yes', reference_id: reference.id).valid?
 
-        expect(CandidateInterface::Reference::RefereeTypeForm).to have_received(:build_from_reference).with(reference)
-        expect(CandidateInterface::Reference::RefereeNameForm).to have_received(:build_from_reference).with(reference)
-        expect(CandidateInterface::Reference::RefereeRelationshipForm).to have_received(:build_from_reference).with(reference)
-        expect(CandidateInterface::Reference::RefereeEmailAddressForm).to have_received(:build_from_reference).with(reference)
+        expect(CandidateInterface::Reference::TypeStep).to have_received(:new).with(referee_type: reference.referee_type)
+        expect(CandidateInterface::Reference::NameStep).to have_received(:new).with(name: reference.name, referee_type: reference.referee_type)
+        expect(CandidateInterface::Reference::RelationshipStep).to have_received(:new).with(relationship: reference.relationship)
         expect(type_double).to have_received(:valid?)
         expect(name_double).to have_received(:valid?)
         expect(relationship_double).to have_received(:valid?)

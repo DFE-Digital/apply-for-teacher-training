@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidates authentication token has the path attribute populated', time: CycleTimetableHelper.mid_cycle do
+RSpec.describe 'Candidates authentication token has the path attribute populated', time: CycleTimetableHelper.mid_cycle do
   include SignInHelper
   include CandidateHelper
 
@@ -96,11 +96,11 @@ RSpec.feature 'Candidates authentication token has the path attribute populated'
       :authentication_token,
       user: @candidate,
       hashed_token: @magic_link_token.encrypted,
-      path: candidate_interface_references_review_path,
+      path: candidate_interface_references_review_path('candidate-details'),
     )
   end
 
   def then_i_am_redirected_to_the_review_reference_page
-    expect(page).to have_current_path(candidate_interface_references_review_path)
+    expect(page).to have_current_path(candidate_interface_references_review_path('candidate-details'))
   end
 end
