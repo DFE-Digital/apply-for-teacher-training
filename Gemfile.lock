@@ -356,7 +356,7 @@ GEM
     govuk_markdown (2.0.2)
       activesupport
       redcarpet
-    grover (1.1.8)
+    grover (1.1.9)
       combine_pdf (~> 1.0)
       nokogiri (~> 1.0)
     guard (2.18.1)
