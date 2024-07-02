@@ -5,15 +5,16 @@
 3. [Work History Break](#work-history-break)
 4. [Qualifications](#qualifications)
 5. [Personal Statement](#personal-statement)
-6. [Courses and locations](#courses-and-course-locations)
-7. [Confirm deferral](#confirm-deferral)
-8. [Offers](#offers)
-9. [Withdraw](#withdraw-an-application)
-10. [Delete account or application](#delete-an-account--application)
-11. [Permissions](#provider-users-and-permissions)
-12. [Publish Sandbox](#publish-sandbox)
-13. [Candidate sign in](#candidate-login-issues)
-14. [Candidate email address](#switch-email-addresses)
+6. [Safeguarding Issues](#safeguarding-issues)
+7. [Courses and locations](#courses-and-course-locations)
+8. [Confirm deferral](#confirm-deferral)
+9. [Offers](#offers)
+10. [Withdraw](#withdraw-an-application)
+11. [Delete account or application](#delete-an-account--application)
+12. [Permissions](#provider-users-and-permissions)
+13. [Publish Sandbox](#publish-sandbox)
+14. [Candidate sign in](#candidate-login-issues)
+15. [Candidate email address](#switch-email-addresses)
 
 ## Support Trello board
 
@@ -287,6 +288,17 @@ The personal statement uses the following database field:
 
 ```ruby
 ApplicationForm.find(ID).update!(becoming_a_teacher: 'new text', audit_comment: 'Updating grade following a support request, ticket ZENDESK_URL')
+```
+
+## Safeguarding issues
+
+### Remove safeguarding issues
+
+```ruby
+audit_comment = ZENDESK_URL
+application_form_id = APPLICATION_FORM_ID
+
+ApplicationForm.find(application_form_id).update(safeguarding_issues: nil, safeguarding_issues_status: :no_safeguarding_issues_to_declare, audit_comment:)
 ```
 
 ## Courses and course locations
