@@ -15,7 +15,7 @@ RSpec.describe SupportInterface::ApplicationsFilter do
   def verify_filtered_applications_for_params(expected_applications, params:)
     applications = ApplicationForm.all
     filter = described_class.new(params:)
-    expect(filter.filter_records(applications)).to match_array(expected_applications)
+    expect(filter.filter_records(applications).last).to match_array(expected_applications)
   end
 
   describe '#filter_records' do

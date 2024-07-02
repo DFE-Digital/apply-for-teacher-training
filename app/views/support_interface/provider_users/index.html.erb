@@ -6,4 +6,5 @@
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @provider_users) do %>
   <%= render(SupportInterface::ProviderUsersTableComponent.new(provider_users: @provider_users)) %>
+  <%= govuk_pagination(pagy: @pagy) %>
 <% end %>

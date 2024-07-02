@@ -23,4 +23,4 @@
   row_heading_level: 3,
 ) %>
 
-<%= render(PaginatorComponent.new(scope: @application_forms)) %>
+<%= govuk_pagination(pagy: @pagy) %>

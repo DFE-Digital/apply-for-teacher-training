@@ -1,4 +1,6 @@
 class ReasonsForRejectionApplicationsQuery
+  include Pagy::Backend
+
   attr_accessor :filters
   attr_reader :recruitment_cycle_year
 
@@ -12,10 +14,10 @@ class ReasonsForRejectionApplicationsQuery
       .where(current_recruitment_cycle_year: recruitment_cycle_year)
       .where.not(structured_rejection_reasons: nil)
       .order(created_at: :desc)
-      .page(filters[:page])
-      .per(30)
 
-    apply_filters(application_choices)
+    application_choices = apply_filters(application_choices)
+    @pagy, results = pagy(application_choices, page: filters[:page], items: 30)
+    results
   end
 
 private

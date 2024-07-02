@@ -10,7 +10,7 @@ RSpec.describe SupportInterface::DataExportHistoryComponent do
       created_at: 2.days.ago,
       initiator: build(:support_user, first_name: 'Bob', last_name: 'Roberts'),
     )
-    data_exports = DataExport.all.page(1).per(10)
+    data_exports = DataExport.all
     @render_result ||= render_inline(described_class.new(data_exports:, show_name:))
   end
 

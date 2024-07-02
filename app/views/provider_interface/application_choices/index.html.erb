@@ -1,8 +1,8 @@
-<% content_for :browser_title, "Applications (#{@application_choices.total_count})" %>
+<% content_for :browser_title, "Applications (#{@pagy.count})" %>
 
 <%= render ServiceInformationBanner.new(namespace: :provider) %>
 
-<h1 class="govuk-heading-l">Applications (<%= @application_choices.total_count %>)</h1>
+<h1 class="govuk-heading-l">Applications (<%= @pagy.count %>)</h1>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @application_choices) do %>
   <% if @application_choices.size > 0 %>
@@ -28,4 +28,5 @@
   <% else %>
     <p class="govuk-body">You have not received any applications from <%= t('service_name.apply') %>.</p>
   <% end %>
+  <%= govuk_pagination(pagy: @pagy) %>
 <% end %>

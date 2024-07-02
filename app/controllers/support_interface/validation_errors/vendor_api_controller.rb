@@ -11,7 +11,8 @@ module SupportInterface
           .search_validation_errors(params)
           .includes('provider')
           .order('created_at DESC')
-          .page(params[:page] || 1)
+
+        @pagy, @vendor_api_requests = pagy(@vendor_api_requests, items: 30)
       end
 
       def summary

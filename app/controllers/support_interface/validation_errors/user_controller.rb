@@ -7,10 +7,7 @@ module SupportInterface
       end
 
       def search
-        @validation_errors = validation_error_scope
-          .search(params)
-          .order('created_at DESC')
-          .page(params[:page] || 1)
+        @validation_errors, @validation_errors_records = pagy(validation_error_scope.search(params).order(created_at: :desc), items: 30)
       end
 
       def summary
