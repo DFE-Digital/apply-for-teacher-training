@@ -151,11 +151,17 @@ module QualificationAPIData
 private
 
   def completing_qualification(qualification)
-    return {} unless include_completing_qualification? && qualification.gcse?
+    return {} unless include_completing_qualification?
+
+    if qualification.gcse?
+      return {
+        currently_completing_qualification: qualification[:currently_completing_qualification],
+        missing_explanation: qualification[:missing_explanation],
+        other_uk_qualification_type: qualification[:other_uk_qualification_type],
+      }
+    end
 
     {
-      currently_completing_qualification: qualification[:currently_completing_qualification],
-      missing_explanation: qualification[:missing_explanation],
       other_uk_qualification_type: qualification[:other_uk_qualification_type],
     }
   end
