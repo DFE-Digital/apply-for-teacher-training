@@ -81,8 +81,7 @@ class ApplicationForm < ApplicationRecord
   CONTINUOUS_APPLICATIONS_CYCLE_YEAR = 2024
 
   def equality_and_diversity_answers_provided?
-    answered_questions = Hash(equality_and_diversity).keys
-    EQUALITY_AND_DIVERSITY_MINIMAL_ATTR.all? { |attr| attr.in? answered_questions }
+    EqualityAndDiversity::ValuesChecker.new(application_form: self).check
   end
 
   enum phase: {
