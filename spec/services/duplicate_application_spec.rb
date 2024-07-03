@@ -70,7 +70,7 @@ RSpec.describe DuplicateApplication do
     end
 
     it 'sets disabilities as nil' do
-      expect(duplicate_application_form.equality_and_diversity['disabilities']).to be_nil
+      expect(duplicate_application_form.equality_and_diversity['disabilities'].present?).to be false
     end
 
     it 'sets the E&D section as incomplete and force the candidate to answer the question again.' do
@@ -90,7 +90,7 @@ RSpec.describe DuplicateApplication do
     end
 
     it 'sets the ethnicity as nil' do
-      expect(duplicate_application_form.equality_and_diversity['ethnic_background']).to be_nil
+      expect(duplicate_application_form.equality_and_diversity['ethnic_background'].present?).to be false
     end
 
     it 'sets the E&D section as incomplete' do
@@ -110,8 +110,8 @@ RSpec.describe DuplicateApplication do
     end
 
     it 'carries over ethnicity as blank' do
-      expect(duplicate_application_form.equality_and_diversity['hesa_ethnicity']).to be_nil
-      expect(duplicate_application_form.equality_and_diversity['ethnic_background']).to be_nil
+      expect(duplicate_application_form.equality_and_diversity['hesa_ethnicity'].present?).to be false
+      expect(duplicate_application_form.equality_and_diversity['ethnic_background'].present?).to be false
     end
 
     it 'sets the E&D section as incomplete' do
@@ -181,21 +181,16 @@ RSpec.describe DuplicateApplication do
   end
 
   context 'when conversion returns an error' do
-    it 'sets the E&D section as complete' do
+    it 'sets the E&D section as incomplete' do
       allow(Sentry).to receive(:capture_message)
       converter = instance_double(HesaConverter, hesa_sex: '10', sex: 'female', hesa_disabilities: ['96'], disabilities: ['Other'])
       allow(HesaConverter).to receive(:new).and_return(converter)
-      allow(converter).to receive(:hesa_ethnicity).and_raise(StandardError)
+      allow(converter).to receive(:hesa_ethnicity).and_raise(EqualityAndDiversity::UnexpectedValuesError)
       expect(duplicate_application_form).not_to be_equality_and_diversity_completed
 
       expect(Sentry).to have_received(:capture_message)
 
-      expect(duplicate_application_form.equality_and_diversity).to include(
-        'sex' => nil,
-        'disabilities' => [],
-        'ethnic_group' => nil,
-        'ethnic_background' => nil,
-      )
+      expect(duplicate_application_form.equality_and_diversity).to eq({})
     end
   end
 

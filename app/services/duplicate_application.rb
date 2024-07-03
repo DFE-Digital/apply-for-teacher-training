@@ -86,36 +86,24 @@ class DuplicateApplication
 private
 
   def carry_over_equality_and_diversity_data(original_application_form:, new_application_form:)
-    hesa_converter = HesaConverter.new(application_form: original_application_form, recruitment_cycle_year: @recruitment_cycle_year)
+    values_builder_results = EqualityAndDiversity::ValuesBuilder.new(
+      application_form: original_application_form,
+      recruitment_cycle_year: @recruitment_cycle_year,
+    ).call
 
     new_application_form.update!(
-      equality_and_diversity_completed: equality_and_diversity_all_answers_provided?,
-      equality_and_diversity: original_application_form.equality_and_diversity.merge(
-        hesa_sex: hesa_converter.hesa_sex,
-        sex: hesa_converter.sex,
-        hesa_disabilities: hesa_converter.hesa_disabilities,
-        disabilities: hesa_converter.disabilities,
-        hesa_ethnicity: hesa_converter.hesa_ethnicity,
-      ),
+      equality_and_diversity_completed: values_builder_results.equality_and_diversity_completed,
+      equality_and_diversity: values_builder_results.equality_and_diversity,
     )
-  rescue StandardError => e
+  rescue EqualityAndDiversity::UnexpectedValuesError => e
     Sentry.capture_message(
       "Could not migrate equality_and_diversity data from application form '#{original_application_form.id}' from #{original_application_form.recruitment_cycle_year} cycle to the #{@recruitment_cycle_year} cycle. The carried over application had incomplete equality_and_diversity information, requiring the candidate to re-answer the section questions again. Exception caught: #{e.message}",
     )
 
     new_application_form.update!(
       equality_and_diversity_completed: false,
-      equality_and_diversity: original_application_form.equality_and_diversity.merge(
-        sex: nil,
-        disabilities: [],
-        ethnic_group: nil,
-        ethnic_background: nil,
-      ),
+      equality_and_diversity: {},
     )
-  end
-
-  def equality_and_diversity_all_answers_provided?
-    EQUALITY_AND_DIVERSITY_ATTRIBUTES.all? { |attribute| @original_application_form.equality_and_diversity[attribute].present? }
   end
 
   def infer_currently_working(application_experience)
