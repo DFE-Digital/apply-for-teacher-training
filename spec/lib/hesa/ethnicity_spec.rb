@@ -7,7 +7,7 @@ RSpec.describe Hesa::Ethnicity do
         cycle_year = 2020
         ethnicity_values = described_class.all(cycle_year)
 
-        expect(ethnicity_values.size).to eq 18
+        expect(ethnicity_values.size).to eq 19
 
         chinese = ethnicity_values.find { |e| e.hesa_code == '34' }
 
@@ -21,7 +21,7 @@ RSpec.describe Hesa::Ethnicity do
         cycle_year = 2021
         ethnicity_values = described_class.all(cycle_year)
 
-        expect(ethnicity_values.size).to eq 18
+        expect(ethnicity_values.size).to eq 19
 
         chinese = ethnicity_values.find { |e| e.hesa_code == '34' }
 
@@ -35,7 +35,7 @@ RSpec.describe Hesa::Ethnicity do
         cycle_year = 2022
         ethnicity_values = described_class.all(cycle_year)
 
-        expect(ethnicity_values.size).to eq 18
+        expect(ethnicity_values.size).to eq 19
 
         chinese = ethnicity_values.find { |e| e.hesa_code == '34' }
 
