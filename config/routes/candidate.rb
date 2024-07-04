@@ -22,6 +22,7 @@ namespace :candidate_interface, path: '/candidate' do
   get '/terms-of-use', to: 'content#terms_candidate', as: :terms
   get '/guidance-for-using-ai', to: 'content#guidance_for_using_ai'
   post '/feedback-survey' => 'rejection_feedback_survey#new', as: :rejection_feedback_survey
+  get '/unsubscribe-from-emails/:token' => 'unsubscribe_from_emails#unsubscribe', as: :unsubscribe_from_emails
 
   resources :cookie_preferences, only: 'create', path: 'cookie-preferences'
   post '/cookie-preferences-hide-confirmation', to: 'cookie_preferences#hide_confirmation', as: :cookie_preferences_hide_confirmation
