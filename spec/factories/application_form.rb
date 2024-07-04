@@ -225,7 +225,7 @@ FactoryBot.define do
                        end
 
         hesa_sex = if sex == 'Prefer not to say'
-                     nil
+                     '96'
                    elsif (hesa = Hesa::Sex.find(sex, RecruitmentCycle.current_year)).present?
                      hesa['hesa_code']
                    else
