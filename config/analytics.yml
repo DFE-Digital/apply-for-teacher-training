@@ -65,6 +65,8 @@ shared:
     - updated_at
     - working_pattern
     - working_with_children
+    - experienceable_type
+    - experienceable_id
   application_feedback:
     - application_form_id
     - consent_to_be_contacted
