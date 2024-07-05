@@ -17,21 +17,80 @@ RSpec.describe EqualityAndDiversity::ValuesChecker do
 
   describe '#check' do
     context 'valid data' do
-      it 'returns true' do
-        equality_and_diversity = {
-          sex: sexes.sample,
-          disabilities: [disability_options.sample(2)],
-          ethnic_background: ethnic_backgrounds.sample,
-          ethnic_group: ethnic_groups.sample,
-        }
-        application_form = create(
-          :application_form,
-          recruitment_cycle_year: RecruitmentCycle.previous_year,
-          equality_and_diversity:,
-        )
+      it 'returns true for all valid ethnic groups' do
+        ethnic_groups.each do |ethnic_group|
+          equality_and_diversity = {
+            ethnic_background: 'Prefer not to say',
+            sex: 'female',
+            disabilities: ['Other'],
+            ethnic_group:,
+          }
+          application_form = create(
+            :application_form,
+            recruitment_cycle_year: RecruitmentCycle.previous_year,
+            equality_and_diversity:,
+          )
 
-        check = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year).check_values
-        expect(check).to be true
+          check = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year).check_values
+          expect(check).to be true
+        end
+      end
+
+      it 'returns true for all valid disabilities' do
+        disability_options.each do |disability|
+          equality_and_diversity = {
+            ethnic_background: 'Prefer not to say',
+            sex: 'female',
+            disabilities: [disability],
+            ethnic_group: 'Other',
+          }
+          application_form = create(
+            :application_form,
+            recruitment_cycle_year: RecruitmentCycle.previous_year,
+            equality_and_diversity:,
+          )
+
+          check = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year).check_values
+          expect(check).to be true
+        end
+      end
+
+      it 'returns true for all valid sexes' do
+        sexes.each do |sex|
+          equality_and_diversity = {
+            ethnic_background: 'Prefer not to say',
+            sex: sex,
+            disabilities: ['Prefer not to say'],
+            ethnic_group: 'Other',
+          }
+          application_form = create(
+            :application_form,
+            recruitment_cycle_year: RecruitmentCycle.previous_year,
+            equality_and_diversity:,
+          )
+
+          check = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year).check_values
+          expect(check).to be true
+        end
+      end
+
+      it 'returns true for all valid ethnic_background' do
+        ethnic_backgrounds.each do |ethnic_background|
+          equality_and_diversity = {
+            ethnic_background:,
+            sex: 'female',
+            disabilities: ['Prefer not to say'],
+            ethnic_group: 'Other',
+          }
+          application_form = create(
+            :application_form,
+            recruitment_cycle_year: RecruitmentCycle.previous_year,
+            equality_and_diversity:,
+          )
+
+          check = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year).check_values
+          expect(check).to be true
+        end
       end
     end
 

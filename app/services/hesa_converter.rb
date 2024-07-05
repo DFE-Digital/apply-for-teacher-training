@@ -82,7 +82,9 @@ private
   end
 
   def ethnic_look_up_value
-    if equality_and_diversity['ethnic_group'] == 'Prefer not to say' && equality_and_diversity['ethnic_background'].blank?
+    if (equality_and_diversity['ethnic_group'] == 'Prefer not to say' &&
+      equality_and_diversity['ethnic_background'].blank?) ||
+       equality_and_diversity['ethnic_background'] == 'Information refused'
       'Prefer not to say'
     else
       equality_and_diversity['ethnic_background']
