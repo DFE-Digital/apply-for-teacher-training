@@ -2,6 +2,8 @@ class Candidate < ApplicationRecord
   include Chased
   include AuthenticatedUsingMagicLinks
 
+  generates_token_for :unsubscribe_link
+
   # Only Devise's :timeoutable module is enabled to handle session expiry
   devise :timeoutable
   audited last_signed_in_at: true
