@@ -6,9 +6,8 @@ class DuplicateApplication
     @recruitment_cycle_year = recruitment_cycle_year
   end
 
-  IGNORED_ATTRIBUTES = %w[id created_at updated_at submitted_at course_choices_completed phase support_reference english_main_language english_language_details other_language_details feedback_form_complete].freeze
+  IGNORED_ATTRIBUTES = %w[id created_at updated_at submitted_at course_choices_completed phase support_reference english_main_language english_language_details other_language_details feedback_form_complete equality_and_diversity equality_and_diversity_completed].freeze
   IGNORED_CHILD_ATTRIBUTES = %w[id created_at updated_at application_form_id public_id].freeze
-  EQUALITY_AND_DIVERSITY_ATTRIBUTES = %w[sex disabilities ethnic_group ethnic_background].freeze
 
   def duplicate
     attrs = original_application_form.attributes.except(
@@ -50,10 +49,6 @@ class DuplicateApplication
         new_application_form.update!(degrees_completed: false)
       end
 
-      if original_application_form.equality_and_diversity?
-        carry_over_equality_and_diversity_data(original_application_form:, new_application_form:)
-      end
-
       original_references = original_application_form.application_references
         .includes([:reference_tokens])
         .creation_order
@@ -84,27 +79,6 @@ class DuplicateApplication
   end
 
 private
-
-  def carry_over_equality_and_diversity_data(original_application_form:, new_application_form:)
-    values_builder_results = EqualityAndDiversity::ValuesBuilder.new(
-      application_form: original_application_form,
-      recruitment_cycle_year: @recruitment_cycle_year,
-    ).call
-
-    new_application_form.update!(
-      equality_and_diversity_completed: values_builder_results.equality_and_diversity_completed,
-      equality_and_diversity: values_builder_results.equality_and_diversity,
-    )
-  rescue EqualityAndDiversity::UnexpectedValuesError => e
-    Sentry.capture_message(
-      "Could not migrate equality_and_diversity data from application form '#{original_application_form.id}' from #{original_application_form.recruitment_cycle_year} cycle to the #{@recruitment_cycle_year} cycle. The carried over application had incomplete equality_and_diversity information, requiring the candidate to re-answer the section questions again. Exception caught: #{e.message}",
-    )
-
-    new_application_form.update!(
-      equality_and_diversity_completed: false,
-      equality_and_diversity: {},
-    )
-  end
 
   def infer_currently_working(application_experience)
     return application_experience.currently_working unless application_experience.currently_working.nil?

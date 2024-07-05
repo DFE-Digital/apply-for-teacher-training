@@ -47,6 +47,11 @@ RSpec.shared_examples 'duplicates application form' do |expected_cycle|
     expect(duplicate_application_form.application_qualifications.count).to eq 3
   end
 
+  it 'does not carry over any equality and diversity data' do
+    expect(duplicate_application_form.equality_and_diversity).to be_nil
+    expect(duplicate_application_form.equality_and_diversity_completed).to be_nil
+  end
+
   context 'when one of the degrees has missing data' do
     before do
       ApplicationForm.with_unsafe_application_choice_touches do
