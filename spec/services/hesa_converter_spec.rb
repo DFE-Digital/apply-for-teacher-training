@@ -26,23 +26,23 @@ RSpec.describe HesaConverter do
   # Below I added all scenarios I could catch in the DB from 2020 til 2024
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2020, hesa_sex: '1', sex: 'female', expected_hesa_sex: '10' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2020, hesa_sex: '2', sex: 'male', expected_hesa_sex: '11' }
-  it_behaves_like 'convert sex field', { recruitment_cycle_year: 2020, hesa_sex: nil, sex: 'Prefer not to say', expected_hesa_sex: nil, expected_sex: 'Prefer not to say' }
+  it_behaves_like 'convert sex field', { recruitment_cycle_year: 2020, hesa_sex: nil, sex: 'Prefer not to say', expected_hesa_sex: '96', expected_sex: 'Prefer not to say' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2021, hesa_sex: '1', sex: 'female', expected_hesa_sex: '10' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2021, hesa_sex: nil, sex: 'female', expected_hesa_sex: '10' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2021, hesa_sex: '2', sex: 'male', expected_hesa_sex: '11' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2021, hesa_sex: nil, sex: 'male', expected_hesa_sex: '11' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2021, hesa_sex: '3', sex: 'Intersex', expected_hesa_sex: '12', expected_sex: 'other' }
-  it_behaves_like 'convert sex field', { recruitment_cycle_year: 2021, hesa_sex: nil, sex: 'Prefer not to say', expected_hesa_sex: nil, expected_sex: 'Prefer not to say' }
+  it_behaves_like 'convert sex field', { recruitment_cycle_year: 2021, hesa_sex: nil, sex: 'Prefer not to say', expected_hesa_sex: '96', expected_sex: 'Prefer not to say' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2022, hesa_sex: '1', sex: 'female', expected_hesa_sex: '10' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2022, hesa_sex: '2', sex: 'male', expected_hesa_sex: '11' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2022, hesa_sex: '3', sex: 'Intersex', expected_hesa_sex: '12', expected_sex: 'other' }
-  it_behaves_like 'convert sex field', { recruitment_cycle_year: 2022, hesa_sex: nil, sex: 'Prefer not to say', expected_hesa_sex: nil, expected_sex: 'Prefer not to say' }
+  it_behaves_like 'convert sex field', { recruitment_cycle_year: 2022, hesa_sex: nil, sex: 'Prefer not to say', expected_hesa_sex: '96', expected_sex: 'Prefer not to say' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2023, hesa_sex: '1', sex: 'female', expected_hesa_sex: '10' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2023, hesa_sex: '10', sex: 'female', expected_hesa_sex: '10' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2023, hesa_sex: '2', sex: 'male', expected_hesa_sex: '11' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2023, hesa_sex: '11', sex: 'male', expected_hesa_sex: '11' }
   it_behaves_like 'convert sex field', { recruitment_cycle_year: 2023, hesa_sex: '3', sex: 'Intersex', expected_hesa_sex: '12', expected_sex: 'other' }
-  it_behaves_like 'convert sex field', { recruitment_cycle_year: 2023, hesa_sex: nil, sex: 'Prefer not to say', expected_hesa_sex: nil, expected_sex: 'Prefer not to say' }
+  it_behaves_like 'convert sex field', { recruitment_cycle_year: 2023, hesa_sex: nil, sex: 'Prefer not to say', expected_hesa_sex: '96', expected_sex: 'Prefer not to say' }
 
   shared_examples 'convert disabilities field' do |data|
     it "converts old HESA codes from #{data[:recruitment_cycle_year]} cycle for '#{data[:disabilities]}' into the most up to date HESA codes" do

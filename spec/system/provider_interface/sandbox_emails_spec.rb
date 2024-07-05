@@ -1,13 +1,8 @@
 require 'rails_helper'
 
-RSpec.feature 'Emails are suppressed in Sandbox' do
+RSpec.describe 'Emails are suppressed in Sandbox' do
   include CourseOptionHelpers
   include DfESignInHelpers
-
-  around do |example|
-    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    travel_temporarily_to(old_references) { example.run }
-  end
 
   it 'when a candidate triggers a notification', :sandbox, :sidekiq do
     given_i_am_a_provider_user_with_dfe_sign_in
@@ -15,11 +10,11 @@ RSpec.feature 'Emails are suppressed in Sandbox' do
     and_an_application_choice_with_an_offer_exists_for_the_provider
 
     when_a_user_accepts_the_offer
-    then_i_should_not_get_an_email
+    then_i_do_not_get_an_email
 
     when_i_sign_in_to_the_provider_interface
     and_i_visit_the_application
-    then_i_should_see_the_email_in_the_email_log
+    then_i_see_the_email_in_the_email_log
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -40,7 +35,7 @@ RSpec.feature 'Emails are suppressed in Sandbox' do
     AcceptOffer.new(application_choice: @application_choice).save!
   end
 
-  def then_i_should_not_get_an_email
+  def then_i_do_not_get_an_email
     open_email('provider@example.com')
     expect(current_email).to be_nil
   end
@@ -55,7 +50,7 @@ RSpec.feature 'Emails are suppressed in Sandbox' do
     )
   end
 
-  def then_i_should_see_the_email_in_the_email_log
+  def then_i_see_the_email_in_the_email_log
     within('[data-qa="sub-navigation"]') do
       click_link_or_button 'Emails (Sandbox only)'
     end

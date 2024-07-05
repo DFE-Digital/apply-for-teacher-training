@@ -139,12 +139,7 @@ RSpec.describe 'ApplicationForm factory' do
       expect(record.equality_and_diversity['hesa_disabilities']).to be_an(Array)
       expect(record.equality_and_diversity['hesa_ethnicity']).to be_present
       expect(record.equality_and_diversity['sex']).to be_present
-
-      if record.equality_and_diversity['sex'] == 'Prefer not to say'
-        expect(record.equality_and_diversity['hesa_sex']).to be_nil
-      else
-        expect(record.equality_and_diversity['hesa_sex']).to be_present
-      end
+      expect(record.equality_and_diversity['hesa_sex']).to be_present
     end
   end
 
