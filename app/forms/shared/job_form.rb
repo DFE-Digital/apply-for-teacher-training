@@ -73,6 +73,7 @@ module Shared
       return false unless valid?
 
       application_form.application_work_experiences.create!(
+        application_form:, # This will be removed when the Polymorphic association is fully implemented
         role:,
         organisation:,
         commitment:,
