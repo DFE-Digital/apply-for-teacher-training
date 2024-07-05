@@ -86,7 +86,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityCompleteForm do
     end
 
     context 'when mark as completed' do
-      it 'is valid' do
+      it 'is not valid' do
         form = described_class.new(current_application:, completed: 'true')
         expect(form).not_to be_valid
       end

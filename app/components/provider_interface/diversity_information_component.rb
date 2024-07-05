@@ -10,7 +10,7 @@ module ProviderInterface
     end
 
     def rows
-      return [] if application_choice.application_form.equality_and_diversity.blank?
+      return [] unless application_choice.application_form.equality_and_diversity_answers_provided?
 
       [
         { key: I18n.t('equality_and_diversity.sex.title'), value: row_value(equality_and_diversity['sex'].capitalize) },

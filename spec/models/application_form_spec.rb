@@ -497,7 +497,12 @@ RSpec.describe ApplicationForm do
   describe '#equality_and_diversity_answers_provided?' do
     context 'when minimal expected attributes are present' do
       it 'is true' do
-        application_form = build(:application_form, :with_equality_and_diversity_data)
+        minimum_equality_and_diversity_data = {
+          sex: 'female',
+          ethnic_group: 'Prefer not to say',
+          disabilities: %w[Blind Deaf],
+        }
+        application_form = build(:application_form, equality_and_diversity: minimum_equality_and_diversity_data)
         expect(application_form.equality_and_diversity_answers_provided?).to be true
       end
     end
