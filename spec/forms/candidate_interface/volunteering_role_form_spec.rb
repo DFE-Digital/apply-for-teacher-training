@@ -33,20 +33,23 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
 
   describe '.build_all_from_application' do
     it 'creates an array of objects based on the provided ApplicationForm' do
-      application_form = create(:application_form) do |form|
-        form.application_volunteering_experiences.create(attributes: data)
-        form.application_volunteering_experiences.create(
-          role: 'School Experience Intern',
-          organisation: 'A Noice School',
-          details: 'I interned.',
-          working_with_children: true,
-          start_date: Time.zone.local(2018, 8, 1),
-          end_date: Time.zone.local(2019, 10, 1),
-          currently_working: false,
-          start_date_unknown: false,
-          end_date_unknown: false,
-        )
-      end
+      application_form = create(:application_form)
+      create(:application_volunteering_experience,
+             application_form_id: application_form.id, # TODO: Remove once application_id is dropped
+             experienceable: application_form,
+             **data)
+      create(:application_volunteering_experience,
+             application_form_id: application_form.id, # TODO: Remove once application_id is dropped
+             experienceable: application_form,
+             role: 'School Experience Intern',
+             organisation: 'A Noice School',
+             details: 'I interned.',
+             working_with_children: true,
+             start_date: Time.zone.local(2018, 8, 1),
+             end_date: Time.zone.local(2019, 10, 1),
+             currently_working: false,
+             start_date_unknown: false,
+             end_date_unknown: false,)
 
       volunteering_roles = described_class.build_all_from_application(application_form)
 
@@ -107,7 +110,10 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
 
   describe '#update' do
     let(:application_form) { create(:application_form) }
-    let(:existing_volunteering) { application_form.application_volunteering_experiences.create(attributes: data) }
+    let(:existing_volunteering) { create(:application_volunteering_experience,
+                                         application_form_id: application_form.id, # TODO: Remove once application_id is dropped
+                                         experienceable: application_form,
+                                         **data) }
 
     let(:volunteering_role) { described_class.new(id: existing_volunteering.id) }
 

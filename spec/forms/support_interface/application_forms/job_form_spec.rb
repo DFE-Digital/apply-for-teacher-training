@@ -29,8 +29,12 @@ RSpec.describe SupportInterface::ApplicationForms::JobForm, :with_audited, type:
   end
 
   describe '#update' do
-    let(:job) { create(:application_work_experience, application_form:, role: 'Teacher') }
     let(:application_form) { create(:application_form) }
+    let(:job) { create(:application_work_experience,
+                       application_form_id: application_form.id, # TODO: Remove once application_id is dropped
+                       experienceable: application_form,
+                       role: 'Teacher'
+    ) }
 
     it 'returns false if not valid' do
       expect(described_class.new.update(ApplicationWorkExperience.new)).to be(false)

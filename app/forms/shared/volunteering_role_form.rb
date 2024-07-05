@@ -73,7 +73,9 @@ module Shared
       return false unless valid?
 
       ActiveRecord::Base.transaction do
-        application_form.application_volunteering_experiences.create!(map_attributes)
+        application_form.application_volunteering_experiences.create!(
+          map_attributes.merge(application_form_id: application_form.id) # TODO: Remove once application_id is dropped
+        )
         application_form.update!(volunteering_experience: true)
       end
     end
@@ -83,7 +85,9 @@ module Shared
 
       volunteering_role = application_form.application_volunteering_experiences.find(id)
 
-      volunteering_role.update!(map_attributes)
+      volunteering_role.update!(
+        map_attributes.merge(application_form_id: application_form.id) # TODO: Remove once application_id is dropped
+      )
     end
 
     def start_date
