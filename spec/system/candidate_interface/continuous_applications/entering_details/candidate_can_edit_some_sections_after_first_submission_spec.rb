@@ -9,7 +9,7 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
     create_and_sign_in_candidate
     values_checker = instance_double(EqualityAndDiversity::ValuesChecker)
     allow(EqualityAndDiversity::ValuesChecker).to receive(:new).and_return(values_checker)
-    allow(values_checker).to receive(:check).and_return true
+    allow(values_checker).to receive(:check_values).and_return true
   end
 
   [

@@ -81,7 +81,7 @@ class ApplicationForm < ApplicationRecord
   CONTINUOUS_APPLICATIONS_CYCLE_YEAR = 2024
 
   def equality_and_diversity_answers_provided?
-    EqualityAndDiversity::ValuesChecker.new(application_form: self).check
+    EqualityAndDiversity::ValuesChecker.new(application_form: self).check_values
   end
 
   enum phase: {

@@ -5,20 +5,20 @@ module EqualityAndDiversity
       @hesa_converter = HesaConverter.new(application_form:, recruitment_cycle_year:)
     end
 
-    def check
+    def check_values
       initial_values.present? && unconvertable_data.empty?
     end
 
-    attr_reader :initial_values
-
   private
+
+    attr_reader :initial_values, :hesa_converter
 
     def unconvertable_data
       @unconvertable_data ||=
         {
-          sex: @hesa_converter.hesa_sex,
-          disabilities: @hesa_converter.hesa_disabilities,
-          ethnic_background: @hesa_converter.hesa_ethnicity,
+          sex: hesa_converter.hesa_sex,
+          disabilities: hesa_converter.hesa_disabilities,
+          ethnic_background: hesa_converter.hesa_ethnicity,
           ethnic_group:,
         }.filter do |_field_name, converted_value|
           converted_value.blank?

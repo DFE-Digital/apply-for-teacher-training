@@ -12,6 +12,7 @@ module Hesa
     def self.find(sex, cycle_year)
       # The gymnastics here are required because we use 'Prefer not to say' as the value AND label on the SexForm.
       # We have a ticket to change this (the value should be 'information refused'), and when we do, we can simplify this little mess
+      # Trello ticket: https://trello.com/c/QN6sBSi9
       if sex == 'prefer not to say'
         result = all(cycle_year).find { |hesa_sex| hesa_sex.type == 'information refused' }
         result.type = 'Prefer not to say'
