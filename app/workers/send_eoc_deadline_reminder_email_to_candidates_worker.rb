@@ -6,7 +6,7 @@ class SendEocDeadlineReminderEmailToCandidatesWorker
   def perform
     return unless CycleTimetable.need_to_send_deadline_reminder?
 
-    GroupedRelationBatchDelivery.new(
+    BatchDelivery.new(
       relation: GetApplicationsToSendDeadlineRemindersTo.call,
       batch_size: BATCH_SIZE,
     ).each do |batch_time, records|
