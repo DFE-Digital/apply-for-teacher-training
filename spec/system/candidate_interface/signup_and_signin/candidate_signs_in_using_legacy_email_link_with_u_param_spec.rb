@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate account' do
+RSpec.describe 'Candidate account' do
   include CandidateHelper
   include SignInHelper
 
@@ -39,7 +39,8 @@ RSpec.feature 'Candidate account' do
   end
 
   def and_i_try_to_use_a_legacy_email_link
-    visit "/candidate/sign-in/confirm?token=missing_token&u=#{current_candidate.encrypted_id}"
+    token = Encryptor.encrypt(current_candidate.id)
+    visit "/candidate/sign-in/confirm?token=missing_token&u=#{token}"
   end
 
   def then_i_am_prompted_to_get_a_new_magic_link

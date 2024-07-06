@@ -196,16 +196,6 @@ RSpec.describe Candidate do
     end
   end
 
-  describe '#encrypted_id' do
-    let(:candidate) { create(:candidate) }
-
-    it 'invokes Encryptor to encrypt id' do
-      allow(Encryptor).to receive(:encrypt).with(candidate.id).and_return 'encrypted id value'
-
-      expect(candidate.encrypted_id).to eq 'encrypted id value'
-    end
-  end
-
   describe '#in_apply_2?' do
     subject(:candidate) { build(:candidate) }
 

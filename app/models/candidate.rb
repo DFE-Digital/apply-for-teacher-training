@@ -57,10 +57,6 @@ class Candidate < ApplicationRecord
     application_forms.max_by(&:updated_at)
   end
 
-  def encrypted_id
-    Encryptor.encrypt(id)
-  end
-
   def public_id
     "C#{id}"
   end
