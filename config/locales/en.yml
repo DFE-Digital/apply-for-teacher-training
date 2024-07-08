@@ -339,6 +339,8 @@ en:
       provider_service_guidance: How to use this service
     support_links:
       title: Support links
+      speak_to_adviser: Speak to an adviser now
+      enable_javascript: Javascript needs to be enabled to speak to an adviser
       accessibility: Accessibility
       cookies: Cookies
       candidate_complaints: Make a complaint or give feedback

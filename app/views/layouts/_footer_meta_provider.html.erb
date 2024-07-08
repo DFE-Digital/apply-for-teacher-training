@@ -9,10 +9,11 @@
             Online chat
           </h3>
 
-          <p class="govuk-!-margin-top-0 govuk-!-font-size-16"><span id="app-web-chat">
-            <span class="app-web-chat__unavailable">
-              You cannot use online chat because there’s a problem. Send an email if you keep seeing this message.</span>
-          </span></p>
+          <noscript>
+            <p><%= t('layout.support_links.enable_javascript') %></p>
+          </noscript>
+
+          <%= govuk_link_to t('layout.support_links.speak_to_adviser'), '#', style: 'display: none', id: 'messaging-button' %>
         </div>
       </div>
     <% end %>
