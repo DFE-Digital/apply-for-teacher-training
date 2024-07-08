@@ -10,8 +10,11 @@ class GetIncompleteReferenceApplicationsReadyToNudge
     uk_and_irish = uk_and_irish_names.map { |name| ActiveRecord::Base.connection.quote(name) }.join(',')
 
     ApplicationForm
+      .includes(:candidate)
+      .where.not('candidate.submission_blocked': true)
+      .where.not('candidate.account_locked': true)
+      .where.not('candidate.unsubscribed_from_emails': true)
       .current_cycle
-      .unsubmitted
       .inactive_since(7.days.ago)
       .with_completion(COMMON_COMPLETION_ATTRS)
       .has_not_received_email(MAILER, MAIL_TEMPLATE)
@@ -40,7 +43,7 @@ class GetIncompleteReferenceApplicationsReadyToNudge
     .joins(
       "LEFT OUTER JOIN \"application_choices\" ON \"application_choices\".application_form_id = application_forms.id AND \"application_choices\".status = 'unsubmitted'",
     )
-    .group('application_forms.id')
+    .group('application_forms.id', 'candidate.id')
     .having('count("references".id) < 2 AND count("application_choices".id) > 0')
   end
 end

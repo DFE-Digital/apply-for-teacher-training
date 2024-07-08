@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
-  it 'includes unsubmitted applications that have no application choices' do
+  it 'includes applications that have no application choices' do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
     )
     application_form.update_columns(
       updated_at: 10.days.ago,
@@ -14,11 +13,47 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
     expect(described_class.new.call).to eq([application_form])
   end
 
+  it 'omits candidates with locked accounts' do
+    candidate = create(:candidate, account_locked: true)
+    application_form = create(
+      :completed_application_form,
+      :with_completed_references,
+      candidate:,
+    )
+
+    application_form.update_columns(updated_at: 10.days.ago)
+
+    expect(described_class.new.call).not_to include(application_form)
+  end
+
+  it 'omits candidates with submission blocked' do
+    candidate = create(:candidate, submission_blocked: true)
+    application_form = create(
+      :completed_application_form,
+      :with_completed_references,
+      candidate:,
+    )
+    application_form.update_columns(updated_at: 10.days.ago)
+
+    expect(described_class.new.call).not_to include(application_form)
+  end
+
+  it 'omits candidates who have unsubscribed from emails' do
+    candidate = create(:candidate, unsubscribed_from_emails: true)
+    application_form = create(
+      :completed_application_form,
+      :with_completed_references,
+      candidate:,
+    )
+    application_form.update_columns(updated_at: 10.days.ago)
+
+    expect(described_class.new.call).not_to include(application_form)
+  end
+
   it 'omits unsubmitted applications that have an application choice' do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
     )
     create(:application_choice, application_form:)
     application_form.update_columns(
@@ -32,8 +67,8 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: Time.zone.now,
     )
+
     create(:application_choice, status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.sample, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
@@ -46,7 +81,6 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
     )
     application_form.update_columns(
       references_completed: false,
@@ -60,7 +94,6 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
     )
     application_form.update_columns(
       becoming_a_teacher_completed: false,
@@ -74,7 +107,6 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
       course_choices_completed: false,
     )
     application_form.update_columns(
@@ -88,7 +120,6 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
       course_choices_completed: false,
       recruitment_cycle_year: RecruitmentCycle.previous_year,
     )
@@ -103,7 +134,6 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
       course_choices_completed: false,
     )
     application_form.update_columns(

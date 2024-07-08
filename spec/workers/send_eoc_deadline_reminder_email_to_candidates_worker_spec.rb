@@ -21,10 +21,36 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
       end
     end
 
+    it 'does not return an application where the candidate account is locked' do
+      allow(CycleTimetable).to receive(:need_to_send_deadline_reminder?).and_return(true)
+
+      unsubscribed_candidate = create(:candidate, account_locked: true)
+      create(:application_form, candidate: unsubscribed_candidate)
+
+      described_class.new.perform
+
+      email_for_candidate = email_for_candidate(unsubscribed_candidate)
+
+      expect(email_for_candidate).not_to be_present
+    end
+
     it 'does not return an application where the candidate is unsubscribed' do
       allow(CycleTimetable).to receive(:need_to_send_deadline_reminder?).and_return(true)
 
       unsubscribed_candidate = create(:candidate, unsubscribed_from_emails: true)
+      create(:application_form, candidate: unsubscribed_candidate)
+
+      described_class.new.perform
+
+      email_for_candidate = email_for_candidate(unsubscribed_candidate)
+
+      expect(email_for_candidate).not_to be_present
+    end
+
+    it 'does not return an application where the candidate submission is blocked' do
+      allow(CycleTimetable).to receive(:need_to_send_deadline_reminder?).and_return(true)
+
+      unsubscribed_candidate = create(:candidate, submission_blocked: true)
       create(:application_form, candidate: unsubscribed_candidate)
 
       described_class.new.perform
