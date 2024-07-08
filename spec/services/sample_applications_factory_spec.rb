@@ -263,7 +263,7 @@ RSpec.describe SampleApplicationsFactory do
 
     it 'assigns the correct hesa code for sex' do
       if equality_and_diversity['sex'] == 'Prefer not to say'
-        expect(equality_and_diversity['hesa_sex']).to be_nil
+        expect(equality_and_diversity['hesa_sex']).to be '96'
       else
         expect(equality_and_diversity['hesa_sex']).to eq(
           Hesa::Sex.find(equality_and_diversity['sex'], RecruitmentCycle.current_year)['hesa_code'],
