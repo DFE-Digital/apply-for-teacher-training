@@ -80,7 +80,10 @@ RSpec.describe Candidate do
       candidate = create(:candidate)
       application_form = create(:application_form, candidate:)
       application_choice = create(:application_choice, application_form:)
-      application_work_experience = create(:application_work_experience, application_form:)
+      application_work_experience = create(:application_work_experience,
+                                           application_form_id: application_form.id, # TODO: Remove once application_id is dropped
+                                           experienceable: application_form
+      )
       application_volunteering_experience = create(:application_volunteering_experience, application_form:)
       application_qualification = create(:application_qualification, application_form:)
       application_reference = create(:reference, application_form:)

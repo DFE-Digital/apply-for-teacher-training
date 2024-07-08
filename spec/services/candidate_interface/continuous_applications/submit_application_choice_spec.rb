@@ -22,6 +22,20 @@ RSpec.describe CandidateInterface::ContinuousApplications::SubmitApplicationChoi
     context 'when application is unsubmitted' do
       let(:application_choice) { create(:application_choice, :unsubmitted) }
 
+      context "immutable data" do
+        let(:application_form) { create(:application_form) }
+        let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
+
+        let(:work_experience) { create(:work_experience, application_form: application_form, role: "Some Role", organisation: "Some Org") }
+
+        it 'copies the work experience records to the application choice' do
+          submit_application
+          expect(application_choice.work_experiences.ids).not_to eq application_form.work_experiences.ids
+          expect(application_choice.work_experiences.first.role).to eq "Some Role"
+          expect(application_choice.work_experiences.first.organisation).to eq "Some Org"
+        end
+      end
+
       it 'updates timestamps relevant to submitting an application' do
         travel_temporarily_to(Time.zone.local(0)) do
           submit_application

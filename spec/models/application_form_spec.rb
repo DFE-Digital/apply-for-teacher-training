@@ -442,7 +442,10 @@ RSpec.describe ApplicationForm do
       it 'returns false' do
         application_form = create(:application_form)
         advance_time
-        create(:application_work_experience, application_form:)
+        create(:application_work_experience,
+               application_form_id: application_form.id,
+               experienceable: application_form
+        )
         expect(application_form.blank_application?).to be_falsey
       end
     end

@@ -357,22 +357,30 @@ FactoryBot.define do
           current_year = Time.zone.today.year
           first_start_date = Faker::Date.in_date_period(year: current_year - 5)
           first_end_date = Faker::Date.in_date_period(year: current_year - 4)
-          first_job = build(:application_work_experience, start_date: first_start_date, end_date: first_end_date)
+          first_job = build(:application_work_experience,
+                            application_form_id: application_form.id, # TODO: Remove once application_id is dropped
+                            start_date: first_start_date, end_date: first_end_date)
 
           second_start_date = Faker::Date.in_date_period(year: current_year - 3)
           second_end_date = Faker::Date.between(from: 1.year.ago, to: 6.months.ago)
-          second_job = build(:application_work_experience, start_date: second_start_date, end_date: second_end_date)
+          second_job = build(:application_work_experience,
+                             application_form_id: application_form.id, # TODO: Remove once application_id is dropped
+                             start_date: second_start_date, end_date: second_end_date)
 
           work_break = build(:application_work_history_break, start_date: second_start_date, end_date: second_end_date)
 
           application_form.application_work_experiences << [first_job, second_job]
           application_form.application_work_history_breaks << work_break
         else
-          jobs = build_list(:application_work_experience, evaluator.work_experiences_count)
+          jobs = build_list(:application_work_experience,
+                            evaluator.work_experiences_count,
+                            application_form_id: application_form.id) # TODO: Remove once application_id is dropped)
           application_form.application_work_experiences << jobs
         end
 
-        volunteering_experience = build_list(:application_volunteering_experience, evaluator.volunteering_experiences_count)
+        volunteering_experience = build_list(:application_volunteering_experience,
+                                             evaluator.volunteering_experiences_count,
+                                             application_form_id: application_form.id) # TODO: Remove once application_id is dropped)
         application_form.application_volunteering_experiences << volunteering_experience
 
         application_form.update!(updated_at: original_updated_at)
