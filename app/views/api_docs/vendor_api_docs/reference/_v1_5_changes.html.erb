@@ -1,0 +1,17 @@
+<h2 class="govuk-heading-l" id="important">Version 1.5 changes</h2>
+
+<p class="govuk-heading-s">Added the timestamp when the Application was sent to the Provider</p>
+
+<p class="govuk-body">
+  The following fields have been added to the <%= govuk_link_to 'application attributes', '#applicationattributes-object' %> object:
+</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li><code>sent_to_provider_at</code> (string)</li>
+</ul>
+
+<p class="govuk-body">
+  The following fields have been marked as deprecated in the <%= govuk_link_to 'application attributes', '#applicationattributes-object' %> object:
+</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li><code>submitted_at</code> (string) use <code>sent_to_provider_at</code> instead</li>
+</ul>
