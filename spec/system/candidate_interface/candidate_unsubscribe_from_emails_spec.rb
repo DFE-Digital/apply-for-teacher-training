@@ -69,7 +69,7 @@ private
   end
 
   def and_i_see_unsubscribe_confirmation
-    expect(page).to have_content 'You have unsubscribed from emails'
+    expect(page).to have_content 'You have successfully unsubscribed'
   end
   alias_method :then_i_see_unsubscribe_confirmation, :and_i_see_unsubscribe_confirmation
   def and_i_am_on_application_details_page
