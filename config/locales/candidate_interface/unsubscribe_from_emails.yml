@@ -1,4 +1,5 @@
 en:
   unsubscribe_from_emails:
     page_title: Unsubscribe from emails
-    heading: You have unsubscribed from emails
+    heading: You have successfully unsubscribed
+    paragraph: You will still receive essential updates about your application.
