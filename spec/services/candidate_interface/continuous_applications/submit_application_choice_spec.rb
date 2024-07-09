@@ -24,22 +24,36 @@ RSpec.describe CandidateInterface::ContinuousApplications::SubmitApplicationChoi
 
       context 'immutable data' do
         let(:application_form) { create(:application_form) }
-        let!(:work_experience) {
-          create(:application_work_experience,
-                 application_form: application_form,
-                 experienceable: application_form,
-                 role: 'Some Role',
-                 organisation: 'Some Org')
-        }
         let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
 
         it 'copies the work experience records to the application choice' do
+          _work_experience = create(:application_work_experience,
+                                    application_form: application_form,
+                                    experienceable: application_form,
+                                    role: 'Some Role',
+                                    organisation: 'Some Org')
+
           submit_application
 
           expect(application_choice.reload.work_experiences.ids).not_to be_empty
           expect(application_choice.reload.work_experiences.ids).not_to eq application_form.application_work_experiences.ids
           expect(application_choice.reload.work_experiences.first&.role).to eq 'Some Role'
           expect(application_choice.reload.work_experiences.first&.organisation).to eq 'Some Org'
+        end
+
+        it 'copies the volunteering experience records to the application choice' do
+          _volunteering_experience = create(:application_volunteering_experience,
+                                            application_form: application_form,
+                                            experienceable: application_form,
+                                            role: 'Some Role',
+                                            organisation: 'Some Org')
+
+          submit_application
+
+          expect(application_choice.reload.volunteer_experiences.ids).not_to be_empty
+          expect(application_choice.reload.volunteer_experiences.ids).not_to eq application_form.application_volunteering_experiences.ids
+          expect(application_choice.reload.volunteer_experiences.first&.role).to eq 'Some Role'
+          expect(application_choice.reload.volunteer_experiences.first&.organisation).to eq 'Some Org'
         end
       end
 

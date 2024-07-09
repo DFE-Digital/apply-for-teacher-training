@@ -26,6 +26,7 @@ class ApplicationChoice < ApplicationRecord
   has_many :interviews, dependent: :destroy
 
   has_many :work_experiences, dependent: :destroy, as: :experienceable, class_name: "ApplicationWorkExperience"
+  has_many :volunteer_experiences, dependent: :destroy, as: :experienceable, class_name: "ApplicationVolunteeringExperience"
 
   validates_with ReapplyValidator, reappliable: true
 
