@@ -15,8 +15,7 @@ private
     ApplicationForm
       .current_cycle
       .where.not(application_forms: { candidate_id: Candidate.where(hide_in_reporting: true).select(:id) })
-      .where(application_forms: { id: ApplicationChoice.unsubmitted.select(:application_form_id) })
-      .includes(:application_choices)
+      .includes(:application_choices).where('application_choices.status': 'unsubmitted')
       .distinct
   end
 end
