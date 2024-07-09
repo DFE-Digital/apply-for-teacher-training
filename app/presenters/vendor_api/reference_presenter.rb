@@ -21,9 +21,7 @@ module VendorAPI
         reference: (reference.feedback if reference_received?),
         referee_type: reference.referee_type,
         safeguarding_concerns: (reference.has_safeguarding_concerns_to_declare? if reference_received?),
-      }.tap do |hash|
-        hash[:reference_received] = reference_received? if version_1_3_or_above?
-      end
+      }
     end
 
   private

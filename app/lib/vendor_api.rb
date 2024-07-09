@@ -56,6 +56,7 @@ module VendorAPI
       Changes::WorkHistory::MarkDescriptionAsOptional,
       Changes::MarkPhaseAsDeprecated,
       Changes::RemoveReferencesWhenApplicationIsUnsuccessful,
+      Changes::V13::AddReferenceReceivedToReference,
     ],
     '1.4' => [
       Changes::V14::AddGcseCompletingQualificationData,

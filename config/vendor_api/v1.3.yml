@@ -33,6 +33,11 @@ components:
           nullable: true
         safeguarding_concerns:
           nullable: true
+        reference_received:
+          nullable: true
+          type: boolean
+          description: 'Has the reference been received?'
+          example: true
     Month:
       type: object
       additionalProperties: false
