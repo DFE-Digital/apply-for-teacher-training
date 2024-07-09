@@ -97,6 +97,10 @@ module VendorAPI
         application_accepted?
     end
 
+    def version_1_3_or_above?
+      Gem::Version.new(active_version) >= Gem::Version.new('1.3')
+    end
+
     def safeguarding_issues_details_url
       application_form.has_safeguarding_issues_to_declare? ? provider_interface_application_choice_url(application_choice, anchor: 'criminal-convictions-and-professional-misconduct') : nil
     end

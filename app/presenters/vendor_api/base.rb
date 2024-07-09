@@ -55,10 +55,6 @@ module VendorAPI
     def cache_key(model, api_version, suffixes = {})
       CacheKey.generate("#{api_version}_#{model.cache_key_with_version}#{suffixes.hash}")
     end
-
-    def version_1_3_or_above?
-      Gem::Version.new(active_version) >= Gem::Version.new('1.3')
-    end
   end
 end
 
