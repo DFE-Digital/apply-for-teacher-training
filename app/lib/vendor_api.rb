@@ -29,6 +29,7 @@ module VendorAPI
       Changes::ExperimentalClearTestData,
       Changes::ExperimentalGenerateTestData,
       Changes::ReferenceStatus,
+      Changes::RefactoredReferenceOnApplication,
     ],
     '1.1' => [
       Changes::DeferOffer,

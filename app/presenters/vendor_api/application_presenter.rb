@@ -97,14 +97,6 @@ module VendorAPI
         application_accepted?
     end
 
-    def version_1_3_or_above?
-      Gem::Version.new(active_version) >= Gem::Version.new('1.3')
-    end
-
-    def reference_received?(reference)
-      reference.feedback_provided? && application_accepted?
-    end
-
     def safeguarding_issues_details_url
       application_form.has_safeguarding_issues_to_declare? ? provider_interface_application_choice_url(application_choice, anchor: 'criminal-convictions-and-professional-misconduct') : nil
     end
@@ -114,19 +106,7 @@ module VendorAPI
     end
 
     def reference_to_hash(reference)
-      received = reference_received?(reference)
-
-      {
-        id: reference.id,
-        name: reference.name,
-        email: reference.email_address,
-        relationship: reference.relationship,
-        reference: (reference.feedback if received),
-        referee_type: reference.referee_type,
-        safeguarding_concerns: (reference.has_safeguarding_concerns_to_declare? if received),
-      }.tap do |hash|
-        hash[:reference_received] = received if version_1_3_or_above?
-      end
+      VendorAPI::ReferencePresenter.new(active_version, reference, application_accepted: application_accepted?).schema
     end
 
     def domicile
