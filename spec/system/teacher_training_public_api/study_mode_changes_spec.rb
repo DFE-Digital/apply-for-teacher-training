@@ -85,22 +85,22 @@ RSpec.describe 'Sync from Teacher Training API' do
   end
 
   def then_the_part_time_course_option_is_set_to_no_vacancies
-    expect(@course.course_options.count).to eq 2
-    expect(@course.course_options.part_time.last.no_vacancies?).to be true
+    expect(@course.course_options.count).to eq 1
+    expect(@course.course_options.part_time).to be_empty
   end
 
   def and_the_full_time_course_option_is_set_to_have_vacancies
-    expect(@course.course_options.count).to eq 2
+    expect(@course.course_options.count).to eq 1
     expect(@course.course_options.full_time.last.vacancies?).to be true
   end
 
   def then_the_full_time_course_option_is_set_to_no_vacancies
-    expect(@course.course_options.count).to eq 2
-    expect(@course.course_options.full_time.last.no_vacancies?).to be true
+    expect(@course.course_options.count).to eq 1
+    expect(@course.course_options.full_time).to be_empty
   end
 
   def and_then_part_time_course_option_is_set_to_have_vacancies
-    expect(@course.course_options.count).to eq 2
+    expect(@course.course_options.count).to eq 1
     expect(@course.course_options.part_time.last.vacancies?).to be true
   end
 end
