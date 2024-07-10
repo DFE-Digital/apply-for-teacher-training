@@ -19,7 +19,7 @@ module TeacherTrainingPublicAPI
         year: recruitment_cycle_year,
         provider_code: @provider.code,
         course_code: @course.code,
-      ).includes(:location_status).paginate(per_page: 500)
+      ).paginate(per_page: 500)
 
       sites.each do |site_from_api|
         site = sync_site(site_from_api)
