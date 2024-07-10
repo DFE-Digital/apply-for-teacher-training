@@ -34,3 +34,13 @@ components:
           deprecated: true
       required:
         - sent_to_provider_at
+    Reference:
+      type: object
+      properties:
+        feedback_provided_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was provided
+          example: "2024-07-10T13:00:00+01:00"
+      required:
+        - feedback_provided_at

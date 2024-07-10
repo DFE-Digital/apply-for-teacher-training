@@ -63,6 +63,7 @@ module VendorAPI
     ],
     '1.5pre' => [
       Changes::V15::AddApplicationSentToProviderDatetime,
+      Changes::V15::AddReferenceFeedbackProvidedAtDatetime,
     ],
   }.freeze
 end
