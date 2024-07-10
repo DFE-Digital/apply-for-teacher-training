@@ -8,7 +8,10 @@ class GetIncompleteCourseChoiceApplicationsReadyToNudge
 
   def call
     ApplicationForm
-      .unsubmitted
+      .joins(:candidate)
+      .where.not('candidate.submission_blocked': true)
+      .where.not('candidate.account_locked': true)
+      .where.not('candidate.unsubscribed_from_emails': true)
       .inactive_since(7.days.ago)
       .with_completion(COMPLETION_ATTRS)
       .current_cycle

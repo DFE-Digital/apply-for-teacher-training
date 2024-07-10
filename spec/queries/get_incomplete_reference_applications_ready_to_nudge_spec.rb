@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
-  it 'returns unsubmitted applications that are complete except for having no references' do
+  it 'includes forms with unsubmitted application choices that are complete except for having no references' do
     application_form = create(
       :completed_application_form,
-      submitted_at: nil,
+      submitted_at: 10.days.ago,
       references_count: 0,
     )
-    create(:application_choice, application_form:)
+    create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -18,11 +18,11 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'returns unsubmitted applications that are complete except for having only one requested references' do
     application_form = create(
       :completed_application_form,
-      submitted_at: nil,
+      submitted_at: 10.days.ago,
       references_count: 1,
       references_state: :feedback_requested,
     )
-    create(:application_choice, application_form:)
+    create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -33,11 +33,11 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'returns unsubmitted applications that are complete except for having only one provided references' do
     application_form = create(
       :completed_application_form,
-      submitted_at: nil,
+      submitted_at: 10.days.ago,
       references_count: 1,
       references_state: :feedback_provided,
     )
-    create(:application_choice, application_form:)
+    create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -45,14 +45,56 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to include(application_form)
   end
 
+  it 'omits candidates with locked accounts' do
+    candidate = create(:candidate, account_locked: true)
+    application_form = create(
+      :completed_application_form,
+      submitted_at: 10.days.ago,
+      references_count: 0,
+      candidate:,
+    )
+    create(:application_choice, :unsubmitted, application_form:)
+    application_form.update_columns(updated_at: 10.days.ago)
+
+    expect(described_class.new.call).not_to include(application_form)
+  end
+
+  it 'omits candidates with submission blocked' do
+    candidate = create(:candidate, submission_blocked: true)
+    application_form = create(
+      :completed_application_form,
+      submitted_at: 10.days.ago,
+      references_count: 0,
+      candidate:,
+    )
+    create(:application_choice, :unsubmitted, application_form:)
+    application_form.update_columns(updated_at: 10.days.ago)
+
+    expect(described_class.new.call).not_to include(application_form)
+  end
+
+  it 'omits candidates who have unsubscribed from emails' do
+    candidate = create(:candidate, unsubscribed_from_emails: true)
+    application_form = create(
+      :completed_application_form,
+      submitted_at: 10.days.ago,
+      references_count: 0,
+      candidate:,
+    )
+    create(:application_choice, :unsubmitted, application_form:)
+    application_form.update_columns(updated_at: 10.days.ago)
+
+    expect(described_class.new.call).not_to include(application_form)
+  end
+
   it 'omits unsubmitted applications that have 2 requested references' do
     application_form = create(
       :completed_application_form,
-      submitted_at: nil,
+      submitted_at: 10.days.ago,
       references_count: 2,
       references_state: :feedback_requested,
     )
-    create(:application_choice, application_form:)
+    create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )

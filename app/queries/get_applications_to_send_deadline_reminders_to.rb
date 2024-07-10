@@ -6,7 +6,10 @@ class GetApplicationsToSendDeadlineRemindersTo
   def self.deadline_reminder_query
     ApplicationForm
     .joins(:candidate)
-    .where(submitted_at: nil, recruitment_cycle_year: RecruitmentCycle.current_year)
+    .current_cycle
+    .unsubmitted
     .where.not(candidate: { unsubscribed_from_emails: true })
+    .where.not(candidate: { submission_blocked: true })
+    .where.not(candidate: { account_locked: true })
   end
 end

@@ -11,12 +11,15 @@ class GetUnsubmittedApplicationsReadyToNudge
     uk_and_irish = uk_and_irish_names.map { |name| ActiveRecord::Base.connection.quote(name) }.join(',')
 
     ApplicationForm
-      .unsubmitted
       .inactive_since(7.days.ago)
       .with_completion(COMMON_COMPLETION_ATTRS)
       .current_cycle
       .has_not_received_email(MAILER, MAIL_TEMPLATE)
-      .includes(:application_choices).where('application_choices.status': 'unsubmitted')
+      .joins(:candidate)
+      .where.not('candidate.submission_blocked': true)
+      .where.not('candidate.account_locked': true)
+      .where.not('candidate.unsubscribed_from_emails': true)
+      .joins(:application_choices).where('application_choices.status': 'unsubmitted')
       .and(ApplicationForm
         .where(science_gcse_completed: true)
         .or(
