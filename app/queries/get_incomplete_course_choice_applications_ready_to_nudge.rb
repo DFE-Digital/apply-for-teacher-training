@@ -8,7 +8,7 @@ class GetIncompleteCourseChoiceApplicationsReadyToNudge
 
   def call
     ApplicationForm
-      .includes(:candidate)
+      .joins(:candidate)
       .where.not('candidate.submission_blocked': true)
       .where.not('candidate.account_locked': true)
       .where.not('candidate.unsubscribed_from_emails': true)

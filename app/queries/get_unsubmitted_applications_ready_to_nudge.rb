@@ -15,11 +15,11 @@ class GetUnsubmittedApplicationsReadyToNudge
       .with_completion(COMMON_COMPLETION_ATTRS)
       .current_cycle
       .has_not_received_email(MAILER, MAIL_TEMPLATE)
-      .includes(:candidate)
+      .joins(:candidate)
       .where.not('candidate.submission_blocked': true)
       .where.not('candidate.account_locked': true)
       .where.not('candidate.unsubscribed_from_emails': true)
-      .includes(:application_choices).where('application_choices.status': 'unsubmitted')
+      .joins(:application_choices).where('application_choices.status': 'unsubmitted')
       .and(ApplicationForm
         .where(science_gcse_completed: true)
         .or(

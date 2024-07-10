@@ -10,7 +10,7 @@ class GetIncompleteReferenceApplicationsReadyToNudge
     uk_and_irish = uk_and_irish_names.map { |name| ActiveRecord::Base.connection.quote(name) }.join(',')
 
     ApplicationForm
-      .includes(:candidate)
+      .joins(:candidate)
       .where.not('candidate.submission_blocked': true)
       .where.not('candidate.account_locked': true)
       .where.not('candidate.unsubscribed_from_emails': true)

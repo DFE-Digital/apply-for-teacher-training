@@ -5,7 +5,7 @@ class GetApplicationsToSendDeadlineRemindersTo
 
   def self.deadline_reminder_query
     ApplicationForm
-    .includes(:candidate)
+    .joins(:candidate)
     .current_cycle
     .unsubmitted
     .where.not(candidate: { unsubscribed_from_emails: true })
