@@ -166,6 +166,10 @@ class Course < ApplicationRecord
     @subject_codes ||= subjects.includes(:course_subjects).map(&:code)
   end
 
+  def study_modes
+    study_mode.split('_or_')
+  end
+
   def ratifying_provider
     accredited_provider || provider
   end

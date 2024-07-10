@@ -277,6 +277,32 @@ RSpec.describe Course do
     end
   end
 
+  describe '#study_modes' do
+    context 'full_time' do
+      let(:course) { build(:course, :full_time) }
+
+      it 'returns an array with full_time' do
+        expect(course.study_modes).to eq(['full_time'])
+      end
+    end
+
+    context 'part_time' do
+      let(:course) { build(:course, :part_time) }
+
+      it 'returns an array with part_time' do
+        expect(course.study_modes).to eq(['part_time'])
+      end
+    end
+
+    context 'both part_time and full_time' do
+      let(:course) { build(:course, :with_both_study_modes) }
+
+      it 'returns an array with part_time and full_time' do
+        expect(course.study_modes).to match_array(%w[part_time full_time])
+      end
+    end
+  end
+
   describe '#ske_graduation_cutoff_date' do
     let(:course) { build(:course, start_date: Date.new(2023, 1, 1)) }
 
