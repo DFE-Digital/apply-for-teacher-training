@@ -9,7 +9,7 @@ module DfE
       end
 
       def table_name
-        :'dataform.application_metrics'
+        :'1_key_tables.application_metrics'
       end
 
       def candidate_headline_statistics

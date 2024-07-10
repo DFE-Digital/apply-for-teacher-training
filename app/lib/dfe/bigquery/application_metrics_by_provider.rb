@@ -47,7 +47,7 @@ module DfE
       end
 
       def table_name
-        :'dataform.application_metrics_by_provider'
+        :'1_key_tables.application_metrics_by_provider'
       end
 
       ### Candidate All query

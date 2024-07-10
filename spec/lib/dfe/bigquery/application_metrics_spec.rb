@@ -27,7 +27,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .with(
           <<~SQL,
             SELECT *
-            FROM dataform.application_metrics
+            FROM 1_key_tables.application_metrics
             WHERE recruitment_cycle_year = 2024
             AND cycle_week = 7
             AND subject_filter_category = "Total excluding Further Education"
@@ -67,7 +67,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .with(
           <<~SQL,
             SELECT *
-            FROM dataform.application_metrics
+            FROM 1_key_tables.application_metrics
             WHERE recruitment_cycle_year = 2024
             AND cycle_week = 7
             AND subject_filter_category = "Total excluding Further Education"
@@ -127,7 +127,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .with(
           <<~SQL,
             SELECT *
-            FROM dataform.application_metrics
+            FROM 1_key_tables.application_metrics
             WHERE recruitment_cycle_year = 2024
             AND cycle_week = 7
             AND subject_filter_category = "Total excluding Further Education"
@@ -178,7 +178,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .with(
           <<~SQL,
             SELECT *
-            FROM dataform.application_metrics
+            FROM 1_key_tables.application_metrics
             WHERE recruitment_cycle_year = 2024
             AND cycle_week = 7
             AND subject_filter_category = "Total excluding Further Education"
@@ -229,7 +229,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .with(
           <<~SQL,
             SELECT *
-            FROM dataform.application_metrics
+            FROM 1_key_tables.application_metrics
             WHERE recruitment_cycle_year = 2024
             AND cycle_week = 7
             AND subject_filter_category = "Level"
@@ -282,7 +282,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .with(
           <<~SQL,
             SELECT *
-            FROM dataform.application_metrics
+            FROM 1_key_tables.application_metrics
             WHERE recruitment_cycle_year = 2024
             AND cycle_week = 7
             AND subject_filter_category = "Total excluding Further Education"
@@ -334,7 +334,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .with(
           <<~SQL,
             SELECT *
-            FROM dataform.application_metrics
+            FROM 1_key_tables.application_metrics
             WHERE recruitment_cycle_year = 2024
             AND cycle_week = 7
             AND subject_filter_category = "Primary subject"
@@ -386,7 +386,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .with(
           <<~SQL,
             SELECT *
-            FROM dataform.application_metrics
+            FROM 1_key_tables.application_metrics
             WHERE recruitment_cycle_year = 2024
             AND cycle_week = 7
             AND subject_filter_category = "Secondary subject excluding Further Education"
@@ -438,7 +438,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .with(
           <<~SQL,
             SELECT *
-            FROM dataform.application_metrics
+            FROM 1_key_tables.application_metrics
             WHERE recruitment_cycle_year = 2024
             AND cycle_week = 7
             AND subject_filter_category = "Total excluding Further Education"
