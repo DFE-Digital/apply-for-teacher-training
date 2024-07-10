@@ -15,6 +15,7 @@
 13. [Publish Sandbox](#publish-sandbox)
 14. [Candidate sign in](#candidate-login-issues)
 15. [Candidate email address](#switch-email-addresses)
+16. [Updating applications in old recruitment cycles](#old-recruitment-cycles)
 
 ## Support Trello board
 
@@ -710,4 +711,24 @@ Candidate.transaction do
   # Set the email address of the duplicate candidate to the original email address
   dup_candidate.update!(email_address: og_email_address, audit_comment: audit_comment)
 end
+```
+
+## Old recruitment cycles
+
+When an `ApplicationForm` is updated, we ususally want those changes to be available in the API so Providers and Vendors can consume the updates. This is done by `touch`ing the `ApplicationChoice` records. This updates the `updated_at` value on the ApplicationChoice so it is made priority for the providers to consume.
+
+Providers have trouble consuming these changes if the application that gets an update is from an old recruitment cycle (We need to talk to vendors to see if this is still the case). We have a system to prevent this from happening. If the ApplicationForm is from a past recruitment cycle we prevent any changes from being made on it.
+
+If we want to bypass this, we will want to update the value in the database and not to trigger callbacks in the Model. This stops the ApplicationChoices from being `touch`ed.
+
+This also prevents audits from being created, so we have to create an audit record manually:
+
+### Update a candidates last name from an old recruitment cycle
+
+```ruby
+application_form = ApplicationForm.find_by(APPLICATION_FORM_ID)
+last_name = LAST_NAME
+audit_comment = ZENDESK_URL
+application_form.update_column(:last_name, last_name)
+application_form.audits.new(action: :update, comment: audit_comment)
 ```
