@@ -5,6 +5,8 @@ module SupportInterface
     attr_reader :applied_filters
 
     def initialize(params:)
+      params.with_defaults!(days_ago: 10)
+      params[:created_since] = params.fetch(:days_ago).to_i.days.ago.beginning_of_day
       @applied_filters = compact_params(params)
     end
 
