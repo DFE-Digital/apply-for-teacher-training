@@ -400,9 +400,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_08_120414) do
     t.boolean "submission_blocked", default: false, null: false
     t.boolean "account_locked", default: false, null: false
     t.string "account_recovery_status", default: "not_started", null: false
+    t.index ["account_locked"], name: "index_candidates_on_account_locked"
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
     t.index ["fraud_match_id"], name: "index_candidates_on_fraud_match_id"
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
+    t.index ["submission_blocked"], name: "index_candidates_on_submission_blocked"
+    t.index ["unsubscribed_from_emails"], name: "index_candidates_on_unsubscribed_from_emails"
   end
 
   create_table "chasers_sent", force: :cascade do |t|
