@@ -1,6 +1,8 @@
 # https://docs.rubocop.org/rubocop-rspec/cops_rspec.html
 
-require: rubocop-rspec
+require:
+  - rubocop-rspec
+  - rubocop-rspec_rails
 
 RSpec/NestedGroups:
   Enabled: true
@@ -35,12 +37,6 @@ RSpec/EmptyLineAfterSubject:
   Exclude:
     - "spec/factories/*.rb"
 
-# the cop is asking for the filename "df_e/*"
-RSpec/FilePath:
-  CustomTransform:
-    DfE: dfe
-    DfESignInButtonComponent: dfe_sign_in_button_component
-
 RSpec/LetSetup:
   Enabled: false
 
@@ -68,16 +64,16 @@ RSpec/MultipleMemoizedHelpers:
 RSpec/StubbedMock:
   Enabled: true
 
-RSpec/Capybara/FeatureMethods:
-  EnabledMethods:
-    - feature
-    - scenario
-
+# the cop is asking for the filename "df_e/*"
+# https://docs.rubocop.org/rubocop-rspec/cops_rspec.html#rspecspecfilepathformat
 RSpec/SpecFilePathFormat:
   Exclude:
     - "spec/presenters/vendor_api/**/*"
     - "spec/lib/dfe/**/*"
     - "spec/components/utility/dfe_sign_in_button_component_spec.rb"
+  CustomTransform:
+    DfE: dfe
+    DfESignInButtonComponent: dfe_sign_in_button_component
 
 RSpec/SpecFilePathSuffix:
   Exclude:
@@ -105,3 +101,9 @@ RSpec/IndexedLet:
 
 RSpecRails/NegationBeValid:
   Enabled: true
+
+# This is disabled by default but it is run in an before commit hook
+RSpec/Dialect:
+  Enabled: false
+  PreferredMethods:
+    feature: :describe

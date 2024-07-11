@@ -145,7 +145,7 @@ jobs:
         tests: [rubocop, erblint, brakeman, yarn_lint]
         include:
           - tests: rubocop
-            command: bundle exec rubocop --format clang --parallel --except RSpec/NoShouldInSpecs,RSpec/UseDescribeSystemSpecs
+            command: bundle exec rubocop --format clang --parallel --except RSpec/NoShouldInSpecs,RSpec/Dialect
           - tests: erblint
             command: bundle exec rake erblint
           - tests: brakeman
