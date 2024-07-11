@@ -9,7 +9,11 @@ module DfE
       end
 
       def table_name
-        :'1_key_tables.application_metrics'
+        'application_metrics'
+      end
+
+      def dataset
+        '1_key_tables'
       end
 
       def candidate_headline_statistics
