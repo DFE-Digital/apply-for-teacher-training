@@ -1,0 +1,8 @@
+require:
+  - rubocop-rspec
+  - rubocop-rspec_rails
+  - ../../../lib/rubocop/cop/rspec/no_should_in_specs.rb
+
+RSpec/Dialect:
+  PreferredMethods:
+    feature: :describe
