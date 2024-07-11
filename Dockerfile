@@ -89,4 +89,4 @@ RUN echo ${SHA} > public/check
 # new code on an old schema (which will be updated a moment later) to running
 # old code on the new schema (which will require another deploy or other manual
 # intervention to correct).
-CMD bundle exec rails db:migrate:ignore_concurrent_migration_exceptions && bundle exec rails server -b 0.0.0.0
+CMD bundle exec rails db:prepare && bundle exec rails server -b 0.0.0.0
