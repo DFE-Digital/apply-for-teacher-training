@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_25_105759) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_12_131241) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -498,6 +498,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_105759) do
     t.datetime "updated_at", null: false
     t.string "delivery_status", default: "unknown", null: false
     t.index ["application_form_id"], name: "index_emails_on_application_form_id"
+    t.index ["mail_template"], name: "index_emails_on_mail_template"
+    t.index ["mailer"], name: "index_emails_on_mailer"
     t.index ["notify_reference"], name: "index_emails_on_notify_reference"
   end
 
