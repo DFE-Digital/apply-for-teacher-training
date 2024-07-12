@@ -278,4 +278,19 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
 
     expect(described_class.new.call).to eq([application_form2])
   end
+
+  it 'does not send duplicate emails' do
+    application_form = create(
+      :completed_application_form,
+      submitted_at: 10.days.ago,
+      references_completed: false,
+    )
+    create(:application_choice, :unsubmitted, application_form:)
+    create(:application_choice, :unsubmitted, application_form:)
+
+    application_form.update_columns(
+      updated_at: 10.days.ago,
+    )
+    expect(described_class.new.call).to eq([application_form])
+  end
 end

@@ -9,7 +9,7 @@ class GetIncompleteReferenceApplicationsReadyToNudge
     end.map(&:second)
 
     ApplicationForm
-      # Only candidates with some unsubmitted choices
+      # Only candidates with application_choices
       .joins(:application_choices)
       .joins(:candidate)
       .joins("LEFT OUTER JOIN emails ON emails.application_form_id = application_forms.id AND emails.mailer = 'candidate_mailer' AND emails.mail_template = 'nudge_unsubmitted_with_incomplete_references'")
@@ -31,5 +31,6 @@ class GetIncompleteReferenceApplicationsReadyToNudge
       .where('application_forms.science_gcse_completed = TRUE OR courses_primary.id IS NULL')
       # Only Candidates who are likely to have a high level of English
       .where('application_forms.efl_completed = TRUE OR application_forms.first_nationality IN (?)', uk_and_irish_names)
+      .distinct
   end
 end
