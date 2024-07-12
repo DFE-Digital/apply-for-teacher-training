@@ -6,7 +6,8 @@ FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
-    libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 libxslt graphviz chromium
+    libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 libxslt graphviz chromium \
+    gcompat
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
