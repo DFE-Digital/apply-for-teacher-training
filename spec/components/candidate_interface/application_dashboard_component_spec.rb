@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardComponent do
     end
   end
 
-  context 'when it is after the apply1 deadline', time: (CycleTimetable.apply_1_deadline + 1.day) do
+  context 'when it is after the apply1 deadline', time: (CycleTimetable.apply_deadline + 1.day) do
     context 'the application has ended without success' do
       it 'renders the deadline banner' do
         application_form = create_application_form_with_course_choices(
@@ -60,7 +60,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardComponent do
           statuses: %w[recruited],
         )
         render_result = render_inline(described_class.new(application_form:))
-        expect(render_result.text).not_to include("The deadline for applying to courses starting in the #{CycleTimetable.cycle_year_range} academic year is 6pm on #{CycleTimetable.apply_2_deadline.to_fs(:govuk_date)}")
+        expect(render_result.text).not_to include("The deadline for applying to courses starting in the #{CycleTimetable.cycle_year_range} academic year is 6pm on #{CycleTimetable.apply_deadline.to_fs(:govuk_date)}")
       end
     end
   end

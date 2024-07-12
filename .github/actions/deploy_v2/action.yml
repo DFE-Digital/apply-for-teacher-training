@@ -59,11 +59,11 @@ runs:
         DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:{0}', inputs.sha) }}
 
     - name: Use Terraform ${{ env.TERRAFORM_VERSION }}
-      uses: hashicorp/setup-terraform@v2
+      uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: ${{ env.TERRAFORM_VERSION }}
 
-    - uses: azure/login@v1
+    - uses: azure/login@v2
       with:
         creds: ${{ inputs.azure-credentials }}
 

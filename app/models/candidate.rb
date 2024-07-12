@@ -2,6 +2,8 @@ class Candidate < ApplicationRecord
   include Chased
   include AuthenticatedUsingMagicLinks
 
+  generates_token_for :unsubscribe_link
+
   # Only Devise's :timeoutable module is enabled to handle session expiry
   devise :timeoutable
   audited last_signed_in_at: true
@@ -40,7 +42,7 @@ class Candidate < ApplicationRecord
 
   def current_application
     application_form = application_forms.order(:created_at, :id).last
-    application_form || if Time.zone.now > CycleTimetable.apply_1_deadline
+    application_form || if Time.zone.now > CycleTimetable.apply_deadline
                           application_forms.create!(recruitment_cycle_year: CycleTimetable.next_year)
                         else
                           application_forms.create!
@@ -53,10 +55,6 @@ class Candidate < ApplicationRecord
 
   def last_updated_application
     application_forms.max_by(&:updated_at)
-  end
-
-  def encrypted_id
-    Encryptor.encrypt(id)
   end
 
   def public_id

@@ -8,10 +8,14 @@ module DfE
       delegate :select, :where, :order, to: :table
 
       def query(sql_query)
-        ::DfE::Bigquery.client.query(sql_query).map { |result| result_class.new(result) }
+        ::DfE::Bigquery.client.query(sql_query, dataset:).map { |result| result_class.new(result) }
       end
 
       def table_name
+        raise NotImplementedError
+      end
+
+      def dataset
         raise NotImplementedError
       end
     end

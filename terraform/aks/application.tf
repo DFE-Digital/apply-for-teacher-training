@@ -60,6 +60,7 @@ module "main_worker" {
   kubernetes_secret_name     = module.application_configuration.kubernetes_secret_name
   command                    = ["bundle", "exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-main.yml"]
   probe_command              = ["pgrep", "-f", "sidekiq"]
+  enable_gcp_wif             = true
 }
 
 module "secondary_worker" {
@@ -79,6 +80,7 @@ module "secondary_worker" {
   kubernetes_secret_name     = module.application_configuration.kubernetes_secret_name
   command                    = ["bundle", "exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-secondary.yml"]
   probe_command              = ["pgrep", "-f", "sidekiq"]
+  enable_gcp_wif             = true
 }
 
 module "clock_worker" {

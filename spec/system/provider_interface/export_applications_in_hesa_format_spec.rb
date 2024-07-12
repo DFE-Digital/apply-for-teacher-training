@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Export applications in HESA format' do
+RSpec.describe 'Export applications in HESA format' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
@@ -55,7 +55,7 @@ RSpec.feature 'Export applications in HESA format' do
 
   def then_i_can_see_links_to_the_report_for_the_current_and_previous_cycles
     expect(page).to have_content("The data will include all candidates who have accepted an offer since #{CycleTimetable.apply_opens(RecruitmentCycle.current_year).to_fs(:govuk_date)}")
-    expect(page).to have_content("The data will include all candidates who have accepted an offer from #{CycleTimetable.apply_opens(RecruitmentCycle.previous_year).to_fs(:govuk_date)} to #{CycleTimetable.apply_2_deadline(RecruitmentCycle.previous_year).to_fs(:govuk_date)}.")
+    expect(page).to have_content("The data will include all candidates who have accepted an offer from #{CycleTimetable.apply_opens(RecruitmentCycle.previous_year).to_fs(:govuk_date)} to #{CycleTimetable.apply_deadline(RecruitmentCycle.previous_year).to_fs(:govuk_date)}.")
   end
 
   def and_i_can_download_application_data_as_csv_for_the_current_recruitment_cycle

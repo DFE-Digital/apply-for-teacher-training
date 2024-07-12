@@ -17,7 +17,7 @@ module StatisticsTestHelper
         candidate = create_and_advance(:candidate, **candidate_attrs(entry))
         form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, candidate:, **form_attrs(entry))
       elsif entry.fetch(:phase) == 'apply_2'
-        form = DuplicateApplication.new(form, target_phase: 'apply_2').duplicate
+        form = DuplicateApplication.new(form).duplicate
         form.update(submitted_at: Time.zone.now) unless entry.fetch(:status) == 'unsubmitted'
       end
 

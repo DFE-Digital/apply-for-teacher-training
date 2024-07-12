@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::CarryOverInsetTextComponent do
-  context 'application is unsuccessful and apply 2 deadline has passed' do
+  context 'application is unsuccessful and apply deadline has passed' do
     context 'after the new recruitment cycle begins' do
       before do
-        TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_reopens(2022))
+        TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_reopens(2024))
       end
 
       it 'renders the correct academic years' do
@@ -14,14 +14,14 @@ RSpec.describe CandidateInterface::CarryOverInsetTextComponent do
                                  application_choices: [application_choice])
         result = render_inline(described_class.new(application_form:))
 
-        expect(result.text).to include('You submitted your application for courses starting in the 2021 to 2022 academic year, which have now closed.')
-        expect(result.text).to include('You can apply for courses starting in the 2022 to 2023 academic year instead.')
+        expect(result.text).to include('You submitted your application for courses starting in the 2023 to 2024 academic year, which have now closed.')
+        expect(result.text).to include('You can apply for courses starting in the 2024 to 2025 academic year instead.')
       end
     end
 
-    context 'after the apply_2 deadline but before apply reopens' do
+    context 'after the apply deadline but before apply reopens' do
       before do
-        TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_2_deadline(2021))
+        TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_deadline(2023))
       end
 
       it 'renders the correct academic years' do
@@ -30,11 +30,11 @@ RSpec.describe CandidateInterface::CarryOverInsetTextComponent do
                                  recruitment_cycle_year: RecruitmentCycle.current_year,
                                  application_choices: [application_choice])
 
-        advance_time_to(after_apply_2_deadline(2021))
+        advance_time_to(after_apply_deadline(2023))
         result = render_inline(described_class.new(application_form:))
 
-        expect(result.text).to include('You submitted your application for courses starting in the 2021 to 2022 academic year, which have now closed.')
-        expect(result.text).to include('You can apply for courses starting in the 2022 to 2023 academic year instead.')
+        expect(result.text).to include('You submitted your application for courses starting in the 2023 to 2024 academic year, which have now closed.')
+        expect(result.text).to include('You can apply for courses starting in the 2024 to 2025 academic year instead.')
         expect(result.css('.govuk-button').first.text).to eq('Apply again')
       end
     end

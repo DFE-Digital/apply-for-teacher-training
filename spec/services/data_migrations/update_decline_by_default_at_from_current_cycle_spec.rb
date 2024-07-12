@@ -39,7 +39,7 @@ RSpec.describe DataMigrations::UpdateDeclineByDefaultAtFromCurrentCycle do
     end
 
     context 'when application has a decline_by_default_at set to apply deadline' do
-      let!(:decline_by_default_at) { CycleTimetable.apply_1_deadline(recruitment_cycle_year) }
+      let!(:decline_by_default_at) { CycleTimetable.apply_deadline(recruitment_cycle_year) }
 
       it 'does not update records' do
         expect { described_class.new.change }.not_to(change { application_choice.reload.decline_by_default_at })
@@ -47,13 +47,13 @@ RSpec.describe DataMigrations::UpdateDeclineByDefaultAtFromCurrentCycle do
     end
 
     context 'when application has a decline_by_default_at set to before apply deadline' do
-      let!(:decline_by_default_at) { CycleTimetable.apply_1_deadline(recruitment_cycle_year) - 1.day }
+      let!(:decline_by_default_at) { CycleTimetable.apply_deadline(recruitment_cycle_year) - 1.day }
 
       it 'updates the records' do
         expect { described_class.new.change }.to(
           change { application_choice.reload.decline_by_default_at }
-            .from(CycleTimetable.apply_1_deadline(recruitment_cycle_year) - 1.day)
-            .to(CycleTimetable.apply_1_deadline(recruitment_cycle_year)),
+            .from(CycleTimetable.apply_deadline(recruitment_cycle_year) - 1.day)
+            .to(CycleTimetable.apply_deadline(recruitment_cycle_year)),
         )
       end
     end

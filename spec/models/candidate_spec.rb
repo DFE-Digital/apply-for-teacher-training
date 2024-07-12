@@ -126,9 +126,9 @@ RSpec.describe Candidate do
       end
     end
 
-    context 'after the apply1 deadline' do
+    context 'after the apply deadline' do
       around do |example|
-        travel_temporarily_to(CycleTimetable.apply_1_deadline + 1.day) do
+        travel_temporarily_to(CycleTimetable.apply_deadline + 1.day) do
           example.run
         end
       end
@@ -193,16 +193,6 @@ RSpec.describe Candidate do
       candidate = create(:candidate)
 
       expect(candidate.course_from_find).to be_nil
-    end
-  end
-
-  describe '#encrypted_id' do
-    let(:candidate) { create(:candidate) }
-
-    it 'invokes Encryptor to encrypt id' do
-      allow(Encryptor).to receive(:encrypt).with(candidate.id).and_return 'encrypted id value'
-
-      expect(candidate.encrypted_id).to eq 'encrypted id value'
     end
   end
 

@@ -10,12 +10,15 @@ class GetIncompletePersonalStatementApplicationsReadyToNudge
 
   def call
     ApplicationForm
-      .unsubmitted
       .inactive_since(7.days.ago)
       .with_completion(COMPLETION_ATTRS)
       .current_cycle
+      .joins(:candidate)
+      .where.not('candidate.submission_blocked': true)
+      .where.not('candidate.account_locked': true)
+      .where.not('candidate.unsubscribed_from_emails': true)
       .where(INCOMPLETION_ATTRS.map { |attr| "#{attr} = false" }.join(' AND '))
       .has_not_received_email(MAILER, MAIL_TEMPLATE)
-      .includes(:application_choices).where('application_choices.status': 'unsubmitted')
+      .joins(:application_choices).where('application_choices.status': 'unsubmitted')
   end
 end

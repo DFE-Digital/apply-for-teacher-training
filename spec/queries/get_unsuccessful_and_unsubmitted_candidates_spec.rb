@@ -29,7 +29,7 @@ RSpec.describe GetUnsuccessfulAndUnsubmittedCandidates do
         candidate: rejected_application_form_from_previous_cycle.candidate,
       )
 
-      application_form_current_year = create(:application_form, :minimum_info, recruitment_cycle_year: RecruitmentCycle.current_year)
+      application_form_current_year = create(:application_form, :minimum_info, submitted_at: nil, recruitment_cycle_year: RecruitmentCycle.current_year)
 
       application_form_previous_year = create(:application_form, submitted_at: 1.year.ago, recruitment_cycle_year: RecruitmentCycle.previous_year)
 

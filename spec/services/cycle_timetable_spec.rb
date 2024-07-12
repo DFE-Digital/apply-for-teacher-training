@@ -3,13 +3,12 @@ require 'rails_helper'
 RSpec.describe CycleTimetable do
   let(:this_year) { Time.zone.now.year }
   let(:next_year) { this_year + 1 }
+  let(:last_year) { this_year - 1 }
   let(:next_next_year) { this_year + 2 }
-  let(:one_hour_before_apply1_deadline) { described_class.apply_1_deadline(this_year) - 1.hour }
-  let(:one_hour_after_apply1_deadline) { described_class.apply_1_deadline(this_year) + 1.hour  }
-  let(:one_hour_before_apply2_deadline) { described_class.apply_2_deadline(this_year) - 1.hour }
-  let(:one_hour_after_apply2_deadline) { described_class.apply_2_deadline(this_year) + 1.hour  }
+  let(:one_hour_before_apply_deadline) { described_class.apply_deadline(this_year) - 1.hour }
+  let(:one_hour_after_apply_deadline) { described_class.apply_deadline(this_year) + 1.hour  }
   let(:one_hour_after_this_year_cycle_opens) { described_class.apply_opens(this_year) + 1.hour }
-  let(:one_hour_after_next_year_cycle_opens) { described_class.apply_opens(next_year) + 1.hour }
+  let(:one_hour_after_near_year_apply_opens) { described_class.apply_opens(next_year) + 1.hour }
   let(:one_hour_before_find_closes) { described_class.find_closes(this_year) - 1.hour }
   let(:one_hour_after_find_closes) { described_class.find_closes(this_year) + 1.hour }
   let(:one_hour_after_find_opens) { described_class.find_opens(this_year) + 1.hour }
@@ -25,7 +24,7 @@ RSpec.describe CycleTimetable do
     end
 
     it 'is next_year if we are in the middle of the next_year cycle' do
-      travel_temporarily_to(one_hour_after_next_year_cycle_opens) do
+      travel_temporarily_to(one_hour_after_near_year_apply_opens) do
         expect(described_class.current_year).to eq(next_year)
       end
     end
@@ -36,8 +35,11 @@ RSpec.describe CycleTimetable do
       end
     end
 
-    it 'returns 2022 for current_year(CycleTimetable.find_opens(2023))' do
-      expect(described_class.current_year(described_class.find_opens(2023))).to eq(2022)
+    it 'returns last_year for current_year(CycleTimetable.find_opens(this_year))' do
+      # What this test shows that right at the moment find_opens, #current_year returns the year before.
+      # Like we haven't quite started the cycle yet.
+      # This doesn't make sense to have the first date that defines a cycle not be included in the cycle.
+      expect(described_class.current_year(described_class.find_opens(this_year))).to eq(last_year)
     end
   end
 
@@ -49,26 +51,27 @@ RSpec.describe CycleTimetable do
     end
 
     it 'is next_next_year if we are in the middle of the next_year cycle' do
-      travel_temporarily_to(one_hour_after_next_year_cycle_opens) do
+      travel_temporarily_to(one_hour_after_near_year_apply_opens) do
         expect(described_class.next_year).to eq(next_next_year)
       end
     end
   end
 
-  describe '.show_apply_1_deadline_banner?' do
-    it 'returns true before the configured date and it is an unsuccessful apply_1 application' do
-      application_form = build(:application_form, phase: 'apply_1')
+  describe '.show_apply_deadline_banner?' do
+    it 'returns true before the deadline and the choices have not been successful' do
+      application_choices = [build(:application_choice, :withdrawn)]
+      application_form = build(:application_form, application_choices:)
 
-      travel_temporarily_to(one_hour_before_apply1_deadline) do
-        expect(described_class.show_apply_1_deadline_banner?(application_form)).to be true
+      travel_temporarily_to(one_hour_before_apply_deadline) do
+        expect(described_class.show_apply_deadline_banner?(application_form)).to be true
       end
     end
 
-    it 'returns false if it is a apply_2 application' do
-      application_form = build(:application_form, phase: 'apply_2')
+    it 'returns true if there are no application choices' do
+      application_form = build(:application_form)
 
-      travel_temporarily_to(one_hour_before_apply1_deadline) do
-        expect(described_class.show_apply_1_deadline_banner?(application_form)).to be false
+      travel_temporarily_to(one_hour_before_apply_deadline) do
+        expect(described_class.show_apply_deadline_banner?(application_form)).to be true
       end
     end
 
@@ -76,70 +79,16 @@ RSpec.describe CycleTimetable do
       application_choice = build(:application_choice, :offered)
       application_form = build(:application_form, phase: 'apply_1', application_choices: [application_choice])
 
-      travel_temporarily_to(one_hour_before_apply1_deadline) do
-        expect(described_class.show_apply_1_deadline_banner?(application_form)).to be false
+      travel_temporarily_to(one_hour_before_apply_deadline) do
+        expect(described_class.show_apply_deadline_banner?(application_form)).to be false
       end
     end
 
     it 'returns false after the configured date' do
-      application_form = build(:application_form, phase: 'apply_1')
+      application_form = build(:application_form)
 
-      travel_temporarily_to(one_hour_after_apply1_deadline) do
-        expect(described_class.show_apply_1_deadline_banner?(application_form)).to be false
-      end
-    end
-  end
-
-  describe '.show_summer_recruitment_banner?' do
-    let(:one_hour_before_show_summer_recruitment_banner) do
-      described_class.date(:show_summer_recruitment_banner) - 1.hour
-    end
-    let(:one_hour_after_show_summer_recruitment_banner) do
-      described_class.date(:show_summer_recruitment_banner) + 1.hour
-    end
-
-    it 'returns false before the configured date' do
-      travel_temporarily_to(one_hour_before_show_summer_recruitment_banner) do
-        expect(described_class.show_summer_recruitment_banner?).to be false
-      end
-    end
-
-    it 'returns true between configure date and apply 1 closes' do
-      travel_temporarily_to(one_hour_after_show_summer_recruitment_banner) do
-        expect(described_class.show_summer_recruitment_banner?).to be true
-      end
-    end
-
-    it 'returns false after apply 1 closes' do
-      travel_temporarily_to(described_class.apply_1_deadline(2022) + 1.hour) do
-        expect(described_class.show_summer_recruitment_banner?).to be false
-      end
-    end
-  end
-
-  describe '.show_apply_2_deadline_banner?' do
-    it 'returns true before the configured date and it is a phase 2 application' do
-      application_form = build(:application_form, phase: 'apply_2')
-
-      travel_temporarily_to(one_hour_before_apply2_deadline) do
-        expect(described_class.show_apply_2_deadline_banner?(application_form)).to be true
-      end
-    end
-
-    it 'returns false if it is a successful apply_1 application' do
-      application_choice = build(:application_choice, :offered)
-      application_form = build(:application_form, phase: 'apply_1', application_choices: [application_choice])
-
-      travel_temporarily_to(one_hour_before_apply2_deadline) do
-        expect(described_class.show_apply_2_deadline_banner?(application_form)).to be false
-      end
-    end
-
-    it 'returns false after the configured date' do
-      unsuccessful_application_form = build(:application_form, phase: 'apply_2', application_choices: [build(:application_choice, :rejected)])
-
-      travel_temporarily_to(one_hour_after_apply2_deadline) do
-        expect(described_class.show_apply_2_deadline_banner?(unsuccessful_application_form)).to be false
+      travel_temporarily_to(one_hour_after_apply_deadline) do
+        expect(described_class.show_apply_deadline_banner?(application_form)).to be false
       end
     end
   end
@@ -149,7 +98,7 @@ RSpec.describe CycleTimetable do
       let(:one_hour_after_christmas_period) { described_class.holidays[:christmas].last.end_of_day + 1.hour }
 
       it 'returns false if before the 20 day period' do
-        travel_temporarily_to(one_hour_after_next_year_cycle_opens) do
+        travel_temporarily_to(one_hour_after_near_year_apply_opens) do
           expect(described_class.show_non_working_days_banner?).to be false
         end
       end
@@ -192,74 +141,48 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.between_cycles_apply_1?' do
-    it 'returns false before the configured date' do
-      travel_temporarily_to(one_hour_before_apply1_deadline) do
-        expect(described_class.between_cycles_apply_1?).to be false
+  describe '.between_cycles?' do
+    it 'returns false before if apply deadline has not passed' do
+      travel_temporarily_to(one_hour_before_apply_deadline) do
+        expect(described_class.between_cycles?).to be false
       end
     end
 
-    it 'returns true after the configured date' do
-      travel_temporarily_to(one_hour_after_apply1_deadline) do
-        expect(described_class.between_cycles_apply_1?).to be true
+    it 'returns true after apply deadline has passed but find is still open' do
+      travel_temporarily_to(one_hour_after_apply_deadline) do
+        expect(described_class.between_cycles?).to be true
       end
     end
 
     it 'returns true between find and apply reopening' do
       travel_temporarily_to(one_hour_after_find_opens) do
-        expect(described_class.between_cycles_apply_2?).to be true
+        expect(described_class.between_cycles?).to be true
       end
     end
 
     it 'returns false after the new cycle opens' do
-      travel_temporarily_to(one_hour_after_next_year_cycle_opens) do
-        expect(described_class.between_cycles_apply_1?).to be false
+      travel_temporarily_to(one_hour_after_near_year_apply_opens) do
+        expect(described_class.between_cycles?).to be false
       end
     end
   end
 
-  describe '.between_apply_1_deadline_and_find_closes?' do
+  describe '.between_apply_deadline_and_find_closes?' do
     it 'returns false before the configured date' do
-      travel_temporarily_to(one_hour_before_apply1_deadline) do
-        expect(described_class.between_apply_1_deadline_and_find_closes?).to be false
+      travel_temporarily_to(one_hour_before_apply_deadline) do
+        expect(described_class.between_apply_deadline_and_find_closes?).to be false
       end
     end
 
     it 'returns true during the configured date' do
-      travel_temporarily_to(one_hour_after_apply1_deadline) do
-        expect(described_class.between_apply_1_deadline_and_find_closes?).to be true
+      travel_temporarily_to(one_hour_after_apply_deadline) do
+        expect(described_class.between_apply_deadline_and_find_closes?).to be true
       end
     end
 
     it 'returns false after the configured date' do
       travel_temporarily_to(one_hour_after_find_reopens) do
-        expect(described_class.between_apply_1_deadline_and_find_closes?).to be false
-      end
-    end
-  end
-
-  describe '.between_cycles_apply_2?' do
-    it 'returns false before the configured date' do
-      travel_temporarily_to(one_hour_before_apply2_deadline) do
-        expect(described_class.between_cycles_apply_2?).to be false
-      end
-    end
-
-    it 'returns true after the configured date' do
-      travel_temporarily_to(one_hour_after_apply2_deadline) do
-        expect(described_class.between_cycles_apply_2?).to be true
-      end
-    end
-
-    it 'returns true between find and apply reopening' do
-      travel_temporarily_to(one_hour_after_find_opens) do
-        expect(described_class.between_cycles_apply_2?).to be true
-      end
-    end
-
-    it 'returns false after the new cycle opens' do
-      travel_temporarily_to(one_hour_after_next_year_cycle_opens) do
-        expect(described_class.between_cycles_apply_2?).to be false
+        expect(described_class.between_apply_deadline_and_find_closes?).to be false
       end
     end
   end
@@ -318,7 +241,7 @@ RSpec.describe CycleTimetable do
 
       context 'when the date is after the apply1 submission deadline' do
         it 'returns false' do
-          travel_temporarily_to(one_hour_after_apply1_deadline) do
+          travel_temporarily_to(one_hour_after_apply_deadline) do
             expect(execute_service).to be false
           end
         end
@@ -326,7 +249,7 @@ RSpec.describe CycleTimetable do
 
       context 'when the date is before the apply1 submission deadline' do
         it 'returns true' do
-          travel_temporarily_to(one_hour_before_apply1_deadline) do
+          travel_temporarily_to(one_hour_before_apply_deadline) do
             expect(execute_service).to be true
           end
         end
@@ -338,7 +261,7 @@ RSpec.describe CycleTimetable do
 
       context 'when the date is after the apply again submission deadline' do
         it 'returns false' do
-          travel_temporarily_to(one_hour_after_apply2_deadline) do
+          travel_temporarily_to(one_hour_after_apply_deadline) do
             expect(execute_service).to be false
           end
         end
@@ -346,7 +269,7 @@ RSpec.describe CycleTimetable do
 
       context 'when the date is before the apply again submission deadline' do
         it 'returns true' do
-          travel_temporarily_to(one_hour_before_apply2_deadline) do
+          travel_temporarily_to(one_hour_before_apply_deadline) do
             expect(execute_service).to be true
           end
         end
@@ -378,97 +301,51 @@ RSpec.describe CycleTimetable do
 
   describe '.need_to_send_deadline_reminder?' do
     it 'does not return for a non deadline date' do
-      travel_temporarily_to(described_class.apply_1_deadline_first_reminder - 1.day) do
-        expect(described_class.need_to_send_deadline_reminder?).to be_nil
+      travel_temporarily_to(described_class.apply_deadline_first_reminder - 1.day) do
+        expect(described_class.need_to_send_deadline_reminder?).to be false
       end
     end
 
-    it 'returns apply_1 when it is the first apply 1 deadline' do
-      travel_temporarily_to(described_class.apply_1_deadline_first_reminder) do
-        expect(described_class.need_to_send_deadline_reminder?).to be :apply_1
-      end
-    end
-
-    it 'returns apply_1 when it is the second apply 1 deadline' do
-      travel_temporarily_to(described_class.apply_1_deadline_second_reminder) do
-        expect(described_class.need_to_send_deadline_reminder?).to be :apply_1
-      end
-    end
-
-    it 'returns apply_2 when it is the first apply 2 deadline' do
-      travel_temporarily_to(described_class.apply_2_deadline_first_reminder) do
-        expect(described_class.need_to_send_deadline_reminder?).to be :apply_2
-      end
-    end
-
-    it 'returns apply_2 when it is the second apply 2 deadline' do
-      travel_temporarily_to(described_class.apply_2_deadline_second_reminder) do
-        expect(described_class.need_to_send_deadline_reminder?).to be :apply_2
+    it 'returns true when it is the apply deadline' do
+      travel_temporarily_to(described_class.apply_deadline_first_reminder) do
+        expect(described_class.need_to_send_deadline_reminder?).to be true
       end
     end
   end
 
   describe '.next_apply_deadline' do
-    context 'after cycle start and before apply 1 deadline' do
-      it 'returns apply_1_deadline' do
-        travel_temporarily_to(one_hour_before_apply1_deadline) do
-          expect(described_class.next_apply_deadline).to eq(described_class.apply_1_deadline)
+    context 'after cycle start and before apply deadline' do
+      it 'returns apply_deadline' do
+        travel_temporarily_to(one_hour_before_apply_deadline) do
+          expect(described_class.next_apply_deadline).to eq(described_class.apply_deadline)
         end
       end
     end
 
-    context 'after apply 1 deadline and before apply 2 deadline' do
-      it 'returns apply_2_deadline' do
-        travel_temporarily_to(one_hour_after_apply1_deadline) do
-          expect(described_class.next_apply_deadline).to eq(described_class.apply_2_deadline)
-        end
-      end
-    end
-
-    context 'after apply 2 deadline' do
-      it 'returns apply_1_deadline for next cycle' do
-        travel_temporarily_to(one_hour_after_apply2_deadline) do
-          expect(described_class.next_apply_deadline).to eq(CycleTimetable::CYCLE_DATES[described_class.next_year][:apply_1_deadline])
+    context 'after apply deadline' do
+      it 'returns apply_deadline for next year' do
+        travel_temporarily_to(one_hour_after_apply_deadline) do
+          expect(described_class.next_apply_deadline).to eq(described_class.apply_deadline(next_year))
         end
       end
     end
   end
 
-  describe 'apply_1_deadline_has_passed?' do
-    context 'it is before the apply 1 deadline' do
+  describe 'apply_deadline_has_passed?' do
+    context 'it is before the apply deadline' do
       it 'returns false' do
         travel_temporarily_to(described_class.apply_opens) do
           application_form = build(:application_form)
-          expect(described_class.apply_1_deadline_has_passed?(application_form)).to be(false)
+          expect(described_class.apply_deadline_has_passed?(application_form)).to be(false)
         end
       end
     end
 
-    context 'it is after the apply 1 deadline' do
-      it 'returns true' do
-        travel_temporarily_to(described_class.apply_2_deadline) do
-          application_form = build(:application_form)
-          expect(described_class.apply_1_deadline_has_passed?(application_form)).to be(true)
-        end
-      end
-    end
-  end
-
-  describe 'apply_2_deadline_has_passed?' do
-    context 'it is before the apply 2 deadline' do
-      it 'returns false' do
-        travel_temporarily_to(described_class.apply_opens) do
-          application_form = build(:application_form)
-          expect(described_class.apply_1_deadline_has_passed?(application_form)).to be(false)
-        end
-      end
-    end
-
-    context 'it is after the apply 1 deadline' do
+    context 'it is after the apply deadline' do
       it 'returns true' do
         travel_temporarily_to(described_class.find_closes) do
           application_form = build(:application_form)
-          expect(described_class.apply_1_deadline_has_passed?(application_form)).to be(true)
+          expect(described_class.apply_deadline_has_passed?(application_form)).to be(true)
         end
       end
     end
@@ -490,12 +367,12 @@ RSpec.describe CycleTimetable do
   end
 
   describe 'cycle switcher' do
-    it 'correctly sets can_add_course_choice? and can_submit? between cycles', time: mid_cycle(2023) do
+    it 'correctly sets can_add_course_choice? and can_submit? between cycles', time: mid_cycle do
       SiteSetting.set(name: 'cycle_schedule', value: :today_is_mid_cycle)
 
-      application_form = create(:application_form, phase: 'apply_1')
+      application_form = create(:application_form)
 
-      SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_apply_1_deadline_passed)
+      SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_apply_deadline_passed)
 
       new_application = CarryOverApplication.new(application_form).call
 
@@ -515,7 +392,7 @@ RSpec.describe CycleTimetable do
       SiteSetting.set(name: 'cycle_schedule', value: nil)
     end
 
-    context 'when cycle_schedule is set to today_is_after_find_opens', time: mid_cycle(2023) do
+    context 'when cycle_schedule is set to today_is_after_find_opens', time: mid_cycle do
       it 'changes the CycleTimetable.current_year to the next year' do
         current_year = described_class.current_year
         next_year = described_class.next_year
@@ -526,7 +403,7 @@ RSpec.describe CycleTimetable do
       end
     end
 
-    context 'when cycle_schedule is set to today_is_after_apply_opens', time: mid_cycle(2023) do
+    context 'when cycle_schedule is set to today_is_after_apply_opens', time: mid_cycle do
       it 'changes the CycleTimetable.current_year to the next year' do
         current_year = described_class.current_year
         next_year = described_class.next_year
@@ -762,6 +639,42 @@ RSpec.describe CycleTimetable do
       it 'only returns dates in current cycle year' do
         start_of_week_65 = described_class.start_of_cycle_week(65)
         expect(start_of_week_65).to eq described_class.start_of_cycle_week(13)
+      end
+    end
+  end
+
+  describe '#cancel_unsubmitted_applicaions?' do
+    before { TestSuiteTimeMachine.travel_permanently_to(date) }
+
+    context 'mid-cycle' do
+      let(:date) { mid_cycle }
+
+      it 'returns false' do
+        expect(described_class.cancel_unsubmitted_applications?).to be false
+      end
+    end
+
+    context 'on reject by default date' do
+      let(:date) { described_class.reject_by_default }
+
+      it 'returns false' do
+        expect(described_class.cancel_unsubmitted_applications?).to be false
+      end
+    end
+
+    context 'on cancel date' do
+      let(:date) { cancel_application_deadline }
+
+      it 'returns false' do
+        expect(described_class.cancel_unsubmitted_applications?).to be true
+      end
+    end
+
+    context 'after find reopens' do
+      let(:date) { after_apply_reopens }
+
+      it 'returns false' do
+        expect(described_class.cancel_unsubmitted_applications?).to be false
       end
     end
   end

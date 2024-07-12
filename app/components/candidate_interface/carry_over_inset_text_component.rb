@@ -7,7 +7,7 @@ module CandidateInterface
     end
 
     def render?
-      @application_form.unsuccessful_and_apply_2_deadline_has_passed?
+      @application_form.unsuccessful_and_apply_deadline_has_passed?
     end
 
     def application_form_academic_cycle

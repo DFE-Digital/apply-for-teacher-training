@@ -30,9 +30,12 @@ gem 'govuk_markdown'
 
 # Linting
 gem 'rubocop', require: false
+gem 'rubocop-capybara', require: false
+gem 'rubocop-factory_bot', require: false
 gem 'rubocop-rails', require: false
 gem 'rubocop-rake', require: false
 gem 'rubocop-rspec', require: false
+gem 'rubocop-rspec_rails', require: false
 gem 'erb_lint', require: false
 
 gem 'devise'
@@ -133,8 +136,9 @@ gem 'archive-zip'
 # Geocoding
 gem 'geocoder'
 
-gem 'dfe-reference-data', require: 'dfe/reference_data', github: 'DFE-Digital/dfe-reference-data', tag: 'v3.4.0'
+gem 'dfe-reference-data', require: 'dfe/reference_data', github: 'DFE-Digital/dfe-reference-data', tag: 'v3.5.0'
 gem 'dfe-autocomplete', require: 'dfe/autocomplete', github: 'DFE-Digital/dfe-autocomplete', tag: 'v0.1.0'
+gem 'dfe-wizard', require: 'dfe/wizard', github: 'DFE-Digital/dfe-wizard', tag: 'v0.1.0'
 
 gem 'strip_attributes'
 
@@ -148,7 +152,7 @@ gem 'colorize'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 
 # BigQuery
-gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.12.7'
+gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.12.8'
 
 # Azure Blob Storage
 gem 'azure-blob'

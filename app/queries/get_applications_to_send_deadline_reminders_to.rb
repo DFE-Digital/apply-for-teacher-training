@@ -1,24 +1,15 @@
 class GetApplicationsToSendDeadlineRemindersTo
   def self.call
-    if CycleTimetable.need_to_send_deadline_reminder? == :apply_1
-      deadline_reminder_candidates_apply_1
-    elsif CycleTimetable.need_to_send_deadline_reminder? == :apply_2
-      deadline_reminder_candidates_apply_2
-    end
+    deadline_reminder_query if CycleTimetable.need_to_send_deadline_reminder?
   end
 
-  def self.deadline_reminder_candidates_apply_1
-    deadline_reminder_query(phase: 'apply_1')
-  end
-
-  def self.deadline_reminder_candidates_apply_2
-    deadline_reminder_query(phase: 'apply_2')
-  end
-
-  def self.deadline_reminder_query(phase:)
+  def self.deadline_reminder_query
     ApplicationForm
     .joins(:candidate)
-    .where(submitted_at: nil, phase:, recruitment_cycle_year: RecruitmentCycle.current_year)
+    .current_cycle
+    .unsubmitted
     .where.not(candidate: { unsubscribed_from_emails: true })
+    .where.not(candidate: { submission_blocked: true })
+    .where.not(candidate: { account_locked: true })
   end
 end

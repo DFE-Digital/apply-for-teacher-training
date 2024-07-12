@@ -5,15 +5,11 @@ class EndOfCycleBannersComponent < ViewComponent::Base
     [
       {
         name: 'Summer recruitment banner',
-        date: "#{banner_date(:show_summer_recruitment_banner)} to #{banner_date(:apply_1_deadline)}",
+        date: "#{banner_date(:show_summer_recruitment_banner)} to #{banner_date(:apply_deadline)}",
       },
       {
-        name: 'Apply 1 deadline banner',
-        date: "#{banner_date(:show_deadline_banner)} to #{banner_date(:apply_1_deadline)}",
-      },
-      {
-        name: 'Apply 2 deadline banner',
-        date: "#{banner_date(:show_summer_recruitment_banner)} to #{banner_date(:apply_2_deadline)}",
+        name: 'Apply deadline banner',
+        date: "#{banner_date(:show_deadline_banner)} to #{banner_date(:apply_deadline)}",
       },
     ].map do |cycle_data|
       EndOfCycleBanner.new(cycle_data)

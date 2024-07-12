@@ -7,7 +7,7 @@ RSpec.describe CandidateInterface::DeadlineBannerComponent, type: :component do
 
     it 'does not render when flash is not empty' do
       allow(flash).to receive(:empty?).and_return(false)
-      allow(CycleTimetable).to receive_messages(show_apply_1_deadline_banner?: true, show_apply_2_deadline_banner?: true)
+      allow(CycleTimetable).to receive_messages(show_apply_deadline_banner?: true)
 
       result = render_inline(described_class.new(application_form:, flash_empty: flash.empty?))
 
@@ -16,32 +16,21 @@ RSpec.describe CandidateInterface::DeadlineBannerComponent, type: :component do
 
     it 'does not render when a deadline banner should not be shown' do
       allow(flash).to receive(:empty?).and_return(true)
-      allow(CycleTimetable).to receive_messages(show_apply_1_deadline_banner?: false, show_apply_2_deadline_banner?: false)
+      allow(CycleTimetable).to receive_messages(show_apply_deadline_banner?: false)
 
       result = render_inline(described_class.new(application_form:, flash_empty: flash.empty?))
 
       expect(result.text).to eq('')
     end
 
-    it 'renders the Apply 1 banner when the right conditions are met' do
+    it 'renders the banner when the right conditions are met' do
       allow(flash).to receive(:empty?).and_return(true)
-      allow(CycleTimetable).to receive_messages(show_apply_1_deadline_banner?: true, show_apply_2_deadline_banner?: false)
+      allow(CycleTimetable).to receive_messages(show_apply_deadline_banner?: true)
 
       result = render_inline(described_class.new(application_form:, flash_empty: flash.empty?))
 
       expect(result.text).to include(
-        "The deadline for applying to courses starting in the #{academic_year} academic year is #{deadline_time(:apply_1_deadline)} on #{deadline_date(:apply_1_deadline)}",
-      )
-    end
-
-    it 'renders the Apply 2 banner when the right conditions are met' do
-      allow(flash).to receive(:empty?).and_return(true)
-      allow(CycleTimetable).to receive_messages(show_apply_1_deadline_banner?: false, show_apply_2_deadline_banner?: true)
-
-      result = render_inline(described_class.new(application_form:, flash_empty: flash.empty?))
-
-      expect(result.text).to include(
-        "The deadline for applying to courses starting in the #{academic_year} academic year is #{deadline_time(:apply_2_deadline)} on #{deadline_date(:apply_2_deadline)}",
+        "The deadline for applying to courses starting in #{academic_year} is #{deadline_time(:apply_deadline)} on #{deadline_date(:apply_deadline)}",
       )
     end
   end

@@ -119,26 +119,6 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
           result = render_inline(described_class.new(application_choice:, current_provider_user: provider_user))
           expect(result.text).to include('Prefer not to say')
         end
-
-        it 'displays nothing for disabilities when they are nil' do
-          nil_disabilities_diversity_info = { 'sex' => 'female',
-                                              'disabilities' => nil,
-                                              'ethnic_group' => 'Asian or Asian British',
-                                              'ethnic_background' => 'Chinese' }
-
-          application_form = build_stubbed(
-            :application_form,
-            equality_and_diversity: nil_disabilities_diversity_info,
-          )
-          application_choice = build(:application_choice,
-                                     application_form:,
-                                     course:,
-                                     current_course: course,
-                                     status: 'pending_conditions')
-
-          result = render_inline(described_class.new(application_choice:, current_provider_user: provider_user))
-          expect(result.text).to include('Disabilities and health conditions')
-        end
       end
 
       context 'when provider user does not have permissions to view diversity information and the application is accepted' do

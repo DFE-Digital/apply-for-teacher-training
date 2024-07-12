@@ -541,7 +541,12 @@ private
     realistic_job_preview_url({ id: candidate.pseudonymised_id }.merge(utm_args))
   end
 
-  helper_method :candidate_magic_link, :candidate_realistic_job_preview_link
+  def candidate_unsubscribe_link(candidate)
+    token = candidate.generate_token_for :unsubscribe_link
+    candidate_interface_unsubscribe_from_emails_url(token:)
+  end
+
+  helper_method :candidate_magic_link, :candidate_realistic_job_preview_link, :candidate_unsubscribe_link
 
   def uid
     @uid ||= EmailLogInterceptor.generate_reference

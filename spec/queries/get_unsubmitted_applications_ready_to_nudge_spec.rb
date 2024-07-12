@@ -1,19 +1,61 @@
 require 'rails_helper'
 
 RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
-  it 'returns unsubmitted applications that are complete' do
+  it 'returns applications that are complete and at least one choice is unsubmitted' do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
+      submitted_at: 10.days.ago,
     )
-    create(:application_choice, application_form:)
+    create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(updated_at: 10.days.ago)
 
     expect(described_class.new.call).to include(application_form)
   end
 
-  it 'omits submitted applications that are complete' do
+  it 'omits candidates with locked accounts' do
+    candidate = create(:candidate, account_locked: true)
+    application_form = create(
+      :completed_application_form,
+      :with_completed_references,
+      candidate:,
+      submitted_at: 10.days.ago,
+    )
+    create(:application_choice, :unsubmitted, application_form:)
+    application_form.update_columns(updated_at: 10.days.ago)
+
+    expect(described_class.new.call).not_to include(application_form)
+  end
+
+  it 'omits candidates with submission blocked' do
+    candidate = create(:candidate, submission_blocked: true)
+    application_form = create(
+      :completed_application_form,
+      :with_completed_references,
+      candidate:,
+      submitted_at: 10.days.ago,
+    )
+    create(:application_choice, :unsubmitted, application_form:)
+    application_form.update_columns(updated_at: 10.days.ago)
+
+    expect(described_class.new.call).not_to include(application_form)
+  end
+
+  it 'omits candidates who have unsubscribed from emails' do
+    candidate = create(:candidate, unsubscribed_from_emails: true)
+    application_form = create(
+      :completed_application_form,
+      :with_completed_references,
+      candidate:,
+      submitted_at: 10.days.ago,
+    )
+    create(:application_choice, :unsubmitted, application_form:)
+    application_form.update_columns(updated_at: 10.days.ago)
+
+    expect(described_class.new.call).not_to include(application_form)
+  end
+
+  it 'omits submitted applications where no choices are "unsubmitted"' do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
@@ -29,9 +71,9 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
+      submitted_at: 10.days.ago,
     )
-    create(:application_choice, application_form:)
+    create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(
       references_completed: false,
       updated_at: 10.days.ago,
@@ -44,9 +86,9 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
+      submitted_at: 10.days.ago,
     )
-    create(:application_choice, application_form:)
+    create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(
       updated_at: 5.days.ago,
     )
@@ -62,7 +104,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
       first_nationality: 'British',
       efl_completed: false,
     )
-    create(:application_choice, application_form:)
+    create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -78,7 +120,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
       first_nationality: 'French',
       efl_completed: false,
     )
-    create(:application_choice, application_form:)
+    create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
@@ -95,11 +137,13 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     )
     create(
       :application_choice,
+      :unsubmitted,
       application_form:,
       course: create(:course, level: 'secondary'),
     )
     create(
       :application_choice,
+      :unsubmitted,
       application_form:,
       course: create(:course, level: 'primary'),
     )
@@ -119,11 +163,13 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     )
     create(
       :application_choice,
+      :unsubmitted,
       application_form:,
       course: create(:course, level: 'secondary'),
     )
     create(
       :application_choice,
+      :unsubmitted,
       application_form:,
       course: create(:course, level: 'primary'),
     )

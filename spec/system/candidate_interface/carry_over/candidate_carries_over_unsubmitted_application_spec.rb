@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.feature 'Carry over unsubmitted application' do
+RSpec.describe 'Carry over unsubmitted application' do
   include CandidateHelper
 
   scenario 'Candidate carries over their application to the new cycle' do
     given_i_am_signed_in
     and_i_have_an_unsubmitted_application_with_references
 
-    when_the_apply1_deadline_passes
+    when_the_apply_deadline_passes
     and_i_sign_in_again
     and_i_visit_the_application_dashboard
     and_i_have_to_carry_my_application_over
@@ -18,7 +18,7 @@ RSpec.feature 'Carry over unsubmitted application' do
     then_i_see_the_new_states_of_my_references
 
     when_i_visit_the_application_complete_page
-    then_i_should_be_on_your_details_page
+    then_i_am_on_your_details_page
   end
 
   def given_i_am_signed_in
@@ -27,7 +27,7 @@ RSpec.feature 'Carry over unsubmitted application' do
   end
 
   def and_i_have_an_unsubmitted_application_with_references
-    @application_form = create(:completed_application_form, recruitment_cycle_year: 2023, submitted_at: nil, candidate: @candidate)
+    @application_form = create(:completed_application_form, recruitment_cycle_year: 2024, submitted_at: nil, candidate: @candidate)
 
     @pending_reference = create(:reference, :feedback_requested, application_form: @application_form)
     @declined_reference = create(:reference, :feedback_refused, application_form: @application_form)
@@ -35,8 +35,8 @@ RSpec.feature 'Carry over unsubmitted application' do
     @selected_reference = create(:selected_reference, application_form: @application_form)
   end
 
-  def when_the_apply1_deadline_passes
-    advance_time_to(after_apply_1_deadline)
+  def when_the_apply_deadline_passes
+    advance_time_to(after_apply_deadline)
   end
 
   def and_i_sign_in_again

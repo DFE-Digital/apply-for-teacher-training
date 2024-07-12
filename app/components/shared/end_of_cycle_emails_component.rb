@@ -6,15 +6,9 @@ class EndOfCycleEmailsComponent < ViewComponent::Base
   def end_of_cycle_emails
     [
       {
-        link: preview_email_link('Apply 1 deadline reminder', path: 'candidate_mailer/eoc_deadline_reminder'),
-
-        date: "#{email_date(:apply_1_deadline_first_reminder)} and #{email_date(:apply_1_deadline_second_reminder)}",
-        candidates_size: apply_1_candidates,
-      },
-      {
-        link: preview_email_link('Apply 2 deadline reminder', path: 'candidate_mailer/eoc_deadline_reminder'),
-        date: "#{email_date(:apply_2_deadline_first_reminder)} and #{email_date(:apply_2_deadline_second_reminder)}",
-        candidates_size: apply_2_candidates,
+        link: preview_email_link('Apply deadline reminder', path: 'candidate_mailer/eoc_deadline_reminder'),
+        date: "#{email_date(:apply_deadline_first_reminder)} and #{email_date(:apply_deadline_second_reminder)}",
+        candidates_size: apply_candidates,
       },
       {
         link: preview_email_link('Find has opened', path: 'candidate_mailer/find_has_opened'),
@@ -36,12 +30,8 @@ class EndOfCycleEmailsComponent < ViewComponent::Base
     end
   end
 
-  def apply_1_candidates
-    GetApplicationsToSendDeadlineRemindersTo.deadline_reminder_candidates_apply_1.count
-  end
-
-  def apply_2_candidates
-    GetApplicationsToSendDeadlineRemindersTo.deadline_reminder_candidates_apply_2.count
+  def apply_candidates
+    GetApplicationsToSendDeadlineRemindersTo.deadline_reminder_query.count
   end
 
   def candidates_to_notify_about_find_and_apply

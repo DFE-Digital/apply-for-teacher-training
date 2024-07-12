@@ -5,15 +5,17 @@
 3. [Work History Break](#work-history-break)
 4. [Qualifications](#qualifications)
 5. [Personal Statement](#personal-statement)
-6. [Courses and locations](#courses-and-course-locations)
-7. [Confirm deferral](#confirm-deferral)
-8. [Offers](#offers)
-9. [Withdraw](#withdraw-an-application)
-10. [Delete account or application](#delete-an-account--application)
-11. [Permissions](#provider-users-and-permissions)
-12. [Publish Sandbox](#publish-sandbox)
-13. [Candidate sign in](#candidate-login-issues)
-14. [Candidate email address](#switch-email-addresses)
+6. [Safeguarding Issues](#safeguarding-issues)
+7. [Courses and locations](#courses-and-course-locations)
+8. [Confirm deferral](#confirm-deferral)
+9. [Offers](#offers)
+10. [Withdraw](#withdraw-an-application)
+11. [Delete account or application](#delete-an-account--application)
+12. [Permissions](#provider-users-and-permissions)
+13. [Publish Sandbox](#publish-sandbox)
+14. [Candidate sign in](#candidate-login-issues)
+15. [Candidate email address](#switch-email-addresses)
+16. [Updating applications in old recruitment cycles](#old-recruitment-cycles)
 
 ## Support Trello board
 
@@ -71,6 +73,47 @@ Occasionally, there might be a request to unlock certain sections of an applicat
 ### Add Work Experience
 
 Create a new ApplicationWorkExperience of the appropriate type and save it against the ApplicationForm.
+This will usually involve ending a most recent ApplicationWorkExperience.
+
+```ruby
+application_form = ApplicationForm.find_by(id: APPLICATION_FORM_ID)
+ended_job = application_form.application_work_experiences.find_by(id: LAST_WORK_EXPERIENCE_ID)
+ended_date = Date.new()
+
+ApplicationWorkExperience.transaction do
+   ended_job.update!(end_date: ended_date,
+                     currently_working: false,
+                     audit_comment: 'Updated end date following a support request, ticket ZENDESK_URL')
+
+   job_form_params = {
+     role: "Some Role",
+     organisation: "Some Organisation",
+     commitment: 'full_time', # full_time, part_time
+     start_date_day: 1,
+     start_date_month: 11,
+     start_date_year: 2024,
+     start_date_unknown: 'false', # 'true', 'false' strings
+     currently_working: 'true', # 'true', 'false' strings
+     end_date_day: nil,
+     end_date_month: nil,
+     end_date_year: nil,
+     end_date_unknown: 'false', # 'true', 'false' strings
+     relevant_skills: 'true' # 'true', 'false' strings
+   }
+
+   job_form = CandidateInterface::RestructuredWorkHistory::JobForm.new(job_form_params)
+   job_form.save(application_form)
+
+end
+
+created_job = application_form.application_work_experiences.find_by(id: NEW_WORK_EXPERIENCE_ID)
+created_job.audits.where(action: "create").first.update(comment: "Created following a support request, ticket ZENDESK_URL")
+```
+
+Message to the support agent:
+>Application Work Experience (id: LAST_WORK_EXPERIENCE_ID) updated with end date ENDED_DATE and currently_working set to false.
+>A new Application Work Experience (id: NEW_WORK_EXPERIENCE_ID) created with the details provided.
+
 
 ### Update Work Experience
 
@@ -246,6 +289,17 @@ The personal statement uses the following database field:
 
 ```ruby
 ApplicationForm.find(ID).update!(becoming_a_teacher: 'new text', audit_comment: 'Updating grade following a support request, ticket ZENDESK_URL')
+```
+
+## Safeguarding issues
+
+### Remove safeguarding issues
+
+```ruby
+audit_comment = ZENDESK_URL
+application_form_id = APPLICATION_FORM_ID
+
+ApplicationForm.find(application_form_id).update(safeguarding_issues: nil, safeguarding_issues_status: :no_safeguarding_issues_to_declare, audit_comment:)
 ```
 
 ## Courses and course locations
@@ -442,6 +496,33 @@ Whatever is decided, we should (at a minimum) do the following:
 - Add fake data where not possible (`email_address`)
 - `Candidate.find_by(email_address: 'old_email').update!(email_address: 'deleted_on_user_requestX@example.com')`
 
+### Withdraw existing Applications and force Delete Candidate's Applications
+```ruby
+# Withdraw existing Applications
+candidate = Candidate.find(CANDIDATE_ID)
+
+candidate.application_forms.each do |application_form|
+  application_form.application_choices.each do |application_choice|
+    next unless ApplicationStateChange.new(application_choice).can_withdraw?
+
+    WithdrawApplication.new(application_choice: application_choice).save!
+  end
+end
+
+puts candidate.application_choices.pluck(:id, :status)
+# Check these are all withdrawn/ended before proceeding
+
+# Delete the candidate's applications
+candidate.application_forms.each do |application_form|
+  DeleteApplication.new(
+    actor: SupportUser.find_by(email_address: YOUR_SUPPORT_EMAIL),
+    application_form: application_form,
+    zendesk_url: 'Deleted following a support request, ticket ZENDESK_URL',
+    force: true
+  ).call!
+end
+```
+
 ## Provider users and permissions
 
 ### Provider login issues
@@ -630,4 +711,24 @@ Candidate.transaction do
   # Set the email address of the duplicate candidate to the original email address
   dup_candidate.update!(email_address: og_email_address, audit_comment: audit_comment)
 end
+```
+
+## Old recruitment cycles
+
+When an `ApplicationForm` is updated, we ususally want those changes to be available in the API so Providers and Vendors can consume the updates. This is done by `touch`ing the `ApplicationChoice` records. This updates the `updated_at` value on the ApplicationChoice so it is made priority for the providers to consume.
+
+Providers have trouble consuming these changes if the application that gets an update is from an old recruitment cycle (We need to talk to vendors to see if this is still the case). We have a system to prevent this from happening. If the ApplicationForm is from a past recruitment cycle we prevent any changes from being made on it.
+
+If we want to bypass this, we will want to update the value in the database and not to trigger callbacks in the Model. This stops the ApplicationChoices from being `touch`ed.
+
+This also prevents audits from being created, so we have to create an audit record manually:
+
+### Update a candidates last name from an old recruitment cycle
+
+```ruby
+application_form = ApplicationForm.find_by(APPLICATION_FORM_ID)
+last_name = LAST_NAME
+audit_comment = ZENDESK_URL
+application_form.update_column(:last_name, last_name)
+application_form.audits.new(action: :update, comment: audit_comment)
 ```

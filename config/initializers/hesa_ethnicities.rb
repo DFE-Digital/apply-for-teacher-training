@@ -45,6 +45,8 @@ module HesaEthnicityCollections
     ['80', HesaEthnicityValues::OTHER_ETHNIC],
     ['90', HesaEthnicityValues::NOT_KNOWN],
     ['98', HesaEthnicityValues::INFORMATION_REFUSED],
+    # For backward compatibility
+    ['98', HesaEthnicityValues::PREFER_NOT_TO_SAY],
   ].freeze
 
   HESA_ETHNICITIES_2022_2023 = [

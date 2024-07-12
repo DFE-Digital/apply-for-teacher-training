@@ -40,11 +40,11 @@ module RecruitmentCycle
 
   def self.years_visible_in_support
     from_year = HostingEnvironment.production? ? current_year : next_year
-    from_year.downto(CycleTimetable::CYCLE_DATES.keys.min)
+    from_year.downto(CYCLE_DATES.keys.min)
   end
 
   def self.years_available_to_register
-    current_year.downto(CycleTimetable::CYCLE_DATES.keys.min)
+    current_year.downto(CYCLE_DATES.keys.min)
   end
 
   def self.cycle_name(year = current_year)

@@ -225,11 +225,9 @@ paths:
     post:
       tags:
       - Application management
-      summary: Reject application
+      summary: Reject application (DEPRECATED)
       description: |
-        Reject the candidate’s application with a reason.
-
-        This will transition the application to the [rejected state](/api-docs/lifecycle#rejected).
+        This endpoint has been deprecated. Please use `/reject-by-codes`
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:

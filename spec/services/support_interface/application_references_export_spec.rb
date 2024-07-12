@@ -27,7 +27,6 @@ RSpec.describe SupportInterface::ApplicationReferencesExport, :bullet do
 
       application_form_two = DuplicateApplication.new(
         application_form_one,
-        target_phase: 'apply_2',
       ).duplicate
 
       new_reference1 = create(:reference, feedback_status: 'feedback_refused', referee_type: 'academic', application_form: application_form_two)

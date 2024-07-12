@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.shared_examples 'duplicates application form' do |expected_phase, expected_cycle|
+RSpec.shared_examples 'duplicates application form' do |expected_cycle|
   def duplicate_application_form
     return @duplicate_application_form if @duplicate_application_form
 
@@ -27,10 +27,6 @@ RSpec.shared_examples 'duplicates application form' do |expected_phase, expected
     expect(duplicate_application_form.course_choices_completed).to be_nil
   end
 
-  it "sets the phase to `#{expected_phase}`" do
-    expect(duplicate_application_form.phase).to eq expected_phase
-  end
-
   it "sets the recruitment_cycle_year to `#{expected_cycle}`" do
     expect(duplicate_application_form.recruitment_cycle_year).to eq expected_cycle
   end
@@ -49,6 +45,11 @@ RSpec.shared_examples 'duplicates application form' do |expected_phase, expected
 
   it 'copies qualifications' do
     expect(duplicate_application_form.application_qualifications.count).to eq 3
+  end
+
+  it 'does not carry over any equality and diversity data' do
+    expect(duplicate_application_form.equality_and_diversity).to be_nil
+    expect(duplicate_application_form.equality_and_diversity_completed).to be_nil
   end
 
   context 'when one of the degrees has missing data' do

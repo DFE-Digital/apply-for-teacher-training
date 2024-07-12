@@ -203,10 +203,10 @@ RSpec.describe SampleApplicationsFactory do
       previous_form = new_form.previous_application_form
 
       expect(previous_form).not_to be_nil
-      expect(previous_form.created_at).to be_between(CycleTimetable.apply_opens, CycleTimetable.apply_1_deadline)
+      expect(previous_form.created_at).to be_between(CycleTimetable.apply_opens, CycleTimetable.apply_deadline)
       expect(previous_form.phase).to eq('apply_1')
       expect(new_form).not_to be_nil
-      expect(new_form.created_at).to be_between(CycleTimetable.apply_1_deadline, CycleTimetable.apply_2_deadline)
+      expect(new_form.created_at).to be_between(CycleTimetable.apply_opens, CycleTimetable.apply_deadline)
       expect(new_form.phase).to eq('apply_2')
     end
   end
@@ -263,7 +263,7 @@ RSpec.describe SampleApplicationsFactory do
 
     it 'assigns the correct hesa code for sex' do
       if equality_and_diversity['sex'] == 'Prefer not to say'
-        expect(equality_and_diversity['hesa_sex']).to be_nil
+        expect(equality_and_diversity['hesa_sex']).to eq '96'
       else
         expect(equality_and_diversity['hesa_sex']).to eq(
           Hesa::Sex.find(equality_and_diversity['sex'], RecruitmentCycle.current_year)['hesa_code'],

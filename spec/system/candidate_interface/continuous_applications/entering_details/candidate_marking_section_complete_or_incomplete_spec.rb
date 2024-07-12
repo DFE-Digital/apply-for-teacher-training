@@ -1,7 +1,12 @@
 require 'rails_helper'
 
-RSpec.feature 'Marking section as complete or incomplete' do
+RSpec.describe 'Marking section as complete or incomplete' do
   include CandidateHelper
+  before do
+    values_checker = instance_double(EqualityAndDiversity::ValuesChecker)
+    allow(EqualityAndDiversity::ValuesChecker).to receive(:new).and_return(values_checker)
+    allow(values_checker).to receive(:check_values).and_return true
+  end
 
   [
     'Personal information',
@@ -22,10 +27,10 @@ RSpec.feature 'Marking section as complete or incomplete' do
       given_i_have_a_completed_application_form
       when_i_sign_in
       and_i_mark_the_section_as_incomplete(section_name)
-      then_i_should_be_redirected_to_your_details_page
+      then_i_am_redirected_to_your_details_page
       when_i_mark_the_section_as_complete(section_name)
       and_all_sections_are_complete
-      then_i_should_be_redirected_to_your_applications_page
+      then_i_am_redirected_to_your_applications_page
     end
   end
 
@@ -58,7 +63,7 @@ RSpec.feature 'Marking section as complete or incomplete' do
     then_i_see_the_incomplete_applications_text
 
     when_i_click_on_your_details
-    then_i_should_be_redirected_to_your_details_page
+    then_i_am_redirected_to_your_details_page
 
     when_i_add_the_maximum_number_of_choices
     then_i_dont_see_the_complete_details_text
@@ -87,6 +92,10 @@ RSpec.feature 'Marking section as complete or incomplete' do
       volunteering_experiences_count: 1,
       candidate: current_candidate,
       submitted_at: nil,
+      equality_and_diversity: {
+        sex: 'Prefer not to say', ethnic_group: 'Prefer not to say', disabilities: ['Prefer not to say'],
+        hesa_sex: '96', hesa_disabilities: ['98'], hesa_ethnicity: '998'
+      },
     )
     create(:application_choice, :unsubmitted, application_form: @application_form)
   end
@@ -101,7 +110,7 @@ RSpec.feature 'Marking section as complete or incomplete' do
   end
   alias_method :when_i_mark_a_section_as_incomplete, :and_i_mark_a_section_as_incomplete
 
-  def then_i_should_be_redirected_to_your_details_page
+  def then_i_am_redirected_to_your_details_page
     expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
   end
 
@@ -116,7 +125,7 @@ RSpec.feature 'Marking section as complete or incomplete' do
     expect(completed_application_form).to be_valid
   end
 
-  def then_i_should_be_redirected_to_your_applications_page
+  def then_i_am_redirected_to_your_applications_page
     expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
   end
 

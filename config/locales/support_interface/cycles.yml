@@ -9,15 +9,12 @@ en:
     today_is_mid_cycle:
       name: Mid cycle and deadlines should be displayed
       description: Candidates can see upcoming application deadlines
-    today_is_after_apply_1_deadline_passed:
-      name: Apply 1 deadline has passed
-      description: Candidates can no longer submit their initial application
+    today_is_after_apply_deadline_passed:
+      name: Apply deadline has passed
+      description: Candidates can no longer submit applications
     today_is_after_full_course_deadline_passed:
       name: Full course deadline has passed
       description: Candidates can no longer apply to unavailable courses
-    today_is_after_apply_2_deadline_passed:
-      name: Apply 2 deadline has passed
-      description: Candidates can no longer submit any subsequent applications
     today_is_after_find_closes:
       name: Find has closed
       description: Candidates can no longer browse courses on Find

@@ -1,6 +1,6 @@
 module CandidateInterface
   module ContinuousApplications
-    class ProviderSelectionStep < DfE::WizardStep
+    class ProviderSelectionStep < DfE::Wizard::Step
       attr_accessor :provider_id
       validates :provider_id, presence: true
 

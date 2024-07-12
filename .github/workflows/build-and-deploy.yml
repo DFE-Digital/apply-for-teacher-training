@@ -80,7 +80,7 @@ jobs:
           key: SNYK_TOKEN
 
       - name: Build gems-node-modules Docker Image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           target: gems-node-modules
           tags: |
@@ -93,7 +93,7 @@ jobs:
             type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:main
 
       - name: Build Docker Image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           tags: |
             ${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
@@ -145,7 +145,7 @@ jobs:
         tests: [rubocop, erblint, brakeman, yarn_lint]
         include:
           - tests: rubocop
-            command: bundle exec rubocop --format clang --parallel --except RSpec/NoShouldInSpecs,RSpec/UseDescribeSystemSpecs
+            command: bundle exec rubocop --format clang --parallel --except RSpec/NoShouldInSpecs,RSpec/Dialect
           - tests: erblint
             command: bundle exec rake erblint
           - tests: brakeman

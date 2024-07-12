@@ -139,12 +139,7 @@ RSpec.describe 'ApplicationForm factory' do
       expect(record.equality_and_diversity['hesa_disabilities']).to be_an(Array)
       expect(record.equality_and_diversity['hesa_ethnicity']).to be_present
       expect(record.equality_and_diversity['sex']).to be_present
-
-      if record.equality_and_diversity['sex'] == 'Prefer not to say'
-        expect(record.equality_and_diversity['hesa_sex']).to be_nil
-      else
-        expect(record.equality_and_diversity['hesa_sex']).to be_present
-      end
+      expect(record.equality_and_diversity['hesa_sex']).to be_present
     end
   end
 
@@ -346,8 +341,8 @@ RSpec.describe 'ApplicationForm factory' do
     it_behaves_like 'trait :completed', phase: 'apply_2'
 
     field :recruitment_cycle_year, value: RecruitmentCycle.current_year
-    field :created_at, value: CycleTimetableHelper.before_apply_2_deadline
-    field :updated_at, value: CycleTimetableHelper.before_apply_2_deadline
+    field :created_at, value: CycleTimetableHelper.before_apply_deadline
+    field :updated_at, value: CycleTimetableHelper.before_apply_deadline
 
     it 'associates a previous application form in the current year' do
       expect(record.previous_application_form).to be_present

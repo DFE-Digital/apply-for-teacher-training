@@ -64,10 +64,10 @@ private
   end
 
   def ethnicity_data
-    return {} if equality_and_diversity['ethnic_background'].blank?
+    return {} if ethnic_look_up_value.blank?
 
     hesa_code = Hesa::Ethnicity.find_without_conversion(
-      equality_and_diversity['ethnic_background'],
+      ethnic_look_up_value,
       recruitment_cycle_year,
     )&.hesa_code
 
@@ -79,6 +79,16 @@ private
     {
       hesa_ethnicity: hesa_code || equality_and_diversity['hesa_ethnicity'],
     }
+  end
+
+  def ethnic_look_up_value
+    if (equality_and_diversity['ethnic_group'] == 'Prefer not to say' &&
+      equality_and_diversity['ethnic_background'].blank?) ||
+       equality_and_diversity['ethnic_background'] == 'Information refused'
+      'Prefer not to say'
+    else
+      equality_and_diversity['ethnic_background']
+    end
   end
 
   def candidate_chosen_no_disabilities?
