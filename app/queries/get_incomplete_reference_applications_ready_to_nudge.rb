@@ -1,49 +1,35 @@
 class GetIncompleteReferenceApplicationsReadyToNudge
-  MAILER = 'candidate_mailer'.freeze
-  MAIL_TEMPLATE = 'nudge_unsubmitted_with_incomplete_references'.freeze
-  COMMON_COMPLETION_ATTRS = GetUnsubmittedApplicationsReadyToNudge::COMMON_COMPLETION_ATTRS
+  COMMON_COMPLETION_ATTRS_WITHOUT_REFERENCES = GetUnsubmittedApplicationsReadyToNudge::COMMON_COMPLETION_ATTRS.filter do |attr|
+    attr != 'references_completed'
+  end
 
   def call
     uk_and_irish_names = NATIONALITIES.select do |code, _name|
       code.in?(ApplicationForm::BRITISH_OR_IRISH_NATIONALITIES)
     end.map(&:second)
-    uk_and_irish = uk_and_irish_names.map { |name| ActiveRecord::Base.connection.quote(name) }.join(',')
 
     ApplicationForm
+      # Only candidates with some unsubmitted choices
+      .joins(:application_choices)
       .joins(:candidate)
-      .where.not('candidate.submission_blocked': true)
-      .where.not('candidate.account_locked': true)
-      .where.not('candidate.unsubscribed_from_emails': true)
+      .joins("LEFT OUTER JOIN emails ON emails.application_form_id = application_forms.id AND emails.mailer = 'candidate_mailer' AND emails.mail_template = 'nudge_unsubmitted_with_incomplete_references'")
+      .joins('LEFT OUTER JOIN application_choices ac_primary ON ac_primary.application_form_id = application_forms.id')
+      .joins('LEFT OUTER JOIN course_options ON course_options.id = ac_primary.course_option_id')
+      .joins("LEFT OUTER JOIN courses courses_primary ON courses_primary.id = course_options.course_id AND LOWER(courses_primary.level) = 'primary'")
       .current_cycle
+      # Only applications forms with at least one unsubmitted application choice (inflight)
+      .where('application_choices.status': 'unsubmitted')
+      # Filter out candidates who should not be receiving emails about their accounts
+      .where(candidates: { submission_blocked: false, account_locked: false, unsubscribed_from_emails: false })
+      # have not already seen this message
+      .where(emails: { id: nil })
       .inactive_since(7.days.ago)
-      .with_completion(COMMON_COMPLETION_ATTRS)
-      .has_not_received_email(MAILER, MAIL_TEMPLATE)
-      .and(ApplicationForm
-        .where(science_gcse_completed: true)
-        .or(
-          ApplicationForm.where(
-            'NOT EXISTS (:primary)',
-            primary: ApplicationChoice
-              .select(1)
-              .joins(:course)
-              .where('application_choices.application_form_id = application_forms.id')
-              .where('courses.level': 'primary'),
-          ),
-        ))
-    .and(ApplicationForm
-      .where(efl_completed: true)
-      .or(
-        ApplicationForm.where(
-          "first_nationality IN (#{uk_and_irish})",
-        ),
-      ))
-    .joins(
-      "LEFT OUTER JOIN \"references\" ON \"references\".application_form_id = application_forms.id AND \"references\".feedback_status IN ('feedback_requested', 'feedback_provided')",
-    )
-    .joins(
-      "LEFT OUTER JOIN \"application_choices\" ON \"application_choices\".application_form_id = application_forms.id AND \"application_choices\".status = 'unsubmitted'",
-    )
-    .group('application_forms.id', 'candidate.id')
-    .having('count("references".id) < 2 AND count("application_choices".id) > 0')
+      # They've completed most section, but not references
+      .with_completion(COMMON_COMPLETION_ATTRS_WITHOUT_REFERENCES)
+      .where(references_completed: false)
+      # If they are applying for primary courses, they will also need to have completed a science gcse
+      .where('application_forms.science_gcse_completed = TRUE OR courses_primary.id IS NULL')
+      # Only Candidates who are likely to have a high level of English
+      .where('application_forms.efl_completed = TRUE OR application_forms.first_nationality IN (?)', uk_and_irish_names)
   end
 end
