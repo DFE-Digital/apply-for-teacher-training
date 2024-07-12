@@ -17,12 +17,12 @@ RSpec.describe 'Sync from Teacher Training API' do
     given_the_course_returns_to_full_time
 
     when_sync_provider_is_called
-    then_the_part_time_course_option_is_set_to_no_vacancies
+    then_the_part_time_course_option_is_deleted
     and_the_full_time_course_option_is_set_to_have_vacancies
 
     given_the_course_becomes_part_time
     when_sync_provider_is_called
-    then_the_full_time_course_option_is_set_to_no_vacancies
+    then_the_full_time_course_option_is_deleted
     and_then_part_time_course_option_is_set_to_have_vacancies
   end
 
@@ -31,8 +31,7 @@ RSpec.describe 'Sync from Teacher Training API' do
     stub_teacher_training_api_course_with_site(provider_code: 'ABC',
                                                course_code: 'ABC1',
                                                course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
-                                               site_code: 'A',
-                                               vacancy_status: 'full_time_vacancies')
+                                               site_code: 'A')
   end
 
   def when_sync_provider_is_called
@@ -84,7 +83,7 @@ RSpec.describe 'Sync from Teacher Training API' do
                                                vacancy_status: 'part_time_vacancies')
   end
 
-  def then_the_part_time_course_option_is_set_to_no_vacancies
+  def then_the_part_time_course_option_is_deleted
     expect(@course.course_options.count).to eq 1
     expect(@course.course_options.part_time).to be_empty
   end
@@ -94,7 +93,7 @@ RSpec.describe 'Sync from Teacher Training API' do
     expect(@course.course_options.full_time.last.vacancies?).to be true
   end
 
-  def then_the_full_time_course_option_is_set_to_no_vacancies
+  def then_the_full_time_course_option_is_deleted
     expect(@course.course_options.count).to eq 1
     expect(@course.course_options.full_time).to be_empty
   end
