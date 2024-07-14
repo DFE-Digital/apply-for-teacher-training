@@ -315,6 +315,22 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#missing_enic_reference_for_non_uk_qualifications?' do
+    it 'returns false if there are no application_qualifications which are non_uk and have no enic_reference' do
+      application_form = create(:application_form)
+      create(:degree_qualification, enic_reference: '12345', institution_country: 'GB', application_form: application_form)
+
+      expect(application_form.missing_enic_reference_for_non_uk_qualifications?).to be(false)
+    end
+
+    it 'returns true if there are application_qualifications which are non_uk and have no enic_reference' do
+      application_form = create(:application_form)
+      create(:degree_qualification, enic_reference: nil, institution_country: 'FR', application_form: application_form)
+
+      expect(application_form.missing_enic_reference_for_non_uk_qualifications?).to be(true)
+    end
+  end
+
   describe '#previous_application_form' do
     it 'refers to the previous application' do
       previous_application_form = create(:application_form)

@@ -21,7 +21,9 @@
         <p><%= I18n.t("rejection_reasons.#{reason.id}.description") %></p>
       <% end %>
     <% end %>
-    <% if render_link_to_find?(reason) %>
+    <% if render_rejection_link_to_enic?(reason) %>
+      <p><%= render_link_for_rejection_due_to_non_uk_qualification_and_no_enic %></p>
+    <% elsif render_link_to_find?(reason) %>
       <p><%= link_to_find_when_rejected_on_qualifications %></p>
     <% end %>
   </div>
