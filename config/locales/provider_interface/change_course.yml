@@ -24,7 +24,10 @@ en:
           submit: Update course
       update:
         success: Course updated
-        failure: Course not updated
+        failure:
+          title: The course could not be changed
+          identical_course: The candidate has already applied to the course you are trying to move them on to.
+          existing_course: The candidate is already applying to the course you are trying to move them on to.
   activemodel:
     errors:
       models:
