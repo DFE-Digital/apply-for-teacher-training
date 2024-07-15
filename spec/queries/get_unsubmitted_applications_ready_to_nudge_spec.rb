@@ -5,7 +5,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
     )
     create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(updated_at: 10.days.ago)
@@ -18,8 +18,8 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
+      :unsubmitted,
       candidate:,
-      submitted_at: 10.days.ago,
     )
     create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(updated_at: 10.days.ago)
@@ -32,8 +32,8 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
+      :unsubmitted,
       candidate:,
-      submitted_at: 10.days.ago,
     )
     create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(updated_at: 10.days.ago)
@@ -46,8 +46,8 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
+      :unsubmitted,
       candidate:,
-      submitted_at: 10.days.ago,
     )
     create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(updated_at: 10.days.ago)
@@ -59,7 +59,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
     )
     create(:application_choice, status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.sample, application_form:)
     application_form.update_columns(updated_at: 10.days.ago)
@@ -71,7 +71,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
     )
     create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(
@@ -86,7 +86,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
     )
     create(:application_choice, :unsubmitted, application_form:)
     application_form.update_columns(
@@ -100,7 +100,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
+      :unsubmitted,
       first_nationality: 'British',
       efl_completed: false,
     )
@@ -116,7 +116,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
+      :unsubmitted,
       first_nationality: 'French',
       efl_completed: false,
     )
@@ -132,7 +132,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
+      :unsubmitted,
       science_gcse_completed: false,
     )
     create(
@@ -158,7 +158,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
+      :unsubmitted,
       science_gcse_completed: true,
     )
     create(
@@ -184,7 +184,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
+      :unsubmitted,
       recruitment_cycle_year: RecruitmentCycle.previous_year,
     )
     application_form.update_columns(
@@ -198,7 +198,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
+      :unsubmitted,
     )
     application_form.update_columns(updated_at: 10.days.ago)
     create(
@@ -215,12 +215,27 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: nil,
+      :unsubmitted,
       first_nationality: 'British',
       efl_completed: false,
     )
     application_form.update_columns(updated_at: 10.days.ago)
 
     expect(described_class.new.call).to eq([])
+  end
+
+  it 'does not send duplicate emails' do
+    application_form = create(
+      :completed_application_form,
+      :with_completed_references,
+      :unsubmitted,
+    )
+    create(:application_choice, :unsubmitted, application_form:)
+    create(:application_choice, :unsubmitted, application_form:)
+
+    application_form.update_columns(
+      updated_at: 10.days.ago,
+    )
+    expect(described_class.new.call).to eq([application_form])
   end
 end

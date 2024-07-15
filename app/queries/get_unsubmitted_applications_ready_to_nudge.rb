@@ -1,6 +1,8 @@
 class GetUnsubmittedApplicationsReadyToNudge
-  MAILER = 'candidate_mailer'.freeze
-  MAIL_TEMPLATE = 'nudge_unsubmitted'.freeze
+  # The purpose of this nudge is to contact candidates who have
+  # - completed their application forms,
+  # - made an application choice
+  # - but NOT submitted anything.
   COMMON_COMPLETION_ATTRS = (ApplicationForm::SECTION_COMPLETED_FIELDS - %w[science_gcse efl course_choices])
     .map { |field| "#{field}_completed" }.freeze
 
@@ -8,36 +10,28 @@ class GetUnsubmittedApplicationsReadyToNudge
     uk_and_irish_names = NATIONALITIES.select do |code, _name|
       code.in?(ApplicationForm::BRITISH_OR_IRISH_NATIONALITIES)
     end.map(&:second)
-    uk_and_irish = uk_and_irish_names.map { |name| ActiveRecord::Base.connection.quote(name) }.join(',')
 
     ApplicationForm
-      .inactive_since(7.days.ago)
-      .with_completion(COMMON_COMPLETION_ATTRS)
-      .current_cycle
-      .has_not_received_email(MAILER, MAIL_TEMPLATE)
-      .joins(:candidate)
-      .where.not('candidate.submission_blocked': true)
-      .where.not('candidate.account_locked': true)
-      .where.not('candidate.unsubscribed_from_emails': true)
+      # Only candidates with unsubmitted application_choices
       .joins(:application_choices).where('application_choices.status': 'unsubmitted')
-      .and(ApplicationForm
-        .where(science_gcse_completed: true)
-        .or(
-          ApplicationForm.where(
-            'NOT EXISTS (:primary)',
-            primary: ApplicationChoice
-              .select(1)
-              .joins(:course)
-              .where('application_choices.application_form_id = application_forms.id')
-              .where('courses.level': 'primary'),
-          ),
-        ))
-      .and(ApplicationForm
-        .where(efl_completed: true)
-        .or(
-          ApplicationForm.where(
-            "first_nationality IN (#{uk_and_irish})",
-          ),
-        ))
+      # Filter out candidates who should not receive emails about their accounts
+      .joins(:candidate).where(candidates: { submission_blocked: false, account_locked: false, unsubscribed_from_emails: false })
+      # Filter out anyone who has already received this message
+      .joins("LEFT OUTER JOIN emails ON emails.application_form_id = application_forms.id AND emails.mailer = 'candidate_mailer' AND emails.mail_template = 'nudge_unsubmitted'")
+      .where(emails: { id: nil })
+      .joins('LEFT OUTER JOIN application_choices ac_primary ON ac_primary.application_form_id = application_forms.id')
+      .joins('LEFT OUTER JOIN course_options ON course_options.id = ac_primary.course_option_id')
+      .joins("LEFT OUTER JOIN courses courses_primary ON courses_primary.id = course_options.course_id AND LOWER(courses_primary.level) = 'primary'")
+      # Only include candidates who have not submitted ANY applications. unsubmitted == NEVER submitted.
+      .unsubmitted
+      .current_cycle
+      .inactive_since(7.days.ago)
+      # Filter out people who haven't completed the application form
+      .with_completion(COMMON_COMPLETION_ATTRS)
+      # If the candidate is applying for a primary course, they also need to have compelted the science gcse section
+      .where('application_forms.science_gcse_completed = TRUE OR courses_primary.id IS NULL')
+      # Only Candidates who are likely to have a high level of English
+      .where('application_forms.efl_completed = TRUE OR application_forms.first_nationality IN (?)', uk_and_irish_names)
+      .distinct
   end
 end
