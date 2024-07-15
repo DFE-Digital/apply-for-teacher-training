@@ -407,7 +407,7 @@ GEM
       aes_key_wrap
       bindata
       httpclient
-    json-schema (4.3.0)
+    json-schema (4.3.1)
       addressable (>= 2.8)
     json_api_client (1.23.0)
       activemodel (>= 6.0.0)
