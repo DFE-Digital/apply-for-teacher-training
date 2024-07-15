@@ -1,4 +1,7 @@
 class GetIncompleteCourseChoiceApplicationsReadyToNudge
+  # The purpose of this nudge is to contact condidates who have
+  # - Completed some of the most important bits of the application (references and personal statement)
+  # - but have not made ANY application choices
   MAILER = 'candidate_mailer'.freeze
   MAIL_TEMPLATE = 'nudge_unsubmitted_with_incomplete_courses'.freeze
   COMPLETION_ATTRS = %w[
@@ -8,14 +11,14 @@ class GetIncompleteCourseChoiceApplicationsReadyToNudge
 
   def call
     ApplicationForm
-      .joins(:candidate)
-      .where.not('candidate.submission_blocked': true)
-      .where.not('candidate.account_locked': true)
-      .where.not('candidate.unsubscribed_from_emails': true)
-      .inactive_since(7.days.ago)
-      .with_completion(COMPLETION_ATTRS)
+      # Filter out candidates who should not receive emails about their accounts
+      .joins(:candidate).where(candidates: { submission_blocked: false, account_locked: false, unsubscribed_from_emails: false })
       .current_cycle
+      .inactive_since(7.days.ago)
+      # They have completed their references and the personal statement
+      .with_completion(COMPLETION_ATTRS)
       .has_not_received_email(MAILER, MAIL_TEMPLATE)
+      # They have not made any application choices
       .where.missing(:application_choices)
   end
 end
