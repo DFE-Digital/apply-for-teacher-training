@@ -3,6 +3,8 @@ class GetUnsubmittedApplicationsReadyToNudge
   # - completed their application forms,
   # - made an application choice
   # - but NOT submitted anything.
+  MAILER = 'candidate_mailer'.freeze
+  MAIL_TEMPLATE = 'nudge_unsubmitted'.freeze
   COMMON_COMPLETION_ATTRS = (ApplicationForm::SECTION_COMPLETED_FIELDS - %w[science_gcse efl course_choices])
     .map { |field| "#{field}_completed" }.freeze
 
@@ -16,12 +18,11 @@ class GetUnsubmittedApplicationsReadyToNudge
       .joins(:application_choices).where('application_choices.status': 'unsubmitted')
       # Filter out candidates who should not receive emails about their accounts
       .joins(:candidate).where(candidates: { submission_blocked: false, account_locked: false, unsubscribed_from_emails: false })
-      # Filter out anyone who has already received this message
-      .joins("LEFT OUTER JOIN emails ON emails.application_form_id = application_forms.id AND emails.mailer = 'candidate_mailer' AND emails.mail_template = 'nudge_unsubmitted'")
-      .where(emails: { id: nil })
       .joins('LEFT OUTER JOIN application_choices ac_primary ON ac_primary.application_form_id = application_forms.id')
       .joins('LEFT OUTER JOIN course_options ON course_options.id = ac_primary.course_option_id')
       .joins("LEFT OUTER JOIN courses courses_primary ON courses_primary.id = course_options.course_id AND LOWER(courses_primary.level) = 'primary'")
+      # Filter out anyone who has already received this message
+      .has_not_received_email(MAILER, MAIL_TEMPLATE)
       # Only include candidates who have not submitted ANY applications. unsubmitted == NEVER submitted.
       .unsubmitted
       .current_cycle
