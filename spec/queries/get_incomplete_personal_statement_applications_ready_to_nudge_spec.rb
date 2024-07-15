@@ -5,7 +5,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
       becoming_a_teacher_completed: false,
     )
     create(:application_choice, :unsubmitted, application_form:)
@@ -21,8 +21,8 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
+      :unsubmitted,
       candidate:,
-      submitted_at: 10.days.ago,
       becoming_a_teacher_completed: false,
     )
 
@@ -36,8 +36,8 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
+      :unsubmitted,
       candidate:,
-      submitted_at: 10.days.ago,
       becoming_a_teacher_completed: false,
     )
     application_form.update_columns(updated_at: 10.days.ago)
@@ -50,8 +50,8 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
+      :unsubmitted,
       candidate:,
-      submitted_at: 10.days.ago,
       becoming_a_teacher_completed: false,
     )
     application_form.update_columns(updated_at: 10.days.ago)
@@ -62,7 +62,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
   it 'omits unsubmitted applications that have not completed references' do
     application_form = create(
       :completed_application_form,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
       becoming_a_teacher_completed: true,
       references_completed: false,
     )
@@ -78,7 +78,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
       becoming_a_teacher_completed: true,
     )
     create(:application_choice, application_form:)
@@ -93,7 +93,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
       becoming_a_teacher_completed: false,
     )
     create(:application_choice, application_form:)
@@ -108,7 +108,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
       becoming_a_teacher_completed: false,
     )
     application_form.update_columns(
@@ -122,7 +122,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
       becoming_a_teacher_completed: false,
     )
     create(:application_choice, application_form:)
