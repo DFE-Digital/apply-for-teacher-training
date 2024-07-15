@@ -4,7 +4,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'includes forms with unsubmitted application choices that have not completed their references' do
     application_form = create(
       :completed_application_form,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
       references_completed: false,
     )
     create(:application_choice, :unsubmitted, application_form:)
@@ -18,7 +18,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'returns unsubmitted applications that are complete, with references, but the candidate has not marked as references complete' do
     application_form = create(
       :completed_application_form,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
       references_count: 2,
       references_completed: false,
     )
@@ -34,7 +34,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     candidate = create(:candidate, account_locked: true)
     application_form = create(
       :completed_application_form,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
       references_count: 0,
       candidate:,
     )
@@ -48,7 +48,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     candidate = create(:candidate, submission_blocked: true)
     application_form = create(
       :completed_application_form,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
       references_count: 0,
       candidate:,
     )
@@ -62,7 +62,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     candidate = create(:candidate, unsubscribed_from_emails: true)
     application_form = create(
       :completed_application_form,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
       references_count: 0,
       candidate:,
     )
@@ -75,7 +75,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'omits submitted applications' do
     application_form = create(
       :completed_application_form,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
       references_count: 0,
     )
     create(:application_choice, status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.sample, application_form:)
@@ -87,7 +87,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'omits applications that have not completed everything except for references' do
     application_form = create(
       :completed_application_form,
-      submitted_at: nil,
+      :unsubmitted,
       references_count: 0,
     )
     create(:application_choice, application_form:)
@@ -102,7 +102,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'omits applications that have been edited in the past week' do
     application_form = create(
       :completed_application_form,
-      submitted_at: nil,
+      :unsubmitted,
       references_count: 0,
     )
     create(:application_choice, application_form:)
@@ -116,7 +116,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'includes uk applications that have not completed EFL section' do
     application_form = create(
       :completed_application_form,
-      submitted_at: nil,
+      :unsubmitted,
       first_nationality: 'British',
       efl_completed: false,
       references_completed: false,
@@ -132,7 +132,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'omits international applications that have not completed EFL section' do
     application_form = create(
       :completed_application_form,
-      submitted_at: nil,
+      :unsubmitted,
       first_nationality: 'French',
       efl_completed: false,
       references_count: 0,
@@ -148,7 +148,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'omits primary course applications that have not completed GCSE Science section' do
     application_form = create(
       :completed_application_form,
-      submitted_at: nil,
+      :unsubmitted,
       science_gcse_completed: false,
       references_count: 0,
     )
@@ -172,7 +172,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'includes primary course applications that have completed GCSE Science section' do
     application_form = create(
       :completed_application_form,
-      submitted_at: nil,
+      :unsubmitted,
       science_gcse_completed: true,
       references_completed: false,
     )
@@ -196,7 +196,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'omits applications that were started in a previous cycle' do
     application_form = create(
       :completed_application_form,
-      submitted_at: nil,
+      :unsubmitted,
       recruitment_cycle_year: RecruitmentCycle.previous_year,
       references_count: 0,
     )
@@ -229,6 +229,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'includes applications that have received other emails' do
     application_form = create(
       :completed_application_form,
+      :unsubmitted,
       references_completed: false,
     )
     create(:application_choice, :unsubmitted, application_form:)
@@ -246,7 +247,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'omits applications without application choices' do
     application_form = create(
       :completed_application_form,
-      submitted_at: nil,
+      :unsubmitted,
       references_count: 0,
     )
     application_form.update_columns(
@@ -259,7 +260,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'omits applications from before the current recruitment cycle' do
     application_form1 = create(
       :completed_application_form,
-      submitted_at: nil,
+      :unsubmitted,
       references_completed: false,
       recruitment_cycle_year: RecruitmentCycle.previous_year,
     )
@@ -268,7 +269,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     )
     application_form2 = create(
       :completed_application_form,
-      submitted_at: nil,
+      :unsubmitted,
       references_completed: false,
     )
     create(:application_choice, application_form: application_form2)
@@ -282,7 +283,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
   it 'does not send duplicate emails' do
     application_form = create(
       :completed_application_form,
-      submitted_at: 10.days.ago,
+      :unsubmitted,
       references_completed: false,
     )
     create(:application_choice, :unsubmitted, application_form:)

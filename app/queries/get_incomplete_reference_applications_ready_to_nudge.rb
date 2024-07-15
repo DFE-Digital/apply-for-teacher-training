@@ -1,4 +1,10 @@
 class GetIncompleteReferenceApplicationsReadyToNudge
+  # The purpose of this nudge is to contact candidates who have:
+  # - completed their application forms except for the references section
+  # - have made application choices
+  # - but NOT submitted anything
+  # NOTE: Candidates cannot submit an application choice without having completed the references section
+  # We are explicitly asking for `unsubmitted` applications to be explicit, but it is not strictly necessary.
   COMMON_COMPLETION_ATTRS_WITHOUT_REFERENCES = GetUnsubmittedApplicationsReadyToNudge::COMMON_COMPLETION_ATTRS.filter do |attr|
     attr != 'references_completed'
   end
@@ -17,6 +23,8 @@ class GetIncompleteReferenceApplicationsReadyToNudge
       .joins('LEFT OUTER JOIN course_options ON course_options.id = ac_primary.course_option_id')
       .joins("LEFT OUTER JOIN courses courses_primary ON courses_primary.id = course_options.course_id AND LOWER(courses_primary.level) = 'primary'")
       .current_cycle
+      # `unsubmitted` is not strictly neccesary because no forms can be submitted with a choice if the references are incomplete
+      .unsubmitted
       # Only applications forms with at least one unsubmitted application choice (inflight)
       .where('application_choices.status': 'unsubmitted')
       # Filter out candidates who should not be receiving emails about their accounts
