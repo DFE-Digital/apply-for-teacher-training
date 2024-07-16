@@ -395,6 +395,25 @@ The default state for an `OfferCondition` object is `pending`.
 
 If an application choice status is `recruited`, `conditions_not_met` or `offer_deferred` it can be reverted to `pending_conditions` using the support UI.
 
+### Reverting an application choice from recruited to awaiting provider decision
+
+If an application choice status is `recruited` it can be reverted to `pending_conditions` using the support UI.
+
+Once the application choice status is `pending_conditions` you need to delete the offer.
+```ruby
+application_choice = ApplicationChoice.find(application_number)
+application_choice.offer.destroy
+```
+No need for audit_comment, the offer is not audited. This will temporarily make the page inaccessible and cause a 500 error because the view needs an offer to work.
+
+Changing the status of the application choice should fix this.
+```ruby
+application_choice = ApplicationChoice.find(application_number)
+application_choice.update(status: :awaiting_provider_decision, audit_comment: ZENDESK_URL)
+```
+
+At this point the application choice should be in `awaiting_provider_decision` and the view should work
+
 ### Reverting an application choice from pending conditions
 
 A provider can make an offer to a candidate and then decide to retract the offer. The if the candidate accepts the offer before the provider can withdraw it, the application can be in the `pending_conditions` state. The provider wants the application status should change from `pending_conditions` to `rejected`.
