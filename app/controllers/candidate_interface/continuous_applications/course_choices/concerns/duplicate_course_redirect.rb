@@ -6,7 +6,7 @@ module CandidateInterface
           extend ActiveSupport::Concern
 
           included do
-            before_action :redirect_duplicate, only: %w[new] # rubocop:disable Rails/LexicallyScopedActionFilter
+            before_action :redirect_duplicate, only: %w[new create] # rubocop:disable Rails/LexicallyScopedActionFilter
           end
 
         private
