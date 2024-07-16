@@ -8,8 +8,7 @@ class GetApplicationsToSendDeadlineRemindersTo
     .joins(:candidate)
     .current_cycle
     .unsubmitted
-    .where.not(candidate: { unsubscribed_from_emails: true })
-    .where.not(candidate: { submission_blocked: true })
-    .where.not(candidate: { account_locked: true })
+    # Filter out candidates who should not be receiving emails about their accounts
+    .where(candidates: { submission_blocked: false, account_locked: false, unsubscribed_from_emails: false })
   end
 end
