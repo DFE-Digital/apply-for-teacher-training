@@ -1,21 +1,24 @@
 module CandidateInterface
   class Gcse::EnicController < Gcse::BaseController
     include Gcse::ResolveGcseEditPathConcern
+    include Gcse::ResolveGcseStatementComparibilityPathConcern
 
     def new
-      @enic_form = GcseEnicForm.build_from_qualification(current_qualification)
+      @enic_form = GcseEnicSelectionForm.build_from_qualification(current_qualification)
     end
 
     def edit
-      @enic_form = GcseEnicForm.build_from_qualification(current_qualification)
+      @enic_form = GcseEnicSelectionForm.build_from_qualification(current_qualification)
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
     end
 
     def create
-      @enic_form = GcseEnicForm.new(enic_params)
+      @enic_form = GcseEnicSelectionForm.new(enic_params)
 
       if @enic_form.save(current_qualification)
-        redirect_to resolve_gcse_edit_path(subject_param)
+        redirect_to resolve_gcse_edit_path(subject_param) if enic_params[:have_enic_reference] == "No, I'm waiting for it to arrive"
+        redirect_to resolve_gcse_edit_path(subject_param) if enic_params[:have_enic_reference] == 'No, I do not want a statement of comparability'
+        redirect_to resolve_gcse_statement_comparibility_path(subject_param) if enic_params[:have_enic_reference] == 'Yes'
       else
         track_validation_error(@enic_form)
         render :new
@@ -23,11 +26,15 @@ module CandidateInterface
     end
 
     def update
-      @enic_form = GcseEnicForm.new(enic_params)
+      @enic_form = GcseEnicSelectionForm.new(enic_params)
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
 
       if @enic_form.save(current_qualification)
-        redirect_to @return_to[:back_path]
+        if enic_params[:have_enic_reference] == 'Yes'
+          redirect_to resolve_gcse_edit_statement_comparibility_path(subject_param)
+        else
+          redirect_to @return_to[:back_path]
+        end
       else
         track_validation_error(@enic_form)
         render :edit
@@ -37,9 +44,10 @@ module CandidateInterface
   private
 
     def enic_params
-      strip_whitespace params
-        .require(:candidate_interface_gcse_enic_form)
-        .permit(:have_enic_reference, :enic_reference, :comparable_uk_qualification)
+      form_params = params[:candidate_interface_gcse_enic_selection_form]
+      return {} unless form_params
+
+      strip_whitespace(form_params).permit(:have_enic_reference)
     end
   end
 end

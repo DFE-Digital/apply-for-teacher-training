@@ -200,6 +200,21 @@ namespace :candidate_interface, path: '/candidate' do
       patch '/science/grade' => 'gcse/science/grade#create'
       get '/science/grade/edit' => 'gcse/science/grade#edit', as: :edit_gcse_science_grade
       patch '/science/grade/edit' => 'gcse/science/grade#update'
+
+      get '/maths/statement_comparibility' => 'gcse/maths/statement_comparibility#new', as: :new_gcse_maths_statement_comparibility
+      patch '/maths/statement_comparibility' => 'gcse/maths/statement_comparibility#create'
+      get '/maths/statement_comparibility/edit' => 'gcse/maths/statement_comparibility#edit', as: :edit_gcse_maths_statement_comparibility
+      patch '/maths/statement_comparibility/edit' => 'gcse/maths/statement_comparibility#update'
+
+      get '/english/statement_comparibility' => 'gcse/english/statement_comparibility#new', as: :new_gcse_english_statement_comparibility
+      patch '/english/statement_comparibility' => 'gcse/english/statement_comparibility#create'
+      get '/english/statement_comparibility/edit' => 'gcse/english/statement_comparibility#edit', as: :edit_gcse_english_statement_comparibility
+      patch '/english/statement_comparibility/edit' => 'gcse/english/statement_comparibility#update'
+
+      get '/science/statement_comparibility' => 'gcse/science/statement_comparibility#new', as: :new_gcse_science_statement_comparibility
+      patch '/science/statement_comparibility' => 'gcse/science/statement_comparibility#create'
+      get '/science/statement_comparibility/edit' => 'gcse/science/statement_comparibility#edit', as: :edit_gcse_science_statement_comparibility
+      patch '/science/statement_comparibility/edit' => 'gcse/science/statement_comparibility#update'
     end
 
     scope '/gcse/:subject', constraints: { subject: /(maths|english|science)/ } do
