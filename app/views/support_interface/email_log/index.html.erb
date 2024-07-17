@@ -2,7 +2,7 @@
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @emails) do %>
   <table class="govuk-table">
-    <caption class="govuk-table__caption govuk-heading-m">Emails sent since <%= Email.order(:id).first&.created_at&.to_fs(:govuk_date_and_time) %></caption>
+    <caption class="govuk-table__caption govuk-heading-m">Emails sent since <%= @filter.applied_filters[:created_since].to_fs(:govuk_date_and_time) %></caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time</th>

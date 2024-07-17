@@ -6,6 +6,7 @@ module SupportInterface
       @emails = Email
         .order(id: :desc)
         .includes(:application_form)
+        .where('created_at >= ?', @filter.applied_filters[:created_since])
         .page(params[:page] || 1).per(30)
 
       if @filter.applied_filters[:q].present?
