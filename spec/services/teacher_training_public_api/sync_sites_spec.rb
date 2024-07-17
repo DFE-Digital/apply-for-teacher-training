@@ -62,7 +62,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
         let!(:course_option_1) { create(:course_option, :full_time, site:, course:) }
         let!(:course_option_2) { create(:course_option, :part_time, site:, course:) }
 
-        it 'updates existing course options' do
+        it 'leaves the existing course options unchanged' do
           expect { perform_job }.not_to change(CourseOption, :count)
           expect(Site.find_by(uuid:).course_options).to eq [course_option_1, course_option_2]
         end
