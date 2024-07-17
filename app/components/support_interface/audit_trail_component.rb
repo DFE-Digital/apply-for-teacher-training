@@ -3,7 +3,7 @@ module SupportInterface
     include Pagy::Backend
     include ViewHelper
 
-    ITEMS_LIMIT_PER_PAGE = 60
+    PAGY_PER_PAGE = 10
 
     def initialize(audited_thing:)
       @audited_thing = audited_thing
@@ -19,8 +19,8 @@ module SupportInterface
       audits.includes(:user).order(created_at: :desc)
     end
 
-    def pagination
-      pagy(audits, items: ITEMS_LIMIT_PER_PAGE).first
+    def before_render
+      @pagy, @items = pagy(audits, items: PAGY_PER_PAGE)
     end
 
     attr_reader :audited_thing
