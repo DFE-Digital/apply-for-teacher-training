@@ -206,6 +206,12 @@ class ApplicationForm < ApplicationRecord
     application_choices.touch_all
   end
 
+  def missing_enic_reference_for_non_uk_qualifications?
+    @missing_enic_reference_for_non_uk_qualifications ||= application_qualifications
+                                                            .where.not(institution_country: 'GB')
+                                                            .exists?(enic_reference: nil)
+  end
+
   def submitted?
     submitted_at.present?
   end

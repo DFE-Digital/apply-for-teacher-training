@@ -27,13 +27,13 @@ RSpec.describe CandidateInterface::RejectionsComponent do
 
       result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
       expect(result.text).to include('View the course requirements on')
-      expect(result.css('.govuk-link')[0][:href]).to eq("#{course.find_url}#section-entry")
-      expect(result.css('.govuk-link')[0].text).to eq('Find postgraduate teacher training courses')
+      expect(result).to have_link('Find postgraduate teacher training courses', href: "#{course.find_url}#section-entry")
     end
   end
 
   describe "when the rejection reason type is 'rejection_reasons'" do
-    let(:application_choice) { build_stubbed(:application_choice, :with_structured_rejection_reasons) }
+    let(:application_form) { create(:application_form, :minimum_info) }
+    let(:application_choice) { build_stubbed(:application_choice, :with_structured_rejection_reasons, application_form: application_form) }
 
     it 'renders using RejectionReasonsComponent' do
       result = render_inline(described_class.new(application_choice:))
@@ -52,8 +52,22 @@ RSpec.describe CandidateInterface::RejectionsComponent do
 
       result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
       expect(result.text).to include('View the course requirements on')
-      expect(result.css('.govuk-link')[0][:href]).to eq("#{course.find_url}#section-entry")
-      expect(result.css('.govuk-link')[0].text).to eq('Find postgraduate teacher training courses')
+      expect(result).to have_link('Find postgraduate teacher training courses', href: "#{course.find_url}#section-entry")
+    end
+  end
+
+  describe 'when the rejection reason type is the non_uk qualification does not have an ENIC reference' do
+    let(:application_form) { create(:application_form, :minimum_info) }
+    let(:application_choice) { build_stubbed(:application_choice, :with_structured_rejection_reasons, application_form: application_form) }
+    let!(:application_qualification) { create(:degree_qualification, enic_reference: nil, institution_country: 'FR', application_form: application_form) }
+
+    it 'renders a link to Apply for a statement of comparability with no enic_reference, a non uk qualification and could not verify qualifications rejection reason' do
+      course = build_stubbed(:course)
+      allow(application_choice).to receive_messages(course: course)
+
+      result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
+      expect(result.text).to include('If you decide to apply again, think about including a statement of comparability from UK ENIC')
+      expect(page).to have_link('Apply for a statement of comparability from UK ENIC', href: 'https://www.enic.org.uk/Qualifications/SOC/Default.aspx')
     end
   end
 
@@ -76,8 +90,7 @@ RSpec.describe CandidateInterface::RejectionsComponent do
 
       result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
       expect(result.text).to include('View the course requirements on')
-      expect(result.css('.govuk-link')[0][:href]).to eq("#{course.find_url}#section-entry")
-      expect(result.css('.govuk-link')[0].text).to eq('Find postgraduate teacher training courses')
+      expect(result).to have_link('Find postgraduate teacher training courses', href: "#{course.find_url}#section-entry")
     end
   end
 end
