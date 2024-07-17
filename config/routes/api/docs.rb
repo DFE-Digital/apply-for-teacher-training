@@ -20,6 +20,7 @@ namespace :api_docs, path: nil do
     get '/spec-1.2.yml' => 'openapi#spec_1_2', as: :spec_1_2
     get '/spec-1.3.yml' => 'openapi#spec_1_3', as: :spec_1_3
     get '/spec-1.4.yml' => 'openapi#spec_1_4', as: :spec_1_4
+    get '/spec-1.5.yml' => 'openapi#spec_1_5', as: :spec_1_5
   end
 
   namespace :data_api_docs, path: '/data-api' do

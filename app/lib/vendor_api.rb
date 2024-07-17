@@ -6,6 +6,7 @@ module VendorAPI
   VERSION_1_2 = '1.2'.freeze
   VERSION_1_3 = '1.3'.freeze
   VERSION_1_4 = '1.4'.freeze
+  VERSION_1_5 = '1.5pre'.freeze
   VERSION = VERSION_1_4
 
   VERSIONS = {
@@ -28,6 +29,7 @@ module VendorAPI
       Changes::ExperimentalClearTestData,
       Changes::ExperimentalGenerateTestData,
       Changes::ReferenceStatus,
+      Changes::RefactoredReferenceOnApplication,
     ],
     '1.1' => [
       Changes::DeferOffer,
@@ -54,9 +56,14 @@ module VendorAPI
       Changes::WorkHistory::MarkDescriptionAsOptional,
       Changes::MarkPhaseAsDeprecated,
       Changes::RemoveReferencesWhenApplicationIsUnsuccessful,
+      Changes::V13::AddReferenceReceivedToReference,
     ],
     '1.4' => [
       Changes::V14::AddGcseCompletingQualificationData,
+    ],
+    '1.5pre' => [
+      Changes::V15::AddApplicationSentToProviderDatetime,
+      Changes::V15::AddReferenceFeedbackProvidedAtDatetime,
     ],
   }.freeze
 end
