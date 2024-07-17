@@ -11,6 +11,7 @@ en:
     support: Support for Apply
     api: Apply for teacher training API
     get_into_teaching: Get Into Teaching
+    find: Find teacher training courses
     enic:
       short_name: UK ENIC
       short_name_with_naric: UK ENIC or NARIC

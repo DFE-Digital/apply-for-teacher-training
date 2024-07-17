@@ -133,7 +133,7 @@ We may contact you to ask if you would like to participate in user research. Thi
 ### Getting insight to make government policy better
 We will analyse your data to help us inform government policy around teacher recruitment and retention.
 
-If you use other digital services for which the data controller is also the Department for Education (for example, Find postgraduate teacher training, or Get Into Teaching), we may use your IP address to understand how you are using these services. This allows us to ensure that public funds are being spent effectively.
+If you use other digital services for which the data controller is also the Department for Education (for example, Find teacher training courses, or Get Into Teaching), we may use your IP address to understand how you are using these services. This allows us to ensure that public funds are being spent effectively.
 
 ### How long we keep your data
 

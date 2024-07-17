@@ -80,12 +80,12 @@ RSpec.describe RejectionReasons::RejectionReasonsComponent do
       )
 
       expect(result.css('.govuk-summary-list__key').first.text).to eq('Qualifications')
-      expect(result.css('.govuk-summary-list__value').first.text).to include('View the course requirements on Find postgraduate teacher training courses')
+      expect(result.css('.govuk-summary-list__value').first.text).to include("View the course requirements on #{t('service_name.find')}")
 
       expect(result.css('.govuk-link').size).to eq(1)
       link_element = result.css('.govuk-summary-list__value').first.css('.govuk-link').first
       expect(link_element[:href]).to eq("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course.provider.code}/#{course.code}#section-entry")
-      expect(link_element.text).to eq('Find postgraduate teacher training courses')
+      expect(link_element.text).to eq(t('service_name.find'))
     end
 
     it 'renders change links' do

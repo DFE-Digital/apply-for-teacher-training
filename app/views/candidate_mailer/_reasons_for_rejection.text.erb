@@ -10,7 +10,7 @@
     <% end %>
 
     <% if title == 'Qualifications' %>
-        ^ View the course requirements on [Find postgraduate teacher training courses](<%= "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{@course.provider.code}/#{@course.code}#section-entry" %>).
+        ^ View the course requirements on [t('service_name.find')](<%= "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{@course.provider.code}/#{@course.code}#section-entry" %>).
     <% end %>
 
 <% end %>

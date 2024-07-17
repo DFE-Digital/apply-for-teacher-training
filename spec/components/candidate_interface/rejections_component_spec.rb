@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::RejectionsComponent do
 
       result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
       expect(result.text).to include('View the course requirements on')
-      expect(result).to have_link('Find postgraduate teacher training courses', href: "#{course.find_url}#section-entry")
+      expect(result).to have_link(t('service_name.find'), href: "#{course.find_url}#section-entry")
     end
   end
 
@@ -52,7 +52,7 @@ RSpec.describe CandidateInterface::RejectionsComponent do
 
       result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
       expect(result.text).to include('View the course requirements on')
-      expect(result).to have_link('Find postgraduate teacher training courses', href: "#{course.find_url}#section-entry")
+      expect(result).to have_link(t('service_name.find'), href: "#{course.find_url}#section-entry")
     end
   end
 
@@ -90,7 +90,7 @@ RSpec.describe CandidateInterface::RejectionsComponent do
 
       result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
       expect(result.text).to include('View the course requirements on')
-      expect(result).to have_link('Find postgraduate teacher training courses', href: "#{course.find_url}#section-entry")
+      expect(result).to have_link(t('service_name.find'), href: "#{course.find_url}#section-entry")
     end
   end
 end
