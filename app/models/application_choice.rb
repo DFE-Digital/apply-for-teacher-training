@@ -51,7 +51,7 @@ class ApplicationChoice < ApplicationRecord
   }
 
   # Different formats for rejection reasons data.
-  # See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/reasons-for-rejection.md
+  # See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/app_concepts/reasons-for-rejection.md
   enum rejection_reasons_type: {
     rejection_reason: 'rejection_reason',           # Single text field reason predating Structured Reasons For Rejection and still writeable via API.
     reasons_for_rejection: 'reasons_for_rejection', # Initial iteration of Structured Reasons For Rejection model.
