@@ -1,6 +1,6 @@
 module SupportInterface
   class DuplicateMatchesController < SupportInterfaceController
-    DUPLICATE_MATCHES_PER_PAGE = 100
+    PAGY_PER_PAGE = 100
 
     def index
       @filter = SupportInterface::DuplicateMatchesFilter.new(params:)
@@ -11,7 +11,7 @@ module SupportInterface
                         duplicate_matches(resolved: resolved?)
                       end
 
-      @pagy, @matches = pagy(matches_scope, items: DUPLICATE_MATCHES_PER_PAGE)
+      @pagy, @matches = pagy(matches_scope, items: PAGY_PER_PAGE)
       @under_review_count = duplicate_matches(resolved: false).count
     end
 

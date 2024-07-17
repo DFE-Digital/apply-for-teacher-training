@@ -1,5 +1,7 @@
 module SupportInterface
   class ProviderUsersController < SupportInterfaceController
+    PAGY_PER_PAGE = 30
+
     def index
       provider_users_scope = ProviderUser
         .includes(providers: %i[training_provider_permissions ratifying_provider_permissions])
@@ -9,7 +11,7 @@ module SupportInterface
       provider_users_scope = scope_by_use_of_service(provider_users_scope, @filter)
       provider_users_scope = scope_by_search_term(provider_users_scope, @filter)
 
-      @pagy, @provider_users = pagy(provider_users_scope, items: 30)
+      @pagy, @provider_users = pagy(provider_users_scope, items: PAGY_PER_PAGE)
     end
 
     def show

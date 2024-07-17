@@ -26,7 +26,7 @@ RSpec.describe SupportInterface::DuplicateMatchesTableComponent do
   end
 
   it 'renders the correct match descriptions' do
-    _, matches = pagy_array([@duplicate_match1, @duplicate_match2], page: 1, items: SupportInterface::DuplicateMatchesController::DUPLICATE_MATCHES_PER_PAGE)
+    _, matches = pagy_array([@duplicate_match1, @duplicate_match2], page: 1, items: SupportInterface::DuplicateMatchesController::PAGY_PER_PAGE)
 
     result = render_inline(
       described_class.new(

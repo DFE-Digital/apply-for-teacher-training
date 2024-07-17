@@ -1,5 +1,7 @@
 module SupportInterface
   class EmailLogController < SupportInterfaceController
+    PAGY_PER_PAGE = 30
+
     def index
       @filter = SupportInterface::EmailsFilter.new(params:)
 
@@ -26,7 +28,7 @@ module SupportInterface
         emails = emails.where(column => @filter.applied_filters[column])
       end
 
-      @pagy, @emails = pagy(emails, items: 30)
+      @pagy, @emails = pagy(emails, items: PAGY_PER_PAGE)
     end
   end
 end

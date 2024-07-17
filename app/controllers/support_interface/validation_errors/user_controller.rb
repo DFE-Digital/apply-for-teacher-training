@@ -1,13 +1,15 @@
 module SupportInterface
   module ValidationErrors
     class UserController < SupportInterfaceController
+      PAGY_PER_PAGE = 30
+
       def index
         @grouped_counts = validation_error_scope.group(:form_object).order('count_all DESC').count
         @list_of_distinct_errors_with_counts = validation_error_scope.list_of_distinct_errors_with_count
       end
 
       def search
-        @validation_errors, @validation_errors_records = pagy(validation_error_scope.search(params).order(created_at: :desc), items: 30)
+        @validation_errors, @validation_errors_records = pagy(validation_error_scope.search(params).order(created_at: :desc), items: PAGY_PER_PAGE)
       end
 
       def summary

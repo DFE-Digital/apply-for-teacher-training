@@ -3,6 +3,8 @@ module SupportInterface
     include Pagy::Backend
     include FilterParamsHelper
 
+    PAGY_PER_PAGE = 30
+
     attr_reader :applied_filters
 
     def initialize(params:)
@@ -64,7 +66,7 @@ module SupportInterface
           .distinct
           .order(updated_at: :desc),
         page: applied_filters[:page] || 1,
-        items: 30,
+        items: PAGY_PER_PAGE,
       )
     end
 

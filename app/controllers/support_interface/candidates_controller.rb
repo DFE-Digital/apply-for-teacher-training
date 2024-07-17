@@ -2,6 +2,8 @@ module SupportInterface
   class CandidatesController < SupportInterfaceController
     before_action :disable_on_production, only: :impersonate
 
+    PAGY_PER_PAGE = 30
+
     def index
       @candidates = Candidate
                       .includes(application_forms: :application_choices)
@@ -18,7 +20,7 @@ module SupportInterface
         @candidates = @candidates.where(id: candidate_number)
       end
 
-      @pagy, @candidates = pagy(@candidates, items: 30)
+      @pagy, @candidates = pagy(@candidates, items: PAGY_PER_PAGE)
     end
 
     def show

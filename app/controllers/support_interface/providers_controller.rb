@@ -3,6 +3,8 @@ module SupportInterface
     include ActionController::Live
     include StreamableDataExport
 
+    PAGY_PER_PAGE = 30
+
     def index
       @filter = SupportInterface::ProvidersFilter.new(params:)
 
@@ -12,7 +14,7 @@ module SupportInterface
           .order(:name),
       )
 
-      @pagy, @providers = pagy(providers_scope, items: 30)
+      @pagy, @providers = pagy(providers_scope, items: PAGY_PER_PAGE)
     end
 
     def show
