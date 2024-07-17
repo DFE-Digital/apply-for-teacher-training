@@ -8,9 +8,7 @@ module ProviderInterface
       application_choices = GetApplicationChoicesForProviders.call(
         providers: current_provider_user.providers,
       )
-      events = GetActivityLogEvents.call(
-        application_choices: application_choices,
-      )
+      events = GetActivityLogEvents.call(application_choices:)
       @pagy, @events = pagy(events, items: PAGY_PER_PAGE)
     end
   end
