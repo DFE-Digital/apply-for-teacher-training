@@ -14,9 +14,10 @@
 <p class="govuk-body"> <%= t('gcse_edit_enic.working_days') %></p>
 
 <%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.label'), size: 'm' } do %>
-  <%= f.govuk_radio_button :have_enic_reference, 'Yes', label: { text: 'Yes' }, link_errors: true %>
-  <%= f.govuk_radio_button :have_enic_reference, "No, I'm waiting for it to arrive", label: { text: t('gcse_edit_enic.waiting_for_enic') } %>
-  <%= f.govuk_radio_button :have_enic_reference, 'No, I do not want a statement of comparability', label: { text: t('gcse_edit_enic.dont_want_enic') } %>
+  <%= f.govuk_radio_button :have_enic_reference, t('gcse_edit_enic.yes_enic'), label: { text: t('gcse_edit_enic.yes_enic') }, link_errors: true %>
+  <%= f.govuk_radio_button :have_enic_reference, t('gcse_edit_enic.waiting_for_enic'), label: { text: t('gcse_edit_enic.waiting_for_enic') } %>
+  <%= f.govuk_radio_button :have_enic_reference, t('gcse_edit_enic.future_enic'), label: { text: t('gcse_edit_enic.future_enic') } %>
+  <%= f.govuk_radio_button :have_enic_reference, t('gcse_edit_enic.dont_want_enic'), label: { text: t('gcse_edit_enic.dont_want_enic') } %>
 <% end %>
 
 <%= f.govuk_submit t('save_and_continue') %>

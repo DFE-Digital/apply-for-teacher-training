@@ -58,8 +58,10 @@ en:
     page_title: How your qualification compares to a %{subject} GCSE
     apply_enic: You can apply %{link} from UK European Network of information Centres (UK ENIC). This helps training providers to see how qualifications gained outside the UK compare to UK qualifications
     more_likely: "Including a statement in y"
-    waiting_for_enic: No, I'm waiting for it to arrive
-    dont_want_enic: No, I do not want a statement of comparability
+    yes_enic: Yes, I have a statement of comparability
+    waiting_for_enic: I'm waiting for it to arrive
+    future_enic: I will apply for one in the future
+    dont_want_enic: I do not need a statement of comparability
     inset_text_html: Including a statement in your application makes it easier for training providers to understand your qualifications, and makes you <b>28% more likely</b> to receive an offer
     enic_cost: A statement from UK ENIC costs £49.50 plus VAT if applicable. You can choose either a physical certificate or e-certificate. Postage costs are payable for physical certificates.
     working_days: It takes 15 working days to complete your order from the date that UK ENIC receive your qualification documents and payment.
