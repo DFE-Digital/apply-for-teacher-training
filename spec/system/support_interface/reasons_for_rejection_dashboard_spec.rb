@@ -250,7 +250,6 @@ private
   def then_i_can_see_a_list_of_applications_for_that_reason
     expect(page).to have_current_path(
       support_interface_reasons_for_rejection_application_choices_path(
-        page: 1,
         structured_rejection_reasons: { id: 'qualifications' },
         recruitment_cycle_year: RecruitmentCycle.current_year,
       ),
@@ -282,7 +281,6 @@ private
   def then_i_can_see_a_list_of_applications_for_that_sub_reason
     expect(page).to have_current_path(
       support_interface_reasons_for_rejection_application_choices_path(
-        page: 1,
         structured_rejection_reasons: { teaching_knowledge: 'teaching_demonstration' },
         recruitment_cycle_year: RecruitmentCycle.current_year,
       ),

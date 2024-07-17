@@ -16,7 +16,6 @@ module SupportInterface
 
       unless top_level_reason?
         breadcrumb_items[@search_attribute.titleize] = support_interface_reasons_for_rejection_application_choices_path(
-          page: 1,
           'structured_rejection_reasons[id]' => @search_attribute,
           'recruitment_cycle_year' => @recruitment_cycle_year,
         )

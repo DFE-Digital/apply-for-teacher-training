@@ -33,7 +33,7 @@ module SupportInterface
     end
 
     def reasons_for_rejection_application_choices
-      @application_choices = ReasonsForRejectionApplicationsQuery.new(params).call
+      @application_choices = ReasonsForRejectionApplicationsQuery.new(params.with_defaults(page: 1)).call
       @recruitment_cycle_year = params.fetch(:recruitment_cycle_year, RecruitmentCycle.current_year).to_i
     end
 
