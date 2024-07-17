@@ -66,6 +66,10 @@ module QualificationAPIData
     false
   end
 
+  def exclude_completing_qualification?
+    !include_completing_qualification?
+  end
+
   def qualifications_of_level(level)
     application_form.application_qualifications.select do |qualification|
       qualification.level == level
@@ -151,18 +155,20 @@ module QualificationAPIData
 private
 
   def completing_qualification(qualification)
-    return {} unless include_completing_qualification?
+    return {} if exclude_completing_qualification?
 
-    if qualification.gcse?
-      return {
-        currently_completing_qualification: qualification[:currently_completing_qualification],
-        missing_explanation: qualification[:missing_explanation],
-        other_uk_qualification_type: qualification[:other_uk_qualification_type],
-      }
-    end
+    return completing_gcse(qualification) if qualification.gcse?
 
     {
       other_uk_qualification_type: qualification[:other_uk_qualification_type],
+    }
+  end
+
+  def completing_gcse(gcse_qualification)
+    {
+      currently_completing_qualification: gcse_qualification[:currently_completing_qualification],
+      missing_explanation: gcse_qualification[:missing_explanation],
+      other_uk_qualification_type: gcse_qualification[:other_uk_qualification_type],
     }
   end
 end
