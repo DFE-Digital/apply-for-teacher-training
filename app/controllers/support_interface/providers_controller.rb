@@ -88,7 +88,7 @@ module SupportInterface
       @filter = SupportInterface::ApplicationsFilter.new(
         params: params.merge(provider_id: @provider.id),
       )
-      @application_forms = @filter.filter_records(ApplicationForm.all)
+      @pagy, @application_forms = @filter.filter_records(ApplicationForm.all)
     end
 
     def sites
