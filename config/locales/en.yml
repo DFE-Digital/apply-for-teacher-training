@@ -18,11 +18,14 @@ en:
       full_name: UK ENIC (the UK agency that recognises international qualifications and skills)
       url: https://www.enic.org.uk
       statement_of_comparability_url: https://www.enic.org.uk/Qualifications/SOC/Default.aspx
+  national_careers_service:
+    find_a_course_url: https://nationalcareers.service.gov.uk/find-a-course/search
   govuk:
     url: https://www.gov.uk
     terms_conditions_url: https://www.gov.uk/help/terms-conditions
     safeguarding: https://www.gov.uk/tell-employer-or-college-about-criminal-record
     check_if_you_need_visa: https://www.gov.uk/check-uk-visa
+    replacement_exam_certificate_url: https://www.gov.uk/replacement-exam-certificate
   teacher_training_courses_api:
     documentation_url: https://api.publish-teacher-training-courses.service.gov.uk/
   publish_teacher_training_courses:
@@ -42,7 +45,9 @@ en:
     url_funding_and_support: https://getintoteaching.education.gov.uk/funding-and-support
     url_get_an_adviser_signup: https://getintoteaching.education.gov.uk/teacher-training-adviser/sign_up/identity
     url_get_an_adviser_start: https://getintoteaching.education.gov.uk/teacher-training-advisers
+    url_if_your_application_is_unsuccessful: https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/if-your-application-is-unsuccessful
     url_get_school_experience: https://getintoteaching.education.gov.uk/is-teaching-right-for-me/get-school-experience
+    url_qualifications_you_need_to_teach: https://getintoteaching.education.gov.uk/is-teaching-right-for-me/qualifications-you-need-to-teach
     url_if_you_dont_have_a_degree: https://getintoteaching.education.gov.uk/train-to-be-a-teacher/if-you-dont-have-a-degree
     url_international_candidates: https://getintoteaching.education.gov.uk/non-uk-teachers
     url_online_chat: https://getintoteaching.education.gov.uk/help-and-support
@@ -51,6 +56,8 @@ en:
     url_support_if_you_are_disabled: https://getintoteaching.education.gov.uk/funding-and-support/if-youre-disabled
     url_teacher_training_interview: https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/teacher-training-interview
     url_ways_to_train: https://getintoteaching.education.gov.uk/train-to-be-a-teacher
+    url_train_without_a_degree: https://getintoteaching.education.gov.uk/train-to-be-a-teacher/if-you-dont-have-a-degree
+    url_teacher_degree_apprenticeship: https://getintoteaching.education.gov.uk/train-to-be-a-teacher/teacher-degree-apprenticeships
   train_to_teach_in_england:
     url: https://www.gov.uk/government/publications/train-to-teach-in-england-non-uk-applicants/train-to-teach-in-england-non-uk-applicants#visas-and-immigration
   register_of_sponsor_licences:

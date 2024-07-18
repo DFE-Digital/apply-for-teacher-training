@@ -8,9 +8,4 @@
         ^
       <% end %>
     <% end %>
-
-    <% if title == 'Qualifications' %>
-      ^ View the course requirements on [<%= t('service_name.find') %>](<%= "#{t('find_teacher_training.production_url')}/course/#{@course.provider.code}/#{@course.code}#section-entry" %>).
-    <% end %>
-
 <% end %>

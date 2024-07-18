@@ -13,5 +13,13 @@ class RejectionReasons
     def reasons
       raise NotImplementedError '#reasons not implemented for single rejection reason'
     end
+
+    def tailored_advice_reasons
+      {}
+    end
+
+    def render_tailored_advice_section_headings?
+      false
+    end
   end
 end

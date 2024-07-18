@@ -16,6 +16,14 @@ class RejectionReasons
       @reasons ||= ReasonsForRejection.new(structured_rejection_reasons)
     end
 
+    def tailored_advice_reasons
+      {}
+    end
+
+    def render_tailored_advice_section_headings?
+      false
+    end
+
   private
 
     def candidate_behaviour
