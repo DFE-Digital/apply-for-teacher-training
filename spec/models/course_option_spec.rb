@@ -19,6 +19,15 @@ RSpec.describe CourseOption do
     end
   end
 
+  describe 'has_many :current_application_choices' do
+    let(:current_course_option) { create(:course_option) }
+    let(:application_choice) { create(:application_choice, current_course_option:) }
+
+    it 'returns application choices for which the course option is the current course option' do
+      expect(current_course_option.current_application_choices).to match_array(application_choice)
+    end
+  end
+
   describe 'delegators' do
     it { is_expected.to delegate_method(:name).to(:site).with_prefix }
     it { is_expected.to delegate_method(:full_address).to(:site).with_prefix }

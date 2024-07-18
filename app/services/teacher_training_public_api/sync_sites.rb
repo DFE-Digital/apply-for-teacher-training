@@ -1,4 +1,14 @@
 module TeacherTrainingPublicAPI
+  # Create new Sites and CourseOptions for a course based on the values returned from the TTAPI
+  #
+  # If the course is closed for applications, set CourseOptions#vacancy_status to :no_vacancies
+  #
+  # If CourseOptions exist for a study mode that doesn't match the course study mode
+  #  - mark them site_still_valid: false and vacancy_status: no_vacancies if they have applications
+  #  - delete the CourseOption if no applications exist for the CourseOption
+  #
+  # There is no specification for what to do with orphaned sites that are not associated with a CourseOption
+  #
   class SyncSites
     include FullSyncErrorHandler
 
@@ -9,26 +19,29 @@ module TeacherTrainingPublicAPI
 
     def perform(provider_id, recruitment_cycle_year, course_id, course_status_from_api, incremental_sync = true, suppress_sync_update_errors = false)
       @provider = ::Provider.find(provider_id)
-      @course = ::Course.find(course_id)
+      @course = ::Course.includes(course_options: :site).find_by(id: course_id)
       @course_status_from_api = course_status_from_api
       @incremental_sync = incremental_sync
       @updates = {}
       @changeset = {}
 
-      sites = TeacherTrainingPublicAPI::Location.where(
+      api_sites = TeacherTrainingPublicAPI::Location.where(
         year: recruitment_cycle_year,
         provider_code: @provider.code,
         course_code: @course.code,
-      ).includes(:location_status).paginate(per_page: 500)
+      ).paginate(per_page: 500)
 
-      sites.each do |site_from_api|
-        site = sync_site(site_from_api)
-        create_course_options_for_site(site, site_from_api.location_status)
-        close_course_options_that_do_not_match_study_mode
+      # 1. Create / Update Sites, Course Options and StudyMode combinations from the API
+      api_sites_and_study_modes = api_sites.product(course.study_modes)
+
+      api_sites_and_study_modes.each do |api_site, study_mode|
+        site = create_or_update_site(api_site)
+        create_or_update_course_option(site, study_mode)
       end
 
-      handle_course_options_with_invalid_sites(sites)
-      handle_course_options_with_reinstated_sites(sites)
+      # 2. Disable or delete CourseOptions that exist in Apply but are not
+      #    returned in API and do not match the study mode of the course
+      disable_or_delete_obsolete_course_options(course, api_sites.map(&:uuid))
 
       raise_update_error(@updates, @changeset) unless suppress_sync_update_errors
     rescue JsonApiClient::Errors::ApiError
@@ -37,8 +50,8 @@ module TeacherTrainingPublicAPI
 
   private
 
-    def sync_site(site_from_api)
-      site = AssignSiteAttributes.new(site_from_api, provider).call
+    def create_or_update_site(api_site)
+      site = AssignSiteAttributes.new(api_site, provider).call
 
       if site.changed? && !@incremental_sync
         @updates.merge!(site: true)
@@ -49,91 +62,42 @@ module TeacherTrainingPublicAPI
       site
     end
 
-    def create_course_options_for_site(site, site_status)
-      study_modes(course).each do |study_mode|
-        create_course_options(site, study_mode, site_status)
-      end
-    end
-
-    def close_course_options_that_do_not_match_study_mode
-      # Close part_time course options if the course is full_time
-      if course.full_time? && course.course_options.part_time.any?
-        course.course_options.part_time.update_all(vacancy_status: :no_vacancies)
-      end
-
-      # Close full_time course options if the course is part_time
-      if course.part_time? && course.course_options.full_time.any?
-        course.course_options.full_time.update_all(vacancy_status: :no_vacancies)
-      end
-    end
-
-    def study_modes(course)
-      both_modes = %w[full_time part_time]
-      return both_modes if course.full_time_or_part_time?
-
-      from_existing_course_options = course.course_options.pluck(:study_mode).uniq
-      (from_existing_course_options + [course.study_mode]).uniq
-    end
-
-    def create_course_options(site, study_mode, _site_status)
+    def create_or_update_course_option(site, study_mode)
       course_option = CourseOption.find_or_initialize_by(
-        site:,
         course_id: course.id,
+        site:,
         study_mode:,
       )
 
-      course_option.update!(vacancy_status:)
+      course_option.update!({
+        site_still_valid: true,
+        vacancy_status: vacancies_for(course, study_mode),
+      })
 
       @updates.merge!(course_option: true) if !@incremental_sync
     end
 
-    def vacancy_status
-      case @course_status_from_api
-      when 'open'
-        'vacancies'
-      when 'closed'
-        'no_vacancies'
+    def disable_or_delete_obsolete_course_options(course, api_site_uuids)
+      course_options_for_deletion = course.reload.course_options.select do |course_option|
+        !course_option.study_mode.in?(course.study_modes) || !course_option.site.uuid.in?(api_site_uuids)
+      end
+
+      course_options_for_deletion.each do |course_option|
+        if course_option.application_choices.any? || course_option.current_application_choices.any?
+          course_option.update(site_still_valid: false, vacancy_status: :no_vacancies)
+        else
+          course_option.destroy
+        end
+      end
+    end
+
+    def vacancies_for(course, study_mode)
+      return :no_vacancies if @course_status_from_api == 'closed'
+
+      if course.study_modes.include?(study_mode)
+        :vacancies
       else
-        raise InvalidVacancyStatusDescriptionError, @course_status_from_api
-      end
-    end
-
-    class InvalidVacancyStatusDescriptionError < StandardError; end
-
-    def handle_course_options_with_invalid_sites(sites)
-      course_options = @course.course_options.joins(:site)
-      site_uuids = sites.map(&:uuid)
-      invalid_course_options = course_options.where.not(site: { uuid: site_uuids })
-      return if invalid_course_options.blank?
-
-      chosen_course_option_ids = ApplicationChoice
-                                     .where(course_option: invalid_course_options)
-                                     .or(ApplicationChoice.where(current_course_option: invalid_course_options))
-                                     .pluck(:course_option_id, :current_course_option_id).flatten.uniq
-
-      not_part_of_an_application = invalid_course_options.where.not(id: chosen_course_option_ids)
-      not_part_of_an_application.delete_all
-      part_of_an_application = invalid_course_options.where(id: chosen_course_option_ids)
-
-      return if part_of_an_application.empty?
-
-      part_of_an_application.each do |course_option|
-        next if course_option.site_still_valid == false
-
-        course_option.update!(site_still_valid: false)
-      end
-    end
-
-    def handle_course_options_with_reinstated_sites(sites)
-      withdrawn_course_options = @course.course_options.joins(:site).where(site_still_valid: false)
-      site_uuids = sites.map(&:uuid)
-
-      course_options_to_reinstate = withdrawn_course_options.where(
-        site: { uuid: site_uuids },
-      )
-
-      course_options_to_reinstate.each do |course_option|
-        course_option.update!(site_still_valid: true)
+        :no_vacancies
       end
     end
   end

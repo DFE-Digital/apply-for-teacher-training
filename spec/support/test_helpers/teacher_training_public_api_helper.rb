@@ -58,7 +58,7 @@ module TeacherTrainingPublicAPIHelper
   def stub_teacher_training_api_sites(provider_code:, course_code:, recruitment_cycle_year: RecruitmentCycle.current_year, specified_attributes: [], vacancy_status: 'full_time_vacancies')
     fixture_file = site_fixture(vacancy_status)
     response_body = build_response_body(fixture_file, specified_attributes)
-    stub_teacher_training_list_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}/recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}/locations?include=location_status", response_body)
+    stub_teacher_training_list_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}/recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}/locations", response_body)
   end
 
   def stub_teacher_training_api_subjects(subjects)

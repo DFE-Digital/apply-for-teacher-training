@@ -3,83 +3,7 @@ require 'rails_helper'
 RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
   include TeacherTrainingPublicAPIHelper
 
-  describe 'course study modes' do
-    context 'when the course has no course options' do
-      let(:course) { create(:course) }
-
-      it 'returns both study modes if the course supports both study modes' do
-        course.full_time_or_part_time!
-
-        study_modes = described_class.new.send(:study_modes, course)
-        expect(study_modes).to match_array %w[full_time part_time]
-      end
-
-      it 'returns one study mode if the course only supports one' do
-        course.full_time!
-
-        study_modes = described_class.new.send(:study_modes, course)
-        expect(study_modes).to match_array %w[full_time]
-      end
-    end
-
-    context 'when the course has existing course options with uniform study modes' do
-      let(:course) do
-        create(:course, :part_time) do |course|
-          course.course_options = [
-            create(:course_option, :part_time, course:),
-            create(:course_option, :part_time, course:),
-            create(:course_option, :part_time, course:),
-          ]
-        end
-      end
-
-      it 'returns the existing study mode' do
-        study_modes = described_class.new.send(:study_modes, course)
-        expect(study_modes).to match_array %w[part_time]
-      end
-
-      it 'returns both study modes if the course changes to support both study modes' do
-        course.full_time_or_part_time!
-
-        study_modes = described_class.new.send(:study_modes, course)
-        expect(study_modes).to match_array %w[full_time part_time]
-      end
-
-      it 'returns both study modes if the course changes from one to the other' do
-        course.full_time!
-
-        study_modes = described_class.new.send(:study_modes, course)
-        expect(study_modes).to match_array %w[full_time part_time]
-      end
-    end
-
-    context 'when the course has existing course options with a mix of study modes' do
-      let(:course) do
-        create(:course, :with_both_study_modes) do |course|
-          course.course_options = [
-            create(:course_option, :part_time, course:),
-            create(:course_option, :part_time, course:),
-            create(:course_option, :full_time, course:),
-          ]
-        end
-      end
-
-      it 'returns both study modes' do
-        study_modes = described_class.new.send(:study_modes, course)
-        expect(study_modes).to match_array %w[full_time part_time]
-      end
-
-      it 'returns both study modes even if the course changes to a specific one' do
-        course.full_time!
-
-        study_modes = described_class.new.send(:study_modes, course)
-        expect(study_modes).to match_array %w[full_time part_time]
-      end
-    end
-  end
-
   describe 'syncing sites' do
-    let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
     let(:provider) { create(:provider) }
     let(:course) { create(:course, :with_both_study_modes, provider:) }
     let(:uuid) { SecureRandom.uuid }
@@ -94,12 +18,13 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
         longitude: ' 0.69922',
         uuid: }
     end
+    let(:incremental_sync) { false }
     let(:perform_job) do
       described_class.new.perform(provider.id,
                                   RecruitmentCycle.current_year,
                                   course.id,
                                   'open',
-                                  false)
+                                  incremental_sync)
     end
 
     before do
@@ -120,7 +45,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
     end
 
     context 'when the site exists' do
-      let!(:existing_site) { create(:site, provider:, uuid:, code: 'Old') }
+      let!(:site) { create(:site, provider:, uuid:, code: 'Old') }
 
       it 'does not create a new record' do
         expect { perform_job }.not_to change(Site, :count)
@@ -128,16 +53,16 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
 
       it 'updates the site in the db' do
         perform_job
-        site = Site.find_by(uuid:)
-        expect(site).to eq existing_site
-        expect(site.code).to eq site_code
+        found_site = Site.find_by(uuid:)
+        expect(found_site).to eq site
+        expect(found_site.code).to eq site_code
       end
 
       context 'course options already exist' do
-        let!(:course_option_1) { create(:course_option, site: existing_site, course:, study_mode: 'full_time') }
-        let!(:course_option_2) { create(:course_option, site: existing_site, course:, study_mode: 'part_time') }
+        let!(:course_option_1) { create(:course_option, :full_time, site:, course:) }
+        let!(:course_option_2) { create(:course_option, :part_time, site:, course:) }
 
-        it 'updates existing course options' do
+        it 'leaves the existing course options unchanged' do
           expect { perform_job }.not_to change(CourseOption, :count)
           expect(Site.find_by(uuid:).course_options).to eq [course_option_1, course_option_2]
         end
@@ -167,7 +92,65 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
       end
     end
 
-    context 'when course is closed' do
+    context 'when existing site is not in api response' do
+      let(:obsolete_uuid) { '8ea3003b-b2f8-49a9-96e2-83de1066d25f' }
+      let!(:obsolete_site) { create(:site, provider:, uuid: obsolete_uuid, code: 'Invalid') }
+      let!(:course_option) { create(:course_option, course:, site: obsolete_site) }
+
+      it 'deletes course options without an application choice' do
+        perform_job
+        expect(CourseOption.joins(:site).find_by(sites: { uuid: obsolete_uuid })).not_to be_present
+      end
+
+      context 'when application exists for course option marked for deletion' do
+        before { create(:application_choice, course_option:) }
+
+        it 'changes site_still_valid from true to false' do
+          expect { perform_job }.to change { course_option.reload.site_still_valid }.from(true).to(false)
+        end
+      end
+
+      context 'when application exists for current course option marked for deletion' do
+        let(:other_course) { create(:course, :with_a_course_option, provider:) }
+
+        before { create(:application_choice, course_option: other_course.course_options.first, current_course_option: course_option) }
+
+        it 'changes site_still_valid from true to false' do
+          expect { perform_job }.to change { course_option.reload.site_still_valid }.from(true).to(false)
+        end
+      end
+    end
+
+    context 'when course changes from both study modes to just full_time' do
+      let(:course) { create(:course, :full_time, provider:) }
+      let(:site) { create(:site, provider:, uuid:, code: 'Old') }
+      let!(:full_time_course_option) { create(:course_option, :full_time, site:, course:) }
+      let!(:part_time_course_option) { create(:course_option, :part_time, site:, course:) }
+
+      context 'no applications created for part time course option' do
+        it 'deletes part_time course option' do
+          expect { perform_job }.to change { CourseOption.exists?(part_time_course_option.id) }.from(true).to(false)
+        end
+      end
+
+      context 'when application exists for part_time course option' do
+        before { create(:application_choice, course_option: part_time_course_option) }
+
+        it 'changes site_still_valid from true to false' do
+          expect { perform_job }.to change { part_time_course_option.reload.site_still_valid }.from(true).to(false)
+        end
+
+        it 'changes vacancy_status from "vacancies" to "no_vacancies"' do
+          expect { perform_job }.to change { part_time_course_option.reload.vacancy_status }.from('vacancies').to('no_vacancies')
+        end
+      end
+    end
+
+    context 'when course is closed', :with_audited do
+      let!(:site) { create(:site, provider:, uuid:, code: 'Old') }
+      let!(:full_time_course_option) { create(:course_option, :full_time, site:, course:) }
+      let!(:part_time_course_option) { create(:course_option, :part_time, site:, course:) }
+
       it 'updates corresponding course options to no vacancies' do
         described_class.new.perform(
           provider.id,
@@ -179,13 +162,15 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
         expect(
           course.reload.course_options.pluck(:vacancy_status),
         ).to eq %w[no_vacancies no_vacancies]
+
+        expect(full_time_course_option.audits.last.audited_changes).to eq({ 'vacancy_status' => %w[vacancies no_vacancies] })
+        expect(part_time_course_option.audits.last.audited_changes).to eq({ 'vacancy_status' => %w[vacancies no_vacancies] })
       end
     end
   end
 
   context 'ingesting an existing site when incremental_sync is off' do
     let(:incremental_sync) { false }
-    let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
     let(:provider) { create(:provider) }
     let(:course) { create(:course, provider:) }
     let(:site_uuid_1) { SecureRandom.uuid }
@@ -245,37 +230,10 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
                                   RecruitmentCycle.current_year,
                                   course.id,
                                   'open',
-                                  false)
+                                  incremental_sync)
 
       expect(Sentry).to have_received(:capture_exception)
         .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new(%(site and course_option have been updated\n[#{site_a.id}, {"address_line3"=>["#{site_a.address_line3}", ""]}],\n[#{site_b.id}, {"address_line3"=>["#{site_b.address_line3}", ""]}])))
-    end
-  end
-
-  describe '#handle_course_options_with_reinstated_sites' do
-    context 'when site was previously withdrawn' do
-      let(:course) do
-        create(:course, :part_time) do |course|
-          course.course_options = [
-            create(:course_option, :part_time, course:, site_still_valid: true),
-            create(:course_option, :part_time, course:, site_still_valid: true),
-            create(:course_option, :part_time, course:, site_still_valid: false),
-          ]
-        end
-      end
-
-      it 'sets `site_still_valid` to false on any course options with missing sites' do
-        described_class.new.tap do |sync_sites|
-          sync_sites.instance_variable_set(:@course, course)
-        end.send(
-          :handle_course_options_with_reinstated_sites,
-          course.course_options.map { |course_option| Struct.new(:uuid).new(course_option.site.uuid) },
-        )
-        course_options = course.course_options.reload
-        expect(course_options[0].site_still_valid).to be(true)
-        expect(course_options[1].site_still_valid).to be(true)
-        expect(course_options[2].site_still_valid).to be(true)
-      end
     end
   end
 end

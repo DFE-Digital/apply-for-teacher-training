@@ -25,7 +25,7 @@ module TeacherTrainingPublicAPI
         year: ::RecruitmentCycle.current_year,
         provider_code:,
         course_code: code,
-      ).includes(:location_status).paginate(per_page: 500).all
+      ).paginate(per_page: 500).all
     end
 
     def self.fetch(provider_code, course_code)
