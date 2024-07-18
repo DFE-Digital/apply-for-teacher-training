@@ -83,12 +83,12 @@ RSpec.describe CandidateInterface::RejectionReasons::RejectionReasonsComponent d
       )
 
       expect(result.css('.app-rejection__label').first.text).to eq('Qualifications:')
-      expect(result.css('.app-rejection').first.css('p').last.text).to include('View the course requirements on Find postgraduate teacher training courses')
+      expect(result.css('.app-rejection').first.css('p').last.text).to include("View the course requirements on #{t('service_name.find')}")
 
       expect(result.css('.govuk-link').size).to eq(1)
       link_element = result.css('.app-rejection').first.css('.govuk-link').first
       expect(link_element[:href]).to eq("#{course.find_url}#section-entry")
-      expect(link_element.text).to eq('Find postgraduate teacher training courses')
+      expect(link_element.text).to eq(t('service_name.find'))
     end
   end
 end

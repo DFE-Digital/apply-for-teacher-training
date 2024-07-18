@@ -15,7 +15,7 @@ module CandidateInterface
 
     def link_to_find_when_rejected_on_qualifications
       link = govuk_link_to(
-        'Find postgraduate teacher training courses',
+        t('service_name.find'),
         "#{@application_choice.course.find_url}#section-entry",
       )
 
