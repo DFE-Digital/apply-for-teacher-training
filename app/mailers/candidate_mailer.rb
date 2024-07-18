@@ -9,6 +9,7 @@ class CandidateMailer < ApplicationMailer
       nudge_unsubmitted_with_incomplete_personal_statement
       nudge_unsubmitted_with_incomplete_references
       duplicate_match_email
+      application_rejected
     ],
   )
   include QualificationValueHelper
