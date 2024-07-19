@@ -106,7 +106,11 @@ Spec files should be saved alongside the corresponding JavaScript file.
 
 ## Asset pipeline
 
-We use the Rails webpack wrapper [Webpacker](https://github.com/rails/webpacker) to compile CSS, images, fonts and JavaScript.
+We use [cssbundling-rails](https://guides.rubyonrails.org/asset_pipeline.html#cssbundling-rails) with [Dart Sass](https://sass-lang.com/) to compile SCSS into CSS.
+
+We use the Rails asset pipeline [Sprockets](https://guides.rubyonrails.org/asset_pipeline.html) to fingerprint and concatenate CSS, images and fonts
+
+We use the Rails webpack wrapper [Webpacker](https://github.com/rails/webpacker) to compile JavaScript.
 
 ## Debugging Webpacker
 
