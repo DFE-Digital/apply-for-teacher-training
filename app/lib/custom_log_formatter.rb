@@ -1,13 +1,21 @@
 require 'semantic_logger'
 
 class CustomLogFormatter < SemanticLogger::Formatters::Raw
+  REDACTED = '[REDACTED]'.freeze
+
   def call(log, logger)
     super
 
     add_custom_fields
     sanitize_payload_fields
     remove_post_params
+    filter_skipping_email_message
 
+    # rubocop:disable Rails/Output
+    puts '-' * 80
+    puts "Hash: #{hash}"
+    puts '-' * 80
+    # rubocop:enable Rails/Output
     hash.to_json
   end
 
@@ -42,11 +50,17 @@ private
 
   def sanitize_mailer_subject_and_to
     if hash.dig(:payload, :subject).present?
-      hash[:payload][:subject] = '[REDACTED]'
+      hash[:payload][:subject] = REDACTED
     end
 
     if hash.dig(:payload, :to).present?
-      hash[:payload][:to] = '[REDACTED]'
+      hash[:payload][:to] = REDACTED
+    end
+  end
+
+  def filter_skipping_email_message
+    if hash[:message]&.include?('Skipping email')
+      hash[:message] = "Skipping email to #{REDACTED}"
     end
   end
 
