@@ -22,7 +22,7 @@ $govuk-breakpoints: (
   wide: 1300px,
 );
 
-$moj-images-path: "~@ministryofjustice/frontend/moj/assets/images/";
+$moj-images-path: "@ministryofjustice/frontend/moj/assets/images/";
 
 // Enable new link styles (currently opt-in).
 // TODO: remove this when this becomes the default.
