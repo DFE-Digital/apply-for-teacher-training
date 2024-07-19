@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 return unless defined? SemanticLogger
+
 require_dependency Rails.root.join('app/lib/custom_log_formatter')
 
 unless Rails.env.local?
