@@ -26,7 +26,7 @@ module ProviderInterface
         @wizard.clear_state!
         track_validation_error(@wizard)
 
-        flash[:warning] = t('.failure')
+        flash[:warning] = t('.failure.title')
       end
       redirect_to provider_interface_application_choice_path(@application_choice)
     end

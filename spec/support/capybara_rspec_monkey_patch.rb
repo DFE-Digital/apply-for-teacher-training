@@ -9,6 +9,14 @@ module CapybaraRSpecMonkeyPatch
     end
   end
 
+  def find_field(locator, **options)
+    if self.class.metadata.keys.intersect?(%i[js js_browser])
+      super(locator, **options.merge(visible: false))
+    else
+      super
+    end
+  end
+
   def select(value = nil, from: nil, **options)
     if has_css?('.autocomplete__wrapper input') && self.class.metadata.keys.intersect?(%i[js js_browser])
 
