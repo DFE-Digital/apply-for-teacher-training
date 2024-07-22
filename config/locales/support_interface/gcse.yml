@@ -56,7 +56,7 @@ en:
             institution_country:
               blank: Enter the country or territory you studied in
               inclusion: Select the country or territory you studied in from the list
-            have_enic_reference:
+            enic_reason:
               blank: Select if you have a UK ENIC statement of comparability
             enic_reference:
               blank: Enter your UK ENIC reference number
@@ -141,7 +141,7 @@ en:
             institution_country:
               blank: Enter the country or territory you studied in
               inclusion: Select the country or territory you studied in from the list
-            have_enic_reference:
+            enic_reason:
               blank: Select if you have a UK ENIC statement of comparability
             enic_reference:
               blank: Enter your UK ENIC reference number

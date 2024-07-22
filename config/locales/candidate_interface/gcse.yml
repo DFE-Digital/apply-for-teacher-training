@@ -138,7 +138,7 @@ en:
               inclusion: Select the country or territory you studied in from the list
         candidate_interface/gcse_enic_form:
           attributes:
-            have_enic_reference:
+            enic_reason:
               blank: Select if you have a UK ENIC statement of comparability
             enic_reference:
               blank: Enter your UK ENIC reference number
@@ -146,7 +146,7 @@ en:
               blank: Choose a comparable UK qualification
         candidate_interface/gcse_enic_selection_form:
           attributes:
-            have_enic_reference:
+            enic_reason:
               blank: Select if you have a UK ENIC statement of comparability
         candidate_interface/gcse_not_completed_form:
           attributes:

@@ -28,7 +28,7 @@ module CandidateInterface
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
 
       if @enic_form.save(current_qualification)
-        if enic_params[:have_enic_reference] == t('gcse_edit_enic.yes_enic')
+        if enic_params[:enic_reason] == t('gcse_edit_enic.yes_enic')
           redirect_to resolve_gcse_edit_statement_comparibility_path(subject_param)
         else
           redirect_to @return_to[:back_path]
@@ -42,7 +42,7 @@ module CandidateInterface
   private
 
     def handle_redirection
-      case enic_params[:have_enic_reference]
+      case enic_params[:enic_reason]
       when t('gcse_edit_enic.yes_enic')
         redirect_to resolve_gcse_statement_comparibility_path(subject_param)
       when t('gcse_edit_enic.waiting_for_enic'),
@@ -56,7 +56,7 @@ module CandidateInterface
       form_params = params[:candidate_interface_gcse_enic_selection_form]
       return {} unless form_params
 
-      strip_whitespace(form_params).permit(:have_enic_reference)
+      strip_whitespace(form_params).permit(:enic_reason)
     end
   end
 end

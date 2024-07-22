@@ -150,7 +150,7 @@ en:
               in_the_future: Enter an award year in the past
               in_the_past: Enter a year that is the current year or a year in the future
               after_teacher_training: The date you graduate must be before the start of your teacher training
-            have_enic_reference:
+            enic_reason:
               blank: Select whether you have a UK ENIC reference number or not
             enic_reference:
               blank: Enter the UK ENIC reference number

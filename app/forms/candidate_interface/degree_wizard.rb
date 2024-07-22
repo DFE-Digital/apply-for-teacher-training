@@ -42,7 +42,7 @@ module CandidateInterface
     attr_accessor :uk_or_non_uk, :degree_level, :equivalent_level, :country,
                   :subject_raw, :other_type_raw, :university_raw, :other_grade_raw,
                   :type, :international_type, :grade, :completed,
-                  :start_year, :award_year, :have_enic_reference, :enic_reference,
+                  :start_year, :award_year, :enic_reference,
                   :comparable_uk_degree, :application_form_id, :id, :recruitment_cycle_year, :path_history,
                   :return_to_application_review, :enic_reason
     attr_writer :subject, :other_type, :university, :other_grade
@@ -261,7 +261,6 @@ module CandidateInterface
         university: application_qualification.institution_name,
         start_year: application_qualification.start_year,
         award_year: application_qualification.award_year,
-        have_enic_reference: map_to_have_enic_reference(application_qualification),
         enic_reference: application_qualification.enic_reference,
         enic_reason: application_qualification.enic_reason,
         comparable_uk_degree: application_qualification.comparable_uk_degree,
@@ -656,19 +655,11 @@ module CandidateInterface
 
     private_class_method :international_grade
 
-    def self.map_to_have_enic_reference(application_qualification)
-      return unless application_qualification.international
-
-      application_qualification.enic_reference.present? ? YES : NO
-    end
-
-    private_class_method :map_to_have_enic_reference
-
     def sanitize_uk_or_non_uk(attrs)
       if last_saved_state['uk_or_non_uk'] != attrs[:uk_or_non_uk] && attrs[:current_step] == :country
         attrs.merge!(degree_level: nil, equivalent_level: nil, type: nil, other_type: nil, subject: nil, completed: nil,
                      university: nil, start_year: nil, award_year: nil, international_type: nil, grade: nil,
-                     other_grade: nil, have_enic_reference: nil, enic_reason: nil, enic_reference: nil, comparable_uk_degree: nil)
+                     other_grade: nil, enic_reason: nil, enic_reference: nil, comparable_uk_degree: nil)
 
       end
     end
@@ -693,7 +684,7 @@ module CandidateInterface
     end
 
     def sanitize_enic(attrs)
-      if attrs[:have_enic_reference] == NO && attrs[:current_step] == :enic
+      if attrs[:enic_reason] != HAS_STATEMENT && attrs[:current_step] == :enic
         attrs[:enic_reference] = nil
         attrs[:comparable_uk_degree] = nil
       end
