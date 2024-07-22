@@ -130,17 +130,15 @@ RSpec.describe StartOfCycleNotificationWorker do
         end
       end
 
-      context 'when a provider user received an email last year' do
-        it 'they also receive one the following year' do
-          allow(CycleTimetable).to receive(:service_opens_today?).and_return(true)
-
-          TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.find_opens(2022).change(hour: 16))
-          described_class.new.perform(service)
-
+      context 'when a provider user received an email last cycle' do
+        it 'they receive another email this cycle' do
           TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.find_opens(2023).change(hour: 16))
           described_class.new.perform(service)
 
-          expect(ProviderMailer).to have_received(:find_service_is_now_open).with(other_provider_users.first).twice
+          TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.find_opens(2024).change(hour: 16))
+          described_class.new.perform(service)
+
+          expect(ProviderMailer).to have_received(:find_service_is_now_open).with(other_provider_user).twice
         end
       end
     end
