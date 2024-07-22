@@ -4,3 +4,4 @@
 // govuk-frontend assets
 //= link_directory ../../../node_modules/govuk-frontend/dist/govuk/assets/images
 //= link_directory ../../../node_modules/govuk-frontend/dist/govuk/assets/fonts
+//= link_directory ../../../node_modules/@ministryofjustice/frontend/moj/assets/images
