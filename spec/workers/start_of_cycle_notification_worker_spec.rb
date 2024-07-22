@@ -7,7 +7,6 @@ RSpec.describe StartOfCycleNotificationWorker do
     let(:provider_users_who_need_to_set_up_permissions) do
       create_list(:provider_user, 2, providers: providers_needing_set_up)
     end
-    let(:provider_with_chaser_sent) { create(:provider) }
 
     let(:other_providers) { %w[CCC DDD].map { |name| create(:provider, name:) } }
     let(:other_provider_users) { create_list(:provider_user, 2, providers: other_providers) }
@@ -91,6 +90,7 @@ RSpec.describe StartOfCycleNotificationWorker do
       end
 
       it 'ignores providers with chasers sent' do
+        provider_with_chaser_sent = create(:provider)
         create(:chaser_sent, chased: provider_with_chaser_sent, chaser_type: "#{service}_service_open_organisation_notification")
 
         expect { described_class.new.perform(service) }.not_to change(ChaserSent.where(chased: provider_with_chaser_sent), :count)
