@@ -3,15 +3,18 @@ module SupportInterface
     include ActionController::Live
     include StreamableDataExport
 
+    PAGY_PER_PAGE = 30
+
     def index
       @filter = SupportInterface::ProvidersFilter.new(params:)
 
-      @providers = @filter.filter_records(
+      providers_scope = @filter.filter_records(
         Provider
           .includes(:courses, :provider_agreements, :provider_users)
-          .order(:name)
-          .page(params[:page] || 1).per(30),
+          .order(:name),
       )
+
+      @pagy, @providers = pagy(providers_scope, items: PAGY_PER_PAGE)
     end
 
     def show
@@ -85,7 +88,7 @@ module SupportInterface
       @filter = SupportInterface::ApplicationsFilter.new(
         params: params.merge(provider_id: @provider.id),
       )
-      @application_forms = @filter.filter_records(ApplicationForm.all)
+      @pagy, @application_forms = @filter.filter_records(ApplicationForm.all)
     end
 
     def sites

@@ -2,4 +2,5 @@
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @candidates) do %>
   <%= render SupportInterface::CandidatesTableComponent.new(candidates: @candidates) %>
+  <%= govuk_pagination(pagy: @pagy) %>
 <% end %>

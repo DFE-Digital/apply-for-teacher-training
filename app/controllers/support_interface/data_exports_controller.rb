@@ -1,6 +1,6 @@
 module SupportInterface
   class DataExportsController < SupportInterfaceController
-    PAGE_SIZE = 30
+    PAGY_PER_PAGE = 30
 
     def show
       @data_export = DataExport.find(params[:id])
@@ -12,11 +12,11 @@ module SupportInterface
 
     def history
       @data_exports = DataExport
-        .includes(:initiator)
-        .order(created_at: :desc)
-        .page(params[:page] || 1)
-        .per(PAGE_SIZE)
-        .select(DataExport.column_names - %w[data])
+                       .includes(:initiator)
+                       .order(created_at: :desc)
+                       .select(DataExport.column_names - %w[data])
+
+      @pagy, @data_exports = pagy(@data_exports, items: PAGY_PER_PAGE)
     end
 
     def view_export_information
@@ -25,12 +25,13 @@ module SupportInterface
 
     def view_history
       @data_exports = DataExport
-        .includes(:initiator)
-        .send(params[:data_export_type])
-        .order(created_at: :desc)
-        .page(params[:page] || 1)
-        .per(PAGE_SIZE)
-        .select(DataExport.column_names - %w[data])
+                       .includes(:initiator)
+                       .send(params[:data_export_type])
+                       .order(created_at: :desc)
+
+      @pagy, @data_exports = pagy(@data_exports, items: PAGY_PER_PAGE)
+
+      @data_exports = @data_exports.select(DataExport.column_names - %w[data])
     end
 
     def new

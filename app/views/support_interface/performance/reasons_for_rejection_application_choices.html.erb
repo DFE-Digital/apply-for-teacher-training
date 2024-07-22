@@ -20,4 +20,4 @@
   <p class="govuk-body">There are no results for the selected reason for rejection.</p>
 <% end -%>
 
-<%= render(PaginatorComponent.new(scope: @application_choices)) %>
+<%= govuk_pagination(pagy: @pagy) %>

@@ -3,6 +3,7 @@ require 'csv'
 module SupportInterface
   class PerformanceController < SupportInterfaceController
     REASONS_FOR_REJECTION_RECRUITMENT_CYCLE_YEAR = 2023
+    PAGY_PER_PAGE = 30
 
     def index; end
 
@@ -10,8 +11,8 @@ module SupportInterface
       @course_options = CourseOption
         .where.not('vacancy_status = ?', 'vacancies')
         .includes(:course, :site)
-        .page(params[:page] || 1)
-        .per(30)
+
+      @pagy, @course_options = pagy(@course_options, items: PAGY_PER_PAGE)
     end
 
     def courses_dashboard; end
@@ -33,7 +34,7 @@ module SupportInterface
     end
 
     def reasons_for_rejection_application_choices
-      @application_choices = ReasonsForRejectionApplicationsQuery.new(params).call
+      @application_choices = ReasonsForRejectionApplicationsQuery.new(params.with_defaults(page: 1)).call
       @recruitment_cycle_year = params.fetch(:recruitment_cycle_year, RecruitmentCycle.current_year).to_i
     end
 
@@ -73,13 +74,12 @@ module SupportInterface
 
     def unavailable_choices_detail(category, title)
       @monitor = SupportInterface::ApplicationMonitor.new
-      @application_forms = @monitor
-        .send(category)
-        .page(params[:page] || 1)
-        .per(30)
+      @application_forms = @monitor.send(category)
+      @pagy, @application_forms = pagy(@application_forms, items: PAGY_PER_PAGE)
+
       render(
         :unavailable_choices_detail,
-        locals: { title: },
+        locals: { title: title },
       )
     end
 

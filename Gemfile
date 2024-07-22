@@ -120,8 +120,6 @@ gem 'openapi3_parser', '0.9.2'
 gem 'rouge'
 gem 'ruby-graphviz'
 
-gem 'kaminari'
-
 gem 'pagy'
 
 # Adviser sign up integration

@@ -44,5 +44,5 @@
     </tbody>
   </table>
 
-  <%= render(PaginatorComponent.new(scope: data_exports)) %>
+  <%= govuk_pagination(pagy: @pagy) %>
 <% end %>

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Reasons for rejection dashboard', time: Time.zone.local(2023, 1, 10) do
+RSpec.describe 'Reasons for rejection dashboard', time: Time.zone.local(2023, 1, 10) do
   include DfESignInHelpers
 
   scenario 'View reasons for rejection', :with_audited do
@@ -11,8 +11,8 @@ RSpec.feature 'Reasons for rejection dashboard', time: Time.zone.local(2023, 1, 
     then_i_can_see_reasons_for_rejection_dashboard_link
     and_i_click_on_the_reasons_for_rejection_dashboard_link_for_the_current_cycle
 
-    then_i_should_see_reasons_for_rejection_dashboard
-    and_i_should_see_sub_reasons_for_rejection
+    then_i_see_reasons_for_rejection_dashboard
+    and_i_see_sub_reasons_for_rejection
 
     when_i_click_on_a_top_level_reason
     then_i_can_see_a_list_of_applications_for_that_reason
@@ -59,16 +59,16 @@ RSpec.feature 'Reasons for rejection dashboard', time: Time.zone.local(2023, 1, 
     click_link_or_button "#{RecruitmentCycle.cycle_name} (starts #{RecruitmentCycle.current_year}) - current"
   end
 
-  def then_i_should_see_reasons_for_rejection_dashboard
-    then_i_should_see_reasons_for_rejection_title_and_details
-    and_i_should_see_reasons_for_rejection_qualifications
-    and_i_should_see_reasons_for_rejection_cannot_sponsor_visa
+  def then_i_see_reasons_for_rejection_dashboard
+    then_i_see_reasons_for_rejection_title_and_details
+    and_i_see_reasons_for_rejection_qualifications
+    and_i_see_reasons_for_rejection_cannot_sponsor_visa
   end
 
-  def and_i_should_see_sub_reasons_for_rejection
-    and_i_should_see_sub_reasons_for_rejection_due_to_qualifications
-    and_i_should_see_sub_reasons_for_rejection_due_to_safeguarding
-    and_i_should_see_sub_reasons_for_rejection_due_to_teaching_knowledge_and_communication
+  def and_i_see_sub_reasons_for_rejection
+    and_i_see_sub_reasons_for_rejection_due_to_qualifications
+    and_i_see_sub_reasons_for_rejection_due_to_safeguarding
+    and_i_see_sub_reasons_for_rejection_due_to_teaching_knowledge_and_communication
   end
 
 private
@@ -175,14 +175,14 @@ private
     )
   end
 
-  def then_i_should_see_reasons_for_rejection_title_and_details
+  def then_i_see_reasons_for_rejection_title_and_details
     expect(page).to have_content('2022 to 2023')
     expect(page).to have_content('current Reasons for rejection')
     expect(page).to have_content('The report does not include most rejections made through the API, as rejecting applications by code was only added in version 1.2 of the API.')
     expect(page).to have_content('The percentages for all the categories will not add up to 100% as providers can choose more than 1 reason for rejecting a candidate.')
   end
 
-  def and_i_should_see_reasons_for_rejection_course_full
+  def and_i_see_reasons_for_rejection_course_full
     within '#course-full' do
       expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 rejections included this category')
@@ -190,14 +190,14 @@ private
     end
   end
 
-  def and_i_should_see_reasons_for_rejection_qualifications
+  def and_i_see_reasons_for_rejection_qualifications
     within '#qualifications' do
       expect(page).to have_content('40% 2 of 5 rejections included this category')
       expect(page).to have_content('50% 1 of 2 rejections in January included this category')
     end
   end
 
-  def and_i_should_see_reasons_for_rejection_safeguarding_concerns
+  def and_i_see_reasons_for_rejection_safeguarding_concerns
     within '#safeguarding' do
       expect(page).to have_content('40%')
       expect(page).to have_content('2 of 5 rejections included this category')
@@ -206,7 +206,7 @@ private
     end
   end
 
-  def and_i_should_see_sub_reasons_for_rejection_due_to_qualifications
+  def and_i_see_sub_reasons_for_rejection_due_to_qualifications
     within '#qualifications' do
       expect(page).to have_content('40% 2 of 5 rejections included this category')
       expect(page).to have_content('50% 1 of 2 rejections in January included this category')
@@ -215,14 +215,14 @@ private
     end
   end
 
-  def and_i_should_see_sub_reasons_for_rejection_due_to_safeguarding
+  def and_i_see_sub_reasons_for_rejection_due_to_safeguarding
     within '#safeguarding' do
       expect(page).to have_content('40% 2 of 5 rejections included this category')
       expect(page).to have_content('50% 1 of 2 rejections in January included this category')
     end
   end
 
-  def and_i_should_see_sub_reasons_for_rejection_due_to_teaching_knowledge_and_communication
+  def and_i_see_sub_reasons_for_rejection_due_to_teaching_knowledge_and_communication
     within '#teaching-knowledge' do
       expect(page).to have_content('20% 1 of 5 rejections included this category')
       expect(page).to have_content('0% 0 of 2 rejections in January included this category')
@@ -236,7 +236,7 @@ private
     end
   end
 
-  def and_i_should_see_reasons_for_rejection_cannot_sponsor_visa
+  def and_i_see_reasons_for_rejection_cannot_sponsor_visa
     within '#visa-sponsorship' do
       expect(page).to have_content('40% 2 of 5 rejections included this category')
       expect(page).to have_content('50% 1 of 2 rejections in January included this category')

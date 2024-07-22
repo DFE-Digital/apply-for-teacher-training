@@ -2,7 +2,6 @@
   <%= render FilterComponent.new(filter: filter) do |component| %>
 
     <%= content %>
-
-    <%= render(PaginatorComponent.new(scope: collection)) %>
+    <%= govuk_pagination(pagy: @pagy) %>
   <% end %>
 </div>

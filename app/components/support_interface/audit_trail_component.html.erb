@@ -5,12 +5,11 @@
       <th scope="col" class="govuk-table__header govuk-!-width-three-quarter">Event</th>
     </tr>
   </thead>
-
   <tbody class="govuk-table__body">
-    <% audits.each do |audit| %>
+    <% @items.each do |audit| %>
       <%= render SupportInterface::AuditTrailItemComponent.new(audit: audit) %>
     <% end %>
   </tbody>
 </table>
 
-<%= render(PaginatorComponent.new(scope: audits)) %>
+<%= govuk_pagination(pagy: @pagy) %>

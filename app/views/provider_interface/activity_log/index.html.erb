@@ -26,5 +26,5 @@
 </div>
 
 <div class="govuk-grid-row govuk-!-margin-top-4">
-  <%= render PaginatorComponent.new(scope: @events) %>
+  <%= govuk_pagination(pagy: @pagy) %>
 </div>

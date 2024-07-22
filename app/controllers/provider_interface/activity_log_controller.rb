@@ -1,11 +1,15 @@
 module ProviderInterface
   class ActivityLogController < ProviderInterfaceController
+    include Pagy::Backend
+
+    PAGY_PER_PAGE = 50
+
     def index
-      @events = GetActivityLogEvents.call(
-        application_choices: GetApplicationChoicesForProviders.call(
-          providers: current_provider_user.providers,
-        ),
-      ).page(params[:page] || 1).per(50)
+      application_choices = GetApplicationChoicesForProviders.call(
+        providers: current_provider_user.providers,
+      )
+      events = GetActivityLogEvents.call(application_choices:)
+      @pagy, @events = pagy(events, items: PAGY_PER_PAGE)
     end
   end
 end

@@ -20,7 +20,7 @@
   <% end %>
 </p>
 
-<% @validation_errors.each do |validation_error| %>
+<% @validation_errors_records.each do |validation_error| %>
   <section class="app-summary-card govuk-!-margin-bottom-6">
     <%= render(SummaryCardHeaderComponent.new(title: "Validation error #{govuk_link_to("##{validation_error.id}", support_interface_validation_errors_provider_search_path(id: validation_error.id))}".html_safe)) do %>
       <div class="app-summary-card__actions">
@@ -59,4 +59,4 @@
   </section>
 <% end %>
 
-<%= render(PaginatorComponent.new(scope: @validation_errors)) %>
+<%= govuk_pagination(pagy: @pagy) %>

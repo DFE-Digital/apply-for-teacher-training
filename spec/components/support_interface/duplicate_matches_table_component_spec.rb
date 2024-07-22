@@ -1,6 +1,9 @@
 require 'rails_helper'
+require 'pagy'
 
 RSpec.describe SupportInterface::DuplicateMatchesTableComponent do
+  include Pagy::Backend
+
   before do
     @duplicate_match1 = build(
       :duplicate_match,
@@ -23,11 +26,11 @@ RSpec.describe SupportInterface::DuplicateMatchesTableComponent do
   end
 
   it 'renders the correct match descriptions' do
+    _, matches = pagy_array([@duplicate_match1, @duplicate_match2], page: 1, items: SupportInterface::DuplicateMatchesController::PAGY_PER_PAGE)
+
     result = render_inline(
       described_class.new(
-        matches: Kaminari.paginate_array([@duplicate_match1, @duplicate_match2])
-                         .page(1)
-                         .per(SupportInterface::DuplicateMatchesController::DUPLICATE_MATCHES_PER_PAGE),
+        matches: matches,
       ),
     )
 

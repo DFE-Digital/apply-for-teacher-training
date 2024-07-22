@@ -44,6 +44,7 @@ RSpec.describe ReasonsForRejectionApplicationsQuery do
         {
           structured_rejection_reasons: { 'id' => 'visa_sponsorship' },
           recruitment_cycle_year: RecruitmentCycle.current_year,
+          page: 1,
         }
       end
 
@@ -57,6 +58,7 @@ RSpec.describe ReasonsForRejectionApplicationsQuery do
         {
           structured_rejection_reasons: { 'personal_statement' => 'quality_of_writing' },
           recruitment_cycle_year: RecruitmentCycle.current_year,
+          page: 1,
         }
       end
 

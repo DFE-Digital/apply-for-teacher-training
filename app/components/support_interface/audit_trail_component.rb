@@ -1,30 +1,42 @@
 module SupportInterface
   class AuditTrailComponent < ViewComponent::Base
+    include Pagy::Backend
     include ViewHelper
+
+    PAGY_PER_PAGE = 10
 
     def initialize(audited_thing:)
       @audited_thing = audited_thing
     end
 
     def audits
-      audits = if audited_thing.is_a? Provider
-                 provider_audits
-               elsif audited_thing.is_a? ApplicationForm
-                 application_audits
-               else
-                 standard_audits
-               end
+      audits = fetch_audits_by_type
 
       if params[:auditable_type]
         audits = audits.where(auditable_type: params[:auditable_type])
       end
 
-      audits.includes(:user).order('created_at desc').page(params[:page] || 1).per(60)
+      audits.includes(:user).order(created_at: :desc)
+    end
+
+    def before_render
+      @pagy, @items = pagy(audits, items: PAGY_PER_PAGE)
     end
 
     attr_reader :audited_thing
 
   private
+
+    def fetch_audits_by_type
+      case audited_thing
+      when Provider
+        provider_audits
+      when ApplicationForm
+        application_audits
+      else
+        standard_audits
+      end
+    end
 
     def provider_audits
       audited_thing.own_and_associated_audits.unscope(:order).or(

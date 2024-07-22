@@ -76,4 +76,23 @@ RSpec.describe SupportInterface::AuditTrailComponent, :with_audited do
 
     expect(render_result.text).to include('Permission relationship between training provider A and ratifying provider B changed')
   end
+
+  context 'pagination' do
+    before do
+      stub_const('SupportInterface::AuditTrailComponent::PAGY_PER_PAGE', 2)
+
+      travel_temporarily_to(Time.zone.local(2019, 10, 1, 12, 10, 0)) do
+        4.times do
+          Audited.audit_class.as_user(candidate) do
+            application_form.update(first_name: Faker::Name.first_name)
+          end
+        end
+      end
+    end
+
+    it 'creates the pagination' do
+      expect(render_result).to have_css('[data-qa=audit-trail-item]', count: 2)
+      expect(render_result).to have_link('Next')
+    end
+  end
 end

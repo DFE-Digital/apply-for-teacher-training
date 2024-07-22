@@ -2,11 +2,12 @@ module SupportInterface
   class CandidatesController < SupportInterfaceController
     before_action :disable_on_production, only: :impersonate
 
+    PAGY_PER_PAGE = 30
+
     def index
       @candidates = Candidate
-        .includes(application_forms: :application_choices)
-        .order(updated_at: :desc)
-        .page(params[:page] || 1).per(30)
+                      .includes(application_forms: :application_choices)
+                      .order(updated_at: :desc)
 
       @filter = SupportInterface::CandidatesFilter.new(params:)
 
@@ -18,6 +19,8 @@ module SupportInterface
         candidate_number = @filter.applied_filters[:candidate_number].tr('^0-9', '')
         @candidates = @candidates.where(id: candidate_number)
       end
+
+      @pagy, @candidates = pagy(@candidates, items: PAGY_PER_PAGE)
     end
 
     def show

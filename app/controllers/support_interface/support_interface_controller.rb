@@ -1,5 +1,7 @@
 module SupportInterface
   class SupportInterfaceController < ApplicationController
+    include Pagy::Backend
+
     layout 'support_layout'
     before_action :authenticate_support_user!
     before_action :set_user_context
