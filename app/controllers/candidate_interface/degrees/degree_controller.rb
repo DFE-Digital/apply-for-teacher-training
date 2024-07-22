@@ -39,6 +39,7 @@ module CandidateInterface
       alias new_start_year new
       alias new_award_year new
       alias new_enic new
+      alias new_enic_reference new
 
       def update(current_step)
         set_country_for_uk
@@ -52,7 +53,7 @@ module CandidateInterface
         end
       end
 
-      %i[country degree_level subject type university completed grade start_year enic].each do |step|
+      %i[country degree_level subject type university completed grade start_year enic enic_reference].each do |step|
         define_method("update_#{step}") { update(step) }
       end
 
@@ -70,7 +71,9 @@ module CandidateInterface
     private
 
       def set_country_for_uk
-        params[:candidate_interface_degree_wizard][:country] = 'GB' if params[:candidate_interface_degree_wizard][:uk_or_non_uk] == 'uk'
+        if params[:candidate_interface_degree_wizard] && params[:candidate_interface_degree_wizard][:uk_or_non_uk] == 'uk'
+          params[:candidate_interface_degree_wizard][:country] = 'GB'
+        end
       end
 
       def next_step!
@@ -87,9 +90,16 @@ module CandidateInterface
       end
 
       def degree_params
-        strip_whitespace params.require(:candidate_interface_degree_wizard).permit(:uk_or_non_uk, :country, :subject, :subject_raw, :degree_level, :equivalent_level, :type, :international_type,
-                                                                                   :other_type, :other_type_raw, :university, :university_raw, :completed, :grade, :other_grade, :other_grade_raw, :start_year, :award_year, :have_enic_reference, :enic_reference,
-                                                                                   :comparable_uk_degree)
+        if params[:candidate_interface_degree_wizard].present?
+          strip_whitespace params.require(:candidate_interface_degree_wizard).permit(
+            :uk_or_non_uk, :country, :subject, :subject_raw, :degree_level, :equivalent_level,
+            :type, :international_type, :other_type, :other_type_raw, :university, :university_raw,
+            :completed, :grade, :other_grade, :other_grade_raw, :start_year, :award_year,
+            :have_enic_reference, :enic_reference, :comparable_uk_degree, :enic_reason
+          )
+        else
+          {}
+        end
       end
     end
   end

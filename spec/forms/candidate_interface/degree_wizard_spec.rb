@@ -417,9 +417,9 @@ RSpec.describe CandidateInterface::DegreeWizard do
       it { is_expected.to validate_presence_of(:international_type).on(:type) }
       it { is_expected.to validate_presence_of(:other_grade).on(:grade) }
       it { is_expected.to validate_length_of(:other_grade).is_at_most(255).on(:grade) }
-      it { is_expected.to validate_presence_of(:have_enic_reference).on(:enic) }
-      it { is_expected.to validate_presence_of(:enic_reference).on(:enic) }
-      it { is_expected.to validate_presence_of(:comparable_uk_degree).on(:enic) }
+      it { is_expected.to validate_presence_of(:enic_reason).on(:enic) }
+      it { is_expected.to validate_presence_of(:enic_reference).on(:enic_reference) }
+      it { is_expected.to validate_presence_of(:comparable_uk_degree).on(:enic_reference) }
     end
 
     context 'UK validations' do
@@ -550,6 +550,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
             predicted_grade: false,
             start_year: '2000',
             award_year: '2004',
+            enic_reason: nil,
             enic_reference: nil,
             comparable_uk_degree: nil,
           },
@@ -571,6 +572,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
           start_year: '2000',
           award_year: '2004',
           enic_reference: '4000228364',
+          enic_reason: 'Yes, I have a statement of comparability',
           comparable_uk_degree: 'Bachelor (Honours) degree',
         }
       end
@@ -593,6 +595,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
             start_year: '2000',
             award_year: '2004',
             enic_reference: '4000228364',
+            enic_reason: 'Yes, I have a statement of comparability',
             comparable_uk_degree: 'Bachelor (Honours) degree',
           },
         )

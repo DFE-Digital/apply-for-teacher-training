@@ -5,7 +5,7 @@ module CandidateInterface
 
     class InvalidStepError < StandardError; end
 
-    VALID_STEPS = %w[country subject grade type enic degree_level completed university award_year start_year].freeze
+    VALID_STEPS = %w[country subject grade type enic enic_reference degree_level completed university award_year start_year].freeze
 
     DEGREE_LEVEL = [
       'Foundation degree',
@@ -19,6 +19,7 @@ module CandidateInterface
     DOCTORATE_LEVEL = 'Doctorate (PhD)'.freeze
     YES = 'Yes'.freeze
     NO = 'No'.freeze
+    HAS_STATEMENT = 'Yes, I have a statement of comparability'.freeze
     OTHER = 'Other'.freeze
     NOT_APPLICABLE = 'N/A'.freeze
     UNKNOWN = 'Unknown'.freeze
@@ -43,7 +44,7 @@ module CandidateInterface
                   :type, :international_type, :grade, :completed,
                   :start_year, :award_year, :have_enic_reference, :enic_reference,
                   :comparable_uk_degree, :application_form_id, :id, :recruitment_cycle_year, :path_history,
-                  :return_to_application_review
+                  :return_to_application_review, :enic_reason
     attr_writer :subject, :other_type, :university, :other_grade
 
     validates :uk_or_non_uk, presence: true, on: :country
@@ -69,8 +70,9 @@ module CandidateInterface
     validates :other_grade, presence: true, length: { maximum: 255 }, if: :use_other_grade?, on: :grade
     validates :start_year, year: true, presence: true, on: :start_year
     validates :award_year, year: true, presence: true, on: :award_year
-    validates :have_enic_reference, presence: true, if: :international?, on: :enic
-    validates :enic_reference, :comparable_uk_degree, presence: true, if: -> { have_enic_reference == YES && international? }, on: :enic
+
+    validates :enic_reason, presence: true, if: -> { international? }, on: :enic
+    validates :enic_reference, :comparable_uk_degree, presence: true, if: -> { international? }, on: :enic_reference
 
     validate :award_year_is_before_start_year, on: :award_year
     validate :start_year_is_after_award_year, on: :start_year
@@ -115,7 +117,11 @@ module CandidateInterface
           :award_year
         elsif step == :award_year && international? && completed?
           :enic
-        elsif %i[award_year enic].include?(step)
+        elsif step == :enic && international? && enic_reason != HAS_STATEMENT
+          :review
+        elsif step == :enic && international?
+          :enic_reference
+        elsif %i[award_year enic enic_reference].include?(step) # rubocop:disable Lint/DuplicateBranch
           :review
         else
           raise InvalidStepError, 'Invalid Step'
@@ -126,7 +132,11 @@ module CandidateInterface
         :award_year
       elsif step == :award_year && completed? && international?
         :enic
-      else
+      elsif step == :enic && international? && enic_reason != HAS_STATEMENT
+        :review
+      elsif step == :enic && international?
+        :enic_reference
+      else # rubocop:disable Lint/DuplicateBranch
         :review
       end
     end
@@ -225,6 +235,14 @@ module CandidateInterface
       end
     end
 
+    def enic_reference_back_link
+      if reviewing_and_from_wizard_page || !reviewing?
+        Rails.application.routes.url_helpers.candidate_interface_degree_enic_path
+      else
+        back_to_review
+      end
+    end
+
     def self.from_application_qualification(degree_store, application_qualification)
       attrs = {
         id: application_qualification.id,
@@ -245,6 +263,7 @@ module CandidateInterface
         award_year: application_qualification.award_year,
         have_enic_reference: map_to_have_enic_reference(application_qualification),
         enic_reference: application_qualification.enic_reference,
+        enic_reason: application_qualification.enic_reason,
         comparable_uk_degree: application_qualification.comparable_uk_degree,
       }
 
@@ -287,6 +306,7 @@ module CandidateInterface
           start_year:,
           award_year:,
           enic_reference: nil,
+          enic_reason: nil,
           comparable_uk_degree: nil,
         }
       else
@@ -304,6 +324,7 @@ module CandidateInterface
           start_year:,
           award_year:,
           enic_reference: predicted_grade ? nil : enic_reference,
+          enic_reason:,
           comparable_uk_degree: predicted_grade ? nil : comparable_uk_degree,
         }
       end
@@ -647,7 +668,7 @@ module CandidateInterface
       if last_saved_state['uk_or_non_uk'] != attrs[:uk_or_non_uk] && attrs[:current_step] == :country
         attrs.merge!(degree_level: nil, equivalent_level: nil, type: nil, other_type: nil, subject: nil, completed: nil,
                      university: nil, start_year: nil, award_year: nil, international_type: nil, grade: nil,
-                     other_grade: nil, have_enic_reference: nil, enic_reference: nil, comparable_uk_degree: nil)
+                     other_grade: nil, have_enic_reference: nil, enic_reason: nil, enic_reference: nil, comparable_uk_degree: nil)
 
       end
     end

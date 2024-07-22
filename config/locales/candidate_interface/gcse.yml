@@ -27,6 +27,7 @@ en:
         gce_o_level_hint_text: For example, 1978
       enic_statement:
         label: Do you have a statement of comparability from UK ENIC
+        enter_enic: Enter the UK ENIC reference number for your %{subject} qualification
         review_label: Do you have a UK ENIC statement of comparability?
         change_action: UK ENIC statement
       enic_reference:

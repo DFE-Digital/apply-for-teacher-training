@@ -154,7 +154,8 @@ en:
     degree_subject: What subject is your degree?
     degree_type_uk: What type of %{type} is it?
     degree_type_international: What type of degree is it?
-    degree_enic: How your degree compares to a UK degree
+    degree_enic: Show how your degree compares to a UK degree
+    degree_enic_reference: Enter the UK ENIC reference number for your degree
     add_undergraduate_degree: Add undergraduate degree
     what_year_did_you_start_your_degree: What year did you start your degree?
     what_year_will_you_graduate: What year will you graduate?

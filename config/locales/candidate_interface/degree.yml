@@ -76,6 +76,15 @@ en:
         label: Do you have a statement of comparability from UK ENIC
         review_label: Do you have a UK ENIC statement of comparability?
         change_action: UK ENIC statement
+        apply_enic: Because you gained your qualifications outside of the UK, you should include a statement of comparability from UK European Network of Information Centres (UK ENIC) with your applications.
+        enic_link: Apply for a statement of comparability from UK ENIC (opens in new tab)
+        more_likely: "Including a statement in y"
+        yes_enic: Yes, I have a statement of comparability
+        waiting_for_enic: I'm waiting for it to arrive
+        future_enic: I will apply for one in the future
+        dont_want_enic: I do not need a statement of comparability
+        percentage_text_html: It helps training providers to see how qualifications gained outside the UK compare to UK qualifications and makes you around  <b>30% more likely to receive an offer.</b>
+        enic_cost: A statement from UK ENIC costs £49.50 and takes 15 working days to arrive.
       enic_reference:
         label: UK ENIC reference number
         hint_text: For example ‘4000228363’

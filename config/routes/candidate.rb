@@ -201,20 +201,20 @@ namespace :candidate_interface, path: '/candidate' do
       get '/science/grade/edit' => 'gcse/science/grade#edit', as: :edit_gcse_science_grade
       patch '/science/grade/edit' => 'gcse/science/grade#update'
 
-      get '/maths/statement_comparibility' => 'gcse/maths/statement_comparibility#new', as: :new_gcse_maths_statement_comparibility
-      patch '/maths/statement_comparibility' => 'gcse/maths/statement_comparibility#create'
-      get '/maths/statement_comparibility/edit' => 'gcse/maths/statement_comparibility#edit', as: :edit_gcse_maths_statement_comparibility
-      patch '/maths/statement_comparibility/edit' => 'gcse/maths/statement_comparibility#update'
+      get '/maths/statement-comparibility' => 'gcse/maths/statement_comparibility#new', as: :new_gcse_maths_statement_comparibility
+      patch '/maths/statement-comparibility' => 'gcse/maths/statement_comparibility#create'
+      get '/maths/statement-comparibility/edit' => 'gcse/maths/statement_comparibility#edit', as: :edit_gcse_maths_statement_comparibility
+      patch '/maths/statement-comparibility/edit' => 'gcse/maths/statement_comparibility#update'
 
-      get '/english/statement_comparibility' => 'gcse/english/statement_comparibility#new', as: :new_gcse_english_statement_comparibility
-      patch '/english/statement_comparibility' => 'gcse/english/statement_comparibility#create'
-      get '/english/statement_comparibility/edit' => 'gcse/english/statement_comparibility#edit', as: :edit_gcse_english_statement_comparibility
-      patch '/english/statement_comparibility/edit' => 'gcse/english/statement_comparibility#update'
+      get '/english/statement-comparibility' => 'gcse/english/statement_comparibility#new', as: :new_gcse_english_statement_comparibility
+      patch '/english/statement-comparibility' => 'gcse/english/statement_comparibility#create'
+      get '/english/statement-comparibility/edit' => 'gcse/english/statement_comparibility#edit', as: :edit_gcse_english_statement_comparibility
+      patch '/english/statement-comparibility/edit' => 'gcse/english/statement_comparibility#update'
 
-      get '/science/statement_comparibility' => 'gcse/science/statement_comparibility#new', as: :new_gcse_science_statement_comparibility
-      patch '/science/statement_comparibility' => 'gcse/science/statement_comparibility#create'
-      get '/science/statement_comparibility/edit' => 'gcse/science/statement_comparibility#edit', as: :edit_gcse_science_statement_comparibility
-      patch '/science/statement_comparibility/edit' => 'gcse/science/statement_comparibility#update'
+      get '/science/statement-comparibility' => 'gcse/science/statement_comparibility#new', as: :new_gcse_science_statement_comparibility
+      patch '/science/statement-comparibility' => 'gcse/science/statement_comparibility#create'
+      get '/science/statement-comparibility/edit' => 'gcse/science/statement_comparibility#edit', as: :edit_gcse_science_statement_comparibility
+      patch '/science/statement-comparibility/edit' => 'gcse/science/statement_comparibility#update'
     end
 
     scope '/gcse/:subject', constraints: { subject: /(maths|english|science)/ } do
@@ -332,6 +332,9 @@ namespace :candidate_interface, path: '/candidate' do
 
         get '/enic' => 'degrees/degree#new_enic', as: :degree_enic
         post '/enic' => 'degrees/degree#update_enic'
+
+        get '/enic-reference' => 'degrees/degree#new_enic_reference', as: :degree_enic_reference
+        post '/enic-reference' => 'degrees/degree#update_enic_reference'
 
         get '/types' => 'degrees/degree#new_type', as: :degree_type
         post '/types' => 'degrees/degree#update_type'

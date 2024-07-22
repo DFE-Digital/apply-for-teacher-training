@@ -1,17 +1,13 @@
 <%= f.govuk_error_summary %>
 
 <h1 class="govuk-heading-xl">
-  <%= t('gcse_edit_enic.page_title', subject: @subject) %>
+  <%= t('gcse_edit_enic.page_title', subject: @subject.capitalize) %>
 </h1>
 
-<p class="govuk-body">
-  <%= t('gcse_edit_enic.apply_enic', link: govuk_link_to('apply for a certificate known as a statement of comparability', t('service_name.enic.statement_of_comparability_url'))).html_safe %>
-</p>
-
-<%= govuk_inset_text(text: t('gcse_edit_enic.inset_text_html')) %>
-
+<p class="govuk-body"><%= t('gcse_edit_enic.apply_enic') %></p>
+<p class="govuk-body"> <%= govuk_link_to(t('gcse_edit_enic.enic_link'), t('service_name.enic.statement_of_comparability_url')) %></p>
+<p class="govuk-body"> <%= t('gcse_edit_enic.percentage_text_html') %></p>
 <p class="govuk-body"> <%= t('gcse_edit_enic.enic_cost') %></p>
-<p class="govuk-body"> <%= t('gcse_edit_enic.working_days') %></p>
 
 <%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.label'), size: 'm' } do %>
   <%= f.govuk_radio_button :have_enic_reference, t('gcse_edit_enic.yes_enic'), label: { text: t('gcse_edit_enic.yes_enic') }, link_errors: true %>
