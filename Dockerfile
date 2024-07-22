@@ -6,7 +6,7 @@ FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
-    libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 libxslt graphviz chromium
+    libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 libxslt graphviz chromium gcompat
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
@@ -58,7 +58,7 @@ ENV LANG=en_GB.UTF-8 \
 
 RUN apk -U upgrade && \
     apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz \
-    ttf-dejavu ttf-droid ttf-liberation libx11 openssl nodejs chromium && \
+    ttf-dejavu ttf-droid ttf-liberation libx11 openssl nodejs chromium gcompat && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
@@ -89,4 +89,4 @@ RUN echo ${SHA} > public/check
 # new code on an old schema (which will be updated a moment later) to running
 # old code on the new schema (which will require another deploy or other manual
 # intervention to correct).
-CMD bundle exec rails db:migrate:ignore_concurrent_migration_exceptions && bundle exec rails server -b 0.0.0.0
+CMD ["bundle", "exec", "rails", "db:migrate:ignore_concurrent_migration_exceptions", "&&", "bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
