@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe StartOfCycleNotificationWorker do
   describe '#perform' do
     let(:mailer_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
-    let(:providers_needing_set_up) { %w[AAA BBB].map { |name| create(:provider, name:) } }
+    let(:providers_needing_set_up) { %w[AAA BBB].map { |name| create(:provider, :no_users, name:) } }
     let(:provider_users_who_need_to_set_up_permissions) do
       create_list(:provider_user, 2, providers: providers_needing_set_up)
     end
