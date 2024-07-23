@@ -1,7 +1,10 @@
 class WorkHistoryAndUnpaidExperienceComponent < WorkHistoryComponent
-  def initialize(application_form:, editable: false)
+  attr_reader :application_choice
+
+  def initialize(application_form:, editable: false, application_choice:nil)
     @application_form = application_form
-    @work_history_with_breaks ||= WorkHistoryWithBreaks.new(application_form, include_unpaid_experience: true)
+    @application_choice = application_choice
+    @work_history_with_breaks ||= WorkHistoryWithBreaks.new(application_choice, include_unpaid_experience: true)
     @editable = editable
   end
 

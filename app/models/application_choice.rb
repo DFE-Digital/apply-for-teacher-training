@@ -26,7 +26,18 @@ class ApplicationChoice < ApplicationRecord
   has_many :interviews, dependent: :destroy
 
   has_many :work_experiences, dependent: :destroy, as: :experienceable, class_name: "ApplicationWorkExperience"
+  alias_method :application_work_experiences, :work_experiences # TODO: Remove this alias
+
+  def application_work_history_breaks
+    ApplicationWorkHistoryBreak.none
+  end
+
   has_many :volunteer_experiences, dependent: :destroy, as: :experienceable, class_name: "ApplicationVolunteeringExperience"
+  alias_method :application_volunteering_experiences, :volunteer_experiences # TODO: Remove this alias
+
+  def submitted_at
+    sent_to_provider_at
+  end
 
   validates_with ReapplyValidator, reappliable: true
 

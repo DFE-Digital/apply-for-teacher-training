@@ -1,6 +1,8 @@
 class WorkHistoryWithBreaks
   attr_accessor :application_form, :work_history, :existing_breaks, :unpaid_work, :include_unpaid_experience
 
+  # TODO: This should accept an ApplicationChoice, or an ApplicationForm
+  # Probably rename `application_form` to `experienceable` or similar
   def initialize(application_form, include_unpaid_experience: false)
     @include_unpaid_experience = include_unpaid_experience
     @application_form = application_form
