@@ -38,7 +38,7 @@ Have a read through [Teacher Services technical documentation](https://tech-docs
 
 These are a small number of recommended Slack channels for new developers to join
 
-- Join `#apply-dev-notifications` for GitHub notifications from the [Apply postgraduate teacher training](https://github.com/DFE-Digital/apply-for-teacher-training) and [Find/Publish for teacher training](https://github.com/DFE-Digital/publish-teacher-training) codebases
+- Join `#apply-dev-notifications` for GitHub notifications from the [Apply teacher training](https://github.com/DFE-Digital/apply-for-teacher-training) and [Find/Publish for teacher training](https://github.com/DFE-Digital/publish-teacher-training) codebases
 
 - `#civil_servant_devs` is a channel for civil servant developers. Join if you would like to be part of ongoing developer discussion, meet ups and technical talks.
 This is a private channel, so ask a permanent developer within Teacher Services to invite you.
