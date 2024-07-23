@@ -1,6 +1,52 @@
 require 'rails_helper'
 
 RSpec.describe StartOfCycleNotificationWorker do
+  describe 'throttling' do
+    shared_examples 'throttled email' do |number_of_records, start_hour, expected_limit|
+      before do
+        allow(CycleTimetable).to receive(:service_opens_today?).and_return(true)
+      end
+
+      it "fetches #{expected_limit} of records for #{number_of_records} total records at #{start_hour}" do
+        collection = instance_double(ActiveRecord::Relation, count: number_of_records, limit: nil).as_null_object
+        allow(GetProvidersToNotifyAboutFindAndApply).to receive(:call).and_return(collection)
+        allow(collection).to receive(:limit).and_return([])
+
+        travel_temporarily_to(CycleTimetable.find_opens(2023).change(hour: start_hour)) do
+          described_class.new.perform('find')
+        end
+        expect(collection).to have_received(:limit).with(expected_limit)
+      end
+    end
+
+    context 'with 10 records' do
+      it_behaves_like 'throttled email', 10, 1, 0
+      it_behaves_like 'throttled email', 10, 5, 0
+      it_behaves_like 'throttled email', 10, 9, 1
+      it_behaves_like 'throttled email', 10, 12, 2
+      it_behaves_like 'throttled email', 10, 13, 2
+      it_behaves_like 'throttled email', 10, 15, 5
+    end
+
+    context 'with 100 records' do
+      it_behaves_like 'throttled email', 100, 1, 6
+      it_behaves_like 'throttled email', 100, 5, 8
+      it_behaves_like 'throttled email', 100, 9, 12
+      it_behaves_like 'throttled email', 100, 12, 20
+      it_behaves_like 'throttled email', 100, 13, 25
+      it_behaves_like 'throttled email', 100, 15, 50
+    end
+
+    context 'with 1000 records' do
+      it_behaves_like 'throttled email', 1000, 1, 62
+      it_behaves_like 'throttled email', 1000, 5, 83
+      it_behaves_like 'throttled email', 1000, 9, 125
+      it_behaves_like 'throttled email', 1000, 12, 200
+      it_behaves_like 'throttled email', 1000, 13, 250
+      it_behaves_like 'throttled email', 1000, 15, 500
+    end
+  end
+
   describe '#perform' do
     let(:mailer_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
     let(:providers_needing_set_up) { %w[AAA BBB].map { |name| create(:provider, :no_users, name:) } }
