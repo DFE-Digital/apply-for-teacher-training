@@ -138,9 +138,9 @@ class Course < ApplicationRecord
 
   def find_url
     url = if HostingEnvironment.sandbox_mode?
-            I18n.t('find_postgraduate_teacher_training.sandbox_url')
+            I18n.t('find_teacher_training.sandbox_url')
           else
-            I18n.t('find_postgraduate_teacher_training.production_url')
+            I18n.t('find_teacher_training.production_url')
           end
 
     "#{url}course/#{provider.code}/#{code}"

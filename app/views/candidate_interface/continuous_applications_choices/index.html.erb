@@ -10,7 +10,7 @@
       <p class="govuk-body">Applications for courses starting in September <%= RecruitmentCycle.current_year %> are closed.</p>
       <p class="govuk-body"> From <%= CycleTimetable.find_reopens.to_fs(:govuk_time_and_date) %>, you can <%= govuk_link_to(
         'find postgraduate teacher training courses',
-        t('find_postgraduate_teacher_training.production_url'),
+        t('find_teacher_training.production_url'),
       ) %> starting in September <%= RecruitmentCycle.next_year %>.</p>
 
       <p class="govuk-body">You will be able to apply to courses from <%= CycleTimetable.apply_reopens.to_fs(:govuk_time_and_date) %>.</p>

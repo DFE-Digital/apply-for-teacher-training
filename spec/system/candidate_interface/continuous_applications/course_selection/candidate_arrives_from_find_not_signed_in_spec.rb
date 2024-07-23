@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'An existing candidate arriving from Find with a course and provider code (with course selection page)' do
+RSpec.describe 'An existing candidate arriving from Find with a course and provider code (with course selection page)' do
   include CourseOptionHelpers
   include SignInHelper
   include CandidateHelper
@@ -191,7 +191,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
   def and_i_see_a_link_to_the_course_on_find
     expect(page).to have_link(
       "#{@course.provider.name} #{@course.name_and_code}",
-      href: "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{@course.provider.code}/#{@course.code}",
+      href: "https://find-teacher-training-courses.service.gov.uk/course/#{@course.provider.code}/#{@course.code}",
     )
   end
 

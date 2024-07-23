@@ -53,7 +53,7 @@ RSpec.describe RejectionReasons::ReasonsForRejectionComponent do
       expect(html).to include('No English GCSE grade 4 (C) or above, or valid equivalent')
       expect(html).to include('No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)')
       expect(html).to include('No degree')
-      expect(html).not_to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course_option.course.code}#section-entry")
+      expect(html).not_to include("https://find-teacher-training-courses.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course_option.course.code}#section-entry")
 
       expect(result.css('h3.govuk-heading-s').text).to include('Performance at interview')
       expect(html).to include('There was no need to do all those pressups')
@@ -76,7 +76,7 @@ RSpec.describe RejectionReasons::ReasonsForRejectionComponent do
       expect(html).to include('No English GCSE grade 4 (C) or above, or valid equivalent')
       expect(html).to include('No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)')
       expect(html).to include('No degree')
-      expect(html).to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}#section-entry")
+      expect(html).to include("https://find-teacher-training-courses.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}#section-entry")
     end
 
     context 'when future applications question is not given' do
