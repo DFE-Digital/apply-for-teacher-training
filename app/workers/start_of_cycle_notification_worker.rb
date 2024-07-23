@@ -9,7 +9,7 @@ class StartOfCycleNotificationWorker
 
     providers_scope.limit(fetch_limit).each do |provider|
       provider.provider_users.each do |provider_user|
-        if !ChaserSent.where('created_at > ?', CycleTimetable.send("#{service}_opens")).exists?(chased: provider_user, chaser_type: service_open_email)
+        if !ChaserSent.since_service_opened(service).exists?(chased: provider_user, chaser_type: service_open_email)
           ProviderMailer.send(service_open_email, provider_user).deliver_later
           ChaserSent.create!(chased: provider_user, chaser_type: service_open_email)
         end
