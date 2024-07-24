@@ -20,7 +20,7 @@ module SupportInterface
       end
 
       def confirm_revert_withdrawal
-        @form = RevertWithdrawalForm.new
+        @form = RevertWithdrawalForm.new(application_choice: @application_choice)
       end
 
       def revert_withdrawal
