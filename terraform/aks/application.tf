@@ -41,6 +41,7 @@ module "web_application" {
   web_external_hostnames     = var.gov_uk_host_names
 
   send_traffic_to_maintenance_page = var.send_traffic_to_maintenance_page
+  enable_prometheus_monitoring     = var.enable_prometheus_monitoring
 }
 
 module "main_worker" {
@@ -61,6 +62,8 @@ module "main_worker" {
   command                    = ["bundle", "exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-main.yml"]
   probe_command              = ["pgrep", "-f", "sidekiq"]
   enable_gcp_wif             = true
+
+  enable_prometheus_monitoring = var.enable_prometheus_monitoring
 }
 
 module "secondary_worker" {
@@ -81,6 +84,8 @@ module "secondary_worker" {
   command                    = ["bundle", "exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-secondary.yml"]
   probe_command              = ["pgrep", "-f", "sidekiq"]
   enable_gcp_wif             = true
+
+  enable_prometheus_monitoring = var.enable_prometheus_monitoring
 }
 
 module "clock_worker" {

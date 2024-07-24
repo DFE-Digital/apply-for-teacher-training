@@ -96,6 +96,11 @@ variable "exp_storage_account_name" {
   default = null
 }
 
+variable "enable_prometheus_monitoring" {
+  type    = bool
+  default = false
+}
+
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.app_environment
 
