@@ -25,11 +25,11 @@ Rails.application.routes.draw do
 
   direct :find do
     if HostingEnvironment.sandbox_mode?
-      I18n.t('find_postgraduate_teacher_training.sandbox_url')
+      I18n.t('find_teacher_training.sandbox_url')
     elsif HostingEnvironment.qa?
-      I18n.t('find_postgraduate_teacher_training.qa_url')
+      I18n.t('find_teacher_training.qa_url')
     else
-      I18n.t('find_postgraduate_teacher_training.production_url')
+      I18n.t('find_teacher_training.production_url')
     end
   end
 

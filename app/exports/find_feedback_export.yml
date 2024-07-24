@@ -10,7 +10,7 @@ custom_columns:
     type: string
     format: link
     description: A link to the page that the candidate was on when they chose to provide feedback.
-    example: https://www.find-postgraduate-teacher-training.service.gov.uk/course/2AT/2T84
+    example: https://find-teacher-training-courses.service.gov.uk/course/2AT/2T84
   feedback:
     type: string
     description: Feedback left by the user

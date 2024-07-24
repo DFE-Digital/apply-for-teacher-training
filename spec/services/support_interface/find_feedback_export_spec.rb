@@ -15,13 +15,13 @@ RSpec.describe SupportInterface::FindFeedbackExport do
       expect(described_class.new.data_for_export).to contain_exactly(
         {
           feedback_provided_at: feedback2.created_at,
-          find_url: 'https://www.find-postgraduate-teacher-training.service.gov.uk/course/L24/2CCR',
+          find_url: 'https://find-teacher-training-courses.service.gov.uk/course/L24/2CCR',
           email: feedback2.email_address,
           feedback: feedback2.feedback,
         },
         {
           feedback_provided_at: feedback1.created_at,
-          find_url: 'https://www.find-postgraduate-teacher-training.service.gov.uk/results',
+          find_url: 'https://find-teacher-training-courses.service.gov.uk/results',
           email: feedback1.email_address,
           feedback: feedback1.feedback,
         },
