@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_25_105759) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_11_122121) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -378,9 +378,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_105759) do
     t.boolean "unsubscribed_from_emails", default: false
     t.boolean "submission_blocked", default: false, null: false
     t.boolean "account_locked", default: false, null: false
+    t.index ["account_locked"], name: "index_candidates_on_account_locked"
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
     t.index ["fraud_match_id"], name: "index_candidates_on_fraud_match_id"
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
+    t.index ["submission_blocked"], name: "index_candidates_on_submission_blocked"
+    t.index ["unsubscribed_from_emails"], name: "index_candidates_on_unsubscribed_from_emails"
   end
 
   create_table "chasers_sent", force: :cascade do |t|
