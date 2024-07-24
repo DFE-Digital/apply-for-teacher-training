@@ -31,6 +31,19 @@ RSpec.describe ApplicationQualification do
     end
   end
 
+  describe 'enic_reason' do
+    it 'yes waiting future, and no' do
+      %w[obtained waiting maybe not_needed].each do |enic_reason|
+        expect { described_class.new(enic_reason:) }.not_to raise_error
+      end
+    end
+
+    it 'raises an error when level is invalid' do
+      expect { described_class.new(enic_reason: 'invalid_reason') }
+        .to raise_error ArgumentError, "'invalid_reason' is not a valid enic_reason"
+    end
+  end
+
   describe 'auditing', :with_audited do
     it 'creates audit entries' do
       application_form = create(:application_form)
