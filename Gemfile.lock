@@ -704,9 +704,9 @@ GEM
     semantic_logger (4.16.0)
       concurrent-ruby (~> 1.0)
     semantic_range (3.0.0)
-    sentry-rails (5.18.1)
+    sentry-rails (5.18.2)
       railties (>= 5.0)
-      sentry-ruby (~> 5.18.1)
+      sentry-ruby (~> 5.18.2)
     sentry-ruby (5.18.2)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
