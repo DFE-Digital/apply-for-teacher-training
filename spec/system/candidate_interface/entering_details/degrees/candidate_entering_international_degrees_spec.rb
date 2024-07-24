@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering an international degree' do
+RSpec.describe 'Entering an international degree' do
   include CandidateHelper
 
   scenario 'Candidate enters their degree' do
@@ -54,6 +54,7 @@ RSpec.feature 'Entering an international degree' do
     # Add enic
     then_i_can_see_the_enic_page
     when_i_check_yes_for_enic_statement
+    and_i_click_on_save_and_continue
     and_i_fill_in_enic_reference
     and_i_fill_in_comparable_uk_degree_type
     and_i_click_on_save_and_continue
@@ -64,7 +65,7 @@ RSpec.feature 'Entering an international degree' do
     # Mark section as complete
     when_i_mark_this_section_as_completed
     and_i_click_on_continue
-    then_i_should_see_the_form
+    then_i_see_the_form
     and_that_the_section_is_completed
     when_i_click_on_degree
     then_i_can_check_my_answers
@@ -169,11 +170,11 @@ RSpec.feature 'Entering an international degree' do
   end
 
   def then_i_can_see_the_enic_page
-    expect(page).to have_content 'Do you have a statement of comparability from UK ENIC (the UK agency that recognises international qualifications and skills)?'
+    expect(page).to have_content 'Do you have a statement of comparability from UK ENIC'
   end
 
   def when_i_check_yes_for_enic_statement
-    choose 'Yes'
+    choose 'Yes, I have a statement of comparability'
   end
 
   def and_i_fill_in_enic_reference
@@ -205,7 +206,7 @@ RSpec.feature 'Entering an international degree' do
     when_i_click_on_continue
   end
 
-  def then_i_should_see_the_form
+  def then_i_see_the_form
     expect(page).to have_content(t('page_titles.application_form'))
   end
 

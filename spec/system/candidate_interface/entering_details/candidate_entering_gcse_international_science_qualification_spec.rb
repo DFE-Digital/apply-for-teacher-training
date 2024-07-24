@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate entering GCSE Science details' do
+RSpec.describe 'Candidate entering GCSE Science details' do
   include CandidateHelper
 
   scenario 'Candidate submits their Science GCSE award' do
@@ -70,6 +70,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
 
   def when_i_fill_in_my_enic_reference_and_choose_an_equivalency
     choose 'Yes'
+    click_link_or_button t('save_and_continue')
     fill_in 'candidate-interface-gcse-enic-form-enic-reference-field', with: '12345'
     choose 'GCSE (grades A*-C / 9-4)'
   end

@@ -148,7 +148,7 @@ module CandidateInterface
 
       {
         key: t('application_form.degree.enic_statement.review_label'),
-        value: degree.enic_reference.present? ? 'Yes' : 'No',
+        value: degree.enic_reason || 'Not entered',
         action: {
           href: candidate_interface_degree_edit_path(degree.id, :enic),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.enic_statement.change_action')),
@@ -167,9 +167,9 @@ module CandidateInterface
 
       {
         key: t('application_form.degree.enic_reference.review_label'),
-        value: degree.enic_reference,
+        value: degree.enic_reference || 'Not entered',
         action: {
-          href: candidate_interface_degree_edit_path(degree.id, :enic),
+          href: candidate_interface_degree_edit_path(degree.id, :enic_reference),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.enic_reference.change_action')),
         },
         html_attributes: {
@@ -181,14 +181,14 @@ module CandidateInterface
     end
 
     def comparable_uk_degree_row(degree)
-      return nil unless degree.international? && degree.enic_reference.present?
+      return nil unless degree.international? && degree.comparable_uk_degree.present?
       return nil if degree.predicted_grade
 
       {
         key: t('application_form.degree.comparable_uk_degree.review_label'),
         value: t("application_form.degree.comparable_uk_degree.values.#{degree.comparable_uk_degree}", default: ''),
         action: {
-          href: candidate_interface_degree_edit_path(degree.id, :enic),
+          href: candidate_interface_degree_edit_path(degree.id, :enic_reference),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.comparable_uk_degree.change_action')),
         },
         html_attributes: {

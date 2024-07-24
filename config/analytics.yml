@@ -159,6 +159,7 @@ shared:
     - comparable_uk_qualification
     - constituent_grades
     - created_at
+    - enic_reason
     - enic_reference
     - equivalency_details
     - grade

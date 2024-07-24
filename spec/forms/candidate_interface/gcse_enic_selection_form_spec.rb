@@ -1,18 +1,18 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::GcseEnicForm do
+RSpec.describe CandidateInterface::GcseEnicSelectionForm do
   describe 'validations' do
     let(:form) { subject }
 
     let(:qualification_data) do
       {
+        enic_reason: 'Yes, I have a statement of comparability',
         enic_reference: '12345',
         comparable_uk_qualification: 'GCSE (grades A*-C / 9-4)',
       }
     end
 
-    it { is_expected.to validate_presence_of(:enic_reference) }
-    it { is_expected.to validate_presence_of(:comparable_uk_qualification) }
+    it { is_expected.to validate_presence_of(:enic_reason) }
 
     describe '#build_from_qualification' do
       it 'creates an object based on the provided ApplicationQualification' do
@@ -21,6 +21,7 @@ RSpec.describe CandidateInterface::GcseEnicForm do
           qualification,
         )
 
+        expect(enic_form.enic_reason).to eq qualification.enic_reason
         expect(enic_form.enic_reference).to eq qualification.enic_reference
         expect(enic_form.comparable_uk_qualification).to eq qualification.comparable_uk_qualification
       end
@@ -29,6 +30,7 @@ RSpec.describe CandidateInterface::GcseEnicForm do
     describe '#save' do
       let(:form_data) do
         {
+          enic_reason: 'Yes, I have a statement of comparability',
           enic_reference: '12345',
           comparable_uk_qualification: 'GCSE (grades A*-C / 9-4)',
         }
@@ -45,6 +47,8 @@ RSpec.describe CandidateInterface::GcseEnicForm do
         enic_form = described_class.new(form_data)
 
         expect(enic_form.save(qualification)).to be(true)
+
+        expect(qualification.enic_reason).to eq form_data[:enic_reason]
         expect(qualification.enic_reference).to eq form_data[:enic_reference]
         expect(qualification.comparable_uk_qualification).to eq form_data[:comparable_uk_qualification]
       end
