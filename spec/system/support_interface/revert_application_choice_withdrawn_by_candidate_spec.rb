@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Revert a withdrawn application choice' do
+RSpec.describe 'Revert a withdrawn application choice' do
   include DfESignInHelpers
 
   scenario 'Support user can reverse a course choice that has been withdrawn in error' do
@@ -19,7 +19,6 @@ RSpec.feature 'Revert a withdrawn application choice' do
 
     when_i_confirm_reverting_a_withdrawal
     and_i_click_continue
-    then_i_am_told_that_i_need_to_provide_a_zendesk_ticket
     when_i_provide_an_invalid_zendesk_ticket_link
     and_i_click_continue
     then_i_am_told_that_i_need_to_provide_a_valid_zendesk_ticket_link
@@ -84,10 +83,6 @@ RSpec.feature 'Revert a withdrawn application choice' do
     check 'I have read the guidance'
   end
   alias_method :and_i_confirm_reverting_a_withdrawal, :when_i_confirm_reverting_a_withdrawal
-
-  def then_i_am_told_that_i_need_to_provide_a_zendesk_ticket
-    expect(page).to have_content 'Enter a Zendesk ticket URL'
-  end
 
   def when_i_provide_an_invalid_zendesk_ticket_link
     fill_in('Zendesk ticket URL', with: 'This wont work')

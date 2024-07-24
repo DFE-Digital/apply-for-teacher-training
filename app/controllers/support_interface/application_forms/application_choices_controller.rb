@@ -24,9 +24,9 @@ module SupportInterface
       end
 
       def revert_withdrawal
-        @form = RevertWithdrawalForm.new(revert_withdrawal_params)
+        @form = RevertWithdrawalForm.new({ application_choice: @application_choice }.merge(revert_withdrawal_params))
 
-        if @form.save(@application_choice)
+        if @form.save
           flash[:success] = 'Withdrawal was reverted'
           redirect_to support_interface_application_form_path(@application_form.id)
         else
