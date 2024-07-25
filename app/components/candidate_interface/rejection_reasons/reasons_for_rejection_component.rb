@@ -1,6 +1,6 @@
 ##
 # This component class supports the rendering of rejection reasons from the initial iteration of structured rejection reasons.
-# See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/reasons-for-rejection.md
+# See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/app_concepts/reasons-for-rejection.md
 #
 module CandidateInterface
   class RejectionReasons::ReasonsForRejectionComponent < ViewComponent::Base

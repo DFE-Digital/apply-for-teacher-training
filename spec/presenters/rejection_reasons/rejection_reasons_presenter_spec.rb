@@ -89,4 +89,230 @@ RSpec.describe RejectionReasons::RejectionReasonsPresenter do
       end
     end
   end
+
+  describe '#tailored_advice_reasons' do
+    let(:reasons) { {} }
+    let(:application_choice) do
+      build_stubbed(
+        :application_choice,
+        structured_rejection_reasons: reasons,
+        rejection_reasons_type: 'rejection_reasons',
+      )
+    end
+
+    let(:rejected_application_choice) { described_class.new(application_choice) }
+
+    describe 'when there are no rejection reasons' do
+      it 'returns an empty hash' do
+        expect(rejected_application_choice.tailored_advice_reasons).to eq({})
+      end
+    end
+
+    describe 'with multiple gcse rejection reasons' do
+      let(:reasons) do
+        { selected_reasons: [
+          { id: 'qualifications', label: 'Qualifications',
+            selected_reasons: [{ id: 'no_maths_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
+                               { id: 'no_english_gcse', label: 'No english GCSE at minimum grade 4 or C, or equivalent' },
+                               { id: 'no_science_gcse', label: 'No english GCSE at minimum grade 4 or C, or equivalent' }] },
+        ] }
+      end
+
+      it 'only returns a single "no_gcse" reason code' do
+        expect(rejected_application_choice.tailored_advice_reasons).to eq({ 'qualifications' => ['no_gcse'] })
+      end
+    end
+
+    describe 'when both personal statement options are chosen' do
+      let(:reasons) do
+        { selected_reasons: [
+          { id: 'personal_statement', label: 'Personal statement',
+            selected_reasons: [{ id: 'quality_of_writing', label: 'Quality of writing' },
+                               { id: 'personal_statement_other', label: 'Other' }] },
+        ] }
+      end
+
+      it 'only returns a single personal statement option' do
+        expect(rejected_application_choice.tailored_advice_reasons).to eq({ 'personal_statement' => ['personal_statement_other'] })
+      end
+    end
+
+    describe 'when communication_and_scheduling options include both couldn_not_arrange_interview and communication_and_scheduling_other' do
+      let(:reasons) do
+        { selected_reasons: [
+          { id: 'communication_and_scheduling', label: 'Communication, interview attendance and scheduling', selected_reasons: [
+            { id: 'could_not_arrange_interview', label: 'Could not arrange interview' },
+            { id: 'communication_and_scheduling_other', label: 'Other' },
+          ] },
+        ] }
+      end
+
+      it 'consolidates the reasons to just communication_and_scheduling_other' do
+        expect(rejected_application_choice.tailored_advice_reasons).to eq(
+          { 'communication_and_scheduling' => %w[communication_and_scheduling_other] },
+        )
+      end
+    end
+
+    describe 'when the teaching knowledge selected reasons include classroom experience related reason codes' do
+      let(:reasons) do
+        { selected_reasons: [
+          { id: 'teaching_knowledge', label: 'Teaching knowledge, ability and interview performance',
+            selected_reasons: [{ id: 'subject_knowledge', label: 'Subject knowledge' },
+                               { id: 'safeguarding_knowledge', label: 'Safeguarding knowledge' },
+                               { id: 'teaching_method_knowledge', label: 'Teaching method knowledge' },
+                               { id: 'teaching_role_knowledge', label: 'Teaching role knowledge' },
+                               { id: 'teaching_knowledge_other', label: 'Other' },
+                               { id: 'teaching_demonstration', label: 'Teaching demonstration' }] },
+        ] }
+      end
+
+      it 'consolidates the classroom experience related reasons' do
+        expect(rejected_application_choice.tailored_advice_reasons).to eq(
+          { 'teaching_knowledge' => %w[subject_knowledge teaching_knowledge_other] },
+        )
+      end
+    end
+
+    describe 'when multiple communication other reason codes are given' do
+      let(:reasons) do
+        { selected_reasons: [
+          { id: 'communication_and_scheduling', label: 'Communication, interview attendance and scheduling',
+            selected_reasons: [
+              { id: 'could_not_arrange_interview', label: 'Could not arrange interview' },
+              { id: 'did_not_reply', label: 'Did not reply to messages' },
+              { id: 'communication_and_scheduling_other', label: 'Other' },
+            ] },
+        ] }
+      end
+
+      it 'returns only communication_and_schedule_other' do
+        expect(rejected_application_choice.tailored_advice_reasons).to eq(
+          { 'communication_and_scheduling' => ['communication_and_scheduling_other'] },
+        )
+      end
+    end
+
+    describe 'when a deprecated or invalid high level advice reason code is given' do
+      let(:reasons) do
+        { selected_reasons: [
+          {
+            id: 'qualifications',
+            label: 'Qualifications',
+            details: {
+              id: 'qualifications_details', text: 'We could find no record of your GCSEs.'
+            },
+          },
+          {
+            id: 'personal_statement',
+            label: 'Personal statement',
+            details: {
+              id: 'personal_statement_details', text: 'We do not accept applications written in Old Norse.'
+            },
+          },
+          {
+            id: 'references',
+            label: 'References',
+            details: {
+              id: 'references_details',
+              text: 'We do not accept references from close family members, such as your mum.',
+            },
+          },
+          {
+            id: 'some_random_thing',
+            label: 'Some Random Thing',
+          },
+        ] }
+      end
+
+      it 'does not return the deprecated reasons' do
+        expect(rejected_application_choice.tailored_advice_reasons.keys).to contain_exactly('qualifications', 'personal_statement')
+      end
+    end
+
+    describe 'does not return both safeguarding and other high-level reasons' do
+      context 'only other is a reason' do
+        let(:reasons) do
+          { selected_reasons: [
+            { id: 'other', label: 'Other', details: { id: 'other_details', text: 'Other things.' } },
+          ] }
+        end
+
+        it 'returns other' do
+          expect(rejected_application_choice.tailored_advice_reasons.keys).to contain_exactly('other')
+        end
+      end
+
+      context 'only safeguarding is a reason' do
+        let(:reasons) do
+          { selected_reasons: [
+            { id: 'safeguarding', label: 'Safeguarding', details: { id: 'safeguarding_details', text: 'Safeguarding.' } },
+          ] }
+        end
+
+        it 'returns other' do
+          expect(rejected_application_choice.tailored_advice_reasons.keys).to contain_exactly('safeguarding')
+        end
+      end
+
+      context 'both other and safeguarding are reasons' do
+        let(:reasons) do
+          { selected_reasons: [
+            { id: 'safeguarding', label: 'Safeguarding', details: { id: 'safeguarding_details', text: 'Safeguarding.' } },
+            { id: 'other', label: 'Other', details: { id: 'other_details', text: 'Other things.' } },
+          ] }
+        end
+
+        it 'returns other' do
+          expect(rejected_application_choice.tailored_advice_reasons.keys).to contain_exactly('other')
+        end
+      end
+    end
+  end
+
+  describe '#render_tailored_advice_section_headings?' do
+    let(:reasons) { {} }
+    let(:application_choice) do
+      build_stubbed(
+        :application_choice,
+        structured_rejection_reasons: reasons,
+        rejection_reasons_type: 'rejection_reasons',
+      )
+    end
+
+    let(:rejected_application_choice) { described_class.new(application_choice) }
+
+    describe 'when there are multiple high level reasons' do
+      let(:reasons) do
+        { selected_reasons: [
+          { id: 'teaching_knowledge', label: 'Teaching knowledge, ability and interview performance',
+            selected_reasons: [{ id: 'teaching_demonstration', label: 'Teaching demonstration' }] },
+          { id: 'personal_statement', label: 'Personal statement',
+            selected_reasons: [{ id: 'personal_statement_other', label: 'Other' }] },
+        ] }
+      end
+
+      it 'returns true' do
+        expect(rejected_application_choice.render_tailored_advice_section_headings?).to be(true)
+      end
+    end
+
+    describe 'when there is one high level reason with multiple reason codes' do
+      let(:reasons) do
+        { selected_reasons: [
+          { id: 'teaching_knowledge', label: 'Teaching knowledge, ability and interview performance',
+            selected_reasons: [{ id: 'subject_knowledge', label: 'Subject knowledge' },
+                               { id: 'safeguarding_knowledge', label: 'Safeguarding knowledge' },
+                               { id: 'teaching_method_knowledge', label: 'Teaching method knowledge' },
+                               { id: 'teaching_role_knowledge', label: 'Teaching role knowledge' },
+                               { id: 'teaching_knowledge_other', label: 'Other' },
+                               { id: 'teaching_demonstration', label: 'Teaching demonstration' }] },
+        ] }
+      end
+
+      it 'returns true' do
+        expect(rejected_application_choice.render_tailored_advice_section_headings?).to be(true)
+      end
+    end
+  end
 end

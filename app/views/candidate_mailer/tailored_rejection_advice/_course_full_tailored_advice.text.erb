@@ -1,0 +1,7 @@
+<% unless CycleTimetable.between_cycles? %>
+  <% if @application_choice.render_tailored_advice_section_headings? %>
+## There are still courses with spaces available
+  <% end %>
+
+[Search again for courses with available places](<%= t('find_teacher_training.production_url') %>)
+<% end %>

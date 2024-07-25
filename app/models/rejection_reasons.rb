@@ -1,7 +1,7 @@
 ##
 # This model is specific to the current iteration of _Structured Reasons For Rejection_ where data is
 # gathered from a single wizard step using multiple nested reasons.
-# See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/reasons-for-rejection.md
+# See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/app_concepts/reasons-for-rejection.md
 #
 class RejectionReasons
   include ActiveModel::Model

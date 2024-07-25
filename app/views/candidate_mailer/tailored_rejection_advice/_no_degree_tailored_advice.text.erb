@@ -1,0 +1,9 @@
+You could consider a different route into teaching.
+
+[Find out how to train to teach if you do not have a degree](<%= t('get_into_teaching.url_train_without_a_degree') %>).
+
+<% if FeatureFlag.active?(:teacher_degree_apprenticeship) %>
+  You may also be eligible to apply for a teacher degree apprenticeship (TDA). This new course will allow you work in a school and earn a salary while getting a bachelor’s degree and Qualified Teacher Status (QTS). So you will not have to pay tuition fees.
+
+  [Find out more about teacher degree apprenticeships (TDAs)](<%= t('get_into_teaching.url_teacher_degree_apprenticeship') %>).
+<% end %>

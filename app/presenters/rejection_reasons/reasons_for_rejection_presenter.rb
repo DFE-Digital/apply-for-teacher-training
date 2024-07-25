@@ -1,6 +1,6 @@
 ##
 # This presenter class supports serialized ReasonsForRejection data from the initial iteration of structured rejection reasons.
-# See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/reasons-for-rejection.md
+# See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/app_concepts/reasons-for-rejection.md
 #
 class RejectionReasons
   class ReasonsForRejectionPresenter < SimpleDelegator
@@ -14,6 +14,14 @@ class RejectionReasons
 
     def reasons
       @reasons ||= ReasonsForRejection.new(structured_rejection_reasons)
+    end
+
+    def tailored_advice_reasons
+      {}
+    end
+
+    def render_tailored_advice_section_headings?
+      false
     end
 
   private

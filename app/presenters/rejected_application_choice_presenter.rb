@@ -1,5 +1,5 @@
 class RejectedApplicationChoicePresenter < SimpleDelegator
-  delegate :rejection_reasons, :reasons, to: :presenter
+  delegate :rejection_reasons, :reasons, :tailored_advice_reasons, :render_tailored_advice_section_headings?, to: :presenter
 
   def presenter
     presenter_class.new(__getobj__)

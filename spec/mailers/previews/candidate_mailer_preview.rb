@@ -163,7 +163,6 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def application_rejected(reasons = :rejection_reasons)
-    SiteSetting.set(name: 'cycle_schedule', value: 'today_is_mid_cycle')
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
       application_form:,
@@ -173,8 +172,6 @@ class CandidateMailerPreview < ActionMailer::Preview
       rejection_reasons_type: reasons.to_s,
     )
     CandidateMailer.application_rejected(application_choice)
-  ensure
-    SiteSetting.set(name: 'real', value: 'real')
   end
 
   def application_rejected_via_api
@@ -677,7 +674,6 @@ private
           { id: 'unverified_qualifications',
             label: 'Could not verify qualifications',
             details: { id: 'unverified_qualifications_details', text: 'We could find no record of your GCSEs.' } },
-          qualifications_other,
         ] },
         { id: 'personal_statement',
           label: 'Personal statement',
@@ -686,13 +682,6 @@ private
               label: 'Quality of writing',
               details: { id: 'quality_of_writing_details', text: 'We do not accept applications written in Old Norse.' } },
           ] },
-        {
-          id: 'references', label: 'References',
-          details: {
-            id: 'references_details',
-            text: 'We do not accept references from close family members, such as your mum.',
-          }
-        },
         { id: 'course_full',  label: 'Course full' },
         { id: 'other', label: 'Other', details: { id: 'other_details', text: 'So many other things were wrong...' } },
       ],
