@@ -1,4 +1,9 @@
-<section id="<%= dom_id(application_choice) %>" class="app-application-card">
+<section id="<%= dom_id(application_choice) %>" class="app-application-card app-application-card__<%= course_type %>">
+  <% if undergraduate? %>
+    <p class="govuk-body-s app-application-card__course_type">
+      <%= t('provider_interface.undergraduate') %>
+    </p>
+  <% end %>
   <header class="app-application-card__header">
     <h3 class="govuk-heading-s">
       <%= govuk_link_to candidate_name, provider_interface_application_choice_path(application_choice), no_visited_state: true %>

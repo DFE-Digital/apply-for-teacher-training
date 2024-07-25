@@ -310,4 +310,36 @@ RSpec.describe Course do
       expect(course.ske_graduation_cutoff_date).to eq(Date.new(2018, 1, 1))
     end
   end
+
+  describe '#undergraduate?' do
+    context 'when the course is undergraduate' do
+      it 'returns true' do
+        course = build(:course, :teacher_degree_apprenticeship)
+        expect(course.undergraduate?).to be true
+      end
+    end
+
+    context 'when the course is not undergraduate' do
+      it 'returns false' do
+        course = build(:course, program_type: 'scitt_programme')
+        expect(course.undergraduate?).to be false
+      end
+    end
+  end
+
+  describe '#course_type' do
+    context 'when the course is undergraduate' do
+      it 'returns the translated undergraduate course type' do
+        course = build(:course, :teacher_degree_apprenticeship)
+        expect(course.course_type).to eq('undergraduate')
+      end
+    end
+
+    context 'when the course is not undergraduate' do
+      it 'returns the translated postgraduate course type' do
+        course = build(:course, program_type: 'scitt_programme')
+        expect(course.course_type).to eq('postgraduate')
+      end
+    end
+  end
 end

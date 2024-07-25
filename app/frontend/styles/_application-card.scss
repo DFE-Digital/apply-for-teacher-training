@@ -84,4 +84,14 @@
       margin-top: auto;
     }
   }
+
+  &__course_type {
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  &__undergraduate {
+    background-color: #fff6bf;
+    padding: 10px;
+  }
 }

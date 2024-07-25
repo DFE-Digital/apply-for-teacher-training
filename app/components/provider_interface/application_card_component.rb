@@ -7,6 +7,9 @@ module ProviderInterface
                   :candidate_name, :course_name_and_code, :course_provider_name, :changed_at,
                   :site_name, :course_study_mode
 
+    delegate :current_course, to: :application_choice
+    delegate :course_type, :undergraduate?, to: :current_course
+
     def initialize(application_choice:)
       @accredited_provider = application_choice.current_accredited_provider
       @application_choice = application_choice
