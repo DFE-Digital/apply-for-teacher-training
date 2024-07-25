@@ -23,3 +23,4 @@
 - [ ] API release notes have been updated if necessary
 - [ ] If it adds a significant user-facing change, is it documented in the [CHANGELOG](CHANGELOG.md)?
 - [ ] Required environment variables have been updated [added to the Azure KeyVault](/docs/environment-variables.md#deploy-pipeline)
+- [ ] Inform data insights team due to database changes
