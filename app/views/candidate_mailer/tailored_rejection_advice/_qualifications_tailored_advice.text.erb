@@ -1,9 +1,7 @@
-<% if @application_choice.tailored_advice_reasons["qualifications"].present?  %>
-  <% if @application_choice.render_tailored_advice_section_headings? %>
+<% if @application_choice.render_tailored_advice_section_headings? %>
   ## Make sure you meet the qualifications criteria
-  <% end %>
+<% end %>
 
-  <% @application_choice.tailored_advice_reasons['qualifications'].each do |advice_reason_id| %>
-  <%= render "candidate_mailer/tailored_rejection_advice/#{advice_reason_id}_tailored_advice" %>
-  <% end %>
+<% @application_choice.tailored_advice_reasons['qualifications'].each do |advice_reason_id| %>
+<%= render "candidate_mailer/tailored_rejection_advice/#{advice_reason_id}_tailored_advice" %>
 <% end %>

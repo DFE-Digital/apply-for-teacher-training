@@ -1,13 +1,11 @@
-<% if @application_choice.tailored_advice_reasons["teaching_knowledge"].present? %>
-  <% if @application_choice.render_tailored_advice_section_headings? %>
-    <% if @application_choice.tailored_advice_reasons['teaching_knowledge'].include? 'subject_knowledge' %>
+<% if @application_choice.render_tailored_advice_section_headings? %>
+  <% if @application_choice.tailored_advice_reasons['teaching_knowledge'].include? 'subject_knowledge' %>
 ## Improve your subject knowledge
-    <% else %>
+  <% else %>
 ## Get classroom experience
-    <% end %>
   <% end %>
+<% end %>
 
-  <% @application_choice.tailored_advice_reasons['teaching_knowledge'].each do |advice_reason_id| %>
+<% @application_choice.tailored_advice_reasons['teaching_knowledge'].each do |advice_reason_id| %>
 <%= render "candidate_mailer/tailored_rejection_advice/#{advice_reason_id}_tailored_advice" %>
-  <% end %>
 <% end %>

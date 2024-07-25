@@ -1,5 +1,3 @@
-<% if @application_choice.tailored_advice_reasons["communication_and_scheduling"].present? %>
-  <% @application_choice.tailored_advice_reasons["communication_and_scheduling"].each do |advice_reason_id| %>
+<% @application_choice.tailored_advice_reasons["communication_and_scheduling"].each do |advice_reason_id| %>
 <%= render "candidate_mailer/tailored_rejection_advice/#{advice_reason_id}_tailored_advice" %>
-  <% end %>
 <% end %>
