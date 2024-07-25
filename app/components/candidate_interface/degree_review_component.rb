@@ -232,7 +232,7 @@ module CandidateInterface
     end
 
     def grade_row(degree)
-      return nil if doctorate?(degree)
+      return nil if doctorate?(degree) && !degree.international?
 
       {
         key: degree.completed? ? t('application_form.degree.grade.review_label') : t('application_form.degree.grade.review_label_predicted'),

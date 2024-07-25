@@ -557,6 +557,46 @@ RSpec.describe CandidateInterface::DegreeWizard do
       end
     end
 
+    context 'international with where no grade is awarded' do
+      let(:wizard_attrs) do
+        {
+          application_form_id: 1,
+          uk_or_non_uk: 'non_uk',
+          subject: 'History',
+          international_type: 'Doctor of Philosophy',
+          university: 'Purdue University',
+          country: 'USA',
+          grade: 'No',
+          completed: 'Yes',
+          start_year: '2000',
+          award_year: '2004',
+        }
+      end
+
+      let(:wizard) { described_class.new(store, wizard_attrs) }
+
+      it 'persists the correct attributes' do
+        expect(wizard.attributes_for_persistence).to eq(
+          {
+            application_form_id: 1,
+            international: true,
+            level: 'degree',
+            qualification_type: 'Doctor of Philosophy',
+            institution_name: 'Purdue University',
+            institution_country: 'USA',
+            subject: 'History',
+            degree_subject_uuid: Hesa::Subject.find_by_name('History').id,
+            predicted_grade: false,
+            grade: 'N/A',
+            start_year: '2000',
+            award_year: '2004',
+            enic_reference: nil,
+            comparable_uk_degree: nil,
+          },
+        )
+      end
+    end
+
     context 'international' do
       let(:wizard_attrs) do
         {
