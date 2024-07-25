@@ -19,17 +19,17 @@ module SupportInterface
         revert_withdrawal_service.save
       end
 
+    private
+
+      def valid_service
+        revert_withdrawal_service.valid? || errors.merge!(revert_withdrawal_service.errors)
+      end
+
       def revert_withdrawal_service
         @service ||= SupportInterface::RevertWithdrawal.new(
           application_choice:,
           zendesk_ticket: audit_comment_ticket,
         )
-      end
-
-    private
-
-      def valid_service
-        revert_withdrawal_service.valid? || errors.merge!(revert_withdrawal_service.errors)
       end
     end
   end
