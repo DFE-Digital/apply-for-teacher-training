@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering their other qualifications', :mid_cycle do
+RSpec.describe 'Entering their other qualifications', :mid_cycle do
   include CandidateHelper
 
   scenario 'Candidate submits their other qualifications' do
@@ -38,14 +38,14 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
     and_i_choose_not_to_add_additional_qualifications
     and_click_save_and_continue
     then_i_see_the_other_qualification_review_page
-    and_i_should_see_my_qualifications
+    and_i_see_my_qualifications
     and_my_other_uk_qualification_has_the_correct_format
 
     when_i_select_add_another_qualification
     and_choose_as_level
     then_the_form_is_empty
     and_i_visit_the_other_qualification_review_page
-    then_i_should_not_see_an_incomplete_as_level_qualification
+    then_i_will_not_see_an_incomplete_as_level_qualification
 
     when_i_click_on_delete_my_first_qualification
     and_i_confirm_that_i_want_to_delete_my_additional_qualification
@@ -73,7 +73,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
 
     when_i_mark_this_section_as_incomplete
     and_i_click_on_continue
-    then_i_should_see_the_form
+    then_i_see_the_form
     and_the_section_is_not_completed
 
     when_i_click_on_other_qualifications
@@ -82,7 +82,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
     when_i_mark_this_section_as_completed
     and_i_have_an_incomplete_qualification
     and_i_click_on_continue
-    then_i_should_be_told_i_cannot_submit_incomplete_qualifications
+    then_i_will_be_told_i_cannot_submit_incomplete_qualifications
 
     when_i_delete_my_incomplete_qualification
     and_i_confirm_that_i_want_to_delete_my_additional_qualification
@@ -202,7 +202,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
     expect(page).to have_current_path(candidate_interface_review_other_qualifications_path)
   end
 
-  def and_i_should_see_my_qualifications
+  def and_i_see_my_qualifications
     expect(page).to have_content('A level Believing in the Heart of the Cards')
     expect(page).to have_content('A level Oh')
     expect(page).to have_content('Access Course History, English and Psychology')
@@ -223,7 +223,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
     fill_in t('application_form.other_qualification.subject.label'), with: 'Winning at life'
   end
 
-  def then_i_should_see_the_review_page_with_a_flash_warning
+  def then_i_see_the_review_page_with_a_flash_warning
     expect(page).to have_content "To update one of your qualifications use the 'Change' links below"
     expect(page).to have_content 'Access Course, History, English and Psychology'
   end
@@ -247,7 +247,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
     visit candidate_interface_review_other_qualifications_path
   end
 
-  def then_i_should_not_see_an_incomplete_as_level_qualification
+  def then_i_will_not_see_an_incomplete_as_level_qualification
     expect(page).to have_no_content('AS level')
     expect(all('.govuk-summary-list__value').last.text).not_to eq 'Not entered'
   end
@@ -345,7 +345,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
-  def then_i_should_be_told_i_cannot_submit_incomplete_qualifications
+  def then_i_will_be_told_i_cannot_submit_incomplete_qualifications
     expect(page).to have_content('You must fill in all your qualifications to complete this section')
   end
 
@@ -355,7 +355,7 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle do
     end
   end
 
-  def then_i_should_see_the_form
+  def then_i_see_the_form
     expect(page).to have_content(t('page_titles.application_form'))
   end
 
