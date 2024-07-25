@@ -314,5 +314,15 @@ RSpec.describe RejectionReasons::RejectionReasonsPresenter do
         expect(rejected_application_choice.render_tailored_advice_section_headings?).to be(true)
       end
     end
+
+    describe 'when there are no details and no nested reasons' do
+      let(:reasons) do
+        { selected_reasons: [{ id: 'course_full', label: 'course_full' }] }
+      end
+
+      it 'returns false' do
+        expect(rejected_application_choice.render_tailored_advice_section_headings?).to be(false)
+      end
+    end
   end
 end
