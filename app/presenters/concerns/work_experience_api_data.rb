@@ -18,13 +18,13 @@ module WorkExperienceAPIData
   end
 
   def work_experience_jobs
-    application_form.application_work_experiences.map do |experience|
+    application_choice.work_experiences.map do |experience|
       experience_to_hash(experience)
     end
   end
 
   def work_experience_volunteering
-    application_form.application_volunteering_experiences.map do |experience|
+    application_choice.volunteering_experiences.map do |experience|
       experience_to_hash(experience)
     end
   end
