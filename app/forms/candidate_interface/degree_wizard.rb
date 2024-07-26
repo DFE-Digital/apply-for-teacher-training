@@ -485,6 +485,8 @@ module CandidateInterface
     end
 
     def map_value_for_no_submitted_international_grade(grade)
+      return grade if grade.in? [NOT_APPLICABLE, UNKNOWN]
+
       self.grade = {
         NO => NOT_APPLICABLE,
         I_DO_NOT_KNOW => UNKNOWN,
