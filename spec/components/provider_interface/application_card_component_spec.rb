@@ -168,9 +168,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       end
 
       it 'renders undergraduate content' do
-        expect(result.text.gsub(/\r?\n/, ' ').squeeze(' ').strip).to match(
-          /^Undergraduate Jim James/,
-        )
+        expect(result).to have_text('Undergraduate Jim James', normalize_ws: true)
         expect(result).to have_css(
           'section.app-application-card.app-application-card__undergraduate',
         )
