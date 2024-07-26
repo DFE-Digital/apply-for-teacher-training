@@ -7,7 +7,7 @@ module VendorAPI
   VERSION_1_3 = '1.3'.freeze
   VERSION_1_4 = '1.4'.freeze
   VERSION_1_5 = '1.5pre'.freeze
-  VERSION = VERSION_1_4
+  VERSION = '1.5'.freeze
 
   VERSIONS = {
     '1.0' => [
