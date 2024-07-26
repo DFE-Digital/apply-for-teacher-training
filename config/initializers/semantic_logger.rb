@@ -25,19 +25,19 @@ module RailsSemanticLogger
           parameter_filter = ActiveSupport::ParameterFilter.new(filtered_params)
 
           {}.tap do |h|
-            h[:event_name]         = event.name
-            h[:mailer]             = mailer
-            h[:action]             = action
-            h[:message_id]         = event.payload[:message_id]
-            h[:perform_deliveries] = event.payload[:perform_deliveries]
-            h[:subject]            = parameter_filter.filter(subject: event.payload[:subject])[:subject]
-            h[:to]                 = parameter_filter.filter(to: event.payload[:to])[:to]
-            h[:from]               = parameter_filter.filter(from: event.payload[:from])[:from]
-            h[:bcc]                = parameter_filter.filter(bcc: event.payload[:bcc])[:bcc]
-            h[:cc]                 = parameter_filter.filter(cc: event.payload[:cc])[:cc]
-            h[:date]               = date
-            h[:duration]           = event.duration.round(2) if log_duration?
-            h[:args]               = parameter_filter.filter(args: event.payload[:args])[:args]
+            h[:event_name]         = parameter_filter.filter_param('mailer.event_name', event.name)
+            h[:mailer]             = parameter_filter.filter_param('mailer.mailer', mailer)
+            h[:action]             = parameter_filter.filter_param('mailer.action', action)
+            h[:message_id]         = parameter_filter.filter_param('mailer.message_id', event.payload[:message_id])
+            h[:perform_deliveries] = parameter_filter.filter_param('mailer.perform_deliveries', event.payload[:perform_deliveries])
+            h[:subject]            = parameter_filter.filter_param('mailer.subject', event.payload[:subject])
+            h[:to]                 = parameter_filter.filter_param('mailer.to', event.payload[:to])
+            h[:from]               = parameter_filter.filter_param('mailer.from', event.payload[:from])
+            h[:bcc]                = parameter_filter.filter_param('mailer.bcc', event.payload[:bcc])
+            h[:cc]                 = parameter_filter.filter_param('mailer.cc', event.payload[:cc])
+            h[:date]               = parameter_filter.filter_param('mailer.date', date)
+            h[:duration]           = parameter_filter.filter_param('mailer.duration', event.duration.round(2)) if log_duration?
+            h[:args]               = parameter_filter.filter_param('mailer.args', event.payload[:args])
           end
         end
       end
