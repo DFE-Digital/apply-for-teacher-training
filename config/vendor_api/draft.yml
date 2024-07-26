@@ -19,6 +19,7 @@ components:
   schemas:
     ApplicationAttributes:
       type: object
+      additionalProperties: false
       properties:
         sent_to_provider_at:
           type: string
