@@ -22,12 +22,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
   let(:course_option) do
     course_option_for_provider(
       provider: current_provider,
-      course: create(
-        :course,
-        name: 'Alchemy',
-        provider: current_provider,
-        accredited_provider:,
-      ),
+      course:,
       site: create(
         :site,
         code: 'L123',
@@ -35,6 +30,15 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
         provider: current_provider,
       ),
       study_mode: 'part_time',
+    )
+  end
+
+  let(:course) do
+    create(
+      :course,
+      name: 'Alchemy',
+      provider: current_provider,
+      accredited_provider:,
     )
   end
 
@@ -147,23 +151,13 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     end
 
     context 'when undergraduate' do
-      let(:course_option) do
-        course_option_for_provider(
+      let(:course) do
+        create(
+          :course,
+          :teacher_degree_apprenticeship,
+          name: 'Alchemy',
           provider: current_provider,
-          course: create(
-            :course,
-            :teacher_degree_apprenticeship,
-            name: 'Alchemy',
-            provider: current_provider,
-            accredited_provider:,
-          ),
-          site: create(
-            :site,
-            code: 'L123',
-            name: 'Skywalker Training',
-            provider: current_provider,
-          ),
-          study_mode: 'part_time',
+          accredited_provider:,
         )
       end
 
