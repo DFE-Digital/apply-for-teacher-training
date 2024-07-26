@@ -53,7 +53,7 @@ class RejectionReasons
                           elsif reason.selected_reasons.present?
                             nested_advice_reasons(reason)
                           else
-                            valid_tailored_advice_reason_id(reason.id)
+                            Array(valid_tailored_advice_reason_id(reason.id))
                           end
       end
 
@@ -67,7 +67,7 @@ class RejectionReasons
 
     def render_tailored_advice_section_headings?
       # Only render headings if there are multiple reasons given
-      tailored_advice_reasons.keys.many? || (tailored_advice_reasons.values.first.instance_of?(Array) && tailored_advice_reasons.values.first.many?)
+      tailored_advice_reasons.keys.many? || tailored_advice_reasons.values&.first&.many?
     end
 
     def nested_advice_reasons(reason)
