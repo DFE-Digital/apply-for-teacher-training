@@ -3,15 +3,15 @@ class WorkHistoryWithBreaks
 
   # TODO: This should accept an ApplicationChoice, or an ApplicationForm
   # Probably rename `application_form` to `experienceable` or similar
-  def initialize(application_form, include_unpaid_experience: false)
+  def initialize(experienceable, include_unpaid_experience: false)
     @include_unpaid_experience = include_unpaid_experience
-    @application_form = application_form
-    @work_history = application_form.application_work_experiences.sort_by(&:start_date)
-    @existing_breaks = application_form.application_work_history_breaks.sort_by(&:start_date)
+    @application_form = experienceable
+    @work_history = experienceable.application_work_experiences.sort_by(&:start_date)
+    @existing_breaks = experienceable.application_work_history_breaks.sort_by(&:start_date)
     @current_job = nil
 
     if include_unpaid_experience
-      @unpaid_work = application_form.application_volunteering_experiences.sort_by(&:start_date)
+      @unpaid_work = experienceable.application_volunteering_experiences.sort_by(&:start_date)
     end
   end
 

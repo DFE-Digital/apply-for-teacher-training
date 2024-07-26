@@ -3,7 +3,7 @@ module TouchApplicationChoices
 
   included do
     after_commit do
-      application_form.touch_choices
+      application_form&.touch_choices
     end
   end
 end
