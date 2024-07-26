@@ -11,11 +11,6 @@ class CustomLogFormatter < SemanticLogger::Formatters::Raw
     remove_post_params
     filter_skipping_email_message
 
-    # rubocop:disable Rails/Output
-    puts '-' * 80
-    puts "Hash: #{hash}"
-    puts '-' * 80
-    # rubocop:enable Rails/Output
     hash.to_json
   end
 
