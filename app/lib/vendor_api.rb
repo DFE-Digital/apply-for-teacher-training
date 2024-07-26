@@ -61,7 +61,7 @@ module VendorAPI
     '1.4' => [
       Changes::V14::AddGcseCompletingQualificationData,
     ],
-    '1.5pre' => [
+    '1.5' => [
       Changes::V15::AddApplicationSentToProviderDatetime,
       Changes::V15::AddReferenceFeedbackProvidedAtDatetime,
     ],
