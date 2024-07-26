@@ -21,20 +21,23 @@ module RailsSemanticLogger
     class LogSubscriber < ::ActiveSupport::LogSubscriber
       class EventFormatter
         def payload
+          filtered_params = Rails.application.config.filter_parameters
+          parameter_filter = ActiveSupport::ParameterFilter.new(filtered_params)
+
           {}.tap do |h|
             h[:event_name]         = event.name
             h[:mailer]             = mailer
             h[:action]             = action
             h[:message_id]         = event.payload[:message_id]
             h[:perform_deliveries] = event.payload[:perform_deliveries]
-            h[:subject]            = '[FILTERED]'
-            h[:to]                 = '[FILTERED]'
-            h[:from]               = event.payload[:from]
-            h[:bcc]                = event.payload[:bcc]
-            h[:cc]                 = event.payload[:cc]
+            h[:subject]            = parameter_filter.filter(subject: event.payload[:subject])[:subject]
+            h[:to]                 = parameter_filter.filter(to: event.payload[:to])[:to]
+            h[:from]               = parameter_filter.filter(from: event.payload[:from])[:from]
+            h[:bcc]                = parameter_filter.filter(bcc: event.payload[:bcc])[:bcc]
+            h[:cc]                 = parameter_filter.filter(cc: event.payload[:cc])[:cc]
             h[:date]               = date
             h[:duration]           = event.duration.round(2) if log_duration?
-            h[:args]               = '[FILTERED]'
+            h[:args]               = parameter_filter.filter(args: event.payload[:args])[:args]
           end
         end
       end
