@@ -32,8 +32,8 @@ class ApplicationChoice < ApplicationRecord
     ApplicationWorkHistoryBreak.none
   end
 
-  has_many :volunteer_experiences, dependent: :destroy, as: :experienceable, class_name: "ApplicationVolunteeringExperience"
-  alias_method :application_volunteering_experiences, :volunteer_experiences # TODO: Remove this alias
+  has_many :volunteering_experiences, dependent: :destroy, as: :experienceable, class_name: "ApplicationVolunteeringExperience"
+  alias_method :application_volunteering_experiences, :volunteering_experiences # TODO: Remove this alias
 
   def submitted_at
     sent_to_provider_at

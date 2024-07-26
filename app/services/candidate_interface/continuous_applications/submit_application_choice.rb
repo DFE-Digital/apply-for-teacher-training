@@ -19,7 +19,7 @@ module CandidateInterface
           application_choice.update!(sent_to_provider_at:)
           application_choice.update!(reject_by_default_at: inactive_date, reject_by_default_days: inactive_days)
           application_choice.work_experiences = application_form.application_work_experiences.map(&:dup)
-          application_choice.volunteer_experiences = application_form.application_volunteering_experiences.map(&:dup)
+          application_choice.volunteering_experiences = application_form.application_volunteering_experiences.map(&:dup)
           ApplicationStateChange.new(application_choice).send_to_provider!
 
           SendNewApplicationEmailToProvider.new(application_choice:).call
