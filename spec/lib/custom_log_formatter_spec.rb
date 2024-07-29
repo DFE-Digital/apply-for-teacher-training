@@ -61,12 +61,6 @@ RSpec.describe CustomLogFormatter do
     expect(log_hash[:payload][:to]).to eq('[REDACTED]')
   end
 
-  it 'filters out email addresses in the skipping email message' do
-    log.message = 'Skipping email to ["self.ratified.admin@example.com"] ("Larry Gottlieb submitted an application for Biology - manage teacher training applications")'
-
-    expect(log_hash[:message]).to eq('Skipping email to [REDACTED]')
-  end
-
   it 'filters out email addresses after the successful delivery' do
     log.message = 'Delivered mail'
     log.payload = {

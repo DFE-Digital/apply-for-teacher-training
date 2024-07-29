@@ -9,7 +9,6 @@ class CustomLogFormatter < SemanticLogger::Formatters::Raw
     add_custom_fields
     sanitize_payload_fields
     remove_post_params
-    filter_skipping_email_message
 
     hash.to_json
   end
@@ -50,12 +49,6 @@ private
 
     if hash.dig(:payload, :to).present?
       hash[:payload][:to] = REDACTED
-    end
-  end
-
-  def filter_skipping_email_message
-    if hash[:message]&.include?('Skipping email')
-      hash[:message] = "Skipping email to #{REDACTED}"
     end
   end
 
