@@ -1,12 +1,32 @@
 require 'rails_helper'
 
 RSpec.describe FilteredMailPayload do
-  let(:formatter) do
-    # Avoid requiring semantic logger in test environment
-    # rubocop:disable RSpec/VerifiedDoubleReference
-    instance_double('RailsSemanticLogger::ActionMailer::LogSubscriber::EventFormatter')
-    # rubocop:enable RSpec/VerifiedDoubleReference
+  let(:formatter_klass) do
+    Class.new do
+      def initialize(event)
+        @event = event
+      end
+
+    private
+
+      def mailer
+        'UserMailer'
+      end
+
+      def action
+        'welcome_email'
+      end
+
+      def date
+        Time.zone.now
+      end
+
+      def log_duration?
+        true
+      end
+    end
   end
+  let(:formatter) { formatter_klass.new(event) }
   let(:event) do
     instance_double(
       ActiveSupport::Notifications::Event,

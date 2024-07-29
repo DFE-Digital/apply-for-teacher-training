@@ -2,7 +2,6 @@
 
 class FilteredMailPayload
   attr_reader :formatter
-  delegate :mailer, :action, :date, :log_duration?, to: :formatter
 
   def initialize(formatter, event)
     @formatter = formatter
@@ -26,6 +25,14 @@ class FilteredMailPayload
       h[:date]               = @parameter_filter.filter_param('mailer.date', date)
       h[:duration]           = @parameter_filter.filter_param('mailer.duration', @event.duration.round(2)) if log_duration?
       h[:args]               = @parameter_filter.filter_param('mailer.args', @event.payload[:args])
+    end
+  end
+
+  # These are private methods on the gem rails semantic logger so
+  # we need to make this filter to define the methods
+  %i[mailer action date log_duration?].each do |method|
+    define_method(method) do
+      @formatter.send(method)
     end
   end
 end
