@@ -22,4 +22,11 @@ SANITIZED_REQUEST_PARAMS = %i[
   postcode
   subject
 ].freeze
+
+MAILER_SANITIZED_PARAMS = %w[
+  mailer.subject
+  mailer.to
+  mailer.args
+].freeze
 Rails.application.config.filter_parameters += SANITIZED_REQUEST_PARAMS
+Rails.application.config.filter_parameters += MAILER_SANITIZED_PARAMS

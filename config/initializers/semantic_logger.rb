@@ -2,46 +2,7 @@
 
 return unless defined? SemanticLogger
 
-class CustomLogFormatter < SemanticLogger::Formatters::Raw
-  def call(log, logger)
-    super
-
-    # Add custom fields
-    hash['domain'] = HostingEnvironment.hostname
-    hash['environment'] = HostingEnvironment.environment_name
-    hash['hosting_environment'] = HostingEnvironment.environment_name
-
-    if (job_id = Thread.current[:job_id])
-      hash['job_id'] = job_id
-    end
-    if (job_queue = Thread.current[:job_queue])
-      hash['job_queue'] = job_queue
-    end
-    tid = Thread.current['sidekiq_tid']
-    if tid.present?
-      ctx = Sidekiq::Context.current
-      hash['tid'] = tid
-      hash['ctx'] = ctx
-    end
-
-    if hash['payload'].present?
-      hash['payload'].reject! { |key, _| SANITIZED_REQUEST_PARAMS.map(&:to_s).include?(key) }
-    end
-
-    # Remove post parameters if it's a PUT, POST, or PATCH request
-    if method_is_post_or_put_or_patch? && hash.dig(:payload, :params).present?
-      hash[:payload][:params].clear
-    end
-
-    hash.to_json
-  end
-
-private
-
-  def method_is_post_or_put_or_patch?
-    hash.dig(:payload, :method).in? %w[PUT POST PATCH]
-  end
-end
+require_dependency Rails.root.join('app/lib/custom_log_formatter')
 
 unless Rails.env.local?
   Clockwork.configure { |config| config[:logger] = SemanticLogger[Clockwork] if defined?(Clockwork) }
@@ -51,4 +12,18 @@ unless Rails.env.local?
     formatter: CustomLogFormatter.new,
   )
   Rails.logger.info('Application logging to STDOUT')
+end
+
+## To avoid logging sensitive data on "subjects" and "to":
+## See more details on: https://github.com/reidmorrison/rails_semantic_logger/issues/230
+module RailsSemanticLogger
+  module ActionMailer
+    class LogSubscriber < ::ActiveSupport::LogSubscriber
+      class EventFormatter
+        def payload
+          FilteredMailPayload.new(self, event).filtered_payload
+        end
+      end
+    end
+  end
 end
