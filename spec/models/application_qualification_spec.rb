@@ -31,6 +31,38 @@ RSpec.describe ApplicationQualification do
     end
   end
 
+  describe 'enic_reason' do
+    it 'obtained waiting maybe, and not_needed' do
+      %w[obtained waiting maybe not_needed].each do |enic_reason|
+        expect { described_class.new(enic_reason:) }.not_to raise_error
+      end
+    end
+
+    it 'raises an error when level is invalid' do
+      expect { described_class.new(enic_reason: 'invalid_reason') }
+        .to raise_error ArgumentError, "'invalid_reason' is not a valid enic_reason"
+    end
+  end
+
+  describe '#enic_reference=' do
+    context 'when value is present' do
+      it 'sets enic_reason to :obtained' do
+        qualification = build_stubbed(:application_qualification, enic_reference: '12345')
+        expect(qualification.enic_reason).to eq('obtained')
+      end
+    end
+
+    context 'when value is not present' do
+      it 'sets enic_reason to :maybe' do
+        qualification = build_stubbed(:application_qualification, enic_reference: nil)
+        expect(qualification.enic_reason).to eq('maybe')
+
+        qualification.enic_reference = ''
+        expect(qualification.enic_reason).to eq('maybe')
+      end
+    end
+  end
+
   describe 'auditing', :with_audited do
     it 'creates audit entries' do
       application_form = create(:application_form)

@@ -59,6 +59,14 @@ class ApplicationQualification < ApplicationRecord
 
   validates :qualification_type, length: { maximum: MAX_QUALIFICATION_TYPE_LENGTH }, allow_blank: true
   validates :non_uk_qualification_type, length: { maximum: MAX_QUALIFICATION_TYPE_LENGTH }, allow_blank: true
+  validates :enic_reason, presence: true
+
+  enum enic_reason: {
+    obtained: 'obtained',
+    waiting: 'waiting',
+    maybe: 'maybe',
+    not_needed: 'not_needed',
+  }, _prefix: :enic_reason, _default: :not_needed
 
   enum level: {
     degree: 'degree',
@@ -92,6 +100,12 @@ class ApplicationQualification < ApplicationRecord
     end
 
     false
+  end
+
+  def enic_reference=(value)
+    super
+
+    self.enic_reason = value.present? ? :obtained : :maybe
   end
 
   def incomplete_gcse_information?
