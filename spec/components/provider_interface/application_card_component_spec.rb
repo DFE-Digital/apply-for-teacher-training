@@ -22,12 +22,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
   let(:course_option) do
     course_option_for_provider(
       provider: current_provider,
-      course: create(
-        :course,
-        name: 'Alchemy',
-        provider: current_provider,
-        accredited_provider:,
-      ),
+      course:,
       site: create(
         :site,
         code: 'L123',
@@ -35,6 +30,15 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
         provider: current_provider,
       ),
       study_mode: 'part_time',
+    )
+  end
+
+  let(:course) do
+    create(
+      :course,
+      name: 'Alchemy',
+      provider: current_provider,
+      accredited_provider:,
     )
   end
 
@@ -146,8 +150,36 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       end
     end
 
+    context 'when undergraduate' do
+      let(:course) do
+        create(
+          :course,
+          :teacher_degree_apprenticeship,
+          name: 'Alchemy',
+          provider: current_provider,
+          accredited_provider:,
+        )
+      end
+
+      it 'renders undergraduate content' do
+        expect(result).to have_text('Undergraduate Jim James', normalize_ws: true)
+        expect(result).to have_css(
+          'section.app-application-card.app-application-card__undergraduate',
+        )
+      end
+    end
+
     it 'renders the application number' do
       expect(card).to include(application_choice.id.to_fs)
+    end
+
+    it 'does not render undergraduate content' do
+      expect(result.text.gsub(/\r?\n/, ' ').squeeze(' ').strip).to match(
+        /^Jim James/,
+      )
+      expect(result).to have_css(
+        'section.app-application-card.app-application-card__postgraduate',
+      )
     end
   end
 

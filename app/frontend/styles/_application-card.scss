@@ -84,4 +84,16 @@
       margin-top: auto;
     }
   }
+
+  &__course_type {
+    margin-bottom: govuk-spacing(2);
+
+    font-weight: $govuk-font-weight-bold;
+  }
+
+  &__undergraduate {
+    padding: govuk-spacing(2);
+
+    background-color: #fff6bf;
+  }
 }

@@ -78,6 +78,9 @@ en:
     url: https://www.gov.uk/exoffenders-and-employment
   realistic_job_previews:
     url_apply_again: https://teacherselect.qualtrics.com/jfe/form/SV_4VHMkFk6TeonVeS
+  course_types:
+    undergraduate: undergraduate
+    postgraduate: postgraduate
   page_titles:
     continuous_applications:
       your_applications: Your applications

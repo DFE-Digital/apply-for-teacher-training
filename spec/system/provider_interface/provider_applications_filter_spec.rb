@@ -194,14 +194,14 @@ RSpec.describe 'Providers should be able to filter applications' do
     expect(page).to have_content('Filter')
     expect(page).to have_no_content('Course type')
     expect(page).to have_no_content('Postgraduate courses')
-    expect(page).to have_no_content('Teaching degree apprenticeship (TDA) courses')
+    expect(page).to have_no_content('Undergraduate courses')
   end
 
   def then_teacher_degree_apprenticeship_filter_is_visible
     expect(page).to have_content('Filter')
     expect(page).to have_content('Course type')
     expect(page).to have_content('Postgraduate courses')
-    expect(page).to have_content('Teaching degree apprenticeship (TDA) courses')
+    expect(page).to have_content('Undergraduate courses')
   end
 
   def then_i_do_not_expect_to_see_the_accredited_providers_filter_heading
@@ -253,7 +253,7 @@ RSpec.describe 'Providers should be able to filter applications' do
 
   def when_i_filter_by_teacher_degree_apprenticeship_courses
     uncheck 'Postgraduate courses'
-    check 'Teaching degree apprenticeship (TDA) courses'
+    check 'Undergraduate courses'
     and_i_apply_the_filters
   end
 
@@ -267,14 +267,14 @@ RSpec.describe 'Providers should be able to filter applications' do
 
   def when_i_check_both_course_types_filter
     check 'Postgraduate courses'
-    check 'Teaching degree apprenticeship (TDA) courses'
+    check 'Undergraduate courses'
     and_i_apply_the_filters
   end
 
   def then_i_see_postgraduate_and_teacher_degree_apprenticeship_applications
     expect(page).to have_content('Andres Bartell')
-    expect(page).to have_content('Quinton Marks')
-    expect(page).to have_content('Leland Harris')
+    expect(page).to have_content('Undergraduate Quinton Marks')
+    expect(page).to have_content('Undergraduate Leland Harris')
     expect(page).to have_content('Jim James')
     expect(page).to have_content('Greg Taft')
   end

@@ -199,6 +199,16 @@ class Course < ApplicationRecord
     @description_to_s ||= description.to_s.gsub('PGCE with QTS', 'QTS with PGCE')
   end
 
+  def undergraduate?
+    teacher_degree_apprenticeship?
+  end
+
+  def course_type
+    return I18n.t('course_types.undergraduate') if undergraduate?
+
+    I18n.t('course_types.postgraduate')
+  end
+
 private
 
   def touch_application_choices_and_forms
