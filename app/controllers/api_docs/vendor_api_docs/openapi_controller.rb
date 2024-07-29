@@ -10,7 +10,7 @@ module APIDocs
       end
 
       def spec_current
-        spec(version: VendorAPI::VERSION)
+        spec(version: AllowedCrossNamespaceUsage::VendorAPIInfo.released_version)
       end
 
       def spec_1_0
@@ -31,6 +31,10 @@ module APIDocs
 
       def spec_1_4
         spec(version: VendorAPI::VERSION_1_4)
+      end
+
+      def spec_1_5
+        spec(version: VendorAPI::VERSION_1_5)
       end
 
     private
