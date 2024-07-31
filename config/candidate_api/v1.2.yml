@@ -51,6 +51,28 @@ paths:
           "$ref": "#/components/responses/Unauthorized"
         '422':
           "$ref": "#/components/responses/UnprocessableEntity"
+  "/candidates/{candidate_id}":
+    get:
+      summary: Get a single candidate
+      parameters:
+        - in: path
+          name: candidate_id
+          schema:
+            type: string
+            example: C1234
+          required: true
+          description: The candidate’s id
+      responses:
+        '200':
+          description: Candidate data
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CandidateDetail"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
 components:
   responses:
     Unauthorized:
@@ -81,6 +103,14 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/Candidate"
+    CandidateDetail:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          "$ref": "#/components/schemas/Candidate"
     Candidate:
       type: object
       additionalProperties: false

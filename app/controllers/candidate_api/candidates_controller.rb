@@ -24,6 +24,28 @@ module CandidateAPI
       }
     end
 
+    def show
+      serializer ||=
+        if version_param == 'v1.3'
+          CandidateAPI::Serializers::V13.new(updated_since: nil)
+        elsif version_param == 'v1.2'
+          CandidateAPI::Serializers::V12.new(updated_since: nil)
+        else
+          CandidateAPI::Serializers::V11.new(updated_since: nil)
+        end
+
+      candidate = Candidate
+                    .left_outer_joins(:application_forms)
+                    .where(application_forms: { recruitment_cycle_year: RecruitmentCycle.current_year })
+                    .or(Candidate.where('candidates.created_at > ? ', CycleTimetable.apply_deadline(RecruitmentCycle.previous_year)))
+                    .includes(application_forms: :application_choices)
+                    .find(params[:candidate_id].gsub(/^C/, ''))
+
+      render json: {
+        data: serializer.serialize([candidate]).first,
+      }
+    end
+
     def parameter_missing(e)
       error_message = e.message.split("\n").first
       render json: { errors: [{ error: 'ParameterMissing', message: error_message }] }, status: :unprocessable_entity
