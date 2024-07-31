@@ -244,6 +244,7 @@ jobs:
         DB_PASSWORD: postgres
         REDIS_URL: redis://redis:6379/0
         DB_PORT: 5432
+        ZENDESK_MESSAGING_KEY: ${{ secrets.ZENDESK_MESSAGING_KEY_CI }}
     steps:
       - name: Setup Parallel Database
         run: bundle exec rake parallel:setup
