@@ -19,18 +19,16 @@ module CandidateAPI
     MAX_PER_PAGE = 500
 
     def index
+      serializer_index_query = serializer.index_query(updated_since: updated_since_params)
+
       render json: {
-        data: serializer.serialize(paginate(serializer.index_query(updated_since: updated_since_params))),
+        data: serializer.serialize(paginate(serializer_index_query)),
       }
     end
 
     def show
-      candidate = Candidate
-                    .left_outer_joins(:application_forms)
-                    .where(application_forms: { recruitment_cycle_year: RecruitmentCycle.current_year })
-                    .or(Candidate.where('candidates.created_at > ? ', CycleTimetable.apply_deadline(RecruitmentCycle.previous_year)))
-                    .includes(application_forms: :application_choices)
-                    .find(params[:candidate_id].gsub(/^C/, ''))
+      candidate_id = params[:candidate_id].gsub(/^C/, '')
+      candidate = serializer.find_query(candidate_id:)
 
       render json: {
         data: serializer.serialize([candidate]).first,
