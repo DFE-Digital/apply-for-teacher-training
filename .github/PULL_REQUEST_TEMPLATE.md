@@ -24,3 +24,7 @@
 - [ ] If it adds a significant user-facing change, is it documented in the [CHANGELOG](CHANGELOG.md)?
 - [ ] Required environment variables have been updated [added to the Azure KeyVault](/docs/environment-variables.md#deploy-pipeline)
 - [ ] Inform data insights team due to database changes
+- [ ] Make sure all information from the Trello card is in here
+- [ ] Rebased main
+- [ ] Cleaned commit history
+- [ ] Tested by running locally
