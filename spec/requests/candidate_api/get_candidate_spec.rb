@@ -48,10 +48,11 @@ RSpec.describe 'GET /candidate-api/:versions/candidates/:candidate_id' do
         expect(application_forms_response.count).to eq(2)
       end
 
-      it "returns a 404 if the candidate doesn't exist" do
+      it "returns a NotFound error if the candidate doesn't exist" do
         get_api_request "/candidate-api/#{version}/candidates/C123", token: candidate_api_token
 
         expect(response).to have_http_status(:not_found)
+        expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse', version.to_s)
       end
     end
   end

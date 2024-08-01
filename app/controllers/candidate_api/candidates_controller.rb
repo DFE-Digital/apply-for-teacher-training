@@ -6,6 +6,7 @@ module CandidateAPI
 
     rescue_from ActionController::ParameterMissing, with: :parameter_missing
     rescue_from ParameterInvalid, with: :parameter_invalid
+    rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
     # Makes PG::QueryCanceled statement timeout errors appear in Skylight
     # against the controller action that triggered them
@@ -42,6 +43,10 @@ module CandidateAPI
 
     def parameter_invalid(e)
       render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
+    end
+
+    def not_found(_e)
+      render json: { errors: [{ error: 'NotFound', message: 'Unable to find Candidate' }] }, status: :not_found
     end
 
     def statement_timeout
