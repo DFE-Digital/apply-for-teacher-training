@@ -1,7 +1,7 @@
 module CandidateAPI
   module Serializers
     class V11 < Base
-      def query
+      def index_query(updated_since:)
         Candidate
         .left_outer_joins(:application_forms)
         .where(application_forms: { recruitment_cycle_year: RecruitmentCycle.current_year })

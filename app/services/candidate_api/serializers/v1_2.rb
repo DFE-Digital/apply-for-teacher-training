@@ -17,7 +17,7 @@ module CandidateAPI
         end
       end
 
-      def query
+      def index_query(updated_since:)
         Candidate
           .left_outer_joins(application_forms: { application_choices: %i[provider course interviews], application_references: [], application_qualifications: [] })
           .includes(application_forms: { application_choices: %i[provider course course_option interviews], application_qualifications: [], application_references: [] })

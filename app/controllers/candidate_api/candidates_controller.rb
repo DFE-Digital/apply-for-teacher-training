@@ -20,18 +20,18 @@ module CandidateAPI
 
     def index
       render json: {
-        data: serializer.serialize(paginate(serializer.query)),
+        data: serializer.serialize(paginate(serializer.index_query(updated_since: updated_since_params))),
       }
     end
 
     def show
       serializer ||=
         if version_param == 'v1.3'
-          CandidateAPI::Serializers::V13.new(updated_since: nil)
+          CandidateAPI::Serializers::V13.new
         elsif version_param == 'v1.2'
-          CandidateAPI::Serializers::V12.new(updated_since: nil)
+          CandidateAPI::Serializers::V12.new
         else
-          CandidateAPI::Serializers::V11.new(updated_since: nil)
+          CandidateAPI::Serializers::V11.new
         end
 
       candidate = Candidate
@@ -105,11 +105,11 @@ module CandidateAPI
     def serializer
       @serializer ||=
         if version_param == 'v1.3'
-          CandidateAPI::Serializers::V13.new(updated_since: updated_since_params)
+          CandidateAPI::Serializers::V13.new
         elsif version_param == 'v1.2'
-          CandidateAPI::Serializers::V12.new(updated_since: updated_since_params)
+          CandidateAPI::Serializers::V12.new
         else
-          CandidateAPI::Serializers::V11.new(updated_since: updated_since_params)
+          CandidateAPI::Serializers::V11.new
         end
     end
 
