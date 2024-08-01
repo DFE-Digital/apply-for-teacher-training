@@ -55,9 +55,7 @@ RSpec.describe 'Revert a withdrawn application choice' do
   end
 
   def then_i_see_the_withdrawn_course_choice
-    within(all('.app-summary-card__body')[0]) do
-      expect(page).to have_content('Withdrawn')
-    end
+    expect(page).to have_content('Withdrawn').once
   end
 
   def when_i_click_on_the_revert_withdrawal_link
