@@ -2,6 +2,8 @@
 
 Environment variables have to be defined in several places depending upon where they are required, some are common to both local development and the deployment application, while others are specific to the environments they relate, all of which are described below
 
+Some environment variables like `ZENDESK_MESSAGING_KEY_CI` or `SLACK_WEBHOOK ` are defined in github secrets, at the repo level. To change this you need admin access to the repo.
+
 ## Dockerfile
 
 If an environment variable is required during the Docker image build, like for example in the Rails asset compilation process, these should be defined in the Dockerfile in the following format.
