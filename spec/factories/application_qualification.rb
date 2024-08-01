@@ -23,6 +23,10 @@ FactoryBot.define do
     institution_country { international? ? Faker::Address.country_code : 'GB' }
     equivalency_details { Faker::Lorem.paragraph_by_chars(number: 200) }
 
+    trait :skip_validate do
+      to_create { |instance| instance.save(validate: false) }
+    end
+
     factory :gcse_qualification do
       level { 'gcse' }
       qualification_type { 'gcse' }

@@ -32,6 +32,8 @@ RSpec.describe ApplicationQualification do
   end
 
   describe 'enic_reason' do
+    it { is_expected.to validate_presence_of(:enic_reason).on(:create) }
+
     it 'obtained waiting maybe, and not_needed' do
       %w[obtained waiting maybe not_needed].each do |enic_reason|
         expect { described_class.new(enic_reason:) }.not_to raise_error
