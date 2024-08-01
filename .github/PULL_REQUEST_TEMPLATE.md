@@ -10,10 +10,6 @@
 
 <!-- How could someone else check this work? Which parts do you want more feedback on? -->
 
-## Link to Trello card
-
-<!-- http://trello.com/123-example-card -->
-
 ## Things to check
 
 - [ ] If the code removes any existing feature flags, a data migration has also been added to delete the entry from the database
@@ -24,3 +20,8 @@
 - [ ] If it adds a significant user-facing change, is it documented in the [CHANGELOG](CHANGELOG.md)?
 - [ ] Required environment variables have been updated [added to the Azure KeyVault](/docs/environment-variables.md#deploy-pipeline)
 - [ ] Inform data insights team due to database changes
+- [ ] Make sure all information from the Trello card is in here
+- [ ] Rebased main
+- [ ] Cleaned commit history
+- [ ] Tested by running locally
+- [ ] Add PR link to Trello card
