@@ -10,10 +10,6 @@
 
 <!-- How could someone else check this work? Which parts do you want more feedback on? -->
 
-## Link to Trello card
-
-<!-- http://trello.com/123-example-card -->
-
 ## Things to check
 
 - [ ] If the code removes any existing feature flags, a data migration has also been added to delete the entry from the database
@@ -28,3 +24,4 @@
 - [ ] Rebased main
 - [ ] Cleaned commit history
 - [ ] Tested by running locally
+- [ ] Add PR link to Trello card
