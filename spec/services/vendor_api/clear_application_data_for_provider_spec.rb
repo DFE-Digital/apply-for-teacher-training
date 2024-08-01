@@ -83,6 +83,19 @@ RSpec.describe VendorAPI::ClearApplicationDataForProvider do
         .and(change { EmailClick.count }.from(1).to(0))
     end
 
+    it 'deletes applications choices with rejection feedback' do
+      create(
+        :rejection_feedback,
+        application_choice: create(
+          :application_choice,
+          :rejected,
+          course_option: course_option_for_provider(provider:),
+        ),
+      )
+
+      expect { described_class.call(provider) }.to change { RejectionFeedback.count }.from(1).to(0)
+    end
+
     it 'does not work in production' do
       ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
         expect { described_class.call(provider) }.to raise_error('This is not meant to be run in production')
