@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_24_104015) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_01_151135) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -904,7 +904,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_24_104015) do
   add_foreign_key "provider_user_notifications", "provider_users", on_delete: :cascade
   add_foreign_key "reference_tokens", "references", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
-  add_foreign_key "rejection_feedbacks", "application_choices"
+  add_foreign_key "rejection_feedbacks", "application_choices", on_delete: :cascade
   add_foreign_key "sites", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
 end
