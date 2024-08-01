@@ -25,15 +25,6 @@ module CandidateAPI
     end
 
     def show
-      serializer ||=
-        if version_param == 'v1.3'
-          CandidateAPI::Serializers::V13.new
-        elsif version_param == 'v1.2'
-          CandidateAPI::Serializers::V12.new
-        else
-          CandidateAPI::Serializers::V11.new
-        end
-
       candidate = Candidate
                     .left_outer_joins(:application_forms)
                     .where(application_forms: { recruitment_cycle_year: RecruitmentCycle.current_year })
