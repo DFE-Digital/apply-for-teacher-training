@@ -59,7 +59,6 @@ class ApplicationQualification < ApplicationRecord
 
   validates :qualification_type, length: { maximum: MAX_QUALIFICATION_TYPE_LENGTH }, allow_blank: true
   validates :non_uk_qualification_type, length: { maximum: MAX_QUALIFICATION_TYPE_LENGTH }, allow_blank: true
-  validates :enic_reason, presence: true, on: :create
 
   enum enic_reason: {
     obtained: 'obtained',
