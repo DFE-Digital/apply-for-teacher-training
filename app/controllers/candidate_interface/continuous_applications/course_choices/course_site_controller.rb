@@ -2,7 +2,7 @@ module CandidateInterface
   module ContinuousApplications
     module CourseChoices
       class CourseSiteController < BaseController
-        include Concerns::DuplicateCourseRedirect
+        include CandidateInterface::CourseChoices::Concerns::DuplicateCourseRedirect
 
       private
 
