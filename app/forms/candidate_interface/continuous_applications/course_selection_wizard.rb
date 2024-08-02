@@ -11,7 +11,7 @@ module CandidateInterface
           { provider_selection: CourseSelection::ProviderSelectionStep },
           { which_course_are_you_applying_to: CourseSelection::WhichCourseAreYouApplyingToStep },
           { duplicate_course_selection: CourseSelection::DuplicateCourseSelectionStep },
-          { reached_reapplication_limit: ReachedReapplicationLimitStep },
+          { reached_reapplication_limit: CourseSelection::ReachedReapplicationLimitStep },
           { full_course_selection: FullCourseSelectionStep },
           { closed_course_selection: ClosedCourseSelectionStep },
           { course_study_mode: CourseStudyModeStep },
