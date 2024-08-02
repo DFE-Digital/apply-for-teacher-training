@@ -198,7 +198,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
       summary = described_class.new(application_choice).formatted_equivalency_details
 
-      expect(summary).to match(/^ENIC: \d+ - Bachelor's degree \(ordinary\) - /)
+      expect(summary).to match(/^ENIC: \d+ - Bachelor's degree \(ordinary\)/)
     end
   end
 end

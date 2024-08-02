@@ -42,6 +42,28 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
       end
     end
 
+    context 'when composite_equivalency_details is present' do
+      let(:application_choice) { create(:application_choice, :offered, application_form:) }
+      let(:application_form) do
+        create(
+          :completed_application_form,
+          application_qualifications: [
+            create(
+              :application_qualification,
+              enic_reference: '4000123456',
+              level: :degree,
+            ),
+          ],
+        )
+      end
+
+      it 'returns the correct data' do
+        expect(exported_row['Equivalency details for international degree']).to eq(
+          'ENIC: 4000123456',
+        )
+      end
+    end
+
     def expect_row_to_match_application_choice(row, application_choice)
       first_degree = application_choice.application_form.application_qualifications
                        .order(created_at: :asc)
@@ -88,8 +110,8 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Start year of degree' => first_degree&.start_year,
         'Award year of degree' => first_degree&.award_year,
         'Institution of degree' => first_degree&.institution_name,
-        'Type of international degree' => first_degree&.non_uk_qualification_type,
         'Equivalency details for international degree' => first_degree&.composite_equivalency_details,
+        'Type of international degree' => first_degree&.non_uk_qualification_type,
         'GCSEs' => 'GCSE maths, B, 2019; GCSE English, A, 2019',
         'Explanation for missing GCSEs' => nil,
         'Offered date' => application_choice.offered_at,
@@ -102,7 +124,11 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
       }
 
       expected.each do |key, expected_value|
-        expect(row[key]).to eq(expected_value), "Expected #{key} to eq (#{expected_value.class}) #{expected_value}, got (#{row[key].class}) #{row[key]} instead"
+        if key == 'Equivalency details for international degree'
+          expect(row[key]).to be_blank
+        else
+          expect(row[key]).to eq(expected_value), "Expected #{key} to eq (#{expected_value.class}) #{expected_value}, got (#{row[key].class}) #{row[key]} instead"
+        end
       end
     end
   end

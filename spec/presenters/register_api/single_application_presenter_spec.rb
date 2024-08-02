@@ -621,22 +621,6 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
       expect(qualification_hash).to have_key(:hesa_degstdt)
     end
 
-    it 'contains equivalency_details' do
-      qualification = create(
-        :other_qualification,
-        :non_uk,
-        application_form: application_choice.application_form,
-      )
-
-      equivalency_details = presenter.as_json.dig(
-        :attributes,
-        :qualifications,
-        :other_qualifications,
-      ).first[:equivalency_details]
-
-      expect(equivalency_details).to eq(qualification.equivalency_details)
-    end
-
     it 'adds ENIC information, if present, to equivalency_details' do
       qualification = create(
         :gcse_qualification,
@@ -653,7 +637,6 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
       composite_equivalency_details = [
         "Enic: #{qualification.enic_reference}",
         qualification.comparable_uk_qualification,
-        qualification.equivalency_details,
       ].join(' - ')
 
       expect(equivalency_details).to eq(composite_equivalency_details)

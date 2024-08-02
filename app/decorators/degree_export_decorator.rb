@@ -26,10 +26,6 @@ class DegreeExportDecorator
     pad_attribute(:institution_hesa_code, 4)
   end
 
-  def equivalency_details
-    pad_attribute(:equivalency_details, 2)
-  end
-
   def start_year
     year_to_iso8601(fetch_attribute(:start_year))
   end

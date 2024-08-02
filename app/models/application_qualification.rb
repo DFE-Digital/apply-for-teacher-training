@@ -1,4 +1,5 @@
 class ApplicationQualification < ApplicationRecord
+  self.ignored_columns += %w[equivalency_details]
   include TouchApplicationChoices
   include TouchApplicationFormState
 
@@ -174,7 +175,6 @@ class ApplicationQualification < ApplicationRecord
     details = [
       ("Enic: #{enic_reference}" if enic_reference),
       comparable_uk_qualification || comparable_uk_degree,
-      equivalency_details,
     ].compact.join(' - ')
 
     details.strip if details.present?
