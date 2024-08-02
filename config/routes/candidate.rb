@@ -344,8 +344,11 @@ namespace :candidate_interface, path: '/candidate' do
       get '/provider' => 'course_choices/provider_selection#new', as: :continuous_applications_provider_selection
       post '/provider' => 'course_choices/provider_selection#create'
 
-      get '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#new', as: :continuous_applications_which_course_are_you_applying_to
-      post '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#create'
+      get '/provider/:provider_id/course' => 'course_choices/which_course_are_you_applying_to#new', as: :continuous_applications_which_course_are_you_applying_to
+      post '/provider/:provider_id/course' => 'course_choices/which_course_are_you_applying_to#create'
+      get '/:application_choice_id/courses/edit' => 'course_choices/which_course_are_you_applying_to#edit', as: :edit_continuous_applications_which_course_are_you_applying_to
+      patch '/:application_choice_id/courses/edit' => 'course_choices/which_course_are_you_applying_to#update'
+
       get '/:application_choice_id/review' => 'course_choices/review#show', as: :continuous_applications_course_review
       get '/:application_choice_id/review-interruption' => 'course_choices/review_interruption#show', as: :continuous_applications_course_review_interruption
       get '/:application_choice_id/review-and-submit' => 'course_choices/review_and_submit#show', as: :continuous_applications_course_review_and_submit
@@ -365,9 +368,6 @@ namespace :candidate_interface, path: '/candidate' do
       post '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/course_site#create'
       get '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'course_choices/course_site#edit', as: :edit_continuous_applications_course_site
       patch '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'course_choices/course_site#update'
-
-      get '/:application_choice_id/courses/edit' => 'continuous_applications/course_choices/which_course_are_you_applying_to#edit', as: :edit_continuous_applications_which_course_are_you_applying_to
-      patch '/:application_choice_id/courses/edit' => 'continuous_applications/course_choices/which_course_are_you_applying_to#update'
 
       get '/confirm-selection/:course_id' => 'course_choices/find_course_selection#new', as: :continuous_applications_course_confirm_selection
       post '/confirm-selection/:course_id' => 'course_choices/find_course_selection#create'
