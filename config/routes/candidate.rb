@@ -339,7 +339,7 @@ namespace :candidate_interface, path: '/candidate' do
       get '/choose' => 'course_choices/do_you_know_which_course#new', as: :continuous_applications_do_you_know_the_course
       post '/choose' => 'course_choices/do_you_know_which_course#create'
 
-      get '/go-to-find' => 'continuous_applications/course_choices/go_to_find#new', as: :continuous_applications_go_to_find_explanation
+      get '/go-to-find' => 'course_choices/go_to_find#new', as: :continuous_applications_go_to_find_explanation
 
       get '/provider' => 'continuous_applications/course_choices/provider_selection#new', as: :continuous_applications_provider_selection
       post '/provider' => 'continuous_applications/course_choices/provider_selection#create'
