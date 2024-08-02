@@ -3,7 +3,7 @@ module CandidateInterface
     attr_reader :application_choice, :application_form, :inactive_date_calculator
     delegate :inactive_date, :inactive_days, to: :inactive_date_calculator
 
-    def initialize(application_choice, inactive_date_calculator: ContinuousApplications::InactiveDateCalculator)
+    def initialize(application_choice, inactive_date_calculator: InactiveDateCalculator)
       @application_choice = application_choice
       @application_form = application_choice.application_form
       @inactive_date_calculator = inactive_date_calculator.new(application_choice:, effective_date:)
