@@ -32,7 +32,7 @@ module CandidateInterface
       def application_choice_status_row
         {
           key: 'Status',
-          value: render(ContinuousApplications::ApplicationStatusTagComponent.new(application_choice:)),
+          value: render(ContinuousApplications::ApplicationChoiceStatusTagComponent.new(application_choice:)),
         }
       end
 

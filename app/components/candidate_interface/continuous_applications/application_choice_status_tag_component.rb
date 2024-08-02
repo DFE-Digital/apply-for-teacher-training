@@ -1,6 +1,6 @@
 module CandidateInterface
   module ContinuousApplications
-    class ApplicationStatusTagComponent < ::CandidateInterface::ApplicationStatusTagComponent
+    class ApplicationChoiceStatusTagComponent < ::CandidateInterface::ApplicationStatusTagComponent
       def text
         t("continuous_applications.candidate_application_states.#{application_choice.status}")
       end
