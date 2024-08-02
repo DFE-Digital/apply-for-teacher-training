@@ -347,7 +347,7 @@ namespace :candidate_interface, path: '/candidate' do
       get '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#new', as: :continuous_applications_which_course_are_you_applying_to
       post '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#create'
       get '/:application_choice_id/review' => 'course_choices/review#show', as: :continuous_applications_course_review
-      get '/:application_choice_id/review-interruption' => 'continuous_applications/course_choices/review_interruption#show', as: :continuous_applications_course_review_interruption
+      get '/:application_choice_id/review-interruption' => 'course_choices/review_interruption#show', as: :continuous_applications_course_review_interruption
       get '/:application_choice_id/review-and-submit' => 'course_choices/review_and_submit#show', as: :continuous_applications_course_review_and_submit
       get '/blocked-submissions' => 'course_choices/blocked_submissions#show', as: :continuous_applications_blocked_submissions
 
