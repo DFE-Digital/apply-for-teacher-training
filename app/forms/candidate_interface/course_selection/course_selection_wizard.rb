@@ -1,5 +1,5 @@
 module CandidateInterface
-  module ContinuousApplications
+  module CourseSelection
     class CourseSelectionWizard < DfE::Wizard::Base
       # application_choice is only used in edit and update
       attr_accessor :current_application, :application_choice
@@ -21,7 +21,7 @@ module CandidateInterface
         ]
       end
 
-      store CourseSelectionStore
+      store CandidateInterface::ContinuousApplications::CourseSelectionStore
 
       def logger
         DfE::Wizard::Logger.new(Rails.logger, if: -> { HostingEnvironment.test_environment? })

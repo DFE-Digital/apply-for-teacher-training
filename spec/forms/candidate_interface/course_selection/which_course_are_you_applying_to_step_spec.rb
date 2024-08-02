@@ -20,7 +20,7 @@ RSpec.describe CandidateInterface::CourseSelection::WhichCourseAreYouApplyingToS
   let(:edit) { false }
   let(:step_params) { ActionController::Parameters.new({ which_course_are_you_applying_to: { course_id:, provider_id: } }) }
   let(:wizard) do
-    CandidateInterface::ContinuousApplications::CourseSelectionWizard.new(
+    CandidateInterface::CourseSelection::CourseSelectionWizard.new(
       current_step: :which_course_are_you_applying_to,
       step_params:,
       current_application:,

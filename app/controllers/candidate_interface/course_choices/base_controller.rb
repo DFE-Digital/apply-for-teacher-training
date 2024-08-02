@@ -8,7 +8,7 @@ module CandidateInterface
       before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
 
       def new
-        @wizard = CandidateInterface::ContinuousApplications::CourseSelectionWizard.new(
+        @wizard = CandidateInterface::CourseSelection::CourseSelectionWizard.new(
           current_step:,
           step_params:,
           current_application:,
@@ -16,7 +16,7 @@ module CandidateInterface
       end
 
       def edit
-        @wizard = CandidateInterface::ContinuousApplications::CourseSelectionWizard.new(
+        @wizard = CandidateInterface::CourseSelection::CourseSelectionWizard.new(
           current_step:,
           step_params: update_params,
           current_application:,
@@ -26,7 +26,7 @@ module CandidateInterface
       end
 
       def create
-        @wizard = CandidateInterface::ContinuousApplications::CourseSelectionWizard.new(
+        @wizard = CandidateInterface::CourseSelection::CourseSelectionWizard.new(
           current_step:,
           step_params:,
           current_application:,
@@ -40,7 +40,7 @@ module CandidateInterface
       end
 
       def update
-        @wizard = CandidateInterface::ContinuousApplications::CourseSelectionWizard.new(
+        @wizard = CandidateInterface::CourseSelection::CourseSelectionWizard.new(
           current_step:,
           step_params: update_params,
           current_application:,
