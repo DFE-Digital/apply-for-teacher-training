@@ -21,7 +21,7 @@ module CandidateInterface
         ]
       end
 
-      store CandidateInterface::ContinuousApplications::CourseSelectionStore
+      store CandidateInterface::CourseSelectionStore
 
       def logger
         DfE::Wizard::Logger.new(Rails.logger, if: -> { HostingEnvironment.test_environment? })
