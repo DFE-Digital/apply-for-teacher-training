@@ -13,7 +13,7 @@ RSpec.describe CandidateInterface::SubmitApplicationChoice do
         expect {
           submit_application
         }.to raise_error(
-          CandidateInterface::ContinuousApplications::ApplicationNotReadyToSendError,
+          CandidateInterface::ApplicationNotReadyToSendError,
           'Tried to send an application in the awaiting_provider_decision state to a provider',
         )
       end

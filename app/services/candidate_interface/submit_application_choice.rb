@@ -10,7 +10,7 @@ module CandidateInterface
     end
 
     def call
-      raise ContinuousApplications::ApplicationNotReadyToSendError, application_choice unless application_choice.unsubmitted?
+      raise ApplicationNotReadyToSendError, application_choice unless application_choice.unsubmitted?
 
       ActiveRecord::Base.transaction do
         application_choice.assign_attributes(personal_statement: application_form.becoming_a_teacher)
