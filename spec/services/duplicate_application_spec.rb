@@ -16,6 +16,7 @@ RSpec.describe DuplicateApplication do
       create_list(:reference, 2, feedback_status: :feedback_provided, application_form: @original_application_form)
       create(:reference, feedback_status: :feedback_refused, application_form: @original_application_form)
       create(:application_choice, :rejected, application_form: @original_application_form)
+      create(:gcse_qualification, :skip_validate, enic_reason: nil, application_form: @original_application_form)
     end
   end
 
@@ -24,6 +25,10 @@ RSpec.describe DuplicateApplication do
   end
 
   let(:recruitment_cycle_year) { RecruitmentCycle.current_year }
+
+  it 'does not raise validation error for enic_reason being nil' do
+    expect(duplicate_application_form.application_qualifications.last.enic_reason).to eq 'maybe'
+  end
 
   it 'marks reference as incomplete' do
     expect(duplicate_application_form).not_to be_references_completed
