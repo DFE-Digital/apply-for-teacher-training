@@ -369,8 +369,8 @@ namespace :candidate_interface, path: '/candidate' do
       get '/:application_choice_id/courses/edit' => 'continuous_applications/course_choices/which_course_are_you_applying_to#edit', as: :edit_continuous_applications_which_course_are_you_applying_to
       patch '/:application_choice_id/courses/edit' => 'continuous_applications/course_choices/which_course_are_you_applying_to#update'
 
-      get '/confirm-selection/:course_id' => 'continuous_applications/course_choices/find_course_selection#new', as: :continuous_applications_course_confirm_selection
-      post '/confirm-selection/:course_id' => 'continuous_applications/course_choices/find_course_selection#create'
+      get '/confirm-selection/:course_id' => 'course_choices/find_course_selection#new', as: :continuous_applications_course_confirm_selection
+      post '/confirm-selection/:course_id' => 'course_choices/find_course_selection#create'
 
       post '/:id/submit' => 'application_choices#submit', as: :continuous_applications_submit_course_choice
       get '/delete/:id' => 'application_choices#confirm_destroy', as: :continuous_applications_confirm_destroy_course_choice
