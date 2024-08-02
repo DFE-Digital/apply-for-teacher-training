@@ -1,4 +1,5 @@
 class ApplicationQualification < ApplicationRecord
+  self.ignored_columns += %w[equivalency_details]
   include TouchApplicationChoices
   include TouchApplicationFormState
 

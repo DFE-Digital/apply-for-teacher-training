@@ -161,7 +161,6 @@ shared:
     - created_at
     - enic_reason
     - enic_reference
-    - equivalency_details
     - grade
     - grade_hesa_code
     - id
