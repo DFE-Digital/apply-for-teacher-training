@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouApplyingToStep do
+RSpec.describe CandidateInterface::CourseSelection::WhichCourseAreYouApplyingToStep do
   subject(:which_course_are_you_applying_to_step) { described_class.new(provider_id:, course_id:, wizard:) }
 
   let(:candidate) { create(:candidate) }
@@ -31,6 +31,12 @@ RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouAppl
 
   let(:provider_id) { nil }
   let(:course_id) { nil }
+
+  describe '.route_name' do
+    subject { which_course_are_you_applying_to_step.class.route_name }
+
+    it { is_expected.to eq('candidate_interface_continuous_applications_which_course_are_you_applying_to') }
+  end
 
   describe 'validations' do
     it 'errors on course id' do

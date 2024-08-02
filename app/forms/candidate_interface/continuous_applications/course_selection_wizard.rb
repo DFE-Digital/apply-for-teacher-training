@@ -9,7 +9,7 @@ module CandidateInterface
           { do_you_know_the_course: CourseSelection::DoYouKnowTheCourseStep },
           { go_to_find_explanation: CourseSelection::GoToFindExplanationStep },
           { provider_selection: CourseSelection::ProviderSelectionStep },
-          { which_course_are_you_applying_to: WhichCourseAreYouApplyingToStep },
+          { which_course_are_you_applying_to: CourseSelection::WhichCourseAreYouApplyingToStep },
           { duplicate_course_selection: DuplicateCourseSelectionStep },
           { reached_reapplication_limit: ReachedReapplicationLimitStep },
           { full_course_selection: FullCourseSelectionStep },
