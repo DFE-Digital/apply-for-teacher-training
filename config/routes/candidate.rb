@@ -351,7 +351,7 @@ namespace :candidate_interface, path: '/candidate' do
       get '/:application_choice_id/review-and-submit' => 'continuous_applications/course_choices/review_and_submit#show', as: :continuous_applications_course_review_and_submit
       get '/blocked-submissions' => 'course_choices/blocked_submissions#show', as: :continuous_applications_blocked_submissions
 
-      get '/provider/:provider_id/courses/:course_id/reached-reapplication-limit' => 'continuous_applications/course_choices/reached_reapplication_limit#new', as: :continuous_applications_reached_reapplication_limit
+      get '/provider/:provider_id/courses/:course_id/reached-reapplication-limit' => 'course_choices/reached_reapplication_limit#new', as: :continuous_applications_reached_reapplication_limit
       get '/provider/:provider_id/courses/:course_id/duplicate' => 'course_choices/duplicate_course_selection#new', as: :continuous_applications_duplicate_course_selection
       get '/provider/:provider_id/courses/:course_id/full' => 'course_choices/full_course_selection#new', as: :continuous_applications_full_course_selection
       get '/provider/:provider_id/courses/:course_id/closed' => 'course_choices/closed_course_selection#new', as: :continuous_applications_closed_course_selection
