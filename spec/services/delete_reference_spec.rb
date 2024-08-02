@@ -16,7 +16,7 @@ RSpec.describe DeleteReference do
   describe '#call' do
     it 'raises error if application has been submitted to providers' do
       application_choice = completed_application_form.application_choices.first
-      CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(application_choice).call
+      CandidateInterface::SubmitApplicationChoice.new(application_choice).call
       expect { described_class.new.call(reference:) }.to raise_error('Application has been sent to providers')
     end
 

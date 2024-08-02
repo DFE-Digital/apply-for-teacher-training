@@ -30,7 +30,7 @@ module CandidateInterface
   private
 
     def submit_application_choice
-      CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(@application_choice).call
+      CandidateInterface::SubmitApplicationChoice.new(@application_choice).call
       flash[:success] = t('application_form.submit_application_success.title')
 
       redirect_to candidate_interface_continuous_applications_choices_path

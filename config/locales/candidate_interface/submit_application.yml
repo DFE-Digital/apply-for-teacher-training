@@ -6,7 +6,7 @@ en:
           attributes:
             submit_answer:
               blank: Select if you want to submit your application or save it as a draft
-        candidate_interface/continuous_applications/application_choice_submission:
+        candidate_interface/application_choice_submission:
           attributes:
             application_choice:
               applications_closed: |-
