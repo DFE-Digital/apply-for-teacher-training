@@ -12,7 +12,7 @@ RSpec.describe 'Personal statement' do
     given_i_have_an_unsubmitted_application_with_long_personal_statement
     when_i_visit_my_applications
     when_i_click_to_view_my_application
-    then_i_should_see_the_full_personal_statement
+    then_i_see_the_full_personal_statement
   end
 
   def given_i_have_an_unsubmitted_application_with_long_personal_statement
@@ -32,11 +32,11 @@ RSpec.describe 'Personal statement' do
     'remaining personal statement'
   end
 
-  def then_i_should_see_the_full_personal_statement
+  def then_i_see_the_full_personal_statement
     expect(page).to have_content(long_personal_statement)
   end
 
   def number_of_words_to_display_the_show_more_link
-    CandidateInterface::ContinuousApplications::PersonalStatementSummaryComponent::MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT
+    CandidateInterface::PersonalStatementSummaryComponent::MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT
   end
 end

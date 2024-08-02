@@ -12,37 +12,37 @@ RSpec.describe 'Personal statement', :js do
     given_i_have_an_unsubmitted_application_with_short_personal_statement
     when_i_visit_my_applications
     when_i_click_to_view_my_application
-    then_i_should_see_the_full_personal_statement
+    then_i_see_the_full_personal_statement
   end
 
   scenario 'when application is unsubmitted and personal statement is long' do
     given_i_have_an_unsubmitted_application_with_long_personal_statement
     when_i_visit_my_applications
     when_i_click_to_view_my_application
-    then_i_should_see_only_the_short_personal_statement
+    then_i_only_see_the_short_personal_statement
     when_i_click_show_more
-    then_i_should_see_the_whole_personal_statement
+    then_i_see_the_whole_personal_statement
     when_i_click_show_less
-    then_i_should_see_only_the_short_personal_statement
+    then_i_only_see_the_short_personal_statement
   end
 
   scenario 'when application is submitted and showing full personal statement' do
     given_i_have_an_submitted_application_with_short_personal_statement
     when_i_visit_my_applications
     when_i_click_to_view_my_application
-    then_i_should_see_the_full_personal_statement
+    then_i_see_the_full_personal_statement
   end
 
   scenario 'when application is submitted and personal statement is long' do
     given_i_have_an_submitted_application_with_long_personal_statement
     when_i_visit_my_applications
     when_i_click_to_view_my_application
-    then_i_should_see_only_the_short_personal_statement
+    then_i_only_see_the_short_personal_statement
 
     when_i_click_show_more
-    then_i_should_see_the_whole_personal_statement
+    then_i_see_the_whole_personal_statement
     when_i_click_show_less
-    then_i_should_see_only_the_short_personal_statement
+    then_i_only_see_the_short_personal_statement
   end
 
   def given_i_have_an_unsubmitted_application_with_short_personal_statement
@@ -79,11 +79,11 @@ RSpec.describe 'Personal statement', :js do
     'remaining personal statement'
   end
 
-  def then_i_should_see_the_full_personal_statement
+  def then_i_see_the_full_personal_statement
     expect(page).to have_content(short_personal_statement)
   end
 
-  def then_i_should_see_only_the_short_personal_statement
+  def then_i_only_see_the_short_personal_statement
     expect(page).to have_content(first_part_long_personal_statement)
     expect(remaining_personal_statement_element[:class]).to eq('govuk-visually-hidden')
   end
@@ -92,7 +92,7 @@ RSpec.describe 'Personal statement', :js do
     click_link_or_button 'Show more'
   end
 
-  def then_i_should_see_the_whole_personal_statement
+  def then_i_see_the_whole_personal_statement
     expect(page).to have_content(first_part_long_personal_statement)
     expect(remaining_personal_statement_element[:class]).not_to include('govuk-visually-hidden')
   end
@@ -102,7 +102,7 @@ RSpec.describe 'Personal statement', :js do
   end
 
   def number_of_words_to_display_the_show_more_link
-    CandidateInterface::ContinuousApplications::PersonalStatementSummaryComponent::MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT
+    CandidateInterface::PersonalStatementSummaryComponent::MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT
   end
 
   def remaining_personal_statement_element
