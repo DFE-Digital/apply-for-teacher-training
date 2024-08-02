@@ -1,14 +1,20 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::CourseStudyModeStep do
-  subject(:which_course_are_you_applying_to_step) { described_class.new(provider_id:, course_id:) }
+RSpec.describe CandidateInterface::CourseSelection::CourseStudyModeStep do
+  subject(:course_study_mode_step) { described_class.new(provider_id:, course_id:) }
 
   let(:provider_id) { nil }
   let(:course_id) { nil }
 
+  describe '.route_name' do
+    subject { course_study_mode_step.class.route_name }
+
+    it { is_expected.to eq('candidate_interface_continuous_applications_course_study_mode') }
+  end
+
   describe 'validations' do
     it 'errors on course id' do
-      expect(which_course_are_you_applying_to_step).to validate_presence_of(:study_mode)
+      expect(course_study_mode_step).to validate_presence_of(:study_mode)
     end
   end
 
@@ -32,7 +38,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::CourseStudyModeStep d
       end
 
       it 'returns :course_site' do
-        expect(which_course_are_you_applying_to_step.next_step).to be(:course_site)
+        expect(course_study_mode_step.next_step).to be(:course_site)
       end
     end
 
@@ -45,7 +51,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::CourseStudyModeStep d
       end
 
       it 'returns :course_review' do
-        expect(which_course_are_you_applying_to_step.next_step).to be(:course_review)
+        expect(course_study_mode_step.next_step).to be(:course_review)
       end
     end
   end
