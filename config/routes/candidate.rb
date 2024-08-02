@@ -359,15 +359,15 @@ namespace :candidate_interface, path: '/candidate' do
       get '/provider/:provider_id/courses/:course_id' => 'continuous_applications/course_choices/course_study_mode#new', as: :continuous_applications_course_study_mode
       post '/provider/:provider_id/courses/:course_id' => 'continuous_applications/course_choices/course_study_mode#create'
 
-      get '/provider/:provider_id/courses/:course_id/:study_mode' => 'continuous_applications/course_choices/course_site#new', as: :continuous_applications_course_site
-      post '/provider/:provider_id/courses/:course_id/:study_mode' => 'continuous_applications/course_choices/course_site#create'
+      get '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/course_site#new', as: :continuous_applications_course_site
+      post '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/course_site#create'
+      get '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'course_choices/course_site#edit', as: :edit_continuous_applications_course_site
+      patch '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'course_choices/course_site#update'
 
       get '/:application_choice_id/courses/edit' => 'continuous_applications/course_choices/which_course_are_you_applying_to#edit', as: :edit_continuous_applications_which_course_are_you_applying_to
       patch '/:application_choice_id/courses/edit' => 'continuous_applications/course_choices/which_course_are_you_applying_to#update'
       get '/:application_choice_id/courses/:course_id/edit' => 'continuous_applications/course_choices/course_study_mode#edit', as: :edit_continuous_applications_course_study_mode
       patch '/:application_choice_id/courses/:course_id/edit' => 'continuous_applications/course_choices/course_study_mode#update'
-      get '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'continuous_applications/course_choices/course_site#edit', as: :edit_continuous_applications_course_site
-      patch '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'continuous_applications/course_choices/course_site#update'
 
       get '/confirm-selection/:course_id' => 'continuous_applications/course_choices/find_course_selection#new', as: :continuous_applications_course_confirm_selection
       post '/confirm-selection/:course_id' => 'continuous_applications/course_choices/find_course_selection#create'
