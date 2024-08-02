@@ -7,7 +7,7 @@
       <%= t('page_titles.application_review', provider_name: @application_choice.current_course.provider.name) %>
     </h1>
 
-    <%= render(CandidateInterface::ContinuousApplications::ApplicationReviewComponent.new(application_choice: @application_choice)) %>
+    <%= render(CandidateInterface::ApplicationReviewComponent.new(application_choice: @application_choice)) %>
 
     <%= render(CandidateInterface::ApplicationReviewAndSubmitComponent.new(application_choice: @application_choice)) %>
   </div>
