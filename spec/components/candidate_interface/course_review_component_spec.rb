@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::CourseReviewComponent do
+RSpec.describe CandidateInterface::CourseReviewComponent do
   describe 'course_fee' do
     let(:application_choice) do
       create(:application_choice,
