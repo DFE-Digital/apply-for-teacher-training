@@ -1,9 +1,13 @@
 module CandidateInterface
-  module ContinuousApplications
+  module CourseSelection
     class FullCourseSelectionStep < DfE::Wizard::Step
       include CandidateInterface::Concerns::CourseSelectionStepHelper
       attr_accessor :provider_id, :course_id
       validates :provider_id, :course_id, presence: true
+
+      def self.route_name
+        'candidate_interface_continuous_applications_full_course_selection'
+      end
 
       def self.permitted_params
         %i[provider_id course_id]
