@@ -372,9 +372,9 @@ namespace :candidate_interface, path: '/candidate' do
       get '/confirm-selection/:course_id' => 'continuous_applications/course_choices/find_course_selection#new', as: :continuous_applications_course_confirm_selection
       post '/confirm-selection/:course_id' => 'continuous_applications/course_choices/find_course_selection#create'
 
-      post '/:id/submit' => 'continuous_applications/application_choices#submit', as: :continuous_applications_submit_course_choice
-      get '/delete/:id' => 'continuous_applications/application_choices#confirm_destroy', as: :continuous_applications_confirm_destroy_course_choice
-      delete '/delete/:id' => 'continuous_applications/application_choices#destroy'
+      post '/:id/submit' => 'application_choices#submit', as: :continuous_applications_submit_course_choice
+      get '/delete/:id' => 'application_choices#confirm_destroy', as: :continuous_applications_confirm_destroy_course_choice
+      delete '/delete/:id' => 'application_choices#destroy'
     end
 
     scope '/choice/:id' do
