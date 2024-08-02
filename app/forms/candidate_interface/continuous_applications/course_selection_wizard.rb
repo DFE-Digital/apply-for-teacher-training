@@ -7,7 +7,7 @@ module CandidateInterface
       steps do
         [
           { do_you_know_the_course: CourseSelection::DoYouKnowTheCourseStep },
-          { go_to_find_explanation: GoToFindExplanationStep },
+          { go_to_find_explanation: CourseSelection::GoToFindExplanationStep },
           { provider_selection: ProviderSelectionStep },
           { which_course_are_you_applying_to: WhichCourseAreYouApplyingToStep },
           { duplicate_course_selection: DuplicateCourseSelectionStep },
