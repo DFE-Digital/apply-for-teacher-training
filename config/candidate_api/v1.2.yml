@@ -51,8 +51,38 @@ paths:
           "$ref": "#/components/responses/Unauthorized"
         '422':
           "$ref": "#/components/responses/UnprocessableEntity"
+  "/candidates/{candidate_id}":
+    get:
+      summary: Get a single candidate
+      parameters:
+        - in: path
+          name: candidate_id
+          schema:
+            type: string
+            example: C1234
+          required: true
+          description: The candidate’s id
+      responses:
+        '200':
+          description: Candidate data
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CandidateDetail"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
 components:
   responses:
+    NotFound:
+      description: Record not found
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/NotFoundResponse"
     Unauthorized:
       description: Unauthorized
       content:
@@ -81,6 +111,14 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/Candidate"
+    CandidateDetail:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          "$ref": "#/components/schemas/Candidate"
     Candidate:
       type: object
       additionalProperties: false
@@ -424,6 +462,21 @@ components:
           example:
           - error: Unauthorized
             message: Please provide a valid authentication token
+    NotFoundResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+            - error: NotFound
+              message: Unable to find Candidate
     ParameterMissingResponse:
       type: object
       additionalProperties: false

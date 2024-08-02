@@ -6,6 +6,7 @@ module CandidateAPI
 
     rescue_from ActionController::ParameterMissing, with: :parameter_missing
     rescue_from ParameterInvalid, with: :parameter_invalid
+    rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
     # Makes PG::QueryCanceled statement timeout errors appear in Skylight
     # against the controller action that triggered them
@@ -19,8 +20,19 @@ module CandidateAPI
     MAX_PER_PAGE = 500
 
     def index
+      serializer_index_query = serializer.index_query(updated_since: updated_since_params)
+
       render json: {
-        data: serializer.serialize(paginate(serializer.query)),
+        data: serializer.serialize(paginate(serializer_index_query)),
+      }
+    end
+
+    def show
+      candidate_id = params[:candidate_id].gsub(/^C/, '')
+      candidate = serializer.find_query(candidate_id:)
+
+      render json: {
+        data: serializer.serialize([candidate]).first,
       }
     end
 
@@ -31,6 +43,10 @@ module CandidateAPI
 
     def parameter_invalid(e)
       render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
+    end
+
+    def not_found(_e)
+      render json: { errors: [{ error: 'NotFound', message: 'Unable to find Candidate' }] }, status: :not_found
     end
 
     def statement_timeout
@@ -83,11 +99,11 @@ module CandidateAPI
     def serializer
       @serializer ||=
         if version_param == 'v1.3'
-          CandidateAPI::Serializers::V13.new(updated_since: updated_since_params)
+          CandidateAPI::Serializers::V13.new
         elsif version_param == 'v1.2'
-          CandidateAPI::Serializers::V12.new(updated_since: updated_since_params)
+          CandidateAPI::Serializers::V12.new
         else
-          CandidateAPI::Serializers::V11.new(updated_since: updated_since_params)
+          CandidateAPI::Serializers::V11.new
         end
     end
 
