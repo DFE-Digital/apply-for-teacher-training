@@ -1,7 +1,7 @@
 module CandidateInterface
   module ContinuousApplications
     module CourseChoices
-      class DoYouKnowWhichCourseController < BaseController
+      class DoYouKnowWhichCourseController < CandidateInterface::CourseChoices::BaseController
       private
 
         def step_params

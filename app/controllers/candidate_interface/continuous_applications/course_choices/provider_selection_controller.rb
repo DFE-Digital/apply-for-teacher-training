@@ -1,7 +1,7 @@
 module CandidateInterface
   module ContinuousApplications
     module CourseChoices
-      class ProviderSelectionController < BaseController
+      class ProviderSelectionController < CandidateInterface::CourseChoices::BaseController
       private
 
         def step_params

@@ -1,7 +1,7 @@
 module CandidateInterface
   module ContinuousApplications
     module CourseChoices
-      class WhichCourseAreYouApplyingToController < BaseController
+      class WhichCourseAreYouApplyingToController < CandidateInterface::CourseChoices::BaseController
       private
 
         def current_step
