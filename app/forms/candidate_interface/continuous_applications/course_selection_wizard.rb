@@ -15,7 +15,7 @@ module CandidateInterface
           { full_course_selection: CourseSelection::FullCourseSelectionStep },
           { closed_course_selection: CourseSelection::ClosedCourseSelectionStep },
           { course_study_mode: CourseSelection::CourseStudyModeStep },
-          { course_site: CourseSiteStep },
+          { course_site: CourseSelection::CourseSiteStep },
           { find_course_selection: FindCourseSelectionStep },
           { course_review: CourseReviewStep },
         ]
