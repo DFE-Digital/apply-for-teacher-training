@@ -1,7 +1,7 @@
 module CandidateInterface
   class ApplicationDashboardCourseChoicesComponent < ViewComponent::Base
     include ViewHelper
-    include ContinuousApplications::CourseChoicesRowHelper
+    include CourseChoicesRowHelper
 
     def initialize(
       application_form:,
