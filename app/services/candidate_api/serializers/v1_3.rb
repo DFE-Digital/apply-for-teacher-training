@@ -1,7 +1,6 @@
 module CandidateAPI
   module Serializers
     class V13 < V12
-
     private
 
       def serialize_application_choices(application_form)
