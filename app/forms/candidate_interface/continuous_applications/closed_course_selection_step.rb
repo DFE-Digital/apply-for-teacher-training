@@ -1,7 +1,7 @@
 module CandidateInterface
   module ContinuousApplications
     class ClosedCourseSelectionStep < DfE::Wizard::Step
-      include Concerns::CourseSelectionStepHelper
+      include CandidateInterface::Concerns::CourseSelectionStepHelper
       attr_accessor :provider_id, :course_id
       validates :provider_id, :course_id, presence: true
 
