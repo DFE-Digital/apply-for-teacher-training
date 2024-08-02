@@ -19,7 +19,7 @@ module CandidateInterface
       end
 
       def ready_to_submit?
-        CandidateInterface::ContinuousApplications::ApplicationChoiceSubmission.new(application_choice: @application_choice).valid?
+        CandidateInterface::ApplicationChoiceSubmission.new(application_choice: @application_choice).valid?
       end
     end
   end

@@ -6,7 +6,7 @@ module CandidateInterface
     def submit
       @application_choice = application_choice
       @application_form = current_application
-      @application_choice_submission = CandidateInterface::ContinuousApplications::ApplicationChoiceSubmission.new(
+      @application_choice_submission = CandidateInterface::ApplicationChoiceSubmission.new(
         application_choice: @application_choice,
       )
 
