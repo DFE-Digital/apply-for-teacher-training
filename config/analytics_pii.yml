@@ -1,14 +1,2 @@
-shared:
-  application_forms:
-    - support_reference
-    - candidate_id
-  candidates:
-    - id
-  support_users:
-    - dfe_sign_in_uid
-  provider_users:
-    - dfe_sign_in_uid
-  validation_errors:
-    - user_id
-  emails:
-    - subject
+---
+shared: {}
