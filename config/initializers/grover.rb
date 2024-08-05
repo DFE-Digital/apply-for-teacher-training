@@ -9,7 +9,7 @@ Grover.configure do |config|
     },
     print_background: true,
     scale: 0.8,
-    launch_args: ['--disable-dev-shm-usage', '--no-sandbox', '--disable-setuid-sandbox'],
+    launch_args: ['--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox', '--disable-setuid-sandbox'],
   }
   config.ignore_path = /^(?!\/provider\/applications\/\d+)/
 end
