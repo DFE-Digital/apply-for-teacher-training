@@ -68,7 +68,7 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
             expect(unsubmitted_application_from_this_year.reload.application_choices.first).to be_application_not_sent
             expect(unsubmitted_application_from_last_year.reload.application_choices.first).not_to be_application_not_sent
             expect(rejected_application_from_this_year.reload.application_choices.first).not_to be_application_not_sent
-            expect(hidden_application_from_this_year.reload.application_choices.first).not_to be_application_not_sent
+            expect(hidden_application_from_this_year.reload.application_choices.first).to be_application_not_sent
             expect(unsubmitted_cancelled_application_from_this_year.reload.application_choices.first).to be_application_not_sent
           end
         end
