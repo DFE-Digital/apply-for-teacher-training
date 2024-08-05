@@ -121,6 +121,15 @@ RSpec.describe CandidateInterface::MathsGcseGradeForm, type: :model do
 
         expect(gcse.reload.grade).to eq('D')
       end
+
+      it 'does not raise validation error for enic_reason being nil' do
+        gcse = create(:gcse_qualification, :skip_validate, enic_reason: nil)
+        form = described_class.new(grade: 'other', other_grade: 'D', qualification_type: 'non_uk')
+
+        form.save(gcse)
+
+        expect(gcse.reload.enic_reason).to be_nil
+      end
     end
 
     describe '.build_from_qualification' do
