@@ -14,6 +14,7 @@ en:
         label: 'Intersex'
       opt_out:
         label: Prefer not to say
+        value: information refused
     disabilities:
       title: Disabilities and health conditions
       social:

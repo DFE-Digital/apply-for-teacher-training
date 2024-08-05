@@ -19,7 +19,7 @@
         <%= f.govuk_radio_button :sex, :male, label: { text: t('equality_and_diversity.sex.male.label') } %>
         <%= f.govuk_radio_button :sex, :other, label: { text: t('equality_and_diversity.sex.other.label') } %>
         <%= f.govuk_radio_divider %>
-        <%= f.govuk_radio_button :sex, t('equality_and_diversity.sex.opt_out.label'), label: { text: t('equality_and_diversity.sex.opt_out.label') } %>
+        <%= f.govuk_radio_button :sex, t('equality_and_diversity.sex.opt_out.value'), label: { text: t('equality_and_diversity.sex.opt_out.label') } %>
       <% end %>
 
       <%= f.govuk_submit t('continue') %>
