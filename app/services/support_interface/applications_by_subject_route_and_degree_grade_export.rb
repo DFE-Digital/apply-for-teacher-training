@@ -47,9 +47,10 @@ module SupportInterface
 
       report = sort_and_group_by_subject_route_and_grade(report)
 
-      report.map do |key, ary|
-        ary.each do |hash|
-          MinisterialReport::APPLICATIONS_BY_SUBJECT_ROUTE_AND_DEGREE_GRADE_REPORT_STATUS_MAPPING[hash[:status].to_sym].each do |mapped_status|
+      report.map do |key, report_data_objects|
+        report_data_objects.each do |data_object|
+          status = data_object[:status].to_sym
+          MinisterialReport::APPLICATIONS_BY_SUBJECT_ROUTE_AND_DEGREE_GRADE_REPORT_STATUS_MAPPING.fetch(status, []).each do |mapped_status|
             report[key].first[mapped_status] += 1
           end
         end
