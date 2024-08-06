@@ -1,7 +1,5 @@
 module Azure
   class GoogleAccessToken
-    ACCESS_TOKEN_EXPIRE_TIME_LEEWAY = 10.seconds
-
     def initialize(sts_token)
       @sts_token = sts_token
       @conn = Faraday.new do |b|
