@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceListComponent do
+RSpec.describe CandidateInterface::ApplicationChoiceListComponent do
   let(:application_form) { create(:application_form) }
   let(:application_choices) do
     CandidateInterface::SortApplicationChoices.call(application_choices: application_form.application_choices)

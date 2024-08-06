@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::InterviewSummaryComponent do
+RSpec.describe CandidateInterface::InterviewSummaryComponent do
   let(:interview) { create(:interview) }
 
   subject(:component) do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComponent do
+RSpec.describe CandidateInterface::ApplicationReviewComponent do
   shared_examples_for 'course fee row' do
     describe 'course_fee' do
       context 'where course is not fee-based' do

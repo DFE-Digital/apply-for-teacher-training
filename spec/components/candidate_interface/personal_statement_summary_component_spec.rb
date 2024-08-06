@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::PersonalStatementSummaryComponent do
+RSpec.describe CandidateInterface::PersonalStatementSummaryComponent do
   subject(:result) do
     render_inline(described_class.new(application_choice:))
   end
