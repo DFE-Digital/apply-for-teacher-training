@@ -16,5 +16,17 @@ RSpec.describe 'ApplicationPresenter' do
     it 'returns the date and time the application was sent to the provider' do
       expect(sent_to_provider_at).to eq('2024-07-10T13:00:00+01:00')
     end
+
+    context 'when sent_provider_at is nil' do
+      let(:application_choice) {
+        create(:application_choice,
+               application_form: create(:application_form, :submitted),
+               sent_to_provider_at: nil)
+      }
+
+      it 'returns nil' do
+        expect(sent_to_provider_at).to be_nil
+      end
+    end
   end
 end
