@@ -12,6 +12,7 @@ module Azure
     end
   end
   AzureAPIError = Class.new(AzureError)
+  GoogleAPIError = Class.new(AzureError)
   STSAPIError = Class.new(AzureError)
 
   AzureTokenFilePathError = Class.new(StandardError) do
