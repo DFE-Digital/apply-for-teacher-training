@@ -68,5 +68,14 @@ RSpec.describe Hesa::Sex do
         expect(result).to be_nil
       end
     end
+
+    context 'when sex is prefer not to say' do
+      it 'returns the matching struct' do
+        result = described_class.find('Prefer not to say', 2024)
+
+        expect(result.type).to eq 'Prefer not to say'
+        expect(result.hesa_code).to eq '96'
+      end
+    end
   end
 end
