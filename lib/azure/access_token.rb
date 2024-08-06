@@ -13,11 +13,10 @@ module Azure
       end
 
       unless azure_token_response.success?
-        error_message = "Error calling azure token API: status: #{azure_token_response.status}\r\nbody: #{azure_token_response.body}"
+        error = AzureAPIError.new(status: azure_token_response.status, body: azure_token_response.body)
+        Rails.logger.error error.detailed_message
 
-        Rails.logger.error error_message
-
-        raise AzureAPIError, error_message
+        raise error
       end
 
       azure_token_response.body['access_token']
@@ -27,7 +26,7 @@ module Azure
       begin
         client_assertion = File.read(Azure.config.azure_token_file_path)
       rescue Errno::ENOENT
-        raise AzureTokenFilePathError, 'azure token file could not be found'
+        raise AzureTokenFilePathError
       end
 
       {
