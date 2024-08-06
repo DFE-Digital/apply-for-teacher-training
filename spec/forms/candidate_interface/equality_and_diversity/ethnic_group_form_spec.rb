@@ -84,6 +84,28 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicGroupForm, type: 
           'sex' => 'male',
           'ethnic_group' => 'Prefer not to say',
           'ethnic_background' => nil,
+          'hesa_ethnicity' => '998',
+        )
+      end
+
+      it 'resets the ethnic background and hesa code if current ethnic group not the new ethnic group' do
+        application_form = build(
+          :application_form,
+          equality_and_diversity: {
+            'sex' => 'male',
+            'ethnic_group' => 'Another ethnic group',
+            'ethnic_background' => 'Arab',
+            'hesa_ethnicity' => '50',
+          },
+        )
+        form = described_class.new(ethnic_group: 'White')
+
+        form.save(application_form)
+
+        expect(application_form.equality_and_diversity).to eq(
+          'sex' => 'male',
+          'ethnic_group' => 'White',
+          'ethnic_background' => nil,
           'hesa_ethnicity' => nil,
         )
       end

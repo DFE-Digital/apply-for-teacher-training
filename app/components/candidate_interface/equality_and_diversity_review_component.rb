@@ -35,7 +35,7 @@ module CandidateInterface
     def sex_row
       {
         key: 'Sex',
-        value: sex_value.capitalize,
+        value: Hesa::Sex.sex_label(row_value('sex'), RecruitmentCycle.current_year),
         action: {
           href: candidate_interface_edit_equality_and_diversity_sex_path(return_to_params),
           visually_hidden_text: 'sex',
@@ -116,16 +116,6 @@ module CandidateInterface
         'Prefer not to say'
       else
         row_value('disabilities')
-      end
-    end
-
-    def sex_value
-      value = Hesa::Sex.find(row_value('sex'), RecruitmentCycle.current_year)&.type
-
-      if value == I18n.t('equality_and_diversity.sex.opt_out.value')
-        I18n.t('equality_and_diversity.sex.opt_out.label')
-      else
-        value
       end
     end
   end

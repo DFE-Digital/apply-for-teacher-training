@@ -16,5 +16,15 @@ module Hesa
 
       all(cycle_year).find { |hesa_sex| hesa_sex.type == sex }
     end
+
+    def self.sex_label(value, cycle_year)
+      type = find(value, cycle_year)&.type
+
+      if type == I18n.t('equality_and_diversity.sex.opt_out.value')
+        I18n.t('equality_and_diversity.sex.opt_out.label')
+      else
+        value.capitalize
+      end
+    end
   end
 end

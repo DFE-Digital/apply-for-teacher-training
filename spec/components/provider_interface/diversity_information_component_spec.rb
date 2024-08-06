@@ -79,7 +79,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
         end
 
         it 'does not display Ethnic background if they are not declared' do
-          prefer_not_to_say_diversity_info = { 'sex' => 'Prefer not to say',
+          prefer_not_to_say_diversity_info = { 'sex' => 'information refused',
                                                'disabilities' => ['I do not have any of these disabilities or health conditions'],
                                                'ethnic_group' => 'Prefer not to say',
                                                'ethnic_background' => nil }

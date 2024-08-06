@@ -13,7 +13,7 @@ module ProviderInterface
       return [] unless application_choice.application_form.equality_and_diversity_answers_provided?
 
       [
-        { key: I18n.t('equality_and_diversity.sex.title'), value: row_value(equality_and_diversity['sex'].capitalize) },
+        { key: I18n.t('equality_and_diversity.sex.title'), value: row_value(Hesa::Sex.sex_label(equality_and_diversity['sex'], RecruitmentCycle.current_year)) },
         { key: I18n.t('equality_and_diversity.disabilities.title'), value: row_value(disability_value.html_safe) },
         { key: I18n.t('equality_and_diversity.ethnic_group.title'), value: row_value(equality_and_diversity['ethnic_group']) },
       ].tap do |array|
