@@ -336,45 +336,45 @@ namespace :candidate_interface, path: '/candidate' do
     end
 
     scope '/continuous-applications' do
-      get '/choose' => 'continuous_applications/course_choices/do_you_know_which_course#new', as: :continuous_applications_do_you_know_the_course
-      post '/choose' => 'continuous_applications/course_choices/do_you_know_which_course#create'
+      get '/choose' => 'course_choices/do_you_know_which_course#new', as: :continuous_applications_do_you_know_the_course
+      post '/choose' => 'course_choices/do_you_know_which_course#create'
 
-      get '/go-to-find' => 'continuous_applications/course_choices/go_to_find#new', as: :continuous_applications_go_to_find_explanation
+      get '/go-to-find' => 'course_choices/go_to_find#new', as: :continuous_applications_go_to_find_explanation
 
-      get '/provider' => 'continuous_applications/course_choices/provider_selection#new', as: :continuous_applications_provider_selection
-      post '/provider' => 'continuous_applications/course_choices/provider_selection#create'
+      get '/provider' => 'course_choices/provider_selection#new', as: :continuous_applications_provider_selection
+      post '/provider' => 'course_choices/provider_selection#create'
 
-      get '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#new', as: :continuous_applications_which_course_are_you_applying_to
-      post '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#create'
-      get '/:application_choice_id/review' => 'continuous_applications/course_choices/review#show', as: :continuous_applications_course_review
-      get '/:application_choice_id/review-interruption' => 'continuous_applications/course_choices/review_interruption#show', as: :continuous_applications_course_review_interruption
-      get '/:application_choice_id/review-and-submit' => 'continuous_applications/course_choices/review_and_submit#show', as: :continuous_applications_course_review_and_submit
-      get '/blocked-submissions' => 'continuous_applications/course_choices/blocked_submissions#show', as: :continuous_applications_blocked_submissions
+      get '/provider/:provider_id/course' => 'course_choices/which_course_are_you_applying_to#new', as: :continuous_applications_which_course_are_you_applying_to
+      post '/provider/:provider_id/course' => 'course_choices/which_course_are_you_applying_to#create'
+      get '/:application_choice_id/courses/edit' => 'course_choices/which_course_are_you_applying_to#edit', as: :edit_continuous_applications_which_course_are_you_applying_to
+      patch '/:application_choice_id/courses/edit' => 'course_choices/which_course_are_you_applying_to#update'
 
-      get '/provider/:provider_id/courses/:course_id/reached-reapplication-limit' => 'continuous_applications/course_choices/reached_reapplication_limit#new', as: :continuous_applications_reached_reapplication_limit
-      get '/provider/:provider_id/courses/:course_id/duplicate' => 'continuous_applications/course_choices/duplicate_course_selection#new', as: :continuous_applications_duplicate_course_selection
-      get '/provider/:provider_id/courses/:course_id/full' => 'continuous_applications/course_choices/full_course_selection#new', as: :continuous_applications_full_course_selection
-      get '/provider/:provider_id/courses/:course_id/closed' => 'continuous_applications/course_choices/closed_course_selection#new', as: :continuous_applications_closed_course_selection
+      get '/:application_choice_id/review' => 'course_choices/review#show', as: :continuous_applications_course_review
+      get '/:application_choice_id/review-interruption' => 'course_choices/review_interruption#show', as: :continuous_applications_course_review_interruption
+      get '/:application_choice_id/review-and-submit' => 'course_choices/review_and_submit#show', as: :continuous_applications_course_review_and_submit
+      get '/blocked-submissions' => 'course_choices/blocked_submissions#show', as: :continuous_applications_blocked_submissions
 
-      get '/provider/:provider_id/courses/:course_id' => 'continuous_applications/course_choices/course_study_mode#new', as: :continuous_applications_course_study_mode
-      post '/provider/:provider_id/courses/:course_id' => 'continuous_applications/course_choices/course_study_mode#create'
+      get '/provider/:provider_id/courses/:course_id/reached-reapplication-limit' => 'course_choices/reached_reapplication_limit#new', as: :continuous_applications_reached_reapplication_limit
+      get '/provider/:provider_id/courses/:course_id/duplicate' => 'course_choices/duplicate_course_selection#new', as: :continuous_applications_duplicate_course_selection
+      get '/provider/:provider_id/courses/:course_id/full' => 'course_choices/full_course_selection#new', as: :continuous_applications_full_course_selection
+      get '/provider/:provider_id/courses/:course_id/closed' => 'course_choices/closed_course_selection#new', as: :continuous_applications_closed_course_selection
 
-      get '/provider/:provider_id/courses/:course_id/:study_mode' => 'continuous_applications/course_choices/course_site#new', as: :continuous_applications_course_site
-      post '/provider/:provider_id/courses/:course_id/:study_mode' => 'continuous_applications/course_choices/course_site#create'
+      get '/provider/:provider_id/courses/:course_id' => 'course_choices/course_study_mode#new', as: :continuous_applications_course_study_mode
+      post '/provider/:provider_id/courses/:course_id' => 'course_choices/course_study_mode#create'
+      get '/:application_choice_id/courses/:course_id/edit' => 'course_choices/course_study_mode#edit', as: :edit_continuous_applications_course_study_mode
+      patch '/:application_choice_id/courses/:course_id/edit' => 'course_choices/course_study_mode#update'
 
-      get '/:application_choice_id/courses/edit' => 'continuous_applications/course_choices/which_course_are_you_applying_to#edit', as: :edit_continuous_applications_which_course_are_you_applying_to
-      patch '/:application_choice_id/courses/edit' => 'continuous_applications/course_choices/which_course_are_you_applying_to#update'
-      get '/:application_choice_id/courses/:course_id/edit' => 'continuous_applications/course_choices/course_study_mode#edit', as: :edit_continuous_applications_course_study_mode
-      patch '/:application_choice_id/courses/:course_id/edit' => 'continuous_applications/course_choices/course_study_mode#update'
-      get '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'continuous_applications/course_choices/course_site#edit', as: :edit_continuous_applications_course_site
-      patch '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'continuous_applications/course_choices/course_site#update'
+      get '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/course_site#new', as: :continuous_applications_course_site
+      post '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/course_site#create'
+      get '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'course_choices/course_site#edit', as: :edit_continuous_applications_course_site
+      patch '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'course_choices/course_site#update'
 
-      get '/confirm-selection/:course_id' => 'continuous_applications/course_choices/find_course_selection#new', as: :continuous_applications_course_confirm_selection
-      post '/confirm-selection/:course_id' => 'continuous_applications/course_choices/find_course_selection#create'
+      get '/confirm-selection/:course_id' => 'course_choices/find_course_selection#new', as: :continuous_applications_course_confirm_selection
+      post '/confirm-selection/:course_id' => 'course_choices/find_course_selection#create'
 
-      post '/:id/submit' => 'continuous_applications/application_choices#submit', as: :continuous_applications_submit_course_choice
-      get '/delete/:id' => 'continuous_applications/application_choices#confirm_destroy', as: :continuous_applications_confirm_destroy_course_choice
-      delete '/delete/:id' => 'continuous_applications/application_choices#destroy'
+      post '/:id/submit' => 'application_choices#submit', as: :continuous_applications_submit_course_choice
+      get '/delete/:id' => 'application_choices#confirm_destroy', as: :continuous_applications_confirm_destroy_course_choice
+      delete '/delete/:id' => 'application_choices#destroy'
     end
 
     scope '/choice/:id' do
