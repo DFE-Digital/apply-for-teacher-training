@@ -14,7 +14,6 @@ RSpec.describe ApplicationQualification do
       'award_year',
       'institution_name',
       'institution_country',
-      'equivalency_details',
     )
   end
 
@@ -264,24 +263,13 @@ RSpec.describe ApplicationQualification do
         institution_country: 'US',
         enic_reference: '0123456789',
         comparable_uk_degree: 'bachelor_honours_degree',
-        equivalency_details: 'equivalent to a UK BSc',
       )
 
-      expect(degree.composite_equivalency_details).to eq('Enic: 0123456789 - bachelor_honours_degree - equivalent to a UK BSc')
-    end
-
-    it 'returns a sentence describing equivalency details for a GCSE level qualification' do
-      gcse = build_stubbed(
-        :gcse_qualification,
-        qualification_type: 'scottish_national_5',
-        equivalency_details: 'equivalent to a GCSE',
-      )
-
-      expect(gcse.composite_equivalency_details).to eq('equivalent to a GCSE')
+      expect(degree.composite_equivalency_details).to eq('Enic: 0123456789 - bachelor_honours_degree')
     end
 
     it 'returns nil if there is no data to show' do
-      gcse = build_stubbed(:gcse_qualification, equivalency_details: nil)
+      gcse = build_stubbed(:gcse_qualification)
 
       expect(gcse.composite_equivalency_details).to be_nil
     end

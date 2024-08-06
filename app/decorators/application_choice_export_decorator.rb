@@ -68,7 +68,7 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
       comparable_uk_qualification = I18n.t("application_qualification.comparable_uk_degree.#{comparable_uk_qualification}") if comparable_uk_qualification
     end
 
-    [enic_reference, comparable_uk_qualification, first_degree.equivalency_details]
+    [enic_reference, comparable_uk_qualification]
       .compact
       .map(&:strip)
       .join(' - ')

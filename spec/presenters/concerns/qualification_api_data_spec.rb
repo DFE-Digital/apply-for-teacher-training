@@ -42,30 +42,6 @@ RSpec.describe QualificationAPIData do
       end
     end
 
-    context 'equivalency_details' do
-      context 'default' do
-        let!(:qualification) { create(:other_qualification, :non_uk, application_form: application_choice.application_form) }
-
-        it "renders the qualification's equivalency_details" do
-          expect(presenter.qualifications[:other_qualifications][0][:equivalency_details]).to eq(qualification.equivalency_details)
-        end
-      end
-
-      context 'with ENIC information' do
-        let!(:qualification) { create(:gcse_qualification, :non_uk, application_form: application_choice.application_form) }
-
-        it 'renders the correct information' do
-          composite_equivalency_details = [
-            "Enic: #{qualification.enic_reference}",
-            qualification.comparable_uk_qualification,
-            qualification.equivalency_details,
-          ].join(' - ')
-
-          expect(presenter.qualifications[:gcses][0][:equivalency_details]).to eq(composite_equivalency_details)
-        end
-      end
-    end
-
     context 'non_uk_qualification_type' do
       let!(:qualification) { create(:gcse_qualification, :non_uk, application_form: application_choice.application_form) }
 

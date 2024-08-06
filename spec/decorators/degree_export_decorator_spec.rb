@@ -95,24 +95,6 @@ RSpec.describe DegreeExportDecorator do
     end
   end
 
-  describe '#equivalency_details' do
-    context 'when degree is present' do
-      before { allow(degree).to receive(:equivalency_details).and_return('Some details') }
-
-      it 'returns the equivalency details padded to 2 digits' do
-        expect(decorator.equivalency_details).to eq('Some details')
-      end
-    end
-
-    context 'when degree is nil' do
-      let(:degree) { nil }
-
-      it 'returns "no degree"' do
-        expect(decorator.equivalency_details).to eq('no degree')
-      end
-    end
-  end
-
   describe '#start_year' do
     context 'when degree is present' do
       before { allow(degree).to receive(:start_year).and_return(2020) }

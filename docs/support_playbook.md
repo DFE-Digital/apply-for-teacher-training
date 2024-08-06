@@ -178,7 +178,6 @@ Create the same qualification locally, turn the relevant fields into JSON, paste
 
 If you are asked to add an ENIC number to a qualification, you should first make sure that what you are being asked to do is reflected on the ENIC statement. If you are in doubt refer it back to support or to policy.
 
-`equivalency_details` is a field on the `ApplicationQualification` model, but it is not used. Do not add any data to this field. There is a card on trello to remove it from the database.
 For all international qualifications, you'll have to include an `institution_country`: https://github.com/DFE-Digital/apply-for-teacher-training/blob/78c9421d8582f63cfdec564b5c0677bfd787552c/config/initializers/countries_and_territories.rb
 
 ***Degrees***
@@ -203,7 +202,6 @@ ApplicationQualification.find(QUALIFICATION_ID).update!(
   qualification_type: 'non_uk',
   non_uk_qualification_type: nil, # not to be confused with the comparable_uk_degree. This can should be blank for degrees
   award_year: AWARD_YEAR,
-  equivalency_details: nil,
   )
 ````
 

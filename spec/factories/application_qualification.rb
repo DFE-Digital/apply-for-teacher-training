@@ -21,7 +21,6 @@ FactoryBot.define do
     award_year { Faker::Date.between(from: 10.years.ago, to: 1.year.ago).year }
     institution_name { Faker::University.name }
     institution_country { international? ? Faker::Address.country_code : 'GB' }
-    equivalency_details { Faker::Lorem.paragraph_by_chars(number: 200) }
 
     trait :skip_validate do
       to_create { |instance| instance.save(validate: false) }
