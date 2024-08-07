@@ -1,38 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Azure::GoogleAccessToken do
-  subject(:client) { described_class.new('fake_sts_token') }
+  subject(:client) { described_class.new('fake_az_gcp_exchange_token_response') }
 
   describe 'successful request' do
     before do
-      Azure.configure do |c|
-        c.google_cloud_credentials = { service_account_impersonation_url: 'https://example.com' }
-      end
-
-      stub_request(:post, 'https://example.com')
-        .with(
-          body: URI.encode_www_form({
-            'scope' => 'https://www.googleapis.com/auth/cloud-platform',
-          }),
-          headers: {
-            'Accept' => '*/*',
-            'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-            'Authorization' => 'Bearer fake_sts_token',
-            'Content-Type' => 'application/x-www-form-urlencoded',
-            'User-Agent' => 'Faraday v1.10.3',
-          },
-
-        )
-        .to_return(
-          status: 200,
-          body: {
-            expireTime: '2024-03-09T14:38:02Z',
-            accessToken: 'fake_google_response_token',
-          }.to_json,
-          headers: {
-            'Content-Type' => ['application/json; charset=utf-8'],
-          },
-        )
+      stub_azure_config
+      stub_google_access_token
     end
 
     it 'returns the Google token and expire time' do
@@ -42,9 +16,7 @@ RSpec.describe Azure::GoogleAccessToken do
 
   describe 'Google responds unsuccessful' do
     before do
-      Azure.configure do |c|
-        c.google_cloud_credentials = { service_account_impersonation_url: 'https://example.com' }
-      end
+      stub_azure_config
 
       stub_request(:post, 'https://example.com')
       .to_return(
