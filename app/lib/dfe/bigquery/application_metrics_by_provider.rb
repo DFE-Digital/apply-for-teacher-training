@@ -2,6 +2,7 @@ module DfE
   module Bigquery
     class ApplicationMetricsByProvider
       include ::DfE::Bigquery::Relation
+
       SELECT_COLUMNS = %w[nonprovider_filter
                           nonprovider_filter_category
                           cycle_week
@@ -47,11 +48,7 @@ module DfE
       end
 
       def table_name
-        'application_metrics_by_provider'
-      end
-
-      def dataset
-        '1_key_tables'
+        '1_key_tables.application_metrics_by_provider'
       end
 
       ### Candidate All query
