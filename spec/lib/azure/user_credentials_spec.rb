@@ -1,8 +1,6 @@
 require 'rails_helper'
-require_relative 'wif_stubs'
 
 RSpec.describe Azure::UserCredentials do
-  include WifStubs
   let(:token_url) { 'https://sts.googleapis.com/v1/token' }
   let(:expire_time) { '2024-03-09T14:38:02Z' }
 

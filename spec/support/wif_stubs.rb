@@ -1,4 +1,22 @@
 module WifStubs
+  def stub_azure_config(conf = {})
+    allow(Azure).to receive(:config) {
+      ActiveSupport::OrderedOptions.new.tap do |config|
+        config.azure_client_id = 'fake_client_id'
+        config.azure_token_file_path = Tempfile.new.path
+        config.google_cloud_credentials = {
+          credential_source: { url: 'https://example.com' },
+          service_account_impersonation_url: 'https://example.com',
+          token_url: 'https://sts.googleapis.com/v1/token',
+          subject_token_type: 'fake_subject_token_type',
+          audience: 'fake_gcp_aud',
+        }
+        config.azure_scope = 'api://AzureADTokenExchange/.default'
+        config.gcp_scope = 'fake_gcp_scope'
+      end.deep_merge(conf)
+    }
+  end
+
   def stub_azure_access_token
     stub_request(:get, 'https://example.com')
     .to_return(
@@ -17,8 +35,7 @@ module WifStubs
   end
 
   def stub_token_exchange
-    token_url ||= 'https://sts.googleapis.com/v1/token'
-    stub_request(:post, token_url)
+    stub_request(:post, 'https://sts.googleapis.com/v1/token')
       .with(
         body: {
           'audience' => 'fake_gcp_aud',
