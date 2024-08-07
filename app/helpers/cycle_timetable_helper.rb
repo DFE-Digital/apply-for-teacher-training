@@ -32,4 +32,12 @@ module_function
   def after_reject_by_default(year = CycleTimetable.current_year)
     CycleTimetable.reject_by_default(year) + 1.day
   end
+
+  def reject_by_default_run_date(year = CycleTimetable.current_year)
+    CycleTimetable.reject_by_default(year) + 1.second
+  end
+
+  def decline_by_default_run_date(year = CycleTimetable.current_year)
+    CycleTimetable.decline_by_default_date(year) + 1.second
+  end
 end

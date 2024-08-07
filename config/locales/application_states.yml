@@ -284,7 +284,7 @@ en:
       description: |
         An application is inactive if the provider does not make an offer within 30 working days after they have received an application.
 
-    awaiting_provider_decision-reject_by_default:
+    awaiting_provider_decision-reject_by_default: &awaiting_provider_decision-reject_by_default
       name: Rejected by default
       by: system
       description: |
@@ -294,6 +294,8 @@ en:
     inactive-interview: *awaiting_provider_decision-interview
     inactive-reject: *awaiting_provider_decision-reject
     inactive-withdraw: *awaiting_provider_decision-withdraw
+    inactive-reject_by_default: *awaiting_provider_decision-reject_by_default
+
 
     interviewing-make_offer:
       name: Provider makes offer

@@ -95,6 +95,18 @@ class CycleTimetable
     date(:reject_by_default, year)
   end
 
+  def self.decline_by_default_date(year = current_year)
+    find_closes(year) - 1.day
+  end
+
+  def self.run_decline_by_default?(year = current_year)
+    current_date.between?(decline_by_default_date(year), find_closes(year))
+  end
+
+  def self.run_reject_by_default?(year = current_year)
+    current_date.between?(reject_by_default(year), reject_by_default + 1.day)
+  end
+
   def self.cancel_unsubmitted_applications?
     current_date.to_date == apply_deadline.to_date
   end
