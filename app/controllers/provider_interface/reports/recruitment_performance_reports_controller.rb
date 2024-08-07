@@ -3,7 +3,7 @@ module ProviderInterface
     class RecruitmentPerformanceReportsController < ProviderInterfaceController
       def show
         @provider = current_user.providers.find(provider_id)
-        @provider_report = Publications::ProviderRecruitmentPerformanceReport.where(provider: @provider).last
+        @provider_report = Publications::ProviderRecruitmentPerformanceReport.where(provider: @provider).order(:cycle_week).last
         @provider_data = @provider_report&.statistics
         @national_data = national_report&.statistics
       end
