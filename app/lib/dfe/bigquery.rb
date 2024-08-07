@@ -26,16 +26,14 @@ module DfE
       CONFIGURABLES.select { |value| config.send(value).nil? }
     end
 
-    # @return [Google::Cloud::Bigquery::Project]
+    # @return [Google::Apis::BigqueryV2::BigqueryService]
     def self.client
-      @client ||= begin
-        raise(ConfigurationError, "DfE::Bigquery: missing required config values: #{missing_config}") unless valid_config?
+      raise(ConfigurationError, "DfE::Bigquery: missing required config values: #{missing_config}") unless valid_config?
 
-        Google::Cloud::Bigquery.new(
-          project: config.bigquery_project_id,
-          credentials: JSON.parse(config.bigquery_api_json_key),
+      Google::Apis::BigqueryV2::BigqueryService.new.tap do |service|
+        service.request_options = Google::Apis::RequestOptions.default.dup.merge(
           retries: config.bigquery_retries,
-          timeout: config.bigquery_timeout,
+          authorization: Azure::UserCredentials.call,
         )
       end
     end

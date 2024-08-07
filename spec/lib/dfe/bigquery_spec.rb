@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe DfE::Bigquery do
+  before do
+    stub_azure_access_token
+    stub_token_exchange
+    stub_google_access_token
+    stub_azure_config
+  end
+
   describe '#client' do
     context 'when missing configuration' do
       it 'raises a configuration error' do
@@ -11,13 +18,11 @@ RSpec.describe DfE::Bigquery do
     end
 
     context 'when valid configuration' do
-      let(:bigquery) { instance_double(Google::Cloud::Bigquery) }
+      let(:bigquery) { Google::Apis::BigqueryV2::BigqueryService.new }
 
       it 'instantiates bigquery object' do
-        with_config(bigquery_project_id: 'some-project', bigquery_api_json_key: '{}', bigquery_retries: 2, bigquery_timeout: 10) do
-          allow(Google::Cloud::Bigquery).to receive(:new).and_return(bigquery)
-          expect(described_class.client).to eq(bigquery)
-        end
+        allow(Google::Apis::BigqueryV2::BigqueryService).to receive(:new).and_return(bigquery)
+        expect(described_class.client).to eq(bigquery)
       end
     end
   end
