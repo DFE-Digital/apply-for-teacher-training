@@ -7,14 +7,7 @@ RSpec.describe Azure::GoogleTokenExchange do
 
   describe 'successful request' do
     before do
-      Azure.configure do |c|
-        c.google_cloud_credentials = {
-          token_url:,
-          subject_token_type: 'fake_subject_token_type',
-          audience: 'fake_gcp_aud',
-        }
-        c.gcp_scope = 'fake_gcp_scope'
-      end
+      stub_azure_config
 
       stub_request(:post, token_url)
         .with(
@@ -47,14 +40,7 @@ RSpec.describe Azure::GoogleTokenExchange do
 
   describe 'STS responds unsuccessful' do
     before do
-      Azure.configure do |c|
-        c.google_cloud_credentials = {
-          token_url:,
-          subject_token_type: 'fake_subject_token_type',
-          audience: 'fake_gcp_aud',
-        }
-        c.gcp_scope = 'fake_gcp_scope'
-      end
+      stub_azure_config
 
       stub_request(:post, token_url)
       .to_return(

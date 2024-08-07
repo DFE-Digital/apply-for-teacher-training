@@ -5,27 +5,8 @@ RSpec.describe Azure::AccessToken do
 
   describe 'successful request' do
     before do
-      Azure.configure do |c|
-        c.google_cloud_credentials = { credential_source: { url: 'https://example.com' } }
-        c.azure_client_id = 'fake_az_client_id_1234'
-        c.azure_scope = 'fake_az_scope'
-        c.azure_token_file_path = 'fake_az_token_path'
-      end
-
-      stub_request(:get, 'https://example.com')
-      .to_return(
-        status: 200,
-        body: {
-          'token_type' => 'Bearer',
-          'expires_in' => 86_399,
-          'ext_expires_in' => 86_399,
-          'access_token' => 'fake_az_response_token',
-        }.to_json,
-        headers: {
-          'content-type' => ['application/json; charset=utf-8'],
-        },
-      )
-      allow(File).to receive(:read).and_return('asdf')
+      stub_azure_config
+      stub_azure_access_token
     end
 
     it 'calls the azure endpoint' do
@@ -35,12 +16,7 @@ RSpec.describe Azure::AccessToken do
 
   describe 'azure token file path not found' do
     before do
-      Azure.configure do |c|
-        c.google_cloud_credentials = { credential_source: { url: 'https://example.com' } }
-        c.azure_client_id = 'fake_az_client_id_1234'
-        c.azure_scope = 'fake_az_scope'
-        c.azure_token_file_path = 'fake_az_token_path'
-      end
+      stub_azure_config(azure_token_file_path: 'no/file/exists')
     end
 
     it 'raises an AzureTokenFilePathError' do
@@ -50,12 +26,7 @@ RSpec.describe Azure::AccessToken do
 
   describe 'Azure responds unsuccessful' do
     before do
-      Azure.configure do |c|
-        c.google_cloud_credentials = { credential_source: { url: 'https://example.com' } }
-        c.azure_client_id = 'fake_az_client_id_1234'
-        c.azure_scope = 'fake_az_scope'
-        c.azure_token_file_path = 'fake_az_token_path'
-      end
+      stub_azure_config
 
       stub_request(:get, 'https://example.com')
       .to_return(
@@ -72,7 +43,6 @@ RSpec.describe Azure::AccessToken do
           'content-type' => ['application/json; charset=utf-8'],
         },
       )
-      allow(File).to receive(:read).and_return('asdf')
     end
 
     it 'raises an AzureAPIError' do
