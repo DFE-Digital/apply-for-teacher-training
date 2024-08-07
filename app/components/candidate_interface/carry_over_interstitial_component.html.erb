@@ -13,6 +13,53 @@
       Continue your application to apply for courses starting in the <%= next_academic_cycle %> academic year instead.
     </p>
 
-    <%= govuk_button_to 'Continue', candidate_interface_carry_over_path, class: 'govuk-!-margin-bottom-5' %>
+    <%= govuk_table do |table| %>
+      <%= table.with_caption(text: "Applications from #{application_form_academic_cycle}") %>
+      <% table.with_body do |body| %>
+        <% application_choices.each do |application_choice| %>
+        <% body.with_row do |row| %>
+          <%= row.with_cell do %>
+            <div class="app-application-item__details">
+              <div class="app-application-item__provider_id">
+                <h2 class="govuk-heading-s">
+                  <%= application_choice.current_course.provider.name %>
+                </h2>
+                <p class="govuk-body-s"><%= application_choice.id %></p>
+              </div>
+              <p class="govuk-body-s"><%= application_choice.current_course.name_and_code %> - <%= application_choice.current_course_option.study_mode.humanize %> at <%= application_choice.site.name %></p>
+            </div>
+          <% end %>
+          <%= row.with_cell do %>
+            <%= render(CandidateInterface::ApplicationChoiceStatusTagComponent.new(application_choice:, display_info_text: false)) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+<!--    <h2 class="govuk-heading-m">-->
+<!--      Applications from <%#= application_form_academic_cycle %>-->
+<!--    </h2>-->
+
+<!--    <section class="app-section">-->
+      <%# application_choices.each do |application_choice| %>
+<!--        <div class="app-application-item__body">-->
+<!--          <div class="app-application-item__status_tag">-->
+            <%#= render(CandidateInterface::ApplicationChoiceStatusTagComponent.new(application_choice:, display_info_text: false)) %>
+<!--          </div>-->
+<!--          <div class="app-application-item__details">-->
+<!--            <div class="app-application-item__provider_id">-->
+<!--              <h2 class="govuk-heading-s">-->
+                <%#= application_choice.current_course.provider.name %>
+<!--              </h2>-->
+<!--              <p class="govuk-body-s"><%#= application_choice.id %></p>-->
+<!--            </div>-->
+<!--            <p class="govuk-body-s"><%#= application_choice.current_course.name_and_code %> - <%#= application_choice.current_course_option.study_mode.humanize %> at <%#= application_choice.site.name %></p>-->
+<!--          </div>-->
+<!--        </div>-->
+      <%# end %>
+<!--    </section>-->
+
+    <%= govuk_button_to 'Continue', candidate_interface_carry_over_path %>
   </div>
 </div>
