@@ -1,11 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe DfE::Bigquery::ApplicationMetrics do
-  let(:client) { instance_double(Google::Cloud::Bigquery::Project) }
+  let(:client) { instance_double(Google::Apis::BigqueryV2::BigqueryService) }
 
   before do
     set_time(Time.zone.local(2023, 11, 20))
     allow(DfE::Bigquery).to receive(:client).and_return(client)
+
+    allow(client).to receive(:query_job)
+      .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
+      .and_return(results)
   end
 
   describe '.candidate_headline_statistics' do
@@ -22,17 +26,17 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
       ]
     end
 
-    before do
-      allow(client).to receive(:query)
-        .with(<<~SQL, { dataset: '1_key_tables' })
-          SELECT *
-          FROM application_metrics
-          WHERE recruitment_cycle_year = 2024
-          AND cycle_week = 7
-          AND subject_filter_category = "Total excluding Further Education"
-          AND nonsubject_filter_category = "Total"
-        SQL
-        .and_return(results)
+    it 'provides the correct SQL' do
+      allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
+      application_metrics
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10)
+        SELECT *
+        FROM 1_key_tables.application_metrics
+        WHERE recruitment_cycle_year = 2024
+        AND cycle_week = 7
+        AND subject_filter_category = "Total excluding Further Education"
+        AND nonsubject_filter_category = "Total"
+      SQL
     end
 
     it 'returns the first result' do
@@ -61,24 +65,30 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     end
 
     before do
-      allow(client).to receive(:query)
-        .with(<<~SQL, { dataset: '1_key_tables' })
-          SELECT *
-          FROM application_metrics
-          WHERE recruitment_cycle_year = 2024
-          AND cycle_week = 7
-          AND subject_filter_category = "Total excluding Further Education"
-          AND nonsubject_filter_category = "Age group"
-          ORDER BY (
-            CASE WHEN nonsubject_filter='Prefer not to say' THEN 4
-                 WHEN nonsubject_filter='Unknown' THEN 3
-                 WHEN nonsubject_filter='Other' OR nonsubject_filter='Others' THEN 2
-                 ELSE 1
-            END
-          )
-          , nonsubject_filter ASC
-        SQL
+      allow(client).to receive(:query_job)
+        .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
         .and_return(results)
+    end
+
+    it 'provides the correct SQL' do
+      allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
+      application_metrics
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10)
+        SELECT *
+        FROM 1_key_tables.application_metrics
+        WHERE recruitment_cycle_year = 2024
+        AND cycle_week = 7
+        AND subject_filter_category = "Total excluding Further Education"
+        AND nonsubject_filter_category = "Age group"
+        ORDER BY (
+          CASE WHEN nonsubject_filter='Prefer not to say' THEN 4
+               WHEN nonsubject_filter='Unknown' THEN 3
+               WHEN nonsubject_filter='Other' OR nonsubject_filter='Others' THEN 2
+               ELSE 1
+          END
+        )
+        , nonsubject_filter ASC
+      SQL
     end
 
     it 'returns the correct results' do
@@ -119,28 +129,34 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     end
 
     before do
-      allow(client).to receive(:query)
-        .with(<<~SQL, { dataset: '1_key_tables' })
-          SELECT *
-          FROM application_metrics
-          WHERE recruitment_cycle_year = 2024
-          AND cycle_week = 7
-          AND subject_filter_category = "Total excluding Further Education"
-          AND nonsubject_filter_category = "Sex"
-          ORDER BY (
-            CASE WHEN nonsubject_filter='Prefer not to say' THEN 4
-                 WHEN nonsubject_filter='Unknown' THEN 3
-                 WHEN nonsubject_filter='Other' OR nonsubject_filter='Others' THEN 2
-                 ELSE 1
-            END
-          )
-          , nonsubject_filter ASC
-        SQL
+      allow(client).to receive(:query_job)
+        .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
         .and_return(results)
     end
 
     it 'returns the correct results' do
       expect(application_metrics.as_json).to eq(results.as_json)
+    end
+
+    it 'provides the correct SQL' do
+      allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
+      application_metrics
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10)
+        SELECT *
+        FROM 1_key_tables.application_metrics
+        WHERE recruitment_cycle_year = 2024
+        AND cycle_week = 7
+        AND subject_filter_category = "Total excluding Further Education"
+        AND nonsubject_filter_category = "Sex"
+        ORDER BY (
+          CASE WHEN nonsubject_filter='Prefer not to say' THEN 4
+               WHEN nonsubject_filter='Unknown' THEN 3
+               WHEN nonsubject_filter='Other' OR nonsubject_filter='Others' THEN 2
+               ELSE 1
+          END
+        )
+        , nonsubject_filter ASC
+      SQL
     end
 
     it 'assigns the attributes for the application metrics' do
@@ -168,28 +184,34 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     end
 
     before do
-      allow(client).to receive(:query)
-        .with(<<~SQL, { dataset: '1_key_tables' })
-          SELECT *
-          FROM application_metrics
-          WHERE recruitment_cycle_year = 2024
-          AND cycle_week = 7
-          AND subject_filter_category = "Total excluding Further Education"
-          AND nonsubject_filter_category = "Candidate region"
-          ORDER BY (
-            CASE WHEN nonsubject_filter='Prefer not to say' THEN 4
-                 WHEN nonsubject_filter='Unknown' THEN 3
-                 WHEN nonsubject_filter='Other' OR nonsubject_filter='Others' THEN 2
-                 ELSE 1
-            END
-          )
-          , nonsubject_filter ASC
-        SQL
+      allow(client).to receive(:query_job)
+        .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
         .and_return(results)
     end
 
     it 'returns the correct results' do
       expect(application_metrics.as_json).to eq(results.as_json)
+    end
+
+    it 'provides the correct SQL' do
+      allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
+      application_metrics
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10)
+        SELECT *
+        FROM 1_key_tables.application_metrics
+        WHERE recruitment_cycle_year = 2024
+        AND cycle_week = 7
+        AND subject_filter_category = "Total excluding Further Education"
+        AND nonsubject_filter_category = "Candidate region"
+        ORDER BY (
+          CASE WHEN nonsubject_filter='Prefer not to say' THEN 4
+               WHEN nonsubject_filter='Unknown' THEN 3
+               WHEN nonsubject_filter='Other' OR nonsubject_filter='Others' THEN 2
+               ELSE 1
+          END
+        )
+        , nonsubject_filter ASC
+      SQL
     end
 
     it 'assigns the attributes for the application metrics' do
@@ -217,29 +239,34 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     end
 
     before do
-      allow(client).to receive(:query)
-        .with(<<~SQL, { dataset: '1_key_tables' })
-          SELECT *
-          FROM application_metrics
-          WHERE recruitment_cycle_year = 2024
-          AND cycle_week = 7
-          AND subject_filter_category = "Level"
-          AND nonsubject_filter_category = "Total"
-          AND subject_filter != "Further Education"
-          ORDER BY (
-            CASE WHEN subject_filter='Prefer not to say' THEN 4
-                 WHEN subject_filter='Unknown' THEN 3
-                 WHEN subject_filter='Other' OR subject_filter='Others' THEN 2
-                 ELSE 1
-            END
-          )
-          , subject_filter ASC
-        SQL
+      allow(client).to receive(:query_job)
         .and_return(results)
     end
 
     it 'returns the correct results' do
       expect(application_metrics.as_json).to eq(results.as_json)
+    end
+
+    it 'provides the correct SQL' do
+      allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
+      application_metrics
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10)
+        SELECT *
+        FROM 1_key_tables.application_metrics
+        WHERE recruitment_cycle_year = 2024
+        AND cycle_week = 7
+        AND subject_filter_category = "Level"
+        AND nonsubject_filter_category = "Total"
+        AND subject_filter != "Further Education"
+        ORDER BY (
+          CASE WHEN subject_filter='Prefer not to say' THEN 4
+               WHEN subject_filter='Unknown' THEN 3
+               WHEN subject_filter='Other' OR subject_filter='Others' THEN 2
+               ELSE 1
+          END
+        )
+        , subject_filter ASC
+      SQL
     end
 
     it 'assigns the attributes for the application metrics' do
@@ -268,28 +295,33 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     end
 
     before do
-      allow(client).to receive(:query)
-        .with(<<~SQL, { dataset: '1_key_tables' })
-          SELECT *
-          FROM application_metrics
-          WHERE recruitment_cycle_year = 2024
-          AND cycle_week = 7
-          AND subject_filter_category = "Total excluding Further Education"
-          AND nonsubject_filter_category = "Route into teaching"
-          ORDER BY (
-            CASE WHEN nonsubject_filter='Prefer not to say' THEN 4
-                 WHEN nonsubject_filter='Unknown' THEN 3
-                 WHEN nonsubject_filter='Other' OR nonsubject_filter='Others' THEN 2
-                 ELSE 1
-            END
-          )
-          , nonsubject_filter ASC
-        SQL
+      allow(client).to receive(:query_job)
         .and_return(results)
     end
 
     it 'returns the correct results' do
       expect(application_metrics.as_json).to eq(results.as_json)
+    end
+
+    it 'provides the correct SQL' do
+      allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
+      application_metrics
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10)
+        SELECT *
+        FROM 1_key_tables.application_metrics
+        WHERE recruitment_cycle_year = 2024
+        AND cycle_week = 7
+        AND subject_filter_category = "Total excluding Further Education"
+        AND nonsubject_filter_category = "Route into teaching"
+        ORDER BY (
+          CASE WHEN nonsubject_filter='Prefer not to say' THEN 4
+               WHEN nonsubject_filter='Unknown' THEN 3
+               WHEN nonsubject_filter='Other' OR nonsubject_filter='Others' THEN 2
+               ELSE 1
+          END
+        )
+        , nonsubject_filter ASC
+      SQL
     end
 
     it 'assigns the attributes for the application metrics' do
@@ -318,28 +350,33 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     end
 
     before do
-      allow(client).to receive(:query)
-        .with(<<~SQL, { dataset: '1_key_tables' })
-          SELECT *
-          FROM application_metrics
-          WHERE recruitment_cycle_year = 2024
-          AND cycle_week = 7
-          AND subject_filter_category = "Primary subject"
-          AND nonsubject_filter_category = "Total"
-          ORDER BY (
-            CASE WHEN subject_filter='Prefer not to say' THEN 4
-                 WHEN subject_filter='Unknown' THEN 3
-                 WHEN subject_filter='Other' OR subject_filter='Others' THEN 2
-                 ELSE 1
-            END
-          )
-          , subject_filter ASC
-        SQL
+      allow(client).to receive(:query_job)
         .and_return(results)
     end
 
     it 'returns the correct results' do
       expect(application_metrics.as_json).to eq(results.as_json)
+    end
+
+    it 'provides the correct SQL' do
+      allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
+      application_metrics
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10)
+        SELECT *
+        FROM 1_key_tables.application_metrics
+        WHERE recruitment_cycle_year = 2024
+        AND cycle_week = 7
+        AND subject_filter_category = "Primary subject"
+        AND nonsubject_filter_category = "Total"
+        ORDER BY (
+          CASE WHEN subject_filter='Prefer not to say' THEN 4
+               WHEN subject_filter='Unknown' THEN 3
+               WHEN subject_filter='Other' OR subject_filter='Others' THEN 2
+               ELSE 1
+          END
+        )
+        , subject_filter ASC
+      SQL
     end
 
     it 'assigns the attributes for the application metrics' do
@@ -368,28 +405,33 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     end
 
     before do
-      allow(client).to receive(:query)
-        .with(<<~SQL, { dataset: '1_key_tables' })
-          SELECT *
-          FROM application_metrics
-          WHERE recruitment_cycle_year = 2024
-          AND cycle_week = 7
-          AND subject_filter_category = "Secondary subject excluding Further Education"
-          AND nonsubject_filter_category = "Total"
-          ORDER BY (
-            CASE WHEN subject_filter='Prefer not to say' THEN 4
-                 WHEN subject_filter='Unknown' THEN 3
-                 WHEN subject_filter='Other' OR subject_filter='Others' THEN 2
-                 ELSE 1
-            END
-          )
-          , subject_filter ASC
-        SQL
+      allow(client).to receive(:query_job)
         .and_return(results)
     end
 
     it 'returns the correct results' do
       expect(application_metrics.as_json).to eq(results.as_json)
+    end
+
+    it 'provides the correct SQL' do
+      allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
+      application_metrics
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10)
+        SELECT *
+        FROM 1_key_tables.application_metrics
+        WHERE recruitment_cycle_year = 2024
+        AND cycle_week = 7
+        AND subject_filter_category = "Secondary subject excluding Further Education"
+        AND nonsubject_filter_category = "Total"
+        ORDER BY (
+          CASE WHEN subject_filter='Prefer not to say' THEN 4
+               WHEN subject_filter='Unknown' THEN 3
+               WHEN subject_filter='Other' OR subject_filter='Others' THEN 2
+               ELSE 1
+          END
+        )
+        , subject_filter ASC
+      SQL
     end
 
     it 'assigns the attributes for the application metrics' do
@@ -418,28 +460,33 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     end
 
     before do
-      allow(client).to receive(:query)
-        .with(<<~SQL, { dataset: '1_key_tables' })
-          SELECT *
-          FROM application_metrics
-          WHERE recruitment_cycle_year = 2024
-          AND cycle_week = 7
-          AND subject_filter_category = "Total excluding Further Education"
-          AND nonsubject_filter_category = "Provider region"
-          ORDER BY (
-            CASE WHEN nonsubject_filter='Prefer not to say' THEN 4
-                 WHEN nonsubject_filter='Unknown' THEN 3
-                 WHEN nonsubject_filter='Other' OR nonsubject_filter='Others' THEN 2
-                 ELSE 1
-            END
-          )
-          , nonsubject_filter ASC
-        SQL
+      allow(client).to receive(:query_job)
         .and_return(results)
     end
 
     it 'returns the correct results' do
       expect(application_metrics.as_json).to eq(results.as_json)
+    end
+
+    it 'provides the correct SQL' do
+      allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
+      application_metrics
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10)
+        SELECT *
+        FROM 1_key_tables.application_metrics
+        WHERE recruitment_cycle_year = 2024
+        AND cycle_week = 7
+        AND subject_filter_category = "Total excluding Further Education"
+        AND nonsubject_filter_category = "Provider region"
+        ORDER BY (
+          CASE WHEN nonsubject_filter='Prefer not to say' THEN 4
+               WHEN nonsubject_filter='Unknown' THEN 3
+               WHEN nonsubject_filter='Other' OR nonsubject_filter='Others' THEN 2
+               ELSE 1
+          END
+        )
+        , nonsubject_filter ASC
+      SQL
     end
 
     it 'assigns the attributes for the application metrics' do

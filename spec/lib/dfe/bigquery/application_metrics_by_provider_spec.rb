@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
-  let(:client) { instance_double(Google::Cloud::Bigquery::Project) }
+  let(:client) { instance_double(Google::Apis::BigqueryV2::BigqueryService) }
 
   before do
     allow(DfE::Bigquery).to receive(:client).and_return(client)
@@ -76,23 +76,30 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
     end
 
     before do
-      allow(client).to receive(:query)
-        .with(<<~SQL, { dataset: '1_key_tables' }).and_return(bigquery_results)
-          SELECT nonprovider_filter, nonprovider_filter_category, cycle_week, recruitment_cycle_year, provider.id, number_of_candidates_submitted_to_date, number_of_candidates_submitted_to_same_date_previous_cycle, number_of_candidates_submitted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_offers_to_date, number_of_candidates_with_offers_to_same_date_previous_cycle, number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle, offer_rate_to_date, offer_rate_to_same_date_previous_cycle, number_of_candidates_accepted_to_date, number_of_candidates_accepted_to_same_date_previous_cycle, number_of_candidates_accepted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates
-          FROM application_metrics_by_provider
-          WHERE provider.id = "1337"
-          AND cycle_week = 18
-          AND recruitment_cycle_year = 2024
-          AND (
-            nonprovider_filter_category = "Secondary subject"
-            OR (nonprovider_filter_category = "Level" AND nonprovider_filter IN ("Primary", "Secondary"))
-            OR nonprovider_filter = "All"
-          )
-        SQL
+      allow(client).to receive(:query_job)
+        .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
+        .and_return(bigquery_results)
     end
 
     it 'returns the first result' do
       expect(provider_statistics.as_json).to eq(results.as_json)
+    end
+
+    it 'provides the correct SQL' do
+      allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
+      provider_statistics
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10)
+        SELECT nonprovider_filter, nonprovider_filter_category, cycle_week, recruitment_cycle_year, provider.id, number_of_candidates_submitted_to_date, number_of_candidates_submitted_to_same_date_previous_cycle, number_of_candidates_submitted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_offers_to_date, number_of_candidates_with_offers_to_same_date_previous_cycle, number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle, offer_rate_to_date, offer_rate_to_same_date_previous_cycle, number_of_candidates_accepted_to_date, number_of_candidates_accepted_to_same_date_previous_cycle, number_of_candidates_accepted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates
+        FROM 1_key_tables.application_metrics_by_provider
+        WHERE provider.id = "1337"
+        AND cycle_week = 18
+        AND recruitment_cycle_year = 2024
+        AND (
+          nonprovider_filter_category = "Secondary subject"
+          OR (nonprovider_filter_category = "Level" AND nonprovider_filter IN ("Primary", "Secondary"))
+          OR nonprovider_filter = "All"
+        )
+      SQL
     end
 
     it 'assigns the attributes for the application metrics', :aggregate_failures do
@@ -125,7 +132,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
       let(:bigquery_results) { [] }
 
       before do
-        allow(client).to receive(:query).with(anything).and_return(bigquery_results)
+        allow(client).to receive(:query_job).with(anything).and_return(bigquery_results)
       end
 
       it 'returns an empty array' do
@@ -171,24 +178,31 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
     end
 
     before do
-      allow(client).to receive(:query)
-        .with(<<~SQL, { dataset: '1_key_tables' }).and_return(results)
-          SELECT nonprovider_filter, nonprovider_filter_category, cycle_week, recruitment_cycle_year, provider.id, number_of_candidates_submitted_to_date, number_of_candidates_submitted_to_same_date_previous_cycle, number_of_candidates_submitted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_offers_to_date, number_of_candidates_with_offers_to_same_date_previous_cycle, number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle, offer_rate_to_date, offer_rate_to_same_date_previous_cycle, number_of_candidates_accepted_to_date, number_of_candidates_accepted_to_same_date_previous_cycle, number_of_candidates_accepted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates
-          FROM application_metrics_by_provider
-          WHERE cycle_week = 18
-          AND recruitment_cycle_year = 2024
-          AND teach_first_or_iot_filter = "All"
-          AND provider_filter_category = "All"
-          AND (
-            nonprovider_filter_category = "Secondary subject"
-            OR (nonprovider_filter_category = "Level" AND nonprovider_filter IN ("Primary", "Secondary"))
-            OR (nonprovider_filter = "All")
-          )
-        SQL
+      allow(client).to receive(:query_job)
+        .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
+        .and_return(results)
     end
 
     it 'returns the first result' do
       expect(national_statistics.as_json).to eq(results.as_json)
+    end
+
+    it 'provides the correct SQL' do
+      allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
+      national_statistics
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10)
+        SELECT nonprovider_filter, nonprovider_filter_category, cycle_week, recruitment_cycle_year, provider.id, number_of_candidates_submitted_to_date, number_of_candidates_submitted_to_same_date_previous_cycle, number_of_candidates_submitted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_offers_to_date, number_of_candidates_with_offers_to_same_date_previous_cycle, number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle, offer_rate_to_date, offer_rate_to_same_date_previous_cycle, number_of_candidates_accepted_to_date, number_of_candidates_accepted_to_same_date_previous_cycle, number_of_candidates_accepted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates
+        FROM 1_key_tables.application_metrics_by_provider
+        WHERE cycle_week = 18
+        AND recruitment_cycle_year = 2024
+        AND teach_first_or_iot_filter = "All"
+        AND provider_filter_category = "All"
+        AND (
+          nonprovider_filter_category = "Secondary subject"
+          OR (nonprovider_filter_category = "Level" AND nonprovider_filter IN ("Primary", "Secondary"))
+          OR (nonprovider_filter = "All")
+        )
+      SQL
     end
 
     it 'assigns the attributes for the application metrics', :aggregate_failures do
@@ -220,7 +234,9 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
       let(:bigquery_results) { [] }
 
       before do
-        allow(client).to receive(:query).with(anything, anything).and_return(bigquery_results)
+        allow(client).to receive(:query_job)
+          .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
+          .and_return(bigquery_results)
       end
 
       it 'returns an empty array' do
