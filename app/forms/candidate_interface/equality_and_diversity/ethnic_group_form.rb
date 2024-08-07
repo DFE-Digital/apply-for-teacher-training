@@ -23,7 +23,11 @@ module CandidateInterface
       else
         application_form.equality_and_diversity['ethnic_group'] = ethnic_group
 
-        if current_ethnic_group && ((ethnic_group == 'Prefer not to say') || (current_ethnic_group != ethnic_group))
+        if current_ethnic_group && ethnic_group == 'Prefer not to say'
+          hesa_code = Hesa::Ethnicity.find(ethnic_group, RecruitmentCycle.current_year).hesa_code
+          application_form.equality_and_diversity['hesa_ethnicity'] = hesa_code
+          application_form.equality_and_diversity['ethnic_background'] = nil
+        elsif current_ethnic_group && current_ethnic_group != ethnic_group
           application_form.equality_and_diversity['ethnic_background'] = nil
           application_form.equality_and_diversity['hesa_ethnicity'] = nil
         end
