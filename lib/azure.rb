@@ -14,6 +14,11 @@ module Azure
   AzureAPIError = Class.new(AzureError)
   GoogleAPIError = Class.new(AzureError)
   STSAPIError = Class.new(AzureError)
+  GoogleCloudCredentialsError = Class.new(StandardError) do
+    def message
+      'Google Cloud Credentials could not be parsed'
+    end
+  end
 
   AzureTokenFilePathError = Class.new(StandardError) do
     def message

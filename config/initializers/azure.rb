@@ -3,7 +3,7 @@ Rails.application.config.to_prepare do
     begin
       google_cloud_credentials = JSON.parse(ENV['GOOGLE_CLOUD_CREDENTIALS_STATS']).deep_symbolize_keys
     rescue TypeError
-      raise Azure::GoogleCloudCredentialsError, 'could not parse Google Cloud Credentials'
+      raise Azure::GoogleCloudCredentialsError
     end
 
     config.azure_client_id = ENV['AZURE_CLIENT_ID']
