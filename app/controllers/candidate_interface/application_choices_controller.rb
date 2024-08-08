@@ -13,7 +13,7 @@ module CandidateInterface
       if @application_choice_submission.valid?
         submit_application_choice
       else
-        render 'candidate_interface/continuous_applications/course_choices/review_and_submit/show'
+        render 'candidate_interface/course_choices/review_and_submit/show'
       end
     end
 
