@@ -6,7 +6,6 @@ module DfE
     CONFIGURABLES = %i[
       bigquery_retries
       bigquery_timeout
-      bigquery_api_json_key
       bigquery_project_id
     ].freeze
 
