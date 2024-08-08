@@ -13,8 +13,7 @@ RSpec.describe DfE::Bigquery do
       it 'raises a configuration error' do
         config = Struct.new(:bigquery_retries,
                             :bigquery_timeout,
-                            :bigquery_api_json_key,
-                            :bigquery_project_id).new(1, 2, 3, nil)
+                            :bigquery_project_id).new(1, 2, nil)
         allow(described_class).to receive(:config).and_return(config)
         expect { described_class.client }.to raise_error(DfE::Bigquery::ConfigurationError)
       end
