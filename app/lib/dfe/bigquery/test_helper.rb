@@ -2,24 +2,24 @@ module DfE
   module Bigquery
     module TestHelper
       def stub_bigquery_application_metrics_request(stub_results = [])
-        bigquery_client = instance_double(Google::Cloud::Bigquery::Project)
+        bigquery_client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
         allow(DfE::Bigquery).to receive(:client).and_return(bigquery_client)
 
         if stub_results.present?
-          allow(bigquery_client).to receive(:query).and_return(stub_results)
+          allow(bigquery_client).to receive(:query_job).and_return(stub_results)
         else
-          allow(bigquery_client).to receive(:query).and_return(application_metrics_results)
+          allow(bigquery_client).to receive(:query_job).and_return(application_metrics_results)
         end
       end
 
       def stub_bigquery_application_metrics_by_provider_request(stub_results = [])
-        bigquery_client = instance_double(Google::Cloud::Bigquery::Project)
+        bigquery_client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
         allow(DfE::Bigquery).to receive(:client).and_return(bigquery_client)
 
         if stub_results.present?
-          allow(bigquery_client).to receive(:query).and_return(application_metrics_by_provider_results(stub_results&.first))
+          allow(bigquery_client).to receive(:query_job).and_return(application_metrics_by_provider_results(stub_results&.first))
         else
-          allow(bigquery_client).to receive(:query).and_return(stub_results)
+          allow(bigquery_client).to receive(:query_job).and_return(stub_results)
         end
       end
 
