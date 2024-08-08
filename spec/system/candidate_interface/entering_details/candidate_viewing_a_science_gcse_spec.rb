@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate viewing Science GCSE' do
+RSpec.describe 'Candidate viewing Science GCSE' do
   include CandidateHelper
 
   it 'Candidate views a Science GCSE only when a primary course is chosen' do
@@ -83,7 +83,7 @@ RSpec.feature 'Candidate viewing Science GCSE' do
   end
 
   def then_i_dont_see_a_science_gcse_validation_error
-    expect(page).to have_no_content(t('activemodel.errors.models.candidate_interface/continuous_applications/application_choice_submission.attributes.application_choice.incomplete_primary_course_details', link_to_science: 'Add your science'))
+    expect(page).to have_no_content(t('activemodel.errors.models.candidate_interface/application_choice_submission.attributes.application_choice.incomplete_primary_course_details', link_to_science: 'Add your science'))
   end
 
   def when_i_choose_a_primary_course
