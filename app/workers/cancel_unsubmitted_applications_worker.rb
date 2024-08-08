@@ -2,7 +2,7 @@ class CancelUnsubmittedApplicationsWorker
   include Sidekiq::Worker
 
   def perform
-    return [] unless CycleTimetable.cancel_unsubmitted_applications?
+    return unless CycleTimetable.cancel_unsubmitted_applications?
 
     unsubmitted_applications_from_earlier_cycle.find_each do |application_form|
       CandidateInterface::CancelUnsubmittedApplicationAtEndOfCycle.new(application_form).call
