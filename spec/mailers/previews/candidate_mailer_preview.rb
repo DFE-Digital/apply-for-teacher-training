@@ -448,22 +448,40 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.deferred_offer_reminder(application_choice)
   end
 
-  def eoc_deadline_reminder
+  def eoc_first_deadline_reminder
     application_form = FactoryBot.build(
       :application_form,
       first_name: 'Tester',
     )
 
-    CandidateMailer.eoc_deadline_reminder(application_form)
+    CandidateMailer.eoc_first_deadline_reminder(application_form)
   end
 
-  def eoc_deadline_reminder_with_no_first_name
+  def eoc_second_deadline_reminder
+    application_form = FactoryBot.build(
+      :application_form,
+      first_name: 'Tester',
+    )
+
+    CandidateMailer.eoc_second_deadline_reminder(application_form)
+  end
+
+  def eoc_first_deadline_reminder_with_no_first_name
     application_form = FactoryBot.build(
       :application_form,
       first_name: nil,
     )
 
-    CandidateMailer.eoc_deadline_reminder(application_form)
+    CandidateMailer.eoc_first_deadline_reminder(application_form)
+  end
+
+  def eoc_second_deadline_reminder_with_no_first_name
+    application_form = FactoryBot.build(
+      :application_form,
+      first_name: nil,
+    )
+
+    CandidateMailer.eoc_second_deadline_reminder(application_form)
   end
 
   def new_cycle_has_started_with_no_first_name_and_unsubmitted_application
