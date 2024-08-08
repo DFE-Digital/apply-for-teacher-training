@@ -1,8 +1,12 @@
 module CandidateInterface
-  module ContinuousApplications
+  module CourseSelection
     class DoYouKnowTheCourseStep < DfE::Wizard::Step
       attr_accessor :answer
       validates :answer, presence: true
+
+      def self.route_name
+        'candidate_interface_continuous_applications_do_you_know_the_course'
+      end
 
       def self.permitted_params
         [:answer]

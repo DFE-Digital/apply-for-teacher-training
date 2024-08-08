@@ -1,9 +1,13 @@
 module CandidateInterface
-  module ContinuousApplications
-    class ClosedCourseSelectionStep < DfE::Wizard::Step
-      include Concerns::CourseSelectionStepHelper
+  module CourseSelection
+    class ReachedReapplicationLimitStep < DfE::Wizard::Step
+      include CandidateInterface::Concerns::CourseSelectionStepHelper
       attr_accessor :provider_id, :course_id
       validates :provider_id, :course_id, presence: true
+
+      def self.route_name
+        'candidate_interface_continuous_applications_reached_reapplication_limit'
+      end
 
       def self.permitted_params
         %i[provider_id course_id]

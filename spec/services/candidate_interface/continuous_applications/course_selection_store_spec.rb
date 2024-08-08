@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::CourseSelectionStore 
   let(:current_application) { create(:application_form) }
   let(:application_choice) { current_application.application_choices.last }
   let(:wizard) do
-    CandidateInterface::ContinuousApplications::CourseSelectionWizard.new(
+    CandidateInterface::CourseSelection::CourseSelectionWizard.new(
       current_step:,
       step_params: ActionController::Parameters.new({ current_step => step_params }),
       current_application:,
@@ -15,7 +15,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::CourseSelectionStore 
 
   describe '#update' do
     let(:wizard) do
-      CandidateInterface::ContinuousApplications::CourseSelectionWizard.new(
+      CandidateInterface::CourseSelection::CourseSelectionWizard.new(
         current_step:,
         step_params: ActionController::Parameters.new({ current_step => step_params }),
         current_application:,
