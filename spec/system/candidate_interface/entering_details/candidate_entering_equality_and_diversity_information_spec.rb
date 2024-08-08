@@ -73,7 +73,7 @@ RSpec.describe 'Entering their equality and diversity information' do
     when_i_choose_that_i_prefer_not_to_say_my_ethnic_group
     and_i_click_on_continue
     then_the_ethnicity_hesa_code_has_been_set
-    then_the_ethnic_background_is_nil
+    then_the_ethnic_background_is_prefer_not_to_say
 
     when_i_click_change_my_disability
     and_i_choose_that_i_prefer_not_to_state_my_disabilities
@@ -271,8 +271,8 @@ RSpec.describe 'Entering their equality and diversity information' do
     expect(current_candidate.current_application.reload.equality_and_diversity['hesa_ethnicity']).to eq('998')
   end
 
-  def then_the_ethnic_background_is_nil
-    expect(current_candidate.current_application.reload.equality_and_diversity['ethnic_background']).to be_nil
+  def then_the_ethnic_background_is_prefer_not_to_say
+    expect(current_candidate.current_application.reload.equality_and_diversity['ethnic_background']).to eq('Prefer not to say')
   end
 
   def and_i_choose_that_i_prefer_not_to_state_my_disabilities

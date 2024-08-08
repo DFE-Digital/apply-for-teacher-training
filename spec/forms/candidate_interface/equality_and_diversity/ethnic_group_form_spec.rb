@@ -66,7 +66,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicGroupForm, type: 
         )
       end
 
-      it 'resets the ethnic background of equality and diversity information if ethnic group is "Prefer not to say"' do
+      it 'sets the ethnic background and ethnic group to "Prefer not to say" if group is "Prefer not to say"' do
         application_form = build(
           :application_form,
           equality_and_diversity: {
@@ -83,7 +83,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicGroupForm, type: 
         expect(application_form.equality_and_diversity).to eq(
           'sex' => 'male',
           'ethnic_group' => 'Prefer not to say',
-          'ethnic_background' => nil,
+          'ethnic_background' => 'Prefer not to say',
           'hesa_ethnicity' => '998',
         )
       end
