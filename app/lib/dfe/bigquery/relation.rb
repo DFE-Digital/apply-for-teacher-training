@@ -11,6 +11,7 @@ module DfE
         query_object = Google::Apis::BigqueryV2::QueryRequest.new(
           query: sql_query,
           timeout_ms: DfE::Bigquery.config.bigquery_timeout,
+          use_legacy_sql: false,
         )
 
         ::DfE::Bigquery.client.query_job(
