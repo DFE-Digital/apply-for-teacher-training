@@ -341,7 +341,7 @@ namespace :candidate_interface, path: '/candidate' do
 
       get '/go-to-find' => 'course_choices/go_to_find#new', as: :course_choices_go_to_find_explanation
 
-      get '/provider' => 'course_choices/provider_selection#new', as: :continuous_applications_provider_selection
+      get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider_selection
       post '/provider' => 'course_choices/provider_selection#create'
 
       get '/provider/:provider_id/course' => 'course_choices/which_course_are_you_applying_to#new', as: :continuous_applications_which_course_are_you_applying_to
