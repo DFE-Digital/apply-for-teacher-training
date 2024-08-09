@@ -65,6 +65,6 @@ RSpec.describe 'Selecting a course' do
   end
 
   def when_i_come_from_find_and_arrive_on_confirm_selection_page
-    visit candidate_interface_continuous_applications_course_confirm_selection_path(course_id: @course_one.id)
+    visit candidate_interface_course_choices_course_confirm_selection_path(course_id: @course_one.id)
   end
 end

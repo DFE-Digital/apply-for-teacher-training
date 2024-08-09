@@ -14,7 +14,7 @@ RSpec.describe 'continuous applications redirects' do
       provider = create(:provider, code: '8N5', name: 'Snape University')
       course = create(:course, name: 'Potions', provider:)
 
-      get candidate_interface_continuous_applications_course_confirm_selection_path(course.id)
+      get candidate_interface_course_choices_course_confirm_selection_path(course.id)
 
       expect(response).to redirect_to(candidate_interface_continuous_applications_choices_path)
     end
