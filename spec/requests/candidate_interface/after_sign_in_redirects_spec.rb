@@ -99,7 +99,7 @@ RSpec.describe 'After sign in redirects' do
   context 'when candidate can confirm the course selected' do
     it 'redirects to confirm selection page' do
       get candidate_interface_interstitial_path
-      expect(response).to redirect_to(candidate_interface_continuous_applications_course_confirm_selection_path(course_from_find.id))
+      expect(response).to redirect_to(candidate_interface_course_choices_course_confirm_selection_path(course_from_find.id))
     end
   end
 end

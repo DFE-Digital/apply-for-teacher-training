@@ -369,7 +369,7 @@ namespace :candidate_interface, path: '/candidate' do
       get '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'course_choices/course_site#edit', as: :edit_course_choices_course_site
       patch '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'course_choices/course_site#update'
 
-      get '/confirm-selection/:course_id' => 'course_choices/find_course_selection#new', as: :continuous_applications_course_confirm_selection
+      get '/confirm-selection/:course_id' => 'course_choices/find_course_selection#new', as: :course_choices_course_confirm_selection
       post '/confirm-selection/:course_id' => 'course_choices/find_course_selection#create'
 
       post '/:id/submit' => 'application_choices#submit', as: :continuous_applications_submit_course_choice
