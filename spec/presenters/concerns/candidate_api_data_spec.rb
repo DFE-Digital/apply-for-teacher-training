@@ -226,7 +226,7 @@ RSpec.describe CandidateAPIData do
 
       context 'default' do
         it 'returns a description of the candidate\'s EFL qualification' do
-          expect(presenter.candidate[:english_language_qualifications]).to eq('Name: TOEFL, Grade: 20, Awarded: 1999')
+          expect(presenter.candidate[:english_language_qualifications]).to eq('Name: TOEFL, Grade: 20, Awarded: 1999, Reference: 123456')
         end
       end
 
@@ -238,7 +238,7 @@ RSpec.describe CandidateAPIData do
         end
 
         it 'returns the description of the candidate\'s EFL qualification over it' do
-          expect(presenter.candidate[:english_language_qualifications]).to eq('Name: TOEFL, Grade: 20, Awarded: 1999')
+          expect(presenter.candidate[:english_language_qualifications]).to eq('Name: TOEFL, Grade: 20, Awarded: 1999, Reference: 123456')
         end
       end
 
