@@ -9,9 +9,10 @@ module BigqueryStubs
         { name: 'subject_filter',                         type: 'STRING',  value: nil },
       ],
     ]
+
     rows ||= default_rows
 
-    fields = rows.first.map do |cell|
+    fields = rows.first&.map do |cell|
       Google::Apis::BigqueryV2::TableFieldSchema.new(name: cell[:name], type: cell[:type], mode: 'NULLABLE')
     end
 
@@ -24,6 +25,7 @@ module BigqueryStubs
     end
 
     schema = Google::Apis::BigqueryV2::TableSchema.new(fields:)
+
     instance_double(Google::Apis::BigqueryV2::QueryResponse, rows: processed_rows, schema:)
   end
 end
