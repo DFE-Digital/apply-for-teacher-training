@@ -1,8 +1,6 @@
 class ApplicationWorkExperience < ApplicationExperience
   include TouchApplicationChoices
 
-  belongs_to :application_form, touch: true
-
   validates :commitment, presence: true
 
   enum commitment: {
