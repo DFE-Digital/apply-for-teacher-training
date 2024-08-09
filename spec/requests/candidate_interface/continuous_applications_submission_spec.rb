@@ -11,7 +11,7 @@ RSpec.describe 'Submit to continuous apps' do
     let(:application_form) { create(:application_form, :completed, submitted_at: nil) }
 
     before do
-      post candidate_interface_continuous_applications_submit_course_choice_path(choice.id)
+      post candidate_interface_course_choices_submit_course_choice_path(choice.id)
     end
 
     it 'be successful' do
@@ -31,7 +31,7 @@ RSpec.describe 'Submit to continuous apps' do
     end
 
     it 'be successful' do
-      post candidate_interface_continuous_applications_submit_course_choice_path(choice.id)
+      post candidate_interface_course_choices_submit_course_choice_path(choice.id)
       expect(response).to redirect_to(candidate_interface_start_carry_over_path)
     end
 

@@ -372,7 +372,7 @@ namespace :candidate_interface, path: '/candidate' do
       get '/confirm-selection/:course_id' => 'course_choices/find_course_selection#new', as: :course_choices_course_confirm_selection
       post '/confirm-selection/:course_id' => 'course_choices/find_course_selection#create'
 
-      post '/:id/submit' => 'application_choices#submit', as: :continuous_applications_submit_course_choice
+      post '/:id/submit' => 'application_choices#submit', as: :course_choices_submit_course_choice
       get '/delete/:id' => 'application_choices#confirm_destroy', as: :continuous_applications_confirm_destroy_course_choice
       delete '/delete/:id' => 'application_choices#destroy'
     end
