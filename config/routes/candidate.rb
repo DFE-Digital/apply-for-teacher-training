@@ -364,9 +364,9 @@ namespace :candidate_interface, path: '/candidate' do
       get '/:application_choice_id/courses/:course_id/edit' => 'course_choices/course_study_mode#edit', as: :edit_course_choices_course_study_mode
       patch '/:application_choice_id/courses/:course_id/edit' => 'course_choices/course_study_mode#update'
 
-      get '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/course_site#new', as: :continuous_applications_course_site
+      get '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/course_site#new', as: :course_choices_course_site
       post '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/course_site#create'
-      get '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'course_choices/course_site#edit', as: :edit_continuous_applications_course_site
+      get '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'course_choices/course_site#edit', as: :edit_course_choices_course_site
       patch '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'course_choices/course_site#update'
 
       get '/confirm-selection/:course_id' => 'course_choices/find_course_selection#new', as: :continuous_applications_course_confirm_selection
