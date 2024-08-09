@@ -9,7 +9,7 @@ RSpec.describe 'Edit courses on continuous applications' do
     [
       candidate_interface_edit_course_choices_which_course_are_you_applying_to_path(application_choice.id),
       candidate_interface_edit_continuous_applications_course_site_path(application_choice.id, current_course.id, current_course.study_mode),
-      candidate_interface_edit_continuous_applications_course_study_mode_path(application_choice.id, current_course.id),
+      candidate_interface_edit_course_choices_course_study_mode_path(application_choice.id, current_course.id),
     ]
   end
 

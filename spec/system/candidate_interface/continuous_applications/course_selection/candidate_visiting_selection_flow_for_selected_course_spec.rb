@@ -45,7 +45,7 @@ RSpec.describe 'Selecting a course' do
   end
 
   def and_i_visit_the_study_mode_selection_for_my_existing_course_selection
-    visit candidate_interface_continuous_applications_course_study_mode_path(provider_id: @course_one.provider_id, course_id: @course_one.id)
+    visit candidate_interface_course_choices_course_study_mode_path(provider_id: @course_one.provider_id, course_id: @course_one.id)
   end
 
   def when_i_visit_the_sites_selection_for_my_existing_course_selection

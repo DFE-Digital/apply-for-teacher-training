@@ -9,7 +9,7 @@ RSpec.describe CandidateInterface::CourseSelection::CourseStudyModeStep do
   describe '.route_name' do
     subject { course_study_mode_step.class.route_name }
 
-    it { is_expected.to eq('candidate_interface_continuous_applications_course_study_mode') }
+    it { is_expected.to eq('candidate_interface_course_choices_course_study_mode') }
   end
 
   describe 'validations' do

@@ -87,7 +87,7 @@ module CandidateInterface
       }.tap do |row|
         if unsubmitted? && current_course.currently_has_both_study_modes_available?
           row[:action] = {
-            href: candidate_interface_edit_continuous_applications_course_study_mode_path(application_choice.id, current_course.id),
+            href: candidate_interface_edit_course_choices_course_study_mode_path(application_choice.id, current_course.id),
             visually_hidden_text: "full time or part time for #{current_course.name_and_code}",
           }
         end
