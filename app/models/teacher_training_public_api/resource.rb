@@ -2,7 +2,7 @@ module TeacherTrainingPublicAPI
   require 'faraday/response/json'
 
   class Resource < JsonApiClient::Resource
-    self.site = ENV.fetch('TEACHER_TRAINING_API_BASE_URL')
+    self.site = ENV.fetch('TEACHER_TRAINING_API_BASE_URL', 'https://qa.api.publish-teacher-training-courses.service.gov.uk/api/public/v1')
     self.connection_options = { headers: { user_agent: "Apply for teacher training #{HostingEnvironment.environment_name}" } }
   end
 end
