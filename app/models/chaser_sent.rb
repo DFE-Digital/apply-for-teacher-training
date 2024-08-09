@@ -16,12 +16,14 @@ class ChaserSent < ApplicationRecord
     find_service_open_organisation_notification: 'find_service_open_organisation_notification',
 
     ## CandidateMailer ##
-    eoc_deadline_reminder: 'eoc_deadline_reminder',
+    eoc_first_deadline_reminder: 'eoc_first_deadline_reminder',
+    eoc_second_deadline_reminder: 'eoc_second_deadline_reminder',
     find_has_opened: 'find_has_opened',
     new_cycle_has_started: 'new_cycle_has_started',
 
     #### DEPRECATED ####
     apply_service_open_organisation_notification: 'apply_service_open_organisation_notification',
+    eoc_deadline_reminder: 'eoc_deadline_reminder',
 
     ######################################
     ####          References          ####

@@ -81,6 +81,8 @@ en:
       subject: Interview cancelled - %{provider_name}
     approaching_eoc_deadline:
       subject: Submit your teacher training application before courses fill up
+    approaching_eoc_second_deadline_reminder:
+      subject: Submit your teacher training application before %{apply_deadline}
     new_cycle_has_started:
       subject: Apply for teacher training starting in the %{academic_year} academic year
     find_has_opened:

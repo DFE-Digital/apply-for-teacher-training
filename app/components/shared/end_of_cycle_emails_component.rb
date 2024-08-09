@@ -6,10 +6,13 @@ class EndOfCycleEmailsComponent < ViewComponent::Base
   def end_of_cycle_emails
     [
       {
-        link: preview_email_link('Apply deadline reminder', path: 'candidate_mailer/eoc_deadline_reminder'),
-        date: "#{email_date(:apply_deadline_first_reminder)} and #{email_date(:apply_deadline_second_reminder)}",
+        link: preview_email_link('Apply deadline first reminder', path: 'candidate_mailer/eoc_first_deadline_reminder'),
+        date: email_date(:apply_deadline_first_reminder),
         candidates_size: apply_candidates,
       },
+      { link: preview_email_link('Apply deadline second reminder', path: 'candidate_mailer/eoc_second_deadline_reminder'),
+        date: email_date(:apply_deadline_second_reminder),
+        candidates_size: apply_candidates },
       {
         link: preview_email_link('Find has opened', path: 'candidate_mailer/find_has_opened'),
         date: email_date(:find_reopens),

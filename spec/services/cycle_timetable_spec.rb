@@ -299,16 +299,30 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.need_to_send_deadline_reminder?' do
-    it 'does not return for a non deadline date' do
+  describe '#send_first_end_of_cycle_reminder_to_candidates?' do
+    it 'returns false if it is not the reminder date' do
       travel_temporarily_to(described_class.apply_deadline_first_reminder - 1.day) do
-        expect(described_class.need_to_send_deadline_reminder?).to be false
+        expect(described_class.send_first_end_of_cycle_reminder_to_candidates?).to be false
       end
     end
 
-    it 'returns true when it is the apply deadline' do
+    it 'returns true when it is the first apply deadline reminder date' do
       travel_temporarily_to(described_class.apply_deadline_first_reminder) do
-        expect(described_class.need_to_send_deadline_reminder?).to be true
+        expect(described_class.send_first_end_of_cycle_reminder_to_candidates?).to be true
+      end
+    end
+  end
+
+  describe '#send_second_end_of_cycle_reminder_to_candidates?' do
+    it 'returns false if it is not the reminder date' do
+      travel_temporarily_to(described_class.apply_deadline_second_reminder - 1.day) do
+        expect(described_class.send_second_end_of_cycle_reminder_to_candidates?).to be false
+      end
+    end
+
+    it 'returns true when it is the second apply deadline reminder date' do
+      travel_temporarily_to(described_class.apply_deadline_second_reminder) do
+        expect(described_class.send_second_end_of_cycle_reminder_to_candidates?).to be true
       end
     end
   end

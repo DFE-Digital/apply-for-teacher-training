@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Docs' do
+RSpec.describe 'Docs' do
   include DfESignInHelpers
 
   scenario 'Support user visits process documentation' do
@@ -42,7 +42,8 @@ RSpec.feature 'Docs' do
   def and_it_contains_documentation_for_all_emails
     emails_outside_of_states = %w[
       provider_mailer-fallback_sign_in_email
-      candidate_mailer-eoc_deadline_reminder
+      candidate_mailer-eoc_first_deadline_reminder
+      candidate_mailer-eoc_second_deadline_reminder
       candidate_mailer-new_cycle_has_started
       candidate_mailer-duplicate_match_email
       candidate_mailer-find_has_opened

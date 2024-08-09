@@ -159,8 +159,8 @@ class CycleTimetable
   end
 
   def self.apply_deadline_second_reminder
-    # For 2024, date confirmed is Saturday 17 September at 6pm
-    apply_deadline - 1.month
+    # For 2024, date confirmed is Monday 19 August at 6pm
+    (apply_deadline - 1.month).next_weekday
   end
 
   def self.between_cycles?
@@ -365,8 +365,12 @@ class CycleTimetable
     current_date > apply_deadline(recruitment_cycle_year)
   end
 
-  def self.need_to_send_deadline_reminder?
-    current_date.to_date == apply_deadline_first_reminder.to_date || current_date.to_date == apply_deadline_second_reminder.to_date
+  def self.send_first_end_of_cycle_reminder_to_candidates?
+    current_date.to_date == apply_deadline_first_reminder.to_date
+  end
+
+  def self.send_second_end_of_cycle_reminder_to_candidates?
+    current_date.to_date == apply_deadline_second_reminder.to_date
   end
 
   def self.send_find_has_opened_email?
