@@ -29,6 +29,6 @@ class CourseUnavailableValidator < ActiveModel::EachValidator
 private
 
   def link_to_remove(application_choice)
-    govuk_link_to('Remove this application', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_confirm_destroy_course_choice_path(application_choice.id))
+    govuk_link_to('Remove this application', Rails.application.routes.url_helpers.candidate_interface_course_choices_confirm_destroy_course_choice_path(application_choice.id))
   end
 end
