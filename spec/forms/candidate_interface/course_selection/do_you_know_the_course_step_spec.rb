@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::CourseSelection::DoYouKnowTheCourseStep do
   describe '.route_name' do
     subject { do_you_know_the_course_step.class.route_name }
 
-    it { is_expected.to eq('candidate_interface_continuous_applications_do_you_know_the_course') }
+    it { is_expected.to eq('candidate_interface_course_choices_do_you_know_the_course') }
   end
 
   context 'when the answer is yes' do

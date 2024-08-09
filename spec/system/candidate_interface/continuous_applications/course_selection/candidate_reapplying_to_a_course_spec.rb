@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a course' do
+RSpec.describe 'Selecting a course' do
   include CandidateHelper
 
   it 'Candidate selects a course they are reapplying to' do
@@ -31,7 +31,7 @@ RSpec.feature 'Selecting a course' do
   def then_i_am_on_the_application_choice_review_page
     expect(application_choice).to be_present
     expect(page).to have_current_path(
-      candidate_interface_continuous_applications_course_review_path(application_choice_id: application_choice.id),
+      candidate_interface_course_choices_course_review_path(application_choice_id: application_choice.id),
     )
   end
 

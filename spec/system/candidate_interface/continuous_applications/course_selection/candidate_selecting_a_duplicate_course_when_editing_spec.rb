@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a course' do
+RSpec.describe 'Selecting a course' do
   include CandidateHelper
 
   it 'Candidate selects a course they have already applied to when editing' do
@@ -59,7 +59,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_i_click_to_view_the_first_application
-    page.find_link(nil, href: candidate_interface_continuous_applications_course_review_path(@application_one.id)).click
+    page.find_link(nil, href: candidate_interface_course_choices_course_review_path(@application_one.id)).click
   end
 
   def when_i_click_back
@@ -67,6 +67,6 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_am_on_the_course_choice_page
-    expect(page).to have_current_path(candidate_interface_continuous_applications_which_course_are_you_applying_to_path(@provider))
+    expect(page).to have_current_path(candidate_interface_course_choices_which_course_are_you_applying_to_path(@provider))
   end
 end

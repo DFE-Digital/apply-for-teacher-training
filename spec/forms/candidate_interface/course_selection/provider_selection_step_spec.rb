@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::CourseSelection::ProviderSelectionStep do
   describe '.route_name' do
     subject { provider_selection_step.class.route_name }
 
-    it { is_expected.to eq('candidate_interface_continuous_applications_provider_selection') }
+    it { is_expected.to eq('candidate_interface_course_choices_provider_selection') }
   end
 
   it 'returns the correct next step' do

@@ -15,7 +15,7 @@ module CandidateInterface
       def redirect_to_course_choice_review_unless_ready_to_submit
         return if ready_to_submit?
 
-        redirect_to(candidate_interface_continuous_applications_course_review_path(@application_choice.id))
+        redirect_to(candidate_interface_course_choices_course_review_path(@application_choice.id))
       end
 
       def ready_to_submit?

@@ -15,7 +15,7 @@ module CandidateInterface
       }.tap do |row|
         if unsubmitted? && course_full?
           row[:action] = {
-            href: candidate_interface_edit_continuous_applications_which_course_are_you_applying_to_path(application_choice.id),
+            href: candidate_interface_edit_course_choices_which_course_are_you_applying_to_path(application_choice.id),
             visually_hidden_text: "course for #{current_course.name_and_code}",
           }
         end

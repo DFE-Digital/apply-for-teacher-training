@@ -5,7 +5,7 @@ module CandidateInterface
       validates :answer, presence: true
 
       def self.route_name
-        'candidate_interface_continuous_applications_do_you_know_the_course'
+        'candidate_interface_course_choices_do_you_know_the_course'
       end
 
       def self.permitted_params

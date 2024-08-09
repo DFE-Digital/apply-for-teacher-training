@@ -9,7 +9,7 @@ RSpec.describe 'GET course_choices/go_to_find' do
   end
 
   it 'is a successful request' do
-    get candidate_interface_continuous_applications_go_to_find_explanation_path
+    get candidate_interface_course_choices_go_to_find_explanation_path
 
     expect(response).to have_http_status(:success)
   end

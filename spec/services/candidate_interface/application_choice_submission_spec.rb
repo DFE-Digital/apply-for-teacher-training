@@ -181,7 +181,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
         <<~MSG.chomp
           You cannot submit this application as the course is no longer available.
 
-          #{govuk_link_to('Remove this application', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_confirm_destroy_course_choice_path(application_choice.id))} and search for other courses.
+          #{govuk_link_to('Remove this application', Rails.application.routes.url_helpers.candidate_interface_course_choices_confirm_destroy_course_choice_path(application_choice.id))} and search for other courses.
         MSG
       end
     end

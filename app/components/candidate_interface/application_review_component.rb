@@ -59,7 +59,7 @@ module CandidateInterface
       }.tap do |row|
         if unsubmitted?
           row[:action] = {
-            href: candidate_interface_edit_continuous_applications_which_course_are_you_applying_to_path(application_choice.id),
+            href: candidate_interface_edit_course_choices_which_course_are_you_applying_to_path(application_choice.id),
             visually_hidden_text: "course for #{current_course.name_and_code}",
           }
         end
@@ -87,7 +87,7 @@ module CandidateInterface
       }.tap do |row|
         if unsubmitted? && current_course.currently_has_both_study_modes_available?
           row[:action] = {
-            href: candidate_interface_edit_continuous_applications_course_study_mode_path(application_choice.id, current_course.id),
+            href: candidate_interface_edit_course_choices_course_study_mode_path(application_choice.id, current_course.id),
             visually_hidden_text: "full time or part time for #{current_course.name_and_code}",
           }
         end
@@ -101,7 +101,7 @@ module CandidateInterface
       }.tap do |row|
         if unsubmitted? && current_course.multiple_sites?
           row[:action] = {
-            href: candidate_interface_edit_continuous_applications_course_site_path(application_choice.id, current_course.id, current_course_option.study_mode),
+            href: candidate_interface_edit_course_choices_course_site_path(application_choice.id, current_course.id, current_course_option.study_mode),
             visually_hidden_text: "location for #{current_course.name_and_code}",
           }
         end

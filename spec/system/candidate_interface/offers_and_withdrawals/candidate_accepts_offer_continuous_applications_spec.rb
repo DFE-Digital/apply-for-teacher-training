@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate accepts an offer' do
+RSpec.describe 'Candidate accepts an offer' do
   include CourseOptionHelpers
   include CandidateHelper
 
@@ -519,7 +519,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_try_to_visit_the_course_selection
-    visit candidate_interface_continuous_applications_do_you_know_the_course_path
+    visit candidate_interface_course_choices_do_you_know_the_course_path
   end
 
   def then_i_be_redirected_to_the_offer_dashboard

@@ -35,7 +35,7 @@ RSpec.describe CandidateInterface::CourseSelection::WhichCourseAreYouApplyingToS
   describe '.route_name' do
     subject { which_course_are_you_applying_to_step.class.route_name }
 
-    it { is_expected.to eq('candidate_interface_continuous_applications_which_course_are_you_applying_to') }
+    it { is_expected.to eq('candidate_interface_course_choices_which_course_are_you_applying_to') }
   end
 
   describe 'validations' do

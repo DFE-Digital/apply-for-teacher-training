@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate arrives from Find with provider and course params' do
+RSpec.describe 'Candidate arrives from Find with provider and course params' do
   include CandidateHelper
 
   scenario 'The provider is only accepting applications on the Apply service' do
@@ -51,7 +51,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course params' do
   end
 
   def then_i_am_redirected_to_the_full_course_path
-    expect(page).to have_current_path candidate_interface_continuous_applications_full_course_selection_path(
+    expect(page).to have_current_path candidate_interface_course_choices_full_course_selection_path(
       @provider.id,
       @course.id,
     )
@@ -59,7 +59,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course params' do
 
   def then_i_am_redirected_to_the_course_confirm_selection_page
     expect(page).to have_current_path(
-      candidate_interface_continuous_applications_course_confirm_selection_path(@course.id),
+      candidate_interface_course_choices_course_confirm_selection_path(@course.id),
     )
   end
 
@@ -70,7 +70,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course params' do
 
   def then_i_am_redirected_to_the_course_review_path
     expect(page).to have_current_path(
-      candidate_interface_continuous_applications_course_review_path(application_choice_id: application_choice.id),
+      candidate_interface_course_choices_course_review_path(application_choice_id: application_choice.id),
     )
   end
 end
