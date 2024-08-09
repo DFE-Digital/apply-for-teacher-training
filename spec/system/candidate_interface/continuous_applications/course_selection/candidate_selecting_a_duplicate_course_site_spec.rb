@@ -30,7 +30,7 @@ RSpec.describe 'Selecting a course', :js do
   end
 
   def visit_course_selection_page
-    visit "/candidate/application/continuous-applications/provider/#{@provider.id}/courses/#{@course.id}/full_time"
+    visit "/candidate/application/course-choices/provider/#{@provider.id}/courses/#{@course.id}/full_time"
   end
 
   def then_i_am_on_the_application_choice_duplicate_page

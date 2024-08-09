@@ -335,7 +335,7 @@ namespace :candidate_interface, path: '/candidate' do
       delete '/delete/:id' => 'degrees/destroy#destroy'
     end
 
-    scope '/continuous-applications' do
+    scope '/course-choices' do
       get '/choose' => 'course_choices/do_you_know_which_course#new', as: :continuous_applications_do_you_know_the_course
       post '/choose' => 'course_choices/do_you_know_which_course#create'
 

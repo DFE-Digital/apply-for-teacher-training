@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate edits course choices' do
+RSpec.describe 'Candidate edits course choices' do
   include CandidateHelper
   include CourseOptionHelpers
 
@@ -96,7 +96,7 @@ RSpec.feature 'Candidate edits course choices' do
   end
 
   def then_i_be_on_the_application_choice_review_page
-    expect(page).to have_current_path(/candidate\/application\/continuous-applications\/[0-9]*\/review/)
+    expect(page).to have_current_path(/candidate\/application\/course-choices\/[0-9]*\/review/)
   end
 
   def when_i_visit_the_review_page_directly
