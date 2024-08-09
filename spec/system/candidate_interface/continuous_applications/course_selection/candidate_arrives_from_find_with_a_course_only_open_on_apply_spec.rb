@@ -51,7 +51,7 @@ RSpec.describe 'Candidate arrives from Find with provider and course params' do
   end
 
   def then_i_am_redirected_to_the_full_course_path
-    expect(page).to have_current_path candidate_interface_continuous_applications_full_course_selection_path(
+    expect(page).to have_current_path candidate_interface_course_choices_full_course_selection_path(
       @provider.id,
       @course.id,
     )

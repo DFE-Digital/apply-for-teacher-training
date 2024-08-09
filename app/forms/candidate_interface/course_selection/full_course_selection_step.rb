@@ -6,7 +6,7 @@ module CandidateInterface
       validates :provider_id, :course_id, presence: true
 
       def self.route_name
-        'candidate_interface_continuous_applications_full_course_selection'
+        'candidate_interface_course_choices_full_course_selection'
       end
 
       def self.permitted_params
