@@ -15,6 +15,11 @@ class EnglishProficiency < ApplicationRecord
   def formatted_qualification_description
     return if efl_qualification.blank?
 
-    "Name: #{efl_qualification.name}, Grade: #{efl_qualification.grade}, Awarded: #{efl_qualification.award_year}"
+    name = "Name: #{efl_qualification.name}"
+    grade = "Grade: #{efl_qualification.grade}"
+    award_year = "Awarded: #{efl_qualification.award_year}"
+    reference = "Reference: #{efl_qualification.unique_reference_number}" if efl_qualification.unique_reference_number.present?
+
+    [name, grade, award_year, reference].compact.join(', ')
   end
 end

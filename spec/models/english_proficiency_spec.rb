@@ -11,12 +11,12 @@ RSpec.describe EnglishProficiency do
       english_proficiency = build(:english_proficiency)
       expected_results = [
         {
-          qualification: build(:ielts_qualification, band_score: '3.5', award_year: '1999'),
-          description: 'Name: IELTS, Grade: 3.5, Awarded: 1999',
+          qualification: build(:ielts_qualification, band_score: '3.5', award_year: '1999', trf_number: '123456'),
+          description: 'Name: IELTS, Grade: 3.5, Awarded: 1999, Reference: 123456',
         },
         {
-          qualification: build(:toefl_qualification, total_score: 30, award_year: '2000'),
-          description: 'Name: TOEFL, Grade: 30, Awarded: 2000',
+          qualification: build(:toefl_qualification, total_score: 30, award_year: '2000', registration_number: '654321'),
+          description: 'Name: TOEFL, Grade: 30, Awarded: 2000, Reference: 654321',
         },
         {
           qualification: build(:other_efl_qualification, name: 'Anglais for Dummies', grade: 'A+++', award_year: '2001'),
