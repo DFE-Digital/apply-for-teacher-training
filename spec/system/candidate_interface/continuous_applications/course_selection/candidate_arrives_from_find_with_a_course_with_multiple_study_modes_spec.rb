@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate arrives from Find with provider and course with multiple study modes' do
+RSpec.describe 'Candidate arrives from Find with provider and course with multiple study modes' do
   include CandidateHelper
 
   scenario 'The provider is only accepting applications on the Apply service' do
@@ -120,7 +120,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course with multipl
 
   def then_i_am_redirected_to_the_course_review_path
     expect(page).to have_current_path(
-      candidate_interface_continuous_applications_course_review_path(application_choice_id: application_choice.id),
+      candidate_interface_course_choices_course_review_path(application_choice_id: application_choice.id),
     )
   end
 
