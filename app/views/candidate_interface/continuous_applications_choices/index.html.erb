@@ -56,7 +56,7 @@
         </p>
 
         <% if CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) && @application_form_presenter.can_add_more_choices? %>
-          <%= govuk_button_link_to t('section_items.add_application'), candidate_interface_continuous_applications_do_you_know_the_course_path %>
+          <%= govuk_button_link_to t('section_items.add_application'), candidate_interface_course_choices_do_you_know_the_course_path %>
         <% else %>
           <p class="govuk-body">
             You can find courses from 9am on <%= CycleTimetable.find_reopens.to_fs(:govuk_date) %>. You can keep making changes to your application until then.
