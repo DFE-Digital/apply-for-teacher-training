@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a course' do
+RSpec.describe 'Selecting a course' do
   include CandidateHelper
 
   it 'Candidate selects a course that is closed' do
@@ -88,6 +88,6 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_be_on_the_course_choice_page
-    expect(page.current_url).to end_with(candidate_interface_continuous_applications_which_course_are_you_applying_to_path(provider_id: @provider.id))
+    expect(page.current_url).to end_with(candidate_interface_course_choices_which_course_are_you_applying_to_path(provider_id: @provider.id))
   end
 end
