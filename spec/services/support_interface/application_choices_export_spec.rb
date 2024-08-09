@@ -64,7 +64,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, :with_audited do
       it 'returns the time that a choice was sent to the provider' do
         application_choice = create(:application_choice, :unsubmitted)
 
-        CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(application_choice).call
+        CandidateInterface::SubmitApplicationChoice.new(application_choice).call
 
         choice_row = described_class.new.application_choices.first
         expect(choice_row).to include(sent_to_provider_at: application_choice.reload.sent_to_provider_at)

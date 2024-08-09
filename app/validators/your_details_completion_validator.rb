@@ -16,6 +16,6 @@ class YourDetailsCompletionValidator < ActiveModel::EachValidator
 private
 
   def science_gcse_missing_guide_error
-    I18n.t('activemodel.errors.models.candidate_interface/continuous_applications/application_choice_submission.attributes.application_choice.science_gcse_missing_guide')
+    I18n.t('activemodel.errors.models.candidate_interface/application_choice_submission.attributes.application_choice.science_gcse_missing_guide')
   end
 end

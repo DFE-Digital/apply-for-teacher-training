@@ -26,7 +26,7 @@ RSpec.describe DeleteApplication do
   describe '#call!', :with_audited do
     it 'raises error if application has been submitted to providers' do
       application_choice = application_form.application_choices.first
-      CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(application_choice).call
+      CandidateInterface::SubmitApplicationChoice.new(application_choice).call
       expect { service.call! }.to raise_error('Application has been sent to providers')
     end
 
@@ -71,7 +71,7 @@ RSpec.describe DeleteApplication do
 
       it 'allows delete if application has been submitted to providers' do
         application_choice = application_form.application_choices.first
-        CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(application_choice).call
+        CandidateInterface::SubmitApplicationChoice.new(application_choice).call
         expect { service.call! }.not_to raise_error
       end
     end

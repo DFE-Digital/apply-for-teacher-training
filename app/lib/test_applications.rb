@@ -204,7 +204,7 @@ private
         @application_form.update!(submitted_at: Time.zone.now)
 
         @application_form.application_choices.each do |choice|
-          CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(choice).call
+          CandidateInterface::SubmitApplicationChoice.new(choice).call
 
           choice.update_columns(
             sent_to_provider_at: time,

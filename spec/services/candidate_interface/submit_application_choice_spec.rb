@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::SubmitApplicationChoice do
+RSpec.describe CandidateInterface::SubmitApplicationChoice do
   subject(:submit_application) { described_class.new(application_choice).call }
 
   let(:application_form) { application_choice.application_form }
@@ -13,7 +13,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::SubmitApplicationChoi
         expect {
           submit_application
         }.to raise_error(
-          CandidateInterface::ContinuousApplications::ApplicationNotReadyToSendError,
+          CandidateInterface::ApplicationNotReadyToSendError,
           'Tried to send an application in the awaiting_provider_decision state to a provider',
         )
       end

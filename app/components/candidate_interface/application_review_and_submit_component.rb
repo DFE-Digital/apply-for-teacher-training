@@ -8,7 +8,7 @@ module CandidateInterface
 
     def initialize(application_choice:)
       @application_choice = application_choice
-      @application_choice_submission = CandidateInterface::ContinuousApplications::ApplicationChoiceSubmission.new(application_choice:)
+      @application_choice_submission = CandidateInterface::ApplicationChoiceSubmission.new(application_choice:)
     end
 
     def render?

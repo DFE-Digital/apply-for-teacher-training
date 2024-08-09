@@ -5,7 +5,7 @@ module CandidateInterface
       attr_accessor :provider_id, :course_id
       validates :provider_id, :course_id, presence: true
 
-      validates_with ContinuousApplications::CourseSelectionValidator, on: :course_choice
+      validates_with CourseSelectionValidator, on: :course_choice
 
       def self.route_name
         'candidate_interface_continuous_applications_which_course_are_you_applying_to'

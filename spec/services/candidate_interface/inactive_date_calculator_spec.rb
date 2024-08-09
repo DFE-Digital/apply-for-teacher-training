@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::InactiveDateCalculator do
+RSpec.describe CandidateInterface::InactiveDateCalculator do
   subject(:calculator) { described_class.new(application_choice:, effective_date: Time.zone.now) }
 
   let(:application_choice) { create(:application_choice, :unsubmitted) }

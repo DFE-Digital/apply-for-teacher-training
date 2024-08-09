@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Email log' do
+RSpec.describe 'Email log' do
   include DfESignInHelpers
 
   it 'Emails are logged' do
@@ -48,7 +48,7 @@ RSpec.feature 'Email log' do
 
     application_choice = create(:application_choice, application_form: @completed_application, status: 'unsubmitted')
 
-    CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(application_choice).call
+    CandidateInterface::SubmitApplicationChoice.new(application_choice).call
   end
 
   def and_an_email_with_an_application_id_is_sent
