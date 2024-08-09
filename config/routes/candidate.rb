@@ -336,7 +336,7 @@ namespace :candidate_interface, path: '/candidate' do
     end
 
     scope '/course-choices' do
-      get '/choose' => 'course_choices/do_you_know_which_course#new', as: :continuous_applications_do_you_know_the_course
+      get '/choose' => 'course_choices/do_you_know_which_course#new', as: :course_choices_do_you_know_the_course
       post '/choose' => 'course_choices/do_you_know_which_course#create'
 
       get '/go-to-find' => 'course_choices/go_to_find#new', as: :continuous_applications_go_to_find_explanation
