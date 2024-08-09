@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a study mode' do
+RSpec.describe 'Selecting a study mode' do
   include CandidateHelper
 
   scenario 'Candidate selects different study modes' do
@@ -93,7 +93,7 @@ RSpec.feature 'Selecting a study mode' do
   end
 
   def and_i_visit_my_course_choices_page
-    visit candidate_interface_continuous_applications_course_review_path(@current_candidate.application_choices.last.id)
+    visit candidate_interface_course_choices_course_review_path(@current_candidate.application_choices.last.id)
   end
 
   def then_i_see_my_course_choice

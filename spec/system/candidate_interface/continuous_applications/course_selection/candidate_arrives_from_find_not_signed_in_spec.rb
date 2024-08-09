@@ -116,7 +116,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def then_i_see_the_courses_review_page
     expect(page).to have_current_path(
-      candidate_interface_continuous_applications_course_review_path(
+      candidate_interface_course_choices_course_review_path(
         application_choice_id: @candidate.current_application.application_choices.last.id,
       ),
     )

@@ -21,9 +21,9 @@ module CandidateInterface
 
     def review_path
       if short_personal_statement?
-        candidate_interface_continuous_applications_course_review_interruption_path(application_choice.id)
+        candidate_interface_course_choices_course_review_interruption_path(application_choice.id)
       else
-        candidate_interface_continuous_applications_course_review_and_submit_path(application_choice.id)
+        candidate_interface_course_choices_course_review_and_submit_path(application_choice.id)
       end
     end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits the application' do
+RSpec.describe 'Candidate submits the application' do
   include CandidateHelper
   include SignInHelper
   before do
@@ -45,11 +45,11 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def when_i_go_to_secondary_review_page
-    visit candidate_interface_continuous_applications_course_review_path(@secondary_application_choice)
+    visit candidate_interface_course_choices_course_review_path(@secondary_application_choice)
   end
 
   def when_i_go_to_primary_review_page
-    visit candidate_interface_continuous_applications_course_review_path(@primary_application_choice)
+    visit candidate_interface_course_choices_course_review_path(@primary_application_choice)
   end
 
   def then_i_see_an_error_message

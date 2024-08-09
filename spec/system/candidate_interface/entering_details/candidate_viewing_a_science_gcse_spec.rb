@@ -79,7 +79,7 @@ RSpec.describe 'Candidate viewing Science GCSE' do
 
   def when_i_go_to_view_my_application
     @application_choice = current_candidate.current_application.application_choices.unsubmitted.first
-    page.find_link(nil, href: candidate_interface_continuous_applications_course_review_path(@application_choice.id)).click
+    page.find_link(nil, href: candidate_interface_course_choices_course_review_path(@application_choice.id)).click
   end
 
   def then_i_dont_see_a_science_gcse_validation_error

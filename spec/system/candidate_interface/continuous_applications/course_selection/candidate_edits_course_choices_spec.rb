@@ -260,6 +260,6 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_i_click_to_continue_my_application
-    page.find_link(nil, href: candidate_interface_continuous_applications_course_review_path(@application_choice.id)).click
+    page.find_link(nil, href: candidate_interface_course_choices_course_review_path(@application_choice.id)).click
   end
 end

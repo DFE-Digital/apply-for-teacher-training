@@ -758,7 +758,7 @@ module CandidateHelper
   def then_i_should_be_on_the_application_choice_review_page
     expect(application_choice).to be_present
     expect(page).to have_current_path(
-      candidate_interface_continuous_applications_course_review_path(application_choice_id: application_choice.id),
+      candidate_interface_course_choices_course_review_path(application_choice_id: application_choice.id),
     )
   end
   alias then_i_am_on_the_application_choice_review_page then_i_should_be_on_the_application_choice_review_page
@@ -834,7 +834,7 @@ module CandidateHelper
 
   def then_i_should_be_on_the_review_and_submit_page
     expect(page).to have_current_path(
-      candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice.id),
+      candidate_interface_course_choices_course_review_and_submit_path(@application_choice.id),
     )
   end
   alias then_i_am_on_the_review_and_submit_page then_i_should_be_on_the_review_and_submit_page
