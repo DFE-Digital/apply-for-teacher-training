@@ -2,7 +2,7 @@ module CandidateInterface
   module CourseSelection
     class GoToFindExplanationStep < DfE::Wizard::Step
       def self.route_name
-        'candidate_interface_continuous_applications_go_to_find_explanation'
+        'candidate_interface_course_choices_go_to_find_explanation'
       end
 
       def previous_step
