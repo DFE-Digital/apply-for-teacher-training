@@ -21,7 +21,7 @@
     </p>
 
     <div class="govuk-button-group app-course-choice__confirm-submission">
-      <%= govuk_button_to('Confirm and submit application', candidate_interface_continuous_applications_submit_course_choice_path(@application_choice.id), method: :post) %>
+      <%= govuk_button_to('Confirm and submit application', candidate_interface_course_choices_submit_course_choice_path(@application_choice.id), method: :post) %>
 
       <%= govuk_link_to('Save as draft', candidate_interface_continuous_applications_choices_path) %>
     </div>

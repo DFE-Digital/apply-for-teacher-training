@@ -19,7 +19,7 @@ RSpec.describe 'Block submission from blocked candidates' do
 
     context 'when tries to submit' do
       it 'renders interstitial page' do
-        post candidate_interface_continuous_applications_submit_course_choice_path(choice.id),
+        post candidate_interface_course_choices_submit_course_choice_path(choice.id),
              params: {
                candidate_interface_continuous_applications_submit_application_form: {
                  submit_answer: true,
@@ -44,7 +44,7 @@ RSpec.describe 'Block submission from blocked candidates' do
 
     context 'when tries to submit' do
       it 'redirects to your applications' do
-        post candidate_interface_continuous_applications_submit_course_choice_path(choice.id),
+        post candidate_interface_course_choices_submit_course_choice_path(choice.id),
              params: {
                candidate_interface_continuous_applications_submit_application_form: {
                  submit_answer: true,
