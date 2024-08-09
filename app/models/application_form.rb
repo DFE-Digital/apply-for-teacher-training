@@ -12,9 +12,9 @@ class ApplicationForm < ApplicationRecord
   has_many :course_options, through: :application_choices
   has_many :courses, through: :application_choices
   has_many :providers, through: :application_choices
-  has_many :application_work_experiences
-  has_many :application_work_experiences_optional, as: :experienceable
-  has_many :application_volunteering_experiences
+  # delete application?
+  has_many :application_work_experiences, -> { where('experienceable_type = ? or experienceable_type is null', 'ApplicationForm') }
+  has_many :application_volunteering_experiences, -> { where('experienceable_type = ? or experienceable_type is null', 'ApplicationForm') }
   has_many :application_qualifications
   has_many :application_references
   has_many :application_work_history_breaks

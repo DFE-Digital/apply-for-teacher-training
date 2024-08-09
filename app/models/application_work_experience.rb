@@ -3,6 +3,8 @@ class ApplicationWorkExperience < ApplicationExperience
 
   belongs_to :application_form, touch: true
 
+  after_save -> { update!(experienceable: application_form) }, if: -> { experienceable.nil? }
+
   validates :commitment, presence: true
 
   enum commitment: {
@@ -10,5 +12,5 @@ class ApplicationWorkExperience < ApplicationExperience
     part_time: 'Part time',
   }
 
-  audited associated_with: :application_form
+  audited associated_with: :application_form ## is this an issue?
 end
