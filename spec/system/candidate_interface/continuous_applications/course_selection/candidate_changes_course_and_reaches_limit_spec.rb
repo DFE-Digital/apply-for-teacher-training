@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Changing a course' do
+RSpec.describe 'Changing a course' do
   include CandidateHelper
 
   it 'Candidate changes course to one they have already been rejected from twice' do
@@ -75,7 +75,7 @@ RSpec.feature 'Changing a course' do
   end
 
   def then_i_am_on_the_reached_reapplication_limit_page
-    expect(page.current_url).to end_with(candidate_interface_continuous_applications_reached_reapplication_limit_path(provider_id: @provider.id, course_id: @course.id))
+    expect(page.current_url).to end_with(candidate_interface_course_choices_reached_reapplication_limit_path(provider_id: @provider.id, course_id: @course.id))
   end
 
   def when_i_visit_my_details_page
