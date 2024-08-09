@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a course' do
+RSpec.describe 'Selecting a course' do
   include CandidateHelper
 
   it 'Candidate is redirected when visiting later steps on a duplicate course selection' do
@@ -53,7 +53,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_am_redirected_to_the_duplicate_course_selection_step
-    expect(page).to have_current_path(candidate_interface_continuous_applications_duplicate_course_selection_path(@course_one.provider.id, @course_one.id))
+    expect(page).to have_current_path(candidate_interface_course_choices_duplicate_course_selection_path(@course_one.provider.id, @course_one.id))
   end
 
   def when_i_click_the_back_link
