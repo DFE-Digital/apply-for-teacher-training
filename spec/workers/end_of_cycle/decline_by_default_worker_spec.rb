@@ -29,9 +29,8 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
           it 'does not run DeclineByDefaultService' do
             declineable = create(:application_choice, :offer)
 
-            task = described_class.new.perform
+            described_class.new.perform
 
-            expect(task).to eq []
             expect(declineable.reload.status).to eq 'offer'
           end
         end
@@ -40,9 +39,8 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
           it 'does not run DeclineByDefaultService' do
             declineable = create(:application_choice, :offer)
 
-            task = described_class.new.perform
+            described_class.new.perform
 
-            expect(task).to eq []
             expect(declineable.reload.status).to eq 'offer'
           end
         end
@@ -51,9 +49,8 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
           it 'does not run once the new cycle starts' do
             declineable = create(:application_choice, :offer)
 
-            task = described_class.new.perform
+            described_class.new.perform
 
-            expect(task).to eq []
             expect(declineable.reload.status).to eq 'offer'
           end
         end

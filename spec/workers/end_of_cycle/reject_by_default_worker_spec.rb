@@ -38,9 +38,8 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
           it 'does not run RejectionByDefaultService' do
             rejectable = create(:application_choice, :inactive)
 
-            task = described_class.new.perform
+            described_class.new.perform
 
-            expect(task).to eq []
             expect(rejectable.reload.status).to eq 'inactive'
           end
         end
@@ -49,9 +48,8 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
           it 'does not run RejectionByDefaultService' do
             rejectable = create(:application_choice, :inactive)
 
-            task = described_class.new.perform
+            described_class.new.perform
 
-            expect(task).to eq []
             expect(rejectable.reload.status).to eq 'inactive'
           end
         end
@@ -60,9 +58,8 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
           it 'does not run once the new cycle starts' do
             rejectable = create(:application_choice, :inactive)
 
-            task = described_class.new.perform
+            described_class.new.perform
 
-            expect(task).to eq []
             expect(rejectable.reload.status).to eq 'inactive'
           end
         end

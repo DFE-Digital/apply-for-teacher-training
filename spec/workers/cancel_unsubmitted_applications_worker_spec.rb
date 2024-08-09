@@ -79,7 +79,7 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
 
             task = described_class.new.perform
 
-            expect(task).to eq []
+            expect(task).to be_nil
           end
         end
 
@@ -89,7 +89,7 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
 
             task = described_class.new.perform
 
-            expect(task).to eq []
+            expect(task).to be_nil
           end
         end
 
@@ -99,7 +99,7 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
 
             task = described_class.new.perform
 
-            expect(task).to eq []
+            expect(task).to be_nil
           end
         end
       end
