@@ -13,7 +13,7 @@ RSpec.describe 'Block submission from blocked candidates' do
     context 'when accessing the review and submit path' do
       it 'renders interstitial page' do
         get candidate_interface_course_choices_course_review_and_submit_path(application_choice_id: choice.id)
-        expect(response).to redirect_to(candidate_interface_continuous_applications_blocked_submissions_path)
+        expect(response).to redirect_to(candidate_interface_course_choices_blocked_submissions_path)
       end
     end
 
@@ -25,7 +25,7 @@ RSpec.describe 'Block submission from blocked candidates' do
                  submit_answer: true,
                },
              }
-        expect(response).to redirect_to(candidate_interface_continuous_applications_blocked_submissions_path)
+        expect(response).to redirect_to(candidate_interface_course_choices_blocked_submissions_path)
       end
     end
   end
