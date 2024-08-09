@@ -344,9 +344,9 @@ namespace :candidate_interface, path: '/candidate' do
       get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider_selection
       post '/provider' => 'course_choices/provider_selection#create'
 
-      get '/provider/:provider_id/course' => 'course_choices/which_course_are_you_applying_to#new', as: :continuous_applications_which_course_are_you_applying_to
+      get '/provider/:provider_id/course' => 'course_choices/which_course_are_you_applying_to#new', as: :course_choices_which_course_are_you_applying_to
       post '/provider/:provider_id/course' => 'course_choices/which_course_are_you_applying_to#create'
-      get '/:application_choice_id/courses/edit' => 'course_choices/which_course_are_you_applying_to#edit', as: :edit_continuous_applications_which_course_are_you_applying_to
+      get '/:application_choice_id/courses/edit' => 'course_choices/which_course_are_you_applying_to#edit', as: :edit_course_choices_which_course_are_you_applying_to
       patch '/:application_choice_id/courses/edit' => 'course_choices/which_course_are_you_applying_to#update'
 
       get '/:application_choice_id/review' => 'course_choices/review#show', as: :continuous_applications_course_review

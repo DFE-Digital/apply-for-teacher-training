@@ -11,7 +11,7 @@
       <p class="govuk-body">You can:</p>
       <ul class="govuk-list govuk-list--bullet">
 
-        <li>apply to a <%= govuk_link_to 'different course', candidate_interface_continuous_applications_which_course_are_you_applying_to_path(provider_id: @course.provider.id) %> offered by <%= @course.provider.name %></li>
+        <li>apply to a <%= govuk_link_to 'different course', candidate_interface_course_choices_which_course_are_you_applying_to_path(provider_id: @course.provider.id) %> offered by <%= @course.provider.name %></li>
         <li>apply to a <%= govuk_link_to 'different training provider', candidate_interface_course_choices_provider_selection_path %></li>
       </ul>
     <% else %>
