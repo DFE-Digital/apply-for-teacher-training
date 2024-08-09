@@ -11,7 +11,7 @@ RSpec.describe DfE::Bigquery::Table do
         ).to eq(
           <<~SQL,
             SELECT one, two
-            FROM datapoint.magic_tricks
+            FROM `datapoint.magic_tricks`
           SQL
         )
       end
@@ -24,7 +24,7 @@ RSpec.describe DfE::Bigquery::Table do
         ).to eq(
           <<~SQL,
             SELECT one, two
-            FROM datapoint.magic_tricks
+            FROM `datapoint.magic_tricks`
           SQL
         )
       end
@@ -37,7 +37,7 @@ RSpec.describe DfE::Bigquery::Table do
         ).to eq(
           <<~SQL,
             SELECT *
-            FROM datapoint.magic_tricks
+            FROM `datapoint.magic_tricks`
           SQL
         )
       end
@@ -56,7 +56,7 @@ RSpec.describe DfE::Bigquery::Table do
         ).to eq(
           <<~SQL,
             SELECT *
-            FROM datapoint.magic_tricks
+            FROM `datapoint.magic_tricks`
             WHERE magic_name = "Battle of the Barrels"
             AND year = 1970
             AND magic_name != "Pulling bunny out of hat"
@@ -70,7 +70,7 @@ RSpec.describe DfE::Bigquery::Table do
         expect(table.to_sql).to eq(
           <<~SQL,
             SELECT *
-            FROM datapoint.magic_tricks
+            FROM `datapoint.magic_tricks`
           SQL
         )
       end
@@ -81,7 +81,7 @@ RSpec.describe DfE::Bigquery::Table do
         expect(table.order(magic_name: :asc).to_sql.squish).to eq(
           <<~SQL.squish,
             SELECT *
-            FROM datapoint.magic_tricks
+            FROM `datapoint.magic_tricks`
             #{default_order_clause}, magic_name ASC
           SQL
         )
