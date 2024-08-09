@@ -292,7 +292,7 @@ class ApplicationForm < ApplicationRecord
   def unsuccessful_and_apply_deadline_has_passed?
     application_choices.present? &&
       application_choices.map(&:status).map(&:to_sym).all? { |status| (ApplicationStateChange::UNSUCCESSFUL_STATES - %i[inactive]).include?(status) } &&
-        CycleTimetable.apply_deadline_has_passed?(self)
+      CycleTimetable.apply_deadline_has_passed?(self)
   end
 
   ##########################################
