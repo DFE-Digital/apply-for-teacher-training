@@ -92,9 +92,11 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
       let(:volunteering_role) { described_class.build_from_experience(application_experience) }
 
       it 'creates a new work experience if valid' do
+        expected_data = data.merge(experienceable_type: 'ApplicationForm', experienceable_id: application_form.id)
+
         expect(volunteering_role.save(application_form)).to be(true)
         expect(application_form.application_volunteering_experiences.first)
-            .to have_attributes(data)
+            .to have_attributes(expected_data)
       end
 
       it 'updates volunteering experience if valid' do
@@ -132,6 +134,8 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
             currently_working: false,
             start_date_unknown: false,
             end_date_unknown: false,
+            experienceable_type: 'ApplicationForm',
+            experienceable_id: application_form.id,
           )
     end
   end

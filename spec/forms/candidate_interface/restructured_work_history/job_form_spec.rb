@@ -97,6 +97,8 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
       saved_job = job.save(application_form)
       expect(saved_job).to have_attributes(data)
       expect(saved_job.details).to eq 'I used skills relevant to teaching in this job.'
+      expect(saved_job.reload).to have_attributes(experienceable_type: 'ApplicationForm')
+      expect(saved_job.reload).to have_attributes(experienceable_id: saved_job.application_form_id)
     end
   end
 
@@ -120,6 +122,8 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
       expect(saved_job.reload).to have_attributes(role: 'Something else')
       expect(saved_job.reload).to have_attributes(relevant_skills: false)
       expect(saved_job.reload).to have_attributes(details: 'I did not use skills relevant to teaching in this job.')
+      expect(saved_job.reload).to have_attributes(experienceable_type: 'ApplicationForm')
+      expect(saved_job.reload).to have_attributes(experienceable_id: saved_job.application_form_id)
     end
   end
 
