@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a course with multiple sites' do
+RSpec.describe 'Selecting a course with multiple sites' do
   include CandidateHelper
 
   it 'Candidate selects a course choice' do
@@ -104,7 +104,7 @@ RSpec.feature 'Selecting a course with multiple sites' do
 
   def then_i_choose_a_location_preference
     expect(page).to have_current_path(
-      candidate_interface_continuous_applications_course_site_path(
+      candidate_interface_course_choices_course_site_path(
         @provider.id,
         @multi_site_course.id,
         'full_time',

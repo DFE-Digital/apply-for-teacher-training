@@ -93,7 +93,7 @@ RSpec.describe 'Candidate arrives from Find with provider and course with multip
 
   def then_i_am_redirected_to_the_course_site_path
     expect(page).to have_current_path(
-      candidate_interface_continuous_applications_course_site_path(
+      candidate_interface_course_choices_course_site_path(
         @provider.id,
         @course.id,
         'part_time',
