@@ -37,12 +37,30 @@ CURRENT_CYCLE_DATES = {
     show_deadline_banner: Time.zone.local(2025, 7, 1, 9), # 12 weeks before Apply deadline
     apply_deadline: Time.zone.local(2025, 9, 16, 18),
     reject_by_default: Time.zone.local(2025, 9, 24, 23, 59, 59), # 1 week and a day after apply deadline
-    find_closes: Time.zone.local(2025, 10, 1, 23, 59, 59), # The evening before the find opens in the new cycle
+    find_closes: Time.zone.local(2025, 9, 30, 23, 59, 59), # The evening before the find opens in the new cycle
     holidays: {
       christmas: Date.new(2024, 12, 18)..Date.new(2025, 1, 5),
       easter: Date.new(2025, 3, 18)..Date.new(2025, 4, 1),
     },
   },
+  # The following dates are still TBD as of 9 August 2024
+  # - Show summer recruitment banner
+  # - Show deadline banner
+  # - Reject by default
+  # - Holidays
+  2026 => {
+    find_opens: Time.zone.local(2025, 10, 1, 9), # First Tuesday of October
+    apply_opens: Time.zone.local(2025, 10, 8, 9), # Second Tuesday of October
+    show_summer_recruitment_banner: Time.zone.local(2026, 7, 1), # 12 weeks before apply deadline
+    show_deadline_banner: Time.zone.local(2026, 7, 1, 9), # 12 weeks before Apply deadline
+    apply_deadline: Time.zone.local(2026, 9, 16, 18),
+    reject_by_default: Time.zone.local(2026, 9, 24, 23, 59, 59), # 1 week and a day after apply deadline
+    find_closes: Time.zone.local(2025, 9, 30, 23, 59, 59), # The evening before the find opens in the new cycle
+    holidays: {
+      christmas: Date.new(2025, 12, 18)..Date.new(2026, 1, 5),
+      easter: Date.new(2025, 3, 18)..Date.new(2025, 4, 1),
+    },
+  }
 }.freeze
 
 OLDER_CYCLE_DATES = {
