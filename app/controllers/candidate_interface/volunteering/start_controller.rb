@@ -1,6 +1,6 @@
 module CandidateInterface
   class Volunteering::StartController < CandidateInterfaceController
-    before_action :redirect_v23_applications_to_complete_page_if_submitted_and_not_carried_over
+
 
     def show
       @volunteering_experience_form = VolunteeringExperienceForm.new(

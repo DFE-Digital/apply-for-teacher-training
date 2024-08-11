@@ -1,7 +1,5 @@
 module CandidateInterface
   class ContactDetails::AddressTypeController < CandidateInterfaceController
-    before_action :redirect_v23_applications_to_complete_page_if_submitted_and_not_carried_over
-
     def new
       @contact_details_form = load_contact_form
     end
