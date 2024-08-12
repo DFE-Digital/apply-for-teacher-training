@@ -402,16 +402,4 @@ class CycleTimetable
   end
 
   private_class_method :last_recruitment_cycle_year?
-
-  # Only use this to update the holidays for the current cycle when travelling time
-  def self.reset_holidays
-    BusinessTime::Config.holidays.clear
-    Holidays.between(Date.civil(2019, 1, 1), 2.years.from_now, :gb_eng, :observed).map do |holiday|
-      BusinessTime::Config.holidays << holiday[:date]
-    end
-
-    CycleTimetable.holidays.each_value do |date_range|
-      BusinessTime::Config.holidays += date_range.to_a
-    end
-  end
 end
