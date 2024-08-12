@@ -73,7 +73,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
           expect { perform_job }.to change(CourseOption, :count).by(2)
           site = Site.find_by(uuid:)
           expect(site.course_options).not_to be_empty
-          expect(site.course_options.pluck(:study_mode)).to eq %w[full_time part_time]
+          expect(site.course_options.pluck(:study_mode)).to match_array %w[full_time part_time]
         end
       end
     end
@@ -88,7 +88,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
         expect { perform_job }.to change(CourseOption, :count).by(2)
         site = Site.find_by(uuid:)
         expect(site.course_options).not_to be_empty
-        expect(site.course_options.pluck(:study_mode)).to eq %w[full_time part_time]
+        expect(site.course_options.pluck(:study_mode)).to match_array %w[full_time part_time]
       end
     end
 
