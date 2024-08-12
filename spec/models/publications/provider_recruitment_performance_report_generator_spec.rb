@@ -10,25 +10,53 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
 
   describe 'when a normal response is received' do
     before do
-      @stubbed_response = application_metrics_by_provider_results(
-        {
-          nonprovider_filter: 'Primary',
-          nonprovider_filter_category: nil,
-          cycle_week: nil,
-          recruitment_cycle_year: nil,
-          id: provider_id,
-        },
-      )
+      client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
 
-      stub_bigquery_application_metrics_by_provider_request(@stubbed_response)
+      allow(DfE::Bigquery).to receive(:client).and_return(client)
+      response = stub_response(rows:
+        [[
+          { name: 'nonprovider_filter', type: 'INTEGER', value: 'Primary' },
+          { name: 'nonprovider_filter_category', type: 'INTEGER', value: nil },
+          { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+          { name: 'id', type: 'INTEGER', value: provider_id.to_s },
+        ]])
+
+      allow(client).to receive(:query_job)
+        .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
+        .and_return(response)
     end
 
     # BigQuery returns symbols, #attributes returns strings
     # BigQuery returns :id, for 'provider.id'
     let(:attributes) do
-      @stubbed_response.first[:provider_id] = @stubbed_response.first.delete(:id)
-      @stubbed_response.first.stringify_keys!
-      @stubbed_response
+      [
+        {
+          'nonprovider_filter' => 'Primary',
+          'nonprovider_filter_category' => nil,
+          'cycle_week' => cycle_week.to_s,
+          'recruitment_cycle_year' => nil,
+          'provider_id' => provider_id.to_s,
+          'number_of_candidates_submitted_to_date' => nil,
+          'number_of_candidates_submitted_to_same_date_previous_cycle' => nil,
+          'number_of_candidates_submitted_to_date_as_proportion_of_last_cycle' => nil,
+          'number_of_candidates_with_offers_to_date' => nil,
+          'number_of_candidates_with_offers_to_same_date_previous_cycle' => nil,
+          'number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle' => nil,
+          'offer_rate_to_date' => nil,
+          'offer_rate_to_same_date_previous_cycle' => nil,
+          'number_of_candidates_accepted_to_date' => nil,
+          'number_of_candidates_accepted_to_same_date_previous_cycle' => nil,
+          'number_of_candidates_accepted_to_date_as_proportion_of_last_cycle' => nil,
+          'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date' => nil,
+          'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle' => nil,
+          'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle' => nil,
+          'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date' => nil,
+          'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle' => nil,
+          'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle' => nil,
+          'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date' => nil,
+          'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates' => nil,
+        },
+      ]
     end
 
     it 'returns a hash of the response data' do
@@ -96,7 +124,14 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
 
     describe 'when an empty response is received from Bigquery' do
       before do
-        stub_bigquery_application_metrics_by_provider_request([])
+        client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
+
+        allow(DfE::Bigquery).to receive(:client).and_return(client)
+        response = stub_response(rows: [])
+
+        allow(client).to receive(:query_job)
+          .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
+          .and_return(response)
       end
 
       let(:attributes) { [] }

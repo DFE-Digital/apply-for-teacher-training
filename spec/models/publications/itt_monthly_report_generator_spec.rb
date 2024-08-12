@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Publications::ITTMonthlyReportGenerator do
   include DfE::Bigquery::TestHelper
+  let(:cycle_week) { 7 }
   let(:candidate_headline_statistics) do
     {
-      cycle_week: 7,
+      cycle_week:,
       first_date_in_week: Date.new(2023, 11, 13),
       last_date_in_week: Date.new(2023, 11, 19),
       number_of_candidates_accepted_to_date: 538,
@@ -68,6 +69,23 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
       nonsubject_filter: 'Isengard',
       subject_filter: 'Mathematics',
     )
+  end
+
+  before do
+    client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
+
+    allow(DfE::Bigquery).to receive(:client).and_return(client)
+    response = stub_response(rows:
+      [[
+        { name: 'nonprovider_filter', type: 'INTEGER', value: 'Primary' },
+        { name: 'nonprovider_filter_category', type: 'INTEGER', value: nil },
+        { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+        { name: 'id', type: 'INTEGER', value: nil },
+      ]])
+
+    allow(client).to receive(:query_job)
+      .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
+      .and_return(response)
   end
 
   describe '#generation_date' do
