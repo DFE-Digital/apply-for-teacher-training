@@ -49,6 +49,8 @@ RSpec.describe SupportInterface::ApplicationForms::JobForm, :with_audited, type:
       expect(job).to have_attributes(role: 'Senior Teacher')
       expect(job).to have_attributes(relevant_skills: false)
       expect(job).to have_attributes(details: 'I did not use skills relevant to teaching in this job.')
+      expect(job).to have_attributes(experienceable_type: 'ApplicationForm')
+      expect(job).to have_attributes(experienceable_id: job.application_form_id)
       expect(job.audits.find_by(action: 'update').comment).to eq 'https://becomingateacher.zendesk.com/agent/tickets/12345'
     end
   end
