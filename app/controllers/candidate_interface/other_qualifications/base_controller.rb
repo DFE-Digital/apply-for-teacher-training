@@ -1,6 +1,5 @@
 module CandidateInterface
   class OtherQualifications::BaseController < SectionController
-
     before_action :render_application_feedback_component
 
     def current_qualification

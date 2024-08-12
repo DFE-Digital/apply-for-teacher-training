@@ -1,7 +1,5 @@
 module CandidateInterface
   class TrainingWithADisabilityController < SectionController
-
-
     def show
       @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(completed: current_application.training_with_a_disability_completed)

@@ -2,7 +2,6 @@ module RequestReferenceOfferDashboard
   extend ActiveSupport::Concern
 
   included do
-
     skip_before_action :redirect_to_review_page_unless_reference_is_editable, raise: false
     skip_before_action ::UnsuccessfulCarryOverFilter
     skip_before_action ::CarryOverFilter

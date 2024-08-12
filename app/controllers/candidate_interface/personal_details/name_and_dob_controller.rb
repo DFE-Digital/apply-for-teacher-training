@@ -1,8 +1,6 @@
 module CandidateInterface
   module PersonalDetails
     class NameAndDobController < CandidateInterfaceController
-
-
       def new
         @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
       end

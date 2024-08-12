@@ -99,7 +99,6 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     visit candidate_interface_application_complete_path
   end
 
-
   def and_i_refresh_the_page
     @url = page.current_url
     visit @url

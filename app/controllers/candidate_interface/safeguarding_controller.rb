@@ -1,7 +1,5 @@
 module CandidateInterface
   class SafeguardingController < SectionController
-
-
     def show
       @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(completed: current_application.safeguarding_issues_completed)

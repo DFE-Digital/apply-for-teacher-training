@@ -1,7 +1,5 @@
 module CandidateInterface
   class Volunteering::ReviewController < Volunteering::BaseController
-
-
     def show
       @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(completed: current_application.volunteering_completed)

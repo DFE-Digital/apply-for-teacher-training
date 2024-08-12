@@ -170,11 +170,10 @@ class CycleTimetable
   end
 
   def self.date(name, year = current_year)
-
     schedule = if current_cycle_schedule == :real || fake_schedules.fetch(current_cycle_schedule).keys.exclude?(year)
                  real_schedule_for(year)
                else
-                  fake_schedules.fetch(current_cycle_schedule).fetch(year)
+                 fake_schedules.fetch(current_cycle_schedule).fetch(year)
                end
 
     schedule.fetch(name)

@@ -60,7 +60,7 @@ CURRENT_CYCLE_DATES = {
       christmas: Date.new(2025, 12, 18)..Date.new(2026, 1, 5),
       easter: Date.new(2025, 3, 18)..Date.new(2025, 4, 1),
     },
-  }
+  },
 }.freeze
 
 OLDER_CYCLE_DATES = {

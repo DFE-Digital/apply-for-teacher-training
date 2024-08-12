@@ -1,7 +1,5 @@
 module CandidateInterface
   class InterviewAvailabilityController < SectionController
-
-
     def show
       @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(completed: current_application.interview_preferences_completed)

@@ -1,7 +1,5 @@
 module CandidateInterface
   class Volunteering::StartController < CandidateInterfaceController
-
-
     def show
       @volunteering_experience_form = VolunteeringExperienceForm.new(
         experience: current_application.volunteering_experience,

@@ -3,7 +3,6 @@ module CandidateInterface
     include AdviserStatus
     before_action :render_application_feedback_component
 
-
     def show
       @application_form = current_application
       @becoming_a_teacher_form = BecomingATeacherForm.build_from_application(

@@ -1,8 +1,6 @@
 module CandidateInterface
   module PersonalDetails
     class ReviewController < SectionController
-
-
       def show
         @application_form = current_application
         @section_complete_form = SectionCompleteForm.new(
