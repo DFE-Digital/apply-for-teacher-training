@@ -1,6 +1,10 @@
+require_relative '../../../../spec/support/bigquery_stubs'
+
 module DfE
   module Bigquery
     module TestHelper
+      include ::BigqueryStubs
+
       def stub_bigquery_application_metrics_request(stub_results = [])
         bigquery_client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
         allow(DfE::Bigquery).to receive(:client).and_return(bigquery_client)
