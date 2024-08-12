@@ -501,6 +501,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_08_124535) do
     t.datetime "updated_at", null: false
     t.string "delivery_status", default: "unknown", null: false
     t.index ["application_form_id"], name: "index_emails_on_application_form_id"
+    t.index ["created_at"], name: "index_emails_on_created_at"
     t.index ["notify_reference"], name: "index_emails_on_notify_reference"
   end
 
