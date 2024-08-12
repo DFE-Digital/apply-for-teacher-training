@@ -1,5 +1,4 @@
 require 'rails_helper'
-require_relative 'bigquery_stubs'
 
 RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
   include BigqueryStubs
