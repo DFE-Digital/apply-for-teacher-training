@@ -34,7 +34,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     it 'provides the correct SQL' do
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
       application_metrics
-      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10, use_legacy_sql: false)
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
         SELECT *
         FROM `1_key_tables.application_metrics`
         WHERE recruitment_cycle_year = 2024
@@ -85,7 +85,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     it 'provides the correct SQL' do
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
       application_metrics
-      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10, use_legacy_sql: false)
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
         SELECT *
         FROM `1_key_tables.application_metrics`
         WHERE recruitment_cycle_year = 2024
@@ -173,7 +173,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     it 'provides the correct SQL' do
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
       application_metrics
-      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10, use_legacy_sql: false)
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
         SELECT *
         FROM `1_key_tables.application_metrics`
         WHERE recruitment_cycle_year = 2024
@@ -240,7 +240,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     it 'provides the correct SQL' do
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
       application_metrics
-      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10, use_legacy_sql: false)
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
         SELECT *
         FROM `1_key_tables.application_metrics`
         WHERE recruitment_cycle_year = 2024
@@ -306,7 +306,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     it 'provides the correct SQL' do
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
       application_metrics
-      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10, use_legacy_sql: false)
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
         SELECT *
         FROM `1_key_tables.application_metrics`
         WHERE recruitment_cycle_year = 2024
@@ -374,7 +374,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     it 'provides the correct SQL' do
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
       application_metrics
-      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10, use_legacy_sql: false)
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
         SELECT *
         FROM `1_key_tables.application_metrics`
         WHERE recruitment_cycle_year = 2024
@@ -441,7 +441,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     it 'provides the correct SQL' do
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
       application_metrics
-      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10, use_legacy_sql: false)
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
         SELECT *
         FROM `1_key_tables.application_metrics`
         WHERE recruitment_cycle_year = 2024
@@ -508,7 +508,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     it 'provides the correct SQL' do
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
       application_metrics
-      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10, use_legacy_sql: false)
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
         SELECT *
         FROM `1_key_tables.application_metrics`
         WHERE recruitment_cycle_year = 2024
@@ -575,7 +575,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
     it 'provides the correct SQL' do
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
       application_metrics
-      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10, use_legacy_sql: false)
+      expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
         SELECT *
         FROM `1_key_tables.application_metrics`
         WHERE recruitment_cycle_year = 2024

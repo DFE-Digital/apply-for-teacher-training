@@ -6,5 +6,5 @@ DfE::Bigquery.configure do |config|
   # Retries and timeout (in seconds). See
   # https://github.com/googleapis/google-cloud-ruby/blob/main/google-cloud-bigquery/OVERVIEW.md#configuring-retries-and-timeout
   config.bigquery_retries = 2
-  config.bigquery_timeout = 10
+  config.bigquery_timeout = 10.seconds.in_milliseconds
 end
