@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Carry over', time: CycleTimetableHelper.mid_cycle do
+RSpec.describe 'Carry over application and submit new application choices', time: CycleTimetableHelper.mid_cycle do
   include CandidateHelper
 
   it 'Candidate carries over unsubmitted application with a course to new cycle' do
@@ -33,7 +33,8 @@ RSpec.describe 'Carry over', time: CycleTimetableHelper.mid_cycle do
     then_my_application_is_awaiting_provider_decision
   end
 
-  private
+private
+
   def given_i_am_signed_in_as_a_candidate
     @candidate = create(:candidate)
     login_as(@candidate)
@@ -77,7 +78,7 @@ RSpec.describe 'Carry over', time: CycleTimetableHelper.mid_cycle do
   def when_i_sign_in_again
     logout
     login_as(@candidate)
-    visit ('/')
+    visit('/')
   end
 
   def and_i_visit_the_application_dashboard
@@ -137,16 +138,19 @@ RSpec.describe 'Carry over', time: CycleTimetableHelper.mid_cycle do
   end
 
   def and_i_click_on_the_course_name
-    within find('div.app-application-item') do
-      expect(page).to have_text 'Draft'
+    within 'div.app-application-item' do
+      expect(page).to have_text application_choice.provider.name
       link = page.find_link
       link.click
     end
   end
 
   def then_i_see_the_course_choice_review_page
-    application_choice_id = @candidate.current_application.application_choices.first.id
-    expect(page).to have_current_path candidate_interface_continuous_applications_course_review_path(application_choice_id:)
+    expect(page).to have_current_path(
+      candidate_interface_continuous_applications_course_review_path(
+        application_choice_id: application_choice.id,
+      ),
+    )
     expect(page).to have_content 'Not submitted yet'
   end
 
@@ -157,16 +161,16 @@ RSpec.describe 'Carry over', time: CycleTimetableHelper.mid_cycle do
     click_on 'Your details'
     click_on 'Equality and diversity questions'
     # Sex
-    choose "Prefer not to say"
+    choose 'Prefer not to say'
     click_on 'Continue'
     # Disabilities
-    check "Prefer not to say"
+    check 'Prefer not to say'
     click_on 'Continue'
     # Ethnicity
-    choose "Prefer not to say"
+    choose 'Prefer not to say'
     click_on 'Continue'
     # Free school meals
-    choose "Prefer not to say"
+    choose 'Prefer not to say'
     click_on 'Continue'
     complete_section
   end
@@ -190,10 +194,12 @@ RSpec.describe 'Carry over', time: CycleTimetableHelper.mid_cycle do
     mark_references_as_complete
   end
 
-
   def then_my_application_is_awaiting_provider_decision
     expect(page).to have_content 'Awaiting decision'
-    application_choice = @candidate.current_application.application_choices.first
     expect(application_choice.status).to eq('awaiting_provider_decision')
+  end
+
+  def application_choice
+    @candidate.current_application.application_choices.first
   end
 end
