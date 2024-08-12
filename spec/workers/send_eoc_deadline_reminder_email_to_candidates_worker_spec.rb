@@ -22,7 +22,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
     end
 
     it 'does not return an application where the candidate account is locked' do
-      allow(CycleTimetable).to receive(:need_to_send_deadline_reminder?).and_return(true)
+      allow(CycleTimetable).to receive(:send_first_end_of_cycle_reminder_to_candidates?).and_return(true)
 
       unsubscribed_candidate = create(:candidate, account_locked: true)
       create(:application_form, candidate: unsubscribed_candidate)
@@ -35,7 +35,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
     end
 
     it 'does not return an application where the candidate is unsubscribed' do
-      allow(CycleTimetable).to receive(:need_to_send_deadline_reminder?).and_return(true)
+      allow(CycleTimetable).to receive(:send_first_end_of_cycle_reminder_to_candidates?).and_return(true)
 
       unsubscribed_candidate = create(:candidate, unsubscribed_from_emails: true)
       create(:application_form, candidate: unsubscribed_candidate)
@@ -48,7 +48,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
     end
 
     it 'does not return an application where the candidate submission is blocked' do
-      allow(CycleTimetable).to receive(:need_to_send_deadline_reminder?).and_return(true)
+      allow(CycleTimetable).to receive(:send_first_end_of_cycle_reminder_to_candidates?).and_return(true)
 
       unsubscribed_candidate = create(:candidate, submission_blocked: true)
       create(:application_form, candidate: unsubscribed_candidate)

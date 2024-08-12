@@ -588,6 +588,7 @@ en:
   date:
     formats:
       long: "%e %B %Y"
+      no_year: "%e %B"
   time:
     formats:
       long: "%e %B %Y %H:%M"

@@ -1,17 +1,25 @@
 class SendEocDeadlineReminderEmailToCandidate
-  def self.call(application_form:)
-    return if already_sent_to?(application_form)
-
-    CandidateMailer.eoc_deadline_reminder(application_form).deliver_later
-    ChaserSent.create!(chased: application_form, chaser_type: :eoc_deadline_reminder)
+  # End of cycle chaser_types are :eoc_first_deadline_reminder and :eoc_second_deadline_reminder
+  def initialize(application_form:, chaser_type:)
+    @application_form = application_form
+    @chaser_type = chaser_type
   end
 
-  def self.already_sent_to?(application_form)
-    application_form.chasers_sent.where(
-      chaser_type: :eoc_deadline_reminder,
-    ).where(
-      'created_at > ?',
-      CycleTimetable.find_opens,
-    ).present?
+  def call
+    return if already_sent_to?
+
+    CandidateMailer.public_send(chaser_type, application_form).deliver_later
+    ChaserSent.create!(chased: application_form, chaser_type:)
+  end
+
+private
+
+  attr_reader :application_form, :chaser_type
+
+  def already_sent_to?
+    application_form
+      .chasers_sent
+      .where(chaser_type:)
+      .where('created_at > ?', CycleTimetable.find_opens).present?
   end
 end

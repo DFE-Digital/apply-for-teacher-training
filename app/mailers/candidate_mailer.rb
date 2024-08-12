@@ -405,10 +405,18 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def eoc_deadline_reminder(application_form)
+  def eoc_first_deadline_reminder(application_form)
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.approaching_eoc_deadline.subject'),
+    )
+  end
+
+  def eoc_second_deadline_reminder(application_form)
+    apply_deadline = I18n.l(CycleTimetable.apply_deadline.to_date, format: :no_year)
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.approaching_eoc_second_deadline_reminder.subject', apply_deadline:),
     )
   end
 

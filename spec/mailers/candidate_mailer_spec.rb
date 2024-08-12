@@ -713,25 +713,51 @@ RSpec.describe CandidateMailer do
   end
 
   describe '.deadline_reminder' do
-    context 'when a candidate has provided a first name' do
-      let(:email) { mailer.eoc_deadline_reminder(application_form) }
-      let(:application_form) { build_stubbed(:application_form, first_name: 'Fred') }
+    context 'first deadline reminder' do
+      context 'when a candidate has provided a first name' do
+        let(:email) { mailer.eoc_first_deadline_reminder(application_form) }
+        let(:application_form) { build_stubbed(:application_form, first_name: 'Fred') }
 
-      it_behaves_like(
-        'a mail with subject and content',
-        'Submit your teacher training application before courses fill up',
-        'heading' => 'Dear Fred',
-        'cycle_details' => "as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year.",
-        'details' => "The deadline to submit your application is 6pm on #{CycleTimetable.apply_deadline.to_fs(:govuk_date)}",
-      )
+        it_behaves_like(
+          'a mail with subject and content',
+          'Submit your teacher training application before courses fill up',
+          'heading' => 'Dear Fred',
+          'cycle_details' => "as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year.",
+          'details' => "The deadline to submit your application is 6pm on #{CycleTimetable.apply_deadline.to_fs(:govuk_date)}",
+        )
+      end
+
+      context 'when a candidate has not provided a first name' do
+        let(:email) { mailer.eoc_first_deadline_reminder(application_form) }
+        let(:application_form) { build_stubbed(:application_form, first_name: nil) }
+
+        it 'does not include a `Dear` heading' do
+          expect(email.body).not_to include('Dear')
+        end
+      end
     end
 
-    context 'when a candidate has not provided a first name' do
-      let(:email) { mailer.eoc_deadline_reminder(application_form) }
-      let(:application_form) { build_stubbed(:application_form, first_name: nil) }
+    context 'second deadline reminder' do
+      context 'when a candidate has provided a first name' do
+        let(:email) { mailer.eoc_second_deadline_reminder(application_form) }
+        let(:application_form) { build_stubbed(:application_form, first_name: 'Fred') }
 
-      it 'does not include a `Dear` heading' do
-        expect(email.body).not_to include('Dear')
+        it_behaves_like(
+          'a mail with subject and content',
+          "Submit your teacher training application before #{I18n.l(CycleTimetable.apply_deadline.to_date, format: :no_year)}",
+          'heading' => 'Dear Fred',
+          'cycle_details' => "you’ll be able to apply for courses starting in the #{RecruitmentCycle.cycle_name(RecruitmentCycle.next_year)} academic year.",
+          'details' => "You must submit your application by #{I18n.l(CycleTimetable.apply_deadline.to_date, format: :no_year)} if you want to start teacher training this year.",
+        )
+      end
+
+      context 'when a candidate has not provided a first name' do
+        let(:email) { mailer.eoc_second_deadline_reminder(application_form) }
+        let(:application_form) { build_stubbed(:application_form, first_name: nil) }
+
+        it 'does not include a `Dear` heading' do
+          expect(email.body).not_to include('Dear')
+        end
       end
     end
   end
@@ -881,7 +907,7 @@ RSpec.describe CandidateMailer do
 
   describe 'utm parameters' do
     let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred', phase: 'apply_1') }
-    let(:email) { mailer.eoc_deadline_reminder(application_form) }
+    let(:email) { mailer.eoc_first_deadline_reminder(application_form) }
 
     it 'adds utm parameters to GIT links within email body in production' do
       allow(HostingEnvironment).to receive(:environment_name).and_return('production')
