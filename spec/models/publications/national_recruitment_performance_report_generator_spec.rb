@@ -45,12 +45,12 @@ RSpec.describe Publications::NationalRecruitmentPerformanceReportGenerator do
        'number_of_candidates_accepted_to_date_as_proportion_of_last_cycle' => nil,
        'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date' => nil,
        'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle' => nil,
-       "number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle" => nil,
+       'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle' => nil,
        'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date' => nil,
        'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle' => nil,
        'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle' => nil,
        'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date' => nil,
-       "number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates" => nil }]
+       'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates' => nil }]
   end
 
   it 'returns data' do

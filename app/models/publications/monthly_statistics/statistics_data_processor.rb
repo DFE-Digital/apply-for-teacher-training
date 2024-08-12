@@ -10,7 +10,7 @@ module Publications
 
       def violates_gdpr?
         @status_data[:this_cycle].to_i < MINIMUM_GDPR_COMPLIANT_TOTAL ||
-        @status_data[:last_cycle].to_i < MINIMUM_GDPR_COMPLIANT_TOTAL
+          @status_data[:last_cycle].to_i < MINIMUM_GDPR_COMPLIANT_TOTAL
       end
     end
   end
