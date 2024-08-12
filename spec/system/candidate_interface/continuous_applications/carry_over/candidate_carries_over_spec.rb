@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe 'Carry over', :sidekiq do
+RSpec.describe 'Carry over unsubmitted applications', :sidekiq do
   include CandidateHelper
 
   before do
-    set_time(mid_cycle(2023))
+    set_time(mid_cycle)
   end
 
-  scenario 'candidate carries over unsubmitted application after apply 1 deadline' do
+  scenario 'candidate carries over unsubmitted application after apply deadline' do
     given_i_have_unsubmitted_application
     and_today_is_after_apply_deadline
 
@@ -53,7 +53,7 @@ RSpec.describe 'Carry over', :sidekiq do
     and_today_is_after_find_reopens
 
     when_i_sign_in
-    then_i_am_asked_to_carry_over_as_apply_again
+    then_i_am_asked_to_carry_over
 
     when_i_click_apply_again
     then_i_am_redirected_to_continuous_application_details_page
@@ -76,7 +76,7 @@ private
       date_of_birth:,
       submitted_at: nil,
       candidate: current_candidate,
-      recruitment_cycle_year: 2023,
+      recruitment_cycle_year: RecruitmentCycle.previous_year,
     )
 
     %i[not_requested_yet feedback_requested].each do |feedback_status|
@@ -137,10 +137,6 @@ private
   def and_today_is_after_apply_deadline
     TestSuiteTimeMachine.travel_permanently_to(after_apply_deadline)
   end
-
-  def and_today_is_after_apply_deadline
-    TestSuiteTimeMachine.travel_permanently_to(after_apply_deadline)
-  end
   alias_method :given_today_is_after_apply_deadline, :and_today_is_after_apply_deadline
 
   def given_today_is_after_rejected_by_default_date
@@ -161,22 +157,8 @@ private
     expect(page).to have_current_path candidate_interface_start_carry_over_path
   end
 
-  def then_i_am_asked_to_carry_over_as_apply_again
-    then_i_am_asked_to_apply_again
-    expect(carry_over_apply_again_form[:action]).to eq(candidate_interface_carry_over_path)
-  end
-
-  def carry_over_apply_again_form
-    page.all('button').find { |button| button.text == 'Apply again' }.first(:xpath, './/..')
-  end
-
-  def then_i_am_asked_to_apply_again
-    then_i_am_redirected_to_complete_page
-    expect(page).to have_content('Apply again')
-  end
-
   def when_i_click_apply_again
-    click_link_or_button 'Apply again'
+    click_link_or_button 'Continue'
   end
 
   def and_i_have_submitted_apply_again_course_choices
@@ -249,7 +231,8 @@ private
   end
 
   def and_my_application_is_on_the_new_cycle
-    expect(current_candidate.current_application.reload.recruitment_cycle_year).to be(2024)
+    year = RecruitmentCycle.next_year
+    expect(current_candidate.current_application.reload.recruitment_cycle_year).to be(year)
   end
 
   def date_of_birth
