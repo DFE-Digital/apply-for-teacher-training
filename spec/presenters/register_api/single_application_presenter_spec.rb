@@ -412,7 +412,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
       response = described_class.new(application_choice).as_json
 
-      expect(response.dig(:attributes, :candidate, :english_language_qualifications)).to eq('Name: TOEFL, Grade: 20, Awarded: 1999')
+      expect(response.dig(:attributes, :candidate, :english_language_qualifications)).to eq('Name: TOEFL, Grade: 20, Awarded: 1999, Reference: 123456')
     end
 
     it 'prefers to return description of the candidate\'s EFL qualification over the deprecated english_language_details' do
@@ -426,7 +426,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
       response = described_class.new(application_choice).as_json
 
-      expect(response.dig(:attributes, :candidate, :english_language_qualifications)).to eq('Name: TOEFL, Grade: 20, Awarded: 1999')
+      expect(response.dig(:attributes, :candidate, :english_language_qualifications)).to eq('Name: TOEFL, Grade: 20, Awarded: 1999, Reference: 123456')
     end
 
     it 'returns english_language_details is a candidate has not provided an EFL qualification' do
