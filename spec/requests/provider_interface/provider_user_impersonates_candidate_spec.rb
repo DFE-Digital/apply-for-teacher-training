@@ -38,8 +38,9 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
         post provider_interface_impersonate_candidate_path(application_choice.application_form.candidate)
         expect(response).to have_http_status :found
 
-        get candidate_interface_application_complete_path
-        expect(response).to have_http_status :ok # a 200 response suggests a candidate session
+        get candidate_interface_continuous_applications_choices_path
+        expect(response.redirect_url).to eq candidate_interface_start_carry_over_url
+        expect(response).to have_http_status :redirect # a 200 response suggests a candidate session
       end
     end
 

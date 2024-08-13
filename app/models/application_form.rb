@@ -286,9 +286,9 @@ class ApplicationForm < ApplicationRecord
 
     !submitted? ||
       application_choices.blank? ||
-          application_choices.map(&:status).map(&:to_sym).all? do |status|
-            ApplicationStateChange::CARRY_OVER_ELIGIBLE_STATES.include?(status)
-          end
+      application_choices.map(&:status).map(&:to_sym).all? do |status|
+        ApplicationStateChange::CARRY_OVER_ELIGIBLE_STATES.include?(status)
+      end
   end
 
   def unsuccessful_and_apply_deadline_has_passed?

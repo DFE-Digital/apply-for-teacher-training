@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Carry over', skip: 'Carry over does not work in 2024', time: CycleTimetableHelper.mid_cycle(2024) do
+RSpec.describe 'Carry over application and submit new application choices', time: CycleTimetableHelper.mid_cycle do
   include CandidateHelper
 
   it 'Candidate carries over unsubmitted application with a course to new cycle' do
@@ -10,7 +10,6 @@ RSpec.feature 'Carry over', skip: 'Carry over does not work in 2024', time: Cycl
     and_the_cancel_unsubmitted_applications_worker_runs
 
     when_i_sign_in_again
-    and_i_visit_the_application_dashboard
     then_i_am_redirected_to_the_carry_over_interstitial
 
     when_i_click_on_continue
@@ -23,16 +22,18 @@ RSpec.feature 'Carry over', skip: 'Carry over does not work in 2024', time: Cycl
     then_i_can_see_that_i_need_to_select_courses
 
     when_i_add_a_course
-    and_i_complete_the_section
-    and_i_visit_the_course_choices_section
+    and_i_visit_the_application_dashboard
+    and_i_click_on_the_course_name
     then_i_see_the_course_choice_review_page
 
-    when_i_add_another_course
-    and_i_complete_the_section
-    and_i_receive_references
-    and_i_submit_my_application
+    when_i_complete_the_rest_of_my_details
+    and_i_visit_the_application_dashboard
+    and_i_click_on_the_course_name
+    then_i_can_submit_my_application
     then_my_application_is_awaiting_provider_decision
   end
+
+private
 
   def given_i_am_signed_in_as_a_candidate
     @candidate = create(:candidate)
@@ -77,10 +78,11 @@ RSpec.feature 'Carry over', skip: 'Carry over does not work in 2024', time: Cycl
   def when_i_sign_in_again
     logout
     login_as(@candidate)
+    visit('/')
   end
 
   def and_i_visit_the_application_dashboard
-    visit candidate_interface_continuous_applications_details_path
+    click_on 'Your applications'
   end
 
   def then_i_am_redirected_to_the_carry_over_interstitial
@@ -92,12 +94,13 @@ RSpec.feature 'Carry over', skip: 'Carry over does not work in 2024', time: Cycl
   end
 
   def then_i_see_a_copy_of_my_application
-    expect(page).to have_title('Your application')
+    expect(page).to have_content 'Your application'
   end
 
   def when_i_view_referees
     click_link_or_button 'References to be requested if you accept an offer'
   end
+  alias_method :click_on_references, :when_i_view_referees
 
   def then_i_can_see_the_referees_i_previously_added
     expect(page).to have_css('h3', text: @first_reference.name)
@@ -105,16 +108,16 @@ RSpec.feature 'Carry over', skip: 'Carry over does not work in 2024', time: Cycl
   end
 
   def when_i_view_courses
-    click_link_or_button 'Back to application'
+    click_link_or_button 'Your applications'
   end
 
   def then_i_can_see_that_i_need_to_select_courses
-    expect(page).to have_content('You can apply for up to 4 courses')
+    expect(page).to have_content('You can add up to 4 applications at a time.')
   end
 
   def when_i_add_a_course
     given_courses_exist
-    click_link_or_button 'Choose your course'
+    click_link_or_button 'Add application'
 
     choose 'Yes, I know where I want to apply'
     click_link_or_button t('continue')
@@ -126,49 +129,77 @@ RSpec.feature 'Carry over', skip: 'Carry over does not work in 2024', time: Cycl
     click_link_or_button t('continue')
 
     expect(page).to have_content('Primary (2XT2)')
-    expect(page).to have_content('You can add 3 more courses')
+    expect(page).to have_content 'You cannot submit this application until you complete your details.'
+    expect(page).to have_content 'Your application will be saved as a draft while you finish adding your details'
   end
 
   def and_i_visit_the_course_choices_section
-    click_link_or_button 'Choose your courses'
+    click_link_or_button 'Your applications'
+  end
+
+  def and_i_click_on_the_course_name
+    within 'div.app-application-item' do
+      expect(page).to have_text application_choice.provider.name
+      link = page.find_link
+      link.click
+    end
   end
 
   def then_i_see_the_course_choice_review_page
-    expect(page).to have_current_path candidate_interface_course_choices_review_path
+    expect(page).to have_current_path(
+      candidate_interface_continuous_applications_course_review_path(
+        application_choice_id: application_choice.id,
+      ),
+    )
+    expect(page).to have_content 'Not submitted yet'
   end
 
-  def when_i_add_another_course
-    click_link_or_button 'Add another course'
+  def when_i_complete_the_rest_of_my_details
+    click_on 'Your details'
+    click_on_references
+    complete_section
+    click_on 'Your details'
+    click_on 'Equality and diversity questions'
+    # Sex
+    choose 'Prefer not to say'
+    click_on 'Continue'
+    # Disabilities
+    check 'Prefer not to say'
+    click_on 'Continue'
+    # Ethnicity
+    choose 'Prefer not to say'
+    click_on 'Continue'
+    # Free school meals
+    choose 'Prefer not to say'
+    click_on 'Continue'
+    complete_section
+  end
 
-    choose 'Yes, I know where I want to apply'
-    click_link_or_button t('continue')
-
-    select 'Gorse SCITT (1N1)'
-    click_link_or_button t('continue')
-
-    choose 'Drama (2397)'
-    click_link_or_button t('continue')
-
-    expect(page).to have_content('Drama (2397)')
-    expect(page).to have_content('You can add 2 more course')
+  def then_i_can_submit_my_application
+    expect(page).to have_content 'Review and submit your application'
+    click_on 'Review application'
+    click_on 'Confirm and submit application'
+    expect(page).to have_content 'Application submitted'
+    expect(page).to have_content 'You can add 3 more applications'
   end
 
   def and_i_complete_the_section
     choose t('application_form.completed_radio')
     click_link_or_button t('continue')
   end
+  alias_method :complete_section, :and_i_complete_the_section
 
   def and_i_receive_references
     receive_references
     mark_references_as_complete
   end
 
-  def and_i_submit_my_application
-    @new_application_form = candidate_submits_application
+  def then_my_application_is_awaiting_provider_decision
+    expect(page).to have_content 'Awaiting decision'
+    expect(application_choice.status).to eq('awaiting_provider_decision')
   end
 
-  def then_my_application_is_awaiting_provider_decision
-    application_choice = @new_application_form.application_choices.first
-    expect(application_choice.status).to eq('awaiting_provider_decision')
+  def application_choice
+    @candidate.current_application.application_choices.first
   end
 end

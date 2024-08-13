@@ -807,17 +807,14 @@ RSpec.describe ApplicationForm do
       end
     end
 
-    context 'all application choices have carry-over eligible states' do
-      it 'true when application deadline has passed' do
+    context 'an application choice is awaiting candidate decision' do
+      it 'returns false after the application deadline has passed' do
         travel_temporarily_to(CycleTimetable.apply_deadline + 1.second) do
-          application_form = build(:application_form, :submitted, application_choices: [])
-          expect(application_form.carry_over?).to be(true)
-        end
-      end
-
-      it 'false when application deadline has not passed' do
-        travel_temporarily_to(CycleTimetable.apply_deadline - 1.second) do
-          application_form = build(:application_form, :submitted, application_choices: [])
+          application_form = build(
+            :application_form,
+            :submitted,
+            application_choices: [build(:application_choice, :offered)],
+          )
           expect(application_form.carry_over?).to be(false)
         end
       end
@@ -826,14 +823,14 @@ RSpec.describe ApplicationForm do
     context 'an application choice is awaiting provider decision' do
       it 'returns false after the application deadline has passed' do
         travel_temporarily_to(CycleTimetable.apply_deadline + 1.second) do
-          [:awaiting_provider_decision, :interviewing, :inactive].each do |awaiting_decision_status|
+          %i[awaiting_provider_decision interviewing inactive].each do |awaiting_decision_status|
             application_form = build(
               :application_form,
               :submitted,
-              application_choices: [build(:application_choice, awaiting_decision_status)]
+              application_choices: [build(:application_choice, awaiting_decision_status)],
             )
             expect(application_form.carry_over?).to be(false)
-         end
+          end
         end
       end
     end
