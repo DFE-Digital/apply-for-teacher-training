@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate can carry over unsuccessful application to a new recruitment cycle after the apply 2 deadline and move the references' do
+RSpec.describe 'Candidate can carry over unsuccessful application to a new recruitment cycle and move the references' do
   before do
-    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(2023))
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
   end
 
   scenario 'when an unsuccessful candidate returns in the next recruitment cycle they can re-apply by carrying over their original application' do
@@ -11,9 +11,9 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
     when_a_new_cycle_starts
     and_i_visit_my_application_complete_page
-    then_i_see_the_carry_over_inset_text
+    then_i_see_carry_over_page
 
-    when_i_click_apply_again
+    when_i_click_continue
     then_i_can_see_application_details
     then_i_see_the_new_references_section
 
@@ -38,7 +38,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def when_a_new_cycle_starts
-    advance_time_to(mid_cycle(2024))
+    advance_time_to(mid_cycle(RecruitmentCycle.next_year))
   end
 
   def and_i_visit_my_application_complete_page
@@ -47,12 +47,12 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     visit candidate_interface_application_complete_path
   end
 
-  def then_i_see_the_carry_over_inset_text
-    expect(page).to have_content 'You can apply for courses starting in the 2024 to 2025 academic year instead.'
+  def then_i_see_carry_over_page
+    expect(page).to have_content "You started an application for courses starting in the #{RecruitmentCycle.previous_year} to #{RecruitmentCycle.current_year} academic year, which have now closed"
   end
 
-  def when_i_click_apply_again
-    click_link_or_button 'Apply again'
+  def when_i_click_continue
+    click_link_or_button 'Continue'
   end
 
   def then_i_can_see_application_details
