@@ -3,6 +3,7 @@ module DfE
     module Relation
       JobIncompleteError = Class.new(StandardError)
       MorePagesError = Class.new(StandardError)
+      UnknownTypeError = Class.new(StandardError)
 
       def table
         ::DfE::Bigquery::Table.new(name: table_name)
@@ -35,7 +36,8 @@ module DfE
             field_name = field.name
             raw_value = row.f[index].v
 
-            memo[field_name] = raw_value
+            value = parse_value(raw_value, field.type)
+            memo[field_name] = value
           end.symbolize_keys
         end
 
@@ -44,6 +46,28 @@ module DfE
 
       def table_name
         raise NotImplementedError
+      end
+
+      # https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types
+      def parse_value(raw_value, type)
+        return nil if raw_value.nil?
+
+        case type
+        when 'STRING'
+          raw_value
+        when 'INTEGER'
+          Integer(raw_value)
+        when 'DATE'
+          Date.parse(raw_value)
+        when 'DATETIME', 'TIME'
+          Time.zone.parse(raw_value)
+        when 'BOOLEAN'
+          ActiveModel::Type::Boolean.new.cast(raw_value)
+        when 'FLOAT'
+          Float(raw_value)
+        else
+          raise UnknownTypeError, "cannot parse this type of value: '#{type}'"
+        end
       end
     end
   end

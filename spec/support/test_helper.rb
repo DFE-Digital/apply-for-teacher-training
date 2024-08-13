@@ -20,8 +20,8 @@ module DfE
 
         stub_response(rows: [[
           { name: 'cycle_week', type: 'INTEGER', value: '7' },
-          { name: 'first_date_in_week', type: 'INTEGER', value: Date.new(2023, 11, 13) },
-          { name: 'last_date_in_week', type: 'INTEGER', value: Date.new(2023, 11, 19) },
+          { name: 'first_date_in_week', type: 'DATE', value: '2023-11-13' },
+          { name: 'last_date_in_week', type: 'DATE', value: '2023-11-19' },
           { name: 'nonsubject_filter', type: 'INTEGER', value: '21' },
           { name: 'number_of_candidates_submitted_to_date', type: 'INTEGER', value: '400' },
           { name: 'number_of_candidates_submitted_to_same_date_previous_cycle', type: 'INTEGER', value: '200' },
