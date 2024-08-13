@@ -21,12 +21,14 @@ module SupportInterface
       def save(reference)
         return false unless valid?
 
-        reference.update!(
-          name:,
-          email_address:,
-          relationship:,
-          audit_comment:,
-        )
+        ApplicationForm.with_unsafe_application_choice_touches do
+          reference.update!(
+            name:,
+            email_address:,
+            relationship:,
+            audit_comment:,
+          )
+        end
       end
     end
   end
