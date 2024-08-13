@@ -1,5 +1,3 @@
-require_relative '../../../../spec/support/bigquery_stubs'
-
 module DfE
   module Bigquery
     module TestHelper
