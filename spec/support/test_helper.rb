@@ -3,15 +3,10 @@ module DfE
     module TestHelper
       include ::BigqueryStubs
 
-      def stub_bigquery_application_metrics_request(stub_results = [])
+      def stub_bigquery_application_metrics_request(rows: nil)
         bigquery_client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
         allow(DfE::Bigquery).to receive(:client).and_return(bigquery_client)
-
-        if stub_results.present?
-          allow(bigquery_client).to receive(:query_job).and_return(stub_results)
-        else
-          allow(bigquery_client).to receive(:query_job).and_return(stubbed_application_metrics)
-        end
+        allow(bigquery_client).to receive(:query_job).and_return(stubbed_application_metrics(rows:))
       end
 
       def application_metrics_results(options = {})
@@ -41,7 +36,9 @@ module DfE
         ]
       end
 
-      def stubbed_application_metrics
+      def stubbed_application_metrics(rows: nil)
+        return stub_response(rows:) if rows
+
         stub_response(rows: [[
           { name: 'cycle_week', type: 'INTEGER', value: '7' },
           { name: 'first_date_in_week', type: 'INTEGER', value: Date.new(2023, 11, 13) },

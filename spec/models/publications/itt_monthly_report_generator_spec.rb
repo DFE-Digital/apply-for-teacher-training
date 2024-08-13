@@ -72,20 +72,12 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
   end
 
   before do
-    client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
-
-    allow(DfE::Bigquery).to receive(:client).and_return(client)
-    response = stub_response(rows:
-      [[
-        { name: 'nonprovider_filter', type: 'INTEGER', value: 'Primary' },
-        { name: 'nonprovider_filter_category', type: 'INTEGER', value: nil },
-        { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
-        { name: 'id', type: 'INTEGER', value: nil },
-      ]])
-
-    allow(client).to receive(:query_job)
-      .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
-      .and_return(response)
+    stub_bigquery_application_metrics_request(rows: [[
+      { name: 'nonprovider_filter', type: 'INTEGER', value: 'Primary' },
+      { name: 'nonprovider_filter_category', type: 'INTEGER', value: nil },
+      { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+      { name: 'id', type: 'INTEGER', value: nil },
+    ]])
   end
 
   describe '#generation_date' do
