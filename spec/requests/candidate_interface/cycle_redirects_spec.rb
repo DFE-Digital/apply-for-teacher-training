@@ -46,7 +46,7 @@ RSpec.describe 'Cycle redirects' do
       it 'redirects to the application complete page' do
         continuous_applications_routes.each do |path|
           get path
-          expect(response).to redirect_to(candidate_interface_application_complete_path)
+          expect(response).to redirect_to(candidate_interface_start_carry_over_path)
         end
       end
     end
@@ -74,7 +74,7 @@ RSpec.describe 'Cycle redirects' do
       it 'redirects to the complete page' do
         section_routes.each do |path|
           get path
-          expect(response.redirect_url).to include(candidate_interface_application_complete_path)
+          expect(response.redirect_url).to include(candidate_interface_start_carry_over_path)
         end
       end
     end
