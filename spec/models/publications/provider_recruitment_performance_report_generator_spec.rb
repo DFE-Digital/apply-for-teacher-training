@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
   include DfE::Bigquery::TestHelper
+
   subject(:generator) { described_class.new(provider_id:, cycle_week:) }
 
   let(:cycle_week) { 12 }
@@ -10,20 +11,14 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
 
   describe 'when a normal response is received' do
     before do
-      client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
-
-      allow(DfE::Bigquery).to receive(:client).and_return(client)
-      response = stub_response(rows:
-        [[
+      stub_bigquery_application_metrics_by_provider_request(
+        rows: [[
           { name: 'nonprovider_filter', type: 'INTEGER', value: 'Primary' },
           { name: 'nonprovider_filter_category', type: 'INTEGER', value: nil },
           { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
           { name: 'id', type: 'INTEGER', value: provider_id.to_s },
-        ]])
-
-      allow(client).to receive(:query_job)
-        .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
-        .and_return(response)
+        ]],
+      )
     end
 
     # BigQuery returns symbols, #attributes returns strings
@@ -124,14 +119,7 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
 
     describe 'when an empty response is received from Bigquery' do
       before do
-        client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
-
-        allow(DfE::Bigquery).to receive(:client).and_return(client)
-        response = stub_response(rows: [])
-
-        allow(client).to receive(:query_job)
-          .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
-          .and_return(response)
+        stub_bigquery_application_metrics_by_provider_request(rows: [])
       end
 
       let(:attributes) { [] }

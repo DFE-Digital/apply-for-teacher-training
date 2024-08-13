@@ -2,24 +2,18 @@ require 'rails_helper'
 
 RSpec.describe Publications::NationalRecruitmentPerformanceReportGenerator do
   include DfE::Bigquery::TestHelper
-  include WifStubs
+
   subject(:generator) { described_class.new(cycle_week:) }
 
   before do
-    client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
-
-    allow(DfE::Bigquery).to receive(:client).and_return(client)
-    response = stub_response(rows:
-      [[
+    stub_bigquery_application_metrics_by_provider_request(
+      rows: [[
         { name: 'nonprovider_filter', type: 'INTEGER', value: 'Primary' },
         { name: 'nonprovider_filter_category', type: 'INTEGER', value: nil },
         { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
         { name: 'id', type: 'INTEGER', value: nil },
-      ]])
-
-    allow(client).to receive(:query_job)
-      .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
-      .and_return(response)
+      ]],
+    )
   end
 
   let(:cycle_week) { 11 }
