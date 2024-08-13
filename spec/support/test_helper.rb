@@ -6,7 +6,13 @@ module DfE
       def stub_bigquery_application_metrics_request(rows: nil)
         bigquery_client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
         allow(DfE::Bigquery).to receive(:client).and_return(bigquery_client)
-        allow(bigquery_client).to receive(:query_job).and_return(stubbed_application_metrics(rows:))
+        allow(bigquery_client).to receive(:query_job).and_return(stubbed_bigquery_application_metrics_response(rows:))
+      end
+
+      def stub_bigquery_application_metrics_by_provider_request(rows: nil)
+        bigquery_client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
+        allow(DfE::Bigquery).to receive(:client).and_return(bigquery_client)
+        allow(bigquery_client).to receive(:query_job).and_return(stubbed_bigquery_application_metrics_response(rows:))
       end
 
       def application_metrics_results(options = {})
@@ -36,7 +42,7 @@ module DfE
         ]
       end
 
-      def stubbed_application_metrics(rows: nil)
+      def stubbed_bigquery_application_metrics_response(rows: nil)
         return stub_response(rows:) if rows
 
         stub_response(rows: [[

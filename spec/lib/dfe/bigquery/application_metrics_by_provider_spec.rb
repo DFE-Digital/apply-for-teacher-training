@@ -1,24 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
-  include BigqueryStubs
-
-  let(:client) { instance_double(Google::Apis::BigqueryV2::BigqueryService) }
-  let(:response) do
-    stub_response(rows: [])
-  end
-
-  before do
-    allow(DfE::Bigquery).to receive(:client).and_return(client)
-  end
+  include DfE::Bigquery::TestHelper
 
   describe '.provider_data' do
     subject(:provider_statistics) do
       described_class.new(cycle_week: 18, provider_id: 1337).provider_data
     end
 
-    let(:response) do
-      stub_response(rows: [[
+    let(:rows) do
+      [[
         { name: 'id', type: 'INTEGER', value: '1337' },
         { name: 'cycle_week', type: 'INTEGER', value: '18' },
         { name: 'recruitment_cycle_year', type: 'INTEGER', value: '2024' },
@@ -43,7 +34,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
         { name: 'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle', type: 'INTEGER', value: '0' },
         { name: 'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date', type: 'INTEGER', value: '12' },
         { name: 'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates', type: 'INTEGER', value: '12' },
-      ]])
+      ]]
     end
 
     # Bigq{name: 'uery returns `provider.id` as :id
@@ -110,9 +101,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
     end
 
     before do
-      allow(client).to receive(:query_job)
-        .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
-        .and_return(response)
+      stub_bigquery_application_metrics_by_provider_request(rows:)
     end
 
     it 'returns the first result' do
@@ -164,12 +153,9 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
 
     context 'when the api returns no data for the provider id' do
       let(:bigquery_results) { [] }
-      let(:response) do
-        stub_response(rows: [])
-      end
 
       before do
-        allow(client).to receive(:query_job).with(anything).and_return(response)
+        stub_bigquery_application_metrics_by_provider_request(rows: [])
       end
 
       it 'returns an empty array' do
@@ -213,8 +199,8 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
 
       ]
     end
-    let(:response) do
-      stub_response(rows: [[
+    let(:rows) do
+      [[
         { name: 'cycle_week', type: 'INTEGER', value: '18' },
         { name: 'recruitment_cycle_year', type: 'INTEGER', value: '2024' },
         { name: 'nonprovider_filter', type: 'STRING', value: 'Level' },
@@ -238,13 +224,11 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
         { name: 'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle', type: 'INTEGER', value: '0' },
         { name: 'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date', type: 'INTEGER', value: '12' },
         { name: 'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates', type: 'INTEGER', value: '12' },
-      ]])
+      ]]
     end
 
     before do
-      allow(client).to receive(:query_job)
-        .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
-        .and_return(response)
+      stub_bigquery_application_metrics_by_provider_request(rows:)
     end
 
     it 'returns the first result' do
@@ -296,15 +280,10 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
 
     context 'when the api returns no data' do
       let(:bigquery_results) { [] }
-
-      let(:response) do
-        stub_response(rows: [])
-      end
+      let(:rows) { [] }
 
       before do
-        allow(client).to receive(:query_job)
-          .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
-          .and_return(response)
+        stub_bigquery_application_metrics_by_provider_request(rows:)
       end
 
       it 'returns an empty array' do
@@ -315,6 +294,10 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
 
   describe described_class::Result do
     let(:result) { described_class.new({ provider_id: 123, nonprovider_filter: 'Primary' }) }
+
+    before do
+      stub_bigquery_application_metrics_by_provider_request
+    end
 
     describe 'attr_readers' do
       it 'has attr_reader for nonprovider_filter' do
