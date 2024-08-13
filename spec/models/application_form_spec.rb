@@ -774,23 +774,66 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe '#not_submitted_and_apply_deadline_has_passed?' do
-    context 'application has been submitted' do
-      it 'returns false' do
-        travel_temporarily_to(mid_cycle) do
-          application_form = build(:application_form, submitted_at: 1.day.ago)
+  describe '#carry_over?' do
+    context 'application is unsubmitted' do
+      it 'true when application deadline has passed' do
+        travel_temporarily_to(CycleTimetable.apply_deadline + 1.second) do
+          application_form = build(:application_form, :unsubmitted, application_choices: [build(:application_choice)])
+          expect(application_form.carry_over?).to be(true)
+        end
+      end
 
-          expect(application_form.not_submitted_and_deadline_has_passed?).to be(false)
+      it 'false when application deadline has not passed' do
+        travel_temporarily_to(CycleTimetable.apply_deadline - 1.second) do
+          application_form = build(:application_form, :unsubmitted, application_choices: [build(:application_choice)])
+          expect(application_form.carry_over?).to be(false)
         end
       end
     end
 
-    context 'application has not been submitted and apply deadline has passed' do
-      it 'returns true' do
-        travel_temporarily_to(after_apply_deadline) do
-          application_form = build(:application_form)
+    context 'application does not have application choices' do
+      it 'true when application deadline has passed' do
+        travel_temporarily_to(CycleTimetable.apply_deadline + 1.second) do
+          application_form = build(:application_form, :submitted, application_choices: [])
+          expect(application_form.carry_over?).to be(true)
+        end
+      end
 
-          expect(application_form.not_submitted_and_deadline_has_passed?).to be(true)
+      it 'false when application deadline has not passed' do
+        travel_temporarily_to(CycleTimetable.apply_deadline - 1.second) do
+          application_form = build(:application_form, :submitted, application_choices: [])
+          expect(application_form.carry_over?).to be(false)
+        end
+      end
+    end
+
+    context 'all application choices have carry-over eligible states' do
+      it 'true when application deadline has passed' do
+        travel_temporarily_to(CycleTimetable.apply_deadline + 1.second) do
+          application_form = build(:application_form, :submitted, application_choices: [])
+          expect(application_form.carry_over?).to be(true)
+        end
+      end
+
+      it 'false when application deadline has not passed' do
+        travel_temporarily_to(CycleTimetable.apply_deadline - 1.second) do
+          application_form = build(:application_form, :submitted, application_choices: [])
+          expect(application_form.carry_over?).to be(false)
+        end
+      end
+    end
+
+    context 'an application choice is awaiting provider decision' do
+      it 'returns false after the application deadline has passed' do
+        travel_temporarily_to(CycleTimetable.apply_deadline + 1.second) do
+          [:awaiting_provider_decision, :interviewing, :inactive].each do |awaiting_decision_status|
+            application_form = build(
+              :application_form,
+              :submitted,
+              application_choices: [build(:application_choice, awaiting_decision_status)]
+            )
+            expect(application_form.carry_over?).to be(false)
+         end
         end
       end
     end

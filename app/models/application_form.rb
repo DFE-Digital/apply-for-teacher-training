@@ -282,11 +282,13 @@ class ApplicationForm < ApplicationRecord
   end
 
   def carry_over?
-    previous_recruitment_cycle? && (not_submitted_and_deadline_has_passed? || unsuccessful_and_apply_deadline_has_passed?)
-  end
+    return false unless CycleTimetable.apply_deadline_has_passed?(self)
 
-  def not_submitted_and_deadline_has_passed?
-    !submitted? && CycleTimetable.apply_deadline_has_passed?(self)
+    !submitted? ||
+      application_choices.blank? ||
+          application_choices.map(&:status).map(&:to_sym).all? do |status|
+            ApplicationStateChange::CARRY_OVER_ELIGIBLE_STATES.include?(status)
+          end
   end
 
   def unsuccessful_and_apply_deadline_has_passed?
@@ -670,10 +672,6 @@ private
       self.support_reference = GenerateSupportReference.call
       break unless ApplicationForm.exists?(support_reference:)
     end
-  end
-
-  def previous_recruitment_cycle?
-    RecruitmentCycle.current_year >= recruitment_cycle_year
   end
 
   def deferred?
