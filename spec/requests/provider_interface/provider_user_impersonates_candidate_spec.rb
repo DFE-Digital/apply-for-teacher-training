@@ -40,7 +40,6 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
 
         get candidate_interface_continuous_applications_choices_path
         expect(response.redirect_url).to eq candidate_interface_start_carry_over_url
-        expect(response).to have_http_status :redirect # a 200 response suggests a candidate session
       end
     end
 
