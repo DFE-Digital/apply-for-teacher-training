@@ -40,6 +40,7 @@ The SAI token will expire in ~60 minutes. If the token is expired, a new token i
 
 Previously, when using the Service Account JSON Credentials we were able to use the `Google::Cloud::BigQuery` library. This is a higher level "modern" libarary which manages smaller details of interacting with the service. This library does not support the OAuth authentication methods we now depend on and so we need to change the BigQuery client to use the Ruby Google API client for BigQuery V2 `Google::Apis::BigqueryV2`.
 
+[Google Apis Usage Guide](https://github.com/googleapis/google-api-ruby-client/blob/main/docs/usage-guide.md)
 
 
 ### Code
