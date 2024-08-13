@@ -1,14 +1,15 @@
 module Azure
   class AccessToken
-    def call
-      url = Azure.config.google_cloud_credentials[:credential_source][:url]
-
-      conn = Faraday.new do |b|
+    def initialize
+      @url = Azure.config.google_cloud_credentials[:credential_source][:url]
+      @conn = Faraday.new do |b|
         b.response :json
         b.request :url_encoded
       end
+    end
 
-      azure_token_response = conn.get(url) do |req|
+    def call
+      azure_token_response = @conn.get(@url) do |req|
         req.body = request_body
       end
 

@@ -6,12 +6,11 @@ module Azure
         b.response :json
         b.request :url_encoded
       end
+      @url = Azure.config.google_cloud_credentials[:token_url]
     end
 
     def call
-      url = Azure.config.google_cloud_credentials[:token_url]
-
-      token_exchange_response = @conn.post(url, request_body)
+      token_exchange_response = @conn.post(@url, request_body)
 
       if token_exchange_response.success?
         token_exchange_response.body['access_token']

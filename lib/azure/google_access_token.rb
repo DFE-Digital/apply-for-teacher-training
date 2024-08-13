@@ -6,12 +6,11 @@ module Azure
         b.response :json
         b.request :url_encoded
       end
+      @url = Azure.config.google_cloud_credentials[:service_account_impersonation_url]
     end
 
     def call
-      url = Azure.config.google_cloud_credentials[:service_account_impersonation_url]
-
-      access_token_response = @conn.post(url, request_body, headers)
+      access_token_response = @conn.post(@url, request_body, headers)
 
       access_token_response.success? || raise_error(access_token_response.status, access_token_response.body)
 
