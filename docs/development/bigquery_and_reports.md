@@ -3,15 +3,14 @@
 This documents explain briefly the relationship between BigQuery and our
 reports.
 
-## BigQuery credentials
+We make requests to Bigquery to populate the weekly and monthly performance reports.
 
-Ask [#twd_data_insights](https://app.slack.com/client/T50RK42V7/C01H0LBCBDW) on Slack
-for access and credentials to access the BigQuery in Apply.
+We have to authenticate requests to Bigquery and we must use [WIF (Workload Identity Federation)](./workload_identity_federation.md)
 
-The moment you have the credentials, locally you can add this env vars to `.env`:
 
-1. ENV['BIG_QUERY_PROJECT_ID']
-2. ENV['DFE_BIGQUERY_API_JSON_KEY']
+## Running Locally
+
+*It is not possible to run things that contact BigQuery locally. This must be done on a review app or QA.*
 
 ## ITT monthly report
 
