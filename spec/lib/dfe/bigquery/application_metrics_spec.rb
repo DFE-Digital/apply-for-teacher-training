@@ -1,18 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe DfE::Bigquery::ApplicationMetrics do
-  include BigqueryStubs
+  include DfE::Bigquery::TestHelper
 
   let(:client) { instance_double(Google::Apis::BigqueryV2::BigqueryService) }
   let(:response) { stub_response }
 
   before do
     set_time(Time.zone.local(2023, 11, 20))
-    allow(DfE::Bigquery).to receive(:client).and_return(client)
-
-    allow(client).to receive(:query_job)
-      .with(DfE::Bigquery.config.bigquery_project_id, instance_of(Google::Apis::BigqueryV2::QueryRequest))
-      .and_return(response)
+    stub_bigquery_application_metrics_request
   end
 
   describe '.candidate_headline_statistics' do
@@ -597,6 +593,32 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
       expect(application_metrics.first.cycle_week).to eq '7'
       expect(application_metrics.first.nonsubject_filter).to eq('Gondor')
       expect(application_metrics.last.nonsubject_filter).to eq('Mordor')
+    end
+  end
+
+  describe 'when there is an error' do
+    subject(:application_metrics) do
+      described_class.new(cycle_week: 7).provider_region
+    end
+
+    context 'when there is more than one page' do
+      before do
+        stub_bigquery_application_metrics_request(page_token: true)
+      end
+
+      it 'raises an error' do
+        expect { application_metrics }.to raise_error(DfE::Bigquery::Relation::MorePagesError)
+      end
+    end
+
+    context 'when the query job does not complete in time' do
+      before do
+        stub_bigquery_application_metrics_request(job_complete: false)
+      end
+
+      it 'raises an error' do
+        expect { application_metrics }.to raise_error(DfE::Bigquery::Relation::JobIncompleteError)
+      end
     end
   end
 end

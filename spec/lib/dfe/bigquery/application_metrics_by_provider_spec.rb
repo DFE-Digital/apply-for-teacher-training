@@ -319,4 +319,30 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
       end
     end
   end
+
+  describe 'when there is an error' do
+    subject(:provider_statistics) do
+      described_class.new(cycle_week: 7).provider_data
+    end
+
+    context 'when there is more than one page' do
+      before do
+        stub_bigquery_application_metrics_by_provider_request(page_token: true)
+      end
+
+      it 'raises an error' do
+        expect { provider_statistics }.to raise_error(DfE::Bigquery::Relation::MorePagesError)
+      end
+    end
+
+    context 'when the query job does not complete in time' do
+      before do
+        stub_bigquery_application_metrics_by_provider_request(job_complete: false)
+      end
+
+      it 'raises an error' do
+        expect { provider_statistics }.to raise_error(DfE::Bigquery::Relation::JobIncompleteError)
+      end
+    end
+  end
 end

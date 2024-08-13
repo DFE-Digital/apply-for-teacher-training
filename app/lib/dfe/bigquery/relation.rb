@@ -1,6 +1,9 @@
 module DfE
   module Bigquery
     module Relation
+      JobIncompleteError = Class.new(StandardError)
+      MorePagesError = Class.new(StandardError)
+
       def table
         ::DfE::Bigquery::Table.new(name: table_name)
       end
@@ -18,6 +21,14 @@ module DfE
           DfE::Bigquery.config.bigquery_project_id,
           query_object,
         )
+
+        unless result.job_complete?
+          raise JobIncompleteError, 'the query job did not complete for some reason'
+        end
+
+        if result.page_token
+          raise MorePagesError, 'the query returned more results than can fit in one page'
+        end
 
         processed_results = result.rows.map do |row|
           result.schema.fields.each_with_object({}).with_index do |(field, memo), index|

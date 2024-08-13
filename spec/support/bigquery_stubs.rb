@@ -1,5 +1,5 @@
 module BigqueryStubs
-  def stub_response(rows: nil)
+  def stub_response(rows: nil, job_complete: true, page_token: nil)
     default_rows = [
       [
         { name: 'cycle_week', type: 'INTEGER', value: '7' },
@@ -26,6 +26,6 @@ module BigqueryStubs
 
     schema = Google::Apis::BigqueryV2::TableSchema.new(fields:)
 
-    instance_double(Google::Apis::BigqueryV2::QueryResponse, rows: processed_rows, schema:)
+    instance_double(Google::Apis::BigqueryV2::QueryResponse, rows: processed_rows, schema:, job_complete?: job_complete, page_token:)
   end
 end
