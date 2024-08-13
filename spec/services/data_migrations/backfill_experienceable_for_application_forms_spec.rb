@@ -6,10 +6,13 @@ RSpec.describe DataMigrations::BackfillExperienceableForApplicationForms do
       :application_volunteering_experience,
       application_form: create(:application_form),
     )
+    # skip the callback that sets these columns
+    volunteering_experience.update_columns(experienceable_id: nil, experienceable_type: nil)
     work_experience = create(
       :application_work_experience,
       application_form: create(:application_form),
     )
+    work_experience.update_columns(experienceable_id: nil, experienceable_type: nil)
 
     described_class.new.change
 

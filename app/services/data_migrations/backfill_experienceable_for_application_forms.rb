@@ -1,5 +1,7 @@
 module DataMigrations
-  class BackfillExperienceableForApplicationForms
+  class BackfillExperienceableForApplicationForms < ActiveRecord::Migration[7.1]
+    disable_ddl_transaction!
+
     TIMESTAMP = 20240809162421
     MANUAL_RUN = true
 
