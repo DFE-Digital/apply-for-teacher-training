@@ -2,28 +2,28 @@ require 'rails_helper'
 
 RSpec.describe Publications::ITTMonthlyReportGenerator do
   include DfE::Bigquery::TestHelper
-  let(:cycle_week) { 7 }
+  let(:cycle_week) { '7' }
   let(:candidate_headline_statistics) do
     {
       cycle_week:,
-      first_date_in_week: Date.new(2023, 11, 13),
-      last_date_in_week: Date.new(2023, 11, 19),
-      number_of_candidates_accepted_to_date: 538,
-      number_of_candidates_accepted_to_same_date_previous_cycle: 478,
-      number_of_candidates_submitted_to_date: 8586,
-      number_of_candidates_submitted_to_same_date_previous_cycle: 5160,
-      number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_date: 0,
-      number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_same_date_previous_cycle: 1,
-      number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date: 246,
-      number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle: 131,
-      number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_date: 7,
-      number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_same_date_previous_cycle: 6,
-      number_of_candidates_with_deferred_offers_from_this_cycle_to_date: 0,
-      number_of_candidates_with_deferred_offers_from_this_cycle_to_same_date_previous_cycle: 0,
-      number_of_candidates_with_offers_to_date: 598,
-      number_of_candidates_with_offers_to_same_date_previous_cycle: 567,
-      number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date: 285,
-      number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle: 213,
+      first_date_in_week: Date.new(2023, 11, 13).iso8601,
+      last_date_in_week: Date.new(2023, 11, 19).iso8601,
+      number_of_candidates_accepted_to_date: '538',
+      number_of_candidates_accepted_to_same_date_previous_cycle: '478',
+      number_of_candidates_submitted_to_date: '8586',
+      number_of_candidates_submitted_to_same_date_previous_cycle: '5160',
+      number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_date: '0',
+      number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_same_date_previous_cycle: '1',
+      number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date: '246',
+      number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle: '131',
+      number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_date: '7',
+      number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_same_date_previous_cycle: '6',
+      number_of_candidates_with_deferred_offers_from_this_cycle_to_date: '0',
+      number_of_candidates_with_deferred_offers_from_this_cycle_to_same_date_previous_cycle: '0',
+      number_of_candidates_with_offers_to_date: '598',
+      number_of_candidates_with_offers_to_same_date_previous_cycle: '567',
+      number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date: '285',
+      number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle: '213',
     }
   end
   let(:age_group) { application_metrics_results.first }
@@ -232,33 +232,33 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
         data: {
           submitted: {
             title: 'Submitted',
-            this_cycle: 8586,
-            last_cycle: 5160,
+            this_cycle: '8586',
+            last_cycle: '5160',
           },
           with_offers: {
             title: 'With offers',
-            this_cycle: 598,
-            last_cycle: 567,
+            this_cycle: '598',
+            last_cycle: '567',
           },
           accepted: {
             title: 'Accepted',
-            this_cycle: 538,
-            last_cycle: 478,
+            this_cycle: '538',
+            last_cycle: '478',
           },
           rejected: {
             title: 'All applications rejected',
-            this_cycle: 246,
-            last_cycle: 131,
+            this_cycle: '246',
+            last_cycle: '131',
           },
           reconfirmed: {
             title: 'Reconfirmed from previous cycle',
-            this_cycle: 285,
-            last_cycle: 213,
+            this_cycle: '285',
+            last_cycle: '213',
           },
           withdrawn: {
             title: 'Withdrawn',
-            this_cycle: 7,
-            last_cycle: 6,
+            this_cycle: '7',
+            last_cycle: '6',
           },
         },
       })
@@ -272,43 +272,43 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
           submitted: [
             {
               title: '21',
-              this_cycle: 400,
-              last_cycle: 200,
+              this_cycle: '400',
+              last_cycle: '200',
             },
           ],
           with_offers: [
             {
               title: '21',
-              this_cycle: 598,
-              last_cycle: 567,
+              this_cycle: '598',
+              last_cycle: '567',
             },
           ],
           accepted: [
             {
               title: '21',
-              this_cycle: 20,
-              last_cycle: 10,
+              this_cycle: '20',
+              last_cycle: '10',
             },
           ],
           rejected: [
             {
               title: '21',
-              this_cycle: 100,
-              last_cycle: 50,
+              this_cycle: '100',
+              last_cycle: '50',
             },
           ],
           reconfirmed: [
             {
               title: '21',
-              this_cycle: 285,
-              last_cycle: 213,
+              this_cycle: '285',
+              last_cycle: '213',
             },
           ],
           withdrawn: [
             {
               title: '21',
-              this_cycle: 200,
-              last_cycle: 100,
+              this_cycle: '200',
+              last_cycle: '100',
             },
           ],
         },
@@ -324,43 +324,43 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
             submitted: [
               {
                 title: 'Male',
-                this_cycle: 400,
-                last_cycle: 200,
+                this_cycle: '400',
+                last_cycle: '200',
               },
             ],
             with_offers: [
               {
                 title: 'Male',
-                this_cycle: 598,
-                last_cycle: 567,
+                this_cycle: '598',
+                last_cycle: '567',
               },
             ],
             accepted: [
               {
                 title: 'Male',
-                this_cycle: 20,
-                last_cycle: 10,
+                this_cycle: '20',
+                last_cycle: '10',
               },
             ],
             rejected: [
               {
                 title: 'Male',
-                this_cycle: 100,
-                last_cycle: 50,
+                this_cycle: '100',
+                last_cycle: '50',
               },
             ],
             reconfirmed: [
               {
                 title: 'Male',
-                this_cycle: 285,
-                last_cycle: 213,
+                this_cycle: '285',
+                last_cycle: '213',
               },
             ],
             withdrawn: [
               {
                 title: 'Male',
-                this_cycle: 200,
-                last_cycle: 100,
+                this_cycle: '200',
+                last_cycle: '100',
               },
             ],
           },
@@ -377,43 +377,43 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
             submitted: [
               {
                 title: 'Gondor',
-                this_cycle: 400,
-                last_cycle: 200,
+                this_cycle: '400',
+                last_cycle: '200',
               },
             ],
             with_offers: [
               {
                 title: 'Gondor',
-                this_cycle: 598,
-                last_cycle: 567,
+                this_cycle: '598',
+                last_cycle: '567',
               },
             ],
             accepted: [
               {
                 title: 'Gondor',
-                this_cycle: 20,
-                last_cycle: 10,
+                this_cycle: '20',
+                last_cycle: '10',
               },
             ],
             rejected: [
               {
                 title: 'Gondor',
-                this_cycle: 100,
-                last_cycle: 50,
+                this_cycle: '100',
+                last_cycle: '50',
               },
             ],
             reconfirmed: [
               {
                 title: 'Gondor',
-                this_cycle: 285,
-                last_cycle: 213,
+                this_cycle: '285',
+                last_cycle: '213',
               },
             ],
             withdrawn: [
               {
                 title: 'Gondor',
-                this_cycle: 200,
-                last_cycle: 100,
+                this_cycle: '200',
+                last_cycle: '100',
               },
             ],
           },
@@ -430,43 +430,43 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
             submitted: [
               {
                 title: 'Primary',
-                this_cycle: 400,
-                last_cycle: 200,
+                this_cycle: '400',
+                last_cycle: '200',
               },
             ],
             with_offers: [
               {
                 title: 'Primary',
-                this_cycle: 598,
-                last_cycle: 567,
+                this_cycle: '598',
+                last_cycle: '567',
               },
             ],
             accepted: [
               {
                 title: 'Primary',
-                this_cycle: 20,
-                last_cycle: 10,
+                this_cycle: '20',
+                last_cycle: '10',
               },
             ],
             rejected: [
               {
                 title: 'Primary',
-                this_cycle: 100,
-                last_cycle: 50,
+                this_cycle: '100',
+                last_cycle: '50',
               },
             ],
             reconfirmed: [
               {
                 title: 'Primary',
-                this_cycle: 285,
-                last_cycle: 213,
+                this_cycle: '285',
+                last_cycle: '213',
               },
             ],
             withdrawn: [
               {
                 title: 'Primary',
-                this_cycle: 200,
-                last_cycle: 100,
+                this_cycle: '200',
+                last_cycle: '100',
               },
             ],
           },
@@ -483,43 +483,43 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
             submitted: [
               {
                 title: 'Higher education',
-                this_cycle: 400,
-                last_cycle: 200,
+                this_cycle: '400',
+                last_cycle: '200',
               },
             ],
             with_offers: [
               {
                 title: 'Higher education',
-                this_cycle: 598,
-                last_cycle: 567,
+                this_cycle: '598',
+                last_cycle: '567',
               },
             ],
             accepted: [
               {
                 title: 'Higher education',
-                this_cycle: 20,
-                last_cycle: 10,
+                this_cycle: '20',
+                last_cycle: '10',
               },
             ],
             rejected: [
               {
                 title: 'Higher education',
-                this_cycle: 100,
-                last_cycle: 50,
+                this_cycle: '100',
+                last_cycle: '50',
               },
             ],
             reconfirmed: [
               {
                 title: 'Higher education',
-                this_cycle: 285,
-                last_cycle: 213,
+                this_cycle: '285',
+                last_cycle: '213',
               },
             ],
             withdrawn: [
               {
                 title: 'Higher education',
-                this_cycle: 200,
-                last_cycle: 100,
+                this_cycle: '200',
+                last_cycle: '100',
               },
             ],
           },
@@ -536,43 +536,43 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
             submitted: [
               {
                 title: 'Primary with English',
-                this_cycle: 400,
-                last_cycle: 200,
+                this_cycle: '400',
+                last_cycle: '200',
               },
             ],
             with_offers: [
               {
                 title: 'Primary with English',
-                this_cycle: 598,
-                last_cycle: 567,
+                this_cycle: '598',
+                last_cycle: '567',
               },
             ],
             accepted: [
               {
                 title: 'Primary with English',
-                this_cycle: 20,
-                last_cycle: 10,
+                this_cycle: '20',
+                last_cycle: '10',
               },
             ],
             rejected: [
               {
                 title: 'Primary with English',
-                this_cycle: 100,
-                last_cycle: 50,
+                this_cycle: '100',
+                last_cycle: '50',
               },
             ],
             reconfirmed: [
               {
                 title: 'Primary with English',
-                this_cycle: 285,
-                last_cycle: 213,
+                this_cycle: '285',
+                last_cycle: '213',
               },
             ],
             withdrawn: [
               {
                 title: 'Primary with English',
-                this_cycle: 200,
-                last_cycle: 100,
+                this_cycle: '200',
+                last_cycle: '100',
               },
             ],
           },
@@ -589,43 +589,43 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
             submitted: [
               {
                 title: 'Drama',
-                this_cycle: 400,
-                last_cycle: 200,
+                this_cycle: '400',
+                last_cycle: '200',
               },
             ],
             with_offers: [
               {
                 title: 'Drama',
-                this_cycle: 598,
-                last_cycle: 567,
+                this_cycle: '598',
+                last_cycle: '567',
               },
             ],
             accepted: [
               {
                 title: 'Drama',
-                this_cycle: 20,
-                last_cycle: 10,
+                this_cycle: '20',
+                last_cycle: '10',
               },
             ],
             rejected: [
               {
                 title: 'Drama',
-                this_cycle: 100,
-                last_cycle: 50,
+                this_cycle: '100',
+                last_cycle: '50',
               },
             ],
             reconfirmed: [
               {
                 title: 'Drama',
-                this_cycle: 285,
-                last_cycle: 213,
+                this_cycle: '285',
+                last_cycle: '213',
               },
             ],
             withdrawn: [
               {
                 title: 'Drama',
-                this_cycle: 200,
-                last_cycle: 100,
+                this_cycle: '200',
+                last_cycle: '100',
               },
             ],
           },
@@ -642,43 +642,43 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
             submitted: [
               {
                 title: 'Hogsmeade',
-                this_cycle: 400,
-                last_cycle: 200,
+                this_cycle: '400',
+                last_cycle: '200',
               },
             ],
             with_offers: [
               {
                 title: 'Hogsmeade',
-                this_cycle: 598,
-                last_cycle: 567,
+                this_cycle: '598',
+                last_cycle: '567',
               },
             ],
             accepted: [
               {
                 title: 'Hogsmeade',
-                this_cycle: 20,
-                last_cycle: 10,
+                this_cycle: '20',
+                last_cycle: '10',
               },
             ],
             rejected: [
               {
                 title: 'Hogsmeade',
-                this_cycle: 100,
-                last_cycle: 50,
+                this_cycle: '100',
+                last_cycle: '50',
               },
             ],
             reconfirmed: [
               {
                 title: 'Hogsmeade',
-                this_cycle: 285,
-                last_cycle: 213,
+                this_cycle: '285',
+                last_cycle: '213',
               },
             ],
             withdrawn: [
               {
                 title: 'Hogsmeade',
-                this_cycle: 200,
-                last_cycle: 100,
+                this_cycle: '200',
+                last_cycle: '100',
               },
             ],
           },
@@ -694,120 +694,120 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
           submitted: [
             {
               title: 'Fangorn Forest',
-              this_cycle: 400,
-              last_cycle: 200,
+              this_cycle: '400',
+              last_cycle: '200',
               subject: 'Geography',
             },
             {
               title: 'Fangorn Forest',
-              this_cycle: 400,
-              last_cycle: 200,
+              this_cycle: '400',
+              last_cycle: '200',
               subject: 'History',
             },
             {
               title: 'Fangorn Forest',
-              this_cycle: 400,
-              last_cycle: 200,
+              this_cycle: '400',
+              last_cycle: '200',
               subject: 'Music',
             },
           ],
           with_offers: [
             {
               title: 'Fangorn Forest',
-              this_cycle: 598,
-              last_cycle: 567,
+              this_cycle: '598',
+              last_cycle: '567',
               subject: 'Geography',
             },
             {
               title: 'Fangorn Forest',
-              this_cycle: 598,
-              last_cycle: 567,
+              this_cycle: '598',
+              last_cycle: '567',
               subject: 'History',
             },
             {
               title: 'Fangorn Forest',
-              this_cycle: 598,
-              last_cycle: 567,
+              this_cycle: '598',
+              last_cycle: '567',
               subject: 'Music',
             },
           ],
           accepted: [
             {
               title: 'Fangorn Forest',
-              this_cycle: 20,
-              last_cycle: 10,
+              this_cycle: '20',
+              last_cycle: '10',
               subject: 'Geography',
             },
             {
               title: 'Fangorn Forest',
-              this_cycle: 20,
-              last_cycle: 10,
+              this_cycle: '20',
+              last_cycle: '10',
               subject: 'History',
             },
             {
               title: 'Fangorn Forest',
-              this_cycle: 20,
-              last_cycle: 10,
+              this_cycle: '20',
+              last_cycle: '10',
               subject: 'Music',
             },
           ],
           rejected: [
             {
               title: 'Fangorn Forest',
-              this_cycle: 100,
-              last_cycle: 50,
+              this_cycle: '100',
+              last_cycle: '50',
               subject: 'Geography',
             },
             {
               title: 'Fangorn Forest',
-              this_cycle: 100,
-              last_cycle: 50,
+              this_cycle: '100',
+              last_cycle: '50',
               subject: 'History',
             },
             {
               title: 'Fangorn Forest',
-              this_cycle: 100,
-              last_cycle: 50,
+              this_cycle: '100',
+              last_cycle: '50',
               subject: 'Music',
             },
           ],
           reconfirmed: [
             {
               title: 'Fangorn Forest',
-              this_cycle: 285,
-              last_cycle: 213,
+              this_cycle: '285',
+              last_cycle: '213',
               subject: 'Geography',
             },
             {
               title: 'Fangorn Forest',
-              this_cycle: 285,
-              last_cycle: 213,
+              this_cycle: '285',
+              last_cycle: '213',
               subject: 'History',
             },
             {
               title: 'Fangorn Forest',
-              this_cycle: 285,
-              last_cycle: 213,
+              this_cycle: '285',
+              last_cycle: '213',
               subject: 'Music',
             },
           ],
           withdrawn: [
             {
               title: 'Fangorn Forest',
-              this_cycle: 200,
-              last_cycle: 100,
+              this_cycle: '200',
+              last_cycle: '100',
               subject: 'Geography',
             },
             {
               title: 'Fangorn Forest',
-              this_cycle: 200,
-              last_cycle: 100,
+              this_cycle: '200',
+              last_cycle: '100',
               subject: 'History',
             },
             {
               title: 'Fangorn Forest',
-              this_cycle: 200,
-              last_cycle: 100,
+              this_cycle: '200',
+              last_cycle: '100',
               subject: 'Music',
             },
           ],
@@ -823,120 +823,120 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
           submitted: [
             {
               title: 'Isengard',
-              this_cycle: 400,
-              last_cycle: 200,
+              this_cycle: '400',
+              last_cycle: '200',
               subject: 'Drama',
             },
             {
               title: 'Isengard',
-              this_cycle: 400,
-              last_cycle: 200,
+              this_cycle: '400',
+              last_cycle: '200',
               subject: 'Primary with Mathematics',
             },
             {
               title: 'Isengard',
-              this_cycle: 400,
-              last_cycle: 200,
+              this_cycle: '400',
+              last_cycle: '200',
               subject: 'Mathematics',
             },
           ],
           with_offers: [
             {
               title: 'Isengard',
-              this_cycle: 598,
-              last_cycle: 567,
+              this_cycle: '598',
+              last_cycle: '567',
               subject: 'Drama',
             },
             {
               title: 'Isengard',
-              this_cycle: 598,
-              last_cycle: 567,
+              this_cycle: '598',
+              last_cycle: '567',
               subject: 'Primary with Mathematics',
             },
             {
               title: 'Isengard',
-              this_cycle: 598,
-              last_cycle: 567,
+              this_cycle: '598',
+              last_cycle: '567',
               subject: 'Mathematics',
             },
           ],
           accepted: [
             {
               title: 'Isengard',
-              this_cycle: 20,
-              last_cycle: 10,
+              this_cycle: '20',
+              last_cycle: '10',
               subject: 'Drama',
             },
             {
               title: 'Isengard',
-              this_cycle: 20,
-              last_cycle: 10,
+              this_cycle: '20',
+              last_cycle: '10',
               subject: 'Primary with Mathematics',
             },
             {
               title: 'Isengard',
-              this_cycle: 20,
-              last_cycle: 10,
+              this_cycle: '20',
+              last_cycle: '10',
               subject: 'Mathematics',
             },
           ],
           rejected: [
             {
               title: 'Isengard',
-              this_cycle: 100,
-              last_cycle: 50,
+              this_cycle: '100',
+              last_cycle: '50',
               subject: 'Drama',
             },
             {
               title: 'Isengard',
-              this_cycle: 100,
-              last_cycle: 50,
+              this_cycle: '100',
+              last_cycle: '50',
               subject: 'Primary with Mathematics',
             },
             {
               title: 'Isengard',
-              this_cycle: 100,
-              last_cycle: 50,
+              this_cycle: '100',
+              last_cycle: '50',
               subject: 'Mathematics',
             },
           ],
           reconfirmed: [
             {
               title: 'Isengard',
-              this_cycle: 285,
-              last_cycle: 213,
+              this_cycle: '285',
+              last_cycle: '213',
               subject: 'Drama',
             },
             {
               title: 'Isengard',
-              this_cycle: 285,
-              last_cycle: 213,
+              this_cycle: '285',
+              last_cycle: '213',
               subject: 'Primary with Mathematics',
             },
             {
               title: 'Isengard',
-              this_cycle: 285,
-              last_cycle: 213,
+              this_cycle: '285',
+              last_cycle: '213',
               subject: 'Mathematics',
             },
           ],
           withdrawn: [
             {
               title: 'Isengard',
-              this_cycle: 200,
-              last_cycle: 100,
+              this_cycle: '200',
+              last_cycle: '100',
               subject: 'Drama',
             },
             {
               title: 'Isengard',
-              this_cycle: 200,
-              last_cycle: 100,
+              this_cycle: '200',
+              last_cycle: '100',
               subject: 'Primary with Mathematics',
             },
             {
               title: 'Isengard',
-              this_cycle: 200,
-              last_cycle: 100,
+              this_cycle: '200',
+              last_cycle: '100',
               subject: 'Mathematics',
             },
           ],
