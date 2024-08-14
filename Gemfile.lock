@@ -162,7 +162,7 @@ GEM
       rexml
     base64 (0.2.0)
     bcrypt (3.1.20)
-    better_html (2.0.2)
+    better_html (2.1.1)
       actionview (>= 6.0)
       activesupport (>= 6.0)
       ast (~> 2.0)
@@ -247,12 +247,12 @@ GEM
       railties (>= 6.1)
     drb (2.2.1)
     dry-initializer (3.1.1)
-    erb_lint (0.5.0)
+    erb_lint (0.6.0)
       activesupport
       better_html (>= 2.0.1)
       parser (>= 2.7.1.4)
       rainbow
-      rubocop
+      rubocop (>= 1)
       smart_properties
     erubi (1.13.0)
     excon (0.109.0)
