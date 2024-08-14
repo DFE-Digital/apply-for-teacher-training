@@ -70,6 +70,19 @@ class DuplicateApplication
 
       new_application_form.update!(references_completed: false)
 
+      if original_application_form.english_proficiency.present?
+        efl_qualification = if original_application_form.english_proficiency.efl_qualification.present?
+                              original_application_form.english_proficiency.efl_qualification_type.constantize.new(
+                                **original_application_form.english_proficiency.efl_qualification.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
+                              )
+                            end
+        EnglishProficiency.create!(
+          **original_application_form.english_proficiency.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
+          efl_qualification:,
+          application_form: new_application_form,
+        )
+      end
+
       original_application_form.application_work_history_breaks.each do |w|
         new_application_form.application_work_history_breaks.create!(
           w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),

@@ -12,6 +12,7 @@ RSpec.describe DuplicateApplication do
         full_work_history: true,
         recruitment_cycle_year:,
         references_count: 0,
+        efl_completed: true,
       )
       create_list(:reference, 2, feedback_status: :feedback_provided, application_form: @original_application_form)
       create(:reference, feedback_status: :feedback_refused, application_form: @original_application_form)
@@ -45,6 +46,27 @@ RSpec.describe DuplicateApplication do
   it 'does not carry over any equality and diversity data' do
     expect(duplicate_application_form.equality_and_diversity).to be_nil
     expect(duplicate_application_form.equality_and_diversity_completed).to be_nil
+  end
+
+  context 'english proficiency' do
+    it 'carries over english proficiency data where qualification is not needed' do
+      create(:english_proficiency, :qualification_not_needed, application_form: @original_application_form)
+      result = duplicate_application_form
+
+      expect(result.efl_completed).to be true
+      expect(result.english_proficiency.present?).to be(true)
+      expect(result.english_proficiency.efl_qualification).to be_nil
+    end
+
+    it 'carries over english proficiency data with elf qualification' do
+      create(:english_proficiency, :with_toefl_qualification, application_form: @original_application_form)
+      result = duplicate_application_form
+
+      expect(result.efl_completed).to be true
+      expect(result.english_proficiency.present?).to be(true)
+      expect(result.english_proficiency.efl_qualification.present?).to be(true)
+      expect(result.english_proficiency.efl_qualification_type).to eq 'ToeflQualification'
+    end
   end
 
   context 'when application form is unsuccessful' do
