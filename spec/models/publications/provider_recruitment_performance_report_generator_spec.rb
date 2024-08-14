@@ -13,8 +13,8 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
     before do
       stub_bigquery_application_metrics_by_provider_request(
         rows: [[
-          { name: 'nonprovider_filter', type: 'INTEGER', value: 'Primary' },
-          { name: 'nonprovider_filter_category', type: 'INTEGER', value: nil },
+          { name: 'nonprovider_filter', type: 'STRING', value: 'Primary' },
+          { name: 'nonprovider_filter_category', type: 'STRING', value: nil },
           { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
           { name: 'id', type: 'INTEGER', value: provider_id.to_s },
         ]],
@@ -28,9 +28,9 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
         {
           'nonprovider_filter' => 'Primary',
           'nonprovider_filter_category' => nil,
-          'cycle_week' => cycle_week.to_s,
+          'cycle_week' => cycle_week,
           'recruitment_cycle_year' => nil,
-          'provider_id' => provider_id.to_s,
+          'provider_id' => provider_id,
           'number_of_candidates_submitted_to_date' => nil,
           'number_of_candidates_submitted_to_same_date_previous_cycle' => nil,
           'number_of_candidates_submitted_to_date_as_proportion_of_last_cycle' => nil,

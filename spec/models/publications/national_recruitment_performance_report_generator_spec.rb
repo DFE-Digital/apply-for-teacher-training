@@ -8,8 +8,8 @@ RSpec.describe Publications::NationalRecruitmentPerformanceReportGenerator do
   before do
     stub_bigquery_application_metrics_by_provider_request(
       rows: [[
-        { name: 'nonprovider_filter', type: 'INTEGER', value: 'Primary' },
-        { name: 'nonprovider_filter_category', type: 'INTEGER', value: nil },
+        { name: 'nonprovider_filter', type: 'STRING', value: 'Primary' },
+        { name: 'nonprovider_filter_category', type: 'STRING', value: nil },
         { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
         { name: 'id', type: 'INTEGER', value: nil },
       ]],
@@ -23,7 +23,7 @@ RSpec.describe Publications::NationalRecruitmentPerformanceReportGenerator do
   let(:attributes) do
     [{ 'nonprovider_filter' => 'Primary',
        'nonprovider_filter_category' => nil,
-       'cycle_week' => cycle_week.to_s,
+       'cycle_week' => cycle_week,
        'recruitment_cycle_year' => nil,
        'provider_id' => nil,
        'number_of_candidates_submitted_to_date' => nil,
