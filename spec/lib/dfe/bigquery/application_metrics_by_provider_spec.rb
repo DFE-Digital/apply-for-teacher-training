@@ -17,15 +17,15 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
         { name: 'nonprovider_filter_category', type: 'STRING', value: 'Primary' },
         { name: 'number_of_candidates_submitted_to_date', type: 'INTEGER', value: '100' },
         { name: 'number_of_candidates_submitted_to_same_date_previous_cycle', type: 'INTEGER', value: '200' },
-        { name: 'number_of_candidates_submitted_to_date_as_proportion_of_last_cycle', type: 'INTEGER', value: '0.5' },
+        { name: 'number_of_candidates_submitted_to_date_as_proportion_of_last_cycle', type: 'FLOAT', value: '0.5' },
         { name: 'number_of_candidates_with_offers_to_date', type: 'INTEGER', value: '10' },
         { name: 'number_of_candidates_with_offers_to_same_date_previous_cycle', type: 'INTEGER', value: '5' },
-        { name: 'number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle', type: 'INTEGER', value: '2.0' },
-        { name: 'offer_rate_to_date', type: 'INTEGER', value: '1.2' },
-        { name: 'offer_rate_to_same_date_previous_cycle', type: 'INTEGER', value: '1.5' },
+        { name: 'number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle', type: 'FLOAT', value: '2.0' },
+        { name: 'offer_rate_to_date', type: 'FLOAT', value: '1.2' },
+        { name: 'offer_rate_to_same_date_previous_cycle', type: 'FLOAT', value: '1.5' },
         { name: 'number_of_candidates_accepted_to_date', type: 'INTEGER', value: '1' },
         { name: 'number_of_candidates_accepted_to_same_date_previous_cycle', type: 'INTEGER', value: '10' },
-        { name: 'number_of_candidates_accepted_to_date_as_proportion_of_last_cycle', type: 'INTEGER', value: '0.1' },
+        { name: 'number_of_candidates_accepted_to_date_as_proportion_of_last_cycle', type: 'FLOAT', value: '0.1' },
         { name: 'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date', type: 'INTEGER', value: '12' },
         { name: 'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle', type: 'INTEGER', value: '12' },
         { name: 'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle', type: 'INTEGER', value: '0' },
@@ -38,10 +38,10 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
     end
 
     # Bigq{name: 'uery returns `provider.id` as :id
-    let(:bigquery_results) do
+    let(:results) do
       [
         {
-          id: 1337,
+          provider_id: 1337,
           cycle_week: 18,
           recruitment_cycle_year: 2024,
           nonprovider_filter: 'Level',
@@ -65,37 +65,6 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
           number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle: 0,
           number_of_candidates_who_had_an_inactive_application_this_cycle_to_date: 12,
           number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates: 12,
-        },
-      ]
-    end
-
-    let(:results) do
-      [
-        {
-          provider_id: '1337',
-          cycle_week: '18',
-          recruitment_cycle_year: '2024',
-          nonprovider_filter: 'Level',
-          nonprovider_filter_category: 'Primary',
-          number_of_candidates_submitted_to_date: '100',
-          number_of_candidates_submitted_to_same_date_previous_cycle: '200',
-          number_of_candidates_submitted_to_date_as_proportion_of_last_cycle: '0.5',
-          number_of_candidates_with_offers_to_date: '10',
-          number_of_candidates_with_offers_to_same_date_previous_cycle: '5',
-          number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle: '2.0',
-          offer_rate_to_date: '1.2',
-          offer_rate_to_same_date_previous_cycle: '1.5',
-          number_of_candidates_accepted_to_date: '1',
-          number_of_candidates_accepted_to_same_date_previous_cycle: '10',
-          number_of_candidates_accepted_to_date_as_proportion_of_last_cycle: '0.1',
-          number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date: '12',
-          number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle: '12',
-          number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle: '0',
-          number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date: '12',
-          number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle: '12',
-          number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle: '0',
-          number_of_candidates_who_had_an_inactive_application_this_cycle_to_date: '12',
-          number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates: '12',
         },
       ]
     end
@@ -128,32 +97,30 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
     it 'assigns the attributes for the application metrics', :aggregate_failures do
       expect(provider_statistics.first.nonprovider_filter).to eq 'Level'
       expect(provider_statistics.first.nonprovider_filter_category).to eq 'Primary'
-      expect(provider_statistics.first.cycle_week).to eq '18'
-      expect(provider_statistics.first.recruitment_cycle_year).to eq '2024'
-      expect(provider_statistics.first.provider_id).to eq '1337'
-      expect(provider_statistics.first.number_of_candidates_submitted_to_date).to eq '100'
-      expect(provider_statistics.first.number_of_candidates_submitted_to_same_date_previous_cycle).to eq '200'
-      expect(provider_statistics.first.number_of_candidates_submitted_to_date_as_proportion_of_last_cycle).to eq '0.5'
-      expect(provider_statistics.first.number_of_candidates_with_offers_to_date).to eq '10'
-      expect(provider_statistics.first.number_of_candidates_with_offers_to_same_date_previous_cycle).to eq '5'
-      expect(provider_statistics.first.number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle).to eq '2.0'
-      expect(provider_statistics.first.number_of_candidates_accepted_to_date).to eq '1'
-      expect(provider_statistics.first.number_of_candidates_accepted_to_same_date_previous_cycle).to eq '10'
-      expect(provider_statistics.first.number_of_candidates_accepted_to_date_as_proportion_of_last_cycle).to eq '0.1'
-      expect(provider_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date).to eq '12'
-      expect(provider_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle).to eq '12'
-      expect(provider_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle).to eq '0'
-      expect(provider_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date).to eq '12'
-      expect(provider_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle).to eq '12'
-      expect(provider_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle).to eq '0'
-      expect(provider_statistics.first.number_of_candidates_who_had_an_inactive_application_this_cycle_to_date).to eq '12'
-      expect(provider_statistics.first.number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates).to eq '12'
-      expect(provider_statistics.first.number_of_candidates_submitted_to_date).to eq '100'
+      expect(provider_statistics.first.cycle_week).to eq 18
+      expect(provider_statistics.first.recruitment_cycle_year).to eq 2024
+      expect(provider_statistics.first.provider_id).to eq 1337
+      expect(provider_statistics.first.number_of_candidates_submitted_to_date).to eq 100
+      expect(provider_statistics.first.number_of_candidates_submitted_to_same_date_previous_cycle).to eq 200
+      expect(provider_statistics.first.number_of_candidates_submitted_to_date_as_proportion_of_last_cycle).to eq 0.5
+      expect(provider_statistics.first.number_of_candidates_with_offers_to_date).to eq 10
+      expect(provider_statistics.first.number_of_candidates_with_offers_to_same_date_previous_cycle).to eq 5
+      expect(provider_statistics.first.number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle).to eq 2.0
+      expect(provider_statistics.first.number_of_candidates_accepted_to_date).to eq 1
+      expect(provider_statistics.first.number_of_candidates_accepted_to_same_date_previous_cycle).to eq 10
+      expect(provider_statistics.first.number_of_candidates_accepted_to_date_as_proportion_of_last_cycle).to eq 0.1
+      expect(provider_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date).to eq 12
+      expect(provider_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle).to eq 12
+      expect(provider_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle).to eq 0
+      expect(provider_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date).to eq 12
+      expect(provider_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle).to eq 12
+      expect(provider_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle).to eq 0
+      expect(provider_statistics.first.number_of_candidates_who_had_an_inactive_application_this_cycle_to_date).to eq 12
+      expect(provider_statistics.first.number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates).to eq 12
+      expect(provider_statistics.first.number_of_candidates_submitted_to_date).to eq 100
     end
 
     context 'when the api returns no data for the provider id' do
-      let(:bigquery_results) { [] }
-
       before do
         stub_bigquery_application_metrics_by_provider_request(rows: [])
       end
@@ -172,29 +139,29 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
     let(:results) do
       [
         {
-          cycle_week: '18',
-          recruitment_cycle_year: '2024',
+          cycle_week: 18,
+          recruitment_cycle_year: 2024,
           nonprovider_filter: 'Level',
           nonprovider_filter_category: 'Primary',
-          number_of_candidates_submitted_to_date: '100',
-          number_of_candidates_submitted_to_same_date_previous_cycle: '200',
-          number_of_candidates_submitted_to_date_as_proportion_of_last_cycle: '0.5',
-          number_of_candidates_with_offers_to_date: '10',
-          number_of_candidates_with_offers_to_same_date_previous_cycle: '5',
-          number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle: '2.0',
-          offer_rate_to_date: '1.2',
-          offer_rate_to_same_date_previous_cycle: '1.5',
-          number_of_candidates_accepted_to_date: '1',
-          number_of_candidates_accepted_to_same_date_previous_cycle: '10',
-          number_of_candidates_accepted_to_date_as_proportion_of_last_cycle: '0.1',
-          number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date: '12',
-          number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle: '12',
-          number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle: '0',
-          number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date: '12',
-          number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle: '12',
-          number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle: '0',
-          number_of_candidates_who_had_an_inactive_application_this_cycle_to_date: '12',
-          number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates: '12',
+          number_of_candidates_submitted_to_date: 100,
+          number_of_candidates_submitted_to_same_date_previous_cycle: 200,
+          number_of_candidates_submitted_to_date_as_proportion_of_last_cycle: 0.5,
+          number_of_candidates_with_offers_to_date: 10,
+          number_of_candidates_with_offers_to_same_date_previous_cycle: 5,
+          number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle: 2.0,
+          offer_rate_to_date: 1.2,
+          offer_rate_to_same_date_previous_cycle: 1.5,
+          number_of_candidates_accepted_to_date: 1,
+          number_of_candidates_accepted_to_same_date_previous_cycle: 10,
+          number_of_candidates_accepted_to_date_as_proportion_of_last_cycle: 0.1,
+          number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date: 12,
+          number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle: 12,
+          number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle: 0,
+          number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date: 12,
+          number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle: 12,
+          number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle: 0,
+          number_of_candidates_who_had_an_inactive_application_this_cycle_to_date: 12,
+          number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates: 12,
         },
 
       ]
@@ -207,15 +174,15 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
         { name: 'nonprovider_filter_category', type: 'STRING', value: 'Primary' },
         { name: 'number_of_candidates_submitted_to_date', type: 'INTEGER', value: '100' },
         { name: 'number_of_candidates_submitted_to_same_date_previous_cycle', type: 'INTEGER', value: '200' },
-        { name: 'number_of_candidates_submitted_to_date_as_proportion_of_last_cycle', type: 'INTEGER', value: '0.5' },
+        { name: 'number_of_candidates_submitted_to_date_as_proportion_of_last_cycle', type: 'FLOAT', value: '0.5' },
         { name: 'number_of_candidates_with_offers_to_date', type: 'INTEGER', value: '10' },
         { name: 'number_of_candidates_with_offers_to_same_date_previous_cycle', type: 'INTEGER', value: '5' },
-        { name: 'number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle', type: 'INTEGER', value: '2.0' },
-        { name: 'offer_rate_to_date', type: 'INTEGER', value: '1.2' },
-        { name: 'offer_rate_to_same_date_previous_cycle', type: 'INTEGER', value: '1.5' },
+        { name: 'number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle', type: 'FLOAT', value: '2.0' },
+        { name: 'offer_rate_to_date', type: 'FLOAT', value: '1.2' },
+        { name: 'offer_rate_to_same_date_previous_cycle', type: 'FLOAT', value: '1.5' },
         { name: 'number_of_candidates_accepted_to_date', type: 'INTEGER', value: '1' },
         { name: 'number_of_candidates_accepted_to_same_date_previous_cycle', type: 'INTEGER', value: '10' },
-        { name: 'number_of_candidates_accepted_to_date_as_proportion_of_last_cycle', type: 'INTEGER', value: '0.1' },
+        { name: 'number_of_candidates_accepted_to_date_as_proportion_of_last_cycle', type: 'FLOAT', value: '0.1' },
         { name: 'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date', type: 'INTEGER', value: '12' },
         { name: 'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle', type: 'INTEGER', value: '12' },
         { name: 'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle', type: 'INTEGER', value: '0' },
@@ -256,30 +223,29 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
     it 'assigns the attributes for the application metrics', :aggregate_failures do
       expect(national_statistics.first.nonprovider_filter).to eq 'Level'
       expect(national_statistics.first.nonprovider_filter_category).to eq 'Primary'
-      expect(national_statistics.first.cycle_week).to eq '18'
-      expect(national_statistics.first.recruitment_cycle_year).to eq '2024'
-      expect(national_statistics.first.number_of_candidates_submitted_to_date).to eq '100'
-      expect(national_statistics.first.number_of_candidates_submitted_to_same_date_previous_cycle).to eq '200'
-      expect(national_statistics.first.number_of_candidates_submitted_to_date_as_proportion_of_last_cycle).to eq '0.5'
-      expect(national_statistics.first.number_of_candidates_with_offers_to_date).to eq '10'
-      expect(national_statistics.first.number_of_candidates_with_offers_to_same_date_previous_cycle).to eq '5'
-      expect(national_statistics.first.number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle).to eq '2.0'
-      expect(national_statistics.first.number_of_candidates_accepted_to_date).to eq '1'
-      expect(national_statistics.first.number_of_candidates_accepted_to_same_date_previous_cycle).to eq '10'
-      expect(national_statistics.first.number_of_candidates_accepted_to_date_as_proportion_of_last_cycle).to eq '0.1'
-      expect(national_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date).to eq '12'
-      expect(national_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle).to eq '12'
-      expect(national_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle).to eq '0'
-      expect(national_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date).to eq '12'
-      expect(national_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle).to eq '12'
-      expect(national_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle).to eq '0'
-      expect(national_statistics.first.number_of_candidates_who_had_an_inactive_application_this_cycle_to_date).to eq '12'
-      expect(national_statistics.first.number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates).to eq '12'
-      expect(national_statistics.first.number_of_candidates_submitted_to_date).to eq '100'
+      expect(national_statistics.first.cycle_week).to eq 18
+      expect(national_statistics.first.recruitment_cycle_year).to eq 2024
+      expect(national_statistics.first.number_of_candidates_submitted_to_date).to eq 100
+      expect(national_statistics.first.number_of_candidates_submitted_to_same_date_previous_cycle).to eq 200
+      expect(national_statistics.first.number_of_candidates_submitted_to_date_as_proportion_of_last_cycle).to eq 0.5
+      expect(national_statistics.first.number_of_candidates_with_offers_to_date).to eq 10
+      expect(national_statistics.first.number_of_candidates_with_offers_to_same_date_previous_cycle).to eq 5
+      expect(national_statistics.first.number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle).to eq 2.0
+      expect(national_statistics.first.number_of_candidates_accepted_to_date).to eq 1
+      expect(national_statistics.first.number_of_candidates_accepted_to_same_date_previous_cycle).to eq 10
+      expect(national_statistics.first.number_of_candidates_accepted_to_date_as_proportion_of_last_cycle).to eq 0.1
+      expect(national_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date).to eq 12
+      expect(national_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle).to eq 12
+      expect(national_statistics.first.number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle).to eq 0
+      expect(national_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date).to eq 12
+      expect(national_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle).to eq 12
+      expect(national_statistics.first.number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle).to eq 0
+      expect(national_statistics.first.number_of_candidates_who_had_an_inactive_application_this_cycle_to_date).to eq 12
+      expect(national_statistics.first.number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates).to eq 12
+      expect(national_statistics.first.number_of_candidates_submitted_to_date).to eq 100
     end
 
     context 'when the api returns no data' do
-      let(:bigquery_results) { [] }
       let(:rows) { [] }
 
       before do
@@ -342,6 +308,18 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
 
       it 'raises an error' do
         expect { provider_statistics }.to raise_error(DfE::Bigquery::Relation::JobIncompleteError)
+      end
+    end
+
+    context 'when an unhandled type is returned' do
+      before do
+        stub_bigquery_application_metrics_by_provider_request(rows: [[
+          { name: 'some_value', type: 'COFFEE', value: '☕' },
+        ]])
+      end
+
+      it 'raises an error' do
+        expect { provider_statistics }.to raise_error(DfE::Bigquery::Relation::UnknownTypeError).with_message("cannot parse this type of value: 'COFFEE'")
       end
     end
   end
