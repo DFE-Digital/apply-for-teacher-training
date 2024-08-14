@@ -1,6 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationForm do
+  it { is_expected.to belong_to(:candidate).touch(true) }
+  it { is_expected.to belong_to(:previous_application_form).class_name('ApplicationForm').optional.inverse_of('subsequent_application_form') }
+
+  it { is_expected.to have_one(:subsequent_application_form).class_name('ApplicationForm').with_foreign_key('previous_application_form_id').inverse_of('previous_application_form') }
+  it { is_expected.to have_one(:english_proficiency) }
+
+  it { is_expected.to have_many(:application_choices) }
+  it { is_expected.to have_many(:course_options).through(:application_choices) }
+  it { is_expected.to have_many(:courses).through(:application_choices) }
+  it { is_expected.to have_many(:providers).through(:application_choices) }
+  it { is_expected.to have_many(:application_work_experiences) }
+  it { is_expected.to have_many(:application_volunteering_experiences) }
+  it { is_expected.to have_many(:application_qualifications) }
+  it { is_expected.to have_many(:application_references) }
+  it { is_expected.to have_many(:application_work_history_breaks) }
+  it { is_expected.to have_many(:emails) }
+  it { is_expected.to have_many(:application_feedback) }
+
   describe '#cannot_add_more_choices?' do
     let(:application_form) { create(:application_form) }
 
