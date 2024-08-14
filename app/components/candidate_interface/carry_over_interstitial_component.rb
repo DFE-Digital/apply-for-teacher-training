@@ -14,6 +14,14 @@ module CandidateInterface
       academic_cycle_name(next_recruitment_cycle_year)
     end
 
+    def application_choices
+      CandidateInterface::SortApplicationChoices.call(
+        application_choices: @application_form.application_choices
+                                              .includes(:course, :site, :provider, :current_course, :current_course_option, :interviews)
+                                              .includes(offer: :conditions),
+      )
+    end
+
   private
 
     def academic_cycle_name(year)

@@ -38,7 +38,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
       it 'redirects to the dashboard' do
         get candidate_interface_becoming_a_teacher_show_path
 
-        expect(response).to redirect_to(candidate_interface_application_complete_path)
+        expect(response).to redirect_to(candidate_interface_start_carry_over_path)
       end
     end
 
@@ -69,7 +69,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
         it 'redirects to the complete page' do
           patch candidate_interface_new_becoming_a_teacher_path, params: params
 
-          expect(response).to redirect_to(candidate_interface_application_complete_path)
+          expect(response).to redirect_to(candidate_interface_start_carry_over_path)
         end
       end
 
@@ -145,7 +145,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
         it 'redirects to the complete page' do
           patch candidate_interface_edit_becoming_a_teacher_path, params: params
 
-          expect(response).to redirect_to(candidate_interface_application_complete_path)
+          expect(response).to redirect_to(candidate_interface_start_carry_over_path)
         end
       end
 
