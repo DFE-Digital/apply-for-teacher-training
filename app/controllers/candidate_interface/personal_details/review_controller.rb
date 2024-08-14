@@ -1,8 +1,6 @@
 module CandidateInterface
   module PersonalDetails
     class ReviewController < SectionController
-      before_action :redirect_v23_applications_to_complete_page_if_submitted_and_not_carried_over
-
       def show
         @application_form = current_application
         @section_complete_form = SectionCompleteForm.new(

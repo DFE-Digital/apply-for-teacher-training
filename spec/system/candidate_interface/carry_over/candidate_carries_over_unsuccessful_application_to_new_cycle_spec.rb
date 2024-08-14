@@ -70,8 +70,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   def when_i_sign_in
     logout
     login_as(@candidate)
-    @url = page.current_url
-    visit @url
+    visit root_path
   end
   alias_method :and_i_sign_in, :when_i_sign_in
 

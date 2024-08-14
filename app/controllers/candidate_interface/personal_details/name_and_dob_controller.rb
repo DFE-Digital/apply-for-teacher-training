@@ -1,8 +1,6 @@
 module CandidateInterface
   module PersonalDetails
     class NameAndDobController < CandidateInterfaceController
-      before_action :redirect_v23_applications_to_complete_page_if_submitted_and_not_carried_over
-
       def new
         @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
       end

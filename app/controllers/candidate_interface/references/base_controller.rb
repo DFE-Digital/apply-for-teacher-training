@@ -2,7 +2,6 @@ module CandidateInterface
   module References
     class BaseController < SectionController
       before_action :render_application_feedback_component, :set_reference, :set_edit_backlink
-      before_action :redirect_v23_applications_to_complete_page_if_submitted_and_not_carried_over
       rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
     private

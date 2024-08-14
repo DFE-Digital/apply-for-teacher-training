@@ -13,7 +13,8 @@ RSpec.describe 'Carry over application and submit new application choices', time
     then_i_am_redirected_to_the_carry_over_interstitial
 
     when_i_click_on_continue
-    then_i_see_a_copy_of_my_application
+    then_i_see_application_details_page
+    and_i_can_navigate_to_application_choices
 
     when_i_view_referees
     then_i_can_see_the_referees_i_previously_added
@@ -78,7 +79,7 @@ private
   def when_i_sign_in_again
     logout
     login_as(@candidate)
-    visit('/')
+    visit root_path
   end
 
   def and_i_visit_the_application_dashboard
@@ -93,11 +94,21 @@ private
     click_link_or_button 'Continue'
   end
 
-  def then_i_see_a_copy_of_my_application
-    expect(page).to have_content 'Your application'
+  def and_i_navigate_to_applications
+    click_on 'Your applications'
+  end
+
+  def then_i_see_application_details_page
+    expect(page).to have_title 'Your details'
+  end
+
+  def and_i_can_navigate_to_application_choices
+    click_on 'Your applications'
+    expect(page).to have_title 'Your applications'
   end
 
   def when_i_view_referees
+    click_on 'Your details'
     click_link_or_button 'References to be requested if you accept an offer'
   end
   alias_method :click_on_references, :when_i_view_referees

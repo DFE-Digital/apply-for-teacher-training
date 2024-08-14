@@ -1,7 +1,5 @@
 module CandidateInterface
   class ContactDetails::ReviewController < SectionController
-    before_action :redirect_v23_applications_to_complete_page_if_submitted_and_not_carried_over
-
     def show
       @application_form = current_application
       @can_complete = ContactDetailsForm.build_from_application(current_application).valid_for_submission?
