@@ -50,7 +50,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     @application_form = create(:completed_application_form, :with_completed_references, candidate: @candidate)
     create(:application_choice, :rejected, application_form: @application_form)
 
-    job = create(:application_work_experience, application_form: @application_form)
+    job = create(:application_work_experience, experienceable: @application_form)
     @application_form.application_work_experiences << [job]
   end
 

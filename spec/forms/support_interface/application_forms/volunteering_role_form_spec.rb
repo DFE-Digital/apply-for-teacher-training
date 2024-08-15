@@ -13,7 +13,7 @@ RSpec.describe SupportInterface::ApplicationForms::VolunteeringRoleForm, :with_a
   end
 
   describe '#update' do
-    let(:volunteering_role) { create(:application_volunteering_experience, application_form:, role: 'Teacher', working_with_children: false) }
+    let(:volunteering_role) { create(:application_volunteering_experience, experienceable: application_form, role: 'Teacher', working_with_children: false) }
     let(:application_form) { create(:application_form) }
 
     let(:form_data) do

@@ -193,7 +193,7 @@ RSpec.describe CandidateInterface::VolunteeringReviewComponent, type: :component
 
     context 'when volunteering experience are editable but not deletable' do
       it 'renders component without an delete link' do
-        create(:application_volunteering_experience, application_form:)
+        create(:application_volunteering_experience, experienceable: application_form)
         result = render_inline(described_class.new(application_form:, editable: true, deletable: false))
 
         expect(result.text).to include('Change')

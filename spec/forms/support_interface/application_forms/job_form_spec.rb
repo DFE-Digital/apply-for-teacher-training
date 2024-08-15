@@ -29,7 +29,7 @@ RSpec.describe SupportInterface::ApplicationForms::JobForm, :with_audited, type:
   end
 
   describe '#update' do
-    let(:job) { create(:application_work_experience, application_form:, role: 'Teacher') }
+    let(:job) { create(:application_work_experience, experienceable: application_form, role: 'Teacher') }
     let(:application_form) { create(:application_form) }
 
     it 'returns false if not valid' do
