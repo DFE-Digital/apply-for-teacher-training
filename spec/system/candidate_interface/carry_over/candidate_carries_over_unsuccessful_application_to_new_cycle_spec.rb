@@ -12,8 +12,10 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     given_i_applied_two_years_ago
     when_i_sign_in
     then_i_am_on_the_carry_over_page
+    and_i_can_view_my_unsuccessful_application
 
-    when_i_carry_over_my_application
+    when_i_click_back
+    and_i_carry_over_my_application
     then_i_can_edit_my_details
   end
 
@@ -22,8 +24,10 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     and_the_apply_deadline_passes
     when_i_sign_in
     then_i_am_on_the_carry_over_page
+    and_i_can_view_my_unsuccessful_application
 
-    when_i_carry_over_my_application
+    when_i_click_back
+    and_i_carry_over_my_application
     then_i_can_edit_my_details
   end
 
@@ -42,8 +46,10 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     and_the_next_cycle_opens
     when_i_sign_in
     then_i_am_on_the_carry_over_page
+    and_i_can_view_my_unsuccessful_application
 
-    when_i_carry_over_my_application
+    when_i_click_back
+    and_i_carry_over_my_application
     then_i_can_add_course_choices
   end
 
@@ -51,6 +57,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     given_i_have_an_application_with_a_rejection
     and_the_apply_deadline_passes
     when_i_sign_in
+
     and_i_carry_over_my_application
     and_the_next_cycle_opens
     and_i_sign_in
@@ -76,7 +83,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
   def and_i_have_an_application_with_a_rejection
     @application_form = create(:completed_application_form, :with_completed_references, candidate: @candidate)
-    create(:application_choice, :rejected, application_form: @application_form)
+    @application_choice = create(:application_choice, :rejected, application_form: @application_form)
 
     job = create(:application_work_experience, experienceable: @application_form)
     @application_form.application_work_experiences << [job]
@@ -85,7 +92,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
   def given_i_applied_two_years_ago
     @application_form = create(:completed_application_form, recruitment_cycle_year: 2.years.ago.year, candidate: @candidate)
-    create(:application_choice, :rejected, application_form: @application_form)
+    @application_choice = create(:application_choice, :rejected, application_form: @application_form)
   end
 
   def and_the_apply_deadline_passes
@@ -117,12 +124,28 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     expect(page).to have_content 'Continue your application'
   end
 
+  def and_i_can_view_my_unsuccessful_application
+    click_on @application_choice.provider.name
+    expect(page)
+      .to have_current_path(
+        candidate_interface_continuous_applications_course_review_path(
+          application_choice_id: @application_choice.id,
+        ),
+      )
+    expect(page).to have_title("Your application to #{@application_choice.provider.name}")
+    expect(page).to have_content('Unsuccessful')
+  end
+
   def and_the_next_cycle_opens
     advance_time_to(after_apply_reopens)
   end
 
   def and_i_visit_my_details_page
     click_on 'Your details'
+  end
+
+  def when_i_click_back
+    click_on 'Back to your applications'
   end
 
   def when_i_carry_over_my_application
