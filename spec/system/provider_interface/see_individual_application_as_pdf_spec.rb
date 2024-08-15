@@ -4,7 +4,7 @@ RSpec.describe 'Provider sees an application as PDF' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  it 'viewing application in PDF format', skip: 'Fails on CI since chromium update, pending until alternative to grover is found or new version of chrome' do
+  it 'viewing application in PDF format' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface
