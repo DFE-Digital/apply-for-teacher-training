@@ -78,12 +78,6 @@ module CandidateInterface
       render_404 unless @application_choice.offer?
     end
 
-    def redirect_v23_applications_to_complete_page_if_submitted_and_not_carried_over
-      return unless current_application.v23?
-
-      redirect_to candidate_interface_application_complete_path if current_application.submitted?
-    end
-
     def redirect_to_details_if_submitted
       redirect_to candidate_interface_continuous_applications_details_path if current_application.submitted?
     end
@@ -97,7 +91,7 @@ module CandidateInterface
     end
 
     def redirect_to_new_continuous_applications_if_eligible
-      return if current_application.v23? || current_application.any_offer_accepted?
+      return if current_application.any_offer_accepted?
 
       completed_application_form = CandidateInterface::CompletedApplicationForm.new(
         application_form: current_application,
@@ -111,11 +105,7 @@ module CandidateInterface
     end
 
     def redirect_to_application_if_signed_in
-      if candidate_signed_in?
-        return redirect_to candidate_interface_application_complete_path if current_application.v23?
-
-        redirect_to_new_continuous_applications_if_eligible
-      end
+      redirect_to_new_continuous_applications_if_eligible if candidate_signed_in?
     end
 
     def render_application_feedback_component

@@ -4,7 +4,6 @@ module CandidateInterface
       skip_before_action ::UnsuccessfulCarryOverFilter
       skip_before_action ::CarryOverFilter
       before_action :set_backlink
-      skip_before_action :redirect_v23_applications_to_complete_page_if_submitted_and_not_carried_over
       skip_before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
 
       def new

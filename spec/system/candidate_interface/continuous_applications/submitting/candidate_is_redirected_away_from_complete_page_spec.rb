@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.feature 'Redirects away from complete page' do
+RSpec.describe 'Redirects away from complete page' do
   include CandidateHelper
 
-  scenario 'Candidate with an application' do
+  scenario 'Candidate with an application', time: mid_cycle do
     ApplicationChoice.statuses.each_value do |status|
       @status = status
       @candidate = create(:candidate)
@@ -11,7 +11,7 @@ RSpec.feature 'Redirects away from complete page' do
       given_i_am_signed_in
       and_i_have_an_application_choice
       when_i_visit_the_application_complete_page
-      then_i_should_be_redirected_away_from_complete_page
+      then_i_am_redirected_away_from_complete_page
     end
   end
 
@@ -24,7 +24,7 @@ RSpec.feature 'Redirects away from complete page' do
     create(:application_choice, @status, application_form:)
   end
 
-  def then_i_should_be_redirected_away_from_complete_page
+  def then_i_am_redirected_away_from_complete_page
     expect(page).to have_current_path(expected_path)
   end
 

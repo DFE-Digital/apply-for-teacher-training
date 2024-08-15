@@ -2,8 +2,6 @@ module CandidateInterface
   class PersonalStatementController < SectionController
     include AdviserStatus
     before_action :render_application_feedback_component
-    before_action :redirect_v23_applications_to_complete_page_if_submitted_and_not_carried_over
-
     def show
       @application_form = current_application
       @becoming_a_teacher_form = BecomingATeacherForm.build_from_application(

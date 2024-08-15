@@ -16,9 +16,9 @@ RSpec.describe 'After sign in redirects' do
     context 'when application is pre continuous applications' do
       let!(:application_form) { create(:application_form, :completed, :pre_continuous_applications, candidate: candidate) }
 
-      it 'redirects to application complete path' do
+      it 'redirects to start carry over' do
         get candidate_interface_interstitial_path
-        expect(response).to redirect_to(candidate_interface_application_complete_path)
+        expect(response).to redirect_to(candidate_interface_start_carry_over_path)
       end
     end
 
@@ -62,7 +62,7 @@ RSpec.describe 'After sign in redirects' do
 
     it 'redirects to application complete path' do
       get candidate_interface_interstitial_path
-      expect(response).to redirect_to(candidate_interface_application_complete_path)
+      expect(response).to redirect_to(candidate_interface_start_carry_over_path)
     end
   end
 

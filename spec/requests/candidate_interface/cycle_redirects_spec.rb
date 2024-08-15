@@ -15,7 +15,7 @@ RSpec.describe 'Cycle redirects' do
   context 'when continuous applications' do
     before { create(:application_form, :continuous_applications, candidate:) }
 
-    context 'when accessing continous applications routes' do
+    context 'when accessing continuous applications routes' do
       it 'be successful' do
         continuous_applications_routes.each do |path|
           get path
