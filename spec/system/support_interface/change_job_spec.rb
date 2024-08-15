@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Change job' do
+RSpec.describe 'Change job' do
   include DfESignInHelpers
 
   scenario 'Change an individual job on an application form', :with_audited do
@@ -31,7 +31,7 @@ RSpec.feature 'Change job' do
     @application_form = create(:application_form, :submitted)
     @job = create(
       :application_work_experience,
-      application_form: @application_form,
+      experienceable: @application_form,
       currently_working: true,
     )
   end

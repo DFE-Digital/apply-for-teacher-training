@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Change volunteering role' do
+RSpec.describe 'Change volunteering role' do
   include DfESignInHelpers
 
   scenario 'Change an individual volunteering role on an application form', :with_audited do
@@ -31,7 +31,7 @@ RSpec.feature 'Change volunteering role' do
     @application_form = create(:application_form, :submitted)
     @volunteering_role = create(
       :application_volunteering_experience,
-      application_form: @application_form,
+      experienceable: @application_form,
       currently_working: true,
     )
   end

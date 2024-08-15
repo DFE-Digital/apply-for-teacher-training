@@ -4,11 +4,11 @@ RSpec.describe DataMigrations::BackfillExperienceableForApplicationForms do
   it 'backfills application experiences with experienceable id and type nil' do
     volunteering_experience = create(
       :application_volunteering_experience,
-      application_form: create(:application_form),
+      experienceable: create(:application_form),
     )
     work_experience = create(
       :application_work_experience,
-      application_form: create(:application_form),
+      experienceable: create(:application_form),
     )
 
     described_class.new.change

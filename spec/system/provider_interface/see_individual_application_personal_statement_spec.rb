@@ -12,30 +12,30 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
 
     when_i_visit_that_application_in_the_provider_interface
 
-    then_i_should_see_the_candidates_degrees
-    and_i_should_see_the_candidates_gcses
-    and_i_should_not_see_the_safeguarding_declaration_details
+    then_i_will_see_the_candidates_degrees
+    and_i_will_see_the_candidates_gcses
+    and_i_will_not_see_the_safeguarding_declaration_details
 
     when_i_am_permitted_to_see_safeguarding_information
     and_i_visit_that_application_in_the_provider_interface
 
-    then_i_should_see_the_safeguarding_declaration_section
-    and_i_should_see_the_candidates_other_qualifications
-    and_i_should_see_the_candidates_work_history_and_unpaid_experience
-    and_i_should_see_the_candidates_personal_statement
-    and_i_should_see_the_candidates_language_skills
-    and_i_should_see_the_disability_disclosure
-    and_i_should_see_diversity_information_section
-    and_i_should_see_a_link_to_download_as_pdf
-    and_i_should_see_the_candidates_references
+    then_i_will_see_the_safeguarding_declaration_section
+    and_i_will_see_the_candidates_other_qualifications
+    and_i_will_see_the_candidates_work_history_and_unpaid_experience
+    and_i_will_see_the_candidates_personal_statement
+    and_i_will_see_the_candidates_language_skills
+    and_i_will_see_the_disability_disclosure
+    and_i_will_see_diversity_information_section
+    and_i_will_see_a_link_to_download_as_pdf
+    and_i_will_see_the_candidates_references
   end
 
-  def and_i_should_not_see_the_safeguarding_declaration_details
+  def and_i_will_not_see_the_safeguarding_declaration_details
     expect(page).to have_content('Criminal record and professional misconduct')
     expect(page).to have_no_content('View information disclosed by the candidate')
   end
 
-  def then_i_should_see_the_safeguarding_declaration_section
+  def then_i_will_see_the_safeguarding_declaration_section
     expect(page).to have_content('Criminal record and professional misconduct')
     expect(page).to have_content(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare'))
   end
@@ -87,7 +87,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
     create_list(:application_qualification, 3, application_form:, level: :other)
 
     create(:application_work_experience,
-           application_form:,
+           experienceable: application_form,
            role: 'Smuggler',
            organisation: 'The Empire',
            details: 'I used to work for The Empire',
@@ -100,7 +100,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
            end_date_unknown: false)
 
     create(:application_work_experience,
-           application_form:,
+           experienceable: application_form,
            role: 'Bounty Hunter',
            organisation: 'The Empire',
            details: 'I used to work for The Empire',
@@ -119,7 +119,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
            end_date: Time.zone.local(2019, 3, 1))
 
     create(:application_volunteering_experience,
-           application_form:,
+           experienceable: application_form,
            role: 'Defence co-ordinator',
            organisation: 'Rebel Alliance',
            details: 'Worked with children to help them survive clone attacks',
@@ -164,19 +164,19 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
     :when_i_visit_that_application_in_the_provider_interface,
   )
 
-  def then_i_should_see_the_candidates_degrees
+  def then_i_will_see_the_candidates_degrees
     expect(page).to have_css('[data-qa="degree-qualification"]', count: 1)
   end
 
-  def and_i_should_see_the_candidates_gcses
+  def and_i_will_see_the_candidates_gcses
     expect(page).to have_css('[data-qa="gcse-qualification"]', count: 2)
   end
 
-  def and_i_should_see_the_candidates_other_qualifications
+  def and_i_will_see_the_candidates_other_qualifications
     expect(page).to have_css('[data-qa="qualifications-table-a-levels-and-other-qualifications"] tbody tr', count: 3)
   end
 
-  def and_i_should_see_the_candidates_work_history_and_unpaid_experience
+  def and_i_will_see_the_candidates_work_history_and_unpaid_experience
     within '[data-qa="work-history-and-unpaid-experience"]' do
       within 'section:eq(1)' do
         expect(page).to have_content 'Defence co-ordinator'
@@ -218,20 +218,20 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
     end
   end
 
-  def and_i_should_see_the_candidates_personal_statement
+  def and_i_will_see_the_candidates_personal_statement
     expect(page).to have_content 'Personal statement'
     expect(page).to have_content 'This is my personal statement'
     expect(page).to have_content 'Nothing further to add'
   end
 
-  def and_i_should_see_the_candidates_language_skills
+  def and_i_will_see_the_candidates_language_skills
     within '[data-qa="language-skills"]' do
       expect(page).to have_content 'Yes'
       expect(page).to have_content 'I also speak Spanish and German'
     end
   end
 
-  def and_i_should_see_the_candidates_references
+  def and_i_will_see_the_candidates_references
     click_link_or_button 'References'
 
     expect(page).to have_content 'R2D2'
@@ -247,15 +247,15 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
     expect(page).to have_no_content 'BB-8'
   end
 
-  def and_i_should_see_the_disability_disclosure
+  def and_i_will_see_the_disability_disclosure
     expect(page).to have_content 'I am hard of hearing'
   end
 
-  def and_i_should_see_diversity_information_section
+  def and_i_will_see_diversity_information_section
     expect(page).to have_content 'Sex, disability and ethnicity'
   end
 
-  def and_i_should_see_a_link_to_download_as_pdf
+  def and_i_will_see_a_link_to_download_as_pdf
     expect(page).to have_link 'Download application (PDF)'
   end
 end
