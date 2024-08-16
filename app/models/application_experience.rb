@@ -1,7 +1,6 @@
 class ApplicationExperience < ApplicationRecord
+  self.ignored_columns += %w[application_form_id]
   belongs_to :experienceable, polymorphic: true, touch: true
-
-  before_save -> { self.application_form_id = experienceable_id }, if: -> { application_form_id.nil? }
 
   after_commit do
     if application_form

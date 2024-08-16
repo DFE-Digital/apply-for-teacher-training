@@ -1,8 +1,6 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
   'DataMigrations::BackfillEnglishProficiencyRecordsForCarriedOverApplications',
-  'DataMigrations::CleanupApplicationExperiencesExperienceable',
-  'DataMigrations::BackfillExperienceableForApplicationForms',
   'DataMigrations::BackfillWeek42PerformanceReportData',
   'DataMigrations::BackfillEnicReason',
   'DataMigrations::RemoveRecruitmentPerformanceReportFeatureFlag',
