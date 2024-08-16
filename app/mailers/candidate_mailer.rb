@@ -138,6 +138,7 @@ class CandidateMailer < ApplicationMailer
     @provider_name = @course.provider.name
     @course_name_and_code = @application_choice.current_course_option.course.name_and_code
     @application_form = @application_choice.application_form
+    @show_deadline_reminder = (CycleTimetable.decline_by_default_date - 4.weeks).before? Time.zone.now
     email_for_candidate(@application_form, subject: I18n.t('candidate_mailer.new_offer_made.subject', provider_name: @course.provider.name))
   end
 
