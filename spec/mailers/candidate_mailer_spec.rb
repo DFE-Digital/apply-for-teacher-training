@@ -626,7 +626,11 @@ RSpec.describe CandidateMailer do
     end
   end
 
-  describe '.new_offer_made' do
+  describe '.new_offer_made well in advance of the decline by default date' do
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens)
+    end
+
     let(:email) { described_class.new_offer_made(application_form.application_choices.first) }
     let(:application_choices) do
       [build_stubbed(
@@ -645,6 +649,30 @@ RSpec.describe CandidateMailer do
       'contact' => 'Contact Arithmetic College if you have any questions about this',
       'sign in link' => 'Sign into your account to respond to your offer',
     )
+
+    it 'does not render offer deadline text' do
+      expect(email.body).not_to include "If you want to accept this offer, you must do so by #{I18n.l(CycleTimetable.decline_by_default_date.to_date, format: :no_year)}. If you have not responded by then, the offer will be automatically declined on your behalf."
+    end
+  end
+
+  describe '.new_offer_made within 4 weeks of decline by default date' do
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.decline_by_default_date - 3.weeks)
+    end
+
+    let(:email) { described_class.new_offer_made(application_form.application_choices.first) }
+    let(:application_choices) do
+      [build_stubbed(
+        :application_choice,
+        :offered,
+        status: 'offer',
+        current_course_option: course_option,
+      )]
+    end
+
+    it 'renders deadline reminder text' do
+      expect(email.body).to include "If you want to accept this offer, you must do so by #{I18n.l(CycleTimetable.decline_by_default_date.to_date, format: :no_year)}. If you have not responded by then, the offer will be automatically declined on your behalf."
+    end
   end
 
   describe '.change_course' do
