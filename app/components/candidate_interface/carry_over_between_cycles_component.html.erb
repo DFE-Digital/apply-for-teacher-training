@@ -1,0 +1,39 @@
+<% content_for :title, t('page_titles.start_carry_over_between_cycles') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= t('page_titles.start_carry_over_between_cycles') %></h1>
+    <p class="govuk-body">
+      <%= t(
+            'carry_over_after_deadline_component.application_deadline_has_passed_for_academic_year',
+            academic_year: application_form_academic_cycle,
+          ) %>
+    </p>
+    <% if application_choices.present? %>
+      <p class="govuk-body">
+        <%= t('carry_over_after_deadline_component.application_status_change_explanation') %>
+      </p>
+    <% end %>
+
+    <h2 class="govuk-heading-m"><%= t('carry_over_after_deadline_component.what_happens_next') %></h2>
+
+    <p class="govuk-body">
+      <%= t(
+            'carry_over_after_deadline_component.application_process_description',
+            next_academic_year: next_academic_cycle,
+            apply_reopens_date: CycleTimetable.apply_reopens.to_fs(:govuk_date),
+          ) %>
+    </p>
+  </div>
+  <div class="govuk-grid-column-two-thirds">
+    <%= govuk_button_to t('carry_over_after_deadline_component.button_update_your_details'), candidate_interface_carry_over_path %>
+  </div>
+
+  <div class="govuk-grid-column-full">
+    <%= render CandidateInterface::ApplicationChoiceListComponent.new(
+      application_form: @application_form,
+      application_choices:,
+      current_tab_name: params[:current_tab_name],
+    ) %>
+  </div>
+</div>

@@ -142,12 +142,12 @@ private
 
   def then_i_see_my_declined_application_on_the_carry_over_page
     expect(page).to have_current_path candidate_interface_start_carry_over_path
-    expect(page).to have_content 'Continue your application'
+    expect(page).to have_content 'The application deadline has passed'
     expect(page).to have_content 'Declined'
   end
 
   def and_i_can_carry_over_my_application
-    click_on 'Continue'
+    click_on 'Update your details'
     expect(page).to have_current_path candidate_interface_continuous_applications_details_path
   end
 

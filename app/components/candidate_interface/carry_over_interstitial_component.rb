@@ -33,7 +33,11 @@ module CandidateInterface
     end
 
     def next_recruitment_cycle_year
-      application_form_recruitment_cycle_year + 1
+      if Time.zone.now.after? CycleTimetable.apply_deadline
+        RecruitmentCycle.next_year
+      else
+        RecruitmentCycle.current_year
+      end
     end
   end
 end
