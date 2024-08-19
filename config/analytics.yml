@@ -191,6 +191,8 @@ shared:
     - degree_grade_uuid
   application_work_history_breaks:
     - application_form_id
+    - breakable_type
+    - breakable_id
     - created_at
     - end_date
     - id
