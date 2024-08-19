@@ -78,6 +78,16 @@ class Candidate < ApplicationRecord
     Digest::SHA2.hexdigest(id.to_s)
   end
 
+  def delete
+    application_form_ids = application_forms.pluck(:id)
+    super
+
+    ApplicationExperience.where(
+      experienceable_id: application_form_ids,
+      experienceable_type: 'ApplicationForm',
+    ).delete_all
+  end
+
 private
 
   def downcase_email
