@@ -35,7 +35,7 @@ module DfE
       end
 
       def to_sql
-        base_sql = "SELECT #{@select}\nFROM #{name}\n"
+        base_sql = "SELECT #{@select}\nFROM `#{name}`\n"
 
         if @conditions.present?
           @conditions.each_with_index do |condition, index|
