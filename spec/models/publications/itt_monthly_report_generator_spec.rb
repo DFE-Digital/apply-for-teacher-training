@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Publications::ITTMonthlyReportGenerator do
   include DfE::Bigquery::TestHelper
+  let(:cycle_week) { 7 }
   let(:candidate_headline_statistics) do
     {
-      cycle_week: 7,
+      cycle_week:,
       first_date_in_week: Date.new(2023, 11, 13),
       last_date_in_week: Date.new(2023, 11, 19),
       number_of_candidates_accepted_to_date: 538,
@@ -68,6 +69,15 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
       nonsubject_filter: 'Isengard',
       subject_filter: 'Mathematics',
     )
+  end
+
+  before do
+    stub_bigquery_application_metrics_request(rows: [[
+      { name: 'nonprovider_filter', type: 'INTEGER', value: 'Primary' },
+      { name: 'nonprovider_filter_category', type: 'INTEGER', value: nil },
+      { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+      { name: 'id', type: 'INTEGER', value: nil },
+    ]])
   end
 
   describe '#generation_date' do
@@ -1021,5 +1031,32 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
         DfE::Bigquery::ApplicationMetrics::Result.new(third_candidate_area_and_subject),
       ],
     )
+  end
+
+  def application_metrics_results(options = {})
+    [
+      {
+        cycle_week: 7,
+        first_date_in_week: Date.new(2023, 11, 13),
+        last_date_in_week: Date.new(2023, 11, 19),
+        nonsubject_filter: '21',
+        number_of_candidates_submitted_to_date: 400,
+        number_of_candidates_submitted_to_same_date_previous_cycle: 200,
+        number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_date: 30,
+        number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_same_date_previous_cycle: 15,
+        number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date: 100,
+        number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle: 50,
+        number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_date: 200,
+        number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_same_date_previous_cycle: 100,
+        number_of_candidates_with_deferred_offers_from_this_cycle_to_date: 0,
+        number_of_candidates_with_deferred_offers_from_this_cycle_to_same_date_previous_cycle: 0,
+        number_of_candidates_with_offers_to_date: 598,
+        number_of_candidates_with_offers_to_same_date_previous_cycle: 567,
+        number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date: 285,
+        number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle: 213,
+        number_of_candidates_accepted_to_date: 20,
+        number_of_candidates_accepted_to_same_date_previous_cycle: 10,
+      }.merge(options.slice(:attributes)),
+    ]
   end
 end
