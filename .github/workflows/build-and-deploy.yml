@@ -312,7 +312,7 @@ jobs:
   deploy-v2-review-app:
     name: Deployment To Review v2
     concurrency: deploy_v2_review_${{ github.event.pull_request.number }}
-    if: ${{ github.event_name == 'pull_request' && (contains(github.event.pull_request.labels.*.name, 'deploy_v2') || contains(github.event.pull_request.labels.*.name, 'dependencies')) }}
+    if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy_v2') }}
     environment:
       name: review_aks
     needs: [build]
