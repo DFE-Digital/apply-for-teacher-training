@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_15_131452) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_15_151657) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -93,7 +93,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_15_131452) do
   end
 
   create_table "application_experiences", force: :cascade do |t|
-    t.bigint "application_form_id"
     t.string "type", null: false
     t.string "role", null: false
     t.string "organisation", null: false
@@ -111,7 +110,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_15_131452) do
     t.boolean "end_date_unknown"
     t.string "experienceable_type", null: false
     t.bigint "experienceable_id", null: false
-    t.index ["application_form_id"], name: "index_application_experiences_on_application_form_id"
     t.index ["experienceable_type", "experienceable_id"], name: "index_application_experiences_on_experienceable"
   end
 
@@ -880,7 +878,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_15_131452) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
   add_foreign_key "application_choices", "course_options"
-  add_foreign_key "application_experiences", "application_forms", on_delete: :cascade
   add_foreign_key "application_feedback", "application_forms", on_delete: :cascade
   add_foreign_key "application_forms", "application_forms", column: "previous_application_form_id"
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
