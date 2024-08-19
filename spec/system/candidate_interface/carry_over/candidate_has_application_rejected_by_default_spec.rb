@@ -110,7 +110,9 @@ private
 
   def then_i_cannot_carry_over_my_application
     expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
-    expect(page).to have_content("Applications for courses starting in September #{RecruitmentCycle.current_year} are closed.")
+    expect(page).to have_content(
+      "If your application(s) are not successful, or you do not accept any offers, you will be able to apply for courses starting in the #{CycleTimetable.cycle_year_range(RecruitmentCycle.next_year)} academic year from 8 October.",
+    )
   end
   alias_method :and_i_cannot_carry_over_my_application, :then_i_cannot_carry_over_my_application
 

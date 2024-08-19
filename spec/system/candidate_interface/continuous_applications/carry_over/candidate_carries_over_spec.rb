@@ -188,8 +188,10 @@ private
   end
 
   def then_i_do_not_see_the_add_course_button
-    expect(page).to have_no_content('Add application')
-    expect(page).to have_content("Applications for courses starting in September #{RecruitmentCycle.current_year} are closed.")
+    expect(page).to have_no_content('Choose a courses')
+    apply_reopen_date = I18n.l(CycleTimetable.apply_reopens.to_date, format: :no_year).strip
+    cycle_range = CycleTimetable.cycle_year_range(RecruitmentCycle.next_year)
+    expect(page).to have_content("From #{apply_reopen_date} you will be able to apply for courses starting in the #{cycle_range} academic year.")
   end
 
   def and_i_do_not_see_previous_applications_heading
