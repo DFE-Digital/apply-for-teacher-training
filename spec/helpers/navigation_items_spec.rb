@@ -15,7 +15,7 @@ RSpec.describe NavigationItems do
       end
     end
 
-    context 'when candidate is provided' do
+    context 'when candidate is provided', time: mid_cycle do
       let(:current_candidate) { create(:candidate, application_forms: [create(:application_form, application_choices:)]) }
 
       context 'when application choice is in unsubmitted state' do
@@ -61,6 +61,38 @@ RSpec.describe NavigationItems do
           have_attributes(text: 'Your details', active: false),
           have_attributes(text: 'Your applications', active: true),
         )
+      end
+    end
+
+    context 'when application form can be carried over' do
+      context 'from a previous cycle' do
+        let(:current_candidate) do
+          create(
+            :candidate,
+            application_forms: [create(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year)],
+          )
+        end
+
+        it 'does not render the details tab' do
+          expect(navigation_items).to contain_exactly(
+            have_attributes(text: 'Your applications', active: true),
+          )
+        end
+      end
+
+      context 'from this cycle', time: after_apply_deadline do
+        let(:current_candidate) do
+          create(
+            :candidate,
+            application_forms: [create(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year)],
+          )
+        end
+
+        it 'does not render the details tab' do
+          expect(navigation_items).to contain_exactly(
+            have_attributes(text: 'Your applications', active: true),
+          )
+        end
       end
     end
   end
