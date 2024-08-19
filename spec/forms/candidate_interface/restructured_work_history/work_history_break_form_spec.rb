@@ -86,10 +86,14 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::WorkHistoryBreakForm
 
     it 'creates a new work experience if valid' do
       application_form = create(:application_form)
+      expected_data = data.merge(
+        breakable_id: application_form.id,
+        breakable_type: 'ApplicationForm',
+      )
       work_break = described_class.new(form_data)
       saved_work_break = work_break.save(application_form)
 
-      expect(saved_work_break).to have_attributes(data)
+      expect(saved_work_break).to have_attributes(expected_data)
     end
   end
 
@@ -112,6 +116,12 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::WorkHistoryBreakForm
       work_break.update(application_work_history_break)
 
       expect(application_work_history_break.reason).to eq('Updated reason.')
+      expect(application_work_history_break.breakable_id).to eq(
+        application_work_history_break.application_form_id,
+      )
+      expect(application_work_history_break.breakable_type).to eq(
+        'ApplicationForm',
+      )
     end
   end
 end
