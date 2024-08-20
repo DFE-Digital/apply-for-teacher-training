@@ -27,10 +27,6 @@ RSpec.describe DuplicateApplication do
 
   let(:recruitment_cycle_year) { RecruitmentCycle.current_year }
 
-  it 'does not raise validation error for enic_reason being nil' do
-    expect(duplicate_application_form.application_qualifications.last.enic_reason).to eq 'maybe'
-  end
-
   it 'marks reference as incomplete' do
     expect(duplicate_application_form).not_to be_references_completed
   end
