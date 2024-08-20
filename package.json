@@ -40,7 +40,7 @@
     ]
   },
   "lint-staged": {
-    "*_spec.rb": "bundle exec rubocop -c config/rubocop/config/oncommit.yml -P --only RSpec/NoShouldInSpecs,RSpec/Dialect"
+    "*_spec.rb": "bundle exec rubocop -P"
   },
   "standard": {
     "env": [
