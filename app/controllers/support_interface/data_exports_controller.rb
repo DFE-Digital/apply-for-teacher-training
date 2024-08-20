@@ -16,7 +16,7 @@ module SupportInterface
                        .order(created_at: :desc)
                        .select(DataExport.column_names - %w[data])
 
-      @pagy, @data_exports = pagy(@data_exports, items: PAGY_PER_PAGE)
+      @pagy, @data_exports = pagy(@data_exports, limit: PAGY_PER_PAGE)
     end
 
     def view_export_information
@@ -29,7 +29,7 @@ module SupportInterface
                        .send(params[:data_export_type])
                        .order(created_at: :desc)
 
-      @pagy, @data_exports = pagy(@data_exports, items: PAGY_PER_PAGE)
+      @pagy, @data_exports = pagy(@data_exports, limit: PAGY_PER_PAGE)
 
       @data_exports = @data_exports.select(DataExport.column_names - %w[data])
     end

@@ -35,7 +35,7 @@ module ProviderInterface
         application_choices: with_includes.where(id: application_choices),
       )
 
-      @pagy, @application_choices = pagy(application_choices, items: PAGY_PER_PAGE)
+      @pagy, @application_choices = pagy(application_choices, limit: PAGY_PER_PAGE)
       @application_choices.load
     end
 

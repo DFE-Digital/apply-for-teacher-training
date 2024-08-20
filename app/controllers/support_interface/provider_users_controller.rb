@@ -11,7 +11,7 @@ module SupportInterface
       provider_users_scope = scope_by_use_of_service(provider_users_scope, @filter)
       provider_users_scope = scope_by_search_term(provider_users_scope, @filter)
 
-      @pagy, @provider_users = pagy(provider_users_scope, items: PAGY_PER_PAGE)
+      @pagy, @provider_users = pagy(provider_users_scope, limit: PAGY_PER_PAGE)
     end
 
     def show

@@ -14,7 +14,7 @@ module SupportInterface
           .includes('provider')
           .order('created_at DESC')
 
-        @pagy, @vendor_api_requests = pagy(@vendor_api_requests, items: PAGY_PER_PAGE)
+        @pagy, @vendor_api_requests = pagy(@vendor_api_requests, limit: PAGY_PER_PAGE)
       end
 
       def summary

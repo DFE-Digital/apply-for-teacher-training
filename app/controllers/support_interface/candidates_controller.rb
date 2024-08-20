@@ -20,7 +20,7 @@ module SupportInterface
         @candidates = @candidates.where(id: candidate_number)
       end
 
-      @pagy, @candidates = pagy(@candidates, items: PAGY_PER_PAGE)
+      @pagy, @candidates = pagy(@candidates, limit: PAGY_PER_PAGE)
     end
 
     def show

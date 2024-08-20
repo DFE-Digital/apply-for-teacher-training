@@ -14,7 +14,7 @@ module SupportInterface
           .order(:name),
       )
 
-      @pagy, @providers = pagy(providers_scope, items: PAGY_PER_PAGE)
+      @pagy, @providers = pagy(providers_scope, limit: PAGY_PER_PAGE)
     end
 
     def show
