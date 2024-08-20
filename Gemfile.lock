@@ -448,7 +448,7 @@ GEM
     mime-types-data (3.2023.1205)
     mini_mime (1.1.5)
     mini_portile2 (2.8.7)
-    minitest (5.25.0)
+    minitest (5.25.1)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.4.1)
@@ -716,7 +716,7 @@ GEM
       sentry-ruby (~> 5.19.0)
       sidekiq (>= 3.0)
     shellany (0.0.1)
-    shoulda-matchers (6.3.1)
+    shoulda-matchers (6.4.0)
       activesupport (>= 5.2.0)
     sidekiq (6.5.12)
       connection_pool (>= 2.2.5, < 3)
@@ -936,7 +936,7 @@ DEPENDENCIES
   selenium-webdriver
   sentry-rails
   sentry-sidekiq
-  shoulda-matchers (~> 6.3)
+  shoulda-matchers (~> 6.4)
   sidekiq (< 7)
   simplecov
   simplecov-cobertura
