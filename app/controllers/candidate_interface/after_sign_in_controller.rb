@@ -33,7 +33,7 @@ module CandidateInterface
     end
 
     def confirm_selection_page
-      candidate_interface_continuous_applications_course_confirm_selection_path(course_from_find.id)
+      candidate_interface_course_choices_course_confirm_selection_path(course_from_find.id)
     end
 
     def redirect_to_path_if_path_params_are_present

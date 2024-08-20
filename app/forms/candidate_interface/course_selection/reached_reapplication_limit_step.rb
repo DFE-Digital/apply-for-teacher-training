@@ -6,7 +6,7 @@ module CandidateInterface
       validates :provider_id, :course_id, presence: true
 
       def self.route_name
-        'candidate_interface_continuous_applications_reached_reapplication_limit'
+        'candidate_interface_course_choices_reached_reapplication_limit'
       end
 
       def self.permitted_params

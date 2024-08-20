@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate edits their choice section' do
+RSpec.describe 'Candidate edits their choice section' do
   include CandidateHelper
 
   it 'Candidate deletes and adds additional courses' do
@@ -12,10 +12,10 @@ RSpec.feature 'Candidate edits their choice section' do
     and_i_click_delete_your_draft_application
     and_i_confirm_i_want_to_delete_the_choice
     and_visit_my_application_page
-    then_i_should_see_only_one_application
+    then_i_see_only_one_application
     and_if_i_try_manually_to_enter_on_delete_the_url_for_my_submitted_choice
-    then_i_should_be_on_the_my_application_page
-    and_my_submitted_choice_should_be_displayed
+    then_i_am_on_the_my_application_page
+    and_my_submitted_choice_is_displayed
   end
 
   it 'Candidate deletes course choice from the review page' do
@@ -25,16 +25,16 @@ RSpec.feature 'Candidate edits their choice section' do
     when_i_visit_the_course_choice_review_page
     and_i_click_delete_your_draft_application
     and_i_click_cancel
-    then_i_should_be_on_the_course_choice_review_page
+    then_i_am_on_the_course_choice_review_page
 
     when_i_visit_the_course_choice_review_page
     and_i_click_delete_your_draft_application
     and_i_confirm_i_want_to_delete_the_choice
     and_visit_my_application_page
-    then_i_should_see_only_one_application
+    then_i_see_only_one_application
     and_if_i_try_manually_to_enter_on_delete_the_url_for_my_submitted_choice
-    then_i_should_be_on_the_my_application_page
-    and_my_submitted_choice_should_be_displayed
+    then_i_am_on_the_my_application_page
+    and_my_submitted_choice_is_displayed
   end
 
   def given_i_am_signed_in
@@ -57,7 +57,7 @@ RSpec.feature 'Candidate edits their choice section' do
     click_link_or_button t('application_form.continuous_applications.courses.confirm_delete')
   end
 
-  def then_i_should_see_only_one_application
+  def then_i_see_only_one_application
     expect(page).to have_no_content(@first_application_choice.current_course.name_and_code)
   end
 
@@ -66,19 +66,19 @@ RSpec.feature 'Candidate edits their choice section' do
   end
 
   def and_if_i_try_manually_to_enter_on_delete_the_url_for_my_submitted_choice
-    visit candidate_interface_continuous_applications_confirm_destroy_course_choice_path(@second_application_choice.id)
+    visit candidate_interface_course_choices_confirm_destroy_course_choice_path(@second_application_choice.id)
   end
 
-  def then_i_should_be_on_the_my_application_page
+  def then_i_am_on_the_my_application_page
     expect(page).to have_current_path(candidate_interface_continuous_applications_choices_path)
   end
 
-  def and_my_submitted_choice_should_be_displayed
+  def and_my_submitted_choice_is_displayed
     expect(page).to have_content(@second_application_choice.current_course.name_and_code)
   end
 
   def when_i_visit_the_course_choice_review_page
-    visit candidate_interface_continuous_applications_course_review_path(@first_application_choice.id)
+    visit candidate_interface_course_choices_course_review_path(@first_application_choice.id)
   end
 
   def and_i_click_delete_your_draft_application
@@ -89,7 +89,7 @@ RSpec.feature 'Candidate edits their choice section' do
     click_link_or_button 'Cancel'
   end
 
-  def then_i_should_be_on_the_course_choice_review_page
-    expect(page).to have_current_path(candidate_interface_continuous_applications_course_review_path(@first_application_choice.id))
+  def then_i_am_on_the_course_choice_review_page
+    expect(page).to have_current_path(candidate_interface_course_choices_course_review_path(@first_application_choice.id))
   end
 end

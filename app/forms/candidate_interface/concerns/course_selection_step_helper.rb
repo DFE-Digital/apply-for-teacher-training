@@ -8,7 +8,7 @@ module CandidateInterface
 
         route_name = next_step_klass.model_name.singular_route_key
         url_helpers.public_send(
-          "candidate_interface_edit_continuous_applications_#{route_name}_path",
+          "candidate_interface_edit_course_choices_#{route_name}_path",
           edit_next_step_path_arguments,
         )
       end

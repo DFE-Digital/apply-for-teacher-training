@@ -205,7 +205,7 @@ private
   end
 
   def when_i_visit_add_course_url
-    visit candidate_interface_continuous_applications_do_you_know_the_course_path
+    visit candidate_interface_course_choices_do_you_know_the_course_path
   end
 
   def then_i_am_redirect_to_your_applications_tab

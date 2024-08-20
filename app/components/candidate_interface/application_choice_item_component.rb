@@ -29,7 +29,7 @@ class CandidateInterface::ApplicationChoiceItemComponent < ViewComponent::Base
     if application_choice.offer?
       candidate_interface_offer_path(application_choice.id)
     else
-      candidate_interface_continuous_applications_course_review_path(application_choice.id)
+      candidate_interface_course_choices_course_review_path(application_choice.id)
     end
   end
 end

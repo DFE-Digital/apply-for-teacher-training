@@ -49,7 +49,7 @@ private
     click_on @application_choice.provider.name
     expect(page)
       .to have_current_path(
-        candidate_interface_continuous_applications_course_review_path(
+        candidate_interface_course_choices_course_review_path(
           application_choice_id: @application_choice.id,
         ),
       )

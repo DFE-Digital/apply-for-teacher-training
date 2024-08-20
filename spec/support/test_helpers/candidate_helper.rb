@@ -758,7 +758,7 @@ module CandidateHelper
   def then_i_should_be_on_the_application_choice_review_page
     expect(application_choice).to be_present
     expect(page).to have_current_path(
-      candidate_interface_continuous_applications_course_review_path(application_choice_id: application_choice.id),
+      candidate_interface_course_choices_course_review_path(application_choice_id: application_choice.id),
     )
   end
   alias then_i_am_on_the_application_choice_review_page then_i_should_be_on_the_application_choice_review_page
@@ -769,7 +769,7 @@ module CandidateHelper
     expect(page).to have_current_path(candidate_interface_continuous_applications_choices_path)
     expect(page).to have_content('You can add up to 4 applications at a time.')
     click_link_or_button 'Add application'
-    expect(page).to have_current_path(candidate_interface_continuous_applications_do_you_know_the_course_path)
+    expect(page).to have_current_path(candidate_interface_course_choices_do_you_know_the_course_path)
   end
 
   def application_choice
@@ -834,7 +834,7 @@ module CandidateHelper
 
   def then_i_should_be_on_the_review_and_submit_page
     expect(page).to have_current_path(
-      candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice.id),
+      candidate_interface_course_choices_course_review_and_submit_path(@application_choice.id),
     )
   end
   alias then_i_am_on_the_review_and_submit_page then_i_should_be_on_the_review_and_submit_page

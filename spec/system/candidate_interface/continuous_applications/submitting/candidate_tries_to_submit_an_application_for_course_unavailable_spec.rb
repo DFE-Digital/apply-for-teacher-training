@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate tries to submit an application choice when the course is unavailable' do
+RSpec.describe 'Candidate tries to submit an application choice when the course is unavailable' do
   include SignInHelper
   include CandidateHelper
   before do
@@ -92,7 +92,7 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
   end
 
   def when_i_visit_the_review_page_directly
-    visit candidate_interface_continuous_applications_course_review_path(@application_choice.id)
+    visit candidate_interface_course_choices_course_review_path(@application_choice.id)
   end
 
   def when_i_click_to_remove_the_application

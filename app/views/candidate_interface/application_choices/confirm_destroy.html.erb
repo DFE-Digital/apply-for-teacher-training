@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @application_choice, url: candidate_interface_continuous_applications_confirm_destroy_course_choice_path(@application_choice.id), method: :delete do |f| %>
+    <%= form_with model: @application_choice, url: candidate_interface_course_choices_confirm_destroy_course_choice_path(@application_choice.id), method: :delete do |f| %>
       <h1 class="govuk-heading-l">
         <%= t('page_titles.continuous_applications_destroy_course_choice') %>
       </h1>
@@ -11,7 +11,7 @@
       <div class="govuk-button-group app-course-choice__confirm-submission">
         <%= f.govuk_submit t('application_form.continuous_applications.courses.confirm_delete'), warning: true %>
 
-        <%= govuk_link_to 'Cancel', candidate_interface_continuous_applications_course_review_path(@application_choice.id) %>
+        <%= govuk_link_to 'Cancel', candidate_interface_course_choices_course_review_path(@application_choice.id) %>
       </div>
     <% end %>
   </div>
