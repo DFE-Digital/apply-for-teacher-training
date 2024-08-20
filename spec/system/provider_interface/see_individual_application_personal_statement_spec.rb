@@ -113,7 +113,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
            end_date_unknown: false)
 
     create(:application_work_history_break,
-           application_form:,
+           breakable: application_form,
            reason: 'Retraining to become a bounty hunter',
            start_date: Time.zone.local(2018, 9, 1),
            end_date: Time.zone.local(2019, 3, 1))

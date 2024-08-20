@@ -107,7 +107,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::WorkHistoryBreakForm
     it 'updates work history break if valid' do
       application_work_history_break = create(
         :application_work_history_break,
-        application_form: create(:application_form),
+        breakable: create(:application_form),
         attributes: data,
       )
       work_break = described_class.new(form_data)

@@ -21,7 +21,7 @@ RSpec.describe '#update' do
     expect(application_choices.map(&:updated_at)).not_to include(original_time)
   end
 
-  %i[reference application_qualification application_work_history_break].each do |form_attribute|
+  %i[reference application_qualification].each do |form_attribute|
     it "updates the application_choices when a #{form_attribute} is added" do
       application_form = create(:completed_application_form, application_choices_count: 1)
 
@@ -44,6 +44,29 @@ RSpec.describe '#update' do
       expect { model.destroy! }
         .to(change { application_form.application_choices.first.updated_at })
     end
+  end
+
+  it 'updates the application_choices when a application_work_history_break is added' do
+    application_form = create(:completed_application_form, application_choices_count: 1)
+
+    expect { create(:application_work_history_break, breakable: application_form) }
+      .to(change { application_form.application_choices.first.updated_at })
+  end
+
+  it 'updates the application_choices when a application_work_history_break is updated' do
+    application_form = create(:completed_application_form, application_choices_count: 1)
+    model = create(:application_work_history_break, breakable: application_form)
+
+    expect { model.update(updated_at: Time.zone.now) }
+      .to(change { application_form.application_choices.first.updated_at })
+  end
+
+  it 'updates the application_choices when a application_work_history_break is deleted' do
+    application_form = create(:completed_application_form, application_choices_count: 1)
+    model = create(:application_work_history_break, breakable: application_form)
+
+    expect { model.destroy! }
+      .to(change { application_form.application_choices.first.updated_at })
   end
 
   %i[application_volunteering_experience application_work_experience].each do |form_attribute|

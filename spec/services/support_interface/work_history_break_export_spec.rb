@@ -21,7 +21,7 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
                start_date: Date.new(2000, 1, 1),
                end_date: Date.new(2005, 12, 31))
         create(:application_work_history_break,
-               application_form:,
+               breakable: application_form,
                start_date: Date.new(2006, 1, 1),
                end_date: Date.new(2007, 12, 31))
       end
@@ -56,7 +56,7 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
                start_date: Date.new(2000, 1, 1),
                end_date: Date.new(2005, 12, 31))
         create(:application_work_history_break,
-               application_form:,
+               breakable: application_form,
                start_date: Date.new(2006, 1, 1),
                end_date: Date.new(2007, 12, 31))
 
@@ -127,11 +127,11 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
     describe 'creates explained breaks data' do
       it 'calculates details of explained breaks' do
         create(:application_work_history_break,
-               application_form:,
+               breakable: application_form,
                start_date: Date.new(2000, 1, 1),
                end_date: Date.new(2000, 12, 31))
         create(:application_work_history_break,
-               application_form:,
+               breakable: application_form,
                start_date: Date.new(2020, 1, 1),
                end_date: Date.new(2020, 12, 31))
 
@@ -151,7 +151,7 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
                start_date: Date.new(2010, 1, 1),
                end_date: Date.new(2015, 12, 31))
         create(:application_work_history_break,
-               application_form:,
+               breakable: application_form,
                reason: 'Volunteering',
                start_date: Date.new(2016, 1, 1),
                end_date: Date.new(2020, 12, 31))

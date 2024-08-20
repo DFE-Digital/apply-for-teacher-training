@@ -1,11 +1,34 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationWorkHistoryBreak do
-  it { is_expected.to belong_to(:application_form).touch(true).optional }
-  it { is_expected.to belong_to(:breakable) }
+  it { is_expected.to belong_to(:breakable).touch(true) }
 
   describe 'auditing', :with_audited do
-    it { is_expected.to be_audited.associated_with :application_form }
+    it { is_expected.to be_audited.associated_with :breakable }
+  end
+
+  describe '#application_form' do
+    it 'returns the application_form from breakable' do
+      application_form = create(:application_form)
+      work_history_break = build(
+        :application_work_history_break,
+        breakable: application_form,
+      )
+
+      expect(work_history_break.application_form).to eq(application_form)
+    end
+
+    context 'when breakable is not ApplicationForm' do
+      it 'returns nil' do
+        application_choice = create(:application_choice)
+        work_history_break = build(
+          :application_work_history_break,
+          breakable: application_choice,
+        )
+
+        expect(work_history_break.application_form).to be_nil
+      end
+    end
   end
 
   describe '#length' do
