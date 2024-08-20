@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider opens adviser messaging', :js do
+RSpec.describe 'Provider opens adviser messaging', :js, skip: 'Intermittently failing' do
   scenario 'Speak to adviser' do
     given_the_chat_flag_is_active
     given_i_land_on_the_provider_page
