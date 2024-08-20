@@ -1,6 +1,7 @@
 module CandidateInterface
   class GcseQualificationReviewComponent < ViewComponent::Base
     include GcseQualificationHelper
+    include Gcse::ResolveGcseStatementComparabilityPathConcern
 
     def initialize(application_form:, application_qualification:, subject:, editable: true, heading_level: 2, missing_error: false, submitting_application: false, return_to_application_review: false)
       @application_form = application_form
@@ -248,7 +249,7 @@ module CandidateInterface
 
       {
         key: t('application_form.gcse.enic_statement.review_label'),
-        value: application_qualification.enic_reference ? 'Yes' : 'No',
+        value: enic_reason_translation(application_qualification.enic_reason),
         action: {
           href: candidate_interface_gcse_details_edit_enic_path(change_path_params),
           visually_hidden_text: t('application_form.gcse.enic_statement.change_action'),
@@ -269,7 +270,7 @@ module CandidateInterface
         key: t('application_form.gcse.enic_reference.review_label'),
         value: application_qualification.enic_reference,
         action: {
-          href: candidate_interface_gcse_details_edit_enic_path(change_path_params),
+          href: resolve_gcse_edit_statement_comparability_path(change_path_params[:subject]),
           visually_hidden_text: t('application_form.gcse.enic_reference.change_action'),
         },
         html_attributes: {
@@ -288,7 +289,7 @@ module CandidateInterface
         key: t('application_form.gcse.comparable_uk_qualification.review_label'),
         value: application_qualification.comparable_uk_qualification,
         action: {
-          href: candidate_interface_gcse_details_edit_enic_path(change_path_params),
+          href: resolve_gcse_edit_statement_comparability_path(change_path_params[:subject]),
           visually_hidden_text: t('application_form.gcse.comparable_uk_qualification.change_action'),
         },
         html_attributes: {
@@ -309,6 +310,21 @@ module CandidateInterface
         params.merge(return_to_params)
       else
         params
+      end
+    end
+
+    def enic_reason_translation(enic_reason)
+      case enic_reason
+      when 'obtained'
+        t('gcse_edit_enic.yes_enic')
+      when 'waiting'
+        t('gcse_edit_enic.waiting_for_enic')
+      when 'maybe'
+        t('gcse_edit_enic.future_enic')
+      when 'not_needed'
+        t('gcse_edit_enic.dont_want_enic')
+      else
+        t('gcse_edit_enic.not_entered')
       end
     end
 

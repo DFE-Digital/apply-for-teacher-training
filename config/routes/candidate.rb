@@ -200,6 +200,13 @@ namespace :candidate_interface, path: '/candidate' do
       patch '/science/grade' => 'gcse/science/grade#create'
       get '/science/grade/edit' => 'gcse/science/grade#edit', as: :edit_gcse_science_grade
       patch '/science/grade/edit' => 'gcse/science/grade#update'
+
+      %w[maths english science].each do |subject|
+        get "/#{subject}/statement-comparability" => 'gcse/statement_comparability#new', as: "new_gcse_#{subject}_statement_comparability"
+        patch "/#{subject}/statement-comparability" => 'gcse/statement_comparability#create'
+        get "/#{subject}/statement-comparability/edit" => 'gcse/statement_comparability#edit', as: "edit_gcse_#{subject}_statement_comparability"
+        patch "/#{subject}/statement-comparability/edit" => 'gcse/statement_comparability#update'
+      end
     end
 
     scope '/gcse/:subject', constraints: { subject: /(maths|english|science)/ } do

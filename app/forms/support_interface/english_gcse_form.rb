@@ -34,6 +34,7 @@ module SupportInterface
                   :other_uk_qualification_type,
                   :non_uk_qualification_type,
                   :enic_reference,
+                  :enic_reason,
                   :comparable_uk_qualification,
                   :subject,
                   :not_completed_explanation,
@@ -74,6 +75,7 @@ module SupportInterface
           other_uk_qualification_type: qualification.other_uk_qualification_type,
           non_uk_qualification_type: qualification.non_uk_qualification_type,
           enic_reference: qualification.enic_reference,
+          enic_reason: qualification.enic_reason,
           comparable_uk_qualification: qualification.comparable_uk_qualification,
           currently_completing_qualification: qualification.currently_completing_qualification,
           not_completed_explanation: qualification.not_completed_explanation,
@@ -92,6 +94,7 @@ module SupportInterface
       @other_uk_qualification_type = params[:other_uk_qualification_type]
       @non_uk_qualification_type = params[:non_uk_qualification_type]
       @enic_reference = params[:enic_reference]
+      @enic_reason = params[:enic_reason]
       @comparable_uk_qualification = params[:comparable_uk_qualification]
       @currently_completing_qualification = params[:currently_completing_qualification]
       @not_completed_explanation = params[:not_completed_explanation]
@@ -122,6 +125,7 @@ module SupportInterface
           other_uk_qualification_type: nil,
           non_uk_qualification_type: nil,
           enic_reference: nil,
+          enic_reason: nil,
           comparable_uk_qualification: nil,
           currently_completing_qualification: nil,
           not_completed_explanation: nil,
@@ -141,6 +145,7 @@ module SupportInterface
           other_uk_qualification_type: nil,
           non_uk_qualification_type: nil,
           enic_reference: nil,
+          enic_reason: nil,
           comparable_uk_qualification: nil,
         )
       else
@@ -151,6 +156,7 @@ module SupportInterface
           other_uk_qualification_type:,
           non_uk_qualification_type:,
           enic_reference:,
+          enic_reason:,
           comparable_uk_qualification:,
           institution_country:,
           constituent_grades: nil,

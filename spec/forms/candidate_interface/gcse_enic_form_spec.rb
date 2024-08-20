@@ -11,19 +11,8 @@ RSpec.describe CandidateInterface::GcseEnicForm do
       }
     end
 
-    it { is_expected.to validate_presence_of(:have_enic_reference) }
-
-    context 'validates enic_reference if they have chosen that they have one' do
-      before { allow(form).to receive(:chose_to_provide_enic_reference?).and_return(true) }
-
-      it { is_expected.to validate_presence_of(:enic_reference) }
-    end
-
-    context 'validates comparable_uk_qualification if they have chosen to provide a ENIC reference' do
-      before { allow(form).to receive(:chose_to_provide_enic_reference?).and_return(true) }
-
-      it { is_expected.to validate_presence_of(:comparable_uk_qualification) }
-    end
+    it { is_expected.to validate_presence_of(:enic_reference) }
+    it { is_expected.to validate_presence_of(:comparable_uk_qualification) }
 
     describe '#build_from_qualification' do
       it 'creates an object based on the provided ApplicationQualification' do
@@ -32,7 +21,6 @@ RSpec.describe CandidateInterface::GcseEnicForm do
           qualification,
         )
 
-        expect(enic_form.have_enic_reference).to eq 'Yes'
         expect(enic_form.enic_reference).to eq qualification.enic_reference
         expect(enic_form.comparable_uk_qualification).to eq qualification.comparable_uk_qualification
       end
@@ -41,7 +29,6 @@ RSpec.describe CandidateInterface::GcseEnicForm do
     describe '#save' do
       let(:form_data) do
         {
-          have_enic_reference: 'Yes',
           enic_reference: '12345',
           comparable_uk_qualification: 'GCSE (grades A*-C / 9-4)',
         }
@@ -60,19 +47,6 @@ RSpec.describe CandidateInterface::GcseEnicForm do
         expect(enic_form.save(qualification)).to be(true)
         expect(qualification.enic_reference).to eq form_data[:enic_reference]
         expect(qualification.comparable_uk_qualification).to eq form_data[:comparable_uk_qualification]
-      end
-
-      it 'updates enic_reference and comparable_uk_qualification to nil if they choose no' do
-        qualification = build(:gcse_qualification)
-        enic_form = described_class.new(
-          have_enic_reference: 'No',
-          enic_reference: '12345',
-          comparable_uk_qualification: 'GCSE (grades A*-C / 9-4)',
-        )
-
-        expect(enic_form.save(qualification)).to be(true)
-        expect(qualification.enic_reference).to be_nil
-        expect(qualification.comparable_uk_qualification).to be_nil
       end
     end
   end
