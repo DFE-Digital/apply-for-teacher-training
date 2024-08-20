@@ -38,6 +38,9 @@ private
   def append_info_to_payload(payload)
     super
 
-    payload.merge!(query_params: request_query_params)
+    payload.merge!(
+      query_params: request_query_params,
+      user_agent: request&.user_agent,
+    )
   end
 end
