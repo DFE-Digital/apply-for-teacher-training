@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationWorkHistoryBreak do
-  it { is_expected.to belong_to(:application_form).touch(true) }
-  it { is_expected.to belong_to(:breakable).optional }
+  it { is_expected.to belong_to(:application_form).touch(true).optional }
+  it { is_expected.to belong_to(:breakable) }
 
   describe 'auditing', :with_audited do
     it { is_expected.to be_audited.associated_with :application_form }

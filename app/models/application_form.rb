@@ -16,7 +16,7 @@ class ApplicationForm < ApplicationRecord
   has_many :application_volunteering_experiences, as: :experienceable
   has_many :application_qualifications
   has_many :application_references
-  has_many :application_work_history_breaks
+  has_many :application_work_history_breaks, as: :breakable
   has_many :emails
 
   belongs_to :previous_application_form, class_name: 'ApplicationForm', optional: true, inverse_of: 'subsequent_application_form'
