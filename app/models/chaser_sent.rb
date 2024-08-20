@@ -4,6 +4,7 @@ class ChaserSent < ApplicationRecord
   scope :since_service_opened, lambda { |service|
     where('created_at >= ?', CycleTimetable.send("#{service}_opens"))
   }
+  scope :since_application_deadline, -> { where('created_at > ?', CycleTimetable.apply_deadline) }
 
   enum chaser_type: {
     ######################################
@@ -14,6 +15,7 @@ class ChaserSent < ApplicationRecord
     apply_service_is_now_open: 'apply_service_is_now_open',
     find_service_is_now_open: 'find_service_is_now_open',
     find_service_open_organisation_notification: 'find_service_open_organisation_notification',
+    reminder_respond_to_applications_before_reject_by_default_date: 'reminder_respond_to_applications_before_reject_by_default_date',
 
     ## CandidateMailer ##
     eoc_first_deadline_reminder: 'eoc_first_deadline_reminder',

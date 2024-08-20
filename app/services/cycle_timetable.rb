@@ -381,6 +381,10 @@ class CycleTimetable
     current_date.to_date == apply_opens.to_date
   end
 
+  def self.send_reject_by_default_reminder_to_providers?
+    current_date.to_date == (reject_by_default - 2.weeks).to_date
+  end
+
   def self.cycle_year_range(year = current_year)
     "#{year} to #{year + 1}"
   end
