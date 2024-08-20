@@ -325,6 +325,9 @@ namespace :candidate_interface, path: '/candidate' do
         get '/enic' => 'degrees/degree#new_enic', as: :degree_enic
         post '/enic' => 'degrees/degree#update_enic'
 
+        get '/enic-reference' => 'degrees/degree#new_enic_reference', as: :degree_enic_reference
+        post '/enic-reference' => 'degrees/degree#update_enic_reference'
+
         get '/types' => 'degrees/degree#new_type', as: :degree_type
         post '/types' => 'degrees/degree#update_type'
 

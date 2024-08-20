@@ -108,7 +108,7 @@ private
   end
 
   def and_i_check_no_for_enic_statement
-    choose 'No'
+    choose 'I do not need a statement of comparability'
     and_i_click_on_save_and_continue
   end
 

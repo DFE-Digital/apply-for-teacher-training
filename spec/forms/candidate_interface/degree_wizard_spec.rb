@@ -411,15 +411,15 @@ RSpec.describe CandidateInterface::DegreeWizard do
     it { is_expected.to validate_presence_of(:award_year).on(:award_year) }
 
     context 'Non-UK validations' do
-      let(:degree_params) { { uk_or_non_uk: 'non_uk', grade: 'Yes', have_enic_reference: 'Yes' } }
+      let(:degree_params) { { uk_or_non_uk: 'non_uk', grade: 'Yes', enic_reason: 'obtained' } }
 
       it { is_expected.to validate_presence_of(:country).on(:country) }
       it { is_expected.to validate_presence_of(:international_type).on(:type) }
       it { is_expected.to validate_presence_of(:other_grade).on(:grade) }
       it { is_expected.to validate_length_of(:other_grade).is_at_most(255).on(:grade) }
-      it { is_expected.to validate_presence_of(:have_enic_reference).on(:enic) }
-      it { is_expected.to validate_presence_of(:enic_reference).on(:enic) }
-      it { is_expected.to validate_presence_of(:comparable_uk_degree).on(:enic) }
+      it { is_expected.to validate_presence_of(:enic_reason).on(:enic) }
+      it { is_expected.to validate_presence_of(:enic_reference).on(:enic_reference) }
+      it { is_expected.to validate_presence_of(:comparable_uk_degree).on(:enic_reference) }
     end
 
     context 'UK validations' do
@@ -550,6 +550,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
             predicted_grade: false,
             start_year: '2000',
             award_year: '2004',
+            enic_reason: nil,
             enic_reference: nil,
             comparable_uk_degree: nil,
           },
@@ -590,6 +591,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
             grade: 'N/A',
             start_year: '2000',
             award_year: '2004',
+            enic_reason: nil,
             enic_reference: nil,
             comparable_uk_degree: nil,
           },
@@ -611,6 +613,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
           start_year: '2000',
           award_year: '2004',
           enic_reference: '4000228364',
+          enic_reason: 'obtained',
           comparable_uk_degree: 'Bachelor (Honours) degree',
         }
       end
@@ -633,6 +636,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
             start_year: '2000',
             award_year: '2004',
             enic_reference: '4000228364',
+            enic_reason: 'obtained',
             comparable_uk_degree: 'Bachelor (Honours) degree',
           },
         )
@@ -883,19 +887,19 @@ RSpec.describe CandidateInterface::DegreeWizard do
 
     context 'sanitize_enic' do
       let(:stored_data) { {}.to_json }
-      let(:attrs) { { have_enic_reference: 'No', enic_reference: '40008234', comparable_uk_degree: 'Bachelor (Ordinary) degree', current_step: :enic } }
+      let(:no_attrs) { { enic_reason: 'not_needed', comparable_uk_degree: 'Bachelor (Ordinary) degree', current_step: :enic } }
+      let(:yes_attrs) { { enic_reason: 'obtained', enic_reference: '40008234', comparable_uk_degree: 'Bachelor (Ordinary) degree', current_step: :enic } }
 
-      it 'clears the enic number and comparable uk degree' do
-        wizard = described_class.new(store, attrs)
+      it 'clears the enic number and comparable uk degree if enic_reason is NOT obtained' do
+        wizard = described_class.new(store, no_attrs)
         expect(wizard.enic_reference).to be_nil
         expect(wizard.comparable_uk_degree).to be_nil
       end
 
-      it 'does not clear the enic number and comparable uk degree if yes selected' do
-        new_attrs = attrs.merge(have_enic_reference: 'Yes')
-        wizard = described_class.new(store, new_attrs)
-        expect(wizard.enic_reference).to eq '40008234'
-        expect(wizard.comparable_uk_degree).to eq 'Bachelor (Ordinary) degree'
+      it 'does not clear the enic number and comparable uk degree if enic_reason is obtained' do
+        wizard = described_class.new(store, yes_attrs)
+        expect(wizard.enic_reference).to eq('40008234')
+        expect(wizard.comparable_uk_degree).to eq('Bachelor (Ordinary) degree')
       end
     end
   end
@@ -928,7 +932,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
             university: application_qualification.institution_name,
             start_year: application_qualification.start_year,
             award_year: application_qualification.award_year,
-            have_enic_reference: nil,
+            enic_reason: nil,
             enic_reference: nil,
             comparable_uk_degree: nil,
           }
@@ -1046,7 +1050,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
             university: application_qualification.institution_name,
             start_year: application_qualification.start_year,
             award_year: application_qualification.award_year,
-            have_enic_reference: 'Yes',
+            enic_reason: nil,
             enic_reference: application_qualification.enic_reference,
             comparable_uk_degree: application_qualification.comparable_uk_degree,
           }
@@ -1062,7 +1066,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
         end
 
         it 'rehydrates the correct attributes' do
-          expect(wizard.have_enic_reference).to eq('No')
+          expect(wizard.enic_reason).to be_nil
           expect(wizard.enic_reference).to be_nil
           expect(wizard.comparable_uk_degree).to be_nil
         end
@@ -1099,7 +1103,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'does not create new international degree if specific fields are blank' do
-      let(:degree_params) { { id: nil, have_enic_reference: 'No', application_form_id: application_form.id } }
+      let(:degree_params) { { id: nil, enic_reason: 'waiting', application_form_id: application_form.id } }
 
       it 'does not create new degree entry' do
         expect { wizard.persist! }.not_to(change { ApplicationQualification.count })

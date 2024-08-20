@@ -132,7 +132,8 @@ RSpec.describe 'Editing a degree' do
   end
 
   def when_i_check_yes_for_enic_statement
-    choose 'Yes'
+    choose 'Yes, I have a statement of comparability'
+    and_i_click_on_save_and_continue
   end
 
   def and_i_fill_in_enic_reference
