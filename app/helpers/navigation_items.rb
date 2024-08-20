@@ -21,12 +21,12 @@ class NavigationItems
           NavigationItem.new(
             t('page_titles.your_details'),
             candidate_interface_continuous_applications_details_path,
-            !current_controller.choices_controller?,
+            current_controller.respond_to?(:choices_controller?) ? !current_controller.choices_controller? : false,
           ),
           NavigationItem.new(
             t('page_titles.continuous_applications.your_applications'),
             candidate_interface_continuous_applications_choices_path,
-            current_controller.choices_controller?,
+            current_controller.respond_to?(:choices_controller?) ? current_controller.choices_controller? : false,
           ),
         ]
       end
