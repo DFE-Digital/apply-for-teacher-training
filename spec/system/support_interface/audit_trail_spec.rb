@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'See application history', :with_audited do
+RSpec.describe 'See application history', :with_audited do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
   include CourseOptionHelpers
@@ -14,7 +14,7 @@ RSpec.feature 'See application history', :with_audited do
 
     when_i_click_on_an_application
     when_i_click_on_an_application_history
-    then_i_should_be_able_to_see_history_events
+    then_i_am_able_to_see_history_events
   end
 
   def given_i_am_a_support_user
@@ -78,7 +78,7 @@ RSpec.feature 'See application history', :with_audited do
     click_link_or_button 'History'
   end
 
-  def then_i_should_be_able_to_see_history_events
+  def then_i_am_able_to_see_history_events
     expect(page).to have_content 'status'
     expect(page).to have_content 'rejected → offer'
     expect(page).to have_content 'awaiting_provider_decision → rejected'

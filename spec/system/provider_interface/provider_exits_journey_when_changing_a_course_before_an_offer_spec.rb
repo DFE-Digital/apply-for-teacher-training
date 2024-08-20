@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider exits journey when changing a course' do
+RSpec.describe 'Provider exits journey when changing a course' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 

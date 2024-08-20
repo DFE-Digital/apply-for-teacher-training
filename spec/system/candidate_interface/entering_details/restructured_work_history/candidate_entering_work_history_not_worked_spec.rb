@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering their work history' do
+RSpec.describe 'Entering their work history' do
   include CandidateHelper
 
   scenario 'Candidate submits their work history when they have none' do

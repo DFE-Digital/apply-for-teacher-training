@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'References' do
+RSpec.describe 'References' do
   include CandidateHelper
 
   it 'the candidate can continue to request and add references on an unsubmitted application' do

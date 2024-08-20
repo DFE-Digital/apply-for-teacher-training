@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Trying to enter work history' do
+RSpec.describe 'Trying to enter work history' do
   include CandidateHelper
 
   scenario 'Candidate does not see Add job or Add another job buttons' do

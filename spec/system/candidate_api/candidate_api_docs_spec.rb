@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate API docs' do
+RSpec.describe 'Candidate API docs' do
   scenario 'User visits Candidate API docs' do
     when_i_visit_the_candidate_api_docs
     then_i_can_see_the_docs

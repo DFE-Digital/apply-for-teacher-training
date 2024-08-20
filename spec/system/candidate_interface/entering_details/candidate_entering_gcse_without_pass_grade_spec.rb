@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
+RSpec.describe 'Candidate entering GCSE details but without a pass grade' do
   include CandidateHelper
 
   scenario 'Candidate submits their maths GCSE details' do

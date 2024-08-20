@@ -2,13 +2,13 @@ require 'rails_helper'
 
 # This is an end-to-end test for the API response. To test complex logic in
 # the presenter, see spec/presenters/register_api/single_application_presenter_spec.rb.
-RSpec.feature 'Register receives an application data', time: CycleTimetableHelper.mid_cycle(2024) do
+RSpec.describe 'Register receives an application data', time: CycleTimetableHelper.mid_cycle(2024) do
   include CandidateHelper
 
   it 'A candidate is recruited' do
     given_a_provider_recruited_a_candidate
     when_i_retrieve_the_application_over_the_api
-    then_it_should_include_the_data_from_the_application_form
+    then_it_includes_the_data_from_the_application_form
   end
 
   def given_a_provider_recruited_a_candidate
@@ -40,7 +40,7 @@ RSpec.feature 'Register receives an application data', time: CycleTimetableHelpe
     @api_response = JSON.parse(page.body)
   end
 
-  def then_it_should_include_the_data_from_the_application_form
+  def then_it_includes_the_data_from_the_application_form
     expected_attributes = {
       id: @provider.application_choices.first.id.to_s,
       type: 'application',

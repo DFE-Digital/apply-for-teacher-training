@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'See applications' do
+RSpec.describe 'See applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
@@ -9,15 +9,15 @@ RSpec.feature 'See applications' do
     and_my_organisation_has_applications
 
     and_i_sign_in_to_the_provider_interface
-    then_i_should_see_the_email_address_not_recognised_page
+    then_i_see_the_email_address_not_recognised_page
 
     when_my_apply_account_has_been_created
     and_i_sign_in_to_the_provider_interface
-    then_i_should_see_the_applications_from_my_organisation
-    and_i_should_see_the_applications_menu_item_highlighted
+    then_i_see_the_applications_from_my_organisation
+    and_i_see_the_applications_menu_item_highlighted
 
     when_i_click_on_an_application
-    then_i_should_be_on_the_application_view_page
+    then_i_am_on_the_application_view_page
   end
 
   def when_my_apply_account_has_been_created
@@ -29,7 +29,7 @@ RSpec.feature 'See applications' do
     provider_signs_in_using_dfe_sign_in
   end
 
-  def then_i_should_see_the_email_address_not_recognised_page
+  def then_i_see_the_email_address_not_recognised_page
     expect(page).to have_content('Your email address is not recognised')
   end
 
@@ -45,14 +45,14 @@ RSpec.feature 'See applications' do
                                    course_option:)
   end
 
-  def then_i_should_see_the_applications_from_my_organisation
+  def then_i_see_the_applications_from_my_organisation
     expect(page).to have_title 'Applications (2)'
     expect(page).to have_content 'Applications (2)'
     expect(page).to have_content @my_provider_choice1.application_form.full_name
     expect(page).to have_content @my_provider_choice2.application_form.full_name
   end
 
-  def and_i_should_see_the_applications_menu_item_highlighted
+  def and_i_see_the_applications_menu_item_highlighted
     link = page.find_link('Applications', class: 'app-primary-navigation__link')
     expect(link['aria-current']).to eq('page')
   end
@@ -61,7 +61,7 @@ RSpec.feature 'See applications' do
     click_link_or_button @my_provider_choice1.application_form.full_name
   end
 
-  def then_i_should_be_on_the_application_view_page
+  def then_i_am_on_the_application_view_page
     expect(page).to have_content @my_provider_choice1.id
 
     expect(page).to have_content @my_provider_choice1.application_form.full_name

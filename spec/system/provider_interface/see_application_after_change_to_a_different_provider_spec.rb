@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'An application was changed to another provider' do
+RSpec.describe 'An application was changed to another provider' do
   include CourseOptionHelpers
   include DfESignInHelpers
 

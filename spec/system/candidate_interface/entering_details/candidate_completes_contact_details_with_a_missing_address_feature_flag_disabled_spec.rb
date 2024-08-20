@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate attempts to submit their application without a valid address' do
+RSpec.describe 'Candidate attempts to submit their application without a valid address' do
   include CandidateHelper
 
   it 'The candidate has completed their contact details without entering an address' do

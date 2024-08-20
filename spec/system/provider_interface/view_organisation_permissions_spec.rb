@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Organisation permissions' do
+RSpec.describe 'Organisation permissions' do
   include DfESignInHelpers
 
   scenario 'Provider user views their organisation permissions page with various permissions' do

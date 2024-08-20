@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering interview preferences' do
+RSpec.describe 'Entering interview preferences' do
   include CandidateHelper
 
   scenario 'Candidate submits their interview preferences' do
@@ -9,7 +9,7 @@ RSpec.feature 'Entering interview preferences' do
 
     when_i_click_on_interview_preferences
     and_i_submit_the_form
-    then_i_should_see_validation_errors
+    then_i_see_validation_errors
 
     when_i_choose_yes_and_enter_my_preferences
     and_i_submit_the_form
@@ -25,7 +25,7 @@ RSpec.feature 'Entering interview preferences' do
 
     when_i_mark_the_section_as_completed
     and_i_submit_my_interview_preferences
-    then_i_should_see_the_form
+    then_i_see_the_form
     and_that_the_section_is_completed
 
     when_i_click_on_interview_preferences
@@ -64,7 +64,7 @@ RSpec.feature 'Entering interview preferences' do
     expect(page).to have_content 'Hello world'
   end
 
-  def then_i_should_see_validation_errors
+  def then_i_see_validation_errors
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/interview_preferences_form.attributes.any_preferences.blank')
   end
 
@@ -93,7 +93,7 @@ RSpec.feature 'Entering interview preferences' do
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
-  def then_i_should_see_the_form
+  def then_i_see_the_form
     expect(page).to have_content(t('page_titles.interview_preferences.heading'))
   end
 

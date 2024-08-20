@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate with submitted applications' do
+RSpec.describe 'Candidate with submitted applications' do
   include ActionView::Helpers::DateHelper
   include CandidateHelper
 

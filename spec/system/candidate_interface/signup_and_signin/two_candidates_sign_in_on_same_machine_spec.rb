@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate account' do
+RSpec.describe 'Candidate account' do
   include SignInHelper
   scenario 'Two candidates on the same machine sign in one after the other' do
     stub_const('TestUser', Struct.new(:name, :email))
@@ -31,12 +31,12 @@ RSpec.feature 'Candidate account' do
     then_i_am_signed_in_with(user.name)
 
     when_i_click_the_sign_out_button
-    then_i_should_be_signed_out
+    then_i_am_signed_out
   end
 
   def when_i_sign_out
     when_i_click_the_sign_out_button
-    then_i_should_be_signed_out
+    then_i_am_signed_out
   end
 
   def given_i_am_the_first_candidate
@@ -110,7 +110,7 @@ RSpec.feature 'Candidate account' do
     click_link_or_button 'Sign out'
   end
 
-  def then_i_should_be_signed_out
+  def then_i_am_signed_out
     expect(page).to have_no_selector :link_or_button, 'Sign out'
     expect(page).to have_current_path(candidate_interface_create_account_or_sign_in_path)
   end

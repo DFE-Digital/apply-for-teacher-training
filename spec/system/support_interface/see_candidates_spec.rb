@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.feature 'See candidates' do
+RSpec.describe 'See candidates' do
   include DfESignInHelpers
 
   scenario 'Support agent visits the list of candidates and selects one who has never signed in' do
     given_i_am_a_support_user
     and_there_are_candidates_in_the_system
     and_i_visit_the_support_candidate_page
-    then_i_should_see_the_candidates
+    then_i_see_the_candidates
 
     when_i_search_for_a_candidate
     then_i_see_that_candidate
@@ -27,7 +27,7 @@ RSpec.feature 'See candidates' do
     and_i_visit_the_support_candidate_page
     when_i_click_on_a_candidate_with_one_application
     and_i_click_on_the_candidate_application
-    then_i_should_see_a_summary_of_the_application
+    then_i_see_a_summary_of_the_application
   end
 
   def given_i_am_a_support_user
@@ -44,7 +44,7 @@ RSpec.feature 'See candidates' do
     visit support_interface_candidates_path
   end
 
-  def then_i_should_see_the_candidates
+  def then_i_see_the_candidates
     within("[data-qa='candidate-#{@candidate_with_sign_up_email_bounced.id}']") do
       expect(page).to have_content @candidate_with_sign_up_email_bounced.email_address
       expect(page).to have_content('Sign up email bounced')
@@ -106,7 +106,7 @@ RSpec.feature 'See candidates' do
     click_link_or_button @candidate_with_a_submitted_application.application_forms.first.full_name
   end
 
-  def then_i_should_see_a_summary_of_the_application
+  def then_i_see_a_summary_of_the_application
     application = @candidate_with_a_submitted_application.application_forms.first
     within '[data-qa="application-summary"]' do
       expect(page).to have_content application.support_reference

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate content' do
+RSpec.describe 'Candidate content' do
   include ActionView::Helpers::DateHelper
 
   scenario 'Candidate views the content pages' do

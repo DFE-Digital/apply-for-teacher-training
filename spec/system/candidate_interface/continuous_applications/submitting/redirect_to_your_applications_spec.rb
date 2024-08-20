@@ -1,24 +1,24 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submission' do
+RSpec.describe 'Candidate submission' do
   include CandidateHelper
 
   scenario 'when candidate submitted at least once' do
     given_i_have_a_submitted_application
     when_i_sign_in
-    then_i_should_be_on_your_applications_page
+    then_i_am_on_your_applications_page
   end
 
   scenario 'when candidate has a draft application' do
     given_i_have_a_draft_application
     when_i_sign_in
-    then_i_should_be_on_your_applications_page
+    then_i_am_on_your_applications_page
   end
 
   scenario 'when candidate has no applications' do
     given_i_have_in_progress_application_form
     when_i_sign_in
-    then_i_should_be_on_your_details_page
+    then_i_am_on_your_details_page
   end
 
   def given_i_have_a_submitted_application
@@ -42,7 +42,7 @@ RSpec.feature 'Candidate submission' do
     visit root_path
   end
 
-  def then_i_should_be_on_your_applications_page
+  def then_i_am_on_your_applications_page
     expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
   end
 

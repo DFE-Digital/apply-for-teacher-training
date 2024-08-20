@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Purge test applications' do
+RSpec.describe 'Purge test applications' do
   include DfESignInHelpers
 
   scenario 'Support user purges test applications' do

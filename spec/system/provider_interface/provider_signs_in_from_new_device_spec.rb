@@ -19,7 +19,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in from two separate devic
 
     when_i_click_sign_out
     and_i_sign_in_again_from_the_same_device
-    then_i_should_not_receive_a_new_notification_email
+    then_i_do_not_receive_a_new_notification_email
   end
 
   def given_i_am_registered_as_a_provider_user
@@ -69,7 +69,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in from two separate devic
     click_link_or_button 'Sign in using DfE Sign-in'
   end
 
-  def then_i_should_not_receive_a_new_notification_email
+  def then_i_do_not_receive_a_new_notification_email
     open_email('provider@example.com')
     expect(current_email).to have_content('')
   end

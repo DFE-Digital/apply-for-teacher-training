@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Organisation users' do
+RSpec.describe 'Organisation users' do
   include DfESignInHelpers
 
   scenario 'Provider user views their organisation’s users' do

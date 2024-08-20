@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering their disability information' do
+RSpec.describe 'Entering their disability information' do
   include CandidateHelper
 
   scenario 'Candidate submits their disability information' do
@@ -27,7 +27,7 @@ RSpec.feature 'Entering their disability information' do
 
     when_i_mark_the_section_as_completed
     and_i_submit_my_details
-    then_i_should_see_the_form
+    then_i_see_the_form
     and_that_the_section_is_completed
 
     when_i_click_on_training_with_a_disability
@@ -113,7 +113,7 @@ RSpec.feature 'Entering their disability information' do
     click_link_or_button t('continue')
   end
 
-  def then_i_should_see_the_form
+  def then_i_see_the_form
     expect(page).to have_content(t('page_titles.training_with_a_disability'))
   end
 

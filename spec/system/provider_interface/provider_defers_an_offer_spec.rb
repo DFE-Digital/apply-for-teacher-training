@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider defers an offer' do
+RSpec.describe 'Provider defers an offer' do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper

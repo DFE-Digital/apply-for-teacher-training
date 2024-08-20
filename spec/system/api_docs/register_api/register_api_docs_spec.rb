@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Register API docs' do
+RSpec.describe 'Register API docs' do
   scenario 'User visits Register API docs' do
     when_i_visit_the_register_api_docs
     then_i_can_see_the_docs

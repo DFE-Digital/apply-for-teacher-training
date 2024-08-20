@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Sync sites' do
+RSpec.describe 'Sync sites' do
   include TeacherTrainingPublicAPIHelper
 
   it 'a site has no vacancies and is not set to vacancies by the sync' do

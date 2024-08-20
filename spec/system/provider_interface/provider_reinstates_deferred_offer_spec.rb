@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider reinstates deferred offer' do
+RSpec.describe 'Provider reinstates deferred offer' do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper

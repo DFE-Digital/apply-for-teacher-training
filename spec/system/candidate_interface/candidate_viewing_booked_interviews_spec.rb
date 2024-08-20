@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate viewing booked interviews' do
+RSpec.describe 'Candidate viewing booked interviews' do
   include CandidateHelper
 
   scenario 'Candidate has submitted their application and has interview slots booked' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering "Why do you want to be a teacher?"' do
+RSpec.describe 'Entering "Why do you want to be a teacher?"' do
   include CandidateHelper
 
   scenario 'Candidate submits why they want to be a teacher' do
@@ -19,7 +19,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
 
     when_i_mark_the_section_as_completed
     and_i_submit_the_form
-    then_i_should_see_the_form
+    then_i_see_the_form
     and_that_the_section_is_completed
 
     when_i_click_on_becoming_a_teacher
@@ -85,7 +85,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
     choose t('application_form.completed_radio')
   end
 
-  def then_i_should_see_the_form
+  def then_i_see_the_form
     expect(page).to have_content(t('page_titles.personal_statement'))
   end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Confirm conditions met' do
+RSpec.describe 'Confirm conditions met' do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
@@ -13,7 +13,7 @@ RSpec.feature 'Confirm conditions met' do
     when_i_navigate_to_an_offer_accepted_by_the_candidate
     and_i_navigate_to_the_offer_tab
     and_click_on_confirm_conditions
-    then_i_should_see_a_summary_of_the_conditions
+    then_i_see_a_summary_of_the_conditions
 
     when_i_select_they_have_not_met_one_of_the_conditions
     and_confirm_my_selection_in_the_next_page
@@ -66,7 +66,7 @@ RSpec.feature 'Confirm conditions met' do
     click_link_or_button 'Update status of conditions'
   end
 
-  def then_i_should_see_a_summary_of_the_conditions
+  def then_i_see_a_summary_of_the_conditions
     within '.app-box' do
       @conditions.each do |condition|
         expect(page).to have_content(condition.text)

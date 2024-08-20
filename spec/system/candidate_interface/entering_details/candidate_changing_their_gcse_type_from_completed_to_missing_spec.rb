@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate changing their GCSE type' do
+RSpec.describe 'Candidate changing their GCSE type' do
   include CandidateHelper
 
   scenario 'Candidate completes their maths GCSE and then changes the type to missing and then back to a GCSE' do

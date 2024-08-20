@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Providers and courses' do
+RSpec.describe 'Providers and courses' do
   include DfESignInHelpers
   include TeacherTrainingPublicAPIHelper
 
@@ -10,7 +10,7 @@ RSpec.feature 'Providers and courses' do
     and_i_visit_a_providers_page
     and_i_click_on_courses
     and_i_click_on_the_csv_button
-    then_i_should_get_a_csv_with_all_the_courses
+    then_i_get_a_csv_with_all_the_courses
   end
 
   def given_i_am_a_support_user
@@ -51,7 +51,7 @@ RSpec.feature 'Providers and courses' do
     click_link_or_button 'courses as CSV'
   end
 
-  def then_i_should_get_a_csv_with_all_the_courses
+  def then_i_get_a_csv_with_all_the_courses
     rows = CSV.parse(page.html, headers: :first_row).map(&:to_h)
     expect(rows).to be_present
     rows.each do |r|

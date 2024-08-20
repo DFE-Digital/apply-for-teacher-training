@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Editing a degree' do
+RSpec.describe 'Editing a degree' do
   include CandidateHelper
 
   before do
@@ -19,10 +19,10 @@ RSpec.feature 'Editing a degree' do
     and_i_click_change_country
     and_i_choose_uk
     and_i_click_on_save_and_continue
-    then_i_should_start_the_add_degree_flow_from_the_beginning
+    then_i_start_the_add_degree_flow_from_the_beginning
   end
 
-  def then_i_should_start_the_add_degree_flow_from_the_beginning
+  def then_i_start_the_add_degree_flow_from_the_beginning
     expect(page).to have_text('What type of degree is it?')
   end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate signs in and starts blank application' do
+RSpec.describe 'Candidate signs in and starts blank application' do
   include SignInHelper
 
   scenario 'User can start an application and then view the guidance' do

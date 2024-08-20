@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Confirm conditions met' do
+RSpec.describe 'Confirm conditions met' do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper

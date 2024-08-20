@@ -1,7 +1,7 @@
 require 'rails_helper'
 require_relative 'post_offer_helper'
 
-RSpec.feature 'Post-offer dashboard' do
+RSpec.describe 'Post-offer dashboard' do
   include CandidateHelper
   include PostOfferHelper
 

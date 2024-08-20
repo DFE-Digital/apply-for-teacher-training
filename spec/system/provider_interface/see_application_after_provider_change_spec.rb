@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Application visibility after provider change' do
+RSpec.describe 'Application visibility after provider change' do
   include CourseOptionHelpers
   include DfESignInHelpers
 

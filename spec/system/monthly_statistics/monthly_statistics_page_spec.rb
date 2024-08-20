@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Monthly statistics page', mid_cycle: false do
+RSpec.describe 'Monthly statistics page', mid_cycle: false do
   before do
     TestSuiteTimeMachine.travel_permanently_to(2023, 9, 29)
     create(
@@ -18,7 +18,7 @@ RSpec.feature 'Monthly statistics page', mid_cycle: false do
 
     scenario 'User can download a CSV from the monthly statistics page' do
       given_i_visit_the_monthly_statistics_page
-      then_i_should_be_redirected_to_the_temporarily_unavailable_page
+      then_i_am_redirected_to_the_temporarily_unavailable_page
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.feature 'Monthly statistics page', mid_cycle: false do
     visit '/publications/monthly-statistics'
   end
 
-  def then_i_should_be_redirected_to_the_temporarily_unavailable_page
+  def then_i_am_redirected_to_the_temporarily_unavailable_page
     expect(page).to have_current_path('/publications/monthly-statistics/temporarily-unavailable')
   end
 

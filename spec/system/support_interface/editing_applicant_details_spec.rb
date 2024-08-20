@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Editing application details' do
+RSpec.describe 'Editing application details' do
   include DfESignInHelpers
 
   scenario 'Support user edits applicant details', :with_audited do
@@ -11,16 +11,16 @@ RSpec.feature 'Editing application details' do
     and_i_click_the_change_link_next_to_first_name
     and_i_fill_in_all_fields_with_blank_values
     and_i_submit_the_update_form
-    then_i_should_see_relevant_blank_error_messages
+    then_i_see_relevant_blank_error_messages
 
     when_i_supply_new_applicant_details_with_used_email_address
     and_i_submit_the_update_form
-    then_i_should_see_a_duplicate_email_error_message
+    then_i_see_a_duplicate_email_error_message
 
     when_i_supply_new_applicant_details
     and_i_submit_the_update_form
-    then_i_should_see_a_flash_message
-    and_i_should_see_the_new_applicant_details
+    then_i_see_a_flash_message
+    and_i_see_the_new_applicant_details
 
     when_i_update_the_applicant_nationality
     then_i_see_the_updated_nationality
@@ -77,7 +77,7 @@ RSpec.feature 'Editing application details' do
     fill_in 'support_interface_application_forms_edit_applicant_details_form[audit_comment]', with: ''
   end
 
-  def then_i_should_see_relevant_blank_error_messages
+  def then_i_see_relevant_blank_error_messages
     expect(page).to have_content 'First name cannot be blank'
     expect(page).to have_content 'Last name cannot be blank'
     expect(page).to have_content 'Email address cannot be blank'
@@ -116,28 +116,28 @@ RSpec.feature 'Editing application details' do
     click_link_or_button 'Update'
   end
 
-  def then_i_should_see_a_flash_message
+  def then_i_see_a_flash_message
     expect(page).to have_content 'Applicant details updated'
   end
 
-  def and_i_should_see_the_new_phone_number
+  def and_i_see_the_new_phone_number
     expect(page).to have_content '0891 50 50 50'
   end
 
-  def and_i_should_see_the_new_name_in_full
+  def and_i_see_the_new_name_in_full
     expect(page).to have_content 'Steven'
     expect(page).to have_content 'Seagal'
   end
 
-  def and_i_should_see_the_new_date_of_birth
+  def and_i_see_the_new_date_of_birth
     expect(page).to have_content '5 May 1950'
   end
 
-  def and_i_should_see_the_new_email_address
+  def and_i_see_the_new_email_address
     expect(page).to have_content 'steven.seagal@example.com'
   end
 
-  def and_i_should_see_my_comment_in_the_audit_log
+  def and_i_see_my_comment_in_the_audit_log
     click_link_or_button 'History'
     expect(page).to have_content 'https://becomingateacher.zendesk.com/12345'
   end
@@ -148,7 +148,7 @@ RSpec.feature 'Editing application details' do
     fill_in 'support_interface_application_forms_edit_applicant_details_form[email_address]', with: 'bob@example.com'
   end
 
-  def then_i_should_see_a_duplicate_email_error_message
+  def then_i_see_a_duplicate_email_error_message
     expect(page).to have_content 'Email address is already in use'
   end
 
@@ -161,11 +161,11 @@ RSpec.feature 'Editing application details' do
     and_i_add_a_note_for_the_audit_log
   end
 
-  def and_i_should_see_the_new_applicant_details
-    and_i_should_see_the_new_name_in_full
-    and_i_should_see_the_new_date_of_birth
-    and_i_should_see_the_new_phone_number
-    and_i_should_see_the_new_email_address
-    and_i_should_see_my_comment_in_the_audit_log
+  def and_i_see_the_new_applicant_details
+    and_i_see_the_new_name_in_full
+    and_i_see_the_new_date_of_birth
+    and_i_see_the_new_phone_number
+    and_i_see_the_new_email_address
+    and_i_see_my_comment_in_the_audit_log
   end
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Deleting references' do
+RSpec.describe 'Deleting references' do
   include DfESignInHelpers
   include CandidateHelper
 
@@ -10,16 +10,16 @@ RSpec.feature 'Deleting references' do
 
     when_i_visit_the_application_page
     and_i_click_the_delete_link_next_to_reference
-    then_i_should_see_a_confirmation_form
+    then_i_see_a_confirmation_form
 
     when_i_submit_the_confirmation_form
-    then_i_should_see_blank_zendesk_url_error_message
+    then_i_see_blank_zendesk_url_error_message
 
     when_i_complete_the_confirmation_form
     when_i_submit_the_confirmation_form
-    then_i_should_see_a_flash_message
-    and_i_should_not_see_the_deleted_reference_details
-    and_i_should_see_my_zendesk_ticket_in_the_audit_log
+    then_i_see_a_flash_message
+    and_i_do_not_see_the_deleted_reference_details
+    and_i_see_my_zendesk_ticket_in_the_audit_log
   end
 
   def given_i_am_a_support_user
@@ -41,7 +41,7 @@ RSpec.feature 'Deleting references' do
     end
   end
 
-  def then_i_should_see_a_confirmation_form
+  def then_i_see_a_confirmation_form
     expect(page).to have_content('Are you sure you want to delete the reference from Dumbledore?')
   end
 
@@ -49,7 +49,7 @@ RSpec.feature 'Deleting references' do
     click_link_or_button 'Permanently delete reference'
   end
 
-  def then_i_should_see_blank_zendesk_url_error_message
+  def then_i_see_blank_zendesk_url_error_message
     expect(page).to have_content('Enter a Zendesk ticket URL')
   end
 
@@ -58,15 +58,15 @@ RSpec.feature 'Deleting references' do
     check 'I have read the guidance'
   end
 
-  def then_i_should_see_a_flash_message
+  def then_i_see_a_flash_message
     expect(page).to have_content 'Reference deleted'
   end
 
-  def and_i_should_not_see_the_deleted_reference_details
+  def and_i_do_not_see_the_deleted_reference_details
     expect(page).to have_no_content 'Dumbledore'
   end
 
-  def and_i_should_see_my_zendesk_ticket_in_the_audit_log
+  def and_i_see_my_zendesk_ticket_in_the_audit_log
     click_link_or_button 'History'
     expect(page).to have_content 'Destroy Application Reference'
     expect(page).to have_content 'https://becomingateacher.zendesk.com/agent/tickets/12345'

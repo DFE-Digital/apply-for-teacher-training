@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering reasons for their work history breaks' do
+RSpec.describe 'Entering reasons for their work history breaks' do
   include CandidateHelper
 
   scenario 'Candidate enters a reason for a work break' do
@@ -8,10 +8,10 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     and_i_visit_the_site
 
     when_i_click_on_work_history
-    then_i_should_see_the_start_page
+    then_i_see_the_start_page
     then_i_choose_that_i_have_work_history_to_add
     and_i_click_add_a_first_job
-    then_i_should_see_the_add_a_job_page
+    then_i_see_the_add_a_job_page
     and_i_add_a_job_that_covers_4_years_and_7_months
     then_i_click_on_add_another_job
     and_i_add_another_job_that_covers_two_months_ago
@@ -29,7 +29,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     then_i_see_a_section_complete_error
 
     when_i_mark_this_section_as_completed
-    then_i_should_see_the_section_is_completed
+    then_i_see_the_section_is_completed
 
     when_i_click_on_work_history
     and_i_click_to_change_my_first_break
@@ -57,7 +57,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     click_link_or_button t('page_titles.work_history')
   end
 
-  def then_i_should_see_the_start_page
+  def then_i_see_the_start_page
     expect(page).to have_current_path candidate_interface_restructured_work_history_path
   end
 
@@ -70,7 +70,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     click_link_or_button 'Add a job'
   end
 
-  def then_i_should_see_the_add_a_job_page
+  def then_i_see_the_add_a_job_page
     expect(page).to have_current_path candidate_interface_new_restructured_work_history_path
   end
 
@@ -173,7 +173,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     expect(page).to have_content(t('page_titles.application_form'))
   end
 
-  def then_i_should_see_the_section_is_completed
+  def then_i_see_the_section_is_completed
     expect(page).to have_css('#work-history-badge-id', text: 'Completed')
   end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate tries to sign in without an account' do
+RSpec.describe 'Candidate tries to sign in without an account' do
   scenario 'Candidate signs in and receives an email inviting them to sign up' do
     given_i_am_a_candidate_without_an_account
 

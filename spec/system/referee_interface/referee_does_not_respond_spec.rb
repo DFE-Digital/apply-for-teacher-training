@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Referee does not respond in time' do
+RSpec.describe 'Referee does not respond in time' do
   include CandidateHelper
 
   it 'Emails are sent if a referee does not respond in time' do

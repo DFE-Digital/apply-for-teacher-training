@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Change english GCSE' do
+RSpec.describe 'Change english GCSE' do
   include DfESignInHelpers
 
   scenario 'Change the english GCSE on an application form', :with_audited do
@@ -21,13 +21,13 @@ RSpec.feature 'Change english GCSE' do
     when_i_added_the_details_of_the_qualification
     and_i_add_the_zendesk_ticket_url
     and_i_click_update
-    then_it_should_save_missing_qualification_into_the_application_form
+    then_it_has_saved_missing_qualification_into_the_application_form
 
     and_i_click_to_change_my_english_gcse
     and_i_add_the_candidate_is_not_studying_for_gcse
     and_i_add_the_zendesk_ticket_url
     and_i_click_update
-    then_it_should_save_missing_qualification_with_missing_explanation_into_the_application_form
+    then_it_has_saved_missing_qualification_with_missing_explanation_into_the_application_form
 
     and_i_click_to_change_my_english_gcse
     when_i_choose_uk_o_level
@@ -40,7 +40,7 @@ RSpec.feature 'Change english GCSE' do
 
     when_i_add_all_details_for_uk_o_level
     and_i_click_update
-    then_it_should_save_uk_o_level_into_the_application_form
+    then_it_has_saved_uk_o_level_into_the_application_form
 
     and_i_click_to_change_my_english_gcse
     and_i_choose_scottish_national_gcse
@@ -49,7 +49,7 @@ RSpec.feature 'Change english GCSE' do
 
     when_i_add_all_details_for_scottish_national_gcse
     and_i_click_update
-    then_it_should_save_scottish_national_gcse_into_the_application_form
+    then_it_has_saved_scottish_national_gcse_into_the_application_form
 
     and_i_click_to_change_my_english_gcse
     and_i_choose_non_uk_gcse
@@ -58,7 +58,7 @@ RSpec.feature 'Change english GCSE' do
 
     and_i_add_all_details_for_non_uk_gcse
     and_i_click_update
-    then_it_should_save_non_uk_gcse_into_the_application_form
+    then_it_has_saved_non_uk_gcse_into_the_application_form
 
     and_i_click_to_change_my_english_gcse
     and_i_choose_another_uk_qualification
@@ -67,7 +67,7 @@ RSpec.feature 'Change english GCSE' do
 
     and_i_add_all_details_for_another_uk_qualification
     and_i_click_update
-    then_it_should_save_another_uk_qualification_into_the_application_form
+    then_it_has_saved_another_uk_qualification_into_the_application_form
 
     and_i_click_to_change_my_english_gcse
     and_i_choose_gcse
@@ -80,7 +80,7 @@ RSpec.feature 'Change english GCSE' do
 
     when_i_add_the_grades
     and_i_click_update
-    then_it_should_save_gcses_into_the_application_form
+    then_it_has_saved_gcses_into_the_application_form
   end
 
   def given_i_am_a_support_user
@@ -256,7 +256,7 @@ RSpec.feature 'Change english GCSE' do
     and_i_add_the_zendesk_ticket_url
   end
 
-  def then_it_should_save_missing_qualification_into_the_application_form
+  def then_it_has_saved_missing_qualification_into_the_application_form
     expect(page).to have_content('GCSE updated')
 
     expect(page).to have_current_path(support_interface_application_form_path(@application_form))
@@ -279,7 +279,7 @@ RSpec.feature 'Change english GCSE' do
     )
   end
 
-  def then_it_should_save_missing_qualification_with_missing_explanation_into_the_application_form
+  def then_it_has_saved_missing_qualification_with_missing_explanation_into_the_application_form
     expect(page).to have_content('GCSE updated')
 
     @english_gcse.reload
@@ -301,7 +301,7 @@ RSpec.feature 'Change english GCSE' do
     )
   end
 
-  def then_it_should_save_uk_o_level_into_the_application_form
+  def then_it_has_saved_uk_o_level_into_the_application_form
     expect(page).to have_content('GCSE updated')
 
     @english_gcse.reload
@@ -315,7 +315,7 @@ RSpec.feature 'Change english GCSE' do
     )
   end
 
-  def then_it_should_save_scottish_national_gcse_into_the_application_form
+  def then_it_has_saved_scottish_national_gcse_into_the_application_form
     expect(page).to have_content('GCSE updated')
 
     @english_gcse.reload
@@ -329,7 +329,7 @@ RSpec.feature 'Change english GCSE' do
     )
   end
 
-  def then_it_should_save_non_uk_gcse_into_the_application_form
+  def then_it_has_saved_non_uk_gcse_into_the_application_form
     expect(page).to have_content('GCSE updated')
 
     @english_gcse.reload
@@ -342,7 +342,7 @@ RSpec.feature 'Change english GCSE' do
     )
   end
 
-  def then_it_should_save_another_uk_qualification_into_the_application_form
+  def then_it_has_saved_another_uk_qualification_into_the_application_form
     expect(page).to have_content('GCSE updated')
 
     @english_gcse.reload
@@ -357,7 +357,7 @@ RSpec.feature 'Change english GCSE' do
     )
   end
 
-  def then_it_should_save_gcses_into_the_application_form
+  def then_it_has_saved_gcses_into_the_application_form
     expect(page).to have_content('GCSE updated')
 
     @english_gcse.reload

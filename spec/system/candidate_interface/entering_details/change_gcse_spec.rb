@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Change GCSE' do
+RSpec.describe 'Change GCSE' do
   include CandidateHelper
 
   scenario 'Candidate changes their GCSE qualification type' do
@@ -11,7 +11,7 @@ RSpec.feature 'Change GCSE' do
 
     when_i_choose_other_uk_qualification
     and_click_save_and_continue
-    then_i_should_see_a_validation_error_for_my_qualification_type
+    then_i_see_a_validation_error_for_my_qualification_type
 
     when_i_fill_in_the_other_uk_qualification
     and_click_save_and_continue
@@ -50,7 +50,7 @@ RSpec.feature 'Change GCSE' do
     click_link_or_button t('save_and_continue')
   end
 
-  def then_i_should_see_a_validation_error_for_my_qualification_type
+  def then_i_see_a_validation_error_for_my_qualification_type
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/gcse_qualification_type_form.attributes.other_uk_qualification_type.blank')
   end
 

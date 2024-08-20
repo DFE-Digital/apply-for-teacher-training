@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Vendor API Requests' do
+RSpec.describe 'Vendor API Requests' do
   include DfESignInHelpers
 
   scenario 'Listed requests are filtered' do

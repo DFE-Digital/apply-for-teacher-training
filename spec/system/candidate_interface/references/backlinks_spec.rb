@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'References' do
+RSpec.describe 'References' do
   include CandidateHelper
 
   it 'Candidate adds a new reference' do
@@ -166,7 +166,7 @@ RSpec.feature 'References' do
     and_my_referees_details
   end
 
-  def and_i_should_not_see_academic_or_the_first_name_i_input
+  def and_i_do_not_see_academic_or_the_first_name_i_input
     expect(page).to have_no_content('Academic')
     expect(page).to have_no_content('Walter White')
   end

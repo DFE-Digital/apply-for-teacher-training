@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidates authentication token has the path attribute populated', time: CycleTimetableHelper.mid_cycle do
+RSpec.describe 'Candidates authentication token has the path attribute populated', time: CycleTimetableHelper.mid_cycle do
   include SignInHelper
   include CandidateHelper
 

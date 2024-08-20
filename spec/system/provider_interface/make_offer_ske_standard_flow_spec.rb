@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
+RSpec.describe 'Provider makes an offer with SKE enabled in standard courses' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
   include OfferStepsHelper

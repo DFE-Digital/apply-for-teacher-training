@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Personal details page' do
+RSpec.describe 'Personal details page' do
   include DfESignInHelpers
 
   scenario 'Provider user views their personal details' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate with no right to work or study' do
+RSpec.describe 'Candidate with no right to work or study' do
   include CandidateHelper
 
   before do

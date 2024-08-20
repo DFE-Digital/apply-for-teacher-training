@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Editing a degree' do
+RSpec.describe 'Editing a degree' do
   include CandidateHelper
 
   it 'Candidate edits their degree' do

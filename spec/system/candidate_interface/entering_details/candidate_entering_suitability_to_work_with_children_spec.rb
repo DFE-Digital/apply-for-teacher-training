@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering their suitability to work with children' do
+RSpec.describe 'Entering their suitability to work with children' do
   include CandidateHelper
 
   scenario 'Candidate declares any safeguarding issues' do

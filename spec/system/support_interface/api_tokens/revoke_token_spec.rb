@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.feature 'API tokens' do
+RSpec.describe 'API tokens' do
   include DfESignInHelpers
 
   scenario 'Support revokes a token' do
     given_i_am_signed_in
     and_providers_exist_with_api_tokens
     when_i_revoke_a_token_for_a_provider
-    then_that_provider_should_no_longer_have_an_api_token
-    but_the_other_provider_should_still_have_an_api_token
+    then_that_provider_no_longer_has_an_api_token
+    but_the_other_provider_still_has_an_api_token
   end
 
   def given_i_am_signed_in
@@ -32,13 +32,13 @@ RSpec.feature 'API tokens' do
     click_link_or_button 'Revoke'
   end
 
-  def then_that_provider_should_no_longer_have_an_api_token
+  def then_that_provider_no_longer_has_an_api_token
     within '.govuk-table' do
       expect(page).to have_no_content('Provider 1')
     end
   end
 
-  def but_the_other_provider_should_still_have_an_api_token
+  def but_the_other_provider_still_has_an_api_token
     within '.govuk-table' do
       expect(page).to have_content('Provider 2')
     end

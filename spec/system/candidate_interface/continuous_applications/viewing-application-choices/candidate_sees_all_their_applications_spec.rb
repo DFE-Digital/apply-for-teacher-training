@@ -61,7 +61,7 @@ RSpec.describe 'Candidates sees all their applications' do
   end
 
   def then_i_only_see_the_draft_applications
-    and_i_should_only_see_applications_in(state: :unsubmitted)
+    and_i_only_see_applications_in(state: :unsubmitted)
   end
 
   def then_i_am_on_the_view_my_application_page
@@ -75,7 +75,7 @@ RSpec.describe 'Candidates sees all their applications' do
   end
 
   def then_i_only_see_the_offers_applications
-    and_i_should_only_see_applications_in(state: :offer)
+    and_i_only_see_applications_in(state: :offer)
   end
 
   def then_i_am_on_the_details_offer_page
@@ -89,7 +89,7 @@ RSpec.describe 'Candidates sees all their applications' do
   end
 
   def then_i_only_see_the_unsuccessful_applications
-    and_i_should_only_see_applications_in(state: :rejected)
+    and_i_only_see_applications_in(state: :rejected)
   end
 
   def when_i_visit_my_applications_passing_an_non_existent_tab_name
@@ -105,7 +105,7 @@ RSpec.describe 'Candidates sees all their applications' do
 
 private
 
-  def and_i_should_only_see_applications_in(state:)
+  def and_i_only_see_applications_in(state:)
     expect(page.all('.app-application-item').size).to be 1
 
     @application_choice = @application_form.application_choices.send(state).first

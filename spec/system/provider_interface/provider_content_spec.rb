@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider content' do
+RSpec.describe 'Provider content' do
   scenario 'Provider views the content pages' do
     given_i_am_on_the_provider_interface
     when_i_click_on_accessibility

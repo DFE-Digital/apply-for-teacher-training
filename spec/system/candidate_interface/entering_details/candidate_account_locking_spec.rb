@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate account locking' do
+RSpec.describe 'Candidate account locking' do
   include CandidateHelper
   include SignInHelper
 

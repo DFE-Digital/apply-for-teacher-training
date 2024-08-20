@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.feature 'See applications' do
+RSpec.describe 'See applications' do
   include DfESignInHelpers
 
   scenario 'Support agent visits the list of applications' do
     given_i_am_a_support_user
     and_there_are_applications_in_the_system
     and_i_visit_the_support_page
-    then_i_should_see_the_latest_applications
+    then_i_see_the_latest_applications
 
     when_i_search_by_application_choice_id
     then_i_see_only_the_associated_application
@@ -21,7 +21,7 @@ RSpec.feature 'See applications' do
     and_i_clear_filters
 
     when_i_follow_the_link_to_applications
-    then_i_should_see_the_application_references
+    then_i_see_the_application_references
   end
 
   def given_i_am_a_support_user
@@ -38,7 +38,7 @@ RSpec.feature 'See applications' do
     visit support_interface_path
   end
 
-  def then_i_should_see_the_latest_applications
+  def then_i_see_the_latest_applications
     expect(page).to have_content @completed_application.full_name
     expect(page).to have_content @application_with_reference.full_name
     expect(page).to have_content @unsubmitted_application.full_name
@@ -83,7 +83,7 @@ RSpec.feature 'See applications' do
     click_link_or_button 'Applications'
   end
 
-  def then_i_should_see_the_application_references
+  def then_i_see_the_application_references
     expect(page).to have_content @completed_application.support_reference
     expect(page).to have_content @application_with_reference.support_reference
     expect(page).to have_content @unsubmitted_application.support_reference

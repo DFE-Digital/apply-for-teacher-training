@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider changes an existing offer' do
+RSpec.describe 'Provider changes an existing offer' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
   include OfferStepsHelper

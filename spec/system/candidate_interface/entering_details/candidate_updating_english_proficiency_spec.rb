@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate updating english proficiency' do
+RSpec.describe 'Candidate updating english proficiency' do
   include CandidateHelper
 
   scenario 'When application form does not have an english proficiency associations' do

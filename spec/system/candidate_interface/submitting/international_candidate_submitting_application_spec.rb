@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'International candidate submits the application' do
+RSpec.describe 'International candidate submits the application' do
   include CandidateHelper
   include EFLHelper
 
@@ -9,13 +9,13 @@ RSpec.feature 'International candidate submits the application' do
 
     when_i_have_completed_everything_except_the_efl_and_other_qualifications_section
     when_i_review_my_details
-    then_i_should_see_the_efl_and_other_qualifications_section_is_incomplete
+    then_i_see_the_efl_and_other_qualifications_section_is_incomplete
     when_i_try_to_add_secondary_course
     then_i_see_a_warning_about_incomplete_details
 
     when_i_complete_the_efl_section
     and_i_complete_the_other_qualifications_section
-    then_i_should_see_all_sections_are_complete
+    then_i_see_all_sections_are_complete
 
     when_i_review_my_choices
     then_i_can_see_my_course_choices
@@ -93,7 +93,7 @@ RSpec.feature 'International candidate submits the application' do
     click_link_or_button 'Your details'
   end
 
-  def then_i_should_see_the_efl_and_other_qualifications_section_is_incomplete
+  def then_i_see_the_efl_and_other_qualifications_section_is_incomplete
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Incomplete')
     expect(page).to have_css('#other-qualifications-badge-id', text: 'Incomplete')
   end
@@ -112,7 +112,7 @@ RSpec.feature 'International candidate submits the application' do
     candidate_fills_in_their_other_qualifications
   end
 
-  def then_i_should_see_all_sections_are_complete
+  def then_i_see_all_sections_are_complete
     application_form_sections.each do |section|
       expect(page).to have_no_css "[data-qa='incomplete-#{section}']"
     end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'API tokens' do
+RSpec.describe 'API tokens' do
   include DfESignInHelpers
 
   scenario 'Support creates a token' do
@@ -13,7 +13,7 @@ RSpec.feature 'API tokens' do
 
     when_i_select_a_provider
     and_i_click_on_create_a_token
-    then_i_should_see_a_new_token
+    then_i_see_a_new_token
     and_i_am_able_to_connect_to_the_api_using_the_token
     and_the_token_is_visible_on_the_support_page
   end
@@ -48,7 +48,7 @@ RSpec.feature 'API tokens' do
   end
   alias_method :and_i_click_on_create_a_token_without_entering_a_provider, :and_i_click_on_create_a_token
 
-  def then_i_should_see_a_new_token
+  def then_i_see_a_new_token
     expect(page).to have_content 'Your token is'
   end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate tries to sign up' do
+RSpec.describe 'Candidate tries to sign up' do
   scenario 'Candidate attempts to sign up without filling in an email address' do
     when_i_go_to_sign_up
     and_i_submit_the_form_without_entering_an_email

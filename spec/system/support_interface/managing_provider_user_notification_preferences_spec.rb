@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Managing provider user notification preferences' do
+RSpec.describe 'Managing provider user notification preferences' do
   include DfESignInHelpers
   include DsiAPIHelper
 

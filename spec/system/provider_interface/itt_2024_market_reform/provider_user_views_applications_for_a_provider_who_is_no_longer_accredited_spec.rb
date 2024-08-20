@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'ITT 2024 market reform – viewing applications after a provider loses accreditation' do
+RSpec.describe 'ITT 2024 market reform – viewing applications after a provider loses accreditation' do
   include CourseOptionHelpers
   include DfESignInHelpers
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider views an application in new cycle' do
+RSpec.describe 'Provider views an application in new cycle' do
   include CandidateHelper
   include CourseOptionHelpers
   include DfESignInHelpers
@@ -13,10 +13,10 @@ RSpec.feature 'Provider views an application in new cycle' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
     and_my_organisation_has_applications
     and_i_sign_in_to_the_provider_interface
-    then_i_should_see_the_applications_from_my_organisation
+    then_i_see_the_applications_from_my_organisation
 
     when_i_click_on_an_application
-    then_i_should_be_on_the_application_view_page
+    then_i_am_on_the_application_view_page
 
     when_i_click_on_the_references_tab
     then_i_see_the_candidates_references
@@ -50,7 +50,7 @@ RSpec.feature 'Provider views an application in new cycle' do
     @my_provider_choice.application_form.application_references.update(feedback_status: 'feedback_requested')
   end
 
-  def then_i_should_see_the_applications_from_my_organisation
+  def then_i_see_the_applications_from_my_organisation
     expect(page).to have_title 'Applications (1)'
     expect(page).to have_content 'Applications (1)'
     expect(page).to have_content @my_provider_choice.application_form.full_name
@@ -60,7 +60,7 @@ RSpec.feature 'Provider views an application in new cycle' do
     click_link_or_button @my_provider_choice.application_form.full_name
   end
 
-  def then_i_should_be_on_the_application_view_page
+  def then_i_am_on_the_application_view_page
     expect(page).to have_content @my_provider_choice.id
 
     expect(page).to have_content @my_provider_choice.application_form.full_name

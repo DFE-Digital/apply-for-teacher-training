@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate API application status change' do
+RSpec.describe 'Candidate API application status change' do
   include SignInHelper
   include CandidateHelper
 

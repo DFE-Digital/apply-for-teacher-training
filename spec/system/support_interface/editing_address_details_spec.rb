@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Editing address' do
+RSpec.describe 'Editing address' do
   include DfESignInHelpers
 
   scenario 'Support user edits address', :with_audited do
@@ -9,33 +9,33 @@ RSpec.feature 'Editing address' do
 
     when_i_visit_the_application_page
     and_i_click_the_change_link_next_to_address
-    then_i_should_see_the_address_type_page
+    then_i_see_the_address_type_page
 
     when_i_select_uk
-    then_i_should_see_the_uk_address_details_form
+    then_i_see_the_uk_address_details_form
 
     when_i_submit_the_update_form
-    then_i_should_see_blank_audit_comment_error_message
+    then_i_see_blank_audit_comment_error_message
 
     when_i_complete_the_details_form
     and_i_submit_the_update_form
-    then_i_should_see_a_flash_message
-    and_i_should_see_the_new_details
-    and_i_should_see_my_details_comment_in_the_audit_log
+    then_i_see_a_flash_message
+    and_i_see_the_new_details
+    and_i_see_my_details_comment_in_the_audit_log
 
     when_i_visit_the_application_page
     and_i_click_the_change_link_next_to_address
     and_i_select_outside_the_uk
-    then_i_should_see_the_international_address_details_form
+    then_i_see_the_international_address_details_form
 
     when_i_submit_the_update_form
-    then_i_should_see_blank_error_messages
+    then_i_see_blank_error_messages
     when_i_fill_in_an_international_address
 
     and_i_submit_the_update_form
-    then_i_should_see_a_flash_message
-    and_i_should_see_the_new_international_address_details
-    and_i_should_see_my_international_address_details_comment_in_the_audit_log
+    then_i_see_a_flash_message
+    and_i_see_the_new_international_address_details
+    and_i_see_my_international_address_details_comment_in_the_audit_log
   end
 
   def given_i_am_a_support_user
@@ -54,7 +54,7 @@ RSpec.feature 'Editing address' do
     click_link_or_button('Change address')
   end
 
-  def then_i_should_see_the_address_type_page
+  def then_i_see_the_address_type_page
     expect(page).to have_content('Where does the candidate live?')
   end
 
@@ -63,7 +63,7 @@ RSpec.feature 'Editing address' do
     click_link_or_button t('save_and_continue')
   end
 
-  def then_i_should_see_the_uk_address_details_form
+  def then_i_see_the_uk_address_details_form
     expect(page).to have_content('What is the candidate’s address?')
     expect(page).to have_content('Town or city')
   end
@@ -73,7 +73,7 @@ RSpec.feature 'Editing address' do
   end
   alias_method :and_i_submit_the_update_form, :when_i_submit_the_update_form
 
-  def then_i_should_see_blank_audit_comment_error_message
+  def then_i_see_blank_audit_comment_error_message
     expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_address_details_form.attributes.audit_comment.blank')
   end
 
@@ -84,17 +84,17 @@ RSpec.feature 'Editing address' do
     fill_in 'support_interface_application_forms_edit_address_details_form[audit_comment]', with: 'Updated as part of Zen Desk ticket #12345'
   end
 
-  def then_i_should_see_a_flash_message
+  def then_i_see_a_flash_message
     expect(page).to have_content 'Address details updated'
   end
 
-  def and_i_should_see_the_new_details
+  def and_i_see_the_new_details
     expect(page).to have_content '42 Much Wow Street'
     expect(page).to have_content 'London'
     expect(page).to have_content 'SW1P 3BT'
   end
 
-  def and_i_should_see_my_details_comment_in_the_audit_log
+  def and_i_see_my_details_comment_in_the_audit_log
     click_link_or_button 'History'
     expect(page).to have_content 'Updated as part of Zen Desk ticket #12345'
   end
@@ -105,12 +105,12 @@ RSpec.feature 'Editing address' do
     click_link_or_button t('save_and_continue')
   end
 
-  def then_i_should_see_the_international_address_details_form
+  def then_i_see_the_international_address_details_form
     expect(page).to have_content('What is the candidate’s address?')
     expect(page).to have_content('Address line 1')
   end
 
-  def then_i_should_see_blank_error_messages
+  def then_i_see_blank_error_messages
     expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_address_details_form.attributes.audit_comment.blank')
   end
 
@@ -121,14 +121,14 @@ RSpec.feature 'Editing address' do
     fill_in 'support_interface_application_forms_edit_address_details_form[audit_comment]', with: 'Updated as part of Zen Desk ticket #56789'
   end
 
-  def and_i_should_see_the_new_international_address_details
+  def and_i_see_the_new_international_address_details
     expect(page).to have_content '123 Chandni Chowk'
     expect(page).to have_content 'New Delhi'
     expect(page).to have_content '110006'
     expect(page).to have_content 'India'
   end
 
-  def and_i_should_see_my_international_address_details_comment_in_the_audit_log
+  def and_i_see_my_international_address_details_comment_in_the_audit_log
     click_link_or_button 'History'
     expect(page).to have_content 'Updated as part of Zen Desk ticket #56789'
   end

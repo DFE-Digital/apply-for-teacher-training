@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider reports index' do
+RSpec.describe 'Provider reports index' do
   include DfESignInHelpers
   scenario 'when provider user has one provider' do
     given_a_provider_and_provider_user_exists

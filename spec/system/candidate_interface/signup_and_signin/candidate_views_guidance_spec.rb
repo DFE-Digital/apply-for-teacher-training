@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate visits the sign-in page and views guidance' do
+RSpec.describe 'Candidate visits the sign-in page and views guidance' do
   scenario 'User can open the guidance page with dates for the current recruitment cycle year' do
     and_the_recruitment_cycle_year_is_2024
     and_i_visit_the_sign_in_page

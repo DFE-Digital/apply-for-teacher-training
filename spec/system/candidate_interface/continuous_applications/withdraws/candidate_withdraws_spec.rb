@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'A candidate withdraws their application', :bullet do
+RSpec.describe 'A candidate withdraws their application', :bullet do
   include CandidateHelper
 
   # bullet complains about wanting an includes on associated objects.

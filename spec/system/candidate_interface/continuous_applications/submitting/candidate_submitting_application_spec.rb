@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits the application' do
+RSpec.describe 'Candidate submits the application' do
   include CandidateHelper
   include SignInHelper
 

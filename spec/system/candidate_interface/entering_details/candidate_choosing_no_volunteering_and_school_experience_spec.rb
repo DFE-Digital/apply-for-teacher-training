@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Choosing no volunteering and school experience' do
+RSpec.describe 'Choosing no volunteering and school experience' do
   include CandidateHelper
 
   scenario 'Candidate chooses no volunteering and school experience' do

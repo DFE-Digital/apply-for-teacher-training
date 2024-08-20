@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'See applications for accredited provider' do
+RSpec.describe 'See applications for accredited provider' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
@@ -11,7 +11,7 @@ RSpec.feature 'See applications for accredited provider' do
     and_i_sign_in_to_the_provider_interface
 
     and_i_visit_the_provider_page
-    then_i_should_see_the_applications_from_my_organisation
+    then_i_see_the_applications_from_my_organisation
     but_not_the_applications_from_other_providers
   end
 
@@ -42,7 +42,7 @@ RSpec.feature 'See applications for accredited provider' do
     visit provider_interface_path
   end
 
-  def then_i_should_see_the_applications_from_my_organisation
+  def then_i_see_the_applications_from_my_organisation
     expect(page).to have_link 'Jim'
     expect(page).to have_link 'Clancy'
     expect(page).to have_link 'Harry'

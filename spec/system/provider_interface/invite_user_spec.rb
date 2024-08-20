@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider user invitation' do
+RSpec.describe 'Provider user invitation' do
   include DfESignInHelpers
   include DsiAPIHelper
 

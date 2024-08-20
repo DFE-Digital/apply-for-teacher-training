@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Managing provider-provider permissions via support' do
+RSpec.describe 'Managing provider-provider permissions via support' do
   include DfESignInHelpers
 
   scenario 'Support user changes provider permissions' do
@@ -10,10 +10,10 @@ RSpec.feature 'Managing provider-provider permissions via support' do
     when_i_visit_the_first_provider
     and_click_relationships
     and_set_invalid_relationships
-    then_i_should_see_an_error
+    then_i_see_an_error
 
     when_i_set_valid_relationships
-    then_the_relationships_should_be_updated
+    then_the_relationships_have_been_updated
   end
 
   def given_i_am_a_support_user
@@ -43,7 +43,7 @@ RSpec.feature 'Managing provider-provider permissions via support' do
     click_link_or_button 'Update relationships'
   end
 
-  def then_i_should_see_an_error
+  def then_i_see_an_error
     expect(page).to have_content 'Select who can make offers and reject applications'
   end
 
@@ -57,7 +57,7 @@ RSpec.feature 'Managing provider-provider permissions via support' do
     click_link_or_button 'Update relationships'
   end
 
-  def then_the_relationships_should_be_updated
+  def then_the_relationships_have_been_updated
     expect(page).to have_content 'Relationships updated'
 
     checkboxes = all('input[type=checkbox]')

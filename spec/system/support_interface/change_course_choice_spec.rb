@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Change course choice' do
+RSpec.describe 'Change course choice' do
   include DfESignInHelpers
 
   scenario 'Change the course choice on an application form', :with_audited do

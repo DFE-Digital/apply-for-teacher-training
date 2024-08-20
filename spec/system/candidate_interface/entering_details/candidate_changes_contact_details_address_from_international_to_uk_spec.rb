@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate updates their contact information from an international address to a UK' do
+RSpec.describe 'Candidate updates their contact information from an international address to a UK' do
   include CandidateHelper
 
   scenario 'Candidate submits their contact information' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'A candidate can not edit some personal details after first submission' do
+RSpec.describe 'A candidate can not edit some personal details after first submission' do
   include SignInHelper
   include CandidateHelper
 
@@ -24,13 +24,13 @@ RSpec.feature 'A candidate can not edit some personal details after first submis
     and_i_cant_edit_the_immigration_status
 
     when_i_try_to_visit_the_nationality_page
-    then_i_should_be_redirected_to_your_details_page
+    then_i_am_redirected_to_your_details_page
 
     when_i_try_to_visit_the_right_to_work_page
-    then_i_should_be_redirected_to_your_details_page
+    then_i_am_redirected_to_your_details_page
 
     when_i_try_to_visit_the_immigration_status_page
-    then_i_should_be_redirected_to_your_details_page
+    then_i_am_redirected_to_your_details_page
   end
 
   def given_i_already_have_one_completed_application
@@ -88,6 +88,6 @@ def when_i_try_to_visit_the_immigration_status_page
   visit candidate_interface_immigration_status_path
 end
 
-def then_i_should_be_redirected_to_your_details_page
+def then_i_am_redirected_to_your_details_page
   expect(page).to have_current_path candidate_interface_continuous_applications_details_path
 end

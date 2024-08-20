@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Change science GCSE' do
+RSpec.describe 'Change science GCSE' do
   include DfESignInHelpers
 
   scenario 'Change the science GCSE on an application form', :with_audited do
@@ -21,13 +21,13 @@ RSpec.feature 'Change science GCSE' do
     when_i_added_the_details_of_the_qualification
     and_i_add_the_zendesk_ticket_url
     and_i_click_update
-    then_it_should_save_missing_qualification_into_the_application_form
+    then_it_has_saved_missing_qualification_into_the_application_form
 
     and_i_click_to_change_my_science_gcse
     and_i_add_the_candidate_is_not_studying_for_gcse
     and_i_add_the_zendesk_ticket_url
     and_i_click_update
-    then_it_should_save_missing_qualification_with_missing_explanation_into_the_application_form
+    then_it_has_saved_missing_qualification_with_missing_explanation_into_the_application_form
 
     and_i_click_to_change_my_science_gcse
     when_i_choose_uk_o_level
@@ -40,7 +40,7 @@ RSpec.feature 'Change science GCSE' do
 
     when_i_add_all_details_for_uk_o_level
     and_i_click_update
-    then_it_should_save_uk_o_level_into_the_application_form
+    then_it_has_saved_uk_o_level_into_the_application_form
 
     and_i_click_to_change_my_science_gcse
     and_i_choose_scottish_national_gcse
@@ -49,7 +49,7 @@ RSpec.feature 'Change science GCSE' do
 
     when_i_add_all_details_for_scottish_national_gcse
     and_i_click_update
-    then_it_should_save_scottish_national_gcse_into_the_application_form
+    then_it_has_saved_scottish_national_gcse_into_the_application_form
 
     and_i_click_to_change_my_science_gcse
     and_i_choose_non_uk_gcse
@@ -58,7 +58,7 @@ RSpec.feature 'Change science GCSE' do
 
     and_i_add_all_details_for_non_uk_gcse
     and_i_click_update
-    then_it_should_save_non_uk_gcse_into_the_application_form
+    then_it_has_saved_non_uk_gcse_into_the_application_form
 
     and_i_click_to_change_my_science_gcse
     and_i_choose_another_uk_qualification
@@ -67,7 +67,7 @@ RSpec.feature 'Change science GCSE' do
 
     and_i_add_all_details_for_another_uk_qualification
     and_i_click_update
-    then_it_should_save_another_uk_qualification_into_the_application_form
+    then_it_has_saved_another_uk_qualification_into_the_application_form
 
     and_i_click_to_change_my_science_gcse
     and_i_choose_gcse
@@ -81,7 +81,7 @@ RSpec.feature 'Change science GCSE' do
     when_i_add_the_single_award
     and_i_add_the_zendesk_ticket_url
     and_i_click_update
-    then_it_should_save_the_single_award_gcses_into_the_application_form
+    then_it_has_saved_the_single_award_gcses_into_the_application_form
 
     and_i_click_to_change_my_science_gcse
     when_i_choose_double_award
@@ -91,7 +91,7 @@ RSpec.feature 'Change science GCSE' do
     when_i_add_the_double_award_grade
     and_i_add_the_zendesk_ticket_url
     and_i_click_update
-    then_it_should_save_the_double_award_gcses_into_the_application_form
+    then_it_has_saved_the_double_award_gcses_into_the_application_form
 
     and_i_click_to_change_my_science_gcse
     when_i_choose_triple_award
@@ -101,7 +101,7 @@ RSpec.feature 'Change science GCSE' do
 
     when_i_add_the_triple_award_grades
     and_i_click_update
-    then_it_should_save_the_triple_award_gcses_into_the_application_form
+    then_it_has_saved_the_triple_award_gcses_into_the_application_form
   end
 
   def given_i_am_a_support_user
@@ -269,7 +269,7 @@ RSpec.feature 'Change science GCSE' do
     and_i_add_the_zendesk_ticket_url
   end
 
-  def then_it_should_save_missing_qualification_into_the_application_form
+  def then_it_has_saved_missing_qualification_into_the_application_form
     and_it_should_update_the_attributes(
       qualification_type: 'missing',
       not_completed_explanation: 'I am studying',
@@ -287,7 +287,7 @@ RSpec.feature 'Change science GCSE' do
     )
   end
 
-  def then_it_should_save_missing_qualification_with_missing_explanation_into_the_application_form
+  def then_it_has_saved_missing_qualification_with_missing_explanation_into_the_application_form
     and_it_should_update_the_attributes(
       qualification_type: 'missing',
       currently_completing_qualification: false,
@@ -305,7 +305,7 @@ RSpec.feature 'Change science GCSE' do
     )
   end
 
-  def then_it_should_save_uk_o_level_into_the_application_form
+  def then_it_has_saved_uk_o_level_into_the_application_form
     and_it_should_update_the_attributes(
       qualification_type: 'gce_o_level',
       award_year: '1988',
@@ -316,7 +316,7 @@ RSpec.feature 'Change science GCSE' do
     )
   end
 
-  def then_it_should_save_scottish_national_gcse_into_the_application_form
+  def then_it_has_saved_scottish_national_gcse_into_the_application_form
     and_it_should_update_the_attributes(
       qualification_type: 'scottish_national_5',
       award_year: '2021',
@@ -327,7 +327,7 @@ RSpec.feature 'Change science GCSE' do
     )
   end
 
-  def then_it_should_save_non_uk_gcse_into_the_application_form
+  def then_it_has_saved_non_uk_gcse_into_the_application_form
     and_it_should_update_the_attributes(
       qualification_type: 'non_uk',
       non_uk_qualification_type: 'Higher Secondary School Certificate',
@@ -337,7 +337,7 @@ RSpec.feature 'Change science GCSE' do
     )
   end
 
-  def then_it_should_save_another_uk_qualification_into_the_application_form
+  def then_it_has_saved_another_uk_qualification_into_the_application_form
     and_it_should_update_the_attributes(
       qualification_type: 'other_uk',
       grade: 'D',
@@ -357,7 +357,7 @@ RSpec.feature 'Change science GCSE' do
     fill_in 'support_interface_gcse_form[single_award_grade]', with: '3'
   end
 
-  def then_it_should_save_gcses_into_the_application_form
+  def then_it_has_saved_gcses_into_the_application_form
     and_it_should_update_the_attributes(
       qualification_type: 'gcse',
       grade: nil,
@@ -373,7 +373,7 @@ RSpec.feature 'Change science GCSE' do
     expect(page).to have_content('Enter your single award grade')
   end
 
-  def then_it_should_save_the_single_award_gcses_into_the_application_form
+  def then_it_has_saved_the_single_award_gcses_into_the_application_form
     and_it_should_update_the_attributes(
       qualification_type: 'gcse',
       subject: 'science single award',
@@ -399,7 +399,7 @@ RSpec.feature 'Change science GCSE' do
     fill_in 'support_interface_gcse_form[double_award_grade]', with: 'CD'
   end
 
-  def then_it_should_save_the_double_award_gcses_into_the_application_form
+  def then_it_has_saved_the_double_award_gcses_into_the_application_form
     and_it_should_update_the_attributes(
       qualification_type: 'gcse',
       subject: 'science double award',
@@ -429,7 +429,7 @@ RSpec.feature 'Change science GCSE' do
     fill_in 'support_interface_gcse_form[physics_grade]', with: 'C'
   end
 
-  def then_it_should_save_the_triple_award_gcses_into_the_application_form
+  def then_it_has_saved_the_triple_award_gcses_into_the_application_form
     and_it_should_update_the_attributes(
       qualification_type: 'gcse',
       subject: 'science triple award',

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering their personal details' do
+RSpec.describe 'Entering their personal details' do
   include CandidateHelper
 
   scenario 'Candidate submits their personal details' do
@@ -10,8 +10,8 @@ RSpec.feature 'Entering their personal details' do
     when_i_click_on_personal_information
     and_i_fill_in_some_details_but_omit_some_required_details
     and_i_submit_the_form
-    then_i_should_see_validation_errors
-    and_i_should_see_the_completed_fields
+    then_i_see_validation_errors
+    and_i_see_the_completed_fields
 
     when_i_fill_in_the_rest_of_my_details
     and_i_submit_the_form
@@ -33,7 +33,7 @@ RSpec.feature 'Entering their personal details' do
 
     when_i_mark_the_section_as_completed
     and_i_submit_my_details
-    then_i_should_see_the_form
+    then_i_see_the_form
     and_that_the_section_is_completed
 
     when_i_click_on_personal_information
@@ -61,11 +61,11 @@ RSpec.feature 'Entering their personal details' do
     fill_in 'Year', with: '1975'
   end
 
-  def then_i_should_see_validation_errors
+  def then_i_see_validation_errors
     expect(page).to have_content t('errors.messages.invalid_date', article: 'a', attribute: 'date of birth')
   end
 
-  def and_i_should_see_the_completed_fields
+  def and_i_see_the_completed_fields
     expect(find_field(t('first_name.label', scope: @scope)).value).to eq('Lando')
     expect(find_field(t('last_name.label', scope: @scope)).value).to eq('Calrissian')
     expect(find_field('Month').value).to eq('11')
@@ -138,7 +138,7 @@ RSpec.feature 'Entering their personal details' do
     and_i_submit_my_details
   end
 
-  def then_i_should_see_the_form
+  def then_i_see_the_form
     expect(page).to have_content(t('page_titles.personal_information.heading'))
   end
 

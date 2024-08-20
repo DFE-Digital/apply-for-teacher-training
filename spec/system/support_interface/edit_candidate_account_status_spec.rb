@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Editing account status' do
+RSpec.describe 'Editing account status' do
   include DfESignInHelpers
 
   scenario 'Support user edits account status' do
@@ -13,21 +13,21 @@ RSpec.feature 'Editing account status' do
     and_i_click_on_the_match_link
     and_i_click_on_the_email_address_link
     and_click_on_block_account_link
-    then_i_should_see_three_options
-    and_unblocked_should_be_selected
+    then_i_see_three_options
+    and_unblocked_is_selected
 
     and_i_choose_account_access_locked
     when_i_click_continue
-    then_i_should_see_candidate_account_status_as_access_locked
+    then_i_see_candidate_account_status_as_access_locked
 
     when_i_click_to_change_candidate_account_status
-    and_account_access_locked_should_be_selected
+    and_account_access_locked_is_selected
     and_i_choose_account_submission_blocked
     when_i_click_continue
-    then_i_should_see_candidate_account_status_as_submission_blocked
+    then_i_see_candidate_account_status_as_submission_blocked
 
     when_i_click_to_change_candidate_account_status
-    and_account_submission_blocked_should_be_selected
+    and_account_submission_blocked_is_selected
   end
 
   def given_i_am_a_support_user
@@ -68,13 +68,13 @@ RSpec.feature 'Editing account status' do
     click_link_or_button 'Block account'
   end
 
-  def then_i_should_see_three_options
+  def then_i_see_three_options
     expect(page).to have_text 'Account submission blocked'
     expect(page).to have_text 'Account access locked (user cannot sign in)'
     expect(page).to have_text 'Unblocked'
   end
 
-  def and_unblocked_should_be_selected
+  def and_unblocked_is_selected
     expect(unblocked_field.checked?).to be_truthy
     expect(account_submission_blocked_field.checked?).to be_falsey
     expect(account_access_locked_field.checked?).to be_falsey
@@ -92,11 +92,11 @@ RSpec.feature 'Editing account status' do
     click_link_or_button 'Continue'
   end
 
-  def then_i_should_see_candidate_account_status_as_access_locked
+  def then_i_see_candidate_account_status_as_access_locked
     expect(page).to have_content('Account access locked')
   end
 
-  def then_i_should_see_candidate_account_status_as_submission_blocked
+  def then_i_see_candidate_account_status_as_submission_blocked
     expect(page).to have_content('Account submission blocked')
   end
 
@@ -104,13 +104,13 @@ RSpec.feature 'Editing account status' do
     click_link_or_button 'Change'
   end
 
-  def and_account_access_locked_should_be_selected
+  def and_account_access_locked_is_selected
     expect(unblocked_field.checked?).to be_falsey
     expect(account_submission_blocked_field.checked?).to be_falsey
     expect(account_access_locked_field.checked?).to be_truthy
   end
 
-  def and_account_submission_blocked_should_be_selected
+  def and_account_submission_blocked_is_selected
     expect(unblocked_field.checked?).to be_falsey
     expect(account_submission_blocked_field.checked?).to be_truthy
     expect(account_access_locked_field.checked?).to be_falsey

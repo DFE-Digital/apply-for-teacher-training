@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider changes a course' do
+RSpec.describe 'Provider changes a course' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 

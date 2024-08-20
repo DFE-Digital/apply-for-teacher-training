@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits an application up to 4 choices' do
+RSpec.describe 'Candidate submits an application up to 4 choices' do
   include CandidateHelper
 
   before { given_courses_exist }

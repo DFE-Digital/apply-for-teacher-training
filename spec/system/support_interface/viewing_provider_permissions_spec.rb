@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Viewing provider-provider permissions via support' do
+RSpec.describe 'Viewing provider-provider permissions via support' do
   include DfESignInHelpers
 
   scenario 'Support user views provider permissions via users page' do
@@ -10,15 +10,15 @@ RSpec.feature 'Viewing provider-provider permissions via support' do
 
     when_i_visit_the_training_provider
     and_click_users
-    then_i_should_see_the_training_provider_permissions_diagram
+    then_i_see_the_training_provider_permissions_diagram
 
     when_i_visit_the_ratifying_provider
     and_click_users
-    then_i_should_see_the_ratifying_provider_permissions_diagram
+    then_i_see_the_ratifying_provider_permissions_diagram
 
     when_i_visit_the_ratifying_provider_with_no_permissions
     and_click_users
-    then_i_should_clearly_see_that_no_permissions_have_been_setup
+    then_i_clearly_see_that_no_permissions_have_been_setup
   end
 
   def given_i_am_a_support_user
@@ -63,7 +63,7 @@ RSpec.feature 'Viewing provider-provider permissions via support' do
     click_link_or_button 'Users'
   end
 
-  def then_i_should_see_the_training_provider_permissions_diagram
+  def then_i_see_the_training_provider_permissions_diagram
     expect(page).to have_content 'can ✅ view safeguarding ❌ view diversity ❌ make decisions for courses ratified by'
   end
 
@@ -73,7 +73,7 @@ RSpec.feature 'Viewing provider-provider permissions via support' do
     click_link_or_button 'Oldman University'
   end
 
-  def then_i_should_see_the_ratifying_provider_permissions_diagram
+  def then_i_see_the_ratifying_provider_permissions_diagram
     expect(page).to have_content 'can ❌ view safeguarding ✅ view diversity ✅ make decisions for courses run by'
   end
 
@@ -83,7 +83,7 @@ RSpec.feature 'Viewing provider-provider permissions via support' do
     click_link_or_button 'Staffordshire University (S72)'
   end
 
-  def then_i_should_clearly_see_that_no_permissions_have_been_setup
+  def then_i_clearly_see_that_no_permissions_have_been_setup
     expect(page).to have_content 'Permissions not setup'
   end
 end

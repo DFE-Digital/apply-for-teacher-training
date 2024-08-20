@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate tries to submit an application choice when the course is closed' do
+RSpec.describe 'Candidate tries to submit an application choice when the course is closed' do
   include SignInHelper
   include CandidateHelper
 
@@ -12,25 +12,25 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
   scenario 'Apply is open but course not open for applications', time: CycleTimetableHelper.mid_cycle(CycleTimetable.current_year) do
     and_my_course_choice_is_not_open_for_applications
     when_i_continue_my_draft_application
-    then_i_should_see_the_course_closed_error_message
+    then_i_see_the_course_closed_error_message
   end
 
   scenario 'Apply is closed and course open for applications before apply opens', time: CycleTimetableHelper.after_find_opens do
     and_my_course_choice_is_not_open_for_applications
     when_i_continue_my_draft_application
-    then_i_should_see_the_course_closed_error_message_until_apply_opens
+    then_i_see_the_course_closed_error_message_until_apply_opens
   end
 
   scenario 'Apply is closed and course open for applications same day', time: CycleTimetableHelper.after_find_opens do
     and_my_course_choice_is_open_at_the_same_time_apply_opens
     when_i_continue_my_draft_application
-    then_i_should_see_the_course_closed_error_message_until_apply_opens
+    then_i_see_the_course_closed_error_message_until_apply_opens
   end
 
   scenario 'Apply is open and course is open', time: mid_cycle(CycleTimetable.current_year) do
     and_my_course_choice_is_open_at_the_same_time_apply_opens
     when_i_continue_my_draft_application
-    then_i_should_not_see_any_error_message
+    then_i_do_not_see_any_error_message
     and_i_can_review_my_application
   end
 
@@ -42,21 +42,21 @@ RSpec.feature 'Candidate tries to submit an application choice when the course i
     @application_choice.current_course.update!(applications_open_from: CycleTimetable.apply_opens)
   end
 
-  def then_i_should_see_the_course_closed_error_message
+  def then_i_see_the_course_closed_error_message
     expect(page).to have_content(
       "This course is not yet open to applications. You will be able to submit your application on #{@application_choice.current_course.applications_open_from.to_fs(:govuk_date)}.",
     )
     expect(page).to have_no_content('Review application')
   end
 
-  def then_i_should_see_the_course_closed_error_message_until_apply_opens
+  def then_i_see_the_course_closed_error_message_until_apply_opens
     expect(page).to have_content(
       "This course is not yet open to applications. You will be able to submit your application on #{CycleTimetable.apply_opens.to_fs(:govuk_date)}.",
     )
     expect(page).to have_no_content('Review application')
   end
 
-  def then_i_should_not_see_any_error_message
+  def then_i_do_not_see_any_error_message
     expect(page).to have_no_content('This course is not yet open to applications.')
   end
 
