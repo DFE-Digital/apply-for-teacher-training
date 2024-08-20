@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Data set documentation' do
+RSpec.describe 'Data set documentation' do
   include DfESignInHelpers
 
   scenario 'Support user visits the data set documentation' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'See updated applications post-submission' do
+RSpec.describe 'See updated applications post-submission' do
   include ActionView::RecordIdentifier
   include CourseOptionHelpers
   include DfESignInHelpers
@@ -19,7 +19,7 @@ RSpec.feature 'See updated applications post-submission' do
     when_1_month_passes
 
     and_i_sign_in_to_the_provider_interface
-    then_i_should_see_the_applications_from_my_organisation
+    then_i_see_the_applications_from_my_organisation
 
     when_i_am_on_the_application_choice_index_page
     then_the_recently_updated_candidate_card_has_an_updated_notice
@@ -27,13 +27,13 @@ RSpec.feature 'See updated applications post-submission' do
 
     # Visit the recently updated application
     when_i_click_on_the_recently_updated_application
-    then_i_should_be_on_the_application_view_page
-    and_i_should_see_the_updated_recently_notification
+    then_i_am_on_the_application_view_page
+    and_i_see_the_updated_recently_notification
 
     # Visit the application updated long ago
     when_i_click_on_applications_in_the_navigation_bar
     and_i_visit_the_distantly_updated_application
-    then_i_should_not_see_the_updated_recently_notification
+    then_i_do_not_see_the_updated_recently_notification
   end
 
   def then_the_recently_updated_candidate_card_has_an_updated_notice
@@ -89,7 +89,7 @@ RSpec.feature 'See updated applications post-submission' do
                                 course_option:)
   end
 
-  def then_i_should_see_the_applications_from_my_organisation
+  def then_i_see_the_applications_from_my_organisation
     expect(page).to have_title 'Applications (2)'
     expect(page).to have_content 'Applications (2)'
     expect(page).to have_content @distantly_updated.application_form.full_name
@@ -100,17 +100,17 @@ RSpec.feature 'See updated applications post-submission' do
     click_link_or_button @recently_updated.application_form.full_name
   end
 
-  def then_i_should_be_on_the_application_view_page
+  def then_i_am_on_the_application_view_page
     expect(page).to have_content @recently_updated.id
 
     expect(page).to have_content @recently_updated.application_form.full_name
   end
 
-  def and_i_should_see_the_updated_recently_notification
+  def and_i_see_the_updated_recently_notification
     expect(page).to have_content 'View the timeline for their updates'
   end
 
-  def then_i_should_not_see_the_updated_recently_notification
+  def then_i_do_not_see_the_updated_recently_notification
     expect(page).to have_no_content 'View the timeline for their updates'
   end
 

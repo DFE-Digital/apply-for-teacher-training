@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Undo reference refusal' do
+RSpec.describe 'Undo reference refusal' do
   include DfESignInHelpers
   include CandidateHelper
 

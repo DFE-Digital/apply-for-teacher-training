@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Validation errors Vendor API' do
+RSpec.describe 'Validation errors Vendor API' do
   include DfESignInHelpers
 
   scenario 'Review validation errors' do

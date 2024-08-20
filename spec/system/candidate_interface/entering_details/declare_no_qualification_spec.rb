@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Declare no EFL qualification' do
+RSpec.describe 'Declare no EFL qualification' do
   include CandidateHelper
   include EFLHelper
 

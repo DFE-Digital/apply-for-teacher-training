@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate declines an offer' do
+RSpec.describe 'Candidate declines an offer' do
   include CourseOptionHelpers
   include CandidateHelper
 

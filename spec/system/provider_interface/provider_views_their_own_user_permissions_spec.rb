@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'User permissions page' do
+RSpec.describe 'User permissions page' do
   include DfESignInHelpers
 
   scenario 'Provider views their own user permissions' do

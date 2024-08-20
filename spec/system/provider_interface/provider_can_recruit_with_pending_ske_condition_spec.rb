@@ -2,7 +2,7 @@ require 'rails_helper'
 
 NUMBER_OF_TEXT_CONDITIONS = 3
 
-RSpec.feature 'Confirm conditions met' do
+RSpec.describe 'Confirm conditions met' do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
@@ -14,10 +14,10 @@ RSpec.feature 'Confirm conditions met' do
 
     when_i_navigate_to_an_offer_accepted_by_the_candidate
     and_i_navigate_to_the_offer_tab
-    then_i_should_not_see_button_to_recruit_with_pending_conditions
+    then_i_do_not_see_button_to_recruit_with_pending_conditions
 
     when_i_click_on_confirm_conditions
-    then_i_should_see_a_summary_of_the_conditions
+    then_i_see_a_summary_of_the_conditions
 
     when_i_change_the_status_of_the_text_conditions_to_met
     and_confirm_my_selection_in_the_next_page
@@ -26,7 +26,7 @@ RSpec.feature 'Confirm conditions met' do
 
     when_i_revisit_the_offer
     and_i_navigate_to_the_offer_tab
-    then_i_should_see_button_to_recruit_with_pending_conditions
+    then_i_see_button_to_recruit_with_pending_conditions
 
     when_i_click_recruit_with_pending_conditions
     then_i_see_the_recruit_with_pending_conditions_confirmation_page
@@ -50,7 +50,7 @@ RSpec.feature 'Confirm conditions met' do
     when_i_sign_back_in_as_the_provider_and_open_application_choice
     and_i_navigate_to_the_offer_tab
     and_i_click_on_confirm_conditions
-    then_i_should_see_a_summary_of_the_conditions
+    then_i_see_a_summary_of_the_conditions
 
     when_i_change_the_status_of_the_ske_condition_to_met
     and_confirm_all_conditions_met_on_the_next_page
@@ -103,11 +103,11 @@ RSpec.feature 'Confirm conditions met' do
     click_link_or_button 'Offer'
   end
 
-  def then_i_should_not_see_button_to_recruit_with_pending_conditions
+  def then_i_do_not_see_button_to_recruit_with_pending_conditions
     expect(page).to have_no_button('Recruit candidate with pending conditions')
   end
 
-  def then_i_should_see_button_to_recruit_with_pending_conditions
+  def then_i_see_button_to_recruit_with_pending_conditions
     expect(page).to have_button('Recruit candidate with pending conditions')
   end
 
@@ -120,7 +120,7 @@ RSpec.feature 'Confirm conditions met' do
     click_link_or_button 'Recruit candidate with pending conditions'
   end
 
-  def then_i_should_see_a_summary_of_the_conditions
+  def then_i_see_a_summary_of_the_conditions
     within '.app-box' do
       @conditions.each do |condition|
         expect(page).to have_content(condition.text)

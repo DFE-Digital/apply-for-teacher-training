@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Post-offer references', :with_audited, time: CycleTimetable.apply_opens(2024) do
+RSpec.describe 'Post-offer references', :with_audited, time: CycleTimetable.apply_opens(2024) do
   include CandidateHelper
 
   scenario 'Candidate views their references on the post offer dashboard' do

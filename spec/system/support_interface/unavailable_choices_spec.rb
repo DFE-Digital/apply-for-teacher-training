@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Unavailable choices' do
+RSpec.describe 'Unavailable choices' do
   include DfESignInHelpers
 
   scenario 'View application choices for courses and sites that are no longer unavailable' do

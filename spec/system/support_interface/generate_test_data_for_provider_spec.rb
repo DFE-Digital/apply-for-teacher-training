@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Generate test data for provider via support', :sandbox, sidekiq: false do
+RSpec.describe 'Generate test data for provider via support', :sandbox, sidekiq: false do
   include DfESignInHelpers
 
   scenario 'Support user generates test applications' do

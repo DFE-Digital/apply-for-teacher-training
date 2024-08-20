@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider history', :with_audited do
+RSpec.describe 'Provider history', :with_audited do
   include DfESignInHelpers
 
   scenario 'Provider user makes and reviews changes' do

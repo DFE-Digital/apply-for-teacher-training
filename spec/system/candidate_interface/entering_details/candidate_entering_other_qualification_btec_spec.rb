@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering their other qualifications' do
+RSpec.describe 'Entering their other qualifications' do
   include CandidateHelper
 
   scenario 'Candidate submits their BTEC qualification' do
@@ -23,7 +23,7 @@ RSpec.feature 'Entering their other qualifications' do
 
     when_i_click_change_qualification_type
     and_change_qualification_to_gcse
-    then_i_should_see_simple_grade_prompt
+    then_i_see_simple_grade_prompt
 
     when_i_submit_gcse_details
     then_i_see_my_gcse_on_the_review_page
@@ -98,7 +98,7 @@ RSpec.feature 'Entering their other qualifications' do
     click_link_or_button t('continue')
   end
 
-  def then_i_should_see_simple_grade_prompt
+  def then_i_see_simple_grade_prompt
     expect(page).to have_no_field('Merit')
     expect(page).to have_field('Grade')
   end

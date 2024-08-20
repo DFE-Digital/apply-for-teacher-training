@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Support user can access the RefereeInterface' do
+RSpec.describe 'Support user can access the RefereeInterface' do
   include DfESignInHelpers
 
   it 'Support user accesses the provide and refuse reference flow' do

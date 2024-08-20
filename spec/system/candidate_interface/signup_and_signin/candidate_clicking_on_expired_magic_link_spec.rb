@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate clicks on an expired magic link' do
+RSpec.describe 'Candidate clicks on an expired magic link' do
   include SignInHelper
 
   scenario 'Candidate clicks on a link with an id and expired token link in an email' do

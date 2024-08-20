@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'References' do
+RSpec.describe 'References' do
   include CandidateHelper
 
   scenario 'Candidate adds a new reference' do
@@ -15,22 +15,22 @@ RSpec.feature 'References' do
     then_i_see_the_type_page
 
     when_i_click_continue_without_providing_a_type
-    then_i_should_be_told_to_provide_a_type
+    then_i_am_told_to_provide_a_type
     and_a_validation_error_is_logged_for_type
 
     when_i_select_academic
     and_i_click_continue
-    then_i_should_see_the_referee_name_page
+    then_i_see_the_referee_name_page
 
     when_i_click_save_and_continue_without_providing_a_name
-    then_i_should_be_told_to_provide_a_name
+    then_i_am_told_to_provide_a_name
     and_a_validation_error_is_logged_for_name
 
     when_i_fill_in_my_references_name
     and_i_click_save_and_continue
 
     when_i_click_save_and_continue_without_providing_an_emailing
-    then_i_should_be_told_to_provide_an_email_address
+    then_i_am_told_to_provide_an_email_address
     and_a_validation_error_is_logged_for_blank_email_address
 
     when_i_provide_an_email_address_with_an_invalid_format
@@ -43,12 +43,12 @@ RSpec.feature 'References' do
     then_i_see_the_relationship_page
 
     when_i_click_save_and_continue_without_providing_a_relationship
-    then_i_should_be_told_to_provide_a_relationship
+    then_i_am_told_to_provide_a_relationship
     and_a_validation_error_is_logged_for_relationship
 
     when_i_fill_in_my_references_relationship
     and_i_click_save_and_continue
-    and_i_should_see_my_references_details
+    and_i_see_my_references_details
     then_i_see_the_review_references_page
 
     when_i_click_change_on_the_references_name
@@ -74,14 +74,14 @@ RSpec.feature 'References' do
     and_i_click_save_and_continue
     then_i_see_the_updated_relationship
     then_i_see_the_review_references_page
-    and_i_should_see_my_reference
+    and_i_see_my_reference
 
     when_i_try_to_edit_someone_elses_reference
     then_i_see_the_review_references_page
 
     when_i_try_and_edit_a_reference_that_does_not_exist
     then_i_see_the_review_references_page
-    and_i_should_not_see_the_complete_section
+    and_i_do_not_see_the_complete_section
 
     when_i_click_to_add_another_reference
     when_i_select_academic
@@ -94,15 +94,15 @@ RSpec.feature 'References' do
     and_i_click_save_and_continue
     then_i_see_the_review_references_page
 
-    and_i_should_see_the_complete_section
+    and_i_see_the_complete_section
     when_i_mark_the_section_as_complete
-    then_i_should_be_redirected_to_my_application_or_details
+    then_i_am_redirected_to_my_application_or_details
     and_the_references_section_is_marked_as_completed
 
     when_i_click_on_references_section
     and_i_delete_the_second_referee
-    then_my_application_references_should_be_incomplete
-    and_i_should_not_see_the_complete_section
+    then_my_application_references_are_incomplete
+    and_i_do_not_see_the_complete_section
   end
 
   def given_i_am_signed_in
@@ -135,7 +135,7 @@ RSpec.feature 'References' do
     and_i_click_continue
   end
 
-  def then_i_should_be_told_to_provide_a_type
+  def then_i_am_told_to_provide_a_type
     expect(page).to have_content('Choose a type of referee')
   end
 
@@ -155,7 +155,7 @@ RSpec.feature 'References' do
     click_link_or_button t('continue')
   end
 
-  def then_i_should_see_the_referee_name_page
+  def then_i_see_the_referee_name_page
     expect(page).to have_current_path candidate_interface_references_name_path('academic')
   end
 
@@ -163,7 +163,7 @@ RSpec.feature 'References' do
     and_i_click_save_and_continue
   end
 
-  def then_i_should_be_told_to_provide_a_name
+  def then_i_am_told_to_provide_a_name
     expect(page).to have_content('Enter the name of the person who can give a reference')
   end
 
@@ -196,7 +196,7 @@ RSpec.feature 'References' do
     and_i_click_save_and_continue
   end
 
-  def then_i_should_be_told_to_provide_an_email_address
+  def then_i_am_told_to_provide_an_email_address
     expect(page).to have_content('Enter their email address')
   end
 
@@ -228,7 +228,7 @@ RSpec.feature 'References' do
     and_i_click_save_and_continue
   end
 
-  def then_i_should_be_told_to_provide_a_relationship
+  def then_i_am_told_to_provide_a_relationship
     expect(page).to have_content('Enter how you know them and for how long')
   end
 
@@ -240,7 +240,7 @@ RSpec.feature 'References' do
     fill_in 'candidate-interface-reference-referee-relationship-form-relationship-field-error', with: 'Through nefarious behaviour.'
   end
 
-  def and_i_should_see_my_references_details
+  def and_i_see_my_references_details
     expect(page).to have_content('Academic')
     expect(page).to have_content('Walter White')
     expect(page).to have_content('iamtheone@whoknocks.com')
@@ -299,7 +299,7 @@ RSpec.feature 'References' do
     expect(page).to have_current_path candidate_interface_references_review_path
   end
 
-  def and_i_should_see_my_reference
+  def and_i_see_my_reference
     expect(page).to have_content('Professional')
     expect(page).to have_content('Jessie Pinkman')
     expect(page).to have_content('jessie@pinkman.com')
@@ -323,17 +323,17 @@ RSpec.feature 'References' do
     expect(page).to have_current_path candidate_interface_references_create_candidate_name_path(@application.application_references.creation_order.last.id)
   end
 
-  def and_i_should_be_told_my_reference_request_has_been_sent
+  def and_i_am_told_my_reference_request_has_been_sent
     expect(page).to have_content('Reference request sent to Jessie Pinkman')
   end
 
-  def and_i_should_not_see_the_complete_section
+  def and_i_do_not_see_the_complete_section
     expect(page).to have_no_content('Have you completed this section?')
     expect(page).to have_no_content('Yes, I have completed this section')
     expect(page).to have_no_content('No, I’ll come back to it later')
   end
 
-  def and_i_should_see_the_complete_section
+  def and_i_see_the_complete_section
     expect(page).to have_content('Have you completed this section?')
     expect(page).to have_content('Yes, I have completed this section')
     expect(page).to have_content('No, I’ll come back to it later')
@@ -348,7 +348,7 @@ RSpec.feature 'References' do
     expect(safeguarding_section.text.downcase).to include('references to be requested if you accept an offer completed')
   end
 
-  def then_i_should_be_redirected_to_my_application_or_details
+  def then_i_am_redirected_to_my_application_or_details
     expect(page).to have_current_path candidate_interface_continuous_applications_details_path
   end
 
@@ -365,7 +365,7 @@ RSpec.feature 'References' do
     click_link_or_button 'Yes I’m sure - delete this reference'
   end
 
-  def then_my_application_references_should_be_incomplete
+  def then_my_application_references_are_incomplete
     expect(@application.reload.references_completed).to be false
     click_link_or_button 'Back to your details'
     expect(safeguarding_section.text.downcase).to include('references to be requested if you accept an offer incomplete')

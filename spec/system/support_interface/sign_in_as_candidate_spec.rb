@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Sign in as candidate' do
+RSpec.describe 'Sign in as candidate' do
   include DfESignInHelpers
 
   scenario 'Support user signs in as a candidate' do

@@ -17,7 +17,7 @@ A good test looks like this:
 
 ```rb
 # do_a_thing_feature_spec.rb
-RSpec.feature 'Do a thing feature' do
+RSpec.describe 'Do a thing feature' do
   include TestHelpers
 
   scenario 'User does a thing' do
@@ -52,7 +52,7 @@ A less good test looks like this:
 
 ```rb
 # do_a_thing_feature_spec.rb
-RSpec.feature 'Do a thing feature' do
+RSpec.describe 'Do a thing feature' do
   include TestHelpers
 
   let(:user) { create(:user) } # Bad: a `let` block adds noise to the file and adds indirection

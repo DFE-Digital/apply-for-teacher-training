@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Managing support users' do
+RSpec.describe 'Managing support users' do
   include DfESignInHelpers
 
   scenario 'creating a new support user', :with_audited do
@@ -12,8 +12,8 @@ RSpec.feature 'Managing support users' do
     and_i_enter_the_users_email_and_dsi_uid
     and_i_click_add_user
 
-    then_i_should_see_the_list_of_support_users
-    and_i_should_see_the_user_i_created
+    then_i_see_the_list_of_support_users
+    and_i_see_the_user_i_created
 
     when_i_click_on_the_user
     then_i_can_see_the_audit_history
@@ -49,11 +49,11 @@ RSpec.feature 'Managing support users' do
     click_link_or_button 'Add support user'
   end
 
-  def then_i_should_see_the_list_of_support_users
+  def then_i_see_the_list_of_support_users
     expect(page).to have_title('Support users')
   end
 
-  def and_i_should_see_the_user_i_created
+  def and_i_see_the_user_i_created
     expect(page).to have_content('harrison@example.com')
   end
 

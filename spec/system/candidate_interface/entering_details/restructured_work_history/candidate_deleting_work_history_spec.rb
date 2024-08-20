@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering their work history' do
+RSpec.describe 'Entering their work history' do
   include CandidateHelper
 
   scenario 'Candidate deleting their only job entry should also remove any breaks entered' do
@@ -8,10 +8,10 @@ RSpec.feature 'Entering their work history' do
     and_i_visit_the_site
 
     when_i_click_on_work_history
-    then_i_should_see_the_start_page
+    then_i_see_the_start_page
     then_i_choose_that_i_have_work_history_to_add
     and_i_click_add_a_first_job
-    then_i_should_see_the_add_a_job_page
+    then_i_see_the_add_a_job_page
     and_i_add_a_job_that_covers_the_last_4_years_and_9_months
     then_i_see_a_two_month_break_between_my_job_and_now
 
@@ -23,13 +23,13 @@ RSpec.feature 'Entering their work history' do
 
     when_i_delete_my_job
     and_i_confirm_i_want_to_delete_my_job
-    then_i_should_see_the_start_page
+    then_i_see_the_start_page
     then_i_choose_that_i_have_work_history_to_add
     and_i_click_add_a_first_job
-    then_i_should_see_the_add_a_job_page
+    then_i_see_the_add_a_job_page
     and_i_add_a_job_that_covers_the_last_4_years_and_9_months
     then_i_see_a_two_month_break_between_my_job_and_now
-    and_i_should_not_see_my_previous_break_entry
+    and_i_do_not_see_my_previous_break_entry
   end
 
   def given_i_am_signed_in
@@ -44,7 +44,7 @@ RSpec.feature 'Entering their work history' do
     click_link_or_button t('page_titles.work_history')
   end
 
-  def then_i_should_see_the_start_page
+  def then_i_see_the_start_page
     expect(page).to have_current_path candidate_interface_restructured_work_history_path
   end
 
@@ -57,7 +57,7 @@ RSpec.feature 'Entering their work history' do
     click_link_or_button 'Add a job'
   end
 
-  def then_i_should_see_the_add_a_job_page
+  def then_i_see_the_add_a_job_page
     expect(page).to have_current_path candidate_interface_new_restructured_work_history_path
   end
 
@@ -130,7 +130,7 @@ RSpec.feature 'Entering their work history' do
     click_link_or_button 'Yes I’m sure - delete this job'
   end
 
-  def and_i_should_not_see_my_previous_break_entry
+  def and_i_do_not_see_my_previous_break_entry
     expect(page).to have_no_content('Painting is tiring.')
   end
 end

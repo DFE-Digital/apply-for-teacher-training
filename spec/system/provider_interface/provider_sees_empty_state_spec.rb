@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'See applications' do
+RSpec.describe 'See applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
@@ -12,7 +12,7 @@ RSpec.feature 'See applications' do
     when_i_have_been_assigned_to_my_training_provider
     and_i_sign_in_to_the_provider_interface
 
-    then_i_should_see_no_applications
+    then_i_see_no_applications
   end
 
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
@@ -34,7 +34,7 @@ RSpec.feature 'See applications' do
     provider_user_exists_in_apply_database
   end
 
-  def then_i_should_see_no_applications
+  def then_i_see_no_applications
     expect(page).to have_content 'You have not received any applications'
     expect(page).to have_no_css('.govuk-table')
   end

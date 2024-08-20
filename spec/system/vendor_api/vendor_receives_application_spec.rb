@@ -2,16 +2,16 @@ require 'rails_helper'
 
 # This is an end-to-end test for the API response. To test complex logic in
 # the presenter, see spec/presenters/vendor_api/single_application_presenter_spec.rb.
-RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_cycle(2024) do
+RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid_cycle(2024) do
   include CandidateHelper
 
   scenario 'A completed application is submitted with references' do
     given_a_candidate_has_submitted_their_application
     when_i_retrieve_the_application_over_the_api
-    then_it_should_include_the_data_from_the_application_form
+    then_it_includes_the_data_from_the_application_form
     when_an_offer_is_made_and_accepted
     and_i_retrieve_the_application_over_the_api
-    then_it_should_include_their_references
+    then_it_includes_their_references
   end
 
   def given_a_candidate_has_submitted_their_application
@@ -48,7 +48,7 @@ RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_
   end
   alias_method :and_i_retrieve_the_application_over_the_api, :when_i_retrieve_the_application_over_the_api
 
-  def then_it_should_include_the_data_from_the_application_form
+  def then_it_includes_the_data_from_the_application_form
     expected_attributes = {
       id: @provider.application_choices.first.id.to_s,
       type: 'application',
@@ -285,7 +285,7 @@ RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_
     AcceptOffer.new(application_choice: @application.reload.application_choices.first).save!
   end
 
-  def then_it_should_include_their_references
+  def then_it_includes_their_references
     received_attributes = @api_response['data'].first.deep_symbolize_keys
     expect(received_attributes.dig(:attributes, :references)).to be_present
     expect(received_attributes.dig(:attributes, :references)).to contain_exactly(

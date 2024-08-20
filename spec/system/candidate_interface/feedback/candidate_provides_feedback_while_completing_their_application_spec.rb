@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate provides feedback during the application process' do
+RSpec.describe 'Candidate provides feedback during the application process' do
   include CandidateHelper
 
   it 'Candidate gives feedback while completing their applications' do

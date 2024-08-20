@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate entering GCSE details' do
+RSpec.describe 'Candidate entering GCSE details' do
   include CandidateHelper
 
   scenario 'Candidate specifies GCSE maths with "Other UK qualification" type' do

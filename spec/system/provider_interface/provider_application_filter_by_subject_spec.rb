@@ -39,14 +39,14 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
     i_can_see_all_filters_available_for_providers_i_have_access_to
 
     when_i_filter_by_course_subjects_that_have_no_courses
-    then_i_should_not_see_any_applications
+    then_i_do_not_see_any_applications
 
     when_i_filter_by_course_subjects_related_to_courses
-    then_i_should_see_applications_related_to_those_subjects
+    then_i_see_applications_related_to_those_subjects
 
     when_i_click_to_remove_a_tag
     then_i_expect_that_tag_not_to_be_visible
-    and_i_should_see_all_the_applications
+    and_i_see_all_the_applications
 
     when_i_type_in_a_subject
     then_i_only_see_checkboxes_that_correspond_to_it
@@ -56,7 +56,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
     and_i_dont_see_the_search_box
 
     when_i_filter_by_provider_and_a_subject
-    then_i_should_only_see_provider_applications_related_to_the_subjects
+    then_i_only_see_provider_applications_related_to_the_subjects
   end
 
   def when_i_visit_the_provider_page
@@ -87,7 +87,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
     click_link_or_button 'Apply filters'
   end
 
-  def then_i_should_not_see_any_applications
+  def then_i_do_not_see_any_applications
     expect(page).to have_content('There are no results for the selected filter')
   end
 
@@ -98,7 +98,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
     click_link_or_button 'Apply filters'
   end
 
-  def then_i_should_see_applications_related_to_those_subjects
+  def then_i_see_applications_related_to_those_subjects
     (@math_applications + @other_math_applications).each do |application|
       expect(page).to have_content(application.application_form.full_name)
     end
@@ -112,7 +112,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
     expect(page).to have_no_css('.app-checkbox-filter__tag', text: 'Mathematics')
   end
 
-  def and_i_should_see_all_the_applications
+  def and_i_see_all_the_applications
     expect(page).to have_content("Applications (#{(@math_applications + @primary_applications + @other_math_applications).count})")
   end
 
@@ -148,7 +148,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
     click_link_or_button 'Apply filters'
   end
 
-  def then_i_should_only_see_provider_applications_related_to_the_subjects
+  def then_i_only_see_provider_applications_related_to_the_subjects
     expect(page).to have_content("Applications (#{@other_math_applications.count})")
 
     @other_math_applications.each do |application|

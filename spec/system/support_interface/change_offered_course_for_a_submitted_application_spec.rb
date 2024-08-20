@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Add course to submitted application' do
+RSpec.describe 'Add course to submitted application' do
   include DfESignInHelpers
 
   before do

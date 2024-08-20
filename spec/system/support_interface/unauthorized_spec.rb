@@ -7,13 +7,13 @@ RSpec.describe 'A support user authenticates via DfE Sign-in but is not authoriz
     given_i_have_a_dfe_sign_in_account
 
     when_i_visit_the_support_interface
-    then_i_should_be_redirected_to_login_page
+    then_i_am_redirected_to_login_page
 
     when_i_sign_in_via_dfe_sign_in
 
-    then_i_should_be_see_the_not_authorized_page
-    and_i_should_see_my_dfe_sign_in_uid
-    and_i_should_not_see_support_menu
+    then_i_am_see_the_not_authorized_page
+    and_i_see_my_dfe_sign_in_uid
+    and_i_do_not_see_support_menu
   end
 
   def given_i_have_a_dfe_sign_in_account
@@ -24,11 +24,11 @@ RSpec.describe 'A support user authenticates via DfE Sign-in but is not authoriz
     visit support_interface_applications_path
   end
 
-  def then_i_should_be_redirected_to_login_page
+  def then_i_am_redirected_to_login_page
     expect(page).to have_current_path support_interface_sign_in_path
   end
 
-  def and_i_should_not_see_support_menu
+  def and_i_do_not_see_support_menu
     expect(page).to have_no_link 'Applications'
     expect(page).to have_no_link 'APITokens'
     expect(page).to have_no_link 'Vendors'
@@ -38,11 +38,11 @@ RSpec.describe 'A support user authenticates via DfE Sign-in but is not authoriz
     click_link_or_button 'Sign in using DfE Sign-in'
   end
 
-  def then_i_should_be_see_the_not_authorized_page
+  def then_i_am_see_the_not_authorized_page
     expect(page).to have_content 'Your account is not authorized'
   end
 
-  def and_i_should_see_my_dfe_sign_in_uid
+  def and_i_see_my_dfe_sign_in_uid
     expect(page).to have_content('abc')
   end
 end

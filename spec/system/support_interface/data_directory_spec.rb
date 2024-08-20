@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Data export', sidekiq: false do
+RSpec.describe 'Data export', sidekiq: false do
   include DfESignInHelpers
 
   scenario 'Support user navigates the data directory' do

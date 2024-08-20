@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Vendor reverts a rejection' do
+RSpec.describe 'Vendor reverts a rejection' do
   include CandidateHelper
 
   scenario 'A vendor reverts a rejection' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate tries to sign up using magic link with an invalid token' do
+RSpec.describe 'Candidate tries to sign up using magic link with an invalid token' do
   include SignInHelper
 
   scenario 'Candidate signs in and receives an email inviting them to sign up' do

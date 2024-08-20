@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate account' do
+RSpec.describe 'Candidate account' do
   include SignInHelper
 
   scenario 'Candidate signs up, out, and in again' do
@@ -18,7 +18,7 @@ RSpec.feature 'Candidate account' do
     then_i_am_signed_in
 
     when_i_click_the_sign_out_button
-    then_i_should_be_signed_out
+    then_i_am_signed_out
 
     when_i_visit_the_signin_page
     and_i_submit_an_invalid_email_address
@@ -41,7 +41,7 @@ RSpec.feature 'Candidate account' do
     then_i_am_signed_in
 
     when_i_signed_in_more_than_a_week_ago
-    then_i_should_be_signed_out
+    then_i_am_signed_out
 
     when_i_visit_the_signin_page
     and_i_submit_my_email_address_in_uppercase
@@ -105,7 +105,7 @@ RSpec.feature 'Candidate account' do
     click_link_or_button 'Sign out'
   end
 
-  def then_i_should_be_signed_out
+  def then_i_am_signed_out
     expect(page).to have_no_selector :link_or_button, 'Sign out'
     expect(page).to have_current_path(candidate_interface_create_account_or_sign_in_path)
   end

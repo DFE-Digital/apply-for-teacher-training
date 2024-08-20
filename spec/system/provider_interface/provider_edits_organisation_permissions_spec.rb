@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider edits organisation permissions' do
+RSpec.describe 'Provider edits organisation permissions' do
   include DfESignInHelpers
 
   scenario 'Provider edits organisation permissions' do

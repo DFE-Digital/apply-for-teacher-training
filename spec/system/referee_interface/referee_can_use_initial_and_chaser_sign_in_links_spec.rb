@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Referee can use sign in link in the initial and chaser email' do
+RSpec.describe 'Referee can use sign in link in the initial and chaser email' do
   include CandidateHelper
 
   scenario 'Referee clicks sign in links on the initial and chaser reference request emails' do

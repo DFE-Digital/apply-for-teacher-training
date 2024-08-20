@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox do
+RSpec.describe 'Candidate signs in and prefills application in Sandbox', :sandbox do
   include SignInHelper
   include CandidateHelper
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Reinstate offer to a declined course choice' do
+RSpec.describe 'Reinstate offer to a declined course choice' do
   include DfESignInHelpers
 
   scenario 'Support user can reverse a course choice that has accidently been declined' do

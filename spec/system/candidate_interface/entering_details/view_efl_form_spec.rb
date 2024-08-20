@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'View EFL form' do
+RSpec.describe 'View EFL form' do
   include CandidateHelper
   include EFLHelper
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'View active status of applications report' do
+RSpec.describe 'View active status of applications report' do
   include CourseOptionHelpers
   include DfESignInHelpers
 

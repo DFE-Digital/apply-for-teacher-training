@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate changing UK GCSE to international qualification' do
+RSpec.describe 'Candidate changing UK GCSE to international qualification' do
   include CandidateHelper
 
   scenario 'Candidate submits their maths GCSE details and then update them' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
+RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
   include CandidateHelper
 
   scenario 'Candidate submits their maths Non UK GCSE equivalency details and then updates them' do

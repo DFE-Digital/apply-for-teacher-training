@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate cannot sign up to a test environment (e.g. qa) without a DfE email address' do
+RSpec.describe 'Candidate cannot sign up to a test environment (e.g. qa) without a DfE email address' do
   include SignInHelper
 
   around do |example|

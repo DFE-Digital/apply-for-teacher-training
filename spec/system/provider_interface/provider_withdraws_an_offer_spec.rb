@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider withdraws an offer' do
+RSpec.describe 'Provider withdraws an offer' do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper

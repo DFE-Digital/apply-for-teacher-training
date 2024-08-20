@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate is redirected when tries to see your details after accepting an offer' do
+RSpec.describe 'Candidate is redirected when tries to see your details after accepting an offer' do
   include CandidateHelper
 
   scenario 'Candidate views their application on the post offer dashboard' do

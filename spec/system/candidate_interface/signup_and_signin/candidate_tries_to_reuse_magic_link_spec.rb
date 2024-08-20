@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate account' do
+RSpec.describe 'Candidate account' do
   include CandidateHelper
   include SignInHelper
 

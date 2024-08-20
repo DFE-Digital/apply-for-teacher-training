@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate adding incomplete referees' do
+RSpec.describe 'Candidate adding incomplete referees' do
   include CandidateHelper
 
   it 'Candidate adds incomplete referees and then completes them' do

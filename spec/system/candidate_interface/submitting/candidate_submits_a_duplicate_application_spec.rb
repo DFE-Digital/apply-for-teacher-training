@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Submitting a duplicate application' do
+RSpec.describe 'Submitting a duplicate application' do
   include CandidateHelper
 
   before { given_courses_exist }

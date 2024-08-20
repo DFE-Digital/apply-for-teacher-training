@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Add comments to the application history', :with_audited, mid_cycle: false do
+RSpec.describe 'Add comments to the application history', :with_audited, mid_cycle: false do
   include DfESignInHelpers
 
   scenario 'Support user adds a comment to the application audit page' do
@@ -12,7 +12,7 @@ RSpec.feature 'Add comments to the application history', :with_audited, mid_cycl
     when_i_click_on_an_application_history
     when_i_click_on_add_comment
     and_i_fill_and_submit_the_comment_form
-    then_i_should_see_my_comment_in_application_history
+    then_i_see_my_comment_in_application_history
   end
 
   def given_i_am_a_support_user
@@ -58,7 +58,7 @@ RSpec.feature 'Add comments to the application history', :with_audited, mid_cycl
     click_link_or_button 'Add comment'
   end
 
-  def then_i_should_see_my_comment_in_application_history
+  def then_i_see_my_comment_in_application_history
     within('tbody tr:eq(1)') do
       expect(page).to have_content 'Comment on Application Form'
       expect(page).to have_content 'I did a thing to this application'

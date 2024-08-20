@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Managing provider users v2' do
+RSpec.describe 'Managing provider users v2' do
   include DfESignInHelpers
   include DsiAPIHelper
 

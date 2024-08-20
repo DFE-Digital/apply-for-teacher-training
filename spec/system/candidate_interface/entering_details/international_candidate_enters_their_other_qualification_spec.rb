@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
+RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
   include CandidateHelper
 
   scenario 'International candidate enters their other non-uk qualification' do
@@ -33,7 +33,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
     and_i_choose_not_to_add_another_non_uk_qualification
     and_click_save_and_continue
     then_i_see_the_other_qualification_review_page
-    and_i_should_see_my_two_qualifications
+    and_i_see_my_two_qualifications
 
     when_i_click_to_change_my_first_qualification_type
     then_i_see_my_qualification_type_filled_in
@@ -66,14 +66,14 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
     and_i_fill_in_the_year_institution_and_country
     and_leave_grade_and_subject_blank
     and_click_save_and_continue
-    then_i_should_see_my_second_qualification
+    then_i_see_my_second_qualification
 
     when_i_click_on_continue
     then_i_see_a_section_complete_error
 
     when_i_mark_this_section_as_completed
     and_i_click_continue
-    then_i_should_see_the_form
+    then_i_see_the_form
     and_that_the_section_is_completed
   end
 
@@ -168,7 +168,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
     expect(page).to have_current_path(candidate_interface_review_other_qualifications_path)
   end
 
-  def and_i_should_see_my_two_qualifications
+  def and_i_see_my_two_qualifications
     within_summary_card('Master Rules Believing in the Heart of the Cards') do
       expect(page).to have_content('2015')
     end
@@ -228,7 +228,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
   end
 
-  def then_i_should_see_my_second_qualification
+  def then_i_see_my_second_qualification
     expect(page).to have_content('United States')
     expect(page).to have_content('2015')
   end
@@ -251,7 +251,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
     expect(page).to have_no_content('Advanced Rules')
   end
 
-  def then_i_should_see_the_form
+  def then_i_see_the_form
     expect(page).to have_content(t('page_titles.application_form'))
   end
 

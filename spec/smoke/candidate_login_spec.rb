@@ -1,4 +1,4 @@
-RSpec.feature 'Smoke test', :smoke, type: :feature do
+RSpec.describe 'Smoke test', :smoke, type: :feature do
   it 'allows new account creation' do
     when_i_go_to_the_account_creation_page
     when_i_choose_to_create_an_account
@@ -6,7 +6,7 @@ RSpec.feature 'Smoke test', :smoke, type: :feature do
 
     when_i_type_in_my_email_address
     and_i_click_continue
-    then_i_should_have_been_sent_an_email
+    then_i_have_been_sent_an_email
   end
 
   def when_i_go_to_the_account_creation_page
@@ -30,7 +30,7 @@ RSpec.feature 'Smoke test', :smoke, type: :feature do
     click_link_or_button 'Continue'
   end
 
-  def then_i_should_have_been_sent_an_email
+  def then_i_have_been_sent_an_email
     expect(page).to have_content('Check your email')
   end
 end

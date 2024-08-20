@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Delete a candidate application (by anonymising all of their data)' do
+RSpec.describe 'Delete a candidate application (by anonymising all of their data)' do
   include DfESignInHelpers
   include CandidateHelper
 

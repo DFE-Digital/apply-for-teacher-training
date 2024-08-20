@@ -7,12 +7,12 @@ RSpec.describe 'A removed support user attempts to authenticate via DfE Sign-in'
     given_i_have_a_dfe_sign_in_account_and_i_am_a_removed_support_user
 
     when_i_visit_the_support_interface
-    then_i_should_be_redirected_to_login_page
-    and_i_should_not_see_support_menu
+    then_i_am_redirected_to_login_page
+    and_i_do_not_see_support_menu
 
     when_i_sign_in_via_dfe_sign_in
 
-    then_i_should_not_be_authorized
+    then_i_am_not_authorized
   end
 
   def given_i_have_a_dfe_sign_in_account_and_i_am_a_removed_support_user
@@ -24,11 +24,11 @@ RSpec.describe 'A removed support user attempts to authenticate via DfE Sign-in'
     visit support_interface_applications_path
   end
 
-  def then_i_should_be_redirected_to_login_page
+  def then_i_am_redirected_to_login_page
     expect(page).to have_current_path support_interface_sign_in_path
   end
 
-  def and_i_should_not_see_support_menu
+  def and_i_do_not_see_support_menu
     expect(page).to have_no_link 'Applications'
     expect(page).to have_no_link 'APITokens'
     expect(page).to have_no_link 'Vendors'
@@ -38,7 +38,7 @@ RSpec.describe 'A removed support user attempts to authenticate via DfE Sign-in'
     click_link_or_button 'Sign in using DfE Sign-in'
   end
 
-  def then_i_should_not_be_authorized
+  def then_i_am_not_authorized
     expect(page).to have_current_path(auth_dfe_callback_path)
     expect(page).to have_text 'Your account is not authorized'
   end

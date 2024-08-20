@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Validation errors Candidate' do
+RSpec.describe 'Validation errors Candidate' do
   include CandidateHelper
   include DfESignInHelpers
 
@@ -11,13 +11,13 @@ RSpec.feature 'Validation errors Candidate' do
     given_i_am_a_support_user
 
     when_i_navigate_to_the_validation_errors_page
-    then_i_should_see_a_list_of_error_groups
+    then_i_see_a_list_of_error_groups
 
     when_i_click_on_a_group
-    then_i_should_see_a_list_of_individual_errors
+    then_i_see_a_list_of_individual_errors
 
     when_i_click_on_link_in_breadcrumb_trail
-    then_i_should_be_back_on_index_page
+    then_i_be_back_on_index_page
   end
 
   def given_i_am_a_candidate
@@ -42,7 +42,7 @@ RSpec.feature 'Validation errors Candidate' do
     click_link_or_button 'Candidate validation errors'
   end
 
-  def then_i_should_see_a_list_of_error_groups
+  def then_i_see_a_list_of_error_groups
     @validation_error = ValidationError.last
     expect(page).to have_content('Contact details form: Phone number')
     expect(page).to have_content('1')
@@ -52,7 +52,7 @@ RSpec.feature 'Validation errors Candidate' do
     click_link_or_button('Phone number')
   end
 
-  def then_i_should_see_a_list_of_individual_errors
+  def then_i_see_a_list_of_individual_errors
     expect(page).to have_content(Time.zone.now.to_fs(:govuk_date_and_time))
     expect(page).to have_content('Showing errors on the Phone number field in Contact details form by all users')
     expect(page).to have_content('Contact details form: Phone number')
@@ -63,7 +63,7 @@ RSpec.feature 'Validation errors Candidate' do
     click_link_or_button 'Validation errors'
   end
 
-  def then_i_should_be_back_on_index_page
+  def then_i_be_back_on_index_page
     expect(page).to have_current_path(support_interface_validation_errors_path)
   end
 end

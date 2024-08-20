@@ -14,12 +14,12 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
     and_i_sign_in_via_dfe_sign_in
 
     then_i_am_redirected_to_the_provider_interface_applications_path
-    and_i_should_see_the_link_to_sign_out
+    and_i_see_the_link_to_sign_out
     and_the_timestamp_of_this_sign_in_is_recorded
     and_my_profile_details_are_refreshed
 
     when_i_signed_in_more_than_2_hours_ago
-    then_i_should_see_the_login_page_again
+    then_i_see_the_login_page_again
   end
 
   def given_i_am_registered_as_a_provider_user
@@ -50,7 +50,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
     expect(page).to have_current_path(provider_interface_applications_path(some_key: 'some_value'))
   end
 
-  def and_i_should_see_the_link_to_sign_out
+  def and_i_see_the_link_to_sign_out
     expect(page).to have_content('Sign out')
   end
 
@@ -58,7 +58,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
     click_link_or_button 'Sign out'
   end
 
-  def then_i_should_see_the_login_page_again
+  def then_i_see_the_login_page_again
     expect(page).to have_button('Sign in using DfE Sign-in')
   end
 

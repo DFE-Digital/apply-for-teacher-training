@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering "Personal statement"' do
+RSpec.describe 'Entering "Personal statement"' do
   include CandidateHelper
 
   scenario 'Candidate submits personal statement' do
@@ -9,12 +9,12 @@ RSpec.feature 'Entering "Personal statement"' do
 
     when_i_click_on_personal_statement
     and_i_submit_the_form
-    then_i_should_be_told_to_write_my_personl_statement
+    then_i_am_told_to_write_my_personl_statement
 
     when_i_fill_in_more_than_1000_words
     and_i_submit_the_form
-    then_i_should_see_a_review_page
-    and_i_should_see_that_my_personal_statement_is_over_the_word_limit
+    then_i_see_a_review_page
+    and_i_see_that_my_personal_statement_is_over_the_word_limit
 
     when_i_fill_in_an_answer
     and_i_submit_the_form
@@ -30,7 +30,7 @@ RSpec.feature 'Entering "Personal statement"' do
 
     when_i_mark_the_section_as_completed
     and_i_submit_the_form
-    then_i_should_see_the_form
+    then_i_see_the_form
     and_that_the_section_is_completed
 
     when_i_click_on_personal_statement
@@ -49,7 +49,7 @@ RSpec.feature 'Entering "Personal statement"' do
     click_link_or_button 'Your personal statement'
   end
 
-  def then_i_should_see_a_validation_error
+  def then_i_see_a_validation_error
     expect(page).to have_content 'Your answer must be 1000 words or less'
   end
 
@@ -79,7 +79,7 @@ RSpec.feature 'Entering "Personal statement"' do
     expect(page).to have_content 'Hello world'
   end
 
-  def then_i_should_see_a_review_page
+  def then_i_see_a_review_page
     expect(page).to have_content 'Personal statement'
   end
 
@@ -96,7 +96,7 @@ RSpec.feature 'Entering "Personal statement"' do
     fill_in 'Your personal statement', with: 'Hello world again'
   end
 
-  def and_i_should_see_that_my_personal_statement_is_over_the_word_limit
+  def and_i_see_that_my_personal_statement_is_over_the_word_limit
     expect(page).to have_content 'There is a problem'
     expect(page).to have_content 'Your answer must be 1000 words or less. You have 1 word too many.'
   end
@@ -118,7 +118,7 @@ RSpec.feature 'Entering "Personal statement"' do
     choose t('application_form.completed_radio')
   end
 
-  def then_i_should_see_the_form
+  def then_i_see_the_form
     expect(page).to have_content('Your personal statement')
   end
 
@@ -126,7 +126,7 @@ RSpec.feature 'Entering "Personal statement"' do
     expect(page).to have_css('#your-personal-statement-badge-id', text: 'Completed')
   end
 
-  def then_i_should_be_told_to_write_my_personl_statement
+  def then_i_am_told_to_write_my_personl_statement
     expect(page).to have_content('Write your personal statement')
   end
 end

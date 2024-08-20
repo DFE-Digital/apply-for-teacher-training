@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Change course choice for a deferred application' do
+RSpec.describe 'Change course choice for a deferred application' do
   include DfESignInHelpers
 
   before do

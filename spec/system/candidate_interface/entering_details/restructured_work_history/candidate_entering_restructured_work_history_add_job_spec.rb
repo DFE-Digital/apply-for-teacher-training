@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits restructured work history' do
+RSpec.describe 'Candidate submits restructured work history' do
   include CandidateHelper
 
   scenario 'Candidate adds job details' do
@@ -8,18 +8,18 @@ RSpec.feature 'Candidate submits restructured work history' do
     and_i_visit_the_site
 
     when_i_click_on_work_history
-    then_i_should_see_the_start_page
+    then_i_see_the_start_page
 
     when_i_choose_that_i_have_work_history_to_add
     and_i_click_add_a_first_job
-    then_i_should_see_the_add_a_job_page
+    then_i_see_the_add_a_job_page
 
     when_i_fill_in_the_job_form_with_incorrect_date_fields
-    then_i_should_see_date_validation_errors
-    and_i_should_see_the_incorrect_date_values
+    then_i_see_date_validation_errors
+    and_i_see_the_incorrect_date_values
 
     when_i_fill_in_the_job_form_with_valid_details
-    then_i_should_see_the_work_history_review_page
+    then_i_see_the_work_history_review_page
   end
 
   def given_i_am_signed_in
@@ -34,7 +34,7 @@ RSpec.feature 'Candidate submits restructured work history' do
     click_link_or_button t('page_titles.work_history')
   end
 
-  def then_i_should_see_the_start_page
+  def then_i_see_the_start_page
     expect(page).to have_current_path candidate_interface_restructured_work_history_path
   end
 
@@ -47,7 +47,7 @@ RSpec.feature 'Candidate submits restructured work history' do
     click_link_or_button 'Add a job'
   end
 
-  def then_i_should_see_the_add_a_job_page
+  def then_i_see_the_add_a_job_page
     expect(page).to have_current_path candidate_interface_new_restructured_work_history_path
   end
 
@@ -60,11 +60,11 @@ RSpec.feature 'Candidate submits restructured work history' do
     click_link_or_button t('save_and_continue')
   end
 
-  def then_i_should_see_date_validation_errors
+  def then_i_see_date_validation_errors
     expect(page).to have_content t('errors.messages.invalid_date', article: 'a', attribute: 'start date')
   end
 
-  def and_i_should_see_the_incorrect_date_values
+  def and_i_see_the_incorrect_date_values
     within('[data-qa="start-date"]') do
       expect(find_field('Month').value).to eq('33')
     end
@@ -98,7 +98,7 @@ RSpec.feature 'Candidate submits restructured work history' do
     click_link_or_button t('save_and_continue')
   end
 
-  def then_i_should_see_the_work_history_review_page
+  def then_i_see_the_work_history_review_page
     expect(page).to have_current_path candidate_interface_restructured_work_history_review_path
   end
 

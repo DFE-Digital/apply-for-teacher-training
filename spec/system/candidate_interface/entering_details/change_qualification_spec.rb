@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Change qualification' do
+RSpec.describe 'Change qualification' do
   include CandidateHelper
   include EFLHelper
 

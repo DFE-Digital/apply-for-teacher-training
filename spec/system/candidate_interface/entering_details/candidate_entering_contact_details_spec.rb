@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering their contact information' do
+RSpec.describe 'Entering their contact information' do
   include CandidateHelper
 
   scenario 'Candidate submits their contact information' do
@@ -10,18 +10,18 @@ RSpec.feature 'Entering their contact information' do
     when_i_click_on_contact_information
     and_i_incorrectly_fill_in_my_phone_number
     and_i_submit_my_phone_number
-    then_i_should_see_validation_errors_for_my_phone_number
+    then_i_see_validation_errors_for_my_phone_number
     and_a_validation_error_is_logged_for_phone_number
 
     when_i_fill_in_my_phone_number
     and_i_submit_my_phone_number
     and_i_submit_no_address_type
-    then_i_should_see_validation_errors_for_my_address_type
+    then_i_see_validation_errors_for_my_address_type
 
     when_i_select_live_in_uk
     and_i_incorrectly_fill_in_my_address
     and_i_submit_my_address
-    then_i_should_see_validation_errors_for_my_address
+    then_i_see_validation_errors_for_my_address
 
     when_i_fill_in_my_address
     and_i_submit_my_address
@@ -40,7 +40,7 @@ RSpec.feature 'Entering their contact information' do
     when_i_select_outside_the_uk
     and_i_incorrectly_fill_in_my_international_address
     and_i_submit_my_address
-    then_i_should_see_validation_errors_for_address_line1_for_my_international_address
+    then_i_see_validation_errors_for_address_line1_for_my_international_address
 
     when_i_fill_in_an_international_address
     and_i_submit_my_address
@@ -48,7 +48,7 @@ RSpec.feature 'Entering their contact information' do
 
     when_i_mark_the_section_as_completed
     and_i_submit_my_details
-    then_i_should_see_the_form
+    then_i_see_the_form
     and_that_the_section_is_completed
 
     when_i_click_on_contact_information
@@ -75,7 +75,7 @@ RSpec.feature 'Entering their contact information' do
     click_link_or_button t('save_and_continue')
   end
 
-  def then_i_should_see_validation_errors_for_my_phone_number
+  def then_i_see_validation_errors_for_my_phone_number
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.phone_number.invalid')
   end
 
@@ -96,7 +96,7 @@ RSpec.feature 'Entering their contact information' do
     click_link_or_button t('save_and_continue')
   end
 
-  def then_i_should_see_validation_errors_for_my_address_type
+  def then_i_see_validation_errors_for_my_address_type
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_type.blank')
   end
 
@@ -111,7 +111,7 @@ RSpec.feature 'Entering their contact information' do
     fill_in t('application_form.contact_details.postcode.label.uk'), with: 'MUCH W0W'
   end
 
-  def then_i_should_see_validation_errors_for_my_address
+  def then_i_see_validation_errors_for_my_address
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.blank')
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.postcode.invalid')
   end
@@ -169,11 +169,11 @@ RSpec.feature 'Entering their contact information' do
     fill_in 'candidate_interface_contact_details_form[address_line4]', with: '110006'
   end
 
-  def then_i_should_see_validation_errors_for_address_line1
+  def then_i_see_validation_errors_for_address_line1
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.blank')
   end
 
-  def then_i_should_see_validation_errors_for_address_line1_for_my_international_address
+  def then_i_see_validation_errors_for_address_line1_for_my_international_address
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.international_blank')
   end
 
@@ -202,7 +202,7 @@ RSpec.feature 'Entering their contact information' do
     and_i_submit_my_details
   end
 
-  def then_i_should_see_the_form
+  def then_i_see_the_form
     expect(page).to have_content(t('page_titles.application_form'))
   end
 

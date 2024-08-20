@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Vendor makes an offer for a course in the past recruitment cycle' do
+RSpec.describe 'Vendor makes an offer for a course in the past recruitment cycle' do
   scenario 'A vendor makes an invalid offer' do
     given_a_candidate_has_submitted_their_application
     when_a_vendor_makes_an_offer_for_a_course_in_the_previous_cycle

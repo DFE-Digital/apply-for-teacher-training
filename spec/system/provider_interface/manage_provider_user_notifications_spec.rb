@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Managing notifications' do
+RSpec.describe 'Managing notifications' do
   include DfESignInHelpers
 
   scenario 'Provider can enable and disable individual email notifications' do

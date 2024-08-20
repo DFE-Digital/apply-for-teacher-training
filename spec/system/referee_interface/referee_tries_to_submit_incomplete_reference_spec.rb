@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Stop submission of incomplete references', :with_audited do
+RSpec.describe 'Stop submission of incomplete references', :with_audited do
   include CandidateHelper
 
   scenario 'Referee tries to submit incomplete reference' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'User permissions' do
+RSpec.describe 'User permissions' do
   include DfESignInHelpers
 
   scenario 'Provider user edits another user’s permissions' do

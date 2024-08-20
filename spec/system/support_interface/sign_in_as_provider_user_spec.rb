@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Sign in as provider user' do
+RSpec.describe 'Sign in as provider user' do
   include DfESignInHelpers
 
   scenario 'Support user signs in as a provider user' do

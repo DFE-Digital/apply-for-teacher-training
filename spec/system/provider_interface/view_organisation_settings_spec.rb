@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Organisation settings' do
+RSpec.describe 'Organisation settings' do
   include DfESignInHelpers
 
   scenario 'Provider user views organisation settings' do

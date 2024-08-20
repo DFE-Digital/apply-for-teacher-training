@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Revert an accidental rejection' do
+RSpec.describe 'Revert an accidental rejection' do
   include DfESignInHelpers
 
   scenario 'Revert a rejected application and return it to the `awaiting_provider_decision` status', :with_audited do

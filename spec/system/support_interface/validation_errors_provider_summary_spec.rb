@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Validation errors provider summary' do
+RSpec.describe 'Validation errors provider summary' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
   include CourseOptionHelpers
@@ -15,10 +15,10 @@ RSpec.feature 'Validation errors provider summary' do
     given_i_am_a_support_user
 
     when_i_navigate_to_the_validation_errors_summary_page
-    then_i_should_see_numbers_for_the_past_week_month_and_all_time
+    then_i_see_numbers_for_the_past_week_month_and_all_time
 
     when_i_click_on_link_to_drilldown_contact_details_form_errors
-    then_i_should_see_errors_for_contact_details_form_only
+    then_i_see_errors_for_contact_details_form_only
   end
 
   def given_i_signed_in_as_a_provider_user
@@ -57,7 +57,7 @@ RSpec.feature 'Validation errors provider summary' do
     click_link_or_button 'Validation error summary'
   end
 
-  def then_i_should_see_numbers_for_the_past_week_month_and_all_time
+  def then_i_see_numbers_for_the_past_week_month_and_all_time
     expect(find('table').all('tr')[2].text).to eq 'Interview wizard Time 1 1 1 1 1 1'
   end
 
@@ -65,7 +65,7 @@ RSpec.feature 'Validation errors provider summary' do
     click_link_or_button 'Interview wizard'
   end
 
-  def then_i_should_see_errors_for_contact_details_form_only
+  def then_i_see_errors_for_contact_details_form_only
     expect(page).to have_current_path(
       support_interface_validation_errors_provider_search_path(form_object: 'ProviderInterface::InterviewWizard'),
     )

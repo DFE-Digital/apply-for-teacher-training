@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering volunteering experience' do
+RSpec.describe 'Entering volunteering experience' do
   include CandidateHelper
 
   scenario 'Candidate adds volunteering experience' do
@@ -8,7 +8,7 @@ RSpec.feature 'Entering volunteering experience' do
     and_i_visit_the_site
 
     when_i_click_on_unpaid_experience
-    then_i_should_see_the_start_page
+    then_i_see_the_start_page
 
     when_i_choose_yes_experience
     and_i_submit_the_volunteering_experience_form
@@ -17,18 +17,18 @@ RSpec.feature 'Entering volunteering experience' do
     when_i_fill_in_the_job_form_with_incorrect_date_fields
     and_i_check_both_estimate_boxes
     and_i_submit_the_form
-    then_i_should_see_date_validation_errors
-    and_both_estimate_boxes_should_remain_checked
-    and_i_should_see_the_incorrect_date_values
+    then_i_see_date_validation_errors
+    and_both_estimate_boxes_remain_checked
+    and_i_see_the_incorrect_date_values
 
     when_i_fill_in_the_job_form_with_valid_details
-    then_i_should_see_the_volunteering_review_page
+    then_i_see_the_volunteering_review_page
 
     when_i_click_on_continue
     then_i_see_a_section_complete_error
 
     when_i_mark_this_section_as_completed
-    then_i_should_see_the_section_is_completed
+    then_i_see_the_section_is_completed
   end
 
   def given_i_am_signed_in
@@ -43,7 +43,7 @@ RSpec.feature 'Entering volunteering experience' do
     click_link_or_button t('page_titles.volunteering.short')
   end
 
-  def then_i_should_see_the_start_page
+  def then_i_see_the_start_page
     expect(page).to have_content(t('application_form.volunteering.experience.label'))
   end
 
@@ -75,16 +75,16 @@ RSpec.feature 'Entering volunteering experience' do
     click_link_or_button t('save_and_continue')
   end
 
-  def and_both_estimate_boxes_should_remain_checked
+  def and_both_estimate_boxes_remain_checked
     expect(page).to have_checked_field('candidate-interface-volunteering-role-form-start-date-unknown-true-field')
     expect(page).to have_checked_field('candidate-interface-volunteering-role-form-end-date-unknown-true-field')
   end
 
-  def then_i_should_see_date_validation_errors
+  def then_i_see_date_validation_errors
     expect(page).to have_content t('errors.messages.invalid_date', article: 'a', attribute: 'start date')
   end
 
-  def and_i_should_see_the_incorrect_date_values
+  def and_i_see_the_incorrect_date_values
     within('[data-qa="start-date"]') do
       expect(find_field('Month').value).to eq('33')
     end
@@ -130,12 +130,12 @@ RSpec.feature 'Entering volunteering experience' do
     click_link_or_button t('continue')
   end
 
-  def then_i_should_see_the_section_is_completed
+  def then_i_see_the_section_is_completed
     expect(page).to have_content(t('page_titles.application_form'))
     expect(page).to have_css('#unpaid-experience-badge-id', text: 'Completed')
   end
 
-  def then_i_should_see_the_volunteering_review_page
+  def then_i_see_the_volunteering_review_page
     expect(page).to have_current_path candidate_interface_review_volunteering_path
   end
 end

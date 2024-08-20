@@ -151,7 +151,7 @@ RSpec.describe 'Selecting a study mode' do
     current_candidate.current_application.application_choices.last
   end
 
-  def then_i_should_see_the_provider_name_in_caption
+  def then_i_see_the_provider_name_in_caption
     expect(page.first('.govuk-caption-xl').text).to eq('University of Alien Dance')
   end
 end

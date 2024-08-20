@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Deleting and replacing a degree' do
+RSpec.describe 'Deleting and replacing a degree' do
   include CandidateHelper
 
   scenario 'Candidate deletes and replaces their degree' do
@@ -19,7 +19,7 @@ RSpec.feature 'Deleting and replacing a degree' do
     and_i_add_my_degree_back_in
     and_i_mark_the_section_as_incomplete
     and_i_click_on_continue
-    then_i_should_see_the_form_and_the_section_is_not_completed
+    then_i_see_the_form_and_the_section_is_not_completed
     when_i_click_on_degree
     then_i_can_check_my_undergraduate_degree
 
@@ -33,7 +33,7 @@ RSpec.feature 'Deleting and replacing a degree' do
     then_i_can_only_see_my_undergraduate_degree
     and_if_there_is_only_a_foundation_degree
     when_i_return_to_the_application_form
-    then_the_degree_section_should_be_incomplete
+    then_the_degree_section_is_incomplete
   end
 
   def given_i_am_signed_in
@@ -139,7 +139,7 @@ RSpec.feature 'Deleting and replacing a degree' do
     when_i_click_on_continue
   end
 
-  def then_i_should_see_the_form_and_the_section_is_not_completed
+  def then_i_see_the_form_and_the_section_is_not_completed
     expect(page).to have_content(t('page_titles.application_form'))
     expect(page).to have_no_css('#degree-badge-id', text: 'Completed')
   end
@@ -241,7 +241,7 @@ RSpec.feature 'Deleting and replacing a degree' do
     visit candidate_interface_continuous_applications_details_path
   end
 
-  def then_the_degree_section_should_be_incomplete
+  def then_the_degree_section_is_incomplete
     expect(page).to have_css('#degree-badge-id', text: 'Incomplete')
   end
 

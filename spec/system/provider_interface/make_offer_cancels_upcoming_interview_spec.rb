@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider makes an offer on an application with interviews in the future' do
+RSpec.describe 'Provider makes an offer on an application with interviews in the future' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 

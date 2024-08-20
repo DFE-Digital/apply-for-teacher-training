@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider onboarding monitoring page' do
+RSpec.describe 'Provider onboarding monitoring page' do
   include DfESignInHelpers
 
   it 'rendering the page' do

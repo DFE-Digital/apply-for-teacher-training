@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Add Other qualification' do
+RSpec.describe 'Add Other qualification' do
   include CandidateHelper
   include EFLHelper
 

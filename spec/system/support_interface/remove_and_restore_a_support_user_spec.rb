@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Remove and restore support user' do
+RSpec.describe 'Remove and restore support user' do
   include DfESignInHelpers
 
   scenario 'Confirming removal of a support user then restoring the user' do
@@ -8,7 +8,7 @@ RSpec.feature 'Remove and restore support user' do
     and_there_are_some_support_users
     when_i_visit_the_support_users_page
     and_i_remove_a_support_user
-    then_i_should_see_a_confirmation_page
+    then_i_see_a_confirmation_page
     and_i_confirm_removal
     then_the_support_user_is_removed
     and_the_support_user_is_not_listed
@@ -41,7 +41,7 @@ RSpec.feature 'Remove and restore support user' do
     end
   end
 
-  def then_i_should_see_a_confirmation_page
+  def then_i_see_a_confirmation_page
     expect(page.text).to include("Are you sure you want to remove support user #{@removed_user_email}?")
   end
 

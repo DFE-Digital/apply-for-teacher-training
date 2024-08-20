@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate is redirected when tries to see your details after deferring an offer' do
+RSpec.describe 'Candidate is redirected when tries to see your details after deferring an offer' do
   include CandidateHelper
 
   scenario 'Candidate views their deferred offer on the post offer dashboard' do

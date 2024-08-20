@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Feature flags', :with_audited do
+RSpec.describe 'Feature flags', :with_audited do
   include DfESignInHelpers
 
   scenario 'Manage features' do
@@ -8,7 +8,7 @@ RSpec.feature 'Feature flags', :with_audited do
     and_there_is_a_feature_flag_set_up
 
     when_i_visit_the_features_page
-    then_i_should_see_the_existing_feature_flags
+    then_i_see_the_existing_feature_flags
 
     when_i_activate_the_feature
     then_the_feature_is_activated
@@ -33,7 +33,7 @@ RSpec.feature 'Feature flags', :with_audited do
     visit support_interface_feature_flags_path
   end
 
-  def then_i_should_see_the_existing_feature_flags
+  def then_i_see_the_existing_feature_flags
     within('.app-summary-card', text: 'DfE sign in fallback') do
       expect(page).to have_content('DfE sign in fallback')
       expect(page).to have_content(dfe_sign_in_fallback_feature.owner)

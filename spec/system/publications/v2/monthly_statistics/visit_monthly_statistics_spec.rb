@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Visit Monthly statistics V2 page', mid_cycle: false do
+RSpec.describe 'Visit Monthly statistics V2 page', mid_cycle: false do
   include StatisticsTestHelper
 
   before do
@@ -22,7 +22,7 @@ RSpec.feature 'Visit Monthly statistics V2 page', mid_cycle: false do
   scenario 'User is redirected on monthly statistics page when it is disabled' do
     given_the_monthly_statistics_redirect_is_enabled
     and_i_visit_the_monthly_statistics_page
-    then_i_should_be_redirected_to_the_temporarily_unavailable_page
+    then_i_am_redirected_to_the_temporarily_unavailable_page
   end
 
   def and_i_visit_the_monthly_statistics_page
@@ -37,7 +37,7 @@ RSpec.feature 'Visit Monthly statistics V2 page', mid_cycle: false do
     FeatureFlag.deactivate(:monthly_statistics_redirected)
   end
 
-  def then_i_should_be_redirected_to_the_temporarily_unavailable_page
+  def then_i_am_redirected_to_the_temporarily_unavailable_page
     expect(page).to have_current_path('/publications/monthly-statistics/temporarily-unavailable')
   end
 

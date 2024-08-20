@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'See activity log' do
+RSpec.describe 'See activity log' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
@@ -11,7 +11,7 @@ RSpec.feature 'See activity log' do
     and_i_sign_in_to_the_provider_interface
 
     when_i_click_on_the_activity_log_tab
-    then_i_should_see_events_for_all_applications_belonging_to_my_providers
+    then_i_see_events_for_all_applications_belonging_to_my_providers
   end
 
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
@@ -53,7 +53,7 @@ RSpec.feature 'See activity log' do
     create(:application_form_audit, application_choice: @choice5, changes: { 'date_of_birth' => %w[01-01-2000 01-02-2002] })
   end
 
-  def and_i_should_see_the_applications_menu_item_highlighted
+  def and_i_see_the_applications_menu_item_highlighted
     link = page.find_link('Applications', class: 'app-primary-navigation__link')
     expect(link['aria-current']).to eq('page')
   end
@@ -62,7 +62,7 @@ RSpec.feature 'See activity log' do
     click_link_or_button 'Activity log'
   end
 
-  def then_i_should_see_events_for_all_applications_belonging_to_my_providers
+  def then_i_see_events_for_all_applications_belonging_to_my_providers
     expect(page).to have_content @choice5.current_course.name
     expect(page).to have_content @choice3.current_course.name
     expect(page).to have_content @choice2.current_course.name

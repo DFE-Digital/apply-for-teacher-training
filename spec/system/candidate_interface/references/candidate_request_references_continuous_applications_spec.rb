@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'New References', :with_audited do
+RSpec.describe 'New References', :with_audited do
   include CandidateHelper
 
   scenario 'Candidate request their references on the post offer dashboard' do

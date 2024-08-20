@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Editing visa or immigration status, EU' do
+RSpec.describe 'Editing visa or immigration status, EU' do
   include DfESignInHelpers
 
   scenario 'Support user edits visa or immigration status' do

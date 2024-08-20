@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'See applications' do
+RSpec.describe 'See applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
@@ -16,7 +16,7 @@ RSpec.feature 'See applications' do
 
     when_i_visit_the_provider_page
 
-    then_i_should_be_on_the_applications_page
+    then_i_am_on_the_applications_page
     and_my_dfe_sign_in_uid_has_been_stored
   end
 
@@ -30,7 +30,7 @@ RSpec.feature 'See applications' do
     provider_signs_in_using_dfe_sign_in
   end
 
-  def then_i_should_see_the_account_creation_in_progress_page
+  def then_i_see_the_account_creation_in_progress_page
     expect(page).to have_content('Your account is not ready yet')
   end
 
@@ -42,7 +42,7 @@ RSpec.feature 'See applications' do
     when_i_visit_the_provider_page
   end
 
-  def then_i_should_be_on_the_applications_page
+  def then_i_am_on_the_applications_page
     expect(page).to have_current_path(provider_interface_applications_path)
   end
 

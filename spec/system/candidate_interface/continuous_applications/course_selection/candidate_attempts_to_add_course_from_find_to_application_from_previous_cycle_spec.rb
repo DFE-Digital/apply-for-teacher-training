@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate attempts to add course via Find to application from previous cycle' do
+RSpec.describe 'Candidate attempts to add course via Find to application from previous cycle' do
   include CandidateHelper
 
   scenario 'The candidate cannot add course to an application from the previous cycle' do

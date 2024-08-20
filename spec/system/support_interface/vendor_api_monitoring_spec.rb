@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Vendor API monitoring page', mid_cycle: false do
+RSpec.describe 'Vendor API monitoring page', mid_cycle: false do
   include DfESignInHelpers
 
   scenario 'rendering the page' do
@@ -13,10 +13,10 @@ RSpec.feature 'Vendor API monitoring page', mid_cycle: false do
 
     and_i_visit_the_vendor_api_monitoring_page
 
-    then_i_should_see_the_provider_who_has_not_connected
-    and_i_should_see_the_provider_who_has_not_synced
-    and_i_should_see_the_provider_who_has_not_posted_a_decision
-    and_i_should_see_the_provider_who_has_received_error_responses_from_the_api
+    then_i_see_the_provider_who_has_not_connected
+    and_i_see_the_provider_who_has_not_synced
+    and_i_see_the_provider_who_has_not_posted_a_decision
+    and_i_see_the_provider_who_has_received_error_responses_from_the_api
   end
 
   def given_i_am_a_support_user
@@ -55,25 +55,25 @@ RSpec.feature 'Vendor API monitoring page', mid_cycle: false do
            status_code: 422)
   end
 
-  def then_i_should_see_the_provider_who_has_not_connected
+  def then_i_see_the_provider_who_has_not_connected
     within('[data-qa="not-connected"]') do
       expect(page).to have_content 'Did not connect'
     end
   end
 
-  def and_i_should_see_the_provider_who_has_not_synced
+  def and_i_see_the_provider_who_has_not_synced
     within('[data-qa="not-synced"]') do
       expect(page).to have_content 'Did not sync'
     end
   end
 
-  def and_i_should_see_the_provider_who_has_not_posted_a_decision
+  def and_i_see_the_provider_who_has_not_posted_a_decision
     within('[data-qa="not-posted-decision"]') do
       expect(page).to have_content 'Did not post a decision'
     end
   end
 
-  def and_i_should_see_the_provider_who_has_received_error_responses_from_the_api
+  def and_i_see_the_provider_who_has_received_error_responses_from_the_api
     within('[data-qa="received-error-response"]') do
       expect(page).to have_content 'Received an error response'
     end

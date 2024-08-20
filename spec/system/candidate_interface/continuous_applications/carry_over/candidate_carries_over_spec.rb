@@ -200,7 +200,7 @@ private
     expect(page).to have_no_content('Previous applications')
   end
 
-  def and_i_should_see_previous_applications_heading
+  def and_i_see_previous_applications_heading
     expect(page).to have_content('Previous applications')
   end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering a PhD' do
+RSpec.describe 'Entering a PhD' do
   include CandidateHelper
 
   scenario 'Candidate enters their PhD' do

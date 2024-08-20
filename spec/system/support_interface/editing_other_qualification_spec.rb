@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Editing other qualification' do
+RSpec.describe 'Editing other qualification' do
   include DfESignInHelpers
 
   # :other_qualification has intentionally been chosen as a starting point for the application below because we are also
@@ -14,7 +14,7 @@ RSpec.feature 'Editing other qualification' do
   end
 
   scenario 'update to AS Level', :with_audited do
-    then_i_should_see_that_the_other_qualification_radio_has_been_preselected
+    then_i_see_that_the_other_qualification_radio_has_been_preselected
 
     when_i_choose_as_level
     and_i_fill_in_the_as_level_details
@@ -80,7 +80,7 @@ RSpec.feature 'Editing other qualification' do
     end
   end
 
-  def then_i_should_see_that_the_other_qualification_radio_has_been_preselected
+  def then_i_see_that_the_other_qualification_radio_has_been_preselected
     expect(find_by_id('support-interface-application-forms-edit-other-qualification-form-qualification-type-non-uk-field')).to be_checked
   end
 

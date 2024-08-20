@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Accept data sharing agreement' do
+RSpec.describe 'Accept data sharing agreement' do
   include DfESignInHelpers
 
   scenario 'Provider user cannot access provider_interface without a data sharing agreement in place' do
