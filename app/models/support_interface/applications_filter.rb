@@ -66,7 +66,7 @@ module SupportInterface
           .distinct
           .order(updated_at: :desc),
         page: applied_filters[:page] || 1,
-        items: PAGY_PER_PAGE,
+        limit: PAGY_PER_PAGE,
       )
     end
 

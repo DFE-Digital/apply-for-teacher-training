@@ -18,7 +18,7 @@ class ReasonsForRejectionApplicationsQuery
       .order(created_at: :desc)
 
     application_choices = apply_filters(application_choices)
-    _, results = pagy(application_choices, page: filters[:page], items: PAGY_PER_PAGE)
+    _, results = pagy(application_choices, page: filters[:page], limit: PAGY_PER_PAGE)
     results
   end
 

@@ -20,7 +20,7 @@ module SupportInterface
     end
 
     def before_render
-      @pagy, @items = pagy(audits, items: PAGY_PER_PAGE)
+      @pagy, @items = pagy(audits, limit: PAGY_PER_PAGE)
     end
 
     attr_reader :audited_thing

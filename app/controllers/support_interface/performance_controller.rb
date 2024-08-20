@@ -12,7 +12,7 @@ module SupportInterface
         .where.not('vacancy_status = ?', 'vacancies')
         .includes(:course, :site)
 
-      @pagy, @course_options = pagy(@course_options, items: PAGY_PER_PAGE)
+      @pagy, @course_options = pagy(@course_options, limit: PAGY_PER_PAGE)
     end
 
     def courses_dashboard; end
@@ -75,7 +75,7 @@ module SupportInterface
     def unavailable_choices_detail(category, title)
       @monitor = SupportInterface::ApplicationMonitor.new
       @application_forms = @monitor.send(category)
-      @pagy, @application_forms = pagy(@application_forms, items: PAGY_PER_PAGE)
+      @pagy, @application_forms = pagy(@application_forms, limit: PAGY_PER_PAGE)
 
       render(
         :unavailable_choices_detail,

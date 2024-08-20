@@ -9,7 +9,7 @@ module SupportInterface
       end
 
       def search
-        @validation_errors, @validation_errors_records = pagy(validation_error_scope.search(params).order(created_at: :desc), items: PAGY_PER_PAGE)
+        @validation_errors, @validation_errors_records = pagy(validation_error_scope.search(params).order(created_at: :desc), limit: PAGY_PER_PAGE)
       end
 
       def summary
