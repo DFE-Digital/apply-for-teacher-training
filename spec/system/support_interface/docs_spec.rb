@@ -56,6 +56,7 @@ RSpec.describe 'Docs' do
       provider_mailer-organisation_permissions_updated
       provider_mailer-apply_service_is_now_open
       provider_mailer-find_service_is_now_open
+      provider_mailer-reminder_respond_to_applications_before_reject_by_default_date
       provider_mailer-set_up_organisation_permissions
       provider_mailer-permissions_granted
       provider_mailer-permissions_removed
