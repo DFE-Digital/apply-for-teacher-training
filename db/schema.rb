@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_19_104245) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_20_094813) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -269,8 +269,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_19_104245) do
     t.text "reason", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "breakable_type"
-    t.bigint "breakable_id"
+    t.string "breakable_type", null: false
+    t.bigint "breakable_id", null: false
     t.index ["application_form_id"], name: "index_application_work_history_breaks_on_application_form_id"
     t.index ["breakable_type", "breakable_id"], name: "index_application_work_history_breaks_on_breakable"
   end
