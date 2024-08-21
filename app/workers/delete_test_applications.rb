@@ -23,5 +23,6 @@ private
 
   def delete_work_experiences(ids)
     ApplicationExperience.where(experienceable_id: ids, experienceable_type: 'ApplicationForm').delete_all
+    ApplicationWorkHistoryBreak.where(breakable_id: ids, breakable_type: 'ApplicationForm').delete_all
   end
 end

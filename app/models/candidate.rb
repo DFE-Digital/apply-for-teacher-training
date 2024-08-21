@@ -86,6 +86,11 @@ class Candidate < ApplicationRecord
       experienceable_id: application_form_ids,
       experienceable_type: 'ApplicationForm',
     ).delete_all
+
+    ApplicationWorkHistoryBreak.where(
+      breakable_id: application_form_ids,
+      breakable_type: 'ApplicationForm',
+    ).delete_all
   end
 
 private

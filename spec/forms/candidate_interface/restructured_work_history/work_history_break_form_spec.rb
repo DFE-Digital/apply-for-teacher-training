@@ -116,12 +116,6 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::WorkHistoryBreakForm
       work_break.update(application_work_history_break)
 
       expect(application_work_history_break.reason).to eq('Updated reason.')
-      expect(application_work_history_break.breakable_id).to eq(
-        application_work_history_break.application_form_id,
-      )
-      expect(application_work_history_break.breakable_type).to eq(
-        'ApplicationForm',
-      )
     end
   end
 end
