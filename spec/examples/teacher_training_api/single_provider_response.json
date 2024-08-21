@@ -1,6 +1,6 @@
 {
   "data": {
-    "id": 1,
+    "id": "1",
     "type": "providers",
     "attributes": {
       "accredited_body": "true",
@@ -19,11 +19,15 @@
       "region_code": "south_west",
       "street_address_1": "Long College",
       "street_address_2": "1st floor, 86 Long Rd",
+      "street_address_2": "Downtown",
       "train_with_disability": "We are committed to supporting trainees with disabilities and other needs, so please let us and the accrediting provider know if you would like us to make any adjustments to support you.",
       "train_with_us": "We offer both primary and secondary training in a wide range of subjects and work with a collection of schools in the local area. We offer diverse teaching placements, ensuring trainees have experience in different types of school environments.",
+      "ukprn": "12063341",
+      "urn": null,
       "website": "http://www.teamworkstsa.org/home-page-s-c-i-t-t-teacher-training/",
-      "latitude": "51.498160",
-      "longitude": "-0.129900"
+      "latitude": 51.498160,
+      "longitude": -0.129900,
+      "selectable_school": true
     },
     "relationships": {
       "locations": {
