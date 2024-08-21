@@ -396,6 +396,7 @@ shared:
     - region_code
     - updated_at
     - vendor_id
+    - selectable_school
   reference_tokens:
     - application_reference_id
     - created_at

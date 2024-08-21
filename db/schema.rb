@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_20_152720) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_21_105815) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -715,6 +715,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_20_152720) do
     t.bigint "vendor_id"
     t.string "email_address"
     t.string "phone_number"
+    t.boolean "selectable_school", default: false, null: false
     t.index ["code"], name: "index_providers_on_code", unique: true
     t.index ["vendor_id"], name: "index_providers_on_vendor_id"
   end
