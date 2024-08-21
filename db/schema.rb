@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_20_094813) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_20_152720) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -263,7 +263,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_20_094813) do
   end
 
   create_table "application_work_history_breaks", force: :cascade do |t|
-    t.bigint "application_form_id", null: false
+    t.bigint "application_form_id"
     t.datetime "start_date", precision: nil, null: false
     t.datetime "end_date", precision: nil, null: false
     t.text "reason", null: false
