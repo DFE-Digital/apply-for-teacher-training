@@ -64,6 +64,32 @@ RSpec.describe WorkHistoryWithBreaks do
           expect(timeline[2]).to eq(volunteering_experience1)
           expect(timeline[3]).to eq(job1)
         end
+
+        # rubocop:disable RSpec/NestedGroups
+        context 'with application_choice' do
+          it 'renders both paid and unpaid experieence in descending order by start date' do
+            application_form = create(:application_form)
+            choice = create(:application_choice, application_form:)
+            volunteering_experience1 = create(:application_volunteering_experience, experienceable: choice, start_date: february2019)
+            volunteering_experience2 = create(:application_volunteering_experience, experienceable: choice, start_date: february2020)
+            job1 = create(:application_work_experience, start_date: february2015, end_date: nil, experienceable: choice)
+            job2 = create(:application_work_experience, start_date: september2019, end_date: nil, experienceable: choice)
+            break1 = create(:application_work_history_break, start_date: september2019, end_date: november2019, breakable: choice)
+            break2 = create(:application_work_history_break, start_date: november2019, end_date: january2020, breakable: choice)
+
+            work_history_with_breaks = described_class.new(choice, include_unpaid_experience: true)
+            timeline = work_history_with_breaks.timeline
+
+            expect(timeline.count).to eq(6)
+            expect(timeline[0]).to eq(volunteering_experience2)
+            expect(timeline[1]).to eq(break2)
+            expect(timeline[2]).to eq(break1)
+            expect(timeline[3]).to eq(job2)
+            expect(timeline[4]).to eq(volunteering_experience1)
+            expect(timeline[5]).to eq(job1)
+          end
+        end
+        # rubocop:enable RSpec/NestedGroups
       end
     end
 
