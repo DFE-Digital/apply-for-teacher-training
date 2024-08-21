@@ -5,6 +5,7 @@ FactoryBot.define do
     phone_number { Faker::PhoneNumber.phone_number }
     email_address { Faker::Internet.email }
     region_code { 'london' }
+    selectable_school { false }
 
     transient do
       user { nil }
