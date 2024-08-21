@@ -1,6 +1,5 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
-  'DataMigrations::BackfillApplicationWorkHistoryBreaks',
   'DataMigrations::MarkUnsubmittedApplicationsWithoutEnglishProficiencyAsElfIncomplete',
   'DataMigrations::BackfillEnglishProficiencyRecordsForCarriedOverApplications',
   'DataMigrations::BackfillWeek42PerformanceReportData',
