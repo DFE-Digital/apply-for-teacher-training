@@ -82,6 +82,7 @@ RSpec.describe Candidate do
       application_choice = create(:application_choice, application_form:)
       application_work_experience = create(:application_work_experience, experienceable: application_form)
       application_volunteering_experience = create(:application_volunteering_experience, experienceable: application_form)
+      application_work_history_break = create(:application_work_history_break, breakable: application_form)
       application_qualification = create(:application_qualification, application_form:)
       application_reference = create(:reference, application_form:)
 
@@ -92,6 +93,7 @@ RSpec.describe Candidate do
       expect { application_choice.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { application_work_experience.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { application_volunteering_experience.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { application_work_history_break.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { application_qualification.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { application_reference.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end

@@ -1,7 +1,7 @@
 class ApplicationWorkHistoryBreak < ApplicationRecord
-  belongs_to :breakable, polymorphic: true, touch: true
+  self.ignored_columns += %w[application_form_id]
 
-  before_save -> { self.application_form_id = breakable_id }, if: -> { application_form_id.nil? }
+  belongs_to :breakable, polymorphic: true, touch: true
 
   audited associated_with: :breakable
 
