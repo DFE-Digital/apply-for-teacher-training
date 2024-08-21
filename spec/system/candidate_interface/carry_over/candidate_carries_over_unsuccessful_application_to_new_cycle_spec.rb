@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate can carry over unsuccessful application to a new recruitment cycle after the apply deadline' do
   include CandidateHelper
+  include ApplicationHelper
 
   before do
     TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
@@ -137,7 +138,8 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
           application_choice_id: @application_choice.id,
         ),
       )
-    expect(page).to have_title("Your application to #{@application_choice.provider.name}")
+    provider_name = smart_quotes(@application_choice.provider.name)
+    expect(page).to have_title("Your application to #{provider_name}")
     expect(page).to have_content('Unsuccessful')
   end
 
