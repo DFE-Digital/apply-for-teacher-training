@@ -263,7 +263,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_21_105815) do
   end
 
   create_table "application_work_history_breaks", force: :cascade do |t|
-    t.bigint "application_form_id"
     t.datetime "start_date", precision: nil, null: false
     t.datetime "end_date", precision: nil, null: false
     t.text "reason", null: false
@@ -271,7 +270,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_21_105815) do
     t.datetime "updated_at", null: false
     t.string "breakable_type", null: false
     t.bigint "breakable_id", null: false
-    t.index ["application_form_id"], name: "index_application_work_history_breaks_on_application_form_id"
     t.index ["breakable_type", "breakable_id"], name: "index_application_work_history_breaks_on_breakable"
   end
 
@@ -886,7 +884,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_21_105815) do
   add_foreign_key "application_forms", "application_forms", column: "previous_application_form_id"
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "application_qualifications", "application_forms", on_delete: :cascade
-  add_foreign_key "application_work_history_breaks", "application_forms", on_delete: :cascade
   add_foreign_key "candidates", "fraud_matches"
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
