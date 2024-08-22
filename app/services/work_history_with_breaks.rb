@@ -38,7 +38,7 @@ private
 
   def submitted_at
     experienceable.try(:submitted_at) ||
-      experienceable.application_form.submitted_at ||
+      experienceable.try(:application_form_submitted_at) ||
       Time.zone.now
   end
 
