@@ -6,8 +6,8 @@ module WorkExperienceAPIData
   def work_history_break_explanation
     @work_history_break_explanation ||= if application_form.work_history_breaks
                                           application_form.work_history_breaks
-                                        elsif application_form.application_work_history_breaks.any?
-                                          application_form.application_work_history_breaks.map do |work_break|
+                                        elsif application_choice.application_work_history_breaks.any?
+                                          application_choice.application_work_history_breaks.map do |work_break|
                                             format_work_break(work_break)
                                           end.join("\n\n")
                                         else
@@ -18,13 +18,13 @@ module WorkExperienceAPIData
   end
 
   def work_experience_jobs
-    application_form.application_work_experiences.map do |experience|
+    application_choice.application_work_experiences.map do |experience|
       experience_to_hash(experience)
     end
   end
 
   def work_experience_volunteering
-    application_form.application_volunteering_experiences.map do |experience|
+    application_choice.application_volunteering_experiences.map do |experience|
       experience_to_hash(experience)
     end
   end

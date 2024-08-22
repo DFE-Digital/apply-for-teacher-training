@@ -1,15 +1,17 @@
 class WorkHistoryWithBreaks
-  attr_accessor :application_form, :work_history, :existing_breaks, :unpaid_work, :include_unpaid_experience
+  attr_accessor :work_history, :existing_breaks, :unpaid_work, :include_unpaid_experience
+  attr_reader :experienceable
 
-  def initialize(application_form, include_unpaid_experience: false)
+  # experienceable can be ApplicationForm or ApplicationChoice
+  def initialize(experienceable, include_unpaid_experience: false)
     @include_unpaid_experience = include_unpaid_experience
-    @application_form = application_form
-    @work_history = application_form.application_work_experiences.sort_by(&:start_date)
-    @existing_breaks = application_form.application_work_history_breaks.sort_by(&:start_date)
+    @experienceable = experienceable
+    @work_history = experienceable.application_work_experiences.sort_by(&:start_date)
+    @existing_breaks = experienceable.application_work_history_breaks.sort_by(&:start_date)
     @current_job = nil
 
     if include_unpaid_experience
-      @unpaid_work = application_form.application_volunteering_experiences.sort_by(&:start_date)
+      @unpaid_work = experienceable.application_volunteering_experiences.sort_by(&:start_date)
     end
   end
 
@@ -35,7 +37,9 @@ class WorkHistoryWithBreaks
 private
 
   def submitted_at
-    application_form.submitted_at || Time.zone.now
+    experienceable.try(:submitted_at) ||
+      experienceable.application_form.submitted_at ||
+      Time.zone.now
   end
 
   def month_range(start_date:, end_date:)

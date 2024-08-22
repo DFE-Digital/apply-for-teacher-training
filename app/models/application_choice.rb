@@ -25,6 +25,10 @@ class ApplicationChoice < ApplicationRecord
   has_many :notes, dependent: :destroy
   has_many :interviews, dependent: :destroy
 
+  has_many :work_experiences, as: :experienceable, class_name: 'ApplicationWorkExperience'
+  has_many :volunteering_experiences, as: :experienceable, class_name: 'ApplicationVolunteeringExperience'
+  has_many :work_history_breaks, as: :breakable, class_name: 'ApplicationWorkHistoryBreak'
+
   validates_with ReapplyValidator, reappliable: true
 
   has_associated_audits
@@ -66,6 +70,24 @@ class ApplicationChoice < ApplicationRecord
   scope :decision_pending_and_inactive, -> { where(status: ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES) }
   scope :accepted, -> { where(status: ApplicationStateChange::ACCEPTED_STATES) }
   scope :inactive_past_day, -> { inactive.where(inactive_at: 1.day.ago..Time.zone.now) }
+
+  def application_work_experiences
+    return application_form.application_work_experiences if work_experiences.blank?
+
+    work_experiences
+  end
+
+  def application_volunteering_experiences
+    return application_form.application_volunteering_experiences if volunteering_experiences.blank?
+
+    volunteering_experiences
+  end
+
+  def application_work_history_breaks
+    return application_form.application_work_history_breaks if work_history_breaks.blank?
+
+    work_history_breaks
+  end
 
   def submitted?
     !unsubmitted?

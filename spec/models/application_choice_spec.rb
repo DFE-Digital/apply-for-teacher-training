@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationChoice do
+  it { is_expected.to have_many(:work_experiences).class_name('ApplicationWorkExperience') }
+  it { is_expected.to have_many(:volunteering_experiences).class_name('ApplicationVolunteeringExperience') }
+  it { is_expected.to have_many(:work_history_breaks).class_name('ApplicationWorkHistoryBreak') }
+
   describe 'auditing', :with_audited do
     it 'creates audit entries' do
       application_choice = create(:application_choice, status: 'unsubmitted')
@@ -632,6 +636,99 @@ RSpec.describe ApplicationChoice do
 
       it 'is not recently updated' do
         expect(choice).not_to be_updated_recently_since_submitted
+      end
+    end
+  end
+
+  describe '#application_work_experiences' do
+    context 'when application_choice has work experiences' do
+      it 'returns the application choice work experiences' do
+        application_form = create(:application_form)
+        create(:application_work_experience, experienceable: application_form)
+        choice = create(:application_choice, application_form:)
+        create(:application_work_experience, experienceable: choice)
+
+        expect(choice.application_work_experiences).to eq(choice.work_experiences)
+        expect(choice.application_work_experiences).not_to eq(
+          application_form.application_work_experiences,
+        )
+      end
+    end
+
+    context 'when application_choice has no work experiences' do
+      it 'returns the application form work experiences' do
+        application_form = create(:application_form)
+        create(:application_work_experience, experienceable: application_form)
+        choice = create(:application_choice, application_form:)
+
+        expect(choice.application_work_experiences).to eq(
+          application_form.application_work_experiences,
+        )
+        expect(choice.application_work_experiences).not_to eq(
+          choice.work_experiences,
+        )
+      end
+    end
+  end
+
+  describe '#application_volunteering_experiences' do
+    context 'when application_choice has volunteering experiences' do
+      it 'returns the application choice volunteering experiences' do
+        application_form = create(:application_form)
+        create(:application_volunteering_experience, experienceable: application_form)
+        choice = create(:application_choice, application_form:)
+        create(:application_volunteering_experience, experienceable: choice)
+
+        expect(choice.application_volunteering_experiences).to eq(choice.volunteering_experiences)
+        expect(choice.application_volunteering_experiences).not_to eq(
+          application_form.application_volunteering_experiences,
+        )
+      end
+    end
+
+    context 'when application_choice has no volunteering experiences' do
+      it 'returns the application form volunteering experiences' do
+        application_form = create(:application_form)
+        create(:application_volunteering_experience, experienceable: application_form)
+        choice = create(:application_choice, application_form:)
+
+        expect(choice.application_volunteering_experiences).to eq(
+          application_form.application_volunteering_experiences,
+        )
+        expect(choice.application_volunteering_experiences).not_to eq(
+          choice.volunteering_experiences,
+        )
+      end
+    end
+  end
+
+  describe '#application_work_history_breaks' do
+    context 'when application_choice has volunteering experiences' do
+      it 'returns the application choice volunteering experiences' do
+        application_form = create(:application_form)
+        create(:application_work_history_break, breakable: application_form)
+        choice = create(:application_choice, application_form:)
+        create(:application_work_history_break, breakable: choice)
+
+        expect(choice.application_work_history_breaks).to eq(choice.work_history_breaks)
+        expect(choice.application_work_history_breaks).not_to eq(
+          application_form.application_work_history_breaks,
+        )
+      end
+    end
+
+    context 'when application_choice has no volunteering experiences' do
+      it 'returns the application form volunteering experiences' do
+        application_form = create(:application_form)
+        create(:application_work_history_break, breakable: application_form)
+        choice = create(:application_choice, application_form:)
+
+        expect(choice.application_work_history_breaks).to eq(
+          application_form.application_work_history_breaks,
+        )
+        expect(choice.application_work_history_breaks).not_to eq(
+          choice.work_history_breaks,
+        )
       end
     end
   end
