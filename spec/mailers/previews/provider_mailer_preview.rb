@@ -177,9 +177,9 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.set_up_organisation_permissions(provider_user, relationships_to_set_up)
   end
 
-  def reminder_respond_to_applications_before_reject_by_default_date
+  def respond_to_applications_before_reject_by_default_date
     provider_user = FactoryBot.create(:provider_user)
-    ProviderMailer.reminder_respond_to_applications_before_reject_by_default_date(provider_user)
+    ProviderMailer.respond_to_applications_before_reject_by_default_date(provider_user)
   end
 
 private

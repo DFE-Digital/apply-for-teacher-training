@@ -224,7 +224,7 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
-  def reminder_respond_to_applications_before_reject_by_default_date(provider_user)
+  def respond_to_applications_before_reject_by_default_date(provider_user)
     @provider_user = provider_user
     @reject_by_default_date = I18n.l(CycleTimetable.reject_by_default.to_date, format: :no_year)
     @decline_by_default_date = I18n.l(CycleTimetable.decline_by_default_date.to_date, format: :no_year)
@@ -234,7 +234,7 @@ class ProviderMailer < ApplicationMailer
     provider_notify_email(
       to: @provider_user.email_address,
       subject: I18n.t!(
-        'provider_mailer.reminder_respond_to_applications_before_reject_by_default_date.subject',
+        'provider_mailer.respond_to_applications_before_reject_by_default_date.subject',
         reject_by_default_date: @reject_by_default_date,
       ),
     )

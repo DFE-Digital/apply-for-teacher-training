@@ -31,7 +31,7 @@ module EndOfCycle
 
     def perform(provider_ids)
       Provider.where(id: provider_ids).includes(:provider_users).find_each do |provider|
-        SendRejectByDefaultReminderToProvidersService.new(provider)
+        SendRejectByDefaultReminderToProvidersService.new(provider).call
       end
     end
   end

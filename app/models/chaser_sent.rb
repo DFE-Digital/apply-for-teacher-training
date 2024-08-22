@@ -15,7 +15,7 @@ class ChaserSent < ApplicationRecord
     apply_service_is_now_open: 'apply_service_is_now_open',
     find_service_is_now_open: 'find_service_is_now_open',
     find_service_open_organisation_notification: 'find_service_open_organisation_notification',
-    reminder_respond_to_applications_before_reject_by_default_date: 'reminder_respond_to_applications_before_reject_by_default_date',
+    respond_to_applications_before_reject_by_default_date: 'respond_to_applications_before_reject_by_default_date',
 
     ## CandidateMailer ##
     eoc_first_deadline_reminder: 'eoc_first_deadline_reminder',

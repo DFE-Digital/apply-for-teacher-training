@@ -24,7 +24,7 @@ module EndOfCycle
     end
 
     def chaser_type
-      :reminder_respond_to_applications_before_reject_by_default_date
+      :respond_to_applications_before_reject_by_default_date
     end
 
     def already_chased?(provider_user)

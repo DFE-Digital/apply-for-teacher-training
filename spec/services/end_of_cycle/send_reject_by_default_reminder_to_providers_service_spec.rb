@@ -8,7 +8,7 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersService do
         provider = user.providers.first
         create(:chaser_sent,
                chased: user,
-               chaser_type: :reminder_respond_to_applications_before_reject_by_default_date,
+               chaser_type: :respond_to_applications_before_reject_by_default_date,
                created_at: 1.year.ago)
 
         expect { described_class.new(provider).call }.to change(ChaserSent, :count).by 1
@@ -19,11 +19,11 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersService do
         provider = user.providers.first
         create(:chaser_sent,
                chased: user,
-               chaser_type: :reminder_respond_to_applications_before_reject_by_default_date,
+               chaser_type: :respond_to_applications_before_reject_by_default_date,
                created_at: 1.year.ago)
         expect { described_class.new(provider).call }
           .to have_enqueued_mail(
-            ProviderMailer, :reminder_respond_to_applications_before_reject_by_default_date
+            ProviderMailer, :respond_to_applications_before_reject_by_default_date
           )
       end
     end
@@ -32,20 +32,20 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersService do
       it 'does not create another chaser sent record' do
         user = create(:provider_user, :with_provider, :with_notifications_enabled)
         provider = user.providers.first
-        create(:chaser_sent, chased: user, chaser_type: :reminder_respond_to_applications_before_reject_by_default_date)
+        create(:chaser_sent, chased: user, chaser_type: :respond_to_applications_before_reject_by_default_date)
 
         expect { described_class.new(provider).call }.not_to change(ChaserSent, :count)
       end
 
       it 'does not send an email' do
         user = create(:provider_user, :with_provider, :with_notifications_enabled)
-        create(:chaser_sent, chased: user, chaser_type: :reminder_respond_to_applications_before_reject_by_default_date)
+        create(:chaser_sent, chased: user, chaser_type: :respond_to_applications_before_reject_by_default_date)
 
         provider = user.providers.first
         described_class.new(provider).call
         expect { described_class.new(provider).call }
           .not_to have_enqueued_mail(
-            ProviderMailer, :reminder_respond_to_applications_before_reject_by_default_date
+            ProviderMailer, :respond_to_applications_before_reject_by_default_date
           )
       end
     end
@@ -68,7 +68,7 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersService do
       described_class.new(provider).call
       expect { described_class.new(provider).call }
         .not_to have_enqueued_mail(
-          ProviderMailer, :reminder_respond_to_applications_before_reject_by_default_date
+          ProviderMailer, :respond_to_applications_before_reject_by_default_date
         )
     end
   end
