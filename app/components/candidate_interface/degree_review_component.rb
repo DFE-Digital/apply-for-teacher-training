@@ -1,6 +1,7 @@
 module CandidateInterface
   class DegreeReviewComponent < ViewComponent::Base
     include ViewHelper
+    include EnicReasonTranslationHelper
 
     def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, return_to_application_review: false, deletable: true)
       @application_form = application_form
@@ -148,7 +149,7 @@ module CandidateInterface
 
       {
         key: t('application_form.degree.enic_statement.review_label'),
-        value: enic_reason_translation(degree.enic_reason),
+        value: translate_enic_reason(degree.enic_reason),
         action: {
           href: candidate_interface_degree_edit_path(degree.id, :enic),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.enic_statement.change_action')),
@@ -302,21 +303,6 @@ module CandidateInterface
 
     def return_to_params
       { 'return-to' => 'application-review' } if @return_to_application_review
-    end
-
-    def enic_reason_translation(enic_reason)
-      case enic_reason
-      when 'obtained'
-        t('gcse_edit_enic.yes_enic')
-      when 'waiting'
-        t('gcse_edit_enic.waiting_for_enic')
-      when 'maybe'
-        t('gcse_edit_enic.future_enic')
-      when 'not_needed'
-        t('gcse_edit_enic.dont_want_enic')
-      else
-        t('gcse_edit_enic.not_entered')
-      end
     end
   end
 end

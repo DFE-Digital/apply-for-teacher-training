@@ -14,10 +14,14 @@
     <p class="govuk-body"> <%= t('application_form.degree.enic_statement.enic_cost') %></p>
 
     <%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.degree.enic_statement.label'), size: 'm' } do %>
-      <%= f.govuk_radio_button :enic_reason, 'obtained', label: { text: t('application_form.degree.enic_statement.yes_enic') }, link_errors: true %>
-      <%= f.govuk_radio_button :enic_reason, 'waiting', label: { text: t('application_form.degree.enic_statement.waiting_for_enic') } %>
-      <%= f.govuk_radio_button :enic_reason, 'maybe', label: { text: t('application_form.degree.enic_statement.future_enic') } %>
-      <%= f.govuk_radio_button :enic_reason, 'not_needed', label: { text: t('application_form.degree.enic_statement.dont_want_enic') } %>
+      <% ApplicationQualification.enic_reasons.keys.each do |enic_reason| %>
+        <%= f.govuk_radio_button(
+          :enic_reason,
+          enic_reason,
+          label: { text: t("application_form.degree.enic_statement.#{enic_reason}") },
+          link_errors: true,
+        ) %>
+      <% end %>
     <% end %>
 
     <%= f.govuk_submit t('save_and_continue') %>

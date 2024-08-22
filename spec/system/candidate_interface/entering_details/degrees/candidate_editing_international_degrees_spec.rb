@@ -10,7 +10,9 @@ RSpec.describe 'Editing a degree' do
   end
 
   scenario 'editing international degree' do
-    and_when_i_click_the_browser_back_button
+    visit candidate_interface_degree_review_path
+    and_i_click_the_degree_type_change_link
+    and_i_update_the_international_degrees_degree_type
     and_i_click_on_save_and_continue
     then_i_can_check_an_additional_degree_is_not_created
   end
@@ -68,14 +70,9 @@ RSpec.describe 'Editing a degree' do
     when_i_fill_in_the_award_year
     and_i_click_on_save_and_continue
     when_i_check_yes_for_enic_statement
-    and_i_fill_in_enic_reference
-    and_i_fill_in_comparable_uk_degree_type
+    and_i_fill_in_enic_reference_and_comparable_uk_degree_type
     and_i_click_on_save_and_continue
     then_i_can_check_my_undergraduate_degree
-  end
-
-  def and_when_i_click_the_browser_back_button
-    visit candidate_interface_degree_enic_path
   end
 
   def and_i_click_on_save_and_continue
@@ -136,12 +133,17 @@ RSpec.describe 'Editing a degree' do
     and_i_click_on_save_and_continue
   end
 
-  def and_i_fill_in_enic_reference
+  def and_i_fill_in_enic_reference_and_comparable_uk_degree_type
     fill_in 'UK ENIC reference number', with: '0123456789'
+    choose 'Doctor of Philosophy degree'
   end
 
-  def and_i_fill_in_comparable_uk_degree_type
-    choose 'Doctor of Philosophy degree'
+  def and_i_click_the_degree_type_change_link
+    all('a', text: 'Change')[1].click
+  end
+
+  def and_i_update_the_international_degrees_degree_type
+    fill_in 'candidate_interface_degree_wizard[international_type]', with: 'Bachelor degree'
   end
 
   def then_i_can_check_my_undergraduate_degree

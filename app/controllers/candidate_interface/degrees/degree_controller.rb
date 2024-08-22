@@ -71,7 +71,7 @@ module CandidateInterface
     private
 
       def set_country_for_uk
-        if params[:candidate_interface_degree_wizard] && params[:candidate_interface_degree_wizard][:uk_or_non_uk] == 'uk'
+        if params.dig(:candidate_interface_degree_wizard, :uk_or_non_uk) == 'uk'
           params[:candidate_interface_degree_wizard][:country] = 'GB'
         end
       end
