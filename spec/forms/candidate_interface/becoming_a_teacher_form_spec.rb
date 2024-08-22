@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
   end
 
   describe '#save' do
-    let(:application_form) { create(:application_form, :continuous_applications) }
+    let(:application_form) { create(:application_form) }
 
     context 'save succeeds' do
       it 'updates the provided ApplicationForm', :aggregate_failures do

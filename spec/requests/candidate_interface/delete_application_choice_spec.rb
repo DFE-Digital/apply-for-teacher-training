@@ -9,7 +9,7 @@ RSpec.describe 'DELETE /candidate/application/continuous-applications/delete/:ap
     sign_in candidate
   end
 
-  context 'when application is unsubmitted' do
+  context 'when application is unsubmitted', time: mid_cycle do
     let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
 
     it 'destroys the application choice and redirects to review' do
@@ -19,7 +19,7 @@ RSpec.describe 'DELETE /candidate/application/continuous-applications/delete/:ap
     end
   end
 
-  context 'when application is submitted' do
+  context 'when application is submitted', time: mid_cycle do
     let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form:) }
 
     it 'does not destroy the application choice and redirects to review' do

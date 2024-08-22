@@ -379,10 +379,6 @@ FactoryBot.define do
       end
     end
 
-    trait :continuous_applications do
-      recruitment_cycle_year { 2024 }
-    end
-
     trait :pre_continuous_applications do
       recruitment_cycle_year { 2023 }
     end

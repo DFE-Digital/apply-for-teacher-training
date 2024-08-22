@@ -17,7 +17,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
     sign_in candidate
   end
 
-  describe 'GET /candidate/application/personal-statement' do
+  describe 'GET /candidate/application/personal-statement', time: mid_cycle do
     it 'responds with 200' do
       get candidate_interface_new_becoming_a_teacher_path
 
@@ -25,7 +25,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
     end
   end
 
-  describe 'GET /candidate/application/personal-statement/review' do
+  describe 'GET /candidate/application/personal-statement/review', time: mid_cycle do
     it 'responds with 200' do
       get candidate_interface_becoming_a_teacher_show_path
 
@@ -35,7 +35,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
     context 'when the application form is from an old cycle' do
       let(:application_form) { create(:application_form, :submitted, :pre_continuous_applications, candidate: candidate) }
 
-      it 'redirects to the dashboard' do
+      it 'redirects to the carry over page' do
         get candidate_interface_becoming_a_teacher_show_path
 
         expect(response).to redirect_to(candidate_interface_start_carry_over_path)
@@ -43,7 +43,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
     end
 
     context 'when the application form is submitted in continuous applications' do
-      let(:application_form) { create(:application_form, :submitted, :continuous_applications, candidate: candidate) }
+      let(:application_form) { create(:application_form, :submitted, candidate: candidate) }
 
       it 'responds with 200' do
         get candidate_interface_becoming_a_teacher_show_path
@@ -53,7 +53,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
     end
   end
 
-  describe 'PATCH /candidate/application/personal-statement' do
+  describe 'PATCH /candidate/application/personal-statement', time: mid_cycle do
     context 'when becoming_a_teacher with content' do
       let(:becoming_a_teacher) { 'Valid content' }
 
@@ -74,7 +74,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
       end
 
       context 'when the application form is submitted in continuous applications' do
-        let(:application_form) { create(:application_form, :submitted, :continuous_applications, candidate: candidate) }
+        let(:application_form) { create(:application_form, :submitted, candidate: candidate) }
 
         it 'redirects to the review page' do
           patch candidate_interface_new_becoming_a_teacher_path, params: params
@@ -107,7 +107,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
     end
   end
 
-  describe 'PATCH /candidate/application/personal-statement/edit' do
+  describe 'PATCH /candidate/application/personal-statement/edit', time: mid_cycle do
     context 'when becoming_a_teacher is blank' do
       let(:becoming_a_teacher) { '' }
 
@@ -150,7 +150,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
       end
 
       context 'when the application form is submitted in continuous applications' do
-        let!(:application_form) { create(:application_form, :submitted, :continuous_applications, candidate: candidate) }
+        let!(:application_form) { create(:application_form, :submitted, candidate: candidate) }
 
         it 'redirects to the review page' do
           patch candidate_interface_edit_becoming_a_teacher_path, params: params

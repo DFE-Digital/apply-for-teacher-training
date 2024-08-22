@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
   include DfE::Bigquery::TestHelper
 
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(2024))
+  end
+
   describe '.provider_data' do
     subject(:provider_statistics) do
       described_class.new(cycle_week: 18, provider_id: 1337).provider_data

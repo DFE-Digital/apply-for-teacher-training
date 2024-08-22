@@ -11,7 +11,7 @@ RSpec.describe 'CandidateInterface::Degree::DegreeController' do
     sign_in candidate
   end
 
-  describe 'edit' do
+  describe 'edit', time: mid_cycle do
     it 'returns 404 if param not whitelisted' do
       get "/candidate/application/degrees/edit/#{application_qualification.id}/random-step"
 

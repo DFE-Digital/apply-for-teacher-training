@@ -42,7 +42,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, :wi
     end
 
     it 'doesnt update the associated ApplicationChoice' do
-      application_form = create(:application_form, :continuous_applications)
+      application_form = create(:application_form)
       application_choice = create(:application_choice, application_form: application_form)
       form = described_class.new(becoming_a_teacher: 'I really want to teach.', audit_comment: 'It was on a zendesk ticket.')
 

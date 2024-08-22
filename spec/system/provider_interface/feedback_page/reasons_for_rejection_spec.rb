@@ -34,8 +34,9 @@ RSpec.describe 'Feedback page' do
   end
 
   def then_i_see_the_rejection_feedback
+    rejected_at_date = @application_choice.rejected_at.to_fs(:govuk_date)
     expect(page.text).to include('Feedback',
-                                 'This application was rejected on 11 October 2023. The following feedback was sent to the candidate.',
+                                 "This application was rejected on #{rejected_at_date}. The following feedback was sent to the candidate.",
                                  'Something you did',
                                  'Didn’t reply to our interview offer.',
                                  'Didn’t attend interview.',

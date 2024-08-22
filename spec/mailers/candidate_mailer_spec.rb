@@ -866,7 +866,7 @@ RSpec.describe CandidateMailer do
     end
   end
 
-  describe '.application_withdrawn_on_request' do
+  describe '.application_withdrawn_on_request', time: mid_cycle do
     context 'when the candidate has withdrawn or asked to be withdrawn from an application choice' do
       let(:email) { mailer.application_withdrawn_on_request(application_form.application_choices.first) }
 

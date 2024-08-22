@@ -5,7 +5,7 @@ RSpec.describe 'Block submission from blocked candidates' do
   let(:application_form) { create(:application_form, :completed, submitted_at: nil, candidate:) }
   let(:choice) { create(:application_choice, :unsubmitted, application_form:) }
 
-  context 'when candidate has submission blocked' do
+  context 'when candidate has submission blocked', time: mid_cycle do
     let(:candidate) { create(:candidate, submission_blocked: true) }
 
     before { sign_in candidate }
@@ -30,7 +30,7 @@ RSpec.describe 'Block submission from blocked candidates' do
     end
   end
 
-  context 'when candidate does not have submission blocked' do
+  context 'when candidate does not have submission blocked', time: mid_cycle do
     let(:candidate) { create(:candidate, submission_blocked: false) }
 
     before { sign_in candidate }

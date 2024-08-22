@@ -10,7 +10,7 @@ RSpec.describe 'Candidate Interface - Redirects when reference is not requested 
 
   context 'when candidate has a requested reference' do
     it 'renders the page' do
-      application_form = create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: 2023, candidate:)
+      application_form = create(:application_form, submitted_at: Time.zone.now, candidate:)
       create(:application_choice, :accepted, application_form:)
       reference = create(:reference, :feedback_requested, application_form:)
       get candidate_interface_application_offer_dashboard_reference_path(reference)
@@ -20,7 +20,7 @@ RSpec.describe 'Candidate Interface - Redirects when reference is not requested 
 
   context 'when candidate did not request a reference yet' do
     it 'redirects to the check your answer and request reference page' do
-      application_form = create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: 2023, candidate:)
+      application_form = create(:application_form, submitted_at: Time.zone.now, candidate:)
       create(:application_choice, :accepted, application_form:)
       reference = create(:reference, :not_requested_yet, application_form:)
       get candidate_interface_application_offer_dashboard_reference_path(reference)

@@ -17,12 +17,23 @@ RSpec.describe 'Redirects when reviewing before submission' do
     end
   end
 
-  context 'when the application is not ready to submit' do
+  context 'when the application is not ready to submit', time: mid_cycle do
     it 'redirects to reviews course choice' do
       application_form = create(:application_form, :minimum_info, candidate:)
       application_choice = create(:application_choice, :unsubmitted, application_form:)
       get candidate_interface_course_choices_course_review_and_submit_path(application_choice.id)
       expect(response).to redirect_to(candidate_interface_course_choices_course_review_path(application_choice.id))
+    end
+  end
+
+  context 'when the application is not ready to submit and the deadline passes', time: mid_cycle do
+    it 'redirects to reviews course choice' do
+      application_form = create(:application_form, :minimum_info, candidate:)
+      application_choice = create(:application_choice, :unsubmitted, application_form:)
+      travel_temporarily_to(after_apply_deadline) do
+        get candidate_interface_course_choices_course_review_and_submit_path(application_choice.id)
+        expect(response).to redirect_to(candidate_interface_continuous_applications_choices_path)
+      end
     end
   end
 end

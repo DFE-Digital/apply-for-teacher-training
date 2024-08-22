@@ -36,7 +36,7 @@ RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
     end
   end
 
-  describe '#current_year' do
+  describe '#current_year', time: Date.new(2023, 11, 12) do
     it 'returns correct year' do
       expect(presenter.current_year).to eq(2024)
     end
