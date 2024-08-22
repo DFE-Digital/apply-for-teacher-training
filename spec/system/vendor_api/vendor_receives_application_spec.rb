@@ -237,7 +237,7 @@ RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid
         work_experience: {
           jobs: [
             {
-              id: @application.application_work_experiences.first.id,
+              id: @application.application_choices.first.application_work_experiences.first.id,
               start_date: '2014-05-01',
               end_date: '2019-01-01',
               role: 'Chief Terraforming Officer',
@@ -249,7 +249,7 @@ RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid
           ],
           volunteering: [
             {
-              id: @application.application_volunteering_experiences.first.id,
+              id: @application.application_choices.first.application_volunteering_experiences.first.id,
               start_date: '2014-05-01',
               end_date: '2019-01-01',
               role: 'Tour guide',
