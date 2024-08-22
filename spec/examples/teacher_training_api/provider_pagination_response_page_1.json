@@ -26,7 +26,8 @@
         "created_at": "2020-07-05T15:21:35Z",
         "name": " The Nottingham Catholic Teaching School Alliance",
         "street_address_1": "The Becket Way",
-        "street_address_2": "Wilford Lane"
+        "street_address_2": "Wilford Lane",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -62,7 +63,8 @@
         "created_at": "2020-07-05T13:47:29Z",
         "name": "2Schools Consortium",
         "street_address_1": "Oakthorpe Primary School",
-        "street_address_2": "c/o Tile Kiln Lane"
+        "street_address_2": "c/o Tile Kiln Lane",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -98,7 +100,8 @@
         "created_at": "2020-07-05T14:51:32Z",
         "name": "AA Teamworks West Yorkshire SCITT",
         "street_address_1": "West Vale Primary School",
-        "street_address_2": " Stainland Road, Greetland,"
+        "street_address_2": " Stainland Road, Greetland,",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -134,7 +137,8 @@
         "created_at": "2020-07-05T14:41:11Z",
         "name": "AIM Alliance Schools",
         "street_address_1": "Spur Road",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -170,7 +174,8 @@
         "created_at": "2020-07-05T13:43:52Z",
         "name": "ARK Teacher Training",
         "street_address_1": "The Yellow Building",
-        "street_address_2": "1 Nicholas Road"
+        "street_address_2": "1 Nicholas Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -206,7 +211,8 @@
         "created_at": "2020-07-05T14:51:22Z",
         "name": "ASSET Education",
         "street_address_1": "St Helen's Primary School",
-        "street_address_2": "Woodbridge Road"
+        "street_address_2": "Woodbridge Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -242,7 +248,8 @@
         "created_at": "2020-07-05T13:09:05Z",
         "name": "ATT Partnership",
         "street_address_1": "MCA",
-        "street_address_2": "Bury Road"
+        "street_address_2": "Bury Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -278,7 +285,8 @@
         "created_at": "2020-07-05T13:11:22Z",
         "name": "Abbey Infants' School",
         "street_address_1": "Federation of Abbey Schools",
-        "street_address_2": "Cleveland Terrace"
+        "street_address_2": "Cleveland Terrace",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -314,7 +322,8 @@
         "created_at": "2020-07-05T13:06:28Z",
         "name": "Abbey MAT Primary Alliance",
         "street_address_1": "Northolme Avenue",
-        "street_address_2": "West Park"
+        "street_address_2": "West Park",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -350,7 +359,8 @@
         "created_at": "2020-07-05T14:03:19Z",
         "name": "Abbey Primary Community School",
         "street_address_1": "Abbey Primary Community School",
-        "street_address_2": "109 Ross Walk"
+        "street_address_2": "109 Ross Walk",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -386,7 +396,8 @@
         "created_at": "2020-07-05T12:51:14Z",
         "name": "Abraham Darby Academy",
         "street_address_1": "Iron Bridge Road",
-        "street_address_2": "Madeley"
+        "street_address_2": "Madeley",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -422,7 +433,8 @@
         "created_at": "2020-07-05T12:50:31Z",
         "name": "Abraham Moss High School",
         "street_address_1": "Crescent Road",
-        "street_address_2": "Crumpsall"
+        "street_address_2": "Crumpsall",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -458,7 +470,8 @@
         "created_at": "2020-07-05T13:54:22Z",
         "name": "Academies Enterprise Trust: Eastern",
         "street_address_1": "AET School Direct - Eastern",
-        "street_address_2": "Academies Enterprise Trust"
+        "street_address_2": "Academies Enterprise Trust",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -494,7 +507,8 @@
         "created_at": "2020-07-05T13:30:24Z",
         "name": "Academies Enterprise Trust: London",
         "street_address_1": "Academies Enterprise Trust",
-        "street_address_2": "3rd Floor, 183 Eversholt Street"
+        "street_address_2": "3rd Floor, 183 Eversholt Street",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -530,7 +544,8 @@
         "created_at": "2020-07-05T15:24:54Z",
         "name": "Academies Enterprise Trust: North East",
         "street_address_1": "Academies Enterprise Trust",
-        "street_address_2": "3rd Floor, 183 Eversholt Street"
+        "street_address_2": "3rd Floor, 183 Eversholt Street",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -566,7 +581,8 @@
         "created_at": "2020-07-05T13:31:19Z",
         "name": "Academies Enterprise Trust: South East",
         "street_address_1": "Academies Enterprise Trust",
-        "street_address_2": "3rd Floor, 183 Eversholt Street"
+        "street_address_2": "3rd Floor, 183 Eversholt Street",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -602,7 +618,8 @@
         "created_at": "2020-07-05T14:45:59Z",
         "name": "Academies Enterprise Trust: West Midlands",
         "street_address_1": "Academies Enterprise Trust",
-        "street_address_2": "3rd Floor, 183 Eversholt Street"
+        "street_address_2": "3rd Floor, 183 Eversholt Street",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -638,7 +655,8 @@
         "created_at": "2020-07-05T14:50:26Z",
         "name": "Academies Enterprise Trust: Yorkshire & Humber",
         "street_address_1": "Academies Enterprise Trust",
-        "street_address_2": "3rd Floor, 183 Eversholt Street"
+        "street_address_2": "3rd Floor, 183 Eversholt Street",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -674,7 +692,8 @@
         "created_at": "2020-07-05T12:43:55Z",
         "name": "Academy Transformation Trust",
         "street_address_1": "1 Victoria Square",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -710,7 +729,8 @@
         "created_at": "2020-07-05T14:15:46Z",
         "name": "Achieve with TELA",
         "street_address_1": "Station Road ",
-        "street_address_2": "Broughton Astley "
+        "street_address_2": "Broughton Astley ",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -746,7 +766,8 @@
         "created_at": "2020-07-05T15:24:50Z",
         "name": "Acklam Grange Teaching School",
         "street_address_1": "Lodore Grove",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -782,7 +803,8 @@
         "created_at": "2020-07-05T13:35:08Z",
         "name": "Acorns Early Years Training Centre",
         "street_address_1": "Acorns Teaching School Alliance",
-        "street_address_2": "Holwell Road"
+        "street_address_2": "Holwell Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -818,7 +840,8 @@
         "created_at": "2020-07-05T13:56:56Z",
         "name": "Active Teacher Training",
         "street_address_1": "Cromwell Community College",
-        "street_address_2": "Wenny Road"
+        "street_address_2": "Wenny Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -854,7 +877,8 @@
         "created_at": "2020-07-05T13:55:40Z",
         "name": "Advance Learning Partnership",
         "street_address_1": "Advance Learning Partnership",
-        "street_address_2": " Whitworth Lane"
+        "street_address_2": " Whitworth Lane",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -890,7 +914,8 @@
         "created_at": "2020-07-05T13:11:25Z",
         "name": "Affinity Teaching School Alliance (Somerset)",
         "street_address_1": "The Castle School",
-        "street_address_2": "Wellington Road"
+        "street_address_2": "Wellington Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -926,7 +951,8 @@
         "created_at": "2020-07-05T14:36:29Z",
         "name": "Agnus Dei Teaching School Alliance",
         "street_address_1": "Boleyn Road",
-        "street_address_2": "Forest Gate"
+        "street_address_2": "Forest Gate",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -962,7 +988,8 @@
         "created_at": "2020-07-05T12:45:09Z",
         "name": "Aireborough Learning Partnership (Queensway Primary School)",
         "street_address_1": "Coppice Wood Ave",
-        "street_address_2": "Yeadon"
+        "street_address_2": "Yeadon",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -998,7 +1025,8 @@
         "created_at": "2020-07-05T14:06:54Z",
         "name": "Aireborough Partnership",
         "street_address_1": "Rawdon St. Peter's Primary School",
-        "street_address_2": "Town Street"
+        "street_address_2": "Town Street",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1034,7 +1062,8 @@
         "created_at": "2020-07-05T13:22:05Z",
         "name": "Alban Federation",
         "street_address_1": "c/o Sandringham School",
-        "street_address_2": "The Ridgeway"
+        "street_address_2": "The Ridgeway",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1070,7 +1099,8 @@
         "created_at": "2020-07-05T12:48:00Z",
         "name": "Alderman White School and Language College",
         "street_address_1": "Chilwell Lane",
-        "street_address_2": "Bramcote"
+        "street_address_2": "Bramcote",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1106,7 +1136,8 @@
         "created_at": "2020-07-05T15:22:59Z",
         "name": "Alderwood School",
         "street_address_1": "Belle Vue Road",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1142,7 +1173,8 @@
         "created_at": "2020-07-05T13:36:52Z",
         "name": "Alfreton Nursery School",
         "street_address_1": "Stanton Close",
-        "street_address_2": "Alfreton"
+        "street_address_2": "Alfreton",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1178,7 +1210,8 @@
         "created_at": "2020-07-05T12:52:03Z",
         "name": "All Hallows Catholic College",
         "street_address_1": "All Hallows Catholic College",
-        "street_address_2": "Brooklands Ave"
+        "street_address_2": "Brooklands Ave",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1214,7 +1247,8 @@
         "created_at": "2020-07-05T12:46:40Z",
         "name": "All Hallows Catholic School",
         "street_address_1": "Weybourne Road",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1250,7 +1284,8 @@
         "created_at": "2020-07-05T12:47:24Z",
         "name": "All Saints Church of England Aided Junior School",
         "street_address_1": "All Saints C of E Junior School",
-        "street_address_2": "Leawood Road"
+        "street_address_2": "Leawood Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1286,7 +1321,8 @@
         "created_at": "2020-07-05T14:59:05Z",
         "name": "All Saints RC School",
         "street_address_1": "All Saints RC School",
-        "street_address_2": "Mill Mount Lane"
+        "street_address_2": "Mill Mount Lane",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1322,7 +1358,8 @@
         "created_at": "2020-07-05T13:55:34Z",
         "name": "All Saints Teaching School",
         "street_address_1": "All Saints Teaching School Alliance",
-        "street_address_2": "Suite 4 Zealley House"
+        "street_address_2": "Suite 4 Zealley House",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1358,7 +1395,8 @@
         "created_at": "2020-07-05T14:52:12Z",
         "name": "Alliance of Leading Learning",
         "street_address_1": "Morda Road",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1394,7 +1432,8 @@
         "created_at": "2020-07-05T13:15:08Z",
         "name": "Alperton Community School",
         "street_address_1": "Alperton Community School",
-        "street_address_2": "Stanley Avenue"
+        "street_address_2": "Stanley Avenue",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1430,7 +1469,8 @@
         "created_at": "2020-07-05T15:15:33Z",
         "name": "Altius Alliance",
         "street_address_1": "Cheadle Hulme High School",
-        "street_address_2": "Woods Lane"
+        "street_address_2": "Woods Lane",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1466,7 +1506,8 @@
         "created_at": "2020-07-05T14:32:04Z",
         "name": "Alton Schools Teaching Alliance",
         "street_address_1": "School Road",
-        "street_address_2": "c/o Rowledge C oF E Primary School"
+        "street_address_2": "c/o Rowledge C oF E Primary School",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1502,7 +1543,8 @@
         "created_at": "2020-07-05T15:00:31Z",
         "name": "Altrincham Grammar School For Girls",
         "street_address_1": "Cavendish Road",
-        "street_address_2": "Bowdon"
+        "street_address_2": "Bowdon",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1538,7 +1580,8 @@
         "created_at": "2020-07-05T13:59:47Z",
         "name": "Ambitions Teaching School",
         "street_address_1": "Queen's Park Academy",
-        "street_address_2": "East Way"
+        "street_address_2": "East Way",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1574,7 +1617,8 @@
         "created_at": "2020-07-05T14:52:09Z",
         "name": "Amwell View School",
         "street_address_1": "Station Road",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1610,7 +1654,8 @@
         "created_at": "2020-07-05T13:35:43Z",
         "name": "Angel Islington Teaching School Alliance",
         "street_address_1": "Donegal Street",
-        "street_address_2": "Islington"
+        "street_address_2": "Islington",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1646,7 +1691,8 @@
         "created_at": "2020-07-05T12:45:44Z",
         "name": "Anglesey Primary Academy",
         "street_address_1": "AET School Direct - South West",
-        "street_address_2": "Academies Enterprise Trust"
+        "street_address_2": "Academies Enterprise Trust",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1682,7 +1728,8 @@
         "created_at": "2020-07-05T12:46:08Z",
         "name": "Anglia Ruskin University",
         "street_address_1": "Anglia Ruskin University",
-        "street_address_2": "Bishop Hall Lane"
+        "street_address_2": "Bishop Hall Lane",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1718,7 +1765,8 @@
         "created_at": "2020-07-05T14:51:42Z",
         "name": "Anglian Gateway Teaching Schools Alliance",
         "street_address_1": "Bottisham Village College",
-        "street_address_2": "Lode Road"
+        "street_address_2": "Lode Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1754,7 +1802,8 @@
         "created_at": "2020-07-05T12:50:57Z",
         "name": "Anglo European School",
         "street_address_1": "Willow Green",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1790,7 +1839,8 @@
         "created_at": "2020-07-05T14:59:17Z",
         "name": "Anton Junior School",
         "street_address_1": "Barlows Lane",
-        "street_address_2": null
+        "street_address_2": null,
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1826,7 +1876,8 @@
         "created_at": "2020-07-05T14:39:41Z",
         "name": "Aquila",
         "street_address_1": "Aquila",
-        "street_address_2": "Diocese of Canterbury"
+        "street_address_2": "Diocese of Canterbury",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1862,7 +1913,8 @@
         "created_at": "2020-07-05T14:44:50Z",
         "name": "Arch Alliance - All Souls' CE Primary",
         "street_address_1": "C/O All Souls' CE Primary School",
-        "street_address_2": "Rye Street"
+        "street_address_2": "Rye Street",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1898,7 +1950,8 @@
         "created_at": "2020-07-05T14:23:42Z",
         "name": "Archbishop Blanch School",
         "street_address_1": "Archbishop Blanch School",
-        "street_address_2": "80 Earle Road"
+        "street_address_2": "80 Earle Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1934,7 +1987,8 @@
         "created_at": "2020-07-05T13:55:25Z",
         "name": "Archbishop Tenison's CofE High School",
         "street_address_1": "Archbishop Tenison's",
-        "street_address_2": "Selborne Road"
+        "street_address_2": "Selborne Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -1970,7 +2024,8 @@
         "created_at": "2020-07-05T12:50:20Z",
         "name": "Archbishop Tenison's School",
         "street_address_1": "Lambeth Teaching Schools' Alliance",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2006,7 +2061,8 @@
         "created_at": "2020-07-05T13:27:30Z",
         "name": "Arden Alliance",
         "street_address_1": "Arden Academy",
-        "street_address_2": "Station Road"
+        "street_address_2": "Station Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2042,7 +2098,8 @@
         "created_at": "2020-07-05T12:45:38Z",
         "name": "Ark Boulton Teacher Training",
         "street_address_1": "Golden Hillock Road",
-        "street_address_2": "Sparkhill"
+        "street_address_2": "Sparkhill",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2078,7 +2135,8 @@
         "created_at": "2020-07-05T15:10:47Z",
         "name": "ArrowITT",
         "street_address_1": "Sycamore Drive",
-        "street_address_2": "Bishopdown"
+        "street_address_2": "Bishopdown",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2114,7 +2172,8 @@
         "created_at": "2020-07-05T12:43:30Z",
         "name": "Arthur Mellows Village College",
         "street_address_1": "Teach East SCITT C/O Arthur Mellows",
-        "street_address_2": "Helpston Road"
+        "street_address_2": "Helpston Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2150,7 +2209,8 @@
         "created_at": "2020-07-05T14:54:28Z",
         "name": "Arthur Terry School",
         "street_address_1": "Kittoe Road",
-        "street_address_2": "Four Oaks"
+        "street_address_2": "Four Oaks",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2186,7 +2246,8 @@
         "created_at": "2020-07-05T13:30:15Z",
         "name": "Ash Field Academy School Direct",
         "street_address_1": "Broad Avenue",
-        "street_address_2": "Evington"
+        "street_address_2": "Evington",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2222,7 +2283,8 @@
         "created_at": "2020-07-05T12:50:37Z",
         "name": "Ash Green Community Primary School",
         "street_address_1": "Mixenden Road",
-        "street_address_2": "Mixenden"
+        "street_address_2": "Mixenden",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2258,7 +2320,8 @@
         "created_at": "2020-07-05T13:01:06Z",
         "name": "Ashbourne Dove Valley TSA",
         "street_address_1": "Osmaston C of E Primary School",
-        "street_address_2": "Moor Lane, Osmaston"
+        "street_address_2": "Moor Lane, Osmaston",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2294,7 +2357,8 @@
         "created_at": "2020-07-05T15:01:42Z",
         "name": "Ashcroft Technology Academy",
         "street_address_1": "Vice Principal",
-        "street_address_2": "Ashcroft Technology Academy"
+        "street_address_2": "Ashcroft Technology Academy",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2330,7 +2394,8 @@
         "created_at": "2020-07-05T13:58:25Z",
         "name": "Ashfield School ITT",
         "street_address_1": "Ashfield School",
-        "street_address_2": "Sutton Road"
+        "street_address_2": "Sutton Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2366,7 +2431,8 @@
         "created_at": "2020-07-05T12:51:33Z",
         "name": "Ashford Oaks Community Primary School",
         "street_address_1": "Oak Tree Road",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2402,7 +2468,8 @@
         "created_at": "2020-07-05T12:52:04Z",
         "name": "Ashford Teaching Alliance",
         "street_address_1": "Sandling Road",
-        "street_address_2": "Saltwood"
+        "street_address_2": "Saltwood",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2438,7 +2505,8 @@
         "created_at": "2020-07-05T12:49:11Z",
         "name": "Ashley CofE Aided Primary School",
         "street_address_1": "Ashley Road",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2474,7 +2542,8 @@
         "created_at": "2020-07-05T15:22:27Z",
         "name": "Ashmead Combined School",
         "street_address_1": "Ashmead School",
-        "street_address_2": "Cole Road"
+        "street_address_2": "Cole Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2510,7 +2579,8 @@
         "created_at": "2020-07-05T13:00:54Z",
         "name": "Ashmole Academy (North London Teaching Alliance)",
         "street_address_1": "Ashmole Academy  (North London Teaching School Alliance) ",
-        "street_address_2": "Cecil  Road "
+        "street_address_2": "Cecil  Road ",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2546,7 +2616,8 @@
         "created_at": "2020-07-05T14:48:18Z",
         "name": "Ashton Teacher Training Partnership",
         "street_address_1": "Ashton Sixth Form College",
-        "street_address_2": "Darnton Road"
+        "street_address_2": "Darnton Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2582,7 +2653,8 @@
         "created_at": "2020-07-05T14:48:42Z",
         "name": "Ashton on Mersey School SCITT",
         "street_address_1": "Cecil Avenue",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2618,7 +2690,8 @@
         "created_at": "2020-07-05T12:45:59Z",
         "name": "Ashton-on-Mersey School",
         "street_address_1": "Cecil Avenue",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2654,7 +2727,8 @@
         "created_at": "2020-07-05T14:49:22Z",
         "name": "Aspirational Teaching Alliance of St. Helens",
         "street_address_1": "Ashton Road",
-        "street_address_2": null
+        "street_address_2": null,
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2690,7 +2764,8 @@
         "created_at": "2020-12-22T13:23:19Z",
         "name": "Aspire Community Trust",
         "street_address_1": "Swaythling Primary School, Mayfield Road, Southampton",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2726,7 +2801,8 @@
         "created_at": "2020-07-05T12:53:46Z",
         "name": "Aspire Education Alliance",
         "street_address_1": "Warren Junior School, Gordon Road",
-        "street_address_2": "Chadwell Heath"
+        "street_address_2": "Chadwell Heath",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2762,7 +2838,8 @@
         "created_at": "2020-07-05T15:12:36Z",
         "name": "Aspire Teaching Alliance",
         "street_address_1": "Aspire Teaching Alliance",
-        "street_address_2": "c/o Overton CE Primary, Court Drove"
+        "street_address_2": "c/o Overton CE Primary, Court Drove",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2798,7 +2875,8 @@
         "created_at": "2020-07-05T15:12:10Z",
         "name": "Aspire Teaching Trust",
         "street_address_1": "Aspire Teaching Trust",
-        "street_address_2": "Unit 20"
+        "street_address_2": "Unit 20",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2834,7 +2912,8 @@
         "created_at": "2020-07-05T15:13:31Z",
         "name": "Aspirer School Direct",
         "street_address_1": "Ash Grove Academy",
-        "street_address_2": "Belgrave Rd"
+        "street_address_2": "Belgrave Rd",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2870,7 +2949,8 @@
         "created_at": "2020-07-05T14:22:35Z",
         "name": "Associated Merseyside Partnership SCITT",
         "street_address_1": "Deyes High School",
-        "street_address_2": "Deyes Lane"
+        "street_address_2": "Deyes Lane",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2906,7 +2986,8 @@
         "created_at": "2020-07-05T13:00:14Z",
         "name": "Aston Community Education Trust",
         "street_address_1": "Aughton Road",
-        "street_address_2": "Swallownest"
+        "street_address_2": "Swallownest",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2942,7 +3023,8 @@
         "created_at": "2020-07-05T13:35:55Z",
         "name": "Aston Manor Academy",
         "street_address_1": "Phillips Street",
-        "street_address_2": "Aston"
+        "street_address_2": "Aston",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -2978,7 +3060,8 @@
         "created_at": "2020-07-05T12:43:08Z",
         "name": "Astor College (A Specialist College for the Arts)",
         "street_address_1": "Astor College",
-        "street_address_2": "Astor Avenue"
+        "street_address_2": "Astor Avenue",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3014,7 +3097,8 @@
         "created_at": "2020-07-05T13:13:28Z",
         "name": "Astra Amersham Hub",
         "street_address_1": "Dr Challoner's Grammar School",
-        "street_address_2": "Chesham Rd"
+        "street_address_2": "Chesham Rd",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3050,7 +3134,8 @@
         "created_at": "2020-07-05T13:07:07Z",
         "name": "Astra Aylesbury Hub",
         "street_address_1": "Aylesbury High School",
-        "street_address_2": "Walton Road"
+        "street_address_2": "Walton Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3086,7 +3171,8 @@
         "created_at": "2020-07-05T12:55:04Z",
         "name": "Astra Marlow Hub",
         "street_address_1": "West Street",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3122,7 +3208,8 @@
         "created_at": "2020-07-05T14:54:40Z",
         "name": "Astra SCITT",
         "street_address_1": "Dr Challoner's Grammar School",
-        "street_address_2": "Chesham Rd"
+        "street_address_2": "Chesham Rd",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3158,7 +3245,8 @@
         "created_at": "2020-07-05T13:24:02Z",
         "name": "Atlantic Coast Cooperative Trust",
         "street_address_1": "Woolsery Primary School",
-        "street_address_2": "Woolsery"
+        "street_address_2": "Woolsery",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3194,7 +3282,8 @@
         "created_at": "2020-07-05T14:04:58Z",
         "name": "Attleborough Academy",
         "street_address_1": "Attleborough Academy Partnership",
-        "street_address_2": "9 Norwich Road"
+        "street_address_2": "9 Norwich Road",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3230,7 +3319,8 @@
         "created_at": "2020-07-05T14:36:20Z",
         "name": "Aurum Schools Partnership",
         "street_address_1": "School Lane",
-        "street_address_2": "Washingborough"
+        "street_address_2": "Washingborough",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3266,7 +3356,8 @@
         "created_at": "2020-07-05T14:05:05Z",
         "name": "Avenue Primary Academy",
         "street_address_1": "Avenue Road",
-        "street_address_2": "Belmont"
+        "street_address_2": "Belmont",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3302,7 +3393,8 @@
         "created_at": "2020-07-05T15:13:46Z",
         "name": "Axbridge C of E First School Academy",
         "street_address_1": "Moorland Street",
-        "street_address_2": null
+        "street_address_2": null,
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3338,7 +3430,8 @@
         "created_at": "2021-05-07T13:43:10Z",
         "name": "BDAT ITT in partnership with Gorse SCITT",
         "street_address_1": "Bradford Diocesan Academies Trust ",
-        "street_address_2": "2nd Floor Jade Building, Albion Mills, Albion Road "
+        "street_address_2": "2nd Floor Jade Building, Albion Mills, Albion Road ",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3374,7 +3467,8 @@
         "created_at": "2020-07-05T14:38:15Z",
         "name": "BEC Teacher Training",
         "street_address_1": "c/o The Bromfords School",
-        "street_address_2": "Grange Avenue"
+        "street_address_2": "Grange Avenue",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3410,7 +3504,8 @@
         "created_at": "2020-07-05T15:10:19Z",
         "name": "BHSSA",
         "street_address_1": "Hove Park School",
-        "street_address_2": "Hangleton Way"
+        "street_address_2": "Hangleton Way",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3446,7 +3541,8 @@
         "created_at": "2020-07-05T12:52:51Z",
         "name": "BLT SCITT",
         "street_address_1": "The Hayesbrook School",
-        "street_address_2": "Brook Street"
+        "street_address_2": "Brook Street",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3482,7 +3578,8 @@
         "created_at": "2020-07-05T15:24:15Z",
         "name": "Balcarras School",
         "street_address_1": "East End Road",
-        "street_address_2": "Charlton Kings"
+        "street_address_2": "Charlton Kings",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3518,7 +3615,8 @@
         "created_at": "2020-07-05T12:51:15Z",
         "name": "Balksbury Infant School",
         "street_address_1": "Balksbury Infant School",
-        "street_address_2": "Floral Way"
+        "street_address_2": "Floral Way",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3554,7 +3652,8 @@
         "created_at": "2020-07-05T12:51:18Z",
         "name": "Bankside Primary School",
         "street_address_1": "Shepherds Lane",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {
@@ -3590,7 +3689,8 @@
         "created_at": "2020-07-05T15:24:43Z",
         "name": "Bannockburn Primary School",
         "street_address_1": "Plumstead High Street",
-        "street_address_2": ""
+        "street_address_2": "",
+        "selectable_school": true
       },
       "relationships": {
         "recruitment_cycle": {

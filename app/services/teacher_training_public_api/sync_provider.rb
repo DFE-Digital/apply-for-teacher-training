@@ -39,6 +39,7 @@ module TeacherTrainingPublicAPI
         provider_type: provider_from_api.provider_type,
         latitude: provider_from_api.try(:latitude),
         longitude: provider_from_api.try(:longitude),
+        selectable_school: provider_from_api.selectable_school,
       }
     end
 
