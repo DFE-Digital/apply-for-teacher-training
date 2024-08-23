@@ -5,12 +5,6 @@ class ApplicationWorkHistoryBreak < ApplicationRecord
 
   audited associated_with: :breakable
 
-  after_commit do
-    if application_form
-      breakable.touch_choices
-    end
-  end
-
   def application_form
     breakable if breakable_type == 'ApplicationForm'
   end

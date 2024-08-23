@@ -46,54 +46,6 @@ RSpec.describe '#update' do
     end
   end
 
-  it 'updates the application_choices when a application_work_history_break is added' do
-    application_form = create(:completed_application_form, application_choices_count: 1)
-
-    expect { create(:application_work_history_break, breakable: application_form) }
-      .to(change { application_form.application_choices.first.updated_at })
-  end
-
-  it 'updates the application_choices when a application_work_history_break is updated' do
-    application_form = create(:completed_application_form, application_choices_count: 1)
-    model = create(:application_work_history_break, breakable: application_form)
-
-    expect { model.update(updated_at: Time.zone.now) }
-      .to(change { application_form.application_choices.first.updated_at })
-  end
-
-  it 'updates the application_choices when a application_work_history_break is deleted' do
-    application_form = create(:completed_application_form, application_choices_count: 1)
-    model = create(:application_work_history_break, breakable: application_form)
-
-    expect { model.destroy! }
-      .to(change { application_form.application_choices.first.updated_at })
-  end
-
-  %i[application_volunteering_experience application_work_experience].each do |form_attribute|
-    it "updates the application_choices when #{form_attribute} is added" do
-      application_form = create(:completed_application_form, application_choices_count: 1)
-
-      expect { create(form_attribute, experienceable: application_form) }
-        .to(change { application_form.application_choices.first.updated_at })
-    end
-
-    it "updates the application_choices when #{form_attribute} is updated" do
-      application_form = create(:completed_application_form, application_choices_count: 1)
-      model = create(form_attribute, experienceable: application_form)
-
-      expect { model.update(updated_at: Time.zone.now) }
-        .to(change { application_form.application_choices.first.updated_at })
-    end
-
-    it "updates the application_choices when #{form_attribute} is deleted" do
-      application_form = create(:completed_application_form, application_choices_count: 1)
-      model = create(form_attribute, experienceable: application_form)
-
-      expect { model.destroy! }
-        .to(change { application_form.application_choices.first.updated_at })
-    end
-  end
-
   it 'does not update application_choices when unrelated models that touch the form are updated' do
     application_form = create(:completed_application_form, application_choices_count: 1)
     feedback = create(:application_feedback, application_form:)

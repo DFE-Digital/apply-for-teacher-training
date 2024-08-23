@@ -74,6 +74,60 @@ RSpec.describe CandidateInterface::SubmitApplicationChoice do
           submit_application
         }.to have_enqueued_mail(ProviderMailer, :application_submitted)
       end
+
+      it 'duplicates the work experiences on the application_choice' do
+        work_experience = create(
+          :application_work_experience,
+          experienceable: application_form,
+        )
+
+        expect {
+          submit_application
+        }.to change(application_choice.work_experiences, :count).by(1)
+
+        expect(application_choice.work_experiences.pluck(:details)).to eq(
+          [work_experience.details],
+        )
+        expect(application_choice.work_experiences.ids).not_to eq(
+          application_form.application_work_experiences.ids,
+        )
+      end
+
+      it 'duplicates the volunteering experiences on the application_choice' do
+        volunteering_experience = create(
+          :application_volunteering_experience,
+          experienceable: application_form,
+        )
+
+        expect {
+          submit_application
+        }.to change(application_choice.volunteering_experiences, :count).by(1)
+
+        expect(application_choice.volunteering_experiences.pluck(:details)).to eq(
+          [volunteering_experience.details],
+        )
+        expect(application_choice.volunteering_experiences.ids).not_to eq(
+          application_form.application_volunteering_experiences.ids,
+        )
+      end
+
+      it 'duplicates the work history breaks on the application_choice' do
+        work_history_break = create(
+          :application_work_history_break,
+          breakable: application_form,
+        )
+
+        expect {
+          submit_application
+        }.to change(application_choice.work_history_breaks, :count).by(1)
+
+        expect(application_choice.work_history_breaks.pluck(:reason)).to eq(
+          [work_history_break.reason],
+        )
+        expect(application_choice.work_history_breaks.ids).not_to eq(
+          application_form.application_work_history_breaks.ids,
+        )
+      end
     end
   end
 end
