@@ -228,8 +228,8 @@ class ProviderMailer < ApplicationMailer
     @provider_user = provider_user
     @reject_by_default_date = I18n.l(CycleTimetable.reject_by_default.to_date, format: :no_year)
     @decline_by_default_date = I18n.l(CycleTimetable.decline_by_default_date.to_date, format: :no_year)
-    @notifications_path = Rails.application.routes.url_helpers.provider_interface_notifications_path
-    @applications_path = Rails.application.routes.url_helpers.provider_interface_applications_path
+    @notifications_url = provider_interface_notifications_url
+    @applications_url = provider_interface_applications_url
 
     provider_notify_email(
       to: @provider_user.email_address,

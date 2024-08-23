@@ -178,7 +178,7 @@ class ProviderMailerPreview < ActionMailer::Preview
   end
 
   def respond_to_applications_before_reject_by_default_date
-    provider_user = FactoryBot.create(:provider_user)
+    provider_user = FactoryBot.build(:provider_user)
     ProviderMailer.respond_to_applications_before_reject_by_default_date(provider_user)
   end
 

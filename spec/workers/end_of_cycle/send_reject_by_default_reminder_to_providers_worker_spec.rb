@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersWorker do
   describe '#perform' do
     context 'is before the date for sending the reminder', time: reject_by_default_reminder_run_date - 1.day do
-      it 'does not send any emails' do
+      it 'does not enqueue the batch worker' do
         application_choices = create(:application_choice, :awaiting_provider_decision)
         create(:provider_permissions, provider: application_choices.provider)
 
@@ -14,7 +14,7 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersWorker do
     end
 
     context 'is after the date for sending the reminder', time: reject_by_default_reminder_run_date + 1.day do
-      it 'does not send any emails' do
+      it 'does not enqueue the batch worker' do
         application_choices = create(:application_choice, :awaiting_provider_decision)
         create(:provider_permissions, provider: application_choices.provider)
 
