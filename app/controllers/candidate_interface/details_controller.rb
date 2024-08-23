@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ContinuousApplicationsDetailsController < ContinuousApplicationsController
+  class DetailsController < ContinuousApplicationsController
     def index
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
       @application_cache_key = CacheKey.generate(@application_form_presenter.cache_key_with_version)
