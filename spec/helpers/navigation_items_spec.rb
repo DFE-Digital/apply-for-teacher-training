@@ -6,35 +6,61 @@ RSpec.describe NavigationItems do
   describe '.candidate_primary_navigation' do
     let(:current_candidate) { nil }
     let(:current_controller) { nil }
-    let(:navigation_items) { described_class.candidate_primary_navigation(current_candidate:, current_controller:).map(&:text) }
+
+    subject(:navigation_items) { described_class.candidate_primary_navigation(current_candidate:, current_controller:) }
 
     context 'when no candidate is provided' do
-      it 'renders the correct items' do
+      it 'contains no navigation items' do
         expect(navigation_items).to eq([])
       end
     end
 
     context 'when candidate is provided' do
-      let(:current_controller) do
-        instance_double(CandidateInterface::ContinuousApplicationsDetailsController, controller_name: 'continuous_applications_details', choices_controller?: true)
-      end
-
       let(:current_candidate) { create(:candidate, application_forms: [create(:application_form, application_choices:)]) }
 
       context 'when application choice is in unsubmitted state' do
         let(:application_choices) { [build(:application_choice, :unsubmitted)] }
 
-        it 'renders the correct items' do
-          expect(navigation_items).to eq(['Your details', 'Your applications'])
+        it 'contains the "Your details" and "Your applications" navigation items, neither are in the active state' do
+          expect(navigation_items).to contain_exactly(
+            have_attributes(text: 'Your details', active: false), # both false as the controller does not implement #choices_controller?
+            have_attributes(text: 'Your applications', active: false), # both false as the controller does not implement #choices_controller?
+          )
         end
       end
 
       context 'when application choice is in accepted state' do
         let(:application_choices) { [build(:application_choice, :pending_conditions)] }
 
-        it 'renders the correct items' do
-          expect(navigation_items).to eq(['Your offer'])
+        it 'contains only the "Your offer" navigation item in the active state' do
+          expect(navigation_items).to contain_exactly(
+            have_attributes(text: 'Your offer', active: true),
+          )
         end
+      end
+    end
+
+    context 'when application_choice is unsubmitted and the controller is not a choices controller' do
+      let(:current_candidate) { create(:candidate, application_forms: [create(:application_form, application_choices: build_list(:application_choice, 1, :unsubmitted))]) }
+      let(:current_controller) { instance_double(CandidateInterface::CandidateInterfaceController, choices_controller?: false) }
+
+      it 'contains the "Your details" and "Your applications" navigation items, with "Your details" in the active state' do
+        expect(navigation_items).to contain_exactly(
+          have_attributes(text: 'Your details', active: true),
+          have_attributes(text: 'Your applications', active: false),
+        )
+      end
+    end
+
+    context 'when application_choice is unsubmitted and the controller is a choices controller' do
+      let(:current_candidate) { create(:candidate, application_forms: [create(:application_form, application_choices: build_list(:application_choice, 1, :unsubmitted))]) }
+      let(:current_controller) { instance_double(CandidateInterface::CandidateInterfaceController, choices_controller?: true) }
+
+      it 'contains the "Your details" and "Your applications" navigation items, with "Your applications" in the active state' do
+        expect(navigation_items).to contain_exactly(
+          have_attributes(text: 'Your details', active: false),
+          have_attributes(text: 'Your applications', active: true),
+        )
       end
     end
   end
