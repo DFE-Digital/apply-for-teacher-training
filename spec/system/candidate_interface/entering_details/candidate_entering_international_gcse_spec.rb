@@ -115,10 +115,11 @@ RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def when_i_choose_yes
-    choose 'Yes'
+    find('input[type="radio"][value="obtained"]').choose
   end
 
   def then_i_see_the_enic_reference_blank_error
+    and_i_click_save_and_continue
     expect(page).to have_content 'Enter your UK ENIC reference number'
   end
 

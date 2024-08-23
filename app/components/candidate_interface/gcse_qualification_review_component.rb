@@ -1,6 +1,8 @@
 module CandidateInterface
   class GcseQualificationReviewComponent < ViewComponent::Base
     include GcseQualificationHelper
+    include GcseStatementComparabilityPathHelper
+    include EnicReasonTranslationHelper
 
     def initialize(application_form:, application_qualification:, subject:, editable: true, heading_level: 2, missing_error: false, submitting_application: false, return_to_application_review: false)
       @application_form = application_form
@@ -248,7 +250,7 @@ module CandidateInterface
 
       {
         key: t('application_form.gcse.enic_statement.review_label'),
-        value: application_qualification.enic_reference ? 'Yes' : 'No',
+        value: translate_enic_reason(application_qualification.enic_reason),
         action: {
           href: candidate_interface_gcse_details_edit_enic_path(change_path_params),
           visually_hidden_text: t('application_form.gcse.enic_statement.change_action'),
@@ -269,7 +271,7 @@ module CandidateInterface
         key: t('application_form.gcse.enic_reference.review_label'),
         value: application_qualification.enic_reference,
         action: {
-          href: candidate_interface_gcse_details_edit_enic_path(change_path_params),
+          href: x_gcse_edit_statement_comparability_path(change_path_params[:subject]),
           visually_hidden_text: t('application_form.gcse.enic_reference.change_action'),
         },
         html_attributes: {
@@ -288,7 +290,7 @@ module CandidateInterface
         key: t('application_form.gcse.comparable_uk_qualification.review_label'),
         value: application_qualification.comparable_uk_qualification,
         action: {
-          href: candidate_interface_gcse_details_edit_enic_path(change_path_params),
+          href: x_gcse_edit_statement_comparability_path(change_path_params[:subject]),
           visually_hidden_text: t('application_form.gcse.comparable_uk_qualification.change_action'),
         },
         html_attributes: {

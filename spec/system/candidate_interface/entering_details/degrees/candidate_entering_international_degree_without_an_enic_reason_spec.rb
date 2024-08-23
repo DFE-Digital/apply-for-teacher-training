@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Entering an international doctorate degree' do
   include CandidateHelper
 
-  scenario 'Candidate enters their degree' do
+  scenario 'Candidate enters their degree without an enic reason' do
     given_i_am_signed_in
     when_i_view_the_degree_section
 
@@ -16,19 +16,7 @@ RSpec.describe 'Entering an international doctorate degree' do
     and_i_select_no_grade_was_given
     and_i_fill_in_the_start_year
     when_i_fill_in_the_award_year
-    and_i_check_no_for_enic_statement
-
-    then_i_can_check_my_international_degree
-
-    when_i_change_my_degree_grade_to_not_known
-    then_i_can_check_the_grade_has_changed
-
-    when_i_mark_this_section_as_completed
-    and_i_click_on_continue
-    then_i_see_the_form
-    and_that_the_section_is_completed
-    when_i_click_on_degree
-    then_i_can_check_my_answers
+    and_i_dont_select_an_enic_reason
   end
 
 private
@@ -107,57 +95,8 @@ private
     and_i_click_on_save_and_continue
   end
 
-  def and_i_check_no_for_enic_statement
-    choose 'I do not need a statement of comparability'
+  def and_i_dont_select_an_enic_reason
     and_i_click_on_save_and_continue
-  end
-
-  def when_i_mark_this_section_as_completed
-    choose t('application_form.completed_radio')
-  end
-
-  def then_i_see_the_form
-    expect(page).to have_content(t('page_titles.application_form'))
-  end
-
-  def and_that_the_section_is_completed
-    expect(page).to have_css('#degree-badge-id', text: 'Completed')
-  end
-
-  def then_i_can_check_my_international_degree
-    expect(page).to have_current_path candidate_interface_degree_review_path
-    expect(page).to have_content 'History'
-    within '[data-qa="degree-grade"]' do
-      expect(page).to have_content 'Grade'
-      expect(page).to have_content 'N/A'
-    end
-  end
-
-  def when_i_change_my_degree_grade_to_not_known
-    within '[data-qa="degree-grade"]' do
-      click_on 'Change'
-    end
-    choose 'I do not know'
-    and_i_click_on_save_and_continue
-  end
-
-  def then_i_can_check_the_grade_has_changed
-    expect(page).to have_current_path candidate_interface_degree_review_path
-    expect(page).to have_content 'History'
-    within '[data-qa="degree-grade"]' do
-      expect(page).to have_content 'Grade'
-      expect(page).to have_content 'Unknown'
-    end
-  end
-
-  def then_i_can_check_my_answers
-    expect(page).to have_content 'France'
-    within '[data-qa="degree-type"]' do
-      expect(page).to have_content 'Doctor'
-    end
-    expect(page).to have_content 'Purdue University'
-    expect(page).to have_content 'Doctorate of Philosophy, History,'
-    expect(page).to have_content '2006'
-    expect(page).to have_content '2009'
+    expect(page).to have_content 'Select whether you have a UK ENIC reference number or not'
   end
 end

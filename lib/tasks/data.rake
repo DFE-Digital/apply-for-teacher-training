@@ -3,7 +3,6 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::MarkUnsubmittedApplicationsWithoutEnglishProficiencyAsElfIncomplete',
   'DataMigrations::BackfillEnglishProficiencyRecordsForCarriedOverApplications',
   'DataMigrations::BackfillWeek42PerformanceReportData',
-  'DataMigrations::BackfillEnicReason',
   'DataMigrations::RemoveRecruitmentPerformanceReportFeatureFlag',
   'DataMigrations::MigrateDataExportDataToFile',
   'DataMigrations::RemoveCoursesNotOnPublish',

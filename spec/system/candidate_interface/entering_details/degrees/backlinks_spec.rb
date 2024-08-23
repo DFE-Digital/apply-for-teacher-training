@@ -187,7 +187,7 @@ RSpec.describe 'Degrees' do
   end
 
   def then_i_am_taken_to_the_enic_page
-    expect(page).to have_content 'How your degree compares to a UK degree'
+    expect(page).to have_content 'Show how your degree compares to a UK degree'
   end
 
   def then_i_am_taken_to_the_degree_complete_page

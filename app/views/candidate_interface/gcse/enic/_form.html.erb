@@ -4,26 +4,19 @@
   <%= t('gcse_edit_enic.page_title', subject: @subject.capitalize) %>
 </h1>
 
-<p class="govuk-body">You can get a statement from the <%= t('service_name.enic.full_name') %> which shows how your qualifications compare to UK qualifications. Not all providers need this.</p>
-<%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.label'), size: 'm' } do %>
-  <%= f.govuk_radio_button :have_enic_reference, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
-    <%= f.govuk_text_field :enic_reference, label: { text: "#{t('service_name.enic.short_name')} reference number", size: 's' }, hint: { text: 'For example ‘4000228363’' }, width: 20, spellcheck: false %>
-    <%= f.govuk_radio_buttons_fieldset :comparable_uk_qualification, legend: { text: t('application_form.gcse.comparable_uk_qualification.label'), size: 's' }, hint: { text: t('application_form.gcse.comparable_uk_qualification.hint_text') } do %>
-      <%= f.govuk_radio_button :comparable_uk_qualification, t('application_form.gcse.comparable_uk_qualification.values.gcse'), label: { text: t('application_form.gcse.comparable_uk_qualification.values.gcse') }, link_errors: true %>
-      <%= f.govuk_radio_button :comparable_uk_qualification, t('application_form.gcse.comparable_uk_qualification.values.gcse_aslevel'), label: { text: t('application_form.gcse.comparable_uk_qualification.values.gcse_aslevel') } %>
-      <%= f.govuk_radio_button :comparable_uk_qualification, t('application_form.gcse.comparable_uk_qualification.values.aslevel_alevel'), label: { text: t('application_form.gcse.comparable_uk_qualification.values.aslevel_alevel') } %>
-      <%= f.govuk_radio_button :comparable_uk_qualification, t('application_form.gcse.comparable_uk_qualification.values.alevel'), label: { text: t('application_form.gcse.comparable_uk_qualification.values.alevel') } %>
-    <% end %>
-  <% end %>
-  <%= f.govuk_radio_button :have_enic_reference, 'No', label: { text: 'No' } do %>
-    <p class="govuk-body">
-          You should <%= govuk_link_to('apply for a statement of comparability from UK ENIC (opens in new tab)',
-                                                            t('service_name.enic.statement_of_comparability_url'),
-                                                            target: '_blank',
-                                                            rel: 'noopener') %>.
-        </p>
+<p class="govuk-body"><%= t('gcse_edit_enic.apply_enic') %></p>
+<p class="govuk-body"> <%= govuk_link_to(t('gcse_edit_enic.enic_link'), t('service_name.enic.statement_of_comparability_url')) %></p>
+<p class="govuk-body"> <%= t('gcse_edit_enic.percentage_text_html') %></p>
+<p class="govuk-body"> <%= t('gcse_edit_enic.enic_cost') %></p>
 
-        <p class="govuk-body">Applications with a statement are 28% more likely to be successful.</p>
+<%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.label'), size: 'm' } do %>
+  <% ApplicationQualification.enic_reasons.keys.each do |enic_reason| %>
+    <%= f.govuk_radio_button(
+      :enic_reason,
+      enic_reason,
+      label: { text: t("application_form.degree.enic_statement.#{enic_reason}") },
+      link_errors: true,
+    ) %>
   <% end %>
 <% end %>
 

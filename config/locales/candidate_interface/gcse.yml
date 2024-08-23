@@ -26,7 +26,8 @@ en:
         hint_text: For example, 1996
         gce_o_level_hint_text: For example, 1978
       enic_statement:
-        label: Do you have a statement of comparability from UK ENIC (the UK agency that recognises international qualifications and skills)?
+        label: Do you have a statement of comparability from UK ENIC
+        enter_enic: Enter the UK ENIC reference number for your %{subject} qualification
         review_label: Do you have a UK ENIC statement of comparability?
         change_action: UK ENIC statement
       enic_reference:
@@ -137,12 +138,16 @@ en:
               inclusion: Select the country or territory you studied in from the list
         candidate_interface/gcse_enic_form:
           attributes:
-            have_enic_reference:
+            enic_reason:
               blank: Select if you have a UK ENIC statement of comparability
             enic_reference:
               blank: Enter your UK ENIC reference number
             comparable_uk_qualification:
               blank: Choose a comparable UK qualification
+        candidate_interface/gcse_enic_selection_form:
+          attributes:
+            enic_reason:
+              blank: Select if you have a UK ENIC statement of comparability
         candidate_interface/gcse_not_completed_form:
           attributes:
             currently_completing_qualification:

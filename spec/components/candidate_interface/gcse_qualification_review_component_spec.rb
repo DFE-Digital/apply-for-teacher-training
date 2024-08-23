@@ -15,6 +15,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         institution_country: 'US',
         enic_reference: '12345',
         comparable_uk_qualification: 'Between GCSE and GCE AS level',
+        enic_reason: 'obtained',
       )
       result = render_inline(
         described_class.new(application_form:, application_qualification:, subject: 'maths'),
