@@ -1,3 +1,4 @@
+<% ignored_audits = %w[ApplicationWorkHistoryBreak ApplicationExperience] %>
 <% content_for :browser_title, 'Activity log' %>
 
 <div class="govuk-grid-row">
@@ -7,6 +8,7 @@
     <div class="govuk-!-margin-top-0">
       <% previous_date = '' %>
       <% @events.each do |event| %>
+        <% next if ignored_audits.include?(event.try(:auditable_type)) %>
         <% current_date = event.created_at.to_fs(:govuk_date) %>
         <% if current_date != previous_date %>
           </div>
