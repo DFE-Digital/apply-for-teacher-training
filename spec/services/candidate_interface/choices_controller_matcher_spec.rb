@@ -17,13 +17,13 @@ RSpec.describe CandidateInterface::ChoicesControllerMatcher, type: :model do
     it { is_expected.to be_falsey }
 
     [
-      'continuous_applications_choices', # controller for Your applications
-      'continuous_applications/course_choices', # the course choice wizard
-      'continuous_applications/application_choices', # deleting an application choice
-      'decisions', # withdrawing from a course offer
+      'candidate_interface/continuous_applications_choices', # controller for Your applications
+      'candidate_interface/course_choices', # the course choice wizard
+      'candidate_interface/application_choices', # deleting an application choice
+      'candidate_interface/decisions', # withdrawing from a course offer
       'candidate_interface/apply_from_find',
 
-      'continuous_applications/course_choices/do_you_know_which_course',
+      'candidate_interface/course_choices/do_you_know_which_course',
     ].each do |controller_path_under_test|
       context "when controller path is '#{controller_path_under_test}'" do
         let(:controller_path) { controller_path_under_test }
