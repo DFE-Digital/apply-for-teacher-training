@@ -12,6 +12,7 @@ RSpec.describe 'Candidate accepts an offer' do
     when_i_visit_my_applications
     and_i_click_to_view_my_application
     then_i_see_the_offer
+    and_i_am_told_my_other_offer_will_be_automatically_declined
 
     when_i_continue_without_selecting_a_response
     then_i_see_and_error_message
@@ -111,6 +112,9 @@ RSpec.describe 'Candidate accepts an offer' do
     when_i_click_to_withdraw_my_application
     and_i_click_back
     then_i_see_the_new_dashboard_content
+
+    when_i_try_to_visit_the_course_selection
+    then_i_be_redirected_to_the_offer_dashboard
   end
 
   def given_i_am_signed_in
@@ -126,6 +130,7 @@ RSpec.describe 'Candidate accepts an offer' do
       candidate: @candidate,
       submitted_at: Time.zone.now,
       support_reference: '123A',
+      recruitment_cycle_year: 2024,
     )
 
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
@@ -164,6 +169,10 @@ RSpec.describe 'Candidate accepts an offer' do
     provider = @course_option.course.provider.name
     expect(page).to have_content(provider)
     expect(page).to have_content(t('page_titles.decisions.offer'))
+  end
+
+  def and_i_am_told_my_other_offer_will_be_automatically_declined
+    expect(page).to have_content('If you accept this offer, your other offer will be automatically declined.')
   end
 
   def when_i_continue_without_selecting_a_response
@@ -507,5 +516,13 @@ RSpec.describe 'Candidate accepts an offer' do
     expect(
       back_link,
     ).to eq(candidate_interface_application_offer_dashboard_path)
+  end
+
+  def when_i_try_to_visit_the_course_selection
+    visit candidate_interface_course_choices_do_you_know_the_course_path
+  end
+
+  def then_i_be_redirected_to_the_offer_dashboard
+    expect(page).to have_current_path(candidate_interface_application_offer_dashboard_path)
   end
 end

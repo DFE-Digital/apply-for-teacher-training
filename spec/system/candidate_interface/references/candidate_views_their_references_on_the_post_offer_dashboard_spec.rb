@@ -9,6 +9,7 @@ RSpec.describe 'Post-offer references', :with_audited, time: CycleTimetableHelpe
 
     when_i_visit_the_application_dashboard
     then_i_see_the_post_offer_dashboard
+    and_i_see_the_provider_contact_information
 
     when_i_click_on_my_requested_reference
     then_i_see_my_referee_information
@@ -38,7 +39,7 @@ RSpec.describe 'Post-offer references', :with_audited, time: CycleTimetableHelpe
   end
 
   def and_i_have_an_accepted_offer
-    @application_form = create(:completed_application_form, candidate: @candidate, recruitment_cycle_year: 2023)
+    @application_form = create(:completed_application_form, candidate: @candidate)
     @pending_reference = create(:reference, :feedback_requested, reminder_sent_at: nil, application_form: @application_form)
     @completed_reference = create(:reference, :feedback_provided, application_form: @application_form)
 
@@ -72,6 +73,10 @@ RSpec.describe 'Post-offer references', :with_audited, time: CycleTimetableHelpe
     expect(page).to have_content(@pending_reference.email_address)
     expect(page).to have_content(@pending_reference.referee_type.humanize)
     expect(page).to have_content(@pending_reference.relationship)
+  end
+
+  def and_i_see_the_provider_contact_information
+    expect(page).to have_content("Contact #{@application_choice.current_provider.name} if you have")
   end
 
   def and_my_available_actions

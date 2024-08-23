@@ -15,7 +15,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
     and_the_get_into_teaching_api_is_accepting_sign_ups
     and_the_candidate_does_not_matchback
     and_adviser_sign_up_jobs_can_be_enqueued
-    and_i_visit_the_application_form_page
+    and_i_visit_your_details_page
 
     when_i_click_on_the_adviser_cta
     then_i_am_on_the_adviser_sign_up_page
@@ -26,7 +26,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
 
     when_i_select_a_preferred_teaching_subject(preferred_teaching_subject.value)
     when_i_click_the_sign_up_button
-    then_i_am_redirected_to_the_application_form_page
+    then_i_am_redirected_to_your_details_page
     and_i_see_the_success_message
     and_the_adviser_cta_be_replaced_with_the_waiting_to_be_assigned_message
     and_an_adviser_sign_up_job_is_enqueued
@@ -75,12 +75,12 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
     @application_form = create(:application_form_eligible_for_adviser, candidate: @candidate)
   end
 
-  def and_i_visit_the_application_form_page
+  def and_i_visit_your_details_page
     visit candidate_interface_continuous_applications_details_path
   end
 
   def when_i_click_on_the_adviser_cta
-    find("a[href='#{new_candidate_interface_adviser_sign_up_path}']", match: :first).click
+    click_link_or_button t('application_form.adviser_sign_up.call_to_action.available.button_text')
   end
 
   def then_i_am_on_the_adviser_sign_up_page
@@ -109,7 +109,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
     find('label', text: subject).click
   end
 
-  def then_i_am_redirected_to_the_application_form_page
+  def then_i_am_redirected_to_your_details_page
     expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
   end
 
