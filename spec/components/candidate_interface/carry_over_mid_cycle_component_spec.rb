@@ -9,7 +9,7 @@ RSpec.describe CandidateInterface::CarryOverMidCycleComponent do
   end
 
   [RecruitmentCycle.previous_year, RecruitmentCycle.current_year, RecruitmentCycle.next_year].each do |year|
-    context 'after the new recruitment cycle begins', time: CycleTimetable.apply_opens(year) do
+    context "after the new recruitment cycle begins year: #{year}", time: CycleTimetable.apply_opens(year) do
       it 'renders the correct academic years' do
         application_form = build(:completed_application_form, recruitment_cycle_year: year - 1)
         result = render_inline(described_class.new(application_form:))
