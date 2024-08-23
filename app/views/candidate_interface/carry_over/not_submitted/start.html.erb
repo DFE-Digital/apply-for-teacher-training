@@ -1,1 +1,5 @@
-<%= render(CandidateInterface::CarryOverInterstitialComponent.new(application_form: @application_form)) %>
+<% if CycleTimetable.between_cycles? %>
+  <%= render(CandidateInterface::CarryOverBetweenCyclesComponent.new(application_form: @application_form)) %>
+<% else %>
+  <%= render(CandidateInterface::CarryOverMidCycleComponent.new(application_form: @application_form)) %>
+<% end %>

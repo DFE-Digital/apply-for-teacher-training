@@ -108,20 +108,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', time: CycleTimetable
 
   def and_i_can_complete_the_equality_and_diversity_section
     click_on 'Equality and diversity questions'
-    # Sex
-    choose 'Prefer not to say'
-    click_on 'Continue'
-    # Disabilities
-    check 'Prefer not to say'
-    click_on 'Continue'
-    # Ethnicity
-    choose 'Prefer not to say'
-    click_on 'Continue'
-    # Free school meals
-    choose 'Prefer not to say'
-    click_on 'Continue'
-    choose 'Yes, I have completed this section'
-    click_on 'Continue'
+    candidate_fills_in_diversity_information
   end
 
   def when_i_view_courses

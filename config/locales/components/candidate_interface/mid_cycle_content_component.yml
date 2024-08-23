@@ -1,0 +1,22 @@
+en:
+  mid_cycle_content_component:
+    title: Your applications
+    you_cannot_submit_more: >
+      You cannot submit any more applications because you have %{max_number_of_applications} unsuccessful applications.
+    you_will_be_able_to_apply_again: >
+      You will be able to apply again in %{apply_reopens_date} when applications open for courses starting in September %{next_year}
+    email_for_help_html: Email %{email_address} if you need help with your applications.
+    becoming_a_teacher_email: becomingateacher@digital.education.gov.uk
+    training_providers_offer_places_throughout_the_year: >
+      Training providers offer places on courses as people apply throughout the year. Courses stay open until they are full.
+    courses_fill_up_quickly: Courses can fill up quickly, so you should apply as soon as you are ready rather than putting it off.
+    read_how_the_application_process_works: Read how the application process works
+    add_application: Add application
+    you_cannot_add_any_more_applications: You cannot add any more applications.
+    you_can_add_more_applications_if: "You can add more applications if:"
+    one_becomes_unsuccessful: one of your submitted applications becomes unsuccessful
+    withdraw_or_remove: you withdraw or remove an application
+    once_you_have_reached_the_limit: >
+      Once you have a total of %{max_number_of_applications} unsuccessful or withdrawn applications, you will not be
+      able to apply for any more courses until %{next_year}.
+

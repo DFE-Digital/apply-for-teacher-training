@@ -47,7 +47,7 @@ RSpec.describe 'Carry over unsubmitted application' do
 
   def and_i_have_to_carry_my_application_over
     expect(page).to have_current_path candidate_interface_start_carry_over_path
-    click_link_or_button 'Continue'
+    click_link_or_button 'Update your details'
   end
 
   def then_i_see_the_references_section

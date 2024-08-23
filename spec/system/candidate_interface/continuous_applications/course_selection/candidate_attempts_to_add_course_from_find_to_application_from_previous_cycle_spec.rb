@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Candidate attempts to add course via Find to application from previous cycle' do
   include CandidateHelper
 
-  scenario 'The candidate cannot add course to an application from the previous cycle' do
+  scenario 'The candidate cannot add course to an application from many years ago' do
     given_i_have_made_an_application_in_the_previous_cycle
     and_a_new_cycle_starts
     and_i_am_signed_in
@@ -26,7 +26,7 @@ RSpec.describe 'Candidate attempts to add course via Find to application from pr
   end
 
   def and_a_new_cycle_starts
-    advance_time_to(mid_cycle(CycleTimetable.current_year))
+    advance_time_to(mid_cycle)
   end
 
   def and_i_am_signed_in
@@ -44,7 +44,7 @@ RSpec.describe 'Candidate attempts to add course via Find to application from pr
 
   def then_i_see_that_my_application_must_be_carried_over
     expect(page).to have_content('You started an application for courses starting in the 2020 to 2021 academic year, which have now closed.')
-    expect(page).to have_content('Continue your application to apply for courses starting in the 2021 to 2022 academic year instead.')
+    expect(page).to have_content("Continue your application to apply for courses starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year instead.")
 
     # Normally we'd avoid a trip directly to the db in a system spec,
     # this is here to prove a particular bug has been solved.

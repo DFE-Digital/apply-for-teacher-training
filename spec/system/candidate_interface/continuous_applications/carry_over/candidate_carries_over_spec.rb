@@ -55,7 +55,7 @@ RSpec.describe 'Carry over unsubmitted applications', :sidekiq do
     when_i_sign_in
     then_i_am_asked_to_carry_over
 
-    when_i_click_apply_again
+    when_i_carry_over
     then_i_am_redirected_to_continuous_application_details_page
 
     when_i_go_to_your_applications_tab
@@ -157,10 +157,6 @@ private
     expect(page).to have_current_path candidate_interface_start_carry_over_path
   end
 
-  def when_i_click_apply_again
-    click_link_or_button 'Continue'
-  end
-
   def and_i_have_submitted_apply_again_course_choices
     application_form = current_candidate.application_forms.find_by(phase: 'apply_2')
     create(:application_choice, :awaiting_provider_decision, application_form:)
@@ -179,7 +175,7 @@ private
   end
 
   def when_i_carry_over
-    click_link_or_button 'Continue'
+    click_link_or_button 'Update your details'
   end
 
   def then_i_am_redirected_to_continuous_application_details_page
@@ -192,8 +188,10 @@ private
   end
 
   def then_i_do_not_see_the_add_course_button
-    expect(page).to have_no_content('Add application')
-    expect(page).to have_content("Applications for courses starting in September #{RecruitmentCycle.current_year} are closed.")
+    expect(page).to have_no_content('Choose a courses')
+    apply_reopen_date = I18n.l(CycleTimetable.apply_reopens.to_date, format: :no_year).strip
+    cycle_range = CycleTimetable.cycle_year_range(RecruitmentCycle.next_year)
+    expect(page).to have_content("From #{apply_reopen_date} you will be able to apply for courses starting in the #{cycle_range} academic year.")
   end
 
   def and_i_do_not_see_previous_applications_heading

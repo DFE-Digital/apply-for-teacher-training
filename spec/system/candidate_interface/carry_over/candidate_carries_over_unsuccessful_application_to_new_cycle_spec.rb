@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate can carry over unsuccessful application to a new recruitment cycle after the apply deadline' do
   include CandidateHelper
+  include ApplicationHelper
 
   before do
     TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
@@ -11,11 +12,11 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   scenario 'a candidate who was unsuccessful from years ago can carry over mid cycle' do
     given_i_applied_two_years_ago
     when_i_sign_in
-    then_i_am_on_the_carry_over_page
+    then_i_am_on_the_carry_over_page_mid_cycle
     and_i_can_view_my_unsuccessful_application
 
     when_i_click_back
-    and_i_carry_over_my_application
+    and_i_carry_over_my_application_mid_cycle
     then_i_can_edit_my_details
   end
 
@@ -23,11 +24,11 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     given_i_applied_two_years_ago
     and_the_apply_deadline_passes
     when_i_sign_in
-    then_i_am_on_the_carry_over_page
+    then_i_am_on_the_carry_over_page_between_cycles
     and_i_can_view_my_unsuccessful_application
 
     when_i_click_back
-    and_i_carry_over_my_application
+    and_i_carry_over_my_application_between_cycles
     then_i_can_edit_my_details
   end
 
@@ -35,9 +36,9 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     given_i_have_an_application_with_a_rejection
     and_the_apply_deadline_passes
     when_i_sign_in
-    then_i_am_on_the_carry_over_page
+    then_i_am_on_the_carry_over_page_between_cycles
 
-    when_i_carry_over_my_application
+    and_i_carry_over_my_application_between_cycles
     then_i_can_edit_my_details
   end
 
@@ -45,11 +46,11 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     given_i_have_an_application_with_a_rejection
     and_the_next_cycle_opens
     when_i_sign_in
-    then_i_am_on_the_carry_over_page
+    then_i_am_on_the_carry_over_page_mid_cycle
     and_i_can_view_my_unsuccessful_application
 
     when_i_click_back
-    and_i_carry_over_my_application
+    and_i_carry_over_my_application_mid_cycle
     then_i_can_add_course_choices
   end
 
@@ -58,7 +59,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     and_the_apply_deadline_passes
     when_i_sign_in
 
-    and_i_carry_over_my_application
+    and_i_carry_over_my_application_between_cycles
     and_the_next_cycle_opens
     and_i_sign_in
     and_i_click_on_work_history
@@ -119,9 +120,14 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     expect(page).to have_content "You can apply for courses starting in the #{next_recruitment_year_range} academic year instead."
   end
 
-  def then_i_am_on_the_carry_over_page
+  def then_i_am_on_the_carry_over_page_mid_cycle
     expect(page).to have_current_path candidate_interface_start_carry_over_path
     expect(page).to have_content 'Continue your application'
+  end
+
+  def then_i_am_on_the_carry_over_page_between_cycles
+    expect(page).to have_current_path candidate_interface_start_carry_over_path
+    expect(page).to have_content 'The application deadline has passed'
   end
 
   def and_i_can_view_my_unsuccessful_application
@@ -132,7 +138,8 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
           application_choice_id: @application_choice.id,
         ),
       )
-    expect(page).to have_title("Your application to #{@application_choice.provider.name}")
+    provider_name = smart_quotes(@application_choice.provider.name)
+    expect(page).to have_title("Your application to #{provider_name}")
     expect(page).to have_content('Unsuccessful')
   end
 
@@ -148,10 +155,14 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     click_on 'Back to your applications'
   end
 
-  def when_i_carry_over_my_application
+  def when_i_carry_over_my_application_mid_cycle
     click_on 'Continue'
   end
-  alias_method :and_i_carry_over_my_application, :when_i_carry_over_my_application
+  alias_method :and_i_carry_over_my_application_mid_cycle, :when_i_carry_over_my_application_mid_cycle
+
+  def and_i_carry_over_my_application_between_cycles
+    click_on 'Update your details'
+  end
 
   def then_i_can_edit_my_details
     click_on 'Your details'

@@ -171,19 +171,7 @@ private
     complete_section
     click_on 'Your details'
     click_on 'Equality and diversity questions'
-    # Sex
-    choose 'Prefer not to say'
-    click_on 'Continue'
-    # Disabilities
-    check 'Prefer not to say'
-    click_on 'Continue'
-    # Ethnicity
-    choose 'Prefer not to say'
-    click_on 'Continue'
-    # Free school meals
-    choose 'Prefer not to say'
-    click_on 'Continue'
-    complete_section
+    candidate_fills_in_diversity_information
   end
 
   def then_i_can_submit_my_application

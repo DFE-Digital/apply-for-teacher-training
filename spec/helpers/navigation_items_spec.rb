@@ -15,7 +15,7 @@ RSpec.describe NavigationItems do
       end
     end
 
-    context 'when candidate is provided' do
+    context 'when candidate is provided', time: mid_cycle do
       let(:current_candidate) { create(:candidate, application_forms: [create(:application_form, application_choices:)]) }
 
       context 'when application choice is in unsubmitted state' do
@@ -63,30 +63,36 @@ RSpec.describe NavigationItems do
         )
       end
     end
-  end
 
-  describe '.for_candidate_primary_nav' do
-    context 'when no candidate is provided' do
-      it 'renders the correct items' do
-        expect(described_class.for_candidate_primary_nav(nil, nil).map(&:text)).to eq([])
-      end
-    end
+    context 'when application form can be carried over' do
+      context 'from a previous cycle' do
+        let(:current_candidate) do
+          create(
+            :candidate,
+            application_forms: [create(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year)],
+          )
+        end
 
-    context 'when application choice is in unsubmitted state' do
-      let(:candidate) { create(:candidate, application_forms: [create(:application_form, application_choices: [build(:application_choice, :unsubmitted)])]) }
-
-      it 'renders the correct items' do
-        expect(described_class.for_candidate_primary_nav(candidate, nil).map(&:text)).to eq(['Your application'])
-      end
-    end
-
-    context 'when application choice is in accepted state' do
-      let(:candidate) do
-        create(:candidate, application_forms: [create(:application_form, application_choices: [build(:application_choice, :pending_conditions)])])
+        it 'does not render the details tab' do
+          expect(navigation_items).to contain_exactly(
+            have_attributes(text: 'Your applications', active: true),
+          )
+        end
       end
 
-      it 'renders the correct items' do
-        expect(described_class.for_candidate_primary_nav(candidate, nil).map(&:text)).to eq(['Your offer'])
+      context 'from this cycle', time: after_apply_deadline do
+        let(:current_candidate) do
+          create(
+            :candidate,
+            application_forms: [create(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year)],
+          )
+        end
+
+        it 'does not render the details tab' do
+          expect(navigation_items).to contain_exactly(
+            have_attributes(text: 'Your applications', active: true),
+          )
+        end
       end
     end
   end

@@ -16,6 +16,14 @@ class NavigationItems
             true,
           ),
         ]
+      elsif current_candidate.current_application.carry_over?
+        [
+          NavigationItem.new(
+            t('page_titles.continuous_applications.your_applications'),
+            candidate_interface_continuous_applications_choices_path,
+            true,
+          ),
+        ]
       else
         [
           NavigationItem.new(
@@ -30,25 +38,6 @@ class NavigationItems
           ),
         ]
       end
-    end
-
-    def for_candidate_primary_nav(current_candidate, _current_controller)
-      return [] unless current_candidate
-
-      current_application = current_candidate.current_application
-
-      if current_application.application_choices.accepted.exists?
-        application_title = t('page_titles.offer_dashboard')
-      else
-        application_title = t('page_titles.application_dashboard')
-        if current_application.submitted_at && current_application.courses.size > 1
-          application_title = application_title.pluralize
-        end
-      end
-
-      [
-        NavigationItem.new(application_title, candidate_interface_continuous_applications_details_path, true),
-      ]
     end
 
     def for_support_primary_nav(current_support_user, current_controller)

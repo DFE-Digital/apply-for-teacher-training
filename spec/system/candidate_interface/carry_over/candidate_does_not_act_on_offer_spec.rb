@@ -89,8 +89,7 @@ private
   def when_i_sign_in
     logout
     login_as @candidate
-    @url = page.current_url
-    visit @url
+    visit root_path
   end
   alias_method :and_i_sign_in, :when_i_sign_in
 
@@ -142,19 +141,20 @@ private
 
   def then_i_see_my_declined_application_on_the_carry_over_page
     expect(page).to have_current_path candidate_interface_start_carry_over_path
-    expect(page).to have_content 'Continue your application'
+    expect(page).to have_content 'The application deadline has passed'
     expect(page).to have_content 'Declined'
   end
 
   def and_i_can_carry_over_my_application
-    click_on 'Continue'
+    click_on 'Update your details'
     expect(page).to have_current_path candidate_interface_continuous_applications_details_path
   end
 
   def then_i_cannot_carry_over_my_application
     expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
+    apply_reopens_date = I18n.l(CycleTimetable.apply_reopens.to_date, format: :no_year).strip
     expect(page).to have_content(
-      "Applications for courses starting in September #{RecruitmentCycle.current_year} are closed.",
+      "If your application(s) are not successful, or you do not accept any offers, you will be able to apply for courses starting in the #{CycleTimetable.cycle_year_range(RecruitmentCycle.next_year)} academic year from #{apply_reopens_date}.",
     )
   end
   alias_method :and_i_cannot_carry_over_my_application, :then_i_cannot_carry_over_my_application

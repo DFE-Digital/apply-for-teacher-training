@@ -7,17 +7,10 @@
             )) %>
   <%= render PhaseBannerComponent.new(no_border: current_candidate.present?) %>
   <% if current_candidate %>
-    <% if current_candidate.current_application.v23? %>
-      <%= render(PrimaryNavigationComponent.new(
-                  items: NavigationItems.for_candidate_primary_nav(current_candidate, controller),
-                  items_right: [NavigationItems::NavigationItem.new('Sign out', candidate_interface_sign_out_path)],
-                )) %>
-    <% else %>
-      <%= render(PrimaryNavigationComponent.new(
-                  items: NavigationItems.candidate_primary_navigation(current_candidate:, current_controller: controller),
-                  items_right: [NavigationItems::NavigationItem.new('Sign out', candidate_interface_sign_out_path)],
-                )) %>
-    <% end %>
+    <%= render(PrimaryNavigationComponent.new(
+                items: NavigationItems.candidate_primary_navigation(current_candidate:, current_controller: controller),
+                items_right: [NavigationItems::NavigationItem.new('Sign out', candidate_interface_sign_out_path)],
+              )) %>
   <% end %>
 <% when 'support_interface' %>
   <%= render(HeaderComponent.new(
