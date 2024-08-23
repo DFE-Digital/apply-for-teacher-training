@@ -2,14 +2,6 @@ module CandidateInterface
   class CandidateInterfaceController < ApplicationController
     include BackLinks
 
-    APPLICATION_CHOICE_CONTROLLER_PATHS = [
-      'continuous_applications_choices', # controller for Your applications
-      'continuous_applications/course_choices', # the course choice wizard
-      'continuous_applications/application_choices', # deleting an application choice
-      'decisions', # withdrawing from a course offer
-      'candidate_interface/apply_from_find',
-    ].freeze
-
     before_action :protect_with_basic_auth
     before_action :authenticate_candidate!
     before_action :set_user_context
@@ -35,17 +27,8 @@ module CandidateInterface
       end
     end
 
-    # Should the current request be considered as made under the Your
-    # applications tab
     def choices_controller?
-      return false if current_application.v23?
-
-      @choices_controller ||= begin
-        choices_controllers = Regexp.compile(APPLICATION_CHOICE_CONTROLLER_PATHS.join('|'))
-
-        controller_path.match?(choices_controllers) ||
-          (controller_path.match('candidate_interface/guidance') && request.referer&.match?('choices'))
-      end
+      ChoicesControllerMatcher.choices_controller?(current_application: current_application, controller_path: controller_path, request: request)
     end
 
     def back_link_text
