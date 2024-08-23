@@ -42,6 +42,18 @@ RSpec.describe 'See activity log' do
 
     @choice2 = create(:application_choice, :rejected, course_option: course_option2)
     create(:application_choice_audit, :with_rejection, application_choice: @choice2)
+    work_experience = create(:application_work_experience, experienceable: @choice2)
+    work_history_break = create(:application_work_history_break, breakable: @choice2)
+    create(
+      :application_experience_audit,
+      application_experience: work_experience,
+      application_choice: @choice2,
+    )
+    create(
+      :application_work_history_break_audit,
+      application_work_history_break: work_history_break,
+      application_choice: @choice2,
+    )
 
     @choice3 = create(:application_choice, :offered, course_option: course_option3)
     create(:application_choice_audit, :with_offer, application_choice: @choice3)

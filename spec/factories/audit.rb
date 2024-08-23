@@ -1,4 +1,48 @@
 FactoryBot.define do
+  factory :application_experience_audit, class: 'Audited::Audit' do
+    action { 'create' }
+    user { create(:support_user) }
+    version { 1 }
+    request_uuid { SecureRandom.uuid }
+    created_at { Time.zone.now }
+
+    transient do
+      application_experience { build_stubbed(:application_experience) }
+      application_choice { build_stubbed(:application_choice, :awaiting_provider_decision) }
+      changes { {} }
+    end
+
+    after(:build) do |audit, evaluator|
+      audit.auditable_type = 'ApplicationExperience'
+      audit.auditable_id = evaluator.application_experience.id
+      audit.associated = evaluator.application_choice
+      audit.user_type = evaluator.user.class.to_s
+      audit.audited_changes = evaluator.changes
+    end
+  end
+
+  factory :application_work_history_break_audit, class: 'Audited::Audit' do
+    action { 'create' }
+    user { create(:support_user) }
+    version { 1 }
+    request_uuid { SecureRandom.uuid }
+    created_at { Time.zone.now }
+
+    transient do
+      application_work_history_break { build_stubbed(:application_work_history_break) }
+      application_choice { build_stubbed(:application_choice, :awaiting_provider_decision) }
+      changes { {} }
+    end
+
+    after(:build) do |audit, evaluator|
+      audit.auditable_type = 'ApplicationWorkHistoryBreak'
+      audit.auditable_id = evaluator.application_work_history_break.id
+      audit.associated = evaluator.application_choice
+      audit.user_type = evaluator.user.class.to_s
+      audit.audited_changes = evaluator.changes
+    end
+  end
+
   factory :withdrawn_at_candidates_request_audit, class: 'Audited::Audit' do
     action { 'update' }
     user { create(:provider_user) }
