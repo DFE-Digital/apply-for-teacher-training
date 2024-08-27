@@ -82,8 +82,7 @@ en:
     undergraduate: undergraduate
     postgraduate: postgraduate
   page_titles:
-    continuous_applications:
-      your_applications: Your applications
+    your_applications: Your applications
     application_feedback: How can we improve %{section} section?
     application_form: Your application
     application_dashboard: Your application
