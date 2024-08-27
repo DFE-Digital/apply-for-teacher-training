@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'New References', :with_audited, time: CycleTimetableHelper.after_apply_deadline do
+RSpec.describe 'New References', :with_audited do
   include CandidateHelper
 
   scenario 'Candidate request their references on the post offer dashboard' do
@@ -24,7 +24,9 @@ RSpec.describe 'New References', :with_audited, time: CycleTimetableHelper.after
     and_i_click_save_and_continue
     and_i_be_on_add_email_address_page
     and_the_back_link_point_to_the_add_name_page
-    and_i_fill_the_email_address
+    and_i_click_save_and_continue
+    then_i_see_the_email_error_validation_message
+    when_i_fill_the_email_address
     and_i_click_save_and_continue
     and_i_be_on_add_relationship_page
     and_the_back_link_point_to_the_add_email_address_page
@@ -60,7 +62,7 @@ RSpec.describe 'New References', :with_audited, time: CycleTimetableHelper.after
   end
 
   def and_i_have_an_accepted_offer
-    @application_form = create(:completed_application_form, candidate: @candidate, recruitment_cycle_year: 2023)
+    @application_form = create(:completed_application_form, candidate: @candidate)
     @pending_reference = create(:reference, :feedback_requested, reminder_sent_at: nil, application_form: @application_form)
     @completed_reference = create(:reference, :feedback_provided, application_form: @application_form)
 
@@ -125,14 +127,6 @@ RSpec.describe 'New References', :with_audited, time: CycleTimetableHelper.after
     fill_in 'What’s the name of the person who can give a reference?', with: 'Aragorn'
   end
 
-  def and_i_be_on_add_email_address_page
-    expect(page).to have_current_path(
-      candidate_interface_request_reference_references_email_address_path(
-        @application_form.reload.application_references.creation_order.last.id,
-      ),
-    )
-  end
-
   def and_the_back_link_point_to_the_add_name_page
     expect(back_link).to eq(
       candidate_interface_request_reference_references_name_path(
@@ -150,8 +144,12 @@ RSpec.describe 'New References', :with_audited, time: CycleTimetableHelper.after
     )
   end
 
-  def and_i_fill_the_email_address
+  def when_i_fill_the_email_address
     fill_in 'What is Aragorn’s email address?', with: 'elendil@education.gov.uk'
+  end
+
+  def then_i_see_the_email_error_validation_message
+    expect(page).to have_content('There is a problem Enter their email address')
   end
 
   def and_i_be_on_add_relationship_page
