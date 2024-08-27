@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
   describe '#perform' do
     it 'returns an application when the deadline is 2 months away' do
-      travel_temporarily_to(CycleTimetable.apply_deadline_first_reminder) do
+      travel_temporarily_to(EmailTimetable.apply_deadline_first_reminder) do
         candidate = create(:candidate)
 
         create(
@@ -22,7 +22,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
     end
 
     it 'does not return an application where the candidate account is locked' do
-      allow(CycleTimetable).to receive(:send_first_end_of_cycle_reminder_to_candidates?).and_return(true)
+      allow(EmailTimetable).to receive(:send_first_end_of_cycle_reminder_to_candidates?).and_return(true)
 
       unsubscribed_candidate = create(:candidate, account_locked: true)
       create(:application_form, candidate: unsubscribed_candidate)
@@ -35,7 +35,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
     end
 
     it 'does not return an application where the candidate is unsubscribed' do
-      allow(CycleTimetable).to receive(:send_first_end_of_cycle_reminder_to_candidates?).and_return(true)
+      allow(EmailTimetable).to receive(:send_first_end_of_cycle_reminder_to_candidates?).and_return(true)
 
       unsubscribed_candidate = create(:candidate, unsubscribed_from_emails: true)
       create(:application_form, candidate: unsubscribed_candidate)
@@ -48,7 +48,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
     end
 
     it 'does not return an application where the candidate submission is blocked' do
-      allow(CycleTimetable).to receive(:send_first_end_of_cycle_reminder_to_candidates?).and_return(true)
+      allow(EmailTimetable).to receive(:send_first_end_of_cycle_reminder_to_candidates?).and_return(true)
 
       unsubscribed_candidate = create(:candidate, submission_blocked: true)
       create(:application_form, candidate: unsubscribed_candidate)
@@ -61,7 +61,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
     end
 
     it 'returns an application when the deadline is 1 month away' do
-      travel_temporarily_to(CycleTimetable.apply_deadline_second_reminder) do
+      travel_temporarily_to(EmailTimetable.apply_deadline_second_reminder) do
         candidate = create(:candidate)
 
         create(
@@ -80,7 +80,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
     end
 
     it 'does not return an application when the deadline is 3 months away' do
-      travel_temporarily_to(CycleTimetable.apply_deadline_first_reminder - 1.month) do
+      travel_temporarily_to(EmailTimetable.apply_deadline_first_reminder - 1.month) do
         candidate = create(:candidate)
 
         create(
@@ -118,7 +118,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
     end
 
     it 'does not return an application form from the previous cycle' do
-      travel_temporarily_to(CycleTimetable.apply_deadline_first_reminder) do
+      travel_temporarily_to(EmailTimetable.apply_deadline_first_reminder) do
         candidate = create(:candidate)
 
         create(

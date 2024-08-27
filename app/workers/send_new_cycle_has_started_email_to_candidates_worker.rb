@@ -4,7 +4,7 @@ class SendNewCycleHasStartedEmailToCandidatesWorker
   BATCH_SIZE = 120
 
   def perform
-    return unless CycleTimetable.send_new_cycle_has_started_email?
+    return unless EmailTimetable.send_new_cycle_has_started_email?
 
     BatchDelivery.new(
       relation: GetUnsuccessfulAndUnsubmittedCandidates.call,

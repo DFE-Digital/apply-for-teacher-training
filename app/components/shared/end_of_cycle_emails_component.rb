@@ -46,6 +46,6 @@ class EndOfCycleEmailsComponent < ViewComponent::Base
   end
 
   def email_date(event)
-    CycleTimetable.send(event).strftime('%e %B %Y')
+    EmailTimetable.send(event).strftime('%e %B %Y')
   end
 end

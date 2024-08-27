@@ -27,7 +27,7 @@ RSpec.describe SendFindHasOpenedEmailToCandidatesWorker, :sidekiq do
   describe '#perform' do
     context "it is time to send the 'find has opened' email" do
       it 'sends emails to candidates who have unsuccessful or unsubmitted applications from the previous cycle' do
-        allow(CycleTimetable).to receive(:send_find_has_opened_email?).and_return(true)
+        allow(EmailTimetable).to receive(:send_find_has_opened_email?).and_return(true)
 
         candidate_1, candidate_2 = setup_candidates
 
@@ -43,7 +43,7 @@ RSpec.describe SendFindHasOpenedEmailToCandidatesWorker, :sidekiq do
 
     context "it is not time to send the 'find has opened' email" do
       it 'does not send the email' do
-        allow(CycleTimetable).to receive(:send_find_has_opened_email?).and_return(false)
+        allow(EmailTimetable).to receive(:send_find_has_opened_email?).and_return(false)
         setup_candidates
 
         described_class.new.perform
@@ -54,7 +54,7 @@ RSpec.describe SendFindHasOpenedEmailToCandidatesWorker, :sidekiq do
 
     context "it is time to send the 'find has opened' email but one candidate has already received it" do
       it 'does not send the email' do
-        allow(CycleTimetable).to receive(:send_find_has_opened_email?).and_return(true)
+        allow(EmailTimetable).to receive(:send_find_has_opened_email?).and_return(true)
         candidate_1, candidate_2 = setup_candidates
         candidate_1.current_application.chasers_sent.create(
           chaser_type: :find_has_opened,
