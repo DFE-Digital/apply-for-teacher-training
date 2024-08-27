@@ -393,6 +393,10 @@ class CycleTimetable
     current_date.to_date == (reject_by_default - 2.weeks).to_date
   end
 
+  def self.send_application_deadline_has_passed_email_to_candidates?
+    current_date.to_date == (apply_deadline + 1.day).to_date
+  end
+
   def self.cycle_year_range(year = current_year)
     "#{year} to #{year + 1}"
   end
