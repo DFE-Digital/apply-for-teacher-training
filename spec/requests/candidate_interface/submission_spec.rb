@@ -7,7 +7,7 @@ RSpec.describe 'Submit to continuous apps' do
 
   before { sign_in candidate }
 
-  context 'when submitting to current cycle' do
+  context 'when submitting to current cycle', time: mid_cycle do
     let(:application_form) { create(:application_form, :completed, submitted_at: nil) }
 
     before do

@@ -206,14 +206,17 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
   end
 
   describe '#to_h' do
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2024, 1, 15))
+      stub_application_metrics(cycle_week: 7)
+    end
+
     subject(:report) do
       described_class.new(generation_date:).to_h
     end
 
     let(:generation_date) { Time.zone.local(2023, 11, 22) }
     let(:publication_date) { generation_date + 1.week }
-
-    before { stub_application_metrics(cycle_week: 7) }
 
     it 'returns meta information' do
       expect(report[:meta]).to eq({

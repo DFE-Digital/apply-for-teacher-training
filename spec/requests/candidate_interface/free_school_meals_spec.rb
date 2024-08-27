@@ -8,7 +8,7 @@ RSpec.describe 'GET' do
     sign_in candidate
   end
 
-  context 'when candidate is asked about free school meals' do
+  context 'when candidate is asked about free school meals', time: mid_cycle do
     it 'returns 200' do
       create(:completed_application_form, :eligible_for_free_school_meals, candidate:)
 
@@ -18,7 +18,7 @@ RSpec.describe 'GET' do
     end
   end
 
-  context 'when candidate is not asked about free school meals' do
+  context 'when candidate is not asked about free school meals', time: mid_cycle do
     it 'returns 302' do
       create(:completed_application_form, date_of_birth: Date.new(1954, 10, 1), candidate:)
 

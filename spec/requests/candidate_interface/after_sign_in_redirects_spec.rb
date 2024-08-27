@@ -10,7 +10,7 @@ RSpec.describe 'After sign in redirects' do
     sign_in candidate
   end
 
-  context 'when course from find is not present' do
+  context 'when course from find is not present', time: mid_cycle do
     let(:candidate) { create(:candidate, course_from_find: nil) }
 
     context 'when application is pre continuous applications' do
@@ -23,7 +23,7 @@ RSpec.describe 'After sign in redirects' do
     end
 
     context 'when application is continuous applications' do
-      let!(:application_form) { create(:application_form, :minimum_info, :continuous_applications, submitted_at: nil, candidate: candidate) }
+      let!(:application_form) { create(:application_form, :minimum_info, submitted_at: nil, candidate: candidate) }
 
       it 'redirects to application details path' do
         get candidate_interface_interstitial_path
@@ -33,7 +33,7 @@ RSpec.describe 'After sign in redirects' do
 
     context 'when application contains an accepted offer' do
       let!(:application_form) do
-        create(:application_form, :minimum_info, :continuous_applications, submitted_at: nil, candidate: candidate)
+        create(:application_form, :minimum_info, submitted_at: nil, candidate: candidate)
       end
 
       it 'redirects to application offer dashboard path' do
@@ -45,7 +45,7 @@ RSpec.describe 'After sign in redirects' do
 
     context 'when application contains an accepted offer and access the root page' do
       let!(:application_form) do
-        create(:application_form, :minimum_info, :continuous_applications, submitted_at: nil, candidate: candidate)
+        create(:application_form, :minimum_info, submitted_at: nil, candidate: candidate)
       end
 
       it 'redirects to application offer dashboard path' do
@@ -78,7 +78,7 @@ RSpec.describe 'After sign in redirects' do
 
   context 'when reaching maximum number of choices' do
     it 'redirects to your applications and shows a message to the candidate' do
-      create_list(:application_choice, ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES, :continuous_applications, :awaiting_provider_decision, application_form:)
+      create_list(:application_choice, ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES, :awaiting_provider_decision, application_form:)
       get candidate_interface_interstitial_path
       expect(response).to redirect_to(candidate_interface_continuous_applications_choices_path)
       follow_redirect!
@@ -86,9 +86,9 @@ RSpec.describe 'After sign in redirects' do
     end
   end
 
-  context 'when reaching maximum unsuccessful number of choices' do
+  context 'when reaching maximum unsuccessful number of choices', time: mid_cycle do
     it 'redirects to your applications and shows a message to the candidate' do
-      create_list(:application_choice, ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS, :continuous_applications, :rejected, application_form:)
+      create_list(:application_choice, ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS, :rejected, application_form:)
       get candidate_interface_interstitial_path
       expect(response).to redirect_to(candidate_interface_continuous_applications_choices_path)
       follow_redirect!

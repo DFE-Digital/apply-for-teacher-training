@@ -16,7 +16,7 @@ RSpec.describe 'PUT candidate/application/equality-and-diversity' do
     create(:completed_application_form, :with_completed_references, :with_equality_and_diversity_data, :eligible_for_free_school_meals, candidate:)
   end
 
-  context 'when changing an answer from review page' do
+  context 'when changing an answer from review page', time: mid_cycle do
     it 'redirects to the review page' do
       paths.each do |path|
         patch public_send(path, return_to: :review), params: { candidate_interface_equality_and_diversity_sex_form: { sex: 'female' }, candidate_interface_equality_and_diversity_disabilities_form: { disabilities: ['Other'] }, candidate_interface_equality_and_diversity_ethnic_background_form: { ethnic_background: 'Roma' } }
@@ -25,7 +25,7 @@ RSpec.describe 'PUT candidate/application/equality-and-diversity' do
     end
   end
 
-  context 'when changing an answer from the equality flow' do
+  context 'when changing an answer from the equality flow', time: mid_cycle do
     it 'does not redirect to review page' do
       paths.each do |path|
         patch public_send(path), params: { candidate_interface_equality_and_diversity_sex_form: { sex: 'female' }, candidate_interface_equality_and_diversity_disabilities_form: { disabilities: ['Other'] }, candidate_interface_equality_and_diversity_ethnic_background_form: { ethnic_background: 'Roma' }, candidate_interface_equality_and_diversity_free_school_meals_form: { free_school_meals: 'Yes' } }

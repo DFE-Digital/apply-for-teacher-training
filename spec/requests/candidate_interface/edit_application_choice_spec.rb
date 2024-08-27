@@ -17,7 +17,7 @@ RSpec.describe 'Edit courses on continuous applications' do
     sign_in candidate
   end
 
-  context 'when application is unsubmitted' do
+  context 'when application is unsubmitted', time: mid_cycle do
     let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
 
     it 'renders successfully' do
@@ -28,7 +28,7 @@ RSpec.describe 'Edit courses on continuous applications' do
     end
   end
 
-  context 'when application is submitted' do
+  context 'when application is submitted', time: mid_cycle do
     let(:application_choice) do
       create(:application_choice, :awaiting_provider_decision, application_form:)
     end

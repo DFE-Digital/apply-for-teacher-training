@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe DataMigrations::UpdateDeclineByDefaultAtFromCurrentCycle do
+  before do
+    # This test ony relevant for 2024, it was part of changing to continuous applications
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(2024))
+  end
+
   let(:application_form) do
     create(
       :application_form,

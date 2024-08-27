@@ -3,7 +3,12 @@ require 'rails_helper'
 RSpec.describe DataMigrations::BackfillEnglishProficiencyRecordsForCarriedOverApplications do
   let(:data_migration) { described_class.new.change }
 
-  context 'when efl_complete is marked as true and english proficiency record exists' do
+  before do
+    # This test ony relevant for 2024. We were backfilling data that was missed when carrying over previous applications
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(2024))
+  end
+
+  context 'when efl_complete is marked as true and english proficiency record exists', time: mid_cycle(2024) do
     it 'does not change the application' do
       create(
         :application_form,

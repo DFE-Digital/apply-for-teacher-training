@@ -34,8 +34,9 @@ RSpec.describe 'Feedback page' do
   end
 
   def then_i_see_the_rejection_feedback
+    rejected_at_date = @application_choice.rejected_at.to_fs(:govuk_date)
     expect(page.text).to include('Rejected',
-                                 '11 October 2023',
+                                 rejected_at_date.to_s,
                                  'Feedback for candidate',
                                  'Voluptatem et quia')
   end

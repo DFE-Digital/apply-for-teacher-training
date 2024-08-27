@@ -12,8 +12,8 @@ RSpec.describe 'Cycle redirects' do
 
   before { sign_in candidate }
 
-  context 'when continuous applications' do
-    before { create(:application_form, :continuous_applications, candidate:) }
+  context 'when continuous applications', time: mid_cycle do
+    before { create(:application_form, candidate:) }
 
     context 'when accessing continuous applications routes' do
       it 'be successful' do
@@ -24,7 +24,7 @@ RSpec.describe 'Cycle redirects' do
       end
     end
 
-    context 'when accessing the carry over route' do
+    context 'when accessing the carry over route', time: mid_cycle do
       it 'redirects to the application details' do
         get candidate_interface_start_carry_over_path
         expect(response).to redirect_to(candidate_interface_continuous_applications_details_path)
@@ -39,7 +39,7 @@ RSpec.describe 'Cycle redirects' do
     end
   end
 
-  context 'when not continuous applications' do
+  context 'when not continuous applications', time: mid_cycle do
     context 'when submitted' do
       before { create(:application_form, :completed, :pre_continuous_applications, candidate:) }
 
@@ -51,7 +51,7 @@ RSpec.describe 'Cycle redirects' do
       end
     end
 
-    context 'when trying to access sections under your details' do
+    context 'when trying to access sections under your details', time: mid_cycle do
       before { create(:application_form, :completed, :pre_continuous_applications, candidate:) }
 
       let(:section_routes) do
@@ -79,7 +79,7 @@ RSpec.describe 'Cycle redirects' do
       end
     end
 
-    context 'when unsubmitted' do
+    context 'when unsubmitted', time: mid_cycle do
       before { create(:application_form, :minimum_info, :pre_continuous_applications, submitted_at: nil, candidate:) }
 
       it 'redirects to the carry over page' do

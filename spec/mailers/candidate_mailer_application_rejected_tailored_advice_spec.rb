@@ -191,7 +191,7 @@ RSpec.describe 'Tailored advice for rejected applications' do
     end
   end
 
-  it 'does not show course_full heading if it is the only selected reason' do
+  it 'does not show course_full heading if it is the only selected reason', time: mid_cycle do
     structured_rejection_reasons = {
       selected_reasons: [
         { id: 'course_full', label: 'Course full', details: { id: 'course_full_details', text: 'text' } },
@@ -205,7 +205,7 @@ RSpec.describe 'Tailored advice for rejected applications' do
     expect(email.body).to have_text('Search again for courses with available places').once
   end
 
-  it 'shows content for the reasons that do not have nested reasons' do
+  it 'shows content for the reasons that do not have nested reasons', time: mid_cycle do
     structured_rejection_reasons = {
       selected_reasons: [
         { id: 'course_full', label: 'Course full', details: { id: 'course_full_details', text: 'text' } },

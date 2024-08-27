@@ -104,7 +104,7 @@ class CycleTimetable
   end
 
   def self.run_reject_by_default?(year = current_year)
-    current_date.between?(reject_by_default(year), reject_by_default + 1.day)
+    current_date.between?(reject_by_default(year), reject_by_default(year) + 1.day)
   end
 
   def self.cancel_unsubmitted_applications?
@@ -124,7 +124,11 @@ class CycleTimetable
   end
 
   def self.find_reopens(year = next_year)
-    date(:find_opens, year)
+    if CYCLE_DATES[year].present?
+      date(:find_opens, year)
+    else
+      date(:find_closes, year - 1) + 8.hours
+    end
   end
 
   def self.find_down?
@@ -140,7 +144,11 @@ class CycleTimetable
   end
 
   def self.apply_reopens(year = next_year)
-    date(:apply_opens, year)
+    if CYCLE_DATES[year].present?
+      date(:apply_opens, year)
+    else
+      find_reopens(year) + 1.week
+    end
   end
 
   def self.holidays(year = current_year)

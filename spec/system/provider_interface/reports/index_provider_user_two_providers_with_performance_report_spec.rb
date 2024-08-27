@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Provider with two providers reports index' do
   include DfESignInHelpers
 
-  scenario 'when provider user has multiple provider with performance report' do
+  scenario 'when provider user has multiple provider with performance report', time: mid_cycle(2024) do
     given_a_provider_user_with_two_providers_exists
     and_a_provider_has_a_recruitment_peroformance_report
     and_i_am_signed_in_as_provider_user

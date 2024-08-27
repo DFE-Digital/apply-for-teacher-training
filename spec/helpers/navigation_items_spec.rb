@@ -40,7 +40,7 @@ RSpec.describe NavigationItems do
       end
     end
 
-    context 'when application_choice is unsubmitted and the controller is not a choices controller' do
+    context 'when application_choice is unsubmitted and the controller is not a choices controller', time: mid_cycle do
       let(:current_candidate) { create(:candidate, application_forms: [create(:application_form, application_choices: build_list(:application_choice, 1, :unsubmitted))]) }
       let(:current_controller) { instance_double(CandidateInterface::CandidateInterfaceController, choices_controller?: false) }
 
@@ -52,7 +52,7 @@ RSpec.describe NavigationItems do
       end
     end
 
-    context 'when application_choice is unsubmitted and the controller is a choices controller' do
+    context 'when application_choice is unsubmitted and the controller is a choices controller', time: mid_cycle do
       let(:current_candidate) { create(:candidate, application_forms: [create(:application_form, application_choices: build_list(:application_choice, 1, :unsubmitted))]) }
       let(:current_controller) { instance_double(CandidateInterface::CandidateInterfaceController, choices_controller?: true) }
 

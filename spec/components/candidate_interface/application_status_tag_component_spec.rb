@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
 
   ApplicationStateChange.valid_states.each do |state_name|
     it "renders with a #{state_name} application choice" do
-      render_inline described_class.new(application_choice: create(:application_choice, :continuous_applications, course:, status: state_name))
+      render_inline described_class.new(application_choice: create(:application_choice, course:, status: state_name))
     end
   end
 
@@ -207,7 +207,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
   end
 
   context 'when the unsubmitted application choice is from a continuous application' do
-    let(:application_choice) { create(:application_choice, :continuous_applications, :unsubmitted, course:) }
+    let(:application_choice) { create(:application_choice, :unsubmitted, course:) }
     let(:result) { render_inline(described_class.new(application_choice:)) }
 
     context 'when the course has availability' do

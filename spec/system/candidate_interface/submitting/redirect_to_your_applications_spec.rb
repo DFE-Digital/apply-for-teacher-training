@@ -55,7 +55,6 @@ RSpec.describe 'Candidate submission' do
       :completed_application_form,
       submitted_at: Time.zone.now,
       candidate: current_candidate,
-      recruitment_cycle_year: 2024,
     )
   end
 end
