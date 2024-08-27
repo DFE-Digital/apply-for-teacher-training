@@ -53,7 +53,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def and_the_course_i_selected_only_has_one_site
-    @course = create(:course, :open, name: 'Potions')
+    @course = create(:course, :open, name: 'Potions', provider: create(:provider, selectable_school: true))
     @site = create(:site, provider: @course.provider)
     create(:course_option, site: @site, course: @course)
   end
@@ -151,6 +151,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
       :course,
       :open,
       :with_both_study_modes,
+      provider: create(:provider, selectable_school: true),
       name: 'Herbology',
     )
     @site1 = create(:site, provider: @course_with_multiple_sites.provider)
@@ -198,7 +199,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 private
 
   def application_choice_for_candidate(candidate:, application_choice_count:)
-    provider = create(:provider)
+    provider = create(:provider, selectable_school: true)
     application_form = create(:application_form, candidate:)
     application_choice_count.times { course_option_for_provider(provider:) }
     provider.courses.each do |course|

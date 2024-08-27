@@ -74,7 +74,7 @@ RSpec.describe 'Selecting a course with multiple sites' do
   end
 
   def and_there_are_course_options
-    @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
+    @provider = create(:provider, name: 'Gorse SCITT', code: '1N1', selectable_school: true)
     first_site = create(
       :site,
       name: 'Main site',

@@ -24,7 +24,7 @@ RSpec.describe 'Selecting a study mode' do
   end
 
   def and_there_are_course_options
-    @provider = create(:provider, name: 'University of Alien Dance')
+    @provider = create(:provider, name: 'University of Alien Dance', selectable_school: true)
 
     @first_site = create(:site, provider: @provider, name: 'Site 1')
     @second_site = create(:site, provider: @provider, name: 'Site 2')
