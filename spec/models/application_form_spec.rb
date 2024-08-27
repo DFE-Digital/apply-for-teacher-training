@@ -333,6 +333,41 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#qualifications_enic_reasons_waiting_or_maybe?' do
+    it 'returns true if 1 or more qualifications have an enic_reason of waiting or maybe' do
+      application_form = create(:application_form)
+      create(:degree_qualification, enic_reference: '12345', institution_country: 'GB', enic_reason: 'waiting', application_form: application_form)
+
+      expect(application_form.qualifications_enic_reasons_waiting_or_maybe?).to be(true)
+    end
+
+    it 'returns false if no qualifications have an enic_reason of waiting or maybe' do
+      application_form = create(:application_form)
+      create(:degree_qualification, enic_reference: '12345', institution_country: 'GB', enic_reason: 'not_needed', application_form: application_form)
+
+      expect(application_form.qualifications_enic_reasons_waiting_or_maybe?).to be(false)
+    end
+  end
+
+  describe '#any_qualification_enic_reason_not_needed?' do
+    it 'returns true if ALL qualifications have an enic_reason of not_needed' do
+      application_form = create(:application_form)
+      create(:degree_qualification, enic_reference: '12345', institution_country: 'GB', enic_reason: 'not_needed', application_form: application_form)
+      create(:degree_qualification, enic_reference: '12346', institution_country: 'GB', enic_reason: 'not_needed', application_form: application_form)
+      create(:degree_qualification, enic_reference: '12347', institution_country: 'GB', enic_reason: 'not_needed', application_form: application_form)
+
+      expect(application_form.any_qualification_enic_reason_not_needed?).to be(true)
+    end
+
+    it 'returns false if any qualification has an enic_reason that is not_needed' do
+      application_form = create(:application_form)
+      create(:degree_qualification, enic_reference: '12345', institution_country: 'GB', enic_reason: 'not_needed', application_form: application_form)
+      create(:degree_qualification, enic_reference: '12348', institution_country: 'GB', enic_reason: 'obtained', application_form: application_form)
+
+      expect(application_form.qualifications_enic_reasons_waiting_or_maybe?).to be(false)
+    end
+  end
+
   describe '#missing_enic_reference_for_non_uk_qualifications?' do
     it 'returns false if there are no application_qualifications which are non_uk and have no enic_reference' do
       application_form = create(:application_form)
