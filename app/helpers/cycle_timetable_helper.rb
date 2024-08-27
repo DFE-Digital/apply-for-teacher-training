@@ -40,4 +40,8 @@ module_function
   def decline_by_default_run_date(year = CycleTimetable.current_year)
     CycleTimetable.decline_by_default_date(year) + 1.second
   end
+
+  def reject_by_default_reminder_run_date(year = CycleTimetable.current_year)
+    CycleTimetable.reject_by_default(year) - 2.weeks
+  end
 end

@@ -51,3 +51,5 @@ en:
       subject: "Candidates can now find courses"
     fallback-sign_in:
       subject: Sign in
+    respond_to_applications_before_reject_by_default_date:
+      subject: Offer places to candidates by %{reject_by_default_date}
