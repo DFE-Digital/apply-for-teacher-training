@@ -240,6 +240,29 @@ RSpec.describe GetActivityLogEvents, :with_audited do
 
       expect(result).not_to include(excluded)
     end
+
+    it 'excludes audits for ApplicationExperience and ApplicationWorkHistoryBreak' do
+      choice = create_application_choice_for_course course_provider_a
+      work_experience = create(:application_work_experience, experienceable: choice)
+      work_history_break = create(:application_work_history_break, breakable: choice)
+      create(
+        :application_experience_audit,
+        application_experience: work_experience,
+        application_choice: choice,
+      )
+      create(
+        :application_work_history_break_audit,
+        application_work_history_break: work_history_break,
+        application_choice: choice,
+      )
+
+      work_experience_audit = work_experience.audits.last
+      work_break_audit = work_history_break.audits.last
+
+      result = service_call
+
+      expect(result).not_to include(work_experience_audit, work_break_audit)
+    end
   end
 
   context 'sorts events in reverse chronological order' do
