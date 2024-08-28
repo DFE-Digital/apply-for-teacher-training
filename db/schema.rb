@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_21_105815) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_28_162000) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -86,6 +86,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_21_105815) do
     t.text "structured_withdrawal_reasons", default: [], array: true
     t.text "personal_statement"
     t.datetime "inactive_at"
+    t.boolean "school_placement_auto_selected", default: false, null: false
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
     t.index ["current_recruitment_cycle_year"], name: "index_application_choices_on_current_recruitment_cycle_year"
