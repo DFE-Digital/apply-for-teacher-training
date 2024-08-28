@@ -309,7 +309,7 @@ RSpec.describe 'Provider changes an existing offer' do
 
   def and_the_conditions_of_the_original_offer_are_filled_in
     expect(find("input[value='Fitness to train to teach check']")).to be_checked
-    expect(page).to have_field('Condition 1', with: 'Be cool')
+    expect(page).to have_field('Condition', with: 'Be cool')
   end
 
   def when_i_add_a_further_condition
@@ -324,8 +324,9 @@ RSpec.describe 'Provider changes an existing offer' do
   end
 
   def then_the_correct_conditions_are_displayed
-    expect(page).to have_field('Condition 2', with: 'A* on Maths A Level')
-    expect(page).to have_no_field('Condition 3', with: 'Go to the cinema')
+    expect(page).to have_field('Condition', with: 'A* on Maths A Level')
+    expect(page).to have_field('Condition', with: 'Be cool')
+    expect(page).to have_no_field('Condition', with: 'Go to the cinema')
   end
 
   def then_the_review_page_is_loaded
