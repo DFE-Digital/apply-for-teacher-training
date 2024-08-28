@@ -46,6 +46,8 @@ class GetActivityLogEvents
           associated_type = 'ApplicationChoice'
           AND associated_id = ac.id
           AND NOT auditable_type = 'OfferCondition'
+          AND NOT auditable_type = 'ApplicationExperience'
+          AND NOT auditable_type = 'ApplicationWorkHistoryBreak'
         ) OR (
           auditable_type = 'ApplicationForm'
           AND auditable_id = ac.application_form_id
