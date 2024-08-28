@@ -1,4 +1,9 @@
 <%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
-  <% notification_banner.with_heading(text: "Applications for courses starting in the #{CycleTimetable.cycle_year_range(cycle_year)} academic year are closed") %>
-  <p class="govuk-body">Submit your application from <%= reopen_date[:time] %> on <%= reopen_date[:date] %> for courses starting in the <%= CycleTimetable.cycle_year_range(cycle_year + 1) %> academic year.</p>
+  <% notification_banner.with_heading(text: t('reopen_banner_component.heading')) %>
+  <p class="govuk-body">
+    <%= t('reopen_banner_component.deadline_has_passed', academic_year:) %>
+  </p>
+  <p class="govuk-body">
+    <%= t('reopen_banner_component.when_apply_opens', apply_opens_date:, next_academic_year:) %>
+  </p>
 <% end %>

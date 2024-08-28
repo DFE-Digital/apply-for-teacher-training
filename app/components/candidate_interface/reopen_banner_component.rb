@@ -1,8 +1,7 @@
 class CandidateInterface::ReopenBannerComponent < ViewComponent::Base
-  attr_accessor :phase, :flash_empty
+  attr_accessor :flash_empty
 
   def initialize(flash_empty:)
-    @phase = phase
     @flash_empty = flash_empty
   end
 
@@ -16,25 +15,28 @@ private
     CycleTimetable.between_cycles?
   end
 
-  def reopen_date
-    if Time.zone.now < CycleTimetable.date(:apply_opens)
-      {
-        date: CycleTimetable.apply_opens.to_fs(:govuk_date),
-        time: CycleTimetable.apply_opens.to_fs(:govuk_time),
-      }
-    else
-      {
-        date: CycleTimetable.apply_reopens.to_fs(:govuk_date),
-        time: CycleTimetable.apply_reopens.to_fs(:govuk_time),
-      }
-    end
+  def academic_year
+    CycleTimetable.cycle_year_range(year)
   end
 
-  def cycle_year
-    @_cycle_year ||= if Time.zone.now < CycleTimetable.apply_opens
-                       CycleTimetable.current_year - 1
-                     else
-                       CycleTimetable.current_year
-                     end
+  def next_academic_year
+    CycleTimetable.cycle_year_range(year + 1)
+  end
+
+  def apply_opens_date
+    date = if Time.zone.now.before? CycleTimetable.apply_opens
+             CycleTimetable.apply_opens
+           else
+             CycleTimetable.apply_reopens
+           end
+    date.to_fs(:govuk_date)
+  end
+
+  def year
+    if Time.zone.now.before? CycleTimetable.apply_opens
+      CycleTimetable.previous_year
+    else
+      CycleTimetable.current_year
+    end
   end
 end

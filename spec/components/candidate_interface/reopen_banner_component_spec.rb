@@ -2,66 +2,56 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::ReopenBannerComponent do
   describe '#render' do
-    let(:flash) { double }
-
-    def configure_conditions_for_rendering_banner
-      FeatureFlag.activate(:deadline_notices)
-      allow(flash).to receive(:empty?).and_return true
-      allow(CycleTimetable).to receive_messages(between_cycles?: true, current_year: 2023, apply_opens: Time.zone.local(2023, 9, 13, 9), apply_reopens: Time.zone.local(2023, 10, 12, 9))
-      allow(CycleTimetable).to receive(:cycle_year_range).with(2023).and_return('2023 to 2024')
-      allow(CycleTimetable).to receive(:cycle_year_range).with(2024).and_return('2024 to 2023')
-    end
-
-    context 'before find reopens' do
-      before do
-        TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_deadline + 1.day)
-      end
-
+    context 'before find reopens', time: after_apply_deadline do
       it 'renders the banner for an app with the correct details' do
-        configure_conditions_for_rendering_banner
+        result = render_inline(described_class.new(flash_empty: true))
 
-        render_inline(
-          described_class.new(flash_empty: flash.empty?),
-        ) do |result|
-          expect(result.text).to include('Applications for courses starting in the 2023 to 2024 academic year are closed')
-          expect(result.text).to include('Submit your application from 9am on 12 October 2023 for courses starting in the 2024 to 2023 academic year.')
-        end
+        apply_opens_date = CycleTimetable.apply_reopens.to_fs(:govuk_date)
+        academic_year = CycleTimetable.cycle_year_range(CycleTimetable.current_year)
+        next_academic_year = CycleTimetable.cycle_year_range(CycleTimetable.next_year)
+
+        expect(result).to have_content 'The application deadline has passed'
+        expect(result).to have_content(
+          "The application deadline has passed for courses starting in the #{academic_year} academic year.",
+        )
+        expect(result)
+          .to have_content(
+            "From #{apply_opens_date} you will be able to apply for courses starting in the #{next_academic_year} academic year.",
+          )
+      end
+
+      it 'renders nothing if the flash contains something' do
+        result = render_inline(described_class.new(flash_empty: false))
+
+        expect(result.text).to be_blank
       end
     end
 
-    context 'after find opens' do
-      before do
-        TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.find_reopens + 1.day)
-      end
+    context 'after find opens', time: after_find_opens do
+      it 'renders the banner for with the correct details' do
+        result = render_inline(described_class.new(flash_empty: true))
 
-      it 'renders the banner for an Apply 1 app with the correct details' do
-        configure_conditions_for_rendering_banner
+        apply_opens_date = CycleTimetable.apply_opens.to_fs(:govuk_date)
+        academic_year = CycleTimetable.cycle_year_range(CycleTimetable.previous_year)
+        next_academic_year = CycleTimetable.cycle_year_range(CycleTimetable.current_year)
 
-        render_inline(
-          described_class.new(flash_empty: flash.empty?),
-        ) do |result|
-          expect(result.text).to include('Applications for courses starting in the 2023 to 2024 academic year are closed')
-          expect(result.text).to include('Submit your application from 9am on 12 October 2023 for courses starting in the 2024 to 2023 academic year.')
-        end
+        expect(result).to have_content 'The application deadline has passed'
+        expect(result).to have_content(
+          "The application deadline has passed for courses starting in the #{academic_year} academic year.",
+        )
+        expect(result)
+          .to have_content(
+            "From #{apply_opens_date} you will be able to apply for courses starting in the #{next_academic_year} academic year.",
+          )
       end
     end
 
-    it 'does not render when we are not between cycles' do
-      configure_conditions_for_rendering_banner
-      allow(CycleTimetable).to receive(:between_cycles?).and_return(false)
+    context 'after apply opens', time: after_apply_reopens do
+      it 'does not render when we are not between cycles' do
+        result = render_inline(described_class.new(flash_empty: true))
 
-      result = render_inline(described_class.new(flash_empty: flash.empty?))
-
-      expect(result.text).not_to include('Applications for courses starting this academic year have now closed')
-    end
-
-    it 'renders nothing if the flash contains something' do
-      configure_conditions_for_rendering_banner
-      allow(flash).to receive(:empty?).and_return false
-
-      result = render_inline(described_class.new(flash_empty: flash.empty?))
-
-      expect(result.text).to be_blank
+        expect(result.text).to be_blank
+      end
     end
   end
 end
