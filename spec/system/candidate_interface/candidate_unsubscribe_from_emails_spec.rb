@@ -73,7 +73,7 @@ private
   end
   alias_method :then_i_see_unsubscribe_confirmation, :and_i_see_unsubscribe_confirmation
   def and_i_am_on_application_details_page
-    expect(page).to have_current_path candidate_interface_continuous_applications_details_path, ignore_query: true
+    expect(page).to have_current_path candidate_interface_details_path, ignore_query: true
   end
 
   def and_i_am_on_the_sign_in_page

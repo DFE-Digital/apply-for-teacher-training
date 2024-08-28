@@ -4,7 +4,7 @@ module EFLHelper
       first_nationality: 'Hong Konger',
       second_nationality: 'Pakistani',
     )
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def when_i_click_on_the_efl_section_link

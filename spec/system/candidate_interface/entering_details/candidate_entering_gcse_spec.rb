@@ -193,6 +193,6 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def then_i_am_returned_to_the_application_form_details
-    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
+    expect(page).to have_current_path candidate_interface_details_path
   end
 end

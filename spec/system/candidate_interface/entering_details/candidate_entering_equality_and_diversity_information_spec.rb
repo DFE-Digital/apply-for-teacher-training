@@ -87,7 +87,7 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def and_i_visit_the_site
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def and_i_click_on_the_equality_and_diversity_section

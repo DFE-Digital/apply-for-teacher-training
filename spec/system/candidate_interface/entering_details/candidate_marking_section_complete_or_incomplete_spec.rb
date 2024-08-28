@@ -111,7 +111,7 @@ RSpec.describe 'Marking section as complete or incomplete' do
   alias_method :when_i_mark_a_section_as_incomplete, :and_i_mark_a_section_as_incomplete
 
   def then_i_am_redirected_to_your_details_page
-    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
+    expect(page).to have_current_path(candidate_interface_details_path)
   end
 
   def when_i_mark_a_section_as_complete
@@ -154,7 +154,7 @@ RSpec.describe 'Marking section as complete or incomplete' do
   end
 
   def when_i_visit_the_details_page
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def then_i_see_the_complete_details_text

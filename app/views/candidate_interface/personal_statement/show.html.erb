@@ -49,7 +49,7 @@
       section_review: @application_form.reviewable?(:becoming_a_teacher),
     )) %>
   <% else %>
-    <%= govuk_button_link_to 'Continue', candidate_interface_continuous_applications_details_path %>
+    <%= govuk_button_link_to 'Continue', candidate_interface_details_path %>
   <% end %>
 
 <% end %>

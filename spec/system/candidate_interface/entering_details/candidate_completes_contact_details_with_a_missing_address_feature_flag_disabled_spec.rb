@@ -34,7 +34,7 @@ RSpec.describe 'Candidate attempts to submit their application without a valid a
   end
 
   def when_i_click_contact_details_link_from_dashboard
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
     click_link_or_button 'Contact information'
   end
 

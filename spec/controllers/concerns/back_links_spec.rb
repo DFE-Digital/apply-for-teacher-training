@@ -19,7 +19,7 @@ RSpec.describe BackLinks do
       let(:application_form) { create(:application_form) }
 
       it 'returns path to application details' do
-        expect(instance.send(:application_form_path)).to eq routes.candidate_interface_continuous_applications_details_path
+        expect(instance.send(:application_form_path)).to eq routes.candidate_interface_details_path
       end
     end
 

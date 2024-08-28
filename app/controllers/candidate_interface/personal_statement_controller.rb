@@ -26,7 +26,7 @@ module CandidateInterface
 
       if @becoming_a_teacher_form.save(current_application)
         if @becoming_a_teacher_form.blank?
-          redirect_to candidate_interface_continuous_applications_details_path
+          redirect_to candidate_interface_details_path
         else
           redirect_to candidate_interface_becoming_a_teacher_show_path
         end
@@ -46,7 +46,7 @@ module CandidateInterface
 
       if @becoming_a_teacher_form.save(current_application)
         if @becoming_a_teacher_form.blank?
-          redirect_to candidate_interface_continuous_applications_details_path
+          redirect_to candidate_interface_details_path
         else
           redirect_to @return_to[:back_path]
         end

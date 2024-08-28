@@ -62,7 +62,7 @@ module CandidateInterface
     end
 
     def redirect_to_details_if_submitted
-      redirect_to candidate_interface_continuous_applications_details_path if current_application.submitted?
+      redirect_to candidate_interface_details_path if current_application.submitted?
     end
 
     def redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
@@ -83,7 +83,7 @@ module CandidateInterface
       if current_application.application_choices.any? && completed_application_form.valid?
         redirect_to candidate_interface_continuous_applications_choices_path
       else
-        redirect_to candidate_interface_continuous_applications_details_path
+        redirect_to candidate_interface_details_path
       end
     end
 

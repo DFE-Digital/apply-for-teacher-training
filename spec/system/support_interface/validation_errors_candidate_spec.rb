@@ -25,7 +25,7 @@ RSpec.describe 'Validation errors Candidate' do
   end
 
   def and_i_enter_invalid_contact_details
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
     click_link_or_button t('page_titles.contact_information')
     fill_in t('application_form.contact_details.phone_number.label'), with: 'ABCDEF'
     click_link_or_button t('save_and_continue')

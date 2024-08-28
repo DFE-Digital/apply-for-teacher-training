@@ -5,7 +5,7 @@ RSpec.describe 'Cycle redirects' do
   let(:candidate) { create(:candidate) }
   let(:continuous_applications_routes) do
     [
-      candidate_interface_continuous_applications_details_path,
+      candidate_interface_details_path,
       candidate_interface_continuous_applications_choices_path,
     ]
   end
@@ -27,14 +27,14 @@ RSpec.describe 'Cycle redirects' do
     context 'when accessing the carry over route', time: mid_cycle do
       it 'redirects to the application details' do
         get candidate_interface_start_carry_over_path
-        expect(response).to redirect_to(candidate_interface_continuous_applications_details_path)
+        expect(response).to redirect_to(candidate_interface_details_path)
       end
     end
 
     context 'when accessing the complete route' do
       it 'redirects to the application details' do
         get candidate_interface_application_complete_path
-        expect(response).to redirect_to(candidate_interface_continuous_applications_details_path)
+        expect(response).to redirect_to(candidate_interface_details_path)
       end
     end
   end

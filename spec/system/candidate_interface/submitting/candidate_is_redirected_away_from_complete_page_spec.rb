@@ -31,7 +31,7 @@ RSpec.describe 'Redirects away from complete page' do
   def expected_path
     case @status.to_sym
     when :unsubmitted, :cancelled, :awaiting_provider_decision, :inactive, :interviewing, :application_not_sent, :offer_withdrawn, :declined, :withdrawn, :conditions_not_met, :offer, :rejected
-      candidate_interface_continuous_applications_details_path
+      candidate_interface_details_path
     when :pending_conditions, :offer_deferred, :recruited
       candidate_interface_application_offer_dashboard_path
     end

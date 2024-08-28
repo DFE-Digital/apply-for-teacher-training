@@ -122,12 +122,12 @@ private
   end
 
   def then_i_am_redirected_to_details_page
-    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
+    expect(page).to have_current_path candidate_interface_details_path
   end
 
   def and_i_can_carry_over_my_application
     click_on 'Update your details'
-    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
+    expect(page).to have_current_path candidate_interface_details_path
   end
 
   def when_the_reject_by_default_deadline_has_passed

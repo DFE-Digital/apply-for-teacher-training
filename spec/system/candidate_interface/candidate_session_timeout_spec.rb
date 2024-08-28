@@ -28,7 +28,7 @@ RSpec.describe 'Candidate viewing booked interviews' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def and_seven_days_pass

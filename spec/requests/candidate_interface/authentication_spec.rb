@@ -7,13 +7,13 @@ RSpec.describe 'Authentication for candidates' do
   end
 
   it 'redirects the user if the token is invalid' do
-    get candidate_interface_continuous_applications_details_path(token: '123')
+    get candidate_interface_details_path(token: '123')
 
     expect(response).to have_http_status(:found)
   end
 
   it 'redirects the user if the token is missing from the URL' do
-    get candidate_interface_continuous_applications_details_path
+    get candidate_interface_details_path
 
     expect(response).to have_http_status(:found)
   end
@@ -22,7 +22,7 @@ RSpec.describe 'Authentication for candidates' do
     magic_link_token = MagicLinkToken.new
     create(:candidate, magic_link_token: magic_link_token.encrypted, magic_link_token_sent_at: 2.days.ago)
 
-    get candidate_interface_continuous_applications_details_path(token: magic_link_token.raw)
+    get candidate_interface_details_path(token: magic_link_token.raw)
 
     expect(response).to have_http_status(:found)
   end

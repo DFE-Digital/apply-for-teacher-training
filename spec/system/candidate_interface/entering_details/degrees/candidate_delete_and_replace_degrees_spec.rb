@@ -42,7 +42,7 @@ RSpec.describe 'Deleting and replacing a degree' do
   end
 
   def when_i_view_the_degree_section
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
     when_i_click_on_degree
   end
 
@@ -238,7 +238,7 @@ RSpec.describe 'Deleting and replacing a degree' do
   end
 
   def when_i_return_to_the_application_form
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def then_the_degree_section_is_incomplete

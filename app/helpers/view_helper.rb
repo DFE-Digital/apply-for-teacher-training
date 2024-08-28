@@ -8,7 +8,7 @@ module ViewHelper
 
     text = if force_text.present?
              body
-           elsif url.to_s.end_with?(candidate_interface_continuous_applications_details_path)
+           elsif url.to_s.end_with?(candidate_interface_details_path)
              'Back to your details'
            elsif url.to_s.end_with?(candidate_interface_continuous_applications_choices_path)
              'Back to your applications'

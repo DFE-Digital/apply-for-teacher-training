@@ -112,7 +112,7 @@ RSpec.describe 'References' do
   end
 
   def when_i_visit_the_site
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def when_i_click_on_references_section
@@ -349,7 +349,7 @@ RSpec.describe 'References' do
   end
 
   def then_i_am_redirected_to_my_application_or_details
-    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
+    expect(page).to have_current_path candidate_interface_details_path
   end
 
   def and_i_delete_the_second_referee

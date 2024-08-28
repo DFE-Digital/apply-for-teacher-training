@@ -16,7 +16,7 @@ module CandidateInterface
           return redirect_to candidate_interface_continuous_applications_choices_path
         end
 
-        redirect_to candidate_interface_continuous_applications_details_path
+        redirect_to candidate_interface_details_path
       else
         track_validation_error(@prefill_application_or_not_form)
         render :new
@@ -29,7 +29,7 @@ module CandidateInterface
       application_form = current_candidate.application_forms.first
       return if application_form.nil? || application_form.blank_application?
 
-      redirect_to candidate_interface_continuous_applications_details_path
+      redirect_to candidate_interface_details_path
     end
 
     def prefill_candidate_application_form

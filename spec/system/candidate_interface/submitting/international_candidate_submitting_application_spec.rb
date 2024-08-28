@@ -41,7 +41,7 @@ RSpec.describe 'International candidate submits the application' do
     # Consider moving some of this into CandidateHelper once International
     # feature flags have been removed, especially the efl_section.
     given_courses_exist
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
 
     click_link_or_button t('page_titles.personal_information.heading')
     candidate_fills_in_personal_details(international: true)

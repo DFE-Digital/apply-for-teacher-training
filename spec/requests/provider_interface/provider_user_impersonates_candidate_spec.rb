@@ -49,7 +49,7 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
       post provider_interface_impersonate_candidate_path(unrelated_application.application_form.candidate)
       expect(response).to have_http_status :found
 
-      get candidate_interface_continuous_applications_details_path
+      get candidate_interface_details_path
       expect(response).to have_http_status :found # no candidate session redirects to candidate_interface_path
     end
 

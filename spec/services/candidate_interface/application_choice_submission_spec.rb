@@ -247,7 +247,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
       end
 
       def link_to_details_error_message
-        link_to_details = govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_details_path)
+        link_to_details = govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_details_path)
         t('activemodel.errors.models.candidate_interface/application_choice_submission.attributes.application_choice.incomplete_details_including_primary_course_details', link_to_details:)
       end
 
@@ -280,7 +280,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
 
       def incomplete_details_error_message
         <<~MSG.chomp
-          You cannot submit this application until you #{govuk_link_to('complete your details', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_details_path)}.
+          You cannot submit this application until you #{govuk_link_to('complete your details', Rails.application.routes.url_helpers.candidate_interface_details_path)}.
 
           Your application will be saved as a draft while you finish adding your details.
         MSG

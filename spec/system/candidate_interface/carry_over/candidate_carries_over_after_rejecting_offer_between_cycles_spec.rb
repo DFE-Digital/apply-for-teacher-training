@@ -71,7 +71,7 @@ private
 
   def and_i_cannot_navigate_to_the_carry_over_page
     visit candidate_interface_start_carry_over_path
-    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
+    expect(page).to have_current_path candidate_interface_details_path
   end
 
   def and_i_can_navigate_to_the_application_choices_page
@@ -107,6 +107,6 @@ private
 
   def and_i_am_able_to_carry_over_my_application
     click_on 'Update your details'
-    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
+    expect(page).to have_current_path candidate_interface_details_path
   end
 end

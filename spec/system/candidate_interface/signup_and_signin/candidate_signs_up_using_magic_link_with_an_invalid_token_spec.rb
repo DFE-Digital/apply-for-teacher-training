@@ -71,7 +71,7 @@ RSpec.describe 'Candidate tries to sign up using magic link with an invalid toke
   end
 
   def then_i_see_my_application_form
-    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
+    expect(page).to have_current_path(candidate_interface_details_path)
   end
 
   def when_click_on_the_apply_for_teacher_training_link_in_the_header
@@ -79,6 +79,6 @@ RSpec.describe 'Candidate tries to sign up using magic link with an invalid toke
   end
 
   def then_i_see_the_application_page
-    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
+    expect(page).to have_current_path(candidate_interface_details_path)
   end
 end

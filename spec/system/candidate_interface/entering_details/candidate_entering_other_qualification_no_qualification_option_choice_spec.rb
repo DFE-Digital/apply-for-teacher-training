@@ -48,7 +48,7 @@ RSpec.describe 'Entering their other qualifications' do
   end
 
   def and_i_visit_the_site
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def then_i_see_the_other_qualifications_section_is_incomplete

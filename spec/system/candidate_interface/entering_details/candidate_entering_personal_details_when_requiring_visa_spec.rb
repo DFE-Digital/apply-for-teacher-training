@@ -11,7 +11,7 @@ RSpec.describe 'Entering personal details', time: Time.zone.local(RecruitmentCyc
 
   def and_i_am_signed_in
     create_and_sign_in_candidate
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def and_i_can_complete_personal_information_with_non_british_or_irish_nationality

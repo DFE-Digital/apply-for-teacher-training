@@ -21,7 +21,7 @@ module CandidateInterface
     def incomplete_details_message
       return if @completed_application_form_details.valid?
 
-      link = govuk_link_to('your details', candidate_interface_continuous_applications_details_path)
+      link = govuk_link_to('your details', candidate_interface_details_path)
       t('candidate_interface.applications_left_message.incomplete_details_message', link:).html_safe
     end
 

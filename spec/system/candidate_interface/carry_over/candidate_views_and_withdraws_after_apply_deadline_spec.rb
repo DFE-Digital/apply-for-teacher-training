@@ -75,7 +75,7 @@ private
 
   def and_i_can_carry_over_my_application
     click_on 'Update your details'
-    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
+    expect(page).to have_current_path candidate_interface_details_path
     expect(@candidate.current_application.previous_application_form_id).to eq @application_form.id
   end
 end

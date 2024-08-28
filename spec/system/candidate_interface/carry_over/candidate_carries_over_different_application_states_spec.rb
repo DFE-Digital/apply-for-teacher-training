@@ -187,7 +187,7 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
   end
 
   def and_i_am_in_your_details_page
-    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
+    expect(page).to have_current_path(candidate_interface_details_path)
   end
 
   def when_i_visit_any_page
