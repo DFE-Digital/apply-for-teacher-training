@@ -88,12 +88,15 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
     job = create(:application_work_experience, experienceable: @application_form)
     @application_form.application_work_experiences << [job]
+    @provider = @application_choice.provider
   end
   alias_method :given_i_have_an_application_with_a_rejection, :and_i_have_an_application_with_a_rejection
 
   def given_i_applied_two_years_ago
     @application_form = create(:completed_application_form, recruitment_cycle_year: 2.years.ago.year, candidate: @candidate)
     @application_choice = create(:application_choice, :rejected, application_form: @application_form)
+    @provider = @application_choice.provider
+    @provider.update(name: "St. Mary's")
   end
 
   def and_the_apply_deadline_passes
@@ -131,15 +134,14 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def and_i_can_view_my_unsuccessful_application
-    click_on @application_choice.provider.name
+    click_on @provider.name
     expect(page)
       .to have_current_path(
         candidate_interface_course_choices_course_review_path(
           application_choice_id: @application_choice.id,
         ),
       )
-    provider_name = smart_quotes(@application_choice.provider.name)
-    expect(page).to have_title("Your application to #{provider_name}")
+    expect(page).to have_title("Your application to #{@provider.name}")
     expect(page).to have_content('Unsuccessful')
   end
 
