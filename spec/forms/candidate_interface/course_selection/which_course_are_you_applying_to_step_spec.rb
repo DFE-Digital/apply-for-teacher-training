@@ -4,7 +4,7 @@ RSpec.describe CandidateInterface::CourseSelection::WhichCourseAreYouApplyingToS
   subject(:which_course_are_you_applying_to_step) { described_class.new(provider_id:, course_id:, wizard:) }
 
   let(:candidate) { create(:candidate) }
-  let(:provider) { create(:provider) }
+  let(:provider) { create(:provider, selectable_school: true) }
   let(:course) do
     create(
       :course,
@@ -114,7 +114,7 @@ RSpec.describe CandidateInterface::CourseSelection::WhichCourseAreYouApplyingToS
   end
 
   describe '#next_step' do
-    let(:provider) { create(:provider) }
+    let(:provider) { create(:provider, selectable_school: true) }
     let(:course) do
       create(
         :course,
@@ -160,6 +160,19 @@ RSpec.describe CandidateInterface::CourseSelection::WhichCourseAreYouApplyingToS
 
       it 'returns :course_site' do
         expect(which_course_are_you_applying_to_step.next_step).to be(:course_site)
+      end
+    end
+
+    context 'when course has multiple sites and provider school is not selectable' do
+      let(:provider) { create(:provider, selectable_school: false) }
+
+      before do
+        create(:course_option, site: create(:site, provider:), course:)
+        create(:course_option, site: create(:site, provider:), course:)
+      end
+
+      it 'returns :course_review' do
+        expect(which_course_are_you_applying_to_step.next_step).to be(:course_review)
       end
     end
 
