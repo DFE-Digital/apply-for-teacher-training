@@ -72,7 +72,7 @@ FactoryBot.define do
     trait :teacher_degree_apprenticeship do
       apprenticeship
       full_time
-      description { 'Teacher degree apprenticeship with QTS full time teaching apprenticeship' }
+      description { 'Teacher degree apprenticeship with QTS' }
 
       qualifications { %w[qts undergraduate_degree] }
       program_type { 'teacher_degree_apprenticeship' }
