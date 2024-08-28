@@ -17,9 +17,9 @@ module CandidateInterface
         application_form.update!(submitted_at:) unless application_form.submitted_applications?
         application_choice.update!(sent_to_provider_at:)
         application_choice.update!(reject_by_default_at: inactive_date, reject_by_default_days: inactive_days)
-        application_choice.work_experiences = application_form.application_work_experiences.map(&:dup)
-        application_choice.volunteering_experiences = application_form.application_volunteering_experiences.map(&:dup)
-        application_choice.work_history_breaks = application_form.application_work_history_breaks.map(&:dup)
+        set_work_experiences
+        set_volunteering_experiences
+        set_work_history_breaks
         ApplicationStateChange.new(application_choice).send_to_provider!
 
         SendNewApplicationEmailToProvider.new(application_choice:).call
@@ -33,5 +33,31 @@ module CandidateInterface
     alias effective_date current_time
     alias submitted_at current_time
     alias sent_to_provider_at current_time
+
+  private
+
+    def set_work_experiences
+      if application_choice.work_experiences.any?
+        application_choice.work_experiences.map(&:delete)
+      end
+
+      application_choice.work_experiences = application_form.application_work_experiences.map(&:dup)
+    end
+
+    def set_volunteering_experiences
+      if application_choice.volunteering_experiences.any?
+        application_choice.volunteering_experiences.map(&:delete)
+      end
+
+      application_choice.volunteering_experiences = application_form.application_volunteering_experiences.map(&:dup)
+    end
+
+    def set_work_history_breaks
+      if application_choice.work_history_breaks.any?
+        application_choice.work_history_breaks.map(&:delete)
+      end
+
+      application_choice.work_history_breaks = application_form.application_work_history_breaks.map(&:dup)
+    end
   end
 end

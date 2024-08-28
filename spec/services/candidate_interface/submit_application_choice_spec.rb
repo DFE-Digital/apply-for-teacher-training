@@ -93,6 +93,31 @@ RSpec.describe CandidateInterface::SubmitApplicationChoice do
         )
       end
 
+      it 'duplicates the work experiences on the application_choice even if work_experiences exist' do
+        work_experience = create(
+          :application_work_experience,
+          experienceable: application_form,
+        )
+
+        choice_work_experience = create(
+          :application_work_experience,
+          experienceable: application_choice,
+        )
+
+        unexpected_ids = application_form.application_work_experiences.ids << choice_work_experience.id
+
+        expect {
+          submit_application
+        }.not_to change(application_choice.work_experiences, :count)
+
+        expect(application_choice.work_experiences.pluck(:details)).to eq(
+          [work_experience.details],
+        )
+        expect(application_choice.work_experiences.ids).not_to eq(
+          unexpected_ids,
+        )
+      end
+
       it 'duplicates the volunteering experiences on the application_choice' do
         volunteering_experience = create(
           :application_volunteering_experience,
@@ -111,6 +136,31 @@ RSpec.describe CandidateInterface::SubmitApplicationChoice do
         )
       end
 
+      it 'duplicates the volunteering experiences on the application_choice even if volunteering_experiences exist' do
+        volunteering_experience = create(
+          :application_volunteering_experience,
+          experienceable: application_form,
+        )
+
+        choice_volunteering_experience = create(
+          :application_volunteering_experience,
+          experienceable: application_choice,
+        )
+
+        unexpected_ids = application_form.application_volunteering_experiences.ids << choice_volunteering_experience.id
+
+        expect {
+          submit_application
+        }.not_to change(application_choice.volunteering_experiences, :count)
+
+        expect(application_choice.volunteering_experiences.pluck(:details)).to eq(
+          [volunteering_experience.details],
+        )
+        expect(application_choice.volunteering_experiences.ids).not_to eq(
+          unexpected_ids,
+        )
+      end
+
       it 'duplicates the work history breaks on the application_choice' do
         work_history_break = create(
           :application_work_history_break,
@@ -126,6 +176,31 @@ RSpec.describe CandidateInterface::SubmitApplicationChoice do
         )
         expect(application_choice.work_history_breaks.ids).not_to eq(
           application_form.application_work_history_breaks.ids,
+        )
+      end
+
+      it 'duplicates the work history breaks on the application_choice even if work history breaks exist' do
+        work_history_break = create(
+          :application_work_history_break,
+          breakable: application_form,
+        )
+
+        choice_work_history_break = create(
+          :application_work_history_break,
+          breakable: application_choice,
+        )
+
+        unexpected_ids = application_form.application_work_history_breaks.ids << choice_work_history_break.id
+
+        expect {
+          submit_application
+        }.not_to change(application_choice.work_history_breaks, :count)
+
+        expect(application_choice.work_history_breaks.pluck(:reason)).to eq(
+          [work_history_break.reason],
+        )
+        expect(application_choice.work_history_breaks.ids).not_to eq(
+          unexpected_ids,
         )
       end
     end
