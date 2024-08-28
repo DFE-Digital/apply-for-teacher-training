@@ -13,7 +13,7 @@ RSpec.describe ProvidersForRecruitmentPerformanceReportQuery do
     end
   end
 
-  it 'selects providers only with submitted applications this cycle before the current week' do
+  it 'selects providers only with submitted applications this cycle before the current week', time: mid_cycle do
     TestSuiteTimeMachine.travel_temporarily_to(1.year.ago) do
       application_choice_offer_from_last_cycle
     end
@@ -27,7 +27,7 @@ RSpec.describe ProvidersForRecruitmentPerformanceReportQuery do
     expect(query).to contain_exactly(application_last_week)
   end
 
-  it 'selects distinct providers when a provider has more than one application' do
+  it 'selects distinct providers when a provider has more than one application', time: mid_cycle do
     TestSuiteTimeMachine.travel_temporarily_to(1.week.ago) do
       application_last_week
       create(:application_choice, :awaiting_provider_decision, course_option: application_last_week.course_options.first)

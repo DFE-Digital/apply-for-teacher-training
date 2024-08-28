@@ -9,7 +9,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
 
   let(:routes) { Rails.application.routes.url_helpers }
 
-  describe 'validations' do
+  describe 'validations', time: mid_cycle do
     context 'immigration_status validation' do
       let(:course) { create(:course, :with_course_options, :open, level: 'secondary') }
       let(:application_form) { create(:application_form, :completed) }
