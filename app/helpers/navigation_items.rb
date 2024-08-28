@@ -19,7 +19,7 @@ class NavigationItems
       elsif current_candidate.current_application.carry_over?
         [
           NavigationItem.new(
-            t('page_titles.continuous_applications.your_applications'),
+            t('page_titles.your_applications'),
             candidate_interface_continuous_applications_choices_path,
             true,
           ),
@@ -32,7 +32,7 @@ class NavigationItems
             current_controller.respond_to?(:choices_controller?) ? !current_controller.choices_controller? : false,
           ),
           NavigationItem.new(
-            t('page_titles.continuous_applications.your_applications'),
+            t('page_titles.your_applications'),
             candidate_interface_continuous_applications_choices_path,
             current_controller.respond_to?(:choices_controller?) ? current_controller.choices_controller? : false,
           ),
