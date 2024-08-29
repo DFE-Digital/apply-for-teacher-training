@@ -17,6 +17,7 @@ RSpec.describe 'Selecting a study mode' do
     when_i_select_the_single_site_full_time_course
     and_i_visit_my_course_choices_page
     then_the_site_is_resolved_automatically_and_i_see_the_course_choice
+    and_the_application_is_not_school_placement_auto_selected
   end
 
   def given_i_am_signed_in
@@ -153,5 +154,9 @@ RSpec.describe 'Selecting a study mode' do
 
   def then_i_see_the_provider_name_in_caption
     expect(page.first('.govuk-caption-xl').text).to eq('University of Alien Dance')
+  end
+
+  def and_the_application_is_not_school_placement_auto_selected
+    expect(page).to have_content('Location')
   end
 end
