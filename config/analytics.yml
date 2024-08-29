@@ -127,6 +127,7 @@ shared:
     - support_reference
     - third_nationality
     - training_with_a_disability_completed
+    - university_degree
     - updated_at
     - volunteering_completed
     - volunteering_experience
