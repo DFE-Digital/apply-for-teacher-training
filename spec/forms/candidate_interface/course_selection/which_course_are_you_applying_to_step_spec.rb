@@ -163,7 +163,7 @@ RSpec.describe CandidateInterface::CourseSelection::WhichCourseAreYouApplyingToS
       end
     end
 
-    context 'when course has multiple sites and provider school is not selectable' do
+    context 'when course has multiple sites and provider school is not selectable', time: CycleTimetableHelper.mid_cycle(2025) do
       let(:provider) { create(:provider, selectable_school: false) }
 
       before do

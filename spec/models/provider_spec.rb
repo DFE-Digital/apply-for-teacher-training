@@ -54,4 +54,38 @@ RSpec.describe Provider do
       expect(described_class.with_courses).to eq([provider])
     end
   end
+
+  describe 'selectable_school?' do
+    context 'provider is selectable_school' do
+      let(:provider) { create(:provider, selectable_school: true) }
+
+      context 'when Current Cycle is 2024', time: mid_cycle(2024) do
+        it 'is not selectable school' do
+          expect(provider).to be_selectable_school
+        end
+      end
+
+      context 'when Current Cycle is greater than 2024', time: mid_cycle(2025) do
+        it 'is selectable school' do
+          expect(provider).to be_selectable_school
+        end
+      end
+    end
+
+    context 'provider is not selectable_school' do
+      let(:provider) { create(:provider, selectable_school: false) }
+
+      context 'when Current Cycle is 2024', time: mid_cycle(2024) do
+        it 'is not selectable school' do
+          expect(provider).to be_selectable_school
+        end
+      end
+
+      context 'when Current Cycle is greater than 2024', time: mid_cycle(2025) do
+        it 'is not selectable school' do
+          expect(provider).not_to be_selectable_school
+        end
+      end
+    end
+  end
 end
