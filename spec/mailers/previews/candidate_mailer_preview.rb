@@ -484,6 +484,15 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.eoc_second_deadline_reminder(application_form)
   end
 
+  def application_deadline_has_passed
+    application_form = FactoryBot.build(
+      :application_form,
+      first_name: 'Rocket',
+    )
+
+    CandidateMailer.application_deadline_has_passed(application_form)
+  end
+
   def new_cycle_has_started_with_no_first_name_and_unsubmitted_application
     application_form = FactoryBot.build(:application_form, first_name: nil, submitted_at: nil)
 

@@ -299,34 +299,6 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '#send_first_end_of_cycle_reminder_to_candidates?' do
-    it 'returns false if it is not the reminder date' do
-      travel_temporarily_to(described_class.apply_deadline_first_reminder - 1.day) do
-        expect(described_class.send_first_end_of_cycle_reminder_to_candidates?).to be false
-      end
-    end
-
-    it 'returns true when it is the first apply deadline reminder date' do
-      travel_temporarily_to(described_class.apply_deadline_first_reminder) do
-        expect(described_class.send_first_end_of_cycle_reminder_to_candidates?).to be true
-      end
-    end
-  end
-
-  describe '#send_second_end_of_cycle_reminder_to_candidates?' do
-    it 'returns false if it is not the reminder date' do
-      travel_temporarily_to(described_class.apply_deadline_second_reminder - 1.day) do
-        expect(described_class.send_second_end_of_cycle_reminder_to_candidates?).to be false
-      end
-    end
-
-    it 'returns true when it is the second apply deadline reminder date' do
-      travel_temporarily_to(described_class.apply_deadline_second_reminder) do
-        expect(described_class.send_second_end_of_cycle_reminder_to_candidates?).to be true
-      end
-    end
-  end
-
   describe '.next_apply_deadline' do
     context 'after cycle start and before apply deadline' do
       it 'returns apply_deadline' do
@@ -429,24 +401,6 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.send_find_has_opened_email?' do
-    context 'it is before find reopens' do
-      it 'returns false' do
-        travel_temporarily_to(described_class.find_opens - 1.hour) do
-          expect(described_class.send_find_has_opened_email?).to be(false)
-        end
-      end
-    end
-
-    context 'it is after find reopens' do
-      it 'returns true' do
-        travel_temporarily_to(described_class.find_opens + 1.hour) do
-          expect(described_class.send_find_has_opened_email?).to be(true)
-        end
-      end
-    end
-  end
-
   describe '.service_opens_today?' do
     let(:year) { RecruitmentCycle.current_year }
 
@@ -471,24 +425,6 @@ RSpec.describe CycleTimetable do
     it 'is false when the service is Find and the time is outside of business hours' do
       travel_temporarily_to(12.hours.since(described_class.find_opens(year))) do
         expect(described_class.service_opens_today?(:find, year:)).to be false
-      end
-    end
-  end
-
-  describe '.send_new_cycle_has_started_email?' do
-    context 'it is before apply reopens' do
-      it 'returns false' do
-        travel_temporarily_to(described_class.apply_reopens - 1.day) do
-          expect(described_class.send_new_cycle_has_started_email?).to be(false)
-        end
-      end
-    end
-
-    context 'it is after apply reopens' do
-      it 'returns true' do
-        travel_temporarily_to(described_class.apply_opens) do
-          expect(described_class.send_new_cycle_has_started_email?).to be(true)
-        end
       end
     end
   end

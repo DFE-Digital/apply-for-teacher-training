@@ -10,6 +10,7 @@ class CandidateMailer < ApplicationMailer
       nudge_unsubmitted_with_incomplete_references
       duplicate_match_email
       application_rejected
+      application_deadline_has_passed
     ],
   )
   include QualificationValueHelper
@@ -418,6 +419,18 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.approaching_eoc_second_deadline_reminder.subject', apply_deadline:),
+    )
+  end
+
+  def application_deadline_has_passed(application_form)
+    year = application_form.recruitment_cycle_year
+    @this_academic_year = CycleTimetable.cycle_year_range(year)
+    @next_academic_year = CycleTimetable.cycle_year_range(year + 1)
+    @apply_reopens_date = CycleTimetable.apply_reopens.to_fs(:govuk_date)
+
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.application_deadline_has_passed.subject'),
     )
   end
 

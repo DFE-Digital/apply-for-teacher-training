@@ -44,6 +44,7 @@ RSpec.describe 'Docs' do
       provider_mailer-fallback_sign_in_email
       candidate_mailer-eoc_first_deadline_reminder
       candidate_mailer-eoc_second_deadline_reminder
+      candidate_mailer-application_deadline_has_passed
       candidate_mailer-new_cycle_has_started
       candidate_mailer-duplicate_match_email
       candidate_mailer-find_has_opened

@@ -13,7 +13,7 @@ class GetApplicationsToSendDeadlineRemindersTo
   end
 
   def self.need_to_send_deadline_reminder?
-    CycleTimetable.send_first_end_of_cycle_reminder_to_candidates? ||
-      CycleTimetable.send_second_end_of_cycle_reminder_to_candidates?
+    EmailTimetable.send_first_end_of_cycle_reminder_to_candidates? ||
+      EmailTimetable.send_second_end_of_cycle_reminder_to_candidates?
   end
 end

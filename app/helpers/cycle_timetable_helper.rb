@@ -44,4 +44,8 @@ module_function
   def reject_by_default_reminder_run_date(year = CycleTimetable.current_year)
     CycleTimetable.reject_by_default(year) - 2.weeks
   end
+
+  def application_deadline_has_passed_email_date(year = CycleTimetable.current_year)
+    CycleTimetable.apply_deadline(year) + 1.day
+  end
 end
