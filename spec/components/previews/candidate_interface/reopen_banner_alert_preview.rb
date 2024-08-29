@@ -1,6 +1,6 @@
 module CandidateInterface
   class ReopenBannerAlertPreview < ViewComponent::Preview
-    def twenty_twenty_four
+    def reopen_banner_component
       render CandidateInterface::ReopenBannerComponentPreviewComponent.new(
         flash_empty: true,
       )
