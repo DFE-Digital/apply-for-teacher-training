@@ -1,0 +1,27 @@
+en:
+  review_interruption:
+    title: Give your application the best chance of success
+    statement_count: Your personal statement is %{word_count}.
+    success_percentage: 90% of successful candidates write about %{word_count} words or more for their personal statement.
+    increase_chances: Increase your chances of getting an offer by adding more information to your personal statement.
+    edit_statement: Would you like to edit your personal statement before submitting your application?
+    edit_statement_button_text: Edit your personal statement
+    continue_without_editing: Continue without editing
+  review_enic_interruption:
+    title: You have not included a UK ENIC reference number
+    waiting_maybe:
+      enic_link_text: apply for a statement of comparability from UK ENIC
+      planned_link_html: You have said you had, or planned to %{link} but you have not added the reference number to this application.
+      if_you_have_enic: If you have a UK ENIC reference number, you should add it to your qualifications details.
+      save_this_as_draft: save this application as a draft
+      save_as_draft_html: If you are still waiting then you can %{link} and come back to add your UK ENIC reference number later.
+      without_enic: You can also submit your application without the UK ENIC reference number and contact the training provider when it arrives.
+      enter_enic: Enter a UK ENIC number
+      without_entering_enic: Continue without adding a UK ENIC number
+    not_needed:
+      more_likely_html: Including a UK ENIC reference number in your application makes youn around <b> 30% more likely to receive an offer.</b>
+      apply_for_enic_link: apply for a UK ENIC statement of comparability
+      if_you_apply_enic_html: If you %{link} and include the reference number in your application it makes it easier for training providers to understand your qualifications.
+      dont_provide_enic: If you don’t include a UK ENIC statement of comparability and the provider asks for one, it could cause delays.
+      continue_button_text: Continue without a UK ENIC number
+      save_application_button_text: Save this application as a draft

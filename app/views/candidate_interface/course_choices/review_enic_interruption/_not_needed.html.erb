@@ -1,0 +1,16 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <div class="app-grid-column--grey">
+      <h1 class="govuk-heading-l"><%= t('review_enic_interruption.title') %></h1>
+
+      <p class="govuk-body"><%= t('review_enic_interruption.not_needed.more_likely_html') %></p>
+      <p class="govuk-body"><%= t('review_enic_interruption.not_needed.if_you_apply_enic_html', link: govuk_link_to(t('review_enic_interruption.not_needed.apply_for_enic_link'), t('service_name.enic.statement_of_comparability_url'), new_tab: true)) %></p>
+      <p class="govuk-body"><%= t('review_enic_interruption.not_needed.dont_provide_enic') %></p>
+    </div>
+
+    <div class="govuk-button-group app-course-choice__confirm-submission">
+      <%= govuk_button_to(t('review_enic_interruption.not_needed.continue_button_text'), candidate_interface_course_choices_course_review_and_submit_path(@application_choice.id), method: :get) %>
+      <%= govuk_link_to(t('review_enic_interruption.not_needed.save_application_button_text'), candidate_interface_course_choices_course_review_path(@application_choice.id)) %>
+    </div>
+  </div>
+</div>

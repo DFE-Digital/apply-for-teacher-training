@@ -22,6 +22,8 @@ module CandidateInterface
     def review_path
       if short_personal_statement?
         candidate_interface_course_choices_course_review_interruption_path(application_choice.id)
+      elsif application_choice.application_form.qualifications_enic_reasons_waiting_or_maybe? || application_choice.application_form.any_qualification_enic_reason_not_needed?
+        candidate_interface_course_choices_course_review_enic_interruption_path(application_choice.id)
       else
         candidate_interface_course_choices_course_review_and_submit_path(application_choice.id)
       end

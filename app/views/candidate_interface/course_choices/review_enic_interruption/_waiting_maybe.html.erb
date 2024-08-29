@@ -1,0 +1,17 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <div class="app-grid-column--grey">
+      <h1 class="govuk-heading-l"><%= t('review_enic_interruption.title') %></h1>
+
+      <p class="govuk-body"><%= t('review_enic_interruption.waiting_maybe.planned_link_html', link: govuk_link_to(t('review_enic_interruption.waiting_maybe.enic_link_text'), t('service_name.enic.statement_of_comparability_url'), new_tab: true)) %></p>
+      <p class="govuk-body"><%= t('review_enic_interruption.waiting_maybe.if_you_have_enic') %></p>
+      <p class="govuk-body"><%= t('review_enic_interruption.waiting_maybe.save_as_draft_html', link: govuk_link_to(t('review_enic_interruption.waiting_maybe.save_this_as_draft'), candidate_interface_course_choices_course_review_path(@application_choice.id))) %></p>
+      <p class="govuk-body"><%= t('review_enic_interruption.waiting_maybe.without_enic') %></p>
+    </div>
+
+    <div class="govuk-button-group app-course-choice__confirm-submission">
+      <%= govuk_button_to(t('review_enic_interruption.waiting_maybe.enter_enic'), candidate_interface_continuous_applications_details_path, method: :get) %>
+      <%= govuk_link_to(t('review_enic_interruption.waiting_maybe.without_entering_enic'), candidate_interface_course_choices_course_review_and_submit_path(@application_choice.id)) %>
+    </div>
+  </div>
+</div>

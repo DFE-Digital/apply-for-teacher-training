@@ -206,6 +206,25 @@ class ApplicationForm < ApplicationRecord
     application_choices.touch_all
   end
 
+  def any_qualification_enic_reason_not_needed?
+    return false if application_qualifications.empty?
+    return false if application_qualifications.all? { |qualification| qualification.enic_reason.nil? }
+
+    non_uk_qualifications = application_qualifications.reject do |qualification|
+      qualification.institution_country.nil? || qualification.institution_country == 'GB' || qualification.enic_reason.nil?
+    end
+
+    non_uk_qualifications.all?(&:enic_reason_not_needed?)
+  end
+
+  def qualifications_enic_reasons_waiting_or_maybe?
+    return false if application_qualifications.empty?
+
+    application_qualifications.count do |qualification|
+      qualification.enic_reason_waiting? || qualification.enic_reason_maybe?
+    end >= 1
+  end
+
   def missing_enic_reference_for_non_uk_qualifications?
     @missing_enic_reference_for_non_uk_qualifications ||= application_qualifications
                                                             .where.not(institution_country: 'GB')
