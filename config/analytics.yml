@@ -47,6 +47,7 @@ shared:
     - withdrawn_at
     - withdrawn_or_declined_for_candidate_by_provider
     - structured_withdrawal_reasons
+    - school_placement_auto_selected
   application_experiences:
     - commitment
     - created_at
