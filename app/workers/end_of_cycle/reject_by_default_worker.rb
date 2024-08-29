@@ -3,7 +3,7 @@ module EndOfCycle
     include Sidekiq::Worker
 
     def perform
-      return unless CycleTimetable.run_reject_by_default?
+      # return unless CycleTimetable.run_reject_by_default?
 
       rejectable_applications.find_each do |application_form|
         EndOfCycle::RejectByDefaultService.new(application_form).call

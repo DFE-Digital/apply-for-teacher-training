@@ -3,7 +3,7 @@ module EndOfCycle
     include Sidekiq::Worker
 
     def perform
-      return unless CycleTimetable.run_decline_by_default?
+      # return unless CycleTimetable.run_decline_by_default?
 
       declineable_applications.find_each do |application_form|
         EndOfCycle::DeclineByDefaultService.new(application_form).call
