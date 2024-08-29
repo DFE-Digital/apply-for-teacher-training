@@ -10,12 +10,8 @@ RSpec.describe OffersToChaseQuery do
   let(:application_choice_without_chaser) { create(:application_choice, :offer, current_recruitment_cycle_year:) }
   let(:current_recruitment_cycle_year) { CycleTimetable.current_year }
 
-  let(:chaser_type) { :offer_10_day }
-
-  let(:days) { 10 }
-  let(:date_range) { days.days.ago.all_day }
-  let(:inside_range) { date_range.max - 1.hour }
-  let(:outside_range) { date_range.max + 1.hour }
+  # We have to make sure our offset doesn't mean we are straddling two recruitment cycles.
+  let(:travel_to_base) { CycleTimetable.apply_deadline - 2.months }
 
   before do
     TestSuiteTimeMachine.travel_temporarily_to(offset) do
@@ -26,16 +22,26 @@ RSpec.describe OffersToChaseQuery do
   end
 
   context 'when offers are made 9 days ago for offer_10_day' do
+    let(:chaser_type) { :offer_10_day }
+    let(:days) { 10 }
+
+    let(:date_range) { (travel_to_base - days.days).all_day }
+    let(:outside_range) { date_range.max + 1.hour }
     let(:offset) { outside_range }
 
     it 'returns empty collection' do
-      expect(9.days.ago.all_day).to cover(application_choice_without_chaser.offered_at)
+      nine_days_ago = (travel_to_base - 9.days).all_day
+      expect(nine_days_ago).to cover(application_choice_without_chaser.offered_at)
       expect(described_class.call(chaser_type:, date_range:)).to be_empty
     end
   end
 
   context 'when offers are made 10 days ago and chaser_type is offer_10_day' do
+    let(:chaser_type) { :offer_10_day }
     let(:days) { 10 }
+
+    let(:date_range) { (travel_to_base - days.days).all_day }
+    let(:inside_range) { date_range.max - 1.hour }
     let(:offset) { inside_range }
 
     it 'returns the application choice without a chaser' do
@@ -47,6 +53,8 @@ RSpec.describe OffersToChaseQuery do
 
   describe 'when the range is 20 days ago and offers are made 20 days ago' do
     let(:days) { 20 }
+    let(:date_range) { (travel_to_base - days.days).all_day }
+    let(:inside_range) { date_range.max - 1.hour }
 
     context 'and chaser_type is offer_20_day and chaser has been sent for offer_20_day' do
       let(:offset) { inside_range }
@@ -73,6 +81,8 @@ RSpec.describe OffersToChaseQuery do
 
   describe 'when the range is 10 days ago and offers are made 10 days ago' do
     let(:days) { 10 }
+    let(:date_range) { (travel_to_base - days.days).all_day }
+    let(:inside_range) { date_range.max - 1.hour }
 
     context 'and the application is from the previous recruitment cycle' do
       let(:offset) { inside_range }

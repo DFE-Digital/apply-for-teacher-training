@@ -54,7 +54,8 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, :sidekiq do
 
     context "it is time to send the 'new cycle has started' email but one candidate has already received it" do
       it 'does not send the email' do
-        allow(EmailTimetable).to receive_messages(send_new_cycle_has_started_email?: true, apply_opens: 1.day.ago)
+        allow(EmailTimetable).to receive(:send_new_cycle_has_started_email?).and_return(true)
+        allow(CycleTimetable).to receive(:apply_opens).and_return(1.day.ago)
         candidate_1, candidate_2 = setup_candidates
         candidate_1.current_application.chasers_sent.create(
           chaser_type: :new_cycle_has_started,
