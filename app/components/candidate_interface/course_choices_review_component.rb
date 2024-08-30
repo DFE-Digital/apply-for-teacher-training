@@ -118,6 +118,8 @@ module CandidateInterface
     end
 
     def location_row(application_choice)
+      return if application_choice.school_placement_auto_selected?
+
       {
         key: 'Location',
         value: "#{application_choice.current_site.name}\n#{application_choice.current_site.full_address}",
