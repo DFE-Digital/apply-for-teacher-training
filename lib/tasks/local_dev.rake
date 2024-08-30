@@ -33,6 +33,13 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
 
   puts 'Creating recruitment performance reports'
   if !HostingEnvironment.development?
+    puts 'Testing presence of WIF config'
+    puts
+    puts
+    puts "ENV['AZURE_CLIENT_ID'] : #{ENV['AZURE_CLIENT_ID']}"
+    puts "ENV['AZURE_FEDERATED_TOKEN_FILE'] : #{ENV['AZURE_FEDERATED_TOKEN_FILE']}"
+    puts
+    puts
     puts 'Skipping Report generation in development mode. WIF is not possible in dev.'
     cycle_week = CycleTimetable.current_cycle_week.pred
 
