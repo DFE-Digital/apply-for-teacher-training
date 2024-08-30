@@ -493,15 +493,8 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_deadline_has_passed(application_form)
   end
 
-  def new_cycle_has_started_with_no_first_name_and_unsubmitted_application
-    application_form = FactoryBot.build(:application_form, first_name: nil, submitted_at: nil)
-
-    CandidateMailer.new_cycle_has_started(application_form)
-  end
-
-  def new_cycle_has_started_with_unsuccessful_application
-    application_choice = FactoryBot.create(:application_choice, :rejected)
-    application_form = FactoryBot.build(:completed_application_form, first_name: 'Tester', application_choices: [application_choice])
+  def new_cycle_has_started
+    application_form = FactoryBot.build(:completed_application_form, first_name: 'Tester')
 
     CandidateMailer.new_cycle_has_started(application_form)
   end

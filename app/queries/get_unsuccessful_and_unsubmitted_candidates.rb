@@ -4,9 +4,13 @@ class GetUnsuccessfulAndUnsubmittedCandidates
     # Candidates who didn't have successful applications last year
     Candidate
       .left_outer_joins(:application_forms)
-      .where.not(candidates: { unsubscribed_from_emails: true })
-      .where.not(candidates: { submission_blocked: true })
-      .where.not(candidates: { account_locked: true })
+      .where(
+        {
+          submission_blocked: false,
+          account_locked: false,
+          unsubscribed_from_emails: false,
+        },
+      )
       .where(
         '(application_forms.recruitment_cycle_year = (:previous_recruitment_year) AND NOT EXISTS (:successful))',
         previous_recruitment_year:,
@@ -22,9 +26,13 @@ class GetUnsuccessfulAndUnsubmittedCandidates
             recruitment_cycle_year: RecruitmentCycle.current_year,
             submitted_at: nil,
           })
-          .where.not(candidates: { unsubscribed_from_emails: true })
-          .where.not(candidates: { submission_blocked: true })
-          .where.not(candidates: { account_locked: true }),
+          .where(
+            {
+              submission_blocked: false,
+              account_locked: false,
+              unsubscribed_from_emails: false,
+            },
+          ),
       )
       .distinct
   end
