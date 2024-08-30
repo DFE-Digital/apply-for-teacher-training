@@ -5,6 +5,7 @@ RSpec.describe 'Editing a degree' do
 
   before do
     given_i_am_signed_in
+    and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
     when_i_view_the_degree_section
     and_i_create_an_international_degree
   end
@@ -22,6 +23,10 @@ RSpec.describe 'Editing a degree' do
     and_i_choose_uk
     and_i_click_on_save_and_continue
     then_i_start_the_add_degree_flow_from_the_beginning
+  end
+
+  def and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
+    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def then_i_start_the_add_degree_flow_from_the_beginning

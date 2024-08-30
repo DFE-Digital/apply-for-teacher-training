@@ -5,7 +5,7 @@ RSpec.describe 'Entering a degree' do
 
   before do
     given_i_am_on_the_cycle_when_candidates_can_enter_details_for_undergraduate_course
-    and_teacher_degree_apprenticeship_feature_flag_is_active
+    and_teacher_degree_apprenticeship_feature_flag_is_on
   end
 
   scenario 'Candidate does not have a degree' do
@@ -48,12 +48,12 @@ RSpec.describe 'Entering a degree' do
   end
 
   def given_i_am_on_the_cycle_when_candidates_can_enter_details_for_undergraduate_course
-    TestSuiteTimeMachine.advance_time_to(
+    TestSuiteTimeMachine.travel_permanently_to(
       CycleTimetableHelper.after_apply_deadline(2024),
     )
   end
 
-  def and_teacher_degree_apprenticeship_feature_flag_is_active
+  def and_teacher_degree_apprenticeship_feature_flag_is_on
     FeatureFlag.activate(:teacher_degree_apprenticeship)
   end
 

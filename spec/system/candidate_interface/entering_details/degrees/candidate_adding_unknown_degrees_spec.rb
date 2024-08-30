@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'Adding an unknown degree', :js do
   include CandidateHelper
+  before do
+    given_teacher_degree_apprenticeship_redirect_feature_flag_is_off
+  end
 
   scenario 'Candidate enters their degree' do
     given_i_am_signed_in
@@ -72,6 +75,10 @@ RSpec.describe 'Adding an unknown degree', :js do
     given_i_am_at_the_degree_subject_page
     when_i_fill_in_the_subject_with_a_custom_subject_that_has_an_incorrect_auto_suggestion
     then_the_custom_subject_remains_filled_in
+  end
+
+  def given_teacher_degree_apprenticeship_redirect_feature_flag_is_off
+    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def given_i_am_at_the_degree_subject_page
