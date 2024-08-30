@@ -117,6 +117,10 @@ en:
   activemodel:
     errors:
       models:
+        candidate_interface/university_degree_form:
+          attributes:
+            university_degree_status:
+              blank: "Select whether you have a university degree"
         candidate_interface/degree_wizard:
           attributes:
             uk_or_non_uk:

@@ -13,6 +13,9 @@ RSpec.describe 'Entering a degree' do
     when_i_view_the_degree_section
     then_i_can_see_the_university_degree_page
 
+    when_i_click_continue
+    then_i_see_the_error_message_to_answer_the_degree_question
+
     when_i_answer_no
     and_i_click_continue
     then_i_can_see_degrees_section_is_completed
@@ -96,6 +99,7 @@ RSpec.describe 'Entering a degree' do
   def and_i_click_continue
     click_link_or_button 'Continue'
   end
+  alias_method :when_i_click_continue, :and_i_click_continue
 
   def when_i_click_degree_section
     click_link_or_button 'Degree'
@@ -123,6 +127,10 @@ RSpec.describe 'Entering a degree' do
 
   def and_i_see_the_no_degree_option_chosen
     expect(find_field('No, I do not have a degree').checked?).to be true
+  end
+
+  def then_i_see_the_error_message_to_answer_the_degree_question
+    expect(page).to have_content('Select whether you have a university degree')
   end
 
   def back_link
