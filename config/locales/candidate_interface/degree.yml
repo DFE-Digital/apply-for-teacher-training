@@ -1,4 +1,15 @@
 en:
+  helpers:
+    legend:
+      candidate_interface_university_degree_form:
+        university_degree_status: Do you have a university degree?
+    label:
+      candidate_interface_university_degree_form:
+        university_degree_status_options:
+          'true': Yes, I have a degree or am studying for one
+          'false': No, I do not have a degree
+  page_titles:
+    university_degree: Do you have a university degree
   application_form:
     degree:
       qualification:
