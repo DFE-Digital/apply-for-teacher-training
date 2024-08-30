@@ -639,6 +639,18 @@ class ApplicationForm < ApplicationRecord
     module_function :by_column, :by_section
   end
 
+  def no_degree_and_degree_not_completed?
+    no_degrees? && !degrees_completed?
+  end
+
+  def no_degree_and_degree_completed?
+    no_degrees? && degrees_completed?
+  end
+
+  def no_degrees?
+    application_qualifications.degrees.count.zero?
+  end
+
   def granted_editable_extension?(section_id)
     editable_extension? && Array(editable_sections).map(&:to_sym).include?(section_id)
   end

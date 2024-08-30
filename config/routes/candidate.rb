@@ -305,6 +305,9 @@ namespace :candidate_interface, path: '/candidate' do
         get '/country' => 'degrees/degree#new_country', as: :degree_country
         post '/country' => 'degrees/degree#update_country'
 
+        get '/do-you-have-a-degree' => 'degrees/degree#new_university_degree', as: :degree_university_degree
+        post '/do-you-have-a-degree' => 'degrees/degree#update_university_degree'
+
         get '/edit/:id/:step' => 'degrees/degree#edit', as: :degree_edit
 
         get '/level' => 'degrees/degree#new_degree_level', as: :degree_degree_level

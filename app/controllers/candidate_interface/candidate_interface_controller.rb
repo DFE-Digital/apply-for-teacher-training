@@ -27,6 +27,12 @@ module CandidateInterface
       end
     end
 
+    def teacher_degree_apprenticeship_feature_active?
+      FeatureFlag.active?(:teacher_degree_apprenticeship) &&
+        current_application.recruitment_cycle_year >= 2025
+    end
+    helper_method :teacher_degree_apprenticeship_feature_active?
+
     def choices_controller?
       ChoicesControllerMatcher.choices_controller?(current_application: current_application, controller_path: controller_path, request: request)
     end

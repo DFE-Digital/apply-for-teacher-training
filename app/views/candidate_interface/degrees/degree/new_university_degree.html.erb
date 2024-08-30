@@ -1,0 +1,35 @@
+<%= content_for :page_title, title_with_error_prefix('Do you have a university degree', @degree.errors.any?) %>
+<% content_for :before_content do %>
+  <%= govuk_back_link(
+    text: 'Back',
+    href: candidate_interface_continuous_applications_details_path,
+  ) %>
+<% end %>
+
+<%= form_with(model: @degree, url: candidate_interface_degree_university_degree_path) do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_radio_buttons_fieldset :university_degree_status, legend: { text: 'Do you have a university degree?', size: 'l', tag: 'h1' } do %>
+
+      <p class="govuk-body">
+        You need a bachelor’s degree or equivalent to do postgraduate teacher training. You do not need a degree to apply for a <%= govuk_link_to 'teacher degree apprenticeship (TDA)', 'https://getintoteaching.education.gov.uk/train-to-be-a-teacher/teacher-degree-apprenticeships' %>.
+      </p>
+
+      <p class="govuk-body">
+        Add your bachelor's degree even if you have not got your grade yet.
+      </p>
+
+      <p class="govuk-body">
+        You can also add any other degrees that you have, or you are working towards.
+      </p>
+
+      <%= f.govuk_radio_button :university_degree_status, 'true', label: { text: 'Yes, I have a degree or am studying for one' }, link_errors: true %>
+      <%= f.govuk_radio_button :university_degree_status, 'false', label: { text: 'No, I do not have a degree' } %>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    </div>
+  </div>
+<% end %>

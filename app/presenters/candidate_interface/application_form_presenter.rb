@@ -15,6 +15,7 @@ module CandidateInterface
              :previous_application_form,
              :phase,
              :personal_details_completed,
+             :no_degree_and_degree_not_completed?,
              :support_reference, to: :application_form
 
     def initialize(application_form)
