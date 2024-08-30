@@ -6,7 +6,7 @@ class MigrateApplicationChoicesWorker
   def perform(choice_ids)
     errors = []
 
-    ApplicationChoice.find(choice_ids).each do |choice|
+    ApplicationChoice.where(id: choice_ids).find_each(batch_size: 100) do |choice|
       application_form = choice.application_form
 
       if choice.work_experiences.blank? && application_form.application_work_experiences.any?
