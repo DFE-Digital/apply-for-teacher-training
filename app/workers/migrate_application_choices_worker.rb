@@ -7,18 +7,20 @@ class MigrateApplicationChoicesWorker
     errors = []
 
     ApplicationChoice.where(id: choice_ids).find_each(batch_size: 100) do |choice|
-      application_form = choice.application_form
+      ActiveRecord::Base.transaction do
+        application_form = choice.application_form
 
-      if choice.work_experiences.blank? && application_form.application_work_experiences.any?
-        choice.work_experiences = application_form.application_work_experiences.map(&:dup)
-      end
+        if choice.work_experiences.blank? && application_form.application_work_experiences.any?
+          choice.work_experiences = application_form.application_work_experiences.map(&:dup)
+        end
 
-      if choice.volunteering_experiences.blank? && application_form.application_volunteering_experiences.any?
-        choice.volunteering_experiences = application_form.application_volunteering_experiences.map(&:dup)
-      end
+        if choice.volunteering_experiences.blank? && application_form.application_volunteering_experiences.any?
+          choice.volunteering_experiences = application_form.application_volunteering_experiences.map(&:dup)
+        end
 
-      if choice.work_history_breaks.blank? && application_form.application_work_history_breaks.any?
-        choice.work_history_breaks = application_form.application_work_history_breaks.map(&:dup)
+        if choice.work_history_breaks.blank? && application_form.application_work_history_breaks.any?
+          choice.work_history_breaks = application_form.application_work_history_breaks.map(&:dup)
+        end
       end
     rescue ActiveRecord::RecordInvalid => e
       errors << "Error choice id #{choice.id}: #{e.message}"

@@ -45,7 +45,7 @@ RSpec.describe MigrateApplicationChoicesWorker do
     end
 
     context 'with errors' do
-      it 'dups the working experiences and histories from application_form to choice' do
+      it 'rescues ActiveRecord::RecordInvalid exceptions and logs the errors' do
         application_form = create(
           :completed_application_form,
           volunteering_experiences_count: 1,

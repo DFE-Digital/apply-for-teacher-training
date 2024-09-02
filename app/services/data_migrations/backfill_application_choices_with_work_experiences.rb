@@ -28,7 +28,7 @@ module DataMigrations
        "application_choices"."status" != 'unsubmitted' AND "work_history_breaks"."id" IS NULL
       SQL
 
-      ApplicationChoice.find_by_sql(sql).map(&:id)
+      ApplicationChoice.find_by_sql(sql).pluck(:id)
     end
   end
 end
