@@ -791,7 +791,7 @@ RSpec.describe CandidateMailer do
   end
 
   describe '.new_cycle_has_started', time: mid_cycle do
-    context "when the candidate's application was unsubmitted" do
+    context 'when the candidate has included a first name' do
       let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', submitted_at: nil) }
       let(:email) { mailer.new_cycle_has_started(application_form) }
 
@@ -799,22 +799,8 @@ RSpec.describe CandidateMailer do
         'a mail with subject and content',
         "Apply for teacher training starting in the #{CycleTimetable.current_year} to #{CycleTimetable.next_year} academic year",
         'greeting' => 'Dear Fred',
-        'academic_year' => "#{CycleTimetable.current_year} to #{CycleTimetable.next_year}",
+        'academic_year' => "You can now apply for teacher training courses that start in the #{CycleTimetable.current_year} to #{CycleTimetable.next_year} academic year.",
         'details' => 'Courses can fill up quickly, so apply as soon as you are ready.',
-      )
-    end
-
-    context "when the candidate's application was unsuccessful" do
-      let(:application_choice) { build_stubbed(:application_choice, :rejected) }
-      let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', application_choices: [application_choice]) }
-      let(:email) { mailer.new_cycle_has_started(application_form) }
-
-      it_behaves_like(
-        'a mail with subject and content',
-        "Apply for teacher training starting in the #{CycleTimetable.current_year} to #{CycleTimetable.next_year} academic year",
-        'greeting' => 'Dear Fred',
-        'academic_year' => "#{CycleTimetable.current_year} to #{CycleTimetable.next_year}",
-        'details' => 'Training providers offer places on courses as people apply throughout the year. Courses stay open until they are full.',
       )
     end
 

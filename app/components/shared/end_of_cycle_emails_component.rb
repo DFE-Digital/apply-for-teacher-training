@@ -19,7 +19,7 @@ class EndOfCycleEmailsComponent < ViewComponent::Base
         candidates_size: candidates_to_notify_about_find_and_apply,
       },
       {
-        link: preview_email_link('Apply has opened', path: 'candidate_mailer/new_cycle_has_started_with_unsuccessful_application'),
+        link: preview_email_link('Apply has opened', path: 'candidate_mailer/new_cycle_has_started'),
         date: email_date(:apply_reopens),
         candidates_size: candidates_to_notify_about_find_and_apply,
       },
