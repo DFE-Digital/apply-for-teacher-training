@@ -45,6 +45,26 @@ RSpec.describe 'Entering a degree' do
     and_i_click_continue
     then_i_can_see_the_country_page
     and_the_back_link_points_to_the_university_degree_page
+
+    when_i_finish_adding_a_degree
+    then_i_am_on_the_review_page
+
+    when_i_click_to_delete_a_degree
+    and_i_confirm_the_deletion
+    then_i_am_on_your_details_page
+
+    when_i_view_the_degree_section
+    then_i_can_see_the_university_degree_page
+    when_i_answer_yes
+    and_i_click_continue
+    and_i_finish_adding_a_degree
+
+    when_i_click_to_add_another_degree
+    and_i_finish_adding_a_degree
+    when_i_click_to_delete_a_degree
+    and_i_confirm_the_deletion
+    then_i_am_on_the_review_page
+    and_i_still_have_one_degree
   end
 
   def given_i_am_on_the_cycle_when_candidates_can_enter_details_for_undergraduate_course
@@ -121,6 +141,10 @@ RSpec.describe 'Entering a degree' do
     click_link_or_button 'Change'
   end
 
+  def and_i_click_save_and_continue
+    click_link_or_button 'Save and continue'
+  end
+
   def and_i_see_that_i_do_not_have_a_degree
     expect(page).to have_content('Do you have a university degree? No, I do not have a degree Change')
   end
@@ -135,5 +159,55 @@ RSpec.describe 'Entering a degree' do
 
   def back_link
     find('a', text: 'Back')[:href]
+  end
+
+  def when_i_finish_adding_a_degree
+    choose 'United Kingdom'
+    and_i_click_save_and_continue
+
+    choose 'Bachelor degree'
+    and_i_click_save_and_continue
+
+    select 'Astronomy', from: 'What subject is your degree?'
+    and_i_click_save_and_continue
+
+    choose 'Bachelor of Science (BSc)'
+    and_i_click_save_and_continue
+
+    select 'London School of Science and Technology', from: 'candidate_interface_degree_wizard[university]'
+    and_i_click_save_and_continue
+
+    choose 'Yes'
+    and_i_click_save_and_continue
+
+    choose 'First-class honours'
+    and_i_click_save_and_continue
+
+    fill_in 'What year did you start your degree?', with: '2020'
+    and_i_click_save_and_continue
+
+    fill_in 'What year did you graduate?', with: '2024'
+    and_i_click_save_and_continue
+  end
+  alias_method :and_i_finish_adding_a_degree, :when_i_finish_adding_a_degree
+
+  def then_i_am_on_the_review_page
+    expect(page).to have_current_path(candidate_interface_degree_review_path)
+  end
+
+  def when_i_click_to_delete_a_degree
+    click_link_or_button 'Delete degree', match: :first
+  end
+
+  def and_i_confirm_the_deletion
+    click_link_or_button 'Yes I’m sure - delete this degree'
+  end
+
+  def when_i_click_to_add_another_degree
+    click_link_or_button 'Add another degree'
+  end
+
+  def and_i_still_have_one_degree
+    expect(page).to have_content('BSc (Hons) Astronomy').once
   end
 end
