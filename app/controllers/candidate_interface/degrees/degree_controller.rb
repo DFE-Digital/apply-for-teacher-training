@@ -16,7 +16,7 @@ module CandidateInterface
           redirect_to candidate_interface_degree_country_path
         else
           current_application.update!(university_degree: false, degrees_completed: true)
-          redirect_to candidate_interface_continuous_applications_details_path
+          redirect_to candidate_interface_details_path
         end
       end
 

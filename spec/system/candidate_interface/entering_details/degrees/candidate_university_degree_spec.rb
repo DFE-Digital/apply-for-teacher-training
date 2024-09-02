@@ -82,7 +82,7 @@ RSpec.describe 'Entering a degree' do
   end
 
   def when_i_view_the_degree_section
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
     when_i_click_on_degree
   end
 
@@ -104,7 +104,7 @@ RSpec.describe 'Entering a degree' do
   end
 
   def then_i_can_see_degrees_section_is_completed
-    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
+    expect(page).to have_current_path(candidate_interface_details_path)
     expect(page).to have_content('Degree Completed')
   end
 
