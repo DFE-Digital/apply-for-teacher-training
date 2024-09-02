@@ -25,7 +25,7 @@ module CandidateInterface
     def initialize(current_application = nil, intermediate_data_service = nil, options = nil)
       @current_application = current_application
       @intermediate_data_service = intermediate_data_service
-      options = @intermediate_data_service.read.merge(options.select { |_, value| value.present? }) if @intermediate_data_service
+      options = @intermediate_data_service.read.merge(options.compact_blank) if @intermediate_data_service
 
       if options && [A_LEVEL_TYPE, AS_LEVEL_TYPE, GCSE_TYPE].include?(options['qualification_type'])
         options['non_uk_qualification_type'] = nil

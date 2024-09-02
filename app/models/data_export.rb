@@ -258,7 +258,7 @@ class DataExport < ApplicationRecord
     name.parameterize.underscore
   end
 
-  enum export_type: {
+  enum :export_type, {
     active_provider_user_permissions: 'active_provider_user_permissions',
     active_provider_users: 'active_provider_users',
     applications_by_demographic_domicile_and_degree_class: 'applications_by_demographic_domicile_and_degree_class',

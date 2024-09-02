@@ -6,7 +6,7 @@ class OfferCondition < ApplicationRecord
 
   audited associated_with: :application_choice
 
-  enum status: {
+  enum :status, {
     pending: 'pending',
     met: 'met',
     unmet: 'unmet',

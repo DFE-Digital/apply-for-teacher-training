@@ -14,7 +14,7 @@ class ApplicationReference < ApplicationRecord
 
   audited associated_with: :application_form
 
-  enum feedback_status: {
+  enum :feedback_status, {
     cancelled: 'cancelled',
     cancelled_at_end_of_cycle: 'cancelled_at_end_of_cycle',
     not_requested_yet: 'not_requested_yet',
@@ -24,14 +24,14 @@ class ApplicationReference < ApplicationRecord
     email_bounced: 'email_bounced',
   }
 
-  enum referee_type: {
+  enum :referee_type, {
     academic: 'academic',
     professional: 'professional',
     school_based: 'school-based',
     character: 'character',
   }
 
-  enum safeguarding_concerns_status: {
+  enum :safeguarding_concerns_status, {
     not_answered_yet: 'not_answered_yet',
     no_safeguarding_concerns_to_declare: 'no_safeguarding_concerns_to_declare',
     has_safeguarding_concerns_to_declare: 'has_safeguarding_concerns_to_declare',

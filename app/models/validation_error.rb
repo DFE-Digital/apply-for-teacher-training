@@ -1,5 +1,5 @@
 class ValidationError < ApplicationRecord
-  enum service: {
+  enum :service, {
     apply: 'apply',
     manage: 'manage',
   }

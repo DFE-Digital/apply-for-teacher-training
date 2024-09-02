@@ -51,7 +51,7 @@ module SupportInterface
       end
 
       def candidates_nationalities
-        other.present? ? [british, irish, other_nationality1, other_nationality2, other_nationality3].select(&:present?).uniq : [british, irish].select(&:present?)
+        other.present? ? [british, irish, other_nationality1, other_nationality2, other_nationality3].compact_blank.uniq : [british, irish].compact_blank
       end
 
     private

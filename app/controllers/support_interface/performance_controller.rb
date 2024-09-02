@@ -9,7 +9,7 @@ module SupportInterface
 
     def course_options
       @course_options = CourseOption
-        .where.not('vacancy_status = ?', 'vacancies')
+        .where.not(vacancy_status: 'vacancies')
         .includes(:course, :site)
 
       @pagy, @course_options = pagy(@course_options, limit: PAGY_PER_PAGE)

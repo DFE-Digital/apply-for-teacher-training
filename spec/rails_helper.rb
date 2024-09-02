@@ -34,7 +34,7 @@ test_date_time = STANDARD_TEST_DATES.fetch(test_date_time_var, test_date_time_va
 
 TestSuiteTimeMachine.pretend_it_is(test_date_time)
 
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Rails.root.glob('spec/support/**/*.rb').each { |f| require f }
 require 'capybara/rails'
 
 require Rails.root.join('app/helpers/cycle_timetable_helper.rb')

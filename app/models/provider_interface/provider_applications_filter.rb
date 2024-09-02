@@ -31,7 +31,7 @@ module ProviderInterface
     end
 
     def no_results_message
-      filters_with_value = applied_filters.select { |_, value| value.present? }
+      filters_with_value = applied_filters.compact_blank
       filtering_keys = filters_with_value.except(:remove).keys
       filter_count = filters_with_value.except(:candidate_name, :remove).keys.size
 

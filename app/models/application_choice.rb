@@ -36,7 +36,7 @@ class ApplicationChoice < ApplicationRecord
 
   # Note that prior to October 2020, we used to have awaiting_references and
   # application_complete statuses. These will still show up in older audit logs.
-  enum status: {
+  enum :status, {
     unsubmitted: 'unsubmitted',
     cancelled: 'cancelled',
     awaiting_provider_decision: 'awaiting_provider_decision',
@@ -56,12 +56,12 @@ class ApplicationChoice < ApplicationRecord
 
   # Different formats for rejection reasons data.
   # See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/app_concepts/reasons-for-rejection.md
-  enum rejection_reasons_type: {
+  enum :rejection_reasons_type, {
     rejection_reason: 'rejection_reason',           # Single text field reason predating Structured Reasons For Rejection and still writeable via API.
     reasons_for_rejection: 'reasons_for_rejection', # Initial iteration of Structured Reasons For Rejection model.
     rejection_reasons: 'rejection_reasons',         # Current iteration of Structured Reasons For Rejection.
     vendor_api_rejection_reasons: 'vendor_api_rejection_reasons', # Rejection reasons via the Vendor API.
-  }, _prefix: :rejection_reasons_type
+  }, prefix: :rejection_reasons_type
 
   scope :visible_to_provider, -> { where(status: ApplicationStateChange.states_visible_to_provider) }
   scope :reappliable, -> { where(status: ApplicationStateChange.reapply_states) }
