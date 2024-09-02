@@ -1,7 +1,6 @@
 module ProviderInterface
   class DeferredOfferDetailsComponent < ViewComponent::Base
     include ViewHelper
-    include StatusBoxComponents::CourseRows
 
     attr_reader :application_choice
 
