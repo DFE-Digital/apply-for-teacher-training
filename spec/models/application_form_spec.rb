@@ -924,6 +924,91 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#no_degree_and_degree_not_completed?' do
+    context 'when there are no degrees and the degree is not completed' do
+      let(:application_form) { create(:application_form, degrees_completed: false) }
+
+      it 'returns true' do
+        expect(application_form.no_degree_and_degree_not_completed?).to be true
+      end
+    end
+
+    context 'when there are degrees or the degree is completed' do
+      let(:application_form_with_degrees) { create(:application_form, :with_degree, degrees_completed: false) }
+      let(:application_form_completed) { create(:application_form, degrees_completed: true) }
+
+      it 'returns false if degrees exist' do
+        expect(application_form_with_degrees.no_degree_and_degree_not_completed?).to be false
+      end
+
+      it 'returns false if degree is completed' do
+        expect(application_form_completed.no_degree_and_degree_not_completed?).to be false
+      end
+    end
+  end
+
+  describe '#no_degree_and_degree_completed?' do
+    context 'when there are no degrees and the degree is completed' do
+      let(:application_form) { create(:application_form, degrees_completed: true) }
+
+      it 'returns true' do
+        expect(application_form.no_degree_and_degree_completed?).to be true
+      end
+    end
+
+    context 'when there are degrees' do
+      let(:application_form_with_degrees) { create(:application_form, :with_degree, degrees_completed: true) }
+
+      it 'returns false if degrees exist' do
+        expect(application_form_with_degrees.no_degree_and_degree_completed?).to be false
+      end
+    end
+
+    context 'when there no degree the degree is not completed' do
+      let(:application_form_not_completed) { create(:application_form, degrees_completed: false) }
+
+      it 'returns false if degree is not completed' do
+        expect(application_form_not_completed.no_degree_and_degree_completed?).to be false
+      end
+    end
+  end
+
+  describe '#no_degrees?' do
+    context 'when there are no degrees' do
+      let(:application_form) { create(:application_form) }
+
+      it 'returns true' do
+        expect(application_form.no_degrees?).to be true
+      end
+    end
+
+    context 'when there are degrees' do
+      let(:application_form_with_degrees) { create(:application_form, :with_degree) }
+
+      it 'returns false' do
+        expect(application_form_with_degrees.no_degrees?).to be false
+      end
+    end
+  end
+
+  describe '#degrees?' do
+    context 'when there are degrees' do
+      let(:application_form_with_degrees) { create(:application_form, :with_degree) }
+
+      it 'returns true' do
+        expect(application_form_with_degrees.degrees?).to be true
+      end
+    end
+
+    context 'when there are no degrees' do
+      let(:application_form) { create(:application_form) }
+
+      it 'returns false' do
+        expect(application_form.degrees?).to be false
+      end
+    end
+  end
+
   describe '#qualifications_completed?' do
     context 'when `degrees_completed` is false' do
       let(:application_form) do

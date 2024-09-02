@@ -648,7 +648,11 @@ class ApplicationForm < ApplicationRecord
   end
 
   def no_degrees?
-    application_qualifications.degrees.count.zero?
+    !degrees?
+  end
+
+  def degrees?
+    application_qualifications.degrees.exists?
   end
 
   def granted_editable_extension?(section_id)

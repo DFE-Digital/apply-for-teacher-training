@@ -44,6 +44,19 @@ RSpec.describe DuplicateApplication do
     expect(duplicate_application_form.equality_and_diversity_completed).to be_nil
   end
 
+  context 'when candidates has degrees' do
+    it 'sets university degree to true' do
+      create(:degree_qualification, :bachelor, application_form: @original_application_form)
+      expect(duplicate_application_form.university_degree).to be true
+    end
+  end
+
+  context 'when candidates does not have degrees' do
+    it 'does not set university degree' do
+      expect(duplicate_application_form.university_degree).to be_nil
+    end
+  end
+
   context 'english proficiency' do
     it 'carries over english proficiency data where qualification is not needed' do
       create(:english_proficiency, :qualification_not_needed, application_form: @original_application_form)
