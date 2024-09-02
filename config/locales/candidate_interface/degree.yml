@@ -84,6 +84,7 @@ en:
         hint: For example, 2019
       review:
         complete_hint_text: Check the entry requirements for your chosen course. Providers usually ask for a degree at 2:2 or above. Contact the training provider if you do not have the right degree level.
+        tda_complete_hint_text: Check the entry requirements for your chosen course. Postgraduate courses usually require a bachelor’s degree at 2:2 or above. Contact the training provider if you do not have the right degree level. Teacher degree apprenticeships do not require a degree.
         not_specified: Not entered
       another:
         button: Add another degree
