@@ -60,19 +60,28 @@ module SupportInterface
     def course_candidate_applied_for_row
       return unless application_choice.different_offer?
 
-      { key: 'Course applied for', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option)) }
+      {
+        key: 'Course applied for',
+        value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option, application_choice:)),
+      }
     end
 
     def course_offered_by_provider_row
       return unless application_choice.different_offer?
 
-      { key: 'Course offered', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.current_course_option)) }.merge(change_course_offered_link)
+      {
+        key: 'Course offered',
+        value: render(CourseOptionDetailsComponent.new(course_option: application_choice.current_course_option, application_choice:)),
+      }.merge(change_course_offered_link)
     end
 
     def course_row
       return if application_choice.different_offer?
 
-      { key: 'Course', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option)) }.merge(change_course_choice_link).merge(change_course_offered_link)
+      {
+        key: 'Course',
+        value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option, application_choice:)),
+      }.merge(change_course_choice_link).merge(change_course_offered_link)
     end
 
     def rejected_at_or_by_default_at_row

@@ -4,8 +4,10 @@ module SupportInterface
 
     attr_reader :course_option
 
-    def initialize(course_option:)
+    def initialize(course_option:, application_choice:)
       @course_option = course_option
+      @school_placement_auto_selected = application_choice.school_placement_auto_selected?
+      @course_option_is_original = application_choice.original_course_option == course_option
     end
 
     def rows
@@ -14,7 +16,7 @@ module SupportInterface
         { key: 'Course', value: render(SupportInterface::CourseNameAndStatusComponent.new(course_option:)) },
         { key: 'Cycle', value: course_option.course.recruitment_cycle_year },
         { key: 'Full time or part time', value: course_option.study_mode.humanize },
-        { key: 'Location', value: course_option.site.name_and_code },
+        { key: location_key, value: course_option.site.name_and_code },
       ]
 
       if accredited_body.present?
@@ -28,6 +30,15 @@ module SupportInterface
 
     def accredited_body
       course_option.course.accredited_provider
+    end
+
+    def location_key
+      if @course_option_is_original
+        text = 'not ' if @school_placement_auto_selected
+        "Location (#{text}selected by candidate)"
+      else
+        'Location'
+      end
     end
   end
 end
