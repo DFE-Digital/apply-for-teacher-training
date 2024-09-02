@@ -62,6 +62,12 @@ class Provider < ApplicationRecord
     provider_agreements.any?
   end
 
+  def selectable_school?
+    return true unless CycleTimetable.current_year >= 2025
+
+    super
+  end
+
   def lacks_admin_users?
     courses.any? &&
       !(provider_permissions.exists?(manage_users: true) &&

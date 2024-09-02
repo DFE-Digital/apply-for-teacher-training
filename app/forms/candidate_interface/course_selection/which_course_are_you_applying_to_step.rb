@@ -53,8 +53,11 @@ module CandidateInterface
         end
       end
 
+      # When editing an application choice, we want to load the show path for
+      # some steps that don't have an edit action / template
       def next_edit_step_path(next_step_klass)
-        return next_step_path(next_step_klass) unless next_step_klass.new.next_step
+        classes_without_edit = [DuplicateCourseSelectionStep, FullCourseSelectionStep, ClosedCourseSelectionStep]
+        return next_step_path(next_step_klass) if classes_without_edit.include?(next_step_klass)
 
         super
       end

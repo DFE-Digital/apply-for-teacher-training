@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'Selecting a course with multiple sites' do
+RSpec.describe 'Selecting a course with multiple sites when the provider is not selectable_school', time: CycleTimetableHelper.mid_cycle(2025) do
   include CandidateHelper
 
-  it 'Candidate selects a course choice' do
+  it 'Candidate skips the school selection' do
     given_i_am_signed_in
     and_there_are_course_options
 
@@ -14,12 +14,6 @@ RSpec.describe 'Selecting a course with multiple sites' do
     and_i_click_continue
     and_i_choose_a_provider
     and_i_choose_a_course
-
-    then_i_choose_a_location_preference
-    and_i_click_continue
-
-    then_i_am_seeing_an_error_message
-    and_i_choose_a_location
 
     then_i_am_on_the_application_choice_review_page
   end
@@ -56,11 +50,6 @@ RSpec.describe 'Selecting a course with multiple sites' do
     click_link_or_button t('continue')
   end
 
-  def and_i_choose_a_location
-    choose 'Main site'
-    click_link_or_button t('continue')
-  end
-
   def when_i_click_continue
     click_link_or_button t('continue')
   end
@@ -74,7 +63,7 @@ RSpec.describe 'Selecting a course with multiple sites' do
   end
 
   def and_there_are_course_options
-    @provider = create(:provider, name: 'Gorse SCITT', code: '1N1', selectable_school: true)
+    @provider = create(:provider, name: 'Gorse SCITT', code: '1N1', selectable_school: false)
     first_site = create(
       :site,
       name: 'Main site',
@@ -97,23 +86,8 @@ RSpec.describe 'Selecting a course with multiple sites' do
       address_line4: 'West Yorkshire',
       postcode: 'LS8 5DQ',
     )
-    @multi_site_course = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
+    @multi_site_course = create(:course, :open, :with_both_study_modes, name: 'Primary', code: '2XT2', provider: @provider)
     create(:course_option, site: first_site, course: @multi_site_course)
     create(:course_option, site: second_site, course: @multi_site_course)
-  end
-
-  def then_i_choose_a_location_preference
-    expect(page).to have_current_path(
-      candidate_interface_course_choices_course_site_path(
-        @provider.id,
-        @multi_site_course.id,
-        'full_time',
-      ), ignore_query: true
-    )
-  end
-
-  def then_i_am_seeing_an_error_message
-    expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select which location you are interested in')
   end
 end

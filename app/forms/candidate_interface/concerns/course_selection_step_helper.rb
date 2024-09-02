@@ -21,7 +21,9 @@ module CandidateInterface
         course.currently_has_both_study_modes_available?
       end
 
-      delegate :multiple_sites?, to: :course
+      def multiple_sites?
+        course.multiple_sites? && provider.selectable_school?
+      end
 
       def provider_exists?
         Provider.exists?(provider_id)

@@ -19,7 +19,7 @@ RSpec.describe CandidateInterface::CourseSelection::CourseStudyModeStep do
   end
 
   describe '#next_step' do
-    let(:provider) { create(:provider) }
+    let(:provider) { create(:provider, selectable_school: true) }
     let(:course) do
       create(
         :course,
@@ -39,6 +39,19 @@ RSpec.describe CandidateInterface::CourseSelection::CourseStudyModeStep do
 
       it 'returns :course_site' do
         expect(course_study_mode_step.next_step).to be(:course_site)
+      end
+    end
+
+    context 'when course has multiple sites and provider school is not selectable', time: CycleTimetableHelper.mid_cycle(2025) do
+      let(:provider) { create(:provider, selectable_school: false) }
+
+      before do
+        create(:course_option, site: create(:site, provider:), course:)
+        create(:course_option, site: create(:site, provider:), course:)
+      end
+
+      it 'returns :course_review' do
+        expect(course_study_mode_step.next_step).to be(:course_review)
       end
     end
 

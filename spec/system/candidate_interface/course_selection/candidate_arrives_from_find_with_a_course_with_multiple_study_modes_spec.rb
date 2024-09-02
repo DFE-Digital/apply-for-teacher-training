@@ -28,7 +28,7 @@ RSpec.describe 'Candidate arrives from Find with provider and course with multip
   end
 
   def given_there_is_a_provider_with_a_course_that_is_only_accepting_applications_on_apply
-    @provider = create(:provider, name: 'Vim masters')
+    @provider = create(:provider, name: 'Vim masters', selectable_school: true)
 
     @first_site = create(:site, provider: @provider, name: 'Site 1')
     @second_site = create(:site, provider: @provider, name: 'Site 2')

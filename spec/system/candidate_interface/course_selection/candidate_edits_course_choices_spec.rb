@@ -77,7 +77,7 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_there_is_a_course_with_one_course_option
-    @provider = create(:provider)
+    @provider = create(:provider, selectable_school: true)
     create(:course, :open, name: 'English', provider: @provider, study_mode: :full_time)
 
     course_option_for_provider(provider: @provider, course: @provider.courses.first)
