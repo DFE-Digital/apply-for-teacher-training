@@ -10,7 +10,7 @@ module ViewHelper
              body
            elsif url.to_s.end_with?(candidate_interface_details_path)
              'Back to your details'
-           elsif url.to_s.end_with?(candidate_interface_continuous_applications_choices_path)
+           elsif url.to_s.end_with?(candidate_interface_application_choices_path)
              'Back to your applications'
            end
 

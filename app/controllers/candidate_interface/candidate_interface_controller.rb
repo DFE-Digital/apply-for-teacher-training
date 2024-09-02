@@ -81,7 +81,7 @@ module CandidateInterface
       )
 
       if current_application.application_choices.any? && completed_application_form.valid?
-        redirect_to candidate_interface_continuous_applications_choices_path
+        redirect_to candidate_interface_application_choices_path
       else
         redirect_to candidate_interface_details_path
       end

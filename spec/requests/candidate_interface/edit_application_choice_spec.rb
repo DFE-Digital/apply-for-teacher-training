@@ -36,7 +36,7 @@ RSpec.describe 'Edit courses on continuous applications' do
     it 'redirects to "your applications" tab' do
       paths.each do |path|
         get path
-        expect(response).to redirect_to(candidate_interface_continuous_applications_choices_path)
+        expect(response).to redirect_to(candidate_interface_application_choices_path)
       end
     end
   end

@@ -139,7 +139,7 @@ RSpec.describe 'A candidate withdraws their application', :bullet do
   end
 
   def then_i_see_my_application_dashboard
-    expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
+    expect(page).to have_current_path candidate_interface_application_choices_path
   end
 
   def and_i_am_thanked_for_my_feedback

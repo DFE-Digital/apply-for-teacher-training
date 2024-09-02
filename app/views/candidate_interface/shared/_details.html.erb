@@ -16,7 +16,7 @@
       <% message = 'Your details will be shared with the training provider when you apply.' %>
 
       <% if completed_application_form?(@application_form_presenter.application_form) %>
-        You can <%= govuk_link_to 'add your applications', candidate_interface_continuous_applications_choices_path %>.<br>
+        You can <%= govuk_link_to 'add your applications', candidate_interface_application_choices_path %>.<br>
         <br>
         <%= message %>
       <% else %>

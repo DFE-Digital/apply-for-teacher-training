@@ -43,7 +43,7 @@ RSpec.describe 'Candidate submission' do
   end
 
   def then_i_am_on_your_applications_page
-    expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
+    expect(page).to have_current_path candidate_interface_application_choices_path
   end
 
   def given_i_have_in_progress_application_form

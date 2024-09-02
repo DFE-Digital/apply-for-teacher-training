@@ -40,7 +40,7 @@ private
   end
 
   def then_i_see_my_applications_page
-    expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
+    expect(page).to have_current_path candidate_interface_application_choices_path
     expect(page).to have_content 'Your applications'
     expect(page).to have_content 'Awaiting decision'
   end

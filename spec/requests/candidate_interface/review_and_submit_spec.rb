@@ -13,7 +13,7 @@ RSpec.describe 'Redirects when reviewing before submission' do
       application_form = create(:completed_application_form, candidate:)
       application_choice = create(:application_choice, :awaiting_provider_decision, application_form:)
       get candidate_interface_course_choices_course_review_and_submit_path(application_choice.id)
-      expect(response).to redirect_to(candidate_interface_continuous_applications_choices_path)
+      expect(response).to redirect_to(candidate_interface_application_choices_path)
     end
   end
 
@@ -32,7 +32,7 @@ RSpec.describe 'Redirects when reviewing before submission' do
       application_choice = create(:application_choice, :unsubmitted, application_form:)
       travel_temporarily_to(after_apply_deadline) do
         get candidate_interface_course_choices_course_review_and_submit_path(application_choice.id)
-        expect(response).to redirect_to(candidate_interface_continuous_applications_choices_path)
+        expect(response).to redirect_to(candidate_interface_application_choices_path)
       end
     end
   end

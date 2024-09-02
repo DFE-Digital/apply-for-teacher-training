@@ -53,7 +53,7 @@ RSpec.describe 'Candidate signs in and prefills application in Sandbox', :sandbo
   end
 
   def then_i_am_taken_to_your_applications_page
-    expect(page).to have_current_path(candidate_interface_continuous_applications_choices_path)
+    expect(page).to have_current_path(candidate_interface_application_choices_path)
   end
 
   def and_there_is_a_flash_saying_the_application_was_prefilled

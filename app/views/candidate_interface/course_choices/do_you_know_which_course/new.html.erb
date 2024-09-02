@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.do_you_know'), @wizard.current_step.errors.any?) %>
-<% content_for(:before_content, govuk_back_link_to(@wizard.previous_step_path(fallback: candidate_interface_continuous_applications_choices_path))) %>
+<% content_for(:before_content, govuk_back_link_to(@wizard.previous_step_path(fallback: candidate_interface_application_choices_path))) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

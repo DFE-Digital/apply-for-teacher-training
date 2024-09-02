@@ -61,7 +61,7 @@ RSpec.describe 'Selecting a course' do
   end
 
   def then_i_am_on_my_applications_page
-    expect(page).to have_current_path(candidate_interface_continuous_applications_choices_path)
+    expect(page).to have_current_path(candidate_interface_application_choices_path)
   end
 
   def when_i_come_from_find_and_arrive_on_confirm_selection_page

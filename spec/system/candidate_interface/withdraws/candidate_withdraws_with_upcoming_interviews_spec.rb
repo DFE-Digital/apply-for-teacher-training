@@ -36,7 +36,7 @@ RSpec.describe 'A candidate withdraws with upcoming interviews' do
   end
 
   def when_i_visit_the_application_dashboard
-    visit candidate_interface_continuous_applications_choices_path
+    visit candidate_interface_application_choices_path
   end
 
   def and_i_click_the_withdraw_link_on_my_first_choice
@@ -66,7 +66,7 @@ RSpec.describe 'A candidate withdraws with upcoming interviews' do
   end
 
   def then_i_see_my_application_dashboard
-    expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
+    expect(page).to have_current_path candidate_interface_application_choices_path
   end
 
   def and_that_my_application_has_been_withdrawn

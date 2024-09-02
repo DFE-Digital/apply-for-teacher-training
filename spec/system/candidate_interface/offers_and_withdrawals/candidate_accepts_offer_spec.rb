@@ -162,7 +162,7 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   def when_i_visit_the_application_dashboard
-    visit candidate_interface_continuous_applications_choices_path
+    visit candidate_interface_application_choices_path
   end
 
   def then_i_see_the_offer
