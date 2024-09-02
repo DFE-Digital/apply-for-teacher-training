@@ -34,6 +34,6 @@ RSpec.describe 'Candidate signs in and starts blank application' do
   end
 
   def then_i_am_taken_to_the_application_page
-    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
+    expect(page).to have_current_path(candidate_interface_details_path)
   end
 end

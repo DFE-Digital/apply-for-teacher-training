@@ -35,7 +35,7 @@ RSpec.describe 'Candidate viewing Science GCSE' do
   end
 
   def and_i_am_on_your_application_page
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
   alias_method :when_i_am_on_your_application_page, :and_i_am_on_your_application_page
 

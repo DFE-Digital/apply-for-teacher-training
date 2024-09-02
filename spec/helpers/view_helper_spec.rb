@@ -38,7 +38,7 @@ RSpec.describe ViewHelper do
 
     context 'when path ends with candidate/application/details' do
       it 'renders a link with the text Back to your details' do
-        anchor_tag = helper.govuk_back_link_to(candidate_interface_continuous_applications_details_path)
+        anchor_tag = helper.govuk_back_link_to(candidate_interface_details_path)
 
         expect(anchor_tag).to eq('<a class="govuk-back-link govuk-!-display-none-print" href="/candidate/application/details">Back to your details</a>')
       end

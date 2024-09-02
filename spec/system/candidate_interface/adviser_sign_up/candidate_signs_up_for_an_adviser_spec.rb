@@ -76,7 +76,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def and_i_visit_your_details_page
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def when_i_click_on_the_adviser_cta
@@ -110,7 +110,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def then_i_am_redirected_to_your_details_page
-    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
+    expect(page).to have_current_path(candidate_interface_details_path)
   end
 
   def and_i_see_the_success_message

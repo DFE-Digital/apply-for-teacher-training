@@ -63,7 +63,7 @@ RSpec.describe 'Primary Navigation' do
   end
 
   def when_i_visit_the_application_dashboard
-    visit(candidate_interface_continuous_applications_details_path)
+    visit(candidate_interface_details_path)
   end
 
   def when_i_click_on_personal_information

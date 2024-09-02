@@ -18,7 +18,7 @@ module BackLinks
     if request.path.match?(/withdraw/)
       candidate_interface_continuous_applications_choices_path
     else
-      candidate_interface_continuous_applications_details_path
+      candidate_interface_details_path
     end
   end
 

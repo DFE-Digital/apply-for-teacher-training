@@ -31,6 +31,6 @@ private
   end
 
   def link_to_details
-    govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_continuous_applications_details_path)
+    govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_details_path)
   end
 end

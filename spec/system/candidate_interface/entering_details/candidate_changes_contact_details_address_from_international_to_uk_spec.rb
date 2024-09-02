@@ -33,7 +33,7 @@ RSpec.describe 'Candidate updates their contact information from an internationa
   end
 
   def and_i_visit_the_site
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def when_i_click_on_contact_information

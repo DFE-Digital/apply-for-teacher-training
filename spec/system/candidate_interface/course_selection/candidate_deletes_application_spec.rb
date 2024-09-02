@@ -62,7 +62,7 @@ RSpec.describe 'Candidate edits their choice section' do
   end
 
   def and_visit_my_application_page
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def and_if_i_try_manually_to_enter_on_delete_the_url_for_my_submitted_choice

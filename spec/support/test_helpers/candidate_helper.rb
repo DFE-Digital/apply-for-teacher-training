@@ -36,7 +36,7 @@ module CandidateHelper
     #
     ##########################################
 
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
 
     click_link_or_button t('page_titles.personal_information.heading')
     candidate_fills_in_personal_details(international:)
@@ -122,7 +122,7 @@ module CandidateHelper
     #
     ###############################################
 
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
 
     click_link_or_button 'Science GCSE or equivalent'
     candidate_explains_a_missing_gcse
@@ -199,7 +199,7 @@ module CandidateHelper
   end
 
   def mark_references_as_complete
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
 
     click_link_or_button 'References to be requested if you accept an offer'
 
@@ -402,7 +402,7 @@ module CandidateHelper
     #
     ##########################################
 
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
 
     click_link_or_button t('page_titles.personal_information.heading')
     candidate_fills_in_personal_details(international:)
@@ -654,7 +654,7 @@ module CandidateHelper
       relationship: 'First boss',
     )
 
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def candidate_fills_in_their_maths_gcse
@@ -763,7 +763,7 @@ module CandidateHelper
   end
 
   def then_i_can_add_course_choices
-    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
+    expect(page).to have_current_path(candidate_interface_details_path)
     click_link_or_button 'Your applications'
     expect(page).to have_current_path(candidate_interface_continuous_applications_choices_path)
     expect(page).to have_content('You can add up to 4 applications at a time.')
@@ -780,7 +780,7 @@ module CandidateHelper
   end
 
   def then_i_am_on_your_details_page
-    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
+    expect(page).to have_current_path(candidate_interface_details_path)
   end
 
   def then_i_am_on_the_post_offer_dashboard

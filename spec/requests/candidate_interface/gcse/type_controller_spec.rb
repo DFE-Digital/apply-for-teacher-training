@@ -12,7 +12,7 @@ RSpec.describe 'CandidateInterface::GCSE::TypeController' do
       %w[maths english science].each do |subject|
         get "/candidate/application/gcse/#{subject}/edit"
 
-        expect(response).to redirect_to candidate_interface_continuous_applications_details_path
+        expect(response).to redirect_to candidate_interface_details_path
       end
     end
   end
@@ -22,7 +22,7 @@ RSpec.describe 'CandidateInterface::GCSE::TypeController' do
       %w[maths english science].each do |subject|
         patch "/candidate/application/gcse/#{subject}/edit"
 
-        expect(response).to redirect_to candidate_interface_continuous_applications_details_path
+        expect(response).to redirect_to candidate_interface_details_path
       end
     end
   end

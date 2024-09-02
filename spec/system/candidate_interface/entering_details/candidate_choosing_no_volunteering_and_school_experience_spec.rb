@@ -23,7 +23,7 @@ RSpec.describe 'Choosing no volunteering and school experience' do
   end
 
   def and_i_visit_the_site
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def when_i_click_on_volunteering_with_children_and_young_people

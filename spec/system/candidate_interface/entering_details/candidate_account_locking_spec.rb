@@ -21,7 +21,7 @@ RSpec.describe 'Candidate account locking' do
   end
 
   def and_i_visit_the_site
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def and_my_account_is_locked

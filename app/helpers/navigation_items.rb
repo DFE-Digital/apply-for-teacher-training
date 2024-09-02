@@ -28,7 +28,7 @@ class NavigationItems
         [
           NavigationItem.new(
             t('page_titles.your_details'),
-            candidate_interface_continuous_applications_details_path,
+            candidate_interface_details_path,
             current_controller.respond_to?(:choices_controller?) ? !current_controller.choices_controller? : false,
           ),
           NavigationItem.new(

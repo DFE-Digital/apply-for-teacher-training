@@ -81,7 +81,7 @@ private
   def and_i_can_carry_over_my_application
     expect(page).to have_current_path candidate_interface_start_carry_over_path
     click_on 'Update your details'
-    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
+    expect(page).to have_current_path candidate_interface_details_path
   end
 
   def when_i_visit_the_start_carry_over_page_directly

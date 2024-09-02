@@ -16,7 +16,7 @@ module CandidateInterface
       @course = apply_from_find.course
 
       if apply_from_find.candidate_has_application_in_wrong_cycle?
-        redirect_to candidate_interface_continuous_applications_details_path
+        redirect_to candidate_interface_details_path
       elsif apply_from_find.course_in_apply_database_and_candidate_signed_in?
         current_candidate.update!(course_from_find_id: @course.id)
         redirect_to candidate_interface_interstitial_path

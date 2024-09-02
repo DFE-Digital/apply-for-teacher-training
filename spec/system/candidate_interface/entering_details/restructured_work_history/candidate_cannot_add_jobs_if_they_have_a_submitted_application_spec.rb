@@ -23,7 +23,7 @@ RSpec.describe 'Trying to enter work history' do
   end
 
   def when_i_view_work_history
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
     click_on 'Work history'
   end
 

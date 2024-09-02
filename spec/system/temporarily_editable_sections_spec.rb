@@ -192,7 +192,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
   end
 
   def and_i_am_redirected_to_your_details_page
-    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
+    expect(page).to have_current_path candidate_interface_details_path
   end
 
   def and_candidate_can_not_delete_degrees

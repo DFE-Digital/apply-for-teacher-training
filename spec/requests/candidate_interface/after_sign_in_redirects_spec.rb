@@ -27,7 +27,7 @@ RSpec.describe 'After sign in redirects' do
 
       it 'redirects to application details path' do
         get candidate_interface_interstitial_path
-        expect(response).to redirect_to(candidate_interface_continuous_applications_details_path)
+        expect(response).to redirect_to(candidate_interface_details_path)
       end
     end
 

@@ -24,7 +24,7 @@ RSpec.describe 'Selecting a course with multiple study modes and sites when the 
   end
 
   def when_i_visit_the_site
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 
   def and_i_click_on_course_choices

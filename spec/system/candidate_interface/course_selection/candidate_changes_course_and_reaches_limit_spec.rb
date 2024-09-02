@@ -79,6 +79,6 @@ RSpec.describe 'Changing a course' do
   end
 
   def when_i_visit_my_details_page
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
   end
 end

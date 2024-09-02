@@ -1,7 +1,7 @@
 module CandidateInterface
   class ApplicationFeedbackController < CandidateInterfaceController
     def new
-      redirect_to candidate_interface_continuous_applications_details_path if params[:original_controller].nil?
+      redirect_to candidate_interface_details_path if params[:original_controller].nil?
       @application_feedback_form = CandidateInterface::ApplicationFeedbackForm.new(
         path: params[:path],
         page_title: params[:page_title],

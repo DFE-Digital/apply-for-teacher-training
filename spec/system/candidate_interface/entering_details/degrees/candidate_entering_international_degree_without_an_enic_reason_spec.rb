@@ -26,7 +26,7 @@ private
   end
 
   def when_i_view_the_degree_section
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
     when_i_click_on_degree
   end
 

@@ -130,7 +130,7 @@ RSpec.describe 'Candidate with no right to work or study' do
   end
 
   def when_i_choose_a_provider
-    visit candidate_interface_continuous_applications_details_path
+    visit candidate_interface_details_path
     click_link_or_button 'Your application'
     click_link_or_button 'Add application'
     choose 'Yes, I know where I want to apply'

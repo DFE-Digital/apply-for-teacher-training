@@ -1,6 +1,6 @@
 <% if @section_policy.can_edit? %>
   <% if submitted_applications? && form.object.completed.present? %>
-    <%= govuk_button_link_to 'Continue', candidate_interface_continuous_applications_details_path %>
+    <%= govuk_button_link_to 'Continue', candidate_interface_details_path %>
   <% else %>
     <div class="govuk-!-width-two-thirds">
       <%= form.govuk_collection_radio_buttons :completed,
