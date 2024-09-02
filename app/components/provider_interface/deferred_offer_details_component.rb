@@ -24,7 +24,7 @@ module ProviderInterface
           value: course_option.study_mode.humanize,
         },
         {
-          key: 'Location',
+          key: location_key,
           value: course_option.site.name_and_address,
         },
       ]
@@ -34,6 +34,11 @@ module ProviderInterface
 
     def course_option
       @course_option || @application_choice.current_course_option
+    end
+
+    def location_key
+      text = 'not ' if @application_choice.school_placement_auto_selected?
+      "Location (#{text}selected by candidate)"
     end
   end
 end

@@ -18,7 +18,7 @@ module ProviderInterface
       end
 
       def rows
-        course_rows(course_option: application_choice.current_course_option)
+        course_rows(application_choice:)
       end
 
       def update_conditions_path

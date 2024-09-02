@@ -45,7 +45,7 @@ module ProviderInterface
           },
         },
         {
-          key: 'Location',
+          key: location_key,
           value: course_option.site.name_and_address("\n"),
           action: {
             href: change_location_path,
@@ -108,6 +108,15 @@ module ProviderInterface
 
     def mode
       :new
+    end
+
+    def location_key
+      if application_choice.original_course_option.id == course_option.id
+        text = 'not ' if @application_choice.school_placement_auto_selected?
+        "Location (#{text}selected by candidate)"
+      else
+        'Location'
+      end
     end
   end
 end

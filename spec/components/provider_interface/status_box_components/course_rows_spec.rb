@@ -10,15 +10,17 @@ RSpec.describe ProviderInterface::StatusBoxComponents::CourseRows do
   end
 
   it 'displays information about the offered course' do
-    rows = helper.course_rows(course_option: create(:course_option))
+    application_choice = build(:application_choice)
+    rows = helper.course_rows(application_choice:)
 
-    expect(rows.map { |r| r[:key] }).to contain_exactly('Course', 'Location', 'Provider', 'Full time or part time')
+    expect(rows.map { |r| r[:key] }).to contain_exactly('Course', 'Location (selected by candidate)', 'Provider', 'Full time or part time')
   end
 
   it 'includes the accredited_provider if present' do
-    course = create(:course, accredited_provider: create(:provider))
-    rows = helper.course_rows(course_option: create(:course_option, course:))
+    course = build(:course, accredited_provider: build(:provider))
+    application_choice = build(:application_choice, course_option: build(:course_option, course:), school_placement_auto_selected: true)
+    rows = helper.course_rows(application_choice:)
 
-    expect(rows.map { |r| r[:key] }).to contain_exactly('Course', 'Location', 'Provider', 'Full time or part time', 'Accredited body')
+    expect(rows.map { |r| r[:key] }).to contain_exactly('Course', 'Location (not selected by candidate)', 'Provider', 'Full time or part time', 'Accredited body')
   end
 end
