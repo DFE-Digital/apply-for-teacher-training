@@ -10,7 +10,7 @@ module ProviderInterface
           value: course_option.course.name_and_code },
         { key: 'Full time or part time',
           value: course_option.study_mode.humanize },
-        { key: 'Location',
+        { key: location_key,
           value: course_option.site.name_and_address },
         { key: 'Qualification',
           value: qualification_text(course_option) },

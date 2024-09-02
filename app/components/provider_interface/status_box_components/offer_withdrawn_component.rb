@@ -26,7 +26,7 @@ module ProviderInterface
             key: 'Offer withdrawn',
             value: offer_withdrawn_at,
           },
-        ] + course_rows(course_option: application_choice.current_course_option)
+        ] + course_rows(application_choice:)
       end
     end
   end
