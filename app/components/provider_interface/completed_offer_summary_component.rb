@@ -30,7 +30,7 @@ module ProviderInterface
           },
         },
         {
-          key: 'Location',
+          key: location_key,
           value: course_option.site.name_and_address("\n"),
           action: {
             href: change_location_path,

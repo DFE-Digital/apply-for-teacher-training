@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::DeferredOfferDetailsComponent do
-  let(:application_choice) { instance_double(ApplicationChoice, offer: false, application_form: build(:application_form)) }
+  let(:application_choice) do
+    instance_double(ApplicationChoice, school_placement_auto_selected?: true, offer: false, application_form: build(:application_form))
+  end
   let(:provider) { build(:provider, name: 'Best Training') }
   let(:course_option) { build(:course_option) }
 
@@ -42,7 +44,20 @@ RSpec.describe ProviderInterface::DeferredOfferDetailsComponent do
   it 'renders the location' do
     render_text = row_text_selector(:location, render)
 
-    expect(render_text).to include('Location')
+    expect(render_text).to include('Location (not selected by candidate)')
     expect(render_text).to include(course_option.site.name_and_address)
+  end
+
+  context 'when selected by candidate' do
+    let(:application_choice) do
+      instance_double(ApplicationChoice, school_placement_auto_selected?: false, offer: false, application_form: build(:application_form))
+    end
+
+    it 'renders the location' do
+      render_text = row_text_selector(:location, render)
+
+      expect(render_text).to include('Location (selected by candidate)')
+      expect(render_text).to include(course_option.site.name_and_address)
+    end
   end
 end

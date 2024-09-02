@@ -1,34 +1,39 @@
 module ProviderInterface
   module StatusBoxComponents
     module CourseRows
-      def course_rows(course_option:)
+      def course_rows(application_choice:)
         rows = [
           {
             key: 'Provider',
-            value: course_option.provider.name,
+            value: application_choice.course_option.provider.name,
           },
           {
             key: 'Course',
-            value: course_option.course.name_and_code,
+            value: application_choice.course_option.course.name_and_code,
           },
           {
             key: 'Full time or part time',
-            value: course_option.study_mode.humanize,
+            value: application_choice.course_option.study_mode.humanize,
           },
           {
-            key: 'Location',
-            value: course_option.site.name_and_address,
+            key: location_key(application_choice),
+            value: application_choice.course_option.site.name_and_address,
           },
         ]
 
-        if course_option.course.accredited_provider.present?
+        if application_choice.course_option.course.accredited_provider.present?
           rows.push({
             key: 'Accredited body',
-            value: course_option.course.accredited_provider.name,
+            value: application_choice.course_option.course.accredited_provider.name,
           })
         end
 
         rows
+      end
+
+      def location_key(application_choice)
+        text = 'not ' if application_choice.school_placement_auto_selected?
+        "Location (#{text}selected by candidate)"
       end
     end
   end
