@@ -31,7 +31,7 @@ module ProviderInterface
         { key: 'Training provider', value: provider_name, action: { href: change_provider_path } },
         { key: 'Course', value: course_name_and_code, action: { href: change_course_path } },
         { key: 'Full time or part time', value: study_mode, action: { href: change_study_mode_path } },
-        { key: 'Location', value: preferred_location, action: { href: change_location_path } },
+        { key: location_key, value: preferred_location, action: { href: change_location_path } },
         { key: 'Accredited body', value: accredited_body },
         { key: 'Qualification', value: qualification },
         { key: 'Funding type', value: funding_type },
@@ -77,6 +77,18 @@ module ProviderInterface
 
     def change_location_path
       available_course_options.length > 1 ? edit_provider_interface_application_choice_course_locations_path(application_choice) : nil
+    end
+
+    # If the course option being displayed is the original course option chosen
+    # by the candidate we show the context. Otherwise we just show the
+    # simplified key.
+    def location_key
+      if application_choice.different_offer?
+        text = 'not ' if @application_choice.school_placement_auto_selected?
+        "Location (#{text}selected by candidate)"
+      else
+        'Location'
+      end
     end
   end
 end
