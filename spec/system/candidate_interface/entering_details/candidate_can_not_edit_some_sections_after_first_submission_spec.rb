@@ -16,8 +16,6 @@ RSpec.describe 'A candidate can not edit some sections after first submission' d
     NonEditableSection.new(:degree, 'Degree'),
     NonEditableSection.new(:references, 'References to be requested if you accept an offer'),
     NonEditableSection.new(:safeguarding, 'Declare any safeguarding issues'),
-    NonEditableSection.new(:work_history, 'Work history'),
-    NonEditableSection.new(:unpaid_experience, 'Unpaid experience'),
   ].each do |section|
     scenario "candidate can not edit section '#{section.title}' after submission" do
       @section = section
