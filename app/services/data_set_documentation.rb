@@ -19,7 +19,7 @@ class DataSetDocumentation
   end
 
   def self.load_common_columns
-    Dir[Rails.root.join('app/exports/common_columns/*')]
+    Rails.root.glob('app/exports/common_columns/*')
         .map { |file| YAML.load_file(file, permitted_classes: [Time, Date]) }
         .reduce({}, :merge)
   end

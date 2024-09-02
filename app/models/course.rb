@@ -25,32 +25,32 @@ class Course < ApplicationRecord
   SKE_GRADUATION_CUTOFF_THRESHOLD = 5.years
 
   # This enum is copied verbatim from Find to maintain consistency
-  enum application_status: {
+  enum :application_status, {
     closed: 0,
     open: 1,
-  }, _prefix: :application_status
+  }, prefix: :application_status
 
-  enum level: {
+  enum :level, {
     primary: 'Primary',
     secondary: 'Secondary',
     further_education: 'Further education',
-  }, _suffix: :course
+  }, suffix: :course
 
-  enum funding_type: {
+  enum :funding_type, {
     fee: 'fee',
     salary: 'salary',
     apprenticeship: 'apprenticeship',
   }
 
   # also copied from Find
-  enum study_mode: {
+  enum :study_mode, {
     full_time: 'F',
     part_time: 'P',
     full_time_or_part_time: 'B',
   }
 
   # also copied from Find
-  enum program_type: {
+  enum :program_type, {
     higher_education_programme: 'HE',
     higher_education_salaried_programme: 'HES',
     school_direct_training_programme: 'SD',
@@ -61,7 +61,7 @@ class Course < ApplicationRecord
     teacher_degree_apprenticeship: 'TDA',
   }
 
-  enum degree_grade: {
+  enum :degree_grade, {
     two_one: 'two_one',
     two_two: 'two_two',
     third_class: 'third_class',

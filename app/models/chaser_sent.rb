@@ -6,7 +6,7 @@ class ChaserSent < ApplicationRecord
   }
   scope :since_application_deadline, -> { where('created_at > ?', CycleTimetable.apply_deadline) }
 
-  enum chaser_type: {
+  enum :chaser_type, {
     ######################################
     ####     Service availability     ####
     ######################################

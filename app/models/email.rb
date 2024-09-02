@@ -4,7 +4,7 @@ class Email < ApplicationRecord
   belongs_to :application_form, optional: true
   has_many :email_clicks, dependent: :destroy
 
-  enum delivery_status: {
+  enum :delivery_status, {
     # Email predates implementation of GOV.UK Notify callback
     not_tracked: 'not_tracked',
 

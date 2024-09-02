@@ -18,7 +18,7 @@ class Provider < ApplicationRecord
 
   has_many :performance_reports, class_name: 'Publications::ProviderRecruitmentPerformanceReport'
 
-  enum region_code: {
+  enum :region_code, {
     east_midlands: 'east_midlands',
     eastern: 'eastern',
     london: 'london',
@@ -33,7 +33,7 @@ class Provider < ApplicationRecord
     yorkshire_and_the_humber: 'yorkshire_and_the_humber',
   }
 
-  enum provider_type: {
+  enum :provider_type, {
     lead_school: 'lead_school',
     scitt: 'scitt',
     university: 'university',

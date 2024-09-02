@@ -14,12 +14,12 @@ class CourseOption < ApplicationRecord
 
   scope :selectable, -> { where(site_still_valid: true) }
 
-  enum study_mode: {
+  enum :study_mode, {
     full_time: 'full_time',
     part_time: 'part_time',
   }
 
-  enum vacancy_status: {
+  enum :vacancy_status, {
     vacancies: 'vacancies',
     no_vacancies: 'no_vacancies',
   }

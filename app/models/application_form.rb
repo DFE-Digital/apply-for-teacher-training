@@ -85,25 +85,25 @@ class ApplicationForm < ApplicationRecord
     EqualityAndDiversity::ValuesChecker.new(application_form: self).check_values
   end
 
-  enum phase: {
+  enum :phase, {
     apply_1: 'apply_1',
     apply_2: 'apply_2',
   }
 
-  enum safeguarding_issues_status: {
+  enum :safeguarding_issues_status, {
     not_answered_yet: 'not_answered_yet',
     no_safeguarding_issues_to_declare: 'no_safeguarding_issues_to_declare',
     has_safeguarding_issues_to_declare: 'has_safeguarding_issues_to_declare',
     never_asked: 'never_asked',
   }
 
-  enum right_to_work_or_study: {
+  enum :right_to_work_or_study, {
     yes: 'yes',
     no: 'no',
     decide_later: 'decide_later',
-  }, _prefix: true
+  }, prefix: true
 
-  enum immigration_status: {
+  enum :immigration_status, {
     eu_settled: 'eu_settled',
     eu_pre_settled: 'eu_pre_settled',
     indefinite_leave_to_remain_in_the_uk: 'indefinite_leave_to_remain_in_the_uk',
@@ -123,13 +123,13 @@ class ApplicationForm < ApplicationRecord
     other: 'other',
   }
 
-  enum address_type: {
+  enum :address_type, {
     uk: 'uk',
     international: 'international',
-  }, _suffix: :address
+  }, suffix: :address
   attribute :address_type, :string
 
-  enum feedback_satisfaction_level: {
+  enum :feedback_satisfaction_level, {
     very_satisfied: 'very_satisfied',
     satisfied: 'satisfied',
     neither_satisfied_or_dissatisfied: 'neither_satisfied_or_dissatisfied',
@@ -137,13 +137,13 @@ class ApplicationForm < ApplicationRecord
     very_dissatisfied: 'very_dissatisfied',
   }
 
-  enum work_history_status: {
+  enum :work_history_status, {
     can_complete: 'can_complete',
     full_time_education: 'full_time_education',
     can_not_complete: 'can_not_complete',
   }
 
-  enum region_code: {
+  enum :region_code, {
     channel_islands: 'channel_islands',
     east_midlands: 'east_midlands',
     eastern: 'eastern',
@@ -163,7 +163,7 @@ class ApplicationForm < ApplicationRecord
     yorkshire_and_the_humber: 'yorkshire_and_the_humber',
   }
 
-  enum adviser_status: {
+  enum :adviser_status, {
     unassigned: 'unassigned',
     waiting_to_be_assigned: 'waiting_to_be_assigned',
     assigned: 'assigned',
