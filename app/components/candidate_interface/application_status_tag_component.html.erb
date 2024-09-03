@@ -11,7 +11,7 @@
   <% elsif @application_choice.unsubmitted? && @application_choice.course_available? %>
     <p class="govuk-body govuk-!-margin-top-2">
       <%= govuk_link_to candidate_interface_course_choices_course_review_path(@application_choice) do %>
-        <%= t('application_form.continuous_applications.courses.continue_application') %>
+        <%= t('application_form.courses.continue_application') %>
         <span class="govuk-visually-hidden"> <%= @application_choice.current_course.provider.name %></span>
       <% end %>
     </p>
