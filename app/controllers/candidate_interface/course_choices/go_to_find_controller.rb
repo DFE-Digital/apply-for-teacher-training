@@ -1,7 +1,9 @@
 module CandidateInterface
   module CourseChoices
     class GoToFindController < CandidateInterfaceController
-      include CandidateInterface::ContinuousApplications
+      before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
+      before_action CarryOverFilter
+
       def new
         @wizard = CourseSelection::CourseSelectionWizard.new(current_step:)
         @adviser_sign_up = Adviser::SignUp.new(current_application)
