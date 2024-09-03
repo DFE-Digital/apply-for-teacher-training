@@ -639,6 +639,26 @@ class ApplicationForm < ApplicationRecord
     module_function :by_column, :by_section
   end
 
+  def teacher_degree_apprenticeship_feature_active?
+    FeatureFlag.active?(:teacher_degree_apprenticeship) && recruitment_cycle_year >= 2025
+  end
+
+  def no_degree_and_degree_not_completed?
+    no_degrees? && !degrees_completed?
+  end
+
+  def no_degree_and_degree_completed?
+    no_degrees? && degrees_completed?
+  end
+
+  def no_degrees?
+    !degrees?
+  end
+
+  def degrees?
+    application_qualifications.degrees.exists?
+  end
+
   def granted_editable_extension?(section_id)
     editable_extension? && Array(editable_sections).map(&:to_sym).include?(section_id)
   end

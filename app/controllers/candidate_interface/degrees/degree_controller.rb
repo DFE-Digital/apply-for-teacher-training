@@ -1,6 +1,25 @@
 module CandidateInterface
   module Degrees
     class DegreeController < BaseController
+      def new_university_degree
+        @degree = UniversityDegreeForm.new(current_application:, university_degree_status: current_application.university_degree)
+      end
+
+      def update_university_degree
+        form_params = params.fetch(:candidate_interface_university_degree_form, {}).permit(:university_degree_status)
+        @degree = UniversityDegreeForm.new(form_params.merge(current_application:))
+
+        return render :new_university_degree unless @degree.valid?
+
+        if @degree.degree?
+          current_application.update!(university_degree: true, degrees_completed: false)
+          redirect_to candidate_interface_degree_country_path
+        else
+          current_application.update!(university_degree: false, degrees_completed: true)
+          redirect_to candidate_interface_details_path
+        end
+      end
+
       def new
         degree_attrs = { application_form_id: current_application.id }
         degree_attrs[:id] = params[:id] if params.key?(:id)

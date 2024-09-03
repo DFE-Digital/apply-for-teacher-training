@@ -49,6 +49,10 @@ class DuplicateApplication
         new_application_form.update!(degrees_completed: false)
       end
 
+      if original_application_form.degrees?
+        new_application_form.update!(university_degree: true)
+      end
+
       original_references = original_application_form.application_references
         .includes([:reference_tokens])
         .creation_order

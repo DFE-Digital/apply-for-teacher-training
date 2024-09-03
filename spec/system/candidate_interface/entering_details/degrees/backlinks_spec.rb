@@ -6,6 +6,7 @@ RSpec.describe 'Degrees' do
   scenario 'Candidate editing degree' do
     given_i_am_signed_in
     and_i_have_completed_the_degree_section
+    and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
     when_i_view_the_degree_section
     and_i_click_to_change_my_undergraduate_degree_type
     and_i_click_the_back_link
@@ -62,6 +63,10 @@ RSpec.describe 'Degrees' do
   def given_i_am_signed_in
     @candidate = create(:candidate)
     login_as(@candidate)
+  end
+
+  def and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
+    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def and_i_have_completed_the_degree_section

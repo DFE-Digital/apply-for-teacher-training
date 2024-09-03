@@ -5,6 +5,7 @@ RSpec.describe 'Deleting and replacing a degree' do
 
   scenario 'Candidate deletes and replaces their degree' do
     given_i_am_signed_in
+    and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
     and_i_have_completed_the_degree_section
     when_i_view_the_degree_section
     and_i_click_on_change_country
@@ -39,6 +40,10 @@ RSpec.describe 'Deleting and replacing a degree' do
   def given_i_am_signed_in
     @candidate = create(:candidate)
     login_as(@candidate)
+  end
+
+  def and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
+    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def when_i_view_the_degree_section

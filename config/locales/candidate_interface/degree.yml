@@ -1,4 +1,23 @@
 en:
+  candidate_interface:
+    degrees:
+      university_degree:
+        new:
+          teacher_degree_apprenticeship: teacher degree apprenticeship (TDA)
+          degree_requirements: You need a bachelor’s degree or equivalent to do postgraduate teacher training. You do not need a degree to apply for a %{link}.
+          bachelor_degree_content: Add your bachelor’s degree even if you have not got your grade yet.
+          other_degrees_content: You can also add any other degrees that you have, or you are working towards.
+  helpers:
+    legend:
+      candidate_interface_university_degree_form:
+        university_degree_status: Do you have a university degree?
+    label:
+      candidate_interface_university_degree_form:
+        university_degree_status_options:
+          'true': Yes, I have a degree or am studying for one
+          'false': No, I do not have a degree
+  page_titles:
+    university_degree: Do you have a university degree
   application_form:
     degree:
       qualification:
@@ -106,6 +125,10 @@ en:
   activemodel:
     errors:
       models:
+        candidate_interface/university_degree_form:
+          attributes:
+            university_degree_status:
+              blank: "Select whether you have a university degree"
         candidate_interface/degree_wizard:
           attributes:
             uk_or_non_uk:

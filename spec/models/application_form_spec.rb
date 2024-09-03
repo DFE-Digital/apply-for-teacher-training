@@ -924,6 +924,91 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#no_degree_and_degree_not_completed?' do
+    context 'when there are no degrees and the degree is not completed' do
+      let(:application_form) { create(:application_form, degrees_completed: false) }
+
+      it 'returns true' do
+        expect(application_form.no_degree_and_degree_not_completed?).to be true
+      end
+    end
+
+    context 'when there are degrees or the degree is completed' do
+      let(:application_form_with_degrees) { create(:application_form, :with_degree, degrees_completed: false) }
+      let(:application_form_completed) { create(:application_form, degrees_completed: true) }
+
+      it 'returns false if degrees exist' do
+        expect(application_form_with_degrees.no_degree_and_degree_not_completed?).to be false
+      end
+
+      it 'returns false if degree is completed' do
+        expect(application_form_completed.no_degree_and_degree_not_completed?).to be false
+      end
+    end
+  end
+
+  describe '#no_degree_and_degree_completed?' do
+    context 'when there are no degrees and the degree is completed' do
+      let(:application_form) { create(:application_form, degrees_completed: true) }
+
+      it 'returns true' do
+        expect(application_form.no_degree_and_degree_completed?).to be true
+      end
+    end
+
+    context 'when there are degrees' do
+      let(:application_form_with_degrees) { create(:application_form, :with_degree, degrees_completed: true) }
+
+      it 'returns false if degrees exist' do
+        expect(application_form_with_degrees.no_degree_and_degree_completed?).to be false
+      end
+    end
+
+    context 'when there no degree the degree is not completed' do
+      let(:application_form_not_completed) { create(:application_form, degrees_completed: false) }
+
+      it 'returns false if degree is not completed' do
+        expect(application_form_not_completed.no_degree_and_degree_completed?).to be false
+      end
+    end
+  end
+
+  describe '#no_degrees?' do
+    context 'when there are no degrees' do
+      let(:application_form) { create(:application_form) }
+
+      it 'returns true' do
+        expect(application_form.no_degrees?).to be true
+      end
+    end
+
+    context 'when there are degrees' do
+      let(:application_form_with_degrees) { create(:application_form, :with_degree) }
+
+      it 'returns false' do
+        expect(application_form_with_degrees.no_degrees?).to be false
+      end
+    end
+  end
+
+  describe '#degrees?' do
+    context 'when there are degrees' do
+      let(:application_form_with_degrees) { create(:application_form, :with_degree) }
+
+      it 'returns true' do
+        expect(application_form_with_degrees.degrees?).to be true
+      end
+    end
+
+    context 'when there are no degrees' do
+      let(:application_form) { create(:application_form) }
+
+      it 'returns false' do
+        expect(application_form.degrees?).to be false
+      end
+    end
+  end
+
   describe '#qualifications_completed?' do
     context 'when `degrees_completed` is false' do
       let(:application_form) do
@@ -1132,6 +1217,46 @@ RSpec.describe ApplicationForm do
         form.public_send("#{field}_completed_at=", 2.days.ago)
         form.public_send("#{field}_completed=", false)
         expect(form.public_send("#{field}_completed_at")).to be_nil
+      end
+    end
+  end
+
+  describe '#teacher_degree_apprenticeship_feature_active?' do
+    let(:application_form) { build(:application_form) }
+
+    context 'when the teacher degree apprenticeship feature flag is active and recruitment cycle year is 2025 or later' do
+      it 'returns true' do
+        FeatureFlag.activate(:teacher_degree_apprenticeship)
+        application_form.recruitment_cycle_year = 2025
+
+        expect(application_form.teacher_degree_apprenticeship_feature_active?).to be true
+      end
+    end
+
+    context 'when the teacher degree apprenticeship feature flag is active but recruitment cycle year is before 2025' do
+      it 'returns false' do
+        FeatureFlag.activate(:teacher_degree_apprenticeship)
+        application_form.recruitment_cycle_year = 2024
+
+        expect(application_form.teacher_degree_apprenticeship_feature_active?).to be false
+      end
+    end
+
+    context 'when the teacher degree apprenticeship feature flag is not active but recruitment cycle year is 2025 or later' do
+      it 'returns false' do
+        FeatureFlag.deactivate(:teacher_degree_apprenticeship)
+        application_form.recruitment_cycle_year = 2025
+
+        expect(application_form.teacher_degree_apprenticeship_feature_active?).to be false
+      end
+    end
+
+    context 'when the teacher degree apprenticeship feature flag is not active and recruitment cycle year is before 2025' do
+      it 'returns false' do
+        FeatureFlag.deactivate(:teacher_degree_apprenticeship)
+        application_form.recruitment_cycle_year = 2024
+
+        expect(application_form.teacher_degree_apprenticeship_feature_active?).to be false
       end
     end
   end

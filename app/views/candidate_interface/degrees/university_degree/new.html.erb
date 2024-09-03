@@ -1,0 +1,38 @@
+<%= content_for :browser_title, title_with_error_prefix(t('page_titles.university_degree'), @university_degree_form.errors.any?) %>
+<% content_for :before_content do %>
+  <%= govuk_back_link(
+    text: 'Back',
+    href: candidate_interface_details_path,
+  ) %>
+<% end %>
+
+<%= form_with(model: @university_degree_form, url: candidate_interface_degree_university_degree_path) do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_radio_buttons_fieldset :university_degree_status, legend: { size: 'l', tag: 'h1' } do %>
+
+      <p class="govuk-body">
+        <%= t(
+          '.degree_requirements',
+          link: govuk_link_to(t('.teacher_degree_apprenticeship'), t('get_into_teaching.url_teacher_degree_apprenticeship')),
+        ).html_safe %>
+      </p>
+
+      <p class="govuk-body">
+        <%= t('.bachelor_degree_content') %>
+      </p>
+
+      <p class="govuk-body">
+        <%= t('.other_degrees_content') %>
+      </p>
+
+        <%= f.govuk_radio_button :university_degree_status, 'true', link_errors: true %>
+        <%= f.govuk_radio_button :university_degree_status, 'false' %>
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+    </div>
+  </div>
+<% end %>

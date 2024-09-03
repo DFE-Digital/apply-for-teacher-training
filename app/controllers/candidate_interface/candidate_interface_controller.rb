@@ -27,6 +27,9 @@ module CandidateInterface
       end
     end
 
+    delegate :teacher_degree_apprenticeship_feature_active?, to: :current_application
+    helper_method :teacher_degree_apprenticeship_feature_active?
+
     def choices_controller?
       ChoicesControllerMatcher.choices_controller?(current_application: current_application, controller_path: controller_path, request: request)
     end

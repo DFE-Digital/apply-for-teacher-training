@@ -5,6 +5,7 @@ RSpec.describe 'Entering a degree' do
 
   scenario 'Candidate enters their degree' do
     given_i_am_signed_in
+    and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
     when_i_view_the_degree_section
 
     # Add degree
@@ -69,6 +70,10 @@ RSpec.describe 'Entering a degree' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
+    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def when_i_view_the_degree_section
