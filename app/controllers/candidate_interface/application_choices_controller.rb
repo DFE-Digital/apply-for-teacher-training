@@ -1,5 +1,6 @@
 module CandidateInterface
-  class ApplicationChoicesController < ContinuousApplicationsController
+  class ApplicationChoicesController < CandidateInterfaceController
+    include CandidateInterface::ContinuousApplications
     before_action SubmissionPermissionFilter, only: %i[submit confirm_destroy destroy]
     before_action :redirect_to_your_applications_if_submitted, only: %i[submit confirm_destroy destroy]
     before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited, only: :index

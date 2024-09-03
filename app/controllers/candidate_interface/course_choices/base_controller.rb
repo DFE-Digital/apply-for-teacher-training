@@ -1,6 +1,7 @@
 module CandidateInterface
   module CourseChoices
-    class BaseController < ::CandidateInterface::ContinuousApplicationsController
+    class BaseController < CandidateInterfaceController
+      include CandidateInterface::ContinuousApplications
       before_action :redirect_to_your_applications_if_maximum_amount_of_choices_have_been_used, only: %i[new create]
       before_action :redirect_to_your_applications_if_maximum_amount_of_unsuccessful_applications_have_been_reached, only: %i[new create]
       before_action :redirect_to_your_applications_if_cycle_is_over

@@ -1,6 +1,7 @@
 module CandidateInterface
   module CourseChoices
-    class GoToFindController < ::CandidateInterface::ContinuousApplicationsController
+    class GoToFindController < CandidateInterfaceController
+      include CandidateInterface::ContinuousApplications
       def new
         @wizard = CourseSelection::CourseSelectionWizard.new(current_step:)
         @adviser_sign_up = Adviser::SignUp.new(current_application)
