@@ -9,7 +9,9 @@
 
     <%= render(SummaryListComponent.new(rows: course_choice_rows)) %>
 
-    <p class="govuk-body">Once you have a total of <%= ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS %> unsuccessful or withdrawn applications, you will not be able to apply for any more courses until October <%= RecruitmentCycle.real_current_year %>.</p>
+    <% unless CycleTimetable.between_cycles? %>
+      <p class="govuk-body">Once you have a total of <%= ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS %> unsuccessful or withdrawn applications, you will not be able to apply for any more courses until October <%= RecruitmentCycle.real_current_year %>.</p>
+    <% end %>
 
     <p class="govuk-body">Do not withdraw if you need to change information on your application. Tell your training provider instead.</p>
 
