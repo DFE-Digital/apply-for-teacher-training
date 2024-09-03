@@ -10,13 +10,13 @@ RSpec.describe 'View course choice' do
   scenario 'View postgraduate course choice' do
     given_there_is_an_application_choice_to_postgraduate_course
     when_i_visit_the_application_page
-    and_i_see_the_course_is_postgraduate
+    then_i_see_the_course_is_postgraduate
   end
 
   scenario 'View undergraduate course choice' do
     given_there_is_an_application_choice_to_undergraduate_course
     when_i_visit_the_application_page
-    and_i_see_the_course_is_undergraduate
+    then_i_see_the_course_is_undergraduate
   end
 
   def given_i_am_a_support_user
@@ -56,11 +56,11 @@ RSpec.describe 'View course choice' do
     visit support_interface_application_form_path(@application_choice.application_form_id)
   end
 
-  def and_i_see_the_course_is_postgraduate
+  def then_i_see_the_course_is_postgraduate
     expect(page).to have_content('Course type Postgraduate')
   end
 
-  def and_i_see_the_course_is_undergraduate
+  def then_i_see_the_course_is_undergraduate
     expect(page).to have_content('Course type Undergraduate')
   end
 end
