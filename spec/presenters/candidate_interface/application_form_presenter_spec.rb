@@ -24,6 +24,66 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
+  describe '#degrees_path' do
+    let(:presenter) { described_class.new(application_form) }
+
+    context 'when there are no degrees and the degree is not completed, and the teacher degree apprenticeship feature is active' do
+      let(:application_form) do
+        create(
+          :application_form,
+          application_qualifications: [],
+          degrees_completed: false,
+          recruitment_cycle_year: 2025,
+        )
+      end
+
+      before do
+        FeatureFlag.activate(:teacher_degree_apprenticeship)
+      end
+
+      it 'returns the university degree path' do
+        expect(presenter.degrees_path).to eq(Rails.application.routes.url_helpers.candidate_interface_degree_university_degree_path)
+      end
+    end
+
+    context 'when there are no degrees and the degree is not completed, but the teacher degree apprenticeship feature is not active' do
+      let(:application_form) do
+        create(
+          :application_form,
+          application_qualifications: [],
+          degrees_completed: false,
+          recruitment_cycle_year: 2024,
+        )
+      end
+
+      before do
+        FeatureFlag.deactivate(:teacher_degree_apprenticeship)
+      end
+
+      it 'returns the degree review path' do
+        expect(presenter.degrees_path).to eq(Rails.application.routes.url_helpers.candidate_interface_degree_review_path)
+      end
+    end
+
+    context 'when there are degrees or the degree is completed' do
+      let(:application_form) do
+        create(
+          :application_form,
+          :with_degree,
+          recruitment_cycle_year: 2025,
+        )
+      end
+
+      before do
+        FeatureFlag.activate(:teacher_degree_apprenticeship)
+      end
+
+      it 'returns the degree review path' do
+        expect(presenter.degrees_path).to eq(Rails.application.routes.url_helpers.candidate_interface_degree_review_path)
+      end
+    end
+  end
+
   describe '#personal_details_completed?' do
     it 'returns true if personal details section is completed' do
       application_form = build(:application_form, personal_details_completed: true)

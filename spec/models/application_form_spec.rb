@@ -1220,4 +1220,44 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#teacher_degree_apprenticeship_feature_active?' do
+    let(:application_form) { build(:application_form) }
+
+    context 'when the teacher degree apprenticeship feature flag is active and recruitment cycle year is 2025 or later' do
+      it 'returns true' do
+        FeatureFlag.activate(:teacher_degree_apprenticeship)
+        application_form.recruitment_cycle_year = 2025
+
+        expect(application_form.teacher_degree_apprenticeship_feature_active?).to be true
+      end
+    end
+
+    context 'when the teacher degree apprenticeship feature flag is active but recruitment cycle year is before 2025' do
+      it 'returns false' do
+        FeatureFlag.activate(:teacher_degree_apprenticeship)
+        application_form.recruitment_cycle_year = 2024
+
+        expect(application_form.teacher_degree_apprenticeship_feature_active?).to be false
+      end
+    end
+
+    context 'when the teacher degree apprenticeship feature flag is not active but recruitment cycle year is 2025 or later' do
+      it 'returns false' do
+        FeatureFlag.deactivate(:teacher_degree_apprenticeship)
+        application_form.recruitment_cycle_year = 2025
+
+        expect(application_form.teacher_degree_apprenticeship_feature_active?).to be false
+      end
+    end
+
+    context 'when the teacher degree apprenticeship feature flag is not active and recruitment cycle year is before 2025' do
+      it 'returns false' do
+        FeatureFlag.deactivate(:teacher_degree_apprenticeship)
+        application_form.recruitment_cycle_year = 2024
+
+        expect(application_form.teacher_degree_apprenticeship_feature_active?).to be false
+      end
+    end
+  end
 end

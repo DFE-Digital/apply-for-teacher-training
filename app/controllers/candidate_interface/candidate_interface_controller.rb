@@ -27,10 +27,7 @@ module CandidateInterface
       end
     end
 
-    def teacher_degree_apprenticeship_feature_active?
-      FeatureFlag.active?(:teacher_degree_apprenticeship) &&
-        current_application.recruitment_cycle_year >= 2025
-    end
+    delegate :teacher_degree_apprenticeship_feature_active?, to: :current_application
     helper_method :teacher_degree_apprenticeship_feature_active?
 
     def choices_controller?
