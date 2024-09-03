@@ -15,7 +15,7 @@ RSpec.describe 'Submit to continuous apps' do
     end
 
     it 'be successful' do
-      expect(response).to redirect_to(candidate_interface_continuous_applications_choices_path)
+      expect(response).to redirect_to(candidate_interface_application_choices_path)
       follow_redirect!
       expect(response.body).to include(I18n.t('application_form.submit_application_success.title'))
     end

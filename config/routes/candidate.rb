@@ -59,7 +59,7 @@ namespace :candidate_interface, path: '/candidate' do
 
   scope '/application' do
     get '/details', to: 'details#index', as: :details
-    get '/choices(/:current_tab_name)', to: 'application_choices#index', as: :continuous_applications_choices
+    get '/choices(/:current_tab_name)', to: 'application_choices#index', as: :application_choices
 
     get '/prefill', to: 'prefill_application_form#new'
     post '/prefill', to: 'prefill_application_form#create'

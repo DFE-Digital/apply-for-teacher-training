@@ -93,7 +93,7 @@ RSpec.describe 'Candidates sees all their applications' do
   end
 
   def when_i_visit_my_applications_passing_an_non_existent_tab_name
-    visit candidate_interface_continuous_applications_choices_path(current_tab_name: 'this-does-not-exist')
+    visit candidate_interface_application_choices_path(current_tab_name: 'this-does-not-exist')
   end
 
   def and_all_applications_tabs_are_selected

@@ -73,7 +73,7 @@ private
   end
 
   def then_i_can_navigate_to_the_offer
-    expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
+    expect(page).to have_current_path candidate_interface_application_choices_path
     expect(page).to have_content 'Offer received'
     click_on @application_choice.provider.name
   end

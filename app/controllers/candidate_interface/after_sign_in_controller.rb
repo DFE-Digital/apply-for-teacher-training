@@ -29,7 +29,7 @@ module CandidateInterface
   private
 
     def course_choices_page
-      candidate_interface_continuous_applications_choices_path
+      candidate_interface_application_choices_path
     end
 
     def confirm_selection_page

@@ -150,7 +150,7 @@ RSpec.describe 'Selecting a course' do
   end
 
   def then_i_am_on_the_application_choices_page
-    expect(page.current_url).to end_with(candidate_interface_continuous_applications_choices_path)
+    expect(page.current_url).to end_with(candidate_interface_application_choices_path)
   end
 
   def when_the_course_is_full

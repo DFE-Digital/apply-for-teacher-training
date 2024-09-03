@@ -50,7 +50,7 @@ RSpec.describe 'Candidate edits their choice section' do
   end
 
   def when_i_visit_the_course_choices_page
-    visit candidate_interface_continuous_applications_choices_path
+    visit candidate_interface_application_choices_path
   end
 
   def and_i_confirm_i_want_to_delete_the_choice
@@ -70,7 +70,7 @@ RSpec.describe 'Candidate edits their choice section' do
   end
 
   def then_i_am_on_the_my_application_page
-    expect(page).to have_current_path(candidate_interface_continuous_applications_choices_path)
+    expect(page).to have_current_path(candidate_interface_application_choices_path)
   end
 
   def and_my_submitted_choice_is_displayed

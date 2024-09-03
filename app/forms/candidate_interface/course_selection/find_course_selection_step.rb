@@ -21,7 +21,7 @@ module CandidateInterface
       end
 
       def exit_path
-        url_helpers.candidate_interface_continuous_applications_choices_path
+        url_helpers.candidate_interface_application_choices_path
       end
 
       def next_step

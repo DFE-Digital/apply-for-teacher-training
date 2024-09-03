@@ -40,7 +40,7 @@ module CandidateInterface
     def destroy
       CandidateInterface::DeleteApplicationChoice.new(application_choice:).call
 
-      redirect_to candidate_interface_continuous_applications_choices_path
+      redirect_to candidate_interface_application_choices_path
     end
 
   private
@@ -49,7 +49,7 @@ module CandidateInterface
       CandidateInterface::SubmitApplicationChoice.new(@application_choice).call
       flash[:success] = t('application_form.submit_application_success.title')
 
-      redirect_to candidate_interface_continuous_applications_choices_path
+      redirect_to candidate_interface_application_choices_path
     end
 
     def application_choice

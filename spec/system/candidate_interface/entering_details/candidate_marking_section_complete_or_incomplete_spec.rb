@@ -126,7 +126,7 @@ RSpec.describe 'Marking section as complete or incomplete' do
   end
 
   def then_i_am_redirected_to_your_applications_page
-    expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
+    expect(page).to have_current_path candidate_interface_application_choices_path
   end
 
   def mark_section(section:, complete:)
@@ -138,7 +138,7 @@ RSpec.describe 'Marking section as complete or incomplete' do
   end
 
   def when_i_visit_the_applications_page
-    visit candidate_interface_continuous_applications_choices_path
+    visit candidate_interface_application_choices_path
   end
 
   def then_i_see_the_incomplete_applications_text

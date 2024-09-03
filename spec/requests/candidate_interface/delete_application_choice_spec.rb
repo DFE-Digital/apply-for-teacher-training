@@ -15,7 +15,7 @@ RSpec.describe 'DELETE /candidate/application/continuous-applications/delete/:ap
     it 'destroys the application choice and redirects to review' do
       delete candidate_interface_course_choices_confirm_destroy_course_choice_path(application_choice)
       expect(ApplicationChoice.exists?(application_choice.id)).to be_falsey
-      expect(response).to redirect_to(candidate_interface_continuous_applications_choices_path)
+      expect(response).to redirect_to(candidate_interface_application_choices_path)
     end
   end
 
@@ -25,7 +25,7 @@ RSpec.describe 'DELETE /candidate/application/continuous-applications/delete/:ap
     it 'does not destroy the application choice and redirects to review' do
       delete candidate_interface_course_choices_confirm_destroy_course_choice_path(application_choice)
       expect(ApplicationChoice.exists?(application_choice.id)).to be_truthy
-      expect(response).to redirect_to(candidate_interface_continuous_applications_choices_path)
+      expect(response).to redirect_to(candidate_interface_application_choices_path)
     end
   end
 end

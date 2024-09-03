@@ -8,7 +8,7 @@ module CandidateInterface
   private
 
     def redirect_to_your_applications_if_submitted
-      redirect_to candidate_interface_continuous_applications_choices_path unless application_choice.unsubmitted?
+      redirect_to candidate_interface_application_choices_path unless application_choice.unsubmitted?
     end
 
     def verify_continuous_applications

@@ -72,7 +72,7 @@ RSpec.describe 'Candidate viewing Science GCSE' do
   end
 
   def choose_a_secondary_course
-    visit candidate_interface_continuous_applications_choices_path
+    visit candidate_interface_application_choices_path
     click_link_or_button t('section_items.add_application')
     candidate_fills_in_secondary_course_choice
   end
@@ -87,7 +87,7 @@ RSpec.describe 'Candidate viewing Science GCSE' do
   end
 
   def when_i_choose_a_primary_course
-    visit candidate_interface_continuous_applications_choices_path
+    visit candidate_interface_application_choices_path
     click_link_or_button 'Add application'
     candidate_fills_in_primary_course_choice_without_science_gcse
   end

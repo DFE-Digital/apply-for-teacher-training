@@ -95,15 +95,15 @@ module CandidateInterface
     private
 
       def redirect_to_your_applications_if_cycle_is_over
-        redirect_to candidate_interface_continuous_applications_choices_path unless CycleTimetable.can_add_course_choice?(current_application)
+        redirect_to candidate_interface_application_choices_path unless CycleTimetable.can_add_course_choice?(current_application)
       end
 
       def redirect_to_your_applications_if_maximum_amount_of_choices_have_been_used
-        redirect_to candidate_interface_continuous_applications_choices_path unless current_application.can_add_more_choices?
+        redirect_to candidate_interface_application_choices_path unless current_application.can_add_more_choices?
       end
 
       def redirect_to_your_applications_if_maximum_amount_of_unsuccessful_applications_have_been_reached
-        redirect_to candidate_interface_continuous_applications_choices_path if current_application.application_limit_reached?
+        redirect_to candidate_interface_application_choices_path if current_application.application_limit_reached?
       end
     end
   end

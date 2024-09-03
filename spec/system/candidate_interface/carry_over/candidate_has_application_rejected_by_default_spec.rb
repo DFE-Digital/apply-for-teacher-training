@@ -96,7 +96,7 @@ private
   end
 
   def then_i_see_my_application_is_awaiting_provider_decision
-    expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
+    expect(page).to have_current_path candidate_interface_application_choices_path
     expect(page).to have_content 'Awaiting decision'
   end
 
@@ -110,7 +110,7 @@ private
 
   def then_i_cannot_carry_over_my_application
     apply_reopens_date = I18n.l(CycleTimetable.apply_reopens.to_date, format: :no_year).strip
-    expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
+    expect(page).to have_current_path candidate_interface_application_choices_path
     expect(page).to have_content(
       "If your application(s) are not successful, or you do not accept any offers, you will be able to apply for courses starting in the #{CycleTimetable.cycle_year_range(RecruitmentCycle.next_year)} academic year from #{apply_reopens_date}.",
     )

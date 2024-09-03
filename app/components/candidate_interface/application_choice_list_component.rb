@@ -20,7 +20,7 @@ module CandidateInterface
       @tabs.map do |tab|
         ApplicationTab.new(
           text: I18n.t("candidate_interface.application_tabs.#{tab}"),
-          link: candidate_interface_continuous_applications_choices_path(current_tab_name: tab),
+          link: candidate_interface_application_choices_path(current_tab_name: tab),
           active?: tab == current_tab_name,
         )
       end

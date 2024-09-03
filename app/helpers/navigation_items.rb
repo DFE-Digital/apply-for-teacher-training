@@ -20,7 +20,7 @@ class NavigationItems
         [
           NavigationItem.new(
             t('page_titles.your_applications'),
-            candidate_interface_continuous_applications_choices_path,
+            candidate_interface_application_choices_path,
             true,
           ),
         ]
@@ -33,7 +33,7 @@ class NavigationItems
           ),
           NavigationItem.new(
             t('page_titles.your_applications'),
-            candidate_interface_continuous_applications_choices_path,
+            candidate_interface_application_choices_path,
             current_controller.respond_to?(:choices_controller?) ? current_controller.choices_controller? : false,
           ),
         ]

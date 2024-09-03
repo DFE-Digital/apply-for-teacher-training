@@ -105,7 +105,7 @@ module CandidateHelper
     #
     ##########################################
 
-    visit candidate_interface_continuous_applications_choices_path
+    visit candidate_interface_application_choices_path
     click_link_or_button 'Add application'
     choose 'Yes, I know where I want to apply'
     click_link_or_button t('continue')
@@ -131,7 +131,7 @@ module CandidateHelper
   end
 
   def candidate_submits_application
-    visit candidate_interface_continuous_applications_choices_path
+    visit candidate_interface_application_choices_path
 
     click_link_or_button 'Gorse SCITT'
     click_link_or_button 'Review application'
@@ -229,7 +229,7 @@ module CandidateHelper
   end
 
   def candidate_fills_in_apply_again_course_choice
-    visit candidate_interface_continuous_applications_choices_path
+    visit candidate_interface_application_choices_path
     click_link_or_button 'Add application'
 
     choose 'Yes, I know where I want to apply'
@@ -354,7 +354,7 @@ module CandidateHelper
   end
 
   def candidate_reviews_application
-    visit candidate_interface_continuous_applications_choices_path
+    visit candidate_interface_application_choices_path
 
     click_link_or_button 'Gorse SCITT'
     click_link_or_button 'Review application'
@@ -362,7 +362,7 @@ module CandidateHelper
   end
 
   def candidate_fills_in_secondary_course_choice_with_incomplete_details
-    visit candidate_interface_continuous_applications_choices_path
+    visit candidate_interface_application_choices_path
     click_link_or_button 'Add application'
     choose 'Yes, I know where I want to apply'
     click_link_or_button t('continue')
@@ -376,7 +376,7 @@ module CandidateHelper
   alias candidate_adds_a_draft_application candidate_fills_in_secondary_course_choice_with_incomplete_details
 
   def candidate_fills_in_secondary_course_choice
-    visit candidate_interface_continuous_applications_choices_path
+    visit candidate_interface_application_choices_path
     click_link_or_button 'Add application'
     choose 'Yes, I know where I want to apply'
     click_link_or_button t('continue')
@@ -765,7 +765,7 @@ module CandidateHelper
   def then_i_can_add_course_choices
     expect(page).to have_current_path(candidate_interface_details_path)
     click_link_or_button 'Your applications'
-    expect(page).to have_current_path(candidate_interface_continuous_applications_choices_path)
+    expect(page).to have_current_path(candidate_interface_application_choices_path)
     expect(page).to have_content('You can add up to 4 applications at a time.')
     click_link_or_button 'Add application'
     expect(page).to have_current_path(candidate_interface_course_choices_do_you_know_the_course_path)
@@ -804,7 +804,7 @@ module CandidateHelper
   end
 
   def when_i_visit_my_applications
-    visit candidate_interface_continuous_applications_choices_path
+    visit candidate_interface_application_choices_path
   end
 
   def and_i_continue_with_my_application

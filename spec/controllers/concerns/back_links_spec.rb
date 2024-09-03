@@ -31,7 +31,7 @@ RSpec.describe BackLinks do
       end
 
       it 'returns path to application choices' do
-        expect(instance.send(:application_form_path)).to eq routes.candidate_interface_continuous_applications_choices_path
+        expect(instance.send(:application_form_path)).to eq routes.candidate_interface_application_choices_path
       end
     end
   end

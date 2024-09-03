@@ -24,7 +24,7 @@ module CandidateInterface
       end
 
       def set_backlink
-        @backlink = candidate_interface_continuous_applications_choices_path if request.referer.blank?
+        @backlink = candidate_interface_application_choices_path if request.referer.blank?
       end
     end
   end

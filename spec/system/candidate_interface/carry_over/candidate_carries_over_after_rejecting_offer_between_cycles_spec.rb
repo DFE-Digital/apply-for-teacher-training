@@ -65,7 +65,7 @@ private
   end
 
   def and_i_am_not_on_the_carry_over_page
-    expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
+    expect(page).to have_current_path candidate_interface_application_choices_path
     expect(page).to have_content 'Your applications'
   end
 
@@ -75,8 +75,8 @@ private
   end
 
   def and_i_can_navigate_to_the_application_choices_page
-    visit candidate_interface_continuous_applications_choices_path
-    expect(page).to have_current_path candidate_interface_continuous_applications_choices_path
+    visit candidate_interface_application_choices_path
+    expect(page).to have_current_path candidate_interface_application_choices_path
   end
 
   def and_i_see_one_offer_and_one_declined_application

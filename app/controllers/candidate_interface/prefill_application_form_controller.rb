@@ -13,7 +13,7 @@ module CandidateInterface
         if @prefill_application_or_not_form.prefill?
           prefill_candidate_application_form
           flash[:info] = 'This application has been prefilled with example data'
-          return redirect_to candidate_interface_continuous_applications_choices_path
+          return redirect_to candidate_interface_application_choices_path
         end
 
         redirect_to candidate_interface_details_path

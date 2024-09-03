@@ -6,7 +6,7 @@ RSpec.describe 'Cycle redirects' do
   let(:continuous_applications_routes) do
     [
       candidate_interface_details_path,
-      candidate_interface_continuous_applications_choices_path,
+      candidate_interface_application_choices_path,
     ]
   end
 

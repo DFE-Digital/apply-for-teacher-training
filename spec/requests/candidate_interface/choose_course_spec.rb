@@ -16,7 +16,7 @@ RSpec.describe 'continuous applications redirects' do
 
       get candidate_interface_course_choices_course_confirm_selection_path(course.id)
 
-      expect(response).to redirect_to(candidate_interface_continuous_applications_choices_path)
+      expect(response).to redirect_to(candidate_interface_application_choices_path)
     end
   end
 end
