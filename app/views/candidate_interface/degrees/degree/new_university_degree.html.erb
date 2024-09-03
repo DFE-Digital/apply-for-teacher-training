@@ -14,22 +14,25 @@
       <%= f.govuk_radio_buttons_fieldset :university_degree_status, legend: { size: 'l', tag: 'h1' } do %>
 
       <p class="govuk-body">
-        You need a bachelor’s degree or equivalent to do postgraduate teacher training. You do not need a degree to apply for a <%= govuk_link_to 'teacher degree apprenticeship (TDA)', 'https://getintoteaching.education.gov.uk/train-to-be-a-teacher/teacher-degree-apprenticeships' %>.
+        <%= t(
+          '.degree_requirements',
+          link: govuk_link_to(t('.teacher_degree_apprenticeship'), t('get_into_teaching.url_teacher_degree_apprenticeship')),
+        ).html_safe %>
       </p>
 
       <p class="govuk-body">
-        Add your bachelor's degree even if you have not got your grade yet.
+        <%= t('.bachelor_degree_content') %>
       </p>
 
       <p class="govuk-body">
-        You can also add any other degrees that you have, or you are working towards.
+        <%= t('.other_degrees_content') %>
       </p>
 
         <%= f.govuk_radio_button :university_degree_status, 'true', link_errors: true %>
         <%= f.govuk_radio_button :university_degree_status, 'false' %>
       <% end %>
 
-      <%= f.govuk_submit 'Continue' %>
+      <%= f.govuk_submit t('continue') %>
     </div>
   </div>
 <% end %>
