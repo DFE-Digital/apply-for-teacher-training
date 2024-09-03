@@ -1,7 +1,7 @@
 module CandidateInterface
   class ApplicationChoiceStatusTagComponent < ::CandidateInterface::ApplicationStatusTagComponent
     def text
-      t("continuous_applications.candidate_application_states.#{application_choice.status}")
+      t("application_choice_states.#{application_choice.status}")
     end
 
     def colour
