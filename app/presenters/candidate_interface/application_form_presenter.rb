@@ -335,12 +335,22 @@ module CandidateInterface
       application_form.right_to_work_or_study.present?
     end
 
+    def can_submit_more_applications?
+      completed_application_form? && # The form is complete
+        can_add_more_choices? && # They have not submitted the max number of choices
+        CycleTimetable.can_add_course_choice?(application_form) # The apply deadline for this form has not passed
+    end
+
   private
 
     def show_review_volunteering?
       no_volunteering_confirmed = application_form.volunteering_experience == false && application_form.application_volunteering_experiences.empty?
 
       volunteering_completed? || volunteering_added? || no_volunteering_confirmed
+    end
+
+    def completed_application_form?
+      @completed_application_form ||= CandidateInterface::CompletedApplicationForm.new(application_form:).valid?
     end
   end
 end

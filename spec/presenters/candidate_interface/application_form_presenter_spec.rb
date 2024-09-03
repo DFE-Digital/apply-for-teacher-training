@@ -718,4 +718,42 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       end
     end
   end
+
+  describe '#can_submit_more_applications?' do
+    context 'completed form, without choices, before the deadline', time: mid_cycle do
+      it 'returns true' do
+        application_form = create(:application_form, :completed, application_choices: [])
+        presenter = described_class.new(application_form)
+
+        expect(presenter.can_submit_more_applications?).to be true
+      end
+    end
+
+    context 'form is not complete', time: mid_cycle do
+      it 'returns false' do
+        application_form = create(:application_form)
+        presenter = described_class.new(application_form)
+
+        expect(presenter.can_submit_more_applications?).to be false
+      end
+    end
+
+    context 'the maximum number of choices has been met', time: mid_cycle do
+      it 'returns false' do
+        application_form = create(:application_form, :completed, submitted_application_choices_count: 4)
+        presenter = described_class.new(application_form)
+
+        expect(presenter.can_submit_more_applications?).to be false
+      end
+    end
+
+    context 'the apply deadline has passed for this form', time: after_apply_deadline do
+      it 'returns false' do
+        application_form = create(:application_form, :completed, application_choices: [])
+        presenter = described_class.new(application_form)
+
+        expect(presenter.can_submit_more_applications?).to be false
+      end
+    end
+  end
 end
