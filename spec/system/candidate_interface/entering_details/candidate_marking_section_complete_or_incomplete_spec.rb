@@ -48,7 +48,7 @@ RSpec.describe 'Marking section as complete or incomplete' do
     then_i_do_not_see_the_incomplete_text
   end
 
-  scenario 'completion info text' do
+  scenario 'completion info text', time: mid_cycle do
     given_i_have_a_completed_application_form
     when_i_sign_in
     then_i_dont_see_the_incomplete_applications_text

@@ -15,7 +15,7 @@
     <p class="govuk-body">
       <% message = 'Your details will be shared with the training provider when you apply.' %>
 
-      <% if completed_application_form?(@application_form_presenter.application_form) %>
+      <% if @application_form_presenter.can_submit_more_applications? %>
         You can <%= govuk_link_to 'add your applications', candidate_interface_application_choices_path %>.<br>
         <br>
         <%= message %>
@@ -48,15 +48,6 @@
       </ol>
     </section>
 
-    <% if !CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) %>
-      <section class="govuk-!-margin-bottom-8">
-        <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.courses') %></h2>
-        <p class="govuk-body">
-          You can find courses from 9am on <%= CycleTimetable.find_reopens.to_fs(:govuk_date) %>. You can keep making changes to your application until then.
-        </p>
-      </section>
-    <% end %>
-
     <% cache(@application_cache_key, expires_in: 5.minutes) do %>
       <%= render '/candidate_interface/shared/task_list', application_form: @application_form_presenter.application_form, application_form_presenter: @application_form_presenter %>
     <% end %>
@@ -66,9 +57,7 @@
       <p class='govuk-body'>You can no longer submit applications from this account. Visit your other account to continue your application.</p>
       <p class='govuk-body'>You can apply for up to <%= max_course_choices %> courses at a time.</p>
       <p class='govuk-body'>Email becomingateacher@digital.education.gov.uk if you have any questions.</p>
-    <% elsif completed_application_form?(@application_form_presenter.application_form) &&
-        CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) &&
-        @application_form_presenter.can_add_more_choices? %>
+    <% elsif @application_form_presenter.can_submit_more_applications? %>
       <div class="app-grid-column--grey">
         <h2 class="govuk-heading-m">You have completed your details</h2>
         <p class="govuk-body">You can now start applying to courses.</p>
