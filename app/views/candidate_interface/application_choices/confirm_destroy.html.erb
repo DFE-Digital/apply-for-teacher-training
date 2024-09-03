@@ -1,11 +1,11 @@
-<% content_for :title, t('page_titles.continuous_applications_destroy_course_choice') %>
+<% content_for :title, t('page_titles.destroy_course_choice') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_choices_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @application_choice, url: candidate_interface_course_choices_confirm_destroy_course_choice_path(@application_choice.id), method: :delete do |f| %>
       <h1 class="govuk-heading-l">
-        <%= t('page_titles.continuous_applications_destroy_course_choice') %>
+        <%= t('page_titles.destroy_course_choice') %>
       </h1>
 
       <div class="govuk-button-group app-course-choice__confirm-submission">
