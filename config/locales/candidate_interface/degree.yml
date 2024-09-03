@@ -1,8 +1,8 @@
 en:
   candidate_interface:
     degrees:
-      degree:
-        new_university_degree:
+      university_degree:
+        new:
           teacher_degree_apprenticeship: teacher degree apprenticeship (TDA)
           degree_requirements: You need a bachelor’s degree or equivalent to do postgraduate teacher training. You do not need a degree to apply for a %{link}
           bachelor_degree_content: Add your bachelor’s degree even if you have not got your grade yet.

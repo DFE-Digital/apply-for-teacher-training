@@ -1,4 +1,4 @@
-<%= content_for :browser_title, title_with_error_prefix(t('page_titles.university_degree'), @degree.errors.any?) %>
+<%= content_for :browser_title, title_with_error_prefix(t('page_titles.university_degree'), @university_degree_form.errors.any?) %>
 <% content_for :before_content do %>
   <%= govuk_back_link(
     text: 'Back',
@@ -6,7 +6,7 @@
   ) %>
 <% end %>
 
-<%= form_with(model: @degree, url: candidate_interface_degree_university_degree_path) do |f| %>
+<%= form_with(model: @university_degree_form, url: candidate_interface_degree_university_degree_path) do |f| %>
   <%= f.govuk_error_summary %>
 
   <div class="govuk-grid-row">
