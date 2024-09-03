@@ -1,3 +1,16 @@
-To help show your qualifications, you can [get a certified statement of your exam results](<%= t('govuk.replacement_exam_certificate_url') %>) if you did your GCSEs and A levels in the UK.
+<% if @application_choice.application_form.missing_enic_reference_for_non_uk_qualifications? %>
+  Showing providers how your qualifications compare to UK ones with a statement of comparability makes you around 30% more likely to receive an offer.
 
-You should also be able to request a copy of your degree certificate from the organisation where you studied in the UK.
+  You can [apply for a statement of comparability ](<%= t('service_name.enic.statement_of_comparability_url') %>) from UK European Network of Information Centres (UK ENIC).
+
+  If you want to apply again you should:
+  - check that your details are still correct
+  - add your UK ENIC statement of comparability to your profile
+  - make sure you’re happy with your personal statement
+  - find a course and submit another application
+
+<% else %>
+  To help show your qualifications, you can [get a certified statement of your exam results](<%= t('govuk.replacement_exam_certificate_url') %>) if you did your GCSEs and A levels in the UK.
+
+  You should also be able to request a copy of your degree certificate from the organisation where you studied in the UK.
+<% end %>
