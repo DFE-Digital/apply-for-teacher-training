@@ -15,7 +15,7 @@ RSpec.describe 'A candidate withdraws their application', :bullet do
     Bullet.raise = true
   end
 
-  scenario 'successful withdrawal' do
+  scenario 'successful withdrawal', time: mid_cycle do
     given_i_am_signed_in_as_a_candidate
     and_i_have_multiple_application_choice_awaiting_provider_decision
 
@@ -46,7 +46,26 @@ RSpec.describe 'A candidate withdraws their application', :bullet do
     and_the_candidate_has_received_an_email
   end
 
-  scenario 'withdrawal for application choice with interviewing status' do
+  scenario 'withdrawing after the apply deadline', time: after_apply_deadline do
+    given_i_am_signed_in_as_a_candidate
+    and_i_have_multiple_application_choice_awaiting_provider_decision
+
+    when_i_visit_my_applications
+    and_i_click_the_withdraw_link_on_my_first_choice
+    then_i_see_a_confirmation_page_without_max_application_warning
+    and_i_do_not_see_the_interview_related_text
+
+    when_i_click_to_confirm_withdrawal
+    then_i_see_the_withdraw_choice_reason_page
+    and_the_provider_has_received_an_email
+
+    when_i_select_my_reasons
+    and_i_click_continue
+    then_i_see_my_application_dashboard
+    and_i_am_thanked_for_my_feedback
+  end
+
+  scenario 'withdrawal for application choice with interviewing status', time: mid_cycle do
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_application_choice_with_the_status_interviewing
 
@@ -90,6 +109,11 @@ RSpec.describe 'A candidate withdraws their application', :bullet do
 
   def then_i_see_a_confirmation_page
     expect(page).to have_content("Once you have a total of #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS} unsuccessful or withdrawn applications, you will not be able to apply for any more courses until October #{RecruitmentCycle.real_current_year}")
+    expect(page).to have_content('Do not withdraw if you need to change information on your application. Tell your training provider instead.')
+  end
+
+  def then_i_see_a_confirmation_page_without_max_application_warning
+    expect(page).to have_no_content("Once you have a total of #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS} unsuccessful or withdrawn applications, you will not be able to apply for any more courses until October #{RecruitmentCycle.real_current_year}")
     expect(page).to have_content('Do not withdraw if you need to change information on your application. Tell your training provider instead.')
   end
 
