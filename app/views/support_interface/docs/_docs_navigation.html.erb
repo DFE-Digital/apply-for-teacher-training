@@ -13,7 +13,7 @@
 <% end %>
 
 <% if Rails.application.config.view_component.show_previews %>
-  <% items << { name: 'Components', url: '/rails/view_components' } %>
+  <% items << { name: 'Components', url: support_interface_docs_component_previews_path } %>
 <% end %>
 
 <%= render TabNavigationComponent.new(items: items) %>
