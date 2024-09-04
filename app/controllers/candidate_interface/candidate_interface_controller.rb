@@ -94,6 +94,10 @@ module CandidateInterface
       redirect_to_new_continuous_applications_if_eligible if candidate_signed_in?
     end
 
+    def redirect_to_your_applications_if_submitted
+      redirect_to candidate_interface_application_choices_path unless application_choice.unsubmitted?
+    end
+
     def render_application_feedback_component
       @render_application_feedback_component = true
     end
