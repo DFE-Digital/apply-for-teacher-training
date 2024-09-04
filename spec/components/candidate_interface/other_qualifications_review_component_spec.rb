@@ -222,7 +222,6 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       application_form = create(:application_form)
       result = render_inline(described_class.new(application_form:, submitting_application: false))
 
-      expect(page).to have_content('Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience.')
       expect(result.css('.govuk-summary-list__key').text).to include('A levels and other qualifications')
       expect(result.css('.govuk-summary-list__value').text).to include('I do not want to add any A levels and other qualifications')
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
@@ -247,6 +246,47 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
 
         it 'shows the `Add a qualification` button' do
           expect(result.text).not_to include('Add a qualification')
+        end
+      end
+    end
+
+    describe 'No A levels content' do
+      let(:application_form) { create(:application_form, recruitment_cycle_year: 2025) }
+      let(:result) do
+        render_inline(
+          described_class.new(application_form:, submitting_application: false, editable: true),
+        ).text.gsub(/\r?\n/, ' ').squeeze(' ').strip
+      end
+
+      context 'when teacher degree apprenticeship feature is on' do
+        before { FeatureFlag.activate(:teacher_degree_apprenticeship) }
+
+        it 'shows postgraduate and undergraduate content' do
+          expect(result).to include(
+            'A levels are required for teacher degree apprenticeships. If you are applying to postgraduate courses, adding A levels and other qualifications will make your application stronger. They demonstrate subject knowledge not covered in your degree or work history.',
+          )
+        end
+      end
+
+      context 'when teacher degree apprenticeship feature is on but is an application prior to 2025' do
+        let(:application_form) { create(:application_form, recruitment_cycle_year: 2024) }
+
+        before { FeatureFlag.activate(:teacher_degree_apprenticeship) }
+
+        it 'shows postgraduate content' do
+          expect(result).to include(
+            'Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience. Training providers usually ask you for them later in the process. Add a qualification',
+          )
+        end
+      end
+
+      context 'when teacher degree apprenticeship feature is off' do
+        before { FeatureFlag.deactivate(:teacher_degree_apprenticeship) }
+
+        it 'shows postgraduate content' do
+          expect(result).to include(
+            'Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience. Training providers usually ask you for them later in the process. Add a qualification',
+          )
         end
       end
     end
