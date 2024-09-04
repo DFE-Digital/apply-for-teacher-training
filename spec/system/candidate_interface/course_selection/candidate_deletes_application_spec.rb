@@ -54,7 +54,7 @@ RSpec.describe 'Candidate edits their choice section' do
   end
 
   def and_i_confirm_i_want_to_delete_the_choice
-    click_link_or_button t('application_form.continuous_applications.courses.confirm_delete')
+    click_link_or_button t('application_form.courses.confirm_delete')
   end
 
   def then_i_see_only_one_application
