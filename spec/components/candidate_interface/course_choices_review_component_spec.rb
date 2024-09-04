@@ -48,6 +48,21 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, :mid_cycle, typ
       end
     end
 
+    context 'when the placement school is auto selected' do
+      let(:application_form) { create_application_form_with_course_choices(statuses: %w[unsubmitted]) }
+
+      before do
+        build(:course_option, course: application_form.application_choices.first.course)
+        application_form.application_choices.first.update(school_placement_auto_selected: true)
+      end
+
+      it 'renders without the location row' do
+        result = render_inline(described_class.new(application_form:))
+
+        expect(result.css('.govuk-summary-list__key').text).not_to include('Location')
+      end
+    end
+
     context 'When a course has both study modes available' do
       let(:application_form) { create_application_form_with_course_choices(statuses: %w[unsubmitted]) }
       let(:application_choice) { application_form.application_choices.first }

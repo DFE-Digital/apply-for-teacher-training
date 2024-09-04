@@ -40,8 +40,12 @@ module CandidateInterface
     end
 
     def save_application_choice(choice)
-      choice.tap do
-        choice.configure_initial_course_choice!(course_option)
+      choice.tap do |c|
+        c.configure_initial_course_choice!(course_option)
+
+        if choice.provider
+          choice.update(school_placement_auto_selected: !choice.provider.selectable_school?)
+        end
       end
     end
   end

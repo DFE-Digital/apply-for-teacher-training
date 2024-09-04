@@ -16,6 +16,7 @@ RSpec.describe 'Selecting a course with multiple sites when the provider is not 
     and_i_choose_a_course
 
     then_i_am_on_the_application_choice_review_page
+    and_the_application_is_school_placement_auto_selected
   end
 
   def given_i_am_signed_in
@@ -89,5 +90,9 @@ RSpec.describe 'Selecting a course with multiple sites when the provider is not 
     @multi_site_course = create(:course, :open, :with_both_study_modes, name: 'Primary', code: '2XT2', provider: @provider)
     create(:course_option, site: first_site, course: @multi_site_course)
     create(:course_option, site: second_site, course: @multi_site_course)
+  end
+
+  def and_the_application_is_school_placement_auto_selected
+    expect(page).to have_no_content('Location')
   end
 end

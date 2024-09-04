@@ -66,10 +66,39 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
     end
   end
 
-  it 'renders component with correct values for the location' do
-    result = render_inline(described_class.new(course_choice: application_choice))
+  context 'location row' do
+    let(:application_choice) do
+      build_stubbed(:application_choice,
+                    :offered,
+                    offer: build(:offer, conditions:),
+                    course_option:,
+                    school_placement_auto_selected:,
+                    application_form:)
+    end
 
-    expect(result.css('.govuk-summary-list__value').text).to include(course_option.site.name)
+    context 'when school is selected by candidate' do
+      let(:school_placement_auto_selected) { false }
+
+      it 'renders component with correct values for the location' do
+        render_inline(described_class.new(course_choice: application_choice))
+
+        within('.govuk-summary-list__value') do
+          expect(page).to have_content(course_option.site.name)
+        end
+      end
+    end
+
+    context 'when school is auto selected' do
+      let(:school_placement_auto_selected) { true }
+
+      it 'does not render the location row' do
+        render_inline(described_class.new(course_choice: application_choice))
+
+        within('.govuk-summary-list__value') do
+          expect(page).to have_no_content(course_option.site.name)
+        end
+      end
+    end
   end
 
   context 'when there are conditions' do

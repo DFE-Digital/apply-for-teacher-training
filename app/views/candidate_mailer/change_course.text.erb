@@ -7,7 +7,9 @@ The new details are:
 ^ Training provider: <%= @current_course_option.course.provider.name %>
 ^ Course: <%= @current_course_option.course.name_and_code %>
 ^ Full time or part time: <%= @current_course_option.course.study_mode.humanize %>
+<% unless @application_choice.school_placement_auto_selected %>
 ^ Location: <%= @current_course_option.site.name %>
+<% end %>
 ^ Qualification: <%= @qualification %>
 
 If you were not expecting this change, contact <%= @current_course_option.course.provider.name %> to find out more.

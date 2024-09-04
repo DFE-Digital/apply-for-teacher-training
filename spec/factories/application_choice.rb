@@ -24,6 +24,8 @@ FactoryBot.define do
       )
     end
 
+    school_placement_auto_selected { false }
+
     current_recruitment_cycle_year { recruitment_cycle_year || course_option.course.recruitment_cycle_year }
     personal_statement { Faker::Lorem.paragraph_by_chars(number: 50) }
     original_course_option { course_option }
