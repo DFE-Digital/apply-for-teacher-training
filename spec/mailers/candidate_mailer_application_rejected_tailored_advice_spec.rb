@@ -231,4 +231,23 @@ RSpec.describe 'Tailored advice for rejected applications' do
     expect(email.body).to have_text('It is worth looking at the feedback the course provider has given to understand why your application was not accepted. This will help you to decide on your next steps.').once
     expect(email.body).to have_text('Find out what to do if your application was unsuccessful').once
   end
+
+  it 'shows the enic statement content' do
+    structured_rejection_reasons = {
+      selected_reasons: [
+        { id: 'qualifications', label: 'Qualifications', selected_reasons: [
+          { id: 'unverified_qualifications', label: 'Cant verify' },
+        ] },
+      ],
+    }
+
+    application_form = create(:application_form, :minimum_info)
+    application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:, application_form: application_form)
+    create(:degree_qualification, enic_reference: nil, institution_country: 'FR', application_form: application_form)
+
+    email = CandidateMailer.application_rejected(application_choice)
+
+    expect(email.body).to have_text('Showing providers how your qualifications compare to UK ones with a statement of comparability makes you around 30% more likely to receive an offer.').once
+    expect(email.body).not_to have_text('You should also be able to request a copy of your degree certificate from the organisation where you studied in the UK.').once
+  end
 end
