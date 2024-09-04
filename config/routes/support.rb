@@ -253,6 +253,7 @@ namespace :support_interface, path: '/support' do
     get '/when-emails-are-sent', to: 'docs#when_emails_are_sent', as: :docs_when_emails_are_sent
     get '/qualifications', to: 'docs#qualifications', as: :docs_qualifications
     get '/mailers' => 'docs#mailer_previews', as: :docs_mailer_previews
+    get '/components' => 'docs#component_previews', as: :docs_component_previews
   end
 
   scope '/users' do

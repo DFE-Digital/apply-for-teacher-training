@@ -1,0 +1,14 @@
+<%= render 'docs_navigation', title: @page_title %>
+
+<% @previews_grouped_by_namespace.each do |namespace, group| %>
+  <h2 class="govuk-heading-l"><%= namespace %></h2>
+
+  <% group.each do |preview| %>
+    <h3 class="govuk-heading-m"><%= preview.preview_name.split('/').last.titleize %></h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <% preview.examples.each do |preview_example| %>
+        <li><%= govuk_link_to preview_example, preview_view_component_path("#{preview.preview_name}/#{preview_example}") %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
