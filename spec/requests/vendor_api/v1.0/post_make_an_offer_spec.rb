@@ -449,6 +449,22 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
     end
   end
 
+  context 'making an offer to an application from a previous cycle', time: after_apply_deadline do
+    it 'returns an error' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(status: 'rejected')
+      advance_time_to(after_find_opens(RecruitmentCycle.next_year))
+
+      request_body = { data: { conditions: ['DBS Check'] } }
+
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: request_body
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(parsed_response)
+        .to contain_schema_with_error('UnprocessableEntityResponse',
+                                      "Course must be in #{RecruitmentCycle.current_year} recruitment cycle")
+    end
+  end
+
   def course_option_to_course_payload(course_option)
     {
       'recruitment_cycle_year' => course_option.course.recruitment_cycle_year,
