@@ -5,6 +5,8 @@ module ProviderInterface
     PAGY_PER_PAGE = 50
 
     def index
+      redirect_to provider_interface_applications_path
+
       application_choices = GetApplicationChoicesForProviders.call(
         providers: current_provider_user.providers,
       )

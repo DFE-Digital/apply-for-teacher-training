@@ -4,7 +4,7 @@ RSpec.describe 'See activity log' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  scenario 'Provider visits application page' do
+  scenario 'Provider visits application page', skip: "We are taking the activity page down to improve it's performance" do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
     and_i_have_a_manage_account
     and_my_organisation_has_applications
