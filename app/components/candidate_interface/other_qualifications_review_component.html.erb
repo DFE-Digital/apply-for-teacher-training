@@ -43,9 +43,8 @@
           <p class="govuk-body"><%= t('.a_levels_postgraduate_or_undergraduate') %></p>
         <% else %>
           <p class="govuk-body"><%= t('.a_levels_postgraduate') %></p>
+          <p class="govuk-body"><%= t('.training_providers') %></p>
         <% end %>
-
-        <p class="govuk-body"><%= t('.training_providers') %></p>
 
         <%= govuk_button_link_to t('application_form.other_qualification.first.button'),
           candidate_interface_other_qualification_type_path,
