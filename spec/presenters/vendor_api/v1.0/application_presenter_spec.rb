@@ -68,9 +68,7 @@ RSpec.describe 'ApplicationPresenter' do
       allow(FeatureFlag).to receive(:feature_statuses).and_return({})
       allow(Rails.cache).to receive(:fetch)
       application_presenter.new(version, application_choice).as_json
-
-      hashed_hash = { method: :as_json }.hash
-      expected_key = CacheKey.generate("#{version}_#{application_choice.cache_key_with_version}#{hashed_hash}")
+      expected_key = "vendor_api-1.0-#{application_choice.cache_key_with_version}-as_json"
 
       expect(Rails.cache).to have_received(:fetch).with(expected_key, expires_in: 1.day)
     end
@@ -88,11 +86,8 @@ RSpec.describe 'ApplicationPresenter' do
     it 'caches the serialized JSON string' do
       allow(FeatureFlag).to receive(:feature_statuses).and_return({})
       allow(Rails.cache).to receive(:fetch)
-
       application_presenter.new(version, application_choice).serialized_json
-
-      hashed_hash = {}.hash
-      expected_key = CacheKey.generate("#{version}_#{application_choice.cache_key_with_version}#{hashed_hash}")
+      expected_key = "vendor_api-1.0-#{application_choice.cache_key_with_version}"
 
       expect(Rails.cache).to have_received(:fetch).with(expected_key, expires_in: 1.day)
     end

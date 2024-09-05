@@ -53,7 +53,14 @@ module VendorAPI
     end
 
     def cache_key(model, api_version, suffixes = {})
-      CacheKey.generate("#{api_version}_#{model.cache_key_with_version}#{suffixes.hash}")
+      suffixes_name = suffixes.values.compact_blank.join('-')
+
+      [
+        'vendor_api',
+        api_version,
+        model.cache_key_with_version,
+        suffixes_name,
+      ].compact_blank.join('-')
     end
   end
 end
