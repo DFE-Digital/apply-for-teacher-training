@@ -19,6 +19,7 @@ namespace :provider_interface, path: '/provider' do
 
   get '/data-sharing-agreements/new', to: 'provider_agreements#new_data_sharing_agreement', as: :new_data_sharing_agreement
   post '/data-sharing-agreements', to: 'provider_agreements#create_data_sharing_agreement', as: :create_data_sharing_agreement
+  get '/old-data-sharing-agreement', to: 'provider_agreements#old_data_sharing_agreement', as: :old_data_sharing_agreement
 
   get '/activity' => 'activity_log#index', as: :activity_log
 

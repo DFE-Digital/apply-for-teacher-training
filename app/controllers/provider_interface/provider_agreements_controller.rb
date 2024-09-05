@@ -10,6 +10,10 @@ module ProviderInterface
       end
     end
 
+    def old_data_sharing_agreement
+      render :old_data_sharing_agreement
+    end
+
     def create_data_sharing_agreement
       if current_provider_user.impersonator && HostingEnvironment.production?
         flash[:warning] = 'Cannot be signed by a support user'
