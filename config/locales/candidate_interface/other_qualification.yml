@@ -1,4 +1,10 @@
 en:
+  candidate_interface:
+    other_qualifications_review_component:
+      a_levels_are_required: A levels are required for teacher degree apprenticeships.
+      a_levels_postgraduate_or_undergraduate: If you are applying to postgraduate courses, adding A levels and other qualifications will make your application stronger. They demonstrate subject knowledge not covered in your degree or work history.
+      a_levels_postgraduate: Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience.
+      training_providers: Training providers usually ask you for them later in the process.
   application_form:
     other_qualification:
       qualification:
@@ -9,6 +15,9 @@ en:
         hint_text: For example, GCSE, A level, BTEC, NVQ or non-UK other
         non_uk:
           hint_text: For example, High school diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller
+        no_other_qualifications:
+          hint_text: Providers look at A levels and other qualifications for evidence of subject knowledge not covered in your degree or work history.
+          tda_hint_text: A levels are required for teacher degree apprenticeships. If you are applying to postgraduate courses, adding A levels and other qualifications will make your application stronger.
       subject:
         label: Subject
         optional_label: Subject (optional)

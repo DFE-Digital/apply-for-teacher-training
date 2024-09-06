@@ -5,6 +5,7 @@ RSpec.describe 'Entering their other qualifications' do
 
   scenario 'Candidate submits their other qualifications after choosing not to provide any' do
     given_i_am_signed_in
+    and_teacher_degree_apprenticeship_feature_flag_is_off
     and_i_visit_the_site
     then_i_see_the_other_qualifications_section_is_incomplete
 
@@ -45,6 +46,10 @@ RSpec.describe 'Entering their other qualifications' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def and_teacher_degree_apprenticeship_feature_flag_is_off
+    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def and_i_visit_the_site
