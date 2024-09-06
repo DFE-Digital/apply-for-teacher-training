@@ -258,6 +258,13 @@ RSpec.describe Course do
       it { is_expected.to eq('QTS with PGCE') }
     end
 
+    context 'when [qts undergraduate_degree]' do
+      let(:course) { build(:course, qualifications:, description: 'Teacher degree apprenticeship with QTS') }
+      let(:qualifications) { %w[qts undergraduate_degree] }
+
+      it { is_expected.to eq('Teacher degree apprenticeship with QTS') }
+    end
+
     context 'when [qts pgde]' do
       let(:qualifications) { %w[qts pgde] }
 

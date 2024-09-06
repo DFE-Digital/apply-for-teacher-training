@@ -188,6 +188,7 @@ class Course < ApplicationRecord
     case qualifications.sort
     in ['pgce', 'qts'] then 'QTS with PGCE'
     in ['pgde', 'qts'] then 'PGDE with QTS'
+    in ['qts', 'undergraduate_degree'] then description
     else
       qualifications.first.upcase
     end
