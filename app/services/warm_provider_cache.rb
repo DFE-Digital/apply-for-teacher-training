@@ -17,11 +17,6 @@ class WarmProviderCache
         schema(presenter),
         expires_in: VendorAPI::ApplicationPresenter::CACHE_EXPIRES_IN,
       )
-      Rails.cache.write(
-        presenter.send(:cache_key, application_choice, api_version, method: :as_json),
-        schema(presenter),
-        expires_in: VendorAPI::ApplicationPresenter::CACHE_EXPIRES_IN,
-      )
 
       Rails.logger.tagged('WarmProviderCache').info "ApplicationChoice cached: #{application_choice.id}"
       r[@provider.name] << application_choice.id
