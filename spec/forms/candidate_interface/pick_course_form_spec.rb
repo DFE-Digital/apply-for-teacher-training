@@ -110,12 +110,14 @@ RSpec.describe CandidateInterface::PickCourseForm do
         provider = create(:provider)
         maths_course = create(:course, :open, name: 'Maths', code: '123', description: 'PGCE full time', provider:)
         english_course = create(:course, :open, name: 'English', code: '789', description: 'PGCE with QTS full time', provider:)
+        mathematics_undergraduate_course = create(:course, :open, :teacher_degree_apprenticeship, name: 'Mathematics', code: '790', provider:)
         create(:course_option, course: maths_course)
         create(:course_option, course: english_course)
+        create(:course_option, course: mathematics_undergraduate_course)
 
         form = described_class.new(provider_id: provider.id)
 
-        expect(form.dropdown_available_courses.map(&:name)).to contain_exactly('English (789)', 'Maths (123)')
+        expect(form.dropdown_available_courses.map(&:name)).to contain_exactly('English (789)', 'Maths (123)', 'Mathematics (790) – Teacher degree apprenticeship with QTS')
       end
     end
 
