@@ -18,7 +18,7 @@ class WarmProviderCache
         expires_in: VendorAPI::ApplicationPresenter::CACHE_EXPIRES_IN,
       )
       Rails.cache.write(
-        presenter.send(:cache_key, application_choice, active_version, method: :as_json),
+        presenter.send(:cache_key, application_choice, api_version, method: :as_json),
         schema(presenter),
         expires_in: VendorAPI::ApplicationPresenter::CACHE_EXPIRES_IN,
       )
