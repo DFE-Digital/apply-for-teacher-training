@@ -35,52 +35,48 @@ class GetActivityLogEvents
   def self.call(application_choices:, since: nil)
     since ||= application_choices.includes(:application_form).minimum('application_forms.created_at')
 
-    application_choices_join_sql = <<~COMBINE_AUDITS_WITH_APPLICATION_CHOICES_SCOPE_AND_FILTER.squish
-      INNER JOIN (#{application_choices.to_sql}) ac
-        ON (
-          auditable_type = 'ApplicationChoice'
-          AND auditable_id = ac.id
-          AND action = 'update'
-          AND ( #{application_choice_audits_filter_sql} )
-        ) OR (
-          associated_type = 'ApplicationChoice'
-          AND associated_id = ac.id
-          AND NOT auditable_type = 'OfferCondition'
-          AND NOT auditable_type = 'ApplicationExperience'
-          AND NOT auditable_type = 'ApplicationWorkHistoryBreak'
-        ) OR (
-          auditable_type = 'ApplicationForm'
-          AND auditable_id = ac.application_form_id
-          AND action = 'update'
-          AND ( #{application_form_audits_filter_sql} )
-          AND EXISTS (
-            SELECT 1
-            WHERE ARRAY[#{DATABASE_CHANGE_KEYS}] @> (
-              SELECT ARRAY(SELECT jsonb_object_keys(a.audited_changes)
-              FROM audits a
-              WHERE a.id = audits.id
+    sql_string = <<~SQL
+      EXISTS (
+              SELECT 1
+              WHERE ARRAY[#{DATABASE_CHANGE_KEYS}] @> (
+                SELECT ARRAY(SELECT jsonb_object_keys(a.audited_changes)
+                FROM audits a
+                WHERE a.id = audits.id
+                )
               )
             )
-          )
-        )
-    COMBINE_AUDITS_WITH_APPLICATION_CHOICES_SCOPE_AND_FILTER
+    SQL
 
-    Audited::Audit.select('audits.id audit_id, audits.*, ac.id application_choice_id')
-                  .includes(INCLUDES)
-                  .joins(application_choices_join_sql)
+    where_auditable_is_application_form = Audited::Audit
+                                            .where(auditable_id: application_choices.pluck(:application_form_id), auditable_type: 'ApplicationForm', action: :update)
+                                            .where(application_form_audits_filter_sql)
+                                            .where(sql_string)
+
+    where_associated_is_application_choice = Audited::Audit
+                                               .where(associated: application_choices)
+                                               .where.not(auditable_type: %w[OfferCondition ApplicationExperience ApplicationWorkHistoryBreak])
+
+    application_choices_query = Audited::Audit.where(auditable: application_choices, action: :update)
+                                        .where(application_choice_audits_filter_sql)
+
+    sub_query = application_choices_query
+                  .or(where_auditable_is_application_form)
+                  .or(where_associated_is_application_choice)
+
+    sub_query.includes(INCLUDES)
                   .where('audits.created_at >= ?', since)
                   .order('audits.created_at DESC')
   end
 
   def self.application_form_audits_filter_sql
     INCLUDE_APPLICATION_FORM_CHANGES_TO.map do |change|
-      "jsonb_exists(audited_changes, '#{change}')"
+      "(audited_changes::jsonb ? '#{change}')"
     end.join(' OR ')
   end
 
   def self.application_choice_audits_filter_sql
     application_choice_audits_filter = INCLUDE_APPLICATION_CHOICE_CHANGES_TO.map do |change|
-      "jsonb_exists(audited_changes, '#{change}')"
+      "(audited_changes::jsonb ? '#{change}')"
     end.join(' OR ')
 
     filtered_statuses = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER - IGNORE_STATUS

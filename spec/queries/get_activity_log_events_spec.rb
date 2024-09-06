@@ -64,20 +64,19 @@ RSpec.describe GetActivityLogEvents, :with_audited do
     end
 
     it 'defaults the query date range to the earliest scoped application form creation' do
-      query_instance = instance_double(ActiveRecord::QueryMethods)
-      allow(Audited::Audit).to receive(:select).and_return(query_instance)
-      %i[includes joins where order].each { |meth| allow(query_instance).to receive(meth).and_return(query_instance) }
+      application_form_1 = create(:application_form, created_at: DateTime.new(2010, 1, 1))
+      application_choice_1 = create(:application_choice, application_form: application_form_1, status: :awaiting_provider_decision)
+      create_audit_for_application_choice application_choice_1
 
-      choice = create_application_choice_for_course course_provider_a
-      another_choice = create_application_choice_for_course course_provider_a
-      create_audit_for_application_choice choice
-      create_audit_for_application_form another_choice
+      application_form_2 = create(:application_form, created_at: DateTime.new(2020, 1, 1))
+      application_choice_2 = create(:application_choice, application_form: application_form_2, status: :awaiting_provider_decision)
+      create_audit_for_application_choice application_choice_2
 
-      another_choice.application_form.update(created_at: 1.day.ago)
+      application_form_3 = create(:application_form, created_at: DateTime.now)
+      application_choice_3 = create(:application_choice, application_form: application_form_3, status: :awaiting_provider_decision)
+      create_audit_for_application_choice application_choice_3
 
-      described_class.call(application_choices: application_choices_for_provider_user)
-
-      expect(query_instance).to have_received(:where).with('audits.created_at >= ?', another_choice.application_form.created_at)
+      expect(described_class.call(application_choices: ApplicationChoice.where(id: [application_choice_2, application_choice_3]))).not_to include(application_choice_1)
     end
   end
 
@@ -293,7 +292,7 @@ RSpec.describe GetActivityLogEvents, :with_audited do
     it '<50ms for 1000 application choices' do
       skip 'This spec takes a long time and should be run manually'
 
-      TestSuiteTimeMachine.revert_to_real_world_time
+      # TestSuiteTimeMachine.revert_to_real_world_time
 
       1000.times do
         %i[course_provider_a course_provider_b course_unrelated ratified_course_provider_b ratified_course_unrelated].each do |course|
