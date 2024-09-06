@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::CourseSelection::DoYouKnowTheCourseStep do
+RSpec.describe CandidateInterface::CourseChoices::DoYouKnowTheCourseStep do
   subject(:do_you_know_the_course_step) { described_class.new(answer: answer) }
 
   let(:answer) { nil }

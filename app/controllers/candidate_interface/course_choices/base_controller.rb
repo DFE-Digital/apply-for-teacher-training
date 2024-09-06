@@ -9,7 +9,7 @@ module CandidateInterface
       before_action :redirect_to_your_applications_if_submitted, only: %i[edit update]
 
       def new
-        @wizard = CandidateInterface::CourseSelection::CourseSelectionWizard.new(
+        @wizard = CandidateInterface::CourseChoices::CourseSelectionWizard.new(
           current_step:,
           step_params:,
           current_application:,
@@ -17,7 +17,7 @@ module CandidateInterface
       end
 
       def edit
-        @wizard = CandidateInterface::CourseSelection::CourseSelectionWizard.new(
+        @wizard = CandidateInterface::CourseChoices::CourseSelectionWizard.new(
           current_step:,
           step_params: update_params,
           current_application:,
@@ -27,7 +27,7 @@ module CandidateInterface
       end
 
       def create
-        @wizard = CandidateInterface::CourseSelection::CourseSelectionWizard.new(
+        @wizard = CandidateInterface::CourseChoices::CourseSelectionWizard.new(
           current_step:,
           step_params:,
           current_application:,
@@ -41,7 +41,7 @@ module CandidateInterface
       end
 
       def update
-        @wizard = CandidateInterface::CourseSelection::CourseSelectionWizard.new(
+        @wizard = CandidateInterface::CourseChoices::CourseSelectionWizard.new(
           current_step:,
           step_params: update_params,
           current_application:,

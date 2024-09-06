@@ -1,5 +1,5 @@
 module CandidateInterface
-  module CourseSelection
+  module CourseChoices
     class ReachedReapplicationLimitStep < DfE::Wizard::Step
       include CandidateInterface::Concerns::CourseSelectionStepHelper
       attr_accessor :provider_id, :course_id

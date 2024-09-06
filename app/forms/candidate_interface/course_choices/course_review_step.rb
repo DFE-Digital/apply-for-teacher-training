@@ -1,5 +1,5 @@
 module CandidateInterface
-  module CourseSelection
+  module CourseChoices
     class CourseReviewStep < DfE::Wizard::Step
       def self.route_name
         'candidate_interface_course_choices_course_review'

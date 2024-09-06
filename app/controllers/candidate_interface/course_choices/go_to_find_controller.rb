@@ -5,7 +5,7 @@ module CandidateInterface
       before_action CarryOverFilter
 
       def new
-        @wizard = CourseSelection::CourseSelectionWizard.new(current_step:)
+        @wizard = CourseChoices::CourseSelectionWizard.new(current_step:)
         @adviser_sign_up = Adviser::SignUp.new(current_application)
       end
 

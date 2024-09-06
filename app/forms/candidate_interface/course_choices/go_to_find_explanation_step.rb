@@ -1,5 +1,5 @@
 module CandidateInterface
-  module CourseSelection
+  module CourseChoices
     class GoToFindExplanationStep < DfE::Wizard::Step
       def self.route_name
         'candidate_interface_course_choices_go_to_find_explanation'

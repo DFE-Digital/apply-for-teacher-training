@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::CourseSelection::ClosedCourseSelectionStep do
+RSpec.describe CandidateInterface::CourseChoices::ClosedCourseSelectionStep do
   subject { described_class.new.class.route_name }
 
   describe '.route_name' do

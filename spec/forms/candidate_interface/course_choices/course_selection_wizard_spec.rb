@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::CourseSelection::CourseSelectionWizard do
+RSpec.describe CandidateInterface::CourseChoices::CourseSelectionWizard do
   let(:current_step) { :do_you_know_the_course }
 
   subject(:wizard) do

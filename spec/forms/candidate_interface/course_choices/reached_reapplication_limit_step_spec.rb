@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::CourseSelection::ReachedReapplicationLimitStep do
+RSpec.describe CandidateInterface::CourseChoices::ReachedReapplicationLimitStep do
   subject { described_class.new.class.route_name }
 
   describe '.route_name' do

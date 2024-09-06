@@ -1,5 +1,5 @@
 module CandidateInterface
-  module CourseSelection
+  module CourseChoices
     class CourseStudyModeStep < DfE::Wizard::Step
       include CandidateInterface::Concerns::CourseSelectionStepHelper
       attr_accessor :provider_id, :course_id, :study_mode

@@ -1,5 +1,5 @@
 module CandidateInterface
-  module CourseSelection
+  module CourseChoices
     class ProviderSelectionStep < DfE::Wizard::Step
       attr_accessor :provider_id
       validates :provider_id, presence: true
