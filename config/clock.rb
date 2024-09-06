@@ -25,6 +25,9 @@ class Clock
   every(1.hour, 'UpdateDuplicateMatchesWorker', at: '**:25') { UpdateDuplicateMatchesWorker.perform_async('notify_slack_at' => 13) }
   every(1.hour, 'DetectInvariantsHourlyCheck', at: '**:30') { DetectInvariantsHourlyCheck.perform_async }
 
+  # Warm the Vendor API cache for ApplicationChoices
+  every(23.hours, 'WarmCacheWorker') { ::WarmCacheWorker.perform_async }
+
   # Daily jobs
   every(1.day, 'Chasers::Candidate::OfferWorker', at: '10:30') { Chasers::Candidate::OfferWorker.perform_async }
 
