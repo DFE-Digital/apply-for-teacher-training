@@ -14,7 +14,6 @@ class WarmCache
 
       # Run a background job for each provider to cache their applications
       Rails.logger.tagged('WarmCache').info "VendorAPIWarmCacheProviderWorker enqueued for provider id #{provider.id} with api version #{api_version}"
-      binding.pry
       ::VendorAPIWarmCacheProviderWorker.perform_async(api_version, provider.id)
     end
   end
