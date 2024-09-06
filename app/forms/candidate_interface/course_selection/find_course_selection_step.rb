@@ -9,7 +9,7 @@ module CandidateInterface
       delegate :provider_id, to: :course
 
       def self.route_name
-        'candidate_interface_continuous_applications_find_course_selection'
+        'candidate_interface_course_choices_find_course_selection'
       end
 
       def self.permitted_params
