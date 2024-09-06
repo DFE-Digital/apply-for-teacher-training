@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::CourseSelectionStore do
+RSpec.describe CandidateInterface::CourseChoices::CourseSelectionStore do
   subject(:store) { described_class.new(wizard) }
 
   let(:current_application) { create(:application_form) }
