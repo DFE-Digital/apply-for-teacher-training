@@ -48,6 +48,7 @@ RSpec.describe 'Entering a degree' do
 
     when_i_finish_adding_a_degree
     then_i_am_on_the_review_page
+    and_i_can_see_the_degrees_section_content
 
     when_i_click_to_delete_a_degree
     and_i_confirm_the_deletion
@@ -209,5 +210,11 @@ RSpec.describe 'Entering a degree' do
 
   def and_i_still_have_one_degree
     expect(page).to have_content('BSc (Hons) Astronomy').once
+  end
+
+  def and_i_can_see_the_degrees_section_content
+    expect(page).to have_content(
+      'Check the entry requirements for your chosen course. Postgraduate courses usually require a bachelor’s degree at 2:2 or above. Contact the training provider if you do not have the right degree level. Teacher degree apprenticeships do not require a degree.',
+    )
   end
 end
