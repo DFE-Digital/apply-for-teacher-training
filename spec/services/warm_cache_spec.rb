@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe WarmCache do
   include VendorAPISpecHelpers
+
   before do
     @application_choice = create_application_choice_for_currently_authenticated_provider
     api_token
@@ -9,11 +10,11 @@ RSpec.describe WarmCache do
   end
 
   describe '#call' do
-    it 'caches all relevant application choices' do
+    it 'enqueues cache warming job for provider' do
       token = currently_authenticated_provider.vendor_api_tokens.last
       token.update(last_used_at: 1.week.ago)
       @application_choice.update(updated_at: Time.zone.local(2024, 9, 4, 14, 0))
-      expect(described_class.new.call).to eq(currently_authenticated_provider.name => [@application_choice.id])
+      expect { described_class.new.call }.to change { VendorAPIWarmCacheProviderWorker.jobs.size }.by(1)
     end
   end
 end

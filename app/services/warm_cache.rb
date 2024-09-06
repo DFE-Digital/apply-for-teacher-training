@@ -1,35 +1,21 @@
 class WarmCache
   def call
-    r = {}
-    # Get all provider who have an api token that has been used in the past 6.months
+    # Get all provider who have an api token that has been used in the past month
     ProvidersForVendorAPICacheWarmingQuery.new.call.each do |provider|
-      Rails.logger.tagged('Warm Cache').info "Provider cached: #{provider.id}"
       # Find the api version they last used
-      vendor_version = VendorAPIRequest
+      api_version = VendorAPIRequest
         .where(provider_id: provider.id)
         .select("regexp_matches(request_path, '/api/v(.*)/applications') result")
         .order(created_at: :desc)
         .first&.result&.first
 
       # skip as we couldn't find any api requests
-      next unless vendor_version
+      next unless api_version
 
-      r[provider.name] = []
-
-      # For each of the application choices
-      # generate a cache entry
-      ApplicationChoice.joins(course_option: { course: :provider })
-        .where(course_options: { courses: { provider_id: provider.id } })
-        .where('application_choices.updated_at between (?) and (?)', Date.new(2024, 9, 2), Date.new(2024, 9, 5))
-        .where.not(application_choices: { status: ['unsubmitted'] })
-        .find_each do |application_choice|
-        presenter = VendorAPI::ApplicationPresenter.new(vendor_version, application_choice)
-        presenter.as_json
-        presenter.serialized_json
-        Rails.logger.tagged('Warm Cache').info "ApplicationChoice cached: #{application_choice.id}"
-        r[provider.name] << application_choice.id
-      end
+      # Run a background job for each provider to cache their applications
+      Rails.logger.tagged('WarmCache').info "VendorAPIWarmCacheProviderWorker enqueued for provider id #{provider.id} with api version #{api_version}"
+      binding.pry
+      ::VendorAPIWarmCacheProviderWorker.perform_async(api_version, provider.id)
     end
-    r
   end
 end
