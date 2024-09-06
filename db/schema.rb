@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_29_140920) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_06_125159) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -220,6 +220,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_140920) do
     t.boolean "university_degree"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
+    t.index ["updated_at"], name: "index_application_forms_on_updated_at", order: :desc
   end
 
   create_table "application_qualifications", force: :cascade do |t|
