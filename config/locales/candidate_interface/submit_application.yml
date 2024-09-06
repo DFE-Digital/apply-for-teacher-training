@@ -40,6 +40,12 @@ en:
                 Visa sponsorship is not available for this course.
 
                 %{link_to_find}.
+              incomplete_undergraduate_course_details: |-
+                To apply for this course, you need an A level or equivalent qualification.
+
+                %{link_to_a_levels} and complete the rest of your details. You can then submit your application.
+
+                Your application will be saved as a draft while you finish adding your details.
 
   application_form:
     submit_application:

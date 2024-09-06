@@ -10,6 +10,52 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
   let(:routes) { Rails.application.routes.url_helpers }
 
   describe 'validations', time: mid_cycle do
+    context 'incomplete_undergraduate_course_details validation' do
+      let(:course) do
+        create(
+          :course,
+          :open,
+          :teacher_degree_apprenticeship,
+        )
+      end
+      let(:application_choice) do
+        create(:application_choice, :unsubmitted, course_option: create(:course_option, course:), application_form:)
+      end
+
+      context 'when all undergraduate course details are complete' do
+        let(:application_form) { create(:application_form, :completed, :with_a_levels) }
+
+        it 'is valid' do
+          expect(application_choice_submission).to be_valid
+        end
+      end
+
+      context 'when undergraduate course details are incomplete' do
+        let(:application_form) do
+          create(
+            :application_form,
+            :completed,
+            no_other_qualifications: true,
+            application_qualifications: [],
+          )
+        end
+
+        it 'adds an error to the application choice' do
+          expect(application_choice_submission).not_to be_valid
+          expect(application_choice_submission.errors[:application_choice].first).to include(
+            "To apply for this course, you need an A level or equivalent qualification.\n\n#{link_to_undergraduate_details_error_message} and complete the rest of your details. You can then submit your application.\n\nYour application will be saved as a draft while you finish adding your details.",
+          )
+        end
+      end
+
+      def link_to_undergraduate_details_error_message
+        govuk_link_to(
+          'Add your A level grade (or equivalent)',
+          routes.candidate_interface_other_qualification_type_path,
+        )
+      end
+    end
+
     context 'immigration_status validation' do
       let(:course) { create(:course, :with_course_options, :open, level: 'secondary') }
       let(:application_form) { create(:application_form, :completed) }

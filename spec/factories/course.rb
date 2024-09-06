@@ -76,6 +76,7 @@ FactoryBot.define do
 
       qualifications { %w[qts undergraduate_degree] }
       program_type { 'teacher_degree_apprenticeship' }
+      course_length { '4 years' }
     end
 
     trait :previous_year do
