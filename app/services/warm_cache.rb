@@ -2,8 +2,7 @@ class WarmCache
   def call
     r = {}
     # Get all provider who have an api token that has been used in the past 6.months
-    Provider.joins(:vendor_api_tokens)
-      .where('vendor_api_tokens.last_used_at > ?', 1.month.ago).distinct.each do |provider|
+    ProvidersForVendorAPICacheWarmingQuery.new.call.each do |provider|
       Rails.logger.tagged('Warm Cache').info "Provider cached: #{provider.id}"
       # Find the api version they last used
       vendor_version = VendorAPIRequest
