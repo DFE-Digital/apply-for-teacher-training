@@ -46,7 +46,12 @@ en:
                 %{link_to_a_levels} and complete the rest of your details. You can then submit your application.
 
                 Your application will be saved as a draft while you finish adding your details.
+              incomplete_postgraduate_course_details: |-
+                To apply for this course, you need a bachelor’s degree or equivalent qualification.
 
+                %{link_to_degree} and complete the rest of your details. You can then submit your application.
+
+                Your application will be saved as a draft while you finish adding your details.
   application_form:
     submit_application:
       title: Send application to training providers

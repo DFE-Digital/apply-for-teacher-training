@@ -10,6 +10,109 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
   let(:routes) { Rails.application.routes.url_helpers }
 
   describe 'validations', time: mid_cycle do
+    context 'incomplete postgraduate details validation', time: mid_cycle(2025) do
+      let(:course) do
+        create(
+          :course,
+          :open,
+        )
+      end
+      let(:application_choice) do
+        create(:application_choice, :unsubmitted, course_option: create(:course_option, course:), application_form:)
+      end
+
+      before do
+        FeatureFlag.activate(:teacher_degree_apprenticeship)
+      end
+
+      context 'when all postgraduate course details are complete' do
+        let(:application_form) { create(:application_form, :completed, :with_degree) }
+
+        it 'is valid' do
+          expect(application_choice_submission).to be_valid
+        end
+      end
+
+      context 'when applying to an undergraduate course' do
+        let(:course) do
+          create(
+            :course,
+            :open,
+            :teacher_degree_apprenticeship,
+          )
+        end
+        let(:application_form) do
+          create(
+            :application_form,
+            :completed,
+            application_qualifications: [],
+            university_degree: false,
+          )
+        end
+
+        before do
+          FeatureFlag.activate(:teacher_degree_apprenticeship)
+        end
+
+        it 'does not add an error to the application choice' do
+          application_choice_submission.valid?
+
+          expect(
+            application_choice_submission.errors.of_kind?(:application_choice, :incomplete_postgraduate_course_details),
+          ).to be false
+        end
+      end
+
+      context 'when teacher degree apprenticeship feature is off' do
+        let(:application_form) do
+          create(
+            :application_form,
+            :completed,
+            application_qualifications: [],
+            university_degree: false,
+          )
+        end
+
+        before do
+          FeatureFlag.deactivate(:teacher_degree_apprenticeship)
+        end
+
+        it 'does not add an error to the application choice' do
+          application_choice_submission.valid?
+
+          expect(
+            application_choice_submission.errors.of_kind?(:application_choice, :incomplete_postgraduate_course_details),
+          ).to be false
+        end
+      end
+
+      context 'when postgraduate course details are incomplete' do
+        let(:application_form) do
+          create(
+            :application_form,
+            :completed,
+            university_degree: false,
+            degrees_completed: true,
+            recruitment_cycle_year: 2025,
+          )
+        end
+
+        it 'adds an error to the application choice' do
+          expect(application_choice_submission).not_to be_valid
+          expect(application_choice_submission.errors[:application_choice].first).to include(
+            "To apply for this course, you need a bachelor’s degree or equivalent qualification.\n\n#{link_to_postgraduate_details_error_message} and complete the rest of your details. You can then submit your application.\n\nYour application will be saved as a draft while you finish adding your details.",
+          )
+        end
+      end
+
+      def link_to_postgraduate_details_error_message
+        govuk_link_to(
+          'Add your degree (or equivalent)',
+          routes.candidate_interface_degree_university_degree_path,
+        )
+      end
+    end
+
     context 'incomplete_undergraduate_course_details validation' do
       let(:course) do
         create(
@@ -23,7 +126,9 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
       end
 
       context 'when all undergraduate course details are complete' do
-        let(:application_form) { create(:application_form, :completed, :with_a_levels) }
+        let(:application_form) do
+          create(:application_form, :completed, :with_a_levels)
+        end
 
         it 'is valid' do
           expect(application_choice_submission).to be_valid
