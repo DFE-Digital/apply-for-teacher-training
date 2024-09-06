@@ -1,5 +1,11 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <%= govuk_notification_banner(title_text: 'Important') do |notification_banner| %>
+      <% notification_banner.with_heading(text: 'This policy has been replaced') %>
+      <p class="govuk-body">
+        As of September 2024, visit the GOV.UK website for the <%= govuk_link_to('up-to-date Department for Education privacy policy', t('personal_information_charter.url')) %>.
+      </p>
+    <% end %>
     <h1 class="govuk-heading-l"><%= t('page_titles.service_privacy_notice') %></h1>
 
     <h2 class="govuk-heading-m">Who we are</h2>

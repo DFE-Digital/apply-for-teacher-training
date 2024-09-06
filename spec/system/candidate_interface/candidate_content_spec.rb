@@ -17,14 +17,14 @@ RSpec.describe 'Candidate content' do
     when_i_click_on_complaints
     then_i_can_see_the_complaints_page
 
-    when_i_click_on_the_privacy_policy
-    then_i_can_see_the_privacy_policy
-
     when_i_click_on_the_terms_of_use
     then_i_can_see_the_terms_candidate
 
     when_click_on_guidance_for_using_ai
     then_i_can_see_the_ai_guidance
+
+    when_i_click_on_the_privacy_policy
+    then_i_can_see_the_privacy_policy
   end
 
   def when_click_on_guidance_for_using_ai
@@ -83,7 +83,7 @@ RSpec.describe 'Candidate content' do
   end
 
   def then_i_can_see_the_privacy_policy
-    expect(page).to have_content(t('page_titles.service_privacy_notice'))
+    expect(current_url).to eq t('personal_information_charter.url')
   end
 
   def when_i_click_on_the_terms_of_use

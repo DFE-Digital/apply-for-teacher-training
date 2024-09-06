@@ -13,16 +13,6 @@ RSpec.describe 'Provider content' do
     then_i_can_see_the_cookies_page
     and_i_can_opt_in_to_tracking_website_usage
 
-    when_i_click_on_privacy
-    then_i_can_see_the_privacy_notices
-
-    when_i_click_on_service_privacy_notice
-    then_i_can_see_the_service_privacy_notice
-
-    when_i_click_on_privacy
-    and_i_click_on_online_chat_privacy_notice
-    then_i_can_see_the_online_chat_privacy_notice
-
     when_i_click_on_the_service_guidance
     then_i_can_see_the_service_guidance_provider
 
@@ -31,6 +21,9 @@ RSpec.describe 'Provider content' do
 
     when_i_click_on_the_roadmap
     then_i_can_see_the_roadmap
+
+    when_i_click_on_privacy
+    then_i_see_the_privacy_notice_page
   end
 
   def when_click_on_guidance_for_using_ai
@@ -79,24 +72,8 @@ RSpec.describe 'Provider content' do
     within('.govuk-footer') { click_link_or_button t('layout.support_links.privacy') }
   end
 
-  def then_i_can_see_the_privacy_notices
-    expect(page).to have_content(t('page_titles.privacy_notices'))
-  end
-
-  def when_i_click_on_service_privacy_notice
-    click_link_or_button 'Service privacy notice'
-  end
-
-  def then_i_can_see_the_service_privacy_notice
-    expect(page).to have_content(t('page_titles.service_privacy_notice'))
-  end
-
-  def and_i_click_on_online_chat_privacy_notice
-    click_link_or_button 'Online chat privacy notice'
-  end
-
-  def then_i_can_see_the_online_chat_privacy_notice
-    expect(page).to have_content(t('page_titles.online_chat_privacy_notice'))
+  def then_i_see_the_privacy_notice_page
+    expect(current_url).to eq t('personal_information_charter.url')
   end
 
   def when_i_click_on_the_service_guidance
