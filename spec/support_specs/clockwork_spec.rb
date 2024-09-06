@@ -101,4 +101,30 @@ RSpec.describe Clockwork, :clockwork do
       expect(Clockwork::Test.manager.send(:history).jobs).not_to include('Schedule Recruitment Performance reports')
     end
   end
+
+  describe 'Warm provider cache' do
+    it 'runs at 6 AM' do
+      start_time = Time.zone.now.beginning_of_week.change(hour: 5)
+      end_time = Time.zone.now.beginning_of_week.change(hour: 7)
+      Clockwork::Test.run(
+        start_time:,
+        end_time:,
+        tick_speed: 1.hour,
+      )
+
+      expect(Clockwork::Test).to have_run('WarmCacheWorker').once
+    end
+
+    it 'runs at 6 PM' do
+      start_time = Time.zone.now.beginning_of_week.change(hour: 17)
+      end_time = Time.zone.now.beginning_of_week.change(hour: 19)
+      Clockwork::Test.run(
+        start_time:,
+        end_time:,
+        tick_speed: 1.hour,
+      )
+
+      expect(Clockwork::Test).to have_run('WarmCacheWorker').once
+    end
+  end
 end
