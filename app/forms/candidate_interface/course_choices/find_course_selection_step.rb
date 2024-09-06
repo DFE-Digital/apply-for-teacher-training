@@ -8,10 +8,6 @@ module CandidateInterface
       delegate :find_url, :provider, :name_and_code, to: :course, prefix: true
       delegate :provider_id, to: :course
 
-      def self.route_name
-        'candidate_interface_course_choices_find_course_selection'
-      end
-
       def self.permitted_params
         %i[course_id confirm]
       end

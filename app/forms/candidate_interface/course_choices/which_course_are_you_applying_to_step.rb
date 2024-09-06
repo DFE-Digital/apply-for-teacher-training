@@ -7,10 +7,6 @@ module CandidateInterface
 
       validates_with CourseSelectionValidator, on: :course_choice
 
-      def self.route_name
-        'candidate_interface_course_choices_which_course_are_you_applying_to'
-      end
-
       def self.permitted_params
         %i[provider_id course_id]
       end

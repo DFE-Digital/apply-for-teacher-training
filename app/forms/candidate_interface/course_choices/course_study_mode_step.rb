@@ -6,10 +6,6 @@ module CandidateInterface
 
       validates :study_mode, presence: true
 
-      def self.route_name
-        'candidate_interface_course_choices_course_study_mode'
-      end
-
       def self.permitted_params
         %i[provider_id course_id study_mode]
       end
