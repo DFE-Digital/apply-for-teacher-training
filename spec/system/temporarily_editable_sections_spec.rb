@@ -11,6 +11,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
 
     when_i_visit_the_application_page
     and_i_click_to_change_the_editable_sections
+    then_i_do_not_see_references_or_safeguarding
     and_i_click_update
     then_i_see_a_validation_message
 
@@ -70,6 +71,11 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
     within_summary_row 'Is this application editable' do
       click_link_or_button 'Change'
     end
+  end
+
+  def then_i_do_not_see_references_or_safeguarding
+    expect(page).to have_no_content 'References'
+    expect(page).to have_no_content 'Safeguarding issues'
   end
 
   def and_i_click_update
