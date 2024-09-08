@@ -22,7 +22,7 @@ RSpec.describe 'Candidate submits an application up to 4 choices' do
 
   def and_i_have_a_conditions_not_met_application_and_one_free_slot_to_submit
     current_candidate.current_application.destroy!
-    application_form = create(:application_form, :completed, candidate: current_candidate)
+    application_form = create(:application_form, :completed, :with_degree, candidate: current_candidate)
     create(:application_choice, :awaiting_provider_decision, application_form:)
     create(:application_choice, :awaiting_provider_decision, application_form:)
     create(:application_choice, :awaiting_provider_decision, application_form:)

@@ -38,6 +38,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', time: CycleTimetable
     @application_form = create(
       :completed_application_form,
       :with_gcses,
+      :with_degree,
       date_of_birth: Date.new(1964, 9, 1),
       submitted_at: nil,
       candidate: @candidate,

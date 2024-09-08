@@ -163,7 +163,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
 
     context 'immigration_status validation' do
       let(:course) { create(:course, :with_course_options, :open, level: 'secondary') }
-      let(:application_form) { create(:application_form, :completed) }
+      let(:application_form) { create(:application_form, :completed, :with_degree) }
       let(:application_choice) { create(:application_choice, :unsubmitted, course:, application_form:) }
       let(:link_to_find) do
         govuk_link_to(
@@ -185,6 +185,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
           create(
             :application_form,
             :completed,
+            :with_degree,
             first_nationality: 'American',
             right_to_work_or_study: 'no',
             efl_completed: true,
@@ -240,7 +241,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
 
     context 'applications_closed validation' do
       let(:course) { create(:course, :with_course_options, :open, level: 'secondary') }
-      let(:application_form) { create(:application_form, :completed) }
+      let(:application_form) { create(:application_form, :completed, :with_degree) }
       let(:application_choice) { create(:application_choice, :unsubmitted, course:, application_form:) }
 
       context 'when apply is open and course is open for applications' do
@@ -285,7 +286,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
     context 'course_unavailable validation' do
       let(:course) { build(:course, :open, course_options: []) }
       let(:course_option) { create(:course_option, course: course) }
-      let(:application_form) { create(:application_form, :completed) }
+      let(:application_form) { create(:application_form, :completed, :with_degree) }
       let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
 
       context 'all validations pass' do
@@ -340,7 +341,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
     context 'incomplete_primary_course_details validation' do
       let(:course_option) { create(:course_option, course:) }
       let(:course) { create(:course, :open, :primary, :with_course_options) }
-      let(:application_form) { create(:application_form, :completed) }
+      let(:application_form) { create(:application_form, :completed, :with_degree) }
       let(:application_choice) { create(:application_choice, :unsubmitted, application_form:, course:) }
 
       context 'when all sections are completed' do
@@ -364,7 +365,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
       context 'when secondary course choice with only science gcse section incomplete' do
         let(:course) { create(:course, :open, :secondary) }
         let(:course_option) { create(:course_option, course:) }
-        let(:application_form) { create(:application_form, :completed, science_gcse_completed: false) }
+        let(:application_form) { create(:application_form, :completed, :with_degree, science_gcse_completed: false) }
         let(:application_choice) { create(:application_choice, :unsubmitted, course_option:, application_form:) }
 
         it 'is valid' do
@@ -410,7 +411,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
     end
 
     context 'incomplete_details validation' do
-      let(:application_form) { create(:application_form, :completed) }
+      let(:application_form) { create(:application_form, :completed, :with_degree) }
       let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
 
       context 'valid' do
@@ -440,7 +441,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
 
     context 'add more course choices validation' do
       context 'when candidate can submit further applications' do
-        let(:application_form) { create(:completed_application_form, submitted_application_choices_count: 3) }
+        let(:application_form) { create(:completed_application_form, :with_degree, submitted_application_choices_count: 3) }
         let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
 
         it 'is valid' do
@@ -449,7 +450,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
       end
 
       context 'when candidate has conditions not met and can submit further applications' do
-        let(:application_form) { create(:completed_application_form) }
+        let(:application_form) { create(:completed_application_form, :with_degree) }
         let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
 
         it 'is valid' do
@@ -459,7 +460,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
       end
 
       context 'when candidate can not submit further applications' do
-        let(:application_form) { create(:completed_application_form, submitted_application_choices_count: 4) }
+        let(:application_form) { create(:completed_application_form, :with_degree, submitted_application_choices_count: 4) }
         let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
 
         it 'adds error to application choice' do
@@ -471,7 +472,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
       end
 
       context 'when candidate does not reach the maximum unsuccessful choices' do
-        let(:application_form) { create(:completed_application_form, submitted_application_choices_count: 3) }
+        let(:application_form) { create(:completed_application_form, :with_degree, submitted_application_choices_count: 3) }
         let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
 
         it 'is valid' do

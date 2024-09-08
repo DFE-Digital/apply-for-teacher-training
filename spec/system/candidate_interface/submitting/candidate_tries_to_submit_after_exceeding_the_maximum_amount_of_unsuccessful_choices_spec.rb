@@ -22,7 +22,7 @@ RSpec.describe 'Candidate submits the application' do
 
   def and_i_have_19_unsuccessful_applications
     current_candidate.application_forms.delete_all
-    current_candidate.application_forms << build(:application_form, :completed)
+    current_candidate.application_forms << create(:application_form, :completed, :with_degree)
     current_candidate.current_application.application_choices << build_list(:application_choice, 14, :withdrawn)
   end
 

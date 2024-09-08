@@ -97,6 +97,7 @@ RSpec.describe 'Candidate with no right to work or study' do
     @application_form = create(
       :application_form,
       :completed,
+      :with_degree,
       candidate: current_candidate,
       first_nationality: 'Indian',
       second_nationality: nil,
