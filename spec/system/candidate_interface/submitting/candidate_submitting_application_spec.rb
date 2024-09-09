@@ -6,7 +6,6 @@ RSpec.describe 'Candidate submits the application' do
 
   scenario 'Candidate with a completed application' do
     given_i_am_signed_in
-
     when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice
     and_i_continue_with_my_application
 
@@ -102,7 +101,7 @@ RSpec.describe 'Candidate submits the application' do
     @course = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
     @course_option = create(:course_option, site:, course: @course)
     current_candidate.application_forms.delete_all
-    current_candidate.application_forms << build(:application_form, completed_section_trait, becoming_a_teacher: 'I want to teach')
+    current_candidate.application_forms << create(:application_form, completed_section_trait, :with_degree, becoming_a_teacher: 'I want to teach')
     @application_choice = create(:application_choice, :unsubmitted, course_option: @course_option, application_form: current_candidate.current_application)
   end
 

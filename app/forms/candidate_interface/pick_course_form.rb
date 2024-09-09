@@ -56,6 +56,8 @@ module CandidateInterface
     end
 
     def unique_name_for(course)
+      return course.name_code_and_description if course.undergraduate?
+
       if courses_with_names.count(course.name.downcase) == 1
         course.name_and_code
       elsif courses_with_descriptions.count(course.name_and_description.downcase) == 1

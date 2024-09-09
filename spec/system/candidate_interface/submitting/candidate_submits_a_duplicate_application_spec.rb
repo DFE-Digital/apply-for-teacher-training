@@ -18,7 +18,7 @@ RSpec.describe 'Submitting a duplicate application' do
 
   def given_i_have_an_account_submission_blocked
     @candidate = create(:candidate, submission_blocked: true)
-    @application_form = create(:application_form, :completed, candidate: @candidate, submitted_at: nil)
+    @application_form = create(:application_form, :completed, :with_degree, candidate: @candidate, submitted_at: nil)
   end
 
   def when_i_try_to_submit_an_application

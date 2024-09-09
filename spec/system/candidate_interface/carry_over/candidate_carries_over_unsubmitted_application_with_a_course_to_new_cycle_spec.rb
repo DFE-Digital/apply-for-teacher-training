@@ -46,6 +46,7 @@ private
       :completed_application_form,
       :eligible_for_free_school_meals,
       :with_gcses,
+      :with_degree,
       submitted_at: nil,
       candidate: @candidate,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,

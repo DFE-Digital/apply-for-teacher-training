@@ -788,7 +788,7 @@ module CandidateHelper
   end
 
   def and_i_have_one_application_in_draft
-    @application_form = create(:application_form, :completed, candidate: @current_candidate)
+    @application_form = create(:application_form, :completed, :with_degree, candidate: @current_candidate)
     @application_choice = create(:application_choice, :unsubmitted, application_form: @application_form)
   end
 

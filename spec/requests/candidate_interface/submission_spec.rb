@@ -8,7 +8,7 @@ RSpec.describe 'Submit to continuous apps' do
   before { sign_in candidate }
 
   context 'when submitting to current cycle', time: mid_cycle do
-    let(:application_form) { create(:application_form, :completed, submitted_at: nil) }
+    let(:application_form) { create(:application_form, :completed, :with_degree, submitted_at: nil) }
 
     before do
       post candidate_interface_course_choices_submit_course_choice_path(choice.id)
@@ -27,7 +27,7 @@ RSpec.describe 'Submit to continuous apps' do
 
   context 'when old cycles trying to cheat and submit into the new cycle' do
     let(:application_form) do
-      create(:application_form, :completed, submitted_at: nil, recruitment_cycle_year: CycleTimetable.previous_year)
+      create(:application_form, :completed, :with_degree, submitted_at: nil, recruitment_cycle_year: CycleTimetable.previous_year)
     end
 
     it 'be successful' do
