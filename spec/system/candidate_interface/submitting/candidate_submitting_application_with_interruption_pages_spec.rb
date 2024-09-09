@@ -58,7 +58,7 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
 
   scenario 'Candidate submits an teacher degree apprenticeship course having a personal statement less than 500 words and a degree', :js, time: mid_cycle do
     given_i_am_signed_in
-    when_i_have_completed_my_undergraduate_application_and_have_added_primary_as_a_course_choice_with_short_personal_statement_and_a_degree
+    when_i_have_completed_application_to_primary_course_choice_with_short_personal_statement
     and_course_choice_is_undergraduate
     and_i_have_a_degree
     and_i_continue_with_my_application
@@ -97,7 +97,7 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
     add_not_needed_qualification
   end
 
-  def when_i_have_completed_my_undergraduate_application_and_have_added_primary_as_a_course_choice_with_short_personal_statement_and_a_degree
+  def when_i_have_completed_application_to_primary_course_choice_with_short_personal_statement
     given_i_have_a_primary_course_choice(application_form_completed: true, personal_statement_words: 4)
   end
 
