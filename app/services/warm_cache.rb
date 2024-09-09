@@ -1,7 +1,7 @@
 class WarmCache
   def call
     # Get all provider who have an api token that has been used in the past month
-    ProvidersForVendorAPICacheWarmingQuery.new.call.each do |provider|
+    ProvidersForVendorAPICacheWarmingQuery.new.call.find_each do |provider|
       # Find the api version they last used
       api_version = ProviderLatestAPIVersionQuery.new(provider_id: provider.id).call
 
