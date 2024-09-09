@@ -811,6 +811,7 @@ module CandidateHelper
     when_i_visit_my_applications
     when_i_click_to_view_my_application
   end
+  alias when_i_continue_with_my_application and_i_continue_with_my_application
 
   def when_i_click_to_view_my_application
     click_link_or_button @application_choice.current_course.provider.name

@@ -365,6 +365,7 @@ namespace :candidate_interface, path: '/candidate' do
       get '/:application_choice_id/review' => 'course_choices/review#show', as: :course_choices_course_review
       get '/:application_choice_id/review-interruption' => 'course_choices/review_interruption#show', as: :course_choices_course_review_interruption
       get '/:application_choice_id/review-enic-interruption' => 'course_choices/review_enic_interruption#show', as: :course_choices_course_review_enic_interruption
+      get '/:application_choice_id/review-undergraduate-interruption' => 'course_choices/review_undergraduate_interruption#show', as: :course_choices_course_review_undergraduate_interruption
       get '/:application_choice_id/review-and-submit' => 'course_choices/review_and_submit#show', as: :course_choices_course_review_and_submit
       get '/blocked-submissions' => 'course_choices/blocked_submissions#show', as: :course_choices_blocked_submissions
 

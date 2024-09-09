@@ -297,7 +297,11 @@ class ApplicationChoice < ApplicationRecord
     days_since_calculation(offered_at)
   end
 
-  delegate :teacher_degree_apprenticeship?, to: :current_course
+  delegate :teacher_degree_apprenticeship?, :undergraduate?, to: :current_course
+
+  def undergraduate_course_and_application_form_with_degree?
+    undergraduate? && application_form.degrees?
+  end
 
 private
 

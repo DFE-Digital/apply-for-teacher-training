@@ -1,0 +1,21 @@
+<% content_for :title, t('page_titles.application_review_and_submit', provider_name: @application_choice.provider.name) %>
+<% content_for(:before_content, govuk_back_link_to(candidate_interface_application_choices_path)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <div class="app-grid-column--grey">
+      <h1 class="govuk-heading-l"><%= t('review_undergraduate_interruption.title') %></h1>
+      <p class="govuk-body"><%= t('review_undergraduate_interruption.eligible_postgraduate') %></p>
+      <p class="govuk-body"><%= t('review_undergraduate_interruption.course_length') %></p>
+      <p class="govuk-body"><%= t('review_undergraduate_interruption.teacher_training_advisor') %></p>
+    </div>
+
+    <div class="govuk-button-group app-course-choice__confirm-submission">
+      <h2 class="govuk-heading-s"><%= t('review_undergraduate_interruption.would_you_like_to_continue') %></h2>
+
+      <%= govuk_button_to(t('review_undergraduate_interruption.continue'), candidate_interface_course_choices_course_review_and_submit_path(@application_choice.id), method: :get) %>
+
+      <%= govuk_link_to(t('review_undergraduate_interruption.go_to_account'), candidate_interface_details_path) %>
+    </div>
+  </div>
+</div>
