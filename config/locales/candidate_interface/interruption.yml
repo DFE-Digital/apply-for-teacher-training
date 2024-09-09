@@ -7,6 +7,16 @@ en:
     edit_statement: Would you like to edit your personal statement before submitting your application?
     edit_statement_button_text: Edit your personal statement
     continue_without_editing: Continue without editing
+  review_undergraduate_interruption:
+    title: Are you sure you want to apply for a teacher degree apprenticeship?
+    eligible_postgraduate: You've told us you have a degree, which might make you eligible for postgraduate teacher training.
+    course_length: Teacher degree apprenticeships are 4 years, and postgraduate teacher training courses are usually one year.
+    find_out: Find out about the different ways to train to be a teacher
+    teacher_training_advisor: For support and advice, you can also speak to a %{link} for free. They can help you understand which courses would be best for you.
+    teacher_training_advisor_link_text: teacher training adviser
+    would_you_like_to_continue: Would you like to continue and apply for this course?
+    continue: Continue and apply for this course
+    go_to_account: Go to your account
   review_enic_interruption:
     title: You have not included a UK ENIC reference number
     waiting_maybe:

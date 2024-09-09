@@ -732,4 +732,43 @@ RSpec.describe ApplicationChoice do
       end
     end
   end
+
+  describe '#undergraduate_course_and_application_form_with_degree?' do
+    let(:application_choice) { create(:application_choice, current_course_option: current_course_option, application_form:) }
+    let(:application_form) { create(:application_form) }
+    let(:current_course_option) { create(:course_option, course: current_course) }
+    let(:current_course) { create(:course, program_type: 'teacher_degree_apprenticeship') }
+
+    context 'when the course is an undergraduate and the application form has a degree' do
+      it 'returns true' do
+        create(:application_qualification, level: 'degree', application_form:)
+
+        expect(application_choice.undergraduate_course_and_application_form_with_degree?).to be(true)
+      end
+    end
+
+    context 'when the course is not undergraduate but the application form has a degree' do
+      let(:current_course) { create(:course, program_type: 'pg_teaching_apprenticeship') }
+
+      it 'returns false' do
+        create(:application_qualification, level: 'degree', application_form:)
+
+        expect(application_choice.undergraduate_course_and_application_form_with_degree?).to be(false)
+      end
+    end
+
+    context 'when the course is undergraduate but the application form does not have a degree' do
+      it 'returns false' do
+        expect(application_choice.undergraduate_course_and_application_form_with_degree?).to be(false)
+      end
+    end
+
+    context 'when neither the course is undergraduate nor the application form has a degree' do
+      let(:current_course) { create(:course, program_type: 'pg_teaching_apprenticeship') }
+
+      it 'returns false' do
+        expect(application_choice.undergraduate_course_and_application_form_with_degree?).to be(false)
+      end
+    end
+  end
 end

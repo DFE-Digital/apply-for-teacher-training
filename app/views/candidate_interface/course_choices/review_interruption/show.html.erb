@@ -19,11 +19,7 @@
 
       <%= govuk_button_to(t('review_interruption.edit_statement_button_text'), candidate_interface_edit_becoming_a_teacher_path, method: :get) %>
 
-      <% if current_application.qualifications_enic_reasons_waiting_or_maybe? || current_application.any_qualification_enic_reason_not_needed? %>
-        <%= govuk_link_to(t('review_interruption.continue_without_editing'), candidate_interface_course_choices_course_review_enic_interruption_path(@application_choice.id)) %>
-      <% else %>
-        <%= govuk_link_to(t('review_interruption.continue_without_editing'), candidate_interface_course_choices_course_review_and_submit_path(@application_choice.id)) %>
-      <% end %>
+      <%= render CandidateInterface::ContinueWithoutEditing.new(current_application:, application_choice: @application_choice) %>
     </div>
   </div>
 </div>

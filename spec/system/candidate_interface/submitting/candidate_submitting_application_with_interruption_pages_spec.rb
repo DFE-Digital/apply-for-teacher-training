@@ -56,9 +56,72 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
     then_the_viewed_enic_interruption_page_cookie_to_be_set
   end
 
+  scenario 'Candidate submits an teacher degree apprenticeship course having a personal statement less than 500 words and a degree', :js, time: mid_cycle do
+    given_i_am_signed_in
+    when_i_have_completed_application_to_primary_course_choice_with_short_personal_statement
+    and_course_choice_is_undergraduate
+    and_i_have_a_degree
+    and_i_continue_with_my_application
+
+    when_i_save_as_draft
+    and_i_am_redirected_to_the_application_dashboard
+    and_my_application_is_still_unsubmitted
+    and_i_continue_with_my_application
+
+    when_i_click_to_review_my_application
+    then_i_see_a_interruption_page_for_personal_statement
+    when_i_continue_without_editing
+    then_i_see_a_interruption_page_for_degree_warning
+    when_i_click_to_continue_and_apply_for_the_course
+    then_i_see_the_review_and_submit_page
+  end
+
+  scenario 'Candidate submits an teacher degree apprenticeship course having a degree with long personal statement and with ENIC', :js, time: mid_cycle do
+    given_i_am_signed_in
+    when_i_have_completed_application_to_primary_course_choice_with_long_personal_statement
+    and_i_have_a_degree
+    and_course_choice_is_undergraduate
+    and_i_continue_with_my_application
+
+    when_i_save_as_draft
+    and_i_am_redirected_to_the_application_dashboard
+    and_my_application_is_still_unsubmitted
+    and_i_continue_with_my_application
+
+    when_i_click_to_review_my_application
+    then_i_see_a_interruption_page_for_degree_warning
+    when_i_click_to_continue_and_apply_for_the_course
+    then_i_see_the_review_and_submit_page
+  end
+
   def when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice_with_not_needed_qualification
     given_i_have_a_primary_course_choice(application_form_completed: true, personal_statement_words: 4)
     add_not_needed_qualification
+  end
+
+  def when_i_have_completed_application_to_primary_course_choice_with_short_personal_statement
+    given_i_have_a_primary_course_choice(application_form_completed: true, personal_statement_words: 4)
+  end
+
+  def and_course_choice_is_undergraduate
+    @application_choice.course.update!(
+      build(:course, :teacher_degree_apprenticeship)
+      .attributes
+      .symbolize_keys
+      .slice(:apprenticeship, :full_time, :description, :qualifications, :program_type, :course_length),
+    )
+  end
+
+  def when_i_have_completed_application_to_primary_course_choice_with_long_personal_statement
+    given_i_have_a_primary_course_choice(application_form_completed: true, personal_statement_words: 500)
+  end
+
+  def and_i_have_a_degree
+    create(
+      :degree_qualification,
+      application_form: @application_choice.application_form,
+      institution_country: 'GB',
+    )
   end
 
   def when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice_with_waiting_or_maybe_qualification
@@ -122,6 +185,11 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
     expect(page).to have_content 'Your personal statement is 4 words.'
   end
 
+  def then_i_see_a_interruption_page_for_degree_warning
+    expect(page).to have_content('Are you sure you want to apply for a teacher degree apprenticeship?')
+    expect(page).to have_content('Teacher degree apprenticeships are 4 years, and postgraduate teacher training courses are usually one year.')
+  end
+
   def then_i_see_a_interruption_page_for_not_needed_enic
     expect(page).to have_content 'You have not included a UK ENIC reference number'
     expect(page).to have_content 'Including a UK ENIC reference number in your application makes youn around 30% more likely to receive an offer.'
@@ -140,5 +208,16 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
 
   def then_the_viewed_enic_interruption_page_cookie_to_be_set
     expect(page.driver.browser.manage.cookie_named('viewed_enic_interruption_page')[:value]).to eq('true')
+  end
+
+  def when_i_click_to_continue_and_apply_for_the_course
+    click_link_or_button 'Continue and apply for this course'
+  end
+
+  def then_i_see_the_review_and_submit_page
+    expect(page).to have_current_path(
+      candidate_interface_course_choices_course_review_and_submit_path(@application_choice.id),
+    )
+    expect(page).to have_content('Review your application')
   end
 end
