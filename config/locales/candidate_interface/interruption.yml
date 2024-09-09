@@ -11,7 +11,9 @@ en:
     title: Are you sure you want to apply for a teacher degree apprenticeship?
     eligible_postgraduate: You've told us you have a degree, which might make you eligible for postgraduate teacher training.
     course_length: Teacher degree apprenticeships are 4 years, and postgraduate teacher training courses are usually one year.
-    teacher_training_advisor: For support and advice, you can also speak to a teacher training adviser for free. They can help you understand which courses would be best for you.
+    find_out: Find out about the different ways to train to be a teacher
+    teacher_training_advisor: For support and advice, you can also speak to a %{link} for free. They can help you understand which courses would be best for you.
+    teacher_training_advisor_link_text: teacher training adviser
     would_you_like_to_continue: Would you like to continue and apply for this course?
     continue: Continue and apply for this course
     go_to_account: Go to your account

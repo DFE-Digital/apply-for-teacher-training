@@ -7,7 +7,12 @@
       <h1 class="govuk-heading-l"><%= t('review_undergraduate_interruption.title') %></h1>
       <p class="govuk-body"><%= t('review_undergraduate_interruption.eligible_postgraduate') %></p>
       <p class="govuk-body"><%= t('review_undergraduate_interruption.course_length') %></p>
-      <p class="govuk-body"><%= t('review_undergraduate_interruption.teacher_training_advisor') %></p>
+      <p class="govuk-body">
+        <%= govuk_link_to t('review_undergraduate_interruption.find_out'), t('get_into_teaching.url_ways_to_train') %>.
+      </p>
+      <p class="govuk-body">
+        <%= t('review_undergraduate_interruption.teacher_training_advisor', link: govuk_link_to(t('review_undergraduate_interruption.teacher_training_advisor_link_text'), t('get_into_teaching.url_get_an_adviser_signup'))).html_safe %>
+      </p>
     </div>
 
     <div class="govuk-button-group app-course-choice__confirm-submission">
