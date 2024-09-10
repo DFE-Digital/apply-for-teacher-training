@@ -84,10 +84,10 @@ module ProviderInterface
     # simplified key.
     def location_key
       if application_choice.different_offer?
+        'Location'
+      else
         text = 'not ' if @application_choice.school_placement_auto_selected?
         "Location (#{text}selected by candidate)"
-      else
-        'Location'
       end
     end
   end

@@ -49,6 +49,7 @@ module ProviderInterface
       )
       if @withdraw_offer.invalid?
         track_validation_error(@withdraw_offer)
+        summary_list_rows
         render action: :new_withdraw_offer
       end
     end
@@ -66,6 +67,7 @@ module ProviderInterface
         )
       else
         track_validation_error(@withdraw_offer)
+        summary_list_rows
         render action: :new_withdraw_offer
       end
     end
@@ -110,6 +112,26 @@ module ProviderInterface
 
     def action
       'back' if !!params[:back]
+    end
+
+    def location_key
+      if @application_choice.different_offer?
+        'Preferred location'
+      else
+        text = 'not ' if @application_choice.school_placement_auto_selected?
+        "Preferred location (#{text}selected by candidate)"
+      end
+    end
+
+    def summary_list_rows
+      @summary_list_rows = [
+        { key: 'Full name', value: @application_choice.application_form.full_name },
+        { key: 'Course', value: @application_choice.course.name_and_code },
+        { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
+      ]
+      if @application_choice.different_offer?
+        @summary_list_rows << { key: location_key, value: @application_choice.site.name }
+      end
     end
   end
 end
