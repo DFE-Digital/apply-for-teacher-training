@@ -292,7 +292,7 @@ RSpec.describe GetActivityLogEvents, :with_audited do
     it '<50ms for 1000 application choices' do
       skip 'This spec takes a long time and should be run manually'
 
-      # TestSuiteTimeMachine.revert_to_real_world_time
+      TestSuiteTimeMachine.revert_to_real_world_time
 
       1000.times do
         %i[course_provider_a course_provider_b course_unrelated ratified_course_provider_b ratified_course_unrelated].each do |course|
