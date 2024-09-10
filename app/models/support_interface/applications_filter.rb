@@ -64,7 +64,7 @@ module SupportInterface
             application_choices: { current_course_option: { course: :provider } },
           )
           .distinct
-          .order(updated_at: :desc),
+          .order(updated_at: :desc, id: :desc),
         page: applied_filters[:page] || 1,
         limit: PAGY_PER_PAGE,
       )
