@@ -158,7 +158,7 @@ GEM
     audited (5.4.3)
       activerecord (>= 5.0, < 7.2)
       request_store (~> 1.2)
-    azure-blob (0.4.2)
+    azure-blob (0.5.1)
       rexml
     base64 (0.2.0)
     bcrypt (3.1.20)
@@ -628,8 +628,7 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     retriable (3.1.2)
-    rexml (3.3.6)
-      strscan
+    rexml (3.3.7)
     rouge (4.3.0)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
@@ -755,7 +754,6 @@ GEM
       activemodel (>= 3.0, < 8.0)
     strong_migrations (2.0.0)
       activerecord (>= 6.1)
-    strscan (3.1.0)
     super_diff (0.12.1)
       attr_extras (>= 6.2.4)
       diff-lcs
