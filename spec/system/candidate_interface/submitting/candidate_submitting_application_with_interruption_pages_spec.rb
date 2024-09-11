@@ -192,7 +192,7 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
 
   def then_i_see_a_interruption_page_for_not_needed_enic
     expect(page).to have_content 'You have not included a UK ENIC reference number'
-    expect(page).to have_content 'Including a UK ENIC reference number in your application makes youn around 30% more likely to receive an offer.'
+    expect(page).to have_content 'Including a UK ENIC reference number in your application makes you around 30% more likely to receive an offer.'
     expect(page).to have_current_path(
       candidate_interface_course_choices_course_review_enic_interruption_path(@application_choice.id),
     )

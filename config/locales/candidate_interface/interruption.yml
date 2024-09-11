@@ -29,7 +29,7 @@ en:
       enter_enic: Enter a UK ENIC number
       without_entering_enic: Continue without adding a UK ENIC number
     not_needed:
-      more_likely_html: Including a UK ENIC reference number in your application makes youn around <b> 30% more likely to receive an offer.</b>
+      more_likely_html: Including a UK ENIC reference number in your application makes you around <b> 30% more likely to receive an offer.</b>
       apply_for_enic_link: apply for a UK ENIC statement of comparability
       if_you_apply_enic_html: If you %{link} and include the reference number in your application it makes it easier for training providers to understand your qualifications.
       dont_provide_enic: If you don’t include a UK ENIC statement of comparability and the provider asks for one, it could cause delays.
