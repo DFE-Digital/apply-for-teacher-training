@@ -1,12 +1,8 @@
 module CandidateInterface
-  module CourseSelection
+  module CourseChoices
     class ProviderSelectionStep < DfE::Wizard::Step
       attr_accessor :provider_id
       validates :provider_id, presence: true
-
-      def self.route_name
-        'candidate_interface_course_choices_provider_selection'
-      end
 
       def self.permitted_params
         [:provider_id]

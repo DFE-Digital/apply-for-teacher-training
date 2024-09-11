@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::CourseSelection::ProviderSelectionStep do
+RSpec.describe CandidateInterface::CourseChoices::ProviderSelectionStep do
   subject(:provider_selection_step) { described_class.new(provider_id: provider_id) }
 
   let(:provider_id) { 123 }

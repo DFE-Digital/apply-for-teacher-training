@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::CourseSelection::WhichCourseAreYouApplyingToStep do
+RSpec.describe CandidateInterface::CourseChoices::WhichCourseAreYouApplyingToStep do
   subject(:which_course_are_you_applying_to_step) { described_class.new(provider_id:, course_id:, wizard:) }
 
   let(:candidate) { create(:candidate) }
@@ -20,7 +20,7 @@ RSpec.describe CandidateInterface::CourseSelection::WhichCourseAreYouApplyingToS
   let(:edit) { false }
   let(:step_params) { ActionController::Parameters.new({ which_course_are_you_applying_to: { course_id:, provider_id: } }) }
   let(:wizard) do
-    CandidateInterface::CourseSelection::CourseSelectionWizard.new(
+    CandidateInterface::CourseChoices::CourseSelectionWizard.new(
       current_step: :which_course_are_you_applying_to,
       step_params:,
       current_application:,

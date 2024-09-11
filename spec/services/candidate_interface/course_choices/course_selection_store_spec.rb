@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::CourseSelectionStore do
+RSpec.describe CandidateInterface::CourseChoices::CourseSelectionStore do
   subject(:store) { described_class.new(wizard) }
 
   let(:current_application) { create(:application_form) }
   let(:application_choice) { current_application.application_choices.last }
   let(:wizard) do
-    CandidateInterface::CourseSelection::CourseSelectionWizard.new(
+    CandidateInterface::CourseChoices::CourseSelectionWizard.new(
       current_step:,
       step_params: ActionController::Parameters.new({ current_step => step_params }),
       current_application:,
@@ -15,7 +15,7 @@ RSpec.describe CandidateInterface::CourseSelectionStore do
 
   describe '#update' do
     let(:wizard) do
-      CandidateInterface::CourseSelection::CourseSelectionWizard.new(
+      CandidateInterface::CourseChoices::CourseSelectionWizard.new(
         current_step:,
         step_params: ActionController::Parameters.new({ current_step => step_params }),
         current_application:,

@@ -1,14 +1,10 @@
 module CandidateInterface
-  module CourseSelection
+  module CourseChoices
     class CourseStudyModeStep < DfE::Wizard::Step
       include CandidateInterface::Concerns::CourseSelectionStepHelper
       attr_accessor :provider_id, :course_id, :study_mode
 
       validates :study_mode, presence: true
-
-      def self.route_name
-        'candidate_interface_course_choices_course_study_mode'
-      end
 
       def self.permitted_params
         %i[provider_id course_id study_mode]
