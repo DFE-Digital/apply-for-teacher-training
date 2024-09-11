@@ -35,6 +35,7 @@ module ProviderInterface
     end
 
     def new_withdraw_offer
+      summary_list_rows
       @withdraw_offer = WithdrawOffer.new(
         actor: current_provider_user,
         application_choice: @application_choice,
@@ -60,6 +61,7 @@ module ProviderInterface
         application_choice: @application_choice,
         offer_withdrawal_reason: params.dig(:withdraw_offer, :offer_withdrawal_reason),
       )
+      summary_list_rows
       if @withdraw_offer.save
         flash[:success] = 'Offer successfully withdrawn'
         redirect_to provider_interface_application_choice_feedback_path(
@@ -67,7 +69,6 @@ module ProviderInterface
         )
       else
         track_validation_error(@withdraw_offer)
-        summary_list_rows
         render action: :new_withdraw_offer
       end
     end
