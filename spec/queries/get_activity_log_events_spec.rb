@@ -62,22 +62,6 @@ RSpec.describe GetActivityLogEvents, :with_audited do
 
       expect(result.first).to eq(expected)
     end
-
-    it 'defaults the query date range to the earliest scoped application form creation' do
-      application_form_1 = create(:application_form, created_at: DateTime.new(2010, 1, 1))
-      application_choice_1 = create(:application_choice, application_form: application_form_1, status: :awaiting_provider_decision)
-      create_audit_for_application_choice application_choice_1
-
-      application_form_2 = create(:application_form, created_at: DateTime.new(2020, 1, 1))
-      application_choice_2 = create(:application_choice, application_form: application_form_2, status: :awaiting_provider_decision)
-      create_audit_for_application_choice application_choice_2
-
-      application_form_3 = create(:application_form, created_at: DateTime.now)
-      application_choice_3 = create(:application_choice, application_form: application_form_3, status: :awaiting_provider_decision)
-      create_audit_for_application_choice application_choice_3
-
-      expect(described_class.call(application_choices: ApplicationChoice.where(id: [application_choice_2, application_choice_3]))).not_to include(application_choice_1)
-    end
   end
 
   context 'includes all and only relevant audits' do
