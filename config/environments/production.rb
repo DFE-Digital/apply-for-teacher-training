@@ -117,6 +117,16 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
+
+  # Controls whether the PostgresqlAdapter should decode dates automatically with manual queries.
+  #
+  # Example:
+  #   ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.select_value("select '2024-01-01'::date") #=> Date
+  #
+  # This query will return a `String` if postgresql_adapter_decode_dates is set to false.
+  
+  config.active_record.postgresql_adapter_decode_dates = false
+
   class FixAzureXForwardedForMiddleware
     def initialize(app)
       @app = app

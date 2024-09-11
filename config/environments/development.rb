@@ -110,4 +110,13 @@ Rails.application.configure do
   config.hosts << ".preview.app.github.dev"
 
   config.active_storage.service = :local
+
+  # Controls whether the PostgresqlAdapter should decode dates automatically with manual queries.
+  #
+  # Example:
+  #   ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.select_value("select '2024-01-01'::date") #=> Date
+  #
+  # This query will return a `String` if postgresql_adapter_decode_dates is set to false.
+  
+  config.active_record.postgresql_adapter_decode_dates = false
 end
