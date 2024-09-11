@@ -21,6 +21,14 @@ SANITIZED_REQUEST_PARAMS = %i[
   phone_number
   postcode
   subject
+  passw
+  secret
+  _key
+  crypt
+  salt
+  certificate
+  otp
+  ssn
 ].freeze
 
 MAILER_SANITIZED_PARAMS = %w[
