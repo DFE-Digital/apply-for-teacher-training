@@ -7,9 +7,9 @@ class DataExport < ApplicationRecord
       class: SupportInterface::ActiveProviderUserPermissionsExport,
     },
     active_provider_users: {
-      name: 'Active provider users',
+      name: 'Active users affiliated with a Provider',
       export_type: 'active_provider_users',
-      description: 'The list of provider users that have signed in to apply at least once.',
+      description: 'The list of all users affiliated with a provider who have signed in to Manage at least once.',
       class: SupportInterface::ActiveProviderUsersExport,
     },
     applications_by_subject_route_and_degree_grade: {

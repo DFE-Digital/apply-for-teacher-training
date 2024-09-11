@@ -42,5 +42,24 @@ RSpec.describe SupportInterface::ActiveProviderUsersExport do
         )
       end
     end
+
+    it 'only returns users if they are assosiated to a provider' do
+      travel_temporarily_to(2020, 5, 1, 12, 0, 0) do
+        provider1 = create(:provider, name: 'A is the first letter')
+        provider_user1 = create(:provider_user, providers: [provider1], last_signed_in_at: 5.days.ago)
+        create(:provider_user, providers: [], last_signed_in_at: 5.days.ago)
+
+        expect(described_class.new.data_for_export).to eq(
+          [
+            {
+              provider_full_name: provider_user1.full_name,
+              provider_email_address: provider_user1.email_address,
+              providers: provider1.name,
+              last_signed_in_at: 5.days.ago,
+            },
+          ],
+        )
+      end
+    end
   end
 end
