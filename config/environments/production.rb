@@ -1,7 +1,9 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  config.x.read_only_database_url = if HostingEnvironment.review?
+  # Settings specified here will take precedence over those in config/application.rb.
+
+    config.x.read_only_database_url = if HostingEnvironment.review?
                                       # On Heroku we don't have a read replica, so use the main database connection.
                                       ENV.fetch("DATABASE_URL")
                                     else
@@ -82,6 +84,8 @@ Rails.application.configure do
   # config.active_job.queue_adapter = :resque
   # config.active_job.queue_name_prefix = "apply_for_postgraduate_teacher_training_production"
 
+  # Disable caching for Action Mailer templates even if Action Controller
+  # caching is enabled.
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :notify
   config.action_mailer.notify_settings = {
