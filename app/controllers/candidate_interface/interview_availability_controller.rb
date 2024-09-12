@@ -44,7 +44,7 @@ module CandidateInterface
       @section_complete_form = SectionCompleteForm.new(form_params)
 
       if @section_complete_form.save(current_application, :interview_preferences_completed)
-        redirect_to_new_continuous_applications_if_eligible
+        redirect_to_candidate_root
       else
         track_validation_error(@section_complete_form)
         render :show

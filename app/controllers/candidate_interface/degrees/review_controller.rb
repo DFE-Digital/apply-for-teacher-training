@@ -19,7 +19,7 @@ module CandidateInterface
           flash[:warning] = 'You cannot mark this section complete with incomplete degree information.'
           redirect_to candidate_interface_degree_review_path
         elsif @section_complete_form.save(current_application, :degrees_completed)
-          redirect_to_new_continuous_applications_if_eligible
+          redirect_to_candidate_root
         else
           track_validation_error(@section_complete_form)
           render :show

@@ -76,22 +76,27 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path if no_offers_accepted_or_deferred_and_not_recruited?
     end
 
-    def redirect_to_new_continuous_applications_if_eligible
+    def redirect_to_candidate_root
       return if current_application.any_offer_accepted?
 
-      completed_application_form = CandidateInterface::CompletedApplicationForm.new(
-        application_form: current_application,
-      )
-
-      if current_application.application_choices.any? && completed_application_form.valid?
+      if candidate_made_choices_and_completed_details
         redirect_to candidate_interface_application_choices_path
       else
         redirect_to candidate_interface_details_path
       end
     end
 
+    def candidate_made_choices_and_completed_details
+      completed_application_form = CandidateInterface::CompletedApplicationForm.new(
+        application_form: current_application,
+      )
+      candidate_details_complete = completed_application_form.valid?
+      candidate_made_choices = current_application.application_choices.any?
+      candidate_made_choices && candidate_details_complete
+    end
+
     def redirect_to_application_if_signed_in
-      redirect_to_new_continuous_applications_if_eligible if candidate_signed_in?
+      redirect_to_candidate_root if candidate_signed_in?
     end
 
     def redirect_to_your_applications_if_submitted
