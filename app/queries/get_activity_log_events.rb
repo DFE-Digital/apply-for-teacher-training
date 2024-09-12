@@ -48,7 +48,7 @@ class GetActivityLogEvents
     SQL
 
     where_auditable_is_application_form = Audited::Audit
-      .where(auditable_id: application_choices.pluck(:application_form_id).uniq, auditable_type: 'ApplicationForm', action: :update)
+      .where(auditable_id: application_choices.select(:application_form_id).distinct, auditable_type: 'ApplicationForm', action: :update)
       .where(application_form_audits_filter_sql)
       .where(application_form_changes_exist)
 
