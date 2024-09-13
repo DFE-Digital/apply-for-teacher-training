@@ -6,14 +6,6 @@
 
 <%= render 'guidance' %>
 
-<% if adviser_sign_up.available? %>
-  <p class="govuk-body">Get support with your personal statement by speaking to our <%= govuk_link_to('teacher training advisers', new_candidate_interface_adviser_sign_up_path) %>.</p>
-<% elsif adviser_sign_up.waiting_to_be_assigned_to_an_adviser? || adviser_sign_up.already_assigned_to_an_adviser? %>
-  <p class="govuk-body">Ask your teacher training adviser for help with your personal statement.</p>
-<% else %>
-  <p class="govuk-body">Get support with your personal statement by speaking to our <%= govuk_link_to_with_utm_params('teacher training advisers', t('get_into_teaching.url_get_an_adviser_start'), utm_campaign(params), current_application.phase) %>.</p>
-<% end %>
-
 <%= f.govuk_text_area :becoming_a_teacher, label: { text: 'Your personal statement', size: 'm' }, rows: 25, max_words: 1000 %>
 
 <%= f.govuk_submit t('continue') %>
