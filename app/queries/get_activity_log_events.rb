@@ -32,7 +32,7 @@ class GetActivityLogEvents
 
   IGNORE_STATUS = %i[interviewing].freeze
 
-  def self.call(application_choices:, since: nil)
+  def self.old_call(application_choices:, since: nil)
     since ||= application_choices.includes(:application_form).minimum('application_forms.created_at')
 
     application_form_changes_exist = <<~SQL
@@ -75,6 +75,85 @@ class GetActivityLogEvents
           audits.auditable_id = ac.application_form_id AND audits.auditable_type = 'ApplicationForm'
         )",
       ).order('audits.created_at DESC')
+  end
+
+  def self.call(application_choices:, since: nil)
+    #provider_ids = application_choices.pluck(:provider_ids).flatten.uniq.join(',')
+
+    sql = <<~SQL
+      WITH application_choices_cte AS (
+          SELECT id, application_form_id
+          FROM application_choices
+          WHERE
+          (provider_ids @> '{16}'::bigint[]
+           OR provider_ids @> '{4}'::bigint[]
+           OR provider_ids @> '{3}'::bigint[]
+           OR provider_ids @> '{1}'::bigint[]
+           OR provider_ids @> '{2}'::bigint[]
+          )
+            AND current_recruitment_cycle_year IN (2024, 2023)
+            AND status IN ('awaiting_provider_decision', 'interviewing', 'offer', 'pending_conditions',
+                           'recruited', 'rejected', 'declined', 'withdrawn', 'conditions_not_met',
+                           'offer_withdrawn', 'offer_deferred', 'inactive')
+      ),
+      filtered_audits AS (
+          SELECT a.*
+          FROM audits a
+          JOIN application_choices_cte ac ON
+              (a.auditable_id = ac.id AND a.auditable_type = 'ApplicationChoice')
+              OR (a.associated_id = ac.id AND a.associated_type = 'ApplicationChoice')
+              OR (a.auditable_id = ac.application_form_id AND a.auditable_type = 'ApplicationForm')
+          WHERE a.created_at >= '2022-09-06 17:01:23.167795'
+            AND (
+              (a.auditable_type = 'ApplicationChoice' AND a.action = 'update'
+                AND (
+                    jsonb_exists(a.audited_changes, 'reject_by_default_feedback_sent_at')
+                    OR jsonb_exists(a.audited_changes, 'course_changed_at')
+                    OR jsonb_exists(a.audited_changes, 'offer_changed_at')
+                    OR a.audited_changes::jsonb #>> '{status,1}' IN (
+                        'awaiting_provider_decision', 'offer', 'pending_conditions', 'recruited',
+                        'rejected', 'declined', 'withdrawn', 'conditions_not_met', 'offer_withdrawn',
+                        'offer_deferred', 'inactive'
+                      )
+                    AND NOT a.audited_changes @> '{"status": ["interviewing", "awaiting_provider_decision"]}'::jsonb
+                )
+              )
+              OR (a.auditable_type = 'ApplicationForm' AND a.action = 'update'
+                AND (
+                    jsonb_exists(a.audited_changes, 'date_of_birth')
+                    OR jsonb_exists(a.audited_changes, 'first_name')
+                    OR jsonb_exists(a.audited_changes, 'last_name')
+                    OR jsonb_exists(a.audited_changes, 'phone_number')
+                    OR jsonb_exists(a.audited_changes, 'address_line1')
+                    OR jsonb_exists(a.audited_changes, 'address_line2')
+                    OR jsonb_exists(a.audited_changes, 'address_line3')
+                    OR jsonb_exists(a.audited_changes, 'address_line4')
+                    OR jsonb_exists(a.audited_changes, 'country')
+                    OR jsonb_exists(a.audited_changes, 'postcode')
+                    OR jsonb_exists(a.audited_changes, 'region_code')
+                    OR jsonb_exists(a.audited_changes, 'interview_preferences')
+                    OR jsonb_exists(a.audited_changes, 'disability_disclosure')
+                )
+              )
+            )
+      )
+      SELECT filtered_audits.*, ac.id AS application_choice_id
+      FROM filtered_audits
+      JOIN application_choices_cte ac ON
+          (filtered_audits.auditable_id = ac.id AND filtered_audits.auditable_type = 'ApplicationChoice')
+          OR (filtered_audits.associated_id = ac.id AND filtered_audits.associated_type = 'ApplicationChoice')
+          OR (filtered_audits.auditable_id = ac.application_form_id AND filtered_audits.auditable_type = 'ApplicationForm')
+      ORDER BY filtered_audits.created_at DESC
+    SQL
+
+    results = ActiveRecord::Base.connection.exec_query(sql)
+
+    filtered = results.map do |row|
+      audit = Audited::Audit.new(row.except('application_choice_id'))
+      audit.audited_changes = JSON.parse(audit.audited_changes)
+      audit.define_singleton_method(:application_choice_id) { row['application_choice_id'] }
+      audit
+    end
   end
 
   def self.application_form_audits_filter_sql
