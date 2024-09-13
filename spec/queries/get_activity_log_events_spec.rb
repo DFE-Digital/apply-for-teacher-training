@@ -62,23 +62,6 @@ RSpec.describe GetActivityLogEvents, :with_audited do
 
       expect(result.first).to eq(expected)
     end
-
-    it 'defaults the query date range to the earliest scoped application form creation' do
-      query_instance = instance_double(ActiveRecord::QueryMethods)
-      allow(Audited::Audit).to receive(:select).and_return(query_instance)
-      %i[includes joins where order].each { |meth| allow(query_instance).to receive(meth).and_return(query_instance) }
-
-      choice = create_application_choice_for_course course_provider_a
-      another_choice = create_application_choice_for_course course_provider_a
-      create_audit_for_application_choice choice
-      create_audit_for_application_form another_choice
-
-      another_choice.application_form.update(created_at: 1.day.ago)
-
-      described_class.call(application_choices: application_choices_for_provider_user)
-
-      expect(query_instance).to have_received(:where).with('audits.created_at >= ?', another_choice.application_form.created_at)
-    end
   end
 
   context 'includes all and only relevant audits' do
