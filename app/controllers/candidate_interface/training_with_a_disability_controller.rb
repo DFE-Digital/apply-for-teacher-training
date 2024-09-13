@@ -42,7 +42,7 @@ module CandidateInterface
       @section_complete_form = SectionCompleteForm.new(section_complete_form_params)
 
       if @section_complete_form.save(current_application, :training_with_a_disability_completed)
-        redirect_to_new_continuous_applications_if_eligible
+        redirect_to_candidate_root
       else
         track_validation_error(@section_complete_form)
         render :show
