@@ -28,6 +28,36 @@ RSpec.describe CandidateInterface::DegreeEmptyComponent, type: :component do
     end
   end
 
+  describe 'when teacher degree apprenticeship feature is on' do
+    subject(:result) { render_inline(described_class.new(application_form:)).text }
+
+    let(:application_form) { create(:application_form, recruitment_cycle_year: 2025) }
+
+    before do
+      FeatureFlag.activate(:teacher_degree_apprenticeship)
+    end
+
+    it 'renders degree types headers' do
+      expect(result).to include('Postgraduate teacher training courses')
+      expect(result).to include('Teacher degree apprenticeships')
+    end
+  end
+
+  describe 'when teacher degree apprenticeship feature is off' do
+    subject(:result) { render_inline(described_class.new(application_form:)).text }
+
+    let(:application_form) { create(:application_form, recruitment_cycle_year: 2024) }
+
+    before do
+      FeatureFlag.deactivate(:teacher_degree_apprenticeship)
+    end
+
+    it 'does not render degree types headers' do
+      expect(result).not_to include('Postgraduate teacher training courses')
+      expect(result).not_to include('Teacher degree apprenticeships')
+    end
+  end
+
   describe 'button text' do
     context 'when only foundation degrees are present' do
       it 'renders add another degree' do
