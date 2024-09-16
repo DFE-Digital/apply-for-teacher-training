@@ -9,7 +9,7 @@ module ProviderInterface
         providers: current_provider_user.providers,
       )
       events = GetActivityLogEvents.call(application_choices:)
-      @pagy, @events = pagy_array(events, limit: PAGY_PER_PAGE)
+      @pagy, @events = pagy(events, limit: PAGY_PER_PAGE)
     end
   end
 end

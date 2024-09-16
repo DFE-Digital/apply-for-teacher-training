@@ -77,7 +77,7 @@ class GetActivityLogEvents
       ).order('audits.created_at DESC')
   end
 
-  def self.call(application_choices:, since: nil)
+  def self.new_call(application_choices:, since: nil)
     #provider_ids = application_choices.pluck(:provider_ids).flatten.uniq.join(',')
 
     sql = <<~SQL
@@ -133,6 +133,16 @@ class GetActivityLogEvents
                     OR jsonb_exists(a.audited_changes, 'region_code')
                     OR jsonb_exists(a.audited_changes, 'interview_preferences')
                     OR jsonb_exists(a.audited_changes, 'disability_disclosure')
+                ) AND EXISTS (
+                  SELECT 1
+                  WHERE ARRAY['date_of_birth', 'first_name', 'last_name', 'phone_number', 'address_line1',
+                              'address_line2', 'address_line3', 'address_line4', 'country', 'postcode',
+                              'region_code', 'interview_preferences', 'disability_disclosure']
+                  @> (
+                    SELECT ARRAY(
+                      SELECT jsonb_object_keys(a.audited_changes)
+                    )
+                  )
                 )
               )
             )
@@ -148,12 +158,51 @@ class GetActivityLogEvents
 
     results = ActiveRecord::Base.connection.exec_query(sql)
 
-    filtered = results.map do |row|
+    results.map do |row|
       audit = Audited::Audit.new(row.except('application_choice_id'))
       audit.audited_changes = JSON.parse(audit.audited_changes)
       audit.define_singleton_method(:application_choice_id) { row['application_choice_id'] }
       audit
     end
+  end
+
+  def self.call(application_choices:, since: nil)
+    since ||= application_choices.includes(:application_form).minimum('application_forms.created_at')
+
+    changes_exist = <<~SQL
+      EXISTS (
+              SELECT 1
+              WHERE ARRAY[#{DATABASE_CHANGE_KEYS}] @> (
+                SELECT ARRAY(SELECT jsonb_object_keys(a.audited_changes)
+                FROM audits a
+                WHERE a.id = audits.id
+                )
+              )
+            )
+    SQL
+
+    results = Audited::Audit.with(
+      application_choices_cte: application_choices.to_sql,
+    ).where('audits.created_at >= ?', since)
+    .where(auditable_type:'ApplicationChoice',
+      action: 'update',
+    ).where(
+      "#{application_choice_audits_filter_sql}
+      OR audits.auditable_type = 'ApplicationForm' AND audits.action = 'update'
+      AND (#{application_form_audits_filter_sql})
+      AND (#{changes_exist})",
+    ).select('audits.*, ac.id as application_choice_id').joins(
+      "join application_choices_cte ac on(
+        audits.auditable_id = ac.id AND audits.auditable_type = 'ApplicationChoice'
+        OR (audits.associated_id = ac.id AND audits.associated_type = 'ApplicationChoice')
+        OR (audits.auditable_id = ac.application_form_id AND audits.auditable_type = 'ApplicationForm')
+      )"
+    ).order('audits.created_at DESC')
+
+    old = self.old_call(application_choices:, since:)
+    new_query = self.new_call(application_choices:, since:)
+#    byebug
+    results
   end
 
   def self.application_form_audits_filter_sql
