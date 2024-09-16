@@ -493,6 +493,18 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_deadline_has_passed(application_form)
   end
 
+  def respond_to_offer_before_deadline
+    application_form = FactoryBot.build(:application_form, first_name: 'Bart')
+
+    CandidateMailer.respond_to_offer_before_deadline(application_form)
+  end
+
+  def reject_by_default_explainer
+    application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
+
+    CandidateMailer.reject_by_default_explainer(application_form)
+  end
+
   def new_cycle_has_started
     application_form = FactoryBot.build(:completed_application_form, first_name: 'Tester')
 

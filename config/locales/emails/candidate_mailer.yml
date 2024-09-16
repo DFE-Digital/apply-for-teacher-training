@@ -85,6 +85,10 @@ en:
       subject: Submit your teacher training application before %{apply_deadline}
     application_deadline_has_passed:
       subject: The application deadline has passed
+    respond_to_offer_before_deadline:
+      subject: Accept your place on a teacher training course by %{decline_by_default_date}
+    reject_by_default_explainer:
+      subject: Your application has been rejected automatically
     new_cycle_has_started:
       subject: Apply for teacher training starting in the %{academic_year} academic year
     find_has_opened:
