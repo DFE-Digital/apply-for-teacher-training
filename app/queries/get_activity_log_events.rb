@@ -181,28 +181,34 @@ class GetActivityLogEvents
             )
     SQL
 
-    results = Audited::Audit.with(
+    audits_after_since = Audited::Audit.with(
       application_choices_cte: application_choices.to_sql,
     ).where('audits.created_at >= ?', since)
-    .where(auditable_type:'ApplicationChoice',
+
+    choices_audits = audits_after_since.where(
       action: 'update',
-    ).where(
-      "#{application_choice_audits_filter_sql}
-      OR audits.auditable_type = 'ApplicationForm' AND audits.action = 'update'
-      AND (#{application_form_audits_filter_sql})
-      AND (#{changes_exist})",
-    ).select('audits.*, ac.id as application_choice_id').joins(
+    ).where(application_choice_audits_filter_sql)
+
+    associated_to_choices = audits_after_since
+      .where(associated: application_choices)
+      .where(auditable_type: %w[Interview])
+
+    application_form_audits = audits_after_since
+      .where(auditable_id: application_choices.select(:application_form_id).distinct, auditable_type: 'ApplicationForm', action: :update)
+      .where(application_form_audits_filter_sql)
+      .where(changes_exist)
+
+    sub_query = choices_audits
+      .or(associated_to_choices)
+      .or(application_form_audits)
+
+    sub_query.select('audits.*, ac.id as application_choice_id').joins(
       "join application_choices_cte ac on(
         audits.auditable_id = ac.id AND audits.auditable_type = 'ApplicationChoice'
         OR (audits.associated_id = ac.id AND audits.associated_type = 'ApplicationChoice')
         OR (audits.auditable_id = ac.application_form_id AND audits.auditable_type = 'ApplicationForm')
-      )"
+      )",
     ).order('audits.created_at DESC')
-
-    old = self.old_call(application_choices:, since:)
-    new_query = self.new_call(application_choices:, since:)
-#    byebug
-    results
   end
 
   def self.application_form_audits_filter_sql
