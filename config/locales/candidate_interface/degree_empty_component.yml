@@ -3,7 +3,7 @@ en:
     degree_empty_component:
       undergraduate:
         name: Teacher degree apprenticeships
-        bachelor_degree: You do not need a bachelor’s degree to do a %{link}.
+        bachelor_degree_html: You do not need a bachelor’s degree to do a %{link}.
         teacher_degree_apprenticeship: teacher degree apprenticeship
       postgraduate:
         name: Postgraduate teacher training courses

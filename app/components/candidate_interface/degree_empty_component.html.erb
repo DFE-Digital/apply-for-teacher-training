@@ -7,7 +7,7 @@
   <h2 class="govuk-heading-s"><%= t('.undergraduate.name') %></h2>
 
   <p class="govuk-body">
-    <%= t('.undergraduate.bachelor_degree', link: govuk_link_to(t('.undergraduate.teacher_degree_apprenticeship'), t('get_into_teaching.url_teacher_degree_apprenticeship'))).html_safe %>
+    <%= t('.undergraduate.bachelor_degree_html', link: govuk_link_to(t('.undergraduate.teacher_degree_apprenticeship'), t('get_into_teaching.url_teacher_degree_apprenticeship'))) %>
   </p>
 <% else %>
   <p class="govuk-body"><%= t('.postgraduate.bachelor_degree') %></p>
