@@ -78,4 +78,18 @@ RSpec.describe EmailTimetable do
       end
     end
   end
+
+  describe '#send_reject_by_default_explainer_to_candidates?' do
+    it 'returns false if it is not the day after the reject by default date' do
+      travel_temporarily_to(described_class.reject_by_default) do
+        expect(described_class.send_reject_by_default_explainer_to_candidates?).to be false
+      end
+    end
+
+    it 'returns true when it is the day after the reject by default date' do
+      travel_temporarily_to(described_class.reject_by_default + 1.day) do
+        expect(described_class.send_reject_by_default_explainer_to_candidates?).to be true
+      end
+    end
+  end
 end

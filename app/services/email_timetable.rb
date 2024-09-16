@@ -32,4 +32,8 @@ class EmailTimetable < CycleTimetable
     # For 2024, date confirmed is Wednesday 17 July at 6pm
     apply_deadline - 2.months
   end
+
+  def self.send_reject_by_default_explainer_to_candidates?
+    current_date.to_date == (reject_by_default + 1.day).to_date
+  end
 end

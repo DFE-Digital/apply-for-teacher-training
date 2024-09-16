@@ -48,4 +48,8 @@ module_function
   def application_deadline_has_passed_email_date(year = CycleTimetable.current_year)
     CycleTimetable.apply_deadline(year) + 1.day
   end
+
+  def reject_by_default_explainer_date(year = CycleTimetable.current_year)
+    CycleTimetable.reject_by_default(year) + 1.day
+  end
 end

@@ -45,6 +45,8 @@ RSpec.describe 'Docs' do
       candidate_mailer-eoc_first_deadline_reminder
       candidate_mailer-eoc_second_deadline_reminder
       candidate_mailer-application_deadline_has_passed
+      candidate_mailer-reject_by_default_explainer
+      candidate_mailer-respond_to_offer_before_deadline
       candidate_mailer-new_cycle_has_started
       candidate_mailer-duplicate_match_email
       candidate_mailer-find_has_opened

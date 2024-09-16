@@ -11,6 +11,8 @@ class CandidateMailer < ApplicationMailer
       duplicate_match_email
       application_rejected
       application_deadline_has_passed
+      respond_to_offer_before_deadline
+      reject_by_default_explainer
     ],
   )
   include QualificationValueHelper
@@ -431,6 +433,33 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.application_deadline_has_passed.subject'),
+    )
+  end
+
+  def respond_to_offer_before_deadline(application_form)
+    @decline_by_default_deadline = CycleTimetable.decline_by_default_date.to_fs(:govuk_date)
+    year = application_form.recruitment_cycle_year
+    @this_academic_year = CycleTimetable.cycle_year_range(year)
+    @next_academic_year = CycleTimetable.cycle_year_range(year + 1)
+    @apply_reopens_date = CycleTimetable.apply_reopens.to_fs(:govuk_date)
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!(
+        'candidate_mailer.respond_to_offer_before_deadline.subject',
+        decline_by_default_date: @decline_by_default_deadline,
+      ),
+    )
+  end
+
+  def reject_by_default_explainer(application_form)
+    year = application_form.recruitment_cycle_year
+    @this_academic_year = CycleTimetable.cycle_year_range(year)
+    @next_academic_year = CycleTimetable.cycle_year_range(year + 1)
+    @apply_reopens_date = CycleTimetable.apply_reopens.to_fs(:govuk_date)
+
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.reject_by_default_explainer.subject'),
     )
   end
 

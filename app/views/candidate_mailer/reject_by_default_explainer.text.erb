@@ -1,0 +1,17 @@
+<% if @application_form.first_name.present? %>
+  Dear <%= @application_form.first_name %>
+<% end %>
+
+Your application for teacher training starting in the  <%= @this_academic_year %> academic year has been rejected automatically.
+
+This is because the provider did not respond before their deadline. If you have any questions about this, please contact the provider.
+
+# What happens next
+
+You can update your details to get ready to apply for courses starting in the <%= @next_academic_year %> academic year. You will be able to apply for these courses from <%= @apply_reopens_date %>.
+
+[Sign into your account to update your details](<%= candidate_magic_link(@application_form.candidate) %>).
+
+# Get help
+
+Call <%= t('get_into_teaching.tel') %> or [chat online](<%= t('get_into_teaching.url_online_chat') %>).
