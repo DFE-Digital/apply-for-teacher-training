@@ -7,7 +7,7 @@ FactoryBot.define do
     created_at { Time.zone.now }
 
     transient do
-      application_experience { build_stubbed(:application_experience) }
+      application_experience { build_stubbed(:application_work_experience) }
       application_choice { build_stubbed(:application_choice, :awaiting_provider_decision) }
       changes { {} }
     end
