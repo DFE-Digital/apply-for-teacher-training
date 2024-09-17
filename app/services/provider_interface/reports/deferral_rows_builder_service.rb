@@ -57,7 +57,7 @@ module ProviderInterface
     end
 
     class DeferralRow
-      include ActiveRecord::AttributeAssignment
+      include ActiveModel::Model
       attr_accessor :title,
                     :provider_deferrals_count,
                     :national_deferrals_count

@@ -87,7 +87,7 @@ module ProviderInterface
     end
 
     class SubjectRow
-      include ActiveRecord::AttributeAssignment
+      include ActiveModel::Model
       attr_accessor :title,
                     :level,
                     :this_cycle,

@@ -20,8 +20,10 @@ if File.file?(bundle_binstub)
 Replace `bin/bundle` by running `bundle binstubs bundler --force`, then run this command again.")
   end
 end
-
 require "rubygems"
 require "bundler/setup"
+
+# explicit rubocop config increases performance slightly while avoiding config confusion.
+ARGV.unshift("--config", File.expand_path("../.rubocop.yml", __dir__))
 
 load Gem.bin_path("rubocop", "rubocop")
