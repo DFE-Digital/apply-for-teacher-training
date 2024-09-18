@@ -2,7 +2,7 @@ module BigqueryStubs
   # Makes #instance_double available to module method
   extend RSpec::Mocks::ExampleMethods
 
-  def stub_response(rows: nil, job_complete: true, page_token: nil, result: true)
+  def self.stub_response(rows: nil, job_complete: true, page_token: nil, result: true)
     default_rows = [
       [
         { name: 'cycle_week',                             type: 'INTEGER', value: '7' },

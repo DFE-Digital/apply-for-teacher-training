@@ -289,6 +289,24 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByProvider do
     end
   end
 
+  describe 'when the query returns nil for rows' do
+    subject(:national_statistics) do
+      described_class.new(cycle_week: 18).national_data
+    end
+
+    let(:stub_bigquery_response) do
+      stub_bigquery_application_metrics_by_provider_request(result: false)
+    end
+
+    before do
+      stub_bigquery_response
+    end
+
+    it 'fails silently' do
+      national_statistics
+    end
+  end
+
   describe 'when there is an error' do
     subject(:provider_statistics) do
       described_class.new(cycle_week: 7).provider_data

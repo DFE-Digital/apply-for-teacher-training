@@ -1,16 +1,19 @@
 require 'rails_helper'
 
-RSpec.describe DfE::Bigquery::ApplicationMetrics do
+RSpec.describe DfE::Bigquery::ApplicationMetrics, time: Time.zone.local(2023, 11, 20) do
   include DfE::Bigquery::TestHelper
 
-  before do
-    set_time(Time.zone.local(2023, 11, 20))
+  let(:stub_bigquery_response) do
     stub_bigquery_application_metrics_request(rows: [[
       { name: 'cycle_week', type: 'INTEGER', value: '7' },
       { name: 'number_of_candidates_submitted_to_date', type: 'INTEGER', value: '100' },
       { name: 'first_date_in_week', type: 'DATE', value: '2024-03-18' },
       { name: 'subject_filter', type: 'INTEGER', value: nil },
     ]])
+  end
+
+  before do
+    stub_bigquery_response
   end
 
   describe '.candidate_headline_statistics' do
@@ -67,12 +70,16 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
       ]
     end
 
-    before do
+    let(:stub_bigquery_response) do
       stub_bigquery_application_metrics_request(rows: [[
         { name: 'cycle_week', type: 'INTEGER', value: '7' },
         { name: 'nonsubject_filter', type: 'STRING', value: '25 to 29' },
         { name: 'number_of_candidates_submitted_to_date', type: 'INTEGER', value: '100' },
       ]])
+    end
+
+    before do
+      stub_bigquery_response
     end
 
     it 'provides the correct SQL' do
@@ -133,7 +140,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
       ]
     end
 
-    before do
+    let(:stub_bigquery_response) do
       stub_bigquery_application_metrics_request(rows: [
         [
           { name: 'nonsubject_filter', type: 'STRING', value: 'Male' },
@@ -152,6 +159,10 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
           { name: 'cycle_week', type: 'INTEGER', value: '7' },
         ],
       ])
+    end
+
+    before do
+      stub_bigquery_response
     end
 
     it 'returns the correct results' do
@@ -203,7 +214,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
       ]
     end
 
-    before do
+    let(:stub_bigquery_response) do
       stub_bigquery_application_metrics_request(rows: [
         [
           { name: 'nonsubject_filter', type: 'STRING', value: 'London' },
@@ -214,6 +225,10 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
           { name: 'cycle_week', type: 'INTEGER', value: '7' },
         ],
       ])
+    end
+
+    before do
+      stub_bigquery_response
     end
 
     it 'returns the correct results' do
@@ -265,7 +280,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
       ]
     end
 
-    before do
+    let(:stub_bigquery_response) do
       stub_bigquery_application_metrics_request(rows: [
         [
           { name: 'subject_filter', type: 'STRING', value: 'Primary' },
@@ -276,6 +291,10 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
           { name: 'cycle_week', type: 'INTEGER', value: '7' },
         ],
       ])
+    end
+
+    before do
+      stub_bigquery_response
     end
 
     it 'returns the correct results' do
@@ -329,7 +348,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
       ]
     end
 
-    before do
+    let(:stub_bigquery_response) do
       stub_bigquery_application_metrics_request(rows: [
         [
           { name: 'nonsubject_filter', type: 'STRING', value: 'Postgraduate teaching apprenticeship' },
@@ -340,6 +359,10 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
           { name: 'cycle_week', type: 'INTEGER', value: '7' },
         ],
       ])
+    end
+
+    before do
+      stub_bigquery_response
     end
 
     it 'returns the correct results' do
@@ -392,7 +415,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
       ]
     end
 
-    before do
+    let(:stub_bigquery_response) do
       stub_bigquery_application_metrics_request(rows: [
         [
           { name: 'subject_filter', type: 'STRING', value: 'Primary with English' },
@@ -403,6 +426,10 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
           { name: 'cycle_week', type: 'INTEGER', value: '7' },
         ],
       ])
+    end
+
+    before do
+      stub_bigquery_response
     end
 
     it 'returns the correct results' do
@@ -455,7 +482,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
       ]
     end
 
-    before do
+    let(:stub_bigquery_response) do
       stub_bigquery_application_metrics_request(rows: [
         [
           { name: 'subject_filter', type: 'STRING', value: 'Magic tricks' },
@@ -466,6 +493,10 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
           { name: 'cycle_week', type: 'INTEGER', value: '7' },
         ],
       ])
+    end
+
+    before do
+      stub_bigquery_response
     end
 
     it 'returns the correct results' do
@@ -518,7 +549,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
       ]
     end
 
-    before do
+    let(:stub_bigquery_response) do
       stub_bigquery_application_metrics_request(rows: [
         [
           { name: 'nonsubject_filter', type: 'STRING', value: 'Gondor' },
@@ -529,6 +560,10 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
           { name: 'cycle_week', type: 'INTEGER', value: '7' },
         ],
       ])
+    end
+
+    before do
+      stub_bigquery_response
     end
 
     it 'returns the correct results' do
@@ -560,6 +595,24 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
       expect(application_metrics.first.cycle_week).to eq 7
       expect(application_metrics.first.nonsubject_filter).to eq('Gondor')
       expect(application_metrics.last.nonsubject_filter).to eq('Mordor')
+    end
+  end
+
+  describe 'when the query returns nil for rows' do
+    let(:stub_bigquery_response) do
+      stub_bigquery_application_metrics_request(result: false)
+    end
+
+    before do
+      stub_bigquery_response
+    end
+
+    subject(:application_metrics) do
+      described_class.new(cycle_week: 7).candidate_headline_statistics
+    end
+
+    it 'fails silently' do
+      application_metrics
     end
   end
 
