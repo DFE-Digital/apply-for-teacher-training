@@ -2,7 +2,7 @@ module BigqueryStubs
   def stub_response(rows: nil, job_complete: true, page_token: nil)
     default_rows = [
       [
-        { name: 'cycle_week', type: 'INTEGER', value: '7' },
+        { name: 'cycle_week',                             type: 'INTEGER', value: '7' },
         { name: 'number_of_candidates_submitted_to_date', type: 'INTEGER', value: '100' },
         { name: 'nonsubject_filter_category',             type: 'STRING',  value: 'Provider name' },
         { name: 'first_date_in_week',                     type: 'DATE',    value: '2024-03-18' },
