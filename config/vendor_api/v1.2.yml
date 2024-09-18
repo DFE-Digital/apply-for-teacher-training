@@ -103,8 +103,19 @@ components:
       properties:
         code:
           type: string
-          description: The code denoting a specific reason for rejection.
+          description: |
+            [The code denoting a specific reason for rejection.] (https://github.com/DFE-Digital/apply-for-teacher-training/blob/0fefb558d753d40edb7f6eb856961a0ffae50540/config/rejection_reason_codes.yml)
+            Codes and definitions can also be retrieved using the relevant [API endpoint](#get-reference-data-rejection-reason-codes)
           example: R08
+          enum:
+            - R01
+            - R02
+            - R03
+            - R04
+            - R06
+            - R07
+            - R08
+            - R09
         details:
           type: string
           description: Optional details about why the application was rejected for the given reason.
@@ -181,7 +192,7 @@ components:
         other_disability_details:
           type: string
           nullable: true
-          description: The candidate’s description of their disability, if they selected “An impairment, health condition or learning difference not listed above” (96) and entered a description. 
+          description: The candidate’s description of their disability, if they selected “An impairment, health condition or learning difference not listed above” (96) and entered a description.
           maxLength: 10240
           example: "My disability is..."
         other_ethnicity_details:
