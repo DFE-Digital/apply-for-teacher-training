@@ -16,7 +16,7 @@ FactoryBot.define do
       audit.auditable_type = 'ApplicationExperience'
       audit.auditable_id = evaluator.application_experience.id
       audit.associated = evaluator.application_choice
-      audit.user_type = evaluator.user.class.to_s
+      audit.user_type = evaluator.user.class.to_s unless evaluator.username == '(Automated process)'
       audit.audited_changes = evaluator.changes
     end
   end
@@ -38,7 +38,7 @@ FactoryBot.define do
       audit.auditable_type = 'ApplicationWorkHistoryBreak'
       audit.auditable_id = evaluator.application_work_history_break.id
       audit.associated = evaluator.application_choice
-      audit.user_type = evaluator.user.class.to_s
+      audit.user_type = evaluator.user.class.to_s unless evaluator.username == '(Automated process)'
       audit.audited_changes = evaluator.changes
     end
   end
