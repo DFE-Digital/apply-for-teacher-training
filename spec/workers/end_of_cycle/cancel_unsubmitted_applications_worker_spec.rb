@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CancelUnsubmittedApplicationsWorker do
+RSpec.describe EndOfCycle::CancelUnsubmittedApplicationsWorker do
   describe '#perform' do
     let(:unsubmitted_application_from_this_year) do
       create(:application_form,
@@ -57,19 +57,40 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
       unsubmitted_application_from_this_year
     end
 
+    context 'when force is true', time: mid_cycle do
+      it 'allows job to be run' do
+        create_test_applications
+        allow(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).to receive(:perform_at)
+        described_class.new.perform(force: true)
+        expect(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker)
+          .to have_received(:perform_at)
+                .with(
+                  kind_of(Time),
+                  contain_exactly(
+                    unsubmitted_application_from_this_year.id,
+                    hidden_application_from_this_year.id,
+                  ),
+                )
+      end
+    end
+
     context 'for previous cycle, current cycle, next cycle' do
       [RecruitmentCycle.previous_year, RecruitmentCycle.current_year, RecruitmentCycle.next_year].each do |year|
         context 'on cancel application deadline', time: cancel_application_deadline(year) do
           it 'cancels applications' do
             create_test_applications
 
+            allow(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).to receive(:perform_at)
             described_class.new.perform
-
-            expect(unsubmitted_application_from_this_year.reload.application_choices.first).to be_application_not_sent
-            expect(unsubmitted_application_from_last_year.reload.application_choices.first).not_to be_application_not_sent
-            expect(rejected_application_from_this_year.reload.application_choices.first).not_to be_application_not_sent
-            expect(hidden_application_from_this_year.reload.application_choices.first).to be_application_not_sent
-            expect(unsubmitted_cancelled_application_from_this_year.reload.application_choices.first).to be_application_not_sent
+            expect(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker)
+              .to have_received(:perform_at)
+                    .with(
+                      kind_of(Time),
+                      contain_exactly(
+                        unsubmitted_application_from_this_year.id,
+                        hidden_application_from_this_year.id,
+                      ),
+                    )
           end
         end
 
@@ -77,9 +98,9 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
           it 'does not cancel any applications' do
             create_test_applications
 
-            task = described_class.new.perform
-
-            expect(task).to be_nil
+            allow(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).to receive(:perform_at)
+            described_class.new.perform
+            expect(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).not_to have_received(:perform_at)
           end
         end
 
@@ -87,9 +108,9 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
           it 'does not run once in the middle of a cycle' do
             create_test_applications
 
-            task = described_class.new.perform
-
-            expect(task).to be_nil
+            allow(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).to receive(:perform_at)
+            described_class.new.perform
+            expect(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).not_to have_received(:perform_at)
           end
         end
 
@@ -97,9 +118,9 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
           it 'does not run once the new cycle starts' do
             create_test_applications
 
-            task = described_class.new.perform
-
-            expect(task).to be_nil
+            allow(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).to receive(:perform_at)
+            described_class.new.perform
+            expect(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).not_to have_received(:perform_at)
           end
         end
       end

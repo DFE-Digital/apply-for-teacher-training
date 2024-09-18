@@ -81,7 +81,7 @@ private
 
   def and_the_apply_deadline_has_passed
     advance_time_to(cancel_application_deadline + 1.second)
-    CancelUnsubmittedApplicationsWorker.perform_sync
+    EndOfCycle::CancelUnsubmittedApplicationsWorker.perform_sync
   end
 
   def when_i_sign_in

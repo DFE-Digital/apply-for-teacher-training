@@ -74,7 +74,7 @@ private
   end
 
   def and_the_cancel_unsubmitted_applications_worker_runs
-    CancelUnsubmittedApplicationsWorker.new.perform
+    EndOfCycle::CancelUnsubmittedApplicationsWorker.new.perform
   end
 
   def when_i_sign_in_again
