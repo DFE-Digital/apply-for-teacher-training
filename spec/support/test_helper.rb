@@ -1,24 +1,32 @@
 module DfE
   module Bigquery
     module TestHelper
-      include ::BigqueryStubs
-
-      def stub_bigquery_application_metrics_request(rows: nil, job_complete: true, page_token: nil)
+      def stub_bigquery_application_metrics_request(rows: nil, job_complete: true, page_token: nil, result: true)
         bigquery_client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
         allow(DfE::Bigquery).to receive(:client).and_return(bigquery_client)
-        allow(bigquery_client).to receive(:query_job).and_return(stubbed_bigquery_application_metrics_response(rows:, job_complete:, page_token:))
+        allow(bigquery_client).to receive(:query_job).and_return(stubbed_bigquery_application_metrics_response(rows:, job_complete:, page_token:, result:))
       end
 
-      def stub_bigquery_application_metrics_by_provider_request(rows: nil, job_complete: true, page_token: nil)
+      def stub_bigquery_application_metrics_by_provider_request(rows: nil, job_complete: true, page_token: nil, result: true)
         bigquery_client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
         allow(DfE::Bigquery).to receive(:client).and_return(bigquery_client)
-        allow(bigquery_client).to receive(:query_job).and_return(stubbed_bigquery_application_metrics_by_provider_response(rows:, job_complete:, page_token:))
+        allow(bigquery_client).to receive(:query_job).and_return(stubbed_bigquery_application_metrics_by_provider_response(rows:, job_complete:, page_token:, result:))
       end
 
-      def stubbed_bigquery_application_metrics_response(rows: nil, job_complete: nil, page_token: nil)
-        return stub_response(rows:, job_complete:, page_token:) if rows
+      # @param row [nil|Row|'nil']
+      #   When nil, it returns a default response
+      #   When Row it returns the values defined in the Row
+      #   When 'nil' it returns literal nil
+      # @param job_complete [Boolean] Is the response populated with the query result?
+      # @param page_token [String] If present, there is a next page that must be fetched
+      # @param result [Boolean] Does the response return values?
+      #
+      def stubbed_bigquery_application_metrics_response(rows: nil, job_complete: nil, page_token: nil, result: true)
+        return BigqueryStubs.stub_response(rows:, job_complete:, page_token:, result:) unless result
 
-        stub_response(rows: [[
+        return BigqueryStubs.stub_response(rows:, job_complete:, page_token:, result:) if rows
+
+        BigqueryStubs.stub_response(rows: [[
           { name: 'cycle_week', type: 'INTEGER', value: '7' },
           { name: 'first_date_in_week', type: 'DATE', value: '2023-11-13' },
           { name: 'last_date_in_week', type: 'DATE', value: '2023-11-19' },
@@ -39,13 +47,13 @@ module DfE
           { name: 'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle', type: 'INTEGER', value: '213' },
           { name: 'number_of_candidates_accepted_to_date', type: 'INTEGER', value: '20' },
           { name: 'number_of_candidates_accepted_to_same_date_previous_cycle', type: 'INTEGER', value: '10' },
-        ]], job_complete:, page_token:)
+        ]], job_complete:, page_token:, result:)
       end
 
-      def stubbed_bigquery_application_metrics_by_provider_response(rows: nil, job_complete: nil, page_token: nil)
-        return stub_response(rows:) if rows
+      def stubbed_bigquery_application_metrics_by_provider_response(rows: nil, job_complete: nil, page_token: nil, result: true)
+        return BigqueryStubs.stub_response(rows:, result:) if rows
 
-        stub_response(rows: [[
+        BigqueryStubs.stub_response(rows: [[
           { name: 'id', type: 'INTEGER', value: '1337' },
           { name: 'cycle_week', type: 'INTEGER', value: '18' },
           { name: 'recruitment_cycle_year', type: 'INTEGER', value: '2024' },
@@ -70,7 +78,7 @@ module DfE
           { name: 'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle', type: 'INTEGER', value: '0' },
           { name: 'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date', type: 'INTEGER', value: '12' },
           { name: 'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates', type: 'INTEGER', value: '12' },
-        ]], job_complete:, page_token:)
+        ]], job_complete:, page_token:, result:)
       end
     end
   end
