@@ -155,7 +155,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
 
       def link_to_undergraduate_details_error_message
         govuk_link_to(
-          'Add your A level grade (or equivalent)',
+          'Add an A level (or equivalent)',
           routes.candidate_interface_other_qualification_type_path,
         )
       end

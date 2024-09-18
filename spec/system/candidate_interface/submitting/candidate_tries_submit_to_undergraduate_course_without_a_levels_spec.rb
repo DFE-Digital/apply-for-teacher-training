@@ -123,7 +123,7 @@ RSpec.describe 'Candidate tries to submit undergraduate courses with no A levels
 
   def then_i_see_that_i_need_a_levels_to_apply_for_an_undergraduate_course
     expect(page).to have_content(
-      'To apply for this course, you need an A level or equivalent qualification. Add your A level grade (or equivalent) and complete the rest of your details. You can then submit your application. Your application will be saved as a draft while you finish adding your details.',
+      'To apply for this course, you need an A level or equivalent qualification. Add an A level (or equivalent) and complete the rest of your details. You can then submit your application. Your application will be saved as a draft while you finish adding your details.',
     )
   end
 

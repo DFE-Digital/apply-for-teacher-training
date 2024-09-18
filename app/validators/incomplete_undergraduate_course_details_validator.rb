@@ -17,7 +17,7 @@ class IncompleteUndergraduateCourseDetailsValidator < ActiveModel::EachValidator
 
   def link_to_a_levels
     govuk_link_to(
-      'Add your A level grade (or equivalent)',
+      'Add an A level (or equivalent)',
       Rails.application.routes.url_helpers.candidate_interface_other_qualification_type_path,
     )
   end
