@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider makes an offer with SKE enabled in standard courses' do
+RSpec.describe 'Provider makes an offer on undergraduate applications' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
   include OfferStepsHelper
