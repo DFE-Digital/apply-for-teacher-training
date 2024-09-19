@@ -210,6 +210,10 @@ class Course < ApplicationRecord
     I18n.t('course_types.postgraduate')
   end
 
+  def does_not_require_degree?
+    undergraduate? || !degree_grade?
+  end
+
 private
 
   def touch_application_choices_and_forms

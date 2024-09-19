@@ -158,8 +158,7 @@ module CandidateInterface
     end
 
     def degree_required_row(application_choice)
-      return if application_choice.current_course.undergraduate?
-      return unless application_choice.current_course.degree_grade?
+      return if application_choice.current_course.does_not_require_degree?
 
       {
         key: 'Degree requirements',

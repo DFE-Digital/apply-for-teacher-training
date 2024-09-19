@@ -69,7 +69,7 @@ RSpec.describe CandidateInterface::CourseReviewComponent do
         create(
           :course,
           :teacher_degree_apprenticeship,
-          degree_grade: 'two_one', # forcing a bad data coming from Publish
+          degree_grade: 'two_one',
         )
       end
 
