@@ -20,7 +20,7 @@ RSpec.describe DataMigrations::DeleteWorkHistoryAudits do
 
   describe '#relation' do
     it 'returns the audits that need deleting' do
-      audit_1 = create(
+      work_break = create(
         :application_work_history_break_audit,
         action: 'create',
         user_type: nil,
@@ -28,7 +28,7 @@ RSpec.describe DataMigrations::DeleteWorkHistoryAudits do
         username: '(Automated process)',
         created_at: DateTime.new(2024, 9, 3, 12),
       )
-      audit_2 = create(
+      work_break_2 = create(
         :application_work_history_break_audit,
         action: 'create',
         user_type: nil,
@@ -36,7 +36,7 @@ RSpec.describe DataMigrations::DeleteWorkHistoryAudits do
         username: '(Automated process)',
         created_at: DateTime.new(2024, 9, 3, 18),
       )
-      audit_3 = create(
+      work_experience = create(
         :application_experience_audit,
         action: 'create',
         user_type: nil,
@@ -44,19 +44,19 @@ RSpec.describe DataMigrations::DeleteWorkHistoryAudits do
         username: '(Automated process)',
         created_at: DateTime.new(2024, 9, 3, 18),
       )
-      audit_4 = create(
+      work_break_with_provider_username = create(
         :application_work_history_break_audit,
         action: 'create',
         username: 'Provider',
       )
-      audit_5 = create(
+      work_break_with_update_action = create(
         :application_work_history_break_audit,
         action: 'update',
         username: '(Automated process)',
         user_type: nil,
         user_id: nil,
       )
-      audit_6 = create(
+      work_break_outside_time_range = create(
         :application_work_history_break_audit,
         action: 'create',
         username: '(Automated process)',
@@ -64,21 +64,21 @@ RSpec.describe DataMigrations::DeleteWorkHistoryAudits do
         user_id: nil,
         created_at: DateTime.new(2024, 9, 4, 18),
       )
-      audit_7 = create(
+      work_break_with_provider_user_type = create(
         :application_work_history_break_audit,
         action: 'create',
         username: '(Automated process)',
         created_at: DateTime.new(2024, 9, 3, 18),
         user_type: 'Provider',
       )
-      audit_8 = create(
+      work_experience_outside_time_range = create(
         :application_experience_audit,
         action: 'create',
         user_type: nil,
         user_id: nil,
         created_at: DateTime.new(2024, 9, 4, 18),
       )
-      audit_9 = create(
+      application_form_audit = create(
         :application_form_audit,
         action: 'create',
         user_type: nil,
@@ -87,14 +87,14 @@ RSpec.describe DataMigrations::DeleteWorkHistoryAudits do
         created_at: DateTime.new(2024, 9, 3, 12),
       )
 
-      expect(described_class.new.relation).to include(audit_1, audit_2, audit_3)
+      expect(described_class.new.relation).to include(work_break, work_break_2, work_experience)
       expect(described_class.new.relation).not_to include(
-        audit_4,
-        audit_5,
-        audit_6,
-        audit_7,
-        audit_8,
-        audit_9,
+        work_break_with_provider_username,
+        work_break_with_update_action,
+        work_break_outside_time_range,
+        work_break_with_provider_user_type,
+        work_experience_outside_time_range,
+        application_form_audit,
       )
     end
   end
