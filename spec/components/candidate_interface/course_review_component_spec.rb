@@ -60,4 +60,41 @@ RSpec.describe CandidateInterface::CourseReviewComponent do
       end
     end
   end
+
+  describe 'degree requirements' do
+    let(:application_choice) { create(:application_choice, course_option: create(:course_option, course:)) }
+
+    context 'when course is undergraduate but incorrectly has a degree_grade' do
+      let(:course) do
+        create(
+          :course,
+          :teacher_degree_apprenticeship,
+          degree_grade: 'two_one',
+        )
+      end
+
+      it 'does not render row' do
+        result = render_inline(described_class.new(application_choice:))
+        expect(result.text).not_to include('Degree requirements')
+      end
+    end
+
+    context 'when course is postgraduate and degree grade is present' do
+      let(:course) { create(:course, degree_grade: 'two_one') }
+
+      it 'does render row' do
+        result = render_inline(described_class.new(application_choice:))
+        expect(result.text).to include('Degree requirements')
+      end
+    end
+
+    context 'when course is postgraduate and degree grade is blank' do
+      let(:course) { create(:course, degree_grade: nil) }
+
+      it 'does not render row' do
+        result = render_inline(described_class.new(application_choice:))
+        expect(result.text).not_to include('Degree requirements')
+      end
+    end
+  end
 end
