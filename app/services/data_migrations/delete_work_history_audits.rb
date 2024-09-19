@@ -5,13 +5,8 @@ module DataMigrations
     BATCH_SIZE = 1500
 
     def change
-      time_now = Time.zone.now
-      counter = 1
-
       relation.in_batches(of: BATCH_SIZE) do |batch|
-        next_batch_time = time_now + (counter * 5).seconds
-        DeleteAuditsWorker.perform_at(next_batch_time, batch.ids)
-        counter += 1
+        DeleteAuditsWorker.perform_async(batch.ids)
       end
     end
 
