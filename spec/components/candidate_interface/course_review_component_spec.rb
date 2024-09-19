@@ -64,7 +64,7 @@ RSpec.describe CandidateInterface::CourseReviewComponent do
   describe 'degree requirements' do
     let(:application_choice) { create(:application_choice, course_option: create(:course_option, course:)) }
 
-    context 'when course is undergraduate' do
+    context 'when course is undergraduate but incorrectly has a degree_grade' do
       let(:course) do
         create(
           :course,
