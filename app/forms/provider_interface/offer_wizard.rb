@@ -151,7 +151,11 @@ module ProviderInterface
     end
 
     def ske_required?
-      language_course? || ske_standard_course? || Array(ske_conditions).any?
+      !undergraduate_course? && (language_course? || ske_standard_course? || Array(ske_conditions).any?)
+    end
+
+    def undergraduate_course?
+      course_option&.course&.undergraduate?
     end
 
     def language_course?

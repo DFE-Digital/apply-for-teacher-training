@@ -329,6 +329,26 @@ RSpec.describe ProviderInterface::OfferWizard do
         end
       end
 
+      context 'when course is undergraduate and current step is :select_option' do
+        let(:current_step) { :select_option }
+        let(:course) do
+          create(
+            :course,
+            :teacher_degree_apprenticeship,
+            subjects: [build(:subject, code: '15', name: 'Portuguese')],
+          )
+        end
+        let(:application_choice) do
+          create(:application_choice, course_option: create(:course_option, course:))
+        end
+        let(:application_choice_id) { application_choice.id }
+        let(:course_option_id) { application_choice.course_option.id }
+
+        it 'returns :conditions' do
+          expect(wizard.next_step).to eq(:conditions)
+        end
+      end
+
       context 'when a ske condition is required' do
         let(:ske_conditions) { [SkeCondition.new] }
 
