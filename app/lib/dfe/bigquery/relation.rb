@@ -23,6 +23,10 @@ module DfE
           query_object,
         )
 
+        # If there are no results we should return early
+        # BigqueryV2 client sets rows to nil if there are no results
+        return [] if result.rows.blank?
+
         unless result.job_complete?
           raise JobIncompleteError, 'the query job did not complete for some reason'
         end
