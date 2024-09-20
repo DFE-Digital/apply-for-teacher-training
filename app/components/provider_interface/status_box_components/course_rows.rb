@@ -32,8 +32,11 @@ module ProviderInterface
       end
 
       def location_key(application_choice)
-        text = 'not ' if application_choice.school_placement_auto_selected?
-        "Location (#{text}selected by candidate)"
+        if application_choice.school_placement_auto_selected?
+          I18n.t('school_placements.auto_selected')
+        else
+          I18n.t('school_placements.selected_by_candidate')
+        end
       end
     end
   end

@@ -112,10 +112,11 @@ module ProviderInterface
 
     def location_key
       if @application_choice.different_offer?
-        'Location'
+        t('school_placements.changed')
+      elsif @school_placement_auto_selected
+        t('school_placements.auto_selected')
       else
-        text = 'not ' if @application_choice.school_placement_auto_selected?
-        "Location (#{text}selected by candidate)"
+        t('school_placements.selected_by_candidate')
       end
     end
   end
