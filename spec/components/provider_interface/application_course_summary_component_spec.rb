@@ -82,8 +82,8 @@ RSpec.describe ProviderInterface::ApplicationCourseSummaryComponent do
     expect(render_text).to include('Geograpghy (H234)')
   end
 
-  context 'when school placement is selected by canidate' do
-    it 'renders selected by canadidate' do
+  context 'when school placement is selected by candidate' do
+    it 'renders selected by candidate' do
       render_text = row_text_selector(:location, render)
       expect(render_text).to include('Location (selected by candidate)')
       expect(render_text).to include("Fountain Street\nMorley\nLeeds\nLS27 OPD")
@@ -95,7 +95,7 @@ RSpec.describe ProviderInterface::ApplicationCourseSummaryComponent do
       build(:application_choice, course_option:, school_placement_auto_selected: true)
     end
 
-    it 'renders selected by canadidate' do
+    it 'renders selected by candidate' do
       render_text = row_text_selector(:location, render)
       expect(render_text).to include('Location (not selected by candidate)')
       expect(render_text).to include("Fountain Street\nMorley\nLeeds\nLS27 OPD")
