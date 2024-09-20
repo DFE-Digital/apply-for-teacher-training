@@ -2,7 +2,11 @@ require 'rails_helper'
 
 RSpec.describe MigrateApplicationChoicesWorker do
   describe '#perform' do
-    it 'dups the working experiences and histories from application_form to choice' do
+    before do
+      TestSuiteTimeMachine.unfreeze!
+    end
+
+    it 'dups the working experiences and histories from application_form to choice', :with_audited do
       application_form = create(
         :completed_application_form,
         volunteering_experiences_count: 1,
@@ -31,7 +35,6 @@ RSpec.describe MigrateApplicationChoicesWorker do
         breakable: choice_with_data_migrated,
       )
       choice_ids = [choice.id, choice_with_data_migrated.id]
-      allow(Rails.logger).to receive(:info)
 
       expect {
         described_class.new.perform(choice_ids)
@@ -41,27 +44,32 @@ RSpec.describe MigrateApplicationChoicesWorker do
         .and not_change(choice_with_data_migrated.work_experiences, :count)
         .and not_change(choice_with_data_migrated.volunteering_experiences, :count)
         .and not_change(choice_with_data_migrated.work_history_breaks, :count)
-      expect(Rails.logger).to have_received(:info).with('No errors')
+        .and not_change(choice.own_and_associated_audits, :count)
+        .and not_change(choice.reload, :updated_at)
+        .and not_change(application_form.reload, :updated_at)
+        .and not_change(application_form.candidate, :updated_at)
     end
 
-    context 'with errors' do
-      it 'rescues ActiveRecord::RecordInvalid exceptions and logs the errors' do
+    context 'when env is production' do
+      it 'does not create work histories' do
         application_form = create(
           :completed_application_form,
           volunteering_experiences_count: 1,
           full_work_history: true,
         )
         choice = create(:application_choice, application_form:)
-        choice_ids = [choice.id]
 
-        # rubocop:disable RSpec/AnyInstance
-        allow_any_instance_of(ApplicationChoice).to receive(:work_experiences=)
-          .and_raise(ActiveRecord::RecordInvalid)
-        # rubocop:enable RSpec/AnyInstance
-        allow(Rails.logger).to receive(:info)
+        allow(HostingEnvironment).to receive(:production?).and_return(true)
 
-        described_class.new.perform(choice_ids)
-        expect(Rails.logger).to have_received(:info).with("Error choice id #{choice.id}: Record invalid")
+        expect {
+          described_class.new.perform([choice.id])
+        }.to not_change(choice.work_experiences, :count)
+          .and not_change(choice.volunteering_experiences, :count)
+          .and not_change(choice.work_history_breaks, :count)
+          .and not_change(choice.own_and_associated_audits, :count)
+          .and not_change(choice.reload, :updated_at)
+          .and not_change(application_form.reload, :updated_at)
+          .and not_change(application_form.candidate, :updated_at)
       end
     end
   end
