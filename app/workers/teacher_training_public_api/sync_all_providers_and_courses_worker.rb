@@ -5,7 +5,8 @@ module TeacherTrainingPublicAPI
     sidekiq_options retry: 3, queue: :low_priority
 
     def perform(incremental = true, year = nil, suppress_sync_update_errors = false)
-      return if HostingEnvironment.review?
+      # Temporarily allowing us to force this job to create data for a review app.
+      return if HostingEnvironment.review? && !force
 
       year ||= year_to_sync
 
