@@ -35,7 +35,6 @@ module ProviderInterface
     end
 
     def new_withdraw_offer
-      summary_list_rows
       @withdraw_offer = WithdrawOffer.new(
         actor: current_provider_user,
         application_choice: @application_choice,
@@ -50,7 +49,6 @@ module ProviderInterface
       )
       if @withdraw_offer.invalid?
         track_validation_error(@withdraw_offer)
-        summary_list_rows
         render action: :new_withdraw_offer
       end
     end
@@ -61,7 +59,6 @@ module ProviderInterface
         application_choice: @application_choice,
         offer_withdrawal_reason: params.dig(:withdraw_offer, :offer_withdrawal_reason),
       )
-      summary_list_rows
       if @withdraw_offer.save
         flash[:success] = 'Offer successfully withdrawn'
         redirect_to provider_interface_application_choice_feedback_path(
@@ -113,27 +110,6 @@ module ProviderInterface
 
     def action
       'back' if !!params[:back]
-    end
-
-    def location_key
-      if @application_choice.different_offer?
-        t('school_placements.preferred.changed')
-      elsif @application_choice.school_placement_auto_selected?
-        t('school_placements.auto_selected')
-      else
-        t('school_placements.selected_by_candidate')
-      end
-    end
-
-    def summary_list_rows
-      @summary_list_rows = [
-        { key: 'Full name', value: @application_choice.application_form.full_name },
-        { key: 'Course', value: @application_choice.course.name_and_code },
-        { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
-      ]
-      if @application_choice.different_offer?
-        @summary_list_rows << { key: location_key, value: @application_choice.site.name }
-      end
     end
   end
 end

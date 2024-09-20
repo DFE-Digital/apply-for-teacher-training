@@ -12,7 +12,7 @@
         <%= t('page_titles.provider.new_withdraw_offer') %>
       </h1>
 
-      <%= render SummaryListComponent.new(rows: @summary_list_rows) %>
+      <%= render SummaryListComponent.new(rows: summary_list_rows(@application_choice)) %>
 
       <%= f.govuk_text_area :offer_withdrawal_reason, rows: 5, label: { text: 'Tell us why you are withdrawing the offer', size: 'm' }, hint: { text: 'We will forward your feedback to the candidate' } %>
 
