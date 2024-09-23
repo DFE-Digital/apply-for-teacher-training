@@ -670,7 +670,9 @@ RSpec.describe CandidateMailer do
       )]
     end
 
-    it 'renders deadline reminder text' do
+    it 'renders essential checks and deadline reminder text' do
+      expect(email.body).to include 'An enhanced disclosure and barring service (DBS) check. This is a criminal records check to make sure it is safe for you to work with children. If you are from outside of the UK and Ireland then the training provider will request a criminal records check from your home country.'
+      expect(email.body).to include 'A fitness to train to teach check. These are questions to check your ability to meet teaching standards, both physically and mentally.'
       expect(email.body).to include "If you want to accept this offer, you must do so by #{I18n.l(CycleTimetable.decline_by_default_date.to_date, format: :no_year)}. If you have not responded by then, the offer will be automatically declined on your behalf."
     end
   end
