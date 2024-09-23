@@ -318,6 +318,14 @@ en:
     dates_and_deadlines: Dates and deadlines
     organisation_permissions: How organisation permissions affect what users can do
     application_guidance: The teacher training application process
+  school_placements:
+    changed: Location
+    selected_by_candidate: Location (selected by candidate)
+    auto_selected: Location (not selected by candidate)
+    preferred:
+      changed: Preferred location
+      selected_by_candidate: Preferred location (selected by candidate)
+      auto_selected: Preferred location (not selected by candidate)
   section_groups:
     course: Course
     courses: Courses

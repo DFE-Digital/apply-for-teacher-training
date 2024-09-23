@@ -35,10 +35,14 @@ module SupportInterface
 
     def location_key
       if @course_option_is_original
-        text = 'not ' if @school_placement_auto_selected
-        "Location (#{text}selected by candidate)"
+        if @school_placement_auto_selected
+
+          t('school_placements.auto_selected')
+        else
+          t('school_placements.selected_by_candidate')
+        end
       else
-        'Location'
+        t('school_placements.changed')
       end
     end
   end

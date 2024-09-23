@@ -62,18 +62,24 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
 
   let(:application_choice) do
     instance_double(ApplicationChoice,
-                    current_course_option: course_option,
                     course_option:,
+                    current_course_option: course_option,
+                    original_course_option: course_option,
+                    different_offer?: false,
                     provider:,
+                    school_placement_auto_selected?: true,
                     course:,
                     site:)
   end
 
   let(:single_study_mode_application_choice) do
     instance_double(ApplicationChoice,
-                    current_course_option: course_option2,
                     course_option: course_option2,
+                    current_course_option: course_option2,
+                    original_course_option: course_option2,
+                    different_offer?: false,
                     provider:,
+                    school_placement_auto_selected?: true,
                     course: course2,
                     site:)
   end
@@ -166,7 +172,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
     it 'does not render the change link' do
       render_text = row_text_selector(:location, render)
 
-      expect(render_text).to include('Location')
+      expect(render_text).to include('Location (not selected by candidate)')
       expect(render_text).to include('First Road (F34)')
       expect(render_text).to include("Fountain Street\nMorley\nLeeds")
       expect(render_text).to include('LS27 OPD')
@@ -180,11 +186,58 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
     it 'renders the change link' do
       render_text = row_text_selector(:location, render)
 
-      expect(render_text).to include('Location')
+      expect(render_text).to include('Location (not selected by candidate)')
       expect(render_text).to include('First Road (F34)')
       expect(render_text).to include("Fountain Street\nMorley\nLeeds")
       expect(render_text).to include('LS27 OPD')
       expect(render_text).to include('Change')
+    end
+  end
+
+  context 'when the locations is selected by the candidate' do
+    let(:application_choice) do
+      instance_double(ApplicationChoice,
+                      course_option:,
+                      current_course_option: course_option,
+                      original_course_option: course_option,
+                      different_offer?: false,
+                      provider:,
+                      school_placement_auto_selected?: false,
+                      course:,
+                      site:)
+    end
+
+    it 'says selected by candidate' do
+      render_text = row_text_selector(:location, render)
+
+      expect(render_text).to include('Location (selected by candidate)')
+      expect(render_text).to include('First Road (F34)')
+      expect(render_text).to include("Fountain Street\nMorley\nLeeds")
+      expect(render_text).to include('LS27 OPD')
+    end
+  end
+
+  context 'when the course option is not selected by the candidate' do
+    let(:application_choice) do
+      instance_double(ApplicationChoice,
+                      course_option:,
+                      current_course_option: course_option,
+                      original_course_option: course_option2,
+                      different_offer?: true,
+                      provider:,
+                      school_placement_auto_selected?: false,
+                      course:,
+                      site:)
+    end
+
+    it 'does not say selected by candidate' do
+      render_text = row_text_selector(:location, render)
+
+      expect(render_text).to include('Location')
+      expect(render_text).not_to include('Location (')
+      expect(render_text).to include('First Road (F34)')
+      expect(render_text).to include("Fountain Street\nMorley\nLeeds")
+      expect(render_text).to include('LS27 OPD')
     end
   end
 end

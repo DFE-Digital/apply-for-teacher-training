@@ -1,8 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::CourseSummaryComponent do
+RSpec.describe ProviderInterface::ApplicationCourseSummaryComponent do
   let(:provider) do
     build(:provider, name: 'Best Training')
+  end
+
+  let(:application_choice) do
+    build(:application_choice, course_option:)
   end
 
   let(:site) do
@@ -37,7 +41,7 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
     )
   end
 
-  let(:render) { render_inline(described_class.new(course_option:)) }
+  let(:render) { render_inline(described_class.new(application_choice:)) }
 
   def row_text_selector(row_name, render)
     rows = if course.accredited_provider_id.nil?
@@ -78,11 +82,24 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
     expect(render_text).to include('Geograpghy (H234)')
   end
 
-  it 'renders the location' do
-    render_text = row_text_selector(:location, render)
+  context 'when school placement is selected by candidate' do
+    it 'renders selected by candidate' do
+      render_text = row_text_selector(:location, render)
+      expect(render_text).to include('Location (selected by candidate)')
+      expect(render_text).to include("Fountain Street\nMorley\nLeeds\nLS27 OPD")
+    end
+  end
 
-    expect(render_text).to include('Location')
-    expect(render_text).to include("Fountain Street\nMorley\nLeeds\nLS27 OPD")
+  context 'when school placement is auto selected' do
+    let(:application_choice) do
+      build(:application_choice, course_option:, school_placement_auto_selected: true)
+    end
+
+    it 'renders selected by candidate' do
+      render_text = row_text_selector(:location, render)
+      expect(render_text).to include('Location (not selected by candidate)')
+      expect(render_text).to include("Fountain Street\nMorley\nLeeds\nLS27 OPD")
+    end
   end
 
   it 'renders the study mode' do

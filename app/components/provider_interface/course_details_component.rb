@@ -6,7 +6,7 @@ module ProviderInterface
         { key: 'Course', value: course_name_and_code },
         { key: 'Cycle', value: cycle },
         { key: 'Full time or part time', value: study_mode },
-        { key: 'Location', value: preferred_location },
+        { key: location_key, value: preferred_location },
         { key: 'Accredited body', value: accredited_body },
         { key: 'Qualification', value: qualification },
         { key: 'Funding type', value: funding_type },

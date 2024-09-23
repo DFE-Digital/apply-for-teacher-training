@@ -12,7 +12,7 @@
         <%= t('.title') %>
       </h1>
 
-      <%= render ProviderInterface::CourseSummaryComponent.new(course_option: @application_choice.course_option) %>
+      <%= render ProviderInterface::ApplicationCourseSummaryComponent.new(application_choice: @application_choice) %>
       <%= f.govuk_radio_buttons_fieldset :decision, legend: { size: 'm' } do %>
         <%= f.govuk_radio_button :decision, 'make_offer', link_errors: true %>
         <%= f.govuk_radio_button :decision, 'change_offer' if @wizard.available_changes? %>

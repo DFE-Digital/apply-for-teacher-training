@@ -12,12 +12,7 @@
         <%= t('page_titles.provider.new_withdraw_offer') %>
       </h1>
 
-      <%= render SummaryListComponent.new(rows: [
-        { key: 'Full name', value: @application_choice.application_form.full_name },
-        { key: 'Course', value: @application_choice.course.name_and_code },
-        { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
-        { key: 'Preferred location', value: @application_choice.site.name },
-      ]) %>
+      <%= render SummaryListComponent.new(rows: summary_list_rows(@application_choice)) %>
 
       <%= f.govuk_text_area :offer_withdrawal_reason, rows: 5, label: { text: 'Tell us why you are withdrawing the offer', size: 'm' }, hint: { text: 'We will forward your feedback to the candidate' } %>
 

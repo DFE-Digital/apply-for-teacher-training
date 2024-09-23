@@ -75,18 +75,24 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
   let(:application_choice) do
     instance_double(ApplicationChoice,
                     current_course_option: course_option,
+                    original_course_option: course_option,
                     course_option:,
+                    different_offer?: false,
                     provider:,
                     course:,
+                    school_placement_auto_selected?: true,
                     site:)
   end
 
   let(:application_choice_with_accredited_body) do
     instance_double(ApplicationChoice,
                     current_course_option: course_option2,
+                    original_course_option: course_option2,
                     course_option: course_option2,
                     provider: accredited_provider,
+                    different_offer?: false,
                     course: course_with_accredited_body,
+                    school_placement_auto_selected?: true,
                     site: site_with_accredited_provider)
   end
 
@@ -149,10 +155,51 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
   it 'renders the preferred location' do
     render_text = row_text_selector(:location, render)
 
-    expect(render_text).to include('Location')
+    expect(render_text).to include('Location (not selected by candidate)')
     expect(render_text).to include('First Road (F34)')
     expect(render_text).to include("Fountain Street\nMorley\nLeeds")
     expect(render_text).to include('LS27 OPD')
+  end
+
+  context 'when school placement is selected by candidate' do
+    let(:application_choice) do
+      instance_double(ApplicationChoice,
+                      current_course_option: course_option,
+                      original_course_option: course_option,
+                      different_offer?: false,
+                      course_option:,
+                      provider:,
+                      course:,
+                      school_placement_auto_selected?: false,
+                      site:)
+    end
+
+    it 'renders the preferred location' do
+      render_text = row_text_selector(:location, render)
+
+      expect(render_text).to include('Location (selected by candidate)')
+    end
+  end
+
+  context 'when school placement is selected by support or provider' do
+    let(:application_choice) do
+      instance_double(ApplicationChoice,
+                      current_course_option: course_option,
+                      original_course_option: course_option2,
+                      course_option:,
+                      different_offer?: true,
+                      provider:,
+                      course:,
+                      school_placement_auto_selected?: false,
+                      site:)
+    end
+
+    it 'renders the preferred location' do
+      render_text = row_text_selector(:location, render)
+
+      expect(render_text).not_to include('Location (')
+      expect(render_text).to include('Location')
+    end
   end
 
   it 'renders the study mode' do
