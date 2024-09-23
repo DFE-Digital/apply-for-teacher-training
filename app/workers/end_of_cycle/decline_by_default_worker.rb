@@ -15,7 +15,7 @@ module EndOfCycle
     def relation
       ApplicationForm
         .current_cycle
-        .includes(:application_choices).where('application_choices.status': 'offer')
+        .joins(:application_choices).where('application_choices.status': 'offer')
         .distinct
     end
   end
