@@ -15,7 +15,7 @@ module EndOfCycle
     def relation
       ApplicationForm
         .current_cycle
-        .includes(:application_choices).where('application_choices.status': EndOfCycle::RejectByDefaultService::REJECTABLE_STATUSES)
+        .joins(:application_choices).where('application_choices.status': EndOfCycle::RejectByDefaultService::REJECTABLE_STATUSES)
         .distinct
     end
   end
