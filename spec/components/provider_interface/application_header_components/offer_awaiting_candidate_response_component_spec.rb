@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::ApplicationHeaderComponents::OfferWillBeDeclinedByDefaultComponent do
+RSpec.describe ProviderInterface::ApplicationHeaderComponents::OfferAwaitingCandidateResponseComponent do
   describe 'rendered component' do
     it 'renders offer content' do
       application_choice = build_stubbed(:application_choice, :offered)

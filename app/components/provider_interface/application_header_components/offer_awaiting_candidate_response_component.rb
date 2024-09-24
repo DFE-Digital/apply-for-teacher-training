@@ -1,6 +1,6 @@
 module ProviderInterface
   module ApplicationHeaderComponents
-    class OfferWillBeDeclinedByDefaultComponent < ApplicationChoiceHeaderComponent
+    class OfferAwaitingCandidateResponseComponent < ApplicationChoiceHeaderComponent
       def offer_text
         days = application_choice.days_since_offered
 
