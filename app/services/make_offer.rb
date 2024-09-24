@@ -27,8 +27,6 @@ class MakeOffer
             course_option,
             other_fields: { offered_at: Time.zone.now },
           )
-
-          SetDeclineByDefaultToEndOfCycle.new(application_choice: application_choice).call
         end
 
         CancelUpcomingInterviews.new(

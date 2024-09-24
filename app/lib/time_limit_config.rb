@@ -39,15 +39,7 @@ class TimeLimitConfig
   end
 
   def self.rules
-    {
-      reject_by_default: stale_application_rules,
-      decline_by_default: [
-        Rule.new(nil, nil, 10),
-      ],
-      chase_candidate_before_dbd: [
-        Rule.new(nil, nil, 5),
-      ],
-    }
+    { reject_by_default: stale_application_rules }
   end
 
   private_constant 'Rule'

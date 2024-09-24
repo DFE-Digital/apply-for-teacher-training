@@ -28,14 +28,12 @@ RSpec.describe ReinstateDeclinedOffer, :with_audited do
       expect(declined_course_choice).to have_attributes({
         status: 'offer',
         declined_at: nil,
-        decline_by_default_at: 10.business_days.from_now.end_of_day,
+        decline_by_default_at: nil,
       })
 
       expect(declined_course_choice.audits.last.comment).to eq "Reinstate offer Zendesk request: #{zendesk_ticket}"
 
-      expect(offered_course_choice.reload.decline_by_default_at.round).to be_within(1.second).of 10.business_days.from_now.end_of_day
-
-      expect(offered_course_choice.audits.last.comment).to eq "DBD reset due to a reinstated offer on application choice #{declined_course_choice.id} from ticket: #{zendesk_ticket}"
+      expect(offered_course_choice.reload.decline_by_default_at).to be_nil
 
       expect(course_choice_awaiting_decision.reload).to eq course_choice_awaiting_decision
     end
