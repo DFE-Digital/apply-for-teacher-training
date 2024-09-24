@@ -36,7 +36,7 @@ module CandidateInterface
     end
 
     def decline_by_default_date
-      @decline_by_default_date ||= @application_form.application_choices.offer.map(&:decline_by_default_at).min
+      @decline_by_default_date ||= CycleTimetable.decline_by_default_date(@application_form.recruitment_cycle_year)
     end
   end
 end

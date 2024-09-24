@@ -42,8 +42,7 @@ class CandidateMailerPreview < ActionMailer::Preview
                                                   :offered,
                                                   course_option:,
                                                   application_form:,
-                                                  current_course_option: course_option,
-                                                  decline_by_default_at: 10.business_days.from_now)
+                                                  current_course_option: course_option)
 
     CandidateMailer.changed_offer(application_choice)
   end
@@ -64,8 +63,7 @@ class CandidateMailerPreview < ActionMailer::Preview
                                           offered_at: Time.zone.now,
                                           current_course_option: course_option,
                                           course_option:,
-                                          application_form:,
-                                          decline_by_default_at: 10.business_days.from_now)
+                                          application_form:)
 
     CandidateMailer.changed_offer(application_choice)
   end
@@ -441,7 +439,6 @@ class CandidateMailerPreview < ActionMailer::Preview
       course_option:,
       current_course_option: course_option,
       application_form:,
-      decline_by_default_at: 10.business_days.from_now,
       offer_deferred_at: Time.zone.local(2020, 2, 3),
     )
 
@@ -682,7 +679,6 @@ private
                      :pending_conditions,
                      application_form:,
                      course_option: course_option,
-                     decline_by_default_at: Time.zone.now,
                      sent_to_provider_at: 1.day.ago)
   end
 
@@ -691,7 +687,6 @@ private
                      :offered,
                      application_form:,
                      course_option:,
-                     decline_by_default_at: Time.zone.now,
                      sent_to_provider_at: 1.day.ago)
   end
 

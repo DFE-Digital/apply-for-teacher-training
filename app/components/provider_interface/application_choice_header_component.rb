@@ -24,8 +24,8 @@ module ProviderInterface
         ApplicationHeaderComponents::RespondComponent
       elsif awaiting_decision_but_cannot_respond?
         ApplicationHeaderComponents::AwaitingDecisionCannotRespondComponent
-      elsif offer_will_be_declined_by_default?
-        ApplicationHeaderComponents::OfferWillBeDeclinedByDefaultComponent
+      elsif offer_waiting_for_candidate_response?
+        ApplicationHeaderComponents::OfferAwaitingCandidateResponseComponent
       elsif deferred_offer?
         ApplicationHeaderComponents::DeferredOfferComponent
       end
@@ -52,7 +52,7 @@ module ProviderInterface
         deferred_offer? ||
         awaiting_decision_but_cannot_respond? ||
         set_up_interview? ||
-        offer_will_be_declined_by_default?
+        offer_waiting_for_candidate_response?
     end
 
     def respond_to_application?
@@ -75,8 +75,8 @@ module ProviderInterface
       provider_can_respond && application_choice.interviewing?
     end
 
-    def offer_will_be_declined_by_default?
-      application_choice.offer? && application_choice.decline_by_default_at.present?
+    def offer_waiting_for_candidate_response?
+      application_choice.offer?
     end
 
   private

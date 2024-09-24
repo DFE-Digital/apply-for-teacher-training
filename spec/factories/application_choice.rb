@@ -103,7 +103,6 @@ FactoryBot.define do
       sent_to_provider_at { (created_at || Time.zone.now) + 1.second }
       offered_at { (sent_to_provider_at || Time.zone.now) + 1.second }
 
-      decline_by_default_at { 10.business_days.from_now }
       decline_by_default_days { 10 }
     end
 

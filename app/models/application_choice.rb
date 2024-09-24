@@ -125,13 +125,6 @@ class ApplicationChoice < ApplicationRecord
     current_course.recruitment_cycle_year
   end
 
-  def days_until_decline_by_default
-    dbd = decline_by_default_at
-    if offer? && dbd && dbd > Time.zone.now
-      ((dbd - Time.zone.now) / 1.day).floor
-    end
-  end
-
   delegate :course_not_available?, to: :course_option
   delegate :withdrawn?, to: :course, prefix: true
   delegate :submitted_at, to: :application_form, allow_nil: true, prefix: true

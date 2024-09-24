@@ -14,7 +14,6 @@ module SupportInterface
         application_number_row,
         status_row,
         offer_made_at_row,
-        decline_by_default_at_row,
         course_candidate_applied_for_row,
         course_offered_by_provider_row,
         course_row,
@@ -49,12 +48,6 @@ module SupportInterface
       return unless application_choice.offer?
 
       { key: 'Offer made at', value: application_choice.offered_at.to_fs(:govuk_date_and_time) }
-    end
-
-    def decline_by_default_at_row
-      return unless application_choice.offer?
-
-      { key: 'Decline by default at', value: application_choice.decline_by_default_at.to_fs(:govuk_date_and_time) } if application_choice.decline_by_default_at
     end
 
     def course_candidate_applied_for_row
