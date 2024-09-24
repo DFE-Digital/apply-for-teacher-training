@@ -39,14 +39,6 @@ en:
           We emailed the referee using this address: %{referee_email}
     feedback_received_for_application_rejected_by_default:
       subject: "Feedback on your application for %{provider_name}"
-    declined_by_default:
-      subject:
-        one: Application withdrawn automatically
-        other: Applications withdrawn automatically
-    decline_by_default_last_course_choice:
-      subject:
-        one: "You did not respond to your offer: next steps"
-        other: "You did not respond to your offers: next steps"
     application_rejected:
       subject: Update on your application
     application_withdrawn_on_request:

@@ -363,7 +363,6 @@ en:
       by: system
       description: The candidate has to respond within 10 working days, otherwise the system will decline the offer.
       emails:
-        - candidate_mailer-declined_by_default
         - provider_mailer-declined_by_default
 
     offer-withdraw_offer:

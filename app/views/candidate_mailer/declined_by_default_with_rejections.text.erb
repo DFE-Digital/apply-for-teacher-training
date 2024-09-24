@@ -1,5 +1,0 @@
-Dear <%= @application_form.first_name %>
-
-You did not respond within <%= @declined_courses.first.decline_by_default_days %> working days so we declined your <%= 'offer'.pluralize(@declined_course_names.size) %> for <%= @declined_course_names.to_sentence %>.
-
-<%= render 'still_interested_content' %>
