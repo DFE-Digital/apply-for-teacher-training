@@ -102,8 +102,6 @@ FactoryBot.define do
       created_at { (application_form&.created_at || Time.zone.now) + 1.second }
       sent_to_provider_at { (created_at || Time.zone.now) + 1.second }
       offered_at { (sent_to_provider_at || Time.zone.now) + 1.second }
-
-      decline_by_default_days { 10 }
     end
 
     # aliased name to match the status
@@ -263,7 +261,6 @@ FactoryBot.define do
       declined
 
       declined_by_default { true }
-      decline_by_default_days { 10 }
     end
 
     trait :rejected do
