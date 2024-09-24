@@ -47,9 +47,8 @@ jobs:
         echo "BACKUP_FILE_NAME=apply_production_$(date +"%F")" >> $GITHUB_ENV
 
     - name: Install kubectl
-      uses: azure/setup-kubectl@v4
-      with:
-        version: 'v1.26.1' # default is latest stable
+      uses: DFE-Digital/github-actions/set-kubectl@master
+
 
     - uses: DFE-Digital/github-actions/set-kubelogin-environment@master
       with:
