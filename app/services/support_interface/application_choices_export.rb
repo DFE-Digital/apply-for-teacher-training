@@ -17,7 +17,6 @@ module SupportInterface
             course_code: choice.course.code,
             sent_to_provider_at: choice.sent_to_provider_at,
             reject_by_default_at: choice.reject_by_default_at,
-            decline_by_default_at: choice.decline_by_default_at,
             decision: decision_interpretation(choice:),
             decided_at: choice.offered_at || choice.rejected_at,
             offer_response: offer_response_interpretation(choice:),

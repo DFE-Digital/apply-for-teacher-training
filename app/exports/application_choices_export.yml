@@ -24,12 +24,6 @@ custom_columns:
     description: Date the application choice was rejected by default
     example: 2020-11-01T00:00:00+00:00
 
-  decline_by_default_at:
-    type: string
-    format: date-time
-    description: Date the application choice was declined by default
-    example: 2020-11-01T00:00:00+00:00
-
   decision:
     type: string
     description: Application choice decision
