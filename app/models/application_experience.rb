@@ -1,5 +1,4 @@
 class ApplicationExperience < ApplicationRecord
-  self.ignored_columns += %w[application_form_id]
   belongs_to :experienceable, polymorphic: true, touch: true
 
   validates :role, :organisation, :start_date, presence: true

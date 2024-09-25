@@ -1,6 +1,4 @@
 class ApplicationWorkHistoryBreak < ApplicationRecord
-  self.ignored_columns += %w[application_form_id]
-
   belongs_to :breakable, polymorphic: true, touch: true
 
   audited associated_with: :breakable
