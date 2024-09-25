@@ -42,8 +42,7 @@ class CandidateMailerPreview < ActionMailer::Preview
                                                   :offered,
                                                   course_option:,
                                                   application_form:,
-                                                  current_course_option: course_option,
-                                                  decline_by_default_at: 10.business_days.from_now)
+                                                  current_course_option: course_option)
 
     CandidateMailer.changed_offer(application_choice)
   end
@@ -64,8 +63,7 @@ class CandidateMailerPreview < ActionMailer::Preview
                                           offered_at: Time.zone.now,
                                           current_course_option: course_option,
                                           course_option:,
-                                          application_form:,
-                                          decline_by_default_at: 10.business_days.from_now)
+                                          application_form:)
 
     CandidateMailer.changed_offer(application_choice)
   end
@@ -297,62 +295,6 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.offer_accepted(application_choice)
   end
 
-  def declined_by_default_multiple_offers
-    application_form = FactoryBot.build_stubbed(
-      :application_form,
-      first_name: 'Harry',
-      application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option:),
-        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option:),
-        FactoryBot.build_stubbed(:application_choice, status: 'awaiting_provider_decision', declined_by_default: false, course_option:),
-      ],
-      candidate:,
-    )
-
-    CandidateMailer.declined_by_default(application_form)
-  end
-
-  def declined_by_default_only_one_offer
-    application_form = FactoryBot.build_stubbed(
-      :application_form,
-      first_name: 'Harry',
-      application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option:),
-        FactoryBot.build_stubbed(:application_choice, status: 'awaiting_provider_decision', declined_by_default: false, course_option:),
-      ],
-    )
-
-    CandidateMailer.declined_by_default(application_form)
-  end
-
-  def declined_by_default_with_rejections
-    application_form = FactoryBot.build_stubbed(
-      :application_form,
-      first_name: 'Harry',
-      application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option:),
-        FactoryBot.build_stubbed(:application_choice, status: 'rejected', declined_by_default: false, course_option:),
-      ],
-      candidate:,
-    )
-
-    CandidateMailer.declined_by_default(application_form)
-  end
-
-  def declined_by_default_without_rejections
-    application_form = FactoryBot.build_stubbed(
-      :application_form,
-      first_name: 'Harry',
-      application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option:),
-        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option:),
-      ],
-      candidate:,
-    )
-
-    CandidateMailer.declined_by_default(application_form)
-  end
-
   def decline_last_application_choice
     application_form = FactoryBot.build_stubbed(
       :application_form,
@@ -441,7 +383,6 @@ class CandidateMailerPreview < ActionMailer::Preview
       course_option:,
       current_course_option: course_option,
       application_form:,
-      decline_by_default_at: 10.business_days.from_now,
       offer_deferred_at: Time.zone.local(2020, 2, 3),
     )
 
@@ -682,7 +623,6 @@ private
                      :pending_conditions,
                      application_form:,
                      course_option: course_option,
-                     decline_by_default_at: Time.zone.now,
                      sent_to_provider_at: 1.day.ago)
   end
 
@@ -691,7 +631,6 @@ private
                      :offered,
                      application_form:,
                      course_option:,
-                     decline_by_default_at: Time.zone.now,
                      sent_to_provider_at: 1.day.ago)
   end
 

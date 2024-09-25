@@ -19,8 +19,6 @@ module SupportInterface
       application_rbd
       provider_decision
       offer_made
-      dbd_date
-      dbd_reminder_sent
       candidate_decision
       offer_declined
       offer_accepted
@@ -88,14 +86,6 @@ module SupportInterface
 
     def offer_made
       @application_choice.offered_at
-    end
-
-    def dbd_date
-      @application_choice.decline_by_default_at
-    end
-
-    def dbd_reminder_sent
-      earliest_application_chaser_sent(:candidate_decision_request)
     end
 
     def candidate_decision

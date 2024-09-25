@@ -467,7 +467,6 @@ RSpec.describe 'ApplicationChoice factory' do
     it_behaves_like 'trait :declined'
 
     field :declined_by_default?, value: true
-    field :decline_by_default_days, value: 10
   end
 
   shared_examples 'it is rejected' do

@@ -362,13 +362,12 @@ To rollback a providers offer do the following:
 
 - Set the status of the application choice back to `awaiting_provider_decision``
 - set `offer_at` back to `nil`
-- Set `decline_by_default_at` back to `nil`
 - Add the Zendesk ticket URL as the `audit_comment`
 
 E.G
 
 ```
-ApplicationForm.find(ID).application_choices.find(id).update(status: 'awaiting_provider_decision', offered_at: nil, decline_by_default_at: nil, audit_comment: ZENDESK_URL)
+ApplicationForm.find(ID).application_choices.find(id).update(status: 'awaiting_provider_decision', offered_at: nil, audit_comment: ZENDESK_URL)
 ```
 
 ### Make or change offer
@@ -497,7 +496,7 @@ It can happen that a candidate started training but forgot to accept the offer i
 Update [ApplicationChoice](../app/models/application_choice.rb) to `recruited`.
 
 ```ruby
-ApplicationChoice.find(_id).update!(status: :recruited, decline_by_default_at: nil, audit_comment: "ZENDESK_URL")
+ApplicationChoice.find(_id).update!(status: :recruited, audit_comment: "ZENDESK_URL")
 ```
 
 ## Delete an account / application

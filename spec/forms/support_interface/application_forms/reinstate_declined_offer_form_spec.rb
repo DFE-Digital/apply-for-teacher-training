@@ -41,7 +41,7 @@ RSpec.describe SupportInterface::ApplicationForms::ReinstateDeclinedOfferForm, :
         status: 'offer',
         declined_at: nil,
         declined_by_default: false,
-        decline_by_default_at: 10.business_days.from_now.end_of_day,
+        decline_by_default_at: nil,
       })
 
       expect(course_choice.audits.last.comment).to include(zendesk_ticket)

@@ -33,6 +33,8 @@ RSpec.describe 'Delete a candidate application (by anonymising all of their data
       :completed,
       application_choices_count: 3,
       submitted_at: nil,
+      first_name: 'Lisa',
+      last_name: 'Simpson',
     )
   end
 

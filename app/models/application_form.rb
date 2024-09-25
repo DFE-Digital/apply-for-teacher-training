@@ -245,12 +245,6 @@ class ApplicationForm < ApplicationRecord
     application_choices.decision_pending.any?
   end
 
-  def first_not_declined_application_choice
-    application_choices
-      .where.not(decline_by_default_at: nil)
-      .first
-  end
-
   def qualification_in_subject(level, subject)
     if subject.to_s == ApplicationQualification::SCIENCE
       # A Science GCSE may have any one of the following subject variants

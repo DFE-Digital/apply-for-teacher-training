@@ -297,7 +297,6 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
         :with_completed_application_form,
         :offered,
         offered_at: Time.zone.local(2020, 1, 1, 10),
-        decline_by_default_at: nil,
       )
 
       render_inline(described_class.new(application_choice))
@@ -358,22 +357,18 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     expect(result.text).to include(application_choice.rejection_reason)
   end
 
-  it 'displays offer date and DBD date for offered applications' do
+  it 'displays offer date for offered applications' do
     application_choice = create(
       :application_choice,
       :with_completed_application_form,
       :offered,
       offered_at: Time.zone.local(2020, 1, 1, 10),
-      decline_by_default_at: Time.zone.local(2020, 1, 10, 10),
     )
 
     result = render_inline(described_class.new(application_choice))
 
     expect(result.text).to include('Offer made at')
     expect(result.text).to include('1 January 2020 at 10am')
-
-    expect(result.text).to include('Decline by default at')
-    expect(result.text).to include('10 January 2020 at 10am')
   end
 
   it 'does not display DBD date for offered applications when it has not yet been set' do
@@ -382,7 +377,6 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       :with_completed_application_form,
       :offered,
       offered_at: Time.zone.local(2020, 1, 1, 10),
-      decline_by_default_at: nil,
     )
 
     result = render_inline(described_class.new(application_choice))
@@ -397,7 +391,6 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       :offered,
       current_course_option: create(:course_option),
       offered_at: Time.zone.local(2020, 1, 1, 10),
-      decline_by_default_at: nil,
     )
 
     result = render_inline(described_class.new(application_choice))

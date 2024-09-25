@@ -222,7 +222,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     it 'renders component with the respond to offer link and deadline message', time: 3.months.ago do
       application_form = Satisfactory.root
         .add(:application_form)
-        .with(:application_choice, decline_by_default_at: 5.days.from_now).which_is(:offered)
+        .with(:application_choice).which_is(:offered)
         .and(:application_choice).which_is(:rejected)
         .create[:application_form].first
 
@@ -380,7 +380,6 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
         :application_choice,
         application_form:,
         status:,
-        decline_by_default_at: status.to_sym == :offer ? 5.days.from_now : nil,
       )
     end
 

@@ -59,12 +59,8 @@ RSpec.describe MakeOffer do
 
     describe 'if the provided details are correct' do
       it 'then calls various services' do
-        set_declined_by_default_to_end_of_cycle = instance_double(SetDeclineByDefaultToEndOfCycle, call: true)
         send_new_offer_email_to_candidate = instance_double(SendNewOfferEmailToCandidate, call: true)
 
-        allow(SetDeclineByDefaultToEndOfCycle)
-            .to receive(:new).with(application_choice: application_choice)
-                    .and_return(set_declined_by_default_to_end_of_cycle)
         allow(SendNewOfferEmailToCandidate)
             .to receive(:new).with(application_choice:)
                     .and_return(send_new_offer_email_to_candidate)
@@ -72,8 +68,6 @@ RSpec.describe MakeOffer do
 
         make_offer.save!
 
-        expect(SetDeclineByDefaultToEndOfCycle).to have_received(:new)
-        expect(set_declined_by_default_to_end_of_cycle).to have_received(:call)
         expect(send_new_offer_email_to_candidate).to have_received(:call)
         expect(update_conditions_service).to have_received(:save)
         expect(application_choice).to have_received(:update_course_option_and_associated_fields!)

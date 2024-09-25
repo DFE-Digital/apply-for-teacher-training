@@ -86,18 +86,6 @@ custom_columns:
     description: Date the provider gave an offer
     example: 2020-11-01T00:00:00+00:00
 
-  dbd_date:
-    type: string
-    format: date-time
-    description: Date the application choice will be declined by default
-    example: 2020-11-01T00:00:00+00:00
-
-  dbd_reminder_sent:
-    type: string
-    format: date-time
-    description: Date the earliest DBD reminder email was sent
-    example: 2020-11-01T00:00:00+00:00
-
   candidate_decision:
     type: string
     format: date-time

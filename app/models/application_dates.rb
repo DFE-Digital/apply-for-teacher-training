@@ -12,8 +12,4 @@ class ApplicationDates
   def reject_by_default_at
     @application_form.application_choices.first&.reject_by_default_at
   end
-
-  def decline_by_default_at
-    @application_form.first_not_declined_application_choice.decline_by_default_at
-  end
 end
