@@ -1,7 +1,7 @@
 module DataMigrations
   class SetDeclineByDefaultAtAndDeclineByDefaultDaysToNil
     TIMESTAMP = 20240925092609
-    MANUAL_RUN = false
+    MANUAL_RUN = true
 
     def change
       application_choices.in_batches(of: 4000) do |batch|
