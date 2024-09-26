@@ -20,8 +20,6 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::RemoveFeedbackHelpfulFeatureFlag',
   'DataMigrations::RemoveOnePersonalStatementFeatureFlag',
   'DataMigrations::SetMissingWorkHistoryStatusValues',
-  'DataMigrations::UpdateDeclineByDefaultAtFromCurrentCycle',
-  'DataMigrations::RemoveDbdFromCurrentCycle',
   'DataMigrations::RemoveRecruitWithPendingConditionsFeatureFlag',
   'DataMigrations::BackfillFeedbackFormComplete',
   'DataMigrations::RemoveMidCycleReportFeatureFlag',
