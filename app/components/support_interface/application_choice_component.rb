@@ -212,7 +212,7 @@ module SupportInterface
             text: 'Revert withdrawal',
           },
         }
-      elsif application_choice.rejected? && !application_choice.rejected_by_default?
+      elsif application_choice.rejected?
         {
           action: {
             href: support_interface_application_form_revert_rejection_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
