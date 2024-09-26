@@ -48,6 +48,22 @@ RSpec.describe MigrateApplicationChoicesWorker do
         .and not_change(choice.reload, :updated_at)
         .and not_change(application_form.reload, :updated_at)
         .and not_change(application_form.candidate, :updated_at)
+
+      # We need to check the values in DB not the Active Record casted enum values.
+      # Active record returns work_experience.commitment => 'part_time'
+      # but in DB we save Part time
+      sql = <<-SQL
+        SELECT commitment FROM application_experiences
+        WHERE experienceable_type = 'ApplicationChoice' AND
+          experienceable_id = '#{choice.id}' AND
+          type = 'ApplicationWorkExperience'
+      SQL
+      created_work_experiences_commitments = ActiveRecord::Base.connection.execute(sql)
+
+      expect(created_work_experiences_commitments.pluck('commitment')).to eq(
+        # Part time, Full Time
+        application_form.application_work_experiences.pluck(:commitment).map(&:humanize),
+      )
     end
 
     context 'when env is production' do

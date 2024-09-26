@@ -50,6 +50,10 @@ private
       attributes["#{polymorphic_column}_id"] = choice.id
       attributes['created_at'] = Time.zone.now
       attributes['updated_at'] = Time.zone.now
+      if record.is_a?(ApplicationWorkExperience)
+        # We need to get the DB value 'Full time' not the casted value full_time
+        attributes['commitment'] = ApplicationWorkExperience.commitments[record.commitment]
+      end
       attributes.delete('id')
 
       attributes
