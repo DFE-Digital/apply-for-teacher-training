@@ -45,7 +45,6 @@ RSpec.describe CandidateInterface::OffersCallToActionComponent do
         :application_choice,
         application_form:,
         status:,
-        decline_by_default_at: status == 'offer' ? 10.days.from_now : nil,
       )
     end
 

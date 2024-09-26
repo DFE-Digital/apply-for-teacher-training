@@ -20,7 +20,7 @@ RSpec.describe ReinstateDeclinedOffer, :with_audited do
       application_form = create(:completed_application_form)
 
       declined_course_choice = create(:application_choice, :declined, application_form:)
-      offered_course_choice = create(:application_choice, :offered, application_form:)
+      create(:application_choice, :offered, application_form:)
       course_choice_awaiting_decision = create(:application_choice, status: :awaiting_provider_decision, application_form:)
 
       described_class.new(course_choice: declined_course_choice, zendesk_ticket:).save!
@@ -28,12 +28,9 @@ RSpec.describe ReinstateDeclinedOffer, :with_audited do
       expect(declined_course_choice).to have_attributes({
         status: 'offer',
         declined_at: nil,
-        decline_by_default_at: nil,
       })
 
       expect(declined_course_choice.audits.last.comment).to eq "Reinstate offer Zendesk request: #{zendesk_ticket}"
-
-      expect(offered_course_choice.reload.decline_by_default_at).to be_nil
 
       expect(course_choice_awaiting_decision.reload).to eq course_choice_awaiting_decision
     end

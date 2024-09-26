@@ -26,10 +26,6 @@ module CandidateInterface
       @application_form.application_choices.offer.count
     end
 
-    def decline_by_default_at
-      @application_form.application_choices.offer.map(&:decline_by_default_at).min || Time.zone.now
-    end
-
     def days_left_to_respond
       duration_in_days = (decline_by_default_date.to_date - Date.current).to_i
       [0, duration_in_days].max
