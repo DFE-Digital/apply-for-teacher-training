@@ -4,36 +4,55 @@ class MigrateApplicationChoicesWorker
   sidekiq_options queue: :low_priority
 
   def perform(choice_ids)
-    errors = []
+    return if HostingEnvironment.production?
+
+    application_experiences = []
+    work_history_breaks = []
 
     ApplicationChoice.where(id: choice_ids).find_each(batch_size: 100) do |choice|
-      ActiveRecord::Base.transaction do
-        application_form = choice.application_form
+      application_form = choice.application_form
 
-        if choice.work_experiences.blank? && application_form.application_work_experiences.any?
-          choice.work_experiences = application_form.application_work_experiences.map(&:dup)
-        end
-
-        if choice.volunteering_experiences.blank? && application_form.application_volunteering_experiences.any?
-          choice.volunteering_experiences = application_form.application_volunteering_experiences.map(&:dup)
-        end
-
-        if choice.work_history_breaks.blank? && application_form.application_work_history_breaks.any?
-          choice.work_history_breaks = application_form.application_work_history_breaks.map(&:dup)
-        end
-      end
-    rescue ActiveRecord::RecordInvalid => e
-      errors << "Error choice id #{choice.id}: #{e.message}"
-    end
-
-    if errors
-      errors.each do |error|
-        Rails.logger.info error
+      if choice.work_experiences.blank? && application_form.application_work_experiences.any?
+        application_experiences += valid_attributes(
+          application_form.application_work_experiences.map(&:dup),
+          choice,
+          'experienceable',
+        )
       end
 
-      Rails.logger.info "#{errors.count} errors"
+      if choice.volunteering_experiences.blank? && application_form.application_volunteering_experiences.any?
+        application_experiences += valid_attributes(
+          application_form.application_volunteering_experiences.map(&:dup),
+          choice,
+          'experienceable',
+        )
+      end
+
+      if choice.work_history_breaks.blank? && application_form.application_work_history_breaks.any?
+        work_history_breaks += valid_attributes(
+          application_form.application_work_history_breaks.map(&:dup),
+          choice,
+          'breakable',
+        )
+      end
     end
 
-    Rails.logger.info 'No errors' if errors.blank?
+    ApplicationExperience.insert_all(application_experiences) if application_experiences.any?
+    ApplicationWorkHistoryBreak.insert_all(work_history_breaks) if work_history_breaks.any?
+  end
+
+private
+
+  def valid_attributes(records, choice, polymorphic_column)
+    records.map do |record|
+      attributes = record.attributes
+      attributes["#{polymorphic_column}_type"] = 'ApplicationChoice'
+      attributes["#{polymorphic_column}_id"] = choice.id
+      attributes['created_at'] = Time.zone.now
+      attributes['updated_at'] = Time.zone.now
+      attributes.delete('id')
+
+      attributes
+    end
   end
 end
