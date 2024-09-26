@@ -24,6 +24,15 @@ module CandidateInterface
       @controller_path.classify.eql?('CandidateInterface::PersonalStatement')
     end
 
+    def work_history?
+      controllers = [
+        'CandidateInterface::RestructuredWorkHistory::Review',
+        'CandidateInterface::Volunteering::Review',
+      ]
+
+      controllers.include?(@controller_path.classify)
+    end
+
   private
 
     delegate :any_offer_accepted?, to: :current_application

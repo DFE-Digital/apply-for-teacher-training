@@ -1,0 +1,5 @@
+en:
+  editable_section_warning:
+    not_included_in_submitted_personal_statement: Any changes you make to your personal statement will not be included in applications you have already submitted.
+    not_included_in_submitted: Any changes you make will not be included in applications you have already submitted.
+    included_in_submitted: Any changes you make will be included in applications you have already submitted.

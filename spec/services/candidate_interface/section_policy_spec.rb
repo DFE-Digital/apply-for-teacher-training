@@ -49,6 +49,22 @@ RSpec.describe CandidateInterface::SectionPolicy do
           expect(section_policy.can_edit?).to be false
         end
       end
+
+      context 'when accessing work history' do
+        let(:controller_path) { 'candidate_interface/restructured_work_history/review' }
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be true
+        end
+      end
+
+      context 'when accessing volunteering experiences' do
+        let(:controller_path) { 'candidate_interface/volunteering/review' }
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be true
+        end
+      end
     end
 
     context 'when candidates already submitted and adds a primary course choice and visits science GCSE' do
@@ -255,6 +271,32 @@ RSpec.describe CandidateInterface::SectionPolicy do
         it 'returns false' do
           expect(section_policy.can_edit?).to be false
         end
+      end
+    end
+  end
+
+  describe '#work_history?' do
+    context 'with work_history controller' do
+      let(:controller_path) { 'candidate_interface/restructured_work_history/review' }
+
+      it 'returns true' do
+        expect(section_policy.work_history?).to be true
+      end
+    end
+
+    context 'with volinteering experiences controller' do
+      let(:controller_path) { 'candidate_interface/volunteering/review' }
+
+      it 'returns true' do
+        expect(section_policy.work_history?).to be true
+      end
+    end
+
+    context 'without work history controllers' do
+      let(:controller_path) { 'candidate_interface/personal_details/review' }
+
+      it 'returns true' do
+        expect(section_policy.work_history?).to be false
       end
     end
   end

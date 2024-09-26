@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe 'Trying to enter work history' do
   include CandidateHelper
 
-  scenario 'Candidate does not see Add job or Add another job buttons' do
+  scenario 'Candidate does see Add job or Add another job buttons' do
     given_i_am_signed_in
     and_i_have_completed_work_history
     and_i_have_a_submitted_application
     when_i_view_work_history
-    then_i_do_not_see_an_option_to_add_another_job
+    then_i_do_see_an_option_to_add_another_job
   end
 
   def given_i_am_signed_in
@@ -31,9 +31,8 @@ RSpec.describe 'Trying to enter work history' do
     create(:application_choice, :awaiting_provider_decision, application_form: @application_form_can_complete_work_history)
   end
 
-  def then_i_do_not_see_an_option_to_add_another_job
+  def then_i_do_see_an_option_to_add_another_job
     expect(page).to have_content 'Work history'
-    expect(page).to have_no_content 'Add another job'
-    expect(page).to have_no_content 'Add job'
+    expect(page).to have_content 'Add another job'
   end
 end

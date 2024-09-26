@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :application_volunteering_experience do
     role { ['Teacher', 'Teaching Assistant'].sample }
+    currently_working { true }
     organisation { Faker::Educator.secondary_school }
     details { Faker::Lorem.paragraph_by_chars(number: 300) }
     working_with_children { [true, true, true, false].sample }

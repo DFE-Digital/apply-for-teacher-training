@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::EditableSectionWarning do
     let(:current_application) { create(:application_form, :completed, submitted_application_choices_count: 1) }
 
     context 'when candidate can edit the section' do
-      let(:section_policy) { instance_double(CandidateInterface::SectionPolicy, can_edit?: true, personal_statement?: false) }
+      let(:section_policy) { instance_double(CandidateInterface::SectionPolicy, can_edit?: true, personal_statement?: false, work_history?: false) }
 
       it 'renders message' do
         expect(result.text).to include(
@@ -25,6 +25,16 @@ RSpec.describe CandidateInterface::EditableSectionWarning do
         it 'renders message' do
           expect(result.text).to include(
             'Any changes you make to your personal statement will not be included in applications you have already submitted.',
+          )
+        end
+      end
+
+      context 'when the canidate can edit the section and it is the work_history' do
+        let(:section_policy) { instance_double(CandidateInterface::SectionPolicy, can_edit?: true, personal_statement?: false, work_history?: true) }
+
+        it 'renders message' do
+          expect(result.text).to include(
+            'Any changes you make will not be included in applications you have already submitted.',
           )
         end
       end

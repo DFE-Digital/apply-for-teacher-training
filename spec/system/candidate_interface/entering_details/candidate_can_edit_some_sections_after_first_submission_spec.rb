@@ -19,6 +19,8 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
     TestSection.new(:interview_availability, 'Interview availability'),
     TestSection.new(:equality_and_diversity_information, 'Equality and diversity questions'),
     TestSection.new(:personal_statement, 'Your personal statement'),
+    TestSection.new(:work_history, 'Work history'),
+    TestSection.new(:unpaid_experience, 'Unpaid experience'),
   ].each do |section|
     scenario "candidate can edit section '#{section.title}' after submission" do
       @section = section
@@ -35,7 +37,14 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
   end
 
   def given_i_already_have_one_submitted_application
-    application_form = create(:application_form, :completed, candidate: current_candidate)
+    application_form = create(
+      :application_form,
+      :completed,
+      candidate: current_candidate,
+      volunteering_experiences_count: 1,
+      full_work_history: true,
+      work_history_status: :can_complete,
+    )
     create(:application_choice, :awaiting_provider_decision, application_form:)
   end
 
@@ -52,7 +61,18 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
   end
 
   def and_i_can_edit_the_section
-    expect(page).to have_content('Any changes you make will be included in applications you have already submitted.') unless @section.identifier == :personal_statement
+    work_experiences = %i[unpaid_experience work_history]
+
+    expected_content = if @section.identifier == :personal_statement
+                         'Any changes you make to your personal statement will not be included in applications you have already submitted.'
+                       elsif work_experiences.include?(@section.identifier)
+                         'Any changes you make will not be included in applications you have already submitted.'
+                       else
+                         'Any changes you make will be included in applications you have already submitted.'
+                       end
+
+    expect(page).to have_content(expected_content)
+
     method_name = "and_i_can_edit_the_section_#{@section.identifier}"
 
     if respond_to?(method_name)
@@ -130,6 +150,34 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
     click_link_or_button 'Continue'
 
     expect(current_candidate.current_application.reload.becoming_a_teacher).to eq('Repellat qui et')
+  end
+
+  def and_i_can_edit_the_section_work_history
+    work_experience = current_candidate.current_application.application_work_experiences.first
+    work_break = current_candidate.current_application.application_work_history_breaks.first
+    click_link_or_button "Change job #{work_experience.role} for #{work_experience.organisation}"
+    fill_in 'Name of employer', with: 'New employer'
+    when_i_save_and_continue
+
+    click_link_or_button(
+      'Change entry for break between ' \
+      "#{work_break.start_date.to_fs(:short_month_and_year)} and " \
+      "#{work_break.end_date.to_fs(:short_month_and_year)}",
+    )
+    fill_in 'Enter reasons for break in work history', with: 'New reason'
+    when_i_click_continue
+
+    expect(work_experience.reload.organisation).to eq('New employer')
+    expect(work_break.reload.reason).to eq('New reason')
+  end
+
+  def and_i_can_edit_the_section_unpaid_experience
+    volunteering = current_candidate.current_application.application_volunteering_experiences.first
+    click_link_or_button "Change role for #{volunteering.role}, #{volunteering.organisation}"
+    fill_in 'Your role', with: 'New role'
+    when_i_save_and_continue
+
+    expect(volunteering.reload.role).to eq('New role')
   end
 
   def section_status
