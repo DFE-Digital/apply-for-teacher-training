@@ -46,6 +46,34 @@ RSpec.describe GenerateTestApplications do
     expect(ApplicationForm.joins(:application_choices).where('application_choices.status': 'offer', phase: 'apply_1').where.not(previous_application_form_id: nil)).not_to be_empty
   end
 
+  it 'generates undergraduate test applications', :sidekiq, time: mid_cycle do
+    current_cycle = RecruitmentCycle.current_year
+    previous_cycle = RecruitmentCycle.previous_year
+    provider = create(:provider)
+
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: previous_cycle))
+
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: previous_cycle))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: previous_cycle))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: previous_cycle))
+
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
+
+    ClimateControl.modify(STATE_CHANGE_SLACK_URL: 'https://example.com') do
+      described_class.new.perform
+    end
+
+    expect(
+      ApplicationForm
+      .joins(application_choices: { course_option: :course })
+      .where("courses.program_type = 'TDA'"),
+    ).not_to be_empty
+  end
+
   it 'generates test applications for the next cycle', :sidekiq, time: mid_cycle do
     current_cycle = RecruitmentCycle.current_year
     provider = create(:provider)

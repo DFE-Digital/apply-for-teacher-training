@@ -6,6 +6,7 @@ class GenerateTestApplications
 
     current_cycle = RecruitmentCycle.current_year
     current_cycle_courses = courses_from_cycle(current_cycle)
+    current_cycle_undergraduate_courses = undergraduate_courses_from_cycle(current_cycle)
     previous_cycle = RecruitmentCycle.previous_year
     previous_cycle_courses = courses_from_cycle(previous_cycle)
     next_cycle = RecruitmentCycle.next_year
@@ -89,6 +90,12 @@ class GenerateTestApplications
           courses_to_apply_to: current_cycle_courses,
           states:,
         )
+
+        create(
+          recruitment_cycle_year: current_cycle,
+          courses_to_apply_to: current_cycle_undergraduate_courses,
+          states:,
+        )
       end
 
       create(recruitment_cycle_year: current_cycle, states: %i[unsubmitted], course_full: true, courses_to_apply_to: current_cycle_courses)
@@ -147,6 +154,30 @@ private
 
     if dev_support_user
       courses = courses.where(provider: dev_support_user.providers)
+    end
+
+    courses.distinct
+  end
+
+  def undergraduate_courses_from_cycle(year)
+    recruitment_cycle_year = [RecruitmentCycle.current_year, year].min
+    courses = Course
+      .teacher_degree_apprenticeship
+      .with_course_options
+      .in_cycle(recruitment_cycle_year)
+
+    if courses.count.zero?
+      provider = Provider.all.sample(10).sample || FactoryBot.create(:provider)
+
+      FactoryBot.create_list(
+        :course,
+        10,
+        :teacher_degree_apprenticeship,
+        :with_course_options,
+        :open,
+        recruitment_cycle_year:,
+        provider:,
+      )
     end
 
     courses.distinct
