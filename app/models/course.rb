@@ -214,6 +214,10 @@ class Course < ApplicationRecord
     undergraduate? || !degree_grade?
   end
 
+  def deferred_start_date
+    start_date + 1.year
+  end
+
 private
 
   def touch_application_choices_and_forms

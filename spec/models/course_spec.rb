@@ -380,4 +380,12 @@ RSpec.describe Course do
       end
     end
   end
+
+  describe '#deferred_start_date' do
+    it 'returns the deferred start date' do
+      course = build(:course)
+
+      expect(course.deferred_start_date).to eq(course.start_date + 1.year)
+    end
+  end
 end
