@@ -40,7 +40,7 @@
     </p>
   <% elsif  @application_choice.offer_deferred? %>
     <p class="govuk-body govuk-!-margin-top-2">
-      Your training will now start in <%= (@application_choice.current_course_option.course.start_date + 1.year).to_fs(:month_and_year) %>.
+      Your training will now start in <%= @application_choice.current_course.deferred_start_date.to_fs(:month_and_year) %>.
     </p>
   <% elsif @application_choice.pending_conditions? || @application_choice.recruited? || @application_choice.offer? %>
     <%= govuk_details(
