@@ -9,26 +9,25 @@ module ProviderInterface
     end
 
     def self.for_task_view(application_choices)
-      application_choices.from <<~WITH_TASK_VIEW_GROUP.squish
-        (
-          SELECT a.*,
-            CASE
-              WHEN #{inactive} THEN 1
-              WHEN #{awaiting_provider_decision} THEN 2
-              WHEN #{deferred_offers_pending_reconfirmation} THEN 3
-              WHEN #{give_feedback_for_rbd} THEN 4
-              WHEN #{interviewing} THEN 5
-              WHEN #{pending_conditions_previous_cycle} THEN 6
-              WHEN #{waiting_on_candidate} THEN 7
-              WHEN #{pending_conditions_current_cycle} THEN 8
-              WHEN #{successful_candidates} THEN 9
-              WHEN #{deferred_offers_current_cycle} THEN 10
-              ELSE 999
-            END AS task_view_group
+      # Explicitly list the columns so that the 'ignored_columns' on the model are not included in the raw SQL.
+      columns = ApplicationChoice.new.attribute_names.map { |key| "application_choices.#{key}" }.join(', ')
 
-            FROM application_choices a
-        ) AS application_choices
-      WITH_TASK_VIEW_GROUP
+      application_choices.select(
+        "#{columns},
+        CASE
+          WHEN #{inactive} THEN 1
+          WHEN #{awaiting_provider_decision} THEN 2
+          WHEN #{deferred_offers_pending_reconfirmation} THEN 3
+          WHEN #{give_feedback_for_rbd} THEN 4
+          WHEN #{interviewing} THEN 5
+          WHEN #{pending_conditions_previous_cycle} THEN 6
+          WHEN #{waiting_on_candidate} THEN 7
+          WHEN #{pending_conditions_current_cycle} THEN 8
+          WHEN #{successful_candidates} THEN 9
+          WHEN #{deferred_offers_current_cycle} THEN 10
+          ELSE 999
+        END AS task_view_group",
+      )
     end
 
     def self.deferred_offers_pending_reconfirmation

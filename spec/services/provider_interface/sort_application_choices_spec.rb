@@ -103,8 +103,8 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
 
     it 'according to their task_view_group, rbd and updated_at' do
       expected = application_choices.map(&:id)
-      actual = described_class.call(application_choices: ApplicationChoice.all).pluck(:id)
-      expect(actual.to_a).to eq(expected)
+      actual = described_class.call(application_choices: ApplicationChoice.all).map(&:id)
+      expect(actual).to eq(expected)
     end
   end
 end
