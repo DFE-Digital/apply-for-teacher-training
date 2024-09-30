@@ -7,6 +7,7 @@ module CandidateInterface
 
     validates :missing_explanation, word_count: { maximum: 50 }
     validate :missing_explanation_presence
+    validates :not_completed_explanation, length: { maximum: 256 }
 
     def self.build_from_qualification(qualification)
       new(

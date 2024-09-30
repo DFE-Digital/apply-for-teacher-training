@@ -4,10 +4,20 @@ RSpec.describe CandidateInterface::GcseMissingForm, type: :model do
   describe 'validations' do
     let(:valid_text) { Faker::Lorem.sentence(word_count: 50) }
     let(:long_text) { Faker::Lorem.sentence(word_count: 51) }
+    let(:valid_char_count) { Faker::Lorem.characters(number: 256) }
+    let(:too_long_char_count) { Faker::Lorem.characters(number: 257) }
     let(:form) { described_class.new(missing_explanation: nil, subject: 'english') }
 
     it { is_expected.to allow_value(valid_text).for(:missing_explanation) }
     it { is_expected.not_to allow_value(long_text).for(:missing_explanation) }
+
+    it { is_expected.to allow_value(valid_char_count).for(:not_completed_explanation) }
+
+    it 'validates not_completed_explanation' do
+      form.not_completed_explanation = too_long_char_count
+      form.valid?
+      expect(form.errors[:not_completed_explanation]).to include 'Not completed explanation must be 256 characters or fewer'
+    end
 
     it 'validates presence of missing explanation with the subject in the error message' do
       form.valid?

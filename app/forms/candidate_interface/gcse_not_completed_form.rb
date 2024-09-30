@@ -9,7 +9,7 @@ module CandidateInterface
 
     validates :not_completed_explanation, presence: true, if: -> { currently_completing_qualification }
 
-    validates :not_completed_explanation, word_count: { maximum: 200 }
+    validates :not_completed_explanation, length: { maximum: 256 }
     validate :validates_currently_completing_qualification
 
     def self.build_from_qualification(qualification)
