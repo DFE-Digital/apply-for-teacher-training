@@ -167,7 +167,10 @@ private
       .in_cycle(recruitment_cycle_year)
 
     if courses.count.zero?
-      provider = Provider.all.sample(10).sample || FactoryBot.create(:provider)
+      common_used_provider_code = '1TZ'
+      provider = Provider.find_by(code: common_used_provider_code) ||
+                 Provider.all.sample(10).sample ||
+                 FactoryBot.create(:provider)
 
       FactoryBot.create_list(
         :course,
