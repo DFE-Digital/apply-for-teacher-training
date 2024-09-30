@@ -1,3 +1,5 @@
 shared:
   - candidate_offered_adviser
   - candidate_signed_up_for_adviser
+  - provider_download_application
+  - provider_download_references

@@ -8,6 +8,8 @@ module ProviderInterface
     before_action :set_application_choice, :set_workflow_flags, except: %i[index]
     before_action :redirect_if_application_changed_provider, only: %i[timeline]
 
+    after_action :track_if_pdf_download, only: %i[show]
+
     def index
       @filter = ProviderApplicationsFilter.new(
         params:,

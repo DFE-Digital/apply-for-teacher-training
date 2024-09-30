@@ -52,6 +52,21 @@ module ProviderInterface
       DfESignInUser.load_from_session(session)
     end
 
+    def track_if_pdf_download
+      return unless request.original_url.end_with?('.pdf')
+
+      tracking = ProviderInterface::Tracking.new(current_user, request)
+
+      path_action_map = {
+        provider_interface_application_choice_path(@application_choice) => :provider_download_application,
+        provider_interface_application_choice_references_path(@application_choice) => :provider_download_references,
+      }
+
+      action = path_action_map[request.path]
+
+      tracking.send(action) if action
+    end
+
     def authenticate_provider_user!
       return if current_provider_user
 
