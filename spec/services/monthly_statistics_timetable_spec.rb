@@ -2,37 +2,32 @@ require 'rails_helper'
 
 RSpec.describe MonthlyStatisticsTimetable do
   describe '#generate_monthly_statistics?' do
-    context "when today's date is the third Monday of the month" do
-      it 'returns true' do
-        1.upto(9).each do |month|
-          third_monday_of_the_month = described_class.third_monday_of_the_month(Date.new(RecruitmentCycle.current_year, month, 1))
-          travel_temporarily_to(third_monday_of_the_month) do
-            expect(described_class.generate_monthly_statistics?).to be true
-          end
-        end
+    subject { described_class.generate_monthly_statistics? }
 
-        11.upto(12).each do |month|
-          third_monday_of_the_month = described_class.third_monday_of_the_month(Date.new(RecruitmentCycle.current_year, month, 1))
-          travel_temporarily_to(third_monday_of_the_month) do
-            expect(described_class.generate_monthly_statistics?).to be true
-          end
+    context 'when today is the third Monday of the month' do
+      months_except_october = (1..12).reject { |month| month == 10 }
+
+      months_except_october.each do |month|
+        month_name = Date::MONTHNAMES[month]
+        third_monday_of_the_month = described_class.third_monday_of_the_month(Date.new(RecruitmentCycle.current_year, month, 1))
+
+        context "in #{month_name}", time: third_monday_of_the_month do
+          it { is_expected.to be_truthy }
         end
       end
 
-      it 'returns false when in October' do
-        third_monday_of_the_month = described_class.third_monday_of_the_month(Date.new(RecruitmentCycle.current_year, 10, 1))
-        travel_temporarily_to(third_monday_of_the_month) do
-          expect(described_class.generate_monthly_statistics?).to be false
-        end
+      context 'in October', time: described_class.third_monday_of_the_month(Date.new(RecruitmentCycle.current_year, 10, 1)) do
+        it { is_expected.to be_falsey }
       end
     end
 
     context "when today's date is any other day of the month" do
-      it 'returns false' do
-        1.upto(12).each do |month|
-          travel_temporarily_to(RecruitmentCycle.current_year, month, 1) do
-            expect(described_class.generate_monthly_statistics?).to be false
-          end
+      (1..12).each do |month|
+        month_name = Date::MONTHNAMES[month]
+        date_under_test = Date.new(RecruitmentCycle.current_year, month, 1)
+
+        context "in #{month_name}", time: date_under_test do
+          it { is_expected.to be_falsey }
         end
       end
     end
