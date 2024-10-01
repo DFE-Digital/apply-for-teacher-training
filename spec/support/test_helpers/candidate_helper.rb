@@ -228,6 +228,21 @@ module CandidateHelper
     create(:course_option, site:, course: course4) unless CourseOption.find_by(site:, course: course4, study_mode: :full_time)
   end
 
+  def given_undergraduate_courses_exist
+    @provider = create(:provider, name: 'Gorse SCITT', code: '1N1', provider_type: 'scitt')
+    site = create(:site, name: 'Main site', code: '-', provider: @provider)
+    @course = create(
+      :course,
+      :teacher_degree_apprenticeship,
+      :open,
+      :secondary,
+      name: 'Mathematics',
+      code: 'VTDR',
+      provider: @provider,
+    )
+    create(:course_option, site:, course: @course)
+  end
+
   def candidate_fills_in_apply_again_course_choice
     visit candidate_interface_application_choices_path
     click_link_or_button 'Add application'
@@ -243,6 +258,32 @@ module CandidateHelper
 
     choose t('application_form.completed_radio')
     click_link_or_button t('continue')
+  end
+
+  def candidate_does_not_have_a_degree
+    @application.application_qualifications.degrees.delete_all
+    @application.update!(degrees_completed: false)
+    visit candidate_interface_details_path
+    click_link_or_button 'Degree'
+    choose 'No, I do not have a degree'
+    click_link_or_button 'Continue'
+  end
+
+  def candidate_submits_undergraduate_application
+    visit candidate_interface_application_choices_path
+    click_link_or_button 'Add application'
+    choose 'Yes, I know where I want to apply'
+    click_link_or_button t('continue')
+
+    select 'Gorse SCITT (1N1)'
+    click_link_or_button t('continue')
+
+    choose 'Mathematics (VTDR)'
+    click_link_or_button t('continue')
+
+    click_link_or_button 'Review application'
+    click_link_or_button 'Continue without editing'
+    click_link_or_button 'Confirm and submit application'
   end
 
   def candidate_fills_in_apply_again_with_four_course_choices
