@@ -5,6 +5,12 @@ RSpec.describe CandidateInterface::InactiveDateCalculator do
 
   let(:application_choice) { create(:application_choice, :unsubmitted) }
 
+  before do
+    CycleTimetable.holidays(2024).each_value do |date_range|
+      BusinessTime::Config.holidays += date_range.to_a
+    end
+  end
+
   describe 'inactive calculation' do
     submitted_vs_inactive_dates = [
       ['28 Oct 2023 9:00:00 AM BST', '11 Dec 2023 23:59:59 PM GMT', 'near the BST/GMT boundary'],
