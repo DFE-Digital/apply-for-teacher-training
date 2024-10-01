@@ -58,7 +58,7 @@ RSpec.describe EmailTimetable do
 
     context 'it is after apply reopens' do
       it 'returns true' do
-        travel_temporarily_to(described_class.apply_opens) do
+        travel_temporarily_to(described_class.apply_opens + 2.days) do
           expect(described_class.send_new_cycle_has_started_email?).to be(true)
         end
       end

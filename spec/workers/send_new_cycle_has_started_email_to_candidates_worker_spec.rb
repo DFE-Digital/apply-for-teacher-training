@@ -2,26 +2,45 @@ require 'rails_helper'
 
 RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, :sidekiq do
   def setup_candidates
-    candidate_1 = create(:candidate)
-    candidate_2 = create(:candidate)
-    unsubmitted_application_choice = create(:application_choice, :application_not_sent)
-    rejected_application_choice = create(:application_choice, :rejected)
+    unsubmitted_candidate = create(:candidate)
+    rejected_candidate = create(:candidate)
+    carried_over_candidate = create(:candidate)
+    recruited_candidate = create(:candidate)
 
     create(
       :application_form,
-      candidate: candidate_1,
-      application_choices: [unsubmitted_application_choice],
+      candidate: unsubmitted_candidate,
+      application_choices: [build(:application_choice, :application_not_sent)],
       recruitment_cycle_year: RecruitmentCycle.previous_year,
     )
 
     create(
       :application_form,
-      candidate: candidate_2,
-      application_choices: [rejected_application_choice],
+      candidate: rejected_candidate,
+      application_choices: [build(:application_choice, :rejected)],
       recruitment_cycle_year: RecruitmentCycle.previous_year,
     )
 
-    [candidate_1, candidate_2]
+    create(
+      :application_form,
+      candidate: carried_over_candidate,
+      application_choices: [build(:application_choice, :application_not_sent)],
+      recruitment_cycle_year: RecruitmentCycle.previous_year,
+    )
+    create(
+      :application_form,
+      candidate: carried_over_candidate,
+      recruitment_cycle_year: RecruitmentCycle.current_year,
+    )
+
+    create(
+      :application_form,
+      candidate: recruited_candidate,
+      recruitment_cycle_year: RecruitmentCycle.previous_year,
+      application_choices: [build(:application_choice, :recruited)],
+    )
+
+    [unsubmitted_candidate, rejected_candidate, carried_over_candidate, recruited_candidate]
   end
 
   describe '#perform' do
@@ -29,15 +48,19 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, :sidekiq do
       it 'sends emails to candidates who have unsuccessful or unsubmitted applications from the previous cycle' do
         allow(EmailTimetable).to receive(:send_new_cycle_has_started_email?).and_return(true)
 
-        candidate_1, candidate_2 = setup_candidates
+        unsubmitted_candidate, rejected_candidate, carried_over_candidate, recruited_candidate = setup_candidates
 
         described_class.new.perform
 
-        email_for_candidate_1 = email_for_candidate(candidate_1)
-        email_for_candidate_2 = email_for_candidate(candidate_2)
+        email_for_unsubmitted_candidate = email_for_candidate(unsubmitted_candidate)
+        email_for_rejected_candidate = email_for_candidate(rejected_candidate)
+        email_for_carried_over_candidate = email_for_candidate(carried_over_candidate)
+        email_for_recruited_candidate = email_for_candidate(recruited_candidate)
 
-        expect(email_for_candidate_1).to be_present
-        expect(email_for_candidate_2).to be_present
+        expect(email_for_unsubmitted_candidate).to be_present
+        expect(email_for_rejected_candidate).to be_present
+        expect(email_for_carried_over_candidate).not_to be_present
+        expect(email_for_recruited_candidate).not_to be_present
       end
     end
 
@@ -56,15 +79,17 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, :sidekiq do
       it 'does not send the email' do
         allow(EmailTimetable).to receive(:send_new_cycle_has_started_email?).and_return(true)
         allow(CycleTimetable).to receive(:apply_opens).and_return(1.day.ago)
-        candidate_1, candidate_2 = setup_candidates
-        candidate_1.current_application.chasers_sent.create(
+        unsubmitted_candidate, rejected_candidate, carried_over_candidate, recruited_candidate = setup_candidates
+        unsubmitted_candidate.current_application.chasers_sent.create(
           chaser_type: :new_cycle_has_started,
         )
 
         described_class.new.perform
 
-        expect(email_for_candidate(candidate_1)).not_to be_present
-        expect(email_for_candidate(candidate_2)).to be_present
+        expect(email_for_candidate(unsubmitted_candidate)).not_to be_present
+        expect(email_for_candidate(carried_over_candidate)).not_to be_present
+        expect(email_for_candidate(recruited_candidate)).not_to be_present
+        expect(email_for_candidate(rejected_candidate)).to be_present
       end
     end
   end
