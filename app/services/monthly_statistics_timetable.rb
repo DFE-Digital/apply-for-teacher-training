@@ -1,5 +1,7 @@
 module MonthlyStatisticsTimetable
   def self.generate_monthly_statistics?
+    return false if Time.zone.today.month == 10
+
     Time.zone.today == current_generation_date
   end
 

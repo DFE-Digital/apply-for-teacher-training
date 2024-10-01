@@ -2,18 +2,37 @@ require 'rails_helper'
 
 RSpec.describe MonthlyStatisticsTimetable do
   describe '#generate_monthly_statistics?' do
-    it 'returns true if the monthly report is scheduled to run on the current date' do
-      1.upto(12).each do |month|
-        travel_temporarily_to(described_class.third_monday_of_the_month(Date.new(RecruitmentCycle.current_year, month, 1))) do
-          expect(described_class.generate_monthly_statistics?).to be true
+    context "when today's date is the third Monday of the month" do
+      it 'returns true' do
+        1.upto(9).each do |month|
+          third_monday_of_the_month = described_class.third_monday_of_the_month(Date.new(RecruitmentCycle.current_year, month, 1))
+          travel_temporarily_to(third_monday_of_the_month) do
+            expect(described_class.generate_monthly_statistics?).to be true
+          end
+        end
+
+        11.upto(12).each do |month|
+          third_monday_of_the_month = described_class.third_monday_of_the_month(Date.new(RecruitmentCycle.current_year, month, 1))
+          travel_temporarily_to(third_monday_of_the_month) do
+            expect(described_class.generate_monthly_statistics?).to be true
+          end
+        end
+      end
+
+      it 'returns false when in October' do
+        third_monday_of_the_month = described_class.third_monday_of_the_month(Date.new(RecruitmentCycle.current_year, 10, 1))
+        travel_temporarily_to(third_monday_of_the_month) do
+          expect(described_class.generate_monthly_statistics?).to be false
         end
       end
     end
 
-    it 'returns false if the monthly report is not scheduled to run on the current date' do
-      1.upto(12).each do |month|
-        travel_temporarily_to(RecruitmentCycle.current_year, month, 1) do
-          expect(described_class.generate_monthly_statistics?).to be false
+    context "when today's date is any other day of the month" do
+      it 'returns false' do
+        1.upto(12).each do |month|
+          travel_temporarily_to(RecruitmentCycle.current_year, month, 1) do
+            expect(described_class.generate_monthly_statistics?).to be false
+          end
         end
       end
     end
