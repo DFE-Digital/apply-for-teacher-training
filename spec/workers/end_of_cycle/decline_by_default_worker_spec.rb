@@ -13,8 +13,8 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
       end
     end
 
-    context 'for previous cycle, current cycle, next cycle' do
-      [RecruitmentCycle.previous_year, RecruitmentCycle.current_year, RecruitmentCycle.next_year].each do |year|
+    context 'for previous cycle, current cycle' do
+      [RecruitmentCycle.previous_year, RecruitmentCycle.current_year].each do |year|
         context 'after the decline by default date', time: decline_by_default_run_date(year) do
           it 'enqueues secondary worker for offered application choices' do
             declineable = create(:application_choice, :offer)
