@@ -16,7 +16,7 @@ class EmailTimetable < CycleTimetable
   end
 
   def self.send_new_cycle_has_started_email?
-    current_date.to_date == apply_opens.to_date
+    current_date.to_date == (apply_opens + 2.days).to_date
   end
 
   def self.send_application_deadline_has_passed_email_to_candidates?
