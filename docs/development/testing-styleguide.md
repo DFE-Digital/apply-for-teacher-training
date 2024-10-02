@@ -11,6 +11,15 @@ We use ~~"Futurelearn style" acceptance tests~~ This blog post has been removed 
 3. Define all steps in the file. If you want to share code between scenarios, call helpers that are defined in a module from the step.
 4. The steps should be written in English. Do not use parameters to call the step methods.
 
+## Timetravel
+
+In CI, we run our test suite with offset-dates to ensure tests won't break as we encounter different milestones in the cycle.
+If you are writing a test for something that only works during some points in the cycle, you will need to make that explicit in your test by setting the time in the describe / scenario block. eg `time: mid_cycle`
+To run the tests locally with different offset dates, you can set the TEST_DATE_AND_TIME env var, eg:
+`TEST_DATE_AND_TIME='before_apply_reopens' bundle exec rspec spec/some_spec.rb`
+The options for `TEST_DATE_AND_TIME` are `real_world, after_apply_deadline, before_apply_reopens, after_apply_reopens`
+
+
 ## Examples
 
 A good test looks like this:
@@ -20,7 +29,7 @@ A good test looks like this:
 RSpec.describe 'Do a thing feature' do
   include TestHelpers
 
-  scenario 'User does a thing' do
+  scenario 'User does a thing', time: mid_cycle do
     given_i_am_signed_in
     when_i_press_a_button
     then_something_should_happen
