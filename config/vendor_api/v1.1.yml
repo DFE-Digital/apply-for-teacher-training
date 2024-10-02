@@ -27,6 +27,16 @@ paths:
 
         Use the `since` parameter to limit the number of results. This is intended
         to make it possible to check for new or updated applications regularly.
+
+        Retrieving applications in "pages" allows you to handle large volumes of applications in smaller, manageable batches.
+        Using pagination is strongly recommended to improve the performance and stability of your client.
+
+        Use the `page` parameter to retrieve the indicated page of results. The first call should ask for page 1.
+        Use the links object in the response to navigate subsequent paginated results.
+
+        Use the `per_page` parameter to specify how many applications to return per page. The default and maximum value is 50.
+
+        To utilise pagination both `page` and `per_page` parameters must be specified.
       parameters:
       - name: since
         description: Include only applications changed or created on or since a date
@@ -48,7 +58,7 @@ paths:
         description: Number of records to return per page (e.g. 50)
         in: query
         required: false
-        example: 100
+        example: 50
         schema:
           type: integer
       responses:
