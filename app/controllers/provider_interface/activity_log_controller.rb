@@ -5,11 +5,13 @@ module ProviderInterface
     PAGY_PER_PAGE = 50
 
     def index
-      application_choices = GetApplicationChoicesForProviders.call(
-        providers: current_provider_user.providers,
-      )
-      events = GetActivityLogEvents.call(application_choices:)
-      @pagy, @events = pagy(events, limit: PAGY_PER_PAGE)
+      unless FeatureFlag.active?(:block_provider_activity_log)
+        application_choices = GetApplicationChoicesForProviders.call(
+          providers: current_provider_user.providers,
+        )
+        events = GetActivityLogEvents.call(application_choices:)
+        @pagy, @events = pagy(events, limit: PAGY_PER_PAGE)
+      end
     end
   end
 end
