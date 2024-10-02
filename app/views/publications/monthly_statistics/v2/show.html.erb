@@ -27,7 +27,7 @@
 
         <% if @presenter.current_cycle? %>
           <dt class="gem-c-metadata__term">Next update</dt>
-          <dd class="gem-c-metadata__definition"><%= @presenter.next_publication_date.to_fs(:govuk_date) %></dd>
+          <dd class="gem-c-metadata__definition"><%= @presenter.next_month_publication_date.to_fs(:govuk_date) %></dd>
         <% end %>
       </dl>
     </div>
