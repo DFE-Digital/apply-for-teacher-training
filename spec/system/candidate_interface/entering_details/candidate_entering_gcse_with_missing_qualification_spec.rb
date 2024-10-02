@@ -22,6 +22,11 @@ RSpec.describe 'Candidate entering GCSE details' do
 
     when_i_change_if_i_am_currently_studying
     and_i_select_yes
+
+    when_i_provide_invalid_details
+    and_i_click_save_and_continue
+    then_i_see_the_error_message
+
     and_i_provide_my_details
     and_i_click_save_and_continue
     then_i_see_the_review_page_with_the_updated_details
@@ -61,6 +66,11 @@ RSpec.describe 'Candidate entering GCSE details' do
     expect(page).to have_content 'You need a GCSE in English at grade 4 (C) or above, or equivalent'
   end
 
+  def then_i_see_the_error_message
+    expect(page).to have_content 'There is a problem'
+    expect(page).to have_content('Qualification details must be 256 characters or fewer').twice
+  end
+
   def when_i_enter_the_missing_explanation
     fill_in 'candidate-interface-gcse-missing-form-missing-explanation-field', with: 'I’ve completed a course'
   end
@@ -83,7 +93,12 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def and_i_provide_my_details
-    fill_in 'candidate-interface-gcse-not-completed-form-not-completed-explanation-field', with: 'This is in progress'
+    fill_in 'Details of the qualification you are studying for', with: 'This is in progress'
+  end
+
+  def when_i_provide_invalid_details
+    too_long = 'Not completed ' * 19
+    fill_in 'Details of the qualification you are studying for', with: too_long
   end
 
   def then_i_see_the_review_page_with_the_updated_details

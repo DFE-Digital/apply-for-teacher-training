@@ -154,7 +154,7 @@ en:
               inclusion: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
             not_completed_explanation:
               blank: Enter details of the qualification you are studying for
-              too_many_words: Qualification details must be %{maximum} words or less
+              too_long: Qualification details must be %{count} characters or fewer
         candidate_interface/gcse_grade_explanation_form:
           attributes:
             currently_completing_qualification:

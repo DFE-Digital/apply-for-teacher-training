@@ -63,7 +63,7 @@ module SupportInterface
     validates :institution_country, presence: true, inclusion: { in: COUNTRIES_AND_TERRITORIES }, if: :non_uk_qualification?
 
     validates :not_completed_explanation, presence: true, if: ->(record) { record.missing_qualification? && record.currently_completing_qualification? }
-    validates :not_completed_explanation, word_count: { maximum: 200 }
+    validates :not_completed_explanation, length: { maximum: 256 }
     validate :validates_currently_completing_qualification, if: :missing_qualification?
 
     def self.build_from_qualification(qualification)

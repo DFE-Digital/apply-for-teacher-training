@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::GcseNotCompletedForm, type: :model do
   describe 'validations' do
-    valid_text = Faker::Lorem.sentence(word_count: 200)
-    long_text = Faker::Lorem.sentence(word_count: 201)
+    valid_text = Faker::Lorem.characters(number: 256)
+    long_text = Faker::Lorem.characters(number: 257)
 
     it { is_expected.to allow_value(valid_text).for(:not_completed_explanation) }
     it { is_expected.not_to allow_value(long_text).for(:not_completed_explanation) }
