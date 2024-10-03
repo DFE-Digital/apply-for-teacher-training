@@ -15,7 +15,7 @@ RSpec.describe 'Register receives an application data', time: CycleTimetableHelp
     given_teacher_degree_apprenticeship_feature_flag_is_on
     and_a_provider_recruited_a_candidate_that_applied_to_an_undergraduate_course
     when_i_retrieve_the_application_over_the_api
-    then_it_includes_the_empty_degrees_data_from_application
+    then_it_includes_the_empty_degrees_data_from_the_application
   end
 
   def given_a_provider_recruited_a_candidate_that_applied_to_a_postgraduate_course
@@ -222,7 +222,7 @@ RSpec.describe 'Register receives an application data', time: CycleTimetableHelp
     expect(api_received_data.deep_sort).to eq expected_attributes.deep_sort
   end
 
-  def then_it_includes_the_empty_degrees_data_from_application
+  def then_it_includes_the_empty_degrees_data_from_the_application
     expect(api_received_data[:attributes][:qualifications][:degrees]).to eq([])
   end
 

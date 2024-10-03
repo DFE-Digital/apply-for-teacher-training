@@ -19,7 +19,7 @@ RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid
     and_candidate_sign_in
     and_a_candidate_has_submitted_an_undergraduate_application
     when_i_retrieve_the_application_over_the_api
-    then_it_includes_the_empty_degrees_data_from_application
+    then_it_includes_the_empty_degrees_data_from_the_application
   end
 
   def given_teacher_degree_apprenticeship_feature_flag_is_on
@@ -336,7 +336,7 @@ RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid
     @api_response['data'].first.deep_symbolize_keys
   end
 
-  def then_it_includes_the_empty_degrees_data_from_application
+  def then_it_includes_the_empty_degrees_data_from_the_application
     expect(api_received_data[:attributes][:qualifications][:degrees]).to eq([])
   end
 end
