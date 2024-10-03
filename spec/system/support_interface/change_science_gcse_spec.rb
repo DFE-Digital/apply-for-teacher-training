@@ -60,6 +60,11 @@ RSpec.describe 'Change science GCSE' do
     and_i_click_update
     then_it_has_saved_non_uk_gcse_into_the_application_form
 
+    when_i_click_to_change_my_science_gcse
+    and_i_change_the_grade
+    and_i_click_update
+    then_it_has_saved_the_new_grade
+
     and_i_click_to_change_my_science_gcse
     and_i_choose_another_uk_qualification
     and_i_click_update
@@ -104,6 +109,8 @@ RSpec.describe 'Change science GCSE' do
     then_it_has_saved_the_triple_award_gcses_into_the_application_form
   end
 
+  private
+
   def given_i_am_a_support_user
     sign_in_as_support_user
   end
@@ -135,6 +142,7 @@ RSpec.describe 'Change science GCSE' do
       click_link_or_button 'Change'
     end
   end
+  alias_method :when_i_click_to_change_my_science_gcse, :and_i_click_to_change_my_science_gcse
 
   def and_i_click_update
     click_link_or_button 'Update details'
@@ -259,6 +267,12 @@ RSpec.describe 'Change science GCSE' do
     select 'Brazil', from: 'support_interface_gcse_form[institution_country]'
     fill_in 'UK ENIC reference number', with: '4000228363'
     choose 'GCE Advanced (A) level'
+    fill_in 'support_interface_gcse_form[grade]', with: '67%'
+    and_i_add_the_zendesk_ticket_url
+  end
+
+  def and_i_change_the_grade
+    fill_in 'support_interface_gcse_form[grade]', with: 'High pass'
     and_i_add_the_zendesk_ticket_url
   end
 
@@ -334,8 +348,22 @@ RSpec.describe 'Change science GCSE' do
       comparable_uk_qualification: 'GCE Advanced (A) level',
       enic_reference: '4000228363',
       institution_country: 'BR',
+      grade: '67%',
     )
   end
+
+  def then_it_has_saved_the_new_grade
+    and_it_should_update_the_attributes(
+      qualification_type: 'non_uk',
+      non_uk_qualification_type: 'Higher Secondary School Certificate',
+      comparable_uk_qualification: 'GCE Advanced (A) level',
+      enic_reference: '4000228363',
+      institution_country: 'BR',
+      grade: 'High pass',
+      )
+  end
+
+
 
   def then_it_has_saved_another_uk_qualification_into_the_application_form
     and_it_should_update_the_attributes(
