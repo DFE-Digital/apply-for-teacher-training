@@ -41,7 +41,7 @@ class CreatePersonaUsers
   end
 
   def self.create_personas_with_multiple_providers
-    providers = Provider.where(code: %w[1JA 24J]).all
+    providers = Provider.where(code: %w[U80 24J]).all
 
     create_provider_user(
       providers,

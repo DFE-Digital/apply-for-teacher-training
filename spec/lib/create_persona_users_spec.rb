@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CreatePersonaUsers do
   before do
-    %w[1JA 1JB 24J 1N1 W53].each do |code|
+    %w[U80 1JB 24J 1N1 W53].each do |code|
       create(:provider, code:)
     end
   end
