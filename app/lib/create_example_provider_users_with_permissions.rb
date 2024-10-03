@@ -5,14 +5,14 @@ class CreateExampleProviderUsersWithPermissions
       email_address: 'provider@example.com',
       first_name: 'Peter',
       last_name: 'Rovider',
-    }, %w[1JA 1N1])
+    }, %w[U80 1N1])
 
     create_provider_user({
       dfe_sign_in_uid: 'dev-support',
       email_address: 'support@example.com',
       first_name: 'Susan',
       last_name: 'Upport',
-    }, %w[1JA 24J 1TZ], {
+    }, %w[U80 24J 1TZ], {
       manage_users: true,
       manage_organisations: true,
       set_up_interviews: true,
@@ -42,7 +42,7 @@ class CreateExampleProviderUsersWithPermissions
     })
 
     ProviderRelationshipPermissions.find_or_create_by(
-      training_provider: Provider.find_by(code: '1JA'),
+      training_provider: Provider.find_by(code: 'U80'),
       ratifying_provider: Provider.find_by(code: '24P'),
     ).update(
       training_provider_can_make_decisions: true,
@@ -52,11 +52,11 @@ class CreateExampleProviderUsersWithPermissions
     )
 
     create_provider_user({
-      dfe_sign_in_uid: 'dev-1JA-admin',
-      email_address: '1JA-admin@example.com',
-      first_name: '1JA',
+      dfe_sign_in_uid: 'dev-U80-admin',
+      email_address: 'U80-admin@example.com',
+      first_name: 'U80',
       last_name: 'Admin',
-    }, %w[1JA], {
+    }, %w[U80], {
       manage_organisations: true,
       view_safeguarding_information: false,
     })
@@ -72,7 +72,7 @@ class CreateExampleProviderUsersWithPermissions
     })
 
     ProviderRelationshipPermissions.find_or_create_by(
-      training_provider: Provider.find_by(code: '1JA'),
+      training_provider: Provider.find_by(code: 'U80'),
       ratifying_provider: Provider.find_by(code: 'D39'),
     ).update(
       training_provider_can_make_decisions: true,
@@ -99,7 +99,7 @@ class CreateExampleProviderUsersWithPermissions
     })
 
     ProviderRelationshipPermissions.find_or_create_by(
-      training_provider: Provider.find_by(code: '1JA'),
+      training_provider: Provider.find_by(code: 'U80'),
       ratifying_provider: Provider.find_by(code: 'S72'),
     ).update(
       ratifying_provider_can_make_decisions: true,
@@ -117,16 +117,16 @@ class CreateExampleProviderUsersWithPermissions
 
     # cannot_view__no_org_level_perm__without_manage_orgs__with_setup__training_provider
     create_provider_user({
-      dfe_sign_in_uid: 'dev-4T7',
-      email_address: '4T7@example.com',
-      first_name: '4T7',
+      dfe_sign_in_uid: 'dev-1ZW',
+      email_address: '1ZW@example.com',
+      first_name: '1ZW',
       last_name: 'User',
-    }, %w[4T7], {
+    }, %w[1ZW], {
       view_safeguarding_information: true,
     })
 
     ProviderRelationshipPermissions.find_or_create_by(
-      training_provider: Provider.find_by(code: '4T7'),
+      training_provider: Provider.find_by(code: '1ZW'),
       ratifying_provider: Provider.find_by(code: '24P'),
     ).update(
       ratifying_provider_can_make_decisions: true,
