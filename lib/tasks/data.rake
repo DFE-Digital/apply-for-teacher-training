@@ -1,6 +1,5 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
-  'DataMigrations::SetDeclineByDefaultAtAndDeclineByDefaultDaysToNil',
   'DataMigrations::BackfillApplicationChoicesWithWorkExperiences',
   'DataMigrations::MarkUnsubmittedApplicationsWithoutEnglishProficiencyAsElfIncomplete',
   'DataMigrations::BackfillEnglishProficiencyRecordsForCarriedOverApplications',

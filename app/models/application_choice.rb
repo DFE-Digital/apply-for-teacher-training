@@ -2,6 +2,8 @@ class ApplicationChoice < ApplicationRecord
   include Chased
   include TouchApplicationFormState
 
+  self.ignored_columns += %w[decline_by_default_at decline_by_default_days]
+
   before_create :set_initial_status
 
   belongs_to :application_form, touch: true
