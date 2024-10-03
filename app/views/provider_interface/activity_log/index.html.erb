@@ -2,29 +2,37 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <% if FeatureFlag.active?(:block_provider_activity_log) %>
+    <%= govuk_notification_banner(
+          title_text: 'Temporarily unavailable',
+          text: 'The activity log is currently unavailable. We estimate it will be available by 10 October 2024.',
+        ) %>
+    <% else %>
     <h1 class="govuk-heading-l">Activity log</h1>
+      <div class="govuk-!-margin-top-0">
+        <% previous_date = '' %>
+        <% @events.each do |event| %>
+          <% current_date = event.created_at.to_fs(:govuk_date) %>
+          <% if current_date != previous_date %>
+            </div>
 
-    <div class="govuk-!-margin-top-0">
-      <% previous_date = '' %>
-      <% @events.each do |event| %>
-        <% current_date = event.created_at.to_fs(:govuk_date) %>
-        <% if current_date != previous_date %>
-          </div>
+            <h2 class="govuk-heading-m govuk-!-margin-top-9">
+              <%= current_date %>
+            </h2>
+            <% previous_date = current_date %>
 
-          <h2 class="govuk-heading-m govuk-!-margin-top-9">
-            <%= current_date %>
-          </h2>
-          <% previous_date = current_date %>
+            <div class="app-timeline">
+          <% end %>
 
-          <div class="app-timeline">
+          <%= render ProviderInterface::ActivityLogEventComponent.new(activity_log_event: ActivityLogEvent.new(audit: event)) %>
         <% end %>
-
-        <%= render ProviderInterface::ActivityLogEventComponent.new(activity_log_event: ActivityLogEvent.new(audit: event)) %>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   </div>
 </div>
 
-<div class="govuk-grid-row govuk-!-margin-top-4">
-  <%= govuk_pagination(pagy: @pagy) %>
-</div>
+<% unless FeatureFlag.active?(:block_provider_activity_log) %>
+  <div class="govuk-grid-row govuk-!-margin-top-4">
+    <%= govuk_pagination(pagy: @pagy) %>
+  </div>
+<% end %>

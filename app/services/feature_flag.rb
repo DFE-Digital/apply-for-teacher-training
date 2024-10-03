@@ -34,6 +34,7 @@ class FeatureFlag
     [:structured_reference_condition, 'Structured reference condition that can be added as a condition to an offer', 'Tomas Destefi'],
     [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
     [:teacher_degree_apprenticeship, 'The degree apprenticeship program', 'Tomas Destefi'],
+    [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

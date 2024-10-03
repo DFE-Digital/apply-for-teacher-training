@@ -4,19 +4,39 @@ RSpec.describe 'See activity log' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  scenario 'Provider visits application page' do
+  scenario 'Provider visits application page, page not blocked' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
     and_i_have_a_manage_account
     and_my_organisation_has_applications
     and_i_sign_in_to_the_provider_interface
+    and_the_activity_log_page_is_not_blocked
 
     when_i_click_on_the_activity_log_tab
     then_i_see_events_for_all_applications_belonging_to_my_providers
   end
 
+  scenario 'Provider visits application page, page is blocked' do
+    given_i_am_a_provider_user_authenticated_with_dfe_sign_in
+    and_i_have_a_manage_account
+    and_my_organisation_has_applications
+    and_i_sign_in_to_the_provider_interface
+    and_the_activity_log_page_is_blocked
+
+    when_i_click_on_the_activity_log_tab
+    then_i_see_the_temporarily_unavailable_notification
+  end
+
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
     provider_signs_in_using_dfe_sign_in
+  end
+
+  def and_the_activity_log_page_is_not_blocked
+    FeatureFlag.deactivate(:block_provider_activity_log)
+  end
+
+  def and_the_activity_log_page_is_blocked
+    FeatureFlag.activate(:block_provider_activity_log)
   end
 
   def and_i_have_a_manage_account
@@ -80,5 +100,11 @@ RSpec.describe 'See activity log' do
     expect(page).to have_content @choice2.current_course.name
     expect(page).to have_content @choice1.current_course.name
     expect(page).to have_no_content @choice4.current_course.name
+  end
+
+  def then_i_see_the_temporarily_unavailable_notification
+    expect(page).to have_content 'Temporarily unavailable'
+    expect(page).to have_content 'The activity log is currently unavailable. We estimate it will be available by 10 October 2024.'
+    expect(page).to have_no_content @choice1.current_course.name
   end
 end
