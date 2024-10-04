@@ -4,6 +4,7 @@ RSpec.describe 'Candidate clicks on an expired magic link' do
   include SignInHelper
 
   scenario 'Candidate clicks on a link with an id and expired token link in an email' do
+    given_sign_in_is_not_blocked
     and_i_am_a_candidate_with_an_application
     and_i_received_the_submitted_application_email
 

@@ -5,6 +5,7 @@ RSpec.describe 'Candidate account' do
   include SignInHelper
 
   scenario 'Candidate tries to sign in with a legacy email link containing a missing token and `u` param' do
+    given_sign_in_is_not_blocked
     and_i_am_an_existing_candidate
 
     when_i_sign_in_and_out

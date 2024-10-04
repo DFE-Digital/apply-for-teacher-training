@@ -35,6 +35,7 @@ class FeatureFlag
     [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
     [:teacher_degree_apprenticeship, 'The degree apprenticeship program', 'Tomas Destefi'],
     [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],
+    [:block_candidate_sign_in, 'Blocking candidate sign in, used if we are reaching rate limits in Notify', 'Lori Bailey'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

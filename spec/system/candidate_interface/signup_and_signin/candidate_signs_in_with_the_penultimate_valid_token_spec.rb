@@ -4,6 +4,7 @@ RSpec.describe 'Candidate tries to sign up using magic link with an invalid toke
   include SignInHelper
 
   scenario 'Candidate signs in and receives an email inviting them to sign up' do
+    given_sign_in_is_not_blocked
     and_i_am_a_candidate_with_an_account
 
     when_i_go_to_sign_in
