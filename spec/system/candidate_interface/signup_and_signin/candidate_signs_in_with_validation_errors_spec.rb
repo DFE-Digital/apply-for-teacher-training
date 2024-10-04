@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Candidate tries to sign up' do
+  include SignInHelper
+
   scenario 'Candidate attempts to sign up without filling in an email address' do
+    given_sign_in_is_not_blocked
     when_i_go_to_sign_up
     and_i_submit_the_form_without_entering_an_email
 
