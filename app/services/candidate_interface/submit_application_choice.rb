@@ -23,13 +23,18 @@ module CandidateInterface
         ApplicationStateChange.new(application_choice).send_to_provider!
 
         SendNewApplicationEmailToProvider.new(application_choice:).call
-        CandidateMailer.application_choice_submitted(application_choice).deliver_later
+        CandidateMailer.application_choice_submitted(application_choice).deliver_later(wait: wait_time)
       end
     end
 
     def current_time
       Time.zone.now
     end
+
+    def wait_time
+      rand(1..15).minutes
+    end
+
     alias effective_date current_time
     alias submitted_at current_time
     alias sent_to_provider_at current_time
