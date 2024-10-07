@@ -2,11 +2,11 @@ require 'rails_helper'
 
 # This is an end-to-end test for the API response. To test complex logic in
 # the presenter, see spec/presenters/vendor_api/single_application_presenter_spec.rb.
-RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid_cycle(2024) do
+RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid_cycle(2025) do
   include CandidateHelper
 
-  scenario 'A completed application is submitted with references' do
-    given_a_candidate_has_submitted_their_application
+  scenario 'A completed postgraduate application is submitted with references' do
+    given_a_candidate_has_submitted_their_postgraduate_application
     when_i_retrieve_the_application_over_the_api
     then_it_includes_the_data_from_the_application_form
     when_an_offer_is_made_and_accepted
@@ -14,10 +14,33 @@ RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid
     then_it_includes_their_references
   end
 
-  def given_a_candidate_has_submitted_their_application
+  scenario 'A completed undergraduate application is submitted' do
+    given_teacher_degree_apprenticeship_feature_flag_is_on
+    and_candidate_sign_in
+    and_a_candidate_has_submitted_an_undergraduate_application
+    when_i_retrieve_the_application_over_the_api
+    then_it_includes_the_empty_degrees_data_from_the_application
+  end
+
+  def given_teacher_degree_apprenticeship_feature_flag_is_on
+    FeatureFlag.activate(:teacher_degree_apprenticeship)
+  end
+
+  def and_candidate_sign_in
+    create_and_sign_in_candidate
+  end
+
+  def given_a_candidate_has_submitted_their_postgraduate_application
     candidate_completes_application_form
     and_the_candidate_add_more_degrees
     candidate_submits_application
+  end
+
+  def and_a_candidate_has_submitted_an_undergraduate_application
+    given_undergraduate_courses_exist
+    candidate_completes_application_form
+    candidate_does_not_have_a_degree
+    candidate_submits_undergraduate_application
   end
 
   def and_the_candidate_add_more_degrees
@@ -286,9 +309,8 @@ RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid
   end
 
   def then_it_includes_their_references
-    received_attributes = @api_response['data'].first.deep_symbolize_keys
-    expect(received_attributes.dig(:attributes, :references)).to be_present
-    expect(received_attributes.dig(:attributes, :references)).to contain_exactly(
+    expect(api_received_data.dig(:attributes, :references)).to be_present
+    expect(api_received_data.dig(:attributes, :references)).to contain_exactly(
       {
         id: @application.application_references.creation_order.first.id,
         name: 'Terri Tudor',
@@ -308,5 +330,13 @@ RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid
         safeguarding_concerns: false,
       },
     )
+  end
+
+  def api_received_data
+    @api_response['data'].first.deep_symbolize_keys
+  end
+
+  def then_it_includes_the_empty_degrees_data_from_the_application
+    expect(api_received_data[:attributes][:qualifications][:degrees]).to eq([])
   end
 end

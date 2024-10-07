@@ -2,16 +2,23 @@ require 'rails_helper'
 
 # This is an end-to-end test for the API response. To test complex logic in
 # the presenter, see spec/presenters/register_api/single_application_presenter_spec.rb.
-RSpec.describe 'Register receives an application data', time: CycleTimetableHelper.mid_cycle(2024) do
+RSpec.describe 'Register receives an application data', time: CycleTimetableHelper.mid_cycle(2025) do
   include CandidateHelper
 
-  it 'A candidate is recruited' do
-    given_a_provider_recruited_a_candidate
+  scenario 'A candidate is recruited in a postgraduate course' do
+    given_a_provider_recruited_a_candidate_that_applied_to_a_postgraduate_course
     when_i_retrieve_the_application_over_the_api
     then_it_includes_the_data_from_the_application_form
   end
 
-  def given_a_provider_recruited_a_candidate
+  scenario 'A candidate is recruited in an undergraduate course' do
+    given_teacher_degree_apprenticeship_feature_flag_is_on
+    and_a_provider_recruited_a_candidate_that_applied_to_an_undergraduate_course
+    when_i_retrieve_the_application_over_the_api
+    then_it_includes_the_empty_degrees_data_from_the_application
+  end
+
+  def given_a_provider_recruited_a_candidate_that_applied_to_a_postgraduate_course
     candidate_completes_application_form
     candidate_submits_application
     equality_and_diversity_data = {
@@ -25,10 +32,27 @@ RSpec.describe 'Register receives an application data', time: CycleTimetableHelp
     }
     @application.update!(equality_and_diversity: equality_and_diversity_data)
     @provider.courses.first.update!(uuid: SecureRandom.uuid)
+
+    and_application_is_recruited
+  end
+
+  def and_application_is_recruited
     @application.application_choices.first.update!(
       status: :recruited,
       recruited_at: Time.zone.now,
     )
+  end
+
+  def and_a_provider_recruited_a_candidate_that_applied_to_an_undergraduate_course
+    given_undergraduate_courses_exist
+    candidate_completes_application_form
+    candidate_does_not_have_a_degree
+    candidate_submits_undergraduate_application
+    and_application_is_recruited
+  end
+
+  def given_teacher_degree_apprenticeship_feature_flag_is_on
+    FeatureFlag.activate(:teacher_degree_apprenticeship)
   end
 
   def when_i_retrieve_the_application_over_the_api
@@ -195,7 +219,14 @@ RSpec.describe 'Register receives an application data', time: CycleTimetableHelp
       },
     }
 
-    received_attributes = @api_response['data'].first.deep_symbolize_keys
-    expect(received_attributes.deep_sort).to eq expected_attributes.deep_sort
+    expect(api_received_data.deep_sort).to eq expected_attributes.deep_sort
+  end
+
+  def then_it_includes_the_empty_degrees_data_from_the_application
+    expect(api_received_data[:attributes][:qualifications][:degrees]).to eq([])
+  end
+
+  def api_received_data
+    @api_response['data'].first.deep_symbolize_keys
   end
 end
