@@ -16,28 +16,6 @@
   - remote_address
   - request_uuid
   - created_at
-  :active_storage_variant_records:
-  - id
-  - blob_id
-  - variation_digest
-  - created_at
-  :active_storage_blobs:
-  - id
-  - key
-  - filename
-  - content_type
-  - metadata
-  - service_name
-  - byte_size
-  - checksum
-  - created_at
-  :active_storage_attachments:
-  - id
-  - name
-  - record_type
-  - record_id
-  - blob_id
-  - created_at
   :blazer_queries:
   - id
   - creator_id
@@ -80,6 +58,28 @@
   - query_id
   - statement
   - data_source
+  - created_at
+  :active_storage_variant_records:
+  - id
+  - blob_id
+  - variation_digest
+  - created_at
+  :active_storage_attachments:
+  - id
+  - name
+  - record_type
+  - record_id
+  - blob_id
+  - created_at
+  :active_storage_blobs:
+  - id
+  - key
+  - filename
+  - content_type
+  - metadata
+  - service_name
+  - byte_size
+  - checksum
   - created_at
   :monthly_statistics_reports:
   - id
@@ -175,7 +175,6 @@
   :data_exports:
   - id
   - name
-  - data
   - completed_at
   - initiator_type
   - initiator_id
@@ -216,8 +215,6 @@
   :application_choices:
   - provider_ids
   - current_recruitment_cycle_year
-  - decline_by_default_at
-  - decline_by_default_days
   :site_settings:
   - id
   - name

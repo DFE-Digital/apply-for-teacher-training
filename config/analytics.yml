@@ -168,7 +168,6 @@ shared:
     - institution_country
     - institution_hesa_code
     - institution_name
-    - international
     - level
     - not_completed_explanation
     - non_uk_qualification_type
