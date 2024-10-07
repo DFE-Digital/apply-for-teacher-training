@@ -1,6 +1,7 @@
 class ApplicationQualification < ApplicationRecord
   include TouchApplicationChoices
   include TouchApplicationFormState
+  self.ignored_columns += [:international]
 
   EXPECTED_DEGREE_DATA = %i[
     qualification_type
