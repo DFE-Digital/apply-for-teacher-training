@@ -113,7 +113,7 @@ module CandidateInterface
       [].tap do |collection|
         collection << { key: 'Provider', value: @application_choice.current_course.provider.name }
         collection << { key: 'Course', value: @application_choice.current_course.name_and_code }
-        if @application_choice.school_placement_auto_selected?
+        if !@application_choice.school_placement_auto_selected?
           collection << { key: 'Location', value: @application_choice.current_course_option.site.name }
         end
       end
