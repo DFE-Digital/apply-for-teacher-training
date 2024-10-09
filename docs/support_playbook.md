@@ -729,6 +729,35 @@ Candidate.transaction do
 end
 ```
 
+## Redact email address
+
+A candidate decides they no longer want to receive communication and does not
+want to use the service anymore.
+
+This service is called to redact their email and add an audit log documenting
+the change. The email address is replaced in the format:
+
+```ruby
+"redacted-email-address-#{candidate.id}@example.com"
+```
+
+The service requires a candidate and an audit_comment:
+
+```ruby
+candidate = Candidate.find(ID_OF_THE_CANDIDATE)
+service = RedactCandidateEmail.new(candidate, audit_comment: "some audit comment")
+service.candidate # to check the candidate
+service.audit_comment # to check the audit message
+service.call
+```
+
+If you want to check the candidate and the audit created above:
+
+```ruby
+  candidate.reload.email_address
+  candidate.reload.audits.last
+```
+
 ## Old recruitment cycles
 
 When an `ApplicationForm` is updated, we ususally want those changes to be available in the API so Providers and Vendors can consume the updates. This is done by `touch`ing the `ApplicationChoice` records. This updates the `updated_at` value on the ApplicationChoice so it is made priority for the providers to consume.
