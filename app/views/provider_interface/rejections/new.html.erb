@@ -17,7 +17,7 @@
       <% end %>
 
       <%= f.govuk_check_boxes_fieldset :selected_reasons, legend: -> { content_for(:fieldset_legend) }, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
-        <% @wizard.class.selectable_reasons.each do |reason| %>
+        <% @wizard.selectable_reasons(@application_choice).each do |reason| %>
           <%= f.govuk_check_box :selected_reasons, reason.id, label: { text: reason.label }, link_errors: true do %>
             <% if reason.details.present? %>
               <%= f.govuk_text_area reason.details.id.to_sym,

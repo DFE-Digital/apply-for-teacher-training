@@ -1,5 +1,7 @@
 en:
   rejection_reasons:
+    label_text:
+      unsuitable_a_levels: A levels do not meet course requirements
     course_full:
       description: The course is full.
   activemodel:
