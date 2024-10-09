@@ -80,7 +80,7 @@ module CandidateAPI
   private
 
     def paginate(scope)
-      pagy, paginated_records = pagy(scope, limit: per_page, page:)
+      pagy, paginated_records = pagy(scope, limit: per_page, page:, overflow: :exception)
       pagy_headers_merge(pagy)
 
       paginated_records

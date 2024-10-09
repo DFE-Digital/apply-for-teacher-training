@@ -38,7 +38,7 @@ module VendorAPI::MultipleApplicationsPresenter::Pagination
   end
 
   def paginate(scope)
-    @pagy, paginated_records = pagy(scope, limit: per_page, page:)
+    @pagy, paginated_records = pagy(scope, limit: per_page, page:, overflow: :exception)
     @pagy_meta = pagy_metadata(@pagy, absolute: true) || {}
 
     paginated_records
