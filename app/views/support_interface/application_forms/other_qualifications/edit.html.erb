@@ -32,7 +32,8 @@
       <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' },
                                           hint: { text: t('application_form.other_qualification.award_year.hint_text') },
                                           inputmode: 'numeric',
-                                          width: 4 %>
+                                          width: 4,
+                                          maxlength: 4 %>
 
   <%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.audit_comment_ticket.label'), size: 'm' }, hint: { text: t('support_interface.audit_comment_ticket.hint') } %>
 
