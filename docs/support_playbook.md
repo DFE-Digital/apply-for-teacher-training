@@ -737,8 +737,8 @@ want to use the service anymore.
 This service is called to redact their email and add an audit log documenting
 the change. The email address is replaced in the format:
 
-```
-redacted.email.address{candidate.id}@example.com
+```ruby
+"redacted-email-address-#{candidate.id}@example.com"
 ```
 
 The service requires a candidate and an audit_comment:

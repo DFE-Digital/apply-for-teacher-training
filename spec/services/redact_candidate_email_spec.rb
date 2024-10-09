@@ -18,7 +18,7 @@ RSpec.describe RedactCandidateEmail, :with_audited do
     it 'updates the email_address to the redacted format' do
       service.call
 
-      expect(candidate.reload.email_address).to eq("redacted.email.address#{candidate.id}@example.com")
+      expect(candidate.reload.email_address).to eq("redacted-email-address-#{candidate.id}@example.com")
     end
 
     it 'adds the correct audit comment' do

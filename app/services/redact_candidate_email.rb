@@ -5,7 +5,7 @@ class RedactCandidateEmail
   end
 
   def call
-    redacted_email = "redacted.email.address#{@candidate.id}@example.com"
+    redacted_email = "redacted-email-address-#{@candidate.id}@example.com"
 
     @candidate.update!(
       email_address: redacted_email,
