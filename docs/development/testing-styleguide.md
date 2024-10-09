@@ -1,8 +1,6 @@
 # Testing styleguide
 
-We use ~~"Futurelearn style" acceptance tests~~ This blog post has been removed from the internet.
-<!-- https://about.futurelearn.com/blog/how-we-write-readable-feature-tests-with-rspec) -->
-
+We ["FutureLearn style" acceptance tests](https://web.archive.org/web/20160801112733/https://about.futurelearn.com/blog/how-we-write-readable-feature-tests-with-rspec/).
 
 ## Rules
 
@@ -18,7 +16,6 @@ If you are writing a test for something that only works during some points in th
 To run the tests locally with different offset dates, you can set the TEST_DATE_AND_TIME env var, eg:
 `TEST_DATE_AND_TIME='before_apply_reopens' bundle exec rspec spec/some_spec.rb`
 The options for `TEST_DATE_AND_TIME` are `real_world, after_apply_deadline, before_apply_reopens, after_apply_reopens`
-
 
 ## Examples
 
