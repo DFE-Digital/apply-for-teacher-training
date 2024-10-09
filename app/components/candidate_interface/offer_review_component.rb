@@ -11,7 +11,7 @@ module CandidateInterface
         course_row,
         (salary_row if @course_choice.current_course.salary_details),
         (fee_row if @course_choice.current_course.fee?),
-        (location_row if @course_choice.school_placement_auto_selected?),
+        (location_row unless @course_choice.school_placement_auto_selected?),
         (ske_conditions_row if @course_choice.offer.ske_conditions.any?),
         (reference_condition_row if @course_choice.offer.reference_condition.present?),
         (conditions_row if @course_choice.offer.conditions.any?),
