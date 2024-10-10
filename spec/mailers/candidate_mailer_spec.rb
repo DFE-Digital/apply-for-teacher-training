@@ -96,6 +96,18 @@ RSpec.describe CandidateMailer do
         'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
       )
     end
+
+    context 'when the candidate that submitted to an undergraduate application is rejected' do
+      let(:application_choice) do
+        build_stubbed(:application_choice, :insufficient_a_levels_rejection_reasons)
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        I18n.t!('candidate_mailer.application_rejected.subject'),
+        'rejection reasons' => "Qualifications\r\n\r\n        ^ A levels do not meet course requirements:\r\n        ^\r\n        ^ No sufficient grade",
+      )
+    end
   end
 
   describe 'Offer X day mailers' do

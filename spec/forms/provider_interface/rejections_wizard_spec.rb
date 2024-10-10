@@ -38,6 +38,41 @@ RSpec.describe ProviderInterface::RejectionsWizard do
     end
   end
 
+  describe '#selectable_reasons' do
+    subject(:selectable_reasons) do
+      instance.selectable_reasons(application_choice)
+    end
+
+    let(:application_choice) { create(:application_choice, course_option: create(:course_option, course:)) }
+    let(:qualification_reasons) do
+      selectable_reasons.find { |reason| reason.id == 'qualifications' }.reasons
+    end
+
+    context 'when undergraduate application' do
+      let(:course) { create(:course, :teacher_degree_apprenticeship) }
+
+      it 'includes the A level rejection reason' do
+        expect(qualification_reasons.map(&:id)).to include('unsuitable_a_levels')
+      end
+
+      it 'includes other qualification-related reasons' do
+        expect(qualification_reasons.map(&:id)).to include('no_maths_gcse', 'no_english_gcse', 'no_science_gcse', 'no_degree')
+      end
+    end
+
+    context 'when postgraduate application' do
+      let(:course) { create(:course, program_type: 'scitt_programme') }
+
+      it 'does not include the A level rejection reason' do
+        expect(qualification_reasons.map(&:id)).not_to include('unsuitable_a_levels')
+      end
+
+      it 'still includes other qualification-related reasons' do
+        expect(qualification_reasons.map(&:id)).to include('no_maths_gcse', 'no_english_gcse', 'no_science_gcse', 'no_degree')
+      end
+    end
+  end
+
   describe 'dynamic attributes' do
     it 'defines accessors for all attributes' do
       described_class.attribute_names.each do |attr_name|

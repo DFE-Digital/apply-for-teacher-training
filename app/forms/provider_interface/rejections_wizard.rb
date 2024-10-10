@@ -26,6 +26,17 @@ module ProviderInterface
       reset_deselected_attrs(attrs)
     end
 
+    def selectable_reasons(application_choice)
+      self.class.selectable_reasons.dup.map do |reason|
+        if reason.id == 'qualifications' && !application_choice.undergraduate?
+          filtered_reasons = reason.reasons.reject { |sub_reason| sub_reason.id == 'unsuitable_a_levels' }
+          reason.dup.tap { |r| r.reasons = filtered_reasons }
+        else
+          reason
+        end
+      end
+    end
+
     def initialize_extra(_attrs)
       @checking_answers = true if current_step == 'check'
     end

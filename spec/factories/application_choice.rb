@@ -313,6 +313,32 @@ FactoryBot.define do
       end
     end
 
+    trait :insufficient_a_levels_rejection_reasons do
+      rejected
+      rejection_reason { nil }
+      rejection_reasons_type { 'rejection_reasons' }
+      structured_rejection_reasons do
+        {
+          selected_reasons: [
+            {
+              id: 'qualifications',
+              label: 'Qualifications',
+              selected_reasons: [
+                {
+                  id: 'unsuitable_a_levels',
+                  label: 'A levels do not meet course requirements (Teacher Degree Apprenticeship courses only)',
+                  details: {
+                    id: 'unsuitable_a_levels_details',
+                    text: 'No sufficient grade',
+                  },
+                },
+              ],
+            },
+          ],
+        }
+      end
+    end
+
     trait :reasons_for_rejection do
       rejected
       rejection_reason { nil }

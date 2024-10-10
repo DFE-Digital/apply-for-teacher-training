@@ -41,13 +41,13 @@
                 <% reason[:selected_reasons].each do |reason| %>
                   <% if reason.details.present? %>
                     <% if reason.details.text.empty? %>
-                      <p class="govuk-body"><%= reason.label %></p>
+                      <p class="govuk-body"><%= reason.label_text %></p>
                     <% else %>
-                      <p class="govuk-body"><%= reason.label %>:</p>
+                      <p class="govuk-body"><%= reason.label_text %>:</p>
                       <p class="govuk-body"><%= reason.details.text %></p>
                     <% end %>
                   <% else %>
-                    <p class="govuk-body"><%= reason.label %></p>
+                    <p class="govuk-body"><%= reason.label_text %></p>
                   <% end %>
                 <% end %>
               <% end %>

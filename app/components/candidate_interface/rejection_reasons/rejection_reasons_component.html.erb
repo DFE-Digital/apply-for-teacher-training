@@ -9,11 +9,11 @@
           <% reason.selected_reasons.each do |nested_reason| %>
             <% if nested_reason.details %>
               <li>
-                <p><%= nested_reason.label %>:</p>
+                <p><%= nested_reason.label_text %>:</p>
                 <%= simple_format(nested_reason.details.text) %>
               </li>
             <% else %>
-              <li><%= nested_reason.label %></li>
+              <li><%= nested_reason.label_text %></li>
             <% end %>
           <% end %>
         </ul>
