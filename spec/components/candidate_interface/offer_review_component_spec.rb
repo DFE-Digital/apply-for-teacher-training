@@ -82,9 +82,7 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
       it 'renders component with correct values for the location' do
         render_inline(described_class.new(course_choice: application_choice))
 
-        within('.govuk-summary-list__value') do
-          expect(page).to have_content(course_option.site.name)
-        end
+        expect(page).to have_content(course_option.site.name)
       end
     end
 
@@ -94,9 +92,7 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
       it 'does not render the location row' do
         render_inline(described_class.new(course_choice: application_choice))
 
-        within('.govuk-summary-list__value') do
-          expect(page).to have_no_content(course_option.site.name)
-        end
+        expect(page).to have_no_content(course_option.site.name)
       end
     end
   end

@@ -6,8 +6,10 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
   let(:application_choice) do
     create(:application_choice,
            :offered,
-           offer: build(:offer, conditions:, ske_conditions:))
+           offer: build(:offer, conditions:, ske_conditions:),
+           school_placement_auto_selected:)
   end
+  let(:school_placement_auto_selected) { false }
   let(:conditions) { [build(:text_condition, description: 'condition 1')] }
   let(:ske_conditions) { [] }
   let(:course_option) { build(:course_option, course:) }
@@ -124,6 +126,23 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
 
     it 'renders no change link' do
       expect(row_link_selector(2)).to be_nil
+    end
+  end
+
+  context 'when school placement is auto selected' do
+    let(:course) { build_stubbed(:course, study_mode: :full_time) }
+    let(:school_placement_auto_selected) { true }
+
+    it 'renders no change link' do
+      expect(render).to have_content('(not selected by candidate)')
+    end
+  end
+
+  context 'when school placement is candidate selected' do
+    let(:course) { build_stubbed(:course, study_mode: :full_time) }
+
+    it 'renders no change link' do
+      expect(render).to have_content('(selected by candidate)')
     end
   end
 

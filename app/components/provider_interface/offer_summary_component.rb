@@ -7,6 +7,7 @@ module ProviderInterface
 
     def initialize(application_choice:, course:, course_option:, conditions:, available_providers: [], available_courses: [], available_course_options: [], border: true, editable: true, show_conditions_link: false, ske_conditions: [], show_recruit_pending_button: false)
       @application_choice = application_choice
+      @school_placement_auto_selected = application_choice.school_placement_auto_selected
       @course_option = course_option
       @conditions = conditions
       @available_providers = available_providers
