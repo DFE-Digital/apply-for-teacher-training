@@ -8,14 +8,11 @@ module SummaryListRowsHelper
                      t('school_placements.selected_by_candidate')
                    end
 
-    summary_list_rows = [
+    [
       { key: 'Full name', value: application_choice.application_form.full_name },
       { key: 'Course', value: application_choice.course.name_and_code },
       { key: 'Starting', value: application_choice.course.recruitment_cycle_year },
+      { key: location_key, value: application_choice.current_course_option.site.name },
     ]
-    if application_choice.different_offer?
-      summary_list_rows << { key: location_key, value: application_choice.site.name }
-    end
-    summary_list_rows
   end
 end
