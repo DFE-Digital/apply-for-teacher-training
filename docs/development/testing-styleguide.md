@@ -1,6 +1,6 @@
 # Testing styleguide
 
-We ["FutureLearn style" acceptance tests](https://web.archive.org/web/20160801112733/https://about.futurelearn.com/blog/how-we-write-readable-feature-tests-with-rspec/).
+We use ["FutureLearn style" acceptance tests](https://web.archive.org/web/20160801112733/https://about.futurelearn.com/blog/how-we-write-readable-feature-tests-with-rspec/).
 
 ## Rules
 
