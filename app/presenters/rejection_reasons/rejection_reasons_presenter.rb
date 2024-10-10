@@ -9,6 +9,7 @@ class RejectionReasons
     CLASS_ROOM_EXPERIENCE_REASON_CODES = %w[teaching_demonstration teaching_knowledge_other teaching_method_knowledge safeguarding_knowledge teaching_role_knowledge].freeze
     COMMUNICATION_OTHER_REASON_CODES = %w[could_not_arrange_interview did_not_reply communication_and_scheduling_other].freeze
     VALID_HIGH_LEVEL_ADVICE_REASON_CODES = %w[qualifications personal_statement teaching_knowledge communication_and_scheduling safeguarding visa_sponsorship course_full other].freeze
+    NO_TAILORED_ADVICE_CODES = %w[unsuitable_a_levels]
 
     def rejection_reasons
       return {} unless structured_rejection_reasons&.any?
@@ -77,6 +78,8 @@ class RejectionReasons
     end
 
     def valid_tailored_advice_reason_id(reason_id)
+      return if reason_id.in? NO_TAILORED_ADVICE_CODES
+
       # We consolidate some nested reasons so we don't repeat the same advice.
       if reason_id.in? NO_GCSE_REJECTION_REASON_CODES
         'no_gcse'
