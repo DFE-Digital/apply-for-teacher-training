@@ -133,4 +133,23 @@ RSpec.describe ProviderInterface::ApplicationCourseSummaryComponent do
     expect(render_text).to include('Funding type')
     expect(render_text).to include('Fee')
   end
+
+  context 'when undergraduate application' do
+    let(:course) do
+      build(
+        :course,
+        :teacher_degree_apprenticeship,
+        name: 'Geograpghy',
+        code: 'H234',
+        provider:,
+      )
+    end
+
+    it 'renders the undergraduate course qualification' do
+      render_text = row_text_selector(:qualification, render)
+
+      expect(render_text).to include('Qualification')
+      expect(render_text).to include('Teacher degree apprenticeship with QTS')
+    end
+  end
 end
