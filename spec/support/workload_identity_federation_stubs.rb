@@ -49,7 +49,6 @@ module WorkloadIdentityFederationStubs
           'Accept' => '*/*',
           'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
           'Content-Type' => 'application/x-www-form-urlencoded',
-          'User-Agent' => 'Faraday v1.10.3',
         },
       )
     .to_return(
@@ -77,7 +76,6 @@ module WorkloadIdentityFederationStubs
           'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
           'Authorization' => 'Bearer fake_az_gcp_exchange_token_response',
           'Content-Type' => 'application/x-www-form-urlencoded',
-          'User-Agent' => 'Faraday v1.10.3',
         },
 
       )
