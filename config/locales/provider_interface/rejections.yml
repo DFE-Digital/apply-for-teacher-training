@@ -59,6 +59,9 @@ en:
             communication_and_scheduling_other_details:
               blank: Enter details about communication, interview attendance and scheduling
               size: Details about communication, interview attendance and scheduling must be 100 words or fewer
+            unsuitable_a_levels_details:
+              blank: Enter details about why their A levels do not meet course requirements
+              size: Details about why their A levels do not meet course requirements must be 100 words or fewer
             references_details:
               blank: Enter details about references
               size: Details about references must be 100 words or fewer
