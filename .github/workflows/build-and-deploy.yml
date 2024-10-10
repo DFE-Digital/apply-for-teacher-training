@@ -197,7 +197,11 @@ jobs:
             integration_candidate,
           ]
         feature-flags: [on, off]
-        offset-date: [real_world, after_apply_deadline, before_apply_reopens, after_apply_reopens]
+        # Use these offsets as the end of cycle approaches
+        # offset-date: [real_world, after_apply_deadline, before_apply_reopens, after_apply_reopens]
+        # Use these offsets through mid-cycle
+        offset-date: [real_world]
+
         include:
           - tests: unit_shared
             include-pattern: spec/.*_spec.rb
