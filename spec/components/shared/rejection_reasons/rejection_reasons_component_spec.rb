@@ -11,6 +11,15 @@ RSpec.describe RejectionReasons::RejectionReasonsComponent do
           { id: 'no_english_gcse', label: 'No English GCSE at minimum grade 4 or C, or equivalent.' },
           { id: 'no_science_gcse', label: 'No science GCSE at minimum grade 4 or C, or equivalent.' },
           {
+            id: 'unsuitable_a_levels',
+            label: 'A levels do not meet course requirements (Teacher Degree Apprenticeship courses only)',
+            details: {
+              id: 'unsuitable_a_levels_details',
+              label: 'Details',
+              text: 'Some description about A level.',
+            },
+          },
+          {
             id: 'unsuitable_degree',
             label: 'Degree does not meet course requirements',
             details: {
@@ -57,9 +66,12 @@ RSpec.describe RejectionReasons::RejectionReasonsComponent do
         'No maths GCSE at minimum grade 4 or C, or equivalent.',
         'No English GCSE at minimum grade 4 or C, or equivalent.',
         'No science GCSE at minimum grade 4 or C, or equivalent.',
+        'A levels do not meet course requirements: Some description about A level.',
         'Degree does not meet course requirements: A degree in falconry is no use.',
       ])
       expect(result.css('.govuk-summary-list__value p').map(&:text).map(&:strip)).to eq([
+        'A levels do not meet course requirements:',
+        'Some description about A level.',
         'Degree does not meet course requirements:',
         'A degree in falconry is no use.',
         'A close family member, suchas your mother, cannot give a reference.',
