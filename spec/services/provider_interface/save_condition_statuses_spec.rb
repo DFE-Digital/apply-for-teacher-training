@@ -50,7 +50,7 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
 
         it 'sends an email to the candidate', :sidekiq do
           service.save!
-          expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('conditions_met')
+          expect(ActionMailer::Base.deliveries.first.rails_mail_template).to eq('conditions_met')
         end
 
         # rubocop:disable RSpec/NestedGroups
@@ -117,7 +117,7 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
 
       it 'sends an email to the candidate', :sidekiq do
         service.save!
-        expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('conditions_not_met')
+        expect(ActionMailer::Base.deliveries.first.rails_mail_template).to eq('conditions_not_met')
       end
 
       context 'when the application is not in the pending_conditions state' do

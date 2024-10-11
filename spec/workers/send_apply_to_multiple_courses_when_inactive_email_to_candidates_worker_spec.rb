@@ -48,6 +48,6 @@ RSpec.describe SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker, :s
 
   def email_template_sent?
     template = 'apply_to_multiple_courses_after_30_working_days'
-    ActionMailer::Base.deliveries.find { |e| e.header['rails_mail_template'].value == template }
+    ActionMailer::Base.deliveries.find { |e| e.rails_mail_template == template }
   end
 end

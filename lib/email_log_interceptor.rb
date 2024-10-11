@@ -13,8 +13,8 @@ class EmailLogInterceptor
       body: mail.body.encoded,
       notify_reference:,
       application_form_id: mail.header['application_form_id']&.value,
-      mailer: mail.header['rails_mailer'].value,
-      mail_template: mail.header['rails_mail_template'].value,
+      mailer: mail.rails_mailer,
+      mail_template: mail.rails_mail_template,
       delivery_status: mail.perform_deliveries ? 'pending' : 'skipped',
     )
 

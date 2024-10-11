@@ -48,7 +48,7 @@ RSpec.describe CancelInterview do
       expect(associated_audit.audited_changes.keys).to eq(%w[cancelled_at cancellation_reason])
       expect(associated_audit.audited_changes['cancellation_reason']).to eq([nil, 'There is a global pandemic going on'])
 
-      expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('interview_cancelled')
+      expect(ActionMailer::Base.deliveries.first.rails_mail_template).to eq('interview_cancelled')
     end
 
     it 'touches the application choice' do
@@ -93,7 +93,7 @@ RSpec.describe CancelInterview do
       expect { described_class.new(**service_params).save! }
         .to raise_error(ValidationException)
 
-      expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_cancelled')
+      expect(ActionMailer::Base.deliveries.map(&:rails_mail_template)).not_to include('interview_cancelled')
     end
   end
 
@@ -112,7 +112,7 @@ RSpec.describe CancelInterview do
       expect { described_class.new(**service_params).save! }
         .to raise_error(InterviewWorkflowConstraints::WorkflowError)
 
-      expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_cancelled')
+      expect(ActionMailer::Base.deliveries.map(&:rails_mail_template)).not_to include('interview_cancelled')
     end
   end
 end
