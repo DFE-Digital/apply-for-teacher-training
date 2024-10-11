@@ -243,6 +243,19 @@ RSpec.describe RejectionReasons::RejectionReasonsPresenter do
         end
       end
 
+      context 'when there is no need of tailored advice' do
+        let(:application_choice) do
+          build_stubbed(
+            :application_choice,
+            :insufficient_a_levels_rejection_reasons,
+          )
+        end
+
+        it 'ignores tailored advice' do
+          expect(rejected_application_choice.tailored_advice_reasons).to eq('qualifications' => [])
+        end
+      end
+
       context 'only safeguarding is a reason' do
         let(:reasons) do
           { selected_reasons: [
