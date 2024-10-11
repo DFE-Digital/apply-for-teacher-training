@@ -6,7 +6,6 @@ RSpec.describe 'Degrees' do
   scenario 'Candidate editing degree' do
     given_i_am_signed_in
     and_i_have_completed_the_degree_section
-    and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
     when_i_view_the_degree_section
     and_i_click_to_change_my_undergraduate_degree_type
     and_i_click_the_back_link
@@ -41,6 +40,8 @@ RSpec.describe 'Degrees' do
     and_i_click_the_back_link
     then_i_am_taken_back_to_the_country_page
     and_i_click_the_back_link
+    then_i_am_taken_back_to_the_university_degree_page
+    and_i_click_the_back_link
     then_i_am_taken_back_to_the_degree_review_page
 
     given_that_i_have_a_completed_international_degree
@@ -63,10 +64,6 @@ RSpec.describe 'Degrees' do
   def given_i_am_signed_in
     @candidate = create(:candidate)
     login_as(@candidate)
-  end
-
-  def and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
-    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def and_i_have_completed_the_degree_section
@@ -197,6 +194,10 @@ RSpec.describe 'Degrees' do
 
   def then_i_am_taken_to_the_degree_complete_page
     expect(page).to have_content 'Have you completed your degree?'
+  end
+
+  def then_i_am_taken_back_to_the_university_degree_page
+    expect(page).to have_current_path(candidate_interface_degree_university_degree_path)
   end
 
   def when_i_visit_the_application_review_page

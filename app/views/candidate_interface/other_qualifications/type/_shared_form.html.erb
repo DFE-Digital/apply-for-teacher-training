@@ -21,7 +21,7 @@
     <%= f.govuk_radio_button :qualification_type,
       'no_other_qualifications',
       label: { text: current_application.international_applicant? ? 'I do not want to add any other qualifications' : 'I do not want to add any A levels and other qualifications' },
-      hint: -> { teacher_degree_apprenticeship_feature_active? ? t('application_form.other_qualification.qualification_type.no_other_qualifications.tda_hint_text') : t('application_form.other_qualification.qualification_type.no_other_qualifications.hint_text') } %>
+      hint: -> { t('application_form.other_qualification.qualification_type.no_other_qualifications.tda_hint_text') } %>
   <% end %>
 <% end %>
 

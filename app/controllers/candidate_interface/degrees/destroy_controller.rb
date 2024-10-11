@@ -16,7 +16,7 @@ module CandidateInterface
           current_application.update!(degrees_completed: nil)
           @wizard.clear_state!
 
-          return redirect_to candidate_interface_details_path if teacher_degree_apprenticeship_feature_active?
+          return redirect_to candidate_interface_details_path
         end
         redirect_to candidate_interface_degree_review_path
       end

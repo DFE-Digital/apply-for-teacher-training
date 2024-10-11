@@ -5,11 +5,9 @@ RSpec.describe 'Entering a Masters degree' do
 
   scenario 'Candidate enters their Masters degree' do
     given_i_am_signed_in
-    and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
     when_i_view_the_degree_section
 
-    # Add degree
-    and_i_click_add_degree
+    and_i_answer_that_i_have_a_university_degree
 
     # Add country
     then_i_can_see_the_country_page
@@ -20,52 +18,10 @@ RSpec.describe 'Entering a Masters degree' do
     then_i_can_see_the_level_page
     when_i_choose_the_masters_level
     and_i_click_on_save_and_continue
-
-    # Add subject
-    then_i_can_see_the_subject_page
-    when_i_fill_in_the_subject
-    and_i_click_on_save_and_continue
-
-    # Add degree type
-    then_i_can_see_the_type_page
-    when_i_choose_the_type_of_degree
-    and_i_click_on_save_and_continue
-
-    # Add university
-    then_i_can_see_the_university_page
-    when_i_fill_in_the_university
-    and_i_click_on_save_and_continue
-
-    # Add completion
-    then_i_can_see_the_completion_page
-    when_i_choose_whether_degree_is_completed
-    and_i_click_on_save_and_continue
-
-    # Add grade
-    then_i_can_see_the_grade_page_with_masters_grade_options
-    when_i_select_the_grade
-    and_i_click_on_save_and_continue
-
-    # Add start year
-    then_i_can_see_the_start_year_page
-    when_i_fill_in_the_start_year
-    and_i_click_on_save_and_continue
-
-    # Add award year
-    then_i_can_see_the_award_year_page
-    when_i_fill_in_the_award_year
-    and_i_click_on_save_and_continue
-
-    # Review
-    then_i_can_check_my_undergraduate_degree
   end
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
-    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def when_i_view_the_degree_section
@@ -75,10 +31,6 @@ RSpec.describe 'Entering a Masters degree' do
 
   def when_i_click_on_degree
     click_link_or_button 'Degree'
-  end
-
-  def and_i_click_add_degree
-    click_link_or_button 'Add a degree'
   end
 
   def then_i_can_see_the_country_page

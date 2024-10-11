@@ -9,7 +9,6 @@ RSpec.describe 'candidate_interface/degrees/review/show' do
     # rubocop:disable RSpec/AnyInstance
     without_partial_double_verification do
       allow_any_instance_of(ActionView::Base).to receive(:current_application).and_return(application_form)
-      allow_any_instance_of(ActionView::Base).to receive(:teacher_degree_apprenticeship_feature_active?).and_return(false)
     end
     # rubocop:enable RSpec/AnyInstance
 

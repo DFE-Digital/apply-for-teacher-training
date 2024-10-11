@@ -5,10 +5,9 @@ RSpec.describe 'Entering an international doctorate degree' do
 
   scenario 'Candidate enters their degree without an enic reason' do
     given_i_am_signed_in
-    and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
     when_i_view_the_degree_section
 
-    and_i_click_add_degree
+    and_i_answer_that_i_have_a_university_degree
     and_i_select_another_country
     and_i_fill_in_the_subject
     and_i_fill_in_the_type_of_degree
@@ -24,10 +23,6 @@ private
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
-    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def when_i_view_the_degree_section

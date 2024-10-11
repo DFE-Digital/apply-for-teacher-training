@@ -5,11 +5,9 @@ RSpec.describe 'Entering an international degree' do
 
   scenario 'Candidate enters their degree' do
     given_i_am_signed_in
-    and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
     when_i_view_the_degree_section
 
-    # Add degree
-    and_i_click_add_degree
+    and_i_answer_that_i_have_a_university_degree
 
     # Add country
     then_i_can_see_the_country_page
@@ -72,10 +70,6 @@ RSpec.describe 'Entering an international degree' do
     then_i_can_check_my_answers
   end
 
-  def and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
-    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
-  end
-
   def given_i_am_signed_in
     create_and_sign_in_candidate
   end
@@ -87,10 +81,6 @@ RSpec.describe 'Entering an international degree' do
 
   def when_i_click_on_degree
     click_link_or_button 'Degree'
-  end
-
-  def and_i_click_add_degree
-    click_link_or_button 'Add a degree'
   end
 
   def then_i_can_see_the_country_page

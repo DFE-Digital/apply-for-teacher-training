@@ -258,36 +258,10 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
         ).text.gsub(/\r?\n/, ' ').squeeze(' ').strip
       end
 
-      context 'when teacher degree apprenticeship feature is on' do
-        before { FeatureFlag.activate(:teacher_degree_apprenticeship) }
-
-        it 'shows postgraduate and undergraduate content' do
-          expect(result).to include(
-            'A levels are required for teacher degree apprenticeships. If you are applying to postgraduate courses, adding A levels and other qualifications will make your application stronger. They demonstrate subject knowledge not covered in your degree or work history.',
-          )
-        end
-      end
-
-      context 'when teacher degree apprenticeship feature is on but is an application prior to 2025' do
-        let(:application_form) { create(:application_form, recruitment_cycle_year: 2024) }
-
-        before { FeatureFlag.activate(:teacher_degree_apprenticeship) }
-
-        it 'shows postgraduate content' do
-          expect(result).to include(
-            'Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience. Training providers usually ask you for them later in the process. Add a qualification',
-          )
-        end
-      end
-
-      context 'when teacher degree apprenticeship feature is off' do
-        before { FeatureFlag.deactivate(:teacher_degree_apprenticeship) }
-
-        it 'shows postgraduate content' do
-          expect(result).to include(
-            'Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience. Training providers usually ask you for them later in the process. Add a qualification',
-          )
-        end
+      it 'shows postgraduate and undergraduate content' do
+        expect(result).to include(
+          'A levels are required for teacher degree apprenticeships. If you are applying to postgraduate courses, adding A levels and other qualifications will make your application stronger. They demonstrate subject knowledge not covered in your degree or work history.',
+        )
       end
     end
   end

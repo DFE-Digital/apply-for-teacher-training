@@ -5,11 +5,9 @@ RSpec.describe 'Entering a PhD' do
 
   scenario 'Candidate enters their PhD' do
     given_i_am_signed_in
-    and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
     when_i_view_the_degree_section
 
-    # Add degree
-    and_i_click_add_degree
+    and_i_answer_that_i_have_a_university_degree
 
     # Add country
     then_i_can_see_the_country_page
@@ -58,10 +56,6 @@ RSpec.describe 'Entering a PhD' do
 
     # Review
     then_i_can_check_my_phd
-  end
-
-  def and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
-    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def given_i_am_signed_in

@@ -517,6 +517,11 @@ module CandidateHelper
     )
   end
 
+  def and_i_answer_that_i_have_a_university_degree
+    choose 'Yes, I have a degree or am studying for one'
+    click_link_or_button 'Continue'
+  end
+
   def and_the_candidate_add_the_degree(degree_level:, degree_type:, degree_subject:, university:, grade:)
     visit candidate_interface_degree_review_path
 

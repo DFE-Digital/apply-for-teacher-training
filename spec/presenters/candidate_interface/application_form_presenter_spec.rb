@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   describe '#degrees_path' do
     let(:presenter) { described_class.new(application_form) }
 
-    context 'when there are no degrees and the degree is not completed, and the teacher degree apprenticeship feature is active' do
+    context 'when there are no degrees and the degree is not completed' do
       let(:application_form) do
         create(
           :application_form,
@@ -37,31 +37,8 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         )
       end
 
-      before do
-        FeatureFlag.activate(:teacher_degree_apprenticeship)
-      end
-
       it 'returns the university degree path' do
         expect(presenter.degrees_path).to eq(Rails.application.routes.url_helpers.candidate_interface_degree_university_degree_path)
-      end
-    end
-
-    context 'when there are no degrees and the degree is not completed, but the teacher degree apprenticeship feature is not active' do
-      let(:application_form) do
-        create(
-          :application_form,
-          application_qualifications: [],
-          degrees_completed: false,
-          recruitment_cycle_year: 2024,
-        )
-      end
-
-      before do
-        FeatureFlag.deactivate(:teacher_degree_apprenticeship)
-      end
-
-      it 'returns the degree review path' do
-        expect(presenter.degrees_path).to eq(Rails.application.routes.url_helpers.candidate_interface_degree_review_path)
       end
     end
 
@@ -72,10 +49,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
           :with_degree,
           recruitment_cycle_year: 2025,
         )
-      end
-
-      before do
-        FeatureFlag.activate(:teacher_degree_apprenticeship)
       end
 
       it 'returns the degree review path' do

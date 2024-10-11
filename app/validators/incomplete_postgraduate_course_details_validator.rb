@@ -4,7 +4,6 @@ class IncompletePostgraduateCourseDetailsValidator < ActiveModel::EachValidator
   include GovukVisuallyHiddenHelper
 
   def validate_each(record, attribute, application_choice)
-    return unless application_choice.application_form.teacher_degree_apprenticeship_feature_active?
     return if application_choice.course.undergraduate?
 
     if application_choice.application_form.no_degree_and_degree_completed?

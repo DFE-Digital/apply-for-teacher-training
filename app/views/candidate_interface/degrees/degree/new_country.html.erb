@@ -2,11 +2,7 @@
   <div class="govuk-grid-column-two-thirds">
   <% content_for :title, title_with_error_prefix(t('page_titles.degree_country'), @wizard.errors.any?) %>
 
-  <% if teacher_degree_apprenticeship_feature_active? %>
-    <% content_for :before_content, govuk_back_link_to(candidate_interface_degree_university_degree_path) %>
-  <% else %>
-    <% content_for :before_content, govuk_back_link_to(candidate_interface_degree_review_path) %>
-  <% end %>
+  <% content_for :before_content, govuk_back_link_to(candidate_interface_degree_university_degree_path) %>
 
   <%= form_with model: @wizard, url: candidate_interface_degree_country_path do |f| %>
     <%= f.govuk_error_summary %>
