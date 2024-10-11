@@ -1,18 +1,13 @@
-<% if @application_form.teacher_degree_apprenticeship_feature_active? %>
-  <h2 class="govuk-heading-s"><%= t('.postgraduate.name') %></h2>
+<h2 class="govuk-heading-s"><%= t('.postgraduate.name') %></h2>
 
-  <p class="govuk-body"><%= t('.postgraduate.bachelor_degree') %></p>
-  <p class="govuk-body"><%= t('.postgraduate.add_bachelor_degree') %></p>
+<p class="govuk-body"><%= t('.postgraduate.bachelor_degree') %></p>
+<p class="govuk-body"><%= t('.postgraduate.add_bachelor_degree') %></p>
 
-  <h2 class="govuk-heading-s"><%= t('.undergraduate.name') %></h2>
+<h2 class="govuk-heading-s"><%= t('.undergraduate.name') %></h2>
 
-  <p class="govuk-body">
-    <%= t('.undergraduate.bachelor_degree_html', link: govuk_link_to(t('.undergraduate.teacher_degree_apprenticeship'), t('get_into_teaching.url_teacher_degree_apprenticeship'))) %>
-  </p>
-<% else %>
-  <p class="govuk-body"><%= t('.postgraduate.bachelor_degree') %></p>
-  <p class="govuk-body"><%= t('.postgraduate.add_bachelor_degree') %></p>
-<% end %>
+<p class="govuk-body">
+  <%= t('.undergraduate.bachelor_degree_html', link: govuk_link_to(t('.undergraduate.teacher_degree_apprenticeship'), t('get_into_teaching.url_teacher_degree_apprenticeship'))) %>
+</p>
 
 <% unless @application_form.no_degree_and_degree_completed? %>
   <%= govuk_button_link_to degrees.empty? ? t('application_form.degree.add.button') : t('application_form.degree.another.button'), candidate_interface_degree_country_path, primary: true %>

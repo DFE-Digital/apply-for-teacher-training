@@ -16,7 +16,6 @@ module CandidateInterface
              :phase,
              :personal_details_completed,
              :no_degree_and_degree_not_completed?,
-             :teacher_degree_apprenticeship_feature_active?,
              :support_reference, to: :application_form
 
     def initialize(application_form)
@@ -199,7 +198,7 @@ module CandidateInterface
     end
 
     def degrees_path
-      if no_degree_and_degree_not_completed? && teacher_degree_apprenticeship_feature_active?
+      if no_degree_and_degree_not_completed?
         Rails.application.routes.url_helpers.candidate_interface_degree_university_degree_path
       else
         Rails.application.routes.url_helpers.candidate_interface_degree_review_path

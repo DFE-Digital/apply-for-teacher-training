@@ -5,7 +5,6 @@ RSpec.describe 'Entering their other qualifications' do
 
   scenario 'Candidate submits their other qualifications after choosing not to provide any' do
     given_i_am_signed_in
-    and_teacher_degree_apprenticeship_feature_flag_is_off
     and_i_visit_the_site
     then_i_see_the_other_qualifications_section_is_incomplete
 
@@ -48,10 +47,6 @@ RSpec.describe 'Entering their other qualifications' do
     create_and_sign_in_candidate
   end
 
-  def and_teacher_degree_apprenticeship_feature_flag_is_off
-    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
-  end
-
   def and_i_visit_the_site
     visit candidate_interface_details_path
   end
@@ -74,7 +69,7 @@ RSpec.describe 'Entering their other qualifications' do
   alias_method :and_i_select_i_do_not_want_to_add_any_a_levels, :when_i_select_i_do_not_want_to_add_any_a_levels
 
   def then_i_see_a_level_advice
-    expect(page).to have_content('Adding A levels and other qualifications makes your application stronger.')
+    expect(page).to have_content('A levels are required for teacher degree apprenticeships. If you are applying to postgraduate courses, adding A levels and other qualifications will make your application stronger. They demonstrate subject knowledge not covered in your degree or work history.')
   end
 
   def and_i_see_my_no_other_qualification_selection

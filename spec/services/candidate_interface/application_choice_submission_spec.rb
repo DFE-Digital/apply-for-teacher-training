@@ -21,10 +21,6 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
         create(:application_choice, :unsubmitted, course_option: create(:course_option, course:), application_form:)
       end
 
-      before do
-        FeatureFlag.activate(:teacher_degree_apprenticeship)
-      end
-
       context 'when all postgraduate course details are complete' do
         let(:application_form) { create(:application_form, :completed, :with_degree) }
 
@@ -48,33 +44,6 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
             application_qualifications: [],
             university_degree: false,
           )
-        end
-
-        before do
-          FeatureFlag.activate(:teacher_degree_apprenticeship)
-        end
-
-        it 'does not add an error to the application choice' do
-          application_choice_submission.valid?
-
-          expect(
-            application_choice_submission.errors.of_kind?(:application_choice, :incomplete_postgraduate_course_details),
-          ).to be false
-        end
-      end
-
-      context 'when teacher degree apprenticeship feature is off' do
-        let(:application_form) do
-          create(
-            :application_form,
-            :completed,
-            application_qualifications: [],
-            university_degree: false,
-          )
-        end
-
-        before do
-          FeatureFlag.deactivate(:teacher_degree_apprenticeship)
         end
 
         it 'does not add an error to the application choice' do

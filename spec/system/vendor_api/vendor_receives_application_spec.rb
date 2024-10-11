@@ -15,18 +15,13 @@ RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid
   end
 
   scenario 'A completed undergraduate application is submitted' do
-    given_teacher_degree_apprenticeship_feature_flag_is_on
-    and_candidate_sign_in
+    given_candidate_sign_in
     and_a_candidate_has_submitted_an_undergraduate_application
     when_i_retrieve_the_application_over_the_api
     then_it_includes_the_empty_degrees_data_from_the_application
   end
 
-  def given_teacher_degree_apprenticeship_feature_flag_is_on
-    FeatureFlag.activate(:teacher_degree_apprenticeship)
-  end
-
-  def and_candidate_sign_in
+  def given_candidate_sign_in
     create_and_sign_in_candidate
   end
 

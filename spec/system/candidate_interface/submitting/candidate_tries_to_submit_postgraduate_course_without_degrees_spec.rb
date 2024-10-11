@@ -5,7 +5,6 @@ RSpec.describe 'Submitting a postgraduate course' do
 
   before do
     given_i_am_on_the_cycle_when_candidates_can_enter_details_for_undergraduate_course
-    and_teacher_degree_apprenticeship_feature_flag_is_on
     given_i_am_signed_in
   end
 
@@ -28,10 +27,6 @@ RSpec.describe 'Submitting a postgraduate course' do
     TestSuiteTimeMachine.travel_permanently_to(
       CycleTimetableHelper.mid_cycle(2025),
     )
-  end
-
-  def and_teacher_degree_apprenticeship_feature_flag_is_on
-    FeatureFlag.activate(:teacher_degree_apprenticeship)
   end
 
   def given_i_am_signed_in

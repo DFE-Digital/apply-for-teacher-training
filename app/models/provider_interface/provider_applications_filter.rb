@@ -105,8 +105,6 @@ module ProviderInterface
     end
 
     def course_type_filter
-      return unless FeatureFlag.active?(:teacher_degree_apprenticeship)
-
       {
         type: :checkboxes,
         heading: I18n.t('provider_interface.filters.course_type.heading'),

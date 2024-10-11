@@ -12,8 +12,7 @@ RSpec.describe 'Register receives an application data', time: CycleTimetableHelp
   end
 
   scenario 'A candidate is recruited in an undergraduate course' do
-    given_teacher_degree_apprenticeship_feature_flag_is_on
-    and_a_provider_recruited_a_candidate_that_applied_to_an_undergraduate_course
+    given_a_provider_recruited_a_candidate_that_applied_to_an_undergraduate_course
     when_i_retrieve_the_application_over_the_api
     then_it_includes_the_empty_degrees_data_from_the_application
   end
@@ -43,16 +42,12 @@ RSpec.describe 'Register receives an application data', time: CycleTimetableHelp
     )
   end
 
-  def and_a_provider_recruited_a_candidate_that_applied_to_an_undergraduate_course
+  def given_a_provider_recruited_a_candidate_that_applied_to_an_undergraduate_course
     given_undergraduate_courses_exist
     candidate_completes_application_form
     candidate_does_not_have_a_degree
     candidate_submits_undergraduate_application
     and_application_is_recruited
-  end
-
-  def given_teacher_degree_apprenticeship_feature_flag_is_on
-    FeatureFlag.activate(:teacher_degree_apprenticeship)
   end
 
   def when_i_retrieve_the_application_over_the_api

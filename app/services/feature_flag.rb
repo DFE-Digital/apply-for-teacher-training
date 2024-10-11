@@ -33,7 +33,6 @@ class FeatureFlag
     [:sample_applications_factory, 'An alternate generator for test/sample applications, uses `SampleApplicationsFactory` in place of `TestApplications.new`', 'Elliot Crosby-McCullough + Tomas Destefi'],
     [:structured_reference_condition, 'Structured reference condition that can be added as a condition to an offer', 'Tomas Destefi'],
     [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
-    [:teacher_degree_apprenticeship, 'The degree apprenticeship program', 'Tomas Destefi'],
     [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],
     [:block_candidate_sign_in, 'Blocking candidate sign in, used if we are reaching rate limits in Notify', 'Lori Bailey'],
   ].freeze

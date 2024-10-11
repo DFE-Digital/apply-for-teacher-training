@@ -6,10 +6,6 @@ RSpec.describe 'A Provider user views a teacher degree apprenticeship applicatio
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in) }
   let(:provider) { provider_user.providers.first }
 
-  before do
-    FeatureFlag.activate(:teacher_degree_apprenticeship)
-  end
-
   scenario 'does not see degrees when application is teacher degree apprenticeship without degrees' do
     given_i_am_a_provider_user
     and_i_sign_in_to_the_provider_interface
@@ -90,10 +86,6 @@ RSpec.describe 'A Provider user views a teacher degree apprenticeship applicatio
 
   def and_i_visit_a_postgraduate_application
     visit provider_interface_application_choice_path(@postgraduate_application)
-  end
-
-  def and_teacher_degree_apprenticeship_feature_flag_is_inactive
-    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def then_i_see_a_message_on_the_degree_section

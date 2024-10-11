@@ -5,18 +5,17 @@ RSpec.describe 'Deleting and replacing a degree' do
 
   scenario 'Candidate deletes and replaces their degree' do
     given_i_am_signed_in
-    and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
     and_i_have_completed_the_degree_section
     when_i_view_the_degree_section
     and_i_click_on_change_country
     and_i_click_the_back_link
+    and_i_click_the_back_link
+    and_i_click_on_degree
     and_i_click_on_delete_degree
     and_i_confirm_that_i_want_to_delete_my_degree
-    then_i_see_the_undergraduate_degree_form
-    and_when_i_click_back_on_the_browser
-    then_i_am_redirected_to_degrees_review_page_as_degree_no_longer_exists
+    then_i_am_redirected_to_candidate_details_as_degree_no_longer_exists
 
-    when_i_click_add_degree
+    when_i_click_on_degree
     and_i_add_my_degree_back_in
     and_i_mark_the_section_as_incomplete
     and_i_click_on_continue
@@ -42,10 +41,6 @@ RSpec.describe 'Deleting and replacing a degree' do
     login_as(@candidate)
   end
 
-  def and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
-    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
-  end
-
   def when_i_view_the_degree_section
     visit candidate_interface_details_path
     when_i_click_on_degree
@@ -54,6 +49,7 @@ RSpec.describe 'Deleting and replacing a degree' do
   def when_i_click_on_degree
     click_link_or_button 'Degree'
   end
+  alias_method :and_i_click_on_degree, :when_i_click_on_degree
 
   def and_i_click_on_change_country
     click_change_link('country')
@@ -150,6 +146,8 @@ RSpec.describe 'Deleting and replacing a degree' do
   end
 
   def and_i_add_my_degree_back_in
+    and_i_answer_that_i_have_a_university_degree
+
     when_i_choose_united_kingdom
     and_i_click_on_save_and_continue
 
@@ -224,7 +222,7 @@ RSpec.describe 'Deleting and replacing a degree' do
   end
 
   def and_i_have_completed_the_degree_section
-    @application_form = create(:application_form, candidate: @candidate)
+    @application_form = create(:application_form, candidate: @candidate, university_degree: true)
     create(:application_qualification, level: 'degree', application_form: @application_form)
     @application_form.update!(degrees_completed: true)
     @degree_id = @application_form.application_qualifications.first.id
@@ -254,7 +252,7 @@ RSpec.describe 'Deleting and replacing a degree' do
     visit candidate_interface_confirm_degree_destroy_path(@degree_id)
   end
 
-  def then_i_am_redirected_to_degrees_review_page_as_degree_no_longer_exists
-    expect(page).to have_current_path(candidate_interface_degree_review_path)
+  def then_i_am_redirected_to_candidate_details_as_degree_no_longer_exists
+    expect(page).to have_current_path(candidate_interface_details_path)
   end
 end

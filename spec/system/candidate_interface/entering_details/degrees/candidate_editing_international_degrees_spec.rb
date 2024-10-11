@@ -5,7 +5,6 @@ RSpec.describe 'Editing a degree' do
 
   before do
     given_i_am_signed_in
-    and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
     when_i_view_the_degree_section
     and_i_create_an_international_degree
   end
@@ -23,10 +22,6 @@ RSpec.describe 'Editing a degree' do
     and_i_choose_uk
     and_i_click_on_save_and_continue
     then_i_start_the_add_degree_flow_from_the_beginning
-  end
-
-  def and_teacher_degree_apprenticeship_redirect_feature_flag_is_off
-    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def then_i_start_the_add_degree_flow_from_the_beginning
@@ -56,7 +51,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def and_i_create_an_international_degree
-    and_i_click_add_degree
+    and_i_answer_that_i_have_a_university_degree
     when_i_select_another_country
     and_i_click_on_save_and_continue
     when_i_fill_in_the_subject
@@ -86,10 +81,6 @@ RSpec.describe 'Editing a degree' do
 
   def then_i_can_check_an_additional_degree_is_not_created
     expect(page.all('.app-summary-card__header').count).to eq(1)
-  end
-
-  def and_i_click_add_degree
-    click_link_or_button 'Add a degree'
   end
 
   def when_i_select_another_country

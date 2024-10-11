@@ -2,16 +2,12 @@ require 'rails_helper'
 
 RSpec.describe 'Adding an unknown degree', :js do
   include CandidateHelper
-  before do
-    given_teacher_degree_apprenticeship_redirect_feature_flag_is_off
-  end
 
   scenario 'Candidate enters their degree' do
     given_i_am_signed_in
     when_i_view_the_degree_section
 
-    # Add degree
-    and_i_click_add_degree
+    and_i_answer_that_i_have_a_university_degree
 
     # Add country
     then_i_can_see_the_country_page
@@ -77,16 +73,11 @@ RSpec.describe 'Adding an unknown degree', :js do
     then_the_custom_subject_remains_filled_in
   end
 
-  def given_teacher_degree_apprenticeship_redirect_feature_flag_is_off
-    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
-  end
-
   def given_i_am_at_the_degree_subject_page
     given_i_am_signed_in
     when_i_view_the_degree_section
 
-    # Add degree
-    and_i_click_add_degree
+    and_i_answer_that_i_have_a_university_degree
 
     # Add country
     then_i_can_see_the_country_page
@@ -120,10 +111,6 @@ RSpec.describe 'Adding an unknown degree', :js do
 
   def when_i_click_on_degree
     click_link_or_button 'Degree'
-  end
-
-  def and_i_click_add_degree
-    click_link_or_button 'Add a degree'
   end
 
   def then_i_can_see_the_country_page

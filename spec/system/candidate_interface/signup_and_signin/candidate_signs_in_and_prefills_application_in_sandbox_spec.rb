@@ -8,7 +8,6 @@ RSpec.describe 'Candidate signs in and prefills application in Sandbox', :sandbo
     given_sign_in_is_not_blocked
     and_a_course_is_available
     and_i_am_a_candidate_with_a_blank_application
-    and_teacher_degree_apprenticeship_feature_is_off
 
     when_i_fill_in_the_sign_in_form
     and_i_click_on_the_link_in_my_email_and_sign_in
@@ -25,10 +24,6 @@ RSpec.describe 'Candidate signs in and prefills application in Sandbox', :sandbo
 
   def and_a_course_is_available
     @course_option = create(:course_option, course: create(:course, :open, recruitment_cycle_year: RecruitmentCycle.current_year))
-  end
-
-  def and_teacher_degree_apprenticeship_feature_is_off
-    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def and_i_am_a_candidate_with_a_blank_application

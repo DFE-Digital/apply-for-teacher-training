@@ -83,9 +83,7 @@ en:
         label: What year %{did_or_will} you graduate?
         hint: For example, 2019
       review:
-        complete_hint_text: Check the entry requirements for your chosen course. Providers usually ask for a degree at 2:2 or above. Contact the training provider if you do not have the right degree level.
-        teacher_degree_apprenticeship_feature_flag_on:
-          complete_hint_text: Check the entry requirements for your chosen course. Postgraduate courses usually require a bachelor’s degree at 2:2 or above. Contact the training provider if you do not have the right degree level. <p class=\"govuk-block\">Teacher degree apprenticeships do not require a degree.</p>
+        complete_hint_text_html: Check the entry requirements for your chosen course. Postgraduate courses usually require a bachelor’s degree at 2:2 or above. Contact the training provider if you do not have the right degree level. <p class=\"govuk-block\">Teacher degree apprenticeships do not require a degree.</p>
         not_specified: Not entered
       another:
         button: Add another degree

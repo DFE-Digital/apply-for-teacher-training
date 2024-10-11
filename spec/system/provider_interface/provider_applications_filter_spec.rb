@@ -21,7 +21,6 @@ RSpec.describe 'Providers should be able to filter applications' do
     and_i_am_permitted_to_see_applications_from_multiple_providers
     and_my_organisation_has_courses_with_applications
     and_i_sign_in_to_the_provider_interface
-    and_teacher_degree_apprenticeship_feature_flag_is_inactive
 
     when_i_visit_the_provider_page
 
@@ -30,8 +29,6 @@ RSpec.describe 'Providers should be able to filter applications' do
     then_location_filters_are_not_visible
 
     then_i_can_see_applications_from_the_previous_year_too
-
-    and_teacher_degree_apprenticeship_filter_is_not_visible
 
     when_i_filter_for_rejected_applications
     then_only_rejected_applications_are_visible
@@ -119,9 +116,8 @@ RSpec.describe 'Providers should be able to filter applications' do
     and_i_click_the_sign_out_button
   end
 
-  scenario 'when the teacher degree apprenticeship feature flag is active' do
+  scenario 'when filtering by course type' do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_teacher_degree_apprenticeship_feature_flag_is_active
     and_i_am_permitted_to_see_applications_from_multiple_providers
     and_my_organisation_has_courses_with_applications_without_accredited_providers
     and_my_organisation_has_courses_that_awards_a_degree
@@ -133,8 +129,8 @@ RSpec.describe 'Providers should be able to filter applications' do
     when_i_filter_by_postgraduate_courses
     then_i_only_see_postgraduate_applications
 
-    when_i_filter_by_teacher_degree_apprenticeship_courses
-    then_i_only_see_teacher_degree_apprenticeship_applications
+    when_i_filter_by_undergraduate_courses
+    then_i_only_see_undergraduate_applications
 
     when_i_check_both_course_types_filter
     then_i_see_postgraduate_and_teacher_degree_apprenticeship_applications
@@ -142,14 +138,6 @@ RSpec.describe 'Providers should be able to filter applications' do
 
   def and_i_click_the_sign_out_button
     click_link_or_button 'Sign out'
-  end
-
-  def and_teacher_degree_apprenticeship_feature_flag_is_active
-    FeatureFlag.activate(:teacher_degree_apprenticeship)
-  end
-
-  def and_teacher_degree_apprenticeship_feature_flag_is_inactive
-    FeatureFlag.deactivate(:teacher_degree_apprenticeship)
   end
 
   def and_my_organisation_has_courses_with_applications_without_accredited_providers
@@ -188,13 +176,6 @@ RSpec.describe 'Providers should be able to filter applications' do
 
     create(:application_choice, :awaiting_provider_decision, current_course_option: course_option_three, status: 'offer', application_form:
            build(:application_form, first_name: 'Leland', last_name: 'Harris'), updated_at: 4.days.ago)
-  end
-
-  def and_teacher_degree_apprenticeship_filter_is_not_visible
-    expect(page).to have_content('Filter')
-    expect(page).to have_no_content('Course type')
-    expect(page).to have_no_content('Postgraduate courses')
-    expect(page).to have_no_content('Undergraduate courses')
   end
 
   def then_teacher_degree_apprenticeship_filter_is_visible
@@ -251,13 +232,13 @@ RSpec.describe 'Providers should be able to filter applications' do
     expect(page).to have_no_content('Leland Harris')
   end
 
-  def when_i_filter_by_teacher_degree_apprenticeship_courses
+  def when_i_filter_by_undergraduate_courses
     uncheck 'Postgraduate courses'
     check 'Undergraduate courses'
     and_i_apply_the_filters
   end
 
-  def then_i_only_see_teacher_degree_apprenticeship_applications
+  def then_i_only_see_undergraduate_applications
     expect(page).to have_content('Andres Bartell')
     expect(page).to have_content('Quinton Marks')
     expect(page).to have_content('Leland Harris')
