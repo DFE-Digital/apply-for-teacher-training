@@ -1,5 +1,7 @@
 module ScienceGcseHelper
   def grade_from(params)
+    return params[:grade] if not_uk_gcse?
+
     case params[:gcse_science]
     when ApplicationQualification::SCIENCE_SINGLE_AWARD
       params[:single_award_grade]
@@ -8,6 +10,12 @@ module ScienceGcseHelper
     else
       params[:grade]
     end
+  end
+
+  def subject_from(params)
+    return ApplicationQualification::SCIENCE if not_uk_gcse?
+
+    params[:gcse_science] || ApplicationQualification::SCIENCE
   end
 
   def grade_format

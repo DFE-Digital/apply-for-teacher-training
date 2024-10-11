@@ -115,7 +115,7 @@ module SupportInterface
       @chemistry_grade = params[:chemistry_grade]
       @physics_grade = params[:physics_grade]
       @grade = grade_from(params)
-      @subject = params[:gcse_science] || ApplicationQualification::SCIENCE
+      @subject = subject_from(params)
       @gcse_science = params[:gcse_science]
       @single_award_grade = params[:single_award_grade]
       @double_award_grade = params[:double_award_grade]

@@ -32,6 +32,8 @@ FactoryBot.define do
       subject { %w[maths english science].sample }
       grade { %w[A B C].sample }
       predicted_grade { false }
+      institution_name { nil }
+      institution_country { nil }
       award_year { Faker::Date.between(from: 10.years.ago, to: 8.years.ago).year }
 
       trait :non_uk do

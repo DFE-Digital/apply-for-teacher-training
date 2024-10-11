@@ -109,7 +109,7 @@ RSpec.describe 'Change science GCSE' do
     then_it_has_saved_the_triple_award_gcses_into_the_application_form
   end
 
-  private
+private
 
   def given_i_am_a_support_user
     sign_in_as_support_user
@@ -349,6 +349,7 @@ RSpec.describe 'Change science GCSE' do
       enic_reference: '4000228363',
       institution_country: 'BR',
       grade: '67%',
+      subject: 'science',
     )
   end
 
@@ -360,10 +361,9 @@ RSpec.describe 'Change science GCSE' do
       enic_reference: '4000228363',
       institution_country: 'BR',
       grade: 'High pass',
-      )
+      subject: 'science',
+    )
   end
-
-
 
   def then_it_has_saved_another_uk_qualification_into_the_application_form
     and_it_should_update_the_attributes(
@@ -426,6 +426,7 @@ RSpec.describe 'Change science GCSE' do
   def when_i_add_the_double_award_grade
     fill_in 'support_interface_gcse_form[double_award_grade]', with: 'CD'
   end
+  alias_method :and_i_add_the_double_award_grade, :when_i_add_the_double_award_grade
 
   def then_it_has_saved_the_double_award_gcses_into_the_application_form
     and_it_should_update_the_attributes(
