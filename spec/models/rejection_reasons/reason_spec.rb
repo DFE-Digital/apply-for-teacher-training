@@ -89,6 +89,34 @@ RSpec.describe RejectionReasons::Reason do
     end
   end
 
+  describe '#label_text' do
+    let(:reason) do
+      described_class.new(
+        id: label_id,
+        label:,
+        details: { id: 'ddd', label: 'DDD', text: 'DeeDeeDee' },
+      )
+    end
+
+    context 'when translation exists' do
+      let(:label_id) { 'unsuitable_a_levels' }
+      let(:label) { 'Some label from config' }
+
+      it 'returns the translated label' do
+        expect(reason.label_text).to eq('A levels do not meet course requirements')
+      end
+    end
+
+    context 'when translation does not exist' do
+      let(:label_id) { 'qualifications' }
+      let(:label) { 'Qualifications' }
+
+      it 'returns the fallback label from configuration' do
+        expect(reason.label_text).to eq('Qualifications')
+      end
+    end
+  end
+
   describe 'validations' do
     before do
       allow(I18n).to receive(:t).and_return('Invalid!')
