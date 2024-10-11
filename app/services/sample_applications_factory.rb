@@ -24,7 +24,7 @@ class SampleApplicationsFactory
       form_options[:references_completed] = true if states.include?(:unsubmitted_with_completed_references)
       form_options[:submitted_at] = nil if states.uniq.difference(%i[unsubmitted unsubmitted_with_completed_references]).blank?
 
-      form = Satisfactory.root.add(:application_form, **form_options).which_is(:completed)
+      form = Satisfactory.root.add(:application_form, **form_options).which_is(:completed).which_is(:with_bachelor_degree)
       form = form.which_is(:apply_again) if apply_again
       form = form.which_is(:carry_over) if carry_over
 
