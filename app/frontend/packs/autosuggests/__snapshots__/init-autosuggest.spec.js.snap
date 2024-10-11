@@ -49,9 +49,9 @@ exports[`initAutoSuggest should instantiate an autosuggest 1`] = `
         
         <input
           aria-autocomplete="list"
+          aria-controls="form-field-id__listbox"
           aria-describedby="form-field-id__assistiveHint"
           aria-expanded="false"
-          aria-owns="form-field-id__listbox"
           autocomplete="off"
           class="autocomplete__input autocomplete__input--default"
           id="form-field-id"
@@ -62,6 +62,7 @@ exports[`initAutoSuggest should instantiate an autosuggest 1`] = `
         />
         
         <ul
+          aria-labelledby="form-field-id"
           class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden"
           id="form-field-id__listbox"
           role="listbox"
