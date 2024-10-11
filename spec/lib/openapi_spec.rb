@@ -21,7 +21,7 @@ RSpec.describe 'OpenAPI spec' do
         required_properties = schema.required.to_a
         actual_properties = schema.properties.map { |property_name, _| property_name }
 
-        expect(actual_properties).to include(*required_properties)
+        expect(actual_properties).to include(*required_properties) if required_properties.present?
       end
 
       schema.properties.each do |property_name, property|
