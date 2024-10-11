@@ -3,6 +3,16 @@ require 'rails_helper'
 RSpec.describe 'Tailored advice for rejected applications' do
   include TestHelpers::MailerSetupHelper
 
+  context 'when A level reason is given' do
+    it 'does not show qualifications heading neither any tailored advice' do
+      application_choice = create(:application_choice, :insufficient_a_levels_rejection_reasons)
+      email = CandidateMailer.application_rejected(application_choice)
+
+      expect(email.body).to have_no_text('Make sure you meet the qualifications criteria')
+      expect(email.body).to have_text('^ # Qualifications ^ A levels do not meet course requirements: ^ ^ No sufficient grade')
+    end
+  end
+
   context 'when one reason is given' do
     it 'does not show qualifications heading, but shows other relevant content' do
       structured_rejection_reasons = {

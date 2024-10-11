@@ -70,5 +70,9 @@ class RejectionReasons
 
       super
     end
+
+    def label_text
+      I18n.t("rejection_reasons.label_text.#{id}", default: @label)
+    end
   end
 end

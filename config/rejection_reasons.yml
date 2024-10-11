@@ -12,6 +12,12 @@
     :label: No science GCSE at minimum grade 4 or C, or equivalent
   - :id: no_degree
     :label: No bachelor’s degree or equivalent
+  - :id: unsuitable_a_levels
+    :label: A levels do not meet course requirements (Teacher Degree Apprenticeship courses only)
+    :details:
+      :id: unsuitable_a_levels_details
+      :label: Details
+      :visually_hidden: about why their A levels do not meet course requirements
   - :id: unsuitable_degree
     :label: Degree does not meet course requirements
     :details:
