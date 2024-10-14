@@ -1,5 +1,7 @@
 module ScienceGcseHelper
   def grade_from(params)
+    return params[:grade] if not_uk_gcse?
+
     case params[:gcse_science]
     when ApplicationQualification::SCIENCE_SINGLE_AWARD
       params[:single_award_grade]
@@ -10,11 +12,15 @@ module ScienceGcseHelper
     end
   end
 
+  def subject_from(params)
+    return ApplicationQualification::SCIENCE if not_uk_gcse?
+
+    params[:gcse_science] || ApplicationQualification::SCIENCE
+  end
+
   def grade_format
     return if
-      qualification.qualification_type.nil? ||
-      qualification.qualification_type == 'other_uk' ||
-      qualification.qualification_type == 'non_uk' ||
+      not_uk_gcse? ||
       grade.nil? ||
       triple_award?
 
@@ -117,6 +123,8 @@ module ScienceGcseHelper
   end
 
   def sanitize(grade)
+    return grade if not_uk_gcse?
+
     if ALL_GCSE_GRADES.exclude?(grade) && grade_contains_two_numbers?(grade)
       remove_special_characters_and_add_dash_between_numbers(grade)
     elsif DOUBLE_GCSE_GRADES.exclude?(grade)
@@ -124,6 +132,12 @@ module ScienceGcseHelper
     else
       grade
     end
+  end
+
+  def not_uk_gcse?
+    qualification.qualification_type.nil? ||
+      qualification.qualification_type == 'other_uk' ||
+      qualification.qualification_type == 'non_uk'
   end
 
   def new_record?

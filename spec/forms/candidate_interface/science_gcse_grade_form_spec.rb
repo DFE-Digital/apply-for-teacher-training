@@ -263,6 +263,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         qualification = ApplicationQualification.create(
           level: 'gcse',
           application_form:,
+          qualification_type: 'gcse',
         )
 
         details_form = described_class.build_from_qualification(qualification)
@@ -338,6 +339,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         qualification = ApplicationQualification.create(
           level: 'gcse',
           application_form:,
+          qualification_type: 'gcse',
         )
 
         details_form = described_class.build_from_qualification(qualification)
@@ -354,6 +356,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
       it 'stores sanitized grades when it is a triple award' do
         application_form = build(:application_form)
         qualification = ApplicationQualification.create(
+          qualification_type: 'gcse',
           level: 'gcse',
           application_form:,
         )
@@ -451,6 +454,14 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
 
           expect(gcse_details_form.grade).to eq 'other'
           expect(gcse_details_form.other_grade).to eq 'D'
+        end
+
+        it 'does not sanitize the grade' do
+          qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'High pass')
+          gcse_details_form = described_class.build_from_qualification(qualification)
+
+          expect(gcse_details_form.grade).to eq 'other'
+          expect(gcse_details_form.other_grade).to eq 'High pass'
         end
       end
     end
