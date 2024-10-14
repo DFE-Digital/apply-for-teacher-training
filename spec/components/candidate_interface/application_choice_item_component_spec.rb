@@ -11,7 +11,6 @@ RSpec.describe CandidateInterface::ApplicationChoiceItemComponent do
       expect(rendered.text).to include(application_choice.current_course.provider.name)
       expect(rendered.text).to include(application_choice.id.to_s)
       expect(rendered.text).to include(application_choice.current_course.name_and_code)
-      expect(rendered.text).to include(application_choice.site.name)
     end
   end
 
@@ -28,4 +27,20 @@ RSpec.describe CandidateInterface::ApplicationChoiceItemComponent do
   it_behaves_like('application choice item') { let(:status) { :rejected } }
   it_behaves_like('application choice item') { let(:status) { :declined } }
   it_behaves_like('application choice item') { let(:status) { :inactive } }
+
+  context 'when the Candidate has chosen the School Placement' do
+    let(:application_choice) { create(:application_choice, school_placement_auto_selected: false) }
+
+    it 'displays with the Site name' do
+      expect(rendered.text).to include(application_choice.site.name)
+    end
+  end
+
+  context 'when the Candidate has not chosen the School Placement' do
+    let(:application_choice) { create(:application_choice, school_placement_auto_selected: true) }
+
+    it 'displays with the Site name' do
+      expect(rendered.text).not_to include(application_choice.site.name)
+    end
+  end
 end
