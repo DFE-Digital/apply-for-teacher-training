@@ -3,7 +3,7 @@ class CandidateInterface::ApplicationChoiceItemComponent < ViewComponent::Base
     @application_choice = application_choice
   end
   attr_reader :application_choice
-  delegate :status, to: :application_choice
+  delegate :status, :school_placement_auto_selected, to: :application_choice
 
   def provider_name
     application_choice.current_course.provider.name
@@ -23,6 +23,14 @@ class CandidateInterface::ApplicationChoiceItemComponent < ViewComponent::Base
 
   def site_name
     application_choice.site.name
+  end
+
+  def course_option_summary
+    if school_placement_auto_selected
+      "#{course_name} - #{study_mode}"
+    else
+      "#{course_name} - #{study_mode} at #{site_name}"
+    end
   end
 
   def view_application_path
