@@ -178,7 +178,7 @@ RSpec.describe RejectionReasons do
 
     it 'provides the error message for the given key and error type' do
       expect(described_class.translated_error(:unsuitable_degree_details, :size)).to eq(
-        'Details about how the degree does not meet course requirements must be 100 words or fewer',
+        'Details about how the degree does not meet course requirements must be 200 words or fewer',
       )
     end
   end
