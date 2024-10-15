@@ -99,8 +99,17 @@ RSpec.describe 'Reject an application' do
     within_fieldset 'Reasons for rejecting due to qualifications' do
       check 'No maths GCSE at minimum grade 4 or C, or equivalent'
 
+      check 'Degree grade does not meet course requirements'
+      fill_in 'Details about why their qualifications does not meet course requirements', with: 'Your grade does not match the course requirement'
+
+      check 'Degree subject does not meet course requirements'
+      fill_in 'Details about why their subject does not meet course requirements', with: 'Your subject does not match the course requirement'
+
       check 'Could not verify qualifications'
       fill_in 'Details about why you could not verify qualifications', with: 'We can find no evidence of your GCSEs'
+
+      check 'Could not verify equivalency of qualifications'
+      fill_in 'Details about why you could not verify equivalency qualifications', with: 'We can find no evidence of your GCSEs'
     end
 
     check 'Personal statement'
@@ -112,11 +121,31 @@ RSpec.describe 'Reject an application' do
       fill_in 'Details of other issues with their personal statement', with: 'This was wayyyyy too personal'
     end
 
+    check 'Communication, interview attendance and scheduling'
+
+    within_fieldset 'Reasons for rejecting due to communication, interview attendance or scheduling' do
+      check 'English language ability below expected standard'
+      fill_in 'Details about the english ability being below expected standard', with: 'Your english level is below expected standard'
+    end
+
     check 'Course full'
     fill_in 'Details (optional) about the course being full', with: 'Other courses exist'
 
     check 'provider-interface-rejections-wizard-selected-reasons-other-field'
     fill_in 'Details of other reasons', with: 'There are so many other reasons why your application was rejected...'
+
+    check 'School placement'
+
+    within_fieldset 'Reasons for rejecting due to school placement' do
+      check 'No available placements'
+      fill_in 'Details of why there are no placements', with: 'We are full'
+
+      check 'No placements that are suitable'
+      fill_in 'Details of why there are no suitable placements', with: 'Funding issues'
+
+      check 'Other'
+      fill_in 'Details of other rejection reasons regarding placements', with: 'Other issues'
+    end
   end
 
   def and_i_give_a_level_reasons_why_i_am_rejecting_the_application
@@ -147,14 +176,20 @@ RSpec.describe 'Reject an application' do
       'They’ve given the following feedback to explain their decision:',
     ])
 
-    expect(email_preview[4..7]).to eq([
+    expect(email_preview[4..13]).to eq([
       'Qualifications',
       'No maths GCSE at minimum grade 4 or C, or equivalent',
+      'Degree grade does not meet course requirements:',
+      'Your grade does not match the course requirement',
+      'Degree subject does not meet course requirements:',
+      'Your subject does not match the course requirement',
       'Could not verify qualifications:',
+      'We can find no evidence of your GCSEs',
+      'Could not verify equivalency of qualifications:',
       'We can find no evidence of your GCSEs',
     ])
 
-    expect(email_preview[8..12]).to eq([
+    expect(email_preview[14..18]).to eq([
       'Personal statement',
       'Quality of writing:',
       'We do not accept applications written in morse code',
@@ -162,13 +197,29 @@ RSpec.describe 'Reject an application' do
       'This was wayyyyy too personal',
     ])
 
-    expect(email_preview[13..15]).to eq([
+    expect(email_preview[19..21]).to eq([
+      'Communication, interview attendance and scheduling',
+      'English language ability below expected standard:',
+      'Your english level is below expected standard',
+    ])
+
+    expect(email_preview[22..24]).to eq([
       'Course full',
       'Course full:',
       'Other courses exist',
     ])
 
-    expect(email_preview[16..18]).to eq([
+    expect(email_preview[25..31]).to eq([
+      'School placement',
+      'No available placements:',
+      'We are full',
+      'No placements that are suitable:',
+      'Funding issues',
+      'Other:',
+      'Other issues',
+    ])
+
+    expect(email_preview[32..34]).to eq([
       'Other',
       'Other:',
       'There are so many other reasons why your application was rejected...',

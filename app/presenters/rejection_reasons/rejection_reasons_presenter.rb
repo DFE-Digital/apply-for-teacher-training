@@ -9,7 +9,16 @@ class RejectionReasons
     CLASS_ROOM_EXPERIENCE_REASON_CODES = %w[teaching_demonstration teaching_knowledge_other teaching_method_knowledge safeguarding_knowledge teaching_role_knowledge].freeze
     COMMUNICATION_OTHER_REASON_CODES = %w[could_not_arrange_interview did_not_reply communication_and_scheduling_other].freeze
     VALID_HIGH_LEVEL_ADVICE_REASON_CODES = %w[qualifications personal_statement teaching_knowledge communication_and_scheduling safeguarding visa_sponsorship course_full other].freeze
-    NO_TAILORED_ADVICE_CODES = %w[unsuitable_a_levels].freeze
+    NO_TAILORED_ADVICE_CODES = %w[
+      unsuitable_a_levels
+      unsuitable_degree_subject
+      unverified_equivalency_qualifications
+      already_qualified
+      english_below_standard
+      no_placements
+      no_suitable_placements
+      placements_other
+    ].freeze
 
     def rejection_reasons
       return {} unless structured_rejection_reasons&.any?
