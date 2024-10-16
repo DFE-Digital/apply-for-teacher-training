@@ -116,6 +116,7 @@ components:
             - R07
             - R08
             - R09
+            - R10
         details:
           type: string
           description: Optional details about why the application was rejected for the given reason.
