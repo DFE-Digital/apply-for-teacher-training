@@ -58,3 +58,11 @@ R09:
     :id: other_details
     :label: Details
     :text: We were unable to offer you a place on the chosen course. Please contact us for details.
+R10:
+  :id: school_placement
+  :label: School placement
+  :details:
+    :id: school_placement_details
+    :label: Details
+    :text: We are unable to offer you a place because we could not find a suitable placement
+

@@ -19,17 +19,35 @@
       :label: Details
       :visually_hidden: about why their A levels do not meet course requirements
   - :id: unsuitable_degree
-    :label: Degree does not meet course requirements
+    :label: Degree grade does not meet course requirements
     :details:
       :id: unsuitable_degree_details
       :label: Details
-      :visually_hidden: about why their qualifications do not meet course requirements
+      :visually_hidden: about why their qualifications does not meet course requirements
+  - :id: unsuitable_degree_subject
+    :label: Degree subject does not meet course requirements
+    :details:
+      :id: unsuitable_degree_subject_details
+      :label: Details
+      :visually_hidden: about why their subject does not meet course requirements
   - :id: unverified_qualifications
     :label: Could not verify qualifications
     :details:
       :id: unverified_qualifications_details
       :label: Details
       :visually_hidden: about why you could not verify qualifications
+  - :id: unverified_equivalency_qualifications
+    :label: Could not verify equivalency of qualifications
+    :details:
+      :id: unverified_equivalency_qualifications_details
+      :label: Details
+      :visually_hidden: about why you could not verify equivalency qualifications
+  - :id: already_qualified
+    :label: Already has a teaching qualification
+    :details:
+      :id: already_qualified_details
+      :label: Details
+      :visually_hidden: about their rejection due to having a qualification already
   - :id: qualifications_other
     :label: Other
     :details:
@@ -114,6 +132,12 @@
       :id: could_not_arrange_interview_details
       :label: Details
       :visually_hidden: about not being able to arrange an interview
+  - :id: english_below_standard
+    :label: English language ability below expected standard
+    :details:
+      :id: english_below_standard_details
+      :label: Details
+      :visually_hidden: about the english ability being below expected standard
   - :id: communication_and_scheduling_other
     :label: Other
     :details:
@@ -145,6 +169,28 @@
     :label: Details (optional)
     :optional: true
     :visually_hidden: about the course being full
+- :id: school_placement
+  :label: School placement
+  :reasons_visually_hidden: for rejecting due to school placement
+  :reasons:
+  - :id: no_placements
+    :label: No available placements
+    :details:
+      :id: no_placements_details
+      :label: Details
+      :visually_hidden: of why there are no placements
+  - :id: no_suitable_placements
+    :label: No placements that are suitable
+    :details:
+      :id: no_suitable_placements_details
+      :label: Details
+      :visually_hidden: of why there are no suitable placements
+  - :id: placements_other
+    :label: Other
+    :details:
+      :id: placements_other_details
+      :label: Details
+      :visually_hidden: of other rejection reasons regarding placements
 - :id: other
   :label: Other
   :details:

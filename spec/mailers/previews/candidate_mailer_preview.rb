@@ -642,10 +642,43 @@ private
           { id: 'no_english_gcse', label: 'No English GCSE at minimum grade 4 or C, or equivalent' },
           { id: 'no_science_gcse', label: 'No science GCSE at minimum grade 4 or C, or equivalent' },
           { id: 'no_degree', label: 'No bachelor’s degree or equivalent' },
-          { id: 'unverified_qualifications',
+          {
+            id: 'unsuitable_degree',
+            label: 'Degree grade does not meet course requirements',
+            details: { id: 'unsuitable_degree_details', text: 'Your degree does not meet course requirements.' },
+          },
+          {
+            id: 'unsuitable_degree_subject',
+            label: 'Degree subject does not meet course requirements',
+            details: { id: 'unsuitable_degree_subject_details', text: 'Your degree subject does not match.' },
+          },
+          {
+            id: 'unverified_qualifications',
             label: 'Could not verify qualifications',
-            details: { id: 'unverified_qualifications_details', text: 'We could find no record of your GCSEs.' } },
+            details: { id: 'unverified_qualifications_details', text: 'We could find no record of your GCSEs.' },
+          },
+          {
+            id: 'unverified_equivalency_qualifications',
+            label: 'Could not verify equivalency of qualifications',
+            details: { id: 'unverified_equivalency_qualifications_details', text: 'We could verify the equivalency of your qualifications.' },
+          },
+          {
+            id: 'already_qualified',
+            label: 'Already has a teaching qualification',
+            details: { id: 'already_qualified_details', text: 'You are already a qualified teacher.' },
+          },
         ] },
+        {
+          id: 'communication_and_scheduling',
+          label: 'Communication, interview attendance and scheduling',
+          selected_reasons: [
+            {
+              id: 'english_below_standard',
+              label: 'English language ability below expected standard',
+              details: { id: 'english_below_standard_details', text: 'English language ability below the expected standard.' },
+            },
+          ],
+        },
         { id: 'personal_statement',
           label: 'Personal statement',
           selected_reasons: [
@@ -653,7 +686,28 @@ private
               label: 'Quality of writing',
               details: { id: 'quality_of_writing_details', text: 'We do not accept applications written in Old Norse.' } },
           ] },
-        { id: 'course_full',  label: 'Course full' },
+        { id: 'course_full', label: 'Course full' },
+        {
+          id: 'school_placement',
+          label: 'School placement',
+          selected_reasons: [
+            {
+              id: 'no_placements',
+              label: 'No available placements',
+              details: { id: 'no_placements_details', text: 'We filled all our placements.' },
+            },
+            {
+              id: 'no_suitable_placements',
+              label: 'No placements that are suitable',
+              details: { id: 'no_suitable_placements_details', text: 'We do not have a suitable place for you.' },
+            },
+            {
+              id: 'placements_other',
+              label: 'Other',
+              details: { id: 'no_placements_details', text: 'We have funding issues.' },
+            },
+          ],
+        },
         { id: 'other', label: 'Other', details: { id: 'other_details', text: 'So many other things were wrong...' } },
       ],
     }

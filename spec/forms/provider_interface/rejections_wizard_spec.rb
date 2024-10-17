@@ -30,7 +30,17 @@ RSpec.describe ProviderInterface::RejectionsWizard do
 
   describe '.selectable_reasons' do
     it 'includes non-deprecated reasons' do
-      expect(described_class.selectable_reasons.find { |r| r.id == 'personal_statement' }).to be_present
+      expect(described_class.selectable_reasons.map(&:id)).to include(
+        'qualifications',
+        'personal_statement',
+        'teaching_knowledge',
+        'communication_and_scheduling',
+        'safeguarding',
+        'visa_sponsorship',
+        'course_full',
+        'school_placement',
+        'other',
+      )
     end
 
     it 'does not include deprecated reasons' do
@@ -56,7 +66,19 @@ RSpec.describe ProviderInterface::RejectionsWizard do
       end
 
       it 'includes other qualification-related reasons' do
-        expect(qualification_reasons.map(&:id)).to include('no_maths_gcse', 'no_english_gcse', 'no_science_gcse', 'no_degree')
+        expect(qualification_reasons.map(&:id)).to include(
+          'no_maths_gcse',
+          'no_english_gcse',
+          'no_science_gcse',
+          'no_degree',
+          'unsuitable_a_levels',
+          'unsuitable_degree',
+          'unsuitable_degree_subject',
+          'unverified_qualifications',
+          'unverified_equivalency_qualifications',
+          'already_qualified',
+          'qualifications_other',
+        )
       end
     end
 
@@ -68,7 +90,18 @@ RSpec.describe ProviderInterface::RejectionsWizard do
       end
 
       it 'still includes other qualification-related reasons' do
-        expect(qualification_reasons.map(&:id)).to include('no_maths_gcse', 'no_english_gcse', 'no_science_gcse', 'no_degree')
+        expect(qualification_reasons.map(&:id)).to include(
+          'no_maths_gcse',
+          'no_english_gcse',
+          'no_science_gcse',
+          'no_degree',
+          'unsuitable_degree',
+          'unsuitable_degree_subject',
+          'unverified_qualifications',
+          'unverified_equivalency_qualifications',
+          'already_qualified',
+          'qualifications_other',
+        )
       end
     end
   end
