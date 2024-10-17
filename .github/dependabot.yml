@@ -5,6 +5,12 @@ updates:
     schedule:
       interval: daily
     open-pull-requests-limit: 10
+    groups:
+      ruby-minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - "patch"
+          - "minor"
     ignore:
       - dependency-name: audited
       - dependency-name: faker
@@ -14,6 +20,12 @@ updates:
     schedule:
       interval: daily
     open-pull-requests-limit: 10
+    groups:
+      js-minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - "patch"
+          - "minor"
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
