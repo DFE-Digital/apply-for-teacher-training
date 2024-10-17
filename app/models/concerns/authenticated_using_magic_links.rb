@@ -19,8 +19,8 @@ module AuthenticatedUsingMagicLinks
       )
 
       authentication_token&.still_valid? &&
-        authentication_token&.use! &&
-        authentication_token&.user
+        authentication_token.use! &&
+        authentication_token.user
     end
   end
 end

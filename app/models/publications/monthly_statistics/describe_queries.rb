@@ -31,7 +31,8 @@ module Publications
           Rails.logger.info { "========= #{key.to_s.humanize} ==========" }
           Rails.logger.info value
           Rails.logger.info '=' * 40
-        end; nil
+        end
+        nil
       end
     end
   end
