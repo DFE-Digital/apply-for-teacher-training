@@ -12,6 +12,8 @@ FactoryBot.define do
 
     trait :v2 do
       statistics { Publications::MonthlyStatistics::StubbedReport.new.to_h }
+      publication_date { 1.day.ago }
+      generation_date { 8.days.ago }
     end
   end
 end
