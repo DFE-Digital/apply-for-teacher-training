@@ -51,7 +51,7 @@
   <% end %>
 
 <%= f.govuk_text_field :grade, label: { text: t('application_form.gcse.grade.label'), size: 'm' }, hint: { text: t('gcse_edit_grade.hint.other.non_gcse') }, width: 4 %>
-<%= f.govuk_text_field :award_year, label: { text: 'Award year', size: 'm' }, width: 4 %>
+<%= f.govuk_text_field :award_year, label: { text: 'Award year', size: 'm' }, width: 4, maxlength: 4 %>
 
 <%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.audit_comment_ticket.label'), size: 'm' }, hint: { text: t('support_interface.audit_comment_ticket.hint') } %>
 
