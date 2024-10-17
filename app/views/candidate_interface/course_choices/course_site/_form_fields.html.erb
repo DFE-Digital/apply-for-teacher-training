@@ -9,10 +9,10 @@
   </p>
 <% end %>
 
-<h1 class="govuk-heading-xl govuk-!-margin-top-3">School placement location</h1>
+<h1 class="govuk-heading-xl govuk-!-margin-top-3"><%= t('course_choices.course_site.school_placement_location') %></h1>
 
-<p class="govuk-body">During your training, you will be placed in at least 2 different schools to give you experience of teaching in a real classroom.</p>
-<p class="govuk-body">You can choose which location you are most interested in. Your training provider will do their best to place you at a location you prefer and can travel to.</p>
+<p class="govuk-body"><%= t('course_choices.course_site.select_preferred_placement') %></p>
+<p class="govuk-body"><%= t('course_choices.course_site.training_provider_will_contact_you') %></p>
 
 <%= f.govuk_radio_buttons_fieldset :course_option_id, legend: { text: t('page_titles.which_location'), size: 'l', tag: 'h1' } do %>
   <% @wizard.current_step.available_sites.each_with_index do |option, i| %>

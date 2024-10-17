@@ -1,0 +1,9 @@
+en:
+  course_choices:
+    course_site:
+      school_placement_location: School placement location
+      select_preferred_placement: >
+        You can select a preferred placement location, but there is no guarantee you will be placed in the school you
+        choose.
+      training_provider_will_contact_you: >
+        The training provider will contact you to discuss your choice to help them select a location that suits you.
