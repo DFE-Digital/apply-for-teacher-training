@@ -4,7 +4,11 @@ module MonthlyStatisticsTimetable
   end
 
   def self.current_generation_date
-    third_monday_of_the_month(Date.current.beginning_of_month)
+    if month_without_reports?(Date.current)
+      third_monday_of_the_month(Date.current.beginning_of_month + 1.month)
+    else
+      third_monday_of_the_month(Date.current.beginning_of_month)
+    end
   end
 
   def self.current_publication_date
@@ -12,7 +16,13 @@ module MonthlyStatisticsTimetable
   end
 
   def self.last_generation_date
-    third_monday_of_the_month(Date.current.beginning_of_month - 1.month)
+    months_ago = if month_without_reports?(Date.current - 1.month)
+                   2.months
+                 else
+                   1.month
+                 end
+
+    third_monday_of_the_month(Date.current.beginning_of_month - months_ago)
   end
 
   def self.last_publication_date
@@ -22,7 +32,12 @@ module MonthlyStatisticsTimetable
   end
 
   def self.next_generation_date
-    third_monday_of_the_month(Date.current.beginning_of_month + 1.month)
+    months_from_now = if month_without_reports?(Date.current.beginning_of_month + 1.month)
+                        2.months
+                      else
+                        1.month
+                      end
+    third_monday_of_the_month(Date.current.beginning_of_month + months_from_now)
   end
 
   def self.next_publication_date
@@ -34,5 +49,9 @@ module MonthlyStatisticsTimetable
   def self.third_monday_of_the_month(start_date)
     first_monday = start_date.upto(start_date.next_week).find(&:monday?)
     first_monday + 2.weeks
+  end
+
+  def self.month_without_reports?(date)
+    date.month == CycleTimetable.find_opens.to_date.month
   end
 end

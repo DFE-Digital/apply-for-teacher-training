@@ -4,6 +4,17 @@ RSpec.describe GenerateMonthlyStatistics, :sidekiq do
   include DfE::Bigquery::TestHelper
   before { stub_bigquery_application_metrics_request }
 
+  context 'when third Monday, but within the first month of the cycle' do
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2024, 10, 21))
+    end
+
+    it 'returns false' do
+      expect(described_class.new.perform).to be false
+      expect(Publications::MonthlyStatistics::MonthlyStatisticsReport.count).to be_zero
+    end
+  end
+
   context 'when second Monday of the month' do
     before do
       TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2023, 11, 13))
