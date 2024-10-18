@@ -2,7 +2,7 @@ module TeacherTrainingPublicAPI
   class SyncCourses
     include FullSyncErrorHandler
 
-    attr_reader :provider, :run_in_background
+    attr_reader :provider, :run_in_background, :suppress_sync_update_errors, :incremental_sync, :recruitment_cycle_year
 
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority
@@ -11,8 +11,10 @@ module TeacherTrainingPublicAPI
 
     def perform(provider_id, recruitment_cycle_year, incremental_sync = true, suppress_sync_update_errors = false, run_in_background: true)
       @provider = ::Provider.find(provider_id)
-      @run_in_background = run_in_background
+      @recruitment_cycle_year = recruitment_cycle_year
       @incremental_sync = incremental_sync
+      @suppress_sync_update_errors = suppress_sync_update_errors
+      @run_in_background = run_in_background
       @updates = {}
 
       provider_courses_from_api = TeacherTrainingPublicAPI::Course.where(
@@ -21,8 +23,9 @@ module TeacherTrainingPublicAPI
       ).paginate(per_page: 500)
 
       provider_courses_from_api.each do |course_from_api|
-        ActiveRecord::Base.transaction do
-          create_or_update_course(course_from_api, recruitment_cycle_year, @incremental_sync, suppress_sync_update_errors)
+        course = create_or_update_course(course_from_api)
+        if course.present?
+          update_sites(course.id, course_from_api.application_status)
         end
       end
 
@@ -33,26 +36,30 @@ module TeacherTrainingPublicAPI
 
   private
 
-    def create_or_update_course(course_from_api, recruitment_cycle_year, incremental_sync, suppress_sync_update_errors)
+    def create_or_update_course(course_from_api)
       return if course_from_api.state.in?(API_COURSE_DRAFT_STATES)
 
-      course = provider.courses.find_or_initialize_by(
-        uuid: course_from_api.uuid,
-        recruitment_cycle_year:,
-      )
+      ::Course.transaction do
+        course = provider.courses.find_or_initialize_by(
+          uuid: course_from_api.uuid,
+          recruitment_cycle_year:,
+        )
+        assign_course_attributes(course, course_from_api, recruitment_cycle_year)
+        add_accredited_provider(course, course_from_api[:accredited_body_code], recruitment_cycle_year)
 
-      assign_course_attributes(course, course_from_api, recruitment_cycle_year)
-      add_accredited_provider(course, course_from_api[:accredited_body_code], recruitment_cycle_year)
+        @updates.merge!(courses: true) if !incremental_sync && course.changed?
 
-      @updates.merge!(courses: true) if !incremental_sync && course.changed?
+        course.save!
+        course
+      end
+    end
 
-      course.save!
-
+    def update_sites(course_id, application_status)
       job_args = [
         provider.id,
         recruitment_cycle_year,
-        course.id,
-        course_from_api.application_status,
+        course_id,
+        application_status,
         incremental_sync,
         suppress_sync_update_errors,
       ]
