@@ -94,6 +94,7 @@ class DetectInvariantsDailyCheck
       ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS +
       ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES - 1
     applications_with_too_many_unsuccessful_choices = ApplicationForm
+      .current_cycle
       .joins(:application_choices)
       .where(application_choices: { status: (ApplicationStateChange::UNSUCCESSFUL_STATES - %i[inactive]) })
       .group('application_forms.id')
