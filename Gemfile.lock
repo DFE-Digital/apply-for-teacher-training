@@ -339,7 +339,7 @@ GEM
       html-attributes-utils (~> 1.0.0, >= 1.0.0)
       pagy (>= 6, < 10)
       view_component (>= 3.9, < 3.15)
-    govuk_design_system_formbuilder (5.6.0)
+    govuk_design_system_formbuilder (5.7.0)
       actionview (>= 6.1)
       activemodel (>= 6.1)
       activesupport (>= 6.1)
@@ -877,7 +877,7 @@ DEPENDENCIES
   get_into_teaching_api_client_faraday!
   google-cloud-bigquery
   govuk-components (~> 5.6.1)
-  govuk_design_system_formbuilder (~> 5.6.0)
+  govuk_design_system_formbuilder (~> 5.7.0)
   govuk_markdown
   grover
   guard-rspec
