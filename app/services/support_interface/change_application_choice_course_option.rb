@@ -4,7 +4,7 @@ module SupportInterface
   class ChangeApplicationChoiceCourseOption
     VALID_STATES = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER
 
-    attr_reader :application_choice, :provider_id, :course_code, :study_mode, :site_code, :audit_comment
+    attr_reader :application_choice, :provider_id, :course_code, :study_mode, :site_code, :audit_comment, :recruitment_cycle_year
     attr_accessor :confirm_course_change
 
     def initialize(application_choice_id:,
@@ -13,7 +13,8 @@ module SupportInterface
                    study_mode:,
                    site_code:,
                    audit_comment:,
-                   confirm_course_change: false)
+                   confirm_course_change: false,
+                   recruitment_cycle_year: RecruitmentCycle.current_year)
       @application_choice = ApplicationChoice.find(application_choice_id)
       @provider_id = provider_id
       @course_code = course_code
@@ -21,6 +22,7 @@ module SupportInterface
       @study_mode = study_mode
       @audit_comment = audit_comment
       @confirm_course_change = confirm_course_change
+      @recruitment_cycle_year = recruitment_cycle_year
     end
 
     def call
@@ -61,7 +63,7 @@ module SupportInterface
     def course
       Course.find_by!(code: course_code,
                       provider_id:,
-                      recruitment_cycle_year: RecruitmentCycle.current_year)
+                      recruitment_cycle_year: recruitment_cycle_year)
     end
 
     def other_fields
