@@ -1,4 +1,4 @@
-ruby 3.2.4
+ruby 3.3.5
 nodejs 20.11.0
 yarn 1.22.19
 azure-cli 2.57.0
