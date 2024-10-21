@@ -1,14 +1,14 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <%= content_tag(:h2, class: 'govuk-heading-m', id: table_caption) do %>
-      <%= t("subject_table_component.#{table_caption}") %>
-    <% end %>
-    <%= content %>
-
+<div class="govuk-grid-column-two-thirds">
+  <%= content_tag(:h2, class: 'govuk-heading-m', id: table_caption) do %>
+    <%= t("subject_table_component.#{table_caption}") %>
+  <% end %>
+  <%= content %>
+</div>
+<div class="govuk-grid-column-full">
+  <% if subject_rows.empty? %>
+    <p class="govuk-body"><%= t('shared.empty_state') %></p>
+  <% else %>
     <div class="recruitment-performance-report-table__wrapper">
-    <% if subject_rows.empty? %>
-      <p class="govuk-body"><%= t('shared.empty_state') %></p>
-    <% else %>
       <%= govuk_table do |table| %>
         <%= table.with_caption(text: t("subject_table_component.#{table_caption}"),
                                html_attributes: { class: 'govuk-visually-hidden' }) %>
@@ -46,23 +46,22 @@
               <%= columns.each do |column| %>
                 <%= row.with_cell(text: format_number(subject_row, column), numeric: true,
                                   **numeric_html_attributes(column)) %>
-                <% end %>
               <% end %>
             <% end %>
           <% end %>
+        <% end %>
 
-          <% table.with_foot do |foot| %>
-            <% foot.with_row do |row| %>
-              <%= row.with_cell(header: true, text: t('shared.all_subjects'),
-                                html_attributes: { class: summary_heading_html_attributes }) %>
-              <%= columns.each do |column| %>
-                <%= row.with_cell(text: format_number(summary_row, column), numeric: true,
-                                  **summary_row_html_attributes(column)) %>
-              <% end %>
+        <% table.with_foot do |foot| %>
+          <% foot.with_row do |row| %>
+            <%= row.with_cell(header: true, text: t('shared.all_subjects'),
+                              html_attributes: { class: summary_heading_html_attributes }) %>
+            <%= columns.each do |column| %>
+              <%= row.with_cell(text: format_number(summary_row, column), numeric: true,
+                                **summary_row_html_attributes(column)) %>
             <% end %>
           <% end %>
         <% end %>
       <% end %>
     </div>
-  </div>
+  <% end %>
 </div>

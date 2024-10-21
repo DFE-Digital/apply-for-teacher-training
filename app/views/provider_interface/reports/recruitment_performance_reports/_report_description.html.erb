@@ -1,19 +1,21 @@
-<p class="govuk-body"><%= t('show.last_updated', date: l(@provider_report.generation_date.to_date, format: :long)) %></p>
-<p class="govuk-body">
-  <%= t('show.this_report_shows',
-        date: l(CycleTimetable.find_opens.to_date, format: :long)) %>
-</p>
-<p class="govuk-body">
-  <%= t('show.this_report_will_update', date: l(Date.new(2024, 5, 20), format: :long)) %>
-</p>
-<p class="govuk-body"><%= t('show.this_report_compares') %></p>
-<h2 class="govuk-heading-m"><%= t('show.contents') %></h2>
-<%= govuk_list [govuk_link_to(t('show.about_this_data'), '#about_this_data', no_visited_state: true),
-                govuk_link_to(t('show.candidates_who_have_submitted_applications'), '#candidates_who_have_submitted_applications', no_visited_state: true),
-                govuk_link_to(t('show.candidates_with_an_offer'), '#candidates_with_an_offer', no_visited_state: true),
-                govuk_link_to(t('show.proportion_of_candidates_with_an_offer'), '#proportion_of_candidates_with_an_offer', no_visited_state: true),
-                govuk_link_to(t('show.offers_accepted'), '#offers_accepted', no_visited_state: true),
-                govuk_link_to(t('show.candidate_deferrals'), '#candidate_deferrals', no_visited_state: true),
-                govuk_link_to(t('show.candidates_rejected'), '#candidates_rejected', no_visited_state: true),
-                govuk_link_to(t('show.proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response'), '#proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response', no_visited_state: true)],
-               type: :number %>
+<div class="govuk-grid-column-two-thirds">
+  <p class="govuk-body"><%= t('show.last_updated', date: l(@provider_report.generation_date.to_date, format: :long)) %></p>
+  <p class="govuk-body">
+    <%= t('show.this_report_shows',
+          date: l(CycleTimetable.find_opens.to_date, format: :long)) %>
+  </p>
+  <p class="govuk-body">
+    <%= t('show.this_report_will_update', date: l(Date.new(2024, 5, 20), format: :long)) %>
+  </p>
+  <p class="govuk-body"><%= t('show.this_report_compares') %></p>
+  <h2 class="govuk-heading-m"><%= t('show.contents') %></h2>
+  <%= govuk_list [govuk_link_to(t('show.about_this_data'), '#about_this_data', no_visited_state: true),
+                  govuk_link_to(t('show.candidates_who_have_submitted_applications'), '#candidates_who_have_submitted_applications', no_visited_state: true),
+                  govuk_link_to(t('show.candidates_with_an_offer'), '#candidates_with_an_offer', no_visited_state: true),
+                  govuk_link_to(t('show.proportion_of_candidates_with_an_offer'), '#proportion_of_candidates_with_an_offer', no_visited_state: true),
+                  govuk_link_to(t('show.offers_accepted'), '#offers_accepted', no_visited_state: true),
+                  govuk_link_to(t('show.candidate_deferrals'), '#candidate_deferrals', no_visited_state: true),
+                  govuk_link_to(t('show.candidates_rejected'), '#candidates_rejected', no_visited_state: true),
+                  govuk_link_to(t('show.proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response'), '#proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response', no_visited_state: true)],
+                 type: :number %>
+</div>

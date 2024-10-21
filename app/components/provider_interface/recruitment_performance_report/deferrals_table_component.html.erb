@@ -1,15 +1,13 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <h2 class="govuk-heading-m" id="candidate_deferrals">
-      <%= t('deferrals_table_component.caption') %>
-    </h2>
-    <p class="govuk-body"><%= t('deferrals_table_component.description_one', provider_name:) %></p>
-    <p class="govuk-body"><%= t('deferrals_table_component.description_two') %></p>
-
+<div class="govuk-grid-column-two-thirds">
+  <h2 class="govuk-heading-m" id="candidate_deferrals">
+    <%= t('deferrals_table_component.caption') %>
+  </h2>
+  <p class="govuk-body"><%= t('deferrals_table_component.description_one', provider_name:) %></p>
+  <p class="govuk-body"><%= t('deferrals_table_component.description_two') %></p>
+  <% if deferral_rows.empty? %>
+    <p class="govuk-body"><%= t('shared.empty_state') %></p>
+  <% else %>
     <div class="recruitment-performance-report-table__wrapper">
-    <% if deferral_rows.empty? %>
-      <p class="govuk-body"><%= t('shared.empty_state') %></p>
-    <% else %>
       <%= govuk_table do |table| %>
         <%= table.with_caption(text: t('deferrals_table_component.caption'),
                                html_attributes: { class: 'govuk-visually-hidden' }) %>
@@ -33,7 +31,6 @@
           <% end %>
         <% end %>
       <% end %>
-    <% end %>
     </div>
-  </div>
+  <% end %>
 </div>
