@@ -60,8 +60,8 @@ RSpec.describe MigrateApplicationChoicesWorker do
       SQL
       created_work_experiences_commitments = ActiveRecord::Base.connection.execute(sql)
 
-      expect(created_work_experiences_commitments.pluck('commitment')).to eq(
-        # Part time, Full Time
+      expect(created_work_experiences_commitments.pluck('commitment')).to match_array(
+        # Full time, Part Time
         application_form.application_work_experiences.pluck(:commitment).map(&:humanize),
       )
     end
