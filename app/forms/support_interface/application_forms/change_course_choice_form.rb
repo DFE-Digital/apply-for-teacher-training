@@ -37,7 +37,7 @@ module SupportInterface
           site_code:,
           audit_comment: audit_comment_ticket,
           confirm_course_change:,
-          recruitment_cycle_year: ,
+          recruitment_cycle_year:,
         ).call
       rescue ActiveRecord::RecordNotFound
         raise CourseChoiceError, 'This is not a valid course option'
