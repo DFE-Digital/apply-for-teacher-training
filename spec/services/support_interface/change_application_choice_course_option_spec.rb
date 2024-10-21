@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
   describe '#call' do
     let!(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
-    let(:fee_paying_course) { create(:course, funding_type: 'fee') }
-    let!(:course_option) { create(:course_option, study_mode: :full_time, course: fee_paying_course) }
+    let(:course) { create(:course) }
+    let!(:course_option) { create(:course_option, study_mode: :full_time, course: course) }
     let(:other_provider) { create(:provider) }
     let(:audit_comment) { 'Zendesk ticket 2 - update course' }
     let(:other_site) { create(:site) }
@@ -68,6 +68,24 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
       }.to raise_error(ActiveRecord::RecordNotFound, /Couldn't find CourseOption/)
     end
 
+    context 'course is in a previous cycle' do
+      let(:course) { create(:course, recruitment_cycle_year: 2024) }
+
+      it 'sets the course_option of the specified site of a course' do
+        expect {
+          described_class.new(application_choice_id: application_choice.id,
+                              provider_id: course_option.course.provider_id,
+                              course_code: course_option.course.code,
+                              study_mode: course_option.study_mode,
+                              site_code: course_option.site.code,
+                              recruitment_cycle_year: 2024,
+                              audit_comment: '').call
+        }.to(change { application_choice.reload.course_option })
+
+        expect(application_choice.course_option).to eq(course_option)
+      end
+    end
+
     context 'application is not in a state visible to providers' do
       let!(:application_choice) { create(:application_choice, :cancelled) }
 
@@ -115,7 +133,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
 
     context 'course full check' do
       it 'raises a CourseFullError if the new course has no vacancies' do
-        course_option = create(:course_option, :no_vacancies, course: fee_paying_course)
+        course_option = create(:course_option, :no_vacancies, course: course)
         error_message = I18n.t('support_interface.errors.messages.course_full_error')
 
         expect {
@@ -129,7 +147,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
       end
 
       it 'does not raise a CourseFullError if confirm_course_change is true' do
-        course_option =  create(:course_option, :no_vacancies, course: fee_paying_course)
+        course_option =  create(:course_option, :no_vacancies, course: course)
 
         expect {
           described_class.new(application_choice_id: application_choice.id,
