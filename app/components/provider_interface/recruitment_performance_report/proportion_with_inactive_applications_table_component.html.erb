@@ -1,19 +1,17 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <h2 class="govuk-heading-m" id="proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response">
-      <%= t('proportion_with_inactive_applications_table_component.caption') %>
-    </h2>
-    <p class="govuk-body">
-      <%= t('proportion_with_inactive_applications_table_component.description_one', provider_name:) %>
-    </p>
-    <p class="govuk-body"><%= t('proportion_with_inactive_applications_table_component.description_two') %></p>
-    <p class="govuk-body"><%= t('proportion_with_inactive_applications_table_component.description_three') %></p>
+<div class="govuk-grid-column-two-thirds">
+  <h2 class="govuk-heading-m" id="proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response">
+    <%= t('proportion_with_inactive_applications_table_component.caption') %>
+  </h2>
+  <p class="govuk-body">
+    <%= t('proportion_with_inactive_applications_table_component.description_one', provider_name:) %>
+  </p>
+  <p class="govuk-body"><%= t('proportion_with_inactive_applications_table_component.description_two') %></p>
+  <p class="govuk-body"><%= t('proportion_with_inactive_applications_table_component.description_three') %></p>
 
-    <div class="recruitment-performance-report-table__wrapper">
     <% if subject_rows.empty? %>
       <p class="govuk-body"><%= t('shared.empty_state') %></p>
     <% else %>
-
+    <div class="recruitment-performance-report-table__wrapper">
       <%= govuk_table do |table| %>
         <%= table.with_caption(text: t('proportion_with_inactive_applications_table_component.caption'),
                                html_attributes: { class: 'govuk-visually-hidden' }) %>
@@ -28,31 +26,30 @@
           <% end %>
         <% end %>
 
-          <% table.with_body do |body| %>
-            <% subject_rows.each do |subject_row| %>
-              <% body.with_row do |row| %>
-                <%= row.with_cell(header: true, text: subject_row.title, **level_html_attributes(subject_row)) %>
-                <%= columns.each do |column| %>
-                  <%= row.with_cell(text: format_number(subject_row, column), numeric: true) %>
-                <% end %>
+        <% table.with_body do |body| %>
+          <% subject_rows.each do |subject_row| %>
+            <% body.with_row do |row| %>
+              <%= row.with_cell(header: true, text: subject_row.title, **level_html_attributes(subject_row)) %>
+              <%= columns.each do |column| %>
+                <%= row.with_cell(text: format_number(subject_row, column), numeric: true) %>
               <% end %>
             <% end %>
           <% end %>
+        <% end %>
 
-          <% if summary_row.present? %>
-            <% table.with_foot do |foot| %>
-              <% foot.with_row do |row| %>
-                <%= row.with_cell(header: true, text: t('shared.all_subjects'),
-                                  html_attributes: { class: summary_heading_html_attributes }) %>
-                <%= columns.each do |column| %>
-                  <%= row.with_cell(text: format_number(summary_row, column), numeric: true,
-                                    **summary_row_html_attributes(column)) %>
-                <% end %>
+        <% if summary_row.present? %>
+          <% table.with_foot do |foot| %>
+            <% foot.with_row do |row| %>
+              <%= row.with_cell(header: true, text: t('shared.all_subjects'),
+                                html_attributes: { class: summary_heading_html_attributes }) %>
+              <%= columns.each do |column| %>
+                <%= row.with_cell(text: format_number(summary_row, column), numeric: true,
+                                  **summary_row_html_attributes(column)) %>
               <% end %>
             <% end %>
           <% end %>
         <% end %>
       <% end %>
     </div>
-  </div>
+  <% end %>
 </div>

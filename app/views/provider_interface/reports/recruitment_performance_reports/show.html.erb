@@ -1,18 +1,22 @@
 <%= content_for :title, t('show.title') %>
 <%= content_for :before_content,
                 breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path, t('show.heading') => nil) %>
-<h1 class="govuk-heading-l"><%= t('show.heading') %></h1>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= t('show.heading') %></h1>
+  </div>
 
-<% if @national_data.present? && @provider_data.present? %>
-  <%= render 'provider_interface/reports/recruitment_performance_reports/report_description' %>
-  <%= render 'provider_interface/reports/recruitment_performance_reports/about_this_data_section' %>
-  <%= render ProviderInterface::RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(@provider, @provider_data, @national_data) %>
-  <%= render ProviderInterface::RecruitmentPerformanceReport::CandidatesWithOffersTableComponent.new(@provider, @provider_data, @national_data) %>
-  <%= render ProviderInterface::RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent.new(@provider, @provider_data, @national_data) %>
-  <%= render ProviderInterface::RecruitmentPerformanceReport::OffersAcceptedTableComponent.new(@provider, @provider_data, @national_data) %>
-  <%= render ProviderInterface::RecruitmentPerformanceReport::DeferralsTableComponent.new(@provider, @provider_data, @national_data) %>
-  <%= render ProviderInterface::RecruitmentPerformanceReport::CandidatesRejectedTableComponent.new(@provider, @provider_data, @national_data) %>
-  <%= render ProviderInterface::RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(@provider, @provider_data, @national_data) %>
-<% else %>
-  <p class="govuk-body"><%= t('show.not_ready_to_view') %></p>
-<% end %>
+  <% if @national_data.present? && @provider_data.present? %>
+    <%= render 'provider_interface/reports/recruitment_performance_reports/report_description' %>
+    <%= render 'provider_interface/reports/recruitment_performance_reports/about_this_data_section' %>
+    <%= render ProviderInterface::RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render ProviderInterface::RecruitmentPerformanceReport::CandidatesWithOffersTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render ProviderInterface::RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render ProviderInterface::RecruitmentPerformanceReport::OffersAcceptedTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render ProviderInterface::RecruitmentPerformanceReport::DeferralsTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render ProviderInterface::RecruitmentPerformanceReport::CandidatesRejectedTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render ProviderInterface::RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(@provider, @provider_data, @national_data) %>
+  <% else %>
+    <p class="govuk-body"><%= t('show.not_ready_to_view') %></p>
+  <% end %>
+</div>
