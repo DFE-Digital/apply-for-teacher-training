@@ -76,6 +76,12 @@ Rails.application.configure do
   config.log_format = :json                               # For parsing in Logit
   config.rails_semantic_logger.add_file_appender = false  # Don't log to file
   config.active_record.logger = nil                       # Don't log SQL
+  config.rails_semantic_logger.format = :json
+  config.semantic_logger.add_appender(
+    io: $stdout,
+    level: config.log_level,
+    formatter: config.rails_semantic_logger.format,
+  )
 
   # Use a different cache store in production.
   config.cache_store = :redis_cache_store, { url: ENV.fetch("REDIS_CACHE_URL") }
@@ -124,7 +130,7 @@ Rails.application.configure do
   #   ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.select_value("select '2024-01-01'::date") #=> Date
   #
   # This query will return a `String` if postgresql_adapter_decode_dates is set to false.
-  
+
   config.active_record.postgresql_adapter_decode_dates = false
 
   class FixAzureXForwardedForMiddleware
