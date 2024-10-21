@@ -87,7 +87,80 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
       )
     end
 
-    it 'renders component with correct values for a uk degree type' do
+    context "when selection 'Another qualification equivalent to a degree' for uk degree is a bachelor degree" do
+      let(:degree1) do
+        build_stubbed(
+          :degree_qualification,
+          qualification_type: 'Bachelor of Arts in Architecture',
+          qualification_level: nil,
+          subject: 'Woof',
+          institution_name: 'University of Doge',
+          grade: 'Upper second',
+          predicted_grade: false,
+          start_year: '2005',
+          award_year: '2008',
+        )
+      end
+
+      it 'renders component as a bachelor degree when equivalent is a bachelor' do
+        allow(application_form).to receive(:application_qualifications).and_return(
+          ActiveRecordRelationStub.new(ApplicationQualification, [degree1], scopes: [:degrees]),
+        )
+
+        component = render_inline(described_class.new(application_form:))
+        expect(component).to summarise(
+          key: 'Type of bachelor degree',
+          value: 'Bachelor of Arts in Architecture',
+          action: {
+            text: "Change #{t('application_form.degree.type_of_degree.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+            href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :type),
+          },
+        )
+
+        expect(component).to summarise(
+          key: 'Degree type',
+          value: 'Bachelor',
+          action: {
+            text: "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+            href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :degree_level),
+          },
+        )
+      end
+    end
+
+    context "when selection 'Another qualification equivalent to a degree' for uk degree is not a bachelor degree" do
+      let(:degree1) do
+        build_stubbed(
+          :degree_qualification,
+          qualification_type: 'Bachelor of Arts in Architecture and Potion making',
+          qualification_level: nil,
+          subject: 'Woof',
+          institution_name: 'University of Doge',
+          grade: 'Upper second',
+          predicted_grade: false,
+          start_year: '2005',
+          award_year: '2008',
+        )
+      end
+
+      it 'renders component as a bachelor degree when equivalent is a bachelor' do
+        allow(application_form).to receive(:application_qualifications).and_return(
+          ActiveRecordRelationStub.new(ApplicationQualification, [degree1], scopes: [:degrees]),
+        )
+
+        component = render_inline(described_class.new(application_form:))
+        expect(component).to summarise(
+          key: 'Degree type',
+          value: 'Bachelor of Arts in Architecture and Potion making',
+          action: {
+            text: "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts in Architecture and Potion making, Woof, University of Doge, 2008",
+            href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :degree_level),
+          },
+        )
+      end
+    end
+
+    it 'renders component with correct values for a uk degree with equivalent bachelor degree' do
       component = render_inline(described_class.new(application_form:))
       expect(component).to summarise(
         key: 'Type of bachelor degree',
