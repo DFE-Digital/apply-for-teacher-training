@@ -5,6 +5,12 @@ updates:
     schedule:
       interval: daily
     open-pull-requests-limit: 10
+    groups:
+      ruby-dependencies:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch
     ignore:
       - dependency-name: audited
       - dependency-name: faker
@@ -12,8 +18,15 @@ updates:
   - package-ecosystem: npm
     directory: "/"
     schedule:
-      interval: daily
+      interval: weekly
+      day: sunday
     open-pull-requests-limit: 10
+    groups:
+      javascript-dependencies:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
