@@ -1,5 +1,6 @@
 <% content_for :browser_title, "#{title} - Candidates" %>
 <% content_for :title, 'Candidates' %>
+<%= render ServiceInformationBanner.new(namespace: :support) %>
 
 <%= render TabNavigationComponent.new(items: [
   { name: 'Applications', url: support_interface_applications_path, current: local_assigns[:current] == 'Applications' },
