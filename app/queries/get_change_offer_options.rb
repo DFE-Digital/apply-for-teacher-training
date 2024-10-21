@@ -22,7 +22,7 @@ class GetChangeOfferOptions
     CourseOption
       .where(course: offerable_courses.find_by(id: course.id))
       .group('study_mode')
-      .pluck(:study_mode)
+      .pluck(:study_mode).sort
   end
 
   def available_course_options(course:, study_mode:)
