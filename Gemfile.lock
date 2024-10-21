@@ -174,7 +174,7 @@ GEM
       csv
       railties (>= 7)
       safely_block (>= 0.4)
-    brakeman (6.2.1)
+    brakeman (6.2.2)
       racc
     builder (3.3.0)
     bullet (7.2.0)
@@ -781,7 +781,7 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
-    view_component (3.14.0)
+    view_component (3.16.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
