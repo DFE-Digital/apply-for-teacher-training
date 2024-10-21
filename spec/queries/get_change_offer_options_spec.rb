@@ -149,11 +149,11 @@ RSpec.describe GetChangeOfferOptions do
     before { allow(service).to receive(:offerable_courses).and_return(Course.all) }
 
     describe '#available_study_modes' do
-      it 'returns an array of study modes' do
+      it 'returns an array of study modes in the correct order' do
         course_options
 
         expect(service.available_study_modes(course: self_ratified_course))
-          .to contain_exactly('full_time', 'part_time')
+          .to eq(%w[full_time part_time])
       end
 
       it 'returns no study modes if there are no offerable courses' do
