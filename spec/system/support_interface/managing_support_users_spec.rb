@@ -7,7 +7,7 @@ RSpec.describe 'Managing support users' do
     given_i_am_a_support_user
 
     when_i_visit_the_support_console
-    and_i_click_the_manange_support_users_link
+    and_i_click_the_manage_support_users_link
     and_i_click_the_add_user_link
     and_i_enter_the_users_email_and_dsi_uid
     and_i_click_add_user
@@ -23,6 +23,37 @@ RSpec.describe 'Managing support users' do
     then_i_see_an_error
   end
 
+  scenario 'orders users by last login date', :with_audited do
+    given_i_am_a_support_user
+
+    when_i_visit_the_support_console
+    and_there_are_other_support_users_in_the_db
+    and_i_click_the_manage_support_users_link
+    and_i_see_the_last_login_date_column
+    then_i_see_users_ordered_by_oldest_login
+  end
+
+  def then_i_see_users_ordered_by_oldest_login
+    emails = page.all('tbody .govuk-table__row td:first-child a.govuk-link').map(&:text)
+
+    expect(emails).to eq([
+      'isignedinyesterday@msn.com',
+      'user@apply-support.com',
+      'isignedintoday@msn.com',
+      'isignedintomorrow@msn.com',
+    ])
+  end
+
+  def and_i_see_the_last_login_date_column
+    expect(page).to have_css('th.govuk-table__header', text: 'Last Login Date')
+  end
+
+  def and_there_are_other_support_users_in_the_db
+    SupportUser.create(email_address: 'isignedinyesterday@msn.com', last_signed_in_at: Time.zone.yesterday, dfe_sign_in_uid: 'Y')
+    SupportUser.create(email_address: 'isignedintoday@msn.com', last_signed_in_at: Time.zone.now, dfe_sign_in_uid: 'TD')
+    SupportUser.create(email_address: 'isignedintomorrow@msn.com', last_signed_in_at: Time.zone.tomorrow, dfe_sign_in_uid: 'TM')
+  end
+
   def given_i_am_a_support_user
     sign_in_as_support_user
   end
@@ -31,7 +62,7 @@ RSpec.describe 'Managing support users' do
     visit support_interface_path
   end
 
-  def and_i_click_the_manange_support_users_link
+  def and_i_click_the_manage_support_users_link
     click_link_or_button 'Settings'
     click_link_or_button 'Support users'
   end
