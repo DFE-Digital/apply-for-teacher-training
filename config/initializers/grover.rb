@@ -1,4 +1,4 @@
-require "grover"
+require 'grover'
 
 Grover.configure do |config|
   config.options = {
