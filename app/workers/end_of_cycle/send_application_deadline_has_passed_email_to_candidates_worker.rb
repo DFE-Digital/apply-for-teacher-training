@@ -14,9 +14,8 @@ module EndOfCycle
 
     def relation
       ApplicationForm
-        .joins(:candidate)
-        .where(candidates: { submission_blocked: false, account_locked: false })
         .current_cycle
+        .joins(:candidate).merge(Candidate.for_transaction_emails)
         .unsubmitted
         .distinct
     end

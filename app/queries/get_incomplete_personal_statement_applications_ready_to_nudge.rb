@@ -17,7 +17,7 @@ class GetIncompletePersonalStatementApplicationsReadyToNudge
       # Only candidates with unsubmitted application_choices
       .joins(:application_choices).where('application_choices.status': 'unsubmitted')
       # Filter out candidates who should not receive emails about their accounts
-      .joins(:candidate).where(candidates: { submission_blocked: false, account_locked: false, unsubscribed_from_emails: false })
+      .joins(:candidate).merge(Candidate.for_marketing_or_nudge_emails)
       # Only include candidates who have not submitted ANY applications. unsubmitted == NEVER submitted.
       # Candidates can't submit an application choice without a personal statement, so this is just here to be explicit, it won't practically change anything.
       .unsubmitted

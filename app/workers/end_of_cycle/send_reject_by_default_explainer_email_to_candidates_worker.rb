@@ -15,7 +15,7 @@ module EndOfCycle
     def relation
       ApplicationForm
         .current_cycle
-        .joins(:candidate).where(candidates: { submission_blocked: false, account_locked: false })
+        .joins(:candidate).merge(Candidate.for_transaction_emails)
         .joins(:application_choices).where('application_choices.rejected_by_default': true)
         .distinct
     end
