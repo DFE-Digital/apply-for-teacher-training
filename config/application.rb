@@ -20,7 +20,6 @@ require "sprockets/railtie"
 Bundler.require(*Rails.groups)
 require "dotenv.rb"
 require "dotenv/rails"
-# require_relative "../lib/modules/aws_ip_ranges"
 
 module ApplyForPostgraduateTeacherTraining
   class Application < Rails::Application
