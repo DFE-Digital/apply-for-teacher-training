@@ -1,3 +1,5 @@
+require "grover"
+
 Grover.configure do |config|
   config.options = {
     format: 'A4',
