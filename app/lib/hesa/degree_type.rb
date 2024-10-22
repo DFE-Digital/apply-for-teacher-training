@@ -52,7 +52,9 @@ module Hesa
       end
 
       def find_by_name(name)
-        all.find { |type| type.name == name }
+        return if name.blank?
+
+        all.find { |type| type.name.downcase == name.downcase }
       end
 
       def find_by_abbreviation_or_name(value)
