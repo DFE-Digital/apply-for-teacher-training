@@ -282,7 +282,7 @@ module CandidateInterface
       if degree.qualification_level.present?
         DegreeWizard::QUALIFICATION_LEVEL[degree.qualification_level]
       else
-        reference_data = DfE::ReferenceData::Degrees::TYPES.some_by_field(:name).keys.select { |type| degree.qualification_type == type }
+        reference_data = DfE::ReferenceData::Degrees::TYPES.some_by_field(:name).keys.select { |type| degree.qualification_type.downcase == type.downcase }
         degree.qualification_type.split.first if reference_data.present?
       end
     end

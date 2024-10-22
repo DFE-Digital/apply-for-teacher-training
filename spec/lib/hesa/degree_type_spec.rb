@@ -100,6 +100,23 @@ RSpec.describe Hesa::DegreeType do
       end
     end
 
+    context 'given a valid name with case insensitive' do
+      it 'returns the matching struct' do
+        result = described_class.find_by_name('Bachelor of divinity')
+
+        expect(result.abbreviation).to eq 'BD'
+        expect(result.name).to eq 'Bachelor of Divinity'
+      end
+    end
+
+    context 'with name blank' do
+      it 'returns nil' do
+        result = described_class.find_by_name(nil)
+
+        expect(result).to be_nil
+      end
+    end
+
     context 'given an unrecognised name' do
       it 'returns nil' do
         result = described_class.find_by_name('Master of Conjuration')
