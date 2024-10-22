@@ -158,7 +158,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
           recruitment_cycle_year: 2024,
           audit_comment_ticket: zendesk_ticket,
           accept_guidance: true,
-          )
+        )
 
         expect(form.save(application_choice.id)).to be(true)
 
