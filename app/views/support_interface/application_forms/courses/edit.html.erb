@@ -32,7 +32,11 @@
         <%= f.govuk_radio_button :study_mode, :part_time, label: { text: 'Part time' } %>
       <% end %>
       <%= f.govuk_text_field :site_code, label: { text: 'Site code', size: 's' }, width: 5 %>
-      <%= f.govuk_text_field :recruitment_cycle_year, label: { text: 'Recruitment cycle year', size: 's' }, width: 5 %>
+
+      <%= f.govuk_radio_buttons_fieldset :recruitment_cycle_year, legend: { text: 'Recruitment cycle year', size: 's' } do %>
+        <%= f.govuk_radio_button :recruitment_cycle_year, RecruitmentCycle.current_year, label: { text: RecruitmentCycle.current_year } %>
+        <%= f.govuk_radio_button :recruitment_cycle_year, RecruitmentCycle.previous_year, label: { text: RecruitmentCycle.previous_year } %>
+      <% end %>
 
       <%= f.govuk_text_field(
         :audit_comment_ticket,
