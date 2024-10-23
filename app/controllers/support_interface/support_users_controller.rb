@@ -1,8 +1,8 @@
 module SupportInterface
   class SupportUsersController < SupportInterfaceController
     def index
-      @unsorted_support_users = params[:removed] == 'true' ? SupportUser.discarded : SupportUser.kept
-      @support_users = @unsorted_support_users.order!(last_signed_in_at: :asc)
+      unsorted_support_users = params[:removed] == 'true' ? SupportUser.discarded : SupportUser.kept
+      @support_users = unsorted_support_users.order!(last_signed_in_at: :asc)
     end
 
     def show
