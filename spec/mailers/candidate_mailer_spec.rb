@@ -196,14 +196,37 @@ RSpec.describe CandidateMailer do
     context 'when a candidate has 1 course choice that was withdrawn' do
       let(:application_choices) { [create(:application_choice, status: 'withdrawn')] }
 
-      it_behaves_like(
-        'a mail with subject and content',
-        'You have withdrawn your application',
-        'heading' => 'Hello Fred',
-        'application_withdrawn' => 'You have withdrawn your application',
-        'realistic job preview' => 'Try the realistic job preview tool',
-        'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
-      )
+      context 'mid cycle', time: mid_cycle do
+        it_behaves_like(
+          'a mail with subject and content',
+          'You have withdrawn your application',
+          'heading' => 'Hello Fred',
+          'still interested' => 'If now’s the right time for you, you can still apply for teacher training again this year.',
+          'application_withdrawn' => 'You have withdrawn your application',
+          'realistic job preview' => 'Try the realistic job preview tool',
+          'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
+        )
+      end
+
+      context 'between cycles, before find opens', time: after_apply_deadline(2024) do
+        it_behaves_like(
+          'a mail with subject and content',
+          'You have withdrawn your application',
+          'heading' => 'Hello Fred',
+          'still interested' => 'You can apply again for courses starting in the 2025 to 2026 academic year.',
+          'when to apply again' => 'submit from 9am on 8 October 2024',
+        )
+      end
+
+      context 'between cycles, before apply reopens', time: after_find_opens(2025) do
+        it_behaves_like(
+          'a mail with subject and content',
+          'You have withdrawn your application',
+          'heading' => 'Hello Fred',
+          'still interested' => 'You can apply again for courses starting in the 2025 to 2026 academic year.',
+          'when to apply again' => 'submit from 9am on 8 October 2024',
+        )
+      end
     end
 
     context 'when new reference flow is active' do
@@ -233,14 +256,37 @@ RSpec.describe CandidateMailer do
     let(:email) { described_class.decline_last_application_choice(application_form.application_choices.first) }
     let(:application_choices) { [build_stubbed(:application_choice, status: :declined)] }
 
-    it_behaves_like(
-      'a mail with subject and content',
-      'You have declined an offer: next steps',
-      'greeting' => 'Hello Fred',
-      'content' => 'declined your offer to study',
-      'realistic job preview' => 'Try the realistic job preview tool',
-      'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
-    )
+    context 'mid cycle', time: mid_cycle do
+      it_behaves_like(
+        'a mail with subject and content',
+        'You have declined an offer: next steps',
+        'greeting' => 'Hello Fred',
+        'still interested' => 'If now’s the right time for you, you can still apply for teacher training again this year.',
+        'content' => 'declined your offer to study',
+        'realistic job preview' => 'Try the realistic job preview tool',
+        'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
+      )
+    end
+
+    context 'between cycles, before find opens', time: after_apply_deadline(2024) do
+      it_behaves_like(
+        'a mail with subject and content',
+        'You have declined an offer: next steps',
+        'greeting' => 'Hello Fred',
+        'still interested' => 'You can apply again for courses starting in the 2025 to 2026 academic year.',
+        'when to apply again' => 'submit from 9am on 8 October 2024',
+      )
+    end
+
+    context 'between cycles, before find opens', time: after_find_opens(2025) do
+      it_behaves_like(
+        'a mail with subject and content',
+        'You have declined an offer: next steps',
+        'greeting' => 'Hello Fred',
+        'still interested' => 'You can apply again for courses starting in the 2025 to 2026 academic year.',
+        'when to apply again' => 'submit from 9am on 8 October 2024',
+      )
+    end
   end
 
   describe '.chase_reference_again' do
@@ -284,15 +330,36 @@ RSpec.describe CandidateMailer do
       )]
     end
 
-    it_behaves_like(
-      'a mail with subject and content',
-      'Offer withdrawn by Arachnid College',
-      'greeting' => 'Dear Fred',
-      'offer details' => 'Arachnid College has withdrawn their offer for you to study Mathematics (M101)',
-      'withdrawal reason' => 'You lied to us about secretly being Spiderman',
-      'realistic job preview' => 'Try the realistic job preview tool',
-      'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
-    )
+    context 'between cycles, before find opens', time: after_apply_deadline(2024) do
+      it_behaves_like(
+        'a mail with subject and content',
+        'Offer withdrawn by Arachnid College',
+        'still interested' => 'You can apply again for courses starting in the 2025 to 2026 academic year.',
+        'when to apply again' => 'submit from 9am on 8 October 2024',
+      )
+    end
+
+    context 'between cycles, after find opens, before apply reopens', time: after_find_opens(2025) do
+      it_behaves_like(
+        'a mail with subject and content',
+        'Offer withdrawn by Arachnid College',
+        'still interested' => 'You can apply again for courses starting in the 2025 to 2026 academic year.',
+        'when to apply again' => 'submit from 9am on 8 October 2024',
+      )
+    end
+
+    context 'mid cycle', time: mid_cycle do
+      it_behaves_like(
+        'a mail with subject and content',
+        'Offer withdrawn by Arachnid College',
+        'greeting' => 'Dear Fred',
+        'still interested' => 'If now’s the right time for you, you can still apply for teacher training again this year.',
+        'offer details' => 'Arachnid College has withdrawn their offer for you to study Mathematics (M101)',
+        'withdrawal reason' => 'You lied to us about secretly being Spiderman',
+        'realistic job preview' => 'Try the realistic job preview tool',
+        'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
+      )
+    end
   end
 
   describe '.offer_accepted' do
@@ -761,15 +828,38 @@ RSpec.describe CandidateMailer do
     context 'when the candidate has withdrawn or asked to be withdrawn from an application choice' do
       let(:email) { mailer.application_withdrawn_on_request(application_form.application_choices.first) }
 
-      it_behaves_like(
-        'a mail with subject and content',
-        'Update on your application',
-        'greeting' => 'Hello Fred',
-        'details' => 'has withdrawn your application for',
-        'content' => 'If now’s the right time for you, you can still apply for teacher training again this year.',
-        'realistic job preview' => 'Try the realistic job preview tool',
-        'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
-      )
+      context 'mid cycle', time: mid_cycle do
+        it_behaves_like(
+          'a mail with subject and content',
+          'Update on your application',
+          'greeting' => 'Hello Fred',
+          'details' => 'has withdrawn your application for',
+          'still interested' => 'If now’s the right time for you, you can still apply for teacher training again this year.',
+          'content' => 'If now’s the right time for you, you can still apply for teacher training again this year.',
+          'realistic job preview' => 'Try the realistic job preview tool',
+          'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
+        )
+      end
+
+      context 'between cycles, before find reopens', time: after_apply_deadline(2024) do
+        it_behaves_like(
+          'a mail with subject and content',
+          'Update on your application',
+          'greeting' => 'Hello Fred',
+          'still interested' => 'You can apply again for courses starting in the 2025 to 2026 academic year.',
+          'when to apply again' => 'submit from 9am on 8 October 2024',
+        )
+      end
+
+      context 'between cycles, before find reopens', time: after_find_opens(2025) do
+        it_behaves_like(
+          'a mail with subject and content',
+          'Update on your application',
+          'greeting' => 'Hello Fred',
+          'still interested' => 'You can apply again for courses starting in the 2025 to 2026 academic year.',
+          'when to apply again' => 'submit from 9am on 8 October 2024',
+        )
+      end
     end
   end
 

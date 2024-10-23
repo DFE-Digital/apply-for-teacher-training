@@ -148,4 +148,44 @@ RSpec.describe RecruitmentCycle, time: CycleTimetableHelper.mid_cycle(2023) do
       expect(described_class.verbose_cycle_name(2021)).to eq('October 2020 to September 2021')
     end
   end
+
+  describe '#next_course_starting_range' do
+    context 'after the apply deadline', time: after_apply_deadline(2024) do
+      it 'returns the 2025-26 academic year' do
+        expect(described_class.next_courses_starting_range).to eq '2025 to 2026'
+      end
+    end
+
+    context 'after find opens, before apply opens', time: after_find_opens(2025) do
+      it 'returns the 2025-26 academic year' do
+        expect(described_class.next_courses_starting_range).to eq '2025 to 2026'
+      end
+    end
+
+    context 'mid cycle 2025', time: mid_cycle(2025) do
+      it 'returns the 2026-27 academic year' do
+        expect(described_class.next_courses_starting_range).to eq '2026 to 2027'
+      end
+    end
+  end
+
+  describe '#next_apply_opening_date' do
+    context 'after the apply deadline', time: after_apply_deadline(2024) do
+      it 'returns the apply opening date for recruitment cycle 2025' do
+        expect(described_class.next_apply_opening_date).to eq Time.zone.local(2024, 10, 8, 9)
+      end
+    end
+
+    context 'after find opens, before apply opens', time: after_find_opens(2025) do
+      it 'returns the apply opening date for recruitment cycle 2025' do
+        expect(described_class.next_apply_opening_date).to eq Time.zone.local(2024, 10, 8, 9)
+      end
+    end
+
+    context 'mid cycle', time: mid_cycle(2025) do
+      it 'returns the apply opening date for recruitment cycle 2026' do
+        expect(described_class.next_apply_opening_date).to eq Time.zone.local(2025, 10, 8, 9)
+      end
+    end
+  end
 end
