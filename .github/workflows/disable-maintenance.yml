@@ -14,7 +14,7 @@ jobs:
   disable-maintenance:
     name: Disable maintenance app
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: ${{ inputs.environment }}_aks
 
     steps:
     - name: Checkout
