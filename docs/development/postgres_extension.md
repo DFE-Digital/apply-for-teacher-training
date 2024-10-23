@@ -15,12 +15,4 @@ end
 ```
 
 ### Update the azure config
-In `terraform/modules/kubernetes/azure_postgres.tf` add your extension to the following resource:
-```
-azurerm_postgresql_flexible_server_configuration" "postgres-extensions {
-	count =
-	name =
-	server_d =
-	value = "EXAMPLE_EXTENSION_HERE"
-}
-```
+In `terraform/aks/database.tf` add your extension to `azure_extensions`.

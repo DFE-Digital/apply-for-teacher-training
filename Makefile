@@ -278,7 +278,7 @@ maintenance-image-push: ## Build and push maintenance page image: make productio
 	echo ${GITHUB_TOKEN} | docker login ghcr.io -u USERNAME --password-stdin
 	docker push ghcr.io/dfe-digital/apply-teacher-training-maintenance:${MAINTENANCE_IMAGE_TAG}
 
-maintenance-fail-over: get-cluster-credentials ## Fail main app over to the maintenance page: make production maintenance-fail-over
+maintenance-fail-over: get-cluster-credentials ## Fail main app over to the maintenance page. Requires an existing maintenance docker image: make production maintenance-fail-over MAINTENANCE_IMAGE_TAG=y. See https://github.com/DFE-Digital/teacher-services-cloud/blob/main/documentation/maintenance-page.md#github-token
 	$(eval export CONFIG)
 	./maintenance_page/scripts/failover.sh
 

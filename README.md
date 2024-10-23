@@ -23,29 +23,9 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 ## Guides
 
-### Development
-- [Developer on-boarding](/docs/development/developer-onboarding.md)
-- [Developer setup](/docs/development/developer-setup.md)
-- [Frontend development](/docs/development/frontend.md)
-- [Rails components](/docs/development/components.md)
-- [Developing in GitHub Codespaces](/docs/development/codespaces.md)
-- [Testing style guide](/docs/development/testing-styleguide.md)
-- [Understanding the different course option fields](/docs/development/course-options.md)
-- [DfE Sign-in](/docs/development/dfe-sign-in.md)
-- [Adding PostgreSQL extensions](/docs/development/postgres_extension.md)
-
-### Infra
-- [Deploy the application](/docs/infra/deployment.md)
-- [Environment variables](/docs/infra/environment-variables.md)
-- [Pipeline Variables](/docs/infra/pipeline-variables.md)
-- [Restore a database](/docs/infra/database-restore.md)
-- [Set up a new environment](/docs/infra/new-environment.md)
-- [Swapping App Service Slots](/docs/infra/swap-slots-pipeline.md)
-
-### General
-- [Connect to a production database](/docs/developer/connecting-to-databases.md)
-- [Performance monitoring](/docs/infra/performance-monitoring.md)
-
+- [General](docs/)
+- [Development](docs/development/)
+- [Infra](docs/infra/)
 
 ## Dependencies
 

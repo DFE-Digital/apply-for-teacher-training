@@ -12,11 +12,10 @@ This process assumes that the build and test stage has completed without error a
 
 ## Instructions using GitHub Actions
 
-1. Grab the commit sha to be used from either the [Apply ops dashboard](http://apply-ops-dashboard.azurewebsites.net) or the [build workflow](https://github.com/DFE-Digital/apply-for-teacher-training/actions/workflows/build.yml), in case of a rollback use the commit sha of the previous commit that needs to be deployed. To deploy the `main` branch, use "main".
+1. Grab the commit sha to be used from the [build and deploy workflow](https://github.com/DFE-Digital/apply-for-teacher-training/actions/workflows/build-and-deploy.yml), in case of a rollback use the commit sha of the previous commit that needs to be deployed. To deploy the `main` branch, use "main".
 
-2. Go the deploy workflow and click on the "Run workflow" dropdown button, you'll see a list of apply environments like below.
-  ![Apply Workflow Dispatch](apply-workflow-dispatch.jpg)
-3. Now paste the commit sha to be used in the "Commit sha to be deployed" textbox and `true` into the textboxes for the environments you want this commit to be deployed. Eg: if you want to deploy this commit only to `qa` enter `true` into the textbox below the "Deploy to qa?" label and leave the rest as `false`.
+2. Go the [deploy-v2 workflow](https://github.com/DFE-Digital/apply-for-teacher-training/actions/workflows/deploy-v2.yml) and click on the "Run workflow" dropdown button. Choose the apply environment from the list.
+3. Now paste the commit sha to be used in the "Commit sha to be deployed" textbox
 4. Click on the "Run workflow" button, this should trigger a run workflow run and deploy the commit sha to the selected environments.
 
 ## Instructions using make commands
@@ -25,7 +24,7 @@ This process assumes that the build and test stage has completed without error a
 
 Make commands can be run from the root of the repo to deploy a specific version to one of the environments.
 
-1. Grab the commit sha to be used from either the [Apply ops dashboard](http://apply-ops-dashboard.azurewebsites.net) or the [build workflow](https://github.com/DFE-Digital/apply-for-teacher-training/actions/workflows/build.yml). This is only required to deploy a particular commit instead of the current `main` branch.
+1. Grab the commit sha to be used from the [build and deploy workflow](https://github.com/DFE-Digital/apply-for-teacher-training/actions/workflows/build-and-deploy.yml). This is only required to deploy a particular commit instead of the current `main` branch.
 1. Login to Azure via `az` cli:
     ```
     az login
@@ -44,5 +43,5 @@ Make commands can be run from the root of the repo to deploy a specific version 
     This will list the changes about to be deployed and prompt for a confirmation, you can type "yes" to confirm and the changes will be applied.
 
     You can also just preview the changes by running `deploy-plan` instead of `deploy` in the above command.
-1. Check the `#twd_apply_tech` Slack channel for any runtime errors from
+1. Check the `#twd_find_and_apply_tech` Slack channel for any runtime errors from
    Sentry or the smoke tests before proceeding to the next environment.

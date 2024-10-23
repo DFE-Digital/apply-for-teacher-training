@@ -14,7 +14,7 @@ jobs:
   disable-maintenance:
     name: Disable maintenance app
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: ${{ inputs.environment }}_aks
 
     steps:
     - name: Checkout
@@ -30,4 +30,4 @@ jobs:
         azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Disable maintenance app
-      run: make ${{ inputs.environment }}_aks disable-maintenance
+      run: make ci ${{ inputs.environment }}_aks disable-maintenance
