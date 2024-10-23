@@ -6,6 +6,7 @@
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">Email</th>
+      <th scope="col" class="govuk-table__header">Last Login Date</th>
       <th scope="col" class="govuk-table__header">DfE Sign-in UID</th>
       <th scope="col" class="govuk-table__header">Actions</th>
     </tr>
@@ -16,6 +17,9 @@
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
           <%= govuk_link_to support_user.display_name, support_interface_support_user_path(support_user) %>
+        </td>
+          <td class="govuk-table__cell">
+          <%= support_user.last_signed_in_at&.to_fs(:govuk_date_and_time) || 'Not signed in yet' %>
         </td>
         <td class="govuk-table__cell">
           <%= support_user.dfe_sign_in_uid %>
