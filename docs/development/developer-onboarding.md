@@ -32,7 +32,10 @@ Note: You can also navigate to the Add Support User page by logging into support
 
 # Additional reading
 
-Have a read through [Teacher Services technical documentation](https://tech-docs.teacherservices.cloud/) and [DfE Technical Guidance](https://technical-guidance.education.gov.uk/).
+Have a read through:
+- [AKS developer onboarding](https://github.com/DFE-Digital/teacher-services-cloud/blob/main/documentation/developer-onboarding.md)
+- [Teacher Services technical documentation](https://tech-docs.teacherservices.cloud/)
+- [DfE Technical Guidance](https://technical-guidance.education.gov.uk/).
 
 # Developer Slack Channels
 

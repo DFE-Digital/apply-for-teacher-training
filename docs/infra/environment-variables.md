@@ -32,18 +32,18 @@ Runtime environment variables and app secrets are stored in Azure KeyVault and t
 Run the below commands from the root of the repository to view the current values stored in Key Vault.
 You'll also need to be logged into your azure account using the [az cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
 
-Command                          | Description                                   | Azure Subscription
----------------------------------| --------------------------------------------- |---------------------
-make qa view-app-secrets         | View app secrets for `qa` environment         | s121-findpostgraduateteachertraining-development
-make staging view-app-secrets    | View app secrets for `staging` environment    | s121-findpostgraduateteachertraining-test
-make sandbox view-app-secrets    | View app secrets for `sandbox` environment    | s121-findpostgraduateteachertraining-production
-make production view-app-secrets | View app secrets for `production` environment | s121-findpostgraduateteachertraining-production
+Command                          | Description                                   |
+---------------------------------| --------------------------------------------- |
+make qa view-app-secrets         | View app secrets for `qa` environment         |
+make staging view-app-secrets    | View app secrets for `staging` environment    |
+make sandbox view-app-secrets    | View app secrets for `sandbox` environment    |
+make production view-app-secrets | View app secrets for `production` environment |
 
 **Please note that you'll need PIM access on the corresponding Azure subscription to view/edit app secrets in staging, sandbox and production environments.**
 
-Command                          | Description                                   | Azure Subscription
----------------------------------| --------------------------------------------- |---------------------
-make qa edit-app-secrets         | Edit app secrets for `qa` environment         | s121-findpostgraduateteachertraining-development
-make staging edit-app-secrets    | Edit app secrets for `staging` environment    | s121-findpostgraduateteachertraining-test
-make sandbox edit-app-secrets    | Edit app secrets for `sandbox` environment    | s121-findpostgraduateteachertraining-production
-make production edit-app-secrets | Edit app secrets for `production` environment | s121-findpostgraduateteachertraining-production
+Command                          | Description                                   |
+---------------------------------| --------------------------------------------- |
+make qa edit-app-secrets         | Edit app secrets for `qa` environment         |
+make staging edit-app-secrets    | Edit app secrets for `staging` environment    |
+make sandbox edit-app-secrets    | Edit app secrets for `sandbox` environment    |
+make production edit-app-secrets | Edit app secrets for `production` environment |
