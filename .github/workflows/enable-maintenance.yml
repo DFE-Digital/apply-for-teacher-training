@@ -39,6 +39,6 @@ jobs:
         azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Deploy maintenance app
-      run: make ${{ inputs.environment }}_aks maintenance-fail-over
+      run: CONFIRM_PRODUCTION=true make ${{ inputs.environment }}_aks maintenance-fail-over
       env:
         MAINTENANCE_IMAGE_TAG: ${{steps.build-image.outputs.tag}}
