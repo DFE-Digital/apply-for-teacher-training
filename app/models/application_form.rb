@@ -314,6 +314,10 @@ class ApplicationForm < ApplicationRecord
   #
   ##########################################
 
+  def maximum_number_of_choices_reached?
+    application_limit_reached? || cannot_add_more_choices?
+  end
+
   def application_limit_reached?
     application_choices.count(&:application_unsuccessful?) >= MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS
   end

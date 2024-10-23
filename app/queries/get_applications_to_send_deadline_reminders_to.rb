@@ -5,11 +5,9 @@ class GetApplicationsToSendDeadlineRemindersTo
 
   def self.deadline_reminder_query
     ApplicationForm
-      .joins(:candidate)
+      .joins(:candidate).merge(Candidate.for_marketing_or_nudge_emails)
       .current_cycle
       .unsubmitted
-      # Filter out candidates who should not be receiving emails about their accounts
-      .where(candidates: { submission_blocked: false, account_locked: false, unsubscribed_from_emails: false })
   end
 
   def self.need_to_send_deadline_reminder?

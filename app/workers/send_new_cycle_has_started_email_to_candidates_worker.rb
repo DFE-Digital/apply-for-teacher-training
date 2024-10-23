@@ -23,7 +23,7 @@ class SendNewCycleHasStartedEmailToCandidatesWorker
     current_recruitment_year = RecruitmentCycle.current_year
     # Candidates who didn't have successful applications last year and haven't started working on their 2025 application
     Candidate
-      .where({ submission_blocked: false, account_locked: false, unsubscribed_from_emails: false })
+      .for_marketing_or_nudge_emails
       .joins(:application_forms)
       # Has not started a new application form
       .where.not(id: Candidate.joins(:application_forms).where(

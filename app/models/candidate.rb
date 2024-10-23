@@ -8,6 +8,9 @@ class Candidate < ApplicationRecord
   devise :timeoutable
   audited last_signed_in_at: true
 
+  scope :for_transaction_emails, -> { where({ submission_blocked: false, account_locked: false }) }
+  scope :for_marketing_or_nudge_emails, -> { for_transaction_emails.where(unsubscribed_from_emails: false) }
+
   before_validation :downcase_email
   validates :email_address, presence: true, length: { maximum: 100 }, valid_for_notify: true
 

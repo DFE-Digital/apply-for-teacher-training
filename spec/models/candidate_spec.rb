@@ -260,4 +260,28 @@ RSpec.describe Candidate do
       expect(candidate.pseudonymised_id).to eq '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9'
     end
   end
+
+  context 'scopes' do
+    describe '#for_transaction_emails' do
+      let!(:unsubscribed_from_emails) { create(:candidate, unsubscribed_from_emails: true) }
+      let!(:submission_blocked) { create(:candidate, submission_blocked: true) }
+      let!(:account_locked) { create(:candidate, account_locked: true) }
+      let!(:free_to_email) { create(:candidate, account_locked: false, unsubscribed_from_emails: false, submission_blocked: false) }
+
+      it 'excludes candidates whose accounts are blocked or locked' do
+        expect(described_class.for_transaction_emails).to contain_exactly(unsubscribed_from_emails, free_to_email)
+      end
+    end
+
+    describe '#for_marketing_or_nudge_emails' do
+      let!(:unsubscribed_from_emails) { create(:candidate, unsubscribed_from_emails: true) }
+      let!(:submission_blocked) { create(:candidate, submission_blocked: true) }
+      let!(:account_locked) { create(:candidate, account_locked: true) }
+      let!(:free_to_email) { create(:candidate, account_locked: false, unsubscribed_from_emails: false, submission_blocked: false) }
+
+      it 'excludes blocked, locked and unsubscribed emails' do
+        expect(described_class.for_marketing_or_nudge_emails).to contain_exactly(free_to_email)
+      end
+    end
+  end
 end

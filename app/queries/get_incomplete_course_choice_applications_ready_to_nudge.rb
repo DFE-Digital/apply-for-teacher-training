@@ -12,7 +12,7 @@ class GetIncompleteCourseChoiceApplicationsReadyToNudge
   def call
     ApplicationForm
       # Filter out candidates who should not receive emails about their accounts
-      .joins(:candidate).where(candidates: { submission_blocked: false, account_locked: false, unsubscribed_from_emails: false })
+      .joins(:candidate).merge(Candidate.for_marketing_or_nudge_emails)
       .current_cycle
       .inactive_since(7.days.ago)
       # They have completed their references and the personal statement

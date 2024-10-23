@@ -17,7 +17,7 @@ class GetUnsubmittedApplicationsReadyToNudge
       # Only candidates with unsubmitted application_choices
       .joins(:application_choices).where('application_choices.status': 'unsubmitted')
       # Filter out candidates who should not receive emails about their accounts
-      .joins(:candidate).where(candidates: { submission_blocked: false, account_locked: false, unsubscribed_from_emails: false })
+      .joins(:candidate).merge(Candidate.for_marketing_or_nudge_emails)
       .joins('LEFT OUTER JOIN application_choices ac_primary ON ac_primary.application_form_id = application_forms.id')
       .joins('LEFT OUTER JOIN course_options ON course_options.id = ac_primary.course_option_id')
       .joins("LEFT OUTER JOIN courses courses_primary ON courses_primary.id = course_options.course_id AND LOWER(courses_primary.level) = 'primary'")

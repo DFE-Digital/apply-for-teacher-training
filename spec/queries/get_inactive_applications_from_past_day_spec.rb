@@ -10,6 +10,20 @@ RSpec.describe GetInactiveApplicationsFromPastDay do
       expect(described_class.call).to be_empty
     end
 
+    context 'when candidate is blocked, locked or unsubscribed' do
+      let(:unsubscribed) { create(:application_form, candidate: build(:candidate, unsubscribed_from_emails: true)) }
+      let(:locked) { create(:application_form, candidate: build(:candidate, account_locked: true)) }
+      let(:blocked) { create(:application_form, candidate: build(:candidate, submission_blocked: true)) }
+
+      it 'only returns unsubscribed candidates' do
+        create(:application_choice, :inactive, application_form: unsubscribed)
+        create(:application_choice, :inactive, application_form: locked)
+        create(:application_choice, :inactive, application_form: blocked)
+
+        expect(described_class.call.pluck(:id)).to eq([unsubscribed.id])
+      end
+    end
+
     context 'when there are inactive applications' do
       let(:application_form) { create(:application_form) }
       let!(:application_choice) { create(:application_choice, :inactive) }
