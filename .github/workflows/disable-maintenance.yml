@@ -30,4 +30,4 @@ jobs:
         azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Disable maintenance app
-      run: make ${{ inputs.environment }}_aks disable-maintenance
+      run: make ci ${{ inputs.environment }}_aks disable-maintenance
