@@ -67,7 +67,7 @@ module SupportInterface
 
       def change_course_choice_params
         params.require(:support_interface_application_forms_change_course_choice_form)
-              .permit(:application_choice_id, :provider_code, :course_code, :study_mode, :site_code, :audit_comment_ticket, :accept_guidance, :confirm_course_change, :checkbox_rendered)
+              .permit(:application_choice_id, :provider_code, :course_code, :study_mode, :site_code, :recruitment_cycle_year, :audit_comment_ticket, :accept_guidance, :confirm_course_change, :checkbox_rendered)
       end
 
       def application_form_id

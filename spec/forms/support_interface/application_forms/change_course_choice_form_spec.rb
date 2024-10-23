@@ -120,7 +120,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
         original_course_option = create(:course_option)
         application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
 
-        course_option = create(:course_option, study_mode: :full_time, course: create(:course, funding_type: 'fee'))
+        course_option = create(:course_option)
         zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
 
         form = described_class.new(
@@ -129,6 +129,33 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
           course_code: course_option.course.code,
           study_mode: course_option.course.study_mode,
           site_code: course_option.site.code,
+          audit_comment_ticket: zendesk_ticket,
+          accept_guidance: true,
+        )
+
+        expect(form.save(application_choice.id)).to be(true)
+
+        expect(application_choice.reload.course.name).to eq course_option.course.name
+        expect(application_choice.course.id).not_to eq original_course_option.course.id
+        expect(application_choice.audits.last.comment).to include(zendesk_ticket)
+      end
+    end
+
+    context 'if the new course details are for a previous recruitment cycle' do
+      it 'updates the application choice' do
+        original_course_option = create(:course_option, course: create(:course, recruitment_cycle_year: 2024))
+        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+
+        course_option = create(:course_option, course: create(:course, recruitment_cycle_year: 2024))
+        zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+
+        form = described_class.new(
+          application_choice_id: application_choice.id,
+          provider_code: course_option.provider.code,
+          course_code: course_option.course.code,
+          study_mode: course_option.course.study_mode,
+          site_code: course_option.site.code,
+          recruitment_cycle_year: 2024,
           audit_comment_ticket: zendesk_ticket,
           accept_guidance: true,
         )
