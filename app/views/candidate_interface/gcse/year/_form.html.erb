@@ -2,9 +2,9 @@
 <h1 class="govuk-heading-xl"><%= year_step_title(@subject, @year_form.qualification_type) %></h1>
 
 <% if @year_form.qualification_type == 'gce_o_level' %>
-  <%= f.govuk_text_field :award_year, label: { text: t('application_form.gcse.award_year.label'), size: 'm' }, hint: { text: t('application_form.gcse.award_year.gce_o_level_hint_text') }, width: 4, maxlength: 4 %>
+  <%= f.govuk_text_field :award_year, label: { text: t('application_form.gcse.award_year.label'), size: 'm' }, hint: { text: t('application_form.gcse.award_year.gce_o_level_hint_text') }, width: 4, maxlength: 4, inputmode: 'numeric' %>
 <% else %>
-  <%= f.govuk_text_field :award_year, label: { text: t('application_form.gcse.award_year.label'), size: 'm' }, hint: { text: t('application_form.gcse.award_year.hint_text') }, width: 4, maxlength: 4 %>
+  <%= f.govuk_text_field :award_year, label: { text: t('application_form.gcse.award_year.label'), size: 'm' }, hint: { text: t('application_form.gcse.award_year.hint_text') }, width: 4, maxlength: 4, inputmode: 'numeric' %>
 <% end %>
 
 <%= f.govuk_submit t('save_and_continue') %>

@@ -11,7 +11,7 @@
         <%= f.govuk_radio_button :grade, grade, label: { text: grade.to_s }, link_errors: i.zero? %>
       <% end %>
     <% end %>
-    <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint: { text: t('application_form.other_qualification.award_year.hint_text') }, width: 4, maxlength: 4 %>
+    <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint: { text: t('application_form.other_qualification.award_year.hint_text') }, width: 4, maxlength: 4, inputmode: 'numeric' %>
   <% else %>
     <%= f.govuk_text_field :subject, label: { text: t('application_form.other_qualification.subject.label'), size: 'm' } %>
     <%= tag.div(id: 'subject-autosuggest-data', data: { source: subjects }) if subjects %>

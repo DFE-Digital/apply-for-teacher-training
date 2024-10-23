@@ -4,7 +4,7 @@
   <% content_for :before_content, govuk_back_link_to(@wizard.award_year_back_link) %>
   <%= form_with model: @wizard, url: candidate_interface_degree_award_year_path do |f| %>
     <%= f.govuk_error_summary %>
-    <%= f.govuk_text_field :award_year, label: { text: t('application_form.degree.award_year.label', did_or_will: (@wizard.completed? ? 'did' : 'will').to_s), size: 'l' }, hint: { text: t('application_form.degree.award_year.hint') }, width: 4, maxlength: 4 %>
+    <%= f.govuk_text_field :award_year, label: { text: t('application_form.degree.award_year.label', did_or_will: (@wizard.completed? ? 'did' : 'will').to_s), size: 'l' }, hint: { text: t('application_form.degree.award_year.hint') }, width: 4, maxlength: 4, inputmode: 'numeric' %>
     <%= f.govuk_submit t('save_and_continue') %>
   <% end %>
   </div>
