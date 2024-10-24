@@ -1,7 +1,7 @@
 module DataMigrations
   class BackfillWithdrawalReasons
     TIMESTAMP = 20241023160952
-    MANUAL_RUN = false
+    MANUAL_RUN = true
 
     WITHDRAWAL_REASONS_MAPPING = {
       'application_unsuccessful' => 'asked_to_withdraw',
