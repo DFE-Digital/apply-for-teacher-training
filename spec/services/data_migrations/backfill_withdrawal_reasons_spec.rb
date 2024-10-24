@@ -8,14 +8,26 @@ RSpec.describe DataMigrations::BackfillWithdrawalReasons do
       expect(application_choice.reload.structured_withdrawal_reasons).to eq(all_new_reasons)
     end
 
-    it 'does not change the timestamps' do
-      updated_at = Time.zone.local(2023, 12, 12, 9)
-      application_choice = create(:application_choice,
-                                  :withdrawn,
-                                  structured_withdrawal_reasons: all_old_reasons,
-                                  updated_at: updated_at)
+    it 'does not update any other fields' do
+      application_choice = create(:application_choice, :withdrawn, structured_withdrawal_reasons: all_old_reasons)
+      old_attributes = application_choice.attributes
+      old_attributes.delete('structured_withdrawal_reasons')
+
       described_class.new.change
-      expect(application_choice.reload.updated_at).to be_within(0.1.seconds).of(updated_at)
+      new_attributes = application_choice.reload.attributes
+      new_attributes.delete('structured_withdrawal_reasons')
+
+      expect(old_attributes).to match(new_attributes)
+    end
+
+    it 'does not create new records' do
+      create_list(:application_choice, 3)
+      create_list(:application_choice, 3,
+                  :withdrawn,
+                  structured_withdrawal_reasons: %w[flexibile_itt_study_intensity flexible_itt_course_date])
+      described_class.new.change
+
+      expect(ApplicationChoice.count).to eq(6)
     end
   end
 
@@ -32,6 +44,13 @@ RSpec.describe DataMigrations::BackfillWithdrawalReasons do
       application_choice = create(:application_choice, :withdrawn, structured_withdrawal_reasons: [])
       described_class.new.change
       expect(application_choice.reload.structured_withdrawal_reasons).to eq([])
+    end
+
+
+    it 'does not change records where reasons are nil' do
+      application_choice = create(:application_choice, :withdrawn, structured_withdrawal_reasons: nil)
+      described_class.new.change
+      expect(application_choice.reload.structured_withdrawal_reasons).to eq nil
     end
   end
 
