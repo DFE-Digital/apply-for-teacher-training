@@ -4,7 +4,7 @@
   <% content_for :before_content, govuk_back_link_to(@wizard.start_year_back_link) %>
   <%= form_with model: @wizard, url: candidate_interface_degree_start_year_path do |f| %>
     <%= f.govuk_error_summary %>
-    <%= f.govuk_text_field :start_year, label: { text: t('page_titles.what_year_did_you_start_your_degree'), size: 'l' }, hint: { text: 'For example, 1999' }, width: 4 %>
+    <%= f.govuk_text_field :start_year, label: { text: t('page_titles.what_year_did_you_start_your_degree'), size: 'l' }, hint: { text: 'For example, 1999' }, width: 4, maxlength: 4, inputmode: 'numeric' %>
     <%= f.govuk_submit t('save_and_continue') %>
   <% end %>
   </div>

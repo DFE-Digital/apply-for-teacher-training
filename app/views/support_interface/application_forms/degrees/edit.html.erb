@@ -7,8 +7,8 @@
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_fieldset legend: { text: "Edit #{@degree_form.subject.capitalize} degree details", size: 'l' } do %>
-        <%= f.govuk_text_field :start_year, label: { text: 'Start year', size: 'm' } %>
-        <%= f.govuk_text_field :award_year, label: { text: 'Award year', size: 'm' } %>
+        <%= f.govuk_text_field :start_year, label: { text: 'Start year', size: 'm' }, maxlength: 4, inputmode: 'numeric' %>
+        <%= f.govuk_text_field :award_year, label: { text: 'Award year', size: 'm' }, maxlength: 4, inputmode: 'numeric' %>
       <% end %>
 
         <%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.edit_address_details_form.audit_comment.label'), size: 'm' }, hint: { text: t('support_interface.edit_address_details_form.audit_comment.hint') } %>

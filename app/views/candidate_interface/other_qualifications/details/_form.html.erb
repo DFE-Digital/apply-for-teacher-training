@@ -2,7 +2,7 @@
     <%= f.govuk_text_field :subject, label: { text: t('application_form.other_qualification.subject.optional_label'), size: 'm' } %>
     <%= f.govuk_collection_select :institution_country, select_country_options, :id, :name, label: { text: t('application_form.other_qualification.institution_country.label'), size: 'm' } %>
     <%= f.govuk_text_field :grade, label: { text: t('application_form.other_qualification.grade.optional_label'), size: 'm' }, width: 10 %>
-    <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint: { text: t('application_form.other_qualification.award_year.hint_text') }, inputmode: 'numeric', width: 4 %>
+    <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint: { text: t('application_form.other_qualification.award_year.hint_text') }, inputmode: 'numeric', width: 4, maxlength: 4 %>
   <% elsif @form.btec? %>
     <%= f.govuk_text_field :subject, label: { text: t('application_form.other_qualification.subject.label'), size: 'm' } %>
     <%= tag.div(id: 'subject-autosuggest-data', data: { source: subjects }) if subjects %>
@@ -11,7 +11,7 @@
         <%= f.govuk_radio_button :grade, grade, label: { text: grade.to_s }, link_errors: i.zero? %>
       <% end %>
     <% end %>
-    <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint: { text: t('application_form.other_qualification.award_year.hint_text') }, type: :number, width: 4 %>
+    <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint: { text: t('application_form.other_qualification.award_year.hint_text') }, width: 4, maxlength: 4, inputmode: 'numeric' %>
   <% else %>
     <%= f.govuk_text_field :subject, label: { text: t('application_form.other_qualification.subject.label'), size: 'm' } %>
     <%= tag.div(id: 'subject-autosuggest-data', data: { source: subjects }) if subjects %>
@@ -20,5 +20,6 @@
                            width: ['A level', 'AS level', 'GCSE'].include?(@form.qualification_type) ? 4 : 10,
                            hint: @form.grade_hint %>
     <%= tag.div(id: 'grade-autosuggest-data', data: { source: grades }) if grades %>
-    <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint: { text: t('application_form.other_qualification.award_year.hint_text') }, inputmode: 'numeric', width: 4 %>
+    <%= f.govuk_text_field :award_year,
+                           label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint: { text: t('application_form.other_qualification.award_year.hint_text') }, inputmode: 'numeric', width: 4, maxlength: 4 %>
   <% end %>
