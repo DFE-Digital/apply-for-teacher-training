@@ -54,9 +54,9 @@ RSpec.describe 'Editing a degree' do
     and_i_answer_that_i_have_a_university_degree
     when_i_select_another_country
     and_i_click_on_save_and_continue
-    when_i_fill_in_the_subject
-    and_i_click_on_save_and_continue
     when_i_fill_in_the_type_of_degree
+    and_i_click_on_save_and_continue
+    when_i_fill_in_the_subject
     and_i_click_on_save_and_continue
     when_i_fill_in_the_university
     and_i_click_on_save_and_continue
