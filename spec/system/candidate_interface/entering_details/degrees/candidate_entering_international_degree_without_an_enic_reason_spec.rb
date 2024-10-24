@@ -9,8 +9,8 @@ RSpec.describe 'Entering an international doctorate degree' do
 
     and_i_answer_that_i_have_a_university_degree
     and_i_select_another_country
-    and_i_fill_in_the_subject
     and_i_fill_in_the_type_of_degree
+    and_i_fill_in_the_subject
     and_i_fill_in_the_university
     and_i_choose_whether_degree_is_completed
     and_i_select_no_grade_was_given

@@ -134,7 +134,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
     choose 'Another country'
     select 'Brazil', from: 'Country or territory'
     and_i_click_save_and_continue
-    expect(page).to have_current_path(candidate_interface_degree_subject_path)
+    expect(page).to have_current_path(candidate_interface_degree_type_path)
   end
 
   def and_candidate_can_edit_english_gcse
