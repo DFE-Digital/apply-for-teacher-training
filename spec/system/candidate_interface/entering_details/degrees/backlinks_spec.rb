@@ -33,10 +33,14 @@ RSpec.describe 'Degrees' do
     when_i_click_to_change_my_country
     and_i_choose_another_country
     and_i_click_on_save_and_continue
+    and_i_fill_the_type_of_degree
+    and_i_click_on_save_and_continue
     and_i_fill_in_a_subject
     and_i_click_on_save_and_continue
     and_i_click_the_back_link
     then_i_am_taken_back_to_the_subject_page
+    and_i_click_the_back_link
+    then_i_am_taken_back_to_the_type_page
     and_i_click_the_back_link
     then_i_am_taken_back_to_the_country_page
     and_i_click_the_back_link
@@ -141,12 +145,20 @@ RSpec.describe 'Degrees' do
     select 'France'
   end
 
+  def and_i_fill_the_type_of_degree
+    fill_in 'candidate_interface_degree_wizard[international_type]', with: 'Bachelor'
+  end
+
   def and_i_fill_in_a_subject
     select 'History', from: 'candidate_interface_degree_wizard[subject]'
   end
 
   def then_i_am_taken_back_to_the_subject_page
     expect(page).to have_content('What subject is your degree?')
+  end
+
+  def then_i_am_taken_back_to_the_type_page
+    expect(page).to have_content('What type of degree is it?')
   end
 
   def then_i_am_taken_back_to_the_country_page

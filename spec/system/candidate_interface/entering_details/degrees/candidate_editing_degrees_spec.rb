@@ -60,7 +60,7 @@ RSpec.describe 'Editing a degree' do
     then_i_see_my_chosen_undergraduate_country
     when_i_change_my_undergraduate_country_to_another_country
     and_i_click_on_save_and_continue
-    then_i_can_check_my_undergraduate_subject_has_been_cleared
+    then_i_can_check_my_undergraduate_degree_type_has_been_cleared
 
     when_i_click_to_change_my_undergraduate_degree_type_again
     and_i_change_my_degree_to_another_masters_degree_type
@@ -244,9 +244,9 @@ RSpec.describe 'Editing a degree' do
     expect(page).to have_content RecruitmentCycle.current_year.to_s
   end
 
-  def then_i_can_check_my_undergraduate_subject_has_been_cleared
-    expect(page).to have_content 'What subject is your degree?'
-    expect(selected_option_for_field('What subject is your degree?')).to be_nil
+  def then_i_can_check_my_undergraduate_degree_type_has_been_cleared
+    expect(page).to have_content('What type of degree is it?')
+    expect(page.find_field('candidate-interface-degree-wizard-international-type-field').value).to be_nil
   end
 
   def and_i_click_on_continue
