@@ -1,5 +1,4 @@
 require "active_support/core_ext/integer/time"
-require './app/lib/hosting_environment'
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -174,6 +173,12 @@ Rails.application.configure do
                                              [
                                                ActionDispatch::RemoteIp::TRUSTED_PROXIES,
                                              ]
+                                           else
+                                             # Add AWS IP addresses to trusted proxy list
+                                             [
+                                               ActionDispatch::RemoteIp::TRUSTED_PROXIES,
+                                               Modules::AWSIpRanges.cloudfront_ips.map { |proxy| IPAddr.new(proxy) },
+                                             ].flatten
                                            end
 
   config.active_storage.service = :azure
