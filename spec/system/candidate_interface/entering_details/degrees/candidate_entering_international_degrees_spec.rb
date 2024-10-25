@@ -14,14 +14,14 @@ RSpec.describe 'Entering an international degree' do
     when_i_select_another_country
     and_i_click_on_save_and_continue
 
-    # Add subject
-    then_i_can_see_the_subject_page
-    when_i_fill_in_the_subject
-    and_i_click_on_save_and_continue
-
     # Add degree type
     then_i_can_see_the_type_page
     when_i_fill_in_the_type_of_degree
+    and_i_click_on_save_and_continue
+
+    # Add subject
+    then_i_can_see_the_subject_page
+    when_i_fill_in_the_subject
     and_i_click_on_save_and_continue
 
     # Add university

@@ -155,7 +155,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
         let(:degree_params) { { uk_or_non_uk: 'non_uk', country: 'FR', current_step: :country } }
 
         it 'redirects to the subject step' do
-          expect(wizard.next_step).to be(:subject)
+          expect(wizard.next_step).to be(:type)
         end
       end
 
@@ -193,8 +193,8 @@ RSpec.describe CandidateInterface::DegreeWizard do
         end
       end
 
-      context 'when either uk or non_uk degree and any other degree_level' do
-        let(:degree_params) { { current_step: :subject, uk_or_non_uk: %w[uk non_uk].sample } }
+      context 'when uk degree and any other degree_level' do
+        let(:degree_params) { { current_step: :subject, uk_or_non_uk: 'uk' } }
 
         it 'redirects to the type page' do
           expect(wizard.next_step).to be(:type)
@@ -203,7 +203,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'type step' do
-      let(:degree_params) { { current_step: :type } }
+      let(:degree_params) { { current_step: :type, uk_or_non_uk: 'uk' } }
 
       it 'redirects to university page' do
         expect(wizard.next_step).to be(:university)
@@ -372,12 +372,12 @@ RSpec.describe CandidateInterface::DegreeWizard do
       end
 
       context 'when a uk degree is changed to international' do
-        it 'redirects to subject step' do
+        it 'redirects to type step' do
           wizard.current_step = :country
           wizard.uk_or_non_uk = 'non_uk'
           wizard.country = 'France'
 
-          expect(wizard.next_step).to eq(:subject)
+          expect(wizard.next_step).to eq(:type)
         end
       end
 

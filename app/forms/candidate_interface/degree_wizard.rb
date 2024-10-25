@@ -101,11 +101,11 @@ module CandidateInterface
       if !reviewing? || (reviewing? && country_changed?)
         if step == :country && uk?
           :degree_level
-        elsif (step == :country && international? && country.present?) || step == :degree_level
+        elsif (step == :type && international?) || step == :degree_level
           :subject
-        elsif (step == :subject && uk? && !degree_has_type?) || step == :type
+        elsif (step == :subject && uk? && !degree_has_type?) || (step == :type && uk?) || (step == :subject && international?)
           :university
-        elsif step == :subject
+        elsif (step == :country && international? && country.present?) || (step == :subject && uk?)
           :type
         elsif step == :university
           :completed
@@ -177,7 +177,7 @@ module CandidateInterface
       if reviewing_and_unchanged_country?
         back_to_review
       elsif international?
-        Rails.application.routes.url_helpers.candidate_interface_degree_country_path
+        Rails.application.routes.url_helpers.candidate_interface_degree_type_path
       else
         Rails.application.routes.url_helpers.candidate_interface_degree_degree_level_path
       end
@@ -186,10 +186,12 @@ module CandidateInterface
     def types_page_back_link
       if reviewing_and_from_wizard_page
         if international?
-          Rails.application.routes.url_helpers.candidate_interface_degree_subject_path
+          Rails.application.routes.url_helpers.candidate_interface_degree_country_path
         else
           Rails.application.routes.url_helpers.candidate_interface_degree_degree_level_path
         end
+      elsif !reviewing? && international?
+        Rails.application.routes.url_helpers.candidate_interface_degree_country_path
       elsif !reviewing? || (reviewing? && country_changed?)
         Rails.application.routes.url_helpers.candidate_interface_degree_subject_path
       else
@@ -200,7 +202,7 @@ module CandidateInterface
     def university_back_link
       if reviewing_and_unchanged_country?
         back_to_review
-      elsif degree_has_type?
+      elsif degree_has_type? && uk?
         Rails.application.routes.url_helpers.candidate_interface_degree_type_path
       else
         Rails.application.routes.url_helpers.candidate_interface_degree_subject_path
