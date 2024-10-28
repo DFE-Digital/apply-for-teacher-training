@@ -1,17 +1,17 @@
 en:
   service_information_banner:
     provider:
-      sandbox_header: The sandbox will be unavailable on Wednesday 23 October from 7am to 8am
+      sandbox_header: The sandbox will be unavailable on Tuesday 29 October from 7am to 8am
       sandbox_body: This will affect both the web service and the API. You may lose work if you are using the sandbox when it becomes unavailable.
-      header: The Manage service will be unavailable on Wednesday 23 October from 7am to 8am
+      header: The Manage service will be unavailable on Tuesday 29 October from 7am to 8am
       body: This will affect both the web service and the API. You may lose work if you are using Manage when it becomes unavailable.
     candidate:
-      sandbox_header: The sandbox will be unavailable on Wednesday 23 October from 7am to 8am
+      sandbox_header: The sandbox will be unavailable on Tuesday 29 October from 7am to 8am
       sandbox_body: You may lose work if you are using the sandbox when it becomes unavailable.
-      header: The service will be unavailable on Wednesday 23 October from 7am to 8am
+      header: The service will be unavailable on Tuesday 29 October from 7am to 8am
       body: You may lose work if you are using this service when it becomes unavailable.
     support:
-      sandbox_header: The sandbox will be unavailable on Wednesday 23 October from 7am to 8am
+      sandbox_header: The sandbox will be unavailable on Tuesday 29 October from 7am to 8am
       sandbox_body: You may lose work if you are using the sandbox when it becomes unavailable.
-      header: The service will be unavailable on Wednesday 23 October from 7am to 8am
+      header: The service will be unavailable on Tuesday 29 October from 7am to 8am
       body: You may lose work if you are using this service when it becomes unavailable.
