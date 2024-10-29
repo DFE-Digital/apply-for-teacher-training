@@ -51,3 +51,17 @@ custom_columns:
     - rejected_by_default
     - withdrawn
     example: awaiting_provider_decision
+  offer_originally_deferred_at:
+   type: string
+   format: date-time
+   example: "2020-11-01T00:00:00+00:00"
+   description: The timestamp of the first deferral for this application
+  offer_reconfirmed_at:
+    type: string
+    format: date-time
+    example: "2020-11-01T00:00:00+00:00"
+    description: The timestamp when the deferred offer has been confirmed
+  offer_reconfirmed_cycle_year:
+   type: integer
+   example: 2025
+   description: Which recruitment cycle the confirmation of the deferral falls in

@@ -60,6 +60,9 @@ module DataAPI
         course_name: application_choice.current_course.name,
         course_code: application_choice.current_course.code,
         nctl_subject: concatenate(application_choice.current_course.subjects.map(&:code)),
+        offer_originally_deferred_at:,
+        offer_reconfirmed_at: application_choice_deferred_confirmed_at,
+        offer_reconfirmed_cycle_year: CycleTimetable.current_year(application_choice_deferred_confirmed_at),
       }
     end
 
@@ -88,6 +91,36 @@ module DataAPI
 
     def concatenate(array)
       array.to_a.join('|')
+    end
+
+    def offer_originally_deferred_at
+      return if application_choice.offer_deferred_at.nil?
+
+      # We get the audits in the order they have been created, first record is the oldest
+      old_attributes = audits.map(&:old_attributes)
+      # [nil, nil, timestamp]
+      first_deferred_at = old_attributes.map do |attributes|
+        attributes[:offer_deferred_at]
+      end.compact.first
+
+      original_deferred_at = first_deferred_at || application_choice.offer_deferred_at
+      original_deferred_at.to_time.iso8601
+    end
+
+    def application_choice_deferred_confirmed_at
+      return if application_choice.offer_deferred_at.nil?
+
+      audit_when_deferred_offer_has_been_confirmed = audits.to_a.select do |audit|
+        audit.audited_changes['status'] == %w[offer_deferred recruited]
+      end.last
+
+      if audit_when_deferred_offer_has_been_confirmed.present?
+        audit_when_deferred_offer_has_been_confirmed.created_at.iso8601
+      end
+    end
+
+    def audits
+      @audits ||= application_choice.audits
     end
   end
 end
