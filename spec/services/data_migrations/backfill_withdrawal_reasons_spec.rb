@@ -9,13 +9,24 @@ RSpec.describe DataMigrations::BackfillWithdrawalReasons do
     end
 
     it 'does not update any other fields' do
+      time_attributes = %w[withdrawn_at sent_to_provider_at created_at updated_at]
       application_choice = create(:application_choice, :withdrawn, structured_withdrawal_reasons: all_old_reasons)
       old_attributes = application_choice.attributes
-      old_attributes.delete('structured_withdrawal_reasons')
+
+      advance_time_by(1.hour)
 
       described_class.new.change
       new_attributes = application_choice.reload.attributes
-      new_attributes.delete('structured_withdrawal_reasons')
+
+      time_attributes.each do |key|
+        expect(old_attributes[key]).to be_within(0.5.seconds).of(new_attributes[key])
+      end
+
+      [old_attributes, new_attributes].each do |attributes|
+        [*time_attributes, 'structured_withdrawal_reasons'].each do |key|
+          attributes.delete(key)
+        end
+      end
 
       expect(old_attributes).to match(new_attributes)
     end
