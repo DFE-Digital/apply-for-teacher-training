@@ -273,7 +273,7 @@ module CandidateInterface
 
     def persist!
       existing_degree = ApplicationQualification.find_by(id:)
-      if existing_degree.present?
+      if existing_degree.present? && all_attributes_for_persistence_present?
         existing_degree.update(attributes_for_persistence)
         clear_state!
       elsif all_attributes_for_persistence_present?

@@ -1077,13 +1077,25 @@ RSpec.describe CandidateInterface::DegreeWizard do
   describe '#persist' do
     let(:application_form) { create(:application_form) }
     let!(:application_qualification) { create(:degree_qualification, award_year: '2014') }
-    let(:degree_params) { { id: application_qualification.id, award_year: '2011', application_form_id: application_form.id } }
+    let(:degree_params) do
+      {
+        id: application_qualification.id,
+        application_form_id: application_form.id,
+        uk_or_non_uk: 'uk',
+        subject: 'History',
+        start_year: '2007',
+        award_year: '2011',
+        type: 'Bachelor of Arts',
+        university: 'Manchester',
+        grade: 'Pass',
+      }
+    end
 
     before do
       allow(store).to receive(:delete)
     end
 
-    context 'updates degree if it exists' do
+    context 'updates degree if it exists and all necessary fields are present' do
       it 'attribute is changed' do
         expect { wizard.persist! }.not_to(change { ApplicationQualification.count })
         application_qualification.reload
