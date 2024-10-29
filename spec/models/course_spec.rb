@@ -237,7 +237,7 @@ RSpec.describe Course do
     context 'when contains pgde with qts' do
       let(:description) { 'PGDE with QTS, full time or part time' }
 
-      it { is_expected.to eq(course.description) }
+      it { is_expected.to eq('QTS with PGDE, full time or part time') }
     end
   end
 
@@ -268,7 +268,7 @@ RSpec.describe Course do
     context 'when [qts pgde]' do
       let(:qualifications) { %w[qts pgde] }
 
-      it { is_expected.to eq('PGDE with QTS') }
+      it { is_expected.to eq('QTS with PGDE') }
     end
 
     context 'when [qts]' do

@@ -187,7 +187,7 @@ class Course < ApplicationRecord
 
     case qualifications.sort
     in ['pgce', 'qts'] then 'QTS with PGCE'
-    in ['pgde', 'qts'] then 'PGDE with QTS'
+    in ['pgde', 'qts'] then 'QTS with PGDE'
     in ['qts', 'undergraduate_degree'] then description
     else
       qualifications.first.upcase
@@ -197,7 +197,7 @@ class Course < ApplicationRecord
   def description_to_s
     # This terminology comes directly from Publish API inside the description
     # and we need to invert when we show in Apply.
-    @description_to_s ||= description.to_s.gsub('PGCE with QTS', 'QTS with PGCE')
+    @description_to_s ||= description.to_s.gsub('PGCE with QTS', 'QTS with PGCE').gsub('PGDE with QTS', 'QTS with PGDE')
   end
 
   def undergraduate?
