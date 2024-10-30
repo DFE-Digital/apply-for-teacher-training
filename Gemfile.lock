@@ -392,7 +392,7 @@ GEM
     irb (1.14.1)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    json (2.7.2)
+    json (2.7.4)
     json-jwt (1.15.3.1)
       activesupport (>= 4.2)
       aes_key_wrap
@@ -500,7 +500,7 @@ GEM
     orm_adapter (0.5.0)
     os (1.1.4)
     ostruct (0.6.0)
-    pagy (9.1.0)
+    pagy (9.1.1)
     parallel (1.26.3)
     parallel_tests (4.7.2)
       parallel
@@ -509,7 +509,7 @@ GEM
       racc
     patience_diff (1.2.0)
       optimist (~> 3.0)
-    pg (1.5.8)
+    pg (1.5.9)
     postcodes_io (0.4.0)
       excon (~> 0.39)
     prometheus-client (4.2.3)
@@ -659,20 +659,20 @@ GEM
       rubocop-ast (>= 1.32.2, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.32.3)
+    rubocop-ast (1.33.0)
       parser (>= 3.3.1.0)
     rubocop-capybara (2.21.0)
       rubocop (~> 1.41)
     rubocop-factory_bot (2.26.1)
       rubocop (~> 1.61)
-    rubocop-rails (2.26.2)
+    rubocop-rails (2.27.0)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.52.0, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
-    rubocop-rspec (3.1.0)
+    rubocop-rspec (3.2.0)
       rubocop (~> 1.61)
     rubocop-rspec_rails (2.30.0)
       rubocop (~> 1.61)
@@ -899,7 +899,7 @@ DEPENDENCIES
   openapi3_parser (= 0.10.0)
   pagy
   parallel_tests
-  pg (~> 1.5.8)
+  pg (~> 1.5.9)
   postcodes_io
   prometheus-client
   pry
