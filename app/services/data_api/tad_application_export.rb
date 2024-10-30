@@ -62,7 +62,7 @@ module DataAPI
         nctl_subject: concatenate(application_choice.current_course.subjects.map(&:code)),
         offer_originally_deferred_at:,
         offer_reconfirmed_at: application_choice_deferred_confirmed_at,
-        offer_reconfirmed_cycle_year: CycleTimetable.current_year(application_choice_deferred_confirmed_at),
+        offer_reconfirmed_cycle_year: application_choice_deferred_confirmed_at.present? ? CycleTimetable.current_year(application_choice_deferred_confirmed_at) : nil,
       }
     end
 

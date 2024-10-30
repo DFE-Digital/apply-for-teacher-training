@@ -14,8 +14,6 @@ class CycleTimetable
   end
 
   def self.current_year(now = Time.zone.now)
-    return if now.nil?
-
     if ActiveRecord::Base.connected? && current_cycle_schedule.in?(%i[today_is_after_find_opens today_is_after_apply_opens])
       now += 1.year
     end

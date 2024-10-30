@@ -41,12 +41,6 @@ RSpec.describe CycleTimetable do
       # This doesn't make sense to have the first date that defines a cycle not be included in the cycle.
       expect(described_class.current_year(described_class.find_opens(this_year))).to eq(last_year)
     end
-
-    context 'when now is nil' do
-      it 'returns nil' do
-        expect(described_class.current_year(nil)).to be_nil
-      end
-    end
   end
 
   describe '.next_year' do
