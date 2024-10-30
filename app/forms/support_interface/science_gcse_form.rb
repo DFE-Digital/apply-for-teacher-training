@@ -33,6 +33,7 @@ module SupportInterface
 
     validates :audit_comment, presence: true
     validates_with ZendeskUrlValidator
+    validates_with SafeChoiceUpdateValidator
 
     validates :grade, presence: true, unless: ->(record) { record.missing_qualification? || record.gcse? }
     validates :grade, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_GRADE_LENGTH }

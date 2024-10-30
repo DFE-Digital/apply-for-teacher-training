@@ -14,6 +14,7 @@ module SupportInterface
       validates :date_of_birth, date: { presence: true, date_of_birth: true }
       validates :phone_number, presence: true, phone_number: true
       validates :audit_comment, presence: true
+      validates_with SafeChoiceUpdateValidator
 
       def initialize(application_form)
         @application_form = application_form

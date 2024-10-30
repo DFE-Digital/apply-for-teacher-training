@@ -9,6 +9,7 @@ module SupportInterface
       validates :start_year, presence: true
       validates :award_year, presence: true
       validates :audit_comment, presence: true
+      validates_with SafeChoiceUpdateValidator
 
       delegate :application_form, :subject, to: :degree
 

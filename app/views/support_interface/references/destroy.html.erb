@@ -3,30 +3,32 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">
-      Are you sure you want to delete the reference from <%= @reference.name %>?
-    </h1>
-
-    <p class="govuk-body">
-      This operation cannot be undone.
-    </p>
-
-    <%= render(SummaryCardComponent.new(rows: [
-    {
-      key: 'Reference name',
-      value: @reference.name,
-    },
-    {
-      key: 'Reference email address',
-      value: @reference.email_address,
-    },
-    ])) %>
-
     <%= form_with(
       model: @form,
       url: support_interface_destroy_reference_path(@form.reference),
       method: :post,
     ) do |form_builder| %>
+      <%= form_builder.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l">
+        Are you sure you want to delete the reference from <%= @reference.name %>?
+      </h1>
+
+      <p class="govuk-body">
+        This operation cannot be undone.
+      </p>
+
+      <%= render(SummaryCardComponent.new(rows: [
+      {
+        key: 'Reference name',
+        value: @reference.name,
+      },
+      {
+        key: 'Reference email address',
+        value: @reference.email_address,
+      },
+      ])) %>
+
       <%= form_builder.govuk_text_field(
         :audit_comment_ticket,
         label: {
