@@ -60,9 +60,13 @@ module DataAPI
         course_name: application_choice.current_course.name,
         course_code: application_choice.current_course.code,
         nctl_subject: concatenate(application_choice.current_course.subjects.map(&:code)),
+        offer_deferred_at: application_choice.offer_deferred_at&.iso8601,
         offer_originally_deferred_at:,
         offer_reconfirmed_at: application_choice_deferred_confirmed_at,
         offer_reconfirmed_cycle_year: application_choice_deferred_confirmed_at.present? ? CycleTimetable.current_year(application_choice_deferred_confirmed_at) : nil,
+        recruitment_cycle_year: application_choice.recruitment_cycle,
+        accepted_at: application_choice.accepted_at&.iso8601,
+        withdrawn_at: application_choice.withdrawn_at&.iso8601,
       }
     end
 
