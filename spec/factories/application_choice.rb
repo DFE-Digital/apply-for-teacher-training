@@ -201,7 +201,7 @@ FactoryBot.define do
 
     trait :with_structured_withdrawal_reasons do
       withdrawn
-      structured_withdrawal_reasons { %w[concerns_about_cost course_not_available_anymore no_longer_want_to_train_to_teach] }
+      structured_withdrawal_reasons { %w[costs course_unavailable circumstances_changed] }
     end
 
     trait :withdrawn_at_candidates_request do

@@ -1,24 +1,24 @@
-- :id: applying_to_different_provider
+- :id: change_of_training_provider
   :label: I’m going to apply (or have applied) to a different training provider
-- :id: applying_to_different_course_same_provider
+- :id: change_of_course_option
   :label: I’m going to apply (or have applied) to a different course at the same training provider
-- :id: concerns_about_cost
+- :id: costs
   :label: I have concerns about the cost of doing the course
-- :id: course_not_available_anymore
+- :id: course_unavailable
   :label: The course is not available anymore
-- :id: wait_to_start_course_too_long
+- :id: flexible_itt_course_date
   :label: The wait to start the course is too long
-- :id: applying_to_teacher_training_next_year
+- :id: deferred
   :label: I’ve decided to apply for teacher training next year
-- :id: asked_to_withdraw
+- :id: application_unsuccessful
   :label: The training provider has asked me to withdraw
-- :id: training_provider_has_not_responded
+- :id: provider_behaviour
   :label: The training provider has not responded to me
-- :id: training_location_too_far_away
+- :id: course_location
   :label: The location I’m expected to train at is too far away
-- :id: concerns_about_time_to_train
+- :id: flexibile_itt_study_intensity
   :label: I have concerns that I will not have time to train
-- :id: concerns_about_training_with_disability_or_health_condition
+- :id: flexible_itt_disabilities
   :label: I have concerns about training with a disability or health condition
-- :id: no_longer_want_to_train_to_teach
+- :id: circumstances_changed
   :label: I do not want to train to be a teacher anymore

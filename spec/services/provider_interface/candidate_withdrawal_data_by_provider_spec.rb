@@ -22,7 +22,7 @@ RSpec.describe ProviderInterface::CandidateWithdrawalDataByProvider do
   describe '#withdrawal_data' do
     let(:config_path) { Rails.root.join('config/withdrawal_reasons.yml') }
     let(:selectable_reasons) { YAML.load_file(config_path) }
-    let!(:application_choice_with_accepted_offer) { create(:application_choice, :withdrawn, accepted_at: 3.days.ago, structured_withdrawal_reasons: ['training_provider_has_not_responded'], provider_ids: [provider.id]) }
+    let!(:application_choice_with_accepted_offer) { create(:application_choice, :withdrawn, accepted_at: 3.days.ago, structured_withdrawal_reasons: ['provider_behaviour'], provider_ids: [provider.id]) }
 
     before do
       create_list(:application_choice, 2, :with_structured_withdrawal_reasons, provider_ids: [provider.id])
