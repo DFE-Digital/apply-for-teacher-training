@@ -1,0 +1,71 @@
+name: Restore database from point in time to new database server
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to restore
+        required: true
+        default: qa_aks
+        type: choice
+        options:
+        - qa_aks
+        - staging_aks
+        - sandbox_aks
+        - production_aks
+      confirm-production:
+        description: Must be set to true if restoring production
+        required: true
+        default: 'false'
+        type: choice
+        options:
+        - 'false'
+        - 'true'
+      restore-time:
+        description: Restore point in time in UTC. e.g. 2024-07-24T06:00:00
+        type: string
+        required: true
+      new-db-server:
+        description: Name of the new database server. Default is <original-server-name>-ptr.
+        type: string
+
+env:
+  SERVICE_SHORT: att
+  TF_VARS_PATH: terraform/aks/workspace_variables
+
+jobs:
+  ptr-restore:
+    name: PTR Restore AKS Database
+    if: ${{ inputs.environment != 'production_aks' || (inputs.environment == 'production_aks' && github.event.inputs.confirm-production == 'true' )  }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    concurrency: deploy_${{ inputs.environment }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set environment variables
+      run: |
+        source global_config/${{ inputs.environment }}.sh
+        tf_vars_file=${TF_VARS_PATH}/${{ inputs.environment }}.tfvars.json
+        echo "CLUSTER=$(jq -r '.cluster' ${tf_vars_file})" >> $GITHUB_ENV
+        echo "RESOURCE_GROUP_NAME=${AZURE_RESOURCE_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-rg" >> $GITHUB_ENV
+
+        DB_SERVER="${AZURE_RESOURCE_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-pg"
+        if [[ -n "${{ inputs.new-db-server }}" ]]; then
+          NEW_DB_SERVER="${{ inputs.new-db-server }}"
+        else
+          NEW_DB_SERVER="${DB_SERVER}-ptr"
+        fi
+        echo "DB_SERVER=${DB_SERVER}" >> $GITHUB_ENV
+        echo "NEW_DB_SERVER=${NEW_DB_SERVER}" >> $GITHUB_ENV
+
+    - name: Restore ${{ inputs.environment }} postgres
+      uses: DFE-Digital/github-actions/ptr-postgres@master
+      with:
+        resource-group: ${{ env.RESOURCE_GROUP_NAME }}
+        source-server: ${{ env.DB_SERVER }}
+        new-server: ${{ env.NEW_DB_SERVER }}
+        restore-time: ${{ inputs.restore-time }}
+        cluster: ${{ env.CLUSTER }}
+        azure-credentials: ${{ secrets.AZURE_CREDENTIALS}}
