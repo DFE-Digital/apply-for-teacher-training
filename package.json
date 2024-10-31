@@ -13,7 +13,7 @@
     "govuk-frontend": "^5.7.1",
     "jquery": "^3.7.1",
     "postcss": "^8.4.47",
-    "puppeteer": "^23.6.0"
+    "puppeteer": "^23.6.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-optional-chaining": "^7.25.9",
