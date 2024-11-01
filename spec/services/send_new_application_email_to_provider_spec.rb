@@ -18,8 +18,8 @@ RSpec.describe SendNewApplicationEmailToProvider, :sidekiq do
     training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
     ratifying_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == ratifying_provider_user.email_address }
 
-    expect(training_provider_email['rails-mail-template'].value).to eq('application_submitted')
-    expect(ratifying_provider_email['rails-mail-template'].value).to eq('application_submitted')
+    expect(training_provider_email.rails_mail_template).to eq('application_submitted')
+    expect(ratifying_provider_email.rails_mail_template).to eq('application_submitted')
   end
 
   it 'sends a different email when the candidate supplied safeguarding information' do
@@ -32,7 +32,7 @@ RSpec.describe SendNewApplicationEmailToProvider, :sidekiq do
 
     described_class.new(application_choice: choice).call
 
-    email = ActionMailer::Base.deliveries.find { |e| e.header['rails_mail_template'].value == 'application_submitted_with_safeguarding_issues' }
+    email = ActionMailer::Base.deliveries.find { |e| e.rails_mail_template == 'application_submitted_with_safeguarding_issues' }
 
     expect(email).to be_present
   end

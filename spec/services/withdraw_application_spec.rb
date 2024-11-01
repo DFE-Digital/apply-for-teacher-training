@@ -45,8 +45,8 @@ RSpec.describe WithdrawApplication do
       training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
       ratifying_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == ratifying_provider_user.email_address }
 
-      expect(training_provider_email['rails-mail-template'].value).to eq('application_withdrawn')
-      expect(ratifying_provider_email['rails-mail-template'].value).to eq('application_withdrawn')
+      expect(training_provider_email.rails_mail_template).to eq('application_withdrawn')
+      expect(ratifying_provider_email.rails_mail_template).to eq('application_withdrawn')
     end
   end
 end

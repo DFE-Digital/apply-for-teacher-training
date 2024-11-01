@@ -46,7 +46,7 @@ RSpec.describe CreateInterview do
       )
       expect(associated_audit.audited_changes['location']).to eq('Zoom call')
 
-      expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('new_interview')
+      expect(ActionMailer::Base.deliveries.first.rails_mail_template).to eq('new_interview')
     end
 
     it 'touches the application choice' do
@@ -96,7 +96,7 @@ RSpec.describe CreateInterview do
       expect { described_class.new(**service_params).save! }
         .to raise_error(ValidationException)
 
-      expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('new_interview')
+      expect(ActionMailer::Base.deliveries.map(&:rails_mail_template)).not_to include('new_interview')
     end
   end
 
@@ -117,7 +117,7 @@ RSpec.describe CreateInterview do
       expect { described_class.new(**service_params).save! }
         .to raise_error(InterviewWorkflowConstraints::WorkflowError)
 
-      expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('new_interview')
+      expect(ActionMailer::Base.deliveries.map(&:rails_mail_template)).not_to include('new_interview')
     end
   end
 end

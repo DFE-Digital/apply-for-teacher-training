@@ -49,7 +49,7 @@ RSpec.describe UpdateInterview do
       expect(associated_audit.audited_changes['location'].last).to eq('Zoom call')
       expect(associated_audit.audited_changes['additional_details'].last).to eq('Business casual')
 
-      expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('interview_updated')
+      expect(ActionMailer::Base.deliveries.first.rails_mail_template).to eq('interview_updated')
     end
 
     it 'touches the application choice' do
@@ -99,7 +99,7 @@ RSpec.describe UpdateInterview do
       expect { described_class.new(**service_params).save! }
         .to raise_error(ValidationException)
 
-      expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
+      expect(ActionMailer::Base.deliveries.map(&:rails_mail_template)).not_to include('interview_updated')
     end
   end
 
@@ -120,7 +120,7 @@ RSpec.describe UpdateInterview do
       expect { described_class.new(**service_params).save! }
         .to raise_error(InterviewWorkflowConstraints::WorkflowError)
 
-      expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
+      expect(ActionMailer::Base.deliveries.map(&:rails_mail_template)).not_to include('interview_updated')
     end
   end
 
@@ -139,7 +139,7 @@ RSpec.describe UpdateInterview do
     it 'does not send emails' do
       described_class.new(**service_params).save!
 
-      expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
+      expect(ActionMailer::Base.deliveries.map(&:rails_mail_template)).not_to include('interview_updated')
     end
   end
 end
