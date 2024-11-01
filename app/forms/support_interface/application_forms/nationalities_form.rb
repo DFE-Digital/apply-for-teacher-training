@@ -8,6 +8,7 @@ module SupportInterface
         :other_nationality1, :other_nationality2, :other_nationality3, :nationalities,
         :audit_comment
       )
+      attr_reader :application_form
 
       validates(
         :first_nationality, :second_nationality, :other_nationality1, :other_nationality2, :other_nationality3,
@@ -15,6 +16,7 @@ module SupportInterface
       )
       validates :audit_comment, presence: true
       validate :candidate_provided_nationality
+      validates_with SafeChoiceUpdateValidator
 
       def self.build_from_application(application_form)
         new(
@@ -23,6 +25,7 @@ module SupportInterface
       end
 
       def save(application_form)
+        @application_form = application_form
         return false unless valid?
 
         nationalities = candidates_nationalities

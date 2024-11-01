@@ -1,4 +1,7 @@
 en:
+  validators:
+    safe_choice_update_validator:
+      error_message: The application must be in the current cycle %{current_cycle}
   continue: Continue
   save_and_continue: Save and continue
   save: Save

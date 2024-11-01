@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, :with_audited, type: :model do
+  subject(:form) { described_class.new }
+
+  before do
+    form.application_form = build(:application_form, :minimum_info)
+  end
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:becoming_a_teacher) }
     it { is_expected.to validate_presence_of(:audit_comment) }
@@ -10,6 +16,10 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, :wi
 
     it { is_expected.to allow_value(valid_text).for(:becoming_a_teacher) }
     it { is_expected.not_to allow_value(invalid_text).for(:becoming_a_teacher) }
+
+    it 'validates with SafeChoiceUpdateValidator' do
+      expect(form.class.validators.map(&:class)).to include(SafeChoiceUpdateValidator)
+    end
   end
 
   describe '.build_from_application' do
@@ -25,7 +35,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, :wi
 
   describe '#save' do
     it 'returns false if not valid' do
-      application_form = double
+      application_form = create(:application_form)
       form = described_class.new
 
       expect(form.save(application_form)).to be(false)

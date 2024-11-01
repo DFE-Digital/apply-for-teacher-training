@@ -191,5 +191,9 @@ RSpec.describe SupportInterface::ApplicationForms::EditOtherQualificationForm, :
         expect(form).to be_valid
       end
     end
+
+    it 'validates with SafeChoiceUpdateValidator' do
+      expect(form.class.validators.map(&:class)).to include(SafeChoiceUpdateValidator)
+    end
   end
 end

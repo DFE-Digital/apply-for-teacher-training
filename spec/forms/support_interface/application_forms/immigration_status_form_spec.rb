@@ -13,12 +13,18 @@ RSpec.describe SupportInterface::ApplicationForms::ImmigrationStatusForm, type: 
 
   describe 'validations' do
     context 'when immigration_status is other' do
-      before { form.immigration_status = 'other' }
+      before {
+        form.immigration_status = 'other'
+        form.application_form = build(:application_form, :minimum_info)
+      }
 
       it { is_expected.to validate_presence_of(:right_to_work_or_study_details) }
 
       context 'right_to_work_or_study_details is 7 words or less' do
-        before { form.right_to_work_or_study_details = 'This is less than seven words' }
+        before {
+          form.right_to_work_or_study_details = 'This is less than seven words'
+          form.application_form = build(:application_form, :minimum_info)
+        }
 
         it 'is valid' do
           expect(form.valid?).to be true
@@ -46,9 +52,20 @@ RSpec.describe SupportInterface::ApplicationForms::ImmigrationStatusForm, type: 
     end
 
     context 'when immigration_status is NOT other' do
-      before { form.immigration_status = 'eu_settled' }
+      before {
+        form.immigration_status = 'eu_settled'
+        form.application_form = build(:application_form, :minimum_info)
+      }
 
       it { is_expected.not_to validate_presence_of(:right_to_work_or_study_details) }
+    end
+
+    context 'with SafeChoiceUpdateValidator' do
+      before { form.application_form = build(:application_form, :minimum_info) }
+
+      it 'validates with SafeChoiceUpdateValidator' do
+        expect(form.class.validators.map(&:class)).to include(SafeChoiceUpdateValidator)
+      end
     end
   end
 

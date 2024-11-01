@@ -18,6 +18,10 @@ RSpec.describe SupportInterface::ApplicationForms::EditApplicantDetailsForm, typ
     it { is_expected.to validate_length_of(:last_name).is_at_most(60) }
     it { is_expected.to validate_length_of(:email_address).is_at_most(100) }
 
+    it 'validates with SafeChoiceUpdateValidator' do
+      expect(model.class.validators.map(&:class)).to include(SafeChoiceUpdateValidator)
+    end
+
     describe '#date_of_birth' do
       let(:application_form) { build(:application_form, :minimum_info, date_of_birth:) }
       let(:date_of_birth) { nil }

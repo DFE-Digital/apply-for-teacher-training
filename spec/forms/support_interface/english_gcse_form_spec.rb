@@ -7,5 +7,9 @@ RSpec.describe SupportInterface::EnglishGcseForm do
 
   describe 'validations' do
     it { is_expected.to validate_length_of(:grade).is_at_most(256) }
+
+    it 'validates with SafeChoiceUpdateValidator' do
+      expect(form.class.validators.map(&:class)).to include(SafeChoiceUpdateValidator)
+    end
   end
 end

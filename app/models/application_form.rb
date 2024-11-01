@@ -199,11 +199,15 @@ class ApplicationForm < ApplicationRecord
   def touch_choices
     return unless application_choices.any?
 
-    if earlier_cycle? && prevent_unsave_touches? && !deferred?
+    if cannot_touch_choices?
       raise 'Tried to mark an application choice from a previous cycle as changed'
     end
 
     application_choices.touch_all
+  end
+
+  def cannot_touch_choices?
+    earlier_cycle? && prevent_unsave_touches? && !deferred?
   end
 
   def any_qualification_enic_reason_not_needed?

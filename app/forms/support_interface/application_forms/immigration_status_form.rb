@@ -4,12 +4,13 @@ module SupportInterface
       include ActiveModel::Model
       include CandidateDetailsHelper
 
-      attr_accessor :immigration_status, :right_to_work_or_study_details, :nationalities, :audit_comment
+      attr_accessor :immigration_status, :right_to_work_or_study_details, :nationalities, :audit_comment, :application_form
 
       validates :immigration_status, presence: true
       validates :right_to_work_or_study_details, presence: true, if: :other_immigration_status?
       validates :right_to_work_or_study_details, word_count: { maximum: 7 }
       validates :audit_comment, presence: true
+      validates_with SafeChoiceUpdateValidator
 
       def self.build_from_application(application_form)
         new(
@@ -20,6 +21,7 @@ module SupportInterface
       end
 
       def save(application_form)
+        @application_form = application_form
         @nationalities = application_form.nationalities
 
         return false unless valid?

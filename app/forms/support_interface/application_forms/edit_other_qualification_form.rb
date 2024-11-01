@@ -24,6 +24,7 @@ module SupportInterface
       validates :subject, :grade, length: { maximum: 255 }
       validates :other_uk_qualification_type, length: { maximum: 100 }
       validates_with ZendeskUrlValidator
+      validates_with SafeChoiceUpdateValidator
 
       delegate :application_form, to: :qualification
 
