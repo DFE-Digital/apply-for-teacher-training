@@ -28,12 +28,12 @@ class DfESignInUser
 
   def self.begin_session!(session, omniauth_payload)
     session['dfe_sign_in_user'] = {
-      'email_address' => omniauth_payload['info']['email'],
+      'email_address' => omniauth_payload.dig('info', 'email'),
       'dfe_sign_in_uid' => omniauth_payload['uid'],
-      'first_name' => omniauth_payload['info']['first_name'],
-      'last_name' => omniauth_payload['info']['last_name'],
+      'first_name' => omniauth_payload.dig('info', 'first_name'),
+      'last_name' => omniauth_payload.dig('info', 'last_name'),
       'last_active_at' => Time.zone.now,
-      'id_token' => omniauth_payload['credentials']['id_token'],
+      'id_token' => omniauth_payload.dig('credentials', 'id_token'),
     }
   end
 
