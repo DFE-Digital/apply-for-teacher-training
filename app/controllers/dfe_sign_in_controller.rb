@@ -10,8 +10,7 @@ class DfESignInController < ActionController::Base
     @target_path = session['post_dfe_sign_in_path']
     @local_user = local_user
 
-    if @local_user
-      DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
+    if @local_user && DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
       @local_user.update!(last_signed_in_at: Time.zone.now)
 
       if @local_user.is_a?(SupportUser)

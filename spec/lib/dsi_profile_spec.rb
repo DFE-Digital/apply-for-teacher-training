@@ -2,9 +2,8 @@ require 'rails_helper'
 
 RSpec.describe DsiProfile do
   describe '#update_profile_from_dfe_sign_in' do
-    let(:provider_user) { create(:provider_user) }
-    let(:support_user) { create(:provider_user) }
-    let(:email_address) { Faker::Internet.email }
+    let(:provider_user) { create(:provider_user, email_address: 'original_provider@email.address') }
+    let(:email_address) { 'provider_user@email.address' }
     let(:dfe_user) do
       DfESignInUser.new(
         email_address:,
@@ -14,11 +13,12 @@ RSpec.describe DsiProfile do
       )
     end
 
-    context 'local_user\'s email_address' do
+    context "local_user's email_address" do
       it 'is updated if uid is previously known' do
-        expect {
-          described_class.update_profile_from_dfe_sign_in dfe_user:, local_user: provider_user
-        }.to change(provider_user, :email_address).to(email_address)
+        result = described_class.update_profile_from_dfe_sign_in dfe_user:, local_user: provider_user
+
+        expect(result).to be_truthy
+        expect(provider_user.reload.email_address).to eq(email_address)
       end
 
       it 'is not updated if uid is not yet established' do
@@ -40,6 +40,17 @@ RSpec.describe DsiProfile do
         expect {
           described_class.update_profile_from_dfe_sign_in dfe_user: dfe_user_no_email, local_user: provider_user
         }.not_to change(provider_user, :email_address)
+      end
+
+      context 'the email is already used by another user' do
+        it 'is not updated' do
+          _other_provider_user = create(:provider_user, email_address: email_address)
+
+          result = described_class.update_profile_from_dfe_sign_in(dfe_user: dfe_user, local_user: provider_user)
+
+          expect(result).to be_falsey
+          expect(provider_user.reload.email_address).not_to eq(email_address)
+        end
       end
     end
 
