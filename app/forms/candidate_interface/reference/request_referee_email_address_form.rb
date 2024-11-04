@@ -10,6 +10,10 @@ module CandidateInterface
       end
     end
 
+    def personal_email_address?(reference)
+      EmailChecker.new(reference.email_address).personal?
+    end
+
     def other_references
       reference = ApplicationReference.find(reference_id)
       reference.application_form.application_references.creation_order.where.not(id: reference_id)

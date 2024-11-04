@@ -28,6 +28,10 @@ module CandidateInterface
       end
     end
 
+    def personal_email_address?(reference)
+      EmailChecker.new(reference.email_address).personal?
+    end
+
   private
 
     def email_address_unique
