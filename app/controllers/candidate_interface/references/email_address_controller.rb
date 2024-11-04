@@ -24,7 +24,7 @@ module CandidateInterface
 
       def update
         if @reference_email_address_form.save(@reference)
-          next_step
+          redirect_to next_path
         else
           track_validation_error(@reference_email_address_form)
           render :edit
@@ -34,7 +34,12 @@ module CandidateInterface
     private
 
       def next_path
-        candidate_interface_references_relationship_path(@reference.id)
+        if @reference_email_address_form.personal_email_address?(@reference)
+          return_to_params = return_to_review? ? { return_to: 'review' } : nil
+          candidate_interface_references_personal_email_address_interruption_path(@reference.id, params: return_to_params)
+        else
+          return_to_path || candidate_interface_references_relationship_path(@reference.id)
+        end
       end
 
       def set_email_address_form
