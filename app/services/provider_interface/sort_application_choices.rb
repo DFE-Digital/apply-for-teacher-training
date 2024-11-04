@@ -18,13 +18,12 @@ module ProviderInterface
           WHEN #{inactive} THEN 1
           WHEN #{awaiting_provider_decision} THEN 2
           WHEN #{deferred_offers_pending_reconfirmation} THEN 3
-          WHEN #{give_feedback_for_rbd} THEN 4
-          WHEN #{interviewing} THEN 5
-          WHEN #{pending_conditions_previous_cycle} THEN 6
-          WHEN #{waiting_on_candidate} THEN 7
-          WHEN #{pending_conditions_current_cycle} THEN 8
-          WHEN #{successful_candidates} THEN 9
-          WHEN #{deferred_offers_current_cycle} THEN 10
+          WHEN #{interviewing} THEN 4
+          WHEN #{pending_conditions_previous_cycle} THEN 5
+          WHEN #{waiting_on_candidate} THEN 6
+          WHEN #{pending_conditions_current_cycle} THEN 7
+          WHEN #{successful_candidates} THEN 8
+          WHEN #{deferred_offers_current_cycle} THEN 9
           ELSE 999
         END AS task_view_group",
       )
@@ -46,18 +45,6 @@ module ProviderInterface
             AND current_recruitment_cycle_year = #{RecruitmentCycle.previous_year}
         )
       PREVIOUS_CYCLE_PENDING_CONDITIONS
-    end
-
-    def self.give_feedback_for_rbd
-      <<~GIVE_FEEDBACK_FOR_RBD.squish
-        (
-          status = 'rejected'
-            AND rejected_by_default
-            AND rejection_reason IS NULL
-            AND structured_rejection_reasons IS NULL
-            AND rejected_at >= #{RBD_FEEDBACK_LAUNCH_TIMESTAMP}
-        )
-      GIVE_FEEDBACK_FOR_RBD
     end
 
     def self.awaiting_provider_decision

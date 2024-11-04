@@ -32,39 +32,34 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
       expect(application_choice.task_view_group).to eq(3)
     end
 
-    it '#give_feedback_for_rbd' do
-      create(:application_choice, :rejected_by_default, rejection_reason: nil, structured_rejection_reasons: nil, rejected_at: Time.zone.parse(ProviderInterface::SortApplicationChoices::RBD_FEEDBACK_LAUNCH_TIMESTAMP))
-      expect(application_choice.task_view_group).to eq(4)
-    end
-
     it '#interviewing' do
       create(:application_choice, :interviewing)
-      expect(application_choice.task_view_group).to eq(5)
+      expect(application_choice.task_view_group).to eq(4)
     end
 
     it '#pending_conditions_previous_cycle' do
       create(:application_choice, :pending_conditions, :previous_year)
-      expect(application_choice.task_view_group).to eq(6)
+      expect(application_choice.task_view_group).to eq(5)
     end
 
     it '#waiting_on_candidate' do
       create(:application_choice, :offer)
-      expect(application_choice.task_view_group).to eq(7)
+      expect(application_choice.task_view_group).to eq(6)
     end
 
     it '#pending_conditions_current_cycle' do
       create(:application_choice, :pending_conditions)
-      expect(application_choice.task_view_group).to eq(8)
+      expect(application_choice.task_view_group).to eq(7)
     end
 
     it '#successful_candidates' do
       create(:application_choice, :recruited)
-      expect(application_choice.task_view_group).to eq(9)
+      expect(application_choice.task_view_group).to eq(8)
     end
 
     it '#deferred_offers_current_cycle' do
       create(:application_choice, :offer_deferred)
-      expect(application_choice.task_view_group).to eq(10)
+      expect(application_choice.task_view_group).to eq(9)
     end
 
     it 'all other applications' do
@@ -82,19 +77,17 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
         create(:application_choice, :awaiting_provider_decision),
         # --- 3
         create(:application_choice, :offer_deferred, :previous_year),
-        # # --- 4
-        create(:application_choice, :rejected_by_default),
-        # --- 5
+        # --- 4
         create(:application_choice, :interviewing),
-        # --- 6
+        # --- 5
         create(:application_choice, :pending_conditions, :previous_year),
-        # --- 7
+        # --- 6
         create(:application_choice, :offer),
-        # --- 8
+        # --- 7
         create(:application_choice, :pending_conditions),
-        # --- 9
+        # --- 8
         create(:application_choice, :recruited),
-        # --- 10
+        # --- 9
         create(:application_choice, :offer_deferred),
         # --- 999
         create(:application_choice, :offer, status: 'offer_withdrawn'),
