@@ -1,0 +1,23 @@
+<% content_for :title, t('page_titles.application_review_and_submit', provider_name: @application_choice.provider.name) %>
+<% content_for(:before_content, govuk_back_link_to(candidate_interface_application_choices_path)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <div class="app-grid-column--grey">
+      <h1 class="govuk-heading-l"><%= t('review_references_interruption.title') %></h1>
+      <p class="govuk-body"><%= t('review_references_interruption.at_least_one') %></p>
+      <p class="govuk-body"><%= t('review_references_interruption.many_providers') %></p>
+      <p class="govuk-body"><%= t('review_references_interruption.you_should') %></p>
+      <p class="govuk-body"><%= t('review_references_interruption.if_you_cannot') %></p>
+    </div>
+
+    <div class="govuk-button-group app-course-choice__confirm-submission">
+      <%= govuk_button_to(t('review_references_interruption.update_your_references'),
+                          candidate_interface_references_review_path,
+                          method: :get) %>
+      <%= govuk_link_to(t('review_references_interruption.continue_without_editing'),
+                          candidate_interface_course_choices_course_review_and_submit_path(@application_choice.id)) %>
+
+    </div>
+  </div>
+</div>

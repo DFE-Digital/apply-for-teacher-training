@@ -366,6 +366,7 @@ namespace :candidate_interface, path: '/candidate' do
       get '/:application_choice_id/review-interruption' => 'course_choices/review_interruption#show', as: :course_choices_course_review_interruption
       get '/:application_choice_id/review-enic-interruption' => 'course_choices/review_enic_interruption#show', as: :course_choices_course_review_enic_interruption
       get '/:application_choice_id/review-undergraduate-interruption' => 'course_choices/review_undergraduate_interruption#show', as: :course_choices_course_review_undergraduate_interruption
+      get '/:application_choice_id/review-references-interruption' => 'course_choices/review_references_interruption#show', as: :course_choices_course_review_references_interruption
       get '/:application_choice_id/review-and-submit' => 'course_choices/review_and_submit#show', as: :course_choices_course_review_and_submit
       get '/blocked-submissions' => 'course_choices/blocked_submissions#show', as: :course_choices_blocked_submissions
 
@@ -462,12 +463,14 @@ namespace :candidate_interface, path: '/candidate' do
       patch '/type/edit/:id' => 'references/type#update'
       get '/type/(:referee_type)/(:id)' => 'references/type#new', as: :references_type
       post '/type/(:referee_type)/(:id)' => 'references/type#create'
+      get '/references-interruption/:id' => 'references/interruptions#show', as: :references_personal_email_address_interruption
 
       scope '/accept-offer/:application_id' do
         get '/type/edit/:id' => 'references/accept_offer/type#edit', as: :accept_offer_references_edit_type
         patch '/type/edit/:id' => 'references/accept_offer/type#update'
         get '/type/(:referee_type)/(:id)' => 'references/accept_offer/type#new', as: :accept_offer_references_type
         post '/type/(:referee_type)/(:id)' => 'references/accept_offer/type#create'
+        get '/references-interruption/:id' => 'references/accept_offer/references_interruptions#show', as: :accept_offer_references_interruption
 
         scope '/name/:referee_type/(:id)', constraints: { referee_type: /(academic|professional|school-based|character)/ } do
           get '/' => 'references/accept_offer/name#new', as: :accept_offer_references_name
@@ -496,6 +499,7 @@ namespace :candidate_interface, path: '/candidate' do
         patch '/type/edit/:id' => 'references/request_reference/type#update'
         get '/type/(:referee_type)/(:id)' => 'references/request_reference/type#new', as: :request_reference_references_type
         post '/type/(:referee_type)/(:id)' => 'references/request_reference/type#create'
+        get '/references-interruption/:id' => 'references/request_reference/references_interruptions#show', as: :request_reference_references_interruption
 
         scope '/name/:referee_type/(:id)', constraints: { referee_type: /(academic|professional|school-based|character)/ } do
           get '/' => 'references/request_reference/name#new', as: :request_reference_references_name
