@@ -124,7 +124,12 @@ module CandidateInterface
         elsif %i[award_year enic enic_reference].include?(step) # rubocop:disable Lint/DuplicateBranch
           :review
         else
-          raise InvalidStepError, 'Invalid Step'
+          Sentry.capture_exception(
+            InvalidStepError.new(
+              "Invalid Step for application_form: #{application_form_id}, previous_step: #{previous_step}",
+            ),
+          )
+          rescue_step
         end
       elsif step == :degree_level && degree_has_type?
         :type
@@ -691,6 +696,16 @@ module CandidateInterface
       if attrs[:enic_reason] != HAS_STATEMENT && attrs[:current_step] == :enic
         attrs[:enic_reference] = nil
         attrs[:comparable_uk_degree] = nil
+      end
+    end
+
+    def rescue_step
+      application_form = ApplicationForm.find_by(id: application_form_id)
+
+      if application_form&.no_degree_and_degree_not_completed?
+        :university_degree
+      else
+        :review
       end
     end
   end

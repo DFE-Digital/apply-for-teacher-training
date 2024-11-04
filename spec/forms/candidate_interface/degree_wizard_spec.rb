@@ -6,8 +6,12 @@ RSpec.describe CandidateInterface::DegreeWizard do
   let(:degree_params) { {} }
 
   let(:store) { instance_double(WizardStateStores::RedisStore) }
+  let(:application_form) { create(:application_form) }
 
-  before { allow(store).to receive(:read) }
+  before do
+    allow(store).to receive(:read)
+    allow(Sentry).to receive(:capture_exception)
+  end
 
   describe '#subject' do
     let(:degree_params) do
@@ -159,11 +163,44 @@ RSpec.describe CandidateInterface::DegreeWizard do
         end
       end
 
-      context 'when country is not the uk and country is nil' do
-        let(:degree_params) { { uk_or_non_uk: 'non_uk', current_step: :country } }
+      context 'when country is not the uk and country is nil no degree' do
+        let(:degree_params) do
+          {
+            uk_or_non_uk: 'non_uk',
+            current_step: :country,
+            application_form_id: application_form.id,
+          }
+        end
 
-        it 'raises an InvalidStepError' do
-          expect { wizard.next_step }.to raise_error(CandidateInterface::DegreeWizard::InvalidStepError)
+        it 'redirects to university_degree and raises Sentry error' do
+          expect(wizard.next_step).to be(:university_degree)
+
+          expect(Sentry).to have_received(:capture_exception).with(
+            described_class::InvalidStepError.new(
+              "Invalid Step for application_form: #{application_form.id}, previous_step: referer",
+            ),
+          )
+        end
+      end
+
+      context 'when country is not the uk and country is nil with degree' do
+        let(:application_form) { create(:application_form, :with_degree_and_gcses) }
+        let(:degree_params) do
+          {
+            uk_or_non_uk: 'non_uk',
+            current_step: :country,
+            application_form_id: application_form.id,
+          }
+        end
+
+        it 'redirects to review and raises Sentry error' do
+          expect(wizard.next_step).to be(:review)
+
+          expect(Sentry).to have_received(:capture_exception).with(
+            described_class::InvalidStepError.new(
+              "Invalid Step for application_form: #{application_form.id}, previous_step: referer",
+            ),
+          )
         end
       end
     end
@@ -1075,7 +1112,6 @@ RSpec.describe CandidateInterface::DegreeWizard do
   end
 
   describe '#persist' do
-    let(:application_form) { create(:application_form) }
     let!(:application_qualification) { create(:degree_qualification, award_year: '2014') }
     let(:degree_params) do
       {
