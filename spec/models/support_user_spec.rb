@@ -2,11 +2,10 @@ require 'rails_helper'
 
 RSpec.describe SupportUser do
   describe 'validations' do
-    it 'flags email addresses that differ only by case as duplicates' do
-      create(:support_user, email_address: 'bob@example.com')
-      duplicate_support_user = build(:support_user, email_address: 'Bob@example.com')
-      expect(duplicate_support_user).not_to be_valid
-    end
+    let!(:existing_support_user) { create(:support_user) }
+
+    it { is_expected.to validate_presence_of(:email_address) }
+    it { is_expected.to validate_uniqueness_of(:email_address).case_insensitive }
   end
 
   describe '#downcase_email_address' do

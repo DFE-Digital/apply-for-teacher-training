@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe ProviderUser do
+  describe 'validations' do
+    let!(:existing_provider_user) { create(:provider_user) }
+
+    it { is_expected.to validate_presence_of(:email_address) }
+    it { is_expected.to validate_uniqueness_of(:email_address).case_insensitive }
+  end
+
   describe '#downcase_email_address' do
     it 'saves email_address in lower case' do
       provider_user = create(:provider_user, email_address: 'Bob.Roberts@example.com')

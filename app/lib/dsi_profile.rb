@@ -6,6 +6,7 @@ class DsiProfile
     end
     fields_to_update[:first_name] = dfe_user.first_name if dfe_user.first_name.present?
     fields_to_update[:last_name] = dfe_user.last_name if dfe_user.last_name.present?
+
     local_user.update(fields_to_update) if fields_to_update.present?
   end
 end
