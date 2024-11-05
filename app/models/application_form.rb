@@ -239,6 +239,10 @@ class ApplicationForm < ApplicationRecord
     submitted_at.present?
   end
 
+  def unsubmitted?
+    submitted_at.blank?
+  end
+
   def defined_immigration_status?
     return false if other?
 

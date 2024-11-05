@@ -224,6 +224,7 @@ en:
     references_name: What’s the name of the person who can give a reference?
     references_edit_name: Edit the name of the referee
     references_email_address: What is %{referee_name}’s email address?
+    references_interruption: Providers may not accept a personal email address
     references_edit_email_address: Edit %{referee_name}’s email address
     references_type: What type of reference do you want to add?
     references_edit_type: Edit the type of reference

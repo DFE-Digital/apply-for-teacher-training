@@ -15,7 +15,7 @@ en:
         hint_text: Do not give details of a family member, partner or friend.
       email_address:
         label: What is %{referee_name}’s email address?
-        hint_text: Give their work email address if they have one.
+        hint_text: Enter their professional email address if you know it. Many providers will not accept references that come from a personal email address.
       relationship:
         label: How do you know %{referee_name} and how long have you known them?
         hint_text:

@@ -1,0 +1,10 @@
+en:
+  references_interruption:
+    heading: "%{email_address} looks like a personal email address"
+    many_providers_will_not_accept: Many providers will not accept references from a personal email address (such as gmail.com).
+    ask_for_professional_email_address: >
+      You should ask %{reference_name} if they have a work email address you can use instead and update your application.
+    if_you_cannot: >
+      If you cannot get another email address for this reference you can still submit this application. You should
+      explain why you are using a personal email address when you say how you know this person.
+    go_back_and_change: Go back and change the email address

@@ -14,7 +14,19 @@ module CandidateInterface
       end
 
       def return_to_path
-        candidate_interface_references_review_path if params[:return_to] == 'review'
+        candidate_interface_references_review_path if return_to_review?
+      end
+
+      def return_to_review?
+        params['return_to'] == 'review'
+      end
+
+      def return_to_offer?
+        params[:return_to] == 'accept-offer'
+      end
+
+      def return_to_request_reference_review?
+        params[:return_to] == 'request-reference-review'
       end
 
       def next_step

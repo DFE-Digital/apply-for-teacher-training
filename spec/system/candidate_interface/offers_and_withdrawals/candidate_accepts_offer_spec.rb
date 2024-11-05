@@ -19,7 +19,7 @@ RSpec.describe 'Candidate accepts an offer' do
 
     when_i_accept_one_offer
 
-    then_i_be_seeing_my_references
+    then_i_see_my_references
 
     and_i_delete_one_of_my_references
     and_i_confirm_the_acceptance
@@ -188,7 +188,7 @@ RSpec.describe 'Candidate accepts an offer' do
     click_link_or_button t('continue')
   end
 
-  def then_i_be_seeing_my_references
+  def then_i_see_my_references
     @application_form.reload.application_references.creation_order.each do |reference|
       expect(page).to have_content(reference.name)
       expect(page).to have_content(reference.email_address)

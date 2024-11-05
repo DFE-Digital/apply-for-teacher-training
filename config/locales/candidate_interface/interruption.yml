@@ -7,6 +7,16 @@ en:
     edit_statement: Would you like to edit your personal statement before submitting your application?
     edit_statement_button_text: Edit your personal statement
     continue_without_editing: Continue without editing
+  review_references_interruption:
+    title: Give your application the best chance of success
+    at_least_one: At least one of your references looks like it is using a personal email address.
+    many_providers: Many providers will not accept references from a personal email address (such as gmail.com).
+    you_should: You should ask your references if they have a work email address you can use instead and update your application.
+    if_you_cannot: >
+      If you cannot get another email address for the references you can still submit this application. You should
+      explain why you are using a personal email address when you say how you know the person.
+    update_your_references: Update your references
+    continue_without_editing: Continue without editing
   review_undergraduate_interruption:
     title: Are you sure you want to apply for a teacher degree apprenticeship?
     eligible_postgraduate: You've told us you have a degree, which might make you eligible for postgraduate teacher training.
