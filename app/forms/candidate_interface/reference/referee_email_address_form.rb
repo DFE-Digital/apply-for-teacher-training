@@ -28,11 +28,19 @@ module CandidateInterface
       end
     end
 
+    def show_interruption?(reference)
+      professional_email_address_preferred?(reference) && personal_email_address?(reference)
+    end
+
+  private
+
     def personal_email_address?(reference)
       EmailChecker.new(reference.email_address).personal?
     end
 
-  private
+    def professional_email_address_preferred?(reference)
+      !reference.character?
+    end
 
     def email_address_unique
       reference = ApplicationReference.find(reference_id)

@@ -41,6 +41,22 @@ RSpec.describe 'Candidate accepts an offer' do
     then_i_see_a_flash_message_telling_me_i_have_accepted_the_offer
   end
 
+  scenario 'Candidate views offer and changes character reference email to personal email address' do
+    given_i_am_signed_in
+    and_i_have_an_offer
+    and_my_references_are_character_references
+
+    when_i_visit_my_applications
+    and_i_click_to_view_my_application
+
+    and_i_accept_the_offer
+    then_i_see_my_references
+    when_i_change_the_reference_email_address_to_a_personal_email_address
+    then_i_see_my_references
+    when_i_confirm_the_acceptance
+    then_i_see_a_flash_message_telling_me_i_have_accepted_the_offer
+  end
+
 private
 
   def given_i_am_signed_in
@@ -71,6 +87,12 @@ private
       course_option: @course_option,
       application_form: @application_form,
     )
+  end
+
+  def and_my_references_are_character_references
+    @application_form.application_references.each do |ref|
+      ref.update(referee_type: 'character')
+    end
   end
 
   def and_i_accept_the_offer

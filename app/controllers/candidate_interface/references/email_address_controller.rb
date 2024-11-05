@@ -34,7 +34,7 @@ module CandidateInterface
     private
 
       def next_path
-        if @reference_email_address_form.personal_email_address?(@reference)
+        if @reference_email_address_form.show_interruption?(@reference)
           return_to_params = return_to_review? ? { return_to: 'review' } : nil
           candidate_interface_references_personal_email_address_interruption_path(@reference.id, params: return_to_params)
         else

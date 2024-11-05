@@ -4,7 +4,7 @@ module CandidateInterface
       include AcceptOfferConfirmReferences
 
       def next_path
-        if @reference_email_address_form.personal_email_address?(@reference)
+        if @reference_email_address_form.show_interruption?(@reference)
           return_to_params = return_to_offer? ? { return_to: 'accept-offer' } : nil
           candidate_interface_accept_offer_references_interruption_path(
             application_choice,

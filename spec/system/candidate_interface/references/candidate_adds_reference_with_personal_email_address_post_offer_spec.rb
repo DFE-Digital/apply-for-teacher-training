@@ -51,6 +51,17 @@ RSpec.describe 'Creating references with personal email addresses after an offer
     then_i_see_my_reference_with_professional_email_address
   end
 
+  scenario 'Candidate uses personal email address for a character reference' do
+    given_i_am_signed_in
+    and_i_have_an_accepted_offer
+    and_i_navigate_to_add_another_reference
+    and_i_complete_some_reference_details_for_a_character_reference
+    when_i_provide_an_email_that_appears_to_be_personal
+    then_i_see_the_relationship_page_not_the_interruption
+    when_i_complete_my_references_details
+    then_i_see_my_character_reference_with_personal_email
+  end
+
 private
 
   def given_i_am_signed_in
@@ -79,6 +90,13 @@ private
 
   def and_i_complete_some_reference_details
     choose 'Academic, such as a university tutor'
+    click_on 'Continue'
+    fill_in 'What’s the name of the person who can give a reference?', with: 'Walter White'
+    click_on 'Save and continue'
+  end
+
+  def and_i_complete_some_reference_details_for_a_character_reference
+    choose 'Character, such as a mentor or someone you know from volunteering'
     click_on 'Continue'
     fill_in 'What’s the name of the person who can give a reference?', with: 'Walter White'
     click_on 'Save and continue'
@@ -139,6 +157,13 @@ private
 
   def then_i_see_my_reference_with_personal_email_address
     expect(page).to have_content('Academic, such as a university tutor')
+    expect(page).to have_content('Walter White')
+    expect(page).to have_content('walter.white@gmail.com')
+    expect(page).to have_content('They were my course supervisor.')
+  end
+
+  def then_i_see_my_character_reference_with_personal_email
+    expect(page).to have_content('Character, such as a mentor or someone you know from volunteering')
     expect(page).to have_content('Walter White')
     expect(page).to have_content('walter.white@gmail.com')
     expect(page).to have_content('They were my course supervisor.')
