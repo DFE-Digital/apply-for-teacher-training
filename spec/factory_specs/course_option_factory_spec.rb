@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'CourseOption factory' do
-  subject(:record) { |attrs: {}| create(factory, *traits, **attributes.merge(attrs)) }
+  subject(:record) { |attrs: {}| create(factory, *traits, **attributes, **attrs) }
 
   let(:traits) { [] }
   let(:attributes) { {} }

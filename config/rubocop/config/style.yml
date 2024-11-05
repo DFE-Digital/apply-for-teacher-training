@@ -129,3 +129,6 @@ Style/FetchEnvVar:
 Style/RedundantLineContinuation:
   Exclude:
     - app/lib/vendor_api/changes/*
+
+Style/BitwisePredicate:
+  Enabled: false

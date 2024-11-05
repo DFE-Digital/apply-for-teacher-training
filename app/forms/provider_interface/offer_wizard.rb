@@ -224,7 +224,7 @@ module ProviderInterface
   private
 
     def subject
-      course_option&.course&.subjects&.first || course.subjects.first
+      course_option&.course&.subjects&.first || course.subjects.first # rubocop:disable Style/SafeNavigationChainLength
     end
 
     def subject_mapping
