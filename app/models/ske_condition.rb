@@ -71,7 +71,7 @@ class SkeCondition < OfferCondition
   end
 
   def subject_code
-    subject = offer&.course_option&.course&.subjects&.first
+    subject = offer&.course_option&.course&.subjects&.first # rubocop:disable Style/SafeNavigationChainLength
     subject&.code
   end
 end

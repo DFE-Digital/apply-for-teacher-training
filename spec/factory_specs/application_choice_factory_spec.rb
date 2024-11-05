@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'ApplicationChoice factory' do
-  subject(:record) { |attrs: {}| create(factory, *traits, **attributes.merge(attrs)) }
+  subject(:record) { |attrs: {}| create(factory, *traits, **attributes, **attrs) }
 
   let(:factory) { :application_choice }
   let(:traits) { [] }
