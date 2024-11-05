@@ -51,7 +51,7 @@ jobs:
         echo "CLUSTER=$(jq -r '.cluster' ${tf_vars_file})" >> $GITHUB_ENV
         echo "RESOURCE_GROUP_NAME=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-rg" >> $GITHUB_ENV
 
-        DB_SERVER="${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-pg"
+        DB_SERVER="${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-psql"
         if [[ -n "${{ inputs.new-db-server }}" ]]; then
           NEW_DB_SERVER="${{ inputs.new-db-server }}"
         else
