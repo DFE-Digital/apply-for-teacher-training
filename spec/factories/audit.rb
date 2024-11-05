@@ -1,4 +1,6 @@
 FactoryBot.define do
+  factory :audit, class: 'Audited::Audit'
+
   factory :application_experience_audit, class: 'Audited::Audit' do
     action { 'create' }
     user { create(:support_user) }
