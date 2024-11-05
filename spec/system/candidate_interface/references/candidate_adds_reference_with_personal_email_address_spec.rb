@@ -74,11 +74,13 @@ private
   end
 
   def when_i_provide_an_email_that_appears_to_be_personal
+    expect(page).to have_content 'Enter their professional email address if you know it. Many providers will not accept references that come from a personal email address'
     fill_in 'What is Walter White’s email address?', with: 'walter.white@gmail.com'
     click_on 'Save and continue'
   end
 
   def and_i_provide_a_work_email_address
+    expect(page).to have_content 'Enter their professional email address if you know it. Many providers will not accept references that come from a personal email address'
     fill_in 'What is Walter White’s email address?', with: 'walter.white@open.ac.uk'
   end
 
@@ -111,6 +113,7 @@ private
   end
 
   def and_i_provide_a_work_email_address
+    expect(page).to have_content 'Enter their professional email address if you know it. Many providers will not accept references that come from a personal email address'
     fill_in 'What is Walter White’s email address?', with: 'walter.white@open.ac.uk'
     click_on 'Save and continue'
   end
