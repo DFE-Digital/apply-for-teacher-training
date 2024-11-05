@@ -33,19 +33,38 @@ RSpec.describe 'Candidate has references with personal email addresses when subm
     and_i_can_submit_my_application_choice
   end
 
+  scenario 'Candidate has entered personal email address, but the reference is referee_type character', time: mid_cycle do
+    given_i_am_a_candidate_with_references_with_personal_email_addresses
+    and_my_references_are_character_references
+    and_i_have_an_unsubmitted_application_choice
+    when_i_review_my_application_choice
+    then_i_do_not_see_the_interruption_page
+    and_i_can_submit_my_application_choice
+  end
+
 private
 
   def given_i_am_a_candidate_with_references_with_personal_email_addresses
     @application_form = create(:completed_application_form, :with_degree_and_gcses)
     @application_form.update(submitted_at: nil)
     @candidate = @application_form.candidate
-    references = create_list(:reference, 2, :not_requested_yet, application_form: @application_form)
+    references = create_list(:reference,
+                             2,
+                             :not_requested_yet,
+                             referee_type: %w[academic professional].sample,
+                             application_form: @application_form)
     @reference = references.first
     @reference.update(email_address: 'personal@yahoo.com')
   end
 
   def and_i_have_an_unsubmitted_application_choice
     @application_choice = create(:application_choice, status: 'unsubmitted', application_form: @application_form)
+  end
+
+  def and_my_references_are_character_references
+    @application_form.application_references.each do |ref|
+      ref.update(referee_type: 'character')
+    end
   end
 
   def and_i_have_a_submitted_application_choice

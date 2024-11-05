@@ -25,7 +25,7 @@ private
   def given_i_am_a_candidate_with_a_reference
     @candidate = create(:candidate)
     @application = @candidate.current_application
-    @reference = create(:application_reference, application_form: @application)
+    @reference = create(:application_reference, application_form: @application, referee_type: 'professional')
   end
 
   def and_the_reference_has_a_professional_email_address

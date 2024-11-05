@@ -76,7 +76,7 @@ private
     )
 
     @application_form.application_references.each do |ref|
-      ref.update(feedback_status: 'not_requested_yet')
+      ref.update(feedback_status: 'not_requested_yet', referee_type: %w[academic professional school_based].sample)
     end
 
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
