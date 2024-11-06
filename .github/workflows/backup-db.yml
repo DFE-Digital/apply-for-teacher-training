@@ -57,7 +57,7 @@ jobs:
         echo "RESOURCE_GROUP_NAME=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-rg" >> $GITHUB_ENV
         echo "STORAGE_ACCOUNT_NAME=${RESOURCE_NAME_PREFIX}${SERVICE_SHORT}dbbkp${CONFIG_SHORT}sa" >> $GITHUB_ENV
         TODAY=$(date +"%F")
-        echo "DB_SERVER=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-pg" >> $GITHUB_ENV
+        echo "DB_SERVER=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-psql" >> $GITHUB_ENV
         if [ "${BACKUP_FILE}" == "schedule" ]; then
           BACKUP_FILE=${SERVICE_SHORT}_${CONFIG_SHORT}_${TODAY}
         elif [ "${BACKUP_FILE}" == "default" ]; then
