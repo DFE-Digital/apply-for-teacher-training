@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_06_125159) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_29_162008) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -622,6 +623,26 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_06_125159) do
     t.integer "award_year", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "pghero_query_stats", force: :cascade do |t|
+    t.text "database"
+    t.text "user"
+    t.text "query"
+    t.bigint "query_hash"
+    t.float "total_time"
+    t.bigint "calls"
+    t.datetime "captured_at", precision: nil
+    t.index ["database", "captured_at"], name: "index_pghero_query_stats_on_database_and_captured_at"
+  end
+
+  create_table "pghero_space_stats", force: :cascade do |t|
+    t.text "database"
+    t.text "schema"
+    t.text "relation"
+    t.bigint "size"
+    t.datetime "captured_at", precision: nil
+    t.index ["database", "captured_at"], name: "index_pghero_space_stats_on_database_and_captured_at"
   end
 
   create_table "provider_agreements", force: :cascade do |t|

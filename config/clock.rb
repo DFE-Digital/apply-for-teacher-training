@@ -14,6 +14,10 @@ class Clock
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true)
   end
 
+  every(5.minutes, 'PGHero') do
+    PgHero.capture_query_stats
+  end
+
   # Hourly jobs
 
   every(1.hour, 'SendFindStartOfCycleProviderEmails', at: '**:05') { StartOfCycleNotificationWorker.perform_async }
@@ -26,6 +30,7 @@ class Clock
   every(1.hour, 'DetectInvariantsHourlyCheck', at: '**:30') { DetectInvariantsHourlyCheck.perform_async }
 
   # Daily jobs
+  every(1.day, 'PgHero.capture_space_stats', at: '02:00') { PgHero.capture_space_stats }
   every(1.day, 'Chasers::Candidate::OfferWorker', at: '10:30') { Chasers::Candidate::OfferWorker.perform_async }
 
   every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_async }
@@ -76,4 +81,7 @@ class Clock
   every(7.days, 'ApplicationsByDemographicDomicileAndDegreeClassExport', at: 'Sunday 23:57') { SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.run_weekly }
 
   every(7.days, 'Schedule Recruitment Performance reports', at: 'Monday 05:30', if: ->(_period) { RecruitmentPerformanceReportTimetable.report_season? }) { Publications::RecruitmentPerformanceReportScheduler.new.call }
+
+  every(7.days, 'PgHero.clean_query_stats', at: 'Monday 02:00') { PgHero.clean_query_stats(before: 30.days.ago) }
+  every(7.days, 'PgHero.clean_space_stats', at: 'Monday 02:00') { PgHero.clean_space_stats(before: 30.days.ago) }
 end

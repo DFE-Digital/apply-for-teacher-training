@@ -328,6 +328,9 @@ GEM
     google-cloud-env (2.2.0)
       faraday (>= 1.0, < 3.a)
     google-cloud-errors (1.4.0)
+    google-protobuf (4.28.3)
+      bigdecimal
+      rake (>= 13)
     googleauth (1.11.0)
       faraday (>= 1.0, < 3.a)
       google-cloud-env (~> 2.1)
@@ -510,6 +513,10 @@ GEM
     patience_diff (1.2.0)
       optimist (~> 3.0)
     pg (1.5.9)
+    pg_query (5.1.0)
+      google-protobuf (>= 3.22.3)
+    pghero (3.6.1)
+      activerecord (>= 6.1)
     postcodes_io (0.4.0)
       excon (~> 0.39)
     prometheus-client (4.2.3)
@@ -900,6 +907,8 @@ DEPENDENCIES
   pagy
   parallel_tests
   pg (~> 1.5.9)
+  pg_query (~> 5.1)
+  pghero (~> 3.6)
   postcodes_io
   prometheus-client
   pry
