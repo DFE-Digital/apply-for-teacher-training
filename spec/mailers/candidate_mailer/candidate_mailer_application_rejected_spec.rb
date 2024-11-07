@@ -1,12 +1,45 @@
 require 'rails_helper'
 
-RSpec.describe 'Tailored advice for rejected applications' do
+RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
+
+  before do
+    magic_link_stubbing(candidate)
+    email_log_interceptor_stubbing
+  end
+
+  describe '.application_rejected' do
+    let(:application_choice) { build_stubbed(:application_choice, :rejected, rejection_reason: 'Missing your English GCSE', course_option:) }
+    let(:email) { described_class.application_rejected(application_choice) }
+
+    context 'when the candidate receives a rejection' do
+      it_behaves_like(
+        'a mail with subject and content',
+        'Update on your application',
+        'intro' => 'Thank you for your application to study Mathematics at Arithmetic College',
+        'rejection reasons' => 'Missing your English GCSE',
+        'realistic job preview' => 'Try the realistic job preview tool',
+        'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
+      )
+    end
+
+    context 'when the candidate that submitted to an undergraduate application is rejected' do
+      let(:application_choice) do
+        build_stubbed(:application_choice, :insufficient_a_levels_rejection_reasons)
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Update on your application',
+        'rejection reasons' => "Qualifications\r\n\r\n        ^ A levels do not meet course requirements:\r\n        ^\r\n        ^ No sufficient grade",
+      )
+    end
+  end
 
   context 'when A level reason is given' do
     it 'does not show qualifications heading neither any tailored advice' do
       application_choice = create(:application_choice, :insufficient_a_levels_rejection_reasons)
-      email = CandidateMailer.application_rejected(application_choice)
+      email = described_class.application_rejected(application_choice)
 
       expect(email.body).to have_no_text('Make sure you meet the qualifications criteria')
       expect(email.body).to have_text('^ # Qualifications ^ A levels do not meet course requirements: ^ ^ No sufficient grade')
@@ -24,7 +57,7 @@ RSpec.describe 'Tailored advice for rejected applications' do
       }
 
       application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:)
-      email = CandidateMailer.application_rejected(application_choice)
+      email = described_class.application_rejected(application_choice)
 
       expect(email.body).to have_no_text('Improve your subject knowledge')
       expect(email.body).to have_no_text('Get classroom experience')
@@ -47,7 +80,7 @@ RSpec.describe 'Tailored advice for rejected applications' do
       }
 
       application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:)
-      email = CandidateMailer.application_rejected(application_choice)
+      email = described_class.application_rejected(application_choice)
 
       expect(email.body).to have_no_text('Make sure you meet the qualifications criteria')
 
@@ -71,7 +104,7 @@ RSpec.describe 'Tailored advice for rejected applications' do
       }
 
       application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:)
-      email = CandidateMailer.application_rejected(application_choice)
+      email = described_class.application_rejected(application_choice)
 
       expect(email.body).to have_text('Make sure you meet the qualifications criteria').once # Heading only rendered once
 
@@ -93,7 +126,7 @@ RSpec.describe 'Tailored advice for rejected applications' do
       }
 
       application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:)
-      email = CandidateMailer.application_rejected(application_choice)
+      email = described_class.application_rejected(application_choice)
 
       expect(email.body).to have_no_text('Improve your personal statement') # heading not rendered when only one selection
       expect(email.body).to have_text('A teacher training adviser can provide free support to help you improve your personal statement.').once
@@ -110,7 +143,7 @@ RSpec.describe 'Tailored advice for rejected applications' do
       }
 
       application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:)
-      email = CandidateMailer.application_rejected(application_choice)
+      email = described_class.application_rejected(application_choice)
 
       expect(email.body).to have_no_text('Improve your personal statement') # heading not rendered when only one selection
       expect(email.body).to have_text('A teacher training adviser can provide free support to help you improve your personal statement.').once
@@ -135,7 +168,7 @@ RSpec.describe 'Tailored advice for rejected applications' do
       }
 
       application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:)
-      email = CandidateMailer.application_rejected(application_choice)
+      email = described_class.application_rejected(application_choice)
 
       expect(email.body).to have_text('Make sure you meet the qualifications criteria').once # qualification heading
       expect(email.body).to have_text('You could consider a different route into teaching.')
@@ -165,7 +198,7 @@ RSpec.describe 'Tailored advice for rejected applications' do
       }
 
       application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:)
-      email = CandidateMailer.application_rejected(application_choice)
+      email = described_class.application_rejected(application_choice)
 
       expect(email.body).not_to have_text('Get classroom experience').once
       expect(email.body).to have_text('You can improve your application by getting some classroom experience. This could be in a school, sports club or by observing classes online.').once
@@ -187,7 +220,7 @@ RSpec.describe 'Tailored advice for rejected applications' do
       }
 
       application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:)
-      email = CandidateMailer.application_rejected(application_choice)
+      email = described_class.application_rejected(application_choice)
 
       # Did not reply advice
       expect(email.body).to have_text('If you are ready to apply again, check your contact details are correct before you submit any more applications.').once
@@ -209,7 +242,7 @@ RSpec.describe 'Tailored advice for rejected applications' do
     }
 
     application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:)
-    email = CandidateMailer.application_rejected(application_choice)
+    email = described_class.application_rejected(application_choice)
 
     expect(email.body).not_to have_text('There are still courses with spaces available').once
     expect(email.body).to have_text('Search again for courses with available places').once
@@ -226,7 +259,7 @@ RSpec.describe 'Tailored advice for rejected applications' do
     }
 
     application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:)
-    email = CandidateMailer.application_rejected(application_choice)
+    email = described_class.application_rejected(application_choice)
 
     # Course full
     expect(email.body).to have_text('There are still courses with spaces available').once
@@ -255,7 +288,7 @@ RSpec.describe 'Tailored advice for rejected applications' do
     application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:, application_form: application_form)
     create(:degree_qualification, enic_reference: nil, institution_country: 'FR', application_form: application_form)
 
-    email = CandidateMailer.application_rejected(application_choice)
+    email = described_class.application_rejected(application_choice)
 
     expect(email.body).to have_text('Showing providers how your qualifications compare to UK ones with a statement of comparability makes you around 30% more likely to receive an offer.').once
     expect(email.body).not_to have_text('You should also be able to request a copy of your degree certificate from the organisation where you studied in the UK.').once

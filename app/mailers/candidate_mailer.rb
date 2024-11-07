@@ -26,16 +26,6 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  # TODO: Delete after 2023 cycle completed
-  def application_submitted(application_form)
-    @candidate_magic_link = candidate_magic_link(application_form.candidate)
-    @application_choice = application_form.application_choices.first
-
-    email_for_candidate(
-      application_form,
-    )
-  end
-
   def chase_reference(reference)
     @reference = reference
     @provider_name = reference.provider_name
