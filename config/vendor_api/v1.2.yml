@@ -104,7 +104,7 @@ components:
         code:
           type: string
           description: |
-            [The code denoting a specific reason for rejection.] (https://github.com/DFE-Digital/apply-for-teacher-training/blob/0fefb558d753d40edb7f6eb856961a0ffae50540/config/rejection_reason_codes.yml)
+            [The code denoting a specific reason for rejection.] (https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/config/rejection_reason_codes.yml)
             Codes and definitions can also be retrieved using the relevant [API endpoint](#get-reference-data-rejection-reason-codes)
           example: R08
           enum:
