@@ -294,7 +294,7 @@ namespace :support_interface, path: '/support' do
 
   mount SupportInterface::RackApp.new(Sidekiq::Web) => '/sidekiq', as: :sidekiq
   mount SupportInterface::RackApp.new(Blazer::Engine) => '/blazer', as: :blazer
-  mount SupportInterface::RackApp.new(PgHero::Engine), at: "pghero", as: :pghero
+  mount SupportInterface::RackApp.new(PgHero::Engine), at: 'pghero', as: :pghero
 
   get '*path', to: 'errors#not_found'
 end

@@ -193,5 +193,5 @@ group :development, :test do
   gem 'rspec-rails', require: false
 end
 
-gem "pghero", "~> 3.6"
-gem "pg_query", "~> 5.1"
+gem 'pghero', '~> 3.6'
+gem 'pg_query', '~> 5.1'
