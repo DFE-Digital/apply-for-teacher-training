@@ -1,7 +1,7 @@
 module DataMigrations
   class DeleteWorkHistoryAudits
     TIMESTAMP = 20240917154444
-    MANUAL_RUN = false
+    MANUAL_RUN = true
     BATCH_SIZE = 5000
 
     def change
