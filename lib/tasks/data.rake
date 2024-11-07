@@ -5,6 +5,7 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::BackfillWithdrawalReasons',
   'DataMigrations::RemoveTeacherDegreeApprenticeshipFeatureFlag',
   'DataMigrations::RevertApplicationChoicesUpdatedAt',
+  'DataMigrations::DeleteWorkHistoryAudits',
   'DataMigrations::BackfillApplicationChoicesWithWorkExperiences',
   'DataMigrations::MarkUnsubmittedApplicationsWithoutEnglishProficiencyAsElfIncomplete',
   'DataMigrations::BackfillEnglishProficiencyRecordsForCarriedOverApplications',
