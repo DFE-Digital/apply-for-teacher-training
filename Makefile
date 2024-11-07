@@ -180,7 +180,7 @@ shell: get-cluster-credentials ## Actually opens a Rails Console: Open a shell o
 	$(eval NAMESPACE=$(shell jq -r '.namespace' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
 	$(eval APP_ENV=$(shell jq -r '.app_environment' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
 	$(if ${APP_NAME_SUFFIX}, $(eval APP_NAME=apply-${APP_NAME_SUFFIX}-clock-worker), $(eval APP_NAME=apply-${APP_ENV}-clock-worker))
-	kubectl -n ${NAMESPACE} -ti exec "deployment/${APP_NAME}" -- sh -c "cd /app && /usr/local/bin/bundle exec rails console -- --noautocomplete"
+	kubectl -n ${NAMESPACE} -ti exec "deployment/${APP_NAME}" -- /bin/sh
 
 .PHONY: console
 shell: get-cluster-credentials ## Open a Rails console on the app instance on AKS, eg: make qa console
