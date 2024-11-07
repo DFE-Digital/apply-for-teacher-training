@@ -19,6 +19,6 @@ module "postgres" {
   azure_storage_mb               = var.postgres_flexible_server_storage_mb
   azure_enable_high_availability = var.postgres_enable_high_availability
   azure_maintenance_window       = var.azure_maintenance_window
-  azure_extensions               = ["PG_BUFFERCACHE", "PG_STAT_STATEMENTS", "PGCRYPTO", "UNACCENT"]
+  azure_extensions               = ["PG_BUFFERCACHE", "PG_STAT_STATEMENTS", "PGCRYPTO", "UNACCENT", "PLPGSQL"]
   alert_window_size              = var.alert_window_size
 }
