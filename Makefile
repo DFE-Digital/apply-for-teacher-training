@@ -176,7 +176,7 @@ edit-infra-secrets: read-keyvault-config install-fetch-config set-azure-account 
 		-e -d azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_INFRA_SECRET_NAME} -f yaml -c
 
 .PHONY: shell
-shell: get-cluster-credentials ## Actually opens a Rails Console: Open a shell on the app instance on AKS, eg: make qa shell
+shell: get-cluster-credentials ## Open a shell on the app instance on AKS, eg: make qa shell
 	$(eval NAMESPACE=$(shell jq -r '.namespace' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
 	$(eval APP_ENV=$(shell jq -r '.app_environment' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
 	$(if ${APP_NAME_SUFFIX}, $(eval APP_NAME=apply-${APP_NAME_SUFFIX}-clock-worker), $(eval APP_NAME=apply-${APP_ENV}-clock-worker))
