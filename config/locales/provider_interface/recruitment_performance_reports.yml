@@ -1,8 +1,8 @@
 en:
   show:
-    title: Recruitment performance weekly report 2023 to 2024 - Apply for teacher training - GOV.UK
+    title: Recruitment performance weekly report %{cycle_year_range} - Apply for teacher training - GOV.UK
     contents: Contents
-    heading: Recruitment performance weekly report 2023 to 2024
+    heading: Recruitment performance weekly report %{cycle_year_range}
     last_updated: 'Last updated: %{date}'
     not_ready_to_view: This report is not ready to view.
     this_report_shows: >
@@ -25,7 +25,7 @@ en:
       Proportion of candidates who have waited more than 30 days for a response
   about_this_data_section:
     section_heading: 1. About this data
-    subsection_heading_one: Changes for the 2023 to 2024 recruitment cycle
+    subsection_heading_one: Changes for the %{cycle_range} recruitment cycle
     subsection_one_paragraph_one: >
       These statistics cover applications in the 2023 to 2024 recruitment cycle for courses in England starting in the
       2024 to 2025 academic year. To allow for comparison, statistics covering the 2022 to 2023 recruitment cycle 2023
@@ -69,7 +69,7 @@ en:
       the publication date is from the first day of the current cycle.
     subsection_four_paragraph_two: >
       This means days in last cycle will not be the same calendar date as days in this cycle. For example, day one of
-      last cycle was on 4 October 2022, but day one of the current cycle was 3 October 2023.
+      last cycle was on %{last_cycle_start_date}, but day one of the current cycle was %{this_cycle_start_date}.
     subsection_four_paragraph_three: >
       These statistics collect data up to and including the day before they were published. The report is published
       weekly on a Monday.

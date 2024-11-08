@@ -5,7 +5,7 @@
   </h2>
 
   <h3 class="govuk-heading-s">
-    <%= t('about_this_data_section.subsection_heading_one') %>
+    <%= t('about_this_data_section.subsection_heading_one', cycle_range: RecruitmentCycle.cycle_name) %>
   </h3>
   <p class="govuk-body">
     <%= t('about_this_data_section.subsection_one_paragraph_one') %>
@@ -55,7 +55,11 @@
     <%= t('about_this_data_section.subsection_four_paragraph_one') %>
   </p>
   <p class="govuk-body">
-    <%= t('about_this_data_section.subsection_four_paragraph_two') %>
+    <%= t(
+          'about_this_data_section.subsection_four_paragraph_two',
+          last_cycle_start_date: CycleTimetable.find_opens(CycleTimetable.current_year - 1).to_fs(:govuk_date),
+          this_cycle_start_date: CycleTimetable.find_opens.to_fs(:govuk_date),
+        ) %>
   </p>
   <p class="govuk-body">
     <%= t('about_this_data_section.subsection_four_paragraph_three') %>

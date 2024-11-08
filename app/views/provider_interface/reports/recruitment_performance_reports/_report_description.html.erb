@@ -5,7 +5,7 @@
           date: l(CycleTimetable.find_opens.to_date, format: :long)) %>
   </p>
   <p class="govuk-body">
-    <%= t('show.this_report_will_update', date: l(Date.new(2024, 5, 20), format: :long)) %>
+    <%= t('show.this_report_will_update', date: CycleTimetable.start_of_cycle_week(34).to_fs(:govuk_date)) %>
   </p>
   <p class="govuk-body"><%= t('show.this_report_compares') %></p>
   <h2 class="govuk-heading-m"><%= t('show.contents') %></h2>
