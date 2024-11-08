@@ -22,11 +22,11 @@ RSpec.describe 'Candidate clicks on an expired magic link' do
   def and_i_am_a_candidate_with_an_application
     @candidate = create(:candidate)
     @application_form = create(:application_form, candidate: @candidate)
-    create(:application_choice, application_form: @application_form, reject_by_default_at: 5.days.from_now)
+    @application_choice = create(:application_choice, application_form: @application_form, reject_by_default_at: 5.days.from_now)
   end
 
   def and_i_received_the_submitted_application_email
-    CandidateMailer.application_submitted(@application_form).deliver_now
+    CandidateMailer.application_choice_submitted(@application_choice).deliver_now
   end
 
   def when_i_click_on_an_expired_magic_link

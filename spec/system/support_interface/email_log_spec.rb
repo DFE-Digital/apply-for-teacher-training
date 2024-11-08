@@ -52,8 +52,8 @@ RSpec.describe 'Email log' do
   end
 
   def and_an_email_with_an_application_id_is_sent
-    CandidateMailer.application_submitted(
-      @completed_application,
+    CandidateMailer.application_choice_submitted(
+      @completed_application.application_choices.first,
     ).deliver_now
 
     open_email('harry@example.com')
@@ -79,7 +79,7 @@ RSpec.describe 'Email log' do
   end
 
   def then_i_see_the_all_emails_have_a_type_in_the_log
-    expect(page).to have_content 'Application submitted (Candidate mailer)'
+    expect(page).to have_content 'Application choice submitted (Candidate mailer) '
     expect(page).to have_content 'Sign up email (Authentication mailer)'
   end
 
