@@ -44,7 +44,7 @@ module CandidateInterface
       application_form.unsubmitted? &&
         # One or more of the professional references has a personal email address
         application_form.application_references.pluck(:referee_type, :email_address).any? do |referee_type, email_address|
-          referee_type != 'character' && EmailChecker.new(email_address).personal?
+          referee_type != 'character' && email_address.present? && EmailChecker.new(email_address).personal?
         end
     end
 
