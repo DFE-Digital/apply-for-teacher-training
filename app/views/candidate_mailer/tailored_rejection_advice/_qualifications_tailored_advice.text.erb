@@ -1,5 +1,6 @@
 <% if @application_choice.render_tailored_advice_section_headings? %>
-  ## Make sure you meet the qualifications criteria
+<%# Do not be tempted to indent this title. Have a look at the preview if you do. It will no longer be a heading. %>
+## Make sure you meet the qualifications criteria
 <% end %>
 
 <% @application_choice.tailored_advice_reasons['qualifications'].each do |advice_reason_id| %>
