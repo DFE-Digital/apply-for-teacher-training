@@ -612,6 +612,19 @@ private
   def rejection_reasons
     {
       selected_reasons: [
+        { id: 'teaching_knowledge', label: 'Teaching knowledge, ability and interview performance',
+          selected_reasons: [
+            { id: 'subject_knowledge', label: 'Subject knowledge',
+              details: {
+                id: 'subject_knowledge_details',
+                text: 'You did need to improve your knowledge of the subject',
+              } },
+            { id: 'teaching_knowledge_other', label: 'Other',
+              details: {
+                id: 'teaching_knowledge_other_details',
+                text: 'You did not demonstrate enough knowledge about teaching in the UK.',
+              } },
+          ] },
         { id: 'qualifications', label: 'Qualifications', selected_reasons: [
           { id: 'no_maths_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
           { id: 'no_english_gcse', label: 'No English GCSE at minimum grade 4 or C, or equivalent' },
@@ -642,6 +655,13 @@ private
             label: 'Already has a teaching qualification',
             details: { id: 'already_qualified_details', text: 'You are already a qualified teacher.' },
           },
+          {
+            id: 'qualifications_other',
+            label: 'Other',
+            details: {
+              id: 'qualifications_other_details', text: 'Your qualifications are not appropriate for this course.'
+            },
+          },
         ] },
         {
           id: 'communication_and_scheduling',
@@ -652,6 +672,14 @@ private
               label: 'English language ability below expected standard',
               details: { id: 'english_below_standard_details', text: 'English language ability below the expected standard.' },
             },
+            {
+              id: 'did_not_attend_interview',
+              label: 'Did not attend interview',
+              details: { id: 'did_not_attend_interview_details', text: 'You failed to show up for the interview we confirmed with you' },
+            },
+            { id: 'communication_and_scheduling_other',
+              label: 'Other',
+              details: { id: 'communication_and_scheduling_other_details', text: 'Communication issues' } },
           ],
         },
         { id: 'personal_statement',
@@ -684,6 +712,8 @@ private
           ],
         },
         { id: 'other', label: 'Other', details: { id: 'other_details', text: 'So many other things were wrong...' } },
+        { id: 'safeguarding', label: 'Safeguarding', details: { id: 'safeguarding_details', text: 'We have safeguarding concerns' } },
+        { id: 'visa_sponsorship', label: 'Visa sponsorship', details: { id: 'visa_sponsorship_details', text: 'We cannot sponsor your visa' } },
       ],
     }
   end
