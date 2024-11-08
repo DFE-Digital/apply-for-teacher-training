@@ -1,9 +1,9 @@
-<%= content_for :title, t('show.title') %>
+<%= content_for :title, t('show.title', cycle_year_range: RecruitmentCycle.cycle_name) %>
 <%= content_for :before_content,
-                breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path, t('show.heading') => nil) %>
+                breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path, t('show.heading', cycle_year_range: RecruitmentCycle.cycle_name) => nil) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l"><%= t('show.heading') %></h1>
+    <h1 class="govuk-heading-l"><%= t('show.heading', cycle_year_range: RecruitmentCycle.cycle_name) %></h1>
   </div>
 
   <% if @national_data.present? && @provider_data.present? %>

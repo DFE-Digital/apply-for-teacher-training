@@ -109,7 +109,8 @@ private
   end
 
   def then_i_see_no_report_message
-    expect(page).to have_content('Recruitment performance weekly report 2023 to 2024')
+    year_range = RecruitmentCycle.cycle_name(CycleTimetable.current_year)
+    expect(page).to have_content("Recruitment performance weekly report #{year_range}")
     expect(page).to have_content('This report is not ready to view.')
   end
 
