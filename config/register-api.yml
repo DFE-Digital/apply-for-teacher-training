@@ -123,6 +123,9 @@ components:
       - contact_details
       - course
       - qualifications
+      - offer_pending_conditions_count
+      - offer_unmet_conditions_count
+      - offer_met_conditions_count
       properties:
         support_reference:
           type: string
@@ -169,6 +172,21 @@ components:
           nullable: true
           description: Values to populate this candidate’s HESA Initial Teacher
             Training data return.  Available once an offer has been accepted.
+        offer_pending_conditions_count:
+          type: integer
+          description: The number of pending conditions on the offer
+          nullable: false
+          example: 1
+        offer_unmet_conditions_count:
+          type: integer
+          description: The number of unmet conditions on the offer
+          nullable: false
+          example: 1
+        offer_met_conditions_count:
+          type: integer
+          description: The number of met conditions on the offer
+          nullable: false
+          example: 1
     Candidate:
       type: object
       additionalProperties: false

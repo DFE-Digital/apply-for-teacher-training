@@ -27,6 +27,9 @@ module RegisterAPI
           course: course_info_for(application_choice.current_course_option),
           qualifications:,
           hesa_itt_data: hesa_itt_data.presence,
+          offer_pending_conditions_count: application_choice.offer_pending_conditions.count,
+          offer_unmet_conditions_count: application_choice.offer_unmet_conditions.count,
+          offer_met_conditions_count: application_choice.offer_met_conditions.count,
         },
       }
     end

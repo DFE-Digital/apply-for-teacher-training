@@ -738,6 +738,48 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
     end
   end
 
+  describe 'attributes.offer_pending_conditions_count' do
+    it 'returns the number of pending conditions' do
+      application_choice = create(:application_choice, :with_completed_application_form, :recruited)
+      offer = create(:offer, application_choice: application_choice, conditions: [])
+      create(:text_condition, :pending, offer: offer)
+      create(:text_condition, :pending, offer: offer)
+      create(:text_condition, :met, offer: offer)
+      create(:text_condition, :unmet, offer: offer)
+
+      presenter = described_class.new(application_choice)
+      expect(presenter.as_json[:attributes][:offer_pending_conditions_count]).to eq(2)
+    end
+  end
+
+  describe 'attributes.offer_unmet_conditions_count' do
+    it 'returns the number of unmet conditions' do
+      application_choice = create(:application_choice, :with_completed_application_form, :recruited)
+      offer = create(:offer, application_choice: application_choice, conditions: [])
+      create(:text_condition, :unmet, offer: offer)
+      create(:text_condition, :unmet, offer: offer)
+      create(:text_condition, :met, offer: offer)
+      create(:text_condition, :pending, offer: offer)
+
+      presenter = described_class.new(application_choice)
+      expect(presenter.as_json[:attributes][:offer_unmet_conditions_count]).to eq(2)
+    end
+  end
+
+  describe 'attributes.offer_met_conditions_count' do
+    it 'returns the number of met conditions' do
+      application_choice = create(:application_choice, :with_completed_application_form, :recruited)
+      offer = create(:offer, application_choice: application_choice, conditions: [])
+      create(:text_condition, :met, offer: offer)
+      create(:text_condition, :met, offer: offer)
+      create(:text_condition, :unmet, offer: offer)
+      create(:text_condition, :pending, offer: offer)
+
+      presenter = described_class.new(application_choice)
+      expect(presenter.as_json[:attributes][:offer_met_conditions_count]).to eq(2)
+    end
+  end
+
   describe 'compliance with models that change updated_at' do
     let(:non_uk_application_form) do
       create(
