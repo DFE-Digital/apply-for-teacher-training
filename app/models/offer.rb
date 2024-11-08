@@ -11,6 +11,10 @@ class Offer < ApplicationRecord
   delegate :course, :site, :provider, :accredited_provider, to: :course_option
   delegate :offered_at, to: :application_choice
 
+  has_many :pending_conditions, -> { pending }, class_name: 'OfferCondition'
+  has_many :unmet_conditions, -> { unmet }, class_name: 'OfferCondition'
+  has_many :met_conditions, -> { met }, class_name: 'OfferCondition'
+
   def unconditional?
     conditions.none?
   end

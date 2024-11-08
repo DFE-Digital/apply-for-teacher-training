@@ -18,6 +18,39 @@ RSpec.describe Offer do
         expect(offer.course_option).to eq(application_choice.reload.current_course_option)
       end
     end
+
+    describe '#pending_conditions' do
+      it 'returns the pending conditions' do
+        offer = create(:offer, conditions: [])
+        pending_condition = create(:text_condition, status: :pending, offer: offer)
+        create(:text_condition, status: :met, offer: offer)
+        create(:text_condition, status: :unmet, offer: offer)
+
+        expect(offer.pending_conditions).to eq([pending_condition])
+      end
+    end
+
+    describe '#unmet_conditions' do
+      it 'returns the unmet conditions' do
+        offer = create(:offer, conditions: [])
+        unmet_condition = create(:text_condition, status: :unmet, offer: offer)
+        create(:text_condition, status: :pending, offer: offer)
+        create(:text_condition, status: :met, offer: offer)
+
+        expect(offer.unmet_conditions).to eq([unmet_condition])
+      end
+    end
+
+    describe '#met_conditions' do
+      it 'returns the met conditions' do
+        offer = create(:offer, conditions: [])
+        met_condition = create(:text_condition, status: :met, offer: offer)
+        create(:text_condition, status: :pending, offer: offer)
+        create(:text_condition, status: :unmet, offer: offer)
+
+        expect(offer.met_conditions).to eq([met_condition])
+      end
+    end
   end
 
   describe 'touching' do
