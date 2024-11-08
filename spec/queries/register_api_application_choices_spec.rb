@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GetRecruitedApplicationChoices do
+RSpec.describe RegisterAPIApplicationChoices do
   it 'returns the recruited applications to courses for the given year' do
     create(
       :application_choice,

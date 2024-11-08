@@ -165,7 +165,7 @@ module SupportInterface
     end
 
     def visible_over_register_api?
-      GetRecruitedApplicationChoices.call(
+      RegisterAPIApplicationChoices.call(
         recruitment_cycle_year: RecruitmentCycle.current_year,
       ).find_by(id: application_choice.id).present?
     end

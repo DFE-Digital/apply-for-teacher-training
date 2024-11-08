@@ -1,4 +1,4 @@
-class GetRecruitedApplicationChoices
+class RegisterAPIApplicationChoices
   INCLUDES = [
     application_form: %i[candidate english_proficiency application_qualifications],
     current_course_option: [{ course: %i[provider accredited_provider] }, :site],

@@ -92,7 +92,7 @@ module RegisterAPI
     end
 
     def recruited_application_choices
-      GetRecruitedApplicationChoices.call(
+      RegisterAPIApplicationChoices.call(
         recruitment_cycle_year: recruitment_cycle_year_param,
         changed_since:,
       )
