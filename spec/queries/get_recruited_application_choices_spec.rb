@@ -98,6 +98,18 @@ RSpec.describe GetRecruitedApplicationChoices do
     expect(application_choices).to contain_exactly(reinstated_application)
   end
 
+  it 'returns applications in the pending conditions state' do
+    pending_condition_application = create(
+      :application_choice,
+      :pending_conditions,
+      application_form: build(:application_form, recruitment_cycle_year: '2021'),
+      current_course_option: course_option_for_year('2021'),
+    )
+
+    application_choices = described_class.call(recruitment_cycle_year: '2021')
+    expect(application_choices).to contain_exactly(pending_condition_application)
+  end
+
   it 'returns nothing if no applications available for year given' do
     create(
       :application_choice,

@@ -19,7 +19,7 @@ paths:
     get:
       summary: Get many applications
       description: |
-        This endpoint can be used to retrieve applications for recruited candidates for a given recruitment cycle year.
+        This endpoint can be used to retrieve applications for recruited and pending conditions candidates for a given recruitment cycle year.
 
         Use the `changed_since` parameter to limit the number of results. This is intended
         to make it possible to check for new or updated applications regularly.

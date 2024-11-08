@@ -8,11 +8,17 @@ class GetRecruitedApplicationChoices
     application_choices = ApplicationChoice
     application_choices = application_choices.where('application_choices.updated_at > ?', changed_since) if changed_since.present?
 
-    application_choices
+    application_choices_in_year = application_choices
       .includes(INCLUDES)
       .joins(:current_course)
       .merge(Course.in_cycle(recruitment_cycle_year))
-      .where.not(recruited_at: nil)
+
+    recruited_application_choices = application_choices_in_year.where.not(recruited_at: nil)
+    pending_conditions_application_choices = application_choices_in_year.where(status: :pending_conditions)
+
+    recruited_application_choices
+      .or(pending_conditions_application_choices)
+      .distinct
       .order(:updated_at, :id)
   end
 end
