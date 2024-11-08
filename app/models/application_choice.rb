@@ -24,6 +24,8 @@ class ApplicationChoice < ApplicationRecord
   has_one :current_accredited_provider, through: :current_course, source: :accredited_provider
   has_one :offer
 
+  delegate :pending_conditions, :unmet_conditions, :met_conditions, to: :offer, prefix: true, allow_nil: true
+
   has_many :notes, dependent: :destroy
   has_many :interviews, dependent: :destroy
 

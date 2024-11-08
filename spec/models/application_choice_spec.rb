@@ -5,6 +5,12 @@ RSpec.describe ApplicationChoice do
   it { is_expected.to have_many(:volunteering_experiences).class_name('ApplicationVolunteeringExperience') }
   it { is_expected.to have_many(:work_history_breaks).class_name('ApplicationWorkHistoryBreak') }
 
+  describe 'delegations' do
+    it { is_expected.to delegate_method(:pending_conditions).to(:offer).allow_nil.with_prefix }
+    it { is_expected.to delegate_method(:unmet_conditions).to(:offer).allow_nil.with_prefix }
+    it { is_expected.to delegate_method(:met_conditions).to(:offer).allow_nil.with_prefix }
+  end
+
   describe 'auditing', :with_audited do
     it 'creates audit entries' do
       application_choice = create(:application_choice, status: 'unsubmitted')
