@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: 706595e52fed211cee53ad99ceaeaabb47a059cc
-  tag: v1.14.2
+  revision: 15208a10476428d645f69b184f18eba6cd1b6213
+  tag: v1.15.0
   specs:
-    dfe-analytics (1.14.2)
+    dfe-analytics (1.15.0)
       google-cloud-bigquery (~> 1.38)
       httparty (~> 0.21)
       multi_xml (~> 0.6.0)
@@ -304,7 +304,7 @@ GEM
       csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-apis-bigquery_v2 (0.78.0)
+    google-apis-bigquery_v2 (0.80.0)
       google-apis-core (>= 0.15.0, < 2.a)
     google-apis-core (0.15.1)
       addressable (~> 2.5, >= 2.5.1)
@@ -325,10 +325,10 @@ GEM
     google-cloud-core (1.7.1)
       google-cloud-env (>= 1.0, < 3.a)
       google-cloud-errors (~> 1.0)
-    google-cloud-env (2.2.0)
+    google-cloud-env (2.2.1)
       faraday (>= 1.0, < 3.a)
     google-cloud-errors (1.4.0)
-    googleauth (1.11.0)
+    googleauth (1.11.2)
       faraday (>= 1.0, < 3.a)
       google-cloud-env (~> 2.1)
       jwt (>= 1.4, < 3.0)
