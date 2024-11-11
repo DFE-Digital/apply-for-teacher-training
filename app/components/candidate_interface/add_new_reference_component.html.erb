@@ -1,13 +1,29 @@
 <% unless current_application.submitted_applications? %>
-  <p class="govuk-body">You need to give the email address of 2 people who can give a reference for you. They’ll only be contacted if you accept an offer on a course.</p>
+  <p class="govuk-body">
+    You need to give the email addresses of at least 2 people who can give a reference for you.
+    They’ll only be contacted if you accept an offer on a course.
+  </p>
 
-  <p class="govuk-body">You should include:</p>
+  <p class="govuk-body govuk-!-margin-bottom-4">
+    <%= govuk_link_to('Find out more about providing references', t('get_into_teaching.url_references')) %>
+  </p>
+
+  <p class="govuk-body">When you are choosing references you should:</p>
 
   <ul class="govuk-list govuk-list--bullet">
-    <li>an academic tutor if you graduated in the past 5 years or are still studying</li>
-    <li>the headteacher if you have been working in a school</li>
+    <li>select an academic reference (for example a tutor) if you graduated in the last 5 years, or if you are still studying</li>
+    <li>give the contact details of the headteacher if you’ve been working in a school</li>
+    <li>choose any combination of references if you graduated more than 5 years ago or do not work in a school</li>
   </ul>
-  <p class="govuk-body">They’ll be asked if they know any reason why you should not work with children.</p>
+
+  <p class="govuk-body">They’ll be asked:</p>
+
+  <ul class="govuk-list govuk-list--bullet">
+    <li>to confirm how they know you</li>
+    <li>whether they know any reason why you should not work with children</li>
+    <li>to give factual information, for example course or employment dates</li>
+    <li>whether they want you to be able to see their reference or if it is confidential</li>
+  </ul>
 <% end %>
 
 <% if @section_policy.can_edit? %>
