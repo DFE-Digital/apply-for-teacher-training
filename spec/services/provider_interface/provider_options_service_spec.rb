@@ -22,11 +22,22 @@ RSpec.describe ProviderInterface::ProviderOptionsService do
       )
     end
 
+    it 'includes providers where the accredited provider is one the user has access to' do
+      create(:course, provider: build(:provider), accredited_provider: @providers[0])
+      expect(described_class.new(@provider_user).accredited_providers).to include(@providers[0])
+    end
+
     it 'returns de-duplicated list of only the accredited providers that the user can access if they are themselves an accredited provider' do
       accredited_provider_user = create(:provider_user, providers: [@accredited_providers[1]])
       expect(described_class.new(accredited_provider_user).accredited_providers).to contain_exactly(
         @accredited_providers[1],
       )
+    end
+
+    it 'does not return accredited providers with courses from recruitment cycles 2 years ago' do
+      accredited_provider = create(:provider)
+      create(:course, provider: @providers[0], accredited_provider:, recruitment_cycle_year: CycleTimetable.current_year - 2)
+      expect(described_class.new(@provider_user).accredited_providers).not_to include(accredited_provider)
     end
   end
 
@@ -36,6 +47,18 @@ RSpec.describe ProviderInterface::ProviderOptionsService do
         @providers[0],
         @providers[1],
       )
+    end
+
+    it 'includes providers if they have a course accredited by one the user has access to' do
+      provider = create(:provider)
+      create(:course, provider:, accredited_provider: @providers[0])
+      expect(described_class.new(@provider_user).providers).to include(provider)
+    end
+
+    it 'does not return providers with courses from recruitment cycles 2 years ago' do
+      provider = create(:provider)
+      create(:course, provider:, accredited_provider: @providers[0], recruitment_cycle_year: CycleTimetable.current_year - 2)
+      expect(described_class.new(@provider_user).providers).not_to include(provider)
     end
 
     it 'returns de-duplicated list of only the providers that the user can access as an accredited provider' do
