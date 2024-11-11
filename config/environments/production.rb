@@ -22,35 +22,26 @@ Rails.application.configure do
   # Turn on fragment caching in view templates.
   config.action_controller.perform_caching = true
 
-  # Ensures that a master key has been made available in ENV["RAILS_MASTER_KEY"], config/master.key, or an environment
-  # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).
-  # config.require_master_key = true
-
   # Disable serving static files from `public/`, relying on NGINX/Apache to do so instead.
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
-
-  # Compress CSS using a preprocessor.
-  # config.assets.css_compressor = :sass
+  # Cache assets for far-future expiry since they are all digest stamped.
+  config.public_file_server.headers = { "cache-control" => "public, max-age=3600" }
 
   # Do not fall back to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host = ENV["RAILS_ASSETS_HOST"]
-
-  # Specifies the header that your server uses for sending files.
-  # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
-  # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
+  config.asset_host = ENV["RAILS_ASSETS_HOST"]
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
-  config.assume_ssl = true
+  # config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
   config.ssl_options = {
-    # `force_ssl` by default does a redirect of non-https domains to https. That does not work
-    # in our case, because SSL is terminated at the Azure layer.
+    # `force_ssl` by default does a redirect of non-https domains to https.
+    # That does not work in our case, because SSL is terminated at the Azure layer.
     redirect: false,
 
     # Cookies will not be sent over http
@@ -60,17 +51,14 @@ Rails.application.configure do
     hsts: true,
   }
 
-  # Log to STDOUT by default
+  # Skip http-to-https redirect for the default health check endpoint.
+  # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
+
+  # Log to STDOUT with the current request id as a default log tag.
+  config.log_tags = [ :request_id ]
   config.logger = ActiveSupport::Logger.new(STDOUT)
-    .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
-    .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
-
-  # "info" includes generic and useful information about system operation, but avoids logging too much
-  # information to avoid inadvertent exposure of personally identifiable information (PII). If you
-  # want to log everything, set the level to "debug".
-  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
-
-  config.log_tags = [:request_id]                         # Prepend all log lines with the following tags.
+                                       .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
+                                       .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
   config.log_format = :json                               # For parsing in Logit
   config.rails_semantic_logger.add_file_appender = false  # Don't log to file
   config.active_record.logger = nil                       # Don't log SQL
@@ -79,12 +67,21 @@ Rails.application.configure do
     io: $stdout,
     level: config.log_level,
     formatter: config.rails_semantic_logger.format,
-  )
+    )
 
-  # Use a different cache store in production.
+  # Change to "debug" to log everything (including potentially personally-identifiable information!)
+  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
+
+  # Prevent health checks from clogging up the logs.
+  config.silence_healthcheck_path = "/up"
+
+  # Don't log any deprecations.
+  config.active_support.report_deprecations = false
+
+  # Replace the default in-process memory cache store with a durable alternative.
   config.cache_store = :redis_cache_store, { url: ENV.fetch("REDIS_CACHE_URL") }
 
-  # Use a real queuing backend for Active Job (and separate queues per environment).
+  # Replace the default in-process and non-durable queuing backend for Active Job.
   # config.active_job.queue_adapter = :resque
   # config.active_job.queue_name_prefix = "apply_for_postgraduate_teacher_training_production"
 
@@ -106,9 +103,6 @@ Rails.application.configure do
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
-
-  # Don't log any deprecations.
-  config.active_support.report_deprecations = false
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
@@ -132,7 +126,6 @@ Rails.application.configure do
   #   ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.select_value("select '2024-01-01'::date") #=> Date
   #
   # This query will return a `String` if postgresql_adapter_decode_dates is set to false.
-
   config.active_record.postgresql_adapter_decode_dates = false
 
   class FixAzureXForwardedForMiddleware
