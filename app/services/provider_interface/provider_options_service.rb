@@ -9,11 +9,11 @@ module ProviderInterface
     def accredited_providers
       Provider
         .joins(:accredited_courses)
-        .where(courses: { provider: provider_user.providers })
+        .where(courses: { provider: provider_user.providers, recruitment_cycle_year: })
         .or(
           Provider
             .joins(:accredited_courses)
-            .where(courses: { accredited_provider: provider_user.providers }),
+            .where(courses: { accredited_provider: provider_user.providers, recruitment_cycle_year: }),
         )
         .distinct
     end
@@ -21,11 +21,11 @@ module ProviderInterface
     def providers
       Provider
         .joins(:courses)
-        .where(courses: { accredited_provider: provider_user.providers })
+        .where(courses: { accredited_provider: provider_user.providers, recruitment_cycle_year: })
         .or(
           Provider
             .joins(:courses)
-            .where(courses: { provider: provider_user.providers }),
+            .where(courses: { provider: provider_user.providers, recruitment_cycle_year: }),
         )
         .distinct
     end
@@ -34,12 +34,12 @@ module ProviderInterface
       Provider
         .joins(:courses)
         .where(id: provider_ids)
-        .where(courses: { accredited_provider: provider_user.providers })
+        .where(courses: { accredited_provider: provider_user.providers, recruitment_cycle_year: })
         .or(
           Provider
             .joins(:courses)
             .where(id: provider_ids)
-            .where(courses: { provider: provider_user.providers }),
+            .where(courses: { provider: provider_user.providers, recruitment_cycle_year: }),
         )
         .includes([:sites]).distinct
     end
@@ -52,6 +52,12 @@ module ProviderInterface
             manage_users: true,
           })
         .order(name: :asc)
+    end
+
+  private
+
+    def recruitment_cycle_year
+      RecruitmentCycle.years_visible_to_providers
     end
   end
 end
