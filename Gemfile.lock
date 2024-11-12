@@ -23,10 +23,10 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/dfe-reference-data.git
-  revision: 0e5dd9169a8395053497dcbca83c64c8eb0e2d63
-  tag: v3.6.3
+  revision: 84f01c1bd7de455f6f0fb67dcf0020382b400e65
+  tag: v3.6.4
   specs:
-    dfe-reference-data (3.6.3)
+    dfe-reference-data (3.6.4)
       activesupport
       tzinfo
 
@@ -500,7 +500,7 @@ GEM
     orm_adapter (0.5.0)
     os (1.1.4)
     ostruct (0.6.0)
-    pagy (9.2.1)
+    pagy (9.2.2)
     parallel (1.26.3)
     parallel_tests (4.7.2)
       parallel
@@ -625,7 +625,7 @@ GEM
       netrc (~> 0.8)
     retriable (3.1.2)
     rexml (3.3.9)
-    rouge (4.4.0)
+    rouge (4.5.1)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -691,7 +691,7 @@ GEM
     safely_block (0.4.1)
     satisfactory (0.3.2)
       factory_bot_rails (~> 6.2)
-    securerandom (0.3.1)
+    securerandom (0.3.2)
     selenium-webdriver (4.26.0)
       base64 (~> 0.2)
       logger (~> 1.4)
