@@ -14,6 +14,8 @@ RSpec.describe CandidateMailer do
         'cycle_details' => "as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year.",
         'details' => "The deadline to submit your application is 6pm on #{CycleTimetable.apply_deadline.to_fs(:govuk_date)}",
       )
+
+      it_behaves_like 'an email with unsubscribe option'
     end
 
     context 'includes utm parameters' do

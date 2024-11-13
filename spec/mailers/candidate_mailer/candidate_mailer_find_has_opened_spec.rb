@@ -13,5 +13,7 @@ RSpec.describe CandidateMailer do
       'academic_year' => "#{CycleTimetable.current_year} to #{CycleTimetable.next_year}",
       'details' => 'Find your courses',
     )
+
+    it_behaves_like 'an email with unsubscribe option'
   end
 end

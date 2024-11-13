@@ -16,6 +16,4 @@ If you’re not ready to apply now, you can continue preparing your application.
 
 <%= "Call #{t("get_into_teaching.tel")}" %> or [chat online](<%= email_link_with_utm_params I18n.t('get_into_teaching.url_online_chat'), 'eoc_deadline_reminder', @application_form.phase %>).
 
----
-
-[Unsubscribe from these emails](<%= candidate_unsubscribe_link(@application_form.candidate) %>). You will still receive essential updates about your application.
+<%= render "unsubscribe_from_emails_like_this" %>

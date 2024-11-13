@@ -21,6 +21,24 @@ RSpec.describe OffersToChaseQuery do
     end
   end
 
+  context 'candidate does not want to receive nudges' do
+    let(:chaser_type) { :offer_10_day }
+    let(:days) { 10 }
+
+    let(:date_range) { (travel_to_base - days.days).all_day }
+    let(:inside_range) { date_range.max - 1.hour }
+    let(:offset) { inside_range }
+
+    before do
+      application_choice_without_chaser.candidate.update(unsubscribed_from_emails: true)
+    end
+
+    it 'does not return any application choices for that candidate even though the application choice is in range' do
+      expect(date_range).to cover(application_choice_without_chaser.offered_at)
+      expect(described_class.call(chaser_type:, date_range:)).to be_empty
+    end
+  end
+
   context 'when offers are made 9 days ago for offer_10_day' do
     let(:chaser_type) { :offer_10_day }
     let(:days) { 10 }

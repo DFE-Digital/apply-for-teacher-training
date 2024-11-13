@@ -13,5 +13,7 @@ RSpec.describe CandidateMailer do
       'academic_year' => "You can now apply for teacher training courses that start in the #{CycleTimetable.current_year} to #{CycleTimetable.next_year} academic year.",
       'details' => 'Courses can fill up quickly, so apply as soon as you are ready.',
     )
+
+    it_behaves_like 'an email with unsubscribe option'
   end
 end

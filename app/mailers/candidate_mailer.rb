@@ -4,6 +4,7 @@ class CandidateMailer < ApplicationMailer
   layout(
     'candidate_email_with_support_footer',
     except: %i[
+      find_has_opened
       nudge_unsubmitted
       nudge_unsubmitted_with_incomplete_courses
       nudge_unsubmitted_with_incomplete_personal_statement
