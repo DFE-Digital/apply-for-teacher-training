@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_06_125159) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_21_144711) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -757,6 +757,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_06_125159) do
     t.boolean "duplicate", default: false
     t.boolean "selected", default: false
     t.boolean "refused"
+    t.boolean "confidential", default: true, null: false
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
     t.index ["feedback_status"], name: "index_references_on_feedback_status"
   end

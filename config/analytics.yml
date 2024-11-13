@@ -425,6 +425,7 @@ shared:
     - updated_at
     - refused
     - feedback
+    - confidential
   rejection_feedbacks:
     - id
     - helpful
