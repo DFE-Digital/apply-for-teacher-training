@@ -15,12 +15,13 @@ module ProviderInterface
         end
       end
 
-      provider_ids = current_provider_user.providers.ids.join(', ')
-      if benchmark.real.between?(30, 115)
-        Rails.logger.info "Activity page slow for providers [#{provider_ids}] took #{benchmark.real.to_i} seconds"
-      end
-      if benchmark.real > 115
-        Rails.logger.info "Activity page timed out for providers [#{provider_ids}] took #{benchmark.real.to_i} seconds"
+      if benchmark.real > 5
+        Rails.logger.info(
+          'Activity page slow for providers',
+          activity_page_response: benchmark.real.round(2),
+          activity_page_timeout: benchmark.real > 115,
+          activity_page_providers: current_provider_user.providers.ids,
+        )
       end
     end
   end
