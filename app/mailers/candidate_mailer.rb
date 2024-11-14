@@ -1,21 +1,5 @@
 class CandidateMailer < ApplicationMailer
   helper UtmLinkHelper
-
-  layout(
-    'candidate_email_with_support_footer',
-    except: %i[
-      find_has_opened
-      nudge_unsubmitted
-      nudge_unsubmitted_with_incomplete_courses
-      nudge_unsubmitted_with_incomplete_personal_statement
-      nudge_unsubmitted_with_incomplete_references
-      duplicate_match_email
-      application_rejected
-      application_deadline_has_passed
-      respond_to_offer_before_deadline
-      reject_by_default_explainer
-    ],
-  )
   include QualificationValueHelper
 
   def application_choice_submitted(application_choice)

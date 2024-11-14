@@ -5,3 +5,5 @@ On <%= @application_choice.offer_deferred_at.to_fs(:govuk_date) %>, <%= @course_
 You will shortly receive an email to confirm the offer. If you do not receive this, you should contact <%= @course_option.course.provider.name %>.
 
 [Sign in to your account to see your deferred offer](<%= candidate_magic_link(@application_choice.application_form.candidate) %>).
+
+<%= render 'get_help_teacher_training_adviser' %>

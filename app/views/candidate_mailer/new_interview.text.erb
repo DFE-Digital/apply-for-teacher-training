@@ -4,7 +4,7 @@ Dear <%= @application_form.first_name %>
 
 The interview is on <%= @interview.date %> at <%= @interview.time %>.
 
-Address or online meeting details: 
+Address or online meeting details:
 
 ^ <%= @interview.location %>
 
@@ -21,3 +21,5 @@ Do you have a teacher training adviser yet? They can help you prepare for your i
 As former teachers, they can also offer insight into teacher training and teaching as a career.
 
 [Get a teacher training adviser](<%= email_link_with_utm_params t('get_into_teaching.url_get_an_adviser_start'), 'new_interview_offered', @application_form.phase %>)
+
+<%= render 'get_help_teacher_training_adviser' %>
