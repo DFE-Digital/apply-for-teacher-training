@@ -18,6 +18,7 @@ RSpec.describe CandidateMailer do
         'Update on your application',
         'intro' => 'Thank you for your application to study Mathematics at Arithmetic College',
         'rejection reasons' => 'Missing your English GCSE',
+        'realistic job preview heading' => 'Understand your professional strengths',
         'realistic job preview' => 'Try the realistic job preview tool',
         'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
       )

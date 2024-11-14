@@ -455,10 +455,7 @@ class CandidateMailer < ApplicationMailer
     @application_form = application_form
     email_for_candidate(
       application_form,
-      subject: I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_references.no_references.subject'),
-      layout: false,
-      template_path: 'candidate_mailer/nudge_unsubmitted_with_incomplete_references',
-      template_name: :no_references,
+      subject: I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_references.subject'),
     )
   end
 

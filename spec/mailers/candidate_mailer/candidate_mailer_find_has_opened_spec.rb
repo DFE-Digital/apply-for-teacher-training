@@ -12,6 +12,9 @@ RSpec.describe CandidateMailer do
       'greeting' => 'Dear Fred',
       'academic_year' => "#{CycleTimetable.current_year} to #{CycleTimetable.next_year}",
       'details' => 'Find your courses',
+      'realistic job preview heading' => 'Gain insights into life as a teacher',
+      'realistic job preview' => 'Try the realistic job preview tool',
+      'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
     )
 
     it_behaves_like 'an email with unsubscribe option'

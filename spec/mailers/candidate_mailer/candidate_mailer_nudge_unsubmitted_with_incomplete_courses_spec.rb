@@ -10,6 +10,9 @@ RSpec.describe CandidateMailer do
       'a mail with subject and content',
       'Get help choosing a teacher training course',
       'greeting' => 'Hello Fred',
+      'realistic job preview heading' => 'Understand your professional strengths',
+      'realistic job preview' => 'Try the realistic job preview tool',
+      'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
     )
 
     it_behaves_like 'an email with unsubscribe option'

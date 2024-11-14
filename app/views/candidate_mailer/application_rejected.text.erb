@@ -19,7 +19,7 @@ This year, more people than ever are choosing to apply again.
   <%= render "candidate_mailer/tailored_rejection_advice/#{advice_reason_id}_tailored_advice" %>
 <% end %>
 
-[Try the realistic job preview tool](<%= candidate_realistic_job_preview_link(@application_form.candidate) %>) to get insights into life in the classroom. Respond to video scenarios and get instant feedback on your suitability for a career in teaching.
+<%= render 'understand_your_professional_strengths' %>
 
 [Sign in to apply again](<%= @candidate_magic_link %>).
 
