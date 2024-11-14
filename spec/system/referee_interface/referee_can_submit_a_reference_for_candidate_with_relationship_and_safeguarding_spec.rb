@@ -18,6 +18,13 @@ RSpec.describe 'Referee can submit reference', :with_audited do
 
     when_i_click_on_the_link_within_the_email
     and_i_select_yes_to_giving_a_reference
+    and_i_select_yes_to_sharing_reference_with_candidate
+    and_i_continue
+    and_i_click_back
+    and_the_yes_radio_is_preselected
+    then_i_am_on_the_sharing_reference_question_page
+
+    when_i_continue
     then_i_am_asked_to_confirm_my_relationship_with_the_candidate
 
     when_i_click_on_save_and_continue
@@ -131,6 +138,24 @@ RSpec.describe 'Referee can submit reference', :with_audited do
     click_sign_in_link(current_email)
   end
 
+  def and_i_select_yes_to_sharing_reference_with_candidate
+    choose 'Yes, if they request it'
+  end
+
+  def then_i_am_on_the_sharing_reference_question_page
+    expect(page).to have_current_path(referee_interface_confidentiality_path(token: @token))
+  end
+
+  def when_i_continue
+    click_on 'Continue'
+  end
+
+  alias_method :and_i_continue, :when_i_continue
+
+  def and_the_yes_radio_is_preselected
+    expect(page).to have_checked_field('Yes, if they request it')
+  end
+
   def and_i_select_yes_to_giving_a_reference
     choose 'Yes, I can give them a reference'
     click_link_or_button t('continue')
@@ -240,6 +265,8 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   def when_i_click_back
     click_link_or_button 'Back'
   end
+
+  alias_method :and_i_click_back, :when_i_click_back
 
   def and_i_amend_the_relationship
     within_fieldset('Is this description accurate?') do

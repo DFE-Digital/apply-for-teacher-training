@@ -13,6 +13,7 @@ RSpec.describe 'Referee can submit reference', :with_audited, time: CycleTimetab
 
     when_i_click_on_the_link_within_the_email
     and_i_select_yes_to_giving_a_reference
+    and_i_select_yes_to_reference_can_be_shared
     then_i_am_asked_to_confirm_my_relationship_with_the_candidate
 
     when_i_click_on_save_and_continue
@@ -129,6 +130,11 @@ RSpec.describe 'Referee can submit reference', :with_audited, time: CycleTimetab
 
   def and_i_select_yes_to_giving_a_reference
     choose 'Yes, I can give them a reference'
+    click_link_or_button t('continue')
+  end
+
+  def and_i_select_yes_to_reference_can_be_shared
+    choose 'Yes, if they request it'
     click_link_or_button t('continue')
   end
 
