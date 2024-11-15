@@ -11,5 +11,7 @@ RSpec.describe CandidateMailer do
       'Get help choosing a teacher training course',
       'greeting' => 'Hello Fred',
     )
+
+    it_behaves_like 'an email with unsubscribe option'
   end
 end

@@ -555,7 +555,7 @@ private
   end
 
   def reference_at_offer
-    @application_form = FactoryBot.create(:application_form, :minimum_info, recruitment_cycle_year: 2023, application_choices: [application_choice_pending_conditions])
+    @application_form = FactoryBot.create(:application_form, :minimum_info, application_choices: [application_choice_pending_conditions])
     FactoryBot.create(:reference, application_form: @application_form)
   end
 

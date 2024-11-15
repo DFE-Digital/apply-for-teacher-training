@@ -27,6 +27,8 @@ RSpec.describe CandidateMailer do
         'heading' => 'Hello Fred',
         'provider name' => 'Brighthurst Technical College',
       )
+
+      it_behaves_like 'an email with unsubscribe option'
     end
 
     describe 'Offer 20 day described_class' do
@@ -38,6 +40,8 @@ RSpec.describe CandidateMailer do
         'heading' => 'Hello Fred',
         'provider name' => 'Brighthurst Technical College',
       )
+
+      it_behaves_like 'an email with unsubscribe option'
     end
 
     describe 'Offer 30 day' do
@@ -49,6 +53,8 @@ RSpec.describe CandidateMailer do
         'heading' => 'Hello Fred',
         'provider name' => 'Brighthurst Technical College',
       )
+
+      it_behaves_like 'an email with unsubscribe option'
     end
 
     describe 'Offer 40 day' do
@@ -60,6 +66,8 @@ RSpec.describe CandidateMailer do
         'heading' => 'Hello Fred',
         'provider name' => 'Brighthurst Technical College',
       )
+
+      it_behaves_like 'an email with unsubscribe option'
     end
 
     describe 'Offer 50 day' do
@@ -71,6 +79,8 @@ RSpec.describe CandidateMailer do
         'heading' => 'Hello Fred',
         'provider name' => 'Brighthurst Technical College',
       )
+
+      it_behaves_like 'an email with unsubscribe option'
     end
   end
 end

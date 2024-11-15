@@ -13,6 +13,8 @@ RSpec.describe CandidateMailer do
         'greeting' => 'Hello Fred',
         'content' => 'You have not completed the references section of your teacher training application yet',
       )
+
+      it_behaves_like 'an email with unsubscribe option'
     end
   end
 end
