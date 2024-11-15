@@ -8,16 +8,24 @@ class RejectionReasons
     PERSONAL_STATEMENT_REJECTION_REASON_CODES = %w[quality_of_writing personal_statement_other].freeze
     CLASS_ROOM_EXPERIENCE_REASON_CODES = %w[teaching_demonstration teaching_knowledge_other teaching_method_knowledge safeguarding_knowledge teaching_role_knowledge].freeze
     COMMUNICATION_OTHER_REASON_CODES = %w[could_not_arrange_interview did_not_reply communication_and_scheduling_other].freeze
-    VALID_HIGH_LEVEL_ADVICE_REASON_CODES = %w[qualifications personal_statement teaching_knowledge communication_and_scheduling safeguarding visa_sponsorship course_full other].freeze
+    PLACEMENTS_REASON_CODES = %w[no_placements no_suitable_placements placements_other].freeze
+    VALID_HIGH_LEVEL_ADVICE_REASON_CODES = %w[
+      school_placement
+      qualifications
+      personal_statement
+      teaching_knowledge
+      communication_and_scheduling
+      safeguarding
+      visa_sponsorship
+      course_full
+      other
+    ].freeze
     NO_TAILORED_ADVICE_CODES = %w[
       unsuitable_a_levels
       unsuitable_degree_subject
       unverified_equivalency_qualifications
       already_qualified
       english_below_standard
-      no_placements
-      no_suitable_placements
-      placements_other
     ].freeze
 
     def rejection_reasons
@@ -98,6 +106,8 @@ class RejectionReasons
         'teaching_knowledge_other'
       elsif reason_id.in? COMMUNICATION_OTHER_REASON_CODES
         'communication_and_scheduling_other'
+      elsif reason_id.in? PLACEMENTS_REASON_CODES
+        'placements_other'
       else
         reason_id
       end

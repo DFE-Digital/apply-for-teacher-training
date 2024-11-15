@@ -108,6 +108,38 @@ RSpec.describe RejectionReasons::RejectionReasonsPresenter do
       end
     end
 
+    describe 'when placement related reasons are selected' do
+      let(:reasons) do
+        {
+          selected_reasons: [
+            {
+              id: 'school_placement',
+              label: 'School placement',
+              selected_reasons: [
+                {
+                  id: 'no_placements',
+                  label: 'No available placements',
+                  details: { id: 'no_placements_details', text: 'No placements reason' },
+                }, {
+                  id: 'no_suitable_placements',
+                  label: 'No placements that are suitable',
+                  details: { id: 'no_suitable_placements_details', text: 'No suitable placements' },
+                }, {
+                  id: 'placements_other',
+                  label: 'Other',
+                  details: { id: 'placements_other_details', text: 'Other placements reason' },
+                }
+              ],
+            },
+          ],
+        }
+      end
+
+      it 'returns no_suitable_placements only' do
+        expect(rejected_application_choice.tailored_advice_reasons).to match({ 'school_placement' => ['placements_other'] })
+      end
+    end
+
     describe 'with multiple gcse rejection reasons' do
       let(:reasons) do
         { selected_reasons: [

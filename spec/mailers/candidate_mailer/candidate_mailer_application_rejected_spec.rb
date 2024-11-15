@@ -294,4 +294,41 @@ RSpec.describe CandidateMailer do
     expect(email.body).to have_text('Showing providers how your qualifications compare to UK ones with a statement of comparability makes you around 30% more likely to receive an offer.').once
     expect(email.body).not_to have_text('You should also be able to request a copy of your degree certificate from the organisation where you studied in the UK.').once
   end
+
+  describe 'tailored rejection reason for placements' do
+    let(:structured_rejection_reasons) do
+      {
+        selected_reasons: [
+          {
+            id: 'school_placement',
+            label: 'School placement',
+            selected_reasons: [
+              {
+                id: 'no_placements',
+                label: 'No available placements',
+                details: { id: 'no_placements_details', text: 'Text the provider has written' },
+              },
+            ],
+          },
+        ],
+      }
+    end
+    let(:application_form) { create(:application_form, :minimum_info) }
+    let(:application_choice) { create(:application_choice, :rejected_reasons, structured_rejection_reasons:, application_form: application_form) }
+    let(:email) { described_class.application_rejected(application_choice) }
+
+    it 'shows the tailored rejection reason for placements mid cycle', time: mid_cycle do
+      expect(email.body).to have_content 'Text the provider has written'
+      expect(email.body).to have_content 'There are still courses with placements available'
+      expect(email.body).to have_content 'If the course you applied to has no placements,'
+      expect(email.body).to have_content 'you can search again'
+      expect(email.body).to have_content 'https://find-teacher-training-courses.service.gov.uk/)'
+      expect(email.body).to have_content 'You can try increasing the search radius or location to see more options.'
+    end
+
+    it 'only shows the free text between cycles', time: after_apply_deadline do
+      expect(email.body).to have_content 'Text the provider has written'
+      expect(email.body).to have_no_content 'There are still courses with placements available'
+    end
+  end
 end

@@ -1,0 +1,6 @@
+<% unless CycleTimetable.between_cycles? %>
+<%# Do not be tempted to indent this title. Have a look at the preview if you do. It will no longer be a heading. %>
+## There are still courses with placements available
+
+If the course you applied to has no placements, [you can search again](<%= t('find_teacher_training.production_url') %>). You can try increasing the search radius or location to see more options.
+<% end %>
