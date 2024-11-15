@@ -100,6 +100,7 @@ RSpec.describe CandidateMailer do
             { id: 'no_english_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
             { id: 'no_science_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
             { id: 'no_degree', label: 'No bachelor’s degree or equivalent' },
+            { id: 'already_qualified', label: 'Already has a teaching qualification' },
           ] },
         ],
       }
@@ -113,6 +114,12 @@ RSpec.describe CandidateMailer do
       expect(email.body).to have_text('take your GCSE exams if you do not have them or,').once
       expect(email.body).to have_text('retake them to improve your grades.').once
       expect(email.body).to have_text('You could consider a different route into teaching.').once
+      expect(email.body).to have_text 'If you already hold qualified teacher status (QTS)'
+      expect(email.body).to have_text 'search for teaching vacancies'
+      expect(email.body).to have_text 'https://teaching-vacancies.service.gov.uk/'
+      expect(email.body).to have_text 'https://teaching-vacancies.service.gov.uk/jobseeker-guides/return-to-teaching-in-england/return-to-teaching/'
+      expect(email.body).to have_text 'https://getintoteaching.education.gov.uk/train-to-be-a-teacher/assessment-only-route-to-qts'
+      expect(email.body).to have_text 'https://getintoteaching.education.gov.uk/non-uk-teachers/teach-in-england-if-you-trained-overseas'
     end
   end
 
