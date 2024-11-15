@@ -215,6 +215,7 @@ RSpec.describe CandidateMailer do
             { id: 'did_not_reply', label: 'Did not reply to messages' },
             { id: 'did_not_attend_interview', label: 'Did not attend interview' },
             { id: 'could_not_arrange_interview', label: 'Could not arrange interview' },
+            { id: 'english_below_standard', label: 'English language ability below expected standard' },
             { id: 'communication_and_scheduling_other', label: 'Other' },
           ] },
         ],
@@ -232,6 +233,12 @@ RSpec.describe CandidateMailer do
       # Could not arrange interview advice AND Did not reply advice AND Communication and scheduling other advice are the same, only rendered once
       expect(email.body).to have_text('If you are ready to apply again, check your contact details are correct before you submit any more applications.').once
       expect(email.body).to have_text('If you change your mind about a course, you can withdraw your application.').once
+
+      # English below standard advice
+      expect(email.body).to have_text 'Make sure your English meets the criteria'
+      expect(email.body).to have_text 'You can take an English language proficiency test or an equivalency test to show that you meet the standard of a grade 4 General Certificate of Secondary Education (GCSE) in English.'
+      expect(email.body).to have_text 'Find out about the qualifications you need to train to teach in England'
+      expect(email.body).to have_text 'https://getintoteaching.education.gov.uk/non-uk-teachers/non-uk-qualifications'
     end
   end
 

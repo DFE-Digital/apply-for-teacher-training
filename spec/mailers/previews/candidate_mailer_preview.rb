@@ -670,7 +670,7 @@ private
             {
               id: 'english_below_standard',
               label: 'English language ability below expected standard',
-              details: { id: 'english_below_standard_details', text: 'English language ability below the expected standard.' },
+              details: { id: 'english_below_standard_details', text: 'Consider taking steps to improve your spoken English.' },
             },
             {
               id: 'did_not_attend_interview',

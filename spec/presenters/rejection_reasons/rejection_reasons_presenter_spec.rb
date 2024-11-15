@@ -186,6 +186,26 @@ RSpec.describe RejectionReasons::RejectionReasonsPresenter do
       end
     end
 
+    describe 'when communication_and_scheduling_includes english_below_standard' do
+      let(:reasons) do
+        { selected_reasons: [
+          { id: 'communication_and_scheduling', label: 'Communication, interview attendance and scheduling', selected_reasons: [
+            { id: 'could_not_arrange_interview', label: 'Could not arrange interview' },
+            { id: 'communication_and_scheduling_other', label: 'Other' },
+            { id: 'english_below_standard',
+              label: 'English language ability below expected standard',
+              details: { id: 'english_below_standard_details', text: 'details about English language ability' } },
+          ] },
+        ] }
+      end
+
+      it 'includes english_below_standard in nested reasons' do
+        expect(rejected_application_choice.tailored_advice_reasons['communication_and_scheduling']).to match_array(
+          %w[communication_and_scheduling_other english_below_standard],
+        )
+      end
+    end
+
     describe 'when the teaching knowledge selected reasons include classroom experience related reason codes' do
       let(:reasons) do
         { selected_reasons: [

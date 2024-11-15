@@ -25,7 +25,6 @@ class RejectionReasons
       unsuitable_degree_subject
       unverified_equivalency_qualifications
       already_qualified
-      english_below_standard
     ].freeze
 
     def rejection_reasons
