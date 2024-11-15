@@ -8,13 +8,13 @@ Dear <%= @application_form.first_name %>
 
 Need help writing a strong application? You can [get a teacher training adviser](<%= email_link_with_utm_params I18n.t('get_into_teaching.url_get_an_adviser_start'), 'eoc_deadline_reminder', @application_form.phase %>) for free, one-to-one support.
 
-## If you’re not ready to submit your application
+# If you’re not ready to submit your application
 
 If you’re not ready to apply now, you can continue preparing your application. <%= "From #{l(CycleTimetable.apply_reopens.to_date, format: :no_year)} you’ll be able to apply for courses starting in the #{RecruitmentCycle.cycle_name(RecruitmentCycle.next_year)} academic year." %>
 
 <%= render 'gain_insights_into_life_as_a_teacher' %>
 
-## Get help
+# Get help
 
 <%= "Call #{t("get_into_teaching.tel")}" %> or [chat online](<%= email_link_with_utm_params I18n.t('get_into_teaching.url_online_chat'), 'eoc_deadline_reminder', @application_form.phase %>).
 
