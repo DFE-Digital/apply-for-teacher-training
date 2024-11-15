@@ -147,12 +147,13 @@ RSpec.describe RejectionReasons::RejectionReasonsPresenter do
             selected_reasons: [{ id: 'no_maths_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
                                { id: 'no_english_gcse', label: 'No english GCSE at minimum grade 4 or C, or equivalent' },
                                { id: 'no_science_gcse', label: 'No english GCSE at minimum grade 4 or C, or equivalent' },
-                               { id: 'already_qualified', label: 'Already has a teaching qualification' }] },
+                               { id: 'already_qualified', label: 'Already has a teaching qualification' },
+                               { id: 'unsuitable_degree_subject', label: 'Degree subject does not meet course requirements' }] },
         ] }
       end
 
       it 'only returns a single "no_gcse" reason code for all gcses,' do
-        expect(rejected_application_choice.tailored_advice_reasons).to eq({ 'qualifications' => %w[no_gcse already_qualified] })
+        expect(rejected_application_choice.tailored_advice_reasons).to eq({ 'qualifications' => %w[no_gcse already_qualified unsuitable_degree_subject] })
       end
     end
 

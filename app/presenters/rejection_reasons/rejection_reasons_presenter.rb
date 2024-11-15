@@ -20,7 +20,7 @@ class RejectionReasons
       course_full
       other
     ].freeze
-    NO_TAILORED_ADVICE_CODES = %w[unsuitable_a_levels unsuitable_degree_subject unverified_equivalency_qualifications].freeze
+    NO_TAILORED_ADVICE_CODES = %w[unsuitable_a_levels unverified_equivalency_qualifications].freeze
 
     def rejection_reasons
       return {} unless structured_rejection_reasons&.any?

@@ -91,8 +91,27 @@ RSpec.describe CandidateMailer do
     end
   end
 
+  context 'between cycles', time: after_apply_deadline do
+    it 'does not render unsuitable_degree_subject content' do
+      structured_rejection_reasons = {
+        selected_reasons: [
+          { id: 'qualifications', label: 'Qualifications', selected_reasons: [
+            { id: 'unsuitable_degree_subject', label: 'Degree subject does not meet course requirements' },
+          ] },
+        ],
+      }
+
+      application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:)
+      email = described_class.application_rejected(application_choice)
+
+      expect(email.body).to have_no_text 'https://find-teacher-training-courses.service.gov.uk/'
+      expect(email.body).to have_no_text 'make sure you check the degree subject requirements on the course you want to apply for.'
+      expect(email.body).to have_no_text 'You can try searching for a course that matches the subject of your degree more closely.'
+    end
+  end
+
   context 'multiple reasons in one category are selected' do
-    it 'renders the heading if multiple reasons in the same reason category are selected' do
+    it 'renders the heading if multiple reasons in the same reason category are selected', time: mid_cycle do
       structured_rejection_reasons = {
         selected_reasons: [
           { id: 'qualifications', label: 'Qualifications', selected_reasons: [
@@ -101,6 +120,7 @@ RSpec.describe CandidateMailer do
             { id: 'no_science_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
             { id: 'no_degree', label: 'No bachelor’s degree or equivalent' },
             { id: 'already_qualified', label: 'Already has a teaching qualification' },
+            { id: 'unsuitable_degree_subject', label: 'Degree subject does not meet course requirements' },
           ] },
         ],
       }
@@ -110,16 +130,24 @@ RSpec.describe CandidateMailer do
 
       expect(email.body).to have_text('Make sure you meet the qualifications criteria').once # Heading only rendered once
 
+      # Gcse content
       expect(email.body).to have_text('Find a course with a training provider that will accept an equivalency test or,').once
       expect(email.body).to have_text('take your GCSE exams if you do not have them or,').once
       expect(email.body).to have_text('retake them to improve your grades.').once
       expect(email.body).to have_text('You could consider a different route into teaching.').once
+
+      # Already qualified content
       expect(email.body).to have_text 'If you already hold qualified teacher status (QTS)'
       expect(email.body).to have_text 'search for teaching vacancies'
       expect(email.body).to have_text 'https://teaching-vacancies.service.gov.uk/'
       expect(email.body).to have_text 'https://teaching-vacancies.service.gov.uk/jobseeker-guides/return-to-teaching-in-england/return-to-teaching/'
       expect(email.body).to have_text 'https://getintoteaching.education.gov.uk/train-to-be-a-teacher/assessment-only-route-to-qts'
       expect(email.body).to have_text 'https://getintoteaching.education.gov.uk/non-uk-teachers/teach-in-england-if-you-trained-overseas'
+
+      # Unsuitable degree content
+      expect(email.body).to have_text 'https://find-teacher-training-courses.service.gov.uk/'
+      expect(email.body).to have_text 'make sure you check the degree subject requirements on the course you want to apply for.'
+      expect(email.body).to have_text 'You can try searching for a course that matches the subject of your degree more closely.'
     end
   end
 
