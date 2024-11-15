@@ -140,7 +140,7 @@ RSpec.describe RejectionReasons::RejectionReasonsPresenter do
       end
     end
 
-    describe 'with multiple gcse rejection reasons' do
+    describe 'with multiple qualification rejection reasons' do
       let(:reasons) do
         { selected_reasons: [
           { id: 'qualifications', label: 'Qualifications',
@@ -148,12 +148,16 @@ RSpec.describe RejectionReasons::RejectionReasonsPresenter do
                                { id: 'no_english_gcse', label: 'No english GCSE at minimum grade 4 or C, or equivalent' },
                                { id: 'no_science_gcse', label: 'No english GCSE at minimum grade 4 or C, or equivalent' },
                                { id: 'already_qualified', label: 'Already has a teaching qualification' },
-                               { id: 'unsuitable_degree_subject', label: 'Degree subject does not meet course requirements' }] },
+                               { id: 'unsuitable_degree_subject', label: 'Degree subject does not meet course requirements' },
+                               { id: 'unverified_equivalency_qualifications', label: 'Could not verify equivalency of qualifications' },
+                               { id: 'unverified_qualifications', label: 'Could not verify qualifications' }] },
         ] }
       end
 
-      it 'only returns a single "no_gcse" reason code for all gcses,' do
-        expect(rejected_application_choice.tailored_advice_reasons).to eq({ 'qualifications' => %w[no_gcse already_qualified unsuitable_degree_subject] })
+      it 'only returns a single "no_gcse" reason code for all gcses, and single code for unverified qualifications' do
+        expect(rejected_application_choice.tailored_advice_reasons).to eq(
+          { 'qualifications' => %w[no_gcse already_qualified unsuitable_degree_subject unverified_qualifications] },
+        )
       end
     end
 

@@ -323,6 +323,7 @@ RSpec.describe CandidateMailer do
       selected_reasons: [
         { id: 'qualifications', label: 'Qualifications', selected_reasons: [
           { id: 'unverified_qualifications', label: 'Cant verify' },
+          { id: 'unverified_equivalency_qualifications', label: 'Could not verify equivalency of qualifications' },
         ] },
       ],
     }
@@ -335,6 +336,26 @@ RSpec.describe CandidateMailer do
 
     expect(email.body).to have_text('Showing providers how your qualifications compare to UK ones with a statement of comparability makes you around 30% more likely to receive an offer.').once
     expect(email.body).not_to have_text('You should also be able to request a copy of your degree certificate from the organisation where you studied in the UK.').once
+  end
+
+  it 'shows content for domestic candidates for unverified qualifications reasons' do
+    structured_rejection_reasons = {
+      selected_reasons: [
+        { id: 'qualifications', label: 'Qualifications', selected_reasons: [
+          { id: 'unverified_qualifications', label: 'Cant verify' },
+          { id: 'unverified_equivalency_qualifications', label: 'Could not verify equivalency of qualifications' },
+        ] },
+      ],
+    }
+
+    application_form = create(:application_form, :minimum_info)
+    application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:, application_form: application_form)
+
+    email = described_class.application_rejected(application_choice)
+
+    expect(email.body).to have_text('get a certified statement of your exam results').once
+    expect(email.body).to have_text('You should also be able to request a copy of your degree certificate from the organisation where you studied in the UK.').once
+    expect(email.body).not_to have_text('Showing providers how your qualifications compare to UK ones with a statement of comparability makes you around 30% more likely to receive an offer.').once
   end
 
   describe 'tailored rejection reason for placements' do
