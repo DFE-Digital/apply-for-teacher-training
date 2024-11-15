@@ -8,6 +8,8 @@ Dear <%= @application_form.first_name %>
 
 Courses fill up quickly at this time of year.
 
+<%= render 'gain_insights_into_life_as_a_teacher' %>
+
 # Get help
 
 If you have questions about your application, you can [get in touch with us on the phone or through live chat](<%= email_link_with_utm_params I18n.t('get_into_teaching.url_online_chat'), 'eoc_deadline_reminder', @application_form.phase %>).

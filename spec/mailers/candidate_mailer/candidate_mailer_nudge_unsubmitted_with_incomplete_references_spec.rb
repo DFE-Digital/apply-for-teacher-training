@@ -12,6 +12,9 @@ RSpec.describe CandidateMailer do
         'Give details of 2 people who can give references',
         'greeting' => 'Hello Fred',
         'content' => 'You have not completed the references section of your teacher training application yet',
+        'realistic job preview heading' => 'Understand your professional strengths',
+        'realistic job preview' => 'Try the realistic job preview tool',
+        'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
       )
 
       it_behaves_like 'an email with unsubscribe option'

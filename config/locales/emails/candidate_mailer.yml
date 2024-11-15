@@ -88,14 +88,7 @@ en:
     nudge_unsubmitted:
       subject: Get last-minute advice about your teacher training application
     nudge_unsubmitted_with_incomplete_references:
-      no_references:
-        subject: Give details of 2 people who can give references
-      one_requested_reference:
-        subject: Request another reference for your teacher training application
-      one_received_reference:
-        subject: Request another reference for your teacher training application
-      two_references:
-        subject: ????
+      subject: Give details of 2 people who can give references
     nudge_unsubmitted_with_incomplete_courses:
       subject: Get help choosing a teacher training course
     nudge_unsubmitted_with_incomplete_personal_statement:

@@ -24,6 +24,9 @@ RSpec.describe CandidateMailer do
       'Increase your chances of receiving an offer for teacher training',
       'greeting' => 'Hello Fred',
       'content' => 'While you wait for a response on these applications, you can apply to 4 more courses at different training providers',
+      'realistic job preview heading' => 'Understand your professional strengths',
+      'realistic job preview' => 'Try the realistic job preview tool',
+      'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
     )
   end
 end
