@@ -98,7 +98,7 @@ module ProviderInterface
     end
 
     def state_excluded_attributes
-      %w[state_store errors validation_context _application_providers _multiple_application_providers]
+      %w[state_store errors validation_context _application_providers _multiple_application_providers context_for_validation]
     end
   end
 end

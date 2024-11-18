@@ -100,7 +100,7 @@ module ProviderInterface
     end
 
     def state_excluded_attributes
-      %w[state_store errors validation_context query_service wizard_path_history _further_condition_models]
+      %w[state_store errors validation_context query_service wizard_path_history _further_condition_models context_for_validation]
     end
 
     def sanitize_attrs(attrs)

@@ -48,7 +48,7 @@ private
   end
 
   def state_excluded_attributes
-    %w[state_store errors validation_context]
+    %w[state_store errors validation_context context_for_validation]
   end
 
   # Override in child classes #
