@@ -491,7 +491,7 @@ components:
             "$ref": "#/components/schemas/Error"
           example:
           - error: ParameterMissing
-            message: "param is missing or the value is empty: updated_since"
+            message: "param is missing or the value is empty or invalid: updated_since"
     ParameterInvalidResponse:
       type: object
       additionalProperties: false
