@@ -1,0 +1,4 @@
+<% @application_choice.tailored_advice_reasons['school_placement'].each do |advice_reason_id| %>
+<%# Do not be tempted to indent this render. Have a look at the preview if you do. These sections will lose their formatting. %>
+<%= render "candidate_mailer/tailored_rejection_advice/#{advice_reason_id}_tailored_advice" %>
+<% end %>

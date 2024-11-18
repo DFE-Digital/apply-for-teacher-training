@@ -108,18 +108,56 @@ RSpec.describe RejectionReasons::RejectionReasonsPresenter do
       end
     end
 
-    describe 'with multiple gcse rejection reasons' do
+    describe 'when placement related reasons are selected' do
+      let(:reasons) do
+        {
+          selected_reasons: [
+            {
+              id: 'school_placement',
+              label: 'School placement',
+              selected_reasons: [
+                {
+                  id: 'no_placements',
+                  label: 'No available placements',
+                  details: { id: 'no_placements_details', text: 'No placements reason' },
+                }, {
+                  id: 'no_suitable_placements',
+                  label: 'No placements that are suitable',
+                  details: { id: 'no_suitable_placements_details', text: 'No suitable placements' },
+                }, {
+                  id: 'placements_other',
+                  label: 'Other',
+                  details: { id: 'placements_other_details', text: 'Other placements reason' },
+                }
+              ],
+            },
+          ],
+        }
+      end
+
+      it 'returns no_suitable_placements only' do
+        expect(rejected_application_choice.tailored_advice_reasons).to match({ 'school_placement' => ['placements_other'] })
+      end
+    end
+
+    describe 'with multiple qualification rejection reasons' do
       let(:reasons) do
         { selected_reasons: [
           { id: 'qualifications', label: 'Qualifications',
             selected_reasons: [{ id: 'no_maths_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
                                { id: 'no_english_gcse', label: 'No english GCSE at minimum grade 4 or C, or equivalent' },
-                               { id: 'no_science_gcse', label: 'No english GCSE at minimum grade 4 or C, or equivalent' }] },
+                               { id: 'no_science_gcse', label: 'No english GCSE at minimum grade 4 or C, or equivalent' },
+                               { id: 'already_qualified', label: 'Already has a teaching qualification' },
+                               { id: 'unsuitable_degree_subject', label: 'Degree subject does not meet course requirements' },
+                               { id: 'unverified_equivalency_qualifications', label: 'Could not verify equivalency of qualifications' },
+                               { id: 'unverified_qualifications', label: 'Could not verify qualifications' }] },
         ] }
       end
 
-      it 'only returns a single "no_gcse" reason code' do
-        expect(rejected_application_choice.tailored_advice_reasons).to eq({ 'qualifications' => ['no_gcse'] })
+      it 'only returns a single "no_gcse" reason code for all gcses, and single code for unverified qualifications' do
+        expect(rejected_application_choice.tailored_advice_reasons).to eq(
+          { 'qualifications' => %w[no_gcse already_qualified unsuitable_degree_subject unverified_qualifications] },
+        )
       end
     end
 
@@ -150,6 +188,26 @@ RSpec.describe RejectionReasons::RejectionReasonsPresenter do
       it 'consolidates the reasons to just communication_and_scheduling_other' do
         expect(rejected_application_choice.tailored_advice_reasons).to eq(
           { 'communication_and_scheduling' => %w[communication_and_scheduling_other] },
+        )
+      end
+    end
+
+    describe 'when communication_and_scheduling_includes english_below_standard' do
+      let(:reasons) do
+        { selected_reasons: [
+          { id: 'communication_and_scheduling', label: 'Communication, interview attendance and scheduling', selected_reasons: [
+            { id: 'could_not_arrange_interview', label: 'Could not arrange interview' },
+            { id: 'communication_and_scheduling_other', label: 'Other' },
+            { id: 'english_below_standard',
+              label: 'English language ability below expected standard',
+              details: { id: 'english_below_standard_details', text: 'details about English language ability' } },
+          ] },
+        ] }
+      end
+
+      it 'includes english_below_standard in nested reasons' do
+        expect(rejected_application_choice.tailored_advice_reasons['communication_and_scheduling']).to match_array(
+          %w[communication_and_scheduling_other english_below_standard],
         )
       end
     end

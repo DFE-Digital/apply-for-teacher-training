@@ -38,6 +38,9 @@ en:
     production_url: https://find-teacher-training-courses.service.gov.uk/
     sandbox_url: https://sandbox.find-teacher-training-courses.service.gov.uk/
     qa_url: https://qa.find-teacher-training-courses.service.gov.uk/
+  teaching_vacancies:
+    url_home: https://teaching-vacancies.service.gov.uk/
+    url_return_to_teaching: https://teaching-vacancies.service.gov.uk/jobseeker-guides/return-to-teaching-in-england/return-to-teaching/
   get_into_teaching:
     tel: 0800 389 2500
     opening_times: "Monday to Friday, 8:30am to 5:30pm (except public\u00A0holidays)"
@@ -54,6 +57,7 @@ en:
     url_qualifications_you_need_to_teach: https://getintoteaching.education.gov.uk/is-teaching-right-for-me/qualifications-you-need-to-teach
     url_if_you_dont_have_a_degree: https://getintoteaching.education.gov.uk/train-to-be-a-teacher/if-you-dont-have-a-degree
     url_international_candidates: https://getintoteaching.education.gov.uk/non-uk-teachers
+    url_non_uk_qualifications: https://getintoteaching.education.gov.uk/non-uk-teachers/non-uk-qualifications
     url_online_chat: https://getintoteaching.education.gov.uk/help-and-support
     url_references: https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/teacher-training-references
     url_subject_knowledge_enhancement: https://getintoteaching.education.gov.uk/train-to-be-a-teacher/subject-knowledge-enhancement
@@ -62,6 +66,8 @@ en:
     url_ways_to_train: https://getintoteaching.education.gov.uk/train-to-be-a-teacher
     url_train_without_a_degree: https://getintoteaching.education.gov.uk/train-to-be-a-teacher/if-you-dont-have-a-degree
     url_teacher_degree_apprenticeship: https://getintoteaching.education.gov.uk/train-to-be-a-teacher/teacher-degree-apprenticeships
+    url_assessment_only_route_to_qts: https://getintoteaching.education.gov.uk/train-to-be-a-teacher/assessment-only-route-to-qts
+    url_teach_in_england_if_you_trained_overseas: https://getintoteaching.education.gov.uk/non-uk-teachers/teach-in-england-if-you-trained-overseas
   train_to_teach_in_england:
     url: https://www.gov.uk/government/publications/train-to-teach-in-england-non-uk-applicants/train-to-teach-in-england-non-uk-applicants#visas-and-immigration
   register_of_sponsor_licences:

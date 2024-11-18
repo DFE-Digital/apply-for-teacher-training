@@ -91,8 +91,27 @@ RSpec.describe CandidateMailer do
     end
   end
 
+  context 'between cycles', time: after_apply_deadline do
+    it 'does not render unsuitable_degree_subject content' do
+      structured_rejection_reasons = {
+        selected_reasons: [
+          { id: 'qualifications', label: 'Qualifications', selected_reasons: [
+            { id: 'unsuitable_degree_subject', label: 'Degree subject does not meet course requirements' },
+          ] },
+        ],
+      }
+
+      application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:)
+      email = described_class.application_rejected(application_choice)
+
+      expect(email.body).to have_no_text 'https://find-teacher-training-courses.service.gov.uk/'
+      expect(email.body).to have_no_text 'make sure you check the degree subject requirements on the course you want to apply for.'
+      expect(email.body).to have_no_text 'You can try searching for a course that matches the subject of your degree more closely.'
+    end
+  end
+
   context 'multiple reasons in one category are selected' do
-    it 'renders the heading if multiple reasons in the same reason category are selected' do
+    it 'renders the heading if multiple reasons in the same reason category are selected', time: mid_cycle do
       structured_rejection_reasons = {
         selected_reasons: [
           { id: 'qualifications', label: 'Qualifications', selected_reasons: [
@@ -100,6 +119,8 @@ RSpec.describe CandidateMailer do
             { id: 'no_english_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
             { id: 'no_science_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
             { id: 'no_degree', label: 'No bachelor’s degree or equivalent' },
+            { id: 'already_qualified', label: 'Already has a teaching qualification' },
+            { id: 'unsuitable_degree_subject', label: 'Degree subject does not meet course requirements' },
           ] },
         ],
       }
@@ -109,10 +130,24 @@ RSpec.describe CandidateMailer do
 
       expect(email.body).to have_text('Make sure you meet the qualifications criteria').once # Heading only rendered once
 
+      # Gcse content
       expect(email.body).to have_text('Find a course with a training provider that will accept an equivalency test or,').once
       expect(email.body).to have_text('take your GCSE exams if you do not have them or,').once
       expect(email.body).to have_text('retake them to improve your grades.').once
       expect(email.body).to have_text('You could consider a different route into teaching.').once
+
+      # Already qualified content
+      expect(email.body).to have_text 'If you already hold qualified teacher status (QTS)'
+      expect(email.body).to have_text 'search for teaching vacancies'
+      expect(email.body).to have_text 'https://teaching-vacancies.service.gov.uk/'
+      expect(email.body).to have_text 'https://teaching-vacancies.service.gov.uk/jobseeker-guides/return-to-teaching-in-england/return-to-teaching/'
+      expect(email.body).to have_text 'https://getintoteaching.education.gov.uk/train-to-be-a-teacher/assessment-only-route-to-qts'
+      expect(email.body).to have_text 'https://getintoteaching.education.gov.uk/non-uk-teachers/teach-in-england-if-you-trained-overseas'
+
+      # Unsuitable degree content
+      expect(email.body).to have_text 'https://find-teacher-training-courses.service.gov.uk/'
+      expect(email.body).to have_text 'make sure you check the degree subject requirements on the course you want to apply for.'
+      expect(email.body).to have_text 'You can try searching for a course that matches the subject of your degree more closely.'
     end
   end
 
@@ -215,6 +250,7 @@ RSpec.describe CandidateMailer do
             { id: 'did_not_reply', label: 'Did not reply to messages' },
             { id: 'did_not_attend_interview', label: 'Did not attend interview' },
             { id: 'could_not_arrange_interview', label: 'Could not arrange interview' },
+            { id: 'english_below_standard', label: 'English language ability below expected standard' },
             { id: 'communication_and_scheduling_other', label: 'Other' },
           ] },
         ],
@@ -232,6 +268,12 @@ RSpec.describe CandidateMailer do
       # Could not arrange interview advice AND Did not reply advice AND Communication and scheduling other advice are the same, only rendered once
       expect(email.body).to have_text('If you are ready to apply again, check your contact details are correct before you submit any more applications.').once
       expect(email.body).to have_text('If you change your mind about a course, you can withdraw your application.').once
+
+      # English below standard advice
+      expect(email.body).to have_text 'Make sure your English meets the criteria'
+      expect(email.body).to have_text 'You can take an English language proficiency test or an equivalency test to show that you meet the standard of a grade 4 General Certificate of Secondary Education (GCSE) in English.'
+      expect(email.body).to have_text 'Find out about the qualifications you need to train to teach in England'
+      expect(email.body).to have_text 'https://getintoteaching.education.gov.uk/non-uk-teachers/non-uk-qualifications'
     end
   end
 
@@ -281,6 +323,7 @@ RSpec.describe CandidateMailer do
       selected_reasons: [
         { id: 'qualifications', label: 'Qualifications', selected_reasons: [
           { id: 'unverified_qualifications', label: 'Cant verify' },
+          { id: 'unverified_equivalency_qualifications', label: 'Could not verify equivalency of qualifications' },
         ] },
       ],
     }
@@ -293,5 +336,62 @@ RSpec.describe CandidateMailer do
 
     expect(email.body).to have_text('Showing providers how your qualifications compare to UK ones with a statement of comparability makes you around 30% more likely to receive an offer.').once
     expect(email.body).not_to have_text('You should also be able to request a copy of your degree certificate from the organisation where you studied in the UK.').once
+  end
+
+  it 'shows content for domestic candidates for unverified qualifications reasons' do
+    structured_rejection_reasons = {
+      selected_reasons: [
+        { id: 'qualifications', label: 'Qualifications', selected_reasons: [
+          { id: 'unverified_qualifications', label: 'Cant verify' },
+          { id: 'unverified_equivalency_qualifications', label: 'Could not verify equivalency of qualifications' },
+        ] },
+      ],
+    }
+
+    application_form = create(:application_form, :minimum_info)
+    application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:, application_form: application_form)
+
+    email = described_class.application_rejected(application_choice)
+
+    expect(email.body).to have_text('get a certified statement of your exam results').once
+    expect(email.body).to have_text('You should also be able to request a copy of your degree certificate from the organisation where you studied in the UK.').once
+    expect(email.body).not_to have_text('Showing providers how your qualifications compare to UK ones with a statement of comparability makes you around 30% more likely to receive an offer.').once
+  end
+
+  describe 'tailored rejection reason for placements' do
+    let(:structured_rejection_reasons) do
+      {
+        selected_reasons: [
+          {
+            id: 'school_placement',
+            label: 'School placement',
+            selected_reasons: [
+              {
+                id: 'no_placements',
+                label: 'No available placements',
+                details: { id: 'no_placements_details', text: 'Text the provider has written' },
+              },
+            ],
+          },
+        ],
+      }
+    end
+    let(:application_form) { create(:application_form, :minimum_info) }
+    let(:application_choice) { create(:application_choice, :rejected_reasons, structured_rejection_reasons:, application_form: application_form) }
+    let(:email) { described_class.application_rejected(application_choice) }
+
+    it 'shows the tailored rejection reason for placements mid cycle', time: mid_cycle do
+      expect(email.body).to have_content 'Text the provider has written'
+      expect(email.body).to have_content 'There are still courses with placements available'
+      expect(email.body).to have_content 'If the course you applied to has no placements,'
+      expect(email.body).to have_content 'you can search again'
+      expect(email.body).to have_content 'https://find-teacher-training-courses.service.gov.uk/)'
+      expect(email.body).to have_content 'You can try increasing the search radius or location to see more options.'
+    end
+
+    it 'only shows the free text between cycles', time: after_apply_deadline do
+      expect(email.body).to have_content 'Text the provider has written'
+      expect(email.body).to have_no_content 'There are still courses with placements available'
+    end
   end
 end

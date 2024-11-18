@@ -147,6 +147,23 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_rejected(application_choice)
   end
 
+  def application_rejected_international_unverified
+    application_choice = FactoryBot.create(
+      :application_choice,
+      status: :rejected,
+      structured_rejection_reasons: international_qualifications_rejection_reasons,
+      rejection_reasons_type: 'rejection_reasons',
+    )
+
+    FactoryBot.create(
+      :degree_qualification,
+      enic_reference: nil,
+      institution_country: 'FR',
+      application_form: application_choice.application_form,
+    )
+    CandidateMailer.application_rejected(application_choice)
+  end
+
   def application_rejected_via_api
     application_rejected(:vendor_api_rejection_reasons)
   end
@@ -609,6 +626,25 @@ private
                      sent_to_provider_at: 1.day.ago)
   end
 
+  def international_qualifications_rejection_reasons
+    {
+      selected_reasons: [
+        { id: 'qualifications', label: 'Qualifications', selected_reasons: [
+          {
+            id: 'unverified_qualifications',
+            label: 'Could not verify qualifications',
+            details: { id: 'unverified_qualifications_details', text: 'We could not verify your degree.' },
+          },
+          {
+            id: 'unverified_equivalency_qualifications',
+            label: 'Could not verify equivalency of qualifications',
+            details: { id: 'unverified_equivalency_qualifications_details', text: 'We could verify the equivalency of your GCSEs because they are not from the UK.' },
+          },
+        ] },
+      ],
+    }
+  end
+
   def rejection_reasons
     {
       selected_reasons: [
@@ -670,7 +706,7 @@ private
             {
               id: 'english_below_standard',
               label: 'English language ability below expected standard',
-              details: { id: 'english_below_standard_details', text: 'English language ability below the expected standard.' },
+              details: { id: 'english_below_standard_details', text: 'Consider taking steps to improve your spoken English.' },
             },
             {
               id: 'did_not_attend_interview',
