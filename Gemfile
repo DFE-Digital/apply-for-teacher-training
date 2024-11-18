@@ -184,7 +184,6 @@ end
 group :development, :test do
   gem 'brakeman'
   gem 'bullet', require: false
-  gem 'db-query-matchers'
   gem 'dotenv-rails', require: false
   gem 'parallel_tests'
   gem 'pry-byebug'

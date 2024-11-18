@@ -223,9 +223,6 @@ GEM
     crass (1.0.6)
     csv (3.3.0)
     date (3.3.4)
-    db-query-matchers (0.14.0)
-      activesupport (>= 4.0, < 8.1)
-      rspec (>= 3.0)
     declarative (0.0.20)
     deepsort (0.5.0)
     devise (4.9.4)
@@ -864,7 +861,6 @@ DEPENDENCIES
   clockwork
   clockwork-test
   colorize
-  db-query-matchers
   deepsort
   devise
   dfe-analytics!
