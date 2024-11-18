@@ -1427,10 +1427,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@ministryofjustice/frontend@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-3.0.2.tgz#ce95924bb18f90f7fd46c75248b73860e6ee4a51"
-  integrity sha512-sEt5LjjeAN4FgBasz19AASLjRNEVKnocXrHm350wtQSGcnkK+8LuMRZ0VBESItgcaN/0XeO/kpd9S4PQ5Dkv7Q==
+"@ministryofjustice/frontend@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-3.0.3.tgz#553a9539480806d85752c89fd9c6364f3f878149"
+  integrity sha512-E1fOweiM/KGR1uct7trvoWQDkZSmSK2uTyL0g+x5q6tFapy/hNMOgzsqwjhhdxSQUjDB3rSKXDub3b+QozEkCA==
   dependencies:
     govuk-frontend "^5.0.0"
     moment "^2.27.0"
