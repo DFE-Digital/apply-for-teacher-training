@@ -8,6 +8,7 @@ RSpec.describe 'Stop submission of incomplete references', :with_audited do
     and_i_received_the_initial_reference_request_email
     when_i_click_on_the_link_within_the_initial_email
     and_i_select_yes_to_giving_a_reference
+    and_i_select_yes_to_reference_can_be_shared
     and_i_confirm_my_relationship_with_the_candidate
     and_i_manually_skip_ahead_to_the_review_page
     then_i_cannot_submit_the_reference
@@ -35,6 +36,11 @@ RSpec.describe 'Stop submission of incomplete references', :with_audited do
 
   def and_i_select_yes_to_giving_a_reference
     choose 'Yes, I can give them a reference'
+    click_link_or_button t('continue')
+  end
+
+  def and_i_select_yes_to_reference_can_be_shared
+    choose 'Yes, if they request it'
     click_link_or_button t('continue')
   end
 

@@ -1,13 +1,14 @@
 module RefereeInterface
   class ReferenceReviewComponent < ViewComponent::Base
-    def initialize(reference:, token_param: nil, editable: true)
+    def initialize(reference:, application_form:, token_param: nil, editable: true)
       @reference = reference
       @editable = editable
       @token_param = token_param
+      @application_form = application_form
     end
 
     def reference_rows
-      [relationship, safeguarding_concerns, reference]
+      [relationship, safeguarding_concerns, reference, confidentiality]
     end
 
   private
@@ -49,6 +50,17 @@ module RefereeInterface
         action: {
           href: referee_interface_reference_feedback_path(token: @token_param, from: 'review'),
           visually_hidden_text: 'reference',
+        },
+      }
+    end
+
+    def confidentiality
+      {
+        key: "Can your reference be shared with #{@application_form.full_name}",
+        value: @reference.is_confidential ? 'Yes' : 'No',
+        action: {
+          href: referee_interface_confidentiality_path(token: @token_param, from: 'review'),
+          visually_hidden_text: "Can your reference be shared with #{@application_form.full_name}",
         },
       }
     end
