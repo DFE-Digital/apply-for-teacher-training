@@ -18,4 +18,3 @@ en:
       received_message:
         one: has received 1 reference
         other: has received %{count} references
-      do_not_share_message: You should not share the contents of any references with %{name}.
