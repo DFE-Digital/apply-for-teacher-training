@@ -1,8 +1,9 @@
 class SummaryCardComponent < ViewComponent::Base
-  def initialize(rows:, border: true, editable: true, ignore_editable: [])
+  def initialize(rows:, border: true, editable: true, ignore_editable: [], warning_text: nil)
     rows = transform_hash(rows) if rows.is_a?(Hash)
     @rows = rows_including_actions_if_editable(rows, editable, ignore_editable)
     @border = border
+    @warning_text = warning_text
   end
 
   def border_css_class
@@ -11,7 +12,7 @@ class SummaryCardComponent < ViewComponent::Base
 
 private
 
-  attr_reader :rows, :ignore_editable
+  attr_reader :rows, :ignore_editable, :warning_text
 
   def rows_including_actions_if_editable(rows, editable, ignore_editable)
     rows.map do |row|

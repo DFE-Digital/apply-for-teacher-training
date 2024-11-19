@@ -18,4 +18,10 @@ RSpec.describe SummaryCardComponent do
     result = render_inline(described_class.new(rows:)) { 'In a galaxy' }
     expect(result.text).to include('In a galaxy')
   end
+
+  it 'renders a warning text if warning_text is present' do
+    result = render_inline(described_class.new(rows:, warning_text: 'This is a warning!'))
+
+    expect(result.css('.govuk-warning-text__text').text).to include('This is a warning!')
+  end
 end
