@@ -71,7 +71,7 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
 
     context 'feedback' do
       it 'contains a feedback row' do
-        row = component.rows.last
+        row = component.rows[4]
         expect(row[:key]).to eq('Reference')
         expect(row[:value]).to eq(reference.feedback)
       end
@@ -79,7 +79,7 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
       it 'changes field name when carried over reference' do
         reference.duplicate = true
 
-        row = component.rows.last
+        row = component.rows[4]
         expect(row[:key]).to eq('Does the candidate have the potential to teach?')
         expect(row[:value]).to eq(reference.feedback)
       end
@@ -88,6 +88,30 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
         reference.feedback = nil
         row = component.rows.last
         expect(row[:key]).not_to eq('Reference')
+      end
+    end
+
+    context 'confidentiality' do
+      it 'contains a confidentiality row explaining that the reference is confidential' do
+        reference.is_confidential = true
+
+        expect(component.rows).to include(
+          {
+            key: 'Can this reference be shared with the candidate?',
+            value: 'No, this reference is confidential. Do not share it.',
+          },
+        )
+      end
+
+      it 'contains a confidentiality row explaining that the reference is not confidential' do
+        reference.is_confidential = false
+
+        expect(component.rows).to include(
+          {
+            key: 'Can this reference be shared with the candidate?',
+            value: 'Yes, if they request it.',
+          },
+        )
       end
     end
   end
