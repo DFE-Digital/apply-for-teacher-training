@@ -6,15 +6,13 @@
     <%= form_with model: @wizard.current_step, url: @wizard.current_step_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <% cache @wizard.current_step.provider_cache_key do %>
-        <%= f.govuk_collection_select(
-              :provider_id,
-              select_provider_options(@wizard.current_step.available_providers),
-              :id,
-              :name,
-              label: { text: t('page_titles.which_provider'), size: 'xl', tag: 'h1' },
-            ) %>
-      <% end %>
+      <%= f.govuk_collection_select(
+            :provider_id,
+            select_provider_options(@wizard.current_step.available_providers),
+            :id,
+            :name,
+            label: { text: t('page_titles.which_provider'), size: 'xl', tag: 'h1' },
+          ) %>
 
       <%= f.govuk_submit t('continue') %>
     <% end %>
