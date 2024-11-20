@@ -12,7 +12,6 @@ module TeacherTrainingPublicAPI
       @recruitment_cycle_year = recruitment_cycle_year
       @incremental_sync = incremental_sync
       @run_in_background = run_in_background
-      @updates = {}
 
       provider_courses_from_api = TeacherTrainingPublicAPI::Course.where(
         year: recruitment_cycle_year,
@@ -41,8 +40,6 @@ module TeacherTrainingPublicAPI
         )
         assign_course_attributes(course, course_from_api, recruitment_cycle_year)
         add_accredited_provider(course, course_from_api[:accredited_body_code], recruitment_cycle_year)
-
-        @updates.merge!(courses: true) if !incremental_sync && course.changed?
 
         course.save!
         course
@@ -131,11 +128,7 @@ module TeacherTrainingPublicAPI
       ProviderRelationshipPermissions.find_or_create_by(
         training_provider: provider,
         ratifying_provider: course.accredited_provider,
-      ) do |provider_relationship_permission|
-        if !@incremental_sync && provider_relationship_permission.new_record?
-          @updates.merge!(provider_relationship_permission: true)
-        end
-      end
+      )
     end
 
     def create_new_accredited_provider(accredited_body_code, recruitment_cycle_year)

@@ -5,7 +5,6 @@ module TeacherTrainingPublicAPI
       @recruitment_cycle_year = recruitment_cycle_year
       @delay_by = delay_by
       @incremental_sync = incremental_sync
-      @updates = {}
     end
 
     def call(run_in_background: true)
@@ -47,15 +46,11 @@ module TeacherTrainingPublicAPI
       if existing_provider
         existing_provider.assign_attributes(attrs)
 
-        @updates.merge!(providers: true) if !@incremental_sync && existing_provider.changed?
-
         existing_provider.save!
         existing_provider
       else
-        provider = ::Provider.create!(attrs.merge(code: @provider_from_api.code))
-        @updates.merge!(providers: true) if !@incremental_sync
+        ::Provider.create!(attrs.merge(code: @provider_from_api.code))
 
-        provider
       end
     end
   end
