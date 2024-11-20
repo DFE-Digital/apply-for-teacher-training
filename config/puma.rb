@@ -18,7 +18,7 @@
 # Global VM Lock (GVL) it has diminishing returns and will degrade the
 # response time (latency) of the application.
 #
-# The default is set to 3 threads as it's deemed a decent compromise between
+# The default is set to 5 threads as it's deemed a decent compromise between
 # throughput and latency for the average Rails application.
 #
 # Any libraries that use a connection pool or another resource pool should

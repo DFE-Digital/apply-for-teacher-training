@@ -34,7 +34,7 @@ Rails.application.configure do
   config.asset_host = ENV["RAILS_ASSETS_HOST"]
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
-  # config.assume_ssl = true
+  config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
