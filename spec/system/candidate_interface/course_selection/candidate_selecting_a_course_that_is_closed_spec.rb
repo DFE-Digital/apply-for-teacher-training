@@ -64,7 +64,7 @@ RSpec.describe 'Selecting a course' do
   end
 
   def then_i_be_on_the_application_choice_closed_page
-    expect(page).to have_content('Unfortunately, you cannot apply to Primary (2XT2) because it is now closed')
+    expect(page).to have_content('Unfortunately, you cannot apply to Primary (2XT2) because it is closed')
   end
 
   def and_i_see_that_i_can_apply_to_a_different_provider
