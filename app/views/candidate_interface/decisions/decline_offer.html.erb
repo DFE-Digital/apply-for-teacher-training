@@ -9,7 +9,7 @@
 
     <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>
 
-    <%= form_with url: candidate_interface_decline_offer_path(@application_choice) do |f| %>
+    <%= form_with model: @respond_to_offer, url: candidate_interface_decline_offer_path(@application_choice) do |f| %>
       <%= f.govuk_submit t('decisions.decline_offer.confirm'), warning: true %>
     <% end %>
   </div>

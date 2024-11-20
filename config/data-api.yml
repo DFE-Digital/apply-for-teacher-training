@@ -21,7 +21,7 @@ paths:
       parameters:
         - in: query
           name: updated_since
-          schema:
+          schema: 
             type: string
             format: date-time
             example: 2021-05-20T12:34:00Z
@@ -197,7 +197,7 @@ components:
             "$ref": "#/components/schemas/Error"
           example:
           - error: ParameterMissing
-            message: "param is missing or the value is empty or invalid: updated_since"
+            message: "param is missing or the value is empty: updated_since"
     ParameterInvalidResponse:
       type: object
       required:
@@ -239,7 +239,7 @@ components:
             "$ref": "#/components/schemas/Error"
           example:
           - error: ParameterMissing
-            message: "param is missing or the value is empty or invalid: updated_since"
+            message: "param is missing or the value is empty: updated_since"
     Error:
       type: object
       additionalProperties: false

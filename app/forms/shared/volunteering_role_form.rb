@@ -30,7 +30,7 @@ module Shared
     validates :end_date_unknown, inclusion: { in: %w[true false] }
     validates :currently_working, presence: true
     validates :currently_working, inclusion: { in: %w[true false] }, if: -> { currently_working.present? }
-    validates :end_date, date: { presence: true, future: true, month_and_year: true }, if: -> { not_currently_employed_in_this_role? }
+    validates :end_date, date: { presence: true, future: true, month_and_year: true }, if: -> { currently_working == 'false' }
 
     validates :end_date, date: { future: true, month_and_year: true }, unless: :dont_validate_end_date
 
@@ -103,7 +103,7 @@ module Shared
         details:,
         working_with_children: ActiveModel::Type::Boolean.new.cast(working_with_children),
         start_date:,
-        end_date: not_currently_employed_in_this_role? ? end_date : nil,
+        end_date:,
         start_date_unknown:,
         end_date_unknown:,
         currently_working:,
@@ -116,10 +116,6 @@ module Shared
 
     def dont_validate_end_date
       start_date_blank?
-    end
-
-    def not_currently_employed_in_this_role?
-      currently_working == 'false'
     end
   end
 end

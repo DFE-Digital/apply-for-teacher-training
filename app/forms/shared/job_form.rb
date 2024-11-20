@@ -77,7 +77,7 @@ module Shared
         organisation:,
         commitment:,
         start_date:,
-        end_date: not_currently_employed_in_this_role? ? end_date : nil,
+        end_date:,
         start_date_unknown:,
         end_date_unknown:,
         currently_working:,

@@ -5,7 +5,7 @@ ruby '3.3.5'
 
 gem 'timeliness'
 
-gem 'rails', '~> 8.0.0'
+gem 'rails', '~> 7.2'
 
 gem 'puma', '~> 6.4'
 gem 'pg', '~> 1.5.9'

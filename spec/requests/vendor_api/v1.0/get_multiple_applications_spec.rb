@@ -57,7 +57,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/applications' do
 
     expect(response).to have_http_status(:unprocessable_entity)
     expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
-                                                         'param is missing or the value is empty or invalid: since')
+                                                         'param is missing or the value is empty: since')
   end
 
   it 'returns HTTP status 422 given an unparseable `since` date value' do

@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with url: support_interface_run_task_path('cancel_applications_at_end_of_cycle') do |f| %>
+    <%= form_with model: nil, url: support_interface_run_task_path('cancel_applications_at_end_of_cycle') do |f| %>
       <span class="govuk-caption-l">End-of-cycle</span>
       <h1 class="govuk-heading-l">Are you sure you want to cancel all unsubmitted applications?</h1>
 

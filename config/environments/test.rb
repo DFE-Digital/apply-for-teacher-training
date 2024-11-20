@@ -1,3 +1,5 @@
+require "active_support/core_ext/integer/time"
+
 # The test environment is used exclusively to run your application's
 # test suite. You never need to work with it otherwise. Remember that
 # your test database is "scratch space" for the test suite and is wiped
@@ -13,14 +15,16 @@ Rails.application.configure do
   # this is usually not necessary, and can slow down your test suite. However, it's
   # recommended that you enable it in continuous integration systems to ensure eager
   # loading is working properly before deploying your code.
-  config.eager_load = true
+  config.eager_load = true # ENV["CI"].present?
 
-  # Configure public file server for tests with cache-control for performance.
+  # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
-  config.public_file_server.headers = { "cache-control" => "public, max-age=3600" }
+  config.public_file_server.headers = { "Cache-Control" => "public, max-age=#{1.hour.to_i}" }
 
-  # Show full error reports.
+  # Show full error reports and disable caching.
   config.consider_all_requests_local = true
+  config.action_controller.perform_caching = false
+  config.cache_store = :null_store
 
   # Render exception templates for rescuable exceptions and raise for other exceptions.
   config.action_dispatch.show_exceptions = :rescuable
@@ -28,18 +32,20 @@ Rails.application.configure do
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
 
-  # Store uploaded files on the local file system in a temporary directory.
-  config.active_storage.service = :test
+  # Disable caching for Action Mailer templates even if Action Controller
+  # caching is enabled.
+  config.action_mailer.perform_caching = false
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
+  config.action_mailer.default_options = {
+    from: "mail@example.com",
+  }
 
-  # Default from: address for Action Mailer.
-  config.action_mailer.default_options = { from: "mail@example.com" }
-
-  # Set host to be used by links generated in mailer templates.
+  # Unlike controllers, the mailer instance doesn't have any context about the
+  # incoming request so you'll need to provide the :host parameter yourself.
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
   # Print deprecation notices to the stderr.
@@ -57,21 +63,15 @@ Rails.application.configure do
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
 
-  # Raise error when a before_action's only/except options reference missing actions.
+  # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
-
-  # Disable caching.
-  config.action_controller.perform_caching = false
-  config.cache_store = :null_store
-  # Disable caching for Action Mailer templates even if Action Controller
-  # caching is enabled.
-  config.action_mailer.perform_caching = false
 
   # Forces jobs that are normally queued to Sidekiq to run immediately
   config.active_job.queue_adapter = :inline
 
-  # Configure the URL for the read-only database used by Blazer
   config.x.read_only_database_url = "postgres://localhost/bat_apply_test"
+
+  config.active_storage.service = :test
 
   # Controls whether the PostgresqlAdapter should decode dates automatically with manual queries.
   #
@@ -79,6 +79,6 @@ Rails.application.configure do
   #   ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.select_value("select '2024-01-01'::date") #=> Date
   #
   # This query will return a `String` if postgresql_adapter_decode_dates is set to false.
-  # https://edgeguides.rubyonrails.org/configuring.html#config-active-record-postgresql-adapter-decode-dates
+
   config.active_record.postgresql_adapter_decode_dates = false
 end

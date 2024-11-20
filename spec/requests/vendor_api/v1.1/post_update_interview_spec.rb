@@ -176,7 +176,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
 
           expect(response).to have_http_status(:unprocessable_entity)
           expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
-                                                               'param is missing or the value is empty or invalid: data',
+                                                               'param is missing or the value is empty: data',
                                                                '1.1')
         end
       end

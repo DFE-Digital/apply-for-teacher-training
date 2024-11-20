@@ -191,10 +191,6 @@ RSpec.configure do |config|
     TestSuiteTimeMachine.reset
   end
 
-  config.after do
-    TestSuiteTimeMachine.pretend_it_is(test_date_time) if TestSuiteTimeMachine.baseline.nil?
-  end
-
   # Use `feature_flag: :some_feature_flag` to activate a feature flag for a test
   config.around(:each, :feature_flag) do |example|
     FeatureFlag.activate(example.metadata[:feature_flag]) do

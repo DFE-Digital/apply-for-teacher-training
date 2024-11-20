@@ -36,11 +36,5 @@ MAILER_SANITIZED_PARAMS = %w[
   mailer.to
   mailer.args
 ].freeze
-
-SANITIZED_PARAMS_RAILS_DEFAULTS = %i[
-  passw email secret token _key crypt salt certificate otp ssn cvv cvc
-].freeze
-
-Rails.application.config.filter_parameters += SANITIZED_PARAMS_RAILS_DEFAULTS
 Rails.application.config.filter_parameters += SANITIZED_REQUEST_PARAMS
 Rails.application.config.filter_parameters += MAILER_SANITIZED_PARAMS

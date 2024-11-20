@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with url: support_interface_run_task_path('delete_test_applications') do |f| %>
+    <%= form_with model: nil, url: support_interface_run_task_path('delete_test_applications') do |f| %>
       <h1 class="govuk-heading-l">Are you sure you want to delete all test applications?</h1>
 
       <p class="govuk-body">This task deletes all candidates with emails that end in <code>@example.com</code>, their applications and associated data.</p>

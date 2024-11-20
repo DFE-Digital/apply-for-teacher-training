@@ -17,7 +17,7 @@ RSpec.shared_examples 'an API endpoint requiring a date param' do |path, date_pa
     get_api_request path, token: api_token
 
     expect(response).to have_http_status(:unprocessable_entity)
-    expect(error_response['message']).to eql('param is missing or the value is empty or invalid: updated_since')
+    expect(error_response['message']).to eql('param is missing or the value is empty: updated_since')
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
   end
 

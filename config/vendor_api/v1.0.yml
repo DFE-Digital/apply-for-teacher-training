@@ -1308,7 +1308,7 @@ components:
             "$ref": "#/components/schemas/Error"
           example:
           - error: ParameterMissing
-            message: "param is missing or the value is empty or invalid: parameter_name"
+            message: "param is missing or the value is empty: parameter_name"
     UnprocessableEntityResponse:
       type: object
       required:
