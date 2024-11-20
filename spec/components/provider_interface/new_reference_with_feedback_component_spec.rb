@@ -92,6 +92,10 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
     end
 
     context 'confidentiality' do
+      before do
+        FeatureFlag.activate(:show_reference_confidentiality_status)
+      end
+
       it 'contains a confidentiality row explaining that the reference is confidential' do
         reference.is_confidential = true
 

@@ -11,6 +11,7 @@ RSpec.describe 'Provider views an application in new cycle' do
 
   scenario 'Provider views the new references tab' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
+    and_the_confidentiality_feature_flag_is_active
     and_my_organisation_has_applications
     and_i_sign_in_to_the_provider_interface
     then_i_see_the_applications_from_my_organisation
@@ -28,6 +29,10 @@ RSpec.describe 'Provider views an application in new cycle' do
     when_the_candidate_receives_a_reference
     and_i_revisit_references
     then_i_see_the_reference_feedback
+  end
+
+  def and_the_confidentiality_feature_flag_is_active
+    FeatureFlag.activate(:show_reference_confidentiality_status)
   end
 
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in

@@ -19,14 +19,17 @@ module ProviderInterface
     end
 
     def rows
-      [
+      base_rows = [
         name_row,
         email_address_row,
         relationship_row,
         safeguarding_row,
         feedback_row,
-        confidentiality_row,
       ].compact
+
+      base_rows += [confidentiality_row] if FeatureFlag.active?(:show_reference_confidentiality_status)
+
+      base_rows
     end
 
   private

@@ -8,7 +8,9 @@ module RefereeInterface
     end
 
     def reference_rows
-      [relationship, safeguarding_concerns, reference, confidentiality]
+      rows = [relationship, safeguarding_concerns, reference]
+      rows << confidentiality if FeatureFlag.active?(:show_reference_confidentiality_status)
+      rows
     end
 
   private

@@ -9,6 +9,7 @@ RSpec.describe ProviderInterface::ReferencesSummaryMessage do
 
   context 'when no feedback provided' do
     before do
+      FeatureFlag.activate(:show_reference_confidentiality_status)
       create_list(:reference, 2, feedback_status: :feedback_requested, application_form:)
     end
 
@@ -19,6 +20,7 @@ RSpec.describe ProviderInterface::ReferencesSummaryMessage do
 
   context 'when all feedback provided' do
     before do
+      FeatureFlag.activate(:show_reference_confidentiality_status)
       create_list(:reference, 2, feedback_status: :feedback_provided, application_form:)
     end
 
@@ -29,6 +31,7 @@ RSpec.describe ProviderInterface::ReferencesSummaryMessage do
 
   context 'when one feedback provided and one requested' do
     before do
+      FeatureFlag.activate(:show_reference_confidentiality_status)
       create(:reference, :feedback_requested, application_form:)
       create(:reference, :feedback_provided, application_form:)
     end
@@ -40,6 +43,7 @@ RSpec.describe ProviderInterface::ReferencesSummaryMessage do
 
   context 'when some feedback provided and some requested' do
     before do
+      FeatureFlag.activate(:show_reference_confidentiality_status)
       create_list(:reference, 2, feedback_status: :feedback_requested, application_form:)
       create_list(:reference, 2, feedback_status: :feedback_provided, application_form:)
     end

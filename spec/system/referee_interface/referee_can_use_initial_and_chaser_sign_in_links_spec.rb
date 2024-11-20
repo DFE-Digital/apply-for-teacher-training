@@ -5,6 +5,7 @@ RSpec.describe 'Referee can use sign in link in the initial and chaser email' do
 
   scenario 'Referee clicks sign in links on the initial and chaser reference request emails' do
     given_i_am_a_referee_of_a_submitted_application
+    and_the_confidentiality_feature_flag_is_active
     and_i_received_the_initial_reference_request_email
     when_i_click_on_the_link_within_the_initial_email
     and_i_select_yes_to_giving_a_reference
@@ -21,6 +22,10 @@ RSpec.describe 'Referee can use sign in link in the initial and chaser email' do
     and_i_select_yes_to_giving_a_reference
     and_i_select_yes_to_reference_can_be_shared
     then_i_am_asked_to_confirm_my_relationship_with_the_candidate
+  end
+
+  def and_the_confidentiality_feature_flag_is_active
+    FeatureFlag.activate(:show_reference_confidentiality_status)
   end
 
   def given_i_am_a_referee_of_a_submitted_application
