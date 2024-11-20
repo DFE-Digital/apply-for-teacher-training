@@ -95,7 +95,7 @@ module ProviderInterface
   private
 
     def state_excluded_attributes
-      %w[state_store errors validation_context application_choice course_option_in_new_cycle current_step]
+      %w[state_store errors validation_context application_choice course_option_in_new_cycle current_step context_for_validation]
     end
 
     def deferred_offer_data

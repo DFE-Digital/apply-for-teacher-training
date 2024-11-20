@@ -43,7 +43,8 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
       let(:model) do
         described_class.new(start_date_day:,
                             start_date_month:,
-                            start_date_year:)
+                            start_date_year:,
+                            currently_working: 'false')
       end
 
       include_examples 'month and year date validations', :start_date, verify_presence: true, future: true, before: :end_date

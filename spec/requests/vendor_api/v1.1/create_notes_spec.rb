@@ -28,7 +28,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/notes/create' do
 
     expect(response).to have_http_status(:unprocessable_entity)
     expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
-                                                         'param is missing or the value is empty: message',
+                                                         'param is missing or the value is empty or invalid: message',
                                                          '1.1')
   end
 

@@ -129,7 +129,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
 
           expect(response).to have_http_status(:unprocessable_entity)
           expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
-                                                               'param is missing or the value is empty: data',
+                                                               'param is missing or the value is empty or invalid: data',
                                                                '1.1')
         end
       end
@@ -148,7 +148,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
 
           expect(response).to have_http_status(:unprocessable_entity)
           expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
-                                                               'param is missing or the value is empty: date_and_time',
+                                                               'param is missing or the value is empty or invalid: date_and_time',
                                                                '1.1')
         end
       end
@@ -167,7 +167,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
 
           expect(response).to have_http_status(:unprocessable_entity)
           expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
-                                                               'param is missing or the value is empty: provider_code',
+                                                               'param is missing or the value is empty or invalid: provider_code',
                                                                '1.1')
         end
       end
@@ -186,7 +186,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
 
           expect(response).to have_http_status(:unprocessable_entity)
           expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
-                                                               'param is missing or the value is empty: location',
+                                                               'param is missing or the value is empty or invalid: location',
                                                                '1.1')
         end
       end
