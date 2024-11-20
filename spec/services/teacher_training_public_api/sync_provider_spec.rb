@@ -43,46 +43,6 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, :sidekiq do
       end
     end
 
-    context 'ingesting an existing provider when incremental_sync is off' do
-      let(:incremental_sync) { false }
-      let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
-
-      before do
-        allow(Sentry).to receive(:capture_exception)
-      end
-
-      around do |example|
-        ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
-          example.run
-        end
-      end
-
-      it 'raises a FullSync error' do
-        described_class.new(
-          provider_from_api:,
-          recruitment_cycle_year: stubbed_recruitment_cycle_year,
-          delay_by:,
-          incremental_sync:,
-        ).call(run_in_background: true)
-
-        expect(Sentry).to have_received(:capture_exception)
-                          .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('providers have been updated'))
-      end
-
-      it 'when errors are suppressed it does not raise a FullSync error' do
-        described_class.new(
-          provider_from_api:,
-          recruitment_cycle_year: stubbed_recruitment_cycle_year,
-          delay_by:,
-          incremental_sync:,
-          suppress_sync_update_errors: true,
-        ).call(run_in_background: true)
-
-        expect(Sentry).not_to have_received(:capture_exception)
-          .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('providers have been updated'))
-      end
-    end
-
     context 'ingesting an existing provider' do
       before do
         described_class.new(
@@ -112,7 +72,6 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, :sidekiq do
           provider_from_api.id,
           stubbed_recruitment_cycle_year,
           true,
-          false,
         ).exactly(1).time
       end
 
@@ -125,7 +84,6 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, :sidekiq do
             provider_from_api.id,
             stubbed_recruitment_cycle_year,
             true,
-            false,
           ).exactly(1).time
         end
       end

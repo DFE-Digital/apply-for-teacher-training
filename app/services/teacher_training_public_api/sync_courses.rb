@@ -1,19 +1,16 @@
 module TeacherTrainingPublicAPI
   class SyncCourses
-    include FullSyncErrorHandler
-
-    attr_reader :provider, :run_in_background, :suppress_sync_update_errors, :incremental_sync, :recruitment_cycle_year
+    attr_reader :provider, :run_in_background, :incremental_sync, :recruitment_cycle_year
 
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority
 
     API_COURSE_DRAFT_STATES = %w[rolled_over draft].freeze
 
-    def perform(provider_id, recruitment_cycle_year, incremental_sync = true, suppress_sync_update_errors = false, run_in_background: true)
+    def perform(provider_id, recruitment_cycle_year, incremental_sync = true, run_in_background: true)
       @provider = ::Provider.find(provider_id)
       @recruitment_cycle_year = recruitment_cycle_year
       @incremental_sync = incremental_sync
-      @suppress_sync_update_errors = suppress_sync_update_errors
       @run_in_background = run_in_background
       @updates = {}
 
@@ -28,8 +25,6 @@ module TeacherTrainingPublicAPI
           update_sites(course.id, course_from_api.application_status)
         end
       end
-
-      raise_update_error(@updates) unless suppress_sync_update_errors
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
     end
@@ -61,7 +56,6 @@ module TeacherTrainingPublicAPI
         course_id,
         application_status,
         incremental_sync,
-        suppress_sync_update_errors,
       ]
 
       if run_in_background

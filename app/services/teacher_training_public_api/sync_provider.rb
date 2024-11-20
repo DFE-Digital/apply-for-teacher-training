@@ -1,29 +1,24 @@
 module TeacherTrainingPublicAPI
   class SyncProvider
-    include FullSyncErrorHandler
-
-    def initialize(provider_from_api:, recruitment_cycle_year:, delay_by: nil, incremental_sync: true, suppress_sync_update_errors: false)
+    def initialize(provider_from_api:, recruitment_cycle_year:, delay_by: nil, incremental_sync: true)
       @provider_from_api = provider_from_api
       @recruitment_cycle_year = recruitment_cycle_year
       @delay_by = delay_by
       @incremental_sync = incremental_sync
       @updates = {}
-      @suppress_sync_update_errors = suppress_sync_update_errors
     end
 
     def call(run_in_background: true)
       provider_attrs = provider_attrs_from(@provider_from_api)
       provider = create_or_update_provider(provider_attrs)
       sync_courses(run_in_background, provider)
-
-      raise_update_error(@updates) unless @suppress_sync_update_errors
     end
 
     def sync_courses(run_in_background, provider)
       if run_in_background
-        TeacherTrainingPublicAPI::SyncCourses.perform_in(@delay_by, provider.id, @recruitment_cycle_year, @incremental_sync, @suppress_sync_update_errors)
+        TeacherTrainingPublicAPI::SyncCourses.perform_in(@delay_by, provider.id, @recruitment_cycle_year, @incremental_sync)
       else
-        TeacherTrainingPublicAPI::SyncCourses.new.perform(provider.id, @recruitment_cycle_year, @incremental_sync, @suppress_sync_update_errors, run_in_background: false)
+        TeacherTrainingPublicAPI::SyncCourses.new.perform(provider.id, @recruitment_cycle_year, @incremental_sync, run_in_background: false)
       end
     end
 

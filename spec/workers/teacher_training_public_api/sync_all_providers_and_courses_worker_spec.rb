@@ -19,12 +19,12 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker, :mid_
 
     it 'calls the SyncAllProvidersAndCourses service with the correct args for an incremental sync' do
       described_class.new.perform
-      expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: RecruitmentCycle.current_year, suppress_sync_update_errors: false)
+      expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: RecruitmentCycle.current_year)
     end
 
     it 'calls the SyncAllProvidersAndCourses service with the correct args for a full sync' do
       described_class.new.perform(false)
-      expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: false, recruitment_cycle_year: RecruitmentCycle.current_year, suppress_sync_update_errors: false)
+      expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: false, recruitment_cycle_year: RecruitmentCycle.current_year)
     end
 
     context 'when find is not currently closed' do
@@ -32,13 +32,13 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker, :mid_
 
       it 'calls SyncAllProvidersAndCourses with the current year' do
         described_class.new.perform
-        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: RecruitmentCycle.current_year, suppress_sync_update_errors: false)
+        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: RecruitmentCycle.current_year)
       end
 
       it 'uses the supplied year parameter if given' do
         year = RecruitmentCycle.next_year
         described_class.new.perform(true, year)
-        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: year, suppress_sync_update_errors: false)
+        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: year)
       end
     end
 
@@ -47,13 +47,13 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker, :mid_
 
       it 'calls SyncAllProvidersAndCourses with the next year' do
         described_class.new.perform
-        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: RecruitmentCycle.next_year, suppress_sync_update_errors: false)
+        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: RecruitmentCycle.next_year)
       end
 
       it 'uses the supplied year parameter if given' do
         year = RecruitmentCycle.current_year
         described_class.new.perform(true, year)
-        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: year, suppress_sync_update_errors: false)
+        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: year)
       end
     end
 
