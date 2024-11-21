@@ -127,7 +127,7 @@ module RefereeInterface
         elsif FeatureFlag.active?(:show_reference_confidentiality_status)
           redirect_to referee_interface_confidentiality_path(token: @token_param, from: 'refuse')
         else
-          referee_interface_reference_relationship_path(token: @token_param, from: 'refuse')
+          redirect_to referee_interface_reference_relationship_path(token: @token_param, from: 'refuse')
         end
       end
     end
