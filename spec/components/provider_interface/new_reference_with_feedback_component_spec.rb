@@ -91,7 +91,7 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
       end
     end
 
-    context 'confidentiality' do
+    context 'confidentiality (with show_reference_confidentiality_status feature flag active)' do
       before do
         FeatureFlag.activate(:show_reference_confidentiality_status)
       end
@@ -114,6 +114,23 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
           {
             key: 'Can this reference be shared with the candidate?',
             value: 'Yes, if they request it.',
+          },
+        )
+      end
+    end
+
+    context 'confidentiality (with show_reference_confidentiality_status feature flag inactive)' do
+      before do
+        FeatureFlag.deactivate(:show_reference_confidentiality_status)
+      end
+
+      it 'does not contain a confidentiality row explaining that the reference is confidential' do
+        reference.confidential = true
+
+        expect(component.rows).not_to include(
+          {
+            key: 'Can this reference be shared with the candidate?',
+            value: 'No, this reference is confidential. Do not share it.',
           },
         )
       end
