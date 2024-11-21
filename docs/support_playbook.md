@@ -336,22 +336,43 @@ application_choice = ApplicationChoice.find(APPLICATION_CHOICE_ID)
 new_course_option = CourseOption.find(NEW_COURSE_OPTION_ID)
 zendesk_url = ZENDESK_URL
 
-# confirm the deferral in a new course
-application_choice.update_course_option_and_associated_fields!(new_course_option, audit_comment: zendesk_url)
-```
+conditions_met = application_choice.offer.conditions.all?(&:met?)
+# Extract from ConfirmDeferredOffer
+# https://github.com/DFE-Digital/apply-for-teacher-training/blob/75bb20308bf92efddeee58e630bb14f6a4b0874d/app/services/confirm_deferred_offer.rb#L27
+if conditions_met
+  # Extract from ReinstateConditionsMet
+  # https://github.com/DFE-Digital/apply-for-teacher-training/blob/75bb20308bf92efddeee58e630bb14f6a4b0874d/app/services/reinstate_conditions_met.rb#L44
+  recruited_at = if application_choice.status_before_deferral == 'recruited'
+                   application_choice.recruited_at # conditions are 'still met'
+                 else
+                   Time.zone.now
+                 end
+  # https://github.com/DFE-Digital/apply-for-teacher-training/blob/75bb20308bf92efddeee58e630bb14f6a4b0874d/app/services/reinstate_conditions_met.rb#L18
+  ActiveRecord::Base.transaction do
+    ApplicationStateChange.new(application_choice).reinstate_conditions_met!
 
-A **conditional offer** would move the candidate to a pending conditions state:
+    application_choice.update_course_option_and_associated_fields!(
+      new_course_option,
+      other_fields: { recruited_at: },
+      audit_comment: zendesk_url,
+    )
+  end
+  CandidateMailer.reinstated_offer(application_choice).deliver_later
+else
+  # Extract from ReinstatePendingConditions
+  # https://github.com/DFE-Digital/apply-for-teacher-training/blob/a444f753df41ce3aab0a939c3d947830d7250308/app/services/reinstate_pending_conditions.rb#L18
+  ActiveRecord::Base.transaction do
+    ApplicationStateChange.new(application_choice).reinstate_pending_conditions!
 
-```ruby
-# change the status to pending conditions (if it is a conditional deferred offer)
-application_choice.update!(status: 'pending_conditions', audit_comment: zendesk_url)
-```
-
-An **unconditional offer** would move the candidate to a recruited state:
-
-```ruby
-# change the status to recruited (if it is an unconditional deferred offer)
-application_choice.update!(status: 'recruited', audit_comment: zendesk_url)
+    application_choice.offer.conditions.each(&:pending!)
+    application_choice.update_course_option_and_associated_fields!(
+      new_course_option,
+      other_fields: { recruited_at: nil },
+      audit_comment: zendesk_url,
+    )
+  end
+  CandidateMailer.reinstated_offer(application_choice).deliver_later
+end
 ```
 
 ## Offers
