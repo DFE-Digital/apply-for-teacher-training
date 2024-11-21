@@ -2,23 +2,23 @@ module RefereeInterface
   class ConfidentialityForm
     include ActiveModel::Model
 
-    attr_accessor :is_confidential
+    attr_accessor :confidential
 
-    validates :is_confidential, presence: true
+    validates :confidential, presence: true
 
     def self.build_from_reference(reference:)
-      is_confidential = reference.is_confidential ? true : false
-      new(is_confidential: is_confidential)
+      confidential = reference.confidential ? true : false
+      new(confidential: confidential)
     end
 
     def save(application_reference)
       return false unless valid?
 
-      is_confidential_boolean = ActiveModel::Type::Boolean.new.cast(is_confidential)
+      confidential_boolean = ActiveModel::Type::Boolean.new.cast(confidential)
 
       ApplicationForm.with_unsafe_application_choice_touches do
         application_reference.update!(
-          is_confidential: is_confidential_boolean,
+          confidential: confidential_boolean,
         )
       end
     end

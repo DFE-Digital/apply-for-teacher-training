@@ -12,9 +12,9 @@
 
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :is_confidential, legend: { size: 'l', tag: 'h1', text: t('referee.confidentiality.choice.label', full_name: @application.full_name) } do %>
-        <%= f.govuk_radio_button :is_confidential, true, label: { text: t('referee.confidentiality.choice.yes') }, link_errors: true %>
-        <%= f.govuk_radio_button :is_confidential, false, label: { text: t('referee.confidentiality.choice.no') } %>
+      <%= f.govuk_radio_buttons_fieldset :confidential, legend: { size: 'l', tag: 'h1', text: t('referee.confidentiality.choice.label', full_name: @application.full_name) } do %>
+        <%= f.govuk_radio_button :confidential, true, label: { text: t('referee.confidentiality.choice.yes') }, link_errors: true %>
+        <%= f.govuk_radio_button :confidential, false, label: { text: t('referee.confidentiality.choice.no') } %>
       <% end %>
 
       <%= f.govuk_submit t('continue') %>

@@ -97,7 +97,7 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
       end
 
       it 'contains a confidentiality row explaining that the reference is confidential' do
-        reference.is_confidential = true
+        reference.confidential = true
 
         expect(component.rows).to include(
           {
@@ -108,7 +108,7 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
       end
 
       it 'contains a confidentiality row explaining that the reference is not confidential' do
-        reference.is_confidential = false
+        reference.confidential = false
 
         expect(component.rows).to include(
           {

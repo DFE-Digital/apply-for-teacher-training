@@ -59,7 +59,7 @@ module RefereeInterface
     def confidentiality
       {
         key: "Can your reference be shared with #{@application_form.full_name}",
-        value: @reference.is_confidential ? 'Yes' : 'No',
+        value: @reference.confidential ? 'Yes' : 'No',
         action: {
           href: referee_interface_confidentiality_path(token: @token_param, from: 'review'),
           visually_hidden_text: "Can your reference be shared with #{@application_form.full_name}",

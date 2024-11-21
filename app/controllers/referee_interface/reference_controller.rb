@@ -133,7 +133,7 @@ module RefereeInterface
     end
 
     def confidentiality
-      @confidentiality_form = ConfidentialityForm.new(is_confidential: reference.is_confidential)
+      @confidentiality_form = ConfidentialityForm.new(confidential: reference.confidential)
       @previous_path = previous_path(previous_path_in_flow: referee_interface_refuse_feedback_path(token: @token_param))
 
       @application = reference.application_form
@@ -246,7 +246,7 @@ module RefereeInterface
 
     def confidentiality_params
       params.require(:referee_interface_confidentiality_form)
-            .permit(:is_confidential)
+            .permit(:confidential)
     end
   end
 end

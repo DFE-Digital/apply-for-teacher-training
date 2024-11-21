@@ -104,8 +104,8 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     end
   end
 
-  context 'when is_confidential is set to true' do
-    let(:reference) { build_stubbed(:reference, is_confidential: true) }
+  context 'when confidential is set to true' do
+    let(:reference) { build_stubbed(:reference, confidential: true) }
     let(:application_form) { build_stubbed(:application_form, first_name: 'Foo', last_name: 'Bar') }
 
     before do
@@ -121,8 +121,8 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     end
   end
 
-  context 'when is_confidentiality is set to false' do
-    let(:reference) { build_stubbed(:reference, is_confidential: false) }
+  context 'when confidentiality is set to false' do
+    let(:reference) { build_stubbed(:reference, confidential: false) }
     let(:application_form) { build_stubbed(:application_form, first_name: 'Foo', last_name: 'Bar') }
 
     before do
