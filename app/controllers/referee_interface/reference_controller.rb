@@ -133,19 +133,19 @@ module RefereeInterface
     end
 
     def confidentiality
-      @confidentiality_form = ConfidentialityForm.new(confidential: reference.confidential)
-      @previous_path = previous_path(previous_path_in_flow: referee_interface_refuse_feedback_path(token: @token_param))
-
+      @confidentiality_form = ConfidentialityForm.build_from_reference(reference:)
       @application = reference.application_form
+      @previous_path = previous_path(previous_path_in_flow: referee_interface_refuse_feedback_path(token: @token_param))
     end
 
     def confirm_confidentiality
-      @confidentiality_form = ConfidentialityForm.new(confidentiality_params)
+      @confidentiality_form = ConfidentialityForm.new(confidential: confidentiality_params)
+      @application = reference.application_form
+
+      render :confidentiality and return unless @confidentiality_form.valid?
 
       if @confidentiality_form.save(reference)
         redirect_to referee_interface_reference_relationship_path(token: @token_param, from: 'confidentiality')
-      else
-        render :confidentiality
       end
     end
 
@@ -245,8 +245,7 @@ module RefereeInterface
     end
 
     def confidentiality_params
-      params.require(:referee_interface_confidentiality_form)
-            .permit(:confidential)
+      params.dig(:referee_interface_confidentiality_form, :confidential)
     end
   end
 end

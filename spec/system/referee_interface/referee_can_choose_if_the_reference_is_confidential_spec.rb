@@ -10,7 +10,6 @@ RSpec.describe 'Referee can submit reference', :with_audited do
     when_i_click_on_the_link_within_the_email
     and_i_select_yes_to_giving_a_reference
     and_i_select_yes_to_reference_can_be_shared
-    and_i_continue
     and_i_click_back
     and_the_yes_radio_is_preselected
     then_i_am_on_the_sharing_reference_question_page
@@ -75,10 +74,12 @@ RSpec.describe 'Referee can submit reference', :with_audited do
 
   def and_i_select_yes_to_giving_a_reference
     choose 'Yes, I can give them a reference'
+    and_i_continue
   end
 
   def and_i_select_yes_to_reference_can_be_shared
     choose 'Yes, if they request it'
+    and_i_continue
   end
 
   def when_i_confirm_that_the_described_relationship_is_correct
