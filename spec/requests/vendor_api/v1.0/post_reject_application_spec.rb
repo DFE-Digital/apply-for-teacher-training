@@ -83,10 +83,24 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject' do
   end
 
   it 'returns not found error when the application was not found' do
-    post_api_request '/api/v1.0/applications/non-existent-id/reject'
+    post_api_request '/api/v1.0/applications/non-existent-id/reject', params: {
+      data: {
+        reason: 'Does not meet minimum GCSE requirements',
+      },
+    }
 
     expect(response).to have_http_status(:not_found)
     expect(parsed_response)
       .to contain_schema_with_error('NotFoundResponse', 'Unable to find Applications')
+  end
+
+  it 'returns unprocessable error when the payload is malformed' do
+    post_api_request '/api/v1.0/applications/non-existent-id/reject', params: {
+      data: [],
+    }
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(parsed_response)
+      .to contain_schema_with_error('UnprocessableEntityResponse', 'param is missing or the value is empty or invalid: data')
   end
 end

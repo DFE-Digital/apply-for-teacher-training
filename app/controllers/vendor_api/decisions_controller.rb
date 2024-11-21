@@ -27,18 +27,20 @@ module VendorAPI
     end
 
     def reject
+      reason = decision_params.fetch(:reason, nil)
+
       decision =
         if application_choice.offer?
           WithdrawOffer.new(
             actor: audit_user,
             application_choice:,
-            offer_withdrawal_reason: params.dig(:data, :reason),
+            offer_withdrawal_reason: reason,
           )
         else
           RejectApplication.new(
             actor: audit_user,
             application_choice:,
-            rejection_reason: params.dig(:data, :reason),
+            rejection_reason: reason,
           )
         end
 
@@ -63,6 +65,10 @@ module VendorAPI
     end
 
   private
+
+    def decision_params
+      params.expect(data: [:reason])
+    end
 
     def rejection_reasons
       raise ValidationException, ['Please provide one or more valid rejection codes.'] if params[:data].blank?
