@@ -26,7 +26,6 @@ class FeatureFlag
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
-    [:reference_nudges, 'Nudge emails for candidates that have incomplete references', 'Steve Hook'],
     [:structured_reference_condition, 'Structured reference condition that can be added as a condition to an offer', 'Tomas Destefi'],
     [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
     [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],

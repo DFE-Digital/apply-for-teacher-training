@@ -2,34 +2,28 @@
 class NudgeCandidatesWorker
   include Sidekiq::Worker
 
-  Nudge = Struct.new(:query_class, :mailer_action, :feature_flag)
+  Nudge = Struct.new(:query_class, :mailer_action)
   NUDGES = [
     Nudge.new(
       GetUnsubmittedApplicationsReadyToNudge,
       :nudge_unsubmitted,
-      nil,
     ),
     Nudge.new(
       GetIncompleteCourseChoiceApplicationsReadyToNudge,
       :nudge_unsubmitted_with_incomplete_courses,
-      nil,
     ),
     Nudge.new(
       GetIncompletePersonalStatementApplicationsReadyToNudge,
       :nudge_unsubmitted_with_incomplete_personal_statement,
-      nil,
     ),
     Nudge.new(
       GetIncompleteReferenceApplicationsReadyToNudge,
       :nudge_unsubmitted_with_incomplete_references,
-      :reference_nudges,
     ),
   ].freeze
 
   def perform
     NUDGES.each do |nudge|
-      next unless nudge.feature_flag.nil? || FeatureFlag.active?(nudge.feature_flag)
-
       nudge.query_class.new.call.each do |application_form|
         send_nudge(nudge.mailer_action, application_form)
       end

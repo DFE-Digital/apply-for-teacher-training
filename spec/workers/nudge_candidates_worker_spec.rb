@@ -64,8 +64,6 @@ RSpec.describe NudgeCandidatesWorker, :sidekiq do
     end
 
     it 'sends unsubmitted applications without references' do
-      FeatureFlag.activate(:reference_nudges)
-
       described_class.new.perform
       email = email_for_candidate(application_form_without_references.candidate)
       expect(email.subject).to include(I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_references.subject'))
