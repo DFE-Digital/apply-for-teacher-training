@@ -68,11 +68,7 @@ module CandidateInterface
     end
 
     def factory
-      if FeatureFlag.active?(:sample_applications_factory)
-        SampleApplicationsFactory
-      else
-        TestApplications.new
-      end
+      TestApplications.new
     end
   end
 end

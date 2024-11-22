@@ -142,11 +142,7 @@ private
   end
 
   def factory
-    if FeatureFlag.active?(:sample_applications_factory)
-      SampleApplicationsFactory
-    else
-      TestApplications.new
-    end
+    TestApplications.new
   end
 
   def courses_from_cycle(year)
