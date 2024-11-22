@@ -335,44 +335,12 @@ If the course details have changed from one cycle to another, provider users sho
 application_choice = ApplicationChoice.find(APPLICATION_CHOICE_ID)
 new_course_option = CourseOption.find(NEW_COURSE_OPTION_ID)
 zendesk_url = ZENDESK_URL
+support_user = SupportUser.find_by(email_address: YOUR_SUPPORT_EMAIL)
 
+application_choice.audit_comment = zendesk_url
 conditions_met = application_choice.offer.conditions.all?(&:met?)
-# Extract from ConfirmDeferredOffer
-# https://github.com/DFE-Digital/apply-for-teacher-training/blob/75bb20308bf92efddeee58e630bb14f6a4b0874d/app/services/confirm_deferred_offer.rb#L27
-if conditions_met
-  # Extract from ReinstateConditionsMet
-  # https://github.com/DFE-Digital/apply-for-teacher-training/blob/75bb20308bf92efddeee58e630bb14f6a4b0874d/app/services/reinstate_conditions_met.rb#L44
-  recruited_at = if application_choice.status_before_deferral == 'recruited'
-                   application_choice.recruited_at # conditions are 'still met'
-                 else
-                   Time.zone.now
-                 end
-  # https://github.com/DFE-Digital/apply-for-teacher-training/blob/75bb20308bf92efddeee58e630bb14f6a4b0874d/app/services/reinstate_conditions_met.rb#L18
-  ActiveRecord::Base.transaction do
-    ApplicationStateChange.new(application_choice).reinstate_conditions_met!
 
-    application_choice.update_course_option_and_associated_fields!(
-      new_course_option,
-      other_fields: { recruited_at: },
-      audit_comment: zendesk_url,
-    )
-  end
-  CandidateMailer.reinstated_offer(application_choice).deliver_later
-else
-  # Extract from ReinstatePendingConditions
-  # https://github.com/DFE-Digital/apply-for-teacher-training/blob/a444f753df41ce3aab0a939c3d947830d7250308/app/services/reinstate_pending_conditions.rb#L18
-  ActiveRecord::Base.transaction do
-    ApplicationStateChange.new(application_choice).reinstate_pending_conditions!
-
-    application_choice.offer.conditions.each(&:pending!)
-    application_choice.update_course_option_and_associated_fields!(
-      new_course_option,
-      other_fields: { recruited_at: nil },
-      audit_comment: zendesk_url,
-    )
-  end
-  CandidateMailer.reinstated_offer(application_choice).deliver_later
-end
+ConfirmDeferredOffer.new(actor: support_user, application_choice: , course_option: new_course_option, conditions_met: ).save
 ```
 
 ## Offers
