@@ -10,6 +10,20 @@ module Publications
         @statistics = report.statistics.deep_symbolize_keys
       end
 
+      def pre_tda?
+        current_year < 2025
+      end
+
+      def previous_cycle_url
+        return unless current_year == 2024
+
+        'https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-recruitment-2023-to-2024'
+      end
+
+      def first_year_of_continuous_applications?
+        current_year == 2024
+      end
+
       def headline_stats
         statistics_data_for(:candidate_headline_statistics, status_merge: true)
       end
