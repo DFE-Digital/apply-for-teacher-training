@@ -20,7 +20,6 @@ class FeatureFlag
     [:send_request_data_to_bigquery, 'Send request data to Google Bigquery via background worker', 'Apply team'],
     [:enable_chat_support, 'Enable Zendesk chat support', 'Apply team'],
     [:unlock_application_for_editing, 'Allow the candidate to make edits to their application form post submission', 'Find and Apply team'],
-    [:monthly_statistics_preview, 'Preview unpublished monthly statistics reports', 'Tomas'],
     [:draft_vendor_api_specification, 'The specification for upcoming vendor API releases', 'Abeer Salameh'],
     [:adviser_sign_up, 'Allow candidates to sign up for a teacher training adviser', 'Ross Oliver'],
     [:monthly_statistics_redirected, 'Redirect requests for Publications Monthly Statistics to temporarily unavailable', 'Iain McNulty'],
