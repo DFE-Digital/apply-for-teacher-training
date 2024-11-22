@@ -26,7 +26,6 @@ class FeatureFlag
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
-    [:structured_reference_condition, 'Structured reference condition that can be added as a condition to an offer', 'Tomas Destefi'],
     [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
     [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],
     [:block_candidate_sign_in, 'Blocking candidate sign in, used if we are reaching rate limits in Notify', 'Lori Bailey'],

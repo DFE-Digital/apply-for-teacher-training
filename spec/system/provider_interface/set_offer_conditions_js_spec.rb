@@ -15,7 +15,6 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
   scenario 'Setting offer conditions' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
-    and_provider_structured_reference_condition_is_disabled
     and_i_sign_in_to_the_provider_interface
 
     given_there_is_an_application_to_a_course_i_can_make_decisions_on
@@ -54,10 +53,6 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
     permit_make_decisions!
   end
 
-  def and_provider_structured_reference_condition_is_disabled
-    FeatureFlag.deactivate(:structured_reference_condition)
-  end
-
   def and_i_sign_in_to_the_provider_interface
     provider_signs_in_using_dfe_sign_in
   end
@@ -88,8 +83,6 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
 
   def then_the_conditions_page_is_loaded
     expect(page).to have_content('Conditions of offer')
-    expect(page).to have_content('Standard conditions')
-    expect(page).to have_content('Further conditions')
   end
 
   def and_the_default_conditions_are_checked
@@ -134,6 +127,8 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
       'Fitness to train to teach check',
       'Disclosure and Barring Service (DBS) check',
     ] + conditions
+
+    expected_conditions << 'References'
 
     within('.app-conditions-list') do
       expect(all('.govuk-summary-list__row > .govuk-summary-list__key').map(&:text)).to eq expected_conditions

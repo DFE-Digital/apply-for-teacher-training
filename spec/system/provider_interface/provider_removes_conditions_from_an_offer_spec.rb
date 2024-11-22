@@ -7,7 +7,6 @@ RSpec.describe 'Remove offer conditions' do
 
   scenario 'Provider user removes the conditions from an offer with javascript on', :js do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_provider_structured_reference_condition_is_disabled
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface
 
@@ -26,7 +25,6 @@ RSpec.describe 'Remove offer conditions' do
 
   scenario 'Provider user removes the conditions from an offer with javascript off', js: false do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_provider_structured_reference_condition_is_disabled
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface
 
@@ -115,9 +113,5 @@ RSpec.describe 'Remove offer conditions' do
   def then_the_candidate_has_the_new_conditions
     conditions = @application_choice.reload.offer.conditions
     expect(conditions).to be_empty
-  end
-
-  def and_provider_structured_reference_condition_is_disabled
-    FeatureFlag.deactivate(:structured_reference_condition)
   end
 end

@@ -4,10 +4,6 @@
 
   <h2 class="govuk-heading-m">Conditions of offer</h2>
 
-  <% unless FeatureFlag.active?(:structured_reference_condition) %>
-    <p class="govuk-body">Candidates are required to receive 2 references.</p>
-  <% end %>
-
   <% if ske_conditions.present? %>
     <% ske_conditions.each do |ske_condition| %>
       <%= render ProviderInterface::SkeConditionsComponent.new(

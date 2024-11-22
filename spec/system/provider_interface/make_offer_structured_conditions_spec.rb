@@ -21,7 +21,6 @@ RSpec.describe 'Provider makes an offer' do
   scenario 'Making an offer for the requested course option' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
-    and_provider_structured_reference_condition_is_enabled
     and_i_sign_in_to_the_provider_interface
 
     given_the_provider_has_multiple_courses
@@ -93,10 +92,6 @@ RSpec.describe 'Provider makes an offer' do
 
   def and_i_am_permitted_to_make_decisions_for_my_provider
     permit_make_decisions!
-  end
-
-  def and_provider_structured_reference_condition_is_enabled
-    FeatureFlag.activate(:structured_reference_condition)
   end
 
   def and_i_sign_in_to_the_provider_interface

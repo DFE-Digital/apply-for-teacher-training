@@ -256,45 +256,39 @@ RSpec.describe ProviderInterface::OfferWizard do
       expect(wizard.further_condition_attrs).to eq({ '0' => { 'text' => 'Be cool', 'condition_id' => expected_condition_id } })
     end
 
-    context 'when reference condition feature flag is on' do
-      before do
-        FeatureFlag.activate(:structured_reference_condition)
+    context 'when unchecked reference condition' do
+      let(:conditions) { [build(:reference_condition, required: false)] }
+
+      it 'correctly populates the wizard with reference condition' do
+        expect(wizard).to be_valid
+        expect(wizard.require_references).to be_zero
       end
+    end
 
-      context 'when unchecked reference condition' do
-        let(:conditions) { [build(:reference_condition, required: false)] }
+    context 'when checked reference condition' do
+      let(:conditions) { [build(:reference_condition, required: true)] }
 
-        it 'correctly populates the wizard with reference condition' do
-          expect(wizard).to be_valid
-          expect(wizard.require_references).to be_zero
-        end
+      it 'correctly populates the wizard with reference condition' do
+        expect(wizard).to be_valid
+        expect(wizard.require_references).to be(1)
       end
+    end
 
-      context 'when checked reference condition' do
-        let(:conditions) { [build(:reference_condition, required: true)] }
+    context 'when blank conditions' do
+      let(:conditions) { [] }
 
-        it 'correctly populates the wizard with reference condition' do
-          expect(wizard).to be_valid
-          expect(wizard.require_references).to be(1)
-        end
+      it 'unchecked as default' do
+        expect(wizard).to be_valid
+        expect(wizard.require_references).to be_zero
       end
+    end
 
-      context 'when blank conditions' do
-        let(:conditions) { [] }
+    context 'when blank offer' do
+      let(:offer) { nil }
 
-        it 'unchecked as default' do
-          expect(wizard).to be_valid
-          expect(wizard.require_references).to be_zero
-        end
-      end
-
-      context 'when blank offer' do
-        let(:offer) { nil }
-
-        it 'checked as default' do
-          expect(wizard).to be_valid
-          expect(wizard.require_references).to be(1)
-        end
+      it 'checked as default' do
+        expect(wizard).to be_valid
+        expect(wizard.require_references).to be(1)
       end
     end
 
@@ -687,31 +681,15 @@ RSpec.describe ProviderInterface::OfferWizard do
   end
 
   describe '#require_references' do
-    context 'when reference condition feature flag is enabled' do
-      before do
-        FeatureFlag.activate(:structured_reference_condition)
-      end
-
-      context 'when require references does not have any value' do
-        it 'returns checked' do
-          expect(wizard.require_references).to be(1)
-        end
-      end
-
-      context 'when require references is unchecked' do
-        it 'returns unchecked' do
-          wizard.require_references = '0'
-          expect(wizard.require_references).to be_zero
-        end
+    context 'when require references does not have any value' do
+      it 'returns checked' do
+        expect(wizard.require_references).to be(1)
       end
     end
 
-    context 'when reference condition feature flag is disabled' do
-      before do
-        FeatureFlag.deactivate(:structured_reference_condition)
-      end
-
+    context 'when require references is unchecked' do
       it 'returns unchecked' do
+        wizard.require_references = '0'
         expect(wizard.require_references).to be_zero
       end
     end
@@ -742,47 +720,30 @@ RSpec.describe ProviderInterface::OfferWizard do
   end
 
   describe '#conditions_to_render' do
-    context 'when reference condition feature flag is disabled' do
-      before do
-        FeatureFlag.deactivate(:structured_reference_condition)
-      end
+    context 'when reference condition is checked' do
+      it 'adds reference condition' do
+        wizard.require_references = '1'
 
+        expect(wizard.conditions_to_render.size).to be(3)
+        expect(wizard.conditions_to_render.last).to be_a(ReferenceCondition)
+      end
+    end
+
+    context 'when reference condition is unchecked' do
       it 'does not add reference condition' do
+        wizard.require_references = '0'
+
         expect(wizard.conditions_to_render.size).to be(2)
         expect(wizard.conditions_to_render).to all be_a(OfferCondition)
       end
     end
 
-    context 'when reference condition feature flag is enabled' do
-      before do
-        FeatureFlag.activate(:structured_reference_condition)
-      end
+    context 'when reference condition is blank' do
+      it 'does not add reference condition' do
+        wizard.require_references = nil
 
-      context 'when reference condition is checked' do
-        it 'adds reference condition' do
-          wizard.require_references = '1'
-
-          expect(wizard.conditions_to_render.size).to be(3)
-          expect(wizard.conditions_to_render.last).to be_a(ReferenceCondition)
-        end
-      end
-
-      context 'when reference condition is unchecked' do
-        it 'does not add reference condition' do
-          wizard.require_references = '0'
-
-          expect(wizard.conditions_to_render.size).to be(2)
-          expect(wizard.conditions_to_render).to all be_a(OfferCondition)
-        end
-      end
-
-      context 'when reference condition is blank' do
-        it 'does not add reference condition' do
-          wizard.require_references = nil
-
-          expect(wizard.conditions_to_render.size).to be(2)
-          expect(wizard.conditions_to_render).to all be_a(OfferCondition)
-        end
+        expect(wizard.conditions_to_render.size).to be(2)
+        expect(wizard.conditions_to_render).to all be_a(OfferCondition)
       end
     end
   end
@@ -799,7 +760,6 @@ RSpec.describe ProviderInterface::OfferWizard do
 
     context 'when new reference condition' do
       before do
-        FeatureFlag.activate(:structured_reference_condition)
         wizard.require_references = 1
       end
 
