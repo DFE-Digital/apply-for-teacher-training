@@ -16,7 +16,6 @@ class FeatureFlag
     [:dfe_sign_in_fallback, 'Use this when DfE Sign-in is down', 'Apply team'],
     [:force_ok_computer_to_fail, 'OK Computer implements a health check endpoint, this flag forces it to fail for testing purposes', 'Apply team'],
     [:service_information_banner, 'Displays an information banner for both providers and candidates. Text configured in service_information_banner.yml', 'Apply team'],
-    [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Apply team'],
     [:service_unavailable_page, 'Displays a maintenance page on the whole application', 'Apply team'],
     [:send_request_data_to_bigquery, 'Send request data to Google Bigquery via background worker', 'Apply team'],
     [:enable_chat_support, 'Enable Zendesk chat support', 'Apply team'],
