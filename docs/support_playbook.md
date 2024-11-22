@@ -332,10 +332,25 @@ If the course doesn't exist in the previous cycle we'll need them to confirm the
 If the course details have changed from one cycle to another, provider users should contact support to request the changes. To confirm a deferral through the console:
 
 ```ruby
-application_choice = ApplicationChoice.find(APPLICATION_CHOICE_ID)
-new_course_option = CourseOption.find(NEW_COURSE_OPTION_ID)
 zendesk_url = ZENDESK_URL
 support_user = SupportUser.find_by(email_address: YOUR_SUPPORT_EMAIL)
+
+application_choice_id = APPLICATION_CHOICE_ID
+provider_code = PROVIDER_CODE
+new_course_code = NEW_COURSE_CODE
+new_course_recruitment_cycle_year = NEW_COURSE_RECRUITMENT_CYCLE_YEAR
+new_site_code = NEW_SITE_CODE
+new_study_mode = NEW_STUDY_MODE # part_time or full_time
+
+application_choice = ApplicationChoice.find(application_choice_id)
+new_course_option = CourseOption.joins(course: :provider, site: :provider).find_by(
+  study_mode: new_study_mode,
+  courses: { providers: { code: provider_code },
+             code: new_course_code,
+             recruitment_cycle_year: new_course_recruitment_cycle_year
+  },
+  sites: { providers: { code: provider_code }, code: new_site_code }
+)
 
 application_choice.audit_comment = zendesk_url
 conditions_met = application_choice.offer.conditions.all?(&:met?)
