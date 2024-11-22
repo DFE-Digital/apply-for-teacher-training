@@ -5,7 +5,6 @@ RSpec.describe 'Candidate account' do
 
   scenario 'Candidate signs up, out, and in again' do
     given_i_am_a_candidate_without_an_account
-    and_sign_in_is_not_blocked
 
     when_i_visit_the_signup_page
     and_i_submit_without_entering_an_email

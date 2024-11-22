@@ -6,7 +6,6 @@ RSpec.describe 'A candidate with an accepted offer arriving from Find' do
   include CandidateHelper
 
   scenario 'candidate is redirected to post offer dashboard' do
-    given_sign_in_is_not_blocked
     given_i_am_an_existing_candidate_on_apply
     and_i_have_an_accepted_offer
     and_the_course_i_selected_only_has_one_site

@@ -5,7 +5,6 @@ RSpec.describe 'Candidate account locking' do
   include SignInHelper
 
   scenario 'Candidate attempts to continue their application while account is locked' do
-    given_sign_in_is_not_blocked
     given_i_am_signed_in
     and_i_visit_the_site
     and_my_account_is_locked

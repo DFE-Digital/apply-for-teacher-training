@@ -6,7 +6,6 @@ RSpec.describe 'Candidate API application status change' do
 
   before do
     TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
-    given_sign_in_is_not_blocked
   end
 
   it 'candidate_api_updated_at is updated when each state transition occurs' do

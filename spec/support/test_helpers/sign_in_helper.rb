@@ -4,11 +4,6 @@ module SignInHelper
     login_as(@current_candidate)
   end
 
-  def given_sign_in_is_not_blocked
-    FeatureFlag.deactivate(:block_candidate_sign_in)
-  end
-  alias and_sign_in_is_not_blocked given_sign_in_is_not_blocked
-
   def and_i_go_to_sign_in(candidate:)
     visit root_path
     choose 'Yes, sign in'

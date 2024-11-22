@@ -3,29 +3,18 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <% if FeatureFlag.inactive? :block_candidate_sign_in %>
-      <%= form_with model: candidate, url: candidate_interface_sign_in_path(providerCode: params[:providerCode], courseCode: params[:courseCode]), html: { novalidate: true } do |f| %>
-        <%= f.govuk_error_summary %>
+    <%= form_with model: candidate, url: candidate_interface_sign_in_path(providerCode: params[:providerCode], courseCode: params[:courseCode]), html: { novalidate: true } do |f| %>
+      <%= f.govuk_error_summary %>
 
-        <h1 class="govuk-heading-xl">
-          <%= t('page_titles.sign_in') %>
-        </h1>
-
-        <p class="govuk-body-l">Enter the email address you used to register with, and we will send you a link to sign in.</p>
-
-        <%= f.govuk_email_field :email_address, label: { text: t('authentication.sign_up.email_address.label'), size: 'm' }, width: 'two-thirds', autocomplete: 'email', spellcheck: false %>
-
-        <%= f.govuk_submit t('continue') %>
-      <% end %>
-    <% else %>
       <h1 class="govuk-heading-xl">
         <%= t('page_titles.sign_in') %>
       </h1>
-      <%= govuk_notification_banner(
-            title_text: 'Sign in temporarily unavailable',
-            text: 'We are experiencing a high number of requests.
-                   The service will be available again shortly.',
-          ) %>
+
+      <p class="govuk-body-l">Enter the email address you used to register with, and we will send you a link to sign in.</p>
+
+      <%= f.govuk_email_field :email_address, label: { text: t('authentication.sign_up.email_address.label'), size: 'm' }, width: 'two-thirds', autocomplete: 'email', spellcheck: false %>
+
+      <%= f.govuk_submit t('continue') %>
     <% end %>
   </div>
 </div>
