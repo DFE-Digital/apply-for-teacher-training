@@ -10,20 +10,16 @@ module TeacherTrainingPublicAPI
   # There is no specification for what to do with orphaned sites that are not associated with a CourseOption
   #
   class SyncSites
-    include FullSyncErrorHandler
-
     attr_reader :provider, :course
 
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority
 
-    def perform(provider_id, recruitment_cycle_year, course_id, course_status_from_api, incremental_sync = true, suppress_sync_update_errors = false)
+    def perform(provider_id, recruitment_cycle_year, course_id, course_status_from_api, incremental_sync = true)
       @provider = ::Provider.find(provider_id)
       @course = ::Course.includes(course_options: :site).find_by(id: course_id)
       @course_status_from_api = course_status_from_api
       @incremental_sync = incremental_sync
-      @updates = {}
-      @changeset = {}
 
       api_sites = TeacherTrainingPublicAPI::Location.where(
         year: recruitment_cycle_year,
@@ -42,8 +38,6 @@ module TeacherTrainingPublicAPI
       # 2. Disable or delete CourseOptions that exist in Apply but are not
       #    returned in API and do not match the study mode of the course
       disable_or_delete_obsolete_course_options(course, api_sites.map(&:uuid))
-
-      raise_update_error(@updates, @changeset) unless suppress_sync_update_errors
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
     end
@@ -52,11 +46,6 @@ module TeacherTrainingPublicAPI
 
     def create_or_update_site(api_site)
       site = AssignSiteAttributes.new(api_site, provider).call
-
-      if site.changed? && !@incremental_sync
-        @updates.merge!(site: true)
-        @changeset.merge!(site.id => site.changes)
-      end
 
       site&.save!
       site
@@ -73,8 +62,6 @@ module TeacherTrainingPublicAPI
         site_still_valid: true,
         vacancy_status: vacancies_for(course, study_mode),
       })
-
-      @updates.merge!(course_option: true) if !@incremental_sync
     end
 
     def disable_or_delete_obsolete_course_options(course, api_site_uuids)

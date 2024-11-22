@@ -41,7 +41,6 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
                                           uuid:,
                                         },
                                       ])
-      allow(Sentry).to receive(:capture_exception)
     end
 
     context 'when the site exists' do
@@ -215,8 +214,6 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
                                           uuid: site_uuid_2,
                                         },
                                       ])
-
-      allow(Sentry).to receive(:capture_exception)
     end
 
     around do |example|
@@ -225,15 +222,18 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
       end
     end
 
-    it 'raises a FullSync error' do
+    it 'Updates the records' do
+      original_site_a_address_line3 = site_a.address_line3
+      original_site_b_address_line3 = site_b.address_line3
+
       described_class.new.perform(provider.id,
                                   RecruitmentCycle.current_year,
                                   course.id,
                                   'open',
                                   incremental_sync)
 
-      expect(Sentry).to have_received(:capture_exception)
-        .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new(%(site and course_option have been updated\n[#{site_a.id}, {"address_line3"=>["#{site_a.address_line3}", ""]}],\n[#{site_b.id}, {"address_line3"=>["#{site_b.address_line3}", ""]}])))
+      expect(original_site_a_address_line3).not_to eq site_a.reload.address_line3
+      expect(original_site_b_address_line3).not_to eq site_b.reload.address_line3
     end
   end
 end

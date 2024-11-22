@@ -4,7 +4,7 @@ module TeacherTrainingPublicAPI
 
     sidekiq_options retry: 3, queue: :low_priority
 
-    def perform(incremental = true, year = nil, suppress_sync_update_errors = false)
+    def perform(incremental = true, year = nil)
       return if HostingEnvironment.review?
 
       year ||= year_to_sync
@@ -13,7 +13,6 @@ module TeacherTrainingPublicAPI
       SyncAllProvidersAndCourses.call(
         recruitment_cycle_year: year,
         incremental_sync: incremental,
-        suppress_sync_update_errors:,
       )
     end
 

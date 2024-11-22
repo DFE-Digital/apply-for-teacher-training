@@ -1,6 +1,6 @@
 module TeacherTrainingPublicAPI
   class SyncAllProvidersAndCourses
-    def self.call(recruitment_cycle_year: ::RecruitmentCycle.current_year, incremental_sync: true, suppress_sync_update_errors: false)
+    def self.call(recruitment_cycle_year: ::RecruitmentCycle.current_year, incremental_sync: true)
       is_last_page = false
       page_number = 0
       until is_last_page
@@ -13,7 +13,7 @@ module TeacherTrainingPublicAPI
         delay_by = calculate_offset(page_number + 1, incremental_sync)
         response = scope.all
 
-        sync_providers(response, recruitment_cycle_year, delay_by, incremental_sync, suppress_sync_update_errors)
+        sync_providers(response, recruitment_cycle_year, delay_by, incremental_sync)
 
         is_last_page = true if response.links.links['next'].nil?
       end
@@ -23,14 +23,13 @@ module TeacherTrainingPublicAPI
       raise TeacherTrainingPublicAPI::SyncError
     end
 
-    def self.sync_providers(providers_from_api, recruitment_cycle_year, delay_by, incremental_sync, suppress_sync_update_errors)
+    def self.sync_providers(providers_from_api, recruitment_cycle_year, delay_by, incremental_sync)
       providers_from_api.each do |provider_from_api|
         TeacherTrainingPublicAPI::SyncProvider.new(
           provider_from_api:,
           recruitment_cycle_year:,
           delay_by:,
           incremental_sync:,
-          suppress_sync_update_errors:,
         ).call
       end
     end
