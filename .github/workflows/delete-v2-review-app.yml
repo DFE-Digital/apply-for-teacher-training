@@ -25,17 +25,28 @@ jobs:
           echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
           echo "TF_STATE_FILE=$TF_STATE_FILE" >> $GITHUB_ENV
 
-          pr_state_file=$(az storage blob list -c att-tfstate \
-            --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" \
-            --prefix $TF_STATE_FILE --query "[].name" -o tsv)
-
-          if [ -n "$pr_state_file" ]; then echo "TF_STATE_EXISTS=true" >> $GITHUB_ENV; fi;
-
           tf_vars_file=terraform/aks/workspace_variables/review_aks.tfvars.json
           echo "TERRAFORM_VERSION=$terraform_version" >> $GITHUB_ENV
           echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
           echo "KEY_VAULT_APP_SECRET_NAME=$(jq -r '.key_vault_app_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
           echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
+
+          tf_backend_vars_file=terraform/aks/workspace_variables/review_aks_backend.tfvars
+          echo "STORAGE_ACCOUNT_RG=$(awk '/resource_group_name/ {print $3}' ${tf_backend_vars_file} | tr -d '"')" >> $GITHUB_ENV
+
+          . ./global_config/review_aks.sh
+          SERVICE_SHORT=att
+          echo "STORAGE_ACCOUNT_NAME=${RESOURCE_NAME_PREFIX}${SERVICE_SHORT}dbbkp${CONFIG_SHORT}sa" >> $GITHUB_ENV
+
+          STORAGE_CONN_STR=$(az storage account show-connection-string -g  $STORAGE_ACCOUNT_RG -n $STORAGE_ACCOUNT_NAME --query 'connectionString')
+          echo "::add-mask::$STORAGE_CONN_STR"
+          echo "AZURE_STORAGE_CONNECTION_STRING=$STORAGE_CONN_STR" >> $GITHUB_ENV
+
+          pr_state_file=$(az storage blob list -c att-tfstate \
+            --connection-string "${{ env.AZURE_STORAGE_CONNECTION_STRING }}" \
+            --prefix $TF_STATE_FILE --query "[].name" -o tsv)
+
+          if [ -n "$pr_state_file" ]; then echo "TF_STATE_EXISTS=true" >> $GITHUB_ENV; fi;
 
       - name: Use Terraform ${{ env.TERRAFORM_VERSION }}
         uses: hashicorp/setup-terraform@v3
@@ -71,7 +82,7 @@ jobs:
         if: env.TF_STATE_EXISTS == 'true'
         run: |
           az storage blob delete -c att-tfstate --name ${{ env.TF_STATE_FILE }} \
-          --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
+          --connection-string "${{ env.AZURE_STORAGE_CONNECTION_STRING }}"
 
       - name: Update ${{ env.DEPLOY_ENV }} status
         if: always() && env.TF_STATE_EXISTS == 'true'
