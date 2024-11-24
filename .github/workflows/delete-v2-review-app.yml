@@ -16,36 +16,54 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Set Environment variables
         run: |
-          terraform_version=$(awk '/{/{f=/^terraform/;next}f' terraform/aks/provider.tf | grep -o [0-9\.]*)
+          terraform_version=$(awk '/^terraform/{print $0}' terraform/aks/provider.tf | grep -o '[0-9\.]*')
           PR_NUMBER=${{ github.event.pull_request.number }}
           TF_STATE_FILE=pr-$PR_NUMBER.tfstate
           echo "DEPLOY_ENV=review_aks-$PR_NUMBER" >> $GITHUB_ENV
           echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
           echo "TF_STATE_FILE=$TF_STATE_FILE" >> $GITHUB_ENV
 
-          pr_state_file=$(az storage blob list -c att-tfstate \
-            --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" \
-            --prefix $TF_STATE_FILE --query "[].name" -o tsv)
-
-          if [ -n "$pr_state_file" ]; then echo "TF_STATE_EXISTS=true" >> $GITHUB_ENV; fi;
-
           tf_vars_file=terraform/aks/workspace_variables/review_aks.tfvars.json
           echo "TERRAFORM_VERSION=$terraform_version" >> $GITHUB_ENV
-          echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
-          echo "KEY_VAULT_APP_SECRET_NAME=$(jq -r '.key_vault_app_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
-          echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' "${tf_vars_file}")" >> $GITHUB_ENV
+          echo "KEY_VAULT_APP_SECRET_NAME=$(jq -r '.key_vault_app_secret_name' "${tf_vars_file}")" >> $GITHUB_ENV
+          echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' "${tf_vars_file}")" >> $GITHUB_ENV
+
+          tf_backend_vars_file=terraform/aks/workspace_variables/review_aks_backend.tfvars
+          STORAGE_ACCOUNT_RG="s189t01-att-rv-rg"
+          echo "STORAGE_ACCOUNT_RG=$STORAGE_ACCOUNT_RG" >> $GITHUB_ENV
+
+          . ./global_config/review_aks.sh
+          SERVICE_SHORT=att
+          echo "STORAGE_ACCOUNT_NAME=${RESOURCE_NAME_PREFIX}${SERVICE_SHORT}dbbkp${CONFIG_SHORT}sa" >> $GITHUB_ENV
+
+          STORAGE_CONN_STR=$(az storage account show-connection-string \
+            --resource-group "$STORAGE_ACCOUNT_RG" \
+            --name "$STORAGE_ACCOUNT_NAME" \
+            --query 'connectionString' \
+            --output tsv)
+          echo "::add-mask::$STORAGE_CONN_STR"
+          echo "AZURE_STORAGE_CONNECTION_STRING=$STORAGE_CONN_STR" >> $GITHUB_ENV
+
+          pr_state_file=$(az storage blob list \
+            --container-name att-tfstate \
+            --connection-string "$STORAGE_CONN_STR" \
+            --prefix "$TF_STATE_FILE" \
+            --query "[].name" \
+            --output tsv)
+
+          if [ -n "$pr_state_file" ]; then echo "TF_STATE_EXISTS=true" >> $GITHUB_ENV; fi
 
       - name: Use Terraform ${{ env.TERRAFORM_VERSION }}
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
-
-      - uses: azure/login@v2
-        if: env.TF_STATE_EXISTS == 'true'
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Validate Azure Key Vault secrets
         if: env.TF_STATE_EXISTS == 'true'
@@ -70,8 +88,10 @@ jobs:
       - name: Delete tf state file
         if: env.TF_STATE_EXISTS == 'true'
         run: |
-          az storage blob delete -c att-tfstate --name ${{ env.TF_STATE_FILE }} \
-          --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
+          az storage blob delete \
+            --container-name att-tfstate \
+            --name "${{ env.TF_STATE_FILE }}" \
+            --connection-string "${{ env.AZURE_STORAGE_CONNECTION_STRING }}"
 
       - name: Update ${{ env.DEPLOY_ENV }} status
         if: always() && env.TF_STATE_EXISTS == 'true'
