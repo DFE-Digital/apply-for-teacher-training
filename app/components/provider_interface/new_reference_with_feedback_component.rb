@@ -27,7 +27,7 @@ module ProviderInterface
         feedback_row,
       ].compact
 
-      base_rows += [confidentiality_row] if FeatureFlag.active?(:show_reference_confidentiality_status)
+      base_rows += [confidentiality_row] if feature_active_and_feedback_provided?
 
       base_rows
     end
@@ -114,6 +114,10 @@ module ProviderInterface
 
     def confidentiality_value
       reference.confidential ? 'No, this reference is confidential. Do not share it.' : 'Yes, if they request it.'
+    end
+
+    def feature_active_and_feedback_provided?
+      FeatureFlag.active?(:show_reference_confidentiality_status) && reference.feedback_provided?
     end
   end
 end

@@ -117,6 +117,19 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
           },
         )
       end
+
+      context 'when feedback has not been provided' do
+        let(:reference) { build(:reference, feedback:, feedback_status: 'feedback_requested') }
+
+        it 'does not contain a confidentiality row' do
+          expect(component.rows).not_to include(
+            {
+              key: 'Can this reference be shared with the candidate?',
+              value: 'No, this reference is confidential. Do not share it.',
+            },
+          )
+        end
+      end
     end
 
     context 'confidentiality (with show_reference_confidentiality_status feature flag inactive)' do
