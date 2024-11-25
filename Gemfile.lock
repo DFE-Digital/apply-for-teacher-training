@@ -23,10 +23,10 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/dfe-reference-data.git
-  revision: 84f01c1bd7de455f6f0fb67dcf0020382b400e65
-  tag: v3.6.4
+  revision: a9af3f8eaee02b92dcc206e1442c4d5ef0305bc7
+  tag: v3.6.6
   specs:
-    dfe-reference-data (3.6.4)
+    dfe-reference-data (3.6.3)
       activesupport
       tzinfo
 
@@ -443,7 +443,7 @@ GEM
     mime-types-data (3.2023.1205)
     mini_mime (1.1.5)
     mini_portile2 (2.8.7)
-    minitest (5.25.1)
+    minitest (5.25.2)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.4.1)
