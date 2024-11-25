@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
+  let(:statistics) { Publications::MonthlyStatistics::StubbedReport.new.to_h }
   let(:report) do
     create(:monthly_statistics_report,
            :v2,
            generation_date: 1.week.ago.beginning_of_day,
-           publication_date: Time.zone.now.beginning_of_day)
+           publication_date: Time.zone.now.beginning_of_day,
+           statistics:)
   end
 
   subject(:presenter) { described_class.new(report) }
@@ -36,7 +38,13 @@ RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
     end
   end
 
-  describe '#current_year', time: Date.new(2023, 11, 12) do
+  describe '#current_year' do
+    let(:statistics) do
+      statistics = Publications::MonthlyStatistics::StubbedReport.new.to_h
+      statistics[:meta][:generation_date] = Time.zone.local(2023, 11)
+      statistics
+    end
+
     it 'returns correct year' do
       expect(presenter.current_year).to eq(2024)
     end
@@ -168,6 +176,78 @@ RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
         title: I18n.t('publications.itt_monthly_report_generator.candidate_provider_region.title'),
         data: Hash,
       })
+    end
+  end
+
+  describe '#pre_tda?' do
+    subject { presenter.pre_tda? }
+
+    context 'recruitment cycle year is 2024' do
+      let(:statistics) do
+        statistics = Publications::MonthlyStatistics::StubbedReport.new.to_h
+        statistics[:meta][:generation_date] = Time.zone.local(2023, 11)
+        statistics
+      end
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'recruitment cycle year is 2025 (current)' do
+      let(:statistics) do
+        statistics = Publications::MonthlyStatistics::StubbedReport.new.to_h
+        statistics[:meta][:generation_date] = Time.zone.local(2024, 11)
+        statistics
+      end
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
+  describe '#previous_month_url' do
+    subject { presenter.previous_cycle_url }
+
+    context 'recruitment cycle year is 2024' do
+      let(:statistics) do
+        statistics = Publications::MonthlyStatistics::StubbedReport.new.to_h
+        statistics[:meta][:generation_date] = Time.zone.local(2023, 11)
+        statistics
+      end
+
+      it { is_expected.to eq('https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-recruitment-2023-to-2024') }
+    end
+
+    context 'recruitment cycle year is 2025 (current)' do
+      let(:statistics) do
+        statistics = Publications::MonthlyStatistics::StubbedReport.new.to_h
+        statistics[:meta][:generation_date] = Time.zone.local(2024, 11)
+        statistics
+      end
+
+      it { is_expected.to be_blank }
+    end
+  end
+
+  describe '#first_year_of_continuous_applications?' do
+    subject { presenter.first_year_of_continuous_applications? }
+
+    context 'recruitment cycle year is 2024' do
+      let(:statistics) do
+        statistics = Publications::MonthlyStatistics::StubbedReport.new.to_h
+        statistics[:meta][:generation_date] = Time.zone.local(2023, 11)
+        statistics
+      end
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'recruitment cycle year is 2025 (current)' do
+      let(:statistics) do
+        statistics = Publications::MonthlyStatistics::StubbedReport.new.to_h
+        statistics[:meta][:generation_date] = Time.zone.local(2024, 11)
+        statistics
+      end
+
+      it { is_expected.to be_falsey }
     end
   end
 end

@@ -121,9 +121,19 @@
 
     <p class="govuk-body">These statistics cover applications for courses in England starting in the <%= @presenter.academic_year_name %> academic year. To allow for comparison statistics covering the <%= @presenter.current_cycle_name %> academic year are also included.</p>
 
-    <p class="govuk-body">New definitions and methodology have been introduced for the <%= @presenter.academic_year_name %> academic year because candidates can now submit applications to courses individually up to a maximum of <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> open applications at a time. Previously, candidates submitted one application form with up to <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> course choices at the same time. All <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> course choices had to receive a decision before the candidate could submit another application form in the same recruitment cycle.</p>
+    <% if @presenter.first_year_of_continuous_applications? %>
+      <p class="govuk-body">New definitions and methodology have been introduced for the 2024 to 2025 academic year
+        because candidates can now submit applications to courses individually up to a maximum
+        of <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> open applications at a time. Previously, candidates
+        submitted one application form with up to <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> course
+        choices at the same time. All <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> course choices had to
+        receive a decision before the candidate could submit another application form in the same recruitment cycle.
+      </p>
 
-    <p class="govuk-body">Improvements have also been made for clarity. Published statistics using the old methodology are also available. These use different definitions and methodology, so they cannot be compared with the statistics below.</p>
+      <p class="govuk-body">Improvements have also been made for clarity. Published statistics using the old methodology
+        are also available. These use different definitions and methodology, so they cannot be compared with the
+        statistics below.</p>
+    <% end %>
 
     <% if @presenter.current_cycle? %>
       <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.current_cycle_name} academic year for course applications in England using the old methodology.", publications_monthly_report_itt_path(@presenter.previous_year) %></p>
@@ -133,7 +143,15 @@
 
     <p class="govuk-body">Statistics are also not comparable to previous figures published by UCAS, which used a different methodology and included candidates applying to providers in Wales.</p>
 
-    <p class="govuk-body">Teacher training applications made directly to providers are not included. Undergraduate teacher training is also not included. Applications to train to teach in Further Education are also not included.</p>
+    <% if @presenter.pre_tda? %>
+      <p class="govuk-body">Teacher training applications made directly to providers are not included. Undergraduate
+        teacher training is also not included. Applications to train to teach in Further Education are also not
+        included.</p>
+    <% else %>
+      <p class="govuk-body">Teacher training applications made directly to providers are not included. Undergraduate
+        teacher training is also not included except for TDA. Applications to train to teach in Further Education are
+        also not included.</p>
+    <% end %>
     <p class="govuk-body">These statistics collect data up to and including the day before they were published.</p>
     <p class="govuk-body">There will be monthly updates throughout the recruitment cycle.</p>
   </div>
@@ -212,7 +230,11 @@
 
     <ul class="govuk-list govuk-list--bullet">
       <li>made directly to training providers</li>
-      <li>for undergraduate teacher training</li>
+      <% if @presenter.pre_tda? %>
+        <li>for undergraduate teacher training</li>
+      <% else %>
+        <li>for undergraduate teacher training (except TDA)</li>
+      <% end %>
     </ul>
     <p class="govuk-body">Candidates may make different applications to more than one route into teaching. These candidates are counted under all routes that apply. This means that the total of these rows does not equal the total in the ‘Candidate headline statistics’ section.</p>
   </div>
@@ -276,9 +298,11 @@
 
     <p class="govuk-body">The Apply for teacher training (Apply) service is the only service for postgraduate Initial Teacher Training (ITT) applications in England to Higher Education Institution (HEI), School Centred Initial Teacher Training (SCITT)-based, School Direct, School Direct (salaried) and Teaching Apprenticeship courses.</p>
 
-    <p class="govuk-body">
-      <%= govuk_link_to "View statistical releases from previous months during ITT#{@presenter.current_year}", 'https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-recruitment-2023-to-2024' %>.
-    </p>
+    <% if @presenter.previous_cycle_url.present? %>
+      <p class="govuk-body">
+        <%= govuk_link_to "View statistical releases from previous months during ITT#{@presenter.previous_year}", @presenter.previous_cycle_url %>.
+      </p>
+    <% end %>
 
     <p class="govuk-body">
       If you have any feedback on the monthly ITT statistical reports,
