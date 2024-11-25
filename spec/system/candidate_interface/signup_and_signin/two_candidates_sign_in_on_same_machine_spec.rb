@@ -4,7 +4,6 @@ RSpec.describe 'Candidate account' do
   include SignInHelper
   scenario 'Two candidates on the same machine sign in one after the other' do
     stub_const('TestUser', Struct.new(:name, :email))
-    given_sign_in_is_not_blocked
 
     given_i_am_the_first_candidate
     then_i_can_sign_up_and_sign_out(@first_user)

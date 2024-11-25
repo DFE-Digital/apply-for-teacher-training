@@ -65,7 +65,7 @@ module ProviderInterface
     end
 
     def require_references
-      return REQUIRE_REFERENCES_CHECKED_BY_DEFAULT if @require_references.nil? && FeatureFlag.active?(:structured_reference_condition)
+      return REQUIRE_REFERENCES_CHECKED_BY_DEFAULT if @require_references.nil?
 
       @require_references.to_i
     end
@@ -93,7 +93,7 @@ module ProviderInterface
     end
 
     def reference_condition
-      return unless FeatureFlag.active?(:structured_reference_condition) && require_references?
+      return unless require_references?
 
       ReferenceCondition.new(
         required: require_references?,

@@ -5,7 +5,6 @@ RSpec.describe 'Candidate signs in and prefills application in Sandbox', :sandbo
   include CandidateHelper
 
   scenario 'User is directed to prefill option page and chooses to prefill the application' do
-    given_sign_in_is_not_blocked
     and_a_course_is_available
     and_i_am_a_candidate_with_a_blank_application
 

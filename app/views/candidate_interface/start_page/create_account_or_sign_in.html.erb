@@ -4,8 +4,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <% if FeatureFlag.inactive? :block_candidate_sign_in %>
-
     <%= form_with(
       model: @create_account_or_sign_in_form,
       url: candidate_interface_create_account_or_sign_in_path(providerCode: params[:providerCode], courseCode: params[:courseCode]),
@@ -32,15 +30,5 @@
       as soon as you can.
       <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %></a>.
     </p>
-    <% else %>
-      <h1 class="govuk-heading-xl">
-        <%= t('page_titles.create_account_or_sign_in') %>
-      </h1>
-      <%= govuk_notification_banner(
-            title_text: 'Sign in temporarily unavailable',
-            text: 'We are experiencing a high number of requests.
-                   The service will be available again shortly.',
-          ) %>
-    <% end %>
   </div>
 </div>

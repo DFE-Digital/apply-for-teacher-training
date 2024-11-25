@@ -5,7 +5,6 @@ RSpec.describe 'Candidate signs in and starts blank application' do
 
   scenario 'User can start an application and then view the guidance' do
     given_a_course_is_available
-    and_sign_in_is_not_blocked
     and_i_am_a_candidate_with_a_blank_application
 
     when_i_fill_in_the_sign_in_form

@@ -8,37 +8,17 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <% if FeatureFlag.active?(:structured_reference_condition) %>
         <%= f.govuk_collection_check_boxes(:standard_conditions,
                                          standard_conditions_checkboxes,
                                          :id,
                                          :name,
                                          legend: nil) %>
-      <% else %>
-        <%= f.govuk_collection_check_boxes(:standard_conditions,
-                                         standard_conditions_checkboxes,
-                                         :id,
-                                         :name,
-                                         legend: { size: 'm' }) %>
-      <% end %>
 
-      <% if FeatureFlag.active?(:structured_reference_condition) %>
         <%= f.govuk_check_boxes_fieldset :structured_reference_condition, legend: nil, multiple: false do %>
           <%= f.govuk_check_box :require_references, 1, 0, label: { text: 'References' }, multiple: false do %>
             <%= f.govuk_text_area :references_description, label: { text: 'Details (optional)' }, hint: { text: 'For example, if you require a reference from their current school employer' } %>
           <% end %>
         <% end %>
-      <% else %>
-        <h2 class="govuk-heading-m">References</h2>
-
-        <p class="govuk-body">The candidate will confirm which references they want to request when they accept your offer.</p>
-        <p class="govuk-body">They’ll be told they need 2 references including:</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>an academic tutor if they have graduated in the past 5 years or are still studying</li>
-          <li>the headteacher if they’ve been working in a school</li>
-        </ul>
-        <p class="govuk-body">Add a further condition if you have other requirements for references.</p>
-      <% end %>
 
       <%= f.govuk_fieldset(
         legend: {

@@ -16,25 +16,17 @@ class FeatureFlag
     [:dfe_sign_in_fallback, 'Use this when DfE Sign-in is down', 'Apply team'],
     [:force_ok_computer_to_fail, 'OK Computer implements a health check endpoint, this flag forces it to fail for testing purposes', 'Apply team'],
     [:service_information_banner, 'Displays an information banner for both providers and candidates. Text configured in service_information_banner.yml', 'Apply team'],
-    [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Apply team'],
     [:service_unavailable_page, 'Displays a maintenance page on the whole application', 'Apply team'],
     [:send_request_data_to_bigquery, 'Send request data to Google Bigquery via background worker', 'Apply team'],
     [:enable_chat_support, 'Enable Zendesk chat support', 'Apply team'],
-    [:lock_external_report_to_january_2022, 'Lock the current external report to January 2022', 'Apply team'],
     [:unlock_application_for_editing, 'Allow the candidate to make edits to their application form post submission', 'Find and Apply team'],
-    [:monthly_statistics_preview, 'Preview unpublished monthly statistics reports', 'Tomas'],
     [:draft_vendor_api_specification, 'The specification for upcoming vendor API releases', 'Abeer Salameh'],
     [:adviser_sign_up, 'Allow candidates to sign up for a teacher training adviser', 'Ross Oliver'],
     [:monthly_statistics_redirected, 'Redirect requests for Publications Monthly Statistics to temporarily unavailable', 'Iain McNulty'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
-    [:reference_nudges, 'Nudge emails for candidates that have incomplete references', 'Steve Hook'],
-    [:sample_applications_factory, 'An alternate generator for test/sample applications, uses `SampleApplicationsFactory` in place of `TestApplications.new`', 'Elliot Crosby-McCullough + Tomas Destefi'],
-    [:structured_reference_condition, 'Structured reference condition that can be added as a condition to an offer', 'Tomas Destefi'],
-    [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
     [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],
-    [:block_candidate_sign_in, 'Blocking candidate sign in, used if we are reaching rate limits in Notify', 'Lori Bailey'],
     [:show_reference_confidentiality_status, 'Control whether the confidentiality status of references is explicitly communicated to candidates, referees and providers', 'Avin Hurry'],
   ].freeze
 

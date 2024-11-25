@@ -4,8 +4,7 @@ RSpec.describe 'Candidate tries to sign up using magic link with an invalid toke
   include SignInHelper
 
   scenario 'Candidate signs in and receives an email inviting them to sign up' do
-    given_sign_in_is_not_blocked
-    and_i_am_a_candidate_with_an_account
+    given_i_am_a_candidate_with_an_account
 
     when_i_go_to_sign_in
     then_i_receive_an_email_inviting_me_to_sign_in
@@ -18,7 +17,7 @@ RSpec.describe 'Candidate tries to sign up using magic link with an invalid toke
     then_i_see_my_application_form
   end
 
-  def and_i_am_a_candidate_with_an_account
+  def given_i_am_a_candidate_with_an_account
     @application = create(:application_form)
     @email = @application.candidate.email_address
   end

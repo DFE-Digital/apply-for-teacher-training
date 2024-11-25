@@ -26,11 +26,7 @@ private
   end
 
   def factory
-    if FeatureFlag.active?(:sample_applications_factory)
-      SampleApplicationsFactory
-    else
-      TestApplications.new
-    end
+    TestApplications.new
   end
 
   def application_state(previous_cycle, courses_per_application, next_cycle)

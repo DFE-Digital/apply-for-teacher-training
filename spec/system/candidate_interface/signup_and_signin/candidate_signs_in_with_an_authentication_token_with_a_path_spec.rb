@@ -5,8 +5,7 @@ RSpec.describe 'Candidates authentication token has the path attribute populated
   include CandidateHelper
 
   it 'Candidate is redirected to the appropriate page' do
-    given_sign_in_is_not_blocked
-    and_i_am_a_candidate_with_an_account
+    given_i_am_a_candidate_with_an_account
     and_i_have_received_a_token_associated_with_the_personal_statement_path
 
     when_i_sign_in_using_the_token
@@ -32,7 +31,7 @@ RSpec.describe 'Candidates authentication token has the path attribute populated
     then_i_am_redirected_to_the_review_reference_page
   end
 
-  def and_i_am_a_candidate_with_an_account
+  def given_i_am_a_candidate_with_an_account
     create_and_sign_in_candidate
     @candidate = current_candidate
   end

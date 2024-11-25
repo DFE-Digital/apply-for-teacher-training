@@ -7,7 +7,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   scenario 'candidate is not signed in and retains their course selection through the sign in process' do
     # Single site course
-    given_sign_in_is_not_blocked
     given_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_4_application_options
     and_the_course_i_selected_only_has_one_site

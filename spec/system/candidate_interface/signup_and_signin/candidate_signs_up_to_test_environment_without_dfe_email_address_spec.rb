@@ -10,8 +10,7 @@ RSpec.describe 'Candidate cannot sign up to a test environment (e.g. qa) without
   end
 
   scenario 'Candidate tries to sign up' do
-    given_sign_in_is_not_blocked
-    and_i_am_a_candidate_without_an_account
+    given_i_am_a_candidate_without_an_account
 
     when_i_go_to_sign_up
     and_i_submit_my_email_address
@@ -23,7 +22,7 @@ RSpec.describe 'Candidate cannot sign up to a test environment (e.g. qa) without
     then_i_receive_an_email_inviting_me_to_sign_up
   end
 
-  def and_i_am_a_candidate_without_an_account
+  def given_i_am_a_candidate_without_an_account
     @email = "#{SecureRandom.hex}@example.com"
   end
 
