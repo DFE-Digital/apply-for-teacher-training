@@ -10,12 +10,12 @@ en:
       referee_has_said: "%{name} said:"
       confirmed_by: This was confirmed by %{name}.
       requested_message:
-        one: has requested 1 reference
-        other: has requested %{count} references
+        one: The candidate has requested 1 reference
+        other: The candidate has requested %{count} references
       requested_other_message:
         one: and has requested 1 other reference
         other: and has requested %{count} other references
       received_message:
-        one: has received 1 reference
-        other: has received %{count} references
+        one: The candidate has received 1 reference
+        other: The candidate has received %{count} references
       confidential_warning: Confidential do not share with the candidate
