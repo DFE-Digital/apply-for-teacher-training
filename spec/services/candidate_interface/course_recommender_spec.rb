@@ -2,62 +2,74 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::CoursesRecommender do
   describe '.recommended_courses_url' do
-    it 'returns the URL for the recommended courses page' do
+    it 'does not return a URL be default' do
       candidate = build(:candidate)
 
-      expect(described_class.recommended_courses_url(candidate:)).to be_falsey
+      expect(described_class.recommended_courses_url(candidate:)).to eq Rails.application.routes.url_helpers.find_url
     end
 
-    context 'faked recommend method' do
-      before do
-        # TODO: Remove this when we know how to say if we'll recommend or not
-        allow_any_instance_of(described_class).to receive(:recommend?).and_return(true)
+    #   expect(query_parameters).to eq({
+    #     'can_sponsor_visa' => 'true',
+    #     'degree_required' => 'show_all_courses', # show_all_courses two_two third_class not_required
+    #     'funding_type' => 'salary,apprenticeship,fee',
+    #     'latitude' => '', # for location
+    #     'longitude' => '', # for location
+    #     'qualification[]' => %w[
+    #       pgde
+    #       pgce
+    #       pgce_with_qts
+    #       pgde_with_qts
+    #       qts
+    #     ],
+    #     'radius' => '20', # for location
+    #     'study_type[]' => %w[
+    #       full_time
+    #       part_time
+    #     ],
+    #     'subjects[]' => %w[
+    #       00
+    #       01
+    #     ], # subject codes
+    #   })
+
+    describe "the 'can_sponsor_visa' parameter" do
+      context 'when the Candidate does have the right to work or study in UK' do
+        it "does not set the 'can_sponsor_visa' parameter" do
+          right_to_work_or_study = 'yes'
+          personal_details_completed = true
+
+          application_form = build(:application_form, right_to_work_or_study: , personal_details_completed: )
+          candidate = build(:candidate, application_forms: [application_form])
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters).not_to have_key('can_sponsor_visa')
+        end
       end
 
-      it 'constructs a URL without any query parameters' do
-        candidate = build(:candidate)
+      context 'when the Candidate has not completed their Personal Details' do
+        it "does not set the 'can_sponsor_visa' parameter" do
+          right_to_work_or_study = 'no'
+          personal_details_completed = false
 
-        uri = URI(described_class.recommended_courses_url(candidate:))
-        query_parameters = Rack::Utils.parse_query(uri.query)
+          application_form = build(:application_form, right_to_work_or_study: , personal_details_completed: )
+          candidate = build(:candidate, application_forms: [application_form])
 
-        expect(query_parameters).to eq({})
-      end
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
 
-      it 'returns the query parameters for the recommended courses page' do
-        skip 'This was only used for setup reasons'
-        candidate = build(:candidate)
-
-        uri = URI(described_class.recommended_courses_url(candidate:))
-        query_parameters = Rack::Utils.parse_query(uri.query)
-
-        expect(query_parameters).to eq({
-          'can_sponsor_visa' => 'true',
-          'degree_required' => 'show_all_courses', # show_all_courses two_two third_class not_required
-          'funding_type' => 'salary,apprenticeship,fee',
-          'latitude' => '', # for location
-          'longitude' => '', # for location
-          'qualification[]' => %w[
-            pgde
-            pgce
-            pgce_with_qts
-            pgde_with_qts
-            qts
-          ],
-          'radius' => '20', # for location
-          'study_type[]' => %w[
-            full_time
-            part_time
-          ],
-          'subjects[]' => %w[
-            00
-            01
-          ], # subject codes
-        })
+          expect(query_parameters).not_to have_key('can_sponsor_visa')
+        end
       end
 
       context 'when the Candidate does not have the right to work or study in UK' do
         it "sets the 'can_sponsor_visa' parameter to 'true'" do
-          candidate = build(:candidate, application_forms: [build(:application_form, right_to_work_or_study: 'no')])
+          right_to_work_or_study = 'no'
+          personal_details_completed = true
+
+          application_form = build(:application_form, right_to_work_or_study: , personal_details_completed: )
+          candidate = build(:candidate, application_forms: [application_form])
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
