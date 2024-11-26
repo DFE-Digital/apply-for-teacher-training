@@ -33,6 +33,7 @@ module CandidateInterface
       # May need to be converted to use the API
       params[:degree_required] = degree_required if degree_required
       params[:funding_type] = funding_type if funding_type
+      params[:qualification] = qualification if qualification
 
       params
 
@@ -86,14 +87,32 @@ module CandidateInterface
       return unless candidate.application_choices.exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
 
       # What Course funding types has the Candidate applied for?
-      funding_types = candidate.application_choices.where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+      funding_types = candidate.application_choices
+                               .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
                                .joins(course_option: :course)
                                .pluck('courses.funding_type')
                                .compact_blank
                                .uniq
+                               .sort
 
       # salary,apprenticeship,fee
       funding_types.join(',')
+    end
+
+    def qualification
+      # Does the Candidate have any submitted Applications?
+      return unless candidate.application_choices.exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+
+      # What Course qualification types has the Candidate applied for?
+      qualifications = candidate.application_choices.where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+                                .joins(course_option: :course)
+                                .pluck('courses.qualifications')
+                                .flatten
+                                .compact_blank
+                                .uniq
+                                .sort
+      # pgde,pgce,pgce_with_qts,pgde_with_qts,qts
+      qualifications.join(',')
     end
   end
 end

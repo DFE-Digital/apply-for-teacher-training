@@ -218,7 +218,7 @@ RSpec.describe CandidateInterface::CoursesRecommender do
       end
 
       context 'when the Candidate has submitted several Application Choices' do
-        it "sets the 'funding_type' parameter to 'fee" do
+        it "sets the 'funding_type' parameter to include all funding types that have been applied to" do
           fee_course_option = create(:course_option, course: build(:course, funding_type: 'fee'))
           salary_course_option = create(:course_option, course: build(:course, funding_type: 'salary'))
           apprenticeship_course_option = create(:course_option, course: build(:course, funding_type: 'apprenticeship'))
@@ -233,10 +233,59 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
 
-          expect(query_parameters['funding_type']).to eq('fee,salary,apprenticeship')
+          expect(query_parameters['funding_type']).to eq('apprenticeship,fee,salary')
+        end
+      end
+    end
+
+    describe "the 'qualification' parameter" do
+      context 'when the Candidate has not submitted any Application Choices' do
+        it "does not set the 'qualification' parameter" do
+          candidate = create(:candidate)
+          application_form = create(:application_form, candidate: candidate)
+          _application_choices = create_list(:application_choice, 1, :unsubmitted, application_form:)
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters).not_to have_key('qualification')
         end
       end
 
+      context 'when the Candidate has submitted any Application Choice to a QTS only Course' do
+        it "sets the 'qualification' parameter to 'qts" do
+          course = create(:course, qualifications: [:qts])
+          course_option = create(:course_option, course:)
+          candidate = create(:candidate)
+          application_form = create(:application_form, candidate: candidate, application_choices: [])
+          _application_choices = create_list(:application_choice, 1, :awaiting_provider_decision, application_form:, course_option:)
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['qualification']).to eq('qts')
+        end
+      end
+
+      context 'when the Candidate has submitted several Application Choices' do
+        it "sets the 'qualification' parameter to a combination of all qualification types" do
+          qts_only_course_option = create(:course_option, course: build(:course, qualifications: [:qts]))
+          undergraduate_and_qts_course_option = create(:course_option, course: build(:course, qualifications: %i[undergraduate qts]))
+          pgde_course_option = create(:course_option, course: build(:course, qualifications: [:pgde]))
+          candidate = create(:candidate)
+          application_form = create(:application_form, candidate: candidate, application_choices: [])
+          _application_choices = [
+            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: qts_only_course_option),
+            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: undergraduate_and_qts_course_option),
+            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: pgde_course_option),
+          ]
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['qualification']).to eq('pgde,qts,undergraduate')
+        end
+      end
     end
   end
 end
