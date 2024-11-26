@@ -187,5 +187,56 @@ RSpec.describe CandidateInterface::CoursesRecommender do
         end
       end
     end
+
+    describe "the 'funding_type' parameter" do
+      context 'when the Candidate has not submitted any Application Choices' do
+        it "does not set the 'funding_type' parameter" do
+          candidate = create(:candidate)
+          application_form = create(:application_form, candidate: candidate)
+          _application_choices = create_list(:application_choice, 1, :unsubmitted, application_form:)
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters).not_to have_key('funding_type')
+        end
+      end
+
+      context 'when the Candidate has submitted any Application Choice to a fee funded Course' do
+        it "sets the 'funding_type' parameter to 'fee" do
+          course = create(:course, funding_type: 'fee')
+          course_option = create(:course_option, course:)
+          candidate = create(:candidate)
+          application_form = create(:application_form, candidate: candidate, application_choices: [])
+          _application_choices = create_list(:application_choice, 1, :awaiting_provider_decision, application_form:, course_option:)
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['funding_type']).to eq('fee')
+        end
+      end
+
+      context 'when the Candidate has submitted several Application Choices' do
+        it "sets the 'funding_type' parameter to 'fee" do
+          fee_course_option = create(:course_option, course: build(:course, funding_type: 'fee'))
+          salary_course_option = create(:course_option, course: build(:course, funding_type: 'salary'))
+          apprenticeship_course_option = create(:course_option, course: build(:course, funding_type: 'apprenticeship'))
+          candidate = create(:candidate)
+          application_form = create(:application_form, candidate: candidate, application_choices: [])
+          _application_choices = [
+            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: fee_course_option),
+            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: salary_course_option),
+            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: apprenticeship_course_option),
+          ]
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['funding_type']).to eq('fee,salary,apprenticeship')
+        end
+      end
+
+    end
   end
 end

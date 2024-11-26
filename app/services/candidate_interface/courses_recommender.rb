@@ -31,6 +31,7 @@ module CandidateInterface
 
       params[:can_sponsor_visa] = can_sponsor_visa if can_sponsor_visa
       params[:degree_required] = degree_required if degree_required
+      params[:funding_type] = funding_type if funding_type
 
       params
 
@@ -77,6 +78,21 @@ module CandidateInterface
       # The Grades don't match any of the above,
       # so we assume the Candidate can meet any degree entry requirement
       'show_all_courses'
+    end
+
+    def funding_type
+      # Does the Candidate have any submitted Applications?
+      return unless candidate.application_choices.exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+
+      # What Course funding types has the Candidate applied for?
+      funding_types = candidate.application_choices.where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+                               .joins(course_option: :course)
+                               .pluck('courses.funding_type')
+                               .compact_blank
+                               .uniq
+
+      # salary,apprenticeship,fee
+      funding_types.join(',')
     end
   end
 end
