@@ -29,13 +29,27 @@ module CandidateInterface
       return unless recommend?
 
       uri = URI(find_url)
-      uri.query = query_params.to_query
+      uri.query = query_parameters.to_query
       uri.to_s
     end
 
-    def query_params
+    def query_parameters
       {
         can_sponsor_visa: true,
+        degree_required: 'show_all_courses', # show_all_courses two_two third_class not_required
+        funding_type: 'salary,apprenticeship,fee',
+        latitude: nil, # all 3 of these are for location
+        longitude: nil,
+        qualification: [
+          'pgde',
+          'pgce',
+          'pgce_with_qts',
+          'pgde_with_qts',
+          'qts',
+        ],
+        radius: 20,
+        study_type: ['full_time', 'part_time'],
+        subjects: ['00', '01'], # subject codes
       }
     end
   end
