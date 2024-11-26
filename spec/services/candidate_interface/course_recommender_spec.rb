@@ -33,12 +33,12 @@ RSpec.describe CandidateInterface::CoursesRecommender do
     #   })
 
     describe "the 'can_sponsor_visa' parameter" do
-      context 'when the Candidate does have the right to work or study in UK' do
+      context 'when the Candidate has not completed their Personal Details' do
         it "does not set the 'can_sponsor_visa' parameter" do
-          right_to_work_or_study = 'yes'
-          personal_details_completed = true
+          right_to_work_or_study = 'no'
+          personal_details_completed = false
 
-          application_form = build(:application_form, right_to_work_or_study: , personal_details_completed: )
+          application_form = build(:application_form, right_to_work_or_study:, personal_details_completed:)
           candidate = build(:candidate, application_forms: [application_form])
 
           uri = URI(described_class.recommended_courses_url(candidate:))
@@ -48,18 +48,18 @@ RSpec.describe CandidateInterface::CoursesRecommender do
         end
       end
 
-      context 'when the Candidate has not completed their Personal Details' do
+      context 'when the Candidate does have the right to work or study in UK' do
         it "does not set the 'can_sponsor_visa' parameter" do
-          right_to_work_or_study = 'no'
-          personal_details_completed = false
+          right_to_work_or_study = 'yes'
+          personal_details_completed = true
 
-          application_form = build(:application_form, right_to_work_or_study: , personal_details_completed: )
+          application_form = build(:application_form, right_to_work_or_study:, personal_details_completed:)
           candidate = build(:candidate, application_forms: [application_form])
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
 
-          expect(query_parameters).not_to have_key('can_sponsor_visa')
+          expect(query_parameters['can_sponsor_visa']).to eq('false')
         end
       end
 
@@ -68,7 +68,7 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           right_to_work_or_study = 'no'
           personal_details_completed = true
 
-          application_form = build(:application_form, right_to_work_or_study: , personal_details_completed: )
+          application_form = build(:application_form, right_to_work_or_study:, personal_details_completed:)
           candidate = build(:candidate, application_forms: [application_form])
 
           uri = URI(described_class.recommended_courses_url(candidate:))

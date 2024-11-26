@@ -59,7 +59,8 @@ module CandidateInterface
 
       # Does the Candidate require Courses to sponsor their visa?
       # Returns true if the Candidate does not have the right to work or study in the UK
-      candidate.application_forms.any? { |application_form| application_form.right_to_work_or_study == 'no' }
+      requires_visa = candidate.application_forms.any? { |application_form| application_form.right_to_work_or_study == 'no' }
+      requires_visa.to_s # 'true' or 'false'
     end
 
     def degree_required
