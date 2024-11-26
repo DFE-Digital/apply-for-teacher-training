@@ -7,7 +7,7 @@ module RefereeInterface
     validates :confidential, presence: true
 
     def self.build_from_reference(reference:)
-      confidential = reference.confidential ? true : false
+      confidential = reference.confidential?
       new(confidential: confidential)
     end
 
