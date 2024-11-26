@@ -7,6 +7,7 @@ module CandidateInterface
 
     validates :code, presence: true
     validate :account_recovery, unless: -> { valid_account_recovery_request && old_candidate }
+    validate :account_recovery, if: -> { valid_account_recovery_request && old_candidate }
 
     def initialize(current_candidate:, code: nil)
       self.code = code
@@ -35,6 +36,13 @@ module CandidateInterface
 
     def account_recovery
       errors.add(:code, :invalid)
+    end
+
+    def previous_account_has_no_one_login
+      if old_candidate.one_login_auth.present?
+        errors.add(:code, :invalid)
+        ## Add LOGIT/Sentry error
+      end
     end
   end
 end

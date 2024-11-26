@@ -15,6 +15,8 @@ namespace :candidate_interface, path: '/candidate' do
   end
 
   resources :account_recovery_requests, only: %i[new create]
+  get 'account_recovery_requests/confirm'
+
   get 'account_recovery/new'
   post 'account_recovery/create'
   post 'dismiss_account_recovery/create'

@@ -13,6 +13,13 @@ module CandidateInterface
       @current_candidate = current_candidate
     end
 
+    def self.build_from_candidate(candidate)
+      new(
+        current_candidate: candidate,
+        previous_account_email: candidate.account_recovery_request&.previous_account_email,
+      )
+    end
+
     def save
       @previous_candidate = Candidate.find_by(email_address: previous_account_email)
 
@@ -32,7 +39,8 @@ module CandidateInterface
       ### previous_candidate.one_login_auth.present? this should not be here, it should be on the account_recovery form
       ## we won't send an email to this, Displaying an error here indicates that this email exists in apply
       ## Log this in logit?
-      if previous_candidate.one_login_auth.present? || current_candidate.one_login_auth.email == previous_account_email
+      #if previous_candidate.one_login_auth.present? || current_candidate.one_login_auth.email == previous_account_email
+      if current_candidate.one_login_auth.email == previous_account_email
         errors.add(:previous_account_email, 'The email already has a one login account')
       end
     end

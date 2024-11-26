@@ -9,11 +9,9 @@ module CandidateInterface
     ### If the user logs out of one login will they be logged out of apply?
 
     ### To do:
-    ### Create generic 'We have sent an email' page after recover request
-    ### Back links?
-    ### Fix the account_recovery_request error
-    ### Raise exceptions rather than errors in one login auth service
     ### Send emails
+    ### Block requests to controllers
+    ### Raise exceptions rather than errors in one login auth service
     ### Test?
     ### Cleanup?
     ### Deploy to review

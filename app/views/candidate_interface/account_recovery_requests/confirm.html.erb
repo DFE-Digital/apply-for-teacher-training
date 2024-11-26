@@ -1,0 +1,21 @@
+<% content_for :title, 'Recover your account' %>
+<% content_for :before_content do %>
+  <%= govuk_back_link(
+    text: 'Back',
+    href: new_candidate_interface_account_recovery_request_path,
+  ) %>
+<% end %>
+
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+  Account recovery
+</h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">
+      We have emailed a code to this address, if you haven't received it, contact support
+    </p>
+
+    <%= govuk_link_to 'recover', candidate_interface_account_recovery_new_path %>
+  </div>
+</div>
