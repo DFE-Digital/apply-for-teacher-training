@@ -21,7 +21,7 @@ module CandidateInterface
     attr_reader :candidate
 
     def find_url_with_query_params
-      uri = URI(find_url + "results")
+      uri = URI("#{find_url}results")
       uri.query = query_parameters.to_query unless query_parameters.empty?
       uri.to_s
     end
@@ -33,7 +33,6 @@ module CandidateInterface
       params[:degree_required] = degree_required if degree_required
 
       params
-
 
       # {
       #   can_sponsor_visa: ,
@@ -64,21 +63,19 @@ module CandidateInterface
     end
 
     def degree_required
-      # What level of degree does the Candidate have?
       return unless candidate.application_forms.any?(&:degrees_completed?)
 
       candidate_degree_grades = candidate.application_forms.flat_map(&:degree_qualifications).map(&:grade)
-      #
-      # application_qualifications.select do |qualification|
-      #   qualification.level == "degree"
-      # end
-      #
+
       return 'not_required' if candidate_degree_grades.empty?
 
+      # What Course degree entry requirements can the Candidate meet?
       return 'show_all_courses' if candidate_degree_grades.include?('First-class honours')
       return 'two_two' if candidate_degree_grades.include?('Lower second-class honours (2:2)')
       return 'third_class' if candidate_degree_grades.include?('Third-class honours')
 
+      # The Grades don't match any of the above,
+      # so we assume the Candidate can meet any degree entry requirement
       'show_all_courses'
     end
   end
