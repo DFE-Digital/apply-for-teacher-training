@@ -2,7 +2,7 @@ Hello <%= @application_form.first_name %>
 
 You have not marked your personal statement as complete.
 
-[Sign in to your account to complete your teacher training application](<%= candidate_magic_link(@application_form.candidate) %>).
+[Sign in to your account to complete your teacher training application](<%= candidate_magic_link(@application_form.candidate) %>)
 
 # Get help with your personal statement
 
@@ -22,7 +22,7 @@ Popular courses fill up quickly and places are allocated as soon as people apply
 
 You may need to complete a [subject knowledge enhancement](<%= email_link_with_utm_params(t('get_into_teaching.url_subject_knowledge_enhancement'), 'nudge_unsubmitted_with_incomplete_personal_statement', @application_form.phase) %>) (SKE) course and other conditions before starting your training.
 
-[Apply now to make sure you have enough time](<%= candidate_magic_link(@application_form.candidate) %>).
+[Apply now to make sure you have enough time](<%= candidate_magic_link(@application_form.candidate) %>)
 
 <%= render 'understand_your_professional_strengths' %>
 
