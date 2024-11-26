@@ -108,6 +108,84 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           expect(query_parameters['degree_required']).to eq('not_required')
         end
       end
+
+      context 'when the Candidate does have a degree' do
+        it "sets the 'degree_required' parameter to 'show_all_courses'" do
+          degrees_completed = true
+          degree_qualifications = build_list(:degree_qualification, 1, grade: 'some grade')
+
+          application_form = build(:application_form, degrees_completed:, degree_qualifications:)
+          candidate = build(:candidate, application_forms: [application_form])
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['degree_required']).to eq('show_all_courses')
+        end
+      end
+
+      context "when the Candidate has a 'Third-class honours' Degree" do
+        it "sets the 'degree_required' parameter to 'third_class'" do
+          degrees_completed = true
+          degree_qualifications = build_list(:degree_qualification, 1, grade: 'Third-class honours')
+
+          application_form = build(:application_form, degrees_completed:, degree_qualifications:)
+          candidate = build(:candidate, application_forms: [application_form])
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['degree_required']).to eq('third_class')
+        end
+      end
+
+      context "when the Candidate has a 'Lower second-class honours (2:2)' Degree" do
+        it "sets the 'degree_required' parameter to 'two_two'" do
+          degrees_completed = true
+          degree_qualifications = build_list(:degree_qualification, 1, grade: 'Lower second-class honours (2:2)')
+
+          application_form = build(:application_form, degrees_completed:, degree_qualifications:)
+          candidate = build(:candidate, application_forms: [application_form])
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['degree_required']).to eq('two_two')
+        end
+      end
+
+      context "when the Candidate has a 'First-class honours' Degree" do
+        it "sets the 'degree_required' parameter to 'show_all_courses'" do
+          degrees_completed = true
+          degree_qualifications = build_list(:degree_qualification, 1, grade: 'First-class honours')
+
+          application_form = build(:application_form, degrees_completed:, degree_qualifications:)
+          candidate = build(:candidate, application_forms: [application_form])
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['degree_required']).to eq('show_all_courses')
+        end
+      end
+
+      context "when the Candidate has a 'First-class honours' Degree and a 'Third-class honours' Degree" do
+        it "sets the 'degree_required' parameter to 'show_all_courses'" do
+          degrees_completed = true
+          degree_qualifications = [
+            build(:degree_qualification, grade: 'Third-class honours'),
+            build(:degree_qualification, grade: 'First-class honours'),
+          ]
+
+          application_form = build(:application_form, degrees_completed:, degree_qualifications:)
+          candidate = build(:candidate, application_forms: [application_form])
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['degree_required']).to eq('show_all_courses')
+        end
+      end
     end
   end
 end

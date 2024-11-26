@@ -67,14 +67,19 @@ module CandidateInterface
       # What level of degree does the Candidate have?
       return unless candidate.application_forms.any?(&:degrees_completed?)
 
-      # candidate_degree_grades = candidate.application_forms.flat_map(&:degrees).map(&:grade)
+      candidate_degree_grades = candidate.application_forms.flat_map(&:degree_qualifications).map(&:grade)
       #
       # application_qualifications.select do |qualification|
       #   qualification.level == "degree"
       # end
       #
-      # return 'not_required' if candidate_degree_grades.empty?
+      return 'not_required' if candidate_degree_grades.empty?
 
+      return 'show_all_courses' if candidate_degree_grades.include?('First-class honours')
+      return 'two_two' if candidate_degree_grades.include?('Lower second-class honours (2:2)')
+      return 'third_class' if candidate_degree_grades.include?('Third-class honours')
+
+      'show_all_courses'
     end
   end
 end
