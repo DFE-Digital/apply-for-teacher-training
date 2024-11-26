@@ -39,8 +39,8 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           right_to_work_or_study = 'no'
           personal_details_completed = false
 
-          application_form = build(:application_form, right_to_work_or_study:, personal_details_completed:)
-          candidate = build(:candidate, application_forms: [application_form])
+          candidate = create(:candidate)
+          _application_form = create(:application_form, candidate: , right_to_work_or_study:, personal_details_completed:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -54,8 +54,8 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           right_to_work_or_study = 'yes'
           personal_details_completed = true
 
-          application_form = build(:application_form, right_to_work_or_study:, personal_details_completed:)
-          candidate = build(:candidate, application_forms: [application_form])
+          candidate = create(:candidate)
+          _application_form = create(:application_form, candidate: , right_to_work_or_study:, personal_details_completed:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -69,8 +69,8 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           right_to_work_or_study = 'no'
           personal_details_completed = true
 
-          application_form = build(:application_form, right_to_work_or_study:, personal_details_completed:)
-          candidate = build(:candidate, application_forms: [application_form])
+          candidate = create(:candidate)
+          _application_form = create(:application_form, candidate: , right_to_work_or_study:, personal_details_completed:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
