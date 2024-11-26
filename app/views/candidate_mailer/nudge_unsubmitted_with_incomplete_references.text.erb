@@ -12,11 +12,14 @@ You could choose someone like a manager, a university tutor or a client.
 
 [Find out more about what references you should add](<%= email_link_with_utm_params t('get_into_teaching.url_references'), 'nudge_unsubmitted_no_references', @application_form.phase %>).
 
-In their reference, they will be asked to:
+In their reference, they will be asked:
 
-- confirm how they know you and how long they’ve known you for
-- say if they know any reason why you should not work with children
-- give factual information which can be used to check your application
+- to confirm how they know you and how long they’ve known you for
+- whether they know any reason why you should not work with children
+- to give factual information, for example course or employment dates
+<% if FeatureFlag.active? :show_reference_confidentiality_status %>
+- whether they want you to be able to see their reference of if it is confidential
+<% end %>
 
 # Get help
 
@@ -24,9 +27,17 @@ A teacher training adviser can give advice on references:
 
 [Get a teacher training adviser](<%= email_link_with_utm_params t('get_into_teaching.url_get_an_adviser_start'), 'nudge_unsubmitted_no_references', @application_form.phase %>)
 
-Alternatively, call 0800 389 2500 or [chat online](<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'nudge_unsubmitted_no_references', @application_form.phase %>).
+Alternatively, call <%= t('get_into_teaching.tel') %> or [chat online](<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'nudge_unsubmitted_no_references', @application_form.phase %>).
 
-Monday to Friday, 8:30am to 5:30pm (except public holidays).
+<%= t('get_into_teaching.opening_times') %>.
+
+# Submit your application as soon as you are ready
+
+Popular courses fill up quickly and places are allocated as soon as people apply. Submit your application as soon as you are ready to avoid missing out on a limited number of course places.
+
+You may need to complete a [subject knowledge enhancement](<%= email_link_with_utm_params(t('get_into_teaching.url_subject_knowledge_enhancement'), 'nudge_unsubmitted_no_references', @application_form.phase) %>) (SKE) course and other conditions before starting your training.
+
+[Apply now to make sure you have enough time](<%= candidate_magic_link(@application_form.candidate) %>).
 
 <%= render 'understand_your_professional_strengths' %>
 
