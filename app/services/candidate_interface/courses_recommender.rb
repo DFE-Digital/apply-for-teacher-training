@@ -30,6 +30,7 @@ module CandidateInterface
       params = {}
 
       params[:can_sponsor_visa] = can_sponsor_visa if can_sponsor_visa
+      # May need to be converted to use the API
       params[:degree_required] = degree_required if degree_required
       params[:funding_type] = funding_type if funding_type
 
