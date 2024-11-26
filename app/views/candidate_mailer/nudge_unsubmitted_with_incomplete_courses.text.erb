@@ -4,7 +4,17 @@ You have not applied to any teacher training courses yet.
 
 [Sign into your account to apply for up to 4 courses](<%= candidate_magic_link(@application_form.candidate) %>).
 
-# Support with your application
+Popular courses fill up quickly and places are allocated as soon as people apply. Submit your application as soon as you are ready to avoid missing out on a limited number of course places.
+
+You may need to complete a [subject knowledge enhancement](<%= email_link_with_utm_params(t('get_into_teaching.url_subject_knowledge_enhancement'), 'nudge_unsubmitted_with_incomplete_courses', @application_form.phase) %>) (SKE) course and other conditions before starting your training.
+
+[Apply now to make sure you have enough time](<%= candidate_magic_link(@application_form.candidate) %>).
+
+Some subjects and courses have bursaries of up to £29,000 and scholarships of up to £31,000. These courses fill up more quickly than other courses.
+
+[Check if your subject has a bursary or scholarship](<%= email_link_with_utm_params t('get_into_teaching.url_scholarships_and_bursaries_funding_widget'), 'nudge_unsubmitted_with_incomplete_courses', @application_form.phase %>)
+
+# Get support with your application
 
 A teacher training adviser could help you choose a course, if you are not sure about what you would like to teach.
 
@@ -14,9 +24,15 @@ If you are training to teach certain secondary subjects (or primary mathematics)
 
 [Find out about subject knowledge enhancement courses](<%= email_link_with_utm_params t('get_into_teaching.url_subject_knowledge_enhancement'), 'nudge_unsubmitted_with_incomplete_courses', @application_form.phase %>)
 
-Alternatively, call 0800 389 2500 or [chat online](<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'nudge_unsubmitted_with_incomplete_courses', @application_form.phase %>).
+Alternatively, call <%= t('get_into_teaching.tel') %> or [chat online](<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'nudge_unsubmitted_with_incomplete_courses', @application_form.phase %>).
 
-Monday to Friday, 8:30am to 5:30pm (except public holidays).
+<%= t('get_into_teaching.opening_times') %>.
+
+# Improve your subject knowledge
+
+If you are training to teach certain secondary subjects (or primary mathematics), you could also do a subject knowledge enhancement (SKE) course to improve your knowledge on a subject.
+
+[Find out about subject knowledge enhancement courses](<%= email_link_with_utm_params(t('get_into_teaching.url_subject_knowledge_enhancement'), 'nudge_unsubmitted_with_incomplete_courses', @application_form.phase) %>)
 
 <%= render 'gain_insights_into_life_as_a_teacher' %>
 
