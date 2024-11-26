@@ -5,7 +5,8 @@ RSpec.describe CandidateInterface::CoursesRecommender do
     it 'does not return a URL be default' do
       candidate = build(:candidate)
 
-      expect(described_class.recommended_courses_url(candidate:)).to eq Rails.application.routes.url_helpers.find_url
+      results_url = "#{Rails.application.routes.url_helpers.find_url}results"
+      expect(described_class.recommended_courses_url(candidate:)).to eq results_url
     end
 
     #   expect(query_parameters).to eq({
@@ -49,7 +50,7 @@ RSpec.describe CandidateInterface::CoursesRecommender do
       end
 
       context 'when the Candidate does have the right to work or study in UK' do
-        it "does not set the 'can_sponsor_visa' parameter" do
+        it "sets the can_sponsor_visa parameter to 'false'" do
           right_to_work_or_study = 'yes'
           personal_details_completed = true
 
@@ -75,6 +76,36 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           query_parameters = Rack::Utils.parse_query(uri.query)
 
           expect(query_parameters['can_sponsor_visa']).to eq('true')
+        end
+      end
+    end
+
+    describe "the 'degree_required' parameter" do
+      context 'when the Candidate has not completed their Degree details' do
+        it "does not set the 'degree_required' parameter" do
+          degrees_completed = false
+
+          application_form = build(:application_form, degrees_completed:)
+          candidate = build(:candidate, application_forms: [application_form])
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters).not_to have_key('degree_required')
+        end
+      end
+
+      context 'when the Candidate does not have a degree' do
+        it "sets the 'degree_required' parameter to 'not_required'" do
+          degrees_completed = true
+
+          application_form = build(:application_form, degrees_completed:)
+          candidate = build(:candidate, application_forms: [application_form])
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['degree_required']).to eq('not_required')
         end
       end
     end

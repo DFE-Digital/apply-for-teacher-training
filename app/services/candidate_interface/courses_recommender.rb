@@ -21,7 +21,7 @@ module CandidateInterface
     attr_reader :candidate
 
     def find_url_with_query_params
-      uri = URI(find_url)
+      uri = URI(find_url + "results")
       uri.query = query_parameters.to_query unless query_parameters.empty?
       uri.to_s
     end
@@ -65,7 +65,15 @@ module CandidateInterface
 
     def degree_required
       # What level of degree does the Candidate have?
+      return unless candidate.application_forms.any?(&:degrees_completed?)
 
+      # candidate_degree_grades = candidate.application_forms.flat_map(&:degrees).map(&:grade)
+      #
+      # application_qualifications.select do |qualification|
+      #   qualification.level == "degree"
+      # end
+      #
+      # return 'not_required' if candidate_degree_grades.empty?
 
     end
   end
