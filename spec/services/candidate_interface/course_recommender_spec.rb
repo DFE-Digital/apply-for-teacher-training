@@ -336,5 +336,64 @@ RSpec.describe CandidateInterface::CoursesRecommender do
         end
       end
     end
+
+    describe "the 'subjects' parameter" do
+      context 'when the Candidate has not submitted any Application Choices' do
+        it "does not set the 'subjects' parameter" do
+          candidate = create(:candidate)
+          application_form = create(:application_form, candidate: candidate)
+          _application_choices = create_list(:application_choice, 1, :unsubmitted, application_form:)
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters).not_to have_key('subjects[]')
+        end
+      end
+
+      context "when the Candidate has submitted any Application Choice to an 'A1' Course" do
+        it "sets the 'subjects' parameter to 'A1" do
+          course = create(:course, subjects: [create(:subject, code: 'A1')])
+          course_option = create(:course_option, course: course)
+
+          candidate = create(:candidate)
+          application_form = create(:application_form, candidate: candidate, application_choices: [])
+          _application_choices = create_list(:application_choice, 1, :awaiting_provider_decision, application_form:, course_option:)
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['subjects[]']).to eq('A1')
+        end
+      end
+
+      context 'when the Candidate has submitted several Application Choices' do
+        it "sets the 'subjects' parameter to a combination of all Subject codes" do
+          a1_subject = create(:subject, code: 'A1')
+          b2_subject = create(:subject, code: 'B2')
+          c1_subject = create(:subject, code: 'C1')
+          a1_course = create(:course, subjects: [a1_subject])
+          b2_course = create(:course, subjects: [b2_subject])
+          mixed_course = create(:course, subjects: [c1_subject, a1_subject, b2_subject])
+
+          a1_subject_course_option = create(:course_option, course: a1_course)
+          b2_subject_course_option = create(:course_option, course: b2_course)
+          mixed_subject_course_option = create(:course_option, course: mixed_course)
+
+          candidate = create(:candidate)
+          application_form = create(:application_form, candidate: candidate, application_choices: [])
+          _application_choices = [
+            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: a1_subject_course_option),
+            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: b2_subject_course_option),
+            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: mixed_subject_course_option),
+          ]
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['subjects[]']).to eq(%w[A1 B2 C1])
+        end
+      end
+    end
   end
 end

@@ -35,6 +35,7 @@ module CandidateInterface
       params[:funding_type] = funding_type if funding_type
       params[:qualification] = qualification if qualification
       params[:study_type] = study_type if study_type
+      params[:subjects] = subjects if subjects
 
       params
 
@@ -129,6 +130,20 @@ module CandidateInterface
                              .sort
       # full_time,part_time
       study_modes.join(',')
+    end
+
+    def subjects
+      # Does the Candidate have any submitted Applications?
+      return unless candidate.application_choices.exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+
+      # What Course subjects has the Candidate applied for?
+      # subject codes
+      candidate.application_choices.where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+                            .joins(course_option: { course: :subjects })
+                            .pluck('subjects.code')
+                            .compact_blank
+                            .uniq
+                            .sort
     end
   end
 end
