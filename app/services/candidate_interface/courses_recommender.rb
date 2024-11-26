@@ -34,6 +34,7 @@ module CandidateInterface
       params[:degree_required] = degree_required if degree_required
       params[:funding_type] = funding_type if funding_type
       params[:qualification] = qualification if qualification
+      params[:study_type] = study_type if study_type
 
       params
 
@@ -113,6 +114,21 @@ module CandidateInterface
                                 .sort
       # pgde,pgce,pgce_with_qts,pgde_with_qts,qts
       qualifications.join(',')
+    end
+
+    def study_type
+      # Does the Candidate have any submitted Applications?
+      return unless candidate.application_choices.exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+
+      # What Course study types has the Candidate applied for?
+      study_modes = candidate.application_choices.where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+                             .joins(course_option: :course)
+                             .pluck('course_options.study_mode')
+                             .compact_blank
+                             .uniq
+                             .sort
+      # full_time,part_time
+      study_modes.join(',')
     end
   end
 end
