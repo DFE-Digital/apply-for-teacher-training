@@ -38,7 +38,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def given_i_continue
-    click_on 'Continue'
+    click_link_or_button t('save_and_continue')
   end
 
   alias_method :and_i_continue, :given_i_continue

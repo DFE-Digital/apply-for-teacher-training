@@ -59,12 +59,12 @@ RSpec.describe 'Referee can submit reference', :with_audited do
 
   def and_i_select_yes_to_giving_a_reference
     choose 'Yes, I can give them a reference'
-    click_link_or_button t('continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def and_i_select_yes_to_reference_can_be_shared
     choose 'Yes, if they request it'
-    click_link_or_button t('continue')
+    click_link_or_button t('save_and_continue')
   end
 
   def when_i_confirm_that_the_described_relationship_is_correct
