@@ -14,6 +14,7 @@ RSpec.describe ApplicationForm do
   it { is_expected.to have_many(:application_work_experiences) }
   it { is_expected.to have_many(:application_volunteering_experiences) }
   it { is_expected.to have_many(:application_qualifications) }
+  it { is_expected.to have_many(:degree_qualifications).class_name('ApplicationQualification').conditions(level: 'degree') }
   it { is_expected.to have_many(:application_references) }
   it { is_expected.to have_many(:application_work_history_breaks) }
   it { is_expected.to have_many(:emails) }
