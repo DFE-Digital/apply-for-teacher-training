@@ -10,6 +10,11 @@ RSpec.describe 'Referee can submit reference', :with_audited do
     when_i_click_on_the_link_within_the_email
     and_i_select_yes_to_giving_a_reference
     and_i_select_yes_to_reference_can_be_shared
+    and_i_click_back
+    and_the_yes_radio_is_preselected
+    then_i_am_on_the_sharing_reference_question_page
+
+    given_i_continue
     when_i_confirm_that_the_described_relationship_is_correct
     then_i_see_the_safeguarding_page
 
@@ -19,21 +24,31 @@ RSpec.describe 'Referee can submit reference', :with_audited do
     when_i_fill_in_the_reference_field
     then_i_see_the_reference_review_page
 
-    when_i_click_on_the_link_within_the_email
-    and_i_select_yes_to_giving_a_reference
-    and_i_select_yes_to_reference_can_be_shared
-    when_i_confirm_that_the_described_relationship_is_correct
-    then_i_see_the_safeguarding_page
-
-    when_i_choose_the_candidate_is_suitable_for_working_with_children
-    then_i_see_the_reference_comment_page
-
-    when_i_fill_in_the_reference_field
-    then_i_see_the_reference_review_page
-
-    and_i_click_the_submit_reference_button
+    given_i_click_the_submit_reference_button
     then_i_see_am_told_i_submitted_my_reference
-    then_i_see_the_confirmation_page
+    and_i_see_the_confirmation_page
+  end
+
+  def and_i_select_yes_to_sharing_reference_with_candidate
+    choose 'Yes, if they request it'
+  end
+
+  def then_i_am_on_the_sharing_reference_question_page
+    expect(page).to have_current_path(referee_interface_confidentiality_path(token: @token))
+  end
+
+  def given_i_continue
+    click_link_or_button t('save_and_continue')
+  end
+
+  alias_method :and_i_continue, :given_i_continue
+
+  def and_i_click_back
+    click_link_or_button 'Back'
+  end
+
+  def and_the_yes_radio_is_preselected
+    expect(page).to have_checked_field('Yes, if they request it')
   end
 
   def and_the_confidentiality_feature_flag_is_active
@@ -59,12 +74,12 @@ RSpec.describe 'Referee can submit reference', :with_audited do
 
   def and_i_select_yes_to_giving_a_reference
     choose 'Yes, I can give them a reference'
-    click_link_or_button t('save_and_continue')
+    and_i_continue
   end
 
   def and_i_select_yes_to_reference_can_be_shared
     choose 'Yes, if they request it'
-    click_link_or_button t('save_and_continue')
+    and_i_continue
   end
 
   def when_i_confirm_that_the_described_relationship_is_correct
@@ -98,7 +113,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
     expect(page).to have_content("Check your reference for #{@application.full_name}")
   end
 
-  def and_i_click_the_submit_reference_button
+  def given_i_click_the_submit_reference_button
     click_link_or_button t('referee.review.submit')
   end
 
@@ -106,7 +121,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
     expect(page).to have_content("Your reference for #{@application.full_name}")
   end
 
-  def then_i_see_the_confirmation_page
+  def and_i_see_the_confirmation_page
     expect(page).to have_current_path(referee_interface_confirmation_path(token: @token))
   end
 end

@@ -1,3 +1,5 @@
+# This file can be deleted along with the show_reference_confidentiality_status feature flag. All other functionality is tested in spec/system/referee_interface/referee_can_submit_a_reference_for_candidate_with_relationship_and_safeguarding_spec.rb
+
 require 'rails_helper'
 
 RSpec.describe 'Referee can submit reference', :with_audited do
@@ -10,7 +12,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
 
   it 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
     given_i_am_a_referee_of_an_application
-    and_the_confidentiality_feature_flag_is_active
+    and_the_confidentiality_feature_flag_is_inactive
     and_i_received_the_initial_reference_request_email
     then_i_receive_an_email_with_a_reference_request
 
@@ -19,7 +21,6 @@ RSpec.describe 'Referee can submit reference', :with_audited do
 
     when_i_click_on_the_link_within_the_email
     and_i_select_yes_to_giving_a_reference
-    and_i_select_yes_to_sharing_reference_with_candidate
     then_i_am_asked_to_confirm_my_relationship_with_the_candidate
 
     when_i_click_on_save_and_continue
@@ -102,8 +103,8 @@ RSpec.describe 'Referee can submit reference', :with_audited do
     then_i_see_the_thank_you_page
   end
 
-  def and_the_confidentiality_feature_flag_is_active
-    FeatureFlag.activate(:show_reference_confidentiality_status)
+  def and_the_confidentiality_feature_flag_is_inactive
+    FeatureFlag.deactivate(:show_reference_confidentiality_status)
   end
 
   def given_i_am_a_referee_of_an_application
@@ -135,25 +136,6 @@ RSpec.describe 'Referee can submit reference', :with_audited do
 
   def when_i_click_on_the_link_within_the_email
     click_sign_in_link(current_email)
-  end
-
-  def and_i_select_yes_to_sharing_reference_with_candidate
-    choose 'Yes, if they request it'
-    click_link_or_button t('save_and_continue')
-  end
-
-  def then_i_am_on_the_sharing_reference_question_page
-    expect(page).to have_current_path(referee_interface_confidentiality_path(token: @token))
-  end
-
-  def when_i_continue
-    click_on 'Continue'
-  end
-
-  alias_method :and_i_continue, :when_i_continue
-
-  def and_the_yes_radio_is_preselected
-    expect(page).to have_checked_field('Yes, if they request it')
   end
 
   def and_i_select_yes_to_giving_a_reference
@@ -265,8 +247,6 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   def when_i_click_back
     click_link_or_button 'Back'
   end
-
-  alias_method :and_i_click_back, :when_i_click_back
 
   def and_i_amend_the_relationship
     within_fieldset('Is this description accurate?') do

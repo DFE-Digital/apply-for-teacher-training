@@ -1,3 +1,5 @@
+# This file can be deleted along with the show_reference_confidentiality_status feature flag. All other functionality is tested in referee_can_submit_a_reference_after_revisiting_signin_link_spec.rb
+
 require 'rails_helper'
 
 RSpec.describe 'Referee can submit reference', :with_audited do
@@ -5,11 +7,11 @@ RSpec.describe 'Referee can submit reference', :with_audited do
 
   it 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
     given_i_am_a_referee_of_an_application_and_i_received_the_email
-    and_the_confidentiality_feature_flag_is_active
+    and_the_confidentiality_feature_flag_is_inactive
 
     when_i_click_on_the_link_within_the_email
     and_i_select_yes_to_giving_a_reference
-    and_i_select_yes_to_reference_can_be_shared
+
     when_i_confirm_that_the_described_relationship_is_correct
     then_i_see_the_safeguarding_page
 
@@ -21,7 +23,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
 
     when_i_click_on_the_link_within_the_email
     and_i_select_yes_to_giving_a_reference
-    and_i_select_yes_to_reference_can_be_shared
+
     when_i_confirm_that_the_described_relationship_is_correct
     then_i_see_the_safeguarding_page
 
@@ -36,8 +38,8 @@ RSpec.describe 'Referee can submit reference', :with_audited do
     then_i_see_the_confirmation_page
   end
 
-  def and_the_confidentiality_feature_flag_is_active
-    FeatureFlag.activate(:show_reference_confidentiality_status)
+  def and_the_confidentiality_feature_flag_is_inactive
+    FeatureFlag.deactivate(:show_reference_confidentiality_status)
   end
 
   def given_i_am_a_referee_of_an_application_and_i_received_the_email
@@ -59,11 +61,6 @@ RSpec.describe 'Referee can submit reference', :with_audited do
 
   def and_i_select_yes_to_giving_a_reference
     choose 'Yes, I can give them a reference'
-    click_link_or_button t('save_and_continue')
-  end
-
-  def and_i_select_yes_to_reference_can_be_shared
-    choose 'Yes, if they request it'
     click_link_or_button t('save_and_continue')
   end
 

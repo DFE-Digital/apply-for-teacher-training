@@ -5,6 +5,7 @@ RSpec.describe 'Referee can submit reference', :with_audited, time: CycleTimetab
 
   it 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
     given_i_am_a_referee_of_an_application_from_old_cycle
+    and_the_confidentiality_feature_flag_is_active
     and_i_received_the_initial_reference_request_email
     then_i_receive_an_email_with_a_reference_request
 
@@ -13,6 +14,7 @@ RSpec.describe 'Referee can submit reference', :with_audited, time: CycleTimetab
 
     when_i_click_on_the_link_within_the_email
     and_i_select_yes_to_giving_a_reference
+    and_i_select_yes_to_reference_can_be_shared
     then_i_am_asked_to_confirm_my_relationship_with_the_candidate
 
     when_i_click_on_save_and_continue
@@ -95,6 +97,10 @@ RSpec.describe 'Referee can submit reference', :with_audited, time: CycleTimetab
     then_i_see_the_thank_you_page
   end
 
+  def and_the_confidentiality_feature_flag_is_active
+    FeatureFlag.activate(:show_reference_confidentiality_status)
+  end
+
   def given_i_am_a_referee_of_an_application_from_old_cycle
     @reference = create(:reference, :feedback_requested, referee_type: :academic, email_address: 'terri@example.com', name: 'Terri Tudor')
     @application = create(
@@ -129,7 +135,12 @@ RSpec.describe 'Referee can submit reference', :with_audited, time: CycleTimetab
 
   def and_i_select_yes_to_giving_a_reference
     choose 'Yes, I can give them a reference'
-    click_link_or_button t('continue')
+    click_link_or_button t('save_and_continue')
+  end
+
+  def and_i_select_yes_to_reference_can_be_shared
+    choose 'Yes, if they request it'
+    click_link_or_button t('save_and_continue')
   end
 
   def then_i_am_asked_to_confirm_my_relationship_with_the_candidate

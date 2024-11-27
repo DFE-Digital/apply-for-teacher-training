@@ -12,7 +12,7 @@
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :any_safeguarding_concerns, legend: { text: t('page_titles.referee.safeguarding', full_name: @application.full_name), size: 'l', tag: 'h1' } do %>
-        <%= f.govuk_radio_button :any_safeguarding_concerns, :yes, label: { text: t('referee.any_safeguarding_concerns.yes.label') } do %>
+        <%= f.govuk_radio_button :any_safeguarding_concerns, :yes, label: { text: t('referee.any_safeguarding_concerns.yes.label') }, link_errors: true do %>
           <%= f.govuk_text_area :safeguarding_concerns, label: { text: t('referee.safeguarding_concerns.label', full_name: @application.full_name) }, max_words: 150, threshold: 90, rows: 5, hint: { text: 'Give facts, not your opinion' }, link_errors: true %>
         <% end %>
         <%= f.govuk_radio_button :any_safeguarding_concerns, :no, label: { text: t('referee.any_safeguarding_concerns.no.label') } %>

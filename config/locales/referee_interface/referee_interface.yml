@@ -6,6 +6,11 @@ en:
         heading: Give a reference for %{full_name}
         confirm: No, I’m unable to give a reference
         cancel: Yes, I can give them a reference
+    confidentiality:
+      choice:
+        label: Can your reference be shared with %{full_name}?
+        'yes': Yes, if they request it
+        'no': No, it should be treated as confidential
     relationship_confirmation:
       legend: Is this description accurate?
       'yes':
@@ -79,6 +84,10 @@ en:
           attributes:
             refused:
               blank: Select yes if you can give a reference
+        referee_interface/confidentiality_form:
+          attributes:
+            confidential:
+              blank: Select yes if your reference can be shared
         receive_reference:
           attributes:
             feedback:

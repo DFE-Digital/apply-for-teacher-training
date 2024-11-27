@@ -1,7 +1,7 @@
 <% references.each_with_index do |reference, index| %>
   <%= render(SummaryCardComponent.new(
     rows: ProviderInterface::NewReferenceWithFeedbackComponent.new(reference:, index:, application_choice: @application_choice).rows,
-    editable: false,
+    editable: false, warning_text: reference&.confidential == true && reference&.feedback_provided? && FeatureFlag.active?(:show_reference_confidentiality_status) ? t('provider_interface.references.confidential_warning') : nil
   )) do %>
     <%= render SummaryCardHeaderComponent.new(title: t(reference.referee_type, scope: 'provider_interface.references.card_title', name: reference.name), heading_level: 3) %>
   <% end %>

@@ -19,13 +19,17 @@ module ProviderInterface
     end
 
     def rows
-      [
+      base_rows = [
         name_row,
         email_address_row,
         relationship_row,
         safeguarding_row,
         feedback_row,
       ].compact
+
+      base_rows += [confidentiality_row] if feature_active_and_feedback_provided?
+
+      base_rows
     end
 
   private
@@ -69,6 +73,13 @@ module ProviderInterface
       }
     end
 
+    def confidentiality_row
+      {
+        key: 'Can this reference be shared with the candidate?',
+        value: confidentiality_value,
+      }
+    end
+
     def relationship_value
       if relationship_correction.present?
         [
@@ -99,6 +110,14 @@ module ProviderInterface
 
     def reference_not_provided?
       !feedback_provided?
+    end
+
+    def confidentiality_value
+      reference.confidential ? 'No, this reference is confidential. Do not share it.' : 'Yes, if they request it.'
+    end
+
+    def feature_active_and_feedback_provided?
+      FeatureFlag.active?(:show_reference_confidentiality_status) && reference.feedback_provided?
     end
   end
 end

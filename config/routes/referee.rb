@@ -2,6 +2,9 @@ namespace :referee_interface, path: '/reference' do
   get '/' => 'reference#refuse_feedback', as: :refuse_feedback
   patch '/' => 'reference#confirm_feedback_refusal'
 
+  get '/confidentiality' => 'reference#confidentiality', as: :confidentiality
+  patch '/confidentiality' => 'reference#confirm_confidentiality'
+
   get '/relationship' => 'reference#relationship', as: :reference_relationship
   patch '/confirm-relationship' => 'reference#confirm_relationship', as: :confirm_relationship
 

@@ -16,6 +16,12 @@
 
         <%= render CandidateInterface::ReferenceConditionHeaderComponent.new(reference_condition: @application_choice.offer.reference_condition, provider_name: @application_choice.current_provider.name, show_extra_content: false) %>
 
+        <% if FeatureFlag.active?(:show_reference_confidentiality_status) %>
+          <p class="govuk-body">
+            <%= t('decisions.accept_offer.reference_confidentiality') %>
+          </p>
+        <% end %>
+
         <p class="govuk-body">
           <%= t('decisions.accept_offer.change_reference_details') %>
         </p>

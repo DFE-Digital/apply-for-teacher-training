@@ -256,6 +256,7 @@ en:
     find_feedback: Help us improve this service
     referee:
       refuse_feedback: A reference for %{full_name}
+      confidentiality: A reference for %{full_name}
       relationship: Confirm how %{full_name} knows you
       safeguarding: Do you know any reason why %{full_name} should not work with children?
       feedback: Reference for %{full_name}

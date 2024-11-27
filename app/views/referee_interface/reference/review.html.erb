@@ -13,7 +13,7 @@
         <%= t('page_titles.referee.review', full_name: @application.full_name) %>
       </h1>
 
-      <%= render(RefereeInterface::ReferenceReviewComponent.new(reference: @reference_form.reference, token_param: @token_param)) %>
+      <%= render(RefereeInterface::ReferenceReviewComponent.new(reference: @reference_form.reference, token_param: @token_param, application_form: @application)) %>
 
       <%= f.govuk_submit t('referee.review.submit') %>
     <% end %>

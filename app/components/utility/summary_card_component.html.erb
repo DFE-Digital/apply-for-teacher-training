@@ -1,6 +1,9 @@
 <section class="app-summary-card govuk-!-margin-bottom-6 <%= border_css_class %>">
   <%= content %>
   <div class="app-summary-card__body">
+
+    <%= govuk_warning_text(text: warning_text) if warning_text.present? %>
+
     <%= render SummaryListComponent.new(rows: rows) %>
   </div>
 </section>

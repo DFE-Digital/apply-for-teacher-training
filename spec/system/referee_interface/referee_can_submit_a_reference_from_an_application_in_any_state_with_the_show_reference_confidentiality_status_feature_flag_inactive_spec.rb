@@ -1,3 +1,5 @@
+# This file can be deleted along with the show_reference_confidentiality_status feature flag. All other functionality is tested in spec/system/referee_interface/referee_can_submit_a_reference_from_an_application_in_any_state_spec.rb
+
 require 'rails_helper'
 
 RSpec.describe 'Referee can submit reference in any application choice states', :with_audited, time: CycleTimetableHelper.mid_cycle do
@@ -5,7 +7,7 @@ RSpec.describe 'Referee can submit reference in any application choice states', 
 
   it 'Referee submits a reference' do
     given_i_am_a_referee_of_an_application
-    and_the_confidentiality_feature_flag_is_active
+    and_the_confidentiality_feature_flag_is_inactive
     and_i_received_the_initial_reference_request_email
     then_i_receive_an_email_with_a_reference_request
     and_the_candidate_withdraws_from_the_application
@@ -13,7 +15,6 @@ RSpec.describe 'Referee can submit reference in any application choice states', 
     when_i_click_on_the_link_within_the_email
     then_i_see_a_message_about_the_candidate
     and_i_select_yes_to_giving_a_reference
-    and_i_select_yes_to_reference_can_be_shared
     then_i_am_asked_to_confirm_my_relationship_with_the_candidate
 
     when_i_click_on_save_and_continue
@@ -42,8 +43,8 @@ RSpec.describe 'Referee can submit reference in any application choice states', 
     then_i_see_the_thank_you_page
   end
 
-  def and_the_confidentiality_feature_flag_is_active
-    FeatureFlag.activate(:show_reference_confidentiality_status)
+  def and_the_confidentiality_feature_flag_is_inactive
+    FeatureFlag.deactivate(:show_reference_confidentiality_status)
   end
 
   def given_i_am_a_referee_of_an_application
