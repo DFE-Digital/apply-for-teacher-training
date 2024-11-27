@@ -18,15 +18,7 @@
   </ul>
   <% end %>
 
-  <div style="display: flex; justify-content: space-between">
-    <p class="govuk-hint govuk-!-font-size-16 govuk-!-margin-top-0">
-      Updated on <%= updated_at %>
-    </p>
-
-    <% if (recommended_courses_url = CandidateInterface::CoursesRecommender.recommended_courses_url(candidate: application_form.candidate).presence) %>
-      <div>
-        <%= govuk_link_to 'Recommended Courses', recommended_courses_url, class: 'govuk-link govuk-link--no-visited-state', target: '_blank', rel: 'noopener' %>
-      </div>
-    <% end %>
-  </div>
+  <p class="govuk-hint govuk-!-font-size-16 govuk-!-margin-top-0">
+    Updated on <%= updated_at %>
+  </p>
 </section>
