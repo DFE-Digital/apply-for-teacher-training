@@ -4,13 +4,13 @@ module CandidateInterface
   class CoursesRecommender
     include Rails.application.routes.url_helpers
 
-    def self.recommended_courses_url(candidate:, course_option: nil)
-      new(candidate:, course_option:).recommended_courses_url
+    def self.recommended_courses_url(candidate:, locatable: nil)
+      new(candidate:, locatable:).recommended_courses_url
     end
 
-    def initialize(candidate:, course_option: nil)
+    def initialize(candidate:, locatable: nil)
       @candidate = candidate
-      @course_option = course_option
+      @locatable = locatable
     end
 
     def recommended_courses_url
@@ -19,7 +19,7 @@ module CandidateInterface
 
   private
 
-    attr_reader :candidate, :course_option
+    attr_reader :candidate, :locatable
 
     def find_url_with_query_params
       uri = URI("#{find_url}results")
@@ -36,27 +36,11 @@ module CandidateInterface
       params[:funding_type] = funding_type if funding_type
       params[:qualification] = qualification if qualification
       params[:study_type] = study_type if study_type
+      # May need to be converted to use the API
       params[:subjects] = subjects if subjects
+      params.merge!(location_params)
 
       params
-
-      # {
-      #   can_sponsor_visa: ,
-      #   degree_required: 'show_all_courses', # show_all_courses two_two third_class not_required
-      #   funding_type: 'salary,apprenticeship,fee',
-      #   latitude: nil, # all 3 of these are for location
-      #   longitude: nil,
-      #   qualification: %w[
-      #     pgde
-      #     pgce
-      #     pgce_with_qts
-      #     pgde_with_qts
-      #     qts
-      #   ],
-      #   radius: 20,
-      #   study_type: %w[full_time part_time],
-      #   subjects: %w[00 01], # subject codes
-      # }
     end
 
     def can_sponsor_visa
@@ -145,6 +129,17 @@ module CandidateInterface
                             .compact_blank
                             .uniq
                             .sort
+    end
+
+    def location_params
+      location_params = {
+        latitude: locatable&.latitude,
+        longitude: locatable&.longitude,
+        radius: '10',
+      }
+      return {} unless location_params.values.all?(&:present?)
+
+      location_params
     end
   end
 end

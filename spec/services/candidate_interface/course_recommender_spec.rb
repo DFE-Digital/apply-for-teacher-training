@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           personal_details_completed = false
 
           candidate = create(:candidate)
-          _application_form = create(:application_form, candidate: , right_to_work_or_study:, personal_details_completed:)
+          _application_form = create(:application_form, candidate:, right_to_work_or_study:, personal_details_completed:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -55,7 +55,7 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           personal_details_completed = true
 
           candidate = create(:candidate)
-          _application_form = create(:application_form, candidate: , right_to_work_or_study:, personal_details_completed:)
+          _application_form = create(:application_form, candidate:, right_to_work_or_study:, personal_details_completed:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -70,7 +70,7 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           personal_details_completed = true
 
           candidate = create(:candidate)
-          _application_form = create(:application_form, candidate: , right_to_work_or_study:, personal_details_completed:)
+          _application_form = create(:application_form, candidate:, right_to_work_or_study:, personal_details_completed:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -86,7 +86,7 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           degrees_completed = false
 
           candidate = create(:candidate)
-          _application_form = create(:application_form, candidate: , degrees_completed:)
+          _application_form = create(:application_form, candidate:, degrees_completed:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -100,7 +100,7 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           degrees_completed = true
 
           candidate = create(:candidate)
-          _application_form = create(:application_form, candidate: , degrees_completed:)
+          _application_form = create(:application_form, candidate:, degrees_completed:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -115,7 +115,7 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           degree_qualifications = build_list(:degree_qualification, 1, grade: 'some grade')
 
           candidate = create(:candidate)
-          _application_form = create(:application_form, candidate: , degrees_completed:, degree_qualifications:)
+          _application_form = create(:application_form, candidate:, degrees_completed:, degree_qualifications:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -130,7 +130,7 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           degree_qualifications = build_list(:degree_qualification, 1, grade: 'Third-class honours')
 
           candidate = build(:candidate)
-          _application_form = create(:application_form, candidate: , degrees_completed:, degree_qualifications:)
+          _application_form = create(:application_form, candidate:, degrees_completed:, degree_qualifications:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -145,7 +145,7 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           degree_qualifications = build_list(:degree_qualification, 1, grade: 'Lower second-class honours (2:2)')
 
           candidate = build(:candidate)
-          _application_form = create(:application_form, candidate: , degrees_completed:, degree_qualifications:)
+          _application_form = create(:application_form, candidate:, degrees_completed:, degree_qualifications:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -160,7 +160,7 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           degree_qualifications = build_list(:degree_qualification, 1, grade: 'First-class honours')
 
           candidate = build(:candidate)
-          _application_form = create(:application_form, candidate: , degrees_completed:, degree_qualifications:)
+          _application_form = create(:application_form, candidate:, degrees_completed:, degree_qualifications:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -178,7 +178,7 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           ]
 
           candidate = build(:candidate)
-          _application_form = create(:application_form, candidate: , degrees_completed:, degree_qualifications:)
+          _application_form = create(:application_form, candidate:, degrees_completed:, degree_qualifications:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -392,6 +392,49 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           query_parameters = Rack::Utils.parse_query(uri.query)
 
           expect(query_parameters['subjects[]']).to eq(%w[A1 B2 C1])
+        end
+      end
+    end
+
+    describe "the 'radius', 'latitude' and 'longitude' parameters" do
+      context 'when a Locatable is not specified' do
+        it 'does not set the any of the parameters' do
+          candidate = create(:candidate)
+
+          uri = URI(described_class.recommended_courses_url(candidate:, locatable: nil))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters).not_to have_key('radius')
+          expect(query_parameters).not_to have_key('latitude')
+          expect(query_parameters).not_to have_key('longitude')
+        end
+      end
+
+      context 'when a Locatable is specified' do
+        it 'sets the parameters to the Locatable values' do
+          locatable = instance_double(Provider, latitude: 51.5074, longitude: 0.1278)
+          candidate = create(:candidate)
+
+          uri = URI(described_class.recommended_courses_url(candidate:, locatable: locatable))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['radius']).to eq('10')
+          expect(query_parameters['latitude']).to eq('51.5074')
+          expect(query_parameters['longitude']).to eq('0.1278')
+        end
+      end
+
+      context "when the Locatable doesn't have all the location data" do
+        it 'does not set the any of the parameters' do
+          locatable = instance_double(Provider, latitude: nil, longitude: 0.1278)
+          candidate = create(:candidate)
+
+          uri = URI(described_class.recommended_courses_url(candidate:, locatable: locatable))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters).not_to have_key('radius')
+          expect(query_parameters).not_to have_key('latitude')
+          expect(query_parameters).not_to have_key('longitude')
         end
       end
     end
