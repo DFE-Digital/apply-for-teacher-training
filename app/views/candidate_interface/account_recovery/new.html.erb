@@ -20,8 +20,8 @@
     <%= govuk_button_to 'Resend code', candidate_interface_account_recovery_requests_path(
       params: {
         candidate_interface_account_recovery_request_form: {
-          previous_account_email: current_candidate.account_recovery_request.previous_account_email
-          # delegator?
+          previous_account_email: current_candidate.account_recovery_request.previous_account_email,
+          resend_pressed: true,
         }
       }
     ) %>

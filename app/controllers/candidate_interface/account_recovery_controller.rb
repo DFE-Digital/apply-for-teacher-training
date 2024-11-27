@@ -1,6 +1,7 @@
 module CandidateInterface
   class AccountRecoveryController < CandidateInterfaceController
-    #### Block requests if current candidate has account_recover successful
+    before_action :check_if_user_recovered
+
     def new
       @account_recovery = CandidateInterface::AccountRecoveryForm.new(current_candidate:)
     end
@@ -9,12 +10,10 @@ module CandidateInterface
     ### If the user logs out of one login will they be logged out of apply?
 
     ### To do:
-    ### Send emails
-    ### Block requests to controllers
-    ### Raise exceptions rather than errors in one login auth service
-    ### Test?
-    ### Cleanup?
     ### Deploy to review
+    ### Setup review env with one login keys
+    ### Setup review env test notify key
+    ### Do we need to setup accounts for people on review?
 
     def create
       @account_recovery = CandidateInterface::AccountRecoveryForm.new(
@@ -36,6 +35,10 @@ module CandidateInterface
       strip_whitespace(
         params.require(:candidate_interface_account_recovery_form).permit(:code),
       )
+    end
+
+    def check_if_user_recovered
+      redirect_to candidate_interface_details_path if current_candidate.recovered?
     end
   end
 end

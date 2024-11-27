@@ -6,7 +6,7 @@ module CandidateInterface
     attr_reader :current_candidate, :previous_candidate
 
     validates :previous_account_email, presence: true
-    validate :previous_account_has_no_one_login, if: -> { previous_candidate.present? }
+    validate :email_different_from_current_candidate, if: -> { previous_candidate.present? }
 
     def initialize(current_candidate:, previous_account_email: nil)
       self.previous_account_email = previous_account_email
@@ -25,23 +25,24 @@ module CandidateInterface
 
       return false unless valid?
 
-      @account_recovery_request = current_candidate.create_account_recovery_request(
-        previous_account_email:,
-        code: AccountRecoveryRequest.generate_code,
-      )
+      ActiveRecord::Base.transaction do
+        account_recovery_request = current_candidate.create_account_recovery_request(
+          previous_account_email:,
+          code: AccountRecoveryRequest.generate_code,
+        )
 
-      # send email if we find a candidate with previous_account_email
+        AccountRecoveryMailer.send_code(
+          email: previous_account_email,
+          code: account_recovery_request.code,
+        ).deliver_later
+      end
     end
 
   private
 
-    def previous_account_has_no_one_login
-      ### previous_candidate.one_login_auth.present? this should not be here, it should be on the account_recovery form
-      ## we won't send an email to this, Displaying an error here indicates that this email exists in apply
-      ## Log this in logit?
-      #if previous_candidate.one_login_auth.present? || current_candidate.one_login_auth.email == previous_account_email
+    def email_different_from_current_candidate
       if current_candidate.one_login_auth.email == previous_account_email
-        errors.add(:previous_account_email, 'The email already has a one login account')
+        errors.add(:previous_account_email, "You can't recover the same account you are logged in to")
       end
     end
   end
