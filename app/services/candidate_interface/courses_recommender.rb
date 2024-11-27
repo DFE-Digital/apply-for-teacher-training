@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module CandidateInterface
   class CoursesRecommender
     include Rails.application.routes.url_helpers
@@ -15,20 +13,28 @@ module CandidateInterface
     end
 
     def recommended_courses_url
-      find_url_with_query_params
+      find_url_with_query_params if recommended?
     end
 
   private
 
     attr_reader :candidate, :locatable
 
+    def recommended?
+      query_parameters.values.any?(&:present?)
+    end
+
     def find_url_with_query_params
       uri = URI("#{find_url}results")
-      uri.query = query_parameters.to_query unless query_parameters.empty?
+      uri.query = query_parameters.to_query
       uri.to_s
     end
 
     def query_parameters
+      @query_parameters ||= build_query_parameters
+    end
+
+    def build_query_parameters
       params = {}
 
       params[:can_sponsor_visa] = can_sponsor_visa if can_sponsor_visa

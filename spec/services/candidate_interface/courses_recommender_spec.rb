@@ -2,11 +2,10 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::CoursesRecommender do
   describe '.recommended_courses_url' do
-    it 'returns the URL for the Find results page' do
+    it 'returns nil when there is no recommendations' do
       candidate = build(:candidate)
 
-      results_url = "#{Rails.application.routes.url_helpers.find_url}results"
-      expect(described_class.recommended_courses_url(candidate:)).to eq results_url
+      expect(described_class.recommended_courses_url(candidate:)).to be_nil
     end
 
     #   expect(query_parameters).to eq({
@@ -35,17 +34,16 @@ RSpec.describe CandidateInterface::CoursesRecommender do
 
     describe "the 'can_sponsor_visa' parameter" do
       context 'when the Candidate has not completed their Personal Details' do
-        it "does not set the 'can_sponsor_visa' parameter" do
+        it 'does not recommend courses' do
           right_to_work_or_study = 'no'
           personal_details_completed = false
 
           candidate = create(:candidate)
           _application_form = create(:application_form, candidate:, right_to_work_or_study:, personal_details_completed:)
 
-          uri = URI(described_class.recommended_courses_url(candidate:))
-          query_parameters = Rack::Utils.parse_query(uri.query)
+          recommended_courses_url = described_class.recommended_courses_url(candidate:)
 
-          expect(query_parameters).not_to have_key('can_sponsor_visa')
+          expect(recommended_courses_url).to be_nil
         end
       end
 
@@ -82,16 +80,15 @@ RSpec.describe CandidateInterface::CoursesRecommender do
 
     describe "the 'degree_required' parameter" do
       context 'when the Candidate has not completed their Degree details' do
-        it "does not set the 'degree_required' parameter" do
+        it 'does not recommend courses' do
           degrees_completed = false
 
           candidate = create(:candidate)
           _application_form = create(:application_form, candidate:, degrees_completed:)
 
-          uri = URI(described_class.recommended_courses_url(candidate:))
-          query_parameters = Rack::Utils.parse_query(uri.query)
+          recommended_courses_url = described_class.recommended_courses_url(candidate:)
 
-          expect(query_parameters).not_to have_key('degree_required')
+          expect(recommended_courses_url).to be_nil
         end
       end
 
@@ -190,15 +187,14 @@ RSpec.describe CandidateInterface::CoursesRecommender do
 
     describe "the 'funding_type' parameter" do
       context 'when the Candidate has not submitted any Application Choices' do
-        it "does not set the 'funding_type' parameter" do
+        it 'does not recommend courses' do
           candidate = create(:candidate)
           application_form = create(:application_form, candidate: candidate)
           _application_choices = create_list(:application_choice, 1, :unsubmitted, application_form:)
 
-          uri = URI(described_class.recommended_courses_url(candidate:))
-          query_parameters = Rack::Utils.parse_query(uri.query)
+          recommended_courses_url = described_class.recommended_courses_url(candidate:)
 
-          expect(query_parameters).not_to have_key('funding_type')
+          expect(recommended_courses_url).to be_nil
         end
       end
 
@@ -240,15 +236,14 @@ RSpec.describe CandidateInterface::CoursesRecommender do
 
     describe "the 'qualification' parameter" do
       context 'when the Candidate has not submitted any Application Choices' do
-        it "does not set the 'qualification' parameter" do
+        it 'does not recommend courses' do
           candidate = create(:candidate)
           application_form = create(:application_form, candidate: candidate)
           _application_choices = create_list(:application_choice, 1, :unsubmitted, application_form:)
 
-          uri = URI(described_class.recommended_courses_url(candidate:))
-          query_parameters = Rack::Utils.parse_query(uri.query)
+          recommended_courses_url = described_class.recommended_courses_url(candidate:)
 
-          expect(query_parameters).not_to have_key('qualification')
+          expect(recommended_courses_url).to be_nil
         end
       end
 
@@ -290,15 +285,14 @@ RSpec.describe CandidateInterface::CoursesRecommender do
 
     describe "the 'study_type' parameter" do
       context 'when the Candidate has not submitted any Application Choices' do
-        it "does not set the 'study_type' parameter" do
+        it 'does not recommend courses' do
           candidate = create(:candidate)
           application_form = create(:application_form, candidate: candidate)
           _application_choices = create_list(:application_choice, 1, :unsubmitted, application_form:)
 
-          uri = URI(described_class.recommended_courses_url(candidate:))
-          query_parameters = Rack::Utils.parse_query(uri.query)
+          recommended_courses_url = described_class.recommended_courses_url(candidate:)
 
-          expect(query_parameters).not_to have_key('study_type')
+          expect(recommended_courses_url).to be_nil
         end
       end
 
@@ -339,15 +333,14 @@ RSpec.describe CandidateInterface::CoursesRecommender do
 
     describe "the 'subjects' parameter" do
       context 'when the Candidate has not submitted any Application Choices' do
-        it "does not set the 'subjects' parameter" do
+        it 'does not recommend courses' do
           candidate = create(:candidate)
           application_form = create(:application_form, candidate: candidate)
           _application_choices = create_list(:application_choice, 1, :unsubmitted, application_form:)
 
-          uri = URI(described_class.recommended_courses_url(candidate:))
-          query_parameters = Rack::Utils.parse_query(uri.query)
+          recommended_courses_url = described_class.recommended_courses_url(candidate:)
 
-          expect(query_parameters).not_to have_key('subjects[]')
+          expect(recommended_courses_url).to be_nil
         end
       end
 
@@ -398,21 +391,18 @@ RSpec.describe CandidateInterface::CoursesRecommender do
 
     describe "the 'radius', 'latitude' and 'longitude' parameters" do
       context 'when a Locatable is not specified' do
-        it 'does not set the any of the parameters' do
+        it 'does not recommend courses' do
           candidate = create(:candidate)
 
-          uri = URI(described_class.recommended_courses_url(candidate:, locatable: nil))
-          query_parameters = Rack::Utils.parse_query(uri.query)
+          recommended_courses_url = described_class.recommended_courses_url(candidate:)
 
-          expect(query_parameters).not_to have_key('radius')
-          expect(query_parameters).not_to have_key('latitude')
-          expect(query_parameters).not_to have_key('longitude')
+          expect(recommended_courses_url).to be_nil
         end
       end
 
       context 'when a Locatable is specified' do
         it 'sets the parameters to the Locatable values' do
-          locatable = instance_double(Provider, latitude: 51.5074, longitude: 0.1278)
+          locatable = instance_double(Provider, latitude: 51.5074, longitude: 0.1278, postcode: 'SW1A 1AA')
           candidate = create(:candidate)
 
           uri = URI(described_class.recommended_courses_url(candidate:, locatable: locatable))
@@ -426,15 +416,12 @@ RSpec.describe CandidateInterface::CoursesRecommender do
 
       context "when the Locatable doesn't have all the location data" do
         it 'does not set the any of the parameters' do
-          locatable = instance_double(Provider, latitude: nil, longitude: 0.1278)
+          locatable = instance_double(Provider, latitude: nil, longitude: 0.1278, postcode: "SW1A 1AA")
           candidate = create(:candidate)
 
-          uri = URI(described_class.recommended_courses_url(candidate:, locatable: locatable))
-          query_parameters = Rack::Utils.parse_query(uri.query)
+          recommended_courses_url = described_class.recommended_courses_url(candidate:, locatable: locatable)
 
-          expect(query_parameters).not_to have_key('radius')
-          expect(query_parameters).not_to have_key('latitude')
-          expect(query_parameters).not_to have_key('longitude')
+          expect(recommended_courses_url).to be_nil
         end
       end
     end
