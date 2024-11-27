@@ -39,6 +39,7 @@ module CandidateInterface
       params[:study_type] = study_type if study_type
       # May need to be converted to use the API
       params[:subjects] = subjects if subjects
+      # May need to be converted to use the API
       params.merge!(location_params)
 
       params
@@ -134,6 +135,8 @@ module CandidateInterface
 
     def location_params
       location_params = {
+        l: 1,
+        lq: locatable&.postcode,
         latitude: locatable&.latitude,
         longitude: locatable&.longitude,
         radius: '10',

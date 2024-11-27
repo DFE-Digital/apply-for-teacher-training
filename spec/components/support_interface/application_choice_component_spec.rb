@@ -423,4 +423,30 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
     expect(result.text).to include('See this application as it appears over the Register API')
   end
+
+  context 'recommended courses row' do
+    it 'does not render the recommended courses row if the application choice has not been submitted' do
+      application_choice = create(
+        :application_choice,
+        :with_completed_application_form,
+        :unsubmitted,
+      )
+
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.text).not_to include('Recommended courses')
+    end
+
+    it 'renders the recommended courses row if the application choice has been submitted' do
+      application_choice = create(
+        :application_choice,
+        :with_completed_application_form,
+        :awaiting_provider_decision,
+      )
+
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.text).to include('Recommended courses')
+    end
+  end
 end
