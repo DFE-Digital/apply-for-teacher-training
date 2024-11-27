@@ -13,7 +13,6 @@ module CandidateInterface
       display_accepted_application_choices: false,
       return_to_application_review: false
     )
-
       @application_form = application_form
       @heading_level = heading_level
       @show_status = show_status
