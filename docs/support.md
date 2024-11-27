@@ -4,7 +4,7 @@ There’s one person from Apply on support every week. Next week’s dev is also
 
 We've got 2 important documents:
 
-- The [regularly updated rota](https://docs.google.com/spreadsheets/d/1HnJFMMHwlTK167PgHHifrMl98-598zmyUuhsLNeufRU/edit#gid=0) keeps track of who's on both policy and technical support
+- The [regularly updated rota](https://educationgovuk.sharepoint.com/:x:/s/TeacherServices/EeD2Ew8Ga-NAn9FuH-FpAp8B3MwZk-K-spUebsAF_k9uNw?e=cGoQsD) keeps track of who's on both policy and technical support
 - The [Support Playbook](support_playbook.md) doc tells you what to do (and who should do it) for common situations
 
 ## What's the purpose of a "support dev"?
@@ -22,18 +22,17 @@ And not:
 
 ## Weekly handover
 
-We do a 15 minute handover on Mondays at 12:00.
+We do a 15 minute handover on Mondays at 11:00.
 
 Agenda:
 
 - Say hi
 - What happened last week?
-- Update the Slack channel subject
-- Schedule a handover for next week
+- Raise awareness of anything that support should know (big features, comms, incidents/downtime etc)
 
 ## Before going on support
 
-- Make sure you have [Zendesk](https://becomingateacher.zendesk.com/agent/dashboard) access. You can ask one of the support leads in `#twd_bat_support` for a seat.
+- Make sure you have [Zendesk](https://becomingateacher.zendesk.com/agent/dashboard) access. You can ask one of the support leads in `#ts_support` for access.
 
 ## Good practice when editing production data
 
