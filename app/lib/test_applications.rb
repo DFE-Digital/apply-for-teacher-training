@@ -30,7 +30,6 @@ class TestApplications
     candidate: nil,
     incomplete_references: false
   )
-
     courses = courses_to_apply_to(
       states:,
       courses_to_choose_from: courses_to_apply_to,
