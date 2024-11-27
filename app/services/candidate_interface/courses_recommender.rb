@@ -4,12 +4,13 @@ module CandidateInterface
   class CoursesRecommender
     include Rails.application.routes.url_helpers
 
-    def self.recommended_courses_url(candidate:)
-      new(candidate:).recommended_courses_url
+    def self.recommended_courses_url(candidate:, course_option: nil)
+      new(candidate:, course_option:).recommended_courses_url
     end
 
-    def initialize(candidate:)
+    def initialize(candidate:, course_option: nil)
       @candidate = candidate
+      @course_option = course_option
     end
 
     def recommended_courses_url
@@ -18,7 +19,7 @@ module CandidateInterface
 
   private
 
-    attr_reader :candidate
+    attr_reader :candidate, :course_option
 
     def find_url_with_query_params
       uri = URI("#{find_url}results")

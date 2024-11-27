@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::CoursesRecommender do
   describe '.recommended_courses_url' do
-    it 'does not return a URL be default' do
+    it 'returns the URL for the Find results page' do
       candidate = build(:candidate)
 
       results_url = "#{Rails.application.routes.url_helpers.find_url}results"
