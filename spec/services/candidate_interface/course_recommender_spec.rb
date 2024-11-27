@@ -85,8 +85,8 @@ RSpec.describe CandidateInterface::CoursesRecommender do
         it "does not set the 'degree_required' parameter" do
           degrees_completed = false
 
-          application_form = build(:application_form, degrees_completed:)
-          candidate = build(:candidate, application_forms: [application_form])
+          candidate = create(:candidate)
+          _application_form = create(:application_form, candidate: , degrees_completed:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -99,8 +99,8 @@ RSpec.describe CandidateInterface::CoursesRecommender do
         it "sets the 'degree_required' parameter to 'not_required'" do
           degrees_completed = true
 
-          application_form = build(:application_form, degrees_completed:)
-          candidate = build(:candidate, application_forms: [application_form])
+          candidate = create(:candidate)
+          _application_form = create(:application_form, candidate: , degrees_completed:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -114,8 +114,8 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           degrees_completed = true
           degree_qualifications = build_list(:degree_qualification, 1, grade: 'some grade')
 
-          application_form = build(:application_form, degrees_completed:, degree_qualifications:)
-          candidate = build(:candidate, application_forms: [application_form])
+          candidate = create(:candidate)
+          _application_form = create(:application_form, candidate: , degrees_completed:, degree_qualifications:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -129,8 +129,8 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           degrees_completed = true
           degree_qualifications = build_list(:degree_qualification, 1, grade: 'Third-class honours')
 
-          application_form = build(:application_form, degrees_completed:, degree_qualifications:)
-          candidate = build(:candidate, application_forms: [application_form])
+          candidate = build(:candidate)
+          _application_form = create(:application_form, candidate: , degrees_completed:, degree_qualifications:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -144,8 +144,8 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           degrees_completed = true
           degree_qualifications = build_list(:degree_qualification, 1, grade: 'Lower second-class honours (2:2)')
 
-          application_form = build(:application_form, degrees_completed:, degree_qualifications:)
-          candidate = build(:candidate, application_forms: [application_form])
+          candidate = build(:candidate)
+          _application_form = create(:application_form, candidate: , degrees_completed:, degree_qualifications:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -159,8 +159,8 @@ RSpec.describe CandidateInterface::CoursesRecommender do
           degrees_completed = true
           degree_qualifications = build_list(:degree_qualification, 1, grade: 'First-class honours')
 
-          application_form = build(:application_form, degrees_completed:, degree_qualifications:)
-          candidate = build(:candidate, application_forms: [application_form])
+          candidate = build(:candidate)
+          _application_form = create(:application_form, candidate: , degrees_completed:, degree_qualifications:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -177,8 +177,8 @@ RSpec.describe CandidateInterface::CoursesRecommender do
             build(:degree_qualification, grade: 'First-class honours'),
           ]
 
-          application_form = build(:application_form, degrees_completed:, degree_qualifications:)
-          candidate = build(:candidate, application_forms: [application_form])
+          candidate = build(:candidate)
+          _application_form = create(:application_form, candidate: , degrees_completed:, degree_qualifications:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)

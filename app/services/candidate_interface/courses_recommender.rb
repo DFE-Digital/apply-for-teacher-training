@@ -68,9 +68,9 @@ module CandidateInterface
     end
 
     def degree_required
-      return unless candidate.application_forms.any?(&:degrees_completed?)
+      return unless candidate.application_forms.exists?(degrees_completed: true)
 
-      candidate_degree_grades = candidate.application_forms.flat_map(&:degree_qualifications).map(&:grade)
+      candidate_degree_grades = candidate.degree_qualifications.pluck(:grade)
 
       return 'not_required' if candidate_degree_grades.empty?
 
