@@ -8,6 +8,7 @@ module CandidateInterface
       new(candidate:, locatable:).recommended_courses_url
     end
 
+    # @param [Provider, Site, ApplicationForm] locatable
     def initialize(candidate:, locatable: nil)
       @candidate = candidate
       @locatable = locatable
