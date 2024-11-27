@@ -416,13 +416,74 @@ RSpec.describe CandidateInterface::CoursesRecommender do
 
       context "when the Locatable doesn't have all the location data" do
         it 'does not set the any of the parameters' do
-          locatable = instance_double(Provider, latitude: nil, longitude: 0.1278, postcode: "SW1A 1AA")
+          locatable = instance_double(Provider, latitude: nil, longitude: 0.1278, postcode: 'SW1A 1AA')
           candidate = create(:candidate)
 
           recommended_courses_url = described_class.recommended_courses_url(candidate:, locatable: locatable)
 
           expect(recommended_courses_url).to be_nil
         end
+      end
+    end
+
+    context 'a mixture of scenarios' do
+      it 'sets the parameters to the correct values' do
+        right_to_work_or_study = 'no'
+        personal_details_completed = false
+        course_option = create(:course_option, study_mode: :full_time)
+
+        candidate = create(:candidate)
+        application_form = create(:application_form,
+                                  application_choices: [],
+                                  candidate:,
+                                  right_to_work_or_study:,
+                                  personal_details_completed:)
+        _application_choices = create(:application_choice, :awaiting_provider_decision, application_form:, course_option:)
+
+        uri = URI(described_class.recommended_courses_url(candidate:))
+        query_parameters = Rack::Utils.parse_query(uri.query)
+
+        expect(query_parameters['study_type']).to eq('full_time')
+
+        expect(query_parameters).not_to have_key('can_sponsor_visa')
+        expect(query_parameters).not_to have_key('degree_required')
+        expect(query_parameters).not_to have_key('radius')
+        expect(query_parameters).not_to have_key('latitude')
+        expect(query_parameters).not_to have_key('longitude')
+
+        expect(query_parameters).to have_key('funding_type') # mystery guest from the Course on the Application Choice
+        expect(query_parameters).to have_key('qualification') # mystery guest from the Course on the Application Choice
+        expect(query_parameters).to have_key('subjects[]') # mystery guest from the Course on the Application Choice
+      end
+
+      it 'sets the parameters to the correct values with a locatable' do
+        right_to_work_or_study = 'no'
+        personal_details_completed = false
+        locatable = instance_double(Provider, latitude: 51.5074, longitude: 0.1278, postcode: 'SW1A 1AA')
+        course_option = create(:course_option, study_mode: :full_time)
+
+        candidate = create(:candidate)
+        application_form = create(:application_form,
+                                  application_choices: [],
+                                  candidate:,
+                                  right_to_work_or_study:,
+                                  personal_details_completed:)
+        _application_choices = create(:application_choice, :awaiting_provider_decision, application_form:, course_option:)
+
+        uri = URI(described_class.recommended_courses_url(candidate:, locatable:))
+        query_parameters = Rack::Utils.parse_query(uri.query)
+
+        expect(query_parameters['radius']).to eq('10')
+        expect(query_parameters['latitude']).to eq('51.5074')
+        expect(query_parameters['longitude']).to eq('0.1278')
+        expect(query_parameters['study_type']).to eq('full_time')
+
+        expect(query_parameters).not_to have_key('can_sponsor_visa')
+        expect(query_parameters).not_to have_key('degree_required')
+
+        expect(query_parameters).to have_key('funding_type') # mystery guest from the Course on the Application Choice
+        expect(query_parameters).to have_key('qualification') # mystery guest from the Course on the Application Choice
+        expect(query_parameters).to have_key('subjects[]') # mystery guest from the Course on the Application Choice
       end
     end
   end
