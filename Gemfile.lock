@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: 15208a10476428d645f69b184f18eba6cd1b6213
-  tag: v1.15.0
+  revision: 7618b23697e91ab1ababee5234faaa260f6c873e
+  tag: v1.15.1
   specs:
-    dfe-analytics (1.15.0)
+    dfe-analytics (1.15.1)
       google-cloud-bigquery (~> 1.38)
       httparty (~> 0.21)
       multi_xml (~> 0.6.0)
@@ -443,7 +443,7 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.4.1)
-    mutex_m (0.2.0)
+    mutex_m (0.3.0)
     nenv (0.3.0)
     net-imap (0.5.0)
       date
