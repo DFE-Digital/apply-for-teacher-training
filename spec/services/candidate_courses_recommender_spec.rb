@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::CoursesRecommender do
+RSpec.describe CandidateCoursesRecommender do
   describe '.recommended_courses_url' do
     it 'returns nil when there is no recommendations' do
       candidate = build(:candidate)
