@@ -1,4 +1,8 @@
 OmniAuth.config.logger = Rails.logger
+require 'omniauth/strategies/govuk_one_login_openid_connect'
+require 'omniauth/onelogin_setup'
+
+OmniAuth.config.add_camelization('govuk_one_login_openid_connect', 'GovukOneLoginOpenIDConnect')
 
 dfe_sign_in_identifier = ENV['DFE_SIGN_IN_CLIENT_ID']
 dfe_sign_in_secret = ENV['DFE_SIGN_IN_SECRET']
@@ -40,4 +44,8 @@ if DfESignIn.bypass?
   end
 else
   Rails.application.config.middleware.use OmniAuth::Strategies::OpenIDConnect, options
+end
+
+Rails.application.config.middleware.use OmniAuth::Builder do |builder|
+  OneloginSetup.configure(builder)
 end

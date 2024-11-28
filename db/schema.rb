@@ -14,8 +14,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_21_144711) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
-  enable_extension "plpgsql"
   enable_extension "unaccent"
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -616,6 +616,15 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_21_144711) do
     t.index ["application_choice_id"], name: "index_offers_on_application_choice_id"
   end
 
+  create_table "one_login_auths", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "token", null: false
+    t.bigint "candidate_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_id"], name: "index_one_login_auths_on_candidate_id"
+  end
+
   create_table "other_efl_qualifications", force: :cascade do |t|
     t.string "name", null: false
     t.string "grade", null: false
@@ -901,6 +910,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_21_144711) do
   add_foreign_key "notes", "application_choices", on_delete: :cascade
   add_foreign_key "offer_conditions", "offers", on_delete: :cascade
   add_foreign_key "offers", "application_choices", on_delete: :cascade
+  add_foreign_key "one_login_auths", "candidates"
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
   add_foreign_key "provider_recruitment_performance_reports", "providers"

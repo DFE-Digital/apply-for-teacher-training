@@ -326,6 +326,13 @@ shared:
     - created_at
     - id
     - updated_at
+  one_login_auths:
+    - id
+    - email
+    - token
+    - candidate_id
+    - created_at
+    - updated_at
   other_efl_qualifications:
     - award_year
     - created_at
