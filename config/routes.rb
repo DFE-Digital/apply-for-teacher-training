@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get '/auth/onelogin/sign-out', to: 'one_login#sign_out'
   get '/auth/onelogin/sign-out-complete', to: 'one_login#sign_out_complete'
   get 'auth/onelogin/logout', to: 'sessions#logout', as: 'logout_onelogin'
+  get 'auth/failure', to: 'one_login#failure'
 
   direct :find do
     if HostingEnvironment.sandbox_mode?

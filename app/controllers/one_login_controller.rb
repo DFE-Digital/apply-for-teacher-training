@@ -26,4 +26,12 @@ class OneLoginController < ApplicationController
     flash[:warning] = saved_flash_state[:warning] if saved_flash_state[:warning].present?
     redirect_to candidate_interface_create_account_or_sign_in_path
   end
+
+  def failure
+    Sentry.capture_message("One login failure with #{params[:message]} for onelogin_id_token: #{session[:onelogin_id_token]}")
+    reset_session
+
+    flash[:warning] = 'We cannot log you in, please contact support'
+    redirect_to candidate_interface_create_account_or_sign_in_path
+  end
 end
