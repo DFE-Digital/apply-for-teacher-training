@@ -15,8 +15,8 @@
     <p class="govuk-body">The reasons you select may be shared with <%= @provider.name %>. They will receive these reasons as anonymous feedback so they will not know it was you.</p>
 
     <%= f.govuk_check_boxes_fieldset :selected_reasons, legend: { text: 'Why are you withdrawing this application? (optional)', size: 'm' }, hint: { text: 'Select all that apply.' }, form_group: { classes: 'govuk-!-margin-bottom-4' } do %>
-      <% @withdrawal_feedback_form.selectable_reasons.each do |reason| %>
-        <%= f.govuk_check_box :selected_reasons, reason[:id], label: { text: reason[:label] }, link_errors: true %>
+      <% @withdrawal_feedback_form.selectable_reasons.each_with_index do |reason, index| %>
+        <%= f.govuk_check_box :selected_reasons, reason[:id], label: { text: reason[:label] }, link_errors: index.zero? %>
       <% end %>
     <% end %>
 

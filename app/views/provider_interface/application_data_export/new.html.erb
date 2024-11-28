@@ -17,8 +17,8 @@
       </h1>
 
       <%= f.govuk_check_boxes_fieldset :recruitment_cycle_years, legend: { text: 'Recruitment cycle', size: 'm' } do %>
-        <% RecruitmentCycle.years_visible_to_providers.each do |year| %>
-          <%= f.govuk_check_box :recruitment_cycle_years, year.to_s, label: { text: RecruitmentCycle.cycle_string(year) }, link_errors: true %>
+        <% RecruitmentCycle.years_visible_to_providers.each_with_index do |year, index| %>
+          <%= f.govuk_check_box :recruitment_cycle_years, year.to_s, label: { text: RecruitmentCycle.cycle_string(year) }, link_errors: index.zero? %>
         <% end %>
       <% end %>
 

@@ -10,12 +10,12 @@
 <p class="govuk-body"> <%= t('gcse_edit_enic.enic_cost') %></p>
 
 <%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.label'), size: 'm' } do %>
-  <% ApplicationQualification.enic_reasons.keys.each do |enic_reason| %>
+  <% ApplicationQualification.enic_reasons.keys.each_with_index do |enic_reason, index| %>
     <%= f.govuk_radio_button(
       :enic_reason,
       enic_reason,
       label: { text: t("application_form.degree.enic_statement.#{enic_reason}") },
-      link_errors: true,
+      link_errors: index.zero?,
     ) %>
   <% end %>
 <% end %>
