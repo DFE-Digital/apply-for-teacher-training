@@ -17,18 +17,18 @@
       <% end %>
 
       <%= f.govuk_check_boxes_fieldset :selected_reasons, legend: -> { content_for(:fieldset_legend) }, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
-        <% @wizard.selectable_reasons(@application_choice).each do |reason| %>
-          <%= f.govuk_check_box :selected_reasons, reason.id, label: { text: reason.label }, link_errors: true do %>
+        <% @wizard.selectable_reasons(@application_choice).each_with_index do |reason, index| %>
+          <%= f.govuk_check_box :selected_reasons, reason.id, label: { text: reason.label }, link_errors: index.zero? do %>
             <% if reason.details.present? %>
               <%= f.govuk_text_area reason.details.id.to_sym,
                   label: { text: safe_join([reason.details.label, ' ', tag.span(reason.details.visually_hidden, class: 'govuk-visually-hidden')]), size: 's' }, max_words: RejectionReasons::Details::MAX_WORDS %>
             <% elsif reason.reasons&.any? %>
               <%= f.govuk_check_boxes_fieldset reason.selected_reasons_attr_name, legend: { text: safe_join(['Reasons', ' ', tag.span(reason.reasons_visually_hidden, class: 'govuk-visually-hidden')]), size: 's' } do %>
-                <% reason.reasons.each do |nested_reason| %>
+                <% reason.reasons.each_with_index  do |nested_reason, index| %>
                   <%= f.govuk_check_box reason.selected_reasons_attr_name,
                     nested_reason.id,
                     label: { text: nested_reason.label },
-                    link_errors: true do %>
+                    link_errors: index.zero? do %>
                     <% if nested_reason.details.present? %>
                       <%= f.govuk_text_area nested_reason.details.id.to_sym,
                         label: {
