@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Carry after find opens but before apply opens' do
   include CandidateHelper
 
-  scenario 'candidate carries over application', time: mid_cycle(RecruitmentCycle.current_year) do
+  scenario 'candidate carries over application', time: mid_cycle do
     given_i_have_an_unsubmitted_application
     and_find_has_opened_but_apply_has_not
     and_a_course_exists
@@ -69,7 +69,7 @@ private
   end
 
   def and_i_cannot_submit_my_applications
-    expect(page).to have_content 'Not submitted yet'
+    expect(page).to have_content 'Draft'
     expect(page).to have_content 'This course is not yet open to applications.'
     click_on 'Your applications'
     expect(page).to have_content 'Draft'

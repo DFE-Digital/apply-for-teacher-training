@@ -15,23 +15,19 @@ module CandidateInterface
     def colour
       case application_choice.status
       when 'unsubmitted'
-        'grey'
-      when 'awaiting_provider_decision', 'interviewing'
-        'purple'
-      when 'offer'
-        'turquoise'
-      when 'rejected', 'offer_withdrawn', 'application_not_sent'
-        'pink'
-      when 'pending_conditions'
         'blue'
-      when 'recruited'
-        'green'
-      when 'declined', 'withdrawn', 'cancelled'
-        'orange'
-      when 'conditions_not_met'
+      when 'awaiting_provider_decision'
+        'purple'
+      when 'conditions_not_met', 'declined', 'cancelled'
         'red'
-      when 'offer_deferred', 'inactive'
+      when 'offer', 'pending_conditions', 'recruited'
+        'green'
+      when 'offer_withdrawn'
+        'pink'
+      when 'offer_deferred', 'interviewing', 'inactive'
         'yellow'
+      when 'withdrawn', 'application_not_sent', 'rejected'
+        'orange'
       else
         raise "You need to define a colour for the #{status} state"
       end

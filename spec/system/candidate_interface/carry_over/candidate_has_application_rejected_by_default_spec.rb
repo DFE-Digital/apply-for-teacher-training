@@ -33,7 +33,7 @@ RSpec.describe 'Candidate has an application where provider does not make a deci
       and_the_apply_deadline_has_passed
       when_i_sign_in
       and_i_navigate_to_my_applications
-      then_i_see_my_application_is_awaiting_provider_decision
+      then_i_see_my_application_is_inactive
       then_i_cannot_carry_over_my_application
 
       when_i_visit_the_start_carry_over_page_directly
@@ -98,6 +98,11 @@ private
   def then_i_see_my_application_is_awaiting_provider_decision
     expect(page).to have_current_path candidate_interface_application_choices_path
     expect(page).to have_content 'Awaiting decision'
+  end
+
+  def then_i_see_my_application_is_inactive
+    expect(page).to have_current_path candidate_interface_application_choices_path
+    expect(page).to have_content 'Inactive'
   end
 
   def then_i_see_my_application_is_interviewing
