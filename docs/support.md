@@ -15,6 +15,7 @@ Things that a support dev does:
 - Looking at Sentry errors
 - Perform dev-only tasks like running scripts on production
 - Improve the [support playbook](support_playbook.md)
+- Merge Dependabot updates and fix minor issues, create Trello cards for more complex ones when necessary
 
 And not:
 
