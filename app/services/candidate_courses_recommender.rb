@@ -36,18 +36,18 @@ private
   def build_query_parameters
     params = {}
 
-    params[:can_sponsor_visa] = can_sponsor_visa if can_sponsor_visa
+    params[:can_sponsor_visa] = can_sponsor_visa
     # May need to be converted to use the API
-    params[:degree_required] = degree_required if degree_required
-    params[:funding_type] = funding_type if funding_type
-    params[:qualification] = qualification if qualification
-    params[:study_type] = study_type if study_type
+    params[:degree_required] = degree_required
+    params[:funding_type] = funding_type
+    params[:qualification] = qualification
+    params[:study_type] = study_type
     # May need to be converted to use the API
-    params[:subjects] = subjects if subjects
+    params[:subjects] = subjects
     # May need to be converted to use the API
     params.merge!(location_params)
 
-    params
+    params.compact_blank
   end
 
   def can_sponsor_visa
