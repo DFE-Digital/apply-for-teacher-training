@@ -5,7 +5,7 @@ module CandidateInterface
     attr_accessor :previous_account_email
     attr_reader :current_candidate, :previous_candidate
 
-    validates :previous_account_email, presence: true
+    validates :previous_account_email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
     validate :email_different_from_current_candidate, if: -> { previous_candidate.present? }
 
     def initialize(current_candidate:, previous_account_email: nil)

@@ -6,15 +6,6 @@ module CandidateInterface
       @account_recovery = CandidateInterface::AccountRecoveryForm.new(current_candidate:)
     end
 
-    ### Background logout for one login
-    ### If the user logs out of one login will they be logged out of apply?
-
-    ### To do:
-    ### Deploy to review
-    ### Setup review env with one login keys
-    ### Setup review env test notify key
-    ### Do we need to setup accounts for people on review?
-
     def create
       @account_recovery = CandidateInterface::AccountRecoveryForm.new(
         current_candidate:,
