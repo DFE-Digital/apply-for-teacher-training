@@ -1,4 +1,10 @@
 <% content_for :title, 'Recover your account' %>
+<% content_for :before_content do %>
+  <%= govuk_back_link(
+    text: 'Back',
+    href: candidate_interface_details_path,
+  ) %>
+<% end %>
 
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
   Recover your Account

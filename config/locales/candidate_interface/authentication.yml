@@ -41,3 +41,8 @@ en:
             code:
               blank: Enter the unique code we have sent to your email address
               invalid: The unique code is invalid or has expired
+        candidate_interface/account_recovery_request_form:
+          attributes:
+            previous_account_email:
+              blank: Enter an email address
+              invalid: Enter an email address in the correct format, like name@example.com

@@ -22,7 +22,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_25_145219) do
     t.integer "code", null: false
     t.bigint "candidate_id", null: false
     t.string "previous_account_email", null: false
-    t.boolean "successful", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["candidate_id"], name: "index_account_recovery_requests_on_candidate_id"
@@ -395,6 +394,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_25_145219) do
     t.boolean "submission_blocked", default: false, null: false
     t.boolean "account_locked", default: false, null: false
     t.boolean "dismiss_recovery", default: false
+    t.boolean "recovered", default: false
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
     t.index ["fraud_match_id"], name: "index_candidates_on_fraud_match_id"
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true

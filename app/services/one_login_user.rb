@@ -22,7 +22,11 @@ class OneLoginUser
       candidate = one_login_auth.candidate
     elsif existing_candidate
       if existing_candidate.one_login_auth.present?
-        error = Error.new('Candidate has one login attached, contact support')
+        error = Error.new('Candidate has one login attached, contact support') ## RAISE EXCEPTIONS
+        raise 'Candidate has one login attached, contact support'
+        ## This can happen if a user has 2 one login accounts and 2 apply accounts
+        ## Then they 'recover' one account, recovering an account changes the one_login_auth association
+        ## Should we not allow recover if a candidate has a one_login_auth? YES!
       else
         existing_candidate.create_one_login_auth(token:, email:) # find_or_create?
         candidate = existing_candidate
@@ -32,6 +36,7 @@ class OneLoginUser
       candidate.create_one_login_auth(token:, email:)
     else
       error = Error.new('We cannot authentificate you, contact support')
+      raise 'We cannot authentificate you, contact support'
     end
 
     [candidate, error]

@@ -528,11 +528,6 @@ en:
         pg_teaching_apprenticeship: Postgraduate teaching apprenticeship
     errors:
       models:
-        account_recovery_request:
-          attributes:
-            previous_account_email:
-              blank: Enter an email address
-              invalid: Enter an email address in the correct format, like name@example.com
         candidate:
           attributes:
             email_address:

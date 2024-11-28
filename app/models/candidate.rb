@@ -99,10 +99,6 @@ class Candidate < ApplicationRecord
     ).delete_all
   end
 
-  def recovered?
-    account_recovery_request&.successful?
-  end
-
 private
 
   def downcase_email

@@ -9,6 +9,7 @@ shared:
     - magic_link_token_sent_at
     - sign_up_email_bounced
     - dismiss_recovery
+    - recovered
     - updated_at
   application_choices:
     - created_at
@@ -52,7 +53,6 @@ shared:
     - code
     - candidate_id
     - previous_account_email
-    - successful
     - created_at
     - updated_at
   application_experiences:
