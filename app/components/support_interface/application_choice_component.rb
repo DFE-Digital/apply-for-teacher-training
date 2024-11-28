@@ -25,6 +25,7 @@ module SupportInterface
         vendor_api_row,
         register_api_row,
         interviews_row,
+        recommendations_row,
       ].compact
     end
 
@@ -152,6 +153,18 @@ module SupportInterface
       end
 
       { key: 'Interviews', value: interview_blocks }
+    end
+
+    def recommendations_row
+      return unless application_choice.submitted?
+
+      key = 'Recommended courses'
+      recommended_courses_url = CandidateCoursesRecommender.recommended_courses_url(candidate: application_choice.candidate, locatable: application_choice.provider).presence
+      value = govuk_link_to(recommended_courses_url, class: 'govuk-link govuk-link--no-visited-state', target: '_blank', rel: 'noopener') do
+        "Recommended courses (based on #{application_choice.provider.name} location)"
+      end
+
+      { key:, value: }
     end
 
     def rejection_reasons_text

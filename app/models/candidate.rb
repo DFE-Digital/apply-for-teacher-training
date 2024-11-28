@@ -15,6 +15,7 @@ class Candidate < ApplicationRecord
   validates :email_address, presence: true, length: { maximum: 100 }, valid_for_notify: true
 
   has_many :application_forms
+  has_many :degree_qualifications, through: :application_forms
   has_many :application_choices, through: :application_forms
   has_many :application_references, through: :application_forms
   belongs_to :course_from_find, class_name: 'Course', optional: true

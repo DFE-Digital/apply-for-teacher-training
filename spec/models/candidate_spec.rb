@@ -5,6 +5,11 @@ RSpec.describe Candidate do
     TestSuiteTimeMachine.unfreeze!
   end
 
+  describe 'associations' do
+    it { is_expected.to have_many(:application_forms) }
+    it { is_expected.to have_many(:degree_qualifications).through(:application_forms) }
+  end
+
   describe 'a valid candidate' do
     subject { create(:candidate) }
 
