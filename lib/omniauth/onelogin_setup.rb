@@ -1,8 +1,8 @@
 module OneloginSetup
   def self.configure(builder)
-    public_key = ENV.fetch('GOVUK_LOGIN_PUBLIC_KEY', 'something')
-    onelogin_issuer_uri = URI(ENV.fetch('GOVUK_LOGIN_ISSUER_URL', 'https://website.gov.uk/'))
-    private_key_pem = ENV.fetch('GOVUK_LOGIN_PRIVATE_KEY', 'something')
+    client_id = ENV.fetch('GOVUK_ONE_LOGIN_CLIENT_ID', '')
+    onelogin_issuer_uri = URI(ENV.fetch('GOVUK_ONE_LOGIN_ISSUER_URL', ''))
+    private_key_pem = ENV.fetch('GOVUK_ONE_LOGIN_PRIVATE_KEY', '')
 
     private_key_pem = private_key_pem.gsub('\n', "\n")
     host_env = HostingEnvironment.application_url
@@ -25,7 +25,7 @@ module OneloginSetup
                        token_endpoint: '/oauth2/token',
                        userinfo_endpoint: '/oauth2/userinfo',
                        host: onelogin_issuer_uri.host,
-                       identifier: public_key,
+                       identifier: client_id,
                        port: 443,
                        redirect_uri: "#{host_env}/auth/onelogin/callback",
                        scheme: 'https',
