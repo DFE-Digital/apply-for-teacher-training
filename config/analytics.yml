@@ -8,6 +8,7 @@ shared:
     - last_signed_in_at
     - magic_link_token_sent_at
     - sign_up_email_bounced
+    - dismiss_recovery
     - updated_at
   application_choices:
     - created_at
@@ -46,6 +47,14 @@ shared:
     - withdrawn_or_declined_for_candidate_by_provider
     - structured_withdrawal_reasons
     - school_placement_auto_selected
+  account_recovery_requests:
+    - id
+    - code
+    - candidate_id
+    - previous_account_email
+    - successful
+    - created_at
+    - updated_at
   application_experiences:
     - commitment
     - created_at

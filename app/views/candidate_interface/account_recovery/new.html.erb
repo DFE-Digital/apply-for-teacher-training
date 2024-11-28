@@ -1,0 +1,28 @@
+<% content_for :title, 'Claim your old account' %>
+
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+  Claim your old account
+</h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1><%= AccountRecoveryRequest.last.code %> </h1>
+    <%= form_with model: @account_recovery, url: candidate_interface_account_recovery_create_path do |f| %>
+      <%= f.govuk_error_summary %>
+      <%= f.govuk_text_field :code, label: { text: 'Code', size: 'm' }, width: 20 %>
+
+      <%= f.govuk_submit %>
+    <% end %>
+
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
+      The unique code expired?
+    </h2>
+    <%= govuk_button_to 'Resend code', candidate_interface_account_recovery_requests_path(
+      params: {
+        account_recovery_request: {
+          previous_account_email: current_candidate.account_recovery_request.previous_account_email
+        }
+      }
+    ) %>
+  </div>
+</div>

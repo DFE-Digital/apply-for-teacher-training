@@ -9,15 +9,16 @@ class OneLoginController < ApplicationController
       sign_in(candidate, scope: :candidate)
       candidate.update!(last_signed_in_at: Time.zone.now)
 
-      redirect_to root_path
+      redirect_to root_path # redirect to where the user wanted to go?
     else
       # reset session and logout
       flash[:warning] = error.message
-      redirect_to root_path
+      redirect_to root_path # redirect to sign in page?
     end
   end
 
   def sign_out
+    puts "SIGN OUT"
     id_token = session[:onelogin_id_token] ## save this on the one login auth?
     reset_session
 

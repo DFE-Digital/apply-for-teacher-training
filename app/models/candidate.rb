@@ -18,7 +18,8 @@ class Candidate < ApplicationRecord
   has_many :degree_qualifications, through: :application_forms
   has_many :application_choices, through: :application_forms
   has_many :application_references, through: :application_forms
-  has_one :one_login_auth, dependent: :destroy ## Do we need to enforce this? validate uniq on email on one_login_auth?
+  has_one :one_login_auth, dependent: :destroy
+  has_one :account_recovery_request, dependent: :destroy# does has_one delete old records for new ones?
   belongs_to :course_from_find, class_name: 'Course', optional: true
   belongs_to :duplicate_match, foreign_key: 'fraud_match_id', optional: true
 
@@ -96,6 +97,10 @@ class Candidate < ApplicationRecord
       breakable_id: application_form_ids,
       breakable_type: 'ApplicationForm',
     ).delete_all
+  end
+
+  def recovered?
+    account_recovery_request&.successful?
   end
 
 private

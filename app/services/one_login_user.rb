@@ -7,8 +7,8 @@ class OneLoginUser
     @token = auth.uid
   end
 
-  def self.autoload(request)
-    new(request).call
+  def self.authentificate(request)
+    new(request).authentificate
   end
 
   def authentificate

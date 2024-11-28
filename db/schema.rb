@@ -10,13 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_21_144711) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_25_145219) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
   enable_extension "unaccent"
+
+  create_table "account_recovery_requests", force: :cascade do |t|
+    t.integer "code", null: false
+    t.bigint "candidate_id", null: false
+    t.string "previous_account_email", null: false
+    t.boolean "successful", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_id"], name: "index_account_recovery_requests_on_candidate_id"
+    t.index ["code"], name: "index_account_recovery_requests_on_code", unique: true
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -383,6 +394,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_21_144711) do
     t.boolean "unsubscribed_from_emails", default: false
     t.boolean "submission_blocked", default: false, null: false
     t.boolean "account_locked", default: false, null: false
+    t.boolean "dismiss_recovery", default: false
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
     t.index ["fraud_match_id"], name: "index_candidates_on_fraud_match_id"
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
@@ -889,6 +901,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_21_144711) do
     t.index ["name"], name: "index_vendors_on_name", unique: true
   end
 
+  add_foreign_key "account_recovery_requests", "candidates", on_delete: :cascade
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
@@ -910,7 +923,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_21_144711) do
   add_foreign_key "notes", "application_choices", on_delete: :cascade
   add_foreign_key "offer_conditions", "offers", on_delete: :cascade
   add_foreign_key "offers", "application_choices", on_delete: :cascade
-  add_foreign_key "one_login_auths", "candidates"
+  add_foreign_key "one_login_auths", "candidates", on_delete: :cascade
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
   add_foreign_key "provider_recruitment_performance_reports", "providers"

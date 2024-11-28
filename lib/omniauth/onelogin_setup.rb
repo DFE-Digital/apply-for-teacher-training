@@ -35,6 +35,7 @@ module OneloginSetup
                      issuer: onelogin_issuer_uri.to_s,
                      path_prefix: '/auth',
                      post_logout_redirect_uri: "#{host_env}/auth/onelogin/sign-out-complete",
+                     back_channel_logout_uri: "#{host_env}/auth/onelogin/sign-out",
                      response_type: :code,
                      scope: %w[email openid]
   end
