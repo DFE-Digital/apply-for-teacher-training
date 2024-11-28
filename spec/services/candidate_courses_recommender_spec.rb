@@ -8,30 +8,6 @@ RSpec.describe CandidateCoursesRecommender do
       expect(described_class.recommended_courses_url(candidate:)).to be_nil
     end
 
-    #   expect(query_parameters).to eq({
-    #     'can_sponsor_visa' => 'true',
-    #     'degree_required' => 'show_all_courses', # show_all_courses two_two third_class not_required
-    #     'funding_type' => 'salary,apprenticeship,fee',
-    #     'latitude' => '', # for location
-    #     'longitude' => '', # for location
-    #     'qualification[]' => %w[
-    #       pgde
-    #       pgce
-    #       pgce_with_qts
-    #       pgde_with_qts
-    #       qts
-    #     ],
-    #     'radius' => '20', # for location
-    #     'study_type[]' => %w[
-    #       full_time
-    #       part_time
-    #     ],
-    #     'subjects[]' => %w[
-    #       00
-    #       01
-    #     ], # subject codes
-    #   })
-
     describe "the 'can_sponsor_visa' parameter" do
       context 'when the Candidate has not completed their Personal Details' do
         it 'does not recommend courses' do
@@ -409,6 +385,7 @@ RSpec.describe CandidateCoursesRecommender do
           query_parameters = Rack::Utils.parse_query(uri.query)
 
           expect(query_parameters['radius']).to eq('10')
+          expect(query_parameters['sortby']).to eq('distance')
           expect(query_parameters['latitude']).to eq('51.5074')
           expect(query_parameters['longitude']).to eq('0.1278')
         end
@@ -450,6 +427,7 @@ RSpec.describe CandidateCoursesRecommender do
         expect(query_parameters).not_to have_key('radius')
         expect(query_parameters).not_to have_key('latitude')
         expect(query_parameters).not_to have_key('longitude')
+        expect(query_parameters).not_to have_key('sortby')
 
         expect(query_parameters).to have_key('funding_type') # mystery guest from the Course on the Application Choice
         expect(query_parameters).to have_key('qualification') # mystery guest from the Course on the Application Choice
@@ -476,6 +454,7 @@ RSpec.describe CandidateCoursesRecommender do
         expect(query_parameters['radius']).to eq('10')
         expect(query_parameters['latitude']).to eq('51.5074')
         expect(query_parameters['longitude']).to eq('0.1278')
+        expect(query_parameters['sortby']).to eq('distance')
         expect(query_parameters['study_type']).to eq('full_time')
 
         expect(query_parameters).not_to have_key('can_sponsor_visa')

@@ -145,6 +145,7 @@ private
       latitude: locatable&.latitude,
       longitude: locatable&.longitude,
       radius: '10',
+      sortby: 'distance',
     }
     return {} unless location_params.values.all?(&:present?)
 
