@@ -37,7 +37,7 @@ jobs:
 
           source global_config/review_aks.sh
 
-          echo "STORAGE_ACCOUNT_RG=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-rg >> $GITHUB_ENV
+          echo "STORAGE_ACCOUNT_RG=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-rg" >> $GITHUB_ENV
           echo "STORAGE_ACCOUNT_NAME=${RESOURCE_NAME_PREFIX}${SERVICE_SHORT}tfstate${CONFIG_SHORT}sa" >> $GITHUB_ENV
 
       - uses: azure/login@v2
