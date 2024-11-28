@@ -40,7 +40,6 @@ private
     # May need to be converted to use the API
     params[:degree_required] = degree_required
     params[:funding_type] = funding_type
-    params[:qualification] = qualification
     params[:study_type] = study_type
     # May need to be converted to use the API
     params[:subjects] = subjects
@@ -91,22 +90,6 @@ private
 
     # salary,apprenticeship,fee
     funding_types.join(',')
-  end
-
-  def qualification
-    # Does the Candidate have any submitted Applications?
-    return unless candidate.application_choices.exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
-
-    # What Course qualification types has the Candidate applied for?
-    qualifications = candidate.application_choices.where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
-                              .joins(course_option: :course)
-                              .pluck('courses.qualifications')
-                              .flatten
-                              .compact_blank
-                              .uniq
-                              .sort
-    # pgde,pgce,pgce_with_qts,pgde_with_qts,qts
-    qualifications.join(',')
   end
 
   def study_type
