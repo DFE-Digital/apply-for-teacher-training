@@ -174,6 +174,7 @@ RSpec.describe RejectionReasons do
   describe '.translated_error' do
     it 'provides the error message for the given key' do
       expect(described_class.translated_error(:qualifications_selected_reasons)).to eq('Select reasons related to qualifications')
+      expect(described_class.translated_error(:school_placement_selected_reasons)).to eq 'Select reasons related to school placements'
     end
 
     it 'provides the error message for the given key and error type' do

@@ -14,6 +14,7 @@ en:
             personal_statement_selected_reasons: Select reasons related to personal statement
             teaching_knowledge_selected_reasons: Select reasons related to teaching knowledge, ability and interview performance
             communication_and_scheduling_selected_reasons: Select reasons related to communication, interview attendance and scheduling
+            school_placement_selected_reasons: Select reasons related to school placements
             unsuitable_degree_details:
               blank: Enter details about how the degree does not meet course requirements
               size: Details about how the degree does not meet course requirements must be 200 words or fewer
