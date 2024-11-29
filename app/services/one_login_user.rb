@@ -29,7 +29,7 @@ private
   end
 
   def existing_candidate_without_one_login(existing_candidate)
-    if existing_candidate.one_login_auth&.token != token
+    if existing_candidate.one_login_auth.present? && existing_candidate.one_login_auth.token != token
       raise(
         Error,
         "Candidate #{existing_candidate.id} has a different one login " \
