@@ -1,4 +1,10 @@
 <% content_for :title, 'Claim your old account' %>
+<% content_for :before_content do %>
+  <%= govuk_back_link(
+    text: 'Back',
+    href: new_candidate_interface_account_recovery_request_path,
+  ) %>
+<% end %>
 
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
   Claim your old account
@@ -6,6 +12,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+     <p class="govuk-body">
+       We have emailed a code to this address, this code will expire in 1 hour.
+     </p>
+     <p class="govuk-body">
+      If you haven't received it or it expired you can resend the code.
+     </p>
+
     <%= form_with model: @account_recovery, url: candidate_interface_account_recovery_create_path do |f| %>
       <%= f.govuk_error_summary %>
       <%= f.govuk_text_field :code, label: { text: 'Code', size: 'm' }, width: 20 %>
