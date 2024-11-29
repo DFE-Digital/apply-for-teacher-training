@@ -4,6 +4,8 @@ class AccountRecoveryRequest < ApplicationRecord
 
   validates :code, presence: true
 
+  normalizes :previous_account_email, with: ->(email) { email.downcase.strip }
+
   def self.generate_code
     code = SecureRandom.random_number(100_000..999_999)
     AccountRecoveryRequest.generate_code while AccountRecoveryRequest.exists?(code:)

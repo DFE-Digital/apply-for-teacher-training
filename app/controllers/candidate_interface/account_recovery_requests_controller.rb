@@ -16,18 +16,13 @@ module CandidateInterface
       if @account_recovery_request.save
         if permitted_params[:resend_pressed]
           flash[:success] = "A new code has been sent to #{permitted_params[:previous_account_email]}"
-          redirect_path = candidate_interface_account_recovery_new_path
-        else
-          redirect_path = candidate_interface_account_recovery_requests_confirm_path
         end
 
-        redirect_to redirect_path
+        redirect_to candidate_interface_account_recovery_new_path
       else
         render :new
       end
     end
-
-    def confirm; end
 
   private
 

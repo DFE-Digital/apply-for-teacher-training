@@ -9,7 +9,7 @@ module CandidateInterface
     validate :email_different_from_current_candidate, if: -> { previous_candidate.present? }
 
     def initialize(current_candidate:, previous_account_email: nil)
-      self.previous_account_email = previous_account_email
+      self.previous_account_email = previous_account_email&.downcase&.strip
       @current_candidate = current_candidate
     end
 
