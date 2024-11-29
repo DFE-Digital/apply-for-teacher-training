@@ -2,7 +2,7 @@
   <%= govuk_link_to view_application_path do %>
     <div class="app-application-item__body">
       <div class="app-application-item__status_tag">
-        <%= render(CandidateInterface::ApplicationChoiceStatusTagComponent.new(application_choice:, display_info_text: false)) %>
+        <%= render(CandidateInterface::ApplicationStatusTagComponent.new(application_choice:, display_info_text: false)) %>
       </div>
       <div class="app-application-item__details">
         <div class="app-application-item__provider_id">

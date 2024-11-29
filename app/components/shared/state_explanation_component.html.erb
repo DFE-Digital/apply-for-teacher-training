@@ -10,8 +10,8 @@
         <dd><code><%= govuk_link_to state_name.inspect, api_docs_reference_path(anchor: 'applicationattributes-object') %></code></dd>
         <% if ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.include?(state_name.to_sym) %>
           <dt>Appears to candidate as</dd>
-          <% component = CandidateInterface::ApplicationChoiceStatusTagComponent.new(application_choice: Struct.new(:status).new(state_name)) %>
-          <dd><%= govuk_tag(text: t("application_choice_states.#{state_name}"), colour: component.colour) %></dd>
+          <% component = CandidateInterface::ApplicationStatusTagComponent.new(application_choice: Struct.new(:status).new(state_name)) %>
+          <dd><%= govuk_tag(text: t("candidate_application_states.#{state_name}"), colour: component.colour) %></dd>
           <dt>Appears to provider as</dd>
           <% component = ProviderInterface::ApplicationStatusTagComponent.new(application_choice: Struct.new(:status).new(state_name)) %>
           <dd><%= govuk_tag(text: t("provider_application_states.#{state_name}"), colour: component.colour) %></dd>

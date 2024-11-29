@@ -163,7 +163,7 @@ private
         application_choice_id: application_choice.id,
       ),
     )
-    expect(page).to have_content 'Not submitted yet'
+    expect(page).to have_content 'Draft'
   end
 
   def when_i_complete_the_rest_of_my_details

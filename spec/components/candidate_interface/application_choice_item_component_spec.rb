@@ -7,7 +7,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceItemComponent do
 
   shared_examples 'application choice item' do
     it 'displays correct message' do
-      expect(rendered.text).to include(t("application_choice_states.#{application_choice.status}"))
+      expect(rendered.text).to include(t("candidate_application_states.#{application_choice.status}"))
       expect(rendered.text).to include(application_choice.current_course.provider.name)
       expect(rendered.text).to include(application_choice.id.to_s)
       expect(rendered.text).to include(application_choice.current_course.name_and_code)
