@@ -137,14 +137,14 @@ private
     # What Course subjects has the Candidate applied for?
     # subject codes
     candidate.application_choices
-             .joins(:application_form)
-             .where(application_form: { recruitment_cycle_year: CycleTimetable.current_year  })
-             .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
-                          .joins(course_option: { course: :subjects })
-                          .pluck('subjects.code')
-                          .compact_blank
-                          .uniq
-                          .sort
+      .joins(:application_form)
+      .where(application_form: { recruitment_cycle_year: CycleTimetable.current_year })
+      .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+      .joins(course_option: { course: :subjects })
+      .pluck('subjects.code')
+      .compact_blank
+      .uniq
+      .sort
   end
 
   def location_params
