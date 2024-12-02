@@ -98,7 +98,7 @@ module CandidateInterface
     end
 
     def next_step(step = current_step)
-      if !reviewing? || (reviewing? && country_changed?)
+      if !reviewing? || country_changed?
         if step == :country && uk?
           :degree_level
         elsif (step == :type && international?) || step == :degree_level
@@ -117,11 +117,9 @@ module CandidateInterface
           :award_year
         elsif step == :award_year && international? && completed?
           :enic
-        elsif step == :enic && international? && enic_reason != HAS_STATEMENT
-          :review
-        elsif step == :enic && international?
+        elsif step == :enic && international? && enic_reason == HAS_STATEMENT
           :enic_reference
-        elsif %i[award_year enic enic_reference].include?(step) # rubocop:disable Lint/DuplicateBranch
+        elsif %i[award_year enic enic_reference].include?(step)
           :review
         else
           Sentry.capture_exception(
