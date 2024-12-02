@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_21_144711) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_02_140158) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
-  enable_extension "plpgsql"
   enable_extension "unaccent"
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -525,6 +525,17 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_21_144711) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_features_on_name", unique: true
+  end
+
+  create_table "field_test_memberships", force: :cascade do |t|
+    t.string "participant_type"
+    t.string "participant_id"
+    t.string "experiment"
+    t.string "variant"
+    t.datetime "created_at"
+    t.boolean "converted", default: false
+    t.index ["experiment", "created_at"], name: "index_field_test_memberships_on_experiment_and_created_at"
+    t.index ["participant_type", "participant_id", "experiment"], name: "index_field_test_memberships_on_participant", unique: true
   end
 
   create_table "find_feedback", force: :cascade do |t|

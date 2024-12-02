@@ -492,3 +492,11 @@ shared:
     - provider_id
     - response_headers
     - created_at
+  field_test_memberships:
+    - id
+    - participant_type
+    - participant_id
+    - experiment
+    - variant
+    - created_at
+    - converted

@@ -1,0 +1,20 @@
+<%= content_for :title, t('page_titles.your_applications') %>
+<% if @tone_of_voice == 'aggressive' %>
+  <p class="govuk-body">
+    Threats worked for you
+  </p>
+<% elsif @tone_of_voice == 'straightforward' %>
+  <p class="govuk-body">
+    Button clicked
+  </p>
+<% elsif @tone_of_voice == 'apologetic' %>
+  <p class="govuk-body">
+    Oh thank you so much, I can't believe you took the time to click the button.
+  </p>
+<% end %>
+
+<%= govuk_button_to(
+         'View tone of voice test results',
+         support_interface_field_test_engine_path,
+         method: :get,
+       ) %>

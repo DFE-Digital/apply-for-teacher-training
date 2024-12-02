@@ -596,6 +596,8 @@ namespace :candidate_interface, path: '/candidate' do
     end
   end
 
+  resources :compare_tests, only: %i[new index create], path: 'compare-tests'
+
   get '/account-locked', to: 'errors#account_locked'
 
   get '/about-the-teacher-training-application-process', to: 'guidance#index', as: :guidance

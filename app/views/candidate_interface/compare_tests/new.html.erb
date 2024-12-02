@@ -1,0 +1,27 @@
+<%= content_for :title, t('page_titles.ab_test_test') %>
+<% if @tone_of_voice == 'aggressive' %>
+  <p class="govuk-body">
+    If don't want to get punched in the face, click the button.
+  </p>
+  <%= govuk_button_to(
+        'Click it, now.',
+        candidate_interface_compare_tests_path,
+        method: :post,
+      ) %>
+
+<% elsif @tone_of_voice == 'straightforward' %>
+  <%= govuk_button_to(
+        'Click the button',
+        candidate_interface_compare_tests_path,
+        method: :post,
+      ) %>
+<% elsif @tone_of_voice == 'apologetic' %>
+  <p class="govuk-body">
+    Sorry for bothering you. If it isn't too much trouble, please click the button.
+  </p>
+  <%= govuk_button_to(
+        'Please click me',
+        candidate_interface_compare_tests_path,
+        method: :post,
+      ) %>
+<% end %>

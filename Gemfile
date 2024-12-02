@@ -154,6 +154,9 @@ gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.15.1'
 # Azure Blob Storage
 gem 'azure-blob'
 
+# AB testing
+gem 'field_test'
+
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.10'
   gem 'rails-erd'

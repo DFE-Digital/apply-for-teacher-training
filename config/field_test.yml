@@ -1,0 +1,10 @@
+experiments:
+  tone_of_voice:
+    variants:
+      - aggressive
+      - straightforward
+      - apologetic
+#   winner: aggressive
+
+exclude:
+  bots: true

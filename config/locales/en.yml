@@ -94,6 +94,7 @@ en:
     undergraduate: undergraduate
     postgraduate: postgraduate
   page_titles:
+    ab_test_test: How does this work?
     your_applications: Your applications
     application_feedback: How can we improve %{section} section?
     application_form: Your application

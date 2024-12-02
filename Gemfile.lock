@@ -178,6 +178,7 @@ GEM
       safely_block (>= 0.4)
     brakeman (6.2.2)
       racc
+    browser (6.1.0)
     builder (3.3.0)
     bullet (8.0.0)
       activesupport (>= 3.0.0)
@@ -294,6 +295,11 @@ GEM
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
+    field_test (0.7.0)
+      activerecord (>= 7)
+      browser (>= 2)
+      railties (>= 7)
+      rice (>= 4.3.3)
     formatador (1.1.0)
     geocoder (1.8.3)
       base64 (>= 0.1.0)
@@ -621,6 +627,7 @@ GEM
       netrc (~> 0.8)
     retriable (3.1.2)
     rexml (3.3.9)
+    rice (4.3.3)
     rouge (4.5.1)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
@@ -870,6 +877,7 @@ DEPENDENCIES
   erb_lint
   factory_bot_rails
   faker (= 2.22.0)
+  field_test
   geocoder
   get_into_teaching_api_client_faraday!
   google-cloud-bigquery
