@@ -71,6 +71,35 @@ docker compose up
 bin/setup
 ```
 
+## Using sanitised production data
+
+You may occasionally want to use data as close to production data as possible, for instance during an incident or when preparing for a large migration.
+
+### 1. Downloading the sanitised data
+
+- Login to azure and request a PIM (speak to infra or a fellow developer for instructions on how to do this)
+- Once the PIM is approved, you can download the file via the azure interface by navigating Storage accounts -> `s189p01attdbbkppdsa` -> Containers (or Blob Containers) -> database-backup -> `att_backup_sanitised.sql.gz` (Warning: these instructions are true at the time of writing, but azure may change the way their interface is laid out and you might have to do some digging)
+- Unzip the file, delete the zip file
+
+### 2. Replacing your database
+
+- run `bin/rails db:drop` and `bin/rails db:create`; do not run migrations
+- run `psql bat_apply_development < ~/Downloads/att_backup_sanitised.sql` (or wherever your downloads end up)
+- make sure you delete the sql file
+
+### 3. Creating a dev-support user
+The production dump won't have a support user for bypassing DFE login, so you'll need to create one before you can login to the application.
+
+```ruby
+
+SupportUser.create!(
+  dfe_sign_in_uid: 'dev-support',
+  email_address: 'support@example.com',
+  first_name: 'Susan',
+  last_name: 'Upport'
+)
+```
+
 ## Running the application
 
 Now that you have the dependencies installed, you can run the application. The application is composed of 5 processes:
