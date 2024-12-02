@@ -51,25 +51,25 @@ private
 
   def can_sponsor_visa
     return unless candidate.application_forms
-                           .where(recruitment_cycle_year: 2025)
+                           .where(recruitment_cycle_year: CycleTimetable.current_year)
                            .exists?(personal_details_completed: true)
 
     # Does the Candidate require Courses to sponsor their visa?
     # Returns true if the Candidate does not have the right to work or study in the UK
     requires_visa = candidate.application_forms
-                             .where(recruitment_cycle_year: 2025)
+                             .where(recruitment_cycle_year: CycleTimetable.current_year)
                              .exists?(right_to_work_or_study: 'no')
     requires_visa.to_s # 'true' or 'false'
   end
 
   def degree_required
     return unless candidate.application_forms
-                           .where(recruitment_cycle_year: 2025)
+                           .where(recruitment_cycle_year: CycleTimetable.current_year)
                            .exists?(degrees_completed: true)
 
     candidate_degree_grades = candidate.degree_qualifications
                                        .joins(:application_form)
-                                       .where(application_form: { recruitment_cycle_year: 2025 })
+                                       .where(application_form: { recruitment_cycle_year: CycleTimetable.current_year })
                                        .pluck(:grade)
 
     return 'not_required' if candidate_degree_grades.empty?
@@ -88,13 +88,13 @@ private
     # Does the Candidate have any submitted Applications?
     return unless candidate.application_choices
                            .joins(:application_form)
-                           .where(application_form: { recruitment_cycle_year: 2025 })
+                           .where(application_form: { recruitment_cycle_year: CycleTimetable.current_year })
                            .exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
 
     # What Course funding types has the Candidate applied for?
     funding_types = candidate.application_choices
                       .joins(:application_form)
-                      .where(application_form: { recruitment_cycle_year: 2025 })
+                      .where(application_form: { recruitment_cycle_year: CycleTimetable.current_year })
                              .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
                              .joins(course_option: :course)
                              .pluck('courses.funding_type')
@@ -110,13 +110,13 @@ private
     # Does the Candidate have any submitted Applications?
     return unless candidate.application_choices
                            .joins(:application_form)
-                           .where(application_form: { recruitment_cycle_year: 2025 })
+                           .where(application_form: { recruitment_cycle_year: CycleTimetable.current_year })
                            .exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
 
     # What Course study types has the Candidate applied for?
     study_modes = candidate.application_choices
                            .joins(:application_form)
-                           .where(application_form: { recruitment_cycle_year: 2025 })
+                           .where(application_form: { recruitment_cycle_year: CycleTimetable.current_year })
                            .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
                            .joins(course_option: :course)
                            .pluck('course_options.study_mode')
@@ -131,14 +131,14 @@ private
     # Does the Candidate have any submitted Applications?
     return unless candidate.application_choices
                            .joins(:application_form)
-                           .where(application_form: { recruitment_cycle_year: 2025 })
+                           .where(application_form: { recruitment_cycle_year: CycleTimetable.current_year })
                            .exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
 
     # What Course subjects has the Candidate applied for?
     # subject codes
     candidate.application_choices
              .joins(:application_form)
-             .where(application_form: { recruitment_cycle_year: 2025 })
+             .where(application_form: { recruitment_cycle_year: CycleTimetable.current_year  })
              .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
                           .joins(course_option: { course: :subjects })
                           .pluck('subjects.code')
