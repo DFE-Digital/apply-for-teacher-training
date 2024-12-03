@@ -115,4 +115,67 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent, type: :componen
       expect(rendered_content).to have_css('h3', text: 'Jane Smith')
     end
   end
+
+  describe 'Confidentiality row' do
+    before do
+      FeatureFlag.activate(:show_reference_confidentiality_status)
+    end
+
+    context 'when the reference is confidential' do
+      before do
+        reference.update(confidential: true, feedback_status: 'feedback_provided')
+        render_inline(described_class.new(reference:, reference_number: 1, editable:))
+      end
+
+      it 'shows that the reference is confidential' do
+        expect(rendered_content).to summarise(
+          key: 'Can this reference be shared with the candidate?',
+          value: 'No, this reference is confidential. Do not share it.',
+        )
+      end
+    end
+
+    context 'when the reference is not confidential' do
+      before do
+        reference.update(confidential: false, feedback_status: 'feedback_provided')
+        render_inline(described_class.new(reference:, reference_number: 1, editable:))
+      end
+
+      it 'shows that the reference is not confidential' do
+        expect(rendered_content).to summarise(
+          key: 'Can this reference be shared with the candidate?',
+          value: 'Yes, if they request it.',
+        )
+      end
+    end
+
+    context 'when feedback has not been provided' do
+      before do
+        reference.update(confidential: true, feedback_status: 'feedback_requested')
+        render_inline(described_class.new(reference:, reference_number: 1, editable:))
+      end
+
+      it 'does not show the confidentiality row' do
+        expect(rendered_content).not_to summarise(
+          key: 'Can this reference be shared with the candidate?',
+          value: 'No, this reference is confidential. Do not share it.',
+        )
+      end
+    end
+
+    context 'when the feature flag is inactive' do
+      before do
+        FeatureFlag.deactivate(:show_reference_confidentiality_status)
+        reference.update(confidential: true, feedback_status: 'feedback_provided')
+        render_inline(described_class.new(reference:, reference_number: 1, editable:))
+      end
+
+      it 'does not show the confidentiality row' do
+        expect(rendered_content).not_to summarise(
+          key: 'Can this reference be shared with the candidate?',
+          value: 'No, this reference is confidential. Do not share it.',
+        )
+      end
+    end
+  end
 end
