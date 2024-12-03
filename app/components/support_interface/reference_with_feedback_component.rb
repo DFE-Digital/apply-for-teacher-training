@@ -44,6 +44,14 @@ module SupportInterface
       reference.name
     end
 
+    def warning_text
+      return unless FeatureFlag.active?(:show_reference_confidentiality_status)
+      return unless reference&.confidential == true
+      return unless reference&.feedback_provided?
+
+      t('support_interface.confidential_warning')
+    end
+
   private
 
     def status_row
