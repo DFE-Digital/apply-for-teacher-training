@@ -96,6 +96,20 @@ jobs:
         sudo rm -rf /usr/local/lib/android || true
         sudo rm -rf /usr/share/dotnet || true
         sudo rm -rf /opt/ghc || true
+        sudo rm -rf /usr/local/.ghcup || true
+        sudo rm -rf /opt/hostedtoolcache/CodeQL || true
+        sudo rm -rf /usr/local/share/boost || true
+        sudo docker image prune --all --force || true
+        sudo apt-get remove -y '^aspnetcore-.*' || true
+        sudo apt-get remove -y '^dotnet-.*' --fix-missing || true
+        sudo apt-get remove -y '^llvm-.*' --fix-missing || true
+        sudo apt-get remove -y 'php.*' --fix-missing || true
+        sudo apt-get remove -y '^mongodb-.*' --fix-missing || true
+        sudo apt-get remove -y '^mysql-.*' --fix-missing || true
+        sudo apt-get remove -y google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri --fix-missing || true
+        sudo apt-get remove -y google-cloud-sdk --fix-missing || true
+        sudo apt-get remove -y google-cloud-cli --fix-missing || true
+        sudo apt-get clean
 
     - name: Sanitise dump
       if: github.event_name == 'schedule'
