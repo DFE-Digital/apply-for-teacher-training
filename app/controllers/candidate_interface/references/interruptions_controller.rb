@@ -9,7 +9,11 @@ module CandidateInterface
         @next_step = return_to_path || candidate_interface_references_relationship_path
 
         return_to_params = return_to_review? ? { return_to: 'review' } : nil
-        @back_link = candidate_interface_references_edit_email_address_path(@reference.id, params: return_to_params)
+        @back_link = if @reference.nil?
+                       candidate_interface_references_review_path
+                     else
+                       candidate_interface_references_edit_email_address_path(@reference.id, params: return_to_params)
+                     end
       end
     end
   end
