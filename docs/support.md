@@ -11,11 +11,13 @@ We've got 2 important documents:
 
 Things that a support dev does:
 
-- Unblock support agents by answering questions
+- Unblock support agents by resolving issues raised on the support Trello board
+- Monitor the main Slack channels and resolve or card up support issues
 - Looking at Sentry errors
 - Perform dev-only tasks like running scripts on production
 - Improve the [support playbook](support_playbook.md)
 - Merge Dependabot updates and fix minor issues, create Trello cards for more complex ones when necessary
+- Monitor vendor Slack channels for issues and triage them as appropriate
 
 And not:
 
