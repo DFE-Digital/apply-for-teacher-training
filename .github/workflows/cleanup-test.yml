@@ -1,0 +1,68 @@
+name: Disk cleanup test
+
+on:
+  push:
+    branches:
+      - cleanup-tests
+
+jobs:
+  cleanup:
+    name: Disk cleanup
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Disk cleanup
+      shell: bash
+      run: |
+        echo "Disk space before cleanup:"
+        df -h
+        sudo rm -rf /usr/local/lib/android || true
+        sudo rm -rf /usr/share/dotnet || true
+        sudo rm -rf /opt/ghc || true
+        sudo rm -rf /usr/local/.ghcup || true
+        sudo rm -rf /opt/hostedtoolcache/CodeQL || true
+        sudo rm -rf /usr/local/share/boost || true
+        sudo docker image prune --all --force || true
+        sudo apt-get remove -y '^aspnetcore-.*' || true
+        sudo apt-get remove -y '^dotnet-.*' --fix-missing || true
+        sudo apt-get remove -y '^llvm-.*' --fix-missing || true
+        sudo apt-get remove -y 'php.*' --fix-missing || true
+        sudo apt-get remove -y '^mongodb-.*' --fix-missing || true
+        sudo apt-get remove -y '^mysql-.*' --fix-missing || true
+        sudo apt-get remove -y google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri --fix-missing || true
+        sudo apt-get remove -y google-cloud-sdk --fix-missing || true
+        sudo apt-get remove -y google-cloud-cli --fix-missing || true
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"/PyPy || true
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"/Python || true
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"/go || true
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"/node || true
+        sudo apt-get autoremove -y || true
+        sudo apt-get clean
+        echo "Disk space after cleanup:"
+        df -h
+        gzip --help
+
+    # - name: Disk cleanup 2
+    #   shell: bash
+    #   run: |
+    #     echo "Disk space before cleanup 2:"
+    #     df -h
+    #     sudo rm -rf "$AGENT_TOOLSDIRECTORY"/PyPy || true
+    #     sudo rm -rf "$AGENT_TOOLSDIRECTORY"/Python || true
+    #     sudo rm -rf "$AGENT_TOOLSDIRECTORY"/go || true
+    #     sudo rm -rf "$AGENT_TOOLSDIRECTORY"/node || true
+    #     sudo apt-get autoremove -y || true
+    #     echo "Disk space after cleanup 2:"
+    #     df -h
