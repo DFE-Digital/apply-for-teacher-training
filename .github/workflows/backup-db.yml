@@ -109,6 +109,11 @@ jobs:
         sudo apt-get remove -y google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri --fix-missing || true
         sudo apt-get remove -y google-cloud-sdk --fix-missing || true
         sudo apt-get remove -y google-cloud-cli --fix-missing || true
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"/PyPy || true
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"/Python || true
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"/go || true
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"/node || true
+        sudo apt-get autoremove -y || true
         sudo apt-get clean
 
     - name: Sanitise dump
