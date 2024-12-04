@@ -98,9 +98,11 @@ module CandidateInterface
     end
 
     def next_step(step = current_step)
-      return uk? ? uk_steps(step) : international_steps(step) if !reviewing? || country_changed?
-
-      reviewing_or_country_not_changed_steps(step)
+      if !reviewing? || country_changed?
+        uk? ? uk_steps(step) : international_steps(step)
+      else
+        reviewing_or_country_not_changed_steps(step)
+      end
     end
 
     def back_to_review
