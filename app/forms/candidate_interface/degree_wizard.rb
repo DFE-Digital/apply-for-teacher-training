@@ -98,50 +98,9 @@ module CandidateInterface
     end
 
     def next_step(step = current_step)
-      if !reviewing? || country_changed?
-        if step == :country && uk?
-          :degree_level
-        elsif (step == :type && international?) || step == :degree_level
-          :subject
-        elsif (step == :subject && uk? && !degree_has_type?) || (step == :type && uk?) || (step == :subject && international?)
-          :university
-        elsif (step == :country && international? && country.present?) || (step == :subject && uk?)
-          :type
-        elsif step == :university
-          :completed
-        elsif (step == :completed && phd?) || step == :grade
-          :start_year
-        elsif step == :completed
-          :grade
-        elsif step == :start_year
-          :award_year
-        elsif step == :award_year && international? && completed?
-          :enic
-        elsif step == :enic && international? && enic_reason == HAS_STATEMENT
-          :enic_reference
-        elsif %i[award_year enic enic_reference].include?(step)
-          :review
-        else
-          Sentry.capture_exception(
-            InvalidStepError.new(
-              "Invalid Step for application_form: #{application_form_id}, previous_step: #{previous_step}",
-            ),
-          )
-          rescue_step
-        end
-      elsif step == :degree_level && degree_has_type?
-        :type
-      elsif step == :completed
-        :award_year
-      elsif step == :award_year && completed? && international?
-        :enic
-      elsif step == :enic && international? && enic_reason != HAS_STATEMENT
-        :review
-      elsif step == :enic && international?
-        :enic_reference
-      else # rubocop:disable Lint/DuplicateBranch
-        :review
-      end
+      return uk? ? uk_steps(step) : international_steps(step) if !reviewing? || country_changed?
+
+      reviewing_or_country_not_changed_steps(step)
     end
 
     def back_to_review
@@ -460,6 +419,75 @@ module CandidateInterface
     end
 
   private
+
+    def reviewing_or_country_not_changed_steps(step)
+      case step
+      when :degree_level
+        degree_has_type? ? :type : :review
+      when :completed
+        :award_year
+      when :award_year
+        completed? && international? ? :enic : :review
+      when :enic
+        if international?
+          enic_reason == HAS_STATEMENT ? :enic_reference : :review
+        else
+          :review
+        end
+      else
+        :review
+      end
+    end
+
+    def uk_steps(step)
+      return :type if step == :subject && degree_has_type?
+      return :start_year if step == :completed && phd?
+
+      next_step = {
+        country: :degree_level,
+        degree_level: :subject,
+        subject: :university,
+        type: :university,
+        university: :completed,
+        completed: :grade,
+        grade: :start_year,
+        start_year: :award_year,
+        award_year: :review,
+      }
+
+      next_step[step] || handle_invalid_step
+    end
+
+    def international_steps(step)
+      return :type if step == :country && country.present?
+      return :start_year if step == :completed && phd?
+      return :enic if step == :award_year && completed?
+      return :enic_reference if step == :enic && enic_reason == HAS_STATEMENT
+
+      next_step = {
+        type: :subject,
+        degree_level: :subject,
+        subject: :university,
+        university: :completed,
+        completed: :grade,
+        grade: :start_year,
+        start_year: :award_year,
+        award_year: :review,
+        enic: :review,
+        enic_reference: :review,
+      }
+
+      next_step[step] || handle_invalid_step
+    end
+
+    def handle_invalid_step
+      Sentry.capture_exception(
+        InvalidStepError.new(
+          "Invalid Step for application_form: #{application_form_id}, previous_step: #{previous_step}",
+        ),
+      )
+      rescue_step
+    end
 
     def hesa_institution
       Hesa::Institution.find_by_name(university)
