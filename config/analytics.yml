@@ -8,6 +8,23 @@ shared:
     - last_signed_in_at
     - magic_link_token_sent_at
     - sign_up_email_bounced
+    - dismiss_recovery
+    - recovered
+    - updated_at
+  :one_login_auths:
+    - id
+    - candidate_id
+    - created_at
+    - updated_at
+  :account_recovery_request_codes:
+    - id
+    - account_recovery_request_id
+    - created_at
+    - updated_at
+  :account_recovery_requests:
+    - id
+    - candidate_id
+    - created_at
     - updated_at
   application_choices:
     - created_at
