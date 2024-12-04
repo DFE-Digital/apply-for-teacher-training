@@ -486,7 +486,7 @@ This must be done manually via the console.
 
 ```ruby
 choice = ApplicationChoice.find(id)
-choice.update!(status: "interviewing", offer_withdrawal_reason: nil, offer_withdrawn_at: nil, audit_comment: ZENDESK_URL)
+choice.update!(status: "awaiting_provider_decision", offer_withdrawal_reason: nil, offer_withdrawn_at: nil, audit_comment: ZENDESK_URL)
 ```
 
 ### Revert a candidate withdrawn application
