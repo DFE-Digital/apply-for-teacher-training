@@ -440,44 +440,64 @@ module CandidateInterface
     end
 
     def uk_steps(step)
-      return :type if step == :subject && degree_has_type?
-      return :start_year if step == :completed && phd?
+      case step
+      when :subject
+        return :type if degree_has_type?
 
-      next_step = {
-        country: :degree_level,
-        degree_level: :subject,
-        subject: :university,
-        type: :university,
-        university: :completed,
-        completed: :grade,
-        grade: :start_year,
-        start_year: :award_year,
-        award_year: :review,
-      }
+        :university
+      when :completed
+        return :start_year if phd?
 
-      next_step[step] || handle_invalid_step
+        :grade
+      when :country
+        :degree_level
+      when :degree_level
+        :subject
+      when :type
+        :university
+      when :university
+        :completed
+      when :grade
+        :start_year
+      when :start_year
+        :award_year
+      when :award_year
+        :review
+      else
+        handle_invalid_step
+      end
     end
 
     def international_steps(step)
-      return :type if step == :country && country.present?
-      return :start_year if step == :completed && phd?
-      return :enic if step == :award_year && completed?
-      return :enic_reference if step == :enic && enic_reason == HAS_STATEMENT
+      case step
+      when :country
+        return :type if country.present?
+      when :completed
+        return :start_year if phd?
+      when :award_year
+        return :enic if completed?
+      when :enic
+        return :enic_reference if enic_reason == HAS_STATEMENT
+      end
 
-      next_step = {
-        type: :subject,
-        degree_level: :subject,
-        subject: :university,
-        university: :completed,
-        completed: :grade,
-        grade: :start_year,
-        start_year: :award_year,
-        award_year: :review,
-        enic: :review,
-        enic_reference: :review,
-      }
-
-      next_step[step] || handle_invalid_step
+      case step
+      when :type, :degree_level
+        :subject
+      when :subject
+        :university
+      when :university
+        :completed
+      when :completed
+        :grade
+      when :grade
+        :start_year
+      when :start_year
+        :award_year
+      when :award_year, :enic, :enic_reference
+        :review
+      else
+        handle_invalid_step
+      end
     end
 
     def handle_invalid_step
