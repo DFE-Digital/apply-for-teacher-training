@@ -35,7 +35,7 @@ module SupportInterface
 
       ].flatten.compact
 
-      base_rows.insert(6, confidentiality_row) if feature_active_and_feedback_provided?
+      base_rows.insert(6, confidentiality_row) if FeatureFlag.active?(:show_reference_confidentiality_status) && reference.feedback_provided?
 
       base_rows
     end
@@ -271,10 +271,6 @@ module SupportInterface
       when 'feedback_refused', 'email_bounced'
         'red'
       end
-    end
-
-    def feature_active_and_feedback_provided?
-      FeatureFlag.active?(:show_reference_confidentiality_status) && reference.feedback_provided?
     end
 
     def confidentiality_value
