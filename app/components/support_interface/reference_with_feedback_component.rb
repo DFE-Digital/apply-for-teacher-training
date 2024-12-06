@@ -21,7 +21,7 @@ module SupportInterface
     end
 
     def rows
-      [
+      base_rows = [
         status_row,
         type_of_reference_row,
         name_row,
@@ -34,10 +34,22 @@ module SupportInterface
         consent_row,
 
       ].flatten.compact
+
+      base_rows.insert(6, confidentiality_row) if FeatureFlag.active?(:show_reference_confidentiality_status) && reference.feedback_provided?
+
+      base_rows
     end
 
     def title
       reference.name
+    end
+
+    def warning_text
+      return unless FeatureFlag.active?(:show_reference_confidentiality_status)
+      return unless reference&.confidential == true
+      return unless reference&.feedback_provided?
+
+      t('support_interface.confidential_warning')
     end
 
   private
@@ -215,6 +227,13 @@ module SupportInterface
       end
     end
 
+    def confidentiality_row
+      {
+        key: 'Can this reference be shared with the candidate?',
+        value: confidentiality_value,
+      }
+    end
+
     def history_row
       return if reference.not_requested_yet?
 
@@ -252,6 +271,10 @@ module SupportInterface
       when 'feedback_refused', 'email_bounced'
         'red'
       end
+    end
+
+    def confidentiality_value
+      reference.confidential ? 'No, this reference is confidential. Do not share it.' : 'Yes, if they request it.'
     end
 
     attr_reader :reference
