@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_03_151055) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -399,6 +399,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_03_151055) do
     t.boolean "unsubscribed_from_emails", default: false
     t.boolean "submission_blocked", default: false, null: false
     t.boolean "account_locked", default: false, null: false
+    t.string "account_recovery_status", default: "not_started", null: false
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
     t.index ["fraud_match_id"], name: "index_candidates_on_fraud_match_id"
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
