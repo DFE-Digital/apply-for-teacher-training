@@ -75,11 +75,6 @@ install-konduit: ## Install the konduit script, for accessing backend services
 		&& chmod +x bin/konduit.sh \
 		|| true
 
-.PHONY: vendor-modules
-vendor-modules:
-	rm -rf terraform/application/vendor/modules
-	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch ${TERRAFORM_MODULES_TAG} https://github.com/DFE-Digital/terraform-modules.git terraform/application/vendor/modules/aks
-
 apply:
 	$(eval include global_config/apply-domain.sh)
 	$(eval DNS_ZONE=apply)
@@ -192,6 +187,11 @@ console: get-cluster-credentials ## Open a Rails console on the app instance on 
 	$(eval APP_ENV=$(shell jq -r '.app_environment' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
 	$(if ${APP_NAME_SUFFIX}, $(eval APP_NAME=apply-${APP_NAME_SUFFIX}-clock-worker), $(eval APP_NAME=apply-${APP_ENV}-clock-worker))
 	kubectl -n ${NAMESPACE} -ti exec "deployment/${APP_NAME}" -- sh -c "cd /app && /usr/local/bin/bundle exec rails console -- --noautocomplete"
+
+.PHONY: vendor-modules
+vendor-modules:
+	rm -rf terraform/aks/vendor/modules
+	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch ${TERRAFORM_MODULES_TAG} https://github.com/DFE-Digital/terraform-modules.git terraform/aks/vendor/modules/aks
 
 deploy-init: vendor-modules
 	$(if $(or $(IMAGE_TAG), $(NO_IMAGE_TAG_DEFAULT)), , $(eval export IMAGE_TAG=main))
