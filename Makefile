@@ -6,7 +6,6 @@ INTEGRATION_TEST_PATTERN=spec/{system,requests}/**/*_spec.rb
 COVERAGE_RESULT_PATH=/app/coverage
 SERVICE_SHORT=att
 SERVICE_NAME=apply
-TERRAFILE_VERSION=0.8
 
 define copy_to_host
 	## Obtains the results folder from within the stopped container and copies it to the local file system on the agent.
@@ -75,6 +74,11 @@ install-konduit: ## Install the konduit script, for accessing backend services
 		&& curl -s https://raw.githubusercontent.com/DFE-Digital/teacher-services-cloud/master/scripts/konduit.sh -o bin/konduit.sh \
 		&& chmod +x bin/konduit.sh \
 		|| true
+
+.PHONY: vendor-modules
+vendor-modules:
+	rm -rf terraform/application/vendor/modules
+	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch ${TERRAFORM_MODULES_TAG} https://github.com/DFE-Digital/terraform-modules.git terraform/application/vendor/modules/aks
 
 apply:
 	$(eval include global_config/apply-domain.sh)
@@ -189,14 +193,13 @@ console: get-cluster-credentials ## Open a Rails console on the app instance on 
 	$(if ${APP_NAME_SUFFIX}, $(eval APP_NAME=apply-${APP_NAME_SUFFIX}-clock-worker), $(eval APP_NAME=apply-${APP_ENV}-clock-worker))
 	kubectl -n ${NAMESPACE} -ti exec "deployment/${APP_NAME}" -- sh -c "cd /app && /usr/local/bin/bundle exec rails console -- --noautocomplete"
 
-deploy-init: bin/terrafile
+deploy-init: vendor-modules
 	$(if $(or $(IMAGE_TAG), $(NO_IMAGE_TAG_DEFAULT)), , $(eval export IMAGE_TAG=main))
 	$(if $(IMAGE_TAG), , $(error Missing environment variable "IMAGE_TAG"))
 	$(eval export TF_VAR_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show
-	./bin/terrafile -p terraform/aks/vendor/modules -f terraform/aks/workspace_variables/$(CONFIG)_Terrafile
 	terraform -chdir=terraform/$(PLATFORM) init -reconfigure -upgrade -backend-config=./workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
 	$(eval export TF_VAR_service_name=${SERVICE_NAME})
 
@@ -239,7 +242,12 @@ validate-domain-resources: set-what-if domain-azure-resources # make apply valid
 
 deploy-domain-resources: check-auto-approve domain-azure-resources # make apply deploy-domain-resources AUTO_APPROVE=1
 
-domains-infra-init: set-production-subscription set-azure-account
+.PHONY: vendor-domain-infra-modules
+vendor-domain-infra-modules:
+	rm -rf terraform/custom_domains/infrastructure/vendor/modules/domains
+	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch ${TERRAFORM_MODULES_TAG} https://github.com/DFE-Digital/terraform-modules.git terraform/custom_domains/infrastructure/vendor/modules/domains
+
+domains-infra-init: apply set-production-subscription vendor-domain-infra-modules set-azure-account
 	terraform -chdir=terraform/custom_domains/infrastructure init -reconfigure -upgrade \
 		-backend-config=workspace_variables/${DOMAINS_ID}_backend.tfvars
 
@@ -249,7 +257,12 @@ domains-infra-plan: domains-infra-init # make apply domains-infra-plan
 domains-infra-apply: domains-infra-init # make apply domains-infra-apply
 	terraform -chdir=terraform/custom_domains/infrastructure apply -var-file workspace_variables/${DOMAINS_ID}.tfvars.json ${AUTO_APPROVE}
 
-domains-init: set-production-subscription set-azure-account
+.PHONY: vendor-domain-modules
+vendor-domain-modules:
+	rm -rf terraform/custom_domains/environment_domains/vendor/modules/domains
+	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch ${TERRAFORM_MODULES_TAG} https://github.com/DFE-Digital/terraform-modules.git terraform/custom_domains/environment_domains/vendor/modules/domains
+
+domains-init: apply set-production-subscription vendor-domain-modules set-azure-account
 	$(if $(PR_NUMBER), $(eval APP_ENV=${PR_NUMBER}))
 	terraform -chdir=terraform/custom_domains/environment_domains init -upgrade -reconfigure -backend-config=workspace_variables/${DOMAINS_ID}_${DNS_ENV}_backend.tfvars
 
@@ -273,10 +286,6 @@ production-cluster:
 get-cluster-credentials: set-azure-account
 	az aks get-credentials --overwrite-existing -g ${CLUSTER_RESOURCE_GROUP_NAME} -n ${CLUSTER_NAME}
 	kubelogin convert-kubeconfig -l $(if ${GITHUB_ACTIONS},spn,azurecli)
-
-bin/terrafile: ## Install terrafile to manage terraform modules
-	curl -sL https://github.com/coretech/terrafile/releases/download/v${TERRAFILE_VERSION}/terrafile_${TERRAFILE_VERSION}_$$(uname)_x86_64.tar.gz \
-		| tar xz -C ./bin terrafile
 
 maintenance-image-push: ## Build and push maintenance page image: make production maintenance-image-push GITHUB_TOKEN=x [MAINTENANCE_IMAGE_TAG=y]
 	$(if ${GITHUB_TOKEN},, $(error Provide a valid Github token with write:packages permissions as GITHUB_TOKEN variable))
