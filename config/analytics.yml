@@ -1,5 +1,6 @@
 shared:
   candidates:
+    - account_recovery_status
     - candidate_api_updated_at
     - course_from_find_id
     - created_at
