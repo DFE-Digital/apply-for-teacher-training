@@ -7,9 +7,11 @@
             )) %>
   <%= render PhaseBannerComponent.new(no_border: current_candidate.present?) %>
   <% if current_candidate %>
+    <% sign_out_path = session[:onelogin_id_token].present? ? auth_onelogin_sign_out_path : candidate_interface_sign_out_path %>
     <%= render(PrimaryNavigationComponent.new(
                 items: NavigationItems.candidate_primary_navigation(current_candidate:, current_controller: controller),
-                items_right: [NavigationItems::NavigationItem.new('Sign out', candidate_interface_sign_out_path)],
+                #items_right: [NavigationItems::NavigationItem.new('Sign out', candidate_interface_sign_out_path)],
+                items_right: [NavigationItems::NavigationItem.new('Sign out', auth_onelogin_sign_out_path)],
               )) %>
   <% end %>
 <% when 'support_interface' %>
