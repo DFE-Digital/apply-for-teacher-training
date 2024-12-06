@@ -18,6 +18,8 @@ class Candidate < ApplicationRecord
   has_many :degree_qualifications, through: :application_forms
   has_many :application_choices, through: :application_forms
   has_many :application_references, through: :application_forms
+  has_one :one_login_auth, dependent: :destroy
+  has_one :account_recovery_request, dependent: :destroy
   belongs_to :course_from_find, class_name: 'Course', optional: true
   belongs_to :duplicate_match, foreign_key: 'fraud_match_id', optional: true
 

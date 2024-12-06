@@ -8,6 +8,8 @@ RSpec.describe Candidate do
   describe 'associations' do
     it { is_expected.to have_many(:application_forms) }
     it { is_expected.to have_many(:degree_qualifications).through(:application_forms) }
+    it { is_expected.to have_one(:one_login_auth).dependent(:destroy) }
+    it { is_expected.to have_one(:account_recovery_request).dependent(:destroy) }
   end
 
   describe 'a valid candidate' do
