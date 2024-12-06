@@ -23,6 +23,7 @@ class FeatureFlag
     [:draft_vendor_api_specification, 'The specification for upcoming vendor API releases', 'Abeer Salameh'],
     [:adviser_sign_up, 'Allow candidates to sign up for a teacher training adviser', 'Ross Oliver'],
     [:monthly_statistics_redirected, 'Redirect requests for Publications Monthly Statistics to temporarily unavailable', 'Iain McNulty'],
+    [:one_login_candidate_sign_in, 'Use one login to authenticate candidates. When turned off we will default to magic link authentification', 'Apply team'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
