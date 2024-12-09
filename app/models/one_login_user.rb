@@ -2,10 +2,10 @@ class OneLoginUser
   class Error < StandardError; end
   attr_reader :email_address, :token
 
-  def initialize(omniauth_auth)
+  def initialize(omniauth_object)
     ### Add one login manage account link in another ticket
-    @email_address = omniauth_auth.info.email
-    @token = omniauth_auth.uid
+    @email_address = omniauth_object.info.email
+    @token = omniauth_object.uid
   end
 
   def self.authentificate(omniauth_auth)
