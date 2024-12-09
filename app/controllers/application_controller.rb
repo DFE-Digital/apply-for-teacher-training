@@ -33,6 +33,10 @@ class ApplicationController < ActionController::Base
     render 'errors/forbidden', status: :forbidden
   end
 
+  def render_500
+    render 'errors/internal_server_error', status: :internal_server_error
+  end
+
 private
 
   def append_info_to_payload(payload)

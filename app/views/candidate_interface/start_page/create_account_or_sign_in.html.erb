@@ -4,31 +4,43 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with(
-      model: @create_account_or_sign_in_form,
-      url: candidate_interface_create_account_or_sign_in_path(providerCode: params[:providerCode], courseCode: params[:courseCode]),
-      method: :post,
-    ) do |f| %>
-      <%= f.govuk_error_summary %>
-
+    <% if FeatureFlag.active?(:one_login_candidate_sign_in) %>
       <h1 class="govuk-heading-xl">
         <%= t('page_titles.create_account_or_sign_in') %>
       </h1>
 
-      <%= f.govuk_radio_buttons_fieldset :existing_account, legend: { text: 'Do you already have an account?' } do %>
-        <%= f.govuk_radio_button :existing_account, true, label: { text: 'Yes, sign in' }, link_errors: true do %>
-          <%= f.govuk_email_field :email, label: { text: 'Email address', size: 's' }, hint: { text: 'Enter the email address you used to register, and we will send you a link to sign in.' }, width: 'two-thirds', autocomplete: 'email', spellcheck: false %>
-        <% end %>
-        <%= f.govuk_radio_button :existing_account, false, label: { text: 'No, I need to create an account' } %>
-      <% end %>
-      <%= f.govuk_submit t('continue') %>
-    <% end %>
+      <p class="govuk-body">
+        <%= t('govuk.one_login_account_guidance') %>
+      </p>
 
-    <p class="govuk-body">
-      You can usually start applying for teacher training in October, the
-      year before your course starts. Courses can fill up quickly, so apply
-      as soon as you can.
-      <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %></a>.
-    </p>
+      <%= govuk_button_to(t('continue'), '/auth/onelogin') %>
+    <% else %>
+     <%= form_with(
+        model: @create_account_or_sign_in_form,
+        url: candidate_interface_create_account_or_sign_in_path(providerCode: params[:providerCode], courseCode: params[:courseCode]),
+        method: :post,
+      ) do |f| %>
+        <%= f.govuk_error_summary %>
+
+        <h1 class="govuk-heading-xl">
+          <%= t('page_titles.create_account_or_sign_in') %>
+        </h1>
+
+        <%= f.govuk_radio_buttons_fieldset :existing_account, legend: { text: 'Do you already have an account?' } do %>
+          <%= f.govuk_radio_button :existing_account, true, label: { text: 'Yes, sign in' }, link_errors: true do %>
+            <%= f.govuk_email_field :email, label: { text: 'Email address', size: 's' }, hint: { text: 'Enter the email address you used to register, and we will send you a link to sign in.' }, width: 'two-thirds', autocomplete: 'email', spellcheck: false %>
+          <% end %>
+          <%= f.govuk_radio_button :existing_account, false, label: { text: 'No, I need to create an account' } %>
+        <% end %>
+        <%= f.govuk_submit t('continue') %>
+      <% end %>
+
+      <p class="govuk-body">
+        You can usually start applying for teacher training in October, the
+        year before your course starts. Courses can fill up quickly, so apply
+        as soon as you can.
+        <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %></a>.
+      </p>
+    <% end %>
   </div>
 </div>
