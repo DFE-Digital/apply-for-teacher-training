@@ -508,3 +508,10 @@ shared:
     - provider_id
     - response_headers
     - created_at
+  :withdrawal_reasons:
+    - id
+    - reason
+    - comment
+    - application_choice_id
+    - created_at
+    - updated_at
