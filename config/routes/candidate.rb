@@ -406,6 +406,8 @@ namespace :candidate_interface, path: '/candidate' do
       get '/withdraw' => 'decisions#withdraw', as: :withdraw
       post '/withdraw' => 'decisions#confirm_withdraw'
 
+      get '/withdrawal_reason' => 'decisions#withdrawal', as: :withdrawal_reason
+
       get '/withdraw/feedback' => 'decisions#withdrawal_feedback', as: :withdrawal_feedback
       post '/withdraw/confirm-feedback' => 'decisions#confirm_withdrawal_feedback', as: :confirm_withdrawal_feedback
     end
