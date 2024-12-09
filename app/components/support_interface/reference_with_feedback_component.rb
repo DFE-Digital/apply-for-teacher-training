@@ -272,7 +272,7 @@ module SupportInterface
     end
 
     def confidentiality_value
-      reference.confidential ? 'No, this reference is confidential. Do not share it.' : 'Yes, if they request it.'
+      t("support_interface.references.confidential_warning.#{reference.confidential}")
     end
 
     attr_reader :reference

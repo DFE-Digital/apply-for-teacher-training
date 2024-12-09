@@ -1,5 +1,9 @@
 en:
   support_interface:
+    references:
+      confidential_warning:
+        true: No, this reference is confidential. Do not share it.
+        false: Yes, if they request it.
     page_titles:
       visa_or_immigration_status: Edit applicant visa or immigration status
 
