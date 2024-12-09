@@ -42,7 +42,6 @@ module SupportInterface
     end
 
     def warning_text
-      return unless FeatureFlag.active?(:show_reference_confidentiality_status)
       return unless reference&.confidential == true
       return unless reference&.feedback_provided?
 
@@ -225,7 +224,7 @@ module SupportInterface
     end
 
     def confidentiality_row
-      return unless FeatureFlag.active?(:show_reference_confidentiality_status) && reference.feedback_provided?
+      return unless reference.feedback_provided?
 
       {
         key: 'Can this reference be shared with the candidate?',
