@@ -431,8 +431,8 @@ module CandidateInterface
       when :award_year
         completed? && international? ? :enic : :review
       when :enic
-        if international?
-          enic_reason == HAS_STATEMENT ? :enic_reference : :review
+        if international? && enic_reason == HAS_STATEMENT
+          :enic_reference
         else
           :review
         end
