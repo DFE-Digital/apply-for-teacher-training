@@ -21,23 +21,20 @@ module SupportInterface
     end
 
     def rows
-      base_rows = [
+      [
         status_row,
         type_of_reference_row,
         name_row,
         email_address_row,
         relationship_row,
         feedback_row,
+        confidentiality_row,
         date_rows,
         sign_in_as_referee_row,
         history_row,
         consent_row,
 
       ].flatten.compact
-
-      base_rows.insert(6, confidentiality_row) if FeatureFlag.active?(:show_reference_confidentiality_status) && reference.feedback_provided?
-
-      base_rows
     end
 
     def title
@@ -228,6 +225,8 @@ module SupportInterface
     end
 
     def confidentiality_row
+      return unless FeatureFlag.active?(:show_reference_confidentiality_status) && reference.feedback_provided?
+
       {
         key: 'Can this reference be shared with the candidate?',
         value: confidentiality_value,
