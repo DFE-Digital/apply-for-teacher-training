@@ -28,6 +28,7 @@ module SupportInterface
         email_address_row,
         relationship_row,
         feedback_row,
+        confidentiality_row,
         date_rows,
         sign_in_as_referee_row,
         history_row,
@@ -38,6 +39,13 @@ module SupportInterface
 
     def title
       reference.name
+    end
+
+    def warning_text
+      return unless reference&.confidential == true
+      return unless reference&.feedback_provided?
+
+      t('support_interface.confidential_warning')
     end
 
   private
@@ -215,6 +223,15 @@ module SupportInterface
       end
     end
 
+    def confidentiality_row
+      return unless reference.feedback_provided?
+
+      {
+        key: 'Can this reference be shared with the candidate?',
+        value: confidentiality_value,
+      }
+    end
+
     def history_row
       return if reference.not_requested_yet?
 
@@ -252,6 +269,10 @@ module SupportInterface
       when 'feedback_refused', 'email_bounced'
         'red'
       end
+    end
+
+    def confidentiality_value
+      t("support_interface.references.confidential_warning.#{reference.confidential}")
     end
 
     attr_reader :reference
