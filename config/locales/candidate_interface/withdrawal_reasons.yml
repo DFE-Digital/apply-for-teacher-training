@@ -1,0 +1,27 @@
+en:
+  activemodel:
+    errors:
+      models:
+        candidate_interface/withdrawal_reasons_form:
+          attributes:
+            reason:
+              blank: Select a reason for withdrawing this application
+            comment:
+              blank: Enter details to explain the reason for withdrawing
+              too_long: Explanation must be %{count} characters or fewer
+  candidate_interface:
+    withdrawal_reasons:
+      reasons:
+        applying_to_another_provider:
+          label: I am going to apply (or have applied) to a different training provider
+        change_or_update_application_with_this_provider:
+          label: I am going to change or update my application with this training provider
+        apply_in_the_future:
+          label: I plan to apply for teacher training in the future
+        do_not_want_to_train_anymore:
+          label: I do not want to train to teach anymore
+        other:
+          label: Other
+          comment:
+            label: Details
+
