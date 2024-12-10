@@ -8,3 +8,5 @@ en:
       feedback_provided: Feedback provided
       feedback_refused: Reference declined
       email_bounced: Email bounced
+    confidential_warning: 'Confidential: do not share with the candidate'
+      

@@ -1,5 +1,5 @@
 <div data-qa="reference">
-  <%= render SummaryCardComponent.new(rows: rows, editable: true) do %>
+  <%= render SummaryCardComponent.new(rows:, editable: true, warning_text:) do %>
     <%= render(SummaryCardHeaderComponent.new(title: title, heading_level: 3)) do %>
       <div class="app-summary-card__actions">
         <ul class="app-summary-card__actions-list">
