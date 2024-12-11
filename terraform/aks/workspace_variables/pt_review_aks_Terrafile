@@ -1,3 +1,0 @@
-aks:
-    source:  "https://github.com/DFE-Digital/terraform-modules"
-    version: "main"
