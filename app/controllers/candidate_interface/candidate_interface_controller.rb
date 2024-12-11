@@ -24,6 +24,7 @@ module CandidateInterface
       if cookies['consented-to-apply-cookies'].eql?('yes')
         @google_analytics_id = ENV.fetch('GOOGLE_ANALYTICS_APPLY', '')
         @google_tag_manager_id = ENV.fetch('GOOGLE_TAG_MANAGER_APPLY', '')
+        @clarity_project_id = 'pcdnstibmh'
       end
     end
 
