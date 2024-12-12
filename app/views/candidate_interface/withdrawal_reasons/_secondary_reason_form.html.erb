@@ -1,0 +1,35 @@
+ <%= form_with(model: @withdrawal_reason_form, url: candidate_interface_withdrawal_reason_continue_path(reason_id: params[:reason_id])) do |f| %>
+    <%= f.govuk_error_summary %>
+      <%= f.govuk_check_boxes_fieldset(
+        :reason,
+        legend: { text: 'Why do you not want to train to teach anymore?', tag: 'h1', size: 'l', hint: 'Select all that apply' },
+        ) do %>
+        <% @withdrawal_reason_form.reason_options.each_with_index do |r, index| %>
+          <% if r.text_area_label.blank? %>
+            <%= f.govuk_check_box(
+                  :reason,
+                  r.id,
+                  link_errors: index.zero?,
+                  label: { text: r.name, }
+                ) %>
+          <% else %>
+            <%= f.govuk_check_box(
+              :reason,
+              r.id,
+              label: { text: r.name, }
+            )  do %>
+              <%= f.govuk_text_area(
+                    :comment,
+                    label: { text: r.text_area_label, size: 's' },
+                    max_chars: 256,
+                    rows: 5,
+                    link_errors: true
+                  ) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>
