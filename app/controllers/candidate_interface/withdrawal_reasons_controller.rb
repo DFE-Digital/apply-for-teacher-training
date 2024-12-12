@@ -5,18 +5,22 @@ module CandidateInterface
 
     def new
       @withdrawal_reason_form = WithdrawalReasonsForm.new(initial_params)
-      @withdrawal_reason_form.reason_id
+    end
+
+    def confirm
+      @withdrawal_reason_form = WithdrawalReasonsForm.new(confirm_params)
     end
 
     def create
-      @withdrawal_reason_form = WithdrawalReasonsForm.new(withdrawal_reasons_params)
+      WithdrawalReasonsForm.new(confirm_params, @application_choice).save!
+      redirect_to candidate_interface_application_choices_path
     end
 
     def continue
       @withdrawal_reason_form = WithdrawalReasonsForm.new(withdrawal_reasons_params)
       if @withdrawal_reason_form.valid?
         if @withdrawal_reason_form.saveable?
-          'hellos'
+          redirect_to candidate_interface_withdrawal_reason_confirm_path(params: @withdrawal_reason_form.confirm_params)
         else
           redirect_to candidate_interface_withdrawal_reason_path(reason_id: withdrawal_reasons_params[:reason])
         end
@@ -27,12 +31,16 @@ module CandidateInterface
 
   private
 
+    def confirm_params
+      params.permit(:reason, :comment)
+    end
+
     def withdrawal_reasons_params
       params.require(:candidate_interface_withdrawal_reasons_form).permit(:reason, :comment)
     end
 
     def initial_params
-      params.permit(:reason_id)
+      params.permit(:reason_id, :reason, :comment)
     end
 
     def set_application_choice

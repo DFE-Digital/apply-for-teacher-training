@@ -14,7 +14,7 @@ withdrawal_reasons:
       comment: {}
   change-or-update-application-with-this-provider:
     update-my-application-correct-an-error-or-add-information: {}
-    change-application-from-full-time-to-part-time: {}
+    change-study-pattern: {}
     apply-for-a-different-subject-with-the-same-provider: {}
     other:
       comment: {}

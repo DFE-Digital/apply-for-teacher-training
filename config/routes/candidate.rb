@@ -406,8 +406,10 @@ namespace :candidate_interface, path: '/candidate' do
       get '/withdraw' => 'decisions#withdraw', as: :withdraw
       post '/withdraw' => 'decisions#confirm_withdraw'
 
-      get '/withdrawal-reason(/:reason_id)' => 'withdrawal_reasons#new', as: :withdrawal_reason
+      get '/withdrawal-reason/new(/:reason_id)' => 'withdrawal_reasons#new', as: :withdrawal_reason
       post '/withdrawal-reason/continue(/:reason_id)' => 'withdrawal_reasons#continue', as: :withdrawal_reason_continue
+      get '/withdrawal-reason/confirm' => 'withdrawal_reasons#confirm', as: :withdrawal_reason_confirm
+      post '/withdrawal-reason/create' => 'withdrawal_reasons#create', as: :withdrawal_reason_create
 
       get '/withdraw/feedback' => 'decisions#withdrawal_feedback', as: :withdrawal_feedback
       post '/withdraw/confirm-feedback' => 'decisions#confirm_withdrawal_feedback', as: :confirm_withdrawal_feedback

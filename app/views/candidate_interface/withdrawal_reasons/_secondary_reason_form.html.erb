@@ -1,4 +1,7 @@
- <%= form_with(model: @withdrawal_reason_form, url: candidate_interface_withdrawal_reason_continue_path(reason_id: params[:reason_id])) do |f| %>
+<% content_for :title, @withdrawal_reason_form.secondary_reason_title %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_withdrawal_reason_path(params: @withdrawal_reason_form.confirm_params), 'Back') %>
+
+<%= form_with(model: @withdrawal_reason_form, url: candidate_interface_withdrawal_reason_continue_path(reason_id: params[:reason_id])) do |f| %>
     <%= f.govuk_error_summary %>
       <%= f.govuk_check_boxes_fieldset(
         :reason,
