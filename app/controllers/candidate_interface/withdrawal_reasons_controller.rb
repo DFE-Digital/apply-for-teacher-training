@@ -5,9 +5,11 @@ module CandidateInterface
 
     def new
       @withdrawal_reason_form = WithdrawalReasonsForm.new(initial_params)
+      @primary_reason_id = params[:primary_reason_id]
     end
 
     def confirm
+      @primary_reason_id = params[:primary_reason_id]
       @withdrawal_reason_form = WithdrawalReasonsForm.new(confirm_params)
     end
 
@@ -21,14 +23,18 @@ module CandidateInterface
     end
 
     def continue
-      @withdrawal_reason_form = WithdrawalReasonsForm.new(withdrawal_reasons_params)
+      @withdrawal_reason_form = WithdrawalReasonsForm.new(withdrawal_reasons_form_params)
       if @withdrawal_reason_form.valid?
         if @withdrawal_reason_form.saveable?
-          redirect_to candidate_interface_withdrawal_reason_confirm_path(params: @withdrawal_reason_form.confirm_params)
+          redirect_to candidate_interface_withdrawal_reason_confirm_path(
+            primary_reason_id: @withdrawal_reason_form.primary_reason,
+            params: @withdrawal_reason_form.confirm_params,
+          )
         else
           redirect_to candidate_interface_withdrawal_reason_path(primary_reason_id: @withdrawal_reason_form.primary_reason)
         end
       else
+        @primary_reason_id = @withdrawal_reason_form.primary_reason
         render :new
       end
     end
@@ -36,15 +42,22 @@ module CandidateInterface
   private
 
     def confirm_params
-      params.permit(:primary_reason, :primary_other_comment)
+      params.permit(:primary_reason_id, :primary_other_comment, secondary_reasons: [])
     end
 
-    def withdrawal_reasons_params
-      params.require(:candidate_interface_withdrawal_reasons_form).permit(:primary_reason, :primary_other_comment)
+    def withdrawal_reasons_form_params
+      params.require(
+        :candidate_interface_withdrawal_reasons_form,
+      ).permit(
+        :form_step,
+        :primary_reason,
+        :primary_other_comment,
+        secondary_reasons: [],
+      )
     end
 
     def initial_params
-      params.permit(:primary_reason_id, :primary_other_comment)
+      params.permit(:primary_reason_id, :primary_other_comment, :primary_reason, secondary_reasons: [])
     end
 
     def set_application_choice

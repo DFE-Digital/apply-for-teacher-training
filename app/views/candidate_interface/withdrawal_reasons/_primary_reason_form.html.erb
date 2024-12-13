@@ -4,11 +4,12 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(model: @withdrawal_reason_form, url: candidate_interface_withdrawal_reason_continue_path) do |f| %>
       <%= f.govuk_error_summary %>
+      <%= f.hidden_field(:form_step, value: 'primary_reason') %>
       <%= f.govuk_radio_buttons_fieldset(
         :primary_reason,
         legend: { text: t('candidate_interface.withdrawal_reasons.primary_reason_title'), tag: 'h1', size: 'l' }
       ) do %>
-        <% @withdrawal_reason_form.reason_options.each_with_index do |r, index| %>
+        <% @withdrawal_reason_form.primary_reason_options.each_with_index do |r, index| %>
           <% if r.text_area_label.blank? %>
             <%= f.govuk_radio_button(
                   :primary_reason,

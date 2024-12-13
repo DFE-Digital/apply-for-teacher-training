@@ -9,6 +9,10 @@ en:
             primary_other_comment:
               blank: Enter details to explain the reason for withdrawing
               too_many_words: Details must be %{maximum} words or fewer
+            secondary_reasons:
+              blank:
+                applying_to_another_provider: Select a reason for applying to another training provider
+                change_or_update_application_with_this_provider: Select a reason for changing or updating your application with this training provider
   candidate_interface:
     withdrawal_reasons:
       success_message: You have withdrawn your application to %{provider_name}

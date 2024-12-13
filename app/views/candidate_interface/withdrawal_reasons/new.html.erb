@@ -1,4 +1,4 @@
-<% if params[:primary_reason_id].blank? %>
+<% if @primary_reason_id.blank? %>
   <%= render 'primary_reason_form' %>
 <% else %>
   <%= render 'secondary_reason_form' %>

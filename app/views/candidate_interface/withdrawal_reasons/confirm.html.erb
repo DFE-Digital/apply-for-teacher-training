@@ -18,16 +18,26 @@
         <% row.with_value(text: @withdrawal_reason_form.primary_reason_text) %>
         <% row.with_action(
              text: 'Change',
-             href: candidate_interface_withdrawal_reason_path(params: @withdrawal_reason_form.confirm_params),
+             href: candidate_interface_withdrawal_reason_path({ primary_reason: @primary_reason_id }),
              visually_hidden_text: 'reason for withdrawal'
              ) %>
       <% end %>
-      <%# if @withdrawal_reason_form.secondary_reasons %>
-        <%# summary_list.with_row do |row| %>
-          <%# row.with_key(text: 'Reason details') %>
-          <%# row.with_value(text: @withdrawal_reason_form.reason_details) %>
-        <%# end %>
-      <%# end %>
+      <% if @withdrawal_reason_form.secondary_reasons.present? %>
+        <% summary_list.with_row do |row| %>
+          <% row.with_key(text: 'Reason details') %>
+          <% row.with_value do %>
+            <%= govuk_list @withdrawal_reason_form.reason_details %>
+          <% end %>
+          <% row.with_action(
+               text: 'Change',
+               href: candidate_interface_withdrawal_reason_path(
+                 primary_reason_id: @primary_reason_id,
+                 secondary_reasons: @withdrawal_reason_form.secondary_reasons,
+                 ),
+               visually_hidden_text: 'reason details'
+             ) %>
+        <% end %>
+      <% end %>
 
     <% end %>
 
