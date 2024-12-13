@@ -5,7 +5,7 @@
     <%= f.govuk_error_summary %>
       <%= f.govuk_check_boxes_fieldset(
         :reason,
-        legend: { text: 'Why do you not want to train to teach anymore?', tag: 'h1', size: 'l', hint: 'Select all that apply' },
+        legend: { text: @withdrawal_reason_form.secondary_reason_title, tag: 'h1', size: 'l', hint: 'Select all that apply' },
         ) do %>
         <% @withdrawal_reason_form.reason_options.each_with_index do |r, index| %>
           <% if r.text_area_label.blank? %>

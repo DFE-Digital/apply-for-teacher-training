@@ -5,27 +5,27 @@
     <%= form_with(model: @withdrawal_reason_form, url: candidate_interface_withdrawal_reason_continue_path) do |f| %>
       <%= f.govuk_error_summary %>
       <%= f.govuk_radio_buttons_fieldset(
-        :reason,
+        :primary_reason,
         legend: { text: t('candidate_interface.withdrawal_reasons.primary_reason_title'), tag: 'h1', size: 'l' }
       ) do %>
         <% @withdrawal_reason_form.reason_options.each_with_index do |r, index| %>
           <% if r.text_area_label.blank? %>
             <%= f.govuk_radio_button(
-                  :reason,
+                  :primary_reason,
                   r.id,
                   link_errors: index.zero?,
                   label: { text: r.name, }
                 ) %>
           <% else %>
             <%= f.govuk_radio_button(
-              :reason,
+              :primary_reason,
               r.id,
               label: { text: r.name, }
             )  do %>
               <%= f.govuk_text_area(
-                    :comment,
+                    :primary_other_comment,
                     label: { text: r.text_area_label, size: 's' },
-                    max_chars: 256,
+                    max_words: 200,
                     rows: 5,
                     link_errors: true
                   ) %>

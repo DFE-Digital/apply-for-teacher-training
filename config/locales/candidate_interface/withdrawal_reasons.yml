@@ -4,13 +4,14 @@ en:
       models:
         candidate_interface/withdrawal_reasons_form:
           attributes:
-            reason:
+            primary_reason:
               blank: Select a reason for withdrawing this application
-            comment:
+            primary_other_comment:
               blank: Enter details to explain the reason for withdrawing
-              too_long: Explanation must be %{count} characters or fewer
+              too_many_words: Details must be %{maximum} words or fewer
   candidate_interface:
     withdrawal_reasons:
+      success_message: You have withdrawn your application to %{provider_name}
       primary_reason_title: Why are you withdrawing this application?
       reasons:
         applying_to_another_provider:
@@ -103,4 +104,3 @@ en:
           label: Other
           comment:
             label: Details
-

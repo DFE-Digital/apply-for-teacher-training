@@ -57,8 +57,8 @@ private
   end
 
   def when_i_view_the_application
-    click_on 'Your applicatins'
-    click_on @application_choice.current_choice.provider.name
+    click_on 'Your applications'
+    click_on @application_choice.current_course_option.provider.name
   end
 
   def and_i_click_on_withdraw
@@ -74,7 +74,7 @@ private
   end
 
   def when_i_select_other_without_providing_details
-    select 'Other'
+    choose 'Other'
   end
 
   def then_i_see_an_error_message_telling_me_to_add_details
@@ -82,11 +82,11 @@ private
   end
 
   def when_i_enter_more_than_256_characters
-    fill_in 'Details', with: 'a' * 257
+    fill_in 'Details', with: 'a ' * 201
   end
 
   def then_i_see_an_error_message_telling_me_to_be_more_concise
-    expect(page).to have_content('Explanation must be 256 characters or fewer')
+    expect(page).to have_content('Details must be 200 words or fewer').twice
   end
 
   def then_i_see_all_the_expected_elements_on_the_page
@@ -104,7 +104,7 @@ private
 
   def then_i_see_the_application_choice
     expect(page).to have_current_path candidate_interface_course_choices_course_review_path(@application_choice), ignore_query: true
-    expect(page).to have_text "Your application to #{@application_choice.current_choice.provider.name}"
+    expect(page).to have_text "Your application to #{@application_choice.current_course_option.provider.name}"
   end
 
   def primary_reasons
