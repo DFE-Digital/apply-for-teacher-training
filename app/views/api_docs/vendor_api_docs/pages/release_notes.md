@@ -1,4 +1,4 @@
-## v1.5pre — 10th July 2024
+## v1.5 — 10th July 2024
 
 Minor Version Upgrade:
 
