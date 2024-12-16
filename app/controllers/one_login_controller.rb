@@ -68,7 +68,7 @@ private
   def one_login_enabled
     return if FeatureFlag.active?(:one_login_candidate_sign_in)
 
-    redirect_to root_path
+    redirect_to candidate_interface_create_account_or_sign_in_path
   end
 
   def set_sentry_context
