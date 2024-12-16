@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: v1.5
+  version: v1.6
   title: Apply API
   contact:
     name: DfE
@@ -17,29 +17,12 @@ servers:
     url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.5
 components:
   schemas:
-    ApplicationAttributes:
-      type: object
-      properties:
-        sent_to_provider_at:
-          type: string
-          format: date-time
-          description: The date and time the application was sent to the provider
-          example: "2024-07-10T13:00:00+01:00"
-        submitted_at:
-          type: string
-          format: date-time
-          description: The date and time the Candidate first submitted in this cycle. See `sent_to_provider_at` for the date and time this specific Application was submitted.
-          example: "2019-06-13T10:44:31Z"
-          deprecated: true
-      required:
-        - sent_to_provider_at
     Reference:
       type: object
       properties:
-        feedback_provided_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was provided
-          example: "2024-07-10T13:00:00+01:00"
+        confidential:
+          type: boolean
+          description: The confidentiality status selected by the referee for the reference
+          example: true
       required:
-        - feedback_provided_at
+        - confidential
