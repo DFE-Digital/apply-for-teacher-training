@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Views offer and withdraws before carrying over', time: CycleTimetableHelper.mid_cycle do
   include CandidateHelper
 
+  before do
+    FeatureFlag.deactivate(:new_candidate_withdrawal_reasons)
+  end
+
   scenario 'candidate is awaiting provider decision' do
     given_i_am_waiting_provider_decision
     and_the_apply_deadline_passes

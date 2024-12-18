@@ -1,0 +1,35 @@
+<h1 class="govuk-heading-l"><%= t('page_titles.decisions.withdraw') %></h1>
+<%= govuk_summary_list do |summary_list| %>
+  <% summary_list.with_row do |row| %>
+    <% row.with_key(text: t('withdrawal_reasons.level_one_reason_review_component.provider')) %>
+    <% row.with_value(text: @application_choice.current_course.provider.name) %>
+  <% end %>
+  <% summary_list.with_row do |row| %>
+    <% row.with_key(text: t('withdrawal_reasons.level_one_reason_review_component.course')) %>
+    <% row.with_value(text: @application_choice.current_course.name_and_code) %>
+  <% end %>
+  <% summary_list.with_row do |row| %>
+    <% row.with_key(text: t('withdrawal_reasons.level_one_reason_review_component.reason')) %>
+    <% row.with_value(text: level_one_reason_text) %>
+    <% row.with_action(
+       text: t('withdrawal_reasons.level_one_reason_review_component.change'),
+       href: candidate_interface_withdrawal_reasons_level_one_reason_edit_path,
+       visually_hidden_text: t('withdrawal_reasons.level_one_reason_review_component.visually_hidden_change_text'),
+     ) %>
+  <% end %>
+<% end %>
+
+<%= form_with(
+    url: candidate_interface_withdrawal_create_path(@application_choice),
+    method: :post,
+  ) do |f| %>
+
+  <%= f.govuk_submit t('withdrawal_reasons.level_one_reason_review_component.submit'), warning: true %>
+<% end %>
+
+<p class="govuk-body">
+  <%= govuk_link_to(
+    t('cancel'),
+    candidate_interface_application_choices_path,
+  ) %>
+</p>

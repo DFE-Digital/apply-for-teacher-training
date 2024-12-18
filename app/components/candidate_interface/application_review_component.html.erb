@@ -31,7 +31,7 @@
 
 <% if show_withdraw? %>
   <h2 class="govuk-heading-m">Withdraw your application</h2>
-  <p class="govuk-body">You can <%= govuk_link_to 'withdraw this application', candidate_interface_withdraw_path(application_choice) %> if you no longer wish to be considered for this course.</p>
+  <p class="govuk-body">You can <%= govuk_link_to 'withdraw this application', path_for_withdrawals %> if you no longer wish to be considered for this course.</p>
 <% end %>
 
 <% if show_provider_contact_component? %>

@@ -407,6 +407,18 @@ namespace :candidate_interface, path: '/candidate' do
 
       get '/withdraw/feedback' => 'decisions#withdrawal_feedback', as: :withdrawal_feedback
       post '/withdraw/confirm-feedback' => 'decisions#confirm_withdrawal_feedback', as: :confirm_withdrawal_feedback
+
+      get '/withdrawal-reasons/level-one-reason/new' => 'withdrawal_reasons/level_one_reasons#new', as: :withdrawal_reasons_level_one_reason_new
+      post '/withdrawal-reasons/level-one-reason(/:withdrawal_reason_id)/create' => 'withdrawal_reasons/level_one_reasons#create', as: :withdrawal_reasons_level_one_reason_create
+      get '/withdrawal-reasons/level-one-reason/:withdrawal_reason_id/show' => 'withdrawal_reasons/level_one_reasons#show', as: :withdrawal_reasons_level_one_reason_show
+      get '/withdrawal-reasons/level-one-reason/:withdrawal_reason_id/edit' => 'withdrawal_reasons/level_one_reasons#edit', as: :withdrawal_reasons_level_one_reason_edit
+
+      get '/withdrawal-reasons/:level_one_reason/new' => 'withdrawal_reasons/level_two_reasons#new', as: :withdrawal_reasons_level_two_reasons_new
+      post '/withdrawal-reasons/:level_one_reason/create' => 'withdrawal_reasons/level_two_reasons#create', as: :withdrawal_reasons_level_two_reasons_create
+      get '/withdrawal-reasons/:level_one_reason/show' => 'withdrawal_reasons/level_two_reasons#show', as: :withdrawal_reasons_level_two_reasons_show
+      get '/withdrawal-reasons/:level_one_reason/edit' => 'withdrawal_reasons/level_two_reasons#edit', as: :withdrawal_reasons_level_two_reasons_edit
+
+      post '/withdrawal-reasons/create' => 'withdrawal_reasons/withdrawals#create', as: :withdrawal_create
     end
 
     scope '/other-qualifications' do

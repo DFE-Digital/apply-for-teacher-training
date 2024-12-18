@@ -1,0 +1,10 @@
+en:
+  withdrawal_reasons:
+    level_one_reason_review_component:
+      submit: Yes I’m sure – withdraw this application
+      provider: Provider
+      course: Course
+      reason: Reason
+      change: Change
+      cancel: Cancel
+      visually_hidden_change_text: reason for withdrawal
