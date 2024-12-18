@@ -15,25 +15,25 @@ RSpec.describe WithdrawalReason do
     end
   end
 
-  describe '#find_reason_options' do
+  describe '#get_reason_options' do
     context 'without a reason_id' do
       it 'returns all selectable reasons' do
-        expect(described_class.find_reason_options).to eq(selectable_reasons)
+        expect(described_class.get_reason_options).to eq(selectable_reasons)
       end
     end
 
-    context 'with primary reason id' do
+    context 'with level-one reason id' do
       it 'returns all the reasons under that id' do
         expect(
-          described_class.find_reason_options('applying-to-another-provider'),
+          described_class.get_reason_options('applying-to-another-provider'),
         ).to eq(selectable_reasons['applying-to-another-provider'])
       end
     end
 
     context 'with nested reason id' do
-      it 'returns all secondary reasons when there are any' do
+      it 'returns all level-two reasons if there are any' do
         expect(
-          described_class.find_reason_options('applying-to-another-provider.personal-circumstances-have-changed'),
+          described_class.get_reason_options('applying-to-another-provider.personal-circumstances-have-changed'),
         ).to eq({ 'concerns-about-cost-of-doing-course' => {},
                   'concerns-about-having-enough-time-to-train' => {},
                   'concerns-about-training-with-a-disability-or-health-condition' => {},
@@ -42,7 +42,7 @@ RSpec.describe WithdrawalReason do
 
       it 'returns an empty hash when there are none' do
         expect(
-          described_class.find_reason_options('applying-to-another-provider.location-is-too-far-away'),
+          described_class.get_reason_options('applying-to-another-provider.location-is-too-far-away'),
         ).to eq({})
       end
     end

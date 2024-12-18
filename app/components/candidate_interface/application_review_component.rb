@@ -168,5 +168,13 @@ module CandidateInterface
     def provider
       application_choice.current_provider
     end
+
+    def withdrawal_path
+      if FeatureFlag.active?(:new_candidate_withdrawal_reasons)
+        candidate_interface_withdrawal_reasons_level_one_reason_start_path(application_choice)
+      else
+        candidate_interface_withdraw_path(application_choice)
+      end
+    end
   end
 end

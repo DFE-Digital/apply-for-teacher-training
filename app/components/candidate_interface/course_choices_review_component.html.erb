@@ -9,9 +9,16 @@
               <span class="govuk-visually-hidden"> <%= application_choice.current_course.name_and_code %></span>
             <% end %>
           <% elsif withdrawable?(application_choice) %>
-            <%= govuk_link_to candidate_interface_withdraw_path(application_choice.id), data: { action: :withdraw } do %>
-              <%= t('application_form.courses.withdraw') %>
-              <span class="govuk-visually-hidden"> <%= application_choice.current_course.name_and_code %></span>
+            <% if FeatureFlag.active? :new_candidate_withdrawal_reasons %>
+              <%= govuk_link_to candidate_interface_withdrawal_reasons_level_one_reason_start_path(application_choice) do %>
+                <%= t('application_form.courses.withdraw') %>
+                <span class="govuk-visually-hidden"> <%= application_choice.current_course.name_and_code %></span>
+              <% end %>
+            <% else %>
+              <%= govuk_link_to candidate_interface_withdraw_path(application_choice.id), data: { action: :withdraw } do %>
+                <%= t('application_form.courses.withdraw') %>
+                <span class="govuk-visually-hidden"> <%= application_choice.current_course.name_and_code %></span>
+              <% end %>
             <% end %>
           <% end %>
         </div>
