@@ -24,7 +24,6 @@ en:
   national_careers_service:
     find_a_course_url: https://nationalcareers.service.gov.uk/find-a-course/search
   govuk:
-    one_login_account_guidance: You need a GOV.UK One Login to sign in to this service. You can create one if you do not already have one.
     url: https://www.gov.uk
     terms_conditions_url: https://www.gov.uk/help/terms-conditions
     safeguarding: https://www.gov.uk/tell-employer-or-college-about-criminal-record

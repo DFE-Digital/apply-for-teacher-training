@@ -23,12 +23,6 @@ Rails.application.routes.draw do
   get '/auth/developer/callback' => 'dfe_sign_in#bypass_callback'
   get '/auth/dfe/sign-out' => 'dfe_sign_in#redirect_after_dsi_signout'
 
-  get '/auth/one-login/callback', to: 'one_login#callback'
-  get '/auth/one-login-developer/callback' => 'one_login#bypass_callback'
-  get '/auth/one-login/sign-out', to: 'one_login#sign_out'
-  get '/auth/one-login/sign-out-complete', to: 'one_login#sign_out_complete'
-  get '/auth/failure', to: 'one_login#failure'
-
   direct :find do
     if HostingEnvironment.sandbox_mode?
       I18n.t('find_teacher_training.sandbox_url')
@@ -62,6 +56,6 @@ Rails.application.routes.draw do
     get '/404', to: 'errors#not_found'
     get '/406', to: 'errors#not_acceptable'
     get '/422', to: 'errors#unprocessable_entity'
-    get '/500', to: 'errors#internal_server_error', as: :internal_server_error
+    get '/500', to: 'errors#internal_server_error'
   end
 end

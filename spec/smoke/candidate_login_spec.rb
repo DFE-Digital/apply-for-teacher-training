@@ -1,22 +1,12 @@
 RSpec.describe 'Smoke test', :smoke, type: :feature do
   it 'allows new account creation' do
     when_i_go_to_the_account_creation_page
+    when_i_choose_to_create_an_account
+    then_i_can_create_an_account
 
-    if magic_link_signup?
-      when_i_choose_to_create_an_account
-      then_i_can_create_an_account
-
-      when_i_type_in_my_email_address
-      and_i_click_continue
-      then_i_have_been_sent_an_email
-    else
-      and_i_click_continue
-      then_i_am_redirected_to_one_login
-    end
-  end
-
-  def magic_link_signup?
-    page.has_content?('Do you already have an account?')
+    when_i_type_in_my_email_address
+    and_i_click_continue
+    then_i_have_been_sent_an_email
   end
 
   def when_i_go_to_the_account_creation_page
@@ -42,9 +32,5 @@ RSpec.describe 'Smoke test', :smoke, type: :feature do
 
   def then_i_have_been_sent_an_email
     expect(page).to have_content('Check your email')
-  end
-
-  def then_i_am_redirected_to_one_login
-    page.current_host == ENV.fetch('GOVUK_ONE_LOGIN_ISSUER_URL', '').chomp('/')
   end
 end
