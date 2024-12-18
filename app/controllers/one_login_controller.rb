@@ -36,7 +36,7 @@ class OneLoginController < ApplicationController
     reset_session
 
     session[:one_login_error] = one_login_error
-    if OneLogin.bypass?
+    if OneLogin.bypass? || id_token.nil?
       redirect_to candidate_interface_create_account_or_sign_in_path
     else
       # Go back to one login to sign out the user on their end as well
