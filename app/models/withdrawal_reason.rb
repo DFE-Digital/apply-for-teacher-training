@@ -2,6 +2,9 @@ class WithdrawalReason < ApplicationRecord
   belongs_to :application_choice
   validates :reason, presence: true
 
+  PERSONAL_CIRCUMSTANCES_KEY = 'personal-circumstances-have-changed'.freeze
+  CONFIG_PATH = 'config/candidate_withdrawal_reasons.yml'.freeze
+
   enum :status, {
     draft: 'draft',
     published: 'published',
@@ -10,8 +13,6 @@ class WithdrawalReason < ApplicationRecord
   def publish!
     update!(status: 'published')
   end
-
-  CONFIG_PATH = 'config/candidate_withdrawal_reasons.yml'.freeze
 
   def self.selectable_reasons
     YAML.load_file(CONFIG_PATH).fetch('candidate-withdrawal-reasons')

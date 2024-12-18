@@ -31,7 +31,11 @@
 
 <% if show_withdraw? %>
   <h2 class="govuk-heading-m">Withdraw your application</h2>
-  <p class="govuk-body">You can <%= govuk_link_to 'withdraw this application', candidate_interface_withdraw_path(application_choice) %> if you no longer wish to be considered for this course.</p>
+  <% if FeatureFlag.active? :new_candidate_withdrawal_reasons %>
+    <p class="govuk-body">You can <%= govuk_link_to 'withdraw this application', candidate_interface_withdrawal_reasons_primary_reason_start_path(application_choice) %> if you no longer wish to be considered for this course.</p>
+  <% else %>
+    <p class="govuk-body">You can <%= govuk_link_to 'withdraw this application', candidate_interface_withdraw_path(application_choice) %> if you no longer wish to be considered for this course.</p>
+  <% end %>
 <% end %>
 
 <% if show_provider_contact_component? %>

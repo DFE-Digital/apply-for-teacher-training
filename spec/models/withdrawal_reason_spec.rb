@@ -62,29 +62,29 @@ private
             'concerns-about-training-with-a-disability-or-health-condition' => {},
             'other' => {} },
          'course-no-longer-available' => {},
-         'other' => { 'comment' => {} } },
+         'other' => {} },
       'change-or-update-application-with-this-provider' =>
        { 'update-my-application-correct-an-error-or-add-information' => {},
          'change-study-pattern' => {},
          'apply-for-a-different-subject-with-the-same-provider' => {},
-         'other' => { 'comment' => {} } },
+         'other' => {} },
       'apply-in-the-future' =>
        { 'personal-circumstances-have-changed' =>
           { 'concerns-about-cost-of-doing-course' => {},
             'concerns-about-having-enough-time-to-train' => {},
             'concerns-about-training-with-a-disability-or-health-condition' => {},
-            'other' => { 'comment' => {} } },
+            'other' => {} },
          'gain-more-experience' => {},
          'improve-qualifications' => {},
-         'other' => { 'comment' => {} } },
+         'other' => {} },
       'do-not-want-to-train-anymore' =>
        { 'personal-circumstances-have-changed' =>
           { 'concerns-about-cost-of-doing-course' => {},
             'concerns-about-having-enough-time-to-train' => {},
             'concerns-about-training-with-a-disability-or-health-condition' => {},
-            'other' => { 'comment' => {} } },
+            'other' => {} },
          'another-career-path-or-accepted-a-job-offer' => {},
-         'other' => { 'comment' => {} } },
-      'other' => { 'comment' => {} } }
+         'other' => {} },
+      'other' => {} }
   end
 end
