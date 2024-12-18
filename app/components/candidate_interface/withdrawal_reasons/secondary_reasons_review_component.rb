@@ -13,7 +13,13 @@ module CandidateInterface
       end
 
       def reason_details
-        withdrawal_reasons.pluck(:reason, :comment).map do |reason, comment|
+        keys = WithdrawalReason.find_reason_options(@primary_reason).keys
+
+        sorted_reasons = withdrawal_reasons.pluck(:reason, :comment).sort do |a, b|
+          keys.index(a[0].split('.')[1]) <=> keys.index(b[0].split('.')[1])
+        end
+
+        sorted_reasons.map do |reason, comment|
           if reason.include? PERSONAL_CIRCUMSTANCES_KEY
             reasons_with_further_detail(reason, comment)
           else
