@@ -4,43 +4,8 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l"><%= t('page_titles.decisions.withdraw') %></h1>
-    <%= govuk_summary_list do |summary_list| %>
-      <% summary_list.with_row do |row| %>
-        <% row.with_key(text: 'Provider') %>
-        <% row.with_value(text: @application_choice.current_course.provider.name) %>
-      <% end %>
-      <% summary_list.with_row do |row| %>
-        <% row.with_key(text: 'Course') %>
-        <% row.with_value(text: @application_choice.current_course.name_and_code) %>
-      <% end %>
-      <% summary_list.with_row do |row| %>
-        <% row.with_key(text: 'Reason') %>
-        <% row.with_value(text: @secondary_reasons_form.review_primary_reason) %>
-        <% row.with_action(
-             text: 'Change',
-             href: candidate_interface_withdrawal_reasons_primary_reason_edit_path(withdrawal_reason_id: @secondary_reasons_form.withdrawal_reason_id_for_primary_redirect),
-             visually_hidden_text: 'primary reason for withdrawal',
-           ) %>
-      <% end %>
-      <% summary_list.with_row do |row| %>
-        <% row.with_key(text: 'Reason details') %>
-        <% row.with_value do %>
-          <%= govuk_list(@secondary_reasons_form.review_reasons) %>
-        <% end %>
-        <% row.with_action(
-           text: 'Change',
-           href: candidate_interface_withdrawal_reasons_secondary_reasons_start_path(primary_reason: @secondary_reasons_form.primary_reason),
-         ) %>
-
-      <% end %>
-    <% end %>
-
-    <%= form_with(
-        url: candidate_interface_withdrawal_reasons_secondary_reasons_withdraw_path(@application_choice),
-        method: :post,
-      ) do |f| %>
-
-      <%= f.govuk_submit 'Yes I’m sure – withdraw this application', warning: true %>
-    <% end %>
+      <%= render CandidateInterface::WithdrawalReasons::SecondaryReasonsReviewComponent.new(
+        @primary_reason, application_choice: @application_choice
+      ) %>
   </div>
 </div>

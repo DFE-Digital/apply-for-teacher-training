@@ -4,6 +4,8 @@ module CandidateInterface
       include ActiveModel::Model
       include ActiveModel::Validations::Callbacks
 
+      PERSONAL_CIRCUMSTANCES_KEY = 'personal-circumstances-have-changed'.freeze
+
       attr_accessor :primary_reason,
                     :secondary_reasons,
                     :personal_circumstances_reasons,
@@ -32,9 +34,9 @@ module CandidateInterface
         withdrawal_reasons = application_choice.draft_withdrawal_reasons.reject do |withdrawal_reason|
           withdrawal_reason.reason.exclude?(primary_reason)
         end
+
         withdrawal_reasons.each do |withdrawal_reason|
           if withdrawal_reason.reason.include?('personal-circumstances-have-changed.')
-            secondary_reasons << 'personal-circumstances-have-changed' unless secondary_reasons.include?('personal-circumstances-have-changed')
             personal_circumstances_reasons << (withdrawal_reason.reason.split('.') - [primary_reason]).join('.')
             personal_circumstances_reasons_comment = withdrawal_reason.comment if withdrawal_reason.comment.present?
           else
@@ -42,17 +44,9 @@ module CandidateInterface
             comment = withdrawal_reason.comment if withdrawal_reason.comment.present?
           end
         end
-        new(
-          {
-            primary_reason:,
-            secondary_reasons:,
-            personal_circumstances_reasons:,
-            comment:,
-            personal_circumstances_reasons_comment:,
-          },
-          application_choice:,
-          withdrawal_reasons:,
-        )
+
+        secondary_reasons << PERSONAL_CIRCUMSTANCES_KEY if personal_circumstances_reasons.present?
+        new({ primary_reason:, secondary_reasons:, personal_circumstances_reasons:, comment:, personal_circumstances_reasons_comment: }, application_choice:, withdrawal_reasons:)
       end
 
       def initialize(attributes = {}, application_choice: nil, withdrawal_reasons: nil)
@@ -68,7 +62,7 @@ module CandidateInterface
 
         # Then create from valid form attributes
         [secondary_reasons, personal_circumstances_reasons].flatten.each do |reason|
-          next if reason == 'personal-circumstances-have-changed'
+          next if reason == PERSONAL_CIRCUMSTANCES_KEY
 
           other_comment = if reason == 'other'
                             comment
@@ -103,57 +97,13 @@ module CandidateInterface
         end
       end
 
-      def review_reasons
-        [non_nested_reasons, nested_reasons].flatten
-      end
-
-      def nested_reasons
-        @withdrawal_reasons.pluck(:reason, :comment).map do |reason, comment|
-          next unless reason.include? 'personal-circumstances-have-changed'
-
-          personal_circumstances_label = translate('personal-circumstances-have-changed.label')
-
-          if comment.present?
-            [personal_circumstances_label, comment].join(': ')
-          else
-
-            label = translate("#{reason.gsub(primary_reason, '')}.label")
-            [personal_circumstances_label, label].join(': ')
-          end
-        end
-      end
-
-      def non_nested_reasons
-        @withdrawal_reasons.pluck(:reason, :comment).map do |reason, comment|
-          next if reason.include? 'personal-circumstances-have-changed'
-
-          translate("#{reason.gsub(primary_reason, '')}.label")
-
-          label = I18n.t("candidate_interface.withdrawal_reasons.reasons.#{reason}.label".gsub('-', '_'))
-
-          if comment.present?
-            [label, comment].join(': ')
-          else
-            label
-          end
-        end
-      end
-
-      def review_primary_reason
-        translate('label')
-      end
-
       def form_title
         translate('secondary_reasons_title')
       end
 
-      def withdrawal_reason_id_for_primary_redirect
-        @withdrawal_reasons.first.id
-      end
-
       def return_to_primary_reasons_path
         if @withdrawal_reasons.present?
-          Rails.application.routes.url_helpers.candidate_interface_withdrawal_reasons_primary_reason_edit_path(@application_choice, withdrawal_reason_id: withdrawal_reason_id_for_primary_redirect)
+          Rails.application.routes.url_helpers.candidate_interface_withdrawal_reasons_primary_reason_edit_path(@application_choice, withdrawal_reason_id: @withdrawal_reasons.first.id)
         else
           Rails.application.routes.url_helpers.candidate_interface_withdrawal_reasons_primary_reason_start_path(@application_choice)
         end
@@ -170,7 +120,7 @@ module CandidateInterface
       end
 
       def personal_circumstances_reasons_required?
-        secondary_reasons.present? && secondary_reasons.include?('personal-circumstances-have-changed')
+        secondary_reasons.present? && secondary_reasons.include?(PERSONAL_CIRCUMSTANCES_KEY)
       end
 
       def secondary_reasons_presence

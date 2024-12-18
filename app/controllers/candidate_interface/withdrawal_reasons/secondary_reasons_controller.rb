@@ -25,11 +25,7 @@ module CandidateInterface
       end
 
       def review
-        @secondary_reasons_form = SecondaryReasonsForm.new(
-          { primary_reason: },
-          application_choice: @application_choice,
-          withdrawal_reasons: @application_choice.withdrawal_reasons,
-        )
+        @primary_reason = primary_reason
       end
 
       def cancel
