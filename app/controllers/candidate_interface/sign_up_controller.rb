@@ -2,6 +2,7 @@ module CandidateInterface
   class SignUpController < CandidateInterfaceController
     skip_before_action :authenticate_candidate!
     before_action :redirect_to_application_if_signed_in, except: :external_sign_up_forbidden
+    before_action :redirect_if_one_login_enabled
 
     def show; end
 
@@ -56,6 +57,12 @@ module CandidateInterface
       @provider = Provider.find_by(code: params[:providerCode])
       @course = @provider.courses.current_cycle.find_by(code: params[:courseCode]) if @provider.present?
       @course.id if @course.present?
+    end
+
+    def redirect_if_one_login_enabled
+      if FeatureFlag.active?(:one_login_candidate_sign_in)
+        redirect_to candidate_interface_create_account_or_sign_in_path
+      end
     end
   end
 end
