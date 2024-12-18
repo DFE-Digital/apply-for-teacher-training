@@ -233,9 +233,9 @@ GEM
       activerecord (>= 4.2, < 9.0)
     docile (1.4.0)
     domain_name (0.6.20240107)
-    dotenv (3.1.6)
-    dotenv-rails (3.1.6)
-      dotenv (= 3.1.6)
+    dotenv (3.1.7)
+    dotenv-rails (3.1.7)
+      dotenv (= 3.1.7)
       railties (>= 6.1)
     drb (2.2.1)
     dry-initializer (3.1.1)
@@ -520,7 +520,7 @@ GEM
       pry (>= 0.13, < 0.15)
     pry-rails (0.3.11)
       pry (>= 0.13.0)
-    psych (5.2.1)
+    psych (5.2.2)
       date
       stringio
     public_suffix (6.0.1)
