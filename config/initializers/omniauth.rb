@@ -1,4 +1,6 @@
 OmniAuth.config.logger = Rails.logger
+require 'omniauth/strategies/one_login_developer'
+require 'omniauth/one_login_setup'
 
 dfe_sign_in_identifier = ENV['DFE_SIGN_IN_CLIENT_ID']
 dfe_sign_in_secret = ENV['DFE_SIGN_IN_SECRET']
@@ -32,6 +34,12 @@ module ::DfESignIn
   end
 end
 
+module ::OneLogin
+  def self.bypass?
+    HostingEnvironment.review? || HostingEnvironment.loadtest? || Rails.env.development?
+  end
+end
+
 if DfESignIn.bypass?
   Rails.application.config.middleware.use OmniAuth::Builder do
     provider :developer,
@@ -40,4 +48,18 @@ if DfESignIn.bypass?
   end
 else
   Rails.application.config.middleware.use OmniAuth::Strategies::OpenIDConnect, options
+end
+
+if OneLogin.bypass?
+  Rails.application.config.middleware.use OmniAuth::Builder do
+    provider :one_login_developer,
+             request_path: '/auth/one-login-developer',
+             callback_path: '/auth/one-login-developer/callback',
+             fields: %i[uid],
+             uid_field: :uid
+  end
+else
+  Rails.application.config.middleware.use OmniAuth::Builder do |builder|
+    OneLoginSetup.configure(builder)
+  end
 end
