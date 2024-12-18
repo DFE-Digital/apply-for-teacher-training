@@ -1,7 +1,7 @@
 module CandidateInterface
   module WithdrawalReasons
     class PrimaryReasonsController < WithdrawalReasonsController
-      before_action :set_draft_reason, only: %i[review withdraw edit continue cancel]
+      before_action :set_draft_reason, only: %i[review withdraw edit continue]
       before_action :clear_earlier_drafts, only: %i[review withdraw]
       def start
         @primary_reasons_form = PrimaryReasonsForm.new
@@ -37,11 +37,6 @@ module CandidateInterface
 
       def edit
         @primary_reasons_form = PrimaryReasonsForm.build_from_reason(@primary_reason)
-      end
-
-      def cancel
-        @primary_reason.destroy!
-        redirect_to candidate_interface_application_complete_path(@application_choice)
       end
 
     private

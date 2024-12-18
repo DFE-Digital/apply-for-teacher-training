@@ -8,7 +8,7 @@
     legend: { text: t('candidate_interface.withdrawal_reasons.primary_reason_title'), tag: 'h1', size: 'l' },
   ) do %>
     <% @primary_reasons_form.reason_options.each_with_index do |reason, index| %>
-      <% if reason.text_area_label.blank? %>
+      <% if reason.other_reason.blank? %>
         <%= f.govuk_radio_button(
               :primary_reason,
               reason.id,
@@ -23,7 +23,7 @@
         )  do %>
           <%= f.govuk_text_area(
                 :comment,
-                label: { text: reason.text_area_label, size: 's' },
+                label: { text: reason.other_reason, size: 's' },
                 max_words: 200,
                 rows: 5,
                 link_errors: true,

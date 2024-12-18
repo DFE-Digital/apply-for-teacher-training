@@ -40,18 +40,14 @@ module CandidateInterface
       end
 
       def reason_options
-        option = Struct.new(:id, :name, :text_area_label)
+        option = Struct.new(:id, :name, :other_reason)
         WithdrawalReason.find_reason_options.keys.map do |reason|
           option.new(
             id: reason,
             name: translate("#{reason}.label"),
-            text_area_label: reason == 'other' ? translate("#{reason}.comment.label") : nil,
+            other_reason: reason == 'other' ? translate("#{reason}.comment.label") : nil,
           )
         end
-      end
-
-      def primary_reason_text
-        [translate("#{primary_reason}.label"), comment].join(': ')
       end
 
     private

@@ -413,14 +413,12 @@ namespace :candidate_interface, path: '/candidate' do
       post '/withdrawal-reasons/primary-reason(/:withdrawal_reason_id)/continue' => 'withdrawal_reasons/primary_reasons#continue', as: :withdrawal_reasons_primary_reason_continue
       get '/withdrawal-reasons/primary-reason/:withdrawal_reason_id/review' => 'withdrawal_reasons/primary_reasons#review', as: :withdrawal_reasons_primary_reason_review
       post '/withdrawal-reasons/primary-reason/:withdrawal_reason_id/withdraw' => 'withdrawal_reasons/primary_reasons#withdraw', as: :withdrawal_reasons_primary_reason_withdraw
-      post '/withdrawal-reasons/primary-reason/:withdrawal_reason_id/cancel' => 'withdrawal_reasons/primary_reasons#cancel', as: :withdrawal_reasons_primary_reason_cancel
       get '/withdrawal-reasons/primary-reason/:withdrawal_reason_id/edit' => 'withdrawal_reasons/primary_reasons#edit', as: :withdrawal_reasons_primary_reason_edit
 
       get '/withdrawal-reasons/:primary_reason/start' => 'withdrawal_reasons/secondary_reasons#start', as: :withdrawal_reasons_secondary_reasons_start
       post '/withdrawal-reasons/:primary_reason/continue' => 'withdrawal_reasons/secondary_reasons#continue', as: :withdrawal_reasons_secondary_reasons_continue
       get '/withdrawal-reasons/:primary_reason/review' => 'withdrawal_reasons/secondary_reasons#review', as: :withdrawal_reasons_secondary_reasons_review
       post '/withdrawal-reasons/:primary_reason/withdraw' => 'withdrawal_reasons/secondary_reasons#withdraw', as: :withdrawal_reasons_secondary_reasons_withdraw
-      post '/withdrawal-reasons/:primary_reason/cancel' => 'withdrawal_reasons/secondary_reasons#cancel', as: :withdrawal_reasons_secondary_reasons_cancel
       get '/withdrawal-reasons/:primary_reason/edit' => 'withdrawal_reasons/secondary_reasons#edit', as: :withdrawal_reasons_secondary_reasons_edit
     end
 
