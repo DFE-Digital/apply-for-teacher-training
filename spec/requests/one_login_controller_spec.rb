@@ -110,7 +110,7 @@ RSpec.describe 'OneLoginController' do
     end
   end
 
-  describe 'GET /auth/one-login/sign_out' do
+  describe 'GET /auth/one-login/sign-out' do
     it 'redirects to one_login logout url' do
       create(:candidate, email_address: 'test@email.com')
 
@@ -162,9 +162,16 @@ RSpec.describe 'OneLoginController' do
         expect(response).to redirect_to candidate_interface_create_account_or_sign_in_path
       end
     end
+
+    context 'session id_token is nil' do
+      it 'redirects to sign_in page' do
+        get auth_one_login_sign_out_path
+        expect(response).to redirect_to candidate_interface_create_account_or_sign_in_path
+      end
+    end
   end
 
-  describe 'GET /auth/one-login/sign_out_complete' do
+  describe 'GET /auth/one-login/sign-out-complete' do
     context 'when candidate has a different one login token than the one returned by one login' do
       it 'redirects to logout_one_login_path and persists the session error message' do
         candidate = create(:candidate, email_address: 'test@email.com')
