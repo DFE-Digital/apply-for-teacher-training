@@ -66,6 +66,9 @@ module VendorAPI
       Changes::V15::AddApplicationSentToProviderDatetime,
       Changes::V15::AddReferenceFeedbackProvidedAtDatetime,
     ],
-    '1.6pre' => [Changes::V16::AddConfidentialToReference],
+    '1.6pre' => [
+      Changes::V16::AddConfidentialToReference,
+      Changes::V16::AddInactiveToApplicationAttributeStatuses,
+    ],
   }.freeze
 end

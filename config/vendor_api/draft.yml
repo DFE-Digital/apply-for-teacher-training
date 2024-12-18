@@ -17,6 +17,11 @@ servers:
     url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.5
 components:
   schemas:
+    ApplicationAttributes:
+      properties:
+        inactive:
+          type: boolean
+          description: Indicates whether the application is inactive, based on time-sensitive criteria. If true, the application is considered inactive; otherwise, it remains active.
     Reference:
       type: object
       properties:
