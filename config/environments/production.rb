@@ -62,12 +62,6 @@ Rails.application.configure do
   config.log_format = :json                               # For parsing in Logit
   config.rails_semantic_logger.add_file_appender = false  # Don't log to file
   config.active_record.logger = nil                       # Don't log SQL
-  config.rails_semantic_logger.format = :json
-  config.semantic_logger.add_appender(
-    io: $stdout,
-    level: config.log_level,
-    formatter: config.rails_semantic_logger.format,
-    )
 
   # Change to "debug" to log everything (including potentially personally-identifiable information!)
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
