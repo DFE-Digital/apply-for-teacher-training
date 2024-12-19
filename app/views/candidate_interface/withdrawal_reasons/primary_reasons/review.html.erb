@@ -1,0 +1,11 @@
+<% content_for :title, t('page_titles.decisions.withdraw') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_withdrawal_reasons_primary_reason_start_path, 'Back', force_text: true) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render CandidateInterface::WithdrawalReasons::PrimaryReasonReviewComponent.new(
+      application_choice: @application_choice,
+      withdrawal_reason: @primary_reason,
+    ) %>
+  </div>
+</div>
