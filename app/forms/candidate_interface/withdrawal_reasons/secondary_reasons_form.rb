@@ -4,8 +4,6 @@ module CandidateInterface
       include ActiveModel::Model
       include ActiveModel::Validations::Callbacks
 
-      PERSONAL_CIRCUMSTANCES_KEY = 'personal-circumstances-have-changed'.freeze
-
       attr_accessor :primary_reason,
                     :secondary_reasons,
                     :personal_circumstances_reasons,
@@ -25,27 +23,35 @@ module CandidateInterface
 
       before_validation :sanitize_reasons
 
-      def self.build_from_application_choice(primary_reason, application_choice)
-        secondary_reasons = []
-        personal_circumstances_reasons = []
-        personal_circumstances_reasons_comment = nil
-        comment = nil
+      PERSONAL_CIRCUMSTANCES_KEY = WithdrawalReason::PERSONAL_CIRCUMSTANCES_KEY
 
+      def self.build_from_application_choice(primary_reason, application_choice)
         withdrawal_reasons = application_choice.draft_withdrawal_reasons.reject do |withdrawal_reason|
           withdrawal_reason.reason.exclude?(primary_reason)
         end
 
-        withdrawal_reasons.each do |withdrawal_reason|
-          if withdrawal_reason.reason.include?("#{PERSONAL_CIRCUMSTANCES_KEY}.")
-            personal_circumstances_reasons << (withdrawal_reason.reason.split('.') - [primary_reason]).join('.')
-            personal_circumstances_reasons_comment = withdrawal_reason.comment if withdrawal_reason.comment.present?
-          else
-            secondary_reasons << (withdrawal_reason.reason.split('.') - [primary_reason]).join('.')
-            comment = withdrawal_reason.comment if withdrawal_reason.comment.present?
-          end
+        secondary_reasons = withdrawal_reasons.filter do |withdrawal_reason|
+          withdrawal_reason.reason.exclude?("#{PERSONAL_CIRCUMSTANCES_KEY}.")
+        end&.map do |withdrawal_reason|
+          (withdrawal_reason.reason.split('.') - [primary_reason]).join('.')
+        end
+
+        personal_circumstances_reasons =  withdrawal_reasons.filter do |withdrawal_reason|
+          withdrawal_reason.reason.include?("#{PERSONAL_CIRCUMSTANCES_KEY}.")
+        end&.map do |withdrawal_reason|
+          (withdrawal_reason.reason.split('.') - [primary_reason]).join('.')
         end
 
         secondary_reasons << PERSONAL_CIRCUMSTANCES_KEY if personal_circumstances_reasons.present?
+
+        personal_circumstances_reasons_comment = withdrawal_reasons.find do |withdrawal_reason|
+          withdrawal_reason.reason.include?("#{PERSONAL_CIRCUMSTANCES_KEY}.other")
+        end&.comment
+
+        comment = withdrawal_reasons.find do |withdrawal_reason|
+          withdrawal_reason.reason.include?("#{primary_reason}.other")
+        end&.comment
+
         new({ primary_reason:, secondary_reasons:, personal_circumstances_reasons:, comment:, personal_circumstances_reasons_comment: }, application_choice:, withdrawal_reasons:)
       end
 
@@ -55,7 +61,7 @@ module CandidateInterface
         super(attributes)
       end
 
-      def create!
+      def persist!
         # Destroy any existing drafts; we just want to create what is in the form params
         # Reasons can be orphaned if the user abandons the withdrawal form before confirming or cancelling.
         @application_choice.draft_withdrawal_reasons.destroy_all
@@ -66,7 +72,7 @@ module CandidateInterface
 
           other_comment = if reason == 'other'
                             comment
-                          elsif reason == 'personal-circumstances-have-changed.other'
+                          elsif reason == "#{PERSONAL_CIRCUMSTANCES_KEY}.other"
                             personal_circumstances_reasons_comment
                           end
 
@@ -116,7 +122,7 @@ module CandidateInterface
       end
 
       def personal_circumstances_reasons_comment_required?
-        personal_circumstances_reasons.present? && personal_circumstances_reasons.include?('personal-circumstances-have-changed.other')
+        personal_circumstances_reasons.present? && personal_circumstances_reasons.include?("#{PERSONAL_CIRCUMSTANCES_KEY}.other")
       end
 
       def personal_circumstances_reasons_required?

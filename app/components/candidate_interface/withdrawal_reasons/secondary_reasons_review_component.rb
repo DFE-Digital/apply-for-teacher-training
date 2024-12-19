@@ -1,8 +1,6 @@
 module CandidateInterface
   module WithdrawalReasons
     class SecondaryReasonsReviewComponent < ViewComponent::Base
-      PERSONAL_CIRCUMSTANCES_KEY = 'personal-circumstances-have-changed'.freeze
-
       def initialize(primary_reason, application_choice:)
         @application_choice = application_choice
         @primary_reason = primary_reason
@@ -13,14 +11,8 @@ module CandidateInterface
       end
 
       def reason_details
-        keys = WithdrawalReason.find_reason_options(@primary_reason).keys
-
-        sorted_reasons = withdrawal_reasons.pluck(:reason, :comment).sort do |a, b|
-          keys.index(a[0].split('.')[1]) <=> keys.index(b[0].split('.')[1])
-        end
-
         sorted_reasons.map do |reason, comment|
-          if reason.include? PERSONAL_CIRCUMSTANCES_KEY
+          if reason.include?(personal_circumstances_key)
             reasons_with_further_detail(reason, comment)
           else
             reason_without_further_detail(reason, comment)
@@ -47,7 +39,7 @@ module CandidateInterface
       end
 
       def reasons_with_further_detail(reason, comment = nil)
-        personal_circumstances_label = translate("#{@primary_reason}.#{PERSONAL_CIRCUMSTANCES_KEY}.label")
+        personal_circumstances_label = translate("#{@primary_reason}.#{personal_circumstances_key}.label")
         label = translate("#{reason}.label")
 
         if comment.present?
@@ -59,6 +51,18 @@ module CandidateInterface
 
       def translate(string)
         I18n.t("candidate_interface.withdrawal_reasons.reasons.#{string}".gsub!('-', '_'))
+      end
+
+      def personal_circumstances_key
+        WithdrawalReason::PERSONAL_CIRCUMSTANCES_KEY
+      end
+
+      def sorted_reasons
+        reason_keys = WithdrawalReason.find_reason_options(@primary_reason).keys
+
+        withdrawal_reasons.pluck(:reason, :comment).sort do |a, b|
+          reason_keys.index(a[0].split('.')[1]) <=> reason_keys.index(b[0].split('.')[1])
+        end
       end
     end
   end

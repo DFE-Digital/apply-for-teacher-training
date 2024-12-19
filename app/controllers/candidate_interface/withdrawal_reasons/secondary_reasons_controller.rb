@@ -8,7 +8,7 @@ module CandidateInterface
       def continue
         @secondary_reasons_form = SecondaryReasonsForm.new(form_params, application_choice: @application_choice)
         if @secondary_reasons_form.valid?
-          @secondary_reasons_form.create!
+          @secondary_reasons_form.persist!
           redirect_to candidate_interface_withdrawal_reasons_secondary_reasons_review_path
         else
           render :start
