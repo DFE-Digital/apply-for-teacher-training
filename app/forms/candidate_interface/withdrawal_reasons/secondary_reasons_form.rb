@@ -36,7 +36,7 @@ module CandidateInterface
         end
 
         withdrawal_reasons.each do |withdrawal_reason|
-          if withdrawal_reason.reason.include?('personal-circumstances-have-changed.')
+          if withdrawal_reason.reason.include?("#{PERSONAL_CIRCUMSTANCES_KEY}.")
             personal_circumstances_reasons << (withdrawal_reason.reason.split('.') - [primary_reason]).join('.')
             personal_circumstances_reasons_comment = withdrawal_reason.comment if withdrawal_reason.comment.present?
           else
@@ -61,7 +61,7 @@ module CandidateInterface
         @application_choice.draft_withdrawal_reasons.destroy_all
 
         # Then create from valid form attributes
-        [secondary_reasons, personal_circumstances_reasons].flatten.each do |reason|
+        [secondary_reasons, personal_circumstances_reasons].flatten.compact.each do |reason|
           next if reason == PERSONAL_CIRCUMSTANCES_KEY
 
           other_comment = if reason == 'other'
