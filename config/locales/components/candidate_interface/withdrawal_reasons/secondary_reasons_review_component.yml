@@ -1,0 +1,12 @@
+en:
+  withdrawal_reasons:
+    secondary_reasons_review_component:
+      submit: Yes I’m sure – withdraw this application
+      provider: Provider
+      course: Course
+      reason: Reason
+      reason_details: Reason details
+      change: Change
+      cancel: Cancel
+      secondary_reasons_visually_hidden_change_text: additional details for withdrawal
+      primary_reason_visually_hidden_change_text: primary reason for withdrawal
