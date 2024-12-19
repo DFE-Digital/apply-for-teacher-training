@@ -11,7 +11,7 @@ module CandidateInterface
 
     def call
       raise ApplicationNotReadyToSendError, application_choice unless application_choice.unsubmitted?
-
+# just a comment
       ActiveRecord::Base.transaction do
         application_choice.assign_attributes(personal_statement: application_form.becoming_a_teacher)
         application_form.update!(submitted_at:) unless application_form.submitted_applications?
