@@ -1,15 +1,28 @@
 class OneLoginController < ApplicationController
+  include Authentication
+
   before_action :redirect_to_candidate_sign_in_unless_one_login_enabled
+  allow_unauthenticated_access
+  # We need to allow requests to these endpoints without requiering authentication to be able to login the candidate and also log out the candidate by just calling these endpoints.
+  # There are cases where the user is logged in in one admin but not in our system because of an error in our system, so we need to be able to call sign-out endpoint to log them out of one login
+
+  ## after sign in candidate contoller needs redirect if one login?
 
   def callback
     auth = request.env['omniauth.auth']
-    session[:one_login_id_token] = auth&.credentials&.id_token
+    # session[:one_login_id_token] = auth&.credentials&.id_token
+
     candidate = OneLoginUser.authenticate_or_create_by(auth)
 
-    sign_in_candidate(candidate)
+    start_new_session_for(
+      candidate:,
+      id_token_hint: auth&.credentials&.id_token,
+    )
+    #sign_in_candidate(candidate)
 
     redirect_to candidate_interface_interstitial_path
   rescue OneLoginUser::Error => e
+    # We can't attach an error message to the session because in some cases we don't create a session if there's an error
     session[:one_login_error] = e.message
     redirect_to auth_one_login_sign_out_path
   end
@@ -21,7 +34,7 @@ class OneLoginController < ApplicationController
     candidate = one_login_user_bypass.authenticate
 
     if candidate.present?
-      sign_in_candidate(candidate)
+      start_new_session_for(candidate:)
 
       redirect_to candidate_interface_interstitial_path
     else
@@ -31,16 +44,22 @@ class OneLoginController < ApplicationController
   end
 
   def sign_out
-    id_token = session[:one_login_id_token]
+    id_token_hint = Current.session&.id_token_hint
     one_login_error = session[:one_login_error]
-    reset_session
+    #reset_session how do we handle the one login error?
 
+    terminate_session
+
+    ## how do you sign out when users are logged in and we switch off the
+    ## one login feature flag
+
+    byebug
     session[:one_login_error] = one_login_error
-    if OneLogin.bypass?
+    if OneLogin.bypass? || id_token_hint.nil?
       redirect_to candidate_interface_create_account_or_sign_in_path
     else
       # Go back to one login to sign out the user on their end as well
-      redirect_to logout_one_login(id_token), allow_other_host: true
+      redirect_to logout_one_login(id_token_hint), allow_other_host: true
     end
   end
 

@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_19_121036) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
-  enable_extension "plpgsql"
   enable_extension "unaccent"
 
   create_table "account_recovery_request_codes", force: :cascade do |t|
@@ -796,6 +796,17 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.index ["application_choice_id"], name: "index_rejection_feedbacks_on_application_choice_id"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.bigint "candidate_id", null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.string "id_token_hint"
+    t.string "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_id"], name: "index_sessions_on_candidate_id"
+  end
+
   create_table "site_settings", force: :cascade do |t|
     t.string "name"
     t.text "value"
@@ -939,6 +950,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
   add_foreign_key "reference_tokens", "references", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "rejection_feedbacks", "application_choices", on_delete: :cascade
+  add_foreign_key "sessions", "candidates", on_delete: :cascade
   add_foreign_key "sites", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
 end

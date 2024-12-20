@@ -36,7 +36,8 @@ end
 
 module ::OneLogin
   def self.bypass?
-    HostingEnvironment.review? || HostingEnvironment.loadtest? || Rails.env.development?
+  #  HostingEnvironment.review? || HostingEnvironment.loadtest? || Rails.env.development?
+    false
   end
 end
 
