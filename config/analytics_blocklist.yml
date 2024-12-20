@@ -1,5 +1,22 @@
 ---
 :shared:
+  :sessions:
+  - id
+  - candidate_id
+  - ip_address
+  - user_agent
+  - id_token_hint
+  - error_message
+  - created_at
+  - updated_at
+  :session_errors:
+  - id
+  - candidate_id
+  - id_token_hint
+  - body
+  - omniauth_hash
+  - created_at
+  - updated_at
   :audits:
   - id
   - auditable_id

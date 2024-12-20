@@ -1,9 +1,10 @@
 module CandidateInterface
   class CandidateInterfaceController < ApplicationController
     include BackLinks
+    include Authentication
 
     before_action :protect_with_basic_auth
-    before_action :authenticate_candidate!
+    before_action :authenticate_candidate!, unless: -> { one_login_enabled? }
     before_action :set_user_context
     before_action :check_cookie_preferences
     before_action :check_account_locked
@@ -11,6 +12,10 @@ module CandidateInterface
     layout 'application'
     alias audit_user current_candidate
     alias current_user current_candidate
+
+    def current_candidate
+      super || Current.session&.candidate
+    end
 
     def set_user_context(candidate_id = current_candidate&.id)
       Sentry.set_user(id: "candidate_#{candidate_id}")
