@@ -50,7 +50,7 @@ RSpec.describe 'Post-offer references', :with_audited, time: CycleTimetable.appl
   end
 
   def when_i_visit_the_application_dashboard
-    visit candidate_interface_application_complete_path
+    visit candidate_interface_application_choices_path
   end
 
   def then_i_see_the_post_offer_dashboard

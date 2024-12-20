@@ -174,7 +174,6 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
   def then_i_am_on_the_pages_that_is_possible_to_carry_over_an_application
     # rubocop:disable Capybara/CurrentPathExpectation
     expect(page.current_path).to eq(candidate_interface_start_carry_over_path)
-                                   .or(eq(candidate_interface_application_complete_path))
     # rubocop:enable Capybara/CurrentPathExpectation
   end
 
