@@ -64,7 +64,6 @@ namespace :candidate_interface, path: '/candidate' do
     get '/prefill', to: 'prefill_application_form#new'
     post '/prefill', to: 'prefill_application_form#create'
 
-    get '/complete' => 'submitted_application_form#complete', as: :application_complete
     get '/review/submitted' => 'submitted_application_form#review_submitted', as: :application_review_submitted
 
     scope '/manage-conditions' do

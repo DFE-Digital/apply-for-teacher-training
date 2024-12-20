@@ -5,7 +5,7 @@ module PostOfferHelper
   end
 
   def when_i_visit_the_application_dashboard
-    visit candidate_interface_application_complete_path
+    visit candidate_interface_application_choices_path
   end
 
   def and_i_see_my_references

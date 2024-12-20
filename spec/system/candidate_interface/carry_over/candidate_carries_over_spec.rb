@@ -25,7 +25,7 @@ RSpec.describe 'Carry over unsubmitted applications', :sidekiq do
     then_i_am_redirect_to_your_applications_tab
 
     when_i_visit_the_old_complete_page
-    then_i_am_redirected_to_continuous_application_details_page
+    then_i_see_a_404_page
   end
 
   scenario 'candidate carries over unsubmitted application after find opens deadline' do
@@ -45,7 +45,7 @@ RSpec.describe 'Carry over unsubmitted applications', :sidekiq do
     then_i_am_redirect_to_your_applications_tab
 
     when_i_visit_the_old_complete_page
-    then_i_am_redirected_to_continuous_application_details_page
+    then_i_see_a_404_page
   end
 
   scenario 'candidate carries over submitted application after find opens deadline' do
@@ -65,7 +65,7 @@ RSpec.describe 'Carry over unsubmitted applications', :sidekiq do
     then_i_am_redirect_to_your_applications_tab
 
     when_i_visit_the_old_complete_page
-    then_i_am_redirected_to_continuous_application_details_page
+    then_i_see_a_404_page
   end
 
 private
@@ -170,10 +170,6 @@ private
     end
   end
 
-  def then_i_am_redirected_to_complete_page
-    expect(page).to have_current_path(candidate_interface_application_complete_path)
-  end
-
   def when_i_carry_over
     click_link_or_button 'Update your details'
   end
@@ -181,6 +177,10 @@ private
   def then_i_am_redirected_to_continuous_application_details_page
     expect(page).to have_current_path candidate_interface_details_path
     then_i_see_a_copy_of_my_application
+  end
+
+  def then_i_see_a_404_page
+    expect(page).to have_content 'Page not found'
   end
 
   def when_i_go_to_your_applications_tab
@@ -211,7 +211,7 @@ private
   end
 
   def when_i_visit_the_old_complete_page
-    visit candidate_interface_application_complete_path
+    visit '/application/complete'
   end
 
   def then_i_see_a_copy_of_my_application
