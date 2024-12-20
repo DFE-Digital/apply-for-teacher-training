@@ -30,13 +30,6 @@ RSpec.describe 'Cycle redirects' do
         expect(response).to redirect_to(candidate_interface_details_path)
       end
     end
-
-    context 'when accessing the complete route' do
-      it 'redirects to the application details' do
-        get candidate_interface_application_complete_path
-        expect(response).to redirect_to(candidate_interface_details_path)
-      end
-    end
   end
 
   context 'when not continuous applications', time: mid_cycle do

@@ -17,7 +17,7 @@ RSpec.describe 'Carry over unsubmitted application' do
     when_i_click_on_the_references_section
     then_i_see_the_new_states_of_my_references
 
-    when_i_visit_the_application_complete_page
+    when_i_visit_the_application_dashboard
     then_i_am_on_your_details_page
   end
 
@@ -65,6 +65,7 @@ RSpec.describe 'Carry over unsubmitted application' do
   def and_i_visit_the_application_dashboard
     visit root_path
   end
+  alias_method :when_i_visit_the_application_dashboard, :and_i_visit_the_application_dashboard
 
   def and_references_is_marked_as_incomplete
     expect(safeguarding_section.text.downcase).to include('references to be requested if you accept an offer incomplete')

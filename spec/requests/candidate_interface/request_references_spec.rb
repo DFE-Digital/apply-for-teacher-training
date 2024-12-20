@@ -12,7 +12,7 @@ RSpec.describe 'Candidate Interface - Request references' do
     it 'redirects to the complete path' do
       get candidate_interface_request_reference_references_start_path
 
-      expect(response).to redirect_to(candidate_interface_application_complete_path)
+      expect(response).to redirect_to(candidate_interface_application_choices_path)
     end
   end
 

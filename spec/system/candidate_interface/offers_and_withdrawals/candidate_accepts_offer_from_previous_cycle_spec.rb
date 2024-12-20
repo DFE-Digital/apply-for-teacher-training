@@ -495,7 +495,7 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
   end
 
   def and_i_view_my_application
-    visit candidate_interface_application_complete_path
+    visit candidate_interface_application_choices_path
   end
 
   def then_i_see_the_new_dashboard_content

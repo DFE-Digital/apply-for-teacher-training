@@ -821,10 +821,6 @@ module CandidateHelper
     current_candidate.current_application.application_choices.last
   end
 
-  def when_i_visit_the_application_complete_page
-    visit candidate_interface_application_complete_path
-  end
-
   def then_i_am_on_your_details_page
     expect(page).to have_current_path(candidate_interface_details_path)
   end

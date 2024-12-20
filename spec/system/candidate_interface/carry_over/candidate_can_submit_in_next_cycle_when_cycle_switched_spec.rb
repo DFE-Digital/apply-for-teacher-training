@@ -70,7 +70,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', time: CycleTimetable
   end
 
   def and_i_visit_the_application_dashboard
-    visit candidate_interface_application_complete_path
+    visit candidate_interface_application_choices_path
   end
 
   def then_i_cannot_submit_my_application
