@@ -5,7 +5,6 @@ class CreateSession < ActiveRecord::Migration[8.0]
       t.string :ip_address
       t.string :user_agent
       t.string :id_token_hint
-      t.string :error_message
 
       t.timestamps
     end

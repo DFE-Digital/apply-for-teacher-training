@@ -9,6 +9,14 @@
   - error_message
   - created_at
   - updated_at
+  :session_errors:
+  - id
+  - candidate_id
+  - id_token_hint
+  - body
+  - omniauth_hash
+  - created_at
+  - updated_at
   :audits:
   - id
   - auditable_id

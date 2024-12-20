@@ -38,17 +38,23 @@ private
   end
 
   def request_authentication
-    redirect_to auth_one_login_sign_out_path
+    #redirect_to auth_one_login_sign_out_path
+    redirect_to candidate_interface_create_account_or_sign_in_path
+    ## Does this need to go to one login sign_out or candidate_sign_in?
   end
 
   def start_new_session_for(candidate:, id_token_hint: nil)
-    candidate.sessions.create!(
-      user_agent: request.user_agent,
-      ip_address: request.remote_ip,
-      id_token_hint:,
-    ).tap do |session|
-      Current.session = session
-      cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
+    ActiveRecord::Base.transaction do
+      candidate.sessions.create!(
+        user_agent: request.user_agent,
+        ip_address: request.remote_ip,
+        id_token_hint:,
+      ).tap do |session|
+        Current.session = session
+        cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
+
+        candidate.update!(last_signed_in_at: Time.zone.now)
+      end
     end
   end
 
