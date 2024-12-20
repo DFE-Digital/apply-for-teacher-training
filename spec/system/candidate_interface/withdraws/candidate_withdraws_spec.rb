@@ -8,6 +8,7 @@ RSpec.describe 'A candidate withdraws their application', :bullet do
   # Our mailer previews are reliant on build_stubbed so we need to exclude this test.
 
   before do
+    FeatureFlag.deactivate :new_candidate_withdrawal_reasons
     Bullet.raise = false
   end
 

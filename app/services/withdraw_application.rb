@@ -10,6 +10,7 @@ class WithdrawApplication
         withdrawn_at: Time.zone.now,
         withdrawn_or_declined_for_candidate_by_provider: false,
       )
+      application_choice.draft_withdrawal_reasons.each(&:publish!)
     end
 
     CancelUpcomingInterviews.new(

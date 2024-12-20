@@ -6,7 +6,9 @@ const getCompleteSectionCheckbox = () => {
 }
 
 const getTextArea = () => {
-  return document.querySelector('.govuk-textarea')
+  const $textAreas = document.querySelectorAll('.govuk-textarea')
+
+  return [].filter.call($textAreas, ($textArea) => $textArea.rows > 5)[0]
 }
 
 const getFirstEnhanceableForm = () => {
