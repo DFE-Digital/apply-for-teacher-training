@@ -26,6 +26,8 @@ class ApplicationChoice < ApplicationRecord
 
   has_many :notes, dependent: :destroy
   has_many :interviews, dependent: :destroy
+  has_many :withdrawal_reasons, dependent: :destroy
+  has_many :draft_withdrawal_reasons, -> { draft }, class_name: 'WithdrawalReason', dependent: :destroy
 
   has_many :work_experiences, as: :experienceable, class_name: 'ApplicationWorkExperience'
   has_many :volunteering_experiences, as: :experienceable, class_name: 'ApplicationVolunteeringExperience'
