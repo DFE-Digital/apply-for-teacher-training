@@ -106,7 +106,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   def and_i_visit_my_application_complete_page
     logout
     login_as(@candidate)
-    visit candidate_interface_application_complete_path
+    visit candidate_interface_application_choices_path
   end
 
   def and_i_refresh_the_page
