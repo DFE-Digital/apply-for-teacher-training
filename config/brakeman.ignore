@@ -116,6 +116,29 @@
       "note": ""
     },
     {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "783f66b9e6119c7b65c794a57f29b291e256d49267c511bff375d031ef83ea96",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/one_login_controller.rb",
+      "line": 71,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(logout_one_login((Current.session.id_token_hint or SessionError.find_by(:id => session[:session_error_id]).id_token_hint)), :allow_other_host => true)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "OneLoginController",
+        "method": "sign_out"
+      },
+      "user_input": "Current.session.id_token_hint",
+      "confidence": "Weak",
+      "cwe_id": [
+        601
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "SQL Injection",
       "warning_code": 0,
       "fingerprint": "7ebec2ba1f928826a941998c744411d55731a6eeb19dc1b1a406b3fb3a19b330",
@@ -277,6 +300,29 @@
       "note": ""
     },
     {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "bb99c47602bf4e5e8c658f10645d3d0af3f1ac7e78e590db5e66d8986ba1642a",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Session#find_by`",
+      "file": "app/controllers/concerns/authentication.rb",
+      "line": 32,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Session.find_by(:id => cookies.signed[:session_id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Authentication",
+        "method": "find_session_by_cookie"
+      },
+      "user_input": "cookies.signed[:session_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "SQL Injection",
       "warning_code": 0,
       "fingerprint": "c70b946ccbfabd084091ad425893a7647560431761faa0f86bf80e95ffa007e1",
@@ -346,6 +392,6 @@
       "note": ""
     }
   ],
-  "updated": "2024-08-27 15:35:00 +0100",
-  "brakeman_version": "6.1.2"
+  "updated": "2025-01-02 12:10:42 +0000",
+  "brakeman_version": "6.2.2"
 }
