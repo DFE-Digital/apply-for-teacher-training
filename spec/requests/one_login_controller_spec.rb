@@ -35,10 +35,10 @@ RSpec.describe 'OneLoginController' do
     context 'when there is no omniauth_hash' do
       let(:omniauth_hash) { nil }
 
-      it 'returns unprocessable_entity' do
+      it 'redirects to internal_server_error' do
         get auth_one_login_callback_path
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to redirect_to internal_server_error_path
       end
     end
 
@@ -46,13 +46,18 @@ RSpec.describe 'OneLoginController' do
       it 'redirects to auth_one_login_sign_out_path' do
         candidate = create(:candidate, email_address: 'test@email.com')
         create(:one_login_auth, candidate:, token: '456')
+        allow(Sentry).to receive(:capture_message)
 
-        get auth_one_login_callback_path
+        expect {
+          get auth_one_login_callback_path
+        }.to change(SessionError, :count).by(1)
 
         expect(response).to redirect_to(auth_one_login_sign_out_path)
-        expect(session[:one_login_error]).to eq(
-          "Candidate #{candidate.id} has a different one login token than the " \
-          'user trying to login. Token used to auth 123',
+        expect(session[:session_error_id]).to eq(SessionError.last.id)
+
+        expect(Sentry).to have_received(:capture_message).with(
+          "One login session error, check session_error record #{SessionError.last.id}",
+          level: :error,
         )
       end
     end
@@ -132,15 +137,20 @@ RSpec.describe 'OneLoginController' do
       it 'redirects to one_login logout url and persists the session error message' do
         candidate = create(:candidate, email_address: 'test@email.com')
         create(:one_login_auth, candidate:, token: '456')
+        allow(Sentry).to receive(:capture_message)
 
-        get auth_one_login_callback_path # set the session variables
+        expect {
+          get auth_one_login_callback_path # set the session variables
+        }.to change(SessionError, :count).by(1)
+
         get auth_one_login_sign_out_path
 
-        expect(session[:one_login_id_token]).to be_nil
-        expect(session[:one_login_error]).to eq(
-          "Candidate #{candidate.id} has a different one login token than the " \
-          'user trying to login. Token used to auth 123',
+        expect(Sentry).to have_received(:capture_message).with(
+          "One login session error, check session_error record #{SessionError.last.id}",
+          level: :error,
         )
+
+        expect(session[:session_error_id]).to eq(SessionError.last.id)
 
         params = {
           post_logout_redirect_uri: URI(auth_one_login_sign_out_complete_url),
@@ -170,6 +180,7 @@ RSpec.describe 'OneLoginController' do
       end
     end
   end
+  # 137
 
   describe 'GET /auth/one-login/sign-out-complete' do
     context 'when candidate has a different one login token than the one returned by one login' do
@@ -178,12 +189,14 @@ RSpec.describe 'OneLoginController' do
         create(:one_login_auth, candidate:, token: '456')
         allow(Sentry).to receive(:capture_message)
 
-        get auth_one_login_callback_path # set the session variables
+        expect {
+          get auth_one_login_callback_path # set the session variables
+        }.to change(SessionError, :count).by(1)
+
         get auth_one_login_sign_out_complete_path
 
         expect(Sentry).to have_received(:capture_message).with(
-          "Candidate #{candidate.id} has a different one login token than the " \
-          'user trying to login. Token used to auth 123',
+          "One login session error, check session_error record #{SessionError.last.id}",
           level: :error,
         )
         expect(response).to redirect_to(internal_server_error_path)
@@ -203,12 +216,18 @@ RSpec.describe 'OneLoginController' do
 
   describe 'GET /auth/one-login/failure' do
     it 'redirects to auth_failure_path with one login error' do
+      allow(Sentry).to receive(:capture_message)
       get auth_one_login_callback_path # set the session variables
-      get auth_failure_path(params: { message: 'error_message' })
 
-      expect(session[:one_login_error]).to eq(
-        'One login failure with error_message for one_login_id_token: id_token',
+      expect {
+        get auth_failure_path(params: { message: 'error_message' })
+      }.to change(SessionError, :count).by(1)
+
+      expect(Sentry).to have_received(:capture_message).with(
+        "One login failure with error_message, check session_error record #{SessionError.last.id}",
+        level: :error,
       )
+      expect(session[:session_error_id]).to eq(SessionError.last.id)
       expect(response).to redirect_to(auth_one_login_sign_out_path)
     end
   end
