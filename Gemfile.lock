@@ -218,7 +218,7 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
-    csv (3.3.0)
+    csv (3.3.1)
     date (3.4.1)
     declarative (0.0.20)
     deepsort (0.5.0)
@@ -295,7 +295,7 @@ GEM
       ffi (>= 1.0.0)
       rake
     formatador (1.1.0)
-    geocoder (1.8.4)
+    geocoder (1.8.5)
       base64 (>= 0.1.0)
       csv (>= 3.0.0)
     globalid (1.2.1)
