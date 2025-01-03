@@ -158,3 +158,11 @@ UPDATE "vendor_api_users"
 SET
     full_name = concat('Api User', id),
     email_address = concat('application_reference_', id, '@example.com');
+
+-- WithdrawalReason
+UPDATE "withdrawal_reasons"
+SET
+    comment = CASE
+    WHEN comment IS NULL THEN NULL
+    ELSE generate_lorem_ipsum('short')
+    END;
