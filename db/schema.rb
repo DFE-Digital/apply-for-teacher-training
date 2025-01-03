@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_03_094646) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_09_145628) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -796,26 +796,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_03_094646) do
     t.index ["application_choice_id"], name: "index_rejection_feedbacks_on_application_choice_id"
   end
 
-  create_table "session_errors", force: :cascade do |t|
-    t.bigint "candidate_id"
-    t.string "id_token_hint"
-    t.string "body"
-    t.json "omniauth_hash"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["candidate_id"], name: "index_session_errors_on_candidate_id"
-  end
-
-  create_table "sessions", force: :cascade do |t|
-    t.bigint "candidate_id", null: false
-    t.string "ip_address"
-    t.string "user_agent"
-    t.string "id_token_hint"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["candidate_id"], name: "index_sessions_on_candidate_id"
-  end
-
   create_table "site_settings", force: :cascade do |t|
     t.string "name"
     t.text "value"
@@ -970,8 +950,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_03_094646) do
   add_foreign_key "reference_tokens", "references", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "rejection_feedbacks", "application_choices", on_delete: :cascade
-  add_foreign_key "session_errors", "candidates", on_delete: :cascade
-  add_foreign_key "sessions", "candidates", on_delete: :cascade
   add_foreign_key "sites", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
   add_foreign_key "withdrawal_reasons", "application_choices", on_delete: :cascade

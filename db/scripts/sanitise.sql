@@ -32,8 +32,6 @@ DELETE FROM "email_clicks";
 DELETE FROM "emails";
 DELETE FROM "find_feedback";
 DELETE FROM "vendor_api_requests";
-DELETE FROM "sessions";
-DELETE FROM "session_errors";
 
 -- ApplicationForm
 UPDATE "application_forms"
