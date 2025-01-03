@@ -18,7 +18,7 @@ class WithdrawalReason < ApplicationRecord
     YAML.load_file(CONFIG_PATH).fetch('candidate-withdrawal-reasons')
   end
 
-  def self.find_reason_options(reason = '')
+  def self.get_reason_options(reason = '')
     if reason.empty?
       selectable_reasons
     else

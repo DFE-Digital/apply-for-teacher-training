@@ -1,0 +1,7 @@
+<% content_for :title, title_with_error_prefix(@level_two_reasons_form.form_title, @level_two_reasons_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(@level_two_reasons_form.return_to_level_one_reasons_path) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render 'form' %>
+  </div>
+</div>
