@@ -153,6 +153,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, :mid_cycle, typ
     end
 
     it 'renders component with a withdraw link' do
+      FeatureFlag.deactivate :new_candidate_withdrawal_reasons
       result = render_inline(described_class.new(application_form:, show_status: true))
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
