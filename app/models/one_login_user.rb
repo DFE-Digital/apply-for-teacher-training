@@ -21,6 +21,14 @@ class OneLoginUser
     create_candidate!
   end
 
+  def self.find_candidate(omniauth_auth)
+    new(omniauth_auth).find_candidate
+  end
+
+  def find_candidate
+    OneLoginAuth.find_by(token:)&.candidate || Candidate.find_by(email_address:)
+  end
+
 private
 
   def candidate_with_one_login(one_login_auth)
