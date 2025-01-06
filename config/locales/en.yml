@@ -94,7 +94,17 @@ en:
   course_types:
     undergraduate: undergraduate
     postgraduate: postgraduate
+  account_recovery_banner:
+    title: Important
+    header: If you have signed in before and your details are missing
+    content_html: You need to connect the email address you have used for GOV.UK One Login with the one you have used to sign in to this service in the past. If this is your first time signing into Apply for teacher training you can %{button_link}.
+    close_this_message: close this message
+    get_your_details_back: Get your details back
+    dismiss: Dismiss
   page_titles:
+    account_recovery: Enter the code we sent to %{email}
+    account_recovery_resend_email: Enter the new code we sent to %{email}
+    account_recovery_request: Get your account details back
     your_applications: Your applications
     application_feedback: How can we improve %{section} section?
     application_form: Your application

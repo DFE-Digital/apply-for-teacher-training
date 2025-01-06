@@ -14,6 +14,12 @@ namespace :candidate_interface, path: '/candidate' do
     get '/' => redirect('/')
   end
 
+  resources :account_recovery_requests, only: %i[new create], path: 'account-recovery-requests'
+
+  get 'account-recovery/new'
+  post 'account-recovery/create'
+  post 'dismiss-account-recovery/create'
+
   get '/accessibility', to: 'content#accessibility'
   get '/cookies', to: 'content#cookies_page', as: :cookies
   get '/make-a-complaint', to: 'content#complaints', as: :complaints

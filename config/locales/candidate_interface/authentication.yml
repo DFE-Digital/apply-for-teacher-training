@@ -22,7 +22,7 @@ en:
       button: Email me a new link
     confirm_authentication:
       heading: Create an account to apply for teacher training
-
+    successful_account_recovery_html: You have connected your Apply for teacher training profile to the email address you use for GOV.UK One Login.<br> You should use your GOV.UK One Login email address to sign into Apply for teacher training in future.
   activemodel:
     errors:
       models:
@@ -36,3 +36,19 @@ en:
           attributes:
             email:
               blank: Enter your email address
+        candidate_interface/account_recovery_form:
+          attributes:
+            code:
+              blank: Enter the code we sent to your email address
+              invalid: This code is not recognised or it has expired, you can request a new one
+              not_a_number: The code must be 6 characters and only contain numbers 0 to 9
+              wrong_length: The code must be 6 characters and only contain numbers 0 to 9
+              expired: This code has expired, you can request a new one
+              not_found: This code is not recognised, you can request a new one
+              one_login_already_present: The account you are trying to claim is already linked to a GOV.UK One Login. Use that email address to sign into Apply for teacher training.
+        candidate_interface/account_recovery_request_form:
+          attributes:
+            previous_account_email_address:
+              blank: Enter an email address in the correct format, like name@example.com
+              invalid: Enter an email address in the correct format, like name@example.com
+              email_same_as_current_candidate: Enter the email address you use to sign in to Apply for teacher training

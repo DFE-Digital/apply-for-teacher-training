@@ -1,0 +1,40 @@
+<% page_title = if @account_recovery.requested_new_code?
+                  I18n.t('page_titles.account_recovery_resend_email', email: current_candidate.previous_account_email_address)
+                else
+                  I18n.t('page_titles.account_recovery', email: current_candidate.previous_account_email_address)
+                end %>
+
+<% content_for :title, page_title %>
+<% content_for :before_content do %>
+  <%= govuk_back_link(
+    text: 'Back',
+    href: new_candidate_interface_account_recovery_request_path,
+  ) %>
+<% end %>
+
+<h1 class="govuk-heading-l">
+  <%= page_title %>
+</h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @account_recovery, url: candidate_interface_account_recovery_create_path do |f| %>
+      <%= f.govuk_error_summary %>
+      <%= f.govuk_text_field :code, label: { text: t('.form.code.label'), size: 'm' }, width: 20 %>
+
+      <%= f.govuk_submit %>
+    <% end %>
+
+    <%= button_to(
+      t('.form.request_a_new_code'),
+      candidate_interface_account_recovery_requests_path(
+        params: {
+          candidate_interface_account_recovery_request_form: {
+            previous_account_email_address: current_candidate.previous_account_email_address,
+          },
+        },
+      ),
+      class: 'govuk-link govuk-link-button',
+    ) %>
+  </div>
+</div>

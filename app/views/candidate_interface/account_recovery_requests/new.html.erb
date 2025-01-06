@@ -1,0 +1,27 @@
+<% content_for :title, t('page_titles.account_recovery_request') %>
+<% content_for :before_content do %>
+  <%= govuk_back_link(
+    text: 'Back',
+    href: candidate_interface_details_path,
+  ) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t('page_titles.account_recovery_request') %>
+    </h1>
+
+    <p class="govuk-body"><%= t('.form.content') %> </p>
+
+    <%= form_with model: @account_recovery_request, url: candidate_interface_account_recovery_requests_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_text_field :previous_account_email_address,
+                              label: { text: t('.form.email_address.label'), size: 'm' },
+                              width: 20 %>
+
+      <%= f.govuk_submit t('.form.submit') %>
+    <% end %>
+  </div>
+</div>

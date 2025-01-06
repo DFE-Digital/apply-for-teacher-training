@@ -1,0 +1,15 @@
+.govuk-link-button {
+  padding: 0;
+
+  font-size: inherit;
+  color: $govuk-link-colour;
+
+  cursor: pointer;
+
+  background: none;
+  border: none;
+}
+
+form:has(.govuk-link-button) {
+  display: contents;
+}
