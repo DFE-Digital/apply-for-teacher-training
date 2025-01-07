@@ -2,14 +2,11 @@
 <%= content_for :before_content, breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path,
                                              t('page_titles.provider.withdrawal_reports') => nil) %>
 
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l"><%= t('page_titles.provider.withdrawal_reports') %></h1>
 
-    <p class="govuk-body">
-      TBD, some text about why there are two different reports
-    </p>
+    <%= t('.description_html') %>
 
     <% @providers.each do |provider| %>
       <% if @providers.many? %>
@@ -18,23 +15,19 @@
       <ul class="govuk-list govuk-list--spaced">
         <li>
           <%= govuk_link_to(
-                t('page_titles.provider.legacy_withdrawal_report'),
+                t('.legacy_withdrawal_report'),
                 provider_interface_reports_provider_withdrawal_report_path(provider),
                 no_visited_state: true,
               ) %>
         </li>
         <li>
           <%= govuk_link_to(
-                t('page_titles.provider.withdrawal_reasons_report'),
+                t('.withdrawal_reasons_report'),
                 provider_interface_reports_provider_withdrawal_reasons_report_path(provider),
-                no_visited_state: true
+                no_visited_state: true,
               ) %>
         </li>
       </ul>
-
     <% end %>
-
-
-
   </div>
 </div>

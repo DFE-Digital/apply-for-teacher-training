@@ -27,7 +27,7 @@ module CandidateInterface
     private
 
       def withdrawal_reasons
-        @withdrawal_reasons ||= @application_choice.draft_withdrawal_reasons.by_level_one_reason(@level_one_reason)
+        @withdrawal_reasons ||= @application_choice.draft_withdrawal_reasons.by_level(@level_one_reason)
       end
 
       def reason_without_further_detail(reason, comment = nil)

@@ -5,17 +5,9 @@ class WithdrawalReason < ApplicationRecord
   PERSONAL_CIRCUMSTANCES_KEY = 'personal-circumstances-have-changed'.freeze
   CONFIG_PATH = 'config/candidate_withdrawal_reasons.yml'.freeze
 
-  scope :by_level_one_reason, lambda { |level|
-    keys = get_reason_options(level).map do |key, value|
-      if value == {}
-        key
-      else
-        value.map { |val_key, _| "#{key}.#{val_key}" }
-      end
-    end&.flatten
-
+  scope :by_level, lambda { |level|
     where('reason LIKE ?', "#{level}%").sort do |a, b|
-      keys.index(a.reason.gsub("#{level}.", '')) <=> keys.index(b.reason.gsub("#{level}.", ''))
+      all_reasons.index(a.reason) <=> all_reasons.index(b.reason)
     end
   }
 
@@ -37,6 +29,20 @@ class WithdrawalReason < ApplicationRecord
       selectable_reasons
     else
       selectable_reasons.dig(*reason.split('.'))
+    end
+  end
+
+  def self.all_reasons
+    selectable_reasons.map do |key, value|
+      build_reason(key, value)
+    end&.flatten
+  end
+
+  def self.build_reason(key, value)
+    if value == {}
+      key
+    else
+      value.map { |k, v| build_reason("#{key}.#{k}", v) }
     end
   end
 end

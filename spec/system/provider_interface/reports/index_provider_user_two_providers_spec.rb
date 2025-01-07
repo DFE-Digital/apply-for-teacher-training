@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Provider with two providers reports index' do
   include DfESignInHelpers
+
+  before do
+    FeatureFlag.deactivate(:new_candidate_withdrawal_reasons)
+  end
+
   scenario 'when a provider user has more than one provider' do
     given_a_provider_user_with_two_providers_exists
     and_i_am_signed_in_as_provider_user

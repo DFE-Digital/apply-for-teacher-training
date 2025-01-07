@@ -5,6 +5,7 @@ module ProviderInterface
 
       def show
         @provider = current_user.providers.find(provider_id)
+        @withdrawal_reason_report = ProviderInterface::CandidateWithdrawalReasonsDataByProvider.new(@provider)
       end
 
     private

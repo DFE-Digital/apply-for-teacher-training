@@ -8,5 +8,47 @@
       <span class="govuk-caption-l"> <%= @provider.name %></span>
       <%= t('page_titles.provider.withdrawal_reasons_report') %>
     </h1>
+    <% if @withdrawal_reason_report.show_report? %>
+      <p class="govuk-body">
+        <%= t('.report_description') %>
+      </p>
+    <% else %>
+      <%= t('.report_not_visible_html', link: govuk_link_to(t('.withdrawal_report_link_text'), provider_interface_reports_provider_withdrawal_report_path(@provider))) %>
+    <% end %>
+  </div>
+
+  <% if @withdrawal_reason_report.show_report? %>
+    <div class="govuk-grid-column-full">
+      <div class="withdrawal-reasons-report-table__wrapper">
+        <%= govuk_table do |table| %>
+          <%= table.with_caption(text: t('.table_caption'), html_attributes: { class: 'govuk-visually-hidden' }) %>
+          <%= table.with_head do |head| %>
+            <%= head.with_row do |row| %>
+              <%= row.with_cell(
+                    text: t('.withdrawal_reason'),
+                    html_attributes: { class: 'withdrawal-reasons-report-table__heading' },
+                  ) %>
+              <% %w[before_accepting after_accepting total].each do |heading| %>
+               <%= row.with_cell(
+                    text: t(".#{heading}"),
+                    numeric: true,
+                    html_attributes: { class: 'withdrawal-reasons-report-table__heading' },
+                  ) %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%= table.with_body do |body| %>
+            <% @withdrawal_reason_report.all_rows.each do |reason_row| %>
+              <%= body.with_row do |row| %>
+                <%= row.with_cell(**reason_row.reason) %>
+                <%= row.with_cell(**reason_row.before_accepting) %>
+                <%= row.with_cell(**reason_row.after_accepting) %>
+                <%= row.with_cell(**reason_row.total) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
