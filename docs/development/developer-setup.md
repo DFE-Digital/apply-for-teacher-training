@@ -65,7 +65,7 @@ docker compose up
 
 ## Initial setup
 
-`bin/setup` will install local dependencies and set up your database with seed data.
+`bin/setup` will install local dependencies, set up your database with seed data and [run the application](#running-the-application).
 
 ```bash
 bin/setup
