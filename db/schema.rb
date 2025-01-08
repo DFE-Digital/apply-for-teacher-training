@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_03_094646) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_08_120414) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -19,10 +19,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_03_094646) do
   enable_extension "unaccent"
 
   create_table "account_recovery_request_codes", force: :cascade do |t|
-    t.string "hashed_code", null: false
     t.bigint "account_recovery_request_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "code_digest", null: false
     t.index ["account_recovery_request_id"], name: "idx_on_account_recovery_request_id_c1c0af72cc"
   end
 

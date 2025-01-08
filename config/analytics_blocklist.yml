@@ -237,7 +237,7 @@
   - decline_by_default_at
   - decline_by_default_days
   :account_recovery_request_codes:
-  - hashed_code
+  - code_digest
   :account_recovery_requests:
   - previous_account_email_address
   :site_settings:
