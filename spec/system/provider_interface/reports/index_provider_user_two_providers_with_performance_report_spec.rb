@@ -5,7 +5,7 @@ RSpec.describe 'Provider with two providers reports index' do
 
   scenario 'when provider user has multiple provider with performance report', time: mid_cycle(2024) do
     given_a_provider_user_with_two_providers_exists
-    and_a_provider_has_a_recruitment_peroformance_report
+    and_a_provider_has_a_recruitment_performance_report
     and_i_am_signed_in_as_provider_user
     when_i_visit_the_reports_index
     then_the_page_has_the_right_content
@@ -16,7 +16,7 @@ RSpec.describe 'Provider with two providers reports index' do
     expect(page).to have_current_path('/provider/reports', ignore_query: true)
   end
 
-  def and_a_provider_has_a_recruitment_peroformance_report
+  def and_a_provider_has_a_recruitment_performance_report
     create(:provider_recruitment_performance_report, provider: @provider)
   end
 
