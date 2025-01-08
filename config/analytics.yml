@@ -10,6 +10,7 @@ shared:
     - magic_link_token_sent_at
     - sign_up_email_bounced
     - updated_at
+    - email_address
   one_login_auths:
     - id
     - candidate_id
@@ -91,6 +92,8 @@ shared:
     - path
     - updated_at
   application_forms:
+    - first_name
+    - last_name
     - adviser_status
     - becoming_a_teacher
     - becoming_a_teacher_completed

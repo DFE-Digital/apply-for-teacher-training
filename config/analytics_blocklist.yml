@@ -218,8 +218,6 @@
   - safeguarding_concerns
   - relationship_correction
   :application_forms:
-  - first_name
-  - last_name
   - phone_number
   - address_line1
   - address_line2
@@ -249,7 +247,6 @@
   - created_at
   - updated_at
   :candidates:
-  - email_address
   - magic_link_token
   - fraud_match_id
   - unsubscribed_from_emails
