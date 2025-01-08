@@ -1,0 +1,8 @@
+<% content_for :title, t('candidate_interface.withdrawal_reasons.level_one_reason_title') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_course_choices_course_review_path(@application_choice), back_link_text, force_text: true) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render 'form' %>
+  </div>
+</div>

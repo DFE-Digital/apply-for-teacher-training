@@ -1,0 +1,36 @@
+<%= form_with(
+      model: @level_one_reasons_form,
+      url: candidate_interface_withdrawal_reasons_level_one_reason_create_path(withdrawal_reason_id: @level_one_reasons_form.id),
+    ) do |f| %>
+  <%= f.govuk_error_summary %>
+  <%= f.govuk_radio_buttons_fieldset(
+    :level_one_reason,
+    legend: { text: t('candidate_interface.withdrawal_reasons.level_one_reason_title'), tag: 'h1', size: 'l' },
+  ) do %>
+    <% @level_one_reasons_form.reason_options.each_with_index do |reason, index| %>
+      <% if reason.other_reason.blank? %>
+        <%= f.govuk_radio_button(
+              :level_one_reason,
+              reason.id,
+              link_errors: index.zero?,
+              label: { text: reason.name },
+            ) %>
+      <% else %>
+        <%= f.govuk_radio_button(
+          :level_one_reason,
+          reason.id,
+          label: { text: reason.name },
+        )  do %>
+          <%= f.govuk_text_area(
+                :comment,
+                label: { text: reason.other_reason, size: 's' },
+                max_words: 200,
+                rows: 5,
+                link_errors: true,
+              ) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= f.govuk_submit t('continue') %>
+<% end %>

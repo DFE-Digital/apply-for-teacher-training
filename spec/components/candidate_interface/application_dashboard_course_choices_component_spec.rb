@@ -238,6 +238,10 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
   end
 
   context 'when an offer has been accepted i.e. pending conditions to a course choice' do
+    before do
+      FeatureFlag.deactivate(:new_candidate_withdrawal_reasons)
+    end
+
     let(:application_choice) { create(:application_choice, :accepted) }
     let(:application_form) { application_choice.application_form }
 

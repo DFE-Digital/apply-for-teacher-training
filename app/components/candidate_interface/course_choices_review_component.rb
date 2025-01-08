@@ -74,6 +74,14 @@ module CandidateInterface
                                end
     end
 
+    def path_for_withdrawals(application_choice)
+      if FeatureFlag.active? :new_candidate_withdrawal_reasons
+        candidate_interface_withdrawal_reasons_level_one_reason_new_path(application_choice)
+      else
+        candidate_interface_withdraw_path(application_choice)
+      end
+    end
+
   private
 
     attr_reader :application_form
