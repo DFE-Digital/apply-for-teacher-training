@@ -3,8 +3,11 @@ shared:
   application_forms:
     - support_reference
     - candidate_id
+    - first_name
+    - last_name
   candidates:
     - id
+    - email_address
   provider_users:
     - dfe_sign_in_uid
   validation_errors:
