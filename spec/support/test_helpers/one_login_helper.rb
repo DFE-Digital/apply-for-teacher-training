@@ -13,4 +13,14 @@ module OneLoginHelper
       },
     )
   end
+
+  def sign_in_with_one_login(email_address)
+    if FeatureFlag.active?(:one_login_candidate_sign_in)
+      user_exists_in_one_login(email_address:)
+      visit candidate_interface_create_account_or_sign_in_path
+      click_link_or_button 'Continue'
+    else
+      raise 'One login feature flag needs to be active'
+    end
+  end
 end

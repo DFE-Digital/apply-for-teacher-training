@@ -121,6 +121,7 @@ gem 'rouge'
 gem 'ruby-graphviz'
 
 gem 'pagy'
+gem 'bcrypt'
 
 # Adviser sign up integration
 gem 'get_into_teaching_api_client_faraday', github: 'DFE-Digital/get-into-teaching-api-ruby-client', require: 'api/client'
