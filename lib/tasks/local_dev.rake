@@ -33,12 +33,14 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
   puts 'Generating fake API requests for the Vendor API Monitor...'
   CreateVendorAPIMonitorDummyData.call
 
+  puts 'Creating undergraduate courses...'
+  Rake::Task['create_undergraduate_courses'].invoke
+
+  puts 'Generating test applications...'
   Rake::Task['generate_test_applications'].invoke
 
   puts 'Finding duplicate applications'
   UpdateDuplicateMatchesWorker.new.perform
-
-  Rake::Task['create_undergraduate_courses'].invoke
 end
 
 desc 'Create undergraduate courses'
