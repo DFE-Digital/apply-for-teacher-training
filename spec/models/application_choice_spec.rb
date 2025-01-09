@@ -6,6 +6,7 @@ RSpec.describe ApplicationChoice do
   it { is_expected.to have_many(:work_history_breaks).class_name('ApplicationWorkHistoryBreak') }
   it { is_expected.to have_many(:withdrawal_reasons).dependent(:destroy) }
   it { is_expected.to have_many(:draft_withdrawal_reasons).dependent(:destroy) }
+  it { is_expected.to have_many(:published_withdrawal_reasons).dependent(:destroy) }
 
   describe 'auditing', :with_audited do
     it 'creates audit entries' do

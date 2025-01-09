@@ -77,7 +77,7 @@ class NavigationItems
       if current_provider_user && !performing_setup
         items << NavigationItem.new('Applications', provider_interface_applications_path, active?(current_controller, %w[application_choices decisions offer_changes notes interviews offers feedback conditions reconfirm_deferred_offers]), [])
         items << NavigationItem.new('Interview schedule', provider_interface_interview_schedule_path, active?(current_controller, %w[interview_schedules]), [])
-        items << NavigationItem.new('Reports', provider_interface_reports_path, active?(current_controller, %w[reports application_data_export hesa_export recruitment_performance_reports]))
+        items << NavigationItem.new('Reports', provider_interface_reports_path, active?(current_controller, %w[reports application_data_export hesa_exports recruitment_performance_reports withdrawal_reports withdrawal_reasons_reports status_of_active_applications diversity_reports]))
         items << NavigationItem.new('Activity log', provider_interface_activity_log_path, active?(current_controller, %w[activity_log]), [])
       end
 

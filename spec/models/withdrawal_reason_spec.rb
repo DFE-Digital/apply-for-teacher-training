@@ -10,10 +10,10 @@ RSpec.describe WithdrawalReason do
   end
 
   describe 'scopes' do
-    describe '#by_level_one_reason' do
+    describe '#by_level' do
       let(:application_choice) { create(:application_choice) }
 
-      it 'returns all records where the level one reason matches in the correct order' do
+      before do
         %w[applying-to-another-provider.provider-has-not-replied-to-me
            other
            applying-to-another-provider.accepted-another-offer
@@ -29,8 +29,10 @@ RSpec.describe WithdrawalReason do
            applying-to-another-provider.personal-circumstances-have-changed.other].each do |reason|
           create(:withdrawal_reason, application_choice:, reason:)
         end
+      end
 
-        result = described_class.by_level_one_reason('applying-to-another-provider')
+      it 'returns all records where the level one reason matches in the correct order' do
+        result = described_class.by_level('applying-to-another-provider')
         expect(result.pluck(:reason)).to eq %w[
           applying-to-another-provider.accepted-another-offer
           applying-to-another-provider.seen-a-course-that-suits-me-better
@@ -42,6 +44,17 @@ RSpec.describe WithdrawalReason do
           applying-to-another-provider.personal-circumstances-have-changed.other
           applying-to-another-provider.course-no-longer-available
           applying-to-another-provider.other
+        ]
+      end
+
+      it 'returns all records that match multiple levels' do
+        result = described_class.by_level('applying-to-another-provider.personal-circumstances-have-changed')
+
+        expect(result.pluck(:reason)).to eq %w[
+          applying-to-another-provider.personal-circumstances-have-changed.concerns-about-cost-of-doing-course
+          applying-to-another-provider.personal-circumstances-have-changed.concerns-about-having-enough-time-to-train
+          applying-to-another-provider.personal-circumstances-have-changed.concerns-about-training-with-a-disability-or-health-condition
+          applying-to-another-provider.personal-circumstances-have-changed.other
         ]
       end
     end

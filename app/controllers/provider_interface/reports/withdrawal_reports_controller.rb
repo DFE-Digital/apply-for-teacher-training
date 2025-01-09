@@ -3,6 +3,10 @@ module ProviderInterface
     class WithdrawalReportsController < ProviderInterfaceController
       attr_reader :provider
 
+      def index
+        @providers = current_user.providers
+      end
+
       def show
         @provider = current_user.providers.find(provider_id)
         @withdrawal_report_data = CandidateWithdrawalDataByProvider.new(provider: provider)
