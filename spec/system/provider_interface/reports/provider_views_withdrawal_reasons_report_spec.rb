@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Provider views withdrawal reports' do
   include DfESignInHelpers
 
-  before do
-    FeatureFlag.activate(:new_candidate_withdrawal_reasons)
-  end
-
   scenario 'Provider navigates to report where fewer than 10 candidates have provided withdrawal reasons' do
     given_some_candidates_have_withdrawn_applications(9)
     and_i_sign_in_as_a_provider_user

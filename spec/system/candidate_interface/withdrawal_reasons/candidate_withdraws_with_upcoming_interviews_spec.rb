@@ -2,10 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'A candidate withdraws with upcoming interviews' do
   include CandidateHelper
-
-  before do
-    FeatureFlag.deactivate :new_candidate_withdrawal_reasons
-  end
+  include WithdrawalReasonsTestHelpers
 
   scenario 'successful withdrawal' do
     given_i_am_signed_in_as_a_candidate
@@ -13,13 +10,8 @@ RSpec.describe 'A candidate withdraws with upcoming interviews' do
 
     when_i_visit_the_application_dashboard
     and_i_click_the_withdraw_link_on_my_first_choice
-    then_i_see_a_confirmation_page
+    when_i_select_some_reasons_and_confirm
 
-    when_i_click_to_confirm_withdrawal
-    then_i_see_the_withdraw_choice_reason_page
-
-    when_i_select_my_reasons
-    and_i_click_continue
     then_i_see_my_application_dashboard
 
     and_the_provider_has_received_an_email
@@ -48,33 +40,8 @@ RSpec.describe 'A candidate withdraws with upcoming interviews' do
     when_i_click_to_withdraw_my_application
   end
 
-  def then_i_see_a_confirmation_page
-    expect(page).to have_content('Are you sure you want to withdraw this application?')
-  end
-
-  def when_i_click_to_confirm_withdrawal
-    click_link_or_button 'Yes I’m sure – withdraw this application'
-  end
-
-  def then_i_see_the_withdraw_choice_reason_page
-    expect(page).to have_current_path candidate_interface_withdrawal_feedback_path(@application_choice.id)
-  end
-
-  def when_i_select_my_reasons
-    check 'I’m going to apply (or have applied) to a different course at the same training provider'
-    check 'I have concerns that I will not have time to train'
-  end
-
-  def and_i_click_continue
-    click_link_or_button t('continue')
-  end
-
   def then_i_see_my_application_dashboard
     expect(page).to have_current_path candidate_interface_application_choices_path
-  end
-
-  def and_that_my_application_has_been_withdrawn
-    expect(page).to have_content("You have withdrawn your application for #{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.provider.name}")
   end
 
   def and_the_provider_has_received_an_email

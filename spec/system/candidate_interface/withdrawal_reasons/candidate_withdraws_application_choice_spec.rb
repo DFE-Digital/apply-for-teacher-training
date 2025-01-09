@@ -5,7 +5,6 @@ RSpec.describe 'Candidate selects level-two withdrawal reasons' do
   include WithdrawalReasonsTestHelpers
 
   before do
-    FeatureFlag.activate(:new_candidate_withdrawal_reasons)
     @candidate = create(:candidate)
     @application_form = create(:completed_application_form, submitted_at: Time.zone.now, candidate: @candidate)
   end
@@ -103,11 +102,6 @@ RSpec.describe 'Candidate selects level-two withdrawal reasons' do
     ].each do |review_reason|
       expect(page).to have_content review_reason
     end
-  end
-
-  def then_i_have_withdrawn_from_the_course
-    expect(page).to have_content "You have withdrawn your application to #{@application_choice.current_course.provider.name}"
-    expect(@application_choice.reload.status).to eq 'withdrawn'
   end
 
   def and_the_reasons_have_been_saved
