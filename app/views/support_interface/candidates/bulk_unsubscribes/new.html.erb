@@ -1,0 +1,20 @@
+<% content_for :browser_title, "Bulk unsubscribe candidates" %>
+
+<%= render 'support_interface/candidates/candidates_navigation', title: 'Bulk unsubscribe candidates' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @bulk_unsubscribe_form, scope: :bulk_unsubscribe, url: support_interface_bulk_unsubscribe_path do |form| %>
+      <%= form.govuk_error_summary %>
+
+      <h1 class='govuk-heading-l'>Unsubscribe candidates</h1>
+
+      <%= form.govuk_text_area :email_addresses,
+                            rows: 5,
+                            label: { text: 'Email addresses', size: 's' },
+                            hint: { text: 'Enter email address to be unsubscribed, use a new line for each email address. You can also copy and paste directly from a spreadsheet.' } %>
+
+      <%= form.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

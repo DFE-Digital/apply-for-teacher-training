@@ -96,6 +96,10 @@ namespace :support_interface, path: '/support' do
 
   get '/candidates' => 'candidates#index'
 
+  scope path: '/candidates' do
+    resource :bulk_unsubscribe, only: %i[new create], path: '/bulk-unsubscribe', module: :candidates
+  end
+
   scope path: '/candidates/:candidate_id' do
     get '/' => 'candidates#show', as: :candidate
     post '/hide' => 'candidates#hide_in_reporting', as: :hide_candidate
