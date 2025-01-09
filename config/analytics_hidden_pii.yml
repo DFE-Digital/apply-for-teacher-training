@@ -5,6 +5,7 @@ shared:
     - candidate_id
     - first_name
     - last_name
+    - date_of_birth
   candidates:
     - id
     - email_address
