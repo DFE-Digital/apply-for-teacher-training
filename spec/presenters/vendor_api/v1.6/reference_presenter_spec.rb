@@ -6,7 +6,7 @@ RSpec.describe VendorAPI::ReferencePresenter do
   let(:version) { '1.6' }
 
   describe 'confidentiality status' do
-    let(:reference) { create(:reference) }
+    let(:reference) { create(:reference, confidential: true) }
 
     it 'includes confidential' do
       expect(reference_schema[:confidential]).to be_present
