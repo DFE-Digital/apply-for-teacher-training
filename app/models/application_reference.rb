@@ -9,7 +9,7 @@ class ApplicationReference < ApplicationRecord
   has_many :reference_tokens, dependent: :destroy
   has_one :candidate, through: :application_form
 
-  attribute :confidential, :boolean, default: true
+  attribute :confidential, :boolean, default: -> { FeatureFlag.active?(:show_reference_confidentiality_status) ? nil : true }
 
   scope :selected, -> { feedback_provided.where(selected: true) }
   scope :creation_order, -> { order(:id) }
