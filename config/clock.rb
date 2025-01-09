@@ -26,6 +26,7 @@ class Clock
   every(1.hour, 'DetectInvariantsHourlyCheck', at: '**:30') { DetectInvariantsHourlyCheck.perform_async }
 
   # Daily jobs
+  every(1.day, 'DeleteDraftWithdrawalReasonRecordsWorker', at: '4:01') { DeleteDraftWithdrawalReasonRecordsWorker.perform_async }
   every(1.day, 'Chasers::Candidate::OfferWorker', at: '10:30') { Chasers::Candidate::OfferWorker.perform_async }
 
   every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_async }
