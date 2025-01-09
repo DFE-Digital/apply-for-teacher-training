@@ -14,7 +14,7 @@ class SupportInterface::Candidates::BulkUnsubscribesController < SupportInterfac
     end
   end
 
-  private
+private
 
   def bulk_unsubscribe_params
     params.expect(bulk_unsubscribe: [:email_addresses])
