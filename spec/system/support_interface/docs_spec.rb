@@ -67,8 +67,6 @@ RSpec.describe 'Docs' do
       provider_mailer-reference_received
       candidate_mailer-application_rejected
       candidate_mailer-application_choice_submitted
-      candidate_mailer-apply_to_another_course_after_30_working_days
-      candidate_mailer-apply_to_multiple_courses_after_30_working_days
       candidate_mailer-offer_10_day
       candidate_mailer-offer_20_day
       candidate_mailer-offer_30_day
