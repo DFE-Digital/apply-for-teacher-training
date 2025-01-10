@@ -852,6 +852,7 @@ DEPENDENCIES
   archive-zip
   audited
   azure-blob
+  bcrypt
   blazer
   brakeman
   bullet
