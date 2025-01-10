@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Provider do
+  describe 'associations' do
+    it { is_expected.to belong_to(:vendor).optional }
+  end
+
+  describe 'delegations' do
+    it { is_expected.to delegate_method(:name).to(:vendor).with_prefix.allow_nil }
+  end
+
   describe '#onboarded?' do
     it 'depends on the presence of a signed Data sharing agreement' do
       provider_with_dsa = create(:provider)
