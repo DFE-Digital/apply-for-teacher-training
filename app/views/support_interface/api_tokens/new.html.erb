@@ -1,0 +1,15 @@
+<% content_for :browser_title, 'Add an API token' %>
+<%= render 'support_interface/providers/providers_navigation', title: 'API tokens' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @vendor_api_token, url: support_interface_api_tokens_path do |form| %>
+      <%= form.govuk_error_summary %>
+
+      <h1 class='govuk-heading-l'>Add an API token</h1>
+
+      <%= form.govuk_collection_select :provider_id, @providers_for_select, :id, :name, label: { text: 'Select a provider to generate a token for' }, options: { include_blank: true } %>
+      <%= form.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

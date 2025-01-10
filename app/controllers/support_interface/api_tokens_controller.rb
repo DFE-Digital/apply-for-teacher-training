@@ -1,7 +1,7 @@
 module SupportInterface
   class APITokensController < SupportInterfaceController
     rescue_from MissingProviderError do
-      redirect_to support_interface_api_tokens_path
+      redirect_to new_support_interface_api_token_path
       flash[:warning] = 'Did not select a provider'
     end
 
@@ -10,6 +10,11 @@ module SupportInterface
         VendorAPIToken.arel_table[:last_used_at].desc.nulls_last,
         created_at: :desc,
       )
+    end
+
+    def new
+      @vendor_api_token = VendorAPIToken.new
+      @providers_for_select = Provider.all
     end
 
     def create

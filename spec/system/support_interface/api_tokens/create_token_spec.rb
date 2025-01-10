@@ -7,12 +7,12 @@ RSpec.describe 'API tokens' do
     given_i_am_signed_in
     and_providers_exist
     when_i_visit_the_tokens_page
+    and_i_click_on_add_a_token
     and_i_click_on_create_a_token_without_entering_a_provider
-    then_i_am_redirected_to_the_support_page
-    and_a_warning_message_is_showing
+    then_a_warning_message_is_showing
 
     when_i_select_a_provider
-    and_i_click_on_create_a_token
+    and_i_click_on_continue
     then_i_see_a_new_token
     and_i_am_able_to_connect_to_the_api_using_the_token
     and_the_token_is_visible_on_the_support_page
@@ -31,16 +31,20 @@ RSpec.describe 'API tokens' do
     visit support_interface_api_tokens_path
   end
 
-  def and_i_click_on_create_a_token
-    click_link_or_button 'Create new token'
+  def and_i_click_on_add_a_token
+    click_link_or_button 'Add a token'
   end
-  alias_method :and_i_click_on_create_a_token_without_entering_a_provider, :and_i_click_on_create_a_token
+
+  def and_i_click_on_continue
+    click_link_or_button 'Continue'
+  end
+  alias_method :and_i_click_on_create_a_token_without_entering_a_provider, :and_i_click_on_continue
 
   def then_i_am_redirected_to_the_support_page
     expect(page).to have_current_path(support_interface_api_tokens_path)
   end
 
-  def and_a_warning_message_is_showing
+  def then_a_warning_message_is_showing
     expect(page).to have_content 'Did not select a provider'
   end
 
