@@ -6,7 +6,10 @@ module SupportInterface
     end
 
     def index
-      @api_tokens = VendorAPIToken.order(created_at: :desc)
+      @api_tokens = VendorAPIToken.order(
+        VendorAPIToken.arel_table[:last_used_at].desc.nulls_last,
+        created_at: :desc,
+      )
     end
 
     def create
