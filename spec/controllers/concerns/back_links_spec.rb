@@ -27,7 +27,7 @@ RSpec.describe BackLinks do
       let(:application_form) { create(:application_form) }
 
       before do
-        request.set_header('PATH_INFO', routes.candidate_interface_withdraw_path(1))
+        request.set_header('PATH_INFO', routes.candidate_interface_withdrawal_reasons_level_one_reason_new_path(1))
       end
 
       it 'returns path to application choices' do

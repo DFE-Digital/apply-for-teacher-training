@@ -215,7 +215,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, :mid_cycle, typ
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_withdraw_path(course_id),
+        Rails.application.routes.url_helpers.candidate_interface_withdrawal_reasons_level_one_reason_new_path(course_id),
       )
     end
   end

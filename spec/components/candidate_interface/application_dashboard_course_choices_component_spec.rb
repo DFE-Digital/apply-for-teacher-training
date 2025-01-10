@@ -255,7 +255,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
 
       expect(result.css('.govuk-summary-list__value').text).to include('Withdraw this application')
       expect(result.css('.govuk-summary-list__value a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_withdraw_path(course_id),
+        Rails.application.routes.url_helpers.candidate_interface_withdrawal_reasons_level_one_reason_new_path(course_id),
       )
     end
   end

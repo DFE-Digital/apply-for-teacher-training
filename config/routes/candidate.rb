@@ -408,12 +408,6 @@ namespace :candidate_interface, path: '/candidate' do
       get '/offer/accept' => 'decisions#accept_offer', as: :accept_offer
       post '/offer/accept' => 'decisions#confirm_accept'
 
-      get '/withdraw' => 'decisions#withdraw', as: :withdraw
-      post '/withdraw' => 'decisions#confirm_withdraw'
-
-      get '/withdraw/feedback' => 'decisions#withdrawal_feedback', as: :withdrawal_feedback
-      post '/withdraw/confirm-feedback' => 'decisions#confirm_withdrawal_feedback', as: :confirm_withdrawal_feedback
-
       get '/withdrawal-reasons/level-one-reason/new' => 'withdrawal_reasons/level_one_reasons#new', as: :withdrawal_reasons_level_one_reason_new
       post '/withdrawal-reasons/level-one-reason(/:withdrawal_reason_id)/create' => 'withdrawal_reasons/level_one_reasons#create', as: :withdrawal_reasons_level_one_reason_create
       get '/withdrawal-reasons/level-one-reason/:withdrawal_reason_id/show' => 'withdrawal_reasons/level_one_reasons#show', as: :withdrawal_reasons_level_one_reason_show
