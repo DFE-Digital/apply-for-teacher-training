@@ -210,7 +210,7 @@ GEM
       timecop
     coderay (1.1.3)
     colorize (1.1.0)
-    commonmarker (2.0.2.1)
+    commonmarker (1.1.5)
       rb_sys (~> 0.9)
     concurrent-ruby (1.3.4)
     connection_pool (2.5.0)
