@@ -2,9 +2,7 @@
 EnableDefaultLinters: true
 exclude:
   - '**/node_modules/**/*'
-  - 'app/views/candidate_interface/account_recovery/new.html.erb'
-  - 'app/views/candidate_interface/application_choices/index.html.erb'
-  - 'app/views/candidate_interface/shared/_details.html.erb'
+  - 'app/components/utility/button_to_as_link_component.html.erb'
 linters:
   Rubocop:
     enabled: true

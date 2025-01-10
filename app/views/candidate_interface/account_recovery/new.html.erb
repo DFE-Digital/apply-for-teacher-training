@@ -25,16 +25,17 @@
       <%= f.govuk_submit %>
     <% end %>
 
-    <%= button_to(
-      t('.form.request_a_new_code'),
-      candidate_interface_account_recovery_requests_path(
-        params: {
-          candidate_interface_account_recovery_request_form: {
-            previous_account_email_address: current_candidate.previous_account_email_address,
-          },
-        },
-      ),
-      class: 'govuk-link govuk-link-button',
-    ) %>
+    <%= render(
+        ButtonToAsLinkComponent.new(
+          name: t('.form.request_a_new_code'),
+          path: candidate_interface_account_recovery_requests_path(
+            params: {
+              candidate_interface_account_recovery_request_form: {
+                previous_account_email_address: current_candidate.previous_account_email_address,
+              },
+            },
+          ),
+        ),
+      ) %>
   </div>
 </div>
