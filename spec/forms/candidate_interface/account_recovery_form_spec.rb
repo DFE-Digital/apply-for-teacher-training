@@ -19,10 +19,10 @@ RSpec.describe CandidateInterface::AccountRecoveryForm, type: :model do
   let(:account_recovery_request_code) do
     create(
       :account_recovery_request_code,
-      code: '123456',
+      code: '001212',
     )
   end
-  let(:code) { '123456' }
+  let(:code) { '001212' }
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:code) }
@@ -46,7 +46,7 @@ RSpec.describe CandidateInterface::AccountRecoveryForm, type: :model do
       let(:account_recovery_request_code) do
         create(
           :account_recovery_request_code,
-          code: '123456',
+          code: '001212',
           created_at: 2.hours.ago,
         )
       end

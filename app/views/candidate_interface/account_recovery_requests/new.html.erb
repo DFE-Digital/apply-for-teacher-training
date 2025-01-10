@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.account_recovery_request') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.account_recovery_request'), @account_recovery_request.errors.any?) %>
 <% content_for :before_content do %>
   <%= govuk_back_link(
     text: 'Back',
@@ -8,14 +8,14 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">
-      <%= t('page_titles.account_recovery_request') %>
-    </h1>
-
-    <p class="govuk-body"><%= t('.form.content') %> </p>
-
     <%= form_with model: @account_recovery_request, url: candidate_interface_account_recovery_requests_path do |f| %>
       <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l">
+        <%= t('page_titles.account_recovery_request') %>
+      </h1>
+
+      <p class="govuk-body"><%= t('.form.content') %> </p>
 
       <%= f.govuk_text_field :previous_account_email_address,
                               label: { text: t('.form.email_address.label'), size: 'm' },

@@ -1,7 +1,6 @@
 <%= content_for :title, t('page_titles.your_applications') %>
 <%= render ServiceInformationBanner.new(namespace: :candidate) %>
 
-
 <% if current_candidate.recoverable? %>
   <%= govuk_notification_banner(title_text: t('account_recovery_banner.title'), success: false) do |nb| %>
 

@@ -6,5 +6,3 @@ en:
           code:
             label: Code
           request_a_new_code: Request a new code
-      create:
-        test: test

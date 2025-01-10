@@ -4,7 +4,7 @@
                   I18n.t('page_titles.account_recovery', email: current_candidate.previous_account_email_address)
                 end %>
 
-<% content_for :title, page_title %>
+<% content_for :title, title_with_error_prefix(page_title, @account_recovery.errors.any?) %>
 <% content_for :before_content do %>
   <%= govuk_back_link(
     text: 'Back',
@@ -12,14 +12,13 @@
   ) %>
 <% end %>
 
-<h1 class="govuk-heading-l">
-  <%= page_title %>
-</h1>
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @account_recovery, url: candidate_interface_account_recovery_create_path do |f| %>
       <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l"><%= page_title %></h1>
+
       <%= f.govuk_text_field :code, label: { text: t('.form.code.label'), size: 'm' }, width: 20 %>
 
       <%= f.govuk_submit %>
