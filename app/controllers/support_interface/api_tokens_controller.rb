@@ -1,10 +1,5 @@
 module SupportInterface
   class APITokensController < SupportInterfaceController
-    rescue_from MissingProviderError do
-      redirect_to new_support_interface_api_token_path
-      flash[:warning] = 'Did not select a provider'
-    end
-
     def index
       @api_tokens = VendorAPIToken.order(
         VendorAPIToken.arel_table[:last_used_at].desc.nulls_last,
@@ -13,15 +8,19 @@ module SupportInterface
     end
 
     def new
-      @vendor_api_token = VendorAPIToken.new
-      @providers_for_select = Provider.all
+      @vendor_api_token = VendorAPITokenForm.new
+      @providers_for_select = @vendor_api_token.providers_for_select
     end
 
     def create
-      raise_error_unless_provider(params)
+      @vendor_api_token = VendorAPITokenForm.new(vendor_api_token_params)
 
-      provider = Provider.find(params[:vendor_api_token][:provider_id])
-      @unhashed_token = VendorAPIToken.create_with_random_token!(provider:)
+      if (@unhashed_token = @vendor_api_token.save)
+        render :show
+      else
+        @providers_for_select = @vendor_api_token.providers_for_select
+        render :new, status: :unprocessable_entity
+      end
     end
 
     def confirm_revocation; end
@@ -33,10 +32,8 @@ module SupportInterface
 
   private
 
-    def raise_error_unless_provider(params)
-      if params[:vendor_api_token][:provider_id].blank?
-        raise MissingProviderError
-      end
+    def vendor_api_token_params
+      params.expect(vendor_api_token: [:provider_id])
     end
   end
 end

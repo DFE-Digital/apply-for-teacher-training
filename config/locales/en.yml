@@ -391,6 +391,9 @@ en:
         no_courses_yet: There aren’t any courses for this provider currently.
         no_courses_for_year: "There aren’t any courses for %{year}."
         courses_published_recruitment_opens: These courses will be published on Find and Apply when the recruitment cycle opens.
+    api_tokens:
+      new:
+        page_title: "Create an API token"
   activemodel:
     attributes:
       vendor_api/metadata:
@@ -415,6 +418,10 @@ en:
         course_option: The new course
     errors:
       models:
+        support_interface/vendor_api_token_form:
+          attributes:
+            provider_id:
+              blank: Select a provider
         candidate_interface/prefill_application_or_not_form:
           attributes:
             prefill:

@@ -40,12 +40,9 @@ RSpec.describe 'API tokens' do
   end
   alias_method :and_i_click_on_create_a_token_without_entering_a_provider, :and_i_click_on_continue
 
-  def then_i_am_redirected_to_the_support_page
-    expect(page).to have_current_path(support_interface_api_tokens_path)
-  end
-
   def then_a_warning_message_is_showing
-    expect(page).to have_content 'Did not select a provider'
+    expect(page).to have_content 'There is a problem'
+    expect(page).to have_content 'Select a provider'
   end
 
   def when_i_select_a_provider
