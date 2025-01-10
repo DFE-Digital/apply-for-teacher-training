@@ -22,7 +22,7 @@ en:
       button: Email me a new link
     confirm_authentication:
       heading: Create an account to apply for teacher training
-    successful_account_recovery_html: You have connected your Apply for teacher training profile to the email address you use for GOV.UK One Login.<br> You should use your GOV.UK One Login email address to sign into Apply for teacher training in future.
+    successful_account_recovery_html: Profiles connected<br><p>You have connected your Apply for teacher training profile to the email address you use for GOV.UK One Login.<br> You should use your GOV.UK One Login email address to sign into Apply for teacher training in future.</p>
   activemodel:
     errors:
       models:
