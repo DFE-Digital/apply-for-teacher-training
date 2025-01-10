@@ -46,7 +46,7 @@ module Publications
       def self.latest_month_for(recruitment_cycle_year)
         return if CycleTimetable.real_schedule_for(recruitment_cycle_year).blank?
 
-        period = CycleTimetable.find_closes(recruitment_cycle_year) - 1.month
+        period = CycleTimetable.apply_deadline(recruitment_cycle_year)
         [period.year, period.month].join('-')
       end
     end
