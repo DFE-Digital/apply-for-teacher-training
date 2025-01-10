@@ -135,7 +135,7 @@ components:
         sex:
           type: string
           nullable: true
-          description: The candidate’s sex as a [2-digit HESA code for Sex](https://www.hesa.ac.uk/collection/c22053/e/sexid)
+          description: The candidate’s sex as a [2-digit HESA code for Sex](https://www.hesa.ac.uk/collection/c24053/e/sexid)
           example: "10"
           enum:
           - "10"
@@ -146,7 +146,7 @@ components:
           type: array
           items:
             type: string
-          description: The candidate’s self-declared disabilities or health conditions as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c22053/e/disable)
+          description: The candidate’s self-declared disabilities or health conditions as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c24053/e/disable)
           example:
             - "95"
           enum:
