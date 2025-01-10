@@ -22,9 +22,19 @@ RSpec.describe 'API tokens' do
     sign_in_as_support_user
   end
 
+  def and_providers_exist
+    create(:provider, name: 'Some Provider')
+    create(:provider, name: 'Super Provider')
+  end
+
   def when_i_visit_the_tokens_page
     visit support_interface_api_tokens_path
   end
+
+  def and_i_click_on_create_a_token
+    click_link_or_button 'Create new token'
+  end
+  alias_method :and_i_click_on_create_a_token_without_entering_a_provider, :and_i_click_on_create_a_token
 
   def then_i_am_redirected_to_the_support_page
     expect(page).to have_current_path(support_interface_api_tokens_path)
@@ -34,19 +44,9 @@ RSpec.describe 'API tokens' do
     expect(page).to have_content 'Did not select a provider'
   end
 
-  def and_providers_exist
-    create(:provider, name: 'Some Provider')
-    create(:provider, name: 'Super Provider')
-  end
-
   def when_i_select_a_provider
     select 'Super Provider'
   end
-
-  def and_i_click_on_create_a_token
-    click_link_or_button 'Create new token'
-  end
-  alias_method :and_i_click_on_create_a_token_without_entering_a_provider, :and_i_click_on_create_a_token
 
   def then_i_see_a_new_token
     expect(page).to have_content 'Your token is'
