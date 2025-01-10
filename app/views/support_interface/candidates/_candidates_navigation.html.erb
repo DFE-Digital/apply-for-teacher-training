@@ -6,6 +6,7 @@
   { name: 'Applications', url: support_interface_applications_path, current: local_assigns[:current] == 'Applications' },
   { name: 'Candidate accounts', url: support_interface_candidates_path, current: local_assigns[:current] == 'Candidates' },
   { name: 'Duplicate candidate matches', url: support_interface_duplicate_matches_path, current: local_assigns[:current] == 'Duplicate candidate matches' },
+  { name: 'Bulk unsubscribe candidates', url: new_support_interface_bulk_unsubscribe_path, current: local_assigns[:current] == 'Bulk unsubscribe candidates' },
 ]) %>
 
 <h2 class="govuk-visually-hidden"><%= title %></h2>
