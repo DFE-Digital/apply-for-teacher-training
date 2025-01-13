@@ -27,6 +27,12 @@ class Candidate < ApplicationRecord
 
   PUBLISHED_FIELDS = %w[email_address].freeze
 
+  enum :account_recovery_status, {
+    not_started: 'not_started',
+    recovered: 'recovered',
+    dismissed: 'dismissed',
+  }, prefix: true
+
   after_create do
     update!(candidate_api_updated_at: Time.zone.now)
   end
@@ -36,6 +42,8 @@ class Candidate < ApplicationRecord
       touch_application_choices_and_forms
     end
   end
+
+  delegate :previous_account_email_address, to: :account_recovery_request, allow_nil: true
 
   def touch_application_choices_and_forms
     return unless application_choices.any?
@@ -101,9 +109,22 @@ class Candidate < ApplicationRecord
     ).delete_all
   end
 
+  def recoverable?
+    return false if OneLogin.bypass? || FeatureFlag.inactive?(:one_login_candidate_sign_in)
+
+    account_recovery_status_not_started? &&
+      !application_choices_submitted?
+  end
+
 private
 
   def downcase_email
     email_address.try(:downcase!)
+  end
+
+  def application_choices_submitted?
+    application_forms.any? do |form|
+      form.application_choices.map(&:sent_to_provider_at).any?
+    end
   end
 end

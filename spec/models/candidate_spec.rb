@@ -14,6 +14,10 @@ RSpec.describe Candidate do
     it { is_expected.to have_one(:account_recovery_request).dependent(:destroy) }
   end
 
+  describe 'delegations' do
+    it { is_expected.to delegate_method(:previous_account_email_address).to(:account_recovery_request).allow_nil }
+  end
+
   describe 'a valid candidate' do
     subject { create(:candidate) }
 
@@ -290,6 +294,66 @@ RSpec.describe Candidate do
 
       it 'excludes blocked, locked and unsubscribed emails' do
         expect(described_class.for_marketing_or_nudge_emails).to contain_exactly(free_to_email)
+      end
+    end
+  end
+
+  describe '#recoverable?' do
+    let(:candidate) { create(:candidate) }
+    let(:application_form) { create(:application_form, candidate:) }
+
+    it 'returns false if one login bypass' do
+      expect(candidate.recoverable?).to be_falsey
+    end
+
+    it 'returns false if one login feature flag is not enabled' do
+      FeatureFlag.deactivate(:one_login_candidate_sign_in)
+
+      expect(candidate.recoverable?).to be_falsey
+    end
+
+    context 'when candidate dismissed the banner' do
+      let(:candidate) { create(:candidate, account_recovery_status: :dismissed) }
+
+      it 'returns false' do
+        FeatureFlag.activate(:one_login_candidate_sign_in)
+        allow(OneLogin).to receive(:bypass?).and_return(false)
+
+        expect(candidate.recoverable?).to be_falsey
+      end
+    end
+
+    context 'when candidate recovered their account' do
+      let(:candidate) { create(:candidate, account_recovery_status: :recovered) }
+
+      it 'returns false' do
+        FeatureFlag.activate(:one_login_candidate_sign_in)
+        allow(OneLogin).to receive(:bypass?).and_return(false)
+
+        expect(candidate.recoverable?).to be_falsey
+      end
+    end
+
+    context 'when candidate has submitted applications choices' do
+      let(:candidate) { create(:candidate, account_recovery_status: :not_started) }
+
+      it 'returns false' do
+        FeatureFlag.activate(:one_login_candidate_sign_in)
+        allow(OneLogin).to receive(:bypass?).and_return(false)
+        create(:application_form, :with_accepted_offer, candidate:)
+
+        expect(candidate.recoverable?).to be_falsey
+      end
+    end
+
+    context 'when candidate does not have submitted application choices' do
+      let(:candidate) { create(:candidate, account_recovery_status: :not_started) }
+
+      it 'returns false' do
+        FeatureFlag.activate(:one_login_candidate_sign_in)
+        allow(OneLogin).to receive(:bypass?).and_return(false)
+
+        expect(candidate.recoverable?).to be_truthy
       end
     end
   end

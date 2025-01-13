@@ -1,0 +1,8 @@
+en:
+  candidate_interface:
+    account_recovery:
+      new:
+        form:
+          code:
+            label: Code
+          request_a_new_code: Request a new code

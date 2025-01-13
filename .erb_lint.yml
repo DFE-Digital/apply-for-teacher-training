@@ -2,6 +2,7 @@
 EnableDefaultLinters: true
 exclude:
   - '**/node_modules/**/*'
+  - 'app/components/utility/button_to_as_link_component.html.erb'
 linters:
   Rubocop:
     enabled: true
