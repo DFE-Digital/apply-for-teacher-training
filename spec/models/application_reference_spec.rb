@@ -194,16 +194,16 @@ RSpec.describe ApplicationReference do
   end
 
   describe 'confidential' do
-    # context 'when the `show_reference_confidentiality_status` feature flag is active' do
-    #   before do
-    #     FeatureFlag.activate(:show_reference_confidentiality_status)
-    #   end
+    context 'when the `show_reference_confidentiality_status` feature flag is active' do
+      before do
+        FeatureFlag.activate(:show_reference_confidentiality_status)
+      end
 
-    #   it 'sets the default to nil' do
-    #     reference = build(:reference)
-    #     expect(reference.confidential).to be_nil
-    #   end
-    # end
+      it 'sets the default to nil' do
+        reference = build(:reference)
+        expect(reference.confidential).to be_nil
+      end
+    end
 
     context 'when the `show_reference_confidentiality_status` feature flag is inactive' do
       before do
