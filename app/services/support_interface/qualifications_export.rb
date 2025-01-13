@@ -70,7 +70,7 @@ module SupportInterface
 
     def a_levels(qualifications)
       qualifications
-        .select { |qualification| qualification.qualification_type == 'A level' || qualification.qualification_type == 'AS level' }
+        .select { |qualification| ['A level', 'AS level'].include?(qualification.qualification_type) }
         .reject(&:incomplete_other_qualification?)
         .take(5)
     end

@@ -102,7 +102,7 @@ class ApplicationQualification < ApplicationRecord
   end
 
   def incomplete_gcse_information?
-    return false if qualification_type == 'missing' && (currently_completing_qualification == true || currently_completing_qualification == false)
+    return false if qualification_type == 'missing' && [true, false].include?(currently_completing_qualification)
     return true if grade.nil? && constituent_grades.nil?
     return true if qualification_type == 'gcse' &&
                    failed_required_gcse? &&
