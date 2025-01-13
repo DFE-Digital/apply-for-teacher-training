@@ -9,6 +9,8 @@ class ApplicationReference < ApplicationRecord
   has_many :reference_tokens, dependent: :destroy
   has_one :candidate, through: :application_form
 
+  attribute :confidential, :boolean, default: true
+
   scope :selected, -> { feedback_provided.where(selected: true) }
   scope :creation_order, -> { order(:id) }
 
