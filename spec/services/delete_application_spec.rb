@@ -62,6 +62,14 @@ RSpec.describe DeleteApplication do
       expect { one_login_auth.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
+    it 'destroys all sessions associated with user' do
+      session = create(:session, candidate: application_form.candidate)
+
+      service.call!
+
+      expect { session.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
     it 'replaces all audits with a single entry documenting the deletion' do
       service.call!
 
