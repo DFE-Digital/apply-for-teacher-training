@@ -38,6 +38,20 @@ RSpec.describe SupportInterface::ApplicationForms::RevertWithdrawalForm, :with_a
 
         expect(application_choice.audits.last.comment).to include(zendesk_ticket)
       end
+
+      it 'deletes associated withdrawal reasons' do
+        application_choice = create(:application_choice, :withdrawn)
+        create(:withdrawal_reason, application_choice:)
+
+        form = described_class.new(
+          application_choice:,
+          audit_comment_ticket: zendesk_ticket,
+          accept_guidance: true,
+        )
+        expect(form.save).to be(true)
+
+        expect(application_choice.withdrawal_reasons).to be_empty
+      end
     end
 
     context 'invalid' do
