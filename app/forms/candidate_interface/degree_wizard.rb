@@ -382,7 +382,7 @@ module CandidateInterface
     end
 
     def use_other_grade?
-      grade == OTHER || grade == YES
+      [OTHER, YES].include?(grade)
     end
 
     def subjects
