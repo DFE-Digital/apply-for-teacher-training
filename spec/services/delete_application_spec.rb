@@ -55,6 +55,13 @@ RSpec.describe DeleteApplication do
       end
     end
 
+    it 'deletes one login auth if present' do
+      one_login_auth = create(:one_login_auth, candidate: application_form.candidate)
+      service.call!
+
+      expect { one_login_auth.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
     it 'replaces all audits with a single entry documenting the deletion' do
       service.call!
 

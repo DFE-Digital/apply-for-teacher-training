@@ -69,6 +69,7 @@ class DeleteApplication
 
         reference = application_form.support_reference
         application_form.candidate.update!(email_address: "deleted-application-#{reference}@example.com")
+        application_form.candidate.one_login_auth&.delete
 
         application_form.own_and_associated_audits.destroy_all
         add_audit_event_for_deletion!
