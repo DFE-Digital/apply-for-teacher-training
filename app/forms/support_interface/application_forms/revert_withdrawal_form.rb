@@ -5,9 +5,9 @@ module SupportInterface
 
       attr_accessor :accept_guidance, :audit_comment_ticket, :application_choice
 
-      validates :accept_guidance, presence: true
       validate :valid_service
       validates_with ZendeskUrlValidator
+      validates :accept_guidance, presence: true
 
       def save
         self.accept_guidance = ActiveModel::Type::Boolean.new.cast(accept_guidance)
