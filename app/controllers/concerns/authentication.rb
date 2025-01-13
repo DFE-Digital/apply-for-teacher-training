@@ -23,11 +23,15 @@ private
   end
 
   def resume_session
-    Current.session ||= find_session_by_cookie
+    session = Current.session ||= find_session_by_cookie
+    session.touch if session.present?
+    session
   end
 
   def find_session_by_cookie
-    Session.find_by(id: cookies.signed[:session_id]) if cookies.signed[:session_id]
+    Session.find_by(
+      'id = ? AND updated_at > ?', cookies.signed[:session_id], 7.days.ago
+    )
   end
 
   def request_authentication
