@@ -10,6 +10,10 @@
 
 <!-- How could someone else check this work? Which parts do you want more feedback on? -->
 
+## Link to Trello card
+
+<!-- Paste the anonymised Trello link here. Avoid sharing the full card URL that reveals card details. -->
+
 ## Things to check
 
 - [ ] If the code removes any existing feature flags, a data migration has also been added to delete the entry from the database
