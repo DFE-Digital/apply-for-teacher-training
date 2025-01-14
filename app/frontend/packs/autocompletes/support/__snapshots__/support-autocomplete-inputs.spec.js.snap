@@ -6,6 +6,7 @@ exports[`supportAutocompleteInputs should return supportAutocompleteInputs 1`] =
     "autocompleteId": "api-token-autocomplete",
     "inputIds": [
       "vendor-api-token-provider-id-field",
+      "vendor-api-token-provider-id-field-error",
     ],
   },
   {

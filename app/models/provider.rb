@@ -42,6 +42,8 @@ class Provider < ApplicationRecord
   audited
   has_associated_audits
 
+  delegate :name, to: :vendor, prefix: true, allow_nil: true
+
   def self.with_courses
     includes(:courses).where.not(courses: { id: nil })
   end

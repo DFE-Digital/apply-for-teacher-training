@@ -1,15 +1,13 @@
 <%= render 'support_interface/providers/providers_navigation', title: 'API tokens' %>
 
-<%= form_with model: VendorAPIToken.new, url: support_interface_api_tokens_path do |f| %>
-  <%= f.govuk_collection_select :provider_id, Provider.all, :id, :name, label: { text: 'Select a provider to generate a token for' }, options: { include_blank: true } %>
-  <%= f.govuk_submit 'Create new token' %>
-<% end %>
+<%= govuk_button_link_to 'Add a token', new_support_interface_api_token_path %>
 
 <table class='govuk-table'>
   <thead class='govuk-table__head'>
     <tr class='govuk-table__row'>
       <th scope='col' class='govuk-table__header'>ID</th>
       <th scope='col' class='govuk-table__header govuk-!-width-one-third'>Provider</th>
+      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Vendor</th>
       <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Last used at</th>
       <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Created at</th>
       <th scope='col' class='govuk-table__header'>Actions</th>
@@ -21,6 +19,7 @@
     <tr class='govuk-table__row'>
       <td class='govuk-table__cell'>#<%= token.id %></td>
       <td class='govuk-table__cell'><%= token.provider.name %></td>
+      <td class='govuk-table__cell'><%= token.provider.vendor_name %></td>
       <td class='govuk-table__cell'><%= token.last_used_at ? token.last_used_at.to_fs(:govuk_date_and_time) : 'Never' %></td>
       <td class='govuk-table__cell'><%= token.created_at.to_fs(:govuk_date_and_time) %></td>
       <td class='govuk-table__cell'>
