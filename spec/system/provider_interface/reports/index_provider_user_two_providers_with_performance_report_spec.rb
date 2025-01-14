@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Provider with two providers reports index' do
   include DfESignInHelpers
 
-  before do
-    FeatureFlag.deactivate :new_candidate_withdrawal_reasons
-  end
-
   scenario 'when provider user has multiple provider with performance report', time: mid_cycle(2024) do
     given_a_provider_user_with_two_providers_exists
     and_a_provider_has_a_recruitment_performance_report
@@ -41,11 +37,10 @@ RSpec.describe 'Provider with two providers reports index' do
     expect(page).to have_css('h3', text: @provider.name)
     expect(page).to have_link('Status of active applications', href: provider_interface_reports_provider_status_of_active_applications_path(provider_id: @provider))
     expect(page).to have_link('Sex, disability, ethnicity and age of candidates', href: provider_interface_reports_provider_diversity_report_path(provider_id: @provider))
-    expect(page).to have_link('Withdrawals', href: provider_interface_reports_provider_withdrawal_report_path(provider_id: @provider))
+    expect(page).to have_link('Withdrawals', href: provider_interface_reports_withdrawal_reports_path).twice
     expect(page).to have_css('h3', text: @second_provider.name)
     expect(page).to have_link('Status of active applications', href: provider_interface_reports_provider_status_of_active_applications_path(provider_id: @second_provider))
     expect(page).to have_link('Sex, disability, ethnicity and age of candidates', href: provider_interface_reports_provider_diversity_report_path(provider_id: @second_provider))
-    expect(page).to have_link('Withdrawals', href: provider_interface_reports_provider_withdrawal_report_path(provider_id: @second_provider))
     expect(page).to have_css('h2', text: 'Download and export')
     expect(page).to have_link('Export application data', href: provider_interface_new_application_data_export_path)
     expect(page).to have_link('Export data for Higher Education Statistics Agency (HESA)', href: provider_interface_reports_hesa_exports_path)

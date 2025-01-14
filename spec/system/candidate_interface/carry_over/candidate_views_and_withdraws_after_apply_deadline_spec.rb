@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Views offer and withdraws before carrying over', time: CycleTimetableHelper.mid_cycle do
   include CandidateHelper
 
-  before do
-    FeatureFlag.deactivate(:new_candidate_withdrawal_reasons)
-  end
-
   scenario 'candidate is awaiting provider decision' do
     given_i_am_waiting_provider_decision
     and_the_apply_deadline_passes
@@ -63,9 +59,12 @@ private
 
   def when_i_withdraw_my_application
     click_on 'withdraw this application'
-    click_on 'Yes I’m sure – withdraw this application'
-    check 'I do not want to train to be a teacher anymore'
+    choose 'I plan to apply for teacher training in the future'
     click_on 'Continue'
+    check 'My personal circumstances have changed'
+    check 'I have concerns about the cost of doing the course'
+    click_on 'Continue'
+    click_on 'Yes I’m sure – withdraw this application'
   end
 
   def then_i_see_the_carry_over_page

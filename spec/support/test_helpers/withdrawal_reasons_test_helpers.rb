@@ -42,6 +42,7 @@ module WithdrawalReasonsTestHelpers
     choose level_one_reason
     click_on 'Continue'
   end
+  alias and_i_select_the_level_one_reason when_i_select_the_level_one_reason
 
   def then_i_see_the_error_message(error_message)
     expect(page).to have_content('There is a problem')
@@ -55,6 +56,7 @@ module WithdrawalReasonsTestHelpers
     other_details_field.set('Here is some more detail that does not quite match the options above.')
   end
   alias enter_details_for_main_other_option when_i_enter_details_for_main_other_option
+  alias and_i_enter_details_for_main_other_option when_i_enter_details_for_main_other_option
 
   def and_i_select_the_main_other_option
     find('input[type="checkbox"][value="other"]').check
@@ -86,4 +88,18 @@ module WithdrawalReasonsTestHelpers
       'I do not want to train to teach anymore' => 'do-not-want-to-train-anymore',
     }
   end
+
+  def then_i_have_withdrawn_from_the_course(course = @application_choice)
+    expect(page).to have_content "You have withdrawn your application to #{course.current_course.provider.name}"
+    expect(course.reload.status).to eq 'withdrawn'
+  end
+
+  def when_i_select_some_reasons_and_confirm
+    choose 'I do not want to train to teach anymore'
+    click_on 'Continue'
+    check 'I have decided on another career path or I have accepted a job offer'
+    click_on 'Continue'
+    click_on 'Yes I’m sure – withdraw this application'
+  end
+  alias and_i_select_some_reasons_and_confirm when_i_select_some_reasons_and_confirm
 end

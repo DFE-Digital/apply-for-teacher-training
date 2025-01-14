@@ -35,11 +35,7 @@
           <%= govuk_link_to t('page_titles.provider.diversity_report'), provider_interface_reports_provider_diversity_report_path(provider_id: provider) %>
         </li>
         <li>
-          <% if FeatureFlag.active? :new_candidate_withdrawal_reasons %>
-            <%= govuk_link_to t('page_titles.provider.withdrawal_report'), provider_interface_reports_withdrawal_reports_path %>
-          <% else %>
-            <%= govuk_link_to t('page_titles.provider.withdrawal_report'), provider_interface_reports_provider_withdrawal_report_path(provider_id: provider) %>
-          <% end %>
+          <%= govuk_link_to t('page_titles.provider.withdrawal_report'), provider_interface_reports_withdrawal_reports_path %>
         </li>
       </ul>
     <% end %>

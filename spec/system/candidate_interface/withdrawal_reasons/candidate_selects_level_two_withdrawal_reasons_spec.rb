@@ -5,7 +5,6 @@ RSpec.describe 'Candidate selects level-two withdrawal reasons' do
   include WithdrawalReasonsTestHelpers
 
   before do
-    FeatureFlag.activate(:new_candidate_withdrawal_reasons)
     @candidate = create(:candidate)
     @application_form = create(:completed_application_form, submitted_at: Time.zone.now, candidate: @candidate)
   end

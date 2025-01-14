@@ -238,10 +238,6 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
   end
 
   context 'when an offer has been accepted i.e. pending conditions to a course choice' do
-    before do
-      FeatureFlag.deactivate(:new_candidate_withdrawal_reasons)
-    end
-
     let(:application_choice) { create(:application_choice, :accepted) }
     let(:application_form) { application_choice.application_form }
 
@@ -259,7 +255,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
 
       expect(result.css('.govuk-summary-list__value').text).to include('Withdraw this application')
       expect(result.css('.govuk-summary-list__value a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_withdraw_path(course_id),
+        Rails.application.routes.url_helpers.candidate_interface_withdrawal_reasons_level_one_reason_new_path(course_id),
       )
     end
   end

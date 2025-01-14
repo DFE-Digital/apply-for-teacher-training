@@ -153,7 +153,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, :mid_cycle, typ
     end
 
     it 'renders component with a withdraw link' do
-      FeatureFlag.deactivate :new_candidate_withdrawal_reasons
       result = render_inline(described_class.new(application_form:, show_status: true))
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
@@ -200,10 +199,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, :mid_cycle, typ
   end
 
   context 'when an offer has been accepted i.e. pending conditions to a course choice' do
-    before do
-      FeatureFlag.deactivate :new_candidate_withdrawal_reasons
-    end
-
     let(:application_form) { create_application_form_with_course_choices(statuses: %w[pending_conditions]) }
 
     it 'renders component with the status as accepted' do
@@ -220,7 +215,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, :mid_cycle, typ
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_withdraw_path(course_id),
+        Rails.application.routes.url_helpers.candidate_interface_withdrawal_reasons_level_one_reason_new_path(course_id),
       )
     end
   end
