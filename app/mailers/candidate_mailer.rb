@@ -513,6 +513,15 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def one_login_is_coming(application_form)
+    @application_form = application_form
+
+    email_for_candidate(
+      @application_form,
+      subject: I18n.t!('candidate_mailer.one_login_is_coming.subject'),
+    )
+  end
+
 private
 
   def email_for_candidate(application_form, args = {})
