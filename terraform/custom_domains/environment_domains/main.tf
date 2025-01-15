@@ -11,4 +11,5 @@ module "domains" {
   multiple_hosted_zones = var.multiple_hosted_zones
   null_host_header      = try(each.value.null_host_header, false)
   cached_paths          = try(each.value.cached_paths, [])
+  redirect_rules        = try(each.value.redirect_rules, null)
 }
