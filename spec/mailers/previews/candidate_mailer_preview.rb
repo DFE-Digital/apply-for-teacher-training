@@ -552,15 +552,7 @@ class CandidateMailerPreview < ActionMailer::Preview
 private
 
   def candidate
-    candidate = FactoryBot.build_stubbed(:candidate)
-
-    # This is not great. It's necessary because some of our mail templates
-    # generates and send a new magic link token to candidates.
-    def candidate.update!(*)
-      true
-    end
-
-    candidate
+    @candidate ||= FactoryBot.build_stubbed(:candidate)
   end
 
   def application_form

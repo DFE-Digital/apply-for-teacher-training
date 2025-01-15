@@ -15,7 +15,7 @@ RSpec.describe CandidateMailer do
       'a mail with subject and content',
       'You have submitted your teacher training application',
       'intro' => 'You have submitted an application for',
-      'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token',
+      'application_choices_link' => '/candidate/application/choices?utm_source=test',
       'dynamic paragraph' => 'Your training provider will contact you if they would like to organise an interview',
     )
   end
