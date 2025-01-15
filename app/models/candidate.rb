@@ -110,7 +110,7 @@ class Candidate < ApplicationRecord
   end
 
   def recoverable?
-    return false if OneLogin.bypass? || FeatureFlag.inactive?(:one_login_candidate_sign_in)
+    return false if OneLogin.bypass? || FeatureFlag.inactive?(:one_login_candidate_sign_in) || one_login_auth.nil?
 
     account_recovery_status_not_started? &&
       !application_choices_submitted?
