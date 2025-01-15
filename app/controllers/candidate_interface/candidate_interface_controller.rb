@@ -4,11 +4,11 @@ module CandidateInterface
     include Authentication
 
     before_action :protect_with_basic_auth
+    before_action :track_email_click
     before_action :authenticate_candidate!, unless: -> { one_login_enabled? }
     before_action :set_user_context
     before_action :check_cookie_preferences
     before_action :check_account_locked
-    before_action :track_email_click
     layout 'application'
     alias audit_user current_candidate
 
