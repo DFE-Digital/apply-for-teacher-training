@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Candidate email click tracking' do
   include CandidateHelper
 
-  it 'Candidate clicks a magic link in a nudge email' do
+  it 'Candidate clicks a sign in link in a nudge email' do
     given_i_complete_my_application
     and_i_logout
     and_i_have_been_inactive_for_10_days
@@ -41,9 +41,9 @@ RSpec.describe 'Candidate email click tracking' do
 
   def when_i_open_the_nudge_email_and_click_on_the_link
     email = open_email(current_candidate.email_address)
-    magic_link = email.body.match(/(#{candidate_interface_sign_in_path}\/\S+)\)/)[1]
-    expect(magic_link).to be_present
-    visit magic_link
+    application_choice_link = email.body.match(/#{candidate_interface_application_choices_path}\?utm_source=test-[a-zA-Z0-9]+/)[0]
+    expect(application_choice_link).to be_present
+    visit application_choice_link
   end
 
   def then_an_email_click_is_logged
