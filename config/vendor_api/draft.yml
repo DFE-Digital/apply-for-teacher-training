@@ -22,6 +22,9 @@ components:
         inactive:
           type: boolean
           description: Indicates whether the application is inactive, based on time-sensitive criteria. If true, the application is considered inactive; otherwise, it remains active.
+          enum:
+          - true
+          - false
     Reference:
       type: object
       properties:
@@ -29,5 +32,9 @@ components:
           type: boolean
           description: The confidentiality status selected by the referee for the reference
           example: true
+          enum:
+          - true
+          - false
+          - null
       required:
         - confidential
