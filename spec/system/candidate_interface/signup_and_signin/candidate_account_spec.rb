@@ -16,6 +16,7 @@ RSpec.describe 'Candidate account' do
     when_i_click_on_the_link_in_my_email
     and_i_confirm_account_creation
     then_i_am_signed_in
+    and_i_cannot_see_the_govuk_account_link
 
     when_i_click_the_sign_out_button
     then_i_am_signed_out
@@ -96,9 +97,16 @@ RSpec.describe 'Candidate account' do
   end
 
   def then_i_am_signed_in
-    within '.app-primary-navigation' do
+    within '.govuk-header__navigation-list' do
       expect(page).to have_content 'Sign out'
     end
+  end
+
+  def and_i_cannot_see_the_govuk_account_link
+    expect(page).to have_no_link(
+      'GOV.UK One Login',
+      href: 'http://home.integration.account.gov.uk',
+    )
   end
 
   def when_i_click_the_sign_out_button

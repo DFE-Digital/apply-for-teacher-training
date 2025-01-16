@@ -1,3 +1,13 @@
+.govuk-service-navigation {
+  &__container {
+    justify-content: space-between;
+  }
+
+  &__link {
+    font-weight: bold;
+  }
+}
+
 .app-primary-navigation {
   background-color: govuk-colour("light-grey");
 }

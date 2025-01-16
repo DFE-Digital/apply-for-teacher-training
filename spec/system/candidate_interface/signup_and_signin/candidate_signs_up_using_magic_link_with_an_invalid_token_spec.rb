@@ -75,7 +75,7 @@ RSpec.describe 'Candidate tries to sign up using magic link with an invalid toke
   end
 
   def when_click_on_the_apply_for_teacher_training_link_in_the_header
-    click_link_or_button 'Apply for teacher training'
+    click_link_or_button 'GOV.UK'
   end
 
   def then_i_see_the_application_page

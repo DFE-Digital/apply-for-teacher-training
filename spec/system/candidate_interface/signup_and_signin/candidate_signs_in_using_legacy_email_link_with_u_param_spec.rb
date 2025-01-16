@@ -30,7 +30,7 @@ RSpec.describe 'Candidate account' do
     @magic_link.click
     confirm_sign_in
 
-    within '.app-primary-navigation' do
+    within '.govuk-header__navigation-list' do
       expect(page).to have_content 'Sign out'
     end
 
@@ -57,7 +57,7 @@ RSpec.describe 'Candidate account' do
   def then_i_can_sign_in_again
     @new_magic_link.click
     confirm_sign_in
-    within '.app-primary-navigation' do
+    within '.govuk-header__navigation-list' do
       expect(page).to have_content 'Sign out'
     end
   end
