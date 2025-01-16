@@ -46,6 +46,7 @@ require 'rspec/retry'
 require 'rspec/core/formatters/base_text_formatter'
 
 require_relative 'support/capybara'
+require 'support/test_helpers/one_login_helper'
 
 ENV['SERVICE_TYPE'] = 'test' # this is used for logging
 ENV['STATE_CHANGE_SLACK_URL'] = nil # ensure tests send no Slack notifications
@@ -62,6 +63,8 @@ RSpec.configure do |config|
       ex.run_with_retry retry: 3
     end
   end
+
+  config.include OneLoginHelper
 
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

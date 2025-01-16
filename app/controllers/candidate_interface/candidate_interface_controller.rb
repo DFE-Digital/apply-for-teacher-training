@@ -11,7 +11,10 @@ module CandidateInterface
     before_action :track_email_click
     layout 'application'
     alias audit_user current_candidate
-    alias current_user current_candidate
+
+    def current_user
+      current_candidate
+    end
 
     def current_candidate
       super || Current.session&.candidate

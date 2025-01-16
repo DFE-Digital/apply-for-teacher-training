@@ -8,7 +8,7 @@ RSpec.describe 'Entering a degree' do
   end
 
   scenario 'Candidate does not have a degree' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
     then_i_can_see_the_university_degree_page
 
@@ -36,7 +36,7 @@ RSpec.describe 'Entering a degree' do
   end
 
   scenario 'Candidate does have a university degree' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
     then_i_can_see_the_university_degree_page
 
@@ -71,10 +71,6 @@ RSpec.describe 'Entering a degree' do
     TestSuiteTimeMachine.travel_permanently_to(
       CycleTimetableHelper.after_apply_deadline(2024),
     )
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def when_i_view_the_degree_section

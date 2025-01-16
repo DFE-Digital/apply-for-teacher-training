@@ -4,7 +4,7 @@ RSpec.describe 'Entering a Masters degree' do
   include CandidateHelper
 
   scenario 'Candidate enters their Masters degree' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
 
     and_i_answer_that_i_have_a_university_degree
@@ -18,10 +18,6 @@ RSpec.describe 'Entering a Masters degree' do
     then_i_can_see_the_level_page
     when_i_choose_the_masters_level
     and_i_click_on_save_and_continue
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def when_i_view_the_degree_section
