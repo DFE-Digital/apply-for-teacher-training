@@ -312,6 +312,13 @@ RSpec.describe Candidate do
       expect(candidate.recoverable?).to be_falsey
     end
 
+    it 'returns false if candidate has not got a one login auth' do
+      FeatureFlag.activate(:one_login_candidate_sign_in)
+      allow(OneLogin).to receive(:bypass?).and_return(false)
+
+      expect(candidate.recoverable?).to be_falsey
+    end
+
     context 'when candidate dismissed the banner' do
       let(:candidate) { create(:candidate, account_recovery_status: :dismissed) }
 
@@ -347,9 +354,15 @@ RSpec.describe Candidate do
     end
 
     context 'when candidate does not have submitted application choices' do
-      let(:candidate) { create(:candidate, account_recovery_status: :not_started) }
+      let(:candidate) do
+        create(
+          :candidate,
+          :with_live_session,
+          account_recovery_status: :not_started,
+        )
+      end
 
-      it 'returns false' do
+      it 'returns true' do
         FeatureFlag.activate(:one_login_candidate_sign_in)
         allow(OneLogin).to receive(:bypass?).and_return(false)
 
