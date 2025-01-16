@@ -85,7 +85,7 @@ private
     expect(page).to have_content 'Are you sure you want to withdraw this application?'
     expect(page).to have_title 'Are you sure you want to withdraw this application?'
     expect(page).to have_content 'Other: Some details'
-    expect(page).to have_css('.govuk-service-navigation__link', text: 'Your applications')
+    expect(page).to have_css('.govuk-link.app-primary-navigation__link[aria-current=page]', text: 'Your applications')
   end
 
   def and_my_application_is_withdrawn_with_the_other_reason
@@ -112,7 +112,7 @@ private
     expect(page).to have_title 'Why are you withdrawing this application?'
     expect(page).to have_content 'Why are you withdrawing this application?'
     level_one_reasons.each { |reason| expect(page).to have_content reason }
-    expect(page).to have_css('.govuk-service-navigation__link', text: 'Your applications')
+    expect(page).to have_css('.govuk-link.app-primary-navigation__link[aria-current=page]', text: 'Your applications')
   end
 
   def then_i_see_the_application_choice

@@ -83,15 +83,15 @@ RSpec.describe 'Primary Navigation' do
   end
 
   def then_i_see_your_details_as_active
-    expect(page).to have_css('.govuk-service-navigation__link', text: 'Your details')
+    expect(page).to have_css('.govuk-link.app-primary-navigation__link[aria-current=page]', text: 'Your details')
   end
 
   def then_i_see_your_application_as_active
-    expect(page).to have_css('.govuk-service-navigation__link', text: 'Your application')
+    expect(page).to have_css('.govuk-link.app-primary-navigation__link[aria-current=page]', text: 'Your application')
   end
 
   def then_i_see_your_applications_as_active
-    expect(page).to have_css('.govuk-service-navigation__link', text: 'Your applications')
+    expect(page).to have_css('.govuk-link.app-primary-navigation__link[aria-current=page]', text: 'Your applications')
   end
 
   def when_i_visit_guidance_page_without_referer

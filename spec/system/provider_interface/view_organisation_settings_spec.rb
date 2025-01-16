@@ -43,7 +43,7 @@ RSpec.describe 'Organisation settings' do
   end
 
   def when_i_click_on_the_organisation_settings_link
-    within('.govuk-header__navigation-list') do
+    within('#navigation') do
       click_link_or_button('Organisation settings')
     end
   end

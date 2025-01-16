@@ -119,7 +119,7 @@ RSpec.describe 'See updated applications post-submission' do
   end
 
   def when_i_click_on_applications_in_the_navigation_bar
-    within '.govuk-service-navigation__list' do
+    within '.app-primary-navigation' do
       click_link_or_button 'Applications'
     end
   end

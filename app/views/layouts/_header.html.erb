@@ -1,50 +1,41 @@
 <% case try(:current_namespace) %>
 <% when 'candidate_interface' %>
-  <%= render(
-    HeaderComponent.new(
-      homepage_url: service_link,
-      classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border",
-      navigation_items: NavigationItems.candidate(current_candidate:),
-    ),
-  ) %>
-
-  <%= govuk_service_navigation(
-    service_name: t('service_name.apply'),
-    current_path: request.path,
-    navigation_items: NavigationItems.candidate_primary_navigation(
-      current_candidate:,
-      current_controller: controller,
-    ),
-    navigation_id: 'service-navigation',
-  ) %>
-<%= render PhaseBannerComponent.new(no_border: current_candidate.present?) %>
+  <%= render(HeaderComponent.new(
+              classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border",
+              service_name: service_name,
+              service_link: service_link,
+            )) %>
+  <%= render PhaseBannerComponent.new(no_border: current_candidate.present?) %>
+  <% if current_candidate %>
+    <% sign_out_path = FeatureFlag.active?(:one_login_candidate_sign_in) ? auth_one_login_sign_out_path : candidate_interface_sign_out_path %>
+    <%= render(PrimaryNavigationComponent.new(
+                items: NavigationItems.candidate_primary_navigation(current_candidate:, current_controller: controller),
+                items_right: [NavigationItems::NavigationItem.new('Sign out', sign_out_path)],
+              )) %>
+  <% end %>
 <% when 'support_interface' %>
   <%= render(HeaderComponent.new(
         classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
+        product_name: service_name,
         homepage_url: service_link,
+        service_link: service_link,
+        phase_tag: true,
         navigation_items: NavigationItems.for_support_account_nav(try(:current_support_user)),
+        navigation_classes: 'govuk-header__navigation--end',
       )) %>
-    <%= govuk_service_navigation(
-      service_name: t('service_name.apply'),
-      current_path: request.path,
-      navigation_items: NavigationItems.for_support_primary_nav(try(:current_support_user), controller),
-      navigation_id: 'service-navigation',
-    ) %>
+  <%= render(PrimaryNavigationComponent.new(
+        items: NavigationItems.for_support_primary_nav(try(:current_support_user), controller),
+      )) %>
   <%= yield(:navigation) if content_for?(:navigation) %>
 <% when 'provider_interface' %>
   <%= render(HeaderComponent.new(
       classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
+      product_name: service_name,
       homepage_url: service_link,
+      service_link: service_link,
       navigation_items: NavigationItems.for_provider_account_nav(try(:current_provider_user), controller, performing_setup: @provider_setup&.pending?),
+      navigation_classes: 'govuk-header__navigation--end',
     )) %>
-
-    <%= govuk_service_navigation(
-      service_name: t('service_name.manage'),
-      current_path: request.path,
-      navigation_items: NavigationItems.for_provider_primary_nav(try(:current_provider_user), controller, performing_setup: @provider_setup&.pending?),
-      navigation_id: 'service-navigation',
-    ) %>
-
   <% if controller.controller_name == 'start_page' %>
     <%= render(PhaseBannerComponent.new(
         feedback_link: ProviderInterface::FEEDBACK_LINK,
@@ -57,6 +48,9 @@
     <%= render(PhaseBannerComponent.new(
         no_border: true,
         feedback_link: ProviderInterface::FEEDBACK_LINK,
+      )) %>
+    <%= render(PrimaryNavigationComponent.new(
+        items: NavigationItems.for_provider_primary_nav(try(:current_provider_user), controller, performing_setup: @provider_setup&.pending?),
       )) %>
   <% end %>
 <% when 'vendor_api_docs' %>
@@ -84,10 +78,8 @@
   <% components_name = 'ViewComponent Previews' if request.path.match(/^\/rails\/view_components/) %>
   <%= render(HeaderComponent.new(
     classes: "app-header--#{HostingEnvironment.environment_name}",
-    homepage_url: components_url || try(:service_link),
+    service_name: components_name || try(:service_name),
+    service_link: components_url || try(:service_link),
   )) %>
-
-  <%= govuk_service_navigation(service_name: components_name || try(:service_name), navigation_id: 'service-navigation') %>
-
   <%= render PhaseBannerComponent.new %>
 <% end %>
