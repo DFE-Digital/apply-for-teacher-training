@@ -4,12 +4,11 @@ RSpec.describe 'Carry over unsubmitted application' do
   include CandidateHelper
 
   scenario 'Candidate carries over their application to the new cycle' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_an_unsubmitted_application_with_references
 
     when_the_apply_deadline_passes
     and_i_sign_in_again
-    and_i_visit_the_application_dashboard
     and_i_have_to_carry_my_application_over
     then_i_see_the_references_section
     and_references_is_marked_as_incomplete
@@ -21,13 +20,8 @@ RSpec.describe 'Carry over unsubmitted application' do
     then_i_am_on_your_details_page
   end
 
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def and_i_have_an_unsubmitted_application_with_references
-    @application_form = create(:completed_application_form, recruitment_cycle_year: 2024, submitted_at: nil, candidate: @candidate)
+    @application_form = create(:completed_application_form, recruitment_cycle_year: 2024, submitted_at: nil, candidate: @current_candidate)
 
     @pending_reference = create(:reference, :feedback_requested, application_form: @application_form)
     @declined_reference = create(:reference, :feedback_refused, application_form: @application_form)
@@ -40,9 +34,9 @@ RSpec.describe 'Carry over unsubmitted application' do
   end
 
   def and_i_sign_in_again
-    logout
+    click_link_or_button 'Sign out'
 
-    login_as(@candidate)
+    given_i_am_signed_in_with_one_login
   end
 
   def and_i_have_to_carry_my_application_over
@@ -62,10 +56,9 @@ RSpec.describe 'Carry over unsubmitted application' do
     click_link_or_button 'References to be requested if you accept an offer'
   end
 
-  def and_i_visit_the_application_dashboard
-    visit root_path
+  def when_i_visit_the_application_dashboard
+    visit candidate_interface_interstitial_path
   end
-  alias_method :when_i_visit_the_application_dashboard, :and_i_visit_the_application_dashboard
 
   def and_references_is_marked_as_incomplete
     expect(safeguarding_section.text.downcase).to include('references to be requested if you accept an offer incomplete')

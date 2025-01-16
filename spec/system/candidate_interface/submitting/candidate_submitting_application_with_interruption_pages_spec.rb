@@ -2,10 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate submits the application with interruption pages' do
   include CandidateHelper
-  include SignInHelper
 
   scenario 'Candidate submits an application with all applications having an enic_reason of not_needed and personal statement less than 500 words', :js, time: mid_cycle do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
 
     when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice_with_not_needed_qualification
     and_i_continue_with_my_application
@@ -23,7 +22,7 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
   end
 
   scenario 'Candidate submits an application with an application having an enic_reason of maybe and personal statement less than 500 words', :js, time: mid_cycle do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
 
     when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice_with_waiting_or_maybe_qualification
     and_i_continue_with_my_application
@@ -41,7 +40,7 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
   end
 
   scenario 'Candidate submits an application with an application having an enic_reason of maybe and personal statement of 500 words', :js, time: mid_cycle do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
 
     when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice_with_waiting_or_maybe_qualification_and_personal_statement_500_words
     and_i_continue_with_my_application
@@ -57,7 +56,7 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
   end
 
   scenario 'Candidate submits an teacher degree apprenticeship course having a personal statement less than 500 words and a degree', :js, time: mid_cycle do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     when_i_have_completed_application_to_primary_course_choice_with_short_personal_statement
     and_course_choice_is_undergraduate
     and_i_have_a_degree
@@ -77,7 +76,7 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
   end
 
   scenario 'Candidate submits an teacher degree apprenticeship course having a degree with long personal statement and with ENIC', :js, time: mid_cycle do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     when_i_have_completed_application_to_primary_course_choice_with_long_personal_statement
     and_i_have_a_degree
     and_course_choice_is_undergraduate
@@ -151,9 +150,8 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
     )
     @course = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
     @course_option = create(:course_option, site:, course: @course)
-    current_candidate.application_forms.delete_all
-    current_candidate.application_forms << create(:application_form, completed_section_trait, :with_degree, becoming_a_teacher: Faker::Lorem.words(number: personal_statement_words))
-    @application_choice = create(:application_choice, :unsubmitted, course_option: @course_option, application_form: current_candidate.current_application)
+    @current_candidate.application_forms << create(:application_form, completed_section_trait, :with_degree, becoming_a_teacher: Faker::Lorem.words(number: personal_statement_words))
+    @application_choice = create(:application_choice, :unsubmitted, course_option: @course_option, application_form: @current_candidate.current_application)
   end
 
   def add_not_needed_qualification

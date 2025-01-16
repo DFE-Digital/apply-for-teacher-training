@@ -6,7 +6,7 @@ RSpec.describe 'Candidate submits an application up to 4 choices' do
   before { given_courses_exist }
 
   scenario 'when candidate has a conditions not met and only one free slot' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_a_conditions_not_met_application_and_one_free_slot_to_submit
     when_i_visit_my_applications
     then_i_can_see_i_have_one_choice_left
@@ -14,10 +14,6 @@ RSpec.describe 'Candidate submits an application up to 4 choices' do
     when_i_submit_a_new_application
     then_i_can_see_my_application_has_been_successfully_submitted
     and_i_am_unable_to_add_any_further_choices
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_i_have_a_conditions_not_met_application_and_one_free_slot_to_submit

@@ -4,7 +4,7 @@ RSpec.describe 'Entering their suitability to work with children' do
   include CandidateHelper
 
   scenario 'Candidate declares any safeguarding issues' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     when_i_visit_the_site
     then_i_see_declaring_any_safeguarding_issues
 
@@ -29,10 +29,6 @@ RSpec.describe 'Entering their suitability to work with children' do
     when_i_mark_the_section_as_completed
     and_i_click_on_continue
     then_i_see_the_section_is_completed
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def when_i_visit_the_site

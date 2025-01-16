@@ -4,7 +4,7 @@ RSpec.describe 'Selecting a study mode' do
   include CandidateHelper
 
   scenario 'Candidate selects different study modes' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_there_are_course_options
 
     when_i_select_a_part_time_course
@@ -18,10 +18,6 @@ RSpec.describe 'Selecting a study mode' do
     and_i_visit_my_course_choices_page
     then_the_site_is_resolved_automatically_and_i_see_the_course_choice
     and_the_application_is_not_school_placement_auto_selected
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_there_are_course_options

@@ -4,9 +4,7 @@ RSpec.describe 'Candidate changing their GCSE type' do
   include CandidateHelper
 
   scenario 'Candidate completes their maths GCSE and then changes the type to missing and then back to a GCSE' do
-    given_i_am_signed_in
-
-    when_i_visit_the_candidate_application_page
+    given_i_am_signed_in_with_one_login
     and_i_click_on_the_maths_gcse_link
     then_i_see_the_add_gcse_maths_page
 
@@ -31,10 +29,6 @@ RSpec.describe 'Candidate changing their GCSE type' do
     when_i_select_gcse_option
     and_i_click_save_and_continue
     then_i_see_add_grade_page
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def when_i_visit_the_candidate_application_page

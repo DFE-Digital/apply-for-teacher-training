@@ -15,13 +15,12 @@ RSpec.describe 'References' do
   end
 
   def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-    @application = @candidate.current_application
+    given_i_am_signed_in_with_one_login
+    @application = @current_candidate.current_application
   end
 
   def and_i_have_provided_my_personal_details
-    @candidate.current_application.update!(first_name: 'Mr', last_name: 'Bot')
+    @current_candidate.current_application.update!(first_name: 'Mr', last_name: 'Bot')
   end
 
   def and_i_have_three_reference_requests_pending

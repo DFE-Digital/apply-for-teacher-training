@@ -5,7 +5,7 @@ RSpec.describe 'Candidate accepts an offer' do
   include CandidateHelper
 
   scenario 'Candidate views offer and changes referee email address to personal email address and ignores advice' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_an_offer
 
     when_i_visit_my_applications
@@ -24,7 +24,7 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   scenario 'Candidate views offer and changes referee email address to personal email address and heeds advice' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_an_offer
 
     when_i_visit_my_applications
@@ -42,7 +42,7 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   scenario 'Candidate views offer and changes character reference email to personal email address' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_an_offer
     and_my_references_are_character_references
 
@@ -59,20 +59,15 @@ RSpec.describe 'Candidate accepts an offer' do
 
 private
 
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def and_i_have_an_offer
     @application_form = create(
       :completed_application_form,
       first_name: 'Harry',
       last_name: 'Potter',
-      candidate: @candidate,
+      candidate: @current_candidate,
       submitted_at: Time.zone.now,
       support_reference: '123A',
-      recruitment_cycle_year: 2024,
+      recruitment_cycle_year: RecruitmentCycle.current_year,
     )
 
     @application_form.application_references.each do |ref|

@@ -106,9 +106,8 @@ RSpec.describe 'References' do
   end
 
   def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-    @application = @candidate.current_application
+    given_i_am_signed_in_with_one_login
+    @application = @current_candidate.current_application
   end
 
   def when_i_visit_the_site

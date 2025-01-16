@@ -4,7 +4,7 @@ RSpec.describe 'Selecting a course with multiple sites' do
   include CandidateHelper
 
   it 'Candidate selects a course choice' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_there_are_course_options
 
     when_i_visit_the_site
@@ -22,10 +22,6 @@ RSpec.describe 'Selecting a course with multiple sites' do
     and_i_choose_a_location
 
     then_i_am_on_the_application_choice_review_page
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def when_i_visit_the_site

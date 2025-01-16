@@ -6,7 +6,7 @@ RSpec.describe 'Post-offer dashboard' do
   include PostOfferHelper
 
   scenario 'Candidate is recruited' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_been_recruited
 
     when_i_visit_the_application_dashboard
@@ -19,7 +19,7 @@ RSpec.describe 'Post-offer dashboard' do
   end
 
   def and_i_have_been_recruited
-    @application_form = create(:completed_application_form, candidate: @candidate)
+    @application_form = create(:completed_application_form, candidate: @current_candidate)
 
     @application_choice = create(
       :application_choice,

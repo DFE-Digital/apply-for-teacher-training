@@ -9,7 +9,7 @@ RSpec.describe 'Candidate arrives from Find with provider and course params' do
     when_i_follow_a_link_from_find
     then_i_am_redirected_to_the_create_account_or_sign_in_path
 
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
 
     when_i_follow_a_link_from_find
     then_i_am_redirected_to_the_full_course_path
@@ -44,10 +44,6 @@ RSpec.describe 'Candidate arrives from Find with provider and course params' do
       providerCode: @provider.code,
       courseCode: @course.code,
     )
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def then_i_am_redirected_to_the_full_course_path

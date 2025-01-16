@@ -4,9 +4,8 @@ RSpec.describe 'Candidate entering GCSE details' do
   include CandidateHelper
 
   scenario 'Candidate submits' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
 
-    when_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
     and_i_select_i_do_not_have_yet
     and_i_click_save_and_continue
@@ -30,14 +29,6 @@ RSpec.describe 'Candidate entering GCSE details' do
     and_i_provide_my_details
     and_i_click_save_and_continue
     then_i_see_the_review_page_with_the_updated_details
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
-  end
-
-  def when_i_visit_the_candidate_application_page
-    visit root_path
   end
 
   def given_i_am_not_signed_in; end

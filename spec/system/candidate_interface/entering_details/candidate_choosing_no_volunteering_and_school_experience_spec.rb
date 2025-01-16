@@ -4,7 +4,7 @@ RSpec.describe 'Choosing no volunteering and school experience' do
   include CandidateHelper
 
   scenario 'Candidate chooses no volunteering and school experience' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_visit_the_site
 
     when_i_click_on_volunteering_with_children_and_young_people
@@ -16,10 +16,6 @@ RSpec.describe 'Choosing no volunteering and school experience' do
     when_i_choose_no_experience
     and_i_submit_the_volunteering_experience_form
     then_i_see_how_to_get_school_experience
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_i_visit_the_site

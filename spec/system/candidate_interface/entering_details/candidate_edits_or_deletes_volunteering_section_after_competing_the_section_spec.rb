@@ -4,7 +4,7 @@ RSpec.describe 'Candidate edits their volunteering section' do
   include CandidateHelper
 
   scenario 'Candidate adds or deletes a role after completing the section' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_completed_the_volunteering_section
 
     when_i_visit_the_application_page
@@ -32,13 +32,8 @@ RSpec.describe 'Candidate edits their volunteering section' do
     then_i_will_be_see_the_volunteering_page
   end
 
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def and_i_have_completed_the_volunteering_section
-    @application_form = create(:application_form, candidate: @candidate)
+    @application_form = create(:application_form, candidate: @current_candidate)
     create(:application_volunteering_experience, experienceable: @application_form)
     @application_form.update!(volunteering_completed: true)
   end

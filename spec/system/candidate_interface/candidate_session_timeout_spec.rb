@@ -5,14 +5,14 @@ RSpec.describe 'Candidate viewing booked interviews' do
   include ActiveSupport::Testing::TimeHelpers
 
   scenario 'Candidate is signed out after 7 days if they are not active' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_seven_days_pass
     when_i_click_on_your_details
     then_i_see_the_login_page
   end
 
   scenario 'The Candidate is signed out 7 days after they are last active' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_three_days_pass
     when_i_click_on_your_details
     then_i_see_my_details
@@ -24,11 +24,6 @@ RSpec.describe 'Candidate viewing booked interviews' do
     and_seven_days_pass
     when_i_click_on_your_details
     then_i_see_the_login_page
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
-    visit candidate_interface_details_path
   end
 
   def and_seven_days_pass

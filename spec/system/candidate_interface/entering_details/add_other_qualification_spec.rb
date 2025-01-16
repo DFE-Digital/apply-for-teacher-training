@@ -5,7 +5,7 @@ RSpec.describe 'Add Other qualification' do
   include EFLHelper
 
   scenario 'Candidate completes EFL section with details of a qualification type we do not provide an option for' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_declare_a_non_english_speaking_nationality
     and_i_click_on_the_efl_section_link
 
@@ -14,10 +14,6 @@ RSpec.describe 'Add Other qualification' do
     then_i_can_review_my_qualification
     and_i_can_edit_my_qualification
     and_i_can_complete_this_section
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_i_select_the_options_for_other_qualification

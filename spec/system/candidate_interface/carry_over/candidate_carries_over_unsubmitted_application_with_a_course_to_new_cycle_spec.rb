@@ -4,7 +4,7 @@ RSpec.describe 'Carry over application and submit new application choices', time
   include CandidateHelper
 
   it 'Candidate carries over unsubmitted application with a course to new cycle' do
-    given_i_am_signed_in_as_a_candidate
+    given_i_am_signed_in_with_one_login
     when_i_have_an_unsubmitted_application
     and_the_recruitment_cycle_ends
     and_the_cancel_unsubmitted_applications_worker_runs
@@ -36,11 +36,6 @@ RSpec.describe 'Carry over application and submit new application choices', time
 
 private
 
-  def given_i_am_signed_in_as_a_candidate
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def when_i_have_an_unsubmitted_application
     @application_form = create(
       :completed_application_form,
@@ -48,7 +43,7 @@ private
       :with_gcses,
       :with_degree,
       submitted_at: nil,
-      candidate: @candidate,
+      candidate: @current_candidate,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
       references_count: 0,
     )
@@ -78,9 +73,7 @@ private
   end
 
   def when_i_sign_in_again
-    logout
-    login_as(@candidate)
-    visit root_path
+    given_i_am_signed_in_with_one_login
   end
 
   def and_i_visit_the_application_dashboard
@@ -200,6 +193,6 @@ private
   end
 
   def application_choice
-    @candidate.current_application.application_choices.first
+    @current_candidate.current_application.application_choices.first
   end
 end

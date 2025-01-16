@@ -4,7 +4,7 @@ RSpec.describe 'Changing a course' do
   include CandidateHelper
 
   it 'Candidate changes course to one they have already been rejected from twice' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_there_are_course_options
     and_i_have_two_rejected_applications_to_a_course
 
@@ -20,11 +20,6 @@ RSpec.describe 'Changing a course' do
     then_i_am_on_the_reached_reapplication_limit_page
   end
 
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    create_and_sign_in_candidate(candidate: @candidate)
-  end
-
   def and_there_are_course_options
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     @course = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
@@ -34,8 +29,8 @@ RSpec.describe 'Changing a course' do
   end
 
   def and_i_have_two_rejected_applications_to_a_course
-    create(:application_choice, :rejected, course_option: @course.course_options.first, application_form: @candidate.current_application)
-    create(:application_choice, :rejected, course_option: @course.course_options.first, application_form: @candidate.current_application)
+    create(:application_choice, :rejected, course_option: @course.course_options.first, application_form: @current_candidate.current_application)
+    create(:application_choice, :rejected, course_option: @course.course_options.first, application_form: @current_candidate.current_application)
   end
 
   def and_i_choose_the_same_provider

@@ -4,14 +4,10 @@ RSpec.describe 'Candidate updating english proficiency' do
   include CandidateHelper
 
   scenario 'When application form does not have an english proficiency associations' do
-    given_i_am_signed_in_as_a_candidate
+    given_i_am_signed_in_with_one_login
     and_i_do_not_have_an_english_proficiency_attached_to_my_application_form
     when_i_visit_the_english_proficiency_edit_path
     then_i_am_able_to_create_an_english_proficiency_record
-  end
-
-  def given_i_am_signed_in_as_a_candidate
-    create_and_sign_in_candidate
   end
 
   def and_i_do_not_have_an_english_proficiency_attached_to_my_application_form

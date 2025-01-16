@@ -4,7 +4,7 @@ RSpec.describe 'Candidate viewing Science GCSE' do
   include CandidateHelper
 
   it 'Candidate views a Science GCSE only when a primary course is chosen' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_am_on_your_application_page
     then_i_dont_see_science_gcse
 
@@ -23,10 +23,6 @@ RSpec.describe 'Candidate viewing Science GCSE' do
 
     when_i_go_to_view_my_application
     then_i_do_not_see_a_science_gcse_validation_error
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_i_complete_science_gcse

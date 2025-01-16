@@ -4,7 +4,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', time: CycleTimetable
   include CandidateHelper
 
   it 'Candidate can submit in next cycle with cycle switcher after apply opens' do
-    given_i_am_signed_in_as_a_candidate
+    given_i_am_signed_in_with_one_login
     when_i_have_an_unsubmitted_application_without_a_course
     and_the_cycle_switcher_set_to_apply_opens
 
@@ -29,11 +29,6 @@ RSpec.describe 'Carry over next cycle with cycle switcher', time: CycleTimetable
     and_my_application_is_awaiting_provider_decision
   end
 
-  def given_i_am_signed_in_as_a_candidate
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def when_i_have_an_unsubmitted_application_without_a_course
     @application_form = create(
       :completed_application_form,
@@ -41,7 +36,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', time: CycleTimetable
       :with_degree,
       date_of_birth: Date.new(1964, 9, 1),
       submitted_at: nil,
-      candidate: @candidate,
+      candidate: @current_candidate,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
       references_count: 0,
     )
@@ -65,8 +60,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', time: CycleTimetable
   end
 
   def when_i_sign_in_again
-    logout
-    login_as(@candidate)
+    given_i_am_signed_in_with_one_login
   end
 
   def and_i_visit_the_application_dashboard
@@ -140,7 +134,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', time: CycleTimetable
   end
 
   def and_my_application_is_awaiting_provider_decision
-    application_choice = @candidate.current_application.application_choices.first
+    application_choice = @current_candidate.current_application.application_choices.first
     expect(application_choice.status).to eq('awaiting_provider_decision')
   end
 end

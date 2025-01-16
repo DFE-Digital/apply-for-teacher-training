@@ -4,7 +4,7 @@ RSpec.describe 'Entering their other qualifications' do
   include CandidateHelper
 
   scenario 'Candidate submits their BTEC qualification' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_visit_the_site
 
     when_i_click_on_other_qualifications
@@ -27,10 +27,6 @@ RSpec.describe 'Entering their other qualifications' do
 
     when_i_submit_gcse_details
     then_i_see_my_gcse_on_the_review_page
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_i_visit_the_site

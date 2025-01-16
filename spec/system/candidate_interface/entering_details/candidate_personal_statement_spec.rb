@@ -4,7 +4,7 @@ RSpec.describe 'Entering "Personal statement"' do
   include CandidateHelper
 
   scenario 'Candidate submits personal statement' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_visit_the_site
 
     when_i_click_on_personal_statement
@@ -35,10 +35,6 @@ RSpec.describe 'Entering "Personal statement"' do
 
     when_i_click_on_personal_statement
     then_i_can_check_my_revised_answers
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_i_visit_the_site

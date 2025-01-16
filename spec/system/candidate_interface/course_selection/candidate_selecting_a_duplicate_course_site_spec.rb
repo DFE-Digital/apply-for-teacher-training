@@ -5,7 +5,7 @@ RSpec.describe 'Selecting a course', :js do
 
   # Regression test for DuplicateCourseSelection to avoid ActiveRecord::RecordInvalid
   it 'Candidate selects a course they have already applied to' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_there_are_course_options
 
     window_1 = windows.first
@@ -35,11 +35,6 @@ RSpec.describe 'Selecting a course', :js do
 
   def then_i_am_on_the_application_choice_duplicate_page
     expect(page).to have_content('You already have an application for')
-  end
-
-  def given_i_am_signed_in
-    @current_candidate = create(:candidate)
-    create_and_sign_in_candidate(candidate: @current_candidate)
   end
 
   def and_there_are_course_options
