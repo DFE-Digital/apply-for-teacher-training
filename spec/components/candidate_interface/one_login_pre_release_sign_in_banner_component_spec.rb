@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::OneLoginPreReleaseSignInBannerComponent do
       result = render_inline(described_class.new)
 
       expect(result).to have_content('How you sign in is changing')
-      expect(result).to have_content('From 27 January you’ll sign in using GOV.UK One Login. You’ll be able to create a GOV.UK One Login account if you do not already have one.')
+      expect(result).to have_content('During the week of 27 January, users will begin signing in using GOV.UK One Login. You’ll be able to create a GOV.UK One Login if you do not already have one.')
     end
   end
 

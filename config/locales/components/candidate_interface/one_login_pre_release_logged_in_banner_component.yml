@@ -4,5 +4,5 @@ en:
       title: Important
       heading: How you sign in is changing
       text_html:
-        <p class="govuk-body">From 27 January you’ll sign in using GOV.UK One Login. You’ll be able to create a GOV.UK One Login account if you do not already have one. </p>
+        <p class="govuk-body">During the week of 27 January, users will begin signing in using GOV.UK One Login. You’ll be able to create a GOV.UK One Login if you do not already have one.</p>
         <p class="govuk-body">Use the same email address for GOV.UK One Login you signed up to Apply for teacher training with to keep your application details.</p>

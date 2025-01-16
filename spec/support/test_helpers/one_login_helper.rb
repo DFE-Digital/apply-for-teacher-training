@@ -22,8 +22,6 @@ module OneLoginHelper
     else
       raise 'One login feature flag needs to be active'
     end
-
-    
   end
 
   def given_i_am_signed_in_with_one_login
