@@ -97,7 +97,7 @@ RSpec.describe 'Candidate account' do
     fill_in 'Year', with: '1990'
 
     click_link_or_button 'Save and continue'
-    click_link_or_button 'GOV.UK'
+    click_link_or_button 'Apply for teacher training'
   end
 
   def then_i_am_signed_in_with(name)

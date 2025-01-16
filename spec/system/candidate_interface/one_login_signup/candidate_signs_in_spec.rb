@@ -15,7 +15,6 @@ RSpec.describe 'Candidate signs in' do
     then_i_am_redirected_to_the_candidate_sign_in_path
     when_i_click_continue
     then_i_am_redirected_to_the_candidate_application_path
-    and_i_can_see_the_govuk_account_link
 
     when_i_click_sign_out
     i_am_redirected_back_to_sign_in_page
@@ -80,13 +79,6 @@ RSpec.describe 'Candidate signs in' do
   def then_i_am_redirected_to_the_candidate_application_path
     expect(page).to have_current_path(
       candidate_interface_details_path,
-    )
-  end
-
-  def and_i_can_see_the_govuk_account_link
-    expect(page).to have_link(
-      'GOV.UK One Login',
-      href: 'http://home.integration.account.gov.uk',
     )
   end
 

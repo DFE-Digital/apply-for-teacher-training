@@ -1,4 +1,4 @@
-<div class="app-phase-banner govuk-!-display-none-print">
+<div class="app-phase-banner<%= @no_border ? ' app-phase-banner--no-border' : '' %> govuk-!-display-none-print">
   <div class="govuk-width-container">
     <%= govuk_phase_banner(
       tag: {

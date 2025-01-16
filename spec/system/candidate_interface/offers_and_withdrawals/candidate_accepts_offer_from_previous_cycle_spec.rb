@@ -503,11 +503,11 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
   end
 
   def and_i_see_your_application_menu_item_as_active
-    expect(page).to have_css('.govuk-service-navigation__link', text: 'Your application')
+    expect(page).to have_css('.govuk-link.app-primary-navigation__link[aria-current=page]', text: 'Your application')
   end
 
   def and_i_see_your_offer_menu_item_as_active
-    expect(page).to have_css('.govuk-service-navigation__link', text: 'Your offer')
+    expect(page).to have_css('.govuk-link.app-primary-navigation__link[aria-current=page]', text: 'Your offer')
   end
 
   def when_i_click_to_view_my_application
