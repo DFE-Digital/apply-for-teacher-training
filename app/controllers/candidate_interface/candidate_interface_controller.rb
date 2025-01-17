@@ -23,7 +23,7 @@ module CandidateInterface
     def set_user_context(candidate_id = current_candidate&.id)
       Sentry.set_user(id: "candidate_#{candidate_id}")
 
-      return unless current_candidate
+      return unless authenticated?
 
       Sentry.set_tags(application_support_url: support_interface_application_form_url(current_application))
     end
