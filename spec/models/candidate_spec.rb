@@ -292,7 +292,7 @@ RSpec.describe Candidate do
   end
 
   context 'scopes' do
-    describe '#for_transaction_emails' do
+    describe '.for_transaction_emails' do
       let!(:unsubscribed_from_emails) { create(:candidate, unsubscribed_from_emails: true) }
       let!(:submission_blocked) { create(:candidate, submission_blocked: true) }
       let!(:account_locked) { create(:candidate, account_locked: true) }
@@ -303,7 +303,7 @@ RSpec.describe Candidate do
       end
     end
 
-    describe '#for_marketing_or_nudge_emails' do
+    describe '.for_marketing_or_nudge_emails' do
       let!(:unsubscribed_from_emails) { create(:candidate, unsubscribed_from_emails: true) }
       let!(:submission_blocked) { create(:candidate, submission_blocked: true) }
       let!(:account_locked) { create(:candidate, account_locked: true) }
