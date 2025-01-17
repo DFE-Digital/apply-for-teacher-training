@@ -2,13 +2,13 @@ Hello <%= @application_form.first_name %>
 
 You have not applied to any teacher training courses yet.
 
-[Sign into your account to apply for up to 4 courses](<%= candidate_magic_link(@application_form.candidate) %>).
+[Sign into your account to apply for up to 4 courses](<%= application_choices_link %>).
 
 Popular courses fill up quickly and places are allocated as soon as people apply. Submit your application as soon as you are ready to avoid missing out on a limited number of course places.
 
 You may need to complete a [subject knowledge enhancement](<%= email_link_with_utm_params(t('get_into_teaching.url_subject_knowledge_enhancement'), 'nudge_unsubmitted_with_incomplete_courses', @application_form.phase) %>) (SKE) course and other conditions before starting your training.
 
-[Apply now to make sure you have enough time](<%= candidate_magic_link(@application_form.candidate) %>)
+[Apply now to make sure you have enough time](<%= application_choices_link %>)
 
 Some subjects and courses have bursaries of up to £29,000 and scholarships of up to £31,000. These courses fill up more quickly than other courses.
 

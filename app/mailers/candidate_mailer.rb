@@ -4,7 +4,6 @@ class CandidateMailer < ApplicationMailer
 
   def application_choice_submitted(application_choice)
     @application_choice = application_choice
-    @candidate_magic_link = candidate_magic_link(application_choice.application_form.candidate)
 
     email_for_candidate(
       application_choice.application_form,
@@ -85,7 +84,6 @@ class CandidateMailer < ApplicationMailer
   def application_rejected(application_choice)
     @course = application_choice.current_course_option.course
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
-    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
 
     email_for_candidate(application_choice.application_form)
   end
@@ -101,7 +99,6 @@ class CandidateMailer < ApplicationMailer
   def feedback_received_for_application_rejected_by_default(application_choice, show_apply_again_guidance)
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @course = @application_choice.current_course_option.course
-    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
     @show_apply_again_guidance = show_apply_again_guidance
 
     email_for_candidate(
@@ -296,7 +293,6 @@ class CandidateMailer < ApplicationMailer
     @withdrawn_courses = application_form.application_choices.select(&:withdrawn?)
     @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.current_course_option.course.name_and_code} at #{application_choice.current_course_option.course.provider.name}" }
     @rejected_course_choices_count = application_form.application_choices.select(&:rejected?).count
-    @candidate_magic_link = candidate_magic_link(application_form.candidate)
 
     email_for_candidate(
       application_form,
@@ -308,7 +304,6 @@ class CandidateMailer < ApplicationMailer
     @declined_course = application_choice
     @declined_course_name = "#{application_choice.current_course_option.course.name_and_code} at #{application_choice.current_course_option.course.provider.name}"
     @rejected_course_choices_count = application_choice.self_and_siblings.select(&:rejected?).count
-    @candidate_magic_link = candidate_magic_link(application_choice.application_form.candidate)
 
     email_for_candidate(
       application_choice.application_form,
@@ -320,7 +315,6 @@ class CandidateMailer < ApplicationMailer
     @course_name_and_code = application_choice.current_course_option.course.name_and_code
     @provider_name = application_choice.current_course_option.provider.name
     @withdrawal_reason = application_choice.offer_withdrawal_reason
-    @candidate_magic_link = candidate_magic_link(application_choice.application_form.candidate)
 
     email_for_candidate(
       application_choice.application_form,
@@ -453,6 +447,7 @@ class CandidateMailer < ApplicationMailer
 
   def nudge_unsubmitted_with_incomplete_references(application_form)
     @application_form = application_form
+    @references_link = candidate_interface_references_review_url(utm_args)
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_references.subject'),
@@ -470,6 +465,7 @@ class CandidateMailer < ApplicationMailer
 
   def nudge_unsubmitted_with_incomplete_personal_statement(application_form)
     @application_form = application_form
+    @personal_statement_link = candidate_interface_new_becoming_a_teacher_url(utm_args)
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_personal_statement.subject'),
@@ -533,9 +529,12 @@ private
     notify_email(mailer_options)
   end
 
-  def candidate_magic_link(candidate)
-    raw_token = candidate.create_magic_link_token!
-    candidate_interface_authenticate_url({ token: raw_token }.merge(utm_args))
+  def sign_in_link
+    candidate_interface_account_url(utm_args)
+  end
+
+  def application_choices_link
+    candidate_interface_application_choices_url(utm_args)
   end
 
   def candidate_realistic_job_preview_link(candidate)
@@ -547,7 +546,10 @@ private
     candidate_interface_unsubscribe_from_emails_url(token:)
   end
 
-  helper_method :candidate_magic_link, :candidate_realistic_job_preview_link, :candidate_unsubscribe_link
+  helper_method :sign_in_link,
+                :application_choices_link,
+                :candidate_realistic_job_preview_link,
+                :candidate_unsubscribe_link
 
   def uid
     @uid ||= EmailLogInterceptor.generate_reference

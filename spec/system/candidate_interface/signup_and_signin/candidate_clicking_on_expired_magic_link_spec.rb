@@ -4,8 +4,8 @@ RSpec.describe 'Candidate clicks on an expired magic link' do
   include SignInHelper
 
   scenario 'Candidate clicks on a link with an id and expired token link in an email' do
-    given_i_am_a_candidate_with_an_application
-    and_i_received_the_submitted_application_email
+    given_i_am_an_existing_candidate
+    when_i_request_a_magic_link
 
     when_i_click_on_an_expired_magic_link
     then_i_am_redirected_to_the_expired_link_page
@@ -18,10 +18,14 @@ RSpec.describe 'Candidate clicks on an expired magic link' do
     then_i_am_redirected_to_the_expired_link_page
   end
 
-  def given_i_am_a_candidate_with_an_application
+  def given_i_am_an_existing_candidate
     @candidate = create(:candidate)
-    @application_form = create(:application_form, candidate: @candidate)
-    @application_choice = create(:application_choice, application_form: @application_form, reject_by_default_at: 5.days.from_now)
+  end
+
+  def when_i_request_a_magic_link
+    visit candidate_interface_sign_in_path
+    fill_in 'Email address', with: @candidate.email_address
+    click_link_or_button t('continue')
   end
 
   def and_i_received_the_submitted_application_email
