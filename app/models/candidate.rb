@@ -52,6 +52,10 @@ class Candidate < ApplicationRecord
     application_forms.where(recruitment_cycle_year: RecruitmentCycle.current_year).touch_all
   end
 
+  def authentication_email_address
+    one_login_auth&.email_address || email_address
+  end
+
   def self.for_email(email)
     find_or_initialize_by(email_address: email.downcase) if email
   end

@@ -112,6 +112,23 @@ RSpec.describe Candidate do
     end
   end
 
+  describe '#authentication_email_address' do
+    it 'returns the candidate email address' do
+      candidate = build(:candidate, email_address: 'candidate@email.address')
+
+      expect(candidate.authentication_email_address).to eq('candidate@email.address')
+    end
+
+    it 'returns the one login email address if present' do
+      candidate = build(:candidate,
+                        email_address: 'candidate@email.address',
+                        one_login_auth: build(:one_login_auth,
+                                              email_address: 'one_login@email.address'))
+
+      expect(candidate.authentication_email_address).to eq('one_login@email.address')
+    end
+  end
+
   describe '#current_application' do
     let(:candidate) { create(:candidate) }
 
