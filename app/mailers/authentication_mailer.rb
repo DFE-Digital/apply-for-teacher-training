@@ -3,7 +3,7 @@ class AuthenticationMailer < ApplicationMailer
     @magic_link = candidate_interface_authenticate_url(magic_link_params(token))
 
     notify_email(
-      to: candidate.email_address,
+      to: candidate.authentication_email_address,
       subject: t('authentication.sign_up.email.subject'),
       reference: "#{HostingEnvironment.environment_name}-sign_up_email-#{candidate.id}-#{SecureRandom.hex}",
     )
@@ -14,7 +14,7 @@ class AuthenticationMailer < ApplicationMailer
     @application_form = candidate.current_application
 
     notify_email(
-      to: candidate.email_address,
+      to: candidate.authentication_email_address,
       subject: t('authentication.sign_in.email.subject'),
     )
   end
