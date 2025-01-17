@@ -4,7 +4,7 @@ RSpec.describe 'Deleting and replacing a degree' do
   include CandidateHelper
 
   scenario 'Candidate deletes and replaces their degree' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_completed_the_degree_section
     when_i_view_the_degree_section
     and_i_click_on_change_country
@@ -34,11 +34,6 @@ RSpec.describe 'Deleting and replacing a degree' do
     and_if_there_is_only_a_foundation_degree
     when_i_return_to_the_application_form
     then_the_degree_section_is_incomplete
-  end
-
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
   end
 
   def when_i_view_the_degree_section
@@ -222,7 +217,7 @@ RSpec.describe 'Deleting and replacing a degree' do
   end
 
   def and_i_have_completed_the_degree_section
-    @application_form = create(:application_form, candidate: @candidate, university_degree: true)
+    @application_form = create(:application_form, candidate: @current_candidate, university_degree: true)
     create(:application_qualification, level: 'degree', application_form: @application_form)
     @application_form.update!(degrees_completed: true)
     @degree_id = @application_form.application_qualifications.first.id

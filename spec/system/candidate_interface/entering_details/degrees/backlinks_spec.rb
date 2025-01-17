@@ -4,7 +4,7 @@ RSpec.describe 'Degrees' do
   include CandidateHelper
 
   scenario 'Candidate editing degree' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_completed_the_degree_section
     when_i_view_the_degree_section
     and_i_click_to_change_my_undergraduate_degree_type
@@ -65,13 +65,8 @@ RSpec.describe 'Degrees' do
     then_i_am_taken_back_to_the_degree_review_page
   end
 
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def and_i_have_completed_the_degree_section
-    @application_form = create(:application_form, candidate: @candidate)
+    @application_form = create(:application_form, candidate: @current_candidate)
     create(:application_qualification,
            level: 'degree',
            qualification_type: 'Bachelor of Arts',

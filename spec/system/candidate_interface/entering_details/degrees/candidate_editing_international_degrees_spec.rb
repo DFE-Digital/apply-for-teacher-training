@@ -4,7 +4,7 @@ RSpec.describe 'Editing a degree' do
   include CandidateHelper
 
   before do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
     and_i_create_an_international_degree
   end
@@ -34,11 +34,6 @@ RSpec.describe 'Editing a degree' do
 
   def and_i_click_change_country
     click_on 'Change country'
-  end
-
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
   end
 
   def when_i_view_the_degree_section

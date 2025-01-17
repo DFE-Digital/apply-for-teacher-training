@@ -4,7 +4,7 @@ RSpec.describe 'Adding an unknown degree', :js do
   include CandidateHelper
 
   scenario 'Candidate enters their degree' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
 
     and_i_answer_that_i_have_a_university_degree
@@ -74,7 +74,7 @@ RSpec.describe 'Adding an unknown degree', :js do
   end
 
   def given_i_am_at_the_degree_subject_page
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
 
     and_i_answer_that_i_have_a_university_degree
@@ -98,10 +98,6 @@ RSpec.describe 'Adding an unknown degree', :js do
 
   def then_the_custom_subject_remains_filled_in
     expect(@input.value).to eq('History of Art and History')
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def when_i_view_the_degree_section
