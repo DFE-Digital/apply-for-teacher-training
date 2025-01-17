@@ -77,22 +77,28 @@ jobs:
         fi
         echo "BACKUP_FILE=${BACKUP_FILE}" >> $GITHUB_ENV
 
-    - name: Backup ${{ env.DEPLOY_ENV }} postgres
-      uses: DFE-Digital/github-actions/backup-postgres@master
-      with:
-        storage-account: ${{ env.STORAGE_ACCOUNT_NAME }}
-        resource-group: ${{ env.RESOURCE_GROUP_NAME }}
-        app-name: ${{ env.SERVICE_NAME }}-${{ env.AKS_ENV }}
-        cluster: ${{ env.CLUSTER }}
-        azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-        backup-file: ${{ env.BACKUP_FILE }}.sql
-        db-server-name: ${{ inputs.db-server }}
-        slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+    # - name: Backup ${{ env.DEPLOY_ENV }} postgres
+    #   uses: DFE-Digital/github-actions/backup-postgres@master
+    #   with:
+    #     storage-account: ${{ env.STORAGE_ACCOUNT_NAME }}
+    #     resource-group: ${{ env.RESOURCE_GROUP_NAME }}
+    #     app-name: ${{ env.SERVICE_NAME }}-${{ env.AKS_ENV }}
+    #     cluster: ${{ env.CLUSTER }}
+    #     azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+    #     backup-file: ${{ env.BACKUP_FILE }}.sql
+    #     db-server-name: ${{ inputs.db-server }}
+    #     slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
     - name: Disk cleanup
-      if: github.event_name == 'schedule'
+      # if: github.event_name == 'schedule'
       shell: bash
       run: |
+        df -h
+        ls -l "$AGENT_TOOLSDIRECTORY"
+        du -sk "$AGENT_TOOLSDIRECTORY"/CodeQL
+        ls -l "$AGENT_TOOLSDIRECTORY"/CodeQL
+        du -sk "$AGENT_TOOLSDIRECTORY"/Java_Temurin-Hotspot_jdk
+        du -sk "$AGENT_TOOLSDIRECTORY"/Ruby
         sudo rm -rf /usr/local/lib/android || true
         sudo rm -rf /usr/share/dotnet || true
         sudo rm -rf /opt/ghc || true
@@ -109,34 +115,37 @@ jobs:
         sudo apt-get remove -y google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri --fix-missing || true
         sudo apt-get remove -y google-cloud-sdk --fix-missing || true
         sudo apt-get remove -y google-cloud-cli --fix-missing || true
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"/CodeQL || true
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"/PyPy || true
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"/Python || true
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"/go || true
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"/node || true
         sudo apt-get autoremove -y || true
         sudo apt-get clean
+        df -h
+        apt list --installed
 
-    - name: Sanitise dump
-      if: github.event_name == 'schedule'
-      run: |
-        createdb ${DATABASE_NAME} && gzip -d --to-stdout ${{ env.BACKUP_FILE }}.sql.gz | psql -d ${DATABASE_NAME}
-        rm ${{ env.BACKUP_FILE }}.sql.gz
-        psql -d ${DATABASE_NAME} -f db/scripts/sanitise.sql
-        pg_dump --encoding utf8 --compress=1 --clean --no-owner --if-exists -d ${DATABASE_NAME} -f att_backup_sanitised.sql.gz
-      env:
-        DATABASE_NAME: apply_manage_itt
-        PGUSER: postgres
-        PGPASSWORD: postgres
-        PGHOST: localhost
-        PGPORT: 5432
+    # - name: Sanitise dump
+    #   if: github.event_name == 'schedule'
+    #   run: |
+    #     createdb ${DATABASE_NAME} && gzip -d --to-stdout ${{ env.BACKUP_FILE }}.sql.gz | psql -d ${DATABASE_NAME}
+    #     rm ${{ env.BACKUP_FILE }}.sql.gz
+    #     psql -d ${DATABASE_NAME} -f db/scripts/sanitise.sql
+    #     pg_dump --encoding utf8 --compress=1 --clean --no-owner --if-exists -d ${DATABASE_NAME} -f att_backup_sanitised.sql.gz
+    #   env:
+    #     DATABASE_NAME: apply_manage_itt
+    #     PGUSER: postgres
+    #     PGPASSWORD: postgres
+    #     PGHOST: localhost
+    #     PGPORT: 5432
 
-    - name: Upload sanitized backup to Azure storage
-      if: github.event_name == 'schedule'
-      run: |
-        STORAGE_CONN_STR=$(az storage account show-connection-string -g ${{ env.RESOURCE_GROUP_NAME }} -n ${{ env.STORAGE_ACCOUNT_NAME }} --query 'connectionString')
-        echo "::add-mask::$STORAGE_CONN_STR"
-        echo "STORAGE_CONN_STR=$STORAGE_CONN_STR" >> $GITHUB_ENV
-        az storage blob upload --container-name database-backup \
-        --file att_backup_sanitised.sql.gz --name att_backup_sanitised.sql.gz --overwrite \
-        --connection-string '${{ env.STORAGE_CONN_STR }}'
-        rm att_backup_sanitised.sql.gz
+    # - name: Upload sanitized backup to Azure storage
+    #   if: github.event_name == 'schedule'
+    #   run: |
+    #     STORAGE_CONN_STR=$(az storage account show-connection-string -g ${{ env.RESOURCE_GROUP_NAME }} -n ${{ env.STORAGE_ACCOUNT_NAME }} --query 'connectionString')
+    #     echo "::add-mask::$STORAGE_CONN_STR"
+    #     echo "STORAGE_CONN_STR=$STORAGE_CONN_STR" >> $GITHUB_ENV
+    #     az storage blob upload --container-name database-backup \
+    #     --file att_backup_sanitised.sql.gz --name att_backup_sanitised.sql.gz --overwrite \
+    #     --connection-string '${{ env.STORAGE_CONN_STR }}'
+    #     rm att_backup_sanitised.sql.gz
