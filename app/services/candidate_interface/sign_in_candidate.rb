@@ -16,15 +16,14 @@ module CandidateInterface
     )
 
     def call
-      sign_in = SignInCandidateForm.new(email_address: email)
-      candidate = sign_in.candidate
+      candidate = Candidate.for_email email
 
-      if sign_in.potential_sign_in?
+      if candidate.persisted?
         update_course_from_find(candidate)
         CandidateInterface::RequestMagicLink.for_sign_in(candidate:)
         controller.set_user_context(candidate.id)
         redirect_to candidate_interface_check_email_sign_in_path
-      elsif sign_in.potential_sign_up?
+      elsif candidate.valid?
         AuthenticationMailer.sign_in_without_account_email(to: candidate.email_address).deliver_now
         redirect_to candidate_interface_check_email_sign_in_path
       else
