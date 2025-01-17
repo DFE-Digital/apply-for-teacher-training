@@ -31,10 +31,6 @@ RSpec.describe 'Candidate changing their GCSE type' do
     then_i_see_add_grade_page
   end
 
-  def when_i_visit_the_candidate_application_page
-    visit root_path
-  end
-
   def and_i_click_on_the_maths_gcse_link
     click_link_or_button 'Maths GCSE or equivalent'
   end

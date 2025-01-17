@@ -34,4 +34,5 @@ module OneLoginHelper
     visit candidate_interface_create_account_or_sign_in_path
     click_link_or_button 'Continue'
   end
+  alias i_am_signed_in_with_one_login :given_i_am_signed_in_with_one_login
 end

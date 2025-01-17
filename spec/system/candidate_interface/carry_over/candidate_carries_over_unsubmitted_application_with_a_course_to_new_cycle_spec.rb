@@ -73,6 +73,7 @@ private
   end
 
   def when_i_sign_in_again
+    click_link_or_button 'Sign out'
     given_i_am_signed_in_with_one_login
   end
 

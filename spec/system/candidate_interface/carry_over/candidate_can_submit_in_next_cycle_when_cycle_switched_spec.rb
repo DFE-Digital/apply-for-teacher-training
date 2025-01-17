@@ -60,7 +60,8 @@ RSpec.describe 'Carry over next cycle with cycle switcher', time: CycleTimetable
   end
 
   def when_i_sign_in_again
-    given_i_am_signed_in_with_one_login
+    click_link_or_button 'Sign out'
+    i_am_signed_in_with_one_login
   end
 
   def and_i_visit_the_application_dashboard

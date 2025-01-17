@@ -51,10 +51,6 @@ RSpec.describe 'Candidate entering GCSE details but without a pass grade' do
     click_link_or_button t('save_and_continue')
   end
 
-  def when_i_visit_the_candidate_application_page
-    visit root_path
-  end
-
   def then_i_see_the_add_gcse_maths_page
     expect(page).to have_content 'What type of qualification in maths do you have?'
   end
