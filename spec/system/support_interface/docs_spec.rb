@@ -42,7 +42,6 @@ RSpec.describe 'Docs' do
   def and_it_contains_documentation_for_all_emails
     emails_outside_of_states = %w[
       provider_mailer-fallback_sign_in_email
-      candidate_mailer-one_login_is_coming
       candidate_mailer-one_login_has_arrived
       candidate_mailer-eoc_first_deadline_reminder
       candidate_mailer-eoc_second_deadline_reminder

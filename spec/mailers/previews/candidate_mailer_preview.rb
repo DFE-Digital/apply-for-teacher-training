@@ -549,11 +549,6 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.apply_to_multiple_courses_after_30_working_days(application_form)
   end
 
-  def one_login_is_coming
-    application_form = FactoryBot.build(:application_form, first_name: 'Bob')
-    CandidateMailer.one_login_is_coming(application_form)
-  end
-
   def one_login_has_arrived
     application_form = FactoryBot.build(:application_form, first_name: 'Rocket the dog')
     CandidateMailer.one_login_has_arrived(application_form)
