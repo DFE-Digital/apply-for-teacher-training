@@ -6,7 +6,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   scenario 'when an unsuccessful candidate returns in the next recruitment cycle they can re-apply by carrying over their original application' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_an_application_with_a_rejection_and_references
 
     when_a_new_cycle_starts
@@ -21,13 +21,8 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     then_i_see_the_new_states_of_my_references
   end
 
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def and_i_have_an_application_with_a_rejection_and_references
-    @application_form = create(:application_form, :with_completed_references, candidate: @candidate)
+    @application_form = create(:application_form, :with_completed_references, candidate: @current_candidate)
     create(:application_choice, :rejected, application_form: @application_form)
 
     create(
@@ -42,8 +37,8 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def and_i_visit_my_application_complete_page
-    logout
-    login_as(@candidate)
+    click_link_or_button 'Sign out'
+    given_i_am_signed_in_with_one_login
     visit candidate_interface_details_path
   end
 

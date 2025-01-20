@@ -4,9 +4,8 @@ RSpec.describe 'Candidate entering GCSE details' do
   include CandidateHelper
 
   scenario 'Candidate submits their maths GCSE details and then update them' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
 
-    when_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
     then_i_see_the_add_gcse_maths_page
 
@@ -60,10 +59,6 @@ RSpec.describe 'Candidate entering GCSE details' do
     then_i_am_returned_to_the_application_form_details
   end
 
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
-  end
-
   def and_i_click_on_the_maths_gcse_link
     click_link_or_button 'Maths GCSE or equivalent'
   end
@@ -77,10 +72,6 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def when_i_do_not_select_any_gcse_option; end
-
-  def when_i_visit_the_candidate_application_page
-    visit root_path
-  end
 
   def then_i_see_the_add_gcse_maths_page
     expect(page).to have_content 'What type of qualification in maths do you have?'

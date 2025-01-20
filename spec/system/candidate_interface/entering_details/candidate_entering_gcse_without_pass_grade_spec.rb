@@ -4,9 +4,8 @@ RSpec.describe 'Candidate entering GCSE details but without a pass grade' do
   include CandidateHelper
 
   scenario 'Candidate submits their maths GCSE details' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
 
-    when_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
     then_i_see_the_add_gcse_maths_page
 
@@ -36,10 +35,6 @@ RSpec.describe 'Candidate entering GCSE details but without a pass grade' do
     then_i_am_prompted_to_explain_how_i_can_improve_this_grade
   end
 
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
-  end
-
   def and_i_click_on_the_maths_gcse_link
     click_link_or_button 'Maths GCSE or equivalent'
   end
@@ -54,10 +49,6 @@ RSpec.describe 'Candidate entering GCSE details but without a pass grade' do
 
   def and_i_click_save_and_continue
     click_link_or_button t('save_and_continue')
-  end
-
-  def when_i_visit_the_candidate_application_page
-    visit root_path
   end
 
   def then_i_see_the_add_gcse_maths_page

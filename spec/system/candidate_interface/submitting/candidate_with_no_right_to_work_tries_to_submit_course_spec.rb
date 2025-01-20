@@ -4,7 +4,7 @@ RSpec.describe 'Candidate with no right to work or study' do
   include CandidateHelper
 
   before do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_there_are_course_options
   end
 
@@ -39,10 +39,6 @@ RSpec.describe 'Candidate with no right to work or study' do
     then_i_do_not_see_an_error_message_that_the_course_does_not_sponsor_visa
     and_i_submit_the_application
     then_i_can_see_my_application_has_been_successfully_submitted
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_there_are_course_options

@@ -5,7 +5,7 @@ RSpec.describe 'Candidate declines an offer' do
   include CandidateHelper
 
   scenario 'Candidate views an offer and declines' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_multiple_offers
 
     when_i_visit_my_applications
@@ -24,18 +24,13 @@ RSpec.describe 'Candidate declines an offer' do
     then_the_candidate_is_sent_an_email
   end
 
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def and_i_have_multiple_offers
     @application_form = create(
       :application_form,
       :completed,
       first_name: 'Harry',
       last_name: 'Potter',
-      candidate: @candidate,
+      candidate: @current_candidate,
       submitted_at: Time.zone.now,
       support_reference: '123A',
     )

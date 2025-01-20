@@ -4,7 +4,7 @@ RSpec.describe 'Selecting a course' do
   include CandidateHelper
 
   it 'Candidate selects a course they have already applied to when editing' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_there_are_course_options
     and_i_have_two_applications
 
@@ -17,11 +17,6 @@ RSpec.describe 'Selecting a course' do
 
     when_i_click_back
     then_i_am_on_the_course_choice_page
-  end
-
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    create_and_sign_in_candidate(candidate: @candidate)
   end
 
   def and_i_click_to_change_course
@@ -46,8 +41,8 @@ RSpec.describe 'Selecting a course' do
   end
 
   def and_i_have_two_applications
-    @application_one = create(:application_choice, :unsubmitted, course_option: @course_one.course_options.first, application_form: @candidate.current_application)
-    @application_two = create(:application_choice, :unsubmitted, course_option: @course_two.course_options.first, application_form: @candidate.current_application)
+    @application_one = create(:application_choice, :unsubmitted, course_option: @course_one.course_options.first, application_form: @current_candidate.current_application)
+    @application_two = create(:application_choice, :unsubmitted, course_option: @course_two.course_options.first, application_form: @current_candidate.current_application)
   end
 
   def when_i_visit_the_site

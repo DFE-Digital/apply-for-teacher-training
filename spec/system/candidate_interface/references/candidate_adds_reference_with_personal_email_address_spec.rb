@@ -50,13 +50,11 @@ RSpec.describe 'Creating references with personal email addresses' do
 private
 
   def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-    @application = @candidate.current_application
+    given_i_am_signed_in_with_one_login
+    @application = @current_candidate.current_application
   end
 
   def and_i_navigate_to_add_a_reference
-    visit root_path
     click_on 'Your details'
     click_on 'References'
     click_on 'Add reference'

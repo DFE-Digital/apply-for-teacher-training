@@ -4,7 +4,7 @@ RSpec.describe 'Candidate submits the application' do
   include CandidateHelper
 
   scenario 'Candidate with more than the max unsuccessful apps' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_19_unsuccessful_applications
 
     when_i_have_completed_my_application_and_added_primary_as_course_choice
@@ -16,14 +16,9 @@ RSpec.describe 'Candidate submits the application' do
     then_i_am_unable_to_add_any_further_choices
   end
 
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
-  end
-
   def and_i_have_19_unsuccessful_applications
-    current_candidate.application_forms.delete_all
-    current_candidate.application_forms << create(:application_form, :completed, :with_degree)
-    current_candidate.current_application.application_choices << build_list(:application_choice, 14, :withdrawn)
+    @current_candidate.application_forms << create(:application_form, :completed, :with_degree)
+    @current_candidate.current_application.application_choices << build_list(:application_choice, 14, :withdrawn)
   end
 
   def when_i_have_completed_my_application_and_added_primary_as_course_choice
@@ -41,7 +36,7 @@ RSpec.describe 'Candidate submits the application' do
     )
     @course = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
     @course_option = create(:course_option, site:, course: @course)
-    @application_choice = create(:application_choice, :unsubmitted, course_option: @course_option, application_form: current_candidate.current_application)
+    @application_choice = create(:application_choice, :unsubmitted, course_option: @course_option, application_form: @current_candidate.current_application)
   end
 
   def and_i_go_to_submit_my_application

@@ -4,7 +4,7 @@ RSpec.describe 'Candidate adding incomplete referees' do
   include CandidateHelper
 
   it 'Candidate adds incomplete referees and then completes them' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_provided_my_personal_details
 
     when_i_provide_a_referee_type_only
@@ -40,13 +40,13 @@ RSpec.describe 'Candidate adding incomplete referees' do
   end
 
   def when_the_reference_doesnt_have_a_referee_type
-    @reference = @candidate.current_application.application_references.first
-    @candidate.current_application.update(references_completed: nil, references_completed_at: nil)
+    @reference = @current_candidate.current_application.application_references.first
+    @current_candidate.current_application.update(references_completed: nil, references_completed_at: nil)
     @reference.update(referee_type: nil)
   end
 
   def and_the_references_are_ready_to_be_submitted
-    create(:reference, :feedback_provided, application_form: @candidate.current_application)
+    create(:reference, :feedback_provided, application_form: @current_candidate.current_application)
   end
 
   def when_i_visit_the_references_review_page
@@ -79,13 +79,8 @@ RSpec.describe 'Candidate adding incomplete referees' do
     expect(page).to have_current_path candidate_interface_details_path
   end
 
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def and_i_have_provided_my_personal_details
-    @candidate.current_application.update!(first_name: 'Michael', last_name: 'Antonio')
+    @current_candidate.current_application.update!(first_name: 'Michael', last_name: 'Antonio')
   end
 
   def when_i_provide_a_referee_type_only

@@ -4,7 +4,7 @@ RSpec.describe 'Entering their work history' do
   include CandidateHelper
 
   scenario 'Candidate submits their work history as full time education' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_visit_the_site
 
     when_i_click_on_work_history
@@ -19,10 +19,6 @@ RSpec.describe 'Entering their work history' do
     and_i_click_on_continue
     then_i_see_the_form
     and_that_the_section_is_completed
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_i_visit_the_site

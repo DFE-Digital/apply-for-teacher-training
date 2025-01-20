@@ -5,7 +5,7 @@ RSpec.describe 'A candidate withdraws with upcoming interviews' do
   include WithdrawalReasonsTestHelpers
 
   scenario 'successful withdrawal' do
-    given_i_am_signed_in_as_a_candidate
+    given_i_am_signed_in_with_one_login
     and_i_have_an_application_choice_with_an_upcoming_interview
 
     when_i_visit_the_application_dashboard
@@ -19,12 +19,8 @@ RSpec.describe 'A candidate withdraws with upcoming interviews' do
     and_i_received_an_interview_cancelled_email
   end
 
-  def given_i_am_signed_in_as_a_candidate
-    create_and_sign_in_candidate
-  end
-
   def and_i_have_an_application_choice_with_an_upcoming_interview
-    form = create(:completed_application_form, :with_completed_references, candidate: current_candidate)
+    form = create(:completed_application_form, :with_completed_references, candidate: @current_candidate)
     @application_choice = create(:application_choice, :interviewing, application_form: form)
     create(:application_choice, :awaiting_provider_decision, application_form: form)
     @provider_user = create(:provider_user, :with_notifications_enabled)
@@ -56,7 +52,7 @@ RSpec.describe 'A candidate withdraws with upcoming interviews' do
   end
 
   def and_i_received_an_interview_cancelled_email
-    open_email(current_candidate.email_address)
+    open_email(@current_candidate.email_address)
     expect(current_email.subject).to have_content('Interview cancelled')
     expect(current_email.text).to have_content('You withdrew your application.')
   end

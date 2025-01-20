@@ -4,7 +4,7 @@ RSpec.describe 'Entering their other qualifications' do
   include CandidateHelper
 
   scenario 'Candidate submits their other qualifications after choosing not to provide any' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_visit_the_site
     then_i_see_the_other_qualifications_section_is_incomplete
 
@@ -41,10 +41,6 @@ RSpec.describe 'Entering their other qualifications' do
     when_i_mark_this_section_as_completed
     and_i_click_on_continue
     then_i_see_that_the_section_is_completed
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_i_visit_the_site

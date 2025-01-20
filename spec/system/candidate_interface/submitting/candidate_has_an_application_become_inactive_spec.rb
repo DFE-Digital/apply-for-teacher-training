@@ -5,7 +5,7 @@ RSpec.describe 'Candidate with submitted applications' do
   include CandidateHelper
 
   scenario 'Application becomes inactive' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_submitted_applications
     when_one_of_my_applications_becomes_inactive
     when_i_visit_my_applications
@@ -17,10 +17,6 @@ RSpec.describe 'Candidate with submitted applications' do
     when_i_visit_my_applications
     when_i_click_to_view_my_application
     then_i_can_not_see_the_inactive_warning_text
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_i_have_submitted_applications

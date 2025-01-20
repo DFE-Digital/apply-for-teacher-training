@@ -4,7 +4,7 @@ RSpec.describe 'Selecting a course' do
   include CandidateHelper
 
   it 'Candidate selects a course choice' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_there_are_course_options
 
     when_i_visit_the_site
@@ -45,10 +45,6 @@ RSpec.describe 'Selecting a course' do
     then_i_see_the_provider_name_in_caption
     then_the_course_choices_am_a_dropdown
     and_the_select_box_has_no_value_selected
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_there_are_course_options

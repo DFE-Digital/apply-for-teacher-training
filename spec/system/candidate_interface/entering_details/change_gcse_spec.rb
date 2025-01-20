@@ -4,7 +4,7 @@ RSpec.describe 'Change GCSE' do
   include CandidateHelper
 
   scenario 'Candidate changes their GCSE qualification type' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     when_i_have_a_completed_english_gcse
     and_i_visit_the_english_review_page
     then_i_click_to_change_the_english_qualification_type
@@ -20,10 +20,6 @@ RSpec.describe 'Change GCSE' do
     and_i_fill_in_the_qualification_year
     and_click_save_and_continue
     then_i_see_the_review_page_with_correct_details
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def when_i_have_a_completed_english_gcse

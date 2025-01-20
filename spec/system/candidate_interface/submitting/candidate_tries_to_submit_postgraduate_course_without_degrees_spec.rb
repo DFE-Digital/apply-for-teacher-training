@@ -5,7 +5,7 @@ RSpec.describe 'Submitting a postgraduate course' do
 
   before do
     given_i_am_on_the_cycle_when_candidates_can_enter_details_for_undergraduate_course
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
   end
 
   scenario 'Candidate does not have a degree' do
@@ -29,10 +29,6 @@ RSpec.describe 'Submitting a postgraduate course' do
     )
   end
 
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
-  end
-
   def given_there_are_postgraduate_courses
     create(
       :course,
@@ -47,8 +43,7 @@ RSpec.describe 'Submitting a postgraduate course' do
   end
 
   def and_i_have_all_sections_completed_except_degrees
-    current_candidate.application_forms.delete_all
-    current_candidate.application_forms << create(
+    @current_candidate.application_forms << create(
       :application_form,
       :completed,
       degrees_completed: false,

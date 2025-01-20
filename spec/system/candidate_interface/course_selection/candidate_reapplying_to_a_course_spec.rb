@@ -4,7 +4,7 @@ RSpec.describe 'Selecting a course' do
   include CandidateHelper
 
   it 'Candidate selects a course they are reapplying to' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_there_is_one_course_option
     and_i_have_a_rejected_application
 
@@ -16,10 +16,6 @@ RSpec.describe 'Selecting a course' do
 
     and_i_choose_the_same_course
     then_i_am_on_the_application_choice_review_page
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate(candidate: current_candidate)
   end
 
   def and_there_is_one_course_option

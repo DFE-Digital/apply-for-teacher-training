@@ -4,17 +4,13 @@ RSpec.describe 'Candidate viewing booked interviews' do
   include CandidateHelper
 
   scenario 'Candidate has submitted their application and has interview slots booked' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_interviews_booked
     and_i_have_interviews_cancelled
     when_i_visit_my_applications
     and_i_click_to_view_my_application
     then_i_can_see_details_about_my_booked_interviews
     and_i_can_not_see_the_cancelled_interviews
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_i_have_interviews_booked

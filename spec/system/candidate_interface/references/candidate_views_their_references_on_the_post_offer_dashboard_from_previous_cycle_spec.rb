@@ -4,7 +4,7 @@ RSpec.describe 'Post-offer references', :with_audited, time: CycleTimetable.appl
   include CandidateHelper
 
   scenario 'Candidate views their references on the post offer dashboard' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_an_accepted_offer_from_previous_cycle
 
     when_i_visit_the_application_dashboard
@@ -32,13 +32,8 @@ RSpec.describe 'Post-offer references', :with_audited, time: CycleTimetable.appl
     then_i_see_the_status_change
   end
 
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def and_i_have_an_accepted_offer_from_previous_cycle
-    @application_form = create(:completed_application_form, candidate: @candidate, recruitment_cycle_year: 2023)
+    @application_form = create(:completed_application_form, candidate: @current_candidate, recruitment_cycle_year: 2023)
     @pending_reference = create(:reference, :feedback_requested, reminder_sent_at: nil, application_form: @application_form)
     @completed_reference = create(:reference, :feedback_provided, application_form: @application_form)
 

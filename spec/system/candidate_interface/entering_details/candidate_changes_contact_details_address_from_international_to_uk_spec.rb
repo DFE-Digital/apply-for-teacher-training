@@ -4,7 +4,7 @@ RSpec.describe 'Candidate updates their contact information from an internationa
   include CandidateHelper
 
   scenario 'Candidate submits their contact information' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_already_filled_in_an_international_address
     and_i_visit_the_site
 
@@ -14,10 +14,6 @@ RSpec.describe 'Candidate updates their contact information from an internationa
     when_i_change_to_an_international_address
     and_i_click_the_back_button
     then_i_do_not_have_the_option_to_complete
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_i_have_already_filled_in_an_international_address

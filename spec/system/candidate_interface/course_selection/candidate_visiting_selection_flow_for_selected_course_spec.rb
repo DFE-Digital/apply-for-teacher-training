@@ -4,7 +4,8 @@ RSpec.describe 'Selecting a course' do
   include CandidateHelper
 
   it 'Candidate is redirected when visiting later steps on a duplicate course selection' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
+
     and_there_is_one_course_option_with_both_study_modes_and_two_sites
     and_i_have_an_unsubmitted_application_to_the_course
 
@@ -22,11 +23,6 @@ RSpec.describe 'Selecting a course' do
     then_i_am_redirected_to_the_duplicate_course_selection_step
   end
 
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    create_and_sign_in_candidate(candidate: @candidate)
-  end
-
   def and_there_is_one_course_option_with_both_study_modes_and_two_sites
     provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
 
@@ -37,7 +33,7 @@ RSpec.describe 'Selecting a course' do
   end
 
   def and_i_have_an_unsubmitted_application_to_the_course
-    @application_one = create(:application_choice, :unsubmitted, course_option: @course_one.course_options.first, application_form: @candidate.current_application)
+    @application_one = create(:application_choice, :unsubmitted, course_option: @course_one.course_options.first, application_form: @current_candidate.current_application)
   end
 
   def when_i_visit_the_site

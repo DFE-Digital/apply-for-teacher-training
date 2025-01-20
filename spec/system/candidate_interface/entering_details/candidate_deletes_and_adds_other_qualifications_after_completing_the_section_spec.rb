@@ -4,7 +4,7 @@ RSpec.describe 'Candidates academic and other relevant qualifications' do
   include CandidateHelper
 
   scenario 'Candidate updates and deletes qualifications in a completed academic and other relevant qualifications section' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_completed_the_other_qualifications_section
 
     when_i_visit_the_application_page
@@ -33,13 +33,8 @@ RSpec.describe 'Candidates academic and other relevant qualifications' do
     then_the_other_qualifications_section_is_marked_as_incomplete
   end
 
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def and_i_have_completed_the_other_qualifications_section
-    @application_form = create(:application_form, candidate: @candidate)
+    @application_form = create(:application_form, candidate: @current_candidate)
     create(:other_qualification, application_form: @application_form)
     @application_form.update!(other_qualifications_completed: true)
   end

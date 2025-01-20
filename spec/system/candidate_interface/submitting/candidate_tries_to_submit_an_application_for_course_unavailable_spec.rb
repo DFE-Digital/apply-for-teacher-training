@@ -1,10 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Candidate tries to submit an application choice when the course is unavailable' do
-  include SignInHelper
   include CandidateHelper
   before do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_one_application_in_draft
   end
 

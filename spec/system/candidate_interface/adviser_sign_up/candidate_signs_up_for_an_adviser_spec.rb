@@ -6,7 +6,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   include CandidateHelper
 
   it 'redirects back to review their application' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_rails_cache_is_enabled
     and_analytics_is_enabled
     and_enqueued_jobs_are_not_performed
@@ -31,11 +31,6 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
     and_the_adviser_cta_be_replaced_with_the_waiting_to_be_assigned_message
     and_an_adviser_sign_up_job_is_enqueued
     and_the_sign_up_is_tracked
-  end
-
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
   end
 
   def and_rails_cache_is_enabled
@@ -72,7 +67,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def and_i_have_an_eligible_application
-    @application_form = create(:application_form_eligible_for_adviser, candidate: @candidate)
+    @application_form = create(:application_form_eligible_for_adviser, candidate: @current_candidate)
   end
 
   def and_i_visit_your_details_page

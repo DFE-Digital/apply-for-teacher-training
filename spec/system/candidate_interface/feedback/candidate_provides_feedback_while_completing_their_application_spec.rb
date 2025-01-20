@@ -17,9 +17,8 @@ RSpec.describe 'Candidate provides feedback during the application process' do
   end
 
   def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-    @application = @candidate.current_application
+    given_i_am_signed_in_with_one_login
+    @application = @current_candidate.current_application
   end
 
   def when_i_visit_the_site
@@ -43,7 +42,7 @@ RSpec.describe 'Candidate provides feedback during the application process' do
       t('application_section_feedback.details_label', section: 'the references'),
       with: 'Me no understand.',
     )
-    choose t('application_feedback.consent_to_be_contacted.yes', email_address: @candidate.email_address)
+    choose t('application_feedback.consent_to_be_contacted.yes', email_address: @current_candidate.email_address)
 
     click_link_or_button t('application_feedback.submit')
   end
