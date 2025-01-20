@@ -130,7 +130,7 @@ RSpec.describe Candidate do
     context 'when the email address matches a OneLoginAuth' do
       it 'returns the candidate' do
         candidate = create(:candidate, email_address: 'candidate@email.address')
-        _one_login_auth = create(:one_login_auth, email_address: 'one_login@email.address', candidate: candidate)
+        _one_login_auth = create(:one_login_auth, email_address: 'one_login@email.address', candidate:)
 
         expect(described_class.for_email('one_login@email.address')).to eq(candidate)
       end
