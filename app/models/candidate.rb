@@ -54,8 +54,8 @@ class Candidate < ApplicationRecord
 
   def self.for_email(email)
     if (email_address = email&.downcase&.strip).present?
-      joins(:one_login_auth).find_by(one_login_auth: { email_address: email_address }) ||
-        find_or_initialize_by(email_address: email_address)
+      joins(:one_login_auth).find_by(one_login_auth: { email_address: }) ||
+        find_or_initialize_by(email_address:)
     else
       new(email_address: email)
     end
