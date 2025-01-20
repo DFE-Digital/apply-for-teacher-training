@@ -1,7 +1,9 @@
 .app-checkboxes-scroll {
   height: 75vh;
   min-height: 13.5em;
+
   padding: govuk-spacing(2);
+
   overflow-y: scroll;
 
   border: $govuk-border-width-form-element solid $govuk-input-border-colour;

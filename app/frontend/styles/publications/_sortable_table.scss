@@ -8,7 +8,9 @@
   font-family: inherit;
   font-size: 1em;
   font-weight: inherit;
+
   color: #005ea5;
+
   text-align: inherit;
 
   cursor: pointer;
@@ -74,10 +76,13 @@
 
   width: 1px;
   height: 1px;
+
   padding: 0;
   margin: -1px;
+
   overflow: hidden;
-  clip: rect(0 0 0 0);
 
   border: 0;
+
+  clip: rect(0 0 0 0);
 }

@@ -7,6 +7,7 @@
   margin: 0;
 
   font-size: 0; // Removes white space when using inline-block on child element.
+
   list-style: none;
 
   @include govuk-media-query($from: 375px) {
@@ -50,6 +51,7 @@
   padding-left: govuk-spacing(3);
 
   font-weight: bold;
+
   text-decoration: none;
 
   @include govuk-media-query($from: 375px) {
@@ -96,6 +98,7 @@
   position: relative;
 
   color: $govuk-link-active-colour;
+
   text-decoration: none;
 
   &::before {

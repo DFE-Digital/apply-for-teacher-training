@@ -12,9 +12,9 @@
 
     @each $width in map-keys($govuk-grid-widths) {
       .govuk-grid-column-#{$width} {
-        display: flex;
-
         float: none;
+
+        display: flex;
       }
 
       .govuk-grid-column-#{$width} > * {
