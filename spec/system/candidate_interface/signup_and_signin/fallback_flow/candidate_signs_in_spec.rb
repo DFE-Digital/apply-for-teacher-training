@@ -68,7 +68,7 @@ private
 
   def then_i_receive_an_email_with_a_sign_in_link(email = @email)
     open_email(email)
-    expect(current_email.subject).to have_content t('authentication.sign_in.email.subject')
+    expect(current_email.subject).to have_content 'Sign in to continue your applications for teacher training'
   end
 
   def when_i_click_on_the_link_in_my_email

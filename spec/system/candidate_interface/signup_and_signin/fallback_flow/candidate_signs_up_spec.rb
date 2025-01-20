@@ -60,13 +60,13 @@ private
   end
 
   def and_i_submit_my_email_address(email = @email)
-    fill_in t('authentication.sign_up.email_address.label'), with: email
-    click_link_or_button t('continue')
+    fill_in 'Email address', with: email
+    click_link_or_button 'Continue'
   end
 
   def then_i_receive_an_email_with_a_sign_up_link
     open_email(@email)
-    expect(current_email.subject).to have_content t('authentication.sign_up.email.subject')
+    expect(current_email.subject).to have_content 'Confirm your email address to apply for teacher training'
   end
 
   def when_i_click_on_the_link_in_my_email
@@ -95,7 +95,7 @@ private
 
   def then_i_receive_an_email_with_a_sign_in_link(email = @email)
     open_email(email)
-    expect(current_email.subject).to have_content t('authentication.sign_in.email.subject')
+    expect(current_email.subject).to have_content 'Sign in to continue your applications for teacher training'
   end
 
   def and_i_confirm_sign_in

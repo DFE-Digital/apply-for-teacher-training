@@ -59,7 +59,7 @@ private
   def and_i_submit_an_invalid_email_address
     choose 'Yes, sign in'
     fill_in t('authentication.sign_up.email_address.label'), with: 'invalid email'
-    click_link_or_button t('continue')
+    click_link_or_button 'Continue'
   end
 
   def then_i_see_form_errors_on_the_page
@@ -71,7 +71,7 @@ private
   end
 
   def and_i_click_continue
-    click_link_or_button t('continue')
+    click_link_or_button 'Continue'
   end
 
   def then_i_am_on_the_sign_up_page
@@ -86,7 +86,7 @@ private
 
   def then_i_receive_an_email_with_a_sign_in_link(email = @email)
     open_email(email)
-    expect(current_email.subject).to have_content t('authentication.sign_in.email.subject')
+    expect(current_email.subject).to have_content 'Sign in to continue your applications for teacher training'
   end
 
   def when_i_click_on_the_link_in_my_email
