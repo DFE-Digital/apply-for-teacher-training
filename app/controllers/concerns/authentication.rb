@@ -15,11 +15,11 @@ module Authentication
 private
 
   def authenticated?
-    resume_session
+    current_candidate || resume_session
   end
 
   def require_authentication
-    current_candidate || resume_session || request_authentication
+    authenticated? || request_authentication
   end
 
   def resume_session
