@@ -29,7 +29,6 @@ class FeatureFlag
   TEMPORARY_FEATURE_FLAGS = [
     [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],
     [:show_reference_confidentiality_status, 'Control whether the confidentiality status of references is explicitly communicated to candidates, referees and providers', 'Avin Hurry'],
-    [:one_login_pre_release_banners, 'Show banners related to One Login release', 'Lori Bailey'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

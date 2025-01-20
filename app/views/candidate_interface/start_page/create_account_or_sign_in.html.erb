@@ -4,7 +4,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render CandidateInterface::OneLoginPreReleaseSignInBannerComponent.new %>
     <%= render CandidateInterface::OneLoginPostReleaseSignInBannerComponent.new %>
 
     <% if FeatureFlag.active?(:one_login_candidate_sign_in) %>

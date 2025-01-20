@@ -3,7 +3,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render CandidateInterface::OneLoginPreReleaseSignInBannerComponent.new %>
     <%= form_with model: candidate, url: candidate_interface_sign_in_path(providerCode: params[:providerCode], courseCode: params[:courseCode]), html: { novalidate: true } do |f| %>
       <%= f.govuk_error_summary %>
 
