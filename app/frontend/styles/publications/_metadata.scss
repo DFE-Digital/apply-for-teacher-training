@@ -64,12 +64,13 @@
   margin-top: 0.5em;
 
   @include govuk-media-query($from: tablet) {
+    float: left;
+    clear: left;
+
     box-sizing: border-box;
 
-    float: left;
     padding-right: govuk-spacing(1);
     margin-top: 0;
-    clear: left;
   }
 }
 

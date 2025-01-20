@@ -22,11 +22,12 @@
   }
 
   .govuk-form-group {
+    clear: both;
+
     display: inline-block;
 
     margin-top: govuk-spacing(2);
     margin-bottom: 0;
-    clear: both;
 
     @include mq($from: desktop) {
       margin: 0;
@@ -35,6 +36,7 @@
 
   .govuk-button {
     float: right;
+
     margin: govuk-spacing(2) 0 0;
 
     @include mq($from: desktop) {
