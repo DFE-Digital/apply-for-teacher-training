@@ -112,6 +112,40 @@ RSpec.describe Candidate do
     end
   end
 
+  describe '.for_email' do
+    it 'returns a candidate with the given email address' do
+      candidate = create(:candidate, email_address: 'candidate@email.address')
+
+      expect(described_class.for_email('candidate@email.address')).to eq(candidate)
+    end
+
+    context 'when the email address is not an email address' do
+      it 'returns a new candidate with the email address' do
+        candidate = described_class.for_email('not_an_email')
+        expect(candidate).to be_new_record
+        expect(candidate.email_address).to eq('not_an_email')
+      end
+    end
+
+    context 'when the email address matches a OneLoginAuth' do
+      it 'returns the candidate' do
+        candidate = create(:candidate, email_address: 'candidate@email.address')
+        _one_login_auth = create(:one_login_auth, email_address: 'one_login@email.address', candidate: candidate)
+
+        expect(described_class.for_email('one_login@email.address')).to eq(candidate)
+      end
+    end
+
+    context 'when the email address matches a Candidate which has a different OneLoginAuth email address' do
+      it 'returns the candidate' do
+        candidate = create(:candidate, email_address: 'candidate@email.address')
+        _one_login_auth = create(:one_login_auth, email_address: 'one_login@email.address', candidate: candidate)
+
+        expect(described_class.for_email('candidate@email.address')).to eq(candidate)
+      end
+    end
+  end
+
   describe '#current_application' do
     let(:candidate) { create(:candidate) }
 
