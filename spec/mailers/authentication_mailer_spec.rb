@@ -29,31 +29,35 @@ RSpec.describe AuthenticationMailer do
     end
   end
 
-  describe 'the candidate receives the sign in email containing the magic link' do
-    let(:token) { 'blub' }
-    let(:email) { mailer.sign_in_email(candidate:, token:) }
+  describe '.sign_in_email' do
+    describe 'the candidate receives the sign in email containing the magic link' do
+      let(:token) { 'blub' }
+      let(:email) { mailer.sign_in_email(candidate:, token:, email_address: candidate.email_address) }
 
-    before do
-      create(:application_form, candidate:, first_name: 'John')
+      before do
+        create(:application_form, candidate:, first_name: 'John')
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        I18n.t('authentication.sign_in.email.subject'),
+        'intro' => 'Dear John',
+        'heading' => I18n.t('authentication.sign_in.email.subject'),
+        'magic link' => 'http://localhost:3000/candidate/sign-in/confirm?token=blub',
+      )
     end
-
-    it_behaves_like(
-      'a mail with subject and content',
-      I18n.t('authentication.sign_in.email.subject'),
-      'intro' => 'Dear John',
-      'heading' => I18n.t('authentication.sign_in.email.subject'),
-      'magic link' => 'http://localhost:3000/candidate/sign-in/confirm?token=blub',
-    )
   end
 
-  describe 'the candidate receives an email when they try to sign in without an existing account' do
-    let(:email) { mailer.sign_in_without_account_email(to: 'test@example.com') }
+  describe '.sign_in_without_account_email' do
+    describe 'the candidate receives an email when they try to sign in without an existing account' do
+      let(:email) { mailer.sign_in_without_account_email(to: 'test@example.com') }
 
-    it_behaves_like(
-      'a mail with subject and content',
-      I18n.t('authentication.sign_in_without_account.email.subject'),
-      'heading' => 'You tried to sign in to apply for teacher training',
-      'sign up link' => 'http://localhost:3000/candidate/sign-up',
-    )
+      it_behaves_like(
+        'a mail with subject and content',
+        I18n.t('authentication.sign_in_without_account.email.subject'),
+        'heading' => 'You tried to sign in to apply for teacher training',
+        'sign up link' => 'http://localhost:3000/candidate/sign-up',
+      )
+    end
   end
 end

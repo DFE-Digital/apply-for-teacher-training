@@ -14,7 +14,7 @@ module CandidateInterface
       @sign_up_form = CandidateInterface::SignUpForm.new(candidate_sign_up_form_params)
 
       if @sign_up_form.existing_candidate?
-        magic_link_token = CandidateInterface::RequestMagicLink.for_sign_in(candidate: @sign_up_form.candidate)
+        magic_link_token = CandidateInterface::RequestMagicLink.for_sign_in(candidate: @sign_up_form.candidate, email_address: @sign_up_form.email_address)
         set_user_context @sign_up_form.candidate.id
         candidate = @sign_up_form.candidate
         candidate.update!(course_from_find_id: @sign_up_form.course_from_find_id)

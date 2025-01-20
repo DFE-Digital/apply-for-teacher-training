@@ -9,12 +9,12 @@ class AuthenticationMailer < ApplicationMailer
     )
   end
 
-  def sign_in_email(candidate:, token:)
+  def sign_in_email(candidate:, token:, email_address:)
     @magic_link = candidate_interface_authenticate_url(magic_link_params(token))
     @application_form = candidate.current_application
 
     notify_email(
-      to: candidate.email_address,
+      to: email_address,
       subject: t('authentication.sign_in.email.subject'),
     )
   end
