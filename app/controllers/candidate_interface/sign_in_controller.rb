@@ -90,9 +90,8 @@ module CandidateInterface
         end
 
       if candidate
-        CandidateInterface::RequestMagicLink.for_sign_in(candidate:, path: authentication_token&.path)
         set_user_context candidate.id
-        redirect_to candidate_interface_check_email_sign_in_path
+        redirect_to candidate_interface_sign_in_path(path: authentication_token&.path)
       else
         render 'errors/not_found', status: :forbidden
       end

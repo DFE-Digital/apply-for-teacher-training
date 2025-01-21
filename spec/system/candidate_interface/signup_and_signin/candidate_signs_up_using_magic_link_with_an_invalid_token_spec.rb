@@ -14,7 +14,8 @@ RSpec.describe 'Candidate tries to sign up using magic link with an invalid toke
     and_i_click_on_the_link_in_my_email
     then_i_am_taken_to_the_expired_link_page
 
-    when_i_click_the_button_to_send_me_a_sign_in_email
+    when_i_click_the_button_to_sign_in
+    and_i_submit_my_email_address
     then_i_receive_an_email_inviting_me_to_sign_in
     and_i_click_on_the_link_in_my_email
     and_i_confirm_the_account_creation
@@ -61,8 +62,8 @@ RSpec.describe 'Candidate tries to sign up using magic link with an invalid toke
     expect(page).to have_current_path(candidate_interface_expired_sign_in_path, ignore_query: true)
   end
 
-  def when_i_click_the_button_to_send_me_a_sign_in_email
-    click_link_or_button t('authentication.expired_token.button')
+  def when_i_click_the_button_to_sign_in
+    click_link_or_button 'Sign in'
   end
 
   def then_i_receive_an_email_inviting_me_to_sign_in
