@@ -34,7 +34,7 @@ def generate_plan(host:, thread_count:, token:)
       end
 
       visit name: 'GET candidate account page', url: "#{host}/candidate/account" do
-        assert contains: 'Create an account or sign in'
+        assert contains: FeatureFlag.active?(:one_login_candidate_sign_in) ? 'Create a GOV.UK One Login or sign in' : 'Create an account or sign in'
       end
 
       header name: 'COOKIE', value: "_apply_for_postgraduate_teacher_training_session=#{token}"

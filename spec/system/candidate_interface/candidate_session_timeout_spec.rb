@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate viewing booked interviews' do
+RSpec.describe 'Candidate session timeout' do
   include CandidateHelper
   include ActiveSupport::Testing::TimeHelpers
 
@@ -47,7 +47,7 @@ RSpec.describe 'Candidate viewing booked interviews' do
   end
 
   def then_i_see_the_login_page
-    expect(page).to have_content 'Create an account or sign in'
+    expect(page).to have_content 'Create a GOV.UK One Login or sign in'
   end
 
 private
