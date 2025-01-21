@@ -1,0 +1,23 @@
+<%= content_for :title, t('page_titles.there_is_a_problem') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= t('page_titles.there_is_a_problem') %></h1>
+    <div class="govuk-body">
+      <%= t(
+        '.body_html',
+        button_link: render(
+          ButtonToAsLinkComponent.new(
+            name: t('.sign_in'),
+            path: OneLogin.bypass? ? '/auth/one-login-developer' : '/auth/one_login',
+          ),
+        ),
+      ) %>
+    </div>
+
+    <p class="govuk-body">
+      If you have any questions, please email us at
+      <a class="govuk-link" href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher@digital.education.gov.uk</a>
+    </p>
+  </div>
+</div>

@@ -199,7 +199,7 @@ RSpec.describe 'OneLoginController' do
           "One login session error, check session_error record #{SessionError.last.id}",
           level: :error,
         )
-        expect(response).to redirect_to(internal_server_error_path)
+        expect(response).to redirect_to(candidate_interface_wrong_email_address_path)
       end
     end
 
