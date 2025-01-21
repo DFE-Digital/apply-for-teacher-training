@@ -79,8 +79,8 @@ RSpec.describe 'Candidates authentication token has the path attribute populated
   end
 
   def and_i_submit_my_email_address
-    fill_in t('authentication.sign_up.email_address.label'), with: @candidate.email_address
-    click_link_or_button t('continue')
+    fill_in 'Email address', with: @candidate.email_address
+    click_link_or_button 'Continue'
   end
 
   def when_i_click_on_the_link_in_my_email
