@@ -9,10 +9,6 @@ RSpec.describe AuthenticationMailer do
     let(:token) { 'blub' }
     let(:email) { mailer.sign_up_email(candidate:, token:) }
 
-    before do
-      allow(Encryptor).to receive(:encrypt).and_return('secret')
-    end
-
     it_behaves_like(
       'a mail with subject and content',
       I18n.t('authentication.sign_up.email.subject'),
