@@ -554,6 +554,11 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.one_login_is_coming(application_form)
   end
 
+  def one_login_has_arrived
+    application_form = FactoryBot.build(:application_form, first_name: 'Rocket the dog')
+    CandidateMailer.one_login_has_arrived(application_form)
+  end
+
 private
 
   def candidate
