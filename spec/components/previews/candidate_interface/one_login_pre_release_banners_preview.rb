@@ -7,5 +7,9 @@ module CandidateInterface
     def one_login_pre_release_sign_in_banner_component
       render(CandidateInterface::OneLoginPreReleaseSignInBannerComponent.new)
     end
+
+    def one_login_post_release_sign_in_banner_component
+      render CandidateInterface::OneLoginPostReleaseSignInBannerComponent.new
+    end
   end
 end
