@@ -74,7 +74,7 @@ class OneLoginController < ApplicationController
   def sign_out_complete
     if session[:session_error_id].present?
       reset_session
-      redirect_to internal_server_error_path
+      redirect_to candidate_interface_wrong_email_address_path
     else
       redirect_to candidate_interface_create_account_or_sign_in_path
     end

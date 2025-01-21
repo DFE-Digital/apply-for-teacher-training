@@ -608,6 +608,7 @@ namespace :candidate_interface, path: '/candidate' do
   end
 
   get '/account-locked', to: 'errors#account_locked'
+  get '/wrong-email-address', to: 'errors#wrong_email_address'
 
   get '/about-the-teacher-training-application-process', to: 'guidance#index', as: :guidance
 

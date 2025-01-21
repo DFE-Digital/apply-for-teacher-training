@@ -1,0 +1,5 @@
+en:
+  errors:
+    wrong_email_address_used_for_candidate:
+      body_html: You should use the email address you use for GOV.UK One Login to %{button_link}.
+      sign_in: sign in to Apply for teacher training
