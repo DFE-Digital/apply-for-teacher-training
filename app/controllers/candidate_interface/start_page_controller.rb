@@ -28,5 +28,14 @@ module CandidateInterface
     def create_account_or_sign_in_params
       strip_whitespace params.require(:candidate_interface_create_account_or_sign_in_form).permit(:existing_account, :email)
     end
+
+    def create_account_page_title
+      if FeatureFlag.active?(:one_login_candidate_sign_in)
+        t('page_titles.create_a_gov_uk_one_login_or_sign_in')
+      else
+        t('page_titles.create_account_or_sign_in')
+      end
+    end
+    helper_method :create_account_page_title
   end
 end

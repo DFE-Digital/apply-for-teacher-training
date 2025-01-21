@@ -1,5 +1,4 @@
-<% title = FeatureFlag.active?(:one_login_candidate_sign_in) ? t('page_titles.create_a_gov_uk_one_login_or_sign_in') : t('page_titles.create_account_or_sign_in') %>
-<% content_for :title, title_with_error_prefix(title, @create_account_or_sign_in_form.errors.any?) %>
+<% content_for :title, title_with_error_prefix(create_account_page_title, @create_account_or_sign_in_form.errors.any?) %>
 
 <%= render ServiceInformationBanner.new(namespace: :candidate) %>
 
@@ -10,7 +9,7 @@
     <% if FeatureFlag.active?(:one_login_candidate_sign_in) %>
 
       <h1 class="govuk-heading-xl">
-        <%= title %>
+        <%= create_account_page_title %>
       </h1>
 
       <p class="govuk-body">
@@ -27,7 +26,7 @@
         <%= f.govuk_error_summary %>
 
         <h1 class="govuk-heading-xl">
-          <%= title %>
+          <%= create_account_page_title %>
         </h1>
 
         <%= f.govuk_radio_buttons_fieldset :existing_account, legend: { text: 'Do you already have an account?' } do %>
