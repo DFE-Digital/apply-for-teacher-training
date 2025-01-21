@@ -130,7 +130,7 @@ RSpec.describe 'Candidate recovers their account' do
   def and_i_see_a_success_message
     expect(page).to have_content(
       'You have connected your Apply for teacher training profile to the email address you use for GOV.UK One Login. ' \
-      'You should use your GOV.UK One Login email address to sign into Apply for teacher training in future.',
+      'You should use your GOV.UK One Login email address to sign in to Apply for teacher training in future.',
     )
   end
 

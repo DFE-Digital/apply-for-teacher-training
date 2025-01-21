@@ -24,7 +24,7 @@ RSpec.describe CandidateMailer do
       'greeting' => 'Hello Fred',
       'offer_details' => 'Congratulations! You have an offer from Arithmetic College to study Mathematics (M101)',
       'contact' => 'Contact Arithmetic College if you have any questions about this',
-      'sign in link' => 'Sign into your account to respond to your offer',
+      'sign in link' => 'Sign in to your account to respond to your offer',
     )
 
     it 'does not render offer deadline text' do

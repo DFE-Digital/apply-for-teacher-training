@@ -13,7 +13,7 @@ RSpec.describe CandidateMailer do
 
       it 'includes content related to pending conditions' do
         expect(email.body).to include('Arithmetic College has received a reference for you from Scott Knowles')
-        expect(email.body).to include('You can sign into your account to check the progress of your reference requests and offer conditions.')
+        expect(email.body).to include('You can sign in to your account to check the progress of your reference requests and offer conditions.')
       end
     end
 
@@ -22,7 +22,7 @@ RSpec.describe CandidateMailer do
 
       it 'does not inlude content related to pending conditions' do
         expect(email.body).to include('Arithmetic College has received a reference for you from Scott Knowles')
-        expect(email.body).to include('You can sign into your account to check the progress of your reference requests.')
+        expect(email.body).to include('You can sign in to your account to check the progress of your reference requests.')
       end
     end
   end
