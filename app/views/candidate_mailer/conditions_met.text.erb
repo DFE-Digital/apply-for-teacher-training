@@ -4,13 +4,13 @@ Dear <%= @application_form.first_name %>
 
 They’ll let you know if they need further information before you can start training. Contact them if you have any questions.
 
-You can sign into your account if you need to check the progress of your reference requests.
+You can sign in to your account if you need to check the progress of your reference requests.
 
 <% if RecruitedWithPendingConditions.new(application_choice: @application_choice).call %>
 Remember to complete your subject knowledge enhancement (SKE) course to meet the conditions of this offer.
 <% end %>
 
-[Sign into your account](<%= sign_in_link %>).
+[Sign in to your account](<%= sign_in_link %>).
 
 #If you are unable to start training in <%= @start_date %>
 

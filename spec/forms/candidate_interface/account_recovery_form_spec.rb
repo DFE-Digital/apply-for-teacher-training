@@ -68,7 +68,7 @@ RSpec.describe CandidateInterface::AccountRecoveryForm, type: :model do
       expect(form).not_to be_valid
       expect(form.errors[:code]).to eq(
         ['The account you are trying to claim is already linked to a GOV.UK One Login. ' \
-         'Use that email address to sign into Apply for teacher training.'],
+         'Use that email address to sign in to Apply for teacher training.'],
       )
     end
   end
