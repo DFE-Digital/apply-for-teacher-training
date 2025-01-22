@@ -19,65 +19,101 @@ RSpec.describe RefereeMailer do
   it_behaves_like 'mailer previews', RefereeMailerPreview
 
   describe 'Send request reference email' do
-    let(:email) { mailer.reference_request_email(reference) }
-    let(:application_choices) { [create(:application_choice, :accepted, course_option:)] }
+    context 'with confidentiality feature flag active' do
+      before { FeatureFlag.activate(:show_reference_confidentiality_status) }
 
-    it 'sends an email with a link to the reference form' do
-      expect(email.body).to include('/reference?token=raw_token')
-    end
+      let(:email) { mailer.reference_request_email(reference) }
+      let(:application_choices) { [create(:application_choice, :accepted, course_option:)] }
 
-    it 'sends a request with a Notify reference' do
-      ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'example_env' do
-        email.deliver_now
+      it 'sends an email with a link to the reference form' do
+        expect(email.body).to include('/reference?token=raw_token')
       end
 
-      expect(email[:reference].value).to start_with("example_env-reference_request-#{reference.id}")
+      it 'sends a request with a Notify reference' do
+        ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'example_env' do
+          email.deliver_now
+        end
+
+        expect(email[:reference].value).to start_with("example_env-reference_request-#{reference.id}")
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        I18n.t('referee_mailer.reference_request.subject', candidate_name: 'Elliot Alderson'),
+        'heading' => 'Dear Jane',
+        'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
+        'further guidance' => 'whether you have any concerns about them working with children',
+        'confidentiality statement' => 'You can choose whether Elliot will be able to see your reference or if it should be kept confidential.',
+      )
+
+      it 'adds additional guidance for academic references' do
+        reference.referee_type = :academic
+
+        expect(email.body).to include('for example about their academic record')
+      end
+
+      it 'adds additional guidance for character references' do
+        reference.referee_type = :character
+
+        expect(email.body).to include('for example about activities you have done together')
+      end
+
+      %i[professional school_based].each do |referee_type|
+        it "adds additional guidance for #{referee_type} references" do
+          reference.referee_type = referee_type
+
+          expect(email.body).to include('for example about their role and responsibilities at work')
+        end
+      end
     end
 
-    it_behaves_like(
-      'a mail with subject and content',
-      I18n.t('referee_mailer.reference_request.subject', candidate_name: 'Elliot Alderson'),
-      'heading' => 'Dear Jane',
-      'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
-      'further guidance' => 'whether you have any concerns about them working with children',
-    )
+    context 'with confidentiality feature flag inactive' do
+      before { FeatureFlag.deactivate(:show_reference_confidentiality_status) }
 
-    it 'adds additional guidance for academic references' do
-      reference.referee_type = :academic
+      let(:email) { mailer.reference_request_email(reference) }
+      let(:application_choices) { [create(:application_choice, :accepted, course_option:)] }
 
-      expect(email.body).to include('for example about their academic record')
-    end
-
-    it 'adds additional guidance for character references' do
-      reference.referee_type = :character
-
-      expect(email.body).to include('for example about activities you have done together')
-    end
-
-    %i[professional school_based].each do |referee_type|
-      it "adds additional guidance for #{referee_type} references" do
-        reference.referee_type = referee_type
-
-        expect(email.body).to include('for example about their role and responsibilities at work')
+      it 'does not include the confidentiality statement' do
+        expect(email.body).not_to include(
+          'You can choose whether Elliot will be able to see your reference or if it should be kept confidential.',
+        )
       end
     end
   end
 
   describe 'Send chasing reference email' do
-    let(:email) { mailer.reference_request_chaser_email(application_form, reference) }
-    let(:application_choices) { [create(:application_choice, :accepted, course_option:)] }
+    context 'with confidentiality feature flag active' do
+      before { FeatureFlag.activate(:show_reference_confidentiality_status) }
 
-    it 'sends an email with a link to the reference form' do
-      expect(email.body).to include('/reference?token=raw_token')
+      let(:email) { mailer.reference_request_chaser_email(application_form, reference) }
+      let(:application_choices) { [create(:application_choice, :accepted, course_option:)] }
+
+      it 'sends an email with a link to the reference form' do
+        expect(email.body).to include('/reference?token=raw_token')
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        I18n.t('referee_mailer.reference_request.subject', candidate_name: 'Elliot Alderson'),
+        'heading' => 'Dear Jane',
+        'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
+        'further guidance' => 'whether you have any concerns about them working with children',
+        'confidentiality statement' => 'You can choose whether Elliot will be able to see your reference or if it should be kept confidential.',
+      )
     end
 
-    it_behaves_like(
-      'a mail with subject and content',
-      I18n.t('referee_mailer.reference_request.subject', candidate_name: 'Elliot Alderson'),
-      'heading' => 'Dear Jane',
-      'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
-      'further guidance' => 'whether you have any concerns about them working with children',
-    )
+    context 'with confidentiality feature flag inactive' do
+      before { FeatureFlag.deactivate(:show_reference_confidentiality_status) }
+
+      let(:email) { mailer.reference_request_chaser_email(application_form, reference) }
+      let(:application_choices) { [create(:application_choice, :accepted, course_option:)] }
+
+      it 'does not include the confidentiality statement' do
+        expect(email.body).not_to include(
+          'You can choose whether Elliot will be able to see your reference or if it should be kept confidential.',
+        )
+      end
+    end
   end
 
   describe 'Send reference confirmation email' do
@@ -109,20 +145,38 @@ RSpec.describe RefereeMailer do
   end
 
   describe 'Send reference_request_chase_again_email email' do
-    let(:email) { mailer.reference_request_chase_again_email(reference) }
-    let(:application_choices) { [create(:application_choice, :accepted, course_option:)] }
+    context 'with confidentiality feature flag active' do
+      before { FeatureFlag.activate(:show_reference_confidentiality_status) }
 
-    it 'sends an email to the provided referee' do
-      expect(email.to).to include('jane@education.gov.uk')
+      let(:email) { mailer.reference_request_chase_again_email(reference) }
+      let(:application_choices) { [create(:application_choice, :accepted, course_option:)] }
+
+      it 'sends an email to the provided referee' do
+        expect(email.to).to include('jane@education.gov.uk')
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        I18n.t('referee_mailer.reference_request.subject', candidate_name: 'Elliot Alderson'),
+        'heading' => 'Dear Jane',
+        'reference link' => '/reference?token=raw_token',
+        'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
+        'further guidance' => 'whether you have any concerns about them working with children',
+        'confidentiality statement' => 'You can choose whether Elliot will be able to see your reference or if it should be kept confidential.',
+      )
     end
 
-    it_behaves_like(
-      'a mail with subject and content',
-      I18n.t('referee_mailer.reference_request.subject', candidate_name: 'Elliot Alderson'),
-      'heading' => 'Dear Jane',
-      'reference link' => '/reference?token=raw_token',
-      'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
-      'further guidance' => 'whether you have any concerns about them working with children',
-    )
+    context 'with confidentiality feature flag inactive' do
+      before { FeatureFlag.deactivate(:show_reference_confidentiality_status) }
+
+      let(:email) { mailer.reference_request_chase_again_email(reference) }
+      let(:application_choices) { [create(:application_choice, :accepted, course_option:)] }
+
+      it 'does not include the confidentiality statement' do
+        expect(email.body).not_to include(
+          'You can choose whether Elliot will be able to see your reference or if it should be kept confidential.',
+        )
+      end
+    end
   end
 end
