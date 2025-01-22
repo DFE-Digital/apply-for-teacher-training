@@ -39,7 +39,7 @@ RSpec.describe RefereeMailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        I18n.t('referee_mailer.reference_request.subject', candidate_name: 'Elliot Alderson'),
+        'Teacher training reference needed for Elliot Alderson',
         'heading' => 'Dear Jane',
         'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
         'further guidance' => 'whether you have any concerns about them working with children',
@@ -94,7 +94,7 @@ RSpec.describe RefereeMailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        I18n.t('referee_mailer.reference_request.subject', candidate_name: 'Elliot Alderson'),
+        'Teacher training reference needed for Elliot Alderson',
         'heading' => 'Dear Jane',
         'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
         'further guidance' => 'whether you have any concerns about them working with children',
@@ -125,7 +125,7 @@ RSpec.describe RefereeMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      I18n.t('reference_confirmation_email.subject', candidate_name: 'Elliot Alderson'),
+      'Teacher training reference submitted for Elliot Alderson',
       'heading' => 'Dear Jane',
     )
   end
@@ -139,7 +139,7 @@ RSpec.describe RefereeMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      I18n.t('reference_cancelled_email.subject', candidate_name: 'Elliot Alderson'),
+      'Teacher training reference no longer needed for Elliot Alderson',
       'heading' => 'Dear Jane',
     )
   end
@@ -157,7 +157,7 @@ RSpec.describe RefereeMailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        I18n.t('referee_mailer.reference_request.subject', candidate_name: 'Elliot Alderson'),
+        'Teacher training reference needed for Elliot Alderson',
         'heading' => 'Dear Jane',
         'reference link' => '/reference?token=raw_token',
         'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
