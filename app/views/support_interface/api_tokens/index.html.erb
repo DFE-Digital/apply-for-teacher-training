@@ -2,6 +2,25 @@
 
 <%= govuk_button_link_to 'Add a token', new_support_interface_api_token_path %>
 
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render SupportInterface::TileComponent.new(
+      count: @api_tokens.count,
+      label: 'API tokens issued',
+      colour: :blue,
+      href: '#not-connected',
+    ) %>
+  </div>
+  <div class="govuk-grid-column-one-quarter">
+    <%= render SupportInterface::TileComponent.new(
+      count: @api_tokens_last_3_months_count,
+      label: 'API tokens used in the last 3 months',
+      colour: :blue,
+      href: '#not-synced',
+    ) %>
+  </div>
+</div>
+
 <table class='govuk-table'>
   <thead class='govuk-table__head'>
     <tr class='govuk-table__row'>
