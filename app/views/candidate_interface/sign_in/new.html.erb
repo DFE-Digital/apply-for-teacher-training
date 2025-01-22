@@ -14,6 +14,7 @@
       <p class="govuk-body-l">Enter the email address you used to register with, and we will send you a link to sign in.</p>
 
       <%= f.govuk_email_field :email_address, label: { text: t('authentication.sign_up.email_address.label'), size: 'm' }, width: 'two-thirds', autocomplete: 'email', spellcheck: false %>
+      <%= hidden_field_tag :path, params.fetch('path', nil) %>
 
       <%= f.govuk_submit t('continue') %>
     <% end %>

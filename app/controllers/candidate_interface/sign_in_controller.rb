@@ -35,8 +35,6 @@ module CandidateInterface
         # with their token as a param where they can request
         # a new sign in email.
         redirect_to candidate_interface_expired_sign_in_path(token: params[:token], path: params[:path])
-      elsif params[:u]
-        redirect_to candidate_interface_expired_sign_in_path(u: params[:u], path: params[:path])
       else
         redirect_to(action: :new)
       end
@@ -70,29 +68,22 @@ module CandidateInterface
         raw_token: params[:token],
       )
 
-      if authentication_token.blank? && params[:u].blank?
+      if authentication_token.blank?
         redirect_to candidate_interface_sign_in_path
       end
     end
 
     def create_from_expired_token
-      encrypted_user_id = params[:u]
       authentication_token = AuthenticationToken.find_by_hashed_token(
         user_type: 'Candidate',
         raw_token: params[:token],
       )
 
-      candidate =
-        if encrypted_user_id.present?
-          Candidate.find(Encryptor.decrypt(encrypted_user_id))
-        elsif authentication_token
-          authentication_token.user
-        end
+      candidate = authentication_token&.user
 
       if candidate
-        CandidateInterface::RequestMagicLink.for_sign_in(candidate:, path: authentication_token&.path)
         set_user_context candidate.id
-        redirect_to candidate_interface_check_email_sign_in_path
+        redirect_to candidate_interface_sign_in_path(path: authentication_token&.path)
       else
         render 'errors/not_found', status: :forbidden
       end
