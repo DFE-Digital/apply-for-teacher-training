@@ -166,3 +166,11 @@ SET
     WHEN comment IS NULL THEN NULL
     ELSE generate_lorem_ipsum('short')
     END;
+
+-- Note
+UPDATE "notes"
+SET
+    message = CASE
+    WHEN message IS NULL THEN NULL
+    ELSE generate_lorem_ipsum('short')
+    END;
