@@ -750,6 +750,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_23_164914) do
     t.index ["vendor_id"], name: "index_providers_on_vendor_id"
   end
 
+  create_table "recruitment_cycle_timetables", force: :cascade do |t|
+    t.datetime "find_opens"
+    t.datetime "apply_opens"
+    t.datetime "apply_deadline"
+    t.datetime "reject_by_default"
+    t.datetime "decline_by_default"
+    t.datetime "find_closes"
+    t.daterange "christmas_holiday"
+    t.daterange "easter_holiday"
+    t.boolean "real_timetable", default: false
+    t.integer "recruitment_cycle_year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "reference_tokens", force: :cascade do |t|
     t.bigint "application_reference_id", null: false
     t.string "hashed_token", null: false
