@@ -404,4 +404,22 @@ RSpec.describe Candidate do
       end
     end
   end
+
+  describe '#one_login_connected?' do
+    let(:candidate) { create(:candidate) }
+
+    context 'when the candidate has a OneLoginAuth record' do
+      before { create(:one_login_auth, candidate:) }
+
+      it 'returns true' do
+        expect(candidate.one_login_connected?).to be true
+      end
+    end
+
+    context 'when the candidate does not have a OneLoginAuth record' do
+      it 'returns false' do
+        expect(candidate.one_login_connected?).to be false
+      end
+    end
+  end
 end

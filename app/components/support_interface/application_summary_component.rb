@@ -7,6 +7,7 @@ module SupportInterface
              :submitted_at,
              :submitted?,
              :updated_at,
+             :candidate,
              to: :application_form
 
     def initialize(application_form:)
@@ -149,7 +150,7 @@ module SupportInterface
     end
 
     def one_login?
-      application_form.candidate.one_login_auth.present?
+      candidate.one_login_connected?
     end
 
     attr_reader :application_form

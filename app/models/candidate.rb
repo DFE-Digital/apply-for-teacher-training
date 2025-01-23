@@ -121,6 +121,10 @@ class Candidate < ApplicationRecord
       !application_choices_submitted?
   end
 
+  def one_login_connected?
+    one_login_auth.present?
+  end
+
 private
 
   def downcase_email
