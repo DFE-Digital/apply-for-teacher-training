@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_09_085508) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_23_164914) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -806,6 +806,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_085508) do
     t.json "omniauth_hash"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "error_type", default: "internal"
     t.index ["candidate_id"], name: "index_session_errors_on_candidate_id"
   end
 
