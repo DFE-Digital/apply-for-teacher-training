@@ -75,7 +75,7 @@ class RejectionReasons
         hash.delete('safeguarding')
       end
 
-      hash.filter { |key, _value| key.in? VALID_HIGH_LEVEL_ADVICE_REASON_CODES }
+      hash.slice(*VALID_HIGH_LEVEL_ADVICE_REASON_CODES)
     end
 
     def render_tailored_advice_section_headings?
