@@ -10,7 +10,9 @@ class GetIncompleteReferenceApplicationsReadyToNudge
   end
 
   def call
-    uk_and_irish_names = NATIONALITIES.slice(*ApplicationForm::BRITISH_OR_IRISH_NATIONALITIES).map(&:second)
+    uk_and_irish_names = NATIONALITIES.select do |code, _name|
+      code.in?(ApplicationForm::BRITISH_OR_IRISH_NATIONALITIES)
+    end.map(&:second)
 
     ApplicationForm
       # Only candidates with application_choices
