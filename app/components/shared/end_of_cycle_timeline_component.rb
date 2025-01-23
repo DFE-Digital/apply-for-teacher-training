@@ -2,7 +2,6 @@ class EndOfCycleTimelineComponent < ViewComponent::Base
   attr_reader :cycle_timetable
   Timetable = Struct.new(:name, :date, :description, keyword_init: true)
   ALTERNATIVE_NAMES = {
-    show_summer_recruitment_banner: 'Summer recruitment period starts',
     reject_by_default: 'Applications are automatically rejected',
   }.freeze
 

@@ -3,7 +3,6 @@ en:
     find_opens: Candidates can browse and add courses (current cycle)
     apply_opens: Candidates can now submit their applications (current cycle)
     show_deadline_banner: Candidates are alerted of the upcoming deadlines
-    show_summer_recruitment_banner: Providers are alerted that applications will be automatically rejected if they don‘t make a decision within 20 working days
     apply_deadline: Candidates with an application can no longer continue with it but can start preparing it for the new cycle
     reject_by_default: All applications are automatically rejected
     find_closes: Candidates can no longer browse or add courses

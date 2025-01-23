@@ -10,6 +10,46 @@ class RecruitmentCycleTimetable < ApplicationRecord
   validates :recruitment_cycle_year, uniqueness: { scope: [:real_timetable] }, if: :real_timetable?
   validate :sequential_dates
 
+  scope :real_timetables, -> { where(real_timetable: true) }
+
+  def self.current_real_timetable
+    real_timetables.find_by('find_opens <= ? AND find_closes > ?', Time.zone.now, Time.zone.now)
+  end
+
+  def self.real_current_year
+    current_real_timetable.try(:recruitment_cycle_year)
+  end
+
+  def self.real_timetable_for(recruitment_cycle_year)
+    real_timetables.find_by(recruitment_cycle_year:)
+  end
+
+  def self.real_timetable_for_time(time)
+    real_timetables.where('find_opens <= ?', time).order(:recruitment_cycle_year).last
+  end
+
+  def find_reopens
+    self.class.where(real_timetable:)
+        .find_by('find_opens > ?', find_opens)&.find_opens ||
+      (find_closes + 8.hours)
+  end
+
+  def apply_reopens
+    self.class.where(real_timetable:)
+        .find_by('apply_opens > ?', apply_opens)&.apply_opens ||
+      (find_reopens + 1.week)
+  end
+
+  def find_down?
+    Time.zone.now.between?(find_closes, find_reopens)
+  end
+
+  def between_cycles?
+    Time.zone.now.before?(apply_opens) || Time.zone.now.between?(apply_deadline, apply_reopens)
+  end
+
+private
+
   def sequential_dates
     required_dates = [
       find_opens,

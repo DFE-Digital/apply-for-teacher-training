@@ -8,100 +8,46 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <% if @recruitment_cycle_year < 2024 %>
-      <h1 class="govuk-heading-l">The teacher training application process</h1>
-      <p class="govuk-body">For teacher training courses starting in September <%= @recruitment_cycle_year %>, you can
-        start applying a year before they start in October <%= @recruitment_cycle_year - 1 %>.</p>
-      <p class="govuk-body govuk-!-margin-bottom-4">Most teacher training courses are one year and start in September
-        when the academic year in England starts. Part time courses are usually 2 years.</p>
+    <h1 class="govuk-heading-l">The application process for courses starting in
+      September <%= @recruitment_cycle_year %></h1>
+    <p class="govuk-body">For courses starting in September <%= @recruitment_cycle_year %>, you can start applying a
+      year before they start in October <%= @recruitment_cycle_year - 1 %>.</p>
+    <p class="govuk-body govuk-!-margin-bottom-4">Most teacher training courses are one year and start in September
+      when the academic year in England starts. Part time courses are usually 2 years.</p>
 
-      <%= govuk_table do |table|
-            table.with_head do |head|
-              head.with_row do |row|
-                row.with_cell(text: 'Date and time')
-                row.with_cell(text: 'What happens')
-              end
+    <%= govuk_table do |table|
+        table.with_head do |head|
+          head.with_row do |row|
+            row.with_cell(text: 'Date and time')
+            row.with_cell(text: 'What happens')
+          end
+        end
+
+        table.with_body do |body|
+          body.with_row do |row|
+            row.with_cell(text: CycleTimetable.find_opens.to_fs(:govuk_date_and_time))
+            row.with_cell do
+              "Start #{govuk_link_to('finding postgraduate teacher training courses', find_url)} you might want to apply to.".html_safe
             end
-
-            table.with_body do |body|
-              body.with_row do |row|
-                row.with_cell(text: CycleTimetable.find_opens.to_fs(:govuk_date_and_time))
-                row.with_cell do
-                  "Start #{govuk_link_to('finding postgraduate teacher training courses', find_url)} you might want to apply to.".html_safe
-                end
-              end
-              body.with_row do |row|
-                row.with_cell(text: CycleTimetable.apply_opens.to_fs(:govuk_date_and_time))
-                row.with_cell do
-                  "<p class='govuk-body'>Start applying for courses. You can apply to #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES} courses at a time. Courses can fill up quickly, so you should apply as soon as you can.</p>
-                   <p class='govuk-body'>You should make sure each course you choose is offered by a different training provider so you can have more chance of success.</p>
-                   <p class='govuk-body'>Training providers will have 40 working days to decide to offer you a place on a course. Holiday periods in England over December and March or April are not included in the 40 working days. Each course you apply to will show the date for when providers need to respond by.</p>
-                   <p class='govuk-body'>If training providers do not respond in time, your application will be unsuccessful.</p>
-                   <p class='govuk-body'>You can apply to #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES} courses again if all your applications are unsuccessful.</p>
-                   <p class='govuk-body govuk-!-margin-bottom-0'>You will have 10 working days to respond to any offers you receive. If you do not respond, the offer will be automatically declined.</p>".html_safe
-                end
-              end
-              body.with_row do |row|
-                row.with_cell(text: CycleTimetable.show_summer_recruitment_banner.to_fs(:govuk_date))
-                row.with_cell(text: 'The time training providers have to make a decision about your application is reduced from 40 working days to 20 working days.')
-              end
-              body.with_row do |row|
-                row.with_cell(text: CycleTimetable.apply_deadline.to_fs(:govuk_date_and_time))
-                row.with_cell do
-                  "<p class='govuk-body'>If you have not already applied for teacher training, you will not be able to apply after #{CycleTimetable.apply_deadline.to_fs(:govuk_date)}.</p>
-                   <p class='govuk-body govuk-!-margin-bottom-0'>If you have already applied, but your applications were unsuccessful, you can continue to apply for courses until #{CycleTimetable.apply_deadline.to_fs(:govuk_date_and_time)}.</p>".html_safe
-                end
-              end
-              body.with_row do |row|
-                row.with_cell(text: CycleTimetable.reject_by_default.to_fs(:govuk_date_and_time))
-                row.with_cell(text: "The last day for training providers to make a decision on all applications for courses starting in September #{@recruitment_cycle_year}.")
-              end
+          end
+          body.with_row do |row|
+            row.with_cell(text: CycleTimetable.apply_opens.to_fs(:govuk_date_and_time))
+            row.with_cell do
+              "<p class=\"govuk-body\">Start applying to courses. You can apply to #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES} courses, they can fill up quickly so you should apply as soon as you can.</p>
+               <p class=\"govuk-body\">You can withdraw an application at any time and apply to a different course if you want to.</p>
+               <p class=\"govuk-body\">If training providers do not respond to an application within 30 working days, you will be able to apply to another course while you wait for a response. We will tell you if the provider has not responded in time.</p>
+               <p class=\"govuk-body\">You will get an email if you receive an offer from a training provider.</p>".html_safe
             end
-          end %>
-
-    <% else %>
-      <h1 class="govuk-heading-l">The application process for courses starting in
-        September <%= @recruitment_cycle_year %></h1>
-      <p class="govuk-body">For courses starting in September <%= @recruitment_cycle_year %>, you can start applying a
-        year before they start in October <%= @recruitment_cycle_year - 1 %>.</p>
-      <p class="govuk-body govuk-!-margin-bottom-4">Most teacher training courses are one year and start in September
-        when the academic year in England starts. Part time courses are usually 2 years.</p>
-
-      <%= govuk_table do |table|
-            table.with_head do |head|
-              head.with_row do |row|
-                row.with_cell(text: 'Date and time')
-                row.with_cell(text: 'What happens')
-              end
-            end
-
-            table.with_body do |body|
-              body.with_row do |row|
-                row.with_cell(text: CycleTimetable.find_opens.to_fs(:govuk_date_and_time))
-                row.with_cell do
-                  "Start #{govuk_link_to('finding postgraduate teacher training courses', find_url)} you might want to apply to.".html_safe
-                end
-              end
-              body.with_row do |row|
-                row.with_cell(text: CycleTimetable.apply_opens.to_fs(:govuk_date_and_time))
-                row.with_cell do
-                  "<p class=\"govuk-body\">Start applying to courses. You can apply to #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES} courses, they can fill up quickly so you should apply as soon as you can.</p>
-                   <p class=\"govuk-body\">You can withdraw an application at any time and apply to a different course if you want to.</p>
-                   <p class=\"govuk-body\">If training providers do not respond to an application within 30 working days, you will be able to apply to another course while you wait for a response. We will tell you if the provider has not responded in time.</p>
-                   <p class=\"govuk-body\">You will get an email if you receive an offer from a training provider.</p>".html_safe
-                end
-              end
-              body.with_row do |row|
-                row.with_cell(text: CycleTimetable.apply_deadline.to_fs(:govuk_date_and_time))
-                row.with_cell(text: 'The last day to submit any applications.')
-              end
-              body.with_row do |row|
-                row.with_cell(text: CycleTimetable.reject_by_default.to_fs(:govuk_date_and_time))
-                row.with_cell(text: "The last day for training providers to make a decision on all applications for courses starting in September #{@recruitment_cycle_year}.")
-              end
-            end
-          end %>
-
-    <% end %>
+          end
+          body.with_row do |row|
+            row.with_cell(text: CycleTimetable.apply_deadline.to_fs(:govuk_date_and_time))
+            row.with_cell(text: 'The last day to submit any applications.')
+          end
+          body.with_row do |row|
+            row.with_cell(text: CycleTimetable.reject_by_default.to_fs(:govuk_date_and_time))
+            row.with_cell(text: "The last day for training providers to make a decision on all applications for courses starting in September #{@recruitment_cycle_year}.")
+          end
+        end
+      end %>
   </div>
 </div>

@@ -2,23 +2,25 @@ class EndOfCycleBannersComponent < ViewComponent::Base
   EndOfCycleBanner = Struct.new(:name, :date, keyword_init: true)
 
   def end_of_cycle_banners
-    [
-      {
-        name: 'Summer recruitment banner',
-        date: "#{banner_date(:show_summer_recruitment_banner)} to #{banner_date(:apply_deadline)}",
-      },
-      {
+    Array.wrap(
+      EndOfCycleBanner.new(
         name: 'Apply deadline banner',
-        date: "#{banner_date(:show_deadline_banner)} to #{banner_date(:apply_deadline)}",
-      },
-    ].map do |cycle_data|
-      EndOfCycleBanner.new(cycle_data)
-    end
+        date: "#{deadline_approaching_banner_date} to #{apply_deadline}",
+      ),
+    )
   end
 
 private
 
-  def banner_date(banner_label)
-    CycleTimetable.date(banner_label).strftime('%e %B %Y')
+  def deadline_approaching_banner_date
+    if CycleTimetable.use_database_timetables?
+      CycleCommunicationsScheduler.new.deadline_approaching_banner_date
+    else
+      CycleTimetable.date(:show_deadline_banner)
+    end.strftime('%e %B %Y')
+  end
+
+  def apply_deadline
+    CycleTimetable.apply_deadline.strftime('%e %B %Y')
   end
 end

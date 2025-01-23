@@ -1,30 +1,42 @@
 class CycleTimetable
   # These dates are configuration for when the previous cycle ends and the next cycle starts
 
+  def self.use_database_timetables?
+    current_cycle_schedule == :real && FeatureFlag.active?(:use_database_backed_real_cycle_dates)
+  end
+
   def self.real_next_year
     real_current_year + 1
   end
 
   def self.real_current_year
-    CYCLE_DATES.keys.detect do |year|
-      return year if last_recruitment_cycle_year?(year)
+    if use_database_timetables?
+      RecruitmentCycleTimetable.real_current_year
+    else
+      CYCLE_DATES.keys.detect do |year|
+        return year if last_recruitment_cycle_year?(year)
 
-      Time.zone.now.between?(CYCLE_DATES[year][:find_opens], CYCLE_DATES[year + 1][:find_opens])
+        Time.zone.now.between?(CYCLE_DATES[year][:find_opens], CYCLE_DATES[year + 1][:find_opens])
+      end
     end
   end
 
   def self.current_year(now = Time.zone.now)
-    if ActiveRecord::Base.connected? && current_cycle_schedule.in?(%i[today_is_after_find_opens today_is_after_apply_opens])
-      now += 1.year
-    end
+    if use_database_timetables?
+      RecruitmentCycleTimetable.real_timetable_for_time(now).recruitment_cycle_year
+    else
+      if ActiveRecord::Base.connected? && current_cycle_schedule.in?(%i[today_is_after_find_opens today_is_after_apply_opens])
+        now += 1.year
+      end
 
-    CYCLE_DATES.keys.detect do |year|
-      return year if last_recruitment_cycle_year?(year)
+      CYCLE_DATES.keys.detect do |year|
+        return year if last_recruitment_cycle_year?(year)
 
-      start = CYCLE_DATES[year][:find_opens]
-      ending = CYCLE_DATES[year + 1][:find_opens]
+        start = CYCLE_DATES[year][:find_opens]
+        ending = CYCLE_DATES[year + 1][:find_opens]
 
-      now.between?(start, ending)
+        now >= start && now < ending
+      end
     end
   end
 
@@ -43,112 +55,102 @@ class CycleTimetable
   end
 
   def self.show_apply_deadline_banner?(application_form)
-    current_date.between?(date(:show_deadline_banner), date(:apply_deadline)) &&
-      !application_form.successful?
-  end
-
-  def self.between_apply_deadline_and_find_closes?
-    current_date.between?(CycleTimetable.apply_deadline, CycleTimetable.find_closes)
+    if use_database_timetables?
+      CycleCommunicationsScheduler.new.show_apply_deadline_banner?(application_form)
+    else
+      current_date.between?(date(:show_deadline_banner), date(:apply_deadline)) &&
+        !application_form.successful?
+    end
   end
 
   def self.between_reject_by_default_and_find_reopens?
     current_date.between?(CycleTimetable.reject_by_default, CycleTimetable.find_reopens)
   end
 
-  def self.show_non_working_days_banner?
-    show_christmas_non_working_days_banner? || show_easter_non_working_days_banner?
-  end
-
-  # Inclusive of the start and end dates
-  def self.show_christmas_non_working_days_banner?
-    if holidays[:christmas].present?
-      current_date.between?(
-        20.business_days.after(apply_opens).end_of_day,
-        holidays[:christmas].last.end_of_day,
-      )
-    end
-  end
-
-  # Inclusive of the start and end dates
-  def self.show_easter_non_working_days_banner?
-    if holidays[:easter].present?
-      current_date.between?(
-        10.business_days.before(holidays[:easter].first).end_of_day,
-        holidays[:easter].last.end_of_day,
-      )
-    end
-  end
-
   def self.apply_deadline(year = current_year)
-    date(:apply_deadline, year)
-  end
-
-  def self.next_apply_deadline
-    deadlines = [
-      date(:apply_deadline),
-      date(:apply_deadline, next_year),
-    ]
-    deadlines.find { |deadline| deadline > current_date }
+    if use_database_timetables?
+      RecruitmentCycleTimetable.real_timetable_for(year).apply_deadline
+    else
+      date(:apply_deadline, year)
+    end
   end
 
   def self.reject_by_default(year = current_year)
-    date(:reject_by_default, year)
+    if use_database_timetables?
+      RecruitmentCycleTimetable.real_timetable_for(year).reject_by_default
+    else
+      date(:reject_by_default, year)
+    end
   end
 
   def self.decline_by_default_date(year = current_year)
-    find_closes(year) - 1.day
+    if use_database_timetables?
+      RecruitmentCycleTimetable.real_timetable_for(year).decline_by_default
+    else
+      find_closes(year) - 1.day
+    end
   end
 
   def self.run_decline_by_default?(year = current_year)
-    current_date.between?(decline_by_default_date(year), find_closes(year))
+    if use_database_timetables?
+      EndOfCycle::CycleJobScheduler.new(
+        recruitment_cycle_timetable: real_schedule_for(year),
+      ).run_decline_by_default?
+    else
+      current_date.between?(decline_by_default_date(year), find_closes(year))
+    end
   end
 
   def self.run_reject_by_default?(year = current_year)
-    current_date.between?(reject_by_default(year), reject_by_default(year) + 1.day)
+    if use_database_timetables?
+      EndOfCycle::CycleJobScheduler.new.run_reject_by_default?
+    else
+      current_date.between?(reject_by_default(year), reject_by_default(year) + 1.day)
+    end
   end
 
   def self.cancel_unsubmitted_applications?
-    current_date.to_date == apply_deadline.to_date
+    if use_database_timetables?
+      EndOfCycle::CycleJobScheduler.new.run_cancel_unsubmitted_applications?
+    else
+      current_date.to_date == apply_deadline.to_date
+    end
   end
 
   def self.find_closes(year = current_year)
-    date(:find_closes, year)
+    if use_database_timetables?
+      RecruitmentCycleTimetable.real_timetable_for(year).find_closes
+    else
+      date(:find_closes, year)
+    end
   end
 
   def self.find_opens(year = current_year)
-    date(:find_opens, year)
-  end
-
-  def self.show_summer_recruitment_banner(year = current_year)
-    date(:show_summer_recruitment_banner, year)
+    if use_database_timetables?
+      RecruitmentCycleTimetable.real_timetable_for(year).find_opens
+    else
+      date(:find_opens, year)
+    end
   end
 
   def self.find_reopens(year = next_year)
-    if CYCLE_DATES[year].present?
-      date(:find_opens, year)
-    else
-      date(:find_closes, year - 1) + 8.hours
-    end
+    find_opens(year)
   end
 
   def self.find_down?
     current_date.between?(find_closes, find_reopens)
   end
 
-  def self.days_until_find_reopens
-    (find_reopens.to_date - Time.zone.today).to_i
-  end
-
   def self.apply_opens(year = current_year)
-    date(:apply_opens, year)
+    if use_database_timetables?
+      RecruitmentCycleTimetable.real_timetable_for(year).apply_opens
+    else
+      date(:apply_opens, year)
+    end
   end
 
   def self.apply_reopens(year = next_year)
-    if CYCLE_DATES[year].present?
-      date(:apply_opens, year)
-    else
-      find_reopens(year) + 1.week
-    end
+    apply_opens(year)
   end
 
   def self.holidays(year = current_year)
@@ -158,13 +160,21 @@ class CycleTimetable
     # b) looking up SiteSetting.cycle_schedule requires a database, which we
     # don’t want (or necessarily have, in builds) at boot time when the
     # business_time initializer calls this code
-    real_schedule_for(year).fetch(:holidays)
+    if use_database_timetables?
+      timetable = real_schedule_for(year)
+      { christmas: timetable.christmas_holiday, easter: timetable.easter_holiday }
+    else
+      real_schedule_for(year).fetch(:holidays)
+    end
   end
 
   def self.between_cycles?
-    current_date.before?(apply_opens) || # In the current cycle, when find is open, but apply is not
-      (CYCLE_DATES[next_year].present? && # We need to evaluated the next year to compare these dates
-      current_date.between?(apply_deadline, apply_reopens)) # The current cycle deadline has passed, but apply has not reopened for the next cycle
+    if use_database_timetables?
+      real_schedule_for(current_year).between_cycles?
+    else
+      current_date.before?(apply_opens) || # In the current cycle, when find is open, but apply is not
+        current_date.between?(apply_deadline, apply_reopens) # The current cycle deadline has passed, but apply has not reopened for the next cycle
+    end
   end
 
   def self.date(name, year = current_year)
@@ -211,7 +221,11 @@ class CycleTimetable
   end
 
   def self.real_schedule_for(year = current_year)
-    CYCLE_DATES[year]
+    if use_database_timetables?
+      RecruitmentCycleTimetable.real_timetable_for(year)
+    else
+      CYCLE_DATES[year]
+    end
   end
 
   def self.fake_schedules
@@ -332,13 +346,11 @@ class CycleTimetable
   end
 
   def self.before_apply_opens?
-    current_date < date(:apply_opens)
+    current_date < apply_opens
   end
 
   def self.before_find_reopens?
-    return true if current_date.to_date <= find_reopens
-
-    false
+    current_date.to_date <= find_reopens
   end
 
   def self.today_is_between_apply_deadline_and_find_reopens?
@@ -350,6 +362,9 @@ class CycleTimetable
   end
 
   def self.last_recruitment_cycle_year?(year)
+    if use_database_timetables?
+      RecruitmentCycleTimetable.real_timetables.pluck(:recruitment_cycle_year).max == year
+    end
     year == CYCLE_DATES.keys.last
   end
 
@@ -367,7 +382,7 @@ class CycleTimetable
     "#{year} to #{year + 1}"
   end
 
-  def self.service_opens_today?(service, year: RecruitmentCycle.current_year, end_of_business_day_hour: 17, end_of_business_day_min: 0)
+  def self.service_opens_today?(service, year: current_year, end_of_business_day_hour: 17, end_of_business_day_min: 0)
     service_opening_date = send("#{service}_opens", year)
 
     current_date.between?(
@@ -377,7 +392,7 @@ class CycleTimetable
   end
 
   def self.this_day_last_cycle
-    days_since_cycle_started = (current_date.to_date - CycleTimetable.apply_opens.to_date).round
+    days_since_cycle_started = (current_date.to_date - apply_opens.to_date).round
     last_cycle_opening_date = apply_opens(previous_year).to_date
     last_cycle_date = days_since_cycle_started.days.after(last_cycle_opening_date)
     DateTime.new(last_cycle_date.year, last_cycle_date.month, last_cycle_date.day, Time.current.hour, Time.current.min, Time.current.sec)

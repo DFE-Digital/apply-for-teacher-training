@@ -11,6 +11,13 @@ RSpec.describe DataMigrations::AddAllRecruitmentCycleTimetablesToDatabase do
     ).to contain_exactly(2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027)
   end
 
+  it 'classifies the timetables as real' do
+    described_class.new.change
+    expect(
+      RecruitmentCycleTimetable.where(real_timetable: true).pluck(:recruitment_cycle_year),
+    ).to contain_exactly(2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027)
+  end
+
   it 'handles holidays as expected' do
     described_class.new.change
     year_without_holidays = RecruitmentCycleTimetable.find_by(recruitment_cycle_year: 2020)
