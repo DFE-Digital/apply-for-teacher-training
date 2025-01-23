@@ -7,7 +7,7 @@ RSpec.describe 'API tokens' do
     given_i_am_signed_in
     and_api_tokens_exist
     when_i_visit_the_tokens_page
-    then_i_see_all_the_providers_with_api_tokens
+    then_i_see_the_count_of_providers_with_api_tokens
   end
 
   def given_i_am_signed_in
@@ -27,7 +27,7 @@ RSpec.describe 'API tokens' do
     visit support_interface_api_tokens_path
   end
 
-  def then_i_see_all_the_providers_with_api_tokens
+  def then_i_see_the_count_of_providers_with_api_tokens
     expect(page).to have_content '2 API tokens issued'
     expect(page).to have_content '1 API tokens used in the last 3 months'
 

@@ -3,6 +3,8 @@ class VendorAPIToken < ApplicationRecord
 
   audited associated_with: :provider
 
+  scope :used_in_last_3_months, -> { where('last_used_at >= ?', 3.months.ago) }
+
   def self.create_with_random_token!(provider:)
     unhashed_token, hashed_token = Devise.token_generator.generate(VendorAPIToken, :hashed_token)
     create!(hashed_token:, provider:)
