@@ -5,6 +5,7 @@ module SupportInterface
         VendorAPIToken.arel_table[:last_used_at].desc.nulls_last,
         created_at: :desc,
       )
+      @api_tokens_last_3_months_count = VendorAPIToken.used_in_last_3_months.count
     end
 
     def new
