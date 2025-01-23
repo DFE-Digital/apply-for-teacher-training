@@ -47,5 +47,53 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
         expect(result.css('.govuk-summary-list__key').text).not_to include('Is this application editable')
       end
     end
+
+    context 'when the candidate has a OneLogin account' do
+      it 'displays "Yes" for the One Login account row' do
+        candidate = create(:candidate)
+        candidate.create_one_login_auth!(
+          token: '123',
+          email_address: candidate.email_address,
+        )
+        application_form = create(:completed_application_form, candidate:)
+
+        result = render_inline(described_class.new(application_form:))
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Has One Login account')
+        expect(result.css('.govuk-summary-list__value').text).to include('Yes')
+      end
+    end
+
+    context 'when the candidate does not have a OneLogin account' do
+      it 'displays "No" for the One Login account row' do
+        candidate = create(:candidate)
+        application_form = create(:completed_application_form, candidate:)
+
+        result = render_inline(described_class.new(application_form:))
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Has One Login account')
+        expect(result.css('.govuk-summary-list__value').text).to include('No')
+      end
+    end
+
+    context 'when the candidate had a OneLogin account but it was deleted' do
+      it 'displays "No" for the One Login account row' do
+        candidate = create(:candidate)
+        one_login_auth = candidate.create_one_login_auth!(
+          token: '123',
+          email_address: candidate.email_address,
+        )
+
+        one_login_auth.delete
+        candidate.reload
+
+        application_form = create(:completed_application_form, candidate:)
+
+        result = render_inline(described_class.new(application_form:))
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Has One Login account')
+        expect(result.css('.govuk-summary-list__value').text).to include('No')
+      end
+    end
   end
 end

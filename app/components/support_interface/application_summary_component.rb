@@ -7,6 +7,7 @@ module SupportInterface
              :submitted_at,
              :submitted?,
              :updated_at,
+             :candidate,
              to: :application_form
 
     def initialize(application_form:)
@@ -25,6 +26,7 @@ module SupportInterface
         subsequent_application_row,
         average_distance_row,
         editable_extension_row,
+        one_login_account_row,
       ].compact
     end
 
@@ -85,6 +87,13 @@ module SupportInterface
       }
     end
 
+    def one_login_account_row
+      {
+        key: 'Has One Login account',
+        value: one_login? ? 'Yes' : 'No',
+      }
+    end
+
     def state_row
       {
         key: 'State',
@@ -138,6 +147,10 @@ module SupportInterface
       name = I18n.t!("candidate_flow_application_states.#{candidate_flow_state}.name")
       desc = I18n.t!("candidate_flow_application_states.#{candidate_flow_state}.description")
       "<strong>#{name}</strong><br>#{desc}".html_safe
+    end
+
+    def one_login?
+      candidate.one_login_connected?
     end
 
     attr_reader :application_form
