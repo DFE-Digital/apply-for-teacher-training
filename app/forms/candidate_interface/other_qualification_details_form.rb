@@ -106,7 +106,7 @@ module CandidateInterface
 
     PERSISTENT_ATTRIBUTES = %w[qualification_type other_uk_qualification_type non_uk_qualification_type subject predicted_grade grade award_year institution_country].freeze
     def persistent_attributes(application_qualification)
-      application_qualification.attributes.select { |key, _| PERSISTENT_ATTRIBUTES.include?(key) }
+      application_qualification.attributes.slice(*PERSISTENT_ATTRIBUTES)
     end
 
     def grade_hint
