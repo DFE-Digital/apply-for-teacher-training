@@ -19,30 +19,33 @@
   </div>
 </div>
 
-<table class='govuk-table'>
-  <thead class='govuk-table__head'>
-    <tr class='govuk-table__row'>
-      <th scope='col' class='govuk-table__header'>ID</th>
-      <th scope='col' class='govuk-table__header govuk-!-width-one-third'>Provider</th>
-      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Vendor</th>
-      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Last used at</th>
-      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Created at</th>
-      <th scope='col' class='govuk-table__header'>Actions</th>
-    </tr>
-  </thead>
+<%= render PaginatedFilterComponent.new(filter: @filter, collection: @api_tokens) do %>
+    <table class='govuk-table'>
+      <thead class='govuk-table__head'>
+        <tr class='govuk-table__row'>
+          <th scope='col' class='govuk-table__header'>ID</th>
+          <th scope='col' class='govuk-table__header govuk-!-width-one-third'>Provider</th>
+          <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Vendor</th>
+          <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Last used at</th>
+          <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Created at</th>
+          <th scope='col' class='govuk-table__header'>Actions</th>
+        </tr>
+      </thead>
 
-  <tbody class='govuk-table__body'>
-    <% @api_tokens.each do |token| %>
-    <tr class='govuk-table__row'>
-      <td class='govuk-table__cell'>#<%= token.id %></td>
-      <td class='govuk-table__cell'><%= token.provider.name %></td>
-      <td class='govuk-table__cell'><%= token.provider.vendor_name %></td>
-      <td class='govuk-table__cell'><%= token.last_used_at ? token.last_used_at.to_fs(:govuk_date_and_time) : 'Never' %></td>
-      <td class='govuk-table__cell'><%= token.created_at.to_fs(:govuk_date_and_time) %></td>
-      <td class='govuk-table__cell'>
-        <%= govuk_button_link_to 'Revoke', confirm_revocation_support_interface_api_token_path(token), warning: true %>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+      <tbody class='govuk-table__body'>
+        <% @api_tokens.each do |token| %>
+        <tr class='govuk-table__row'>
+          <td class='govuk-table__cell'>#<%= token.id %></td>
+          <td class='govuk-table__cell'><%= token.provider.name %></td>
+          <td class='govuk-table__cell'><%= token.provider.vendor_name %></td>
+          <td class='govuk-table__cell'><%= token.last_used_at ? token.last_used_at.to_fs(:govuk_date_and_time) : 'Never' %></td>
+          <td class='govuk-table__cell'><%= token.created_at.to_fs(:govuk_date_and_time) %></td>
+          <td class='govuk-table__cell'>
+            <%= govuk_button_link_to 'Revoke', confirm_revocation_support_interface_api_token_path(token), warning: true %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <%= govuk_pagination(pagy: @pagy) %>
+<% end %>
