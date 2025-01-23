@@ -17,6 +17,7 @@
   - omniauth_hash
   - created_at
   - updated_at
+  - error_type
   :audits:
   - id
   - auditable_id
