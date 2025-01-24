@@ -229,6 +229,11 @@ RSpec.describe 'OneLoginController' do
       )
       expect(session[:session_error_id]).to eq(SessionError.last.id)
       expect(response).to redirect_to(auth_one_login_sign_out_path)
+
+      # a failure will need to call sign_out_complete
+      get auth_one_login_sign_out_complete_path
+
+      expect(response).to redirect_to(internal_server_error_path)
     end
   end
 end
