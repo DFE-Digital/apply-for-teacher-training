@@ -23,9 +23,20 @@ private
   end
 
   def resume_session
+    if !one_login_enabled?
+      terminate_session
+      return nil
+    end
+
     session = Current.session ||= find_session_by_cookie
-    session.touch if session.present?
-    session
+
+    if session.present?
+      session.touch
+      session
+    else
+      terminate_session
+      nil
+    end
   end
 
   def find_session_by_cookie
