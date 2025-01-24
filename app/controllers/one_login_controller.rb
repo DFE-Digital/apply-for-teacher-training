@@ -1,5 +1,6 @@
 class OneLoginController < ApplicationController
   include Authentication
+  skip_forgery_protection only: %i[callback bypass_callback failure]
 
   before_action :redirect_to_candidate_sign_in_unless_one_login_enabled
   allow_unauthenticated_access
