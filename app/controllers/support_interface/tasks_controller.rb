@@ -38,5 +38,24 @@ module SupportInterface
       )
       @vendor_api_token = VendorAPIToken.create_with_random_token!(provider: @new_provider)
     end
+
+  private
+
+    def real_current_year
+      if CycleTimetable.use_database_timetables?
+        RecruitmentCycleTimetable.real_current_year
+      else
+        CycleTimetable.current_year
+      end
+    end
+
+    def next_year
+      if CycleTimetable.use_database_timetables?
+        real_current_year + 1
+      else
+        RecruitmentCycle.next_year
+      end
+    end
+    helper_method :current_year, :next_year
   end
 end

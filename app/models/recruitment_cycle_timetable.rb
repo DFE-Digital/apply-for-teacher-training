@@ -25,7 +25,15 @@ class RecruitmentCycleTimetable < ApplicationRecord
   end
 
   def self.real_timetable_for_time(time)
-    real_timetables.where('find_opens <= ?', time).order(:recruitment_cycle_year).last
+    years = [time.year, time.year + 1]
+    # We can't do time between find_opens and find_closes,
+    # because there is 8 hours between find_closing and reopening in the next cycle.
+    real_timetables
+      # eg, in November 2024, we are in the 2025 cycle. In August 2024, we are in the 2024 cycle.
+      .where(recruitment_cycle_year: years)
+      # After the cycle has started, eg, in August 2024, the 2025 cycle would not have started, so it would be filtered out here.
+      .where('find_opens <= ?', time)
+      .order(:recruitment_cycle_year).last
   end
 
   def find_reopens
@@ -41,7 +49,7 @@ class RecruitmentCycleTimetable < ApplicationRecord
   end
 
   def find_down?
-    Time.zone.now.between?(find_closes, find_reopens)
+    Time.zone.now.after?(find_closes, find_reopens)
   end
 
   def between_cycles?

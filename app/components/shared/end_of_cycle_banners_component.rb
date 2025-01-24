@@ -13,11 +13,7 @@ class EndOfCycleBannersComponent < ViewComponent::Base
 private
 
   def deadline_approaching_banner_date
-    if CycleTimetable.use_database_timetables?
-      CycleCommunicationsScheduler.new.deadline_approaching_banner_date
-    else
-      CycleTimetable.date(:show_deadline_banner)
-    end.strftime('%e %B %Y')
+    CycleTimetable.date(:show_deadline_banner).strftime('%e %B %Y')
   end
 
   def apply_deadline

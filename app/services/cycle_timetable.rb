@@ -1,6 +1,4 @@
 class CycleTimetable
-  # These dates are configuration for when the previous cycle ends and the next cycle starts
-
   def self.use_database_timetables?
     current_cycle_schedule == :real && FeatureFlag.active?(:use_database_backed_real_cycle_dates)
   end
@@ -55,12 +53,8 @@ class CycleTimetable
   end
 
   def self.show_apply_deadline_banner?(application_form)
-    if use_database_timetables?
-      CycleCommunicationsScheduler.new.show_apply_deadline_banner?(application_form)
-    else
-      current_date.between?(date(:show_deadline_banner), date(:apply_deadline)) &&
-        !application_form.successful?
-    end
+    current_date.between?(date(:show_deadline_banner), date(:apply_deadline)) &&
+      !application_form.successful?
   end
 
   def self.between_reject_by_default_and_find_reopens?
@@ -93,7 +87,7 @@ class CycleTimetable
 
   def self.run_decline_by_default?(year = current_year)
     if use_database_timetables?
-      EndOfCycle::CycleJobScheduler.new(
+      EndOfCycle::JobsTimetable.new(
         recruitment_cycle_timetable: real_schedule_for(year),
       ).run_decline_by_default?
     else
@@ -103,7 +97,7 @@ class CycleTimetable
 
   def self.run_reject_by_default?(year = current_year)
     if use_database_timetables?
-      EndOfCycle::CycleJobScheduler.new.run_reject_by_default?
+      EndOfCycle::JobsTimetable.new.run_reject_by_default?
     else
       current_date.between?(reject_by_default(year), reject_by_default(year) + 1.day)
     end
@@ -111,7 +105,7 @@ class CycleTimetable
 
   def self.cancel_unsubmitted_applications?
     if use_database_timetables?
-      EndOfCycle::CycleJobScheduler.new.run_cancel_unsubmitted_applications?
+      EndOfCycle::JobsTimetable.new.run_cancel_unsubmitted_applications?
     else
       current_date.to_date == apply_deadline.to_date
     end
