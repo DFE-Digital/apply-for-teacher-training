@@ -23,7 +23,7 @@ RSpec.describe DetectInvariantsHourlyCheck do
             One or more application choices are still in `awaiting_references` or
             `application_complete` state, but all these states have been removed:
 
-            #{HostingEnvironment.application_url}/support/application-choices/#{application_choice_bad.id}
+            #{HostingEnvironment.application_url}/support/applicarection-choices/#{application_choice_bad.id}
             #{HostingEnvironment.application_url}/support/application-choices/#{application_choice_bad_too.id}
           MSG
         ),
