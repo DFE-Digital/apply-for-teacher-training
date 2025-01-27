@@ -551,6 +551,24 @@ en:
         pg_teaching_apprenticeship: Postgraduate teaching apprenticeship
     errors:
       models:
+        recruitment_cycle_timetable:
+          attributes:
+            apply_opens_at:
+              apply_opens_after_find_opens: Apply opens after find opens
+            apply_deadline_at:
+              apply_deadline_after_apply_opens: Apply deadline must be after apply opens
+            reject_by_default_at:
+              reject_by_default_after_apply_deadline: Reject by default must be after the apply deadline
+            decline_by_default_at:
+              decline_by_default_after_reject_by_default: Decline by default must be after reject by default
+            find_closes_at:
+              find_closes_after_decline_by_default: Find closes after decline by default
+            easter_holiday_range:
+              easter_holiday_range_should_be_within_cycle: Easter holiday range should be within cycle
+              easter_holiday_range_should_include_easter: Easter holiday range should include easter
+            christmas_holiday_range:
+              christmas_holiday_range_should_be_in_cycle: Christmas holiday range should be within cycle
+              christmas_holiday_range_should_include_christmas: Christmas holiday range should include Christmas day
         candidate:
           attributes:
             email_address:
