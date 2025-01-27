@@ -54,16 +54,14 @@ private
   end
 
   def sequential_dates
-    required_dates = [
+    return if [
       find_opens_at,
       apply_opens_at,
       apply_deadline_at,
       reject_by_default_at,
       decline_by_default_at,
       find_closes_at,
-    ]
-
-    return if required_dates.any?(&:blank?)
+    ].any?(&:blank?)
 
     if find_opens_at.after? apply_opens_at
       errors.add(:apply_opens_at, :apply_opens_after_find_opens)
