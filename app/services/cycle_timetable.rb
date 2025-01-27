@@ -47,36 +47,8 @@ class CycleTimetable
       !application_form.successful?
   end
 
-  def self.between_apply_deadline_and_find_closes?
-    current_date.between?(CycleTimetable.apply_deadline, CycleTimetable.find_closes)
-  end
-
   def self.between_reject_by_default_and_find_reopens?
     current_date.between?(CycleTimetable.reject_by_default, CycleTimetable.find_reopens)
-  end
-
-  def self.show_non_working_days_banner?
-    show_christmas_non_working_days_banner? || show_easter_non_working_days_banner?
-  end
-
-  # Inclusive of the start and end dates
-  def self.show_christmas_non_working_days_banner?
-    if holidays[:christmas].present?
-      current_date.between?(
-        20.business_days.after(apply_opens).end_of_day,
-        holidays[:christmas].last.end_of_day,
-      )
-    end
-  end
-
-  # Inclusive of the start and end dates
-  def self.show_easter_non_working_days_banner?
-    if holidays[:easter].present?
-      current_date.between?(
-        10.business_days.before(holidays[:easter].first).end_of_day,
-        holidays[:easter].last.end_of_day,
-      )
-    end
   end
 
   def self.apply_deadline(year = current_year)
@@ -133,10 +105,6 @@ class CycleTimetable
 
   def self.find_down?
     current_date.between?(find_closes, find_reopens)
-  end
-
-  def self.days_until_find_reopens
-    (find_reopens.to_date - Time.zone.today).to_i
   end
 
   def self.apply_opens(year = current_year)

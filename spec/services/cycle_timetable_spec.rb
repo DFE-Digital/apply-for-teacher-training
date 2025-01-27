@@ -93,54 +93,6 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.show_non_working_days_banner?' do
-    context 'when within the Christmas period' do
-      let(:one_hour_after_christmas_period) { described_class.holidays[:christmas].last.end_of_day + 1.hour }
-
-      it 'returns false if before the 20 day period' do
-        travel_temporarily_to(one_hour_after_near_year_apply_opens) do
-          expect(described_class.show_non_working_days_banner?).to be false
-        end
-      end
-
-      it 'returns true if after the 20 day period' do
-        travel_temporarily_to(twenty_days_after_next_year_cycle_opens) do
-          expect(described_class.show_non_working_days_banner?).to be true
-        end
-      end
-
-      it 'returns false after the Christmas period' do
-        travel_temporarily_to(one_hour_after_christmas_period) do
-          expect(described_class.show_non_working_days_banner?).to be false
-        end
-      end
-    end
-
-    context 'when within the Easter period' do
-      let(:eleven_days_before_easter_period) { 11.business_days.before(described_class.holidays[:easter].first) }
-      let(:within_easter_period) { described_class.holidays[:easter].first + 1.hour }
-      let(:one_hour_after_easter_period) { described_class.holidays[:easter].last.end_of_day + 1.hour }
-
-      it 'returns false if before the holiday period' do
-        travel_temporarily_to(eleven_days_before_easter_period) do
-          expect(described_class.show_non_working_days_banner?).to be false
-        end
-      end
-
-      it 'returns true if within holiday period' do
-        travel_temporarily_to(within_easter_period) do
-          expect(described_class.show_non_working_days_banner?).to be true
-        end
-      end
-
-      it 'returns false after the holiday period' do
-        travel_temporarily_to(one_hour_after_easter_period) do
-          expect(described_class.show_non_working_days_banner?).to be false
-        end
-      end
-    end
-  end
-
   describe '.between_cycles?' do
     it 'returns false before if apply deadline has not passed' do
       travel_temporarily_to(one_hour_before_apply_deadline) do
@@ -167,26 +119,6 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.between_apply_deadline_and_find_closes?' do
-    it 'returns false before the configured date' do
-      travel_temporarily_to(one_hour_before_apply_deadline) do
-        expect(described_class.between_apply_deadline_and_find_closes?).to be false
-      end
-    end
-
-    it 'returns true during the configured date' do
-      travel_temporarily_to(one_hour_after_apply_deadline) do
-        expect(described_class.between_apply_deadline_and_find_closes?).to be true
-      end
-    end
-
-    it 'returns false after the configured date' do
-      travel_temporarily_to(one_hour_after_find_reopens) do
-        expect(described_class.between_apply_deadline_and_find_closes?).to be false
-      end
-    end
-  end
-
   describe '.find_down?' do
     it 'returns false before find closes' do
       travel_temporarily_to(one_hour_before_find_closes) do
@@ -203,14 +135,6 @@ RSpec.describe CycleTimetable do
     it 'returns true between find_closes and find_reopens' do
       travel_temporarily_to(one_hour_after_find_closes) do
         expect(described_class.find_down?).to be true
-      end
-    end
-  end
-
-  describe '.days_until_find_reopens' do
-    it 'returns the number of days until Find reopens' do
-      travel_temporarily_to(three_days_before_find_reopens) do
-        expect(described_class.days_until_find_reopens).to eq(3)
       end
     end
   end
