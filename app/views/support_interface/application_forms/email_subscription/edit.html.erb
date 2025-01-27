@@ -1,0 +1,21 @@
+<% content_for :browser_title, title_with_error_prefix(t('support_interface.page_titles.email_subscription_setting'), nil) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@application_form)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <%= form_with model: @email_subscription_form, url: support_interface_email_subscription_path, method: :patch do |f| %>
+      <%= f.govuk_radio_buttons_fieldset :unsubscribed_from_emails, legend: { text: t('support_interface.page_titles.email_subscription_setting'), size: 'l', tag: 'h1' } do %>
+
+      <p class="govuk-body">Marketing emails are also known as <%= govuk_link_to('subscription messages', t('support_interface.links.service_manual.subscription_messages')) %>. They relate to something the user has asked to be updated about, for example reminders about submitting their application.</p>
+
+      <p class="govuk-body">Changing this selection does not unsubscribe the user from transactional messages, which relate to something they have done in the service, for example confirmation we have received their application.</p>
+
+        <%= f.govuk_radio_button :unsubscribed_from_emails, 'false', label: { text: 'Yes' } %>
+        <%= f.govuk_radio_button :unsubscribed_from_emails, 'true', label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_submit t('update') %>
+      <% end %>
+    </div>
+  </div>

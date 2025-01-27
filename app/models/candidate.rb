@@ -125,6 +125,10 @@ class Candidate < ApplicationRecord
     one_login_auth.present?
   end
 
+  def subscribed_to_emails?
+    !unsubscribed_from_emails
+  end
+
 private
 
   def downcase_email

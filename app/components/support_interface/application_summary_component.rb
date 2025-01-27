@@ -98,10 +98,10 @@ module SupportInterface
     def unsubscribed_from_emails
       {
         key: 'Subscribed to emails',
-        value: unsubscribed_from_emails? ? 'Yes' : 'No',
+        value: subscribed_to_emails? ? 'Yes' : 'No',
         action: {
           href: support_interface_email_subscription_path(application_form),
-          visually_hidden_text: 'Subscribed to emails',
+          visually_hidden_text: 'applicant email subscription status',
         },
       }
     end
@@ -165,8 +165,8 @@ module SupportInterface
       candidate.one_login_connected?
     end
 
-    def unsubscribed_from_emails?
-      candidate.unsubscribed_from_emails
+    def subscribed_to_emails?
+      candidate.subscribed_to_emails?
     end
 
     attr_reader :application_form

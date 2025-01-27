@@ -6,7 +6,7 @@ en:
         false: Yes, if they request it.
     page_titles:
       visa_or_immigration_status: Edit applicant visa or immigration status
-
+      email_subscription_setting: Should the applicant receive marketing emails?
     support_user:
       confirm_remove: Are you sure you want to remove support user %{email}?
       confirm_restore: Are you sure you want to restore support user %{email}?
@@ -73,6 +73,9 @@ en:
       ske_reasons:
         different_degree: Their degree subject was not %{degree_subject}
         outdated_degree: Their degree subject was %{degree_subject}, but they graduated before %{graduation_cutoff_date}
+    links: 
+      service_manual:
+        subscription_messages: https://www.gov.uk/service-manual/design/sending-emails-and-text-messages#subscription-messages
   activemodel:
     errors:
       models:
