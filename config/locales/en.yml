@@ -550,6 +550,18 @@ en:
         pg_teaching_apprenticeship: Postgraduate teaching apprenticeship
     errors:
       models:
+        recruitment_cycle_timetable:
+          attributes:
+            apply_opens:
+              apply_opens_after_find_opens: Apply opens after find opens
+            apply_deadline:
+              apply_deadline_after_apply_opens: Apply deadline must be after apply opens
+            reject_by_default:
+              reject_by_default_after_apply_deadline: Reject by default must be after the apply deadline
+            decline_by_default:
+              decline_by_default_after_reject_by_default: Decline by default must be after reject by default
+            find_closes:
+              find_closes_after_decline_by_default: Find closes after decline by default
         candidate:
           attributes:
             email_address:

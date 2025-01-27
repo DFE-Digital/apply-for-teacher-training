@@ -751,7 +751,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_27_161433) do
   end
 
   create_table "recruitment_cycle_timetables", force: :cascade do |t|
-    t.string "type"
     t.datetime "find_opens"
     t.datetime "apply_opens"
     t.datetime "apply_deadline"
@@ -763,6 +762,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_27_161433) do
     t.integer "recruitment_cycle_year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["recruitment_cycle_year"], name: "index_recruitment_cycle_timetables_on_recruitment_cycle_year", unique: true
   end
 
   create_table "reference_tokens", force: :cascade do |t|

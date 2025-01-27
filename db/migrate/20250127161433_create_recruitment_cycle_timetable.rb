@@ -1,7 +1,6 @@
 class CreateRecruitmentCycleTimetable < ActiveRecord::Migration[8.0]
   def change
     create_table :recruitment_cycle_timetables do |t|
-      t.string :type
       t.datetime :find_opens
       t.datetime :apply_opens
       t.datetime :apply_deadline
@@ -11,6 +10,7 @@ class CreateRecruitmentCycleTimetable < ActiveRecord::Migration[8.0]
       t.daterange :christmas_holiday
       t.daterange :easter_holiday
       t.integer :recruitment_cycle_year
+      t.index [:recruitment_cycle_year], unique: true
 
       t.timestamps
     end

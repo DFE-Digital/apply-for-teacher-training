@@ -519,3 +519,17 @@ shared:
     - created_at
     - updated_at
     - status
+  :recruitment_cycle_timetables:
+    - id
+    - find_opens
+    - apply_opens
+    - apply_deadline
+    - reject_by_default
+    - decline_by_default
+    - find_closes
+    - christmas_holiday
+    - easter_holiday
+    - recruitment_cycle_year
+    - created_at
+    - updated_at
+
