@@ -27,6 +27,7 @@ module SupportInterface
         average_distance_row,
         editable_extension_row,
         one_login_account_row,
+        unsubscribed_from_emails,
       ].compact
     end
 
@@ -94,6 +95,17 @@ module SupportInterface
       }
     end
 
+    def unsubscribed_from_emails
+      {
+        key: 'Subscribed to emails',
+        value: unsubscribed_from_emails? ? 'Yes' : 'No',
+        action: {
+          href: support_interface_email_subscription_path(application_form),
+          visually_hidden_text: 'Subscribed to emails',
+        },
+      }
+    end
+
     def state_row
       {
         key: 'State',
@@ -151,6 +163,10 @@ module SupportInterface
 
     def one_login?
       candidate.one_login_connected?
+    end
+
+    def unsubscribed_from_emails?
+      candidate.unsubscribed_from_emails
     end
 
     attr_reader :application_form
