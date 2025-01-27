@@ -7,8 +7,7 @@ FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
     libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 libxslt graphviz chromium gcompat \
-    'aom>=3.9.1-r0' \
-    libjemalloc2
+    'aom>=3.9.1-r0'
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
@@ -22,7 +21,6 @@ ENV RAILS_ENV=production \
     REDIS_CACHE_URL=redis://127.0.0.1:6379 \
     NODE_OPTIONS=--openssl-legacy-provider \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
-    LD_PRELOAD="/usr/lib/libjemalloc.so.2"
 
 WORKDIR /app
 
@@ -57,12 +55,14 @@ ENV LANG=en_GB.UTF-8 \
     SECRET_KEY_BASE=TestKey \
     GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey \
     REDIS_CACHE_URL=redis://127.0.0.1:6379 \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
+    LD_PRELOAD="/usr/lib/libjemalloc.so.2"
 
 RUN apk -U upgrade && \
     apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz \
     ttf-dejavu ttf-droid ttf-liberation libx11 openssl nodejs chromium gcompat \
-    'aom>=3.9.1-r0' && \
+    'aom>=3.9.1-r0' \
+    jemalloc && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
