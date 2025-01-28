@@ -1,6 +1,5 @@
 <%= content_for :title, t('page_titles.your_applications') %>
 <%= render ServiceInformationBanner.new(namespace: :candidate) %>
-<%= render CandidateInterface::OneLoginPreReleaseLoggedInBannerComponent.new(flash_empty: flash.empty?) %>
 
 <% if current_candidate.recoverable? %>
   <%= govuk_notification_banner(title_text: t('account_recovery_banner.title'), success: false) do |nb| %>

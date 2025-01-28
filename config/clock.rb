@@ -51,7 +51,6 @@ class Clock
   every(1.day, 'SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker.perform_async }
   every(1.day, 'SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker.perform_async }
   every(1.day, 'DfE::Analytics::EntityTableCheckJob', at: '00:30') { DfE::Analytics::EntityTableCheckJob.perform_later }
-  every(1.day, 'SendCandidateOneLoginIsComingEmailWorker', at: '00:31') { SendCandidateOneLoginIsComingEmailWorker.perform_async }
   every(1.day, 'SendCandidateOneLoginHasArrivedEmailWorker', at: '00:05') { SendCandidateOneLoginHasArrivedEmailWorker.perform_async }
 
   # End of cycle application choice status jobs
