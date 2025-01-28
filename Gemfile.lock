@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: 322a89542ae675e2e27b404ef9b3689966cb75c3
-  tag: v1.15.3
+  revision: f7df3171c79f36c5b90da5d63477a56ae3483899
+  tag: v1.15.4
   specs:
-    dfe-analytics (1.15.3)
+    dfe-analytics (1.15.4)
       google-cloud-bigquery (~> 1.38)
       httparty (~> 0.21)
       multi_xml (~> 0.6.0)
@@ -219,7 +219,7 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
-    csv (3.3.1)
+    csv (3.3.2)
     date (3.4.1)
     declarative (0.0.20)
     deepsort (0.5.0)
@@ -279,8 +279,8 @@ GEM
     faraday-http-cache (2.5.1)
       faraday (>= 0.8)
     faraday-httpclient (1.0.1)
-    faraday-multipart (1.0.4)
-      multipart-post (~> 2)
+    faraday-multipart (1.1.0)
+      multipart-post (~> 2.0)
     faraday-net_http (1.0.2)
     faraday-net_http_persistent (1.2.0)
     faraday-patron (1.0.0)
@@ -301,9 +301,9 @@ GEM
       csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-apis-bigquery_v2 (0.82.0)
+    google-apis-bigquery_v2 (0.83.0)
       google-apis-core (>= 0.15.0, < 2.a)
-    google-apis-core (0.15.1)
+    google-apis-core (0.16.0)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (~> 1.9)
       httpclient (>= 2.8.3, < 3.a)
@@ -326,7 +326,7 @@ GEM
       faraday (>= 1.0, < 3.a)
     google-cloud-errors (1.4.0)
     google-logging-utils (0.1.0)
-    googleauth (1.12.0)
+    googleauth (1.13.1)
       faraday (>= 1.0, < 3.a)
       google-cloud-env (~> 2.2)
       google-logging-utils (~> 0.1)

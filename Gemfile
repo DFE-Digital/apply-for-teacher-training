@@ -150,7 +150,7 @@ gem 'colorize'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 
 # BigQuery
-gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.15.3'
+gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.15.4'
 
 # Azure Blob Storage
 gem 'azure-blob'
