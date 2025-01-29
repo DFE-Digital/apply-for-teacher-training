@@ -53,14 +53,14 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
         candidate = create(:candidate)
         candidate.create_one_login_auth!(
           token: '123',
-          email_address: candidate.email_address,
+          email_address: 'some_other_email_address@gmail.com',
         )
         application_form = create(:completed_application_form, candidate:)
 
         result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__key').text).to include('Has One Login account')
-        expect(result.css('.govuk-summary-list__value').text).to include('Yes')
+        expect(result.css('.govuk-summary-list__value').text).to include('Yes (some_other_email_address@gmail.com)')
       end
     end
 
