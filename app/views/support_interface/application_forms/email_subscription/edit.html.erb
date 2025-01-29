@@ -15,6 +15,12 @@
         <%= f.govuk_radio_button :unsubscribed_from_emails, 'true', label: { text: 'No' } %>
       <% end %>
 
+            <%= f.govuk_text_field(
+            :audit_comment,
+            label: { text: 'Audit log comment', size: 'm' },
+            hint: { text: 'This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here' },
+          ) %>
+
       <%= f.govuk_submit t('update') %>
       <% end %>
     </div>

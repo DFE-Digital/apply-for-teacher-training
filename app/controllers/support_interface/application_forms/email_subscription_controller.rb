@@ -1,9 +1,8 @@
 module SupportInterface
   module ApplicationForms
     class EmailSubscriptionController < SupportInterfaceController
-     
       before_action :set_application_form
-    
+
       def edit
         @email_subscription_form = EmailSubscriptionForm.build_from_application(@application_form)
       end
@@ -18,10 +17,10 @@ module SupportInterface
         end
       end
 
-      private
+    private
 
       def unsubscribed_from_emails_params
-        params.require(:support_interface_email_subscription_form).permit(:unsubscribed_from_emails)
+        params.require(:support_interface_email_subscription_form).permit(:unsubscribed_from_emails, :audit_comment)
       end
 
       def set_application_form
