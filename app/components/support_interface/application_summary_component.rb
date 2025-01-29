@@ -90,7 +90,7 @@ module SupportInterface
     def one_login_account_row
       {
         key: 'Has One Login account',
-        value: one_login? ? 'Yes' : 'No',
+        value: one_login? ? "Yes (#{candidate.one_login_auth.email_address})" : 'No',
       }
     end
 
