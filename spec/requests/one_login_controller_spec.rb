@@ -220,7 +220,7 @@ RSpec.describe 'OneLoginController' do
       get auth_one_login_callback_path # set the session variables
 
       expect {
-        get auth_failure_path(params: { message: 'error_message' })
+        get auth_failure_path(params: { message: 'error_message', strategy: 'one_login' })
       }.to change(SessionError, :count).by(1)
 
       expect(Sentry).to have_received(:capture_message).with(
