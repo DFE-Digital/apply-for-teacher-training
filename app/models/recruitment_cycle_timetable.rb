@@ -12,6 +12,22 @@ class RecruitmentCycleTimetable < ApplicationRecord
   validate :christmas_holiday_validation
   validate :easter_holiday_validation
 
+  def self.current_timetable
+    # We cannot just look for the timetable where now is between find_open_at and find_closes_at
+    # because there is a gap from 23:23 to 9am the next day (typically) between find closing and reopening for the new cycle.
+    # We haven't started a new cycle until find_opens, so if we are in that 8 hour gap, we want the earlier cycle.
+    # eg, if we are 4 hours before the find_opens_at for the 2025 cycle, we want to return the 2024 cycle.
+    where('find_opens_at <= ?', Time.zone.now).order(:recruitment_cycle_year).last
+  end
+
+  def self.current_year
+    current_timetable.recruitment_cycle_year
+  end
+
+  def self.previous_year
+    current_year - 1
+  end
+
 private
 
   def christmas_holiday_validation

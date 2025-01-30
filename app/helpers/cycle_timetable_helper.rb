@@ -41,15 +41,11 @@ module_function
     CycleTimetable.decline_by_default_date(year) + 1.second
   end
 
-  def reject_by_default_reminder_run_date(year = CycleTimetable.current_year)
-    CycleTimetable.reject_by_default(year) - 2.weeks
+  def application_deadline_has_passed_email_date(year = RecruitmentCycleTimetable.current_year)
+    RecruitmentCycleTimetable.find_by(recruitment_cycle_year: year).apply_deadline_at + 1.day
   end
 
-  def application_deadline_has_passed_email_date(year = CycleTimetable.current_year)
-    CycleTimetable.apply_deadline(year) + 1.day
-  end
-
-  def reject_by_default_explainer_date(year = CycleTimetable.current_year)
-    CycleTimetable.reject_by_default(year) + 1.day
+  def reject_by_default_explainer_date(year = RecruitmentCycleTimetable.current_year)
+    RecruitmentCycleTimetable.find_by(recruitment_cycle_year: year).reject_by_default_at + 1.day
   end
 end
