@@ -158,6 +158,12 @@ en:
           attributes:
             further_conditions:
               too_long: '%{name} must be %{limit} characters or fewer'
+        support_interface/email_subscription_form:
+          attributes:
+            unsubscribed_from_emails:
+              blank: You must choose an option
+            audit_comment:
+              blank: You must provide an audit comment
         support_interface/application_forms/edit_applicant_details_form:
           attributes:
             phone_number:

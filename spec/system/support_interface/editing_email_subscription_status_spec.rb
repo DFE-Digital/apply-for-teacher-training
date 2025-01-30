@@ -12,12 +12,26 @@ RSpec.describe 'Editing email subscription status' do
     and_i_choose_yes
     and_i_update
     then_i_am_subscribed_to_emails
+    and_i_see_the_flash_message_to_show_the_i_am_subscribed
 
     given_i_click_the_change_link_for_applicant_email_status
     and_i_choose_no
     and_i_update
     then_i_am_unsubscribed_from_emails
     and_i_have_an_audit_of_the_changes
+    and_i_see_the_flash_message_to_show_the_i_am_not_subscribed
+  end
+
+  def and_i_see_the_flash_message_to_show_the_i_am_subscribed
+    within('.govuk-notification-banner__content') do
+      expect(page).to have_text('The candidate will now receive marketing emails')
+    end
+  end
+
+  def and_i_see_the_flash_message_to_show_the_i_am_not_subscribed
+    within('.govuk-notification-banner__content') do
+      expect(page).to have_text('The candidate will no longer receive marketing emails')
+    end
   end
 
   def and_i_have_an_audit_of_the_changes
