@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_23_164914) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_27_161433) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -748,6 +748,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_23_164914) do
     t.boolean "selectable_school", default: false, null: false
     t.index ["code"], name: "index_providers_on_code", unique: true
     t.index ["vendor_id"], name: "index_providers_on_vendor_id"
+  end
+
+  create_table "recruitment_cycle_timetables", force: :cascade do |t|
+    t.datetime "find_opens_at"
+    t.datetime "apply_opens_at"
+    t.datetime "apply_deadline_at"
+    t.datetime "reject_by_default_at"
+    t.datetime "decline_by_default_at"
+    t.datetime "find_closes_at"
+    t.daterange "christmas_holiday_range"
+    t.daterange "easter_holiday_range"
+    t.integer "recruitment_cycle_year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recruitment_cycle_year"], name: "index_recruitment_cycle_timetables_on_recruitment_cycle_year", unique: true
   end
 
   create_table "reference_tokens", force: :cascade do |t|
