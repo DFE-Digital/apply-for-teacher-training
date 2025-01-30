@@ -6,7 +6,7 @@ module EndOfCycle
     STAGGER_OVER = 1.minute
 
     def perform(force: false)
-      return unless CycleTimetable.run_decline_by_default? || force
+      return unless EndOfCycle::JobTimetabler.new.run_decline_by_default? || force
 
       BatchDelivery.new(relation:, stagger_over: STAGGER_OVER, batch_size: BATCH_SIZE).each do |batch_time, applications|
         DeclineByDefaultSecondaryWorker.perform_at(batch_time, applications.pluck(:id))

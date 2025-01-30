@@ -14,7 +14,7 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
     end
 
     context 'for previous cycle, current cycle' do
-      [RecruitmentCycle.previous_year, RecruitmentCycle.current_year].each do |year|
+      [RecruitmentCycleTimetable.previous_year, RecruitmentCycleTimetable.current_year].each do |year|
         context 'after the reject by default date', time: reject_by_default_run_date(year) do
           it 'enqueues the secondary worker' do
             inactive_choice = create(:application_choice, :inactive)
