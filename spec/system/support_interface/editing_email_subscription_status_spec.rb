@@ -35,7 +35,7 @@ RSpec.describe 'Editing email subscription status' do
   end
 
   def and_i_have_an_audit_of_the_changes
-    audit = @form.candidate.audits.find do |a|
+    audit = @application_form.candidate.audits.find do |a|
       a.audited_changes == { 'unsubscribed_from_emails' => [false, true] }
     end
 
@@ -49,7 +49,7 @@ RSpec.describe 'Editing email subscription status' do
   end
 
   def then_i_am_subscribed_to_emails
-    expect(@form.candidate.subscribed_to_emails?).to be(true)
+    expect(@application_form.candidate.subscribed_to_emails?).to be(true)
 
     within('dt.govuk-summary-list__key', text: 'Subscribed to emails') do
       expect(page).to have_css('~ dd.govuk-summary-list__value p.govuk-body', text: 'Yes')
@@ -57,7 +57,7 @@ RSpec.describe 'Editing email subscription status' do
   end
 
   def then_i_am_unsubscribed_from_emails
-    expect(@form.candidate.reload.subscribed_to_emails?).to be(false)
+    expect(@application_form.candidate.reload.subscribed_to_emails?).to be(false)
 
     within('dt.govuk-summary-list__key', text: 'Subscribed to emails') do
       expect(page).to have_css('~ dd.govuk-summary-list__value p.govuk-body', text: 'No')
@@ -69,11 +69,11 @@ RSpec.describe 'Editing email subscription status' do
   end
 
   def and_an_application_exists
-    @form = create(:completed_application_form)
+    @application_form = create(:completed_application_form)
   end
 
   def when_i_visit_the_application_page
-    visit support_interface_application_form_path(@form)
+    visit support_interface_application_form_path(@application_form)
   end
 
   def given_i_am_a_support_user
@@ -81,11 +81,11 @@ RSpec.describe 'Editing email subscription status' do
   end
 
   def and_an_application_exists
-    @form = create(:completed_application_form)
+    @application_form = create(:completed_application_form)
   end
 
   def when_i_visit_the_application_page
-    visit support_interface_application_form_path(@form)
+    visit support_interface_application_form_path(@application_form)
   end
 
   def and_i_click_the_change_link_for_applicant_email_status
