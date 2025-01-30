@@ -12,6 +12,9 @@ namespace :support_interface, path: '/support' do
     get '/editable-extension' => 'application_forms/editable_extension#edit'
     post '/editable-extension' => 'application_forms/editable_extension#update'
 
+    get '/email-subscription' => 'application_forms/email_subscription#edit'
+    patch '/email-subscription' => 'application_forms/email_subscription#update'
+
     get '/audit' => 'application_forms#audit', as: :application_form_audit
     get '/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
     post '/comments' => 'application_forms/comments#create', as: :application_form_comments
