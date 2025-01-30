@@ -90,6 +90,10 @@ class OneLoginController < ApplicationController
   end
 
   def failure
+    # This action will catch all OAuth failures
+    # from all strategies i.e. OneLogin and DfE Sign-in
+    return unless params[:strategy] == 'one_login'
+
     session_error = SessionError.create!(
       body: "One login failure with #{params[:message]}",
     )
