@@ -90,20 +90,8 @@ class OneLoginController < ApplicationController
   end
 
   def failure
-    # This action will catch all OAuth failures
-    # from all strategies i.e. OneLogin and DfE Sign-in
-    return unless params[:strategy] == 'one_login'
-
-    session_error = SessionError.create!(
-      body: "One login failure with #{params[:message]}",
-    )
-    Sentry.capture_message(
-      "#{session_error.body}, check session_error record #{session_error.id}",
-      level: :error,
-    )
-
-    session[:session_error_id] = session_error.id if session_error.present?
-    redirect_to auth_one_login_sign_out_path
+    terminate_session
+    redirect_to internal_server_error_path
   end
 
 private
