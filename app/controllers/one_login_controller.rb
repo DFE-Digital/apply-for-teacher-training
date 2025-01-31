@@ -91,7 +91,7 @@ class OneLoginController < ApplicationController
 
   def failure
     terminate_session
-    redirect_to internal_server_error_path
+    redirect_to root_path
   end
 
 private
