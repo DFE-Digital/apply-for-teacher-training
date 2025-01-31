@@ -3,11 +3,14 @@ module CandidateInterface
     class ReviewController < SectionController
       def show
         @application_form = current_application
+        @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
+        @nationalities_form = NationalitiesForm.build_from_application(current_application)
+        @immigration_right_to_work_form = ImmigrationRightToWorkForm.build_from_application(current_application)
+        @immigration_status_form = ImmigrationStatusForm.build_from_application(current_application)
         @section_complete_form = SectionCompleteForm.new(
           completed: current_application.personal_details_completed,
         )
-        @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
-        @nationalities_form = NationalitiesForm.build_from_application(current_application)
+
         @personal_details_review = PersonalDetailsReviewComponent.new(
           application_form: current_application,
           editable: @section_policy.can_edit?,
@@ -18,12 +21,16 @@ module CandidateInterface
         @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
         @nationalities_form = NationalitiesForm.build_from_application(current_application)
         @immigration_right_to_work_form = ImmigrationRightToWorkForm.build_from_application(current_application)
+        @immigration_status_form = ImmigrationStatusForm.build_from_application(current_application)
         @section_complete_form = SectionCompleteForm.new(completed: application_form_params[:completed])
-        @personal_details_review = PersonalDetailsReviewComponent.new(application_form: current_application)
 
         if all_sections_valid?
           save_section_complete_form
         else
+          @personal_details_review = PersonalDetailsReviewComponent.new(
+            application_form: current_application,
+            editable: @section_policy.can_edit?,
+          )
           render :show
         end
       end
@@ -37,7 +44,7 @@ module CandidateInterface
       def right_to_work_valid?
         return true if current_application.british_or_irish?
 
-        @immigration_right_to_work_form.valid?
+        @immigration_right_to_work_form.valid? && @immigration_status_form.valid?
       end
 
       def save_section_complete_form
