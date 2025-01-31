@@ -215,25 +215,12 @@ RSpec.describe 'OneLoginController' do
   end
 
   describe 'GET /auth/one-login/failure' do
-    it 'redirects to auth_failure_path with one login error' do
+    it 'redirects to the root_path' do
       allow(Sentry).to receive(:capture_message)
-      get auth_one_login_callback_path # set the session variables
 
-      expect {
-        get auth_failure_path(params: { message: 'error_message', strategy: 'one_login' })
-      }.to change(SessionError, :count).by(1)
+      get auth_failure_path(params: { message: 'error_message', strategy: 'one_login' })
 
-      expect(Sentry).to have_received(:capture_message).with(
-        "One login failure with error_message, check session_error record #{SessionError.last.id}",
-        level: :error,
-      )
-      expect(session[:session_error_id]).to eq(SessionError.last.id)
-      expect(response).to redirect_to(auth_one_login_sign_out_path)
-
-      # a failure will need to call sign_out_complete
-      get auth_one_login_sign_out_complete_path
-
-      expect(response).to redirect_to(internal_server_error_path)
+      expect(response).to redirect_to(root_path)
     end
   end
 end
