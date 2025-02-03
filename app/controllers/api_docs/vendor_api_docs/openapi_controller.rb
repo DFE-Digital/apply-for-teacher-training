@@ -37,6 +37,10 @@ module APIDocs
         spec(version: VendorAPI::VERSION_1_5)
       end
 
+      def spec_1_6
+        spec(version: VendorAPI::VERSION_1_6)
+      end
+
     private
 
       def spec(**)
