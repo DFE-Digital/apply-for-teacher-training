@@ -22,7 +22,7 @@ module EndOfCycle
   private
 
     def do_not_send_email
-      !EmailTimetable.send_reject_by_default_reminder_to_providers?
+      !EndOfCycle::ProviderEmailTimetabler.new.send_reject_by_default_reminder_to_providers?
     end
   end
 
