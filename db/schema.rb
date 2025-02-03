@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_27_161433) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_03_095339) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -606,6 +606,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_27_161433) do
     t.date "generation_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "recruitment_cycle_year"
+    t.index ["recruitment_cycle_year"], name: "idx_on_recruitment_cycle_year_11d37af39b"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -672,7 +674,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_27_161433) do
     t.date "generation_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "recruitment_cycle_year"
     t.index ["provider_id"], name: "index_provider_recruitment_performance_reports_on_provider_id"
+    t.index ["recruitment_cycle_year"], name: "idx_on_recruitment_cycle_year_2c77f78ddd"
   end
 
   create_table "provider_relationship_permissions", force: :cascade do |t|

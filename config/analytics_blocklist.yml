@@ -116,6 +116,7 @@
   - generation_date
   - created_at
   - updated_at
+  - recruitment_cycle_year
   :national_recruitment_performance_reports:
   - id
   - statistics
@@ -124,6 +125,7 @@
   - generation_date
   - created_at
   - updated_at
+  - recruitment_cycle_year
   :vendor_api_users:
   - id
   - full_name
