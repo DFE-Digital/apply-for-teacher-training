@@ -22,6 +22,7 @@ components:
         inactive:
           type: boolean
           description: Indicates whether the application is inactive, based on time-sensitive criteria. If true, the application is considered inactive; otherwise, it remains active.
+          example: true
           enum:
           - true
           - false
