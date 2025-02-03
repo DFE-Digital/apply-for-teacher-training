@@ -5,7 +5,7 @@ module EndOfCycle
     BATCH_SIZE = 120
 
     def perform
-      return unless EmailTimetable.send_application_deadline_has_passed_email_to_candidates?
+      return unless EndOfCycle::CandidateEmailTimetabler.new.send_application_deadline_has_passed_email?
 
       BatchDelivery.new(relation:, batch_size: BATCH_SIZE).each do |batch_time, application_forms|
         SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker.perform_at(batch_time, application_forms.pluck(:id))
