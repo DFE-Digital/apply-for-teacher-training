@@ -1,6 +1,6 @@
 module Publications
   class RecruitmentPerformanceReportScheduler
-    def initialize(cycle_week: CycleTimetable.current_cycle_week.pred)
+    def initialize(cycle_week: RecruitmentCycleTimetable.current_cycle_week.pred)
       @cycle_week = cycle_week
     end
 
