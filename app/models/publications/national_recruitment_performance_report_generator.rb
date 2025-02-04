@@ -13,7 +13,6 @@ module Publications
       @publication_date = publication_date.presence || @generation_date
       @recruitment_cycle_year = recruitment_cycle_year
       @report_expected_time = 1.week.until(@generation_date).end_of_week
-      @recruitment_cycle_year = recruitment_cycle_year
       @client = DfE::Bigquery::ApplicationMetricsByProvider.new(cycle_week:)
     end
 

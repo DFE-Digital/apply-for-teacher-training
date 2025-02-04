@@ -12,9 +12,6 @@ RSpec.describe CycleTimetable do
   let(:one_hour_before_find_closes) { described_class.find_closes(this_year) - 1.hour }
   let(:one_hour_after_find_closes) { described_class.find_closes(this_year) + 1.hour }
   let(:one_hour_after_find_opens) { described_class.find_opens(this_year) + 1.hour }
-  let(:one_hour_after_find_reopens) { described_class.find_reopens(this_year) + 1.hour }
-  let(:three_days_before_find_reopens) { described_class.find_reopens(this_year) - 3.days }
-  let(:twenty_days_after_next_year_cycle_opens) { 20.business_days.after(described_class.apply_opens(next_year)).end_of_day }
 
   describe '.current_year' do
     it 'is this_year if we are in the middle of the this_year cycle' do
@@ -452,48 +449,6 @@ RSpec.describe CycleTimetable do
     context 'when the first week of the next cycle passed explicitly' do
       it 'returns 1' do
         expect(described_class.current_cycle_week(date + 53.weeks)).to be 1
-      end
-    end
-  end
-
-  describe '#cycle_week_date_range' do
-    let(:date) { Time.zone.local(2023, 10, 30) }
-
-    before { TestSuiteTimeMachine.travel_permanently_to(date) }
-
-    it 'returns the correct date range for cycle_week 5' do
-      cycle_week_date_range = described_class.cycle_week_date_range(5)
-
-      expect(cycle_week_date_range).to eql(date.all_week)
-    end
-  end
-
-  describe '#start_of_cycle_week' do
-    context 'without time argument' do
-      let(:date) { Time.zone.local(2023, 10, 30) }
-
-      before { TestSuiteTimeMachine.travel_permanently_to(date) }
-
-      it 'returns this monday when given current_cycle_week' do
-        start_of_current_cycle_week = described_class.start_of_cycle_week(described_class.current_cycle_week)
-        expect(start_of_current_cycle_week.to_date).to eq '2023-10-30'.to_date
-        expect(start_of_current_cycle_week.wday).to eq 1
-      end
-
-      it 'returns the monday of the cycle week in the current cycle year' do
-        start_of_week_10 = described_class.start_of_cycle_week(10)
-        expect(start_of_week_10.to_date).to eq '2023-12-04'.to_date
-        expect(start_of_week_10.wday).to eq 1
-      end
-
-      it 'returns the monday before find_opens for the first week of the cycle' do
-        start_of_week_one = described_class.start_of_cycle_week(1)
-        expect(start_of_week_one.to_date).to eq described_class.find_opens.beginning_of_week.to_date
-      end
-
-      it 'only returns dates in current cycle year' do
-        start_of_week_65 = described_class.start_of_cycle_week(65)
-        expect(start_of_week_65).to eq described_class.start_of_cycle_week(13)
       end
     end
   end

@@ -1,16 +1,20 @@
 en:
   show:
     title: Recruitment performance weekly report %{cycle_year_range} - Apply for teacher training - GOV.UK
+    empty_report_title: Recruitment performance weekly report - Apply for teacher training - GOV.UK
     contents: Contents
     heading: Recruitment performance weekly report %{cycle_year_range}
+    empty_report_heading: Recruitment performance weekly report
     last_updated: 'Last updated: %{date}'
     not_ready_to_view: This report is not ready to view.
     this_report_shows: >
-      This report shows your organisation’s initial teacher training (ITT) recruitment performance so far this
-      recruitment cycle, starting on %{date}.
+      This report shows your organisation’s initial teacher training (ITT) recruitment performance for the %{cycle_name}
+      recruitment cycle, starting on %{start_date}, ending on %{end_date}.
     this_report_will_update: >
       This report will update weekly on a Monday, starting from %{date}. You will only be able to view
       data from the most recent week.
+    next_reports_will_be_available: >
+      The weekly reports for the %{next_cycle_name} recruitment cycle will be available from %{next_reporting_start_date}.
     this_report_compares: >
       The report compares your organisation’s recruitment data this cycle, to the same time last recruitment cycle.
       It also includes national level data.
@@ -26,17 +30,17 @@ en:
   about_this_data_section:
     section_heading: 1. About this data
     subsection_heading_one: Changes for the %{cycle_range} recruitment cycle
-    subsection_one_paragraph_one: >
+    whats_new_in_2024_paragraph_one: >
       These statistics cover applications in the 2023 to 2024 recruitment cycle for courses in England starting in the
       2024 to 2025 academic year. To allow for comparison, statistics covering the 2022 to 2023 recruitment cycle 2023
       to 2024 academic year are also included.
-    subsection_one_paragraph_two: >
+    whats_new_in_2024_paragraph_two: >
       New definitions and methodology have been introduced for the 2023 to 2024 recruitment cycle  to 2025 academic year
       because candidates can now submit applications to courses individually up to a maximum of 4 open applications at
       a time. Previously, candidates submitted one application form with up to 4 course choices at the same time. All 4
       course choices had to receive a decision before the candidate could submit another application form in the same
       recruitment cycle.
-    subsection_one_paragraph_three: >
+    whats_new_in_2024_paragraph_three: >
       Improvements have also been made for clarity.
     subsection_heading_two: Data which is excluded from these reports
     subsection_two_paragraph_one: "The following types of applications are not included in these reports:"

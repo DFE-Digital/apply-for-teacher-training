@@ -4,6 +4,9 @@ en:
       index:
         performance_report_heading: Weekly recruitment performance report
         application_data_heading: Application data for this recruitment cycle
+        available_in_the_future_html:
+          <p class="govuk-body">The reports for the %{current_cycle_range} recruitment cycle are not available until %{first_publication_date}.</p>
+          <p class="govuk-body">From %{first_publication_date_no_year} you will be able to see new reports each week on a Monday until the end of the cycle.</p>
         download_export_heading: Download and export
       hesa:
         diversity_text: Sex, disability and ethnicity information will be marked as confidential if you do not have permission to view it.
