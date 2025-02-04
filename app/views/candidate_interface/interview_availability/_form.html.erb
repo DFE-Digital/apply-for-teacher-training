@@ -12,7 +12,7 @@ Tell providers if you cannot be available for interviews at certain times. For e
 
 <%= f.govuk_radio_buttons_fieldset :any_preferences, legend: { text: t('application_form..interview_preferences.label'), size: 'm' } do %>
   <%= f.govuk_radio_button :any_preferences, 'yes', label: { text: 'Yes' }, link_errors: true do %>
-    <%= f.govuk_text_area :interview_preferences, label: { text: t('application_form.interview_preferences.yes_label'), size: 's' }, rows: 8, max_words: 200 %>
+    <%= f.govuk_text_area :interview_preferences, label: { text: t('application_form.interview_preferences.yes_label'), size: 's' }, hint: { text: t('application_form.interview_preferences.yes_hint') }, rows: 8, max_words: 200 %>
   <% end %>
 
   <%= f.govuk_radio_button :any_preferences, 'no', label: { text: 'No' } %>
