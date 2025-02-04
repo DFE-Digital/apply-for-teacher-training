@@ -1,0 +1,41 @@
+---
+openapi: 3.0.0
+info:
+  version: v1.6
+  title: Apply API
+  contact:
+    name: DfE
+    email: becomingateacher@digital.education.gov.uk
+  description: |
+    API for DfE’s Apply for teacher training service.
+    Endpoints with the `/applications` prefix are considered stable.
+    Experimental endpoints prefixed with `/test-data` may change or be removed.
+servers:
+- description: Sandbox (test environment for vendors)
+  url: https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.6
+- description: Production
+  url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.6
+components:
+  schemas:
+    ApplicationAttributes:
+      properties:
+        inactive:
+          type: boolean
+          description: Indicates whether the application is inactive, based on time-sensitive criteria. If true, the application is considered inactive; otherwise, it remains active.
+          example: true
+          enum:
+          - true
+          - false
+    Reference:
+      type: object
+      properties:
+        confidential:
+          type: boolean
+          description: The confidentiality status selected by the referee for the reference
+          example: true
+          enum:
+          - true
+          - false
+          - null
+      required:
+        - confidential

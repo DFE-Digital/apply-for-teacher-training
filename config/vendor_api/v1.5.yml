@@ -12,9 +12,9 @@ info:
     Experimental endpoints prefixed with `/test-data` may change or be removed.
 servers:
   - description: Sandbox (test environment for vendors)
-    url: https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.5pre
+    url: https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.5
   - description: Production
-    url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.5pre
+    url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.5
 components:
   schemas:
     ApplicationAttributes:
