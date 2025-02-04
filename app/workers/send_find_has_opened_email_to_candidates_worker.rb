@@ -4,7 +4,7 @@ class SendFindHasOpenedEmailToCandidatesWorker
   BATCH_SIZE = 120
 
   def perform
-    return unless EmailTimetable.send_find_has_opened_email?
+    return unless EndOfCycle::CandidateEmailTimetabler.new.send_find_has_opened_email?
 
     BatchDelivery.new(relation: GetUnsuccessfulAndUnsubmittedCandidates.call, stagger_over: 12.hours, batch_size: BATCH_SIZE).each do |batch_time, records|
       SendFindHasOpenedEmailToCandidatesBatchWorker.perform_at(

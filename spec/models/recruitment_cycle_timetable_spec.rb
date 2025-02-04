@@ -76,4 +76,34 @@ RSpec.describe RecruitmentCycleTimetable do
       end
     end
   end
+
+  describe '#current_timetable' do
+    context 'mid-cycle' do
+      it 'returns the correct timetable' do
+        mid_cycle = described_class.find_by(recruitment_cycle_year: 2022).apply_opens_at
+        travel_temporarily_to(mid_cycle) do
+          expect(described_class.current_timetable.recruitment_cycle_year).to eq 2022
+        end
+      end
+    end
+
+    context 'after find closes, before find reopens in the next cycle' do
+      it 'returns the correct timetable' do
+        after_find_closes = described_class.find_by(recruitment_cycle_year: 2023).find_closes_at + 2.hours
+        travel_temporarily_to(after_find_closes) do
+          expect(described_class.current_timetable.recruitment_cycle_year).to eq 2023
+        end
+      end
+    end
+
+    context 'before apply opens' do
+      it 'returns the correct timetable' do
+        after_find_reopens = described_class.find_by(recruitment_cycle_year: 2023).find_closes_at + 9.5.hours
+
+        travel_temporarily_to(after_find_reopens) do
+          expect(described_class.current_timetable.recruitment_cycle_year).to eq 2024
+        end
+      end
+    end
+  end
 end
