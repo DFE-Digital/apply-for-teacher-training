@@ -9,7 +9,7 @@ RSpec.describe InterviewPreferencesComponent do
       )
       result = render_inline(described_class.new(application_form:))
       expect(result.text).to include('Do you have any times you cannot be available for interviews?No')
-      expect(result.text).not_to include('Give details of your interview availability')
+      expect(result.text).not_to include('Give details of times or dates that you are not available for interviews')
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.describe InterviewPreferencesComponent do
       )
       result = render_inline(described_class.new(application_form:))
       expect(result.text).to include('Do you have any times you cannot be available for interviews?No')
-      expect(result.text).not_to include('Give details of your interview availability')
+      expect(result.text).not_to include('Give details of times or dates that you are not available for interviews')
     end
   end
 

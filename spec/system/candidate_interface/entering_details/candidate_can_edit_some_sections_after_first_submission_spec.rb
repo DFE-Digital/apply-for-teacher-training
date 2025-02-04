@@ -130,7 +130,7 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
   def and_i_can_edit_the_section_interview_availability
     click_link_or_button 'Change interview availability', match: :first
     choose 'Yes'
-    fill_in 'Give details of your interview availability', with: 'Quis et enim.'
+    fill_in 'Give details of times or dates that you are not available for interviews', with: 'Quis et enim.'
     when_i_save_and_continue
 
     expect(current_candidate.current_application.reload.interview_preferences).to eq('Quis et enim.')

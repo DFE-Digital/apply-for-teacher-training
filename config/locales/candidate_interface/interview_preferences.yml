@@ -2,7 +2,8 @@ en:
   application_form:
     interview_preferences:
       label: Do you have any times you cannot be available for interviews?
-      yes_label: Give details of your interview availability
+      yes_label: Give details of times or dates that you are not available for interviews
+      yes_hint: For example, Wednesdays after 2pm or Monday 1 June to Friday 5 June.
       no_value: 'No' # No is evaluated as false in YAML
       change_action: interview availability
       any_preferences:
