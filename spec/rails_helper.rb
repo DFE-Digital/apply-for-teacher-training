@@ -37,8 +37,6 @@ TestSuiteTimeMachine.pretend_it_is(test_date_time)
 Rails.root.glob('spec/support/**/*.rb').each { |f| require f }
 require 'capybara/rails'
 
-require Rails.root.join('spec/test_helpers/cycle_timetable_helper.rb')
-
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
 begin
