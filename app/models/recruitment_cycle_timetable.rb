@@ -28,6 +28,35 @@ class RecruitmentCycleTimetable < ApplicationRecord
     current_year - 1
   end
 
+  def self.next_year
+    current_year + 1
+  end
+
+  def self.current_cycle_week
+    weeks = (Time.zone.now - current_timetable.find_opens_at.beginning_of_week).seconds.in_weeks.to_i
+    (weeks % 53).succ
+  end
+
+  def cycle_range_name
+    "#{recruitment_cycle_year - 1} to #{recruitment_cycle_year}"
+  end
+
+  def relative_next_timetable
+    self.class.find_by(recruitment_cycle_year: recruitment_cycle_year + 1)
+  end
+
+  def relative_previous_timetable
+    self.class.find_by(recruitment_cycle_year: recruitment_cycle_year - 1)
+  end
+
+  def cycle_week_date_range(cycle_week)
+    cycle_week %= 52
+    cycle_week -= 1
+
+    start_of_week = find_opens_at + cycle_week.weeks
+    start_of_week.all_week
+  end
+
 private
 
   def christmas_holiday_validation

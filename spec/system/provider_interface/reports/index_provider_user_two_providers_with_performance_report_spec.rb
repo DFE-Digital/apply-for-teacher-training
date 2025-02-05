@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Provider with two providers reports index' do
   include DfESignInHelpers
 
-  scenario 'when provider user has multiple provider with performance report', time: mid_cycle(2024) do
+  scenario 'when provider user has multiple provider with performance report', time: mid_cycle do
     given_a_provider_user_with_two_providers_exists
     and_a_provider_has_a_recruitment_performance_report
     and_i_am_signed_in_as_provider_user
@@ -17,7 +17,11 @@ RSpec.describe 'Provider with two providers reports index' do
   end
 
   def and_a_provider_has_a_recruitment_performance_report
-    create(:provider_recruitment_performance_report, provider: @provider)
+    @report = create(
+      :provider_recruitment_performance_report,
+      recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+      provider: @provider,
+    )
   end
 
   def given_a_provider_user_with_two_providers_exists
@@ -30,7 +34,7 @@ RSpec.describe 'Provider with two providers reports index' do
   def then_the_page_has_the_right_content
     expect(page).to have_css('h1', text: 'Reports')
     expect(page).to have_css('h2', text: 'Weekly recruitment performance report')
-    expect(page).to have_link('Weekly report for week ending 5 May 2024', href: provider_interface_reports_provider_recruitment_performance_report_path(@provider))
+    expect(page).to have_link("Weekly report for week ending #{@report.reporting_end_date.to_fs(:govuk_date)}", href: provider_interface_reports_provider_recruitment_performance_report_path(@provider))
     expect(page).to have_css('h2', text: 'Application data for this recruitment cycle')
     expect(page).to have_link('Export application data', href: provider_interface_new_application_data_export_path)
     expect(page).to have_link('Export data for Higher Education Statistics Agency (HESA)', href: provider_interface_reports_hesa_exports_path)

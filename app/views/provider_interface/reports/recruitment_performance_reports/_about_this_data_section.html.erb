@@ -5,17 +5,19 @@
   </h2>
 
   <h3 class="govuk-heading-s">
-    <%= t('about_this_data_section.subsection_heading_one', cycle_range: RecruitmentCycle.cycle_name) %>
+    <% if @provider_report.show_changes_section? %>
+      <%= t('about_this_data_section.subsection_heading_one', cycle_range: @provider_report.cycle_range_name) %>
+      <p class="govuk-body">
+        <%= t('about_this_data_section.whats_new_in_2024_paragraph_one') %>
+      </p>
+      <p class="govuk-body">
+        <%= t('about_this_data_section.whats_new_in_2024_paragraph_two') %>
+      </p>
+      <p class="govuk-body">
+        <%= t('about_this_data_section.whats_new_in_2024_paragraph_three') %>
+      </p>
+    <% end %>
   </h3>
-  <p class="govuk-body">
-    <%= t('about_this_data_section.subsection_one_paragraph_one') %>
-  </p>
-  <p class="govuk-body">
-    <%= t('about_this_data_section.subsection_one_paragraph_two') %>
-  </p>
-  <p class="govuk-body">
-    <%= t('about_this_data_section.subsection_one_paragraph_three') %>
-  </p>
 
   <h3 class="govuk-heading-s">
     <%= t('about_this_data_section.subsection_heading_two') %>
@@ -57,8 +59,8 @@
   <p class="govuk-body">
     <%= t(
           'about_this_data_section.subsection_four_paragraph_two',
-          last_cycle_start_date: CycleTimetable.find_opens(CycleTimetable.current_year - 1).to_fs(:govuk_date),
-          this_cycle_start_date: CycleTimetable.find_opens.to_fs(:govuk_date),
+          last_cycle_start_date: @provider_report.last_cycle_start_date,
+          this_cycle_start_date: @provider_report.this_cycle_start_date,
         ) %>
   </p>
   <p class="govuk-body">

@@ -9,7 +9,7 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
   let(:provider_id) { create(:provider).id }
   let(:generation_date) { Time.zone.today }
 
-  describe 'when a normal response is received' do
+  describe 'when a normal response is received', seed_timetables do
     before do
       stub_bigquery_application_metrics_by_provider_request(
         rows: [[

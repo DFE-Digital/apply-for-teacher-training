@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Visit provider recruitment performance report page' do
   include DfESignInHelpers
 
-  scenario 'provider report has been generated', time: mid_cycle(2024) do
+  scenario 'provider report has been generated', time: mid_cycle do
     given_a_provider_and_provider_user_exists
     and_a_provider_recruitment_performance_report_has_been_generated
     and_national_recruitment_performance_report_has_been_generated
@@ -13,7 +13,7 @@ RSpec.describe 'Visit provider recruitment performance report page' do
     and_i_can_navigate_to_report_sections
   end
 
-  scenario 'provider report has not been generated', mid_cycle(2024) do
+  scenario 'provider report has not been generated', mid_cycle do
     given_a_provider_and_provider_user_exists
     and_i_am_signed_in_as_provider_user
     and_i_visit_the_provider_recruitment_report_page
@@ -28,11 +28,11 @@ private
   end
 
   def and_a_provider_recruitment_performance_report_has_been_generated
-    create(:provider_recruitment_performance_report, provider: @provider)
+    create(:provider_recruitment_performance_report, recruitment_cycle_year: RecruitmentCycleTimetable.current_year, provider: @provider)
   end
 
   def and_national_recruitment_performance_report_has_been_generated
-    create(:national_recruitment_performance_report)
+    create(:national_recruitment_performance_report, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
   end
 
   def and_i_visit_the_provider_recruitment_report_page
@@ -40,8 +40,13 @@ private
   end
 
   def then_i_see_the_report
-    expect(page).to have_content('Recruitment performance weekly report 2023 to 2024')
-    expect(page).to have_content('This report shows your organisation’s initial teacher training (ITT) recruitment performance so far this recruitment cycle, starting on 3 October 2023.')
+    year = RecruitmentCycleTimetable.current_year
+    cycle_name = "#{year - 1} to #{year}"
+    expect(page).to have_content("Recruitment performance weekly report #{cycle_name}")
+    cycle_start = RecruitmentCycleTimetable.current_timetable.find_opens_at.to_date.to_fs(:govuk_date)
+    cycle_end = RecruitmentCycleTimetable.current_timetable.find_closes_at.to_date.to_fs(:govuk_date)
+    description = "This report shows your organisation’s initial teacher training (ITT) recruitment performance for the #{cycle_name} recruitment cycle, starting on #{cycle_start}, ending on #{cycle_end}."
+    expect(page).to have_content(description)
   end
 
   def and_i_can_navigate_to_report_sections
@@ -109,8 +114,7 @@ private
   end
 
   def then_i_see_no_report_message
-    year_range = RecruitmentCycle.cycle_name(CycleTimetable.current_year)
-    expect(page).to have_content("Recruitment performance weekly report #{year_range}")
+    expect(page).to have_content('Recruitment performance weekly report')
     expect(page).to have_content('This report is not ready to view.')
   end
 

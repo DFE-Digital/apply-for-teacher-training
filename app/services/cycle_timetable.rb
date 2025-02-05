@@ -142,19 +142,6 @@ class CycleTimetable
     (weeks % 52).succ
   end
 
-  def self.cycle_week_date_range(cycle_week, time = Time.zone.now)
-    year = current_year(time)
-    cycle_week %= 52
-    cycle_week -= 1
-
-    start_of_week = find_opens(year) + cycle_week.weeks
-    start_of_week.all_week
-  end
-
-  def self.start_of_cycle_week(...)
-    cycle_week_date_range(...).first
-  end
-
   #
   # cycle_schedule methods
   #

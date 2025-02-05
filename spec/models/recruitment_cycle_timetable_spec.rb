@@ -106,4 +106,69 @@ RSpec.describe RecruitmentCycleTimetable do
       end
     end
   end
+
+  describe '#current_cycle_week' do
+    context 'the first day of the cycle' do
+      it 'returns 1' do
+        travel_temporarily_to(described_class.current_timetable.find_opens_at + 1.second) do
+          expect(described_class.current_cycle_week).to eq 1
+        end
+      end
+    end
+
+    context 'sunday after find opens' do
+      it 'is the first week of the cycle' do
+        travel_temporarily_to(described_class.current_timetable.find_opens_at.sunday) do
+          expect(described_class.current_cycle_week).to eq 1
+        end
+      end
+    end
+
+    context 'monday after find opens' do
+      it 'is the second week of the cycle' do
+        travel_temporarily_to(described_class.current_timetable.find_opens_at.sunday + 1.day) do
+          expect(described_class.current_cycle_week).to eq 2
+        end
+      end
+    end
+
+    context 'after find closes, before it reopens' do
+      it 'returns last week in cycle' do
+        travel_temporarily_to(described_class.current_timetable.find_closes_at + 1.second) do
+          expect(described_class.current_cycle_week).to eq 53
+        end
+      end
+    end
+  end
+
+  describe '#cycle_range_name' do
+    it 'returns a string describing the recruitment cycle year range' do
+      timetable = described_class.find_by(recruitment_cycle_year: 2024)
+      expect(timetable.cycle_range_name).to eq '2023 to 2024'
+    end
+  end
+
+  describe '#relative_next_timetable' do
+    it 'returns nil if no next timetable exists' do
+      timetable = described_class.all.order(:recruitment_cycle_year).last
+      expect(timetable.relative_next_timetable).to be_nil
+    end
+
+    it 'returns the timetable with the next consecutive cycle year if it exists' do
+      timetable = described_class.current_timetable
+      expect(timetable.relative_next_timetable.recruitment_cycle_year).to eq timetable.recruitment_cycle_year + 1
+    end
+  end
+
+  describe '#relative_previous_timetable' do
+    it 'returns nil if no previous timetable exists' do
+      timetable = described_class.all.order(:recruitment_cycle_year).first
+      expect(timetable.relative_previous_timetable).to be_nil
+    end
+
+    it 'returns the timetable with the next consecutive cycle year if it exists' do
+      timetable = described_class.current_timetable
+      expect(timetable.relative_previous_timetable.recruitment_cycle_year).to eq timetable.recruitment_cycle_year - 1
+    end
+  end
 end
