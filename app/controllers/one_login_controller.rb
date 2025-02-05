@@ -2,7 +2,7 @@ class OneLoginController < ApplicationController
   include Authentication
 
   before_action :redirect_to_candidate_sign_in_unless_one_login_enabled
-  allow_unauthenticated_access
+  skip_before_action :require_authentication
 
   def callback
     auth = request.env['omniauth.auth']
