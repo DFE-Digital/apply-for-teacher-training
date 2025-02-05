@@ -3,7 +3,7 @@ module CandidateInterface
     before_action :redirect_to_application_if_signed_in
     before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited, if: :candidate_signed_in?
     skip_before_action :authenticate_candidate!
-    allow_unauthenticated_access only: %i[create_account_or_sign_in create_account_or_sign_in_handler]
+    skip_before_action :require_authentication, only: %i[create_account_or_sign_in create_account_or_sign_in_handler]
 
     def create_account_or_sign_in
       @create_account_or_sign_in_form = CreateAccountOrSignInForm.new
