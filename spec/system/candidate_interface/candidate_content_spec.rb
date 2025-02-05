@@ -5,6 +5,7 @@ RSpec.describe 'Candidate content' do
 
   scenario 'Candidate views the content pages' do
     given_i_am_on_the_start_page
+    and_the_one_login_candidate_feature_flag_is_enabled
     when_i_click_on_accessibility
     then_i_can_see_the_accessibility_statement
     and_i_can_see_the_cookie_banner
@@ -25,6 +26,10 @@ RSpec.describe 'Candidate content' do
 
     when_i_click_on_the_privacy_policy
     then_i_can_see_the_privacy_policy
+  end
+
+  def and_the_one_login_candidate_feature_flag_is_enabled
+    FeatureFlag.activate(:one_login_candidate_sign_in)
   end
 
   def when_click_on_guidance_for_using_ai
