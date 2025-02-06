@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include RequestQueryParams
   include DfE::Analytics::Requests
   include ApplicationHelper
+  include RecruitmentCycleTimetableConcern
 
   def current_user; end
 
