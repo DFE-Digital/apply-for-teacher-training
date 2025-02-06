@@ -22,6 +22,9 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
     email_address: candidate.email_address,
   )
 
+  puts 'Creating all RecruitmentCycleTimetables'
+  DataMigrations::AddAllRecruitmentCycleTimetablesToDatabase.new.change
+
   puts 'Creating various provider users...'
   CreateExampleProviderUsersWithPermissions.call
 

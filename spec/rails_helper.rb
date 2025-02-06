@@ -46,6 +46,9 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
+# Run data migrations before specs
+DataMigrations::AddAllRecruitmentCycleTimetablesToDatabase.new.change
+
 Faker::Config.locale = 'en-GB'
 
 RSpec::Matchers.define_negated_matcher :not_change, :change
