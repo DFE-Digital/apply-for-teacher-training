@@ -7,7 +7,6 @@ module CandidateInterface
     end
 
     def courses_grouped_by_provider_and_region
-      GetCoursesByProviderAndRegion.call
     end
   end
 end

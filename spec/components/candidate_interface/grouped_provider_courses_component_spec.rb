@@ -4,22 +4,6 @@ RSpec.describe CandidateInterface::GroupedProviderCoursesComponent do
   let(:course) { create(:course) }
 
   before do
-    allow(GetCoursesByProviderAndRegion).to receive(:call).and_return(
-      {
-        'north_west' => [
-          GetCoursesByProviderAndRegion::RegionProviderCourses.new('north_west', course.provider.name, [course]),
-          GetCoursesByProviderAndRegion::RegionProviderCourses.new('north_west', 'Westerly Sixth Form', []),
-        ],
-        'south_east' => [
-          GetCoursesByProviderAndRegion::RegionProviderCourses.new('south_east', 'Southerly College', []),
-          GetCoursesByProviderAndRegion::RegionProviderCourses.new('south_east', 'Easterly Sixth Form', []),
-        ],
-        nil => [
-          GetCoursesByProviderAndRegion::RegionProviderCourses.new(nil, 'Wimbley College', []),
-          GetCoursesByProviderAndRegion::RegionProviderCourses.new(nil, 'Worbley Sixth Form', []),
-        ],
-      },
-    )
   end
 
   it 'renders all the region headings' do
