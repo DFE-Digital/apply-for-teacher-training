@@ -32,6 +32,7 @@ module ProviderInterface
               current_course_option: %i[course site],
               application_form: %i[candidate english_proficiency application_qualifications],
             ],
+            recruitment_cycle_year: RecruitmentCycleTimetable.pluck(:recruitment_cycle_year),
           )
 
         application_choices = FilterApplicationChoicesForProviders.call(
