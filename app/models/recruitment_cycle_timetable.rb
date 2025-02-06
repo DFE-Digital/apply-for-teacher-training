@@ -41,6 +41,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
     "#{recruitment_cycle_year - 1} to #{recruitment_cycle_year}"
   end
 
+  def academic_year_range_name
+    "#{recruitment_cycle_year} to #{recruitment_cycle_year + 1}"
+  end
+
   def relative_next_timetable
     self.class.find_by(recruitment_cycle_year: recruitment_cycle_year + 1)
   end

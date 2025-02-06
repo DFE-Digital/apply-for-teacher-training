@@ -1,0 +1,32 @@
+<%= govuk_summary_card(title: title_text) do |card| %>
+  <%= card.with_summary_list(actions: false) do |summary_list| %>
+    <%= summary_list.with_row do |row| %>
+      <%= row.with_key { t('.academic_year_range_name') } %>
+      <%= row.with_value { timetable.academic_year_range_name } %>
+    <% end %>
+    <%= summary_list.with_row do |row| %>
+      <%= row.with_key { t('.find_opens_at') } %>
+      <%= row.with_value { timetable.find_opens_at.to_fs(:govuk_date_and_time) } %>
+    <% end %>
+    <%= summary_list.with_row do |row| %>
+      <%= row.with_key { t('.apply_opens_at') } %>
+      <%= row.with_value { timetable.apply_opens_at.to_fs(:govuk_date_and_time) } %>
+    <% end %>
+    <%= summary_list.with_row do |row| %>
+      <%= row.with_key { t('.apply_deadline_at') } %>
+      <%= row.with_value { timetable.apply_deadline_at.to_fs(:govuk_date_and_time) } %>
+    <% end %>
+    <%= summary_list.with_row do |row| %>
+      <%= row.with_key { t('.reject_by_default_at') } %>
+      <%= row.with_value { timetable.reject_by_default_at.to_fs(:govuk_date_and_time) } %>
+    <% end %>
+    <%= summary_list.with_row do |row| %>
+      <%= row.with_key { t('.decline_by_default_at') } %>
+      <%= row.with_value { timetable.decline_by_default_at.to_fs(:govuk_date_and_time) } %>
+    <% end %>
+    <%= summary_list.with_row do |row| %>
+      <%= row.with_key { t('.find_closes_at') } %>
+      <%= row.with_value { timetable.find_closes_at.to_fs(:govuk_date_and_time) } %>
+    <% end %>
+  <% end %>
+<% end %>
