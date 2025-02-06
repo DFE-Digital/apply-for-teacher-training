@@ -34,7 +34,5 @@ module CandidateInterface
     def complaints
       render 'content/complaints'
     end
-
-    def providers; end
   end
 end
