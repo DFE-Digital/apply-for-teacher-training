@@ -4,6 +4,10 @@ RSpec.describe 'Provider user exporting applications to a csv', mid_cycle: false
   include CourseOptionHelpers
   include DfESignInHelpers
 
+  before do
+    seed_timetables
+  end
+
   scenario 'downloads a CSV of application data' do
     given_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
     and_my_organisation_has_courses_with_applications
