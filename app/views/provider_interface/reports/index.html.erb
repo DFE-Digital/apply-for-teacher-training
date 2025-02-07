@@ -25,7 +25,7 @@
       <% if @providers.many? %>
         <h3 class="govuk-heading-s"><%= provider.name %></h3>
       <% end %>
-      <% report = provider.performance_reports.last %>
+      <% report = provider.performance_reports.order(:recruitment_cycle_year, :cycle_week).last %>
       <ul class="govuk-list govuk-list--spaced">
         <li><%= govuk_link_to("Weekly report for week ending #{report.reporting_end_date.to_fs(:govuk_date)}", provider_interface_reports_provider_recruitment_performance_report_path(provider.id)) %></li>
       </ul>
