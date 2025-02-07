@@ -15,6 +15,14 @@ module ProviderInterface
       recruitment_cycle_years.compact_blank
     end
 
+    def years_to_export
+      choices = GetApplicationChoicesForProviders.call(
+        providers: providers_that_actor_belongs_to,
+        recruitment_cycle_year: RecruitmentCycleTimetable.pluck(:recruitment_cycle_year),
+      )
+      choices.map(&:current_recruitment_cycle_year).uniq.sort.reverse
+    end
+
     def providers_that_actor_belongs_to
       @_providers_that_actor_belongs_to ||= current_provider_user.providers
     end
