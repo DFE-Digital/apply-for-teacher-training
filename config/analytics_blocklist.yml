@@ -160,7 +160,6 @@
   - email_address
   - phone_number
   :one_login_auths:
-  - email_address
   - token
   :interviews:
   - additional_details
