@@ -15,3 +15,6 @@ shared:
     - user_id
   emails:
     - subject
+  one_login_auths:
+    - candidate_id
+    - email_address

@@ -16,6 +16,7 @@ shared:
     - candidate_id
     - created_at
     - updated_at
+    - email_address
   account_recovery_request_codes:
     - id
     - account_recovery_request_id
