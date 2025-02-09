@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe StatsSummary do
-  it 'generates correct stats' do
+  let(:current_timetable) { RecruitmentCycleTimetable.current_timetable }
+
+  it 'generates correct stats', seed_timetables do
     create(:candidate)
     create(:application_choice, :recruited, application_form: create(:application_form, :minimum_info))
     create(:application_choice, :offered, application_form: create(:application_form, first_nationality: 'Vatican citizen'))
@@ -13,7 +15,7 @@ RSpec.describe StatsSummary do
     create(:application_choice, :inactive, application_form: create(:application_form, :minimum_info))
     create(:application_choice, :inactive, application_form: create(:application_form, first_nationality: 'Vatican citizen'))
 
-    travel_temporarily_to(CycleTimetable.this_day_last_cycle) do
+    travel_temporarily_to(current_timetable.this_day_last_cycle) do
       last_cycle_international_form = create(:application_form, :submitted, first_nationality: 'Vatican citizen')
       last_cycle_domestic_form = create(:application_form, :submitted)
       create(:application_choice, :recruited, application_form: last_cycle_domestic_form)

@@ -20,6 +20,20 @@ class RecruitmentCycleTimetable < ApplicationRecord
     where('find_opens_at <= ?', Time.zone.now).order(:recruitment_cycle_year).last
   end
 
+  def self.next_timetable
+    find_by(recruitment_cycle_year: current_year + 1)
+  end
+
+  def self.find_timetable_by_time(time)
+    where('find_opens_at <= ?', time).order(:recruitment_cycle_year).last
+  end
+
+  def self.find_cycle_week_by_time(time)
+    timetable = find_timetable_by_time(time)
+    weeks = (Time.zone.now - timetable.find_opens_at.beginning_of_week).seconds.in_weeks.to_i
+    (weeks % 53).succ
+  end
+
   def self.current_year
     current_timetable.recruitment_cycle_year
   end
@@ -37,8 +51,16 @@ class RecruitmentCycleTimetable < ApplicationRecord
     (weeks % 53).succ
   end
 
-  def cycle_range_name
+  def self.years_visible_to_providers
+    [current_year, previous_year]
+  end
+
+  def cycle_year_range_name
     "#{recruitment_cycle_year - 1} to #{recruitment_cycle_year}"
+  end
+
+  def academic_year_range_name
+    "#{recruitment_cycle_year} to #{recruitment_cycle_year + 1}"
   end
 
   def relative_next_timetable
@@ -55,6 +77,18 @@ class RecruitmentCycleTimetable < ApplicationRecord
 
     start_of_week = find_opens_at + cycle_week.weeks
     start_of_week.all_week
+  end
+
+  def this_day_last_cycle
+    current_date = Time.zone.now.to_date
+    days_since_cycle_started = (current_date - apply_opens_at.to_date).round
+    last_cycle_opening_date = relative_previous_timetable.apply_opens_at.to_date
+    last_cycle_date = days_since_cycle_started.days.after(last_cycle_opening_date)
+    DateTime.new(last_cycle_date.year, last_cycle_date.month, last_cycle_date.day, Time.current.hour, Time.current.min, Time.current.sec)
+  end
+
+  def find_down?
+    Time.zone.now.after? find_closes_at
   end
 
 private

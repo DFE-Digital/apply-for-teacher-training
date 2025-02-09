@@ -1,11 +1,13 @@
 class StartOfCycleNotificationWorker
   include Sidekiq::Worker
 
-  def perform(service = 'find')
-    return unless CycleTimetable.service_opens_today?(service, year: RecruitmentCycle.current_year)
-    return unless hours_remaining.positive?
+  NOTIFY_UNTIL_HOUR = 17
 
+  def perform(service = 'find')
     @service = service
+
+    return unless service_opens_today?
+    return unless hours_remaining.positive?
 
     providers_scope.limit(fetch_limit).each do |provider|
       provider.provider_users.each do |provider_user|
@@ -29,6 +31,15 @@ private
 
   attr_reader :service
 
+  def service_opens_today?
+    open_at = recruitment_cycle_timetable.send(:"#{service}_opens_at")
+    Time.zone.now.between?(open_at, open_at.change(hour: NOTIFY_UNTIL_HOUR, min: 0))
+  end
+
+  def recruitment_cycle_timetable
+    @recruitment_cycle_timetable ||= RecruitmentCycleTimetable.current_timetable
+  end
+
   def fetch_limit
     (provider_count / hours_remaining).ceil
   end
@@ -42,7 +53,7 @@ private
   end
 
   def notify_until
-    Time.zone.now.change(hour: 17)
+    Time.zone.now.change(hour: NOTIFY_UNTIL_HOUR)
   end
 
   def relationships_to_set_up(provider_user)

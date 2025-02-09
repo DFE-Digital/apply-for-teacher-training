@@ -2,14 +2,14 @@
   <p class="govuk-body"><%= t('show.last_updated', date: @provider_report.generation_date.to_date.to_fs(:govuk_date)) %></p>
   <p class="govuk-body">
     <%= t('show.this_report_shows',
-          cycle_name: @provider_report.cycle_range_name,
+          cycle_name: @provider_report.cycle_year_range_name,
           start_date: @provider_report.report_show_data_from_date,
           end_date: @provider_report.report_show_data_to_date) %>
   </p>
   <p class="govuk-body">
     <% if @provider_report.previous_cycle? %>
       <%= t('show.next_reports_will_be_available',
-            next_cycle_name: @provider_report.next_cycle_range_name,
+            next_cycle_name: @provider_report.next_cycle_year_range_name,
             next_reporting_start_date: @provider_report.next_reporting_start_date) %>
     <% else %>
       <%= t('show.this_report_will_update', date: @provider_report.report_starting_date) %>

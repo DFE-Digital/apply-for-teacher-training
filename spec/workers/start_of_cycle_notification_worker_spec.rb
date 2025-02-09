@@ -3,16 +3,13 @@ require 'rails_helper'
 RSpec.describe StartOfCycleNotificationWorker do
   describe 'throttling' do
     shared_examples 'throttled email' do |number_of_records, start_hour, expected_limit|
-      before do
-        allow(CycleTimetable).to receive(:service_opens_today?).and_return(true)
-      end
-
       it "fetches #{expected_limit} of records for #{number_of_records} total records at #{start_hour}" do
         collection = instance_double(ActiveRecord::Relation, count: number_of_records, limit: nil).as_null_object
         allow(GetProvidersToNotifyAboutFindAndApply).to receive(:call).and_return(collection)
         allow(collection).to receive(:limit).and_return([])
 
-        travel_temporarily_to(CycleTimetable.find_opens(2023).change(hour: start_hour)) do
+        timetable = RecruitmentCycleTimetable.find_by(recruitment_cycle_year: 2023)
+        travel_temporarily_to(timetable.find_opens_at.change(hour: start_hour)) do
           described_class.new.perform('find')
         end
         expect(collection).to have_received(:limit).with(expected_limit)
@@ -20,8 +17,6 @@ RSpec.describe StartOfCycleNotificationWorker do
     end
 
     context 'with 10 records' do
-      it_behaves_like 'throttled email', 10, 1, 0
-      it_behaves_like 'throttled email', 10, 5, 0
       it_behaves_like 'throttled email', 10, 9, 1
       it_behaves_like 'throttled email', 10, 12, 2
       it_behaves_like 'throttled email', 10, 13, 2
@@ -29,8 +24,6 @@ RSpec.describe StartOfCycleNotificationWorker do
     end
 
     context 'with 100 records' do
-      it_behaves_like 'throttled email', 100, 1, 6
-      it_behaves_like 'throttled email', 100, 5, 8
       it_behaves_like 'throttled email', 100, 9, 12
       it_behaves_like 'throttled email', 100, 12, 20
       it_behaves_like 'throttled email', 100, 13, 25
@@ -38,12 +31,32 @@ RSpec.describe StartOfCycleNotificationWorker do
     end
 
     context 'with 1000 records' do
-      it_behaves_like 'throttled email', 1000, 1, 62
-      it_behaves_like 'throttled email', 1000, 5, 83
       it_behaves_like 'throttled email', 1000, 9, 125
       it_behaves_like 'throttled email', 1000, 12, 200
       it_behaves_like 'throttled email', 1000, 13, 250
       it_behaves_like 'throttled email', 1000, 15, 500
+    end
+  end
+
+  describe 'only performs during a defined window' do
+    let(:timetable) { RecruitmentCycleTimetable.current_timetable }
+
+    it 'does not run if the service has not opened yet' do
+      allow(GetProvidersToNotifyAboutFindAndApply).to receive(:call)
+
+      travel_temporarily_to(timetable.find_opens_at - 1.minute) do
+        described_class.new.perform('find')
+        expect(GetProvidersToNotifyAboutFindAndApply).not_to have_received(:call)
+      end
+    end
+
+    it 'does not run if it is 17:00 on the day the service opens' do
+      allow(GetProvidersToNotifyAboutFindAndApply).to receive(:call)
+
+      travel_temporarily_to(timetable.find_opens_at.change(hour: 17)) do
+        described_class.new.perform('find')
+        expect(GetProvidersToNotifyAboutFindAndApply).not_to have_received(:call)
+      end
     end
   end
 
@@ -86,7 +99,8 @@ RSpec.describe StartOfCycleNotificationWorker do
       let(:service) { 'find' }
 
       before do
-        TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.find_opens.change(hour: 16))
+        timetable = RecruitmentCycleTimetable.current_timetable
+        TestSuiteTimeMachine.travel_permanently_to(timetable.find_opens_at.change(hour: 16))
       end
 
       it 'notifies all provider users that the service is open' do

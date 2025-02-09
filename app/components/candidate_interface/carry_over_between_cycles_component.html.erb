@@ -21,7 +21,7 @@
       <%= t(
             'carry_over_after_deadline_component.application_process_description',
             next_academic_year: next_academic_cycle,
-            apply_reopens_date: CycleTimetable.apply_reopens.to_fs(:govuk_date),
+            apply_reopens_date: apply_reopens_date.to_fs(:govuk_date),
           ) %>
     </p>
   </div>

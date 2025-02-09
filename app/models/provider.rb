@@ -65,7 +65,7 @@ class Provider < ApplicationRecord
   end
 
   def selectable_school?
-    return true unless CycleTimetable.current_year >= 2025
+    return true unless RecruitmentCycleTimetable.current_year >= 2025
 
     super
   end

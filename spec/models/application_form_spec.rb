@@ -6,6 +6,7 @@ RSpec.describe ApplicationForm do
 
   it { is_expected.to have_one(:subsequent_application_form).class_name('ApplicationForm').with_foreign_key('previous_application_form_id').inverse_of('previous_application_form') }
   it { is_expected.to have_one(:english_proficiency) }
+  it { is_expected.to have_one :recruitment_cycle_timetable }
 
   it { is_expected.to have_many(:application_choices) }
   it { is_expected.to have_many(:course_options).through(:application_choices) }
@@ -136,7 +137,7 @@ RSpec.describe ApplicationForm do
       it 'throws an exception rather than touch an application choice' do
         application_form = create(
           :completed_application_form,
-          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
           application_choices_count: 1,
           first_name: 'Mary',
         )
@@ -148,7 +149,7 @@ RSpec.describe ApplicationForm do
       it 'does not throw an exception and touches an application choice when offer is deferred from last cycle' do
         application_form = create(
           :completed_application_form,
-          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
           application_choices_count: 1,
         )
 
@@ -165,7 +166,7 @@ RSpec.describe ApplicationForm do
         )
 
         application_form.application_choices.update(status: 'offer_deferred')
-        application_form.update(recruitment_cycle_year: RecruitmentCycle.previous_year - 1)
+        application_form.update(recruitment_cycle_year: RecruitmentCycleTimetable.previous_year - 1)
 
         expect { application_form.update(address_line1: '123 Fake Street') }
           .not_to raise_error
@@ -174,7 +175,7 @@ RSpec.describe ApplicationForm do
       it 'does nothing when there are no application choices' do
         application_form = create(
           :completed_application_form,
-          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
           application_choices_count: 0,
           first_name: 'Mary',
         )
@@ -187,7 +188,7 @@ RSpec.describe ApplicationForm do
         it 'does not throw an exception' do
           application_form = create(
             :completed_application_form,
-            recruitment_cycle_year: RecruitmentCycle.previous_year,
+            recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
             application_choices_count: 1,
             references_count: 0,
           )
@@ -829,16 +830,18 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#carry_over?' do
+    let(:timetable) { RecruitmentCycleTimetable.current_timetable }
+
     context 'application is unsubmitted' do
       it 'true when application deadline has passed' do
-        travel_temporarily_to(CycleTimetable.apply_deadline + 1.second) do
+        travel_temporarily_to(timetable.apply_deadline_at + 1.second) do
           application_form = build(:application_form, :unsubmitted, application_choices: [build(:application_choice)])
           expect(application_form.carry_over?).to be(true)
         end
       end
 
       it 'false when application deadline has not passed' do
-        travel_temporarily_to(CycleTimetable.apply_deadline - 1.second) do
+        travel_temporarily_to(timetable.apply_deadline_at - 1.second) do
           application_form = build(:application_form, :unsubmitted, application_choices: [build(:application_choice)])
           expect(application_form.carry_over?).to be(false)
         end
@@ -847,14 +850,14 @@ RSpec.describe ApplicationForm do
 
     context 'application does not have application choices' do
       it 'true when application deadline has passed' do
-        travel_temporarily_to(CycleTimetable.apply_deadline + 1.second) do
+        travel_temporarily_to(timetable.apply_deadline_at + 1.second) do
           application_form = build(:application_form, :submitted, application_choices: [])
           expect(application_form.carry_over?).to be(true)
         end
       end
 
       it 'false when application deadline has not passed' do
-        travel_temporarily_to(CycleTimetable.apply_deadline - 1.second) do
+        travel_temporarily_to(timetable.apply_deadline_at - 1.second) do
           application_form = build(:application_form, :submitted, application_choices: [])
           expect(application_form.carry_over?).to be(false)
         end
@@ -863,7 +866,7 @@ RSpec.describe ApplicationForm do
 
     context 'an application choice is awaiting candidate decision' do
       it 'returns false after the application deadline has passed' do
-        travel_temporarily_to(CycleTimetable.apply_deadline + 1.second) do
+        travel_temporarily_to(timetable.apply_deadline_at + 1.second) do
           application_form = build(
             :application_form,
             :submitted,
@@ -876,7 +879,7 @@ RSpec.describe ApplicationForm do
 
     context 'an application choice is awaiting provider decision' do
       it 'returns false after the application deadline has passed', :aggregate_failures do
-        travel_temporarily_to(CycleTimetable.apply_deadline + 1.second) do
+        travel_temporarily_to(timetable.apply_deadline_at + 1.second) do
           %i[awaiting_provider_decision interviewing inactive].each do |awaiting_decision_status|
             application_form = build(
               :application_form,
@@ -891,9 +894,11 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#unsucessful_and_apply_deadline_has_passed?' do
+    let(:timetable) { RecruitmentCycleTimetable.current_timetable }
+
     context 'application ended with success' do
       it 'returns false' do
-        travel_temporarily_to(CycleTimetable.apply_deadline) do
+        travel_temporarily_to(timetable.apply_deadline_at) do
           application_choice = build(:application_choice, :offered)
           application_form = build(:application_form, application_choices: [application_choice])
 
@@ -1218,6 +1223,30 @@ RSpec.describe ApplicationForm do
         form.public_send("#{field}_completed_at=", 2.days.ago)
         form.public_send("#{field}_completed=", false)
         expect(form.public_send("#{field}_completed_at")).to be_nil
+      end
+    end
+  end
+
+  describe '#apply_deadline_has_passed?' do
+    let(:timetable) { RecruitmentCycleTimetable.current_timetable }
+    let(:form) { build(:application_form, recruitment_cycle_timetable: timetable) }
+
+    it 'returns false before the deadline' do
+      travel_temporarily_to(timetable.apply_deadline_at - 1.minute) do
+        expect(form.apply_deadline_has_passed?).to be false
+      end
+    end
+
+    it 'returns true after the deadline while still in current cycle' do
+      travel_temporarily_to(timetable.apply_deadline_at + 1.minute) do
+        expect(form.apply_deadline_has_passed?).to be true
+      end
+    end
+
+    it 'returns true if a new cycle has started' do
+      next_timetable = timetable.relative_next_timetable
+      travel_temporarily_to(next_timetable.apply_deadline_at - 1.minute) do
+        expect(form.apply_deadline_has_passed?).to be true
       end
     end
   end

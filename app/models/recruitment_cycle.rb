@@ -10,14 +10,6 @@ module RecruitmentCycle
     end.stringify_keys
   end
 
-  def self.real_current_year
-    CycleTimetable.real_current_year
-  end
-
-  def self.real_next_year
-    CycleTimetable.real_next_year
-  end
-
   def self.current_year
     CycleTimetable.current_year
   end
@@ -32,10 +24,6 @@ module RecruitmentCycle
 
   def self.previous_year
     current_year - 1
-  end
-
-  def self.years_visible_to_providers
-    [current_year, previous_year]
   end
 
   def self.years_visible_in_support

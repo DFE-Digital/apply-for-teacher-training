@@ -69,7 +69,7 @@ module ProviderInterface
     end
 
     def recruitment_cycle_filter
-      cycle_options = RecruitmentCycle.years_visible_to_providers
+      cycle_options = RecruitmentCycleTimetable.years_visible_to_providers
         .map do |year|
           year_str = year.to_s
           {
@@ -175,7 +175,7 @@ module ProviderInterface
 
       providers.map do |provider|
         uniq_provider_sites = provider.sites.for_recruitment_cycle_years(
-          RecruitmentCycle.years_visible_to_providers,
+          RecruitmentCycleTimetable.years_visible_to_providers,
         ).uniq { |site| [site.code, site.name] }
 
         next unless uniq_provider_sites.count > 1

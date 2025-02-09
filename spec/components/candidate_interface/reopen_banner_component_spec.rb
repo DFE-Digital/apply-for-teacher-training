@@ -2,13 +2,15 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::ReopenBannerComponent do
   describe '#render' do
+    let(:current_timetable) { RecruitmentCycleTimetable.current_timetable }
+
     context 'before find reopens', time: after_apply_deadline do
       it 'renders the banner for an app with the correct details' do
-        result = render_inline(described_class.new(flash_empty: true))
+        result = render_inline(described_class.new(flash_empty: true, current_timetable:))
 
-        apply_opens_date = CycleTimetable.apply_reopens.to_fs(:govuk_date)
-        academic_year = CycleTimetable.cycle_year_range(CycleTimetable.current_year)
-        next_academic_year = CycleTimetable.cycle_year_range(CycleTimetable.next_year)
+        apply_opens_date = current_timetable.relative_next_timetable.apply_opens_at.to_fs(:govuk_date)
+        academic_year = current_timetable.academic_year_range_name
+        next_academic_year = current_timetable.relative_next_timetable.academic_year_range_name
 
         expect(result).to have_content 'The application deadline has passed'
         expect(result).to have_content(
@@ -21,7 +23,7 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
       end
 
       it 'renders nothing if the flash contains something' do
-        result = render_inline(described_class.new(flash_empty: false))
+        result = render_inline(described_class.new(flash_empty: false, current_timetable:))
 
         expect(result.text).to be_blank
       end
@@ -29,7 +31,7 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
 
     context 'after find opens', time: after_find_opens do
       it 'renders the banner for with the correct details' do
-        result = render_inline(described_class.new(flash_empty: true))
+        result = render_inline(described_class.new(flash_empty: true, current_timetable:))
 
         apply_opens_date = CycleTimetable.apply_opens.to_fs(:govuk_date)
         academic_year = CycleTimetable.cycle_year_range(CycleTimetable.previous_year)
@@ -48,7 +50,7 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
 
     context 'after apply opens', time: after_apply_reopens do
       it 'does not render when we are not between cycles' do
-        result = render_inline(described_class.new(flash_empty: true))
+        result = render_inline(described_class.new(flash_empty: true, current_timetable:))
 
         expect(result.text).to be_blank
       end

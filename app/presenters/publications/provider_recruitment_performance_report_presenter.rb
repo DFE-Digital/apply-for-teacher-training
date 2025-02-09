@@ -1,6 +1,6 @@
 module Publications
   class ProviderRecruitmentPerformanceReportPresenter < SimpleDelegator
-    delegate :cycle_range_name,
+    delegate :cycle_year_range_name,
              :relative_next_timetable,
              :relative_previous_timetable,
              :cycle_week_date_range,
@@ -14,8 +14,8 @@ module Publications
       .to_fs(:govuk_date)
     end
 
-    def next_cycle_range_name
-      relative_next_timetable.cycle_range_name
+    def next_cycle_year_range_name
+      relative_next_timetable.cycle_year_range_name
     end
 
     def report_starting_date

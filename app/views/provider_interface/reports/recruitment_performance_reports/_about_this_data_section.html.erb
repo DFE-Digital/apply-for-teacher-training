@@ -6,7 +6,7 @@
 
   <h3 class="govuk-heading-s">
     <% if @provider_report.show_changes_section? %>
-      <%= t('about_this_data_section.subsection_heading_one', cycle_range: @provider_report.cycle_range_name) %>
+      <%= t('about_this_data_section.subsection_heading_one', cycle_range: @provider_report.cycle_year_range_name) %>
       <p class="govuk-body">
         <%= t('about_this_data_section.whats_new_in_2024_paragraph_one') %>
       </p>

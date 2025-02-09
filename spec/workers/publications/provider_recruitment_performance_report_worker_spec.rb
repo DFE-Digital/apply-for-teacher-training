@@ -6,7 +6,7 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportWorker do
     allow(Publications::ProviderRecruitmentPerformanceReportGenerator).to receive(:new).and_return(@instance)
   end
 
-  let(:cycle_week) { CycleTimetable.current_cycle_week.pred }
+  let(:cycle_week) { RecruitmentCycleTimetable.current_cycle_week.pred }
   let(:generation_date) { RecruitmentPerformanceReportTimetable.current_generation_date }
   let(:publication_date) { RecruitmentPerformanceReportTimetable.current_generation_date }
   let(:provider_id) { create(:provider).id }

@@ -19,10 +19,10 @@ module TeacherTrainingPublicAPI
   private
 
     def year_to_sync
-      if CycleTimetable.find_down?
-        ::RecruitmentCycle.next_year
+      if Time.zone.now.after? RecruitmentCycleTimetable.current_timetable.find_closes_at
+        ::RecruitmentCycleTimetable.next_year
       else
-        ::RecruitmentCycle.current_year
+        ::RecruitmentCycleTimetable.current_year
       end
     end
   end

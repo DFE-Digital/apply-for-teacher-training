@@ -141,10 +141,10 @@ RSpec.describe RecruitmentCycleTimetable do
     end
   end
 
-  describe '#cycle_range_name' do
+  describe '#cycle_year_range_name' do
     it 'returns a string describing the recruitment cycle year range' do
       timetable = described_class.find_by(recruitment_cycle_year: 2024)
-      expect(timetable.cycle_range_name).to eq '2023 to 2024'
+      expect(timetable.cycle_year_range_name).to eq '2023 to 2024'
     end
   end
 

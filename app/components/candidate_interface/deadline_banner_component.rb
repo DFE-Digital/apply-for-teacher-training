@@ -4,26 +4,26 @@ class CandidateInterface::DeadlineBannerComponent < ViewComponent::Base
   def initialize(application_form:, flash_empty:)
     @application_form = application_form
     @flash_empty = flash_empty
+    @timetable = @application_form.recruitment_cycle_timetable
   end
 
   def render?
-    flash_empty && CycleTimetable.show_apply_deadline_banner?(@application_form)
+    flash_empty && show_appy_deadline_banner?
   end
 
   def deadline
     {
-      date: CycleTimetable.date(:apply_deadline).to_fs(:govuk_date),
-      time: CycleTimetable.date(:apply_deadline).to_fs(:govuk_time),
+      date: @timetable.apply_deadline_at.to_fs(:govuk_date),
+      time: @timetable.apply_deadline_at.to_fs(:govuk_time),
     }
   end
 
   def academic_year
-    "#{application_form_recruitment_cycle_year} to #{application_form_recruitment_cycle_year + 1}"
+    @timetable.academic_year_range_name
   end
 
-private
-
-  def application_form_recruitment_cycle_year
-    @application_form.recruitment_cycle_year
+  def show_appy_deadline_banner?
+    !@application_form.successful? &&
+      Time.zone.now.between?(@timetable.apply_deadline_at - 12.weeks, @timetable.apply_deadline_at)
   end
 end

@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
+  before { seed_timetables }
+
   let(:provider_worker) { Publications::ProviderRecruitmentPerformanceReportWorker }
   let(:national_worker) { Publications::NationalRecruitmentPerformanceReportWorker }
   let(:provider) { create(:provider) }
-  let(:cycle_week) { CycleTimetable.current_cycle_week.pred }
+  let(:cycle_week) { RecruitmentCycleTimetable.current_cycle_week.pred }
 
   context 'provider report is generated for appropriate providers' do
     before do

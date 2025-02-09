@@ -1,18 +1,6 @@
 class CycleTimetable
   # These dates are configuration for when the previous cycle ends and the next cycle starts
 
-  def self.real_next_year
-    real_current_year + 1
-  end
-
-  def self.real_current_year
-    CYCLE_DATES.keys.detect do |year|
-      return year if last_recruitment_cycle_year?(year)
-
-      Time.zone.now.between?(CYCLE_DATES[year][:find_opens], CYCLE_DATES[year + 1][:find_opens])
-    end
-  end
-
   def self.current_year(now = Time.zone.now)
     if ActiveRecord::Base.connected? && current_cycle_schedule.in?(%i[today_is_after_find_opens today_is_after_apply_opens])
       now += 1.year
@@ -42,25 +30,12 @@ class CycleTimetable
     now
   end
 
-  def self.show_apply_deadline_banner?(application_form)
-    current_date.between?(date(:show_deadline_banner), date(:apply_deadline)) &&
-      !application_form.successful?
-  end
-
   def self.between_reject_by_default_and_find_reopens?
     current_date.between?(CycleTimetable.reject_by_default, CycleTimetable.find_reopens)
   end
 
   def self.apply_deadline(year = current_year)
     date(:apply_deadline, year)
-  end
-
-  def self.next_apply_deadline
-    deadlines = [
-      date(:apply_deadline),
-      date(:apply_deadline, next_year),
-    ]
-    deadlines.find { |deadline| deadline > current_date }
   end
 
   def self.reject_by_default(year = current_year)
@@ -77,10 +52,6 @@ class CycleTimetable
 
   def self.find_opens(year = current_year)
     date(:find_opens, year)
-  end
-
-  def self.show_summer_recruitment_banner(year = current_year)
-    date(:show_summer_recruitment_banner, year)
   end
 
   def self.find_reopens(year = next_year)
@@ -136,11 +107,6 @@ class CycleTimetable
   #
   # cycle_week methods
   #
-
-  def self.current_cycle_week(time = Time.zone.now)
-    weeks = (time.to_date - find_opens(current_year(time)).beginning_of_week.to_date).to_i / 7
-    (weeks % 52).succ
-  end
 
   #
   # cycle_schedule methods
@@ -251,7 +217,6 @@ class CycleTimetable
           find_opens: 7.days.ago,
           apply_opens: 6.days.ago,
           show_deadline_banner: 1.day.ago,
-          show_summer_recruitment_banner: 1.day.ago,
           apply_deadline: 2.days.from_now,
           reject_by_default: 3.days.from_now,
           find_closes: 4.days.from_now,
@@ -262,68 +227,16 @@ class CycleTimetable
     }
   end
 
-  def self.valid_cycle?(application_form)
-    application_form.recruitment_cycle_year == current_year
-  end
-
-  def self.can_add_course_choice?(application_form)
-    valid_cycle?(application_form) && currently_mid_cycle?(application_form)
-  end
-
-  def self.can_submit?(application_form)
-    valid_cycle?(application_form) && !before_apply_opens?
-  end
-
   def self.before_apply_opens?
     current_date < date(:apply_opens)
-  end
-
-  def self.before_find_reopens?
-    return true if current_date.to_date <= find_reopens
-
-    false
-  end
-
-  def self.today_is_between_apply_deadline_and_find_reopens?
-    current_date.between?(apply_deadline, find_reopens)
-  end
-
-  def self.before_apply_reopens?
-    current_date.to_date <= apply_reopens
   end
 
   def self.last_recruitment_cycle_year?(year)
     year == CYCLE_DATES.keys.last
   end
 
-  def self.currently_mid_cycle?(_application_form)
-    !current_date.between?(apply_deadline, find_reopens)
-  end
-
-  def self.apply_deadline_has_passed?(application_form)
-    recruitment_cycle_year = application_form.recruitment_cycle_year
-
-    current_date > apply_deadline(recruitment_cycle_year)
-  end
-
   def self.cycle_year_range(year = current_year)
     "#{year} to #{year + 1}"
-  end
-
-  def self.service_opens_today?(service, year: RecruitmentCycle.current_year, end_of_business_day_hour: 17, end_of_business_day_min: 0)
-    service_opening_date = send("#{service}_opens", year)
-
-    current_date.between?(
-      service_opening_date,
-      service_opening_date.change(hour: end_of_business_day_hour, min: end_of_business_day_min),
-    )
-  end
-
-  def self.this_day_last_cycle
-    days_since_cycle_started = (current_date.to_date - CycleTimetable.apply_opens.to_date).round
-    last_cycle_opening_date = apply_opens(previous_year).to_date
-    last_cycle_date = days_since_cycle_started.days.after(last_cycle_opening_date)
-    DateTime.new(last_cycle_date.year, last_cycle_date.month, last_cycle_date.day, Time.current.hour, Time.current.min, Time.current.sec)
   end
 
   private_class_method :last_recruitment_cycle_year?

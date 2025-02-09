@@ -72,7 +72,11 @@ private
   end
 
   def this_day_last_year
-    CycleTimetable.this_day_last_cycle.beginning_of_day..CycleTimetable.this_day_last_cycle
+    current_timetable.this_day_last_cycle.beginning_of_day..current_timetable.this_day_last_cycle
+  end
+
+  def current_timetable
+    @current_timetable ||= RecruitmentCycleTimetable.current_timetable
   end
 
   def mailbox_emoji(message_count)

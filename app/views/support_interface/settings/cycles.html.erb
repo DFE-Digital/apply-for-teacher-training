@@ -10,7 +10,7 @@
       <%= f.govuk_radio_divider %>
 
       <% (CycleTimetable.fake_schedules.keys.map(&:to_s) - %w[real]).each_with_index do |option, i | %>
-        <%= f.govuk_radio_button :cycle_schedule_name, option, label: { text: t("cycles.#{option}.name", year: RecruitmentCycle.real_next_year) }, hint: { text: t("cycles.#{option}.description") }, link_errors: i.zero? %>
+        <%= f.govuk_radio_button :cycle_schedule_name, option, label: { text: t("cycles.#{option}.name", year: current_next_year) }, hint: { text: t("cycles.#{option}.description") }, link_errors: i.zero? %>
       <% end %>
     <% end %>
 
@@ -23,11 +23,11 @@
 <h2 class="govuk-heading-m">Cycle years</h2>
 
 <%= render SummaryListComponent.new(rows: {
-  'Previous cycle year' => RecruitmentCycle.previous_year,
-  'Current cycle year' => RecruitmentCycle.current_year,
-  'Next cycle year' => RecruitmentCycle.next_year,
-  'Years visible to providers' => RecruitmentCycle.years_visible_to_providers.to_sentence,
-  'Current cycle week' => CycleTimetable.current_cycle_week,
+  'Previous cycle year' => RecruitmentCycleTimetable.previous_year,
+  'Current cycle year' => RecruitmentCycleTimetable.current_year,
+  'Next cycle year' => RecruitmentCycleTimetable.next_year,
+  'Years visible to providers' => RecruitmentCycleTimetable.years_visible_to_providers.to_sentence,
+  'Current cycle week' => RecruitmentCycleTimetable.current_cycle_week,
 }) %>
 
 <h2 class="govuk-heading-m">Deadlines</h2>

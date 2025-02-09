@@ -24,7 +24,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-  <% if CycleTimetable.apply_deadline_has_passed?(current_application) %>
+  <% if current_application.apply_deadline_has_passed? %>
 <!--      It is after the deadline, but candidate has inflight applications (eg, awaiting decision) -->
     <%= render CandidateInterface::AfterDeadlineContentComponent.new(application_form: current_application) %>
   <% elsif CycleTimetable.between_cycles? %>

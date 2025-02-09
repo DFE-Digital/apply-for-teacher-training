@@ -3,6 +3,7 @@ module CandidateInterface
     def reopen_banner_component
       render CandidateInterface::ReopenBannerComponentPreviewComponent.new(
         flash_empty: true,
+        current_timetable: RecruitmentCycleTimetable.current_timetable,
       )
     end
   end

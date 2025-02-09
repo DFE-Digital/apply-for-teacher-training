@@ -109,7 +109,7 @@ module CandidateInterface
     end
 
     def course_row_value(application_choice)
-      if CycleTimetable.find_down?
+      if Time.zone.now.after? RecruitmentCycleTimetable.current_timetable.find_closes_at
         "#{application_choice.current_course.name} (#{application_choice.current_course.code})"
       else
         govuk_link_to("#{application_choice.current_course.name} (#{application_choice.current_course.code})", application_choice.current_course.find_url, target: '_blank', rel: 'noopener')

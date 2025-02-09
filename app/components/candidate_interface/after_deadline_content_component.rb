@@ -5,15 +5,21 @@ module CandidateInterface
     end
 
     def academic_year
-      CycleTimetable.cycle_year_range(@application_form.recruitment_cycle_year)
+      timetable.cycle_year_range_name
     end
 
     def next_academic_year
-      CycleTimetable.cycle_year_range(RecruitmentCycle.next_year)
+      timetable.relative_next_timetable.academic_year_range_name
     end
 
     def apply_opens_date
-      I18n.l(CycleTimetable.apply_reopens.to_date, format: :no_year)
+      timetable.relative_next_timetable.apply_opens_at.to_date.to_fs(:month_and_year)
+    end
+
+  private
+
+    def timetable
+      @timetable ||= @application_form.recruitment_cycle_timetable
     end
   end
 end
