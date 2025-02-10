@@ -31,6 +31,9 @@ env:
   SERVICE_SHORT: att
   TF_VARS_PATH: terraform/aks/workspace_variables
 
+permissions:
+  id-token: write
+
 jobs:
   backup:
     name: Backup database
@@ -56,7 +59,9 @@ jobs:
 
     - uses: azure/login@v2
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     - name: Set environment variables
       run: |
@@ -64,6 +69,7 @@ jobs:
         tf_vars_file=${TF_VARS_PATH}/${DEPLOY_ENV}.tfvars.json
         echo "CLUSTER=$(jq -r '.cluster' ${tf_vars_file})" >> $GITHUB_ENV
         echo "AKS_ENV=$(jq -r '.app_environment' ${tf_vars_file})" >> $GITHUB_ENV
+        echo "NAMESPACE=$(jq -r '.namespace' ${tf_vars_file})" >> $GITHUB_ENV
         echo "RESOURCE_GROUP_NAME=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-rg" >> $GITHUB_ENV
         echo "STORAGE_ACCOUNT_NAME=${RESOURCE_NAME_PREFIX}${SERVICE_SHORT}dbbkp${CONFIG_SHORT}sa" >> $GITHUB_ENV
         TODAY=$(date +"%F")
@@ -83,8 +89,11 @@ jobs:
         storage-account: ${{ env.STORAGE_ACCOUNT_NAME }}
         resource-group: ${{ env.RESOURCE_GROUP_NAME }}
         app-name: ${{ env.SERVICE_NAME }}-${{ env.AKS_ENV }}
+        namespace: ${{ env.NAMESPACE }}
         cluster: ${{ env.CLUSTER }}
-        azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         backup-file: ${{ env.BACKUP_FILE }}.sql
         db-server-name: ${{ inputs.db-server }}
         slack-webhook: ${{ secrets.SLACK_WEBHOOK }}

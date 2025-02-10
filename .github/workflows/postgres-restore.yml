@@ -31,6 +31,9 @@ env:
   SERVICE_SHORT: att
   TF_VARS_PATH: terraform/aks/workspace_variables
 
+permissions:
+  id-token: write
+
 jobs:
   restore:
     name: Restore AKS Database
@@ -49,6 +52,7 @@ jobs:
         tf_vars_file=${{ env.TF_VARS_PATH }}/${{ inputs.environment }}.tfvars.json
         echo "CLUSTER=$(jq -r '.cluster' ${tf_vars_file})" >> $GITHUB_ENV
         echo "AKS_ENV=$(jq -r '.app_environment' ${tf_vars_file})" >> $GITHUB_ENV
+        echo "NAMESPACE=$(jq -r '.namespace' ${tf_vars_file})" >> $GITHUB_ENV
         echo "RESOURCE_GROUP_NAME=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-rg" >> $GITHUB_ENV
         echo "STORAGE_ACCOUNT_NAME=${RESOURCE_NAME_PREFIX}${SERVICE_SHORT}dbbkp${CONFIG_SHORT}sa" >> $GITHUB_ENV
         echo "DB_SERVER=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-psql" >> $GITHUB_ENV
@@ -67,6 +71,9 @@ jobs:
         storage-account: ${{ env.STORAGE_ACCOUNT_NAME }}
         resource-group: ${{ env.RESOURCE_GROUP_NAME }}
         app-name: ${{ env.SERVICE_NAME }}-${{ env.AKS_ENV }}
+        namespace: ${{ env.NAMESPACE }}
         cluster: ${{ env.CLUSTER }}
-        azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         backup-file: ${{ env.BACKUP_FILE }}

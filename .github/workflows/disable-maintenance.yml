@@ -10,6 +10,9 @@ on:
         - qa
         - production
 
+permissions:
+  id-token: write
+
 jobs:
   disable-maintenance:
     name: Disable maintenance app
@@ -22,12 +25,16 @@ jobs:
 
     - uses: azure/login@v2
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     - name: Set ARM and kubelogin environment
       uses: DFE-Digital/github-actions/set-kubelogin-environment@master
       with:
-        azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     - name: Disable maintenance app
       run: make ci ${{ inputs.environment }} disable-maintenance
