@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Candidate submits the application' do
   include CandidateHelper
 
-  scenario 'Candidate with a completed application' do
+  scenario 'Candidate with a completed application', :with_audited do
     given_i_am_signed_in_with_one_login
     when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice
     and_i_continue_with_my_application
@@ -46,6 +46,7 @@ RSpec.describe 'Candidate submits the application' do
 
     when_one_of_my_applications_becomes_inactive
     then_i_am_able_to_add_another_choice
+    and_audits_are_created_correctly
   end
 
   scenario 'Candidate with a primary application missing the science GCSE' do
@@ -214,5 +215,11 @@ RSpec.describe 'Candidate submits the application' do
 
   def then_i_am_on_science_gcse_section
     expect(page).to have_current_path(candidate_interface_gcse_details_new_type_path(subject: 'science'))
+  end
+
+  def and_audits_are_created_correctly
+    expect(
+      @application_choice.audits.where(user_id: @current_candidate.id).any?,
+    ).to be_truthy
   end
 end
