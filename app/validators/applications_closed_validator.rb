@@ -1,6 +1,6 @@
 class ApplicationsClosedValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, application_choice)
-    apply_open = CycleTimetable.can_submit?(application_choice.application_form)
+    apply_open = application_choice.application_form.can_submit?
     course_open = application_choice.current_course.open_for_applications?
 
     case [apply_open, course_open]

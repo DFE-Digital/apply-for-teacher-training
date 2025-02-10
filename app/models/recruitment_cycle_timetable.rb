@@ -20,16 +20,24 @@ class RecruitmentCycleTimetable < ApplicationRecord
     where('find_opens_at <= ?', Time.zone.now).order(:recruitment_cycle_year).last
   end
 
+  def self.next_timetable
+    where('find_opens_at > ?', Time.zone.now).order(:recruitment_cycle_year).first
+  end
+
+  def self.previous_timetable
+    where('find_opens_at <= ?', Time.zone.now).order(:recruitment_cycle_year).second_to_last
+  end
+
   def self.current_year
     current_timetable.recruitment_cycle_year
   end
 
   def self.previous_year
-    current_year - 1
+    previous_timetable.recruitment_cycle_year
   end
 
   def self.next_year
-    current_year + 1
+    next_timetable.recruitment_cycle_year
   end
 
   def self.current_cycle_week
@@ -59,6 +67,18 @@ class RecruitmentCycleTimetable < ApplicationRecord
 
     start_of_week = find_opens_at + cycle_week.weeks
     start_of_week.all_week
+  end
+
+  def after_apply_deadline?
+    Time.zone.now.after? apply_deadline_at
+  end
+
+  def after_apply_opens?
+    Time.zone.now.after? apply_opens_at
+  end
+
+  def before_apply_opens?
+    Time.zone.now.before? apply_opens_at
   end
 
 private
