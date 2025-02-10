@@ -32,7 +32,7 @@ runs:
         cluster=$(jq -r '.cluster' ${tf_vars_file})
 
         if [ -n "${{ inputs.pr-number }}" ]; then
-          echo "DEPLOY_ENV=review_aks-${{ inputs.pr-number }}" >> $GITHUB_ENV
+          echo "DEPLOY_ENV=review-${{ inputs.pr-number }}" >> $GITHUB_ENV
           echo "deploy_url=https://apply-review-${{ inputs.pr-number }}.${cluster}.teacherservices.cloud" >> $GITHUB_OUTPUT
         else
           echo "DEPLOY_ENV=${{ inputs.environment }}" >> $GITHUB_ENV
@@ -110,7 +110,7 @@ runs:
       shell: bash
       if: inputs.pr-number != ''
       run: |
-        make ci review_aks get-cluster-credentials PR_NUMBER=${{ inputs.pr-number }}
+        make ci review get-cluster-credentials PR_NUMBER=${{ inputs.pr-number }}
         kubectl exec -n bat-qa deployment/apply-review-${{ inputs.pr-number }} -- sh -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/rake setup_review_app_data"
 
     - name: Notify Slack channel on job failure

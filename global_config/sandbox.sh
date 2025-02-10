@@ -1,4 +1,4 @@
-CONFIG=sandbox_aks
+CONFIG=sandbox
 APP_ENV=${CONFIG}
 DNS_ENV=sandbox
 CONFIG_SHORT=sbx

@@ -8,12 +8,12 @@ on:
         description: Environment to deploy to
         required: true
         type: choice
-        default: qa_aks
+        default: qa
         options:
-        - qa_aks
-        - staging_aks
-        - sandbox_aks
-        - production_aks
+        - qa
+        - staging
+        - sandbox
+        - production
       sha:
         description: Commit sha to be deployed
         required: true

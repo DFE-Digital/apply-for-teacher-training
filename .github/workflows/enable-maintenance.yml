@@ -14,7 +14,7 @@ jobs:
   enable-maintenance:
     name: Enable maintenance app
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}_aks
+    environment: ${{ inputs.environment }}
 
     steps:
     - name: Checkout
@@ -39,6 +39,6 @@ jobs:
         azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Deploy maintenance app
-      run: make ci ${{ inputs.environment }}_aks maintenance-fail-over
+      run: make ci ${{ inputs.environment }} maintenance-fail-over
       env:
         MAINTENANCE_IMAGE_TAG: ${{steps.build-image.outputs.tag}}

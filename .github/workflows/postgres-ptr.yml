@@ -6,13 +6,13 @@ on:
       environment:
         description: Environment to restore
         required: true
-        default: qa_aks
+        default: qa
         type: choice
         options:
-        - qa_aks
-        - staging_aks
-        - sandbox_aks
-        - production_aks
+        - qa
+        - staging
+        - sandbox
+        - production
       confirm-production:
         description: Must be set to true if restoring production
         required: true
@@ -36,7 +36,7 @@ env:
 jobs:
   ptr-restore:
     name: PTR Restore AKS Database
-    if: ${{ inputs.environment != 'production_aks' || (inputs.environment == 'production_aks' && github.event.inputs.confirm-production == 'true' )  }}
+    if: ${{ inputs.environment != 'production' || (inputs.environment == 'production' && github.event.inputs.confirm-production == 'true' )  }}
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     concurrency: deploy_${{ inputs.environment }}

@@ -14,7 +14,7 @@ jobs:
     concurrency: deploy_v2_review_${{ github.event.pull_request.number }}
     if: ${{ contains(github.event.pull_request.labels.*.name, 'deploy_v2') || contains(github.event.pull_request.labels.*.name, 'dependencies') }}
     runs-on: ubuntu-latest
-    environment: review_aks
+    environment: review
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,16 +26,16 @@ jobs:
 
           PR_NUMBER=${{ github.event.pull_request.number }}
           TF_STATE_FILE=pr-$PR_NUMBER.tfstate
-          echo "DEPLOY_ENV=review_aks-$PR_NUMBER" >> $GITHUB_ENV
+          echo "DEPLOY_ENV=review-$PR_NUMBER" >> $GITHUB_ENV
           echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
           echo "TF_STATE_FILE=$TF_STATE_FILE" >> $GITHUB_ENV
 
-          tf_vars_file=terraform/aks/workspace_variables/review_aks.tfvars.json
+          tf_vars_file=terraform/aks/workspace_variables/review.tfvars.json
           echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' "${tf_vars_file}")" >> $GITHUB_ENV
           echo "KEY_VAULT_APP_SECRET_NAME=$(jq -r '.key_vault_app_secret_name' "${tf_vars_file}")" >> $GITHUB_ENV
           echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' "${tf_vars_file}")" >> $GITHUB_ENV
 
-          source global_config/review_aks.sh
+          source global_config/review.sh
 
           echo "STORAGE_ACCOUNT_RG=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-rg" >> $GITHUB_ENV
           echo "STORAGE_ACCOUNT_NAME=${RESOURCE_NAME_PREFIX}${SERVICE_SHORT}tfstate${CONFIG_SHORT}sa" >> $GITHUB_ENV
@@ -83,7 +83,7 @@ jobs:
 
       - name: Terraform destroy
         if: env.TF_STATE_EXISTS == 'true'
-        run: make ci review_aks destroy
+        run: make ci review destroy
         env:
           APP_NAME: ${{ env.PR_NUMBER }}
           IMAGE_TAG: ignored
