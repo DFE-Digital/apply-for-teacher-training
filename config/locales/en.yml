@@ -278,7 +278,6 @@ en:
       confirmation: Your reference for %{full_name} has been submitted
       finish: Thank you
       decline: Decline to give a reference
-    providers: Courses on this service
     decisions:
       offer: Details of offer
       accept_offer: Are you sure you want to accept this offer?
