@@ -24,10 +24,10 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-  <% if CycleTimetable.apply_deadline_has_passed?(current_application) %>
+  <% if current_application.apply_deadline_has_passed? %>
 <!--      It is after the deadline, but candidate has inflight applications (eg, awaiting decision) -->
     <%= render CandidateInterface::AfterDeadlineContentComponent.new(application_form: current_application) %>
-  <% elsif CycleTimetable.between_cycles? %>
+  <% elsif current_application.before_apply_has_opened? %>
 <!--      The candidate has carried over an application, but is not yet able to submit choices-->
     <%= render CandidateInterface::CarriedOverContentComponent.new(application_form: current_application) %>
   <% else %>

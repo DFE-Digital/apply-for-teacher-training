@@ -23,10 +23,11 @@ RSpec.describe CandidateInterface::SubmitApplicationChoice do
       let(:application_choice) { create(:application_choice, :unsubmitted) }
 
       it 'updates timestamps relevant to submitting an application' do
-        travel_temporarily_to(Time.zone.local(0)) do
+        submitted_at_time = 5.minutes.ago
+        travel_temporarily_to(submitted_at_time) do
           submit_application
-          expect(application_form.submitted_at).to eq Time.zone.local(0)
-          expect(application_choice.sent_to_provider_at).to eq Time.zone.local(0)
+          expect(application_form.submitted_at).to be_within(1.second).of(submitted_at_time)
+          expect(application_choice.sent_to_provider_at).to be_within(1.second).of(submitted_at_time)
         end
       end
 

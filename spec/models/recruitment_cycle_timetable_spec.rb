@@ -107,6 +107,20 @@ RSpec.describe RecruitmentCycleTimetable do
     end
   end
 
+  describe '#next_timetable' do
+    it 'returns the timetable after the current one' do
+      next_year = described_class.current_year + 1
+      expect(described_class.next_timetable).to eq described_class.find_by(recruitment_cycle_year: next_year)
+    end
+  end
+
+  describe '#previous_timetable' do
+    it 'returns the timetable before the current one' do
+      previous_year = described_class.current_year - 1
+      expect(described_class.previous_timetable).to eq described_class.find_by(recruitment_cycle_year: previous_year)
+    end
+  end
+
   describe '#current_cycle_week' do
     context 'the first day of the cycle' do
       it 'returns 1' do

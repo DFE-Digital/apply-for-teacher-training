@@ -7,11 +7,11 @@ module CandidateInterface
     end
 
     def application_form_academic_cycle
-      academic_cycle_name(application_form_recruitment_cycle_year)
+      @application_form.recruitment_cycle_timetable.academic_year_range_name
     end
 
     def next_academic_cycle
-      academic_cycle_name(next_recruitment_cycle_year)
+      next_timetable.academic_year_range_name
     end
 
     def application_choices
@@ -22,22 +22,18 @@ module CandidateInterface
       )
     end
 
+    def apply_reopens_date
+      next_timetable.apply_opens_at.to_date
+    end
+
   private
 
-    def academic_cycle_name(year)
-      "#{year} to #{year + 1}"
-    end
-
-    def application_form_recruitment_cycle_year
-      @application_form.recruitment_cycle_year
-    end
-
-    def next_recruitment_cycle_year
-      if Time.zone.now.after? CycleTimetable.apply_deadline
-        RecruitmentCycle.next_year
-      else
-        RecruitmentCycle.current_year
-      end
+    def next_timetable
+      @next_timetable ||= if Time.zone.now.after? RecruitmentCycleTimetable.current_timetable.apply_deadline_at
+                            RecruitmentCycleTimetable.next_timetable
+                          else
+                            RecruitmentCycleTimetable.current_timetable
+                          end
     end
   end
 end

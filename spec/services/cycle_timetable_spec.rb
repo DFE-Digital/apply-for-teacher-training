@@ -54,42 +54,6 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.show_apply_deadline_banner?' do
-    it 'returns true before the deadline and the choices have not been successful' do
-      application_choices = [build(:application_choice, :withdrawn)]
-      application_form = build(:application_form, application_choices:)
-
-      travel_temporarily_to(one_hour_before_apply_deadline) do
-        expect(described_class.show_apply_deadline_banner?(application_form)).to be true
-      end
-    end
-
-    it 'returns true if there are no application choices' do
-      application_form = build(:application_form)
-
-      travel_temporarily_to(one_hour_before_apply_deadline) do
-        expect(described_class.show_apply_deadline_banner?(application_form)).to be true
-      end
-    end
-
-    it 'returns false if it is a successful application' do
-      application_choice = build(:application_choice, :offered)
-      application_form = build(:application_form, phase: 'apply_1', application_choices: [application_choice])
-
-      travel_temporarily_to(one_hour_before_apply_deadline) do
-        expect(described_class.show_apply_deadline_banner?(application_form)).to be false
-      end
-    end
-
-    it 'returns false after the configured date' do
-      application_form = build(:application_form)
-
-      travel_temporarily_to(one_hour_after_apply_deadline) do
-        expect(described_class.show_apply_deadline_banner?(application_form)).to be false
-      end
-    end
-  end
-
   describe '.between_cycles?' do
     it 'returns false before if apply deadline has not passed' do
       travel_temporarily_to(one_hour_before_apply_deadline) do

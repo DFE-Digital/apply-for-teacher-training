@@ -20,16 +20,24 @@ class RecruitmentCycleTimetable < ApplicationRecord
     where('find_opens_at <= ?', Time.zone.now).order(:recruitment_cycle_year).last
   end
 
+  def self.next_timetable
+    where('find_opens_at > ?', Time.zone.now).order(:recruitment_cycle_year).first
+  end
+
+  def self.previous_timetable
+    where('find_opens_at <= ?', Time.zone.now).order(:recruitment_cycle_year).second_to_last
+  end
+
   def self.current_year
     current_timetable.recruitment_cycle_year
   end
 
   def self.previous_year
-    current_year - 1
+    previous_timetable.recruitment_cycle_year
   end
 
   def self.next_year
-    current_year + 1
+    next_timetable.recruitment_cycle_year
   end
 
   def self.current_cycle_week
@@ -39,6 +47,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
 
   def cycle_range_name
     "#{recruitment_cycle_year - 1} to #{recruitment_cycle_year}"
+  end
+
+  def academic_year_range_name
+    "#{recruitment_cycle_year} to #{recruitment_cycle_year + 1}"
   end
 
   def relative_next_timetable

@@ -7,6 +7,13 @@ class ApplicationForm < ApplicationRecord
 
   include Chased
 
+  has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
+  delegate :apply_deadline_at,
+           :apply_opens_at,
+           :find_opens_at,
+           :reject_by_default_at,
+           to: :recruitment_cycle_timetable
+
   belongs_to :candidate, touch: true
   has_many :application_choices
   has_many :course_options, through: :application_choices
@@ -26,7 +33,7 @@ class ApplicationForm < ApplicationRecord
 
   has_many :application_feedback
 
-  scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
+  scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
   scope :unsubmitted, -> { where(submitted_at: nil) }
   scope :inactive_since, ->(time) { where('application_forms.updated_at < ?', time) }
   scope :with_completion, ->(completion_attributes) { where(completion_attributes.map { |attr| "#{attr} = true" }.join(' AND ')) }
@@ -171,7 +178,7 @@ class ApplicationForm < ApplicationRecord
     previously_assigned: 'previously_assigned',
   }
 
-  attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycle.current_year }
+  attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycleTimetable.current_year }
 
   before_create :add_support_reference
 
@@ -304,7 +311,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def carry_over?
-    return false unless CycleTimetable.apply_deadline_has_passed?(self)
+    return false unless apply_deadline_has_passed?
 
     !submitted? ||
       application_choices.blank? ||
@@ -314,7 +321,15 @@ class ApplicationForm < ApplicationRecord
   end
 
   def unsuccessful_and_apply_deadline_has_passed?
-    ended_without_success? && CycleTimetable.apply_deadline_has_passed?(self)
+    ended_without_success? && apply_deadline_has_passed?
+  end
+
+  def apply_deadline_has_passed?
+    Time.zone.now.after? apply_deadline_at
+  end
+
+  def before_apply_has_opened?
+    Time.zone.now.before? apply_opens_at
   end
 
   ##########################################
@@ -564,7 +579,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def current_recruitment_cycle?
-    RecruitmentCycle.current_year == recruitment_cycle_year
+    RecruitmentCycleTimetable.current_year == recruitment_cycle_year
   end
 
   # FIXME: This can be removed once the booleans are no longer in use.
@@ -672,6 +687,18 @@ class ApplicationForm < ApplicationRecord
       Time.zone.now < editable_until
   end
 
+  def current_cycle?
+    recruitment_cycle_year == RecruitmentCycleTimetable.current_year
+  end
+
+  def can_add_course_choice?
+    current_cycle? && Time.zone.now.between?(find_opens_at, apply_deadline_at)
+  end
+
+  def can_submit?
+    current_cycle? && Time.zone.now.between?(apply_opens_at, apply_deadline_at)
+  end
+
 private
 
   def geocode_address_and_update_region_if_required
@@ -721,7 +748,7 @@ private
   end
 
   def earlier_cycle?
-    recruitment_cycle_year < RecruitmentCycle.current_year
+    recruitment_cycle_year < RecruitmentCycleTimetable.current_year
   end
 
   def prevent_unsave_touches?

@@ -42,11 +42,6 @@ class CycleTimetable
     now
   end
 
-  def self.show_apply_deadline_banner?(application_form)
-    current_date.between?(date(:show_deadline_banner), date(:apply_deadline)) &&
-      !application_form.successful?
-  end
-
   def self.between_reject_by_default_and_find_reopens?
     current_date.between?(CycleTimetable.reject_by_default, CycleTimetable.find_reopens)
   end

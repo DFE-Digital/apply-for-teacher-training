@@ -8,6 +8,7 @@ module CandidateInterface
              :cache_key_with_version,
              :candidate_has_previously_applied?,
              :can_add_more_choices?,
+             :can_add_course_choice?,
              :english_main_language,
              :application_limit_reached?,
              :first_name,
@@ -337,7 +338,7 @@ module CandidateInterface
     def can_submit_more_applications?
       completed_application_form? && # The form is complete
         can_add_more_choices? && # They have not submitted the max number of choices
-        CycleTimetable.can_add_course_choice?(application_form) # The apply deadline for this form has not passed
+        can_add_course_choice? # The apply deadline for this form has not passed
     end
 
   private
