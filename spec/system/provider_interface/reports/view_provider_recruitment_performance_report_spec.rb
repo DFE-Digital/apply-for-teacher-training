@@ -7,9 +7,10 @@ RSpec.describe 'Visit provider recruitment performance report page' do
     given_a_provider_and_provider_user_exists
     and_a_provider_recruitment_performance_report_has_been_generated
     and_national_recruitment_performance_report_has_been_generated
+    and_reports_from_a_later_week_were_generated_for_last_year
     and_i_am_signed_in_as_provider_user
     and_i_visit_the_provider_recruitment_report_page
-    then_i_see_the_report
+    then_i_see_the_report_for_the_current_year
     and_i_can_navigate_to_report_sections
   end
 
@@ -28,18 +29,23 @@ private
   end
 
   def and_a_provider_recruitment_performance_report_has_been_generated
-    create(:provider_recruitment_performance_report, recruitment_cycle_year: RecruitmentCycleTimetable.current_year, provider: @provider)
+    create(:provider_recruitment_performance_report, recruitment_cycle_year: RecruitmentCycleTimetable.current_year, cycle_week: 31, provider: @provider)
   end
 
   def and_national_recruitment_performance_report_has_been_generated
-    create(:national_recruitment_performance_report, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
+    create(:national_recruitment_performance_report, recruitment_cycle_year: RecruitmentCycleTimetable.current_year, cycle_week: 31)
+  end
+
+  def and_reports_from_a_later_week_were_generated_for_last_year
+    create(:provider_recruitment_performance_report, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year, cycle_week: 43, provider: @provider)
+    create(:national_recruitment_performance_report, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year, cycle_week: 43)
   end
 
   def and_i_visit_the_provider_recruitment_report_page
     visit provider_interface_reports_provider_recruitment_performance_report_path(provider_id: @provider.id)
   end
 
-  def then_i_see_the_report
+  def then_i_see_the_report_for_the_current_year
     year = RecruitmentCycleTimetable.current_year
     cycle_name = "#{year - 1} to #{year}"
     expect(page).to have_content("Recruitment performance weekly report #{cycle_name}")
