@@ -10,7 +10,6 @@ module CandidateInterface
     before_action :check_cookie_preferences
     before_action :check_account_locked
     layout 'application'
-    alias audit_user current_candidate
 
     def current_user
       current_candidate
@@ -19,6 +18,7 @@ module CandidateInterface
     def current_candidate
       super || Current.session&.candidate
     end
+    alias audit_user current_candidate
 
     def set_user_context(candidate_id = current_candidate&.id)
       Sentry.set_user(id: "candidate_#{candidate_id}")
