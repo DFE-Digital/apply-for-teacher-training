@@ -46,7 +46,7 @@ module CandidateInterface
     end
 
     def self.listed_ethnic_background?(group, background)
-      ETHNIC_BACKGROUNDS[group].include?(background) || OTHER_ETHNIC_BACKGROUNDS[group] == background
+      ETHNIC_BACKGROUNDS[group]&.include?(background) || OTHER_ETHNIC_BACKGROUNDS[group] == background
     end
 
   private
