@@ -124,10 +124,8 @@ module RefereeInterface
       if @refuse_feedback_form.save(reference)
         if @reference.refused
           redirect_to referee_interface_decline_reference_path(token: @token_param)
-        elsif FeatureFlag.active?(:show_reference_confidentiality_status)
-          redirect_to referee_interface_confidentiality_path(token: @token_param, from: 'refuse')
         else
-          redirect_to referee_interface_reference_relationship_path(token: @token_param, from: 'refuse')
+          redirect_to referee_interface_confidentiality_path(token: @token_param, from: 'refuse')
         end
       end
     end
