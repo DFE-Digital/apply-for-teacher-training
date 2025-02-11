@@ -19,9 +19,9 @@ module CandidateInterface
 
     def rows
       CandidateInterface::PersonalDetailsReviewPresenter.new(
+        application_form: @application_form,
         personal_details_form: @personal_details_form,
         nationalities_form: @nationalities_form,
-        application_form: @application_form,
         right_to_work_form: @right_to_work_or_study_form,
         return_to_application_review: @return_to_application_review,
         editable: @editable,
