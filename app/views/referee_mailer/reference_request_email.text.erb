@@ -9,9 +9,7 @@ You will need to:
 -say whether you have any concerns about them working with children
 -give factual information which can be used to check their application, for example about <%= t("referee_mailer.guidance.#{@referee_type}") %>
 
-<% if FeatureFlag.active?(:show_reference_confidentiality_status) %>
 You can choose whether <%= @candidate_first_name %> will be able to see your reference or if it should be kept confidential.
-<% end %>
 
 Use this link to give the reference or to say you cannot give one:
 

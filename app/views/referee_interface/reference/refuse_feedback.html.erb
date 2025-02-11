@@ -24,15 +24,7 @@
         </p>
       <% end %>
 
-      <% if FeatureFlag.active?(:show_reference_confidentiality_status) %>
-
-        <p class="govuk-body">You can choose whether <%= @application.full_name %> should be able to see the contents of your reference or if it should be confidential.</p>
-
-      <% else %>
-
-        <p class="govuk-body">Your reference will not be sent to  <%= @application.full_name %>.</p>
-
-      <% end %>
+      <p class="govuk-body">You can choose whether <%= @application.full_name %> should be able to see the contents of your reference or if it should be confidential.</p>
 
       <%= f.govuk_radio_buttons_fieldset :refused, legend: { text: t('referee.refuse_feedback.choice.label', full_name: @application.full_name) } do %>
         <%= f.govuk_radio_button :refused, :no, label: { text: t('referee.refuse_feedback.choice.cancel') }, link_errors: true %>

@@ -5,7 +5,6 @@ RSpec.describe 'Referee can submit reference in any application choice states', 
 
   it 'Referee submits a reference' do
     given_i_am_a_referee_of_an_application
-    and_the_confidentiality_feature_flag_is_active
     and_i_received_the_initial_reference_request_email
     then_i_receive_an_email_with_a_reference_request
     and_the_candidate_withdraws_from_the_application
@@ -40,10 +39,6 @@ RSpec.describe 'Referee can submit reference in any application choice states', 
 
     when_i_retry_to_edit_the_feedback
     then_i_see_the_thank_you_page
-  end
-
-  def and_the_confidentiality_feature_flag_is_active
-    FeatureFlag.activate(:show_reference_confidentiality_status)
   end
 
   def given_i_am_a_referee_of_an_application

@@ -108,10 +108,6 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     let(:reference) { build_stubbed(:reference, confidential: true) }
     let(:application_form) { build_stubbed(:application_form, first_name: 'Foo', last_name: 'Bar') }
 
-    before do
-      FeatureFlag.activate(:show_reference_confidentiality_status)
-    end
-
     it 'displays that the reference cannot be shared' do
       result = render_inline(described_class.new(reference:, application_form:))
 
@@ -121,31 +117,11 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     end
   end
 
-  context 'when confidential is set to true and the confidentiality feature flag is set to false' do
-    let(:reference) { build_stubbed(:reference, confidential: true) }
-    let(:application_form) { build_stubbed(:application_form, first_name: 'Foo', last_name: 'Bar') }
-
-    before do
-      FeatureFlag.deactivate(:show_reference_confidentiality_status)
-    end
-
-    it 'does not display the reference sharing information' do
-      result = render_inline(described_class.new(reference:, application_form:))
-
-      expect(result.css('.govuk-summary-list__key').text).not_to include('Can your reference be shared with Foo Bar')
-      expect(result).to have_no_link('Change', href: referee_interface_confidentiality_path(from: 'review'))
-    end
-  end
-
   context 'when confidentiality is set to false' do
     let(:reference) { build_stubbed(:reference, confidential: false) }
     let(:application_form) { build_stubbed(:application_form, first_name: 'Foo', last_name: 'Bar') }
     let(:result) { render_inline(described_class.new(reference:, application_form:)) }
     let(:confidentiality_row) { result.css('.govuk-summary-list__row')[3] }
-
-    before do
-      FeatureFlag.activate(:show_reference_confidentiality_status)
-    end
 
     it 'displays that the reference can be shared' do
       expect(confidentiality_row.css('.govuk-summary-list__key').text).to include('Can your reference be shared with Foo Bar')

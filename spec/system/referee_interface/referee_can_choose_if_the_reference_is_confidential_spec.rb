@@ -5,7 +5,6 @@ RSpec.describe 'Referee can submit reference', :with_audited do
 
   it 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
     given_i_am_a_referee_of_an_application_and_i_received_the_email
-    and_the_confidentiality_feature_flag_is_active
 
     when_i_click_on_the_link_within_the_email
     and_i_select_yes_to_giving_a_reference
@@ -49,10 +48,6 @@ RSpec.describe 'Referee can submit reference', :with_audited do
 
   def and_the_yes_radio_is_preselected
     expect(page).to have_checked_field('Yes, if they request it')
-  end
-
-  def and_the_confidentiality_feature_flag_is_active
-    FeatureFlag.activate(:show_reference_confidentiality_status)
   end
 
   def given_i_am_a_referee_of_an_application_and_i_received_the_email
