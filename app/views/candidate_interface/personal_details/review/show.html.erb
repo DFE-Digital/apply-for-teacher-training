@@ -14,7 +14,69 @@
 
   <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
 
-  <%= render SummaryCardComponent.new(rows: @personal_details_review.rows) %>
+  <%#= render SummaryCardComponent.new(rows: @personal_details_review.rows) %>
 
-  <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
+  <section class="app-summary-card govuk-!-margin-bottom-6">
+    <div class="app-summary-card__body">
+      <%= govuk_summary_list do |summary_list|
+        summary_list.with_row(html_attributes: {
+          data: {
+            qa: 'personal-details-name',
+          },
+        }) do |row|
+          row.with_key { 'Name' }
+          row.with_value do
+            @personal_details_form.name.presence || govuk_link_to("Enter your name", candidate_interface_edit_name_and_dob_path)
+          end
+
+          if @personal_details_form.name.present?
+            row.with_action(text: "Change", href: candidate_interface_edit_name_and_dob_path, visually_hidden_text: 'name')
+          end
+        end
+
+        summary_list.with_row(html_attributes: {
+          data: {
+            qa: 'personal-details-dob',
+          },
+        }) do |row|
+          row.with_key { 'Date of birth' }
+
+          formatted_date_of_birth = @personal_details_form.date_of_birth.try(:to_fs, :govuk_date).presence
+          row.with_value do
+            formatted_date_of_birth || govuk_link_to("Enter your date of birth", candidate_interface_edit_name_and_dob_path)
+          end
+
+          if formatted_date_of_birth.present?
+            row.with_action(text: "Change", href: candidate_interface_edit_name_and_dob_path, visually_hidden_text: 'date of birth')
+          end
+        end
+
+        summary_list.with_row(html_attributes: {
+          data: {
+            qa: 'personal-details-nationality',
+          },
+        }) do |row|
+          row.with_key { 'Nationality' }
+
+          formatted_nationalities = [
+            @nationalities_form.british,
+            @nationalities_form.irish,
+            @nationalities_form.other_nationality1,
+            @nationalities_form.other_nationality2,
+            @nationalities_form.other_nationality3,
+          ].compact_blank.to_sentence
+
+          row.with_value do
+            formatted_nationalities.presence || govuk_link_to("Enter your nationality", candidate_interface_edit_nationalities_path)
+          end
+
+          if formatted_nationalities.present?
+            row.with_action(text: "Change", href: candidate_interface_edit_nationalities_path, visually_hidden_text: 'nationality')
+          end
+        end
+      end %>
+    </div>
+  </section>
+
+  <%#= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
 <% end %>
