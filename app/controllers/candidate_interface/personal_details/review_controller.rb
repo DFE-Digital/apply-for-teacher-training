@@ -3,11 +3,23 @@ module CandidateInterface
     class ReviewController < SectionController
       def show
         @application_form = current_application
+
+        # Personal information - First name, last name, Date of birth
+        @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
+
+        # What is your nationality?
+        @nationalities_form = NationalitiesForm.build_from_application(current_application)
+
+        # Right to work or study in the UK
+        @immigration_right_to_work_form = ImmigrationRightToWorkForm.build_from_application(current_application)
+
+        # Visa or immigration status
+        @immigration_status_form = ImmigrationStatusForm.build_from_application(current_application)
+
         @section_complete_form = SectionCompleteForm.new(
           completed: current_application.personal_details_completed,
         )
-        @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
-        @nationalities_form = NationalitiesForm.build_from_application(current_application)
+
         @personal_details_review = PersonalDetailsReviewComponent.new(
           application_form: current_application,
           editable: @section_policy.can_edit?,
