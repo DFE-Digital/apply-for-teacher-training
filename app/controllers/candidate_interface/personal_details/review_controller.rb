@@ -14,7 +14,7 @@ module CandidateInterface
         )
       end
 
-      def complete
+      def create
         @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
         @nationalities_form = NationalitiesForm.build_from_application(current_application)
         @immigration_right_to_work_form = ImmigrationRightToWorkForm.build_from_application(current_application)

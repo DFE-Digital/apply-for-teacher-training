@@ -120,7 +120,7 @@ namespace :candidate_interface, path: '/candidate' do
       patch '/immigration-status/edit' => 'personal_details/immigration_status#update'
 
       get '/review' => 'personal_details/review#show', as: :personal_details_show
-      patch '/review' => 'personal_details/review#complete', as: :personal_details_complete
+      patch '/review' => 'personal_details/review#create', as: :personal_details_complete
     end
 
     scope '/personal-statement' do
