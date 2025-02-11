@@ -140,4 +140,21 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
   describe 'validations' do
     it { is_expected.to validate_presence_of(:ethnic_background) }
   end
+
+  describe '.listed_ethnic_background?' do
+    it 'returns true if the group and background are in the ethnic backgrounds' do
+      result = described_class.listed_ethnic_background?('Another ethnic group', 'Arab')
+      expect(result).to be_truthy
+    end
+
+    it 'returns false if the group and background are not the ethnic backgrounds' do
+      result = described_class.listed_ethnic_background?('Another ethnic group', 'Another ethnic group')
+      expect(result).to be_falsey
+    end
+
+    it 'returns false if the group does not exist' do
+      result = described_class.listed_ethnic_background?('wrong group', '')
+      expect(result).to be_falsey
+    end
+  end
 end
