@@ -4,11 +4,11 @@ FactoryBot.define do
   factory :personal_details_form, class: 'CandidateInterface::PersonalDetailsForm' do
     date_of_birth = Faker::Date.birthday
 
-    first_name { Faker::Name.first_name }
-    last_name { Faker::Name.last_name }
-    day { date_of_birth.day }
-    month { date_of_birth.month }
-    year { date_of_birth.year }
+    # first_name { Faker::Name.first_name }
+    # last_name { Faker::Name.last_name }
+    # day { date_of_birth.day }
+    # month { date_of_birth.month }
+    # year { date_of_birth.year }
   end
 end
 
@@ -31,7 +31,6 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
 
   let(:default_personal_details_form) { build(:personal_details_form) }
   let(:default_nationalities_form) { build(:nationalities_form) }
-  let(:default_languages_form) { build(:languages_form) }
   let(:default_right_to_work_form) { build(:right_to_work_form) }
   let(:default_application_form) { build(:application_form) }
 
@@ -313,6 +312,32 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
           candidate_interface_edit_immigration_right_to_work_path('return-to' => 'application-review'),
           'personal_details_immigration_right_to_work',
         ),
+      )
+    end
+  end
+
+  describe '#name_row' do
+    subject(:presenter) {
+      described_class.new(
+        personal_details_form:,
+        nationalities_form:, right_to_work_form:, application_form:
+      )
+    }
+
+    let(:personal_details_form) { build(:personal_details_form) }
+    let(:nationalities_form) { build(:nationalities_form) }
+    let(:right_to_work_form) { build(:right_to_work_form) }
+    let(:application_form) { build(:application_form) }
+
+    it 'returns a hash with the name' do
+      expect(presenter.name_row).to eq(
+        key: 'Name',
+        value: '"helper.govuk_link_to("Enter your name", candidate_interface_edit_name_and_dob_path),"',
+        action: {
+          href: candidate_interface_edit_name_and_dob_path('return-to' => 'application-review'),
+          visually_hidden_text: 'Change your name',
+        },
+        html_attributes: { data: { qa: 'personal-details-name' } },
       )
     end
   end

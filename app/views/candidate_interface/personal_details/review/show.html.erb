@@ -14,11 +14,12 @@
 
   <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
 
-  <%#= render SummaryCardComponent.new(rows: @personal_details_review.rows) %>
+  <%= render SummaryCardComponent.new(rows: @personal_details_review.rows) %>
 
   <section class="app-summary-card govuk-!-margin-bottom-6">
     <div class="app-summary-card__body">
       <%= govuk_summary_list do |summary_list|
+        # Name row
         summary_list.with_row(html_attributes: {
           data: {
             qa: 'personal-details-name',
@@ -34,6 +35,7 @@
           end
         end
 
+        # Date of birth row
         summary_list.with_row(html_attributes: {
           data: {
             qa: 'personal-details-dob',
@@ -51,6 +53,7 @@
           end
         end
 
+        # Nationality row
         summary_list.with_row(html_attributes: {
           data: {
             qa: 'personal-details-nationality',
@@ -72,6 +75,53 @@
 
           if formatted_nationalities.present?
             row.with_action(text: "Change", href: candidate_interface_edit_nationalities_path, visually_hidden_text: 'nationality')
+          end
+        end
+
+        # Immigration right to work row
+        # Only show if the Candidate has selected a Nationality,
+        # and they have stated that they are not British or Irish
+        if @nationalities_form.candidates_nationalities.present? && !(@application_form.build_nationalities_hash[:irish] || @application_form.build_nationalities_hash[:british])
+          summary_list.with_row(html_attributes: {
+            data: {
+              qa: 'personal_details_immigration_right_to_work',
+            },
+          }) do |row|
+            row.with_key { 'Do you have the right to work or study in the UK?' }
+
+            row.with_value do
+              if @immigration_right_to_work_form.right_to_work_or_study.nil?
+                govuk_link_to('Enter your right to work or study in the UK', candidate_interface_edit_immigration_right_to_work_path)
+              elsif @immigration_right_to_work_form.right_to_work_or_study?
+                'Yes'
+              else
+                'No'
+              end
+            end
+
+            unless @immigration_right_to_work_form.right_to_work_or_study.nil?
+              row.with_action(text: "Change", href: candidate_interface_edit_immigration_right_to_work_path, visually_hidden_text: I18n.t('application_form.personal_details.immigration_right_to_work.change_action'))
+            end
+          end
+        end
+
+        # Visa or immigration status row
+        # Only show if the Candidate has stated that they are not British or Irish
+        if @immigration_right_to_work_form.right_to_work_or_study.present?
+          summary_list.with_row(html_attributes: {
+            data: {
+              qa: 'personal_details_visa_or_immigration_status',
+            },
+          }) do |row|
+            row.with_key { 'Visa or Immigration status' }
+
+            row.with_value do
+              @application_form.immigration_status.presence || govuk_link_to('Enter your visa or immigration status', candidate_interface_edit_immigration_status_path)
+            end
+
+            if @application_form.immigration_status.present?
+              row.with_action(text: "Change", href: candidate_interface_edit_immigration_status_path, visually_hidden_text: "visa or immigration status")
+            end
           end
         end
       end %>

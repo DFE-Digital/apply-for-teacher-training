@@ -23,18 +23,22 @@ module CandidateInterface
       assembled_rows.compact
     end
 
-  private
+
 
     def name_row
+      name_row_value = @personal_details_form.name.presence || govuk_link_to("Enter your name", candidate_interface_edit_name_and_dob_path(return_to_params))
+      name_row_action = (
+        if @editable
+          {
+            href: candidate_interface_edit_name_and_dob_path(return_to_params),
+            visually_hidden_text: I18n.t('application_form.personal_details.name.change_action'),
+          }
+        end)
+
       {
         key: I18n.t('application_form.personal_details.name.label'),
-        value: @personal_details_form.name,
-        action: (if @editable
-                   {
-                     href: candidate_interface_edit_name_and_dob_path(return_to_params),
-                     visually_hidden_text: I18n.t('application_form.personal_details.name.change_action'),
-                   }
-                 end),
+        value: name_row_value,
+        action: name_row_action,
         html_attributes: {
           data: {
             qa: 'personal-details-name',
@@ -42,6 +46,8 @@ module CandidateInterface
         },
       }
     end
+
+    private
 
     def date_of_birth_row
       {
@@ -145,17 +151,6 @@ module CandidateInterface
         @application_form.right_to_work_or_study_details
       else
         I18n.t("application_form.personal_details.immigration_status.values.#{@application_form.immigration_status}")
-      end
-    end
-
-    def formatted_right_to_work_or_study
-      case @right_to_work_or_study_form.right_to_work_or_study
-      when 'yes'
-        "I have the right to work or study in the UK<br> #{tag.p(@right_to_work_or_study_form.right_to_work_or_study_details)}".html_safe
-      when 'no'
-        'I will need to apply for permission to work or study in the UK'
-      else
-        'I do not know'
       end
     end
 
