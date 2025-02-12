@@ -82,7 +82,7 @@ RSpec.describe 'Candidate tries to submit an application choice when the course 
 
   def then_i_see_the_course_unavailable_error_message
     within('.govuk-warning-text') do
-      expect(page).to have_content('You cannot submit this application as the course is no longer available.')
+      expect(page).to have_content('You cannot submit this application because the course is no longer available.')
     end
   end
 

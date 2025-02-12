@@ -879,7 +879,7 @@ module CandidateHelper
   end
 
   def then_i_see_that_the_course_is_unavailable
-    expect(page).to have_content('You cannot submit this application as the course is no longer available.')
+    expect(page).to have_content('You cannot submit this application because the course is no longer available.')
     expect(page).to have_content('Remove this application and search for other courses.')
   end
 
