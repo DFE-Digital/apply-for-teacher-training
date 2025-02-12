@@ -24,7 +24,7 @@ Get access credentials for a managed Kubernetes cluster (passing the
 environment name):
 
 ```sh
-make qa_aks get-cluster-credentials
+make qa get-cluster-credentials
 ```
 
 ## Show namespaces

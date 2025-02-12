@@ -8,15 +8,18 @@ on:
         description: Environment to deploy to
         required: true
         type: choice
-        default: qa_aks
+        default: qa
         options:
-        - qa_aks
-        - staging_aks
-        - sandbox_aks
-        - production_aks
+        - qa
+        - staging
+        - sandbox
+        - production
       sha:
         description: Commit sha to be deployed
         required: true
+
+permissions:
+  id-token: write
 
 jobs:
   deploy:
@@ -33,7 +36,9 @@ jobs:
         id: deploy_app_v2
         uses: ./.github/actions/deploy_v2/
         with:
-          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           environment: ${{ github.event.inputs.environment }}
           sha: ${{ github.event.inputs.sha }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}

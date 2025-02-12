@@ -1,7 +1,7 @@
-CONFIG=qa_aks
+CONFIG=staging
 APP_ENV=${CONFIG}
-DNS_ENV=qa
-CONFIG_SHORT=qa
+DNS_ENV=staging
+CONFIG_SHORT=stg
 AZURE_SUBSCRIPTION=s189-teacher-services-cloud-test
 RESOURCE_NAME_PREFIX=s189t01
 ENV_TAG=Test

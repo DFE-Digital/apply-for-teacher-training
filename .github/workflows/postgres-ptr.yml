@@ -6,13 +6,13 @@ on:
       environment:
         description: Environment to restore
         required: true
-        default: qa_aks
+        default: qa
         type: choice
         options:
-        - qa_aks
-        - staging_aks
-        - sandbox_aks
-        - production_aks
+        - qa
+        - staging
+        - sandbox
+        - production
       confirm-production:
         description: Must be set to true if restoring production
         required: true
@@ -33,10 +33,13 @@ env:
   SERVICE_SHORT: att
   TF_VARS_PATH: terraform/aks/workspace_variables
 
+permissions:
+  id-token: write
+
 jobs:
   ptr-restore:
     name: PTR Restore AKS Database
-    if: ${{ inputs.environment != 'production_aks' || (inputs.environment == 'production_aks' && github.event.inputs.confirm-production == 'true' )  }}
+    if: ${{ inputs.environment != 'production' || (inputs.environment == 'production' && github.event.inputs.confirm-production == 'true' )  }}
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     concurrency: deploy_${{ inputs.environment }}
@@ -68,4 +71,6 @@ jobs:
         new-server: ${{ env.NEW_DB_SERVER }}
         restore-time: ${{ inputs.restore-time }}
         cluster: ${{ env.CLUSTER }}
-        azure-credentials: ${{ secrets.AZURE_CREDENTIALS}}
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}

@@ -1,4 +1,4 @@
-CONFIG=production_aks
+CONFIG=production
 APP_ENV=${CONFIG}
 DNS_ENV=production
 CONFIG_SHORT=pd

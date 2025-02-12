@@ -87,54 +87,49 @@ apply:
 pentest:
 	$(eval APP_ENV=pentest)
 
-review_aks: test-cluster
+review: test-cluster
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
-	$(eval include global_config/review_aks.sh)
+	$(eval include global_config/review.sh)
 	$(eval APP_NAME_SUFFIX=review-$(PR_NUMBER))
 	$(eval EXP_STORAGE_ACCOUNT_NAME=s189t01attexprv$(PR_NUMBER)sa)
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 	$(eval export TF_VAR_exp_storage_account_name=s189t01attexprv$(PR_NUMBER)sa)
 
-dv_review_aks: test-cluster ## make dv_review_aks deploy PR_NUMBER=2222 CLUSTER=cluster1
+dv_review: test-cluster ## make dv_review deploy PR_NUMBER=2222 CLUSTER=cluster1
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
 	$(if $(CLUSTER), , $(error Missing environment variable "CLUSTER", Please specify a dev cluster name (eg 'cluster1')))
-	$(eval include global_config/dv_review_aks.sh)
+	$(eval include global_config/dv_review.sh)
 	$(eval APP_NAME_SUFFIX=dv-review-$(PR_NUMBER))
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 	$(eval export TF_VAR_cluster=$(CLUSTER))
 
-pt_review_aks: test-cluster
+pt_review: test-cluster
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
 	$(if $(NAMESPACE), , $(error Missing environment variable "NAMESPACE", Please specify a namespace for your review app))
-	$(eval include global_config/pt_review_aks.sh)
+	$(eval include global_config/pt_review.sh)
 	$(eval APP_NAME_SUFFIX=pt-review-$(PR_NUMBER))
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 	$(eval export TF_VAR_namespace=$(NAMESPACE))
 	$(if $(FD), $(eval export TF_VAR_gov_uk_host_names=["$(PR_NUMBER).apply-for-teacher-training.service.gov.uk","$(PR_NUMBER).apply-for-teacher-training.education.gov.uk"]))
 
-loadtest_aks: test-cluster
-	$(eval include global_config/loadtest_aks.sh)
+loadtest: test-cluster
+	$(eval include global_config/loadtest.sh)
 
-qa_aks: test-cluster
-	$(eval include global_config/qa_aks.sh)
+qa: test-cluster
+	$(eval include global_config/qa.sh)
 
-staging_aks: test-cluster
-	$(eval include global_config/staging_aks.sh)
+staging: test-cluster
+	$(eval include global_config/staging.sh)
 
-sandbox_aks: production-cluster
-	$(eval include global_config/sandbox_aks.sh)
+sandbox: production-cluster
+	$(eval include global_config/sandbox.sh)
 
-production_aks: production-cluster
+production: production-cluster
 	$(if $(or ${SKIP_CONFIRM}, ${CONFIRM_PRODUCTION}), , $(error Missing CONFIRM_PRODUCTION=yes))
-	$(eval include global_config/production_aks.sh)
-
-qa: qa_aks
-staging: staging_aks
-sandbox: sandbox_aks
-production: production_aks
+	$(eval include global_config/production.sh)
 
 ci:
 	$(eval export AUTO_APPROVE=-auto-approve)
