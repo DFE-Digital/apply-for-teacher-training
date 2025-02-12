@@ -18,9 +18,11 @@ RSpec.describe CandidateMailer do
       'You did not meet the offer conditions for Mathematics (M101) at Arithmetic College',
       'greeting' => 'Hello Fred',
       'course status' => 'Your application for Mathematics (M101) has been unsuccessful',
-      'reason' => 'Arithmetic College has said that you did not meet these offer conditions:',
+      'reason' => 'Arithmetic College have said that you do not meet these conditions of the offer they made to you:',
       'conditions' => 'Be cool',
       'next steps' => 'Unfortunately, you will not be able to join the course. Contact Arithmetic College if you need further advice.',
+      'ske couse link' => 'https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/subject-knowledge-enhancement',
+      'git references url' => 'https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/teacher-training-references',
     )
   end
 end
