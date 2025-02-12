@@ -25,6 +25,9 @@ class Candidate < ApplicationRecord
   belongs_to :course_from_find, class_name: 'Course', optional: true
   belongs_to :duplicate_match, foreign_key: 'fraud_match_id', optional: true
 
+  has_many :pool_dismissals, dependent: :destroy, class_name: 'Pool::Dismissal'
+  has_many :pool_invites, dependent: :destroy, class_name: 'Pool::Invite'
+
   PUBLISHED_FIELDS = %w[email_address].freeze
 
   enum :account_recovery_status, {

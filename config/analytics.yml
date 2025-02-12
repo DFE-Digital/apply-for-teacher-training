@@ -11,6 +11,22 @@ shared:
     - sign_up_email_bounced
     - updated_at
     - email_address
+    - pool_status
+  pool_invites:
+    - id
+    - candidate_id
+    - provider_id
+    - invited_by_id
+    - course_id
+    - created_at
+    - updated_at
+  pool_dismissals:
+    - id
+    - candidate_id
+    - provider_id
+    - dismissed_by_id
+    - created_at
+    - updated_at
   one_login_auths:
     - id
     - candidate_id

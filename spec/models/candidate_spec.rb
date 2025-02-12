@@ -12,6 +12,8 @@ RSpec.describe Candidate do
     it { is_expected.to have_many(:session_errors) }
     it { is_expected.to have_one(:one_login_auth).dependent(:destroy) }
     it { is_expected.to have_one(:account_recovery_request).dependent(:destroy) }
+    it { is_expected.to have_one(:pool_dismissals).dependent(:destroy) }
+    it { is_expected.to have_one(:pool_invites).dependent(:destroy) }
   end
 
   describe 'delegations' do

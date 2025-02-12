@@ -1,5 +1,10 @@
 ---
 :shared:
+  :candidate_pool_provider_opt_ins:
+  - id
+  - provider_id
+  - created_at
+  - updated_at
   :sessions:
   - id
   - candidate_id
