@@ -473,7 +473,7 @@ GEM
     oj (3.16.9)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
-    okcomputer (1.18.5)
+    okcomputer (1.19.0)
     omniauth (2.1.2)
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
