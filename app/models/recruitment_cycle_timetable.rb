@@ -8,7 +8,7 @@ class RecruitmentCycleTimetable < ApplicationRecord
             :find_closes_at,
             presence: true
   validates :recruitment_cycle_year, uniqueness: { allow_nil: false }
-  validate :sequential_dates
+  validates_with RecruitmentCycleTimetableDateSequenceValidator
   validate :christmas_holiday_validation
   validate :easter_holiday_validation
 
@@ -67,6 +67,30 @@ class RecruitmentCycleTimetable < ApplicationRecord
 
     start_of_week = find_opens_at + cycle_week.weeks
     start_of_week.all_week
+  end
+
+  def after_find_closes?
+    Time.zone.now.after? find_closes_at
+  end
+
+  def after_decline_by_default?
+    Time.zone.now.after? decline_by_default_at
+  end
+
+  def after_reject_by_default?
+    Time.zone.now.after? reject_by_default_at
+  end
+
+  def after_apply_deadline?
+    Time.zone.now.after? apply_deadline_at
+  end
+
+  def after_apply_opens?
+    Time.zone.now.after? apply_opens_at
+  end
+
+  def after_find_opens?
+    Time.zone.now.after? find_opens_at
   end
 
 private

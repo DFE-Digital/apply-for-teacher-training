@@ -53,19 +53,17 @@
     </div>
   </section>
 
-  <% if CycleTimetable.current_year == CycleTimetable.real_current_year %>
-    <section class="app-section app-section--with-top-border">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-          <h2 class="govuk-heading-m">Generate test applications for the <%= RecruitmentCycle.next_year %> recruitment cycle</h2>
-          <p class="govuk-body">This task generates mostly-random test applications for the <%= RecruitmentCycle.next_year %> recruitment cycle.</p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <%= govuk_button_to "Generate #{RecruitmentCycle.next_year} recruitment cycle test applications", support_interface_run_task_path('generate_next_cycle_test_applications'), secondary: true %>
-        </div>
+  <section class="app-section app-section--with-top-border">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">Generate test applications for the <%= RecruitmentCycle.next_year %> recruitment cycle</h2>
+        <p class="govuk-body">This task generates mostly-random test applications for the <%= RecruitmentCycle.next_year %> recruitment cycle.</p>
       </div>
-    </section>
-  <% end %>
+      <div class="govuk-grid-column-one-third">
+        <%= govuk_button_to "Generate #{RecruitmentCycle.next_year} recruitment cycle test applications", support_interface_run_task_path('generate_next_cycle_test_applications'), secondary: true %>
+      </div>
+    </div>
+  </section>
 
   <section class="app-section app-section--with-top-border">
     <div class="govuk-grid-row">

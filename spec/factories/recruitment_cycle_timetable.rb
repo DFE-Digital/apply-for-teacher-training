@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :recruitment_cycle_timetable do
-    recruitment_cycle_year { CycleTimetable.current_year }
+    recruitment_cycle_year { RecruitmentCycleTimetable }
 
     find_opens_at { CycleTimetable.find_opens }
     apply_opens_at { CycleTimetable.apply_opens }
