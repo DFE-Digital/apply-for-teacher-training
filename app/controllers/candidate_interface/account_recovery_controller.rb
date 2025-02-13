@@ -31,7 +31,7 @@ module CandidateInterface
 
     def permitted_params
       strip_whitespace(
-        params.require(:candidate_interface_account_recovery_form).permit(:code),
+        params.expect(candidate_interface_account_recovery_form: [:code]),
       )
     end
 

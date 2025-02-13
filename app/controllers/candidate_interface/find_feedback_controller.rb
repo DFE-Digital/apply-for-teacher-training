@@ -26,8 +26,8 @@ module CandidateInterface
   private
 
     def feedback_params
-      params.require(:candidate_interface_find_feedback_form).permit(
-        :path, :find_controller, :hidden_feedback_field, :feedback, :email_address
+      params.expect(
+        candidate_interface_find_feedback_form: %i[path find_controller hidden_feedback_field feedback email_address],
       )
     end
   end

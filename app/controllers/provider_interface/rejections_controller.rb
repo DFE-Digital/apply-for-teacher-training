@@ -68,7 +68,7 @@ module ProviderInterface
     end
 
     def rejection_reasons_params
-      params.require(:provider_interface_rejections_wizard).permit(*wizard_class.single_attribute_names, collection_attributes)
+      params.expect(provider_interface_rejections_wizard: [*wizard_class.single_attribute_names, collection_attributes])
     end
 
     def collection_attributes

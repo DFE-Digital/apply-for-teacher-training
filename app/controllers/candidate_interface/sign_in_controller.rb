@@ -92,7 +92,7 @@ module CandidateInterface
   private
 
     def candidate_params
-      params.require(:candidate).permit(:email_address)
+      params.expect(candidate: [:email_address])
     end
 
     def redirect_to_sign_in_if_one_login_enabled

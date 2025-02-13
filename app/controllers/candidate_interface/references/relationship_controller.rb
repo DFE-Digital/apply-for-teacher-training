@@ -41,7 +41,7 @@ module CandidateInterface
       end
 
       def references_relationship_params
-        strip_whitespace params.require(:candidate_interface_reference_referee_relationship_form).permit(:relationship)
+        strip_whitespace params.expect(candidate_interface_reference_referee_relationship_form: [:relationship])
       end
     end
   end

@@ -88,7 +88,13 @@ Rails/WhereRange:
   Enabled: false
 
 Rails/StrongParametersExpect:
-  Enabled: false
+  Enabled: true
+  Exclude:
+    - app/controllers/vendor_api/confirm_deferred_offers_controller.rb
+    - app/controllers/vendor_api/decisions_controller.rb
+    - app/controllers/vendor_api/interviews_controller.rb
+    - app/controllers/vendor_api/notes_controller.rb
+    - app/controllers/candidate_interface/other_qualifications/details_controller.rb
 
 Rails/CreateTableWithTimestamps:
   Exclude:

@@ -42,7 +42,7 @@ module CandidateInterface
     end
 
     def contact_details_params
-      strip_whitespace params.require(:candidate_interface_contact_details_form).permit(:phone_number)
+      strip_whitespace params.expect(candidate_interface_contact_details_form: [:phone_number])
     end
   end
 end

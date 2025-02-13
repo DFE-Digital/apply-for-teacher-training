@@ -79,8 +79,8 @@ module SupportInterface
     end
 
     def relationships_params
-      params.require(:support_interface_provider_relationships_form)
-        .permit(relationships: {})
+      params
+        .expect(support_interface_provider_relationships_form: [relationships: {}])
     end
 
     def applications

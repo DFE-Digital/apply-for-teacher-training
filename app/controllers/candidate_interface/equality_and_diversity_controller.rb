@@ -110,7 +110,7 @@ module CandidateInterface
     end
 
     def disabilities_params
-      params.require(:candidate_interface_equality_and_diversity_disabilities_form).permit(:other_disability, disabilities: []).tap do |dp|
+      params.expect(candidate_interface_equality_and_diversity_disabilities_form: [:other_disability, disabilities: []]).tap do |dp|
         dp.delete(:disabilities) if dp[:disabilities] == ['']
       end
     end
@@ -120,7 +120,7 @@ module CandidateInterface
     end
 
     def ethnic_background_param
-      params.require(:candidate_interface_equality_and_diversity_ethnic_background_form).permit(:ethnic_background, :other_background)
+      params.expect(candidate_interface_equality_and_diversity_ethnic_background_form: %i[ethnic_background other_background])
     end
 
     def free_school_meals_param

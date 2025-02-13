@@ -40,8 +40,7 @@ module CandidateInterface
 
       def completion_params
         strip_whitespace params
-          .require(:candidate_interface_section_complete_form)
-          .permit(:completed)
+          .expect(candidate_interface_section_complete_form: [:completed])
       end
     end
   end

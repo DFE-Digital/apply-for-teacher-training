@@ -40,7 +40,7 @@ module ProviderInterface
     end
 
     def provider_permissions_params
-      params.require(:provider_interface_edit_user_permissions_wizard).permit(permissions: [])
+      params.expect(provider_interface_edit_user_permissions_wizard: [permissions: []])
     end
 
     def previous_page_path

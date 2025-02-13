@@ -48,8 +48,7 @@ module CandidateInterface
 
     def enic_params
       strip_whitespace params
-        .require(:candidate_interface_gcse_enic_form)
-        .permit(:enic_reference, :comparable_uk_qualification)
+        .expect(candidate_interface_gcse_enic_form: %i[enic_reference comparable_uk_qualification])
     end
   end
 end

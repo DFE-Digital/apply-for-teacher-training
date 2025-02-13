@@ -53,8 +53,7 @@ module CandidateInterface
 
     def training_with_a_disability_params
       strip_whitespace params
-        .require(:candidate_interface_training_with_a_disability_form)
-        .permit(:disclose_disability, :disability_disclosure)
+        .expect(candidate_interface_training_with_a_disability_form: %i[disclose_disability disability_disclosure])
     end
 
     def section_complete_form_params

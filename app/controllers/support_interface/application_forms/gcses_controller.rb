@@ -26,15 +26,11 @@ module SupportInterface
     private
 
       def edit_award_year_params
-        params.require(
-          :support_interface_application_forms_edit_gcse_award_year_form,
-        ).permit(:award_year, :audit_comment)
+        params.expect(support_interface_application_forms_edit_gcse_award_year_form: %i[award_year audit_comment])
       end
 
       def edit_grade_params
-        params.require(
-          :support_interface_application_forms_edit_gcse_grade_form,
-        ).permit(:grade, :constituent_grades, :index, :audit_comment)
+        params.expect(support_interface_application_forms_edit_gcse_grade_form: %i[grade constituent_grades index audit_comment])
       end
     end
   end

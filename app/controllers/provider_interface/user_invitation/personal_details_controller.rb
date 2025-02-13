@@ -30,7 +30,7 @@ module ProviderInterface
     private
 
       def personal_details_params
-        params.require(:provider_interface_invite_user_wizard).permit(:first_name, :last_name, :email_address)
+        params.expect(provider_interface_invite_user_wizard: %i[first_name last_name email_address])
       end
 
       def wizard_flow_controllers
