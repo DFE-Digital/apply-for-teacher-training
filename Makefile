@@ -135,6 +135,7 @@ ci:
 	$(eval export AUTO_APPROVE=-auto-approve)
 	$(eval export NO_IMAGE_TAG_DEFAULT=true)
 	$(eval SKIP_CONFIRM=true)
+	$(eval SKIP_AZURE_LOGIN=true)
 
 set-azure-resource-group-tags: ##Tags that will be added to resource group on its creation in ARM template
 	$(eval RG_TAGS=$(shell echo '{"Portfolio": "Early Years and Schools Group", "Parent Business":"Teacher Training and Qualifications", "Product" : "Apply for postgraduate teacher training", "Service Line": "Teaching Workforce", "Service": "Teacher services", "Service Offering": "Apply for postgraduate teacher training", "Environment" : "$(ENV_TAG)"}' | jq . ))
@@ -143,8 +144,7 @@ set-azure-template-tag:
 	$(eval ARM_TEMPLATE_TAG=1.1.0)
 
 set-azure-account:
-	echo "Logging on to ${AZURE_SUBSCRIPTION}"
-	az account set -s $(AZURE_SUBSCRIPTION)
+	[ "${SKIP_AZURE_LOGIN}" != "true" ] && az account set -s ${AZURE_SUBSCRIPTION} || true
 
 read-keyvault-config:
 	$(eval KEY_VAULT_NAME=$(shell jq -r '.key_vault_name' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
@@ -194,7 +194,6 @@ deploy-init: vendor-modules
 	$(eval export TF_VAR_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
-	az account set -s $(AZURE_SUBSCRIPTION) && az account show
 	terraform -chdir=terraform/$(PLATFORM) init -reconfigure -upgrade -backend-config=./workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
 	$(eval export TF_VAR_service_name=${SERVICE_NAME})
 
