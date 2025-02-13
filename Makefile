@@ -75,14 +75,8 @@ install-konduit: ## Install the konduit script, for accessing backend services
 		&& chmod +x bin/konduit.sh \
 		|| true
 
-apply:
+domains:
 	$(eval include global_config/apply-domain.sh)
-	$(eval DNS_ZONE=apply)
-	$(eval APP_ENV=production)
-	$(eval AZURE_SUBSCRIPTION=s189-teacher-services-cloud-production)
-	$(eval RESOURCE_NAME_PREFIX=s189p01)
-	$(eval ENV_SHORT=pd)
-	$(eval ENV_TAG=Prod)
 
 pentest:
 	$(eval APP_ENV=pentest)
@@ -135,6 +129,7 @@ ci:
 	$(eval export AUTO_APPROVE=-auto-approve)
 	$(eval export NO_IMAGE_TAG_DEFAULT=true)
 	$(eval SKIP_CONFIRM=true)
+	$(eval SKIP_AZURE_LOGIN=true)
 
 set-azure-resource-group-tags: ##Tags that will be added to resource group on its creation in ARM template
 	$(eval RG_TAGS=$(shell echo '{"Portfolio": "Early Years and Schools Group", "Parent Business":"Teacher Training and Qualifications", "Product" : "Apply for postgraduate teacher training", "Service Line": "Teaching Workforce", "Service": "Teacher services", "Service Offering": "Apply for postgraduate teacher training", "Environment" : "$(ENV_TAG)"}' | jq . ))
@@ -143,8 +138,7 @@ set-azure-template-tag:
 	$(eval ARM_TEMPLATE_TAG=1.1.0)
 
 set-azure-account:
-	echo "Logging on to ${AZURE_SUBSCRIPTION}"
-	az account set -s $(AZURE_SUBSCRIPTION)
+	[ "${SKIP_AZURE_LOGIN}" != "true" ] && az account set -s ${AZURE_SUBSCRIPTION} || true
 
 read-keyvault-config:
 	$(eval KEY_VAULT_NAME=$(shell jq -r '.key_vault_name' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
@@ -188,13 +182,12 @@ vendor-modules:
 	rm -rf terraform/aks/vendor/modules
 	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch ${TERRAFORM_MODULES_TAG} https://github.com/DFE-Digital/terraform-modules.git terraform/aks/vendor/modules/aks
 
-deploy-init: vendor-modules
+deploy-init: vendor-modules set-azure-account
 	$(if $(or $(IMAGE_TAG), $(NO_IMAGE_TAG_DEFAULT)), , $(eval export IMAGE_TAG=main))
 	$(if $(IMAGE_TAG), , $(error Missing environment variable "IMAGE_TAG"))
 	$(eval export TF_VAR_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
-	az account set -s $(AZURE_SUBSCRIPTION) && az account show
 	terraform -chdir=terraform/$(PLATFORM) init -reconfigure -upgrade -backend-config=./workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
 	$(eval export TF_VAR_service_name=${SERVICE_NAME})
 
@@ -224,51 +217,48 @@ deploy-azure-resources: check-auto-approve arm-deployment # make dev deploy-azur
 
 validate-azure-resources: set-what-if arm-deployment # make dev validate-azure-resources
 
-set-production-subscription:
-	$(eval AZURE_SUBSCRIPTION=s189-teacher-services-cloud-production)
-
-domain-azure-resources: set-azure-account set-azure-template-tag set-azure-resource-group-tags #
+domain-azure-resources: domains set-azure-account set-azure-template-tag set-azure-resource-group-tags #
 	$(if $(AUTO_APPROVE), , $(error can only run with AUTO_APPROVE))
 	az deployment sub create -l "UK South" --template-uri "https://raw.githubusercontent.com/DFE-Digital/tra-shared-services/${ARM_TEMPLATE_TAG}/azure/resourcedeploy.json" \
 		--name "${DNS_ZONE}domains-$(shell date +%Y%m%d%H%M%S)" --parameters "resourceGroupName=${RESOURCE_NAME_PREFIX}-${DNS_ZONE}domains-rg" 'tags=${RG_TAGS}' \
 			"tfStorageAccountName=${RESOURCE_NAME_PREFIX}${DNS_ZONE}domainstf" "tfStorageContainerName=${DNS_ZONE}domains-tf"  "keyVaultName=${RESOURCE_NAME_PREFIX}-${DNS_ZONE}domains-kv" ${WHAT_IF}
 
-validate-domain-resources: set-what-if domain-azure-resources # make apply validate-domain-resources
+validate-domain-resources: set-what-if domain-azure-resources # make validate-domain-resources
 
-deploy-domain-resources: check-auto-approve domain-azure-resources # make apply deploy-domain-resources AUTO_APPROVE=1
+deploy-domain-resources: check-auto-approve domain-azure-resources # make deploy-domain-resources AUTO_APPROVE=1
 
 .PHONY: vendor-domain-infra-modules
 vendor-domain-infra-modules:
 	rm -rf terraform/custom_domains/infrastructure/vendor/modules/domains
 	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch ${TERRAFORM_MODULES_TAG} https://github.com/DFE-Digital/terraform-modules.git terraform/custom_domains/infrastructure/vendor/modules/domains
 
-domains-infra-init: apply set-production-subscription vendor-domain-infra-modules set-azure-account
+domains-infra-init: domains vendor-domain-infra-modules set-azure-account
 	terraform -chdir=terraform/custom_domains/infrastructure init -reconfigure -upgrade \
-		-backend-config=workspace_variables/${DOMAINS_ID}_backend.tfvars
+		-backend-config=workspace_variables/${DNS_ZONE}_backend.tfvars
 
-domains-infra-plan: domains-infra-init # make apply domains-infra-plan
-	terraform -chdir=terraform/custom_domains/infrastructure plan -var-file workspace_variables/${DOMAINS_ID}.tfvars.json
+domains-infra-plan: domains-infra-init # make domains-infra-plan
+	terraform -chdir=terraform/custom_domains/infrastructure plan -var-file workspace_variables/${DNS_ZONE}.tfvars.json
 
-domains-infra-apply: domains-infra-init # make apply domains-infra-apply
-	terraform -chdir=terraform/custom_domains/infrastructure apply -var-file workspace_variables/${DOMAINS_ID}.tfvars.json ${AUTO_APPROVE}
+domains-infra-apply: domains-infra-init # make domains-infra-apply
+	terraform -chdir=terraform/custom_domains/infrastructure apply -var-file workspace_variables/${DNS_ZONE}.tfvars.json ${AUTO_APPROVE}
 
 .PHONY: vendor-domain-modules
 vendor-domain-modules:
 	rm -rf terraform/custom_domains/environment_domains/vendor/modules/domains
 	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch ${TERRAFORM_MODULES_TAG} https://github.com/DFE-Digital/terraform-modules.git terraform/custom_domains/environment_domains/vendor/modules/domains
 
-domains-init: apply set-production-subscription vendor-domain-modules set-azure-account
+domains-init: domains vendor-domain-modules set-azure-account
 	$(if $(PR_NUMBER), $(eval APP_ENV=${PR_NUMBER}))
-	terraform -chdir=terraform/custom_domains/environment_domains init -upgrade -reconfigure -backend-config=workspace_variables/${DOMAINS_ID}_${DNS_ENV}_backend.tfvars
+	terraform -chdir=terraform/custom_domains/environment_domains init -upgrade -reconfigure -backend-config=workspace_variables/${DNS_ZONE}_${DNS_ENV}_backend.tfvars
 
-domains-plan: domains-init  # make apply qa domains-plan
-	terraform -chdir=terraform/custom_domains/environment_domains plan -var-file workspace_variables/${DOMAINS_ID}_${DNS_ENV}.tfvars.json
+domains-plan: domains-init  # make qa domains-plan
+	terraform -chdir=terraform/custom_domains/environment_domains plan -var-file workspace_variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json
 
-domains-apply: domains-init # make apply qa domains-apply
-	terraform -chdir=terraform/custom_domains/environment_domains apply -var-file workspace_variables/${DOMAINS_ID}_${DNS_ENV}.tfvars.json ${AUTO_APPROVE}
+domains-apply: domains-init # make qa domains-apply
+	terraform -chdir=terraform/custom_domains/environment_domains apply -var-file workspace_variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json ${AUTO_APPROVE}
 
-domains-destroy: domains-init # make apply qa domains-destroy
-	terraform -chdir=terraform/custom_domains/environment_domains destroy -var-file workspace_variables/${DOMAINS_ID}_${DNS_ENV}.tfvars.json
+domains-destroy: domains-init # make qa domains-destroy
+	terraform -chdir=terraform/custom_domains/environment_domains destroy -var-file workspace_variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json
 
 test-cluster:
 	$(eval CLUSTER_RESOURCE_GROUP_NAME=s189t01-tsc-ts-rg)
