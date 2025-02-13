@@ -475,11 +475,11 @@ class CandidateMailer < ApplicationMailer
 
   def apply_to_another_course_after_30_working_days(application_form)
     @application_form = application_form
-    application_choice = application_form.application_choices.inactive_past_day&.first
+    @application_choice = application_form.application_choices.inactive_past_day&.first
 
-    return unless application_choice
+    return unless @application_choice
 
-    course = application_choice.current_course_option.course
+    course = @application_choice.current_course_option.course
     @provider_name = course.provider.name
     @course_name_and_code = course.name_and_code
 
