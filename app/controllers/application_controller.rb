@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include RecruitmentCycleTimetables
   include RequestQueryParams
   include DfE::Analytics::Requests
   include ApplicationHelper
