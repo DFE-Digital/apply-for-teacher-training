@@ -564,21 +564,21 @@ en:
         recruitment_cycle_timetable:
           attributes:
             apply_opens_at:
-              apply_opens_after_find_opens: Apply opens after find opens
+              apply_opens_after_find_opens: Enter an Apply open date that is after Find has opened
             apply_deadline_at:
-              apply_deadline_after_apply_opens: Apply deadline must be after apply opens
+              apply_deadline_after_apply_opens: Enter an Apply deadline that is after Apply has opened
             reject_by_default_at:
-              reject_by_default_after_apply_deadline: Reject by default must be after the apply deadline
+              reject_by_default_after_apply_deadline: Enter a reject by default date that is after the Apply deadline
             decline_by_default_at:
-              decline_by_default_after_reject_by_default: Decline by default must be after reject by default
+              decline_by_default_after_reject_by_default: Enter a decline by default date that is after the reject by default date
             find_closes_at:
-              find_closes_after_decline_by_default: Find closes after decline by default
+              find_closes_after_decline_by_default: Enter a Find close date that is after the decline by default date
             easter_holiday_range:
-              easter_holiday_range_should_be_within_cycle: Easter holiday range should be within cycle
-              easter_holiday_range_should_include_easter: Easter holiday range should include easter
+              easter_holiday_range_should_be_within_cycle: Enter an Easter holiday range within cycle
+              easter_holiday_range_should_include_easter: Enter an Easter holiday range that includes Easter
             christmas_holiday_range:
-              christmas_holiday_range_should_be_in_cycle: Christmas holiday range should be within cycle
-              christmas_holiday_range_should_include_christmas: Christmas holiday range should include Christmas day
+              christmas_holiday_range_should_be_in_cycle: Enter a Christmas holiday within cycle
+              christmas_holiday_range_should_include_christmas: Enter a Christmas holiday range that includes Christmas day
         candidate:
           attributes:
             email_address:

@@ -14,65 +14,67 @@ RSpec.describe RecruitmentCycleTimetable do
     describe 'validates christmas range' do
       it 'validates christmas range is within cycle' do
         timetable = build(:recruitment_cycle_timetable)
-        timetable.christmas_holiday_range = timetable.find_opens_at - 3.days..timetable.christmas_holiday_range.last
+        year = timetable.recruitment_cycle_year
+        timetable.christmas_holiday_range = timetable.find_opens_at - 3.days..Time.zone.local(year, 1, 2)
 
         expect(timetable.valid?).to be false
-        expect(timetable.errors[:christmas_holiday_range]).to eq ['Christmas holiday range should be within cycle']
+        expect(timetable.errors[:christmas_holiday_range]).to eq ['Enter a Christmas holiday within cycle']
       end
 
       it 'validates christmas range includes christmas day' do
         timetable = build(:recruitment_cycle_timetable)
-        timetable.christmas_holiday_range =
-          timetable.christmas_holiday_range.last..timetable.christmas_holiday_range.last + 10.days
+        year = timetable.recruitment_cycle_year - 1
+        timetable.christmas_holiday_range = (Time.zone.local(year, 12, 26)...Time.zone.local(year, 12, 29))
 
         expect(timetable.valid?).to be false
         expect(timetable.errors[:christmas_holiday_range])
-          .to eq ['Christmas holiday range should include Christmas day']
+          .to eq ['Enter a Christmas holiday range that includes Christmas day']
       end
     end
 
     describe 'validates easter range' do
       it 'validates easter range is within cycle' do
-        timetable = build(:recruitment_cycle_timetable)
+        # We need one where we know where Easter is
+        timetable = described_class.find_by(recruitment_cycle_year: 2024)
         timetable.easter_holiday_range = timetable.easter_holiday_range.last..timetable.find_closes_at + 2.days
 
         expect(timetable.valid?).to be false
-        expect(timetable.errors[:easter_holiday_range]).to eq ['Easter holiday range should be within cycle']
+        expect(timetable.errors[:easter_holiday_range]).to eq ['Enter an Easter holiday range within cycle']
       end
 
       it 'validates easter range includes Easter Day' do
-        timetable = build(:recruitment_cycle_timetable)
+        timetable = described_class.find_by(recruitment_cycle_year: 2024)
         timetable.easter_holiday_range =
           timetable.easter_holiday_range.last..timetable.easter_holiday_range.last + 10.days
 
         expect(timetable.valid?).to be false
-        expect(timetable.errors[:easter_holiday_range]).to eq ['Easter holiday range should include easter']
+        expect(timetable.errors[:easter_holiday_range]).to eq ['Enter an Easter holiday range that includes Easter']
       end
     end
 
     describe 'validates sequential order of dates' do
       it 'validates apply opens after find opens' do
-        timetable = build(:recruitment_cycle_timetable)
+        timetable = build(:recruitment_cycle_timetable, recruitment_cycle_year: 2050)
         timetable.find_opens_at = timetable.apply_opens_at + 1.day
 
         expect(timetable.valid?).to be false
-        expect(timetable.errors[:apply_opens_at]).to eq ['Apply opens after find opens']
+        expect(timetable.errors[:apply_opens_at]).to eq ['Enter an Apply open date that is after Find has opened']
       end
 
       it 'validates apply deadline is after apply opens' do
-        timetable = build(:recruitment_cycle_timetable)
+        timetable = build(:recruitment_cycle_timetable, recruitment_cycle_year: 2050)
         timetable.apply_opens_at = timetable.apply_deadline_at + 1.day
 
         expect(timetable.valid?).to be false
-        expect(timetable.errors[:apply_deadline_at]).to eq ['Apply deadline must be after apply opens']
+        expect(timetable.errors[:apply_deadline_at]).to eq ['Enter an Apply deadline that is after Apply has opened']
       end
 
       it 'validates reject by default is after apply deadline' do
-        timetable = build(:recruitment_cycle_timetable)
+        timetable = build(:recruitment_cycle_timetable, recruitment_cycle_year: 2050)
         timetable.apply_deadline_at = timetable.reject_by_default_at + 1.day
 
         expect(timetable.valid?).to be false
-        expect(timetable.errors[:reject_by_default_at]).to eq ['Reject by default must be after the apply deadline']
+        expect(timetable.errors[:reject_by_default_at]).to eq ['Enter a reject by default date that is after the Apply deadline']
       end
     end
   end
