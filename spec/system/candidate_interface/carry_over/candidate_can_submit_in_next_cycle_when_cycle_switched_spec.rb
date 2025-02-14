@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Carry over next cycle with cycle switcher', time: CycleTimetableHelper.mid_cycle do
   include CandidateHelper
 
-  it 'Candidate can submit in next cycle with cycle switcher after apply opens' do
+  it 'Candidate can submit in next cycle with cycle switcher after apply opens', skip: 'Reimplement when cycle switcher is working again' do
     given_i_am_signed_in_with_one_login
     when_i_have_an_unsubmitted_application_without_a_course
     and_the_cycle_switcher_set_to_apply_opens

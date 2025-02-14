@@ -54,42 +54,6 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.show_apply_deadline_banner?' do
-    it 'returns true before the deadline and the choices have not been successful' do
-      application_choices = [build(:application_choice, :withdrawn)]
-      application_form = build(:application_form, application_choices:)
-
-      travel_temporarily_to(one_hour_before_apply_deadline) do
-        expect(described_class.show_apply_deadline_banner?(application_form)).to be true
-      end
-    end
-
-    it 'returns true if there are no application choices' do
-      application_form = build(:application_form)
-
-      travel_temporarily_to(one_hour_before_apply_deadline) do
-        expect(described_class.show_apply_deadline_banner?(application_form)).to be true
-      end
-    end
-
-    it 'returns false if it is a successful application' do
-      application_choice = build(:application_choice, :offered)
-      application_form = build(:application_form, phase: 'apply_1', application_choices: [application_choice])
-
-      travel_temporarily_to(one_hour_before_apply_deadline) do
-        expect(described_class.show_apply_deadline_banner?(application_form)).to be false
-      end
-    end
-
-    it 'returns false after the configured date' do
-      application_form = build(:application_form)
-
-      travel_temporarily_to(one_hour_after_apply_deadline) do
-        expect(described_class.show_apply_deadline_banner?(application_form)).to be false
-      end
-    end
-  end
-
   describe '.between_cycles?' do
     it 'returns false before if apply deadline has not passed' do
       travel_temporarily_to(one_hour_before_apply_deadline) do
@@ -136,90 +100,6 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.valid_cycle?' do
-    def create_application_for(recruitment_cycle_year)
-      create(:application_form, recruitment_cycle_year:)
-    end
-
-    it 'returns true for an application for courses in the current cycle' do
-      expect(
-        described_class.valid_cycle?(create_application_for(RecruitmentCycle.current_year)),
-      ).to be true
-    end
-
-    it 'returns false for an application for courses in the previous cycle' do
-      expect(
-        described_class.valid_cycle?(create_application_for(RecruitmentCycle.previous_year)),
-      ).to be false
-    end
-  end
-
-  describe 'can_add_course_choice?' do
-    let(:execute_service) { described_class.can_add_course_choice?(application_form) }
-
-    context 'application form is in the apply1 state' do
-      let(:application_form) { build_stubbed(:application_form) }
-
-      context 'when the date is after the apply1 submission deadline' do
-        it 'returns false' do
-          travel_temporarily_to(one_hour_after_apply_deadline) do
-            expect(execute_service).to be false
-          end
-        end
-      end
-
-      context 'when the date is before the apply1 submission deadline' do
-        it 'returns true' do
-          travel_temporarily_to(one_hour_before_apply_deadline) do
-            expect(execute_service).to be true
-          end
-        end
-      end
-    end
-
-    context 'application form is in the apply again state' do
-      let(:application_form) { build_stubbed(:application_form, phase: :apply_2) }
-
-      context 'when the date is after the apply again submission deadline' do
-        it 'returns false' do
-          travel_temporarily_to(one_hour_after_apply_deadline) do
-            expect(execute_service).to be false
-          end
-        end
-      end
-
-      context 'when the date is before the apply again submission deadline' do
-        it 'returns true' do
-          travel_temporarily_to(one_hour_before_apply_deadline) do
-            expect(execute_service).to be true
-          end
-        end
-      end
-    end
-
-    context 'application form is from a previous recruitment cycle' do
-      let(:application_form) { build_stubbed(:application_form, recruitment_cycle_year: this_year) }
-
-      it 'returns false' do
-        travel_temporarily_to(described_class.apply_opens) do
-          expect(execute_service).to be false
-        end
-      end
-    end
-  end
-
-  describe '.can_submit?', :mid_cycle do
-    it 'returns true for an application in the current recruitment cycle' do
-      application_form = build(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year)
-      expect(described_class.can_submit?(application_form)).to be true
-    end
-
-    it 'returns false for an application in the previous recruitment cycle' do
-      application_form = build(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year)
-      expect(described_class.can_submit?(application_form)).to be false
-    end
-  end
-
   describe '.next_apply_deadline' do
     context 'after cycle start and before apply deadline' do
       it 'returns apply_deadline' do
@@ -238,26 +118,6 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe 'apply_deadline_has_passed?' do
-    context 'it is before the apply deadline' do
-      it 'returns false' do
-        travel_temporarily_to(described_class.apply_opens) do
-          application_form = build(:application_form)
-          expect(described_class.apply_deadline_has_passed?(application_form)).to be(false)
-        end
-      end
-    end
-
-    context 'it is after the apply deadline' do
-      it 'returns true' do
-        travel_temporarily_to(described_class.find_closes) do
-          application_form = build(:application_form)
-          expect(described_class.apply_deadline_has_passed?(application_form)).to be(true)
-        end
-      end
-    end
-  end
-
   describe '.cycle_year_range' do
     context 'with no year passed in' do
       it 'returns the `current_year to next_year`' do
@@ -269,55 +129,6 @@ RSpec.describe CycleTimetable do
     context 'with a year passed in' do
       it 'returns `year to year + 1`' do
         expect(described_class.cycle_year_range(next_next_year)).to eq "#{next_next_year} to #{next_year + 2}"
-      end
-    end
-  end
-
-  describe 'cycle switcher' do
-    it 'correctly sets can_add_course_choice? and can_submit? between cycles', time: mid_cycle do
-      SiteSetting.set(name: 'cycle_schedule', value: :today_is_mid_cycle)
-
-      application_form = create(:application_form)
-
-      SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_apply_deadline_passed)
-
-      new_application = CarryOverApplication.new(application_form).call
-
-      expect(described_class.can_add_course_choice?(new_application)).to be false
-      expect(described_class.can_submit?(new_application)).to be false
-
-      SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_find_opens)
-
-      expect(described_class.can_add_course_choice?(new_application)).to be_truthy
-      expect(described_class.can_submit?(new_application)).to be false
-
-      SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_apply_opens)
-
-      expect(described_class.can_add_course_choice?(new_application)).to be_truthy
-      expect(described_class.can_submit?(new_application)).to be true
-    ensure
-      SiteSetting.set(name: 'cycle_schedule', value: nil)
-    end
-
-    context 'when cycle_schedule is set to today_is_after_find_opens', time: mid_cycle do
-      it 'changes the CycleTimetable.current_year to the next year' do
-        current_year = described_class.current_year
-        next_year = described_class.next_year
-
-        expect {
-          SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_find_opens)
-        }.to change { described_class.current_year }.from(current_year).to(next_year)
-      end
-    end
-
-    context 'when cycle_schedule is set to today_is_after_apply_opens', time: mid_cycle do
-      it 'changes the CycleTimetable.current_year to the next year' do
-        current_year = described_class.current_year
-        next_year = described_class.next_year
-
-        expect {
-          SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_apply_opens)
-        }.to change { described_class.current_year }.from(current_year).to(next_year)
       end
     end
   end

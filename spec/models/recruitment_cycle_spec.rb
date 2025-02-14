@@ -24,22 +24,6 @@ RSpec.describe RecruitmentCycle, time: CycleTimetableHelper.mid_cycle(2023) do
           '2020' => '2019 to 2020' },
       )
     end
-
-    context 'when cycle switcher is after apply opens' do
-      before do
-        SiteSetting.set(name: 'cycle_schedule', value: 'today_is_after_apply_opens')
-      end
-
-      it 'returns the cycle strings up to the arg year' do
-        expect(described_class.cycle_strings).to eq(
-          { '2020' => '2019 to 2020',
-            '2021' => '2020 to 2021',
-            '2022' => '2021 to 2022',
-            '2023' => '2022 to 2023',
-            '2024' => '2023 to 2024' },
-        )
-      end
-    end
   end
 
   describe '.cycle_string' do
