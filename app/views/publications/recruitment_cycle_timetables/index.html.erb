@@ -1,0 +1,11 @@
+<% content_for :title, t('.heading') %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t('.heading') %>
+    </h1>
+    <% @timetables.each do |timetable| %>
+      <%= render Publications::RecruitmentCycleTimetableCard.new(timetable) %>
+    <% end %>
+  </div>
+</div>

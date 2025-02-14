@@ -1,0 +1,16 @@
+en:
+  publications:
+    recruitment_cycle_timetable_card:
+      academic_year_range_name: Recruitment for academic year
+      find_opens_at: Find opens
+      apply_opens_at: Apply opens
+      christmas_holiday_range: Christmas holidays
+      easter_holiday_range: Easter holidays
+      apply_deadline_at: Application deadline
+      reject_by_default_at: Reject by default
+      decline_by_default_at: Decline by default
+      find_closes_at: Find closes
+      current_year: Current year —
+      proposed_timetable: Proposed timetable for
+      next_year: Next year —
+      previous_year: Previous year —
