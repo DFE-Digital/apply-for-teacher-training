@@ -1,0 +1,75 @@
+en:
+  support_interface:
+    recruitment_cycle_timetables:
+      edit:
+        page_title: Recruitment cycle %{year}
+        find_opens_at:
+          label: Find opens
+          hint: The date Find opens and candidates can start choosing courses
+        apply_opens_at:
+          label: Apply opens
+          hint: The date Apply opens for submissions
+        apply_deadline_at:
+          label: Apply deadline
+          hint: The deadline for candidates to submit applications
+        reject_by_default_at:
+          label: Reject by default
+          hint: The deadline for providers to make offers
+        decline_by_default_at:
+          label: Decline by default
+          hint: The deadline for candidates to accept offers
+        find_closes_at:
+          label: Find closes
+          hint: The end of the cycle.
+        christmas_holiday_range_start_at:
+          label: The beginning of the Christmas holiday period
+          hint: The Christmas holiday is not included in 'inactive' calculations
+        christmas_holiday_range_end_at:
+          label: The end of the Christmas holiday period
+          hint: The Christmas holiday is not included in 'inactive' calculations
+        easter_holiday_range_start_at:
+          label: The beginning of the Easter holiday period
+          hint: The Easter holiday is not included in 'inactive' calculations
+        easter_holiday_range_end_at:
+          label: The end of the Easter holiday period
+          hint: The Easter holiday is not included in 'inactive' calculations
+      index:
+        page_title: Recruitment cycles
+        form_title: Move forward in the recruitment cycle
+        deadlines: Deadlines
+        cycle_years: Cycle years
+        you_can_edit: You can edit the following timetables
+        today_is: Today is %{date}
+        the_next_cycle_is_not_defined: The next cycle is not defined
+        sync_with_production: Sync cycle timetables with production
+        find_has_opened: Find has opened (%{year})
+        apply_has_opened: Apply has opened  (%{year})
+        apply_deadline_approaching: Apply deadline approaching (%{year})
+        after_apply_deadline: Apply deadline has passed (%{year})
+        after_reject_by_default: Reject by default deadline has passed (%{year})
+        after_decline_by_default: Decline by default deadline has passed (%{year})
+        after_find_has_closed: Find has closed (%{year})
+        current_state_description:
+          find_has_opened: >
+            Candidate can make choices, but they cannot submit applications.
+          apply_has_opened: >
+            Candidates can make choices and submit applications, providers can act on applications.
+          apply_deadline_approaching: >
+            Candidates can make choices and submit applications, providers can act on applications.
+            The deadline is within 12 weeks and candidates will see banners reminding them of the approaching deadlines,
+          after_apply_deadline: >
+            The deadline for submitting applications has passed.
+            Candidates without active applications can start preparing applications for next year.
+            Providers can still act on submitted applications.
+          after_reject_by_default:
+            This is the deadline for providers to make offers to candidates has passed.
+            Candidates can still act on offers.
+          after_decline_by_default:
+            The deadline for candidates to accept offers has passed.
+          after_find_has_closed:
+            The service is down before reopening. Candidates cannot select courses.
+      reset:
+        success_message: Recruitment cycles are synced with production.
+      update:
+        success_message: The cycle has been updated.
+
