@@ -26,10 +26,10 @@ module CandidateInterface
   private
 
     def feedback_params
-      strip_whitespace params.expect(
-        candidate_interface_application_feedback_form: %i[path page_title
-                                                          feedback consent_to_be_contacted
-                                                          original_controller],
+      strip_whitespace params.require(:candidate_interface_application_feedback_form).permit(
+        :path, :page_title,
+        :feedback, :consent_to_be_contacted,
+        :original_controller
       )
     end
   end

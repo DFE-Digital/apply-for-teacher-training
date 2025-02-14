@@ -52,7 +52,8 @@ module CandidateInterface
 
     def maths_params
       strip_whitespace params
-                        .expect(candidate_interface_maths_gcse_grade_form: %i[grade award_year other_grade])
+                        .require(:candidate_interface_maths_gcse_grade_form)
+                        .permit(%i[grade award_year other_grade])
                         .merge!(qualification_type: current_qualification.qualification_type)
     end
 

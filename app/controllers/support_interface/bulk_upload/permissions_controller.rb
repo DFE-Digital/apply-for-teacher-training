@@ -60,13 +60,13 @@ module SupportInterface
       end
 
       def provider_user_params
-        params
-              .expect(support_interface_create_single_provider_user_form: %i[email_address first_name last_name provider_id index])
+        params.require(:support_interface_create_single_provider_user_form)
+              .permit(:email_address, :first_name, :last_name, :provider_id, :index)
       end
 
       def provider_permissions_params
-        params
-              .expect(support_interface_create_single_provider_user_form: [provider_permissions_form: {}])
+        params.require(:support_interface_create_single_provider_user_form)
+              .permit(provider_permissions_form: {})
               .fetch(:provider_permissions_form, {})
               .to_h
       end

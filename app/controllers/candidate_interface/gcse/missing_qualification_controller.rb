@@ -42,7 +42,8 @@ module CandidateInterface
 
     def qualification_missing_params
       strip_whitespace params
-        .expect(candidate_interface_gcse_missing_form: [:missing_explanation])
+        .require(:candidate_interface_gcse_missing_form)
+        .permit(:missing_explanation)
     end
 
     def set_back_link

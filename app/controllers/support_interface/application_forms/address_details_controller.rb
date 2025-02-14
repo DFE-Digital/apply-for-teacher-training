@@ -24,8 +24,9 @@ module SupportInterface
 
       def address_details_params
         StripWhitespace.from_hash params
-          .expect(
-            support_interface_application_forms_edit_address_details_form: %i[address_line1 address_line2 address_line3 address_line4 postcode audit_comment],
+          .require(:support_interface_application_forms_edit_address_details_form)
+          .permit(
+            :address_line1, :address_line2, :address_line3, :address_line4, :postcode, :audit_comment
           )
       end
 

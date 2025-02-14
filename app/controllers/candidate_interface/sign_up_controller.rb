@@ -48,7 +48,7 @@ module CandidateInterface
     end
 
     def candidate_sign_up_form_params
-      params.expect(candidate_interface_sign_up_form: [:email_address]).merge(course_from_find_id: course_id)
+      params.require(:candidate_interface_sign_up_form).permit(:email_address).merge(course_from_find_id: course_id)
     end
 
     def course_id

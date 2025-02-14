@@ -50,7 +50,8 @@ module CandidateInterface
 
     def english_details_params
       strip_whitespace params
-        .expect(candidate_interface_english_gcse_grade_form: [
+        .require(:candidate_interface_english_gcse_grade_form)
+        .permit([
           :english_single_award,
           :grade_english_single,
           :english_double_award,

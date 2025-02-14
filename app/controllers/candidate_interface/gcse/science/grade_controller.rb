@@ -68,7 +68,8 @@ module CandidateInterface
 
     def science_details_params
       strip_whitespace params
-        .expect(candidate_interface_science_gcse_grade_form: %i[gcse_science grade single_award_grade double_award_grade biology_grade chemistry_grade physics_grade other_grade])
+        .require(:candidate_interface_science_gcse_grade_form)
+        .permit(%i[gcse_science grade single_award_grade double_award_grade biology_grade chemistry_grade physics_grade other_grade])
     end
 
     def science_gcse_grade_form

@@ -225,17 +225,17 @@ module RefereeInterface
     end
 
     def questionnaire_params
-      params.expect(referee_interface_questionnaire_form: [*QuestionnaireForm::FORM_KEYS])
+      params.require(:referee_interface_questionnaire_form).permit(*QuestionnaireForm::FORM_KEYS)
     end
 
     def relationship_params
-      params
-            .expect(referee_interface_reference_relationship_form: %i[relationship_correction relationship_confirmation])
+      params.require(:referee_interface_reference_relationship_form)
+            .permit(:relationship_correction, :relationship_confirmation)
     end
 
     def safeguarding_params
-      params
-            .expect(referee_interface_reference_safeguarding_form: %i[any_safeguarding_concerns safeguarding_concerns])
+      params.require(:referee_interface_reference_safeguarding_form)
+            .permit(:any_safeguarding_concerns, :safeguarding_concerns)
     end
 
     def refused_params

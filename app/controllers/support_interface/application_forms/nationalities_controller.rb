@@ -39,9 +39,10 @@ module SupportInterface
 
       def nationalities_params
         StripWhitespace.from_hash params
-          .expect(
-            support_interface_application_forms_nationalities_form: [:first_nationality, :second_nationality, :other_nationality1, :other_nationality2,
-                                                                     :other_nationality3, :audit_comment, nationalities: []],
+          .require(:support_interface_application_forms_nationalities_form)
+          .permit(
+            :first_nationality, :second_nationality, :other_nationality1, :other_nationality2,
+            :other_nationality3, :audit_comment, nationalities: []
           )
       end
 

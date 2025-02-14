@@ -22,8 +22,8 @@ module CandidateInterface
     private
 
       def form_params
-        params
-              .expect(candidate_interface_withdrawal_reasons_level_two_reasons_form: [:comment, :personal_circumstances_reasons_comment, level_two_reasons: [], personal_circumstances_reasons: []])
+        params.require(:candidate_interface_withdrawal_reasons_level_two_reasons_form)
+              .permit(:comment, :personal_circumstances_reasons_comment, level_two_reasons: [], personal_circumstances_reasons: [])
               .merge({ level_one_reason: })
       end
 

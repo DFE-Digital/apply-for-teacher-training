@@ -26,7 +26,7 @@ module CandidateInterface
   private
 
     def create_account_or_sign_in_params
-      strip_whitespace params.expect(candidate_interface_create_account_or_sign_in_form: %i[existing_account email])
+      strip_whitespace params.require(:candidate_interface_create_account_or_sign_in_form).permit(:existing_account, :email)
     end
 
     def create_account_page_title

@@ -20,8 +20,8 @@ module CandidateInterface
   private
 
     def feedback_params
-      strip_whitespace params.expect(
-        candidate_interface_feedback_form: %i[satisfaction_level suggestions],
+      strip_whitespace params.require(:candidate_interface_feedback_form).permit(
+        :satisfaction_level, :suggestions
       )
     end
   end

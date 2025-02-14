@@ -61,13 +61,13 @@ module SupportInterface
       end
 
       def course_search_params
-        params
-              .expect(support_interface_application_forms_course_search_form: [:course_code])
+        params.require(:support_interface_application_forms_course_search_form)
+              .permit(:course_code)
       end
 
       def change_course_choice_params
-        params
-              .expect(support_interface_application_forms_change_course_choice_form: %i[application_choice_id provider_code course_code study_mode site_code recruitment_cycle_year audit_comment_ticket accept_guidance confirm_course_change checkbox_rendered])
+        params.require(:support_interface_application_forms_change_course_choice_form)
+              .permit(:application_choice_id, :provider_code, :course_code, :study_mode, :site_code, :recruitment_cycle_year, :audit_comment_ticket, :accept_guidance, :confirm_course_change, :checkbox_rendered)
       end
 
       def application_form_id

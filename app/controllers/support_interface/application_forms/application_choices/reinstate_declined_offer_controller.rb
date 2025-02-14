@@ -22,7 +22,7 @@ module SupportInterface
       private
 
         def reinstate_offer_params
-          params.expect(support_interface_application_forms_reinstate_declined_offer_form: %i[status audit_comment_ticket accept_guidance])
+          params.require(:support_interface_application_forms_reinstate_declined_offer_form).permit(:status, :audit_comment_ticket, :accept_guidance)
         end
 
         def redirect_to_application_form_unless_declined

@@ -43,7 +43,7 @@ module CandidateInterface
       end
 
       def referee_name_param
-        strip_whitespace params.expect(candidate_interface_reference_referee_name_form: [:name])
+        strip_whitespace params.require(:candidate_interface_reference_referee_name_form).permit(:name)
       end
 
       def verify_name_is_editable

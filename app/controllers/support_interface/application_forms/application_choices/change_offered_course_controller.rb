@@ -78,8 +78,8 @@ module SupportInterface
       private
 
         def course_search_params
-          params
-                .expect(support_interface_application_forms_course_search_form: [:course_code])
+          params.require(:support_interface_application_forms_course_search_form)
+                .permit(:course_code)
         end
 
         def course_option_id
@@ -91,7 +91,7 @@ module SupportInterface
         end
 
         def confirm_offered_course_option_params
-          params.expect(support_interface_application_forms_update_offered_course_option_form: %i[course_option_id audit_comment accept_guidance confirm_course_change checkbox_rendered])
+          params.require(:support_interface_application_forms_update_offered_course_option_form).permit(:course_option_id, :audit_comment, :accept_guidance, :confirm_course_change, :checkbox_rendered)
         end
 
         def redirect_to_application_form_unless_accepted

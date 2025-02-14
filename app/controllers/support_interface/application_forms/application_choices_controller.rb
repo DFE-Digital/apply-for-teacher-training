@@ -67,19 +67,19 @@ module SupportInterface
     private
 
       def reinstate_offer_params
-        params.expect(support_interface_application_forms_reinstate_declined_offer_form: %i[status audit_comment_ticket accept_guidance])
+        params.require(:support_interface_application_forms_reinstate_declined_offer_form).permit(:status, :audit_comment_ticket, :accept_guidance)
       end
 
       def revert_rejection_params
-        params.expect(support_interface_application_forms_revert_rejection_form: %i[audit_comment_ticket accept_guidance])
+        params.require(:support_interface_application_forms_revert_rejection_form).permit(:audit_comment_ticket, :accept_guidance)
       end
 
       def revert_withdrawal_params
-        params.expect(support_interface_application_forms_revert_withdrawal_form: %i[audit_comment_ticket accept_guidance])
+        params.require(:support_interface_application_forms_revert_withdrawal_form).permit(:audit_comment_ticket, :accept_guidance)
       end
 
       def revert_to_pending_conditions_params
-        params.expect(support_interface_application_forms_revert_to_pending_conditions_form: %i[audit_comment_ticket accept_guidance])
+        params.require(:support_interface_application_forms_revert_to_pending_conditions_form).permit(:audit_comment_ticket, :accept_guidance)
       end
 
       def build_application_form

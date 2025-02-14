@@ -22,7 +22,8 @@ module SupportInterface
 
       def becoming_a_teacher_params
         StripWhitespace.from_hash params
-          .expect(support_interface_application_forms_edit_becoming_a_teacher_form: %i[becoming_a_teacher audit_comment])
+          .require(:support_interface_application_forms_edit_becoming_a_teacher_form)
+          .permit(:becoming_a_teacher, :audit_comment)
       end
 
       def build_application_form

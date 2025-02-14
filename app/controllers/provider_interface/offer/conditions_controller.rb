@@ -51,11 +51,12 @@ module ProviderInterface
 
       def conditions_params
         params
-          .expect(
-            provider_interface_offer_wizard: [:require_references,
-                                              :references_description,
-                                              further_conditions: {},
-                                              standard_conditions: []],
+          .require(:provider_interface_offer_wizard)
+          .permit(
+            :require_references,
+            :references_description,
+            further_conditions: {},
+            standard_conditions: [],
           )
       end
 

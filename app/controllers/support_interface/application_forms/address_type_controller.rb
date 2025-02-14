@@ -19,9 +19,9 @@ module SupportInterface
     private
 
       def address_type_params
-        params.expect(
-          support_interface_application_forms_edit_address_details_form: %i[address_type
-                                                                            country],
+        params.require(:support_interface_application_forms_edit_address_details_form).permit(
+          :address_type,
+          :country,
         )
       end
 

@@ -56,8 +56,9 @@ module CandidateInterface
 
       def nationalities_params
         strip_whitespace params
-          .expect(
-            candidate_interface_nationalities_form: [:first_nationality, :second_nationality, :other_nationality1, :other_nationality2, :other_nationality3, nationalities: []],
+          .require(:candidate_interface_nationalities_form)
+          .permit(
+            :first_nationality, :second_nationality, :other_nationality1, :other_nationality2, :other_nationality3, nationalities: []
           )
       end
 

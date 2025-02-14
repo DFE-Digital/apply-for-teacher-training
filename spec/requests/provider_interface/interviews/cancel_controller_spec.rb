@@ -75,7 +75,7 @@ RSpec.describe ProviderInterface::Interviews::CancelController do
     it 'tracks validation errors on create' do
       expect {
         post provider_interface_application_choice_interview_cancel_path(application_choice, interview),
-             params: { provider_interface_cancel_interview_wizard: { cancellation_reason: nil } }
+             params: { provider_interface_cancel_interview_wizard: { location: 'here' } }
       }.to change(ValidationError, :count).by(1)
     end
   end

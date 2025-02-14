@@ -44,7 +44,7 @@ module ProviderInterface
       end
 
       def cancellation_params
-        params.expect(provider_interface_cancel_interview_wizard: [:cancellation_reason])
+        params.require(:provider_interface_cancel_interview_wizard).permit(:cancellation_reason)
       end
 
       def interview_id

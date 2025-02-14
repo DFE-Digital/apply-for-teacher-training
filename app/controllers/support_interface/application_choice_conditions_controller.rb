@@ -52,7 +52,8 @@ module SupportInterface
 
     def condition_params
       params
-        .expect(support_interface_conditions_form: [:application_choice_id, :audit_comment_ticket, :confirm_make_unconditional, further_conditions: {}, standard_conditions: [], ske_conditions: {}])
+        .require(:support_interface_conditions_form)
+        .permit(:application_choice_id, :audit_comment_ticket, :confirm_make_unconditional, further_conditions: {}, standard_conditions: [], ske_conditions: {})
         .to_h
         .with_indifferent_access
     end

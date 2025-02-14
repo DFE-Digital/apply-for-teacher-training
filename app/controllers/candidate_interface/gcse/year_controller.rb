@@ -44,7 +44,8 @@ module CandidateInterface
 
     def year_params
       strip_whitespace params
-        .expect(candidate_interface_gcse_year_form: [:award_year])
+        .require(:candidate_interface_gcse_year_form)
+        .permit(:award_year)
         .merge!(qualification_type: current_qualification.qualification_type)
     end
 

@@ -24,8 +24,8 @@ module CandidateInterface
 
     def permitted_params
       strip_whitespace(
-        params.expect(
-          candidate_interface_account_recovery_request_form: [:previous_account_email_address],
+        params.require(:candidate_interface_account_recovery_request_form).permit(
+          :previous_account_email_address,
         ),
       )
     end

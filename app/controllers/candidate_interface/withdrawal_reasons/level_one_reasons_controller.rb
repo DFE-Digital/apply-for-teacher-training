@@ -37,7 +37,7 @@ module CandidateInterface
     private
 
       def form_params
-        params.expect(candidate_interface_withdrawal_reasons_level_one_reasons_form: %i[level_one_reason comment])
+        params.require(:candidate_interface_withdrawal_reasons_level_one_reasons_form).permit(:level_one_reason, :comment)
       end
 
       def set_draft_reason

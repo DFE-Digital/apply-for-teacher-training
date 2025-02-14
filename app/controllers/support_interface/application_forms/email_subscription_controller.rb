@@ -21,7 +21,7 @@ module SupportInterface
     private
 
       def unsubscribed_from_emails_params
-        params.expect(support_interface_email_subscription_form: %i[unsubscribed_from_emails audit_comment])
+        params.require(:support_interface_email_subscription_form).permit(:unsubscribed_from_emails, :audit_comment)
       end
 
       def set_application_form

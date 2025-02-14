@@ -35,10 +35,10 @@ module ProviderInterface
     def permissions_params
       return {} unless params.key?(:provider_relationship_permissions)
 
-      params
-            .expect(provider_relationship_permissions: [make_decisions: [],
-                                                        view_safeguarding_information: [],
-                                                        view_diversity_information: []]).to_h
+      params.require(:provider_relationship_permissions)
+            .permit(make_decisions: [],
+                    view_safeguarding_information: [],
+                    view_diversity_information: []).to_h
     end
 
     def new_relationship_permissions

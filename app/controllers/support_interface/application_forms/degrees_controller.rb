@@ -25,7 +25,9 @@ module SupportInterface
     private
 
       def edit_application_params
-        params.expect(support_interface_application_forms_edit_degree_form: %i[start_year award_year audit_comment])
+        params.require(
+          :support_interface_application_forms_edit_degree_form,
+        ).permit(:start_year, :award_year, :audit_comment)
       end
     end
   end

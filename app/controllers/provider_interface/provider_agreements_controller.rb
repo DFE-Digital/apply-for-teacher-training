@@ -35,10 +35,10 @@ module ProviderInterface
   private
 
     def provider_agreement_params
-      params.expect(
-        provider_agreement: %i[accept_agreement
-                               agreement_type
-                               provider_id],
+      params.require(:provider_agreement).permit(
+        :accept_agreement,
+        :agreement_type,
+        :provider_id,
       )
     end
   end

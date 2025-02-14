@@ -85,7 +85,7 @@ module SupportInterface
     end
 
     def confirmed_environment
-      @confirmation = SupportInterface::ConfirmEnvironment.new(params.expect(support_interface_confirm_environment: %i[from environment]))
+      @confirmation = SupportInterface::ConfirmEnvironment.new(params.require(:support_interface_confirm_environment).permit(:from, :environment))
 
       if @confirmation.valid?
         session[:confirmed_environment_at] = Time.zone.now

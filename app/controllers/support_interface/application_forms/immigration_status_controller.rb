@@ -24,7 +24,9 @@ module SupportInterface
       end
 
       def immigration_status_params
-        params.expect(support_interface_application_forms_immigration_status_form: %i[immigration_status right_to_work_or_study_details audit_comment])
+        params.require(
+          :support_interface_application_forms_immigration_status_form,
+        ).permit(:immigration_status, :right_to_work_or_study_details, :audit_comment)
       end
     end
   end

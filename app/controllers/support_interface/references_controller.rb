@@ -47,8 +47,8 @@ module SupportInterface
     end
 
     def delete_reference_params
-      params
-            .expect(support_interface_application_forms_delete_reference_form: %i[accept_guidance audit_comment_ticket])
+      params.require(:support_interface_application_forms_delete_reference_form)
+            .permit(:accept_guidance, :audit_comment_ticket)
     end
   end
 end

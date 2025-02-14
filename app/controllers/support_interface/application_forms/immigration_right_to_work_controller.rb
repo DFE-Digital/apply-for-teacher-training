@@ -24,8 +24,8 @@ module SupportInterface
       end
 
       def right_to_work_params
-        StripWhitespace.from_hash params.expect(
-          support_interface_application_forms_immigration_right_to_work_form: %i[right_to_work_or_study right_to_work_or_study_details audit_comment],
+        StripWhitespace.from_hash params.require(:support_interface_application_forms_immigration_right_to_work_form).permit(
+          :right_to_work_or_study, :right_to_work_or_study_details, :audit_comment
         )
       end
     end

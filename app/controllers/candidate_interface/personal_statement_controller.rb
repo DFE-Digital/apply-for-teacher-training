@@ -80,8 +80,8 @@ module CandidateInterface
     end
 
     def becoming_a_teacher_params
-      strip_whitespace params.expect(
-        candidate_interface_becoming_a_teacher_form: [:becoming_a_teacher],
+      strip_whitespace params.require(:candidate_interface_becoming_a_teacher_form).permit(
+        :becoming_a_teacher,
       )
     end
 

@@ -52,7 +52,8 @@ module CandidateInterface
 
     def safeguarding_params
       strip_whitespace params
-        .expect(candidate_interface_safeguarding_issues_declaration_form: %i[share_safeguarding_issues safeguarding_issues])
+        .require(:candidate_interface_safeguarding_issues_declaration_form)
+        .permit(:share_safeguarding_issues, :safeguarding_issues)
     end
 
     def form_params

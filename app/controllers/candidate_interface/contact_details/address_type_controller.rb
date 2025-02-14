@@ -43,9 +43,9 @@ module CandidateInterface
     end
 
     def address_type_params
-      strip_whitespace params.expect(
-        candidate_interface_contact_details_form: %i[address_type
-                                                     country],
+      strip_whitespace params.require(:candidate_interface_contact_details_form).permit(
+        :address_type,
+        :country,
       )
     end
   end

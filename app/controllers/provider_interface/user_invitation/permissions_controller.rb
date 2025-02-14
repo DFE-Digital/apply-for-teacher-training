@@ -20,7 +20,7 @@ module ProviderInterface
     private
 
       def permissions_params
-        params.expect(provider_interface_invite_user_wizard: [permissions: []])
+        params.require(:provider_interface_invite_user_wizard).permit(permissions: [])
       end
     end
   end

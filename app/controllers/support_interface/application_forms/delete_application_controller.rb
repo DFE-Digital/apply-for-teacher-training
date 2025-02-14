@@ -20,8 +20,8 @@ module SupportInterface
     private
 
       def delete_application_params
-        params
-              .expect(support_interface_application_forms_delete_application_form: %i[accept_guidance audit_comment_ticket])
+        params.require(:support_interface_application_forms_delete_application_form)
+              .permit(:accept_guidance, :audit_comment_ticket)
       end
 
       def find_application_form
