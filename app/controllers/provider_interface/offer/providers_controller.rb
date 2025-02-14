@@ -48,7 +48,7 @@ module ProviderInterface
     private
 
       def provider_params
-        params.require(:provider_interface_offer_wizard).permit(:provider_id)
+        params.expect(provider_interface_offer_wizard: [:provider_id])
       end
 
       def attributes_for_wizard

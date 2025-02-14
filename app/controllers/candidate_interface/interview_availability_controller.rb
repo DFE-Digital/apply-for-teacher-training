@@ -54,8 +54,8 @@ module CandidateInterface
   private
 
     def interview_preferences_params
-      strip_whitespace params.require(:candidate_interface_interview_preferences_form).permit(
-        :any_preferences, :interview_preferences
+      strip_whitespace params.expect(
+        candidate_interface_interview_preferences_form: %i[any_preferences interview_preferences],
       )
     end
 

@@ -91,7 +91,7 @@ module SupportInterface
 
     def candidate_account_status_params
       { candidate: @candidate }.merge(
-        params.require(:support_interface_candidate_account_status_form).permit(:status),
+        params.expect(support_interface_candidate_account_status_form: [:status]),
       )
     end
   end

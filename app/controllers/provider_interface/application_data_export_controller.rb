@@ -57,7 +57,7 @@ module ProviderInterface
   private
 
     def application_data_export_params
-      params.require(:provider_interface_application_data_export_form).permit(:application_status_choice, statuses: [], provider_ids: [], recruitment_cycle_years: [])
+      params.expect(provider_interface_application_data_export_form: [:application_status_choice, statuses: [], provider_ids: [], recruitment_cycle_years: []])
     end
   end
 end

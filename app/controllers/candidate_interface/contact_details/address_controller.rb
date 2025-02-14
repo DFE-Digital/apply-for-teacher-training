@@ -43,8 +43,8 @@ module CandidateInterface
     end
 
     def contact_details_params
-      strip_whitespace params.require(:candidate_interface_contact_details_form).permit(
-        :address_line1, :address_line2, :address_line3, :address_line4, :postcode
+      strip_whitespace params.expect(
+        candidate_interface_contact_details_form: %i[address_line1 address_line2 address_line3 address_line4 postcode],
       )
     end
   end

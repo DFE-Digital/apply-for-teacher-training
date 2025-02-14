@@ -40,11 +40,9 @@ module CandidateInterface
     private
 
       def status_params
-        strip_whitespace params.require(
-          :candidate_interface_immigration_status_form,
-        ).permit(
-          :immigration_status,
-          :right_to_work_or_study_details,
+        strip_whitespace params.expect(
+          candidate_interface_immigration_status_form: %i[immigration_status
+                                                          right_to_work_or_study_details],
         )
       end
     end

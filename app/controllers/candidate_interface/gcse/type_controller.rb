@@ -73,8 +73,7 @@ module CandidateInterface
 
     def qualification_params
       strip_whitespace params
-        .require(:candidate_interface_gcse_qualification_type_form)
-        .permit(:qualification_type, :other_uk_qualification_type, :not_completed_explanation, :non_uk_qualification_type)
+        .expect(candidate_interface_gcse_qualification_type_form: %i[qualification_type other_uk_qualification_type not_completed_explanation non_uk_qualification_type])
         .merge!(
           subject: subject_param,
           level: ApplicationQualification.levels[:gcse],

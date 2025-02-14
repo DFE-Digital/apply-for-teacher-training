@@ -46,8 +46,7 @@ module CandidateInterface
 
     def qualification_not_completed_params
       strip_whitespace params
-        .require(:candidate_interface_gcse_not_completed_form)
-        .permit(:not_completed_explanation, :currently_completing_qualification)
+        .expect(candidate_interface_gcse_not_completed_form: %i[not_completed_explanation currently_completing_qualification])
     end
   end
 end

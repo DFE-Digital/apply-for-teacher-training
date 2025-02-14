@@ -30,7 +30,7 @@ module SupportInterface
     private
 
       def form_params
-        params.require(:support_interface_multiple_provider_users_wizard).permit(:provider_users)
+        params.expect(support_interface_multiple_provider_users_wizard: [:provider_users])
       end
 
       def provider_id_param

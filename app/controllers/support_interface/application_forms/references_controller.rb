@@ -35,11 +35,11 @@ module SupportInterface
     private
 
       def edit_reference_details_params
-        params.require(:support_interface_application_forms_edit_reference_details_form).permit(:name, :email_address, :relationship, :audit_comment)
+        params.expect(support_interface_application_forms_edit_reference_details_form: %i[name email_address relationship audit_comment])
       end
 
       def edit_reference_feedback_params
-        params.require(:support_interface_application_forms_edit_reference_feedback_form).permit(:feedback, :audit_comment, :send_emails)
+        params.expect(support_interface_application_forms_edit_reference_feedback_form: %i[feedback audit_comment send_emails])
       end
 
       def send_emails
