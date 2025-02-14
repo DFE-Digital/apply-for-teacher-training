@@ -237,7 +237,12 @@ namespace :support_interface, path: '/support' do
     post '/feature-flags/:feature_name/activate' => 'settings#activate_feature_flag', as: :activate_feature_flag
     post '/feature-flags/:feature_name/deactivate' => 'settings#deactivate_feature_flag', as: :deactivate_feature_flag
 
-    get '/cycles', to: 'settings#cycles', as: :cycles
+    get 'recruitment-cycle-timetable', to: 'recruitment_cycle_timetables#index', as: :recruitment_cycle_timetables
+    unless HostingEnvironment.production?
+      post '/recruitment-cycle-timetables/reset', to: 'recruitment_cycle_timetables#reset', as: :sync_cycle_with_production
+      get '/recruitment-cycle-timetable/:recruitment_cycle_year', to: 'recruitment_cycle_timetables#edit', as: :edit_recruitment_cycle_timetable
+      post '/recruitment-cycle-timetable/:recruitment_cycle_year', to: 'recruitment_cycle_timetables#update', as: :update_recruitment_cycle_timetable
+    end
 
     get '/notify-template', to: 'settings#notify_template', as: :notify_template
     post '/send-notify-template', to: 'settings#send_notify_template', as: :send_notify_template

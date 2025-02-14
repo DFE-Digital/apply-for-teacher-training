@@ -1,14 +1,13 @@
 FactoryBot.define do
   factory :recruitment_cycle_timetable do
-    recruitment_cycle_year { CycleTimetable.current_year }
+    current_timetable = RecruitmentCycleTimetable.last_timetable
+    recruitment_cycle_year { current_timetable.recruitment_cycle_year + 1 }
 
-    find_opens_at { CycleTimetable.find_opens }
-    apply_opens_at { CycleTimetable.apply_opens }
-    apply_deadline_at { CycleTimetable.apply_deadline }
-    reject_by_default_at { CycleTimetable.reject_by_default }
-    decline_by_default_at { CycleTimetable.decline_by_default_date }
-    find_closes_at { CycleTimetable.find_closes }
-    christmas_holiday_range { CycleTimetable.holidays[:christmas] }
-    easter_holiday_range { CycleTimetable.holidays[:easter] }
+    find_opens_at { current_timetable.find_opens_at + 1.year }
+    apply_opens_at { current_timetable.apply_opens_at + 1.year }
+    apply_deadline_at { current_timetable.apply_deadline_at + 1.year }
+    reject_by_default_at { current_timetable.reject_by_default_at + 1.year }
+    decline_by_default_at { current_timetable.decline_by_default_at + 1.year }
+    find_closes_at { current_timetable.find_closes_at + 1.year }
   end
 end
