@@ -29,6 +29,7 @@ module DfESignInHelpers
     support_user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com', dfe_sign_in_uid: 'abc')
     support_user_signs_in_using_dfe_sign_in
   end
+  alias given_i_am_signed_in_as_a_support_user sign_in_as_support_user
 
   def provider_user_exists_in_apply_database(provider_code: 'ABC', email_address: 'email@provider.ac.uk')
     provider_one = Provider.find_by(code: provider_code) if provider_code
