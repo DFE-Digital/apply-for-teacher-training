@@ -1,6 +1,7 @@
 module CandidateInterface
   module PersonalDetails
     class ReviewController < SectionController
+      before_action :finish_immigration_status, if: -> { ImmigrationStatus.new(current_application: current_application).incomplete? }, only: :show
       def show
         @application_form = current_application
         @section_complete_form = SectionCompleteForm.new(
@@ -51,6 +52,10 @@ module CandidateInterface
 
       def application_form_params
         strip_whitespace params.fetch(:candidate_interface_section_complete_form, {}).permit(:completed)
+      end
+
+      def finish_immigration_status
+        redirect_to candidate_interface_immigration_status_path
       end
     end
   end
