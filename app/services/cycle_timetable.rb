@@ -147,15 +147,6 @@ class CycleTimetable
     "#{year} to #{year + 1}"
   end
 
-  def self.service_opens_today?(service, year: RecruitmentCycle.current_year, end_of_business_day_hour: 17, end_of_business_day_min: 0)
-    service_opening_date = send("#{service}_opens", year)
-
-    current_date.between?(
-      service_opening_date,
-      service_opening_date.change(hour: end_of_business_day_hour, min: end_of_business_day_min),
-    )
-  end
-
   def self.this_day_last_cycle
     days_since_cycle_started = (current_date.to_date - CycleTimetable.apply_opens.to_date).round
     last_cycle_opening_date = apply_opens(previous_year).to_date

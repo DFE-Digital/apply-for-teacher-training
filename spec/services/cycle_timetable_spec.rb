@@ -133,34 +133,6 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.service_opens_today?' do
-    let(:year) { RecruitmentCycle.current_year }
-
-    it 'is true when the service is Apply and the time is within business hours' do
-      travel_temporarily_to(1.minute.since(described_class.apply_opens(year))) do
-        expect(described_class.service_opens_today?(:apply, year:)).to be true
-      end
-    end
-
-    it 'is false when the service is Apply and the time is outside of business hours' do
-      travel_temporarily_to(12.hours.since(described_class.apply_opens(year))) do
-        expect(described_class.service_opens_today?(:apply, year:)).to be false
-      end
-    end
-
-    it 'is true when the service is Find and the time is within business hours' do
-      travel_temporarily_to(1.minute.since(described_class.find_opens(year))) do
-        expect(described_class.service_opens_today?(:find, year:)).to be true
-      end
-    end
-
-    it 'is false when the service is Find and the time is outside of business hours' do
-      travel_temporarily_to(12.hours.since(described_class.find_opens(year))) do
-        expect(described_class.service_opens_today?(:find, year:)).to be false
-      end
-    end
-  end
-
   describe '.between_reject_by_default_and_find_reopens?' do
     context 'it is before reject by default date' do
       it 'returns false' do

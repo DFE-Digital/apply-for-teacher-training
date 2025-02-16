@@ -1,18 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe StartOfCycleNotificationWorker do
+  let(:timetable) { RecruitmentCycleTimetable.current_timetable }
+
   describe 'throttling' do
     shared_examples 'throttled email' do |number_of_records, start_hour, expected_limit|
-      before do
-        allow(CycleTimetable).to receive(:service_opens_today?).and_return(true)
-      end
-
       it "fetches #{expected_limit} of records for #{number_of_records} total records at #{start_hour}" do
         collection = instance_double(ActiveRecord::Relation, count: number_of_records, limit: nil).as_null_object
         allow(GetProvidersToNotifyAboutFindAndApply).to receive(:call).and_return(collection)
         allow(collection).to receive(:limit).and_return([])
 
-        travel_temporarily_to(CycleTimetable.find_opens(2023).change(hour: start_hour)) do
+        travel_temporarily_to(timetable.find_opens_at.change(hour: start_hour)) do
           described_class.new.perform('find')
         end
         expect(collection).to have_received(:limit).with(expected_limit)
@@ -20,8 +18,6 @@ RSpec.describe StartOfCycleNotificationWorker do
     end
 
     context 'with 10 records' do
-      it_behaves_like 'throttled email', 10, 1, 0
-      it_behaves_like 'throttled email', 10, 5, 0
       it_behaves_like 'throttled email', 10, 9, 1
       it_behaves_like 'throttled email', 10, 12, 2
       it_behaves_like 'throttled email', 10, 13, 2
@@ -29,8 +25,6 @@ RSpec.describe StartOfCycleNotificationWorker do
     end
 
     context 'with 100 records' do
-      it_behaves_like 'throttled email', 100, 1, 6
-      it_behaves_like 'throttled email', 100, 5, 8
       it_behaves_like 'throttled email', 100, 9, 12
       it_behaves_like 'throttled email', 100, 12, 20
       it_behaves_like 'throttled email', 100, 13, 25
@@ -38,12 +32,36 @@ RSpec.describe StartOfCycleNotificationWorker do
     end
 
     context 'with 1000 records' do
-      it_behaves_like 'throttled email', 1000, 1, 62
-      it_behaves_like 'throttled email', 1000, 5, 83
       it_behaves_like 'throttled email', 1000, 9, 125
       it_behaves_like 'throttled email', 1000, 12, 200
       it_behaves_like 'throttled email', 1000, 13, 250
       it_behaves_like 'throttled email', 1000, 15, 500
+    end
+  end
+
+  describe 'it does not send emails before the cycle has started' do
+    it 'does not fetch records at 5am' do
+      collection = instance_double(ActiveRecord::Relation).as_null_object
+      allow(GetProvidersToNotifyAboutFindAndApply).to receive(:call).and_return(collection)
+      allow(collection).to receive(:limit).and_return([])
+
+      travel_temporarily_to(timetable.find_opens_at.change(hour: 5)) do
+        described_class.new.perform('find')
+      end
+
+      expect(collection).not_to have_received(:limit)
+    end
+
+    it 'does not fetch records at 1am' do
+      collection = instance_double(ActiveRecord::Relation).as_null_object
+      allow(GetProvidersToNotifyAboutFindAndApply).to receive(:call).and_return(collection)
+      allow(collection).to receive(:limit).and_return([])
+
+      travel_temporarily_to(timetable.find_opens_at.change(hour: 1)) do
+        described_class.new.perform('find')
+      end
+
+      expect(collection).not_to have_received(:limit)
     end
   end
 
@@ -86,7 +104,7 @@ RSpec.describe StartOfCycleNotificationWorker do
       let(:service) { 'find' }
 
       before do
-        TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.find_opens.change(hour: 16))
+        TestSuiteTimeMachine.travel_permanently_to(timetable.find_opens_at.change(hour: 16))
       end
 
       it 'notifies all provider users that the service is open' do
@@ -178,10 +196,11 @@ RSpec.describe StartOfCycleNotificationWorker do
 
       context 'when a provider user received an email last cycle' do
         it 'they receive another email this cycle' do
-          TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.find_opens(2023).change(hour: 16))
+          previous_timetable = timetable.relative_previous_timetable
+          TestSuiteTimeMachine.travel_permanently_to(previous_timetable.find_opens_at.change(hour: 16))
           described_class.new.perform(service)
 
-          TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.find_opens(2024).change(hour: 16))
+          TestSuiteTimeMachine.travel_permanently_to(timetable.find_opens_at.change(hour: 16))
           described_class.new.perform(service)
 
           expect(ProviderMailer).to have_received(:find_service_is_now_open).with(other_provider_user).twice
