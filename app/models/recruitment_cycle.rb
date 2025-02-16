@@ -10,24 +10,12 @@ module RecruitmentCycle
     end.stringify_keys
   end
 
-  def self.real_current_year
-    CycleTimetable.real_current_year
-  end
-
-  def self.real_next_year
-    CycleTimetable.real_next_year
-  end
-
   def self.current_year
     CycleTimetable.current_year
   end
 
   def self.next_year
     CycleTimetable.next_year
-  end
-
-  def self.next_year?(year)
-    year == CycleTimetable.next_year
   end
 
   def self.previous_year

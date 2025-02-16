@@ -133,24 +133,6 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.between_reject_by_default_and_find_reopens?' do
-    context 'it is before reject by default date' do
-      it 'returns false' do
-        travel_temporarily_to(described_class.reject_by_default - 1.day) do
-          expect(described_class.between_reject_by_default_and_find_reopens?).to be(false)
-        end
-      end
-    end
-
-    context 'it is after reject by default date' do
-      it 'returns true' do
-        travel_temporarily_to(described_class.reject_by_default + 1.day) do
-          expect(described_class.between_reject_by_default_and_find_reopens?).to be(true)
-        end
-      end
-    end
-  end
-
   describe '.before_apply_opens?' do
     context 'one second until apply_opens' do
       it 'opens at exactly the right time' do

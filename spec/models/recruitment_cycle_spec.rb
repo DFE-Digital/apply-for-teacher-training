@@ -87,20 +87,6 @@ RSpec.describe RecruitmentCycle, time: CycleTimetableHelper.mid_cycle(2023) do
     end
   end
 
-  describe '.next_year?(year)' do
-    context 'when year is next year' do
-      it 'returns true' do
-        expect(described_class.next_year?(CycleTimetable.next_year)).to be(true)
-      end
-    end
-
-    context 'when year is this year' do
-      it 'returns false' do
-        expect(described_class.next_year?(CycleTimetable.current_year)).to be(false)
-      end
-    end
-  end
-
   describe '.previous_year' do
     it 'is 2019 if the current year is 2020' do
       allow(CycleTimetable).to receive(:current_year).and_return(2020)

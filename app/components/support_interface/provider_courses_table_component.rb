@@ -34,7 +34,7 @@ module SupportInterface
     attr_reader :provider, :courses
 
     def status_tag(course)
-      if RecruitmentCycle.next_year?(course.recruitment_cycle_year)
+      if RecruitmentCycleTimetable.next_year == course.recruitment_cycle_year
         govuk_tag(text: t('unpublished.text'), colour: t('unpublished.colour'))
       elsif course.open?
         govuk_tag(text: t('open.text'), colour: t('open.colour'))

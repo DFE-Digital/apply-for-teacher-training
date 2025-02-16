@@ -314,7 +314,7 @@ private
   end
 
   def schedule_interview(choice)
-    return if CycleTimetable.between_reject_by_default_and_find_reopens?
+    return if RecruitmentCycleTimetable.after_reject_by_default?
 
     as_provider_user(choice) do
       interview_date = [7.business_days.from_now, choice.reject_by_default_at].min

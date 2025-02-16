@@ -1,18 +1,4 @@
 class CycleTimetable
-  # These dates are configuration for when the previous cycle ends and the next cycle starts
-
-  def self.real_next_year
-    real_current_year + 1
-  end
-
-  def self.real_current_year
-    CYCLE_DATES.keys.detect do |year|
-      return year if last_recruitment_cycle_year?(year)
-
-      Time.zone.now.between?(CYCLE_DATES[year][:find_opens], CYCLE_DATES[year + 1][:find_opens])
-    end
-  end
-
   def self.current_year(now = Time.zone.now)
     CYCLE_DATES.keys.detect do |year|
       return year if last_recruitment_cycle_year?(year)
@@ -34,10 +20,6 @@ class CycleTimetable
 
   def self.current_date
     Time.zone.now
-  end
-
-  def self.between_reject_by_default_and_find_reopens?
-    current_date.between?(CycleTimetable.reject_by_default, CycleTimetable.find_reopens)
   end
 
   def self.apply_deadline(year = current_year)
