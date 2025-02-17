@@ -24,28 +24,10 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
       expect(result.css('.govuk-summary-list__value').text).to include('Over 5 days ago')
     end
 
-    context 'when the unlock editing feature flag is active' do
-      before do
-        FeatureFlag.activate(:unlock_application_for_editing)
-      end
+    it 'renders the editable row' do
+      result = render_inline(described_class.new(application_form: create(:completed_application_form)))
 
-      it 'renders the editable row' do
-        result = render_inline(described_class.new(application_form: create(:completed_application_form)))
-
-        expect(result.css('.govuk-summary-list__key').text).to include('Is this application editable')
-      end
-    end
-
-    context 'when the unlock editing feature flag is inactive' do
-      before do
-        FeatureFlag.deactivate(:unlock_application_for_editing)
-      end
-
-      it 'does not render the editable row' do
-        result = render_inline(described_class.new(application_form: create(:completed_application_form)))
-
-        expect(result.css('.govuk-summary-list__key').text).not_to include('Is this application editable')
-      end
+      expect(result.css('.govuk-summary-list__key').text).to include('Is this application editable')
     end
 
     context 'when the candidate has a OneLogin account' do
