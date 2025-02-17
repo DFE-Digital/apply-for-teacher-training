@@ -27,9 +27,7 @@ module ProviderInterface
         @provider.name
       end
 
-      def deferral_rows
-        @row_builder.deferral_rows
-      end
+      delegate :deferral_rows, to: :@row_builder
     end
   end
 end

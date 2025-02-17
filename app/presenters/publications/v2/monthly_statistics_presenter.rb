@@ -88,9 +88,7 @@ module Publications
         current_year == CycleTimetable.current_year
       end
 
-      def next_publication_date
-        MonthlyStatisticsTimetable.next_publication_date
-      end
+      delegate :next_publication_date, to: :MonthlyStatisticsTimetable
 
       def previous_year
         current_year - 1

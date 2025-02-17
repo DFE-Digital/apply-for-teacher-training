@@ -43,9 +43,7 @@ module Publications
         current_year + 1
       end
 
-      def next_publication_date
-        MonthlyStatisticsTimetable.next_publication_date
-      end
+      delegate :next_publication_date, to: :MonthlyStatisticsTimetable
 
       def current_reporting_period
         "#{CycleTimetable.apply_opens(current_year).to_fs(:govuk_date)} to #{report.generation_date.to_fs(:govuk_date)}"
