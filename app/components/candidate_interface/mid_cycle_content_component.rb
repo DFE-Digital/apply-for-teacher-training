@@ -18,8 +18,6 @@ module CandidateInterface
       CycleTimetable.apply_reopens.to_fs(:month_and_year)
     end
 
-    def next_year
-      CycleTimetable.next_year
-    end
+    delegate :next_year, to: :CycleTimetable
   end
 end
