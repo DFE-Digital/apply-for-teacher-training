@@ -40,6 +40,33 @@ RSpec.describe 'Entering their personal details' do
     then_i_can_check_my_revised_answers
   end
 
+  scenario 'International candidate does not complete all their personal details' do
+    given_i_am_signed_in_with_one_login
+    and_i_visit_the_site
+    when_i_click_on_personal_information
+    and_i_fill_in_all_my_details
+    and_i_submit_the_form
+    and_i_choose_american
+    and_i_submit_the_form
+    and_i_choose_yes_to_having_the_right_to_work_in_the_uk
+    and_i_submit_the_form
+    and_i_click_on_your_details
+    and_i_click_on_personal_information
+    then_i_do_not_see_the_complete_section_component
+  end
+
+  def then_i_do_not_see_the_complete_section_component
+    expect(page).to have_no_content('Have you completed this section?')
+  end
+
+  def and_i_click_on_personal_information
+    click_link_or_button 'Personal information'
+  end
+
+  def and_i_click_on_your_details
+    click_link_or_button 'Your details'
+  end
+
   def and_i_visit_the_site
     visit candidate_interface_details_path
   end
@@ -74,6 +101,15 @@ RSpec.describe 'Entering their personal details' do
     fill_in 'Year', with: '1937'
   end
 
+  def and_i_fill_in_all_my_details
+    @scope = 'application_form.personal_details'
+    fill_in t('first_name.label', scope: @scope), with: 'Lando'
+    fill_in t('last_name.label', scope: @scope), with: 'Calrissian'
+    fill_in 'Day', with: '10'
+    fill_in 'Month', with: '11'
+    fill_in 'Year', with: '1975'
+  end
+
   def and_i_submit_the_form
     click_link_or_button t('save_and_continue')
   end
@@ -84,6 +120,13 @@ RSpec.describe 'Entering their personal details' do
 
   def when_i_input_my_nationalities
     check 'British'
+    check 'Citizen of a different country'
+    within('#candidate-interface-nationalities-form-other-nationality1-field') do
+      select 'American'
+    end
+  end
+
+  def and_i_choose_american
     check 'Citizen of a different country'
     within('#candidate-interface-nationalities-form-other-nationality1-field') do
       select 'American'
@@ -140,5 +183,9 @@ RSpec.describe 'Entering their personal details' do
 
   def and_that_the_section_is_completed
     expect(page).to have_css('#personal-information-badge-id', text: 'Completed')
+  end
+
+  def and_i_choose_yes_to_having_the_right_to_work_in_the_uk
+    choose('Yes')
   end
 end
