@@ -6,8 +6,6 @@ module RuboCop
       MSG = 'API controllers should subclass `ApplicationAPIController`.'.freeze
       SUPERCLASS = 'ApplicationAPIController'.freeze
       BASE_PATTERN = '(const (const nil? :ActionController) :API)'.freeze
-
-      include RuboCop::Cop::EnforceSuperclass
     end
   end
 end

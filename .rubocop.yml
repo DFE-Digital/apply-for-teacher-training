@@ -1,7 +1,4 @@
 require:
-  - rubocop-rails
-  - rubocop-rake
-  - rubocop-rspec
   - rubocop-capybara
   - rubocop-factory_bot
   - ./lib/rubocop/cop/rspec/no_should_in_specs.rb

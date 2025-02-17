@@ -1,7 +1,8 @@
 # https://docs.rubocop.org/rubocop-rspec/cops_rspec.html
 
-require:
+plugins:
   - rubocop-rspec
+require:
   - rubocop-rspec_rails
 
 RSpec/NestedGroups:
