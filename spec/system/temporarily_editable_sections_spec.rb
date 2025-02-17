@@ -7,8 +7,6 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
   scenario 'Unlocking some sections via support', :with_audited do
     given_i_am_a_support_user
     and_there_is_a_submitted_application
-    and_the_feature_flag_is_active
-
     when_i_visit_the_application_page
     and_i_click_to_change_the_editable_sections
     then_i_do_not_see_references_or_safeguarding
@@ -35,10 +33,6 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
 
   def given_i_am_a_support_user
     sign_in_as_support_user
-  end
-
-  def and_the_feature_flag_is_active
-    FeatureFlag.activate(:unlock_application_for_editing)
   end
 
   def and_there_is_a_submitted_application
