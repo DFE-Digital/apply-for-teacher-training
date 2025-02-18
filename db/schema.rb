@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_03_095339) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_17_144509) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -384,6 +384,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_03_095339) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "candidate_pool_provider_opt_ins", force: :cascade do |t|
+    t.bigint "provider_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider_id"], name: "index_candidate_pool_provider_opt_ins_on_provider_id"
+  end
+
   create_table "candidates", force: :cascade do |t|
     t.string "email_address", null: false
     t.datetime "created_at", precision: nil, null: false
@@ -400,6 +407,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_03_095339) do
     t.boolean "submission_blocked", default: false, null: false
     t.boolean "account_locked", default: false, null: false
     t.string "account_recovery_status", default: "not_started", null: false
+    t.string "pool_status", default: "not_set", null: false
     t.index ["account_locked"], name: "index_candidates_on_account_locked"
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
     t.index ["fraud_match_id"], name: "index_candidates_on_fraud_match_id"
@@ -653,6 +661,30 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_03_095339) do
     t.integer "award_year", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "pool_dismissals", force: :cascade do |t|
+    t.bigint "candidate_id", null: false
+    t.bigint "provider_id", null: false
+    t.bigint "dismissed_by_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_id"], name: "index_pool_dismissals_on_candidate_id"
+    t.index ["dismissed_by_id"], name: "index_pool_dismissals_on_dismissed_by_id"
+    t.index ["provider_id"], name: "index_pool_dismissals_on_provider_id"
+  end
+
+  create_table "pool_invites", force: :cascade do |t|
+    t.bigint "candidate_id", null: false
+    t.bigint "provider_id", null: false
+    t.bigint "invited_by_id", null: false
+    t.bigint "course_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_id"], name: "index_pool_invites_on_candidate_id"
+    t.index ["course_id"], name: "index_pool_invites_on_course_id"
+    t.index ["invited_by_id"], name: "index_pool_invites_on_invited_by_id"
+    t.index ["provider_id"], name: "index_pool_invites_on_provider_id"
   end
 
   create_table "provider_agreements", force: :cascade do |t|
@@ -970,6 +1002,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_03_095339) do
   add_foreign_key "application_forms", "application_forms", column: "previous_application_form_id"
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "application_qualifications", "application_forms", on_delete: :cascade
+  add_foreign_key "candidate_pool_provider_opt_ins", "providers", on_delete: :cascade
   add_foreign_key "candidates", "fraud_matches"
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
@@ -984,6 +1017,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_03_095339) do
   add_foreign_key "offer_conditions", "offers", on_delete: :cascade
   add_foreign_key "offers", "application_choices", on_delete: :cascade
   add_foreign_key "one_login_auths", "candidates", on_delete: :cascade
+  add_foreign_key "pool_dismissals", "candidates", on_delete: :cascade
+  add_foreign_key "pool_dismissals", "provider_users", column: "dismissed_by_id"
+  add_foreign_key "pool_dismissals", "providers", on_delete: :cascade
+  add_foreign_key "pool_invites", "candidates", on_delete: :cascade
+  add_foreign_key "pool_invites", "courses", on_delete: :cascade
+  add_foreign_key "pool_invites", "provider_users", column: "invited_by_id"
+  add_foreign_key "pool_invites", "providers", on_delete: :cascade
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
   add_foreign_key "provider_recruitment_performance_reports", "providers"
