@@ -1,4 +1,4 @@
-require: rubocop-rake
+plugins: rubocop-rake
 
 Rake/Desc:
   Exclude:

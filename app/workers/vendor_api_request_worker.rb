@@ -1,4 +1,6 @@
 class VendorAPIRequestWorker
+  AuthorizationStruct = Struct.new(:authorization)
+
   include Sidekiq::Worker
   include ActionController::HttpAuthentication::Token
 
@@ -32,8 +34,6 @@ class VendorAPIRequestWorker
   end
 
 private
-
-  AuthorizationStruct = Struct.new(:authorization)
 
   def provider_id_from_auth_token(auth_header)
     return if auth_header.blank?

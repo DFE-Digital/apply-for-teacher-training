@@ -102,9 +102,7 @@ module ViewHelper
     end
   end
 
-  def application_form_path
-    BackLinks.application_form_path
-  end
+  delegate :application_form_path, to: :BackLinks
 
 private
 

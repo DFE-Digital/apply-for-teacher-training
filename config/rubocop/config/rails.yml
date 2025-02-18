@@ -1,3 +1,4 @@
+plugins: rubocop-rails
 # https://docs.rubocop.org/rubocop-rspec/cops_rails.html
 
 Rails/BulkChangeTable:
@@ -89,6 +90,11 @@ Rails/EnvironmentVariableAccess:
 
 Rails/WhereEquals:
   Enabled: true
+
+Rails/HelperInstanceVariable:
+  Exclude:
+    - 'app/helpers/content_helper.rb'
+    - 'app/helpers/view_helper.rb'
 
 Rails/ReversibleMigration:
   Exclude:

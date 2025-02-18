@@ -97,8 +97,13 @@ module SupportInterface
 
   private
 
-    TRAINING_PROVIDER_PERMISSIONS_KEYS = ProviderRelationshipPermissions::PERMISSIONS.map { |permission| "training_provider_can_#{permission}" }
-    RATIFYING_PROVIDER_PERMISSIONS_KEYS = ProviderRelationshipPermissions::PERMISSIONS.map { |permission| "ratifying_provider_can_#{permission}" }
+    def training_provider_permissions_keys
+      @training_provider_permissions_keys ||= ProviderRelationshipPermissions::PERMISSIONS.map { |permission| "training_provider_can_#{permission}" }
+    end
+
+    def ratifying_provider_permissions_keys
+      @ratifying_provider_permissions_keys ||= ProviderRelationshipPermissions::PERMISSIONS.map { |permission| "ratifying_provider_can_#{permission}" }
+    end
 
     def user_permissions_audits
       @_user_permissions_audits ||= Audited::Audit.where(action: 'update', auditable: @provider.provider_permissions, user_type: 'ProviderUser')
@@ -124,12 +129,12 @@ module SupportInterface
 
     def audits_for_org_permissions_changes_affecting_this_training_provider_made_by(user_type)
       org_training_provider_permission_audits_made_by(user_type)
-        .where('audited_changes ?| array[:keys]', keys: TRAINING_PROVIDER_PERMISSIONS_KEYS)
+        .where('audited_changes ?| array[:keys]', keys: training_provider_permissions_keys)
     end
 
     def audits_for_org_permissions_changes_affecting_this_ratifying_provider_made_by(user_type)
       org_ratifying_provider_permission_audits_made_by(user_type)
-        .where('audited_changes ?| array[:keys]', keys: RATIFYING_PROVIDER_PERMISSIONS_KEYS)
+        .where('audited_changes ?| array[:keys]', keys: ratifying_provider_permissions_keys)
     end
 
     def audits_for_org_permissions_changes_made_by_this_provider_affecting_this_provider
@@ -138,7 +143,7 @@ module SupportInterface
 
     def audits_for_org_permissions_changes_made_by_this_provider_affecting_another_provider
       org_training_provider_permission_audits_made_by('ProviderUser')
-        .where('audited_changes ?| array[:keys]', keys: RATIFYING_PROVIDER_PERMISSIONS_KEYS)
+        .where('audited_changes ?| array[:keys]', keys: ratifying_provider_permissions_keys)
     end
 
     def audits_for_org_permissions_changes_made_by_another_provider_affecting_this_provider
@@ -146,8 +151,8 @@ module SupportInterface
     end
 
     def audits_for_org_permissions_changes_affecting_this_provider
-      org_training_provider_permission_audits.where('audited_changes ?| array[:keys]', keys: TRAINING_PROVIDER_PERMISSIONS_KEYS)
-        .or(org_ratifying_provider_permission_audits.where('audited_changes ?| array[:keys]', keys: RATIFYING_PROVIDER_PERMISSIONS_KEYS))
+      org_training_provider_permission_audits.where('audited_changes ?| array[:keys]', keys: training_provider_permissions_keys)
+        .or(org_ratifying_provider_permission_audits.where('audited_changes ?| array[:keys]', keys: ratifying_provider_permissions_keys))
     end
 
     def audits_for_org_permissions_changes_made_by_support

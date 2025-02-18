@@ -128,7 +128,7 @@ RSpec.describe 'Provider changes a course with error' do
   end
 
   def when_the_update_action_cannot_be_done
-    allow_any_instance_of(ProviderInterface::CourseWizard).to receive(:valid?).with(:save).and_return(false) # rubocop:disable RSpec::AnyInstance
+    allow_any_instance_of(ProviderInterface::CourseWizard).to receive(:valid?).with(:save).and_return(false) # rubocop:disable RSpec/AnyInstance
   end
 
   def then_i_see_the_error_message
