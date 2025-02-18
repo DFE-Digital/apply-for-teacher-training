@@ -68,6 +68,7 @@ jobs:
       - name: Get previous enum definitions
         run: |
           bundle install
+          bundle exec rails db:setup
           bundle exec ruby /tmp/enums_in_models.rb enums_after.log >enums_before.log
         env:
           DB_HOSTNAME: localhost
