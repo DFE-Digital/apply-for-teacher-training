@@ -1,0 +1,40 @@
+<% content_for :browser_title, t('.title') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render ServiceInformationBanner.new(namespace: :provider) %>
+
+    <% if @candidates.present? %>
+      <h1 class="govuk-heading-l"><%= t('.title') %></h1>
+
+      <p class="govuk-body"><%= t('.candidate_information_agreement') %></p>
+      <p class="govuk-body"><%= t('.review_candidates') %></p>
+    <% else %>
+      <h1 class="govuk-heading-l"><%= t('.no_candidates') %></h1>
+    <% end %>
+  </div>
+
+  <div class="govuk-grid-column-full">
+    <% if @candidates.present? %>
+      <%= govuk_table do |table| %>
+        <%= table.with_head do |head| %>
+          <%= head.with_row do |row| %>
+            <%= row.with_cell(text: t('.name')) %>
+          <% end %>
+        <% end %>
+
+        <%= table.with_body do |body| %>
+          <% @candidates.each do |candidate| %>
+            <%= body.with_row do |row| %>
+              <%= row.with_cell(text: candidate.application_forms.current_cycle.last.redacted_full_name) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <div class="govuk-grid-row govuk-!-margin-top-4">
+        <%= govuk_pagination(pagy: @pagy) %>
+      </div>
+    <% end %>
+  </div>
+</div>
