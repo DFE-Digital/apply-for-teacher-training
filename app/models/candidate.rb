@@ -42,7 +42,6 @@ class Candidate < ApplicationRecord
     opt_out: 'opt_out',
   }, prefix: true
 
-
   def invited?
     invited || false
   end

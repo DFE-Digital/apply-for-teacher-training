@@ -17,6 +17,7 @@ class Provider < ApplicationRecord
   has_many :vendor_api_tokens
 
   has_many :performance_reports, class_name: 'Publications::ProviderRecruitmentPerformanceReport'
+  has_one :candidate_pool_provider_invitation
 
   enum :region_code, {
     east_midlands: 'east_midlands',

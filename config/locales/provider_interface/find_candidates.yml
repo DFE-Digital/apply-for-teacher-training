@@ -1,0 +1,5 @@
+en:
+  provider_interface:
+    find_candidates:
+        index:
+          title: Find candidates

@@ -50,6 +50,15 @@ class ApplicationForm < ApplicationRecord
   }
   scope :international, -> { where.not(first_nationality: %w[British Irish]) }
   scope :domestic, -> { where(first_nationality: %w[British Irish]) }
+  scope :submitted, -> { where.not(submitted_at: nil) }
+
+  scope :rejected_and_not_accepted, lambda {
+    joins(:application_choices)
+      .where(application_choices: { status: :rejected })
+      .where.not(
+        id: ApplicationForm.joins(:application_choices).where(application_choices: { status: :offer }).select(:id),
+      )
+  } # Is this efficient? Test it with 100k applications
 
   REQUIRED_REFERENCE_SELECTIONS = 2
   REQUIRED_REFERENCES = 2
@@ -89,6 +98,17 @@ class ApplicationForm < ApplicationRecord
   ].freeze
 
   CONTINUOUS_APPLICATIONS_CYCLE_YEAR = 2024
+
+  def redact_name
+    full_name.split.map do |name|
+      first_letter = name.first
+
+      name.delete!(first_letter)
+      redacted = '*' * name.size
+
+      "#{first_letter}#{redacted}"
+    end.join(' ')
+  end
 
   def equality_and_diversity_answers_provided?
     EqualityAndDiversity::ValuesChecker.new(application_form: self).check_values
