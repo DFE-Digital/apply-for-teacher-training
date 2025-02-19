@@ -12,6 +12,11 @@ module_function
     timetable.find_opens_at + 1.day
   end
 
+  def after_find_closes(year)
+    timetable = get_timetable(year)
+    timetable.find_closes_at + 1.second
+  end
+
   def after_find_reopens(year = nil)
     timetable = get_timetable(year + 1)
     timetable.find_opens_at + 1.day

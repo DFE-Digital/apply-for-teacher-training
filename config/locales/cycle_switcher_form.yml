@@ -1,0 +1,23 @@
+en:
+  activemodel:
+    errors:
+      models:
+        support_interface/cycle_switcher_form:
+          attributes:
+            find_opens_at:
+              invalid_date: Enter a valid Find open date
+            apply_opens_at:
+              invalid_date: Enter a valid Apply open date
+              apply_opens_after_find_opens: Enter an Apply open date that is after Find has opened
+            apply_deadline_at:
+              invalid_date: Enter a valid Apply deadline date
+              apply_deadline_after_apply_opens: Enter an Apply deadline that is after Apply has opened
+            reject_by_default_at:
+              invalid_date: Enter a valid reject by default date
+              reject_by_default_after_apply_deadline: Enter a reject by default date that is after the Apply deadline
+            decline_by_default_at:
+              invalid_date: Enter a valid decline by default date
+              decline_by_default_after_reject_by_default: Enter a decline by default date that is after the reject by default date
+            find_closes_at:
+              invalid_date: Enter a valid Find closes date
+              find_closes_after_decline_by_default: Enter a Find close date that is after the decline by default date
