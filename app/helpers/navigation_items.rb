@@ -128,7 +128,7 @@ class NavigationItems
         if CandidatePoolProviderOptIn.find_by(provider_id: current_provider_user.provider_ids).present?
           items << {
             text: 'Find candidates',
-            href: provider_interface_find_candidates_index_path,
+            href: provider_interface_find_candidates_path,
             active: active?(current_controller, %w[find_candidates]),
           }
         end

@@ -1,0 +1,16 @@
+en:
+  provider_interface:
+    find_candidates:
+      right_to_work_component:
+        title: Right to work or study in the UK
+        visa_sponsorhip: Visa sponsorhip
+      application_choices_component:
+        title: Applications made
+        subtitle: Application %{counter}
+        subject: Subject
+        location: Location
+        status: Status
+        rejection_reason: Rejection reason
+        qualification: Qualification
+        funding_type: Funding type
+        personal_statement: Personal statement

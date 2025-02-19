@@ -20,13 +20,18 @@
         <%= table.with_head do |head| %>
           <%= head.with_row do |row| %>
             <%= row.with_cell(text: t('.name')) %>
+            <%= row.with_cell(text: 'id') %>
           <% end %>
         <% end %>
 
         <%= table.with_body do |body| %>
           <% @candidates.each do |candidate| %>
             <%= body.with_row do |row| %>
-              <%= row.with_cell(text: candidate.application_forms.current_cycle.last.redacted_full_name) %>
+              <%= row.with_cell do %>
+                <%= govuk_link_to candidate.application_forms.current_cycle.last.redacted_full_name, provider_interface_find_candidate_path(candidate) %>
+              <% end  %>
+
+              <%= row.with_cell(text: candidate.id)%>
             <% end %>
           <% end %>
         <% end %>
