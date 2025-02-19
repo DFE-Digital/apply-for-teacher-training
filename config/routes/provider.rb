@@ -26,6 +26,11 @@ namespace :provider_interface, path: '/provider' do
   get '/applications' => 'application_choices#index'
 
   resources :find_candidates, only: %i[index show]
+  resources :candidate_pool_invites, only: %i[new create] do
+    member do
+      get '/review', action: 'candidate_pool_invites#review'
+    end
+  end
 
   resources :reports, only: :index
 
