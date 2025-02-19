@@ -10,5 +10,8 @@
 
   <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
   <%= render CandidateInterface::SafeguardingReviewComponent.new(application_form: @current_application, editable: @section_policy.can_edit?) %>
-  <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
+
+  <% if @can_complete %>
+    <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
+  <% end %>
 <% end %>

@@ -2,6 +2,7 @@ module CandidateInterface
   class SafeguardingController < SectionController
     def show
       @application_form = current_application
+      @can_complete = SafeguardingIssuesDeclarationForm.build_from_application(current_application).valid_for_submission?
       @section_complete_form = SectionCompleteForm.new(completed: current_application.safeguarding_issues_completed)
     end
 
