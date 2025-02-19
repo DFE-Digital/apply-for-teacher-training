@@ -424,4 +424,28 @@ RSpec.describe Candidate do
       end
     end
   end
+
+  describe '#redacted_full_name_current_cycle' do
+    it 'returns the redacted full_name from the application form in current cycle' do
+      candidate = create(:candidate)
+      _current_cycle_form = create(
+        :application_form,
+        :completed,
+        candidate:,
+        first_name: 'test',
+        last_name: 'test',
+      )
+
+      _last_cycle_form = create(
+        :application_form,
+        :completed,
+        recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+        candidate:,
+        first_name: 'last',
+        last_name: 'cycle',
+      )
+
+      expect(candidate.redacted_full_name_current_cycle).to eq('t***** t*****')
+    end
+  end
 end

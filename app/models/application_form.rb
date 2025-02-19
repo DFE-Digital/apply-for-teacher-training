@@ -308,7 +308,7 @@ class ApplicationForm < ApplicationRecord
       first_letter = name.first
 
       name.delete!(first_letter)
-      redacted = '*' * name.size
+      redacted = '*' * 5
 
       "#{first_letter}#{redacted}"
     end.join(' ')

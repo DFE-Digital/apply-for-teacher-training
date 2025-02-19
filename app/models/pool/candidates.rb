@@ -11,15 +11,21 @@ class Pool::Candidates
 
   def for_provider
     dismissed_candidates = Candidate.joins(:pool_dismissals).where(pool_dismissals: { provider: providers })
-    rejected_candidate_ids = curated_application_forms.pluck(:candidate_id).uniq
 
     Candidate
-      .where(id: rejected_candidate_ids)
+      .where(id: rejected_candidates_this_cycle)
       .pool_status_opt_in
       .excluding(dismissed_candidates)
+      .joins(:application_forms)
+        .where(application_forms: { recruitment_cycle_year: RecruitmentCycleTimetable.current_year })
+      .select('candidates.*', 'application_forms.submitted_at')
   end
 
 private
+
+  def rejected_candidates_this_cycle
+    curated_application_forms.select(:candidate_id)
+  end
 
   def curated_application_forms
     ApplicationForm.current_cycle.joins(:application_choices)

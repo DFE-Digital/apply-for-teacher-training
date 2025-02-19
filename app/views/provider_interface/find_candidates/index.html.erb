@@ -26,7 +26,7 @@
         <%= table.with_body do |body| %>
           <% @candidates.each do |candidate| %>
             <%= body.with_row do |row| %>
-              <%= row.with_cell(text: candidate.application_forms.current_cycle.last.redacted_full_name) %>
+              <%= row.with_cell(text: candidate.redacted_full_name_current_cycle) %>
             <% end %>
           <% end %>
         <% end %>

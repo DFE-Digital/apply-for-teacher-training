@@ -1319,7 +1319,7 @@ RSpec.describe ApplicationForm do
       last_name = 'Last'
       application_form = build(:application_form, first_name:, last_name:)
 
-      expect(application_form.redacted_full_name).to eq('F**** L***')
+      expect(application_form.redacted_full_name).to eq('F***** L*****')
     end
   end
 end
