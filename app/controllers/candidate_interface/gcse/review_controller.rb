@@ -2,6 +2,7 @@ module CandidateInterface
   class Gcse::ReviewController < Gcse::BaseController
     before_action :set_field_name
     before_action :render_application_feedback_component, except: :complete
+    before_action :redirect_to_type, unless: -> { current_qualification }, only: :show
 
     def show
       @application_form = current_application
@@ -36,6 +37,10 @@ module CandidateInterface
 
     def application_form_params
       strip_whitespace params.fetch(:candidate_interface_section_complete_form, {}).permit(:completed)
+    end
+
+    def redirect_to_type
+      redirect_to candidate_interface_gcse_details_new_type_path
     end
   end
 end
