@@ -1,0 +1,9 @@
+en:
+  provider_interface:
+    find_candidates:
+        index:
+          title: Find candidates
+          no_candidates: No candidates
+          candidate_information_agreement: These candidates have agreed to share their application details.
+          review_candidates: You can review their applications and decide whether to invite them to apply.
+          name: Name

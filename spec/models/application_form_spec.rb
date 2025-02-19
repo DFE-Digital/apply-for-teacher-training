@@ -1312,4 +1312,14 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#redacted_full_name' do
+    it 'returs the full name redacted' do
+      first_name = 'First'
+      last_name = 'Last'
+      application_form = build(:application_form, first_name:, last_name:)
+
+      expect(application_form.redacted_full_name).to eq('F***** L*****')
+    end
+  end
 end

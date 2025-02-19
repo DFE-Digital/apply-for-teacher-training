@@ -36,6 +36,12 @@ class Candidate < ApplicationRecord
     dismissed: 'dismissed',
   }, prefix: true
 
+  enum :pool_status, {
+    not_set: 'not_set',
+    opt_in: 'opt_in',
+    opt_out: 'opt_out',
+  }, prefix: true
+
   after_create do
     update!(candidate_api_updated_at: Time.zone.now)
   end
@@ -47,6 +53,10 @@ class Candidate < ApplicationRecord
   end
 
   delegate :previous_account_email_address, to: :account_recovery_request, allow_nil: true
+
+  def redacted_full_name_current_cycle
+    application_forms.current_cycle.last.redacted_full_name
+  end
 
   def touch_application_choices_and_forms
     return unless application_choices.any?
