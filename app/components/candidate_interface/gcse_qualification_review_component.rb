@@ -78,33 +78,29 @@ module CandidateInterface
     def award_year_row
       {
         key: 'Year awarded',
-        value: application_qualification.award_year || t('gcse_summary.not_specified'),
-        action: {
-          href: candidate_interface_gcse_details_edit_year_path(change_path_params),
-          visually_hidden_text: "year awarded for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
-        },
-        html_attributes: {
-          data: {
-            qa: "gcse-#{subject}-award-year",
-          },
-        },
-      }
+        value: application_qualification.award_year || govuk_link_to('Enter year awarded', candidate_interface_gcse_details_edit_year_path),
+      }.tap do |row|
+        if application_qualification.award_year
+          row[:action] = {
+            href: candidate_interface_gcse_details_edit_year_path(change_path_params),
+            visually_hidden_text: "year awarded for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
+          }
+        end
+      end
     end
 
     def grade_row
       {
         key: 'Grade',
-        value: present_grades || t('gcse_summary.not_specified'),
-        action: {
-          href: grade_edit_path,
-          visually_hidden_text: "grade for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
-        },
-        html_attributes: {
-          data: {
-            qa: "gcse-#{subject}-grade",
-          },
-        },
-      }
+        value: present_grades || govuk_link_to('Enter grade', grade_edit_path),
+      }.tap do |row|
+        if application_qualification.grade || application_qualification.constituent_grades
+          row[:action] = {
+            href: grade_edit_path,
+            visually_hidden_text: "grade for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
+          }
+        end
+      end
     end
 
     def failing_grade_explanation_row
