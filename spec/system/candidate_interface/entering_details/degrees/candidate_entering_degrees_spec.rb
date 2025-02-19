@@ -56,6 +56,7 @@ RSpec.describe 'Entering a degree' do
 
     # Review
     then_i_can_check_my_undergraduate_degree
+    and_the_completed_section_radios_are_not_selected
 
     # Mark section as complete
     when_i_mark_this_section_as_completed
@@ -196,5 +197,14 @@ RSpec.describe 'Entering a degree' do
     expect(page).to have_content 'First-class honours'
     expect(page).to have_content '2006'
     expect(page).to have_content '2009'
+  end
+
+  def and_the_completed_section_radios_are_not_selected
+    %w[
+      candidate-interface-section-complete-form-completed-true-field
+      candidate-interface-section-complete-form-completed-field
+    ].each do |radio_id|
+      expect(page).to have_no_checked_field(radio_id)
+    end
   end
 end
