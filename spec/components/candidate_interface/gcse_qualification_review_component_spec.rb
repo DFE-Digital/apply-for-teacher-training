@@ -189,7 +189,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.css('.govuk-summary-list__key')[1].text).to include('Are you currently studying for this qualification?')
       expect(result.css('.govuk-summary-list__value')[1].text).to include('No')
       expect(result.css('.govuk-summary-list__key')[2].text).to include('Other evidence I have the skills required (optional)')
-      expect(result.css('.govuk-summary-list__value')[2].text).to include('Not provided')
+      expect(result.css('.govuk-summary-list__value')[2].text).to include('Enter other evidence')
     end
   end
 
@@ -256,7 +256,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.css('.govuk-summary-list__key')[3].text).to include('Are you currently studying to retake this qualification?')
       expect(result.css('.govuk-summary-list__value')[3].text).to include('No')
       expect(result.css('.govuk-summary-list__key')[4].text).to include('Other evidence I have the skills required (optional)')
-      expect(result.css('.govuk-summary-list__value')[4].text).to include('Not provided')
+      expect(result.css('.govuk-summary-list__value')[4].text).to include('Enter other evidence')
     end
   end
 

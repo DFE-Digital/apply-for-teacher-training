@@ -86,9 +86,9 @@ RSpec.describe 'Candidate changing their GCSE type' do
       expect(page).to have_content 'What type of maths qualification do you have?'
       expect(page).to have_content 'I don’t have a maths qualification yet'
       expect(page).to have_content 'Are you currently studying for this qualification?'
-      expect(page).to have_content 'No'
+      expect(page).to have_content 'Select if you are currently studying for this qualification'
       expect(page).to have_content 'Other evidence I have the skills required (optional)'
-      expect(page).to have_content 'Not provided'
+      expect(page).to have_content 'Enter other evidence'
     end
   end
 
