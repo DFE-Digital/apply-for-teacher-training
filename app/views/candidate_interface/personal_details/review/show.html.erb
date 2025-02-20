@@ -16,5 +16,7 @@
 
   <%= render SummaryCardComponent.new(rows: @personal_details_review.rows) %>
 
-  <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
+  <% if all_sections_valid? %>
+    <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
+  <% end %>
 <% end %>

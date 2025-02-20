@@ -71,7 +71,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
         row_for(
           :date_of_birth,
           '21 September 1995',
-          candidate_interface_edit_name_and_dob_path('return-to' => 'application-review'),
+          nil,
           'personal-details-dob',
         ),
       )
@@ -90,8 +90,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
       expect(rows(personal_details_form:)).to include(
         row_for(
           :date_of_birth,
+          '<a class="govuk-link" href="/candidate/application/personal-information/edit?return-to=application-review">Add your date of birth</a>',
           nil,
-          candidate_interface_edit_name_and_dob_path('return-to' => 'application-review'),
           'personal-details-dob',
         ),
       )
@@ -115,6 +115,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
     let(:other_nationality3) { nil }
 
     context 'with one nationality' do
+      let(:default_application_form) { build(:application_form, first_nationality: 'British') }
+
       it 'includes a hash for a single nationality' do
         expect(rows(nationalities_form:)).to include(
           row_for(
@@ -147,6 +149,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
     end
 
     context 'with two nationalities' do
+      let(:default_application_form) { build(:application_form, first_nationality: 'British') }
       let(:other_nationality1) { 'Spanish' }
 
       it 'includes a hash for dual nationalities' do
@@ -170,8 +173,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
         expect(rows(nationalities_form:)).to include(
           row_for(
             :nationality,
-            'British, French, German, and Spanish',
-            candidate_interface_edit_nationalities_path('return-to' => 'application-review'),
+            '<a class="govuk-link" href="/candidate/application/personal-information/nationality/edit?return-to=application-review">Add your nationality</a>',
+            nil,
             'personal-details-nationality',
           ),
         )

@@ -32,6 +32,11 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.name.label'),
         value: @personal_details_form.name.presence || govuk_link_to('Add your name', candidate_interface_edit_name_and_dob_path(return_to_params)),
+        html_attributes: {
+          data: {
+            qa: 'personal-details-name',
+          },
+        },
       }.tap do |row|
         if @personal_details_form.name.present? && @editable
           row[:action] =
@@ -47,6 +52,11 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.date_of_birth.label'),
         value: date_of_birth_value,
+        html_attributes: {
+          data: {
+            qa: 'personal-details-dob',
+          },
+        },
       }.tap do |row|
         row[:action] =
           (if @editable && @application_form.date_of_birth.is_a?(Date)
@@ -70,6 +80,11 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.nationality.label'),
         value: nationality_value,
+        html_attributes: {
+          data: {
+            qa: 'personal-details-nationality',
+          },
+        },
       }.tap do |row|
         row[:action] =
           (if @editable && !@application_form.submitted_applications? && @application_form.first_nationality
@@ -96,6 +111,11 @@ module CandidateInterface
         {
           key: I18n.t('application_form.personal_details.immigration_right_to_work.label'),
           value: formatted_immigration_right_to_work,
+          html_attributes: {
+            data: {
+              qa: 'personal_details_immigration_right_to_work',
+            },
+          },
         }.tap do |row|
           row[:action] =
             (if @editable && !@application_form.right_to_work_or_study.nil? && !@application_form.submitted_applications?

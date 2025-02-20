@@ -13,6 +13,7 @@ module CandidateInterface
           application_form: current_application,
           editable: @section_policy.can_edit?,
         )
+        @immigration_right_to_work_form = ImmigrationRightToWorkForm.build_from_application(current_application)
       end
 
       def complete
@@ -28,6 +29,8 @@ module CandidateInterface
           render :show
         end
       end
+
+      helper_method :all_sections_valid?
 
     private
 
