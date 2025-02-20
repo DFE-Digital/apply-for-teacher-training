@@ -25,7 +25,7 @@ namespace :provider_interface, path: '/provider' do
 
   get '/applications' => 'application_choices#index'
 
-  get 'find-candidates/index' => 'find_candidates#index'
+  resources :find_candidates, only: %i[index show], path: 'find-candidates'
 
   resources :reports, only: :index
 

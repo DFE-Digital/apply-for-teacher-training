@@ -2,6 +2,7 @@ module ProviderInterface
   class FindCandidatesController < ProviderInterfaceController
     include Pagy::Backend
     before_action :redirect_to_applications_unless_provider_opted_in
+    before_action :set_candidate, only: :show
 
     def index
       @pagy, @candidates = pagy(
@@ -10,7 +11,17 @@ module ProviderInterface
       )
     end
 
+    def show
+      @application_form = @candidate.application_forms.current_cycle.last
+    end
+
   private
+
+    def set_candidate
+      @candidate ||= Pool::Candidates.for_provider(
+        providers: current_provider_user.providers,
+      ).find_by(id: params.expect(:id))
+    end
 
     def redirect_to_applications_unless_provider_opted_in
       invites = CandidatePoolProviderOptIn.find_by(provider_id: current_provider_user.provider_ids)

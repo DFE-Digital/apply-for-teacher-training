@@ -388,4 +388,15 @@ RSpec.describe Course do
       expect(course.deferred_start_date).to eq(course.start_date + 1.year)
     end
   end
+
+  describe '#name_code_and_course_provider' do
+    it 'returns the name code and provider of the course' do
+      provider = create(:provider, name: 'provider')
+      course = create(:course, name: 'course', code: '123', provider:)
+
+      expect(course.name_code_and_course_provider).to eq(
+        'course (123) – provider',
+      )
+    end
+  end
 end
