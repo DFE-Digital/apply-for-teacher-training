@@ -108,6 +108,10 @@ class Course < ApplicationRecord
     accredited_provider ? "#{description_to_s} - #{accredited_provider&.name}" : description_to_s
   end
 
+  def name_code_and_course_provider
+    "#{name} (#{code}) – #{provider.name}"
+  end
+
   def currently_has_both_study_modes_available?
     available_study_modes_with_vacancies.count == 2
   end
