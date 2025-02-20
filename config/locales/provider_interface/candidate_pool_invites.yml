@@ -1,0 +1,27 @@
+en:
+  provider_interface:
+    candidate_pool_invites:
+        new:
+          title: Select which course to invite %{candidate_name} to apply to
+          no_available_courses: No available courses
+        show:
+          title: Check before you send this invitation
+          candidate: Candidate
+          change: Change
+          course: Course
+          send_invitation: Send invitation
+        edit:
+          title: Select which course to invite %{candidate_name} to apply to
+        publish:
+          success: You have invited %{candidate} to apply to %{course}
+        form:
+          title: Select which course to invite %{candidate_name} to apply to
+          continue: Continue
+  activemodel:
+    errors:
+      models:
+        provider_interface/pool_invite_form:
+          attributes:
+            course_id:
+              blank: Select a course
+              invalid: Course is not available

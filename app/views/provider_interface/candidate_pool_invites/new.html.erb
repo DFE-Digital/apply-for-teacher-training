@@ -1,0 +1,12 @@
+<% content_for :browser_title, t('.title', candidate_name: @candidate.redacted_full_name_current_cycle) %>
+<%= govuk_back_link(href: provider_interface_find_candidates_path(@candidate)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% if @pool_invite.available_courses.present? %>
+      <%= render 'form', pool_invite: @pool_invite, candidate: @candidate %>
+    <% else %>
+      <p class="govuk-body"><%= t('.no_available_courses') %> </p>
+    <% end %>
+  </div>
+</div>

@@ -27,6 +27,12 @@ namespace :provider_interface, path: '/provider' do
 
   resources :find_candidates, only: %i[index show], path: 'find-candidates'
 
+  get '/candidate-pool-invites/:candidate_id/new', to: 'candidate_pool_invites#new', as: :new_candidate_pool_invite
+  post '/candidate-pool-invites/:candidate_id/create', to: 'candidate_pool_invites#create', as: :create_candidate_pool_invite
+  get '/candidate-pool-invites/:id', to: 'candidate_pool_invites#show', as: :show_candidate_pool_invite
+  get '/candidate-pool-invites/:candidate_id/:id/edit', to: 'candidate_pool_invites#edit', as: :edit_candidate_pool_invite
+  post '/candidate-pool-invites/:id/publish', to: 'candidate_pool_invites#publish', as: :publish_candidate_pool_invite
+
   resources :reports, only: :index
 
   namespace :reports do

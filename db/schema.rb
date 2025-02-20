@@ -1019,11 +1019,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_20_113656) do
   add_foreign_key "offers", "application_choices", on_delete: :cascade
   add_foreign_key "one_login_auths", "candidates", on_delete: :cascade
   add_foreign_key "pool_dismissals", "candidates", on_delete: :cascade
-  add_foreign_key "pool_dismissals", "provider_users", column: "dismissed_by_id"
+  add_foreign_key "pool_dismissals", "provider_users", column: "dismissed_by_id", on_delete: :cascade
   add_foreign_key "pool_dismissals", "providers", on_delete: :cascade
   add_foreign_key "pool_invites", "candidates", on_delete: :cascade
   add_foreign_key "pool_invites", "courses", on_delete: :cascade
-  add_foreign_key "pool_invites", "provider_users", column: "invited_by_id"
+  add_foreign_key "pool_invites", "provider_users", column: "invited_by_id", on_delete: :cascade
   add_foreign_key "pool_invites", "providers", on_delete: :cascade
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"

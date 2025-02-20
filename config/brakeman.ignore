@@ -323,6 +323,29 @@
       "note": ""
     },
     {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "bcbe95e74e9a5ea23f17bca8bbc699391d0a31946493212f5016dcf615f16c4e",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Pool::Invite#find_by`",
+      "file": "app/controllers/provider_interface/candidate_pool_invites_controller.rb",
+      "line": 65,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Pool::Invite.find_by(:id => params[:id], :provider_id => current_provider_user.provider_ids)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ProviderInterface::CandidatePoolInvitesController",
+        "method": "invite"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "SQL Injection",
       "warning_code": 0,
       "fingerprint": "c70b946ccbfabd084091ad425893a7647560431761faa0f86bf80e95ffa007e1",
@@ -392,6 +415,5 @@
       "note": ""
     }
   ],
-  "updated": "2025-01-02 12:10:42 +0000",
-  "brakeman_version": "6.2.2"
+  "brakeman_version": "7.0.0"
 }

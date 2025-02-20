@@ -1,0 +1,8 @@
+<% content_for :title, t('.title') %>
+<%= govuk_back_link(href: provider_interface_find_candidates_path(@candidate)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render 'form', pool_invite: @pool_invite, candidate: @candidate %>
+  </div>
+</div>
