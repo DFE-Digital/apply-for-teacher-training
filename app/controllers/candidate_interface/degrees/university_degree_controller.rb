@@ -14,7 +14,7 @@ module CandidateInterface
         return render :new unless @university_degree_form.valid?
 
         if @university_degree_form.degree?
-          current_application.update!(university_degree: true, degrees_completed: false)
+          current_application.update!(university_degree: true)
           redirect_to candidate_interface_degree_country_path
         else
           current_application.update!(university_degree: false, degrees_completed: true)
