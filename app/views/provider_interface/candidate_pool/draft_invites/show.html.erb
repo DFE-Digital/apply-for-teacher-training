@@ -1,0 +1,40 @@
+<% content_for :title, t('.title') %>
+<%= govuk_back_link(href: edit_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, @pool_invite.id)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= t('.title') %></h1>
+
+    <%= govuk_summary_list do |summary_list| %>
+      <% summary_list.with_row do |row| %>
+        <% row.with_key { t('.candidate') } %>
+        <% row.with_value { @candidate.redacted_full_name_current_cycle } %>
+        <% row.with_action(text: t('.change'), href: provider_interface_candidate_pool_root_path(@candidate)) %>
+      <% end %>
+
+      <% summary_list.with_row do |row| %>
+        <% row.with_key { t('.course') } %>
+        <% row.with_value do %>
+          <p class='govuk-body'>
+            <%= @pool_invite.course.name_code_and_course_provider %>
+          </p>
+          <p class='govuk-hint'>
+            <%= @pool_invite.course.description %>
+          </p>
+        <% end %>
+        <% row.with_action(
+          text: t('.change'),
+          href: edit_provider_interface_candidate_pool_candidate_draft_invite_path(
+            @candidate,
+            @pool_invite.id,
+          ),
+        ) %>
+      <% end %>
+    <% end %>
+
+    <%= govuk_button_to(
+      t('.send_invitation'),
+      provider_interface_candidate_pool_candidate_draft_invite_publish_invite_path(@candidate, @pool_invite.id),
+    ) %>
+  </div>
+</div>

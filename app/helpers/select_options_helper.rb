@@ -26,6 +26,12 @@ module SelectOptionsHelper
     ] + courses.map { |course| Option.new(course.id, course.name) }
   end
 
+  def select_course_options_with_provider_name(courses)
+    [
+      Option.new('', t('activemodel.errors.models.candidate_interface/pick_course_form.attributes.course_id.blank')),
+    ] + courses.map { |course| Option.new(course.id, course.name_code_and_course_provider) }
+  end
+
   def select_provider_options(providers)
     [
       Option.new('', t('activemodel.errors.models.candidate_interface/pick_provider_form.attributes.provider_id.blank')),

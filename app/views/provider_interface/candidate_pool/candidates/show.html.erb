@@ -5,6 +5,7 @@
     <%= render ServiceInformationBanner.new(namespace: :provider) %>
 
     <h1 class="govuk-heading-l"><%= @application_form.redacted_full_name %></h1>
+    <%= govuk_button_to t('.invite'), new_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate), method: :get %>
 
     <%= render ProviderInterface::FindCandidates::RightToWorkComponent.new(application_form: @application_form) %>
     <%= render ProviderInterface::FindCandidates::ApplicationChoicesComponent.new(application_form: @application_form) %>

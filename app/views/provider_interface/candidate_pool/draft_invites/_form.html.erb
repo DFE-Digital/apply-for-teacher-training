@@ -1,0 +1,32 @@
+<%= form_with model: pool_invite, url: provider_interface_candidate_pool_candidate_draft_invites_path do |form| %>
+    <%= form.govuk_error_summary %>
+
+  <% if pool_invite.id.present? %>
+    <%= form.hidden_field :id, value: pool_invite.id %>
+  <% end %>
+
+  <% if pool_invite.available_courses.count > 20 %>
+    <%= form.govuk_collection_select(
+      :course_id,
+      select_course_options_with_provider_name(pool_invite.available_courses),
+      :id,
+      :name,
+      label: { text: t('.title', candidate_name: candidate.redacted_full_name_current_cycle), size: 'l', tag: 'h1' },
+    ) %>
+  <% else %>
+    <%= form.govuk_collection_radio_buttons(
+      :course_id,
+      pool_invite.available_courses,
+      :id,
+      :name_code_and_course_provider,
+      :description,
+      legend: {
+        text: t('.title', candidate_name: candidate.redacted_full_name_current_cycle),
+        size: 'l',
+        tag: 'h1',
+      },
+    ) %>
+  <% end %>
+
+  <%= form.govuk_submit t('.continue') %>
+<% end %>

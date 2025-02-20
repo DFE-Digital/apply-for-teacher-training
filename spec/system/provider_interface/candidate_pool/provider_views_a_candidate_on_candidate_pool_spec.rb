@@ -64,7 +64,7 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def when_i_visit_the_find_candidates_page
-    visit provider_interface_find_candidates_path
+    visit provider_interface_candidate_pool_root_path
   end
 
   def and_i_click_on_a_candidate
@@ -72,7 +72,7 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def then_i_am_redirected_to_view_that_candidate
-    expect(page).to have_current_path(provider_interface_find_candidate_path(@rejected_candidate), ignore_query: true)
+    expect(page).to have_current_path(provider_interface_candidate_pool_candidate_path(@rejected_candidate), ignore_query: true)
   end
 
   def and_i_can_view_their_details
