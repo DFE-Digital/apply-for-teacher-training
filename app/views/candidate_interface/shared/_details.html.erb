@@ -88,11 +88,15 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
+    <%= render '/candidate_interface/shared/adviser_call_to_action', adviser_sign_up: @adviser_sign_up %>
+
     <%= render partial: '/candidate_interface/shared/support', locals: { support_reference: @application_form_presenter.support_reference } %>
 
-    <% if @application_form_presenter.candidate_has_previously_applied? %>
-      <h2 class="govuk-heading-s"><%= t('section_groups.previous_applications') %></h2>
-      <%= render(CandidateInterface::LinksToPreviousApplicationsComponent.new(application_form: @application_form_presenter.application_form)) %>
-    <% end %>
+    <aside class="app-related" aria-labelledby="previous-applications-title">
+      <% if @application_form_presenter.candidate_has_previously_applied? %>
+        <h2 class="govuk-heading-s" id="previous-applications-title"><%= t('section_groups.previous_applications') %></h2>
+        <%= render(CandidateInterface::LinksToPreviousApplicationsComponent.new(application_form: @application_form_presenter.application_form)) %>
+      <% end %>
+    </aside>
   </div>
 </div>

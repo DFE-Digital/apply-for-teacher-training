@@ -1,28 +1,37 @@
+<%# locals: (adviser_sign_up:) %>
+
 <% if adviser_sign_up.available? %>
-  <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="support-title">
-    <%= t('application_form.adviser_sign_up.call_to_action.available.heading') %>
-  </h2>
-  <p class="govuk-body-s govuk-!-margin-bottom-2">
-    <%= t('application_form.adviser_sign_up.call_to_action.available.text') %>
-  </p>
-  <p class="govuk-body-s">
-    <%= govuk_link_to(
-      t('application_form.adviser_sign_up.call_to_action.available.button_text'),
-      new_candidate_interface_adviser_sign_up_path,
-    ) %>
-  </p>
+  <aside class="app-related" aria-labelledby="tta-title">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="tta-title">
+      <%= t('application_form.adviser_sign_up.call_to_action.available.heading') %>
+    </h2>
+    <p class="govuk-body-s govuk-!-margin-bottom-2">
+      <%= t('application_form.adviser_sign_up.call_to_action.available.text') %>
+    </p>
+    <p class="govuk-body-s">
+      <%= govuk_link_to(
+            t('application_form.adviser_sign_up.call_to_action.available.button_text'),
+            new_candidate_interface_adviser_sign_up_path,
+          ) %>
+    </p>
+  </aside>
 <% elsif adviser_sign_up.waiting_to_be_assigned_to_an_adviser? %>
-  <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="support-title">
-    <%= t('application_form.adviser_sign_up.call_to_action.waiting_to_be_assigned.heading') %>
-  </h2>
-  <p class="govuk-body-s">
-    <%= t('application_form.adviser_sign_up.call_to_action.waiting_to_be_assigned.text') %>
-  </p>
+  <aside class="app-related" aria-labelledby="tta-title">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="tta-title">
+      <%= t('application_form.adviser_sign_up.call_to_action.waiting_to_be_assigned.heading') %>
+    </h2>
+    <p class="govuk-body-s">
+      <%= t('application_form.adviser_sign_up.call_to_action.waiting_to_be_assigned.text') %>
+    </p>
+  </aside>
 <% elsif adviser_sign_up.already_assigned_to_an_adviser? %>
-  <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="support-title">
-    <%= t('application_form.adviser_sign_up.call_to_action.already_assigned.heading') %>
-  </h2>
-  <p class="govuk-body-s govuk-!-margin-bottom-2">
-    <%= t('application_form.adviser_sign_up.call_to_action.already_assigned.text') %>
-  </p>
+  <aside class="app-related" aria-labelledby="tta-title">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="tta-title">
+      <%= t('application_form.adviser_sign_up.call_to_action.already_assigned.heading') %>
+    </h2>
+    <p class="govuk-body-s govuk-!-margin-bottom-2">
+      <%= t('application_form.adviser_sign_up.call_to_action.already_assigned.text') %>
+    </p>
+  </aside>
 <% end %>
+
