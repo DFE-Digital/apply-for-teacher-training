@@ -15,11 +15,23 @@ RSpec.describe Adviser::TeacherTrainingAdviserSignUpDecorator do
     end
 
     context 'when assignment_status_id is set' do
-      it 'returns waiting_to_be_assigned when assignment_status_id is 222_750_001' do
+      {
+        unassigned: 222_750_000,
+        waiting_to_be_assigned: 222_750_001,
+        assigned: 222_750_002,
+        previously_assigned: 222_750_003,
+      }.each do |expected_advisor_status, assignment_status_id|
+        it "returns #{expected_advisor_status} when assignment_status_id is #{assignment_status_id}" do
+          teacher_training_advisor = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(assignment_status_id: assignment_status_id)
+          decorator = described_class.new(teacher_training_advisor)
+          expect(decorator.adviser_status).to eq(expected_advisor_status.to_s)
+        end
+      end
 
-        teacher_training_advisor = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(assignment_status_id: 222_750_001)
+      it 'returns unassigned when assignment_status_id is not recognised' do
+        teacher_training_advisor = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(assignment_status_id: 'some_unknown_status_id')
         decorator = described_class.new(teacher_training_advisor)
-        expect(decorator.adviser_status).to eq('waiting_to_be_assigned')
+        expect(decorator.adviser_status).to eq('unassigned')
       end
     end
   end
