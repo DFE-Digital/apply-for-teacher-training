@@ -13,7 +13,7 @@ RSpec.describe AdviserSignUpWorker do
   let(:date) { Date.new(Time.zone.today.year, 9, 6) }
   let(:application_form) { create(:application_form_eligible_for_adviser) }
   let(:degree) { application_form.application_qualifications.degrees.last }
-  let(:candidate_matchback_double) { instance_double(Adviser::CandidateMatchback, matchback: nil) }
+  let(:candidate_matchback_double) { instance_double(Adviser::CandidateMatchback, teacher_training_adviser_sign_up: nil) }
   let(:api_double) { instance_double(GetIntoTeachingApiClient::TeacherTrainingAdviserApi, sign_up_teacher_training_adviser_candidate: nil) }
   let(:constants) { Adviser::Constants }
 
@@ -40,7 +40,7 @@ RSpec.describe AdviserSignUpWorker do
       }
 
       api_model = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(matchback_attributes)
-      allow(candidate_matchback_double).to receive(:matchback) { Adviser::APIModelDecorator.new(api_model) }
+      allow(candidate_matchback_double).to receive(:teacher_training_adviser_sign_up) { Adviser::TeacherTrainingAdviserSignUpDecorator.new(api_model) }
 
       expect_sign_up(matchback_attributes)
     end
@@ -187,7 +187,7 @@ RSpec.describe AdviserSignUpWorker do
     perform
 
     expect(api_double).to have_received(:sign_up_teacher_training_adviser_candidate) do |request|
-      request_attributes = Adviser::APIModelDecorator.new(request).attributes_as_snake_case
+      request_attributes = Adviser::TeacherTrainingAdviserSignUpDecorator.new(request).attributes_as_snake_case
       expect_request_attributes(request_attributes, baseline_attributes.merge(expected_attribute_overrides))
       yield(request_attributes) if block_given?
     end

@@ -49,11 +49,9 @@ private
   end
 
   def matchback_attributes
-    matchback_candidate = candidate_matchback.matchback
+    teacher_training_adviser_sign_up = candidate_matchback.teacher_training_adviser_sign_up
 
-    return {} unless matchback_candidate
-
-    matchback_candidate
+    teacher_training_adviser_sign_up
       .attributes_as_snake_case
       .slice(*MATCHBACK_ATTRIBUTES)
   end

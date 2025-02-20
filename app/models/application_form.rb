@@ -179,6 +179,13 @@ class ApplicationForm < ApplicationRecord
     previously_assigned: 'previously_assigned',
   }
 
+  enum :adviser_status, {
+    unassigned: 'unassigned',
+    waiting_to_be_assigned: 'waiting_to_be_assigned',
+    assigned: 'assigned',
+    previously_assigned: 'previously_assigned',
+  }, prefix: true
+
   attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycleTimetable.current_year }
 
   before_create :add_support_reference
