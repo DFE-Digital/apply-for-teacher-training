@@ -1,6 +1,5 @@
 <%# locals: (adviser_sign_up:) %>
 
-<!--application_form.adviser_status_unassigned? && ApplicationFormValidations.valid?-->
 <% if adviser_sign_up.available? %>
   <aside class="app-related" aria-labelledby="tta-title">
     <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="tta-title">
@@ -17,7 +16,6 @@
     </p>
   </aside>
 
-<!--application_form.adviser_status_waiting_to_be_assigned?-->
 <% elsif adviser_sign_up.waiting_to_be_assigned_to_an_adviser? %>
   <aside class="app-related" aria-labelledby="tta-title">
     <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="tta-title">
@@ -28,7 +26,6 @@
     </p>
   </aside>
 
-<!--application_form.adviser_status_assigned? || application_form.adviser_status_previously_assigned?-->
 <% elsif adviser_sign_up.already_assigned_to_an_adviser? %>
   <aside class="app-related" aria-labelledby="tta-title">
     <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="tta-title">
