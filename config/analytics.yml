@@ -18,6 +18,7 @@ shared:
     - provider_id
     - invited_by_id
     - course_id
+    - status
     - created_at
     - updated_at
   pool_dismissals:
