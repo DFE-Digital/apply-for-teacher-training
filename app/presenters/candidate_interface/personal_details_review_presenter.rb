@@ -2,6 +2,9 @@ module CandidateInterface
   class PersonalDetailsReviewPresenter
     include ActionView::Helpers::TagHelper
     include Rails.application.routes.url_helpers
+    include GovukLinkHelper
+    include GovukVisuallyHiddenHelper
+    include ActionView::Helpers::UrlHelper
 
     def initialize(personal_details_form:, nationalities_form:, right_to_work_form:, application_form:, editable: true, return_to_application_review: false)
       @personal_details_form = personal_details_form
@@ -28,55 +31,62 @@ module CandidateInterface
     def name_row
       {
         key: I18n.t('application_form.personal_details.name.label'),
-        value: @personal_details_form.name,
-        action: (if @editable
-                   {
-                     href: candidate_interface_edit_name_and_dob_path(return_to_params),
-                     visually_hidden_text: I18n.t('application_form.personal_details.name.change_action'),
-                   }
-                 end),
-        html_attributes: {
-          data: {
-            qa: 'personal-details-name',
-          },
-        },
-      }
+        value: @personal_details_form.name.presence || govuk_link_to('Add your name', candidate_interface_edit_name_and_dob_path(return_to_params)),
+      }.tap do |row|
+        if @personal_details_form.name.present? && @editable
+          row[:action] =
+            {
+              href: candidate_interface_edit_name_and_dob_path(return_to_params),
+              visually_hidden_text: I18n.t('application_form.personal_details.name.change_action'),
+            }
+        end
+      end
     end
 
     def date_of_birth_row
       {
         key: I18n.t('application_form.personal_details.date_of_birth.label'),
-        value: @personal_details_form.date_of_birth.is_a?(Date) ? @personal_details_form.date_of_birth.to_fs(:govuk_date) : nil,
-        action: (if @editable
-                   {
-                     href: candidate_interface_edit_name_and_dob_path(return_to_params),
-                     visually_hidden_text: I18n.t('application_form.personal_details.date_of_birth.change_action'),
-                   }
-                 end),
-        html_attributes: {
-          data: {
-            qa: 'personal-details-dob',
-          },
-        },
-      }
+        value: date_of_birth_value,
+      }.tap do |row|
+        row[:action] =
+          (if @editable && @application_form.date_of_birth.is_a?(Date)
+             {
+               href: candidate_interface_edit_name_and_dob_path(return_to_params),
+               visually_hidden_text: I18n.t('application_form.personal_details.date_of_birth.change_action'),
+             }
+           end)
+      end
+    end
+
+    def date_of_birth_value
+      if @personal_details_form.date_of_birth.is_a?(Date)
+        @personal_details_form.date_of_birth.to_fs(:govuk_date)
+      else
+        govuk_link_to('Add your date of birth', candidate_interface_edit_name_and_dob_path(return_to_params))
+      end
     end
 
     def nationality_row
       {
         key: I18n.t('application_form.personal_details.nationality.label'),
-        value: formatted_nationalities,
-        action: (if @editable && !@application_form.submitted_applications?
-                   {
-                     href: candidate_interface_edit_nationalities_path(return_to_params),
-                     visually_hidden_text: I18n.t('application_form.personal_details.nationality.change_action'),
-                   }
-                 end),
-        html_attributes: {
-          data: {
-            qa: 'personal-details-nationality',
-          },
-        },
-      }
+        value: nationality_value,
+      }.tap do |row|
+        row[:action] =
+          (if @editable && !@application_form.submitted_applications? && @application_form.first_nationality
+             {
+               href: candidate_interface_edit_nationalities_path(return_to_params),
+               visually_hidden_text: I18n.t('application_form.personal_details.nationality.change_action'),
+             }
+           end)
+      end
+    end
+
+    def nationality_value
+      if @application_form.first_nationality
+        formatted_nationalities
+      else
+        govuk_link_to('Add your nationality', candidate_interface_edit_nationalities_path(return_to_params))
+      end
     end
 
     def right_to_work_rows
@@ -86,18 +96,15 @@ module CandidateInterface
         {
           key: I18n.t('application_form.personal_details.immigration_right_to_work.label'),
           value: formatted_immigration_right_to_work,
-          action: (if @editable && !@application_form.right_to_work_or_study.nil? && !@application_form.submitted_applications?
-                     {
-                       href: candidate_interface_edit_immigration_right_to_work_path(return_to_params),
-                       visually_hidden_text: I18n.t('application_form.personal_details.immigration_right_to_work.change_action'),
-                     }
-                   end),
-          html_attributes: {
-            data: {
-              qa: 'personal_details_immigration_right_to_work',
-            },
-          },
-        },
+        }.tap do |row|
+          row[:action] =
+            (if @editable && !@application_form.right_to_work_or_study.nil? && !@application_form.submitted_applications?
+               {
+                 href: candidate_interface_edit_immigration_right_to_work_path(return_to_params),
+                 visually_hidden_text: I18n.t('application_form.personal_details.immigration_right_to_work.change_action'),
+               }
+             end)
+        end,
       ]
 
       if @application_form.immigration_status
@@ -133,6 +140,8 @@ module CandidateInterface
     end
 
     def formatted_immigration_right_to_work
+      return govuk_link_to('Select if you have the right to work or study', candidate_interface_personal_details_right_to_work_or_study_path(return_to_params)) if @application_form.right_to_work_or_study.nil?
+
       if immigration_right_to_work_form.right_to_work_or_study?
         'Yes'
       else
