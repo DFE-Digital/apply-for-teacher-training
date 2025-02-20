@@ -15,5 +15,7 @@
     editable: @section_policy.can_edit?,
   ) %>
 
-  <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
+  <% unless @application_qualification.incomplete_gcse_information? %>
+    <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
+  <% end %>
 <% end %>
