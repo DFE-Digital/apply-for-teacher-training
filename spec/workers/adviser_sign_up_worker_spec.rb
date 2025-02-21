@@ -13,7 +13,7 @@ RSpec.describe AdviserSignUpWorker do
   let(:date) { Date.new(Time.zone.today.year, 9, 6) }
   let(:application_form) { create(:application_form_eligible_for_adviser) }
   let(:degree) { application_form.application_qualifications.degrees.last }
-  let(:candidate_matchback_double) { instance_double(Adviser::CandidateMatchback, teacher_training_adviser_sign_up: nil) }
+  let(:candidate_matchback_double) { instance_double(Adviser::CandidateMatchback, teacher_training_adviser_sign_up: Adviser::TeacherTrainingAdviserSignUpDecorator.new({})) }
   let(:api_double) { instance_double(GetIntoTeachingApiClient::TeacherTrainingAdviserApi, sign_up_teacher_training_adviser_candidate: nil) }
   let(:constants) { Adviser::Constants }
 

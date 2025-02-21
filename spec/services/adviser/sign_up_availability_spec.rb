@@ -14,7 +14,7 @@ RSpec.describe Adviser::SignUpAvailability do
 
   let(:in_memory_store) { ActiveSupport::Cache.lookup_store(:memory_store) }
   let(:application_form) { create(:completed_application_form, :with_domestic_adviser_qualifications) }
-  let(:candidate_matchback_double) { instance_double(Adviser::CandidateMatchback, teacher_training_adviser_sign_up: nil) }
+  let(:candidate_matchback_double) { instance_double(Adviser::CandidateMatchback, teacher_training_adviser_sign_up: Adviser::TeacherTrainingAdviserSignUpDecorator.new({})) }
   let(:constants) { Adviser::Constants }
 
   subject(:availability) { described_class.new(application_form) }
@@ -180,6 +180,7 @@ RSpec.describe Adviser::SignUpAvailability do
   def stub_matchback_with_adviser_status(status)
     assignment_status_id = constants.fetch(:adviser_status, status)
     matchback_candidate = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(assignment_status_id:)
-    allow(candidate_matchback_double).to receive(:teacher_training_adviser_sign_up) { matchback_candidate }
+    teacher_training_adviser_sign_up = Adviser::TeacherTrainingAdviserSignUpDecorator.new(matchback_candidate)
+    allow(candidate_matchback_double).to receive(:teacher_training_adviser_sign_up) { teacher_training_adviser_sign_up }
   end
 end
