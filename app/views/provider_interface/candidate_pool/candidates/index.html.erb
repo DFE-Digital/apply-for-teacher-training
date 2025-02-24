@@ -27,7 +27,7 @@
           <% @candidates.each do |candidate| %>
             <%= body.with_row do |row| %>
               <%= row.with_cell do %>
-                <%= govuk_link_to candidate.redacted_full_name_current_cycle, provider_interface_find_candidate_path(candidate) %>
+                <%= govuk_link_to candidate.redacted_full_name_current_cycle, provider_interface_candidate_pool_candidate_path(candidate) %>
               <% end %>
             <% end %>
           <% end %>

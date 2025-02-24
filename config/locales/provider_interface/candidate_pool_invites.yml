@@ -1,0 +1,39 @@
+en:
+  provider_interface:
+    candidate_pool:
+      candidates:
+        index:
+          title: Find candidates
+          no_candidates: No candidates
+          candidate_information_agreement: These candidates have agreed to share their application details.
+          review_candidates: You can review their applications and decide whether to invite them to apply.
+          name: Name
+        show:
+          title: Candidate details
+          invite: Invite to apply
+      draft_invites:
+        new:
+          title: Select which course to invite %{candidate_name} to apply to
+          no_available_courses: No available courses
+        show:
+          title: Check before you send this invitation
+          candidate: Candidate
+          change: Change
+          course: Course
+          send_invitation: Send invitation
+        edit:
+          title: Select which course to invite %{candidate_name} to apply to
+        form:
+          title: Select which course to invite %{candidate_name} to apply to
+          continue: Continue
+      publish_invites:
+        create:
+          success: You have invited %{candidate} to apply to %{course}
+  activemodel:
+    errors:
+      models:
+        provider_interface/pool_invite_form:
+          attributes:
+            course_id:
+              blank: Select a course
+              invalid: Course is not available

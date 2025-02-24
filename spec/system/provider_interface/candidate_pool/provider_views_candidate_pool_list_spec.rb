@@ -74,7 +74,7 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def when_i_visit_the_find_candidates_page
-    visit provider_interface_find_candidates_path
+    visit provider_interface_candidate_pool_root_path
   end
 
   def then_i_expect_to_see_eligible_candidates_order_by_application_form_submitted_at

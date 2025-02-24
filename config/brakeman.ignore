@@ -1,6 +1,29 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "0e7dc374e358d2d93a89606f5d97a7bf692d45c6f417f9dbbc62425d1488dd55",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Pool::Invite#find_by`",
+      "file": "app/controllers/provider_interface/candidate_pool/draft_invites_controller.rb",
+      "line": 69,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Pool::Invite.find_by(:id => params.expect(:id), :provider_id => current_provider_user.provider_ids, :status => :draft)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ProviderInterface::CandidatePool::DraftInvitesController",
+        "method": "invite"
+      },
+      "user_input": "params.expect(:id)",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "SQL Injection",
       "warning_code": 0,
       "fingerprint": "28d64e5d66c0dce5bb41ca5b85a1751bdd7190b07aa55b1af003c090e7f8863a",
@@ -231,6 +254,29 @@
       "note": ""
     },
     {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "a6606f49b3e0561d2e82c86bda143db35a2f9ba55ad95a6d6a121b5195890d43",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Pool::Invite#find_by`",
+      "file": "app/controllers/provider_interface/candidate_pool/publish_invites_controller.rb",
+      "line": 36,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Pool::Invite.find_by(:id => params.expect(:draft_invite_id), :provider_id => current_provider_user.provider_ids, :status => :draft)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ProviderInterface::CandidatePool::PublishInvitesController",
+        "method": "invite"
+      },
+      "user_input": "params.expect(:draft_invite_id)",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "SQL Injection",
       "warning_code": 0,
       "fingerprint": "a69c2ff3682a5ad58bacee0f45b507c323b72f778786686538a546d32c9cbf6b",
@@ -392,6 +438,5 @@
       "note": ""
     }
   ],
-  "updated": "2025-01-02 12:10:42 +0000",
-  "brakeman_version": "6.2.2"
+  "brakeman_version": "7.0.0"
 }
