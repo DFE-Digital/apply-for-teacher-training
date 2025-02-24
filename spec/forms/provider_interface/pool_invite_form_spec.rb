@@ -5,7 +5,7 @@ RSpec.describe ProviderInterface::PoolInviteForm, type: :model do
     described_class.new(
       current_provider_user:,
       candidate:,
-      attributes:,
+      pool_invite_form_params:,
     )
   end
 
@@ -13,7 +13,7 @@ RSpec.describe ProviderInterface::PoolInviteForm, type: :model do
   let(:provider) { current_provider_user.providers.first }
   let(:candidate) { create(:candidate) }
   let(:course) { create(:course, :open, provider:) }
-  let(:attributes) { { course_id: course.id } }
+  let(:pool_invite_form_params) { { course_id: course.id } }
 
   describe '.validations' do
     it { is_expected.to validate_presence_of(:course_id) }
@@ -44,20 +44,20 @@ RSpec.describe ProviderInterface::PoolInviteForm, type: :model do
     end
   end
 
-  describe '#persist!' do
+  describe '#save' do
     context 'when creating an invite' do
       it 'creates an invite' do
-        expect { form.persist! }.to change(Pool::Invite, :count).by(1)
+        expect { form.save }.to change(Pool::Invite, :count).by(1)
       end
     end
 
     context 'when updating an existing invite' do
       let(:updated_course) { create(:course, provider:) }
       let(:existing_invite) { create(:pool_invite, provider:) }
-      let(:attributes) { { id: existing_invite.id, course_id: updated_course.id } }
+      let(:pool_invite_form_params) { { id: existing_invite.id, course_id: updated_course.id } }
 
       it 'updates the invite' do
-        expect { form.persist! }.to(
+        expect { form.save }.to(
           change { existing_invite.reload.course_id }.to(updated_course.id),
         )
       end

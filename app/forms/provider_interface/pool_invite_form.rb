@@ -8,24 +8,24 @@ module ProviderInterface
     validates :course_id, presence: true
     validate :course_is_open if -> { course.present? }
 
-    def initialize(current_provider_user:, candidate: nil, attributes: {})
+    def initialize(current_provider_user:, candidate: nil, pool_invite_form_params: {})
       @current_provider_user = current_provider_user
       @candidate = candidate
-      super(attributes)
+      super(pool_invite_form_params)
     end
 
     def self.build_from_invite(invite:, current_provider_user:)
       new(
         current_provider_user:,
         candidate: invite.candidate,
-        attributes: {
+        pool_invite_form_params: {
           id: invite.id,
           course_id: invite.course_id,
         },
       )
     end
 
-    def persist!
+    def save
       if id.present?
         invite = Pool::Invite.find_by(
           id:,

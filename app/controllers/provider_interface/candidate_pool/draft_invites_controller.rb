@@ -25,11 +25,11 @@ module ProviderInterface
         @pool_invite = PoolInviteForm.new(
           current_provider_user:,
           candidate: @candidate,
-          attributes:,
+          pool_invite_form_params:,
         )
 
         if @pool_invite.valid?
-          invite = @pool_invite.persist!
+          invite = @pool_invite.save
           redirect_to provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, invite)
         else
           render :new
@@ -40,10 +40,10 @@ module ProviderInterface
         @pool_invite = PoolInviteForm.new(
           current_provider_user:,
           candidate: @candidate,
-          attributes:,
+          pool_invite_form_params:,
         )
 
-        if @pool_invite.valid? && @pool_invite.persist!
+        if @pool_invite.valid? && @pool_invite.save
           redirect_to provider_interface_candidate_pool_candidate_draft_invite_path(@candidate)
         else
           render :edit
@@ -58,7 +58,7 @@ module ProviderInterface
         ).find_by(id: params.expect(:candidate_id))
       end
 
-      def attributes
+      def pool_invite_form_params
         params.expect(
           provider_interface_pool_invite_form: %i[course_id id status],
         )
