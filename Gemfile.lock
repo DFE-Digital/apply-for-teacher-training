@@ -170,7 +170,7 @@ GEM
     bigdecimal (3.1.9)
     bindata (2.5.0)
     bindex (0.8.1)
-    blazer (3.1.0)
+    blazer (3.2.0)
       activerecord (>= 6.1)
       chartkick (>= 5)
       csv
@@ -198,7 +198,7 @@ GEM
     capybara-email (3.0.2)
       capybara (>= 2.4, < 4.0)
       mail
-    chartkick (5.1.0)
+    chartkick (5.1.4)
     childprocess (5.1.0)
       logger (~> 1.5)
     choice (0.2.0)
@@ -463,7 +463,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.7.4)
-    nokogiri (1.18.2)
+    nokogiri (1.18.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     notiffany (0.1.3)
@@ -755,7 +755,7 @@ GEM
       sprockets (>= 3.0.0)
     stoplight (3.0.2)
       redlock (~> 1.0)
-    stringio (3.1.2)
+    stringio (3.1.5)
     strip_attributes (1.14.1)
       activemodel (>= 3.0, < 9.0)
     strong_migrations (2.2.0)
@@ -850,7 +850,7 @@ GEM
       anyway_config (>= 1.3, < 3)
       sidekiq
       yabeda (~> 0.6)
-    zeitwerk (2.7.1)
+    zeitwerk (2.7.2)
     zlib (3.1.0)
 
 PLATFORMS
