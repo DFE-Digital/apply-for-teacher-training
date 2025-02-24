@@ -249,7 +249,7 @@ module CandidateInterface
       if application_qualification.institution_country
         COUNTRIES_AND_TERRITORIES[application_qualification.institution_country]
       else
-        govuk_link_to('Enter the country or territory where you studied for your English qualification', candidate_interface_gcse_details_edit_institution_country_path(change_path_params))
+        govuk_link_to("Enter the country or territory where you studied for your #{subject} qualification", candidate_interface_gcse_details_edit_institution_country_path(change_path_params))
       end
     end
 
@@ -258,9 +258,9 @@ module CandidateInterface
 
       {
         key: t('application_form.gcse.enic_statement.review_label'),
-        value: enic_value,
+        value: enic_statment_value,
       }.tap do |row|
-        if application_qualification.enic_reference?
+        if application_qualification.enic_reason?
           row[:action] =
             {
               href: candidate_interface_gcse_details_edit_enic_path(change_path_params),
@@ -270,31 +270,39 @@ module CandidateInterface
       end
     end
 
-    def enic_value
-      if application_qualification.enic_reference?
-        translate_enic_reason(application_qualification.enic_reason)
-      else
+    def enic_statment_value
+      if application_qualification.enic_reason.nil?
         govuk_link_to('Enter your ENIC status', candidate_interface_gcse_details_edit_enic_path(change_path_params))
+      else
+        t("gcse_edit_enic.#{application_qualification.enic_reason}")
       end
     end
 
     def enic_reference_row
       return nil unless application_qualification.qualification_type == 'non_uk' &&
-                        application_qualification.enic_reference
+                        application_qualification.enic_reason_obtained?
 
       {
         key: t('application_form.gcse.enic_reference.review_label'),
-        value: application_qualification.enic_reference,
-        action: {
-          href: x_gcse_edit_statement_comparability_path(change_path_params[:subject]),
-          visually_hidden_text: t('application_form.gcse.enic_reference.change_action'),
-        },
+        value: enic_reference_value,
         html_attributes: {
           data: {
             qa: 'gcse-enic-reference',
           },
         },
-      }
+      }.tap do |row|
+        if application_qualification.enic_reference
+          row[:action] =
+            {
+              href: x_gcse_edit_statement_comparability_path(change_path_params[:subject]),
+              visually_hidden_text: t('application_form.gcse.enic_reference.change_action'),
+            }
+        end
+      end
+    end
+
+    def enic_reference_value
+      application_qualification.enic_reference.presence || govuk_link_to('Enter your ENIC reference number', x_gcse_edit_statement_comparability_path(change_path_params[:subject]))
     end
 
     def comparable_uk_qualification_row
