@@ -78,7 +78,7 @@ module CandidateInterface
     def award_year_row
       {
         key: 'Year awarded',
-        value: application_qualification.award_year || govuk_link_to('Enter the year the qualification was awarded', candidate_interface_gcse_details_edit_year_path),
+        value: application_qualification.award_year || govuk_link_to('Enter the year the qualification was awarded', candidate_interface_gcse_details_edit_year_path(change_path_params)),
       }.tap do |row|
         if application_qualification.award_year
           row[:action] = {
