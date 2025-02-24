@@ -11,6 +11,9 @@ en:
         show:
           title: Candidate details
           invite: Invite to apply
+          qualifications: Qualifications
+          a_level_header: A levels and other qualifications
+          a_level_subheader: Details of A levels and other qualifications
       draft_invites:
         new:
           title: Select which course to invite %{candidate_name} to apply to

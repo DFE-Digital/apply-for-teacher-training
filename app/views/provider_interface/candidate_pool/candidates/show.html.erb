@@ -9,5 +9,40 @@
 
     <%= render ProviderInterface::FindCandidates::RightToWorkComponent.new(application_form: @application_form) %>
     <%= render ProviderInterface::FindCandidates::ApplicationChoicesComponent.new(application_form: @application_form) %>
+    <%= render WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_form, details: false) %>
+  </div>
+
+  <div class="govuk-grid-column-full">
+    <section class="app-section">
+      <h2 class="govuk-heading-m govuk-!-font-size-27" id="qualifications">
+        <%= t('.qualifications') %>
+      </h2>
+
+      <% if @application_form.degrees? %>
+        <%= render DegreeQualificationCardsComponent.new(
+          @application_form.application_qualifications.degrees,
+          show_hesa_codes: false,
+          editable: false,
+        ) %>
+      <% else %>
+        <h3 class="govuk-heading-m" id="degrees">
+          <%= t('provider_interface.degree.heading') %>
+        </h3>
+
+        <p class="govuk-body">
+          <%= t('provider_interface.degree.teacher_degree_apprenticeship_message') %>
+        </p>
+      <% end %>
+
+      <%= render GcseQualificationCardsComponent.new(@application_form, editable: false) %>
+
+      <%= render QualificationsTableComponent.new(
+        qualifications: @application_form.application_qualifications.other,
+        header: t('.a_level_header'),
+        subheader: t('.a_level_subheader', editable: false),
+      ) %>
+
+      <%= render EflQualificationCardComponent.new(@application_form) %>
+    </section>
   </div>
 </div>

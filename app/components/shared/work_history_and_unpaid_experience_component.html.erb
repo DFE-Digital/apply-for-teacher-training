@@ -3,11 +3,11 @@
 
   <%= render SummaryListComponent.new(rows: rows) %>
 
-  <% if subtitle %>
-    <h3 class="govuk-heading-m" id="work-history-subheader"><%= subtitle %></h3>
-  <% end %>
+  <% if @details && subtitle %>
+      <h3 class="govuk-heading-m" id="work-history-subheader"><%= subtitle %></h3>
+    <% end %>
 
-  <% history.each do |item| %>
-    <%= render WorkHistoryAndUnpaidExperienceItemComponent.new(item:, editable: @editable) %>
+    <% history.each do |item| %>
+      <%= render WorkHistoryAndUnpaidExperienceItemComponent.new(item:, editable: @editable) %>
   <% end %>
 </section>
