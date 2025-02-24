@@ -77,7 +77,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
       )
     end
 
-    it 'returns nil when date of birth is not present' do
+    it 'returns the correct link when date of birth is not present' do
       personal_details_form = build(
         :personal_details_form,
         first_name: 'Max',
@@ -93,6 +93,25 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
           '<a class="govuk-link" href="/candidate/application/personal-information/edit?return-to=application-review">Add your date of birth</a>',
           nil,
           'personal-details-dob',
+        ),
+      )
+    end
+
+    it 'returns the correct link when name is not present' do
+      personal_details_form = build(
+        :personal_details_form,
+        first_name: nil,
+        last_name: nil,
+        day: nil,
+        month: nil,
+        year: nil,
+      )
+
+      expect(rows(personal_details_form:)).to include(
+        hash_including(
+          key: 'Name',
+          value: '<a class="govuk-link" href="/candidate/application/personal-information/edit?return-to=application-review">Add your name</a>',
+          html_attributes: { data: { qa: 'personal-details-name' } },
         ),
       )
     end
@@ -165,11 +184,27 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
     end
 
     context 'with multiple nationalities' do
+      let(:default_application_form) { build(:application_form, first_nationality: 'British') }
       let(:other_nationality1) { 'French' }
       let(:other_nationality2) { 'German' }
       let(:other_nationality3) { 'Spanish' }
 
       it 'includes a hash with up to 5 nationalities' do
+        expect(rows(nationalities_form:)).to include(
+          row_for(
+            :nationality,
+            'British, French, German, and Spanish',
+            candidate_interface_edit_nationalities_path('return-to' => 'application-review'),
+            'personal-details-nationality',
+          ),
+        )
+      end
+    end
+
+    context 'with no nationality selected' do
+      let(:default_application_form) { build(:application_form, first_nationality: nil) }
+
+      it 'includes a the correct link' do
         expect(rows(nationalities_form:)).to include(
           row_for(
             :nationality,
@@ -285,6 +320,31 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
           :immigration_right_to_work,
           'No',
           candidate_interface_edit_immigration_right_to_work_path('return-to' => 'application-review'),
+          'personal_details_immigration_right_to_work',
+        ),
+      )
+    end
+  end
+
+  context 'when the candidate has not selected whether they have the right to work or study' do
+    it 'renders the correct link' do
+      nationalities_form = build(
+        :nationalities_form,
+        first_nationality: nil,
+      )
+
+      application_form = build(
+        :application_form,
+        right_to_work_or_study: nil,
+      )
+
+      rows = rows(nationalities_form:, application_form:)
+
+      expect(rows).to include(
+        row_for(
+          :immigration_right_to_work,
+          '<a class="govuk-link" href="/candidate/application/personal-details/right-to-work-or-study?return-to=application-review">Select if you have the right to work or study</a>',
+          nil,
           'personal_details_immigration_right_to_work',
         ),
       )
