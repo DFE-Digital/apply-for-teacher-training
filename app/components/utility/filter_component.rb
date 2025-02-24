@@ -10,6 +10,18 @@ class FilterComponent < ViewComponent::Base
 
   def tags_for_active_filter(filter)
     case filter[:type]
+    when :location_search
+      if active_location_filter?(filter)
+        [
+          {
+            title: location_filter_title(filter),
+            hint: filter[:hint],
+            remove_link: remove_search_tag_link(filter[:name]),
+          },
+        ]
+      else
+        []
+      end
     when :search
       [{ title: filter[:value], remove_link: remove_search_tag_link(filter[:name]) }]
     when :checkboxes, :checkbox_filter
@@ -55,6 +67,8 @@ class FilterComponent < ViewComponent::Base
 
   def filter_active?(filter)
     case filter[:type]
+    when :location_search
+      active_location_filter?(filter)
     when :search
       filter[:primary] != true && filter[:value].present?
     when :checkboxes, :checkbox_filter
@@ -77,5 +91,15 @@ private
 
   def to_query(params)
     "?#{params.to_query}"
+  end
+
+  def active_location_filter?(filter_hash)
+    filter_hash[:select_value].present? && filter_hash[:location_value].present?
+  end
+
+  def location_filter_title(filter_hash)
+    miles = filter_hash[:select_value].to_i > 1 ? 'miles' : 'mile'
+
+    "Within #{filter_hash[:select_value]} #{miles} of #{filter_hash[:location_value]}"
   end
 end

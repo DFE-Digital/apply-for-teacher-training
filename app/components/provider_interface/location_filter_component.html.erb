@@ -1,0 +1,25 @@
+<div class="govuk-form-group">
+  <div id="location-hint" class="govuk-hint"><%= filter[:hint] %></div>
+
+  <div class="govuk-input__wrapper govuk-!-padding-bottom-2">
+    <label class="govuk-label label-center" for="within"> Within</label>
+    <select class="govuk-select" id="location" name="within" aria-describedby="within-hint">
+      <%= select_options %>
+    </select>
+  </div>
+
+  <div class="govuk-input__wrapper"
+    data-controller="location-autocomplete"
+    data-location-autocomplete-path-value=<%= provider_interface_location_suggestions_path %>
+  >
+    <label class="govuk-label label-center" for="location"> of </label>
+    <input class="govuk-input"
+    id="original-location" name="original_location"
+    data-controller="remote-autocomplete"
+    type="text" value="<%= filter[:location_value] %>"
+    aria-labelledby="filter-legend-original-location"
+    autocomplete="off"
+    data-location-autocomplete-target="input"
+    >
+  </div>
+</div>

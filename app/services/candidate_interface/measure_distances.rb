@@ -10,7 +10,7 @@ module CandidateInterface
     end
 
     def distance(from, to)
-      return nil unless coordinates?(from) && coordinates?(to)
+      #return nil unless coordinates?(from) && coordinates?(to)
 
       Geocoder::Calculations.distance_between(
         [from.latitude, from.longitude],

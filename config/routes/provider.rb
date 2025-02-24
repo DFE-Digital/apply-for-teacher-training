@@ -34,6 +34,8 @@ namespace :provider_interface, path: '/provider' do
     root to: 'candidates#index'
   end
 
+  resources :location_suggestions, only: :index
+
   resources :reports, only: :index
 
   namespace :reports do

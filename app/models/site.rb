@@ -2,6 +2,9 @@ class Site < ApplicationRecord
   belongs_to :provider
   has_many :course_options
   has_many :courses, through: :course_options
+  reverse_geocoded_by :latitude, :longitude
+
+  acts_as_mappable lat_column_name: :latitude, lng_column_name: :longitude
 
   validates :code, presence: true
   validates :name, presence: true

@@ -1,30 +1,51 @@
 class Pool::Candidates
-  attr_reader :providers
+  attr_reader :providers, :filters
 
-  def initialize(providers:)
+  def initialize(providers:, filters:)
     @providers = providers
+    @filters = filters
   end
 
-  def self.for_provider(providers:)
-    new(providers:).for_provider
+  def self.for_provider(providers:, filters:)
+    new(providers:, filters:).for_provider
   end
 
   def for_provider
     dismissed_candidates = Candidate.joins(:pool_dismissals).where(pool_dismissals: { provider: providers })
 
-    Candidate
-      .where(id: rejected_candidates_this_cycle)
-      .pool_status_opt_in
-      .excluding(dismissed_candidates)
-      .joins(:application_forms)
-        .where(application_forms: { recruitment_cycle_year: RecruitmentCycleTimetable.current_year })
-      .select('candidates.*', 'application_forms.submitted_at')
+    #Candidate
+    #  #.where(id: rejected_candidates_this_cycle.ids)
+    #  .pool_status_opt_in
+    #  .excluding(dismissed_candidates)
+    #  #.joins(:application_forms)
+    #  #  .where(application_forms: { recruitment_cycle_year: RecruitmentCycleTimetable.current_year })
+    #  .joins(:application_forms)
+    #  .where(application_forms: { id: rejected_candidates_this_cycle.ids })
+    #  #.select('candidates.*', 'application_forms.submitted_at')
+    #  .select('candidates.*', 'application_forms.submitted_at', 'application_forms.latitude', 'application_forms.longitude')
+    #  #.order(order_by)
+    #
+    forms.
+      joins(:candidate)
+      .where(candidate: { pool_status: :opt_in})
+      .where.not(candidate: { id: dismissed_candidates.ids })
+      .order(order_by)
   end
 
 private
 
+  def forms
+    filtered_application_forms
+  end
+
   def rejected_candidates_this_cycle
-    curated_application_forms.select(:candidate_id)
+    filtered_application_forms#.select(:candidate_id)
+  end
+
+  def filtered_application_forms
+    scope = curated_application_forms
+    scope = filter_by_right_to_work_or_study(scope)
+    filter_by_distance(scope)
   end
 
   def curated_application_forms
@@ -39,5 +60,62 @@ private
           },
         ).select(:id),
       )
+  end
+
+  def filter_by_distance(scope)
+    return scope unless active_location_filter?
+
+    origin = filters.fetch(:origin)
+
+    distance_sql = Site.distance_sql(
+      Struct.new(:latitude, :longitude).new(
+        latitude: filters.fetch(:origin).first,
+        longitude: filters.fetch(:origin).last,
+      ),
+    )
+
+    site_ids = Site.within(
+      filters.fetch(:within),
+      units: :miles,
+      origin:,
+    ).map(&:id)
+
+    scope.joins(application_choices: { course_option: :site })
+      .where('application_choices.created_at = ( select max(created_at) from application_choices where application_choices.application_form_id = application_forms.id)')
+      .where(sites: { id: site_ids })
+      .select('application_forms.*', "#{distance_sql} AS site_distance")
+  end
+
+  def filter_by_right_to_work_or_study(scope)
+    return scope if filters[:visa_sponsorship].blank?
+    #Most application_Forms don't have a right_to_work_or_study enum value
+    #The show page of candidate invite is bugged
+    filter_values = Array.new(
+      filters[:visa_sponsorship].map do |value|
+        value == 'required' ? 'no' : nil # required means no, nil means yes
+      end,
+    )
+
+    scope.where(right_to_work_or_study: filter_values)
+  end
+
+  def active_location_filter?
+    filters[:within].present? && filters[:origin].present?
+  end
+
+  def order_by
+    if active_location_filter?
+      'site_distance ASC'
+    else
+      'application_forms.submitted_at'
+    end
+  end
+
+  def distance_in_miles
+    Site.distance_between(
+      [candidate.latitude, candidate.longitude],
+      @filter.filter_params['origin'],
+      units: :miles,
+    )
   end
 end
