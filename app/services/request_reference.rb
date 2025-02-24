@@ -40,6 +40,7 @@ private
       relationship_correction: '',
       safeguarding_concerns: '',
       safeguarding_concerns_status: :no_safeguarding_concerns_to_declare,
+      confidential: true,
       feedback: 'Automatically approved.',
     )
 
