@@ -31,7 +31,7 @@ module CandidateInterface
     def name_row
       {
         key: I18n.t('application_form.personal_details.name.label'),
-        value: @personal_details_form.name.presence || govuk_link_to('Add your name', candidate_interface_edit_name_and_dob_path(return_to_params)),
+        value: @personal_details_form.name.presence || govuk_link_to('Enter your name', candidate_interface_edit_name_and_dob_path(return_to_params)),
         html_attributes: {
           data: {
             qa: 'personal-details-name',
@@ -72,7 +72,7 @@ module CandidateInterface
       if @personal_details_form.date_of_birth.is_a?(Date)
         @personal_details_form.date_of_birth.to_fs(:govuk_date)
       else
-        govuk_link_to('Add your date of birth', candidate_interface_edit_name_and_dob_path(return_to_params))
+        govuk_link_to('Enter your date of birth', candidate_interface_edit_name_and_dob_path(return_to_params))
       end
     end
 
@@ -100,7 +100,7 @@ module CandidateInterface
       if @application_form.first_nationality
         formatted_nationalities
       else
-        govuk_link_to('Add your nationality', candidate_interface_edit_nationalities_path(return_to_params))
+        govuk_link_to('Enter your nationality', candidate_interface_edit_nationalities_path(return_to_params))
       end
     end
 
@@ -160,7 +160,7 @@ module CandidateInterface
     end
 
     def formatted_immigration_right_to_work
-      return govuk_link_to('Select if you have the right to work or study', candidate_interface_personal_details_right_to_work_or_study_path(return_to_params)) if @application_form.right_to_work_or_study.nil?
+      return govuk_link_to('Select if you have the right to work or study in the UK', candidate_interface_personal_details_right_to_work_or_study_path(return_to_params)) if @application_form.right_to_work_or_study.nil?
 
       if immigration_right_to_work_form.right_to_work_or_study?
         'Yes'

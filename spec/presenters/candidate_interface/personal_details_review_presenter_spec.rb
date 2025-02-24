@@ -90,7 +90,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
       expect(rows(personal_details_form:)).to include(
         row_for(
           :date_of_birth,
-          '<a class="govuk-link" href="/candidate/application/personal-information/edit?return-to=application-review">Add your date of birth</a>',
+          '<a class="govuk-link" href="/candidate/application/personal-information/edit?return-to=application-review">Enter your date of birth</a>',
           nil,
           'personal-details-dob',
         ),
@@ -110,7 +110,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
       expect(rows(personal_details_form:)).to include(
         hash_including(
           key: 'Name',
-          value: '<a class="govuk-link" href="/candidate/application/personal-information/edit?return-to=application-review">Add your name</a>',
+          value: '<a class="govuk-link" href="/candidate/application/personal-information/edit?return-to=application-review">Enter your name</a>',
           html_attributes: { data: { qa: 'personal-details-name' } },
         ),
       )
@@ -208,7 +208,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
         expect(rows(nationalities_form:)).to include(
           row_for(
             :nationality,
-            '<a class="govuk-link" href="/candidate/application/personal-information/nationality/edit?return-to=application-review">Add your nationality</a>',
+            '<a class="govuk-link" href="/candidate/application/personal-information/nationality/edit?return-to=application-review">Enter your nationality</a>',
             nil,
             'personal-details-nationality',
           ),
@@ -343,7 +343,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
       expect(rows).to include(
         row_for(
           :immigration_right_to_work,
-          '<a class="govuk-link" href="/candidate/application/personal-details/right-to-work-or-study?return-to=application-review">Select if you have the right to work or study</a>',
+          '<a class="govuk-link" href="/candidate/application/personal-details/right-to-work-or-study?return-to=application-review">Select if you have the right to work or study in the UK</a>',
           nil,
           'personal_details_immigration_right_to_work',
         ),
