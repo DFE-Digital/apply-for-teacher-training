@@ -79,5 +79,9 @@ RSpec.describe 'Providers views candidate pool list' do
     expect(page).to have_content(@rejected_candidate.redacted_full_name_current_cycle)
     expect(page).to have_content('Right to work or study in the UK')
     expect(page).to have_content('Applications made')
+    expect(page).to have_content('Personal statement')
+    expect(page).to have_content('Work history and unpaid experience')
+    expect(page).to have_content('Qualifications')
+    expect(page).to have_content('A levels and other qualifications')
   end
 end

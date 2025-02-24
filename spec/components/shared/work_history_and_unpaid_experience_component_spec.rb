@@ -119,6 +119,14 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
     end
   end
 
+  context 'without work history details' do
+    subject! { render_inline(described_class.new(application_form:, details: false)) }
+
+    it 'does not include the details of work experience' do
+      expect(page).to have_no_text('Details of work history and unpaid experience')
+    end
+  end
+
   context 'with only work history' do
     subject! { render_inline(described_class.new(application_form:)) }
 
