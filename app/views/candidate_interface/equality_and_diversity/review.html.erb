@@ -1,4 +1,4 @@
-<% content_for :title, 'Check your answers' %>
+<% content_for :title, 'Check your answers to equality and diversity questions' %>
 <% content_for :before_content, govuk_back_link_to(application_form_path) %>
 
 <div class="govuk-grid-row">
@@ -8,7 +8,7 @@
 
       <h1 class="govuk-heading-xl">
         <span class="govuk-caption-xl"><%= t('equality_and_diversity.title') %></span>
-        Check your answers
+        Check your answers to equality and diversity questions
       </h1>
 
       <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>

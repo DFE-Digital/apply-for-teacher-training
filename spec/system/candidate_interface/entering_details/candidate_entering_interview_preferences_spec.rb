@@ -56,7 +56,7 @@ RSpec.describe 'Entering interview preferences' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content t('page_titles.interview_preferences.heading')
+    expect(page).to have_content 'Check your answers to interview availability'
     expect(page).to have_content 'Hello world'
   end
 
@@ -69,7 +69,7 @@ RSpec.describe 'Entering interview preferences' do
   end
 
   def then_i_can_check_my_revised_answers
-    expect(page).to have_content t('page_titles.interview_preferences.heading')
+    expect(page).to have_content 'Check your answers to interview availability'
     expect(page).to have_content t('application_form.interview_preferences.no_value')
   end
 

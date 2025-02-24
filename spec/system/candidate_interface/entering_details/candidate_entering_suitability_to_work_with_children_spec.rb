@@ -60,7 +60,7 @@ RSpec.describe 'Entering their suitability to work with children' do
   end
 
   def then_i_see_my_relevant_information
-    expect(page).to have_content(t('page_titles.suitability_to_work_with_children'))
+    expect(page).to have_content('Check your safeguarding declaration')
     expect(page).to have_content('I have a criminal conviction.')
   end
 
@@ -73,7 +73,7 @@ RSpec.describe 'Entering their suitability to work with children' do
   end
 
   def then_i_see_my_updated_answer
-    expect(page).to have_content(t('page_titles.suitability_to_work_with_children'))
+    expect(page).to have_content 'Check your safeguarding declaration'
     expect(page).to have_content('No')
   end
 

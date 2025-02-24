@@ -52,7 +52,7 @@ RSpec.describe 'Entering "Why do you want to be a teacher?"' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'Personal statement'
+    expect(page).to have_content 'Check your personal statement'
     expect(page).to have_content 'Hello world'
   end
 
@@ -73,7 +73,7 @@ RSpec.describe 'Entering "Why do you want to be a teacher?"' do
   end
 
   def then_i_can_check_my_revised_answers
-    expect(page).to have_content 'Personal statement'
+    expect(page).to have_content 'Check your personal statement'
     expect(page).to have_content 'Hello world again'
   end
 
