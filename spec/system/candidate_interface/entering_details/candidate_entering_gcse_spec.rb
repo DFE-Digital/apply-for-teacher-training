@@ -55,7 +55,11 @@ RSpec.describe 'Candidate entering GCSE details' do
     and_i_click_save_and_continue
     then_i_see_add_english_grade_page
 
-    when_i_choose_to_return_later
+    when_i_fill_in_the_english_grade
+    and_i_click_save_and_continue
+    and_i_fill_in_the_year
+    and_i_click_save_and_continue
+    and_i_choose_to_return_later
     then_i_am_returned_to_the_application_form_details
   end
 
@@ -97,13 +101,24 @@ RSpec.describe 'Candidate entering GCSE details' do
     expect(page).to have_content t('gcse_edit_year.page_title', subject: 'maths', qualification_type: 'GCSE')
   end
 
+  def then_i_see_add_year_page_for_english
+    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'english', qualification_type: 'GCSE')
+  end
+
   def when_i_fill_in_the_grade
     fill_in 'Grade', with: 'A'
+  end
+
+  def when_i_fill_in_the_english_grade
+    check 'English (Single award)'
+    fill_in 'candidate_interface_english_gcse_grade_form[grade_english_single]', with: 'A'
   end
 
   def when_i_fill_in_the_year
     fill_in 'Year', with: '1990'
   end
+
+  alias_method :and_i_fill_in_the_year, :when_i_fill_in_the_year
 
   def then_i_see_the_qualification_type_error
     expect(page).to have_content 'Select the type of qualification'
@@ -178,6 +193,8 @@ RSpec.describe 'Candidate entering GCSE details' do
     and_i_mark_the_section_as_incomplete
     and_click_continue
   end
+
+  alias_method :and_i_choose_to_return_later, :when_i_choose_to_return_later
 
   def and_i_mark_the_section_as_incomplete
     choose t('application_form.incomplete_radio')

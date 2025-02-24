@@ -78,33 +78,29 @@ module CandidateInterface
     def award_year_row
       {
         key: 'Year awarded',
-        value: application_qualification.award_year || t('gcse_summary.not_specified'),
-        action: {
-          href: candidate_interface_gcse_details_edit_year_path(change_path_params),
-          visually_hidden_text: "year awarded for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
-        },
-        html_attributes: {
-          data: {
-            qa: "gcse-#{subject}-award-year",
-          },
-        },
-      }
+        value: application_qualification.award_year || govuk_link_to('Enter the year the qualification was awarded', candidate_interface_gcse_details_edit_year_path(change_path_params)),
+      }.tap do |row|
+        if application_qualification.award_year
+          row[:action] = {
+            href: candidate_interface_gcse_details_edit_year_path(change_path_params),
+            visually_hidden_text: "year awarded for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
+          }
+        end
+      end
     end
 
     def grade_row
       {
         key: 'Grade',
-        value: present_grades || t('gcse_summary.not_specified'),
-        action: {
-          href: grade_edit_path,
-          visually_hidden_text: "grade for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
-        },
-        html_attributes: {
-          data: {
-            qa: "gcse-#{subject}-grade",
-          },
-        },
-      }
+        value: present_grades || govuk_link_to('Enter your grade', grade_edit_path),
+      }.tap do |row|
+        if application_qualification.grade || application_qualification.constituent_grades
+          row[:action] = {
+            href: grade_edit_path,
+            visually_hidden_text: "grade for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
+          }
+        end
+      end
     end
 
     def failing_grade_explanation_row
@@ -183,17 +179,23 @@ module CandidateInterface
     def not_completed_explanation_row
       {
         key: 'Are you currently studying for this qualification?',
-        value: not_completed_explanation_value_row(application_qualification),
-        action: {
-          href: candidate_interface_gcse_edit_not_yet_completed_path(change_path_params),
-          visually_hidden_text: 'how you expect to gain this qualification',
-        },
-        html_attributes: {
-          data: {
-            qa: 'gcse-missing-qualification-explanation',
-          },
-        },
-      }
+        value: not_completed_explanation_value,
+      }.tap do |row|
+        unless application_qualification.currently_completing_qualification.nil?
+          row[:action] = {
+            href: candidate_interface_gcse_edit_not_yet_completed_path(change_path_params),
+            visually_hidden_text: 'how you expect to gain this qualification',
+          }
+        end
+      end
+    end
+
+    def not_completed_explanation_value
+      if application_qualification.currently_completing_qualification.nil?
+        govuk_link_to('Select if you are currently studying for this qualification', candidate_interface_gcse_edit_not_yet_completed_path(change_path_params))
+      else
+        not_completed_explanation_value_row(application_qualification)
+      end
     end
 
     def missing_explanation_for_no_gcse_row
@@ -207,17 +209,16 @@ module CandidateInterface
     def missing_explanation_row
       {
         key: 'Other evidence I have the skills required (optional)',
-        value: application_qualification.missing_explanation.presence || 'Not provided',
-        action: {
-          href: candidate_interface_gcse_edit_missing_path(change_path_params),
-          visually_hidden_text: 'evidence of meeting the required standard',
-        },
-        html_attributes: {
-          data: {
-            qa: 'gcse-missing-equivalency-explanation',
-          },
-        },
-      }
+        value: application_qualification.missing_explanation.presence || govuk_link_to('Enter other evidence', candidate_interface_gcse_edit_missing_path(change_path_params)),
+      }.tap do |row|
+        if application_qualification.missing_explanation
+          row[:action] =
+            {
+              href: candidate_interface_gcse_edit_missing_path(change_path_params),
+              visually_hidden_text: 'evidence of meeting the required standard',
+            }
+        end
+      end
     end
 
     def gcse_qualification_types
@@ -232,17 +233,24 @@ module CandidateInterface
 
       {
         key: 'Country or territory',
-        value: COUNTRIES_AND_TERRITORIES[application_qualification.institution_country],
-        action: {
-          href: candidate_interface_gcse_details_edit_institution_country_path(change_path_params),
-          visually_hidden_text: 'the country that you studied in',
-        },
-        html_attributes: {
-          data: {
-            qa: 'gcse-country',
-          },
-        },
-      }
+        value: country_value,
+      }.tap do |row|
+        if application_qualification.institution_country
+          row[:action] =
+            {
+              href: candidate_interface_gcse_details_edit_institution_country_path(change_path_params),
+              visually_hidden_text: 'the country that you studied in',
+            }
+        end
+      end
+    end
+
+    def country_value
+      if application_qualification.institution_country
+        COUNTRIES_AND_TERRITORIES[application_qualification.institution_country]
+      else
+        govuk_link_to('Enter the country or territory where you studied for your English qualification', candidate_interface_gcse_details_edit_institution_country_path(change_path_params))
+      end
     end
 
     def enic_statement_row
@@ -250,17 +258,24 @@ module CandidateInterface
 
       {
         key: t('application_form.gcse.enic_statement.review_label'),
-        value: translate_enic_reason(application_qualification.enic_reason),
-        action: {
-          href: candidate_interface_gcse_details_edit_enic_path(change_path_params),
-          visually_hidden_text: t('application_form.gcse.enic_statement.change_action'),
-        },
-        html_attributes: {
-          data: {
-            qa: 'gcse-enic-statement',
-          },
-        },
-      }
+        value: enic_value,
+      }.tap do |row|
+        if application_qualification.enic_reference?
+          row[:action] =
+            {
+              href: candidate_interface_gcse_details_edit_enic_path(change_path_params),
+              visually_hidden_text: t('application_form.gcse.enic_statement.change_action'),
+            }
+        end
+      end
+    end
+
+    def enic_value
+      if application_qualification.enic_reference?
+        translate_enic_reason(application_qualification.enic_reason)
+      else
+        govuk_link_to('Enter your ENIC status', candidate_interface_gcse_details_edit_enic_path(change_path_params))
+      end
     end
 
     def enic_reference_row

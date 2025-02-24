@@ -11,6 +11,9 @@ RSpec.describe 'Candidate entering GCSE English details' do
     and_i_click_on_the_english_gcse_link
     then_i_see_the_add_gcse_english_page
 
+    when_i_try_to_manually_navigate_to_the_review_page
+    then_i_am_redirected_to_the_qualification_type_page
+
     when_i_select_gcse_option
     and_i_click_save_and_continue
     then_i_see_the_english_gcse_grade_page
@@ -162,5 +165,13 @@ RSpec.describe 'Candidate entering GCSE English details' do
 
   def then_i_see_my_new_grade_on_the_review_page
     expect(page).to have_content('B (Cockney Rhyming Slang)')
+  end
+
+  def when_i_try_to_manually_navigate_to_the_review_page
+    visit candidate_interface_gcse_review_path(subject: 'english')
+  end
+
+  def then_i_am_redirected_to_the_qualification_type_page
+    expect(page).to have_current_path(candidate_interface_gcse_details_new_type_path(subject: 'english'))
   end
 end

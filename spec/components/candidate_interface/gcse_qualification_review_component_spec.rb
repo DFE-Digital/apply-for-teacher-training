@@ -2,6 +2,38 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
   context 'a non uk qualification' do
+    it 'renders a the correct links when no information' do
+      application_form = build(:application_form)
+      @qualification = application_qualification = build(
+        :application_qualification,
+        application_form:,
+        qualification_type: 'non_uk',
+        non_uk_qualification_type: 'High school diploma',
+        level: 'gcse',
+        subject: 'maths',
+        grade: nil,
+        award_year: nil,
+        institution_country: nil,
+        enic_reference: nil,
+        comparable_uk_qualification: nil,
+        enic_reason: nil,
+      )
+      result = render_inline(
+        described_class.new(application_form:, application_qualification:, subject: 'maths'),
+      )
+
+      expect(result.css('.govuk-summary-list__key')[0].text).to include('Qualification')
+      expect(result.css('.govuk-summary-list__value')[0].text).to include('High school diploma')
+      expect(result.css('.govuk-summary-list__key')[1].text).to include('Country')
+      expect(result.css('.govuk-summary-list__value')[1].text).to include('Enter the country or territory where you studied for your English qualification')
+      expect(result.css('.govuk-summary-list__key')[2].text).to include('Do you have a UK ENIC statement of comparability?')
+      expect(result.css('.govuk-summary-list__value')[2].text).to include('Enter your ENIC status')
+      expect(result.css('.govuk-summary-list__key')[3].text).to include('Grade')
+      expect(result.css('.govuk-summary-list__value')[3].text).to include('Enter your grade')
+      expect(result.css('.govuk-summary-list__key')[4].text).to include('Year awarded')
+      expect(result.css('.govuk-summary-list__value')[4].text).to include('Enter the year the qualification was awarded')
+    end
+
     it 'renders a non-uk GCSE equivalent qualification' do
       application_form = build(:application_form)
       @qualification = application_qualification = build(
@@ -172,7 +204,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         grade: nil,
         subject: 'maths',
         not_completed_explanation: nil,
-        currently_completing_qualification: false,
+        currently_completing_qualification: nil,
         missing_explanation: nil,
       )
 
@@ -187,9 +219,9 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.css('.govuk-summary-list__key')[0].text).to include('What type of maths qualification do you have?')
       expect(result.css('.govuk-summary-list__value')[0].text).to include('I don’t have a maths qualification yet')
       expect(result.css('.govuk-summary-list__key')[1].text).to include('Are you currently studying for this qualification?')
-      expect(result.css('.govuk-summary-list__value')[1].text).to include('No')
+      expect(result.css('.govuk-summary-list__value')[1].text).to include('Select if you are currently studying for this qualification')
       expect(result.css('.govuk-summary-list__key')[2].text).to include('Other evidence I have the skills required (optional)')
-      expect(result.css('.govuk-summary-list__value')[2].text).to include('Not provided')
+      expect(result.css('.govuk-summary-list__value')[2].text).to include('Enter other evidence')
     end
   end
 
@@ -256,7 +288,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.css('.govuk-summary-list__key')[3].text).to include('Are you currently studying to retake this qualification?')
       expect(result.css('.govuk-summary-list__value')[3].text).to include('No')
       expect(result.css('.govuk-summary-list__key')[4].text).to include('Other evidence I have the skills required (optional)')
-      expect(result.css('.govuk-summary-list__value')[4].text).to include('Not provided')
+      expect(result.css('.govuk-summary-list__value')[4].text).to include('Enter other evidence')
     end
   end
 
