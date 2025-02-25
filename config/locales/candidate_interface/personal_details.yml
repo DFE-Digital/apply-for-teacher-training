@@ -35,7 +35,7 @@ en:
         label: Do you have the right to work or study in the UK?
         change_action: if you have the right to work or study in the UK
       visa_or_immigration_status:
-        label: Visa or Immigration status
+        label: Visa or immigration status
         change_action: visa or immigration status
       immigration_status:
         label: Immigration status

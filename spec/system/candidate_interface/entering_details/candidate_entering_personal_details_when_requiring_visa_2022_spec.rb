@@ -65,7 +65,7 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
     expect(page).to have_content('Lando Calrissian')
     expect(page).to have_content('Pakistani')
     expect(page).to have_content('Do you have the right to work or study in the UK? Yes')
-    expect(page).to have_content('Immigration status I have permanent residence')
+    expect(page).to have_content('immigration status I have permanent residence')
   end
 
   def and_i_can_change_nationality_to_an_eu_country_with_settled_status
@@ -88,7 +88,7 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
     expect(page).to have_current_path candidate_interface_personal_details_show_path
     expect(page).to have_content('Nationality French')
     expect(page).to have_content('Do you have the right to work or study in the UK? Yes')
-    expect(page).to have_content('Immigration status EU settled status')
+    expect(page).to have_content('immigration status EU settled status')
   end
 
   def and_i_can_change_immigration_status
@@ -99,7 +99,7 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
     click_link_or_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_personal_details_show_path
-    expect(page).to have_content('Immigration status EU pre-settled status')
+    expect(page).to have_content('immigration status EU pre-settled status')
   end
 
   def and_i_can_mark_the_section_complete
