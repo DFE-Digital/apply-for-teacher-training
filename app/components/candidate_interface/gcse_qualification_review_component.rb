@@ -302,7 +302,7 @@ module CandidateInterface
     end
 
     def enic_reference_value
-      application_qualification.enic_reference.presence || govuk_link_to('Enter your ENIC reference number', x_gcse_edit_statement_comparability_path(change_path_params[:subject]))
+      application_qualification.enic_reference.presence || govuk_link_to('Enter your UK ENIC reference number', x_gcse_edit_statement_comparability_path(change_path_params[:subject]))
     end
 
     def comparable_uk_qualification_row

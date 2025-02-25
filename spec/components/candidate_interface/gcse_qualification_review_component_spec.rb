@@ -138,7 +138,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.css('.govuk-summary-list__key')[2].text).to include('Do you have a UK ENIC statement of comparability?')
       expect(result.css('.govuk-summary-list__value')[2].text).to include('Yes, I have a statement of comparability')
       expect(result.css('.govuk-summary-list__key')[3].text).to include('UK ENIC reference number')
-      expect(result.css('.govuk-summary-list__value')[3].text).to include('Enter your ENIC reference number')
+      expect(result).to have_link('Enter your UK ENIC reference number', href: candidate_interface_edit_gcse_maths_statement_comparability_path(subject: 'maths'))
     end
   end
 
