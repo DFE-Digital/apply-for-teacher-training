@@ -26,10 +26,6 @@ class OneLoginController < ApplicationController
     if e.is_a?(OneLoginUser::Error)
       session_error.wrong_email_address!
       session[:session_error_id] = session_error.id
-      Sentry.capture_message(
-        "One login session error, check session_error record #{session_error.id}",
-        level: :error,
-      )
 
       redirect_to auth_one_login_sign_out_path
     else

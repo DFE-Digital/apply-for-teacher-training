@@ -46,7 +46,6 @@ RSpec.describe 'OneLoginController' do
       it 'redirects to auth_one_login_sign_out_path' do
         candidate = create(:candidate, email_address: 'test@email.com')
         create(:one_login_auth, candidate:, token: '456')
-        allow(Sentry).to receive(:capture_message)
 
         expect {
           get auth_one_login_callback_path
@@ -54,11 +53,6 @@ RSpec.describe 'OneLoginController' do
 
         expect(response).to redirect_to(auth_one_login_sign_out_path)
         expect(session[:session_error_id]).to eq(SessionError.last.id)
-
-        expect(Sentry).to have_received(:capture_message).with(
-          "One login session error, check session_error record #{SessionError.last.id}",
-          level: :error,
-        )
       end
     end
   end
@@ -137,18 +131,12 @@ RSpec.describe 'OneLoginController' do
       it 'redirects to one_login logout url and persists the session error message' do
         candidate = create(:candidate, email_address: 'test@email.com')
         create(:one_login_auth, candidate:, token: '456')
-        allow(Sentry).to receive(:capture_message)
 
         expect {
           get auth_one_login_callback_path # set the session variables
         }.to change(SessionError, :count).by(1)
 
         get auth_one_login_sign_out_path
-
-        expect(Sentry).to have_received(:capture_message).with(
-          "One login session error, check session_error record #{SessionError.last.id}",
-          level: :error,
-        )
 
         expect(session[:session_error_id]).to eq(SessionError.last.id)
 
@@ -187,7 +175,6 @@ RSpec.describe 'OneLoginController' do
       it 'redirects to logout_one_login_path and persists the session error message' do
         candidate = create(:candidate, email_address: 'test@email.com')
         create(:one_login_auth, candidate:, token: '456')
-        allow(Sentry).to receive(:capture_message)
 
         expect {
           get auth_one_login_callback_path # set the session variables
@@ -195,10 +182,6 @@ RSpec.describe 'OneLoginController' do
 
         get auth_one_login_sign_out_complete_path
 
-        expect(Sentry).to have_received(:capture_message).with(
-          "One login session error, check session_error record #{SessionError.last.id}",
-          level: :error,
-        )
         expect(response).to redirect_to(candidate_interface_wrong_email_address_path)
       end
     end
@@ -216,8 +199,6 @@ RSpec.describe 'OneLoginController' do
 
   describe 'GET /auth/one-login/failure' do
     it 'redirects to the root_path' do
-      allow(Sentry).to receive(:capture_message)
-
       get auth_failure_path(params: { message: 'error_message', strategy: 'one_login' })
 
       expect(response).to redirect_to(root_path)
