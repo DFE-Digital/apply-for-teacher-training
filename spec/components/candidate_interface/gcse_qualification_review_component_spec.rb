@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
+  include Rails.application.routes.url_helpers
+
   context 'a non uk qualification' do
     it 'renders a the correct links when no information' do
       application_form = build(:application_form)
@@ -25,7 +27,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.css('.govuk-summary-list__key')[0].text).to include('Qualification')
       expect(result.css('.govuk-summary-list__value')[0].text).to include('High school diploma')
       expect(result.css('.govuk-summary-list__key')[1].text).to include('Country')
-      expect(result.css('.govuk-summary-list__value')[1].text).to include('Enter the country or territory where you studied for your English qualification')
+      expect(result.css('.govuk-summary-list__value')[1].text).to include('Enter the country or territory where you studied for your maths qualification')
       expect(result.css('.govuk-summary-list__key')[2].text).to include('Do you have a UK ENIC statement of comparability?')
       expect(result.css('.govuk-summary-list__value')[2].text).to include('Enter your ENIC status')
       expect(result.css('.govuk-summary-list__key')[3].text).to include('Grade')
@@ -80,6 +82,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         grade: 'c',
         institution_country: 'United States',
         enic_reference: nil,
+        enic_reason: nil,
         comparable_uk_qualification: nil,
       )
       result = render_inline(
@@ -87,9 +90,55 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       )
 
       expect(result.css('.govuk-summary-list__key')[2].text).to include('Do you have a UK ENIC statement of comparability?')
-      expect(result.css('.govuk-summary-list__value')[2].text).to include('No')
+      expect(result).to have_link('Enter your ENIC status', href: candidate_interface_gcse_details_edit_enic_path(subject: 'maths'))
       expect(result.css('.govuk-summary-list__key').text).not_to include('UK ENIC reference number')
       expect(result.css('.govuk-summary-list__key').text).not_to include('Comparable UK qualification')
+    end
+
+    (ApplicationQualification.enic_reasons.keys - ['obtained']).each do |reason|
+      it "hides the enic_reference row when enic_reason is not 'obtained'" do
+        application_form = build(:application_form)
+        application_qualification = build(
+          :application_qualification,
+          application_form:,
+          qualification_type: 'non_uk',
+          non_uk_qualification_type: 'High school diploma',
+          level: 'gcse',
+          grade: 'c',
+          institution_country: 'United States',
+          enic_reference: nil,
+          enic_reason: reason,
+          comparable_uk_qualification: nil,
+        )
+
+        result = render_inline(described_class.new(application_form:, application_qualification:, subject: 'maths'))
+
+        expect(result.css('.govuk-summary-list__key').text).not_to include('UK ENIC reference number')
+      end
+    end
+
+    it 'displays the enic_statment row and shows the enic_reference when obtained' do
+      application_form = build(:application_form)
+      @qualification = application_qualification = build(
+        :application_qualification,
+        application_form:,
+        qualification_type: 'non_uk',
+        non_uk_qualification_type: 'High school diploma',
+        level: 'gcse',
+        grade: 'c',
+        institution_country: 'United States',
+        enic_reference: nil,
+        enic_reason: 'obtained',
+        comparable_uk_qualification: nil,
+      )
+      result = render_inline(
+        described_class.new(application_form:, application_qualification:, subject: 'maths'),
+      )
+
+      expect(result.css('.govuk-summary-list__key')[2].text).to include('Do you have a UK ENIC statement of comparability?')
+      expect(result.css('.govuk-summary-list__value')[2].text).to include('Yes, I have a statement of comparability')
+      expect(result.css('.govuk-summary-list__key')[3].text).to include('UK ENIC reference number')
+      expect(result).to have_link('Enter your UK ENIC reference number', href: candidate_interface_edit_gcse_maths_statement_comparability_path(subject: 'maths'))
     end
   end
 
