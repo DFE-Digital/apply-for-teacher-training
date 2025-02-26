@@ -185,8 +185,9 @@ en:
       check: Check conditions
     degree: Degree
     degree_review:
-      one: "Check your degree"
-      other: "Check your degrees"
+      zero: Degree
+      one: Check your degree
+      other: Check your degrees
     degree_country: Which country was the degree from?
     degree_completion_status: Have you completed your degree?
     degree_grade: What grade is your degree?
