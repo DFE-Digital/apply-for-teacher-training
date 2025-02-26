@@ -17,7 +17,11 @@ RSpec.describe 'Candidate entering GCSE details' do
     and_i_click_save_and_continue
     then_i_see_add_grade_page
 
-    when_i_fill_in_the_grade
+    when_i_visit_the_review_page
+    and_i_click_enter_your_grade
+    and_i_click_back
+    and_i_click_enter_your_grade
+    and_i_fill_in_the_grade
     and_i_click_save_and_continue
     then_i_see_add_year_page
 
@@ -63,6 +67,18 @@ RSpec.describe 'Candidate entering GCSE details' do
     then_i_am_returned_to_the_application_form_details
   end
 
+  def when_i_visit_the_review_page
+    visit candidate_interface_gcse_review_path(subject: 'maths')
+  end
+
+  def and_i_click_enter_your_grade
+    click_link_or_button 'Enter your grade'
+  end
+
+  def and_i_click_back
+    click_link_or_button 'Back'
+  end
+
   def and_i_click_on_the_maths_gcse_link
     click_link_or_button 'Maths GCSE or equivalent'
   end
@@ -105,7 +121,7 @@ RSpec.describe 'Candidate entering GCSE details' do
     expect(page).to have_content t('gcse_edit_year.page_title', subject: 'english', qualification_type: 'GCSE')
   end
 
-  def when_i_fill_in_the_grade
+  def and_i_fill_in_the_grade
     fill_in 'Grade', with: 'A'
   end
 

@@ -15,8 +15,13 @@ RSpec.describe 'Candidate entering GCSE Science details' do
     and_i_click_save_and_continue
     then_i_see_the_multiple_science_gcses_grade_page
 
+    when_i_visit_the_review_page
+    and_i_click_enter_your_grade
+    and_i_click_back
+    and_i_click_enter_your_grade
+
     # enter single award
-    then_i_select_single_award
+    and_i_select_single_award
     and_i_click_save_and_continue
     then_i_see_the_grade_blank_error
 
@@ -27,6 +32,18 @@ RSpec.describe 'Candidate entering GCSE Science details' do
     then_i_enter_a_valid_grade
     and_i_click_save_and_continue
     then_i_see_the_grade_year_page
+  end
+
+  def when_i_visit_the_review_page
+    visit candidate_interface_gcse_review_path(subject: 'science')
+  end
+
+  def and_i_click_enter_your_grade
+    click_link_or_button 'Enter your grade'
+  end
+
+  def and_i_click_back
+    click_link_or_button 'Back'
   end
 
   def and_i_wish_to_apply_to_a_course_that_requires_gcse_science
@@ -60,7 +77,7 @@ RSpec.describe 'Candidate entering GCSE Science details' do
     expect(page).to have_content 'Select the GCSE you did and include your grade'
   end
 
-  def then_i_select_single_award
+  def and_i_select_single_award
     choose('Single award')
   end
 

@@ -92,7 +92,7 @@ module CandidateInterface
     def grade_row
       {
         key: 'Grade',
-        value: present_grades || govuk_link_to('Enter your grade', grade_edit_path),
+        value: present_grades || govuk_link_to('Enter your grade', grade_new_path),
       }.tap do |row|
         if application_qualification.grade || application_qualification.constituent_grades
           row[:action] = {
@@ -345,6 +345,17 @@ module CandidateInterface
         candidate_interface_edit_gcse_science_grade_path(return_to_params)
       when 'english'
         candidate_interface_edit_gcse_english_grade_path(return_to_params)
+      end
+    end
+
+    def grade_new_path
+      case subject
+      when 'maths'
+        candidate_interface_new_gcse_maths_grade_path(from: 'review_page')
+      when 'science'
+        candidate_interface_new_gcse_science_grade_path(from: 'review_page')
+      when 'english'
+        candidate_interface_new_gcse_english_grade_path(from: 'review_page')
       end
     end
 

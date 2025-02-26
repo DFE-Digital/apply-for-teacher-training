@@ -21,7 +21,11 @@ RSpec.describe 'Candidate entering GCSE English details' do
     and_i_click_save_and_continue
     then_i_see_the_gcses_blank_error
 
-    when_i_click_english_single_award
+    when_i_visit_the_review_page
+    and_i_click_enter_your_grade
+    and_i_click_back
+    and_i_click_enter_your_grade
+    and_i_click_english_single_award
     and_i_click_save_and_continue
     then_i_see_the_enter_your_english_single_award_grade_error
 
@@ -51,6 +55,18 @@ RSpec.describe 'Candidate entering GCSE English details' do
 
     when_i_enter_a_new_grade
     then_i_see_my_new_grade_on_the_review_page
+  end
+
+  def when_i_visit_the_review_page
+    visit candidate_interface_gcse_review_path(subject: 'english')
+  end
+
+  def and_i_click_enter_your_grade
+    click_link_or_button 'Enter your grade'
+  end
+
+  def and_i_click_back
+    click_link_or_button 'Back'
   end
 
   def and_i_wish_to_apply_to_a_course_that_requires_gcse_english
@@ -91,6 +107,8 @@ RSpec.describe 'Candidate entering GCSE English details' do
   def when_i_click_english_single_award
     check 'English (Single award)'
   end
+
+  alias_method :and_i_click_english_single_award, :when_i_click_english_single_award
 
   def then_i_see_the_enter_your_english_single_award_grade_error
     expect(page).to have_content 'Enter your English (Single award) grade'
