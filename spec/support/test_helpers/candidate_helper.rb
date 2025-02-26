@@ -92,7 +92,7 @@ module CandidateHelper
     end
 
     if international
-      click_link_or_button t('page_titles.efl.review')
+      click_link_or_button 'English as a foreign language'
       choose 'No, English is not a foreign language to me'
       click_link_or_button 'Continue'
       choose 'Yes, I have completed this section'
@@ -387,7 +387,7 @@ module CandidateHelper
   end
 
   def candidate_fills_in_efl_section
-    click_link_or_button t('page_titles.efl.review')
+    click_link_or_button 'English as a foreign language'
     choose 'No, English is not a foreign language to me'
     click_link_or_button t('continue')
     choose 'Yes, I have completed this section'
@@ -499,7 +499,7 @@ module CandidateHelper
     end
 
     if international
-      click_link_or_button t('page_titles.efl.review')
+      click_link_or_button 'English as a foreign language'
       choose 'No, English is not a foreign language to me'
       click_link_or_button 'Continue'
       choose 'Yes, I have completed this section'

@@ -67,6 +67,10 @@ en:
     enic_cost: A statement from UK ENIC costs £49.50 and takes 15 working days to arrive.
   gcse_summary:
     page_titles:
+      review:
+        maths: Check your maths GCSE or equivalent
+        english: Check your English GCSE or equivalent
+        science: Check your science GCSE or equivalent
       maths: Maths GCSE or equivalent
       english: English GCSE or equivalent
       science: Science GCSE or equivalent

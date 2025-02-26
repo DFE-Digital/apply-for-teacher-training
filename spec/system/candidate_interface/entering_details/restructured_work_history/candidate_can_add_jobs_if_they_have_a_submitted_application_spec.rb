@@ -28,7 +28,7 @@ RSpec.describe 'Trying to enter work history' do
   end
 
   def then_i_do_see_an_option_to_add_another_job
-    expect(page).to have_content 'Work history'
+    expect(page).to have_content 'Check your work history'
     expect(page).to have_content 'Add another job'
   end
 end

@@ -122,7 +122,7 @@ en:
     efl:
       ielts: Your IELTS result
       other: Your English language assessment result
-      review: English as a foreign language
+      review: Check your English as a foreign language assessment
       start: English as a foreign language assessment
       toefl: Your TOEFL result
       type: What English language assessment did you do?
@@ -172,6 +172,7 @@ en:
     roadmap: Changes to services for teacher training providers and candidates
     candidate_complaints: Make a complaint or give feedback
     contact_information: Contact information
+    contact_information_review: Check your contact information
     contact_details: Contact details
     where_do_you_live: Where do you live?
     address: What is your address?
@@ -183,6 +184,10 @@ en:
       confirm: Confirm conditions
       check: Check conditions
     degree: Degree
+    degree_review:
+      zero: Degree
+      one: Check your degree
+      other: Check your degrees
     degree_country: Which country was the degree from?
     degree_completion_status: Have you completed your degree?
     degree_grade: What grade is your degree?
@@ -221,17 +226,21 @@ en:
     edit_degree_type: Edit degree type
     other_qualifications: A levels and other qualifications
     other_qualifications_international: Other qualifications
+    other_qualifications_review: Check your other qualifications
     qualification_details: Qualification details
     edit_other_qualification: Edit qualification
     destroy_other_qualification: Are you sure you want to delete this qualification?
     personal_statement: Personal statement
+    personal_statement_review: Check your personal statement
     becoming_a_teacher: Why you want to teach
     interview_preferences:
       heading: Interview availability
       edit: Edit your interview availability
-      review: Check your interview availability
+      review: Check your answers to interview availability
     training_with_a_disability: Ask for support if you are disabled
+    training_with_a_disability_review: Check your answers to asking for support if you are disabled
     suitability_to_work_with_children: Declare any safeguarding issues
+    suitability_to_work_with_children_review: Check your safeguarding declaration
     thank_you: Thank you for your feedback
     english_gcse: English GCSE or equivalent
     maths_gcse: Maths GCSE or equivalent
@@ -239,6 +248,7 @@ en:
     volunteering:
       short: Unpaid experience
       long: Unpaid experience working with children and other volunteering
+      review: Check your unpaid experience
     add_volunteering_role: Add role
     edit_volunteering_role: Edit role
     destroy_volunteering_role: Are you sure you want to delete this role?
@@ -266,7 +276,7 @@ en:
     references_request_reference_review: Check your answers before sending your request
     references_select: Which 2 references do you want to include in your application?
     references_request: Add your references
-    references_review: Review your references
+    references_review: Check your references
     references_selection: Select 2 references
     find_feedback: Help us improve this service
     referee:

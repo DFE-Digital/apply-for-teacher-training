@@ -135,7 +135,7 @@ RSpec.describe 'References' do
   end
 
   def then_i_see_the_references_review_page
-    expect(page).to have_css('h1', text: 'References to be requested if you accept an offer')
+    expect(page).to have_css('h1', text: 'Check your references')
   end
 
   def and_my_referees_details

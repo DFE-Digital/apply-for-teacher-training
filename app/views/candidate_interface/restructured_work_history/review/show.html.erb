@@ -4,7 +4,11 @@
 <%= form_with model: @section_complete_form, url: candidate_interface_restructured_work_history_complete_path(@return_to[:params]), method: :patch do |f| %>
   <%= f.govuk_error_summary %>
 
-  <h1 class="govuk-heading-xl"><%= t('page_titles.work_history') %></h1>
+  <% if @application_form.application_work_experiences.blank? %>
+    <h1 class="govuk-heading-xl"><%= t('page_titles.work_history') %></h1>
+  <% else %>
+    <h1 class="govuk-heading-xl"><%= t('page_titles.restructured_work_history_review') %></h1>
+  <% end %>
 
   <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
 

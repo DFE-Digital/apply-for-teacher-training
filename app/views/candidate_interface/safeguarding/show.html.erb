@@ -1,11 +1,11 @@
-<% content_for :title, t('page_titles.suitability_to_work_with_children') %>
+<% content_for :title, t('page_titles.suitability_to_work_with_children_review') %>
 <% content_for :before_content, govuk_back_link_to(application_form_path) %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_complete_safeguarding_path, method: :post do |f| %>
   <%= f.govuk_error_summary %>
 
   <h1 class="govuk-heading-xl">
-    <%= t('page_titles.suitability_to_work_with_children') %>
+    <%= t('page_titles.suitability_to_work_with_children_review') %>
   </h1>
 
   <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
