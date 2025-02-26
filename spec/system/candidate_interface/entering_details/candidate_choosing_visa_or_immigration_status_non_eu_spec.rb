@@ -135,7 +135,7 @@ RSpec.describe 'Choosing visa or immigration status' do
   end
 
   def then_i_see_the_correct_visa_in_the_summary(visa_summary_text)
-    within '.govuk-summary-list__row', text: 'Immigration status' do
+    within '.govuk-summary-list__row', text: 'immigration status' do
       expect(page).to have_text(visa_summary_text)
     end
   end
