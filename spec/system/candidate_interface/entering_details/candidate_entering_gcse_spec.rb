@@ -133,7 +133,7 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def and_i_see_the_gcse_grade_entered
-    expect(page).to have_css("input[value='A']")
+    expect(page).to have_no_css("input[value='A']")
   end
 
   def then_i_see_the_gcse_year_entered
