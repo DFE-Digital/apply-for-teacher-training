@@ -88,6 +88,37 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
       expect(qualification.missing_explanation).to be_nil
     end
 
+    context 'when the qualification_type is changed' do
+      it 'resets grade and constituent_grades' do
+        qualification = create(:gcse_qualification, constituent_grades: { 'biology' => { grade: 'B' } })
+
+        described_class.new(
+          qualification_type: 'non_uk',
+          non_uk_qualification_type: 'BTEC',
+          subject: qualification.qualification_type,
+          level: qualification.level,
+        ).update(qualification)
+
+        expect(qualification.grade).to be_nil
+        expect(qualification.constituent_grades).to be_nil
+      end
+    end
+
+    context 'when the qualification_type is not changed' do
+      it 'does not reset grade or constituent_grades' do
+        qualification = create(:gcse_qualification, grade: 'A', constituent_grades: { 'biology' => { grade: 'B', 'public_id' => 999999 } })
+
+        described_class.new(
+          qualification_type: qualification.qualification_type,
+          subject: qualification.subject,
+          level: qualification.level,
+        ).update(qualification)
+
+        expect(qualification.grade).to eq('A')
+        expect(qualification.constituent_grades).to eq({ 'biology' => { 'grade' => 'B', 'public_id' => 999999 } })
+      end
+    end
+
     context 'when the qualification_type is updated from non_uk' do
       it 'updates the existing qualification and sets non_uk_qualification_type to nil' do
         qualification = create(:gcse_qualification, :non_uk)

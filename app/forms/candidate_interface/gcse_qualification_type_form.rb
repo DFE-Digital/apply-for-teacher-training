@@ -50,9 +50,24 @@ module CandidateInterface
       reset_other_uk_qualification_type
       reset_non_uk_qualification_type
 
+      attributes = {
+        qualification_type:,
+        other_uk_qualification_type:,
+        non_uk_qualification_type:,
+        enic_reference:,
+        comparable_uk_qualification:,
+        currently_completing_qualification: nil,
+        not_completed_explanation: nil,
+        missing_explanation: nil,
+      }
+
+      if qualification_type_changed?(qualification)
+        attributes[:grade] = nil
+        attributes[:constituent_grades] = nil
+      end
+
       if missing_qualification?
-        qualification.update!(
-          qualification_type:,
+        attributes.merge!(
           grade: nil,
           constituent_grades: nil,
           award_year: nil,
@@ -60,24 +75,12 @@ module CandidateInterface
           institution_country: nil,
           other_uk_qualification_type: nil,
           non_uk_qualification_type: nil,
-          currently_completing_qualification: nil,
-          not_completed_explanation: nil,
-          missing_explanation: nil,
           enic_reference: nil,
           comparable_uk_qualification: nil,
         )
-      else
-        qualification.update!(
-          qualification_type:,
-          other_uk_qualification_type:,
-          non_uk_qualification_type:,
-          enic_reference:,
-          comparable_uk_qualification:,
-          currently_completing_qualification: nil,
-          not_completed_explanation: nil,
-          missing_explanation: nil,
-        )
       end
+
+      qualification.update!(attributes)
     end
 
     def missing_qualification?
@@ -85,6 +88,10 @@ module CandidateInterface
     end
 
   private
+
+    def qualification_type_changed?(qualification)
+      qualification_type != qualification.qualification_type
+    end
 
     def non_uk_qualification?
       qualification_type == NON_UK_QUALIFICATION_TYPE
