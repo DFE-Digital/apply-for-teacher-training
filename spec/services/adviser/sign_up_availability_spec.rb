@@ -14,7 +14,7 @@ RSpec.describe Adviser::SignUpAvailability do
 
   let(:in_memory_store) { ActiveSupport::Cache.lookup_store(:memory_store) }
   let(:application_form) { create(:completed_application_form, :with_domestic_adviser_qualifications) }
-  let(:candidate_matchback_double) { instance_double(Adviser::CandidateMatchback, matchback: nil) }
+  let(:candidate_matchback_double) { instance_double(Adviser::CandidateMatchback, teacher_training_adviser_sign_up: Adviser::TeacherTrainingAdviserSignUpDecorator.new({})) }
   let(:constants) { Adviser::Constants }
 
   subject(:availability) { described_class.new(application_form) }
@@ -29,7 +29,7 @@ RSpec.describe Adviser::SignUpAvailability do
     context 'when the candidate cannot be retrieved because the GiT API is raising an error' do
       let(:error) { GetIntoTeachingApiClient::ApiError.new(code: 500) }
 
-      before { allow(candidate_matchback_double).to receive(:matchback).and_raise(error) }
+      before { allow(candidate_matchback_double).to receive(:teacher_training_adviser_sign_up).and_raise(error) }
 
       it { expect(precheck_method_under_test).to be(false) }
 
@@ -47,7 +47,7 @@ RSpec.describe Adviser::SignUpAvailability do
     context 'when the candidate cannot be retrieved because other errors' do
       let(:error) { Faraday::Error.new('Some error') }
 
-      before { allow(candidate_matchback_double).to receive(:matchback).and_raise(error) }
+      before { allow(candidate_matchback_double).to receive(:teacher_training_adviser_sign_up).and_raise(error) }
 
       it { expect(precheck_method_under_test).to be(false) }
 
@@ -133,9 +133,9 @@ RSpec.describe Adviser::SignUpAvailability do
           assignment_status_id:,
         )
 
-        allow(candidate_matchback_double).to receive(:matchback) do
+        allow(candidate_matchback_double).to receive(:teacher_training_adviser_sign_up) do
           @api_call_count = @api_call_count.to_i + 1
-          Adviser::APIModelDecorator.new(api_model)
+          Adviser::TeacherTrainingAdviserSignUpDecorator.new(api_model)
         end
       end
 
@@ -180,6 +180,7 @@ RSpec.describe Adviser::SignUpAvailability do
   def stub_matchback_with_adviser_status(status)
     assignment_status_id = constants.fetch(:adviser_status, status)
     matchback_candidate = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(assignment_status_id:)
-    allow(candidate_matchback_double).to receive(:matchback) { matchback_candidate }
+    teacher_training_adviser_sign_up = Adviser::TeacherTrainingAdviserSignUpDecorator.new(matchback_candidate)
+    allow(candidate_matchback_double).to receive(:teacher_training_adviser_sign_up) { teacher_training_adviser_sign_up }
   end
 end

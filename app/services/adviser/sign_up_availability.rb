@@ -18,13 +18,13 @@ class Adviser::SignUpAvailability
   def already_assigned_to_an_adviser?
     return false unless perform_precheck
 
-    application_form.assigned? || application_form.previously_assigned?
+    application_form.adviser_status_assigned? || application_form.adviser_status_previously_assigned?
   end
 
   def waiting_to_be_assigned_to_an_adviser?
     return false unless perform_precheck
 
-    application_form.waiting_to_be_assigned?
+    application_form.adviser_status_waiting_to_be_assigned?
   end
 
   def update_adviser_status(status)
@@ -51,9 +51,7 @@ private
 
   def adviser_status
     Rails.cache.fetch(adviser_status_check_key, expires_in: ADVISER_STATUS_CHECK_INTERVAL) do
-      matchback_candidate = candidate_matchback.matchback
-      status = constants.fetch(:adviser_status).key(matchback_candidate&.assignment_status_id)
-      ApplicationForm.adviser_statuses[status || :unassigned]
+      candidate_matchback.teacher_training_adviser_sign_up.adviser_status
     end
   end
 
@@ -63,9 +61,5 @@ private
 
   def feature_active?
     FeatureFlag.active?(:adviser_sign_up)
-  end
-
-  def constants
-    Adviser::Constants
   end
 end
