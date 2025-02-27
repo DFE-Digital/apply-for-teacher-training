@@ -16,7 +16,7 @@ class Adviser::SignUp
   def initialize(application_form, *, **)
     @application_form = application_form
     @availability = Adviser::SignUpAvailability.new(application_form)
-    @teaching_subjects = Adviser::TeachingSubjects.new
+    @teaching_subjects = Adviser::TeachingSubjectsService.new
 
     super(*, **)
   end
