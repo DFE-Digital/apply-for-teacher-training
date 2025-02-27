@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_20_113656) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_27_150325) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -61,6 +61,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_20_113656) do
     t.string "variation_digest", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "adviser_teaching_subjects", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "external_identifier", null: false
+    t.string "level", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "application_choices", force: :cascade do |t|
