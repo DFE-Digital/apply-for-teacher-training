@@ -273,7 +273,7 @@ en:
       name: Rejected by default
       by: system
       description: |
-        An application is rejected by default (RBD) if the provider does not make an offer within 40 working days after they have received an application.
+        At the end of the cycle applications are automatically rejected.
 
     inactive-make_offer: *awaiting_provider_decision-make_offer
     inactive-interview: *awaiting_provider_decision-interview
@@ -317,7 +317,7 @@ en:
       name: Rejected by default
       by: system
       description: |
-        An application is rejected by default (RBD) if the provider does not make an offer within 40 working days after they have received an application.
+        At the end of the cycle applications are automatically rejected.
 
     interviewing-cancel_interview:
       name: Provider cancels the interview
@@ -347,7 +347,7 @@ en:
     offer-decline_by_default:
       name: Declined by default
       by: system
-      description: The candidate has to respond within 10 working days, otherwise the system will decline the offer.
+      description: At the end of cycle offers are automatically declined.
       emails:
         - provider_mailer-declined_by_default
 
