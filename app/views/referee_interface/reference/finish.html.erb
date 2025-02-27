@@ -1,28 +1,28 @@
-<% content_for :title, t('page_titles.referee.finish') %>
+<% if @reference_cancelled %>
+  <%= render 'cancelled', reference: @reference %>
+<% else %>
+  <% content_for :title, t('page_titles.referee.finish') %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
-      <%= t('page_titles.referee.finish') %>
-    </h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.referee.finish') %>
+      </h1>
 
-    <% if @reference_cancelled %>
-      <h2 class="govuk-heading-m">
-        You do not need to give a reference anymore
-      </h2>
+      <% if @reference.consent_to_be_contacted? %>
+        <h2 class="govuk-heading-m">
+          Our user research team will contact you shortly
+        </h2>
+      <% end %>
+
       <p class="govuk-body">
-        <%= @application_form.first_name %> <%= @application_form.last_name %> has received the 2 references needed to apply for a teacher training course.
+        If you have any questions about the Apply for teacher training service, please
+        contact <%= bat_contact_mail_to %>.
       </p>
-    <% end %>
-
-    <% if @reference.consent_to_be_contacted? %>
-      <h2 class="govuk-heading-m">
-        Our user research team will contact you shortly
-      </h2>
-    <% end %>
-
-    <p class="govuk-body">
-      If you have any questions about the Apply for teacher training service, please contact <%= bat_contact_mail_to %>.
-    </p>
+    </div>
   </div>
-</div>
+<% end %>
+
+
+
+
