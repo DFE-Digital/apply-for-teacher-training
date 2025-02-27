@@ -259,3 +259,10 @@
   - unsubscribed_from_emails
   - submission_blocked
   - account_locked
+  :adviser_teaching_subjects:
+  - id
+  - title
+  - external_identifier
+  - level
+  - created_at
+  - updated_at

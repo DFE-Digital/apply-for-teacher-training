@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Adviser::TeachingSubjects do
+RSpec.describe Adviser::TeachingSubjectsService do
   include_context 'get into teaching api stubbed endpoints'
 
   subject(:teaching_subjects) { described_class.new }
