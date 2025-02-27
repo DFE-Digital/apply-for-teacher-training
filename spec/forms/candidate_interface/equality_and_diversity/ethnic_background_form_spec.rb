@@ -47,6 +47,19 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
         expect(form.other_background).to be_nil
       end
     end
+
+    context 'when ethnic background is "Prefer not to say"' do
+      it 'creates an object with ethnic background set to "Prefer not to say" and other_background as nil' do
+        application_form = build_stubbed(:application_form,
+                                         equality_and_diversity: { 'ethnic_group' => 'Black, African, Caribbean or Black British',
+                                                                   'ethnic_background' => 'Prefer not to say' })
+
+        form = described_class.build_from_application(application_form)
+
+        expect(form.ethnic_background).to eq('Prefer not to say')
+        expect(form.other_background).to be_nil
+      end
+    end
   end
 
   describe '#save' do
