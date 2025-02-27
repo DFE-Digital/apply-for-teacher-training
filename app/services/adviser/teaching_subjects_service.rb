@@ -1,4 +1,4 @@
-class Adviser::TeachingSubjects
+class Adviser::TeachingSubjectsService
   def all
     @all ||= secondary + [primary]
   end
