@@ -14,15 +14,11 @@ module CandidateInterface
 
         raise_error_unless_application_form
 
-        if qualification_status == 'has_qualification'
-          true
-        else
-          UpdateEnglishProficiency.new(
-            application_form,
-            qualification_status:,
-            no_qualification_details:,
-          ).call
-        end
+        qualification_status == 'has_qualification' || UpdateEnglishProficiency.new(
+          application_form,
+          qualification_status:,
+          no_qualification_details:,
+        ).call
       end
 
       def next_path
