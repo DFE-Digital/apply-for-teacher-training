@@ -149,7 +149,6 @@ module RefereeInterface
 
     def finish
       @reference_cancelled = reference.cancelled?
-      @application_form = reference.application_form
     end
 
     def confirm_decline

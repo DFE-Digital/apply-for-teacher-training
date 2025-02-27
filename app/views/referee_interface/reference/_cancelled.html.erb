@@ -1,0 +1,21 @@
+<%# locals: (reference:) %>
+
+<% content_for :title, t('page_titles.referee.cancelled') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.referee.cancelled') %>
+    </h1>
+
+    <% if reference.consent_to_be_contacted? %>
+      <h2 class="govuk-heading-m">
+        Our user research team will contact you shortly
+      </h2>
+    <% end %>
+
+    <p class="govuk-body">
+      If you have any questions about the apply for teacher training service you can contact <%= bat_contact_mail_to %>.
+    </p>
+  </div>
+</div>
