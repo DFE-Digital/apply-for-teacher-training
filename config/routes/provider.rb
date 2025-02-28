@@ -36,6 +36,8 @@ namespace :provider_interface, path: '/provider' do
 
   resources :reports, only: :index
 
+  resources :location_suggestions, only: :index, path: 'location-suggestions'
+
   namespace :reports do
     resources :hesa_exports, only: :show, path: 'hesa-exports', param: :year, constraints: ValidRecruitmentCycleYear
     resources :hesa_exports, only: :index, path: 'hesa-exports'
