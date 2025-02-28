@@ -20,7 +20,7 @@ RSpec.describe Adviser::SignUp do
   end
 
   describe 'validations' do
-    let(:valid_subjects) { Adviser::TeachingSubjects.new.all.map(&:id) }
+    let(:valid_subjects) { Adviser::TeachingSubjectsService.new.all.map(&:id) }
 
     it { is_expected.to validate_inclusion_of(:preferred_teaching_subject_id).in_array(valid_subjects) }
   end
