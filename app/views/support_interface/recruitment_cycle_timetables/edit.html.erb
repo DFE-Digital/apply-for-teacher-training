@@ -1,0 +1,19 @@
+<%= render 'navigation', title: t('.page_title', year: @cycle_switcher_form.recruitment_cycle_year) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <%= form_with model: @cycle_switcher_form, url: support_interface_update_recruitment_cycle_timetable_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_date_field :find_opens_at, legend: { text: t('.find_opens_at.label') }, hint: { text: t('.find_opens_at.hint') } %>
+      <%= f.govuk_date_field :apply_opens_at, legend: { text: t('.apply_opens_at.label') }, hint: { text: t('.apply_opens_at.hint') } %>
+      <%= f.govuk_date_field :apply_deadline_at, legend: { text: t('.apply_deadline_at.label') }, hint: { text: t('.apply_deadline_at.hint') } %>
+      <%= f.govuk_date_field :reject_by_default_at, legend: { text: t('.reject_by_default_at.label') }, hint: { text: t('.reject_by_default_at.hint') } %>
+      <%= f.govuk_date_field :decline_by_default_at, legend: { text: t('.decline_by_default_at.label') }, hint: { text: t('.decline_by_default_at.hint') } %>
+      <%= f.govuk_date_field :find_closes_at, legend: { text: t('.find_closes_at.label') }, hint: { text: t('.find_closes_at.hint') } %>
+
+      <%= f.govuk_submit t('update') %>
+
+    <% end %>
+  </div>
+</div>
