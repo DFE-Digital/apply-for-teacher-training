@@ -69,6 +69,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_27_150325) do
     t.string "level", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["external_identifier"], name: "index_adviser_teaching_subjects_on_external_identifier", unique: true
   end
 
   create_table "application_choices", force: :cascade do |t|
