@@ -310,17 +310,6 @@ class ApplicationForm < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  def redacted_full_name
-    full_name.split.map do |name|
-      first_letter = name.first
-
-      name.delete!(first_letter)
-      redacted = '*' * 5
-
-      "#{first_letter}#{redacted}"
-    end.join(' ')
-  end
-
   def blank_application?
     updated_at == created_at
   end
@@ -708,6 +697,17 @@ class ApplicationForm < ApplicationRecord
 
   def can_submit?
     current_cycle? && Time.zone.now.between?(apply_opens_at, apply_deadline_at)
+  end
+
+  def redacted_full_name
+    full_name.split.map do |name|
+      first_letter = name.first
+
+      name.delete!(first_letter)
+      redacted = '*' * 5
+
+      "#{first_letter}#{redacted}"
+    end.join(' ')
   end
 
 private
