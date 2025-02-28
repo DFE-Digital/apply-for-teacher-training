@@ -1,4 +1,6 @@
 class Adviser::TeachingSubject < ApplicationRecord
+  include Discard::Model
+
   self.table_name = 'adviser_teaching_subjects'
 
   validates :title, :external_identifier, presence: true

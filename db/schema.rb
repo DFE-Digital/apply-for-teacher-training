@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_27_150325) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_28_144222) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -69,6 +69,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_27_150325) do
     t.string "level", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_adviser_teaching_subjects_on_discarded_at"
     t.index ["external_identifier"], name: "index_adviser_teaching_subjects_on_external_identifier", unique: true
   end
 
