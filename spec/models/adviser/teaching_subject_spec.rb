@@ -9,7 +9,7 @@ RSpec.describe Adviser::TeachingSubject do
     it { is_expected.to validate_uniqueness_of :external_identifier }
 
     it {
-      expect(subject).to define_enum_for(:level)
+      expect(build(:adviser_teaching_subject)).to define_enum_for(:level)
                            .backed_by_column_of_type(:string)
                            .with_suffix
                            .with_values(primary: 'primary', secondary: 'secondary')
