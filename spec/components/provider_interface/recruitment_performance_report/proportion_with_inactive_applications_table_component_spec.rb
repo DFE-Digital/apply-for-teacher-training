@@ -12,18 +12,18 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::ProportionWithIn
     expect(page).to have_content(description(provider.name))
     expect(page).to have_content('Subject')
 
-    [provider.name, 'All providers'].each do |heading|
-      expect(page).to have_element(
-        'th',
-        scope: 'col',
-        class: 'govuk-table__header govuk-table__header--numeric recruitment-performance-report-table__subheading',
-        text: heading,
-      )
+    expect(page).to have_content provider.name
+    expect(page).to have_content 'All providers'
+    expect(page).to have_content 'Subject'
+    ['This cycle', 'Last cycle'].each do |heading|
+      expect(page).to have_element('th', scope: 'col', class: 'govuk-table__header', text: heading).twice
     end
 
     %w[Primary Secondary].each do |heading|
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: heading)
     end
+
+    expect(page).to have_no_content 'Percentage change'
 
     primary_row = page.find('tr.govuk-table__row', text: 'Primary')
     expect(primary_row).to have_content '7%'
