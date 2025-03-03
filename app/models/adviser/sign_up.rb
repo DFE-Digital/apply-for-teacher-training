@@ -15,7 +15,6 @@ class Adviser::SignUp
   def initialize(application_form, *, **)
     @application_form = application_form
     @availability = Adviser::SignUpAvailability.new(application_form)
-    # @teaching_subjects = Adviser::TeachingSubjectsService.new
 
     super(*, **)
   end
@@ -32,11 +31,11 @@ class Adviser::SignUp
     true
   end
 
-  def teaching_subject_primary
+  def primary_teaching_subjects_for_select
     Adviser::TeachingSubject.primary_level
   end
 
-  def teaching_subject_secondary
+  def secondary_teaching_subjects_for_select
     Adviser::TeachingSubject.secondary_level
   end
 
