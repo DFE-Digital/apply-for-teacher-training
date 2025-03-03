@@ -36,6 +36,6 @@ class Adviser::SignUp
 private
 
   def teaching_subject_ids
-    teaching_subjects.all.map(&:id)
+    Adviser::TeachingSubject.pluck(:external_identifier)
   end
 end
