@@ -9,7 +9,7 @@ RSpec.describe LocationSuggestions do
   let(:client) { instance_double(GoogleMapsAPI::Client) }
 
   let(:suggestions_query) do
-    described_class.new(query, cache: cache, cache_expiration: cache_expiration)
+    described_class.new(query, cache_expiration: cache_expiration)
   end
 
   let(:memory_store) { ActiveSupport::Cache.lookup_store(:memory_store) }

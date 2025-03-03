@@ -1,32 +1,22 @@
-const getPath = (endpoint, query) => {
+const getUrl = (endpoint, query) => {
   return `${endpoint}?query=${query}`
 }
 
-const request = (endpoint) => {
-  let xhr = null // Hoist this call so that we can abort previous requests.
-
-  return (query, callback) => {
-    if (xhr && xhr.readyState !== XMLHttpRequest.DONE) {
-      xhr.abort()
-    }
-    const path = getPath(endpoint, query)
-
-    xhr = new XMLHttpRequest()
-    xhr.addEventListener('load', () => {
-      let results = []
-      try {
-        results = JSON.parse(xhr.responseText)
-      } catch (err) {
-        console.error(
-          `Failed to parse results from endpoint ${path}, error is:`,
-          err
-        )
+function request (endpoint) {
+  return async (query, callback) => {
+    const url = getUrl(endpoint, query)
+    try {
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`)
       }
-      callback(results)
-    })
-    xhr.open('GET', path)
-    xhr.send()
+
+      const json = await response.json()
+      callback(json)
+    } catch (error) {
+      console.error(error.message)
+    }
   }
 }
 
-export { getPath, request }
+export { getUrl, request }

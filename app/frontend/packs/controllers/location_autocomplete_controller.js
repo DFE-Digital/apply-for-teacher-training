@@ -40,21 +40,22 @@ export default class extends Controller {
   }
 
   fetchSuggestions () {
-    return debounce((query, populateResults) => {
+    return debounce(async (query, populateResults) => {
       if (!query) return populateResults([])
 
-      new Promise((resolve) => {
-        request(this.pathValue)(query, (data) => {
-          resolve(data)
+      try {
+        const data = await new Promise((resolve) => {
+          request(this.pathValue)(query, (data) => {
+            resolve(data)
+          })
         })
-      })
-        .then((data) => {
-          const suggestions = Array.isArray(data?.suggestions) ? data.suggestions : []
-          populateResults(suggestions)
-        })
-        .catch(() => {
-          populateResults([])
-        })
+
+        const suggestions = [data?.suggestions].flat()
+        populateResults(suggestions)
+      } catch (error) {
+        populateResults([])
+        console.error('Fething suggestions failed ', error.message)
+      }
     }, this.debounceValue)
   }
 

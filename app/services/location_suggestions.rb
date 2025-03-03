@@ -1,7 +1,7 @@
 class LocationSuggestions
   attr_reader :query, :cache, :cache_expiration
 
-  def initialize(query, cache: Rails.cache, cache_expiration: 7.days)
+  def initialize(query, cache_expiration: 7.days)
     @query = query
     @cache = cache
     @cache_expiration = cache_expiration
@@ -10,11 +10,9 @@ class LocationSuggestions
   def call
     return [] if query.blank?
 
-    cached_suggestions || fetch_suggestions_and_cache
-  end
-
-  def cached_suggestions
-    cache.read(cache_key)
+    Rails.cache.fetch(cache_key, expires_in: cache_expiration) do
+      fetch_suggestions
+    end
   end
 
   def cache_key
@@ -38,7 +36,7 @@ class LocationSuggestions
     GoogleMapsAPI::Client.new.autocomplete(query)
   rescue StandardError => e
     capture_error(e)
-    nil
+    []
   end
 
   def capture_error(error)
