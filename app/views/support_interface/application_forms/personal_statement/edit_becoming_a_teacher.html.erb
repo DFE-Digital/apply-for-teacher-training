@@ -6,7 +6,7 @@
     <%= form_with model: @becoming_a_teacher_form, url: support_interface_application_form_edit_becoming_a_teacher_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_text_area :becoming_a_teacher, label: { text: t('support_interface.edit_becoming_a_teacher_form.becoming_a_teacher.label'), size: 'xl' }, rows: 20, max_words: 600 %>
+      <%= f.govuk_text_area :becoming_a_teacher, label: { text: t('support_interface.edit_becoming_a_teacher_form.becoming_a_teacher.label'), size: 'xl' }, rows: 20, max_words: 1000 %>
       <%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.edit_becoming_a_teacher_form.audit_comment.label'), size: 'm' }, hint: { text: t('support_interface.edit_becoming_a_teacher_form.audit_comment.hint') } %>
       <%= f.govuk_submit 'Update' %>
     <% end %>
