@@ -48,7 +48,10 @@
                   <legend id="filter-legend-<%= filter[:name] %>" class="govuk-fieldset__legend govuk-fieldset__legend--s">
                     <%= filter[:heading] %>
                   </legend>
-                  <% if filter[:type] == :search %>
+
+                  <% if filter[:type] == :location_search %>
+                    <%= render ProviderInterface::LocationFilterComponent.new(filter:) %>
+                  <% elsif filter[:type] == :search %>
                     <input class="govuk-input <%= filter[:css_classes] %>" id="<%= filter[:name] %>" name="<%= filter[:name] %>" type="text" value="<%= filter[:value] %>" aria-labelledby="filter-legend-<%= filter[:name] %>" autocomplete="off">
                   <% elsif filter[:type] == :checkboxes %>
                     <input value="" name="<%= filter[:name] %>[]" type="hidden">

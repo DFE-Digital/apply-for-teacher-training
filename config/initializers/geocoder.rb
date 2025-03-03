@@ -10,4 +10,8 @@ Geocoder.configure(
   always_raise: [Geocoder::InvalidApiKey, Geocoder::OverQueryLimitError],
 
   units: :mi, # :km for kilometers or :mi for miles
+  cache: Rails.cache,
+  cache_options: {
+    expiration: 1.day,
+  },
 )
