@@ -9,14 +9,13 @@ class Adviser::SignUp
   attribute :preferred_teaching_subject_id
 
   delegate :available?, :waiting_to_be_assigned_to_an_adviser?, :already_assigned_to_an_adviser?, to: :availability
-  delegate :primary, :secondary, to: :teaching_subjects, prefix: :teaching_subject
 
   validates :preferred_teaching_subject_id, inclusion: { in: :teaching_subject_ids, allow_blank: false }
 
   def initialize(application_form, *, **)
     @application_form = application_form
     @availability = Adviser::SignUpAvailability.new(application_form)
-    @teaching_subjects = Adviser::TeachingSubjectsService.new
+    # @teaching_subjects = Adviser::TeachingSubjectsService.new
 
     super(*, **)
   end
@@ -31,6 +30,14 @@ class Adviser::SignUp
     availability.update_adviser_status(ApplicationForm.adviser_statuses[:waiting_to_be_assigned])
 
     true
+  end
+
+  def teaching_subject_primary
+    Adviser::TeachingSubject.primary_level
+  end
+
+  def teaching_subject_secondary
+    Adviser::TeachingSubject.secondary_level
   end
 
 private
