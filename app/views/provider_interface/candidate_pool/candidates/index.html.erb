@@ -1,42 +1,41 @@
 <% content_for :browser_title, t('.title') %>
+<%= render ServiceInformationBanner.new(namespace: :provider) %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render ServiceInformationBanner.new(namespace: :provider) %>
+<h1 class="govuk-heading-l"><%= t('.title') %></h1>
+<p class="govuk-body"><%= t('.candidate_information_agreement') %></p>
+<p class="govuk-body"><%= t('.review_candidates') %></p>
 
-    <% if @candidates.present? %>
-      <h1 class="govuk-heading-l"><%= t('.title') %></h1>
-
-      <p class="govuk-body"><%= t('.candidate_information_agreement') %></p>
-      <p class="govuk-body"><%= t('.review_candidates') %></p>
-    <% else %>
-      <h1 class="govuk-heading-l"><%= t('.no_candidates') %></h1>
-    <% end %>
-  </div>
-
-  <div class="govuk-grid-column-full">
-    <% if @candidates.present? %>
-      <%= govuk_table do |table| %>
-        <%= table.with_head do |head| %>
-          <%= head.with_row do |row| %>
-            <%= row.with_cell(text: t('.name')) %>
+<%= render PaginatedFilterComponent.new(filter: @filter, collection: @application_forms) do %>
+  <% if @application_forms.present? %>
+    <%= govuk_table do |table| %>
+      <%= table.with_head do |head| %>
+        <%= head.with_row do |row| %>
+          <%= row.with_cell(text: t('.name')) %>
+          <% if @filter.applied_location_search? %>
+            <%= row.with_cell(text: t('.distance_from', origin: @filter.applied_filters[:original_location])) %>
           <% end %>
         <% end %>
+      <% end %>
 
-        <%= table.with_body do |body| %>
-          <% @candidates.each do |candidate| %>
-            <%= body.with_row do |row| %>
-              <%= row.with_cell do %>
-                <%= govuk_link_to candidate.redacted_full_name_current_cycle, provider_interface_candidate_pool_candidate_path(candidate) %>
+      <%= table.with_body do |body| %>
+        <% @application_forms.each do |application_form| %>
+          <%= body.with_row do |row| %>
+            <%= row.with_cell do %>
+              <%= govuk_link_to application_form.redacted_full_name, provider_interface_candidate_pool_candidate_path(application_form.candidate) %>
+            <% end %>
+
+            <%= row.with_cell do %>
+              <% if @filter.applied_location_search? %>
+                <%= pluralize(application_form.site_distance.round(2), t('.miles')) %>
               <% end %>
             <% end %>
           <% end %>
         <% end %>
       <% end %>
-
-      <div class="govuk-grid-row govuk-!-margin-top-4">
-        <%= govuk_pagination(pagy: @pagy) %>
-      </div>
     <% end %>
-  </div>
-</div>
+
+    <%= govuk_pagination(pagy: @pagy) %>
+  <% else %>
+    <p class="govuk-body"><%= t('.no_candidates') %></p>
+  <% end %>
+<% end %>
