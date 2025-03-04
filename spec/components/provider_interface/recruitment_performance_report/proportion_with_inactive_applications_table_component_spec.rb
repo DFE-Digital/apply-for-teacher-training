@@ -46,6 +46,6 @@ private
   end
 
   def description(provider_name)
-    "The proportion of candidates who have waited for 30 days or more for #{provider_name} to respond to their application, compared with national level data."
+    "This table shows the proportion of candidates who have waited for 30 days or more for #{provider_name} to respond to their application."
   end
 end

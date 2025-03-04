@@ -57,6 +57,6 @@ private
   end
 
   def description(provider_name)
-    "The number of candidates who have accepted an offer from #{provider_name} so far this recruitment cycle, compared to national level data."
+    "The number of candidates who have accepted an offer from #{provider_name} so far this recruitment cycle."
   end
 end

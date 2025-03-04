@@ -56,6 +56,6 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::CandidatesWithOf
   end
 
   def description(provider_name)
-    "Candidates who have received one or more offers from #{provider_name} so far this recruitment cycle, compared to national level."
+    "This table shows candidates who have received one or more offers from #{provider_name} so far this recruitment cycle."
   end
 end

@@ -14,10 +14,6 @@ module ProviderInterface
           national_statistics:,
         )
       end
-
-      def provider_name
-        @provider.name
-      end
     end
   end
 end
