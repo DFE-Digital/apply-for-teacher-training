@@ -60,6 +60,6 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::CandidatesReject
   end
 
   def description(provider_name)
-    "The number of candidates who have had all their applications to #{provider_name} rejected so far this recruitment cycle."
+    "This table shows the number of candidates who have had all their applications to #{provider_name} rejected so far this recruitment cycle."
   end
 end
