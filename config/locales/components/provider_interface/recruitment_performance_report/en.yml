@@ -48,6 +48,7 @@ en:
     proportion_of_candidates_with_an_offer: 4. Proportion of candidates with an offer
     offers_accepted: 5. Offers accepted
     candidates_rejected: 7. Candidates rejected
+    proportion_with_inactive_applications_table_component: 8. Proportion of candidates who have waited more than 30 days for a response
   submitted_applications_table_component:
     description_one: >
       The number of candidates who have submitted one or more applications to %{provider_name} so far this recruitment

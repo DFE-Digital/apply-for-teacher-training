@@ -110,12 +110,12 @@ private
 
     expect(page).to have_link(
       'Proportion of candidates who have waited more than 30 days for a response',
-      href: '#proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response',
+      href: '#proportion_with_inactive_applications_table_component',
     )
     expect(page).to have_css(
       'h2',
       text: '8. Proportion of candidates who have waited more than 30 days for a response',
-      id: 'proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response',
+      id: 'proportion_with_inactive_applications_table_component',
     )
   end
 
