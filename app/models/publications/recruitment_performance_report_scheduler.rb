@@ -1,7 +1,8 @@
 module Publications
   class RecruitmentPerformanceReportScheduler
-    def initialize(cycle_week: RecruitmentCycleTimetable.current_cycle_week.pred)
+    def initialize(cycle_week: RecruitmentCycleTimetable.current_cycle_week.pred, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
       @cycle_week = cycle_week
+      @recruitment_cycle_year = recruitment_cycle_year
     end
 
     def call
@@ -11,10 +12,10 @@ module Publications
 
   private
 
-    attr_accessor :cycle_week
+    attr_accessor :cycle_week, :recruitment_cycle_year
 
     def schedule_national_report
-      return if Publications::NationalRecruitmentPerformanceReport.exists?(cycle_week:)
+      return if Publications::NationalRecruitmentPerformanceReport.exists?(cycle_week:, recruitment_cycle_year:)
 
       Publications::NationalRecruitmentPerformanceReportWorker
         .perform_async(cycle_week)
@@ -22,7 +23,7 @@ module Publications
 
     def schedule_provider_report
       ProvidersForRecruitmentPerformanceReportQuery
-        .call(cycle_week:)
+        .call(cycle_week:, recruitment_cycle_year:)
         .find_each do |provider|
         Publications::ProviderRecruitmentPerformanceReportWorker
           .perform_async(
