@@ -23,7 +23,10 @@ private
 
   def filtered_application_forms
     scope = curated_application_forms
+    scope = filter_by_subject(scope)
+    scope = filter_by_study_mode(scope)
     scope = filter_by_right_to_work_or_study(scope)
+    scope = filter_by_course_type(scope)
     filter_by_distance(scope)
   end
 
@@ -65,9 +68,35 @@ private
       .select('application_forms.*', "#{calculate_distance_sql} AS site_distance")
   end
 
+  def filter_by_subject(scope)
+    return scope if filters[:subject].blank?
+
+    subjects = filters[:subject].flat_map { |value| value.split(',') }
+
+    scope.joins(application_choices: { course: :course_subjects })
+      .where(course_subjects: { subject_id: subjects })
+  end
+
+  def filter_by_study_mode(scope)
+    return scope if filters[:study_mode].blank?
+
+    scope.joins(application_choices: :course_option)
+      .where(course_option: { study_mode: filters[:study_mode] })
+  end
+
+  def filter_by_course_type(scope)
+    return scope if filters[:course_type].blank?
+
+    course_types = filters[:course_type].flat_map { |value| value.split(',') }
+
+    scope.joins(application_choices: :course)
+      .where(course: { program_type: course_types })
+  end
+
   def filter_by_right_to_work_or_study(scope)
     return scope if filters[:visa_sponsorship].blank?
 
+    # refactor this with correct values from the filter?
     filter_values = Array.new(
       filters[:visa_sponsorship].map do |value|
         value == 'required' ? 'no' : nil # required means no right_to_work_or_study, nil means yes
