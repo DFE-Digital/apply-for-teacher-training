@@ -96,12 +96,15 @@ private
   def filter_by_right_to_work_or_study(scope)
     return scope if filters[:visa_sponsorship].blank?
 
-    # refactor this with correct values from the filter?
-    filter_values = Array.new(
-      filters[:visa_sponsorship].map do |value|
-        value == 'required' ? 'no' : nil # required means no right_to_work_or_study, nil means yes
-      end,
-    )
+    filter_values = filters[:visa_sponsorship].flat_map do |value|
+      if value == 'required'
+        # required means no right_to_work_or_study
+        ApplicationForm.right_to_work_or_studies['no']
+      else
+        # else means all other enums + nil because we don't set this enum in most cases if candidate has right to work
+        ApplicationForm.right_to_work_or_studies.except('no').values << nil
+      end
+    end
 
     scope.where(right_to_work_or_study: filter_values)
   end
