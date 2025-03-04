@@ -11,8 +11,8 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, :wi
     it { is_expected.to validate_presence_of(:becoming_a_teacher) }
     it { is_expected.to validate_presence_of(:audit_comment) }
 
-    valid_text = Faker::Lorem.sentence(word_count: 600)
-    invalid_text = Faker::Lorem.sentence(word_count: 601)
+    valid_text = Faker::Lorem.sentence(word_count: 1000)
+    invalid_text = Faker::Lorem.sentence(word_count: 1001)
 
     it { is_expected.to allow_value(valid_text).for(:becoming_a_teacher) }
     it { is_expected.not_to allow_value(invalid_text).for(:becoming_a_teacher) }

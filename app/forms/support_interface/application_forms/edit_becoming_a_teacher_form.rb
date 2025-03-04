@@ -6,7 +6,7 @@ module SupportInterface
       attr_accessor :becoming_a_teacher, :audit_comment, :application_form
 
       validates :becoming_a_teacher,
-                word_count: { maximum: 600 },
+                word_count: { maximum: 1000 },
                 presence: true
 
       validates :audit_comment, presence: true
