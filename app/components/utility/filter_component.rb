@@ -106,7 +106,8 @@ private
 
   def location_filter_title(filter_hash)
     miles = pluralize(filter_hash[:within], 'mile')
+    original_location = filter_hash[:original_location]
 
-    "Within #{miles} of #{filter_hash[:original_location]}"
+    I18n.t('filter_component.location_filter_title', miles:, original_location:)
   end
 end
