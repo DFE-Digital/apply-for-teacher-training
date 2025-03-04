@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Adviser::SignUp do
-  include_context 'get into teaching api stubbed endpoints'
-
   before do
     allow(Adviser::SignUpAvailability).to receive(:new).and_return(availability_double)
     allow(AdviserSignUpWorker).to receive(:perform_async)
@@ -12,15 +10,17 @@ RSpec.describe Adviser::SignUp do
   let(:available) { true }
   let(:application_form) { create(:completed_application_form, :with_domestic_adviser_qualifications) }
 
+  let(:preferred_teaching_subject) { create(:adviser_teaching_subject) }
+
   subject(:sign_up) do
     described_class.new(
       application_form,
-      preferred_teaching_subject_id: preferred_teaching_subject&.id,
+      preferred_teaching_subject_id: preferred_teaching_subject&.external_identifier,
     )
   end
 
   describe 'validations' do
-    let(:valid_subjects) { Adviser::TeachingSubjectsService.new.all.map(&:id) }
+    let(:valid_subjects) { create_list(:adviser_teaching_subject, 2).pluck(:external_identifier) }
 
     it { is_expected.to validate_inclusion_of(:preferred_teaching_subject_id).in_array(valid_subjects) }
   end
@@ -34,7 +34,7 @@ RSpec.describe Adviser::SignUp do
       sign_up.save
       expect(AdviserSignUpWorker).to have_received(:perform_async).with(
         application_form.id,
-        preferred_teaching_subject.id,
+        preferred_teaching_subject.external_identifier,
       )
     end
 

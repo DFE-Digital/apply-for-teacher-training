@@ -7,6 +7,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
 
   it 'redirects back to review their application' do
     given_i_am_signed_in_with_one_login
+    and_adviser_teaching_subjects_exist
     and_rails_cache_is_enabled
     and_analytics_is_enabled
     and_enqueued_jobs_are_not_performed
@@ -24,13 +25,17 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
     then_i_see_validation_errors_for_preferred_teaching_subject
     and_the_validation_error_is_tracked
 
-    when_i_select_a_preferred_teaching_subject(preferred_teaching_subject.value)
+    when_i_select_a_preferred_teaching_subject
     when_i_click_the_sign_up_button
     then_i_am_redirected_to_your_details_page
     and_i_see_the_success_message
     and_the_adviser_cta_be_replaced_with_the_waiting_to_be_assigned_message
     and_an_adviser_sign_up_job_is_enqueued
     and_the_sign_up_is_tracked
+  end
+
+  def and_adviser_teaching_subjects_exist
+    @preferred_teaching_subject = create(:adviser_teaching_subject)
   end
 
   def and_rails_cache_is_enabled
@@ -100,8 +105,8 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
     })
   end
 
-  def when_i_select_a_preferred_teaching_subject(subject)
-    find('label', text: subject).click
+  def when_i_select_a_preferred_teaching_subject
+    find('label', text: @preferred_teaching_subject.title).click
   end
 
   def then_i_am_redirected_to_your_details_page
@@ -114,7 +119,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
 
   def and_an_adviser_sign_up_job_is_enqueued
     expect(AdviserSignUpWorker).to have_received(:perform_async)
-      .with(@application_form.id, preferred_teaching_subject.id).once
+      .with(@application_form.id, @preferred_teaching_subject.external_identifier).once
   end
 
   def and_the_adviser_cta_be_replaced_with_the_waiting_to_be_assigned_message

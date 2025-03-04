@@ -17,12 +17,12 @@
       </ul>
 
       <%= f.govuk_radio_buttons_fieldset(:preferred_teaching_subject_id, legend: { size: 'm' }) do %>
-        <%= f.govuk_radio_button :preferred_teaching_subject_id, @adviser_sign_up.teaching_subject_primary.id,
-          label: { text: @adviser_sign_up.teaching_subject_primary.value },
-          link_errors: true %>
+        <% @adviser_sign_up.primary_teaching_subjects_for_select.each do |subject| %>
+          <%= f.govuk_radio_button :preferred_teaching_subject_id, subject.external_identifier, label: { text: subject.title }, link_errors: true %>
+        <% end %>
         <%= f.govuk_radio_divider 'or' %>
-        <% @adviser_sign_up.teaching_subject_secondary.each do |subject| %>
-          <%= f.govuk_radio_button :preferred_teaching_subject_id, subject.id, label: { text: subject.value } %>
+        <% @adviser_sign_up.secondary_teaching_subjects_for_select.each do |subject| %>
+          <%= f.govuk_radio_button :preferred_teaching_subject_id, subject.external_identifier, label: { text: subject.title }, link_errors: true %>
         <% end %>
       <% end %>
 
