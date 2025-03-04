@@ -9,9 +9,9 @@ class AdviserSignUpWorker
     qualification_id
   ].freeze
 
-  def perform(application_form_id, preferred_teaching_subject_id)
+  def perform(application_form_id, preferred_teaching_subject_external_identifier)
     @application_form = ApplicationForm.find(application_form_id)
-    @preferred_teaching_subject_id = preferred_teaching_subject_id
+    @preferred_teaching_subject_id = preferred_teaching_subject_external_identifier
 
     # Send the sign-up to the GIT API
     teacher_training_adviser_sign_up = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(attributes)
@@ -112,10 +112,6 @@ private
 
   def latest_privacy_policy
     @latest_privacy_policy ||= GetIntoTeachingApiClient::PrivacyPoliciesApi.new.get_latest_privacy_policy
-  end
-
-  def api
-    @api ||= GetIntoTeachingApiClient::TeacherTrainingAdviserApi.new
   end
 
   def country_id

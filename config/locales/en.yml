@@ -538,6 +538,8 @@ en:
           attributes:
             preferred_teaching_subject_id:
               inclusion: Select a subject you are interested in teaching
+            application_form:
+              invalid_adviser_sign_up: You are not eligible for a Teacher Training Adviser
 
   activerecord:
     attributes:
