@@ -30,6 +30,6 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::DeferralsTableCo
   end
 
   def description(provider_name)
-    "The number of deferred offers from #{provider_name} so far this recruitment cycle, compared to national level data."
+    "This table shows the number of deferred offers from #{provider_name} so far this recruitment cycle, compared to national data."
   end
 end

@@ -6,18 +6,19 @@
 ) do %>
   <span>
     <p class="govuk-body">
-      <%= t('offers_accepted_table_component.description_one', provider_name: @provider.name) %>
-    </p>
-        <p class="govuk-body">
-      <%= t('offers_accepted_table_component.description_two') %>
+      <%= t('.candidates_who_have_accepted_offers') %>
     </p>
     <p class="govuk-body">
-      <%= t('offers_accepted_table_component.table_does_not_include') %>
+      <%= t('.you_can_compare_the_data_to') %>
+    </p>
+    <%= govuk_list([t('.last_cycle'), t('.national_data')], type: :bullet) %>
+    <p class="govuk-body">
+      <%= t('.table_does_not_include') %>
     </p>
     <%= govuk_list([
-                     t('offers_accepted_table_component.li_one'),
-                     t('offers_accepted_table_component.li_two'),
-                     t('offers_accepted_table_component.li_three'),
+                     t('.withdrawn_by_provider'),
+                     t('.withdrawn_by_candidate'),
+                     t('.deferred'),
                    ], type: :bullet) %>
   </span>
 <% end %>

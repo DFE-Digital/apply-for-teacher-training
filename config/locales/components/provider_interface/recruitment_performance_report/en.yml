@@ -1,41 +1,90 @@
 en:
+  provider_interface:
+    recruitment_performance_report:
+      submitted_applications_table_component:
+        number_of_candidates_submitted: >
+          This table shows the number of candidates who have submitted one or more applications to %{provider_name} so
+          far this recruitment cycle. You can compare the data to:
+        last_cycle: last cycle,
+        national_data: national data.
+        candidates_who_withdrew: Candidates who withdrew or deferred their applications after they submitted them are included.
+      candidates_with_offers_table_component:
+        candidates_who_have_received_offer: >
+          This table shows candidates who have received one or more offers from %{provider_name} so far this recruitment cycle.
+        you_can_compare_the_data_to: "You can compare the data to:"
+        last_cycle: last cycle,
+        national_data: national data.
+        table_includes: "This table includes candidates who have received at least one offer on at least one of their applications in this cycle. They are included whether or not the offer was:"
+        declined: declined
+        withdrawn_before_they_could_accept: withdrawn before they could accept it
+        deferred_withdrawn_unsuccessful: deferred, withdrawn or unsuccessful after acceptance
+      proportion_candidates_with_offers_table_component:
+        proportion_of_all_candidates: >
+          This table shows the proportion of all candidates who submitted one or more applications to %{provider_name} who
+          have received an offer so far this recruitment cycle. You can compare the data to:
+        last_cycle: last cycle,
+        national_data: national data.
+        table_includes: "The offered candidates in this table include:"
+        candidates_with_offers_received: candidates who have received one or more offers this cycle
+        offers_withdrawn_or_deferred_by_providers: offers which were then withdrawn or deferred by the provider
+        candidates_deferred_or_declined_after_accepting: candidates who deferred or declined their offers, or withdrew after accepting an offer
+        candidates_failed_to_meet_conditions: candidates that failed to meet the conditions of their offer
+      offers_accepted_table_component:
+        candidates_who_have_accepted_offers: >
+          The table includes candidates who accepted and then deferred an offer from the provider in a previous cycle,
+          which has been confirmed this cycle. It also includes candidates who accepted offers, but then did not meet
+          the conditions of that offer.
+        you_can_compare_the_data_to: "You can compare the data to:"
+        last_cycle: last cycle,
+        national_data: national data.
+        candidates_who_deferred: >
+          The table includes candidates who accepted and then deferred an offer from the provider in a previous cycle,
+          which has been confirmed this cycle.
+        table_does_not_include: "The table does not include applications with offers that have been:"
+        withdrawn_by_provider: withdrawn by the provider
+        withdrawn_by_candidate: withdrawn by candidates
+        deferred: deferred until the next cycle
+      deferrals_table_component:
+        caption: 6. Deferrals
+        deferrals: Deferrals
+        deferrals_last_cycle_to_this_cycle: Deferrals from last cycle to this cycle
+        deferrals_this_cycle_to_next: Deferrals this cycle (so far) to next cycle
+        deferred_offers_this_cycle: >
+          This table shows the number of deferred offers from %{provider_name} so far this recruitment cycle, compared
+          to national data.
+        deferred_to_the_next_cycle: >
+          This table includes candidates who have received an offer this cycle but deferred it to the next cycle,
+          excluding offers for withdrawn applications. Offers that were deferred and then withdrawn are not included.
+          Candidates who deferred again to the next cycle after that, are included in the cycle they first deferred in.
+      candidates_rejected_table_component:
+        number_of_rejected_candidates:  >
+          This table shows the number of candidates who have had all their applications to %{provider_name} rejected so
+          far this recruitment cycle.
+        you_can_compare_the_data_to: "You can compare the data to:"
+        last_cycle: last cycle,
+        national_data: national data.
+        candidates_rejected_and_awaiting_decisions: >
+          If a candidate has had all their applications rejected by %{provider_name} but still have applications
+          waiting for a decision with other providers, they will appear as rejected in your data but not the national
+          data.
+      proportion_with_inactive_applications_table_component:
+        proportion_of_candidates_waiting_more_than_30_days: >
+          This table shows the proportion of candidates who have waited for 30 working days or more for %{provider_name} to
+          respond to their application.
+        you_can_compare_the_data_to: "You can compare the data to:"
+        last_cycle: last cycle,
+        national_data: national data.
+        responding_to_applications_include: "Responding to an application includes actions such as:"
+        making_an_offer: making an offer
+        interviewing: interviewing
+        rejecting_application: rejecting the candidate's application
+        withdrawing: withdrawing an offer
   shared:
     empty_state: There is no data available to display.
     all_providers: All providers
     subject: Subject
     all_subjects: All subjects
     not_available: Not available
-  deferrals_table_component:
-    caption: 6. Deferrals
-    deferrals: Deferrals
-    deferrals_last_cycle_to_this_cycle: Deferrals from last cycle to this cycle
-    deferrals_this_cycle_to_next: Deferrals this cycle (so far) to next cycle
-    description_one: >
-      The number of deferred offers from %{provider_name} so far this recruitment cycle, compared to national level
-      data.
-    description_two: >
-      This table includes candidates who have received an offer this cycle but deferred it to the next cycle, excluding
-      offers for withdrawn applications. Candidates who deferred again to the next cycle after that, are included in the
-      cycle they first deferred in.
-  proportion_with_inactive_applications_table_component:
-    caption: 8. Proportion of candidates who have waited more than 30 days for a response
-    description_one: >
-      The proportion of candidates who have waited for 30 days or more for %{provider_name} to respond to their
-      application, compared with national level data.
-    description_two: >
-      Responding to an offer includes actions such as making an offer, interviewing or rejecting the candidate's
-      application.
-    description_three: >
-      This is the first recruitment cycle in which we have collected this data, so it is not possible to show a
-      comparison with last cycle.
-  proportion_candidates_with_offers_table_component:
-    proportion_of_all_candidates: >
-      The proportion of all candidates who submitted one or more applications to %{provider_name} who have received an
-      offer so far this recruitment cycle, compared to national level data.
-    table_includes: "This table includes:"
-    li_one: candidates who have received one or more offers this cycle
-    li_two: applications which were then withdrawn or deferred by the provider
-    li_three: candidates who withdrew or deferred their applications
   subject_table_component:
     this_cycle: This cycle
     last_cycle: Last cycle
@@ -44,36 +93,8 @@ en:
     national_last_cycle: Last cycle
     national_percentage_change: Percentage change
     candidates_who_have_submitted_applications: 2. Candidates who have submitted applications
-    candidates_with_an_offer: 3. Candidates with an offer
+    candidates_with_an_offer: 3. Candidates that received an offer
     proportion_of_candidates_with_an_offer: 4. Proportion of candidates with an offer
     offers_accepted: 5. Offers accepted
     candidates_rejected: 7. Candidates rejected
-    proportion_with_inactive_applications_table_component: 8. Proportion of candidates who have waited more than 30 days for a response
-  submitted_applications_table_component:
-    description_one: >
-      The number of candidates who have submitted one or more applications to %{provider_name} so far this recruitment
-      cycle, compared to national level data.
-    description_two: Candidates who withdrew or deferred their applications are included.
-  candidates_with_offers_table_component:
-    candidates_who_have_received_offer: >
-      Candidates who have received one or more offers from %{provider_name} so far this recruitment cycle, compared to
-      national level.
-    table_includes: "This table includes:"
-    li_one: candidates who have received one or more offers this cycle
-    li_two: applications which were then withdrawn or deferred by the provider
-    li_three: candidates who withdrew or deferred their applications
-  offers_accepted_table_component:
-    description_one: >
-      The number of candidates who have accepted an offer from %{provider_name} so far this recruitment cycle, compared
-      to national level data.
-    description_two: >
-      The table includes candidates who accepted and then deferred an offer from the provider in a previous cycle, which
-      has been reconfirmed this cycle.
-    table_does_not_include: "The table does not include applications:"
-    li_one: with offers withdrawn by the provider
-    li_two: with offers withdrawn by candidates
-    li_three: with offers deferred until the next cycle
-  candidates_rejected_table_component:
-    description_one: The number of candidates who have had all their applications to %{provider_name} rejected so far this recruitment cycle.
-    description_two: If a candidate has had all their applications rejected by %{provider_name}  but still have applications waiting for a decision with other providers, they will appear as rejected in your data but not the national data.
-
+    proportion_with_inactive_applications_table_component: 8. Proportion of candidates who have waited more than 30 working days for a response

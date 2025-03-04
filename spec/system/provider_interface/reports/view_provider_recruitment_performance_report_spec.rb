@@ -73,10 +73,10 @@ private
       id: 'candidates_who_have_submitted_applications',
     )
 
-    expect(page).to have_link('Candidates with an offer', href: '#candidates_with_an_offer')
+    expect(page).to have_link('Candidates that received an offer', href: '#candidates_with_an_offer')
     expect(page).to have_css(
       'h2',
-      text: '3. Candidates with an offer',
+      text: '3. Candidates that received an offer',
       id: 'candidates_with_an_offer',
     )
 
@@ -109,12 +109,12 @@ private
     )
 
     expect(page).to have_link(
-      'Proportion of candidates who have waited more than 30 days for a response',
+      'Proportion of candidates who have waited more than 30 working days for a response',
       href: '#proportion_with_inactive_applications_table_component',
     )
     expect(page).to have_css(
       'h2',
-      text: '8. Proportion of candidates who have waited more than 30 days for a response',
+      text: '8. Proportion of candidates who have waited more than 30 working days for a response',
       id: 'proportion_with_inactive_applications_table_component',
     )
   end

@@ -6,9 +6,19 @@
 ) do %>
   <span>
     <p class="govuk-body">
-      <%= t('proportion_with_inactive_applications_table_component.description_one', provider_name:) %>
+      <%= t('.proportion_of_candidates_waiting_more_than_30_days', provider_name: @provider.name) %>
     </p>
-    <p class="govuk-body"><%= t('proportion_with_inactive_applications_table_component.description_two') %></p>
-    <p class="govuk-body"><%= t('proportion_with_inactive_applications_table_component.description_three') %></p>
+    <p class="govuk-body">
+      <%= t('.you_can_compare_the_data_to') %>
+    </p>
+    <%= govuk_list([t('.last_cycle'), t('.national_data')], type: :bullet) %>
+
+    <p class="govuk-body"><%= t('.responding_to_applications_include') %></p>
+    <%= govuk_list(
+          [t('.making_an_offer'),
+           t('.interviewing'),
+           t('.rejecting_application'),
+           t('.withdrawing')], type: :bullet
+        ) %>
   </span>
 <% end %>

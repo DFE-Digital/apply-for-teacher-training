@@ -1,80 +1,89 @@
 en:
-  show:
-    title: Recruitment performance weekly report %{cycle_year_range} - Apply for teacher training - GOV.UK
-    empty_report_title: Recruitment performance weekly report - Apply for teacher training - GOV.UK
-    contents: Contents
-    heading: Recruitment performance weekly report %{cycle_year_range}
-    empty_report_heading: Recruitment performance weekly report
-    last_updated: 'Last updated: %{date}'
-    not_ready_to_view: This report is not ready to view.
-    this_report_shows: >
-      This report shows your organisation’s initial teacher training (ITT) recruitment performance for the %{cycle_name}
-      recruitment cycle, starting on %{start_date}, ending on %{end_date}.
-    this_report_will_update: >
-      This report will update weekly on a Monday, starting from %{date}. You will only be able to view
-      data from the most recent week.
-    next_reports_will_be_available: >
-      The weekly reports for the %{next_cycle_name} recruitment cycle will be available from %{next_reporting_start_date}.
-    this_report_compares: >
-      The report compares your organisation’s recruitment data this cycle, to the same time last recruitment cycle.
-      It also includes national level data.
-    about_this_data: About this data
-    candidates_who_have_submitted_applications: Candidates who have submitted applications
-    candidates_with_an_offer: Candidates with an offer
-    proportion_of_candidates_with_an_offer: Proportion of candidates with an offer
-    offers_accepted: Offers accepted
-    candidate_deferrals: Deferrals
-    candidates_rejected: Candidates rejected
-    proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response: >
-      Proportion of candidates who have waited more than 30 days for a response
-  about_this_data_section:
-    section_heading: 1. About this data
-    subsection_heading_one: Changes for the %{cycle_range} recruitment cycle
-    whats_new_in_2024_paragraph_one: >
-      These statistics cover applications in the 2023 to 2024 recruitment cycle for courses in England starting in the
-      2024 to 2025 academic year. To allow for comparison, statistics covering the 2022 to 2023 recruitment cycle 2023
-      to 2024 academic year are also included.
-    whats_new_in_2024_paragraph_two: >
-      New definitions and methodology have been introduced for the 2023 to 2024 recruitment cycle  to 2025 academic year
-      because candidates can now submit applications to courses individually up to a maximum of 4 open applications at
-      a time. Previously, candidates submitted one application form with up to 4 course choices at the same time. All 4
-      course choices had to receive a decision before the candidate could submit another application form in the same
-      recruitment cycle.
-    whats_new_in_2024_paragraph_three: >
-      Improvements have also been made for clarity.
-    subsection_heading_two: Data which is excluded from these reports
-    subsection_two_paragraph_one: "The following types of applications are not included in these reports:"
-    subsection_two_list_item_one: teacher training applications made directly to providers
-    subsection_two_list_item_two: undergraduate teacher training
-    subsection_two_list_item_three: applications to train to teach in Further Education
-    subsection_heading_three: Understanding the figures in the tables
-    subsection_three_paragraph_one: >
-      All figures in this table are counts of candidates. A candidate is a person who has submitted at least one
-      application to an initial teacher training (ITT) course in England.
-    subsection_three_paragraph_two: >
-      Candidates can apply for different courses. On later dates they may then apply for further courses. Any of their
-      applications may change status throughout their lifecycle. This means that over time, some statistics may go up
-      or down.
-    subsection_three_paragraph_three: >
-      For example, if a candidate’s initial application to a provider had been rejected, they may have submitted a
-      second application. Before this date, they would have been included in the count of candidates with rejected
-      applications. After this date, they would not be included in this count. If that second application were also
-      rejected, they would then be included in the count of rejected applications again.
-    subsection_three_paragraph_four: >
-      Candidates may submit applications for more than one subject. These candidates are counted under all subjects
-      that apply. This means that the ‘All subjects’ row does not equal the total of the preceding rows.
-    subsection_three_paragraph_five: >
-      Subjects where no candidates have been counted are omitted from the tables. This means that some subjects may
-      appear in some tables and not others.
-    subsection_heading_four: Data timeframes
-    subsection_four_paragraph_one: >
-      Each recruitment cycle does not start on the same date each calendar year. The figures for 'last cycle' include
-      data up to and including the date which was the same number of days from the first day of the previous cycle as
-      the publication date is from the first day of the current cycle.
-    subsection_four_paragraph_two: >
-      This means days in last cycle will not be the same calendar date as days in this cycle. For example, day one of
-      last cycle was on %{last_cycle_start_date}, but day one of the current cycle was %{this_cycle_start_date}.
-    subsection_four_paragraph_three: >
-      These statistics collect data up to and including the day before they were published. The report is published
-      weekly on a Monday.
+  provider_interface:
+    reports:
+      recruitment_performance_reports:
+        report_description:
+          last_updated: 'Last updated: %{date}'
+          this_report_shows: >
+            This report shows your organisation’s initial teacher training (ITT) recruitment performance for the %{cycle_name}
+            recruitment cycle, starting on %{start_date}, ending on %{end_date}.
+          this_report_will_update: >
+            This report will update weekly on a Monday, starting from %{date}. You will only be able to view
+            data from the most recent week.
+          next_reports_will_be_available: >
+            The weekly reports for the %{next_cycle_name} recruitment cycle will be available from %{next_reporting_start_date}.
+          this_report_compares: >
+            The report compares your organisation’s recruitment data this cycle to the same time last recruitment cycle.
+            It also includes national level data.
+          contents: Contents
+          about_this_data: About this data
+          candidates_who_have_submitted_applications: Candidates who have submitted applications
+          candidates_with_an_offer: Candidates that received an offer
+          proportion_of_candidates_with_an_offer: Proportion of candidates with an offer
+          offers_accepted: Offers accepted
+          candidate_deferrals: Deferrals
+          candidates_rejected: Candidates rejected
+          proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response: >
+            Proportion of candidates who have waited more than 30 working days for a response
+        show:
+          title: Recruitment performance weekly report %{cycle_year_range} - Apply for teacher training - GOV.UK
+          empty_report_title: Recruitment performance weekly report - Apply for teacher training - GOV.UK
+          heading: Recruitment performance weekly report %{cycle_year_range}
+          empty_report_heading: Recruitment performance weekly report
+          not_ready_to_view: This report is not ready to view.
+        about_this_data_section:
+          section_heading: 1. About this data
+          subsection_heading_one: Changes for the %{cycle_range} recruitment cycle
+          whats_new_in_2024_html: >
+            <p class="govuk-body">These statistics cover applications in the 2023 to 2024 recruitment cycle for courses in
+            England starting in the 2024 to 2025 academic year. To allow for comparison, statistics covering the 2022 to
+            2023 recruitment cycle 2023 to 2024 academic year are also included.</p>
+
+            <p class="govuk-body">New definitions and methodology have been introduced for the 2023 to 2024 recruitment
+            cycle to 2025 academic year because candidates can now submit applications to courses individually up to a
+            maximum of 4 open applications at a time. Previously, candidates submitted one application form with up to
+            4 course choices at the same time. All 4 course choices had to receive a decision before the candidate could
+            submit another application form in the same recruitment cycle.</p>
+
+            <p class="govuk-body">Improvements have also been made for clarity.</p>
+          subsection_heading_two: Data which is not included in these reports
+          these_applications_are_not_included: "These applications are not included in the reports:"
+          applications_made_directly_to_providers: teacher training applications made directly to providers
+          undergraduate_except_tda: undergraduate teacher training (except teacher degree apprenticeship (TDA) courses)
+          further_education_applications: applications to train to teach in Further Education
+          understanding_the_figures_in_the_table_heading: Understanding the figures in the tables
+          understanding_the_figures_explanation_html: >
+            <p class="govuk-body">All figures in this table are counts of candidates. A candidate is a person who has
+            submitted at least one application to an initial teacher training (ITT) course in England.</p>
+
+            <p class="govuk-body">Because candidates can apply for multiple courses throughout the recruitment cycle,
+            their application statuses change over time. This means that over time, some numbers in this report can go
+            up or down.</p>
+
+            <p class="govuk-body">For example, if a candidate’s first application to a provider is rejected, they might
+            submit a second application.</p>
+
+            <p class="govuk-body">After their first application is rejected, but before they submit their second
+            application, they are included in the count of candidates with rejected applications.</p>
+
+            <p class="govuk-body"> If their second application is also rejected, they would be included in the count of
+            rejected applications again.</p>
+
+            <p class="govuk-body">Candidates can submit applications for more than one subject. These candidates are
+            counted under all subjects that they have applied to. This means that the ‘All subjects’ row does not equal
+            the total of the rows above it.</p>
+
+            <p class="govuk-body">Subjects with no applications are not included in the tables. This means that some
+            subjects may appear in some tables and not others.</p>
+          data_timeframes_heading: Data timeframes
+          data_timeframes_explanation_html:
+            <p class="govuk-body">The recruitment cycle does not start on the same date each year. Where a table
+            compares data from last cycle to this cycle, the data will not be for the same dates, but it will be for the
+            same number of days.</p>
+
+            <p class="govuk-body">The time period that is used for comparison is the same number of days from the start
+            of the last cycle, as the report date is from the start of this cycle.</p>
+
+            <p class="govuk-body">These statistics are updated up to and including the day before they are published.
+            The report is published weekly on a Monday.</p>
 
