@@ -1,9 +1,8 @@
 class LocationSuggestions
-  attr_reader :query, :cache, :cache_expiration
+  attr_reader :query, :cache_expiration
 
   def initialize(query, cache_expiration: 7.days)
     @query = query
-    @cache = cache
     @cache_expiration = cache_expiration
   end
 
@@ -23,13 +22,7 @@ class LocationSuggestions
     suggestions = fetch_suggestions
     return [] if suggestions.blank?
 
-    cache_suggestions(suggestions)
-
     suggestions
-  end
-
-  def cache_suggestions(response)
-    cache.write(cache_key, response, expires_in: cache_expiration)
   end
 
   def fetch_suggestions
