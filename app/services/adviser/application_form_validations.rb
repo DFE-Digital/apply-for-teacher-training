@@ -28,7 +28,7 @@ class Adviser::ApplicationFormValidations
   validates :phone_number, presence: true
   validates :country, presence: true
   validates :postcode, presence: true, unless: :international_address?
-  validates :applicable_degree, presence: true
+  validates :applicable_degree_for_adviser, presence: true
   validate :passed_or_retaking_gcses, unless: :international_degree?
   validate :not_yet_signed_up
 
@@ -37,7 +37,7 @@ class Adviser::ApplicationFormValidations
     @candidate = application_form.candidate
   end
 
-  def applicable_degree
+  def applicable_degree_for_adviser
     @applicable_degree ||= application_form.application_qualifications
       .degrees
       .reject(&:incomplete_degree_information?)
@@ -70,7 +70,7 @@ private
   end
 
   def international_degree?
-    applicable_degree&.international?
+    applicable_degree_for_adviser&.international?
   end
 
   def passed_or_retaking_gcses
