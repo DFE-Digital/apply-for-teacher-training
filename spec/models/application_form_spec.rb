@@ -1322,4 +1322,24 @@ RSpec.describe ApplicationForm do
       expect(application_form.redacted_full_name).to eq('F***** L*****')
     end
   end
+
+  describe '#eligible_for_teaching_training_adviser?' do
+    it 'returns true when the validation is valid' do
+      application_form = build(:application_form)
+      allow(Adviser::ApplicationFormValidations).to receive(:new)
+                                                .with(application_form)
+                                                .and_return(instance_double(Adviser::ApplicationFormValidations, valid?: true))
+
+      expect(application_form.eligible_for_teaching_training_adviser?).to be true
+    end
+
+    it 'returns false when the validation is invalid' do
+      application_form = build(:application_form)
+      allow(Adviser::ApplicationFormValidations).to receive(:new)
+                                                      .with(application_form)
+                                                      .and_return(instance_double(Adviser::ApplicationFormValidations, valid?: false))
+
+      expect(application_form.eligible_for_teaching_training_adviser?).to be false
+    end
+  end
 end
