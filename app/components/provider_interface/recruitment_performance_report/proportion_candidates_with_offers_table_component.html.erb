@@ -14,8 +14,9 @@
     </p>
     <%= govuk_list(
           [t('.candidates_with_offers_received'),
-           t('.candidates_with_offers_withdrawn_or_deferred'),
-           t('.candidates_withdrawn_or_declined')], type: :bullet
+           t('.offers_withdrawn_or_deferred_by_providers'),
+           t('.candidates_deferred_or_declined_after_accepting'),
+           t('.candidates_failed_to_meet_conditions')], type: :bullet
         ) %>
   </span>
 <% end %>

@@ -18,7 +18,7 @@ en:
           contents: Contents
           about_this_data: About this data
           candidates_who_have_submitted_applications: Candidates who have submitted applications
-          candidates_with_an_offer: Candidates with an offer
+          candidates_with_an_offer: Candidates that received an offer
           proportion_of_candidates_with_an_offer: Proportion of candidates with an offer
           offers_accepted: Offers accepted
           candidate_deferrals: Deferrals
@@ -66,31 +66,24 @@ en:
             <p class="govuk-body">After their first application is rejected, but before they submit their second
             application, they are included in the count of candidates with rejected applications.</p>
 
-            <p class="govuk-body"> If their second applications is also rejected, they would be included in the count of
+            <p class="govuk-body"> If their second application is also rejected, they would be included in the count of
             rejected applications again.</p>
 
             <p class="govuk-body">Candidates can submit applications for more than one subject. These candidates are
             counted under all subjects that they have applied to. This means that the ‘All subjects’ row does not equal
             the total of the rows above it.</p>
 
-            <p class="govuk-body">Subjects where no applications are not included in the tables. This means that some
+            <p class="govuk-body">Subjects with no applications are not included in the tables. This means that some
             subjects may appear in some tables and not others.</p>
           data_timeframes_heading: Data timeframes
           data_timeframes_explanation_html:
-            <p class="govuk-body">The recruitment cycle does not start on the same date each calendar year. The figures
-            for ‘last cycle’ include data up to and including the date which was the same number of days from the first day of the previous cycle as
-            the publication date is from the first day of the current cycle.</p>
-
-            <p class="govuk-body">This means days in last cycle will not be the same calendar date as days in this cycle.
-            For example, day one of last cycle was on %{last_cycle_start_date}, but day one of the current cycle was
-            %{this_cycle_start_date}.</p>
-
-            <p class="govuk-body">The recruitment cycle does not start on the same date each year. Where a table compares data
-            from last cycle to this cycle, the data will not be for the same dates, but it will be for the same number
-            of days.</p>
+            <p class="govuk-body">The recruitment cycle does not start on the same date each year. Where a table
+            compares data from last cycle to this cycle, the data will not be for the same dates, but it will be for the
+            same number of days.</p>
 
             <p class="govuk-body">The time period that is used for comparison is the same number of days from the start
             of the last cycle, as the report date is from the start of this cycle.</p>
 
-            <p class="govuk-body">These statistics collect data up to and including the day before they were published.
+            <p class="govuk-body">These statistics are updated up to and including the day before they are published.
             The report is published weekly on a Monday.</p>
+

@@ -6,15 +6,12 @@
 ) do %>
   <span>
     <p class="govuk-body">
-      <%= t('.candidates_who_have_accepted_offers', provider_name: @provider.name) %>
+      <%= t('.candidates_who_have_accepted_offers') %>
     </p>
     <p class="govuk-body">
       <%= t('.you_can_compare_the_data_to') %>
     </p>
     <%= govuk_list([t('.last_cycle'), t('.national_data')], type: :bullet) %>
-    <p class="govuk-body">
-      <%= t('.candidates_who_deferred') %>
-    </p>
     <p class="govuk-body">
       <%= t('.table_does_not_include') %>
     </p>

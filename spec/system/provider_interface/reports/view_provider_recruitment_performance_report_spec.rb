@@ -73,10 +73,10 @@ private
       id: 'candidates_who_have_submitted_applications',
     )
 
-    expect(page).to have_link('Candidates with an offer', href: '#candidates_with_an_offer')
+    expect(page).to have_link('Candidates that received an offer', href: '#candidates_with_an_offer')
     expect(page).to have_css(
       'h2',
-      text: '3. Candidates with an offer',
+      text: '3. Candidates that received an offer',
       id: 'candidates_with_an_offer',
     )
 
