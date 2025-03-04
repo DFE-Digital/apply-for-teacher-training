@@ -1342,4 +1342,95 @@ RSpec.describe ApplicationForm do
       expect(application_form.eligible_for_teaching_training_adviser?).to be false
     end
   end
+
+  describe '#applicable_degree_for_adviser' do
+    let(:application_form) { create(:application_form) }
+
+    it 'returns nil when there are no qualifications' do
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes non-degree type qualifications' do
+      create(:gcse_qualification, application_form:)
+      create(:other_qualification, application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes incomplete degrees' do
+      create(:degree_qualification,
+             :adviser_sign_up_applicable,
+             :incomplete,
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes international degrees without equivalency details' do
+      create(:non_uk_degree_qualification,
+             :adviser_sign_up_applicable,
+             enic_reference: nil,
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes domestic degrees do not meet the minimum grade requirements' do
+      create(:degree_qualification,
+             :adviser_sign_up_applicable,
+             grade: 'Third-class honours',
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes degrees that are not an applicable level' do
+      create(:degree_qualification,
+             :adviser_sign_up_applicable,
+             qualification_level: 'foundation',
+             application_form:)
+
+      create(:non_uk_degree_qualification,
+             :adviser_sign_up_applicable,
+             comparable_uk_degree: 'bachelor_ordinary_degree',
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'returns an applicable domestic degree, favouring the degree with the highest grade' do
+      create(:degree_qualification,
+             :adviser_sign_up_applicable,
+             application_form:,
+             grade: 'Upper second-class honours (2:1)')
+
+      first_class_domestic_degree = create(:degree_qualification,
+                                           :adviser_sign_up_applicable,
+                                           application_form:,
+                                           grade: 'First-class honours')
+
+      expect(application_form.applicable_degree_for_adviser).to eq(first_class_domestic_degree)
+    end
+
+    it 'returns an applicable international degree' do
+      applicable_international_degree = create(:non_uk_degree_qualification,
+                                               :adviser_sign_up_applicable,
+                                               application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to eq(applicable_international_degree)
+    end
+
+    it 'returns a domestic degree if there are international degrees as well' do
+      first_class_domestic_degree = create(:degree_qualification,
+                                           :adviser_sign_up_applicable,
+                                           application_form:,
+                                           grade: 'First-class honours')
+
+      create(:non_uk_degree_qualification,
+             :adviser_sign_up_applicable,
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to eq(first_class_domestic_degree)
+    end
+  end
 end
