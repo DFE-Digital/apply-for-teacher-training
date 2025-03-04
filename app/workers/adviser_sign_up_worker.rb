@@ -9,22 +9,20 @@ class AdviserSignUpWorker
     qualification_id
   ].freeze
 
-  def perform(application_form_id, preferred_teaching_subject_id)
-    @application_form = Adviser::ApplicationFormValidations.new(
-      ApplicationForm.find(application_form_id),
-    )
-    @candidate_matchback = Adviser::CandidateMatchback.new(application_form)
-    @preferred_teaching_subject_id = preferred_teaching_subject_id
+  def perform(application_form_id, preferred_teaching_subject_external_identifier)
+    @application_form = ApplicationForm.find(application_form_id)
+    @preferred_teaching_subject_id = preferred_teaching_subject_external_identifier
 
-    request = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(attributes)
-    api.sign_up_teacher_training_adviser_candidate(request)
+    # Send the sign-up to the GIT API
+    teacher_training_adviser_sign_up = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(attributes)
+    GetIntoTeachingApiClient::TeacherTrainingAdviserApi.new.sign_up_teacher_training_adviser_candidate(teacher_training_adviser_sign_up)
   end
 
 private
 
   def attributes
     {
-      email: application_form.email_address,
+      email: application_form.candidate.email_address,
       first_name: application_form.first_name,
       last_name: application_form.last_name,
       date_of_birth: application_form.date_of_birth,
@@ -49,6 +47,8 @@ private
   end
 
   def matchback_attributes
+    candidate_matchback = Adviser::CandidateMatchback.new(application_form)
+
     teacher_training_adviser_sign_up = candidate_matchback.teacher_training_adviser_sign_up
 
     teacher_training_adviser_sign_up
@@ -57,7 +57,7 @@ private
   end
 
   def degree
-    application_form.applicable_degree
+    application_form.applicable_degree_for_adviser
   end
 
   def pass_gcse_maths_and_english?
@@ -112,10 +112,6 @@ private
 
   def latest_privacy_policy
     @latest_privacy_policy ||= GetIntoTeachingApiClient::PrivacyPoliciesApi.new.get_latest_privacy_policy
-  end
-
-  def api
-    @api ||= GetIntoTeachingApiClient::TeacherTrainingAdviserApi.new
   end
 
   def country_id

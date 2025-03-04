@@ -6,6 +6,7 @@ class ApplicationForm < ApplicationRecord
   geocoded_by :address_formatted_for_geocoding, params: { region: 'uk' }
 
   include Chased
+  include HasApplicableDegreeForAdviser
 
   has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
   delegate :apply_deadline_at,
@@ -708,6 +709,11 @@ class ApplicationForm < ApplicationRecord
 
   def can_submit?
     current_cycle? && Time.zone.now.between?(apply_opens_at, apply_deadline_at)
+  end
+
+  def eligible_for_teaching_training_adviser?
+    validations = Adviser::ApplicationFormValidations.new(self)
+    validations.valid?
   end
 
 private
