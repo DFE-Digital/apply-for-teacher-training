@@ -2,17 +2,11 @@ class Adviser::SignUp
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  attr_reader :application_form, :availability, :teaching_subjects
+  attribute :application_form
   attribute :preferred_teaching_subject_id
 
   validates :preferred_teaching_subject_id, inclusion: { in: :teaching_subject_ids, allow_blank: false }
   validate :application_form_valid_for_adviser_sign_up
-
-  def initialize(application_form, *, **)
-    @application_form = application_form
-
-    super(*, **)
-  end
 
   def save
     return false if invalid?
