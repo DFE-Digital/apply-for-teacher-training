@@ -33,7 +33,14 @@ module ProviderInterface
       end
 
       def filter_params
-        params.permit(:within, :original_location, visa_sponsorship: [])
+        params.permit(
+          :within,
+          :original_location,
+          subject: [],
+          study_mode: [],
+          course_type: [],
+          visa_sponsorship: [],
+        )
       end
     end
   end

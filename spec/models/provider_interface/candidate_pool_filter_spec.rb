@@ -16,6 +16,47 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           original_location: nil,
         },
         {
+          type: :checkbox_filter,
+          heading: 'Subject',
+          name: 'subject',
+          options: [],
+          hide_tags: true,
+        },
+        {
+          type: :checkboxes,
+          heading: 'Study type',
+          name: 'study_mode',
+          options: [
+            {
+              value: 'full_time',
+              label: 'Full time',
+              checked: nil,
+            },
+            {
+              value: 'part_time',
+              label: 'Part time',
+              checked: nil,
+            },
+          ],
+        },
+        {
+          type: :checkboxes,
+          heading: 'Course type',
+          name: 'course_type',
+          options: [
+            {
+              value: 'HE,HES,SD,SS,SC,SSC,TA',
+              label: 'Undergraduate',
+              checked: nil,
+            },
+            {
+              value: 'TDA',
+              label: 'Postgraduate',
+              checked: nil,
+            },
+          ],
+        },
+        {
           type: :checkboxes,
           heading: 'Visa sponsorship',
           name: 'visa_sponsorship',
