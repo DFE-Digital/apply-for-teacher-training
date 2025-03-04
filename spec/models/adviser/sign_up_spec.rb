@@ -11,7 +11,7 @@ RSpec.describe Adviser::SignUp do
 
   subject(:sign_up) do
     described_class.new(
-      application_form,
+      application_form:,
       preferred_teaching_subject_id: preferred_teaching_subject&.external_identifier,
     )
   end

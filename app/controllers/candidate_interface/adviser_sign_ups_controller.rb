@@ -25,7 +25,7 @@ module CandidateInterface
     end
 
     def set_adviser_sign_up
-      @adviser_sign_up = Adviser::SignUp.new(application_form, adviser_sign_up_params)
+      @adviser_sign_up = Adviser::SignUp.new(adviser_sign_up_params.merge(application_form: ))
     end
 
     def application_form
