@@ -8,7 +8,7 @@ RSpec.describe 'Candidate Interface - adviser sign up availability' do
   let(:application_form) { create(:application_form_eligible_for_adviser) }
 
   before do
-    availability_double = instance_double(Adviser::SignUpAvailability, available?: available)
+    availability_double = instance_double(Adviser::SignUpAvailability, eligible_for_an_adviser?: available)
     allow(Adviser::SignUpAvailability).to receive(:new).and_return(availability_double)
 
     sign_in application_form.candidate

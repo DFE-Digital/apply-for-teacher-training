@@ -39,7 +39,7 @@ module CandidateInterface
     end
 
     def render_404_unless_available
-      render_404 unless Adviser::SignUpAvailability.new(application_form).available?
+      render_404 unless Adviser::SignUpAvailability.new(application_form).eligible_for_an_adviser?
     end
   end
 end
