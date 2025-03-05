@@ -5,8 +5,7 @@ RSpec.describe 'Candidate Interface - adviser sign up availability' do
 
   include Devise::Test::IntegrationHelpers
 
-  let(:candidate) { create(:candidate) }
-  let(:application_form) { create(:application_form_eligible_for_adviser, candidate:) }
+  let(:application_form) { create(:application_form_eligible_for_adviser) }
 
   before do
     availability_double = instance_double(Adviser::SignUpAvailability, available?: available)
