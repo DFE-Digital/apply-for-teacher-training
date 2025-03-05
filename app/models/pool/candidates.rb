@@ -14,7 +14,7 @@ class Pool::Candidates
     dismissed_candidates = Candidate.joins(:pool_dismissals).where(pool_dismissals: { provider: providers })
 
     filtered_application_forms.joins(:candidate)
-      .where(candidate: { pool_status: :opt_in })
+      .where(candidate: { pool_status: :opt_in, submission_blocked: false, account_locked: false })
       .where.not(candidate_id: dismissed_candidates.ids)
       .order(order_by)
   end
@@ -57,10 +57,11 @@ private
       filters.fetch(:within),
       units: :miles,
       origin:,
-    ).map(&:id)
+    ).select(:id)
 
     scope.joins(application_choices: { course_option: :site })
-      .where('application_choices.created_at = ( select max(created_at) from application_choices where application_choices.application_form_id = application_forms.id)')
+      # get the last sent application_choice
+      .where('application_choices.sent_to_provider_at = ( select max(sent_to_provider_at) from application_choices where application_choices.application_form_id = application_forms.id)')
       .where(sites: { id: site_ids })
       .select('application_forms.*', "#{calculate_distance_sql} AS site_distance")
   end
