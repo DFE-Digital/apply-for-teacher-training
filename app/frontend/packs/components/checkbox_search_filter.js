@@ -28,7 +28,7 @@ class CheckboxSearchFilter {
       if (labelValue.search(textValue) === -1) {
         allCheckboxes[i].style.display = 'none'
       } else {
-        allCheckboxes[i].style.display = 'block'
+        allCheckboxes[i].style.display = 'flex'
       }
     }
 
