@@ -228,7 +228,7 @@ RSpec.describe 'Deleting and replacing a degree' do
   end
 
   def and_if_there_is_only_a_foundation_degree
-    click_change_link('qualification')
+    click_change_link('degree type')
     choose 'Foundation degree'
     and_i_click_on_save_and_continue
     choose 'Foundation of Arts (FdA)'
