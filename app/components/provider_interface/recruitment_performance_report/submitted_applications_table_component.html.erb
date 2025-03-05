@@ -6,10 +6,11 @@
 ) do %>
   <span>
     <p class="govuk-body">
-      <%= t('submitted_applications_table_component.description_one', provider_name: @provider.name) %>
+      <%= t('.number_of_candidates_submitted', provider_name: @provider.name) %>
     </p>
+    <%= govuk_list([t('.last_cycle'), t('.national_data')], type: :bullet) %>
     <p class="govuk-body">
-      <%= t('submitted_applications_table_component.description_two') %>
+      <%= t('.candidates_who_withdrew') %>
     </p>
   </span>
 <% end %>

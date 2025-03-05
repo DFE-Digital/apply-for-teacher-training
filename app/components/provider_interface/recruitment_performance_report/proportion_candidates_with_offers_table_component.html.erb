@@ -6,15 +6,17 @@
 ) do %>
   <span>
     <p class="govuk-body">
-      <%= t('proportion_candidates_with_offers_table_component.proportion_of_all_candidates', provider_name: @provider.name) %>
+      <%= t('.proportion_of_all_candidates', provider_name: @provider.name) %>
     </p>
+    <%= govuk_list([t('.last_cycle'), t('.national_data')], type: :bullet) %>
     <p class="govuk-body">
-      <%= t('proportion_candidates_with_offers_table_component.table_includes') %>
+      <%= t('.table_includes') %>
     </p>
-    <%= govuk_list([
-                     t('proportion_candidates_with_offers_table_component.li_one'),
-                     t('proportion_candidates_with_offers_table_component.li_two'),
-                     t('proportion_candidates_with_offers_table_component.li_three'),
-         ], type: :bullet) %>
+    <%= govuk_list(
+          [t('.candidates_with_offers_received'),
+           t('.offers_withdrawn_or_deferred_by_providers'),
+           t('.candidates_deferred_or_declined_after_accepting'),
+           t('.candidates_failed_to_meet_conditions')], type: :bullet
+        ) %>
   </span>
 <% end %>

@@ -1,69 +1,37 @@
 <div class="govuk-grid-column-two-thirds">
-
   <h2 class="govuk-heading-m" id='about_this_data'>
-    <%= t('about_this_data_section.section_heading') %>
+    <%= t('.section_heading') %>
   </h2>
+  <% if @provider_report.show_changes_section? %>
+    <h3 class="govuk-heading-s">
+      <%= t('.subsection_heading_one', cycle_range: @provider_report.cycle_range_name) %>
+    </h3>
+    <%= t('.whats_new_in_2024_html') %>
+  <% end %>
 
   <h3 class="govuk-heading-s">
-    <% if @provider_report.show_changes_section? %>
-      <%= t('about_this_data_section.subsection_heading_one', cycle_range: @provider_report.cycle_range_name) %>
-      <p class="govuk-body">
-        <%= t('about_this_data_section.whats_new_in_2024_paragraph_one') %>
-      </p>
-      <p class="govuk-body">
-        <%= t('about_this_data_section.whats_new_in_2024_paragraph_two') %>
-      </p>
-      <p class="govuk-body">
-        <%= t('about_this_data_section.whats_new_in_2024_paragraph_three') %>
-      </p>
-    <% end %>
-  </h3>
-
-  <h3 class="govuk-heading-s">
-    <%= t('about_this_data_section.subsection_heading_two') %>
+    <%= t('.subsection_heading_two') %>
   </h3>
   <p class="govuk-body">
-    <%= t('about_this_data_section.subsection_two_paragraph_one') %>
+    <%= t('.these_applications_are_not_included') %>
   </p>
   <%= govuk_list([
-                   t('about_this_data_section.subsection_two_list_item_one'),
-                   t('about_this_data_section.subsection_two_list_item_two'),
-                   t('about_this_data_section.subsection_two_list_item_three'),
+                   t('.applications_made_directly_to_providers'),
+                   t('.undergraduate_except_tda'),
+                   t('.further_education_applications'),
                  ], type: :bullet) %>
 
   <h3 class="govuk-heading-s">
-    <%= t('about_this_data_section.subsection_heading_three') %>
+    <%= t('.understanding_the_figures_in_the_table_heading') %>
   </h3>
-  <p class="govuk-body">
-    <%= t('about_this_data_section.subsection_three_paragraph_one') %>
-  </p>
-  <p class="govuk-body">
-    <%= t('about_this_data_section.subsection_three_paragraph_two') %>
-  </p>
-  <p class="govuk-body">
-    <%= t('about_this_data_section.subsection_three_paragraph_three') %>
-  </p>
-  <p class="govuk-body">
-    <%= t('about_this_data_section.subsection_three_paragraph_four') %>
-  </p>
-  <p class="govuk-body">
-    <%= t('about_this_data_section.subsection_three_paragraph_five') %>
-  </p>
+  <%= t('.understanding_the_figures_explanation_html') %>
 
   <h3 class="govuk-heading-s">
-    <%= t('about_this_data_section.subsection_heading_four') %>
+    <%= t('.data_timeframes_heading') %>
   </h3>
-  <p class="govuk-body">
-    <%= t('about_this_data_section.subsection_four_paragraph_one') %>
-  </p>
-  <p class="govuk-body">
-    <%= t(
-          'about_this_data_section.subsection_four_paragraph_two',
-          last_cycle_start_date: @provider_report.last_cycle_start_date,
-          this_cycle_start_date: @provider_report.this_cycle_start_date,
-        ) %>
-  </p>
-  <p class="govuk-body">
-    <%= t('about_this_data_section.subsection_four_paragraph_three') %>
-  </p>
+  <%= t(
+        '.data_timeframes_explanation_html',
+        last_cycle_start_date: @provider_report.last_cycle_start_date,
+        this_cycle_start_date: @provider_report.this_cycle_start_date,
+      ) %>
 </div>

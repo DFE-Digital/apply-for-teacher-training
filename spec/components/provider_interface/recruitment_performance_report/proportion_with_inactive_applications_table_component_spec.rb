@@ -8,7 +8,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::ProportionWithIn
 
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-    expect(page).to have_table('8. Proportion of candidates who have waited more than 30 days for a response')
+    expect(page).to have_table('8. Proportion of candidates who have waited more than 30 working days for a response')
     expect(page).to have_content(description(provider.name))
     expect(page).to have_content('Subject')
 
@@ -46,6 +46,6 @@ private
   end
 
   def description(provider_name)
-    "The proportion of candidates who have waited for 30 days or more for #{provider_name} to respond to their application, compared with national level data."
+    "This table shows the proportion of candidates who have waited for 30 working days or more for #{provider_name} to respond to their application."
   end
 end
