@@ -21,7 +21,7 @@ en:
   application_form:
     degree:
       qualification:
-        change_action: qualification
+        change_action: degree type
       uk_degree:
         label: UK degree
       non_uk_degree:
