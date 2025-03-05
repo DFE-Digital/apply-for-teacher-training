@@ -2,17 +2,14 @@ Hello <%= @application_form.first_name %>
 
 You submitted an application for <%= @course_name_and_code %> on <%= @application_choice.sent_to_provider_at.to_date.to_fs(:govuk_date) %>.
 
-Because the training provider has failed to respond, we strongly recommend you apply for other courses.
+If you have not received a response to your application yet, we recommend you apply for other courses to improve your chances of success.
 
-^Our analysis shows that if you haven't heard back from a provider after 30 working days, you are unlikely to receive an offer.
-
-Candidates who apply for 4 or more courses are more likely to receive an offer.
+^Our analysis shows that if you haven't heard back from a provider after 30 working days, it is less likely that you will receive an offer.
 
 [Sign in to your account to apply for another course](<%= application_choices_link %>).
 
-You can also contact <%= @provider_name %> to check on your application.
+You can also contact <%= @provider_name %> to check on your application. If you are already in contact with them about your application, you can ignore this email.
 
 <%= render 'understand_your_professional_strengths' %>
 
 <%= render 'get_help_teacher_training_adviser' %>
-
