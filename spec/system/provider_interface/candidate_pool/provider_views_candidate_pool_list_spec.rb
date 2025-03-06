@@ -110,7 +110,7 @@ RSpec.describe 'Providers views candidate pool list' do
     )
     aa_teamworks = create(
       :site,
-      latitude: 51.4524880,
+      latitude: 51.5249377,
       longitude: -0.1204752,
       provider: current_provider,
     )
