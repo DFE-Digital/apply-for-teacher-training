@@ -9,7 +9,8 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
       described_class.new.perform(provider.id,
                                   RecruitmentCycle.current_year)
     end
-    let(:stubbed_attributes) { [{ accredited_body_code: nil, state: stubbed_api_course_state }] }
+    let(:stubbed_attributes) { [{ accredited_body_code: nil, state: stubbed_api_course_state, visa_sponsorship_application_deadline_at: stubbed_sponsorship_application_deadline_at }] }
+    let(:stubbed_sponsorship_application_deadline_at) { nil }
 
     before do
       stub_teacher_training_api_courses(provider_code: provider.code, specified_attributes: stubbed_attributes)
@@ -18,9 +19,31 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
 
     context 'when the API course has a published state' do
       let(:stubbed_api_course_state) { 'published' }
+      let(:stubbed_sponsorship_application_deadline_at) { nil }
 
       it 'creates the course' do
         expect { perform_job }.to change(provider.courses, :count)
+      end
+    end
+
+    context 'when the sponsorship deadline is not provided' do
+      let(:stubbed_api_course_state) { 'published' }
+
+      it 'does not add visa_sponsorship_application_deadline_at value to course' do
+        perform_job
+        expect(provider.courses.where.not(visa_sponsorship_application_deadline_at: nil).count).to eq 0
+      end
+    end
+
+    context 'when the sponsorship deadline is provided' do
+      let(:stubbed_api_course_state) { 'published' }
+      let(:stubbed_sponsorship_application_deadline_at) { 2.days.from_now }
+
+      it 'saves the visa_sponsorship_application_deadline_at value to course' do
+        perform_job
+        expect(provider.courses.where.not(visa_sponsorship_application_deadline_at: nil).first.visa_sponsorship_application_deadline_at)
+          .to be_within(1.second)
+                .of(stubbed_sponsorship_application_deadline_at)
       end
     end
 
