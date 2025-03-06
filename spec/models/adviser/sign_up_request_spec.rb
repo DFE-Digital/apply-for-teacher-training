@@ -32,7 +32,7 @@ RSpec.describe Adviser::SignUpRequest do
     context 'when sent_to_adviser_at is not present' do
       let(:adviser_sign_up_request) { build(:adviser_sign_up_request, sent_to_adviser_at: nil) }
 
-      it 'does sets the sent_to_adviser_at' do
+      it 'sets the sent_to_adviser_at' do
         current_time = Time.zone.now
         expect {
           adviser_sign_up_request.sent_to_adviser!(current_time)
