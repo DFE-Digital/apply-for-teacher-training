@@ -295,6 +295,7 @@ shared:
     - fee_international
     - fee_domestic
     - salary_details
+    - visa_sponsorship_application_deadline_at
   emails:
     - application_form_id
     - created_at
