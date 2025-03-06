@@ -1354,7 +1354,8 @@ RSpec.describe ApplicationForm do
 
     context 'when the application form is eligible' do
       before do
-        allow(application_form).to receive(:eligible_and_unassigned_a_teaching_training_adviser?).and_return(true)
+        validation_double = instance_double(Adviser::ApplicationFormValidations, valid?: true)
+        allow(Adviser::ApplicationFormValidations).to receive(:new).and_return(validation_double)
       end
 
       it { is_expected.to be_eligible_to_sign_up_for_a_teaching_training_adviser }
@@ -1362,7 +1363,8 @@ RSpec.describe ApplicationForm do
 
     context 'when the application form is not eligible' do
       before do
-        allow(application_form).to receive(:eligible_and_unassigned_a_teaching_training_adviser?).and_return(false)
+        validation_double = instance_double(Adviser::ApplicationFormValidations, valid?: false)
+        allow(Adviser::ApplicationFormValidations).to receive(:new).and_return(validation_double)
       end
 
       it { is_expected.not_to be_eligible_to_sign_up_for_a_teaching_training_adviser }
