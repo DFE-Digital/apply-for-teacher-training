@@ -1,0 +1,20 @@
+en:
+  candidate_interface:
+    sponsorship_application_deadlines:
+      applications_dashboard_banner_component:
+        one_choice_text:
+          zero: >
+            Submit your application for %{course_name} soon. The deadline for applications that need visa sponsorship is
+            at %{deadline_at} today.
+          one: >
+            Submit your application for %{course_name} soon. The deadline for applications that need visa sponsorship is
+            in 1 day.
+          other: >
+            Submit your application for %{course_name} soon. The deadline for applications that need visa sponsorship is
+            in %{count} days.
+        submit_your_applications_soon: Submit your applications soon
+        deadlines_approaching: The deadlines for these courses that need visa sponsorship are approaching
+        multiple_choice_text:
+          zero: "%{course_name} - deadline at %{deadline_at} today"
+          one: "%{course_name} - deadline in %{count} day"
+          other: "%{course_name} - deadline in %{count} days"

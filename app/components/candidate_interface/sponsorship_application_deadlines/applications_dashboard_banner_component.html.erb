@@ -1,0 +1,30 @@
+<%= govuk_notification_banner(title_text: t('notification_banner.important')) do %>
+  <% if choices.count == 1 %>
+    <h2 class="govuk-heading-m">
+      <%= t(
+            '.one_choice_text',
+            course_name: course_name(choices.first),
+            count: count_down(choices.first),
+            deadline_at: deadline_at(choices.first),
+          ) %>
+    </h2>
+  <% else %>
+    <h2 class="govuk-heading-m">
+      <%= t('.submit_your_applications_soon') %>
+    </h2>
+    <p class="govuk-body">
+      <%= t('.deadlines_approaching') %>
+    </p>
+    <%= govuk_list(
+          choices.map do |choice|
+            t(
+              '.multiple_choice_text',
+              course_name: course_name(choice),
+              count: count_down(choice),
+              deadline_at: deadline_at(choice),
+            )
+          end,
+          type: :bullet,
+        ) %>
+  <% end %>
+<% end %>
