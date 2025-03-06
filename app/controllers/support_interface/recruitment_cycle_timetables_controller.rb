@@ -5,11 +5,11 @@ module SupportInterface
     end
 
     def edit
-      @cycle_switcher_form = SupportInterface::CycleSwitcherForm.build_from_timetable(timetable)
+      @cycle_switcher_form = SupportInterface::CycleSwitcherFormBuilder.new.build(timetable:)
     end
 
     def update
-      @cycle_switcher_form = SupportInterface::CycleSwitcherForm.build_from_form(
+      @cycle_switcher_form = SupportInterface::CycleSwitcherFormBuilder.new.build(
         recruitment_cycle_timetable_form_params, timetable:
       )
 

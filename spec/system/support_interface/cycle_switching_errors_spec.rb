@@ -68,7 +68,7 @@ private
       fill_in 'Day', with: -1
     end
     within_fieldset 'Find closes' do
-      fill_in 'Year', with: 'year'
+      fill_in 'Year', with: 2051
     end
 
     click_on 'Update'

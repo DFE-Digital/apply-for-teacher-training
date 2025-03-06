@@ -50,7 +50,10 @@ class RecruitmentCycleTimetableDateSequenceValidator < ActiveModel::Validator
       decline_by_default_at
       find_closes_at
     ].each do |attr|
-      errors.add(attr, :invalid_date) unless record.send(attr).respond_to? :to_date
+      value = record.send(attr)
+      errors.add(attr, :invalid_date) unless value.respond_to? :to_date
+      errors.add(attr, :invalid_date) if value.year.to_i < 2018
+      errors.add(attr, :invalid_date) if value.year.to_i > 2050
     end
   end
 end
