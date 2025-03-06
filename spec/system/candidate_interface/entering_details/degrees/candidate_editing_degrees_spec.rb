@@ -286,7 +286,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def when_i_click_to_change_my_masters_undergraduate_degree_type
-    click_change_link('specific type of degree')
+    click_change_link('type of master’s degree')
   end
 
   def then_i_see_another_masters_degree_selected

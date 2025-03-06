@@ -30,7 +30,7 @@ en:
         review_label: Degree type
       type_of_degree:
         review_label: Type of %{degree}
-        change_action: specific type of degree
+        change_action: type of %{degree}
       international_qualification_type:
         hint_text: For example, Bachelor degree, Bachelor of Arts, Diplôme, Licenciatura
       subject:
