@@ -53,9 +53,9 @@ module ProviderInterface
     private
 
       def set_candidate
-        @candidate ||= Pool::Candidates.for_provider(
+        @candidate ||= Pool::Candidates.application_forms_for_provider(
           providers: current_provider_user.providers,
-        ).find_by(id: params.expect(:candidate_id))
+        ).find_by(candidate_id: params.expect(:candidate_id)).candidate
       end
 
       def pool_invite_form_params
