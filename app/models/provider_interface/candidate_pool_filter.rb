@@ -109,7 +109,7 @@ module ProviderInterface
 
     def course_type_options
       %w[undergraduate postgraduate].map do |value|
-        filter_value = if value == 'undergraduate'
+        filter_value = if value == 'postgraduate'
                          Course.program_types.except('teacher_degree_apprenticeship').values.join(',')
                        else
                          Course.program_types['teacher_degree_apprenticeship']
