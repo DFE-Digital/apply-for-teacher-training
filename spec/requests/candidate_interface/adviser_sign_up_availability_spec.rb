@@ -4,6 +4,7 @@ RSpec.describe 'Candidate Interface - adviser sign up availability' do
   include Devise::Test::IntegrationHelpers
 
   subject do
+    sign_in application_form.candidate
     perform_request
     response
   end
