@@ -6,7 +6,7 @@
 
 <%= render 'guidance' %>
 
-<% if adviser_sign_up.eligible_for_an_adviser? %>
+<% if adviser_sign_up.eligible_and_unassigned_a_teaching_training_adviser? %>
   <p class="govuk-body">If you have a bachelor’s degree, you can get support with your personal statement by speaking to our <%= govuk_link_to('teacher training advisers', new_candidate_interface_adviser_sign_up_path) %>.</p>
 <% elsif adviser_sign_up.waiting_to_be_assigned_to_an_adviser? || adviser_sign_up.already_assigned_to_an_adviser? %>
   <p class="govuk-body">Ask your teacher training adviser for help with your personal statement.</p>

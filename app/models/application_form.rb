@@ -711,7 +711,7 @@ class ApplicationForm < ApplicationRecord
     current_cycle? && Time.zone.now.between?(apply_opens_at, apply_deadline_at)
   end
 
-  def eligible_for_teaching_training_adviser?
+  def eligible_and_unassigned_a_teaching_training_adviser?
     validations = Adviser::ApplicationFormValidations.new(self)
     validations.valid?
   end

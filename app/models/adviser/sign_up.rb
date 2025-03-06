@@ -29,7 +29,7 @@ class Adviser::SignUp
 private
 
   def application_form_valid_for_adviser_sign_up
-    return if application_form.eligible_for_teaching_training_adviser?
+    return if application_form.eligible_and_unassigned_a_teaching_training_adviser?
 
     errors.add(:application_form, :invalid_adviser_sign_up)
   end

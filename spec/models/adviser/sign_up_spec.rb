@@ -22,7 +22,7 @@ RSpec.describe Adviser::SignUp do
     it { is_expected.to validate_inclusion_of(:preferred_teaching_subject_id).in_array(valid_subjects) }
 
     it 'is invalid when the application_form is not eligible for an adviser' do
-      allow(application_form).to receive(:eligible_for_teaching_training_adviser?).and_return(false)
+      allow(application_form).to receive(:eligible_and_unassigned_a_teaching_training_adviser?).and_return(false)
 
       expect(sign_up).not_to be_valid
       expect(sign_up.errors.messages[:application_form]).to include('You are not eligible for a Teacher Training Adviser')

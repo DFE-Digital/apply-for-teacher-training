@@ -16,7 +16,7 @@ RSpec.describe Adviser::SignUpAvailability do
   describe '#eligible_for_an_adviser?' do
     context 'when the application form is eligible' do
       before do
-        allow(application_form).to receive(:eligible_for_teaching_training_adviser?).and_return(true)
+        allow(application_form).to receive(:eligible_and_unassigned_a_teaching_training_adviser?).and_return(true)
       end
 
       it { is_expected.to be_eligible_for_an_adviser }
@@ -24,7 +24,7 @@ RSpec.describe Adviser::SignUpAvailability do
 
     context 'when the application form is not eligible' do
       before do
-        allow(application_form).to receive(:eligible_for_teaching_training_adviser?).and_return(false)
+        allow(application_form).to receive(:eligible_and_unassigned_a_teaching_training_adviser?).and_return(false)
       end
 
       let(:application_form) { create(:application_form) }
@@ -35,15 +35,15 @@ RSpec.describe Adviser::SignUpAvailability do
     context 'refreshing the adviser status' do
       it 'queues the refresh worker' do
         expect {
-          availability.eligible_for_an_adviser?
+          availability.eligible_to_sign_up_for_a_teaching_training_adviser?
         }.to change(Adviser::RefreshAdviserStatusWorker.jobs, :size).from(0).to(1)
       end
 
       it 'does not queue the refresh worker if it has been refreshed recently' do
-        availability.eligible_for_an_adviser?
+        availability.eligible_to_sign_up_for_a_teaching_training_adviser?
 
         expect {
-          availability.eligible_for_an_adviser?
+          availability.eligible_to_sign_up_for_a_teaching_training_adviser?
         }.not_to change(Adviser::RefreshAdviserStatusWorker.jobs, :size)
       end
     end

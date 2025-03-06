@@ -1,6 +1,6 @@
 <%# locals: (adviser_sign_up:) %>
 
-<% if adviser_sign_up.eligible_for_an_adviser? %>
+<% if adviser_sign_up.eligible_to_sign_up_for_a_teaching_training_adviser? %>
   <aside class="app-related" aria-labelledby="tta-title">
     <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="tta-title">
       <%= t('application_form.adviser_sign_up.call_to_action.available.heading') %>

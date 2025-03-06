@@ -7,10 +7,10 @@ class Adviser::SignUpAvailability
     @application_form = application_form
   end
 
-  def eligible_for_an_adviser?
+  def eligible_to_sign_up_for_a_teaching_training_adviser?
     refresh_adviser_status
 
-    application_form.eligible_for_teaching_training_adviser?
+    application_form.eligible_and_unassigned_a_teaching_training_adviser?
   end
 
   def already_assigned_to_an_adviser?
