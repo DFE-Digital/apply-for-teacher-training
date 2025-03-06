@@ -113,7 +113,7 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
           key: 'Type of bachelor degree',
           value: 'Bachelor of Arts in Architecture',
           action: {
-            text: "Change #{t('application_form.degree.type_of_degree.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+            text: "Change #{t('application_form.degree.type_of_degree.change_action', degree: 'bachelor degree')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
             href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :type),
           },
         )
@@ -141,7 +141,7 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
             key: 'Type of bachelor degree',
             value: 'Bachelor of arts in architecture',
             action: {
-              text: "Change #{t('application_form.degree.type_of_degree.change_action')} for Bachelor of arts in architecture, Woof, University of Doge, 2008",
+              text: "Change #{t('application_form.degree.type_of_degree.change_action', degree: 'bachelor degree')} for Bachelor of arts in architecture, Woof, University of Doge, 2008",
               href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :type),
             },
           )
@@ -183,7 +183,7 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
           key: 'Type of bachelor degree',
           value: 'Bachelor of Arts in Architecture',
           action: {
-            text: "Change #{t('application_form.degree.type_of_degree.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+            text: "Change #{t('application_form.degree.type_of_degree.change_action', degree: 'bachelor degree')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
             href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :type),
           },
         )
@@ -237,7 +237,7 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
         key: 'Type of bachelor degree',
         value: 'Bachelor of Arts in Architecture',
         action: {
-          text: "Change #{t('application_form.degree.type_of_degree.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+          text: "Change #{t('application_form.degree.type_of_degree.change_action', degree: 'bachelor degree')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
           href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :type),
         },
       )
@@ -628,7 +628,7 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
         key: t('application_form.degree.type_of_degree.review_label', degree: 'bachelor degree'),
         value: 'Bachelor of Arts',
         action: {
-          text: "Change #{t('application_form.degree.type_of_degree.change_action')} for Bachelor of Arts, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          text: "Change #{t('application_form.degree.type_of_degree.change_action', degree: 'bachelor degree')} for Bachelor of Arts, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
           href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :type),
         },
       )
@@ -698,7 +698,7 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
         key: 'Type of doctorate',
         value: 'Doctor of education',
         action: {
-          text: "Change specific type of degree for Doctor of education, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          text: "Change type of doctorate for Doctor of education, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
           href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :type),
         },
       )
