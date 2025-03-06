@@ -98,6 +98,7 @@ module TeacherTrainingPublicAPI
         subject = ::Subject.find_or_initialize_by(code:)
         course.subjects << subject unless course.course_subjects.exists?(subject_id: subject.id)
       end
+      course.visa_sponsorship_application_deadline_at = course_from_api.visa_sponsorship_application_deadline_at
     end
 
     def study_mode(course_from_api)
