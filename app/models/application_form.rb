@@ -6,6 +6,7 @@ class ApplicationForm < ApplicationRecord
   geocoded_by :address_formatted_for_geocoding, params: { region: 'uk' }
 
   include Chased
+  include AdviserEligibility
   include HasApplicableDegreeForAdviser
 
   has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
@@ -172,20 +173,6 @@ class ApplicationForm < ApplicationRecord
     west_midlands: 'west_midlands',
     yorkshire_and_the_humber: 'yorkshire_and_the_humber',
   }
-
-  enum :adviser_status, {
-    unassigned: 'unassigned',
-    waiting_to_be_assigned: 'waiting_to_be_assigned',
-    assigned: 'assigned',
-    previously_assigned: 'previously_assigned',
-  }
-
-  enum :adviser_status, {
-    unassigned: 'unassigned',
-    waiting_to_be_assigned: 'waiting_to_be_assigned',
-    assigned: 'assigned',
-    previously_assigned: 'previously_assigned',
-  }, prefix: true
 
   attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycleTimetable.current_year }
 
@@ -709,11 +696,6 @@ class ApplicationForm < ApplicationRecord
 
   def can_submit?
     current_cycle? && Time.zone.now.between?(apply_opens_at, apply_deadline_at)
-  end
-
-  def eligible_and_unassigned_a_teaching_training_adviser?
-    validations = Adviser::ApplicationFormValidations.new(self)
-    validations.valid?
   end
 
 private

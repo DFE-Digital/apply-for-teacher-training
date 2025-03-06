@@ -1314,7 +1314,7 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#redacted_full_name' do
-    it 'returs the full name redacted' do
+    it 'returns the full name redacted' do
       first_name = 'First'
       last_name = 'Last'
       application_form = build(:application_form, first_name:, last_name:)
@@ -1323,14 +1323,14 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe '#eligible_for_teaching_training_adviser?' do
+  describe '#eligible_and_unassigned_a_teaching_training_adviser?' do
     it 'returns true when the validation is valid' do
       application_form = build(:application_form)
       allow(Adviser::ApplicationFormValidations).to receive(:new)
                                                 .with(application_form)
                                                 .and_return(instance_double(Adviser::ApplicationFormValidations, valid?: true))
 
-      expect(application_form.eligible_for_teaching_training_adviser?).to be true
+      expect(application_form.eligible_and_unassigned_a_teaching_training_adviser?).to be true
     end
 
     it 'returns false when the validation is invalid' do
@@ -1339,7 +1339,149 @@ RSpec.describe ApplicationForm do
                                                       .with(application_form)
                                                       .and_return(instance_double(Adviser::ApplicationFormValidations, valid?: false))
 
-      expect(application_form.eligible_for_teaching_training_adviser?).to be false
+      expect(application_form.eligible_and_unassigned_a_teaching_training_adviser?).to be false
+    end
+  end
+
+  describe '#eligible_to_sign_up_for_a_teaching_training_adviser?' do
+    before do
+      allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache.lookup_store(:memory_store))
+      Rails.cache.clear
+      Sidekiq::Worker.clear_all
+    end
+
+    subject(:application_form) { build_stubbed(:application_form) }
+
+    context 'when the application form is eligible' do
+      before do
+        allow(application_form).to receive(:eligible_and_unassigned_a_teaching_training_adviser?).and_return(true)
+      end
+
+      it { is_expected.to be_eligible_to_sign_up_for_a_teaching_training_adviser }
+    end
+
+    context 'when the application form is not eligible' do
+      before do
+        allow(application_form).to receive(:eligible_and_unassigned_a_teaching_training_adviser?).and_return(false)
+      end
+
+      it { is_expected.not_to be_eligible_to_sign_up_for_a_teaching_training_adviser }
+    end
+
+    context 'refreshing the adviser status' do
+      it 'queues the refresh worker' do
+        expect {
+          application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
+        }.to change(Adviser::RefreshAdviserStatusWorker.jobs, :size).from(0).to(1)
+      end
+
+      it 'does not queue the refresh worker if it has been refreshed recently' do
+        application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
+
+        expect {
+          application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
+        }.not_to change(Adviser::RefreshAdviserStatusWorker.jobs, :size)
+      end
+    end
+  end
+
+  describe '#already_assigned_to_an_adviser?' do
+    before do
+      allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache.lookup_store(:memory_store))
+      Rails.cache.clear
+      Sidekiq::Worker.clear_all
+    end
+
+    context 'when the application form is assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'assigned') }
+
+      it { is_expected.to be_already_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is previously assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'previously_assigned') }
+
+      it { is_expected.to be_already_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is unassigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'unassigned') }
+
+      it { is_expected.not_to be_already_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is waiting to be assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'waiting_to_be_assigned') }
+
+      it { is_expected.not_to be_already_assigned_to_an_adviser }
+    end
+
+    context 'refreshing the adviser status' do
+      subject(:application_form) { build_stubbed(:application_form) }
+
+      it 'queues the refresh worker' do
+        expect {
+          application_form.already_assigned_to_an_adviser?
+        }.to change(Adviser::RefreshAdviserStatusWorker.jobs, :size).from(0).to(1)
+      end
+
+      it 'does not queue the refresh worker if it has been refreshed recently' do
+        application_form.already_assigned_to_an_adviser?
+
+        expect {
+          application_form.already_assigned_to_an_adviser?
+        }.not_to change(Adviser::RefreshAdviserStatusWorker.jobs, :size)
+      end
+    end
+  end
+
+  describe '#waiting_to_be_assigned_to_an_adviser?' do
+    before do
+      allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache.lookup_store(:memory_store))
+      Rails.cache.clear
+      Sidekiq::Worker.clear_all
+    end
+
+    context 'when the application form is assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'assigned') }
+
+      it { is_expected.not_to be_waiting_to_be_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is previously assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'previously_assigned') }
+
+      it { is_expected.not_to be_waiting_to_be_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is unassigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'unassigned') }
+
+      it { is_expected.not_to be_waiting_to_be_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is waiting to be assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'waiting_to_be_assigned') }
+
+      it { is_expected.to be_waiting_to_be_assigned_to_an_adviser }
+    end
+
+    context 'refreshing the adviser status' do
+      subject(:application_form) { build_stubbed(:application_form) }
+
+      it 'queues the refresh worker' do
+        expect {
+          application_form.waiting_to_be_assigned_to_an_adviser?
+        }.to change(Adviser::RefreshAdviserStatusWorker.jobs, :size).from(0).to(1)
+      end
+
+      it 'does not queue the refresh worker if it has been refreshed recently' do
+        application_form.waiting_to_be_assigned_to_an_adviser?
+
+        expect {
+          application_form.waiting_to_be_assigned_to_an_adviser?
+        }.not_to change(Adviser::RefreshAdviserStatusWorker.jobs, :size)
+      end
     end
   end
 
