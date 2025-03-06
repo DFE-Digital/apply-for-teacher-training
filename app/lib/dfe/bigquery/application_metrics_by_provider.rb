@@ -62,6 +62,7 @@ module DfE
         select(SELECT_COLUMNS.join(', '))
         .where(
           'provider.id': @provider_id,
+          teach_first_or_iot_filter: 'All',
           cycle_week:,
           recruitment_cycle_year:,
         ).where(<<~SQL.chomp).to_sql
