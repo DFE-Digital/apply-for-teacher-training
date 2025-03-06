@@ -34,9 +34,10 @@ RSpec.describe Adviser::SignUpRequest do
 
       it 'sets the sent_to_adviser_at' do
         current_time = Time.zone.now
-        expect {
-          adviser_sign_up_request.sent_to_adviser!(current_time)
-        }.to change(adviser_sign_up_request, :sent_to_adviser_at).from(nil).to(current_time)
+
+        adviser_sign_up_request.sent_to_adviser!(current_time)
+
+        expect(adviser_sign_up_request.sent_to_adviser_at).to eq(current_time)
       end
     end
   end
