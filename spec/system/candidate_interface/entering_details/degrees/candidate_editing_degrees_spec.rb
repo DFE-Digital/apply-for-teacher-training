@@ -108,7 +108,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def and_i_click_to_change_my_undergraduate_degree_type
-    click_change_link('qualification')
+    click_change_link('degree type')
   end
 
   def when_i_click_to_change_my_undergraduate_degree_start_year
@@ -258,7 +258,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def when_i_change_my_undergraduate_degree_type_to_a_diploma
-    click_change_link('qualification')
+    click_change_link('degree type')
     choose 'Level 6 Diploma'
     and_i_click_on_save_and_continue
   end
@@ -271,7 +271,7 @@ RSpec.describe 'Editing a degree' do
 
   def when_i_click_to_change_my_undergraduate_degree_type_again
     visit candidate_interface_degree_review_path
-    click_change_link('qualification')
+    click_change_link('degree type')
   end
 
   def and_i_change_my_degree_to_another_masters_degree_type
@@ -286,7 +286,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def when_i_click_to_change_my_masters_undergraduate_degree_type
-    click_change_link('specific type of degree')
+    click_change_link('type of master’s degree')
   end
 
   def then_i_see_another_masters_degree_selected

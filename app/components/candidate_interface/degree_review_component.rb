@@ -102,7 +102,7 @@ module CandidateInterface
         value: degree.qualification_type,
         action: {
           href: candidate_interface_degree_edit_path(degree.id, :type),
-          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.type_of_degree.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.type_of_degree.change_action', degree: append_degree(degree).to_s.downcase)),
         },
         html_attributes: {
           data: {

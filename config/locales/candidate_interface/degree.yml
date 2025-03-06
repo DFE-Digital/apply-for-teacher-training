@@ -21,7 +21,7 @@ en:
   application_form:
     degree:
       qualification:
-        change_action: qualification
+        change_action: degree type
       uk_degree:
         label: UK degree
       non_uk_degree:
@@ -30,7 +30,7 @@ en:
         review_label: Degree type
       type_of_degree:
         review_label: Type of %{degree}
-        change_action: specific type of degree
+        change_action: type of %{degree}
       international_qualification_type:
         hint_text: For example, Bachelor degree, Bachelor of Arts, Diplôme, Licenciatura
       subject:

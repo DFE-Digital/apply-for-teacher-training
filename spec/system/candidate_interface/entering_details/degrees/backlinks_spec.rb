@@ -92,7 +92,7 @@ RSpec.describe 'Degrees' do
   end
 
   def and_i_click_to_change_my_undergraduate_degree_type
-    click_change_link('qualification')
+    click_change_link('degree type')
   end
 
   def and_i_click_the_back_link
@@ -112,7 +112,7 @@ RSpec.describe 'Degrees' do
   end
 
   def when_i_click_to_change_my_undergraduate_degree_type
-    click_change_link('qualification')
+    click_change_link('degree type')
   end
 
   def then_i_am_taken_back_to_the_degree_type_page
