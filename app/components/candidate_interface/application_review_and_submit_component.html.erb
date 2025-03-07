@@ -1,7 +1,7 @@
 <% unless application_can_submit? %>
   <% errors.each do |error| %>
     <% error.message.split(/\n+/).each_with_index do |line, index| %>
-      <% if index.zero? && (error.type.in?(%i[course_closed course_unavailable immigration_status])) %>
+      <% if index.zero? && (error.type.in?(%i[course_closed course_unavailable immigration_status visa_sponsorship_application_deadline_passed])) %>
         <%= govuk_warning_text do %>
           <%= line.html_safe %>
         <% end %>
@@ -12,11 +12,18 @@
   <% end %>
 <% end %>
 
-<% if errors.map(&:type).intersection([:course_unavailable, :course_closed]).empty? %>
+<% if errors.map(&:type).intersection([:course_unavailable, :course_closed, :visa_sponsorship_application_deadline_passed]).empty? %>
 <h2 class="govuk-heading-m">Delete draft application</h2>
 <p class="govuk-body">
   You can <%= govuk_link_to('delete your draft application', candidate_interface_course_choices_confirm_destroy_course_choice_path(@application_choice.id), data: { action: :delete }) %> if you no longer want to apply for <%= @application_choice.current_course.name_and_code %> at <%= @application_choice.current_course.provider.name %>.
 </p>
+<% end %>
+
+<% if errors.map(&:type).include?(:visa_sponsorship_application_deadline_passed) %>
+  <h2 class="govuk-heading-m">Delete draft application</h2>
+  <p class="govuk-body">
+    You should <%= govuk_link_to('delete your draft application', candidate_interface_course_choices_confirm_destroy_course_choice_path(@application_choice.id), data: { action: :delete }) %> to apply for <%= @application_choice.current_course.name_and_code %> at <%= @application_choice.current_course.provider.name %> because they cannot accept your application this year.
+  </p>
 <% end %>
 
 <% if application_can_submit? %>
