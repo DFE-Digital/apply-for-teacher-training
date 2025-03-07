@@ -3,6 +3,8 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
+    <%= render CandidateInterface::SponsorshipApplicationDeadlines::ApplicationChoiceBannerComponent.new(application_choice: @application_choice) %>
+
     <h1 class="govuk-heading-l">
       <%= t('page_titles.application_review', provider_name: @application_choice.current_course.provider.name) %>
     </h1>
