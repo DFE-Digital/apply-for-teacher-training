@@ -9,6 +9,7 @@
 
     <%= render ProviderInterface::FindCandidates::RightToWorkComponent.new(application_form: @application_form) %>
     <%= render ProviderInterface::FindCandidates::ApplicationChoicesComponent.new(application_form: @application_form) %>
+    <%= render ProviderInterface::FindCandidates::SafeguardingComponent.new(application_form: @application_form, provider_user: current_provider_user) %>
     <%= render WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_form, details: false) %>
   </div>
 
