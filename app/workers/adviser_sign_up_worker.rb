@@ -9,13 +9,20 @@ class AdviserSignUpWorker
     qualification_id
   ].freeze
 
-  def perform(application_form_id, preferred_teaching_subject_external_identifier)
-    @application_form = ApplicationForm.find(application_form_id)
-    @preferred_teaching_subject_id = preferred_teaching_subject_external_identifier
+  def perform(sign_up_request_id)
+    sign_up_request = Adviser::SignUpRequest.find(sign_up_request_id)
+    return if sign_up_request.sent_to_adviser?
+
+    @application_form = sign_up_request.application_form
+    preferred_teaching_subject = sign_up_request.teaching_subject
+    @preferred_teaching_subject_id = preferred_teaching_subject.external_identifier
 
     # Send the sign-up to the GIT API
     teacher_training_adviser_sign_up = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(attributes)
     GetIntoTeachingApiClient::TeacherTrainingAdviserApi.new.sign_up_teacher_training_adviser_candidate(teacher_training_adviser_sign_up)
+
+    # Update the sign_up_request
+    sign_up_request.sent_to_adviser!
   end
 
 private

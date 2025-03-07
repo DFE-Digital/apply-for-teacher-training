@@ -11,7 +11,8 @@ class Adviser::SignUp
   def save
     return false if invalid?
 
-    AdviserSignUpWorker.perform_async(application_form.id, preferred_teaching_subject_id)
+    sign_up_request = Adviser::SignUpRequest.find_or_create_by(application_form: application_form, teaching_subject: preferred_teaching_subject)
+    AdviserSignUpWorker.perform_async(sign_up_request.id)
 
     application_form.adviser_status_waiting_to_be_assigned!
 
@@ -27,6 +28,10 @@ class Adviser::SignUp
   end
 
 private
+
+  def preferred_teaching_subject
+    Adviser::TeachingSubject.find_by(external_identifier: preferred_teaching_subject_id)
+  end
 
   def application_form_valid_for_adviser_sign_up
     return if application_form.eligible_and_unassigned_a_teaching_training_adviser?

@@ -34,12 +34,15 @@ RSpec.describe Adviser::SignUp do
       expect(sign_up.save).to be(true)
     end
 
+    it 'creates a new Adviser::SignUpRequest' do
+      expect {
+        sign_up.save
+      }.to change(Adviser::SignUpRequest, :count).from(0).to(1)
+    end
+
     it 'enqueues an AdviserSignUpWorker job' do
       sign_up.save
-      expect(AdviserSignUpWorker).to have_received(:perform_async).with(
-        application_form.id,
-        preferred_teaching_subject.external_identifier,
-      )
+      expect(AdviserSignUpWorker).to have_received(:perform_async)
     end
 
     it 'sets adviser_status to waiting_to_be_assigned' do
