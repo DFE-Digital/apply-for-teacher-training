@@ -29,6 +29,7 @@ class Clock
   # Daily jobs
   every(1.day, 'DeleteExpiredSessionsWorker', at: '5:01') { DeleteExpiredSessionsWorker.perform_async }
   every(1.day, 'DeleteDraftWithdrawalReasonRecordsWorker', at: '4:01') { DeleteDraftWithdrawalReasonRecordsWorker.perform_async }
+  every(1.day, 'DeleteDraftPoolInvites', at: '4:02') { Provider::DeleteDraftPoolInvitesWorker.perform_async }
   every(1.day, 'Chasers::Candidate::OfferWorker', at: '10:30') { Chasers::Candidate::OfferWorker.perform_async }
 
   every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_async }
