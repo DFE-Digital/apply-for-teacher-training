@@ -1,6 +1,8 @@
 en:
   provider_interface:
     find_candidates:
+      safeguarding_component:
+        title: Criminal record and professional misconduct
       right_to_work_component:
         title: Right to work or study in the UK
         visa_sponsorhip: Visa sponsorhip
