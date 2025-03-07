@@ -1,0 +1,9 @@
+<%= govuk_notification_banner(title_text: t('notification_banner.important')) do %>
+  <h2 class="govuk-heading-m">
+    <%= t(
+          '.text',
+          count: count_down,
+          deadline_at:,
+        ) %>
+  </h2>
+<% end %>
