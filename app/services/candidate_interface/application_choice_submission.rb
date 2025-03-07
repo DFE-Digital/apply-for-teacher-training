@@ -14,6 +14,7 @@ module CandidateInterface
               incomplete_postgraduate_course_details: { if: :validate_choice? },
               incomplete_undergraduate_course_details: { if: :validate_choice? },
               incomplete_details: { if: :validate_choice? },
+              visa_sponsorship_application_deadline_passed: { if: :validate_choice? },
               can_add_more_choices: true
 
   private
