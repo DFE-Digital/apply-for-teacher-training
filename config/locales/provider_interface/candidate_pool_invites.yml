@@ -42,3 +42,4 @@ en:
             course_id:
               blank: Select a course
               invalid: Course is not available
+              already_invited: Select a different course. You have invited this person to the selected course already

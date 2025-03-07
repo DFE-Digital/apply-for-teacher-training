@@ -6,6 +6,10 @@ class ProviderInterface::FindCandidates::RightToWorkComponent < ViewComponent::B
   end
 
   def visa_sponsorhip_value
-    application_form.right_to_work_or_study_yes? ? 'Not required' : 'Required'
+    if application_form.right_to_work_or_study_no?
+      'Required'
+    else
+      'Not required'
+    end
   end
 end

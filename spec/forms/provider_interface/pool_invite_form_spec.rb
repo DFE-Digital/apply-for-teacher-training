@@ -26,6 +26,15 @@ RSpec.describe ProviderInterface::PoolInviteForm, type: :model do
         expect(form.errors[:course_id]).to eq(['Course is not available'])
       end
     end
+
+    context 'when the candidate has been invited to the course already' do
+      it 'returns course unavilable error' do
+        _existing_invite = create(:pool_invite, candidate:, status: :published, course:)
+
+        expect(form.valid?).to be_falsey
+        expect(form.errors[:course_id]).to eq(['Select a different course. You have invited this person to the selected course already'])
+      end
+    end
   end
 
   describe '.build_from_invite' do
