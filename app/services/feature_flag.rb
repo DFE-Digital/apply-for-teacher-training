@@ -27,6 +27,7 @@ class FeatureFlag
 
   TEMPORARY_FEATURE_FLAGS = [
     [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],
+    [:early_application_deadlines_for_candidates_with_visa_sponsorship, 'Implement alternative deadlines for candidates requiring visa sponsorships', 'Apply team'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
