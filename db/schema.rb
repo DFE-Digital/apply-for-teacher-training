@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_06_135056) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_06_143701) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -61,6 +61,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_06_135056) do
     t.string "variation_digest", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "adviser_sign_up_requests", force: :cascade do |t|
+    t.bigint "application_form_id", null: false
+    t.bigint "teaching_subject_id", null: false
+    t.datetime "sent_to_adviser_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_form_id"], name: "index_adviser_sign_up_requests_on_application_form_id"
+    t.index ["teaching_subject_id"], name: "index_adviser_sign_up_requests_on_teaching_subject_id"
   end
 
   create_table "adviser_teaching_subjects", force: :cascade do |t|
@@ -1009,6 +1019,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_06_135056) do
   add_foreign_key "account_recovery_requests", "candidates", on_delete: :cascade
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "adviser_sign_up_requests", "adviser_teaching_subjects", column: "teaching_subject_id"
+  add_foreign_key "adviser_sign_up_requests", "application_forms"
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
   add_foreign_key "application_choices", "course_options"
   add_foreign_key "application_feedback", "application_forms", on_delete: :cascade
