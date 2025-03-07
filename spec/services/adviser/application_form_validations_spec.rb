@@ -42,7 +42,7 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
     end
 
     it 'does not allow a candidate to sign up for an adviser more than once' do
-      application_form.assigned!
+      application_form.adviser_status_assigned!
       expect(validations).to have_error_on(:adviser_status)
     end
 

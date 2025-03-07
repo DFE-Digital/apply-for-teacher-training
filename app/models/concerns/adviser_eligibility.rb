@@ -11,13 +11,6 @@ module AdviserEligibility
       waiting_to_be_assigned: 'waiting_to_be_assigned',
       assigned: 'assigned',
       previously_assigned: 'previously_assigned',
-    }
-
-    enum :adviser_status, {
-      unassigned: 'unassigned',
-      waiting_to_be_assigned: 'waiting_to_be_assigned',
-      assigned: 'assigned',
-      previously_assigned: 'previously_assigned',
     }, prefix: true
 
     def eligible_and_unassigned_a_teaching_training_adviser?

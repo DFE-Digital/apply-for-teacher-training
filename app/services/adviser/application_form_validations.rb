@@ -19,7 +19,7 @@ class Adviser::ApplicationFormValidations
 
   delegate :email_address, to: :candidate
   delegate :id, :first_name, :last_name, :date_of_birth, :phone_number, :country, :postcode, :international_address?,
-           :maths_gcse, :english_gcse, :science_gcse, :adviser_status, :unassigned?, :adviser_status_unassigned?, :applicable_degree_for_adviser, to: :application_form
+           :maths_gcse, :english_gcse, :science_gcse, :adviser_status, :adviser_status_unassigned?, :applicable_degree_for_adviser, to: :application_form
 
   validates :email_address, presence: true
   validates :first_name, presence: true
