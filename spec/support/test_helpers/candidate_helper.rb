@@ -391,7 +391,7 @@ module CandidateHelper
     choose 'No, English is not a foreign language to me'
     click_link_or_button t('continue')
     choose 'Yes, I have completed this section'
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_reviews_application

@@ -1,5 +1,5 @@
 <% content_for :title, t('page_titles.references_interruption') %>
-<% content_for :before_content, govuk_back_link_to(@back_link) %>
+<% content_for :before_content, govuk_back_link_to(@back_link, t('go_back_and_change_email'), force_text: true) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
@@ -9,7 +9,6 @@
       <p class="govuk-body"><%= t('references_interruption.ask_for_professional_email_address', reference_name: @reference.name) %></p>
       <p class="govuk-body"><%= t('references_interruption.if_you_cannot') %></p>
       <p class="govuk-body">
-        <%= govuk_link_to(t('references_interruption.go_back_and_change'), @back_link) %>
       </p>
     </div>
 
