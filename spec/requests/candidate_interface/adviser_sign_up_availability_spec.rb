@@ -1,21 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Candidate Interface - adviser sign up availability' do
-  include_context 'get into teaching api stubbed endpoints'
-
   include Devise::Test::IntegrationHelpers
 
-  let(:candidate) { create(:candidate) }
-  let(:application_form) { create(:application_form_eligible_for_adviser, candidate:) }
-
-  before do
-    availability_double = instance_double(Adviser::SignUpAvailability, available?: available)
-    allow(Adviser::SignUpAvailability).to receive(:new).and_return(availability_double)
-
-    sign_in application_form.candidate
-  end
-
   subject do
+    sign_in application_form.candidate
     perform_request
     response
   end
@@ -35,14 +24,14 @@ RSpec.describe 'Candidate Interface - adviser sign up availability' do
   end
 
   context 'when eligible for adviser sign up' do
-    let(:available) { true }
+    let(:application_form) { create(:application_form_eligible_for_adviser, adviser_status: 'unassigned') }
     let(:expected_http_status) { :success }
 
     include_context 'send requests'
   end
 
   context 'when ineligible for adviser sign up' do
-    let(:available) { false }
+    let(:application_form) { create(:application_form) }
     let(:expected_http_status) { :not_found }
 
     include_context 'send requests'

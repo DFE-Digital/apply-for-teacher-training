@@ -1,6 +1,5 @@
 module CandidateInterface
   class PersonalStatementController < SectionController
-    include AdviserStatus
     before_action :render_application_feedback_component
     def show
       @application_form = current_application

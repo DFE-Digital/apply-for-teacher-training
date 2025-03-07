@@ -1,6 +1,5 @@
 module CandidateInterface
   class Gcse::MissingQualificationController < Gcse::BaseController
-    include AdviserStatus
     include Gcse::ResolveGcseEditPathConcern
 
     def new

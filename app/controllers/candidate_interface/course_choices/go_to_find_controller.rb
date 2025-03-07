@@ -6,7 +6,6 @@ module CandidateInterface
 
       def new
         @wizard = CourseChoices::CourseSelectionWizard.new(current_step:)
-        @adviser_sign_up = Adviser::SignUp.new(current_application)
       end
 
     private

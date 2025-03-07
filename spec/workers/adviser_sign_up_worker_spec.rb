@@ -16,19 +16,40 @@ RSpec.describe AdviserSignUpWorker do
   let(:candidate_matchback_double) { instance_double(Adviser::CandidateMatchback, teacher_training_adviser_sign_up: Adviser::TeacherTrainingAdviserSignUpDecorator.new({})) }
   let(:api_double) { instance_double(GetIntoTeachingApiClient::TeacherTrainingAdviserApi, sign_up_teacher_training_adviser_candidate: nil) }
   let(:constants) { Adviser::Constants }
+  let(:adviser_teaching_subject) { create(:adviser_teaching_subject, external_identifier: preferred_teaching_subject.id) }
+  let(:adviser_sign_up_request) { create(:adviser_sign_up_request, application_form: application_form, teaching_subject: adviser_teaching_subject) }
 
   subject(:perform) do
     described_class.new.perform(
-      application_form.id,
-      preferred_teaching_subject.id,
+      adviser_sign_up_request.id,
     )
   end
 
   describe '#perform' do
+    context 'when the AdviserSignUpRequest has already been sent' do
+      let(:adviser_sign_up_request) {
+        create(:adviser_sign_up_request, :sent_to_adviser,
+               application_form: application_form,
+               teaching_subject: adviser_teaching_subject)
+      }
+
+      it 'does not resend the sign up to the API' do
+        perform
+
+        expect(api_double).not_to have_received(:sign_up_teacher_training_adviser_candidate)
+      end
+    end
+
     it 'sends a request to sign up for an adviser' do
       expect_sign_up do |attributes|
         expect(attributes.values).to all(be_present)
       end
+    end
+
+    it 'marks the AdviserSignUpRequest as sent' do
+      expect {
+        perform
+      }.to change { adviser_sign_up_request.reload.sent_to_adviser? }.from(false).to(true)
     end
 
     it 'sends matchback attributes when the candidate already exists in the GiT API' do

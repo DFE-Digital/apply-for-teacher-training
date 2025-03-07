@@ -19,7 +19,7 @@ class Adviser::ApplicationFormValidations
 
   delegate :email_address, to: :candidate
   delegate :id, :first_name, :last_name, :date_of_birth, :phone_number, :country, :postcode, :international_address?,
-           :maths_gcse, :english_gcse, :science_gcse, :adviser_status, :unassigned?, to: :application_form
+           :maths_gcse, :english_gcse, :science_gcse, :adviser_status, :adviser_status_unassigned?, :applicable_degree_for_adviser, to: :application_form
 
   validates :email_address, presence: true
   validates :first_name, presence: true
@@ -28,7 +28,7 @@ class Adviser::ApplicationFormValidations
   validates :phone_number, presence: true
   validates :country, presence: true
   validates :postcode, presence: true, unless: :international_address?
-  validates :applicable_degree, presence: true
+  validates :applicable_degree_for_adviser, presence: true
   validate :passed_or_retaking_gcses, unless: :international_degree?
   validate :not_yet_signed_up
 
@@ -37,40 +37,10 @@ class Adviser::ApplicationFormValidations
     @candidate = application_form.candidate
   end
 
-  def applicable_degree
-    @applicable_degree ||= application_form.application_qualifications
-      .degrees
-      .reject(&:incomplete_degree_information?)
-      .reject(&method(:international_without_equivalency?))
-      .select(&method(:applicable_degree_grade?))
-      .select(&method(:applicable_degree_level?))
-      .min_by(&method(:highest_grade_first))
-  end
-
 private
 
-  def international_without_equivalency?(degree)
-    degree.international? && !degree.enic_reference
-  end
-
-  def applicable_degree_level?(degree)
-    if degree.international?
-      degree.comparable_uk_degree.in?(APPLICABLE_INTERNATIONAL_DEGREE_LEVELS)
-    else
-      degree.qualification_level.in?(APPLICABLE_DOMESTIC_DEGREE_LEVELS)
-    end
-  end
-
-  def applicable_degree_grade?(degree)
-    degree.international? || degree.grade.in?(APPLICABLE_DOMESTIC_DEGREE_GRADES)
-  end
-
-  def highest_grade_first(degree)
-    APPLICABLE_DOMESTIC_DEGREE_GRADES.index(degree.grade) || (APPLICABLE_DOMESTIC_DEGREE_GRADES.count + 1)
-  end
-
   def international_degree?
-    applicable_degree&.international?
+    applicable_degree_for_adviser&.international?
   end
 
   def passed_or_retaking_gcses
@@ -85,6 +55,6 @@ private
   end
 
   def not_yet_signed_up
-    errors.add(:adviser_status, :already_signed_up) unless unassigned?
+    errors.add(:adviser_status, :already_signed_up) unless adviser_status_unassigned?
   end
 end
