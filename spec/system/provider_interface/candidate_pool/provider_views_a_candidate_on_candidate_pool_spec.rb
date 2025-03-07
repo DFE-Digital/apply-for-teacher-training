@@ -33,6 +33,8 @@ RSpec.describe 'Providers views candidate pool list' do
     @rejected_candidate_form = create(
       :application_form,
       :completed,
+      first_name: 'Rejected',
+      last_name: 'Candidate',
       candidate: @rejected_candidate,
       submitted_at: 1.day.ago,
     )
@@ -42,6 +44,8 @@ RSpec.describe 'Providers views candidate pool list' do
     @declined_candidate_form = create(
       :application_form,
       :completed,
+      first_name: 'Declined',
+      last_name: 'Candidate',
       candidate: declined_candidate,
       submitted_at: Time.zone.today,
     )
