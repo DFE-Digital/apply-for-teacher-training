@@ -16,7 +16,7 @@ RSpec.describe 'Entering their work history' do
     and_i_can_see_i_have_selected_i_was_in_full_time_education
 
     when_i_mark_this_section_as_completed
-    and_i_click_on_continue
+    and_i_click_on_save_changes_and_return
     then_i_see_the_form
     and_that_the_section_is_completed
   end
@@ -50,8 +50,8 @@ RSpec.describe 'Entering their work history' do
     choose t('application_form.completed_radio')
   end
 
-  def and_i_click_on_continue
-    click_link_or_button t('continue')
+  def and_i_click_on_save_changes_and_return
+    click_link_or_button t('save_changes_and_return')
   end
 
   def then_i_see_the_form

@@ -134,7 +134,7 @@ RSpec.describe 'Marking section as complete or incomplete' do
     click_link_or_button 'Your details'
     click_link_or_button section
     choose(complete_choice)
-    click_link_or_button 'Continue'
+    click_link_or_button t('save_changes_and_return')
   end
 
   def when_i_visit_the_applications_page

@@ -15,13 +15,13 @@ RSpec.describe 'Candidate edits their volunteering section' do
     and_i_change_my_role
     and_i_click_on_save_and_continue
     and_i_mark_the_section_as_incomplete
-    and_i_click_on_continue
+    and_i_click_on_save_changes_and_return
     and_visit_my_application_page
     then_the_volunteering_section_will_be_marked_as_incomplete
 
     when_i_click_the_volunteering_section_link
     and_i_mark_this_section_as_completed
-    and_i_click_on_continue
+    and_i_click_on_save_changes_and_return
     then_the_volunteering_section_will_be_marked_as_complete
 
     when_i_click_the_volunteering_section_link
@@ -78,8 +78,8 @@ RSpec.describe 'Candidate edits their volunteering section' do
     choose t('application_form.completed_radio')
   end
 
-  def and_i_click_on_continue
-    click_link_or_button t('continue')
+  def and_i_click_on_save_changes_and_return
+    click_link_or_button t('save_changes_and_return')
   end
 
   def and_visit_my_application_page

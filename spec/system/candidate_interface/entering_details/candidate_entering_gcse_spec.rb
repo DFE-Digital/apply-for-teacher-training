@@ -29,7 +29,7 @@ RSpec.describe 'Candidate entering GCSE details' do
     and_i_click_save_and_continue
     then_i_see_the_review_page_with_correct_details
 
-    when_i_click_continue
+    when_i_click_save_changes_and_return
     then_i_see_a_section_complete_error
 
     when_i_click_to_change_qualification_type
@@ -49,7 +49,7 @@ RSpec.describe 'Candidate entering GCSE details' do
     then_i_see_the_review_page_with_updated_year
 
     when_i_mark_the_section_as_completed
-    and_click_continue
+    and_i_click_save_changes_and_return
     then_i_see_the_maths_gcse_is_completed
 
     when_i_click_on_the_english_gcse_link
@@ -184,13 +184,10 @@ RSpec.describe 'Candidate entering GCSE details' do
     expect(page).to have_css('#maths-gcse-or-equivalent-badge-id', text: 'Completed')
   end
 
-  def and_click_continue
-    click_link_or_button t('continue')
+  def when_i_click_save_changes_and_return
+    click_link_or_button t('save_changes_and_return')
   end
-
-  def when_i_click_continue
-    and_click_continue
-  end
+  alias_method :and_i_click_save_changes_and_return, :when_i_click_save_changes_and_return
 
   def when_i_click_on_the_english_gcse_link
     click_link_or_button 'English GCSE or equivalent'
@@ -207,9 +204,8 @@ RSpec.describe 'Candidate entering GCSE details' do
   def when_i_choose_to_return_later
     visit candidate_interface_gcse_review_path(subject: 'english')
     and_i_mark_the_section_as_incomplete
-    and_click_continue
+    and_i_click_save_changes_and_return
   end
-
   alias_method :and_i_choose_to_return_later, :when_i_choose_to_return_later
 
   def and_i_mark_the_section_as_incomplete

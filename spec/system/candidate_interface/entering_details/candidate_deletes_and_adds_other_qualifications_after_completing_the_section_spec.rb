@@ -12,7 +12,7 @@ RSpec.describe 'Candidates academic and other relevant qualifications' do
 
     when_i_click_the_other_qualifications_link
     and_i_mark_the_section_as_incomplete
-    and_i_click_on_continue
+    and_i_click_on_save_changes_and_return
     and_i_visit_the_application_page
     then_the_other_qualifications_section_is_marked_as_incomplete
 
@@ -22,7 +22,7 @@ RSpec.describe 'Candidates academic and other relevant qualifications' do
     and_i_change_my_qualification_details
     and_i_click_on_save_and_continue
     and_i_mark_the_section_as_complete
-    and_i_click_on_continue
+    and_i_click_on_save_changes_and_return
     then_the_other_qualifications_section_is_marked_as_complete
 
     when_i_click_the_other_qualifications_link
@@ -98,8 +98,8 @@ RSpec.describe 'Candidates academic and other relevant qualifications' do
     click_link_or_button t('application_form.degree.confirm_delete')
   end
 
-  def and_i_click_on_continue
-    click_link_or_button t('continue')
+  def and_i_click_on_save_changes_and_return
+    click_link_or_button t('save_changes_and_return')
   end
 
   def and_click_on_delete_my_additional_qualification

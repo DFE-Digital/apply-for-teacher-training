@@ -3,6 +3,7 @@ en:
     safe_choice_update_validator:
       error_message: The application must be in the current cycle %{current_cycle}
   continue: Continue
+  save_changes_and_return: Save changes and return to your details
   update: Update
   save_and_continue: Save and continue
   save: Save

@@ -18,7 +18,7 @@ RSpec.describe 'Deleting and replacing a degree' do
     when_i_click_on_degree
     and_i_add_my_degree_back_in
     and_i_mark_the_section_as_incomplete
-    and_i_click_on_continue
+    and_i_click_on_save_changes_and_return
     then_i_see_the_form_and_the_section_is_not_completed
     when_i_click_on_degree
     then_i_can_check_my_undergraduate_degree
@@ -26,7 +26,7 @@ RSpec.describe 'Deleting and replacing a degree' do
     when_i_add_another_degree
     then_i_can_check_my_additional_degree
     and_i_mark_the_section_as_complete
-    and_i_click_on_continue
+    and_i_click_on_save_changes_and_return
 
     when_i_click_on_delete_degree
     and_i_confirm_that_i_want_to_delete_my_additional_degree
@@ -130,9 +130,10 @@ RSpec.describe 'Deleting and replacing a degree' do
   def when_i_click_on_continue
     click_link_or_button t('continue')
   end
+  alias_method :and_i_click_on_continue, :when_i_click_on_continue
 
-  def and_i_click_on_continue
-    when_i_click_on_continue
+  def and_i_click_on_save_changes_and_return
+    click_link_or_button t('save_changes_and_return')
   end
 
   def then_i_see_the_form_and_the_section_is_not_completed
@@ -201,10 +202,6 @@ RSpec.describe 'Deleting and replacing a degree' do
     then_i_can_check_my_undergraduate_degree
     expect(page).to have_no_content 'Philosophy'
     expect(page).to have_no_content 'University of Oxford'
-  end
-
-  def and_i_click_on_continue
-    when_i_click_on_continue
   end
 
   def and_i_confirm_i_have_completed_my_degree

@@ -68,11 +68,11 @@ RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
     and_click_save_and_continue
     then_i_see_my_second_qualification
 
-    when_i_click_on_continue
+    when_i_click_on_save_changes_and_return
     then_i_see_a_section_complete_error
 
     when_i_mark_this_section_as_completed
-    and_i_click_continue
+    and_i_click_save_changes_and_return
     then_i_see_the_form
     and_that_the_section_is_completed
   end
@@ -231,9 +231,10 @@ RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
 
   def and_leave_grade_and_subject_blank; end
 
-  def when_i_click_on_continue
-    click_link_or_button t('continue')
+  def when_i_click_on_save_changes_and_return
+    click_link_or_button t('save_changes_and_return')
   end
+  alias_method :and_i_click_save_changes_and_return, :when_i_click_on_save_changes_and_return
 
   def then_i_see_a_section_complete_error
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')

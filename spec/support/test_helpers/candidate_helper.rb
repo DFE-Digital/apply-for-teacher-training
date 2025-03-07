@@ -168,7 +168,7 @@ module CandidateHelper
     else
       choose 'No, I’ll come back to it later'
     end
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def receive_references
@@ -204,7 +204,7 @@ module CandidateHelper
     click_link_or_button 'References to be requested if you accept an offer'
 
     choose 'Yes, I have completed this section'
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def given_courses_exist
@@ -257,7 +257,7 @@ module CandidateHelper
     click_link_or_button t('continue')
 
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_does_not_have_a_degree
@@ -351,7 +351,7 @@ module CandidateHelper
     end
     click_link_or_button t('save_and_continue')
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_fills_in_contact_details
@@ -366,7 +366,7 @@ module CandidateHelper
     click_link_or_button t('save_and_continue')
 
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_fills_in_international_contact_details
@@ -383,7 +383,7 @@ module CandidateHelper
     click_link_or_button t('save_and_continue')
 
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_fills_in_efl_section
@@ -564,7 +564,7 @@ module CandidateHelper
     click_link_or_button t('save_and_continue')
 
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_fills_in_their_other_qualifications
@@ -576,7 +576,7 @@ module CandidateHelper
     choose 'No, not at the moment'
     click_link_or_button t('save_and_continue')
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_fills_in_disability_info
@@ -584,7 +584,7 @@ module CandidateHelper
     fill_in t('application_form.training_with_a_disability.disability_disclosure.label'), with: 'I have difficulty climbing stairs'
     click_link_or_button t('continue')
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_fills_in_safeguarding_issues
@@ -592,7 +592,7 @@ module CandidateHelper
     fill_in 'Give any relevant information', with: 'I have a criminal conviction.'
     click_link_or_button t('continue')
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_fills_in_restructured_work_experience
@@ -635,7 +635,7 @@ module CandidateHelper
     click_link_or_button t('continue')
 
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_fills_in_restructured_volunteering_role
@@ -669,7 +669,7 @@ module CandidateHelper
     end
 
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_fills_in_referee(params = {})
@@ -711,7 +711,7 @@ module CandidateHelper
     fill_in 'Year', with: '1990'
     click_link_or_button t('save_and_continue')
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_fills_in_their_english_gcse
@@ -723,7 +723,7 @@ module CandidateHelper
     fill_in 'Year', with: '1990'
     click_link_or_button t('save_and_continue')
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_explains_a_missing_gcse
@@ -733,7 +733,7 @@ module CandidateHelper
     fill_in 'candidate-interface-gcse-not-completed-form-not-completed-explanation-field', with: 'In progress'
     click_link_or_button t('save_and_continue')
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_fills_in_personal_statement
@@ -741,7 +741,7 @@ module CandidateHelper
     click_link_or_button t('continue')
     # Confirmation page
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def candidate_fills_in_interview_preferences
@@ -750,7 +750,7 @@ module CandidateHelper
     click_link_or_button t('save_and_continue')
     # Confirmation page
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def click_sign_in_link(email)

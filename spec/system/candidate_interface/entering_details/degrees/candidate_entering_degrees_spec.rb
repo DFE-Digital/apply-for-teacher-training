@@ -60,7 +60,7 @@ RSpec.describe 'Entering a degree' do
 
     # Mark section as complete
     when_i_mark_this_section_as_completed
-    and_i_click_on_continue
+    and_i_click_on_save_changes_and_return
     then_i_see_the_form
     and_that_the_section_is_completed
     when_i_click_on_degree
@@ -206,5 +206,9 @@ RSpec.describe 'Entering a degree' do
     ].each do |radio_id|
       expect(page).to have_no_checked_field(radio_id)
     end
+  end
+
+  def and_i_click_on_save_changes_and_return
+    click_link_or_button t('save_changes_and_return')
   end
 end
