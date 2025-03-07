@@ -8,6 +8,7 @@ en:
   save_and_continue: Save and continue
   save: Save
   cancel: Cancel
+  back: Back
   go_back_and_change_email: Go back and change the email address
   validation_errors:
     email_address_format: Enter an email address in the correct format, like name@example.com
