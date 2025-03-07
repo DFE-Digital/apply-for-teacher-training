@@ -22,6 +22,26 @@ module ProviderInterface
           original_location: filter_params[:original_location],
         },
         {
+          type: :checkbox_filter,
+          heading: 'Subject',
+          name: 'subject',
+          options: subject_options,
+          hide_tags: true,
+
+        },
+        {
+          type: :checkboxes,
+          heading: 'Study type',
+          name: 'study_mode',
+          options: study_mode_options,
+        },
+        {
+          type: :checkboxes,
+          heading: 'Course type',
+          name: 'course_type',
+          options: course_type_options,
+        },
+        {
           type: :checkboxes,
           heading: 'Visa sponsorship',
           name: 'visa_sponsorship',
@@ -61,6 +81,44 @@ module ProviderInterface
           value: value,
           label: value.capitalize,
           checked: applied_filters[:visa_sponsorship]&.include?(value),
+        }
+      end
+    end
+
+    def subject_options
+      subjects = Subject.select("name, string_agg(id::text, ',') as ids").group(:name)
+
+      subjects.map do |subject|
+        {
+          value: subject.ids,
+          label: subject.name.capitalize,
+          checked: applied_filters[:subject]&.include?(subject.ids),
+        }
+      end
+    end
+
+    def study_mode_options
+      CourseOption.study_modes.map do |_, value|
+        {
+          value: value,
+          label: value.split('_').join(' ').capitalize,
+          checked: applied_filters[:study_mode]&.include?(value),
+        }
+      end
+    end
+
+    def course_type_options
+      %w[undergraduate postgraduate].map do |value|
+        filter_value = if value == 'postgraduate'
+                         Course.program_types.except('teacher_degree_apprenticeship').values.join(',')
+                       else
+                         Course.program_types['teacher_degree_apprenticeship']
+                       end
+
+        {
+          value: filter_value,
+          label: value.capitalize,
+          checked: applied_filters[:course_type]&.include?(filter_value),
         }
       end
     end
