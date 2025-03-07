@@ -170,7 +170,7 @@ RSpec.describe 'Entering their personal details' do
   end
 
   def and_i_submit_my_details
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
 
   def when_i_submit_my_details

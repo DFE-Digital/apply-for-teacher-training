@@ -340,7 +340,7 @@ RSpec.describe 'References' do
 
   def when_i_mark_the_section_as_complete
     choose 'Yes, I have completed this section'
-    click_link_or_button 'Continue'
+    click_link_or_button 'Save changes and return to your details'
   end
 
   def and_the_references_section_is_marked_as_completed
