@@ -14,7 +14,6 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
     and_i_have_an_eligible_application
     and_the_adviser_sign_up_feature_flag_is_enabled
     and_the_get_into_teaching_api_is_accepting_sign_ups
-    and_the_candidate_does_not_matchback
     and_adviser_sign_up_jobs_can_be_enqueued
     and_i_visit_your_details_page
 
@@ -57,14 +56,8 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def and_the_get_into_teaching_api_is_accepting_sign_ups
-    @api_double = instance_double(GetIntoTeachingApiClient::TeacherTrainingAdviserApi, :sign_up_teacher_training_adviser_candidate)
+    @api_double = instance_double(GetIntoTeachingApiClient::TeacherTrainingAdviserApi, :sign_up_teacher_training_adviser_candidate, matchback_candidate: nil)
     allow(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to receive(:new) { @api_double }
-  end
-
-  def and_the_candidate_does_not_matchback
-    allow(@api_double).to receive(:matchback_candidate).and_raise(
-      GetIntoTeachingApiClient::ApiError.new(code: 404),
-    )
   end
 
   def and_adviser_sign_up_jobs_can_be_enqueued
@@ -118,8 +111,8 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def and_an_adviser_sign_up_job_is_enqueued
-    expect(AdviserSignUpWorker).to have_received(:perform_async)
-      .with(@application_form.id, @preferred_teaching_subject.external_identifier).once
+    expect(AdviserSignUpWorker).to have_received(:perform_async).once
+    expect(Adviser::SignUpRequest.last).to have_attributes(application_form: @application_form)
   end
 
   def and_the_adviser_cta_be_replaced_with_the_waiting_to_be_assigned_message
