@@ -24,6 +24,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+  <%= render CandidateInterface::SponsorshipApplicationDeadlines::ApplicationsDashboardBannerComponent.new(application_form: current_application) %>
   <% if current_application.after_apply_deadline? %>
 <!--      It is after the deadline, but candidate has inflight applications (eg, awaiting decision) -->
     <%= render CandidateInterface::AfterDeadlineContentComponent.new(application_form: current_application) %>
