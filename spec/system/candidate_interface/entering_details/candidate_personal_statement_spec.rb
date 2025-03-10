@@ -8,28 +8,28 @@ RSpec.describe 'Entering "Personal statement"' do
     and_i_visit_the_site
 
     when_i_click_on_personal_statement
-    and_i_submit_the_form
-    then_i_am_told_to_write_my_personl_statement
+    and_i_click_on_continue
+    then_i_am_told_to_write_my_personal_statement
 
     when_i_fill_in_more_than_1000_words
-    and_i_submit_the_form
+    and_i_click_on_continue
     then_i_see_a_review_page
     and_i_see_that_my_personal_statement_is_over_the_word_limit
 
     when_i_fill_in_an_answer
-    and_i_submit_the_form
+    and_i_click_on_continue
     then_i_can_check_my_answers
 
     when_i_click_to_edit_my_answer
     and_i_fill_in_a_different_answer
-    and_i_submit_the_form
+    and_i_click_on_continue
     then_i_can_check_my_revised_answers
 
-    when_i_try_to_continue
+    when_i_try_to_save_changes_and_return
     then_i_am_told_to_select_whether_i_have_completed_the_section
 
     when_i_mark_the_section_as_completed
-    and_i_submit_the_form
+    and_i_click_on_save_changes_and_return
     then_i_see_the_form
     and_that_the_section_is_completed
 
@@ -79,10 +79,14 @@ RSpec.describe 'Entering "Personal statement"' do
     expect(page).to have_content 'Personal statement'
   end
 
-  def and_i_submit_the_form
+  def and_i_click_on_continue
     click_link_or_button t('continue')
   end
-  alias_method :when_i_try_to_continue, :and_i_submit_the_form
+
+  def and_i_click_on_save_changes_and_return
+    click_link_or_button t('save_changes_and_return')
+  end
+  alias_method :when_i_try_to_save_changes_and_return, :and_i_click_on_save_changes_and_return
 
   def when_i_click_to_change_my_answer
     click_change_link('personal statement')
@@ -122,7 +126,7 @@ RSpec.describe 'Entering "Personal statement"' do
     expect(page).to have_css('#your-personal-statement-badge-id', text: 'Completed')
   end
 
-  def then_i_am_told_to_write_my_personl_statement
+  def then_i_am_told_to_write_my_personal_statement
     expect(page).to have_content('Write your personal statement')
   end
 end

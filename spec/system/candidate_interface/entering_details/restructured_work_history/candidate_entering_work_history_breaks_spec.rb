@@ -25,7 +25,7 @@ RSpec.describe 'Entering reasons for their work history breaks' do
     when_i_enter_a_reason_for_my_first_break
     then_i_see_my_reason_for_my_first_break_on_the_review_page
 
-    when_i_click_on_continue
+    when_i_click_on_save_changes_and_return
     then_i_see_a_section_complete_error
 
     when_i_mark_this_section_as_completed
@@ -165,7 +165,7 @@ RSpec.describe 'Entering reasons for their work history breaks' do
 
   def when_i_mark_this_section_as_completed
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
     expect(page).to have_content(t('page_titles.application_form'))
   end
 
@@ -195,8 +195,8 @@ RSpec.describe 'Entering reasons for their work history breaks' do
     expect(page).to have_css('#work-history-badge-id', text: 'Complete')
   end
 
-  def when_i_click_on_continue
-    click_link_or_button t('continue')
+  def when_i_click_on_save_changes_and_return
+    click_link_or_button t('save_changes_and_return')
   end
 
   def then_i_see_a_section_complete_error

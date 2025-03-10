@@ -50,11 +50,11 @@ RSpec.describe 'Your TOEFL result' do
 
   def and_i_can_complete_this_section
     choose t('application_form.incomplete_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Incomplete')
     click_link_or_button efl_link_text
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Completed')
   end
 end

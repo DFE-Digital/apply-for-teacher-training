@@ -179,7 +179,7 @@ private
 
   def and_i_complete_the_section
     choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
+    click_link_or_button t('save_changes_and_return')
   end
   alias_method :complete_section, :and_i_complete_the_section
 

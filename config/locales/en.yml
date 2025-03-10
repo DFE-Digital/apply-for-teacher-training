@@ -3,10 +3,13 @@ en:
     safe_choice_update_validator:
       error_message: The application must be in the current cycle %{current_cycle}
   continue: Continue
+  save_changes_and_return: Save changes and return to your details
   update: Update
   save_and_continue: Save and continue
   save: Save
   cancel: Cancel
+  back: Back
+  go_back_and_change_email: Go back and change the email address
   validation_errors:
     email_address_format: Enter an email address in the correct format, like name@example.com
   service_name:

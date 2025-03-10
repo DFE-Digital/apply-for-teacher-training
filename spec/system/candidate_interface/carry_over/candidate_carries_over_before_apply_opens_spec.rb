@@ -54,7 +54,7 @@ private
     click_on 'Your details'
     click_on 'References to be requested if you accept an offer'
     choose 'Yes, I have completed this section'
-    click_on 'Continue'
+    click_on 'Save changes and return to your details'
   end
 
   def then_i_can_add_courses
