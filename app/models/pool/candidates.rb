@@ -17,6 +17,7 @@ class Pool::Candidates
       .where(candidate: { pool_status: :opt_in, submission_blocked: false, account_locked: false })
       .where.not(candidate_id: dismissed_candidates.ids)
       .order(order_by)
+      .distinct
   end
 
 private
@@ -41,6 +42,13 @@ private
             status: %i[awaiting_provider_decision interviewing offer pending_conditions recruited offer_deferred],
           },
         ).select(:id),
+      )
+      .where(
+        id: ApplicationForm.joins(:application_choices)
+            .where(application_choices: { status: ApplicationStateChange::UNSUCCESSFUL_STATES })
+            .group(:id)
+            .having("count(application_choices) < #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS}")
+            .select(:id),
       )
   end
 

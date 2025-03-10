@@ -84,6 +84,11 @@ RSpec.describe Pool::Candidates do
         inactive_candidate_form = create(:application_form, :completed, candidate: inactive_candidate)
         create(:application_choice, :inactive, application_form: inactive_candidate_form)
         create(:application_choice, :offer_deferred, application_form: inactive_candidate_form)
+
+        candidate_with_too_many_choices = create(:candidate, pool_status: 'opt_in')
+        candidate_with_too_many_choices_form = create(:application_form, :completed, candidate: candidate_with_too_many_choices)
+        create_list(:application_choice, 15, :offer_withdrawn, application_form: candidate_with_too_many_choices_form)
+
         application_forms = described_class.application_forms_for_provider(providers:, filters: {})
 
         expect(application_forms).to be_empty
