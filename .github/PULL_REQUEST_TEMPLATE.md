@@ -20,6 +20,6 @@
 - [ ] This code adds a column or table to the database
   - [ ] This code does not rely on migrations in the same Pull Request
   - [ ] decide whether it needs to be in analytics yml file or analytics blocklist
-  - [ ] data insights team have been informed of the change and have update the pipeline
+  - [ ] data insights team has been informed of the change and have updated the pipeline
   - [ ] the sanitise.sql script and 0025-protecting-personal-data-in-production-dump.md ADR have been updated
   - [ ] does the code safely backfill existing records for consistency
