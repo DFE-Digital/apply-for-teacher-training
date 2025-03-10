@@ -44,6 +44,14 @@ shared:
     - candidate_id
     - created_at
     - updated_at
+  :adviser_teaching_subjects:
+    - id
+    - title
+    - external_identifier
+    - level
+    - created_at
+    - updated_at
+    - discarded_at
   :adviser_sign_up_requests:
     - id
     - application_form_id
