@@ -1,4 +1,5 @@
-    <%= f.govuk_error_summary %>
+<%# locals: (application_form:, f:) %>
+<%= f.govuk_error_summary %>
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
@@ -10,9 +11,9 @@
 
         <p class="govuk-body">Some training providers may let you do an equivalency test to show you have the required skills.</p>
 
-        <% if adviser_sign_up.available? %>
+        <% if application_form.eligible_and_unassigned_a_teaching_training_adviser? %>
           <p class="govuk-body">Contact a <%= govuk_link_to_with_utm_params('teacher training adviser', new_candidate_interface_adviser_sign_up_path, utm_campaign(params)) %> or your chosen training provider if you need help understanding the qualifications you need and how to get them.</p>
-        <% elsif adviser_sign_up.waiting_to_be_assigned_to_an_adviser? || adviser_sign_up.already_assigned_to_an_adviser? %>
+        <% elsif application_form.waiting_to_be_assigned_to_an_adviser? || application_form.already_assigned_to_an_adviser? %>
           <p class="govuk-body">Contact your teacher training adviser or your chosen training provider if you need help understanding the qualifications you need and how to get them.</p>
         <% else %>
           <p class="govuk-body">Contact a <%= govuk_link_to_with_utm_params('teacher training adviser', I18n.t('get_into_teaching.url_get_an_adviser_start'), utm_campaign(params)) %> or your chosen training provider if you need help understanding the qualifications you need and how to get them.</p>

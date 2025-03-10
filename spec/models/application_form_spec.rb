@@ -1314,12 +1314,267 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#redacted_full_name' do
-    it 'returs the full name redacted' do
+    it 'returns the full name redacted' do
       first_name = 'First'
       last_name = 'Last'
       application_form = build(:application_form, first_name:, last_name:)
 
       expect(application_form.redacted_full_name).to eq('F***** L*****')
+    end
+  end
+
+  describe '#eligible_and_unassigned_a_teaching_training_adviser?' do
+    it 'returns true when the validation is valid' do
+      application_form = build(:application_form)
+      allow(Adviser::ApplicationFormValidations).to receive(:new)
+                                                .with(application_form)
+                                                .and_return(instance_double(Adviser::ApplicationFormValidations, valid?: true))
+
+      expect(application_form.eligible_and_unassigned_a_teaching_training_adviser?).to be true
+    end
+
+    it 'returns false when the validation is invalid' do
+      application_form = build(:application_form)
+      allow(Adviser::ApplicationFormValidations).to receive(:new)
+                                                      .with(application_form)
+                                                      .and_return(instance_double(Adviser::ApplicationFormValidations, valid?: false))
+
+      expect(application_form.eligible_and_unassigned_a_teaching_training_adviser?).to be false
+    end
+  end
+
+  describe '#eligible_to_sign_up_for_a_teaching_training_adviser?' do
+    before do
+      allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache.lookup_store(:memory_store))
+      Rails.cache.clear
+      Sidekiq::Worker.clear_all
+    end
+
+    subject(:application_form) { build_stubbed(:application_form) }
+
+    context 'when the application form is eligible' do
+      before do
+        validation_double = instance_double(Adviser::ApplicationFormValidations, valid?: true)
+        allow(Adviser::ApplicationFormValidations).to receive(:new).and_return(validation_double)
+      end
+
+      it { is_expected.to be_eligible_to_sign_up_for_a_teaching_training_adviser }
+    end
+
+    context 'when the application form is not eligible' do
+      before do
+        validation_double = instance_double(Adviser::ApplicationFormValidations, valid?: false)
+        allow(Adviser::ApplicationFormValidations).to receive(:new).and_return(validation_double)
+      end
+
+      it { is_expected.not_to be_eligible_to_sign_up_for_a_teaching_training_adviser }
+    end
+
+    context 'refreshing the adviser status' do
+      it 'queues the refresh worker' do
+        expect {
+          application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
+        }.to change(Adviser::RefreshAdviserStatusWorker.jobs, :size).from(0).to(1)
+      end
+
+      it 'does not queue the refresh worker if it has been refreshed recently' do
+        application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
+
+        expect {
+          application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
+        }.not_to change(Adviser::RefreshAdviserStatusWorker.jobs, :size)
+      end
+    end
+  end
+
+  describe '#already_assigned_to_an_adviser?' do
+    before do
+      allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache.lookup_store(:memory_store))
+      Rails.cache.clear
+      Sidekiq::Worker.clear_all
+    end
+
+    context 'when the application form is assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'assigned') }
+
+      it { is_expected.to be_already_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is previously assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'previously_assigned') }
+
+      it { is_expected.to be_already_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is unassigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'unassigned') }
+
+      it { is_expected.not_to be_already_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is waiting to be assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'waiting_to_be_assigned') }
+
+      it { is_expected.not_to be_already_assigned_to_an_adviser }
+    end
+
+    context 'refreshing the adviser status' do
+      subject(:application_form) { build_stubbed(:application_form) }
+
+      it 'queues the refresh worker' do
+        expect {
+          application_form.already_assigned_to_an_adviser?
+        }.to change(Adviser::RefreshAdviserStatusWorker.jobs, :size).from(0).to(1)
+      end
+
+      it 'does not queue the refresh worker if it has been refreshed recently' do
+        application_form.already_assigned_to_an_adviser?
+
+        expect {
+          application_form.already_assigned_to_an_adviser?
+        }.not_to change(Adviser::RefreshAdviserStatusWorker.jobs, :size)
+      end
+    end
+  end
+
+  describe '#waiting_to_be_assigned_to_an_adviser?' do
+    before do
+      allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache.lookup_store(:memory_store))
+      Rails.cache.clear
+      Sidekiq::Worker.clear_all
+    end
+
+    context 'when the application form is assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'assigned') }
+
+      it { is_expected.not_to be_waiting_to_be_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is previously assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'previously_assigned') }
+
+      it { is_expected.not_to be_waiting_to_be_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is unassigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'unassigned') }
+
+      it { is_expected.not_to be_waiting_to_be_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is waiting to be assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'waiting_to_be_assigned') }
+
+      it { is_expected.to be_waiting_to_be_assigned_to_an_adviser }
+    end
+
+    context 'refreshing the adviser status' do
+      subject(:application_form) { build_stubbed(:application_form) }
+
+      it 'queues the refresh worker' do
+        expect {
+          application_form.waiting_to_be_assigned_to_an_adviser?
+        }.to change(Adviser::RefreshAdviserStatusWorker.jobs, :size).from(0).to(1)
+      end
+
+      it 'does not queue the refresh worker if it has been refreshed recently' do
+        application_form.waiting_to_be_assigned_to_an_adviser?
+
+        expect {
+          application_form.waiting_to_be_assigned_to_an_adviser?
+        }.not_to change(Adviser::RefreshAdviserStatusWorker.jobs, :size)
+      end
+    end
+  end
+
+  describe '#applicable_degree_for_adviser' do
+    let(:application_form) { create(:application_form) }
+
+    it 'returns nil when there are no qualifications' do
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes non-degree type qualifications' do
+      create(:gcse_qualification, application_form:)
+      create(:other_qualification, application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes incomplete degrees' do
+      create(:degree_qualification,
+             :adviser_sign_up_applicable,
+             :incomplete,
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes international degrees without equivalency details' do
+      create(:non_uk_degree_qualification,
+             :adviser_sign_up_applicable,
+             enic_reference: nil,
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes domestic degrees do not meet the minimum grade requirements' do
+      create(:degree_qualification,
+             :adviser_sign_up_applicable,
+             grade: 'Third-class honours',
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes degrees that are not an applicable level' do
+      create(:degree_qualification,
+             :adviser_sign_up_applicable,
+             qualification_level: 'foundation',
+             application_form:)
+
+      create(:non_uk_degree_qualification,
+             :adviser_sign_up_applicable,
+             comparable_uk_degree: 'bachelor_ordinary_degree',
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'returns an applicable domestic degree, favouring the degree with the highest grade' do
+      create(:degree_qualification,
+             :adviser_sign_up_applicable,
+             application_form:,
+             grade: 'Upper second-class honours (2:1)')
+
+      first_class_domestic_degree = create(:degree_qualification,
+                                           :adviser_sign_up_applicable,
+                                           application_form:,
+                                           grade: 'First-class honours')
+
+      expect(application_form.applicable_degree_for_adviser).to eq(first_class_domestic_degree)
+    end
+
+    it 'returns an applicable international degree' do
+      applicable_international_degree = create(:non_uk_degree_qualification,
+                                               :adviser_sign_up_applicable,
+                                               application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to eq(applicable_international_degree)
+    end
+
+    it 'returns a domestic degree if there are international degrees as well' do
+      first_class_domestic_degree = create(:degree_qualification,
+                                           :adviser_sign_up_applicable,
+                                           application_form:,
+                                           grade: 'First-class honours')
+
+      create(:non_uk_degree_qualification,
+             :adviser_sign_up_applicable,
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to eq(first_class_domestic_degree)
     end
   end
 end

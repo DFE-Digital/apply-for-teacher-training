@@ -1,6 +1,6 @@
-<%# locals: (adviser_sign_up:) %>
+<%# locals: (application_form:) %>
 
-<% if adviser_sign_up.available? %>
+<% if application_form.eligible_to_sign_up_for_a_teaching_training_adviser? %>
   <aside class="app-related" aria-labelledby="tta-title">
     <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="tta-title">
       <%= t('application_form.adviser_sign_up.call_to_action.available.heading') %>
@@ -16,7 +16,7 @@
     </p>
   </aside>
 
-<% elsif adviser_sign_up.waiting_to_be_assigned_to_an_adviser? %>
+<% elsif application_form.waiting_to_be_assigned_to_an_adviser? %>
   <aside class="app-related" aria-labelledby="tta-title">
     <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="tta-title">
       <%= t('application_form.adviser_sign_up.call_to_action.waiting_to_be_assigned.heading') %>
@@ -26,7 +26,7 @@
     </p>
   </aside>
 
-<% elsif adviser_sign_up.already_assigned_to_an_adviser? %>
+<% elsif application_form.already_assigned_to_an_adviser? %>
   <aside class="app-related" aria-labelledby="tta-title">
     <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="tta-title">
       <%= t('application_form.adviser_sign_up.call_to_action.already_assigned.heading') %>

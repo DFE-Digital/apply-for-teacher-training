@@ -38,11 +38,11 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
     end
 
     it 'needs an applicable_degree' do
-      expect(validations).to have_error_on(:applicable_degree)
+      expect(validations).to have_error_on(:applicable_degree_for_adviser)
     end
 
     it 'does not allow a candidate to sign up for an adviser more than once' do
-      application_form.assigned!
+      application_form.adviser_status_assigned!
       expect(validations).to have_error_on(:adviser_status)
     end
 
@@ -67,7 +67,7 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
                application_form:)
       end
 
-      it { expect(validations.applicable_degree).not_to be_international }
+      it { expect(validations.applicable_degree_for_adviser).not_to be_international }
 
       context 'when the candidate does not have Maths and English GCSEs' do
         it 'has errors on the GCSE fields' do
@@ -124,97 +124,8 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
         let(:application_form) { create(:completed_application_form) }
 
         it { is_expected.to be_valid }
-        it { expect(validations.applicable_degree).to be_international }
+        it { expect(validations.applicable_degree_for_adviser).to be_international }
       end
-    end
-  end
-
-  describe '#applicable_degree' do
-    it 'returns nil when there are no qualifications' do
-      expect(validations.applicable_degree).to be_nil
-    end
-
-    it 'excludes non-degree type qualifications' do
-      create(:gcse_qualification, application_form:)
-      create(:other_qualification, application_form:)
-
-      expect(validations.applicable_degree).to be_nil
-    end
-
-    it 'excludes incomplete degrees' do
-      create(:degree_qualification,
-             :adviser_sign_up_applicable,
-             :incomplete,
-             application_form:)
-
-      expect(validations.applicable_degree).to be_nil
-    end
-
-    it 'excludes international degrees without equivalency details' do
-      create(:non_uk_degree_qualification,
-             :adviser_sign_up_applicable,
-             enic_reference: nil,
-             application_form:)
-
-      expect(validations.applicable_degree).to be_nil
-    end
-
-    it 'excludes domestic degrees do not meet the minimum grade requirements' do
-      create(:degree_qualification,
-             :adviser_sign_up_applicable,
-             grade: 'Third-class honours',
-             application_form:)
-
-      expect(validations.applicable_degree).to be_nil
-    end
-
-    it 'excludes degrees that are not an applicable level' do
-      create(:degree_qualification,
-             :adviser_sign_up_applicable,
-             qualification_level: 'foundation',
-             application_form:)
-
-      create(:non_uk_degree_qualification,
-             :adviser_sign_up_applicable,
-             comparable_uk_degree: 'bachelor_ordinary_degree',
-             application_form:)
-
-      expect(validations.applicable_degree).to be_nil
-    end
-
-    it 'returns an applicable domestic degree, favouring the degree with the highest grade' do
-      create(:degree_qualification,
-             :adviser_sign_up_applicable,
-             application_form:,
-             grade: 'Upper second-class honours (2:1)')
-
-      first_class_domestic_degree = create(:degree_qualification,
-                                           :adviser_sign_up_applicable,
-                                           application_form:,
-                                           grade: 'First-class honours')
-
-      expect(validations.applicable_degree).to eq(first_class_domestic_degree)
-    end
-
-    it 'returns an applicable international degree' do
-      applicable_international_degree = create(:non_uk_degree_qualification,
-                                               :adviser_sign_up_applicable,
-                                               application_form:)
-
-      expect(validations.applicable_degree).to eq(applicable_international_degree)
-    end
-
-    it 'returns a domestic degree if there are international degrees as well' do
-      first_class_domestic_degree = create(:degree_qualification,
-                                           :adviser_sign_up_applicable,
-                                           application_form:,
-                                           grade: 'First-class honours')
-
-      create(:non_uk_degree_qualification,
-             :adviser_sign_up_applicable,
-             application_form:)
-
-      expect(validations.applicable_degree).to eq(first_class_domestic_degree)
     end
   end
 end

@@ -1,32 +1,20 @@
 class Adviser::SignUp
-  class AdviserSignUpUnavailableError < RuntimeError; end
-
   include ActiveModel::Model
   include ActiveModel::Attributes
-  include ActiveModel::Validations::Callbacks
 
-  attr_reader :application_form, :availability, :teaching_subjects
+  attribute :application_form
   attribute :preferred_teaching_subject_id
 
-  delegate :available?, :waiting_to_be_assigned_to_an_adviser?, :already_assigned_to_an_adviser?, to: :availability
-
   validates :preferred_teaching_subject_id, inclusion: { in: :teaching_subject_ids, allow_blank: false }
-
-  def initialize(application_form, *, **)
-    @application_form = application_form
-    @availability = Adviser::SignUpAvailability.new(application_form)
-
-    super(*, **)
-  end
+  validate :application_form_valid_for_adviser_sign_up
 
   def save
-    raise AdviserSignUpUnavailableError unless available?
-
     return false if invalid?
 
-    AdviserSignUpWorker.perform_async(application_form.id, preferred_teaching_subject_id)
+    sign_up_request = Adviser::SignUpRequest.find_or_create_by(application_form: application_form, teaching_subject: preferred_teaching_subject)
+    AdviserSignUpWorker.perform_async(sign_up_request.id)
 
-    availability.update_adviser_status(ApplicationForm.adviser_statuses[:waiting_to_be_assigned])
+    application_form.adviser_status_waiting_to_be_assigned!
 
     true
   end
@@ -40,6 +28,16 @@ class Adviser::SignUp
   end
 
 private
+
+  def preferred_teaching_subject
+    Adviser::TeachingSubject.find_by(external_identifier: preferred_teaching_subject_id)
+  end
+
+  def application_form_valid_for_adviser_sign_up
+    return if application_form.eligible_and_unassigned_a_teaching_training_adviser?
+
+    errors.add(:application_form, :invalid_adviser_sign_up)
+  end
 
   def teaching_subject_ids
     Adviser::TeachingSubject.pluck(:external_identifier)

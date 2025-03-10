@@ -25,7 +25,7 @@ module CandidateInterface
     end
 
     def set_adviser_sign_up
-      @adviser_sign_up = Adviser::SignUp.new(application_form, adviser_sign_up_params)
+      @adviser_sign_up = Adviser::SignUp.new(adviser_sign_up_params.merge(application_form:))
     end
 
     def application_form
@@ -39,7 +39,7 @@ module CandidateInterface
     end
 
     def render_404_unless_available
-      render_404 unless @adviser_sign_up.available?
+      render_404 unless application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
     end
   end
 end
