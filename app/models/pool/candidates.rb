@@ -47,7 +47,8 @@ private
         id: ApplicationForm.joins(:application_choices)
             .where(application_choices: { status: ApplicationStateChange::UNSUCCESSFUL_STATES })
             .group(:id)
-            .having("count(application_choices) < #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS}")
+            # Inactive doesn't count as an unsuccessful state, so need to exclude it when counting
+            .having("count(CASE WHEN application_choices.status != 'inactive' THEN 1 END) < #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS}")
             .select(:id),
       )
   end
