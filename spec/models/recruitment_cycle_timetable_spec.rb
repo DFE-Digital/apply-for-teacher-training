@@ -164,10 +164,157 @@ RSpec.describe RecruitmentCycleTimetable do
     end
   end
 
+  describe '.years_visible_in_support' do
+    context 'in production' do
+      before do
+        allow(HostingEnvironment).to receive(:production?).and_return true
+      end
+
+      it 'only returns up to the current year' do
+        result = described_class.years_visible_in_support
+
+        expect(result.max).to eq described_class.current_year
+        expect(result.min).to eq 2019
+      end
+    end
+
+    context 'not in production' do
+      before do
+        allow(HostingEnvironment).to receive(:production?).and_return false
+      end
+
+      it 'returns up to the next cycle year' do
+        result = described_class.years_visible_in_support
+
+        expect(result.max).to eq described_class.next_year
+        expect(result.min).to eq 2019
+      end
+    end
+  end
+
+  describe '.years_visible_to_providers' do
+    it 'returns last year and this year' do
+      current_year = described_class.current_year
+      expect(described_class.years_visible_to_providers).to eq [current_year - 1, current_year]
+    end
+  end
+
+  describe '.this_day_last_cycle' do
+    context '2 days after apply opens this cycle' do
+      it 'returns 2 days after apply opens last cycle' do
+        TestSuiteTimeMachine.travel_temporarily_to(described_class.current_timetable.apply_opens_at + 2.days) do
+          result = described_class.this_day_last_cycle
+          previous_timetable = described_class.previous_timetable
+          expect(result.to_date).to eq (previous_timetable.apply_opens_at + 2.days).to_date
+        end
+      end
+    end
+  end
+
   describe '#cycle_range_name' do
     it 'returns a string describing the recruitment cycle year range' do
       timetable = described_class.find_by(recruitment_cycle_year: 2024)
       expect(timetable.cycle_range_name).to eq '2023 to 2024'
+    end
+  end
+
+  describe '#verbose_cycle_range_name' do
+    it 'includes the month in the cycle year range' do
+      timetable = described_class.find_by(recruitment_cycle_year: 2024)
+
+      expect(timetable.verbose_cycle_range_name).to eq 'October 2023 to September 2024'
+    end
+  end
+
+  describe '#cycle_range_name_with_current_indicator' do
+    it 'returns year range with "current"' do
+      TestSuiteTimeMachine.travel_temporarily_to(DateTime.new(2024, 8, 8)) do
+        current_timetable = described_class.current_timetable
+        next_timetable = described_class.next_timetable
+        expect(current_timetable.cycle_range_name_with_current_indicator).to eq '2023 to 2024 - current'
+        expect(next_timetable.cycle_range_name_with_current_indicator).to eq '2024 to 2025'
+      end
+    end
+  end
+
+  describe '#next_available_academic_year_range' do
+    context 'after the apply deadline', time: after_apply_deadline do
+      it 'returns academic year range for the next timetable' do
+        timetable = described_class.current_timetable
+        result = timetable.next_available_academic_year_range
+        expect(result).to eq described_class.next_timetable.academic_year_range_name
+      end
+    end
+
+    context 'before apply deadline', time: mid_cycle do
+      it 'returns year range for the current timetable' do
+        timetable = described_class.current_timetable
+        result = timetable.next_available_academic_year_range
+        expect(result).to eq described_class.current_timetable.academic_year_range_name
+      end
+    end
+  end
+
+  describe '#apply_reopens_at' do
+    context 'in the time between find opening and apply opens', time: after_find_opens do
+      it 'returns the apply opens date for the current timetable' do
+        timetable = described_class.current_timetable
+        result = timetable.apply_reopens_at
+
+        expect(result).to eq timetable.apply_opens_at
+      end
+    end
+
+    context 'after apply has opened in the current year', time: mid_cycle do
+      it 'returns the apply open date for the next year' do
+        timetable = described_class.current_timetable
+        result = timetable.apply_reopens_at
+
+        expect(result).to eq timetable.relative_next_timetable.apply_opens_at
+      end
+    end
+  end
+
+  describe '#between_cycles?' do
+    context 'mid cycle', time: mid_cycle do
+      it 'returns false' do
+        timetable = described_class.current_timetable
+        expect(timetable.between_cycles?).to be false
+      end
+    end
+
+    context 'before apply opens', time: after_find_opens do
+      it 'returns true' do
+        timetable = described_class.current_timetable
+        expect(timetable.between_cycles?).to be true
+      end
+    end
+
+    context 'after the apply deadline', time: after_apply_deadline do
+      it 'returns true' do
+        timetable = described_class.current_timetable
+        expect(timetable.between_cycles?).to be true
+      end
+    end
+  end
+
+  describe '#next_year?' do
+    it 'returns true when the timetable is for the next recruitment cycle' do
+      current_timetable = described_class.current_timetable
+      expect(current_timetable.next_year?).to be false
+
+      next_timetable = described_class.next_timetable
+      expect(next_timetable.next_year?).to be true
+    end
+  end
+
+  describe '#current_year?' do
+    it 'returns true when the timetable is for the current recruitment cycle' do
+      current_timetable = described_class.current_timetable
+      expect(current_timetable.current_year?).to be true
+
+      next_timetable = described_class.next_timetable
+      expect(next_timetable.current_year?).to be false
     end
   end
 
