@@ -51,9 +51,9 @@ RSpec.describe Candidate do
 
       it 'does not touch the application choice when its in a previous recruitment cycle' do
         candidate = create(:candidate)
-        application_choice = create(:application_choice, current_recruitment_cycle_year: RecruitmentCycle.previous_year)
+        application_choice = create(:application_choice, current_recruitment_cycle_year: RecruitmentCycleTimetable.previous_year)
         application_form = ApplicationForm.with_unsafe_application_choice_touches do
-          create(:completed_application_form, application_choices: [application_choice], candidate:, recruitment_cycle_year: RecruitmentCycle.previous_year)
+          create(:completed_application_form, application_choices: [application_choice], candidate:, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year)
         end
 
         expect { candidate.update(email_address: 'new.email@example.com') }
@@ -81,7 +81,7 @@ RSpec.describe Candidate do
       it 'does not touch the application form when its in a previous recruitment cycle' do
         candidate = create(:candidate)
         application_form = ApplicationForm.with_unsafe_application_choice_touches do
-          create(:completed_application_form, application_choices_count: 1, candidate:, recruitment_cycle_year: RecruitmentCycle.previous_year)
+          create(:completed_application_form, application_choices_count: 1, candidate:, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year)
         end
 
         expect { candidate.update(email_address: 'new.email@example.com') }
@@ -267,7 +267,7 @@ RSpec.describe Candidate do
     end
 
     context 'when the candidate has applications in apply again in previous cycle' do
-      let!(:application_form_previous_year) { create(:application_form, candidate:, phase: 'apply_2', recruitment_cycle_year: RecruitmentCycle.previous_year) }
+      let!(:application_form_previous_year) { create(:application_form, candidate:, phase: 'apply_2', recruitment_cycle_year: RecruitmentCycleTimetable.previous_year) }
       let!(:application_form) { create(:application_form, candidate:) }
 
       it 'returns true' do
