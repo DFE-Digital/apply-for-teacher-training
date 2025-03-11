@@ -18,7 +18,7 @@ module SupportInterface
     def courses_dashboard; end
 
     def service_performance_dashboard
-      year = params[:year] if RecruitmentCycle.years_visible_in_support.include?(params[:year].to_i)
+      year = params[:year] if RecruitmentCycleTimetable.years_visible_in_support.include?(params[:year].to_i)
 
       @statistics = PerformanceStatistics.new(year)
     end
