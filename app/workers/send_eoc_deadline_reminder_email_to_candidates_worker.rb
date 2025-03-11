@@ -22,9 +22,9 @@ private
 
   def chaser_type
     if email_timetabler.send_first_end_of_cycle_reminder?
-      :eoc_first_deadline_reminder
+      'eoc_first_deadline_reminder'
     elsif email_timetabler.send_second_end_of_cycle_reminder?
-      :eoc_second_deadline_reminder
+      'eoc_second_deadline_reminder'
     end
   end
 

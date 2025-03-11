@@ -6,7 +6,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidate do
     let(:application_form) { create(:application_form) }
 
     it 'sends a reminder email to the candidate and creates and EOC chaser' do
-      %i[eoc_first_deadline_reminder eoc_second_deadline_reminder].each do |chaser_type|
+      %w[eoc_first_deadline_reminder eoc_second_deadline_reminder].each do |chaser_type|
         allow(CandidateMailer).to receive(chaser_type).and_return(mail)
         described_class.new(application_form:, chaser_type:).call
 
