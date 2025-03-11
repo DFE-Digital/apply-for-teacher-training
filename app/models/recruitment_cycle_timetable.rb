@@ -12,7 +12,7 @@ class RecruitmentCycleTimetable < ApplicationRecord
   validate :christmas_holiday_validation
   validate :easter_holiday_validation
 
-  def self.find_by_datetime(datetime)
+  def self.find_timetable_by_datetime(datetime)
     where('find_opens_at < ?', datetime).last
   end
 

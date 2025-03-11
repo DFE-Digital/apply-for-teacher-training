@@ -1,15 +1,4 @@
 module RecruitmentCycle
-  def self.cycle_string(year)
-    cycle = cycle_strings.fetch(year.to_s)
-    current_year.to_s == year.to_s ? "#{cycle} - current" : cycle
-  end
-
-  def self.cycle_strings(upto = current_year)
-    upto.to_i.downto(2020).index_with do |year|
-      "#{year - 1} to #{year}"
-    end.stringify_keys
-  end
-
   def self.real_current_year
     CycleTimetable.real_current_year
   end

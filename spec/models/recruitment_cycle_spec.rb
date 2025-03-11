@@ -1,52 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe RecruitmentCycle, time: CycleTimetableHelper.mid_cycle(2023) do
-  describe '.cycle_strings' do
-    it 'returns an empty hash when start year is before 2020' do
-      expect(described_class.cycle_strings(2000)).to eq({})
-    end
-
-    it 'returns the cycle strings up to one year from current_year' do
-      expect(described_class.cycle_strings).to eq(
-        { '2023' => '2022 to 2023',
-          '2022' => '2021 to 2022',
-          '2021' => '2020 to 2021',
-          '2020' => '2019 to 2020' },
-      )
-    end
-
-    it 'returns the cycle strings up to the arg year' do
-      expect(described_class.cycle_strings(2024)).to eq(
-        { '2024' => '2023 to 2024',
-          '2023' => '2022 to 2023',
-          '2022' => '2021 to 2022',
-          '2021' => '2020 to 2021',
-          '2020' => '2019 to 2020' },
-      )
-    end
-  end
-
-  describe '.cycle_string' do
-    it 'throws an error when a cycle does not exist for the specified year' do
-      expect { described_class.cycle_string(2000) }
-        .to raise_error(KeyError)
-    end
-
-    it 'formats the display for 2023' do
-      expect(described_class.cycle_string(2023)).not_to be_blank
-    end
-
-    it 'formats the displayed cycle string' do
-      expect(described_class.cycle_string(described_class.previous_year))
-        .to eq("#{described_class.previous_year - 1} to #{described_class.previous_year}")
-    end
-
-    it 'indicates the current cycle' do
-      expect(described_class.cycle_string(described_class.current_year))
-        .to eq("#{described_class.previous_year} to #{described_class.current_year} - current")
-    end
-  end
-
   describe '.years_visible_in_support' do
     context 'when in production hosting environment' do
       it 'returns correct array of years', hosting_env: 'production' do

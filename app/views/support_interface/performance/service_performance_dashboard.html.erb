@@ -7,7 +7,7 @@
     <%= govuk_link_to 'View in large screen mode', '?screen=1' %>
   </p>
 
-  <% year_choices = RecruitmentCycle.cycle_strings(RecruitmentCycle.current_year).map do |year, label| %>
+  <% year_choices = RecruitmentCycleYearsPresenter.call.map do |year, label| %>
     <% { name: label, url: "?year=#{year}&screen=#{params[:screen] || 0}", current: params[:year] == year } %>
   <% end %>
 

@@ -69,12 +69,16 @@ module ProviderInterface
     end
 
     def recruitment_cycle_filter
-      cycle_options = RecruitmentCycle.years_visible_to_providers
-        .map do |year|
+      cycle_options =
+        RecruitmentCycleYearsPresenter.call(
+          start_year: years_visible_to_provider.min,
+          end_year: years_visible_to_provider.max,
+          with_current_indicator: true,
+        ).map do |year, label|
           year_str = year.to_s
           {
             value: year_str,
-            label: RecruitmentCycle.cycle_string(year_str),
+            label:,
             checked: applied_filters[:recruitment_cycle_year]&.include?(year_str),
           }
         end
@@ -227,6 +231,10 @@ module ProviderInterface
           }
         end,
       }
+    end
+
+    def years_visible_to_provider
+      @years_visible_to_provider ||= RecruitmentCycleTimetable.years_visible_to_providers
     end
   end
 end
