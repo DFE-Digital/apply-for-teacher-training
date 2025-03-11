@@ -14,8 +14,12 @@ module Publications
     end
 
     def by_year
-      @report = MonthlyStatistics::MonthlyStatisticsReport.report_for_latest_in_cycle(params[:year].to_i)
-      render_report
+      if params[:year].to_i.in? RecruitmentCycleTimetable.pluck(:recruitment_cycle_year)
+        @report = MonthlyStatistics::MonthlyStatisticsReport.report_for_latest_in_cycle(params[:year].to_i)
+        render_report
+      else
+        render 'errors/not_found', status: :not_found, formats: :html
+      end
     end
 
     def download
