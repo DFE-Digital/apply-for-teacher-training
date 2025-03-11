@@ -22,16 +22,6 @@
     <% end %>
 
     <% summary_list.with_row do |row| %>
-      <% row.with_key { t('.status') } %>
-      <% row.with_value { render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: choice)) } %>
-    <% end %>
-
-    <% summary_list.with_row do |row| %>
-      <% row.with_key { t('.rejection_reason') } %>
-      <% row.with_value { rejection_reason_value(choice) } %>
-    <% end %>
-
-    <% summary_list.with_row do |row| %>
       <% row.with_key { t('.qualification') } %>
       <% row.with_value { choice.course.qualifications_to_s } %>
     <% end %>

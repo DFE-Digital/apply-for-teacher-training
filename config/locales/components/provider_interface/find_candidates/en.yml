@@ -11,8 +11,6 @@ en:
         subtitle: Application %{counter}
         subject: Subject
         location: Location
-        status: Status
-        rejection_reason: Rejection reason
         qualification: Qualification
         funding_type: Funding type
         personal_statement: Personal statement
