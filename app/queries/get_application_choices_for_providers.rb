@@ -15,7 +15,7 @@ class GetApplicationChoicesForProviders
     providers:,
     exclude_deferrals: false,
     includes: DEFAULT_INCLUDES,
-    recruitment_cycle_year: RecruitmentCycle.years_visible_to_providers
+    recruitment_cycle_year: RecruitmentCycleTimetable.years_visible_to_providers
   )
     # It is very important to raise an error if no providers have been supplied
     # because otherwise Rails omits the provider_ids where clause

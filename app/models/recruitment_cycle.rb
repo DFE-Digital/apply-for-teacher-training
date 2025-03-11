@@ -23,10 +23,6 @@ module RecruitmentCycle
     current_year - 1
   end
 
-  def self.years_visible_to_providers
-    [current_year, previous_year]
-  end
-
   def self.years_visible_in_support
     from_year = HostingEnvironment.production? ? current_year : next_year
     from_year.downto(CYCLE_DATES.keys.min)

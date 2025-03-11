@@ -57,7 +57,7 @@ module ProviderInterface
   private
 
     def recruitment_cycle_year
-      RecruitmentCycle.years_visible_to_providers
+      @recruitment_cycle_year ||= RecruitmentCycleTimetable.years_visible_to_providers
     end
   end
 end

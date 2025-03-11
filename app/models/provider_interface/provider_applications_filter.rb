@@ -179,7 +179,7 @@ module ProviderInterface
 
       providers.map do |provider|
         uniq_provider_sites = provider.sites.for_recruitment_cycle_years(
-          RecruitmentCycle.years_visible_to_providers,
+          years_visible_to_provider,
         ).uniq { |site| [site.code, site.name] }
 
         next unless uniq_provider_sites.count > 1
