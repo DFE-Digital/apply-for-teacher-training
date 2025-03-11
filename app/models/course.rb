@@ -5,6 +5,9 @@ class Course < ApplicationRecord
   has_many :sites, through: :course_options
   has_many :course_subjects
   has_many :subjects, through: :course_subjects
+  has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
+  delegate :next_year?, to: :recruitment_cycle_timetable
+
   belongs_to :accredited_provider, class_name: 'Provider', optional: true
 
   validates :level, presence: true
@@ -13,8 +16,8 @@ class Course < ApplicationRecord
   scope :exposed_in_find, -> { where(exposed_in_find: true) }
   scope :open_for_applications, -> { where('courses.applications_open_from <= ?', Time.zone.today) }
   scope :open, -> { application_status_open.exposed_in_find.where('courses.applications_open_from <= ?', Time.zone.today) }
-  scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
-  scope :previous_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.previous_year) }
+  scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
+  scope :previous_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.previous_year) }
   scope :in_cycle, ->(year) { where(recruitment_cycle_year: year) }
   scope :with_course_options_run_by_provider, ->(provider) { joins(:course_options).distinct.where(provider:) }
   scope :with_course_options, -> { left_outer_joins(:course_options).where.not(course_options: { id: nil }) }
@@ -234,6 +237,6 @@ private
   end
 
   def in_current_recruitment_cycle?
-    recruitment_cycle_year.eql?(RecruitmentCycle.current_year)
+    recruitment_cycle_timetable.current_year?
   end
 end

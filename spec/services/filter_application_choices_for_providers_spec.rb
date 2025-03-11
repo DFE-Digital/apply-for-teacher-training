@@ -50,18 +50,18 @@ RSpec.describe FilterApplicationChoicesForProviders do
     end
 
     it 'filters by recruitment cycle year' do
-      application_choices.last.course.update(recruitment_cycle_year: 1999)
+      application_choices.last.course.update(recruitment_cycle_year: 2021)
 
-      result = described_class.call(application_choices:, filters: { recruitment_cycle_year: '1999' })
+      result = described_class.call(application_choices:, filters: { recruitment_cycle_year: '2021' })
 
       expect(result).to eq([application_choices.last])
     end
 
     it 'uses the updated course details when filtering by recruitment cycle year' do
-      course_option = create(:course_option, course: create(:course, recruitment_cycle_year: 1999))
+      course_option = create(:course_option, course: create(:course, recruitment_cycle_year: 2021))
       application_choices.last.update(current_course_option_id: course_option.id)
 
-      result = described_class.call(application_choices:, filters: { recruitment_cycle_year: '1999' })
+      result = described_class.call(application_choices:, filters: { recruitment_cycle_year: '2021' })
 
       expect(result).to eq([application_choices.last])
     end

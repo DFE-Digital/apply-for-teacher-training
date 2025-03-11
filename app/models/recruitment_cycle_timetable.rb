@@ -12,6 +12,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
   validate :christmas_holiday_validation
   validate :easter_holiday_validation
 
+  def self.find_by_datetime(datetime)
+    where('find_opens_at < ?', datetime).last
+  end
+
   def self.current_timetable
     # We cannot just look for the timetable where now is between find_open_at and find_closes_at
     # because there is a gap from 23:23 to 9am the next day (typically) between find closing and reopening for the new cycle.
@@ -40,9 +44,26 @@ class RecruitmentCycleTimetable < ApplicationRecord
     next_timetable.recruitment_cycle_year
   end
 
+  def self.years_visible_in_support
+    max_year = HostingEnvironment.production? ? current_year : next_year
+
+    pluck(:recruitment_cycle_year).reject { |year| year > max_year }
+  end
+
+  def self.years_visible_to_providers
+    [previous_year, current_year]
+  end
+
   def self.current_cycle_week
     weeks = (Time.zone.now - current_timetable.find_opens_at.beginning_of_week).seconds.in_weeks.to_i
     (weeks % 53).succ
+  end
+
+  def self.this_day_last_cycle
+    days_since_cycle_started = (Time.zone.now.to_date - current_timetable.apply_opens_at.to_date).round
+    last_cycle_opening_date = previous_timetable.apply_opens_at.to_date
+    last_cycle_date = days_since_cycle_started.days.after(last_cycle_opening_date)
+    DateTime.new(last_cycle_date.year, last_cycle_date.month, last_cycle_date.day, Time.current.hour, Time.current.min, Time.current.sec)
   end
 
   def self.last_timetable
@@ -53,8 +74,28 @@ class RecruitmentCycleTimetable < ApplicationRecord
     "#{recruitment_cycle_year - 1} to #{recruitment_cycle_year}"
   end
 
+  def cycle_range_name_with_current_indicator
+    if recruitment_cycle_year == RecruitmentCycleTimetable.current_year
+      "#{cycle_range_name} - current"
+    else
+      cycle_range_name
+    end
+  end
+
+  def verbose_cycle_range_name
+    "#{find_opens_at.to_date.strftime('%B')} #{recruitment_cycle_year - 1} to #{apply_deadline_at.to_date.strftime('%B')} #{recruitment_cycle_year}"
+  end
+
   def academic_year_range_name
     "#{recruitment_cycle_year} to #{recruitment_cycle_year + 1}"
+  end
+
+  def next_available_academic_year_range
+    if after_apply_deadline?
+      relative_next_timetable.academic_year_range_name
+    else
+      academic_year_range_name
+    end
   end
 
   def relative_next_timetable
@@ -63,6 +104,14 @@ class RecruitmentCycleTimetable < ApplicationRecord
 
   def relative_previous_timetable
     self.class.find_by(recruitment_cycle_year: recruitment_cycle_year - 1)
+  end
+
+  def apply_reopens_at
+    if before_apply_opens?
+      apply_opens_at
+    else
+      relative_next_timetable.apply_opens_at
+    end
   end
 
   def cycle_week_date_range(cycle_week)
@@ -101,8 +150,20 @@ class RecruitmentCycleTimetable < ApplicationRecord
     Time.zone.now.after? find_opens_at
   end
 
+  def between_cycles?
+    before_apply_opens? || after_apply_deadline?
+  end
+
   def approaching_apply_deadline?
     Time.zone.now.after? show_banners_at
+  end
+
+  def next_year?
+    self == RecruitmentCycleTimetable.next_timetable
+  end
+
+  def current_year?
+    self == RecruitmentCycleTimetable.current_timetable
   end
 
   def show_banners_at

@@ -61,8 +61,9 @@ class Candidate < ApplicationRecord
   def touch_application_choices_and_forms
     return unless application_choices.any?
 
-    application_choices.where(current_recruitment_cycle_year: RecruitmentCycle.current_year).touch_all
-    application_forms.where(recruitment_cycle_year: RecruitmentCycle.current_year).touch_all
+    current_year = RecruitmentCycleTimetable.current_year
+    application_choices.where(current_recruitment_cycle_year: current_year).touch_all
+    application_forms.where(recruitment_cycle_year: current_year).touch_all
   end
 
   def self.for_email(email)
@@ -76,8 +77,8 @@ class Candidate < ApplicationRecord
 
   def current_application
     application_form = application_forms.order(:created_at, :id).last
-    application_form || if Time.zone.now > CycleTimetable.apply_deadline
-                          application_forms.create!(recruitment_cycle_year: CycleTimetable.next_year)
+    application_form || if RecruitmentCycleTimetable.current_timetable.after_apply_deadline?
+                          application_forms.create!(recruitment_cycle_year: RecruitmentCycleTimetable.next_year)
                         else
                           application_forms.create!
                         end

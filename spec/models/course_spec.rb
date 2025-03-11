@@ -9,6 +9,10 @@ RSpec.describe Course do
     it { is_expected.to be_application_status_closed }
   end
 
+  describe 'associations' do
+    it { is_expected.to have_one :recruitment_cycle_timetable }
+  end
+
   describe '#open?' do
     context 'when all conditions are satisfied' do
       let(:course) { create(:course, :open) }
