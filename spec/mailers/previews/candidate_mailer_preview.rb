@@ -549,6 +549,18 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.apply_to_multiple_courses_after_30_working_days(application_form)
   end
 
+  def course_invite
+    application_form = FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      first_name: 'Fred',
+    )
+    candidate = FactoryBot.create(:candidate, application_forms: [application_form])
+    pool_invite = FactoryBot.create(:pool_invite, candidate:)
+
+    CandidateMailer.course_invite(pool_invite)
+  end
+
 private
 
   def candidate

@@ -1,5 +1,7 @@
 en:
   candidate_mailer:
+    course_invite:
+      subject: "%{provider} have invited you to apply to %{course}"
     reference_received:
       subject: "%{referee_name} has given you a reference"
     application_choice_submitted:
