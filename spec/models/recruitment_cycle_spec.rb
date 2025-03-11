@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe RecruitmentCycle, time: CycleTimetableHelper.mid_cycle(2023) do
-  describe '.years_available_to_register' do
-    it 'returns correct array of years' do
-      expect(described_class.years_available_to_register).to contain_exactly(2023, 2022, 2021, 2020, 2019)
-    end
-  end
-
   describe '.current_year' do
     it 'delegates to CycleTimetable' do
       allow(CycleTimetable).to receive(:current_year)

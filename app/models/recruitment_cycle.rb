@@ -23,10 +23,6 @@ module RecruitmentCycle
     current_year - 1
   end
 
-  def self.years_available_to_register
-    current_year.downto(CYCLE_DATES.keys.min)
-  end
-
   def self.cycle_name(year = current_year)
     "#{year - 1} to #{year}"
   end
