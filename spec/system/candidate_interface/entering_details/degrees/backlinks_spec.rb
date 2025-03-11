@@ -177,7 +177,7 @@ RSpec.describe 'Degrees' do
   end
 
   def and_i_click_to_change_my_undergraduate_degree_completion_status
-    completion_status_row = find('.govuk-summary-list__row', text: 'completion status', match: :first)
+    completion_status_row = first('.govuk-summary-list__row', text: 'completion status')
     within completion_status_row do
       click_change_link('completion status')
     end
@@ -213,14 +213,14 @@ RSpec.describe 'Degrees' do
   alias_method :when_i_visit_the_application_review_page_using_address_bar, :when_i_visit_the_application_review_page
 
   def and_i_click_to_change_my_university_again
-    university_row = find('.govuk-summary-list__row', text: 'institution', match: :first)
+    university_row = first('.govuk-summary-list__row', text: 'institution')
     within university_row do
       click_change_link('institution')
     end
   end
 
   def and_i_click_to_change_my_subject
-    subject_row = find('.govuk-summary-list__row', text: 'subject', match: :first)
+    subject_row = first('.govuk-summary-list__row', text: 'subject')
     within subject_row do
       click_change_link('subject')
     end

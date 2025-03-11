@@ -123,7 +123,7 @@ RSpec.describe 'Editing other qualification' do
 
   def then_i_see_the_updated_as_level_details
     within('tbody.govuk-table__body') do
-      within(all('tr.govuk-table__row')[0]) do
+      within(first('tr.govuk-table__row')) do
         expect(find_all('td.govuk-table__cell')[0]).to have_text('AS level')
         expect(find_all('td.govuk-table__cell')[1]).to have_text('Best Subject Ever')
         expect(find_all('td.govuk-table__cell')[4]).to have_text('A*')
@@ -134,7 +134,7 @@ RSpec.describe 'Editing other qualification' do
 
   def then_i_see_the_updated_gcse_details
     within('tbody.govuk-table__body') do
-      within(all('tr.govuk-table__row')[0]) do
+      within(first('tr.govuk-table__row')) do
         expect(find_all('td.govuk-table__cell')[0]).to have_text('GCSE')
         expect(find_all('td.govuk-table__cell')[1]).to have_text('My Favourite Gcse')
         expect(find_all('td.govuk-table__cell')[4]).to have_text('C')
@@ -145,7 +145,7 @@ RSpec.describe 'Editing other qualification' do
 
   def then_i_see_the_updated_a_level_details
     within('tbody.govuk-table__body') do
-      within(all('tr.govuk-table__row')[0]) do
+      within(first('tr.govuk-table__row')) do
         expect(find_all('td.govuk-table__cell')[0]).to have_text('A level')
         expect(find_all('td.govuk-table__cell')[1]).to have_text('Really Cool Qualification')
         expect(find_all('td.govuk-table__cell')[4]).to have_text('B')
@@ -156,7 +156,7 @@ RSpec.describe 'Editing other qualification' do
 
   def then_i_see_the_updated_other_uk_details
     within('tbody.govuk-table__body') do
-      within(all('tr.govuk-table__row')[0]) do
+      within(first('tr.govuk-table__row')) do
         expect(find_all('td.govuk-table__cell')[0]).to have_text('random qualification type')
         expect(find_all('td.govuk-table__cell')[1]).to have_text('Some Other Qualification')
         expect(find_all('td.govuk-table__cell')[4]).to have_text('PASS')
@@ -167,7 +167,7 @@ RSpec.describe 'Editing other qualification' do
 
   def then_i_see_the_updated_outside_uk_details
     within('tbody.govuk-table__body') do
-      within(all('tr.govuk-table__row')[0]) do
+      within(first('tr.govuk-table__row')) do
         expect(find_all('td.govuk-table__cell')[0]).to have_text('random qual from non uk country')
         expect(find_all('td.govuk-table__cell')[1]).to have_text('Waec')
         expect(find_all('td.govuk-table__cell')[2]).to have_text('United States')

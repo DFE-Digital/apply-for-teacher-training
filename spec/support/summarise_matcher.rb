@@ -26,7 +26,7 @@ RSpec::Matchers.define :summarise do |expected|
   end
 
   def key_html
-    @key_html ||= html.all('dt.govuk-summary-list__key', exact_text: expected[:key]).first
+    @key_html ||= html.all('dt.govuk-summary-list__key', exact_text: expected[:key]).first # rubocop:disable Capybara/FindAllFirst
   end
 
   def row_html
@@ -34,7 +34,7 @@ RSpec::Matchers.define :summarise do |expected|
   end
 
   def value_html
-    @value_html ||= row_html.all('dd.govuk-summary-list__value').first
+    @value_html ||= row_html.first('dd.govuk-summary-list__value')
   end
 
   def value_text
@@ -42,7 +42,7 @@ RSpec::Matchers.define :summarise do |expected|
   end
 
   def action_link
-    @action_link ||= row_html.all(:link, exact_text: expected[:action][:text]).first
+    @action_link ||= row_html.first(:link, exact_text: expected[:action][:text])
   end
 
   def value_match?

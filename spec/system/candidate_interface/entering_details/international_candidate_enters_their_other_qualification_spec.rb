@@ -174,7 +174,7 @@ RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def when_i_click_to_change_my_first_qualification_type
-    within all('.app-summary-card__body')[0] do
+    within first('.app-summary-card__body') do
       click_change_link('qualification')
     end
   end
@@ -192,7 +192,7 @@ RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def when_i_click_to_change_my_first_qualification
-    within all('.app-summary-card__body')[0] do
+    within first('.app-summary-card__body') do
       click_change_link('subject')
     end
   end

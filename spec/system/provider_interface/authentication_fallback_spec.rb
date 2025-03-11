@@ -109,7 +109,6 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
   end
 
   def when_i_click_on_sign_in
-    # rubocop:disable Capybara/ClickLinkOrButtonStyle
     click_button('Sign in')
     # rubocop:enable Capybara/ClickLinkOrButtonStyle
   end

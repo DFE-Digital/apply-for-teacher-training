@@ -96,6 +96,7 @@ RSpec.describe 'Candidate adding incomplete referees' do
 
   def then_i_see_that_referee_is_not_created
     visit candidate_interface_references_review_path
+    expect(page).to have_current_path candidate_interface_references_review_path, ignore_query: true
     expect(page.text).to have_no_content('Academic')
   end
 

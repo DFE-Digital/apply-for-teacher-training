@@ -134,7 +134,7 @@ RSpec.describe 'Provider changes an existing offer' do
   end
 
   def when_i_choose_to_change_the_provider
-    within(all('.govuk-summary-list__row')[0]) do
+    within(first('.govuk-summary-list__row')) do
       click_link_or_button 'Change'
     end
   end

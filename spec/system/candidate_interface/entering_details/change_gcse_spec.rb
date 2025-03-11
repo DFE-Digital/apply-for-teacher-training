@@ -33,7 +33,7 @@ RSpec.describe 'Change GCSE' do
   end
 
   def then_i_click_to_change_the_english_qualification_type
-    within all('.app-summary-card__body')[0] do
+    within first('.app-summary-card__body') do
       click_change_link('qualification for GCSE, english')
     end
   end

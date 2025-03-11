@@ -249,7 +249,7 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
   end
 
   def when_i_click_on_delete_my_first_qualification
-    within(all('.app-summary-card')[0]) do
+    within(first('.app-summary-card')) do
       click_link_or_button(t('application_form.other_qualification.delete'))
     end
   end

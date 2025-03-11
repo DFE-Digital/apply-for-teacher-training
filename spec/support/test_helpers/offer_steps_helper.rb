@@ -157,7 +157,7 @@ module OfferStepsHelper
     @selected_course = @selected_provider_available_course
     @selected_course_option = @selected_provider_available_course_option
 
-    within(all('.govuk-summary-list__row')[0]) do
+    within(first('.govuk-summary-list__row')) do
       click_link_or_button 'Change'
     end
   end
@@ -171,7 +171,7 @@ module OfferStepsHelper
   end
 
   def and_i_can_confirm_the_new_provider_selection
-    within(all('.govuk-summary-list__row')[0]) do
+    within(first('.govuk-summary-list__row')) do
       expect(page).to have_content(@selected_provider.name_and_code)
     end
   end

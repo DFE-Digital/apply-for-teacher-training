@@ -58,7 +58,7 @@ RSpec.describe 'Reinstate offer to a declined course choice' do
   end
 
   def then_i_see_the_declined_course_choice
-    within(all('.app-summary-card__body')[0]) do
+    within(first('.app-summary-card__body')) do
       expect(page).to have_content('Offer declined')
     end
   end
@@ -106,7 +106,7 @@ RSpec.describe 'Reinstate offer to a declined course choice' do
   end
 
   def and_i_see_the_offer_has_been_reinstated
-    within(all('.app-summary-card__body')[0]) do
+    within(first('.app-summary-card__body')) do
       expect(page).to have_content('Offer made')
     end
   end

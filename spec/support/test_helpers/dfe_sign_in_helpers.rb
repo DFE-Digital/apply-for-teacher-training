@@ -14,7 +14,7 @@ module DfESignInHelpers
 
   def provider_signs_in_using_dfe_sign_in
     visit provider_interface_path
-    find("a[href='#{provider_interface_sign_in_path}']", match: :first).click
+    first("a[href='#{provider_interface_sign_in_path}']").click
     click_link_or_button 'Sign in using DfE Sign-in'
   end
 

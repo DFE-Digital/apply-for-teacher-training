@@ -79,7 +79,7 @@ RSpec.describe 'Vendor API Requests' do
   end
 
   def when_i_click_on_details_of_the_request
-    find('.govuk-details__summary-text', match: :first).click
+    first('.govuk-details__summary-text').click
   end
 
   def then_i_see_the_request_and_response_info
