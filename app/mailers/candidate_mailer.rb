@@ -513,6 +513,12 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def course_invite(pool_invite)
+    @candidate = pool_invite.candidate
+    @provider = pool_invite.provider
+    @course = pool_invite.course
+  end
+
 private
 
   def email_for_candidate(application_form, args = {})

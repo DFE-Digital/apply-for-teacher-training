@@ -1,0 +1,8 @@
+Dear <%= @candidate.first_name %>
+
+You requested a code to get your details back in Apply for teacher training.
+<%= @provider.name %> have viewed your application details and are inviting you to submit an application for the following course:
+
+[<%= @provider.name – course.name %>](<%= @course.find_url %>)
+
+View the course details and decide if you are interested in applying.

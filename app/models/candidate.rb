@@ -53,6 +53,7 @@ class Candidate < ApplicationRecord
   end
 
   delegate :previous_account_email_address, to: :account_recovery_request, allow_nil: true
+  delegate :first_name, to: :application_form, allow_nil: true
 
   def redacted_full_name_current_cycle
     application_forms.current_cycle.last.redacted_full_name
