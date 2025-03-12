@@ -57,7 +57,7 @@ RSpec.describe 'Revert a withdrawn application choice' do
   end
 
   def then_i_see_the_withdrawn_course_choice
-    within(all('.app-summary-card__body')[0]) do
+    within(first('.app-summary-card__body')) do
       expect(page).to have_content('Withdrawn')
     end
   end
@@ -101,7 +101,7 @@ RSpec.describe 'Revert a withdrawn application choice' do
   end
 
   def and_i_see_the_choice_is_awaiting_provider_decision
-    within(all('.app-summary-card__body')[0]) do
+    within(first('.app-summary-card__body')) do
       expect(page).to have_content('Awaiting provider decision')
     end
   end

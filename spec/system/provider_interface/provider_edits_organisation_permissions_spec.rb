@@ -72,7 +72,7 @@ RSpec.describe 'Provider edits organisation permissions' do
   end
 
   def and_i_click_to_change_one_of_its_relationships
-    within(all('.app-summary-card__header')[0]) do
+    within(first('.app-summary-card__header')) do
       click_link_or_button 'Change'
     end
   end

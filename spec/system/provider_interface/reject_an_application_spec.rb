@@ -284,6 +284,6 @@ RSpec.describe 'Reject an application' do
 private
 
   def email_preview
-    page.all('.app-email-preview').first.text.split("\n")
+    page.first('.app-email-preview').text.split("\n")
   end
 end
