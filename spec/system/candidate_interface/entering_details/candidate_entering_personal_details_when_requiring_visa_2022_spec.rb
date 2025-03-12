@@ -104,7 +104,7 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
 
   def and_i_can_mark_the_section_complete
     choose t('application_form.completed_radio')
-    click_link_or_button t('save_changes_and_return')
+    click_link_or_button t('continue')
 
     expect(page).to have_css('#personal-information-badge-id', text: 'Completed')
   end

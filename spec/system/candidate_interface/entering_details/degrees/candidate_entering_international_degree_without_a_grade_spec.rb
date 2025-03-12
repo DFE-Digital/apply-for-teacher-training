@@ -56,7 +56,7 @@ private
   end
 
   def and_i_click_on_continue
-    click_on 'Save changes and return to your details'
+    click_on 'Continue'
   end
 
   def when_i_fill_in_the_type

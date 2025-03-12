@@ -35,6 +35,6 @@ RSpec.describe 'Candidate updating english proficiency' do
     fill_in 'When did you complete the assessment?', with: '2020'
     click_on 'Save and continue'
     choose 'Yes, I have completed this section'
-    click_on 'Save changes and return to your details'
+    click_on 'Continue'
   end
 end

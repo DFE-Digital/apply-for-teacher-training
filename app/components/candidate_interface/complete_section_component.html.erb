@@ -11,6 +11,8 @@
           legend: { text: t('application_form.completed_question'), size: 'm' } %>
     </div>
 
-    <%= form.govuk_submit t('save_changes_and_return') %>
+    <%= form.govuk_submit t('continue') do %>
+      <%= content_tag :span, t('save_changes_and_return'), class: 'govuk-visually-hidden' %>
+    <% end %>
   <% end %>
 <% end %>

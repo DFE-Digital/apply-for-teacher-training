@@ -16,7 +16,7 @@ RSpec.describe 'Entering their suitability to work with children' do
     and_i_click_on_continue
     then_i_see_my_relevant_information
 
-    when_i_click_on_save_changes_and_return
+    when_i_click_on_continue
     then_i_see_a_section_complete_error
 
     when_i_click_to_change_sharing_safeguarding_issues
@@ -27,7 +27,7 @@ RSpec.describe 'Entering their suitability to work with children' do
     then_i_see_my_updated_answer
 
     when_i_mark_the_section_as_completed
-    and_i_click_on_save_changes_and_return
+    and_i_click_on_continue
     then_i_see_the_section_is_completed
   end
 
@@ -77,10 +77,10 @@ RSpec.describe 'Entering their suitability to work with children' do
     choose t('application_form.completed_radio')
   end
 
-  def when_i_click_on_save_changes_and_return
-    click_link_or_button t('save_changes_and_return')
+  def when_i_click_on_continue
+    click_link_or_button t('continue')
   end
-  alias_method :and_i_click_on_save_changes_and_return, :when_i_click_on_save_changes_and_return
+  alias_method :and_i_click_on_continue, :when_i_click_on_continue
 
   def then_i_see_a_section_complete_error
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')

@@ -25,11 +25,11 @@ RSpec.describe 'Entering "Personal statement"' do
     and_i_click_on_continue
     then_i_can_check_my_revised_answers
 
-    when_i_try_to_save_changes_and_return
+    when_i_try_to_continue
     then_i_am_told_to_select_whether_i_have_completed_the_section
 
     when_i_mark_the_section_as_completed
-    and_i_click_on_save_changes_and_return
+    and_i_click_on_continue
     then_i_see_the_form
     and_that_the_section_is_completed
 
@@ -83,10 +83,10 @@ RSpec.describe 'Entering "Personal statement"' do
     click_link_or_button t('continue')
   end
 
-  def and_i_click_on_save_changes_and_return
-    click_link_or_button t('save_changes_and_return')
+  def and_i_click_on_continue
+    click_link_or_button t('continue')
   end
-  alias_method :when_i_try_to_save_changes_and_return, :and_i_click_on_save_changes_and_return
+  alias_method :when_i_try_to_continue, :and_i_click_on_continue
 
   def when_i_click_to_change_my_answer
     click_change_link('personal statement')

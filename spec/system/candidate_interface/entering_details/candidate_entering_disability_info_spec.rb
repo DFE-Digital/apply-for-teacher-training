@@ -22,7 +22,7 @@ RSpec.describe 'Entering their disability information' do
     and_i_submit_the_form
     then_i_can_check_my_revised_answers
 
-    when_i_click_on_save_changes_and_return
+    when_i_click_on_continue
     then_i_see_a_section_complete_error
 
     when_i_mark_the_section_as_completed
@@ -69,10 +69,10 @@ RSpec.describe 'Entering their disability information' do
   end
   alias_method :and_i_submit_the_form, :when_i_click_on_continue
 
-  def when_i_click_on_save_changes_and_return
-    click_link_or_button t('save_changes_and_return')
+  def when_i_click_on_continue
+    click_link_or_button t('continue')
   end
-  alias_method :and_i_submit_my_details, :when_i_click_on_save_changes_and_return
+  alias_method :and_i_submit_my_details, :when_i_click_on_continue
 
   def then_i_see_a_section_complete_error
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')

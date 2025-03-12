@@ -64,7 +64,7 @@ RSpec.describe 'Candidate adding incomplete referees' do
 
   def when_i_try_to_complete_the_section
     choose 'Yes, I have completed this section'
-    click_link_or_button 'Save changes and return to your details'
+    click_link_or_button 'Continue'
   end
 
   def then_i_see_a_validation_error_message

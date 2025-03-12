@@ -68,11 +68,11 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
     and_click_save_and_continue
     then_i_can_check_my_revised_qualification
 
-    when_i_click_save_changes_and_return
+    when_i_click_continue
     then_i_see_a_section_complete_error
 
     when_i_mark_this_section_as_incomplete
-    and_i_click_save_changes_and_return
+    and_i_click_continue
     then_i_see_the_form
     and_the_section_is_not_completed
 
@@ -81,14 +81,14 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
 
     when_i_mark_this_section_as_completed
     and_i_have_an_incomplete_qualification
-    and_i_click_save_changes_and_return
+    and_i_click_continue
     then_i_will_be_told_i_cannot_submit_incomplete_qualifications
 
     when_i_delete_my_incomplete_qualification
     and_i_confirm_that_i_want_to_delete_my_additional_qualification
 
     when_i_mark_this_section_as_completed
-    and_i_click_save_changes_and_return
+    and_i_click_continue
     and_that_the_section_is_completed
 
     when_i_click_on_other_qualifications
@@ -121,10 +121,10 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
   end
   alias_method :when_i_click_continue, :and_i_click_continue
 
-  def and_i_click_save_changes_and_return
-    click_link_or_button t('save_changes_and_return')
+  def and_i_click_continue
+    click_link_or_button t('continue')
   end
-  alias_method :when_i_click_save_changes_and_return, :and_i_click_save_changes_and_return
+  alias_method :when_i_click_continue, :and_i_click_continue
 
   def then_i_see_the_other_qualifications_form
     expect(page).to have_content('Add A level qualification')

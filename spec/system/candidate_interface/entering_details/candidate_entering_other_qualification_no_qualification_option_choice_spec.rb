@@ -38,7 +38,7 @@ RSpec.describe 'Entering their other qualifications' do
     and_i_see_my_no_other_qualification_selection
 
     when_i_mark_this_section_as_completed
-    and_i_click_on_save_changes_and_return
+    and_i_click_on_continue
     then_i_see_that_the_section_is_completed
   end
 
@@ -127,8 +127,8 @@ RSpec.describe 'Entering their other qualifications' do
     choose t('application_form.completed_radio')
   end
 
-  def and_i_click_on_save_changes_and_return
-    click_link_or_button t('save_changes_and_return')
+  def and_i_click_on_continue
+    click_link_or_button t('continue')
   end
 
   def then_i_see_that_the_section_is_completed

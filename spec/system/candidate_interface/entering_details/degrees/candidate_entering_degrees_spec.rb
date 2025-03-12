@@ -60,7 +60,7 @@ RSpec.describe 'Entering a degree' do
 
     # Mark section as complete
     when_i_mark_this_section_as_completed
-    and_i_click_on_save_changes_and_return
+    and_i_click_on_continue
     then_i_see_the_form
     and_that_the_section_is_completed
     when_i_click_on_degree
@@ -208,7 +208,7 @@ RSpec.describe 'Entering a degree' do
     end
   end
 
-  def and_i_click_on_save_changes_and_return
-    click_link_or_button t('save_changes_and_return')
+  def and_i_click_on_continue
+    click_link_or_button t('continue')
   end
 end

@@ -24,7 +24,7 @@ RSpec.describe 'Entering volunteering experience' do
     when_i_fill_in_the_job_form_with_valid_details
     then_i_see_the_volunteering_review_page
 
-    when_i_click_on_save_changes_and_return
+    when_i_click_on_continue
     then_i_see_a_section_complete_error
 
     when_i_mark_this_section_as_completed
@@ -113,8 +113,8 @@ RSpec.describe 'Entering volunteering experience' do
     click_link_or_button t('save_and_continue')
   end
 
-  def when_i_click_on_save_changes_and_return
-    click_link_or_button t('save_changes_and_return')
+  def when_i_click_on_continue
+    click_link_or_button t('continue')
   end
 
   def then_i_see_a_section_complete_error
@@ -123,7 +123,7 @@ RSpec.describe 'Entering volunteering experience' do
 
   def when_i_mark_this_section_as_completed
     choose t('application_form.completed_radio')
-    click_link_or_button t('save_changes_and_return')
+    click_link_or_button t('continue')
   end
 
   def then_i_see_the_section_is_completed
