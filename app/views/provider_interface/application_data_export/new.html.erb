@@ -19,7 +19,7 @@
       <% if @application_data_export_form.years_to_export.any? %>
         <%= f.govuk_check_boxes_fieldset :recruitment_cycle_years, legend: { text: 'Recruitment cycle', size: 'm' } do %>
           <% @application_data_export_form.years_to_export.each_with_index do |year, index| %>
-            <%= f.govuk_check_box :recruitment_cycle_years, year.to_s, label: { text: RecruitmentCycle.cycle_string(year) }, link_errors: index.zero? %>
+            <%= f.govuk_check_box :recruitment_cycle_years, year.to_s, label: { text: RecruitmentCycleYearsPresenter.new(year, with_current_indicator: true).call }, link_errors: index.zero? %>
           <% end %>
         <% end %>
       <% end %>

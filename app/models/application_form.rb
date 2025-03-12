@@ -15,6 +15,7 @@ class ApplicationForm < ApplicationRecord
            :find_opens_at,
            :after_apply_deadline?,
            :before_apply_opens?,
+           :cycle_range_name_with_current_indicator,
            to: :recruitment_cycle_timetable
 
   belongs_to :candidate, touch: true

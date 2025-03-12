@@ -55,7 +55,7 @@ module ProviderInterface
     end
 
     def recruitment_cycle_year_name
-      application_form.recruitment_cycle_timetable.cycle_range_name_with_current_indicator
+      application_form.cycle_range_name_with_current_indicator
     end
 
     attr_reader :application_form, :application_choice
