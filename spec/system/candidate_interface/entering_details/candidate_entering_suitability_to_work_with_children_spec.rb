@@ -89,8 +89,4 @@ RSpec.describe 'Entering their suitability to work with children' do
   def then_i_see_the_section_is_completed
     expect(page).to have_css('#declare-any-safeguarding-issues-badge-id', text: 'Completed')
   end
-
-  def and_i_click_on_continue
-    click_link_or_button t('continue')
-  end
 end

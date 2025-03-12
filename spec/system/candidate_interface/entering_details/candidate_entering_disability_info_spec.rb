@@ -68,10 +68,6 @@ RSpec.describe 'Entering their disability information' do
     click_link_or_button t('continue')
   end
   alias_method :and_i_submit_the_form, :when_i_click_on_continue
-
-  def when_i_click_on_continue
-    click_link_or_button t('continue')
-  end
   alias_method :and_i_submit_my_details, :when_i_click_on_continue
 
   def then_i_see_a_section_complete_error

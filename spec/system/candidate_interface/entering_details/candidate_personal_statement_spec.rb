@@ -82,10 +82,6 @@ RSpec.describe 'Entering "Personal statement"' do
   def and_i_click_on_continue
     click_link_or_button t('continue')
   end
-
-  def and_i_click_on_continue
-    click_link_or_button t('continue')
-  end
   alias_method :when_i_try_to_continue, :and_i_click_on_continue
 
   def when_i_click_to_change_my_answer

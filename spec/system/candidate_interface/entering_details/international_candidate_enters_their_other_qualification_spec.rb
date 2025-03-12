@@ -113,10 +113,6 @@ RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
     fill_in 'candidate-interface-other-qualification-type-form-other-uk-qualification-type-field', with: 'Advanced Rules'
   end
 
-  def and_i_click_continue
-    click_link_or_button t('continue')
-  end
-
   def then_i_see_the_other_qualifications_form
     expect(page).to have_content('Add Master Rules qualification')
   end

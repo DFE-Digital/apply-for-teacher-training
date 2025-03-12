@@ -132,10 +132,6 @@ RSpec.describe 'Deleting and replacing a degree' do
   end
   alias_method :and_i_click_on_continue, :when_i_click_on_continue
 
-  def and_i_click_on_continue
-    click_link_or_button t('continue')
-  end
-
   def then_i_see_the_form_and_the_section_is_not_completed
     expect(page).to have_content(t('page_titles.application_form'))
     expect(page).to have_no_css('#degree-badge-id', text: 'Completed')
