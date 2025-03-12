@@ -49,7 +49,7 @@ RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
     then_i_see_the_review_page_with_correct_details
 
     when_i_mark_the_section_as_completed
-    and_click_continue
+    and_i_click_on_continue
     then_i_see_the_maths_gcse_is_completed
   end
 
@@ -165,7 +165,7 @@ RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
     expect(page).to have_css('#maths-gcse-or-equivalent-badge-id', text: 'Completed')
   end
 
-  def and_click_continue
+  def and_i_click_on_continue
     click_link_or_button t('continue')
   end
 end

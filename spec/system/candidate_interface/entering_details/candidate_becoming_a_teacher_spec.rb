@@ -18,7 +18,7 @@ RSpec.describe 'Entering "Why do you want to be a teacher?"' do
     then_i_can_check_my_revised_answers
 
     when_i_mark_the_section_as_completed
-    and_i_submit_the_form
+    and_i_click_on_continue
     then_i_see_the_form
     and_that_the_section_is_completed
 
@@ -57,6 +57,10 @@ RSpec.describe 'Entering "Why do you want to be a teacher?"' do
   end
 
   def and_i_submit_the_form
+    click_link_or_button t('continue')
+  end
+
+  def and_i_click_on_continue
     click_link_or_button t('continue')
   end
 

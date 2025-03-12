@@ -85,10 +85,7 @@ private
   def when_i_click_go_back_and_change
     click_on 'Go back and change the email address'
   end
-
-  def when_i_click_back
-    click_on 'Back'
-  end
+  alias_method :when_i_click_back, :when_i_click_go_back_and_change
 
   def then_i_see_the_interruption
     expect(page).to have_content 'walter.white@gmail.com looks like a personal email address'

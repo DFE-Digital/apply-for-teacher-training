@@ -67,6 +67,8 @@ RSpec.describe 'Entering their disability information' do
   def when_i_click_on_continue
     click_link_or_button t('continue')
   end
+  alias_method :and_i_submit_the_form, :when_i_click_on_continue
+  alias_method :and_i_submit_my_details, :when_i_click_on_continue
 
   def then_i_see_a_section_complete_error
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
@@ -76,10 +78,6 @@ RSpec.describe 'Entering their disability information' do
     scope = 'application_form.training_with_a_disability'
     choose t('disclose_disability.yes', scope:)
     fill_in t('disability_disclosure.label', scope:), with: 'I have difficulty climbing stairs'
-  end
-
-  def and_i_submit_the_form
-    click_link_or_button t('continue')
   end
 
   def then_i_can_check_my_answers
@@ -103,10 +101,6 @@ RSpec.describe 'Entering their disability information' do
 
   def when_i_mark_the_section_as_completed
     choose t('application_form.completed_radio')
-  end
-
-  def and_i_submit_my_details
-    click_link_or_button t('continue')
   end
 
   def then_i_see_the_form

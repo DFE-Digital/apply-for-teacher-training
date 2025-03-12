@@ -201,20 +201,8 @@ RSpec.describe 'Adding an unknown degree', :js do
     expect(page).to have_content 'History'
   end
 
-  def when_i_click_on_continue
-    click_link_or_button t('continue')
-  end
-
-  def and_i_click_on_continue
-    when_i_click_on_continue
-  end
-
   def when_i_mark_this_section_as_completed
     choose t('application_form.completed_radio'), visible: false
-  end
-
-  def and_i_click_on_continue
-    when_i_click_on_continue
   end
 
   def then_i_see_the_form
@@ -233,5 +221,9 @@ RSpec.describe 'Adding an unknown degree', :js do
     expect(page).to have_content 'First-class honours'
     expect(page).to have_content '2006'
     expect(page).to have_content '2009'
+  end
+
+  def and_i_click_on_continue
+    click_link_or_button t('continue')
   end
 end

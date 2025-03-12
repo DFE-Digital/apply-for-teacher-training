@@ -55,10 +55,6 @@ RSpec.describe 'Entering their suitability to work with children' do
     fill_in 'Give any relevant information', with: 'I have a criminal conviction.'
   end
 
-  def and_i_click_on_continue
-    click_link_or_button t('continue')
-  end
-
   def then_i_see_my_relevant_information
     expect(page).to have_content('Check your safeguarding declaration')
     expect(page).to have_content('I have a criminal conviction.')
@@ -84,6 +80,7 @@ RSpec.describe 'Entering their suitability to work with children' do
   def when_i_click_on_continue
     click_link_or_button t('continue')
   end
+  alias_method :and_i_click_on_continue, :when_i_click_on_continue
 
   def then_i_see_a_section_complete_error
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')

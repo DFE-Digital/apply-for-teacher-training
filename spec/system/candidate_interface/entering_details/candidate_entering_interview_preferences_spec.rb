@@ -77,13 +77,10 @@ RSpec.describe 'Entering interview preferences' do
     choose t('application_form.completed_radio')
   end
 
-  def and_i_submit_my_interview_preferences
-    click_link_or_button t('continue')
-  end
-
   def when_i_click_on_continue
     click_link_or_button t('continue')
   end
+  alias_method :and_i_submit_my_interview_preferences, :when_i_click_on_continue
 
   def then_i_see_a_section_complete_error
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')

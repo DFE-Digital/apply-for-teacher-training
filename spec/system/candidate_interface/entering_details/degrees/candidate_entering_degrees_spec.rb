@@ -207,4 +207,8 @@ RSpec.describe 'Entering a degree' do
       expect(page).to have_no_checked_field(radio_id)
     end
   end
+
+  def and_i_click_on_continue
+    click_link_or_button t('continue')
+  end
 end

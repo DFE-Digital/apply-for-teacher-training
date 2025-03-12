@@ -72,7 +72,7 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
     then_i_see_a_section_complete_error
 
     when_i_mark_this_section_as_incomplete
-    and_i_click_on_continue
+    and_i_click_continue
     then_i_see_the_form
     and_the_section_is_not_completed
 
@@ -81,14 +81,14 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
 
     when_i_mark_this_section_as_completed
     and_i_have_an_incomplete_qualification
-    and_i_click_on_continue
+    and_i_click_continue
     then_i_will_be_told_i_cannot_submit_incomplete_qualifications
 
     when_i_delete_my_incomplete_qualification
     and_i_confirm_that_i_want_to_delete_my_additional_qualification
 
     when_i_mark_this_section_as_completed
-    and_i_click_on_continue
+    and_i_click_continue
     and_that_the_section_is_completed
 
     when_i_click_on_other_qualifications
@@ -115,6 +115,11 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
     choose 'A level'
     click_link_or_button t('continue')
   end
+
+  def and_i_click_continue
+    click_link_or_button t('continue')
+  end
+  alias_method :when_i_click_continue, :and_i_click_continue
 
   def and_i_click_continue
     click_link_or_button t('continue')
@@ -306,10 +311,6 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
     expect(page).to have_content 'GCSE How to Win Against Kaiba'
   end
 
-  def when_i_click_on_continue
-    click_link_or_button t('continue')
-  end
-
   def and_the_section_is_not_completed
     expect(page).to have_no_css('#academic-and-other-relevant-qualifications-badge-id', text: 'Completed')
   end
@@ -331,10 +332,6 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
       level: 'other',
       qualification_type: 'AS level',
     )
-  end
-
-  def and_i_click_on_continue
-    when_i_click_on_continue
   end
 
   def then_i_see_a_section_complete_error

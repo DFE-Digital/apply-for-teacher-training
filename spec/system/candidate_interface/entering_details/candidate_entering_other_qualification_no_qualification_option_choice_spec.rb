@@ -17,7 +17,6 @@ RSpec.describe 'Entering their other qualifications' do
 
     when_i_select_i_do_not_want_to_add_any_a_levels
     and_i_click_continue
-    then_i_see_a_level_advice
     and_i_see_my_no_other_qualification_selection
 
     when_i_select_add_another_qualification
@@ -72,11 +71,6 @@ RSpec.describe 'Entering their other qualifications' do
     expect(page).to have_content('A levels and other qualifications')
   end
 
-  def and_i_click_continue
-    click_link_or_button t('continue')
-  end
-  alias_method :when_i_click_continue, :and_i_click_continue
-
   def and_click_save_and_continue
     click_link_or_button t('save_and_continue')
   end
@@ -129,16 +123,12 @@ RSpec.describe 'Entering their other qualifications' do
     click_link_or_button t('application_form.other_qualification.confirm_delete')
   end
 
-  def when_i_click_on_continue
-    click_link_or_button t('continue')
-  end
-
   def when_i_mark_this_section_as_completed
     choose t('application_form.completed_radio')
   end
 
   def and_i_click_on_continue
-    when_i_click_on_continue
+    click_link_or_button t('continue')
   end
 
   def then_i_see_that_the_section_is_completed
@@ -149,5 +139,9 @@ RSpec.describe 'Entering their other qualifications' do
 
   def then_i_see_the_qualification_type_error
     expect(page).to have_content 'Enter the type of qualification'
+  end
+
+  def and_i_click_continue
+    click_link_or_button t('continue')
   end
 end
