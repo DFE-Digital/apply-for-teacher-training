@@ -1,6 +1,8 @@
-require:
+plugins:
   - rubocop-capybara
   - rubocop-factory_bot
+
+require:
   - ./lib/rubocop/cop/rspec/no_should_in_specs.rb
   - ./lib/rubocop/cop/application_api_controller.rb
   - ./lib/rubocop/cop/govuk/govuk_button_to.rb

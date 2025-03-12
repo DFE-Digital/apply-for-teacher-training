@@ -2,7 +2,6 @@
 
 plugins:
   - rubocop-rspec
-require:
   - rubocop-rspec_rails
 
 RSpec/NestedGroups:
