@@ -179,7 +179,7 @@ module SupportInterface
 
     def visible_over_register_api?
       GetRecruitedApplicationChoices.call(
-        recruitment_cycle_year: RecruitmentCycle.current_year,
+        recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
       ).find_by(id: application_choice.id).present?
     end
 

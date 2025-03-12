@@ -3,7 +3,7 @@ module SupportInterface
     include ViewHelper
 
     def initialize(heading:, rejection_reasons:, total_rejection_count:, total_rejection_count_this_month:,
-                   reason_key:, sub_reasons_result: nil, recruitment_cycle_year: RecruitmentCycle.current_year)
+                   reason_key:, sub_reasons_result: nil, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
       @heading = heading
       @rejection_reasons = rejection_reasons
       @total_rejection_count = total_rejection_count
@@ -14,6 +14,10 @@ module SupportInterface
     end
 
   private
+
+    def current_cycle?
+      @recruitment_cycle_year == RecruitmentCycleTimetable.current_year
+    end
 
     def rejection_count(time_period = :all_time)
       @rejection_reasons[@reason_key].send(time_period) || 0

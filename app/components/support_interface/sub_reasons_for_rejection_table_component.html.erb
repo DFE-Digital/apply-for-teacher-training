@@ -1,12 +1,12 @@
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-<%= RecruitmentCycle.current_year == recruitment_cycle_year ? 'full' : 'two-thirds' %>">
+  <div class="govuk-grid-column-<%= current_cycle? ? 'full' : 'two-thirds' %>">
     <table class="govuk-table govuk-!-margin-top-5">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header" width="30%">Reason</th>
           <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="17.5%">Percentage of all rejections</th>
           <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="17.5%">Percentage of all rejections within this category</th>
-          <% if recruitment_cycle_year == RecruitmentCycle.current_year %>
+          <% if current_cycle? %>
             <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="17.5%">Percentage of all rejections in <%= month_name %></th>
             <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="17.5%">Percentage of all rejections in <%= month_name %> within this category</th>
           <% end %>
@@ -32,7 +32,7 @@
               <%= sub_reason_percentage_of_reason(sub_reason) %><br>
               <span class="govuk-caption-m"><%= "#{sub_reason_count(sub_reason)} of #{total_for_reason}" %>
             </td>
-            <% if recruitment_cycle_year == RecruitmentCycle.current_year %>
+            <% if current_cycle? %>
               <td class="govuk-table__cell govuk-table__cell--numeric">
                 <%= sub_reason_percentage(sub_reason, :this_month) %><br>
                 <span class="govuk-caption-m"><%= "#{sub_reason_count(sub_reason, :this_month)} of #{total_this_month}" %>

@@ -6,7 +6,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchBreadcrumbComponent do
   def render_result(
     search_attribute = :id,
     search_value = 'qualifications',
-    recruitment_cycle_year = RecruitmentCycle.current_year
+    recruitment_cycle_year = RecruitmentCycleTimetable.current_year
   )
     @rendered_result ||= render_inline(
       described_class.new(
@@ -37,7 +37,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchBreadcrumbComponent do
     end
 
     it 'renders the link back to the dashboard' do
-      dashboard_path = support_interface_reasons_for_rejection_dashboard_path(year: RecruitmentCycle.current_year)
+      dashboard_path = support_interface_reasons_for_rejection_dashboard_path(year: RecruitmentCycleTimetable.current_year)
 
       expect(@rendered_result.css("a[href='#{dashboard_path}']")).to be_present
     end
@@ -45,7 +45,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchBreadcrumbComponent do
     it 'renders the link back to communication' do
       reason_path = support_interface_reasons_for_rejection_application_choices_path(
         'structured_rejection_reasons[id]' => 'communication_and_scheduling',
-        'recruitment_cycle_year' => RecruitmentCycle.current_year,
+        'recruitment_cycle_year' => RecruitmentCycleTimetable.current_year,
       )
 
       expect(@rendered_result.css("a[href='#{reason_path}']")).to be_present
