@@ -143,6 +143,10 @@ class Candidate < ApplicationRecord
     !unsubscribed_from_emails
   end
 
+  def current_cycle_application_form
+    application_forms.current_cycle.last
+  end
+
 private
 
   def downcase_email

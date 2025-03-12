@@ -1,0 +1,9 @@
+Dear <%= @application_form.first_name %>
+
+<%= @provider.name %> have viewed your application details and are inviting you to submit an application for the following course:
+
+[<%= @provider.name %> – <%= @course.name %>](<%= @course.find_url %>)
+
+View the course details and decide if you are interested in applying.
+
+If you do not want to receive invitations like this, you can [stop providers from viewing your application details](#).
