@@ -76,7 +76,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
         expect(summary).to have_text('Yes')
       end
 
-      expect(page).to have_css('h3#work-history-subheader', class: 'govuk-heading-m') do |subheader|
+      expect(page).to have_css('h4#work-history-subheader', class: 'govuk-heading-s') do |subheader|
         expect(subheader).to have_text('Details of unpaid experience')
       end
 
@@ -97,7 +97,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
         expect(summary).to have_no_css('dd', class: 'govuk-summary-list__value', text: 'No')
       end
 
-      expect(page).to have_css('h3#work-history-subheader', class: 'govuk-heading-m') do |subheader|
+      expect(page).to have_css('h4#work-history-subheader', class: 'govuk-heading-s') do |subheader|
         expect(subheader).to have_text('Details of work history and unpaid experience')
       end
 
@@ -138,7 +138,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
         expect(summary).to have_css('dd', class: 'govuk-summary-list__value', text: 'No')
       end
 
-      expect(page).to have_css('h3#work-history-subheader', class: 'govuk-heading-m') do |subheader|
+      expect(page).to have_css('h4#work-history-subheader', class: 'govuk-heading-s') do |subheader|
         expect(subheader).to have_text('Details of work history')
       end
 
