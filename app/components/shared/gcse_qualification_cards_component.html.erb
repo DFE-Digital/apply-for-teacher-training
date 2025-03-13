@@ -1,4 +1,4 @@
-<h3 class="govuk-heading-m govuk-!-margin-top-6" id="gcses">GCSEs or equivalent</h3>
+<h4 class="govuk-heading-s govuk-!-margin-top-6" id="gcses">GCSEs or equivalent</h4>
 
 <div class="govuk-grid">
   <div class="govuk-grid-row app-grid-row--flex">
@@ -8,7 +8,7 @@
 
           <%# Missing qualification %>
           <% if qualification.missing_qualification? %>
-            <h4 class="govuk-heading-s govuk-!-margin-bottom-1"><%= subject(qualification) %></h4>
+            <h5 class="govuk-heading-s govuk-!-margin-bottom-1"><%= subject(qualification) %></h5>
             <dl class="app-qualification">
               <dd class="app-qualification__value"> <%= candidate_does_not_have %> </dd>
               <% if qualification.not_completed_explanation.present? %>
@@ -22,9 +22,9 @@
 
           <%# International qualification %>
           <% elsif qualification.non_uk_qualification_type.present? %>
-            <h4 class="govuk-heading-s govuk-!-margin-bottom-1">
+            <h5 class="govuk-heading-s govuk-!-margin-bottom-1">
               <%= subject(qualification) %> <span class="govuk-!-font-weight-regular"><%= presentable_qualification_type(qualification) %></span>
-            </h4>
+            </h5>
             <dl class="app-qualification">
               <dt class="app-qualification__key govuk-visually-hidden">Awarded</dt>
               <dd class="app-qualification__value app-qualification__value--caption">
@@ -39,9 +39,9 @@
             </dl>
           <%# UK or UK Other qualification %>
           <% else %>
-            <h4 class="govuk-heading-s govuk-!-margin-bottom-1">
+            <h5 class="govuk-heading-s govuk-!-margin-bottom-1">
               <%= subject(qualification) %> <span class="govuk-!-font-weight-regular"><%= presentable_qualification_type(qualification) %></span>
-            </h4>
+            </h5>
             <dl class="app-qualification">
               <dt class="app-qualification__key">Awarded</dt>
               <dd class="app-qualification__value">
