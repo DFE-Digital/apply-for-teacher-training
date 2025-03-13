@@ -2,9 +2,9 @@
 <%= f.hidden_field(:provider_id) %>
 
 <% if @wizard.current_step.provider_exists? %>
-  <p class="govuk-caption-xl govuk-!-margin-top-0">
+  <span class="govuk-caption-xl govuk-!-margin-top-0">
     <%= @wizard.current_step.provider.name %>
-  </p>
+  </span>
 <% end %>
 
 <% if @wizard.current_step.available_courses.count > 20 %>
