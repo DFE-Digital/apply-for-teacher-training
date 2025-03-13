@@ -109,8 +109,8 @@ private
   alias_method :click_on_references, :when_i_view_referees
 
   def then_i_can_see_the_referees_i_previously_added
-    expect(page).to have_css('h3', text: @first_reference.name)
-    expect(page).to have_css('h3', text: @second_reference.name)
+    expect(page).to have_css('h2', text: @first_reference.name)
+    expect(page).to have_css('h2', text: @second_reference.name)
   end
 
   def when_i_view_courses
