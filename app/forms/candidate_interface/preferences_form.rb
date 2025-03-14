@@ -46,6 +46,7 @@ module CandidateInterface
       else
         ActiveRecord::Base.transaction do
           @preference = current_candidate.preferences.create!(pool_status:)
+          # we moved pool_status from candidate to preferences because this is a multi step form now
           set_default_location_preferences
         end
 

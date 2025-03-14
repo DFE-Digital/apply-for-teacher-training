@@ -1,5 +1,4 @@
-class CandidateInterface::LocationPreference < ApplicationRecord
-  self.table_name = 'candidate_location_preferences'
+class CandidateLocationPreference < ApplicationRecord
   belongs_to :candidate_preference
 
   enum :status, {

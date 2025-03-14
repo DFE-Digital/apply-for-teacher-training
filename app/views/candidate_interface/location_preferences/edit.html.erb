@@ -1,2 +1,14 @@
-<h1>CandidateInterface::LocationPreferences#edit</h1>
-<p>Find me in app/views/candidate_interface/location_preferences/edit.html.erb</p>
+<h1>Change location preferences</h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= current_candidate.id %></h1>
+    <%= render(
+      'form',
+      location_preference: @location_preference,
+      preference: @preference,
+      url: candidate_interface_preference_location_preference_path(@preference),
+      method: :put,
+    ) %>
+  </div>
+</div>

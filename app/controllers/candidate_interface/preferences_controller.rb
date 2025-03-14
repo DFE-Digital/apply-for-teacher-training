@@ -51,8 +51,8 @@ module CandidateInterface
       # move this in the form object?
       {
         pool_status: params.fetch(:candidate_interface_preferences_form, {})[:pool_status],
-        dynamic_location_preferences: params.fetch(:candidate_interface_preference, {})[:dynamic_location_preferences],
-        location_preference_ids: params.fetch(:candidate_interface_preference, {})[:location_preferences]&.compact_blank,
+        dynamic_location_preferences: params.fetch(:candidate_preference, {})[:dynamic_location_preferences],
+        location_preference_ids: params.fetch(:candidate_preference, {})[:location_preferences]&.compact_blank,
         id: params[:id],
       }
     end

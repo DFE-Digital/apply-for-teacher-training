@@ -1,0 +1,8 @@
+<%= form_with model: location_preference, url: , method:  do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <%= f.govuk_number_field :within, label: { text: 'within' } %>
+  <%= f.govuk_text_field :location, label: { text: 'location' } %>
+
+  <%= f.govuk_submit %>
+<% end %>

@@ -5,14 +5,16 @@
   <%= f.govuk_error_summary %>
 
   <% @location_preferences.each_with_index do |location, index| %>
-    <%= f.govuk_check_box(
-      :location_preferences,
-      location.id,
-      checked: location.selected?,
-      multiple: true,
-      label: { text: location.location },
-      link_errors: index.zero?,
-    ) %>
+      <%= f.govuk_check_box(
+        :location_preferences,
+        location.id,
+        checked: location.selected?,
+        multiple: true,
+        label: { text: location.location },
+        link_errors: index.zero?,
+      ) %>
+
+    <%= govuk_link_to 'Change', edit_candidate_interface_preference_location_preference_path(@preference, location) %>
   <% end %>
   <br>
   <br>
@@ -29,4 +31,4 @@
   <%= f.govuk_submit %>
 <% end %>
 
-<%# govuk_link_to 'Add new location', new_candidate_interface_location_preference_path %>
+<%= govuk_link_to 'Add new location', new_candidate_interface_preference_location_preference_path(@preference.id) %>
