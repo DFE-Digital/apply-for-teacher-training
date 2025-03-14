@@ -1,4 +1,5 @@
 require 'capybara/rspec'
+require 'axe-rspec'
 
 # Use different Capybara ports when running tests in parallel
 if ENV['TEST_ENV_NUMBER']
@@ -24,7 +25,7 @@ end
 
 RSpec.configure do |config|
   config.before(:each, type: :system) do
-    driven_by(:rack_test)
+    driven_by(:chrome_headless)
   end
 
   config.before(:each, :js, type: :system) do
