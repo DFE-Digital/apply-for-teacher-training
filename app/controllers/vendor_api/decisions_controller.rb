@@ -148,9 +148,13 @@ module VendorAPI
     end
 
     def validate_course_is_in_current_recruitment_cycle!
-      if course_option.course.recruitment_cycle_year != RecruitmentCycle.current_year
-        raise ValidationException, ["Course must be in #{RecruitmentCycle.current_year} recruitment cycle"]
+      if course_option.course.recruitment_cycle_year != current_year
+        raise ValidationException, ["Course must be in #{current_year} recruitment cycle"]
       end
+    end
+
+    def current_year
+      @current_year ||= RecruitmentCycleTimetable.current_year
     end
   end
 end

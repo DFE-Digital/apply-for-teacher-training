@@ -32,7 +32,7 @@ module CandidateInterface
     end
 
     def decline_by_default_date
-      @decline_by_default_date ||= CycleTimetable.decline_by_default_date(@application_form.recruitment_cycle_year)
+      @decline_by_default_date ||= @application_form.recruitment_cycle_timetable.decline_by_default_at
     end
   end
 end

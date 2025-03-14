@@ -109,7 +109,7 @@ module CandidateInterface
     end
 
     def course_row_value(application_choice)
-      if CycleTimetable.find_down?
+      if current_timetable.after_find_closes?
         "#{application_choice.current_course.name} (#{application_choice.current_course.code})"
       else
         govuk_link_to("#{application_choice.current_course.name} (#{application_choice.current_course.code})", application_choice.current_course.find_url, target: '_blank', rel: 'noopener')
@@ -292,6 +292,10 @@ module CandidateInterface
 
     def return_to_section_review_params
       { 'return-to' => 'section-review' }
+    end
+
+    def current_timetable
+      @current_timetable ||= RecruitmentCycleTimetable.current_timetable
     end
   end
 end

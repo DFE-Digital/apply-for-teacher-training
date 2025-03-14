@@ -52,11 +52,11 @@ RSpec.describe 'Reasons for rejection dashboard', time: Time.zone.local(2023, 1,
   end
 
   def then_i_can_see_reasons_for_rejection_dashboard_link
-    expect(page).to have_link("#{RecruitmentCycle.cycle_name} (starts #{RecruitmentCycle.current_year}) - current")
+    expect(page).to have_link('2022 to 2023 (starts 2023) - current')
   end
 
   def and_i_click_on_the_reasons_for_rejection_dashboard_link_for_the_current_cycle
-    click_link_or_button "#{RecruitmentCycle.cycle_name} (starts #{RecruitmentCycle.current_year}) - current"
+    click_link_or_button '2022 to 2023 (starts 2023) - current'
   end
 
   def then_i_see_reasons_for_rejection_dashboard
@@ -177,7 +177,7 @@ private
 
   def then_i_see_reasons_for_rejection_title_and_details
     expect(page).to have_content('2022 to 2023')
-    expect(page).to have_content('current Reasons for rejection')
+    expect(page).to have_content('(starts 2023) Reasons for rejection')
     expect(page).to have_content('The report does not include most rejections made through the API, as rejecting applications by code was only added in version 1.2 of the API.')
     expect(page).to have_content('The percentages for all the categories will not add up to 100% as providers can choose more than 1 reason for rejecting a candidate.')
   end

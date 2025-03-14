@@ -79,6 +79,29 @@ RSpec.describe RecruitmentCycleTimetable do
     end
   end
 
+  describe 'scopes' do
+    describe '.current_and_past' do
+      it 'returns timetables that are not in the future' do
+        first_timetable = described_class.all.order(:recruitment_cycle_year).first
+        next_timetable = described_class.next_timetable
+        current_timetable = described_class.current_timetable
+
+        results = described_class.current_and_past
+        expect(results).to include(first_timetable, current_timetable)
+        expect(results).not_to include(next_timetable)
+      end
+    end
+  end
+
+  describe '.current_and_past_years' do
+    it 'returns recruitment cycle years that are not in the future' do
+      years = described_class.current_and_past_years
+      current_year = described_class.current_year
+      expect(years).to include(current_year, current_year - 1)
+      expect(years.any? { |year| year > current_year }).to be false
+    end
+  end
+
   describe '.current_timetable' do
     context 'mid-cycle' do
       it 'returns the correct timetable' do
@@ -255,6 +278,24 @@ RSpec.describe RecruitmentCycleTimetable do
     end
   end
 
+  describe '#previously_closed_academic_year_range' do
+    context 'after apply deadline has passed', time: after_apply_deadline do
+      it 'returns the academic year range for the current timetable' do
+        timetable = described_class.current_timetable
+        result = timetable.previously_closed_academic_year_range
+        expect(result).to eq timetable.academic_year_range_name
+      end
+    end
+
+    context 'before apply deadline has passed', time: mid_cycle do
+      it 'returns the academic year range for the previous timetable' do
+        timetable = described_class.current_timetable
+        result = timetable.previously_closed_academic_year_range
+        expect(result).to eq timetable.relative_previous_timetable.academic_year_range_name
+      end
+    end
+  end
+
   describe '#apply_reopens_at' do
     context 'in the time between find opening and apply opens', time: after_find_opens do
       it 'returns the apply opens date for the current timetable' do
@@ -315,6 +356,16 @@ RSpec.describe RecruitmentCycleTimetable do
 
       next_timetable = described_class.next_timetable
       expect(next_timetable.current_year?).to be false
+    end
+  end
+
+  describe '#previous_year?' do
+    it 'returns true when the timetable is for the previous recruitment cycle' do
+      current_timetable = described_class.current_timetable
+      expect(current_timetable.previous_year?).to be false
+
+      previous_timetable = described_class.previous_timetable
+      expect(previous_timetable.previous_year?).to be true
     end
   end
 

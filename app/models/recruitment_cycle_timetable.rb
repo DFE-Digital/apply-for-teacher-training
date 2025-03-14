@@ -12,8 +12,14 @@ class RecruitmentCycleTimetable < ApplicationRecord
   validate :christmas_holiday_validation
   validate :easter_holiday_validation
 
-  def self.find_by_datetime(datetime)
+  scope :current_and_past, -> { where('recruitment_cycle_year <= ?', RecruitmentCycleTimetable.current_year) }
+
+  def self.find_timetable_by_datetime(datetime)
     where('find_opens_at < ?', datetime).last
+  end
+
+  def self.current_and_past_years
+    current_and_past.pluck(:recruitment_cycle_year).sort
   end
 
   def self.current_timetable
@@ -98,6 +104,14 @@ class RecruitmentCycleTimetable < ApplicationRecord
     end
   end
 
+  def previously_closed_academic_year_range
+    if after_apply_deadline?
+      academic_year_range_name
+    else
+      relative_previous_timetable.academic_year_range_name
+    end
+  end
+
   def relative_next_timetable
     self.class.find_by(recruitment_cycle_year: recruitment_cycle_year + 1)
   end
@@ -164,6 +178,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
 
   def current_year?
     self == RecruitmentCycleTimetable.current_timetable
+  end
+
+  def previous_year?
+    self == RecruitmentCycleTimetable.previous_timetable
   end
 
   def show_banners_at

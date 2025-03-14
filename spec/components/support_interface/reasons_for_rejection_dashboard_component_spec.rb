@@ -60,7 +60,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
     let(:rendered_component) { render_inline(component) }
 
     it 'renders table headings' do
-      travel_temporarily_to(RecruitmentCycle.current_year, 9, 1) do
+      travel_temporarily_to(RecruitmentCycleTimetable.current_year, 9, 1) do
         header_row = rendered_component.css('.govuk-table__row').first
         header_row_text = header_row.text.split("\n").compact_blank.map(&:strip)
         expect(header_row_text[0]).to eq('Reason')
@@ -104,15 +104,15 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
 
   describe '.recruitment_cycle_context' do
     it 'formats a string for the current recruitment cycle' do
-      year = RecruitmentCycle.current_year
-      expected = %(#{RecruitmentCycle.cycle_name(year)} (starts #{year}) - current)
-      expect(described_class.recruitment_cycle_context(year)).to eq(expected)
+      timetable = RecruitmentCycleTimetable.current_timetable
+      expected = "#{timetable.cycle_range_name_with_current_indicator} (starts #{timetable.recruitment_cycle_year})"
+      expect(described_class.recruitment_cycle_context(timetable.recruitment_cycle_year)).to eq(expected)
     end
 
     it 'formats a string for a previous recruitment cycle' do
-      year = RecruitmentCycle.previous_year
-      expected = %(#{RecruitmentCycle.cycle_name(year)} (starts #{year}))
-      expect(described_class.recruitment_cycle_context(year)).to eq(expected)
+      timetable = RecruitmentCycleTimetable.previous_timetable
+      expected = "#{timetable.cycle_range_name} (starts #{timetable.recruitment_cycle_year})"
+      expect(described_class.recruitment_cycle_context(timetable.recruitment_cycle_year)).to eq(expected)
     end
   end
 end

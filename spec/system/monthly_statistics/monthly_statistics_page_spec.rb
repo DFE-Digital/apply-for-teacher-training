@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Monthly statistics page', mid_cycle: false do
+RSpec.describe 'Monthly statistics page' do
   before do
     TestSuiteTimeMachine.travel_permanently_to(2023, 9, 29)
     create(
@@ -44,7 +44,7 @@ RSpec.describe 'Monthly statistics page', mid_cycle: false do
   end
 
   def and_i_see_the_monthly_statistics
-    expect(page).to have_content "Initial teacher training applications for courses starting in the #{RecruitmentCycle.cycle_name(CycleTimetable.next_year)} academic year"
+    expect(page).to have_content "Initial teacher training applications for courses starting in the #{RecruitmentCycleTimetable.current_timetable.academic_year_range_name} academic year"
   end
 
   def when_i_click_a_link

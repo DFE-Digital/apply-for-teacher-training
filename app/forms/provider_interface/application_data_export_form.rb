@@ -20,7 +20,14 @@ module ProviderInterface
         providers: providers_that_actor_belongs_to,
         recruitment_cycle_year: RecruitmentCycleTimetable.pluck(:recruitment_cycle_year),
       )
-      choices.map(&:current_recruitment_cycle_year).uniq.sort.reverse
+      years = choices.map(&:current_recruitment_cycle_year).uniq
+      RecruitmentCycleYearsPresenter.call(
+        start_year: years.min,
+        end_year: years.max,
+        with_current_indicator: true,
+      ).filter do |year, _label|
+        year.to_i.in? years
+      end
     end
 
     def providers_that_actor_belongs_to

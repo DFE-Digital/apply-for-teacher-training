@@ -188,7 +188,7 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-age-group">4. Candidate age group</h2>
     <p class="govuk-body">Candidate age is calculated from the date of birth they provide when applying.</p>
-    <p class="govuk-body">Ages are calculated as of 1 August <%= RecruitmentCycle.current_year %>, just before courses start for the
+    <p class="govuk-body">Ages are calculated as of 1 August <%= @presenter.current_year %>, just before courses start for the
       <%= @presenter.next_cycle_name %> academic year. Courses usually start in September, but sometimes in January.</p>
     <p class="govuk-body">This data therefore reflects the likely age of a candidate at the point of starting
        a course, rather than their age when they apply.</p>

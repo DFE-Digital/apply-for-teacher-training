@@ -12,7 +12,7 @@ module_function
     timetable.find_opens_at + 1.day
   end
 
-  def after_find_closes(year)
+  def after_find_closes(year = nil)
     timetable = get_timetable(year)
     timetable.find_closes_at + 1.second
   end
