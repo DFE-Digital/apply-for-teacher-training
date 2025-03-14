@@ -16,6 +16,7 @@
 14. [Candidate sign in](#candidate-login-issues)
 15. [Candidate email address](#switch-email-addresses)
 16. [Updating applications in old recruitment cycles](#old-recruitment-cycles)
+17. [Reset One Login connections](#reset-one-login-connections)
 
 ## Support Trello board
 
@@ -81,25 +82,25 @@ ended_job = application_form.application_work_experiences.find_by(id: LAST_WORK_
 ended_date = Date.new()
 
 ApplicationWorkExperience.transaction do
-   ended_job.update!(end_date: ended_date,
-                     currently_working: false,
-                     audit_comment: 'Updated end date following a support request, ticket ZENDESK_URL')
+  ended_job.update!(end_date: ended_date,
+                    currently_working: false,
+                    audit_comment: 'Updated end date following a support request, ticket ZENDESK_URL')
 
-   job_form_params = {
-     role: "Some Role",
-     organisation: "Some Organisation",
-     commitment: 'full_time', # full_time, part_time
-     start_date_day: 1,
-     start_date_month: 11,
-     start_date_year: 2024,
-     start_date_unknown: 'false', # 'true', 'false' strings
-     currently_working: 'true', # 'true', 'false' strings
-     end_date_day: nil,
-     end_date_month: nil,
-     end_date_year: nil,
-     end_date_unknown: 'false', # 'true', 'false' strings
-     relevant_skills: 'true' # 'true', 'false' strings
-   }
+  job_form_params = {
+    role: "Some Role",
+    organisation: "Some Organisation",
+    commitment: 'full_time', # full_time, part_time
+    start_date_day: 1,
+    start_date_month: 11,
+    start_date_year: 2024,
+    start_date_unknown: 'false', # 'true', 'false' strings
+    currently_working: 'true', # 'true', 'false' strings
+    end_date_day: nil,
+    end_date_month: nil,
+    end_date_year: nil,
+    end_date_unknown: 'false', # 'true', 'false' strings
+    relevant_skills: 'true' # 'true', 'false' strings
+  }
 
    job_form = CandidateInterface::RestructuredWorkHistory::JobForm.new(job_form_params)
    job_form.save(application_form)
@@ -810,4 +811,34 @@ last_name = LAST_NAME
 audit_comment = ZENDESK_URL
 application_form.update_column(:last_name, last_name)
 application_form.audits.new(action: :update, comment: audit_comment)
+```
+
+## Reset One Login connections
+
+Check that the email address matches a OneLogin Auth record
+
+```ruby
+email_address = 'candidate@email.address'
+auth = OneLoginAuth.find_by(email_address: )
+```
+
+Check that the candidate matches the OneLogin Auth record
+
+```ruby
+candidate = auth.candidate
+candidate.email_address == email_address
+```
+
+If these addresses match, we have a simple reset.
+If they do not match we need to check with the Candidate that they will have to re-recover their account after this reset.
+Ensure the Candidate has access to both email addresses
+
+Reset the OneLogin Auth record
+
+```ruby
+zendesk_url = 'https://becomingateacher.zendesk.com/agent/tickets/123456'
+OneLoginAuth.transaction do
+  candidate.update!(account_recovery_status: 'not_started', audit_comment: zendesk_url)
+  auth.destroy!
+end
 ```
