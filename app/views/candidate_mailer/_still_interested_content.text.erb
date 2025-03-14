@@ -1,10 +1,10 @@
-<% if CycleTimetable.between_cycles? %>
-You can apply again for courses starting in the <%= RecruitmentCycle.next_courses_starting_range %> academic year.
+<% if @application_form.between_cycles? %>
+You can apply again for courses starting in the <%= @application_form.next_available_academic_year_range %> academic year.
 
 All you need to do is:
 
 - check your details are still correct
-- submit from <%= RecruitmentCycle.next_apply_opening_date.to_fs(:govuk_time) %> on <%= RecruitmentCycle.next_apply_opening_date.to_fs(:govuk_date) %>
+- submit from <%= @application_form.apply_reopens_at.to_fs(:govuk_time) %> on <%= @application_form.apply_reopens_at.to_fs(:govuk_date) %>
 
 <% else %>
 

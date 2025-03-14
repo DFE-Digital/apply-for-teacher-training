@@ -113,7 +113,7 @@ class CandidateMailer < ApplicationMailer
     @provider_name = @course.provider.name
     @course_name_and_code = @application_choice.current_course_option.course.name_and_code
     @application_form = @application_choice.application_form
-    @show_deadline_reminder = (CycleTimetable.decline_by_default_date - 4.weeks).before? Time.zone.now
+    @show_deadline_reminder = (@application_form.decline_by_default_at - 4.weeks).before? Time.zone.now
     email_for_candidate(@application_form, subject: I18n.t('candidate_mailer.new_offer_made.subject', provider_name: @course.provider.name))
   end
 
@@ -363,7 +363,8 @@ class CandidateMailer < ApplicationMailer
   end
 
   def eoc_second_deadline_reminder(application_form)
-    apply_deadline = I18n.l(CycleTimetable.apply_deadline.to_date, format: :no_year)
+    apply_deadline = I18n.l(application_form.apply_deadline_at.to_date, format: :no_year)
+    @timetable = application_form.recruitment_cycle_timetable
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.approaching_eoc_second_deadline_reminder.subject', apply_deadline:),
@@ -371,10 +372,11 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_deadline_has_passed(application_form)
-    year = application_form.recruitment_cycle_year
-    @this_academic_year = CycleTimetable.cycle_year_range(year)
-    @next_academic_year = CycleTimetable.cycle_year_range(year + 1)
-    @apply_reopens_date = CycleTimetable.apply_reopens.to_fs(:govuk_date)
+    timetable = application_form.recruitment_cycle_timetable
+
+    @this_academic_year = timetable.previously_closed_academic_year_range
+    @next_academic_year = timetable.next_available_academic_year_range
+    @apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date)
 
     email_for_candidate(
       application_form,
@@ -383,11 +385,12 @@ class CandidateMailer < ApplicationMailer
   end
 
   def respond_to_offer_before_deadline(application_form)
-    @decline_by_default_deadline = CycleTimetable.decline_by_default_date.to_fs(:govuk_date)
-    year = application_form.recruitment_cycle_year
-    @this_academic_year = CycleTimetable.cycle_year_range(year)
-    @next_academic_year = CycleTimetable.cycle_year_range(year + 1)
-    @apply_reopens_date = CycleTimetable.apply_reopens.to_fs(:govuk_date)
+    timetable = application_form.recruitment_cycle_timetable
+    @decline_by_default_deadline = timetable.decline_by_default_at.to_fs(:govuk_date)
+
+    @this_academic_year = timetable.previously_closed_academic_year_range
+    @next_academic_year = timetable.next_available_academic_year_range
+    @apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date)
     email_for_candidate(
       application_form,
       subject: I18n.t!(
@@ -398,10 +401,10 @@ class CandidateMailer < ApplicationMailer
   end
 
   def reject_by_default_explainer(application_form)
-    year = application_form.recruitment_cycle_year
-    @this_academic_year = CycleTimetable.cycle_year_range(year)
-    @next_academic_year = CycleTimetable.cycle_year_range(year + 1)
-    @apply_reopens_date = CycleTimetable.apply_reopens.to_fs(:govuk_date)
+    timetable = application_form.recruitment_cycle_timetable
+    @this_academic_year = timetable.previously_closed_academic_year_range
+    @next_academic_year = timetable.next_available_academic_year_range
+    @apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date)
 
     email_for_candidate(
       application_form,
@@ -410,8 +413,9 @@ class CandidateMailer < ApplicationMailer
   end
 
   def find_has_opened(application_form)
-    @academic_year = CycleTimetable.cycle_year_range(RecruitmentCycle.current_year)
-    @apply_opens = CycleTimetable.apply_opens.to_fs(:govuk_date)
+    timetable = RecruitmentCycleTimetable.current_timetable
+    @academic_year = timetable.academic_year_range_name
+    @apply_opens = timetable.apply_opens_at.to_fs(:govuk_date)
 
     email_for_candidate(
       application_form,
@@ -420,7 +424,8 @@ class CandidateMailer < ApplicationMailer
   end
 
   def new_cycle_has_started(application_form)
-    @academic_year = CycleTimetable.cycle_year_range(RecruitmentCycle.current_year)
+    timetable = RecruitmentCycleTimetable.current_timetable
+    @academic_year = timetable.academic_year_range_name
 
     email_for_candidate(
       application_form,

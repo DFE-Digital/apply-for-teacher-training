@@ -2,7 +2,7 @@
 Dear <%= @application_form.first_name %>
 <% end %>
 
-<%= "You must submit your application by #{l(CycleTimetable.apply_deadline.to_date, format: :no_year)} if you want to start teacher training this year." %>
+<%= "You must submit your application by #{l(@timetable.apply_deadline_at.to_date, format: :no_year)} if you want to start teacher training this year." %>
 
 [Sign in to your account to submit your application](<%= application_choices_link %>).
 
@@ -10,7 +10,7 @@ Need help writing a strong application? You can [get a teacher training adviser]
 
 # If you’re not ready to submit your application
 
-If you’re not ready to apply now, you can continue preparing your application. <%= "From #{l(CycleTimetable.apply_reopens.to_date, format: :no_year)} you’ll be able to apply for courses starting in the #{RecruitmentCycle.cycle_name(RecruitmentCycle.next_year)} academic year." %>
+If you’re not ready to apply now, you can continue preparing your application. <%= "From #{l(@timetable.apply_reopens_at.to_date, format: :no_year)} you’ll be able to apply for courses starting in the #{RecruitmentCycle.cycle_name(RecruitmentCycle.next_year)} academic year." %>
 
 <%= render 'gain_insights_into_life_as_a_teacher' %>
 
