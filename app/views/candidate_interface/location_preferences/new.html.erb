@@ -1,0 +1,20 @@
+<% content_for :title, t('.title') %>
+<%# govuk_back_link(href: provider_interface_candidate_pool_root_path(@candidate)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @location_preference do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l"><%= t('.title') %></h1>
+      <h1 class="govuk-heading-l"><%= current_candidate.id %></h1>
+
+      <p class="govuk-body"><%= t('.body') %></p>
+
+      <%= f.govuk_number_field :within, label: { text: t('.within') } %>
+      <%= f.govuk_text_field :location, label: { text: t('.location') } %>
+
+      <%= f.govuk_submit %>
+    <% end %>
+  </div>
+</div>

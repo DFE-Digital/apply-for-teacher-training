@@ -27,6 +27,7 @@ class Candidate < ApplicationRecord
 
   has_many :pool_dismissals, dependent: :destroy, class_name: 'Pool::Dismissal'
   has_many :pool_invites, dependent: :destroy, class_name: 'Pool::Invite'
+  has_many :preferences, dependent: :destroy, class_name: 'CandidateInterface::Preference'
 
   PUBLISHED_FIELDS = %w[email_address].freeze
 
@@ -145,6 +146,10 @@ class Candidate < ApplicationRecord
 
   def current_cycle_application_form
     application_forms.current_cycle.last
+  end
+
+  def current_preference
+    preferences.published.last
   end
 
 private

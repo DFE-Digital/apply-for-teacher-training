@@ -1,0 +1,8 @@
+<% content_for :title, t('.title') %>
+<%# govuk_back_link(href: provider_interface_candidate_pool_root_path(@candidate)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render 'form', preference: @preference, url: candidate_interface_preferences_path, method: :post %>
+  </div>
+</div>

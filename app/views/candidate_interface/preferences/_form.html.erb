@@ -1,0 +1,15 @@
+<%= form_with model: preference, url:, method: do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <h1 class="govuk-heading-l"><%= t('.title') %></h1>
+  <h1 class="govuk-heading-l"><%= current_candidate.id %></h1>
+
+  <p class="govuk-body"><%= t('.body') %></p>
+
+  <%= f.govuk_radio_buttons_fieldset :pool_status, legend: { text: t('.pool_status'), size: 'm' } do %>
+    <%= f.govuk_radio_button :pool_status, :opt_in, label: { text: 'Yes' }, link_errors: true %>
+    <%= f.govuk_radio_button :pool_status, :opt_out, label: { text: 'No' } %>
+  <% end %>
+
+  <%= f.govuk_submit %>
+<% end %>

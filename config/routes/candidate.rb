@@ -16,6 +16,11 @@ namespace :candidate_interface, path: '/candidate' do
 
   resources :account_recovery_requests, only: %i[new create], path: 'account-recovery-requests'
 
+  resources :publish_preferences, only: %i[create], path: 'publish-preferences'
+  resources :preferences, path: 'preferences' do
+    resources :location_preferences, only: %i[index new create edit update destroy], path: 'location-preferences'
+  end
+
   get 'account-recovery/new'
   post 'account-recovery/create'
   post 'dismiss-account-recovery/create'

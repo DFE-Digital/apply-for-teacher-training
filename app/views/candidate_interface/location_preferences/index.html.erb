@@ -1,0 +1,32 @@
+<h2>Location preferences</h2>
+
+<h2>Preference id <%= @preference.id %> </h2>
+<%= form_with model: @preference, url: candidate_interface_preference_path(@preference) do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <% @location_preferences.each_with_index do |location, index| %>
+    <%= f.govuk_check_box(
+      :location_preferences,
+      location.id,
+      checked: location.selected?,
+      multiple: true,
+      label: { text: location.location },
+      link_errors: index.zero?,
+    ) %>
+  <% end %>
+  <br>
+  <br>
+
+  <%= f.govuk_check_box(
+    :dynamic_location_preferences,
+    true,
+    multiple: false,
+    label: { text: 'Update my location preferences each time I apply to a new course' },
+  ) %>
+
+  <br>
+  <br>
+  <%= f.govuk_submit %>
+<% end %>
+
+<%# govuk_link_to 'Add new location', new_candidate_interface_location_preference_path %>

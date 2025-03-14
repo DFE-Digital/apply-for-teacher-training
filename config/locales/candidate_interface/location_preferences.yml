@@ -1,0 +1,8 @@
+en:
+  candidate_interface:
+    location_preferences:
+      new:
+        title: Location Preferences
+        body: Training providers will use the locations you enter here to search for candidates near their courses
+        within: Within
+        location: of city, town or postcode

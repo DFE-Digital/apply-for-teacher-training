@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_06_143701) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_12_145104) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
-  enable_extension "plpgsql"
   enable_extension "unaccent"
 
   create_table "account_recovery_request_codes", force: :cascade do |t|
@@ -405,11 +405,33 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_06_143701) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "candidate_location_preferences", force: :cascade do |t|
+    t.string "location", null: false
+    t.integer "within", null: false
+    t.float "latitude", null: false
+    t.float "longitude", null: false
+    t.string "status", default: "draft", null: false
+    t.bigint "candidate_preference_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_preference_id"], name: "idx_on_candidate_preference_id_f06d90defb"
+  end
+
   create_table "candidate_pool_provider_opt_ins", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["provider_id"], name: "index_candidate_pool_provider_opt_ins_on_provider_id"
+  end
+
+  create_table "candidate_preferences", force: :cascade do |t|
+    t.bigint "candidate_id", null: false
+    t.string "pool_status", default: "opt_out", null: false
+    t.string "status", default: "draft", null: false
+    t.boolean "dynamic_location_preferences", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_id"], name: "index_candidate_preferences_on_candidate_id"
   end
 
   create_table "candidates", force: :cascade do |t|
@@ -1027,7 +1049,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_06_143701) do
   add_foreign_key "application_forms", "application_forms", column: "previous_application_form_id"
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "application_qualifications", "application_forms", on_delete: :cascade
+  add_foreign_key "candidate_location_preferences", "candidate_preferences", on_delete: :cascade
   add_foreign_key "candidate_pool_provider_opt_ins", "providers", on_delete: :cascade
+  add_foreign_key "candidate_preferences", "candidates", on_delete: :cascade
   add_foreign_key "candidates", "fraud_matches"
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
@@ -1043,11 +1067,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_06_143701) do
   add_foreign_key "offers", "application_choices", on_delete: :cascade
   add_foreign_key "one_login_auths", "candidates", on_delete: :cascade
   add_foreign_key "pool_dismissals", "candidates", on_delete: :cascade
-  add_foreign_key "pool_dismissals", "provider_users", column: "dismissed_by_id"
+  add_foreign_key "pool_dismissals", "provider_users", column: "dismissed_by_id", on_delete: :cascade
   add_foreign_key "pool_dismissals", "providers", on_delete: :cascade
   add_foreign_key "pool_invites", "candidates", on_delete: :cascade
   add_foreign_key "pool_invites", "courses", on_delete: :cascade
-  add_foreign_key "pool_invites", "provider_users", column: "invited_by_id"
+  add_foreign_key "pool_invites", "provider_users", column: "invited_by_id", on_delete: :cascade
   add_foreign_key "pool_invites", "providers", on_delete: :cascade
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"

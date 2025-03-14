@@ -36,6 +36,12 @@ class NavigationItems
             href: candidate_interface_application_choices_path,
             active: current_controller.respond_to?(:choices_controller?) ? current_controller.choices_controller? : false,
           },
+
+          {
+            text: 'Preferences',
+            href: new_candidate_interface_preference_path,
+            active: false,
+          },
         ]
       end
     end

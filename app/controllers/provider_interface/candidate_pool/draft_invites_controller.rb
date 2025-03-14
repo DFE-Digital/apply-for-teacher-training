@@ -37,6 +37,7 @@ module ProviderInterface
       end
 
       def update
+        byebug
         @pool_invite = PoolInviteForm.new(
           current_provider_user:,
           candidate: @candidate,

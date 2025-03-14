@@ -1,0 +1,46 @@
+<% content_for :title, t('.title') %>
+<%# govuk_back_link(href: edit_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, @pool_invite.id)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <%= govuk_summary_list do |summary_list| %>
+      <% summary_list.with_row do |row| %>
+        <% row.with_key { t('.share_information') } %>
+        <% row.with_value { @preference_record.pool_status } %>
+        <% row.with_action(text: t('.change'), href: edit_candidate_interface_preference_path(@preference_record)) %>
+      <% end %>
+
+      <% summary_list.with_row do |row| %>
+        <% row.with_key { t('.preferred_locations') } %>
+        <% row.with_value do %>
+          <ul>
+            <% @selected_locations.each do |location| %>
+              <li><%= location.location %> </li>
+            <% end %>
+          </ul>
+        <% end %>
+        <% row.with_action(
+          text: t('.change'),
+          href: candidate_interface_preference_location_preferences_path(@preference_record)
+        ) %>
+      <% end %>
+
+      <% summary_list.with_row do |row| %>
+        <% row.with_key { t('.dynamic_locations') } %>
+        <% row.with_value { @preference_record.dynamic_location_preferences? ? 'Yes' : 'No' } %>
+        <% row.with_action(
+          text: t('.change'),
+          href: candidate_interface_preference_location_preferences_path(@preference_record)
+        ) %>
+      <% end %>
+    <% end %>
+
+    <%= govuk_button_to(
+      'continue',
+      '#',
+      #provider_interface_candidate_pool_candidate_draft_invite_publish_invite_path(@candidate, @pool_invite.id),
+    ) %>
+
+  </div>
+</div>
