@@ -13,9 +13,9 @@ Time::DATE_FORMATS[:day_and_month] = '%-d %B'
 Date::DATE_FORMATS[:day_and_month] = '%-d %B'
 
 Time::DATE_FORMATS[:govuk_date_and_time] = lambda do |time|
-  format = if time >= time.midday && time <= time.midday.end_of_minute
+  format = if time.between?(time.midday, time.midday.end_of_minute)
              '%e %B %Y at %l%P (midday)'
-           elsif time >= time.midnight && time <= time.midnight.end_of_minute
+           elsif time.between?(time.midnight, time.midnight.end_of_minute)
              '%e %B %Y at %l%P (midnight)'
            elsif time.min.zero?
              '%e %B %Y at %l%P'
@@ -32,9 +32,9 @@ Time::DATE_FORMATS[:govuk_time_and_date] = lambda do |time|
 end
 
 Time::DATE_FORMATS[:govuk_time] = lambda do |time|
-  format = if time >= time.midday && time <= time.midday.end_of_minute
+  format = if time.between?(time.midday, time.midday.end_of_minute)
              '%l%P (midday)'
-           elsif time >= time.midnight && time <= time.midnight.end_of_minute
+           elsif time.between?(time.midnight, time.midnight.end_of_minute)
              '%l%P (midnight)'
            elsif time.min.zero?
              '%l%P'
