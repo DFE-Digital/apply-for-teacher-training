@@ -205,7 +205,7 @@ class ProviderMailer < ApplicationMailer
 
   def apply_service_is_now_open(provider_user)
     @provider_user = provider_user
-    @recruitment_cycle = CycleTimetable.cycle_year_range(RecruitmentCycle.current_year)
+    @recruitment_cycle = current_timetable.cycle_range_name
 
     provider_notify_email(
       to: @provider_user.email_address,
@@ -215,8 +215,8 @@ class ProviderMailer < ApplicationMailer
 
   def find_service_is_now_open(provider_user)
     @provider_user = provider_user
-    @recruitment_cycle = CycleTimetable.cycle_year_range(RecruitmentCycle.current_year)
-    @apply_opens = CycleTimetable.apply_opens.to_fs(:govuk_date)
+    @recruitment_cycle = current_timetable.cycle_range_name
+    @apply_opens = current_timetable.apply_opens_at.to_fs(:govuk_date)
 
     provider_notify_email(
       to: @provider_user.email_address,
@@ -226,8 +226,8 @@ class ProviderMailer < ApplicationMailer
 
   def respond_to_applications_before_reject_by_default_date(provider_user)
     @provider_user = provider_user
-    @reject_by_default_date = I18n.l(CycleTimetable.reject_by_default.to_date, format: :no_year)
-    @decline_by_default_date = I18n.l(CycleTimetable.decline_by_default_date.to_date, format: :no_year)
+    @reject_by_default_date = I18n.l(current_timetable.reject_by_default_at.to_date, format: :no_year)
+    @decline_by_default_date = I18n.l(current_timetable.decline_by_default_at.to_date, format: :no_year)
     @notifications_url = provider_interface_notifications_url
     @applications_url = provider_interface_applications_url
 
@@ -241,6 +241,10 @@ class ProviderMailer < ApplicationMailer
   end
 
 private
+
+  def current_timetable
+    @current_timetable = RecruitmentCycleTimetable.current_timetable
+  end
 
   def email_for_provider(provider_user, application_form, args = {})
     @provider_user = provider_user
