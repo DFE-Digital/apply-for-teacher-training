@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_06_143701) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_14_140631) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -771,6 +771,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_06_143701) do
     t.datetime "last_signed_in_at", precision: nil
     t.string "first_name"
     t.string "last_name"
+    t.jsonb "find_a_candidate_filters", default: {}
     t.index ["dfe_sign_in_uid"], name: "index_provider_users_on_dfe_sign_in_uid", unique: true
     t.index ["email_address"], name: "index_provider_users_on_email_address", unique: true
   end
