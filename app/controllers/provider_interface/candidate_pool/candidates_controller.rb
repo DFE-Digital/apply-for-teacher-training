@@ -7,6 +7,7 @@ module ProviderInterface
       def index
         @filter = ProviderInterface::CandidatePoolFilter.new(
           filter_params:,
+          current_provider_user:,
         )
 
         @pagy, @application_forms = pagy(
@@ -36,6 +37,7 @@ module ProviderInterface
         params.permit(
           :within,
           :original_location,
+          :remove,
           subject: [],
           study_mode: [],
           course_type: [],
