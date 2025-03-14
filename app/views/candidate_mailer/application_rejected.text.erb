@@ -5,8 +5,8 @@ Hello <%= @application_form.first_name %>
 
 Contact <%= @course.provider.name %> if you would like to talk about their feedback.
 
-<% if CycleTimetable.between_cycles? %>
-# You can apply again from <%= I18n.l(CycleTimetable.apply_reopens.to_date, format: :long) %>
+<% if RecruitmentCycleTimetable.currently_between_cycles? %>
+# You can apply again from <%= I18n.l(RecruitmentCycleTimetable.current_timetable.apply_reopens_at.to_date, format: :long) %>
 
 Lots of people are successful when they apply again.
 <% else %>
