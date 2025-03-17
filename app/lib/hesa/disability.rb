@@ -35,7 +35,7 @@ module Hesa
       raise ArgumentError, "Do not know Hesa Disability codes for #{cycle_year}"
     end
 
-    def self.find(value, cycle_year = RecruitmentCycle.current_year)
+    def self.find(value, cycle_year = RecruitmentCycleTimetable.current_year)
       converted_value = convert_to_hesa_value(value)
       all(cycle_year).find { |hesa_disability| hesa_disability.value == converted_value }
     end

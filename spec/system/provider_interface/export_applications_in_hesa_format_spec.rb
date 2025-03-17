@@ -4,6 +4,11 @@ RSpec.describe 'Export applications in HESA format' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
+  let(:current_timetable) { RecruitmentCycleTimetable.current_timetable }
+  let(:previous_timetable) { RecruitmentCycleTimetable.previous_timetable }
+
+  before { seed_timetables }
+
   scenario 'download CSVs of application data with translated HESA codes for the current and previous recruitment cycle year' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
@@ -37,7 +42,7 @@ RSpec.describe 'Export applications in HESA format' do
     # Make sure at least one application does not have a degree
     @applications.last.application_form.application_qualifications.degrees.delete_all
 
-    previous_year_course = create(:course, provider: providers.first, recruitment_cycle_year: RecruitmentCycle.previous_year)
+    previous_year_course = create(:course, provider: providers.first, recruitment_cycle_year: previous_timetable.recruitment_cycle_year)
     previous_year_course_option = create(:course_option, course: previous_year_course)
     @last_years_applications = create_list(:application_choice,
                                            5,
@@ -54,12 +59,12 @@ RSpec.describe 'Export applications in HESA format' do
   end
 
   def then_i_can_see_links_to_the_report_for_the_current_and_previous_cycles
-    expect(page).to have_content("The data will include all candidates who have accepted an offer since #{CycleTimetable.apply_opens(RecruitmentCycle.current_year).to_fs(:govuk_date)}")
-    expect(page).to have_content("The data will include all candidates who have accepted an offer from #{CycleTimetable.apply_opens(RecruitmentCycle.previous_year).to_fs(:govuk_date)} to #{CycleTimetable.apply_deadline(RecruitmentCycle.previous_year).to_fs(:govuk_date)}.")
+    expect(page).to have_content("The data will include all candidates who have accepted an offer since #{current_timetable.apply_opens_at.to_fs(:govuk_date)}")
+    expect(page).to have_content("The data will include all candidates who have accepted an offer from #{previous_timetable.apply_opens_at.to_fs(:govuk_date)} to #{previous_timetable.decline_by_default_at.to_fs(:govuk_date)}.")
   end
 
   def and_i_can_download_application_data_as_csv_for_the_current_recruitment_cycle
-    click_link_or_button "Export data for #{RecruitmentCycle.previous_year} to #{RecruitmentCycle.current_year} (CSV)"
+    click_link_or_button "Export data for #{current_timetable.cycle_range_name} (CSV)"
 
     csv = CSV.parse(page.body, headers: true)
     expect(csv.headers).to eq(%w[id status first_name last_name date_of_birth nationality
@@ -75,7 +80,7 @@ RSpec.describe 'Export applications in HESA format' do
 
   def and_i_can_download_application_data_as_csv_for_the_previous_recruitment_cycle
     visit provider_interface_reports_hesa_exports_path
-    click_link_or_button "Export data for #{RecruitmentCycle.previous_year - 1} to #{RecruitmentCycle.previous_year} (CSV)"
+    click_link_or_button "Export data for #{previous_timetable.cycle_range_name} (CSV)"
 
     csv = CSV.parse(page.body, headers: true)
     expect(csv.headers).to eq(%w[id status first_name last_name date_of_birth nationality
