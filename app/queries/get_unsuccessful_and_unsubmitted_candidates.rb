@@ -1,6 +1,7 @@
 class GetUnsuccessfulAndUnsubmittedCandidates
   def self.call
-    previous_recruitment_year = RecruitmentCycle.previous_year
+    previous_recruitment_year = RecruitmentCycleTimetable.previous_year
+    current_year = RecruitmentCycleTimetable.current_year
     # Candidates who didn't have successful applications last year
     Candidate
       .left_outer_joins(:application_forms)
@@ -18,7 +19,7 @@ class GetUnsuccessfulAndUnsubmittedCandidates
         Candidate
           .for_marketing_or_nudge_emails
           .where(application_forms: {
-            recruitment_cycle_year: RecruitmentCycle.current_year,
+            recruitment_cycle_year: current_year,
             submitted_at: nil,
           }),
       )

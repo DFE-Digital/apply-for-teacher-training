@@ -6,7 +6,7 @@ class ReasonsForRejectionCountQuery
 
   attr_reader :recruitment_cycle_year
 
-  def initialize(recruitment_cycle_year = RecruitmentCycle.current_year)
+  def initialize(recruitment_cycle_year = RecruitmentCycleTimetable.current_year)
     @recruitment_cycle_year = recruitment_cycle_year
   end
 
