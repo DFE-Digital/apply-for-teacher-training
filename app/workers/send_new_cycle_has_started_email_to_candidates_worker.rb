@@ -19,8 +19,8 @@ class SendNewCycleHasStartedEmailToCandidatesWorker
   end
 
   def relation
-    previous_recruitment_year = RecruitmentCycle.previous_year
-    current_recruitment_year = RecruitmentCycle.current_year
+    previous_recruitment_year = RecruitmentCycleTimetable.previous_year
+    current_recruitment_year = RecruitmentCycleTimetable.current_year
     # Candidates who didn't have successful applications last year and haven't started working on their 2025 application
     Candidate
       .for_marketing_or_nudge_emails

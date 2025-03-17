@@ -126,7 +126,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
           :application_form,
           candidate:,
           application_choices: [create(:application_choice, :application_not_sent)],
-          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
         )
 
         described_class.new.perform

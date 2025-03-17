@@ -8,6 +8,9 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker, :mid_
       sync_subjects_service
     end
 
+    let(:current_year) { RecruitmentCycleTimetable.current_year }
+    let(:next_year) { RecruitmentCycleTimetable.next_year }
+
     before do
       allow(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to receive(:call)
     end
@@ -19,41 +22,35 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker, :mid_
 
     it 'calls the SyncAllProvidersAndCourses service with the correct args for an incremental sync' do
       described_class.new.perform
-      expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: RecruitmentCycle.current_year)
+      expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: current_year)
     end
 
     it 'calls the SyncAllProvidersAndCourses service with the correct args for a full sync' do
       described_class.new.perform(false)
-      expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: false, recruitment_cycle_year: RecruitmentCycle.current_year)
+      expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: false, recruitment_cycle_year: current_year)
     end
 
-    context 'when find is not currently closed' do
-      before { allow(CycleTimetable).to receive(:find_down?).and_return(false) }
-
+    context 'when find is not currently closed', time: after_apply_deadline do
       it 'calls SyncAllProvidersAndCourses with the current year' do
         described_class.new.perform
-        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: RecruitmentCycle.current_year)
+        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: current_year)
       end
 
       it 'uses the supplied year parameter if given' do
-        year = RecruitmentCycle.next_year
-        described_class.new.perform(true, year)
-        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: year)
+        described_class.new.perform(true, next_year)
+        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: next_year)
       end
     end
 
-    context 'when find is currently closed' do
-      before { allow(CycleTimetable).to receive(:find_down?).and_return(true) }
-
+    context 'when find is currently closed', time: after_find_closes do
       it 'calls SyncAllProvidersAndCourses with the next year' do
         described_class.new.perform
-        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: RecruitmentCycle.next_year)
+        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: next_year)
       end
 
       it 'uses the supplied year parameter if given' do
-        year = RecruitmentCycle.current_year
-        described_class.new.perform(true, year)
-        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: year)
+        described_class.new.perform(true, current_year)
+        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: current_year)
       end
     end
 

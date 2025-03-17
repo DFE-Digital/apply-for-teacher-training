@@ -1,66 +1,69 @@
 require 'rails_helper'
 
 RSpec.describe CancelPreviousCycleUnsubmittedApplicationsWorker do
+  let(:previous_year) { RecruitmentCycleTimetable.previous_year }
+  let(:current_year) { RecruitmentCycleTimetable.current_year }
+
   describe '#perform' do
     it 'cancels any unsubmitted applications from the last cycle' do
       unsubmitted_application_from_last_year = create(
         :application_form,
         submitted_at: nil,
-        recruitment_cycle_year: RecruitmentCycle.previous_year,
+        recruitment_cycle_year: previous_year,
       )
       create(
         :application_choice,
         status: :unsubmitted,
         application_form: unsubmitted_application_from_last_year,
-        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year)),
+        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: previous_year)),
       )
 
       hidden_application_from_this_year = create(
         :application_form,
         submitted_at: nil,
         candidate: create(:candidate, hide_in_reporting: true),
-        recruitment_cycle_year: RecruitmentCycle.current_year,
+        recruitment_cycle_year: current_year,
       )
       create(
         :application_choice,
         status: :unsubmitted,
         application_form: hidden_application_from_this_year,
-        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.current_year)),
+        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: current_year)),
       )
 
       unsubmitted_application_from_this_year = create(
         :application_form,
         submitted_at: nil,
-        recruitment_cycle_year: RecruitmentCycle.current_year,
+        recruitment_cycle_year: current_year,
       )
       create(
         :application_choice,
         status: :unsubmitted,
         application_form: unsubmitted_application_from_this_year,
-        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.current_year)),
+        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: current_year)),
       )
 
       rejected_application_from_this_year = create(
         :application_form,
-        recruitment_cycle_year: RecruitmentCycle.current_year,
+        recruitment_cycle_year: current_year,
       )
       create(
         :application_choice,
         status: :rejected,
         application_form: rejected_application_from_this_year,
-        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.current_year)),
+        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: current_year)),
       )
 
       unsubmitted_cancelled_application_from_this_year = create(
         :application_form,
         submitted_at: nil,
-        recruitment_cycle_year: RecruitmentCycle.current_year,
+        recruitment_cycle_year: current_year,
       )
       create(
         :application_choice,
         status: :application_not_sent,
         application_form: unsubmitted_cancelled_application_from_this_year,
-        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.current_year)),
+        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: current_year)),
       )
 
       described_class.new.perform
