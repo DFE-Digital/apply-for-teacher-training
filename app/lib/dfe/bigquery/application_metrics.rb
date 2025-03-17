@@ -5,7 +5,7 @@ module DfE
 
       def initialize(cycle_week:)
         @cycle_week = cycle_week
-        @recruitment_cycle_year = RecruitmentCycle.current_year
+        @recruitment_cycle_year = RecruitmentCycleTimetable.current_year
       end
 
       def table_name

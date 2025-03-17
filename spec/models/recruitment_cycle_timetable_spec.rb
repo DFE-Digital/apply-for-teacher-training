@@ -187,6 +187,13 @@ RSpec.describe RecruitmentCycleTimetable do
     end
   end
 
+  describe '.find_cycle_week_by_datetime' do
+    it 'returns the expected week' do
+      datetime = Time.zone.local(2023, 11, 20)
+      expect(described_class.find_cycle_week_by_datetime(datetime)).to eq 8
+    end
+  end
+
   describe '.years_visible_in_support' do
     context 'in production' do
       before do

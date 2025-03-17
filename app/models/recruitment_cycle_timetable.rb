@@ -18,6 +18,12 @@ class RecruitmentCycleTimetable < ApplicationRecord
     where('find_opens_at < ?', datetime).last
   end
 
+  def self.find_cycle_week_by_datetime(datetime)
+    timetable = find_timetable_by_datetime(datetime)
+    weeks = (datetime - timetable.find_opens_at.beginning_of_week).seconds.in_weeks.to_i
+    (weeks % 53).succ
+  end
+
   def self.current_and_past_years
     current_and_past.pluck(:recruitment_cycle_year).sort
   end
@@ -48,6 +54,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
 
   def self.previous_timetable
     where('find_opens_at <= ?', Time.zone.now).order(:recruitment_cycle_year).second_to_last
+  end
+
+  def self.previous_cycle_range_name
+    previous_timetable.cycle_range_name
   end
 
   def self.current_year
