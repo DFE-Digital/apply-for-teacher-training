@@ -69,6 +69,8 @@ module DfE
           ActiveModel::Type::Boolean.new.cast(raw_value)
         when 'FLOAT'
           Float(raw_value)
+        when 'RECORD'
+          nil
         else
           raise UnknownTypeError, "cannot parse this type of value: '#{type}'"
         end
