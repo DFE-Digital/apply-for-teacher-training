@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::SponsorshipApplicationDeadlines::Applications
     end
 
     context 'when the deadline is one day away' do
-      let(:visa_sponsorship_application_deadline_at) { 1.day.from_now + 1.second }
+      let(:visa_sponsorship_application_deadline_at) { 1.day.from_now + 2.hours }
 
       it 'renders the text for one day' do
         rendered = render_inline(described_class.new(application_form:))
@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::SponsorshipApplicationDeadlines::Applications
     end
 
     context 'when the deadline is between 2-14 days away' do
-      let(:visa_sponsorship_application_deadline_at) { 14.days.from_now + 1.second }
+      let(:visa_sponsorship_application_deadline_at) { 14.days.from_now + 2.hours }
 
       it 'renders the text for one day' do
         rendered = render_inline(described_class.new(application_form:))
@@ -52,7 +52,7 @@ RSpec.describe CandidateInterface::SponsorshipApplicationDeadlines::Applications
     end
 
     context 'when the deadline is more than 14 days away' do
-      let(:visa_sponsorship_application_deadline_at) { 15.days.from_now + 1.second }
+      let(:visa_sponsorship_application_deadline_at) { 15.days.from_now + 2.hours }
 
       it 'does not render the component' do
         rendered = render_inline(described_class.new(application_form:))
@@ -78,8 +78,8 @@ RSpec.describe CandidateInterface::SponsorshipApplicationDeadlines::Applications
     context 'with deadlines of today, 1 day from now, and between 2-14 days' do
       let(:today) { 3.hours.from_now }
       let(:course_option_with_today) { create(:course_option, course: create(:course, visa_sponsorship_application_deadline_at: today)) }
-      let(:course_option_with_14_days_from_now) { create(:course_option, course: create(:course, visa_sponsorship_application_deadline_at: 14.days.from_now + 1.second)) }
-      let(:course_option_with_one_day_from_now) { create(:course_option, course: create(:course, visa_sponsorship_application_deadline_at: 1.day.from_now + 1.second)) }
+      let(:course_option_with_14_days_from_now) { create(:course_option, course: create(:course, visa_sponsorship_application_deadline_at: 14.days.from_now + 2.hours)) }
+      let(:course_option_with_one_day_from_now) { create(:course_option, course: create(:course, visa_sponsorship_application_deadline_at: 1.day.from_now + 2.hours)) }
 
       before do
         [course_option_with_today, course_option_with_14_days_from_now, course_option_with_one_day_from_now].each do |course_option|

@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::SponsorshipApplicationDeadlines::ApplicationC
     end
 
     context 'deadline 1 day from now' do
-      let(:visa_sponsorship_application_deadline_at) { 1.day.from_now + 1.second }
+      let(:visa_sponsorship_application_deadline_at) { 1.day.from_now + 2.hours }
 
       it 'renders text for one day' do
         application_choice = create(:application_choice, :unsubmitted, course_option:, application_form:)
@@ -32,7 +32,7 @@ RSpec.describe CandidateInterface::SponsorshipApplicationDeadlines::ApplicationC
     end
 
     context 'deadline 14 days from now' do
-      let(:visa_sponsorship_application_deadline_at) { 14.days.from_now + 1.second }
+      let(:visa_sponsorship_application_deadline_at) { 14.days.from_now + 2.hours }
 
       it 'renders text for 14 days from now' do
         application_choice = create(:application_choice, :unsubmitted, course_option:, application_form:)
