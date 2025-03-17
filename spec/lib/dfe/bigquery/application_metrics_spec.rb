@@ -9,6 +9,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics, time: Time.zone.local(2023, 11
       { name: 'number_of_candidates_submitted_to_date', type: 'INTEGER', value: '100' },
       { name: 'first_date_in_week', type: 'DATE', value: '2024-03-18' },
       { name: 'subject_filter', type: 'INTEGER', value: nil },
+      { name: 'offset', type: 'RECORD', value: {} },
     ]])
   end
 
