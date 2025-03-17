@@ -1,4 +1,5 @@
 <% content_for :browser_title, t('.title') %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_candidate_pool_root_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -10,12 +11,12 @@
     <%= render ProviderInterface::FindCandidates::RightToWorkComponent.new(application_form: @application_form) %>
     <%= render ProviderInterface::FindCandidates::ApplicationChoicesComponent.new(application_form: @application_form) %>
     <%= render ProviderInterface::FindCandidates::SafeguardingComponent.new(application_form: @application_form, provider_user: current_provider_user) %>
-    <%= render WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_form, details: false) %>
+    <%= render WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_form, details: false, find_candidates: true) %>
   </div>
 
   <div class="govuk-grid-column-full">
     <section class="app-section">
-      <h2 class="govuk-heading-m govuk-!-font-size-27" id="qualifications">
+      <h2 class="govuk-heading-l" id="qualifications">
         <%= t('.qualifications') %>
       </h2>
 

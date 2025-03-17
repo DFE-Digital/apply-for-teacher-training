@@ -1,5 +1,5 @@
 class WorkHistoryAndUnpaidExperienceComponent < WorkHistoryComponent
-  def initialize(application_form:, editable: false, application_choice: nil, details: true)
+  def initialize(application_form:, editable: false, application_choice: nil, details: true, find_candidates: false)
     @application_form = application_form
     @work_history_with_breaks ||= WorkHistoryWithBreaks.new(
       application_choice || application_form,
@@ -7,6 +7,7 @@ class WorkHistoryAndUnpaidExperienceComponent < WorkHistoryComponent
     )
     @editable = editable
     @details = details
+    @find_candidates = find_candidates
   end
 
   def subtitle
