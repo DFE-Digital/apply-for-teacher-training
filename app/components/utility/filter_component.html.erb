@@ -43,7 +43,10 @@
 
             <%= hidden_field_tag primary_filter[:name], primary_filter[:value] if primary_filter && primary_filter[:value].present? %>
             <% secondary_filters.each do |filter, idx| %>
-              <div class="govuk-form-group">
+              <div class="govuk-form-group filter-group">
+                <% if filter[:title].present? %>
+                  <h3 class="govuk-heading-m"><%= filter[:title] %></h3>
+                <% end %>
                 <fieldset class="govuk-fieldset">
                   <legend id="filter-legend-<%= filter[:name] %>" class="govuk-fieldset__legend govuk-fieldset__legend--s">
                     <%= filter[:heading] %>

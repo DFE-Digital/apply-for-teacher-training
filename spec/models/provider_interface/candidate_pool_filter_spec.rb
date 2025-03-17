@@ -22,6 +22,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           name: 'subject',
           options: [],
           hide_tags: true,
+          title: "Candidate's selections",
         },
         {
           type: :checkboxes,

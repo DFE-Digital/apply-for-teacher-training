@@ -31,7 +31,7 @@ module ProviderInterface
           name: 'subject',
           options: subject_options,
           hide_tags: true,
-
+          title: "Candidate's selections",
         },
         {
           type: :checkboxes,
@@ -102,7 +102,7 @@ module ProviderInterface
     end
 
     def subject_options
-      subjects = Subject.select("name, string_agg(id::text, ',') as ids").group(:name)
+      subjects = Subject.select("name, string_agg(id::text, ',') as ids").group(:name).order(:name)
 
       subjects.map do |subject|
         {
