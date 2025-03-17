@@ -1,0 +1,48 @@
+<% content_for :title, t('.heading') %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t('.heading') %>
+    </h1>
+    <% @timetables.each do |timetable| %>
+      <%= govuk_table do |table| %>
+        <% table.with_caption(
+             size: 'm',
+             text: t(
+               '.caption',
+               cycle_range: timetable.cycle_range_name_with_current_indicator,
+               academic_year_range: timetable.academic_year_range_name,
+             ),
+           ) %>
+        <% table.with_head do |head| %>
+          <% head.with_row do |row| %>
+            <% row.with_cell(text: t('.date_and_time')) %>
+            <% row.with_cell(text: t('.what_happens')) %>
+          <% end %>
+        <% end %>
+        <% table.with_body do |body| %>
+          <% body.with_row do |row| %>
+            <% row.with_cell(numeric: true, text: timetable.find_opens_at.to_fs(:govuk_date_and_time)) %>
+            <% row.with_cell(text: t('.find_opens')) %>
+          <% end %>
+          <% body.with_row do |row| %>
+            <% row.with_cell(numeric: true, text: timetable.apply_opens_at.to_fs(:govuk_date_and_time)) %>
+            <% row.with_cell(text: t('.apply_opens')) %>
+          <% end %>
+          <% body.with_row do |row| %>
+            <% row.with_cell(numeric: true, text: timetable.apply_deadline_at.to_fs(:govuk_date_and_time)) %>
+            <% row.with_cell(text: t('.apply_deadline')) %>
+          <% end %>
+          <% body.with_row do |row| %>
+            <% row.with_cell(numeric: true, text: timetable.reject_by_default_at.to_fs(:govuk_date_and_time)) %>
+            <% row.with_cell(text: t('.reject_by_default')) %>
+          <% end %>
+          <% body.with_row do |row| %>
+            <% row.with_cell(numeric: true, text: timetable.decline_by_default_at.to_fs(:govuk_date_and_time)) %>
+            <% row.with_cell(text: t('.decline_by_default')) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
