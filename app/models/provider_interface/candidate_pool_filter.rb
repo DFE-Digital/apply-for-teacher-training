@@ -3,11 +3,15 @@ module ProviderInterface
     include FilterParamsHelper
 
     RADIUS_VALUES = [1, 5, 10, 15, 20, 25, 50, 100, 200].freeze
+    FILTERS = %w[within original_location subject study_mode course_type visa_sponsorship].freeze
 
     attr_reader :filter_params
 
-    def initialize(filter_params:)
-      @filter_params = compact_params(filter_params)
+    def initialize(filter_params:, current_provider_user:)
+      @filter_params = set_filters(
+        compact_params(filter_params),
+        current_provider_user,
+      )
     end
 
     def filters
@@ -74,6 +78,18 @@ module ProviderInterface
     end
 
   private
+
+    def set_filters(filters, current_provider_user)
+      any_filters = filters.keys.intersect?(FILTERS)
+
+      if filters[:remove] == 'true' && !any_filters
+        current_provider_user.update!(find_a_candidate_filters: {})
+      elsif any_filters
+        current_provider_user.update!(find_a_candidate_filters: filters)
+      end
+
+      current_provider_user.find_a_candidate_filters.with_indifferent_access
+    end
 
     def visa_sponsorship_options
       ['required', 'not required'].map do |value|
