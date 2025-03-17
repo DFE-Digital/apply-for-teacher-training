@@ -5,8 +5,8 @@ en:
         index:
           title: Find candidates
           no_candidates: No candidates
-          candidate_information_agreement: These candidates have agreed to share their application details.
-          review_candidates: You can review their applications and decide whether to invite them to apply.
+          candidate_information_agreement: Candidates can choose to share their application details.
+          review_candidates: When they have no open applications, you can review their details and decide whether to invite them to apply.
           name: Name
           miles: miles
           distance_from: Distance from %{origin}
