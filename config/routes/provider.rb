@@ -113,7 +113,7 @@ namespace :provider_interface, path: '/provider' do
       end
     end
 
-    resource :withdrawal_request, only: %i[new create update edit], path: 'withdrawal-requests'
+    resource :withdrawal_request, only: %i[new create update edit show], path: 'withdrawal-requests'
 
     get '/decline-or-withdraw' => 'decline_or_withdraw#edit', as: :decline_or_withdraw_edit
     put '/decline-or-withdraw' => 'decline_or_withdraw#update', as: :decline_or_withdraw_update

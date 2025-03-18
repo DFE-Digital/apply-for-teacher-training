@@ -15,8 +15,8 @@ module ProviderInterface
 
     def persist!
       if valid?
-        request = @application_choice.withdrawal_reasons.new(attributes)
-        request.save!
+        withdrawal_request = @application_choice.withdrawal_requests.new(attributes)
+        withdrawal_request.save!
       end
     end
 
