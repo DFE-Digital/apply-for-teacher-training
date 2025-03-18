@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
 
-  describe '.deferred_offer_reminder' do
+  describe '.deferred_offer_reminder', time: mid_cycle do
     let(:email) { described_class.deferred_offer_reminder(application_choices.first) }
     let(:application_choices) do
       [build_stubbed(:application_choice,

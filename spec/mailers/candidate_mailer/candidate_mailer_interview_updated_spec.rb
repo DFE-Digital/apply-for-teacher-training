@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
 
-  describe '.interview_updated' do
+  describe '.interview_updated', time: mid_cycle do
     let(:application_choice_with_interview) { build_stubbed(:application_choice, course_option:, application_form:) }
     let(:interview) do
       build_stubbed(:interview,
