@@ -26,7 +26,7 @@
 
             <%= row.with_cell do %>
               <% if @filter.applied_location_search? %>
-                <%= pluralize(application_form.site_distance.round(1), t('.miles')) %>
+                <%= t('.miles', count: application_form.site_distance.round(1)) %>
               <% end %>
             <% end %>
           <% end %>

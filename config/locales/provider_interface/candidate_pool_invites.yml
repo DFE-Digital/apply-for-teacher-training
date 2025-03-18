@@ -8,8 +8,11 @@ en:
           candidate_information_agreement: Candidates can choose to share their application details.
           review_candidates: When they have no open applications, you can review their details and decide whether to invite them to apply.
           name: Name
-          miles: miles
           distance_from: Distance from %{origin}
+          miles:
+            zero: "%{count} miles"
+            one: "%{count} miles"
+            other: "%{count} miles"
         show:
           title: Candidate details
           invite: Invite to apply
@@ -29,7 +32,7 @@ en:
         edit:
           title: Select a course to invite %{candidate_name} to apply to
         form:
-          title: Select which course to invite %{candidate_name} to apply to
+          title: Select a course to invite %{candidate_name} to apply to
           continue: Continue
       publish_invites:
         create:
