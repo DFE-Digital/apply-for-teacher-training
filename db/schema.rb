@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_14_140631) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_18_140222) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1016,6 +1016,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_140631) do
     t.index ["reason"], name: "index_withdrawal_reasons_on_reason"
   end
 
+  create_table "withdrawal_requests", force: :cascade do |t|
+    t.string "reason", null: false
+    t.text "comment"
+    t.bigint "application_choice_id", null: false
+    t.bigint "provider_user_id", null: false
+    t.string "status", default: "draft"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_choice_id"], name: "index_withdrawal_requests_on_application_choice_id"
+    t.index ["provider_user_id"], name: "index_withdrawal_requests_on_provider_user_id"
+  end
+
   add_foreign_key "account_recovery_request_codes", "account_recovery_requests", on_delete: :cascade
   add_foreign_key "account_recovery_requests", "candidates", on_delete: :cascade
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -1064,4 +1076,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_140631) do
   add_foreign_key "sites", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
   add_foreign_key "withdrawal_reasons", "application_choices", on_delete: :cascade
+  add_foreign_key "withdrawal_requests", "application_choices", on_delete: :cascade
+  add_foreign_key "withdrawal_requests", "provider_users"
 end

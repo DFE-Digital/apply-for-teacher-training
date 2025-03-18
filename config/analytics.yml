@@ -566,4 +566,12 @@ shared:
     - recruitment_cycle_year
     - created_at
     - updated_at
-
+  :withdrawal_requests:
+    - id
+    - reason
+    - comment
+    - application_choice_id
+    - provider_user_id
+    - status
+    - created_at
+    - updated_at
