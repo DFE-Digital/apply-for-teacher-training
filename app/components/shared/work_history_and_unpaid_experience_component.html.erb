@@ -1,5 +1,10 @@
-<section class="app-section govuk-!-width-two-thirds" data-qa="work-history-and-unpaid-experience">
-  <h3 class="govuk-heading-m" id="work-history">Work history and unpaid experience</h3>
+<% if @find_candidates %>
+  <section class="app-section summary-section" data-qa="work-history-and-unpaid-experience">
+    <h2 class="govuk-heading-l" id="work-history">Work history and unpaid experience</h2>
+<% else %>
+  <section class="app-section govuk-!-width-two-thirds" data-qa="work-history-and-unpaid-experience">
+    <h3 class="govuk-heading-m" id="work-history">Work history and unpaid experience</h3>
+<% end %>
 
   <%= render SummaryListComponent.new(rows: rows) %>
 

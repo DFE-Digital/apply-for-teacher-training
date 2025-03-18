@@ -5,11 +5,14 @@ en:
         index:
           title: Find candidates
           no_candidates: No candidates
-          candidate_information_agreement: These candidates have agreed to share their application details.
-          review_candidates: You can review their applications and decide whether to invite them to apply.
+          candidate_information_agreement: Candidates can choose to share their application details.
+          review_candidates: When they have no open applications, you can review their details and decide whether to invite them to apply.
           name: Name
-          miles: miles
           distance_from: Distance from %{origin}
+          miles:
+            zero: "%{count} miles"
+            one: "%{count} miles"
+            other: "%{count} miles"
         show:
           title: Candidate details
           invite: Invite to apply
@@ -18,7 +21,7 @@ en:
           a_level_subheader: Details of A levels and other qualifications
       draft_invites:
         new:
-          title: Select which course to invite %{candidate_name} to apply to
+          title: Select a course to invite %{candidate_name} to apply to
           no_available_courses: No available courses
         show:
           title: Check before you send this invitation
@@ -27,9 +30,9 @@ en:
           course: Course
           send_invitation: Send invitation
         edit:
-          title: Select which course to invite %{candidate_name} to apply to
+          title: Select a course to invite %{candidate_name} to apply to
         form:
-          title: Select which course to invite %{candidate_name} to apply to
+          title: Select a course to invite %{candidate_name} to apply to
           continue: Continue
       publish_invites:
         create:

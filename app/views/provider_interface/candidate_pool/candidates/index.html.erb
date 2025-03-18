@@ -12,7 +12,7 @@
         <%= head.with_row do |row| %>
           <%= row.with_cell(text: t('.name')) %>
           <% if @filter.applied_location_search? %>
-            <%= row.with_cell(text: t('.distance_from', origin: @filter.applied_filters[:original_location])) %>
+            <%= row.with_cell(text: t('.distance_from', origin: @filter.applied_filters[:original_location]), width: 'govuk-!-width-one-half') %>
           <% end %>
         <% end %>
       <% end %>
@@ -26,7 +26,7 @@
 
             <%= row.with_cell do %>
               <% if @filter.applied_location_search? %>
-                <%= pluralize(application_form.site_distance.round(2), t('.miles')) %>
+                <%= t('.miles', count: application_form.site_distance.round(1)) %>
               <% end %>
             <% end %>
           <% end %>

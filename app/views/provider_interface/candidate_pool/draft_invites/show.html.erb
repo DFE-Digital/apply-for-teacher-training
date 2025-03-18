@@ -1,5 +1,5 @@
 <% content_for :title, t('.title') %>
-<%= govuk_back_link(href: edit_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, @pool_invite.id)) %>
+<% content_for :before_content, govuk_back_link_to(edit_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, @pool_invite.id)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

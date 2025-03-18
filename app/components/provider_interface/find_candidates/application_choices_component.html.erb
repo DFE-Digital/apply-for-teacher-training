@@ -1,7 +1,7 @@
-<h1 class="govuk-heading-l"><%= t('.title') %></h1>
+<h2 class="govuk-heading-l"><%= t('.title') %></h2>
 
 <% application_form.application_choices.each_with_index do |choice, index| %>
-  <h2 class="govuk-heading-m"><%= t('.subtitle', counter: index + 1) %></h3>
+  <h3 class="govuk-heading-m govuk-!-font-size-27"><%= t('.subtitle', counter: index + 1) %></h3>
   <%= govuk_summary_list do |summary_list| %>
 
     <% summary_list.with_row do |row| %>
@@ -32,7 +32,7 @@
     <% end %>
   <% end %>
 
-  <h2 class="govuk-heading-m"><%= t('.personal_statement') %></h3>
+  <h4 class="govuk-heading-m"><%= t('.personal_statement') %></h4>
   <%= govuk_details(summary_text: 'Guidance given to candidates', classes: 'govuk-!-margin-bottom-4') do %>
     <%= render 'candidate_interface/personal_statement/guidance' %>
   <% end %>
