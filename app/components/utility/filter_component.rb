@@ -13,7 +13,7 @@ class FilterComponent < ViewComponent::Base
     when :location_search
       [
         {
-          title: location_filter_title(filter),
+          title: filter[:original_location],
           hint: filter[:hint],
           remove_link: location_filter_tag_link,
         },
@@ -31,7 +31,6 @@ class FilterComponent < ViewComponent::Base
 
   def location_filter_tag_link
     params = filters_to_params(filters)
-    params.delete(:within)
     params.delete(:original_location)
     params[:remove] = true # for removing last filter
     to_query(params)
@@ -85,7 +84,6 @@ class FilterComponent < ViewComponent::Base
       case filter[:type]
       when :location_search
         hash[:original_location] = filter[:original_location]
-        hash[:within] = filter[:within]
       when :search
         hash[filter[:name]] = filter[:value]
       when :checkboxes, :checkbox_filter
@@ -101,13 +99,6 @@ private
   end
 
   def active_location_filter?(filter_hash)
-    filter_hash[:within].present? && filter_hash[:original_location].present?
-  end
-
-  def location_filter_title(filter_hash)
-    miles = pluralize(filter_hash[:within], 'mile')
-    original_location = filter_hash[:original_location]
-
-    I18n.t('filter_component.location_filter_title', miles:, original_location:)
+    filter_hash[:original_location].present?
   end
 end
