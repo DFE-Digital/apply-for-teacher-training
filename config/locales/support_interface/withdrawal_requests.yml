@@ -1,0 +1,26 @@
+en:
+  activemodel:
+    errors:
+      models:
+        provider_interface/withdrawal_request_form:
+          attributes:
+            reason:
+              blank: Select a reason for withdrawing this application on behalf of the candidate
+            comment:
+              blank: Enter details to explain the reason for withdrawing this application on behalf of the candidate
+              too_many_words: Details must be %{maximum} words or fewer
+  provider_interface:
+    withdrawal_requests:
+      new:
+        page_title: Withdraw application on candidate’s requests
+      reasons:
+        candidate_has_not_responded_to_communications:
+          label: The candidate has not responded to communications
+        candidate_asked_us_to_withdraw_their_application:
+          label: The candidate has asked us to withdraw their application
+        other:
+          label: Other
+          comment:
+            label: Details
+
+

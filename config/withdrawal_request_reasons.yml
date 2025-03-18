@@ -1,0 +1,4 @@
+withdrawal-request-reasons:
+  candidate-has-not-responded-to-communications: {}
+  candidate-asked-us-to-withdraw-their-application: {}
+  other: {}

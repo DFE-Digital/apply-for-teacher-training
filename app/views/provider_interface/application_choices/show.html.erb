@@ -24,7 +24,7 @@
   <% if application_withdrawable? %>
     <%= govuk_link_to(
       'Withdraw at candidate’s request',
-      provider_interface_decline_or_withdraw_edit_path(@application_choice),
+      FeatureFlag.active?(:new_withdrawal_on_behalf_of_candidate_flow) ? new_provider_interface_withdrawal_request_path(@application_choice) : provider_interface_decline_or_withdraw_edit_path(@application_choice),
       class: 'govuk-!-margin-right-2',
     ) %>
   <% end %>

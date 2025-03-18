@@ -1,0 +1,43 @@
+<% content_for :browser_title, title_with_error_prefix(t('.page_title'), @withdrawal_request_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice)) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+        model: @withdrawal_request_form,
+        url: provider_interface_withdrawal_request_path(@application_choice),
+      ) do |f| %>
+      <%= f.govuk_error_summary %>
+      <%= f.govuk_radio_buttons_fieldset(
+        :reason,
+        legend: { text: t('.page_title'), tag: 'h1', size: 'l' },
+      ) do %>
+
+      <% @withdrawal_request_form.reason_options.each_with_index do |reason, index| %>
+          <% if reason.other_reason.blank? %>
+            <%= f.govuk_radio_button(
+                  :reason,
+                  reason.id,
+                  link_errors: index.zero?,
+                  label: { text: reason.name },
+                ) %>
+          <% else %>
+            <%= f.govuk_radio_button(
+              :reason,
+              reason.id,
+              label: { text: reason.name },
+            )  do %>
+              <%= f.govuk_text_area(
+                    :comment,
+                    label: { text: reason.other_reason, size: 's' },
+                    max_words: 200,
+                    rows: 5,
+                    link_errors: true,
+                  ) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>

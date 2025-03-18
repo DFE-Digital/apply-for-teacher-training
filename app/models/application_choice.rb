@@ -30,6 +30,8 @@ class ApplicationChoice < ApplicationRecord
   has_many :draft_withdrawal_reasons, -> { draft }, class_name: 'WithdrawalReason', dependent: :destroy
   has_many :published_withdrawal_reasons, -> { published }, class_name: 'WithdrawalReason', dependent: :destroy
 
+  has_many :withdrawal_requests, dependent: :destroy
+
   has_many :work_experiences, as: :experienceable, class_name: 'ApplicationWorkExperience'
   has_many :volunteering_experiences, as: :experienceable, class_name: 'ApplicationVolunteeringExperience'
   has_many :work_history_breaks, as: :breakable, class_name: 'ApplicationWorkHistoryBreak'
