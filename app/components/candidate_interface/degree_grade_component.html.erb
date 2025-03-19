@@ -1,7 +1,7 @@
 <% content_for :title, title_with_error_prefix(legend_helper, @model.errors.any?) %>
 <%= form_with model: @model, url: candidate_interface_degree_grade_path do |form| %>
   <%= form.govuk_error_summary %>
-  <%= form.govuk_radio_buttons_fieldset :grade, legend: { text: legend_helper, size: 'l' } do %>
+  <%= form.govuk_radio_buttons_fieldset :grade, legend: { text: legend_helper, tag: 'h1', size: 'l' } do %>
     <% if @model.uk? && specific_grade_options? %>
       <% grades.each_with_index do |grade, index| %>
         <%= form.govuk_radio_button :grade, grade, label: { text: grade }, link_errors: index.zero? do %>

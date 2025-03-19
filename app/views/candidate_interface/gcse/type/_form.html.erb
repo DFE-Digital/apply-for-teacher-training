@@ -1,7 +1,7 @@
 <%= f.govuk_error_summary %>
 
 <%= f.govuk_radio_buttons_fieldset :qualification_type,
-  legend: { text: t("gcse_edit_type.page_titles.#{@subject}"), size: 'l' },
+  legend: { text: t("gcse_edit_type.page_titles.#{@subject}"), tag: 'h1', size: 'l' },
   hint: { text: @subject == 'english' ? 'This should not be a qualification showing you speak English as a foreign language.' : '' } do %>
 
   <% select_gcse_qualification_type_standard_options.each_with_index do |option, i| %>

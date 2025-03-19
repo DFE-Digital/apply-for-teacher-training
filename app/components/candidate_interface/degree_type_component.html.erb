@@ -2,7 +2,7 @@
 <%= form_with model: @wizard, url: candidate_interface_degree_type_path do |form| %>
   <%= form.govuk_error_summary %>
   <% if @wizard.uk? %>
-    <%= form.govuk_radio_buttons_fieldset :type, legend: { text: "What type of #{dynamic_types} is it?", size: 'l' } do %>
+    <%= form.govuk_radio_buttons_fieldset :type, legend: { text: "What type of #{dynamic_types} is it?", tag: 'h1', size: 'l' } do %>
 
       <% find_degree_type_options.each_with_index do |type, index| %>
         <%= form.govuk_radio_button :type, type[:name], label: { text: name_and_abbr(type) }, link_errors: index.zero? %>
