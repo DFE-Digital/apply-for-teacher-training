@@ -1,3 +1,5 @@
+<%= f.govuk_error_summary %>
+
 <% scope = 'application_form.gcse.comparable_uk_qualification' %>
 
 <%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.enter_enic', subject: @subject), size: 'l' } do %>
