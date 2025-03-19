@@ -23,7 +23,7 @@ class CourseSelectionValidator < ActiveModel::Validator
     scope.where(
       status: 'rejected',
       course_option: { course_id: record.course.id },
-      current_recruitment_cycle_year: RecruitmentCycle.current_year,
+      current_recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
     ).count >= ALLOWED_REAPPLICATION_LIMIT
   end
 

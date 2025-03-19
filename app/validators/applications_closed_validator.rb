@@ -9,9 +9,9 @@ class ApplicationsClosedValidator < ActiveModel::EachValidator
     in [true, false]
       date = application_choice.course.applications_open_from.to_fs(:govuk_date)
     in [false, true]
-      date = CycleTimetable.apply_opens.to_fs(:govuk_date)
+      date = current_timetable.apply_reopens_at.to_fs(:govuk_date)
     in [false, false]
-      date = [CycleTimetable.apply_opens, application_choice.course.applications_open_from].max.to_fs(:govuk_date)
+      date = [current_timetable.apply_opens_at, application_choice.course.applications_open_from].max.to_fs(:govuk_date)
     end
 
     record.errors.add(
@@ -19,5 +19,11 @@ class ApplicationsClosedValidator < ActiveModel::EachValidator
       :applications_closed,
       date: date,
     )
+  end
+
+private
+
+  def current_timetable
+    @current_timetable = RecruitmentCycleTimetable.current_timetable
   end
 end
