@@ -137,7 +137,7 @@ RSpec.describe ApplicationForm do
       it 'throws an exception rather than touch an application choice' do
         application_form = create(
           :completed_application_form,
-          recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+          recruitment_cycle_year: previous_year,
           application_choices_count: 1,
           first_name: 'Mary',
         )
@@ -149,7 +149,7 @@ RSpec.describe ApplicationForm do
       it 'does not throw an exception and touches an application choice when offer is deferred from last cycle' do
         application_form = create(
           :completed_application_form,
-          recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+          recruitment_cycle_year: previous_year,
           application_choices_count: 1,
         )
 
@@ -166,7 +166,7 @@ RSpec.describe ApplicationForm do
         )
 
         application_form.application_choices.update(status: 'offer_deferred')
-        application_form.update(recruitment_cycle_year: RecruitmentCycleTimetable.previous_year - 1)
+        application_form.update(recruitment_cycle_year: previous_year - 1)
 
         expect { application_form.update(address_line1: '123 Fake Street') }
           .not_to raise_error
@@ -175,7 +175,7 @@ RSpec.describe ApplicationForm do
       it 'does nothing when there are no application choices' do
         application_form = create(
           :completed_application_form,
-          recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+          recruitment_cycle_year: previous_year,
           application_choices_count: 0,
           first_name: 'Mary',
         )
@@ -188,7 +188,7 @@ RSpec.describe ApplicationForm do
         it 'does not throw an exception' do
           application_form = create(
             :completed_application_form,
-            recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+            recruitment_cycle_year: previous_year,
             application_choices_count: 1,
             references_count: 0,
           )
@@ -1222,23 +1222,22 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#after_apply_deadline?' do
-    let(:timetable) { RecruitmentCycleTimetable.current_timetable }
-    let(:form) { build(:application_form, recruitment_cycle_timetable: timetable) }
+    let(:form) { build(:application_form, recruitment_cycle_timetable: current_timetable) }
 
     it 'returns false before the deadline' do
-      travel_temporarily_to(timetable.apply_deadline_at - 1.minute) do
+      travel_temporarily_to(current_timetable.apply_deadline_at - 1.minute) do
         expect(form.after_apply_deadline?).to be false
       end
     end
 
     it 'returns true after the deadline while still in current cycle' do
-      travel_temporarily_to(timetable.apply_deadline_at + 1.minute) do
+      travel_temporarily_to(current_timetable.apply_deadline_at + 1.minute) do
         expect(form.after_apply_deadline?).to be true
       end
     end
 
     it 'returns true if a new cycle has started' do
-      next_timetable = timetable.relative_next_timetable
+      next_timetable = form.recruitment_cycle_timetable.relative_next_timetable
       travel_temporarily_to(next_timetable.apply_deadline_at - 1.minute) do
         expect(form.after_apply_deadline?).to be true
       end
@@ -1248,15 +1247,15 @@ RSpec.describe ApplicationForm do
   describe '#can_add_course_choice?' do
     context 'not current cycle' do
       it 'returns false if in next cycle' do
-        application_form = build(:application_form, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
-        travel_temporarily_to(RecruitmentCycleTimetable.next_timetable.find_opens_at + 1.second) do
+        application_form = build(:application_form, recruitment_cycle_year: current_year)
+        travel_temporarily_to(next_timetable.find_opens_at + 1.second) do
           expect(application_form.can_add_course_choice?).to be false
         end
       end
 
       it 'returns false if in previous cycle' do
-        application_form = build(:application_form, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
-        travel_temporarily_to(RecruitmentCycleTimetable.previous_timetable.find_opens_at + 1.second) do
+        application_form = build(:application_form, recruitment_cycle_year: current_year)
+        travel_temporarily_to(previous_timetable.find_opens_at + 1.second) do
           expect(application_form.can_add_course_choice?).to be false
         end
       end
@@ -1282,8 +1281,8 @@ RSpec.describe ApplicationForm do
   describe '#can_submit' do
     context 'not current cycle' do
       it 'returns false' do
-        application_form = build(:application_form, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
-        travel_temporarily_to(RecruitmentCycleTimetable.next_timetable.find_opens_at + 1.second) do
+        application_form = build(:application_form, recruitment_cycle_year: current_year)
+        travel_temporarily_to(next_timetable.find_opens_at + 1.second) do
           expect(application_form.can_submit?).to be false
         end
       end

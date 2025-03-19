@@ -4,7 +4,7 @@ RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
 
   describe '.offer_accepted' do
-    let(:recruitment_cycle_year) { RecruitmentCycleTimetable.current_year }
+    let(:recruitment_cycle_year) { current_year }
     let(:candidate) { create(:candidate) }
     let(:application_form) do
       build_stubbed(:application_form, first_name: 'Fred',

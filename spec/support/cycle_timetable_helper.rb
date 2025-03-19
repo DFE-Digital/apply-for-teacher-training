@@ -7,6 +7,45 @@ module_function
     SeedRecruitmentCycleTimetables.call
   end
 
+  def current_year
+    current_timetable.recruitment_cycle_year
+  end
+
+  def previous_timetable
+    current_timetable.relative_previous_timetable
+  end
+
+  def previous_year
+    previous_timetable.recruitment_cycle_year
+  end
+
+  def current_timetable
+    get_timetable
+  end
+
+  def current_cycle_week
+    seed_timetables if RecruitmentCycleTimetable.all.empty?
+    RecruitmentCycleTimetable.current_cycle_week
+  end
+
+  def next_timetable
+    current_timetable.relative_next_timetable
+  end
+
+  def next_year
+    next_timetable.recruitment_cycle_year
+  end
+
+  def years_visible_to_providers
+    seed_timetables if RecruitmentCycleTimetable.all.empty?
+    RecruitmentCycleTimetable.years_visible_to_providers
+  end
+
+  def this_day_last_cycle
+    seed_timetables if RecruitmentCycleTimetable.all.empty?
+    RecruitmentCycleTimetable.this_day_last_cycle
+  end
+
   def after_find_opens(year = nil)
     timetable = get_timetable(year)
     timetable.find_opens_at + 1.day
@@ -18,8 +57,8 @@ module_function
   end
 
   def after_find_reopens(year = nil)
-    timetable = get_timetable(year + 1)
-    timetable.find_opens_at + 1.day
+    timetable = get_timetable(year)
+    timetable.relative_next_timetable.find_opens_at + 1.day
   end
 
   def mid_cycle(year = nil)
@@ -52,7 +91,7 @@ module_function
 
   def after_reject_by_default(year = nil)
     timetable = get_timetable(year)
-    timetable.reject_by_default_at(year) + 1.day
+    timetable.reject_by_default_at + 1.day
   end
 
   def reject_by_default_run_date(year = nil)

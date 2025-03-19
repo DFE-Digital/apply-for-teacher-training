@@ -40,7 +40,7 @@ RSpec.describe 'Visit Monthly statistics V2 page', mid_cycle: false do
   end
 
   def and_i_see_the_monthly_statistics
-    cycle_name = RecruitmentCycleTimetable.current_academic_year_range_name
+    cycle_name = current_timetable.academic_year_range_name
     expect(page).to have_content "Initial teacher training applications for courses starting in the #{cycle_name} academic year"
   end
 end

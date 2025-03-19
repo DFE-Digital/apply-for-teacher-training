@@ -4,7 +4,7 @@ RSpec.describe 'Service performance' do
   include DfESignInHelpers
 
   before do
-    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_deadline(2021))
+    TestSuiteTimeMachine.travel_permanently_to(current_timetable.apply_deadline_at)
   end
 
   scenario 'View service statistics' do
@@ -35,10 +35,10 @@ RSpec.describe 'Service performance' do
   end
 
   def when_there_are_candidates_that_have_never_signed_in
-    travel_temporarily_to(RecruitmentCycle.previous_year - 1, 12, 25) do
+    travel_temporarily_to(previous_year - 1, 12, 25) do
       create(:candidate)
     end
-    travel_temporarily_to(RecruitmentCycle.current_year, 1, 5) do
+    travel_temporarily_to(current_year, 1, 5) do
       create_list(:candidate, 2)
     end
   end
@@ -63,7 +63,7 @@ RSpec.describe 'Service performance' do
   end
 
   def when_i_go_a_report_for_a_specific_year
-    click_link_or_button RecruitmentCycle.cycle_name
+    click_link_or_button current_timetable.cycle_range_name
   end
 
   def then_i_only_see_candidates_that_signed_up_that_year

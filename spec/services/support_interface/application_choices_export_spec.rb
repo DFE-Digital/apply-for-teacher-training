@@ -10,8 +10,6 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, :with_audited do
   end
 
   describe '#application_choices' do
-    let(:previous_year) { RecruitmentCycleTimetable.previous_year }
-
     def expect_form(actual, form, choice:)
       expect(actual[:candidate_id]).to eq(form.candidate.id)
       expect(actual[:recruitment_cycle_year]).to eq(form.recruitment_cycle_year)

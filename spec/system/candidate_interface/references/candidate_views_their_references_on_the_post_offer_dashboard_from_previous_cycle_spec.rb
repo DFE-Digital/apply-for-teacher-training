@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'Post-offer references', :with_audited, time: CycleTimetable.apply_opens(2024) do
+RSpec.describe 'Post-offer references', :with_audited do
   include CandidateHelper
 
-  scenario 'Candidate views their references on the post offer dashboard' do
+  scenario 'Candidate views their references on the post offer dashboard', time: mid_cycle(2024) do
     given_i_am_signed_in_with_one_login
     and_i_have_an_accepted_offer_from_previous_cycle
 

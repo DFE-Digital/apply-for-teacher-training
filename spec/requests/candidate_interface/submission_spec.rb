@@ -41,7 +41,7 @@ RSpec.describe 'Submit to continuous apps' do
 
   context 'when old cycles trying to cheat and submit into the new cycle' do
     let(:application_form) do
-      create(:application_form, :completed, :with_degree, submitted_at: nil, recruitment_cycle_year: CycleTimetable.previous_year)
+      create(:application_form, :completed, :with_degree, submitted_at: nil, recruitment_cycle_year: previous_year)
     end
 
     it 'be successful' do

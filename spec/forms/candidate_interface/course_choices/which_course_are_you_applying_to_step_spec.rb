@@ -104,7 +104,7 @@ RSpec.describe CandidateInterface::CourseChoices::WhichCourseAreYouApplyingToSte
         create_list(:application_choice, 2, :rejected,
                     course_option:,
                     application_form: current_application,
-                    current_recruitment_cycle_year: RecruitmentCycleTimetable.previous_year)
+                    current_recruitment_cycle_year: previous_year)
       end
 
       it 'validates true' do

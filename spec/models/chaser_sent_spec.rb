@@ -8,7 +8,6 @@ RSpec.describe ChaserSent do
       it 'returns records created this cycle' do
         this_year = create(:chaser_sent)
 
-        previous_timetable = RecruitmentCycleTimetable.previous_timetable
         travel_temporarily_to(previous_timetable.find_opens_at) do
           create(:chaser_sent)
         end
@@ -21,7 +20,6 @@ RSpec.describe ChaserSent do
       it 'returns records created this cycle' do
         this_year = create(:chaser_sent)
 
-        previous_timetable = RecruitmentCycleTimetable.previous_timetable
         travel_temporarily_to(previous_timetable.find_opens_at) do
           create(:chaser_sent)
         end

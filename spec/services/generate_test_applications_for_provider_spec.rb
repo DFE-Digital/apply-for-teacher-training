@@ -126,7 +126,7 @@ RSpec.describe GenerateTestApplicationsForProvider, :sidekiq do
         # The generator does something weird leading to a withdrawn application
         # despite it not being in the states list of `GenerateTestApplicationsForCourses`.
         expect(choices.map(&:status).uniq).to include('pending_conditions', 'withdrawn')
-        expect(choices.pluck(:current_recruitment_cycle_year).uniq).to eq([RecruitmentCycleTimetable.previous_year])
+        expect(choices.pluck(:current_recruitment_cycle_year).uniq).to eq([previous_year])
       end
     end
 

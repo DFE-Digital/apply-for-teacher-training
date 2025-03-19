@@ -5,7 +5,10 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
 
   before do
     @candidate = create(:candidate)
-    @application_form = create(:application_form, :completed, recruitment_cycle_year: CycleTimetable.current_year - 1, candidate: @candidate)
+    @current_year = current_year
+    @previous_year = previous_year
+    @next_year = next_year
+    @application_form = create(:application_form, :completed, recruitment_cycle_year: @previous_year, candidate: @candidate)
   end
 
   scenario 'Candidate sees complete page when submitted at has value but courses choices does not have submission' do
@@ -166,8 +169,8 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
   end
 
   def then_i_am_ask_to_apply_for_courses_into_the_new_recruitment_cycle
-    expect(page).to have_content("courses starting in the #{CycleTimetable.current_year - 1} to #{CycleTimetable.current_year} academic year, which have now closed.")
-    expect(page).to have_content("apply for courses starting in the #{CycleTimetable.current_year} to #{CycleTimetable.current_year + 1} academic year instead.")
+    expect(page).to have_content("courses starting in the #{@previous_year} to #{@current_year} academic year, which have now closed.")
+    expect(page).to have_content("apply for courses starting in the #{@current_year} to #{@next_year} academic year instead.")
     then_i_am_on_the_pages_that_is_possible_to_carry_over_an_application
   end
 
@@ -182,8 +185,8 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
   end
 
   def then_my_application_is_into_the_new_cycle
-    expect(@candidate.application_forms.pluck(:recruitment_cycle_year)).to contain_exactly(CycleTimetable.current_year - 1, CycleTimetable.current_year)
-    expect(@candidate.current_application.recruitment_cycle_year).to be(CycleTimetable.current_year)
+    expect(@candidate.application_forms.pluck(:recruitment_cycle_year)).to contain_exactly(@previous_year, @current_year)
+    expect(@candidate.current_application.recruitment_cycle_year).to be(@current_year)
   end
 
   def and_i_am_in_your_details_page

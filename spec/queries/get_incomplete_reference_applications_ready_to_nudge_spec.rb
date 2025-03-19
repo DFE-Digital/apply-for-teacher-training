@@ -197,7 +197,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       :unsubmitted,
-      recruitment_cycle_year: RecruitmentCycle.previous_year,
+      recruitment_cycle_year: previous_year,
       references_count: 0,
     )
     create(:application_choice, application_form:)
@@ -262,7 +262,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       :completed_application_form,
       :unsubmitted,
       references_completed: false,
-      recruitment_cycle_year: RecruitmentCycle.previous_year,
+      recruitment_cycle_year: previous_year,
     )
     application_form1.update_columns(
       updated_at: 10.days.ago,

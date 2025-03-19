@@ -67,7 +67,7 @@ private
       candidate: @current_candidate,
       submitted_at: Time.zone.now,
       support_reference: '123A',
-      recruitment_cycle_year: RecruitmentCycle.current_year,
+      recruitment_cycle_year: current_year,
     )
 
     @application_form.application_references.each do |ref|

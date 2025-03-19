@@ -28,7 +28,6 @@ RSpec.describe 'Reasons for rejection dashboard', time: Time.zone.local(2023, 1,
   end
 
   def and_there_are_candidates_and_application_forms_in_the_system
-    allow(CycleTimetable).to receive(:apply_opens).and_return(60.days.ago)
     @application_choice1 = create(:application_choice, :awaiting_provider_decision)
     @application_choice2 = create(:application_choice, :awaiting_provider_decision)
     @application_choice3 = create(:application_choice, :awaiting_provider_decision)
@@ -251,7 +250,7 @@ private
     expect(page).to have_current_path(
       support_interface_reasons_for_rejection_application_choices_path(
         structured_rejection_reasons: { id: 'qualifications' },
-        recruitment_cycle_year: RecruitmentCycle.current_year,
+        recruitment_cycle_year: current_year,
       ),
     )
     expect(page).to have_css('h1', text: 'Qualifications')
@@ -282,7 +281,7 @@ private
     expect(page).to have_current_path(
       support_interface_reasons_for_rejection_application_choices_path(
         structured_rejection_reasons: { teaching_knowledge: 'teaching_demonstration' },
-        recruitment_cycle_year: RecruitmentCycle.current_year,
+        recruitment_cycle_year: current_year,
       ),
     )
 

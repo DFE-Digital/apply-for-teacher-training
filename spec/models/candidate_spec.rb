@@ -53,7 +53,6 @@ RSpec.describe Candidate do
 
       it 'does not touch the application choice when its in a previous recruitment cycle' do
         candidate = create(:candidate)
-        previous_year = RecruitmentCycleTimetable.previous_year
         application_choice = create(:application_choice, current_recruitment_cycle_year: previous_year)
         application_form = ApplicationForm.with_unsafe_application_choice_touches do
           create(:completed_application_form, application_choices: [application_choice], candidate:, recruitment_cycle_year: previous_year)
@@ -84,7 +83,7 @@ RSpec.describe Candidate do
       it 'does not touch the application form when its in a previous recruitment cycle' do
         candidate = create(:candidate)
         application_form = ApplicationForm.with_unsafe_application_choice_touches do
-          create(:completed_application_form, application_choices_count: 1, candidate:, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year)
+          create(:completed_application_form, application_choices_count: 1, candidate:, recruitment_cycle_year: previous_year)
         end
 
         expect { candidate.update(email_address: 'new.email@example.com') }
@@ -167,7 +166,7 @@ RSpec.describe Candidate do
 
       it 'creates an application_form with the current cycle if there are none' do
         expect { candidate.current_application }.to change { candidate.application_forms.count }.from(0).to(1)
-        expect(candidate.current_application.recruitment_cycle_year).to eq RecruitmentCycleTimetable.current_year
+        expect(candidate.current_application.recruitment_cycle_year).to eq current_year
       end
 
       it 'returns the most recent application' do
@@ -187,7 +186,7 @@ RSpec.describe Candidate do
 
       it 'creates an application_form in the next cycle if there are none' do
         expect { candidate.current_application }.to change { candidate.application_forms.count }.from(0).to(1)
-        expect(candidate.current_application.recruitment_cycle_year).to eq RecruitmentCycleTimetable.next_year
+        expect(candidate.current_application.recruitment_cycle_year).to eq next_year
       end
     end
   end
@@ -262,7 +261,7 @@ RSpec.describe Candidate do
     end
 
     context 'when the candidate has applications in apply again in previous cycle' do
-      let!(:application_form_previous_year) { create(:application_form, candidate:, phase: 'apply_2', recruitment_cycle_year: RecruitmentCycleTimetable.previous_year) }
+      let!(:application_form_previous_year) { create(:application_form, candidate:, phase: 'apply_2', recruitment_cycle_year: previous_year) }
       let!(:application_form) { create(:application_form, candidate:) }
 
       it 'returns true' do
@@ -434,7 +433,7 @@ RSpec.describe Candidate do
       _last_cycle_form = create(
         :application_form,
         :completed,
-        recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+        recruitment_cycle_year: previous_year,
         candidate:,
         first_name: 'last',
         last_name: 'cycle',

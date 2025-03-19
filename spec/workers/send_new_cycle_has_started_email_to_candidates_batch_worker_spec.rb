@@ -12,13 +12,13 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesBatchWorker, :sidekiq do
         :application_form,
         candidate: candidate_1,
         application_choices: [unsubmitted_application_choice],
-        recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+        recruitment_cycle_year: previous_year,
       )
       create(
         :application_form,
         candidate: candidate_2,
         application_choices: [rejected_application_choice],
-        recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+        recruitment_cycle_year: previous_year,
       )
 
       [candidate_1, candidate_2]
@@ -42,8 +42,7 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesBatchWorker, :sidekiq do
       expect(candidate_2.current_application.chasers_sent.pluck(:chaser_type)).to eq(['new_cycle_has_started'])
     end
 
-    it 'does nothing if the email was already sent' do
-      allow(CycleTimetable).to receive(:apply_opens).and_return(1.day.ago)
+    it 'does nothing if the email was already sent', time: mid_cycle do
       candidate_1, candidate_2 = setup_candidates
 
       candidate_1.current_application.chasers_sent.create(

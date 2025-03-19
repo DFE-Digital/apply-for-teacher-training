@@ -13,7 +13,7 @@ RSpec.describe HesaConverter do
         ),
       )
 
-      hesa_converter = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
+      hesa_converter = described_class.new(application_form:, recruitment_cycle_year: current_year)
       expect(hesa_converter.hesa_sex).to eq(
         data[:expected_hesa_sex],
       )
@@ -55,7 +55,7 @@ RSpec.describe HesaConverter do
           disabilities: data[:disabilities],
         ),
       )
-      hesa_converter = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
+      hesa_converter = described_class.new(application_form:, recruitment_cycle_year: current_year)
       expect(hesa_converter.hesa_disabilities).to eq(data[:expected_hesa_disabilities])
       expect(hesa_converter.disabilities).to eq(data[:expected_disabilities])
     end
@@ -158,7 +158,7 @@ RSpec.describe HesaConverter do
           ethnic_background: data[:ethnic_background],
         ),
       )
-      hesa_converter = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
+      hesa_converter = described_class.new(application_form:, recruitment_cycle_year: current_year)
       expect(hesa_converter.hesa_ethnicity).to eq(data[:expected_hesa_ethnicity])
     end
   end

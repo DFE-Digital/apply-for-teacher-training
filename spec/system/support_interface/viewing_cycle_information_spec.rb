@@ -35,21 +35,21 @@ private
   def then_i_see_information_about_editing_cycle_timetables
     expect(page).to have_title 'Recruitment cycles'
     expect(page).to have_content 'You can edit the following timetables'
-    expect(page).to have_link RecruitmentCycleTimetable.current_year
-    expect(page).to have_link RecruitmentCycleTimetable.next_year
+    expect(page).to have_link current_year
+    expect(page).to have_link next_year
     expect(page).to have_button 'Sync cycle timetables with production'
   end
 
   def then_i_do_not_see_information_about_editing_cycle_timetables
     expect(page).to have_title 'Recruitment cycles'
     expect(page).to have_no_content 'You can edit the following timetables'
-    expect(page).to have_no_link RecruitmentCycleTimetable.current_year
-    expect(page).to have_no_link RecruitmentCycleTimetable.next_year
+    expect(page).to have_no_link current_year
+    expect(page).to have_no_link next_year
     expect(page).to have_no_button 'Sync cycle timetables with production'
   end
 
   def and_i_see_other_content
-    year = RecruitmentCycleTimetable.current_year
+    year = current_year
     expect(page).to have_content "Apply has opened (#{year})"
     expect(page).to have_content 'Deadlines'
     expect(page).to have_content 'Cycle years'

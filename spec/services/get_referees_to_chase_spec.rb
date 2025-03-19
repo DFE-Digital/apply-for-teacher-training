@@ -39,8 +39,6 @@ RSpec.describe GetRefereesToChase do
     end
 
     context 'when between apply 1 deadline and find has opened', time: (after_apply_deadline(2023) + 1.day) do
-      let(:current_timetable) { RecruitmentCycleTimetable.current_timetable }
-
       it 'returns requested references for candidates on apply 2 only for the current cycle' do
         application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
         create(:reference, :feedback_requested, application_form: application_form, requested_at: current_timetable.apply_deadline_at - 7.days)
@@ -63,8 +61,6 @@ RSpec.describe GetRefereesToChase do
     end
 
     context 'when between apply has opened and the apply 1 deadline', time: (after_find_opens(2024) + 7.days) do
-      let(:current_timetable) { RecruitmentCycleTimetable.current_timetable }
-
       it 'returns requested references in last days of current recruitment cycle' do
         old_application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
         create(:reference, :feedback_requested, application_form: old_application_form, requested_at: current_timetable.find_opens_at - 7.days)

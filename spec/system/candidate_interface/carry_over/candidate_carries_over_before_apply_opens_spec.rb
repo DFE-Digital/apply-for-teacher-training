@@ -23,7 +23,7 @@ private
   end
 
   def and_find_has_opened_but_apply_has_not
-    advance_time_to(after_find_opens(RecruitmentCycle.next_year))
+    advance_time_to(after_find_reopens)
   end
 
   def and_a_course_exists

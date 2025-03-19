@@ -16,7 +16,7 @@ RSpec.describe 'Vendor makes an offer for a course in the past recruitment cycle
   def given_a_candidate_has_submitted_their_application
     @application_choice = create(:application_choice, :with_completed_application_form, :awaiting_provider_decision)
     @provider = @application_choice.provider
-    @recruitment_cycle_year = RecruitmentCycle.previous_year
+    @recruitment_cycle_year = previous_year
     @course = create(:course, recruitment_cycle_year: @recruitment_cycle_year, provider: @provider)
     @course_option = create(:course_option, course: @course, site: create(:site, provider: @provider))
   end
@@ -37,11 +37,11 @@ RSpec.describe 'Vendor makes an offer for a course in the past recruitment cycle
     validation_errors = parsed_response_body['errors']
 
     expect(@api_response.status).to eq 422
-    expect(validation_errors.first['message']).to eq("Site #{@course_option.site.code} does not exist for provider #{@provider.code} in #{RecruitmentCycle.current_year}")
+    expect(validation_errors.first['message']).to eq("Site #{@course_option.site.code} does not exist for provider #{@provider.code} in #{current_year}")
   end
 
   def when_a_vendor_makes_an_offer_for_a_course_in_the_current_cycle
-    @recruitment_cycle_year = RecruitmentCycle.current_year
+    @recruitment_cycle_year = current_year
     @course = create(:course, recruitment_cycle_year: @recruitment_cycle_year, provider: @provider)
     @course_option = create(:course_option, course: @course, site: create(:site, provider: @provider))
 

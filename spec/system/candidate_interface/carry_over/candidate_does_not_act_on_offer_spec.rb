@@ -136,7 +136,7 @@ private
   alias_method :and_the_decline_by_default_date_has_passed, :when_the_decline_by_default_date_has_passed
 
   def when_then_new_cycle_start
-    advance_time_to(after_find_opens(RecruitmentCycle.next_year))
+    advance_time_to(after_find_opens(next_year))
   end
 
   def then_i_see_my_declined_application_on_the_carry_over_page
@@ -154,7 +154,6 @@ private
     expect(page).to have_current_path candidate_interface_application_choices_path
     relative_next_timetable = @application_form.recruitment_cycle_timetable.relative_next_timetable
     apply_reopens_date = relative_next_timetable.apply_opens_at.to_fs(:day_and_month)
-    # apply_reopens_date = I18n.l(CycleTimetable.apply_reopens.to_date, format: :no_year).strip
     expect(page).to have_content(
       "If your application(s) are not successful, or you do not accept any offers, you will be able to apply for courses starting in the #{relative_next_timetable.academic_year_range_name} academic year from #{apply_reopens_date}.",
     )

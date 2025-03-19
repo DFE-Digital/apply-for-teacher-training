@@ -4,7 +4,6 @@ RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
 
   describe '.new_offer_made well in advance of the decline by default date' do
-    let(:current_timetable) { RecruitmentCycleTimetable.current_timetable }
     let(:application_choices) do
       [build_stubbed(
         :application_choice,
@@ -34,7 +33,6 @@ RSpec.describe CandidateMailer do
   end
 
   describe '.new_offer_made within 4 weeks of decline by default date' do
-    let(:current_timetable) { RecruitmentCycleTimetable.current_timetable }
     let(:email) { described_class.new_offer_made(application_form.application_choices.first) }
     let(:application_choices) do
       [build_stubbed(

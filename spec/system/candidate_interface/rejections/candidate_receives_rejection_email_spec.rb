@@ -63,7 +63,8 @@ RSpec.describe 'Receives rejection email' do
   end
 
   def and_it_includes_text_for_between_cycle
-    expect(current_email.text).to include("You can apply again from#{I18n.l(CycleTimetable.apply_reopens.to_date, format: :long)}")
+    apply_reopens = current_timetable.apply_reopens_at
+    expect(current_email.text).to include("You can apply again from#{I18n.l(apply_reopens.to_date, format: :long)}")
     expect(current_email.text).to include('Lots of people are successful when they apply again.')
   end
 

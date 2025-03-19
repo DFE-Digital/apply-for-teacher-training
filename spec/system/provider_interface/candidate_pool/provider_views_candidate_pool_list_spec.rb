@@ -65,7 +65,7 @@ RSpec.describe 'Providers views candidate pool list' do
       :completed,
       first_name: 'test',
       last_name: 'test',
-      recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+      recruitment_cycle_year: previous_year,
       submitted_at: 1.year.ago,
       candidate: declined_candidate,
     )

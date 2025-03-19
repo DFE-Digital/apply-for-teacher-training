@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.describe DataMigrations::BackfillEnglishProficiencyRecordsForCarriedOverApplications do
   let(:data_migration) { described_class.new.change }
-  let(:current_year) { RecruitmentCycleTimetable.current_year }
-  let(:previous_year) { RecruitmentCycleTimetable.previous_year }
 
   before do
     # This test ony relevant for 2024. We were backfilling data that was missed when carrying over previous applications

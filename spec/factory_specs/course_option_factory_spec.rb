@@ -50,7 +50,7 @@ RSpec.describe 'CourseOption factory' do
 
     trait :previous_year do
       it 'associates a course from the previous year' do
-        expect(record.course.recruitment_cycle_year).to eq(RecruitmentCycle.previous_year)
+        expect(record.course.recruitment_cycle_year).to eq(previous_year)
       end
     end
 
@@ -61,32 +61,32 @@ RSpec.describe 'CourseOption factory' do
         expect { record }.to change { CourseOption.count }.by(2)
         expect(CourseOption.count).to eq(2)
 
-        previous_year = CourseOption.first
-        expect(previous_year.course.recruitment_cycle_year).to eq(RecruitmentCycle.previous_year)
-        expect(record).to eq(previous_year)
+        previous_year_option = CourseOption.first
+        expect(previous_year_option.course.recruitment_cycle_year).to eq(previous_year)
+        expect(record).to eq(previous_year_option)
 
-        current_year = CourseOption.last
-        expect(current_year.course.recruitment_cycle_year).to eq(RecruitmentCycle.current_year)
-        expect(current_year.site.code).to eq(previous_year.site.code)
+        current_year_option = CourseOption.last
+        expect(current_year_option.course.recruitment_cycle_year).to eq(current_year)
+        expect(current_year_option.site.code).to eq(previous_year_option.site.code)
       end
     end
 
     trait :available_in_current_and_next_year do
       it 'associates a course from the current year' do
-        expect(record.course.recruitment_cycle_year).to eq(RecruitmentCycle.current_year)
+        expect(record.course.recruitment_cycle_year).to eq(current_year)
       end
 
       it 'creates a new next-year course option for the same course as this year' do
         expect { record }.to change { CourseOption.count }.by(2)
         expect(CourseOption.count).to eq(2)
 
-        current_year = CourseOption.first
-        expect(current_year.course.recruitment_cycle_year).to eq(RecruitmentCycle.current_year)
-        expect(record).to eq(current_year)
+        current_year_option = CourseOption.first
+        expect(current_year_option.course.recruitment_cycle_year).to eq(current_year)
+        expect(record).to eq(current_year_option)
 
-        next_year = CourseOption.last
-        expect(next_year.course.recruitment_cycle_year).to eq(RecruitmentCycle.next_year)
-        expect(next_year.site.code).to eq(current_year.site.code)
+        next_year_option = CourseOption.last
+        expect(next_year_option.course.recruitment_cycle_year).to eq(next_year)
+        expect(next_year_option.site.code).to eq(current_year_option.site.code)
       end
     end
   end

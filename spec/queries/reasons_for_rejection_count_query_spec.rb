@@ -75,7 +75,7 @@ RSpec.describe ReasonsForRejectionCountQuery do
 
     it 'defaults to counts for current recruitment cycle' do
       reject_application(
-        create(:application_choice, :awaiting_provider_decision, current_recruitment_cycle_year: RecruitmentCycle.previous_year),
+        create(:application_choice, :awaiting_provider_decision, current_recruitment_cycle_year: previous_year),
         [qualifications, visa_sponsorship],
       )
       counts = described_class.new.grouped_reasons
@@ -85,10 +85,10 @@ RSpec.describe ReasonsForRejectionCountQuery do
 
     it 'can be initialized for a specific recruitment cycle year' do
       reject_application(
-        create(:application_choice, :awaiting_provider_decision, current_recruitment_cycle_year: RecruitmentCycle.previous_year),
+        create(:application_choice, :awaiting_provider_decision, current_recruitment_cycle_year: previous_year),
         [visa_sponsorship, qualifications],
       )
-      counts = described_class.new(RecruitmentCycle.previous_year).grouped_reasons
+      counts = described_class.new(previous_year).grouped_reasons
       expect(counts[:visa_sponsorship]).to eq(described_class::Result.new(1, 1, {}))
       expect(counts[:qualifications]).to eq(described_class::Result.new(1, 1, {}))
     end
@@ -105,7 +105,7 @@ RSpec.describe ReasonsForRejectionCountQuery do
 
     it 'only returns counts for current recruitment cycle' do
       reject_application(
-        create(:application_choice, :awaiting_provider_decision, current_recruitment_cycle_year: RecruitmentCycle.previous_year),
+        create(:application_choice, :awaiting_provider_decision, current_recruitment_cycle_year: previous_year),
         [visa_sponsorship, qualifications],
       )
       counts = described_class.new.subgrouped_reasons
