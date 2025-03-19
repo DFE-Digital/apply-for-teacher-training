@@ -9,8 +9,8 @@ RSpec.describe DataMigrations::AddAllRecruitmentCycleTimetablesToDatabase do
 
   it 'handles holidays as expected' do
     described_class.new.change
-    year_without_holidays = RecruitmentCycleTimetable.find_by(recruitment_cycle_year: 2020)
-    year_with_holidays = RecruitmentCycleTimetable.find_by(recruitment_cycle_year: 2021)
+    year_without_holidays = get_timetable(2020)
+    year_with_holidays = get_timetable(2021)
 
     expect(year_without_holidays.easter_holiday_range).to be_nil
     expect(year_without_holidays.christmas_holiday_range).to be_nil

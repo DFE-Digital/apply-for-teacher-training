@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationDates do
-  let(:submitted_at) { Time.zone.local(RecruitmentCycleTimetable.current_year, 5, 1, 12, 0, 0).end_of_day }
+  let(:submitted_at) { Time.zone.local(current_year, 5, 1, 12, 0, 0).end_of_day }
 
   let(:application_form) do
     create(:application_form, submitted_at:, application_choices: [application_choice])
@@ -59,7 +59,7 @@ RSpec.describe ApplicationDates do
     end
 
     it 'returns date that providers will respond by when reject_by_default_at is set' do
-      reject_by_default_at = Time.zone.local(RecruitmentCycleTimetable.current_year, 6, 28, 23, 59, 59)
+      reject_by_default_at = Time.zone.local(current_year, 6, 28, 23, 59, 59)
       application_form.application_choices.each do |application_choice|
         application_choice.update(reject_by_default_at:)
       end

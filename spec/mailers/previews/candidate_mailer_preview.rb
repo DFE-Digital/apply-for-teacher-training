@@ -365,7 +365,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       :course_option,
       course: FactoryBot.build_stubbed(
         :course,
-        recruitment_cycle_year: RecruitmentCycle.previous_year,
+        recruitment_cycle_year: CycleTimetableHelper.previous_year,
       ),
     )
 

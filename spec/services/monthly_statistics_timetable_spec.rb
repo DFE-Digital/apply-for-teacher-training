@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe MonthlyStatisticsTimetable do
   describe '#generate_monthly_statistics?' do
-    let(:current_timetable) { RecruitmentCycleTimetable.current_timetable }
     let(:current_year) { current_timetable.recruitment_cycle_year }
     let(:find_opens_month) { current_timetable.find_opens_at.to_date.month }
     let(:report_months) { (1..12).to_a - [find_opens_month] }

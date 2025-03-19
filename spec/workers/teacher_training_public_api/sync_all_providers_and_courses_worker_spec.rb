@@ -8,9 +8,6 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker, :mid_
       sync_subjects_service
     end
 
-    let(:current_year) { RecruitmentCycleTimetable.current_year }
-    let(:next_year) { RecruitmentCycleTimetable.next_year }
-
     before do
       allow(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to receive(:call)
     end

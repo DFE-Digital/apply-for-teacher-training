@@ -7,9 +7,6 @@ RSpec.describe CandidateInterface::DegreeWizard do
 
   let(:store) { instance_double(WizardStateStores::RedisStore) }
   let(:application_form) { create(:application_form) }
-  let(:current_year) { RecruitmentCycleTimetable.current_year }
-  let(:previous_year) { RecruitmentCycleTimetable.previous_year }
-  let(:next_year) { RecruitmentCycleTimetable.next_year }
 
   before do
     allow(store).to receive(:read)

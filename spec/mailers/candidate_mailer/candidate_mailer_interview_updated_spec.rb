@@ -7,7 +7,7 @@ RSpec.describe CandidateMailer do
     let(:application_choice_with_interview) { build_stubbed(:application_choice, course_option:, application_form:) }
     let(:interview) do
       build_stubbed(:interview,
-                    date_and_time: Time.zone.local(RecruitmentCycleTimetable.current_year, 1, 15, 9, 30),
+                    date_and_time: Time.zone.local(current_year, 1, 15, 9, 30),
                     location: 'Hogwarts Castle',
                     additional_details: 'Bring your magic wand for the spells test',
                     provider: course_option.provider,
@@ -25,7 +25,7 @@ RSpec.describe CandidateMailer do
         'details' => 'The details of your interview for Geography (G100) have been updated.',
         'interview with new course details' => 'The interview is with Arithmetic College.',
         'new course' => 'It is now for Mathematics (M101).',
-        'interview date' => "15 January #{RecruitmentCycleTimetable.current_year}",
+        'interview date' => "15 January #{current_year}",
         'interview time' => '9:30am',
         'interview location' => 'Hogwarts Castle',
         'additional interview details' => 'Bring your magic wand for the spells test',

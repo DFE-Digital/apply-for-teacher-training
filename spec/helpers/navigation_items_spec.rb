@@ -97,7 +97,7 @@ RSpec.describe NavigationItems do
         let(:current_candidate) do
           create(
             :candidate,
-            application_forms: [create(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year)],
+            application_forms: [create(:application_form, recruitment_cycle_year: previous_year)],
           )
         end
 
@@ -116,7 +116,7 @@ RSpec.describe NavigationItems do
         let(:current_candidate) do
           create(
             :candidate,
-            application_forms: [create(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year)],
+            application_forms: [create(:application_form, recruitment_cycle_year: previous_year)],
           )
         end
 

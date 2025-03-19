@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe SendDeferredOfferReminderEmailToCandidatesWorker, :sidekiq do
-  let(:course_this_year) { create(:course, recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
-  let(:course_last_year) { create(:course, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year) }
+  let(:course_this_year) { create(:course, recruitment_cycle_year: current_year) }
+  let(:course_last_year) { create(:course, recruitment_cycle_year: previous_year) }
 
   describe '#perform' do
     it 'sends reminder emails to all candidates with deferred offers from the previous cycle' do

@@ -8,9 +8,6 @@ RSpec.describe CandidateInterface::ApplyFromFindPage do
   end
 
   describe '#candidate_has_application_in_wrong_cycle?' do
-    let(:current_year) { RecruitmentCycleTimetable.current_year }
-    let(:previous_year) { RecruitmentCycleTimetable.previous_year }
-
     context 'when the application is not in the wrong cycle' do
       it 'is false' do
         candidate = create(:candidate)

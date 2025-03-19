@@ -85,8 +85,6 @@ RSpec.describe TimeLimitCalculator do
   end
 
   describe 'configured reject_by_default limits', time: mid_cycle(2023) do
-    let(:current_year) { RecruitmentCycleTimetable.current_year }
-
     it 'applies the 20 day rule' do
       calculator = described_class.new(
         rule: :reject_by_default,

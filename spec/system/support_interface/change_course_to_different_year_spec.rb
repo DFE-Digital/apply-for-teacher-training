@@ -51,7 +51,7 @@ RSpec.describe 'Change course choice to a different year' do
   end
 
   def and_i_complete_the_form_for_a_course
-    course = create(:course, :open, provider: @application_choice.provider, recruitment_cycle_year: RecruitmentCycle.previous_year)
+    course = create(:course, :open, provider: @application_choice.provider, recruitment_cycle_year: previous_year)
     @course_option = create(:course_option, course: course)
     course_code = @course_option.course.code
 
@@ -59,7 +59,7 @@ RSpec.describe 'Change course choice to a different year' do
     fill_in('Course code', with: course_code)
     fill_in('Site code', with: @course_option.site.code)
     choose('Full time')
-    choose(RecruitmentCycle.previous_year)
+    choose(previous_year)
   end
 
   def and_i_provide_a_valid_zendesk_ticket

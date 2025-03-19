@@ -58,7 +58,7 @@ RSpec.describe GetApplicationProgressDataByCourse do
     end
 
     it 'only shows results for the current recuitment cycle year' do
-      previous_year_course = create(:course, name: 'Alpha Plus Physics', code: '2AIC', provider: report_provider, accredited_provider: nil, recruitment_cycle_year: RecruitmentCycle.previous_year)
+      previous_year_course = create(:course, name: 'Alpha Plus Physics', code: '2AIC', provider: report_provider, accredited_provider: nil, recruitment_cycle_year: previous_year)
       previous_year_course_option = create(:course_option, course: previous_year_course)
       create_list(:application_choice, 5, status: :pending_conditions, course_option: previous_year_course_option)
       expect(progress_data).not_to include(previous_year_course)
@@ -66,7 +66,7 @@ RSpec.describe GetApplicationProgressDataByCourse do
     end
 
     it 'only shows results for the current recuitment cycle year for when we are the accredited provider' do
-      previous_year_course = create(:course, name: 'Alpha Plus Physics', code: '2AIC', provider: accredited_provider, accredited_provider: report_provider, recruitment_cycle_year: RecruitmentCycle.previous_year)
+      previous_year_course = create(:course, name: 'Alpha Plus Physics', code: '2AIC', provider: accredited_provider, accredited_provider: report_provider, recruitment_cycle_year: previous_year)
       previous_year_course_option = create(:course_option, course: previous_year_course)
       create_list(:application_choice, 5, status: :pending_conditions, course_option: previous_year_course_option)
       expect(progress_data).not_to include(previous_year_course)

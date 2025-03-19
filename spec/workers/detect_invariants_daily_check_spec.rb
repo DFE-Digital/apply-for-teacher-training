@@ -13,9 +13,6 @@ RSpec.describe DetectInvariantsDailyCheck do
   end
 
   describe '#perform' do
-    let(:current_year) { RecruitmentCycleTimetable.current_year }
-    let(:previous_year) { RecruitmentCycleTimetable.previous_year }
-
     it 'detects application choices for courses in the last cycle' do
       # Both of these are captured for this scenario
       allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ApplicationHasCourseChoiceInPreviousCycle))
@@ -59,7 +56,7 @@ RSpec.describe DetectInvariantsDailyCheck do
       application_form_with_invalid_course = create(:application_form)
       application_form_with_valid_course = create(:application_form)
 
-      course_from_previous_cycle = create(:course, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year)
+      course_from_previous_cycle = create(:course, recruitment_cycle_year: previous_year)
       course_from_current_cycle = create(:course, recruitment_cycle_year: current_year)
 
       old_course_option = create(:course_option, course: course_from_previous_cycle)

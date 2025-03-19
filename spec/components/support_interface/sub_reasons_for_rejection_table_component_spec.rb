@@ -57,7 +57,7 @@ RSpec.describe SupportInterface::SubReasonsForRejectionTableComponent do
     end
 
     it 'shows all time and current month percentages and totals' do
-      travel_temporarily_to(RecruitmentCycleTimetable.current_year, 9, 1) do
+      travel_temporarily_to(current_year, 9, 1) do
         table_headings = rendered_component.css('thead th')
         expect(table_headings.size).to eq(5)
         expect(table_headings[0].text.strip).to eq('Reason')
@@ -87,7 +87,7 @@ RSpec.describe SupportInterface::SubReasonsForRejectionTableComponent do
           total_this_month: 20,
           total_for_reason_all_time: 25,
           total_for_reason_this_month: 15,
-          recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+          recruitment_cycle_year: previous_year,
         ),
       )
     end

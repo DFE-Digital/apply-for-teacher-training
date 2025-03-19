@@ -19,7 +19,7 @@ RSpec.describe 'Provider with two providers reports index' do
   def and_a_provider_has_a_recruitment_performance_report
     @report = create(
       :provider_recruitment_performance_report,
-      recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+      recruitment_cycle_year: current_year,
       provider: @provider,
     )
   end
