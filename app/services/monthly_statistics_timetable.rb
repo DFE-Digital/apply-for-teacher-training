@@ -52,6 +52,6 @@ module MonthlyStatisticsTimetable
   end
 
   def self.month_without_reports?(date)
-    date.month == CycleTimetable.find_opens.to_date.month
+    date.month == RecruitmentCycleTimetable.current_timetable.find_opens_at.to_date.month
   end
 end

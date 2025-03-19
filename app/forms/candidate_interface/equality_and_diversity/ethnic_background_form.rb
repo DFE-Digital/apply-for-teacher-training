@@ -59,8 +59,12 @@ module CandidateInterface
 
     def hesa_ethnicity_code
       Hesa::Ethnicity
-        .find(ethnic_background, RecruitmentCycle.current_year)
+        .find(ethnic_background, current_year)
         &.hesa_code
+    end
+
+    def current_year
+      @current_year ||= RecruitmentCycleTimetable.current_year
     end
   end
 end

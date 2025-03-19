@@ -1,0 +1,15 @@
+en:
+  provider_interface:
+    content:
+      dates_and_deadlines:
+        heading: Dates and deadlines
+        caption: "%{cycle_range} (for the %{academic_year_range} academic year )"
+        date_and_time: Date and time
+        what_happens: What happens
+        find_opens: Candidates can Find courses and begin preparing their applications
+        apply_opens: Candidates can beign applying for courses
+        apply_deadline: Candidates must submit their applications
+        reject_by_default: Any applications awaiting provider decision (including interviewing) will be rejected.
+        decline_by_default: Any offers awaiting candidate decision will be declined.
+
+

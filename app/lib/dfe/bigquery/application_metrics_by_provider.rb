@@ -42,7 +42,7 @@ module DfE
                   :provider_filter,
                   :provider_filter_category
 
-      def initialize(cycle_week:, provider_id: nil, recruitment_cycle_year: RecruitmentCycle.current_year)
+      def initialize(cycle_week:, provider_id: nil, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
         @provider_id = provider_id&.to_s
         @cycle_week = cycle_week
         @recruitment_cycle_year = recruitment_cycle_year

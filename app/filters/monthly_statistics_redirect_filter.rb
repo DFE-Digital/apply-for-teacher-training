@@ -6,7 +6,7 @@ class MonthlyStatisticsRedirectFilter
   def self.redirect_required?(controller)
     year = controller.params[:year]
 
-    (feature_active? && year.present? && year.to_i == RecruitmentCycle.current_year) ||
+    (feature_active? && year.present? && year.to_i == RecruitmentCycleTimetable.current_year) ||
       (feature_active? && year.blank?)
   end
 

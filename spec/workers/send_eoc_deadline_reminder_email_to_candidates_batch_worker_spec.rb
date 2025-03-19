@@ -9,7 +9,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesBatchWorker, :sidekiq do
         :application_form,
         candidate:,
         application_choices: [create(:application_choice, :application_not_sent)],
-        recruitment_cycle_year: RecruitmentCycle.current_year,
+        recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
       )
     end
 

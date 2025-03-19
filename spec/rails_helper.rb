@@ -180,7 +180,7 @@ RSpec.configure do |config|
   end
 
   config.before(type: 'system') do
-    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens + 1.day)
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
   end
 
   config.around do |example|

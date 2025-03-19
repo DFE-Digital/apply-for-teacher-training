@@ -53,8 +53,12 @@ module CandidateInterface
 
     def hesa_disability_codes
       disabilities.map do |disability|
-        Hesa::Disability.find(disability, RecruitmentCycle.current_year)&.hesa_code
+        Hesa::Disability.find(disability, current_year)&.hesa_code
       end.compact
+    end
+
+    def current_year
+      @current_year ||= RecruitmentCycleTimetable.current_year
     end
   end
 end

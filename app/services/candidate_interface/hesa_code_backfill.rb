@@ -62,7 +62,11 @@ module CandidateInterface
     def hesa_sex_code(application_form)
       sex = application_form.equality_and_diversity['sex']
 
-      Hesa::Sex.find(sex, RecruitmentCycle.current_year)&.hesa_code
+      Hesa::Sex.find(sex, current_year)&.hesa_code
+    end
+
+    def current_year
+      @current_year ||= RecruitmentCycleTimetable.current_year
     end
   end
 end

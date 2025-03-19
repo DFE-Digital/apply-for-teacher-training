@@ -18,6 +18,12 @@ class RecruitmentCycleTimetable < ApplicationRecord
     where('find_opens_at < ?', datetime).last
   end
 
+  def self.find_cycle_week_by_datetime(datetime)
+    timetable = find_timetable_by_datetime(datetime)
+    weeks = (datetime - timetable.find_opens_at.beginning_of_week).seconds.in_weeks.to_i
+    (weeks % 53).succ
+  end
+
   def self.current_and_past_years
     current_and_past.pluck(:recruitment_cycle_year).sort
   end
@@ -30,12 +36,28 @@ class RecruitmentCycleTimetable < ApplicationRecord
     where('find_opens_at <= ?', Time.zone.now).order(:recruitment_cycle_year).last
   end
 
+  def self.current_cycle_range_name
+    current_timetable.cycle_range_name
+  end
+
+  def self.current_academic_year_range_name
+    current_timetable.academic_year_range_name
+  end
+
+  def self.currently_between_cycles?
+    current_timetable.between_cycles?
+  end
+
   def self.next_timetable
     where('find_opens_at > ?', Time.zone.now).order(:recruitment_cycle_year).first
   end
 
   def self.previous_timetable
     where('find_opens_at <= ?', Time.zone.now).order(:recruitment_cycle_year).second_to_last
+  end
+
+  def self.previous_cycle_range_name
+    previous_timetable.cycle_range_name
   end
 
   def self.current_year
@@ -86,10 +108,6 @@ class RecruitmentCycleTimetable < ApplicationRecord
     else
       cycle_range_name
     end
-  end
-
-  def verbose_cycle_range_name
-    "#{find_opens_at.to_date.strftime('%B')} #{recruitment_cycle_year - 1} to #{apply_deadline_at.to_date.strftime('%B')} #{recruitment_cycle_year}"
   end
 
   def academic_year_range_name

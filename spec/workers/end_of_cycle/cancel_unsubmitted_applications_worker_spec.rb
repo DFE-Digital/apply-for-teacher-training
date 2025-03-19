@@ -75,7 +75,7 @@ RSpec.describe EndOfCycle::CancelUnsubmittedApplicationsWorker do
     end
 
     context 'for previous cycle, current cycle' do
-      [RecruitmentCycle.previous_year, RecruitmentCycle.current_year].each do |year|
+      [RecruitmentCycleTimetable.previous_year, RecruitmentCycleTimetable.current_year].each do |year|
         context 'on cancel application deadline', time: cancel_application_deadline(year) do
           it 'cancels applications' do
             create_test_applications

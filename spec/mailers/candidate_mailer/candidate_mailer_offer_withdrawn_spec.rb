@@ -46,7 +46,7 @@ RSpec.describe CandidateMailer do
     end
 
     context 'mid cycle', time: mid_cycle do
-      let(:recruitment_cycle_year) { CycleTimetable.current_year }
+      let(:recruitment_cycle_year) { RecruitmentCycleTimetable.current_year }
 
       it_behaves_like(
         'a mail with subject and content',

@@ -28,7 +28,7 @@ RSpec.describe EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWork
 
         # These two application forms should not be included
         create(:application_form, :submitted)
-        create(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year)
+        create(:application_form, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year)
 
         # These two won't be sent because these candidates should not receive emails
         blocked_submission_candidate = create(:candidate, submission_blocked: true)

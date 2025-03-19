@@ -12,7 +12,7 @@ private
     courses_to_apply_to = Course.where(id: course_ids, recruitment_cycle_year: TestProvider.recruitment_cycle_year(previous_cycle))
 
     recruitment_cycle_year = if next_cycle
-                               RecruitmentCycle.next_year
+                               next_year
                              else
                                TestProvider.recruitment_cycle_year(previous_cycle)
                              end
@@ -46,5 +46,9 @@ private
   def states_for_previous_cycle(courses_per_application)
     states = ([:awaiting_provider_decision] * (courses_per_application - 1)) << :pending_conditions
     states.shuffle
+  end
+
+  def next_year
+    @next_year ||= RecruitmentCycleTimetable.next_year
   end
 end
