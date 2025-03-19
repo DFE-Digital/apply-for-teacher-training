@@ -142,7 +142,7 @@ RSpec.describe Pool::Candidates do
         withdrawn_candidate_form = create(:application_form, :completed, candidate: withdrawn_candidate)
         create(:application_choice, :withdrawn, application_form: withdrawn_candidate_form)
 
-        filters = { origin: [51.4524877, -0.1204749], within: 10 }
+        filters = { origin: [51.4524877, -0.1204749] }
         application_forms = described_class.application_forms_for_provider(providers: [provider], filters:)
 
         expect(application_forms.map(&:id)).to contain_exactly(
@@ -153,11 +153,7 @@ RSpec.describe Pool::Candidates do
           visa_sponsorship_candidate_form.id,
         )
 
-        filters = {
-          origin: [51.4524877, -0.1204749],
-          within: 10,
-          subject: [subject.id.to_s],
-        }
+        filters = { origin: [51.4524877, -0.1204749], subject: [subject.id.to_s] }
 
         application_forms = described_class.application_forms_for_provider(providers: [provider], filters:)
 
@@ -170,7 +166,6 @@ RSpec.describe Pool::Candidates do
 
         filters = {
           origin: [51.4524877, -0.1204749],
-          within: 10,
           subject: [subject.id.to_s],
           study_mode: ['part_time'],
         }
@@ -185,7 +180,6 @@ RSpec.describe Pool::Candidates do
 
         filters = {
           origin: [51.4524877, -0.1204749],
-          within: 10,
           subject: [subject.id.to_s],
           study_mode: ['part_time'],
           course_type: ['TDA'],
@@ -200,7 +194,6 @@ RSpec.describe Pool::Candidates do
 
         filters = {
           origin: [51.4524877, -0.1204749],
-          within: 10,
           subject: [subject.id.to_s],
           study_mode: ['part_time'],
           course_type: ['TDA'],

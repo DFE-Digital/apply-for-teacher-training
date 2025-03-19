@@ -9,11 +9,8 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
       expect(filter.filters).to eq([
         {
           type: :location_search,
-          heading: 'Search radius',
+          heading: 'Candidates near town, city or postcode:',
           name: 'location_search',
-          hint: "Candidate's last course location",
-          radius_values: [1, 5, 10, 15, 20, 25, 50, 100, 200],
-          within: nil,
           original_location: nil,
         },
         {
@@ -82,7 +79,6 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
   describe 'set_filters' do
     it 'saves the filters on the provider user' do
       filter_params = {
-        'within' => 10,
         'original_location' => 'Manchester',
         'visa_sponsorship' => ['required'],
       }
@@ -96,10 +92,10 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
     context 'when clearing the filters' do
       it 'removes the filters from DB' do
         filter_params = { remove: 'true' }
-        current_provider_user = create(:provider_user, find_a_candidate_filters: { 'within' => 10 })
+        current_provider_user = create(:provider_user, find_a_candidate_filters: { 'original_location' => 'Manchester' })
 
         expect { described_class.new(filter_params:, current_provider_user:) }.to(
-          change { current_provider_user.find_a_candidate_filters }.from({ 'within' => 10 }).to({}),
+          change { current_provider_user.find_a_candidate_filters }.from({ 'original_location' => 'Manchester' }).to({}),
         )
       end
     end
@@ -107,7 +103,6 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
     context 'when filters already exist in DB' do
       it 'stores updated filters' do
         filter_params = {
-          'within' => 10,
           'original_location' => 'Manchester',
         }
         current_provider_user = create(
@@ -127,7 +122,6 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
   describe '#applied_filters' do
     it 'returns the applied filters' do
       filter_params = {
-        'within' => 10,
         'original_location' => 'Manchester',
         'visa_sponsorship' => ['required'],
       }
@@ -136,7 +130,6 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
 
       expect(filter.applied_filters).to eq(
         {
-          within: 10,
           original_location: 'Manchester',
           visa_sponsorship: ['required'],
           origin: [51.4524877, -0.1204749],
@@ -147,10 +140,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
 
   describe '#applied_location_search?' do
     it 'returns true if location search is applied' do
-      filter_params = {
-        'within' => 10,
-        'original_location' => 'Manchester',
-      }
+      filter_params = { 'original_location' => 'Manchester' }
       current_provider_user = create(:provider_user)
       filter = described_class.new(filter_params:, current_provider_user:)
 

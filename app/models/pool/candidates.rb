@@ -1,4 +1,5 @@
 class Pool::Candidates
+  LOCATION_RADIUS = 30
   attr_reader :providers, :filters
 
   def initialize(providers:, filters: {})
@@ -66,7 +67,7 @@ private
     )
 
     site_ids = Site.within(
-      filters.fetch(:within),
+      LOCATION_RADIUS,
       units: :miles,
       origin:,
     ).select(:id)
@@ -120,7 +121,7 @@ private
   end
 
   def active_location_filter?
-    filters[:within].present? && filters[:origin].present?
+    filters[:origin].present?
   end
 
   def order_by

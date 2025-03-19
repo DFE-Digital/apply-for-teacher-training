@@ -2,8 +2,7 @@ module ProviderInterface
   class CandidatePoolFilter
     include FilterParamsHelper
 
-    RADIUS_VALUES = [1, 5, 10, 15, 20, 25, 50, 100, 200].freeze
-    FILTERS = %w[within original_location subject study_mode course_type visa_sponsorship].freeze
+    FILTERS = %w[original_location subject study_mode course_type visa_sponsorship].freeze
 
     attr_reader :filter_params
 
@@ -18,11 +17,8 @@ module ProviderInterface
       [
         {
           type: :location_search,
-          heading: 'Search radius',
+          heading: 'Candidates near town, city or postcode:',
           name: 'location_search',
-          hint: "Candidate's last course location",
-          radius_values: RADIUS_VALUES,
-          within: filter_params[:within],
           original_location: filter_params[:original_location],
         },
         {
@@ -74,7 +70,7 @@ module ProviderInterface
     end
 
     def applied_location_search?
-      filter_params[:within].present? && filter_params[:original_location].present?
+      filter_params[:original_location].present?
     end
 
   private

@@ -1,18 +1,8 @@
 <div class="govuk-form-group">
-  <div id="location-hint" class="govuk-hint"><%= filter[:hint] %></div>
-
-  <div class="govuk-input__wrapper govuk-!-padding-bottom-2">
-    <label class="govuk-label location-filter-label" for="within">Within</label>
-    <select class="govuk-select" name="within">
-      <%= select_options %>
-    </select>
-  </div>
-
-  <div class="govuk-input__wrapper"
+  <div class="govuk-input__wrapper location-autocomplete"
     data-controller="location-autocomplete"
     data-location-autocomplete-path-value="<%= provider_interface_location_suggestions_path %>">
 
-    <label class="govuk-label location-filter-label" for="location">of</label>
     <input class="govuk-input"
     id="original-location"
     name="original_location"
