@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_14_140631) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_19_140655) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -405,11 +405,33 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_140631) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "candidate_location_preferences", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "within", null: false
+    t.float "latitude"
+    t.float "longitude"
+    t.string "status", default: "draft", null: false
+    t.bigint "candidate_preference_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_preference_id"], name: "idx_on_candidate_preference_id_f06d90defb"
+  end
+
   create_table "candidate_pool_provider_opt_ins", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["provider_id"], name: "index_candidate_pool_provider_opt_ins_on_provider_id"
+  end
+
+  create_table "candidate_preferences", force: :cascade do |t|
+    t.string "pool_status"
+    t.string "status", default: "draft", null: false
+    t.boolean "dynamic_location_preferences"
+    t.bigint "candidate_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_id"], name: "index_candidate_preferences_on_candidate_id"
   end
 
   create_table "candidates", force: :cascade do |t|
@@ -1028,7 +1050,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_140631) do
   add_foreign_key "application_forms", "application_forms", column: "previous_application_form_id"
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "application_qualifications", "application_forms", on_delete: :cascade
+  add_foreign_key "candidate_location_preferences", "candidate_preferences", on_delete: :cascade
   add_foreign_key "candidate_pool_provider_opt_ins", "providers", on_delete: :cascade
+  add_foreign_key "candidate_preferences", "candidates", on_delete: :cascade
   add_foreign_key "candidates", "fraud_matches"
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
