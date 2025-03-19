@@ -5,11 +5,10 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
     context 'before find reopens', time: after_apply_deadline do
       it 'renders the banner for an app with the correct details' do
         result = render_inline(described_class.new(flash_empty: true))
-        timetable = RecruitmentCycleTimetable.current_timetable
 
-        apply_opens_date = timetable.apply_reopens_at.to_fs(:govuk_date)
-        academic_year = timetable.academic_year_range_name
-        next_academic_year = timetable.relative_next_timetable.academic_year_range_name
+        apply_opens_date = current_timetable.apply_reopens_at.to_fs(:govuk_date)
+        academic_year = current_timetable.academic_year_range_name
+        next_academic_year = next_timetable.academic_year_range_name
 
         expect(result).to have_content 'The application deadline has passed'
         expect(result).to have_content(
@@ -32,11 +31,9 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
       it 'renders the banner for with the correct details' do
         result = render_inline(described_class.new(flash_empty: true))
 
-        timetable = RecruitmentCycleTimetable.current_timetable
-
-        apply_opens_date = timetable.apply_opens_at.to_fs(:govuk_date)
-        academic_year = timetable.cycle_range_name
-        next_academic_year = timetable.academic_year_range_name
+        apply_opens_date = current_timetable.apply_opens_at.to_fs(:govuk_date)
+        academic_year = current_timetable.cycle_range_name
+        next_academic_year = current_timetable.academic_year_range_name
 
         expect(result).to have_content 'The application deadline has passed'
         expect(result).to have_content(

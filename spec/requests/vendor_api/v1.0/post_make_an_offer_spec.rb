@@ -196,7 +196,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
         'data' => {
           'conditions' => [],
           'course' => {
-            'recruitment_cycle_year' => RecruitmentCycle.current_year,
+            'recruitment_cycle_year' => current_year,
             'provider_code' => 'ABC',
             'course_code' => 'X100',
             'site_code' => 'E',
@@ -452,7 +452,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
   context 'making an offer to an application from a previous cycle', time: after_apply_deadline do
     it 'returns an error' do
       application_choice = create_application_choice_for_currently_authenticated_provider(status: 'rejected')
-      advance_time_to(after_find_opens(RecruitmentCycle.next_year))
+      advance_time_to(after_find_opens(next_year))
 
       request_body = { data: { conditions: ['DBS Check'] } }
 
@@ -461,7 +461,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(parsed_response)
         .to contain_schema_with_error('UnprocessableEntityResponse',
-                                      "Course must be in #{RecruitmentCycle.current_year} recruitment cycle")
+                                      "Course must be in #{current_year} recruitment cycle")
     end
   end
 

@@ -132,6 +132,6 @@ RSpec.describe 'Provider reinstates deferred offer' do
   end
 
   def and_the_course_now_offered_is_from_the_current_year
-    expect(choices[:reinstatable].reload.current_course.recruitment_cycle_year).to eq(RecruitmentCycle.current_year)
+    expect(choices[:reinstatable].reload.current_course.recruitment_cycle_year).to eq(current_year)
   end
 end

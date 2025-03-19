@@ -164,11 +164,11 @@ RSpec.describe 'ApplicationChoice factory' do
     it { is_expected.to be_valid }
 
     it 'associates a course option from the previous recruitment cycle' do
-      expect(record.course_option.course.recruitment_cycle_year).to eq(RecruitmentCycle.previous_year)
+      expect(record.course_option.course.recruitment_cycle_year).to eq(previous_year)
     end
 
     it 'associates a form from the previous recruitment cycle' do
-      expect(record.application_form.recruitment_cycle_year).to eq(RecruitmentCycle.previous_year)
+      expect(record.application_form.recruitment_cycle_year).to eq(previous_year)
     end
   end
 
@@ -179,13 +179,13 @@ RSpec.describe 'ApplicationChoice factory' do
       expect { record }.to change { CourseOption.count }.by(2)
       expect(CourseOption.count).to eq(2)
 
-      previous_year = CourseOption.first
-      expect(previous_year.course.recruitment_cycle_year).to eq(RecruitmentCycle.previous_year)
-      expect(record.course_option).to eq(previous_year)
+      previous_year_option = CourseOption.first
+      expect(previous_year_option.course.recruitment_cycle_year).to eq(previous_year)
+      expect(record.course_option).to eq(previous_year_option)
 
-      current_year = CourseOption.last
-      expect(current_year.course.recruitment_cycle_year).to eq(RecruitmentCycle.current_year)
-      expect(current_year.site.code).to eq(previous_year.site.code)
+      current_year_option = CourseOption.last
+      expect(current_year_option.course.recruitment_cycle_year).to eq(current_year)
+      expect(current_year_option.site.code).to eq(previous_year_option.site.code)
     end
   end
 

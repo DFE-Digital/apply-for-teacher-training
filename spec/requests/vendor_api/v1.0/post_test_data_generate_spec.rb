@@ -19,9 +19,9 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
 
     expect(Candidate.count).to eq(1)
     expect(ApplicationChoice.count).to eq(1)
-    expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: RecruitmentCycle.previous_year }).count).to eq(1)
+    expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: previous_year }).count).to eq(1)
     expect(ApplicationChoice.all.map(&:status).uniq).to eq(%w[pending_conditions])
-    expect(ApplicationChoice.joins(:course).where(course: { recruitment_cycle_year: RecruitmentCycle.previous_year }).count).to eq(1)
+    expect(ApplicationChoice.joins(:course).where(course: { recruitment_cycle_year: previous_year }).count).to eq(1)
   end
 
   describe 'next_cycle' do
@@ -31,7 +31,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
       post_api_request '/api/v1.0/test-data/generate?count=1&next_cycle=true'
 
       expect(Candidate.count).to eq(1)
-      expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: RecruitmentCycle.next_year }).count).to eq(1)
+      expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: next_year }).count).to eq(1)
     end
 
     it 'ignores the previous cycle param' do
@@ -40,8 +40,8 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
       post_api_request '/api/v1.0/test-data/generate?count=1&next_cycle=true&previous_cycle=false'
 
       expect(Candidate.count).to eq(1)
-      expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: RecruitmentCycle.next_year }).count).to eq(1)
-      expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: RecruitmentCycle.previous_year }).count).to eq(0)
+      expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: next_year }).count).to eq(1)
+      expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: previous_year }).count).to eq(0)
     end
   end
 
@@ -86,8 +86,8 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
 
     expect(Candidate.count).to eq(1)
     expect(ApplicationChoice.count).to eq(1)
-    expect(ApplicationChoice.joins(:course).where(course: { recruitment_cycle_year: RecruitmentCycle.previous_year }).count).to eq(1)
-    expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: RecruitmentCycle.previous_year }).count).to eq(1)
+    expect(ApplicationChoice.joins(:course).where(course: { recruitment_cycle_year: previous_year }).count).to eq(1)
+    expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: previous_year }).count).to eq(1)
     expect(ApplicationChoice.all.map(&:status).uniq).to eq(%w[pending_conditions])
     expect(ApplicationChoice.all.map(&:course_option).uniq).to contain_exactly(expected_option)
   end
@@ -111,8 +111,8 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
 
     expect(Candidate.count).to eq(1)
     expect(ApplicationChoice.count).to eq(1)
-    expect(ApplicationChoice.joins(:course).where(course: { recruitment_cycle_year: RecruitmentCycle.previous_year }).count).to eq(1)
-    expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: RecruitmentCycle.previous_year }).count).to eq(1)
+    expect(ApplicationChoice.joins(:course).where(course: { recruitment_cycle_year: previous_year }).count).to eq(1)
+    expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: previous_year }).count).to eq(1)
     expect(ApplicationChoice.all.map(&:status).uniq).to eq(%w[pending_conditions])
     expect(ApplicationChoice.all.map(&:course_option).uniq).to contain_exactly(expected_option)
   end
@@ -124,8 +124,8 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
     post_api_request '/api/v1.0/test-data/generate?count=1&for_test_provider_courses=true&previous_cycle=true'
 
     expect(Candidate.count).to eq(1)
-    expect(ApplicationChoice.joins(:course).where(course: { recruitment_cycle_year: RecruitmentCycle.previous_year }).count).to eq(1)
-    expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: RecruitmentCycle.previous_year }).count).to eq(1)
+    expect(ApplicationChoice.joins(:course).where(course: { recruitment_cycle_year: previous_year }).count).to eq(1)
+    expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: previous_year }).count).to eq(1)
     expect(ApplicationChoice.all.map(&:status).uniq).to eq(%w[pending_conditions])
     expect(ApplicationChoice.all.map(&:course_option).map(&:provider).map(&:code).compact).to contain_exactly('TEST')
   end

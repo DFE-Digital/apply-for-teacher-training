@@ -23,10 +23,25 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 require 'dotenv/rails'
 
+CYCLE_DATES.each do |recruitment_cycle_year, dates|
+  RecruitmentCycleTimetable.find_or_create_by(recruitment_cycle_year:).tap do |timetable|
+    timetable.update(
+      find_opens_at: dates[:find_opens],
+      apply_opens_at: dates[:apply_opens],
+      apply_deadline_at: dates[:apply_deadline],
+      reject_by_default_at: dates[:reject_by_default],
+      decline_by_default_at: dates[:find_closes] - 1.day,
+      find_closes_at: dates[:find_closes],
+      christmas_holiday_range: dates.dig(:holidays, :christmas),
+      easter_holiday_range: dates.dig(:holidays, :easter),
+    )
+  end
+end
+
 STANDARD_TEST_DATES = {
-  'after_apply_deadline' => (CycleTimetable.apply_deadline + 1.hour).to_fs,
-  'before_apply_reopens' => (CycleTimetable.apply_reopens - 1.day).to_fs,
-  'after_apply_reopens' => (CycleTimetable.apply_reopens + 1.day).to_fs,
+  'after_apply_deadline' => (RecruitmentCycleTimetable.current_timetable.apply_deadline_at + 1.hour).to_fs,
+  'before_apply_reopens' => (RecruitmentCycleTimetable.current_timetable.apply_reopens_at - 1.day).to_fs,
+  'after_apply_reopens' => (RecruitmentCycleTimetable.current_timetable.apply_reopens_at + 1.day).to_fs,
 }.freeze
 
 test_date_time_var = ENV.fetch('TEST_DATE_AND_TIME', 'real_world')

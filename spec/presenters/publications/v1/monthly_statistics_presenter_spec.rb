@@ -17,8 +17,6 @@ RSpec.describe Publications::V1::MonthlyStatisticsPresenter do
 
   describe '#first_published_cycle?' do
     context 'when current cycle' do
-      let(:current_timetable) { RecruitmentCycleTimetable.current_timetable }
-
       before do
         allow(report).to receive(:generation_date).and_return(
           current_timetable.apply_opens_at.to_date,

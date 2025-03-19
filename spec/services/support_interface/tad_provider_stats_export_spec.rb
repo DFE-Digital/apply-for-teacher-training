@@ -49,7 +49,6 @@ RSpec.describe SupportInterface::TADProviderStatsExport, :bullet do
     it 'correctly reports course metadata' do
       provider_one = create(:provider, code: 'ABC1', name: 'Tehanu')
       provider_two = create(:provider, code: 'DEF2', name: 'Anarres')
-      previous_year = RecruitmentCycleTimetable.previous_year
 
       course_option_for_provider(provider: provider_one, course: create(:course, :open, name: 'History', provider: provider_one, code: 'XYZ'))
       course_option_for_provider(provider: provider_one, course: create(:course, :open, name: 'Biology', provider: provider_one))

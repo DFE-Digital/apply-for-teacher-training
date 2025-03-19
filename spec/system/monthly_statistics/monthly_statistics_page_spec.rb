@@ -44,7 +44,7 @@ RSpec.describe 'Monthly statistics page' do
   end
 
   def and_i_see_the_monthly_statistics
-    expect(page).to have_content "Initial teacher training applications for courses starting in the #{RecruitmentCycleTimetable.current_timetable.academic_year_range_name} academic year"
+    expect(page).to have_content "Initial teacher training applications for courses starting in the #{current_timetable.academic_year_range_name} academic year"
   end
 
   def when_i_click_a_link
