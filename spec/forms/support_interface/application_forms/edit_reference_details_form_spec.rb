@@ -51,7 +51,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditReferenceDetailsForm do
         create(
           :application_form,
           :with_accepted_offer,
-          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
         )
       end
       let(:reference) do
