@@ -1,6 +1,6 @@
 <% scope = 'application_form.gcse.comparable_uk_qualification' %>
 
-<%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.enter_enic', subject: @subject), size: 'l' } do %>
+<%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.enter_enic', subject: @subject), tag: 'h1', size: 'l' } do %>
   <%= f.govuk_text_field :enic_reference, label: { text: "#{t('service_name.enic.short_name')} reference number", size: 's' }, hint: { text: 'For example ‘4000228363’' }, width: 20, spellcheck: false %>
 
   <%= f.govuk_radio_buttons_fieldset :comparable_uk_qualification, legend: { text: t('label', scope:), size: 's' }, hint: { text: t('hint_text', scope:) } do %>

@@ -4,7 +4,7 @@
   <% content_for :before_content, govuk_back_link_to(@wizard.university_back_link) %>
   <%= form_with model: @wizard, url: candidate_interface_degree_university_path do |f| %>
     <%= f.govuk_error_summary %>
-    <%= f.govuk_fieldset legend: { text: t('page_titles.degree_university'), size: 'l' } do %>
+    <%= f.govuk_fieldset legend: { text: t('page_titles.degree_university'), tag: 'h1', size: 'l' } do %>
       <% if @wizard.uk? %>
         <%= render DfE::Autocomplete::View.new(
           f,
