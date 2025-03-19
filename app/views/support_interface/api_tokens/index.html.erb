@@ -6,7 +6,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-half">
     <%= render SupportInterface::TileComponent.new(
-      count: @api_tokens.count,
+      count: @pagy.count,
       label: 'API tokens issued',
       colour: :blue,
     ) %>
