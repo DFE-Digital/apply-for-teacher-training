@@ -30,6 +30,7 @@ RSpec.describe 'API tokens' do
 
     create(:vendor_api_token, provider: provider_1, last_used_at: 1.month.ago)
     create(:vendor_api_token, provider: provider_2)
+    create_list(:vendor_api_token, 20)
   end
 
   def when_i_visit_the_tokens_page
@@ -37,7 +38,7 @@ RSpec.describe 'API tokens' do
   end
 
   def then_i_see_the_count_of_providers_with_api_tokens
-    expect(page).to have_content '2 API tokens issued'
+    expect(page).to have_content '22 API tokens issued'
     expect(page).to have_content '1 API tokens used in the last 3 months'
 
     within '.govuk-table' do
