@@ -123,10 +123,11 @@ RSpec.describe CourseOption do
     let(:site_current_cycle) { create(:site) }
     let(:course_current_cycle) { create(:course, provider: site_current_cycle.provider) }
     let!(:course_option_current_cycle) { create(:course_option, site: site_current_cycle, course: course_current_cycle) }
+    let(:previous_year) { RecruitmentCycleTimetable.previous_year }
 
     it 'returns the correct course option in the previous cycle' do
       site_next_cycle = create(:site, provider: site_current_cycle.provider, code: site_current_cycle.code)
-      course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: RecruitmentCycle.previous_year, code: course_current_cycle.code)
+      course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: previous_year, code: course_current_cycle.code)
       course_option_next_cycle = create(:course_option, site: site_next_cycle, course: course_next_cycle)
 
       expect(course_option_current_cycle.in_previous_cycle).to eq(course_option_next_cycle)
@@ -134,7 +135,7 @@ RSpec.describe CourseOption do
 
     it 'returns no course option if it does not exist in the previous cycle' do
       site_next_cycle = create(:site, provider: site_current_cycle.provider, code: 'AnotherCode')
-      course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: RecruitmentCycle.previous_year, code: course_current_cycle.code)
+      course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: previous_year, code: course_current_cycle.code)
       create(:course_option, site: site_next_cycle, course: course_next_cycle)
 
       expect(course_option_current_cycle.in_previous_cycle).to be_nil
@@ -142,11 +143,11 @@ RSpec.describe CourseOption do
 
     it 'ignores duplicate site codes in the same cycle and returns correct course option' do
       site_next_cycle = create(:site, provider: site_current_cycle.provider, code: site_current_cycle.code)
-      course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: RecruitmentCycle.previous_year, code: course_current_cycle.code)
+      course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: previous_year, code: course_current_cycle.code)
       course_option_next_cycle = create(:course_option, site: site_next_cycle, course: course_next_cycle)
 
       another_site_next_cycle = create(:site, provider: site_current_cycle.provider, code: site_current_cycle.code)
-      another_course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: RecruitmentCycle.previous_year)
+      another_course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: previous_year)
       create(:course_option, site: another_site_next_cycle, course: another_course_next_cycle)
 
       expect(course_option_current_cycle.in_previous_cycle).to eq(course_option_next_cycle)
@@ -157,10 +158,11 @@ RSpec.describe CourseOption do
     let(:site_current_cycle) { create(:site) }
     let(:course_current_cycle) { create(:course, provider: site_current_cycle.provider) }
     let!(:course_option_current_cycle) { create(:course_option, site: site_current_cycle, course: course_current_cycle) }
+    let(:next_year) { RecruitmentCycleTimetable.next_year }
 
     it 'returns the correct course option in the next cycle' do
       site_next_cycle = create(:site, provider: site_current_cycle.provider, code: site_current_cycle.code)
-      course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: RecruitmentCycle.next_year, code: course_current_cycle.code)
+      course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: next_year, code: course_current_cycle.code)
       course_option_next_cycle = create(:course_option, site: site_next_cycle, course: course_next_cycle)
 
       expect(course_option_current_cycle.in_next_cycle).to eq(course_option_next_cycle)
@@ -168,7 +170,7 @@ RSpec.describe CourseOption do
 
     it 'returns no course option if it does not exist in the next cycle' do
       site_next_cycle = create(:site, provider: site_current_cycle.provider, code: 'AnotherCode')
-      course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: RecruitmentCycle.next_year, code: course_current_cycle.code)
+      course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: next_year, code: course_current_cycle.code)
       create(:course_option, site: site_next_cycle, course: course_next_cycle)
 
       expect(course_option_current_cycle.in_next_cycle).to be_nil
@@ -176,11 +178,11 @@ RSpec.describe CourseOption do
 
     it 'ignores duplicate site codes in the same cycle and returns correct course option' do
       site_next_cycle = create(:site, provider: site_current_cycle.provider, code: site_current_cycle.code)
-      course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: RecruitmentCycle.next_year, code: course_current_cycle.code)
+      course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: next_year, code: course_current_cycle.code)
       course_option_next_cycle = create(:course_option, site: site_next_cycle, course: course_next_cycle)
 
       another_site_next_cycle = create(:site, provider: site_current_cycle.provider, code: site_current_cycle.code)
-      another_course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: RecruitmentCycle.next_year)
+      another_course_next_cycle = create(:course, provider: site_current_cycle.provider, recruitment_cycle_year: next_year)
       create(:course_option, site: another_site_next_cycle, course: another_course_next_cycle)
 
       expect(course_option_current_cycle.in_next_cycle).to eq(course_option_next_cycle)

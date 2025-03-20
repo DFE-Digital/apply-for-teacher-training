@@ -115,10 +115,11 @@ RSpec.describe PerformanceStatistics do
 
   describe '#candidate_count' do
     it 'returns the total number of candidates that were created during a given cycle' do
-      travel_temporarily_to(CycleTimetable.find_opens(2023) + 1.day) do
+      timetable = RecruitmentCycleTimetable.find_by(recruitment_cycle_year: 2023)
+      travel_temporarily_to(timetable.find_opens_at + 1.day) do
         create_list(:candidate, 2)
       end
-      travel_temporarily_to(CycleTimetable.apply_deadline(2023) + 1.day) do
+      travel_temporarily_to(timetable.apply_deadline_at + 1.day) do
         create_list(:candidate, 3)
       end
 

@@ -11,7 +11,7 @@ module TeacherTrainingPublicAPI
     end
 
     def self.fetch(provider_code, course_code)
-      where(recruitment_cycle_year: RecruitmentCycle.current_year)
+      where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
         .where(provider_code:)
         .where(course_code:)
         .all

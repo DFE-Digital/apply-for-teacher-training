@@ -4,7 +4,7 @@ module TeacherTrainingPublicAPI
     has_many :courses
 
     def self.fetch(provider_code)
-      where(year: ::RecruitmentCycle.current_year)
+      where(year: ::RecruitmentCycleTimetable.current_year)
         .find(provider_code).first
     rescue JsonApiClient::Errors::NotFound
       nil

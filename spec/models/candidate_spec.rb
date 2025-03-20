@@ -52,9 +52,10 @@ RSpec.describe Candidate do
 
       it 'does not touch the application choice when its in a previous recruitment cycle' do
         candidate = create(:candidate)
-        application_choice = create(:application_choice, current_recruitment_cycle_year: RecruitmentCycleTimetable.previous_year)
+        previous_year = RecruitmentCycleTimetable.previous_year
+        application_choice = create(:application_choice, current_recruitment_cycle_year: previous_year)
         application_form = ApplicationForm.with_unsafe_application_choice_touches do
-          create(:completed_application_form, application_choices: [application_choice], candidate:, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year)
+          create(:completed_application_form, application_choices: [application_choice], candidate:, recruitment_cycle_year: previous_year)
         end
 
         expect { candidate.update(email_address: 'new.email@example.com') }
@@ -156,13 +157,7 @@ RSpec.describe Candidate do
   describe '#current_application' do
     let(:candidate) { create(:candidate) }
 
-    context 'mid cycle' do
-      around do |example|
-        travel_temporarily_to(CycleTimetable.find_opens + 1.day) do
-          example.run
-        end
-      end
-
+    context 'mid cycle', time: mid_cycle do
       it 'returns an existing application_form' do
         application_form = create(:application_form, candidate:)
 
@@ -171,7 +166,7 @@ RSpec.describe Candidate do
 
       it 'creates an application_form with the current cycle if there are none' do
         expect { candidate.current_application }.to change { candidate.application_forms.count }.from(0).to(1)
-        expect(candidate.current_application.recruitment_cycle_year).to eq CycleTimetable.current_year
+        expect(candidate.current_application.recruitment_cycle_year).to eq RecruitmentCycleTimetable.current_year
       end
 
       it 'returns the most recent application' do
@@ -182,13 +177,7 @@ RSpec.describe Candidate do
       end
     end
 
-    context 'after the apply deadline' do
-      around do |example|
-        travel_temporarily_to(CycleTimetable.apply_deadline + 1.day) do
-          example.run
-        end
-      end
-
+    context 'after the apply deadline', time: after_apply_deadline do
       it 'returns an existing application_form' do
         application_form = create(:application_form, candidate:)
 
@@ -197,7 +186,7 @@ RSpec.describe Candidate do
 
       it 'creates an application_form in the next cycle if there are none' do
         expect { candidate.current_application }.to change { candidate.application_forms.count }.from(0).to(1)
-        expect(candidate.current_application.recruitment_cycle_year).to eq CycleTimetable.next_year
+        expect(candidate.current_application.recruitment_cycle_year).to eq RecruitmentCycleTimetable.next_year
       end
     end
   end
