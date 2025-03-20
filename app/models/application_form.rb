@@ -22,6 +22,7 @@ class ApplicationForm < ApplicationRecord
            :next_available_academic_year_range,
            :apply_reopens_at,
            :academic_year_range_name,
+           :current_year?,
            to: :recruitment_cycle_timetable
 
   belongs_to :candidate, touch: true

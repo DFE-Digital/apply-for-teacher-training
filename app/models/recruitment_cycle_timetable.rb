@@ -138,6 +138,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
     self.class.find_by(recruitment_cycle_year: recruitment_cycle_year - 1)
   end
 
+  def next_year
+    recruitment_cycle_year + 1
+  end
+
   def apply_reopens_at
     if before_apply_opens?
       apply_opens_at
