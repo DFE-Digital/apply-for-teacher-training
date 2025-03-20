@@ -1,4 +1,22 @@
 shared:
+  candidate_preferences:
+    - id
+    - pool_status
+    - status
+    - dynamic_location_preferences
+    - candidate_id
+    - created_at
+    - updated_at
+  candidate_location_preferences:
+    - id
+    - name
+    - within
+    - latitude
+    - longitude
+    - status
+    - candidate_preference_id
+    - created_at
+    - updated_at
   candidates:
     - account_recovery_status
     - candidate_api_updated_at
