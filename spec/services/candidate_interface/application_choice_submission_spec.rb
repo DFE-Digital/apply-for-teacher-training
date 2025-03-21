@@ -231,10 +231,11 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
       end
 
       context 'when apply is closed and course open for applications same day' do
-        it 'adds error to application choice', time: CycleTimetableHelper.after_find_opens do
+        it 'adds error to application choice', time: after_find_opens do
+          apply_opens_date = RecruitmentCycleTimetable.current_timetable.apply_opens_at.to_fs(:govuk_date)
           expect(application_choice_submission).not_to be_valid
           expect(application_choice_submission.errors[:application_choice]).to include(
-            "This course is not yet open to applications. You will be able to submit your application on #{CycleTimetable.apply_opens.to_fs(:govuk_date)}.",
+            "This course is not yet open to applications. You will be able to submit your application on #{apply_opens_date}.",
           )
         end
       end

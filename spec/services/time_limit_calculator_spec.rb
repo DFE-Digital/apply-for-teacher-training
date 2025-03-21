@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe TimeLimitCalculator do
-  include CycleTimetableHelper
-
   it 'returns default value with just a default time limit' do
     allow(TimeLimitConfig).to receive(:limits_for).and_return(
       [
@@ -87,15 +85,17 @@ RSpec.describe TimeLimitCalculator do
   end
 
   describe 'configured reject_by_default limits', time: mid_cycle(2023) do
+    let(:current_year) { RecruitmentCycleTimetable.current_year }
+
     it 'applies the 20 day rule' do
       calculator = described_class.new(
         rule: :reject_by_default,
-        effective_date: Time.zone.local(RecruitmentCycle.current_year, 7, 6),
+        effective_date: Time.zone.local(current_year, 7, 6),
       )
       expect(calculator.call).to eq(
         days: 20,
-        time_in_future: Time.zone.local(RecruitmentCycle.current_year, 8, 3).end_of_day,
-        time_in_past: Time.zone.local(RecruitmentCycle.current_year, 6, 8).end_of_day,
+        time_in_future: Time.zone.local(current_year, 8, 3).end_of_day,
+        time_in_past: Time.zone.local(current_year, 6, 8).end_of_day,
       )
     end
   end

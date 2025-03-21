@@ -14,7 +14,7 @@ module SupportInterface
                    site_code:,
                    audit_comment:,
                    confirm_course_change: false,
-                   recruitment_cycle_year: RecruitmentCycle.current_year)
+                   recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
       @application_choice = ApplicationChoice.find(application_choice_id)
       @provider_id = provider_id
       @course_code = course_code

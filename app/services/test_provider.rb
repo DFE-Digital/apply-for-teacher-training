@@ -24,9 +24,9 @@ class TestProvider
 
   def self.recruitment_cycle_year(previous_cycle)
     if previous_cycle
-      RecruitmentCycle.previous_year
+      RecruitmentCycleTimetable.previous_year
     else
-      RecruitmentCycle.current_year
+      RecruitmentCycleTimetable.current_year
     end
   end
 

@@ -1,7 +1,7 @@
 class DuplicateApplication
   attr_reader :original_application_form
 
-  def initialize(original_application_form, recruitment_cycle_year: RecruitmentCycle.current_year)
+  def initialize(original_application_form, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
     @original_application_form = original_application_form
     @recruitment_cycle_year = recruitment_cycle_year
   end

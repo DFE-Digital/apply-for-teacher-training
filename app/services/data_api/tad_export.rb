@@ -22,13 +22,17 @@ module DataAPI
       relevant_applications.find_each.flat_map do |application_form|
         # if a form belongs to previous year, we only want to consider the choice that was deferred
         # for non-deferred apps this set will be equivalent to all choices
-        application_form.application_choices.select { |ac| ac.current_recruitment_cycle_year == RecruitmentCycle.current_year }.map do |application_choice|
+        application_form.application_choices.select { |ac| ac.current_recruitment_cycle_year == current_year }.map do |application_choice|
           TADApplicationExport.new(application_choice).as_json
         end
       end
     end
 
   private
+
+    def current_year
+      @current_year ||= RecruitmentCycleTimetable.current_year
+    end
 
     def relevant_applications
       ApplicationForm
@@ -37,8 +41,8 @@ module DataAPI
         .or(
           ApplicationForm
             .joins(:application_choices)
-            .where('application_forms.recruitment_cycle_year < ?', RecruitmentCycle.current_year)
-            .where('application_choices.current_recruitment_cycle_year' => RecruitmentCycle.current_year),
+            .where('application_forms.recruitment_cycle_year < ?', current_year)
+            .where('application_choices.current_recruitment_cycle_year' => current_year),
         ).includes(
           :candidate,
         ).preload(

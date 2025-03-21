@@ -25,7 +25,7 @@ RSpec.describe DuplicateApplication do
     described_class.new(@original_application_form).duplicate
   end
 
-  let(:recruitment_cycle_year) { RecruitmentCycle.current_year }
+  let(:recruitment_cycle_year) { RecruitmentCycleTimetable.current_year }
 
   it 'marks reference as incomplete' do
     expect(duplicate_application_form).not_to be_references_completed
