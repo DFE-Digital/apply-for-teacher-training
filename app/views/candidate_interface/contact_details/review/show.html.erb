@@ -1,6 +1,6 @@
 <% content_for(
   :title,
-  title_with_error_prefix(t('page_titles.contact_information_review'), @contact_details_form&.errors&.any?),
+  title_with_error_prefix(t('page_titles.contact_information_review'), @contact_details_form&.errors&.any? || @section_complete_form.errors.any? ),
 ) %>
 <% content_for :before_content, govuk_back_link_to(application_form_path) %>
 
