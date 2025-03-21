@@ -5,7 +5,7 @@ en:
         title: Criminal record and professional misconduct
       right_to_work_component:
         title: Right to work or study in the UK
-        visa_sponsorhip: Visa sponsorhip
+        visa_sponsorhip: Visa sponsorship
       application_choices_component:
         title: Applications made
         subtitle: Application %{counter}
