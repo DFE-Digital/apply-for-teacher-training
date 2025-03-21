@@ -103,7 +103,7 @@ module SupportInterface
         .joins(course_option: { course: :provider })
         .joins(course_option: { course: :subjects })
         .joins("LEFT JOIN (SELECT candidate_id, MAX(created_at) as created FROM application_forms WHERE phase = 'apply_2' GROUP BY candidate_id) a2_latest_application_forms ON application_form.created_at = a2_latest_application_forms.created AND application_form.candidate_id = a2_latest_application_forms.candidate_id")
-        .where(application_form: { recruitment_cycle_year: RecruitmentCycle.current_year })
+        .where(application_form: { recruitment_cycle_year: RecruitmentCycleTimetable.current_year })
         .where(application_form: { application_qualifications: { level: 'degree' } })
         .where.not(application_form: { submitted_at: nil })
         .group(

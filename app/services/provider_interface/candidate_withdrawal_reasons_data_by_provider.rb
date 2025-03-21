@@ -125,7 +125,7 @@ module ProviderInterface
           .joins(:application_choice)
           .published
           .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', @provider.id)
-          .where(application_choices: { current_recruitment_cycle_year: RecruitmentCycle.current_year })
+          .where(application_choices: { current_recruitment_cycle_year: RecruitmentCycleTimetable.current_year })
     end
 
     def application_form_count

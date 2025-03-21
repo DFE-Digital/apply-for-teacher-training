@@ -33,7 +33,7 @@ module ProviderInterface
       <<~DEFERRED_OFFERS_PENDING_RECONFIRMATION.squish
         (
           status = 'offer_deferred'
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.previous_year}
+            AND current_recruitment_cycle_year = #{previous_year}
         )
       DEFERRED_OFFERS_PENDING_RECONFIRMATION
     end
@@ -42,7 +42,7 @@ module ProviderInterface
       <<~PREVIOUS_CYCLE_PENDING_CONDITIONS.squish
         (
           status = 'pending_conditions'
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.previous_year}
+            AND current_recruitment_cycle_year = #{previous_year}
         )
       PREVIOUS_CYCLE_PENDING_CONDITIONS
     end
@@ -69,7 +69,7 @@ module ProviderInterface
       <<~WAITING_ON_CANDIDATE.squish
         (
           status = 'offer'
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
+            AND current_recruitment_cycle_year = #{current_year}
         )
       WAITING_ON_CANDIDATE
     end
@@ -78,7 +78,7 @@ module ProviderInterface
       <<~CURRENT_CYCLE_PENDING_CONDITIONS.squish
         (
           status = 'pending_conditions'
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
+            AND current_recruitment_cycle_year = #{current_year}
         )
       CURRENT_CYCLE_PENDING_CONDITIONS
     end
@@ -87,7 +87,7 @@ module ProviderInterface
       <<~SUCCESSFUL_CANDIDATES.squish
         (
           status = 'recruited'
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
+            AND current_recruitment_cycle_year = #{current_year}
         )
       SUCCESSFUL_CANDIDATES
     end
@@ -96,7 +96,7 @@ module ProviderInterface
       <<~DEFERRED_OFFERS_CURRENT_CYCLE.squish
         (
           status = 'offer_deferred'
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
+            AND current_recruitment_cycle_year = #{current_year}
         )
       DEFERRED_OFFERS_CURRENT_CYCLE
     end
@@ -106,6 +106,14 @@ module ProviderInterface
         task_view_group,
         application_choices.updated_at DESC
       ORDER_BY
+    end
+
+    def self.current_year
+      @current_year ||= RecruitmentCycleTimetable.current_year
+    end
+
+    def self.previous_year
+      @previous_year ||= RecruitmentCycleTimetable.previous_year
     end
   end
 end

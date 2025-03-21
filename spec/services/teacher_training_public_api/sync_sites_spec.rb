@@ -21,7 +21,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
     let(:incremental_sync) { false }
     let(:perform_job) do
       described_class.new.perform(provider.id,
-                                  RecruitmentCycle.current_year,
+                                  RecruitmentCycleTimetable.current_year,
                                   course.id,
                                   'open',
                                   incremental_sync)
@@ -153,7 +153,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
       it 'updates corresponding course options to no vacancies' do
         described_class.new.perform(
           provider.id,
-          RecruitmentCycle.current_year,
+          RecruitmentCycleTimetable.current_year,
           course.id,
           'closed',
           true,
@@ -227,7 +227,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
       original_site_b_address_line3 = site_b.address_line3
 
       described_class.new.perform(provider.id,
-                                  RecruitmentCycle.current_year,
+                                  RecruitmentCycleTimetable.current_year,
                                   course.id,
                                   'open',
                                   incremental_sync)

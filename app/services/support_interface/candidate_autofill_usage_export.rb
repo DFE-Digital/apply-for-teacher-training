@@ -105,7 +105,7 @@ module SupportInterface
           level:,
           application_forms: {
             phase: 'apply_1',
-            recruitment_cycle_year: RecruitmentCycle.current_year,
+            recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
           },
         )
         .where(

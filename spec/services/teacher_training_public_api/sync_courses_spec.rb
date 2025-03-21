@@ -7,7 +7,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
     let!(:provider) { create(:provider) }
     let(:perform_job) do
       described_class.new.perform(provider.id,
-                                  RecruitmentCycle.current_year)
+                                  RecruitmentCycleTimetable.current_year)
     end
     let(:stubbed_attributes) { [{ accredited_body_code: nil, state: stubbed_api_course_state, visa_sponsorship_application_deadline_at: stubbed_sponsorship_application_deadline_at }] }
     let(:stubbed_sponsorship_application_deadline_at) { nil }

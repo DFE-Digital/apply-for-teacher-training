@@ -43,7 +43,7 @@ module ProviderInterface
     def current_cycle_applications_visible_to_provider
       ApplicationChoice
         .where('provider_ids @> ARRAY[?]::bigint[]', provider)
-        .where(current_recruitment_cycle_year: RecruitmentCycle.current_year)
+        .where(current_recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
     end
 
     def selectable_reasons

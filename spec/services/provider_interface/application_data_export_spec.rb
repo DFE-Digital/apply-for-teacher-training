@@ -70,7 +70,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
                        .find_by(level: 'degree')
       expected = {
         'Application number' => application_choice.id,
-        'Recruitment cycle' => RecruitmentCycle.cycle_name(application_choice.application_form.recruitment_cycle_year),
+        'Recruitment cycle' => application_choice.application_form.recruitment_cycle_timetable.cycle_range_name,
         'Status' => I18n.t("provider_application_states.#{application_choice.status}", default: application_choice.status),
         'Received date' => application_choice.sent_to_provider_at,
         'Updated date' => application_choice.updated_at,

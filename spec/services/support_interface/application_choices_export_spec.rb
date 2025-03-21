@@ -10,6 +10,8 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, :with_audited do
   end
 
   describe '#application_choices' do
+    let(:previous_year) { RecruitmentCycleTimetable.previous_year }
+
     def expect_form(actual, form, choice:)
       expect(actual[:candidate_id]).to eq(form.candidate.id)
       expect(actual[:recruitment_cycle_year]).to eq(form.recruitment_cycle_year)
@@ -40,7 +42,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, :with_audited do
       previously_submitted_form = create(
         :completed_application_form,
         submitted_application_choices_count: 1,
-        recruitment_cycle_year: RecruitmentCycle.previous_year,
+        recruitment_cycle_year: previous_year,
       )
       advance_time
       submitted_form = create(:completed_application_form, submitted_application_choices_count: 2)
@@ -55,7 +57,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, :with_audited do
 
     it 'can export applications in the current cycle' do
       create(:completed_application_form, application_choices_count: 1)
-      create(:completed_application_form, application_choices_count: 1, recruitment_cycle_year: RecruitmentCycle.previous_year)
+      create(:completed_application_form, application_choices_count: 1, recruitment_cycle_year: previous_year)
 
       expect(described_class.new.application_choices('current_cycle' => true).size).to eq(1)
     end
