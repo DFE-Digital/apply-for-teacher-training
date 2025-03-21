@@ -16,7 +16,11 @@
         <% row.with_key { t('.course') } %>
         <% row.with_value do %>
           <p class='govuk-body'>
-            <%= @pool_invite.course.name_code_and_course_provider %>
+            <% if current_provider_user.providers.count > 1 %>
+              <%= @pool_invite.course.name_code_and_course_provider %>
+            <% else %>
+              <%= @pool_invite.course.name_and_code %>
+            <% end %>
           </p>
           <p class='govuk-hint'>
             <%= @pool_invite.course.description %>
