@@ -10,6 +10,7 @@ module CandidateInterface
 
     def complete
       @application_form = current_application
+      @can_complete = ContactDetailsForm.build_from_application(current_application).valid_for_submission?
       @section_complete_form = SectionCompleteForm.new(completed: application_form_params[:completed])
 
       if ActiveModel::Type::Boolean.new.cast(@section_complete_form.completed) && !details_complete?
