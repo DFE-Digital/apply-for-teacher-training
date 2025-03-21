@@ -1,4 +1,4 @@
-<% content_for :title, t("gcse_summary.page_titles.review.#{@subject}") %>
+<% content_for :title, title_with_error_prefix(t("gcse_summary.page_titles.review.#{@subject}"), @section_complete_form.errors.any?) %>
 <% content_for(:before_content, govuk_back_link_to(application_form_path)) %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_gcse_complete_path, method: :patch do |f| %>

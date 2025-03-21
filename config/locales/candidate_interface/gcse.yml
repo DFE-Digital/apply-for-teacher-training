@@ -113,6 +113,8 @@ en:
               invalid: Enter a real other English subject grade
             other_english_gcse_name:
               blank: Enter an English GCSE
+            other_grade:
+              blank: Enter your grade
         candidate_interface/gcse_year_form:
           attributes:
             award_year:

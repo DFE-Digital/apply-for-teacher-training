@@ -90,7 +90,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
       it 'redirects to application form page' do
         patch candidate_interface_new_becoming_a_teacher_path, params: params
 
-        expect(response.body).to match(/Write your personal statement/)
+        expect(response.body).to match(/Enter your personal statement/)
         expect(response).not_to have_http_status(:redirect)
       end
     end
@@ -114,7 +114,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
       it 'does not redirect' do
         patch candidate_interface_new_becoming_a_teacher_path, params: params
 
-        expect(response.body).to match(/Write your personal statement/)
+        expect(response.body).to match(/Enter your personal statement/)
         expect(response).not_to have_http_status(:redirect)
       end
     end

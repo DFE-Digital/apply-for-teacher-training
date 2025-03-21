@@ -1,4 +1,4 @@
-<% content_for :title, 'Check your answers to equality and diversity questions' %>
+<% content_for :title, title_with_error_prefix('Check your answers to equality and diversity questions', @section_complete_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(application_form_path) %>
 
 <div class="govuk-grid-row">

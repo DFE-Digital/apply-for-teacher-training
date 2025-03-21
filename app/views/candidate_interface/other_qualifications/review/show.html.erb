@@ -1,4 +1,4 @@
-<% content_for :title, other_qualifications_title(@application_form) %>
+<% content_for :title, title_with_error_prefix(other_qualifications_title(@application_form), @section_complete_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(application_form_path) %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_complete_other_qualifications_path, method: :patch do |f| %>

@@ -18,4 +18,4 @@ en:
               too_many_words:
                 one: Your answer must be %{maximum} words or less. You have %{count} word too many.
                 other: Your answer must be %{maximum} words or less. You have %{count} words too many.
-              blank: Write your personal statement
+              blank: Enter your personal statement

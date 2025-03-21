@@ -1,4 +1,4 @@
-<% content_for :title, @application_form.application_work_experiences.blank? ? t('page_titles.work_history') : t('page_titles.restructured_work_history_review') %>
+<% content_for :title, title_with_error_prefix(@application_form.application_work_experiences.blank? ? t('page_titles.work_history') : t('page_titles.restructured_work_history_review'), @section_complete_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_restructured_work_history_complete_path(@return_to[:params]), method: :patch do |f| %>
