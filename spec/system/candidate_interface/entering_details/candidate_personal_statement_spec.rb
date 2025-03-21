@@ -123,6 +123,6 @@ RSpec.describe 'Entering "Personal statement"' do
   end
 
   def then_i_am_told_to_write_my_personal_statement
-    expect(page).to have_content('Write your personal statement')
+    expect(page).to have_content('Enter your personal statement')
   end
 end
