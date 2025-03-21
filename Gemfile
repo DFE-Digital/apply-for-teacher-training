@@ -193,3 +193,8 @@ group :development, :test do
   gem 'pry'
   gem 'rspec-rails', require: false
 end
+
+gem "axe-core-capybara", "~> 4.10"
+gem "axe-core-selenium", "~> 4.10"
+
+gem "axe-core-rspec", "~> 4.10"
