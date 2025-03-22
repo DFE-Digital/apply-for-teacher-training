@@ -68,7 +68,7 @@ module SupportInterface
 
     def current_application_choices_for(application_form)
       application_form.application_choices.select do |application_choice|
-        application_choice.current_recruitment_cycle_year == RecruitmentCycle.current_year
+        application_choice.current_recruitment_cycle_year == current_year
       end
     end
 
@@ -162,14 +162,14 @@ module SupportInterface
         .joins(application_choices: { current_course: :subjects })
         .joins(:candidate)
         .includes(:candidate, application_choices: { current_course: :subjects })
-        .where(application_choices: { current_recruitment_cycle_year: RecruitmentCycle.current_year })
+        .where(application_choices: { current_recruitment_cycle_year: current_year })
         .where(phase: 'apply_1')
         .or(
           ApplicationForm
             .joins(application_choices: { current_course: :subjects })
             .joins(:candidate)
-            .where('application_forms.recruitment_cycle_year < ?', RecruitmentCycle.current_year)
-            .where('application_choices.current_recruitment_cycle_year' => RecruitmentCycle.current_year),
+            .where('application_forms.recruitment_cycle_year < ?', current_year)
+            .where('application_choices.current_recruitment_cycle_year' => current_year),
         ).where.not(submitted_at: nil)
         .where.not(candidates: { hide_in_reporting: true })
         .distinct
@@ -199,6 +199,10 @@ module SupportInterface
           subject_report.to_json(indent: 2),
         )
       end
+    end
+
+    def current_year
+      @current_year ||= RecruitmentCycleTimetable.current_year
     end
   end
 end

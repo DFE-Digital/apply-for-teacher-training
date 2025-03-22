@@ -62,7 +62,7 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
 
     it 'returns only course options from current cycle' do
       course = create(:course, :open, code: 'ABC', provider:)
-      same_course_from_another_cycle = create(:course, :open, code: course.code, provider:, recruitment_cycle_year: RecruitmentCycle.previous_year, accredited_provider_id: provider.id)
+      same_course_from_another_cycle = create(:course, :open, code: course.code, provider:, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year, accredited_provider_id: provider.id)
       course_option_current_cycle = create(:course_option, site: first_site, course:)
       create(:course_option, :previous_year, site: second_site, course: same_course_from_another_cycle)
       application_form = create(:application_form)

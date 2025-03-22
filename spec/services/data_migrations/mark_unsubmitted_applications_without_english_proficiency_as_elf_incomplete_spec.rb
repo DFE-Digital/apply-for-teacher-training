@@ -17,12 +17,14 @@ RSpec.describe DataMigrations::MarkUnsubmittedApplicationsWithoutEnglishProficie
   end
 
   context 'when english proficiency record does not exists' do
+    let(:previous_year) { RecruitmentCycleTimetable.previous_year }
+
     describe 'application is in an earlier cycle' do
       it 'does not change record' do
         application_form = create(
           :application_form,
           :unsubmitted,
-          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          recruitment_cycle_year: previous_year,
           efl_completed: true,
           efl_completed_at: Time.zone.now,
         )
@@ -40,7 +42,7 @@ RSpec.describe DataMigrations::MarkUnsubmittedApplicationsWithoutEnglishProficie
           :submitted,
           efl_completed: true,
           efl_completed_at: Time.zone.now,
-          previous_application_form: create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year - 1),
+          previous_application_form: create(:application_form, recruitment_cycle_year: previous_year),
         )
 
         described_class.new.change
@@ -56,7 +58,7 @@ RSpec.describe DataMigrations::MarkUnsubmittedApplicationsWithoutEnglishProficie
           :unsubmitted,
           efl_completed: true,
           efl_completed_at: Time.zone.now,
-          previous_application_form: create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year - 1),
+          previous_application_form: create(:application_form, recruitment_cycle_year: previous_year),
         )
 
         described_class.new.change

@@ -5,10 +5,9 @@ module ProviderInterface
         return {} if application_choice.blank?
 
         application = ApplicationChoiceExportDecorator.new(application_choice)
-
         {
           'Application number' => application.id,
-          'Recruitment cycle' => RecruitmentCycle.cycle_name(application.application_form.recruitment_cycle_year),
+          'Recruitment cycle' => application.application_form.recruitment_cycle_timetable.cycle_range_name,
           'Status' => I18n.t("provider_application_states.#{application.status}", default: application.status),
           'Received date' => application.sent_to_provider_at,
           'Updated date' => application.updated_at,

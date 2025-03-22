@@ -1,6 +1,6 @@
 module TeacherTrainingPublicAPI
   class SyncAllProvidersAndCourses
-    def self.call(recruitment_cycle_year: ::RecruitmentCycle.current_year, incremental_sync: true)
+    def self.call(recruitment_cycle_year: RecruitmentCycleTimetable.current_year, incremental_sync: true)
       is_last_page = false
       page_number = 0
       until is_last_page

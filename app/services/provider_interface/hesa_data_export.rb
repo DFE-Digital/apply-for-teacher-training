@@ -5,7 +5,7 @@ module ProviderInterface
 
     attr_reader :actor, :recruitment_cycle_year
 
-    def initialize(actor:, recruitment_cycle_year: RecruitmentCycle.current_year)
+    def initialize(actor:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
       @actor = actor
       @recruitment_cycle_year = recruitment_cycle_year
     end

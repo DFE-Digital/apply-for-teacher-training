@@ -22,6 +22,10 @@ class UpdateDuplicateMatches
 
 private
 
+  def current_year
+    @current_year ||= RecruitmentCycleTimetable.current_year
+  end
+
   def save_match(match)
     ActiveRecord::Base.transaction do
       create_or_update_duplicate_match(match)
@@ -44,7 +48,7 @@ private
       end
     else
       new_duplicate_match = DuplicateMatch.create!(
-        recruitment_cycle_year: RecruitmentCycle.current_year,
+        recruitment_cycle_year: current_year,
         last_name: match['last_name'],
         postcode: match['postcode'],
         date_of_birth: match['date_of_birth'],
@@ -66,7 +70,7 @@ private
   end
 
   def total_match_count
-    @total_match_count ||= DuplicateMatch.where(recruitment_cycle_year: CycleTimetable.current_year).count
+    @total_match_count ||= DuplicateMatch.where(recruitment_cycle_year: current_year).count
   end
 
   def process_match(candidate, duplicate_match)

@@ -34,12 +34,10 @@ RSpec.describe CandidateInterface::SubmitApplicationChoice do
       it 'does not updated submitted_at for a second application choice' do
         submit_application
 
-        travel_temporarily_to(Time.zone.local(0)) do
-          new_application_choice = create(:application_choice, :unsubmitted, application_form: application_form)
-          expect {
-            described_class.new(new_application_choice).call
-          }.not_to(change { application_form.reload.submitted_at })
-        end
+        new_application_choice = create(:application_choice, :unsubmitted, application_form: application_form)
+        expect {
+          described_class.new(new_application_choice).call
+        }.not_to(change { application_form.reload.submitted_at })
       end
 
       it 'updates inactive date for application' do

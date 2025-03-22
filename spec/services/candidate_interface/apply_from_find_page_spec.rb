@@ -8,10 +8,13 @@ RSpec.describe CandidateInterface::ApplyFromFindPage do
   end
 
   describe '#candidate_has_application_in_wrong_cycle?' do
+    let(:current_year) { RecruitmentCycleTimetable.current_year }
+    let(:previous_year) { RecruitmentCycleTimetable.previous_year }
+
     context 'when the application is not in the wrong cycle' do
       it 'is false' do
         candidate = create(:candidate)
-        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, candidate:)
+        create(:application_form, recruitment_cycle_year: current_year, candidate:)
 
         service = described_class.new(
           course_code: 'ABC1',
@@ -26,7 +29,7 @@ RSpec.describe CandidateInterface::ApplyFromFindPage do
     context 'when the course is in the Apply database already' do
       it 'is true' do
         candidate = create(:candidate)
-        create(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate:)
+        create(:application_form, recruitment_cycle_year: previous_year, candidate:)
 
         service = described_class.new(
           course_code: 'ABC1',
@@ -53,7 +56,7 @@ RSpec.describe CandidateInterface::ApplyFromFindPage do
 
       it 'is true' do
         candidate = create(:candidate)
-        create(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate:)
+        create(:application_form, recruitment_cycle_year: previous_year, candidate:)
 
         service = described_class.new(
           course_code: 'B999',

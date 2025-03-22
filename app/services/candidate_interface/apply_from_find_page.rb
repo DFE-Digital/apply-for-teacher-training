@@ -9,7 +9,7 @@ module CandidateInterface
     def candidate_has_application_in_wrong_cycle?
       return false if course.blank? || @current_candidate.blank?
 
-      @current_candidate.current_application.recruitment_cycle_year != RecruitmentCycle.current_year
+      !@current_candidate.current_application.current_year?
     end
 
     def course_in_apply_database_and_candidate_signed_in?

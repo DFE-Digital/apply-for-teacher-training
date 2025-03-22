@@ -13,7 +13,7 @@ class GetRefereesToChase
       .feedback_requested
       .where(
         application_forms: {
-          recruitment_cycle_year: RecruitmentCycle.current_year,
+          recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
           application_choices: { status: APPLICATION_STATUSES },
         },
       )

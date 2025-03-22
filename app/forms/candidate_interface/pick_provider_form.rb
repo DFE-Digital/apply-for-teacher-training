@@ -8,9 +8,13 @@ module CandidateInterface
     def available_providers
       @available_providers ||= Provider
       .joins(:courses)
-      .where(courses: { recruitment_cycle_year: RecruitmentCycle.current_year, exposed_in_find: true })
+      .where(courses: { recruitment_cycle_year:, exposed_in_find: true })
       .order(:name)
       .distinct
+    end
+
+    def recruitment_cycle_year
+      @recruitment_cycle_year ||= RecruitmentCycleTimetable.current_year
     end
   end
 end
