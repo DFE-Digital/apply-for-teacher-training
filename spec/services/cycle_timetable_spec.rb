@@ -54,70 +54,6 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.between_cycles?' do
-    it 'returns false before if apply deadline has not passed' do
-      travel_temporarily_to(one_hour_before_apply_deadline) do
-        expect(described_class.between_cycles?).to be false
-      end
-    end
-
-    it 'returns true after apply deadline has passed but find is still open' do
-      travel_temporarily_to(one_hour_after_apply_deadline) do
-        expect(described_class.between_cycles?).to be true
-      end
-    end
-
-    it 'returns true between find and apply reopening' do
-      travel_temporarily_to(one_hour_after_find_opens) do
-        expect(described_class.between_cycles?).to be true
-      end
-    end
-
-    it 'returns false after the new cycle opens' do
-      travel_temporarily_to(one_hour_after_near_year_apply_opens) do
-        expect(described_class.between_cycles?).to be false
-      end
-    end
-  end
-
-  describe '.find_down?' do
-    it 'returns false before find closes' do
-      travel_temporarily_to(one_hour_before_find_closes) do
-        expect(described_class.find_down?).to be false
-      end
-    end
-
-    it 'returns false after find_reopens' do
-      travel_temporarily_to(one_hour_after_find_opens) do
-        expect(described_class.find_down?).to be false
-      end
-    end
-
-    it 'returns true between find_closes and find_reopens' do
-      travel_temporarily_to(one_hour_after_find_closes) do
-        expect(described_class.find_down?).to be true
-      end
-    end
-  end
-
-  describe '.next_apply_deadline' do
-    context 'after cycle start and before apply deadline' do
-      it 'returns apply_deadline' do
-        travel_temporarily_to(one_hour_before_apply_deadline) do
-          expect(described_class.next_apply_deadline).to eq(described_class.apply_deadline)
-        end
-      end
-    end
-
-    context 'after apply deadline' do
-      it 'returns apply_deadline for next year' do
-        travel_temporarily_to(one_hour_after_apply_deadline) do
-          expect(described_class.next_apply_deadline).to eq(described_class.apply_deadline(next_year))
-        end
-      end
-    end
-  end
-
   describe '.cycle_year_range' do
     context 'with no year passed in' do
       it 'returns the `current_year to next_year`' do
@@ -129,24 +65,6 @@ RSpec.describe CycleTimetable do
     context 'with a year passed in' do
       it 'returns `year to year + 1`' do
         expect(described_class.cycle_year_range(next_next_year)).to eq "#{next_next_year} to #{next_year + 2}"
-      end
-    end
-  end
-
-  describe '.between_reject_by_default_and_find_reopens?' do
-    context 'it is before reject by default date' do
-      it 'returns false' do
-        travel_temporarily_to(described_class.reject_by_default - 1.day) do
-          expect(described_class.between_reject_by_default_and_find_reopens?).to be(false)
-        end
-      end
-    end
-
-    context 'it is after reject by default date' do
-      it 'returns true' do
-        travel_temporarily_to(described_class.reject_by_default + 1.day) do
-          expect(described_class.between_reject_by_default_and_find_reopens?).to be(true)
-        end
       end
     end
   end
