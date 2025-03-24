@@ -4,6 +4,8 @@ class Adviser::FetchTeachingSubjectsWorker
   sidekiq_options retry: 0, queue: :low_priority
 
   def perform
+    return unless FeatureFlag.active?(:adviser_sign_up)
+
     # Get the subjects from the API
     # Find or Create TeachingSubject using the ID/external_identifier
     teaching_subject_from_api = api_teaching_subjects.map do |api_teaching_subject|
