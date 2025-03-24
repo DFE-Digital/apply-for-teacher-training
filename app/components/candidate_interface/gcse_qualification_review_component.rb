@@ -124,11 +124,18 @@ module CandidateInterface
     def present_grades
       case application_qualification.subject
       when ApplicationQualification::SCIENCE_TRIPLE_AWARD
-        grades = application_qualification.constituent_grades
+        constituent_grades = application_qualification.constituent_grades || {}
+
+        biology_constituent_grade = constituent_grades.dig('biology', 'grade')
+        chemistry_constituent_grade = constituent_grades.dig('chemistry', 'grade')
+        physics_constituent_grade = constituent_grades.dig('physics', 'grade')
+
+        return unless [biology_constituent_grade, chemistry_constituent_grade, physics_constituent_grade].all?
+
         [
-          "#{grades['biology']['grade']} (Biology)",
-          "#{grades['chemistry']['grade']} (Chemistry)",
-          "#{grades['physics']['grade']} (Physics)",
+          "#{biology_constituent_grade} (Biology)",
+          "#{chemistry_constituent_grade} (Chemistry)",
+          "#{physics_constituent_grade} (Physics)",
         ]
       when ApplicationQualification::SCIENCE_DOUBLE_AWARD
         "#{application_qualification.grade} (Double award)"

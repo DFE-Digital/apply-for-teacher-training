@@ -71,7 +71,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.css('.govuk-summary-list__value')[6].text).to include('2020')
     end
 
-    it 'displays the enic_statment row and hides the enic_reference and comparable_uk_qualification when nil' do
+    it 'displays the enic_statement row and hides the enic_reference and comparable_uk_qualification when nil' do
       application_form = build(:application_form)
       @qualification = application_qualification = build(
         :application_qualification,
@@ -117,7 +117,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       end
     end
 
-    it 'displays the enic_statment row and shows the enic_reference when obtained' do
+    it 'displays the enic_statement row and shows the enic_reference when obtained' do
       application_form = build(:application_form)
       @qualification = application_qualification = build(
         :application_qualification,
@@ -213,6 +213,30 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
       expect(result.css('.govuk-summary-list__key')[1].text).to include('Grade')
       expect(result.css('.govuk-summary-list__value')[1].text).to include('C (Biology)B (Chemistry)A (Physics)')
+    end
+
+    it 'displays `Enter your grade` when grades are missing' do
+      application_form = build(:application_form)
+      @qualification = application_qualification = build(
+        :application_qualification,
+        application_form:,
+        qualification_type: 'gcse',
+        level: 'gcse',
+        grade: nil,
+        constituent_grades: nil,
+        subject: ApplicationQualification::SCIENCE_TRIPLE_AWARD,
+      )
+
+      result = render_inline(
+        described_class.new(
+          application_form:,
+          application_qualification:,
+          subject: 'science',
+        ),
+      )
+
+      expect(result.css('.govuk-summary-list__key')[1].text).to include('Grade')
+      expect(result.css('.govuk-summary-list__value')[1].text).to include('Enter your grade')
     end
   end
 
