@@ -4,7 +4,7 @@ module TeacherTrainingPublicAPI
       timetable = RecruitmentCycleTimetable.current_timetable
       return unless timetable.after_find_closes?
 
-      TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false, timetable.next_year, true)
+      TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false, timetable.relative_next_year, true)
     end
   end
 end

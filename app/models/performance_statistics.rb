@@ -233,13 +233,13 @@ private
   end
 
   def date_range_query_for_recruitment_cycle_year(cycle_year)
-    timetable = RecruitmentCycleTimetable.find_by(recruitment_cycle_year: cycle_year - 1)
+    timetable = RecruitmentCycleTimetable.find_by(recruitment_cycle_year: cycle_year)
 
-    start_date = timetable.apply_deadline_at&.end_of_day
+    start_date = timetable.relative_previous_timetable.apply_deadline_at&.end_of_day
 
     query = "created_at >= '#{start_date}'"
 
-    end_date = timetable.relative_next_timetable&.apply_deadline_at
+    end_date = timetable.apply_deadline_at
 
     if end_date
       query + " AND created_at <= '#{end_date}'"

@@ -70,7 +70,7 @@ module SupportInterface
       end
 
       def recruitment_cycle_year
-        @recruitment_cycle_year ||= RecruitmentCycleTimetable.current_year
+        @recruitment_cycle_year || RecruitmentCycleTimetable.current_year
       end
     end
   end

@@ -37,9 +37,6 @@ module CandidateInterface
 
     def sections_with_completion
       [
-        # "Courses" section
-        ([:course_choices, course_choices_completed?] if current_year < ApplicationForm::CONTINUOUS_APPLICATIONS_CYCLE_YEAR),
-
         # "About you" section
         [:personal_details, personal_details_completed?],
         [:contact_details, contact_details_completed?],
@@ -339,10 +336,6 @@ module CandidateInterface
       completed_application_form? && # The form is complete
         can_add_more_choices? && # They have not submitted the max number of choices
         can_add_course_choice? # The apply deadline for this form has not passed
-    end
-
-    def current_year
-      @current_year ||= RecruitmentCycleTimetable.current_year
     end
 
   private

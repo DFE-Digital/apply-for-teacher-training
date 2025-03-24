@@ -380,6 +380,20 @@ RSpec.describe RecruitmentCycleTimetable do
     end
   end
 
+  describe '#relative_next_year' do
+    it 'returns the next year' do
+      timetable = described_class.all.order(:recruitment_cycle_year).last
+      expect(timetable.relative_next_year).to eq timetable.recruitment_cycle_year + 1
+    end
+  end
+
+  describe '#realtive_previous_year' do
+    it 'returns the previous year relative to the instantiated timetable' do
+      timetable = described_class.all.order(:recruitment_cycle_year).first
+      expect(timetable.relative_previous_year).to eq timetable.recruitment_cycle_year - 1
+    end
+  end
+
   describe '#relative_previous_timetable' do
     it 'returns nil if no previous timetable exists' do
       timetable = described_class.all.order(:recruitment_cycle_year).first

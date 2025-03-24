@@ -18,7 +18,7 @@ RSpec.describe DataMigrations::BackfillEnglishProficiencyRecordsForCarriedOverAp
         efl_completed: true,
         efl_completed_at: Time.zone.now,
         english_proficiency: create(:english_proficiency, :with_toefl_qualification),
-        previous_application_form: create(:application_form, recruitment_cycle_year: current_year),
+        previous_application_form: create(:application_form, recruitment_cycle_year: previous_year),
       )
       expect { data_migration }.to not_change(EnglishProficiency, :count)
     end
