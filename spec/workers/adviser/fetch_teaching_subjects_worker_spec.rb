@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Adviser::FetchTeachingSubjectsWorker do
+  before do
+    FeatureFlag.activate(:adviser_sign_up)
+  end
+
   describe '#perform' do
     it 'creates new Adviser::TeachingSubject records' do
       teaching_subject_from_api = GetIntoTeachingApiClient::TeachingSubject.new(
@@ -96,6 +100,25 @@ RSpec.describe Adviser::FetchTeachingSubjectsWorker do
         described_class.new.perform
 
         expect(Adviser::TeachingSubject.last).to be_discarded
+      end
+    end
+
+    context 'when the adviser_sign_up feature is disabled' do
+      before do
+        FeatureFlag.deactivate(:adviser_sign_up)
+      end
+
+      it 'does not create any Teaching Subjects' do
+        teaching_subject_from_api = GetIntoTeachingApiClient::TeachingSubject.new(
+          id: 'some-id',
+          value: 'Maths',
+        )
+
+        stub_get_teaching_subjects(teaching_subject_from_api)
+
+        expect {
+          described_class.new.perform
+        }.not_to change(Adviser::TeachingSubject, :count)
       end
     end
   end

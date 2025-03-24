@@ -47,6 +47,17 @@ RSpec.describe Adviser::RefreshAdviserStatusWorker do
         expect(application_form.reload.adviser_status).to eq('unassigned')
       end
     end
+
+    context 'when the matchback API call errors' do
+      it 'does not update the adviser status' do
+        stub_matchback_with_error
+        application_form = create(:application_form, adviser_status: 'unassigned')
+
+        described_class.new.perform(application_form.id)
+
+        expect(application_form.reload.adviser_status).to eq('unassigned')
+      end
+    end
   end
 
 private
@@ -57,6 +68,13 @@ private
     teacher_training_adviser_sign_up = Adviser::TeacherTrainingAdviserSignUpDecorator.new(matchback_candidate)
 
     matchback_double = instance_double(Adviser::CandidateMatchback, teacher_training_adviser_sign_up:)
+    allow(Adviser::CandidateMatchback).to receive(:new).and_return(matchback_double)
+  end
+
+  def stub_matchback_with_error
+    matchback_double = instance_double(Adviser::CandidateMatchback)
+
+    allow(matchback_double).to receive(:teacher_training_adviser_sign_up).and_raise(GetIntoTeachingApiClient::ApiError)
     allow(Adviser::CandidateMatchback).to receive(:new).and_return(matchback_double)
   end
 end
