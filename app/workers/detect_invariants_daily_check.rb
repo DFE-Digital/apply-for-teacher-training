@@ -13,6 +13,8 @@ class DetectInvariantsDailyCheck
   end
 
   def detect_if_the_monthly_statistics_has_not_run
+    return unless HostingEnvironment.production?
+
     latest_monthly_report = Publications::MonthlyStatistics::MonthlyStatisticsReport.last
 
     return if latest_monthly_report.nil? || latest_monthly_report.generation_date >= MonthlyStatisticsTimetable.current_generation_date
