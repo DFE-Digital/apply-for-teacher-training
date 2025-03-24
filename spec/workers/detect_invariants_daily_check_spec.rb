@@ -191,6 +191,7 @@ RSpec.describe DetectInvariantsDailyCheck do
       let(:exception) { described_class::MonthlyStatisticsReportHasNotRun.new(message) }
 
       before do
+        allow(HostingEnvironment).to receive(:production?).and_return true
         allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::MonthlyStatisticsReportHasNotRun))
       end
 
