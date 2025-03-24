@@ -4,19 +4,20 @@ module ProviderInterface
   RSpec.describe DiversityDataByProvider do
     let(:provider) { create(:provider) }
     let(:diversity_data_by_provider) { described_class.new(provider: [provider.id]) }
+    let(:current_year) { RecruitmentCycleTimetable.current_year }
 
     describe '#total_submitted_applications' do
       it 'returns the number of application forms that have been submitted' do
         application_choices = [create(:application_choice, :offered, provider_ids: [provider.id]), create(:application_choice, :inactive, provider_ids: [provider.id])]
-        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, submitted_at: Time.zone.now, application_choices: application_choices)
-        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, submitted_at: nil, application_choices: [create(:application_choice, :unsubmitted, provider_ids: [provider.id])])
+        create(:application_form, recruitment_cycle_year: current_year, submitted_at: Time.zone.now, application_choices: application_choices)
+        create(:application_form, recruitment_cycle_year: current_year, submitted_at: nil, application_choices: [create(:application_choice, :unsubmitted, provider_ids: [provider.id])])
         expect(diversity_data_by_provider.total_submitted_applications).to eq(2)
       end
     end
 
     describe '#ethnicity_data' do
       it 'returns the ethnicity data for the provider' do
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'ethnic_group' => 'Mixed or multiple ethnic groups' }, application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'ethnic_group' => 'Mixed or multiple ethnic groups' }, application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
         expect(diversity_data_by_provider.ethnicity_data).to eq([
           {
             header: 'Asian or Asian British',
@@ -48,9 +49,9 @@ module ProviderInterface
 
     describe '#age_data' do
       it 'returns the age data for the provider' do
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, date_of_birth: Date.new(25.years.ago.year, 1, 1), application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, date_of_birth: Date.new(45.years.ago.year, 1, 1), application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, date_of_birth: Date.new(45.years.ago.year, 1, 1), application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, date_of_birth: Date.new(25.years.ago.year, 1, 1), application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, date_of_birth: Date.new(45.years.ago.year, 1, 1), application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, date_of_birth: Date.new(45.years.ago.year, 1, 1), application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
         expect(diversity_data_by_provider.age_data).to eq([
           {
             header: '18 to 24',
@@ -82,9 +83,9 @@ module ProviderInterface
 
     describe '#sex_data' do
       it 'returns the sex data for the provider' do
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'sex' => 'female' }, application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'sex' => 'female' }, application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'sex' => 'male' }, application_choices: [create(:application_choice, :awaiting_provider_decision, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'sex' => 'female' }, application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'sex' => 'female' }, application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'sex' => 'male' }, application_choices: [create(:application_choice, :awaiting_provider_decision, provider_ids: [provider.id])])
         expect(diversity_data_by_provider.sex_data).to eq([
           {
             header: 'Female',
@@ -108,10 +109,10 @@ module ProviderInterface
 
     describe '#disability_data' do
       it 'returns the disability data for the provider' do
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'disabilities' => ['Long-term illness'] }, application_choices: [create(:application_choice, :interviewing, provider_ids: [provider.id])])
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'disabilities' => ['Long-term illness', 'Mental health condition'] }, application_choices: [create(:application_choice, :interviewing, provider_ids: [provider.id])])
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'disabilities' => ['Autistic spectrum condition or another condition affecting speech, language, communication or social skills'] }, application_choices: [create(:application_choice, :accepted, provider_ids: [provider.id])])
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'disabilities' => ['Autistic spectrum condition or another condition affecting speech, language, communication or social skills'] }, application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['Long-term illness'] }, application_choices: [create(:application_choice, :interviewing, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['Long-term illness', 'Mental health condition'] }, application_choices: [create(:application_choice, :interviewing, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['Autistic spectrum condition or another condition affecting speech, language, communication or social skills'] }, application_choices: [create(:application_choice, :accepted, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['Autistic spectrum condition or another condition affecting speech, language, communication or social skills'] }, application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
         expect(diversity_data_by_provider.disability_data).to eq([
           {
             header: 'At least 1 disability or health condition declared',
@@ -168,7 +169,7 @@ module ProviderInterface
         create(
           :application_form,
           submitted_at: Time.zone.now,
-          recruitment_cycle_year: RecruitmentCycle.current_year,
+          recruitment_cycle_year: current_year,
           equality_and_diversity: nil,
           application_choices: [
             create(:application_choice, :interviewing, provider_ids: [provider.id]),

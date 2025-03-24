@@ -37,9 +37,6 @@ module CandidateInterface
 
     def sections_with_completion
       [
-        # "Courses" section
-        ([:course_choices, course_choices_completed?] if RecruitmentCycle.current_year < ApplicationForm::CONTINUOUS_APPLICATIONS_CYCLE_YEAR),
-
         # "About you" section
         [:personal_details, personal_details_completed?],
         [:contact_details, contact_details_completed?],

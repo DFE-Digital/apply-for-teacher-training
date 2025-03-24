@@ -124,7 +124,7 @@ module SupportInterface
         providers = providers
                     .distinct
                     .joins(:courses)
-                    .where(courses: { accredited_provider_id: accrediting_provider_ids, recruitment_cycle_year: RecruitmentCycle.current_year })
+                    .where(courses: { accredited_provider_id: accrediting_provider_ids, recruitment_cycle_year: RecruitmentCycleTimetable.current_year })
       end
 
       @filtered_count = providers.count

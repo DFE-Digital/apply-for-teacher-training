@@ -144,13 +144,17 @@ module DataAPI
           LEFT OUTER JOIN application_forms as subsequent_application_forms
             ON application_forms.id = subsequent_application_forms.previous_application_form_id
           WHERE NOT candidates.hide_in_reporting
-            AND application_forms.recruitment_cycle_year = #{RecruitmentCycle.current_year}
+            AND application_forms.recruitment_cycle_year = #{current_year}
             AND (
               application_forms.phase = 'apply_1'
               OR subsequent_application_forms.id is null
             )
           GROUP BY application_forms.candidate_id, application_forms.id, nationality, domicile
       SQL
+    end
+
+    def current_year
+      @current_year ||= RecruitmentCycleTimetable.current_year
     end
 
     def uk_nationalities

@@ -2,9 +2,9 @@ class ChaserSent < ApplicationRecord
   belongs_to :chased, polymorphic: true
 
   scope :since_service_opened, lambda { |service|
-    where('created_at >= ?', CycleTimetable.send("#{service}_opens"))
+    where('created_at >= ?', RecruitmentCycleTimetable.current_timetable.send("#{service}_opens_at"))
   }
-  scope :since_application_deadline, -> { where('created_at > ?', CycleTimetable.apply_deadline) }
+  scope :since_application_deadline, -> { where('created_at > ?', RecruitmentCycleTimetable.current_timetable.apply_deadline_at) }
 
   enum :chaser_type, {
     ######################################

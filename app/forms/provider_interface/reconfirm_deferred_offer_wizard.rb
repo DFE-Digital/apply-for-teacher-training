@@ -19,11 +19,13 @@ module ProviderInterface
 
     def validate_application_choice
       if application_choice
+        previous_year = RecruitmentCycleTimetable.previous_year
+
         unless application_choice.status == 'offer_deferred'
           errors.add(:application_choice_id, 'Application status is not a deferred offer')
         end
-        unless application_choice.recruitment_cycle == RecruitmentCycle.previous_year
-          errors.add(:application_choice_id, "Deferred offer is not from #{RecruitmentCycle.previous_year}")
+        unless application_choice.recruitment_cycle == previous_year
+          errors.add(:application_choice_id, "Deferred offer is not from #{previous_year}")
         end
       else
         errors.add(:application_choice_id, 'No application choice has been supplied')
@@ -36,7 +38,7 @@ module ProviderInterface
 
     def course_option_still_available
       if current_step != 'new' && !course_option_in_new_cycle
-        errors.add(:course_option_in_new_cycle, "No matching course option in #{RecruitmentCycle.current_year}")
+        errors.add(:course_option_in_new_cycle, "No matching course option in #{RecruitmentCycleTimetable.current_year}")
       end
     end
 

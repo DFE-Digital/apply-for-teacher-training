@@ -11,14 +11,17 @@ RSpec.describe CandidateMailer do
         'a mail with subject and content',
         'Submit your teacher training application before courses fill up',
         'heading' => 'Dear Fred',
-        'cycle_details' => "as soon as you can to get on a course starting in the #{RecruitmentCycleTimetable.current_academic_year_range_name} academic year.",
-        'details' => "The deadline to submit your application is 6pm on #{RecruitmentCycleTimetable.current_timetable.apply_deadline_at.to_fs(:govuk_date)}",
         'realistic job preview heading' => 'Gain insights into life as a teacher',
         'realistic job preview' => 'Try the realistic job preview tool',
         'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
       )
 
       it_behaves_like 'an email with unsubscribe option'
+
+      it 'renders the correct dates' do
+        expect(email.body).to include("as soon as you can to get on a course starting in the #{RecruitmentCycleTimetable.current_academic_year_range_name} academic year.")
+        expect(email.body).to include("The deadline to submit your application is 6pm on #{RecruitmentCycleTimetable.current_timetable.apply_deadline_at.to_fs(:govuk_date)}")
+      end
     end
 
     context 'includes utm parameters' do

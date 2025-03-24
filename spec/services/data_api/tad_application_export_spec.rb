@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe DataAPI::TADApplicationExport, :with_audited do
   describe '#as_json' do
     it 'returns json' do
+      current_year = RecruitmentCycleTimetable.current_year
       application_choice = create(:application_choice, :offer_deferred_after_recruitment)
       application_form = application_choice.application_form
       candidate = application_choice.candidate
@@ -52,7 +53,7 @@ RSpec.describe DataAPI::TADApplicationExport, :with_audited do
         offer_deferred_at: application_choice.offer_deferred_at.iso8601,
         offer_originally_deferred_at: application_choice.offer_deferred_at.iso8601,
         offer_reconfirmed_at: application_choice.audits.last.created_at.iso8601,
-        offer_reconfirmed_cycle_year: RecruitmentCycle.current_year,
+        offer_reconfirmed_cycle_year: current_year,
         recruitment_cycle_year: application_choice.recruitment_cycle,
         accepted_at: application_choice.accepted_at.iso8601,
         withdrawn_at: nil,
