@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.suitability_to_work_with_children_review') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.suitability_to_work_with_children_review'), @section_complete_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(application_form_path) %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_complete_safeguarding_path, method: :post do |f| %>

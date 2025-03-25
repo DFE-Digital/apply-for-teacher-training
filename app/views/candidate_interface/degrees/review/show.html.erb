@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.degree_review', count: @application_form.application_qualifications.degrees.size) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.degree_review', count: @application_form.application_qualifications.degrees.size), @section_complete_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(application_form_path) %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_degree_complete_path, method: :patch do |f| %>

@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.interview_preferences.review') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.interview_preferences.review'), @section_complete_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(application_form_path) %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_interview_preferences_complete_path, method: :patch do |f| %>
