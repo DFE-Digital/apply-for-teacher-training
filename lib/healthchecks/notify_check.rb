@@ -10,6 +10,10 @@ class Healthchecks::NotifyCheck < OkComputer::Check
     notify_client.send_email(
       email_address: 'simulate-delivered@notifications.service.gov.uk',
       template_id: ApplicationMailer::GENERIC_NOTIFY_TEMPLATE,
+      personalisation: {
+        summary: 'Notify check',
+        body: 'This is a test email to check Notify is working',
+      },
     )
 
     mark_message 'Notify is working'
