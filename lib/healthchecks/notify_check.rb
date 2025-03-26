@@ -11,7 +11,7 @@ class Healthchecks::NotifyCheck < OkComputer::Check
       email_address: 'simulate-delivered@notifications.service.gov.uk',
       template_id: ApplicationMailer::GENERIC_NOTIFY_TEMPLATE,
       personalisation: {
-        summary: 'Notify check',
+        subject: 'Notify check',
         body: 'This is a test email to check Notify is working',
       },
     )
