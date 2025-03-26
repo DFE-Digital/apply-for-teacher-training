@@ -9,7 +9,9 @@ class Healthchecks::NotifyCheck < OkComputer::Check
 
     notify_client.send_email(
       email_address: 'simulate-delivered@notifications.service.gov.uk',
-      template_id: ENV.fetch('GOVUK_NOTIFY_TEST_TEMPLATE_ID'),
+      template_id: ApplicationMailer::GENERIC_NOTIFY_TEMPLATE,
+      subject: 'Notify healthcheck',
+      body: 'Notify healthcheck',
     )
 
     mark_message 'Notify is working'
