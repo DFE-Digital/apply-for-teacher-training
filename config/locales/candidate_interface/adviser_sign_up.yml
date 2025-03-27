@@ -20,6 +20,7 @@ en:
         If you continue, we will share your personal details and the status of your application with a dedicated adviser.
         We will not share your personal statement, qualifications or work history with them.
       submit_text: Continue
+      request: Request Adviser
       flash:
         success: An adviser will contact you by email within 5 working days.
       call_to_action:
