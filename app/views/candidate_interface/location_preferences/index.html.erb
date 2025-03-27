@@ -1,4 +1,4 @@
-<% content_for :title, t('.title') %>
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @preference_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(@back_path || edit_candidate_interface_pool_opt_in_path(@preference)) %>
 
 <div class="govuk-grid-row">
@@ -57,9 +57,7 @@
         label: { text: t('.update_location_preferences') },
       ) %>
 
-      <br>
-      <br>
-      <%= f.govuk_submit %>
+      <%= f.govuk_submit class: 'govuk-!-margin-top-5' %>
     <% end %>
   </div>
 </div>

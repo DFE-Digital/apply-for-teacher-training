@@ -1,4 +1,4 @@
-<% content_for :browser_title, t('.title') %>
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @preference_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(@back_path || candidate_interface_application_choices_path) %>
 
 <div class="govuk-grid-row">
