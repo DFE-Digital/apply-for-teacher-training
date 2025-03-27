@@ -217,8 +217,8 @@ class Course < ApplicationRecord
     I18n.t('course_types.postgraduate')
   end
 
-  def does_not_require_degree?
-    undergraduate? || !degree_grade?
+  def degree_required?
+    !undergraduate? && degree_grade?
   end
 
   def deferred_start_date

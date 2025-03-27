@@ -354,15 +354,15 @@ RSpec.describe Course do
     end
   end
 
-  describe '#does_not_require_degree?' do
+  describe '#degree_required?' do
     let(:course) { build(:course, program_type:, degree_grade:) }
 
     context 'when the course is undergraduate' do
       let(:program_type) { 'teacher_degree_apprenticeship' }
       let(:degree_grade) { nil }
 
-      it 'returns true' do
-        expect(course.does_not_require_degree?).to be(true)
+      it 'returns false' do
+        expect(course.degree_required?).to be(false)
       end
     end
 
@@ -370,8 +370,8 @@ RSpec.describe Course do
       let(:program_type) { 'higher_education_programme' }
       let(:degree_grade) { nil }
 
-      it 'returns true' do
-        expect(course.does_not_require_degree?).to be(true)
+      it 'returns false' do
+        expect(course.degree_required?).to be(false)
       end
     end
 
@@ -379,8 +379,8 @@ RSpec.describe Course do
       let(:program_type) { 'higher_education_programme' }
       let(:degree_grade) { 'two_one' }
 
-      it 'returns false' do
-        expect(course.does_not_require_degree?).to be(false)
+      it 'returns true' do
+        expect(course.degree_required?).to be(true)
       end
     end
   end
