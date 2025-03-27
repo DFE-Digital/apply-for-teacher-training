@@ -332,17 +332,17 @@ If the course doesn't exist in the previous cycle we'll need them to confirm the
 If the course details have changed from one cycle to another, provider users should contact support to request the changes. To confirm a deferral through the console:
 
 ```ruby
-zendesk_url = ZENDESK_URL
+zendesk_url = 'https://becomingateacher.zendesk.com/agent/tickets/529071'
 support_user = SupportUser.find_by(email_address: YOUR_SUPPORT_EMAIL)
 
-application_choice_id = APPLICATION_CHOICE_ID
-provider_code = PROVIDER_CODE
-new_course_code = NEW_COURSE_CODE
-new_course_recruitment_cycle_year = NEW_COURSE_RECRUITMENT_CYCLE_YEAR
-new_site_code = NEW_SITE_CODE
-new_study_mode = NEW_STUDY_MODE # part_time or full_time
-
+application_choice_id = 740269
 application_choice = ApplicationChoice.find(application_choice_id)
+provider_code = "N91"
+new_course_code = "W9X1"
+new_course_recruitment_cycle_year = application_choice.current_recruitment_cycle_year
+new_site_code = 2
+new_study_mode = 'full_time' # part_time or full_time
+
 new_course_option = CourseOption.joins(course: :provider, site: :provider).find_by(
   study_mode: new_study_mode,
   courses: { providers: { code: provider_code },
@@ -350,6 +350,16 @@ new_course_option = CourseOption.joins(course: :provider, site: :provider).find_
              recruitment_cycle_year: new_course_recruitment_cycle_year
   },
   sites: { providers: { code: provider_code }, code: new_site_code }
+)
+
+
+application_choice.update_course_option_and_associated_fields!(
+  new_course_option,
+  other_fields: {
+    course_option: new_course_option,
+    course_changed_at: Time.zone.now,
+  },
+  audit_comment: zendesk_url
 )
 
 application_choice.audit_comment = zendesk_url
@@ -713,6 +723,17 @@ Check logs in Kibana. If there is a 422 Unprocessable Entity response for this u
 
 If a candidate dismisses the banner for linking their GOV.UK One Login to an existing candidate account (one they created with magic link authentication)
 
+```ruby
+candidate = Candidate.find_by(email_address: 'erykzagozda1@gmail.com')
+
+puts candidate.account_recovery_status # dismissed or not_started == no problem
+puts candidate.one_login_auth.email_address == candidate.email_address # true == no problem
+
+candidate.one_login_auth&.destroy
+candidate.account_recovery_request&.destroy
+candidate.update(account_recovery_status: 'not_started')
+```
+
 Check the Candidate `account_recovery_status`.
 If `candidate.account_recovery_status == 'dismissed'`
 - No problem, they just clicked the button.
@@ -794,7 +815,7 @@ If you want to check the candidate and the audit created above:
 
 ## Old recruitment cycles
 
-When an `ApplicationForm` is updated, we ususally want those changes to be available in the API so Providers and Vendors can consume the updates. This is done by `touch`ing the `ApplicationChoice` records. This updates the `updated_at` value on the ApplicationChoice so it is made priority for the providers to consume.
+When an `ApplicationForm` is updated, we usually want those changes to be available in the API so Providers and Vendors can consume the updates. This is done by `touch`ing the `ApplicationChoice` records. This updates the `updated_at` value on the ApplicationChoice so it is made priority for the providers to consume.
 
 Providers have trouble consuming these changes if the application that gets an update is from an old recruitment cycle (We need to talk to vendors to see if this is still the case). We have a system to prevent this from happening. If the ApplicationForm is from a past recruitment cycle we prevent any changes from being made on it.
 
@@ -802,12 +823,23 @@ If we want to bypass this, we will want to update the value in the database and 
 
 This also prevents audits from being created, so we have to create an audit record manually:
 
-### Update a candidates last name from an old recruitment cycle
+### Update a candidates first and last name from an old recruitment cycle
 
 ```ruby
-application_form = ApplicationForm.find_by(APPLICATION_FORM_ID)
-last_name = LAST_NAME
 audit_comment = ZENDESK_URL
-application_form.update_column(:last_name, last_name)
-application_form.audits.new(action: :update, comment: audit_comment)
+application_form = ApplicationForm.find(APPLICATION_FORM_ID)
+first_name = FIRST_NAME
+last_name = LAST_NAME
+
+original_first_name = application_form.first_name
+original_last_name = application_form.last_name
+application_form.update_columns(first_name: first_name, last_name: last_name)
+application_form.audits.create(
+  action: :update,
+  audited_changes: {
+    "first_name": [original_first_name, first_name],
+    "last_name": [original_last_name, last_name]
+  },
+  comment: audit_comment
+)
 ```
