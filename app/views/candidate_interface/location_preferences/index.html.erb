@@ -1,0 +1,65 @@
+<% content_for :title, t('.title') %>
+<% content_for :before_content, govuk_back_link_to(@back_path || edit_candidate_interface_pool_opt_in_path(@preference)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= t('.title') %></h1>
+    <p class="govuk-body"><%= t('.body') %></p>
+
+    <h2 class="govuk-heading-m"><%= t('.select_locations') %></h1>
+
+    <%= form_with(
+      model: @preference_form,
+      url: candidate_interface_draft_preference_path(@preference.id),
+      method: :patch,
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= govuk_table(html_attributes: { class: 'app-table__row--no-bottom-border' }) do |table| %>
+        <% table.with_head do |head| %>
+          <% head.with_row do |row| %>
+            <%= row.with_cell(text: t('.location')) %>
+            <%= row.with_cell(text: t('.distance_from_location')) %>
+          <% end %>
+        <% end %>
+
+        <% table.with_body do |body| %>
+          <% @location_preferences.each_with_index do |location, index| %>
+            <% body.with_row do |row| %>
+              <%= row.with_cell(text: location.name) %>
+
+              <%= row.with_cell(text: location.within) %>
+              <%= row.with_cell do %>
+                <%= govuk_link_to t('.change'), edit_candidate_interface_draft_preference_location_preference_path(@preference, location) %>
+              <% end %>
+              <%= row.with_cell do %>
+                <%= govuk_link_to t('.remove'), candidate_interface_draft_preference_location_preference_path(@preference, location) %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <% body.with_row do |row| %>
+            <%= row.with_cell do %>
+              <%= govuk_button_link_to(
+                t('.add_another_location'),
+                new_candidate_interface_draft_preference_location_preference_path(@preference),
+                secondary: true,
+              ) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= f.govuk_check_box(
+        :dynamic_location_preferences,
+        true,
+        multiple: false,
+        label: { text: t('.update_location_preferences') },
+      ) %>
+
+      <br>
+      <br>
+      <%= f.govuk_submit %>
+    <% end %>
+  </div>
+</div>

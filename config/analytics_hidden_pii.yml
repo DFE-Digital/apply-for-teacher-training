@@ -18,3 +18,5 @@ shared:
   one_login_auths:
     - candidate_id
     - email_address
+  candidate_preferences:
+    - candidate_id
