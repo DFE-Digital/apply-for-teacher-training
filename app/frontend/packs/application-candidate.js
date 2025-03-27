@@ -10,7 +10,14 @@ import '../styles/application-candidate.scss'
 import cookieBanners from './cookies/cookie-banners'
 import showMoreShowLess from './components/show-more-show-less'
 
+// stimulus
+import { Application } from '@hotwired/stimulus'
+import LocationAutocompleteController from './controllers/location_autocomplete_controller'
+
 require.context('govuk-frontend/dist/govuk/assets')
+
+window.Stimulus = Application.start()
+window.Stimulus.register('location-autocomplete', LocationAutocompleteController)
 
 govUKFrontendInitAll()
 
