@@ -1,0 +1,34 @@
+<% content_for :title, t('page_titles.new_adviser_sign_up') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_details_path, t('application_form.adviser_sign_up.back')) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(model: @adviser_sign_up, url: submit_candidate_interface_adviser_sign_ups_path) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l"><%= t('application_form.adviser_sign_up.heading') %></h1>
+
+      <p class="govuk-body"><%= t('application_form.adviser_sign_up.introduction') %></p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li><%= t('application_form.adviser_sign_up.bullets').first %></li>
+        <li><%= t('application_form.adviser_sign_up.bullets').second %></li>
+        <li><%= t('application_form.adviser_sign_up.bullets').third %></li>
+      </ul>
+
+      <%= govuk_summary_list do |summary_list| %>
+        <% summary_list.with_row do |row| %>%
+          <% row.with_key { 'Subject' } %>%
+          <% row.with_value { @adviser_sign_up.preferred_teaching_subject.title } %>
+          <% row.with_action(text: 'Change', href: new_candidate_interface_adviser_sign_up_path, visually_hidden_text: 'Change') %>%
+        <% end %>
+      <% end %>
+
+      <p class="govuk-body">
+        <%= t('application_form.adviser_sign_up.disclaimer') %>
+      </p>
+
+      <%= f.govuk_submit t('application_form.adviser_sign_up.request') %>
+    <% end %>
+  </div>
+</div>
