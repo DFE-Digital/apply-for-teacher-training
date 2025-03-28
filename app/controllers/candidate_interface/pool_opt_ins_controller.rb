@@ -9,6 +9,10 @@ module CandidateInterface
     end
 
     def edit
+      if @preference.published?
+        @preference = @preference.create_draft_dup
+      end
+
       @preference_form = PoolOptInsForm.build_from_preference(
         current_candidate:,
         preference: @preference,
@@ -63,6 +67,7 @@ module CandidateInterface
     end
 
     def set_preference
+      # find draft_preference?
       @preference = current_candidate.preferences.find_by(id: params[:id])
     end
 
