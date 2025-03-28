@@ -120,6 +120,7 @@ RSpec.describe 'Candidate adds preferences' do
 
   def then_i_am_redirected_to_application_choices
     expect(page).to have_current_path(candidate_interface_application_choices_path)
+    expect(page).to have_content('You are not sharing your application details with providers you have not applied to')
   end
 
   def then_i_am_redirected_to_opt_in
