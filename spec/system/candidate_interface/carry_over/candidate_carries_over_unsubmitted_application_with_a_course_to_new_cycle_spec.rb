@@ -11,21 +11,28 @@ RSpec.describe 'Carry over application and submit new application choices', time
 
     when_i_sign_in_again
     then_i_am_redirected_to_the_carry_over_interstitial
+    and_the_page_is_accessible
 
     when_i_click_on_continue
     then_i_see_application_details_page
+    and_the_page_is_accessible
     and_i_can_navigate_to_application_choices
+    and_the_page_is_accessible
 
     when_i_view_referees
     then_i_can_see_the_referees_i_previously_added
+    and_the_page_is_accessible
 
     when_i_view_courses
     then_i_can_see_that_i_need_to_select_courses
+    and_the_page_is_accessible
 
     when_i_add_a_course
     and_i_visit_the_application_dashboard
+    and_the_page_is_accessible
     and_i_click_on_the_course_name
     then_i_see_the_course_choice_review_page
+    and_the_page_is_accessible
 
     when_i_complete_the_rest_of_my_details
     and_i_visit_the_application_dashboard
@@ -35,6 +42,10 @@ RSpec.describe 'Carry over application and submit new application choices', time
   end
 
 private
+
+  def and_the_page_is_accessible
+    expect(page).to be_axe_clean.according_to(:wcag2aaa)
+  end
 
   def when_i_have_an_unsubmitted_application
     @application_form = create(
