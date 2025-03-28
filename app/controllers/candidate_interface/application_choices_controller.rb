@@ -51,6 +51,9 @@ module CandidateInterface
       CandidateInterface::SubmitApplicationChoice.new(@application_choice).call
       flash[:success] = t('application_form.submit_application_success.title')
 
+      ## NEED some login in here. Do we redirect to share details page on every submit?
+      # Only redirect if they have not created a preference?
+      # Only once?
       if FeatureFlag.active?(:candidate_preferences)
         redirect_to candidate_interface_share_details_path
       else

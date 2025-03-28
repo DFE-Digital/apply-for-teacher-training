@@ -67,7 +67,6 @@ module CandidateInterface
     end
 
     def set_preference
-      # find draft_preference?
       @preference = current_candidate.preferences.find_by(id: params[:id])
     end
 

@@ -3,8 +3,7 @@ module CandidateInterface
     before_action :set_preference, only: %i[show update]
     before_action :redirect_to_root_path_if_flag_is_inactive
 
-    def show
-    end
+    def show; end
 
     def update
       @preference_form = PreferencesForm.new(
@@ -29,7 +28,6 @@ module CandidateInterface
     end
 
     def set_preference
-      # draft_preferences?
       @preference = current_candidate.preferences.find_by(id: params[:id])
     end
 
