@@ -6,6 +6,10 @@ module CandidateInterface
     before_action :redirect_to_root_path_if_flag_is_inactive
 
     def index
+      if @preference.published?
+        @preference = @preference.create_draft_dup
+      end
+
       @location_preferences = @preference.location_preferences
       @preference_form = PreferencesForm.build_from_preference(
         preference: @preference,
