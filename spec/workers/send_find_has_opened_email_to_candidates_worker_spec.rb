@@ -11,14 +11,14 @@ RSpec.describe SendFindHasOpenedEmailToCandidatesWorker, :sidekiq do
       :application_form,
       candidate: candidate_1,
       application_choices: [unsubmitted_application_choice],
-      recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+      recruitment_cycle_year: previous_year,
     )
 
     create(
       :application_form,
       candidate: candidate_2,
       application_choices: [rejected_application_choice],
-      recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+      recruitment_cycle_year: previous_year,
     )
 
     [candidate_1, candidate_2]

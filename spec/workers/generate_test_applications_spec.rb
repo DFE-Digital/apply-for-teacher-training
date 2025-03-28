@@ -4,8 +4,8 @@ RSpec.describe GenerateTestApplications do
   include CycleTimetableHelper
 
   it 'generates test candidates with applications in various states', :sidekiq, time: mid_cycle do
-    previous_cycle = RecruitmentCycleTimetable.previous_year
-    current_cycle = RecruitmentCycleTimetable.current_year
+    previous_cycle = previous_year
+    current_cycle = current_year
 
     # necessary to test 'cancelled' state
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: 2020))
@@ -47,8 +47,8 @@ RSpec.describe GenerateTestApplications do
   end
 
   it 'generates undergraduate test applications', :sidekiq, time: mid_cycle do
-    current_cycle = RecruitmentCycleTimetable.current_year
-    previous_cycle = RecruitmentCycleTimetable.previous_year
+    current_cycle = current_year
+    previous_cycle = previous_year
     provider = create(:provider)
 
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: previous_cycle))
@@ -75,7 +75,7 @@ RSpec.describe GenerateTestApplications do
   end
 
   it 'generates test applications for the next cycle', :sidekiq, time: mid_cycle do
-    current_cycle = RecruitmentCycleTimetable.current_year
+    current_cycle = current_year
     provider = create(:provider)
 
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))

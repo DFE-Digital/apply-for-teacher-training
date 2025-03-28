@@ -11,32 +11,32 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, :sidekiq do
       :application_form,
       candidate: unsubmitted_candidate,
       application_choices: [build(:application_choice, :application_not_sent)],
-      recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+      recruitment_cycle_year: previous_year,
     )
 
     create(
       :application_form,
       candidate: rejected_candidate,
       application_choices: [build(:application_choice, :rejected)],
-      recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+      recruitment_cycle_year: previous_year,
     )
 
     create(
       :application_form,
       candidate: carried_over_candidate,
       application_choices: [build(:application_choice, :application_not_sent)],
-      recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+      recruitment_cycle_year: previous_year,
     )
     create(
       :application_form,
       candidate: carried_over_candidate,
-      recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+      recruitment_cycle_year: current_year,
     )
 
     create(
       :application_form,
       candidate: recruited_candidate,
-      recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+      recruitment_cycle_year: previous_year,
       application_choices: [build(:application_choice, :recruited)],
     )
 

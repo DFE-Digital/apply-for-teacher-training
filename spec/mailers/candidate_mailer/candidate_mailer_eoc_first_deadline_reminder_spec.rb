@@ -19,8 +19,8 @@ RSpec.describe CandidateMailer do
       it_behaves_like 'an email with unsubscribe option'
 
       it 'renders the correct dates' do
-        expect(email.body).to include("as soon as you can to get on a course starting in the #{RecruitmentCycleTimetable.current_academic_year_range_name} academic year.")
-        expect(email.body).to include("The deadline to submit your application is 6pm on #{RecruitmentCycleTimetable.current_timetable.apply_deadline_at.to_fs(:govuk_date)}")
+        expect(email.body).to include("as soon as you can to get on a course starting in the #{current_timetable.academic_year_range_name} academic year.")
+        expect(email.body).to include("The deadline to submit your application is 6pm on #{current_timetable.apply_deadline_at.to_fs(:govuk_date)}")
       end
     end
 

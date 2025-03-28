@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'Entering personal details', time: Time.zone.local(RecruitmentCycle.current_year, 7, 6, 12) do
+RSpec.describe 'Entering personal details' do
   include CandidateHelper
 
-  scenario 'I can specify that I need to apply for right to work or study in the UK' do
+  scenario 'I can specify that I need to apply for right to work or study in the UK', time: mid_cycle do
     and_i_am_signed_in
     and_i_can_complete_personal_information_with_non_british_or_irish_nationality
     and_i_can_mark_the_section_complete

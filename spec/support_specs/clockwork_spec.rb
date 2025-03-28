@@ -82,11 +82,7 @@ RSpec.describe Clockwork, :clockwork do
     end
   end
 
-  context 'when the performance report is out season' do
-    before do
-      allow(CycleTimetable).to receive(:current_cycle_week).and_return(2)
-    end
-
+  context 'when the performance report is out season', time: after_find_opens + 2.weeks do
     it 'does not run the report scheduler every Monday' do
       start_time = Time.zone.now.beginning_of_week.change(hour: 5)
       end_time = Time.zone.now.beginning_of_week.change(hour: 6)

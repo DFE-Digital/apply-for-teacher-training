@@ -9,14 +9,11 @@ RSpec.describe CandidateInterface::CarryOverMidCycleComponent do
   end
 
   context 'after the new recruitment cycle begins year' do
-    let(:timetable) { RecruitmentCycleTimetable.current_timetable }
-
     before do
-      TestSuiteTimeMachine.travel_permanently_to(timetable.apply_opens_at)
+      TestSuiteTimeMachine.travel_permanently_to(current_timetable.apply_opens_at)
     end
 
     it 'renders the correct academic years' do
-      current_year = timetable.recruitment_cycle_year
       application_year = current_year - 1
       application_form = build(:completed_application_form, recruitment_cycle_year: application_year)
       result = render_inline(described_class.new(application_form:))
@@ -27,7 +24,6 @@ RSpec.describe CandidateInterface::CarryOverMidCycleComponent do
 
     context 'the application was started two years ago' do
       it 'renders the correct academic years' do
-        current_year = timetable.recruitment_cycle_year
         application_year = current_year - 2
 
         application_form = build(:completed_application_form, recruitment_cycle_year: application_year)

@@ -10,7 +10,6 @@ RSpec.describe DataMigrations::RemoveCoursesNotOnPublish do
   let!(:course_existing_in_apply_but_not_publish_with_choices) { create(:application_choice, course_option: create(:course_option, course: create(:course, :uuid, provider:))).current_course }
 
   before do
-    current_year = RecruitmentCycleTimetable.current_year
     stub_teacher_training_api_courses(
       provider_code: provider.code,
       recruitment_cycle_year: current_year,

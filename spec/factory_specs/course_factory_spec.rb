@@ -20,7 +20,7 @@ RSpec.describe 'Course factory' do
     end
 
     field :age_range, type: String
-    field :applications_open_from, value: CycleTimetable.apply_opens
+    field :applications_open_from, value: current_timetable.apply_opens_at
     field :code, type: String
     field :course_length, value: 'OneYear'
     field :description, type: String
@@ -29,7 +29,6 @@ RSpec.describe 'Course factory' do
     field :name, type: String
     field :program_type, value: 'scitt_programme'
     field :qualifications, value: %w[qts pgce]
-    field :recruitment_cycle_year, value: RecruitmentCycle.current_year
     field :start_date, presence: true
     field :withdrawn, value: false
 
@@ -82,7 +81,7 @@ RSpec.describe 'Course factory' do
     end
 
     trait :previous_year do
-      field :recruitment_cycle_year, value: RecruitmentCycle.previous_year
+      field :recruitment_cycle_year, value: previous_year
     end
 
     trait :available_the_year_after do
@@ -102,7 +101,7 @@ RSpec.describe 'Course factory' do
     end
 
     trait :available_in_current_and_next_year do
-      field :recruitment_cycle_year, value: RecruitmentCycle.current_year
+      field :recruitment_cycle_year, value: current_year
       it_behaves_like 'trait :available_the_year_after'
     end
 
