@@ -1,0 +1,80 @@
+en:
+  candidate_interface:
+    publish_preferences:
+      create:
+        success: You are sharing your application details with providers you have not applied to
+    preferences:
+      show: Check your application sharing preferences
+      share_question: Do you want to share your application details with other training providers?
+      preferred_locations: Preferred locations
+      update_my_locations: Add new locations to my preferences when I apply to new courses
+      change: Change
+      submit: Submit preferences
+    draft_preferences:
+      show:
+        title: Check your application sharing preferences
+        share_information: Do you want to share your application details with other training providers?
+        preferred_locations: Preferred locations
+        dynamic_locations: Update my location preferences when I apply to a new course
+        change: Change
+        submit: Submit preferences
+        location: Within %{radius} miles of %{location}
+    pool_opt_ins:
+      new:
+        title: Do you want to make your application details visible to other training providers?
+      edit:
+        title: Do you want to make your application details visible to other training providers?
+      show:
+        title: Check your application sharing preferences
+        share_information: Do you want to share your application details with other training providers?
+        preferred_locations: Preferred locations
+        dynamic_locations: Update my location preferences when I apply to a new course
+        change: Change
+        submit: Submit preferences
+      form:
+        title: Do you want to make your application details visible to other training providers?
+        body: When you have no applications that are waiting for a decision from a provider, other providers will be able to see your application details and invite you to apply to their courses.
+    location_preferences:
+      index:
+        title: Location Preferences
+        body: Training providers will use the locations you enter here to search for candidates near their courses
+        select_locations: Add, change or add preferred locations
+        location: Location
+        distance_from_location: Distance from location
+        change: Change
+        update_location_preferences: Add new locations to my preferences when I apply to new courses
+        remove: Remove
+        add_another_location: Add another location
+      new:
+        title: Add a location
+        submit_text: Add location
+      edit:
+        title: Change location preferences
+        submit_text: Update location
+      form:
+        within: Within
+        name: of city, town or postcode
+        miles: miles
+      show:
+        title: Do you want to remove this location?
+        location: Location
+        remove: Yes, remove location
+  activemodel:
+    errors:
+      models:
+        candidate_interface/preferences_form:
+          attributes:
+            base:
+              location_preferences_blank: Add location preferences
+        candidate_interface/pool_opt_ins_form:
+          attributes:
+            pool_status:
+              blank: Select weather to make your application details visible to other training providers
+        candidate_interface/location_preferences_form:
+          attributes:
+            within:
+              blank: Add a location radius
+            name:
+              blank: Add a location name
+            base:
+              invalid_location: Enter a real city, town or postcode
