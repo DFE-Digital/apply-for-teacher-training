@@ -794,7 +794,7 @@ If you want to check the candidate and the audit created above:
 
 ## Old recruitment cycles
 
-When an `ApplicationForm` is updated, we ususally want those changes to be available in the API so Providers and Vendors can consume the updates. This is done by `touch`ing the `ApplicationChoice` records. This updates the `updated_at` value on the ApplicationChoice so it is made priority for the providers to consume.
+When an `ApplicationForm` is updated, we usually want those changes to be available in the API so Providers and Vendors can consume the updates. This is done by `touch`ing the `ApplicationChoice` records. This updates the `updated_at` value on the ApplicationChoice so it is made priority for the providers to consume.
 
 Providers have trouble consuming these changes if the application that gets an update is from an old recruitment cycle (We need to talk to vendors to see if this is still the case). We have a system to prevent this from happening. If the ApplicationForm is from a past recruitment cycle we prevent any changes from being made on it.
 
@@ -802,12 +802,23 @@ If we want to bypass this, we will want to update the value in the database and 
 
 This also prevents audits from being created, so we have to create an audit record manually:
 
-### Update a candidates last name from an old recruitment cycle
+### Update a candidates first and last name from an old recruitment cycle
 
 ```ruby
-application_form = ApplicationForm.find_by(APPLICATION_FORM_ID)
-last_name = LAST_NAME
 audit_comment = ZENDESK_URL
-application_form.update_column(:last_name, last_name)
-application_form.audits.new(action: :update, comment: audit_comment)
+application_form = ApplicationForm.find(APPLICATION_FORM_ID)
+first_name = FIRST_NAME
+last_name = LAST_NAME
+
+original_first_name = application_form.first_name
+original_last_name = application_form.last_name
+application_form.update_columns(first_name: first_name, last_name: last_name)
+application_form.audits.create(
+  action: :update,
+  audited_changes: {
+    "first_name": [original_first_name, first_name],
+    "last_name": [original_last_name, last_name]
+  },
+  comment: audit_comment
+)
 ```
