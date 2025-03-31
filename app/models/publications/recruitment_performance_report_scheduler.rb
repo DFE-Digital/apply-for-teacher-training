@@ -6,6 +6,8 @@ module Publications
     end
 
     def call
+      return unless HostingEnvironment.production?
+
       schedule_national_report
       schedule_provider_report
     end
