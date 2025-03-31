@@ -11,17 +11,31 @@ RSpec.describe 'Submit to continuous apps' do
     let(:application_form) { create(:application_form, :completed, :with_degree, submitted_at: nil) }
 
     before do
+      FeatureFlag.activate(:candidate_preferences)
       post candidate_interface_course_choices_submit_course_choice_path(choice.id)
     end
 
     it 'be successful' do
-      expect(response).to redirect_to(candidate_interface_application_choices_path)
+      expect(response).to redirect_to(candidate_interface_share_details_path)
       follow_redirect!
       expect(response.body).to include(I18n.t('application_form.submit_application_success.title'))
     end
 
     it 'changes to awaiting provider decision' do
       expect(choice.reload).to be_awaiting_provider_decision
+    end
+
+    context 'when canddiate preferences FeatureFlag is off' do
+      before do
+        FeatureFlag.deactivate(:candidate_preferences)
+        post candidate_interface_course_choices_submit_course_choice_path(choice.id)
+      end
+
+      it 'be successful' do
+        expect(response).to redirect_to(candidate_interface_application_choices_path)
+        follow_redirect!
+        expect(response.body).to include(I18n.t('application_form.submit_application_success.title'))
+      end
     end
   end
 

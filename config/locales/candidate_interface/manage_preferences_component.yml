@@ -1,0 +1,8 @@
+en:
+  candidate_interface:
+    manage_preferences_component:
+      title: Sharing your application details
+      body_opt_in: You are sharing your application details with training providers that you have not submitted an application to.
+      body_opt_out: You are not sharing your application details with training providers that you have not submitted an application to.
+      read_about_sharing_details: Read about how sharing your application details works
+      change_sharing_details: Change your sharing and location settings

@@ -7,6 +7,8 @@ RSpec.describe 'Candidate adds preferences' do
   let(:new_location) { { within: 10, name: 'BN1 3AA' } }
   let(:updated_location) { { within: 20, name: 'BN1 4AA' } }
 
+  after { FeatureFlag.deactivate(:candidate_preferences) }
+
   scenario 'Candidate opts in to find a candidate' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
