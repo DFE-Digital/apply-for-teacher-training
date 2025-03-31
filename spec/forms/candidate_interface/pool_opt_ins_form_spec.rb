@@ -48,13 +48,39 @@ RSpec.describe CandidateInterface::PoolOptInsForm, type: :model do
       end
     end
 
+    context 'when creating a preference to opt out' do
+      let(:params) { { pool_status: 'opt_out' } }
+
+      it 'creates a preference and removes any existing published preferences' do
+        existing_published_preference = create(
+          :candidate_preference,
+          candidate: current_candidate,
+          status: 'published',
+        )
+
+        form.save
+
+        preference_record = CandidatePreference.last
+        expect(preference_record.pool_status).to eq('opt_out')
+        expect { existing_published_preference.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
     context 'when updating a preference to opt out' do
       let(:preference) { create(:candidate_preference) }
       let(:params) { { pool_status: 'opt_out' } }
 
-      it 'updates a preference to opt out and publishes the preference' do
+      it 'updates a preference to opt out and publishes the preference and removes existing published ones' do
+        existing_published_preference = create(
+          :candidate_preference,
+          candidate: current_candidate,
+          status: 'published',
+        )
+
         expect { form.save }.to change(preference, :pool_status).from('opt_in').to('opt_out')
           .and change(preference, :status).from('draft').to('published')
+
+        expect { existing_published_preference.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
