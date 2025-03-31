@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Candidate edits published preference' do
+  after { FeatureFlag.deactivate(:candidate_preferences) }
+
   scenario 'Candidate edits share preferences' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
