@@ -7,6 +7,7 @@ class CandidateInterface::ChoicesControllerMatcher
     'candidate_interface/decisions', # withdrawing from a course offer, the old way
     'candidate_interface/withdrawal_reasons', # Withdrawing the new way
     'candidate_interface/apply_from_find',
+    'candidate_interface/share_details',
   ].freeze
 
   def self.choices_controller?(current_application:, controller_path:, request:)
