@@ -12,6 +12,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
 
   context 'provider report is generated for appropriate providers' do
     before do
+      allow(HostingEnvironment).to receive(:production?).and_return true
       allow(provider_worker).to receive(:perform_async)
       application_choice
     end
@@ -58,6 +59,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
 
   context 'national report is generated' do
     before do
+      allow(HostingEnvironment).to receive(:production?).and_return true
       allow(national_worker).to receive(:perform_async)
     end
 
@@ -101,6 +103,29 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
 
         expect(national_worker).to have_received(:perform_async).with(cycle_week)
       end
+    end
+  end
+
+  context 'non-production environment' do
+    let(:provider_worker) { Publications::ProviderRecruitmentPerformanceReportWorker }
+    let(:national_worker) { Publications::NationalRecruitmentPerformanceReportWorker }
+    let(:course_option) { create(:course_option) }
+    let(:application_choice) { create(:application_choice, status: 'awaiting_provider_decision', course_option:, sent_to_provider_at: Time.zone.today - 1.week) }
+    let(:provider) { course_option.course.provider }
+
+    let(:cycle_week) { RecruitmentCycleTimetable.current_cycle_week.pred }
+    let(:recruitment_cycle_year) { RecruitmentCycleTimetable.current_year }
+
+    before do
+      allow(HostingEnvironment).to receive(:production?).and_return false
+      allow(national_worker).to receive(:perform_async)
+      allow(provider_worker).to receive(:perform_async)
+    end
+
+    it 'does not create any reports' do
+      described_class.new(cycle_week:).call
+      expect(national_worker).not_to have_received(:perform_async).with(cycle_week)
+      expect(provider_worker).not_to have_received(:perform_async).with(provider.id, cycle_week)
     end
   end
 end
