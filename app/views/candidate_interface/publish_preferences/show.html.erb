@@ -16,8 +16,12 @@
         <% row.with_key { t('.preferred_locations') } %>
         <% row.with_value do %>
           <%= govuk_list do %>
-            <% @preference.location_preferences.each do |location| %>
-              <%= tag.li t('.location', radius: location.within, location: location.name) %>
+            <% if @preference.location_preferences.blank? %>
+              <p class="govuk-body"><%= t('.no_location_preferences') %> </p>
+            <% else %>
+              <% @preference.location_preferences.each do |location| %>
+                <%= tag.li t('.location', radius: location.within, location: location.name) %>
+              <% end %>
             <% end %>
           <% end %>
         <% end %>

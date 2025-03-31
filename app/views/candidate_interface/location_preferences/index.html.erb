@@ -15,36 +15,46 @@
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= govuk_table(html_attributes: { class: 'app-table__row--no-bottom-border' }) do |table| %>
-        <% table.with_head do |head| %>
-          <% head.with_row do |row| %>
-            <%= row.with_cell(text: t('.location')) %>
-            <%= row.with_cell(text: t('.distance_from_location')) %>
-          <% end %>
-        <% end %>
+      <% if @location_preferences.blank? %>
+        <p class="govuk-body"><%= t('.no_location_preferences') %></p>
 
-        <% table.with_body do |body| %>
-          <% @location_preferences.each_with_index do |location, index| %>
-            <% body.with_row do |row| %>
-              <%= row.with_cell(text: location.name) %>
-
-              <%= row.with_cell(text: location.within) %>
-              <%= row.with_cell do %>
-                <%= govuk_link_to t('.change'), edit_candidate_interface_draft_preference_location_preference_path(@preference, location) %>
-              <% end %>
-              <%= row.with_cell do %>
-                <%= govuk_link_to t('.remove'), candidate_interface_draft_preference_location_preference_path(@preference, location) %>
-              <% end %>
+        <%= govuk_button_link_to(
+          t('.add_another_location'),
+          new_candidate_interface_draft_preference_location_preference_path(@preference),
+          secondary: true,
+        ) %>
+      <% else %>
+        <%= govuk_table(html_attributes: { class: 'app-table__row--no-bottom-border' }) do |table| %>
+          <% table.with_head do |head| %>
+            <% head.with_row do |row| %>
+              <%= row.with_cell(text: t('.location')) %>
+              <%= row.with_cell(text: t('.distance_from_location')) %>
             <% end %>
           <% end %>
 
-          <% body.with_row do |row| %>
-            <%= row.with_cell do %>
-              <%= govuk_button_link_to(
-                t('.add_another_location'),
-                new_candidate_interface_draft_preference_location_preference_path(@preference),
-                secondary: true,
-              ) %>
+          <% table.with_body do |body| %>
+            <% @location_preferences.each_with_index do |location, index| %>
+              <% body.with_row do |row| %>
+                <%= row.with_cell(text: location.name) %>
+
+                <%= row.with_cell(text: location.within) %>
+                <%= row.with_cell do %>
+                  <%= govuk_link_to t('.change'), edit_candidate_interface_draft_preference_location_preference_path(@preference, location) %>
+                <% end %>
+                <%= row.with_cell do %>
+                  <%= govuk_link_to t('.remove'), candidate_interface_draft_preference_location_preference_path(@preference, location) %>
+                <% end %>
+              <% end %>
+            <% end %>
+
+            <% body.with_row do |row| %>
+              <%= row.with_cell do %>
+                <%= govuk_button_link_to(
+                  t('.add_another_location'),
+                  new_candidate_interface_draft_preference_location_preference_path(@preference),
+                  secondary: true,
+                ) %>
+              <% end %>
             <% end %>
           <% end %>
         <% end %>

@@ -11,6 +11,7 @@ en:
         change: Change
         submit: Submit preferences
         location: Within %{radius} miles of %{location}
+        no_location_preferences: You have no location preferences
     preferences:
       show: Check your application sharing preferences
       share_question: Do you want to share your application details with other training providers?
@@ -27,6 +28,7 @@ en:
         change: Change
         submit: Submit preferences
         location: Within %{radius} miles of %{location}
+        no_location_preferences: You have no location preferences
     pool_opt_ins:
       new:
         title: Do you want to make your application details visible to other training providers?
@@ -57,6 +59,7 @@ en:
         update_location_preferences: Add new locations to my preferences when I apply to new courses
         remove: Remove
         add_another_location: Add another location
+        no_location_preferences: You have no location preferences
       new:
         title: Add a location
         submit_text: Add location
