@@ -10,15 +10,6 @@ RSpec.describe CandidateInterface::PreferencesForm, type: :model do
   end
   let(:params) { { dynamic_location_preferences: true } }
 
-  describe 'validations' do
-    context 'when there are no location preferences' do
-      it 'adds location preferences blank error' do
-        expect(form.valid?).to be_falsey
-        expect(form.errors[:base]).to eq(['Add location preferences'])
-      end
-    end
-  end
-
   describe '.build_from_preferences' do
     it 'builds the form from a preference' do
       form_object = described_class.build_from_preference(

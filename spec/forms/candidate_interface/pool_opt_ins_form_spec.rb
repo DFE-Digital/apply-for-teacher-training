@@ -46,6 +46,26 @@ RSpec.describe CandidateInterface::PoolOptInsForm, type: :model do
         expect(preference_record.pool_status).to eq('opt_in')
         expect(preference_record.location_preferences.count).to eq(2)
       end
+
+      context 'when creating a for an international candidate' do
+        let(:application_form) do
+          create(
+            :application_form,
+            :international_address,
+            :completed,
+            candidate: current_candidate,
+          )
+        end
+
+        it 'creates a preference and adds location preferences only for the application choices, not the home address' do
+          expect { form.save }.to change(CandidatePreference, :count).by(1)
+            .and change { CandidateLocationPreference.count }.by(1)
+
+          preference_record = CandidatePreference.last
+          expect(preference_record.pool_status).to eq('opt_in')
+          expect(preference_record.location_preferences.count).to eq(1)
+        end
+      end
     end
 
     context 'when creating a preference to opt out' do
