@@ -20,7 +20,7 @@ namespace :candidate_interface, path: '/candidate' do
 
   resources :pool_opt_ins, only: %i[new create edit update], path: 'preferences-opt-in'
   resources :draft_preferences, only: %i[show update], path: 'preferences' do
-    resources :publish_preferences, only: %i[create], path: 'publish-preferences'
+    resource :publish_preferences, only: %i[show create], path: 'publish-preferences'
     resources :location_preferences, path: 'location-preferences'
   end
 

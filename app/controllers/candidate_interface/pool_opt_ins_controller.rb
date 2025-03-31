@@ -9,6 +9,10 @@ module CandidateInterface
     end
 
     def edit
+      if @preference.published?
+        @preference = @preference.create_draft_dup
+      end
+
       @preference_form = PoolOptInsForm.build_from_preference(
         current_candidate:,
         preference: @preference,
@@ -27,6 +31,7 @@ module CandidateInterface
             @preference_form.preference,
           )
         else
+          flash[:success] = t('.opt_out_message')
           redirect_to candidate_interface_application_choices_path
         end
       else
@@ -45,6 +50,7 @@ module CandidateInterface
         if @preference.reload.opt_in?
           redirect_to @back_path || candidate_interface_draft_preference_location_preferences_path(@preference)
         else
+          flash[:success] = t('.opt_out_message')
           redirect_to candidate_interface_application_choices_path
         end
       else

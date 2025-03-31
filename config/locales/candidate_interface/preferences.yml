@@ -3,6 +3,14 @@ en:
     publish_preferences:
       create:
         success: You are sharing your application details with providers you have not applied to
+      show:
+        title: Check your application sharing preferences
+        share_information: Do you want to share your application details with other training providers?
+        preferred_locations: Preferred locations
+        dynamic_locations: Update my location preferences when I apply to a new course
+        change: Change
+        submit: Submit preferences
+        location: Within %{radius} miles of %{location}
     preferences:
       show: Check your application sharing preferences
       share_question: Do you want to share your application details with other training providers?
@@ -31,6 +39,10 @@ en:
         dynamic_locations: Update my location preferences when I apply to a new course
         change: Change
         submit: Submit preferences
+      create:
+        opt_out_message: You are not sharing your application details with providers you have not applied to
+      update:
+        opt_out_message: You are not sharing your application details with providers you have not applied to
       form:
         title: Do you want to make your application details visible to other training providers?
         body: When you have no applications that are waiting for a decision from a provider, other providers will be able to see your application details and invite you to apply to their courses.
