@@ -18,6 +18,7 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
 
     context 'when candidate preference feature flag is not enabled' do
       it 'renders the component' do
+        FeatureFlag.deactivate(:candidate_preferences)
         application_form = create(:application_form, :with_accepted_offer)
 
         component = described_class.new(current_candidate: application_form.candidate, application_form:)
