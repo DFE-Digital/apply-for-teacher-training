@@ -18,9 +18,9 @@
 
       <%= govuk_summary_list do |summary_list| %>
         <% summary_list.with_row do |row| %>%
-          <% row.with_key { 'Subject' } %>%
+          <% row.with_key { t('application_form.adviser_sign_up.subject') } %>%
           <% row.with_value { @adviser_sign_up.preferred_teaching_subject.title } %>
-          <% row.with_action(text: 'Change', href: new_candidate_interface_adviser_sign_up_path, visually_hidden_text: 'Change') %>%
+          <% row.with_action(text: t('application_form.adviser_sign_up.change'), href: new_candidate_interface_adviser_sign_up_path, visually_hidden_text: t('application_form.adviser_sign_up.change')) %>%
         <% end %>
       <% end %>
 
