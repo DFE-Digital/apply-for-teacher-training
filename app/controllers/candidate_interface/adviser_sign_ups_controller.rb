@@ -1,7 +1,7 @@
 module CandidateInterface
   class AdviserSignUpsController < CandidateInterfaceController
     before_action :set_adviser_sign_up
-    # before_action :render_404_unless_available
+    before_action :render_404_unless_available
 
     def show; end
 
@@ -51,7 +51,7 @@ module CandidateInterface
     end
 
     def render_404_unless_available
-      render_404 unless application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
+      render_404 unless application_form.able_to_edit_teacher_training_adviser_sign_up_form?
     end
   end
 end
