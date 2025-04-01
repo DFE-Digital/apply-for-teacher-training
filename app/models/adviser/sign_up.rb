@@ -9,12 +9,16 @@ class Adviser::SignUp
   validate :application_form_valid_for_adviser_sign_up
 
   def save
+    if application_form.adviser_status != 'unassigned'
+      application_form.adviser_status_unassigned!
+    end
+
     return false if invalid?
 
     sign_up_request = Adviser::SignUpRequest.find_or_create_by(application_form: application_form, teaching_subject: preferred_teaching_subject)
     AdviserSignUpWorker.perform_async(sign_up_request.id)
 
-    # application_form.adviser_status_waiting_to_be_assigned!
+    application_form.adviser_status_waiting_to_be_assigned!
 
     true
   end

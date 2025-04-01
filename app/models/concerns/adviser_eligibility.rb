@@ -20,8 +20,14 @@ module AdviserEligibility
 
     def eligible_to_sign_up_for_a_teaching_training_adviser?
       refresh_adviser_status
-
+      
       eligible_and_unassigned_a_teaching_training_adviser?
+    end
+
+    def able_to_edit_teacher_training_adviser_sign_up_form?
+      refresh_adviser_status
+
+      true if adviser_status_unassigned? || adviser_status_waiting_to_be_assigned?
     end
 
     def already_assigned_to_an_adviser?
