@@ -7,11 +7,15 @@ RSpec.describe 'Candidate adds preferences' do
   let(:new_location) { { within: 10, name: 'BN1 3AA' } }
   let(:updated_location) { { within: 20, name: 'BN1 4AA' } }
 
+  after { FeatureFlag.deactivate(:candidate_preferences) }
+
   scenario 'Candidate opts in to find a candidate' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
+    given_i_am_on_the_share_details_page
 
-    visit new_candidate_interface_pool_opt_in_path
+    when_i_click('Continue')
+    then_i_am_redirected_to_opt_in_page
     when_i_click('Continue')
     then_i_get_an_error('Select weather to make your application details visible to other training providers')
 
@@ -120,6 +124,7 @@ RSpec.describe 'Candidate adds preferences' do
 
   def then_i_am_redirected_to_application_choices
     expect(page).to have_current_path(candidate_interface_application_choices_path)
+    expect(page).to have_content('You are not sharing your application details with providers you have not applied to')
   end
 
   def then_i_am_redirected_to_opt_in
@@ -208,5 +213,15 @@ RSpec.describe 'Candidate adds preferences' do
 
   def and_feature_flag_is_enabled
     FeatureFlag.activate(:candidate_preferences)
+  end
+
+  def given_i_am_on_the_share_details_page
+    visit candidate_interface_share_details_path
+
+    expect(page).to have_content('Increase your chances of success by sharing your application details')
+  end
+
+  def then_i_am_redirected_to_opt_in_page
+    expect(page).to have_content('Do you want to make your application details visible to other training providers?')
   end
 end

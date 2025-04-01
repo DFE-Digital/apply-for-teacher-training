@@ -1,0 +1,22 @@
+<div class="govuk-grid-column-two-thirds govuk-!-margin-top-4">
+  <h2 class="govuk-heading-m"><%= t('.title') %> </h2>
+  <% if pool_opt_in? %>
+    <p class="govuk-body"><%= t('.body_opt_in') %></p>
+  <% else %>
+    <p class="govuk-body"><%= t('.body_opt_out') %></p>
+  <% end %>
+
+  <%= govuk_list(
+    [
+      govuk_link_to(
+        t('.read_about_sharing_details'),
+        candidate_interface_share_details_path,
+      ),
+      govuk_link_to(
+        t('.change_sharing_details'),
+        path_to_change_preferences,
+      ),
+    ],
+    type: :bullet,
+  ) %>
+</div>

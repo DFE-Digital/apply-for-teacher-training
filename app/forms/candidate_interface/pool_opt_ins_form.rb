@@ -28,7 +28,12 @@ class CandidateInterface::PoolOptInsForm
     if preference.present?
       ActiveRecord::Base.transaction do
         preference.update!(pool_status: pool_status)
-        preference.published! if preference.opt_out?
+
+        if preference.opt_out?
+          preference.published!
+          current_candidate.published_preferences.where.not(id: @preference.id).destroy_all
+        end
+
         true
       end
     else
@@ -36,8 +41,11 @@ class CandidateInterface::PoolOptInsForm
         @preference = current_candidate.preferences.create(pool_status:)
 
         if @preference.opt_out?
-          # We publish the preference because if they opt out it's the end of the journey
-          @preference.published!
+          ActiveRecord::Base.transaction do
+            # We publish the preference because if they opt out it's the end of the journey
+            @preference.published!
+            current_candidate.published_preferences.where.not(id: @preference.id).destroy_all
+          end
         else
           add_default_location_preferences(preference)
         end

@@ -1,0 +1,11 @@
+en:
+  candidate_interface:
+    application_choices:
+      index:
+        share_title: Sharing your application details
+        share_body: You are sharing your application details with training providers that you have not submitted an application to.
+        change_share: Change your sharing and location settings
+        how_sharing_works: Read about how sharing your application details works
+    share_details:
+      index:
+        title: Increase your chances of success by sharing your application details

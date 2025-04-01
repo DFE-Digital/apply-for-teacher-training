@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate submits the application' do
   include CandidateHelper
+  before do
+    FeatureFlag.activate(:candidate_preferences)
+  end
 
   scenario 'Candidate with a completed application' do
     given_i_am_signed_in_with_one_login
@@ -14,6 +17,7 @@ RSpec.describe 'Candidate submits the application' do
     when_i_continue_with_my_application
     and_i_choose_to_submit
     then_i_can_see_my_application_has_been_successfully_submitted
+    when_i_click('Back to your applications')
     and_i_am_redirected_to_the_application_dashboard
     and_my_application_is_submitted
     then_i_can_see_my_submitted_application
@@ -164,5 +168,9 @@ RSpec.describe 'Candidate submits the application' do
 
   def then_i_am_on_science_gcse_section
     expect(page).to have_current_path(candidate_interface_gcse_details_new_type_path(subject: 'science'))
+  end
+
+  def when_i_click(button)
+    click_link_or_button button
   end
 end

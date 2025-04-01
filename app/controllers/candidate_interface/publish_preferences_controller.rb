@@ -3,10 +3,12 @@ module CandidateInterface
     before_action :set_preference
     before_action :redirect_to_root_path_if_flag_is_inactive
 
+    def show; end
+
     def create
       ActiveRecord::Base.transaction do
         @preference.published!
-        @preference.location_preferences.update_all(status: 'published')
+        current_candidate.published_preferences.where.not(id: @preference.id).destroy_all
       end
 
       flash[:success] = t('.success')
