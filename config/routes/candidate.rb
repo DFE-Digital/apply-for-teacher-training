@@ -93,7 +93,7 @@ namespace :candidate_interface, path: '/candidate' do
 
     resources :adviser_sign_ups, only: %i[new create show], path: 'adviser-sign-ups' do
       collection do
-        post :submit
+        post :continue
       end
     end
 
