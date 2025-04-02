@@ -5,7 +5,8 @@ class CandidateInterface::LocationPreferencesForm
   attr_reader :preference, :location_preference
 
   validates :within, presence: true
-  validates :name, presence: true
+  validates :within, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :name, presence: true, length: { minimum: 2 }
   validate :location, if: -> { name.present? }
 
   def initialize(preference:, location_preference: nil, params: {})
@@ -31,16 +32,16 @@ class CandidateInterface::LocationPreferencesForm
     if location_preference.present?
       location_preference.update(
         within:,
-        name:,
-        latitude: location_coordinates.latitude,
-        longitude: location_coordinates.longitude,
+        name: suggested_location[:name],
+        latitude: location_coordinates&.latitude,
+        longitude: location_coordinates&.longitude,
       )
     else
       preference.location_preferences.create(
         within:,
-        name:,
-        latitude: location_coordinates.latitude,
-        longitude: location_coordinates.longitude,
+        name: suggested_location[:name],
+        latitude: location_coordinates&.latitude,
+        longitude: location_coordinates&.longitude,
       )
     end
   end
@@ -48,15 +49,25 @@ class CandidateInterface::LocationPreferencesForm
 private
 
   def location_coordinates
-    Geocoder.search(
-      name,
-      components: 'country:UK',
-    ).first
+    # Validating if a location is an actual location is hard
+    # Geocoder.search can return places that are not actually real locations
+    # So we rely on the suggestions, which suggests real locations based on inputted string
+    # And assume the user meant the first suggestions. This stops the user inputing '123121'
+    # But allows them to input M20 for example. Which is a real place.
+    # The suggestions api call will be cached, the view uses it, so when the user inputs we will cache the results
+
+    return unless suggested_location
+
+    Geocoder.search(suggested_location[:place_id], google_place_id: true).first
+  end
+
+  def suggested_location
+    @suggested_location ||= LocationSuggestions.new(name).call.first
   end
 
   def location
     if location_coordinates.nil?
-      errors.add(:base, :invalid_location)
+      errors.add(:name, :invalid_location)
     end
   end
 end

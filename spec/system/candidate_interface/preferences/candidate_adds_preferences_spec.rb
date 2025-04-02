@@ -6,9 +6,20 @@ RSpec.describe 'Candidate adds preferences' do
   let(:home_location) { { within: 10, name: 'BN1 1AA' } }
   let(:choice_location) { { within: 10, name: 'BN1 2AA' } }
   let(:new_location) { { within: 10, name: 'BN1 3AA' } }
-  let(:updated_location) { { within: 20, name: 'BN1 4AA' } }
+  let(:updated_location) { { within: 20, name: 'BN1 3AA' } }
   let(:new_locations) { [home_location, choice_location, new_location] }
   let(:updated_locations) { [home_location, choice_location, updated_location] }
+  let(:client) { instance_double(GoogleMapsAPI::Client) }
+  let(:api_response) do
+    [
+      { name: 'BN1 3AA', place_id: 'test_id' },
+    ]
+  end
+
+  before do
+    allow(GoogleMapsAPI::Client).to receive(:new).and_return(client)
+    allow(client).to receive(:autocomplete).and_return(api_response)
+  end
 
   after { FeatureFlag.deactivate(:candidate_preferences) }
 

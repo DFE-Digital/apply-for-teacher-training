@@ -3,7 +3,7 @@
 
   <h1 class="govuk-heading-l"><%= title %></h1>
 
-  <%= f.govuk_text_field :within, suffix_text: t('.miles'), class: 'govuk-!-width-one-quarter', label: { text: t('.within'), size: 'm' } %>
+  <%= f.govuk_text_field :within, type: :number, suffix_text: t('.miles'), class: 'govuk-!-width-one-quarter', label: { text: t('.within'), size: 'm' } %>
 
   <div class="location-autocomplete-input">
     <%= f.govuk_text_field(
