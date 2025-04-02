@@ -1,43 +1,39 @@
 module CandidateInterface
   class AdviserSignUpsController < CandidateInterfaceController
-    before_action :set_adviser_sign_up
     before_action :render_404_unless_available
 
-    def show; end
+    def show
+      @adviser_sign_up = Adviser::SignUp.build_from_hash(application_form, params[:preferred_teaching_subject_id])
+    end
 
-    def new; end
+    def new
+      @adviser_sign_up = Adviser::SignUp.build_from_hash(application_form, params[:preferred_teaching_subject_id])
+    end
 
-    def create
-      if @adviser_sign_up.save
-        track_adviser_sign_up
+    def continue
+      @adviser_sign_up = Adviser::SignUp.new(adviser_sign_up_params.merge(application_form:))
 
-        redirect_to candidate_interface_adviser_sign_up_path(
-          @adviser_sign_up.application_form.id,
-          preferred_teaching_subject_id: @adviser_sign_up.preferred_teaching_subject_id,
-        )
+      if @adviser_sign_up.valid?
+        redirect_to candidate_interface_adviser_sign_up_path(application_form.id, preferred_teaching_subject_id: @adviser_sign_up.preferred_teaching_subject_id)
       else
         track_validation_error(@adviser_sign_up)
         render :new
       end
     end
 
-    def submit
-      redirect_to candidate_interface_details_path
+    def create
+      @adviser_sign_up = Adviser::SignUp.new(adviser_sign_up_params.merge(application_form:))
+
+      @adviser_sign_up.save
       flash[:success] = t('application_form.adviser_sign_up.flash.success')
+      track_adviser_sign_up
+      redirect_to candidate_interface_details_path
     end
 
   private
 
     def track_adviser_sign_up
       Adviser::Tracking.new(current_user, request).candidate_signed_up_for_adviser
-    end
-
-    def set_adviser_sign_up
-      @adviser_sign_up = if params[:preferred_teaching_subject_id].present?
-                           Adviser::SignUp.build_from_hash(application_form, params[:preferred_teaching_subject_id])
-                         else
-                           Adviser::SignUp.new(adviser_sign_up_params.merge(application_form:))
-                         end
     end
 
     def application_form
@@ -51,7 +47,7 @@ module CandidateInterface
     end
 
     def render_404_unless_available
-      render_404 unless application_form.able_to_edit_teacher_training_adviser_sign_up_form?
+      render_404 unless application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
     end
   end
 end
