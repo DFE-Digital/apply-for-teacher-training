@@ -9,10 +9,6 @@ class Adviser::SignUp
   validate :application_form_valid_for_adviser_sign_up
 
   def save
-    if application_form.adviser_status != 'unassigned'
-      application_form.adviser_status_unassigned!
-    end
-
     return false if invalid?
 
     sign_up_request = Adviser::SignUpRequest.find_or_create_by(application_form: application_form, teaching_subject: preferred_teaching_subject)
@@ -24,10 +20,11 @@ class Adviser::SignUp
   end
 
   def self.build_from_hash(application_form, preferred_teaching_subject_id)
-    new(
+    attributes = {
       application_form:,
       preferred_teaching_subject_id:,
-    )
+    }
+    new(attributes)
   end
 
   def primary_teaching_subjects_for_select
