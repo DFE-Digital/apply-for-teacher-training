@@ -1,6 +1,7 @@
 ---
 shared:
   application_forms:
+    - phone_number
     - support_reference
     - candidate_id
     - first_name
