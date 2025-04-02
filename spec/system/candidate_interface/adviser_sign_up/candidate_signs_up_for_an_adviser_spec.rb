@@ -27,28 +27,25 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
     when_i_select_a_preferred_teaching_subject
     and_i_click_the_continue_button
     then_i_am_redirected_to_the_review_page
-    # and_my_adviser_status_is_waiting_to_be_assigned
 
-    # when_i_click_the_change_link
-    # then_i_am_returned_to_the_adviser_sign_up_change
-    # and_my_adviser_status_is_unassigned
+    when_i_click_the_change_link
+    then_i_am_returned_to_the_adviser_sign_up_page
 
-    # when_i_change_my_subject_selection
-    # and_click_the_continue_button
-    # then_my_choice_is_updated
-    # and_my_adviser_status_is_waiting_to_be_assigned
+    when_i_change_my_subject_selection
+    and_i_click_the_continue_button
+    then_my_choice_is_updated_on_the_review_page
 
-    # when_i_click_request_adviser
-    # ! already existing -------
-    # then_i_am_redirected_to_your_details_page
-    # and_i_see_the_success_message
-    # and_the_adviser_cta_be_replaced_with_the_waiting_to_be_assigned_message
-    # and_an_adviser_sign_up_job_is_enqueued
-    # and_the_sign_up_is_tracked
+    when_i_click_request_adviser
+    then_i_am_redirected_to_your_details_page
+    and_i_see_the_success_message
+    and_the_adviser_cta_be_replaced_with_the_waiting_to_be_assigned_message
+    and_an_adviser_sign_up_job_is_enqueued
+    and_the_sign_up_is_tracked
   end
 
   def and_adviser_teaching_subjects_exist
-    @preferred_teaching_subject = create(:adviser_teaching_subject)
+    @preferred_teaching_subject1 = create(:adviser_teaching_subject, title: 'English Literature')
+    @preferred_teaching_subject2 = create(:adviser_teaching_subject, title: 'Mathematics')
   end
 
   def and_rails_cache_is_enabled
@@ -94,6 +91,10 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
     expect(page).to have_current_path(new_candidate_interface_adviser_sign_up_path)
   end
 
+  def then_i_am_returned_to_the_adviser_sign_up_page
+    expect(page).to have_current_path(new_candidate_interface_adviser_sign_up_path(preferred_teaching_subject_id: @preferred_teaching_subject1.external_identifier))
+  end
+
   def when_i_click_the_continue_button
     click_link_or_button t('application_form.adviser_sign_up.submit_text')
   end
@@ -114,7 +115,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def when_i_select_a_preferred_teaching_subject
-    find('label', text: @preferred_teaching_subject.title).click
+    find('label', text: @preferred_teaching_subject1.title).click
   end
 
   def then_i_am_redirected_to_your_details_page
@@ -144,5 +145,19 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
     expect(page).to have_button(t('application_form.adviser_sign_up.request'))
   end
 
-  def and_my_adviser_status_is_waiting_to_be_assigned; end
+  def when_i_click_the_change_link
+    click_link_or_button 'Change'
+  end
+
+  def when_i_change_my_subject_selection
+    find('label', text: @preferred_teaching_subject2.title).click
+  end
+
+  def then_my_choice_is_updated_on_the_review_page
+    find('dd', text: @preferred_teaching_subject2.title)
+  end
+
+  def when_i_click_request_adviser
+    click_link_or_button 'Request adviser'
+  end
 end

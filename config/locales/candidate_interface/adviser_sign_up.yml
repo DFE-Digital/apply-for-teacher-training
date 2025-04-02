@@ -8,7 +8,7 @@ en:
         preferred_teaching_subject_id: We’re asking this so that a dedicated adviser can be assigned to you.
   application_form:
     adviser_sign_up:
-      back: Back to application
+      back: Back
       heading: Get a teacher training adviser
       introduction: |-
         Our advisers were experienced teachers and can answer all your questions about how to put together the best application. They’ll help you with:
