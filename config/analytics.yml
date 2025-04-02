@@ -143,6 +143,7 @@ shared:
     - path
     - updated_at
   application_forms:
+    - phone_number
     - first_name
     - last_name
     - adviser_status
