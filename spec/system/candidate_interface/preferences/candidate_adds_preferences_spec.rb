@@ -1,11 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe 'Candidate adds preferences' do
+  let(:provider) { create(:provider) }
   let(:location_preferences) { [home_location, choice_location] }
   let(:home_location) { { within: 10, name: 'BN1 1AA' } }
   let(:choice_location) { { within: 10, name: 'BN1 2AA' } }
   let(:new_location) { { within: 10, name: 'BN1 3AA' } }
   let(:updated_location) { { within: 20, name: 'BN1 4AA' } }
+  let(:new_locations) { [home_location, choice_location, new_location] }
+  let(:updated_locations) { [home_location, choice_location, updated_location] }
 
   after { FeatureFlag.deactivate(:candidate_preferences) }
 
@@ -30,31 +33,53 @@ RSpec.describe 'Candidate adds preferences' do
     when_i_click('Continue')
     then_i_am_redirected_to_location_preferences(location_preferences)
 
-    when_i_remove_all_locations
-    then_i_am_redirected_to_location_preferences([])
-    when_i_click('Continue')
-    then_i_get_an_error('Add location preferences')
-
     when_i_click('Add another location')
     and_i_input_a_location
     when_i_click('Add location')
-    then_i_am_redirected_to_location_preferences([new_location])
+    then_i_am_redirected_to_location_preferences(new_locations)
 
-    when_i_click('Change')
+    when_i_click_change_on_the_last_location
     and_i_edit_a_location
     when_i_click('Update location')
-    then_i_am_redirected_to_location_preferences([updated_location])
+    then_i_am_redirected_to_location_preferences(updated_locations)
 
     when_i_check_dynamic_locations
     when_i_click('Continue')
-    then_i_am_redirected_to_review_page([updated_location])
+    then_i_am_redirected_to_review_page
 
     when_i_click('Back')
-    then_i_am_redirected_to_location_preferences([updated_location])
+    then_i_am_redirected_to_location_preferences(updated_locations)
     and_the_dynamic_locations_is_checked
 
     when_i_click('Continue')
-    then_i_am_redirected_to_review_page([updated_location])
+    then_i_am_redirected_to_review_page
+
+    when_i_click('Submit preferences')
+    then_i_am_redirected_application_choices_with_success_message
+  end
+
+  scenario 'Candidate opts in to find a candidate without any locations' do
+    given_i_am_signed_in
+    and_feature_flag_is_enabled
+    given_i_am_on_the_share_details_page
+
+    when_i_click('Continue')
+    then_i_am_redirected_to_opt_in_page
+    when_i_click('Continue')
+    then_i_get_an_error('Select weather to make your application details visible to other training providers')
+
+    and_i_opt_in_to_find_a_candidate
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_location_preferences(location_preferences)
+
+    when_i_remove_all_locations
+    then_i_am_redirected_to_location_preferences_without_locations
+
+    when_i_check_dynamic_locations
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_review_page_without_locations
 
     when_i_click('Submit preferences')
     then_i_am_redirected_application_choices_with_success_message
@@ -76,13 +101,12 @@ RSpec.describe 'Candidate adds preferences' do
     @application = create(
       :application_form,
       :completed,
-      postcode: home_location,
+      postcode: home_location[:name],
       candidate: @current_candidate,
     )
-    provider = create(:provider)
     site = create(
       :site,
-      postcode: choice_location,
+      postcode: choice_location[:name],
       provider:,
     )
     course = create(:course, provider:)
@@ -122,6 +146,11 @@ RSpec.describe 'Candidate adds preferences' do
     end
   end
 
+  def then_i_am_redirected_to_location_preferences_without_locations
+    expect(page).to have_content('Location Preferences')
+    expect(page).to have_content('You have no location preferences')
+  end
+
   def then_i_am_redirected_to_application_choices
     expect(page).to have_current_path(candidate_interface_application_choices_path)
     expect(page).to have_content('You are not sharing your application details with providers you have not applied to')
@@ -138,12 +167,14 @@ RSpec.describe 'Candidate adds preferences' do
     check 'Add new locations to my preferences when I apply to new courses'
   end
 
-  def then_i_am_redirected_to_review_page(location_preferences)
+  def then_i_am_redirected_to_review_page
     expect(page).to have_content('Check your application sharing preferences')
 
-    locations_value = location_preferences.map do |location|
-      "Within #{location[:within]} miles of #{location[:name]}"
-    end.join(' ')
+    locations = [
+      "Within #{home_location[:within]} miles of #{home_location[:name]}",
+      "Within #{choice_location[:within]} miles of #{choice_location[:name]} (#{provider.name})",
+      "Within #{updated_location[:within]} miles of #{updated_location[:name]}",
+    ].join(' ')
 
     summary_list = [
       {
@@ -152,7 +183,7 @@ RSpec.describe 'Candidate adds preferences' do
       },
       {
         label: 'Preferred locations',
-        value: locations_value,
+        value: locations,
       },
       {
         label: 'Update my location preferences when I apply to a new course',
@@ -166,6 +197,11 @@ RSpec.describe 'Candidate adds preferences' do
         expect(page).to have_content(item[:value])
       end
     end
+  end
+
+  def then_i_am_redirected_to_review_page_without_locations
+    expect(page).to have_content('Check your application sharing preferences')
+    expect(page).to have_content('You have no location preferences')
   end
 
   def and_the_dynamic_locations_is_checked
@@ -223,5 +259,9 @@ RSpec.describe 'Candidate adds preferences' do
 
   def then_i_am_redirected_to_opt_in_page
     expect(page).to have_content('Do you want to make your application details visible to other training providers?')
+  end
+
+  def when_i_click_change_on_the_last_location
+    all('a', text: 'Change').last.click
   end
 end

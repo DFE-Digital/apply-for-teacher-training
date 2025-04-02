@@ -1,5 +1,6 @@
 class CandidateInterface::PoolOptInsForm
   include ActiveModel::Model
+  DEFAULT_RADIUS = 10
 
   attr_accessor :pool_status
   attr_reader :current_candidate, :preference
@@ -47,7 +48,7 @@ class CandidateInterface::PoolOptInsForm
             current_candidate.published_preferences.where.not(id: @preference.id).destroy_all
           end
         else
-          add_default_location_preferences(preference)
+          add_default_location_preferences
         end
 
         true
@@ -57,28 +58,20 @@ class CandidateInterface::PoolOptInsForm
 
 private
 
-  def add_default_location_preferences(preference)
+  def add_default_location_preferences
     application_form = current_candidate.current_cycle_application_form
 
     return if application_form.application_choices.blank?
 
-    sites = application_form.application_choices
-      .joins(course_option: :site)
-      .select('sites.postcode, sites.latitude, sites.longitude')
+    sites = application_form.application_choices.map(&:site)
     attributes = []
 
-    attributes << {
-      name: application_form.postcode,
-      within: 10,
-      latitude: application_form.geocode.first,
-      longitude: application_form.geocode.last,
-      candidate_preference_id: preference.id,
-    }
+    attributes << add_home_address(application_form) unless application_form.international_address?
 
     sites.each do |site|
       attributes << {
-        name: site.postcode,
-        within: 10,
+        name: "#{site.postcode} (#{site.provider.name})",
+        within: DEFAULT_RADIUS,
         latitude: site.latitude,
         longitude: site.longitude,
         candidate_preference_id: preference.id,
@@ -86,5 +79,15 @@ private
     end
 
     preference.location_preferences.insert_all!(attributes)
+  end
+
+  def add_home_address(application_form)
+    {
+      name: application_form.postcode,
+      within: DEFAULT_RADIUS,
+      latitude: application_form.geocode.first,
+      longitude: application_form.geocode.last,
+      candidate_preference_id: preference.id,
+    }
   end
 end
