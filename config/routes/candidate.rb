@@ -91,10 +91,14 @@ namespace :candidate_interface, path: '/candidate' do
     get '/start-carry-over' => 'carry_over#start', as: :start_carry_over
     post '/carry-over' => 'carry_over#create', as: :carry_over
 
-    resources :adviser_sign_ups, only: %i[new create show], path: 'adviser-sign-ups' do
-      collection do
-        post :continue
+    scope '/adviser-sign-ups' do
+      resources :adviser_sign_ups, only: %i[new create show] do
+        collection do
+          post :continue
+        end
       end
+
+      get '/interruption/:id' => 'adviser_sign_ups/interruptions#show', as: :adviser_sign_ups_interruption
     end
 
     scope '/personal-details' do
