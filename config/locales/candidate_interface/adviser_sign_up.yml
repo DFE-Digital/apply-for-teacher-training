@@ -1,13 +1,13 @@
 en:
   helpers:
     legend:
-      adviser_sign_up:
+      adviser_sign_up_form:
         preferred_teaching_subject_id: What are you interested in teaching?
     hint:
-      adviser_sign_up:
+      adviser_sign_up_form:
         preferred_teaching_subject_id: We’re asking this so that a dedicated adviser can be assigned to you.
   application_form:
-    adviser_sign_up:
+    adviser_sign_up_form:
       back: Back
       heading: Get a teacher training adviser
       introduction: |-

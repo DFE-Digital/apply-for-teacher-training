@@ -1,35 +1,35 @@
 <% content_for :title, t('page_titles.new_adviser_sign_up') %>
-<% content_for :before_content, govuk_back_link_to(new_candidate_interface_adviser_sign_up_path(preferred_teaching_subject_id: @adviser_sign_up.preferred_teaching_subject_id), t('application_form.adviser_sign_up.back')) %>
+<% content_for :before_content, govuk_back_link_to(new_candidate_interface_adviser_sign_up_path(preferred_teaching_subject_id: @adviser_sign_up_form.preferred_teaching_subject_id), t('application_form.adviser_sign_up_form.back')) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with(model: @adviser_sign_up, url: candidate_interface_adviser_sign_ups_path) do |f| %>
+    <%= form_with(model: @adviser_sign_up_form, url: candidate_interface_adviser_sign_ups_path) do |f| %>
       <%= f.govuk_error_summary %>
       <%= f.hidden_field(:preferred_teaching_subject_id) %>
 
-      <h1 class="govuk-heading-l"><%= t('application_form.adviser_sign_up.heading') %></h1>
+      <h1 class="govuk-heading-l"><%= t('application_form.adviser_sign_up_form.heading') %></h1>
 
-      <p class="govuk-body"><%= t('application_form.adviser_sign_up.introduction') %></p>
+      <p class="govuk-body"><%= t('application_form.adviser_sign_up_form.introduction') %></p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li><%= t('application_form.adviser_sign_up.bullets').first %></li>
-        <li><%= t('application_form.adviser_sign_up.bullets').second %></li>
-        <li><%= t('application_form.adviser_sign_up.bullets').third %></li>
+        <li><%= t('application_form.adviser_sign_up_form.bullets').first %></li>
+        <li><%= t('application_form.adviser_sign_up_form.bullets').second %></li>
+        <li><%= t('application_form.adviser_sign_up_form.bullets').third %></li>
       </ul>
 
       <%= govuk_summary_list do |summary_list| %>
         <% summary_list.with_row do |row| %>%
-          <% row.with_key { t('application_form.adviser_sign_up.subject') } %>%
-          <% row.with_value { @adviser_sign_up.preferred_teaching_subject.title } %>
-          <% row.with_action(text: t('application_form.adviser_sign_up.change'), href: new_candidate_interface_adviser_sign_up_path(preferred_teaching_subject_id: @adviser_sign_up.preferred_teaching_subject_id), visually_hidden_text: t('application_form.adviser_sign_up.change')) %>
+          <% row.with_key { t('application_form.adviser_sign_up_form.subject') } %>%
+          <% row.with_value { @adviser_sign_up_form.preferred_teaching_subject.title } %>
+          <% row.with_action(text: t('application_form.adviser_sign_up_form.change'), href: new_candidate_interface_adviser_sign_up_path(preferred_teaching_subject_id: @adviser_sign_up_form.preferred_teaching_subject_id), visually_hidden_text: t('application_form.adviser_sign_up_form.change')) %>
         <% end %>
       <% end %>
 
       <p class="govuk-body">
-        <%= t('application_form.adviser_sign_up.disclaimer') %>
+        <%= t('application_form.adviser_sign_up_form.disclaimer') %>
       </p>
 
-      <%= f.govuk_submit t('application_form.adviser_sign_up.request') %>
+      <%= f.govuk_submit t('application_form.adviser_sign_up_form.request') %>
     <% end %>
   </div>
 </div>

@@ -1,36 +1,36 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.new_adviser_sign_up'), @adviser_sign_up.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_details_path, t('application_form.adviser_sign_up.back')) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.new_adviser_sign_up'), @adviser_sign_up_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_details_path, t('application_form.adviser_sign_up_form.back')) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with(model: @adviser_sign_up, url: continue_candidate_interface_adviser_sign_ups_path) do |f| %>
+    <%= form_with(model: @adviser_sign_up_form, url: continue_candidate_interface_adviser_sign_ups_path) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-l"><%= t('application_form.adviser_sign_up.heading') %></h1>
+      <h1 class="govuk-heading-l"><%= t('application_form.adviser_sign_up_form.heading') %></h1>
 
-      <p class="govuk-body"><%= t('application_form.adviser_sign_up.introduction') %></p>
+      <p class="govuk-body"><%= t('application_form.adviser_sign_up_form.introduction') %></p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li><%= t('application_form.adviser_sign_up.bullets').first %></li>
-        <li><%= t('application_form.adviser_sign_up.bullets').second %></li>
-        <li><%= t('application_form.adviser_sign_up.bullets').third %></li>
+        <li><%= t('application_form.adviser_sign_up_form.bullets').first %></li>
+        <li><%= t('application_form.adviser_sign_up_form.bullets').second %></li>
+        <li><%= t('application_form.adviser_sign_up_form.bullets').third %></li>
       </ul>
 
       <%= f.govuk_radio_buttons_fieldset(:preferred_teaching_subject_id, legend: { size: 'm' }) do %>
-        <% @adviser_sign_up.primary_teaching_subjects_for_select.each do |subject| %>
+        <% @adviser_sign_up_form.primary_teaching_subjects_for_select.each do |subject| %>
           <%= f.govuk_radio_button :preferred_teaching_subject_id, subject.external_identifier, label: { text: subject.title }, link_errors: true %>
         <% end %>
         <%= f.govuk_radio_divider 'or' %>
-        <% @adviser_sign_up.secondary_teaching_subjects_for_select.each do |subject| %>
+        <% @adviser_sign_up_form.secondary_teaching_subjects_for_select.each do |subject| %>
           <%= f.govuk_radio_button :preferred_teaching_subject_id, subject.external_identifier, label: { text: subject.title }, link_errors: true %>
         <% end %>
       <% end %>
 
       <p class="govuk-body">
-        <%= t('application_form.adviser_sign_up.disclaimer') %>
+        <%= t('application_form.adviser_sign_up_form.disclaimer') %>
       </p>
 
-      <%= f.govuk_submit t('application_form.adviser_sign_up.submit_text') %>
+      <%= f.govuk_submit t('application_form.adviser_sign_up_form.submit_text') %>
     <% end %>
   </div>
 </div>
