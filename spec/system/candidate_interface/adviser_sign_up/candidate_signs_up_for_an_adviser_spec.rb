@@ -84,7 +84,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def when_i_click_on_the_adviser_cta
-    click_link_or_button t('application_form.adviser_sign_up.call_to_action.available.button_text')
+    click_link_or_button t('application_form.adviser_sign_up_form.call_to_action.available.button_text')
   end
 
   def then_i_am_on_the_adviser_sign_up_page
@@ -96,20 +96,20 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def when_i_click_the_continue_button
-    click_link_or_button t('application_form.adviser_sign_up.submit_text')
+    click_link_or_button t('application_form.adviser_sign_up_form.submit_text')
   end
   alias_method :and_i_click_the_continue_button, :when_i_click_the_continue_button
 
   def then_i_see_validation_errors_for_preferred_teaching_subject
     expect(page).to have_content(
-      t('activemodel.errors.models.adviser/sign_up.attributes.preferred_teaching_subject_id.inclusion'),
+      t('activemodel.errors.models.adviser/sign_up_form.attributes.preferred_teaching_subject_id.inclusion'),
     )
   end
 
   def and_the_validation_error_is_tracked
     last_error = ValidationError.last
     expect(last_error).to have_attributes({
-      form_object: Adviser::SignUp.name,
+      form_object: Adviser::SignUpForm.name,
       request_path: page.current_path,
     })
   end
@@ -123,7 +123,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def and_i_see_the_success_message
-    expect(page).to have_content(t('application_form.adviser_sign_up.flash.success'))
+    expect(page).to have_content(t('application_form.adviser_sign_up_form.flash.success'))
   end
 
   def and_an_adviser_sign_up_job_is_enqueued
@@ -132,8 +132,8 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def and_the_adviser_cta_be_replaced_with_the_waiting_to_be_assigned_message
-    expect(page).to have_no_link(t('application_form.adviser_sign_up.call_to_action.available.button_text'))
-    expect(page).to have_text(t('application_form.adviser_sign_up.call_to_action.waiting_to_be_assigned.text'))
+    expect(page).to have_no_link(t('application_form.adviser_sign_up_form.call_to_action.available.button_text'))
+    expect(page).to have_text(t('application_form.adviser_sign_up_form.call_to_action.waiting_to_be_assigned.text'))
   end
 
   def and_the_sign_up_is_tracked
@@ -141,8 +141,8 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def then_i_am_redirected_to_the_review_page
-    expect(page).to have_link(t('application_form.adviser_sign_up.change'))
-    expect(page).to have_button(t('application_form.adviser_sign_up.request'))
+    expect(page).to have_link(t('application_form.adviser_sign_up_form.change'))
+    expect(page).to have_button(t('application_form.adviser_sign_up_form.request'))
   end
 
   def when_i_click_the_change_link

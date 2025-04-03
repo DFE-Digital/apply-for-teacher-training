@@ -537,7 +537,7 @@ en:
               must_have_passed_or_be_retaking: Only applicants that have passed or are retaking their English GCSE can apply for an adviser
             adviser_status:
               already_signed_up: You have already signed up for a Teacher Training Adviser
-        adviser/sign_up:
+        adviser/sign_up_form:
           attributes:
             preferred_teaching_subject_id:
               inclusion: Select a subject you are interested in teaching
