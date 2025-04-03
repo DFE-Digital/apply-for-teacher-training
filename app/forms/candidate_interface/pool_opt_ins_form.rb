@@ -60,34 +60,27 @@ private
 
   def add_default_location_preferences
     application_form = current_candidate.current_cycle_application_form
-
-    return if application_form.application_choices.blank?
-
     sites = application_form.application_choices.map(&:site)
-    attributes = []
 
-    attributes << add_home_address(application_form) unless application_form.international_address?
+    ActiveRecord::Base.transaction do
+      unless application_form.international_address?
+        preference.location_preferences.create!(
+          name: application_form.postcode,
+          within: DEFAULT_RADIUS,
+          latitude: application_form.geocode.first,
+          longitude: application_form.geocode.last,
+        )
+      end
 
-    sites.each do |site|
-      attributes << {
-        name: "#{site.postcode} (#{site.provider.name})",
-        within: DEFAULT_RADIUS,
-        latitude: site.latitude,
-        longitude: site.longitude,
-        candidate_preference_id: preference.id,
-      }
+      sites.each do |site|
+        preference.location_preferences.create!(
+          name: site.postcode,
+          within: DEFAULT_RADIUS,
+          latitude: site.latitude,
+          longitude: site.longitude,
+          provider_id: site.provider_id,
+        )
+      end
     end
-
-    preference.location_preferences.insert_all!(attributes)
-  end
-
-  def add_home_address(application_form)
-    {
-      name: application_form.postcode,
-      within: DEFAULT_RADIUS,
-      latitude: application_form.geocode.first,
-      longitude: application_form.geocode.last,
-      candidate_preference_id: preference.id,
-    }
   end
 end

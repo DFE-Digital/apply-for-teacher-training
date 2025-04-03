@@ -35,7 +35,7 @@
           <% table.with_body do |body| %>
             <% @location_preferences.each_with_index do |location, index| %>
               <% body.with_row do |row| %>
-                <%= row.with_cell(text: location.name) %>
+                <%= row.with_cell(text: location.decorated_name) %>
 
                 <%= row.with_cell(text: t('.within', within: location.within)) %>
                 <%= row.with_cell do %>

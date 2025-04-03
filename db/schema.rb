@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_19_140655) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_03_150434) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -414,7 +414,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_19_140655) do
     t.bigint "candidate_preference_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "provider_id"
     t.index ["candidate_preference_id"], name: "idx_on_candidate_preference_id_f06d90defb"
+    t.index ["provider_id"], name: "index_candidate_location_preferences_on_provider_id"
   end
 
   create_table "candidate_pool_provider_opt_ins", force: :cascade do |t|

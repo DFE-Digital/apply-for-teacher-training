@@ -10,7 +10,9 @@ module CandidateInterface
         @preference = @preference.create_draft_dup
       end
 
-      @location_preferences = @preference.location_preferences
+      @location_preferences = @preference.location_preferences.order(:created_at).map do |location|
+        CandidateInterface::LocationPreferenceDecorator.new(location)
+      end
       @preference_form = PreferencesForm.build_from_preference(
         preference: @preference,
       )

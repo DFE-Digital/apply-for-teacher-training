@@ -3,7 +3,11 @@ module CandidateInterface
     before_action :set_preference
     before_action :redirect_to_root_path_if_flag_is_inactive
 
-    def show; end
+    def show
+      @location_preferences = @preference.location_preferences.order(:created_at).map do |location|
+        CandidateInterface::LocationPreferenceDecorator.new(location)
+      end
+    end
 
     def create
       ActiveRecord::Base.transaction do
