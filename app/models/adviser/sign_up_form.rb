@@ -1,4 +1,4 @@
-class Adviser::SignUp
+class Adviser::SignUpForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
