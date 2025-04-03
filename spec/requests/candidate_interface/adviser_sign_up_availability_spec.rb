@@ -28,7 +28,7 @@ RSpec.describe 'Candidate Interface - adviser sign up availability' do
 
     describe '#continue' do
       let(:perform_request) do
-        post continue_candidate_interface_adviser_sign_ups_path, params: { adviser_sign_up: { preferred_teaching_subject_id: preferred_teaching_subject_id } }
+        post continue_candidate_interface_adviser_sign_ups_path, params: { adviser_sign_up_form: { preferred_teaching_subject_id: preferred_teaching_subject_id } }
       end
       let(:expected_http_status) { application_form.eligible_to_sign_up_for_a_teaching_training_adviser? ? :found : :not_found }
 
@@ -37,7 +37,7 @@ RSpec.describe 'Candidate Interface - adviser sign up availability' do
 
     describe '#create' do
       let(:perform_request) do
-        post candidate_interface_adviser_sign_ups_path, params: { adviser_sign_up: { preferred_teaching_subject_id: preferred_teaching_subject_id } }
+        post candidate_interface_adviser_sign_ups_path, params: { adviser_sign_up_form: { preferred_teaching_subject_id: preferred_teaching_subject_id } }
       end
       let(:expected_http_status) { application_form.eligible_to_sign_up_for_a_teaching_training_adviser? ? :found : :not_found }
 
