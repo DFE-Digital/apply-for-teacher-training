@@ -25,10 +25,9 @@ en:
         heading: Get a teacher training adviser
         introduction: |-
           Our advisers were experienced teachers and can answer all your questions about how to put together the best application. They’ll help you with:
-        bullets:
-          - writing your personal statement
-          - understanding your different training options
-          - preparing for interviews
+        help_with_1: writing your personal statement
+        help_with_2: understanding your different training options
+        help_with_3: preparing for interviews
         disclaimer: |-
           If you continue, we will share your personal details and the status of your application with a dedicated adviser.
           We will not share your personal statement, qualifications or work history with them.
@@ -38,10 +37,9 @@ en:
         heading: Get a teacher training adviser
         introduction: |-
           Our advisers were experienced teachers and can answer all your questions about how to put together the best application. They’ll help you with:
-        bullets:
-          - writing your personal statement
-          - understanding your different training options
-          - preparing for interviews
+        help_with_1: writing your personal statement
+        help_with_2: understanding your different training options
+        help_with_3: preparing for interviews
         disclaimer: |-
           If you continue, we will share your personal details and the status of your application with a dedicated adviser.
           We will not share your personal statement, qualifications or work history with them.
