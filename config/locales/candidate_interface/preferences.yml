@@ -5,13 +5,16 @@ en:
         success: You are sharing your application details with providers you have not applied to
       show:
         title: Check your application sharing preferences
-        share_information: Do you want to share your application details with other training providers?
+        share_information: Do you want to make your application details visible to other training providers?
         preferred_locations: Preferred locations
-        dynamic_locations: Update my location preferences when I apply to a new course
+        dynamic_locations: Add new locations to my preferences when I apply to new course
         change: Change
         submit: Submit preferences
         location: Within %{radius} miles of %{location}
         no_location_preferences: You have no location preferences
+        change_share_information_hint: Change if you want to share your application details
+        change_location_preferences_hint: Change your preferred locations
+        change_dynamic_locations_hint: Change updating your locations when you apply to a new course
     preferences:
       show: Check your application sharing preferences
       share_question: Do you want to share your application details with other training providers?
@@ -22,13 +25,16 @@ en:
     draft_preferences:
       show:
         title: Check your application sharing preferences
-        share_information: Do you want to share your application details with other training providers?
+        share_information: Do you want to make your application details visible to other training providers?
         preferred_locations: Preferred locations
-        dynamic_locations: Update my location preferences when I apply to a new course
+        dynamic_locations: Add new locations to my preferences when I apply to new course
         change: Change
         submit: Submit preferences
         location: Within %{radius} miles of %{location}
         no_location_preferences: You have no location preferences
+        change_share_information_hint: Change if you want to share your application details
+        change_location_preferences_hint: Change your preferred locations
+        change_dynamic_locations_hint: Change updating your locations when you apply to a new course
     pool_opt_ins:
       new:
         title: Do you want to make your application details visible to other training providers?
@@ -50,16 +56,18 @@ en:
         body: When you have no applications that are waiting for a decision from a provider, other providers will be able to see your application details and invite you to apply to their courses.
     location_preferences:
       index:
-        title: Location Preferences
-        body: Training providers will use the locations you enter here to search for candidates near their courses
-        select_locations: Add, change or add preferred locations
+        title: Location preferences
+        body: Training providers will use the locations you enter here to search for candidates near their courses.
+        select_locations: Add, change or remove preferred locations
         location: Location
         distance_from_location: Distance from location
         change: Change
         update_location_preferences: Add new locations to my preferences when I apply to new courses
         remove: Remove
         add_another_location: Add another location
+        add_location: Add a location
         no_location_preferences: You have no location preferences
+        within: "%{within} miles"
       new:
         title: Add a location
         submit_text: Add location
