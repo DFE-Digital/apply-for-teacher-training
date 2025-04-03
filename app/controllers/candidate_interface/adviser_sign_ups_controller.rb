@@ -25,7 +25,7 @@ module CandidateInterface
       @adviser_sign_up_form = Adviser::SignUpForm.new(adviser_sign_up_params.merge(application_form:))
 
       @adviser_sign_up_form.save
-      flash[:success] = t('application_form.adviser_sign_up_form.flash.success')
+      flash[:success] = t('.create.flash.success')
       track_adviser_sign_up
       redirect_to candidate_interface_details_path
     end

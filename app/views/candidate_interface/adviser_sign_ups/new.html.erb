@@ -1,19 +1,19 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.new_adviser_sign_up'), @adviser_sign_up_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_details_path, t('application_form.adviser_sign_up_form.back')) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_details_path, t('.back')) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(model: @adviser_sign_up_form, url: continue_candidate_interface_adviser_sign_ups_path) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-l"><%= t('application_form.adviser_sign_up_form.heading') %></h1>
+      <h1 class="govuk-heading-l"><%= t('.heading') %></h1>
 
-      <p class="govuk-body"><%= t('application_form.adviser_sign_up_form.introduction') %></p>
+      <p class="govuk-body"><%= t('.introduction') %></p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li><%= t('application_form.adviser_sign_up_form.bullets').first %></li>
-        <li><%= t('application_form.adviser_sign_up_form.bullets').second %></li>
-        <li><%= t('application_form.adviser_sign_up_form.bullets').third %></li>
+        <li><%= t('.bullets').first %></li>
+        <li><%= t('.bullets').second %></li>
+        <li><%= t('.bullets').third %></li>
       </ul>
 
       <%= f.govuk_radio_buttons_fieldset(:preferred_teaching_subject_id, legend: { size: 'm' }) do %>
@@ -27,10 +27,10 @@
       <% end %>
 
       <p class="govuk-body">
-        <%= t('application_form.adviser_sign_up_form.disclaimer') %>
+        <%= t('.disclaimer') %>
       </p>
 
-      <%= f.govuk_submit t('application_form.adviser_sign_up_form.submit_text') %>
+      <%= f.govuk_submit t('.submit_text') %>
     <% end %>
   </div>
 </div>
