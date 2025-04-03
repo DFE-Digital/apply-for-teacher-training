@@ -10,11 +10,7 @@
 
       <p class="govuk-body"><%= t('.introduction') %></p>
 
-      <ul class="govuk-list govuk-list--bullet">
-        <li><%= t('.bullets').first %></li>
-        <li><%= t('.bullets').second %></li>
-        <li><%= t('.bullets').third %></li>
-      </ul>
+      <%= govuk_list [t('.help_with_1'), t('.help_with_2'), t('.help_with_3')], type: :bullet %>
 
       <%= f.govuk_radio_buttons_fieldset(:preferred_teaching_subject_id, legend: { size: 'm' }) do %>
         <% @adviser_sign_up_form.primary_teaching_subjects_for_select.each do |subject| %>
