@@ -9,7 +9,11 @@
       <% summary_list.with_row do |row| %>
         <% row.with_key { t('.share_information') } %>
         <% row.with_value { @preference.pool_status == 'opt_in' ? 'Yes' : 'No' } %>
-        <% row.with_action(text: t('.change'), href: edit_candidate_interface_pool_opt_in_path(@preference, return_to: 'review')) %>
+        <% row.with_action(
+          text: t('.change'),
+          href: edit_candidate_interface_pool_opt_in_path(@preference, return_to: 'review'),
+          visually_hidden_text: t('.change_share_information_hint'),
+        ) %>
       <% end %>
 
       <% summary_list.with_row do |row| %>
@@ -28,6 +32,7 @@
         <% row.with_action(
           text: t('.change'),
           href: candidate_interface_draft_preference_location_preferences_path(@preference, return_to: 'review'),
+          visually_hidden_text: t('.change_location_preferences_hint'),
         ) %>
       <% end %>
 
@@ -37,6 +42,7 @@
         <% row.with_action(
           text: t('.change'),
           href: candidate_interface_draft_preference_location_preferences_path(@preference, return_to: 'review'),
+          visually_hidden_text: t('.change_dynamic_locations_hint'),
         ) %>
       <% end %>
     <% end %>
