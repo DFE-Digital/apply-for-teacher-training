@@ -3,11 +3,11 @@ module CandidateInterface
     before_action :render_404_unless_available
 
     def show
-      @adviser_sign_up_form = Adviser::SignUpForm.build_from_hash(application_form, params[:preferred_teaching_subject_id])
+      @adviser_sign_up_form = Adviser::SignUpForm.new({ application_form:, preferred_teaching_subject_id: params[:preferred_teaching_subject_id] })
     end
 
     def new
-      @adviser_sign_up_form = Adviser::SignUpForm.build_from_hash(application_form, params[:preferred_teaching_subject_id])
+      @adviser_sign_up_form = Adviser::SignUpForm.new({ application_form:, preferred_teaching_subject_id: params[:preferred_teaching_subject_id] })
     end
 
     def continue

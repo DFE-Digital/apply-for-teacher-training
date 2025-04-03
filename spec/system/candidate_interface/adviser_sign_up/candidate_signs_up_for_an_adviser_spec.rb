@@ -123,7 +123,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def and_i_see_the_success_message
-    expect(page).to have_content(t('application_form.adviser_sign_up_form.flash.success'))
+    expect(page).to have_content(t('candidate_interface.adviser_sign_ups.create.flash.success'))
   end
 
   def and_an_adviser_sign_up_job_is_enqueued
@@ -132,8 +132,8 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def and_the_adviser_cta_be_replaced_with_the_waiting_to_be_assigned_message
-    expect(page).to have_no_link(t('application_form.adviser_sign_up_form.call_to_action.available.button_text'))
-    expect(page).to have_text(t('application_form.adviser_sign_up_form.call_to_action.waiting_to_be_assigned.text'))
+    expect(page).to have_no_link(t('candidate_interface.details.adviser_call_to_action.available.button_text'))
+    expect(page).to have_text(t('candidate_interface.details.adviser_call_to_action.waiting_to_be_assigned.text'))
   end
 
   def and_the_sign_up_is_tracked
@@ -141,12 +141,12 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def then_i_am_redirected_to_the_review_page
-    expect(page).to have_link(t('application_form.adviser_sign_up_form.change'))
-    expect(page).to have_button(t('application_form.adviser_sign_up_form.request'))
+    expect(page).to have_link(t('candidate_interface.adviser_sign_ups.show.change'))
+    expect(page).to have_button(t('candidate_interface.adviser_sign_ups.show.request'))
   end
 
   def when_i_click_the_change_link
-    click_link_or_button 'Change'
+    click_link_or_button t('candidate_interface.adviser_sign_ups.show.change')
   end
 
   def when_i_change_my_subject_selection
@@ -158,6 +158,6 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def when_i_click_request_adviser
-    click_link_or_button 'Request adviser'
+    click_link_or_button t('candidate_interface.adviser_sign_ups.show.request')
   end
 end

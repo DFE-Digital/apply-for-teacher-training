@@ -19,14 +19,6 @@ class Adviser::SignUpForm
     true
   end
 
-  def self.build_from_hash(application_form, preferred_teaching_subject_id)
-    attributes = {
-      application_form:,
-      preferred_teaching_subject_id:,
-    }
-    new(attributes)
-  end
-
   def primary_teaching_subjects_for_select
     Adviser::TeachingSubject.primary_level
   end
