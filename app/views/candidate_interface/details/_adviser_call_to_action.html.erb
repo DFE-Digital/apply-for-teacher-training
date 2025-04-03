@@ -3,14 +3,14 @@
 <% if application_form.eligible_to_sign_up_for_a_teaching_training_adviser? %>
   <aside class="app-related" aria-labelledby="tta-title">
     <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="tta-title">
-      <%= t('application_form.adviser_sign_up_form.call_to_action.available.heading') %>
+      <%= t('.available.heading') %>
     </h2>
     <p class="govuk-body-s govuk-!-margin-bottom-2">
-      <%= t('application_form.adviser_sign_up_form.call_to_action.available.text') %>
+      <%= t('.available.text') %>
     </p>
     <p class="govuk-body-s">
       <%= govuk_link_to(
-            t('application_form.adviser_sign_up_form.call_to_action.available.button_text'),
+            t('.available.button_text'),
             new_candidate_interface_adviser_sign_up_path,
           ) %>
     </p>
@@ -19,20 +19,20 @@
 <% elsif application_form.waiting_to_be_assigned_to_an_adviser? %>
   <aside class="app-related" aria-labelledby="tta-title">
     <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="tta-title">
-      <%= t('application_form.adviser_sign_up_form.call_to_action.waiting_to_be_assigned.heading') %>
+      <%= t('.waiting_to_be_assigned.heading') %>
     </h2>
     <p class="govuk-body-s">
-      <%= t('application_form.adviser_sign_up_form.call_to_action.waiting_to_be_assigned.text') %>
+      <%= t('.waiting_to_be_assigned.text') %>
     </p>
   </aside>
 
 <% elsif application_form.already_assigned_to_an_adviser? %>
   <aside class="app-related" aria-labelledby="tta-title">
     <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="tta-title">
-      <%= t('application_form.adviser_sign_up_form.call_to_action.already_assigned.heading') %>
+      <%= t('.already_assigned.heading') %>
     </h2>
     <p class="govuk-body-s govuk-!-margin-bottom-2">
-      <%= t('application_form.adviser_sign_up_form.call_to_action.already_assigned.text') %>
+      <%= t('.already_assigned.text') %>
     </p>
   </aside>
 <% end %>

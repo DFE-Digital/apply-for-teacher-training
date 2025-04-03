@@ -84,7 +84,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def when_i_click_on_the_adviser_cta
-    click_link_or_button t('application_form.adviser_sign_up_form.call_to_action.available.button_text')
+    click_link_or_button t('candidate_interface.details.adviser_call_to_action.available.button_text')
   end
 
   def then_i_am_on_the_adviser_sign_up_page
@@ -96,7 +96,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def when_i_click_the_continue_button
-    click_link_or_button t('application_form.adviser_sign_up_form.submit_text')
+    click_link_or_button t('candidate_interface.adviser_sign_ups.new.submit_text')
   end
   alias_method :and_i_click_the_continue_button, :when_i_click_the_continue_button
 
