@@ -33,6 +33,7 @@ en:
           would_you_like: Would you like a teacher training adviser to contact you?
           yes: Yes
           no: No
+          submit_text: Continue
       new:
         back: Back
         heading: Get a teacher training adviser
