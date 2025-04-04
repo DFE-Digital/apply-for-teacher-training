@@ -6,7 +6,7 @@ module CandidateInterface
         @application_form = application_form
       end
 
-      def create
+      def update
         @adviser_interruption_form = CandidateInterface::AdviserInterruptionForm.new(adviser_interruption_params.merge(application_form:))
         @application_form = application_form
 
@@ -22,6 +22,7 @@ module CandidateInterface
           track_validation_error(@adviser_interruption_form)
           render :show
         end
+        binding.pry
       end
 
     private
