@@ -179,7 +179,7 @@ GEM
     brakeman (7.0.1)
       racc
     builder (3.3.0)
-    bullet (8.0.1)
+    bullet (8.0.2)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     business_time (0.13.0)
@@ -426,7 +426,7 @@ GEM
     llhttp-ffi (0.5.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
-    logger (1.6.6)
+    logger (1.7.0)
     loofah (2.24.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
