@@ -35,12 +35,14 @@ module CandidateInterface
       preference.location_preferences.insert_all!(attributes)
     end
 
-    def self.add_location_from_choice(preference:, application_choice:)
-      new(preference:, application_choice:).add_location_from_choice
+    def self.add_dynamic_location(preference:, application_choice:)
+      new(preference:, application_choice:).add_dynamic_location
     end
 
-    def add_location_from_choice
-      site = application_choices.site
+    def add_dynamic_location
+      return if preference.opt_out?
+
+      site = application_choice.site
       return if preference.location_preferences.pluck(:name).include?(site.postcode)
 
       preference.location_preferences.create!(
@@ -48,7 +50,7 @@ module CandidateInterface
         within: DEFAULT_RADIUS,
         latitude: site.latitude,
         longitude: site.longitude,
-        provider_id: site.provider_id,
+        #provider_id: site.provider_id,
       )
     end
 

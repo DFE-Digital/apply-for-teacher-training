@@ -25,7 +25,7 @@ module CandidateInterface
         SendNewApplicationEmailToProvider.new(application_choice:).call
         CandidateMailer.application_choice_submitted(application_choice).deliver_later
 
-        LocationPreferences.add_location_from_choice(
+        LocationPreferences.add_dynamic_location(
           preference: application_form.candidate.published_preferences.last,
           application_choice:,
         )
