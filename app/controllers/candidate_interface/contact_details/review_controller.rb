@@ -17,7 +17,7 @@ module CandidateInterface
         flash[:warning] = 'You cannot mark this section complete with incomplete contact details.'
         redirect_to candidate_interface_contact_information_review_path
       elsif @section_complete_form.save(current_application, :contact_details_completed)
-        if current_application.eligible_to_sign_up_for_a_teaching_training_adviser? && ActiveModel::Type::Boolean.new.cast(@section_complete_form.completed)
+        if current_application.meets_conditions_for_adviser_interruption? && ActiveModel::Type::Boolean.new.cast(@section_complete_form.completed)
           redirect_to candidate_interface_adviser_sign_ups_interruption_path(@current_application.id)
         else
           redirect_to_candidate_root

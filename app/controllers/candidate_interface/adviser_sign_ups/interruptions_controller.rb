@@ -22,7 +22,6 @@ module CandidateInterface
           track_validation_error(@adviser_interruption_form)
           render :show
         end
-        binding.pry
       end
 
     private
