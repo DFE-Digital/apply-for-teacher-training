@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate submits the application' do
   include CandidateHelper
+  before do
+    FeatureFlag.activate(:candidate_preferences)
+  end
 
   scenario 'Candidate with more than the max unsuccessful apps' do
     given_i_am_signed_in_with_one_login
@@ -10,6 +13,7 @@ RSpec.describe 'Candidate submits the application' do
     when_i_have_completed_my_application_and_added_primary_as_course_choice
     and_i_go_to_submit_my_application
     then_i_can_see_my_application_has_been_successfully_submitted
+    when_i_click('Back to your applications')
     and_i_can_see_i_have_three_choices_left
 
     when_my_application_is_rejected
@@ -70,5 +74,9 @@ RSpec.describe 'Candidate submits the application' do
   def then_i_am_unable_to_add_any_further_choices
     visit current_path
     expect(page).to have_content "You cannot submit any more applications because you have #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS} unsuccessful applications."
+  end
+
+  def when_i_click(button)
+    click_link_or_button(button)
   end
 end

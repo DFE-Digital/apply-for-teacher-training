@@ -43,4 +43,6 @@
       current_tab_name: params[:current_tab_name],
     ) %>
   </div>
+
+  <%= render CandidateInterface::ManagePreferencesComponent.new(current_candidate:, application_form: current_application) %>
 </div>

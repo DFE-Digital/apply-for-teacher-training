@@ -4,6 +4,7 @@ RSpec.describe 'Candidate submits the application' do
   include CandidateHelper
 
   scenario 'Candidate with a completed application', :with_audited do
+    given_the_candidate_preferences_feature_flag_is_not_activated
     given_i_am_signed_in_with_one_login
     when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice
     and_i_continue_with_my_application
@@ -50,6 +51,7 @@ RSpec.describe 'Candidate submits the application' do
   end
 
   scenario 'Candidate with a primary application missing the science GCSE' do
+    given_the_candidate_preferences_feature_flag_is_not_activated
     given_i_am_signed_in_with_one_login
 
     when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice
@@ -63,6 +65,7 @@ RSpec.describe 'Candidate submits the application' do
   end
 
   scenario 'Candidate with a primary application missing the science GCSE and missing other sections' do
+    given_the_candidate_preferences_feature_flag_is_not_activated
     given_i_am_signed_in_with_one_login
 
     when_i_have_an_incomplete_application_and_have_added_primary_as_a_course_choice
@@ -73,6 +76,18 @@ RSpec.describe 'Candidate submits the application' do
 
     when_i_click_on_the_error_message
     then_i_am_on_your_details_page
+  end
+
+  scenario 'Candidate views the share details page after submission' do
+    given_the_candidate_preferences_feature_flag_is_activated
+    given_i_am_signed_in_with_one_login
+    when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice
+    and_i_continue_with_my_application
+
+    when_i_click_to_review_my_application
+    when_i_continue_without_editing
+    when_i_click_to_submit_my_application
+    then_i_am_redirected_to_share_details_page
   end
 
   def when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice
@@ -221,5 +236,20 @@ RSpec.describe 'Candidate submits the application' do
     expect(
       @application_choice.audits.where(user_id: @current_candidate.id).any?,
     ).to be_truthy
+  end
+
+  def given_the_candidate_preferences_feature_flag_is_activated
+    FeatureFlag.activate(:candidate_preferences)
+  end
+
+  def given_the_candidate_preferences_feature_flag_is_not_activated
+    FeatureFlag.deactivate(:candidate_preferences)
+  end
+
+  def then_i_am_redirected_to_share_details_page
+    expect(page).to have_current_path(candidate_interface_share_details_path)
+
+    expect(page).to have_content('Application submitted')
+    expect(page).to have_content('Increase your chances of success by sharing your application details')
   end
 end

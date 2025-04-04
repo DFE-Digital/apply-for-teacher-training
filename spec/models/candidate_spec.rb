@@ -13,6 +13,7 @@ RSpec.describe Candidate do
     it { is_expected.to have_many(:pool_dismissals).dependent(:destroy) }
     it { is_expected.to have_many(:pool_invites).dependent(:destroy) }
     it { is_expected.to have_many(:preferences).dependent(:destroy) }
+    it { is_expected.to have_many(:published_preferences).conditions(status: 'published').dependent(:destroy) }
     it { is_expected.to have_one(:one_login_auth).dependent(:destroy) }
     it { is_expected.to have_one(:account_recovery_request).dependent(:destroy) }
   end
