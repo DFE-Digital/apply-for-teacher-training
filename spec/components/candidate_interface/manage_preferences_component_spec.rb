@@ -111,5 +111,28 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
         href: new_candidate_interface_pool_opt_in_path,
       )
     end
+
+    it 'returns the edit opt in path if the published preference is opted out' do
+      FeatureFlag.activate(:candidate_preferences)
+      candidate = create(:candidate)
+      preference = create(
+        :candidate_preference,
+        status: 'published',
+        pool_status: 'opt_out',
+        candidate:,
+      )
+      application_form = create(:application_form, :with_accepted_offer)
+
+      render_inline(
+        described_class.new(current_candidate: candidate, application_form:),
+      )
+
+      expect(page).to have_link(
+        'Change your sharing and location settings',
+        href: edit_candidate_interface_pool_opt_in_path(
+          preference,
+        ),
+      )
+    end
   end
 end

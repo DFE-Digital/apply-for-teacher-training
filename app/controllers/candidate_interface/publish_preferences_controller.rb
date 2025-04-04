@@ -11,7 +11,11 @@ module CandidateInterface
         current_candidate.published_preferences.where.not(id: @preference.id).destroy_all
       end
 
-      flash[:success] = t('.success')
+      flash[:success] = if @preference.opt_in?
+                          t('.success_opt_in')
+                        else
+                          t('.success_opt_out')
+                        end
       redirect_to candidate_interface_application_choices_path
     end
 
