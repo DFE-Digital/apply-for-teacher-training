@@ -8,6 +8,14 @@ module CandidateInterface
 
     validates :proceed_to_request_adviser, presence: true
 
+    def save
+      if proceed_to_request_adviser?
+        application_form.update(adviser_interruption_responded_yes: true)
+      else
+        application_form.update(adviser_interruption_responded_yes: false)
+      end
+    end
+
     def proceed_to_request_adviser?
       proceed_to_request_adviser == 'yes'
     end
