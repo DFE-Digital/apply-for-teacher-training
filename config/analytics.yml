@@ -19,6 +19,7 @@ shared:
     - latitude
     - longitude
     - candidate_preference_id
+    - provider_id
     - created_at
     - updated_at
   candidates:
