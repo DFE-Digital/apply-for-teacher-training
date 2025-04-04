@@ -5,7 +5,7 @@ RSpec.describe TeacherTrainingPublicAPI::TriggerFullSyncIfFindClosed do
 
   context 'when find closed within the last day' do
     it 'triggers a full sync for the next year ignoring update errors' do
-      timetable = RecruitmentCycleTimetable.find_by(recruitment_cycle_year: 2024)
+      timetable = get_timetable(2024)
 
       travel_temporarily_to(timetable.find_closes_at + 5.minutes) do
         described_class.call
@@ -16,8 +16,7 @@ RSpec.describe TeacherTrainingPublicAPI::TriggerFullSyncIfFindClosed do
 
   context 'when find is yet to close' do
     before do
-      timetable = RecruitmentCycleTimetable.current_timetable
-      TestSuiteTimeMachine.travel_permanently_to(2.hours.before(timetable.find_closes_at))
+      TestSuiteTimeMachine.travel_permanently_to(2.hours.before(current_timetable.find_closes_at))
     end
 
     it 'does not trigger a sync' do
@@ -28,8 +27,7 @@ RSpec.describe TeacherTrainingPublicAPI::TriggerFullSyncIfFindClosed do
 
   context 'when find closed over a day ago' do
     before do
-      timetable = RecruitmentCycleTimetable.current_timetable
-      TestSuiteTimeMachine.travel_permanently_to(timetable.find_closes_at + (1.day + 1.hour))
+      TestSuiteTimeMachine.travel_permanently_to(current_timetable.find_closes_at + (1.day + 1.hour))
     end
 
     it 'does not trigger a sync' do

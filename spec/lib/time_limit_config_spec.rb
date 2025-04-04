@@ -7,7 +7,7 @@ RSpec.describe TimeLimitConfig do
     end
 
     it ':reject_by_default returns a limit of 20 days date is after June in the current cycle' do
-      TestSuiteTimeMachine.travel_permanently_to(Date.new(RecruitmentCycle.current_year, 7, 1)) do
+      TestSuiteTimeMachine.travel_permanently_to(Date.new(current_year, 7, 1)) do
         expect(described_class.limits_for(:reject_by_default).first.limit).to eq(20)
       end
     end

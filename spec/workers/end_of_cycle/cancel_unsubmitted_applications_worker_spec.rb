@@ -5,47 +5,47 @@ RSpec.describe EndOfCycle::CancelUnsubmittedApplicationsWorker do
     let(:unsubmitted_application_from_this_year) do
       create(:application_form,
              submitted_at: nil,
-             recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+             recruitment_cycle_year: current_year,
              application_choices: [create_an_application_choice(:unsubmitted, current_year_course_option)])
     end
 
     let(:unsubmitted_application_from_last_year) do
       create(:application_form,
              submitted_at: nil,
-             recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+             recruitment_cycle_year: previous_year,
              application_choices: [create_an_application_choice(:unsubmitted, previous_year_course_option)])
     end
 
     let(:previous_year_course_option) do
       create(:course_option,
              course: create(:course,
-                            recruitment_cycle_year: RecruitmentCycleTimetable.previous_year))
+                            recruitment_cycle_year: previous_year))
     end
 
     let(:current_year_course_option) do
       create(:course_option,
              course: create(:course,
-                            recruitment_cycle_year: RecruitmentCycleTimetable.current_year))
+                            recruitment_cycle_year: current_year))
     end
 
     let(:hidden_application_from_this_year) do
       create(:application_form,
              submitted_at: nil,
              candidate: create(:candidate, hide_in_reporting: true),
-             recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+             recruitment_cycle_year: current_year,
              application_choices: [create_an_application_choice(:unsubmitted, current_year_course_option)])
     end
 
     let(:rejected_application_from_this_year) do
       create(:application_form,
-             recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+             recruitment_cycle_year: current_year,
              application_choices: [create_an_application_choice(:rejected, current_year_course_option)])
     end
 
     let(:unsubmitted_cancelled_application_from_this_year) do
       create(:application_form,
              submitted_at: nil,
-             recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+             recruitment_cycle_year: current_year,
              application_choices: [create_an_application_choice(:application_not_sent, current_year_course_option)])
     end
 
@@ -75,7 +75,7 @@ RSpec.describe EndOfCycle::CancelUnsubmittedApplicationsWorker do
     end
 
     context 'for previous cycle, current cycle' do
-      [RecruitmentCycleTimetable.previous_year, RecruitmentCycleTimetable.current_year].each do |year|
+      [previous_year, current_year].each do |year|
         context 'on cancel application deadline', time: cancel_application_deadline(year) do
           it 'cancels applications' do
             create_test_applications

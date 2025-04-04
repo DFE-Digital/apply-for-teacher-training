@@ -14,8 +14,6 @@ RSpec.describe CandidateInterface::SignInCandidate do
     )
   end
 
-  let(:current_year) { RecruitmentCycleTimetable.current_year }
-
   context 'course is in the current cycle' do
     let(:course) { create(:course, recruitment_cycle_year: current_year) }
 
@@ -30,7 +28,7 @@ RSpec.describe CandidateInterface::SignInCandidate do
   end
 
   context 'course is in the previous cycle' do
-    let(:course) {  create(:course, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year) }
+    let(:course) {  create(:course, recruitment_cycle_year: previous_year) }
 
     it 'is does not set the candidates `course_from_find_id` if the course is not in the current cycle' do
       candidate = create(:candidate)

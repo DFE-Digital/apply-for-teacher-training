@@ -10,7 +10,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
           :application_form,
           candidate:,
           application_choices: [create(:application_choice, :application_not_sent)],
-          recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+          recruitment_cycle_year: current_year,
         )
 
         described_class.new.perform
@@ -69,7 +69,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
           :application_form,
           candidate:,
           application_choices: [create(:application_choice, :application_not_sent)],
-          recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+          recruitment_cycle_year: current_year,
         )
 
         described_class.new.perform
@@ -88,7 +88,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
           :application_form,
           candidate:,
           application_choices: [create(:application_choice, :application_not_sent)],
-          recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+          recruitment_cycle_year: current_year,
         )
 
         described_class.new.perform
@@ -100,14 +100,14 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
     end
 
     it 'does not return an application when the deadline has passed' do
-      travel_temporarily_to(RecruitmentCycleTimetable.current_timetable.apply_deadline_at + 1.day) do
+      travel_temporarily_to(current_timetable.apply_deadline_at + 1.day) do
         candidate = create(:candidate)
 
         create(
           :application_form,
           candidate:,
           application_choices: [create(:application_choice, :application_not_sent)],
-          recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+          recruitment_cycle_year: current_year,
         )
 
         described_class.new.perform
@@ -126,7 +126,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
           :application_form,
           candidate:,
           application_choices: [create(:application_choice, :application_not_sent)],
-          recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+          recruitment_cycle_year: previous_year,
         )
 
         described_class.new.perform

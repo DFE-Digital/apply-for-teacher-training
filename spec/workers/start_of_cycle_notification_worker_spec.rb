@@ -8,7 +8,7 @@ RSpec.describe StartOfCycleNotificationWorker do
         allow(GetProvidersToNotifyAboutFindAndApply).to receive(:call).and_return(collection)
         allow(collection).to receive(:limit).and_return([])
 
-        timetable = RecruitmentCycleTimetable.find_by(recruitment_cycle_year: 2023)
+        timetable = get_timetable(2023)
         travel_temporarily_to(timetable.find_opens_at.change(hour: start_hour)) do
           described_class.new.perform('find')
         end
@@ -77,7 +77,7 @@ RSpec.describe StartOfCycleNotificationWorker do
       let(:service) { 'find' }
 
       before do
-        TestSuiteTimeMachine.travel_permanently_to(RecruitmentCycleTimetable.current_timetable.find_opens_at.change(hour: 5))
+        TestSuiteTimeMachine.travel_permanently_to(current_timetable.find_opens_at.change(hour: 5))
       end
 
       it 'does not send any messages' do
@@ -90,7 +90,7 @@ RSpec.describe StartOfCycleNotificationWorker do
       let(:service) { 'find' }
 
       before do
-        TestSuiteTimeMachine.travel_permanently_to(RecruitmentCycleTimetable.current_timetable.find_opens_at.change(hour: 16))
+        TestSuiteTimeMachine.travel_permanently_to(current_timetable.find_opens_at.change(hour: 16))
       end
 
       it 'notifies all provider users that the service is open' do
@@ -181,8 +181,8 @@ RSpec.describe StartOfCycleNotificationWorker do
       end
 
       context 'when a provider user received an email last cycle' do
-        let(:timetable_2023) { RecruitmentCycleTimetable.find_by(recruitment_cycle_year: 2023) }
-        let(:timetable_2024) { RecruitmentCycleTimetable.find_by(recruitment_cycle_year: 2024) }
+        let(:timetable_2023) { get_timetable(2023) }
+        let(:timetable_2024) { get_timetable(2024) }
 
         it 'they receive another email this cycle' do
           TestSuiteTimeMachine.travel_permanently_to(timetable_2023.find_opens_at.change(hour: 16))

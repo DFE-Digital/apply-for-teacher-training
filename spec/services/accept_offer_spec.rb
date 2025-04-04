@@ -4,7 +4,7 @@ RSpec.describe AcceptOffer do
   include CourseOptionHelpers
 
   before do
-    timetable = RecruitmentCycleTimetable.find_by(recruitment_cycle_year: ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    timetable = get_timetable(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
     TestSuiteTimeMachine.travel_permanently_to(timetable.apply_opens_at)
   end
 

@@ -4,9 +4,6 @@ RSpec.describe 'Export applications in HESA format' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  let(:current_timetable) { RecruitmentCycleTimetable.current_timetable }
-  let(:previous_timetable) { RecruitmentCycleTimetable.previous_timetable }
-
   scenario 'download CSVs of application data with translated HESA codes for the current and previous recruitment cycle year' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider

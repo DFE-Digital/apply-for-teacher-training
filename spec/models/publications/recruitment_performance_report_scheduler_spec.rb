@@ -7,8 +7,8 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
   let(:application_choice) { create(:application_choice, status: 'awaiting_provider_decision', course_option:, sent_to_provider_at: Time.zone.today - 1.week) }
   let(:provider) { course_option.course.provider }
 
-  let(:cycle_week) { RecruitmentCycleTimetable.current_cycle_week.pred }
-  let(:recruitment_cycle_year) { RecruitmentCycleTimetable.current_year }
+  let(:cycle_week) { current_cycle_week.pred }
+  let(:recruitment_cycle_year) { current_year }
 
   context 'provider report is generated for appropriate providers' do
     before do
@@ -32,7 +32,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
     end
 
     it 'creates a report if one has been generated for that cycle week in the previous year' do
-      create(:provider_recruitment_performance_report, provider:, cycle_week:, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year)
+      create(:provider_recruitment_performance_report, provider:, cycle_week:, recruitment_cycle_year: previous_year)
 
       described_class.new.call
 
@@ -74,7 +74,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
         statistics: {},
         publication_date: Time.zone.today,
         cycle_week:,
-        recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+        recruitment_cycle_year: previous_year,
       )
 
       described_class.new.call
@@ -87,7 +87,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
         statistics: {},
         publication_date: Time.zone.today,
         cycle_week:,
-        recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+        recruitment_cycle_year: current_year,
       )
 
       described_class.new.call

@@ -28,8 +28,6 @@ RSpec.describe SafeChoiceUpdateValidator do
   end
 
   context 'when choices are not safe to touch' do
-    let(:current_year) { RecruitmentCycleTimetable.current_year }
-
     it 'does add an error' do
       record = Record.new
       record.application_form = create(

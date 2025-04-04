@@ -185,7 +185,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
       :completed_application_form,
       :with_completed_references,
       :unsubmitted,
-      recruitment_cycle_year: RecruitmentCycle.previous_year,
+      recruitment_cycle_year: previous_year,
     )
     application_form.update_columns(
       updated_at: 10.days.ago,

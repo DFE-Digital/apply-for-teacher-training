@@ -4,7 +4,9 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   include CandidateHelper
 
   around do |example|
-    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    old_references = RecruitmentCycleTimetable
+                       .find_by(recruitment_cycle_year: ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+                       &.apply_opens_at
     travel_temporarily_to(old_references) { example.run }
   end
 

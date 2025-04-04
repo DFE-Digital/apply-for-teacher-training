@@ -5,6 +5,10 @@ require 'rails_helper'
 RSpec.describe 'Register receives an application data', time: CycleTimetableHelper.mid_cycle(2025) do
   include CandidateHelper
 
+  before do
+    @current_year = current_year
+  end
+
   scenario 'A candidate is recruited in a postgraduate course' do
     given_a_provider_recruited_a_candidate_that_applied_to_a_postgraduate_course
     when_i_retrieve_the_application_over_the_api
@@ -54,7 +58,7 @@ RSpec.describe 'Register receives an application data', time: CycleTimetableHelp
     api_token = ServiceAPIUser.register_user.create_magic_link_token!
     page.driver.header 'Authorization', "Bearer #{api_token}"
 
-    visit "/register-api/applications?recruitment_cycle_year=#{RecruitmentCycle.current_year}&since=#{CGI.escape(1.day.ago.iso8601)}"
+    visit "/register-api/applications?recruitment_cycle_year=#{@current_year}&since=#{CGI.escape(1.day.ago.iso8601)}"
 
     @api_response = JSON.parse(page.body)
   end
@@ -108,7 +112,7 @@ RSpec.describe 'Register receives an application data', time: CycleTimetableHelp
           ethnic_background: 'Asian or Asian British',
         },
         course: {
-          recruitment_cycle_year: RecruitmentCycle.current_year,
+          recruitment_cycle_year: @current_year,
           course_code: '2XT2',
           course_uuid: @provider.courses.first.uuid,
           training_provider_code: '1N1',

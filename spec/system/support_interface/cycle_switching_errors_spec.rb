@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Cycle switching errors' do
   include DfESignInHelpers
-  let(:timetable) { RecruitmentCycleTimetable.current_timetable }
+  let(:timetable) { current_timetable }
 
   scenario 'adding invalid dates' do
     given_i_am_signed_in_as_a_support_user

@@ -14,9 +14,6 @@ RSpec.describe 'Docs' do
     then_the_candidate_flow_diagram_is_generated
     and_i_see_the_candidate_flow_documentation
 
-    # when_i_click_on_the_end_of_cycle_documentation
-    # then_i_can_see_the_apply_reopens_date
-
     when_i_click_on_qualifications_documentation
     then_i_can_see_all_qualifications_data
   end
@@ -99,18 +96,8 @@ RSpec.describe 'Docs' do
     expect(page).to have_title 'Candidate application flow'
   end
 
-  def when_i_click_on_the_end_of_cycle_documentation
-    click_link_or_button 'Cycle timeline'
-  end
-
   def when_i_click_on_qualifications_documentation
     click_link_or_button 'Qualifications'
-  end
-
-  def then_i_can_see_the_apply_reopens_date
-    expect(page).to have_content 'Cycle timeline'
-    expect(page).to have_content 'Apply reopens'
-    expect(page).to have_content CycleTimetable.apply_reopens.to_fs(:govuk_date_and_time)
   end
 
   def then_i_can_see_all_qualifications_data

@@ -3,11 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Refusing to give a reference' do
   include CandidateHelper
 
-  before do
-    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_deadline(2024))
-  end
-
-  scenario 'Referee refuses to give a reference' do
+  scenario 'Referee refuses to give a reference', time: mid_cycle(2024) do
     given_i_am_a_referee_of_an_application_from_old_cycle
     and_i_received_the_initial_reference_request_email
     then_i_receive_an_email_with_a_reference_request

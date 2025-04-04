@@ -186,7 +186,6 @@ RSpec.describe 'ApplicationForm factory' do
     field :work_history_explanation, type: String
     field :volunteering_experience, one_of: [true, false, nil]
     field :phase, value: phase || 'apply_1'
-    field :recruitment_cycle_year, value: RecruitmentCycle.current_year
 
     context "if `first_nationality` is 'British'" do
       let(:attributes) { { first_nationality: 'British' } }
@@ -327,26 +326,24 @@ RSpec.describe 'ApplicationForm factory' do
   trait :carry_over do
     it_behaves_like 'trait :completed'
 
-    field :recruitment_cycle_year, value: RecruitmentCycle.current_year
     field :created_at, value: CycleTimetableHelper.mid_cycle
     field :updated_at, value: CycleTimetableHelper.mid_cycle
 
     it 'associates a previous application form in the previous year' do
       expect(record.previous_application_form).to be_present
-      expect(record.previous_application_form.recruitment_cycle_year).to eq(RecruitmentCycle.previous_year)
+      expect(record.previous_application_form.recruitment_cycle_year).to eq(previous_year)
     end
   end
 
   trait :apply_again do
     it_behaves_like 'trait :completed', phase: 'apply_2'
 
-    field :recruitment_cycle_year, value: RecruitmentCycle.current_year
     field :created_at, value: CycleTimetableHelper.before_apply_deadline
     field :updated_at, value: CycleTimetableHelper.before_apply_deadline
 
     it 'associates a previous application form in the current year' do
       expect(record.previous_application_form).to be_present
-      expect(record.previous_application_form.recruitment_cycle_year).to eq(RecruitmentCycle.current_year)
+      expect(record.previous_application_form.recruitment_cycle_year).to eq(current_year)
     end
   end
 

@@ -18,7 +18,7 @@ RSpec.describe CandidateMailer do
       'heading' => 'Dear Fred',
       'name and code for course' => 'Mathematics (M101)',
       'name of provider' => 'Arithmetic College',
-      'year of new course' => "until the next academic year (#{RecruitmentCycleTimetable.next_timetable.academic_year_range_name})",
+      'year of new course' => "until the next academic year (#{next_timetable.academic_year_range_name})",
     )
   end
 end

@@ -15,7 +15,7 @@ RSpec.describe DataMigrations::BackfillSandboxCourseUuids do
 
     stub_teacher_training_api_courses(
       provider_code: provider.code,
-      recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+      recruitment_cycle_year: current_year,
       specified_attributes: [
         { code: up_to_date_course.code, uuid: up_to_date_course_uuid },
         { code: out_of_date_course.code, uuid: new_course_uuid },
