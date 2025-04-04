@@ -706,6 +706,11 @@ class ApplicationForm < ApplicationRecord
     current_cycle? && Time.zone.now.between?(apply_opens_at, apply_deadline_at)
   end
 
+  def meets_conditions_for_adviser_interruption?
+    eligible_to_sign_up_for_a_teaching_training_adviser? &&
+      adviser_interruption_responded_yes != false
+  end
+
 private
 
   def geocode_address_and_update_region_if_required

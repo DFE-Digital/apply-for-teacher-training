@@ -11,18 +11,17 @@ module CandidateInterface
         @application_form = application_form
 
         if @adviser_interruption_form.valid?
+          @adviser_interruption_form.save
+
           if @adviser_interruption_form.proceed_to_request_adviser?
-            application_form.update(adviser_interruption_responded_yes: true)
             redirect_to new_candidate_interface_adviser_sign_up_path
           else
-            application_form.update(adviser_interruption_responded_yes: false)
             redirect_to_candidate_root
           end
         else
           track_validation_error(@adviser_interruption_form)
           render :show
         end
-        binding.pry
       end
 
     private

@@ -448,6 +448,10 @@ en:
           attributes:
             provider_id:
               blank: Select a provider
+        candidate_interface/adviser_interruption_form:
+          attributes:
+            proceed_to_request_adviser:
+              blank: Select whether you would like a teacher training adviser to contact you
         candidate_interface/prefill_application_or_not_form:
           attributes:
             prefill:
