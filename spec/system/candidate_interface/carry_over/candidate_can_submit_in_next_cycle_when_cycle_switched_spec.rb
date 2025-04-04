@@ -3,30 +3,66 @@ require 'rails_helper'
 RSpec.describe 'Carry over next cycle with cycle switcher' do
   include CandidateHelper
 
-  it 'Candidate can submit in next cycle with cycle switcher after apply opens', time: mid_cycle do
-    given_i_am_signed_in_with_one_login
-    when_i_have_an_unsubmitted_application_without_a_course
-    and_the_cycle_switcher_set_to_apply_opens
+  context 'candidate preferences feature flag is activated' do
+    before do
+      FeatureFlag.activate(:candidate_preferences)
+    end
 
-    when_i_sign_in_again
-    and_i_visit_the_application_dashboard
-    then_i_cannot_submit_my_application
-    and_i_am_redirected_to_the_carry_over_interstitial
+    it 'candidate can submit in next cycle after dismissing candidate preferences' do
+      given_i_am_signed_in_with_one_login
+      when_i_have_an_unsubmitted_application_without_a_course
+      and_the_cycle_switcher_set_to_apply_opens
 
-    when_i_click_on_continue
-    then_i_see_my_details
+      when_i_sign_in_again
+      and_i_visit_the_application_dashboard
+      then_i_cannot_submit_my_application
+      and_i_am_redirected_to_the_carry_over_interstitial
 
-    when_i_view_referees
-    then_i_can_see_the_referees_i_previously_added
-    and_i_can_complete_the_references_section
-    and_i_can_complete_the_equality_and_diversity_section
+      when_i_click_on_continue
+      then_i_see_my_details
 
-    when_i_view_courses
-    then_i_can_see_that_i_need_to_select_courses
-    then_i_can_see_that_i_need_to_select_courses
+      when_i_view_referees
+      then_i_can_see_the_referees_i_previously_added
+      and_i_can_complete_the_references_section
+      and_i_can_complete_the_equality_and_diversity_section
 
-    and_i_select_a_course
-    and_my_application_is_awaiting_provider_decision
+      when_i_view_courses
+      then_i_can_see_that_i_need_to_select_courses
+
+      and_i_select_a_course_and_dismiss_candidate_preferences
+      and_my_application_is_awaiting_provider_decision
+    end
+  end
+
+  context 'candidate preferences feature flag is deactivated' do
+    before do
+      FeatureFlag.deactivate(:candidate_preferences)
+    end
+
+    it 'Candidate can submit in next cycle with cycle switcher after apply opens', time: mid_cycle do
+      given_i_am_signed_in_with_one_login
+      when_i_have_an_unsubmitted_application_without_a_course
+      and_the_cycle_switcher_set_to_apply_opens
+
+      when_i_sign_in_again
+      and_i_visit_the_application_dashboard
+      then_i_cannot_submit_my_application
+      and_i_am_redirected_to_the_carry_over_interstitial
+
+      when_i_click_on_continue
+      then_i_see_my_details
+
+      when_i_view_referees
+      then_i_can_see_the_referees_i_previously_added
+      and_i_can_complete_the_references_section
+      and_i_can_complete_the_equality_and_diversity_section
+
+      when_i_view_courses
+      then_i_can_see_that_i_need_to_select_courses
+
+      and_i_select_a_course
+      and_my_application_is_awaiting_provider_decision
+    end
   end
 
   def when_i_have_an_unsubmitted_application_without_a_course
@@ -132,6 +168,29 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
 
     click_on 'Review application'
     click_on 'Confirm and submit application'
+
+    expect(page).to have_content('You can add 3 more applications')
+  end
+
+  def and_i_select_a_course_and_dismiss_candidate_preferences
+    given_courses_exist
+    and_those_courses_are_for_this_year
+    click_link_or_button 'Add application'
+
+    choose 'Yes, I know where I want to apply'
+    click_link_or_button 'Continue'
+
+    select 'Gorse SCITT (1N1)'
+    click_link_or_button 'Continue'
+
+    choose 'Primary (2XT2)'
+    click_link_or_button 'Continue'
+
+    click_on 'Review application'
+    click_on 'Confirm and submit application'
+    click_on 'Continue'
+    choose 'No'
+    click_on 'Continue'
 
     expect(page).to have_content('You can add 3 more applications')
   end
