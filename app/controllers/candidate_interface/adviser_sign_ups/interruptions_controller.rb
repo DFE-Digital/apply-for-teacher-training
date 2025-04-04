@@ -8,11 +8,19 @@ module CandidateInterface
 
       def create
         @adviser_interruption_form = CandidateInterface::AdviserInterruptionForm.new(adviser_interruption_params.merge(application_form:))
+        @application_form = application_form
 
-        if @adviser_interruption_form.proceed_to_request_adviser?
-          redirect_to new_candidate_interface_adviser_sign_up_path
+        if @adviser_interruption_form.valid?
+          if @adviser_interruption_form.proceed_to_request_adviser?
+            application_form.update(adviser_interruption_responded_yes: true)
+            redirect_to new_candidate_interface_adviser_sign_up_path
+          else
+            application_form.update(adviser_interruption_responded_yes: false)
+            redirect_to_candidate_root
+          end
         else
-          redirect_to_candidate_root
+          track_validation_error(@adviser_interruption_form)
+          render :show
         end
       end
 
