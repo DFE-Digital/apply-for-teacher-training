@@ -10,7 +10,14 @@
 
       <%= govuk_list [t('.help_with_1'), t('.help_with_2'), t('.help_with_3'), t('.help_with_4')], type: :bullet %>
 
-      <p class="govuk-body govuk-!-font-size-24 govuk-!-font-weight-bold"><%= t('.would_you_like') %></p>
+      <%= form_with(model: @adviser_interruption_form, url: candidate_interface_update_adviser_sign_ups_interruption_response_path(@application_form.id), method: :patch) do |f| %>
+        <%= f.govuk_radio_buttons_fieldset(:proceed_to_request_adviser, inline: true, legend: { size: 'm', text: t('.would_you_like')}) do %>
+          <%= f.govuk_radio_button :proceed_to_request_adviser, 'yes', label: { text: 'Yes' }, link_errors: true %>
+          <%= f.govuk_radio_button :proceed_to_request_adviser, 'no', label: { text: 'No' } %>
+        <% end %>
+
+        <%= f.govuk_submit t('.submit_text') %>
+      <% end %>
     </div>
   </div>
 </div>
