@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::PersonalInformationComponent do
+  let(:candidate_id) { '1234' }
   let(:application_form) do
     build_stubbed(
       :completed_application_form,
@@ -9,6 +10,7 @@ RSpec.describe ProviderInterface::PersonalInformationComponent do
       first_nationality: 'British',
       second_nationality: 'Irish',
       third_nationality: 'Spanish',
+      candidate_id:,
     )
   end
 
@@ -34,6 +36,10 @@ RSpec.describe ProviderInterface::PersonalInformationComponent do
 
   it 'renders the candidates nationalities' do
     expect(result.css('.govuk-summary-list__value').text).to include('British, Irish and Spanish')
+  end
+
+  it 'renders the candidate id' do
+    expect(result.css('.govuk-summary-list__value').text).to include(candidate_id)
   end
 
   it 'does not render right to work fields if nationality is British or Irish' do

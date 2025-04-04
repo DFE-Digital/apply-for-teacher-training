@@ -15,6 +15,7 @@ module ProviderInterface
           flash[:success] = t(
             '.success',
             candidate: invite.candidate.redacted_full_name_current_cycle,
+            candidate_id: invite.candidate_id,
             course: invite.course.name_code_and_course_provider,
           )
           redirect_to provider_interface_candidate_pool_root_path

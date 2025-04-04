@@ -5,6 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render ServiceInformationBanner.new(namespace: :provider) %>
 
+    <h2 class="govuk-heading-m govuk-hint govuk-!-margin-bottom-0"><%= t('.candidate_number', candidate_id: @candidate.id) %></h2>
     <h1 class="govuk-heading-l"><%= @application_form.redacted_full_name %></h1>
     <%= govuk_button_to t('.invite'), new_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate), method: :get %>
 

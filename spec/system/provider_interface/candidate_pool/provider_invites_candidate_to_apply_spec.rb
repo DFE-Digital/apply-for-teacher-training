@@ -166,7 +166,10 @@ RSpec.describe 'Providers invites candidates' do
       ignore_query: true,
     )
 
-    expect(page).to have_content "You have invited #{@candidate.redacted_full_name_current_cycle} to apply to #{course.name_code_and_course_provider}"
+    expect(page).to have_content(
+      "You have invited #{@candidate.redacted_full_name_current_cycle} (#{@candidate.id}) " \
+      "to apply to #{course.name_code_and_course_provider}",
+    )
   end
 
   def then_i_get_an_error(message)
