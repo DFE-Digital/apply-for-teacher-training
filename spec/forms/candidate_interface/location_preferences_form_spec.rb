@@ -9,16 +9,30 @@ RSpec.describe CandidateInterface::LocationPreferencesForm, type: :model do
   let(:location_preference) { nil }
   let(:params) { { name: 'BN1 1AA', within: 20 } }
 
+  let(:client) { instance_double(GoogleMapsAPI::Client) }
+  let(:api_response) do
+    [
+      { name: 'BN1 1AA', place_id: 'test_id' },
+    ]
+  end
+
+  before do
+    allow(GoogleMapsAPI::Client).to receive(:new).and_return(client)
+    allow(client).to receive(:autocomplete).and_return(api_response)
+  end
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:within) }
+    it { is_expected.to validate_numericality_of(:within).is_greater_than_or_equal_to(0).only_integer }
     it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_length_of(:name).is_at_least(2) }
 
     context 'when location name is invalid' do
       it 'adds location preferences blank error' do
-        allow(Geocoder).to receive(:search).and_return([])
+        allow(client).to receive(:autocomplete).and_return([])
 
         expect(form.valid?).to be_falsey
-        expect(form.errors[:base]).to eq(['Enter a real city, town or postcode'])
+        expect(form.errors[:name]).to eq(['City, town or postcode must be in the United Kingdom'])
       end
     end
   end

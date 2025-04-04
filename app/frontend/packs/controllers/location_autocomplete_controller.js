@@ -7,7 +7,7 @@ export default class extends Controller {
   static targets = ['input']
   static values = {
     path: String,
-    minLength: { type: Number, default: 3 },
+    minLength: { type: Number, default: 2 },
     debounce: { type: Number, default: 200 }
   }
 
