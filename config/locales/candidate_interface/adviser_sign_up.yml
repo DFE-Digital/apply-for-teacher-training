@@ -6,37 +6,9 @@ en:
     hint:
       adviser_sign_up_form:
         preferred_teaching_subject_id: We’re asking this so that a dedicated adviser can be assigned to you.
-  application_form:
-    adviser_sign_up:
-      back: Back
-      heading_interruption: You are eligible for a free teacher training adviser
-      eligible: Based on the information in your application, you're eligible for your own dedicated teacher training adviser.
-      help_with: "Our advisers have years of teaching experience and can help with:"
-      bullets_interruption:
-        - answering questions you have about teacher training and being a teacher
-        - understanding your different training options
-        - reviewing your personal statement so it highlights your relevant skills and experience
-        - preparing for any interviews
-      yes: Yes
-      no: No
-      heading: Get a teacher training adviser
-      introduction: |-
-        Our advisers were experienced teachers and can answer all your questions about how to put together the best application. They’ll help you with:
-      bullets:
-        - writing your personal statement
-        - understanding your different training options
-        - preparing for interviews
-      would_you_like: Would you like a teacher training adviser to contact you?
-      disclaimer: |-
-        If you continue, we will share your personal details and the status of your application with a dedicated adviser.
-        We will not share your personal statement, qualifications or work history with them.
-      submit_text: Continue
-      subject: Subject
-      change: Change
-      request: Request adviser
-      flash:
-        success: An adviser will contact you by email within 5 working days.
-      call_to_action:
+  candidate_interface:
+    details:
+      adviser_call_to_action:
         available:
           heading: Get a teacher training adviser
           text: Our advisers have years of teaching experience and can give you free, one-to-one help with your application.
@@ -48,6 +20,19 @@ en:
           heading: Speak to your teacher training adviser
           text: Your adviser can give you free, one-to-one help with your application.
     adviser_sign_ups:
+      interruptions:
+        show:
+          back: Back to your details
+          heading: You are eligible for a free teacher training adviser
+          eligible: Based on the information in your application, you're eligible for your own dedicated teacher training adviser.
+          support: "Our advisers have years of teaching experience and can help with:"
+          help_with_1: answering questions you have about teacher training and being a teacher
+          help_with_2: understanding your different training options
+          help_with_3: reviewing your personal statement so it highlights your relevant skills and experience
+          help_with_4: preparing for any interviews
+          would_you_like: Would you like a teacher training adviser to contact you?
+          yes: Yes
+          no: No
       new:
         back: Back
         heading: Get a teacher training adviser
