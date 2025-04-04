@@ -206,6 +206,7 @@ shared:
     - work_history_status
     - immigration_status
     - region_code
+    - adviser_interruption_responded_yes
     - becoming_a_teacher_completed_at
     - contact_details_completed_at
     - course_choices_completed_at
@@ -585,4 +586,3 @@ shared:
     - recruitment_cycle_year
     - created_at
     - updated_at
-
