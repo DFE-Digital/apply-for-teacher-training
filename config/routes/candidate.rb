@@ -99,6 +99,7 @@ namespace :candidate_interface, path: '/candidate' do
       end
 
       get '/interruption/:id' => 'adviser_sign_ups/interruptions#show', as: :adviser_sign_ups_interruption
+      post '/interruption/:id' => 'adviser_sign_ups/interruptions#create', as: :log_adviser_sign_ups_interruption_response
     end
 
     scope '/personal-details' do
