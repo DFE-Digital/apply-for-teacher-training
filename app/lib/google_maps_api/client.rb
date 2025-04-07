@@ -22,7 +22,7 @@ module GoogleMapsAPI
           language: 'en',
           input: query,
           components: 'country:uk',
-          types: 'geocode',
+          types: '(regions)',
         },
       )
 

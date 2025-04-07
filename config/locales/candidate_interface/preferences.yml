@@ -88,8 +88,12 @@ en:
         candidate_interface/location_preferences_form:
           attributes:
             within:
-              blank: Add a location radius
+              blank: Enter a location radius
+              greater_than_or_equal_to: The location radius must be 0 miles or more
+              not_a_number: Enter a number for location radius
             name:
-              blank: Add a location name
-            base:
-              invalid_location: Enter a real city, town or postcode
+              blank: Enter a city, town or postcode
+              invalid_location: City, town or postcode must be in the United Kingdom
+              too_short: The city, town or postcode must be %{count} characters or more
+
+
