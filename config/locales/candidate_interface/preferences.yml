@@ -2,7 +2,8 @@ en:
   candidate_interface:
     publish_preferences:
       create:
-        success: You are sharing your application details with providers you have not applied to
+        success_opt_in: You are sharing your application details with providers you have not applied to
+        success_opt_out: You are not sharing your application details with providers you have not applied to
       show:
         title: Check your application sharing preferences
         share_information: Do you want to make your application details visible to other training providers?
