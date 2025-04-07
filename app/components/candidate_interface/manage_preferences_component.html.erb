@@ -9,12 +9,12 @@
   <%= govuk_list(
     [
       govuk_link_to(
-        t('.read_about_sharing_details'),
-        candidate_interface_share_details_path,
-      ),
-      govuk_link_to(
         t('.change_sharing_details'),
         path_to_change_preferences,
+      ),
+      govuk_link_to(
+        t('.read_about_sharing_details'),
+        candidate_interface_share_details_path,
       ),
     ],
     type: :bullet,

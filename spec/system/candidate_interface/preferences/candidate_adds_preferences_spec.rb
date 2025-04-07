@@ -147,7 +147,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def then_i_am_redirected_to_location_preferences(location_preferences)
-    expect(page).to have_content('Location Preferences')
+    expect(page).to have_content('Location preferences')
 
     location_preferences.each_with_index do |location, index|
       within ".govuk-table__body .govuk-table__row:nth-of-type(#{index + 1})" do
@@ -158,7 +158,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def then_i_am_redirected_to_location_preferences_without_locations
-    expect(page).to have_content('Location Preferences')
+    expect(page).to have_content('Location preferences')
     expect(page).to have_content('You have no location preferences')
   end
 
@@ -189,7 +189,7 @@ RSpec.describe 'Candidate adds preferences' do
 
     summary_list = [
       {
-        label: 'Do you want to share your application details with other training providers?',
+        label: 'Do you want to make your application details visible to other training providers?',
         value: 'Yes',
       },
       {
@@ -197,7 +197,7 @@ RSpec.describe 'Candidate adds preferences' do
         value: locations,
       },
       {
-        label: 'Update my location preferences when I apply to a new course',
+        label: 'Add new locations to my preferences when I apply to new course',
         value: 'Yes',
       },
     ]
