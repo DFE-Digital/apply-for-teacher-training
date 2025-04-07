@@ -7,7 +7,7 @@ RSpec.describe GoogleMapsAPI::Client do
   describe '#autocomplete' do
     let(:query) { 'London' }
     let(:autocomplete_api_path) do
-      "https://maps.googleapis.com/maps/api/place/autocomplete/json?components=country%3Auk&input=#{query}&key=#{api_key}&language=en&types=(regions)"
+      "https://maps.googleapis.com/maps/api/place/autocomplete/json?components=country%3Auk&region=uk&input=#{query}&key=#{api_key}&language=en&types=(regions)"
     end
     let(:body) { Pathname.new(Rails.root.join('spec/examples/google_maps_api/autocomplete_london.json')).read }
 
