@@ -35,6 +35,7 @@ class CandidateInterface::LocationPreferencesForm
         name: suggested_location[:name],
         latitude: location_coordinates&.latitude,
         longitude: location_coordinates&.longitude,
+        provider_id: name == location_preference.name ? location_preference.provider_id : nil,
       )
     else
       preference.location_preferences.create(

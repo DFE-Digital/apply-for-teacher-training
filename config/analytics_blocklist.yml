@@ -1,5 +1,7 @@
 ---
 :shared:
+  candidate_location_preferences:
+  - provider_id
   :candidate_pool_provider_opt_ins:
   - id
   - provider_id
