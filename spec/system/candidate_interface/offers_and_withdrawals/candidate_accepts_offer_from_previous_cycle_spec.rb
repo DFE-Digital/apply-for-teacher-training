@@ -159,13 +159,13 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
 
   def and_today_is_the_last_day_of_the_cycle
     TestSuiteTimeMachine.travel_permanently_to(
-      CycleTimetable.reject_by_default - 1.day,
+      after_find_closes - 1.day,
     )
   end
 
   def and_today_is_after_apply_deadline
     TestSuiteTimeMachine.travel_permanently_to(
-      CycleTimetable.apply_deadline + 1.day,
+      after_apply_deadline,
     )
   end
 

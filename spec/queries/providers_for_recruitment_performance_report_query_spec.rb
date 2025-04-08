@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProvidersForRecruitmentPerformanceReportQuery do
-  subject(:query) { described_class.call(cycle_week: RecruitmentCycleTimetable.current_cycle_week.pred, recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
+  subject(:query) { described_class.call(cycle_week: current_cycle_week.pred, recruitment_cycle_year: current_year) }
 
   let(:application_choice_offer_from_last_cycle) { create(:application_choice, :awaiting_provider_decision).provider }
   let(:application_this_week) { create(:application_choice, :awaiting_provider_decision).provider }
@@ -10,8 +10,8 @@ RSpec.describe ProvidersForRecruitmentPerformanceReportQuery do
   let(:application_with_existing_report) do
     create(:application_choice, :awaiting_provider_decision).provider.tap do |provider|
       Publications::ProviderRecruitmentPerformanceReport.create(
-        cycle_week: RecruitmentCycleTimetable.current_cycle_week,
-        recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+        cycle_week: current_cycle_week,
+        recruitment_cycle_year: current_year,
         provider_id: provider.id,
         publication_date: Time.zone.today,
       )

@@ -24,6 +24,6 @@ RSpec.describe 'Disable generate future applications cycle switching', time: Cyc
   end
 
   def then_i_do_not_see_generate_future_applications
-    expect(page).to have_no_button("Generate #{RecruitmentCycle.next_year} recruitment cycle test applications")
+    expect(page).to have_no_button("Generate #{next_year} recruitment cycle test applications")
   end
 end

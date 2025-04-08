@@ -3,9 +3,6 @@ require 'rails_helper'
 RSpec.describe Site do
   subject { create(:site) }
 
-  let(:current_year) { RecruitmentCycleTimetable.current_year }
-  let(:previous_year) { RecruitmentCycleTimetable.previous_year }
-
   describe 'a valid site' do
     it { is_expected.to validate_presence_of :code }
     it { is_expected.to validate_presence_of :name }

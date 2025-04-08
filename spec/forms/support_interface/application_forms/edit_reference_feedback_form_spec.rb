@@ -42,7 +42,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditReferenceFeedbackForm do
         create(
           :application_form,
           :with_accepted_offer,
-          recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+          recruitment_cycle_year: previous_year,
         )
       end
       let(:reference) do

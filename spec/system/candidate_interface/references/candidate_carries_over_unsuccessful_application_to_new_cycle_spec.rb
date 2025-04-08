@@ -33,7 +33,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def when_a_new_cycle_starts
-    advance_time_to(mid_cycle(RecruitmentCycle.next_year))
+    advance_time_to(mid_cycle(next_year))
   end
 
   def and_i_visit_my_application_complete_page
@@ -43,7 +43,8 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def then_i_see_carry_over_page
-    expect(page).to have_content "You started an application for courses starting in the #{RecruitmentCycle.previous_year} to #{RecruitmentCycle.current_year} academic year, which have now closed"
+    timetable = previous_timetable
+    expect(page).to have_content "You started an application for courses starting in the #{timetable.academic_year_range_name} academic year, which have now closed"
   end
 
   def when_i_click_continue

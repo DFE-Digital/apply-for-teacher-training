@@ -77,6 +77,6 @@ RSpec.describe 'Change course choice for a deferred application' do
 
   def and_i_see_new_course_has_been_offered
     expect(page).to have_current_path support_interface_application_form_path(application_form_id: @application_form.id)
-    expect(page).to have_content("#{RecruitmentCycle.current_year}: #{@course_option.course.name} (#{@course_option.course.code})")
+    expect(page).to have_content("#{current_year}: #{@course_option.course.name} (#{@course_option.course.code})")
   end
 end

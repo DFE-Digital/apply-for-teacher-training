@@ -182,7 +182,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def when_i_change_my_undergraduate_degree_award_year_again
-    graduation_year = RecruitmentCycle.current_year.to_s
+    graduation_year = current_year.to_s
     fill_in t('page_titles.what_year_will_you_graduate'), with: graduation_year
   end
 
@@ -236,7 +236,7 @@ RSpec.describe 'Editing a degree' do
     completion_status_row = page.all('.govuk-summary-list__row').find { |row| row.has_link? 'Change completion status' }
     expect(completion_status_row).to have_content 'No'
 
-    expect(page).to have_content RecruitmentCycle.current_year.to_s
+    expect(page).to have_content current_year.to_s
   end
 
   def then_i_can_check_my_undergraduate_degree_type_has_been_cleared

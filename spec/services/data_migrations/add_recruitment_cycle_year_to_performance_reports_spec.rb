@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe DataMigrations::AddRecruitmentCycleYearToPerformanceReports do
-  let(:start_of_2025_cycle) { RecruitmentCycleTimetable.find_by(recruitment_cycle_year: 2025).find_opens_at }
+  let(:start_of_2025_cycle) { get_timetable(2025).find_opens_at }
 
   before do
     DataMigrations::AddAllRecruitmentCycleTimetablesToDatabase.new.change

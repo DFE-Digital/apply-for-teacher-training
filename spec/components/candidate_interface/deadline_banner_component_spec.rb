@@ -3,9 +3,8 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::DeadlineBannerComponent, type: :component do
   describe '#render' do
     let(:application_form) { build(:application_form) }
-    let(:current_timetable) { RecruitmentCycleTimetable.current_timetable }
 
-    it 'does not render when flash is not empty', seed_timetables do
+    it 'does not render when flash is not empty' do
       travel_temporarily_to(current_timetable.apply_deadline_at - 1.minute) do
         result = render_inline(described_class.new(application_form:, flash_empty: false))
         expect(result.text).to eq('')

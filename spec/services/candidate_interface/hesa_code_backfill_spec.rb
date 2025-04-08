@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::HesaCodeBackfill do
   describe '#call' do
-    let(:current_year) { RecruitmentCycleTimetable.current_year }
-
     it 'populates an application form with hesa codes' do
       application_form = create(:application_form,
                                 equality_and_diversity: {

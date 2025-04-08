@@ -123,7 +123,6 @@ RSpec.describe CourseOption do
     let(:site_current_cycle) { create(:site) }
     let(:course_current_cycle) { create(:course, provider: site_current_cycle.provider) }
     let!(:course_option_current_cycle) { create(:course_option, site: site_current_cycle, course: course_current_cycle) }
-    let(:previous_year) { RecruitmentCycleTimetable.previous_year }
 
     it 'returns the correct course option in the previous cycle' do
       site_next_cycle = create(:site, provider: site_current_cycle.provider, code: site_current_cycle.code)
@@ -158,7 +157,6 @@ RSpec.describe CourseOption do
     let(:site_current_cycle) { create(:site) }
     let(:course_current_cycle) { create(:course, provider: site_current_cycle.provider) }
     let!(:course_option_current_cycle) { create(:course_option, site: site_current_cycle, course: course_current_cycle) }
-    let(:next_year) { RecruitmentCycleTimetable.next_year }
 
     it 'returns the correct course option in the next cycle' do
       site_next_cycle = create(:site, provider: site_current_cycle.provider, code: site_current_cycle.code)

@@ -459,7 +459,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           :offered,
           course_option:,
           candidate:,
-          current_recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+          current_recruitment_cycle_year: current_year,
         )
 
         create(
@@ -467,7 +467,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           candidate:,
           phase: 'apply_2',
           application_choices: [application_choice],
-          recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+          recruitment_cycle_year: previous_year,
         )
 
         data = described_class.new.call

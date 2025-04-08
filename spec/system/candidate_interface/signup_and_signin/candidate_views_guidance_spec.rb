@@ -3,19 +3,14 @@ require 'rails_helper'
 RSpec.describe 'Candidate visits the sign-in page and views guidance' do
   include SignInHelper
 
-  scenario 'User can open the guidance page with dates for the current recruitment cycle year' do
-    given_the_recruitment_cycle_year_is_2024
-    and_i_visit_the_sign_in_page
+  scenario 'User can open the guidance page with dates for the current recruitment cycle year', time: after_find_opens(2024) do
+    given_i_visit_the_sign_in_page
     and_i_click_on_the_guidance_link
     then_i_am_taken_to_the_guidance_page
     and_i_can_see_the_correct_dates
   end
 
-  def given_the_recruitment_cycle_year_is_2024
-    allow(CycleTimetable).to receive(:current_year).and_return(2024)
-  end
-
-  def and_i_visit_the_sign_in_page
+  def given_i_visit_the_sign_in_page
     visit candidate_interface_create_account_or_sign_in_path
   end
 

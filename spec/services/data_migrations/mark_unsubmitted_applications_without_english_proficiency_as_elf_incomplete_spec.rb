@@ -17,8 +17,6 @@ RSpec.describe DataMigrations::MarkUnsubmittedApplicationsWithoutEnglishProficie
   end
 
   context 'when english proficiency record does not exists' do
-    let(:previous_year) { RecruitmentCycleTimetable.previous_year }
-
     describe 'application is in an earlier cycle' do
       it 'does not change record' do
         application_form = create(

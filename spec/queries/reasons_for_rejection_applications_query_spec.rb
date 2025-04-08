@@ -34,7 +34,7 @@ RSpec.describe ReasonsForRejectionApplicationsQuery do
     end
     let!(:application_choice_without_sr4r) { create(:application_choice) }
     let!(:application_choice_from_previous_year) do
-      create(:application_choice, :with_old_structured_rejection_reasons, current_recruitment_cycle_year: RecruitmentCycle.previous_year)
+      create(:application_choice, :with_old_structured_rejection_reasons, current_recruitment_cycle_year: previous_year)
     end
 
     subject(:query) { described_class.new(filter_params) }
@@ -43,7 +43,7 @@ RSpec.describe ReasonsForRejectionApplicationsQuery do
       let(:filter_params) do
         {
           structured_rejection_reasons: { 'id' => 'visa_sponsorship' },
-          recruitment_cycle_year: RecruitmentCycle.current_year,
+          recruitment_cycle_year: current_year,
           page: 1,
         }
       end
@@ -57,7 +57,7 @@ RSpec.describe ReasonsForRejectionApplicationsQuery do
       let(:filter_params) do
         {
           structured_rejection_reasons: { 'personal_statement' => 'quality_of_writing' },
-          recruitment_cycle_year: RecruitmentCycle.current_year,
+          recruitment_cycle_year: current_year,
           page: 1,
         }
       end

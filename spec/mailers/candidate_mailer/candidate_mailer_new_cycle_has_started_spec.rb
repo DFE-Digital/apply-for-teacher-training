@@ -8,9 +8,9 @@ RSpec.describe CandidateMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      "Apply for teacher training starting in the #{RecruitmentCycleTimetable.current_academic_year_range_name} academic year",
+      "Apply for teacher training starting in the #{current_timetable.academic_year_range_name} academic year",
       'greeting' => 'Dear Fred',
-      'academic_year' => "You can now apply for teacher training courses that start in the #{RecruitmentCycleTimetable.current_academic_year_range_name} academic year.",
+      'academic_year' => "You can now apply for teacher training courses that start in the #{current_timetable.academic_year_range_name} academic year.",
       'details' => 'Courses can fill up quickly, so apply as soon as you are ready.',
     )
 
