@@ -49,7 +49,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
         address_line2: Faker::Address.street_address,
         address_line3: Faker::Address.city,
         address_line4: 'United Kingdom',
-        postcode: 'bn1 1aa',
+        postcode: '  bn1 1aa  ',
       }
       application_form = build(:application_form, international_address: 'some old address')
       contact_details = described_class.new(form_data)
