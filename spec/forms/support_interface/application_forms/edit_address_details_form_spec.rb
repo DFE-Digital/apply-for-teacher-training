@@ -26,7 +26,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
         address_line2: Faker::Address.street_address,
         address_line3: Faker::Address.city,
         address_line4: 'United Kingdom',
-        postcode: 'bn1 1aa',
+        postcode: '  bn1 1aa ',
         address_type: 'uk',
         audit_comment: 'Updated as part of Zendesk ticket 12345',
       }
