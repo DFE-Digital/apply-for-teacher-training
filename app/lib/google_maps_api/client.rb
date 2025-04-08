@@ -22,6 +22,7 @@ module GoogleMapsAPI
           language: 'en',
           input: query,
           components: 'country:uk',
+          region: 'uk',
           types: '(regions)',
         },
       )
