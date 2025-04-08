@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DeleteDraftWithdrawalReasonRecordsWorker do
+RSpec.describe Candidate::DeleteDraftWithdrawalReasonRecordsWorker do
   describe '#perform' do
     it 'deletes draft withdrawal reason records that are over 3 days old' do
       create(:withdrawal_reason, :published, updated_at: 3.days.ago)
