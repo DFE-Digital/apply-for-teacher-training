@@ -1,4 +1,4 @@
-class Adviser::SignUp
+class Adviser::SignUpForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
@@ -27,11 +27,11 @@ class Adviser::SignUp
     Adviser::TeachingSubject.secondary_level
   end
 
-private
-
   def preferred_teaching_subject
     Adviser::TeachingSubject.find_by(external_identifier: preferred_teaching_subject_id)
   end
+
+private
 
   def application_form_valid_for_adviser_sign_up
     return if application_form.eligible_and_unassigned_a_teaching_training_adviser?
