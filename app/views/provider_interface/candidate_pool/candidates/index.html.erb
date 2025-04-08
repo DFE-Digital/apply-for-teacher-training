@@ -21,7 +21,10 @@
         <% @application_forms.each do |application_form| %>
           <%= body.with_row do |row| %>
             <%= row.with_cell do %>
-              <%= govuk_link_to application_form.redacted_full_name, provider_interface_candidate_pool_candidate_path(application_form.candidate) %>
+              <div class="flex-content">
+                <%= govuk_link_to application_form.redacted_full_name, provider_interface_candidate_pool_candidate_path(application_form.candidate) %>
+                <p class="govuk-body govuk-hint">(<%= application_form.candidate_id %>)</p>
+              </div>
             <% end %>
 
             <%= row.with_cell do %>

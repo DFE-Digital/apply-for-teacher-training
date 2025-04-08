@@ -19,6 +19,7 @@ en:
           qualifications: Qualifications
           a_level_header: A levels and other qualifications
           a_level_subheader: Details of A levels and other qualifications
+          candidate_number: Candidate %{candidate_id}
       draft_invites:
         new:
           title: Select a course to invite %{candidate_name} to apply to
@@ -29,6 +30,7 @@ en:
           change: Change
           course: Course
           send_invitation: Send invitation
+          candidate_id: Candidate %{candidate_id}
         edit:
           title: Select a course to invite %{candidate_name} to apply to
         form:
@@ -36,7 +38,7 @@ en:
           continue: Continue
       publish_invites:
         create:
-          success: You have invited %{candidate} to apply to %{course}
+          success: You have invited %{candidate} (%{candidate_id}) to apply to %{course}
   activemodel:
     errors:
       models:

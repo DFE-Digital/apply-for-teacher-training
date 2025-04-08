@@ -1,4 +1,4 @@
-<% content_for :title, t('.title') %>
+<% content_for :browser_title, t('.title', candidate_name: @candidate.redacted_full_name_current_cycle) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_candidate_pool_candidate_path(@candidate)) %>
 
 <div class="govuk-grid-row">

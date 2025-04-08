@@ -26,6 +26,7 @@ module ProviderInterface
         nationality_row,
         right_to_work_or_study_row,
         residency_details_row,
+        candidate_id_number,
       ].compact
     end
 
@@ -67,6 +68,13 @@ module ProviderInterface
       {
         key: 'Residency details',
         value: FormatResidencyDetailsService.new(application_form:).residency_details_value,
+      }
+    end
+
+    def candidate_id_number
+      {
+        key: 'Candidate number',
+        value: application_form.candidate_id,
       }
     end
 

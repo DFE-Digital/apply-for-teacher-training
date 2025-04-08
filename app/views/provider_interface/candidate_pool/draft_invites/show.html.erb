@@ -8,7 +8,10 @@
     <%= govuk_summary_list do |summary_list| %>
       <% summary_list.with_row do |row| %>
         <% row.with_key { t('.candidate') } %>
-        <% row.with_value { @candidate.redacted_full_name_current_cycle } %>
+        <% row.with_value do %>
+          <%= @candidate.redacted_full_name_current_cycle %>
+          <p class="govuk-body govuk-hint"><%= t('.candidate_id', candidate_id: @candidate.id) %> </p>
+        <% end %>
         <% row.with_action(text: t('.change'), href: provider_interface_candidate_pool_root_path(@candidate)) %>
       <% end %>
 
