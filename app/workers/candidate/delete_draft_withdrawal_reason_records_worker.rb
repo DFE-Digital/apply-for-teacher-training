@@ -1,4 +1,4 @@
-class DeleteDraftWithdrawalReasonRecordsWorker
+class Candidate::DeleteDraftWithdrawalReasonRecordsWorker
   include Sidekiq::Worker
 
   sidekiq_options queue: :low_priority
