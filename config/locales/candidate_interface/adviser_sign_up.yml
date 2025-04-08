@@ -31,8 +31,6 @@ en:
           help_with_3: reviewing your personal statement so it highlights your relevant skills and experience
           help_with_4: preparing for any interviews
           would_you_like: Would you like a teacher training adviser to contact you?
-          yes: Yes
-          no: No
           submit_text: Continue
       new:
         back: Back

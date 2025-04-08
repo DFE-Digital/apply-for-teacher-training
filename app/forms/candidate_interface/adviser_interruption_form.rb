@@ -10,9 +10,9 @@ module CandidateInterface
 
     def save
       if proceed_to_request_adviser?
-        application_form.update(adviser_interruption_responded_yes: true)
+        application_form.update(adviser_interruption_response: true)
       else
-        application_form.update(adviser_interruption_responded_yes: false)
+        application_form.update(adviser_interruption_response: false)
       end
     end
 

@@ -708,7 +708,7 @@ class ApplicationForm < ApplicationRecord
 
   def meets_conditions_for_adviser_interruption?
     eligible_to_sign_up_for_a_teaching_training_adviser? &&
-      adviser_interruption_responded_yes != false
+      adviser_interruption_response != false
   end
 
 private
