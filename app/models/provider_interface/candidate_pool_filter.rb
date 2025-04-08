@@ -17,17 +17,18 @@ module ProviderInterface
       [
         {
           type: :location_search,
-          heading: 'Candidates near town, city or postcode:',
+          heading: 'Town, city or postcode:',
           name: 'location_search',
           original_location: filter_params[:original_location],
+          title: 'Candidate location preferences',
         },
         {
           type: :checkbox_filter,
-          heading: 'Subject',
+          heading: 'Subjects previously applied to',
           name: 'subject',
           options: subject_options,
           hide_tags: true,
-          title: "Candidate's selections",
+          title: 'Candidate course preferences',
         },
         {
           type: :checkboxes,
@@ -43,7 +44,7 @@ module ProviderInterface
         },
         {
           type: :checkboxes,
-          heading: 'Visa sponsorship',
+          heading: 'Candidate’s visa requirements',
           name: 'visa_sponsorship',
           options: visa_sponsorship_options,
         },
@@ -88,10 +89,10 @@ module ProviderInterface
     end
 
     def visa_sponsorship_options
-      ['required', 'not required'].map do |value|
+      [['required', 'Needs a visa'], ['not required', 'Does not need a visa']].map do |value, label|
         {
-          value: value,
-          label: value.capitalize,
+          value:,
+          label:,
           checked: applied_filters[:visa_sponsorship]&.include?(value),
         }
       end
