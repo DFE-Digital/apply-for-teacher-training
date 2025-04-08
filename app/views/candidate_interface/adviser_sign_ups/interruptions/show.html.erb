@@ -13,7 +13,7 @@
 
           <%= govuk_list [t('.help_with_1'), t('.help_with_2'), t('.help_with_3'), t('.help_with_4')], type: :bullet %>
 
-          <%= f.govuk_radio_buttons_fieldset(:proceed_to_request_adviser, inline: true, legend: { size: 'm', text: t('.would_you_like')}) do %>
+          <%= f.govuk_radio_buttons_fieldset(:proceed_to_request_adviser, inline: true, legend: { size: 'm', text: t('.would_you_like') }) do %>
             <%= f.govuk_radio_button :proceed_to_request_adviser, 'yes', label: { text: 'Yes' }, link_errors: true %>
             <%= f.govuk_radio_button :proceed_to_request_adviser, 'no', label: { text: 'No' } %>
           <% end %>

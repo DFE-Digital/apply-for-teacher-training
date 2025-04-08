@@ -27,10 +27,6 @@ RSpec.describe 'Candidate becomes eligible for an adviser' do
     allow(DfE::Analytics).to receive(:enabled?).and_return(true)
   end
 
-  def and_the_adviser_sign_up_feature_flag_is_disabled
-    FeatureFlag.deactivate(:adviser_sign_up)
-  end
-
   def and_i_visit_the_details_page
     visit candidate_interface_details_path
   end
@@ -41,10 +37,6 @@ RSpec.describe 'Candidate becomes eligible for an adviser' do
       matchback_candidate: nil,
     )
     allow(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to receive(:new) { api_double }
-  end
-
-  def when_the_adviser_sign_up_feature_flag_is_enabled
-    FeatureFlag.activate(:adviser_sign_up)
   end
 
   def when_i_have_completed_my_application
