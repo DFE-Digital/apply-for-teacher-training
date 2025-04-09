@@ -9,17 +9,18 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
       expect(filter.filters).to eq([
         {
           type: :location_search,
-          heading: 'Candidates near town, city or postcode:',
+          heading: 'Town, city or postcode:',
           name: 'location_search',
           original_location: nil,
+          title: 'Candidate location preferences',
         },
         {
           type: :checkbox_filter,
-          heading: 'Subject',
+          heading: 'Subjects previously applied to',
           name: 'subject',
           options: [],
           hide_tags: true,
-          title: "Candidate's selections",
+          title: 'Candidate course preferences',
         },
         {
           type: :checkboxes,
@@ -57,17 +58,17 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         },
         {
           type: :checkboxes,
-          heading: 'Visa sponsorship',
+          heading: 'Candidate’s visa requirements',
           name: 'visa_sponsorship',
           options: [
             {
               value: 'required',
-              label: 'Required',
+              label: 'Needs a visa',
               checked: nil,
             },
             {
               value: 'not required',
-              label: 'Not required',
+              label: 'Does not need a visa',
               checked: nil,
             },
           ],
