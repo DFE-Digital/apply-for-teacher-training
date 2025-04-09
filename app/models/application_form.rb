@@ -717,6 +717,10 @@ class ApplicationForm < ApplicationRecord
     Adviser::TeachingSubject.find_by(title: recent_degree_subject).external_identifier
   end
 
+  def recent_degree_subject
+    application_qualifications.degrees.order('award_year').last.subject.titleize
+  end
+
 private
 
   def geocode_address_and_update_region_if_required
@@ -777,9 +781,5 @@ private
     return false unless degrees?
 
     Adviser::TeachingSubject.find_by(title: recent_degree_subject)
-  end
-
-  def recent_degree_subject
-    application_qualifications.degrees.order('award_year').last.subject.titleize
   end
 end
