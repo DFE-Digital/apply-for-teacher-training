@@ -767,8 +767,4 @@ private
 
     Adviser::TeachingSubject.find_by(title: recent_degree_subject)
   end
-
-  def recent_degree_subject
-    application_qualifications.degrees.order('award_year').last.subject.titleize
-  end
 end
