@@ -35,7 +35,7 @@ phone_number:
 postcode:
   type: string
   description: The candidate’s postcode
-  maxLength: 8
+  maxLength: 25
   example: SK2 6AA
   nullable: true
 
