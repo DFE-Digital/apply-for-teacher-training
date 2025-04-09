@@ -41,7 +41,7 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
 
         result = render_inline(described_class.new(application_form:))
 
-        expect(result.css('.govuk-summary-list__key').text).to include('Has One Login account')
+        expect(result.css('.govuk-summary-list__key').text).to include('Has GOV.UK One Login')
         expect(result.css('.govuk-summary-list__value').text).to include('Yes (some_other_email_address@gmail.com)')
       end
     end
@@ -53,7 +53,7 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
 
         result = render_inline(described_class.new(application_form:))
 
-        expect(result.css('.govuk-summary-list__key').text).to include('Has One Login account')
+        expect(result.css('.govuk-summary-list__key').text).to include('Has GOV.UK One Login')
         expect(result.css('.govuk-summary-list__value').text).to include('No')
       end
     end
@@ -73,7 +73,7 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
 
         result = render_inline(described_class.new(application_form:))
 
-        expect(result.css('.govuk-summary-list__key').text).to include('Has One Login account')
+        expect(result.css('.govuk-summary-list__key').text).to include('Has GOV.UK One Login')
         expect(result.css('.govuk-summary-list__value').text).to include('No')
       end
     end
