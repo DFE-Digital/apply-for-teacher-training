@@ -6,7 +6,7 @@ class DuplicateApplication
     @recruitment_cycle_year = recruitment_cycle_year
   end
 
-  IGNORED_ATTRIBUTES = %w[id created_at updated_at submitted_at course_choices_completed phase support_reference english_main_language english_language_details other_language_details feedback_form_complete equality_and_diversity equality_and_diversity_completed].freeze
+  IGNORED_ATTRIBUTES = %w[id created_at updated_at submitted_at course_choices_completed phase support_reference english_main_language english_language_details other_language_details feedback_form_complete equality_and_diversity equality_and_diversity_completed adviser_interruption_response].freeze
   IGNORED_CHILD_ATTRIBUTES = %w[id created_at updated_at application_form_id public_id enic_reason].freeze
 
   def duplicate
