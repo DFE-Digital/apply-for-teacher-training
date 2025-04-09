@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Candidate adds preferences' do
   let(:provider) { create(:provider) }
   let(:location_preferences) { [home_location, choice_location] }
-  let(:home_location) { { within: 10, name: 'BN1 1AA' } }
-  let(:choice_location) { { within: 10, name: 'BN1 2AA' } }
-  let(:new_location) { { within: 10, name: 'BN1 3AA' } }
-  let(:updated_location) { { within: 20, name: 'BN1 3AA' } }
+  let(:home_location) { { within: 10.0, name: 'BN1 1AA' } }
+  let(:choice_location) { { within: 10.0, name: 'BN1 2AA' } }
+  let(:new_location) { { within: 10.0, name: 'BN1 3AA' } }
+  let(:updated_location) { { within: 20.0, name: 'BN1 3AA' } }
   let(:new_locations) { [home_location, choice_location, new_location] }
   let(:updated_locations) { [home_location, choice_location, updated_location] }
   let(:client) { instance_double(GoogleMapsAPI::Client) }
