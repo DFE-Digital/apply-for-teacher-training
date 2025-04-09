@@ -71,5 +71,21 @@ RSpec.describe CandidateInterface::LocationPreferences do
         )
       end
     end
+
+    context 'when preference dynamic_location is false' do
+      let(:preference) do
+        create(
+          :candidate_preference,
+          pool_status: 'opt_in',
+          dynamic_location_preferences: false,
+        )
+      end
+
+      it 'does not add a location preference from application_choice' do
+        expect { described_class.add_dynamic_location(preference:, application_choice:) }.to(
+          not_change(preference.location_preferences, :count),
+        )
+      end
+    end
   end
 end

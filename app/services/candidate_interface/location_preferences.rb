@@ -43,7 +43,7 @@ module CandidateInterface
     end
 
     def add_dynamic_location
-      return if preference.nil? || preference.opt_out?
+      return if preference.nil? || preference.opt_out? || !preference.dynamic_location_preferences
 
       site = application_choice.site
       return if preference.location_preferences.pluck(:name).include?(site.postcode)
