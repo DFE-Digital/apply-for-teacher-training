@@ -32,7 +32,7 @@ class CandidateInterface::LocationPreferencesForm
     if location_preference.present?
       location_preference.update(
         within:,
-        name: suggested_location[:name],
+        name: name == location_preference.name ? name : suggested_location[:name],
         latitude: location_coordinates&.latitude,
         longitude: location_coordinates&.longitude,
         provider_id: name == location_preference.name ? location_preference.provider_id : nil,
