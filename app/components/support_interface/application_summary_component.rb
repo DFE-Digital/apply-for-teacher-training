@@ -89,10 +89,21 @@ module SupportInterface
     end
 
     def one_login_account_row
-      {
-        key: 'Has One Login account',
-        value: one_login? ? "Yes (#{candidate.one_login_auth.email_address})" : 'No',
-      }
+      if one_login?
+        {
+          key: 'Has GOV.UK One Login',
+          value: "Yes (#{candidate.one_login_auth.email_address})",
+          action: {
+            href: edit_support_interface_one_login_auths_path(application_form),
+            visually_hidden_text: 'candidate GOV.UK One Login',
+          },
+        }
+      else
+        {
+          key: 'Has GOV.UK One Login',
+          value: 'No',
+        }
+      end
     end
 
     def unsubscribed_from_emails

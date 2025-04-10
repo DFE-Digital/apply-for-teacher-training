@@ -84,6 +84,8 @@ namespace :support_interface, path: '/support' do
       get 'volunteering-roles/:volunteering_role_id' => 'application_forms/volunteering_roles#edit', as: :application_form_edit_volunteering_role
       post 'volunteering-roles/:volunteering_role_id' => 'application_forms/volunteering_roles#update', as: :application_form_update_volunteering_role
     end
+
+    resource :one_login_auths, only: %i[edit update], path: '/one-login-auths'
   end
 
   get '/duplicate-matches' => 'duplicate_matches#index', as: :duplicate_matches
