@@ -23,7 +23,7 @@ module GoogleMapsAPI
           input: query,
           components: 'country:uk',
           region: 'uk',
-          types: '(regions)',
+          types: 'locality|sublocality|postal_code',
         },
       )
 
