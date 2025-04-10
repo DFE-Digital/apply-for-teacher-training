@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate selects no on adviser interruption', :js do
+RSpec.describe 'Candidate selects no on adviser interruption' do
   include CandidateHelper
 
   it 'does not reappear when the candidate has selected no once' do
@@ -59,7 +59,7 @@ RSpec.describe 'Candidate selects no on adviser interruption', :js do
   end
 
   def and_i_mark_this_section_as_completed
-    choose t('application_form.completed_radio')
+    choose 'Yes, I have completed this section'
   end
 
   def and_i_click_continue
@@ -72,15 +72,11 @@ RSpec.describe 'Candidate selects no on adviser interruption', :js do
   end
 
   def then_i_see_a_validation_error
-    expect(page).to have_content(
-      t('activemodel.errors.models.candidate_interface/adviser_interruption_form.attributes.proceed_to_request_adviser.blank'),
-    )
+    expect(page).to have_content('Select whether you would like a teacher training adviser to contact you')
   end
 
   def when_i_select_no
-    within('fieldset.govuk-fieldset') do
-      choose 'candidate-interface-adviser-interruption-form-proceed-to-request-adviser-no-field'
-    end
+    choose 'No'
   end
 
   def then_i_see_my_details_page
@@ -93,8 +89,6 @@ RSpec.describe 'Candidate selects no on adviser interruption', :js do
   end
 
   def and_the_adviser_call_to_action_is_still_visible
-    expect(page).to have_content(
-      t('candidate_interface.details.adviser_call_to_action.available.button_text'),
-    )
+    expect(page).to have_content('Get an adviser')
   end
 end

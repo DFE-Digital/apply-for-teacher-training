@@ -17,8 +17,9 @@
             <%= f.govuk_radio_button :proceed_to_request_adviser, 'yes', label: { text: 'Yes' }, link_errors: true %>
             <%= f.govuk_radio_button :proceed_to_request_adviser, 'no', label: { text: 'No' } %>
           <% end %>
+
       </div>
+          <%= f.govuk_submit t('.submit_text') %>
+        <% end %>
   </div>
 </div>
-      <%= f.govuk_submit t('.submit_text') %>
-      <% end %>

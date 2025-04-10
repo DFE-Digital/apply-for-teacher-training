@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate selects yes on adviser interruption', :js do
+RSpec.describe 'Candidate selects yes on adviser interruption' do
   include CandidateHelper
 
   it 'proceeds to adviser sign up flow' do
@@ -95,7 +95,7 @@ RSpec.describe 'Candidate selects yes on adviser interruption', :js do
   end
 
   def and_i_mark_this_section_as_completed
-    choose t('application_form.completed_radio')
+    choose 'Yes, I have completed this section'
   end
 
   def and_i_click_continue
@@ -109,9 +109,7 @@ RSpec.describe 'Candidate selects yes on adviser interruption', :js do
   alias_method :then_i_see_the_interruption_page_again, :then_i_see_the_interruption_page
 
   def when_i_select_yes
-    within('fieldset.govuk-fieldset') do
-      choose 'candidate-interface-adviser-interruption-form-proceed-to-request-adviser-yes-field'
-    end
+    choose 'Yes'
   end
 
   def then_i_see_the_select_a_subject_page
@@ -144,8 +142,6 @@ RSpec.describe 'Candidate selects yes on adviser interruption', :js do
   end
 
   def and_the_adviser_call_to_action_is_no_longer_visible
-    expect(page).to have_no_content(
-      t('candidate_interface.details.adviser_call_to_action.available.button_text'),
-    )
+    expect(page).to have_no_content('Get an adviser')
   end
 end
