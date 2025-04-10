@@ -92,7 +92,7 @@ namespace :candidate_interface, path: '/candidate' do
     post '/carry-over' => 'carry_over#create', as: :carry_over
 
     scope '/adviser-sign-ups' do
-      resources :adviser_sign_ups, only: %i[new create show] do
+      resources :adviser_sign_ups, path: 'adviser-sign-ups', only: %i[new create show] do
         collection do
           post :continue
         end
