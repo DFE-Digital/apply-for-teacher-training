@@ -20,5 +20,9 @@ module SupportInterface
         )
       end
     end
+
+    def show_recovery_warning?
+      candidate.email_address != candidate.one_login_auth.email_address
+    end
   end
 end

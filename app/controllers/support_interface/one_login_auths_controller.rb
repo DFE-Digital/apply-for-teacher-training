@@ -1,13 +1,12 @@
 module SupportInterface
   class OneLoginAuthsController < SupportInterfaceController
-    before_action :set_application_form
+    before_action :set_application_form_and_candidate
+    before_action :redirect_if_one_login_auth_does_not_exist
     def edit
-      @candidate = @application_form.candidate
       @unlink_form = UnlinkOneLoginAuthForm.new(candidate: @candidate)
     end
 
     def update
-      @candidate = @application_form.candidate
       @unlink_form = UnlinkOneLoginAuthForm.new(audit_comment: form_params[:audit_comment], candidate: @candidate)
 
       if @unlink_form.valid?
@@ -22,8 +21,15 @@ module SupportInterface
 
   private
 
-    def set_application_form
+    def set_application_form_and_candidate
       @application_form = ApplicationForm.find(params[:application_form_id])
+      @candidate = @application_form.candidate
+    end
+
+    def redirect_if_one_login_auth_does_not_exist
+      return if @candidate.one_login_auth.present?
+
+      redirect_to support_interface_application_form_path(@application_form)
     end
 
     def form_params

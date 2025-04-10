@@ -9,6 +9,7 @@ RSpec.describe 'Unlinking candidate one login', :with_audited do
     when_i_visit_the_application_form_summary
     and_i_click_on('Change candidate GOV.UK One Login')
     then_i_see_the_unlink_form
+    and_i_see_the_recovery_warning
 
     when_i_add_an_audit_comment
     and_i_click_on('Continue')
@@ -24,6 +25,7 @@ RSpec.describe 'Unlinking candidate one login', :with_audited do
     when_i_visit_the_application_form_summary
     and_i_click_on('Change candidate GOV.UK One Login')
     then_i_see_the_unlink_form
+    and_i_do_not_see_the_recovery_warning
 
     when_i_add_an_audit_comment
     and_i_click_on('Continue')
@@ -92,7 +94,7 @@ private
     @application_form = create(:application_form)
     @candidate = @application_form.candidate
 
-    create(:one_login_auth, candidate: @candidate)
+    create(:one_login_auth, candidate: @candidate, email_address: @candidate.email_address)
   end
 
   def when_i_visit_the_application_form_summary
@@ -100,7 +102,15 @@ private
   end
 
   def then_i_see_the_unlink_form
-    expect(page).to have_content "Do you want to unlink GOV.UK One Login for #{@candidate.email_address}"
+    expect(page).to have_content "Do you want to unlink GOV.UK One Login for #{@candidate.one_login_auth.email_address}"
+  end
+
+  def and_i_see_the_recovery_warning
+    expect(page).to have_content "The email for this candidate is #{@candidate.email_address}."
+  end
+
+  def and_i_do_not_see_the_recovery_warning
+    expect(page).to have_no_content "The email for this candidate is #{@candidate.email_address}."
   end
 
   def then_i_am_on_the_application_form_summary

@@ -7,8 +7,19 @@
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-l">
-        <%= t('.heading', name: @application_form.full_name.presence || @candidate.email_address) %>
+        <%= t('.heading', name: @candidate.one_login_auth.email_address) %>
       </h1>
+
+      <div class="govuk-inset-text">
+        <p>
+          <%= t('.cannot_be_undone') %>
+        </p>
+        <% if @unlink_form.show_recovery_warning? %>
+          <p>
+            <%= t('.recovery_warning_html', candidate_email: @candidate.email_address) %>
+          </p>
+        <% end %>
+      </div>
 
       <%= f.govuk_text_field(
           :audit_comment,
