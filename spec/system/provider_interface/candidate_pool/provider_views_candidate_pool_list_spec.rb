@@ -51,7 +51,8 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def set_declined_candidate_form
-    declined_candidate = create(:candidate, pool_status: 'opt_in')
+    declined_candidate = create(:candidate)
+    create(:candidate_preference, candidate: declined_candidate)
     @declined_candidate_form = create(
       :application_form,
       :completed,
@@ -73,22 +74,17 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def set_rejected_candidate_form
-    rejected_candidate = create(:candidate, pool_status: 'opt_in')
+    rejected_candidate = create(:candidate)
+    candidate_preference = create(:candidate_preference, candidate: rejected_candidate)
+    create(:candidate_location_preference, :manchester, candidate_preference:)
     @rejected_candidate_form = create(
       :application_form,
       :completed,
       candidate: rejected_candidate,
       submitted_at: 1.day.ago,
     )
-    aa_teamworks = create(
-      :site,
-      latitude: 51.4524877,
-      longitude: -0.1204749,
-      provider: current_provider,
-    )
     course_option = create(
       :course_option,
-      site: aa_teamworks,
       course: create(:course, provider: current_provider),
     )
     create(
@@ -100,7 +96,9 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def set_visa_sponsorship_candidate_form
-    visa_sponsorship_candidate = create(:candidate, pool_status: 'opt_in')
+    visa_sponsorship_candidate = create(:candidate)
+    candidate_preference = create(:candidate_preference, candidate: visa_sponsorship_candidate)
+    create(:candidate_location_preference, :manchester, candidate_preference:)
     @visa_sponsorship_form = create(
       :application_form,
       :completed,
@@ -108,15 +106,8 @@ RSpec.describe 'Providers views candidate pool list' do
       submitted_at: 6.hours.ago,
       right_to_work_or_study: :no,
     )
-    aa_teamworks = create(
-      :site,
-      latitude: 51.5249377,
-      longitude: -0.1204752,
-      provider: current_provider,
-    )
     course_option = create(
       :course_option,
-      site: aa_teamworks,
       course: create(:course, provider: current_provider),
     )
     create(

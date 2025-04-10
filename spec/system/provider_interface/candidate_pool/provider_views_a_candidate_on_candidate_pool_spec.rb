@@ -29,7 +29,8 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def and_there_are_candidates_for_candidate_pool
-    @rejected_candidate = create(:candidate, pool_status: 'opt_in')
+    @rejected_candidate = create(:candidate)
+    create(:candidate_preference, candidate: @rejected_candidate)
     @rejected_candidate_form = create(
       :application_form,
       :completed,
@@ -40,7 +41,8 @@ RSpec.describe 'Providers views candidate pool list' do
     )
     create(:application_choice, :rejected, application_form: @rejected_candidate_form)
 
-    declined_candidate = create(:candidate, pool_status: 'opt_in')
+    declined_candidate = create(:candidate)
+    create(:candidate_preference, candidate: declined_candidate)
     @declined_candidate_form = create(
       :application_form,
       :completed,
