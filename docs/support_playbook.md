@@ -720,22 +720,9 @@ If `candidate.account_recovery_status == 'dismissed'`
 candidate.account_recovery_request.destroy
 candidate.update(account_recovery_status: 'not_started')
 ```
-
 Now the candidate should be able to see the banner and proceed as expected.
 Note that if the candidate has submitted any application choices on their new account, they will not be able to link it with an old account.
 
-If `candidate.account_recovery_status == 'recovered'`
-- Only proceed if `!candidate.application_choices_submitted?`
-- Confirm with support what this candidate wants to do, because we might have a data breach problem if they have managed to link themselves to the wrong candidate.
-- You might also need to confirm with policy as it is not clear how a candidate would get into the state.
-
-Assuming there is a good reason for it:
-
-```ruby
-candidate.one_login_auth.destroy
-candidate.account_recovery_request.destroy
-candidate.update(account_recovery_status: 'not_started')
-```
 
 Now they will have to start the whole One Login journey over again.
 
