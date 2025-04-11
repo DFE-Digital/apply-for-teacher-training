@@ -37,7 +37,7 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
     then_i_see_the_select_a_subject_page
 
     when_i_select_a_subject
-    and_i_click_continue
+    and_i_click_request_an_adviser
     then_i_see_the_review_page
 
     when_i_click_request_adviser
@@ -102,6 +102,10 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
     click_link_or_button 'Continue'
   end
   alias_method :when_i_click_continue, :and_i_click_continue
+
+  def and_i_click_request_an_adviser
+    click_link_or_button 'Request an adviser'
+  end
 
   def then_i_see_the_interruption_page
     expect(page).to have_current_path(candidate_interface_adviser_sign_ups_interruption_path(@eligible_application_form.id))
