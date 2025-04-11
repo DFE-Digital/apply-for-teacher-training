@@ -13,6 +13,7 @@ RSpec.describe DuplicateApplication do
         recruitment_cycle_year:,
         references_count: 0,
         efl_completed: true,
+        adviser_interruption_response: true,
       )
       create_list(:reference, 2, feedback_status: :feedback_provided, application_form: @original_application_form)
       create(:reference, feedback_status: :feedback_refused, application_form: @original_application_form)
@@ -42,6 +43,10 @@ RSpec.describe DuplicateApplication do
   it 'does not carry over any equality and diversity data' do
     expect(duplicate_application_form.equality_and_diversity).to be_nil
     expect(duplicate_application_form.equality_and_diversity_completed).to be_nil
+  end
+
+  it 'does not carry over adviser response status' do
+    expect(duplicate_application_form.adviser_interruption_response).to be_nil
   end
 
   context 'when candidates has degrees' do
