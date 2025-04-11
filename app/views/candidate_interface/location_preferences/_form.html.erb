@@ -6,6 +6,7 @@
   <%= f.govuk_text_field(
     :within,
     label: { text: t('.within'), size: 'm' },
+    hint: { text: t('.enter_distance_in_miles'), hidden: true },
     class: 'govuk-!-width-one-quarter',
     suffix_text: t('.miles'),
     inputmode: 'decimal',
