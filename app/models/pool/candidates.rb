@@ -56,7 +56,7 @@ private
       )
       .where.not(
         id: ApplicationForm.joins(application_choices: :withdrawal_reasons)
-          .where('withdrawal_reasons.reason LIKE ?', 'do-not-want-to-train-anymore%')
+          .where('withdrawal_reasons.reason ILIKE ?', '%do-not-want-to-train-anymore%')
           .select(:id),
       )
   end
