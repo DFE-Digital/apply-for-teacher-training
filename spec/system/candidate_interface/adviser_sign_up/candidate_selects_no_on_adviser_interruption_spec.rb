@@ -72,7 +72,7 @@ RSpec.describe 'Candidate selects no on adviser interruption' do
   end
 
   def then_i_see_a_validation_error
-    expect(page).to have_content('Select whether you would like a teacher training adviser to contact you')
+    expect(page).to have_content('Select whether you would like to request a teacher training adviser')
   end
 
   def when_i_select_no

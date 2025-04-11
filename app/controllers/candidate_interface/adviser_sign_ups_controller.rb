@@ -10,24 +10,18 @@ module CandidateInterface
       @adviser_sign_up_form = Adviser::SignUpForm.new({ application_form:, preferred_teaching_subject_id: params[:preferred_teaching_subject_id] })
     end
 
-    def continue
+    def create
       @adviser_sign_up_form = Adviser::SignUpForm.new(adviser_sign_up_params.merge(application_form:))
 
       if @adviser_sign_up_form.valid?
-        redirect_to candidate_interface_adviser_sign_up_path(application_form.id, preferred_teaching_subject_id: @adviser_sign_up_form.preferred_teaching_subject_id)
+        @adviser_sign_up_form.save
+        flash[:success] = t('.create.flash.success')
+        track_adviser_sign_up
+        redirect_to candidate_interface_details_path
       else
         track_validation_error(@adviser_sign_up_form)
         render :new
       end
-    end
-
-    def create
-      @adviser_sign_up_form = Adviser::SignUpForm.new(adviser_sign_up_params.merge(application_form:))
-
-      @adviser_sign_up_form.save
-      flash[:success] = t('.create.flash.success')
-      track_adviser_sign_up
-      redirect_to candidate_interface_details_path
     end
 
   private

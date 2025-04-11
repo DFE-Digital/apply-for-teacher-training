@@ -38,9 +38,6 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
 
     when_i_select_a_subject
     and_i_click_request_an_adviser
-    then_i_see_the_review_page
-
-    when_i_click_request_adviser
     then_i_see_my_details_page
 
     when_i_navigate_to_a_section_which_determines_eligibilty
@@ -135,14 +132,6 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
 
   def when_i_select_a_subject
     choose 'Primary Optometry'
-  end
-
-  def then_i_see_the_review_page
-    expect(page).to have_current_path(candidate_interface_adviser_sign_up_path(@eligible_application_form.id, preferred_teaching_subject_id: @teaching_subject_optometry.external_identifier))
-  end
-
-  def when_i_click_request_adviser
-    click_link_or_button 'Request adviser'
   end
 
   def and_the_adviser_call_to_action_is_no_longer_visible

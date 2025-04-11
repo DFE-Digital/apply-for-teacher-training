@@ -20,22 +20,12 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
     when_i_click_on_the_adviser_cta
     then_i_am_on_the_adviser_sign_up_page
 
-    when_i_click_the_continue_button
+    when_i_click_request_an_adviser
     then_i_see_validation_errors_for_preferred_teaching_subject
     and_the_validation_error_is_tracked
 
     when_i_select_a_preferred_teaching_subject
-    and_i_click_the_continue_button
-    then_i_am_redirected_to_the_review_page
-
-    when_i_click_the_change_link
-    then_i_am_returned_to_the_adviser_sign_up_page
-
-    when_i_change_my_subject_selection
-    and_i_click_the_continue_button
-    then_my_choice_is_updated_on_the_review_page
-
-    when_i_click_request_adviser
+    and_i_click_request_an_adviser
     then_i_am_redirected_to_your_details_page
     and_i_see_the_success_message
     and_the_adviser_cta_be_replaced_with_the_waiting_to_be_assigned_message
@@ -95,10 +85,10 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
     expect(page).to have_current_path(new_candidate_interface_adviser_sign_up_path(preferred_teaching_subject_id: @preferred_teaching_subject1.external_identifier))
   end
 
-  def when_i_click_the_continue_button
-    click_link_or_button t('candidate_interface.adviser_sign_ups.new.submit_text')
+  def when_i_click_request_an_adviser
+    click_link_or_button 'Request an adviser'
   end
-  alias_method :and_i_click_the_continue_button, :when_i_click_the_continue_button
+  alias_method :and_i_click_request_an_adviser, :when_i_click_request_an_adviser
 
   def then_i_see_validation_errors_for_preferred_teaching_subject
     expect(page).to have_content(
@@ -143,21 +133,5 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   def then_i_am_redirected_to_the_review_page
     expect(page).to have_link(t('candidate_interface.adviser_sign_ups.show.change'))
     expect(page).to have_button(t('candidate_interface.adviser_sign_ups.show.request'))
-  end
-
-  def when_i_click_the_change_link
-    click_link_or_button t('candidate_interface.adviser_sign_ups.show.change')
-  end
-
-  def when_i_change_my_subject_selection
-    find('label', text: @preferred_teaching_subject2.title).click
-  end
-
-  def then_my_choice_is_updated_on_the_review_page
-    find('dd', text: @preferred_teaching_subject2.title)
-  end
-
-  def when_i_click_request_adviser
-    click_link_or_button t('candidate_interface.adviser_sign_ups.show.request')
   end
 end
