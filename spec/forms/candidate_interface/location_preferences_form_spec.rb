@@ -63,8 +63,8 @@ RSpec.describe CandidateInterface::LocationPreferencesForm, type: :model do
         expect(preference.location_preferences.last).to have_attributes(
           name: 'BN1 1AA',
           within: 20,
-          latitude: 51.4524877,
-          longitude: -0.1204749,
+          latitude: 53.4807593,
+          longitude: -2.2426305,
         )
       end
     end
@@ -75,8 +75,8 @@ RSpec.describe CandidateInterface::LocationPreferencesForm, type: :model do
       it 'updates a preference to opt out and publishes the preference' do
         expect { form.save }.to change(location_preference, :name).from(location_preference.name).to('BN1 1AA')
           .and change(location_preference, :within).from(location_preference.within).to(20)
-          .and change(location_preference, :latitude).from(location_preference.latitude).to(51.4524877)
-          .and change(location_preference, :longitude).from(location_preference.longitude).to(-0.1204749)
+          .and change(location_preference, :latitude).from(location_preference.latitude).to(53.4807593)
+          .and change(location_preference, :longitude).from(location_preference.longitude).to(-2.2426305)
       end
     end
   end

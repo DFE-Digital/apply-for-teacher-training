@@ -6,27 +6,33 @@ RSpec.describe Pool::Candidates do
       it 'returns application_forms that should be on candidate pool list' do
         providers = [create(:provider)]
 
-        rejected_candidate = create(:candidate, pool_status: 'opt_in')
+        rejected_candidate = create(:candidate)
+        create(:candidate_preference, candidate: rejected_candidate)
         rejected_candidate_form = create(:application_form, :completed, candidate: rejected_candidate)
         create(:application_choice, :rejected, application_form: rejected_candidate_form)
 
-        declined_candidate = create(:candidate, pool_status: 'opt_in')
+        declined_candidate = create(:candidate)
+        create(:candidate_preference, candidate: declined_candidate)
         declined_candidate_form = create(:application_form, :completed, candidate: declined_candidate)
         create(:application_choice, :declined, application_form: declined_candidate_form)
 
-        withdrawn_candidate = create(:candidate, pool_status: 'opt_in')
+        withdrawn_candidate = create(:candidate)
+        create(:candidate_preference, candidate: withdrawn_candidate)
         withdrawn_candidate_form = create(:application_form, :completed, candidate: withdrawn_candidate)
         create(:application_choice, :withdrawn, application_form: withdrawn_candidate_form)
 
-        conditions_not_met_candidate = create(:candidate, pool_status: 'opt_in')
+        conditions_not_met_candidate = create(:candidate)
+        create(:candidate_preference, candidate: conditions_not_met_candidate)
         conditions_not_met_candidate_form = create(:application_form, :completed, candidate: conditions_not_met_candidate)
         create(:application_choice, :conditions_not_met, application_form: conditions_not_met_candidate_form)
 
-        offer_withdrawn_candidate = create(:candidate, pool_status: 'opt_in')
+        offer_withdrawn_candidate = create(:candidate)
+        create(:candidate_preference, candidate: offer_withdrawn_candidate)
         offer_withdrawn_candidate_form = create(:application_form, :completed, candidate: offer_withdrawn_candidate)
         create(:application_choice, :offer_withdrawn, application_form: offer_withdrawn_candidate_form)
 
-        inactive_candidate = create(:candidate, pool_status: 'opt_in')
+        inactive_candidate = create(:candidate)
+        create(:candidate_preference, candidate: inactive_candidate)
         inactive_candidate_form = create(:application_form, :completed, candidate: inactive_candidate)
         create(:application_choice, :inactive, application_form: inactive_candidate_form)
 
@@ -46,46 +52,55 @@ RSpec.describe Pool::Candidates do
         provider = create(:provider)
         providers = [provider]
 
-        opt_out_candidate = create(:candidate, pool_status: 'opt_out')
+        opt_out_candidate = create(:candidate)
+        create(:candidate_preference, pool_status: 'opt_out', candidate: opt_out_candidate)
         opt_out_candidate_form = create(:application_form, :completed, candidate: opt_out_candidate)
         create(:application_choice, :rejected, application_form: opt_out_candidate_form)
 
-        dismissed_candidate = create(:candidate, pool_status: 'opt_in')
+        dismissed_candidate = create(:candidate)
+        create(:candidate_preference, candidate: dismissed_candidate)
         dismissed_candidate_form = create(:application_form, :completed, candidate: dismissed_candidate)
         create(:application_choice, :rejected, application_form: dismissed_candidate_form)
         create(:pool_dismissal, provider:, candidate: dismissed_candidate)
 
-        rejected_candidate = create(:candidate, pool_status: 'opt_in')
+        rejected_candidate = create(:candidate)
+        create(:candidate_preference, candidate: rejected_candidate)
         rejected_candidate_form = create(:application_form, :completed, candidate: rejected_candidate)
         create(:application_choice, :rejected, application_form: rejected_candidate_form)
         create(:application_choice, :awaiting_provider_decision, application_form: rejected_candidate_form)
 
-        declined_candidate = create(:candidate, pool_status: 'opt_in')
+        declined_candidate = create(:candidate)
+        create(:candidate_preference, candidate: declined_candidate)
         declined_candidate_form = create(:application_form, :completed, candidate: declined_candidate)
         create(:application_choice, :declined, application_form: declined_candidate_form)
         create(:application_choice, :interviewing, application_form: declined_candidate_form)
 
-        withdrawn_candidate = create(:candidate, pool_status: 'opt_in')
+        withdrawn_candidate = create(:candidate)
+        create(:candidate_preference, candidate: withdrawn_candidate)
         withdrawn_candidate_form = create(:application_form, :completed, candidate: withdrawn_candidate)
         create(:application_choice, :withdrawn, application_form: withdrawn_candidate_form)
         create(:application_choice, :offer, application_form: withdrawn_candidate_form)
 
-        conditions_not_met_candidate = create(:candidate, pool_status: 'opt_in')
+        conditions_not_met_candidate = create(:candidate)
+        create(:candidate_preference, candidate: conditions_not_met_candidate)
         conditions_not_met_candidate_form = create(:application_form, :completed, candidate: conditions_not_met_candidate)
         create(:application_choice, :conditions_not_met, application_form: conditions_not_met_candidate_form)
         create(:application_choice, :pending_conditions, application_form: conditions_not_met_candidate_form)
 
-        offer_withdrawn_candidate = create(:candidate, pool_status: 'opt_in')
+        offer_withdrawn_candidate = create(:candidate)
+        create(:candidate_preference, candidate: offer_withdrawn_candidate)
         offer_withdrawn_candidate_form = create(:application_form, :completed, candidate: offer_withdrawn_candidate)
         create(:application_choice, :offer_withdrawn, application_form: offer_withdrawn_candidate_form)
         create(:application_choice, :recruited, application_form: offer_withdrawn_candidate_form)
 
-        inactive_candidate = create(:candidate, pool_status: 'opt_in')
+        inactive_candidate = create(:candidate)
+        create(:candidate_preference, candidate: inactive_candidate)
         inactive_candidate_form = create(:application_form, :completed, candidate: inactive_candidate)
         create(:application_choice, :inactive, application_form: inactive_candidate_form)
         create(:application_choice, :offer_deferred, application_form: inactive_candidate_form)
 
-        candidate_with_too_many_choices = create(:candidate, pool_status: 'opt_in')
+        candidate_with_too_many_choices = create(:candidate)
+        create(:candidate_preference, candidate: candidate_with_too_many_choices)
         candidate_with_too_many_choices_form = create(:application_form, :completed, candidate: candidate_with_too_many_choices)
         create_list(:application_choice, 15, :offer_withdrawn, application_form: candidate_with_too_many_choices_form)
 
@@ -97,13 +112,9 @@ RSpec.describe Pool::Candidates do
 
     context 'with filters' do
       it 'returns application_forms based on filters' do
+        manchester_coordinates = [53.4807593, -2.2426305]
+
         provider = create(:provider)
-        aa_teamworks = create(
-          :site,
-          latitude: 51.4524877,
-          longitude: -0.1204749,
-          provider:,
-        )
         course = create(:course, provider:)
         tda_course = create(
           :course,
@@ -112,18 +123,15 @@ RSpec.describe Pool::Candidates do
         )
         course_option = create(
           :course_option,
-          site: aa_teamworks,
           course: course,
         )
         part_time_course_option = create(
           :course_option,
-          site: aa_teamworks,
           course: course,
           study_mode: :part_time,
         )
         part_time_tda_course_option = create(
           :course_option,
-          site: aa_teamworks,
           course: tda_course,
           study_mode: :part_time,
         )
@@ -132,7 +140,7 @@ RSpec.describe Pool::Candidates do
         create(:course_subject, subject:, course:)
         create(:course_subject, subject:, course: tda_course)
 
-        manchester_candidate_form = create_manchester_candidate_form(provider, aa_teamworks)
+        manchester_candidate_form = create_manchester_candidate_form(provider)
         subject_candidate_form = create_subject_candidate_form(course_option)
         part_time_candidate_form = create_part_time_candidate_form(part_time_course_option)
         undergraduate_candidate_form = create_undergraduate_candidate_form(part_time_tda_course_option)
@@ -142,7 +150,7 @@ RSpec.describe Pool::Candidates do
         withdrawn_candidate_form = create(:application_form, :completed, candidate: withdrawn_candidate)
         create(:application_choice, :withdrawn, application_form: withdrawn_candidate_form)
 
-        filters = { origin: [51.4524877, -0.1204749] }
+        filters = { origin: manchester_coordinates }
         application_forms = described_class.application_forms_for_provider(providers: [provider], filters:)
 
         expect(application_forms.map(&:id)).to contain_exactly(
@@ -153,7 +161,7 @@ RSpec.describe Pool::Candidates do
           visa_sponsorship_candidate_form.id,
         )
 
-        filters = { origin: [51.4524877, -0.1204749], subject: [subject.id.to_s] }
+        filters = { origin: manchester_coordinates, subject: [subject.id.to_s] }
 
         application_forms = described_class.application_forms_for_provider(providers: [provider], filters:)
 
@@ -165,7 +173,7 @@ RSpec.describe Pool::Candidates do
         )
 
         filters = {
-          origin: [51.4524877, -0.1204749],
+          origin: manchester_coordinates,
           subject: [subject.id.to_s],
           study_mode: ['part_time'],
         }
@@ -179,7 +187,7 @@ RSpec.describe Pool::Candidates do
         )
 
         filters = {
-          origin: [51.4524877, -0.1204749],
+          origin: manchester_coordinates,
           subject: [subject.id.to_s],
           study_mode: ['part_time'],
           course_type: ['TDA'],
@@ -193,7 +201,7 @@ RSpec.describe Pool::Candidates do
         )
 
         filters = {
-          origin: [51.4524877, -0.1204749],
+          origin: manchester_coordinates,
           subject: [subject.id.to_s],
           study_mode: ['part_time'],
           course_type: ['TDA'],
@@ -208,13 +216,14 @@ RSpec.describe Pool::Candidates do
       end
     end
 
-    def create_manchester_candidate_form(provider, aa_teamworks)
-      manchester_candidate = create(:candidate, pool_status: 'opt_in')
+    def create_manchester_candidate_form(provider)
+      manchester_candidate = create(:candidate)
+      candidate_preference = create(:candidate_preference, candidate: manchester_candidate)
+      create(:candidate_location_preference, :manchester, candidate_preference:)
       manchester_candidate_form = create(:application_form, :completed, candidate: manchester_candidate)
       course = create(:course, provider:)
       course_option = create(
         :course_option,
-        site: aa_teamworks,
         course: course,
       )
       create(:application_choice, :rejected, application_form: manchester_candidate_form, course_option:)
@@ -223,7 +232,9 @@ RSpec.describe Pool::Candidates do
     end
 
     def create_subject_candidate_form(course_option)
-      subject_candidate = create(:candidate, pool_status: 'opt_in')
+      subject_candidate = create(:candidate)
+      candidate_preference = create(:candidate_preference, candidate: subject_candidate)
+      create(:candidate_location_preference, :manchester, candidate_preference:)
       subject_candidate_form = create(:application_form, :completed, candidate: subject_candidate)
       create(:application_choice, :rejected, application_form: subject_candidate_form, course_option:)
 
@@ -231,14 +242,18 @@ RSpec.describe Pool::Candidates do
     end
 
     def create_part_time_candidate_form(course_option)
-      part_time_candidate = create(:candidate, pool_status: 'opt_in')
+      part_time_candidate = create(:candidate)
+      candidate_preference = create(:candidate_preference, candidate: part_time_candidate)
+      create(:candidate_location_preference, :manchester, candidate_preference:)
       part_time_candidate_form = create(:application_form, :completed, candidate: part_time_candidate)
       create(:application_choice, :rejected, application_form: part_time_candidate_form, course_option:)
       part_time_candidate_form
     end
 
     def create_undergraduate_candidate_form(course_option)
-      undergraduate_candidate = create(:candidate, pool_status: 'opt_in')
+      undergraduate_candidate = create(:candidate)
+      candidate_preference = create(:candidate_preference, candidate: undergraduate_candidate)
+      create(:candidate_location_preference, :manchester, candidate_preference:)
       undergraduate_candidate_form = create(
         :application_form,
         :completed,
@@ -249,7 +264,9 @@ RSpec.describe Pool::Candidates do
     end
 
     def create_visa_sponsorship_candidate_form(course_option)
-      visa_sponsorship_candidate = create(:candidate, pool_status: 'opt_in')
+      visa_sponsorship_candidate = create(:candidate)
+      candidate_preference = create(:candidate_preference, candidate: visa_sponsorship_candidate)
+      create(:candidate_location_preference, :manchester, candidate_preference:)
       visa_sponsorship_candidate_form = create(
         :application_form,
         :completed,

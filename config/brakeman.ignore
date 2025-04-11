@@ -145,7 +145,7 @@
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/one_login_controller.rb",
-      "line": 71,
+      "line": 67,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(logout_one_login((Current.session.id_token_hint or SessionError.find_by(:id => session[:session_error_id]).id_token_hint)), :allow_other_host => true)",
       "render_path": null,
@@ -260,7 +260,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `Pool::Invite#find_by`",
       "file": "app/controllers/provider_interface/candidate_pool/publish_invites_controller.rb",
-      "line": 36,
+      "line": 39,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "Pool::Invite.find_by(:id => params.expect(:draft_invite_id), :provider_id => current_provider_user.provider_ids, :status => :draft)",
       "render_path": null,
@@ -417,6 +417,29 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "d41568e9920037df226a6b4adf5ab5643f1391d401dd93f8bfdfc7ca621033ad",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/pool/candidates.rb",
+      "line": 81,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "scope.joins(:candidate => :published_preferences).joins(\"        join lateral (\\n          select * from candidate_location_preferences\\n          where candidate_location_preferences.candidate_preference_id = candidate_preferences.id\\n          group by id\\n          having(#{CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))} <= candidate_location_preferences.within)\\n          limit 1\\n        ) as candidate_location_preferences on true\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Pool::Candidates",
+        "method": "filter_by_distance"
+      },
+      "user_input": "CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "dec17808bfcb16d7a790ec0a75640bf5735beda9cb32f1c5c26d09eedaba85a5",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -438,5 +461,5 @@
       "note": ""
     }
   ],
-  "brakeman_version": "7.0.0"
+  "brakeman_version": "7.0.2"
 }

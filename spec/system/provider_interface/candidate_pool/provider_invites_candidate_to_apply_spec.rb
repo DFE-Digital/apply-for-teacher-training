@@ -102,7 +102,8 @@ RSpec.describe 'Providers invites candidates' do
   end
 
   def and_there_are_candidates_for_candidate_pool
-    @candidate = create(:candidate, pool_status: 'opt_in')
+    @candidate = create(:candidate)
+    create(:candidate_preference, candidate: @candidate)
     rejected_candidate_form = create(
       :application_form,
       :completed,

@@ -70,7 +70,7 @@ module CandidateInterface
       end
 
       context 'when updating a preference to opt out' do
-        let(:preference) { create(:candidate_preference) }
+        let(:preference) { create(:candidate_preference, status: 'draft') }
         let(:params) { { pool_status: 'opt_out' } }
 
         it 'updates a preference to opt out and publishes the preference and removes existing published ones' do

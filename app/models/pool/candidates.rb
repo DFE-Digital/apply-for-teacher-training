@@ -12,11 +12,13 @@ class Pool::Candidates
   end
 
   def application_forms_for_provider
-    dismissed_candidates = Candidate.joins(:pool_dismissals).where(pool_dismissals: { provider: providers })
+    opted_in_candidates = Candidate.joins(:published_preferences).where(published_preferences: { pool_status: 'opt_in' }).select(:id)
+    dismissed_candidates = Candidate.joins(:pool_dismissals).where(pool_dismissals: { provider: providers }).select(:id)
 
     filtered_application_forms.joins(:candidate)
-      .where(candidate: { pool_status: :opt_in, submission_blocked: false, account_locked: false })
-      .where.not(candidate_id: dismissed_candidates.ids)
+      .where(candidate: { submission_blocked: false, account_locked: false })
+      .where(candidate: opted_in_candidates)
+      .where.not(candidate: dismissed_candidates)
       .order(order_by)
       .distinct
   end
@@ -59,24 +61,28 @@ private
 
     origin = filters.fetch(:origin)
 
-    calculate_distance_sql = Site.distance_sql(
+    # This sql returns a number of miles from the origin location
+    calculate_distance_sql = CandidateLocationPreference.distance_sql(
       Struct.new(:latitude, :longitude).new(
-        latitude: filters.fetch(:origin).first,
-        longitude: filters.fetch(:origin).last,
+        latitude: origin.first,
+        longitude: origin.last,
       ),
     )
 
-    site_ids = Site.within(
-      LOCATION_RADIUS,
-      units: :miles,
-      origin:,
-    ).select(:id)
-
-    scope.joins(application_choices: { course_option: :site })
-      # get the last sent application_choice
-      .where('application_choices.sent_to_provider_at = ( select max(sent_to_provider_at) from application_choices where application_choices.application_form_id = application_forms.id)')
-      .where(sites: { id: site_ids })
-      .select('application_forms.*', "#{calculate_distance_sql} AS site_distance")
+    # Join lateral allows us to have a sub query in the join where we can only return 1 result
+    # when searching for a location within a radius. Otherwise we will return the same application form
+    # for each location_preference. Can't do distinct because the site_distance would be different
+    scope.joins(candidate: :published_preferences)
+      .joins(<<-SQL)
+        join lateral (
+          select * from candidate_location_preferences
+          where candidate_location_preferences.candidate_preference_id = candidate_preferences.id
+          group by id
+          having(#{calculate_distance_sql} <= candidate_location_preferences.within)
+          limit 1
+        ) as candidate_location_preferences on true
+      SQL
+      .select("application_forms.*, #{calculate_distance_sql} as site_distance")
   end
 
   def filter_by_subject(scope)

@@ -21,7 +21,8 @@ RSpec.describe 'ProviderInterface::CandidatePool::PublishInvitesController' do
     end
 
     it 'redirects to candidate_interface_interstitial_path' do
-      candidate = create(:candidate, pool_status: 'opt_in')
+      candidate = create(:candidate)
+      create(:candidate_preference, candidate:)
       application_form = create(:application_form, :completed, candidate:)
       course = create(:course, provider:, exposed_in_find: true)
       course_option = create(:course_option, course: course)
