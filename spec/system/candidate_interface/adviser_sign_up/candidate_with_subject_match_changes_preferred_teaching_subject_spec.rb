@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate with a degree subject that matches an adviser teaching subject selects yes on adviser interruption', :js do
+RSpec.describe 'Candidate with a degree subject match changes their preferred teaching subject', :js do
   include CandidateHelper
 
-  it 'proceeds to the prefilled subject review step of the adviser sign up flow' do
+  it 'allows the candidate to change their subject on the selection page' do
     given_i_am_signed_in_with_one_login
     and_i_have_an_eligible_application # value of adviser_interruption_response is 'nil' by default
     and_adviser_teaching_subjects_exist
@@ -24,7 +24,9 @@ RSpec.describe 'Candidate with a degree subject that matches an adviser teaching
     and_i_click_continue
     then_i_see_the_review_page_with_the_subject_prefilled
 
-    when_i_click_request_an_adviser
+    when_i_click_change
+    and_i_select_a_different_subject
+    and_i_click_request_an_adviser
     then_i_see_my_details_page
     and_i_see_the_success_message
   end
@@ -82,7 +84,7 @@ RSpec.describe 'Candidate with a degree subject that matches an adviser teaching
     click_link_or_button 'Continue'
   end
 
-  def when_i_click_request_an_adviser
+  def and_i_click_request_an_adviser
     click_link_or_button 'Request an adviser'
   end
 
@@ -99,6 +101,19 @@ RSpec.describe 'Candidate with a degree subject that matches an adviser teaching
   def then_i_see_the_review_page_with_the_subject_prefilled
     expect(page).to have_current_path(candidate_interface_adviser_sign_up_path(@eligible_application_form.id, preferred_teaching_subject_id: @teaching_subject_1.external_identifier))
     expect(page).to have_content(@teaching_subject_1.title)
+  end
+
+  def when_i_click_change
+    click_link_or_button 'Change'
+  end
+
+  def and_i_select_a_different_subject
+    choose 'Primary Medicine'
+  end
+
+  def then_i_see_the_new_subject_is_prefilled
+    expect(page).to have_current_path(candidate_interface_adviser_sign_up_path(@eligible_application_form.id, preferred_teaching_subject_id: @teaching_subject_2.external_identifier))
+    expect(page).to have_content(@teaching_subject_2.title)
   end
 
   def then_i_see_my_details_page
