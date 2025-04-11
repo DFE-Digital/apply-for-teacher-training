@@ -12,6 +12,7 @@ class Pool::Candidates
   end
 
   def application_forms_for_provider
+    # can this not be a join?
     opted_in_candidates = Candidate.joins(:published_preferences).where(published_preferences: { pool_status: 'opt_in' }).select(:id)
     dismissed_candidates = Candidate.joins(:pool_dismissals).where(pool_dismissals: { provider: providers }).select(:id)
 
@@ -31,6 +32,7 @@ private
     scope = filter_by_study_mode(scope)
     scope = filter_by_course_type(scope)
     scope = filter_by_right_to_work_or_study(scope)
+    # Need to improve this. can we do the distance bit different?
     filter_by_distance(scope)
   end
 
@@ -72,7 +74,7 @@ private
     # Join lateral allows us to have a sub query in the join where we can only return 1 result
     # when searching for a location within a radius. Otherwise we will return the same application form
     # for each location_preference. Can't do distinct because the site_distance would be different
-    scope.joins(candidate: :published_preferences)
+    results = scope.joins(candidate: :published_preferences)
       .joins(<<-SQL)
         join lateral (
           select * from candidate_location_preferences
@@ -83,6 +85,14 @@ private
         ) as candidate_location_preferences on true
       SQL
       .select("application_forms.*, #{calculate_distance_sql} as site_distance")
+
+      puts "QUERY"
+      puts "QUERY"
+      puts "QUERY"
+      puts "QUERY"
+      puts "QUERY"
+      puts results.to_sql
+      results
   end
 
   def filter_by_subject(scope)

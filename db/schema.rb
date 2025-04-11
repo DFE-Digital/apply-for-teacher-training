@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_09_154615) do
-  create_sequence "qualifications_public_id_seq", start: 120000
+ActiveRecord::Schema[8.0].define(version: 2025_04_11_180225) do
+  create_sequence "qualifications_public_id_seq", start: 114522
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
@@ -471,6 +471,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_09_154615) do
     t.index ["chased_type", "chased_id"], name: "index_chasers_sent_on_chased_type_and_chased_id"
   end
 
+  create_table "contact_details", force: :cascade do |t|
+    t.string "phone_number"
+    t.string "email_address"
+    t.string "address"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+  end
+
   create_table "course_options", force: :cascade do |t|
     t.bigint "course_id", null: false
     t.string "vacancy_status", null: false
@@ -556,6 +564,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_09_154615) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["service_name", "timestamp"], name: "index_data_migrations_on_service_name_and_timestamp", unique: true
+  end
+
+  create_table "degrees", force: :cascade do |t|
+    t.string "type_of_degree"
+    t.string "subject"
+    t.string "institution"
+    t.string "class_of_degree"
+    t.integer "year"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "email_clicks", force: :cascade do |t|
@@ -710,6 +728,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_09_154615) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "personal_details", force: :cascade do |t|
+    t.string "title"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "preferred_name"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+  end
+
   create_table "pool_dismissals", force: :cascade do |t|
     t.bigint "candidate_id", null: false
     t.bigint "provider_id", null: false
@@ -833,6 +860,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_09_154615) do
     t.boolean "selectable_school", default: false, null: false
     t.index ["code"], name: "index_providers_on_code", unique: true
     t.index ["vendor_id"], name: "index_providers_on_vendor_id"
+  end
+
+  create_table "qualifications", force: :cascade do |t|
+    t.string "type_of_qualification"
+    t.string "subject"
+    t.string "institution"
+    t.string "grade"
+    t.integer "year"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "recruitment_cycle_timetables", force: :cascade do |t|
@@ -1056,9 +1093,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_09_154615) do
   add_foreign_key "candidate_location_preferences", "candidate_preferences", on_delete: :cascade
   add_foreign_key "candidate_pool_provider_opt_ins", "providers", on_delete: :cascade
   add_foreign_key "candidate_preferences", "candidates", on_delete: :cascade
-  add_foreign_key "candidates", "fraud_matches"
+  add_foreign_key "candidates", "fraud_matches", validate: false
   add_foreign_key "course_options", "courses", on_delete: :cascade
-  add_foreign_key "course_options", "sites", on_delete: :cascade
+  add_foreign_key "course_options", "sites", on_delete: :cascade, validate: false
   add_foreign_key "course_subjects", "courses"
   add_foreign_key "course_subjects", "subjects"
   add_foreign_key "courses", "providers"
