@@ -451,7 +451,7 @@ en:
         candidate_interface/adviser_interruption_form:
           attributes:
             proceed_to_request_adviser:
-              blank: Select whether you would like a teacher training adviser to contact you
+              blank: Select whether you would like to request a teacher training adviser
         candidate_interface/prefill_application_or_not_form:
           attributes:
             prefill:
