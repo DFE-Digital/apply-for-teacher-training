@@ -6,7 +6,7 @@
     <h1 class="govuk-heading-l"><%= t('.title') %></h1>
     <p class="govuk-body"><%= t('.body') %></p>
 
-    <h2 class="govuk-heading-m"><%= t('.select_locations') %></h1>
+    <h2 class="govuk-heading-m"><%= t('.select_locations') %></h2>
 
     <%= form_with(
       model: @preference_form,
@@ -39,10 +39,18 @@
 
                 <%= row.with_cell(text: t('.within', within: location.within)) %>
                 <%= row.with_cell do %>
-                  <%= govuk_link_to t('.change'), edit_candidate_interface_draft_preference_location_preference_path(@preference, location) %>
+                  <%= govuk_link_to(
+                        t('.change'),
+                        edit_candidate_interface_draft_preference_location_preference_path(@preference, location),
+                        visually_hidden_suffix: location.decorated_name,
+                      ) %>
                 <% end %>
                 <%= row.with_cell do %>
-                  <%= govuk_link_to t('.remove'), candidate_interface_draft_preference_location_preference_path(@preference, location) %>
+                  <%= govuk_link_to(
+                        t('.remove'),
+                        candidate_interface_draft_preference_location_preference_path(@preference, location),
+                        visually_hidden_suffix: location.decorated_name,
+                      ) %>
                 <% end %>
               <% end %>
             <% end %>
