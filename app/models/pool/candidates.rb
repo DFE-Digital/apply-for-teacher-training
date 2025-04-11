@@ -1,5 +1,4 @@
 class Pool::Candidates
-  LOCATION_RADIUS = 30
   attr_reader :providers, :filters
 
   def initialize(providers:, filters: {})
@@ -13,15 +12,25 @@ class Pool::Candidates
 
   def application_forms_for_provider
     # can this not be a join?
+    # Why do we return duplicate application_forms?
+    # Can we return only the columns we need?
     opted_in_candidates = Candidate.joins(:published_preferences).where(published_preferences: { pool_status: 'opt_in' }).select(:id)
     dismissed_candidates = Candidate.joins(:pool_dismissals).where(pool_dismissals: { provider: providers }).select(:id)
 
-    filtered_application_forms.joins(:candidate)
+    results = filtered_application_forms.joins(:candidate)
       .where(candidate: { submission_blocked: false, account_locked: false })
       .where(candidate: opted_in_candidates)
       .where.not(candidate: dismissed_candidates)
-      .order(order_by)
       .distinct
+      .order(order_by)
+
+    if active_location_filter?
+      results
+    else
+      results.select(
+        'application_forms.candidate_id, application_forms.first_name, application_forms.last_name, application_forms.submitted_at',
+      )
+    end
   end
 
 private
@@ -84,15 +93,15 @@ private
           limit 1
         ) as candidate_location_preferences on true
       SQL
-      .select("application_forms.*, #{calculate_distance_sql} as site_distance")
+     .select("application_forms.candidate_id, application_forms.first_name,application_forms.last_name, #{calculate_distance_sql} as site_distance")
 
-      puts "QUERY"
-      puts "QUERY"
-      puts "QUERY"
-      puts "QUERY"
-      puts "QUERY"
-      puts results.to_sql
-      results
+    Rails.logger.debug 'QUERY'
+    Rails.logger.debug 'QUERY'
+    Rails.logger.debug 'QUERY'
+    Rails.logger.debug 'QUERY'
+    Rails.logger.debug 'QUERY'
+    Rails.logger.debug results.to_sql
+    results
   end
 
   def filter_by_subject(scope)

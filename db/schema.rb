@@ -417,6 +417,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_11_180225) do
     t.datetime "updated_at", null: false
     t.bigint "provider_id"
     t.index ["candidate_preference_id"], name: "idx_on_candidate_preference_id_f06d90defb"
+    t.index ["latitude"], name: "index_candidate_location_preferences_on_latitude"
+    t.index ["longitude"], name: "index_candidate_location_preferences_on_longitude"
     t.index ["provider_id"], name: "index_candidate_location_preferences_on_provider_id"
   end
 
