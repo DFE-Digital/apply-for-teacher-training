@@ -13,7 +13,7 @@ en:
         submit: Submit preferences
         location: Within %{radius} miles of %{location}
         no_location_preferences: You have no location preferences
-        change_share_information_hint: Change if you want to share your application details
+        change_share_information_hint: Change whether you want to share your application details
         change_location_preferences_hint: Change your preferred locations
         change_dynamic_locations_hint: Change updating your locations when you apply to a new course
     preferences:
@@ -33,7 +33,7 @@ en:
         submit: Submit preferences
         location: Within %{radius} miles of %{location}
         no_location_preferences: You have no location preferences
-        change_share_information_hint: Change if you want to share your application details
+        change_share_information_hint: Change whether you want to share your application details
         change_location_preferences_hint: Change your preferred locations
         change_dynamic_locations_hint: Change updating your locations when you apply to a new course
     pool_opt_ins:
@@ -79,6 +79,7 @@ en:
         within: Within
         name: of city, town or postcode
         miles: miles
+        enter_distance_in_miles: Enter distance in miles
       show:
         title: Do you want to remove this location?
         location: Location
