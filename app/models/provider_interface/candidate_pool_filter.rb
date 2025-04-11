@@ -1,6 +1,7 @@
 module ProviderInterface
   class CandidatePoolFilter
     include FilterParamsHelper
+    include ActionView::Helpers::TagHelper
 
     FILTERS = %w[original_location subject study_mode course_type visa_sponsorship].freeze
 
@@ -44,7 +45,7 @@ module ProviderInterface
         },
         {
           type: :checkboxes,
-          heading: 'Candidate’s visa requirements',
+          heading: tag.h3('Candidate’s visa requirements', class: 'govuk-heading-m govuk-!-margin-bottom-0'),
           name: 'visa_sponsorship',
           options: visa_sponsorship_options,
         },
