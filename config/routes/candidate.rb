@@ -97,9 +97,6 @@ namespace :candidate_interface, path: '/candidate' do
     get 'adviser-sign-ups/interruption' => 'adviser_sign_ups/interruptions#show', as: :adviser_sign_ups_interruption
     patch 'adviser-sign-ups/interruption' => 'adviser_sign_ups/interruptions#update', as: :update_adviser_sign_ups_interruption_response
 
-    get '/interruption/:id' => 'adviser_sign_ups/interruptions#show', as: :adviser_sign_ups_interruption
-    patch '/interruption/:id' => 'adviser_sign_ups/interruptions#update', as: :update_adviser_sign_ups_interruption_response
-
     scope '/personal-details' do
       get '/', to: redirect('/candidate/application/personal-information')
       get '/edit', to: redirect('/candidate/application/personal-information/edit')
