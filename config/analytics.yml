@@ -13,7 +13,6 @@ shared:
     - within
     - latitude
     - longitude
-    - status
     - candidate_preference_id
     - created_at
     - updated_at
