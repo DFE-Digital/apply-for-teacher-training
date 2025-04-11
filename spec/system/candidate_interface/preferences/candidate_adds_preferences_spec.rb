@@ -118,6 +118,8 @@ RSpec.describe 'Candidate adds preferences' do
     site = create(
       :site,
       postcode: choice_location[:name],
+      latitude: 53.4807593,
+      longitude: -2.2426305,
       provider:,
     )
     course = create(:course, provider:)

@@ -17,7 +17,7 @@ module CandidateInterface
       sites = application_form.application_choices.map(&:site)
 
       ActiveRecord::Base.transaction do
-        unless application_form.international_address?
+        unless application_form.international_address? || application_form.geocode.nil?
           preference.location_preferences.create!(
             name: application_form.postcode,
             within: DEFAULT_RADIUS,
@@ -27,6 +27,8 @@ module CandidateInterface
         end
 
         sites.each do |site|
+          next unless site.geocoded?
+
           preference.location_preferences.create!(
             name: site.postcode,
             within: DEFAULT_RADIUS,
@@ -46,6 +48,7 @@ module CandidateInterface
       return if preference.nil? || preference.opt_out? || !preference.dynamic_location_preferences
 
       site = application_choice.site
+      return unless site.geocoded?
       return if preference.location_preferences.pluck(:name).include?(site.postcode)
 
       preference.location_preferences.create!(
