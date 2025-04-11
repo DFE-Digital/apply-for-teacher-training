@@ -54,6 +54,11 @@ private
             .having("count(CASE WHEN application_choices.status != 'inactive' THEN 1 END) < #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS}")
             .select(:id),
       )
+      .where.not(
+        id: ApplicationForm.joins(application_choices: :withdrawal_reasons)
+          .where('withdrawal_reasons.reason ILIKE ?', '%do-not-want-to-train-anymore%')
+          .select(:id),
+      )
   end
 
   def filter_by_distance(scope)

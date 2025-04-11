@@ -10,6 +10,7 @@ RSpec.describe 'Providers views candidate pool list' do
     set_rejected_candidate_form
     set_declined_candidate_form
     set_visa_sponsorship_candidate_form
+    set_withdrawn_no_longer_want_to_train_form
   end
 
   scenario 'View candidates' do
@@ -118,6 +119,32 @@ RSpec.describe 'Providers views candidate pool list' do
     )
   end
 
+  def set_withdrawn_no_longer_want_to_train_form
+    no_longer_wants_to_train_candidate = create(:candidate)
+    create(:candidate_preference, candidate: no_longer_wants_to_train_candidate)
+    @withdrawn_no_longer_wants_to_train_form = create(
+      :application_form,
+      :completed,
+      candidate: no_longer_wants_to_train_candidate,
+      submitted_at: 3.hours.ago,
+    )
+    course_option = create(
+      :course_option,
+      course: create(:course, provider: current_provider),
+    )
+    withdrawn_choice = create(
+      :application_choice,
+      :withdrawn,
+      application_form: @withdrawn_no_longer_wants_to_train_form,
+      course_option:,
+    )
+    create(
+      :withdrawal_reason,
+      application_choice: withdrawn_choice,
+      reason: 'do-not-want-to-train-anymore.personal-circumstances-have-changed',
+    )
+  end
+
   def and_provider_is_opted_in_to_candidate_pool
     create(:candidate_pool_provider_opt_in, provider: current_provider)
   end
@@ -134,6 +161,8 @@ RSpec.describe 'Providers views candidate pool list' do
       candidate_name(@declined_candidate_form),
       candidate_name(@visa_sponsorship_form),
     )
+
+    expect(candidates).not_to include(candidate_name(@withdrawn_no_longer_wants_to_train_form))
   end
 
   def then_i_am_redirected_to_the_applications_page
