@@ -5,9 +5,12 @@ RSpec.describe 'Candidate selects no on adviser interruption' do
 
   it 'does not reappear when the candidate has selected no once' do
     given_i_am_signed_in_with_one_login
-    and_enqueued_jobs_are_not_performed
-    and_the_api_call_is_stubbed
+    and_rails_cache_is_enabled
     and_analytics_is_enabled
+    and_enqueued_jobs_are_not_performed
+    and_the_adviser_sign_up_feature_flag_is_enabled
+    and_the_get_into_teaching_api_is_accepting_sign_ups
+    and_adviser_sign_up_jobs_can_be_enqueued
     and_i_have_an_eligible_application # value of adviser_interruption_response is 'nil' by default
 
     when_i_visit_my_details_page
@@ -30,16 +33,27 @@ RSpec.describe 'Candidate selects no on adviser interruption' do
     and_the_adviser_call_to_action_is_still_visible
   end
 
+  def and_rails_cache_is_enabled
+    in_memory_store = ActiveSupport::Cache.lookup_store(:memory_store)
+    allow(Rails).to receive(:cache).and_return(in_memory_store)
+    Rails.cache.clear
+  end
+
   def and_enqueued_jobs_are_not_performed
     ActiveJob::Base.queue_adapter = :test
   end
 
-  def and_the_api_call_is_stubbed
-    api_double = instance_double(
-      GetIntoTeachingApiClient::TeacherTrainingAdviserApi,
-      matchback_candidate: nil,
-    )
-    allow(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to receive(:new) { api_double }
+  def and_the_adviser_sign_up_feature_flag_is_enabled
+    FeatureFlag.activate(:adviser_sign_up)
+  end
+
+  def and_the_get_into_teaching_api_is_accepting_sign_ups
+    @api_double = instance_double(GetIntoTeachingApiClient::TeacherTrainingAdviserApi, :sign_up_teacher_training_adviser_candidate, matchback_candidate: nil)
+    allow(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to receive(:new) { @api_double }
+  end
+
+  def and_adviser_sign_up_jobs_can_be_enqueued
+    allow(AdviserSignUpWorker).to receive(:perform_async)
   end
 
   def and_analytics_is_enabled

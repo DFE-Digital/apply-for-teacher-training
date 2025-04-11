@@ -708,7 +708,17 @@ class ApplicationForm < ApplicationRecord
 
   def meets_conditions_for_adviser_interruption?
     eligible_to_sign_up_for_a_teaching_training_adviser? &&
-      adviser_interruption_response != false
+      adviser_interruption_response != false && FeatureFlag.active?(:adviser_sign_up)
+  end
+
+  def prefill_preferred_teaching_subject_id
+    return unless degree_matches_with_adviser_teaching_subject?
+
+    Adviser::TeachingSubject.find_by(title: recent_degree_subject).external_identifier
+  end
+
+  def recent_degree_subject
+    application_qualifications.degrees.order('award_year').last.subject.titleize
   end
 
 private
@@ -765,5 +775,11 @@ private
 
   def prevent_unsave_touches?
     !RequestStore.store[:allow_unsafe_application_choice_touches]
+  end
+
+  def degree_matches_with_adviser_teaching_subject?
+    return false unless degrees?
+
+    Adviser::TeachingSubject.find_by(title: recent_degree_subject)
   end
 end
