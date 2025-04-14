@@ -134,40 +134,62 @@ jobs:
 
         # 1. EXTRACT AND ANALYZE SANITIZE SCRIPT TO IDENTIFY EXCLUDED TABLES
         echo "Analyzing sanitize script to identify excluded tables..."
-        EXCLUDED_TABLES=$(grep -E '(DROP TABLE|TRUNCATE TABLE)' $GITHUB_WORKSPACE/db/scripts/sanitise.sql |
-          grep -oE '[a-zA-Z0-9_]+;' | sed 's/;//' | sort | uniq | tr '\n' ',')
-        echo "Tables that will be excluded: $EXCLUDED_TABLES"
+        echo "Content of sanitise.sql:"
+        cat $GITHUB_WORKSPACE/db/scripts/sanitise.sql
+
+        # More forgiving pattern matching for excluded tables
+        EXCLUDED_TABLES=$(grep -iE '(DROP TABLE|TRUNCATE TABLE|DELETE FROM)' $GITHUB_WORKSPACE/db/scripts/sanitise.sql |
+          grep -oE '[a-zA-Z0-9_]+' | sort | uniq | tr '\n' ',' || echo "")
+
+        if [ -z "$EXCLUDED_TABLES" ]; then
+          echo "Warning: No excluded tables found. This might be an error."
+          echo "Proceeding with full schema extraction..."
+        else
+          echo "Tables that will be excluded: $EXCLUDED_TABLES"
+        fi
 
         # 2. CREATE EMPTY DATABASE AND EXTRACT SCHEMA IN CORRECT ORDER
         echo "Creating database with schema only..."
         createdb ${DATABASE_NAME}
 
-        # Extract schema in proper order
-        echo "-- Extensions" > schema_only.sql
-        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-          grep -E '^CREATE EXTENSION' >> schema_only.sql
+        echo "Extracting schema components..."
 
+        # Extract schema in proper order with error checking
+        echo "-- Extensions" > schema_only.sql
+        echo "Extracting extensions..."
+        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
+          grep -E '^CREATE EXTENSION' >> schema_only.sql || true
+
+        echo "Extracting types..."
         echo -e "\n-- Types" >> schema_only.sql
         gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-          grep -E '^CREATE TYPE' >> schema_only.sql
+          grep -E '^CREATE TYPE' >> schema_only.sql || true
 
+        echo "Extracting tables..."
         echo -e "\n-- Tables" >> schema_only.sql
         gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-          grep -E '^CREATE TABLE' >> schema_only.sql
+          grep -E '^CREATE TABLE' >> schema_only.sql || true
 
+        echo "Extracting functions..."
         echo -e "\n-- Functions" >> schema_only.sql
         gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-          awk '/^CREATE FUNCTION/{p=1;print;next} /^\\.$/{p=0} p{print}' >> schema_only.sql
+          sed -n '/^CREATE OR REPLACE FUNCTION/,/^\$\$/p' >> schema_only.sql || true
 
+        echo "Extracting indexes..."
         echo -e "\n-- Indexes" >> schema_only.sql
         gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-          grep -E '^CREATE INDEX|^CREATE UNIQUE INDEX' >> schema_only.sql
+          grep -E '^CREATE (UNIQUE )?INDEX' >> schema_only.sql || true
 
+        echo "Extracting constraints..."
         echo -e "\n-- Constraints" >> schema_only.sql
         gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-          grep -E '^ALTER TABLE.*ADD CONSTRAINT' >> schema_only.sql
+          grep -E '^ALTER TABLE.*ADD (CONSTRAINT|PRIMARY KEY|FOREIGN KEY)' >> schema_only.sql || true
+
+        echo "Schema extraction complete. Contents of schema_only.sql:"
+        head -n 20 schema_only.sql
 
         # Apply schema
+        echo "Applying schema..."
         psql -d ${DATABASE_NAME} -f schema_only.sql
 
         # 3. GET LIST OF TABLES TO LOAD (EXCLUDING DROPPED TABLES)
@@ -175,11 +197,26 @@ jobs:
         psql -d ${DATABASE_NAME} -t -c "SELECT tablename FROM pg_tables WHERE schemaname='public'" |
           grep -v '^\s*$' > all_tables.txt
 
+        echo "Total tables found: $(wc -l < all_tables.txt)"
+
         # Create a filtered list excluding tables that will be dropped or truncated
-        cat all_tables.txt | grep -v -E "$(echo $EXCLUDED_TABLES | sed 's/,/|/g')" > tables_to_load.txt
+        if [ -n "$EXCLUDED_TABLES" ]; then
+          cat all_tables.txt | grep -v -E "$(echo $EXCLUDED_TABLES | sed 's/,/|/g')" > tables_to_load.txt
+          echo "Tables to load after filtering: $(wc -l < tables_to_load.txt)"
+        else
+          # If no excluded tables were found, load all tables
+          cp all_tables.txt tables_to_load.txt
+          echo "Loading all tables since no exclusions were found"
+        fi
 
         # 4. LOAD DATA ONLY FOR TABLES WE NEED TO KEEP
         echo "Loading data for required tables only..."
+
+        # Track available disk space
+        echo "Disk space before loading table data:"
+        df -h /
+
+        # Process tables with disk space monitoring
         while read table; do
           echo "Loading data for table: $table"
 
@@ -195,10 +232,20 @@ jobs:
 
           # Load if data exists
           if [ -s "${table}_data.sql" ]; then
+            echo "Loading data for $table ($(wc -l < ${table}_data.sql) lines)"
             psql -d ${DATABASE_NAME} -f "${table}_data.sql"
+          else
+            echo "No data found for table: $table"
           fi
 
+          # Free up space immediately
           rm "${table}_data.sql"
+
+          # Check disk space periodically
+          if [ $((RANDOM % 10)) -eq 0 ]; then
+            echo "Current disk space:"
+            df -h /
+          fi
         done < tables_to_load.txt
 
         # 5. RUN SANITIZE SCRIPT
