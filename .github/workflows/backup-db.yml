@@ -138,13 +138,34 @@ jobs:
           grep -oE '[a-zA-Z0-9_]+;' | sed 's/;//' | sort | uniq | tr '\n' ',')
         echo "Tables that will be excluded: $EXCLUDED_TABLES"
 
-        # 2. CREATE EMPTY DATABASE AND EXTRACT SCHEMA
+        # 2. CREATE EMPTY DATABASE AND EXTRACT SCHEMA IN CORRECT ORDER
         echo "Creating database with schema only..."
         createdb ${DATABASE_NAME}
 
-        # Extract schema directly from the backup file
+        # Extract schema in proper order
+        echo "-- Extensions" > schema_only.sql
         gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-          grep -E '^(CREATE|ALTER) (TABLE|SEQUENCE|TYPE|FUNCTION|VIEW|INDEX|TRIGGER|SCHEMA|EXTENSION|MATERIALIZED VIEW)' > schema_only.sql
+          grep -E '^CREATE EXTENSION' >> schema_only.sql
+
+        echo -e "\n-- Types" >> schema_only.sql
+        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
+          grep -E '^CREATE TYPE' >> schema_only.sql
+
+        echo -e "\n-- Tables" >> schema_only.sql
+        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
+          grep -E '^CREATE TABLE' >> schema_only.sql
+
+        echo -e "\n-- Functions" >> schema_only.sql
+        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
+          awk '/^CREATE FUNCTION/{p=1;print;next} /^\\.$/{p=0} p{print}' >> schema_only.sql
+
+        echo -e "\n-- Indexes" >> schema_only.sql
+        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
+          grep -E '^CREATE INDEX|^CREATE UNIQUE INDEX' >> schema_only.sql
+
+        echo -e "\n-- Constraints" >> schema_only.sql
+        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
+          grep -E '^ALTER TABLE.*ADD CONSTRAINT' >> schema_only.sql
 
         # Apply schema
         psql -d ${DATABASE_NAME} -f schema_only.sql
@@ -180,8 +201,8 @@ jobs:
           rm "${table}_data.sql"
         done < tables_to_load.txt
 
-        # 5. RUN SANITIZE SCRIPT (WILL NOW BE FASTER WITH LESS DATA)
-        echo "Running sanitization script..."
+        # 5. RUN SANITIZE SCRIPT
+        echo "Running sanitization..."
         cd $GITHUB_WORKSPACE
         psql -d ${DATABASE_NAME} -f db/scripts/sanitise.sql
 
@@ -190,8 +211,11 @@ jobs:
         pg_dump --encoding utf8 --compress=1 --clean --no-owner --if-exists -d ${DATABASE_NAME} -f att_backup_sanitised.sql.gz
 
         # 7. CLEANUP
+        echo "Cleaning up temporary files..."
         rm -rf /tmp/pg_work
         rm ${{ env.BACKUP_FILE }}.sql.gz
+
+        echo "Sanitization complete!"
       env:
         DATABASE_NAME: apply_manage_itt
         PGUSER: postgres
