@@ -153,16 +153,16 @@ private
   end
 
   def and_i_see_the_banner_content_for_before_find_opens
-    next_relative_timetable = @application_form.recruitment_cycle_timetable.relative_next_timetable
-    apply_reopen_date = next_relative_timetable.apply_opens_at.to_fs(:day_and_month)
-    cycle_range = next_relative_timetable.academic_year_range_name
+    relative_next_timetable = @application_form.recruitment_cycle_timetable.relative_next_timetable
+    apply_reopen_date = relative_next_timetable.apply_opens_at.to_fs(:day_and_month)
+    cycle_range = relative_next_timetable.academic_year_range_name
     expect(page).to have_content("From #{apply_reopen_date} you will be able to apply for courses starting in the #{cycle_range} academic year.")
   end
 
   def and_i_see_the_banner_content_for_after_find_opens
-    next_relative_timetable = @application_form.recruitment_cycle_timetable.relative_next_timetable
-    apply_reopen_date = next_relative_timetable.apply_opens_at.to_fs(:day_and_month)
-    academic_year_range = next_relative_timetable.academic_year_range_name
+    relative_next_timetable = @application_form.recruitment_cycle_timetable.relative_next_timetable
+    apply_reopen_date = relative_next_timetable.apply_opens_at.to_fs(:day_and_month)
+    academic_year_range = relative_next_timetable.academic_year_range_name
     expect(page).to have_content("You can prepare applications for courses starting in the #{academic_year_range} academic year.")
     expect(page).to have_content("You will be able to apply for these courses from #{apply_reopen_date}.")
   end
