@@ -28,10 +28,10 @@ RSpec.describe 'Candidate adds preferences' do
     and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
 
-    when_i_click('Continue')
+    when_i_click('Change your sharing and location settings')
     then_i_am_redirected_to_opt_in_page
     when_i_click('Continue')
-    then_i_get_an_error('Select weather to make your application details visible to other training providers')
+    then_i_get_an_error('Select whether to make your application details visible to other training providers')
 
     and_i_opt_in_to_find_a_candidate
     when_i_click('Continue')
@@ -74,10 +74,10 @@ RSpec.describe 'Candidate adds preferences' do
     and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
 
-    when_i_click('Continue')
+    when_i_click('Change your sharing and location settings')
     then_i_am_redirected_to_opt_in_page
     when_i_click('Continue')
-    then_i_get_an_error('Select weather to make your application details visible to other training providers')
+    then_i_get_an_error('Select whether to make your application details visible to other training providers')
 
     and_i_opt_in_to_find_a_candidate
     when_i_click('Continue')
@@ -177,7 +177,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def when_i_check_dynamic_locations
-    check 'Add new locations to my preferences when I apply to new courses'
+    check 'Add new course locations to my preferences when I apply to new courses'
   end
 
   def then_i_am_redirected_to_review_page
@@ -199,7 +199,7 @@ RSpec.describe 'Candidate adds preferences' do
         value: locations,
       },
       {
-        label: 'Add new locations to my preferences when I apply to new course',
+        label: 'Add new course locations to my preferences when I apply to new courses',
         value: 'Yes',
       },
     ]

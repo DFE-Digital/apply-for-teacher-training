@@ -5,6 +5,11 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l"><%= t('.title') %></h1>
 
-    <%= render CandidateInterface::ShareDetailsComponent.new(current_candidate) %>
+    <%= render(
+      CandidateInterface::ShareDetailsComponent.new(
+        current_candidate,
+        submit_application: @submit_application,
+      ),
+    ) %>
   </div>
 </div>

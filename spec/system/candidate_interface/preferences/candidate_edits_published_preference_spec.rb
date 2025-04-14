@@ -97,6 +97,6 @@ RSpec.describe 'Candidate edits published preference' do
   end
 
   def and_i_untick_dynamic_locations
-    uncheck 'Add new locations to my preferences when I apply to new courses'
+    uncheck 'Add new course locations to my preferences when I apply to new courses'
   end
 end

@@ -33,7 +33,7 @@ RSpec.describe 'Candidate submits application with feedback form previously comp
   end
 
   def and_i_see_the_application_dashboard_and_success_message
-    expect(page).to have_current_path(candidate_interface_share_details_path)
+    expect(page).to have_current_path(candidate_interface_share_details_path(submit_application: true))
     expect(page).to have_content('Application submitted')
   end
 end

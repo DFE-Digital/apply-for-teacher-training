@@ -52,7 +52,7 @@ module CandidateInterface
       flash[:success] = t('application_form.submit_application_success.title')
 
       if FeatureFlag.active?(:candidate_preferences) && current_candidate.published_preferences.blank?
-        redirect_to candidate_interface_share_details_path
+        redirect_to candidate_interface_share_details_path(submit_application: true)
       else
         redirect_to candidate_interface_application_choices_path
       end
