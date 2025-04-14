@@ -6,7 +6,7 @@
       <%= t('.today_is', date: Time.zone.now.to_fs(:govuk_date)) %>
     </span>
     <h1 class="govuk-heading-l">
-      <%= t(".#{@timetable_presenter.cycle_state}", year: RecruitmentCycleTimetable.current_year) %>
+      <%= t(".#{@timetable_presenter.cycle_state}", year: @current_timetable.recruitment_cycle_year) %>
     </h1>
 
     <p class="govuk-body">
@@ -20,8 +20,8 @@
 
       <%= govuk_list(
             [
-              govuk_link_to(RecruitmentCycleTimetable.current_year, support_interface_edit_recruitment_cycle_timetable_path(recruitment_cycle_year: RecruitmentCycleTimetable.current_year)),
-              govuk_link_to(RecruitmentCycleTimetable.next_year, support_interface_edit_recruitment_cycle_timetable_path(recruitment_cycle_year: RecruitmentCycleTimetable.next_year)),
+              govuk_link_to(@current_timetable.recruitment_cycle_year, support_interface_edit_recruitment_cycle_timetable_path(recruitment_cycle_year: @current_timetable.recruitment_cycle_year)),
+              govuk_link_to(@current_timetable.relative_next_year, support_interface_edit_recruitment_cycle_timetable_path(recruitment_cycle_year: @current_timetable.relative_next_year)),
             ],
           ) %>
 
@@ -36,10 +36,10 @@
     </h2>
 
     <%= render SummaryListComponent.new(rows: {
-      'Previous cycle year' => RecruitmentCycleTimetable.previous_year,
-      'Current cycle year' => RecruitmentCycleTimetable.current_year,
-      'Next cycle year' => RecruitmentCycleTimetable.next_year,
-      'Years visible to providers' => [RecruitmentCycleTimetable.current_year, RecruitmentCycleTimetable.next_year].to_sentence,
+      'Previous cycle year' => @current_timetable.relative_previous_year,
+      'Current cycle year' => @current_timetable.recruitment_cycle_year,
+      'Next cycle year' => @current_timetable.relative_next_year,
+      'Years visible to providers' => [@current_timetable.recruitment_cycle_year, @current_timetable.relative_next_year].to_sentence,
       'Current cycle week' => RecruitmentCycleTimetable.current_cycle_week,
     }) %>
 
@@ -47,10 +47,10 @@
       <%= t('.deadlines') %>
     </h2>
 
-    <%= render Publications::RecruitmentCycleTimetableCard.new(RecruitmentCycleTimetable.current_timetable) %>
+    <%= render Publications::RecruitmentCycleTimetableCard.new(@current_timetable) %>
 
-    <% if RecruitmentCycleTimetable.next_timetable.present? %>
-      <%= render Publications::RecruitmentCycleTimetableCard.new(RecruitmentCycleTimetable.next_timetable) %>
+    <% if @current_timetable.relative_next_timetable.present? %>
+      <%= render Publications::RecruitmentCycleTimetableCard.new(@current_timetable.relative_next_timetable) %>
     <% end %>
 
   </div>
