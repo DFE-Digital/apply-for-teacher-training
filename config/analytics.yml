@@ -28,7 +28,6 @@ shared:
     - sign_up_email_bounced
     - updated_at
     - email_address
-    - pool_status
   pool_invites:
     - id
     - candidate_id

@@ -452,7 +452,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_11_103041) do
     t.boolean "submission_blocked", default: false, null: false
     t.boolean "account_locked", default: false, null: false
     t.string "account_recovery_status", default: "not_started", null: false
-    t.string "pool_status", default: "not_set", null: false
     t.index ["account_locked"], name: "index_candidates_on_account_locked"
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
     t.index ["fraud_match_id"], name: "index_candidates_on_fraud_match_id"
