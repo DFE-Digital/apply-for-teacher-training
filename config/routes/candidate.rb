@@ -23,6 +23,7 @@ namespace :candidate_interface, path: '/candidate' do
     resource :publish_preferences, only: %i[show create], path: 'publish-preferences'
     resources :location_preferences, path: 'location-preferences'
   end
+  resource :candidate_feature_launch_email, only: :show, path: 'feature-launch-email'
 
   resources :location_suggestions, only: :index, path: 'location-suggestions'
 
