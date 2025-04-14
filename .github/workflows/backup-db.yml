@@ -99,7 +99,7 @@ jobs:
         slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
     - name: Disk cleanup
-      if: github.event_name == 'schedule'
+      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
       shell: bash
       run: |
         sudo rm -rf /usr/local/lib/android || true
@@ -126,7 +126,7 @@ jobs:
         sudo apt-get clean
 
     - name: Sanitise dump (optimized)
-      if: github.event_name == 'schedule'
+      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
       run: |
         # Create a working directory
         mkdir -p /tmp/pg_work
@@ -198,7 +198,7 @@ jobs:
         PGPORT: 5432
 
     - name: Upload sanitized backup to Azure storage
-      if: github.event_name == 'schedule'
+      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
       run: |
         STORAGE_CONN_STR=$(az storage account show-connection-string -g ${{ env.RESOURCE_GROUP_NAME }} -n ${{ env.STORAGE_ACCOUNT_NAME }} --query 'connectionString')
         echo "::add-mask::$STORAGE_CONN_STR"
