@@ -132,143 +132,57 @@ jobs:
         mkdir -p /tmp/pg_work
         cd /tmp/pg_work
 
-        # 1. EXTRACT AND ANALYZE SANITIZE SCRIPT TO IDENTIFY EXCLUDED TABLES
-        echo "Analyzing sanitize script to identify excluded tables..."
-        echo "Content of sanitise.sql:"
-        cat $GITHUB_WORKSPACE/db/scripts/sanitise.sql
-
-        # More forgiving pattern matching for excluded tables
-        EXCLUDED_TABLES=$(grep -iE '(DROP TABLE|TRUNCATE TABLE|DELETE FROM)' $GITHUB_WORKSPACE/db/scripts/sanitise.sql |
-          grep -oE '[a-zA-Z0-9_]+' | sort | uniq | tr '\n' ',' || echo "")
-
-        if [ -z "$EXCLUDED_TABLES" ]; then
-          echo "Warning: No excluded tables found. This might be an error."
-          echo "Proceeding with full schema extraction..."
-        else
-          echo "Tables that will be excluded: $EXCLUDED_TABLES"
-        fi
-
-        # 2. CREATE EMPTY DATABASE AND EXTRACT SCHEMA IN CORRECT ORDER
-        echo "Creating database with schema only..."
+        # 1. EXTRACT SCHEMA PROPERLY
+        echo "Creating database..."
         createdb ${DATABASE_NAME}
 
-        echo "Extracting schema components..."
+        # Instead of trying to extract schema with grep/sed, use pg_dump's schema-only option
+        echo "Extracting full schema (this might take a while)..."
+        mkdir -p /tmp/schema
+        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz > full_backup.sql
 
-        # Extract schema in proper order with error checking
-        echo "-- Extensions" > schema_only.sql
-        echo "Extracting extensions..."
-        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-          grep -E '^CREATE EXTENSION' >> schema_only.sql || true
-
-        echo "Extracting types..."
-        echo -e "\n-- Types" >> schema_only.sql
-        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-          grep -E '^CREATE TYPE' >> schema_only.sql || true
-
-        echo "Extracting tables..."
-        echo -e "\n-- Tables" >> schema_only.sql
-        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-          grep -E '^CREATE TABLE' >> schema_only.sql || true
-
-        echo "Extracting functions..."
-        echo -e "\n-- Functions" >> schema_only.sql
-        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-          sed -n '/^CREATE OR REPLACE FUNCTION/,/^\$\$/p' >> schema_only.sql || true
-
-        echo "Extracting indexes..."
-        echo -e "\n-- Indexes" >> schema_only.sql
-        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-          grep -E '^CREATE (UNIQUE )?INDEX' >> schema_only.sql || true
-
-        echo "Extracting constraints..."
-        echo -e "\n-- Constraints" >> schema_only.sql
-        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-          grep -E '^ALTER TABLE.*ADD (CONSTRAINT|PRIMARY KEY|FOREIGN KEY)' >> schema_only.sql || true
-
-        echo "Schema extraction complete. Contents of schema_only.sql:"
-        head -n 20 schema_only.sql
-
-        # Apply schema
+        # Apply schema first (just the DDL statements)
         echo "Applying schema..."
-        psql -d ${DATABASE_NAME} -f schema_only.sql
+        grep -E '^(SET|CREATE|ALTER|COMMENT ON)' full_backup.sql > schema.sql
+        psql -d ${DATABASE_NAME} -f schema.sql
 
-        # 3. GET LIST OF TABLES TO LOAD (EXCLUDING DROPPED TABLES)
-        echo "Creating list of tables to load data for..."
-        psql -d ${DATABASE_NAME} -t -c "SELECT tablename FROM pg_tables WHERE schemaname='public'" |
-          grep -v '^\s*$' > all_tables.txt
+        # 2. LOAD DATA FOR ALL TABLES IN SMALLER CHUNKS
+        echo "Loading data for all tables..."
+        grep -E '^COPY' full_backup.sql | awk '{print $2}' | tr -d '"' > all_tables.txt
 
-        echo "Total tables found: $(wc -l < all_tables.txt)"
-
-        # Create a filtered list excluding tables that will be dropped or truncated
-        if [ -n "$EXCLUDED_TABLES" ]; then
-          cat all_tables.txt | grep -v -E "$(echo $EXCLUDED_TABLES | sed 's/,/|/g')" > tables_to_load.txt
-          echo "Tables to load after filtering: $(wc -l < tables_to_load.txt)"
-        else
-          # If no excluded tables were found, load all tables
-          cp all_tables.txt tables_to_load.txt
-          echo "Loading all tables since no exclusions were found"
-        fi
-
-        # 4. LOAD DATA ONLY FOR TABLES WE NEED TO KEEP
-        echo "Loading data for required tables only..."
-
-        # Track available disk space
-        echo "Disk space before loading table data:"
-        df -h /
-
-        # Process tables with disk space monitoring
         while read table; do
           echo "Loading data for table: $table"
 
           # Extract and load just this table's data
-          gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-            awk -v table="$table" '
-              BEGIN { copy = 0; }
-              $0 ~ "^COPY " table "(" { copy = 1; print; next; }
-              $0 ~ "^COPY " table " " { copy = 1; print; next; }
-              $0 ~ "^\\\\.$" && copy == 1 { copy = 0; print; next; }
-              copy == 1 { print; }
-            ' > "${table}_data.sql"
+          awk -v table="$table" '
+            BEGIN { copy = 0; }
+            $0 ~ "^COPY " table "( |;)" { copy = 1; print; next; }
+            $0 ~ "^\\\\.$" && copy == 1 { copy = 0; print; next; }
+            copy == 1 { print; }
+          ' full_backup.sql > "${table}_data.sql"
 
-          # Load if data exists
           if [ -s "${table}_data.sql" ]; then
-            echo "Loading data for $table ($(wc -l < ${table}_data.sql) lines)"
             psql -d ${DATABASE_NAME} -f "${table}_data.sql"
-          else
-            echo "No data found for table: $table"
           fi
 
-          # Free up space immediately
           rm "${table}_data.sql"
 
-          # Check disk space periodically
-          if [ $((RANDOM % 10)) -eq 0 ]; then
-            echo "Current disk space:"
-            df -h /
-          fi
-        done < tables_to_load.txt
+          # Monitor disk space
+          df -h / | grep -v Filesystem
+        done < all_tables.txt
 
-        # 5. RUN SANITIZE SCRIPT
+        # 3. SANITIZE THE DATA
         echo "Running sanitization..."
         cd $GITHUB_WORKSPACE
         psql -d ${DATABASE_NAME} -f db/scripts/sanitise.sql
 
-        # 6. CREATE FINAL BACKUP
+        # 4. CREATE FINAL BACKUP
         echo "Creating sanitized backup..."
         pg_dump --encoding utf8 --compress=1 --clean --no-owner --if-exists -d ${DATABASE_NAME} -f att_backup_sanitised.sql.gz
 
-        # 7. CLEANUP
-        echo "Cleaning up temporary files..."
+        # 5. CLEANUP
         rm -rf /tmp/pg_work
-        rm ${{ env.BACKUP_FILE }}.sql.gz
-
-        echo "Sanitization complete!"
-      env:
-        DATABASE_NAME: apply_manage_itt
-        PGUSER: postgres
-        PGPASSWORD: postgres
-        PGHOST: localhost
-        PGPORT: 5432
+        rm $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz
 
     - name: Upload sanitized backup to Azure storage
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
