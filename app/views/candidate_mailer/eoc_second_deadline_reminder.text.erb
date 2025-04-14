@@ -10,7 +10,7 @@ Need help writing a strong application? You can [get a teacher training adviser]
 
 # If you’re not ready to submit your application
 
-If you’re not ready to apply now, you can continue preparing your application. <%= "From #{l(@timetable.apply_reopens_at.to_date, format: :no_year)} you’ll be able to apply for courses starting in the #{RecruitmentCycle.cycle_name(RecruitmentCycle.next_year)} academic year." %>
+If you’re not ready to apply now, you can continue preparing your application. <%= "From #{l(@timetable.apply_reopens_at.to_date, format: :no_year)} you’ll be able to apply for courses starting in the #{@timetable.next_available_academic_year_range} academic year." %>
 
 <%= render 'gain_insights_into_life_as_a_teacher' %>
 
