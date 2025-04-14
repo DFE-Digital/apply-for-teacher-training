@@ -39,7 +39,7 @@ module ProviderInterface
     def service_guidance_provider; end
 
     def dates_and_deadlines
-      @timetables = [RecruitmentCycleTimetable.current_timetable, RecruitmentCycleTimetable.next_timetable]
+      @timetables = [current_timetable, current_timetable.relative_next_timetable]
     end
 
     def roadmap
