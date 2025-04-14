@@ -125,7 +125,7 @@ jobs:
         sudo apt-get autoremove -y || true
         sudo apt-get clean
 
-    - name: Sanitise dump (optimized)
+    - name: Sanitise dump
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
       run: |
         # Create a working directory
@@ -134,17 +134,19 @@ jobs:
 
         # 1. EXTRACT AND ANALYZE SANITIZE SCRIPT TO IDENTIFY EXCLUDED TABLES
         echo "Analyzing sanitize script to identify excluded tables..."
-
-        # Extract tables that get dropped or truncated in sanitise.sql
         EXCLUDED_TABLES=$(grep -E '(DROP TABLE|TRUNCATE TABLE)' $GITHUB_WORKSPACE/db/scripts/sanitise.sql |
           grep -oE '[a-zA-Z0-9_]+;' | sed 's/;//' | sort | uniq | tr '\n' ',')
         echo "Tables that will be excluded: $EXCLUDED_TABLES"
 
-        # 2. CREATE EMPTY DATABASE WITH SCHEMA ONLY
+        # 2. CREATE EMPTY DATABASE AND EXTRACT SCHEMA
         echo "Creating database with schema only..."
         createdb ${DATABASE_NAME}
+
+        # Extract schema directly from the backup file
         gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
-          pg_dump -f schema_only.sql --schema-only -d postgres
+          grep -E '^(CREATE|ALTER) (TABLE|SEQUENCE|TYPE|FUNCTION|VIEW|INDEX|TRIGGER|SCHEMA|EXTENSION|MATERIALIZED VIEW)' > schema_only.sql
+
+        # Apply schema
         psql -d ${DATABASE_NAME} -f schema_only.sql
 
         # 3. GET LIST OF TABLES TO LOAD (EXCLUDING DROPPED TABLES)
