@@ -52,7 +52,7 @@ module CandidateInterface
 
     def test_application_options
       {
-        recruitment_cycle_year: RecruitmentCycle.current_year,
+        recruitment_cycle_year: @current_timetable.recruitment_cycle_year,
         states: [:unsubmitted_with_completed_references],
         courses_to_apply_to: Course.current_cycle.joins(:course_options).merge(CourseOption.available),
         candidate: current_candidate,

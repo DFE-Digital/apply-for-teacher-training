@@ -7,6 +7,7 @@ module CandidateInterface
     before_action :track_email_click
     before_action :authenticate_candidate!, unless: -> { one_login_enabled? }
     before_action :set_user_context
+    before_action :set_current_timetable
     before_action :check_cookie_preferences
     before_action :check_account_locked
     layout 'application'
@@ -26,6 +27,10 @@ module CandidateInterface
       return unless authenticated?
 
       Sentry.set_tags(application_support_url: support_interface_application_form_url(current_application))
+    end
+
+    def set_current_timetable
+      @current_timetable = current_timetable
     end
 
     def check_cookie_preferences

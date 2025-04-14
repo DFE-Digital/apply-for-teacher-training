@@ -25,13 +25,13 @@
 
             table.with_body do |body|
               body.with_row do |row|
-                row.with_cell(text: CycleTimetable.find_opens.to_fs(:govuk_date_and_time))
+                row.with_cell(text: @current_timetable.find_opens_at.to_fs(:govuk_date_and_time))
                 row.with_cell do
                   "Start #{govuk_link_to('finding postgraduate teacher training courses', find_url)} you might want to apply to.".html_safe
                 end
               end
               body.with_row do |row|
-                row.with_cell(text: CycleTimetable.apply_opens.to_fs(:govuk_date_and_time))
+                row.with_cell(text: @current_timetable.apply_opens_at.to_fs(:govuk_date_and_time))
                 row.with_cell do
                   "<p class=\"govuk-body\">Start applying to courses. You can apply to #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES} courses, they can fill up quickly so you should apply as soon as you can.</p>
                    <p class=\"govuk-body\">You can withdraw an application at any time and apply to a different course if you want to.</p>
@@ -40,11 +40,11 @@
                 end
               end
               body.with_row do |row|
-                row.with_cell(text: CycleTimetable.apply_deadline.to_fs(:govuk_date_and_time))
+                row.with_cell(text: @current_timetable.apply_deadline_at.to_fs(:govuk_date_and_time))
                 row.with_cell(text: 'The last day to submit any applications.')
               end
               body.with_row do |row|
-                row.with_cell(text: CycleTimetable.reject_by_default.to_fs(:govuk_date_and_time))
+                row.with_cell(text: @current_timetable.reject_by_default_at.to_fs(:govuk_date_and_time))
                 row.with_cell(text: "The last day for training providers to make a decision on all applications for courses starting in September #{@recruitment_cycle_year}.")
               end
             end
