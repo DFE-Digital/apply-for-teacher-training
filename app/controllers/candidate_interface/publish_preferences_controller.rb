@@ -20,6 +20,16 @@ module CandidateInterface
                         else
                           t('.success_opt_out')
                         end
+
+      # This will have no effect if the candidate has not been sent the email
+      exp = FieldTest::Experiment.find('find_a_candidate/candidate_feature_launch_email')
+      participants = FieldTest::Participant.standardize(current_candidate)
+      if @preference.opt_in?
+        exp.convert(participants, goal: :opt_in)
+      else
+        exp.convert(participants, goal: :opt_out)
+      end
+
       redirect_to candidate_interface_application_choices_path
     end
 
