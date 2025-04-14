@@ -146,10 +146,6 @@ RSpec.describe Pool::Candidates do
         undergraduate_candidate_form = create_undergraduate_candidate_form(part_time_tda_course_option)
         visa_sponsorship_candidate_form = create_visa_sponsorship_candidate_form(part_time_tda_course_option)
 
-        withdrawn_candidate = create(:candidate, pool_status: 'opt_in')
-        withdrawn_candidate_form = create(:application_form, :completed, candidate: withdrawn_candidate)
-        create(:application_choice, :withdrawn, application_form: withdrawn_candidate_form)
-
         filters = { origin: manchester_coordinates }
         application_forms = described_class.application_forms_for_provider(providers: [provider], filters:)
 

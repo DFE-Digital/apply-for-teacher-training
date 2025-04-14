@@ -38,12 +38,6 @@ class Candidate < ApplicationRecord
     dismissed: 'dismissed',
   }, prefix: true
 
-  enum :pool_status, {
-    not_set: 'not_set',
-    opt_in: 'opt_in',
-    opt_out: 'opt_out',
-  }, prefix: true
-
   after_create do
     update!(candidate_api_updated_at: Time.zone.now)
   end
