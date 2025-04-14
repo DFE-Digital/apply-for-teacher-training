@@ -4,6 +4,10 @@ task setup_review_app_data: :environment do
     Rake::Task['setup_local_dev_data'].invoke
     Rake::Task['setup_all_provider_relationships'].invoke
   end
+
+  if RecruitmentCycleTimetable.none?
+    Rake::Task['create_recruitment_cycle_timetables'].invoke
+  end
 end
 
 task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers] do
@@ -21,9 +25,6 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
     token: 'dev-candidate',
     email_address: candidate.email_address,
   )
-
-  puts 'Creating all RecruitmentCycleTimetables'
-  DataMigrations::AddAllRecruitmentCycleTimetablesToDatabase.new.change
 
   puts 'Creating various provider users...'
   CreateExampleProviderUsersWithPermissions.call
@@ -60,6 +61,12 @@ task create_undergraduate_courses: :environment do
       name: 'Mathematics',
     )
   end
+end
+
+desc 'Creating RecruitmentCycleTimetables'
+task create_recruitment_cycle_timetables: :environment do
+  puts 'Creating all RecruitmentCycleTimetables'
+  DataMigrations::AddAllRecruitmentCycleTimetablesToDatabase.new.change
 end
 
 desc 'Sync some pilot-enabled providers'
