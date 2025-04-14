@@ -125,78 +125,42 @@ jobs:
         sudo apt-get autoremove -y || true
         sudo apt-get clean
 
-    - name: Sanitise dump
+    - name: Sanitise dump (optimized)
       if: github.event_name == 'schedule'
       run: |
-        # Create a working directory for our process
+        # Create a working directory
         mkdir -p /tmp/pg_work
         cd /tmp/pg_work
 
-        # Report available space before processing
-        echo "Available disk space before processing:"
-        df -h /
+        # 1. EXTRACT AND ANALYZE SANITIZE SCRIPT TO IDENTIFY EXCLUDED TABLES
+        echo "Analyzing sanitize script to identify excluded tables..."
 
-        # 1. CREATE EMPTY DATABASE
-        echo "Creating empty database..."
+        # Extract tables that get dropped or truncated in sanitise.sql
+        EXCLUDED_TABLES=$(grep -E '(DROP TABLE|TRUNCATE TABLE)' $GITHUB_WORKSPACE/db/scripts/sanitise.sql |
+          grep -oE '[a-zA-Z0-9_]+;' | sed 's/;//' | sort | uniq | tr '\n' ',')
+        echo "Tables that will be excluded: $EXCLUDED_TABLES"
+
+        # 2. CREATE EMPTY DATABASE WITH SCHEMA ONLY
+        echo "Creating database with schema only..."
         createdb ${DATABASE_NAME}
-
-        # 2. EXTRACT FULL SCHEMA WITH DEPENDENCIES (more complete than grep)
-        echo "Extracting complete schema..."
         gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
           pg_dump -f schema_only.sql --schema-only -d postgres
-
-        # Apply the schema with all objects (constraints temporarily disabled)
-        psql -d ${DATABASE_NAME} -c "SET session_replication_role = 'replica';"
         psql -d ${DATABASE_NAME} -f schema_only.sql
-        psql -d ${DATABASE_NAME} -c "SET session_replication_role = 'origin';"
 
-        # 3. GET ORDERED TABLE LIST RESPECTING DEPENDENCIES
-        echo "Determining table load order based on dependencies..."
-        psql -d ${DATABASE_NAME} -t -c "
-          WITH RECURSIVE dependencies AS (
-            SELECT c.relname AS tablename,
-                  array[]::text[] AS depends_on
-            FROM pg_class c
-            LEFT JOIN pg_constraint fk ON fk.confrelid = c.oid AND fk.contype = 'f'
-            WHERE c.relkind = 'r' AND c.relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public')
-              AND fk.confrelid IS NULL
-            UNION ALL
-            SELECT c.relname,
-                  array_append(d.depends_on, c2.relname)
-            FROM dependencies d
-            JOIN pg_constraint fk ON fk.conrelid = (SELECT oid FROM pg_class WHERE relname = d.tablename AND relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public'))
-            JOIN pg_class c ON fk.confrelid = c.oid
-            JOIN pg_class c2 ON fk.conrelid = c2.oid
-            WHERE c.relkind = 'r'
-              AND fk.contype = 'f'
-              AND NOT c.relname = ANY(d.depends_on)
-          )
-          SELECT DISTINCT tablename FROM dependencies
-          ORDER BY array_length(depends_on, 1) DESC NULLS FIRST;" | grep -v '^\s*$' > ordered_tables.txt
+        # 3. GET LIST OF TABLES TO LOAD (EXCLUDING DROPPED TABLES)
+        echo "Creating list of tables to load data for..."
+        psql -d ${DATABASE_NAME} -t -c "SELECT tablename FROM pg_tables WHERE schemaname='public'" |
+          grep -v '^\s*$' > all_tables.txt
 
-        # If the dependencies query fails, fallback to standard table list
-        if [ ! -s ordered_tables.txt ]; then
-          echo "Falling back to standard table list..."
-          psql -d ${DATABASE_NAME} -t -c "SELECT tablename FROM pg_tables WHERE schemaname='public'" |
-            grep -v '^\s*$' > ordered_tables.txt
-        fi
+        # Create a filtered list excluding tables that will be dropped or truncated
+        cat all_tables.txt | grep -v -E "$(echo $EXCLUDED_TABLES | sed 's/,/|/g')" > tables_to_load.txt
 
-        # 4. PROCESS TABLES IN DEPENDENCY ORDER
-        echo "Processing tables in proper dependency order..."
-
-        # Disable triggers and constraints during data load
-        psql -d ${DATABASE_NAME} -c "SET session_replication_role = 'replica';"
-
-        # Process tables in ordered batches
+        # 4. LOAD DATA ONLY FOR TABLES WE NEED TO KEEP
+        echo "Loading data for required tables only..."
         while read table; do
-          echo "Processing table: $table"
+          echo "Loading data for table: $table"
 
-          # Set resource limits per session
-          psql -d ${DATABASE_NAME} -c "SET work_mem = '32MB';"
-          psql -d ${DATABASE_NAME} -c "SET maintenance_work_mem = '64MB';"
-          psql -d ${DATABASE_NAME} -c "SET max_parallel_workers_per_gather = 0;"
-
-          # Extract just this table's data
+          # Extract and load just this table's data
           gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz |
             awk -v table="$table" '
               BEGIN { copy = 0; }
@@ -206,47 +170,26 @@ jobs:
               copy == 1 { print; }
             ' > "${table}_data.sql"
 
-          # Check if data was extracted
+          # Load if data exists
           if [ -s "${table}_data.sql" ]; then
-            # Load just this table's data
             psql -d ${DATABASE_NAME} -f "${table}_data.sql"
-          else
-            echo "No data found for table: $table"
           fi
 
-          # Free up space immediately
           rm "${table}_data.sql"
+        done < tables_to_load.txt
 
-          # Check if we're running low on space
-          SPACE=$(df -BM / | awk 'NR==2 {print $4}' | sed 's/M//')
-          if [ "$SPACE" -lt 200 ]; then
-            echo "WARNING: Disk space critically low ($SPACE MB). Vacuum database."
-            psql -d ${DATABASE_NAME} -c "VACUUM;"
-          fi
-        done < ordered_tables.txt
-
-        # Re-enable triggers and constraints
-        psql -d ${DATABASE_NAME} -c "SET session_replication_role = 'origin';"
-
-        # 5. VALIDATE DATABASE INTEGRITY
-        echo "Validating database integrity..."
-        psql -d ${DATABASE_NAME} -c "ANALYZE;"
-
-        # 6. SANITIZE THE DATA
-        echo "Running sanitization..."
+        # 5. RUN SANITIZE SCRIPT (WILL NOW BE FASTER WITH LESS DATA)
+        echo "Running sanitization script..."
         cd $GITHUB_WORKSPACE
         psql -d ${DATABASE_NAME} -f db/scripts/sanitise.sql
 
-        # 7. CREATE SANITIZED DUMP
-        echo "Creating sanitized dump..."
+        # 6. CREATE FINAL BACKUP
+        echo "Creating sanitized backup..."
         pg_dump --encoding utf8 --compress=1 --clean --no-owner --if-exists -d ${DATABASE_NAME} -f att_backup_sanitised.sql.gz
 
-        # 8. CLEAN UP
-        echo "Cleaning up temporary files..."
+        # 7. CLEANUP
         rm -rf /tmp/pg_work
         rm ${{ env.BACKUP_FILE }}.sql.gz
-
-        echo "Sanitization complete!"
       env:
         DATABASE_NAME: apply_manage_itt
         PGUSER: postgres
