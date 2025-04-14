@@ -1,10 +1,14 @@
 Holidays.between(Date.civil(2019, 1, 1), 2.years.from_now, :gb_eng, :observed).map do |holiday|
-  BusinessTime::Config.holidays << holiday[:date]
-end
-
-Rails.application.reloader.to_prepare do # req'd when autoloading in initializer
-  CycleTimetable.holidays.each_value do |date_range|
-    BusinessTime::Config.holidays += date_range.to_a
+  if holiday[:name] == 'Good Friday'
+    holiday_start = holiday[:date].prev_occurring(:monday)
+    holiday_end = holiday[:date].next_occurring(:friday)
+    BusinessTime::Config.holidays += (holiday_start..holiday_end).to_a
+  elsif holiday[:name] == "New Year's Day"
+    holiday_end = holiday[:date].next_occurring(:friday)
+    holiday_start = holiday_end - 19.days
+    BusinessTime::Config.holidays += (holiday_start..holiday_end).to_a
+  else
+    BusinessTime::Config.holidays << holiday[:date]
   end
 end
 
