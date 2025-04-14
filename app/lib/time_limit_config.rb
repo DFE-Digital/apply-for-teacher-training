@@ -34,7 +34,7 @@ class TimeLimitConfig
 
     [
       Rule.new(nil, nil, working_days),
-      Rule.new(Time.zone.local(RecruitmentCycle.current_year, 6, 30, 23, 59, 59), nil, 20),
+      Rule.new(Time.zone.local(RecruitmentCycleTimetable.current_year, 6, 30, 23, 59, 59), nil, 20),
     ]
   end
 
