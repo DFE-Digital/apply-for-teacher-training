@@ -132,57 +132,199 @@ jobs:
         mkdir -p /tmp/pg_work
         cd /tmp/pg_work
 
+        # DEBUG: Show initial environment
+        echo "===== DEBUG: Initial Environment ====="
+        echo "Current directory: $(pwd)"
+        echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+        echo "BACKUP_FILE: ${{ env.BACKUP_FILE }}"
+        echo "Disk space before processing:"
+        df -h /
+        echo "Memory info:"
+        free -h
+        echo "========================================="
+
         # 1. EXTRACT SCHEMA PROPERLY
         echo "Creating database..."
         createdb ${DATABASE_NAME}
 
-        # Instead of trying to extract schema with grep/sed, use pg_dump's schema-only option
+        # DEBUG: Verify backup file exists and show size
+        echo "===== DEBUG: Backup File Info ====="
+        ls -la $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz
+        echo "Backup file size: $(du -h $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz | cut -f1)"
+        echo "Gzip file info: $(file $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz)"
+        echo "========================================="
+
+        # Extract full backup
         echo "Extracting full schema (this might take a while)..."
         mkdir -p /tmp/schema
-        gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz > full_backup.sql
+
+        # DEBUG: Monitor extraction process
+        echo "===== DEBUG: Starting Backup Extraction ====="
+        time gzip -d --to-stdout $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz > full_backup.sql
+        echo "Extraction complete. Extracted file size: $(du -h full_backup.sql | cut -f1)"
+        echo "Head of extracted file:"
+        head -n 20 full_backup.sql
+        echo "========================================="
 
         # Apply schema first (just the DDL statements)
         echo "Applying schema..."
+
+        # DEBUG: Show schema extraction details
+        echo "===== DEBUG: Schema Extraction ====="
         grep -E '^(SET|CREATE|ALTER|COMMENT ON)' full_backup.sql > schema.sql
-        psql -d ${DATABASE_NAME} -f schema.sql
+        echo "Schema file size: $(du -h schema.sql | cut -f1)"
+        echo "Schema file lines: $(wc -l schema.sql)"
+        echo "Schema file sample (first 20 lines):"
+        head -n 20 schema.sql
+        echo "Schema file sample (CREATE TABLE examples):"
+        grep -m 5 "^CREATE TABLE" schema.sql
+        echo "========================================="
+
+        # DEBUG: Monitor schema application
+        echo "===== DEBUG: Applying Schema ====="
+        time psql -d ${DATABASE_NAME} -f schema.sql
+        echo "Schema application complete."
+        echo "Database objects after schema application:"
+        psql -d ${DATABASE_NAME} -c "\dt"
+        psql -d ${DATABASE_NAME} -c "SELECT count(*) FROM pg_tables WHERE schemaname='public';"
+        echo "========================================="
 
         # 2. LOAD DATA FOR ALL TABLES IN SMALLER CHUNKS
         echo "Loading data for all tables..."
+
+        # DEBUG: Show table extraction details
+        echo "===== DEBUG: Table Extraction ====="
         grep -E '^COPY' full_backup.sql | awk '{print $2}' | tr -d '"' > all_tables.txt
+        echo "Number of tables found: $(wc -l < all_tables.txt)"
+        echo "First 10 tables to be loaded:"
+        head -n 10 all_tables.txt
+        echo "========================================="
 
+        # Set up some counters for debug info
+        total_tables=$(wc -l < all_tables.txt)
+        current_table=0
+        successful_tables=0
+        failed_tables=0
+
+        # DEBUG: More detailed disk space monitoring
+        disk_space_check() {
+          echo "===== DEBUG: Disk Space Check ====="
+          df -h /
+          echo "Available: $(df -h / | awk 'NR==2 {print $4}')"
+          echo "Used %: $(df -h / | awk 'NR==2 {print $5}')"
+          echo "========================================="
+        }
+
+        disk_space_check
+
+        # Process tables with detailed monitoring
         while read table; do
-          echo "Loading data for table: $table"
+          current_table=$((current_table + 1))
+          echo "Processing table $current_table of $total_tables: $table"
 
-          # Extract and load just this table's data
-          awk -v table="$table" '
+          # DEBUG: Monitor table extraction
+          echo "===== DEBUG: Extracting data for table $table ====="
+          time awk -v table="$table" '
             BEGIN { copy = 0; }
-            $0 ~ "^COPY " table "( |;)" { copy = 1; print; next; }
+            $0 ~ "^COPY " table "( |;|\\()" { copy = 1; print; next; }
             $0 ~ "^\\\\.$" && copy == 1 { copy = 0; print; next; }
             copy == 1 { print; }
           ' full_backup.sql > "${table}_data.sql"
 
+          # Check if data was extracted
           if [ -s "${table}_data.sql" ]; then
-            psql -d ${DATABASE_NAME} -f "${table}_data.sql"
+            data_size=$(du -h "${table}_data.sql" | cut -f1)
+            data_lines=$(wc -l < "${table}_data.sql")
+            echo "Extracted ${data_lines} lines (${data_size}) for table $table"
+
+            # Sample of data for debugging (first 5 lines only)
+            echo "Sample data (first 5 lines):"
+            head -n 5 "${table}_data.sql"
+
+            # DEBUG: Monitor table loading
+            echo "Loading data for table $table..."
+            if psql -d ${DATABASE_NAME} -f "${table}_data.sql"; then
+              echo "Successfully loaded data for $table"
+              successful_tables=$((successful_tables + 1))
+
+              # Verify row count
+              row_count=$(psql -t -d ${DATABASE_NAME} -c "SELECT count(*) FROM \"$table\";" | tr -d ' ')
+              echo "Rows loaded into $table: $row_count"
+            else
+              echo "FAILED to load data for $table"
+              failed_tables=$((failed_tables + 1))
+            fi
+          else
+            echo "No data found for table: $table (empty file)"
+            failed_tables=$((failed_tables + 1))
           fi
 
+          # Free up space immediately
           rm "${table}_data.sql"
 
-          # Monitor disk space
-          df -h / | grep -v Filesystem
+          # Progress report
+          echo "Progress: $current_table/$total_tables tables processed (${successful_tables} successful, ${failed_tables} failed)"
+
+          # Check disk space every few tables
+          if [ $((current_table % 10)) -eq 0 ]; then
+            disk_space_check
+          fi
+
+          echo "----------------------------------------"
         done < all_tables.txt
+
+        # Final table processing report
+        echo "===== DEBUG: Table Loading Summary ====="
+        echo "Total tables: $total_tables"
+        echo "Successfully loaded: $successful_tables"
+        echo "Failed to load: $failed_tables"
+        echo "========================================="
+
+        # Disk space after table loading
+        disk_space_check
 
         # 3. SANITIZE THE DATA
         echo "Running sanitization..."
         cd $GITHUB_WORKSPACE
-        psql -d ${DATABASE_NAME} -f db/scripts/sanitise.sql
+
+        # DEBUG: Sanitization script info
+        echo "===== DEBUG: Sanitization Process ====="
+        echo "Sanitization script size: $(du -h db/scripts/sanitise.sql | cut -f1)"
+        echo "Sanitization script line count: $(wc -l < db/scripts/sanitise.sql)"
+        echo "Executing sanitization script..."
+        time psql -d ${DATABASE_NAME} -f db/scripts/sanitise.sql
+        echo "Sanitization complete."
+        echo "========================================="
 
         # 4. CREATE FINAL BACKUP
         echo "Creating sanitized backup..."
-        pg_dump --encoding utf8 --compress=1 --clean --no-owner --if-exists -d ${DATABASE_NAME} -f att_backup_sanitised.sql.gz
+
+        # DEBUG: Monitor backup creation
+        echo "===== DEBUG: Creating Final Backup ====="
+        time pg_dump --encoding utf8 --compress=1 --clean --no-owner --if-exists -d ${DATABASE_NAME} -f att_backup_sanitised.sql.gz
+        echo "Final backup size: $(du -h att_backup_sanitised.sql.gz | cut -f1)"
+        echo "========================================="
 
         # 5. CLEANUP
+        echo "Cleaning up temporary files..."
         rm -rf /tmp/pg_work
         rm $GITHUB_WORKSPACE/${{ env.BACKUP_FILE }}.sql.gz
+
+        # Final disk space check
+        echo "===== DEBUG: Final Environment ====="
+        echo "Disk space after processing:"
+        df -h /
+        echo "Memory info:"
+        free -h
+        echo "========================================="
+
+        echo "Sanitization complete!"
+      env:
+        DATABASE_NAME: apply_manage_itt
+        PGUSER: postgres
+        PGPASSWORD: postgres
+        PGHOST: localhost
+        PGPORT: 5432
 
     - name: Upload sanitized backup to Azure storage
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
