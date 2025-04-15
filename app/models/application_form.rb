@@ -761,10 +761,4 @@ private
   def prevent_unsave_touches?
     !RequestStore.store[:allow_unsafe_application_choice_touches]
   end
-
-  def degree_matches_with_adviser_teaching_subject?
-    return false unless degrees?
-
-    Adviser::TeachingSubject.find_by(title: recent_degree_subject)
-  end
 end
