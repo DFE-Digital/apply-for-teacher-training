@@ -8,7 +8,7 @@ en:
         title: Check your application sharing preferences
         share_information: Do you want to make your application details visible to other training providers?
         preferred_locations: Preferred locations
-        dynamic_locations: Add new locations to my preferences when I apply to new course
+        dynamic_locations: Add new course locations to my preferences when I apply to new courses
         change: Change
         submit: Submit preferences
         location: Within %{radius} miles of %{location}
@@ -28,7 +28,7 @@ en:
         title: Check your application sharing preferences
         share_information: Do you want to make your application details visible to other training providers?
         preferred_locations: Preferred locations
-        dynamic_locations: Add new locations to my preferences when I apply to new course
+        dynamic_locations: Add new course locations to my preferences when I apply to new courses
         change: Change
         submit: Submit preferences
         location: Within %{radius} miles of %{location}
@@ -45,7 +45,6 @@ en:
         title: Check your application sharing preferences
         share_information: Do you want to share your application details with other training providers?
         preferred_locations: Preferred locations
-        dynamic_locations: Update my location preferences when I apply to a new course
         change: Change
         submit: Submit preferences
       create:
@@ -58,16 +57,16 @@ en:
     location_preferences:
       index:
         title: Location preferences
-        body: Training providers will use the locations you enter here to search for candidates near their courses.
+        body: Training providers will use the locations you enter here to search for candidates near their courses. You should add all areas that you can travel to for training.
         select_locations: Add, change or remove preferred locations
         location: Location
         distance_from_location: Distance from location
         change: Change
-        update_location_preferences: Add new locations to my preferences when I apply to new courses
+        update_location_preferences: Add new course locations to my preferences when I apply to new courses
         remove: Remove
         add_another_location: Add another location
         add_location: Add a location
-        no_location_preferences: You have no location preferences
+        no_location_preferences: You have no location preferences. Providers will assume you can train anywhere in England.
         within: "%{within} miles"
       new:
         title: Add a location
@@ -94,7 +93,7 @@ en:
         candidate_interface/pool_opt_ins_form:
           attributes:
             pool_status:
-              blank: Select weather to make your application details visible to other training providers
+              blank: Select whether to make your application details visible to other training providers
         candidate_interface/location_preferences_form:
           attributes:
             within:

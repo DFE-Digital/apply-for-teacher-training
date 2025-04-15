@@ -247,7 +247,7 @@ RSpec.describe 'Candidate submits the application' do
   end
 
   def then_i_am_redirected_to_share_details_page
-    expect(page).to have_current_path(candidate_interface_share_details_path)
+    expect(page).to have_current_path(candidate_interface_share_details_path(submit_application: true))
 
     expect(page).to have_content('Application submitted')
     expect(page).to have_content('Increase your chances of success by sharing your application details')
