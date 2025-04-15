@@ -10,7 +10,7 @@
 <ul class="govuk-list govuk-list--spaced">
   <li>
     <%= govuk_link_to(
-      "#{RecruitmentCycle.cycle_name} (starts #{RecruitmentCycle.current_year}) - current",
+      "#{@current_timetable.cycle_range_name} (starts #{@current_timetable.recruitment_cycle_year}) - current",
       support_interface_reasons_for_rejection_dashboard_path,
     ) %>
   </li>

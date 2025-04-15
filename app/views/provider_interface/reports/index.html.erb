@@ -14,7 +14,7 @@
       <% unless RecruitmentPerformanceReportTimetable.report_season? %>
         <%= t(
               '.available_in_the_future_html',
-              current_cycle_range: RecruitmentCycleTimetable.current_cycle_range_name,
+              current_cycle_range: @current_timetable.cycle_range_name,
               first_publication_date: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:govuk_date),
               first_publication_date_no_year: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:day_and_month),
             ) %>

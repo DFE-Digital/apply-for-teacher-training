@@ -6,8 +6,7 @@ module ProviderInterface
       include StreamableDataExport
 
       def index
-        @current_timetable = RecruitmentCycleTimetable.current_timetable
-        @previous_timetable = RecruitmentCycleTimetable.previous_timetable
+        @previous_timetable = @current_timetable.relative_previous_timetable
       end
 
       def show

@@ -154,6 +154,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
     end
   end
 
+  def find_reopens_at
+    relative_next_timetable.find_opens_at
+  end
+
   def cycle_week_date_range(cycle_week)
     cycle_week %= 52
     cycle_week -= 1

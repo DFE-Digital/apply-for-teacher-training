@@ -66,20 +66,22 @@ desc 'Sync some pilot-enabled providers'
 task sync_dev_providers: :environment do
   puts 'Syncing data from TTAPI...'
 
+  DataMigrations::AddAllRecruitmentCycleTimetablesToDatabase.new.change if RecruitmentCycleTimetable.none?
+
   provider_codes = %w[U80 24J 24P D39 S72 1ZW 1N1 Y50 L34 D86 K60 H72 W53 1TZ]
   provider_codes.each do |code|
     provider_from_api = TeacherTrainingPublicAPI::Provider
-        .where(year: RecruitmentCycle.current_year)
+        .where(year: RecruitmentCycleTimetable.current_year)
         .find(code).first
 
     TeacherTrainingPublicAPI::SyncSubjects.new.perform
 
     TeacherTrainingPublicAPI::SyncProvider.new(
-      provider_from_api:, recruitment_cycle_year: RecruitmentCycle.previous_year,
+      provider_from_api:, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
     ).call(run_in_background: false)
 
     TeacherTrainingPublicAPI::SyncProvider.new(
-      provider_from_api:, recruitment_cycle_year: RecruitmentCycle.current_year,
+      provider_from_api:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
     ).call(run_in_background: false)
   end
 end

@@ -104,7 +104,7 @@ module SupportInterface
 
       stream_csv(
         data: SupportInterface::ProviderCoursesCSVExport.new(provider:).rows,
-        filename: "#{provider.name_and_code.parameterize}-courses-#{RecruitmentCycle.current_year}.csv",
+        filename: "#{provider.name_and_code.parameterize}-courses-#{current_timetable.recruitment_cycle_year}.csv",
       )
     end
 

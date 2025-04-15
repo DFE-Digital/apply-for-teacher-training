@@ -13,6 +13,7 @@ module ProviderInterface
   class ProviderInterfaceController < ApplicationController
     before_action :authenticate_provider_user!
     before_action :set_user_context
+    before_action :set_current_timetable
     before_action :redirect_if_setup_required
     before_action :check_cookie_preferences
 
@@ -79,6 +80,10 @@ module ProviderInterface
 
       Sentry.set_user(id: "provider_#{current_provider_user.id}")
       Sentry.set_extras(current_user_details)
+    end
+
+    def set_current_timetable
+      @current_timetable = current_timetable
     end
 
     def append_info_to_payload(payload)

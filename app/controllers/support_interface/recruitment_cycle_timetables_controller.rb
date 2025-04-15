@@ -1,7 +1,7 @@
 module SupportInterface
   class RecruitmentCycleTimetablesController < SupportInterfaceController
     def index
-      @timetable_presenter = SupportInterface::RecruitmentCycleTimetablePresenter.new(RecruitmentCycleTimetable.current_timetable)
+      @timetable_presenter = SupportInterface::RecruitmentCycleTimetablePresenter.new(current_timetable)
     end
 
     def edit
