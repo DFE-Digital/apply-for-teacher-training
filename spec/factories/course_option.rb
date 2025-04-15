@@ -7,7 +7,7 @@ FactoryBot.define do
     site_still_valid { true }
 
     transient do
-      recruitment_cycle_year { RecruitmentCycle.current_year }
+      recruitment_cycle_year { CycleTimetableHelper.current_year }
     end
 
     trait :open do
@@ -44,7 +44,7 @@ FactoryBot.define do
     end
 
     trait :available_in_current_and_next_year do
-      course { create(:course, recruitment_cycle_year: RecruitmentCycle.current_year) }
+      course { create(:course, recruitment_cycle_year: CycleTimetableHelper.current_year) }
       available_the_year_after
     end
 
