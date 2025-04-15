@@ -3,12 +3,10 @@ module CandidateInterface
     class InterruptionsController < CandidateInterfaceController
       def show
         @adviser_interruption_form = CandidateInterface::AdviserInterruptionForm.new({ application_form:, proceed_to_request_adviser: params[:proceed_to_request_adviser] })
-        @application_form = application_form
       end
 
       def update
         @adviser_interruption_form = CandidateInterface::AdviserInterruptionForm.new(adviser_interruption_params.merge(application_form:))
-        @application_form = application_form
 
         if @adviser_interruption_form.valid?
           @adviser_interruption_form.save
