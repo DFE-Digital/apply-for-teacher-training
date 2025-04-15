@@ -64,16 +64,6 @@ class CycleTimetable
     end
   end
 
-  def self.holidays(year = current_year)
-    # do not support the cycle switcher via #date as:
-    #
-    # a) fake schedules do not deal with timespans long enough for holidays
-    # b) looking up SiteSetting.cycle_schedule requires a database, which we
-    # don’t want (or necessarily have, in builds) at boot time when the
-    # business_time initializer calls this code
-    real_schedule_for(year).fetch(:holidays)
-  end
-
   def self.date(name, year = current_year)
     schedule = real_schedule_for(year)
 
