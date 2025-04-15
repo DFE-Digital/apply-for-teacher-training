@@ -57,19 +57,19 @@ class RecruitmentCycleTimetable < ApplicationRecord
   end
 
   def self.previous_cycle_range_name
-    previous_timetable.cycle_range_name
+    previous_timetable&.cycle_range_name
   end
 
   def self.current_year
-    current_timetable.recruitment_cycle_year
+    current_timetable&.recruitment_cycle_year
   end
 
   def self.previous_year
-    previous_timetable.recruitment_cycle_year
+    previous_timetable&.recruitment_cycle_year
   end
 
   def self.next_year
-    next_timetable.recruitment_cycle_year
+    next_timetable&.recruitment_cycle_year
   end
 
   def self.years_visible_in_support

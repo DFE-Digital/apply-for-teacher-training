@@ -5,12 +5,12 @@ FactoryBot.define do
     code { Faker::Alphanumeric.unique.alphanumeric(number: 4, min_alpha: 1).upcase }
     name { Faker::Educator.subject }
     level { 'primary' }
-    recruitment_cycle_year { RecruitmentCycle.current_year }
+    recruitment_cycle_year { CycleTimetableHelper.current_year }
     description { 'PGCE with QTS full time' }
     qualifications { %w[qts pgce] }
     course_length { 'OneYear' }
     start_date { Faker::Date.between(from: 1.month.from_now, to: 1.year.from_now) }
-    applications_open_from { CycleTimetable.apply_opens }
+    applications_open_from { CycleTimetableHelper.current_timetable.apply_opens_at }
     age_range { '4 to 8' }
     withdrawn { false }
     program_type { 'scitt_programme' }
@@ -80,7 +80,7 @@ FactoryBot.define do
     end
 
     trait :previous_year do
-      recruitment_cycle_year { RecruitmentCycle.previous_year }
+      recruitment_cycle_year { CycleTimetableHelper.previous_year }
     end
 
     trait :previous_year_but_still_available do
@@ -89,7 +89,7 @@ FactoryBot.define do
     end
 
     trait :available_in_current_and_next_year do
-      recruitment_cycle_year { RecruitmentCycle.current_year }
+      recruitment_cycle_year { CycleTimetableHelper.current_year }
       available_the_year_after
     end
 
