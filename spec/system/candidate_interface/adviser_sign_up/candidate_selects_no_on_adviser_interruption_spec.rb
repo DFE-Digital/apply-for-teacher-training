@@ -4,8 +4,9 @@ RSpec.describe 'Candidate selects no on adviser interruption' do
   include CandidateHelper
 
   before do
-    and_the_api_call_is_stubbed
     and_analytics_is_enabled
+    and_the_adviser_sign_up_feature_flag_is_enabled
+    and_the_get_into_teaching_api_is_accepting_sign_ups
   end
 
   it 'does not reappear when the candidate has selected no once' do
@@ -32,12 +33,25 @@ RSpec.describe 'Candidate selects no on adviser interruption' do
     and_the_adviser_call_to_action_is_still_visible
   end
 
+  def and_analytics_is_enabled
+    allow(DfE::Analytics).to receive(:enabled?).and_return(true)
+  end
+
+  def and_the_adviser_sign_up_feature_flag_is_enabled
+    FeatureFlag.activate(:adviser_sign_up)
+  end
+
   def and_the_api_call_is_stubbed
     api_double = instance_double(
       GetIntoTeachingApiClient::TeacherTrainingAdviserApi,
       matchback_candidate: nil,
     )
     allow(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to receive(:new) { api_double }
+  end
+
+  def and_the_get_into_teaching_api_is_accepting_sign_ups
+    @api_double = instance_double(GetIntoTeachingApiClient::TeacherTrainingAdviserApi, :sign_up_teacher_training_adviser_candidate, matchback_candidate: nil)
+    allow(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to receive(:new) { @api_double }
   end
 
   def and_analytics_is_enabled
