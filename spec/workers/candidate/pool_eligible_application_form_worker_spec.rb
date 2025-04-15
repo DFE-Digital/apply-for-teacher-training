@@ -12,7 +12,7 @@ RSpec.describe Candidate::PoolEligibleApplicationFormWorker do
 
       expect { worker }.to change(PoolEligibleApplicationForm, :count).by(1)
       expect(PoolEligibleApplicationForm.last.application_form_id).to eq(
-        rejected_candidate_form.id.to_s,
+        rejected_candidate_form.id,
       )
     end
 

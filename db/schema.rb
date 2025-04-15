@@ -720,9 +720,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_084726) do
   end
 
   create_table "pool_eligible_application_forms", force: :cascade do |t|
-    t.string "application_form_id"
+    t.bigint "application_form_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["application_form_id"], name: "index_pool_eligible_application_forms_on_application_form_id"
   end
 
   create_table "pool_invites", force: :cascade do |t|
@@ -1077,6 +1078,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_084726) do
   add_foreign_key "pool_dismissals", "candidates", on_delete: :cascade
   add_foreign_key "pool_dismissals", "provider_users", column: "dismissed_by_id"
   add_foreign_key "pool_dismissals", "providers", on_delete: :cascade
+  add_foreign_key "pool_eligible_application_forms", "application_forms", on_delete: :cascade
   add_foreign_key "pool_invites", "candidates", on_delete: :cascade
   add_foreign_key "pool_invites", "courses", on_delete: :cascade
   add_foreign_key "pool_invites", "provider_users", column: "invited_by_id"
