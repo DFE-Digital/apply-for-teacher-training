@@ -3,15 +3,17 @@ require 'rails_helper'
 RSpec.describe 'Candidate selects yes on adviser interruption' do
   include CandidateHelper
 
-  it 'proceeds to adviser sign up flow' do
-    given_i_am_signed_in_with_one_login
-    and_adviser_teaching_subjects_exist
+  before do
     and_rails_cache_is_enabled
     and_analytics_is_enabled
-    and_enqueued_jobs_are_not_performed
     and_the_adviser_sign_up_feature_flag_is_enabled
     and_the_get_into_teaching_api_is_accepting_sign_ups
     and_adviser_sign_up_jobs_can_be_enqueued
+  end
+
+  it 'proceeds to adviser sign up flow' do
+    given_i_am_signed_in_with_one_login
+    and_adviser_teaching_subjects_exist
     and_i_have_an_eligible_application # value of adviser_interruption_response is 'nil' by default
 
     when_i_visit_my_details_page
@@ -64,10 +66,6 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
 
   def and_analytics_is_enabled
     allow(DfE::Analytics).to receive(:enabled?).and_return(true)
-  end
-
-  def and_enqueued_jobs_are_not_performed
-    ActiveJob::Base.queue_adapter = :test
   end
 
   def and_the_adviser_sign_up_feature_flag_is_enabled

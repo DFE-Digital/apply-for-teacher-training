@@ -3,11 +3,13 @@ require 'rails_helper'
 RSpec.describe 'Candidate selects no on adviser interruption' do
   include CandidateHelper
 
-  it 'does not reappear when the candidate has selected no once' do
-    given_i_am_signed_in_with_one_login
-    and_enqueued_jobs_are_not_performed
+  before do
     and_the_api_call_is_stubbed
     and_analytics_is_enabled
+  end
+
+  it 'does not reappear when the candidate has selected no once' do
+    given_i_am_signed_in_with_one_login
     and_i_have_an_eligible_application # value of adviser_interruption_response is 'nil' by default
 
     when_i_visit_my_details_page
@@ -28,10 +30,6 @@ RSpec.describe 'Candidate selects no on adviser interruption' do
     and_i_click_continue
     then_i_do_not_see_the_interruption_page
     and_the_adviser_call_to_action_is_still_visible
-  end
-
-  def and_enqueued_jobs_are_not_performed
-    ActiveJob::Base.queue_adapter = :test
   end
 
   def and_the_api_call_is_stubbed
