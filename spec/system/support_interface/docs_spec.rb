@@ -70,6 +70,7 @@ RSpec.describe 'Docs' do
       candidate_mailer-offer_40_day
       candidate_mailer-offer_50_day
       candidate_mailer-course_invite
+      candidate_mailer-find_a_candidate_feature_launch_email
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"
