@@ -24,4 +24,43 @@ class ApplicationQualificationDecorator < SimpleDelegator
       { qualification.subject => qualification.grade }
     end
   end
+
+  def degree_type_with_honours(degree)
+    if degree.grade&.include?('honours')
+      "#{abbreviate_degree(degree.qualification_type)} (Hons)"
+    else
+      abbreviate_degree(degree.qualification_type)
+    end
+  end
+
+  def abbreviate_degree(name)
+    Hesa::DegreeType.find_by_name(name)&.abbreviation || name
+  end
+
+  def degree_type_and_subject(degree)
+    "#{degree_type_with_honours(degree)} #{degree.subject}"
+  end
+
+  def formatted_grade(degree)
+    return nil if degree.grade.blank?
+
+    short_form = grade_short_form(degree.grade)
+
+    if degree.predicted_grade?
+      "#{short_form} (predicted)"
+    else
+      short_form
+    end
+  end
+
+private
+
+  def grade_short_form(full_grade)
+    {
+      'First-class honours' => '1st',
+      'Upper second-class honours (2:1)' => '2:1',
+      'Lower second-class honours (2:2)' => '2:2',
+      'Third-class honours' => '3rd',
+    }[full_grade] || full_grade
+  end
 end

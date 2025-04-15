@@ -706,6 +706,10 @@ class ApplicationForm < ApplicationRecord
     current_cycle? && Time.zone.now.between?(apply_opens_at, apply_deadline_at)
   end
 
+  def last_degree
+    application_qualifications.degrees.order('award_year').last
+  end
+
 private
 
   def geocode_address_and_update_region_if_required

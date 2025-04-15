@@ -9,6 +9,7 @@ en:
           review_candidates: When they have no open applications, you can review their details and decide whether to invite them to apply.
           name: Name
           distance_from: Distance from %{origin}
+          no_degree: No degree
           miles:
             zero: "%{count} miles"
             one: "%{count} miles"
