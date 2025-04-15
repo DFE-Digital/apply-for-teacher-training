@@ -16,7 +16,10 @@
         <%= t('govuk.one_login_account_guidance') %>
       </p>
 
-      <%= govuk_button_to(t('continue'), OneLogin.bypass? ? '/auth/one-login-developer' : '/auth/one_login') %>
+      <%= govuk_button_to(
+        t('continue'),
+        OneLogin.bypass? ? '/auth/one-login-developer' : "/auth/one_login?path=#{@referer_path}",
+      ) %>
     <% else %>
      <%= form_with(
         model: @create_account_or_sign_in_form,
