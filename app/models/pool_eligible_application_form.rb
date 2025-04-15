@@ -1,0 +1,2 @@
+class PoolEligibleApplicationForm < ApplicationRecord
+end

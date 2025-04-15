@@ -46,6 +46,7 @@ class Clock
   every(1.day, 'EndOfCycle::SendRejectByDefaultReminderToProvidersWorker') { EndOfCycle::SendRejectByDefaultReminderToProvidersWorker.new.perform }
   every(1.day, 'EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker', at: '09:00') { EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker.new.perform }
   every(1.day, 'EndOfCycle:SendRejectByDefaultExplainerToCandidatesWorker', at: '09:01') { EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesWorker.new.perform }
+  every(1.day, 'Candidate::PoolEligibleApplicationFormWorker', at: '09:02') { Candidate::PoolEligibleApplicationFormWorker.new.perform }
 
   every(1.day, 'TriggerFullSyncIfFindClosed', at: '00:05') { TeacherTrainingPublicAPI::TriggerFullSyncIfFindClosed.call }
   every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_async }

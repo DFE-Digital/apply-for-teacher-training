@@ -1,4 +1,9 @@
 shared:
+  pool_eligible_application_forms:
+    - id
+    - application_form_id
+    - created_at
+    - updated_at
   candidate_preferences:
     - id
     - pool_status
