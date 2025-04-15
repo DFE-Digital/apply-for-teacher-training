@@ -39,7 +39,8 @@ RSpec.describe 'Candidate with a degree subject match changes their preferred te
 
   def and_i_have_an_eligible_application
     @eligible_application_form = create(:application_form_eligible_for_adviser, candidate: @current_candidate)
-    @degree_subject = @eligible_application_form.recent_degree_subject
+    @eligible_application_interruption_form = CandidateInterface::AdviserInterruptionForm.new({ application_form: @eligible_application_form, proceed_to_request_adviser: 'yes' })
+    @degree_subject = @eligible_application_interruption_form.recent_degree_subject
   end
 
   def and_adviser_teaching_subjects_exist

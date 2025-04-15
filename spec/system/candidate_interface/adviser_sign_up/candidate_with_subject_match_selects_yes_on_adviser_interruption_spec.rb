@@ -1,18 +1,20 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate with a degree subject that matches an adviser teaching subject selects yes on adviser interruption', :js do
+RSpec.describe 'Candidate with a degree subject that matches an adviser teaching subject selects yes on adviser interruption' do
   include CandidateHelper
+
+  before do
+    and_rails_cache_is_enabled
+    and_analytics_is_enabled
+    and_the_adviser_sign_up_feature_flag_is_enabled
+    and_the_get_into_teaching_api_is_accepting_sign_ups
+    and_adviser_sign_up_jobs_can_be_enqueued
+  end
 
   it 'proceeds to the prefilled subject review step of the adviser sign up flow' do
     given_i_am_signed_in_with_one_login
     and_i_have_an_eligible_application # value of adviser_interruption_response is 'nil' by default
     and_adviser_teaching_subjects_exist
-    and_rails_cache_is_enabled
-    and_analytics_is_enabled
-    and_enqueued_jobs_are_not_performed
-    and_the_adviser_sign_up_feature_flag_is_enabled
-    and_the_get_into_teaching_api_is_accepting_sign_ups
-    and_adviser_sign_up_jobs_can_be_enqueued
 
     when_i_visit_my_details_page
     and_i_navigate_to_a_section_which_determines_eligibilty # can be personal details, contact details, English/Maths, degree
@@ -37,7 +39,8 @@ RSpec.describe 'Candidate with a degree subject that matches an adviser teaching
 
   def and_i_have_an_eligible_application
     @eligible_application_form = create(:application_form_eligible_for_adviser, candidate: @current_candidate)
-    @degree_subject = @eligible_application_form.recent_degree_subject
+    @eligible_application_interruption_form = CandidateInterface::AdviserInterruptionForm.new({ application_form: @eligible_application_form, proceed_to_request_adviser: 'yes' })
+    @degree_subject = @eligible_application_interruption_form.recent_degree_subject
   end
 
   def and_adviser_teaching_subjects_exist
