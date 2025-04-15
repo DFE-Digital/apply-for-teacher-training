@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_11_103041) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_15_084726) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -717,6 +717,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_11_103041) do
     t.index ["candidate_id"], name: "index_pool_dismissals_on_candidate_id"
     t.index ["dismissed_by_id"], name: "index_pool_dismissals_on_dismissed_by_id"
     t.index ["provider_id"], name: "index_pool_dismissals_on_provider_id"
+  end
+
+  create_table "pool_eligible_application_forms", force: :cascade do |t|
+    t.string "application_form_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "pool_invites", force: :cascade do |t|

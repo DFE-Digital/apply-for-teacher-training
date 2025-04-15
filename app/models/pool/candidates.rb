@@ -23,6 +23,19 @@ class Pool::Candidates
       .distinct
   end
 
+  def self.application_forms_in_the_pool
+    new(providers: []).application_forms_in_the_pool
+  end
+
+  def application_forms_in_the_pool
+    opted_in_candidates = Candidate.joins(:published_preferences).where(published_preferences: { pool_status: 'opt_in' }).select(:id)
+
+    filtered_application_forms.joins(:candidate)
+      .where(candidate: { submission_blocked: false, account_locked: false })
+      .where(candidate: opted_in_candidates)
+      .distinct
+  end
+
 private
 
   def filtered_application_forms

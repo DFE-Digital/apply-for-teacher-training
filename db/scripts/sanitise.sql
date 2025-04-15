@@ -34,6 +34,7 @@ DELETE FROM "find_feedback";
 DELETE FROM "vendor_api_requests";
 DELETE FROM "sessions";
 DELETE FROM "session_errors";
+DELETE FROM "pool_eligible_application_forms";
 
 -- ApplicationForm
 UPDATE "application_forms"

@@ -274,4 +274,17 @@ RSpec.describe Pool::Candidates do
       visa_sponsorship_candidate_form
     end
   end
+
+  describe '.application_forms_in_the_pool' do
+    it 'returns application_forms that should be in the candidate pool' do
+      rejected_candidate = create(:candidate)
+      rejected_candidate_form = create(:application_form, :completed, candidate: rejected_candidate)
+      create(:candidate_preference, candidate: rejected_candidate)
+      create(:application_choice, :rejected, application_form: rejected_candidate_form)
+
+      results = described_class.application_forms_in_the_pool
+
+      expect(results).to contain_exactly(rejected_candidate_form)
+    end
+  end
 end
