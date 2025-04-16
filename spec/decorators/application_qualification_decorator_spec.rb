@@ -66,5 +66,81 @@ RSpec.describe ApplicationQualificationDecorator do
         end
       end
     end
+
+    describe '#degree_type_and_subject' do
+      context 'when it is a completed honours degree' do
+        let(:application_form) {
+          create(:application_form, :completed, application_qualifications: [
+            build(:degree_qualification,
+                  qualification_type: 'Bachelor of Science',
+                  subject: 'Mathematics',
+                  predicted_grade: false,
+                  grade: 'First-class honours'),
+          ])
+        }
+        let(:decorated_degree) { described_class.new(application_form.last_degree) }
+        let(:abbreviated_degree) { decorated_degree.degree_type_and_subject(application_form.last_degree) }
+
+        it 'renders the abbreviated degree with (hons)' do
+          expect(abbreviated_degree).to include('BSc (Hons) Mathematics')
+        end
+      end
+
+      context 'when it is a completed degree without honours' do
+        let(:application_form) {
+          create(:application_form, :completed, application_qualifications: [
+            build(:degree_qualification,
+                  qualification_type: 'Bachelor of Arts',
+                  subject: 'English Literature',
+                  predicted_grade: false,
+                  grade: 'Third-class'),
+          ])
+        }
+        let(:decorated_degree) { described_class.new(application_form.last_degree) }
+        let(:abbreviated_degree) { decorated_degree.degree_type_and_subject(application_form.last_degree) }
+
+        it 'renders the abbreviated degree without (hons)' do
+          expect(abbreviated_degree).to include('BA English Literature')
+        end
+      end
+    end
+
+    describe '#formatted_grade' do
+      context 'when it is a completed degree with a grade' do
+        let(:application_form) {
+          create(:application_form, :completed, application_qualifications: [
+            build(:degree_qualification,
+                  qualification_type: 'Bachelor of Education',
+                  subject: 'European History',
+                  predicted_grade: false,
+                  grade: 'Third-class honours'),
+          ])
+        }
+        let(:decorated_degree) { described_class.new(application_form.last_degree) }
+        let(:formatted_grade) { decorated_degree.formatted_grade(application_form.last_degree) }
+
+        it 'renders the short form grade' do
+          expect(formatted_grade).to include('3rd')
+        end
+      end
+
+      context 'when it is a incomplete degree with a predicted grade' do
+        let(:application_form) {
+          create(:application_form, :completed, application_qualifications: [
+            build(:degree_qualification,
+                  qualification_type: 'Bachelor of Engineering',
+                  subject: 'Civil Engineering',
+                  predicted_grade: true,
+                  grade: 'Lower second-class honours (2:2)'),
+          ])
+        }
+        let(:decorated_degree) { described_class.new(application_form.last_degree) }
+        let(:formatted_grade) { decorated_degree.formatted_grade(application_form.last_degree) }
+
+        it 'renders the short form grade' do
+          expect(formatted_grade).to include('2:2 (predicted)')
+        end
+      end
+    end
   end
 end

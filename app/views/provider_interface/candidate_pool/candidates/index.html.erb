@@ -22,11 +22,12 @@
           <%= body.with_row do |row| %>
             <%= row.with_cell do %>
             <%= govuk_link_to application_form.redacted_full_name, provider_interface_candidate_pool_candidate_path(application_form.candidate) %>
+            <span class="govuk-body govuk-hint">(<%= application_form.candidate_id %>)</span>
               <% if application_form.last_degree %>
                 <% decorated_degree = ApplicationQualificationDecorator.new(application_form.last_degree) %>
-                <p class="govuk-body"><%= "#{decorated_degree.degree_type_and_subject(application_form.last_degree)}, #{decorated_degree.formatted_grade(application_form.last_degree)}" %></p>
+                <p class="govuk-body app-qualification__value--caption"><%= "#{decorated_degree.degree_type_and_subject(application_form.last_degree)}, #{decorated_degree.formatted_grade(application_form.last_degree)}" %></p>
               <% else %>
-                <p class="govuk-body"><%= t('.no_degree') %></p>
+                <p class="govuk-body app-qualification__value--caption"><%= t('.no_degree') %></p>
               <% end %>
             <% end %>
             <%= row.with_cell do %>
