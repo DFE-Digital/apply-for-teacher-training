@@ -8,6 +8,10 @@ module SupportInterface
       new(recruitment_cycle_year).call
     end
 
+    def self.generate_next_year
+      new(RecruitmentCycleTimetable.last_timetable.recruitment_cycle_year + 1).call
+    end
+
     def initialize(recruitment_cycle_year)
       @recruitment_cycle_year = recruitment_cycle_year
     end
