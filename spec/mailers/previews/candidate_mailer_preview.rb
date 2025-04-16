@@ -556,7 +556,9 @@ class CandidateMailerPreview < ActionMailer::Preview
       first_name: 'Fred',
     )
     candidate = FactoryBot.create(:candidate, application_forms: [application_form])
-    pool_invite = FactoryBot.create(:pool_invite, candidate:)
+    pool_invite = FactoryBot.create(
+      :pool_invite, candidate:, course: FactoryBot.build(:course, fee_domestic: 9535, fee_international: 15430)
+    )
 
     CandidateMailer.course_invite(pool_invite)
   end

@@ -522,6 +522,7 @@ class CandidateMailer < ApplicationMailer
     @application_form = pool_invite.candidate.current_cycle_application_form
     @provider = pool_invite.provider
     @course = pool_invite.course
+    @preferences_url = new_candidate_interface_pool_opt_in_url
 
     email_for_candidate(
       @application_form,
