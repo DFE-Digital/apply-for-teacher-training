@@ -103,6 +103,24 @@ RSpec.describe ApplicationQualificationDecorator do
           expect(abbreviated_degree).to include('BA English Literature')
         end
       end
+
+      context 'when it is an international degree or another qualification type' do
+        let(:application_form) {
+          create(:application_form, :completed, application_qualifications: [
+            build(:non_uk_degree_qualification,
+                  qualification_type: 'Bachelor',
+                  subject: 'Modern Languages',
+                  predicted_grade: false,
+                  grade: '89'),
+          ])
+        }
+        let(:decorated_degree) { described_class.new(application_form.last_degree) }
+        let(:abbreviated_degree) { decorated_degree.degree_type_and_subject(application_form.last_degree) }
+
+        it 'renders the unstructured free text' do
+          expect(abbreviated_degree).to include('Bachelor Modern Languages')
+        end
+      end
     end
 
     describe '#formatted_grade' do
@@ -139,6 +157,24 @@ RSpec.describe ApplicationQualificationDecorator do
 
         it 'renders the short form grade' do
           expect(formatted_grade).to include('2:2 (predicted)')
+        end
+      end
+
+      context 'when it is an international degree or another grade type' do
+        let(:application_form) {
+          create(:application_form, :completed, application_qualifications: [
+            build(:non_uk_degree_qualification,
+                  qualification_type: 'Bachelor',
+                  subject: 'Modern Languages',
+                  predicted_grade: false,
+                  grade: '89'),
+          ])
+        }
+        let(:decorated_degree) { described_class.new(application_form.last_degree) }
+        let(:formatted_grade) { decorated_degree.formatted_grade(application_form.last_degree) }
+
+        it 'renders the unstructured free text' do
+          expect(formatted_grade).to include('89')
         end
       end
     end
