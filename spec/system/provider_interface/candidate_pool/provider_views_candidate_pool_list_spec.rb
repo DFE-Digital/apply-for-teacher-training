@@ -156,13 +156,17 @@ RSpec.describe 'Providers views candidate pool list' do
   def then_i_expect_to_see_eligible_candidates_order_by_application_form_submitted_at
     candidates = page.all('.govuk-table__body .govuk-table__row td:first-child').map(&:text)
 
-    expect(candidates).to contain_exactly(
+    expected_candidates = [
       candidate_name(@rejected_candidate_form),
       candidate_name(@declined_candidate_form),
       candidate_name(@visa_sponsorship_form),
-    )
+    ]
 
-    expect(candidates).not_to include(candidate_name(@withdrawn_no_longer_wants_to_train_form))
+    expected_candidates.each do |candidate_text|
+      expect(candidates).to have_text(candidate_text)
+    end
+
+    expect(page).to have_no_text(candidate_name(@withdrawn_no_longer_wants_to_train_form))
   end
 
   def then_i_am_redirected_to_the_applications_page
@@ -189,7 +193,9 @@ RSpec.describe 'Providers views candidate pool list' do
     candidates = page.all('.govuk-table__body .govuk-table__row td:first-child').map(&:text)
     candidate_names = application_forms.map { |form| candidate_name(form) }
 
-    expect(candidates).to match_array(candidate_names)
+    candidate_names.each do |name|
+      expect(candidates).to have_text(name)
+    end
   end
 
   def when_i_click(button)
@@ -197,6 +203,6 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def candidate_name(application_form)
-    "#{application_form.redacted_full_name}\n(#{application_form.candidate_id})"
+    "#{application_form.redacted_full_name} (#{application_form.candidate_id})"
   end
 end

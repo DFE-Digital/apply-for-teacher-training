@@ -21,12 +21,19 @@
         <% @application_forms.each do |application_form| %>
           <%= body.with_row do |row| %>
             <%= row.with_cell do %>
-              <div class="flex-content">
-                <%= govuk_link_to application_form.redacted_full_name, provider_interface_candidate_pool_candidate_path(application_form.candidate) %>
-                <p class="govuk-body govuk-hint">(<%= application_form.candidate_id %>)</p>
-              </div>
+            <%= govuk_link_to application_form.redacted_full_name, provider_interface_candidate_pool_candidate_path(application_form.candidate) %>
+            <span class="govuk-body govuk-hint">(<%= application_form.candidate_id %>)</span>
+              <% if application_form.application_qualifications.degrees.present? %>
+                <% application_form.application_qualifications.degrees.order(award_year: :desc).each do |degree| %>
+                  <% decorated_degree = ApplicationQualificationDecorator.new(degree) %>
+                  <p class="govuk-body app-qualification__value--caption govuk-!-margin-bottom-1">
+                    <%= decorated_degree.formatted_degree_and_grade %>
+                  </p>
+                <% end %>
+              <% else %>
+                <p class="govuk-body app-qualification__value--caption govuk-!-margin-bottom-1"><%= t('.no_degree') %></p>
+              <% end %>
             <% end %>
-
             <%= row.with_cell do %>
               <% if @filter.applied_location_search? %>
                 <%= t('.miles', count: application_form.site_distance.round(1)) %>
