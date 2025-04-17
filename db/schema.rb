@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_15_084726) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_17_120838) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -416,6 +416,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_084726) do
     t.datetime "updated_at", null: false
     t.bigint "provider_id"
     t.index ["candidate_preference_id"], name: "idx_on_candidate_preference_id_f06d90defb"
+    t.index ["latitude"], name: "index_candidate_location_preferences_on_latitude"
+    t.index ["longitude"], name: "index_candidate_location_preferences_on_longitude"
     t.index ["provider_id"], name: "index_candidate_location_preferences_on_provider_id"
   end
 
