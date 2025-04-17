@@ -32,8 +32,7 @@ module CandidateInterface
           preference.update!(pool_status: pool_status)
 
           if preference.opt_out?
-            preference.published!
-            current_candidate.published_preferences.where.not(id: @preference.id).destroy_all
+            preference_opt_out!(preference)
           end
 
           true
@@ -43,11 +42,7 @@ module CandidateInterface
           @preference = current_candidate.preferences.create(pool_status:)
 
           if @preference.opt_out?
-            ActiveRecord::Base.transaction do
-              # We publish the preference because if they opt out it's the end of the journey
-              @preference.published!
-              current_candidate.published_preferences.where.not(id: @preference.id).destroy_all
-            end
+            preference_opt_out!(@preference)
           else
             LocationPreferences.add_default_location_preferences(preference: @preference)
           end
@@ -55,6 +50,19 @@ module CandidateInterface
           true
         end
       end
+    end
+
+  private
+
+    def preference_opt_out!(preference)
+      ActiveRecord::Base.transaction do
+        preference.published!
+        current_candidate.published_preferences.where.not(id: preference.id).destroy_all
+      end
+
+      # This will have no effect if the candidate has not been sent the email
+      exp = FieldTest::Experiment.find('find_a_candidate/candidate_feature_launch_email')
+      exp.convert(current_candidate, goal: :opt_out)
     end
   end
 end
