@@ -14,7 +14,7 @@ module Chasers
         application_forms_to_send = ApplicationForm
                                       .where(id: application_form_ids)
                                       # Tier 1 & 2 application forms
-                                      .merge(Pool::Candidates.application_forms_eligible_for_pool)
+                                      .where(id: Pool::Candidates.application_forms_eligible_for_pool)
                                       # Filter out candidates who should not receive nudge-like emails
                                       # Filter out blocked and locked candidates
                                       .joins(:candidate)
