@@ -11,8 +11,10 @@ module CandidateInterface
         if @adviser_interruption_form.valid?
           @adviser_interruption_form.save
 
-          if @adviser_interruption_form.proceed_to_request_adviser?
-            redirect_to new_candidate_interface_adviser_sign_up_path
+          if @adviser_interruption_form.prefilled_teaching_subject?
+            redirect_to candidate_interface_adviser_sign_up_path(application_form.id, preferred_teaching_subject_id: @adviser_interruption_form.prefill_preferred_teaching_subject_id)
+          elsif @adviser_interruption_form.proceed_to_request_adviser?
+            redirect_to new_candidate_interface_adviser_sign_up_path(return_to: 'interruption')
           else
             redirect_to_candidate_root
           end
