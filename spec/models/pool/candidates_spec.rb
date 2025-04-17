@@ -287,4 +287,16 @@ RSpec.describe Pool::Candidates do
       expect(results).to contain_exactly(rejected_candidate_form)
     end
   end
+
+  describe '.application_forms_eligible_for_pool' do
+    it 'returns application_forms that should be in the candidate pool' do
+      rejected_candidate_form = create(:application_form, :completed)
+      create(:application_choice, :rejected, application_form: rejected_candidate_form)
+      _accepted_application_form = create(:application_form, :with_accepted_offer)
+
+      results = described_class.application_forms_eligible_for_pool
+
+      expect(results).to contain_exactly(rejected_candidate_form)
+    end
+  end
 end
