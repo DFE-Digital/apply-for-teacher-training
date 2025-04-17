@@ -17,7 +17,7 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
     and_i_have_an_eligible_application # value of adviser_interruption_response is 'nil' by default
 
     when_i_visit_my_details_page
-    and_i_navigate_to_a_section_which_determines_eligibilty # can be personal details, contact details, English/Maths, degree
+    and_i_navigate_to_any_section # can be personal details, contact details, English/Maths, degree
     and_i_mark_this_section_as_completed
     and_i_click_continue
     then_i_see_the_interruption_page
@@ -27,9 +27,10 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
     then_i_see_the_select_a_subject_page
 
     when_i_click_back
-    then_i_see_my_details_page
+    then_i_see_the_interruption_page_again
 
-    when_i_navigate_to_a_section_which_determines_eligibilty
+    when_i_return_to_my_details_page
+    and_i_navigate_to_any_section
     and_i_mark_this_section_as_completed
     and_i_click_continue
     then_i_see_the_interruption_page_again
@@ -42,7 +43,7 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
     and_i_click_request_an_adviser
     then_i_see_my_details_page
 
-    when_i_navigate_to_a_section_which_determines_eligibilty
+    when_i_navigate_to_any_section
     and_i_mark_this_section_as_completed
     and_i_click_continue
     then_i_do_not_see_the_interruption_page
@@ -85,7 +86,7 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
     visit candidate_interface_details_path
   end
 
-  def and_i_navigate_to_a_section_which_determines_eligibilty
+  def and_i_navigate_to_any_section
     click_link_or_button 'English GCSE or equivalent'
   end
 
@@ -112,11 +113,11 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
   end
 
   def then_i_see_the_select_a_subject_page
-    expect(page).to have_current_path(new_candidate_interface_adviser_sign_ups_path)
+    expect(page).to have_current_path(new_candidate_interface_adviser_sign_up_path(return_to: 'interruption'))
   end
 
   def when_i_click_back
-    click_link_or_button 'Back to your details'
+    click_link_or_button 'Back'
   end
 
   def then_i_see_my_details_page
@@ -124,7 +125,7 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
   end
   alias_method :then_i_do_not_see_the_interruption_page, :then_i_see_my_details_page
 
-  def when_i_navigate_to_a_section_which_determines_eligibilty
+  def when_i_navigate_to_any_section
     click_link_or_button 'Personal information'
   end
 
@@ -134,5 +135,9 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
 
   def and_the_adviser_call_to_action_is_no_longer_visible
     expect(page).to have_no_content('Get an adviser')
+  end
+
+  def when_i_return_to_my_details_page
+    click_link_or_button 'Back to your details'
   end
 end

@@ -17,7 +17,7 @@ RSpec.describe 'Candidate with a degree subject that matches an adviser teaching
     and_adviser_teaching_subjects_exist
 
     when_i_visit_my_details_page
-    and_i_navigate_to_a_section_which_determines_eligibilty # can be personal details, contact details, English/Maths, degree
+    and_i_navigate_to_any_section # can be personal details, contact details, English/Maths, degree
     and_i_mark_this_section_as_completed
     and_i_click_continue
     then_i_see_the_interruption_page
@@ -73,7 +73,7 @@ RSpec.describe 'Candidate with a degree subject that matches an adviser teaching
     visit candidate_interface_details_path
   end
 
-  def and_i_navigate_to_a_section_which_determines_eligibilty
+  def and_i_navigate_to_any_section
     click_link_or_button 'English GCSE or equivalent'
   end
 
@@ -96,7 +96,7 @@ RSpec.describe 'Candidate with a degree subject that matches an adviser teaching
   end
 
   def then_i_see_the_interruption_page
-    expect(page).to have_current_path(candidate_interface_adviser_sign_ups_interruption_path(@eligible_application_form.id))
+    expect(page).to have_current_path(candidate_interface_adviser_sign_ups_interruption_path)
   end
 
   def then_i_see_the_review_page_with_the_subject_prefilled

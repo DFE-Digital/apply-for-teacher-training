@@ -24,6 +24,7 @@ module CandidateInterface
         redirect_to candidate_interface_details_path
       else
         track_validation_error(@adviser_sign_up_form)
+        @back_link = back_link_data
         render :new
       end
     end
@@ -32,7 +33,7 @@ module CandidateInterface
 
     def back_link_data
       if params[:return_to] == 'interruption'
-        { path: candidate_interface_adviser_sign_ups_interruption_path(application_form.id), text: t('.back') }
+        { path: candidate_interface_adviser_sign_ups_interruption_path, text: t('.back') }
       else
         { path: candidate_interface_details_path, text: t('.back_to_details') }
       end
