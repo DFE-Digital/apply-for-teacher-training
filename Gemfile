@@ -193,3 +193,5 @@ group :development, :test do
   gem 'pry'
   gem 'rspec-rails', require: false
 end
+
+gem 'field_test', '~> 0.7.0'

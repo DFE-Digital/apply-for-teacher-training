@@ -358,6 +358,19 @@ shared:
     - id
     - qualification_status
     - updated_at
+  field_test_events:
+    - id
+    - field_test_membership_id
+    - name
+    - created_at
+  field_test_memberships:
+    - id
+    - participant_type
+    - participant_id
+    - experiment
+    - variant
+    - created_at
+    - converted
   find_feedback:
     - id
     - created_at

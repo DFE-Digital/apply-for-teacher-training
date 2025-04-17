@@ -1,0 +1,14 @@
+experiments:
+  find_a_candidate/candidate_feature_launch_email:
+    variants:
+      - share_details
+      - invitation
+    goals:
+      - opt_in
+      - opt_out
+      - link_clicked
+    ended_at: Apr 25, 2025 5 pm BST
+
+exclude:
+  bots: true
+cookies: false
