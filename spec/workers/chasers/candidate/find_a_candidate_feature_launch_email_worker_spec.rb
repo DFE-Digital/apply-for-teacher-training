@@ -52,6 +52,18 @@ RSpec.describe Chasers::Candidate::FindACandidateFeatureLaunchEmailWorker do
                                   .with('CandidateMailer', 'find_a_candidate_feature_launch_email', 'deliver_now', args: [application_form])
       end
     end
+
+    context 'when the Application ID is not in the perform arguments' do
+      it 'does not send the email' do
+        candidate = create_candidate_eligible_for_pool
+        application_form = candidate.current_application
+
+        expect {
+          described_class.new.perform(application_form_ids: [])
+        }.not_to have_enqueued_job.on_queue('mailers')
+                                  .with('CandidateMailer', 'find_a_candidate_feature_launch_email', 'deliver_now', args: [application_form])
+      end
+    end
   end
 
 private
