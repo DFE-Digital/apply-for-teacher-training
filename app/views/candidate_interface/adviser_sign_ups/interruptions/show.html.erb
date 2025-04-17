@@ -1,0 +1,26 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.new_adviser_sign_up'), @adviser_interruption_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_details_path, t('.back')) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+      <%= form_with(model: @adviser_interruption_form, url: candidate_interface_update_adviser_sign_ups_interruption_response_path(@adviser_interruption_form.application_form.id), method: :patch) do |f| %>
+        <%= f.govuk_error_summary %>
+
+        <div class="app-grid-column--grey">
+          <h1 class="govuk-heading-l"><%= t('.heading') %></h1>
+          <p class="govuk-body"><%= t('.eligible') %></p>
+          <p class="govuk-body"><%= t('.eligible_2') %></p>
+          <p class="govuk-body"><%= t('.support') %></p>
+
+          <%= govuk_list [t('.help_with_1'), t('.help_with_2'), t('.help_with_3'), t('.help_with_4')], type: :bullet %>
+
+      </div>
+          <%= f.govuk_radio_buttons_fieldset(:proceed_to_request_adviser, inline: true, legend: { size: 'm', text: t('.request_legend') }) do %>
+            <%= f.govuk_radio_button :proceed_to_request_adviser, 'yes', label: { text: 'Yes' }, link_errors: true %>
+            <%= f.govuk_radio_button :proceed_to_request_adviser, 'no', label: { text: 'No' } %>
+          <% end %>
+
+          <%= f.govuk_submit t('.submit_text') %>
+        <% end %>
+  </div>
+</div>
