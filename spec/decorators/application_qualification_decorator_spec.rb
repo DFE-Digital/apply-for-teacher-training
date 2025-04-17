@@ -111,7 +111,7 @@ RSpec.describe ApplicationQualificationDecorator do
           )
         }
 
-        it 'returns unstructured degree and raw grade' do
+        it 'returns unstructured free text degree and grade' do
           expect(described_class.new(degree).formatted_degree_and_grade).to eq('Bachelor Modern Languages, 89')
         end
       end
