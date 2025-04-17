@@ -113,4 +113,39 @@ RSpec.describe ApplicationHelper do
       end
     end
   end
+
+  describe '#valid_app_path' do
+    it 'returns true if the path is valid within our app' do
+      call = helper.valid_app_path('/candidate/application/details')
+      expect(call).to be true
+    end
+
+    context 'when path is not a string' do
+      it 'returns false' do
+        call = helper.valid_app_path(12321)
+        expect(call).to be false
+      end
+    end
+
+    context 'when path is not a present' do
+      it 'returns false' do
+        call = helper.valid_app_path(nil)
+        expect(call).to be false
+      end
+    end
+
+    context 'when path is not in our routes' do
+      it 'returns false' do
+        call = helper.valid_app_path('/candidate/bad_path')
+        expect(call).to be false
+      end
+    end
+
+    context 'when path is not a path' do
+      it 'returns false' do
+        call = helper.valid_app_path('wrong path')
+        expect(call).to be false
+      end
+    end
+  end
 end
