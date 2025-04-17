@@ -97,3 +97,8 @@ en:
       subject: Get help with your personal statement
     apply_to_course_after_inactivity:
       subject: Increase your chances of receiving an offer for teacher training
+    find_a_candidate_feature_launch_email:
+      share_details:
+        subject: Make your applications details visible to more training providers
+      invitation:
+        subject: A new way to apply for initial teacher training courses

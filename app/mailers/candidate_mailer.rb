@@ -535,6 +535,19 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def find_a_candidate_feature_launch_email(application_form)
+    # This is a Chaser email (find_a_candidate_feature_launch)
+    # check ChaserSent records against the application_form before sending
+    exp = FieldTest::Experiment.find('find_a_candidate/candidate_feature_launch_email')
+    @experiment_variant = exp.variant(application_form.candidate)
+
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!("candidate_mailer.find_a_candidate_feature_launch_email.#{@experiment_variant}.subject"),
+      layout: false,
+    )
+  end
+
 private
 
   def email_for_candidate(application_form, args = {})
