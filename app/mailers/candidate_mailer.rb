@@ -522,6 +522,7 @@ class CandidateMailer < ApplicationMailer
     @application_form = pool_invite.candidate.current_cycle_application_form
     @provider = pool_invite.provider
     @course = pool_invite.course
+    @preferences_url = candidate_preferences_link(pool_invite.candidate)
 
     email_for_candidate(
       @application_form,
@@ -567,14 +568,23 @@ private
     candidate_interface_unsubscribe_from_emails_url(token:)
   end
 
+  def candidate_preferences_link(candidate)
+    if candidate.published_preferences.last&.opt_out?
+      edit_candidate_interface_pool_opt_in_url(candidate.published_preferences.last)
+    elsif candidate.published_preferences.blank?
+      new_candidate_interface_pool_opt_in_url
+    else
+      candidate_interface_draft_preference_publish_preferences_url(candidate.published_preferences.last)
+    end
+  end
+
   helper_method :sign_in_link,
                 :application_choices_link,
                 :candidate_realistic_job_preview_link,
-                :candidate_unsubscribe_link
-
-  def uid
-    @uid ||= EmailLogInterceptor.generate_reference
-  end
+                :candidate_unsubscribe_link,
+                def uid
+                  @uid ||= EmailLogInterceptor.generate_reference
+                end
 
   def utm_args
     { utm_source: uid }
