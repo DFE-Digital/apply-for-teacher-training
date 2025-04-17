@@ -7,11 +7,13 @@ FactoryBot.define do
     # `course_option` being present, as it will not exist until after the
     # record is saved.
     transient do
+      candidate { nil }
       course { nil }
       recruitment_cycle_year { nil }
       form_options {
         {
           recruitment_cycle_year:,
+          candidate:,
         }.compact_blank
       }
     end
