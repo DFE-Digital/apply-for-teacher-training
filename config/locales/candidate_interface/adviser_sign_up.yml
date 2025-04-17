@@ -34,7 +34,8 @@ en:
           request_legend: Do you want to request a teacher training adviser?
           submit_text: Continue
       new:
-        back: Back to your details
+        back: Back
+        back_to_details: Back to your details
         heading: Get a teacher training adviser
         introduction: Get free one-to-one support from an adviser with years of teaching experience.
         your_adviser: Your adviser can talk you through the application process step by step.
