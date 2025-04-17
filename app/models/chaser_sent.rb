@@ -28,6 +28,11 @@ class ChaserSent < ApplicationRecord
     eoc_deadline_reminder: 'eoc_deadline_reminder',
 
     ######################################
+    ####   Candidate Feature Launch   ####
+    ######################################
+    find_a_candidate_feature_launch: 'find_a_candidate_feature_launch',
+
+    ######################################
     ####          References          ####
     ######################################
 
