@@ -67,114 +67,99 @@ RSpec.describe ApplicationQualificationDecorator do
       end
     end
 
-    describe '#degree_type_and_subject' do
+    describe '#formatted_degree_and_grade' do
       context 'when it is a completed honours degree' do
-        let(:application_form) {
-          create(:application_form, :completed, application_qualifications: [
-            build(:degree_qualification,
-                  qualification_type: 'Bachelor of Science',
-                  subject: 'Mathematics',
-                  predicted_grade: false,
-                  grade: 'First-class honours'),
-          ])
+        let(:degree) {
+          build(
+            :degree_qualification,
+            qualification_type: 'Bachelor of Science',
+            subject: 'Mathematics',
+            predicted_grade: false,
+            grade: 'First-class honours',
+          )
         }
-        let(:decorated_degree) { described_class.new(application_form.last_degree) }
-        let(:abbreviated_degree) { decorated_degree.degree_type_and_subject(application_form.last_degree) }
 
-        it 'renders the abbreviated degree with (hons)' do
-          expect(abbreviated_degree).to include('BSc (Hons) Mathematics')
+        it 'returns abbreviated degree with (Hons) and short grade' do
+          expect(described_class.new(degree).formatted_degree_and_grade).to eq('BSc (Hons) Mathematics, First')
         end
       end
 
       context 'when it is a completed degree without honours' do
-        let(:application_form) {
-          create(:application_form, :completed, application_qualifications: [
-            build(:degree_qualification,
-                  qualification_type: 'Bachelor of Arts',
-                  subject: 'English Literature',
-                  predicted_grade: false,
-                  grade: 'Third-class'),
-          ])
+        let(:degree) {
+          build(
+            :degree_qualification,
+            qualification_type: 'Bachelor of Arts',
+            subject: 'English literature',
+            predicted_grade: false,
+            grade: 'Third-class',
+          )
         }
-        let(:decorated_degree) { described_class.new(application_form.last_degree) }
-        let(:abbreviated_degree) { decorated_degree.degree_type_and_subject(application_form.last_degree) }
 
-        it 'renders the abbreviated degree without (hons)' do
-          expect(abbreviated_degree).to include('BA English Literature')
+        it 'returns abbreviated degree without (Hons) and full grade text' do
+          expect(described_class.new(degree).formatted_degree_and_grade).to eq('BA English Literature, Third-class')
         end
       end
 
-      context 'when it is an international degree or another qualification type' do
-        let(:application_form) {
-          create(:application_form, :completed, application_qualifications: [
-            build(:non_uk_degree_qualification,
-                  qualification_type: 'Bachelor',
-                  subject: 'Modern Languages',
-                  predicted_grade: false,
-                  grade: '89'),
-          ])
+      context 'when it is an international degree or other unstructured type' do
+        let(:degree) {
+          build(
+            :non_uk_degree_qualification,
+            qualification_type: 'Bachelor',
+            subject: 'Modern Languages',
+            predicted_grade: false,
+            grade: '89',
+          )
         }
-        let(:decorated_degree) { described_class.new(application_form.last_degree) }
-        let(:abbreviated_degree) { decorated_degree.degree_type_and_subject(application_form.last_degree) }
 
-        it 'renders the unstructured free text' do
-          expect(abbreviated_degree).to include('Bachelor Modern Languages')
-        end
-      end
-    end
-
-    describe '#formatted_grade' do
-      context 'when it is a completed degree with a grade' do
-        let(:application_form) {
-          create(:application_form, :completed, application_qualifications: [
-            build(:degree_qualification,
-                  qualification_type: 'Bachelor of Education',
-                  subject: 'European History',
-                  predicted_grade: false,
-                  grade: 'Third-class honours'),
-          ])
-        }
-        let(:decorated_degree) { described_class.new(application_form.last_degree) }
-        let(:formatted_grade) { decorated_degree.formatted_grade(application_form.last_degree) }
-
-        it 'renders the short form grade' do
-          expect(formatted_grade).to include('3rd')
+        it 'returns unstructured degree and raw grade' do
+          expect(described_class.new(degree).formatted_degree_and_grade).to eq('Bachelor Modern Languages, 89')
         end
       end
 
-      context 'when it is a incomplete degree with a predicted grade' do
-        let(:application_form) {
-          create(:application_form, :completed, application_qualifications: [
-            build(:degree_qualification,
-                  qualification_type: 'Bachelor of Engineering',
-                  subject: 'Civil Engineering',
-                  predicted_grade: true,
-                  grade: 'Lower second-class honours (2:2)'),
-          ])
+      context 'when it is a predicted degree' do
+        let(:degree) {
+          build(
+            :degree_qualification,
+            qualification_type: 'Bachelor of Engineering',
+            subject: 'Civil Engineering',
+            predicted_grade: true,
+            grade: 'Lower second-class honours (2:2)',
+          )
         }
-        let(:decorated_degree) { described_class.new(application_form.last_degree) }
-        let(:formatted_grade) { decorated_degree.formatted_grade(application_form.last_degree) }
 
-        it 'renders the short form grade' do
-          expect(formatted_grade).to include('2:2 (predicted)')
+        it 'includes the (predicted) label in grade' do
+          expect(described_class.new(degree).formatted_degree_and_grade).to eq('BEng (Hons) Civil Engineering, 2:2 (predicted)')
         end
       end
 
-      context 'when it is an international degree or another grade type' do
-        let(:application_form) {
-          create(:application_form, :completed, application_qualifications: [
-            build(:non_uk_degree_qualification,
-                  qualification_type: 'Bachelor',
-                  subject: 'Modern Languages',
-                  predicted_grade: false,
-                  grade: '89'),
-          ])
+      context 'when the grade is missing' do
+        let(:degree) {
+          build(
+            :degree_qualification,
+            qualification_type: 'Bachelor of Music',
+            subject: 'Music Composition',
+            predicted_grade: false,
+            grade: nil,
+          )
         }
-        let(:decorated_degree) { described_class.new(application_form.last_degree) }
-        let(:formatted_grade) { decorated_degree.formatted_grade(application_form.last_degree) }
 
-        it 'renders the unstructured free text' do
-          expect(formatted_grade).to include('89')
+        it 'returns only the degree type and subject' do
+          expect(described_class.new(degree).formatted_degree_and_grade).to eq('BMus Music Composition')
+        end
+      end
+
+      context 'when the qualification is not a degree' do
+        let(:non_degree) {
+          build(
+            :gcse_qualification,
+            qualification_type: 'gcse',
+            subject: 'maths',
+            grade: 'A',
+          )
+        }
+
+        it 'returns nil' do
+          expect(described_class.new(non_degree).formatted_degree_and_grade).to be_nil
         end
       end
     end
