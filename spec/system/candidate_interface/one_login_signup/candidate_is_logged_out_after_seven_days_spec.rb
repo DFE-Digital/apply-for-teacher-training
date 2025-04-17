@@ -67,7 +67,7 @@ private
   def then_i_am_logged_out
     expect(page).to have_title 'Create a GOV.UK One Login or sign in'
     expect(page).to have_content 'You need a GOV.UK One Login to sign in to this service. You can create one if you do not already have one.'
-    expect(page).to have_current_path candidate_interface_create_account_or_sign_in_path(path: '/candidate/application/choices')
+    expect(page).to have_current_path candidate_interface_create_account_or_sign_in_path
   end
 
   def when_i_login_again

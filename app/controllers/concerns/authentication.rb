@@ -40,7 +40,7 @@ private
   end
 
   def request_authentication
-    redirect_to candidate_interface_create_account_or_sign_in_path(path: request.path)
+    redirect_to candidate_interface_create_account_or_sign_in_path
   end
 
   def start_new_session_for(candidate:, id_token_hint: nil)

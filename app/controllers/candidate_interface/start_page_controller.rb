@@ -7,7 +7,6 @@ module CandidateInterface
 
     def create_account_or_sign_in
       @create_account_or_sign_in_form = CreateAccountOrSignInForm.new
-      @referer_path = params[:path]
     end
 
     def create_account_or_sign_in_handler

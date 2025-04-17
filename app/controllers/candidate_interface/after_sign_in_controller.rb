@@ -37,7 +37,7 @@ module CandidateInterface
     end
 
     def redirect_to_path_if_path_params_are_present
-      redirect_to params[:path] if params[:path].present? && valid_app_path(params[:path])
+      redirect_to params[:path] if params[:path].present?
     end
 
     def redirect_to_prefill_if_sandbox_user_has_blank_application

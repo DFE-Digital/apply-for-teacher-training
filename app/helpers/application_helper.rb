@@ -114,16 +114,6 @@ module ApplicationHelper
     end
   end
 
-  def valid_app_path(path)
-    return false unless path.is_a?(String) && path.present?
-
-    route_hash = Rails.application.routes.recognize_path(path)
-
-    route_hash[:controller] != 'errors' && route_hash[:action] != 'not_found'
-  rescue ActionController::RoutingError
-    false
-  end
-
 private
 
   # Use characters rather than HTML entities for smart quotes this matches how
