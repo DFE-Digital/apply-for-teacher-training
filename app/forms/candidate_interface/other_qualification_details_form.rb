@@ -7,14 +7,15 @@ module CandidateInterface
     attr_reader :next_step
     attr_accessor :editing, :id, :current_step,
                   :qualification_type, :other_uk_qualification_type, :non_uk_qualification_type,
-                  :subject, :grade, :predicted_grade, :award_year, :institution_country, :choice
+                  :subject, :grade, :predicted_grade, :award_year, :institution_country, :choice, :recruitment_cycle_year
 
     before_validation :sanitize_grade_where_required
 
     validates :qualification_type, presence: true, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH }
     validates :non_uk_qualification_type, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH }
 
-    validates :award_year, presence: true, numericality: { only_integer: true, in: 100.years.ago.year..RecruitmentCycle.next_year }
+    validates :award_year, presence: true, numericality: { only_integer: true }
+    validate :award_year_before_training_starts
     validates :subject, :grade, presence: true, if: -> { should_validate_grade? }
     validates :subject, :grade, length: { maximum: 255 }
     validates :other_uk_qualification_type, length: { maximum: 100 }
@@ -31,6 +32,7 @@ module CandidateInterface
     def self.build_from_qualification(qualification)
       form = CandidateInterface::OtherQualificationDetailsForm.new
       form.id = qualification.id
+      form.recruitment_cycle_year = qualification.application_form.recruitment_cycle_year
       form.assign_attributes(form.persistent_attributes(qualification))
       form
     end
@@ -38,7 +40,8 @@ module CandidateInterface
     def initialize(current_application = nil, intermediate_data_service = nil, options = {})
       @current_application = current_application
       @intermediate_data_service = intermediate_data_service
-      options = @intermediate_data_service.read.merge(options) if @intermediate_data_service
+      @recruitment_cycle_year = options[:recruitment_cycle_year] || RecruitmentCycleTimetable.current_year
+      options = @intermediate_data_service.read.merge(options.except(:recruitment_cycle_year)) if @intermediate_data_service
       self.choice = 'no'
 
       self.id ||= options[:id] || options['id']
@@ -179,6 +182,13 @@ module CandidateInterface
       when OtherQualificationTypeForm::GCSE_TYPE
         errors.add(:grade, :invalid) unless grade.in?(ALL_GCSE_GRADES)
       end
+    end
+
+    def award_year_before_training_starts
+      return if award_year.to_i.zero?
+      return if award_year.to_i.in?(100.years.ago.year..recruitment_cycle_year + 1)
+
+      errors.add(:award_year, :in)
     end
 
     def sanitize_grade_where_required
