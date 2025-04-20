@@ -32,8 +32,6 @@ CYCLE_DATES.each do |recruitment_cycle_year, dates|
       reject_by_default_at: dates[:reject_by_default],
       decline_by_default_at: dates[:find_closes] - 1.day,
       find_closes_at: dates[:find_closes],
-      christmas_holiday_range: dates.dig(:holidays, :christmas),
-      easter_holiday_range: dates.dig(:holidays, :easter),
     )
   end
 end

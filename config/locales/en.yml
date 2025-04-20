@@ -578,12 +578,6 @@ en:
               decline_by_default_after_reject_by_default: Enter a decline by default date that is after the reject by default date
             find_closes_at:
               find_closes_after_decline_by_default: Enter a Find close date that is after the decline by default date
-            easter_holiday_range:
-              easter_holiday_range_should_be_within_cycle: Enter an Easter holiday range within cycle
-              easter_holiday_range_should_include_easter: Enter an Easter holiday range that includes Easter
-            christmas_holiday_range:
-              christmas_holiday_range_should_be_in_cycle: Enter a Christmas holiday within cycle
-              christmas_holiday_range_should_include_christmas: Enter a Christmas holiday range that includes Christmas day
         candidate:
           attributes:
             email_address:

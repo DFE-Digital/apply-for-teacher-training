@@ -21,18 +21,6 @@ en:
         find_closes_at:
           label: Find closes
           hint: The end of the cycle.
-        christmas_holiday_range_start_at:
-          label: The beginning of the Christmas holiday period
-          hint: The Christmas holiday is not included in 'inactive' calculations
-        christmas_holiday_range_end_at:
-          label: The end of the Christmas holiday period
-          hint: The Christmas holiday is not included in 'inactive' calculations
-        easter_holiday_range_start_at:
-          label: The beginning of the Easter holiday period
-          hint: The Easter holiday is not included in 'inactive' calculations
-        easter_holiday_range_end_at:
-          label: The end of the Easter holiday period
-          hint: The Easter holiday is not included in 'inactive' calculations
       index:
         page_title: Recruitment cycles
         form_title: Move forward in the recruitment cycle
