@@ -4,6 +4,7 @@ class GenerateMonthlyStatistics
   sidekiq_options retry: 3, queue: :default
 
   def perform
+    return false unless HostingEnvironment.production?
     return false unless MonthlyStatisticsTimetable.generate_monthly_statistics?
 
     Publications::ITTMonthlyReportGenerator.new(
