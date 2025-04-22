@@ -72,6 +72,12 @@ module CandidateInterface
 
     def set_location_preference
       @location_preference = @preference.location_preferences.find_by(id: params[:id])
+
+      if @location_preference.blank?
+        redirect_to candidate_interface_draft_preference_location_preferences_path(
+          @preference,
+        )
+      end
     end
 
     def location_preference_params
