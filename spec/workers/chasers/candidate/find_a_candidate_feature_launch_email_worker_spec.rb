@@ -11,7 +11,7 @@ RSpec.describe Chasers::Candidate::FindACandidateFeatureLaunchEmailWorker do
       application_form = candidate.current_application
 
       expect {
-        described_class.new.perform(application_form_ids: [application_form.id])
+        described_class.new.perform(application_form.id)
       }.to have_enqueued_job.on_queue('mailers')
                             .with('CandidateMailer', 'find_a_candidate_feature_launch_email', 'deliver_now', args: [application_form])
         .and change(ChaserSent, :count).from(0).to(1)
@@ -24,7 +24,7 @@ RSpec.describe Chasers::Candidate::FindACandidateFeatureLaunchEmailWorker do
         create(:chaser_sent, chased: application_form, chaser_type: 'find_a_candidate_feature_launch')
 
         expect {
-          described_class.new.perform(application_form_ids: [application_form.id])
+          described_class.new.perform([application_form.id])
         }.not_to have_enqueued_job.on_queue('mailers')
                               .with('CandidateMailer', 'find_a_candidate_feature_launch_email', 'deliver_now', args: [application_form])
       end
@@ -36,7 +36,7 @@ RSpec.describe Chasers::Candidate::FindACandidateFeatureLaunchEmailWorker do
         application_form = candidate.current_application
 
         expect {
-          described_class.new.perform(application_form_ids: [application_form.id])
+          described_class.new.perform([application_form.id])
         }.not_to have_enqueued_job.on_queue('mailers')
                                   .with('CandidateMailer', 'find_a_candidate_feature_launch_email', 'deliver_now', args: [application_form])
       end
@@ -47,7 +47,7 @@ RSpec.describe Chasers::Candidate::FindACandidateFeatureLaunchEmailWorker do
         application_form = create(:application_form)
 
         expect {
-          described_class.new.perform(application_form_ids: [application_form.id])
+          described_class.new.perform([application_form.id])
         }.not_to have_enqueued_job.on_queue('mailers')
                                   .with('CandidateMailer', 'find_a_candidate_feature_launch_email', 'deliver_now', args: [application_form])
       end
@@ -59,7 +59,7 @@ RSpec.describe Chasers::Candidate::FindACandidateFeatureLaunchEmailWorker do
         application_form = candidate.current_application
 
         expect {
-          described_class.new.perform(application_form_ids: [])
+          described_class.new.perform([])
         }.not_to have_enqueued_job.on_queue('mailers')
                                   .with('CandidateMailer', 'find_a_candidate_feature_launch_email', 'deliver_now', args: [application_form])
       end

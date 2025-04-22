@@ -3,7 +3,7 @@ module Chasers
     class FindACandidateFeatureLaunchEmailWorker
       include Sidekiq::Worker
 
-      def perform(application_form_ids: [], limit: 1000)
+      def perform(application_form_ids, limit = 1000)
         return unless FeatureFlag.active?(:candidate_preferences)
 
         application_form_ids_with_sent_chaser = ChaserSent
