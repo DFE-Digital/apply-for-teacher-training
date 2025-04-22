@@ -66,5 +66,102 @@ RSpec.describe ApplicationQualificationDecorator do
         end
       end
     end
+
+    describe '#formatted_degree_and_grade' do
+      context 'when it is a completed honours degree' do
+        let(:degree) {
+          build(
+            :degree_qualification,
+            qualification_type: 'Bachelor of Science',
+            subject: 'Mathematics',
+            predicted_grade: false,
+            grade: 'First-class honours',
+          )
+        }
+
+        it 'returns abbreviated degree with (Hons) and short grade' do
+          expect(described_class.new(degree).formatted_degree_and_grade).to eq('BSc (Hons) Mathematics, First')
+        end
+      end
+
+      context 'when it is a completed degree without honours' do
+        let(:degree) {
+          build(
+            :degree_qualification,
+            qualification_type: 'Bachelor of Arts',
+            subject: 'English literature',
+            predicted_grade: false,
+            grade: 'Third-class',
+          )
+        }
+
+        it 'returns abbreviated degree without (Hons) and full grade text' do
+          expect(described_class.new(degree).formatted_degree_and_grade).to eq('BA English Literature, Third-class')
+        end
+      end
+
+      context 'when it is an international degree or other unstructured type' do
+        let(:degree) {
+          build(
+            :non_uk_degree_qualification,
+            qualification_type: 'Bachelor',
+            subject: 'Modern Languages',
+            predicted_grade: false,
+            grade: '89',
+          )
+        }
+
+        it 'returns unstructured free text degree and grade' do
+          expect(described_class.new(degree).formatted_degree_and_grade).to eq('Bachelor Modern Languages, 89')
+        end
+      end
+
+      context 'when it is a predicted degree' do
+        let(:degree) {
+          build(
+            :degree_qualification,
+            qualification_type: 'Bachelor of Engineering',
+            subject: 'Civil Engineering',
+            predicted_grade: true,
+            grade: 'Lower second-class honours (2:2)',
+          )
+        }
+
+        it 'includes the (predicted) label in grade' do
+          expect(described_class.new(degree).formatted_degree_and_grade).to eq('BEng (Hons) Civil Engineering, 2:2 (predicted)')
+        end
+      end
+
+      context 'when the grade is missing' do
+        let(:degree) {
+          build(
+            :degree_qualification,
+            qualification_type: 'Bachelor of Music',
+            subject: 'Music Composition',
+            predicted_grade: false,
+            grade: nil,
+          )
+        }
+
+        it 'returns only the degree type and subject' do
+          expect(described_class.new(degree).formatted_degree_and_grade).to eq('BMus Music Composition')
+        end
+      end
+
+      context 'when the qualification is not a degree' do
+        let(:non_degree) {
+          build(
+            :gcse_qualification,
+            qualification_type: 'gcse',
+            subject: 'maths',
+            grade: 'A',
+          )
+        }
+
+        it 'returns nil' do
+          expect(described_class.new(non_degree).formatted_degree_and_grade).to be_nil
+        end
+      end
+    end
   end
 end
