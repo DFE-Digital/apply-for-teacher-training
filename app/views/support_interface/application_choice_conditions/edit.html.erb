@@ -53,8 +53,6 @@
                   <% end %>
                 <% end %>
               <% end %>
-              <%= f.govuk_radio_divider %>
-              <%= f.govuk_check_box :ske_languages, 'no', label: { text: 'No, a SKE course is not required' }, exclusive: true %>
             <% end %>
           <% else %>
             <%= f.govuk_radio_buttons_fieldset :ske_required, legend: { text: "Do you require #{@form.application_choice.application_form.full_name} to take a SKE course in #{@form.subject_name} that will be funded by the DfE?", size: 'm' } do %>
