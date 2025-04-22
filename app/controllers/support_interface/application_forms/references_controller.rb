@@ -35,7 +35,7 @@ module SupportInterface
     private
 
       def edit_reference_details_params
-        params.expect(support_interface_application_forms_edit_reference_details_form: %i[name email_address relationship audit_comment])
+        params.expect(support_interface_application_forms_edit_reference_details_form: %i[name email_address relationship audit_comment confidential])
       end
 
       def edit_reference_feedback_params

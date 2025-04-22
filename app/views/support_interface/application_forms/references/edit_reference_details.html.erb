@@ -11,6 +11,10 @@
         <%= f.govuk_text_field :email_address, label: { text: t('support_interface.edit_reference_form.email_address.label'), size: 'm' }, hint: { text: t('support_interface.edit_reference_form.email_address.hint_text') }, autocomplete: 'email_addess' %>
         <%= f.govuk_text_field :relationship, label: { text: t('support_interface.edit_reference_form.relationship.label'), size: 'm' }, autocomplete: 'relationship' %>
         <%= f.govuk_text_field :audit_comment, label: { text: 'Audit log comment', size: 'm' }, hint: { text: 'This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here' } %>
+        <%= f.govuk_radio_buttons_fieldset :confidential, legend: { text: t('support_interface.edit_reference_form.confidential.legend') } do %>
+          <%= f.govuk_radio_button :confidential, false, label: { text: t('support_interface.edit_reference_form.confidential.ok_to_share') }, link_errors: true %>
+          <%= f.govuk_radio_button :confidential, true, label: { text: t('support_interface.edit_reference_form.confidential.not_ok_to_share') } %>
+        <% end %>
       <% end %>
 
       <%= f.govuk_submit 'Update reference' %>

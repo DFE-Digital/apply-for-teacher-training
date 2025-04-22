@@ -2,6 +2,7 @@ en:
   support_interface:
     references:
       confidential_warning:
+        not_answered: The Referee has not told us if their feedback is confidential
         true: No, this reference is confidential. Do not share it.
         false: Yes, if they request it.
     page_titles:
@@ -13,6 +14,10 @@ en:
       remove: Remove support user
       restore: Restore support user
     edit_reference_form:
+      confidential:
+        legend: Can the feedback be shared with the candidate?
+        ok_to_share: Yes, if the candidate requests it
+        not_ok_to_share: No, this reference is confidential
       name:
         label: What is the referee’s name?
       email_address:
@@ -73,7 +78,7 @@ en:
       ske_reasons:
         different_degree: Their degree subject was not %{degree_subject}
         outdated_degree: Their degree subject was %{degree_subject}, but they graduated before %{graduation_cutoff_date}
-    links: 
+    links:
       service_manual:
         subscription_messages: https://www.gov.uk/service-manual/design/sending-emails-and-text-messages#subscription-messages
   activemodel:
@@ -213,6 +218,8 @@ en:
             relationship:
               blank: Relationship cannot be blank
               too_long: Relationship must be %{count} characters or fewer
+            confidential:
+              blank: Select whether or not the feedback may be shared with the candidate
             audit_comment:
               blank: You must provide an audit comment
         support_interface/application_forms/edit_becoming_a_teacher_form:
