@@ -64,7 +64,7 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
     describe 'date of birth' do
       let(:model) { described_class.new(day:, month:, year:) }
 
-      include_examples 'date_of_birth validations', verify_presence: true
+      it_behaves_like 'date_of_birth validations', verify_presence: true
 
       it 'is invalid on RangeError and does not raise' do
         expect {

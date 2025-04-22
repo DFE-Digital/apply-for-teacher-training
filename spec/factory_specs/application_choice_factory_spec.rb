@@ -92,18 +92,18 @@ RSpec.describe 'ApplicationChoice factory' do
     context 'when stubbing' do
       subject(:record) { build_stubbed(factory, *traits, **attributes) }
 
-      include_examples 'post-build setup'
+      it_behaves_like 'post-build setup'
     end
 
     context 'when building' do
       subject(:record) { build(factory, *traits, **attributes) }
 
-      include_examples 'post-build setup'
+      it_behaves_like 'post-build setup'
     end
   end
 
   factory :application_choice do
-    include_examples 'an application_choice-derived factory'
+    it_behaves_like 'an application_choice-derived factory'
 
     context 'if a submitted form is provided' do
       let(:attributes) do
@@ -264,7 +264,7 @@ RSpec.describe 'ApplicationChoice factory' do
   trait :offered do
     it { is_expected.to be_offer }
 
-    include_examples 'it has an offer'
+    it_behaves_like 'it has an offer'
 
     it_behaves_like 'an application_choice-derived factory'
   end
@@ -320,7 +320,7 @@ RSpec.describe 'ApplicationChoice factory' do
   trait :accepted do
     it { is_expected.to be_pending_conditions }
 
-    include_examples 'it is accepted'
+    it_behaves_like 'it is accepted'
   end
 
   trait :pending_conditions, aliased_to: :accepted
@@ -346,7 +346,7 @@ RSpec.describe 'ApplicationChoice factory' do
   trait :awaiting_provider_decision do
     it { is_expected.to be_awaiting_provider_decision }
 
-    include_examples 'RBD has been set'
+    it_behaves_like 'RBD has been set'
   end
 
   trait :interviewing do
@@ -379,7 +379,7 @@ RSpec.describe 'ApplicationChoice factory' do
   end
 
   trait :withdrawn do
-    include_examples 'it is withdrawn'
+    it_behaves_like 'it is withdrawn'
 
     field :withdrawn_or_declined_for_candidate_by_provider, value: false
   end
@@ -482,14 +482,14 @@ RSpec.describe 'ApplicationChoice factory' do
   end
 
   trait :rejected do
-    include_examples 'it is rejected'
+    it_behaves_like 'it is rejected'
 
     field :rejection_reason, type: String
     field :rejection_reasons_type, value: 'rejection_reason'
   end
 
   trait :rejected_by_default do
-    include_examples 'it is rejected'
+    it_behaves_like 'it is rejected'
 
     field :rejected_by_default, value: true
     field :rejection_reason, presence: false
@@ -497,7 +497,7 @@ RSpec.describe 'ApplicationChoice factory' do
   end
 
   trait :rejected_by_default_with_feedback do
-    include_examples 'it is rejected'
+    it_behaves_like 'it is rejected'
 
     field :rejected_by_default, value: true
     field :rejection_reason, type: String
@@ -514,7 +514,7 @@ RSpec.describe 'ApplicationChoice factory' do
   end
 
   trait :with_old_structured_rejection_reasons do
-    include_examples 'it is rejected'
+    it_behaves_like 'it is rejected'
 
     field :rejection_reasons_type, value: 'reasons_for_rejection'
 
@@ -530,7 +530,7 @@ RSpec.describe 'ApplicationChoice factory' do
   end
 
   trait :with_structured_rejection_reasons do
-    include_examples 'it is rejected'
+    it_behaves_like 'it is rejected'
 
     field :rejection_reasons_type, value: 'rejection_reasons'
 
@@ -546,7 +546,7 @@ RSpec.describe 'ApplicationChoice factory' do
   end
 
   trait :with_vendor_api_rejection_reasons do
-    include_examples 'it is rejected'
+    it_behaves_like 'it is rejected'
 
     field :rejection_reasons_type, value: 'vendor_api_rejection_reasons'
 

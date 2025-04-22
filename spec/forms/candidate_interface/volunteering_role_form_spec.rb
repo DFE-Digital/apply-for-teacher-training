@@ -159,7 +159,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
                             currently_working: 'false')
       end
 
-      include_examples 'month and year date validations', :start_date, verify_presence: true, future: true, before: :end_date
+      it_behaves_like 'month and year date validations', :start_date, verify_presence: true, future: true, before: :end_date
     end
 
     context 'end_date validations' do
@@ -174,7 +174,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
                             currently_working: 'false')
       end
 
-      include_examples 'month and year date validations', :end_date, future: true
+      it_behaves_like 'month and year date validations', :end_date, future: true
 
       describe 'when currently working is true' do
         let(:model) do
