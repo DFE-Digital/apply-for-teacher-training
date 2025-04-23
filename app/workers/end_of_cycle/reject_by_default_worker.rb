@@ -4,7 +4,7 @@ module EndOfCycle
 
     BATCH_SIZE = 120
 
-    def perform(force: false)
+    def perform(force = false)
       return unless EndOfCycle::JobTimetabler.new.run_reject_by_default? || force
 
       BatchDelivery.new(relation:, batch_size: BATCH_SIZE).each do |batch_time, applications|

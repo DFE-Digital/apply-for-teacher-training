@@ -61,7 +61,7 @@ RSpec.describe EndOfCycle::CancelUnsubmittedApplicationsWorker do
       it 'allows job to be run' do
         create_test_applications
         allow(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).to receive(:perform_at)
-        described_class.new.perform(force: true)
+        described_class.new.perform(true)
         expect(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker)
           .to have_received(:perform_at)
                 .with(

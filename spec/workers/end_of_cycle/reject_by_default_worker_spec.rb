@@ -7,7 +7,7 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
         rejectable = create(:application_choice, :inactive)
 
         allow(EndOfCycle::RejectByDefaultSecondaryWorker).to receive(:perform_at)
-        described_class.new.perform(force: true)
+        described_class.new.perform(true)
         expect(EndOfCycle::RejectByDefaultSecondaryWorker)
           .to have_received(:perform_at).with(kind_of(Time), [rejectable.application_form.id])
       end
