@@ -21,6 +21,7 @@ class Pool::Candidates
       .where.not(candidate: dismissed_candidates)
       .order(order_by)
       .distinct
+      .select('application_forms.id, application_forms.candidate_id, first_name, last_name, application_forms.submitted_at')
   end
 
   def self.application_forms_in_the_pool
@@ -63,14 +64,14 @@ private
         status: %i[rejected declined withdrawn conditions_not_met offer_withdrawn inactive],
       })
       .where.not(
-        id: ApplicationForm.joins(:application_choices).where(
+        id: ApplicationForm.current_cycle.joins(:application_choices).where(
           application_choices: {
             status: %i[awaiting_provider_decision interviewing offer pending_conditions recruited offer_deferred],
           },
         ).select(:id),
       )
       .where(
-        id: ApplicationForm.joins(:application_choices)
+        id: ApplicationForm.current_cycle.joins(:application_choices)
             .where(application_choices: { status: ApplicationStateChange::UNSUCCESSFUL_STATES })
             .group(:id)
             # Inactive doesn't count as an unsuccessful state, so need to exclude it when counting
@@ -78,7 +79,7 @@ private
             .select(:id),
       )
       .where.not(
-        id: ApplicationForm.joins(application_choices: :withdrawal_reasons)
+        id: ApplicationForm.current_cycle.joins(application_choices: :withdrawal_reasons)
           .where('withdrawal_reasons.reason ILIKE ?', '%do-not-want-to-train-anymore%')
           .select(:id),
       )
