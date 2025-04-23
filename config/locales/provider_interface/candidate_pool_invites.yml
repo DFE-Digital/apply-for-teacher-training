@@ -14,6 +14,7 @@ en:
             zero: "%{count} miles"
             one: "%{count} miles"
             other: "%{count} miles"
+          no_preferences: Open to courses anywhere
         show:
           title: Candidate details
           invite: Invite to apply

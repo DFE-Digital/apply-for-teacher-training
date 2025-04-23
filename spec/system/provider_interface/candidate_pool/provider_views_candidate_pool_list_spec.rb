@@ -24,7 +24,7 @@ RSpec.describe 'Providers views candidate pool list' do
     then_i_expect_to_see_eligible_candidates_order_by_application_form_submitted_at
 
     when_i_filter_by_location
-    then_i_expect_to_see_filtered_candidates([@rejected_candidate_form, @visa_sponsorship_form])
+    then_i_expect_to_see_filtered_candidates([@declined_candidate_form, @rejected_candidate_form, @visa_sponsorship_form])
     when_i_filter_by_visa_sponsorship
     then_i_expect_to_see_filtered_candidates([@visa_sponsorship_form])
 

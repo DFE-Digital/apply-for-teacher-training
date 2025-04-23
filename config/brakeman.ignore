@@ -95,6 +95,29 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "339fb89c0df0a43b1902ef64ed0e3f39adeae27568b3a354daed8d336f254c66",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/pool/candidates.rb",
+      "line": 109,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "scope.joins(:candidate => :published_preferences).joins(\"        left join lateral (\\n          select * from candidate_location_preferences\\n          where candidate_location_preferences.candidate_preference_id = candidate_preferences.id\\n          group by id\\n          having(#{CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))} <= candidate_location_preferences.within)\\n          limit 1\\n        ) as candidate_location_preferences on true\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Pool::Candidates",
+        "method": "filter_by_distance"
+      },
+      "user_input": "CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "384f45931b605f924ee51295a701f7c00e52715b7437d1f864bda1271c150af7",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -145,7 +168,7 @@
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/one_login_controller.rb",
-      "line": 67,
+      "line": 70,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(logout_one_login((Current.session.id_token_hint or SessionError.find_by(:id => session[:session_error_id]).id_token_hint)), :allow_other_host => true)",
       "render_path": null,
