@@ -7,7 +7,7 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
         declineable = create(:application_choice, :offer)
 
         allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
-        described_class.new.perform(force: true)
+        described_class.new.perform(true)
         expect(EndOfCycle::DeclineByDefaultSecondaryWorker)
           .to have_received(:perform_at).with(kind_of(Time), [declineable.application_form.id])
       end
