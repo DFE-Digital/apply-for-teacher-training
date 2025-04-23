@@ -143,6 +143,10 @@ class Candidate < ApplicationRecord
     application_forms.current_cycle.last
   end
 
+  def preference_opt_in_with_no_location_preferences?
+    published_preferences.last&.location_preferences.blank?
+  end
+
 private
 
   def downcase_email

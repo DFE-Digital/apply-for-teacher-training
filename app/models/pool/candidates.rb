@@ -102,7 +102,7 @@ private
     # for each location_preference. Can't do distinct because the site_distance would be different
     scope.joins(candidate: :published_preferences)
       .joins(<<-SQL)
-        join lateral (
+        left join lateral (
           select * from candidate_location_preferences
           where candidate_location_preferences.candidate_preference_id = candidate_preferences.id
           group by id

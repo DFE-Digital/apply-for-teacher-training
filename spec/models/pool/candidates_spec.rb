@@ -228,9 +228,10 @@ RSpec.describe Pool::Candidates do
     end
 
     def create_subject_candidate_form(course_option)
+      # This candidate also doesn't have a location preference.
+      # They should still appear when searching by location
       subject_candidate = create(:candidate)
-      candidate_preference = create(:candidate_preference, candidate: subject_candidate)
-      create(:candidate_location_preference, :manchester, candidate_preference:)
+      _candidate_preference = create(:candidate_preference, candidate: subject_candidate)
       subject_candidate_form = create(:application_form, :completed, candidate: subject_candidate)
       create(:application_choice, :rejected, application_form: subject_candidate_form, course_option:)
 

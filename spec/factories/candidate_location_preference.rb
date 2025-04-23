@@ -6,8 +6,8 @@ FactoryBot.define do
 
     trait :manchester do
       name { 'Manchester' }
-      latitude { 53.4807593 }
-      longitude { -2.2426305 }
+      latitude { 53.9807593 }
+      longitude { -2.9426305 }
     end
   end
 end
