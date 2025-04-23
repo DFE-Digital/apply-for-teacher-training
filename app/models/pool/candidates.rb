@@ -111,7 +111,7 @@ private
           limit 1
         ) as candidate_location_preferences on true
       SQL
-      .select("application_forms.*, #{calculate_distance_sql} as site_distance")
+      .select("#{calculate_distance_sql} as site_distance")
   end
 
   def filter_by_subject(scope)
