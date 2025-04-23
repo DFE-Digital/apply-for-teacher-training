@@ -39,7 +39,7 @@ module SupportInterface
       end
 
       def edit_reference_feedback_params
-        params.expect(support_interface_application_forms_edit_reference_feedback_form: %i[feedback audit_comment send_emails])
+        params.expect(support_interface_application_forms_edit_reference_feedback_form: %i[feedback audit_comment send_emails confidential])
       end
 
       def send_emails

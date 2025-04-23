@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SupportInterface::ApplicationForms::EditReferenceFeedbackForm do
   subject { described_class.new }
 
-  let(:reference) { create(:reference, feedback: 'Some feedback') }
+  let(:reference) { create(:reference, feedback: 'Some feedback', confidential: false) }
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:feedback) }
@@ -16,6 +16,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditReferenceFeedbackForm do
       form = described_class.build_from_reference(reference)
 
       expect(form.feedback).to eq('Some feedback')
+      expect(form.confidential).to be false
     end
   end
 
@@ -27,6 +28,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditReferenceFeedbackForm do
         feedback: 'Updated feedback',
         audit_comment: 'Audit comment',
         send_emails: true,
+        confidential: true,
       }
     end
 
@@ -34,6 +36,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditReferenceFeedbackForm do
       it 'updates the reference with the provided attributes' do
         form.save(reference)
         expect(reference.reload.feedback).to eq('Updated feedback')
+        expect(reference.reload.confidential).to be true
       end
     end
 

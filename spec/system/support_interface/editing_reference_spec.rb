@@ -105,6 +105,7 @@ RSpec.describe 'Editing reference' do
   end
 
   def then_i_see_relevant_blank_error_messages
+    expect(page).to have_content 'Select whether or not the feedback can be shared with the candidate'
     expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.feedback.blank')
     expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.audit_comment.blank')
     expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.send_emails.blank')
@@ -114,10 +115,12 @@ RSpec.describe 'Editing reference' do
     fill_in 'support_interface_application_forms_edit_reference_feedback_form[feedback]', with: 'Harry is a good egg'
     fill_in 'support_interface_application_forms_edit_reference_feedback_form[audit_comment]', with: 'Updated as part of Zen Desk ticket #12346'
     choose 'Yes'
+    choose 'Yes, if the candidate requests it'
   end
 
   def and_i_see_the_new_feedback
     expect(page).to have_content 'Harry is a good egg'
+    expect(page).to have_content 'Yes, if they request it.'
   end
 
   def and_i_see_my_feedback_comment_in_the_audit_log
