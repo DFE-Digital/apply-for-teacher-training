@@ -226,10 +226,20 @@ module SupportInterface
     def confidentiality_row
       return unless reference.feedback_provided?
 
-      {
+      row = {
         key: 'Can this reference be shared with the candidate?',
         value: confidentiality_value,
       }
+
+      return row unless @editable
+
+      row.merge(
+        action: {
+          text: 'Change',
+          href: support_interface_application_form_edit_reference_feedback_path(reference.application_form, reference),
+          visually_hidden_text: 'whether this reference can be shared with the candidate',
+        },
+      )
     end
 
     def history_row
@@ -272,7 +282,11 @@ module SupportInterface
     end
 
     def confidentiality_value
-      t("support_interface.references.confidential_warning.#{reference.confidential}")
+      if reference.confidential.nil?
+        t('support_interface.references.confidential_warning.unknown')
+      else
+        t("support_interface.references.confidential_warning.#{reference.confidential}")
+      end
     end
 
     attr_reader :reference

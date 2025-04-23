@@ -9,6 +9,8 @@ RSpec.describe 'Support user can access the RefereeInterface' do
 
     when_i_visit_the_application_form_page
     and_click_the_provide_feedback_link
+    then_i_see_the_confidentiality_page
+    when_i_select_not_to_share_and_continue
     then_i_see_the_reference_relationship_page
 
     when_i_visit_the_application_form_page
@@ -37,6 +39,15 @@ RSpec.describe 'Support user can access the RefereeInterface' do
 
   def and_click_the_provide_feedback_link
     click_link_or_button 'Give feedback'
+  end
+
+  def then_i_see_the_confidentiality_page
+    expect(page).to have_content "Can your reference be shared with #{@application.full_name}?"
+  end
+
+  def when_i_select_not_to_share_and_continue
+    choose 'No, it should be treated as confidential'
+    click_on 'Save and continue'
   end
 
   def then_i_see_the_reference_relationship_page

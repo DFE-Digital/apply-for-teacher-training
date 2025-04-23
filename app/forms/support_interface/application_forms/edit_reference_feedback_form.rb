@@ -3,14 +3,15 @@ module SupportInterface
     class EditReferenceFeedbackForm
       include ActiveModel::Model
 
-      attr_accessor :feedback, :audit_comment, :send_emails
+      attr_accessor :feedback, :audit_comment, :send_emails, :confidential
 
+      validates :confidential, presence: true
       validates :feedback, presence: true, word_count: { maximum: 500 }
       validates :audit_comment, presence: true
       validates :send_emails, presence: true
 
       def self.build_from_reference(reference)
-        new(feedback: reference.feedback)
+        new(feedback: reference.feedback, confidential: reference.confidential)
       end
 
       def save(reference)
@@ -20,6 +21,7 @@ module SupportInterface
           reference.update!(
             feedback:,
             audit_comment:,
+            confidential:,
           )
         end
       end
