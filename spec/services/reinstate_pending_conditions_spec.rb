@@ -63,7 +63,7 @@ RSpec.describe ReinstatePendingConditions do
   end
 
   describe 'validations' do
-    include_examples 'confirm deferred offer validations', :reinstate_pending_conditions
+    it_behaves_like 'confirm deferred offer validations', :reinstate_pending_conditions
   end
 
   context 'when sending the email' do

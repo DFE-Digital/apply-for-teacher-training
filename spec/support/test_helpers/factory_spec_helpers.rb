@@ -19,7 +19,7 @@ module FactorySpecHelpers
       describe("trait :#{name}") do
         let(:traits) { [name] }
 
-        include_examples("trait :#{name}")
+        it_behaves_like("trait :#{name}")
       end
     end
   end

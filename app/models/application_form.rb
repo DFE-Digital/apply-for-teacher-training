@@ -592,7 +592,7 @@ class ApplicationForm < ApplicationRecord
   # FIXME: This can be removed once the booleans are no longer in use.
   SECTION_COMPLETED_FIELDS.each do |section|
     define_method("#{section}_completed=") do |value|
-      public_send("#{section}_completed_at=", (value ? Time.zone.now : nil))
+      public_send("#{section}_completed_at=", value ? Time.zone.now : nil)
       super(value)
     end
   end

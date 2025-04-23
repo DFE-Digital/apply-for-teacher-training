@@ -351,7 +351,7 @@ FactoryBot.define do
 
         application_form.class.with_unsafe_application_choice_touches do
           application_form.application_choices << build_list(:application_choice, evaluator.application_choices_count, status: 'unsubmitted')
-          application_form.application_choices << build_list(:application_choice, evaluator.submitted_application_choices_count, (evaluator.with_accepted_offer ? :accepted : :awaiting_provider_decision), application_form:)
+          application_form.application_choices << build_list(:application_choice, evaluator.submitted_application_choices_count, evaluator.with_accepted_offer ? :accepted : :awaiting_provider_decision, application_form:)
           application_form.application_references << build_list(:reference, evaluator.references_count, evaluator.references_state)
         end
 

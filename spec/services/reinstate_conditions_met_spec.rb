@@ -68,6 +68,6 @@ RSpec.describe ReinstateConditionsMet do
   end
 
   describe 'validations' do
-    include_examples 'confirm deferred offer validations', :reinstate_conditions_met
+    it_behaves_like 'confirm deferred offer validations', :reinstate_conditions_met
   end
 end

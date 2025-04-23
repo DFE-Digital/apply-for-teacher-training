@@ -35,7 +35,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::WorkHistoryBreakForm
                             start_date_year:)
       end
 
-      include_examples 'month and year date validations', :start_date, verify_presence: true, future: true, before: :end_date
+      it_behaves_like 'month and year date validations', :start_date, verify_presence: true, future: true, before: :end_date
     end
 
     context 'end_date validations' do
@@ -49,7 +49,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::WorkHistoryBreakForm
                             start_date_year: start_date.year)
       end
 
-      include_examples 'month and year date validations', :end_date, verify_presence: true, future: true
+      it_behaves_like 'month and year date validations', :end_date, verify_presence: true, future: true
 
       describe 'when start date is not set' do
         let(:model) do

@@ -26,7 +26,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditApplicantDetailsForm, typ
       let(:application_form) { build(:application_form, :minimum_info, date_of_birth:) }
       let(:date_of_birth) { nil }
 
-      include_examples 'date_of_birth validations', verify_presence: true
+      it_behaves_like 'date_of_birth validations', verify_presence: true
     end
 
     describe '#email_address' do
