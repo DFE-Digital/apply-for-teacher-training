@@ -13,7 +13,7 @@ module SupportInterface
     end
 
     def impersonate_and_give
-      redirect_to referee_interface_reference_relationship_path(token: @reference.refresh_feedback_token!)
+      redirect_to referee_interface_confidentiality_path(token: @reference.refresh_feedback_token!)
     end
 
     def impersonate_and_decline
