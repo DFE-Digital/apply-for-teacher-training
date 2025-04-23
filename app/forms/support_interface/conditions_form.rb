@@ -72,7 +72,7 @@ module SupportInterface
 
     def ske_condition_models
       @ske_condition_models ||= ske_conditions.map do |index, attrs|
-        SkeConditionField.new(attrs.merge(id: index))
+        SkeConditionField.new(attrs.merge(id: index, ske_required: true))
       end
     end
 
@@ -122,7 +122,9 @@ module SupportInterface
     end
 
     def ske_condition_language_course_model_for(language, index)
-      SkeConditionField.new(id: index, subject: language, subject_type: 'language')
+      ske_condition_models.find do |ske|
+        ske.subject == language
+      end.presence || SkeConditionField.new(id: index, subject: language, subject_type: 'language')
     end
 
     def ske_course?
