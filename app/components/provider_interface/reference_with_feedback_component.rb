@@ -13,7 +13,7 @@ module ProviderInterface
 
     def initialize(reference:, index:)
       @reference = reference
-      @ordinal = TextOrdinalizer.call((index + 1))
+      @ordinal = TextOrdinalizer.call(index + 1)
     end
 
     def rows
