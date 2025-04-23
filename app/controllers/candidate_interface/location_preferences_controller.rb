@@ -68,6 +68,10 @@ module CandidateInterface
 
     def set_preference
       @preference = current_candidate.preferences.find_by(id: params[:draft_preference_id])
+
+      if @preference.blank?
+        redirect_to candidate_interface_application_choices_path
+      end
     end
 
     def set_location_preference
