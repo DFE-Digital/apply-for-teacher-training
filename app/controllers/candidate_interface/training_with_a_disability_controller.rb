@@ -1,5 +1,6 @@
 module CandidateInterface
   class TrainingWithADisabilityController < SectionController
+
     def show
       @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(completed: current_application.training_with_a_disability_completed)
@@ -42,7 +43,7 @@ module CandidateInterface
       @section_complete_form = SectionCompleteForm.new(section_complete_form_params)
 
       if @section_complete_form.save(current_application, :training_with_a_disability_completed)
-        if current_application.meets_conditions_for_adviser_interruption? && ActiveModel::Type::Boolean.new.cast(@section_complete_form.completed)
+        if current_application.meets_conditions_for_adviser_interruption? && @section_complete_form.completed?
           redirect_to candidate_interface_adviser_sign_ups_interruption_path(@current_application.id)
         else
           redirect_to_candidate_root

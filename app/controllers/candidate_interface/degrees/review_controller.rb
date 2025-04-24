@@ -1,6 +1,7 @@
 module CandidateInterface
   module Degrees
     class ReviewController < BaseController
+
       before_action :set_completed_if_only_foundation_degrees
 
       def show
@@ -14,12 +15,11 @@ module CandidateInterface
         @application_form = current_application
         @section_complete_form = SectionCompleteForm.new(application_form_params)
 
-        if @application_form.incomplete_degree_information? &&
-           ActiveModel::Type::Boolean.new.cast(@section_complete_form.completed)
+        if @application_form.incomplete_degree_information? && @section_complete_form.completed?
           flash[:warning] = 'You cannot mark this section complete with incomplete degree information.'
           redirect_to candidate_interface_degree_review_path
         elsif @section_complete_form.save(current_application, :degrees_completed)
-          if current_application.meets_conditions_for_adviser_interruption? && ActiveModel::Type::Boolean.new.cast(@section_complete_form.completed)
+          if current_application.meets_conditions_for_adviser_interruption? && @section_complete_form.completed?
             redirect_to candidate_interface_adviser_sign_ups_interruption_path(@current_application.id)
           else
             redirect_to_candidate_root

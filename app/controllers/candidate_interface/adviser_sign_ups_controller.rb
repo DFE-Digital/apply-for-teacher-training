@@ -13,8 +13,7 @@ module CandidateInterface
     def create
       @adviser_sign_up_form = Adviser::SignUpForm.new(adviser_sign_up_params.merge(application_form:))
 
-      if @adviser_sign_up_form.valid?
-        @adviser_sign_up_form.save
+      if @adviser_sign_up_form.save
         flash[:success] = t('.create.flash.success')
         track_adviser_sign_up
         redirect_to candidate_interface_details_path

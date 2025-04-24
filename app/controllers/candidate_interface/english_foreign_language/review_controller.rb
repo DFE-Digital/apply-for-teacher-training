@@ -19,7 +19,7 @@ module CandidateInterface
         @return_to = return_to_after_edit(default: candidate_interface_details_path)
 
         if @section_complete_form.save(current_application, :efl_completed)
-          if current_application.meets_conditions_for_adviser_interruption? && ActiveModel::Type::Boolean.new.cast(@section_complete_form.completed)
+          if current_application.meets_conditions_for_adviser_interruption? && @section_complete_form.completed?
             redirect_to candidate_interface_adviser_sign_ups_interruption_path(@current_application.id)
           else
             redirect_to_candidate_root
