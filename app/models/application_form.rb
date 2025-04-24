@@ -706,6 +706,34 @@ class ApplicationForm < ApplicationRecord
     current_cycle? && Time.zone.now.between?(apply_opens_at, apply_deadline_at)
   end
 
+  def self.test_query
+    times = []
+
+    20.times do
+      benchmark = Benchmark.measure do
+        filters = {}
+        provider_ids = [34]
+        results = Pool::Candidates.application_forms_for_provider(
+          providers: provider_ids,
+          filters:,
+        )
+        results.count
+      end
+
+      times << benchmark.real
+    end
+
+    average =(times.sum / times.count).round(2)
+    puts "AVERAGE #{average}"
+
+    # 2.17 BASE
+    # 0.63 AFTER SCOPE TO CURRENT CYCLE
+    # 0.57 WITH RECRUITMENT INDEX AND CURRENTY CYCLE
+    #
+    # WITH 82k candidate preferences
+    # 2.05 BASE with recruitment index and current cycle
+  end
+
 private
 
   def geocode_address_and_update_region_if_required
