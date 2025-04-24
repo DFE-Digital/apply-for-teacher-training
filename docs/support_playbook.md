@@ -172,7 +172,7 @@ We've seen this happen due to a `nil` value for `predicted_grade`. To fix this u
 Create the same qualification locally, turn the relevant fields into JSON, paste that into the prod shell, parse it and assigned attrs 😥 `qualification.as_json(only: [fields]).to_json`
 
 ### Update qualifications
-(section reviewed 17 June 2024)
+(section reviewed 24 April 2025)
 
 **Adding equivalency**
 
@@ -186,14 +186,16 @@ It is most likely that you will only need to update the `enic_reference` and `co
 
 Some notes about the required fields:
 
-- `enic_number` This is a 10 digit number on the ENIC statement of comparability. It's call 'UK ENIC reference' on the statement.
-- `comparable_uk_degree` This is an enum, use one of these valid options https://github.com/DFE-Digital/apply-for-teacher-training/blob/7d61f9887494aae093ced34f587d5870528ba786/app/models/application_qualification.rb`
+- `enic_reference` This is a 10 digit number on the ENIC statement of comparability. It's call 'UK ENIC reference' on the statement.
+- `comparable_uk_degree` This is an enum, use one of these valid options https://github.com/DFE-Digital/apply-for-teacher-training/blob/7d61f9887494aae093ced34f587d5870528ba786/app/models/application_qualification.rb
+- `enic_reason` This will probably 'waiting'; should be updated to 'obtained'. See https://github.com/DFE-Digital/apply-for-teacher-training/blob/8fd1a3b8f31e69480927f491d833b39e3ccfb36c/app/models/application_qualification.rb#L63
 
 ```ruby
 ApplicationQualification.find(QUALIFICATION_ID).update!(
-  enic_number:,
+  enic_reference:,
   comparable_uk_degree:,
   audit_comment: ZENDESK_URL,
+  enic_reason:,
 
   # Other things to check against the ENIC certificate
   level: 'degree',
@@ -209,29 +211,7 @@ You may also be asked to remove ENIC / comparable_uk_degree information if the c
 
 ***GCSEs***
 
-Some notes about the required fields:
-- `enic_number` This is a 10 digit number on the ENIC statement of comparability. It's call 'UK ENIC reference' on the statement.
-- `subject` usually one of the required GCSE subjects https://github.com/DFE-Digital/apply-for-teacher-training/blob/7d61f9887494aae093ced34f587d5870528ba786/app/models/application_qualification.rb#L41
-- `non_uk_qualification_type` Free text. Usually something like 'High School diploma', it should match what is on the ENIC certificate
-- `comparable_uk_qualification`. This is a string, not an enum. The possible text values are here: https://github.com/DFE-Digital/apply-for-teacher-training/blob/d95efba0a432715760e1686880e83e9bdbf8821e/config/locales/candidate_interface/gcse.yml#L42.
-For example, use 'GCSE (grades A*-C / 9-4)' NOT 'gcse'.
-
-```ruby
-ApplicationQualification.find(QUALIFICATION_ID).update!(
-  level: 'gcse',
-  enic_number:,
-  subject:,
-  non_uk_qualification_type:,
-  comparable_uk_qualification:,
-  audit_comment: ZENDESK_URL,
-
-  # Other things to check against the ENIC certificate
-  comparable_uk_degree: nil,
-  qualification_type: 'non_uk',
-  award_year:,
-  institution_country:,
-  )
-````
+Support users can edit GCSEs directly, including ENIC references. If you are asked to do this, it can be referred back to the support user for action.
 
 **Change grade**
 
