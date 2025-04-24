@@ -106,16 +106,14 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
 
     describe 'award year' do
       context 'year validations' do
-        it 'is valid for next recruitment cycle year' do
+        it 'allows award year to be valid for the next recruitment_cycle_year' do
           valid_award_year = described_class.new(nil, nil, qualification_type: 'A level', award_year: next_year.to_s)
+          invalid_award_year = described_class.new(nil, nil, qualification_type: 'A level', award_year: (next_year + 1).to_s)
+
           valid_award_year.valid?(:details)
+          invalid_award_year.valid?(:details)
 
           expect(valid_award_year.errors.full_messages_for(:award_year)).to be_empty
-        end
-
-        it 'is not valid for the year after next' do
-          invalid_award_year = described_class.new(nil, nil, qualification_type: 'A level', award_year: (next_year + 1).to_s)
-          invalid_award_year.valid?(:details)
           expect(invalid_award_year.errors.full_messages_for(:award_year)).not_to be_empty
         end
 

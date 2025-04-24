@@ -142,7 +142,7 @@ FactoryBot.define do
         hesa_disabilities = %w[96]
 
         ethnicity = all_ethnicities.sample
-        hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, CycleTimetableHelper.current_year)['hesa_code']
+        hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, RecruitmentCycle.current_year)['hesa_code']
 
         {
           sex:,
@@ -167,7 +167,7 @@ FactoryBot.define do
         hesa_disabilities = %w[98]
 
         ethnicity = all_ethnicities.sample
-        hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, CycleTimetableHelper.current_year)['hesa_code']
+        hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, RecruitmentCycle.current_year)['hesa_code']
 
         {
           sex:,
@@ -192,7 +192,7 @@ FactoryBot.define do
         hesa_disabilities = []
 
         ethnicity = all_ethnicities.sample
-        hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, CycleTimetableHelper.current_year)['hesa_code']
+        hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, RecruitmentCycle.current_year)['hesa_code']
 
         {
           sex:,
@@ -213,13 +213,13 @@ FactoryBot.define do
 
       equality_and_diversity do
         all_ethnicities = Class.new.extend(EthnicBackgroundHelper).all_combinations
-        if CycleTimetableHelper.current_year < HesaChanges::YEAR_2023
+        if RecruitmentCycle.current_year < HesaChanges::YEAR_2023
           all_ethnicities -= [%w[White Irish], %w[White Roma]]
         end
         ethnicity = all_ethnicities.sample
         other_disability = 'Acquired brain injury'
         all_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map(&:second) << other_disability
-        if CycleTimetableHelper.current_year < HesaChanges::YEAR_2023
+        if RecruitmentCycle.current_year < HesaChanges::YEAR_2023
           # Not included in other years
           all_disabilities.delete(I18n.t('equality_and_diversity.disabilities.development_condition')[:label])
         end
@@ -232,14 +232,14 @@ FactoryBot.define do
 
         hesa_sex = if sex == 'Prefer not to say'
                      '96'
-                   elsif (hesa = Hesa::Sex.find(sex, CycleTimetableHelper.current_year)).present?
+                   elsif (hesa = Hesa::Sex.find(sex, RecruitmentCycle.current_year)).present?
                      hesa['hesa_code']
                    else
-                     raise "Could not find a `Hesa::Sex` entry for sex `#{sex}` in cycle `#{CycleTimetableHelper.current_year}`"
+                     raise "Could not find a `Hesa::Sex` entry for sex `#{sex}` in cycle `#{RecruitmentCycle.current_year}`"
                    end
 
         hesa_disabilities = disabilities == ['Prefer not to say'] ? %w[00] : disabilities.map { |disability| Hesa::Disability.find(disability)['hesa_code'] }
-        hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, CycleTimetableHelper.current_year)['hesa_code']
+        hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, RecruitmentCycle.current_year)['hesa_code']
 
         {
           sex:,
@@ -293,7 +293,7 @@ FactoryBot.define do
       work_history_explanation { Faker::Lorem.paragraph_by_chars(number: 400) }
       volunteering_experience { [true, false, nil].sample }
       phase { :apply_1 }
-      recruitment_cycle_year { CycleTimetableHelper.current_year }
+      recruitment_cycle_year { RecruitmentCycle.current_year }
 
       right_to_work_or_study {
         if first_nationality != 'British'
@@ -387,21 +387,20 @@ FactoryBot.define do
 
     trait :carry_over do
       completed
-      recruitment_cycle_year { CycleTimetableHelper.current_year }
+      recruitment_cycle_year { CycleTimetable.current_year }
       created_at { CycleTimetableHelper.mid_cycle }
       updated_at { CycleTimetableHelper.mid_cycle }
 
       previous_application_form do
-        previous_year = CycleTimetableHelper.previous_year
         association(
           :completed_application_form,
-          recruitment_cycle_year: previous_year,
-          submitted_at: CycleTimetableHelper.mid_cycle(previous_year),
+          recruitment_cycle_year: CycleTimetable.previous_year,
+          submitted_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
           first_name:,
           last_name:,
           candidate:,
-          created_at: CycleTimetableHelper.mid_cycle(previous_year),
-          updated_at: CycleTimetableHelper.mid_cycle(previous_year),
+          created_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
+          updated_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
           submitted_application_choices_count: 1,
         )
       end
@@ -411,7 +410,7 @@ FactoryBot.define do
       completed
       created_at { CycleTimetableHelper.before_apply_deadline }
       updated_at { CycleTimetableHelper.before_apply_deadline }
-      recruitment_cycle_year { CycleTimetableHelper.current_year }
+      recruitment_cycle_year { CycleTimetable.current_year }
       phase { 'apply_2' }
 
       previous_application_form do
