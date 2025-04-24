@@ -21,6 +21,13 @@ class Pool::Candidates
       .where.not(candidate: dismissed_candidates)
       .order(order_by)
       .distinct
+      .select(
+        'application_forms.id, ' \
+        'application_forms.candidate_id, ' \
+        'application_forms.first_name, ' \
+        'application_forms.last_name, ' \
+        'application_forms.submitted_at',
+      )
   end
 
   def self.application_forms_in_the_pool
@@ -63,14 +70,14 @@ private
         status: %i[rejected declined withdrawn conditions_not_met offer_withdrawn inactive],
       })
       .where.not(
-        id: ApplicationForm.joins(:application_choices).where(
+        id: ApplicationForm.current_cycle.joins(:application_choices).where(
           application_choices: {
             status: %i[awaiting_provider_decision interviewing offer pending_conditions recruited offer_deferred],
           },
         ).select(:id),
       )
       .where(
-        id: ApplicationForm.joins(:application_choices)
+        id: ApplicationForm.current_cycle.joins(:application_choices)
             .where(application_choices: { status: ApplicationStateChange::UNSUCCESSFUL_STATES })
             .group(:id)
             # Inactive doesn't count as an unsuccessful state, so need to exclude it when counting
@@ -78,7 +85,7 @@ private
             .select(:id),
       )
       .where.not(
-        id: ApplicationForm.joins(application_choices: :withdrawal_reasons)
+        id: ApplicationForm.current_cycle.joins(application_choices: :withdrawal_reasons)
           .where('withdrawal_reasons.reason ILIKE ?', '%do-not-want-to-train-anymore%')
           .select(:id),
       )
@@ -110,7 +117,7 @@ private
           limit 1
         ) as candidate_location_preferences on true
       SQL
-      .select("application_forms.*, #{calculate_distance_sql} as site_distance")
+      .select("#{calculate_distance_sql} as site_distance")
   end
 
   def filter_by_subject(scope)
@@ -144,10 +151,10 @@ private
     filter_values = filters[:visa_sponsorship].flat_map do |value|
       if value == 'required'
         # required means no right_to_work_or_study
-        ApplicationForm.right_to_work_or_studies['no']
+        ApplicationForm.current_cycle.right_to_work_or_studies['no']
       else
         # else means all other enums + nil because we don't set this enum in most cases if candidate has right to work
-        ApplicationForm.right_to_work_or_studies.except('no').values << nil
+        ApplicationForm.current_cycle.right_to_work_or_studies.except('no').values << nil
       end
     end
 
