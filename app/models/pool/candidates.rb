@@ -61,14 +61,21 @@ private
   def curated_application_forms
     ApplicationForm.current_cycle.joins(:application_choices)
       .where(application_choices: {
-        status: %i[rejected declined withdrawn conditions_not_met offer_withdrawn inactive],
+        status: %i[rejected declined withdrawn conditions_not_met offer_withdrawn inactive awaiting_provider_decision],
       })
       .where.not(
         id: ApplicationForm.current_cycle.joins(:application_choices).where(
           application_choices: {
-            status: %i[awaiting_provider_decision interviewing offer pending_conditions recruited offer_deferred],
+            status: %i[interviewing offer pending_conditions recruited offer_deferred],
           },
         ).select(:id),
+      )
+      .where.not(
+        id: ApplicationForm.current_cycle.joins(:application_choices).where(
+          "application_choices.status = 'awaiting_provider_decision'",
+        ).group(:id)
+        .having('max(application_choices.sent_to_provider_at) < ?', 21.days.ago)
+        .select(:id),
       )
       .where(
         id: ApplicationForm.current_cycle.joins(:application_choices)
