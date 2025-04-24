@@ -13,7 +13,7 @@ RSpec.describe RecruitmentCycleTimetable do
 
     describe 'validates christmas range' do
       it 'validates christmas range is within cycle' do
-        timetable = SupportInterface::RecruitmentCycleTimetableGenerator.generate_next_year
+        timetable = build(:recruitment_cycle_timetable)
         year = timetable.recruitment_cycle_year
         timetable.christmas_holiday_range = timetable.find_opens_at - 3.days..Time.zone.local(year, 1, 2)
 
@@ -22,7 +22,7 @@ RSpec.describe RecruitmentCycleTimetable do
       end
 
       it 'validates christmas range includes christmas day' do
-        timetable = SupportInterface::RecruitmentCycleTimetableGenerator.generate_next_year
+        timetable = build(:recruitment_cycle_timetable)
         year = timetable.recruitment_cycle_year - 1
         timetable.christmas_holiday_range = (Time.zone.local(year, 12, 26)...Time.zone.local(year, 12, 29))
 
@@ -54,7 +54,7 @@ RSpec.describe RecruitmentCycleTimetable do
 
     describe 'validates sequential order of dates' do
       it 'validates apply opens after find opens' do
-        timetable = SupportInterface::RecruitmentCycleTimetableGenerator.generate_next_year
+        timetable = build(:recruitment_cycle_timetable, recruitment_cycle_year: 2050)
         timetable.find_opens_at = timetable.apply_opens_at + 1.day
 
         expect(timetable.valid?).to be false
@@ -62,7 +62,7 @@ RSpec.describe RecruitmentCycleTimetable do
       end
 
       it 'validates apply deadline is after apply opens' do
-        timetable = SupportInterface::RecruitmentCycleTimetableGenerator.generate_next_year
+        timetable = build(:recruitment_cycle_timetable, recruitment_cycle_year: 2050)
         timetable.apply_opens_at = timetable.apply_deadline_at + 1.day
 
         expect(timetable.valid?).to be false
@@ -70,7 +70,7 @@ RSpec.describe RecruitmentCycleTimetable do
       end
 
       it 'validates reject by default is after apply deadline' do
-        timetable = SupportInterface::RecruitmentCycleTimetableGenerator.generate_next_year
+        timetable = build(:recruitment_cycle_timetable, recruitment_cycle_year: 2050)
         timetable.apply_deadline_at = timetable.reject_by_default_at + 1.day
 
         expect(timetable.valid?).to be false

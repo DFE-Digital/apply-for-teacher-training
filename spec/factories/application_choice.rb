@@ -53,7 +53,7 @@ FactoryBot.define do
       course_option factory: %i[course_option previous_year]
 
       transient do
-        recruitment_cycle_year { CycleTimetableHelper.previous_year }
+        recruitment_cycle_year { RecruitmentCycle.previous_year }
       end
     end
 

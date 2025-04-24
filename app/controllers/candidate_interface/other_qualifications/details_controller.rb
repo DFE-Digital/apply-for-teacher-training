@@ -4,7 +4,6 @@ module CandidateInterface
       @form = OtherQualificationDetailsForm.new(
         current_application,
         intermediate_data_service,
-        recruitment_cycle_year: current_application.recruitment_cycle_year,
         current_step: :details,
       )
 
@@ -22,7 +21,6 @@ module CandidateInterface
       @form = OtherQualificationDetailsForm.new(
         current_application,
         intermediate_data_service,
-        recruitment_cycle_year: current_application.recruitment_cycle_year,
         id: params[:id],
         current_step: :details,
         editing: true,
@@ -34,10 +32,7 @@ module CandidateInterface
       @form = OtherQualificationDetailsForm.new(
         current_application,
         intermediate_data_service,
-        other_qualification_params.merge(
-          current_step: :details,
-          recruitment_cycle_year: current_application.recruitment_cycle_year,
-        ),
+        other_qualification_params.merge(current_step: :details),
       )
 
       if @form.save
@@ -65,7 +60,6 @@ module CandidateInterface
           id: params[:id],
           current_step: :details,
           editing: true,
-          recruitment_cycle_year: current_application.recruitment_cycle_year,
         ),
       )
       @return_to = return_to_after_edit(default: candidate_interface_review_other_qualifications_path)
