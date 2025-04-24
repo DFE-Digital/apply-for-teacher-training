@@ -24,8 +24,13 @@ module_function
   end
 
   def current_cycle_week
-    seed_timetables if RecruitmentCycleTimetable.all.empty?
+    seed_timetables if RecruitmentCycleTimetable.none?
     RecruitmentCycleTimetable.current_cycle_week
+  end
+
+  def last_timetable
+    seed_timetables if RecruitmentCycleTimetable.none?
+    RecruitmentCycleTimetable.last_timetable
   end
 
   def next_timetable
