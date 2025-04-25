@@ -6,7 +6,11 @@ Dear <%= @application_form.first_name %>
 
 [Sign in to your account to submit your application](<%= application_choices_link %>).
 
+<% if @application_form.adviser_status_assigned? %>
+Need help writing a strong application? You can get in touch with your teacher training adviser for one-to-one support.
+<% else %>
 Need help writing a strong application? You can [get a teacher training adviser](<%= email_link_with_utm_params I18n.t('get_into_teaching.url_get_an_adviser_start'), 'eoc_deadline_reminder', @application_form.phase %>) for free, one-to-one support.
+<% end %>
 
 # If you’re not ready to submit your application
 

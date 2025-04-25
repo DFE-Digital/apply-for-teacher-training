@@ -5,13 +5,18 @@ You have not marked your personal statement as complete.
 [Sign in to your account to complete your teacher training application](<%= @personal_statement_link %>)
 
 # Get help with your personal statement
+<% if @application_form.adviser_status_assigned?  %>
+Your teacher training adviser can help you understand what to put in your personal statement.
 
+## Contact our support team
+Call <%= t('get_into_teaching.tel') %> or [chat online](<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'nudge_unsubmitted_with_incomplete_personal_statement', @application_form.phase %>).
+<% else %>
 A teacher training adviser can help you understand what to put in your personal statement.
 
 [Get a teacher training adviser](<%= email_link_with_utm_params t('get_into_teaching.url_get_an_adviser_start'), 'nudge_unsubmitted_with_incomplete_personal_statement', @application_form.phase %>)
 
 Alternatively, call <%= t('get_into_teaching.tel') %> or [chat online](<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'nudge_unsubmitted_with_incomplete_personal_statement', @application_form.phase %>).
-
+<% end %>
 <%= t('get_into_teaching.opening_times') %>.
 
 You can also find out what to include and what makes a successful personal statement on the [Get Into Teaching website](<%= email_link_with_utm_params t('get_into_teaching.url_apply_personal_statement'),'nudge_unsubmitted_with_incomplete_personal_statement', @application_form.phase  %>).

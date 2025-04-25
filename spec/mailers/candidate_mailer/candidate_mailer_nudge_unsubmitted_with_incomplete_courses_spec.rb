@@ -16,5 +16,21 @@ RSpec.describe CandidateMailer do
     )
 
     it_behaves_like 'an email with unsubscribe option'
+
+    it 'renders adviser sign up text if not already assigned' do
+      expect(email.body).to include('A teacher training adviser could help you choose a course, if you are not sure about what you would like to teach.')
+      expect(email.body).to include('Alternatively, call')
+    end
+  end
+
+  describe 'tailored teacher training adviser text for "assigned" adviser status' do
+    let(:application_form_with_adviser_eligibility) { create(:application_form_eligible_for_adviser, adviser_status: 'assigned') }
+
+    subject(:email) { described_class.nudge_unsubmitted_with_incomplete_courses(application_form_with_adviser_eligibility) }
+
+    it 'refers to existing adviser' do
+      expect(email.body).to have_content 'Your teacher training adviser could help you choose a course, if you are not sure about what you would like to teach.'
+      expect(email.body).to have_content 'Contact our support team'
+    end
   end
 end

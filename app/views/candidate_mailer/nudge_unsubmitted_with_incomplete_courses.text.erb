@@ -16,15 +16,24 @@ Some subjects and courses have bursaries of up to £29,000 and scholarships of u
 
 # Get support with your application
 
+<% if @application_form.adviser_status_assigned? %>
+Your teacher training adviser could help you choose a course, if you are not sure about what you would like to teach.
+<% else %>
 A teacher training adviser could help you choose a course, if you are not sure about what you would like to teach.
 
 [Get a teacher training adviser](<%= email_link_with_utm_params t('get_into_teaching.url_get_an_adviser_start'), 'nudge_unsubmitted_with_incomplete_courses', @application_form.phase %>)
+<% end %>
 
 If you are training to teach certain secondary subjects (or primary mathematics), you could also do a subject knowledge enhancement (SKE) course to improve your knowledge on a subject.
 
 [Find out about subject knowledge enhancement courses](<%= email_link_with_utm_params t('get_into_teaching.url_subject_knowledge_enhancement'), 'nudge_unsubmitted_with_incomplete_courses', @application_form.phase %>)
 
+<% if @application_form.adviser_status_assigned? %>
+## Contact our support team
+Call <%= t('get_into_teaching.tel') %> or [chat online](<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'nudge_unsubmitted_with_incomplete_courses', @application_form.phase %>).
+<% else %>
 Alternatively, call <%= t('get_into_teaching.tel') %> or [chat online](<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'nudge_unsubmitted_with_incomplete_courses', @application_form.phase %>).
+<% end %>
 
 <%= t('get_into_teaching.opening_times') %>.
 
