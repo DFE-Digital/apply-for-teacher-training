@@ -22,7 +22,7 @@ en:
     adviser_sign_ups:
       interruptions:
         show:
-          back: Back to your details
+          back: Back to your application
           heading: A teacher training adviser could support with your application
           eligible: Because you’ve said you have a bachelor’s degree with a predicted or actual grade higher than a 2:2, you are eligible for a teacher training adviser.
           eligible_2: You can get free one-to-one support from an adviser with years of teaching experience, they can talk you through the application process step by step.
@@ -35,6 +35,7 @@ en:
           submit_text: Continue
       new:
         back: Back
+        back_to_details: Back to your details
         heading: Get a teacher training adviser
         introduction: Get free one-to-one support from an adviser with years of teaching experience.
         your_adviser: Your adviser can talk you through the application process step by step.
@@ -62,7 +63,9 @@ en:
           We will not share your personal statement, qualifications or work history with them.
         subject: Subject
         change: Change
-        request: Request adviser
+        request: Request an adviser
       create:
+        back: Back
+        back_to_details: Back to your details
         flash:
           success: Your teacher training adviser will contact you by email within 5 working days.

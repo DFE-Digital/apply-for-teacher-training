@@ -3,11 +3,16 @@ module CandidateInterface
     before_action :render_404_unless_available
 
     def show
-      @adviser_sign_up_form = Adviser::SignUpForm.new({ application_form:, preferred_teaching_subject_id: params[:preferred_teaching_subject_id] })
+      @adviser_interruption_form = CandidateInterface::AdviserInterruptionForm.new({ application_form:, proceed_to_request_adviser: 'yes' })
+      @adviser_sign_up_form = Adviser::SignUpForm.new({
+        application_form:,
+        preferred_teaching_subject_id: @adviser_interruption_form.prefill_preferred_teaching_subject_id,
+      })
     end
 
     def new
       @adviser_sign_up_form = Adviser::SignUpForm.new({ application_form:, preferred_teaching_subject_id: params[:preferred_teaching_subject_id] })
+      @back_link = back_link_data
     end
 
     def create
@@ -19,11 +24,20 @@ module CandidateInterface
         redirect_to candidate_interface_details_path
       else
         track_validation_error(@adviser_sign_up_form)
+        @back_link = back_link_data
         render :new
       end
     end
 
   private
+
+    def back_link_data
+      if params[:return_to] == 'interruption'
+        { path: candidate_interface_adviser_sign_ups_interruption_path, text: t('.back') }
+      else
+        { path: candidate_interface_details_path, text: t('.back_to_details') }
+      end
+    end
 
     def track_adviser_sign_up
       Adviser::Tracking.new(current_user, request).candidate_signed_up_for_adviser

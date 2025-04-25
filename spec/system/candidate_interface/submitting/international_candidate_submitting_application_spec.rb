@@ -71,9 +71,6 @@ RSpec.describe 'International candidate submits the application' do
     click_link_or_button 'English GCSE or equivalent'
     candidate_fills_in_their_english_gcse
 
-    choose 'No'
-    click_link_or_button 'Continue'
-
     click_link_or_button 'Your personal statement'
     candidate_fills_in_personal_statement
 
