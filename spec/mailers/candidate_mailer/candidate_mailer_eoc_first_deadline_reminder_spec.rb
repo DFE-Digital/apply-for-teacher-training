@@ -41,12 +41,9 @@ RSpec.describe CandidateMailer do
   end
 
   describe 'tailored teacher training adviser text for "assigned" adviser status' do
-    let(:application_form_with_adviser_eligibility) { create(:application_form_eligible_for_adviser) }
-    let(:email) { described_class.eoc_first_deadline_reminder(application_form_with_adviser_eligibility) }
+    let(:application_form_with_adviser_eligibility) { create(:application_form_eligible_for_adviser, adviser_status: 'assigned') }
 
-    before do
-      application_form_with_adviser_eligibility.update(adviser_status: 'assigned')
-    end
+    subject(:email) { described_class.eoc_first_deadline_reminder(application_form_with_adviser_eligibility) }
 
     it 'refers to existing adviser' do
       expect(email.body).to have_content 'You can also contact your teacher training adviser for support with writing your application.'

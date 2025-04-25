@@ -15,7 +15,7 @@ Some subjects and courses have bursaries of up to £29,000 and scholarships of u
 [Check if your subject has a bursary or scholarship](<%= email_link_with_utm_params t('get_into_teaching.url_scholarships_and_bursaries_funding_widget'), 'nudge_unsubmitted', @application_form.phase %>)
 
 # Get help
-<% if @application_form.adviser_status == 'assigned' %>
+<% if @application_form.adviser_status_assigned? %>
 Your teacher training adviser can help with your application, if something is holding you back from submitting it. They can talk to you about teacher training and teaching as a career.
 
 ## Contact our support team

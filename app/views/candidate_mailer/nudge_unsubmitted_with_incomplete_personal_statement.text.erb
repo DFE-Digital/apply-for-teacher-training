@@ -5,7 +5,7 @@ You have not marked your personal statement as complete.
 [Sign in to your account to complete your teacher training application](<%= @personal_statement_link %>)
 
 # Get help with your personal statement
-<% if @application_form.adviser_status == 'assigned' %>
+<% if @application_form.adviser_status_assigned?  %>
 Your teacher training adviser can help you understand what to put in your personal statement.
 
 ## Contact our support team

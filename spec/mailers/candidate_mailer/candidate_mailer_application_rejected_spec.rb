@@ -396,12 +396,10 @@ RSpec.describe CandidateMailer do
   end
 
   describe 'tailored teacher training adviser text for "assigned" adviser status' do
-    let(:application_choice) { create(:application_choice, :rejected, rejection_reason: 'Missing your English GCSE', course_option:) }
-    let(:email) { described_class.application_rejected(application_choice) }
+    let(:application_form_with_adviser_eligibility) { create(:application_form_eligible_for_adviser, adviser_status: 'assigned') }
+    let(:application_choice) { create(:application_choice, :rejected, application_form: application_form_with_adviser_eligibility) }
 
-    before do
-      application_choice.application_form.update(adviser_status: 'assigned')
-    end
+    subject(:email) { described_class.application_rejected(application_choice) }
 
     it 'refers to existing adviser' do
       expect(email.body).to have_content 'Your teacher training adviser can help you improve your application. They can support you with:'
@@ -411,8 +409,9 @@ RSpec.describe CandidateMailer do
   end
 
   describe 'tailored teacher training adviser text for non-assigned adviser status' do
-    let(:application_choice) { create(:application_choice, :rejected, rejection_reason: 'Missing your English GCSE', course_option:) }
-    let(:email) { described_class.application_rejected(application_choice) }
+    let(:application_choice) { create(:application_choice, :rejected) }
+
+    subject(:email) { described_class.application_rejected(application_choice) }
 
     it 'refers to the process for getting an adviser' do
       expect(email.body).to have_content 'A teacher training adviser can provide free support to help you improve your application. They can support you with:'

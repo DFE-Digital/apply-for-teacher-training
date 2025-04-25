@@ -24,12 +24,9 @@ RSpec.describe CandidateMailer do
   end
 
   describe 'tailored teacher training adviser text for "assigned" adviser status' do
-    let(:application_form_with_adviser_eligibility) { create(:application_form_eligible_for_adviser) }
-    let(:email) { described_class.nudge_unsubmitted_with_incomplete_personal_statement(application_form_with_adviser_eligibility) }
+    let(:application_form_with_adviser_eligibility) { create(:application_form_eligible_for_adviser, adviser_status: 'assigned') }
 
-    before do
-      application_form_with_adviser_eligibility.update(adviser_status: 'assigned')
-    end
+    subject(:email) { described_class.nudge_unsubmitted_with_incomplete_personal_statement(application_form_with_adviser_eligibility) }
 
     it 'refers to existing adviser' do
       expect(email.body).to have_content 'Your teacher training adviser can help you understand what to put in your personal statement.'
