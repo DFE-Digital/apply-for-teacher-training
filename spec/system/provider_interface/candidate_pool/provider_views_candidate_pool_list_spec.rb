@@ -22,14 +22,17 @@ RSpec.describe 'Providers views candidate pool list' do
     when_i_visit_the_find_candidates_page
 
     then_i_expect_to_see_eligible_candidates_order_by_application_form_submitted_at
+    and_i_expect_to_see_the_total_results_count
 
     when_i_filter_by_location
     then_i_expect_to_see_filtered_candidates([@declined_candidate_form, @rejected_candidate_form, @visa_sponsorship_form])
     when_i_filter_by_visa_sponsorship
     then_i_expect_to_see_filtered_candidates([@visa_sponsorship_form])
+    and_i_expect_to_see_the_updated_results_count
 
     when_i_click('Clear filters')
     then_i_expect_to_see_eligible_candidates_order_by_application_form_submitted_at
+    and_i_expect_to_see_the_total_results_count
   end
 
   scenario 'Provider cannot view candidates if not invited' do
@@ -204,5 +207,13 @@ RSpec.describe 'Providers views candidate pool list' do
 
   def candidate_name(application_form)
     "#{application_form.redacted_full_name} (#{application_form.candidate_id})"
+  end
+
+  def and_i_expect_to_see_the_total_results_count
+    expect(page).to have_content('3 candidates found')
+  end
+
+  def and_i_expect_to_see_the_updated_results_count
+    expect(page).to have_content('1 candidate found')
   end
 end
