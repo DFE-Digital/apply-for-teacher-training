@@ -75,6 +75,9 @@ module CandidateHelper
     click_link_or_button 'English GCSE or equivalent'
     candidate_fills_in_their_english_gcse
 
+    choose 'No'
+    click_link_or_button 'Continue'
+
     click_link_or_button(international ? 'Other qualifications' : 'A levels and other qualifications')
     candidate_fills_in_their_other_qualifications
 
@@ -481,6 +484,9 @@ module CandidateHelper
 
     click_link_or_button 'English GCSE or equivalent'
     candidate_fills_in_their_english_gcse
+
+    choose 'No'
+    click_link_or_button 'Continue'
 
     click_link_or_button(international ? 'Other qualifications' : 'A levels and other qualifications')
     candidate_fills_in_their_other_qualifications

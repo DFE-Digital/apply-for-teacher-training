@@ -17,12 +17,15 @@ module CandidateInterface
       @application_qualification = current_qualification
       @section_complete_form = SectionCompleteForm.new(completed: application_form_params[:completed])
 
-      if @application_qualification.incomplete_gcse_information? &&
-         ActiveModel::Type::Boolean.new.cast(@section_complete_form.completed)
+      if @application_qualification.incomplete_gcse_information? && @section_complete_form.completed?
         flash[:warning] = 'You cannot mark this section complete with incomplete GCSE information.'
         redirect_to candidate_interface_gcse_review_path(subject: @subject)
       elsif @section_complete_form.save(current_application, @field_name.to_sym)
-        redirect_to_candidate_root
+        if current_application.meets_conditions_for_adviser_interruption? && @section_complete_form.completed?
+          redirect_to candidate_interface_adviser_sign_ups_interruption_path
+        else
+          redirect_to_candidate_root
+        end
       else
         track_validation_error(@section_complete_form)
         render :show
