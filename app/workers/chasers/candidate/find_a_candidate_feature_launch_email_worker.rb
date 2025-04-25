@@ -7,7 +7,7 @@ module Chasers
         application_forms = FindACandidateFeatureLaunchEmailWorker.application_forms_to_send(application_form_ids)
 
         BatchDelivery.new(relation: application_forms, stagger_over: 1.hour, batch_size: 500).each do |batch_time, applications|
-          FindACandidateFeatureLaunchEmailWorker.perform_at(batch_time, applications.pluck)
+          FindACandidateFeatureLaunchEmailWorker.perform_at(batch_time, applications.pluck(:id))
         end
       end
     end
