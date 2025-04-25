@@ -8,6 +8,7 @@ experiments:
       - opt_out
       - link_clicked
     ended_at: Apr 25, 2025 5 pm BST
+    winner: :invitation
 
 exclude:
   bots: true
