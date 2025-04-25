@@ -66,7 +66,7 @@ RSpec.describe 'Candidate selects no on adviser interruption' do
   alias_method :when_i_click_continue, :and_i_click_continue
 
   def then_i_see_the_interruption_page
-    expect(page).to have_current_path(candidate_interface_adviser_sign_ups_interruption_path(@eligible_application_form.id))
+    expect(page).to have_current_path(candidate_interface_adviser_sign_ups_interruption_path)
   end
 
   def then_i_see_a_validation_error

@@ -1,6 +1,5 @@
 module CandidateInterface
   class OtherQualifications::ReviewController < OtherQualifications::BaseController
-
     def show
       redirect_to candidate_interface_other_qualification_type_path and return if current_application.application_qualifications.other.blank? && !current_application.no_other_qualifications
 
@@ -20,7 +19,7 @@ module CandidateInterface
         render :show
       elsif @section_complete_form.save(current_application, :other_qualifications_completed)
         if current_application.meets_conditions_for_adviser_interruption? && @section_complete_form.completed?
-          redirect_to candidate_interface_adviser_sign_ups_interruption_path(@current_application.id)
+          redirect_to candidate_interface_adviser_sign_ups_interruption_path
         else
           redirect_to_candidate_root
         end

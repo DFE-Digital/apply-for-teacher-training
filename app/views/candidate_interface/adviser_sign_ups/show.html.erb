@@ -1,5 +1,5 @@
 <% content_for :title, t('page_titles.new_adviser_sign_up') %>
-<% content_for :before_content, govuk_back_link_to(new_candidate_interface_adviser_sign_up_path(preferred_teaching_subject_id: @adviser_sign_up_form.preferred_teaching_subject_id), t('.back')) %>
+<% content_for :before_content, govuk_back_link_to(new_candidate_interface_adviser_sign_ups_path(preferred_teaching_subject_id: @adviser_sign_up_form.preferred_teaching_subject_id), t('.back')) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -13,7 +13,7 @@
         <% summary_list.with_row do |row| %>%
           <% row.with_key { t('.subject') } %>%
           <% row.with_value { @adviser_sign_up_form.preferred_teaching_subject.title } %>
-          <% row.with_action(text: t('.change'), href: new_candidate_interface_adviser_sign_up_path(preferred_teaching_subject_id: @adviser_sign_up_form.preferred_teaching_subject_id), visually_hidden_text: t('.change')) %>
+          <% row.with_action(text: t('.change'), href: new_candidate_interface_adviser_sign_ups_path(preferred_teaching_subject_id: @adviser_sign_up_form.preferred_teaching_subject_id), visually_hidden_text: t('.change')) %>
         <% end %>
       <% end %>
 

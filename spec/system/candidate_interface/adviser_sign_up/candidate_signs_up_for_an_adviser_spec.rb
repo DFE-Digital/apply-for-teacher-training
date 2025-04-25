@@ -78,11 +78,11 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def then_i_am_on_the_adviser_sign_up_page
-    expect(page).to have_current_path(new_candidate_interface_adviser_sign_up_path)
+    expect(page).to have_current_path(new_candidate_interface_adviser_sign_ups_path)
   end
 
   def then_i_am_returned_to_the_adviser_sign_up_page
-    expect(page).to have_current_path(new_candidate_interface_adviser_sign_up_path(preferred_teaching_subject_id: @preferred_teaching_subject1.external_identifier))
+    expect(page).to have_current_path(new_candidate_interface_adviser_sign_ups_path(preferred_teaching_subject_id: @preferred_teaching_subject1.external_identifier))
   end
 
   def when_i_click_request_an_adviser

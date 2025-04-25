@@ -1,6 +1,5 @@
 module CandidateInterface
   class EqualityAndDiversityController < SectionController
-
     before_action :set_review_back_link
     before_action :check_that_candidate_should_be_asked_about_free_school_meals, only: [:edit_free_school_meals]
 
@@ -98,7 +97,7 @@ module CandidateInterface
 
       if @section_complete_form.save(current_application, :equality_and_diversity_completed)
         if current_application.meets_conditions_for_adviser_interruption? && @section_complete_form.completed?
-          redirect_to candidate_interface_adviser_sign_ups_interruption_path(@current_application.id)
+          redirect_to candidate_interface_adviser_sign_ups_interruption_path
         else
           redirect_to_candidate_root
         end

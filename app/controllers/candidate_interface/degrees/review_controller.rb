@@ -1,7 +1,6 @@
 module CandidateInterface
   module Degrees
     class ReviewController < BaseController
-
       before_action :set_completed_if_only_foundation_degrees
 
       def show
@@ -20,7 +19,7 @@ module CandidateInterface
           redirect_to candidate_interface_degree_review_path
         elsif @section_complete_form.save(current_application, :degrees_completed)
           if current_application.meets_conditions_for_adviser_interruption? && @section_complete_form.completed?
-            redirect_to candidate_interface_adviser_sign_ups_interruption_path(@current_application.id)
+            redirect_to candidate_interface_adviser_sign_ups_interruption_path
           else
             redirect_to_candidate_root
           end

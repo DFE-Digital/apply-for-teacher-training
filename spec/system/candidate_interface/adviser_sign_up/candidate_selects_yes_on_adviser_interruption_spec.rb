@@ -103,7 +103,7 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
   end
 
   def then_i_see_the_interruption_page
-    expect(page).to have_current_path(candidate_interface_adviser_sign_ups_interruption_path(@eligible_application_form.id))
+    expect(page).to have_current_path(candidate_interface_adviser_sign_ups_interruption_path)
   end
   alias_method :then_i_see_the_interruption_page_again, :then_i_see_the_interruption_page
 
@@ -112,7 +112,7 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
   end
 
   def then_i_see_the_select_a_subject_page
-    expect(page).to have_current_path(new_candidate_interface_adviser_sign_up_path)
+    expect(page).to have_current_path(new_candidate_interface_adviser_sign_ups_path)
   end
 
   def when_i_click_back

@@ -1,7 +1,6 @@
 module CandidateInterface
   module PersonalDetails
     class ReviewController < SectionController
-
       before_action :finish_immigration_status, if: -> { ImmigrationStatus.new(current_application: current_application).incomplete? }, only: :show
       def show
         @application_form = current_application
@@ -48,7 +47,7 @@ module CandidateInterface
       def save_section_complete_form
         if @section_complete_form.save(current_application, :personal_details_completed)
           if current_application.meets_conditions_for_adviser_interruption? && @section_complete_form.completed?
-            redirect_to candidate_interface_adviser_sign_ups_interruption_path(@current_application.id)
+            redirect_to candidate_interface_adviser_sign_ups_interruption_path
           else
             redirect_to_candidate_root
           end

@@ -91,10 +91,10 @@ namespace :candidate_interface, path: '/candidate' do
     get '/start-carry-over' => 'carry_over#start', as: :start_carry_over
     post '/carry-over' => 'carry_over#create', as: :carry_over
 
-    resources :adviser_sign_ups, path: 'adviser-sign-ups', only: %i[new create show]
+    resource :adviser_sign_ups, path: 'adviser-sign-ups', only: %i[new create show]
 
-    get 'adviser-sign-ups/interruption/:id' => 'adviser_sign_ups/interruptions#show', as: :adviser_sign_ups_interruption
-    patch 'adviser-sign-ups/interruption/:id' => 'adviser_sign_ups/interruptions#update', as: :update_adviser_sign_ups_interruption_response
+    get 'adviser-sign-ups/interruption' => 'adviser_sign_ups/interruptions#show', as: :adviser_sign_ups_interruption
+    patch 'adviser-sign-ups/interruption' => 'adviser_sign_ups/interruptions#update', as: :update_adviser_sign_ups_interruption_response
 
     scope '/personal-details' do
       get '/', to: redirect('/candidate/application/personal-information')
