@@ -113,7 +113,7 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
   end
 
   def then_i_see_the_select_a_subject_page
-    expect(page).to have_current_path(new_candidate_interface_adviser_sign_up_path(return_to: 'interruption'))
+    expect(page).to have_current_path(new_candidate_interface_adviser_sign_ups_path(return_to: 'interruption'))
   end
 
   def when_i_click_back
