@@ -38,7 +38,7 @@ module AdviserEligibility
   end
 
   def meets_conditions_for_adviser_interruption?
-    eligible_to_sign_up_for_a_teaching_training_adviser? &&
+    eligible_to_sign_up_for_a_teaching_training_adviser? && FeatureFlag.active?(:adviser_sign_up) &&
       adviser_interruption_response != false
   end
 
