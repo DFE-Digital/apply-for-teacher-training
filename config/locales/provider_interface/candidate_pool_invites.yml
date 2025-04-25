@@ -7,6 +7,9 @@ en:
           no_candidates: No candidates
           candidate_information_agreement: Candidates can choose to share their application details.
           review_candidates: When they have no open applications, you can review their details and decide whether to invite them to apply.
+          candidates_found:
+            one: "%{count} candidate found"
+            other: "%{count} candidates found"
           name: Name
           distance_from: Distance from %{origin}
           no_degree: No degree
