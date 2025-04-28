@@ -568,13 +568,6 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       :minimum_info,
     )
-    experiment = FieldTest::Experiment.find('find_a_candidate/candidate_feature_launch_email')
-
-    variant = params.fetch('variant', nil)
-    if variant.present? && variant.in?(experiment.variants)
-      experiment.variant(application_form.candidate, variant:)
-    end
-
     CandidateMailer.find_a_candidate_feature_launch_email(application_form)
   end
 
