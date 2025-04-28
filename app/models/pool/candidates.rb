@@ -109,15 +109,24 @@ private
     # for each location_preference. Can't do distinct because the site_distance would be different
     scope.joins(candidate: :published_preferences)
       .joins(<<-SQL)
-        left join lateral (
-          select * from candidate_location_preferences
-          where candidate_location_preferences.candidate_preference_id = candidate_preferences.id
-          group by id
-          having(#{calculate_distance_sql} <= candidate_location_preferences.within)
-          limit 1
+        join lateral (
+          (
+            select (#{calculate_distance_sql}) as site_distance from candidate_location_preferences
+            where candidate_location_preferences.candidate_preference_id = candidate_preferences.id
+            and #{calculate_distance_sql} <= candidate_location_preferences.within
+            limit 1
+          )
+          union
+          (
+            select -1 as site_distance
+            where not exists(
+             select 1 from candidate_location_preferences
+             where candidate_location_preferences.candidate_preference_id = candidate_preferences.id
+            )
+          )
         ) as candidate_location_preferences on true
       SQL
-      .select("#{calculate_distance_sql} as site_distance")
+      .select('candidate_location_preferences.site_distance as site_distance')
   end
 
   def filter_by_subject(scope)

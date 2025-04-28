@@ -133,7 +133,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         {
           original_location: 'Manchester',
           visa_sponsorship: ['required'],
-          origin: [53.8807593, -2.8426305],
+          origin: [53.4706519, -2.2954452],
         }.with_indifferent_access,
       )
     end

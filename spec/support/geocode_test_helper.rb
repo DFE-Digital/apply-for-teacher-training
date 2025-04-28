@@ -5,8 +5,8 @@ module GeocodeTestHelper
     Geocoder::Lookup::Test.set_default_stub(
       [
         {
-          'coordinates' => [53.8807593, -2.8426305],
-          'address' => 'Manchester',
+          'coordinates' => [53.4706519, -2.2954452],
+          'address' => 'Salford',
           'state' => 'England',
           'country' => 'United Kingdom',
           'country_code' => 'UK',

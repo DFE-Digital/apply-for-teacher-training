@@ -26,6 +26,29 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "10b9a6bf2230b30e653c61f38691d355cafe53f4a125c3df7f2e75250864539f",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/pool/candidates.rb",
+      "line": 114,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "scope.joins(:candidate => :published_preferences).joins(\"        join lateral (\\n          (\\n            select (#{CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))}) as site_distance from candidate_location_preferences\\n            where candidate_location_preferences.candidate_preference_id = candidate_preferences.id\\n            and #{CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))} <= candidate_location_preferences.within\\n            limit 1\\n          )\\n          union\\n          (\\n            select -1 as site_distance\\n            where not exists(\\n             select 1 from candidate_location_preferences\\n             where candidate_location_preferences.candidate_preference_id = candidate_preferences.id\\n            )\\n          )\\n        ) as candidate_location_preferences on true\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Pool::Candidates",
+        "method": "filter_by_distance"
+      },
+      "user_input": "CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "28d64e5d66c0dce5bb41ca5b85a1751bdd7190b07aa55b1af003c090e7f8863a",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -155,6 +178,29 @@
         "method": "change"
       },
       "user_input": "field",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "512bf94e58322dbc63dd44ad16de998aa0fb246fa2d16edcd7efd03bd1ab955d",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/pool/candidates.rb",
+      "line": 113,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "scope.joins(:candidate => :published_preferences).joins(\"        join lateral (\\n          (select (#{CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))}) as site_distance from candidate_location_preferences\\n          where candidate_location_preferences.candidate_preference_id = candidate_preferences.id\\n          and #{CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))} <= candidate_location_preferences.within\\n          limit 1)\\n          union\\n          (select -1 as site_distance\\n           where not exists(\\n             select 1 from candidate_location_preferences\\n             where candidate_location_preferences.candidate_preference_id = candidate_preferences.id)\\n          )\\n        ) as candidate_location_preferences on true\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Pool::Candidates",
+        "method": "filter_by_distance"
+      },
+      "user_input": "CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))",
       "confidence": "Medium",
       "cwe_id": [
         89
