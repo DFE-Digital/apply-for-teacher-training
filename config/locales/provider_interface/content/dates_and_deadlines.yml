@@ -7,9 +7,7 @@ en:
         date_and_time: Date and time
         what_happens: What happens
         find_opens: Candidates can Find courses and begin preparing their applications
-        apply_opens: Candidates can beign applying for courses
+        apply_opens: Candidates can begin applying for courses
         apply_deadline: Candidates must submit their applications
         reject_by_default: Any applications awaiting provider decision (including interviewing) will be rejected.
         decline_by_default: Any offers awaiting candidate decision will be declined.
-
-
