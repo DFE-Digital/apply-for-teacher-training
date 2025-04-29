@@ -134,7 +134,7 @@ kubectl -n bat-qa exec -ti apply-loadtest-some-pod-number -- bundle exec rake -T
 
 ```sh
 make install-konduit
-bin/konduit.sh app-name -- psql
+bin/konduit.sh -n bat-production -x apply-production -- psql
 ```
 
 Example of loading test:

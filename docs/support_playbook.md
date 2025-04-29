@@ -16,6 +16,7 @@
 14. [Candidate sign in](#candidate-login-issues)
 15. [Candidate email address](#switch-email-addresses)
 16. [Updating applications in old recruitment cycles](#old-recruitment-cycles)
+17. [Slowness of service](#slowness-of-service)
 
 ## Support Trello board
 
@@ -788,4 +789,43 @@ application_form.audits.create(
   },
   comment: audit_comment
 )
+```
+
+## Slowness of service
+
+If you are experiencing slowness of service, please check the following:
+- Check [Graphana](https://grafana.teacherservices.cloud/d/k8s_views_pods/kubernetes-views-pods?orgId=1&var-datasource=P5DCFC7561CCDE821&var-cluster=prometheus&var-namespace=bat-production&var-deployment=apply-production&var-pod=All&var-resolution=30s) for any spikes in CPU or memory usage in web and worker pods
+- Check [Azure Portal](https://portal.azure.com/#@platform.education.gov.uk/resource/subscriptions/3c033a0c-7a1c-4653-93cb-0f2a9f57a391/resourceGroups/s189p01-att-pd-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/s189p01-att-production-psql/metrics) for any spikes in CPU or memory usage in database instance
+- [Check for any long-running queries in the database](#check-for-long-running-database-queries)
+
+### Check for long-running database queries
+
+#### Connect to the database
+
+See [Infra - AKS Cheatsheet](./infra/aks-cheatsheet.md#access-the-db)
+
+#### Check for long-running queries
+
+Noting the process ID (pid) of the query you want to cancel:
+
+```sql
+SELECT
+  pid,
+  user,
+  pg_stat_activity.query_start,
+  now() - pg_stat_activity.query_start AS query_time,
+  query,
+  state,
+  wait_event_type,
+  wait_event
+FROM pg_stat_activity
+WHERE (now() - pg_stat_activity.query_start) > interval '20 seconds' order by query_start desc;
+```
+
+#### Cancel long-running queries
+
+Replace `<pid>` with the process ID of the query you want to cancel
+
+```sql
+SELECT pg_cancel_backend(<pid>);
 ```
