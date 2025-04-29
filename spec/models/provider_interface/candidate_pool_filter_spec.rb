@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::CandidatePoolFilter do
+  include Rails.application.routes.url_helpers
+
   describe '#filters' do
     it 'returns the filters' do
       current_provider_user = create(:provider_user)
@@ -13,6 +15,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           name: 'location_search',
           original_location: nil,
           title: 'Candidate location preferences',
+          path_to_location_suggestions: provider_interface_location_suggestions_path,
         },
         {
           type: :checkbox_filter,
@@ -116,6 +119,82 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           .from({ 'visa_sponsorship' => ['required'] })
           .to(filter_params),
         )
+      end
+    end
+
+    context 'when current_provider_user is nil' do
+      it 'stores updated filters' do
+        filter = described_class.new(filter_params: {}, current_provider_user: nil)
+
+        expect(filter.filters).to eq([
+          {
+            type: :location_search,
+            heading: 'Town, city or postcode:',
+            name: 'location_search',
+            original_location: nil,
+            title: 'Candidate location preferences',
+            path_to_location_suggestions: provider_interface_location_suggestions_path,
+          },
+          {
+            type: :checkbox_filter,
+            heading: 'Subjects previously applied to',
+            name: 'subject',
+            options: [],
+            hide_tags: true,
+            title: 'Candidate course preferences',
+          },
+          {
+            type: :checkboxes,
+            heading: 'Study type',
+            name: 'study_mode',
+            options: [
+              {
+                value: 'full_time',
+                label: 'Full time',
+                checked: nil,
+              },
+              {
+                value: 'part_time',
+                label: 'Part time',
+                checked: nil,
+              },
+            ],
+          },
+          {
+            type: :checkboxes,
+            heading: 'Course type',
+            name: 'course_type',
+            options: [
+              {
+                value: 'TDA',
+                label: 'Undergraduate',
+                checked: nil,
+              },
+              {
+                value: 'HE,HES,SD,SS,SC,SSC,TA',
+                label: 'Postgraduate',
+                checked: nil,
+              },
+            ],
+          },
+          {
+            type: :checkboxes,
+            heading: '<h3 class="govuk-heading-m govuk-!-margin-bottom-0">Candidate’s visa requirements</h3>',
+            name: 'visa_sponsorship',
+            options: [
+              {
+                value: 'required',
+                label: 'Needs a visa',
+                checked: nil,
+              },
+              {
+                value: 'not required',
+                label: 'Does not need a visa',
+                checked: nil,
+              },
+            ],
+          },
+        ])
       end
     end
   end

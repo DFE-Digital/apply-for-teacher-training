@@ -1,18 +1,13 @@
-module ProviderInterface
+module SupportInterface
   class CandidatePoolFilter
     include FilterParamsHelper
     include ActionView::Helpers::TagHelper
     include Rails.application.routes.url_helpers
 
-    FILTERS = %w[original_location subject study_mode course_type visa_sponsorship].freeze
-
     attr_reader :filter_params
 
-    def initialize(filter_params:, current_provider_user:)
-      @filter_params = set_filters(
-        compact_params(filter_params),
-        current_provider_user,
-      )
+    def initialize(filter_params:)
+      @filter_params = compact_params(filter_params)
     end
 
     def filters
@@ -23,7 +18,7 @@ module ProviderInterface
           name: 'location_search',
           original_location: filter_params[:original_location],
           title: 'Candidate location preferences',
-          path_to_location_suggestions: provider_interface_location_suggestions_path,
+          path_to_location_suggestions: support_interface_location_suggestions_path,
         },
         {
           type: :checkbox_filter,
@@ -78,20 +73,6 @@ module ProviderInterface
     end
 
   private
-
-    def set_filters(filters, current_provider_user)
-      return filters if current_provider_user.blank?
-
-      any_filters = filters.keys.intersect?(FILTERS)
-
-      if filters[:remove] == 'true' && !any_filters
-        current_provider_user.update!(find_a_candidate_filters: {})
-      elsif any_filters
-        current_provider_user.update!(find_a_candidate_filters: filters)
-      end
-
-      current_provider_user.find_a_candidate_filters.with_indifferent_access
-    end
 
     def visa_sponsorship_options
       [['required', 'Needs a visa'], ['not required', 'Does not need a visa']].map do |value, label|
