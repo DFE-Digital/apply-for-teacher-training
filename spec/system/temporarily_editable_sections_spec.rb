@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Unlocking non editable sections temporarily via support' do
   include DfESignInHelpers
   include CandidateHelper
+  include ActiveSupport::Testing::TimeHelpers
 
   scenario 'Unlocking some sections via support', :with_audited do
     given_i_am_a_support_user
@@ -105,7 +106,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
     @application_form.reload
     expect(@application_form.editable_sections).to contain_exactly('english_gcse', 'degrees')
     expect(@application_form.editable_until).to be_within(
-      Rails.configuration.x.sections.editable_window_days.business_days.from_now.to_f,
+      Rails.configuration.x.sections.editable_window_days.days.from_now.to_f,
     ).of(Time.zone.now)
   end
 
@@ -167,7 +168,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
 
   def when_the_editable_time_is_expired
     logout
-    advance_time_to(6.business_days.from_now)
+    advance_time_to(6.days.from_now)
     when_candidate_with_submitted_application_logged_in
   end
 
