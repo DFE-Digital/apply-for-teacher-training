@@ -121,6 +121,8 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Candidate ID' => application_choice.application_form.candidate.public_id,
         'Support reference' => application_choice.application_form.support_reference,
         'Offer accepted date' => application_choice.accepted_at,
+        'Withdrawn date' => application_choice.withdrawn_at,
+        'Declined date' => application_choice.declined_at,
       }
 
       expected.each do |key, expected_value|

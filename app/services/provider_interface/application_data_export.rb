@@ -58,6 +58,8 @@ module ProviderInterface
           'Candidate ID' => application.application_form.candidate.public_id,
           'Support reference' => application.application_form.support_reference,
           'Offer accepted date' => application.accepted_at,
+          'Withdrawn date' => application.withdrawn_at,
+          'Declined date' => application.declined_at,
         }
       end
 
