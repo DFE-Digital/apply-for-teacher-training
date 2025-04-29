@@ -1,6 +1,6 @@
-ruby 3.3.8
-nodejs 20.11.0
-yarn 1.22.19
+ruby 3.3.7
+nodejs 22.15.0
+yarn 1.22.22
 azure-cli 2.57.0
 jq 1.6
 make 4.2.1

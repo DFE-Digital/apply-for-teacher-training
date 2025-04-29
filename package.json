@@ -2,7 +2,7 @@
   "name": "apply-for-teacher-training",
   "private": true,
   "engines": {
-    "node": "20.x",
+    "node": "22.x",
     "yarn": "^1.22.0"
   },
   "dependencies": {
@@ -47,5 +47,6 @@
       "zE",
       "CustomEvent"
     ]
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }
