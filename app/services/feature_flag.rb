@@ -29,6 +29,7 @@ class FeatureFlag
     [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],
     [:early_application_deadlines_for_candidates_with_visa_sponsorship, 'Implement alternative deadlines for candidates requiring visa sponsorships', 'Apply team'],
     [:candidate_preferences, 'Allow candidates to add their preferences for providers to find them', 'Apply team'],
+    [:show_support_find_a_candidate, 'Allow support to see the find a candidate pages', 'Apply team'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

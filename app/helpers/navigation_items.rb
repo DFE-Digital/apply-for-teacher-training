@@ -50,7 +50,7 @@ class NavigationItems
 
     def for_support_primary_nav(current_support_user, current_controller)
       if current_support_user
-        [
+        items = [
           {
             text: 'Candidates',
             href: support_interface_applications_path,
@@ -76,12 +76,17 @@ class NavigationItems
             href: support_interface_docs_path,
             active: active?(current_controller, %w[docs]),
           },
-          {
+        ]
+
+        if FeatureFlag.active?(:show_support_find_a_candidate)
+          items << {
             text: 'Find a candidate',
             href: support_interface_find_candidates_path,
             active: active?(current_controller, %w[find_candidates]),
-          },
-        ]
+          }
+        end
+
+        items
       else
         []
       end
