@@ -23,12 +23,9 @@ module Chasers
 
         ApplicationForm
           .where(id: application_form_ids)
-          # Tier 1 & 2 application forms
-          .where(id: Pool::Candidates.application_forms_eligible_for_pool)
           # Filter out candidates who should not receive nudge-like emails
           # Filter out blocked and locked candidates
-          .joins(:candidate)
-          .merge(::Candidate.for_marketing_or_nudge_emails)
+          .joins(:candidate).merge(::Candidate.for_marketing_or_nudge_emails)
           # Filter out application forms that have already received the chaser
           .where.not(id: application_form_ids_with_sent_chaser)
           # Filter out application forms without submitted application choices
