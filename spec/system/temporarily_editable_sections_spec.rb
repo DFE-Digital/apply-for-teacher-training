@@ -104,9 +104,9 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
   def and_the_application_is_now_updated_with_the_temporarily_editable_sections
     @application_form.reload
     expect(@application_form.editable_sections).to contain_exactly('english_gcse', 'degrees')
-    expect(@application_form.editable_until).to be_within(
-      Rails.configuration.x.sections.editable_window_days.business_days.from_now.to_f,
-    ).of(Time.zone.now)
+    expect(@application_form.editable_until.to_f).to be_within(0.1).of(
+      Rails.configuration.x.sections.editable_window_days.days.from_now.end_of_day.to_f,
+    )
   end
 
   def when_i_signout
@@ -167,7 +167,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
 
   def when_the_editable_time_is_expired
     logout
-    advance_time_to(6.business_days.from_now)
+    advance_time_to(6.days.from_now)
     when_candidate_with_submitted_application_logged_in
   end
 
