@@ -38,7 +38,7 @@ module TeacherTrainingPublicAPI
     end
 
     def existing_provider
-      @existing_provider ||= ::Provider.find_by(code: @provider_from_api.code)
+      @existing_provider ||= ::Provider.where('code ILIKE ?', @provider_from_api.code).first
     end
 
     def create_or_update_provider(attrs)
@@ -50,7 +50,6 @@ module TeacherTrainingPublicAPI
         existing_provider
       else
         ::Provider.create!(attrs.merge(code: @provider_from_api.code))
-
       end
     end
   end
