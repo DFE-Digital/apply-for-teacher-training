@@ -9,8 +9,14 @@ class LocationSuggestions
   def call
     return [] if query.blank?
 
-    Rails.cache.fetch(cache_key, expires_in: cache_expiration) do
-      fetch_suggestions
+    if Rails.cache.exist?(cache_key)
+      Rails.cache.read(cache_key)
+    else
+      suggestions = fetch_suggestions
+      return [] if suggestions.blank?
+
+      Rails.cache.write(cache_key, suggestions, expires_in: cache_expiration)
+      suggestions
     end
   end
 
