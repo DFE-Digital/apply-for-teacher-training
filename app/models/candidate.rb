@@ -29,9 +29,6 @@ class Candidate < ApplicationRecord
   has_many :pool_invites, dependent: :destroy, class_name: 'Pool::Invite'
   has_many :preferences, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :published_preferences, -> { where(status: 'published') }, dependent: :destroy, class_name: 'CandidatePreference'
-  has_many :published_opt_in_preferences, -> { where(status: 'published', pool_status: :opt_in) }, dependent: :destroy, class_name: 'CandidatePreference'
-  has_many :published_location_preferences, class_name: 'CandidateLocationPreference', through: :published_preferences, source: :location_preferences
-  has_many :published_opt_in_location_preferences, class_name: 'CandidateLocationPreference', through: :published_opt_in_preferences, source: :location_preferences
 
   PUBLISHED_FIELDS = %w[email_address].freeze
 

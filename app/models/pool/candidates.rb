@@ -91,34 +91,42 @@ private
       )
   end
 
-  def filter_by_distance(application_forms_scope)
-    return application_forms_scope unless active_location_filter?
+  def filter_by_distance(scope)
+    return scope unless active_location_filter?
 
     origin = filters.fetch(:origin)
 
-    candidate_preferences_anywhere = CandidatePreference.where(pool_status: 'opt_in', status: 'published')
-                                       .where.missing(:location_preferences)
-                                       .select('candidate_preferences.candidate_id as candidate_id', '-1 as distance')
-
-    candidate_location_preferences_near_origin = CandidateLocationPreference
-                                                   .joins(:candidate_preference)
-                                                   .where(candidate_preferences: { pool_status: 'opt_in', status: 'published' })
-                                                   .near(origin, :within)
-                                                   .select('candidate_preferences.candidate_id as candidate_id')
-
-    candidates_near_origin = Candidate.with(
-      candidate_preferences_anywhere: candidate_preferences_anywhere,
-      candidate_location_preferences_near_origin: candidate_location_preferences_near_origin,
+    # This sql returns a number of miles from the origin location
+    calculate_distance_sql = CandidateLocationPreference.distance_sql(
+      Struct.new(:latitude, :longitude).new(
+        latitude: origin.first,
+        longitude: origin.last,
+      ),
     )
-                               .joins('LEFT OUTER JOIN candidate_preferences_anywhere ON candidate_preferences_anywhere.candidate_id = candidates.id')
-                               .joins('LEFT OUTER JOIN candidate_location_preferences_near_origin ON candidate_location_preferences_near_origin.candidate_id = candidates.id')
-                               .where('candidate_preferences_anywhere.distance IS NOT NULL OR candidate_location_preferences_near_origin.distance IS NOT NULL')
-                               .select('candidates.*', 'MIN(COALESCE(candidate_preferences_anywhere.distance, candidate_location_preferences_near_origin.distance)) as distance')
-                                      .group('candidates.id')
 
-    application_forms_scope.with(candidates_near_origin: candidates_near_origin)
-                           .joins('INNER JOIN candidates_near_origin ON candidates_near_origin.id = application_forms.candidate_id')
-                           .select('application_forms.*', 'candidates_near_origin.distance as site_distance')
+    # Join lateral allows us to have a sub query in the join where we can only return 1 result
+    # when searching for a location within a radius. Otherwise we will return the same application form
+    # for each location_preference. Can't do distinct because the site_distance would be different
+    scope.joins(candidate: :published_preferences)
+      .joins(<<-SQL)
+        join lateral (
+          (
+            select (#{calculate_distance_sql}) as site_distance from candidate_location_preferences
+            where candidate_location_preferences.candidate_preference_id = candidate_preferences.id
+            and #{calculate_distance_sql} <= candidate_location_preferences.within
+            limit 1
+          )
+          union
+          (
+            select -1 as site_distance
+            where not exists(
+             select 1 from candidate_location_preferences
+             where candidate_location_preferences.candidate_preference_id = candidate_preferences.id
+            )
+          )
+        ) as candidate_location_preferences on true
+      SQL
+      .select('candidate_location_preferences.site_distance as site_distance')
   end
 
   def filter_by_subject(scope)
