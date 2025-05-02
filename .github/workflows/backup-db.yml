@@ -1,4 +1,4 @@
-name: Backup database to Azure storage
+name: Backup database to Azure storage with sanitised data
 
 on:
   workflow_dispatch:
@@ -22,9 +22,15 @@ on:
       db-server:
         description: |
           Name of the database server. Default is the live server. When backing up a point-in-time (PTR) server, use the full name of the PTR server. (Optional)
+      exclude-tables:
+        description: |
+          Comma-separated list of tables to exclude from the backup. (Optional)
+        required: false
+        type: string
+        default: 'audits blazer_audits blazer_checks blazer_dashboard_queries blazer_dashboards blazer_queries email_clicks emails find_feedback vendor_api_requests sessions session_errors pool_eligible_application_forms'
 
   schedule:
-    - cron: "0 2 * * *" # 02:00 UTC
+    - cron: "0 4 * * *" # 04:00 UTC
 
 env:
   SERVICE_NAME: apply
@@ -53,6 +59,7 @@ jobs:
     env:
       DEPLOY_ENV: ${{ inputs.environment || 'production'  }}
       BACKUP_FILE: ${{ inputs.backup-file || 'schedule'  }}
+      EXCLUDE_TABLES: ${{ inputs.exclude-tables }}
 
     steps:
     - uses: actions/checkout@v4
@@ -81,7 +88,7 @@ jobs:
         else
           BACKUP_FILE=${BACKUP_FILE}
         fi
-        echo "BACKUP_FILE=${BACKUP_FILE}" >> $GITHUB_ENV
+        echo "BACKUP_FILE=${BACKUP_FILE}_exclude" >> $GITHUB_ENV
 
     - name: Backup ${{ env.DEPLOY_ENV }} postgres
       uses: DFE-Digital/github-actions/backup-postgres@master
@@ -97,3 +104,56 @@ jobs:
         backup-file: ${{ env.BACKUP_FILE }}.sql
         db-server-name: ${{ inputs.db-server }}
         slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+        exclude-tables: ${{ env.EXCLUDE_TABLES }}
+
+    - name: Disk cleanup
+      # if: github.event_name == 'schedule'
+      shell: bash
+      run: |
+        sudo rm -rf /usr/local/lib/android || true
+        sudo rm -rf /usr/share/dotnet || true
+        sudo rm -rf /opt/ghc || true
+        sudo rm -rf /usr/local/.ghcup || true
+        sudo rm -rf /opt/hostedtoolcache/CodeQL || true
+        sudo rm -rf /usr/local/share/boost || true
+        sudo docker image prune --all --force || true
+        sudo apt-get remove -y '^aspnetcore-.*' || true
+        sudo apt-get remove -y '^dotnet-.*' --fix-missing || true
+        sudo apt-get remove -y '^llvm-.*' --fix-missing || true
+        sudo apt-get remove -y 'php.*' --fix-missing || true
+        sudo apt-get remove -y '^mongodb-.*' --fix-missing || true
+        sudo apt-get remove -y '^mysql-.*' --fix-missing || true
+        sudo apt-get remove -y google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri --fix-missing || true
+        sudo apt-get remove -y google-cloud-sdk --fix-missing || true
+        sudo apt-get remove -y google-cloud-cli --fix-missing || true
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"/PyPy || true
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"/Python || true
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"/go || true
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"/node || true
+        sudo apt-get autoremove -y || true
+        sudo apt-get clean
+
+    - name: Sanitise dump
+      # if: github.event_name == 'schedule'
+      run: |
+        createdb ${DATABASE_NAME} && gzip -d --to-stdout ${{ env.BACKUP_FILE }}.sql.gz | psql -d ${DATABASE_NAME}
+        rm ${{ env.BACKUP_FILE }}.sql.gz
+        psql -d ${DATABASE_NAME} -f db/scripts/sanitise.sql
+        pg_dump --encoding utf8 --compress=1 --clean --no-owner --if-exists -d ${DATABASE_NAME} -f att_backup_sanitised.sql.gz
+      env:
+        DATABASE_NAME: apply_manage_itt
+        PGUSER: postgres
+        PGPASSWORD: postgres
+        PGHOST: localhost
+        PGPORT: 5432
+
+    - name: Upload sanitized backup to Azure storage
+      # if: github.event_name == 'schedule'
+      run: |
+        STORAGE_CONN_STR=$(az storage account show-connection-string -g ${{ env.RESOURCE_GROUP_NAME }} -n ${{ env.STORAGE_ACCOUNT_NAME }} --query 'connectionString')
+        echo "::add-mask::$STORAGE_CONN_STR"
+        echo "STORAGE_CONN_STR=$STORAGE_CONN_STR" >> $GITHUB_ENV
+        az storage blob upload --container-name database-backup \
+        --file att_backup_sanitised.sql.gz --name att_backup_sanitised.sql.gz --overwrite \
+        --connection-string '${{ env.STORAGE_CONN_STR }}'
+        rm att_backup_sanitised.sql.gz
