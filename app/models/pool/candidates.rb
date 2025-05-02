@@ -21,13 +21,6 @@ class Pool::Candidates
       .where.not(candidate: dismissed_candidates)
       .order(order_by)
       .distinct
-      .select(
-        'application_forms.id, ' \
-        'application_forms.candidate_id, ' \
-        'application_forms.first_name, ' \
-        'application_forms.last_name, ' \
-        'application_forms.submitted_at',
-      )
   end
 
   def self.application_forms_in_the_pool
@@ -65,30 +58,39 @@ private
   end
 
   def curated_application_forms
-    ApplicationForm.current_cycle.joins(:application_choices)
+    current_cycle_forms = ApplicationForm.current_cycle
+
+    # Subquery: To exclude forms with live applications (eg, being considered by the provider, or recruited / deferred)
+    forms_with_live_applications = current_cycle_forms
+                   .joins(:application_choices)
+                   .where(application_choices: {
+                     status: %i[awaiting_provider_decision interviewing offer pending_conditions recruited offer_deferred],
+                   })
+
+    # Subquery: To exclude forms where the candidates has withdrawn from a course because they do not want to train
+    forms_that_have_been_withdrawn_for_not_wanting_to_train = current_cycle_forms
+                             .joins(application_choices: :withdrawal_reasons)
+                             .where('withdrawal_reasons.reason ILIKE ?', '%do-not-want-to-train-anymore%')
+
+    # Subquery: To include only those forms who have not used all their application slows
+    forms_with_available_slots = current_cycle_forms
+                         .joins(:application_choices)
+                         .where(application_choices: {
+                           status: ApplicationStateChange::UNSUCCESSFUL_STATES,
+                         })
+                         .group(:id)
+                         .having("count(CASE WHEN application_choices.status != 'inactive' THEN 1 END) < ?", ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS)
+                         .select(:id)
+
+    # Final query
+    current_cycle_forms
+      .joins(:application_choices)
       .where(application_choices: {
         status: %i[rejected declined withdrawn conditions_not_met offer_withdrawn inactive],
       })
-      .where.not(
-        id: ApplicationForm.current_cycle.joins(:application_choices).where(
-          application_choices: {
-            status: %i[awaiting_provider_decision interviewing offer pending_conditions recruited offer_deferred],
-          },
-        ).select(:id),
-      )
-      .where(
-        id: ApplicationForm.current_cycle.joins(:application_choices)
-            .where(application_choices: { status: ApplicationStateChange::UNSUCCESSFUL_STATES })
-            .group(:id)
-            # Inactive doesn't count as an unsuccessful state, so need to exclude it when counting
-            .having("count(CASE WHEN application_choices.status != 'inactive' THEN 1 END) < #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS}")
-            .select(:id),
-      )
-      .where.not(
-        id: ApplicationForm.current_cycle.joins(application_choices: :withdrawal_reasons)
-          .where('withdrawal_reasons.reason ILIKE ?', '%do-not-want-to-train-anymore%')
-          .select(:id),
-      )
+      .where(id: forms_with_available_slots)
+      .without(forms_with_live_applications)
+      .without(forms_that_have_been_withdrawn_for_not_wanting_to_train)
   end
 
   def filter_by_distance(application_forms_scope)
