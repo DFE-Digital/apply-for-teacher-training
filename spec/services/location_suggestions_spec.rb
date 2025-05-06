@@ -75,6 +75,11 @@ RSpec.describe LocationSuggestions do
           hash_including(message: "Location suggestion failed for LocationSuggestions - #{query}, suggestions ignored (user experience unaffected)"),
         )
       end
+
+      it 'does not write anything to the cache' do
+        suggestions
+        expect(cache.exist?(suggestions_query.send(:cache_key))).to be false
+      end
     end
   end
 
