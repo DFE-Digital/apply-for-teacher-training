@@ -52,6 +52,10 @@ RSpec.describe Pool::Candidates do
         provider = create(:provider)
         providers = [provider]
 
+        previous_year_form = create(:application_form, :completed, recruitment_cycle_year: previous_year)
+        create(:candidate_preference, candidate: previous_year_form.candidate)
+        create(:application_choice, :rejected, application_form: previous_year_form)
+
         opt_out_candidate = create(:candidate)
         create(:candidate_preference, pool_status: 'opt_out', candidate: opt_out_candidate)
         opt_out_candidate_form = create(:application_form, :completed, candidate: opt_out_candidate)

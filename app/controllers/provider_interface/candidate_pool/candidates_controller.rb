@@ -22,8 +22,6 @@ module ProviderInterface
         @application_form = Pool::Candidates.application_forms_for_provider(
           providers: current_provider_user.providers,
         )
-        .select('*')
-        .includes(:application_choices)
         .find_by(candidate_id: params.expect(:id))
 
         @candidate = @application_form.candidate
