@@ -10,7 +10,7 @@
   <%= "Course fee: #{number_to_currency(@course.fee_domestic)} for UK citizens; #{number_to_currency(@course.fee_international)} for non-UK citizens" %>
 <% elsif @course.fee_domestic.present? %>
   <%= "Course fee: #{number_to_currency(@course.fee_domestic)} for UK citizens" %>
-<% elseif @course.fee_international.present? %>
+<% elsif @course.fee_international.present? %>
   <%= "Course fee: #{number_to_currency(@course.fee_international)} for non-UK citizens" %>
 <% end %>
 Course length: <%= DisplayCourseLength.call(course_length: @course.course_length) %>
