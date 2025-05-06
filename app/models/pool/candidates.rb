@@ -89,8 +89,8 @@ private
         status: %i[rejected declined withdrawn conditions_not_met offer_withdrawn inactive],
       })
       .where(id: forms_with_available_slots)
-      .without(forms_with_live_applications)
-      .without(forms_that_have_been_withdrawn_for_not_wanting_to_train)
+      .excluding(forms_with_live_applications)
+      .excluding(forms_that_have_been_withdrawn_for_not_wanting_to_train)
   end
 
   def filter_by_distance(application_forms_scope)
