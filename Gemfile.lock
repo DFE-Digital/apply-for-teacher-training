@@ -305,10 +305,6 @@ GEM
     geocoder (1.8.5)
       base64 (>= 0.1.0)
       csv (>= 3.0.0)
-    geokit (1.14.0)
-    geokit-rails (2.5.0)
-      geokit (~> 1.5)
-      rails (>= 3.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     google-apis-bigquery_v2 (0.84.0)
@@ -905,7 +901,6 @@ DEPENDENCIES
   faker (= 2.22.0)
   field_test (~> 0.7.0)
   geocoder
-  geokit-rails
   get_into_teaching_api_client_faraday!
   google-cloud-bigquery
   govuk-components (~> 5.9.0)
