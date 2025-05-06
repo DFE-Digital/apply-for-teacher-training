@@ -1,41 +1,8 @@
-<h2 class="govuk-heading-l"><%= t('.title') %></h2>
-
-<% application_form.application_choices.each_with_index do |choice, index| %>
-  <h3 class="govuk-heading-m govuk-!-font-size-27"><%= t('.subtitle', counter: index + 1) %></h3>
-  <%= govuk_summary_list do |summary_list| %>
-
-    <% summary_list.with_row do |row| %>
-      <% row.with_key { t('.subject') } %>
-      <% row.with_value { choice.course.subjects.pluck(:name).join(',') } %>
-    <% end %>
-
-    <% summary_list.with_row do |row| %>
-      <% row.with_key { t('.location') } %>
-      <% row.with_value do %>
-        <p class='govuk-body'>
-          <%= course_address(choice) %>
-        </p>
-        <p class='govuk-body'>
-          <%= choice.course_option.site_postcode %>
-        </p>
-      <% end %>
-    <% end %>
-
-    <% summary_list.with_row do |row| %>
-      <% row.with_key { t('.qualification') } %>
-      <% row.with_value { choice.course.qualifications_to_s } %>
-    <% end %>
-
-    <% summary_list.with_row do |row| %>
-      <% row.with_key { t('.funding_type') } %>
-      <% row.with_value { choice.course.funding_type.capitalize } %>
-    <% end %>
+<% application_choices.each_with_index do |choice, index| %>
+  <%= govuk_summary_card(title: t('.subtitle', counter: index + 1)) do |card| %>
+    <% card.with_summary_list(
+         actions: false,
+         rows: application_choice_rows(choice),
+       ) %>
   <% end %>
-
-  <h4 class="govuk-heading-m"><%= t('.personal_statement') %></h4>
-  <%= govuk_details(summary_text: 'Guidance given to candidates', classes: 'govuk-!-margin-bottom-4') do %>
-    <%= render 'candidate_interface/personal_statement/guidance' %>
-  <% end %>
-
-  <p class='govuk-body'><%= choice.personal_statement %></p>
 <% end %>

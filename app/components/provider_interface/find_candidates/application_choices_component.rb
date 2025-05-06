@@ -5,22 +5,59 @@ class ProviderInterface::FindCandidates::ApplicationChoicesComponent < ViewCompo
     @application_form = application_form
   end
 
-  def course_address(choice)
-    site = choice.course_option.site
-    "#{site.address_line2} #{site.address_line3}"
+  def application_choice_rows(choice)
+    [
+      course_subject(choice),
+      location(choice),
+      qualification(choice),
+      funding_type(choice),
+      date_submitted(choice),
+    ].compact
   end
 
-  def rejection_reason_value(choice)
-    return unless rejection_reasons_text(choice)
-
-    rejection_reasons_text(choice)
+  def application_choices
+    @application_choices ||= application_form
+                               .application_choices
+                               .where.not(sent_to_provider_at: nil)
+                               .order(:sent_to_provider_at)
+                               .reverse
   end
 
 private
 
-  def rejection_reasons_text(choice)
-    return unless choice.rejection_reason.present? || choice.structured_rejection_reasons.present?
+  def course_subject(choice)
+    {
+      key: { text: t('.subject') },
+      value: { text: choice.course.subjects.pluck(:name).join(',') },
+    }
+  end
 
-    @rejection_reasons_text ||= render(RejectionsComponent.new(application_choice: choice))
+  def location(choice)
+    site = choice.course_option.site
+    {
+      key: { text: t('.location') },
+      value: { text: "#{site.address_line2} #{site.address_line3}" },
+    }
+  end
+
+  def qualification(choice)
+    {
+      key: { text: t('.qualification') },
+      value: { text: choice.course.qualifications_to_s },
+    }
+  end
+
+  def funding_type(choice)
+    {
+      key: { text: t('.funding_type') },
+      value: { text: choice.course.funding_type.capitalize },
+    }
+  end
+
+  def date_submitted(choice)
+    {
+      key: { text: t('.date_submitted') },
+      value: { text: choice.sent_to_provider_at.to_fs(:govuk_date) },
+    }
   end
 end

@@ -21,10 +21,22 @@ en:
         show:
           title: Candidate details
           invite: Invite to apply
+          right_to_work_and_study: Right to work or study in the UK
           qualifications: Qualifications
+          degree:
+            heading: Degrees
+            teacher_degree_apprenticeship_message: A degree is not required for a teacher degree apprenticeship (TDA).
+          gcses_or_equivalent: GCSEs or equivalent
           a_level_header: A levels and other qualifications
-          a_level_subheader: Details of A levels and other qualifications
+          no_other_qualifications: No A levels or other qualifications
+          english_as_a_foreign_language: English as a foreign language
+          work_history_and_unpaid_experience: Work history and unpaid experience
           candidate_number: Candidate %{candidate_id}
+          personal_statement: Personal statement
+          personal_statement_caption: Most recent
+          personal_statement_title: Personal statement
+          safeguarding_title: Criminal record and professional misconduct
+          application_choices_title: Applications submitted
       draft_invites:
         new:
           title: Select a course to invite %{candidate_name} to apply to
