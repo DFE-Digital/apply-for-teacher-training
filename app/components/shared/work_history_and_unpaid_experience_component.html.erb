@@ -1,18 +1,15 @@
-<% if @find_candidates %>
-  <section class="app-section summary-section" data-qa="work-history-and-unpaid-experience">
-    <h2 class="govuk-heading-l" id="work-history">Work history and unpaid experience</h2>
-<% else %>
-  <section class="app-section govuk-!-width-two-thirds" data-qa="work-history-and-unpaid-experience">
-    <h3 class="govuk-heading-m" id="work-history">Work history and unpaid experience</h3>
-<% end %>
+<section class="app-section govuk-!-width-two-thirds" data-qa="work-history-and-unpaid-experience">
+  <h3 class="govuk-heading-m" id="work-history">Work history and unpaid experience</h3>
 
   <%= render SummaryListComponent.new(rows: rows) %>
 
   <% if @details && subtitle %>
-      <h4 class="govuk-heading-s" id="work-history-subheader"><%= subtitle %></h4>
-    <% end %>
+    <h4 class="govuk-heading-s" id="work-history-subheader"><%= subtitle %></h4>
+  <% end %>
 
+  <% if @details %>
     <% history.each do |item| %>
       <%= render WorkHistoryAndUnpaidExperienceItemComponent.new(item:, editable: @editable) %>
+    <% end %>
   <% end %>
 </section>
