@@ -3,7 +3,7 @@ name: Delete v2 Review App
 on:
   pull_request:
     types: [closed]
-    branches: [main]
+    branches: [att-2323-use-delete-review-app-github-action]
   workflow_dispatch:
     inputs:
       pr_number:
