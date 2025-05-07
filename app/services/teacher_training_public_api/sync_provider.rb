@@ -38,7 +38,7 @@ module TeacherTrainingPublicAPI
     end
 
     def existing_provider
-      @existing_provider ||= ::Provider.find_by(code: @provider_from_api.code) || ::Provider.find_by(code: @provider_from_api.code.upcase)
+      @existing_provider ||= ::Provider.find_by(code: @provider_from_api.code) || ::Provider.find_by(code: @provider_from_api.code.upcase) || ::Provider.find_by(code: @provider_from_api.code.downcase)
     end
 
     def create_or_update_provider(attrs)

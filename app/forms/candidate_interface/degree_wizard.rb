@@ -630,7 +630,7 @@ module CandidateInterface
 
     def self.select_uk_degree_level(application_qualification)
       QUALIFICATION_LEVEL[
-        Hesa::DegreeType.find_by_name(application_qualification.qualification_type)&.level.to_s
+        Hesa::DegreeType.find_by_name(application_qualification.qualification_type)&.level.to_s,
       ]
     end
 
