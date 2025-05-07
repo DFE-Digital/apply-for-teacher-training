@@ -96,6 +96,35 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_application_choices_with_success_message
   end
 
+  scenario 'Candidate edits a dynamic location' do
+    given_i_am_signed_in
+    and_feature_flag_is_enabled
+    # and_courses_exist
+    given_i_am_on_the_share_details_page
+
+    when_i_click('Change your sharing and location settings')
+    then_i_am_redirected_to_opt_in_page
+    when_i_click('Continue')
+    then_i_get_an_error('Select whether to make your application details visible to other training providers')
+
+    and_i_opt_in_to_find_a_candidate
+    when_i_click('Continue')
+    then_i_am_redirected_to_location_preferences(location_preferences)
+
+    when_i_remove_all_locations
+    then_i_am_redirected_to_location_preferences_without_locations
+
+    when_i_check_dynamic_locations
+    when_i_click('Continue')
+    then_i_am_redirected_to_review_page_without_locations
+
+    when_i_click('Submit preferences')
+    then_i_am_redirected_application_choices_with_success_message
+
+    when_i_click('Add application')
+    # then_i_see_complete_flow_for_adding_a_choice
+  end
+
   scenario 'Candidate opts out of find a candidate' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
@@ -276,5 +305,20 @@ RSpec.describe 'Candidate adds preferences' do
 
   def when_i_click_change_on_the_last_location
     all('a', text: 'Change').last.click
+  end
+
+  def then_i_see_complete_flow_for_adding_a_choice
+    choose 'Yes, I know where I want to apply'
+    click_link_or_button('Continue')
+    save_and_open_page
+
+    select 'Keele and North Staffordshire Teacher Education (24J)'
+    click_link_or_button('Continue')
+
+    choose 'Mathematics (QU1S)'
+    click_link_or_button('Continue')
+
+    click_link_or_button('Review application')
+    click_link_or_button('Confirm and submit application')
   end
 end
