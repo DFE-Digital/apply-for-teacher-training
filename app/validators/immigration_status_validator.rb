@@ -24,8 +24,8 @@ class ImmigrationStatusValidator < ActiveModel::EachValidator
   end
 
   def course_can_sponsor_visa?(application_choice)
-    (application_choice.course.salary? && application_choice.course.can_sponsor_skilled_worker_visa?) ||
-      (!application_choice.course.salary? && application_choice.course.can_sponsor_student_visa?)
+    application_choice.course.can_sponsor_skilled_worker_visa? ||
+      application_choice.course.can_sponsor_student_visa?
   end
 
   def link_to_find
