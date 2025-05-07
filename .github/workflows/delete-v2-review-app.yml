@@ -44,6 +44,7 @@ jobs:
           echo "CONFIG_SHORT=${CONFIG_SHORT}" >> $GITHUB_ENV
           echo "SERVICE_SHORT=${SERVICE_SHORT}" >> $GITHUB_ENV
           echo "ENVIRONMENT=pr-${PR_NUMBER}" >> $GITHUB_ENV
+          echo "DEPLOY_ENV=review-$PR_NUMBER" >> $GITHUB_ENV
 
       - name: Delete Review App
         id: delete-review-app
