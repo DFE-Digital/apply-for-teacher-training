@@ -296,10 +296,10 @@ GEM
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
-    field_test (0.7.0)
-      activerecord (>= 7)
+    field_test (0.8.0)
+      activerecord (>= 7.1)
       browser (>= 2)
-      railties (>= 7)
+      railties (>= 7.1)
       rice (>= 4.3.3)
     formatador (1.1.0)
     geocoder (1.8.5)
@@ -540,14 +540,14 @@ GEM
       pry (>= 0.13, < 0.16)
     pry-rails (0.3.11)
       pry (>= 0.13.0)
-    psych (5.2.3)
+    psych (5.2.4)
       date
       stringio
     public_suffix (6.0.1)
     puma (6.6.0)
       nio4r (~> 2.0)
     racc (1.8.1)
-    rack (2.2.13)
+    rack (2.2.14)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-mini-profiler (3.3.1)
@@ -904,7 +904,7 @@ DEPENDENCIES
   erb_lint
   factory_bot_rails
   faker (= 2.22.0)
-  field_test (~> 0.7.0)
+  field_test (~> 0.8.0)
   geocoder
   geokit-rails
   get_into_teaching_api_client_faraday!
