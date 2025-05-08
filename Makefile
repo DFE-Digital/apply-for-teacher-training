@@ -198,6 +198,7 @@ deploy: deploy-init
 	terraform -chdir=terraform/$(PLATFORM) apply -var-file=./workspace_variables/$(APP_ENV).tfvars.json ${TF_VARS} $(AUTO_APPROVE)
 
 terraform-destroy: deploy-init
+	$(eval export NO_IMAGE_TAG_DEFAULT=true)
 	terraform -chdir=terraform/$(PLATFORM) destroy -var-file=./workspace_variables/$(APP_ENV).tfvars.json ${TF_VARS} $(AUTO_APPROVE)
 
 set-what-if:
