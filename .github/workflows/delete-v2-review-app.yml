@@ -18,7 +18,6 @@ jobs:
     environment: review
     if: contains(github.event.pull_request.labels.*.name, 'deploy') ||  ${{ github.event_name }} == 'workflow_dispatch'
     runs-on: ubuntu-latest
-    environment: review
     permissions:
       contents: "read"
       id-token: "write"
