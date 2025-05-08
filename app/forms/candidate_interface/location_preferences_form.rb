@@ -73,7 +73,7 @@ private
   end
 
   def location
-    return if name == location_preference.name
+    return if location_preference.present? && location_preference.name == name
 
     if location_coordinates.nil?
       errors.add(:name, :invalid_location)
