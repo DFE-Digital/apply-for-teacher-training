@@ -230,8 +230,8 @@ module CandidateHelper
     create(:course_option, site:, course: course3) unless CourseOption.find_by(site:, course: course3, study_mode: :full_time)
     create(:course_option, site:, course: course4) unless CourseOption.find_by(site:, course: course4, study_mode: :full_time)
 
-    site_with_coordinates = create(:site, :with_coordinates, provider: @provider)
-    create(:course_option, site: site_with_coordinates, course: course5) unless CourseOption.find_by(site: site_with_coordinates, course: course5, study_mode: :full_time)
+    site_with_invalid_coordinates = create(:site, :with_invalid_coordinates, provider: @provider)
+    create(:course_option, site: site_with_invalid_coordinates, course: course5) unless CourseOption.find_by(site: site_with_invalid_coordinates, course: course5, study_mode: :full_time)
   end
 
   def given_undergraduate_courses_exist
