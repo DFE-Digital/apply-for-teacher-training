@@ -115,9 +115,8 @@ module TeacherTrainingPublicAPI
 
     def add_accredited_provider(course, accredited_body_code, recruitment_cycle_year)
       if accredited_body_code.present? && course.provider.code != accredited_body_code
-        accredited_provider = ::Provider.find_by(code: accredited_body_code)
+        accredited_provider = ::Provider.find_by(code: accredited_body_code) || ::Provider.find_by(code: accredited_body_code.upcase) || ::Provider.find_by(code: accredited_body_code.downcase)
         accredited_provider = create_new_accredited_provider(accredited_body_code, recruitment_cycle_year) if accredited_provider.nil?
-
         course.accredited_provider = accredited_provider
         add_provider_relationship(course)
       else

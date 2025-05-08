@@ -31,11 +31,11 @@ RSpec.describe 'Sync provider', :sidekiq do
     )
     stub_teacher_training_api_course_with_site(provider_code: 'ABC',
                                                course_code: 'ABC1',
-                                               course_attributes: [{ accredited_body_code: 'ABC' }],
+                                               course_attributes: [{ accredited_body_code: 'AbC' }], # Mixed case to test case insensitivity
                                                site_code: 'D')
     stub_teacher_training_api_course_with_site(provider_code: 'DEF',
                                                course_code: 'DEF1',
-                                               course_attributes: [{ accredited_body_code: 'DEF' }],
+                                               course_attributes: [{ accredited_body_code: 'def' }], # Lower case to test case insensitivity
                                                site_code: 'E')
   end
 
