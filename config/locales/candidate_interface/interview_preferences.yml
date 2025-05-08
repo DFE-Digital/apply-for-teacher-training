@@ -9,7 +9,7 @@ en:
       any_preferences:
         key: Do you have any times you cannot be available for interviews?
       details:
-        key: Give details of your interview availability
+        key: Details of when you are not available for interview
 
   activemodel:
     errors:
