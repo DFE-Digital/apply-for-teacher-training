@@ -200,8 +200,8 @@ deploy: deploy-init
 terraform-destroy: destroy
 
 destroy: deploy-init
-    $(eval export APP_NAME=$(PR_NUMBER))
-    $(eval export IMAGE_TAG=ignored)
+	$(eval export APP_NAME=$(PR_NUMBER))
+	$(eval export IMAGE_TAG=ignored)
     terraform -chdir=terraform/$(PLATFORM) destroy -var-file=./workspace_variables/$(APP_ENV).tfvars.json ${TF_VARS} $(AUTO_APPROVE)
 
 set-what-if:
