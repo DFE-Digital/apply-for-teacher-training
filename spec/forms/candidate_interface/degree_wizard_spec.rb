@@ -1065,7 +1065,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
 
     describe 'non-uk degree' do
       let(:application_qualification) do
-        create(:non_uk_degree_qualification, id: 1)
+        create(:non_uk_degree_qualification, id: 1, enic_reason: nil)
       end
 
       context 'standard non uk degree' do

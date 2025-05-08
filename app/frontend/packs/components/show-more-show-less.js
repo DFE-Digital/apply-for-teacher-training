@@ -12,6 +12,7 @@ function ShowMoreShowLess () {
 
 ShowMoreShowLess.prototype.setShowMoreLinkListener = function (showMoreLink) {
   showMoreLink.addEventListener('click', this.expandContractTarget)
+  showMoreLink.classList.remove('govuk-visually-hidden')
 }
 
 ShowMoreShowLess.prototype.expandContractTarget = function (event) {
@@ -19,6 +20,7 @@ ShowMoreShowLess.prototype.expandContractTarget = function (event) {
 
   const link = event.target
   const container = document.getElementById(link.getAttribute('data-container'))
+  const sectionContainer = document.getElementById(link.getAttribute('data-section-container'))
   const lessText = link.getAttribute('data-show-less')
   const moreText = link.getAttribute('data-show-more')
   const isExpanded = link.getAttribute('aria-expanded')
@@ -27,11 +29,18 @@ ShowMoreShowLess.prototype.expandContractTarget = function (event) {
     container.classList.add('govuk-visually-hidden')
     link.text = moreText
     link.setAttribute('aria-expanded', false)
+    if (sectionContainer !== null) {
+      sectionContainer.scrollIntoView({ block: 'start' })
+    }
   } else {
     container.classList.remove('govuk-visually-hidden')
     link.text = lessText
-    container.focus()
     link.setAttribute('aria-expanded', true)
+    if (sectionContainer === null) {
+      container.scrollIntoView({ block: 'start' })
+    } else {
+      sectionContainer.scrollIntoView({ block: 'start' })
+    }
   }
 }
 

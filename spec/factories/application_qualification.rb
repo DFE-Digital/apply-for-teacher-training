@@ -42,6 +42,7 @@ FactoryBot.define do
         grade { %w[pass merit distinction].sample }
         institution_country { Faker::Address.country_code }
         enic_reference { '4000123456' }
+        enic_reason { 'obtained' }
         comparable_uk_qualification { 'Between GCSE and GCSE AS Level' }
       end
 
@@ -139,6 +140,7 @@ FactoryBot.define do
       start_year { Faker::Date.between(from: 5.years.ago, to: 3.years.ago).year }
       award_year { Faker::Date.between(from: 2.years.ago, to: 1.year.ago).year }
       enic_reference { '4000228363' }
+      enic_reason { 'obtained' }
       comparable_uk_degree { 'bachelor_ordinary_degree' }
 
       trait :adviser_sign_up_applicable do

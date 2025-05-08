@@ -8,7 +8,6 @@ RSpec.describe ProviderInterface::FindCandidates::SafeguardingComponent, type: :
 
       render_inline(described_class.new(application_form:, provider_user:))
 
-      expect(page).to have_css 'h2', text: 'Criminal record and professional misconduct'
       expect(page).to have_css(
         'dt.govuk-summary-list__key',
         text: 'Do you want to declare any safeguarding issues such as a criminal record or professional misconduct?',
@@ -27,7 +26,6 @@ RSpec.describe ProviderInterface::FindCandidates::SafeguardingComponent, type: :
 
       render_inline(described_class.new(application_form:, provider_user:))
 
-      expect(page).to have_css 'h2', text: 'Criminal record and professional misconduct'
       expect(page).to have_css(
         'dl.govuk-summary-list',
         text: 'Do you want to declare any safeguarding issues such as a criminal record or professional misconduct?',
@@ -57,7 +55,6 @@ RSpec.describe ProviderInterface::FindCandidates::SafeguardingComponent, type: :
 
       render_inline(described_class.new(application_form:, provider_user:))
 
-      expect(page).to have_css 'h2', text: 'Criminal record and professional misconduct'
       expect(page).to have_css(
         'dt.govuk-summary-list__key',
         text: 'Do you want to declare any safeguarding issues such as a criminal record or professional misconduct?',
@@ -81,7 +78,6 @@ RSpec.describe ProviderInterface::FindCandidates::SafeguardingComponent, type: :
 
       render_inline(described_class.new(application_form:, provider_user:))
 
-      expect(page).to have_css 'h2', text: 'Criminal record and professional misconduct'
       expect(page).to have_css(
         'dl.govuk-summary-list',
         text: 'Do you want to declare any safeguarding issues such as a criminal record or professional misconduct?',

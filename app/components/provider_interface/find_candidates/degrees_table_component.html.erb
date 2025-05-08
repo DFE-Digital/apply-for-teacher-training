@@ -1,0 +1,39 @@
+<%= govuk_table do |table| %>
+  <% table.with_caption(size: 'm', text: t('.caption', count: degree_rows.size)) %>
+  <% table.with_head do |head| %>
+    <% head.with_row do |row| %>
+      <% row.with_cell(text: t('.degree_type')) %>
+      <% row.with_cell(text: t('.degree_subject')) %>
+      <% row.with_cell(text: t('.issued_by')) %>
+      <% row.with_cell(text: t('.year_range')) %>
+      <% row.with_cell(text: t('.grade')) %>
+    <% end %>
+  <% end %>
+  <% table.with_body do |body| %>
+    <% degree_rows.each do |degree| %>
+      <% body.with_row do |row| %>
+        <% row.with_cell(text: degree.degree_type, **cell_attributes(degree)) %>
+        <% row.with_cell(text: degree.degree_subject, **cell_attributes(degree)) %>
+        <% row.with_cell(text: degree.issued_by, **cell_attributes(degree)) %>
+        <% row.with_cell(text: degree.year_range, **cell_attributes(degree)) %>
+        <% row.with_cell(text: degree.grade, **cell_attributes(degree)) %>
+      <% end %>
+      <% if degree.enic_text.present? %>
+        <% body.with_row do |row| %>
+          <% row.with_cell(colspan: 2, text: '') %>
+          <% row.with_cell(colspan: 3) do %>
+            <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">
+              <%= t('.comparability') %>
+              <span class="govuk-visually-hidden">
+                <%= t('.visually_hidden_enic_text', qualification: degree.degree_subject) %>
+              </span>
+            </p>
+            <p class="govuk-body">
+              <%= degree.enic_text %>
+            </p>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

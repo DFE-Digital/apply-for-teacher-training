@@ -1,0 +1,11 @@
+<%= govuk_summary_list(actions: false) do |summary_list| %>
+  <%= summary_list.with_row do |row| %>
+    <%= row.with_key(text: t('.do_you_have_work_history')) %>
+    <%= row.with_value(text: work_history_text) %>
+
+  <% end %>
+  <% summary_list.with_row do |row| %>
+    <%= row.with_key(text: t('.do_you_have_unpaid_experience')) %>
+    <%= row.with_value(text: unpaid_experience_text) %>
+  <% end %>
+<% end %>

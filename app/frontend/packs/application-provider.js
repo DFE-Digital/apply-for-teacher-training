@@ -10,6 +10,7 @@ import 'accessible-autocomplete/dist/accessible-autocomplete.min.css'
 // stimulus
 import { Application } from '@hotwired/stimulus'
 import LocationAutocompleteController from './controllers/location_autocomplete_controller'
+import showMoreShowLess from './components/show-more-show-less'
 
 require.context('govuk-frontend/dist/govuk/assets')
 
@@ -22,3 +23,4 @@ initAddFurtherConditions()
 checkboxSearchFilter('subject', 'Search for subject')
 filter()
 cookieBanners()
+showMoreShowLess()
