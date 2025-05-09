@@ -30,13 +30,20 @@ private
   end
 
   def application_state(previous_cycle, courses_per_application, next_cycle)
-    if next_cycle
-      [states_for_next_cycle.sample] * courses_per_application
-    elsif previous_cycle
-      states_for_previous_cycle(courses_per_application)
-    else
-      [:awaiting_provider_decision] * courses_per_application
-    end
+    [
+      :declined,
+      :rejected,
+      :withdrawn,
+      :declined,
+      :rejected,
+      :withdrawn,
+      :declined,
+      :rejected,
+      :withdrawn,
+      :pending_conditions, # won't be in the pool
+      :awaiting_provider_decision, # won't be in the pool
+    ].shuffle
+     .sample(courses_per_application) # for the Bug Party this value is only ever 1, 2 or 3
   end
 
   def states_for_next_cycle
