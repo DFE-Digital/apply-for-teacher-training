@@ -93,5 +93,5 @@ jobs:
             } else {
               core.setFailed('An environment was not passed for deletion.')
             }
-          env:
-            DEPLOY_ENV: ${{env.DEPLOY_ENV}}
+        env:
+          DEPLOY_ENV: ${{env.DEPLOY_ENV}}
