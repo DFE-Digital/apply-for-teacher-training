@@ -3,8 +3,6 @@ class Site < ApplicationRecord
   has_many :course_options
   has_many :courses, through: :course_options
 
-  acts_as_mappable lat_column_name: :latitude, lng_column_name: :longitude
-
   validates :code, presence: true
   validates :name, presence: true
   validates :uuid, presence: true

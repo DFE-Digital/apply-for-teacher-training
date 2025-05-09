@@ -26,29 +26,6 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "10b9a6bf2230b30e653c61f38691d355cafe53f4a125c3df7f2e75250864539f",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/pool/candidates.rb",
-      "line": 114,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "scope.joins(:candidate => :published_preferences).joins(\"        join lateral (\\n          (\\n            select (#{CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))}) as site_distance from candidate_location_preferences\\n            where candidate_location_preferences.candidate_preference_id = candidate_preferences.id\\n            and #{CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))} <= candidate_location_preferences.within\\n            limit 1\\n          )\\n          union\\n          (\\n            select -1 as site_distance\\n            where not exists(\\n             select 1 from candidate_location_preferences\\n             where candidate_location_preferences.candidate_preference_id = candidate_preferences.id\\n            )\\n          )\\n        ) as candidate_location_preferences on true\\n\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "Pool::Candidates",
-        "method": "filter_by_distance"
-      },
-      "user_input": "CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))",
-      "confidence": "Medium",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
       "fingerprint": "28d64e5d66c0dce5bb41ca5b85a1751bdd7190b07aa55b1af003c090e7f8863a",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -118,29 +95,6 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "339fb89c0df0a43b1902ef64ed0e3f39adeae27568b3a354daed8d336f254c66",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/pool/candidates.rb",
-      "line": 109,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "scope.joins(:candidate => :published_preferences).joins(\"        left join lateral (\\n          select * from candidate_location_preferences\\n          where candidate_location_preferences.candidate_preference_id = candidate_preferences.id\\n          group by id\\n          having(#{CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))} <= candidate_location_preferences.within)\\n          limit 1\\n        ) as candidate_location_preferences on true\\n\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "Pool::Candidates",
-        "method": "filter_by_distance"
-      },
-      "user_input": "CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))",
-      "confidence": "Medium",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
       "fingerprint": "384f45931b605f924ee51295a701f7c00e52715b7437d1f864bda1271c150af7",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -178,29 +132,6 @@
         "method": "change"
       },
       "user_input": "field",
-      "confidence": "Medium",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "512bf94e58322dbc63dd44ad16de998aa0fb246fa2d16edcd7efd03bd1ab955d",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/pool/candidates.rb",
-      "line": 113,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "scope.joins(:candidate => :published_preferences).joins(\"        join lateral (\\n          (select (#{CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))}) as site_distance from candidate_location_preferences\\n          where candidate_location_preferences.candidate_preference_id = candidate_preferences.id\\n          and #{CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))} <= candidate_location_preferences.within\\n          limit 1)\\n          union\\n          (select -1 as site_distance\\n           where not exists(\\n             select 1 from candidate_location_preferences\\n             where candidate_location_preferences.candidate_preference_id = candidate_preferences.id)\\n          )\\n        ) as candidate_location_preferences on true\\n\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "Pool::Candidates",
-        "method": "filter_by_distance"
-      },
-      "user_input": "CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))",
       "confidence": "Medium",
       "cwe_id": [
         89
@@ -247,29 +178,6 @@
         "method": "no_sync_in_24h"
       },
       "user_input": "pg_now",
-      "confidence": "Weak",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "899d26cfa1bd99b771bc3432dee0cfaaffa88ca9b9736647aff3b54d19e01238",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/services/provider_interface/sort_application_choices.rb",
-      "line": 16,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choices.from(\"(\\n  SELECT a.*,\\n    CASE\\n      WHEN #{inactive} THEN 1\\n      WHEN #{awaiting_provider_decision} THEN 2\\n      WHEN #{deferred_offers_pending_reconfirmation} THEN 3\\n      WHEN #{give_feedback_for_rbd} THEN 4\\n      WHEN #{interviewing} THEN 5\\n      WHEN #{pending_conditions_previous_cycle} THEN 6\\n      WHEN #{waiting_on_candidate} THEN 7\\n      WHEN #{pending_conditions_current_cycle} THEN 8\\n      WHEN #{successful_candidates} THEN 9\\n      WHEN #{deferred_offers_current_cycle} THEN 10\\n      ELSE 999\\n    END AS task_view_group\\n\\n    FROM application_choices a\\n) AS application_choices\\n\".squish)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ProviderInterface::SortApplicationChoices",
-        "method": "s(:self).for_task_view"
-      },
-      "user_input": "inactive",
       "confidence": "Weak",
       "cwe_id": [
         89
@@ -415,52 +323,6 @@
       "note": ""
     },
     {
-      "warning_type": "Unscoped Find",
-      "warning_code": 82,
-      "fingerprint": "bb99c47602bf4e5e8c658f10645d3d0af3f1ac7e78e590db5e66d8986ba1642a",
-      "check_name": "UnscopedFind",
-      "message": "Unscoped call to `Session#find_by`",
-      "file": "app/controllers/concerns/authentication.rb",
-      "line": 32,
-      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
-      "code": "Session.find_by(:id => cookies.signed[:session_id])",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "Authentication",
-        "method": "find_session_by_cookie"
-      },
-      "user_input": "cookies.signed[:session_id]",
-      "confidence": "Weak",
-      "cwe_id": [
-        285
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "c70b946ccbfabd084091ad425893a7647560431761faa0f86bf80e95ffa007e1",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/queries/get_activity_log_events.rb",
-      "line": 70,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "Audited::Audit.select(\"audits.id audit_id, audits.*, ac.id application_choice_id\").includes(:user => ([:provider_user, :support_user]), :auditable => ([:application_form, :course_option, :course, :site, :provider, :accredited_provider, :current_course_option])).joins(\"INNER JOIN (#{application_choices.to_sql}) ac\\n  ON (\\n    auditable_type = 'ApplicationChoice'\\n    AND auditable_id = ac.id\\n    AND action = 'update'\\n    AND ( #{application_choice_audits_filter_sql} )\\n  ) OR (\\n    associated_type = 'ApplicationChoice'\\n    AND associated_id = ac.id\\n    AND NOT auditable_type = 'OfferCondition'\\n    AND NOT auditable_type = 'ApplicationExperience'\\n    AND NOT auditable_type = 'ApplicationWorkHistoryBreak'\\n  ) OR (\\n    auditable_type = 'ApplicationForm'\\n    AND auditable_id = ac.application_form_id\\n    AND action = 'update'\\n    AND ( #{application_form_audits_filter_sql} )\\n    AND EXISTS (\\n      SELECT 1\\n      WHERE ARRAY[#{DATABASE_CHANGE_KEYS}] @> (\\n        SELECT ARRAY(SELECT jsonb_object_keys(a.audited_changes)\\n        FROM audits a\\n        WHERE a.id = audits.id\\n        )\\n      )\\n    )\\n  )\\n\".squish)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "GetActivityLogEvents",
-        "method": "s(:self).call"
-      },
-      "user_input": "application_choice_audits_filter_sql",
-      "confidence": "Weak",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
       "warning_type": "SQL Injection",
       "warning_code": 0,
       "fingerprint": "c72cb22d421486df577321b15e768add7cdaec0bc32aeb44db6d5e996a5f7705",
@@ -478,29 +340,6 @@
       },
       "user_input": "pg_now",
       "confidence": "Weak",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "d41568e9920037df226a6b4adf5ab5643f1391d401dd93f8bfdfc7ca621033ad",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/pool/candidates.rb",
-      "line": 81,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "scope.joins(:candidate => :published_preferences).joins(\"        join lateral (\\n          select * from candidate_location_preferences\\n          where candidate_location_preferences.candidate_preference_id = candidate_preferences.id\\n          group by id\\n          having(#{CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))} <= candidate_location_preferences.within)\\n          limit 1\\n        ) as candidate_location_preferences on true\\n\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "Pool::Candidates",
-        "method": "filter_by_distance"
-      },
-      "user_input": "CandidateLocationPreference.distance_sql(Struct.new(:latitude, :longitude).new(:latitude => filters.fetch(:origin).first, :longitude => filters.fetch(:origin).last))",
-      "confidence": "Medium",
       "cwe_id": [
         89
       ],
