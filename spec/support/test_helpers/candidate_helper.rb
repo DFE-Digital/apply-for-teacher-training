@@ -222,10 +222,16 @@ module CandidateHelper
     course4 =
       Course.find_by(code: '2392', provider: @provider) ||
       create(:course, :open, name: 'Biology', level: 'secondary', code: '2392', provider: @provider, start_date: Date.new(2020, 9, 1))
+    course5 =
+      Course.find_by(code: 'C998', provider: @provider) ||
+      create(:course, :teacher_degree_apprenticeship, :open, name: 'Mathematics (SEND)', level: 'primary', code: 'C998', provider: @provider, start_date: Date.new(2020, 9, 1))
     create(:course_option, site:, course:) unless CourseOption.find_by(site:, course:, study_mode: :full_time)
     create(:course_option, site:, course: course2) unless CourseOption.find_by(site:, course: course2, study_mode: :full_time)
     create(:course_option, site:, course: course3) unless CourseOption.find_by(site:, course: course3, study_mode: :full_time)
     create(:course_option, site:, course: course4) unless CourseOption.find_by(site:, course: course4, study_mode: :full_time)
+
+    site_with_invalid_coordinates = create(:site, :with_invalid_coordinates, provider: @provider)
+    create(:course_option, site: site_with_invalid_coordinates, course: course5) unless CourseOption.find_by(site: site_with_invalid_coordinates, course: course5, study_mode: :full_time)
   end
 
   def given_undergraduate_courses_exist
