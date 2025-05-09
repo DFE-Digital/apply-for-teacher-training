@@ -57,12 +57,10 @@ jobs:
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           container-name: att-tfstate
-          gcp-wip: ${{ vars.GCP_WIP }}
-          gcp-project-id: ${{ vars.GCP_PROJECT_ID }}
           pr-number: ${{ env.PR_NUMBER }}
           resource-group-name: "${{ env.AZURE_RESOURCE_PREFIX }}-${{ env.SERVICE_SHORT }}-${{ env.CONFIG_SHORT }}-rg"
           storage-account-name: "${{ env.AZURE_RESOURCE_PREFIX }}${{ env.SERVICE_SHORT }}tfstate${{ env.CONFIG_SHORT }}sa"
-          tf-state-file: ${{ env.PR_NUMBER }}.tfstate
+          tf-state-file: ${{ env.TF_STATE_FILE }}
 
       - name: Update ${{ env.DEPLOY_ENV }} status
         if: always() && env.TF_STATE_EXISTS == 'true'
