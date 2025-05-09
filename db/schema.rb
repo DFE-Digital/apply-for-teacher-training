@@ -14,7 +14,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_133016) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
   enable_extension "unaccent"
 
