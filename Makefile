@@ -199,7 +199,7 @@ deploy: deploy-init
 
 terraform-destroy: deploy-init
     $(if $(IMAGE_TAG), , $(eval DOCKER_IMAGE=ignored))
-    $(if $(PR_NUMBER), , $(eval PR_NUMBER=ignored))
+    $(if $(PR_NUMBER), , $(eval PR_NUMBER=${PR_NUMBER}))
 	terraform -chdir=terraform/$(PLATFORM) destroy -var-file=./workspace_variables/$(APP_ENV).tfvars.json ${TF_VARS} $(AUTO_APPROVE)
 
 set-what-if:
