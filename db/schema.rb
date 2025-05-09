@@ -868,8 +868,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_133016) do
     t.datetime "reject_by_default_at"
     t.datetime "decline_by_default_at"
     t.datetime "find_closes_at"
-    t.daterange "christmas_holiday_range"
-    t.daterange "easter_holiday_range"
     t.integer "recruitment_cycle_year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
