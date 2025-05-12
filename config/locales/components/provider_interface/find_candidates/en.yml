@@ -9,6 +9,7 @@ en:
         location: Location
         qualification: Qualification
         funding_type: Funding type
+        study_mode: Full time or part time
         date_submitted: Date submitted
       personal_statement_component:
         read_more: Read more
