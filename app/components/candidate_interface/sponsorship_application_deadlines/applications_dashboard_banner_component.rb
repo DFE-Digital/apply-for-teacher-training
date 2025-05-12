@@ -8,7 +8,7 @@ module CandidateInterface
 
       def render?
         FeatureFlag.active?(:early_application_deadlines_for_candidates_with_visa_sponsorship) &&
-          application_form.right_to_work_or_study_no? &&
+          application_form.requires_visa_sponsorship? &&
           choices.present?
       end
 

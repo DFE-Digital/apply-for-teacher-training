@@ -100,6 +100,8 @@ class ApplicationForm < ApplicationRecord
 
   CONTINUOUS_APPLICATIONS_CYCLE_YEAR = 2024
 
+  VISAS_REQUIRING_SPONSORSHIP = %w[student_visa skilled_worker_visa].freeze
+
   def equality_and_diversity_answers_provided?
     EqualityAndDiversity::ValuesChecker.new(application_form: self).check_values
   end
@@ -704,6 +706,11 @@ class ApplicationForm < ApplicationRecord
 
   def can_submit?
     current_cycle? && Time.zone.now.between?(apply_opens_at, apply_deadline_at)
+  end
+
+  def requires_visa_sponsorship?
+    right_to_work_or_study_no? ||
+      (right_to_work_or_study_yes? && immigration_status.in?(VISAS_REQUIRING_SPONSORSHIP))
   end
 
 private
