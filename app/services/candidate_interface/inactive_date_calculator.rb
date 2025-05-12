@@ -28,7 +28,9 @@ module CandidateInterface
     end
 
     def reject_by_default_date
-      0.business_days.before(CycleTimetable.reject_by_default).end_of_day
+      @reject_by_default_date ||= 0.business_days.before(
+        RecruitmentCycleTimetable.current_timetable.reject_by_default_at.end_of_day,
+      )
     end
   end
 end

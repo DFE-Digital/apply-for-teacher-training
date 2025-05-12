@@ -4,7 +4,7 @@ You have not completed the references section of your teacher training applicati
 
 You need to give details of 2 people who can give you a reference. They’ll only be contacted if you accept an offer on a course.
 
-[Sign into your account to complete the references section](<%= candidate_magic_link(@application_form.candidate) %>).
+[Sign in to your account to complete the references section](<%= @references_link %>).
 
 # Who to choose to give you a reference
 
@@ -17,18 +17,21 @@ In their reference, they will be asked:
 - to confirm how they know you and how long they’ve known you for
 - whether they know any reason why you should not work with children
 - to give factual information, for example course or employment dates
-<% if FeatureFlag.active? :show_reference_confidentiality_status %>
 - whether they want you to be able to see their reference of if it is confidential
-<% end %>
 
 # Get help
+<% if @application_form.adviser_status_assigned? %>
+Your teacher training adviser can give advice on references.
 
+## Contact our support team
+Call <%= t('get_into_teaching.tel') %> or [chat online](<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'nudge_unsubmitted_no_references', @application_form.phase %>).
+<% else %>
 A teacher training adviser can give advice on references:
 
 [Get a teacher training adviser](<%= email_link_with_utm_params t('get_into_teaching.url_get_an_adviser_start'), 'nudge_unsubmitted_no_references', @application_form.phase %>)
 
 Alternatively, call <%= t('get_into_teaching.tel') %> or [chat online](<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'nudge_unsubmitted_no_references', @application_form.phase %>).
-
+<% end %>
 <%= t('get_into_teaching.opening_times') %>.
 
 # Submit your application as soon as you are ready
@@ -37,7 +40,7 @@ Popular courses fill up quickly and places are allocated as soon as people apply
 
 You may need to complete a [subject knowledge enhancement](<%= email_link_with_utm_params(t('get_into_teaching.url_subject_knowledge_enhancement'), 'nudge_unsubmitted_no_references', @application_form.phase) %>) (SKE) course and other conditions before starting your training.
 
-[Apply now to make sure you have enough time](<%= candidate_magic_link(@application_form.candidate) %>)
+[Apply now to make sure you have enough time](<%= sign_in_link %>)
 
 <%= render 'understand_your_professional_strengths' %>
 

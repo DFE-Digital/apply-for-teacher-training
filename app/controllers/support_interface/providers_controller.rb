@@ -26,7 +26,7 @@ module SupportInterface
       @provider = Provider.includes(courses: [:accredited_provider]).find(params[:provider_id])
 
       courses = @provider.courses.includes(accredited_provider: [:provider_agreements]).order(:name).group_by(&:recruitment_cycle_year)
-      years = RecruitmentCycle.years_visible_in_support.each_with_object({}) { |year, hash| hash[year] = [] } # rubocop:disable Rails/IndexWith
+      years = RecruitmentCycleTimetable.years_visible_in_support.each_with_object({}) { |year, hash| hash[year] = [] } # rubocop:disable Rails/IndexWith
 
       @courses_by_year = years.merge(courses)
     end
@@ -79,8 +79,8 @@ module SupportInterface
     end
 
     def relationships_params
-      params.require(:support_interface_provider_relationships_form)
-        .permit(relationships: {})
+      params
+        .expect(support_interface_provider_relationships_form: [relationships: {}])
     end
 
     def applications
@@ -104,7 +104,7 @@ module SupportInterface
 
       stream_csv(
         data: SupportInterface::ProviderCoursesCSVExport.new(provider:).rows,
-        filename: "#{provider.name_and_code.parameterize}-courses-#{RecruitmentCycle.current_year}.csv",
+        filename: "#{provider.name_and_code.parameterize}-courses-#{current_timetable.recruitment_cycle_year}.csv",
       )
     end
 

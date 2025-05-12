@@ -10,7 +10,7 @@ RSpec.describe CandidateMailer do
       'a mail with subject and content',
       'Find your teacher training course now',
       'greeting' => 'Dear Fred',
-      'academic_year' => "#{CycleTimetable.current_year} to #{CycleTimetable.next_year}",
+      'academic_year' => current_timetable.academic_year_range_name.to_s,
       'details' => 'Find your courses',
       'realistic job preview heading' => 'Gain insights into life as a teacher',
       'realistic job preview' => 'Try the realistic job preview tool',

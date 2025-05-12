@@ -4,9 +4,8 @@ RSpec.describe 'Candidate changing UK GCSE to international qualification' do
   include CandidateHelper
 
   scenario 'Candidate submits their maths GCSE details and then update them' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
 
-    when_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
     then_i_see_the_add_gcse_maths_page
 
@@ -46,10 +45,6 @@ RSpec.describe 'Candidate changing UK GCSE to international qualification' do
     then_i_see_the_review_page_with_new_details
   end
 
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
-  end
-
   def and_i_click_on_the_maths_gcse_link
     click_link_or_button 'Maths GCSE or equivalent'
   end
@@ -60,10 +55,6 @@ RSpec.describe 'Candidate changing UK GCSE to international qualification' do
 
   def and_i_click_save_and_continue
     click_link_or_button t('save_and_continue')
-  end
-
-  def when_i_visit_the_candidate_application_page
-    visit root_path
   end
 
   def then_i_see_the_add_gcse_maths_page

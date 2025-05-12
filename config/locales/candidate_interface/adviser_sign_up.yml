@@ -1,28 +1,14 @@
 en:
   helpers:
     legend:
-      adviser_sign_up:
-        preferred_teaching_subject_id: What are you interested in teaching?
+      adviser_sign_up_form:
+        preferred_teaching_subject_id: What subject are you interested in teaching?
     hint:
-      adviser_sign_up:
+      adviser_sign_up_form:
         preferred_teaching_subject_id: We’re asking this so that a dedicated adviser can be assigned to you.
-  application_form:
-    adviser_sign_up:
-      back: Back to application
-      heading: Get a teacher training adviser
-      introduction: |-
-        Our advisers were experienced teachers and can answer all your questions about how to put together the best application. They’ll help you with:
-      bullets:
-        - writing your personal statement
-        - understanding your different training options
-        - preparing for interviews
-      disclaimer: |-
-        If you continue, we will share your personal details and the status of your application with a dedicated adviser.
-        We will not share your personal statement, qualifications or work history with them.
-      submit_text: Continue
-      flash:
-        success: An adviser will contact you by email within 5 working days.
-      call_to_action:
+  candidate_interface:
+    details:
+      adviser_call_to_action:
         available:
           heading: Get a teacher training adviser
           text: Our advisers have years of teaching experience and can give you free, one-to-one help with your application.
@@ -33,3 +19,53 @@ en:
         already_assigned:
           heading: Speak to your teacher training adviser
           text: Your adviser can give you free, one-to-one help with your application.
+    adviser_sign_ups:
+      interruptions:
+        show:
+          back: Back to your application
+          heading: A teacher training adviser could support with your application
+          eligible: Because you’ve said you have a bachelor’s degree with a predicted or actual grade higher than a 2:2, you are eligible for a teacher training adviser.
+          eligible_2: You can get free one-to-one support from an adviser with years of teaching experience, they can talk you through the application process step by step.
+          support: "They can support you with:"
+          help_with_1: answering questions about teacher training or being a teacher
+          help_with_2: writing your personal statement
+          help_with_3: understanding your different training options
+          help_with_4: preparing for any interviews
+          request_legend: Do you want to request a teacher training adviser?
+          submit_text: Continue
+      new:
+        back: Back
+        back_to_details: Back to your details
+        heading: Get a teacher training adviser
+        introduction: Get free one-to-one support from an adviser with years of teaching experience.
+        your_adviser: Your adviser can talk you through the application process step by step.
+        support: "They can support you with:"
+        help_with_1: writing your personal statement
+        help_with_2: understanding your different training options
+        help_with_3: preparing for interviews
+        be_matched: You’ll be matched with your own dedicated adviser. You’ll have the same adviser throughout your journey into teaching.
+        frequency: How often you talk to them is up to you – this could be every week for more than a year, or just a few times for some one-to-one support.
+        contact: You can chat by phone, or by email, text or WhatsApp.
+        disclaimer: |-
+          When you select Request an adviser, we will share your personal details and the status of any applications you have with a teacher training adviser.
+          We will not share your personal statement, qualifications or work history with them.
+        submit_text: Request an adviser
+      show:
+        back: Back
+        heading: Get a teacher training adviser
+        introduction: |-
+          Advisers with years of teaching experience can answer all your questions about how to put together the best application. They’ll help you with:
+        help_with_1: writing your personal statement
+        help_with_2: understanding your different training options
+        help_with_3: preparing for interviews
+        disclaimer: |-
+          If you continue, we will share your personal details and the status of your application with a dedicated adviser.
+          We will not share your personal statement, qualifications or work history with them.
+        subject: Subject
+        change: Change
+        request: Request an adviser
+      create:
+        back: Back
+        back_to_details: Back to your details
+        flash:
+          success: Your teacher training adviser will contact you by email within 5 working days.

@@ -37,5 +37,14 @@ module CandidateInterface
     def share_safeguarding_issues?
       share_safeguarding_issues == 'Yes'
     end
+
+    def all_errors
+      validate(%i[share_safeguarding_issues])
+      errors
+    end
+
+    def valid_for_submission?
+      all_errors.blank?
+    end
   end
 end

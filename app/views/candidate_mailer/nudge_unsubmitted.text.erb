@@ -2,26 +2,31 @@ Dear <%= @application_form.first_name %>
 
 It looks like your teacher training application is ready to submit.
 
-If you are ready, [sign in to your account to submit your application now](<%= candidate_magic_link(@application_form.candidate) %>).
+If you are ready, [sign in to your account to submit your application now](<%= application_choices_link %>).
 
 Popular courses fill up quickly and places are allocated as soon as people apply. Submit your application as soon as you are ready to avoid missing out on a limited number of course places.
 
 You may need to complete a [subject knowledge enhancement](<%= email_link_with_utm_params(t('get_into_teaching.url_subject_knowledge_enhancement'), 'nudge_unsubmitted', @application_form.phase) %>) (SKE) course and other conditions before starting your training.
 
-[Apply now to make sure you have enough time](<%= candidate_magic_link(@application_form.candidate) %>)
+[Apply now to make sure you have enough time](<%= application_choices_link %>)
 
 Some subjects and courses have bursaries of up to £29,000 and scholarships of up to £31,000. These courses fill up more quickly than other courses.
 
 [Check if your subject has a bursary or scholarship](<%= email_link_with_utm_params t('get_into_teaching.url_scholarships_and_bursaries_funding_widget'), 'nudge_unsubmitted', @application_form.phase %>)
 
 # Get help
+<% if @application_form.adviser_status_assigned? %>
+Your teacher training adviser can help with your application, if something is holding you back from submitting it. They can talk to you about teacher training and teaching as a career.
 
+## Contact our support team
+Call <%= t('get_into_teaching.tel') %> or [chat online](<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'nudge_unsubmitted', @application_form.phase %>).
+<% else %>
 A teacher training adviser could help with your application, if something is holding you back from submitting it. They can talk to you about teacher training and teaching as a career.
 
 [Get a teacher training adviser](<%= email_link_with_utm_params t('get_into_teaching.url_get_an_adviser_start'), 'nudge_unsubmitted', @application_form.phase %>)
 
 Alternatively, call <%= t('get_into_teaching.tel') %> or [chat online](<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'nudge_unsubmitted', @application_form.phase %>).
-
+<% end %>
 <%= t('get_into_teaching.opening_times') %>.
 
 <%= render 'gain_insights_into_life_as_a_teacher' %>

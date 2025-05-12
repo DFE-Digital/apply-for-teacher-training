@@ -35,7 +35,7 @@ RSpec.describe 'Sync courses', :sidekiq do
     stub_teacher_training_api_providers(
       specified_attributes: [
         {
-          code: 'ABC',
+          code: 'aBc', # Mixed case to verify case insensitivity
           name: 'ABC College',
         },
       ],
@@ -212,6 +212,7 @@ RSpec.describe 'Sync courses', :sidekiq do
 
   def and_it_updates_another
     course = Course.find_by(code: 'ABC1')
+    expect(course.provider.code).to eq('ABC')
     expect(course.name).to eql('Primary')
     expect(course.age_range).to eql('3 to 11')
     expect(course.withdrawn).to be false

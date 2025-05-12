@@ -106,7 +106,7 @@ private
 
   def then_i_see_the_references_review_page
     expect(page).to have_current_path(candidate_interface_references_review_path)
-    expect(page).to have_content 'References to be requested if you accept an offer'
+    expect(page).to have_content 'Check your references'
   end
 
   def and_i_can_change_the_a_references_email_address

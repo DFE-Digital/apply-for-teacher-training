@@ -65,13 +65,12 @@ RSpec.describe 'Creating references with personal email addresses after an offer
 private
 
   def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-    @application_form = create(:completed_application_form, candidate: @candidate)
+    given_i_am_signed_in_with_one_login
+    @application_form = create(:completed_application_form, candidate: @current_candidate)
   end
 
   def and_i_have_an_accepted_offer
-    @application_form = create(:completed_application_form, candidate: @candidate)
+    @application_form = create(:completed_application_form, candidate: @current_candidate)
     @pending_reference = create(:reference, :feedback_requested, reminder_sent_at: nil, application_form: @application_form)
     @completed_reference = create(:reference, :feedback_provided, application_form: @application_form)
 
@@ -83,7 +82,7 @@ private
   end
 
   def and_i_navigate_to_add_another_reference
-    visit root_path
+    visit candidate_interface_application_offer_dashboard_path
     click_on 'Request another reference'
     click_on 'Continue'
   end
@@ -120,10 +119,7 @@ private
   def when_i_click_go_back_and_change
     click_on 'Go back and change the email address'
   end
-
-  def when_i_click_back
-    click_on 'Back'
-  end
+  alias_method :when_i_click_back, :when_i_click_go_back_and_change
 
   def then_i_see_the_interruption
     expect(page).to have_content 'walter.white@gmail.com looks like a personal email address'

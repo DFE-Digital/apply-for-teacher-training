@@ -1,6 +1,6 @@
 variable "app_name" { default = null }
 
-variable "cf_sso_passcode" { }
+variable "cf_sso_passcode" {}
 
 variable "cf_space" { default = "bat-prod" }
 

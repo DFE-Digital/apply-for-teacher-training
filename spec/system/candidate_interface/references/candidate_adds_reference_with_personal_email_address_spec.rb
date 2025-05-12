@@ -50,13 +50,11 @@ RSpec.describe 'Creating references with personal email addresses' do
 private
 
   def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-    @application = @candidate.current_application
+    given_i_am_signed_in_with_one_login
+    @application = @current_candidate.current_application
   end
 
   def and_i_navigate_to_add_a_reference
-    visit root_path
     click_on 'Your details'
     click_on 'References'
     click_on 'Add reference'
@@ -87,10 +85,7 @@ private
   def when_i_click_go_back_and_change
     click_on 'Go back and change the email address'
   end
-
-  def when_i_click_back
-    click_on 'Back'
-  end
+  alias_method :when_i_click_back, :when_i_click_go_back_and_change
 
   def then_i_see_the_interruption
     expect(page).to have_content 'walter.white@gmail.com looks like a personal email address'

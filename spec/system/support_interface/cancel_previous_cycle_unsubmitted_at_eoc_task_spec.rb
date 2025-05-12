@@ -21,7 +21,7 @@ RSpec.describe 'Cancel previous cycle unsubmitted applications support task', :s
   end
 
   def given_i_have_a_candidate_with_an_unsubmitted_application
-    @application_form = create(:completed_application_form, submitted_at: nil, recruitment_cycle_year: RecruitmentCycle.previous_year)
+    @application_form = create(:completed_application_form, submitted_at: nil, recruitment_cycle_year: previous_year)
     create(:application_choice, application_form: @application_form, status: :unsubmitted)
   end
 

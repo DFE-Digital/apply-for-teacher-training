@@ -1,15 +1,15 @@
 <%= render 'provider_navigation', title: 'Courses' %>
 
 <% if @provider.courses.current_cycle.any? || @provider.accredited_courses.current_cycle.any? %>
-  <%= govuk_button_link_to "Download #{RecruitmentCycle.current_year} courses and ratified courses as CSV", support_interface_provider_courses_csv_path, secondary: true, class: 'govuk-!-margin-bottom-5' %>
+  <%= govuk_button_link_to "Download #{@current_timetable.recruitment_cycle_year} courses and ratified courses as CSV", support_interface_provider_courses_csv_path, secondary: true, class: 'govuk-!-margin-bottom-5' %>
 <% end %>
 
 <% if @provider.courses.any? %>
   <% @courses_by_year.each do |year, courses| %>
     <% if courses.any? %>
-      <h2 class="govuk-heading-m"><%= year %>: <%= pluralize(courses.size, 'course') %> (<%= courses.count(&:open?) %> Open) <%= t('.not_yet_published') if RecruitmentCycle.next_year == year %></h2>
+      <h2 class="govuk-heading-m"><%= year %>: <%= pluralize(courses.size, 'course') %> (<%= courses.count(&:open?) %> Open) <%= t('.not_yet_published') if @current_timetable.relative_next_year == year %></h2>
 
-      <% if RecruitmentCycle.next_year == year %>
+      <% if @current_timetable.relative_next_year == year %>
         <p class="govuk-body"><%= t('.courses_published_recruitment_opens') %></p>
       <% end %>
 

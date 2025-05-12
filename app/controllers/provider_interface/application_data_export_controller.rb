@@ -32,6 +32,7 @@ module ProviderInterface
               current_course_option: %i[course site],
               application_form: %i[candidate english_proficiency application_qualifications],
             ],
+            recruitment_cycle_year: RecruitmentCycleTimetable.pluck(:recruitment_cycle_year),
           )
 
         application_choices = FilterApplicationChoicesForProviders.call(
@@ -56,7 +57,7 @@ module ProviderInterface
   private
 
     def application_data_export_params
-      params.require(:provider_interface_application_data_export_form).permit(:application_status_choice, statuses: [], provider_ids: [], recruitment_cycle_years: [])
+      params.expect(provider_interface_application_data_export_form: [:application_status_choice, statuses: [], provider_ids: [], recruitment_cycle_years: []])
     end
   end
 end

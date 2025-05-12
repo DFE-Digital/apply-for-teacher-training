@@ -9,13 +9,12 @@ on:
 permissions:
   packages: write
   contents: write
+  id-token: write
   pull-requests: write
 
 jobs:
   build:
     name: build
-    environment:
-      name: review_aks
     runs-on: ubuntu-latest
     env:
       DOCKER_IMAGE: ghcr.io/dfe-digital/apply-teacher-training
@@ -33,28 +32,6 @@ jobs:
           GIT_REF=${{ github.ref }}
           echo "GIT_BRANCH=${GIT_REF##*/}" >> $GITHUB_ENV # GIT_BRANCH will be main for refs/heads/main
           echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
-          # tag build to the review env for vars and secrets
-          tf_vars_file=terraform/aks/workspace_variables/review_aks.tfvars.json
-          echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
-          echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
-
-      - uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Validate Azure Key Vault secrets
-        uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
-        with:
-          KEY_VAULT: ${{ env.KEY_VAULT_NAME }}
-          SECRETS: |
-            ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
-
-      - uses: DFE-Digital/keyvault-yaml-secret@v1
-        id: get-secret
-        with:
-          keyvault: ${{ env.KEY_VAULT_NAME }}
-          secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
-          key: SNYK_TOKEN
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -91,7 +68,7 @@ jobs:
       - name: Run Snyk to check Docker image for vulnerabilities
         uses: snyk/actions/docker@master
         env:
-          SNYK_TOKEN: ${{ steps.get-secret.outputs.snyk_token }}
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: ${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
           args: --file=Dockerfile --exclude-app-vulns

@@ -106,25 +106,17 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
 
     describe 'award year' do
       context 'year validations' do
-        it 'allows award year to be valid for the next recruitment_cycle_year' do
-          # Assuming we are really in 2023 recruitment cycle.
-          # If we set the test suite time machine to 2024 then RecruitmentCycle.next_year is 2025.
-          # When the models validations are initialized, it uses a static year of next year (2024).
-          # RecruitmentCycle.next_year is different when initializing the model validation and when it is used to test the validation.
-          # We need to unfreeze any time manipulation to test the validation.
-          Timecop.unfreeze
-
-          valid_award_year = described_class.new(nil, nil, qualification_type: 'A level', award_year: RecruitmentCycle.next_year.to_s)
-          invalid_award_year = described_class.new(nil, nil, qualification_type: 'A level', award_year: (RecruitmentCycle.next_year + 1).to_s)
-
+        it 'is valid for next recruitment cycle year' do
+          valid_award_year = described_class.new(nil, nil, qualification_type: 'A level', award_year: next_year.to_s)
           valid_award_year.valid?(:details)
-          invalid_award_year.valid?(:details)
 
           expect(valid_award_year.errors.full_messages_for(:award_year)).to be_empty
-          expect(invalid_award_year.errors.full_messages_for(:award_year)).not_to be_empty
+        end
 
-          # Reset the mocked time to whatever value it was set to.
-          TestSuiteTimeMachine.reset
+        it 'is not valid for the year after next' do
+          invalid_award_year = described_class.new(nil, nil, qualification_type: 'A level', award_year: (next_year + 1).to_s)
+          invalid_award_year.valid?(:details)
+          expect(invalid_award_year.errors.full_messages_for(:award_year)).not_to be_empty
         end
 
         it 'is not valid if the award year is before 1900' do

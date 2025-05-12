@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                   disabilities: %w[Blind Deaf],
                                 })
 
-      described_class.call(RecruitmentCycle.current_year)
+      described_class.call(current_year)
 
       application_form.reload
 
@@ -31,7 +31,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                     disabilities: ['Prefer not to say'],
                                   })
 
-        described_class.call(RecruitmentCycle.current_year)
+        described_class.call(current_year)
 
         application_form.reload
 
@@ -49,7 +49,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                     disabilities: nil,
                                   })
 
-        described_class.call(RecruitmentCycle.current_year)
+        described_class.call(current_year)
 
         application_form.reload
 
@@ -69,7 +69,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
 
         hesa_disability_code_other = '96'
 
-        described_class.call(RecruitmentCycle.current_year)
+        described_class.call(current_year)
 
         application_form.reload
 
@@ -164,7 +164,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
 
         hesa_sex_code_other = '12'
 
-        described_class.call(RecruitmentCycle.current_year)
+        described_class.call(current_year)
 
         application_form.reload
 

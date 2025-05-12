@@ -70,7 +70,8 @@
         "state": "published",
         "study_mode": "both",
         "summary": "PGCE with QTS full time",
-        "subject_codes": ["00"]
+        "subject_codes": ["00"],
+        "visa_sponsorship_application_deadline_at": "2020-06-13T10:44:31Z"
       },
       "relationships": {
         "recruitment_cycle": {

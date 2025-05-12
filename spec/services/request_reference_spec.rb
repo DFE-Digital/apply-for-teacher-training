@@ -25,5 +25,33 @@ RSpec.describe RequestReference do
         )
       end
     end
+
+    context 'when reference is auto-approved in sandbox' do
+      it 'sets confidential to true' do
+        allow(HostingEnvironment).to receive(:workflow_testing?).and_return(true)
+        reference = create(:reference, email_address: 'refbot1@example.com', application_form: application_form, confidential: nil)
+        request_reference = described_class.new(reference:)
+
+        request_reference.send_request
+
+        expect(reference.reload.confidential).to be true
+        expect(reference.feedback_status).to eq('feedback_provided')
+        expect(reference.feedback).to eq('Automatically approved.')
+      end
+    end
+
+    context 'when not in sandbox (production environment)' do
+      it 'does not auto-approve the reference' do
+        allow(HostingEnvironment).to receive(:workflow_testing?).and_return(false)
+
+        reference = create(:reference, email_address: 'refbot1@example.com', application_form: application_form, confidential: nil)
+        request_reference = described_class.new(reference: reference)
+
+        request_reference.send_request
+
+        expect(reference.reload.confidential).to be_nil
+        expect(reference.feedback_status).not_to eq('feedback_provided')
+      end
+    end
   end
 end

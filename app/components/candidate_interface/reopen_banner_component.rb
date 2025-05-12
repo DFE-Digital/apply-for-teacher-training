@@ -12,31 +12,22 @@ class CandidateInterface::ReopenBannerComponent < ViewComponent::Base
 private
 
   def show_apply_reopen_banner?
-    CycleTimetable.between_cycles?
+    current_timetable.between_cycles?
   end
 
   def academic_year
-    CycleTimetable.cycle_year_range(year)
+    current_timetable.previously_closed_academic_year_range
   end
 
   def next_academic_year
-    CycleTimetable.cycle_year_range(year + 1)
+    current_timetable.next_available_academic_year_range
   end
 
   def apply_opens_date
-    date = if Time.zone.now.before? CycleTimetable.apply_opens
-             CycleTimetable.apply_opens
-           else
-             CycleTimetable.apply_reopens
-           end
-    date.to_fs(:govuk_date)
+    current_timetable.apply_reopens_at.to_fs(:govuk_date)
   end
 
-  def year
-    if Time.zone.now.before? CycleTimetable.apply_opens
-      CycleTimetable.previous_year
-    else
-      CycleTimetable.current_year
-    end
+  def current_timetable
+    @current_timetable ||= RecruitmentCycleTimetable.current_timetable
   end
 end

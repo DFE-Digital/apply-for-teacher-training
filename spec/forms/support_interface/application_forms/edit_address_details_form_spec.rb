@@ -26,7 +26,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
         address_line2: Faker::Address.street_address,
         address_line3: Faker::Address.city,
         address_line4: 'United Kingdom',
-        postcode: 'bn1 1aa',
+        postcode: '  bn1 1aa ',
         address_type: 'uk',
         audit_comment: 'Updated as part of Zendesk ticket 12345',
       }
@@ -50,7 +50,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
     end
 
     it 'updates the provided ApplicationForm from a previous cycle' do
-      application_form = create(:application_form, recruitment_cycle_year: CycleTimetable.previous_year)
+      application_form = create(:application_form, recruitment_cycle_year: previous_year)
       create(:application_choice, :awaiting_provider_decision, application_form:)
       details_form = described_class.new(data)
       data[:postcode] = 'BN1 1AA'
@@ -94,7 +94,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
     end
 
     it 'updates the provided ApplicationForm from a previous cycle' do
-      application_form = create(:application_form, address_type: 'Other', recruitment_cycle_year: CycleTimetable.previous_year)
+      application_form = create(:application_form, address_type: 'Other', recruitment_cycle_year: previous_year)
       create(:application_choice, :awaiting_provider_decision, application_form:)
       details_form = described_class.new(data)
 

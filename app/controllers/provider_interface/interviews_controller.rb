@@ -109,8 +109,7 @@ module ProviderInterface
 
     def interview_params
       params
-        .require(:provider_interface_interview_wizard)
-        .permit(:date, :time, :location, :additional_details, :provider_id)
+        .expect(provider_interface_interview_wizard: %i[date time location additional_details provider_id])
         .transform_values(&:strip)
         .merge(interview_form_context_params)
     end

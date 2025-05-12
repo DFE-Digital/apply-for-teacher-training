@@ -1,6 +1,7 @@
 const apiTokenAutocomplete = {
   inputIds: [
-    'vendor-api-token-provider-id-field'
+    'vendor-api-token-provider-id-field',
+    'vendor-api-token-provider-id-field-error'
   ],
   autocompleteId: 'api-token-autocomplete'
 }

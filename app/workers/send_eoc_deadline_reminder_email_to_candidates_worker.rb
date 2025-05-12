@@ -21,10 +21,14 @@ class SendEocDeadlineReminderEmailToCandidatesWorker
 private
 
   def chaser_type
-    if EmailTimetable.send_first_end_of_cycle_reminder_to_candidates?
-      :eoc_first_deadline_reminder
-    elsif EmailTimetable.send_second_end_of_cycle_reminder_to_candidates?
-      :eoc_second_deadline_reminder
+    if email_timetabler.send_first_end_of_cycle_reminder?
+      'eoc_first_deadline_reminder'
+    elsif email_timetabler.send_second_end_of_cycle_reminder?
+      'eoc_second_deadline_reminder'
     end
+  end
+
+  def email_timetabler
+    @email_timetabler ||= EndOfCycle::CandidateEmailTimetabler.new
   end
 end

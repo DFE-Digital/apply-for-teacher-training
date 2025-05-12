@@ -28,7 +28,7 @@ module Publications
       @generation_date = generation_date.to_time
       @publication_date = publication_date.presence || 1.week.after(@generation_date)
       @report_expected_time = @generation_date.beginning_of_week(:sunday)
-      @cycle_week = CycleTimetable.current_cycle_week(@report_expected_time)
+      @cycle_week = RecruitmentCycleTimetable.find_cycle_week_by_datetime(@report_expected_time)
       @client = DfE::Bigquery::ApplicationMetrics.new(cycle_week:)
       @month = @generation_date.strftime('%Y-%m')
       @model = model
@@ -71,7 +71,11 @@ module Publications
     alias statistics to_h
 
     def period
-      "From #{CycleTimetable.find_opens.beginning_of_week.to_fs(:govuk_date)} to #{report_expected_time.to_fs(:govuk_date)}"
+      "From #{from_date} to #{report_expected_time.to_fs(:govuk_date)}"
+    end
+
+    def from_date
+      @from_date ||= RecruitmentCycleTimetable.current_timetable.find_opens_at.beginning_of_week.to_fs(:govuk_date)
     end
   end
 end

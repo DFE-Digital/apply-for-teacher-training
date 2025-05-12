@@ -4,7 +4,7 @@ RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
 
   describe '.withdraw_last_application_choice' do
-    let(:recruitment_cycle_year) { CycleTimetable.current_year }
+    let(:recruitment_cycle_year) { current_year }
     let(:application_form_with_references) do
       create(:application_form, first_name: 'Fred',
                                 recruitment_cycle_year: recruitment_cycle_year,
@@ -52,7 +52,7 @@ RSpec.describe CandidateMailer do
     end
 
     context 'when new reference flow is active' do
-      let(:recruitment_cycle_year) { CycleTimetable.current_year }
+      let(:recruitment_cycle_year) { current_year }
       let(:application_choices) { [create(:application_choice, status: 'withdrawn')] }
 
       it_behaves_like(

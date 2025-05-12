@@ -10,13 +10,22 @@
       <h2 class="govuk-heading-m">
         <%= t('.performance_report_heading') %>
       </h2>
+
+      <% unless RecruitmentPerformanceReportTimetable.report_season? %>
+        <%= t(
+              '.available_in_the_future_html',
+              current_cycle_range: @current_timetable.cycle_range_name,
+              first_publication_date: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:govuk_date),
+              first_publication_date_no_year: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:day_and_month),
+            ) %>
+      <% end %>
     <% end %>
 
     <% @providers.select { _1.performance_reports.any? }.each do |provider| %>
       <% if @providers.many? %>
         <h3 class="govuk-heading-s"><%= provider.name %></h3>
       <% end %>
-      <% report = provider.performance_reports.last %>
+      <% report = provider.performance_reports.order(:recruitment_cycle_year, :cycle_week).last %>
       <ul class="govuk-list govuk-list--spaced">
         <li><%= govuk_link_to("Weekly report for week ending #{report.reporting_end_date.to_fs(:govuk_date)}", provider_interface_reports_provider_recruitment_performance_report_path(provider.id)) %></li>
       </ul>
@@ -35,7 +44,7 @@
           <%= govuk_link_to t('page_titles.provider.diversity_report'), provider_interface_reports_provider_diversity_report_path(provider_id: provider) %>
         </li>
         <li>
-          <%= govuk_link_to t('page_titles.provider.withdrawal_report'), provider_interface_reports_provider_withdrawal_report_path(provider_id: provider) %>
+          <%= govuk_link_to t('page_titles.provider.withdrawal_report'), provider_interface_reports_withdrawal_reports_path %>
         </li>
       </ul>
     <% end %>

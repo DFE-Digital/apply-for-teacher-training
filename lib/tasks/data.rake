@@ -1,5 +1,13 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
+  'DataMigrations::DropShowSupportFindACandidateFeatureFlag',
+  'DataMigrations::BackfillConfidentialData',
+  'DataMigrations::RemoveUnlockApplicationForEditingFeatureFlag',
+  'DataMigrations::RemoveShowReferenceConfidentialityStatusFeatureFlag',
+  'DataMigrations::AddRecruitmentCycleYearToPerformanceReports',
+  'DataMigrations::AddAllRecruitmentCycleTimetablesToDatabase',
+  'DataMigrations::RemoveOneLoginPreReleaseBannersFeatureFlag',
+  'DataMigrations::RemoveNewWithdrawalReasonsFeatureFlag',
   'DataMigrations::RemoveUnusedFeatureFlags',
   'DataMigrations::RemoveTdaFlag',
   'DataMigrations::DeleteAllOldAudits',

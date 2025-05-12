@@ -1,0 +1,29 @@
+<%= form_with model: location_preference_form, url:, method: do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <h1 class="govuk-heading-l"><%= title %></h1>
+
+  <%= f.govuk_text_field(
+    :within,
+    label: { text: t('.within'), size: 'm' },
+    hint: { text: t('.enter_distance_in_miles'), hidden: true },
+    class: 'govuk-!-width-one-quarter',
+    suffix_text: t('.miles'),
+    inputmode: 'decimal',
+    maxlength: 4,
+  ) %>
+
+  <div class="location-autocomplete-input">
+    <%= f.govuk_text_field(
+      :name,
+      label: { text: t('.name'), size: 'm' },
+      data: {
+        controller: 'location-autocomplete',
+        location_autocomplete_path_value: candidate_interface_location_suggestions_path,
+        location_autocomplete_target: 'input',
+      },
+    ) %>
+  </div>
+
+  <%= f.govuk_submit submit_text %>
+<% end %>

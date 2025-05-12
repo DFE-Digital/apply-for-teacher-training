@@ -2,7 +2,7 @@ module SupportInterface
   class ReasonsForRejectionSearchBreadcrumbComponent < ViewComponent::Base
     include ViewHelper
 
-    def initialize(search_attribute:, search_value:, recruitment_cycle_year: RecruitmentCycle.current_year)
+    def initialize(search_attribute:, search_value:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
       @search_attribute = search_attribute.to_s
       @search_value = search_value.to_s
       @recruitment_cycle_year = recruitment_cycle_year

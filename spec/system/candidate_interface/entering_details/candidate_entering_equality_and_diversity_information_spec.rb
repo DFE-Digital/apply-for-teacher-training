@@ -82,8 +82,8 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def given_i_am_signed_in
-    create_and_sign_in_candidate
-    current_candidate.current_application.update!(first_nationality: 'British', date_of_birth: Time.zone.now)
+    given_i_am_signed_in_with_one_login
+    @current_candidate.current_application.update!(first_nationality: 'British', date_of_birth: Time.zone.now)
   end
 
   def and_i_visit_the_site

@@ -6,6 +6,7 @@ RSpec.describe ApplicationForm do
 
   it { is_expected.to have_one(:subsequent_application_form).class_name('ApplicationForm').with_foreign_key('previous_application_form_id').inverse_of('previous_application_form') }
   it { is_expected.to have_one(:english_proficiency) }
+  it { is_expected.to have_one :recruitment_cycle_timetable }
 
   it { is_expected.to have_many(:application_choices) }
   it { is_expected.to have_many(:course_options).through(:application_choices) }
@@ -136,7 +137,7 @@ RSpec.describe ApplicationForm do
       it 'throws an exception rather than touch an application choice' do
         application_form = create(
           :completed_application_form,
-          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          recruitment_cycle_year: previous_year,
           application_choices_count: 1,
           first_name: 'Mary',
         )
@@ -148,7 +149,7 @@ RSpec.describe ApplicationForm do
       it 'does not throw an exception and touches an application choice when offer is deferred from last cycle' do
         application_form = create(
           :completed_application_form,
-          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          recruitment_cycle_year: previous_year,
           application_choices_count: 1,
         )
 
@@ -165,7 +166,7 @@ RSpec.describe ApplicationForm do
         )
 
         application_form.application_choices.update(status: 'offer_deferred')
-        application_form.update(recruitment_cycle_year: RecruitmentCycle.previous_year - 1)
+        application_form.update(recruitment_cycle_year: previous_year - 1)
 
         expect { application_form.update(address_line1: '123 Fake Street') }
           .not_to raise_error
@@ -174,7 +175,7 @@ RSpec.describe ApplicationForm do
       it 'does nothing when there are no application choices' do
         application_form = create(
           :completed_application_form,
-          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          recruitment_cycle_year: previous_year,
           application_choices_count: 0,
           first_name: 'Mary',
         )
@@ -187,7 +188,7 @@ RSpec.describe ApplicationForm do
         it 'does not throw an exception' do
           application_form = create(
             :completed_application_form,
-            recruitment_cycle_year: RecruitmentCycle.previous_year,
+            recruitment_cycle_year: previous_year,
             application_choices_count: 1,
             references_count: 0,
           )
@@ -830,59 +831,60 @@ RSpec.describe ApplicationForm do
 
   describe '#carry_over?' do
     context 'application is unsubmitted' do
+      let(:unsubmitted_application_form) do
+        build(:application_form, :unsubmitted, application_choices: [build(:application_choice)])
+      end
+
       it 'true when application deadline has passed' do
-        travel_temporarily_to(CycleTimetable.apply_deadline + 1.second) do
-          application_form = build(:application_form, :unsubmitted, application_choices: [build(:application_choice)])
-          expect(application_form.carry_over?).to be(true)
+        travel_temporarily_to(unsubmitted_application_form.apply_deadline_at + 1.second) do
+          expect(unsubmitted_application_form.carry_over?).to be(true)
         end
       end
 
       it 'false when application deadline has not passed' do
-        travel_temporarily_to(CycleTimetable.apply_deadline - 1.second) do
-          application_form = build(:application_form, :unsubmitted, application_choices: [build(:application_choice)])
-          expect(application_form.carry_over?).to be(false)
+        travel_temporarily_to(unsubmitted_application_form.apply_deadline_at - 1.second) do
+          expect(unsubmitted_application_form.carry_over?).to be(false)
         end
       end
     end
 
     context 'application does not have application choices' do
+      let(:no_choices_application_form) { build(:application_form, :submitted, application_choices: []) }
+
       it 'true when application deadline has passed' do
-        travel_temporarily_to(CycleTimetable.apply_deadline + 1.second) do
-          application_form = build(:application_form, :submitted, application_choices: [])
-          expect(application_form.carry_over?).to be(true)
+        travel_temporarily_to(no_choices_application_form.apply_deadline_at + 1.second) do
+          expect(no_choices_application_form.carry_over?).to be(true)
         end
       end
 
       it 'false when application deadline has not passed' do
-        travel_temporarily_to(CycleTimetable.apply_deadline - 1.second) do
-          application_form = build(:application_form, :submitted, application_choices: [])
-          expect(application_form.carry_over?).to be(false)
+        travel_temporarily_to(no_choices_application_form.apply_deadline_at - 1.second) do
+          expect(no_choices_application_form.carry_over?).to be(false)
         end
       end
     end
 
     context 'an application choice is awaiting candidate decision' do
+      let(:submitted_application_form) do
+        build(:application_form, :submitted, application_choices: [build(:application_choice, :offered)])
+      end
+
       it 'returns false after the application deadline has passed' do
-        travel_temporarily_to(CycleTimetable.apply_deadline + 1.second) do
-          application_form = build(
-            :application_form,
-            :submitted,
-            application_choices: [build(:application_choice, :offered)],
-          )
-          expect(application_form.carry_over?).to be(false)
+        travel_temporarily_to(submitted_application_form.apply_deadline_at + 1.second) do
+          expect(submitted_application_form.carry_over?).to be(false)
         end
       end
     end
 
     context 'an application choice is awaiting provider decision' do
       it 'returns false after the application deadline has passed', :aggregate_failures do
-        travel_temporarily_to(CycleTimetable.apply_deadline + 1.second) do
-          %i[awaiting_provider_decision interviewing inactive].each do |awaiting_decision_status|
-            application_form = build(
-              :application_form,
-              :submitted,
-              application_choices: [build(:application_choice, awaiting_decision_status)],
-            )
+        %i[awaiting_provider_decision interviewing inactive].each do |awaiting_decision_status|
+          application_form = build(
+            :application_form,
+            :submitted,
+            application_choices: [build(:application_choice, awaiting_decision_status)],
+          )
+          travel_temporarily_to(application_form.apply_deadline_at + 1.second) do
             expect(application_form.carry_over?).to be(false)
           end
         end
@@ -893,10 +895,9 @@ RSpec.describe ApplicationForm do
   describe '#unsucessful_and_apply_deadline_has_passed?' do
     context 'application ended with success' do
       it 'returns false' do
-        travel_temporarily_to(CycleTimetable.apply_deadline) do
-          application_choice = build(:application_choice, :offered)
-          application_form = build(:application_form, application_choices: [application_choice])
-
+        application_choice = build(:application_choice, :offered)
+        application_form = build(:application_form, application_choices: [application_choice])
+        travel_temporarily_to(application_form.apply_deadline_at) do
           expect(application_form.unsuccessful_and_apply_deadline_has_passed?).to be(false)
         end
       end
@@ -904,10 +905,9 @@ RSpec.describe ApplicationForm do
 
     context 'application ended without success and apply deadline has passed' do
       it 'returns true' do
-        travel_temporarily_to(after_apply_deadline) do
-          application_choice = build(:application_choice, :rejected)
-          application_form = build(:application_form, application_choices: [application_choice])
-
+        application_choice = build(:application_choice, :rejected)
+        application_form = build(:application_form, application_choices: [application_choice])
+        travel_temporarily_to(application_form.apply_deadline_at + 1.second) do
           expect(application_form.unsuccessful_and_apply_deadline_has_passed?).to be(true)
         end
       end
@@ -915,10 +915,9 @@ RSpec.describe ApplicationForm do
 
     context 'application ended without success and apply deadline has not passed' do
       it 'returns false' do
-        travel_temporarily_to(before_apply_deadline) do
-          application_choice = build(:application_choice, :rejected)
-          application_form = build(:application_form, application_choices: [application_choice])
-
+        application_choice = build(:application_choice, :rejected)
+        application_form = build(:application_form, application_choices: [application_choice])
+        travel_temporarily_to(application_form.apply_deadline_at - 1.second) do
           expect(application_form.unsuccessful_and_apply_deadline_has_passed?).to be(false)
         end
       end
@@ -1219,6 +1218,362 @@ RSpec.describe ApplicationForm do
         form.public_send("#{field}_completed=", false)
         expect(form.public_send("#{field}_completed_at")).to be_nil
       end
+    end
+  end
+
+  describe '#after_apply_deadline?' do
+    let(:form) { build(:application_form, recruitment_cycle_timetable: current_timetable) }
+
+    it 'returns false before the deadline' do
+      travel_temporarily_to(current_timetable.apply_deadline_at - 1.minute) do
+        expect(form.after_apply_deadline?).to be false
+      end
+    end
+
+    it 'returns true after the deadline while still in current cycle' do
+      travel_temporarily_to(current_timetable.apply_deadline_at + 1.minute) do
+        expect(form.after_apply_deadline?).to be true
+      end
+    end
+
+    it 'returns true if a new cycle has started' do
+      next_timetable = form.recruitment_cycle_timetable.relative_next_timetable
+      travel_temporarily_to(next_timetable.apply_deadline_at - 1.minute) do
+        expect(form.after_apply_deadline?).to be true
+      end
+    end
+  end
+
+  describe '#can_add_course_choice?' do
+    context 'not current cycle' do
+      it 'returns false if in next cycle' do
+        application_form = build(:application_form, recruitment_cycle_year: current_year)
+        travel_temporarily_to(next_timetable.find_opens_at + 1.second) do
+          expect(application_form.can_add_course_choice?).to be false
+        end
+      end
+
+      it 'returns false if in previous cycle' do
+        application_form = build(:application_form, recruitment_cycle_year: current_year)
+        travel_temporarily_to(previous_timetable.find_opens_at + 1.second) do
+          expect(application_form.can_add_course_choice?).to be false
+        end
+      end
+    end
+
+    context 'current cycle' do
+      it 'return false if after apply deadline' do
+        application_form = build(:application_form)
+        travel_temporarily_to(application_form.apply_deadline_at + 1.second) do
+          expect(application_form.can_add_course_choice?).to be false
+        end
+      end
+
+      it 'returns true if before apply deadline' do
+        application_form = build(:application_form)
+        travel_temporarily_to(application_form.apply_deadline_at - 1.second) do
+          expect(application_form.can_add_course_choice?).to be true
+        end
+      end
+    end
+  end
+
+  describe '#can_submit' do
+    context 'not current cycle' do
+      it 'returns false' do
+        application_form = build(:application_form, recruitment_cycle_year: current_year)
+        travel_temporarily_to(next_timetable.find_opens_at + 1.second) do
+          expect(application_form.can_submit?).to be false
+        end
+      end
+    end
+
+    context 'current cycle' do
+      it 'returns false before apply opens' do
+        application_form = build(:application_form)
+        travel_temporarily_to(application_form.apply_opens_at - 1.second) do
+          expect(application_form.can_submit?).to be false
+        end
+      end
+
+      it 'returns false after apply deadline' do
+        application_form = build(:application_form)
+        travel_temporarily_to(application_form.apply_deadline_at + 1.second) do
+          expect(application_form.can_submit?).to be false
+        end
+      end
+
+      it 'returns true mid cycle' do
+        application_form = build(:application_form)
+        travel_temporarily_to(application_form.apply_opens_at + 1.second) do
+          expect(application_form.can_submit?).to be true
+        end
+      end
+    end
+  end
+
+  describe '#redacted_full_name' do
+    it 'returns the full name redacted' do
+      first_name = 'First'
+      last_name = 'Last'
+      application_form = build(:application_form, first_name:, last_name:)
+
+      expect(application_form.redacted_full_name).to eq('F***** L*****')
+    end
+  end
+
+  describe '#eligible_and_unassigned_a_teaching_training_adviser?' do
+    it 'returns true when the validation is valid' do
+      application_form = build(:application_form)
+      allow(Adviser::ApplicationFormValidations).to receive(:new)
+                                                .with(application_form)
+                                                .and_return(instance_double(Adviser::ApplicationFormValidations, valid?: true))
+
+      expect(application_form.eligible_and_unassigned_a_teaching_training_adviser?).to be true
+    end
+
+    it 'returns false when the validation is invalid' do
+      application_form = build(:application_form)
+      allow(Adviser::ApplicationFormValidations).to receive(:new)
+                                                      .with(application_form)
+                                                      .and_return(instance_double(Adviser::ApplicationFormValidations, valid?: false))
+
+      expect(application_form.eligible_and_unassigned_a_teaching_training_adviser?).to be false
+    end
+  end
+
+  describe '#eligible_to_sign_up_for_a_teaching_training_adviser?' do
+    before do
+      allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache.lookup_store(:memory_store))
+      Rails.cache.clear
+      Sidekiq::Worker.clear_all
+    end
+
+    subject(:application_form) { build_stubbed(:application_form) }
+
+    context 'when the application form is eligible' do
+      before do
+        validation_double = instance_double(Adviser::ApplicationFormValidations, valid?: true)
+        allow(Adviser::ApplicationFormValidations).to receive(:new).and_return(validation_double)
+      end
+
+      it { is_expected.to be_eligible_to_sign_up_for_a_teaching_training_adviser }
+    end
+
+    context 'when the application form is not eligible' do
+      before do
+        validation_double = instance_double(Adviser::ApplicationFormValidations, valid?: false)
+        allow(Adviser::ApplicationFormValidations).to receive(:new).and_return(validation_double)
+      end
+
+      it { is_expected.not_to be_eligible_to_sign_up_for_a_teaching_training_adviser }
+    end
+
+    context 'refreshing the adviser status' do
+      it 'queues the refresh worker' do
+        expect {
+          application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
+        }.to change(Adviser::RefreshAdviserStatusWorker.jobs, :size).from(0).to(1)
+      end
+
+      it 'does not queue the refresh worker if it has been refreshed recently' do
+        application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
+
+        expect {
+          application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
+        }.not_to change(Adviser::RefreshAdviserStatusWorker.jobs, :size)
+      end
+    end
+  end
+
+  describe '#already_assigned_to_an_adviser?' do
+    before do
+      allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache.lookup_store(:memory_store))
+      Rails.cache.clear
+      Sidekiq::Worker.clear_all
+    end
+
+    context 'when the application form is assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'assigned') }
+
+      it { is_expected.to be_already_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is previously assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'previously_assigned') }
+
+      it { is_expected.to be_already_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is unassigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'unassigned') }
+
+      it { is_expected.not_to be_already_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is waiting to be assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'waiting_to_be_assigned') }
+
+      it { is_expected.not_to be_already_assigned_to_an_adviser }
+    end
+
+    context 'refreshing the adviser status' do
+      subject(:application_form) { build_stubbed(:application_form) }
+
+      it 'queues the refresh worker' do
+        expect {
+          application_form.already_assigned_to_an_adviser?
+        }.to change(Adviser::RefreshAdviserStatusWorker.jobs, :size).from(0).to(1)
+      end
+
+      it 'does not queue the refresh worker if it has been refreshed recently' do
+        application_form.already_assigned_to_an_adviser?
+
+        expect {
+          application_form.already_assigned_to_an_adviser?
+        }.not_to change(Adviser::RefreshAdviserStatusWorker.jobs, :size)
+      end
+    end
+  end
+
+  describe '#waiting_to_be_assigned_to_an_adviser?' do
+    before do
+      allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache.lookup_store(:memory_store))
+      Rails.cache.clear
+      Sidekiq::Worker.clear_all
+    end
+
+    context 'when the application form is assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'assigned') }
+
+      it { is_expected.not_to be_waiting_to_be_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is previously assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'previously_assigned') }
+
+      it { is_expected.not_to be_waiting_to_be_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is unassigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'unassigned') }
+
+      it { is_expected.not_to be_waiting_to_be_assigned_to_an_adviser }
+    end
+
+    context 'when the application form is waiting to be assigned to an adviser' do
+      subject(:application_form) { build_stubbed(:application_form, adviser_status: 'waiting_to_be_assigned') }
+
+      it { is_expected.to be_waiting_to_be_assigned_to_an_adviser }
+    end
+
+    context 'refreshing the adviser status' do
+      subject(:application_form) { build_stubbed(:application_form) }
+
+      it 'queues the refresh worker' do
+        expect {
+          application_form.waiting_to_be_assigned_to_an_adviser?
+        }.to change(Adviser::RefreshAdviserStatusWorker.jobs, :size).from(0).to(1)
+      end
+
+      it 'does not queue the refresh worker if it has been refreshed recently' do
+        application_form.waiting_to_be_assigned_to_an_adviser?
+
+        expect {
+          application_form.waiting_to_be_assigned_to_an_adviser?
+        }.not_to change(Adviser::RefreshAdviserStatusWorker.jobs, :size)
+      end
+    end
+  end
+
+  describe '#applicable_degree_for_adviser' do
+    let(:application_form) { create(:application_form) }
+
+    it 'returns nil when there are no qualifications' do
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes non-degree type qualifications' do
+      create(:gcse_qualification, application_form:)
+      create(:other_qualification, application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes incomplete degrees' do
+      create(:degree_qualification,
+             :adviser_sign_up_applicable,
+             :incomplete,
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes international degrees without equivalency details' do
+      create(:non_uk_degree_qualification,
+             :adviser_sign_up_applicable,
+             enic_reference: nil,
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes domestic degrees do not meet the minimum grade requirements' do
+      create(:degree_qualification,
+             :adviser_sign_up_applicable,
+             grade: 'Third-class honours',
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'excludes degrees that are not an applicable level' do
+      create(:degree_qualification,
+             :adviser_sign_up_applicable,
+             qualification_level: 'foundation',
+             application_form:)
+
+      create(:non_uk_degree_qualification,
+             :adviser_sign_up_applicable,
+             comparable_uk_degree: 'bachelor_ordinary_degree',
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to be_nil
+    end
+
+    it 'returns an applicable domestic degree, favouring the degree with the highest grade' do
+      create(:degree_qualification,
+             :adviser_sign_up_applicable,
+             application_form:,
+             grade: 'Upper second-class honours (2:1)')
+
+      first_class_domestic_degree = create(:degree_qualification,
+                                           :adviser_sign_up_applicable,
+                                           application_form:,
+                                           grade: 'First-class honours')
+
+      expect(application_form.applicable_degree_for_adviser).to eq(first_class_domestic_degree)
+    end
+
+    it 'returns an applicable international degree' do
+      applicable_international_degree = create(:non_uk_degree_qualification,
+                                               :adviser_sign_up_applicable,
+                                               application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to eq(applicable_international_degree)
+    end
+
+    it 'returns a domestic degree if there are international degrees as well' do
+      first_class_domestic_degree = create(:degree_qualification,
+                                           :adviser_sign_up_applicable,
+                                           application_form:,
+                                           grade: 'First-class honours')
+
+      create(:non_uk_degree_qualification,
+             :adviser_sign_up_applicable,
+             application_form:)
+
+      expect(application_form.applicable_degree_for_adviser).to eq(first_class_domestic_degree)
     end
   end
 end

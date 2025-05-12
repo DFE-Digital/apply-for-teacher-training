@@ -16,7 +16,8 @@ RSpec.describe 'Candidates authentication token has the path attribute populated
     and_i_have_an_expired_token_associated_with_the_personal_statement_path
 
     when_i_sign_in_using_the_token
-    and_i_request_a_new_link
+    and_i_click_the_button_to_sign_in
+    and_i_submit_my_email_address
     then_i_receive_an_email_inviting_me_to_sign_in
 
     when_i_click_on_the_link_in_my_email
@@ -73,8 +74,13 @@ RSpec.describe 'Candidates authentication token has the path attribute populated
     )
   end
 
-  def and_i_request_a_new_link
-    click_link_or_button 'Email me a new link'
+  def and_i_click_the_button_to_sign_in
+    click_link_or_button 'Sign in'
+  end
+
+  def and_i_submit_my_email_address
+    fill_in 'Email address', with: @candidate.email_address
+    click_link_or_button 'Continue'
   end
 
   def when_i_click_on_the_link_in_my_email

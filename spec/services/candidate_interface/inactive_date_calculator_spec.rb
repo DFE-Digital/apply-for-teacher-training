@@ -6,9 +6,9 @@ RSpec.describe CandidateInterface::InactiveDateCalculator do
   let(:application_choice) { create(:application_choice, :unsubmitted) }
 
   before do
-    CycleTimetable.holidays(2024).each_value do |date_range|
-      BusinessTime::Config.holidays += date_range.to_a
-    end
+    timetable = get_timetable(2024)
+    BusinessTime::Config.holidays += timetable.christmas_holiday_range.to_a
+    BusinessTime::Config.holidays += timetable.easter_holiday_range.to_a
   end
 
   describe 'inactive calculation' do

@@ -5,6 +5,15 @@ RSpec.describe RefereeInterface::ConfidentialityForm do
     it { is_expected.to validate_presence_of(:confidential) }
 
     describe '.build_from_reference' do
+      context 'when the reference confidentiality is not set' do
+        it 'initialises a form with confidential set to nil' do
+          reference = build(:reference)
+          form = described_class.build_from_reference(reference: reference)
+
+          expect(form.confidential).to be_nil
+        end
+      end
+
       context 'when the reference is confidential' do
         it 'initialises a form with confidential set to true' do
           reference = build(:reference, confidential: true)

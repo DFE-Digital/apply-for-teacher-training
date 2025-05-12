@@ -4,6 +4,9 @@ en:
       index:
         performance_report_heading: Weekly recruitment performance report
         application_data_heading: Application data for this recruitment cycle
+        available_in_the_future_html:
+          <p class="govuk-body">The reports for the %{current_cycle_range} recruitment cycle are not available until %{first_publication_date}.</p>
+          <p class="govuk-body">From %{first_publication_date_no_year} you will be able to see new reports each week on a Monday until the end of the cycle.</p>
         download_export_heading: Download and export
       hesa:
         diversity_text: Sex, disability and ethnicity information will be marked as confidential if you do not have permission to view it.
@@ -12,3 +15,32 @@ en:
           info: 'The data will include all candidates who have accepted an offer since %{date}.'
         previous_cycle:
           info: 'The data will include all candidates who have accepted an offer from %{start_date} to %{end_date}.'
+      withdrawal_reports:
+        index:
+          description_html:
+            <p class="govuk-body">This report shows the reasons for withdrawal selected by candidates from a set list.</p>
+            <p class="govuk-body">In January 2025 we made it mandatory for candidates to provide at least one reason for withdrawing. We also added some new reasons for candidates to select from.</p>
+            <p class="govuk-body">Because the new reasons do not map exactly to the old reasons, it is not possible to combine withdrawal data from before January 2025 with withdrawal data from after that date in a single report.</p>
+          legacy_withdrawal_report: 'Withdrawal reasons: up to January 2025'
+          withdrawal_reasons_report: 'Withdrawal reasons: from January 2025'
+        show:
+          heading: 'Withdrawal reasons: October'
+          description_html:
+            <p class="govuk-body">You will be able to see this report if it contains data from at least 10 candidates. This is to protect the privacy of candidates.</p>
+            <p class="govuk-body">The report shows data from candidates who withdrew their application and selected their reason from a set list. This was an optional question, candidates who withdrew their application but did not select a reason are not represented in this report.</p>
+            <p class="govuk-body">Data for this report was collected between October 2024 and January 2025.</p>
+            <p class="govuk-body">Go to the %{link} report to see more recent withdrawal data.</p>
+          withdrawal_reasons_report_link_text: 'withdrawal reasons: from January 2025'
+      withdrawal_reasons_reports:
+        show:
+          report_description: This report shows the reasons for withdrawal selected by candidates from a set list. The question is mandatory and candidates can select more than one reason.
+          report_not_visible_html:
+            <p class="govuk-body">You will be able to see this report when it contains data from at least 10 candidates. This is to protect the privacy of candidates. Candidates can select more than one reason for withdrawing so the number of reasons in this report may not match the number of candidates who have withdrawn.</p>
+            <p class="govuk-body">The report shows data from candidates who withdrew their application and selected their reason from a set list. This question is mandatory.</p>
+            <p class="govuk-body">Data for this report has been collected since 13 January 2025. Go to %{link} to see withdrawal data from before this date.</p>
+          withdrawal_report_link_text: 'withdrawal reasons: up to January 2025'
+          table_caption: Withdrawal reason report data
+          withdrawal_reason: Withdrawal reason
+          before_accepting: Before accepting
+          after_accepting: After accepting
+          total: Total

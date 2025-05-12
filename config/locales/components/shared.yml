@@ -1,4 +1,6 @@
 en:
+  filter_component:
+    location_filter_title: Within %{miles} of %{original_location}
   personal_statement:
     title: Personal statement
     vocation: Why do you want to be a teacher?

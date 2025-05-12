@@ -9,7 +9,7 @@
 # Offense count: 5
 # Configuration parameters: Include.
 # Include: app/helpers/**/*.rb
-Rails/HelperInstanceVariable:
+Style/HashSlice:
   Exclude:
-    - 'app/helpers/content_helper.rb'
-    - 'app/helpers/view_helper.rb'
+    - 'app/queries/get_unsubmitted_applications_ready_to_nudge.rb' # NATIONALITIES is an array not a hash
+    - 'app/queries/get_incomplete_reference_applications_ready_to_nudge.rb' # NATIONALITIES is an array not a hash

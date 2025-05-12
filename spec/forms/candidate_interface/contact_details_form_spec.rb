@@ -49,7 +49,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
         address_line2: Faker::Address.street_address,
         address_line3: Faker::Address.city,
         address_line4: 'United Kingdom',
-        postcode: 'bn1 1aa',
+        postcode: '  bn1 1aa  ',
       }
       application_form = build(:application_form, international_address: 'some old address')
       contact_details = described_class.new(form_data)
@@ -127,7 +127,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       contact_details = described_class.new(form_data)
 
       expect(contact_details.save_address_type(application_form)).to be(true)
-      expect(application_form.reload.contact_details_completed).to be(false)
+      expect(application_form.reload.contact_details_completed).to be_nil
     end
 
     it 'preserves the `contact_details_completed` flag if data is complete' do

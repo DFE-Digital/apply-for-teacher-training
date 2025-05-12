@@ -2,7 +2,7 @@ class StartOfCycleNotificationWorker
   include Sidekiq::Worker
 
   def perform(service = 'find')
-    return unless CycleTimetable.service_opens_today?(service, year: RecruitmentCycle.current_year)
+    return unless service_opens_today?(service, RecruitmentCycleTimetable.current_year)
     return unless hours_remaining.positive?
 
     @service = service
@@ -28,6 +28,11 @@ class StartOfCycleNotificationWorker
 private
 
   attr_reader :service
+
+  def service_opens_today?(service, year)
+    timetable = RecruitmentCycleTimetable.find_by(recruitment_cycle_year: year)
+    timetable.public_send(:"#{service}_opens_at").today?
+  end
 
   def fetch_limit
     (provider_count / hours_remaining).ceil

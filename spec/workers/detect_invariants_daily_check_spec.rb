@@ -21,8 +21,8 @@ RSpec.describe DetectInvariantsDailyCheck do
       this_year_course = create(:course_option)
       last_year_course = create(:course_option, :previous_year)
 
-      bad_form_this_year = create(:completed_application_form, submitted_at: Time.zone.local(RecruitmentCycle.current_year, 10, 6, 9), recruitment_cycle_year: RecruitmentCycle.current_year)
-      good_form_this_year = create(:completed_application_form, submitted_at: Time.zone.local(RecruitmentCycle.current_year, 10, 6, 9), recruitment_cycle_year: RecruitmentCycle.current_year)
+      bad_form_this_year = create(:completed_application_form, submitted_at: Time.zone.local(current_year, 10, 6, 9), recruitment_cycle_year: current_year)
+      good_form_this_year = create(:completed_application_form, submitted_at: Time.zone.local(current_year, 10, 6, 9), recruitment_cycle_year: current_year)
       good_form_last_year = create(:application_form, submitted_at: 1.year.ago)
 
       create(:application_choice, application_form: bad_form_this_year, course_option: last_year_course)
@@ -56,8 +56,8 @@ RSpec.describe DetectInvariantsDailyCheck do
       application_form_with_invalid_course = create(:application_form)
       application_form_with_valid_course = create(:application_form)
 
-      course_from_previous_cycle = create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year)
-      course_from_current_cycle = create(:course, recruitment_cycle_year: RecruitmentCycle.current_year)
+      course_from_previous_cycle = create(:course, recruitment_cycle_year: previous_year)
+      course_from_current_cycle = create(:course, recruitment_cycle_year: current_year)
 
       old_course_option = create(:course_option, course: course_from_previous_cycle)
       new_course_option = create(:course_option, course: course_from_current_cycle)
@@ -188,6 +188,7 @@ RSpec.describe DetectInvariantsDailyCheck do
       let(:exception) { described_class::MonthlyStatisticsReportHasNotRun.new(message) }
 
       before do
+        allow(HostingEnvironment).to receive(:production?).and_return true
         allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::MonthlyStatisticsReportHasNotRun))
       end
 

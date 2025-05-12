@@ -92,7 +92,7 @@ module CandidateHelper
     end
 
     if international
-      click_link_or_button t('page_titles.efl.review')
+      click_link_or_button 'English as a foreign language'
       choose 'No, English is not a foreign language to me'
       click_link_or_button 'Continue'
       choose 'Yes, I have completed this section'
@@ -387,7 +387,7 @@ module CandidateHelper
   end
 
   def candidate_fills_in_efl_section
-    click_link_or_button t('page_titles.efl.review')
+    click_link_or_button 'English as a foreign language'
     choose 'No, English is not a foreign language to me'
     click_link_or_button t('continue')
     choose 'Yes, I have completed this section'
@@ -499,7 +499,7 @@ module CandidateHelper
     end
 
     if international
-      click_link_or_button t('page_titles.efl.review')
+      click_link_or_button 'English as a foreign language'
       choose 'No, English is not a foreign language to me'
       click_link_or_button 'Continue'
       choose 'Yes, I have completed this section'
@@ -821,10 +821,6 @@ module CandidateHelper
     current_candidate.current_application.application_choices.last
   end
 
-  def when_i_visit_the_application_complete_page
-    visit candidate_interface_application_complete_path
-  end
-
   def then_i_am_on_your_details_page
     expect(page).to have_current_path(candidate_interface_details_path)
   end
@@ -883,7 +879,7 @@ module CandidateHelper
   end
 
   def then_i_see_that_the_course_is_unavailable
-    expect(page).to have_content('You cannot submit this application as the course is no longer available.')
+    expect(page).to have_content('You cannot submit this application because the course is no longer available.')
     expect(page).to have_content('Remove this application and search for other courses.')
   end
 

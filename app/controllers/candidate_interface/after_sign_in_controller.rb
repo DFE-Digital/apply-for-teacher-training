@@ -10,7 +10,7 @@ module CandidateInterface
       current_candidate.update!(course_from_find_id: nil)
 
       if current_application.submitted? && current_application.v23?
-        redirect_to candidate_interface_application_complete_path
+        redirect_to candidate_interface_start_carry_over_path
       elsif current_application.contains_course?(course_from_find)
         flash[:warning] = "You have already added an application for #{course_from_find.name}. #{view_context.link_to('Find a different course to apply to', find_url, class: 'govuk-link')}."
         redirect_to course_choices_page
@@ -37,7 +37,7 @@ module CandidateInterface
     end
 
     def redirect_to_path_if_path_params_are_present
-      redirect_to params[:path] if params[:path].present?
+      redirect_to params[:path] if params[:path].present? && valid_app_path(params[:path])
     end
 
     def redirect_to_prefill_if_sandbox_user_has_blank_application

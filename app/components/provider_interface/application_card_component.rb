@@ -32,16 +32,22 @@ module ProviderInterface
     end
 
     def recruitment_cycle_text
-      if application_choice.recruitment_cycle == RecruitmentCycle.current_year
-        year = RecruitmentCycle.current_year
-        "Current cycle (#{year - 1} to #{year})"
-      elsif application_choice.recruitment_cycle == RecruitmentCycle.previous_year
-        year = RecruitmentCycle.previous_year
-        "Previous cycle (#{year - 1} to #{year})"
+      if application_choice.recruitment_cycle == current_timetable.recruitment_cycle_year
+        "Current cycle (#{current_timetable.cycle_range_name})"
+      elsif application_choice.recruitment_cycle == previous_timetable.recruitment_cycle_year
+        "Previous cycle (#{previous_timetable.cycle_range_name})"
       else
         year = application_choice.recruitment_cycle
         "#{year - 1} to #{year}"
       end
+    end
+
+    def current_timetable
+      @current_timetable ||= RecruitmentCycleTimetable.current_timetable
+    end
+
+    def previous_timetable
+      @previous_timetable ||= RecruitmentCycleTimetable.previous_timetable
     end
   end
 end

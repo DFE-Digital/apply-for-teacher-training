@@ -265,7 +265,7 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def when_i_filter_by_recruitment_cycle
-    find(:css, "#recruitment_cycle_year-#{RecruitmentCycle.current_year}").set(true)
+    find(:css, "#recruitment_cycle_year-#{current_year}").set(true)
     click_link_or_button('Apply filters')
   end
 
@@ -274,7 +274,7 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def and_i_expect_the_relevant_recruitment_cycle_tags_to_be_visible
-    tag_text = "#{RecruitmentCycle.previous_year} to #{RecruitmentCycle.current_year}"
+    tag_text = "#{previous_year} to #{current_year}"
     expect(page).to have_css('.moj-filter-tags', text: tag_text)
   end
 

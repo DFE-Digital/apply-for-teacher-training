@@ -6,6 +6,24 @@ class ApplicationForm < ApplicationRecord
   geocoded_by :address_formatted_for_geocoding, params: { region: 'uk' }
 
   include Chased
+  include AdviserEligibility
+  include HasApplicableDegreeForAdviser
+
+  has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
+  delegate :apply_deadline_at,
+           :apply_opens_at,
+           :find_opens_at,
+           :after_apply_deadline?,
+           :before_apply_opens?,
+           :cycle_range_name_with_current_indicator,
+           :decline_by_default_at,
+           :apply_deadline_at,
+           :between_cycles?,
+           :next_available_academic_year_range,
+           :apply_reopens_at,
+           :academic_year_range_name,
+           :current_year?,
+           to: :recruitment_cycle_timetable
 
   belongs_to :candidate, touch: true
   has_many :application_choices
@@ -26,7 +44,7 @@ class ApplicationForm < ApplicationRecord
 
   has_many :application_feedback
 
-  scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
+  scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
   scope :unsubmitted, -> { where(submitted_at: nil) }
   scope :inactive_since, ->(time) { where('application_forms.updated_at < ?', time) }
   scope :with_completion, ->(completion_attributes) { where(completion_attributes.map { |attr| "#{attr} = true" }.join(' AND ')) }
@@ -164,14 +182,7 @@ class ApplicationForm < ApplicationRecord
     yorkshire_and_the_humber: 'yorkshire_and_the_humber',
   }
 
-  enum :adviser_status, {
-    unassigned: 'unassigned',
-    waiting_to_be_assigned: 'waiting_to_be_assigned',
-    assigned: 'assigned',
-    previously_assigned: 'previously_assigned',
-  }
-
-  attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycle.current_year }
+  attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycleTimetable.current_year }
 
   before_create :add_support_reference
 
@@ -295,6 +306,17 @@ class ApplicationForm < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def redacted_full_name
+    full_name.split.map do |name|
+      first_letter = name.first
+
+      name.delete!(first_letter)
+      redacted = '*' * 5
+
+      "#{first_letter}#{redacted}"
+    end.join(' ')
+  end
+
   def blank_application?
     updated_at == created_at
   end
@@ -304,7 +326,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def carry_over?
-    return false unless CycleTimetable.apply_deadline_has_passed?(self)
+    return false unless after_apply_deadline?
 
     !submitted? ||
       application_choices.blank? ||
@@ -314,7 +336,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def unsuccessful_and_apply_deadline_has_passed?
-    ended_without_success? && CycleTimetable.apply_deadline_has_passed?(self)
+    ended_without_success? && after_apply_deadline?
   end
 
   ##########################################
@@ -564,13 +586,13 @@ class ApplicationForm < ApplicationRecord
   end
 
   def current_recruitment_cycle?
-    RecruitmentCycle.current_year == recruitment_cycle_year
+    RecruitmentCycleTimetable.current_year == recruitment_cycle_year
   end
 
   # FIXME: This can be removed once the booleans are no longer in use.
   SECTION_COMPLETED_FIELDS.each do |section|
     define_method("#{section}_completed=") do |value|
-      public_send("#{section}_completed_at=", (value ? Time.zone.now : nil))
+      public_send("#{section}_completed_at=", value ? Time.zone.now : nil)
       super(value)
     end
   end
@@ -672,6 +694,18 @@ class ApplicationForm < ApplicationRecord
       Time.zone.now < editable_until
   end
 
+  def current_cycle?
+    recruitment_cycle_year == RecruitmentCycleTimetable.current_year
+  end
+
+  def can_add_course_choice?
+    current_cycle? && Time.zone.now.between?(find_opens_at, apply_deadline_at)
+  end
+
+  def can_submit?
+    current_cycle? && Time.zone.now.between?(apply_opens_at, apply_deadline_at)
+  end
+
 private
 
   def geocode_address_and_update_region_if_required
@@ -721,7 +755,7 @@ private
   end
 
   def earlier_cycle?
-    recruitment_cycle_year < RecruitmentCycle.current_year
+    recruitment_cycle_year < RecruitmentCycleTimetable.current_year
   end
 
   def prevent_unsave_touches?

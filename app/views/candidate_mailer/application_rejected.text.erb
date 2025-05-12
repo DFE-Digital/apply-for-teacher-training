@@ -5,8 +5,8 @@ Hello <%= @application_form.first_name %>
 
 Contact <%= @course.provider.name %> if you would like to talk about their feedback.
 
-<% if CycleTimetable.between_cycles? %>
-# You can apply again from <%= I18n.l(CycleTimetable.apply_reopens.to_date, format: :long) %>
+<% if RecruitmentCycleTimetable.currently_between_cycles? %>
+# You can apply again from <%= I18n.l(RecruitmentCycleTimetable.current_timetable.apply_reopens_at.to_date, format: :long) %>
 
 Lots of people are successful when they apply again.
 <% else %>
@@ -21,6 +21,6 @@ This year, more people than ever are choosing to apply again.
 
 <%= render 'understand_your_professional_strengths' %>
 
-[Sign in to apply again](<%= @candidate_magic_link %>).
+[Sign in to apply again](<%= application_choices_link %>).
 
 <%= render 'application_rejected_get_help' %>

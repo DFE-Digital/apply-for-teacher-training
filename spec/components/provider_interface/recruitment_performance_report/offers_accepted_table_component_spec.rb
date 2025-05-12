@@ -9,7 +9,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::OffersAcceptedTa
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
     expect(page).to have_table('5. Offers accepted')
-    expect(page).to have_content(description(provider.name))
+    expect(page).to have_content(description)
 
     expect(page).to have_content provider.name
     expect(page).to have_content 'All providers'
@@ -56,7 +56,7 @@ private
      'Religious Education']
   end
 
-  def description(provider_name)
-    "The number of candidates who have accepted an offer from #{provider_name} so far this recruitment cycle, compared to national level data."
+  def description
+    'The table includes candidates who accepted and then deferred an offer from the provider in a previous cycle, which has been confirmed this cycle. It also includes candidates who accepted offers, but then did not meet the conditions of that offer.'
   end
 end

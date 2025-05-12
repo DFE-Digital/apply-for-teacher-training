@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Candidate tries to sign in without an account' do
   include SignInHelper
 
+  before  { FeatureFlag.deactivate :one_login_candidate_sign_in }
+
   scenario 'Candidate signs in and receives an email inviting them to sign up' do
     given_i_am_a_candidate_without_an_account
 

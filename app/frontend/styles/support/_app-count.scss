@@ -5,15 +5,19 @@
   // lozenge shape when there are 3 digits or more.
   min-width: 24px;
   height: 28px;
+
   padding-right: 2px;
   padding-left: 2px;
   margin-left: 3px;
 
   font-weight: bold;
+
   line-height: 28px;
-  color: govuk-colour("white");
-  text-align: center;
   vertical-align: middle;
+
+  color: govuk-colour("white");
+
+  text-align: center;
 
   background-color: $govuk-brand-colour;
   border-radius: 14px;

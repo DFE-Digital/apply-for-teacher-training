@@ -26,6 +26,30 @@ module SelectOptionsHelper
     ] + courses.map { |course| Option.new(course.id, course.name) }
   end
 
+  def select_course_options_with_provider_name(courses)
+    multiple_providers = current_provider_user.providers.count > 1
+
+    course_options = courses.map do |course|
+      if multiple_providers
+        Option.new(course.id, course.name_code_and_course_provider)
+      else
+        Option.new(course.id, course.name_and_code)
+      end
+    end
+
+    [
+      Option.new('', t('activemodel.errors.models.candidate_interface/pick_course_form.attributes.course_id.blank')),
+    ] + course_options
+  end
+
+  def collection_course_options_with_provider_name
+    if current_provider_user.providers.count > 1
+      :name_code_and_course_provider
+    else
+      :name_and_code
+    end
+  end
+
   def select_provider_options(providers)
     [
       Option.new('', t('activemodel.errors.models.candidate_interface/pick_provider_form.attributes.provider_id.blank')),

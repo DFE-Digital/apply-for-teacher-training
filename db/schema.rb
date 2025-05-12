@@ -10,19 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_24_133016) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
-  enable_extension "plpgsql"
   enable_extension "unaccent"
 
   create_table "account_recovery_request_codes", force: :cascade do |t|
-    t.string "hashed_code", null: false
     t.bigint "account_recovery_request_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "code_digest", null: false
     t.index ["account_recovery_request_id"], name: "idx_on_account_recovery_request_id_c1c0af72cc"
   end
 
@@ -61,6 +61,27 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.string "variation_digest", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "adviser_sign_up_requests", force: :cascade do |t|
+    t.bigint "application_form_id", null: false
+    t.bigint "teaching_subject_id", null: false
+    t.datetime "sent_to_adviser_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_form_id"], name: "index_adviser_sign_up_requests_on_application_form_id"
+    t.index ["teaching_subject_id"], name: "index_adviser_sign_up_requests_on_teaching_subject_id"
+  end
+
+  create_table "adviser_teaching_subjects", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "external_identifier", null: false
+    t.string "level", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_adviser_teaching_subjects_on_discarded_at"
+    t.index ["external_identifier"], name: "index_adviser_teaching_subjects_on_external_identifier", unique: true
   end
 
   create_table "application_choices", force: :cascade do |t|
@@ -234,7 +255,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.datetime "editable_until"
     t.jsonb "editable_sections"
     t.boolean "university_degree"
+    t.boolean "adviser_interruption_response"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
+    t.index ["recruitment_cycle_year"], name: "index_application_forms_on_recruitment_cycle_year"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
     t.index ["updated_at"], name: "index_application_forms_on_updated_at", order: :desc
   end
@@ -384,6 +407,38 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "candidate_location_preferences", force: :cascade do |t|
+    t.string "name", null: false
+    t.float "within", null: false
+    t.float "latitude"
+    t.float "longitude"
+    t.bigint "candidate_preference_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "provider_id"
+    t.index ["candidate_preference_id"], name: "idx_on_candidate_preference_id_f06d90defb"
+    t.index ["latitude"], name: "index_candidate_location_preferences_on_latitude"
+    t.index ["longitude"], name: "index_candidate_location_preferences_on_longitude"
+    t.index ["provider_id"], name: "index_candidate_location_preferences_on_provider_id"
+  end
+
+  create_table "candidate_pool_provider_opt_ins", force: :cascade do |t|
+    t.bigint "provider_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider_id"], name: "index_candidate_pool_provider_opt_ins_on_provider_id"
+  end
+
+  create_table "candidate_preferences", force: :cascade do |t|
+    t.string "pool_status"
+    t.string "status", default: "draft", null: false
+    t.boolean "dynamic_location_preferences"
+    t.bigint "candidate_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_id"], name: "index_candidate_preferences_on_candidate_id"
+  end
+
   create_table "candidates", force: :cascade do |t|
     t.string "email_address", null: false
     t.datetime "created_at", precision: nil, null: false
@@ -400,9 +455,12 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.boolean "submission_blocked", default: false, null: false
     t.boolean "account_locked", default: false, null: false
     t.string "account_recovery_status", default: "not_started", null: false
+    t.index ["account_locked"], name: "index_candidates_on_account_locked"
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
     t.index ["fraud_match_id"], name: "index_candidates_on_fraud_match_id"
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
+    t.index ["submission_blocked"], name: "index_candidates_on_submission_blocked"
+    t.index ["unsubscribed_from_emails"], name: "index_candidates_on_unsubscribed_from_emails"
   end
 
   create_table "chasers_sent", force: :cascade do |t|
@@ -475,6 +533,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.boolean "can_sponsor_skilled_worker_visa"
     t.boolean "can_sponsor_student_visa"
     t.integer "application_status", default: 0, null: false
+    t.datetime "visa_sponsorship_application_deadline_at"
     t.index ["applications_open_from"], name: "index_courses_on_applications_open_from"
     t.index ["code"], name: "index_courses_on_code"
     t.index ["provider_id"], name: "index_courses_on_provider_id"
@@ -544,6 +603,24 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.index ["name"], name: "index_features_on_name", unique: true
   end
 
+  create_table "field_test_events", force: :cascade do |t|
+    t.bigint "field_test_membership_id"
+    t.string "name"
+    t.datetime "created_at"
+    t.index ["field_test_membership_id"], name: "index_field_test_events_on_field_test_membership_id"
+  end
+
+  create_table "field_test_memberships", force: :cascade do |t|
+    t.string "participant_type"
+    t.string "participant_id"
+    t.string "experiment"
+    t.string "variant"
+    t.datetime "created_at"
+    t.boolean "converted", default: false
+    t.index ["experiment", "created_at"], name: "index_field_test_memberships_on_experiment_and_created_at"
+    t.index ["participant_type", "participant_id", "experiment"], name: "index_field_test_memberships_on_participant", unique: true
+  end
+
   create_table "find_feedback", force: :cascade do |t|
     t.string "path", null: false
     t.string "find_controller", null: false
@@ -603,6 +680,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.date "generation_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "recruitment_cycle_year"
+    t.index ["recruitment_cycle_year"], name: "idx_on_recruitment_cycle_year_11d37af39b"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -650,6 +729,38 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "pool_dismissals", force: :cascade do |t|
+    t.bigint "candidate_id", null: false
+    t.bigint "provider_id", null: false
+    t.bigint "dismissed_by_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_id"], name: "index_pool_dismissals_on_candidate_id"
+    t.index ["dismissed_by_id"], name: "index_pool_dismissals_on_dismissed_by_id"
+    t.index ["provider_id"], name: "index_pool_dismissals_on_provider_id"
+  end
+
+  create_table "pool_eligible_application_forms", force: :cascade do |t|
+    t.bigint "application_form_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_form_id"], name: "index_pool_eligible_application_forms_on_application_form_id"
+  end
+
+  create_table "pool_invites", force: :cascade do |t|
+    t.bigint "candidate_id", null: false
+    t.bigint "provider_id", null: false
+    t.bigint "invited_by_id", null: false
+    t.bigint "course_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status", default: "draft", null: false
+    t.index ["candidate_id"], name: "index_pool_invites_on_candidate_id"
+    t.index ["course_id"], name: "index_pool_invites_on_course_id"
+    t.index ["invited_by_id"], name: "index_pool_invites_on_invited_by_id"
+    t.index ["provider_id"], name: "index_pool_invites_on_provider_id"
+  end
+
   create_table "provider_agreements", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
@@ -669,7 +780,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.date "generation_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "recruitment_cycle_year"
     t.index ["provider_id"], name: "index_provider_recruitment_performance_reports_on_provider_id"
+    t.index ["recruitment_cycle_year"], name: "idx_on_recruitment_cycle_year_2c77f78ddd"
   end
 
   create_table "provider_relationship_permissions", force: :cascade do |t|
@@ -709,6 +822,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.datetime "last_signed_in_at", precision: nil
     t.string "first_name"
     t.string "last_name"
+    t.jsonb "find_a_candidate_filters", default: {}
     t.index ["dfe_sign_in_uid"], name: "index_provider_users_on_dfe_sign_in_uid", unique: true
     t.index ["email_address"], name: "index_provider_users_on_email_address", unique: true
   end
@@ -747,6 +861,21 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.index ["vendor_id"], name: "index_providers_on_vendor_id"
   end
 
+  create_table "recruitment_cycle_timetables", force: :cascade do |t|
+    t.datetime "find_opens_at"
+    t.datetime "apply_opens_at"
+    t.datetime "apply_deadline_at"
+    t.datetime "reject_by_default_at"
+    t.datetime "decline_by_default_at"
+    t.datetime "find_closes_at"
+    t.daterange "christmas_holiday_range"
+    t.daterange "easter_holiday_range"
+    t.integer "recruitment_cycle_year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recruitment_cycle_year"], name: "index_recruitment_cycle_timetables_on_recruitment_cycle_year", unique: true
+  end
+
   create_table "reference_tokens", force: :cascade do |t|
     t.bigint "application_reference_id", null: false
     t.string "hashed_token", null: false
@@ -783,7 +912,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.boolean "duplicate", default: false
     t.boolean "selected", default: false
     t.boolean "refused"
-    t.boolean "confidential", default: true, null: false
+    t.boolean "confidential"
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
     t.index ["feedback_status"], name: "index_references_on_feedback_status"
   end
@@ -794,6 +923,27 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["application_choice_id"], name: "index_rejection_feedbacks_on_application_choice_id"
+  end
+
+  create_table "session_errors", force: :cascade do |t|
+    t.bigint "candidate_id"
+    t.string "id_token_hint"
+    t.string "body"
+    t.json "omniauth_hash"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "error_type", default: "internal"
+    t.index ["candidate_id"], name: "index_session_errors_on_candidate_id"
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.bigint "candidate_id", null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.string "id_token_hint"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_id"], name: "index_sessions_on_candidate_id"
   end
 
   create_table "site_settings", force: :cascade do |t|
@@ -906,16 +1056,32 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
     t.index ["name"], name: "index_vendors_on_name", unique: true
   end
 
+  create_table "withdrawal_reasons", force: :cascade do |t|
+    t.string "reason"
+    t.text "comment"
+    t.string "status", default: "draft"
+    t.bigint "application_choice_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_choice_id"], name: "index_withdrawal_reasons_on_application_choice_id"
+    t.index ["reason"], name: "index_withdrawal_reasons_on_reason"
+  end
+
   add_foreign_key "account_recovery_request_codes", "account_recovery_requests", on_delete: :cascade
   add_foreign_key "account_recovery_requests", "candidates", on_delete: :cascade
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "adviser_sign_up_requests", "adviser_teaching_subjects", column: "teaching_subject_id"
+  add_foreign_key "adviser_sign_up_requests", "application_forms"
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
   add_foreign_key "application_choices", "course_options"
   add_foreign_key "application_feedback", "application_forms", on_delete: :cascade
   add_foreign_key "application_forms", "application_forms", column: "previous_application_form_id"
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "application_qualifications", "application_forms", on_delete: :cascade
+  add_foreign_key "candidate_location_preferences", "candidate_preferences", on_delete: :cascade
+  add_foreign_key "candidate_pool_provider_opt_ins", "providers", on_delete: :cascade
+  add_foreign_key "candidate_preferences", "candidates", on_delete: :cascade
   add_foreign_key "candidates", "fraud_matches"
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
@@ -930,6 +1096,14 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
   add_foreign_key "offer_conditions", "offers", on_delete: :cascade
   add_foreign_key "offers", "application_choices", on_delete: :cascade
   add_foreign_key "one_login_auths", "candidates", on_delete: :cascade
+  add_foreign_key "pool_dismissals", "candidates", on_delete: :cascade
+  add_foreign_key "pool_dismissals", "provider_users", column: "dismissed_by_id"
+  add_foreign_key "pool_dismissals", "providers", on_delete: :cascade
+  add_foreign_key "pool_eligible_application_forms", "application_forms", on_delete: :cascade
+  add_foreign_key "pool_invites", "candidates", on_delete: :cascade
+  add_foreign_key "pool_invites", "courses", on_delete: :cascade
+  add_foreign_key "pool_invites", "provider_users", column: "invited_by_id"
+  add_foreign_key "pool_invites", "providers", on_delete: :cascade
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
   add_foreign_key "provider_recruitment_performance_reports", "providers"
@@ -939,6 +1113,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_101639) do
   add_foreign_key "reference_tokens", "references", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "rejection_feedbacks", "application_choices", on_delete: :cascade
+  add_foreign_key "session_errors", "candidates", on_delete: :cascade
+  add_foreign_key "sessions", "candidates", on_delete: :cascade
   add_foreign_key "sites", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
+  add_foreign_key "withdrawal_reasons", "application_choices", on_delete: :cascade
 end

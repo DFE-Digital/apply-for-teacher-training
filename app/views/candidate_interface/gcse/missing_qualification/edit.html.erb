@@ -2,5 +2,5 @@
 <% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
 
   <%= form_with model: @gcse_missing_form, url: candidate_interface_gcse_edit_missing_path(@return_to[:params]), method: :patch do |f| %>
-    <%= render 'form', f: f %>
+    <%= render 'form', f: f, application_form: current_application %>
   <% end %>

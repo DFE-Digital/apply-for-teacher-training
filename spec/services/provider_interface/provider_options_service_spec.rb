@@ -36,7 +36,7 @@ RSpec.describe ProviderInterface::ProviderOptionsService do
 
     it 'does not return accredited providers with courses from recruitment cycles 2 years ago' do
       accredited_provider = create(:provider)
-      create(:course, provider: @providers[0], accredited_provider:, recruitment_cycle_year: CycleTimetable.current_year - 2)
+      create(:course, provider: @providers[0], accredited_provider:, recruitment_cycle_year: current_year - 2)
       expect(described_class.new(@provider_user).accredited_providers).not_to include(accredited_provider)
     end
   end
@@ -57,7 +57,7 @@ RSpec.describe ProviderInterface::ProviderOptionsService do
 
     it 'does not return providers with courses from recruitment cycles 2 years ago' do
       provider = create(:provider)
-      create(:course, provider:, accredited_provider: @providers[0], recruitment_cycle_year: CycleTimetable.current_year - 2)
+      create(:course, provider:, accredited_provider: @providers[0], recruitment_cycle_year: current_year - 2)
       expect(described_class.new(@provider_user).providers).not_to include(provider)
     end
 

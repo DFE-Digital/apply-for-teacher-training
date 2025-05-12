@@ -1,4 +1,10 @@
-## v1.5pre — 10th July 2024
+## v1.6 — 4th February 2025
+
+Minor Version Upgrade:
+
+Release API version `v1.6` to production. Please refer to the [API Reference](/api-docs/v1.6/reference) for details.
+
+## v1.5 — 10th July 2024
 
 Minor Version Upgrade:
 

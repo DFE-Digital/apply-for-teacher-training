@@ -1,6 +1,5 @@
 module CandidateInterface
   class Gcse::MissingQualificationController < Gcse::BaseController
-    include AdviserStatus
     include Gcse::ResolveGcseEditPathConcern
 
     def new
@@ -42,8 +41,7 @@ module CandidateInterface
 
     def qualification_missing_params
       strip_whitespace params
-        .require(:candidate_interface_gcse_missing_form)
-        .permit(:missing_explanation)
+        .expect(candidate_interface_gcse_missing_form: [:missing_explanation])
     end
 
     def set_back_link

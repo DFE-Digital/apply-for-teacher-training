@@ -19,7 +19,7 @@ RSpec.describe Publications::V1::MonthlyStatisticsPresenter do
     context 'when current cycle' do
       before do
         allow(report).to receive(:generation_date).and_return(
-          CycleTimetable.apply_opens.to_date,
+          current_timetable.apply_opens_at.to_date,
         )
       end
 

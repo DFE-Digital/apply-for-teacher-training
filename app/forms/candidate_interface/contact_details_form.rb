@@ -49,7 +49,7 @@ module CandidateInterface
         address_line2:,
         address_line3:,
         address_line4:,
-        postcode: postcode&.upcase,
+        postcode: postcode&.upcase&.strip,
       }
       attrs[:country] = 'GB' if uk?
       save(application_form, attrs)
@@ -110,7 +110,7 @@ module CandidateInterface
       attributes[:postcode] = nil if international?
 
       unless valid_for_submission?
-        attributes = attributes.merge(contact_details_completed: false)
+        attributes = attributes.merge(contact_details_completed: nil)
       end
       application_form.update(attributes)
     end

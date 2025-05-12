@@ -1,0 +1,7 @@
+<%# locals: (application_form_presenter:) %>
+<% if application_form_presenter.candidate_has_previously_applied? %>
+  <aside class="app-related" aria-labelledby="previous-applications-title">
+    <h2 class="govuk-heading-s" id="previous-applications-title"><%= t('section_groups.previous_applications') %></h2>
+    <%= render(CandidateInterface::LinksToPreviousApplicationsComponent.new(application_form: application_form_presenter.application_form)) %>
+  </aside>
+<% end %>

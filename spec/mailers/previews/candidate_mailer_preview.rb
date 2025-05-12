@@ -365,7 +365,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       :course_option,
       course: FactoryBot.build_stubbed(
         :course,
-        recruitment_cycle_year: RecruitmentCycle.previous_year,
+        recruitment_cycle_year: CycleTimetableHelper.previous_year,
       ),
     )
 
@@ -549,18 +549,32 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.apply_to_multiple_courses_after_30_working_days(application_form)
   end
 
+  def course_invite
+    application_form = FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      first_name: 'Fred',
+    )
+    candidate = FactoryBot.create(:candidate, application_forms: [application_form])
+    pool_invite = FactoryBot.create(
+      :pool_invite, candidate:, course: FactoryBot.build(:course, fee_domestic: 9535, fee_international: 15430)
+    )
+
+    CandidateMailer.course_invite(pool_invite)
+  end
+
+  def find_a_candidate_feature_launch_email
+    application_form = FactoryBot.create(
+      :application_form,
+      :minimum_info,
+    )
+    CandidateMailer.find_a_candidate_feature_launch_email(application_form)
+  end
+
 private
 
   def candidate
-    candidate = FactoryBot.build_stubbed(:candidate)
-
-    # This is not great. It's necessary because some of our mail templates
-    # generates and send a new magic link token to candidates.
-    def candidate.update!(*)
-      true
-    end
-
-    candidate
+    @candidate ||= FactoryBot.build_stubbed(:candidate)
   end
 
   def application_form

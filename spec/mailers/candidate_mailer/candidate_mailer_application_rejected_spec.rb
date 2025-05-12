@@ -165,7 +165,7 @@ RSpec.describe CandidateMailer do
       email = described_class.application_rejected(application_choice)
 
       expect(email.body).to have_no_text('Improve your personal statement') # heading not rendered when only one selection
-      expect(email.body).to have_text('A teacher training adviser can provide free support to help you improve your personal statement.').once
+      expect(email.body).to have_text('Get help').once
       expect(email.body).to have_text('Learn more about teacher training advisers').twice # In the footer as well as the advice
     end
 
@@ -392,6 +392,31 @@ RSpec.describe CandidateMailer do
     it 'only shows the free text between cycles', time: after_apply_deadline do
       expect(email.body).to have_content 'Text the provider has written'
       expect(email.body).to have_no_content 'There are still courses with placements available'
+    end
+  end
+
+  describe 'tailored teacher training adviser text for "assigned" adviser status' do
+    let(:application_form_with_adviser_eligibility) { create(:application_form_eligible_for_adviser, adviser_status: 'assigned') }
+    let(:application_choice) { create(:application_choice, :rejected, application_form: application_form_with_adviser_eligibility) }
+
+    subject(:email) { described_class.application_rejected(application_choice) }
+
+    it 'refers to existing adviser' do
+      expect(email.body).to have_content 'Your teacher training adviser can help you improve your application. They can support you with:'
+      expect(email.body).to have_content 'making your application stronger before you apply again'
+      expect(email.body).to have_content 'Contact your teacher training adviser to talk about your next steps.'
+    end
+  end
+
+  describe 'tailored teacher training adviser text for non-assigned adviser status' do
+    let(:application_choice) { create(:application_choice, :rejected) }
+
+    subject(:email) { described_class.application_rejected(application_choice) }
+
+    it 'refers to the process for getting an adviser' do
+      expect(email.body).to have_content 'A teacher training adviser can provide free support to help you improve your application. They can support you with:'
+      expect(email.body).to have_content 'All our advisers have years of teaching experience and know the application process inside and out.'
+      expect(email.body).to have_content 'Learn more about teacher training advisers'
     end
   end
 end

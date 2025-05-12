@@ -4,7 +4,7 @@ module CandidateInterface
     before_action :set_back_link
 
     def index
-      @recruitment_cycle_year = CycleTimetable.current_year
+      @recruitment_cycle_year = current_timetable.recruitment_cycle_year
     end
 
   private

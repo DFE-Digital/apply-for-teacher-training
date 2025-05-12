@@ -4,9 +4,8 @@ RSpec.describe 'Candidate entering GCSE details' do
   include CandidateHelper
 
   scenario 'Candidate submits their maths GCSE details and then update them' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
 
-    when_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
     then_i_see_the_add_gcse_maths_page
 
@@ -18,7 +17,11 @@ RSpec.describe 'Candidate entering GCSE details' do
     and_i_click_save_and_continue
     then_i_see_add_grade_page
 
-    when_i_fill_in_the_grade
+    when_i_visit_the_review_page
+    and_i_click_enter_your_grade
+    and_i_click_back
+    and_i_click_enter_your_grade
+    and_i_fill_in_the_grade
     and_i_click_save_and_continue
     then_i_see_add_year_page
 
@@ -46,7 +49,7 @@ RSpec.describe 'Candidate entering GCSE details' do
     then_i_see_the_review_page_with_updated_year
 
     when_i_mark_the_section_as_completed
-    and_click_continue
+    and_i_click_continue
     then_i_see_the_maths_gcse_is_completed
 
     when_i_click_on_the_english_gcse_link
@@ -56,12 +59,24 @@ RSpec.describe 'Candidate entering GCSE details' do
     and_i_click_save_and_continue
     then_i_see_add_english_grade_page
 
-    when_i_choose_to_return_later
+    when_i_fill_in_the_english_grade
+    and_i_click_save_and_continue
+    and_i_fill_in_the_year
+    and_i_click_save_and_continue
+    and_i_choose_to_return_later
     then_i_am_returned_to_the_application_form_details
   end
 
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
+  def when_i_visit_the_review_page
+    visit candidate_interface_gcse_review_path(subject: 'maths')
+  end
+
+  def and_i_click_enter_your_grade
+    click_link_or_button 'Enter your grade'
+  end
+
+  def and_i_click_back
+    click_link_or_button 'Back'
   end
 
   def and_i_click_on_the_maths_gcse_link
@@ -77,10 +92,6 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def when_i_do_not_select_any_gcse_option; end
-
-  def when_i_visit_the_candidate_application_page
-    visit root_path
-  end
 
   def then_i_see_the_add_gcse_maths_page
     expect(page).to have_content 'What type of qualification in maths do you have?'
@@ -106,13 +117,24 @@ RSpec.describe 'Candidate entering GCSE details' do
     expect(page).to have_content t('gcse_edit_year.page_title', subject: 'maths', qualification_type: 'GCSE')
   end
 
-  def when_i_fill_in_the_grade
+  def then_i_see_add_year_page_for_english
+    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'english', qualification_type: 'GCSE')
+  end
+
+  def and_i_fill_in_the_grade
     fill_in 'Grade', with: 'A'
+  end
+
+  def when_i_fill_in_the_english_grade
+    check 'English (Single award)'
+    fill_in 'candidate_interface_english_gcse_grade_form[grade_english_single]', with: 'A'
   end
 
   def when_i_fill_in_the_year
     fill_in 'Year', with: '1990'
   end
+
+  alias_method :and_i_fill_in_the_year, :when_i_fill_in_the_year
 
   def then_i_see_the_qualification_type_error
     expect(page).to have_content 'Select the type of qualification'
@@ -127,7 +149,7 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def and_i_see_the_gcse_grade_entered
-    expect(page).to have_css("input[value='A']")
+    expect(page).to have_no_css("input[value='A']")
   end
 
   def then_i_see_the_gcse_year_entered
@@ -162,13 +184,10 @@ RSpec.describe 'Candidate entering GCSE details' do
     expect(page).to have_css('#maths-gcse-or-equivalent-badge-id', text: 'Completed')
   end
 
-  def and_click_continue
+  def when_i_click_continue
     click_link_or_button t('continue')
   end
-
-  def when_i_click_continue
-    and_click_continue
-  end
+  alias_method :and_i_click_continue, :when_i_click_continue
 
   def when_i_click_on_the_english_gcse_link
     click_link_or_button 'English GCSE or equivalent'
@@ -185,8 +204,9 @@ RSpec.describe 'Candidate entering GCSE details' do
   def when_i_choose_to_return_later
     visit candidate_interface_gcse_review_path(subject: 'english')
     and_i_mark_the_section_as_incomplete
-    and_click_continue
+    and_i_click_continue
   end
+  alias_method :and_i_choose_to_return_later, :when_i_choose_to_return_later
 
   def and_i_mark_the_section_as_incomplete
     choose t('application_form.incomplete_radio')

@@ -4,7 +4,8 @@ RSpec.describe AcceptOffer do
   include CourseOptionHelpers
 
   before do
-    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
+    timetable = get_timetable(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    TestSuiteTimeMachine.travel_permanently_to(timetable.apply_opens_at)
   end
 
   describe '#valid?' do

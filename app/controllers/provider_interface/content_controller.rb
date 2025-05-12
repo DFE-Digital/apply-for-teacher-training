@@ -39,20 +39,7 @@ module ProviderInterface
     def service_guidance_provider; end
 
     def dates_and_deadlines
-      holidays = CycleTimetable.holidays.reduce({}) do |hols, (holiday, date_range)|
-        hols[holiday] = { begins: date_range.first, ends: date_range.last }
-        hols
-      end
-
-      next_years_holidays = CycleTimetable.holidays(CycleTimetable.next_year).reduce({}) do |hols, (holiday, date_range)|
-        hols[holiday] = { begins: date_range.first, ends: date_range.last }
-        hols
-      end
-
-      render_content_page :dates_and_deadlines,
-                          breadcrumb_title: 'service_guidance_provider',
-                          breadcrumb_path: provider_interface_service_guidance_path,
-                          locals: { holidays:, next_years_holidays: }
+      @timetables = [current_timetable, current_timetable.relative_next_timetable]
     end
 
     def roadmap

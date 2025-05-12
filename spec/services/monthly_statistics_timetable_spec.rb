@@ -2,26 +2,27 @@ require 'rails_helper'
 
 RSpec.describe MonthlyStatisticsTimetable do
   describe '#generate_monthly_statistics?' do
-    let(:report_months) { (1..12).to_a - [CycleTimetable.find_opens.to_date.month] }
+    let(:current_year) { current_timetable.recruitment_cycle_year }
+    let(:find_opens_month) { current_timetable.find_opens_at.to_date.month }
+    let(:report_months) { (1..12).to_a - [find_opens_month] }
 
     it 'returns true if the monthly report is scheduled to run on the current date' do
       report_months.each do |month|
-        travel_temporarily_to(described_class.third_monday_of_the_month(Date.new(RecruitmentCycle.current_year, month, 1))) do
+        travel_temporarily_to(described_class.third_monday_of_the_month(Date.new(current_year, month, 1))) do
           expect(described_class.generate_monthly_statistics?).to be true
         end
       end
     end
 
     it 'returns false if within the first month of the cycle opening' do
-      find_opens_month = CycleTimetable.find_opens.to_date.month
-      travel_temporarily_to(described_class.third_monday_of_the_month(Date.new(RecruitmentCycle.current_year, find_opens_month, 1))) do
+      travel_temporarily_to(described_class.third_monday_of_the_month(Date.new(current_year, find_opens_month, 1))) do
         expect(described_class.generate_monthly_statistics?).to be false
       end
     end
 
     it 'returns false if the monthly report is not scheduled to run on the current date' do
       report_months.each do |month|
-        travel_temporarily_to(RecruitmentCycle.current_year, month, 1) do
+        travel_temporarily_to(current_year, month, 1) do
           expect(described_class.generate_monthly_statistics?).to be false
         end
       end

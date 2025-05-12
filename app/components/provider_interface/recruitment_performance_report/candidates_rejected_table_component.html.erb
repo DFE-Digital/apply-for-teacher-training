@@ -6,10 +6,14 @@
 ) do %>
   <span>
     <p class="govuk-body">
-      <%= t('candidates_rejected_table_component.description_one', provider_name: @provider.name) %>
+      <%= t('.number_of_rejected_candidates', provider_name: @provider.name) %>
     </p>
     <p class="govuk-body">
-      <%= t('candidates_rejected_table_component.description_two', provider_name: @provider.name) %>
+      <%= t('.you_can_compare_the_data_to') %>
+    </p>
+    <%= govuk_list([t('.last_cycle'), t('.national_data')], type: :bullet) %>
+    <p class="govuk-body">
+      <%= t('.candidates_rejected_and_awaiting_decisions', provider_name: @provider.name) %>
     </p>
   </span>
 <% end %>

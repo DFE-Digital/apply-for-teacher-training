@@ -49,7 +49,7 @@ RSpec.describe SupportInterface::ApplicationsExport, :with_audited do
 
     it 'only returns application data from the current cycle when current_cycle is set to true' do
       create(:application_form, :minimum_info)
-      create(:application_form, :minimum_info, recruitment_cycle_year: RecruitmentCycle.previous_year)
+      create(:application_form, :minimum_info, recruitment_cycle_year: previous_year)
 
       expect(described_class.new.applications('current_cycle' => true).size).to eq(1)
     end

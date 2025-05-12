@@ -4,9 +4,8 @@ RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
   include CandidateHelper
 
   scenario 'Candidate submits their maths Non UK GCSE equivalency details and then updates them' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
 
-    when_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
     then_i_see_the_add_gcse_maths_page
 
@@ -50,19 +49,11 @@ RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
     then_i_see_the_review_page_with_correct_details
 
     when_i_mark_the_section_as_completed
-    and_click_continue
+    and_i_click_on_continue
     then_i_see_the_maths_gcse_is_completed
   end
 
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
-  end
-
   def given_i_am_not_signed_in; end
-
-  def when_i_visit_the_candidate_application_page
-    visit root_path
-  end
 
   def and_i_click_on_the_maths_gcse_link
     click_link_or_button 'Maths GCSE or equivalent'
@@ -174,7 +165,7 @@ RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
     expect(page).to have_css('#maths-gcse-or-equivalent-badge-id', text: 'Completed')
   end
 
-  def and_click_continue
+  def and_i_click_on_continue
     click_link_or_button t('continue')
   end
 end

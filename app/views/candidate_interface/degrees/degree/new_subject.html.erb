@@ -11,7 +11,7 @@
       form_field: f.govuk_select(
         :subject,
         options_for_select(dfe_autocomplete_options(@wizard.subjects), f.object.subject),
-        label: { text: t('application_form.degree.subject.label'), size: 'l' },
+        label: { text: t('application_form.degree.subject.label'), tag: 'h1', size: 'l' },
         hint: { text: t('application_form.degree.subject.hint') },
       ),
     ) %>

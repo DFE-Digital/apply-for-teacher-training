@@ -5,17 +5,13 @@ RSpec.describe 'Declare EFL qualification not required' do
   include EFLHelper
 
   scenario 'Candidate declares that English is not a foreign language to them' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_declare_a_non_english_speaking_nationality
     and_i_click_on_the_efl_section_link
 
     when_i_declare_that_english_is_not_foreign_to_me
     then_i_see_the_review_page
     and_i_can_complete_this_section
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def when_i_declare_that_english_is_not_foreign_to_me

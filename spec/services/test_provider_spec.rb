@@ -79,7 +79,7 @@ RSpec.describe TestProvider do
         courses = described_class.training_courses(previous_cycle)
 
         expect(courses.count).to be >= 3
-        expect(courses.pluck(:recruitment_cycle_year).uniq).to eq([RecruitmentCycle.previous_year])
+        expect(courses.pluck(:recruitment_cycle_year).uniq).to eq([previous_year])
         expect(courses.current_cycle).to be_empty
       end
     end

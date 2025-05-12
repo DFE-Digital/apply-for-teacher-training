@@ -20,7 +20,7 @@ RSpec.describe 'ApplicationPresenter' do
 
   describe 'Equality and diversity data' do
     context 'when it is a current cycle application' do
-      let(:recruitment_cycle_year) { RecruitmentCycle.current_year }
+      let(:recruitment_cycle_year) { current_year }
 
       it 'returns the 2023 HESA codes associated with that application' do
         equality_and_diversity_data = application_form[:equality_and_diversity]

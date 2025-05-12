@@ -88,7 +88,7 @@ RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid
           email: @current_candidate.email_address,
         },
         course: {
-          recruitment_cycle_year: RecruitmentCycle.current_year,
+          recruitment_cycle_year: current_year,
           provider_code: '1N1',
           site_code: '-',
           course_code: '2XT2',

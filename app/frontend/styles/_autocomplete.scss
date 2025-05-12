@@ -2,6 +2,8 @@
 .autocomplete__input,
 .autocomplete__hint {
   font-family: $govuk-font-family;
+
+  background-color: govuk-colour("white");
 }
 
 .govuk-form-group--error > .autocomplete__input {
@@ -16,4 +18,12 @@
   z-index: 0;
 
   pointer-events: none;
+}
+
+.location-autocomplete {
+  display: block;
+}
+
+.location-autocomplete-input .autocomplete__wrapper {
+ width: 50%;
 }

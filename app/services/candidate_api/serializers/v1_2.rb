@@ -22,7 +22,7 @@ module CandidateAPI
           .left_outer_joins(application_forms: { application_choices: %i[provider course interviews], application_references: [], application_qualifications: [] })
           .includes(application_forms: { application_choices: %i[provider course course_option interviews], application_qualifications: [], application_references: [] })
           .where('candidates.updated_at > :updated_since OR application_forms.updated_at > :updated_since OR application_choices.updated_at > :updated_since OR "references".updated_at > :updated_since OR application_qualifications.updated_at > :updated_since', updated_since:)
-          .where('application_forms.recruitment_cycle_year = ? OR candidates.created_at > ?', RecruitmentCycle.current_year, CycleTimetable.apply_deadline(RecruitmentCycle.previous_year))
+          .where('application_forms.recruitment_cycle_year = ? OR candidates.created_at > ?', current_timetable.recruitment_cycle_year, previous_timetable.apply_deadline_at)
           .order(id: :asc)
           .distinct
       end
@@ -31,11 +31,9 @@ module CandidateAPI
         Candidate
           .left_outer_joins(application_forms: { application_choices: %i[provider course interviews], application_references: [], application_qualifications: [] })
           .includes(application_forms: { application_choices: %i[provider course course_option interviews], application_qualifications: [], application_references: [] })
-          .where('application_forms.recruitment_cycle_year = ? OR candidates.created_at > ?', RecruitmentCycle.current_year, CycleTimetable.apply_deadline(RecruitmentCycle.previous_year))
+          .where('application_forms.recruitment_cycle_year = ? OR candidates.created_at > ?', current_timetable.recruitment_cycle_year, previous_timetable.apply_deadline_at)
           .find(candidate_id)
       end
-
-    private
 
       def serialize_application_choices(application_form)
         {

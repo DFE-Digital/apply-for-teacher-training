@@ -108,7 +108,8 @@ module StatisticsTestHelper
   def recruitment_cycle_year(year)
     return if year.blank?
 
-    RecruitmentCycle.public_send("#{year}_year")
+    # year is either current, previous or next, not an integer value
+    RecruitmentCycleTimetable.public_send("#{year}_year")
   end
 
   def primary_subjects
@@ -131,6 +132,6 @@ module StatisticsTestHelper
   def date_of_birth(years_ago:)
     return if years_ago.blank?
 
-    Date.new(RecruitmentCycle.current_year - years_ago, 1, 1)
+    Date.new(RecruitmentCycleTimetable.current_year - years_ago, 1, 1)
   end
 end

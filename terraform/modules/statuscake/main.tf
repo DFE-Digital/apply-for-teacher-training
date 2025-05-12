@@ -14,14 +14,14 @@ resource "statuscake_uptime_check" "alert" {
   check_interval = each.value.check_rate
   confirmation   = 2
   trigger_rate   = 0
-  regions        = [ "london", "dublin" ]
+  regions        = ["london", "dublin"]
   contact_groups = each.value.contact_group
 
   http_check {
     follow_redirects = true
     timeout          = 40
     request_method   = "HTTP"
-    status_codes     = [
+    status_codes = [
       "204",
       "205",
       "206",

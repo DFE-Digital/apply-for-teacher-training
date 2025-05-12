@@ -3,11 +3,11 @@ module Publications
     class StubbedReport
       attr_reader :data
 
-      def initialize
+      def initialize(publication_date: 1.day.ago, generation_date: 8.days.ago)
         @data = {
           meta: {
-            publication_date: 1.day.ago,
-            generation_date: 8.days.ago,
+            publication_date:,
+            generation_date:,
             period: 'From 2 October 2023 to 12 November 2023',
             cycle_week: 2,
           },

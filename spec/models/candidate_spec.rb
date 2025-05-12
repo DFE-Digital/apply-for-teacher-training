@@ -8,8 +8,18 @@ RSpec.describe Candidate do
   describe 'associations' do
     it { is_expected.to have_many(:application_forms) }
     it { is_expected.to have_many(:degree_qualifications).through(:application_forms) }
+    it { is_expected.to have_many(:sessions) }
+    it { is_expected.to have_many(:session_errors) }
+    it { is_expected.to have_many(:pool_dismissals).dependent(:destroy) }
+    it { is_expected.to have_many(:pool_invites).dependent(:destroy) }
+    it { is_expected.to have_many(:preferences).dependent(:destroy) }
+    it { is_expected.to have_many(:published_preferences).conditions(status: 'published').dependent(:destroy) }
     it { is_expected.to have_one(:one_login_auth).dependent(:destroy) }
     it { is_expected.to have_one(:account_recovery_request).dependent(:destroy) }
+  end
+
+  describe 'delegations' do
+    it { is_expected.to delegate_method(:previous_account_email_address).to(:account_recovery_request).allow_nil }
   end
 
   describe 'a valid candidate' do
@@ -43,9 +53,9 @@ RSpec.describe Candidate do
 
       it 'does not touch the application choice when its in a previous recruitment cycle' do
         candidate = create(:candidate)
-        application_choice = create(:application_choice, current_recruitment_cycle_year: RecruitmentCycle.previous_year)
+        application_choice = create(:application_choice, current_recruitment_cycle_year: previous_year)
         application_form = ApplicationForm.with_unsafe_application_choice_touches do
-          create(:completed_application_form, application_choices: [application_choice], candidate:, recruitment_cycle_year: RecruitmentCycle.previous_year)
+          create(:completed_application_form, application_choices: [application_choice], candidate:, recruitment_cycle_year: previous_year)
         end
 
         expect { candidate.update(email_address: 'new.email@example.com') }
@@ -73,7 +83,7 @@ RSpec.describe Candidate do
       it 'does not touch the application form when its in a previous recruitment cycle' do
         candidate = create(:candidate)
         application_form = ApplicationForm.with_unsafe_application_choice_touches do
-          create(:completed_application_form, application_choices_count: 1, candidate:, recruitment_cycle_year: RecruitmentCycle.previous_year)
+          create(:completed_application_form, application_choices_count: 1, candidate:, recruitment_cycle_year: previous_year)
         end
 
         expect { candidate.update(email_address: 'new.email@example.com') }
@@ -92,6 +102,8 @@ RSpec.describe Candidate do
       application_work_history_break = create(:application_work_history_break, breakable: application_form)
       application_qualification = create(:application_qualification, application_form:)
       application_reference = create(:reference, application_form:)
+      preference = create(:candidate_preference, candidate:)
+      location_preference = create(:candidate_location_preference, candidate_preference: preference)
 
       candidate.delete
 
@@ -103,19 +115,49 @@ RSpec.describe Candidate do
       expect { application_work_history_break.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { application_qualification.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { application_reference.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { preference.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { location_preference.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
+  describe '.for_email' do
+    it 'returns a candidate with the given email address' do
+      candidate = create(:candidate, email_address: 'candidate@email.address')
+
+      expect(described_class.for_email('candidate@email.address')).to eq(candidate)
+    end
+
+    context 'when the email address is not an email address' do
+      it 'returns a new candidate with the email address' do
+        candidate = described_class.for_email('not_an_email')
+        expect(candidate).to be_new_record
+        expect(candidate.email_address).to eq('not_an_email')
+      end
+    end
+
+    context 'when the email address matches a OneLoginAuth' do
+      it 'returns the candidate' do
+        candidate = create(:candidate, email_address: 'candidate@email.address')
+        _one_login_auth = create(:one_login_auth, email_address: 'one_login@email.address', candidate:)
+
+        expect(described_class.for_email('one_login@email.address')).to eq(candidate)
+      end
+    end
+
+    context 'when the email address matches a Candidate which has a different OneLoginAuth email address' do
+      it 'returns the candidate' do
+        candidate = create(:candidate, email_address: 'candidate@email.address')
+        _one_login_auth = create(:one_login_auth, email_address: 'one_login@email.address', candidate: candidate)
+
+        expect(described_class.for_email('candidate@email.address')).to eq(candidate)
+      end
     end
   end
 
   describe '#current_application' do
     let(:candidate) { create(:candidate) }
 
-    context 'mid cycle' do
-      around do |example|
-        travel_temporarily_to(CycleTimetable.find_opens + 1.day) do
-          example.run
-        end
-      end
-
+    context 'mid cycle', time: mid_cycle do
       it 'returns an existing application_form' do
         application_form = create(:application_form, candidate:)
 
@@ -124,7 +166,7 @@ RSpec.describe Candidate do
 
       it 'creates an application_form with the current cycle if there are none' do
         expect { candidate.current_application }.to change { candidate.application_forms.count }.from(0).to(1)
-        expect(candidate.current_application.recruitment_cycle_year).to eq CycleTimetable.current_year
+        expect(candidate.current_application.recruitment_cycle_year).to eq current_year
       end
 
       it 'returns the most recent application' do
@@ -135,13 +177,7 @@ RSpec.describe Candidate do
       end
     end
 
-    context 'after the apply deadline' do
-      around do |example|
-        travel_temporarily_to(CycleTimetable.apply_deadline + 1.day) do
-          example.run
-        end
-      end
-
+    context 'after the apply deadline', time: after_apply_deadline do
       it 'returns an existing application_form' do
         application_form = create(:application_form, candidate:)
 
@@ -150,7 +186,7 @@ RSpec.describe Candidate do
 
       it 'creates an application_form in the next cycle if there are none' do
         expect { candidate.current_application }.to change { candidate.application_forms.count }.from(0).to(1)
-        expect(candidate.current_application.recruitment_cycle_year).to eq CycleTimetable.next_year
+        expect(candidate.current_application.recruitment_cycle_year).to eq next_year
       end
     end
   end
@@ -225,7 +261,7 @@ RSpec.describe Candidate do
     end
 
     context 'when the candidate has applications in apply again in previous cycle' do
-      let!(:application_form_previous_year) { create(:application_form, candidate:, phase: 'apply_2', recruitment_cycle_year: RecruitmentCycle.previous_year) }
+      let!(:application_form_previous_year) { create(:application_form, candidate:, phase: 'apply_2', recruitment_cycle_year: previous_year) }
       let!(:application_form) { create(:application_form, candidate:) }
 
       it 'returns true' do
@@ -288,6 +324,148 @@ RSpec.describe Candidate do
 
       it 'excludes blocked, locked and unsubscribed emails' do
         expect(described_class.for_marketing_or_nudge_emails).to contain_exactly(free_to_email)
+      end
+    end
+  end
+
+  describe '#recoverable?' do
+    let(:candidate) { create(:candidate) }
+    let(:application_form) { create(:application_form, candidate:) }
+
+    it 'returns false if one login bypass' do
+      expect(candidate.recoverable?).to be_falsey
+    end
+
+    it 'returns false if one login feature flag is not enabled' do
+      FeatureFlag.deactivate(:one_login_candidate_sign_in)
+
+      expect(candidate.recoverable?).to be_falsey
+    end
+
+    it 'returns false if candidate has not got a one login auth' do
+      FeatureFlag.activate(:one_login_candidate_sign_in)
+      allow(OneLogin).to receive(:bypass?).and_return(false)
+
+      expect(candidate.recoverable?).to be_falsey
+    end
+
+    context 'when candidate dismissed the banner' do
+      let(:candidate) { create(:candidate, account_recovery_status: :dismissed) }
+
+      it 'returns false' do
+        FeatureFlag.activate(:one_login_candidate_sign_in)
+        allow(OneLogin).to receive(:bypass?).and_return(false)
+
+        expect(candidate.recoverable?).to be_falsey
+      end
+    end
+
+    context 'when candidate recovered their account' do
+      let(:candidate) { create(:candidate, account_recovery_status: :recovered) }
+
+      it 'returns false' do
+        FeatureFlag.activate(:one_login_candidate_sign_in)
+        allow(OneLogin).to receive(:bypass?).and_return(false)
+
+        expect(candidate.recoverable?).to be_falsey
+      end
+    end
+
+    context 'when candidate has submitted applications choices' do
+      let(:candidate) { create(:candidate, account_recovery_status: :not_started) }
+
+      it 'returns false' do
+        FeatureFlag.activate(:one_login_candidate_sign_in)
+        allow(OneLogin).to receive(:bypass?).and_return(false)
+        create(:application_form, :with_accepted_offer, candidate:)
+
+        expect(candidate.recoverable?).to be_falsey
+      end
+    end
+
+    context 'when candidate does not have submitted application choices' do
+      let(:candidate) do
+        create(
+          :candidate,
+          :with_live_session,
+          account_recovery_status: :not_started,
+        )
+      end
+
+      it 'returns true' do
+        FeatureFlag.activate(:one_login_candidate_sign_in)
+        allow(OneLogin).to receive(:bypass?).and_return(false)
+
+        expect(candidate.recoverable?).to be_truthy
+      end
+    end
+  end
+
+  describe '#one_login_connected?' do
+    let(:candidate) { create(:candidate) }
+
+    context 'when the candidate has a OneLoginAuth record' do
+      before { create(:one_login_auth, candidate:) }
+
+      it 'returns true' do
+        expect(candidate.one_login_connected?).to be true
+      end
+    end
+
+    context 'when the candidate does not have a OneLoginAuth record' do
+      it 'returns false' do
+        expect(candidate.one_login_connected?).to be false
+      end
+    end
+  end
+
+  describe '#redacted_full_name_current_cycle' do
+    it 'returns the redacted full_name from the application form in current cycle' do
+      candidate = create(:candidate)
+      _current_cycle_form = create(
+        :application_form,
+        :completed,
+        candidate:,
+        first_name: 'test',
+        last_name: 'test',
+      )
+
+      _last_cycle_form = create(
+        :application_form,
+        :completed,
+        recruitment_cycle_year: previous_year,
+        candidate:,
+        first_name: 'last',
+        last_name: 'cycle',
+      )
+
+      expect(candidate.redacted_full_name_current_cycle).to eq('t***** t*****')
+    end
+  end
+
+  describe '#preference_opt_in_with_no_location_preferences?' do
+    context 'with published_preferences' do
+      it 'returs true if the candidate has no location preferences' do
+        candidate = create(:candidate)
+        create(:candidate_preference, candidate:)
+
+        expect(candidate.preference_opt_in_with_no_location_preferences?).to be true
+      end
+
+      it 'returs false if the candidate has location preferences' do
+        candidate = create(:candidate)
+        candidate_preference = create(:candidate_preference, candidate:)
+        create(:candidate_location_preference, candidate_preference:)
+
+        expect(candidate.preference_opt_in_with_no_location_preferences?).to be false
+      end
+    end
+
+    context 'with no published_preferences' do
+      it 'returs true' do
+        candidate = create(:candidate)
+
+        expect(candidate.preference_opt_in_with_no_location_preferences?).to be true
       end
     end
   end

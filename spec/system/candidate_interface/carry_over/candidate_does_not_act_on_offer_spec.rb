@@ -70,15 +70,15 @@ private
 
   def given_i_have_an_offer
     @choice_with_offer = create(:application_choice, :offered, candidate: @candidate)
+    @application_form = @choice_with_offer.application_form
   end
   alias_method :i_have_an_offer, :given_i_have_an_offer
 
   def given_i_have_an_offer_and_unsuccessful_applications
     i_have_an_offer
-    application_form = @choice_with_offer.application_form
-    create(:application_choice, :rejected, application_form:)
-    create(:application_choice, :withdrawn, application_form:)
-    create(:application_choice, :unsubmitted, application_form:)
+    create(:application_choice, :rejected, application_form: @application_form)
+    create(:application_choice, :withdrawn, application_form: @application_form)
+    create(:application_choice, :unsubmitted, application_form: @application_form)
   end
 
   def and_the_apply_deadline_has_passed
@@ -136,7 +136,7 @@ private
   alias_method :and_the_decline_by_default_date_has_passed, :when_the_decline_by_default_date_has_passed
 
   def when_then_new_cycle_start
-    advance_time_to(after_find_opens(RecruitmentCycle.next_year))
+    advance_time_to(after_find_opens(next_year))
   end
 
   def then_i_see_my_declined_application_on_the_carry_over_page
@@ -152,9 +152,10 @@ private
 
   def then_i_cannot_carry_over_my_application
     expect(page).to have_current_path candidate_interface_application_choices_path
-    apply_reopens_date = I18n.l(CycleTimetable.apply_reopens.to_date, format: :no_year).strip
+    relative_next_timetable = @application_form.recruitment_cycle_timetable.relative_next_timetable
+    apply_reopens_date = relative_next_timetable.apply_opens_at.to_fs(:day_and_month)
     expect(page).to have_content(
-      "If your application(s) are not successful, or you do not accept any offers, you will be able to apply for courses starting in the #{CycleTimetable.cycle_year_range(RecruitmentCycle.next_year)} academic year from #{apply_reopens_date}.",
+      "If your application(s) are not successful, or you do not accept any offers, you will be able to apply for courses starting in the #{relative_next_timetable.academic_year_range_name} academic year from #{apply_reopens_date}.",
     )
   end
   alias_method :and_i_cannot_carry_over_my_application, :then_i_cannot_carry_over_my_application

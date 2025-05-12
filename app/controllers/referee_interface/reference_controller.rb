@@ -124,10 +124,8 @@ module RefereeInterface
       if @refuse_feedback_form.save(reference)
         if @reference.refused
           redirect_to referee_interface_decline_reference_path(token: @token_param)
-        elsif FeatureFlag.active?(:show_reference_confidentiality_status)
-          redirect_to referee_interface_confidentiality_path(token: @token_param, from: 'refuse')
         else
-          redirect_to referee_interface_reference_relationship_path(token: @token_param, from: 'refuse')
+          redirect_to referee_interface_confidentiality_path(token: @token_param, from: 'refuse')
         end
       end
     end
@@ -151,7 +149,6 @@ module RefereeInterface
 
     def finish
       @reference_cancelled = reference.cancelled?
-      @application_form = reference.application_form
     end
 
     def confirm_decline
@@ -227,17 +224,17 @@ module RefereeInterface
     end
 
     def questionnaire_params
-      params.require(:referee_interface_questionnaire_form).permit(*QuestionnaireForm::FORM_KEYS)
+      params.expect(referee_interface_questionnaire_form: [*QuestionnaireForm::FORM_KEYS])
     end
 
     def relationship_params
-      params.require(:referee_interface_reference_relationship_form)
-            .permit(:relationship_correction, :relationship_confirmation)
+      params
+            .expect(referee_interface_reference_relationship_form: %i[relationship_correction relationship_confirmation])
     end
 
     def safeguarding_params
-      params.require(:referee_interface_reference_safeguarding_form)
-            .permit(:any_safeguarding_concerns, :safeguarding_concerns)
+      params
+            .expect(referee_interface_reference_safeguarding_form: %i[any_safeguarding_concerns safeguarding_concerns])
     end
 
     def refused_params

@@ -4,7 +4,7 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
   include CourseOptionHelpers
 
   scenario 'Candidate views an offer and accepts', time: mid_cycle do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_today_is_the_last_day_of_the_cycle
     and_i_have_2_offers_on_my_choices
     and_1_choice_that_is_awaiting_provider_decision
@@ -115,14 +115,8 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
     then_i_see_the_new_dashboard_content
   end
 
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def and_i_sign_in
-    login_as(@candidate)
-    visit root_path
+    given_i_am_signed_in_with_one_login
   end
 
   def and_i_have_2_offers_on_my_choices
@@ -130,7 +124,7 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
       :completed_application_form,
       first_name: 'Harry',
       last_name: 'Potter',
-      candidate: @candidate,
+      candidate: @current_candidate,
       submitted_at: Time.zone.now,
       support_reference: '123A',
     )
@@ -165,13 +159,13 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
 
   def and_today_is_the_last_day_of_the_cycle
     TestSuiteTimeMachine.travel_permanently_to(
-      CycleTimetable.reject_by_default - 1.day,
+      after_find_closes - 1.day,
     )
   end
 
   def and_today_is_after_apply_deadline
     TestSuiteTimeMachine.travel_permanently_to(
-      CycleTimetable.apply_deadline + 1.day,
+      after_apply_deadline,
     )
   end
 
@@ -456,7 +450,7 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
   end
 
   def and_the_candidate_has_received_an_email
-    open_email(@candidate.email_address)
+    open_email(@current_candidate.email_address)
     expect(current_email.subject).to have_content "You have accepted #{@course_option.course.provider.name}’s offer to study #{@course_option.course.name_and_code}"
   end
 
@@ -495,7 +489,7 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
   end
 
   def and_i_view_my_application
-    visit candidate_interface_application_complete_path
+    visit candidate_interface_application_choices_path
   end
 
   def then_i_see_the_new_dashboard_content
@@ -503,11 +497,11 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
   end
 
   def and_i_see_your_application_menu_item_as_active
-    expect(page).to have_css('.govuk-link.app-primary-navigation__link[aria-current=page]', text: 'Your application')
+    expect(page).to have_css('.govuk-service-navigation__link', text: 'Your application')
   end
 
   def and_i_see_your_offer_menu_item_as_active
-    expect(page).to have_css('.govuk-link.app-primary-navigation__link[aria-current=page]', text: 'Your offer')
+    expect(page).to have_css('.govuk-service-navigation__link', text: 'Your offer')
   end
 
   def when_i_click_to_view_my_application

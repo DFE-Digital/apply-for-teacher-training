@@ -37,7 +37,7 @@ CURRENT_CYCLE_DATES = {
     reject_by_default: Time.zone.local(2026, 9, 24, 23, 59, 59), # CONFIRMED
     find_closes: Time.zone.local(2026, 9, 30, 23, 59, 59), # CONFIRMED
     holidays: {
-      christmas: Date.new(2026, 12, 18)..Date.new(2026, 1, 5), # TBD
+      christmas: Date.new(2025, 12, 18)..Date.new(2026, 1, 5), # TBD
       easter: Date.new(2026, 3, 23)..Date.new(2026, 4, 6), # TBD
     },
   },
@@ -55,7 +55,7 @@ FUTURE_TENTATIVE_DATES = {
     find_closes: Time.zone.local(2027, 9, 30, 23, 59, 59), # TBD
     holidays: {
       christmas: Date.new(2026, 12, 18)..Date.new(2027, 1, 5), # TBD
-      easter: Date.new(2026, 3, 15)..Date.new(2027, 3, 29), # TBD
+      easter: Date.new(2027, 3, 15)..Date.new(2027, 3, 29), # TBD
     },
   },
 }.freeze
@@ -79,7 +79,7 @@ OLDER_CYCLE_DATES = {
     apply_1_deadline: Time.zone.local(2020, 8, 24, 18),
     apply_2_deadline: Time.zone.local(2020, 9, 18, 18),
     apply_deadline: Time.zone.local(2020, 9, 18, 18), # Adding an 'apply_deadline' for backward compatibility.
-    reject_by_default: Time.zone.local(2021, 9, 29, 23, 59, 59),
+    reject_by_default: Time.zone.local(2020, 9, 29, 23, 59, 59),
     find_closes: Time.zone.local(2020, 10, 3, 23, 59, 59),
     holidays: {},
   },

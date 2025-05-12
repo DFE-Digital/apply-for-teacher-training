@@ -1,0 +1,124 @@
+en:
+  activemodel:
+    errors:
+      models:
+        candidate_interface/withdrawal_reasons/level_one_reasons_form:
+          attributes:
+            level_one_reason:
+              blank: Select a reason for withdrawing this application
+            comment:
+              blank: Enter details to explain the reason for withdrawing
+              too_many_words: Details must be %{maximum} words or fewer
+        candidate_interface/withdrawal_reasons/level_two_reasons_form:
+          attributes:
+            personal_circumstances_reasons_comment:
+              blank: Enter details about the change to your personal circumstances
+              too_many_words: Details must be %{maximum} words or fewer
+            personal_circumstances_reasons:
+              blank: Select a reason why your personal circumstances have changed
+            level_two_reasons:
+              blank_applying_to_another_provider: Select a reason for applying to another training provider
+              blank_change_or_update_application_with_this_provider: Select a reason for changing or updating your application with this training provider
+              blank_apply_in_the_future: Select a reason for applying for teacher training in the future
+              blank_do_not_want_to_train_anymore: Select a reason for not wanting to train to teach anymore
+            comment:
+              blank: Enter details to explain the reason for withdrawing
+              too_many_words: Details must be %{maximum} words or fewer
+
+  candidate_interface:
+    withdrawal_reasons:
+      success_message: You have withdrawn your application to %{provider_name}
+      level_one_reason_title: Why are you withdrawing this application?
+      select_all_that_apply: Select all that apply
+      personal_circumstances_legend: Details about the change to your personal circumstances
+      reasons:
+        applying_to_another_provider:
+          level_two_reasons_title: Why are you applying to another training provider?
+          label: I am going to apply (or have applied) to a different training provider
+          accepted_another_offer:
+            label: I have accepted another offer
+          seen_a_course_that_suits_me_better:
+            label: I have seen a course that suits me better
+          provider_has_not_replied_to_me:
+            label: The training provider has not replied to me
+          location_is_too_far_away:
+            label: The location I’m expected to train at is too far away
+          personal_circumstances_have_changed:
+            label: My personal circumstances have changed
+            concerns_about_cost_of_doing_course:
+              label: I have concerns about the cost of doing the course
+            concerns_about_having_enough_time_to_train:
+              label: I have concerns that I will not have time to train
+            concerns_about_training_with_a_disability_or_health_condition:
+              label: I have concerns about training with a disability or health condition
+            other:
+              label: Other
+              comment:
+                label: Details
+          course_no_longer_available:
+            label: The course is not available anymore
+          other:
+            label: Other
+            comment:
+              label: Details
+        change_or_update_application_with_this_provider:
+          label: I am going to change or update my application with this training provider
+          level_two_reasons_title: Why are you changing or updating your application with this training provider?
+          update_my_application_correct_an_error_or_add_information:
+            label: I want to update my application, for example correct an error or add information
+          change_study_pattern:
+            label: I want to change my study pattern, for example from full time to part time
+          apply_for_a_different_subject_with_the_same_provider:
+            label: I want to apply for a different subject with the same provider
+          other:
+            label: Other
+            comment:
+              label: Details
+        apply_in_the_future:
+          label: I plan to apply for teacher training in the future
+          level_two_reasons_title: Why are you planning to apply for teacher training in the future?
+          personal_circumstances_have_changed:
+            label: My personal circumstances have changed
+            concerns_about_cost_of_doing_course:
+              label: I have concerns about the cost of doing the course
+            concerns_about_having_enough_time_to_train:
+              label: I have concerns that I will not have time to train
+            concerns_about_training_with_a_disability_or_health_condition:
+              label: I have concerns about training with a disability or health condition
+            other:
+              label: Other
+              comment:
+                label: Details
+          gain_more_experience:
+            label: I want to get more experience before I apply again
+          improve_qualifications:
+            label: I want to improve my qualifications before I apply again
+          other:
+            label: Other
+            comment:
+              label: Details
+        do_not_want_to_train_anymore:
+          label: I do not want to train to teach anymore
+          level_two_reasons_title: Why do you not want to train to teach anymore?
+          personal_circumstances_have_changed:
+            label: My personal circumstances have changed
+            concerns_about_cost_of_doing_course:
+              label: I have concerns about the cost of doing the course
+            concerns_about_having_enough_time_to_train:
+              label: I have concerns that I will not have time to train
+            concerns_about_training_with_a_disability_or_health_condition:
+              label: I have concerns about training with a disability or health condition
+            other:
+              label: Other
+              comment:
+                label: Details
+          another_career_path_or_accepted_a_job_offer:
+            label: I have decided on another career path or I have accepted a job offer
+          other:
+            label: Other
+            comment:
+              label: Details
+        other:
+          label: Other
+          comment:
+            label: Details

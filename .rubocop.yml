@@ -1,9 +1,8 @@
-require:
-  - rubocop-rails
-  - rubocop-rake
-  - rubocop-rspec
+plugins:
   - rubocop-capybara
   - rubocop-factory_bot
+
+require:
   - ./lib/rubocop/cop/rspec/no_should_in_specs.rb
   - ./lib/rubocop/cop/application_api_controller.rb
   - ./lib/rubocop/cop/govuk/govuk_button_to.rb
@@ -86,6 +85,15 @@ Rails/FindEach:
 
 Rails/WhereRange:
   Enabled: false
+
+Rails/StrongParametersExpect:
+  Enabled: true
+  Exclude:
+    - app/controllers/vendor_api/confirm_deferred_offers_controller.rb
+    - app/controllers/vendor_api/decisions_controller.rb
+    - app/controllers/vendor_api/interviews_controller.rb
+    - app/controllers/vendor_api/notes_controller.rb
+    - app/controllers/candidate_interface/other_qualifications/details_controller.rb
 
 Rails/CreateTableWithTimestamps:
   Exclude:

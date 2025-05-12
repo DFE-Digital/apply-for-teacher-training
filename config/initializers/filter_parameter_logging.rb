@@ -29,6 +29,7 @@ SANITIZED_REQUEST_PARAMS = %i[
   certificate
   otp
   ssn
+  code
 ].freeze
 
 MAILER_SANITIZED_PARAMS = %w[

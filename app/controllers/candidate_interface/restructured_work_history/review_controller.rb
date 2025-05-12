@@ -12,7 +12,11 @@ module CandidateInterface
       @return_to = return_to_after_edit(default: candidate_interface_details_path)
 
       if @section_complete_form.save(current_application, :work_history_completed)
-        redirect_to_candidate_root
+        if current_application.meets_conditions_for_adviser_interruption? && @section_complete_form.completed?
+          redirect_to candidate_interface_adviser_sign_ups_interruption_path
+        else
+          redirect_to_candidate_root
+        end
       else
         track_validation_error(@section_complete_form)
         render :show

@@ -4,15 +4,11 @@ RSpec.describe 'Trying to enter work history' do
   include CandidateHelper
 
   scenario 'Candidate does see Add job or Add another job buttons' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_completed_work_history
     and_i_have_a_submitted_application
     when_i_view_work_history
     then_i_do_see_an_option_to_add_another_job
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_i_have_completed_work_history
@@ -32,7 +28,7 @@ RSpec.describe 'Trying to enter work history' do
   end
 
   def then_i_do_see_an_option_to_add_another_job
-    expect(page).to have_content 'Work history'
+    expect(page).to have_content 'Check your work history'
     expect(page).to have_content 'Add another job'
   end
 end

@@ -4,7 +4,7 @@ RSpec.describe 'CandidateInterface ApplicationChoice index' do
   include CandidateHelper
 
   scenario 'Application rejected with rejection_reasons is visible' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_a_rejected_application
     when_i_visit_my_applications
     and_i_click_to_view_my_application
@@ -12,12 +12,8 @@ RSpec.describe 'CandidateInterface ApplicationChoice index' do
     and_i_see_the_rejection_feedback_form
   end
 
-  def given_i_am_signed_in
-    login_as(@candidate = create(:candidate))
-  end
-
   def and_i_have_a_rejected_application
-    @application_choice = create(:application_choice, :rejected_reasons, application_form: create(:application_form, candidate: @candidate))
+    @application_choice = create(:application_choice, :rejected_reasons, application_form: create(:application_form, candidate: @current_candidate))
   end
 
   def then_i_see_my_application_shows_the_application_rejection_reason

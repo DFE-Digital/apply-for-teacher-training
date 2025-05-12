@@ -9,7 +9,7 @@
               <span class="govuk-visually-hidden"> <%= application_choice.current_course.name_and_code %></span>
             <% end %>
           <% elsif withdrawable?(application_choice) %>
-            <%= govuk_link_to candidate_interface_withdraw_path(application_choice.id), data: { action: :withdraw } do %>
+            <%= govuk_link_to candidate_interface_withdrawal_reasons_level_one_reason_new_path(application_choice), data: { action: :withdraw } do %>
               <%= t('application_form.courses.withdraw') %>
               <span class="govuk-visually-hidden"> <%= application_choice.current_course.name_and_code %></span>
             <% end %>

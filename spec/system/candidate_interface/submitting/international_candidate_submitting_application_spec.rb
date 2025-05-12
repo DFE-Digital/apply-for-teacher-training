@@ -4,8 +4,12 @@ RSpec.describe 'International candidate submits the application' do
   include CandidateHelper
   include EFLHelper
 
+  before do
+    FeatureFlag.activate(:candidate_preferences)
+  end
+
   it 'International candidate completes and submits an application' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
 
     when_i_have_completed_everything_except_the_efl_and_other_qualifications_section
     when_i_review_my_details
@@ -27,10 +31,6 @@ RSpec.describe 'International candidate submits the application' do
     when_i_submit_my_application
 
     then_i_can_see_my_application_has_been_successfully_submitted
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def when_i_submit_my_application
@@ -138,7 +138,7 @@ RSpec.describe 'International candidate submits the application' do
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted
-    expect(page).to have_current_path candidate_interface_application_choices_path
+    expect(page).to have_current_path candidate_interface_share_details_path(submit_application: true)
     expect(page).to have_content 'Application submitted'
   end
 

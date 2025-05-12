@@ -1,4 +1,5 @@
 require "active_support/core_ext/integer/time"
+require Rails.root.join('app/lib/custom_log_formatter')
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -61,13 +62,14 @@ Rails.application.configure do
                                        .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
   config.log_format = :json                               # For parsing in Logit
   config.rails_semantic_logger.add_file_appender = false  # Don't log to file
-  config.active_record.logger = nil                       # Don't log SQL
-  config.rails_semantic_logger.format = :json
+  config.rails_semantic_logger.format = CustomLogFormatter.new
   config.semantic_logger.add_appender(
     io: $stdout,
     level: config.log_level,
-    formatter: config.rails_semantic_logger.format,
-    )
+    formatter: CustomLogFormatter.new
+  )
+  
+  config.active_record.logger = nil                       # Don't log SQL
 
   # Change to "debug" to log everything (including potentially personally-identifiable information!)
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")

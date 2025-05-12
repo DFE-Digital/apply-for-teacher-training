@@ -31,7 +31,7 @@ module DataMigrations
 
         begin
           all_courses_from_publish = TeacherTrainingPublicAPI::Course.where(
-            year: RecruitmentCycle.current_year,
+            year: current_year,
             provider_code: provider.code,
           ).paginate(per_page: 500)
         rescue StandardError
@@ -45,13 +45,17 @@ module DataMigrations
       uuids.compact.flatten
     end
 
-    def providers(recruitment_cycle_year: RecruitmentCycle.current_year)
+    def providers(recruitment_cycle_year: current_year)
       scope = Provider
       .joins(:courses)
       .where(courses: { recruitment_cycle_year: })
       .distinct
       scope = scope.limit(@limit) if @limit.present?
       scope
+    end
+
+    def current_year
+      @current_year ||= RecruitmentCycleTimetable.current_year
     end
   end
 end

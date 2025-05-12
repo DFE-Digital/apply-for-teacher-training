@@ -1,4 +1,26 @@
 shared:
+  pool_eligible_application_forms:
+    - id
+    - application_form_id
+    - created_at
+    - updated_at
+  candidate_preferences:
+    - id
+    - pool_status
+    - status
+    - dynamic_location_preferences
+    - candidate_id
+    - created_at
+    - updated_at
+  candidate_location_preferences:
+    - id
+    - name
+    - within
+    - latitude
+    - longitude
+    - candidate_preference_id
+    - created_at
+    - updated_at
   candidates:
     - account_recovery_status
     - candidate_api_updated_at
@@ -10,11 +32,29 @@ shared:
     - magic_link_token_sent_at
     - sign_up_email_bounced
     - updated_at
+    - email_address
+  pool_invites:
+    - id
+    - candidate_id
+    - provider_id
+    - invited_by_id
+    - course_id
+    - status
+    - created_at
+    - updated_at
+  pool_dismissals:
+    - id
+    - candidate_id
+    - provider_id
+    - dismissed_by_id
+    - created_at
+    - updated_at
   one_login_auths:
     - id
     - candidate_id
     - created_at
     - updated_at
+    - email_address
   account_recovery_request_codes:
     - id
     - account_recovery_request_id
@@ -23,6 +63,21 @@ shared:
   account_recovery_requests:
     - id
     - candidate_id
+    - created_at
+    - updated_at
+  :adviser_teaching_subjects:
+    - id
+    - title
+    - external_identifier
+    - level
+    - created_at
+    - updated_at
+    - discarded_at
+  :adviser_sign_up_requests:
+    - id
+    - application_form_id
+    - teaching_subject_id
+    - sent_to_adviser_at
     - created_at
     - updated_at
   application_choices:
@@ -91,7 +146,11 @@ shared:
     - path
     - updated_at
   application_forms:
+    - phone_number
+    - first_name
+    - last_name
     - adviser_status
+    - adviser_interruption_response
     - becoming_a_teacher
     - becoming_a_teacher_completed
     - candidate_id
@@ -274,6 +333,7 @@ shared:
     - fee_international
     - fee_domestic
     - salary_details
+    - visa_sponsorship_application_deadline_at
   emails:
     - application_form_id
     - created_at
@@ -298,6 +358,19 @@ shared:
     - id
     - qualification_status
     - updated_at
+  field_test_events:
+    - id
+    - field_test_membership_id
+    - name
+    - created_at
+  field_test_memberships:
+    - id
+    - participant_type
+    - participant_id
+    - experiment
+    - variant
+    - created_at
+    - converted
   find_feedback:
     - id
     - created_at
@@ -508,3 +581,24 @@ shared:
     - provider_id
     - response_headers
     - created_at
+  :withdrawal_reasons:
+    - id
+    - reason
+    - comment
+    - application_choice_id
+    - created_at
+    - updated_at
+    - status
+  :recruitment_cycle_timetables:
+    - id
+    - find_opens_at
+    - apply_opens_at
+    - apply_deadline_at
+    - reject_by_default_at
+    - decline_by_default_at
+    - find_closes_at
+    - christmas_holiday_range
+    - easter_holiday_range
+    - recruitment_cycle_year
+    - created_at
+    - updated_at

@@ -176,13 +176,13 @@ RSpec.describe ProviderInterface::HesaDataExport do
   end
 
   describe '#export_data' do
-    let(:exporter) { described_class.new(actor: provider_user, recruitment_cycle_year: RecruitmentCycle.current_year) }
+    let(:exporter) { described_class.new(actor: provider_user, recruitment_cycle_year: current_year) }
     let(:exported_data) { exporter.export_data }
     let(:export_row) { exporter.export_row(exported_data.first) }
 
     context 'when provider has courses in multiple recruitment cycles' do
       it 'only exports current recruitment cycle data' do
-        previous_cycle_course = create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year, provider: training_provider, accredited_provider:)
+        previous_cycle_course = create(:course, recruitment_cycle_year: previous_year, provider: training_provider, accredited_provider:)
         course_option = create(:course_option, course: previous_cycle_course)
         create(:application_choice, :accepted, course_option:)
 

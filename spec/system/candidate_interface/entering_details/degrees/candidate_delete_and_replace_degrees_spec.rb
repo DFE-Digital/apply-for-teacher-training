@@ -4,7 +4,7 @@ RSpec.describe 'Deleting and replacing a degree' do
   include CandidateHelper
 
   scenario 'Candidate deletes and replaces their degree' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_completed_the_degree_section
     when_i_view_the_degree_section
     and_i_click_on_change_country
@@ -34,11 +34,6 @@ RSpec.describe 'Deleting and replacing a degree' do
     and_if_there_is_only_a_foundation_degree
     when_i_return_to_the_application_form
     then_the_degree_section_is_incomplete
-  end
-
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
   end
 
   def when_i_view_the_degree_section
@@ -135,10 +130,7 @@ RSpec.describe 'Deleting and replacing a degree' do
   def when_i_click_on_continue
     click_link_or_button t('continue')
   end
-
-  def and_i_click_on_continue
-    when_i_click_on_continue
-  end
+  alias_method :and_i_click_on_continue, :when_i_click_on_continue
 
   def then_i_see_the_form_and_the_section_is_not_completed
     expect(page).to have_content(t('page_titles.application_form'))
@@ -208,10 +200,6 @@ RSpec.describe 'Deleting and replacing a degree' do
     expect(page).to have_no_content 'University of Oxford'
   end
 
-  def and_i_click_on_continue
-    when_i_click_on_continue
-  end
-
   def and_i_confirm_i_have_completed_my_degree
     choose 'Yes'
     and_i_click_on_save_and_continue
@@ -222,7 +210,7 @@ RSpec.describe 'Deleting and replacing a degree' do
   end
 
   def and_i_have_completed_the_degree_section
-    @application_form = create(:application_form, candidate: @candidate, university_degree: true)
+    @application_form = create(:application_form, candidate: @current_candidate, university_degree: true)
     create(:application_qualification, level: 'degree', application_form: @application_form)
     @application_form.update!(degrees_completed: true)
     @degree_id = @application_form.application_qualifications.first.id
@@ -233,7 +221,7 @@ RSpec.describe 'Deleting and replacing a degree' do
   end
 
   def and_if_there_is_only_a_foundation_degree
-    click_change_link('qualification')
+    click_change_link('degree type')
     choose 'Foundation degree'
     and_i_click_on_save_and_continue
     choose 'Foundation of Arts (FdA)'

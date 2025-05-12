@@ -24,8 +24,8 @@ module SupportInterface
       end
 
       def application_comment_params
-        params.require(:support_interface_application_comment_form).permit(
-          :comment,
+        params.expect(
+          support_interface_application_comment_form: [:comment],
         )
       end
     end

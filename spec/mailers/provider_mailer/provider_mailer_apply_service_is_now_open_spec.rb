@@ -9,7 +9,7 @@ RSpec.describe ProviderMailer do
       'a mail with subject and content',
       'Candidates can now apply - manage teacher training applications',
       'salutation' => 'Dear Johny English',
-      'main paragraph' => "The #{CycleTimetable.current_year} to #{CycleTimetable.next_year} recruitment cycle has started. Candidates can now apply to your courses.",
+      'main paragraph' => "The #{current_timetable.cycle_range_name} recruitment cycle has started. Candidates can now apply to your courses.",
       'link to applications' => 'http://localhost:3000/provider/applications',
       'footer' => 'Get help, report a problem or give feedback',
     )

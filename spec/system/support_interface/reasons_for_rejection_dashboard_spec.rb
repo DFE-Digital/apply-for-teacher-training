@@ -28,7 +28,6 @@ RSpec.describe 'Reasons for rejection dashboard', time: Time.zone.local(2023, 1,
   end
 
   def and_there_are_candidates_and_application_forms_in_the_system
-    allow(CycleTimetable).to receive(:apply_opens).and_return(60.days.ago)
     @application_choice1 = create(:application_choice, :awaiting_provider_decision)
     @application_choice2 = create(:application_choice, :awaiting_provider_decision)
     @application_choice3 = create(:application_choice, :awaiting_provider_decision)
@@ -52,11 +51,11 @@ RSpec.describe 'Reasons for rejection dashboard', time: Time.zone.local(2023, 1,
   end
 
   def then_i_can_see_reasons_for_rejection_dashboard_link
-    expect(page).to have_link("#{RecruitmentCycle.cycle_name} (starts #{RecruitmentCycle.current_year}) - current")
+    expect(page).to have_link('2022 to 2023 (starts 2023) - current')
   end
 
   def and_i_click_on_the_reasons_for_rejection_dashboard_link_for_the_current_cycle
-    click_link_or_button "#{RecruitmentCycle.cycle_name} (starts #{RecruitmentCycle.current_year}) - current"
+    click_link_or_button '2022 to 2023 (starts 2023) - current'
   end
 
   def then_i_see_reasons_for_rejection_dashboard
@@ -177,7 +176,7 @@ private
 
   def then_i_see_reasons_for_rejection_title_and_details
     expect(page).to have_content('2022 to 2023')
-    expect(page).to have_content('current Reasons for rejection')
+    expect(page).to have_content('(starts 2023) Reasons for rejection')
     expect(page).to have_content('The report does not include most rejections made through the API, as rejecting applications by code was only added in version 1.2 of the API.')
     expect(page).to have_content('The percentages for all the categories will not add up to 100% as providers can choose more than 1 reason for rejecting a candidate.')
   end
@@ -251,7 +250,7 @@ private
     expect(page).to have_current_path(
       support_interface_reasons_for_rejection_application_choices_path(
         structured_rejection_reasons: { id: 'qualifications' },
-        recruitment_cycle_year: RecruitmentCycle.current_year,
+        recruitment_cycle_year: current_year,
       ),
     )
     expect(page).to have_css('h1', text: 'Qualifications')
@@ -282,7 +281,7 @@ private
     expect(page).to have_current_path(
       support_interface_reasons_for_rejection_application_choices_path(
         structured_rejection_reasons: { teaching_knowledge: 'teaching_demonstration' },
-        recruitment_cycle_year: RecruitmentCycle.current_year,
+        recruitment_cycle_year: current_year,
       ),
     )
 

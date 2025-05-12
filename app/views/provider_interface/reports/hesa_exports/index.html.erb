@@ -12,25 +12,25 @@
     </p>
 
     <h2 class="govuk-heading-m">
-      <%= RecruitmentCycle.cycle_name %> (current)
+      <%= @current_timetable.cycle_range_name_with_current_indicator %>
     </h2>
     <p class="govuk-body">
-      <%= t('provider_interface.reports.hesa.current_cycle.info', date: CycleTimetable.apply_opens.to_fs(:govuk_date)) %>
+      <%= t('provider_interface.reports.hesa.current_cycle.info', date: @current_timetable.apply_opens_at.to_fs(:govuk_date)) %>
     </p>
     <p class="govuk-body">
-      <%= govuk_link_to t('provider_interface.reports.hesa.download_link', cycle_name: RecruitmentCycle.cycle_name),
-                         provider_interface_reports_hesa_export_path(RecruitmentCycle.current_year, format: :csv) %>
+      <%= govuk_link_to t('provider_interface.reports.hesa.download_link', cycle_name: @current_timetable.cycle_range_name),
+                         provider_interface_reports_hesa_export_path(@current_timetable.recruitment_cycle_year, format: :csv) %>
   </p>
 
     <h2 class="govuk-heading-m">
-      <%= RecruitmentCycle.cycle_name(RecruitmentCycle.previous_year) %>
+      <%= @previous_timetable.cycle_range_name %>
     </h2>
     <p class="govuk-body">
-      <%= t('provider_interface.reports.hesa.previous_cycle.info', start_date: CycleTimetable.apply_opens(RecruitmentCycle.previous_year).to_fs(:govuk_date), end_date: CycleTimetable.apply_deadline(RecruitmentCycle.previous_year).to_fs(:govuk_date)) %>
+      <%= t('provider_interface.reports.hesa.previous_cycle.info', start_date: @previous_timetable.apply_opens_at.to_fs(:govuk_date), end_date: @previous_timetable.decline_by_default_at.to_fs(:govuk_date)) %>
     </p>
     <p class="govuk-body">
-      <%= govuk_link_to t('provider_interface.reports.hesa.download_link', cycle_name: RecruitmentCycle.cycle_name(RecruitmentCycle.previous_year)),
-                        provider_interface_reports_hesa_export_path(RecruitmentCycle.previous_year, format: :csv) %>
+      <%= govuk_link_to t('provider_interface.reports.hesa.download_link', cycle_name: @previous_timetable.cycle_range_name),
+                        provider_interface_reports_hesa_export_path(@previous_timetable.recruitment_cycle_year, format: :csv) %>
     </p>
   </div>
 </div>

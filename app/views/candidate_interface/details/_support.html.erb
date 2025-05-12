@@ -1,0 +1,9 @@
+<aside class="app-related" aria-labelledby="support-title">
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="support-title"><%= t('layout.support.title') %></h2>
+
+  <ul class="govuk-list govuk-!-font-size-16">
+    <li>Call <%= t('get_into_teaching.tel') %> or <%= govuk_link_to_with_utm_params 'chat online', t('get_into_teaching.url_online_chat'), current_candidate&.current_application.present? ? current_application.phase : t('layout.support_links.not_logged_in') %></li>
+    <li><%= t('get_into_teaching.opening_times') %></li>
+  </ul>
+
+</aside>

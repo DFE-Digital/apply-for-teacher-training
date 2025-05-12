@@ -2,10 +2,12 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate submits the application' do
   include CandidateHelper
-  include SignInHelper
+  before do
+    FeatureFlag.activate(:candidate_preferences)
+  end
 
   scenario 'Candidate with a completed application' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
 
     when_i_have_completed_my_application_and_have_added_undergraduate_primary_as_a_course_choice
     and_i_continue_with_my_application
@@ -15,6 +17,7 @@ RSpec.describe 'Candidate submits the application' do
     when_i_continue_with_my_application
     and_i_choose_to_submit
     then_i_can_see_my_application_has_been_successfully_submitted
+    when_i_click('Back to your applications')
     and_i_am_redirected_to_the_application_dashboard
     and_my_application_is_submitted
     then_i_can_see_my_submitted_application
@@ -25,7 +28,7 @@ RSpec.describe 'Candidate submits the application' do
   end
 
   scenario 'Candidate with a primary application missing the science GCSE' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
 
     when_i_have_completed_my_application_and_have_added_undergraduate_primary_as_a_course_choice
     when_i_have_not_completed_science_gcse
@@ -62,8 +65,7 @@ RSpec.describe 'Candidate submits the application' do
     )
     @course = create(:course, :teacher_degree_apprenticeship, :open, name: 'Primary', code: '2XT2', provider: @provider)
     @course_option = create(:course_option, site:, course: @course)
-    current_candidate.application_forms.delete_all
-    current_candidate.application_forms << build(:application_form, completed_section_trait, university_degree: false)
+    @current_candidate.application_forms << build(:application_form, completed_section_trait, university_degree: false)
     @application_choice = create(:application_choice, :unsubmitted, course_option: @course_option, application_form: current_candidate.current_application)
   end
 
@@ -166,5 +168,9 @@ RSpec.describe 'Candidate submits the application' do
 
   def then_i_am_on_science_gcse_section
     expect(page).to have_current_path(candidate_interface_gcse_details_new_type_path(subject: 'science'))
+  end
+
+  def when_i_click(button)
+    click_link_or_button button
   end
 end

@@ -1,11 +1,11 @@
-<% content_for :title, t('page_titles.becoming_a_teacher') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.personal_statement_review'), @section_complete_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(application_form_path) %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_becoming_a_teacher_complete_path, method: :patch do |f| %>
   <%= f.govuk_error_summary %>
 
   <h1 class="govuk-heading-xl">
-    <%= t('page_titles.personal_statement') %>
+    <%= t('page_titles.personal_statement_review') %>
   </h1>
 
   <% if @application_form.review_pending?(:becoming_a_teacher) %>

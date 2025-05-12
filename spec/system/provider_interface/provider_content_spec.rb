@@ -19,9 +19,6 @@ RSpec.describe 'Provider content' do
     when_click_on_guidance_for_using_ai
     then_i_can_see_the_ai_guidance
 
-    when_i_click_on_the_roadmap
-    then_i_can_see_the_roadmap
-
     when_i_click_on_privacy
     then_i_see_the_privacy_notice_page
   end
@@ -82,13 +79,5 @@ RSpec.describe 'Provider content' do
 
   def then_i_can_see_the_service_guidance_provider
     expect(page).to have_content(t('page_titles.service_guidance_provider'))
-  end
-
-  def when_i_click_on_the_roadmap
-    within('.govuk-footer') { click_link_or_button t('layout.support_links.roadmap') }
-  end
-
-  def then_i_can_see_the_roadmap
-    expect(page).to have_content(t('page_titles.roadmap'))
   end
 end

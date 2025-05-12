@@ -1,6 +1,5 @@
 module CandidateInterface
   class PersonalStatementController < SectionController
-    include AdviserStatus
     before_action :render_application_feedback_component
     def show
       @application_form = current_application
@@ -64,7 +63,11 @@ module CandidateInterface
       @section_complete_form = SectionCompleteForm.new(form_params)
 
       if @section_complete_form.save(current_application, :becoming_a_teacher_completed)
-        redirect_to_candidate_root
+        if current_application.meets_conditions_for_adviser_interruption? && @section_complete_form.completed?
+          redirect_to candidate_interface_adviser_sign_ups_interruption_path
+        else
+          redirect_to_candidate_root
+        end
       else
         track_validation_error(@section_complete_form)
         render :show
@@ -80,8 +83,8 @@ module CandidateInterface
     end
 
     def becoming_a_teacher_params
-      strip_whitespace params.require(:candidate_interface_becoming_a_teacher_form).permit(
-        :becoming_a_teacher,
+      strip_whitespace params.expect(
+        candidate_interface_becoming_a_teacher_form: [:becoming_a_teacher],
       )
     end
 

@@ -15,13 +15,12 @@ on:
 permissions:
   contents: write
   deployments: write
+  id-token: write
   packages: write
   pull-requests: write
 
 jobs:
   build:
-    environment:
-      name: review_aks
     name: Build
     runs-on: ubuntu-latest
     env:
@@ -50,14 +49,6 @@ jobs:
           echo "GIT_BRANCH=${GIT_REF##*/}" >> $GITHUB_ENV
           echo "IMAGE_TAG=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
 
-      # TODO Need to check this for AKS review apps
-      - name: Set KV environment variables
-        run: |
-          # tag build to the review env for vars and secrets
-          tf_vars_file=terraform/aks/workspace_variables/review_aks.tfvars.json
-          echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
-          echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -67,17 +58,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - uses: DFE-Digital/keyvault-yaml-secret@v1
-        id: get-secret
-        with:
-          keyvault: ${{ env.KEY_VAULT_NAME }}
-          secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
-          key: SNYK_TOKEN
 
       - name: Build gems-node-modules Docker Image
         uses: docker/build-push-action@v6
@@ -113,7 +93,7 @@ jobs:
       - name: Run Snyk to check Docker image for vulnerabilities
         uses: snyk/actions/docker@master
         env:
-          SNYK_TOKEN: ${{ steps.get-secret.outputs.snyk_token }}
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: ${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
           args: --file=Dockerfile --severity-threshold=high --exclude-app-vulns
@@ -318,15 +298,15 @@ jobs:
     concurrency: deploy_v2_review_${{ github.event.pull_request.number }}
     if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy_v2') }}
     environment:
-      name: review_aks
+      name: review
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - name: Start review_aks-${{ github.event.pull_request.number }} Deployment
+      - name: Start review-${{ github.event.pull_request.number }} Deployment
         uses: bobheadxi/deployments@v1
         id: deployment
         with:
-          env: review_aks-${{ github.event.pull_request.number }}
+          env: review-${{ github.event.pull_request.number }}
           ref: ${{ github.head_ref }}
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -338,17 +318,19 @@ jobs:
         id: deploy_v2_review
         uses: ./.github/actions/deploy_v2/
         with:
-          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-          environment: review_aks
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          environment: review
           pr-number: ${{ github.event.pull_request.number }}
           sha: ${{ needs.build.outputs.IMAGE_TAG }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
-      - name: Update review_aks-${{ github.event.pull_request.number }} status
+      - name: Update review-${{ github.event.pull_request.number }} status
         if: always()
         uses: bobheadxi/deployments@v1
         with:
-          env: review_aks-${{ github.event.pull_request.number }}
+          env: review-${{ github.event.pull_request.number }}
           ref: ${{ github.head_ref }}
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -384,7 +366,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment: [qa_aks, staging_aks]
+        environment: [qa, staging]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -393,7 +375,9 @@ jobs:
         id: deploy_app_before_production_v2
         uses: ./.github/actions/deploy_v2/
         with:
-          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           environment: ${{ matrix.environment }}
           sha: ${{ github.sha }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -402,7 +386,7 @@ jobs:
     name: Production deployment v2
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
-      name: production_aks
+      name: production
       url: ${{ steps.deploy_app_v2.outputs.deploy-url }}
     needs: [deploy-aks-before-production]
     runs-on: ubuntu-latest
@@ -414,8 +398,10 @@ jobs:
         id: deploy_app_v2
         uses: ./.github/actions/deploy_v2/
         with:
-          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-          environment: production_aks
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          environment: production
           sha: ${{ github.sha }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
@@ -424,7 +410,7 @@ jobs:
     name: Sandbox deployment v2
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
-      name: sandbox_aks
+      name: sandbox
       url: ${{ steps.deploy_app_after_production_v2.outputs.deploy-url }}
     needs: [deploy-aks-production]
     runs-on: ubuntu-latest
@@ -436,7 +422,55 @@ jobs:
         id: deploy_app_after_production_v2
         uses: ./.github/actions/deploy_v2/
         with:
-          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-          environment: sandbox_aks
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          environment: sandbox
           sha: ${{ github.sha }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+
+  deploy_domains_infra:
+    name: Deploy Domains Infrastructure
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    concurrency: deploy_domains_infra
+    needs: [deploy-aks-after-production]
+    environment:
+      name: production
+
+    steps:
+      - name: Deploy Domains Infrastructure
+        id: deploy_domains_infra
+        uses: DFE-Digital/github-actions/deploy-domains-infra@master
+        with:
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID  }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID   }}
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID   }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+          terraform-base: terraform/custom_domains/infrastructure
+
+  deploy_domains_env:
+    name: Deploy Domains to ${{ matrix.domain_environment }} environment
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    concurrency: deploy_domains_env_${{ matrix.domain_environment }}
+    needs: [deploy_domains_infra]
+    strategy:
+      max-parallel: 1
+      matrix:
+        domain_environment: [qa, staging, sandbox, production]
+    environment:
+      name: production
+
+    steps:
+      - name: Deploy Domains Environment
+        id: deploy_domains_env
+        uses: DFE-Digital/github-actions/deploy-domains-env@master
+        with:
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID  }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID   }}
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID   }}
+          environment: ${{ matrix.domain_environment }}
+          healthcheck: integrations/monitoring/
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+          terraform-base: terraform/custom_domains/environment_domains

@@ -1,0 +1,30 @@
+<% content_for :title, t('page_titles.new_adviser_sign_up') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_adviser_sign_ups_interruption_path, t('.back')) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l"><%= t('.heading') %></h1>
+
+      <p class="govuk-body"><%= t('.introduction') %></p>
+
+      <%= govuk_list [t('.help_with_1'), t('.help_with_2'), t('.help_with_3')], type: :bullet %>
+
+      <%= govuk_summary_list do |summary_list| %>
+        <% summary_list.with_row do |row| %>%
+          <% row.with_key { t('.subject') } %>%
+          <% row.with_value { @adviser_sign_up_form.preferred_teaching_subject.title } %>
+          <% row.with_action(text: t('.change'), href: new_candidate_interface_adviser_sign_ups_path(preferred_teaching_subject_id: @adviser_sign_up_form.preferred_teaching_subject_id), visually_hidden_text: t('.change')) %>
+        <% end %>
+      <% end %>
+
+      <p class="govuk-body">
+        <%= t('.disclaimer') %>
+      </p>
+
+    <%= form_with(model: @adviser_sign_up_form, url: candidate_interface_adviser_sign_ups_path) do |f| %>
+      <%= f.govuk_error_summary %>
+      <%= f.hidden_field(:preferred_teaching_subject_id) %>
+      <%= f.govuk_submit t('.request') %>
+    <% end %>
+  </div>
+</div>

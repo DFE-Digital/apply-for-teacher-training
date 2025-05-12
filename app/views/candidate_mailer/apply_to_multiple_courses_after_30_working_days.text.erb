@@ -6,11 +6,13 @@ You submitted the following applications on <%= @submitted_at %>:
   * <%= application[:course_name_and_code] %> at <%= application[:provider_name] %>
 <% end %>
 
-While you wait for a response on these applications, you can apply to <%= @choices_remaining %> more <%= 'course'.pluralize(@choices_remaining) %> at different training providers.
+If you have not received a response to your applications yet, we recommend you apply for other courses to improve your chances of success.
 
-Candidates who apply for 4 or more courses are more likely to receive an offer.
+^Our analysis shows that if you haven't heard back from a provider after 30 working days, it is less likely that you will receive an offer.
 
-[Sign into your account](<%= candidate_magic_link(@application_form.candidate) %>) to apply for another course.
+[Sign in to your account to apply for another course](<%= application_choices_link %>).
+
+You can also contact the providers to check on your applications. If you are already in contact with them about your application, you can ignore this email.
 
 <%= render 'understand_your_professional_strengths' %>
 

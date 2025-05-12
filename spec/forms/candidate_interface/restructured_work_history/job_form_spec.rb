@@ -47,7 +47,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
                             currently_working: 'false')
       end
 
-      include_examples 'month and year date validations', :start_date, verify_presence: true, future: true, before: :end_date
+      it_behaves_like 'month and year date validations', :start_date, verify_presence: true, future: true, before: :end_date
     end
 
     context 'end_date validations when currently_working is `false`' do
@@ -58,7 +58,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
                             currently_working: 'false')
       end
 
-      include_examples 'month and year date validations', :end_date, verify_presence: true, future: true
+      it_behaves_like 'month and year date validations', :end_date, verify_presence: true, future: true
     end
 
     context "'currently_working' is true" do

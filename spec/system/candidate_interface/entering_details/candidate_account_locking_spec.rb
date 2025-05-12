@@ -16,10 +16,6 @@ RSpec.describe 'Candidate account locking' do
     then_i_am_redirected_to_the_account_locked_page
   end
 
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
-  end
-
   def and_i_visit_the_site
     visit candidate_interface_details_path
   end

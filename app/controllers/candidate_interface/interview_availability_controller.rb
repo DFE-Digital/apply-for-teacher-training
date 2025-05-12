@@ -44,7 +44,11 @@ module CandidateInterface
       @section_complete_form = SectionCompleteForm.new(form_params)
 
       if @section_complete_form.save(current_application, :interview_preferences_completed)
-        redirect_to_candidate_root
+        if current_application.meets_conditions_for_adviser_interruption? && @section_complete_form.completed?
+          redirect_to candidate_interface_adviser_sign_ups_interruption_path
+        else
+          redirect_to_candidate_root
+        end
       else
         track_validation_error(@section_complete_form)
         render :show
@@ -54,8 +58,8 @@ module CandidateInterface
   private
 
     def interview_preferences_params
-      strip_whitespace params.require(:candidate_interface_interview_preferences_form).permit(
-        :any_preferences, :interview_preferences
+      strip_whitespace params.expect(
+        candidate_interface_interview_preferences_form: %i[any_preferences interview_preferences],
       )
     end
 

@@ -64,9 +64,13 @@ en:
     not_needed: I do not need a statement of comparability
     not_entered: Not entered
     percentage_text_html: It helps training providers to see how qualifications gained outside the UK compare to UK qualifications and makes you around  <b>30% more likely to receive an offer.</b>
-    enic_cost: A statement from UK ENIC costs £49.50 and takes 15 working days to arrive.
+    enic_cost: A statement from UK ENIC costs £69.60 and takes 15 working days to arrive.
   gcse_summary:
     page_titles:
+      review:
+        maths: Check your maths GCSE or equivalent
+        english: Check your English GCSE or equivalent
+        science: Check your science GCSE or equivalent
       maths: Maths GCSE or equivalent
       english: English GCSE or equivalent
       science: Science GCSE or equivalent

@@ -12,6 +12,9 @@ namespace :support_interface, path: '/support' do
     get '/editable-extension' => 'application_forms/editable_extension#edit'
     post '/editable-extension' => 'application_forms/editable_extension#update'
 
+    get '/email-subscription' => 'application_forms/email_subscription#edit'
+    patch '/email-subscription' => 'application_forms/email_subscription#update'
+
     get '/audit' => 'application_forms#audit', as: :application_form_audit
     get '/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
     post '/comments' => 'application_forms/comments#create', as: :application_form_comments
@@ -81,6 +84,8 @@ namespace :support_interface, path: '/support' do
       get 'volunteering-roles/:volunteering_role_id' => 'application_forms/volunteering_roles#edit', as: :application_form_edit_volunteering_role
       post 'volunteering-roles/:volunteering_role_id' => 'application_forms/volunteering_roles#update', as: :application_form_update_volunteering_role
     end
+
+    resource :one_login_auths, only: %i[edit update], path: '/one-login-auths'
   end
 
   get '/duplicate-matches' => 'duplicate_matches#index', as: :duplicate_matches
@@ -95,6 +100,14 @@ namespace :support_interface, path: '/support' do
   put '/application-choices/:application_choice_id/make-unconditional' => 'application_choice_conditions#make_unconditional', as: :make_application_choice_unconditional
 
   get '/candidates' => 'candidates#index'
+
+  resources :find_candidates, only: %i[index], path: 'find-a-candidate'
+
+  resources :location_suggestions, only: :index, path: 'location-suggestions'
+
+  scope path: '/candidates' do
+    resource :bulk_unsubscribe, only: %i[new create], path: '/bulk-unsubscribe', module: :candidates
+  end
 
   scope path: '/candidates/:candidate_id' do
     get '/' => 'candidates#show', as: :candidate
@@ -116,7 +129,7 @@ namespace :support_interface, path: '/support' do
     get 'impersonate-and-decline' => 'references#impersonate_and_decline', as: :impersonate_referee_and_decline_reference
   end
 
-  resources :api_tokens, path: '/tokens', only: %i[index create destroy] do
+  resources :api_tokens, path: '/tokens', only: %i[index new create destroy] do
     member do
       get 'confirm-revocation'
     end
@@ -230,14 +243,15 @@ namespace :support_interface, path: '/support' do
     post '/feature-flags/:feature_name/activate' => 'settings#activate_feature_flag', as: :activate_feature_flag
     post '/feature-flags/:feature_name/deactivate' => 'settings#deactivate_feature_flag', as: :deactivate_feature_flag
 
-    get '/cycles', to: 'settings#cycles', as: :cycles
+    get 'recruitment-cycle-timetable', to: 'recruitment_cycle_timetables#index', as: :recruitment_cycle_timetables
+    unless HostingEnvironment.production?
+      post '/recruitment-cycle-timetables/reset', to: 'recruitment_cycle_timetables#reset', as: :sync_cycle_with_production
+      get '/recruitment-cycle-timetable/:recruitment_cycle_year', to: 'recruitment_cycle_timetables#edit', as: :edit_recruitment_cycle_timetable
+      post '/recruitment-cycle-timetable/:recruitment_cycle_year', to: 'recruitment_cycle_timetables#update', as: :update_recruitment_cycle_timetable
+    end
 
     get '/notify-template', to: 'settings#notify_template', as: :notify_template
     post '/send-notify-template', to: 'settings#send_notify_template', as: :send_notify_template
-
-    unless HostingEnvironment.production?
-      post '/cycles', to: 'settings#switch_cycle_schedule', as: :switch_cycle_schedule
-    end
 
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/create-fake-provider' => 'tasks#create_fake_provider'
@@ -294,6 +308,7 @@ namespace :support_interface, path: '/support' do
 
   mount SupportInterface::RackApp.new(Sidekiq::Web) => '/sidekiq', as: :sidekiq
   mount SupportInterface::RackApp.new(Blazer::Engine) => '/blazer', as: :blazer
+  mount SupportInterface::RackApp.new(FieldTest::Engine) => '/field-test', as: :field_test
 
   get '*path', to: 'errors#not_found'
 end

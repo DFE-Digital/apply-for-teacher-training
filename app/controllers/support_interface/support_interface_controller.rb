@@ -5,6 +5,7 @@ module SupportInterface
     layout 'support_layout'
     before_action :authenticate_support_user!
     before_action :set_user_context
+    before_action :set_current_timetable
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
     helper_method :current_support_user, :dfe_sign_in_user
@@ -37,6 +38,10 @@ module SupportInterface
       return unless current_support_user
 
       Sentry.set_user(id: "support_#{current_support_user.id}")
+    end
+
+    def set_current_timetable
+      @current_timetable = current_timetable
     end
 
     def append_info_to_payload(payload)

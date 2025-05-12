@@ -314,7 +314,7 @@ private
   end
 
   def schedule_interview(choice)
-    return if CycleTimetable.between_reject_by_default_and_find_reopens?
+    return if RecruitmentCycleTimetable.current_timetable.after_reject_by_default?
 
     as_provider_user(choice) do
       interview_date = [7.business_days.from_now, choice.reject_by_default_at].min
@@ -531,8 +531,8 @@ private
   end
 
   def initialize_time(recruitment_cycle_year, application_in_past: false)
-    in_current_cycle = recruitment_cycle_year == RecruitmentCycle.current_year
-    if in_current_cycle
+    timetable = RecruitmentCycleTimetable.find_by(recruitment_cycle_year:)
+    if timetable.current_year?
       if application_in_past
         earliest_date = 30.days.ago.to_date
         latest_date = 21.days.ago.to_date
@@ -541,8 +541,8 @@ private
         latest_date = Time.zone.now.to_date
       end
     else
-      earliest_date = CycleTimetable.apply_opens(recruitment_cycle_year)
-      latest_date = CycleTimetable.apply_deadline(recruitment_cycle_year)
+      earliest_date = timetable.apply_opens_at
+      latest_date = timetable.apply_deadline_at
     end
 
     @time = rand(earliest_date..latest_date)

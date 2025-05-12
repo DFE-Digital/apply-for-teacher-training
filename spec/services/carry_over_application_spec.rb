@@ -45,28 +45,28 @@ RSpec.describe CarryOverApplication do
   context 'when original application is from an earlier recruitment cycle' do
     before do
       TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
-      original_application_form.recruitment_cycle_year = CycleTimetable.previous_year
+      original_application_form.recruitment_cycle_year = previous_year
       original_application_form.save(touch: false)
     end
 
-    it_behaves_like 'duplicates application form', CycleTimetable.current_year
+    it_behaves_like 'duplicates application form', current_year
   end
 
   context 'when original application is from multiple cycles ago' do
     before do
       TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
-      original_application_form.recruitment_cycle_year = CycleTimetable.previous_year - 1
+      original_application_form.recruitment_cycle_year = previous_year - 1
       original_application_form.save(touch: false)
     end
 
-    it_behaves_like 'duplicates application form', CycleTimetable.current_year
+    it_behaves_like 'duplicates application form', current_year
   end
 
   context 'when original application is from the current recruitment cycle but that cycle has now closed', time: after_apply_deadline do
-    it_behaves_like 'duplicates application form', CycleTimetable.next_year
+    it_behaves_like 'duplicates application form', next_year
   end
 
-  context 'when application form has unstructured work history', time: (CycleTimetable.apply_deadline + 1.day) do
+  context 'when application form has unstructured work history', time: after_apply_deadline do
     it 'carries over history' do
       described_class.new(original_application_form).call
       carried_over_application_form = ApplicationForm.last

@@ -13,11 +13,13 @@ module CandidateInterface
       return new if background.nil?
 
       if listed_ethnic_background?(group, background)
-        new(ethnic_background: application_form.equality_and_diversity['ethnic_background'])
+        new(ethnic_background: background)
+      elsif prefer_not_to_say?(background)
+        new(ethnic_background: background, other_background: nil)
       else
         new(
           ethnic_background: OTHER_ETHNIC_BACKGROUNDS[group],
-          other_background: application_form.equality_and_diversity['ethnic_background'],
+          other_background: background,
         )
       end
     end
@@ -46,15 +48,23 @@ module CandidateInterface
     end
 
     def self.listed_ethnic_background?(group, background)
-      ETHNIC_BACKGROUNDS[group].include?(background) || OTHER_ETHNIC_BACKGROUNDS[group] == background
+      ETHNIC_BACKGROUNDS[group]&.include?(background) || OTHER_ETHNIC_BACKGROUNDS[group] == background
+    end
+
+    def self.prefer_not_to_say?(background)
+      background == I18n.t('equality_and_diversity.ethnic_background.opt_out.label')
     end
 
   private
 
     def hesa_ethnicity_code
       Hesa::Ethnicity
-        .find(ethnic_background, RecruitmentCycle.current_year)
+        .find(ethnic_background, current_year)
         &.hesa_code
+    end
+
+    def current_year
+      @current_year ||= RecruitmentCycleTimetable.current_year
     end
   end
 end

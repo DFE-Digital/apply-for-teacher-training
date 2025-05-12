@@ -8,7 +8,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::CandidatesWithOf
 
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-    expect(page).to have_table('3. Candidates with an offer')
+    expect(page).to have_table('3. Candidates that received an offer')
     expect(page).to have_content(description(provider.name))
 
     expect(page).to have_content provider.name
@@ -56,6 +56,6 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReport::CandidatesWithOf
   end
 
   def description(provider_name)
-    "Candidates who have received one or more offers from #{provider_name} so far this recruitment cycle, compared to national level."
+    "This table shows candidates who have received one or more offers from #{provider_name} so far this recruitment cycle."
   end
 end

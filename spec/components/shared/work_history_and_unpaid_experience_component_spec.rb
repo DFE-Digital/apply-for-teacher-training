@@ -76,7 +76,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
         expect(summary).to have_text('Yes')
       end
 
-      expect(page).to have_css('h3#work-history-subheader', class: 'govuk-heading-m') do |subheader|
+      expect(page).to have_css('h4#work-history-subheader', class: 'govuk-heading-s') do |subheader|
         expect(subheader).to have_text('Details of unpaid experience')
       end
 
@@ -97,7 +97,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
         expect(summary).to have_no_css('dd', class: 'govuk-summary-list__value', text: 'No')
       end
 
-      expect(page).to have_css('h3#work-history-subheader', class: 'govuk-heading-m') do |subheader|
+      expect(page).to have_css('h4#work-history-subheader', class: 'govuk-heading-s') do |subheader|
         expect(subheader).to have_text('Details of work history and unpaid experience')
       end
 
@@ -119,6 +119,14 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
     end
   end
 
+  context 'without work history details' do
+    subject! { render_inline(described_class.new(application_form:, details: false)) }
+
+    it 'does not include the details of work experience' do
+      expect(page).to have_no_text('Details of work history and unpaid experience')
+    end
+  end
+
   context 'with only work history' do
     subject! { render_inline(described_class.new(application_form:)) }
 
@@ -130,7 +138,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
         expect(summary).to have_css('dd', class: 'govuk-summary-list__value', text: 'No')
       end
 
-      expect(page).to have_css('h3#work-history-subheader', class: 'govuk-heading-m') do |subheader|
+      expect(page).to have_css('h4#work-history-subheader', class: 'govuk-heading-s') do |subheader|
         expect(subheader).to have_text('Details of work history')
       end
 

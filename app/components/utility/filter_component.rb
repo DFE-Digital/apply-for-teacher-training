@@ -10,6 +10,14 @@ class FilterComponent < ViewComponent::Base
 
   def tags_for_active_filter(filter)
     case filter[:type]
+    when :location_search
+      [
+        {
+          title: filter[:original_location],
+          hint: filter[:hint],
+          remove_link: location_filter_tag_link,
+        },
+      ]
     when :search
       [{ title: filter[:value], remove_link: remove_search_tag_link(filter[:name]) }]
     when :checkboxes, :checkbox_filter
@@ -19,6 +27,13 @@ class FilterComponent < ViewComponent::Base
         end
       end
     end
+  end
+
+  def location_filter_tag_link
+    params = filters_to_params(filters)
+    params.delete(:original_location)
+    params[:remove] = true # for removing last filter
+    to_query(params)
   end
 
   def remove_checkbox_tag_link(name, value)
@@ -55,6 +70,8 @@ class FilterComponent < ViewComponent::Base
 
   def filter_active?(filter)
     case filter[:type]
+    when :location_search
+      active_location_filter?(filter)
     when :search
       filter[:primary] != true && filter[:value].present?
     when :checkboxes, :checkbox_filter
@@ -65,6 +82,8 @@ class FilterComponent < ViewComponent::Base
   def filters_to_params(filters)
     filters.each_with_object({}) do |filter, hash|
       case filter[:type]
+      when :location_search
+        hash[:original_location] = filter[:original_location]
       when :search
         hash[filter[:name]] = filter[:value]
       when :checkboxes, :checkbox_filter
@@ -77,5 +96,9 @@ private
 
   def to_query(params)
     "?#{params.to_query}"
+  end
+
+  def active_location_filter?(filter_hash)
+    filter_hash[:original_location].present?
   end
 end

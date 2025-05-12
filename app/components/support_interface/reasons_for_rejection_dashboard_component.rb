@@ -6,17 +6,16 @@ module SupportInterface
                 :recruitment_cycle_year, :rejection_reasons
 
     def initialize(rejection_reasons, total_structured_rejection_reasons_count,
-                   total_structured_rejection_reasons_count_this_month, recruitment_cycle_year = RecruitmentCycle.current_year)
+                   total_structured_rejection_reasons_count_this_month, recruitment_cycle_year = RecruitmentCycleTimetable.current_year)
       @rejection_reasons = rejection_reasons
       @total_structured_rejection_reasons_count = total_structured_rejection_reasons_count
       @total_structured_rejection_reasons_count_this_month = total_structured_rejection_reasons_count_this_month
       @recruitment_cycle_year = recruitment_cycle_year
     end
 
-    def self.recruitment_cycle_context(recruitment_cycle_year = RecruitmentCycle.current_year)
-      text = %(#{RecruitmentCycle.cycle_name(recruitment_cycle_year)} (starts #{recruitment_cycle_year}))
-      text += ' - current' if recruitment_cycle_year == RecruitmentCycle.current_year
-      text
+    def self.recruitment_cycle_context(recruitment_cycle_year = RecruitmentCycleTimetable.current_year)
+      timetable = RecruitmentCycleTimetable.find_by(recruitment_cycle_year:)
+      %(#{timetable.cycle_range_name_with_current_indicator} (starts #{recruitment_cycle_year}))
     end
 
   private

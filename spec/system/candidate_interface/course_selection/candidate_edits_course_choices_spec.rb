@@ -5,7 +5,7 @@ RSpec.describe 'Candidate edits course choices' do
   include CourseOptionHelpers
 
   it 'Candidate edit their applications' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_there_is_a_course_with_one_course_option
     and_there_is_a_course_with_multiple_course_options
     and_there_is_a_course_with_both_full_time_and_part_time_but_one_site
@@ -70,10 +70,6 @@ RSpec.describe 'Candidate edits course choices' do
     and_i_choose_part_time
     then_i_am_on_the_application_choice_review_page
     and_i_see_the_updated_full_time_or_part_time_section_for_the_third_choice
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_there_is_a_course_with_one_course_option

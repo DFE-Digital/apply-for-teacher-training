@@ -26,7 +26,7 @@ module ProviderInterface
     private
 
       def course_option_params
-        params.require(:provider_interface_course_wizard).permit(:course_option_id)
+        params.expect(provider_interface_course_wizard: [:course_option_id])
       end
 
       def attributes_for_wizard

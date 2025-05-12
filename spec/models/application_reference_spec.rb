@@ -115,7 +115,7 @@ RSpec.describe ApplicationReference do
   end
 
   describe '#order_in_application_references' do
-    let(:last_cycle_application_form) { create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year) }
+    let(:last_cycle_application_form) { create(:completed_application_form, recruitment_cycle_year: previous_year) }
     let(:application_form) { create(:application_form, previous_application_form: last_cycle_application_form) }
 
     context 'with a selection of references' do
@@ -190,6 +190,13 @@ RSpec.describe ApplicationReference do
         reference = build(:reference, requested_at: Time.zone.now - TimeLimitConfig.additional_reference_chase_calendar_days.days - 1.hour)
         expect(reference.next_automated_chase_at).to be_nil
       end
+    end
+  end
+
+  describe 'confidential' do
+    it 'sets the default to nil' do
+      reference = build(:reference)
+      expect(reference.confidential).to be_nil
     end
   end
 end

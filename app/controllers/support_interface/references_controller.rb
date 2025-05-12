@@ -13,7 +13,7 @@ module SupportInterface
     end
 
     def impersonate_and_give
-      redirect_to referee_interface_reference_relationship_path(token: @reference.refresh_feedback_token!)
+      redirect_to referee_interface_confidentiality_path(token: @reference.refresh_feedback_token!)
     end
 
     def impersonate_and_decline
@@ -47,8 +47,8 @@ module SupportInterface
     end
 
     def delete_reference_params
-      params.require(:support_interface_application_forms_delete_reference_form)
-            .permit(:accept_guidance, :audit_comment_ticket)
+      params
+            .expect(support_interface_application_forms_delete_reference_form: %i[accept_guidance audit_comment_ticket])
     end
   end
 end

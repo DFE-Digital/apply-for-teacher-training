@@ -11,7 +11,7 @@ class SendFindHasOpenedEmailToCandidate
       chaser_type: :find_has_opened,
     ).where(
       'created_at > ?',
-      CycleTimetable.find_opens,
+      RecruitmentCycleTimetable.current_timetable.find_opens_at,
     ).present?
   end
 end

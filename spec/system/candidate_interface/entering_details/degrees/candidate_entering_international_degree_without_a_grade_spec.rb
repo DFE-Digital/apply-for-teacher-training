@@ -4,7 +4,7 @@ RSpec.describe 'Entering an international doctorate degree' do
   include CandidateHelper
 
   scenario 'Candidate enters their degree' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
     and_i_answer_that_i_have_a_university_degree
     and_i_select_another_country
@@ -31,10 +31,6 @@ RSpec.describe 'Entering an international doctorate degree' do
   end
 
 private
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
-  end
 
   def when_i_view_the_degree_section
     visit candidate_interface_details_path

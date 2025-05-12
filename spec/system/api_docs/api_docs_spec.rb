@@ -42,6 +42,6 @@ RSpec.describe 'API docs' do
   end
 
   def then_i_get_redirected_to_the_latest_production_version
-    expect(page).to have_current_path api_docs_versioned_reference_path(api_version: "v#{AllowedCrossNamespaceUsage::VendorAPIInfo.released_version}"), ignore_query: true
+    expect(page).to have_current_path api_docs_versioned_reference_path(api_version: "v#{AllowedCrossNamespaceUsage::VendorAPIInfo.production_version}"), ignore_query: true
   end
 end

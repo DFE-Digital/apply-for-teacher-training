@@ -18,7 +18,7 @@
     <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m">End-of-cycle: Cancel unsubmitted applications</h2>
       <p class="govuk-body">This task finds any unsubmitted applications from the most recently closed recruitment cycle and moves them to the <code>application_not_sent</code> status.</p>
-      <p class="govuk-body">It should be run shortly after the Apply 2 deadline closes at midnight on <%= CycleTimetable.date(:apply_deadline).to_fs(:govuk_date) %>.</p>
+      <p class="govuk-body">It should be run shortly after the Apply deadline closes at midnight on <%= @current_timetable.apply_deadline_at.to_fs(:govuk_date) %>.</p>
     </div>
     <div class="govuk-grid-column-one-third">
       <%= govuk_button_link_to 'Cancel applications', support_interface_confirm_cancel_applications_at_end_of_cycle_path, warning: true %>
@@ -44,7 +44,7 @@
   <section class="app-section app-section--with-top-border">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <h2 class="govuk-heading-m">Generate test applications for the <%= RecruitmentCycle.current_year %> recruitment cycle</h2>
+        <h2 class="govuk-heading-m">Generate test applications for the <%= @current_timetable.recruitment_cycle_year %> recruitment cycle</h2>
         <p class="govuk-body">This task generates ~10 mostly-random test applications in all of the states.</p>
       </div>
       <div class="govuk-grid-column-one-third">
@@ -53,19 +53,17 @@
     </div>
   </section>
 
-  <% if CycleTimetable.current_year == CycleTimetable.real_current_year %>
-    <section class="app-section app-section--with-top-border">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-          <h2 class="govuk-heading-m">Generate test applications for the <%= RecruitmentCycle.next_year %> recruitment cycle</h2>
-          <p class="govuk-body">This task generates mostly-random test applications for the <%= RecruitmentCycle.next_year %> recruitment cycle.</p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <%= govuk_button_to "Generate #{RecruitmentCycle.next_year} recruitment cycle test applications", support_interface_run_task_path('generate_next_cycle_test_applications'), secondary: true %>
-        </div>
+  <section class="app-section app-section--with-top-border">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">Generate test applications for the <%= @current_timetable.relative_next_year %> recruitment cycle</h2>
+        <p class="govuk-body">This task generates mostly-random test applications for the <%= @current_timetable.relative_next_year %> recruitment cycle.</p>
       </div>
-    </section>
-  <% end %>
+      <div class="govuk-grid-column-one-third">
+        <%= govuk_button_to "Generate #{@current_timetable.relative_next_year} recruitment cycle test applications", support_interface_run_task_path('generate_next_cycle_test_applications'), secondary: true %>
+      </div>
+    </div>
+  </section>
 
   <section class="app-section app-section--with-top-border">
     <div class="govuk-grid-row">

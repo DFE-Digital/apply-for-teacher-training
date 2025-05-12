@@ -12,7 +12,7 @@ module Publications
       end
 
       def v2?
-        generation_date > CycleTimetable.find_opens(2024)
+        generation_date > RecruitmentCycleTimetable.find_by(recruitment_cycle_year: 2024).find_opens_at
       end
 
       def self.current_period
@@ -32,7 +32,7 @@ module Publications
       end
 
       def self.report_for_latest_in_cycle(recruitment_cycle_year)
-        return current_period if CycleTimetable.current_year == recruitment_cycle_year
+        return current_period if RecruitmentCycleTimetable.current_year == recruitment_cycle_year
 
         month = latest_month_for(recruitment_cycle_year)
 
@@ -44,9 +44,7 @@ module Publications
       end
 
       def self.latest_month_for(recruitment_cycle_year)
-        return if CycleTimetable.real_schedule_for(recruitment_cycle_year).blank?
-
-        period = CycleTimetable.find_closes(recruitment_cycle_year) - 1.month
+        period = RecruitmentCycleTimetable.find_by!(recruitment_cycle_year:)&.apply_deadline_at
         [period.year, period.month].join('-')
       end
     end

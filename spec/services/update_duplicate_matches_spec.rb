@@ -90,7 +90,7 @@ RSpec.describe UpdateDuplicateMatches, :sidekiq do
         expect(match.postcode).to eq('W6 9BH')
         expect(match.date_of_birth).to eq(candidate1.application_forms.first.date_of_birth)
         expect(match.last_name).to eq('Thompson')
-        expect(match.recruitment_cycle_year).to eq(RecruitmentCycle.current_year)
+        expect(match.recruitment_cycle_year).to eq(current_year)
         expect(match.candidates.first).to eq(candidate1)
         expect(match.candidates.second).to eq(candidate2)
       end
@@ -136,7 +136,7 @@ RSpec.describe UpdateDuplicateMatches, :sidekiq do
         expect(match.postcode).to eq('W6 9BH')
         expect(match.date_of_birth).to eq(candidate1.application_forms.first.date_of_birth)
         expect(match.last_name).to eq('Thompson')
-        expect(match.recruitment_cycle_year).to eq(RecruitmentCycle.current_year)
+        expect(match.recruitment_cycle_year).to eq(current_year)
       end
 
       it 'sets `Candidate#submission_blocked` to true' do
@@ -178,7 +178,7 @@ RSpec.describe UpdateDuplicateMatches, :sidekiq do
         expect(match.postcode).to eq('W6 9BH')
         expect(match.date_of_birth).to eq(candidate1.application_forms.first.date_of_birth)
         expect(match.last_name).to eq('Thompson')
-        expect(match.recruitment_cycle_year).to eq(RecruitmentCycle.current_year)
+        expect(match.recruitment_cycle_year).to eq(current_year)
       end
     end
 

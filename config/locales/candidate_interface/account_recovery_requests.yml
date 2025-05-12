@@ -1,0 +1,9 @@
+en:
+  candidate_interface:
+    account_recovery_requests:
+      new:
+        form:
+          content: Enter the email address you have used to sign in to Apply for teacher training in the past. We will send an email with a code to that address.
+          email_address:
+            label: Email address
+          submit: Send email

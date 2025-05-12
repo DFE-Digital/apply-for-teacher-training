@@ -19,7 +19,7 @@ RSpec.describe CandidateMailer do
       'You have accepted Arithmetic College’s offer to study Mathematics (M101)',
       'greeting' => 'Hello Fred',
       'offer_details' => 'You have accepted Arithmetic College’s offer to study Mathematics (M101)',
-      'sign in link' => 'Sign into your account',
+      'sign in link' => 'Sign in to your account',
     )
   end
 end

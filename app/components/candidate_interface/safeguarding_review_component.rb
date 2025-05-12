@@ -22,17 +22,30 @@ module CandidateInterface
     def sharing_safeguarding_issues_row
       {
         key: 'Do you want to share any safeguarding issues?',
-        value: @safeguarding.share_safeguarding_issues,
-        action: {
-          href: candidate_interface_edit_safeguarding_path(return_to_params),
-          visually_hidden_text: 'if you want to share any safeguarding issues',
-        },
-        html_attributes: {
-          data: {
-            qa: 'safeguarding-issues',
-          },
-        },
+        value: safeguarding_value_or_link_to_complete,
+      }.tap do |row|
+        if @safeguarding.share_safeguarding_issues.present?
+          row[:action] = safeguarding_action('if you want to share any safeguarding issues')
+        end
+      end
+    end
+
+    def safeguarding_value_or_link_to_complete
+      @safeguarding.share_safeguarding_issues.presence || govuk_link_to(
+        'Enter any safeguarding issues you want to share',
+        safeguarding_edit_path,
+      )
+    end
+
+    def safeguarding_action(visually_hidden_text)
+      {
+        href: safeguarding_edit_path,
+        visually_hidden_text:,
       }
+    end
+
+    def safeguarding_edit_path
+      candidate_interface_edit_safeguarding_path(return_to_params)
     end
 
     def relevant_information_row
@@ -41,10 +54,7 @@ module CandidateInterface
       {
         key: 'Relevant information',
         value: @safeguarding.safeguarding_issues || 'Not entered',
-        action: {
-          href: candidate_interface_edit_safeguarding_path(return_to_params),
-          visually_hidden_text: 'relevant information for safeguarding issues',
-        },
+        action: safeguarding_action('relevant information for safeguarding issues'),
       }
     end
 

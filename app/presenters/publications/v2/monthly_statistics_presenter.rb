@@ -65,43 +65,49 @@ module Publications
       end
 
       def current_year
-        CycleTimetable.current_year(statistics.dig(:meta, :generation_date).to_time)
+        report_timetable.recruitment_cycle_year
       end
 
-      # The Academic year for a given recruitment cycle is effectively the next
-      # recruitment cycle. If the report is for 2023-2024 recruitment cycle,
-      # the academic year or the year the candidates are applying for is the
-      # 2024-2025
       def academic_year_name
-        RecruitmentCycle.cycle_name(next_year)
+        report_timetable.academic_year_range_name
       end
 
       def current_cycle_name
-        RecruitmentCycle.cycle_name
+        report_timetable.cycle_range_name
       end
 
       def current_cycle_verbose_name
-        RecruitmentCycle.verbose_cycle_name(current_year)
+        verbose_cycle_name(current_year)
       end
 
       def current_cycle?
-        current_year == CycleTimetable.current_year
+        report_timetable.current_year?
       end
 
-      def next_publication_date
-        MonthlyStatisticsTimetable.next_publication_date
-      end
+      delegate :next_publication_date, to: :MonthlyStatisticsTimetable
 
       def previous_year
-        current_year - 1
+        previous_timetable.recruitment_cycle_year
       end
 
       def next_year
-        current_year + 1
+        next_timetable.recruitment_cycle_year
       end
 
       def csvs
         statistics.dig(:formats, :csv)
+      end
+
+      def report_timetable
+        @report_timetable ||= RecruitmentCycleTimetable.find_timetable_by_datetime(statistics.dig(:meta, :generation_date))
+      end
+
+      def next_timetable
+        @next_timetable ||= report_timetable.relative_next_timetable
+      end
+
+      def previous_timetable
+        @previous_timetable ||= report_timetable.relative_previous_timetable
       end
 
     private
@@ -118,6 +124,10 @@ module Publications
         end
 
         section[:data].values
+      end
+
+      def verbose_cycle_name(year)
+        "October #{year - 1} to September #{year}"
       end
     end
   end

@@ -382,7 +382,7 @@ module CandidateInterface
     end
 
     def use_other_grade?
-      grade == OTHER || grade == YES
+      [OTHER, YES].include?(grade)
     end
 
     def subjects
@@ -544,11 +544,11 @@ module CandidateInterface
     end
 
     def start_year_in_future_when_degree_completed
-      errors.add(:start_year, :in_the_future) if completed? && start_year.present? && start_year.to_i >= RecruitmentCycle.next_year
+      errors.add(:start_year, :in_the_future) if completed? && start_year.present? && start_year.to_i >= RecruitmentCycleTimetable.next_year
     end
 
     def award_year_in_future_when_degree_completed
-      errors.add(:award_year, :in_the_future) if completed? && award_year.present? && award_year.to_i >= RecruitmentCycle.next_year
+      errors.add(:award_year, :in_the_future) if completed? && award_year.present? && award_year.to_i >= RecruitmentCycleTimetable.next_year
     end
 
     def award_year_in_past_when_degree_incomplete
@@ -630,7 +630,7 @@ module CandidateInterface
 
     def self.select_uk_degree_level(application_qualification)
       QUALIFICATION_LEVEL[
-        Hesa::DegreeType.find_by_name(application_qualification.qualification_type)&.level.to_s
+        Hesa::DegreeType.find_by_name(application_qualification.qualification_type)&.level.to_s,
       ]
     end
 

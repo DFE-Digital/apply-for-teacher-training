@@ -104,7 +104,7 @@ RSpec.describe CandidateInterface::CourseChoices::WhichCourseAreYouApplyingToSte
         create_list(:application_choice, 2, :rejected,
                     course_option:,
                     application_form: current_application,
-                    current_recruitment_cycle_year: RecruitmentCycle.previous_year)
+                    current_recruitment_cycle_year: previous_year)
       end
 
       it 'validates true' do
@@ -163,7 +163,7 @@ RSpec.describe CandidateInterface::CourseChoices::WhichCourseAreYouApplyingToSte
       end
     end
 
-    context 'when course has multiple sites and provider school is not selectable', time: CycleTimetableHelper.mid_cycle(2025) do
+    context 'when course has multiple sites and provider school is not selectable', time: mid_cycle(2025) do
       let(:provider) { create(:provider, selectable_school: false) }
 
       before do

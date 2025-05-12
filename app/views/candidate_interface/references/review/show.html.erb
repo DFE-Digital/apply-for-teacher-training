@@ -1,13 +1,17 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.references'), @section_complete_form.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t(@references.any? ? 'page_titles.references_review' : 'page_titles.references'), @section_complete_form.errors.any?) %>
+
 <% content_for :before_content, govuk_back_link_to(application_form_path) %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_references_complete_path, method: :patch do |f| %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_error_summary %>
-      <h1 class="govuk-heading-l">
-        <%= t('page_titles.references') %>
-      </h1>
+
+      <% if @references.any? %>
+        <h1 class="govuk-heading-l"><%= t('page_titles.references_review') %></h1>
+      <% else %>
+        <h1 class="govuk-heading-l"><%= t('page_titles.references') %></h1>
+      <% end %>
 
       <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
 
@@ -21,7 +25,7 @@
       editable: @section_policy.can_edit?,
       deletable: @section_policy.can_delete?,
       references: @references,
-      heading_level: 3,
+      heading_level: 2,
     ),
   ) %>
 

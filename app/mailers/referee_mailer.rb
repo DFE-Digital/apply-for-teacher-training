@@ -3,6 +3,7 @@ class RefereeMailer < ApplicationMailer
     @application_form = reference.application_form
     @reference = reference
     @candidate_name = @application_form.full_name
+    @candidate_first_name = @application_form.first_name
     @unhashed_token = reference.refresh_feedback_token!
     @referee_type = @reference.referee_type
     @provider_name = @application_form.application_choices.select(&:accepted_choice?).first.provider.name
@@ -20,6 +21,7 @@ class RefereeMailer < ApplicationMailer
     @application_form = application_form
     @reference = reference
     @candidate_name = @application_form.full_name
+    @candidate_first_name = @application_form.first_name
     @unhashed_token = reference.refresh_feedback_token!
     @referee_type = @reference.referee_type
     @provider_name = @application_form.application_choices.select(&:accepted_choice?).first.provider.name
@@ -59,6 +61,7 @@ class RefereeMailer < ApplicationMailer
     @application_form = reference.application_form
     @reference = reference
     @candidate_name = @application_form.full_name
+    @candidate_first_name = @application_form.first_name
     @unhashed_token = reference.refresh_feedback_token!
     @referee_type = @reference.referee_type
     @provider_name = @application_form.application_choices.select(&:accepted_choice?).first.provider.name

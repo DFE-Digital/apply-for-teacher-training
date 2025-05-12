@@ -7,6 +7,10 @@
 @import "~@ministryofjustice/frontend/moj/objects/scrollable-pane";
 @import "~@ministryofjustice/frontend/moj/components/filter/filter";
 
+.moj-filter, .moj-filter__header {
+  background-color: govuk-colour("light-grey");
+}
+
 .moj-filter-layout__content {
   overflow-x: hidden;
 
@@ -23,6 +27,7 @@
 
 .filter-toggle-button {
   float: right;
+
   margin-bottom: govuk-spacing(1);
   @include govuk-media-query($from: desktop) {
     display: none;
@@ -36,6 +41,7 @@
 @media (min-width: 48.0625em) {
   .moj-filter-layout__filter {
     max-width: 310px;
+
     margin-right: govuk-spacing(6);
   }
 }
@@ -46,7 +52,6 @@
   padding-bottom: govuk-spacing(2);
   padding-left: govuk-spacing(3);
 
-  background: govuk-colour("white");
   border: 1px solid $govuk-border-colour;
   border-bottom: 0;
   box-shadow: none;
@@ -106,8 +111,9 @@
 .moj-filter__tag:focus {
   text-decoration: none;
 
-  background-color: govuk-colour("yellow");
   outline: 3px solid transparent;
+
+  background-color: govuk-colour("yellow");
   box-shadow: 0 4px govuk-colour("black");
 }
 
@@ -141,10 +147,22 @@
     display: inline-block;
 
     width: auto;
+
     margin-top: 0;
     margin-bottom: 0;
     margin-left: 10px;
 
     vertical-align: bottom;
   }
+}
+
+.filter-group {
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+
+  border-bottom: 1px solid $govuk-border-colour;
+}
+
+.moj-filter .govuk-checkboxes__label::before {
+  background-color: govuk-colour("white");
 }

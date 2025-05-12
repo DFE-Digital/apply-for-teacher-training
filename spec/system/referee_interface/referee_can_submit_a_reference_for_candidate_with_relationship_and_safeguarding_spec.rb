@@ -4,13 +4,14 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   include CandidateHelper
 
   around do |example|
-    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    old_references = RecruitmentCycleTimetable
+                       .find_by(recruitment_cycle_year: ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+                       &.apply_opens_at
     travel_temporarily_to(old_references) { example.run }
   end
 
   it 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
     given_i_am_a_referee_of_an_application
-    and_the_confidentiality_feature_flag_is_active
     and_i_received_the_initial_reference_request_email
     then_i_receive_an_email_with_a_reference_request
 
@@ -100,10 +101,6 @@ RSpec.describe 'Referee can submit reference', :with_audited do
 
     when_i_retry_to_edit_the_feedback
     then_i_see_the_thank_you_page
-  end
-
-  def and_the_confidentiality_feature_flag_is_active
-    FeatureFlag.activate(:show_reference_confidentiality_status)
   end
 
   def given_i_am_a_referee_of_an_application

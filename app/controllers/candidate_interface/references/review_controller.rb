@@ -20,7 +20,11 @@ module CandidateInterface
         )
 
         if @application_form.complete_references_information? && @section_complete_form.save(current_application, :references_completed)
-          redirect_to_candidate_root
+          if current_application.meets_conditions_for_adviser_interruption? && @section_complete_form.completed?
+            redirect_to candidate_interface_adviser_sign_ups_interruption_path
+          else
+            redirect_to_candidate_root
+          end
         else
           track_validation_error(@section_complete_form)
           render :show

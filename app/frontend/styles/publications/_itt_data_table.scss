@@ -20,6 +20,7 @@
       padding-bottom: 2px;
 
       color: $govuk-link-colour;
+
       text-decoration: underline;
 
       cursor: pointer;
@@ -39,13 +40,14 @@
     // Make the ::before element take up the same amount of space the element would if it were bold.
     &__list-item a::before {
       display: block;
+      visibility: hidden;
 
       height: 0;
+
       overflow: hidden;
 
       font-weight: bold;
 
-      visibility: hidden;
       content: attr(title);
     }
     // end hack

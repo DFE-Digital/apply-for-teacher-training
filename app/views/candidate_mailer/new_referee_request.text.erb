@@ -12,7 +12,7 @@ Your request did not reach <%= @reference.name %>. This could be because:
 
 It is important that <%= @provider_name %> receives your references as soon as possible.
 
-You can sign into your account to:
+You can sign in to your account to:
 
 - request the reference again - check the email address before you do this
 - ask someone else for a reference
@@ -24,7 +24,7 @@ You can sign into your account to:
 
 It is important that <%= @provider_name %> receives your references as soon as possible.
 
-You can sign into your account to request a reference from someone else.
+You can sign in to your account to request a reference from someone else.
 
 <% else %>
 
@@ -32,7 +32,7 @@ You asked <%= @reference.name %> for a reference for your teacher training appli
 
 It is important that <%= @provider_name %> receives your references as soon as possible.
 
-You can sign into your account to:
+You can sign in to your account to:
 
 - send them an email to remind them that you have asked for a reference
 - cancel the request for a reference
@@ -40,7 +40,7 @@ You can sign into your account to:
 
 
 <% end %>
-[Sign into your account](<%= candidate_magic_link(@candidate) %>).
+[Sign in to your account](<%= sign_in_link %>).
 
 <%= @provider_name %> must check your references before they can confirm your place on the course. Contact them if you need help getting references or choosing who to ask.
 

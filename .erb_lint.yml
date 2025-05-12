@@ -1,0 +1,27 @@
+---
+EnableDefaultLinters: true
+exclude:
+  - '**/node_modules/**/*'
+  - 'app/components/utility/button_to_as_link_component.html.erb'
+linters:
+  Rubocop:
+    enabled: true
+    rubocop_config:
+      inherit_from:
+        - .rubocop.yml
+      Layout/ArgumentAlignment:
+        Enabled: false
+      Layout/CommentIndentation:
+        Enabled: false
+      Layout/FirstArgumentIndentation:
+        Enabled: false
+      Layout/FirstArrayElementIndentation:
+        Enabled: false
+      Layout/FirstHashElementIndentation:
+        Enabled: false
+      Layout/InitialIndentation:
+        Enabled: false
+      Layout/TrailingEmptyLines:
+        Enabled: false
+      Lint/UselessAssignment:
+        Enabled: false

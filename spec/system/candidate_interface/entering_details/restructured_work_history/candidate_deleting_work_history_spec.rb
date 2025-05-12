@@ -4,7 +4,7 @@ RSpec.describe 'Entering their work history' do
   include CandidateHelper
 
   scenario 'Candidate deleting their only job entry should also remove any breaks entered' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_visit_the_site
 
     when_i_click_on_work_history
@@ -30,10 +30,6 @@ RSpec.describe 'Entering their work history' do
     and_i_add_a_job_that_covers_the_last_4_years_and_9_months
     then_i_see_a_two_month_break_between_my_job_and_now
     and_i_do_not_see_my_previous_break_entry
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_i_visit_the_site

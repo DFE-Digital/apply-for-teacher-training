@@ -10,7 +10,7 @@
 <ol class="app-contents-list__list">
   <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'API Versions', '#versions', class: 'app-contents-list__link' %></li>
   <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Testing draft changes', '#testing-draft', class: 'app-contents-list__link' %></li>
-  <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Version 1.4 changes', '#changes', class: 'app-contents-list__link' %></li>
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Version 1.6 changes', '#changes', class: 'app-contents-list__link' %></li>
   <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Developing on the API', '#developing', class: 'app-contents-list__link' %></li>
   <li class="app-contents-list__list-item app-contents-list__list-item--parent">
     <%= govuk_link_to 'Endpoints', '#endpoints', class: 'app-contents-list__link' %>
@@ -52,39 +52,42 @@
   <li>using the correct version of the API</li>
 </ul>
 
-<h3 class="govuk-heading-l" id="testing-draft">Testing draft version 1.4</h3>
+<h3 class="govuk-heading-l" id="testing-draft">Testing draft version 1.6</h3>
 
 <p class="govuk-body">
   When an API version is in draft, you can test it using our sandbox test environment.
 </p>
 
 <p class="govuk-body">
-  You can test draft version <code>1.4</code> by using:
+  You can test draft version <code>1.6</code> by using:
 </p>
 <ul class="govuk-list govuk-list--bullet">
-  <li>the sandbox URL for the version, which is <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.4', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.4' %></li>
+  <li>the sandbox URL for the version, which is <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.6', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.6' %></li>
   <li>your sandbox API token - email <%= govuk_mail_to 'becomingateacher@digital.education.gov.uk' %> if you do not have one</li>
 </ul>
 
 <p class="govuk-body">
-  After version <code>1.4</code> has been released it will also be available in the sandbox on <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1' %>.
+  After version <code>1.6</code> has been released it will also be available in the sandbox on <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1' %>.
 </p>
 
-<h2 class="govuk-heading-l" id="changes">Version 1.4 changes</h2>
+<h2 class="govuk-heading-l" id="changes">Version 1.6 changes</h2>
 
-<p class="govuk-heading-s">Add GCSE qualifications data</p>
+<p class="govuk-heading-s">Expose the confidentiality status selected by the referee for the reference object</p>
 
 <p class="govuk-body">
-  Ensure we send the following fields over the API, as part of the "qualifications"."gcses" object:
-</p>
+  The following field has been added to the <%= govuk_link_to 'reference', '#reference-object' %> object:
 
-<p class="govuk-body">
-  The following fields have been added to the <%= govuk_link_to 'qualifications', '#qualifications-object' %> objects, under the <code>gcses</code> array:
-</p>
 <ul class="govuk-list govuk-list--bullet">
-  <li><code>currently_completing_qualification</code> (boolean, optional)</li>
-  <li><code>missing_explanation</code>  (string, optional)</li>
-  <li><code>other_uk_qualification_type</code> (string, optional)</li>
+  <li><code>confidential</code> (boolean) - This value must be selected by the referee when submitting the reference</li>
+</ul>
+
+<p class="govuk-heading-s">Add inactive to the ApplicationAttribute</p>
+
+<p class="govuk-body">
+  The following field has been added to the <%= govuk_link_to 'application', '#applicationattributes-object' %> object:
+
+<ul class="govuk-list govuk-list--bullet">
+  <li><code>inactive</code> (boolean, required)</li>
 </ul>
 
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
@@ -103,10 +106,10 @@
 
 <p class="govuk-body">
   We have a production environment and a sandbox environment.
-  When version 1.4 is launched initially for testing, it will only be accessible
+  When version 1.6 is launched initially for testing, it will only be accessible
   in the sandbox environment by determining the version in the URL as so:
-  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.4',
-                    'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.4' %>.
+  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.6',
+                    'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.6' %>.
   Only after testing is complete, the production environment will automatically upgrade
   to the latest minor version without the need to update the URL.
 </p>

@@ -83,7 +83,7 @@ RSpec.describe SupportInterface::ApplicationsFilter do
       verify_filtered_applications_for_params(
         [expected_form],
         params: {
-          year: [RecruitmentCycle.previous_year],
+          year: [previous_year],
         },
       )
     end

@@ -16,6 +16,7 @@
 14. [Candidate sign in](#candidate-login-issues)
 15. [Candidate email address](#switch-email-addresses)
 16. [Updating applications in old recruitment cycles](#old-recruitment-cycles)
+17. [Slowness of service](#slowness-of-service)
 
 ## Support Trello board
 
@@ -172,7 +173,7 @@ We've seen this happen due to a `nil` value for `predicted_grade`. To fix this u
 Create the same qualification locally, turn the relevant fields into JSON, paste that into the prod shell, parse it and assigned attrs 😥 `qualification.as_json(only: [fields]).to_json`
 
 ### Update qualifications
-(section reviewed 17 June 2024)
+(section reviewed 24 April 2025)
 
 **Adding equivalency**
 
@@ -186,14 +187,16 @@ It is most likely that you will only need to update the `enic_reference` and `co
 
 Some notes about the required fields:
 
-- `enic_number` This is a 10 digit number on the ENIC statement of comparability. It's call 'UK ENIC reference' on the statement.
-- `comparable_uk_degree` This is an enum, use one of these valid options https://github.com/DFE-Digital/apply-for-teacher-training/blob/7d61f9887494aae093ced34f587d5870528ba786/app/models/application_qualification.rb`
+- `enic_reference` This is a 10 digit number on the ENIC statement of comparability. It's call 'UK ENIC reference' on the statement.
+- `comparable_uk_degree` This is an enum, use one of these valid options https://github.com/DFE-Digital/apply-for-teacher-training/blob/7d61f9887494aae093ced34f587d5870528ba786/app/models/application_qualification.rb
+- `enic_reason` This will probably 'waiting'; should be updated to 'obtained'. See https://github.com/DFE-Digital/apply-for-teacher-training/blob/8fd1a3b8f31e69480927f491d833b39e3ccfb36c/app/models/application_qualification.rb#L63
 
 ```ruby
 ApplicationQualification.find(QUALIFICATION_ID).update!(
-  enic_number:,
+  enic_reference:,
   comparable_uk_degree:,
   audit_comment: ZENDESK_URL,
+  enic_reason:,
 
   # Other things to check against the ENIC certificate
   level: 'degree',
@@ -209,29 +212,7 @@ You may also be asked to remove ENIC / comparable_uk_degree information if the c
 
 ***GCSEs***
 
-Some notes about the required fields:
-- `enic_number` This is a 10 digit number on the ENIC statement of comparability. It's call 'UK ENIC reference' on the statement.
-- `subject` usually one of the required GCSE subjects https://github.com/DFE-Digital/apply-for-teacher-training/blob/7d61f9887494aae093ced34f587d5870528ba786/app/models/application_qualification.rb#L41
-- `non_uk_qualification_type` Free text. Usually something like 'High School diploma', it should match what is on the ENIC certificate
-- `comparable_uk_qualification`. This is a string, not an enum. The possible text values are here: https://github.com/DFE-Digital/apply-for-teacher-training/blob/d95efba0a432715760e1686880e83e9bdbf8821e/config/locales/candidate_interface/gcse.yml#L42.
-For example, use 'GCSE (grades A*-C / 9-4)' NOT 'gcse'.
-
-```ruby
-ApplicationQualification.find(QUALIFICATION_ID).update!(
-  level: 'gcse',
-  enic_number:,
-  subject:,
-  non_uk_qualification_type:,
-  comparable_uk_qualification:,
-  audit_comment: ZENDESK_URL,
-
-  # Other things to check against the ENIC certificate
-  comparable_uk_degree: nil,
-  qualification_type: 'non_uk',
-  award_year:,
-  institution_country:,
-  )
-````
+Support users can edit GCSEs directly, including ENIC references. If you are asked to do this, it can be referred back to the support user for action.
 
 **Change grade**
 
@@ -709,6 +690,23 @@ Check logs in Kibana. If there is a 422 Unprocessable Entity response for this u
 > If this problem persists please get in touch and we will investigate further.
 
 
+## One Login account recovery dismissal
+
+If a candidate dismisses the banner for linking their GOV.UK One Login to an existing candidate account (one they created with magic link authentication)
+
+Check the Candidate `account_recovery_status`.
+If `candidate.account_recovery_status == 'dismissed'`
+- No problem, they just clicked the button.
+```ruby
+candidate.account_recovery_request.destroy
+candidate.update(account_recovery_status: 'not_started')
+```
+Now the candidate should be able to see the banner and proceed as expected.
+Note that if the candidate has submitted any application choices on their new account, they will not be able to link it with an old account.
+
+
+Now they will have to start the whole One Login journey over again.
+
 ## Switch email addresses
 
 ```ruby
@@ -764,7 +762,7 @@ If you want to check the candidate and the audit created above:
 
 ## Old recruitment cycles
 
-When an `ApplicationForm` is updated, we ususally want those changes to be available in the API so Providers and Vendors can consume the updates. This is done by `touch`ing the `ApplicationChoice` records. This updates the `updated_at` value on the ApplicationChoice so it is made priority for the providers to consume.
+When an `ApplicationForm` is updated, we usually want those changes to be available in the API so Providers and Vendors can consume the updates. This is done by `touch`ing the `ApplicationChoice` records. This updates the `updated_at` value on the ApplicationChoice so it is made priority for the providers to consume.
 
 Providers have trouble consuming these changes if the application that gets an update is from an old recruitment cycle (We need to talk to vendors to see if this is still the case). We have a system to prevent this from happening. If the ApplicationForm is from a past recruitment cycle we prevent any changes from being made on it.
 
@@ -772,12 +770,62 @@ If we want to bypass this, we will want to update the value in the database and 
 
 This also prevents audits from being created, so we have to create an audit record manually:
 
-### Update a candidates last name from an old recruitment cycle
+### Update a candidates first and last name from an old recruitment cycle
 
 ```ruby
-application_form = ApplicationForm.find_by(APPLICATION_FORM_ID)
-last_name = LAST_NAME
 audit_comment = ZENDESK_URL
-application_form.update_column(:last_name, last_name)
-application_form.audits.new(action: :update, comment: audit_comment)
+application_form = ApplicationForm.find(APPLICATION_FORM_ID)
+first_name = FIRST_NAME
+last_name = LAST_NAME
+
+original_first_name = application_form.first_name
+original_last_name = application_form.last_name
+application_form.update_columns(first_name: first_name, last_name: last_name)
+application_form.audits.create(
+  action: :update,
+  audited_changes: {
+    "first_name": [original_first_name, first_name],
+    "last_name": [original_last_name, last_name]
+  },
+  comment: audit_comment
+)
+```
+
+## Slowness of service
+
+If you are experiencing slowness of service, please check the following:
+- Check [Graphana](https://grafana.teacherservices.cloud/d/k8s_views_pods/kubernetes-views-pods?orgId=1&var-datasource=P5DCFC7561CCDE821&var-cluster=prometheus&var-namespace=bat-production&var-deployment=apply-production&var-pod=All&var-resolution=30s) for any spikes in CPU or memory usage in web and worker pods
+- Check [Azure Portal](https://portal.azure.com/#@platform.education.gov.uk/resource/subscriptions/3c033a0c-7a1c-4653-93cb-0f2a9f57a391/resourceGroups/s189p01-att-pd-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/s189p01-att-production-psql/metrics) for any spikes in CPU or memory usage in database instance
+- [Check for any long-running queries in the database](#check-for-long-running-database-queries)
+
+### Check for long-running database queries
+
+#### Connect to the database
+
+See [Infra - AKS Cheatsheet](./infra/aks-cheatsheet.md#access-the-db)
+
+#### Check for long-running queries
+
+Noting the process ID (pid) of the query you want to cancel:
+
+```sql
+SELECT
+  pid,
+  user,
+  pg_stat_activity.query_start,
+  now() - pg_stat_activity.query_start AS query_time,
+  query,
+  state,
+  wait_event_type,
+  wait_event
+FROM pg_stat_activity
+WHERE (now() - pg_stat_activity.query_start) > interval '20 seconds' order by query_start desc;
+```
+
+#### Cancel long-running queries
+
+Replace `<pid>` with the process ID of the query you want to cancel
+
+```sql
+SELECT pg_cancel_backend(<pid>);
 ```

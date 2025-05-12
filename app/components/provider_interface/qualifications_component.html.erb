@@ -1,5 +1,5 @@
 <section class="app-section">
-  <h2 class="govuk-heading-m govuk-!-font-size-27" id="qualifications">Qualifications</h2>
+  <h3 class="govuk-heading-m" id="qualifications">Qualifications</h3>
 
   <% if render_degrees? %>
     <%= render DegreeQualificationCardsComponent.new(
@@ -9,7 +9,7 @@
       editable: false,
     ) %>
   <% else %>
-    <h3 class="govuk-heading-m" id="degrees"><%= I18n.t('provider_interface.degree.heading') %></h3>
+    <h4 class="govuk-heading-s" id="degrees"><%= I18n.t('provider_interface.degree.heading') %></h4>
 
     <p class="govuk-body"><%= I18n.t('provider_interface.degree.teacher_degree_apprenticeship_message') %></p>
   <% end %>

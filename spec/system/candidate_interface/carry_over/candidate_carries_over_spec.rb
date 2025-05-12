@@ -19,13 +19,14 @@ RSpec.describe 'Carry over unsubmitted applications', :sidekiq do
 
     when_i_go_to_your_applications_tab
     then_i_do_not_see_the_add_course_button
+    and_i_see_the_banner_content_for_before_find_opens
     and_i_do_not_see_previous_applications_heading
 
     when_i_visit_add_course_url
     then_i_am_redirect_to_your_applications_tab
 
     when_i_visit_the_old_complete_page
-    then_i_am_redirected_to_continuous_application_details_page
+    then_i_see_a_404_page
   end
 
   scenario 'candidate carries over unsubmitted application after find opens deadline' do
@@ -39,13 +40,8 @@ RSpec.describe 'Carry over unsubmitted applications', :sidekiq do
     then_i_am_redirected_to_continuous_application_details_page
 
     when_i_go_to_your_applications_tab
-    then_i_do_not_see_the_add_course_button
-
-    when_i_visit_add_course_url
-    then_i_am_redirect_to_your_applications_tab
-
-    when_i_visit_the_old_complete_page
-    then_i_am_redirected_to_continuous_application_details_page
+    then_i_can_see_the_add_course_button
+    and_i_see_the_banner_content_for_after_find_opens
   end
 
   scenario 'candidate carries over submitted application after find opens deadline' do
@@ -59,13 +55,8 @@ RSpec.describe 'Carry over unsubmitted applications', :sidekiq do
     then_i_am_redirected_to_continuous_application_details_page
 
     when_i_go_to_your_applications_tab
-    then_i_do_not_see_the_add_course_button
-
-    when_i_visit_add_course_url
-    then_i_am_redirect_to_your_applications_tab
-
-    when_i_visit_the_old_complete_page
-    then_i_am_redirected_to_continuous_application_details_page
+    then_i_can_see_the_add_course_button
+    and_i_see_the_banner_content_for_after_find_opens
   end
 
 private
@@ -76,7 +67,6 @@ private
       date_of_birth:,
       submitted_at: nil,
       candidate: current_candidate,
-      recruitment_cycle_year: RecruitmentCycle.previous_year,
     )
 
     %i[not_requested_yet feedback_requested].each do |feedback_status|
@@ -94,33 +84,6 @@ private
       date_of_birth:,
       submitted_at: Time.zone.now,
       candidate: current_candidate,
-      recruitment_cycle_year: 2023,
-    )
-
-    create(
-      :application_choice,
-      :rejected,
-      application_form: @application_form,
-    )
-  end
-
-  def given_i_have_rejected_application_in_apply_1_and_apply_again_from_2023
-    given_i_have_rejected_application
-    and_i_have_applied_again_in_2023
-    and_i_have_submitted_apply_again_course_choices
-  end
-
-  def and_i_have_applied_again_in_2023
-    DuplicateApplication.new(@application_form).duplicate
-  end
-
-  def given_i_have_submitted_application
-    @application_form = create(
-      :completed_application_form,
-      date_of_birth:,
-      submitted_at: Time.zone.now,
-      candidate: current_candidate,
-      recruitment_cycle_year: 2023,
     )
 
     create(
@@ -135,16 +98,17 @@ private
   end
 
   def and_today_is_after_apply_deadline
-    TestSuiteTimeMachine.travel_permanently_to(after_apply_deadline)
+    TestSuiteTimeMachine.travel_permanently_to(@application_form.apply_deadline_at + 1.second)
   end
   alias_method :given_today_is_after_apply_deadline, :and_today_is_after_apply_deadline
 
   def given_today_is_after_rejected_by_default_date
-    TestSuiteTimeMachine.travel_permanently_to(after_reject_by_default)
+    TestSuiteTimeMachine.travel_permanently_to(@application_form.reject_by_default_at + 1.second)
   end
 
   def and_today_is_after_find_reopens
-    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.find_reopens)
+    next_timetable = @application_form.recruitment_cycle_timetable.relative_next_timetable
+    TestSuiteTimeMachine.travel_permanently_to(next_timetable.find_opens_at + 1.second)
   end
 
   def when_i_sign_in
@@ -163,17 +127,6 @@ private
     application_form.update!(submitted_at: Time.zone.now, becoming_a_teacher_completed: true)
   end
 
-  def when_i_got_rejected_by_a_provider
-    current_candidate.application_choices.awaiting_provider_decision.each do |application_choice|
-      ApplicationStateChange.new(application_choice).reject!
-      application_choice.update!(rejected_at: Time.zone.now)
-    end
-  end
-
-  def then_i_am_redirected_to_complete_page
-    expect(page).to have_current_path(candidate_interface_application_complete_path)
-  end
-
   def when_i_carry_over
     click_link_or_button 'Update your details'
   end
@@ -183,23 +136,39 @@ private
     then_i_see_a_copy_of_my_application
   end
 
+  def then_i_see_a_404_page
+    expect(page).to have_content 'Page not found'
+  end
+
   def when_i_go_to_your_applications_tab
     click_link_or_button 'Your application'
   end
 
   def then_i_do_not_see_the_add_course_button
-    expect(page).to have_no_content('Choose a courses')
-    apply_reopen_date = I18n.l(CycleTimetable.apply_reopens.to_date, format: :no_year).strip
-    cycle_range = CycleTimetable.cycle_year_range(RecruitmentCycle.next_year)
+    expect(page).to have_no_content('Choose a course')
+  end
+
+  def then_i_can_see_the_add_course_button
+    expect(page).to have_content('Choose a course')
+  end
+
+  def and_i_see_the_banner_content_for_before_find_opens
+    relative_next_timetable = @application_form.recruitment_cycle_timetable.relative_next_timetable
+    apply_reopen_date = relative_next_timetable.apply_opens_at.to_fs(:day_and_month)
+    cycle_range = relative_next_timetable.academic_year_range_name
     expect(page).to have_content("From #{apply_reopen_date} you will be able to apply for courses starting in the #{cycle_range} academic year.")
+  end
+
+  def and_i_see_the_banner_content_for_after_find_opens
+    relative_next_timetable = @application_form.recruitment_cycle_timetable.relative_next_timetable
+    apply_reopen_date = relative_next_timetable.apply_opens_at.to_fs(:day_and_month)
+    academic_year_range = relative_next_timetable.academic_year_range_name
+    expect(page).to have_content("You can prepare applications for courses starting in the #{academic_year_range} academic year.")
+    expect(page).to have_content("You will be able to apply for these courses from #{apply_reopen_date}.")
   end
 
   def and_i_do_not_see_previous_applications_heading
     expect(page).to have_no_content('Previous applications')
-  end
-
-  def and_i_see_previous_applications_heading
-    expect(page).to have_content('Previous applications')
   end
 
   def when_i_visit_add_course_url
@@ -211,7 +180,7 @@ private
   end
 
   def when_i_visit_the_old_complete_page
-    visit candidate_interface_application_complete_path
+    visit '/application/complete'
   end
 
   def then_i_see_a_copy_of_my_application
@@ -222,15 +191,9 @@ private
     and_my_application_is_on_the_new_cycle
   end
 
-  def and_i_sign_in_again
-    logout
-    login_as(current_candidate)
-    visit candidate_interface_details_path
-  end
-
   def and_my_application_is_on_the_new_cycle
-    year = RecruitmentCycle.next_year
-    expect(current_candidate.current_application.reload.recruitment_cycle_year).to be(year)
+    current_year = @application_form.recruitment_cycle_year
+    expect(current_candidate.current_application.reload.recruitment_cycle_year).to be(current_year + 1)
   end
 
   def date_of_birth

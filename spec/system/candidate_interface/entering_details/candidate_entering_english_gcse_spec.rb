@@ -4,12 +4,15 @@ RSpec.describe 'Candidate entering GCSE English details' do
   include CandidateHelper
 
   scenario 'Candidate submits their GCSE English qualification' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_wish_to_apply_to_a_course_that_requires_gcse_english
     and_i_visit_the_site
 
     and_i_click_on_the_english_gcse_link
     then_i_see_the_add_gcse_english_page
+
+    when_i_try_to_manually_navigate_to_the_review_page
+    then_i_am_redirected_to_the_qualification_type_page
 
     when_i_select_gcse_option
     and_i_click_save_and_continue
@@ -18,7 +21,11 @@ RSpec.describe 'Candidate entering GCSE English details' do
     and_i_click_save_and_continue
     then_i_see_the_gcses_blank_error
 
-    when_i_click_english_single_award
+    when_i_visit_the_review_page
+    and_i_click_enter_your_grade
+    and_i_click_back
+    and_i_click_enter_your_grade
+    and_i_click_english_single_award
     and_i_click_save_and_continue
     then_i_see_the_enter_your_english_single_award_grade_error
 
@@ -50,8 +57,16 @@ RSpec.describe 'Candidate entering GCSE English details' do
     then_i_see_my_new_grade_on_the_review_page
   end
 
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
+  def when_i_visit_the_review_page
+    visit candidate_interface_gcse_review_path(subject: 'english')
+  end
+
+  def and_i_click_enter_your_grade
+    click_link_or_button 'Enter your grade'
+  end
+
+  def and_i_click_back
+    click_link_or_button 'Back'
   end
 
   def and_i_wish_to_apply_to_a_course_that_requires_gcse_english
@@ -92,6 +107,8 @@ RSpec.describe 'Candidate entering GCSE English details' do
   def when_i_click_english_single_award
     check 'English (Single award)'
   end
+
+  alias_method :and_i_click_english_single_award, :when_i_click_english_single_award
 
   def then_i_see_the_enter_your_english_single_award_grade_error
     expect(page).to have_content 'Enter your English (Single award) grade'
@@ -166,5 +183,13 @@ RSpec.describe 'Candidate entering GCSE English details' do
 
   def then_i_see_my_new_grade_on_the_review_page
     expect(page).to have_content('B (Cockney Rhyming Slang)')
+  end
+
+  def when_i_try_to_manually_navigate_to_the_review_page
+    visit candidate_interface_gcse_review_path(subject: 'english')
+  end
+
+  def then_i_am_redirected_to_the_qualification_type_page
+    expect(page).to have_current_path(candidate_interface_gcse_details_new_type_path(subject: 'english'))
   end
 end

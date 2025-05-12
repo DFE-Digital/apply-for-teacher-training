@@ -1,0 +1,7 @@
+en:
+  candidate_interface:
+    application_review_and_submit_component:
+      delete_draft_application: Delete draft application
+      you_should_delete_html:
+        You should %{link} to apply for %{course_name} at %{provider_name} because they cannot accept your application this year.
+      delete_your_draft: delete your draft application

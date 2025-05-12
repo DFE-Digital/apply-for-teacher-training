@@ -1,0 +1,41 @@
+<h3 class="govuk-heading-m" id="experience-details">
+  <%= title %>
+</h3>
+
+<% work_history_with_breaks.timeline.each do |item| %>
+  <section>
+    <% if explained_break?(item) %>
+      <h4 class="govuk-heading-s">
+        <%= t('.explained_break_title', formatted_duration: break_duration(item)) %>
+      </h4>
+      <p class="govuk-caption-m">
+        <%= item.reason %>
+      </p>
+    <% elsif unexplained_break?(item) %>
+      <div class="govuk-inset-text govuk-!-padding-bottom-0 govuk-!-padding-top-0 govuk-!-margin-bottom-0 govuk-!-margin-top-0">
+        <h4 class="govuk-heading-s">
+          <%= t('.unexplained_break_title', formatted_duration: break_duration(item)) %>
+        </h4>
+      </div>
+    <% elsif work_or_volunteer_item?(item) %>
+      <h4 class="govuk-heading-s">
+        <%= "#{item.role} – #{working_pattern(item)}" %>
+      </h4>
+      <p class="govuk-!-margin-bottom-0 govuk-body">
+        <%= item.organisation %>
+      </p>
+      <p class="govuk-caption-m govuk-!-font-size-16 govuk-!-margin-top-0">
+        <%= work_or_volunteer_duration(item) %>
+      </p>
+      <% if item.relevant_skills? || item.working_with_children? %>
+        <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-3">
+          <svg class="app-icon govuk-!-margin-right-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 200 200" focusable="false" fill="currentColor" aria-hidden="true">
+            <path d="M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z"></path>
+          </svg>
+          <%= item.relevant_skills? ? t('.relevant_skills') : t('.worked_with_children') %>
+        </p>
+      <% end %>
+    <% end %>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-bottom-3 govuk-!-margin-top-3">
+  </section>
+  <% end %>

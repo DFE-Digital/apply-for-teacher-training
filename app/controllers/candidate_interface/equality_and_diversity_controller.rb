@@ -96,7 +96,11 @@ module CandidateInterface
       @section_complete_form = EqualityAndDiversityCompleteForm.new(form_params.merge(current_application:))
 
       if @section_complete_form.save(current_application, :equality_and_diversity_completed)
-        redirect_to_candidate_root
+        if current_application.meets_conditions_for_adviser_interruption? && @section_complete_form.completed?
+          redirect_to candidate_interface_adviser_sign_ups_interruption_path
+        else
+          redirect_to_candidate_root
+        end
       else
         track_validation_error(@section_complete_form)
         render :review
@@ -110,7 +114,7 @@ module CandidateInterface
     end
 
     def disabilities_params
-      params.require(:candidate_interface_equality_and_diversity_disabilities_form).permit(:other_disability, disabilities: []).tap do |dp|
+      params.expect(candidate_interface_equality_and_diversity_disabilities_form: [:other_disability, disabilities: []]).tap do |dp|
         dp.delete(:disabilities) if dp[:disabilities] == ['']
       end
     end
@@ -120,7 +124,7 @@ module CandidateInterface
     end
 
     def ethnic_background_param
-      params.require(:candidate_interface_equality_and_diversity_ethnic_background_form).permit(:ethnic_background, :other_background)
+      params.expect(candidate_interface_equality_and_diversity_ethnic_background_form: %i[ethnic_background other_background])
     end
 
     def free_school_meals_param

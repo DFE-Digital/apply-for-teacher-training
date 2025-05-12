@@ -28,7 +28,7 @@ RSpec.describe 'Syncing providers', :sidekiq do
     stub_teacher_training_api_providers(
       specified_attributes: [
         {
-          code: 'ABC',
+          code: 'abc', # Lower case to verify case insensitivity
           name: 'ABC College',
         },
       ],

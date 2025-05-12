@@ -4,8 +4,10 @@ class CandidateInterface::ChoicesControllerMatcher
   APPLICATION_CHOICE_CONTROLLER_PATHS = [
     'candidate_interface/course_choices', # the course choice wizard
     'candidate_interface/application_choices', # controller for Your applications & deleting an application choice
-    'candidate_interface/decisions', # withdrawing from a course offer
+    'candidate_interface/decisions', # withdrawing from a course offer, the old way
+    'candidate_interface/withdrawal_reasons', # Withdrawing the new way
     'candidate_interface/apply_from_find',
+    'candidate_interface/share_details',
   ].freeze
 
   def self.choices_controller?(current_application:, controller_path:, request:)

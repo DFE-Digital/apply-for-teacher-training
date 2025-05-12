@@ -16,7 +16,7 @@
     application_qualification: @application_form.english_gcse,
     subject: 'english',
     editable: editable,
-    heading_level: 4,
+    heading_level: 3,
     missing_error: nil,
     submitting_application: true,
   )) %>
@@ -34,7 +34,7 @@
     application_qualification: @application_form.maths_gcse,
     subject: 'maths',
     editable: editable,
-    heading_level: 4,
+    heading_level: 3,
     missing_error: nil,
     submitting_application: true,
   )) %>
@@ -45,7 +45,7 @@
       application_qualification: @application_form.science_gcse,
       subject: 'science',
       editable: editable,
-      heading_level: 4,
+      heading_level: 3,
       missing_error: nil,
       submitting_application: true,
     )) %>
@@ -54,14 +54,14 @@
   <%= render(CandidateInterface::OtherQualificationsReviewComponent.new(
     application_form: application_form,
     editable: editable,
-    heading_level: 4,
+    heading_level: 3,
     missing_error: nil,
     submitting_application: true,
   )) %>
 
     <%= render(CandidateInterface::DegreeReviewComponent.new(
       application_form: application_form,
-      editable: editable, heading_level: 4,
+      editable: editable, heading_level: 3,
       show_incomplete: true,
       missing_error: nil
     )) %>

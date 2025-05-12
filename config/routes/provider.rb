@@ -25,15 +25,28 @@ namespace :provider_interface, path: '/provider' do
 
   get '/applications' => 'application_choices#index'
 
+  namespace :candidate_pool, path: 'find-candidates' do
+    resources :candidates, only: %i[index show], path: '/' do
+      resources :draft_invites, path: 'invite' do
+        resource :publish_invite, only: %i[create], path: 'review'
+      end
+    end
+    root to: 'candidates#index'
+  end
+
   resources :reports, only: :index
+
+  resources :location_suggestions, only: :index, path: 'location-suggestions'
 
   namespace :reports do
     resources :hesa_exports, only: :show, path: 'hesa-exports', param: :year, constraints: ValidRecruitmentCycleYear
     resources :hesa_exports, only: :index, path: 'hesa-exports'
+    resources :withdrawal_reports, only: :index, path: 'withdrawal-reports'
     resources :providers, only: [], path: '' do
       resource :status_of_active_applications, only: :show, path: 'status-of-active-applications'
       resource :diversity_report, only: :show, path: 'diversity-report'
       resource :withdrawal_report, only: :show, path: 'withdrawal-report'
+      resource :withdrawal_reasons_report, only: :show, path: 'withdrawal-reasons-report'
       resource :recruitment_performance_report, only: :show, path: 'recruitment-performance-report'
     end
   end

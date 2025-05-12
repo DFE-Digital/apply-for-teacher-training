@@ -37,22 +37,22 @@ module SupportInterface
 
       def job_form_params
         StripWhitespace.from_hash(
-          params.require(:support_interface_application_forms_job_form)
-                .permit(
-                  :role,
-                  :organisation,
-                  :commitment,
-                  :'start_date(3i)',
-                  :'start_date(2i)',
-                  :'start_date(1i)',
-                  :start_date_unknown,
-                  :currently_working,
-                  :'end_date(3i)',
-                  :'end_date(2i)',
-                  :'end_date(1i)',
-                  :end_date_unknown,
-                  :relevant_skills,
-                  :audit_comment,
+          params
+                .expect(
+                  support_interface_application_forms_job_form: %i[role
+                                                                   organisation
+                                                                   commitment
+                                                                   start_date(3i)
+                                                                   start_date(2i)
+                                                                   start_date(1i)
+                                                                   start_date_unknown
+                                                                   currently_working
+                                                                   end_date(3i)
+                                                                   end_date(2i)
+                                                                   end_date(1i)
+                                                                   end_date_unknown
+                                                                   relevant_skills
+                                                                   audit_comment],
                 )
                 .transform_keys { |key| start_date_field_to_attribute(key) }
                 .transform_keys { |key| end_date_field_to_attribute(key) },

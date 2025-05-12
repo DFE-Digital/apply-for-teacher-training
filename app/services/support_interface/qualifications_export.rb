@@ -60,9 +60,18 @@ module SupportInterface
     end
 
     def english_other_gcse_grade(qualifications)
+      english_gcse_subjects = %w[
+        english_single_award
+        english_double_award
+        english_language
+        english_literature
+        english_studies_single_award
+        english_studies_double_award
+      ].freeze
+
       constituent_grades = constituent_gcse_english_grades_from(qualifications)
       constituent_grades.each do |subject, hash|
-        return hash['grade'] if ENGLISH_GCSE_SUBJECTS.exclude?(subject)
+        return hash['grade'] if english_gcse_subjects.exclude?(subject)
       end
     rescue StandardError
       nil
@@ -70,7 +79,7 @@ module SupportInterface
 
     def a_levels(qualifications)
       qualifications
-        .select { |qualification| qualification.qualification_type == 'A level' || qualification.qualification_type == 'AS level' }
+        .select { |qualification| ['A level', 'AS level'].include?(qualification.qualification_type) }
         .reject(&:incomplete_other_qualification?)
         .take(5)
     end
@@ -102,14 +111,5 @@ module SupportInterface
     def find_science_gcse(qualifications:, award:)
       qualifications.find { |qualification| qualification.gcse? && qualification.subject == award }
     end
-
-    ENGLISH_GCSE_SUBJECTS = %w[
-      english_single_award
-      english_double_award
-      english_language
-      english_literature
-      english_studies_single_award
-      english_studies_double_award
-    ].freeze
   end
 end

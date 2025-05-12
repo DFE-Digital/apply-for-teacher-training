@@ -111,7 +111,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       end
 
       context 'course is next recruitment cycle' do
-        let(:course) { create(:course, :open, recruitment_cycle_year: CycleTimetable.next_year) }
+        let(:course) { create(:course, :open, recruitment_cycle_year: next_year) }
 
         it { is_expected.to match(/Unpublished/) }
       end

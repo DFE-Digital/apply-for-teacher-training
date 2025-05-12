@@ -1,0 +1,12 @@
+<% content_for :browser_title, 'New API token generated' %>
+<%= render 'support_interface/providers/providers_navigation', title: 'API tokens' %>
+
+<%= govuk_panel(title_text: 'New API token generated') do %>
+  Your token is
+  <br>
+  <code><%= @unhashed_token %></code>
+<% end %>
+
+<p class="govuk-body">
+  <%= govuk_link_to 'Return to list of API tokens', support_interface_api_tokens_path %>
+</p>

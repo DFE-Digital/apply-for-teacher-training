@@ -1,13 +1,23 @@
 ---
 shared:
   application_forms:
+    - phone_number
     - support_reference
     - candidate_id
+    - first_name
+    - last_name
+    - date_of_birth
   candidates:
     - id
+    - email_address
   provider_users:
     - dfe_sign_in_uid
   validation_errors:
     - user_id
   emails:
     - subject
+  one_login_auths:
+    - candidate_id
+    - email_address
+  candidate_preferences:
+    - candidate_id

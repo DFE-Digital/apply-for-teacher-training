@@ -12,15 +12,15 @@ module Publications
       delegate :publication_date, :statistics, :deferred_application_count, :month, to: :report
 
       def next_cycle_name
-        RecruitmentCycle.cycle_name(next_year)
+        next_timetable.cycle_range_name
       end
 
       def current_cycle_verbose_name
-        RecruitmentCycle.verbose_cycle_name(current_year)
+        verbose_cycle_name(current_year)
       end
 
       def previous_cycle_verbose_name
-        RecruitmentCycle.verbose_cycle_name(previous_year)
+        verbose_cycle_name(previous_year)
       end
 
       def first_published_cycle?
@@ -28,31 +28,47 @@ module Publications
       end
 
       def current_cycle?
-        current_year == CycleTimetable.current_year
+        report_timetable.current_year?
       end
 
       def current_year
-        CycleTimetable.current_year(@report.generation_date.to_time)
+        report_timetable.recruitment_cycle_year
       end
 
       def previous_year
-        current_year - 1
+        previous_timetable.recruitment_cycle_year
       end
 
       def next_year
-        current_year + 1
+        next_timetable.recruitment_cycle_year
       end
 
-      def next_publication_date
-        MonthlyStatisticsTimetable.next_publication_date
-      end
+      delegate :next_publication_date, to: :MonthlyStatisticsTimetable
 
       def current_reporting_period
-        "#{CycleTimetable.apply_opens(current_year).to_fs(:govuk_date)} to #{report.generation_date.to_fs(:govuk_date)}"
+        "#{report_timetable.apply_opens_at.to_fs(:govuk_date)} to #{report.generation_date.to_fs(:govuk_date)}"
       end
 
       def deferred_applications_count
         report.statistics['deferred_applications_count'] || 0
+      end
+
+    private
+
+      def report_timetable
+        @report_timetable ||= RecruitmentCycleTimetable.find_timetable_by_datetime(@report.generation_date)
+      end
+
+      def next_timetable
+        @next_timetable ||= report_timetable.relative_next_timetable
+      end
+
+      def previous_timetable
+        @previous_timetable ||= report_timetable.relative_previous_timetable
+      end
+
+      def verbose_cycle_name(year)
+        "October #{year - 1} to September #{year}"
       end
     end
   end

@@ -3,7 +3,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
 
-        <%= f.govuk_radio_buttons_fieldset :not_yet_completed, legend: { size: 'l', text: "Are you currently studying for a GCSE in #{capitalize_english(@subject)}, or equivalent?" } do %>
+        <%= f.govuk_radio_buttons_fieldset :not_yet_completed, legend: { tag: 'h1', size: 'l', text: "Are you currently studying for a GCSE in #{capitalize_english(@subject)}, or equivalent?" } do %>
           <%= f.govuk_radio_button :currently_completing_qualification, true, label: { text: 'Yes' }, link_errors: true do %>
                 <%= f.govuk_text_area :not_completed_explanation, label: { text: 'Details of the qualification you are studying for', size: 's' }, rows: 6, max_chars: 256, threshold: 90 do %>
                 <% end %>

@@ -1,0 +1,8 @@
+en:
+  publications:
+    recruitment_cycle_timetables:
+      index:
+        heading: Recruitment cycle timetables
+      show:
+        heading: Recruitment cycle timetable for %{recruitment_cycle_year}
+        timetables: Timetables

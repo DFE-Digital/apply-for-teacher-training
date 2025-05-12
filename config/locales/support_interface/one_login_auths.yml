@@ -1,0 +1,23 @@
+en:
+  support_interface:
+    one_login_auths:
+      edit:
+        title: Unlinking GOV.UK One Login
+        heading: Do you want to unlink GOV.UK One Login for %{name}?
+        continue: Continue
+        cancel: Cancel
+        cannot_be_undone: This action cannot be undone.
+        recovery_warning_html: >
+          The email for this candidate is <b>%{candidate_email}</b>. If they use a different email to login next time, they will
+          need to follow the process to recover their account to see any details they have already completed on their
+          application.
+        audit_log_comment_label: Audit log comment
+        audit_log_comment_hint: This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here
+      update:
+        success: GOV.UK One Login has been unlinked
+  activemodel:
+    errors:
+      models:
+        support_interface/unlink_one_login_auth_form:
+          blank: Enter a comment for the audit log
+          too_many_words: Audit log comment should be fewer than %{maximum} words

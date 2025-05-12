@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
 
   def current_user; end
 
+  def current_timetable
+    @current_timetable ||= RecruitmentCycleTimetable.current_timetable
+  end
+
   # Makes PG::QueryCanceled statement timeout errors appear in Skylight
   # against the controller action that triggered them
   # instead of bundling them with every other ErrorsController#internal_server_error

@@ -45,7 +45,7 @@ module SupportInterface
   private
 
     def support_user_params
-      params.require(:support_user).permit(:email_address, :dfe_sign_in_uid)
+      params.expect(support_user: %i[email_address dfe_sign_in_uid])
     end
   end
 end

@@ -1,6 +1,6 @@
 <% content_for(
   :title,
-  title_with_error_prefix(t('page_titles.contact_information'), @contact_details_form&.errors&.any?),
+  title_with_error_prefix(t('page_titles.contact_information_review'), @contact_details_form&.errors&.any? || @section_complete_form.errors.any?),
 ) %>
 <% content_for :before_content, govuk_back_link_to(application_form_path) %>
 
@@ -8,7 +8,7 @@
   <%= f.govuk_error_summary %>
 
   <h1 class="govuk-heading-xl">
-    <%= t('page_titles.contact_information') %>
+    <%= t('page_titles.contact_information_review') %>
   </h1>
 
   <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>

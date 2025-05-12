@@ -231,10 +231,11 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
       end
 
       context 'when apply is closed and course open for applications same day' do
-        it 'adds error to application choice', time: CycleTimetableHelper.after_find_opens do
+        it 'adds error to application choice', time: after_find_opens do
+          apply_opens_date = current_timetable.apply_opens_at.to_fs(:govuk_date)
           expect(application_choice_submission).not_to be_valid
           expect(application_choice_submission.errors[:application_choice]).to include(
-            "This course is not yet open to applications. You will be able to submit your application on #{CycleTimetable.apply_opens.to_fs(:govuk_date)}.",
+            "This course is not yet open to applications. You will be able to submit your application on #{apply_opens_date}.",
           )
         end
       end
@@ -300,7 +301,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
 
       def course_unavailable_error_message(application_choice)
         <<~MSG.chomp
-          You cannot submit this application as the course is no longer available.
+          You cannot submit this application because the course is no longer available.
 
           #{govuk_link_to('Remove this application', Rails.application.routes.url_helpers.candidate_interface_course_choices_confirm_destroy_course_choice_path(application_choice.id))} and search for other courses.
         MSG

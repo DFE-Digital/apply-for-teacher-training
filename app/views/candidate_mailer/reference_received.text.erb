@@ -3,13 +3,13 @@ Dear <%= @application_form.first_name %>
 <% if @application_form.recruited? %>
 <%= @reference.application_form.application_choices.recruited.first&.provider&.name %> has received a reference for you from <%= @reference.name%>.
 
-You can sign into your account to check the progress of your reference requests.
+You can sign in to your account to check the progress of your reference requests.
 <% else %>
 <%= @reference.application_form.application_choices.pending_conditions.first&.provider&.name %> has received a reference for you from <%= @reference.name%>.
 
-You can sign into your account to check the progress of your reference requests and offer conditions.
+You can sign in to your account to check the progress of your reference requests and offer conditions.
 <% end %>
 
-[Sign into your account](<%= candidate_magic_link(@application_form.candidate) %>).
+[Sign in to your account](<%= sign_in_link %>).
 
 <%= render 'get_help_teacher_training_adviser' %>

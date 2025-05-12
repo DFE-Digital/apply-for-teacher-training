@@ -83,8 +83,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     end
 
     it 'renders the recruitment cycle' do
-      current_year = RecruitmentCycle.current_year
-      expect(card).to include("#{current_year - 1} to #{current_year}")
+      expect(card).to include current_timetable.cycle_range_name
     end
 
     it 'renders the location of the course' do
@@ -184,8 +183,6 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
   end
 
   describe '#recruitment_cycle_text' do
-    let(:current_year) { RecruitmentCycle.current_year }
-
     let(:course_option) { create(:course_option) }
 
     let(:application_choice) do
@@ -212,7 +209,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
 
     context 'for any other year' do
       let(:course_option) do
-        course = create(:course, :open, recruitment_cycle_year: RecruitmentCycle.previous_year - 1)
+        course = create(:course, :open, recruitment_cycle_year: previous_year - 1)
         create(:course_option, course:)
       end
 

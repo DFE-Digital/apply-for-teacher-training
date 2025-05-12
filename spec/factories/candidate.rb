@@ -13,5 +13,12 @@ FactoryBot.define do
         candidate.update(candidate_api_updated_at: nil)
       end
     end
+
+    trait :with_live_session do
+      after(:create) do |candidate, _|
+        create(:session, candidate:)
+        create(:one_login_auth, candidate:)
+      end
+    end
   end
 end

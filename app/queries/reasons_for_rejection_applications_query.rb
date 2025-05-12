@@ -8,7 +8,7 @@ class ReasonsForRejectionApplicationsQuery
 
   def initialize(filters)
     @filters = filters
-    @recruitment_cycle_year = filters.fetch(:recruitment_cycle_year, RecruitmentCycle.current_year)
+    @recruitment_cycle_year = filters.fetch(:recruitment_cycle_year, RecruitmentCycleTimetable.current_year)
   end
 
   def call

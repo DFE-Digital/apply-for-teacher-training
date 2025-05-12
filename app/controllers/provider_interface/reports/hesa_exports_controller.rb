@@ -5,7 +5,9 @@ module ProviderInterface
       include CSVNameHelper
       include StreamableDataExport
 
-      def index; end
+      def index
+        @previous_timetable = @current_timetable.relative_previous_timetable
+      end
 
       def show
         respond_to do |format|

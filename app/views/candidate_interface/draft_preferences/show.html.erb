@@ -1,0 +1,56 @@
+<% content_for :title, t('.title') %>
+<% content_for :before_content, govuk_back_link(href: candidate_interface_draft_preference_location_preferences_path(@preference)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= t('.title') %></h1>
+
+    <%= govuk_summary_list do |summary_list| %>
+      <% summary_list.with_row do |row| %>
+        <% row.with_key { t('.share_information') } %>
+        <% row.with_value { @preference.pool_status == 'opt_in' ? 'Yes' : 'No' } %>
+        <% row.with_action(
+          text: t('.change'),
+          href: edit_candidate_interface_pool_opt_in_path(@preference, return_to: 'review'),
+          visually_hidden_text: t('.change_share_information_hint'),
+        ) %>
+      <% end %>
+
+      <% summary_list.with_row do |row| %>
+        <% row.with_key { t('.preferred_locations') } %>
+        <% row.with_value do %>
+          <%= govuk_list do %>
+            <% if @location_preferences.blank? %>
+              <p class="govuk-body"><%= t('.no_location_preferences') %> </p>
+            <% else %>
+              <% @location_preferences.each do |location| %>
+                <%= tag.li t('.location', radius: location.within, location: location.decorated_name) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% row.with_action(
+          text: t('.change'),
+          href: candidate_interface_draft_preference_location_preferences_path(@preference, return_to: 'review'),
+          visually_hidden_text: t('.change_location_preferences_hint'),
+        ) %>
+      <% end %>
+
+      <% summary_list.with_row do |row| %>
+        <% row.with_key { t('.dynamic_locations') } %>
+        <% row.with_value { @preference.dynamic_location_preferences? ? 'Yes' : 'No' } %>
+        <% row.with_action(
+          text: t('.change'),
+          href: candidate_interface_draft_preference_location_preferences_path(@preference, return_to: 'review'),
+          visually_hidden_text: t('.change_dynamic_locations_hint'),
+        ) %>
+      <% end %>
+    <% end %>
+
+    <%= govuk_button_to(
+      t('.submit'),
+      candidate_interface_draft_preference_publish_preferences_path(@preference),
+    ) %>
+
+  </div>
+</div>

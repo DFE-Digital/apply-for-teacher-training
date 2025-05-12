@@ -18,7 +18,7 @@
         size: :reduced,
       ) %>
     </div>
-    <% if @recruitment_cycle_year == RecruitmentCycle.current_year %>
+    <% if current_cycle? %>
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: percentage_rejected_for_reason_this_month,

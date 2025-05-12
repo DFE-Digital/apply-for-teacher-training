@@ -1,0 +1,50 @@
+<%= govuk_table do |table| %>
+  <% table.with_caption(size: 'm', text: t('.caption')) %>
+  <% table.with_head do |head| %>
+    <% head.with_row do |row| %>
+      <% row.with_cell(text: t('.type')) %>
+      <% row.with_cell(text: t('.subject')) %>
+      <% row.with_cell(text: t('.country')) %>
+      <% row.with_cell(text: t('.year_awarded'), numeric: true) %>
+      <% row.with_cell(text: t('.grades')) %>
+    <% end %>
+  <% end %>
+  <% table.with_body do |body| %>
+    <% gcse_rows.each do |gcse| %>
+      <% body.with_row do |row| %>
+        <% row.with_cell(text: gcse.qualification_type, **cell_attributes(gcse)) %>
+        <% row.with_cell(text: gcse.qualification_subject, **cell_attributes(gcse)) %>
+        <% if gcse.missing_text.present? %>
+          <% row.with_cell(colspan: 3) do %>
+            <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">
+              <%= gcse.missing_text[:heading] %>
+            </p>
+            <p class="govuk-body">
+              <%= gcse.missing_text[:text] %>
+            </p>
+          <% end %>
+        <% else %>
+          <% row.with_cell(text: gcse.country, **cell_attributes(gcse)) %>
+          <% row.with_cell(text: gcse.year_awarded, numeric: !gcse.year_awarded.to_i.zero?, **cell_attributes(gcse)) %>
+          <% row.with_cell(text: gcse.grades.join('<br>').html_safe, **cell_attributes(gcse)) %>
+        <% end %>
+      <% end %>
+      <% if gcse.enic_text.present? %>
+        <% body.with_row do |row| %>
+          <% row.with_cell(colspan: 2, text: '') %>
+          <% row.with_cell(colspan: 3) do %>
+            <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">
+              <%= gcse.enic_text[:heading] %>
+              <span class="govuk-visually-hidden">
+                <%= t('.visually_hidden_text', qualification: gcse.qualification_subject) %>
+              </span>
+            </p>
+            <p class="govuk-body">
+              <%= gcse.enic_text[:text] %>
+            </p>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

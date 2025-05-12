@@ -3,9 +3,13 @@ en:
     safe_choice_update_validator:
       error_message: The application must be in the current cycle %{current_cycle}
   continue: Continue
+  save_changes_and_return: Save changes and return to your details
+  update: Update
   save_and_continue: Save and continue
   save: Save
   cancel: Cancel
+  back: Back
+  go_back_and_change_email: Go back and change the email address
   validation_errors:
     email_address_format: Enter an email address in the correct format, like name@example.com
   service_name:
@@ -24,6 +28,7 @@ en:
   national_careers_service:
     find_a_course_url: https://nationalcareers.service.gov.uk/find-a-course/search
   govuk:
+    one_login_account_guidance: You need a GOV.UK One Login to sign in to this service. You can create one if you do not already have one.
     url: https://www.gov.uk
     terms_conditions_url: https://www.gov.uk/help/terms-conditions
     safeguarding: https://www.gov.uk/tell-employer-or-college-about-criminal-record
@@ -54,6 +59,7 @@ en:
     url_get_an_adviser_signup: https://getintoteaching.education.gov.uk/teacher-training-adviser/sign_up/identity
     url_get_an_adviser_start: https://getintoteaching.education.gov.uk/teacher-training-advisers
     url_if_your_application_is_unsuccessful: https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/if-your-application-is-unsuccessful
+    url_if_conditions_not_met: https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/subject-knowledge-enhancement
     url_get_school_experience: https://getintoteaching.education.gov.uk/is-teaching-right-for-me/get-school-experience
     url_qualifications_you_need_to_teach: https://getintoteaching.education.gov.uk/is-teaching-right-for-me/qualifications-you-need-to-teach
     url_if_you_dont_have_a_degree: https://getintoteaching.education.gov.uk/train-to-be-a-teacher/if-you-dont-have-a-degree
@@ -93,7 +99,18 @@ en:
   course_types:
     undergraduate: undergraduate
     postgraduate: postgraduate
+  account_recovery_banner:
+    title: Important
+    header: If you have signed in before and your details are missing
+    content_html: You need to connect the email address you have used for GOV.UK One Login with the one you have used to sign in to this service in the past. If this is your first time signing into Apply for teacher training you can %{button_link}.
+    close_this_message: close this message
+    get_your_details_back: Get your details back
+    dismiss: Dismiss
   page_titles:
+    there_is_a_problem: There is a problem
+    account_recovery: Enter the code we sent to %{email}
+    account_recovery_resend_email: Enter the new code we sent to %{email}
+    account_recovery_request: Get your account details back
     your_applications: Your applications
     application_feedback: How can we improve %{section} section?
     application_form: Your application
@@ -108,7 +125,7 @@ en:
     efl:
       ielts: Your IELTS result
       other: Your English language assessment result
-      review: English as a foreign language
+      review: Check your English as a foreign language assessment
       start: English as a foreign language assessment
       toefl: Your TOEFL result
       type: What English language assessment did you do?
@@ -118,10 +135,11 @@ en:
     unsubmitted_previous_application: Your previously unsubmitted application
     submitted_application: Your submitted application
     create_account_or_sign_in: Create an account or sign in
+    create_a_gov_uk_one_login_or_sign_in: Create a GOV.UK One Login or sign in
     sign_up: Create an account
     sign_in: Sign in
     email_address_not_recognised: Your email address is not recognised
-    external_sign_up_forbidden: Only DfE users can sign into this website
+    external_sign_up_forbidden: Only DfE users can sign in to this website
     unauthorized: Your account is not authorized
     sandbox: Use our sandbox to test Apply for teacher training
     start_new_application: Start a new application
@@ -157,6 +175,7 @@ en:
     roadmap: Changes to services for teacher training providers and candidates
     candidate_complaints: Make a complaint or give feedback
     contact_information: Contact information
+    contact_information_review: Check your contact information
     contact_details: Contact details
     where_do_you_live: Where do you live?
     address: What is your address?
@@ -168,6 +187,10 @@ en:
       confirm: Confirm conditions
       check: Check conditions
     degree: Degree
+    degree_review:
+      zero: Degree
+      one: Check your degree
+      other: Check your degrees
     degree_country: Which country was the degree from?
     degree_completion_status: Have you completed your degree?
     degree_grade: What grade is your degree?
@@ -206,17 +229,21 @@ en:
     edit_degree_type: Edit degree type
     other_qualifications: A levels and other qualifications
     other_qualifications_international: Other qualifications
+    other_qualifications_review: Check your other qualifications
     qualification_details: Qualification details
     edit_other_qualification: Edit qualification
     destroy_other_qualification: Are you sure you want to delete this qualification?
     personal_statement: Personal statement
+    personal_statement_review: Check your personal statement
     becoming_a_teacher: Why you want to teach
     interview_preferences:
       heading: Interview availability
       edit: Edit your interview availability
-      review: Check your interview availability
+      review: Check your answers to interview availability
     training_with_a_disability: Ask for support if you are disabled
+    training_with_a_disability_review: Check your answers to asking for support if you are disabled
     suitability_to_work_with_children: Declare any safeguarding issues
+    suitability_to_work_with_children_review: Check your safeguarding declaration
     thank_you: Thank you for your feedback
     english_gcse: English GCSE or equivalent
     maths_gcse: Maths GCSE or equivalent
@@ -224,6 +251,7 @@ en:
     volunteering:
       short: Unpaid experience
       long: Unpaid experience working with children and other volunteering
+      review: Check your unpaid experience
     add_volunteering_role: Add role
     edit_volunteering_role: Edit role
     destroy_volunteering_role: Are you sure you want to delete this role?
@@ -251,12 +279,13 @@ en:
     references_request_reference_review: Check your answers before sending your request
     references_select: Which 2 references do you want to include in your application?
     references_request: Add your references
-    references_review: Review your references
+    references_review: Check your references
     references_selection: Select 2 references
     find_feedback: Help us improve this service
     referee:
       refuse_feedback: A reference for %{full_name}
       confidentiality: A reference for %{full_name}
+      cancelled: You do not need to give a reference anymore
       relationship: Confirm how %{full_name} knows you
       safeguarding: Do you know any reason why %{full_name} should not work with children?
       feedback: Reference for %{full_name}
@@ -264,7 +293,6 @@ en:
       confirmation: Your reference for %{full_name} has been submitted
       finish: Thank you
       decline: Decline to give a reference
-    providers: Courses on this service
     decisions:
       offer: Details of offer
       accept_offer: Are you sure you want to accept this offer?
@@ -285,7 +313,7 @@ en:
         release_notes: Release notes
         lifecycle: Lifecycle
         alpha_release_notes: Alpha release notes
-        draft: Draft Version 1.4
+        draft: Draft Version 1.6
       register_api_docs:
         reference: Apply for teacher training - Register API
     provider:
@@ -318,6 +346,8 @@ en:
       reports: Reports
       diversity_report: Sex, disability, ethnicity and age of candidates
       withdrawal_report: Withdrawals
+      withdrawal_reports: Withdrawal reports
+      withdrawal_reasons_report: Withdrawal reasons
     start_apply_again: Do you want to apply again?
     start_carry_over: Continue your application
     start_carry_over_between_cycles: The application deadline has passed
@@ -379,7 +409,6 @@ en:
       guidance_for_using_ai: Guidance for using AI
       privacy_policy: Privacy
       privacy: Privacy
-      roadmap: Changes to this service
       not_logged_in: candidate_not_logged_in
   support_interface:
     providers:
@@ -388,6 +417,9 @@ en:
         no_courses_yet: There aren’t any courses for this provider currently.
         no_courses_for_year: "There aren’t any courses for %{year}."
         courses_published_recruitment_opens: These courses will be published on Find and Apply when the recruitment cycle opens.
+    api_tokens:
+      new:
+        page_title: Create an API token
   activemodel:
     attributes:
       vendor_api/metadata:
@@ -412,6 +444,14 @@ en:
         course_option: The new course
     errors:
       models:
+        support_interface/vendor_api_token_form:
+          attributes:
+            provider_id:
+              blank: Select a provider
+        candidate_interface/adviser_interruption_form:
+          attributes:
+            proceed_to_request_adviser:
+              blank: Select whether you would like to request a teacher training adviser
         candidate_interface/prefill_application_or_not_form:
           attributes:
             prefill:
@@ -501,10 +541,12 @@ en:
               must_have_passed_or_be_retaking: Only applicants that have passed or are retaking their English GCSE can apply for an adviser
             adviser_status:
               already_signed_up: You have already signed up for a Teacher Training Adviser
-        adviser/sign_up:
+        adviser/sign_up_form:
           attributes:
             preferred_teaching_subject_id:
               inclusion: Select a subject you are interested in teaching
+            application_form:
+              invalid_adviser_sign_up: You are not eligible for a Teacher Training Adviser
 
   activerecord:
     attributes:
@@ -528,6 +570,24 @@ en:
         pg_teaching_apprenticeship: Postgraduate teaching apprenticeship
     errors:
       models:
+        recruitment_cycle_timetable:
+          attributes:
+            apply_opens_at:
+              apply_opens_after_find_opens: Enter an Apply open date that is after Find has opened
+            apply_deadline_at:
+              apply_deadline_after_apply_opens: Enter an Apply deadline that is after Apply has opened
+            reject_by_default_at:
+              reject_by_default_after_apply_deadline: Enter a reject by default date that is after the Apply deadline
+            decline_by_default_at:
+              decline_by_default_after_reject_by_default: Enter a decline by default date that is after the reject by default date
+            find_closes_at:
+              find_closes_after_decline_by_default: Enter a Find close date that is after the decline by default date
+            easter_holiday_range:
+              easter_holiday_range_should_be_within_cycle: Enter an Easter holiday range within cycle
+              easter_holiday_range_should_include_easter: Enter an Easter holiday range that includes Easter
+            christmas_holiday_range:
+              christmas_holiday_range_should_be_in_cycle: Enter a Christmas holiday within cycle
+              christmas_holiday_range_should_include_christmas: Enter a Christmas holiday range that includes Christmas day
         candidate:
           attributes:
             email_address:

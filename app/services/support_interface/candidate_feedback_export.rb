@@ -1,5 +1,13 @@
 module SupportInterface
   class CandidateFeedbackExport
+    CSAT_SCORES = {
+      very_satisfied: 5,
+      satisfied: 4,
+      neither_satisfied_or_dissatisfied: 3,
+      dissatisfied: 2,
+      very_dissatisfied: 1,
+    }.with_indifferent_access.freeze
+
     def data_for_export(*)
       application_forms.find_each(batch_size: 100).map do |application_form|
         {
@@ -23,16 +31,15 @@ module SupportInterface
       ).includes(:candidate)
     end
 
-    CSAT_SCORES = {
-      very_satisfied: 5,
-      satisfied: 4,
-      neither_satisfied_or_dissatisfied: 3,
-      dissatisfied: 2,
-      very_dissatisfied: 1,
-    }.with_indifferent_access.freeze
-
     def csat_score(satisfaction_level)
-      CSAT_SCORES[satisfaction_level]
+      csat_scores = {
+        very_satisfied: 5,
+        satisfied: 4,
+        neither_satisfied_or_dissatisfied: 3,
+        dissatisfied: 2,
+        very_dissatisfied: 1,
+      }.with_indifferent_access.freeze
+      csat_scores[satisfaction_level]
     end
   end
 end

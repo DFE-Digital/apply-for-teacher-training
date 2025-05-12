@@ -5,9 +5,9 @@ ruby '3.3.5'
 
 gem 'timeliness'
 
-gem 'rails', '~> 8.0.0'
+gem 'rails', '~> 8.0.2'
 
-gem 'puma', '~> 6.5'
+gem 'puma', '~> 6.6'
 gem 'pg', '~> 1.5.9'
 gem 'blazer'
 gem 'sprockets-rails'
@@ -18,8 +18,8 @@ gem 'tzinfo-data'
 gem 'webpacker'
 gem 'google-cloud-bigquery'
 
-gem 'govuk-components', '~> 5.7.1'
-gem 'govuk_design_system_formbuilder', '~> 5.7.1'
+gem 'govuk-components', '~> 5.9.0'
+gem 'govuk_design_system_formbuilder', '~> 5.9.0'
 
 # GOV.UK Notify
 gem 'mail-notify'
@@ -116,11 +116,12 @@ gem 'http'
 # For DSI api integration
 gem 'jwt'
 
-gem 'openapi3_parser', '0.10.0'
+gem 'openapi3_parser', '0.10.1'
 gem 'rouge'
 gem 'ruby-graphviz'
 
 gem 'pagy'
+gem 'bcrypt'
 
 # Adviser sign up integration
 gem 'get_into_teaching_api_client_faraday', github: 'DFE-Digital/get-into-teaching-api-ruby-client', require: 'api/client'
@@ -132,8 +133,9 @@ gem 'archive-zip'
 
 # Geocoding
 gem 'geocoder'
+gem 'geokit-rails'
 
-gem 'dfe-reference-data', require: 'dfe/reference_data', github: 'DFE-Digital/dfe-reference-data', tag: 'v3.6.7'
+gem 'dfe-reference-data', require: 'dfe/reference_data', github: 'DFE-Digital/dfe-reference-data', tag: 'v3.6.10'
 gem 'dfe-autocomplete', require: 'dfe/autocomplete', github: 'DFE-Digital/dfe-autocomplete', tag: 'v0.1.0'
 gem 'dfe-wizard', require: 'dfe/wizard', github: 'DFE-Digital/dfe-wizard', tag: 'v0.1.0'
 
@@ -149,7 +151,7 @@ gem 'colorize'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 
 # BigQuery
-gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', ref: '6992ca6c9b7f1a391e5178294c201cd9017e9641'
+gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.15.4'
 
 # Azure Blob Storage
 gem 'azure-blob'
@@ -172,13 +174,13 @@ group :test do
   gem 'rspec-retry', git: 'https://github.com/DFE-Digital/rspec-retry.git', branch: 'main'
   gem 'ruby-jmeter'
   gem 'selenium-webdriver'
-  gem 'shoulda-matchers', '~> 6.4'
+  gem 'shoulda-matchers', '~> 6.5'
   gem 'simplecov-cobertura', require: false
   gem 'simplecov', require: false
   gem 'super_diff'
   gem 'test_suite_time_machine', '~> 2.0'
   gem 'timecop'
-  gem 'webmock', '~> 3.24'
+  gem 'webmock', '~> 3.25'
 end
 
 group :development, :test do
@@ -191,3 +193,5 @@ group :development, :test do
   gem 'pry'
   gem 'rspec-rails', require: false
 end
+
+gem 'field_test', '~> 0.8.0'

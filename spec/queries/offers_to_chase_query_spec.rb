@@ -3,15 +3,16 @@ require 'rails_helper'
 RSpec.describe OffersToChaseQuery do
   let(:application_choice_without_offer) { create(:application_choice, :awaiting_provider_decision) }
   let(:application_choice_with_offer_not_in_offer_status) { create(:application_choice, :recruited, offered_at: Time.zone.now) }
-  let(:application_choice_offer_from_last_cycle) { create(:application_choice, current_recruitment_cycle_year: CycleTimetable.previous_year, offered_at: inside_range) }
+
+  let(:application_choice_offer_from_last_cycle) { create(:application_choice, current_recruitment_cycle_year: current_timetable.relative_previous_year, offered_at: inside_range) }
 
   let(:application_choice_with_chaser) { create(:application_choice, :offer, chasers_sent: [create(:chaser_sent, chaser_type: "offer_#{days}_day")]) }
 
   let(:application_choice_without_chaser) { create(:application_choice, :offer, current_recruitment_cycle_year:) }
-  let(:current_recruitment_cycle_year) { CycleTimetable.current_year }
+  let(:current_recruitment_cycle_year) { current_timetable.recruitment_cycle_year }
 
   # We have to make sure our offset doesn't mean we are straddling two recruitment cycles.
-  let(:travel_to_base) { CycleTimetable.apply_deadline - 2.months }
+  let(:travel_to_base) { current_timetable.apply_deadline_at - 2.months }
 
   before do
     TestSuiteTimeMachine.travel_temporarily_to(offset) do
@@ -105,7 +106,7 @@ RSpec.describe OffersToChaseQuery do
     context 'and the application is from the previous recruitment cycle' do
       let(:offset) { inside_range }
       let(:chaser_type) { :offer_10_day }
-      let(:current_recruitment_cycle_year) { CycleTimetable.previous_year }
+      let(:current_recruitment_cycle_year) { previous_year }
 
       it 'excludes applications from previous cycle' do
         expect(date_range).to cover(application_choice_without_chaser.offered_at)

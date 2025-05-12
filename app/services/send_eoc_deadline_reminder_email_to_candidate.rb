@@ -20,6 +20,10 @@ private
     application_form
       .chasers_sent
       .where(chaser_type:)
-      .where('created_at > ?', CycleTimetable.find_opens).present?
+      .where('created_at > ?', find_opens_at).present?
+  end
+
+  def find_opens_at
+    RecruitmentCycleTimetable.current_timetable.find_opens_at
   end
 end

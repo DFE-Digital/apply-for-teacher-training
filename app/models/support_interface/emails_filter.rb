@@ -63,10 +63,8 @@ module SupportInterface
       Email.delivery_statuses.keys
     end
 
-    ALL_MAILERS = %w[support_mailer referee_mailer provider_mailer candidate_mailer authentication_mailer].freeze
-
     def mailer_options
-      ALL_MAILERS
+      %w[support_mailer referee_mailer provider_mailer candidate_mailer authentication_mailer].freeze
     end
   end
 end

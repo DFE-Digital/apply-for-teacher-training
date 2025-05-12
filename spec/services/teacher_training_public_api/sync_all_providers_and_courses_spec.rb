@@ -18,7 +18,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, :sidekiq do
     end
 
     context 'a previous year recruitment cycle' do
-      let(:recruitment_cycle_year) { RecruitmentCycle.previous_year }
+      let(:recruitment_cycle_year) { previous_year }
       let(:sync_provider) { instance_double(TeacherTrainingPublicAPI::SyncProvider) }
 
       before do
@@ -38,7 +38,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, :sidekiq do
     end
 
     context 'incremental sync' do
-      let(:recruitment_cycle_year) { RecruitmentCycle.current_year }
+      let(:recruitment_cycle_year) { current_year }
       let(:sync_provider) { instance_double(TeacherTrainingPublicAPI::SyncProvider) }
       let(:updated_since) { 2.hours.ago }
 

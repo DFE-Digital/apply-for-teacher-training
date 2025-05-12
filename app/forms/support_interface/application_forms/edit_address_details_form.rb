@@ -41,7 +41,7 @@ module SupportInterface
           address_line2:,
           address_line3:,
           address_line4:,
-          postcode: postcode&.upcase,
+          postcode: postcode&.upcase&.strip,
           audit_comment:,
         }
         attrs[:country] = 'GB' if uk?

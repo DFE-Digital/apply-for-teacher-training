@@ -15,11 +15,15 @@ module CandidateInterface
     end
 
     def apply_reopens_date
-      CycleTimetable.apply_reopens.to_fs(:month_and_year)
+      timetable.apply_reopens_at.to_fs(:month_and_year)
     end
 
     def next_year
-      CycleTimetable.next_year
+      @next_year ||= RecruitmentCycleTimetable.next_year
+    end
+
+    def timetable
+      @timetable ||= application_form.recruitment_cycle_timetable
     end
   end
 end

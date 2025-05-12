@@ -9,6 +9,10 @@ RSpec.describe Course do
     it { is_expected.to be_application_status_closed }
   end
 
+  describe 'associations' do
+    it { is_expected.to have_one :recruitment_cycle_timetable }
+  end
+
   describe '#open?' do
     context 'when all conditions are satisfied' do
       let(:course) { create(:course, :open) }
@@ -350,15 +354,15 @@ RSpec.describe Course do
     end
   end
 
-  describe '#does_not_require_degree?' do
+  describe '#degree_required?' do
     let(:course) { build(:course, program_type:, degree_grade:) }
 
     context 'when the course is undergraduate' do
       let(:program_type) { 'teacher_degree_apprenticeship' }
       let(:degree_grade) { nil }
 
-      it 'returns true' do
-        expect(course.does_not_require_degree?).to be(true)
+      it 'returns false' do
+        expect(course.degree_required?).to be(false)
       end
     end
 
@@ -366,8 +370,8 @@ RSpec.describe Course do
       let(:program_type) { 'higher_education_programme' }
       let(:degree_grade) { nil }
 
-      it 'returns true' do
-        expect(course.does_not_require_degree?).to be(true)
+      it 'returns false' do
+        expect(course.degree_required?).to be(false)
       end
     end
 
@@ -375,8 +379,8 @@ RSpec.describe Course do
       let(:program_type) { 'higher_education_programme' }
       let(:degree_grade) { 'two_one' }
 
-      it 'returns false' do
-        expect(course.does_not_require_degree?).to be(false)
+      it 'returns true' do
+        expect(course.degree_required?).to be(true)
       end
     end
   end
@@ -386,6 +390,17 @@ RSpec.describe Course do
       course = build(:course)
 
       expect(course.deferred_start_date).to eq(course.start_date + 1.year)
+    end
+  end
+
+  describe '#name_code_and_course_provider' do
+    it 'returns the name code and provider of the course' do
+      provider = create(:provider, name: 'provider')
+      course = create(:course, name: 'course', code: '123', provider:)
+
+      expect(course.name_code_and_course_provider).to eq(
+        'course (123) – provider',
+      )
     end
   end
 end

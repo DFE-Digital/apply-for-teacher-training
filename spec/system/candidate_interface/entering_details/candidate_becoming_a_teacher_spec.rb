@@ -4,7 +4,7 @@ RSpec.describe 'Entering "Why do you want to be a teacher?"' do
   include CandidateHelper
 
   scenario 'Candidate submits why they want to be a teacher' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_visit_the_site
 
     when_i_click_on_becoming_a_teacher
@@ -18,16 +18,12 @@ RSpec.describe 'Entering "Why do you want to be a teacher?"' do
     then_i_can_check_my_revised_answers
 
     when_i_mark_the_section_as_completed
-    and_i_submit_the_form
+    and_i_click_on_continue
     then_i_see_the_form
     and_that_the_section_is_completed
 
     when_i_click_on_becoming_a_teacher
     then_i_can_check_my_revised_answers
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def and_i_visit_the_site
@@ -56,11 +52,15 @@ RSpec.describe 'Entering "Why do you want to be a teacher?"' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'Personal statement'
+    expect(page).to have_content 'Check your personal statement'
     expect(page).to have_content 'Hello world'
   end
 
   def and_i_submit_the_form
+    click_link_or_button t('continue')
+  end
+
+  def and_i_click_on_continue
     click_link_or_button t('continue')
   end
 
@@ -77,7 +77,7 @@ RSpec.describe 'Entering "Why do you want to be a teacher?"' do
   end
 
   def then_i_can_check_my_revised_answers
-    expect(page).to have_content 'Personal statement'
+    expect(page).to have_content 'Check your personal statement'
     expect(page).to have_content 'Hello world again'
   end
 

@@ -75,7 +75,7 @@ module ProviderInterface
 
     def require_deferred_offer_from_previous_cycle
       unless @application_choice.status == 'offer_deferred' &&
-             @application_choice.recruitment_cycle == RecruitmentCycle.previous_year
+             @application_choice.recruitment_cycle == current_timetable.relative_previous_year
         redirect_to provider_interface_application_choice_path(@application_choice.id) and return
       end
     end
@@ -83,8 +83,8 @@ module ProviderInterface
     def reconfirm_deferred_offer_params
       return {} unless params.key?(:provider_interface_reconfirm_deferred_offer_wizard)
 
-      params.require(:provider_interface_reconfirm_deferred_offer_wizard)
-            .permit(:conditions_status, :course_option_id)
+      params
+            .expect(provider_interface_reconfirm_deferred_offer_wizard: %i[conditions_status course_option_id])
     end
 
     def wizard_for_step(step = nil)

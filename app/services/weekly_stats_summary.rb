@@ -74,21 +74,31 @@ private
   end
 
   def previous_cycle_period
-    cycle_started = CycleTimetable.apply_opens(previous_year)
-    cycle_started..CycleTimetable.this_day_last_cycle
+    previous_timetable.apply_opens_at..this_day_last_cycle
   end
 
   def current_cycle_period
-    cycle_started = CycleTimetable.apply_opens
-    cycle_started..Time.zone.now
+    current_timetable.apply_opens_at..Time.zone.now
+  end
+
+  def previous_timetable
+    @previous_timetable ||= RecruitmentCycleTimetable.previous_timetable
   end
 
   def previous_year
-    CycleTimetable.previous_year
+    @previous_year ||= previous_timetable.recruitment_cycle_year
+  end
+
+  def current_timetable
+    @current_timetable ||= RecruitmentCycleTimetable.current_timetable
   end
 
   def current_year
-    CycleTimetable.current_year
+    @current_year ||= current_timetable.recruitment_cycle_year
+  end
+
+  def this_day_last_cycle
+    @this_day_last_cycle ||= RecruitmentCycleTimetable.this_day_last_cycle
   end
 
   def technologist

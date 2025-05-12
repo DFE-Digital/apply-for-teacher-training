@@ -2,11 +2,12 @@ en:
   support_interface:
     references:
       confidential_warning:
+        unknown: Unknown
         true: No, this reference is confidential. Do not share it.
         false: Yes, if they request it.
     page_titles:
       visa_or_immigration_status: Edit applicant visa or immigration status
-
+      email_subscription_setting: Should the applicant receive marketing emails?
     support_user:
       confirm_remove: Are you sure you want to remove support user %{email}?
       confirm_restore: Are you sure you want to restore support user %{email}?
@@ -27,6 +28,10 @@ en:
         hint: This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here
       send_emails:
         label: Send notification emails to candidate and referee?
+      confidential:
+        legend: Can the feedback be shared with the candidate?
+        ok_to_share: Yes, if the candidate requests it
+        not_ok_to_share: No, this reference is confidential
     edit_becoming_a_teacher_form:
       becoming_a_teacher:
         label: Edit personal statement
@@ -73,6 +78,9 @@ en:
       ske_reasons:
         different_degree: Their degree subject was not %{degree_subject}
         outdated_degree: Their degree subject was %{degree_subject}, but they graduated before %{graduation_cutoff_date}
+    links:
+      service_manual:
+        subscription_messages: https://www.gov.uk/service-manual/design/sending-emails-and-text-messages#subscription-messages
   activemodel:
     errors:
       models:
@@ -155,6 +163,12 @@ en:
           attributes:
             further_conditions:
               too_long: '%{name} must be %{limit} characters or fewer'
+        support_interface/email_subscription_form:
+          attributes:
+            unsubscribed_from_emails:
+              blank: You must choose an option
+            audit_comment:
+              blank: You must provide an audit comment
         support_interface/application_forms/edit_applicant_details_form:
           attributes:
             phone_number:
@@ -258,6 +272,8 @@ en:
               blank: You must provide an audit comment
             send_emails:
               blank: You must select an email option
+            confidential:
+              blank: Select whether or not the feedback can be shared with the candidate
         support_interface/application_forms/edit_address_details_form:
           attributes:
             address_line1:

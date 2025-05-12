@@ -1,6 +1,7 @@
 module CandidateInterface
   module PersonalDetails
     class ReviewController < SectionController
+      before_action :finish_immigration_status, if: -> { ImmigrationStatus.new(current_application: current_application).incomplete? }, only: :show
       def show
         @application_form = current_application
         @section_complete_form = SectionCompleteForm.new(
@@ -12,6 +13,7 @@ module CandidateInterface
           application_form: current_application,
           editable: @section_policy.can_edit?,
         )
+        @immigration_right_to_work_form = ImmigrationRightToWorkForm.build_from_application(current_application)
       end
 
       def complete
@@ -28,6 +30,8 @@ module CandidateInterface
         end
       end
 
+      helper_method :all_sections_valid?
+
     private
 
       def all_sections_valid?
@@ -42,7 +46,11 @@ module CandidateInterface
 
       def save_section_complete_form
         if @section_complete_form.save(current_application, :personal_details_completed)
-          redirect_to_candidate_root
+          if current_application.meets_conditions_for_adviser_interruption? && @section_complete_form.completed?
+            redirect_to candidate_interface_adviser_sign_ups_interruption_path
+          else
+            redirect_to_candidate_root
+          end
         else
           track_validation_error(@section_complete_form)
           render :show
@@ -51,6 +59,10 @@ module CandidateInterface
 
       def application_form_params
         strip_whitespace params.fetch(:candidate_interface_section_complete_form, {}).permit(:completed)
+      end
+
+      def finish_immigration_status
+        redirect_to candidate_interface_immigration_status_path
       end
     end
   end

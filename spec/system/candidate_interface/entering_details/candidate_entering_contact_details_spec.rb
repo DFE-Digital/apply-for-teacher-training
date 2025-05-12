@@ -4,7 +4,7 @@ RSpec.describe 'Entering their contact information' do
   include CandidateHelper
 
   scenario 'Candidate submits their contact information' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_visit_the_site
 
     when_i_click_on_contact_information
@@ -45,6 +45,7 @@ RSpec.describe 'Entering their contact information' do
     when_i_fill_in_an_international_address
     and_i_submit_my_address
     then_i_can_check_my_revised_address
+    and_the_completed_section_radios_are_not_selected
 
     when_i_mark_the_section_as_completed
     and_i_submit_my_details
@@ -55,8 +56,13 @@ RSpec.describe 'Entering their contact information' do
     then_i_can_check_my_revised_answers
   end
 
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
+  def and_the_completed_section_radios_are_not_selected
+    %w[
+      candidate-interface-section-complete-form-completed-true-field
+      candidate-interface-section-complete-form-completed-field
+    ].each do |radio_id|
+      expect(page).to have_no_checked_field(radio_id)
+    end
   end
 
   def and_i_visit_the_site

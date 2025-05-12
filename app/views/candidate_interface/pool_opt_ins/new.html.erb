@@ -1,0 +1,8 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @preference_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_choices_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render 'form', preference_form: @preference_form, url: candidate_interface_pool_opt_ins_path, method: :post %>
+  </div>
+</div>

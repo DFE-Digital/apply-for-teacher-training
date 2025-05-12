@@ -21,8 +21,8 @@ module SupportInterface
     def notification_preferences_params
       return ActionController::Parameters.new unless params.key?(:provider_user_notification_preferences)
 
-      params.require(:provider_user_notification_preferences)
-        .permit(ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES)
+      params
+        .expect(provider_user_notification_preferences: ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES)
     end
   end
 end

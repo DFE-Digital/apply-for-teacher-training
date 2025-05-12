@@ -4,24 +4,24 @@ RSpec.describe 'Candidate with no right to work or study' do
   include CandidateHelper
 
   before do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_there_are_course_options
   end
 
   scenario 'when candidate did not add their nationality yet neither right to work study' do
-    and_i_add_a_course_that_can_not_sponsor_student_visa
+    and_i_add_a_course_that_cannot_sponsor_student_visa
     then_i_do_not_see_an_error_message_that_the_course_does_not_sponsor_visa
   end
 
-  scenario 'when submit a course that can not sponsor student visa' do
+  scenario 'when submit a course that cannot sponsor student visa' do
     when_i_have_completed_my_foreign_application
-    and_i_add_a_course_that_can_not_sponsor_student_visa
+    and_i_add_a_course_that_cannot_sponsor_student_visa
     then_i_see_an_error_message_that_the_course_does_not_sponsor_visa
   end
 
-  scenario 'when submit a course that can not sponsor skilled worker visa' do
+  scenario 'when submit a course that cannot sponsor skilled worker visa' do
     when_i_have_completed_my_foreign_application
-    and_i_add_a_course_that_can_not_sponsor_skilled_worker
+    and_i_add_a_course_that_cannot_sponsor_skilled_worker
     then_i_see_an_error_message_that_the_course_does_not_sponsor_visa
   end
 
@@ -41,8 +41,24 @@ RSpec.describe 'Candidate with no right to work or study' do
     then_i_can_see_my_application_has_been_successfully_submitted
   end
 
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
+  scenario 'when i have a skilled worker visa and course does not sponsor' do
+    when_i_complete_an_application_with_skilled_worker_visa
+    and_i_add_a_course_that_cannot_sponsor_skilled_worker
+    then_i_see_an_error_message_that_the_course_does_not_sponsor_visa
+  end
+
+  scenario 'when i have a student visa and course does not sponsor' do
+    when_i_complete_an_application_with_student_visa
+    and_i_add_a_course_that_cannot_sponsor_student_visa
+    then_i_see_an_error_message_that_the_course_does_not_sponsor_visa
+  end
+
+  scenario 'when I have a student visa and the course I select sponsors visas' do
+    when_i_complete_an_application_with_student_visa
+    and_i_add_a_course_that_can_sponsor_student_visa
+    then_i_do_not_see_an_error_message_that_the_course_does_not_sponsor_visa
+    and_i_submit_the_application
+    then_i_can_see_my_application_has_been_successfully_submitted
   end
 
   def and_there_are_course_options
@@ -57,7 +73,7 @@ RSpec.describe 'Candidate with no right to work or study' do
       can_sponsor_student_visa: true,
       funding_type: 'fee',
     )
-    @course_can_not_sponsor_student_visa = create(
+    @course_cannot_sponsor_student_visa = create(
       :course,
       :open,
       name: 'English',
@@ -77,7 +93,7 @@ RSpec.describe 'Candidate with no right to work or study' do
       can_sponsor_student_visa: false,
       funding_type: 'salary',
     )
-    @course_can_not_sponsor_skilled_worker_visa = create(
+    @course_cannot_sponsor_skilled_worker_visa = create(
       :course,
       :open,
       name: 'Physics',
@@ -88,9 +104,9 @@ RSpec.describe 'Candidate with no right to work or study' do
       funding_type: 'salary',
     )
     create(:course_option, course: @course_can_sponsor_student_visa)
-    create(:course_option, course: @course_can_not_sponsor_student_visa)
+    create(:course_option, course: @course_cannot_sponsor_student_visa)
     create(:course_option, course: @course_can_sponsor_skilled_worker_visa)
-    create(:course_option, course: @course_can_not_sponsor_skilled_worker_visa)
+    create(:course_option, course: @course_cannot_sponsor_skilled_worker_visa)
   end
 
   def when_i_have_completed_my_foreign_application
@@ -106,15 +122,43 @@ RSpec.describe 'Candidate with no right to work or study' do
     )
   end
 
-  def and_i_add_a_course_that_can_not_sponsor_student_visa
+  def when_i_complete_an_application_with_skilled_worker_visa
+    @application_form = create(
+      :application_form,
+      :completed,
+      :with_degree,
+      candidate: current_candidate,
+      first_nationality: 'Indian',
+      second_nationality: nil,
+      right_to_work_or_study: 'yes',
+      immigration_status: 'skilled_worker_visa',
+      efl_completed: true,
+    )
+  end
+
+  def when_i_complete_an_application_with_student_visa
+    @application_form = create(
+      :application_form,
+      :completed,
+      :with_degree,
+      candidate: current_candidate,
+      first_nationality: 'Indian',
+      second_nationality: nil,
+      right_to_work_or_study: 'yes',
+      immigration_status: 'student_visa',
+      efl_completed: true,
+    )
+  end
+
+  def and_i_add_a_course_that_cannot_sponsor_student_visa
     when_i_choose_a_provider
-    choose @course_can_not_sponsor_student_visa.name
+    choose @course_cannot_sponsor_student_visa.name
     and_i_click_continue
   end
 
-  def and_i_add_a_course_that_can_not_sponsor_skilled_worker
+  def and_i_add_a_course_that_cannot_sponsor_skilled_worker
     when_i_choose_a_provider
-    choose @course_can_not_sponsor_skilled_worker_visa.name
+    choose @course_cannot_sponsor_skilled_worker_visa.name
     and_i_click_continue
   end
 

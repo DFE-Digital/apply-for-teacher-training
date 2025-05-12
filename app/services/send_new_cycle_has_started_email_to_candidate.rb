@@ -11,7 +11,7 @@ class SendNewCycleHasStartedEmailToCandidate
       chaser_type: :new_cycle_has_started,
     ).where(
       'created_at > ?',
-      CycleTimetable.apply_opens,
+      RecruitmentCycleTimetable.current_timetable.apply_opens_at,
     ).present?
   end
 end

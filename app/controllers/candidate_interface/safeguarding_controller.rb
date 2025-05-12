@@ -2,6 +2,7 @@ module CandidateInterface
   class SafeguardingController < SectionController
     def show
       @application_form = current_application
+      @can_complete = SafeguardingIssuesDeclarationForm.build_from_application(current_application).valid_for_submission?
       @section_complete_form = SectionCompleteForm.new(completed: current_application.safeguarding_issues_completed)
     end
 
@@ -41,7 +42,11 @@ module CandidateInterface
       @section_complete_form = SectionCompleteForm.new(form_params)
 
       if @section_complete_form.save(current_application, :safeguarding_issues_completed)
-        redirect_to_candidate_root
+        if current_application.meets_conditions_for_adviser_interruption? && ActiveModel::Type::Boolean.new.cast(@section_complete_form.completed)
+          redirect_to candidate_interface_adviser_sign_ups_interruption_path
+        else
+          redirect_to_candidate_root
+        end
       else
         track_validation_error(@section_complete_form)
         render :show
@@ -52,8 +57,7 @@ module CandidateInterface
 
     def safeguarding_params
       strip_whitespace params
-        .require(:candidate_interface_safeguarding_issues_declaration_form)
-        .permit(:share_safeguarding_issues, :safeguarding_issues)
+        .expect(candidate_interface_safeguarding_issues_declaration_form: %i[share_safeguarding_issues safeguarding_issues])
     end
 
     def form_params

@@ -109,7 +109,7 @@ module CandidateInterface
     end
 
     def course_row_value(application_choice)
-      if CycleTimetable.find_down?
+      if current_timetable.after_find_closes?
         "#{application_choice.current_course.name} (#{application_choice.current_course.code})"
       else
         govuk_link_to("#{application_choice.current_course.name} (#{application_choice.current_course.code})", application_choice.current_course.find_url, target: '_blank', rel: 'noopener')
@@ -157,7 +157,7 @@ module CandidateInterface
     end
 
     def degree_required_row(application_choice)
-      return if application_choice.current_course.does_not_require_degree?
+      return unless application_choice.current_course.degree_required?
 
       {
         key: 'Degree requirements',
@@ -206,12 +206,7 @@ module CandidateInterface
     end
 
     def course_can_sponsor_visa?(application_choice)
-      (
-        application_choice.course.salary? && application_choice.course.can_sponsor_skilled_worker_visa?
-      ) ||
-        (
-          !application_choice.course.salary? && application_choice.course.can_sponsor_student_visa?
-        )
+      application_choice.course.can_sponsor_skilled_worker_visa? || application_choice.course.can_sponsor_student_visa?
     end
 
     def status_row(application_choice)
@@ -292,6 +287,10 @@ module CandidateInterface
 
     def return_to_section_review_params
       { 'return-to' => 'section-review' }
+    end
+
+    def current_timetable
+      @current_timetable ||= RecruitmentCycleTimetable.current_timetable
     end
   end
 end

@@ -64,7 +64,7 @@
     <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m">About this data</h2>
         <p class="govuk-body">
-          This data comes from candidates who submitted an application from <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %>.
+          This data comes from candidates who submitted an application from <%= @current_timetable.apply_opens_at.to_fs(:govuk_date) %>.
         </p>
         <p class="govuk-body">
           The sex, disability and ethnicity data comes from candidates who filled in a questionnaire when they applied to your organisation.

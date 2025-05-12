@@ -36,7 +36,7 @@ module SupportInterface
     end
 
     def editable_until
-      Rails.configuration.x.sections.editable_window_days.business_days.from_now.end_of_day if editable_sections.present?
+      Rails.configuration.x.sections.editable_window_days.days.from_now.end_of_day if editable_sections.present?
     end
 
     def full_audit

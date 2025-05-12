@@ -24,6 +24,7 @@ RSpec.describe 'Support interface - POST /support/applications/:application_id/r
           feedback: 'some feedback',
           audit_comment: 'ticket',
           send_emails: 'false',
+          confidential: 'true',
         },
         application_form_id: application_form.id,
         reference_id: reference.id,

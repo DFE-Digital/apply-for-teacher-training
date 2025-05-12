@@ -486,7 +486,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'award year is before start year' do
-      let(:degree_params) { { uk_or_non_uk: 'uk', start_year: RecruitmentCycle.current_year, award_year: RecruitmentCycle.previous_year } }
+      let(:degree_params) { { uk_or_non_uk: 'uk', start_year: current_year, award_year: previous_year } }
 
       it 'is invalid' do
         wizard.valid?(:award_year)
@@ -495,7 +495,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'start year is after graduation year' do
-      let(:degree_params) { { uk_or_non_uk: 'uk', start_year: RecruitmentCycle.current_year, award_year: RecruitmentCycle.previous_year } }
+      let(:degree_params) { { uk_or_non_uk: 'uk', start_year: current_year, award_year: previous_year } }
 
       it 'is invalid' do
         wizard.valid?(:start_year)
@@ -504,7 +504,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'start year cannot be in future when degree completed' do
-      let(:degree_params) { { uk_or_non_uk: 'uk', completed: 'Yes', start_year: RecruitmentCycle.next_year } }
+      let(:degree_params) { { uk_or_non_uk: 'uk', completed: 'Yes', start_year: next_year } }
 
       it 'is invalid' do
         wizard.valid?(:start_year)
@@ -514,7 +514,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'award year cannot be in future when degree completed' do
-      let(:degree_params) { { uk_or_non_uk: 'uk', completed: 'Yes', award_year: RecruitmentCycle.next_year } }
+      let(:degree_params) { { uk_or_non_uk: 'uk', completed: 'Yes', award_year: next_year } }
 
       it 'is invalid' do
         wizard.valid?(:award_year)
@@ -524,7 +524,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'award year cannot be in the past when degree is incomplete' do
-      let(:degree_params) { { uk_or_non_uk: 'uk', completed: 'No', start_year: RecruitmentCycle.previous_year - 1, award_year: RecruitmentCycle.previous_year, recruitment_cycle_year: RecruitmentCycle.current_year } }
+      let(:degree_params) { { uk_or_non_uk: 'uk', completed: 'No', start_year: previous_year - 1, award_year: previous_year, recruitment_cycle_year: current_year } }
 
       it 'is invalid' do
         wizard.valid?(:award_year)
@@ -534,7 +534,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'award year cannot be after end of current cycle if degree incomplete' do
-      let(:degree_params) { { uk_or_non_uk: 'uk', completed: 'No', start_year: RecruitmentCycle.previous_year, award_year: RecruitmentCycle.next_year, recruitment_cycle_year: RecruitmentCycle.current_year } }
+      let(:degree_params) { { uk_or_non_uk: 'uk', completed: 'No', start_year: previous_year, award_year: next_year, recruitment_cycle_year: current_year } }
 
       it 'is invalid' do
         wizard.valid?(:award_year)
@@ -1065,7 +1065,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
 
     describe 'non-uk degree' do
       let(:application_qualification) do
-        create(:non_uk_degree_qualification, id: 1)
+        create(:non_uk_degree_qualification, id: 1, enic_reason: nil)
       end
 
       context 'standard non uk degree' do

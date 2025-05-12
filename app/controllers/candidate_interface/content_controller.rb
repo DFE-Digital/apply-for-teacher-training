@@ -2,6 +2,7 @@ module CandidateInterface
   class ContentController < CandidateInterfaceController
     include ContentHelper
     skip_before_action :authenticate_candidate!
+    skip_before_action :require_authentication
     skip_before_action :set_user_context
 
     def accessibility
@@ -33,7 +34,5 @@ module CandidateInterface
     def complaints
       render 'content/complaints'
     end
-
-    def providers; end
   end
 end

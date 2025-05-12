@@ -1,0 +1,77 @@
+en:
+  provider_interface:
+    find_candidates:
+      right_to_work_component:
+        visa_sponsorship: Visa sponsorship
+      application_choices_component:
+        subtitle: Application %{counter}
+        subject: Subject
+        location: Location
+        qualification: Qualification
+        funding_type: Funding type
+        date_submitted: Date submitted
+      personal_statement_component:
+        read_more: Read more
+        read_less: Read less
+      gcse_qualifications_table_component:
+        caption: GCSEs or equivalent
+        science: Science
+        united_kingdom: United Kingdom
+        type: Type
+        subject: Subject
+        country: Country
+        year_awarded: Year awarded
+        grades: Grades
+        candidate_does_not_have: Candidate does not have this qualification yet
+        details_of_qualification: Details of qualification currently studying for
+        not_provided: Not provided
+        other_evidence_i_have_the_skills: Other evidence I have the skills required
+        awarded: Awarded
+        grade: Grade
+        comparability: Comparability
+        comparability_enic_statement: UK ENIC or NARIC statement %{reference} says this is comparable to %{comparable}
+        not_added: Not added
+        currently_studying_heading: Currently studying to retake this qualification
+        no_additional_information_provided: No additional information provided
+        visually_hidden_text: statement for %{qualification}
+        no_qualification_yet: No qualification yet
+        gcse: GCSE
+      work_history_summary_component:
+        do_you_have_work_history: Do you have any work history?
+        do_you_have_unpaid_experience: Do you have any unpaid experience?
+      experience_details_component:
+        title:
+          details_work_and_unpaid: Details of work history and unpaid experience
+          details_work: Details of work history
+          details_unpaid: Details of unpaid experience
+        unexplained_break_title: Unexplained break (%{formatted_duration})
+        explained_break_title: Break (%{formatted_duration})
+        present: Present
+        relevant_skills: This role used skills relevant to teaching
+        worked_with_children: Worked with children
+      degrees_table_component:
+        caption:
+          one: Degree
+          other: Degrees
+        degree_type: Type
+        degree_subject: Subject
+        issued_by: Issued by
+        year_range: Years
+        grade: Grade
+        comparability: Comparability
+        visually_hidden_enic_text: statement for %{qualification}
+      other_qualifications_component:
+        caption: A levels and other qualifications
+        qualification: Type
+        subject: Subject
+        country: Country
+        year: Year awarded
+        grade: Grade
+        united_kingdom: United Kingdom
+        predicted_grade: "%{predicted_grade} (predicted)"
+        not_entered: Not entered
+      efl_qualification_card_component:
+        type_of_assessment: Type of assessment
+        year_completed: Year completed
+
+

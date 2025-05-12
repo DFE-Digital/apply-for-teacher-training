@@ -9,6 +9,8 @@ You will need to:
 -say whether you have any concerns about them working with children
 -give factual information which can be used to check their application, for example about <%= t("referee_mailer.guidance.#{@referee_type}") %>
 
+You can choose whether <%= @candidate_first_name %> will be able to see your reference or if it should be kept confidential.
+
 Use this link to give the reference or to say you cannot give one:
 
 <%= referee_interface_url(token: @unhashed_token) %>

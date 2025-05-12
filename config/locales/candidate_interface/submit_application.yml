@@ -12,7 +12,7 @@ en:
               applications_closed: |-
                 This course is not yet open to applications. You will be able to submit your application on %{date}.
               course_unavailable: |-
-                You cannot submit this application as the course is no longer available.
+                You cannot submit this application because the course is no longer available.
 
                 %{link_to_remove} and search for other courses.
               course_closed: |-
@@ -52,6 +52,12 @@ en:
                 %{link_to_degree} and complete the rest of your details. You can then submit your application.
 
                 Your application will be saved as a draft while you finish adding your details.
+              visa_sponsorship_application_deadline_passed: |-
+                This course is closed to candidates who need visa sponsorship now.
+
+                You cannot apply to this course. You should choose another course or subject at another training provider who is still accepting applications.
+
+                %{link_to_find}.
   application_form:
     submit_application:
       title: Send application to training providers

@@ -42,8 +42,7 @@ module ProviderInterface
 
     def condition_statuses_params
       params
-        .require(:provider_interface_confirm_conditions_wizard)
-        .permit(statuses: {})
+        .expect(provider_interface_confirm_conditions_wizard: [statuses: {}])
     end
 
     def condition_statuses_store

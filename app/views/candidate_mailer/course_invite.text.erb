@@ -1,0 +1,26 @@
+<% if @application_form.first_name.present? %>
+  Dear <%= @application_form.first_name %>
+<% end %>
+
+<%= @provider.name %> have viewed your application details and are inviting you to submit an application for:
+
+## <%= @course.name_and_code %>
+
+<% if @course.fee_domestic.present? && @course.fee_international.present? %>
+  <%= "Course fee: #{number_to_currency(@course.fee_domestic)} for UK citizens; #{number_to_currency(@course.fee_international)} for non-UK citizens" %>
+<% elsif @course.fee_domestic.present? %>
+  <%= "Course fee: #{number_to_currency(@course.fee_domestic)} for UK citizens" %>
+<% elsif @course.fee_international.present? %>
+  <%= "Course fee: #{number_to_currency(@course.fee_international)} for non-UK citizens" %>
+<% end %>
+Course length: <%= DisplayCourseLength.call(course_length: @course.course_length) %>
+Age range: <%= @course.age_range %>
+Qualification: <%= (@course.qualifications || []).map(&:upcase).to_sentence %>
+Provider: <%= @provider.name %>
+Start date: <%= @course.start_date.to_fs(:short_month_and_year) %>
+
+[Review the full course details](<%= @course.find_url %>) carefully to decide if you are interested in applying.
+
+If this course is not in a suitable location, you can [update your preferences](<%= @preferences_url %>) to appear in more relevant searches.
+
+If you do not want to receive invitations like this, you can [stop providers from viewing your application details](<%= @preferences_url %>).

@@ -4,7 +4,7 @@ RSpec.describe 'Entering their suitability to work with children' do
   include CandidateHelper
 
   scenario 'Candidate declares any safeguarding issues' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     when_i_visit_the_site
     then_i_see_declaring_any_safeguarding_issues
 
@@ -31,10 +31,6 @@ RSpec.describe 'Entering their suitability to work with children' do
     then_i_see_the_section_is_completed
   end
 
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
-  end
-
   def when_i_visit_the_site
     visit candidate_interface_details_path
   end
@@ -59,12 +55,8 @@ RSpec.describe 'Entering their suitability to work with children' do
     fill_in 'Give any relevant information', with: 'I have a criminal conviction.'
   end
 
-  def and_i_click_on_continue
-    click_link_or_button t('continue')
-  end
-
   def then_i_see_my_relevant_information
-    expect(page).to have_content(t('page_titles.suitability_to_work_with_children'))
+    expect(page).to have_content('Check your safeguarding declaration')
     expect(page).to have_content('I have a criminal conviction.')
   end
 
@@ -77,7 +69,7 @@ RSpec.describe 'Entering their suitability to work with children' do
   end
 
   def then_i_see_my_updated_answer
-    expect(page).to have_content(t('page_titles.suitability_to_work_with_children'))
+    expect(page).to have_content 'Check your safeguarding declaration'
     expect(page).to have_content('No')
   end
 
@@ -88,6 +80,7 @@ RSpec.describe 'Entering their suitability to work with children' do
   def when_i_click_on_continue
     click_link_or_button t('continue')
   end
+  alias_method :and_i_click_on_continue, :when_i_click_on_continue
 
   def then_i_see_a_section_complete_error
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')

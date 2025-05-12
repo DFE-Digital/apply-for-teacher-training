@@ -10,10 +10,9 @@
         The sign in link expires after one hour and only works once, so you need a new link.
       </p>
 
-      <%= hidden_field_tag :u, params[:u], html: { autocomplete: 'off' } %>
       <%= hidden_field_tag :token, params[:token], html: { autocomplete: 'off' } %>
 
-      <%= f.govuk_submit t('authentication.expired_token.button') %>
+      <%= f.govuk_submit t('page_titles.sign_in') %>
     <% end %>
   </div>
 </div>

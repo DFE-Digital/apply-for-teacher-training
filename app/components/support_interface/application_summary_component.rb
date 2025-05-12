@@ -7,6 +7,7 @@ module SupportInterface
              :submitted_at,
              :submitted?,
              :updated_at,
+             :candidate,
              to: :application_form
 
     def initialize(application_form:)
@@ -25,6 +26,8 @@ module SupportInterface
         subsequent_application_row,
         average_distance_row,
         editable_extension_row,
+        one_login_account_row,
+        unsubscribed_from_emails,
       ].compact
     end
 
@@ -85,6 +88,35 @@ module SupportInterface
       }
     end
 
+    def one_login_account_row
+      if one_login?
+        {
+          key: 'Has GOV.UK One Login',
+          value: "Yes (#{candidate.one_login_auth.email_address})",
+          action: {
+            href: edit_support_interface_one_login_auths_path(application_form),
+            visually_hidden_text: 'candidate GOV.UK One Login',
+          },
+        }
+      else
+        {
+          key: 'Has GOV.UK One Login',
+          value: 'No',
+        }
+      end
+    end
+
+    def unsubscribed_from_emails
+      {
+        key: 'Subscribed to emails',
+        value: subscribed_to_emails? ? 'Yes' : 'No',
+        action: {
+          href: support_interface_email_subscription_path(application_form),
+          visually_hidden_text: 'applicant email subscription status',
+        },
+      }
+    end
+
     def state_row
       {
         key: 'State',
@@ -121,16 +153,14 @@ module SupportInterface
     end
 
     def editable_extension_row
-      if FeatureFlag.active?(:unlock_application_for_editing)
-        {
-          key: 'Is this application editable',
-          value: application_form.editable_extension? ? "Yes, editable until #{application_form.editable_until.to_fs(:govuk_date_and_time)}" : 'No',
-          action: {
-            href: support_interface_editable_extension_path(application_form),
-            visually_hidden_text: 'editable until',
-          },
-        }
-      end
+      {
+        key: 'Is this application editable',
+        value: application_form.editable_extension? ? "Yes, editable until #{application_form.editable_until.to_fs(:govuk_date_and_time)}" : 'No',
+        action: {
+          href: support_interface_editable_extension_path(application_form),
+          visually_hidden_text: 'editable until',
+        },
+      }
     end
 
     def formatted_status
@@ -138,6 +168,14 @@ module SupportInterface
       name = I18n.t!("candidate_flow_application_states.#{candidate_flow_state}.name")
       desc = I18n.t!("candidate_flow_application_states.#{candidate_flow_state}.description")
       "<strong>#{name}</strong><br>#{desc}".html_safe
+    end
+
+    def one_login?
+      candidate.one_login_connected?
+    end
+
+    def subscribed_to_emails?
+      candidate.subscribed_to_emails?
     end
 
     attr_reader :application_form

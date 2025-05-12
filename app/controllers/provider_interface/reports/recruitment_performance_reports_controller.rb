@@ -3,7 +3,8 @@ module ProviderInterface
     class RecruitmentPerformanceReportsController < ProviderInterfaceController
       def show
         @provider = current_user.providers.find(provider_id)
-        @provider_report = Publications::ProviderRecruitmentPerformanceReport.where(provider: @provider).order(:cycle_week).last
+        @provider_report = latest_report.present? ? Publications::ProviderRecruitmentPerformanceReportPresenter.new(latest_report) : nil
+
         @provider_data = @provider_report&.statistics
         @national_data = national_report&.statistics
       end
@@ -17,6 +18,13 @@ module ProviderInterface
               cycle_week: @provider_report.cycle_week,
             ).last
         end
+      end
+
+      def latest_report
+        Publications::ProviderRecruitmentPerformanceReport
+          .where(provider: @provider)
+          .order(:recruitment_cycle_year, :cycle_week)
+          .last
       end
 
       def provider_id

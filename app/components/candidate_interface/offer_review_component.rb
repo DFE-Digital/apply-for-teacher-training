@@ -90,7 +90,7 @@ module CandidateInterface
     end
 
     def course_row_value
-      if CycleTimetable.find_down?
+      if timetable.after_find_closes?
         tag.p(@course_choice.current_course.name_and_code, class: 'govuk-!-margin-bottom-0') +
           tag.p(@course_choice.current_course.description_to_s, class: 'govuk-body')
       else
@@ -136,6 +136,10 @@ module CandidateInterface
       elsif @course_choice.current_course.fee_international
         tag.p("International Students: £#{@course_choice.current_course.fee_international}", class: 'govuk-body')
       end
+    end
+
+    def timetable
+      @timetable ||= RecruitmentCycleTimetable.current_timetable
     end
   end
 end

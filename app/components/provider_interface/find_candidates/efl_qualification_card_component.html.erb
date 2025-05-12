@@ -1,0 +1,30 @@
+<p class="govuk-body">
+  <%= qualification_status %>
+</p>
+
+<% if english_proficiency.has_qualification? %>
+  <%= govuk_summary_list(actions: false) do |summary_list| %>
+    <% summary_list.with_row do |row| %>
+      <% row.with_key(text: t('.type_of_assessment')) %>
+      <% row.with_value(text: name) %>
+    <% end %>
+    <% summary_list.with_row do |row| %>
+      <% row.with_key(text: t('.year_completed')) %>
+      <% row.with_value(text: award_year) %>
+    <% end %>
+    <% if unique_reference_number %>
+      <% summary_list.with_row do |row| %>
+        <% row.with_key(text: reference_number_title) %>
+        <% row.with_value(text: unique_reference_number) %>
+      <% end %>
+    <% end %>
+    <% summary_list.with_row do |row| %>
+      <% row.with_key(text: grade_title) %>
+      <% row.with_value(text: grade) %>
+    <% end %>
+  <% end %>
+<% elsif english_proficiency.no_qualification? %>
+  <p class="govuk-body">
+    <%= no_qualification_details %>
+  </p>
+<% end %>

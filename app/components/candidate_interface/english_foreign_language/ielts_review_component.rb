@@ -23,19 +23,19 @@ module CandidateInterface
             },
           },
           {
-            key: 'Year completed',
-            value: ielts_qualification.award_year,
-            action: {
-              href: candidate_interface_edit_ielts_path(return_to_params(return_to_application_review)),
-              visually_hidden_text: 'year completed',
-            },
-          },
-          {
             key: 'Overall band score',
             value: ielts_qualification.band_score,
             action: {
               href: candidate_interface_edit_ielts_path(return_to_params(return_to_application_review)),
               visually_hidden_text: 'overall band score',
+            },
+          },
+          {
+            key: 'Year completed',
+            value: ielts_qualification.award_year,
+            action: {
+              href: candidate_interface_edit_ielts_path(return_to_params(return_to_application_review)),
+              visually_hidden_text: 'year completed',
             },
           },
         ]

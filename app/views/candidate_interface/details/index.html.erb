@@ -1,1 +1,97 @@
-<%= render partial: '/candidate_interface/shared/details', locals: { page_title: t('page_titles.your_details') } %>
+<% content_for :title, t('page_titles.your_details') %>
+
+<%= render CandidateInterface::DeadlineBannerComponent.new(application_form: @application_form_presenter.application_form, flash_empty: flash.empty?) %>
+<%= render CandidateInterface::ReopenBannerComponent.new(flash_empty: flash.empty?) %>
+
+<%= render ServiceInformationBanner.new(namespace: :candidate) %>
+
+<% if current_candidate.recoverable? %>
+  <%= govuk_notification_banner(title_text: t('account_recovery_banner.title'), success: false) do |nb| %>
+
+    <% nb.with_heading(text: t('account_recovery_banner.header')) %>
+    <div style="display:inline-table">
+      <%= t(
+            'account_recovery_banner.content_html',
+            button_link: render(
+              ButtonToAsLinkComponent.new(
+                name: t('account_recovery_banner.close_this_message'),
+                path: candidate_interface_dismiss_account_recovery_create_path,
+                classes: ['govuk-!-margin-bottom-4'],
+              ),
+            ),
+          ) %>
+    </div>
+
+    <%= govuk_button_to t('account_recovery_banner.get_your_details_back'), new_candidate_interface_account_recovery_request_path, class: 'govuk-!-margin-bottom-0', method: :get %>
+  <% end %>
+<% end %>
+
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+  <%= t('page_titles.your_details') %>
+</h1>
+<p class="govuk-hint govuk-!-margin-bottom-8"><%= @application_form_presenter.updated_at %></p>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">
+      <% message = 'Your details will be shared with the training provider when you apply.' %>
+
+      <% if @application_form_presenter.can_submit_more_applications? %>
+        You can <%= govuk_link_to 'add your applications', candidate_interface_application_choices_path %>.<br>
+        <br>
+        <%= message %>
+      <% else %>
+        Complete these sections so that you can start applying to courses. <%= message %>
+      <% end %>
+    </p>
+    <br>
+    <section class="govuk-!-margin-bottom-8">
+      <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.personal_details') %></h2>
+      <ol class="app-task-list">
+        <li class="app-task-list__item">
+          <% all_sections_completed =
+               @application_form_presenter.first_name.present? &&
+               @application_form_presenter.first_nationality.present? &&
+               (!@application_form_presenter.english_main_language.nil? || @application_form_presenter.right_to_work_or_study_present?) %>
+          <%= render(TaskListItemComponent.new(
+            text: t('page_titles.personal_information.heading'),
+            completed: @application_form_presenter.personal_details_completed?,
+            path: all_sections_completed ? candidate_interface_personal_details_show_path : candidate_interface_name_and_dob_path,
+          )) %>
+        </li>
+        <li class="app-task-list__item">
+          <%= render(TaskListItemComponent.new(
+            text: t('page_titles.contact_information'),
+            completed: @application_form_presenter.contact_details_completed?,
+            path: @application_form_presenter.contact_details_valid? ? candidate_interface_contact_information_review_path : candidate_interface_new_phone_number_path,
+          )) %>
+        </li>
+      </ol>
+    </section>
+
+    <% cache(@application_cache_key, expires_in: 5.minutes) do %>
+      <%= render '/candidate_interface/shared/task_list', application_form: @application_form_presenter.application_form, application_form_presenter: @application_form_presenter %>
+    <% end %>
+
+    <% if @application_form_presenter.application_form.candidate&.submission_blocked? %>
+      <p class='govuk-body'>You have created more than one account.</p>
+      <p class='govuk-body'>You can no longer submit applications from this account. Visit your other account to continue your application.</p>
+      <p class='govuk-body'>You can apply for up to <%= max_course_choices %> courses at a time.</p>
+      <p class='govuk-body'>Email becomingateacher@digital.education.gov.uk if you have any questions.</p>
+    <% elsif @application_form_presenter.can_submit_more_applications? %>
+      <div class="app-grid-column--grey">
+        <h2 class="govuk-heading-m">You have completed your details</h2>
+        <p class="govuk-body">You can now start applying to courses.</p>
+        <%= govuk_button_link_to t('section_items.add_application'), candidate_interface_course_choices_do_you_know_the_course_path %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <%= render 'candidate_interface/details/adviser_call_to_action', application_form: current_application %>
+
+    <%= render 'candidate_interface/details/support', support_reference: @application_form_presenter.support_reference %>
+
+    <%= render 'candidate_interface/details/previous_applications', application_form_presenter: @application_form_presenter %>
+  </div>
+</div>

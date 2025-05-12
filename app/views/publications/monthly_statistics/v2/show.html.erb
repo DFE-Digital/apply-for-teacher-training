@@ -130,15 +130,14 @@
         receive a decision before the candidate could submit another application form in the same recruitment cycle.
       </p>
 
-      <p class="govuk-body">Improvements have also been made for clarity. Published statistics using the old methodology
-        are also available. These use different definitions and methodology, so they cannot be compared with the
+      <p class="govuk-body">Improvements have also been made for clarity. Statistics published for cycles before 2024 use different definitions and methodology, so they cannot be compared with the
         statistics below.</p>
     <% end %>
 
     <% if @presenter.current_cycle? %>
-      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.current_cycle_name} academic year for course applications in England using the old methodology.", publications_monthly_report_itt_path(@presenter.previous_year) %></p>
+      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.current_cycle_name} academic year for course applications in England.", publications_monthly_report_itt_path(@presenter.previous_year) %></p>
     <% else %>
-      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.next_year} to #{@presenter.next_year + 1} academic year for course applications in England using the old methodology.", publications_monthly_report_itt_path(@presenter.next_year) %></p>
+      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.next_year} to #{@presenter.next_year + 1} academic year for course applications in England.", publications_monthly_report_itt_path(@presenter.next_year) %></p>
     <% end %>
 
     <p class="govuk-body">Statistics are also not comparable to previous figures published by UCAS, which used a different methodology and included candidates applying to providers in Wales.</p>
@@ -167,7 +166,7 @@
 
     <p class="govuk-body">For example, if a candidate’s initial <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> applications had been rejected, they may have submitted a fifth application. Before this date, they would have been included in the count of candidates with rejected applications. After this date, they would not be included in this count. If that fifth application were also rejected, they would then be included in the count of rejected applications again. </p>
 
-    <p class="govuk-body">Each recruitment cycle does not start on the same date each calendar year. The figures for 'last cycle' include data up to and including the date which was the same number of days from the first day of the previous cycle as the publication date is from the first day of the current cycle. This means days in last cycle will not be the same calendar date as days in this cycle. For example, day one of last cycle was on <%= CycleTimetable.find_opens(CycleTimetable.previous_year).to_fs(:govuk_date) %>, but day one of the current cycle was <%= CycleTimetable.find_opens.to_fs(:govuk_date) %>.</p>
+    <p class="govuk-body">Each recruitment cycle does not start on the same date each calendar year. The figures for 'last cycle' include data up to and including the date which was the same number of days from the first day of the previous cycle as the publication date is from the first day of the current cycle. This means days in last cycle will not be the same calendar date as days in this cycle. For example, day one of last cycle was on <%= @presenter.previous_timetable.find_opens_at.to_fs(:govuk_date) %>, but day one of the current cycle was <%= @presenter.report_timetable.find_opens_at.to_fs(:govuk_date) %>.</p>
   </div>
 
   <div class="govuk-grid-column-full">

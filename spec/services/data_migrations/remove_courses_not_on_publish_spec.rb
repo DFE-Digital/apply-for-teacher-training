@@ -12,13 +12,13 @@ RSpec.describe DataMigrations::RemoveCoursesNotOnPublish do
   before do
     stub_teacher_training_api_courses(
       provider_code: provider.code,
-      recruitment_cycle_year: RecruitmentCycle.current_year,
+      recruitment_cycle_year: current_year,
       specified_attributes: [
         { code: course_existing_in_apply_and_publish.code, uuid: course_existing_in_apply_and_publish.uuid },
       ],
     )
 
-    stub_teacher_training_api_courses_404(provider_code: second_provider.code, recruitment_cycle_year: RecruitmentCycle.current_year)
+    stub_teacher_training_api_courses_404(provider_code: second_provider.code, recruitment_cycle_year: current_year)
   end
 
   it 'deletes courses not in publish' do

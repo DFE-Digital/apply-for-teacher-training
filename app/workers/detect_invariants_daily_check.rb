@@ -13,6 +13,9 @@ class DetectInvariantsDailyCheck
   end
 
   def detect_if_the_monthly_statistics_has_not_run
+    return unless HostingEnvironment.production?
+    return if MonthlyStatisticsTimetable.current_generation_date.after? Time.zone.now
+
     latest_monthly_report = Publications::MonthlyStatistics::MonthlyStatisticsReport.last
 
     return if latest_monthly_report.nil? || latest_monthly_report.generation_date >= MonthlyStatisticsTimetable.current_generation_date
@@ -26,8 +29,8 @@ class DetectInvariantsDailyCheck
   def detect_applications_with_course_choices_in_previous_cycle
     forms_with_last_years_courses = ApplicationChoice
       .joins(:application_form, course_option: [:course])
-      .where('extract(year from application_forms.submitted_at) = ?', RecruitmentCycle.current_year)
-      .where(courses: { recruitment_cycle_year: RecruitmentCycle.previous_year })
+      .where('extract(year from application_forms.submitted_at) = ?', RecruitmentCycleTimetable.current_year)
+      .where(courses: { recruitment_cycle_year: RecruitmentCycleTimetable.previous_year })
       .pluck(:application_form_id).uniq
       .sort
 

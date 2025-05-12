@@ -54,7 +54,7 @@ module ProviderInterface
     private
 
       def study_mode_params
-        params.require(:provider_interface_offer_wizard).permit(:study_mode)
+        params.expect(provider_interface_offer_wizard: [:study_mode])
       end
 
       def available_study_modes(course)

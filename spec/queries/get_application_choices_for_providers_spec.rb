@@ -198,13 +198,13 @@ RSpec.describe GetApplicationChoicesForProviders do
     course_option_for_current_cycle = course_option_for_provider(provider: current_provider)
     course_option_for_previous_cycle = course_option_for_provider(
       provider: current_provider,
-      recruitment_cycle_year: RecruitmentCycle.previous_year,
+      recruitment_cycle_year: current_timetable.relative_previous_year,
     )
 
     ratified_course_option_for_previous_cycle = course_option_for_accredited_provider(
       provider: provider_we_ratify,
       accredited_provider: current_provider,
-      recruitment_cycle_year: RecruitmentCycle.previous_year,
+      recruitment_cycle_year: current_timetable.relative_previous_year,
     )
 
     choice_for_current_cycle = create(
@@ -225,7 +225,7 @@ RSpec.describe GetApplicationChoicesForProviders do
       course_option: ratified_course_option_for_previous_cycle,
     )
 
-    returned_applications = described_class.call(providers: [current_provider], recruitment_cycle_year: RecruitmentCycle.current_year)
+    returned_applications = described_class.call(providers: [current_provider], recruitment_cycle_year: current_timetable.recruitment_cycle_year)
 
     expect(returned_applications.map(&:id)).to include(choice_for_current_cycle.id)
     expect(returned_applications.map(&:id)).not_to include(choice_for_previous_cycle.id)

@@ -4,7 +4,7 @@ RSpec.describe 'Candidate edits their choice section' do
   include CandidateHelper
 
   it 'Candidate deletes and adds additional courses' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_applications
 
     when_i_visit_the_course_choices_page
@@ -19,7 +19,7 @@ RSpec.describe 'Candidate edits their choice section' do
   end
 
   it 'Candidate deletes course choice from the review page' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_applications
 
     when_i_visit_the_course_choice_review_page
@@ -37,13 +37,8 @@ RSpec.describe 'Candidate edits their choice section' do
     and_my_submitted_choice_is_displayed
   end
 
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def and_i_have_applications
-    @application_form = create(:application_form, candidate: @candidate, course_choices_completed: true)
+    @application_form = create(:application_form, candidate: @current_candidate, course_choices_completed: true)
     @first_application_choice = create(:application_choice, :unsubmitted, application_form: @application_form)
     @second_application_choice = create(:application_choice, :awaiting_provider_decision, application_form: @application_form)
     @application_choice = @first_application_choice

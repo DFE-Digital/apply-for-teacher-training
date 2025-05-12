@@ -9,7 +9,7 @@ module EndOfCycle
 
       provider_users.find_each do |provider_user|
         next if already_chased?(provider_user)
-        next if does_not_want_emails?(provider_user)
+        next unless prefers_emails?(provider_user)
 
         ProviderMailer.public_send(chaser_type, provider_user).deliver_later
 
@@ -33,8 +33,8 @@ module EndOfCycle
         .find_by(chased: provider_user, chaser_type: chaser_type.to_s).present?
     end
 
-    def does_not_want_emails?(provider_user)
-      provider_user.notification_preferences.application_received == false
+    def prefers_emails?(provider_user)
+      provider_user.notification_preferences.application_received == true
     end
   end
 end

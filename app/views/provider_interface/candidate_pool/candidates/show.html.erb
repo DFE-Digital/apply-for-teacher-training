@@ -1,0 +1,86 @@
+<% content_for :browser_title, t('.title') %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_candidate_pool_root_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render ServiceInformationBanner.new(namespace: :provider) %>
+
+    <span class="govuk-caption-xl"><%= t('.candidate_number', candidate_id: @candidate.id) %></span>
+    <h1 class="govuk-heading-xl"><%= @application_form.redacted_full_name %></h1>
+    <%= govuk_button_to t('.invite'), new_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate), method: :get %>
+
+    <h2 class="govuk-heading-l"><%= t('.right_to_work_and_study') %></h2>
+
+    <%= render ProviderInterface::FindCandidates::RightToWorkComponent.new(application_form: @application_form) %>
+  </div>
+
+  <div class="govuk-grid-column-full">
+    <section class="app-section" id="qualifications-section">
+      <h2 class="govuk-heading-l" id="qualifications">
+        <%= t('.qualifications') %>
+      </h2>
+
+      <% if @application_form.degrees? %>
+        <%= render ProviderInterface::FindCandidates::DegreesTableComponent.new(@application_form) %>
+      <% else %>
+        <h3 class="govuk-heading-m" id="degrees-heading">
+          <%= t('.degree.heading') %>
+        </h3>
+        <p class="govuk-body">
+          <%= t('.degree.teacher_degree_apprenticeship_message') %>
+        </p>
+      <% end %>
+
+      <%= render ProviderInterface::FindCandidates::GcseQualificationsTableComponent.new(@application_form) %>
+
+      <% if @application_form.application_qualifications.other.any? %>
+        <%= render ProviderInterface::FindCandidates::OtherQualificationsComponent.new(@application_form) %>
+      <% else %>
+        <h3 class="govuk-heading-m" id="gcses">
+          <%= t('.a_level_header') %>
+        </h3>
+        <p class="govuk-body">
+          <%= t('.no_other_qualifications') %>
+        </p>
+      <% end %>
+
+      <% if !@application_form.british_or_irish? && @application_form.english_proficiency.present? %>
+        <h3 class="govuk-heading-m" id='efl-qualification'>
+          <%= t('.english_as_a_foreign_language') %>
+        </h3>
+        <%= render ProviderInterface::FindCandidates::EflQualificationCardComponent.new(@application_form) %>
+      <% end %>
+
+    </section>
+  </div>
+  <div class="govuk-grid-column-two-thirds">
+    <section class='app-section' id='personal-statement-section'>
+      <h2 class="govuk-heading-l">
+        <span class="govuk-caption-l">
+          <%= t('.personal_statement_caption') %>
+        </span>
+        <%= t('.personal_statement_title') %>
+      </h2>
+      <%= render ProviderInterface::FindCandidates::PersonalStatementComponent.new(@application_form) %>
+    </section>
+    <section class="app-section" id="work-history-section">
+      <h2 class="govuk-heading-l" id="work-history">
+        <%= t('.work_history_and_unpaid_experience') %>
+      </h2>
+      <%= render ProviderInterface::FindCandidates::WorkHistorySummaryComponent.new(@application_form) %>
+      <%= render ProviderInterface::FindCandidates::ExperienceDetailsComponent.new(@application_form) %>
+    </section>
+    <section class="app-section" id="safeguarding-section">
+      <h2 class="govuk-heading-l">
+        <%= t('.safeguarding_title') %>
+      </h2>
+      <%= render ProviderInterface::FindCandidates::SafeguardingComponent.new(application_form: @application_form, provider_user: current_provider_user) %>
+    </section>
+    <section class="app-section" id="application-choices-section">
+      <h2 class="govuk-heading-l">
+        <%= t('.application_choices_title') %>
+      </h2>
+      <%= render ProviderInterface::FindCandidates::ApplicationChoicesComponent.new(application_form: @application_form) %>
+    </section>
+  </div>
+</div>

@@ -30,11 +30,9 @@
   position: relative;
 
   max-height: 200px;
+
   overflow-x: hidden;
   overflow-y: auto;
-
-  background-color: govuk-colour("white");
-  border-bottom: 1px solid $govuk-border-colour;
 }
 
 .app-checkbox-filter__container-inner {

@@ -1,0 +1,57 @@
+<%= render 'navigation', title: t('.page_title') %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-xl">
+      <%= t('.today_is', date: Time.zone.now.to_fs(:govuk_date)) %>
+    </span>
+    <h1 class="govuk-heading-l">
+      <%= t(".#{@timetable_presenter.cycle_state}", year: @current_timetable.recruitment_cycle_year) %>
+    </h1>
+
+    <p class="govuk-body">
+      <%= t(".current_state_description.#{@timetable_presenter.cycle_state}") %>
+    </p>
+
+    <% unless HostingEnvironment.production? %>
+      <h2 class='govuk-heading-m'>
+        <%= t('.you_can_edit') %>
+      </h2>
+
+      <%= govuk_list(
+            [
+              govuk_link_to(@current_timetable.recruitment_cycle_year, support_interface_edit_recruitment_cycle_timetable_path(recruitment_cycle_year: @current_timetable.recruitment_cycle_year)),
+              govuk_link_to(@current_timetable.relative_next_year, support_interface_edit_recruitment_cycle_timetable_path(recruitment_cycle_year: @current_timetable.relative_next_year)),
+            ],
+          ) %>
+
+      <%= form_for :resetting_timetables, url: support_interface_sync_cycle_with_production_path, method: :post do |form| %>
+        <%= form.govuk_submit t('.sync_with_production') %>
+      <% end %>
+
+    <% end %>
+
+    <h2 class="govuk-heading-m">
+      <%= t('.cycle_years') %>
+    </h2>
+
+    <%= render SummaryListComponent.new(rows: {
+      'Previous cycle year' => @current_timetable.relative_previous_year,
+      'Current cycle year' => @current_timetable.recruitment_cycle_year,
+      'Next cycle year' => @current_timetable.relative_next_year,
+      'Years visible to providers' => [@current_timetable.recruitment_cycle_year, @current_timetable.relative_next_year].to_sentence,
+      'Current cycle week' => RecruitmentCycleTimetable.current_cycle_week,
+    }) %>
+
+    <h2 class="govuk-heading-m">
+      <%= t('.deadlines') %>
+    </h2>
+
+    <%= render Publications::RecruitmentCycleTimetableCard.new(@current_timetable) %>
+
+    <% if @current_timetable.relative_next_timetable.present? %>
+      <%= render Publications::RecruitmentCycleTimetableCard.new(@current_timetable.relative_next_timetable) %>
+    <% end %>
+
+  </div>
+</div>

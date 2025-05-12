@@ -13,7 +13,7 @@
         <ul class="app-summary-card__actions-list">
           <% if deletable? && reference_editable?(reference) %>
             <li class="app-summary-card__actions-list-item">
-              <%= govuk_link_to confirm_destroy_path(reference) do %>
+              <%= govuk_link_to confirm_destroy_path(reference), class: 'govuk-!-font-weight-bold' do %>
                 <%= t('application_form.references.delete_reference.action') %>
                 <span class="govuk-visually-hidden">reference from <%= reference.name %></span>
               <% end %>

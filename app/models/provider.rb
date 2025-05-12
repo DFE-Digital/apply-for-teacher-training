@@ -42,6 +42,8 @@ class Provider < ApplicationRecord
   audited
   has_associated_audits
 
+  delegate :name, to: :vendor, prefix: true, allow_nil: true
+
   def self.with_courses
     includes(:courses).where.not(courses: { id: nil })
   end
@@ -63,7 +65,7 @@ class Provider < ApplicationRecord
   end
 
   def selectable_school?
-    return true unless CycleTimetable.current_year >= 2025
+    return true unless RecruitmentCycleTimetable.current_year >= 2025
 
     super
   end

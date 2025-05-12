@@ -43,12 +43,18 @@
 
             <%= hidden_field_tag primary_filter[:name], primary_filter[:value] if primary_filter && primary_filter[:value].present? %>
             <% secondary_filters.each do |filter, idx| %>
-              <div class="govuk-form-group">
+              <div class="govuk-form-group filter-group">
+                <% if filter[:title].present? %>
+                  <h3 class="govuk-heading-m"><%= filter[:title] %></h3>
+                <% end %>
                 <fieldset class="govuk-fieldset">
                   <legend id="filter-legend-<%= filter[:name] %>" class="govuk-fieldset__legend govuk-fieldset__legend--s">
                     <%= filter[:heading] %>
                   </legend>
-                  <% if filter[:type] == :search %>
+
+                  <% if filter[:type] == :location_search %>
+                    <%= render ProviderInterface::LocationFilterComponent.new(filter:) %>
+                  <% elsif filter[:type] == :search %>
                     <input class="govuk-input <%= filter[:css_classes] %>" id="<%= filter[:name] %>" name="<%= filter[:name] %>" type="text" value="<%= filter[:value] %>" aria-labelledby="filter-legend-<%= filter[:name] %>" autocomplete="off">
                   <% elsif filter[:type] == :checkboxes %>
                     <input value="" name="<%= filter[:name] %>[]" type="hidden">
@@ -64,7 +70,7 @@
                     <% end %>
                      <% elsif filter[:type] == :checkbox_filter %>
                     <div id="<%= filter[:name] %>" class="app-checkbox-filter app-checkbox-filter--enhanced">
-                      <% if active_filters&.find { |f| f[:name] == filter[:name] } %>
+                      <% if active_filters&.find { |f| f[:name] == filter[:name] } && filter[:hide_tags].blank? %>
                         <div class="app-checkbox-filter__selected">
                           <ul class="app-checkbox-filter__tags">
                             <% tags_for_active_filter(filter).each do |tag| %>

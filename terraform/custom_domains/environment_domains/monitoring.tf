@@ -11,7 +11,7 @@ data "azurerm_monitor_action_group" "main" {
 }
 
 data "azurerm_cdn_frontdoor_profile" "zone" {
-  for_each            = local.alertable_zone
+  for_each = local.alertable_zone
 
   name                = var.hosted_zone[each.key].front_door_name
   resource_group_name = var.hosted_zone[each.key].resource_group_name
@@ -21,7 +21,7 @@ data "azurerm_cdn_frontdoor_profile" "zone" {
 # aggregated over the last 5 minutes
 
 resource "azurerm_monitor_metric_alert" "fd_total_latency" {
-  for_each            = local.alertable_zone
+  for_each = local.alertable_zone
 
   name                = "${var.hosted_zone[each.key].front_door_name}-${var.hosted_zone[each.key].domains[0]}-latency"
   resource_group_name = var.hosted_zone[each.key].resource_group_name
@@ -55,7 +55,7 @@ resource "azurerm_monitor_metric_alert" "fd_total_latency" {
 }
 
 resource "azurerm_monitor_metric_alert" "fd_percent_5xx" {
-  for_each            = local.alertable_zone
+  for_each = local.alertable_zone
 
   name                = "${var.hosted_zone[each.key].front_door_name}-${var.hosted_zone[each.key].domains[0]}-5xx"
   resource_group_name = var.hosted_zone[each.key].resource_group_name

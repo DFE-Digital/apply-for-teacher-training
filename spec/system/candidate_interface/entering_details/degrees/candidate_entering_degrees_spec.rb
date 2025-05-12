@@ -4,7 +4,7 @@ RSpec.describe 'Entering a degree' do
   include CandidateHelper
 
   scenario 'Candidate enters their degree' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
 
     and_i_answer_that_i_have_a_university_degree
@@ -56,6 +56,7 @@ RSpec.describe 'Entering a degree' do
 
     # Review
     then_i_can_check_my_undergraduate_degree
+    and_the_completed_section_radios_are_not_selected
 
     # Mark section as complete
     when_i_mark_this_section_as_completed
@@ -64,10 +65,6 @@ RSpec.describe 'Entering a degree' do
     and_that_the_section_is_completed
     when_i_click_on_degree
     then_i_can_check_my_answers
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def when_i_view_the_degree_section
@@ -200,5 +197,18 @@ RSpec.describe 'Entering a degree' do
     expect(page).to have_content 'First-class honours'
     expect(page).to have_content '2006'
     expect(page).to have_content '2009'
+  end
+
+  def and_the_completed_section_radios_are_not_selected
+    %w[
+      candidate-interface-section-complete-form-completed-true-field
+      candidate-interface-section-complete-form-completed-field
+    ].each do |radio_id|
+      expect(page).to have_no_checked_field(radio_id)
+    end
+  end
+
+  def and_i_click_on_continue
+    click_link_or_button t('continue')
   end
 end

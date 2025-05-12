@@ -89,11 +89,12 @@ class GetCourseOptionFromCodes
   end
 
   def self.validate_site_unique(record, attr, value)
+    current_year = RecruitmentCycleTimetable.current_year
     sites = record
       .provider.sites
       .joins(:course_options)
       .merge(CourseOption.selectable)
-      .for_recruitment_cycle_years([RecruitmentCycle.current_year])
+      .for_recruitment_cycle_years([current_year])
       .where(code: value)
 
     if sites.count > 1
@@ -103,7 +104,7 @@ class GetCourseOptionFromCodes
       )
     else
       record.site ||= sites.first
-      error_message = I18n.t("#{LOCALE_PREFIX}.site_code.blank", code: value, provider: record.provider.code, year: RecruitmentCycle.current_year)
+      error_message = I18n.t("#{LOCALE_PREFIX}.site_code.blank", code: value, provider: record.provider.code, year: current_year)
       record.errors.add(attr, error_message) unless record.site
     end
   end

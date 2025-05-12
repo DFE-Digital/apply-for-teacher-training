@@ -7,14 +7,14 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
         rejectable = create(:application_choice, :inactive)
 
         allow(EndOfCycle::RejectByDefaultSecondaryWorker).to receive(:perform_at)
-        described_class.new.perform(force: true)
+        described_class.new.perform(true)
         expect(EndOfCycle::RejectByDefaultSecondaryWorker)
           .to have_received(:perform_at).with(kind_of(Time), [rejectable.application_form.id])
       end
     end
 
     context 'for previous cycle, current cycle' do
-      [RecruitmentCycle.previous_year, RecruitmentCycle.current_year].each do |year|
+      [previous_year, current_year].each do |year|
         context 'after the reject by default date', time: reject_by_default_run_date(year) do
           it 'enqueues the secondary worker' do
             inactive_choice = create(:application_choice, :inactive)

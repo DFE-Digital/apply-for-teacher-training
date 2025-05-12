@@ -1,10 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Candidate tries to submit an application choice when the course is unavailable' do
-  include SignInHelper
   include CandidateHelper
   before do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_one_application_in_draft
   end
 
@@ -83,7 +82,7 @@ RSpec.describe 'Candidate tries to submit an application choice when the course 
 
   def then_i_see_the_course_unavailable_error_message
     within('.govuk-warning-text') do
-      expect(page).to have_content('You cannot submit this application as the course is no longer available.')
+      expect(page).to have_content('You cannot submit this application because the course is no longer available.')
     end
   end
 

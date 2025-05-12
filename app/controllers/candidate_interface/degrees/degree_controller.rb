@@ -91,11 +91,11 @@ module CandidateInterface
 
       def degree_params
         if params[:candidate_interface_degree_wizard].present?
-          strip_whitespace params.require(:candidate_interface_degree_wizard).permit(
-            :uk_or_non_uk, :country, :subject, :subject_raw, :degree_level, :equivalent_level,
-            :type, :international_type, :other_type, :other_type_raw, :university, :university_raw,
-            :completed, :grade, :other_grade, :other_grade_raw, :start_year, :award_year,
-            :enic_reference, :comparable_uk_degree, :enic_reason
+          strip_whitespace params.expect(
+            candidate_interface_degree_wizard: %i[uk_or_non_uk country subject subject_raw degree_level equivalent_level
+                                                  type international_type other_type other_type_raw university university_raw
+                                                  completed grade other_grade other_grade_raw start_year award_year
+                                                  enic_reference comparable_uk_degree enic_reason],
           )
         else
           {}

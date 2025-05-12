@@ -1,23 +1,36 @@
 module CandidateInterface
   class CandidateInterfaceController < ApplicationController
     include BackLinks
+    include Authentication
 
     before_action :protect_with_basic_auth
-    before_action :authenticate_candidate!
+    before_action :track_email_click
+    before_action :authenticate_candidate!, unless: -> { one_login_enabled? }
     before_action :set_user_context
+    before_action :set_current_timetable
     before_action :check_cookie_preferences
     before_action :check_account_locked
-    before_action :track_email_click
     layout 'application'
+
+    def current_user
+      current_candidate
+    end
+
+    def current_candidate
+      super || Current.session&.candidate
+    end
     alias audit_user current_candidate
-    alias current_user current_candidate
 
     def set_user_context(candidate_id = current_candidate&.id)
       Sentry.set_user(id: "candidate_#{candidate_id}")
 
-      return unless current_candidate
+      return unless authenticated?
 
       Sentry.set_tags(application_support_url: support_interface_application_form_url(current_application))
+    end
+
+    def set_current_timetable
+      @current_timetable = current_timetable
     end
 
     def check_cookie_preferences
@@ -70,7 +83,7 @@ module CandidateInterface
     end
 
     def redirect_to_completed_dashboard_if_not_accepted_deferred_or_recruited
-      redirect_to candidate_interface_application_complete_path if no_offers_accepted_or_deferred_and_not_recruited?
+      redirect_to candidate_interface_application_choices_path if no_offers_accepted_or_deferred_and_not_recruited?
     end
 
     def redirect_to_candidate_root

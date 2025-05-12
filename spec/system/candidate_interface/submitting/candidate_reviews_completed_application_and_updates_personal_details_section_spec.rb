@@ -4,7 +4,7 @@ RSpec.describe 'Candidate is redirected correctly' do
   include CandidateHelper
 
   it 'Candidate reviews completed application and updates personal details section' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     when_i_have_completed_my_application
     and_i_review_my_application
     then_i_see_all_sections_are_complete
@@ -66,10 +66,6 @@ RSpec.describe 'Candidate is redirected correctly' do
     when_i_update_my_address
     then_i_redirected_to_the_contact_information_review_page
     and_i_see_my_updated_address
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
   end
 
   def when_i_have_completed_my_application

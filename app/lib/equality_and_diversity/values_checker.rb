@@ -1,6 +1,6 @@
 module EqualityAndDiversity
   class ValuesChecker
-    def initialize(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year)
+    def initialize(application_form:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
       @initial_values = application_form.equality_and_diversity&.transform_keys(&:to_sym)
       @hesa_converter = HesaConverter.new(application_form:, recruitment_cycle_year:)
     end

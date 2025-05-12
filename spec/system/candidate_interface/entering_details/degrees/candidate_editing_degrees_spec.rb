@@ -4,7 +4,7 @@ RSpec.describe 'Editing a degree' do
   include CandidateHelper
 
   it 'Candidate edits their degree' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_i_have_completed_the_degree_section
     when_i_view_the_degree_section
     and_i_click_to_change_my_undergraduate_degree_type
@@ -70,13 +70,8 @@ RSpec.describe 'Editing a degree' do
     then_i_see_another_masters_degree_selected
   end
 
-  def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def and_i_have_completed_the_degree_section
-    @application_form = create(:application_form, candidate: @candidate)
+    @application_form = create(:application_form, candidate: @current_candidate)
     create(:application_qualification,
            level: 'degree',
            qualification_type: 'Bachelor of Arts',
@@ -113,7 +108,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def and_i_click_to_change_my_undergraduate_degree_type
-    click_change_link('qualification')
+    click_change_link('degree type')
   end
 
   def when_i_click_to_change_my_undergraduate_degree_start_year
@@ -187,7 +182,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def when_i_change_my_undergraduate_degree_award_year_again
-    graduation_year = RecruitmentCycle.current_year.to_s
+    graduation_year = current_year.to_s
     fill_in t('page_titles.what_year_will_you_graduate'), with: graduation_year
   end
 
@@ -241,7 +236,7 @@ RSpec.describe 'Editing a degree' do
     completion_status_row = page.all('.govuk-summary-list__row').find { |row| row.has_link? 'Change completion status' }
     expect(completion_status_row).to have_content 'No'
 
-    expect(page).to have_content RecruitmentCycle.current_year.to_s
+    expect(page).to have_content current_year.to_s
   end
 
   def then_i_can_check_my_undergraduate_degree_type_has_been_cleared
@@ -263,7 +258,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def when_i_change_my_undergraduate_degree_type_to_a_diploma
-    click_change_link('qualification')
+    click_change_link('degree type')
     choose 'Level 6 Diploma'
     and_i_click_on_save_and_continue
   end
@@ -276,7 +271,7 @@ RSpec.describe 'Editing a degree' do
 
   def when_i_click_to_change_my_undergraduate_degree_type_again
     visit candidate_interface_degree_review_path
-    click_change_link('qualification')
+    click_change_link('degree type')
   end
 
   def and_i_change_my_degree_to_another_masters_degree_type
@@ -291,7 +286,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def when_i_click_to_change_my_masters_undergraduate_degree_type
-    click_change_link('specific type of degree')
+    click_change_link('type of master’s degree')
   end
 
   def then_i_see_another_masters_degree_selected

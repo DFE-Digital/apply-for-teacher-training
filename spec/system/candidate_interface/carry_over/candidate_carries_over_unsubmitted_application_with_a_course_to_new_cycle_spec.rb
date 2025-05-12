@@ -1,10 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe 'Carry over application and submit new application choices', time: CycleTimetableHelper.mid_cycle do
+RSpec.describe 'Carry over application and submit new application choices' do
   include CandidateHelper
 
-  it 'Candidate carries over unsubmitted application with a course to new cycle' do
-    given_i_am_signed_in_as_a_candidate
+  before do
+    FeatureFlag.activate(:candidate_preferences)
+  end
+
+  it 'Candidate carries over unsubmitted application with a course to new cycle', time: mid_cycle do
+    given_i_am_signed_in_with_one_login
     when_i_have_an_unsubmitted_application
     and_the_recruitment_cycle_ends
     and_the_cancel_unsubmitted_applications_worker_runs
@@ -36,11 +40,6 @@ RSpec.describe 'Carry over application and submit new application choices', time
 
 private
 
-  def given_i_am_signed_in_as_a_candidate
-    @candidate = create(:candidate)
-    login_as(@candidate)
-  end
-
   def when_i_have_an_unsubmitted_application
     @application_form = create(
       :completed_application_form,
@@ -48,7 +47,7 @@ private
       :with_gcses,
       :with_degree,
       submitted_at: nil,
-      candidate: @candidate,
+      candidate: @current_candidate,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
       references_count: 0,
     )
@@ -78,9 +77,8 @@ private
   end
 
   def when_i_sign_in_again
-    logout
-    login_as(@candidate)
-    visit root_path
+    click_link_or_button 'Sign out'
+    given_i_am_signed_in_with_one_login
   end
 
   def and_i_visit_the_application_dashboard
@@ -115,8 +113,8 @@ private
   alias_method :click_on_references, :when_i_view_referees
 
   def then_i_can_see_the_referees_i_previously_added
-    expect(page).to have_css('h3', text: @first_reference.name)
-    expect(page).to have_css('h3', text: @second_reference.name)
+    expect(page).to have_css('h2', text: @first_reference.name)
+    expect(page).to have_css('h2', text: @second_reference.name)
   end
 
   def when_i_view_courses
@@ -180,6 +178,7 @@ private
     click_on 'Review application'
     click_on 'Confirm and submit application'
     expect(page).to have_content 'Application submitted'
+    click_on 'Back to your applications'
     expect(page).to have_content 'You can add 3 more applications'
   end
 
@@ -200,6 +199,6 @@ private
   end
 
   def application_choice
-    @candidate.current_application.application_choices.first
+    @current_candidate.current_application.application_choices.first
   end
 end

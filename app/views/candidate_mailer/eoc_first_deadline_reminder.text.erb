@@ -2,9 +2,9 @@
 Dear <%= @application_form.first_name %>
 <% end %>
 
-[Submit your application for teacher training](<%= candidate_magic_link(@application_form.candidate) %>) as soon as you can to get on a course starting in the <%= RecruitmentCycle.current_year %> to <%= RecruitmentCycle.next_year %> academic year.
+[Submit your application for teacher training](<%= application_choices_link %>) as soon as you can to get on a course starting in the <%= @application_form.academic_year_range_name %> academic year.
 
-<%=  "The deadline to submit your application is #{CycleTimetable.date(:apply_deadline).to_fs(:govuk_time)} on #{CycleTimetable.apply_deadline.to_fs(:govuk_date)} but courses may fill up before then." %>
+<%= "The deadline to submit your application is #{@application_form.apply_deadline_at.to_fs(:govuk_time)} on #{@application_form.apply_deadline_at.to_fs(:govuk_date)} but courses may fill up before then." %>
 
 Courses fill up quickly at this time of year.
 
@@ -14,6 +14,10 @@ Courses fill up quickly at this time of year.
 
 If you have questions about your application, you can [get in touch with us on the phone or through live chat](<%= email_link_with_utm_params I18n.t('get_into_teaching.url_online_chat'), 'eoc_deadline_reminder', @application_form.phase %>).
 
+<% if @application_form.adviser_status_assigned? %>
+You can also contact your teacher training adviser for support with writing your application.
+<% else %>
 You can also [get a teacher training adviser](<%= email_link_with_utm_params I18n.t('get_into_teaching.url_get_an_adviser_start'), 'eoc_deadline_reminder', @application_form.phase %>) for free, one-to-one support to help you write a strong application.
+<% end %>
 
 <%= render "unsubscribe_from_emails_like_this" %>

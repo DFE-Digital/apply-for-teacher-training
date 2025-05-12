@@ -27,11 +27,11 @@ RSpec.describe EqualityAndDiversity::ValuesChecker do
           }
           application_form = create(
             :application_form,
-            recruitment_cycle_year: RecruitmentCycle.previous_year,
+            recruitment_cycle_year: previous_year,
             equality_and_diversity:,
           )
 
-          check = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year).check_values
+          check = described_class.new(application_form:, recruitment_cycle_year: current_year).check_values
           expect(check).to be true
         end
       end
@@ -46,11 +46,11 @@ RSpec.describe EqualityAndDiversity::ValuesChecker do
           }
           application_form = create(
             :application_form,
-            recruitment_cycle_year: RecruitmentCycle.previous_year,
+            recruitment_cycle_year: previous_year,
             equality_and_diversity:,
           )
 
-          check = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year).check_values
+          check = described_class.new(application_form:, recruitment_cycle_year: current_year).check_values
           expect(check).to be true
         end
       end
@@ -65,11 +65,11 @@ RSpec.describe EqualityAndDiversity::ValuesChecker do
           }
           application_form = create(
             :application_form,
-            recruitment_cycle_year: RecruitmentCycle.previous_year,
+            recruitment_cycle_year: previous_year,
             equality_and_diversity:,
           )
 
-          check = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year).check_values
+          check = described_class.new(application_form:, recruitment_cycle_year: current_year).check_values
           expect(check).to be true
         end
       end
@@ -84,11 +84,11 @@ RSpec.describe EqualityAndDiversity::ValuesChecker do
           }
           application_form = create(
             :application_form,
-            recruitment_cycle_year: RecruitmentCycle.previous_year,
+            recruitment_cycle_year: previous_year,
             equality_and_diversity:,
           )
 
-          check = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year).check_values
+          check = described_class.new(application_form:, recruitment_cycle_year: current_year).check_values
           expect(check).to be true
         end
       end
@@ -104,11 +104,11 @@ RSpec.describe EqualityAndDiversity::ValuesChecker do
         }
         application_form = create(
           :application_form,
-          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          recruitment_cycle_year: previous_year,
           equality_and_diversity:,
         )
 
-        check = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year).check_values
+        check = described_class.new(application_form:, recruitment_cycle_year: current_year).check_values
         expect(check).to be true
       end
     end
@@ -124,11 +124,11 @@ RSpec.describe EqualityAndDiversity::ValuesChecker do
 
         application_form = create(
           :application_form,
-          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          recruitment_cycle_year: previous_year,
           equality_and_diversity:,
         )
 
-        check = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year).check_values
+        check = described_class.new(application_form:, recruitment_cycle_year: current_year).check_values
         expect(check).to be true
       end
     end
@@ -141,11 +141,11 @@ RSpec.describe EqualityAndDiversity::ValuesChecker do
         }
         application_form = create(
           :application_form,
-          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          recruitment_cycle_year: previous_year,
           equality_and_diversity:,
         )
 
-        check = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year).check_values
+        check = described_class.new(application_form:, recruitment_cycle_year: current_year).check_values
         expect(check).to be false
       end
     end
@@ -160,11 +160,11 @@ RSpec.describe EqualityAndDiversity::ValuesChecker do
         }
         application_form = create(
           :application_form,
-          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          recruitment_cycle_year: previous_year,
           equality_and_diversity:,
         )
 
-        check = described_class.new(application_form:, recruitment_cycle_year: RecruitmentCycle.current_year).check_values
+        check = described_class.new(application_form:, recruitment_cycle_year: current_year).check_values
         expect(check).to be false
       end
     end

@@ -24,7 +24,7 @@ Get access credentials for a managed Kubernetes cluster (passing the
 environment name):
 
 ```sh
-make qa_aks get-cluster-credentials
+make qa get-cluster-credentials
 ```
 
 ## Show namespaces
@@ -134,7 +134,7 @@ kubectl -n bat-qa exec -ti apply-loadtest-some-pod-number -- bundle exec rake -T
 
 ```sh
 make install-konduit
-bin/konduit.sh app-name -- psql
+bin/konduit.sh -n bat-production -x apply-production -- psql
 ```
 
 Example of loading test:

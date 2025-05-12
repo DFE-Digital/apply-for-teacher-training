@@ -14,11 +14,27 @@ namespace :candidate_interface, path: '/candidate' do
     get '/' => redirect('/')
   end
 
+  resources :account_recovery_requests, only: %i[new create], path: 'account-recovery-requests'
+
+  resources :share_details, only: :index, path: 'share-details'
+
+  resources :pool_opt_ins, only: %i[new create edit update], path: 'preferences-opt-in'
+  resources :draft_preferences, only: %i[show update], path: 'preferences' do
+    resource :publish_preferences, only: %i[show create], path: 'publish-preferences'
+    resources :location_preferences, path: 'location-preferences'
+  end
+  resource :candidate_feature_launch_email, only: :show, path: 'feature-launch-email'
+
+  resources :location_suggestions, only: :index, path: 'location-suggestions'
+
+  get 'account-recovery/new'
+  post 'account-recovery/create'
+  post 'dismiss-account-recovery/create'
+
   get '/accessibility', to: 'content#accessibility'
   get '/cookies', to: 'content#cookies_page', as: :cookies
   get '/make-a-complaint', to: 'content#complaints', as: :complaints
   get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
-  get '/providers', to: 'content#providers', as: :providers
   get '/terms-of-use', to: 'content#terms_candidate', as: :terms
   get '/guidance-for-using-ai', to: 'content#guidance_for_using_ai'
   post '/feedback-survey' => 'rejection_feedback_survey#new', as: :rejection_feedback_survey
@@ -64,7 +80,6 @@ namespace :candidate_interface, path: '/candidate' do
     get '/prefill', to: 'prefill_application_form#new'
     post '/prefill', to: 'prefill_application_form#create'
 
-    get '/complete' => 'submitted_application_form#complete', as: :application_complete
     get '/review/submitted' => 'submitted_application_form#review_submitted', as: :application_review_submitted
 
     scope '/manage-conditions' do
@@ -77,7 +92,10 @@ namespace :candidate_interface, path: '/candidate' do
     get '/start-carry-over' => 'carry_over#start', as: :start_carry_over
     post '/carry-over' => 'carry_over#create', as: :carry_over
 
-    resources :adviser_sign_ups, only: %i[new create], path: 'adviser-sign-ups'
+    resource :adviser_sign_ups, path: 'adviser-sign-ups', only: %i[new create show]
+
+    get 'adviser-sign-ups/interruption' => 'adviser_sign_ups/interruptions#show', as: :adviser_sign_ups_interruption
+    patch 'adviser-sign-ups/interruption' => 'adviser_sign_ups/interruptions#update', as: :update_adviser_sign_ups_interruption_response
 
     scope '/personal-details' do
       get '/', to: redirect('/candidate/application/personal-information')
@@ -403,11 +421,17 @@ namespace :candidate_interface, path: '/candidate' do
       get '/offer/accept' => 'decisions#accept_offer', as: :accept_offer
       post '/offer/accept' => 'decisions#confirm_accept'
 
-      get '/withdraw' => 'decisions#withdraw', as: :withdraw
-      post '/withdraw' => 'decisions#confirm_withdraw'
+      get '/withdrawal-reasons/level-one-reason/new' => 'withdrawal_reasons/level_one_reasons#new', as: :withdrawal_reasons_level_one_reason_new
+      post '/withdrawal-reasons/level-one-reason(/:withdrawal_reason_id)/create' => 'withdrawal_reasons/level_one_reasons#create', as: :withdrawal_reasons_level_one_reason_create
+      get '/withdrawal-reasons/level-one-reason/:withdrawal_reason_id/show' => 'withdrawal_reasons/level_one_reasons#show', as: :withdrawal_reasons_level_one_reason_show
+      get '/withdrawal-reasons/level-one-reason/:withdrawal_reason_id/edit' => 'withdrawal_reasons/level_one_reasons#edit', as: :withdrawal_reasons_level_one_reason_edit
 
-      get '/withdraw/feedback' => 'decisions#withdrawal_feedback', as: :withdrawal_feedback
-      post '/withdraw/confirm-feedback' => 'decisions#confirm_withdrawal_feedback', as: :confirm_withdrawal_feedback
+      get '/withdrawal-reasons/:level_one_reason/new' => 'withdrawal_reasons/level_two_reasons#new', as: :withdrawal_reasons_level_two_reasons_new
+      post '/withdrawal-reasons/:level_one_reason/create' => 'withdrawal_reasons/level_two_reasons#create', as: :withdrawal_reasons_level_two_reasons_create
+      get '/withdrawal-reasons/:level_one_reason/show' => 'withdrawal_reasons/level_two_reasons#show', as: :withdrawal_reasons_level_two_reasons_show
+      get '/withdrawal-reasons/:level_one_reason/edit' => 'withdrawal_reasons/level_two_reasons#edit', as: :withdrawal_reasons_level_two_reasons_edit
+
+      post '/withdrawal-reasons/create' => 'withdrawal_reasons/withdrawals#create', as: :withdrawal_create
     end
 
     scope '/other-qualifications' do
@@ -597,6 +621,7 @@ namespace :candidate_interface, path: '/candidate' do
   end
 
   get '/account-locked', to: 'errors#account_locked'
+  get '/wrong-email-address', to: 'errors#wrong_email_address'
 
   get '/about-the-teacher-training-application-process', to: 'guidance#index', as: :guidance
 

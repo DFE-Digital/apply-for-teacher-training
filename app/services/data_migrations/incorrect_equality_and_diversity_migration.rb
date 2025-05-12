@@ -10,10 +10,12 @@ module DataMigrations
     SQL
 
     def change(limit: nil)
+      return unless RecruitmentCycleTimetable.current_year == 2024
+
       records(limit:).find_each do |application_form|
         hesa_converter = HesaConverter.new(
           application_form:,
-          recruitment_cycle_year: RecruitmentCycle.current_year,
+          recruitment_cycle_year: 2024,
         )
 
         equality_and_diversity = application_form.equality_and_diversity.merge(
@@ -40,7 +42,7 @@ module DataMigrations
       records(limit:).find_each do |application_form|
         hesa_converter = HesaConverter.new(
           application_form:,
-          recruitment_cycle_year: RecruitmentCycle.current_year,
+          recruitment_cycle_year: 2024,
         )
 
         puts '=' * 80
@@ -55,7 +57,7 @@ module DataMigrations
 
     def records(limit: nil)
       scope = ApplicationForm.where.not(equality_and_diversity: nil)
-        .where(recruitment_cycle_year: RecruitmentCycle.current_year)
+        .where(recruitment_cycle_year: 2024)
         .where(OLD_HESA_VALUES)
       scope = scope.order(created_at: :asc).limit(limit) if limit.present?
       scope

@@ -38,7 +38,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/defer-o
     end
 
     describe 'when successful' do
-      let(:course) { build(:course, provider: currently_authenticated_provider, recruitment_cycle_year: RecruitmentCycle.current_year) }
+      let(:course) { build(:course, provider: currently_authenticated_provider, recruitment_cycle_year: current_timetable.recruitment_cycle_year) }
       let(:course_option) { build(:course_option, course:) }
       let!(:application_choice) do
         create(:application_choice, :with_completed_application_form, :accepted, course_option:)
@@ -52,7 +52,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/defer-o
         expect(parsed_response['data']['attributes']['offer'])
           .to include('status_before_deferral' => original_status,
                       'offer_deferred_at' => application_choice.reload.offer_deferred_at.iso8601,
-                      'deferred_to_recruitment_cycle_year' => RecruitmentCycle.current_year + 1)
+                      'deferred_to_recruitment_cycle_year' => current_timetable.relative_next_year)
 
         expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.1')
       end

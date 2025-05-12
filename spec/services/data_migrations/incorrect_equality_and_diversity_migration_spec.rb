@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe DataMigrations::IncorrectEqualityAndDiversityMigration do
-  describe '#change' do
+  describe '#change', time: mid_cycle(2024) do
     context 'when outdated hesa sex code' do
       before do
         @male = create(:application_form, equality_and_diversity: { hesa_sex: '1', sex: 'male' }, created_at: 10.days.ago)

@@ -24,8 +24,11 @@ class Clock
   every(1.hour, 'UpdateOutOfDateProviderIdsOnApplicationChoices', at: '**:20') { UpdateOutOfDateProviderIdsOnApplicationChoices.perform_async }
   every(1.hour, 'UpdateDuplicateMatchesWorker', at: '**:25') { UpdateDuplicateMatchesWorker.perform_async('notify_slack_at' => 13) }
   every(1.hour, 'DetectInvariantsHourlyCheck', at: '**:30') { DetectInvariantsHourlyCheck.perform_async }
+  every(1.hour, 'Adviser::FetchTeachingSubjectsWorker', at: '**:15') { Adviser::FetchTeachingSubjectsWorker.perform_async }
 
   # Daily jobs
+  every(1.day, 'DeleteExpiredSessionsWorker', at: '5:01') { DeleteExpiredSessionsWorker.perform_async }
+  every(1.day, 'DeleteAllDrafts', at: '4:01') { DeleteAllDraftsWorker.perform_async }
   every(1.day, 'Chasers::Candidate::OfferWorker', at: '10:30') { Chasers::Candidate::OfferWorker.perform_async }
 
   every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_async }
@@ -43,6 +46,7 @@ class Clock
   every(1.day, 'EndOfCycle::SendRejectByDefaultReminderToProvidersWorker') { EndOfCycle::SendRejectByDefaultReminderToProvidersWorker.new.perform }
   every(1.day, 'EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker', at: '09:00') { EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker.new.perform }
   every(1.day, 'EndOfCycle:SendRejectByDefaultExplainerToCandidatesWorker', at: '09:01') { EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesWorker.new.perform }
+  every(1.day, 'Candidate::PoolEligibleApplicationFormWorker', at: '09:02') { Candidate::PoolEligibleApplicationFormWorker.new.perform }
 
   every(1.day, 'TriggerFullSyncIfFindClosed', at: '00:05') { TeacherTrainingPublicAPI::TriggerFullSyncIfFindClosed.call }
   every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_async }

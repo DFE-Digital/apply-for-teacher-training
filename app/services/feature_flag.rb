@@ -19,7 +19,6 @@ class FeatureFlag
     [:service_unavailable_page, 'Displays a maintenance page on the whole application', 'Apply team'],
     [:send_request_data_to_bigquery, 'Send request data to Google Bigquery via background worker', 'Apply team'],
     [:enable_chat_support, 'Enable Zendesk chat support', 'Apply team'],
-    [:unlock_application_for_editing, 'Allow the candidate to make edits to their application form post submission', 'Find and Apply team'],
     [:draft_vendor_api_specification, 'The specification for upcoming vendor API releases', 'Abeer Salameh'],
     [:adviser_sign_up, 'Allow candidates to sign up for a teacher training adviser', 'Ross Oliver'],
     [:monthly_statistics_redirected, 'Redirect requests for Publications Monthly Statistics to temporarily unavailable', 'Iain McNulty'],
@@ -28,7 +27,8 @@ class FeatureFlag
 
   TEMPORARY_FEATURE_FLAGS = [
     [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],
-    [:show_reference_confidentiality_status, 'Control whether the confidentiality status of references is explicitly communicated to candidates, referees and providers', 'Avin Hurry'],
+    [:early_application_deadlines_for_candidates_with_visa_sponsorship, 'Implement alternative deadlines for candidates requiring visa sponsorships', 'Apply team'],
+    [:candidate_preferences, 'Allow candidates to add their preferences for providers to find them', 'Apply team'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

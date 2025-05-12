@@ -22,6 +22,17 @@ RSpec.describe 'Provider user exporting applications to a csv', mid_cycle: false
     then_the_downloaded_file_includes_applications_all_years_of_deferred_and_accepted_offers_for_the_first_provider
   end
 
+  scenario 'downloads a CSV of old applications' do
+    given_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
+    and_my_organisation_has_old_courses_with_applications
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_visit_the_export_applications_page
+
+    and_i_fill_out_the_form_for_2022_applications
+    then_the_downloaded_file_includes_2022_applications
+  end
+
   scenario 'experiences an error during the download' do
     given_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
     and_my_organisation_has_courses_with_applications
@@ -88,6 +99,22 @@ RSpec.describe 'Provider user exporting applications to a csv', mid_cycle: false
              current_course_option: create(:course_option, course: course))
   end
 
+  def and_my_organisation_has_old_courses_with_applications
+    @current_provider_user = ProviderUser.last
+    providers = @current_provider_user.providers
+    course_2022 = create(:course, provider: providers.first, recruitment_cycle_year: 2022)
+    course_option = create(:course_option, course: course_2022)
+
+    @application_accepted_2022 = create(:application_choice, :accepted, course_option:)
+
+    course_2021 = create(:course, recruitment_cycle_year: 2021, provider: providers.first)
+    @application_deferred_submitted_2021_previous_cycle_offered_2022 =
+      create(:application_choice,
+             :accepted,
+             course_option: create(:course_option, course: course_2021),
+             current_course_option: create(:course_option, course: course_2022))
+  end
+
   def when_i_visit_the_export_applications_page
     visit provider_interface_new_application_data_export_path
   end
@@ -107,7 +134,15 @@ RSpec.describe 'Provider user exporting applications to a csv', mid_cycle: false
   end
 
   def and_i_fill_out_the_form_for_applications_this_year_of_any_status_for_the_first_provider
-    check RecruitmentCycle.cycle_strings[RecruitmentCycle.current_year.to_s]
+    check current_year.to_s
+    choose 'All statuses'
+    check @current_provider_user.providers.first.name
+
+    click_export_data
+  end
+
+  def and_i_fill_out_the_form_for_2022_applications
+    check 2022
     choose 'All statuses'
     check @current_provider_user.providers.first.name
 
@@ -125,9 +160,15 @@ RSpec.describe 'Provider user exporting applications to a csv', mid_cycle: false
     expect(csv_data['Application number']).not_to include(@application_second_provider.id.to_s)
   end
 
+  def then_the_downloaded_file_includes_2022_applications
+    csv_data = CSV.parse(page.body, headers: true)
+    expect_export_to_include_data_for_application(csv_data, @application_accepted_2022)
+    expect_export_to_include_data_for_application(csv_data, @application_deferred_submitted_2021_previous_cycle_offered_2022)
+  end
+
   def and_i_fill_out_the_form_for_applications_all_years_of_deferred_and_accepted_offers_for_the_first_provider
-    RecruitmentCycle.years_visible_to_providers.each do |year|
-      check RecruitmentCycle.cycle_strings[year.to_s]
+    years_visible_to_providers.each do |year|
+      check "#{year - 1} to #{year}"
     end
     choose 'Specific statuses'
     check 'Deferred'

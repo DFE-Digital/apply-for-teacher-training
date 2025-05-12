@@ -1,6 +1,6 @@
 Hello <%= @application_form.first_name %>
 
-Your application for <%= @application_choice.current_course_option.course.name_and_code %> has been unsuccessful. <%= @application_choice.current_course_option.course.provider.name %> has said that you did not meet these offer conditions:
+Your application for <%= @application_choice.current_course_option.course.name_and_code %> has been unsuccessful. <%= @application_choice.current_course_option.course.provider.name %> have said that you do not meet these conditions of the offer they made to you:
 
 <% @application_choice.offer.conditions.select(&:unmet?).each do |condition| %>
 ^ - <%= condition.text %>
@@ -10,14 +10,14 @@ Unfortunately, you will not be able to join the course. Contact <%= @application
 
 # You can apply again
 
-If now's the right time for you, you can still apply for teacher training again this year.
+You should make sure you will meet the conditions of any future offers first.
 
-All you need to do is:
+All courses will require a background and criminal records check known as a disclosure and barring service (DBS) check as a condition of their offer.
 
-- check that your details are still correct
-- make sure you are happy with your personal statement
-- find a course and submit another application
+Some courses will require you to do a [subject knowledge enhancement](<%= t('get_into_teaching.url_if_conditions_not_met') %> ) (SKE) course, for example if your degree subject is in a subject that's different to the one you have applied to teach, or if you received your qualifications more than 5 years ago.
 
-[Sign in to apply again](<%= candidate_magic_link(@application_form.candidate) %>).
+All courses will request references. Find out [how to choose people to give a reference for you](<%= t('get_into_teaching.url_references') %> ).
+
+[Sign in to apply again](<%= application_choices_link %>).
 
 <%= render 'get_help_teacher_training_adviser' %>

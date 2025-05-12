@@ -68,9 +68,8 @@ RSpec.describe 'References' do
   end
 
   def given_i_am_signed_in
-    @candidate = create(:candidate)
-    login_as(@candidate)
-    @application = @candidate.current_application
+    given_i_am_signed_in_with_one_login
+    @application = @current_candidate.current_application
   end
 
   def when_i_visit_the_site
@@ -136,7 +135,7 @@ RSpec.describe 'References' do
   end
 
   def then_i_see_the_references_review_page
-    expect(page).to have_css('h1', text: 'References to be requested if you accept an offer')
+    expect(page).to have_css('h1', text: 'Check your references')
   end
 
   def and_my_referees_details

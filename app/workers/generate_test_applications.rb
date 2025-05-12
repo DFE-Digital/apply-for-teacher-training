@@ -4,13 +4,10 @@ class GenerateTestApplications
   def perform(next_cycle_applications = false)
     raise 'You cannot generate test data in production' if HostingEnvironment.production?
 
-    current_cycle = RecruitmentCycle.current_year
-    current_cycle_courses = courses_from_cycle(current_cycle)
-    current_cycle_undergraduate_courses = undergraduate_courses_from_cycle(current_cycle)
-    previous_cycle = RecruitmentCycle.previous_year
-    previous_cycle_courses = courses_from_cycle(previous_cycle)
-    next_cycle = RecruitmentCycle.next_year
-    next_cycle_courses = courses_from_cycle(next_cycle)
+    current_cycle_courses = courses_from_cycle(current_year)
+    current_cycle_undergraduate_courses = undergraduate_courses_from_cycle(current_year)
+    previous_cycle_courses = courses_from_cycle(previous_year)
+    next_cycle_courses = courses_from_cycle(next_year)
 
     if next_cycle_applications
       next_cycle_states = [
@@ -33,7 +30,7 @@ class GenerateTestApplications
 
       next_cycle_states.each do |states|
         create(
-          recruitment_cycle_year: next_cycle,
+          recruitment_cycle_year: next_year,
           courses_to_apply_to: next_cycle_courses,
           states:,
         )
@@ -53,7 +50,7 @@ class GenerateTestApplications
         %i[application_not_sent],
       ].each do |states|
         create(
-          recruitment_cycle_year: previous_cycle,
+          recruitment_cycle_year: previous_year,
           courses_to_apply_to: previous_cycle_courses,
           states:,
         )
@@ -86,23 +83,23 @@ class GenerateTestApplications
 
       current_cycle_states.each do |states|
         create(
-          recruitment_cycle_year: current_cycle,
+          recruitment_cycle_year: current_year,
           courses_to_apply_to: current_cycle_courses,
           states:,
         )
 
         create(
-          recruitment_cycle_year: current_cycle,
+          recruitment_cycle_year: current_year,
           courses_to_apply_to: current_cycle_undergraduate_courses,
           states:,
         )
       end
 
-      create(recruitment_cycle_year: current_cycle, states: %i[unsubmitted], course_full: true, courses_to_apply_to: current_cycle_courses)
-      create(recruitment_cycle_year: current_cycle, states: %i[awaiting_provider_decision], courses_to_apply_to: current_cycle_courses)
-      create(recruitment_cycle_year: current_cycle, states: %i[awaiting_provider_decision], carry_over: true, courses_to_apply_to: current_cycle_courses)
-      create(recruitment_cycle_year: current_cycle, states: %i[offer rejected], carry_over: true, courses_to_apply_to: current_cycle_courses)
-      create(recruitment_cycle_year: current_cycle, states: %i[offer], courses_to_apply_to: current_cycle_courses)
+      create(recruitment_cycle_year: current_year, states: %i[unsubmitted], course_full: true, courses_to_apply_to: current_cycle_courses)
+      create(recruitment_cycle_year: current_year, states: %i[awaiting_provider_decision], courses_to_apply_to: current_cycle_courses)
+      create(recruitment_cycle_year: current_year, states: %i[awaiting_provider_decision], carry_over: true, courses_to_apply_to: current_cycle_courses)
+      create(recruitment_cycle_year: current_year, states: %i[offer rejected], carry_over: true, courses_to_apply_to: current_cycle_courses)
+      create(recruitment_cycle_year: current_year, states: %i[offer], courses_to_apply_to: current_cycle_courses)
     end
 
     StateChangeNotifier.disable_notifications do
@@ -111,6 +108,18 @@ class GenerateTestApplications
   end
 
 private
+
+  def current_year
+    @current_year ||= RecruitmentCycleTimetable.current_year
+  end
+
+  def previous_year
+    @previous_year ||= RecruitmentCycleTimetable.previous_year
+  end
+
+  def next_year
+    @next_year ||= RecruitmentCycleTimetable.next_year
+  end
 
   def create(
     recruitment_cycle_year:,
@@ -146,7 +155,7 @@ private
   end
 
   def courses_from_cycle(year)
-    courses = Course.with_course_options.in_cycle([RecruitmentCycle.current_year, year].min)
+    courses = Course.with_course_options.in_cycle([current_year, year].min)
 
     if dev_support_user
       courses = courses.where(provider: dev_support_user.providers)
@@ -156,7 +165,7 @@ private
   end
 
   def undergraduate_courses_from_cycle(year)
-    recruitment_cycle_year = [RecruitmentCycle.current_year, year].min
+    recruitment_cycle_year = [current_year, year].min
     courses = Course
       .teacher_degree_apprenticeship
       .with_course_options

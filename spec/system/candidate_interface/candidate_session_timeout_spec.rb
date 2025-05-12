@@ -1,18 +1,18 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate viewing booked interviews' do
+RSpec.describe 'Candidate session timeout' do
   include CandidateHelper
   include ActiveSupport::Testing::TimeHelpers
 
   scenario 'Candidate is signed out after 7 days if they are not active' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_seven_days_pass
     when_i_click_on_your_details
     then_i_see_the_login_page
   end
 
   scenario 'The Candidate is signed out 7 days after they are last active' do
-    given_i_am_signed_in
+    given_i_am_signed_in_with_one_login
     and_three_days_pass
     when_i_click_on_your_details
     then_i_see_my_details
@@ -24,11 +24,6 @@ RSpec.describe 'Candidate viewing booked interviews' do
     and_seven_days_pass
     when_i_click_on_your_details
     then_i_see_the_login_page
-  end
-
-  def given_i_am_signed_in
-    create_and_sign_in_candidate
-    visit candidate_interface_details_path
   end
 
   def and_seven_days_pass
@@ -52,7 +47,7 @@ RSpec.describe 'Candidate viewing booked interviews' do
   end
 
   def then_i_see_the_login_page
-    expect(page).to have_content 'Create an account or sign in'
+    expect(page).to have_content 'Create a GOV.UK One Login or sign in'
   end
 
 private

@@ -1,0 +1,24 @@
+<%= form_with(model: @level_two_reasons_form, url: candidate_interface_withdrawal_reasons_level_two_reasons_create_path) do |f| %>
+  <%= f.govuk_error_summary %>
+  <%= f.govuk_check_boxes_fieldset(:level_two_reasons, legend: { text: @level_two_reasons_form.form_title, tag: 'h1', size: 'l' }, hint: { text: t('candidate_interface.withdrawal_reasons.select_all_that_apply') }) do %>
+    <% @level_two_reasons_form.reason_options.each_with_index do |reason, index| %>
+      <%= f.govuk_check_box(:level_two_reasons, reason.id, link_errors: index.zero?, label: { text: reason.name })  do %>
+        <% if reason.other_reason.present? %>
+          <%= f.govuk_text_area(:comment, label: { text: reason.other_reason, size: 's' }, max_words: 200, rows: 5, link_errors: true) %>
+        <% end %>
+        <% if reason.personal_circumstances_reasons.present? %>
+          <%= f.govuk_check_boxes_fieldset :personal_circumstances_reasons, legend: { text: t('candidate_interface.withdrawal_reasons.personal_circumstances_legend'), size: 's' } do %>
+            <% reason.personal_circumstances_reasons.each_with_index do |supporting_reason, index| %>
+              <%= f.govuk_check_box(:personal_circumstances_reasons, supporting_reason.id, link_errors: index.zero?, label: { text: supporting_reason.name }) do %>
+                <% if supporting_reason.other_reason.present? %>
+                  <%= f.govuk_text_area(:personal_circumstances_reasons_comment, label: { text: supporting_reason.other_reason, size: 's' }, max_words: 200, rows: 5, link_errors: true) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= f.govuk_submit t('continue') %>
+<% end %>
