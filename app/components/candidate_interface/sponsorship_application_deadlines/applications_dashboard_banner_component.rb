@@ -29,7 +29,7 @@ module CandidateInterface
                        .application_choices
                        .unsubmitted
                        .joins(:course)
-                       .where('courses.visa_sponsorship_application_deadline_at' => Time.zone.now..15.days.from_now)
+                       .where('courses.visa_sponsorship_application_deadline_at' => Time.zone.now..20.days.from_now)
                        .order('courses.visa_sponsorship_application_deadline_at')
       end
     end
