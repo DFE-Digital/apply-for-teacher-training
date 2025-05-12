@@ -31,4 +31,16 @@ RSpec.describe ProviderInterface::FindCandidates::ApplicationChoicesComponent, t
       expect(second_card).to have_content first_submission_date.to_fs(:govuk_date)
     end
   end
+
+  describe 'heading structures' do
+    it 'uses H3 tags for each Application heading' do
+      create(:application_choice, sent_to_provider_at: 1.day.ago, application_form:)
+      create(:application_choice, sent_to_provider_at: 1.day.ago, application_form:)
+
+      rendered = render_inline(described_class.new(application_form:))
+
+      expect(rendered).to have_css('h3', text: 'Application 1')
+      expect(rendered).to have_css('h3', text: 'Application 2')
+    end
+  end
 end

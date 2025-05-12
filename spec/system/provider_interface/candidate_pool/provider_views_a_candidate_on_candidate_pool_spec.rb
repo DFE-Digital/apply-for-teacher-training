@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Providers views candidate pool list' do
+RSpec.describe 'Providers views candidate pool details' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
