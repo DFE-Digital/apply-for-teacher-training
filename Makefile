@@ -184,7 +184,7 @@ vendor-modules:
 
 deploy-init: vendor-modules set-azure-account
 	$(if $(or $(IMAGE_TAG), $(NO_IMAGE_TAG_DEFAULT)), , $(eval export IMAGE_TAG=main))
-	$(if $(IMAGE_TAG), , $(error Missing environment variable "IMAGE_TAG"))
+	$(if $(IMAGE_TAG), , $(eval IMAGE_TAG=ignored))
 	$(eval export TF_VAR_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
@@ -196,6 +196,8 @@ deploy-plan: deploy-init
 
 deploy: deploy-init
 	terraform -chdir=terraform/$(PLATFORM) apply -var-file=./workspace_variables/$(APP_ENV).tfvars.json ${TF_VARS} $(AUTO_APPROVE)
+
+terraform-destroy: destroy
 
 destroy: deploy-init
 	terraform -chdir=terraform/$(PLATFORM) destroy -var-file=./workspace_variables/$(APP_ENV).tfvars.json ${TF_VARS} $(AUTO_APPROVE)
