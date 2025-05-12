@@ -97,7 +97,7 @@ RSpec.describe 'Organisation users' do
     expect(page).to have_css('.govuk-summary-list__row', text: 'Manage users No')
     expect(page).to have_css('.govuk-summary-list__row', text: 'Manage organisation permissions No')
     expect(page).to have_css('.govuk-summary-list__row', text: 'Manage interviews No')
-    expect(page).to have_css('.govuk-summary-list__row', text: 'Make offers and reject applications No')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Send offers, invitations and rejections No')
     expect(page).to have_css('.govuk-summary-list__row', text: 'View criminal convictions and professional misconduct No')
     expect(page).to have_css('.govuk-summary-list__row', text: 'View sex, disability and ethnicity information No')
   end

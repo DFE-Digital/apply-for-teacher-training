@@ -21,7 +21,7 @@ RSpec.describe ProviderMailer do
       'University of Croydon changed organisation permissions - manage teacher training applications',
       'salutation' => 'Dear Johny English',
       'heading' => 'University of Croydon changed organisation permissions for courses you run with them',
-      'make offers' => /Make offers and reject applications:\s+- University of Purley/,
+      'make offers' => /Send offers, invitations and rejections:\s+- University of Purley/,
       'view safeguarding' => /View criminal convictions and professional misconduct:\s+- University of Purley\s+- University of Croydon/,
       'view diversity' => /View sex, disability and ethnicity information:\s+- University of Purley\s+- University of Croydon/,
       'link to manage organisation permissions' => '/provider/organisation-settings/organisations/123/organisation-permissions',

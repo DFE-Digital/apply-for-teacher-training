@@ -12,7 +12,7 @@ These user permissions are not affected by organisation permissions.
 
 Users can be given permission to:
 
-- make offers and reject applications
+- send offers, invitations and rejections
 - view criminal record and professional misconduct information
 - view sex, disability and ethnicity information
 
@@ -20,8 +20,8 @@ These user permissions are affected by organisation permissions for courses run 
 
 For example, a user will only be able to make an offer if both:
 
-- the user has the user permission to make offers and reject applications
-- the user’s organisation has the organisation permission to make offers and reject applications for courses it runs with its partner organisation
+- the user has the user permission to send offers, invitations and rejections
+- the user’s organisation has the organisation permission to send offers, invitations and rejections for courses it runs with its partner organisation
 
 There are no organisation permissions for courses run without partner organisations. Users only need to have the appropriate user permissions.
 

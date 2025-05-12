@@ -67,7 +67,7 @@ RSpec.describe ProviderInterface::ProviderUserPermissionsFormComponent do
     it 'renders the details component' do
       expect(render.css('details > summary').text.squish).to eq('Check how user permissions are affected by organisation permissions')
       expect(render.css('details h2').map(&:text)).to contain_exactly(
-        'Make offers and reject applications',
+        'Send offers, invitations and rejections',
         'View criminal convictions and professional misconduct',
         'View sex, disability and ethnicity information',
       )

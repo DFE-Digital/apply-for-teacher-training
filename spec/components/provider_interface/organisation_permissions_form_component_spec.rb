@@ -116,7 +116,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsFormComponent do
 
   describe 'form group legends' do
     it 'renders the correct legend for make decisions' do
-      expect(render.css('legend')[0].text).to eq('Who can make offers and reject applications?')
+      expect(render.css('legend')[0].text).to eq('Who can send offers, invitations and rejections?')
     end
 
     it 'renders the correct legend for view safeguarding' do

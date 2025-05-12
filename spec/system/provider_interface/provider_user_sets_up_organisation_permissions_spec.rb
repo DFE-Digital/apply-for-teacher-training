@@ -117,7 +117,7 @@ RSpec.describe 'Setting up organisation permissions' do
   end
 
   def then_i_see_the_error_message
-    expect(page).to have_content('Select who can make offers and reject applications')
+    expect(page).to have_content('Select who can send offers, invitations and rejections')
   end
 
   def when_i_complete_the_permissions_details
