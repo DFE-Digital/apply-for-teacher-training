@@ -12,7 +12,7 @@ module CandidateInterface
           application_choice.unsubmitted? &&
           application_form.right_to_work_or_study == 'no' &&
           course.visa_sponsorship_application_deadline_at.present? &&
-          course.visa_sponsorship_application_deadline_at.between?(Time.zone.now, 15.days.from_now)
+          course.visa_sponsorship_application_deadline_at.between?(Time.zone.now, 20.days.from_now)
       end
 
       def count_down

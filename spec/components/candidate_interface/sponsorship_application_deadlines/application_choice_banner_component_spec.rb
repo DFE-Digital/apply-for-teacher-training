@@ -31,20 +31,20 @@ RSpec.describe CandidateInterface::SponsorshipApplicationDeadlines::ApplicationC
       end
     end
 
-    context 'deadline 14 days from now' do
-      let(:visa_sponsorship_application_deadline_at) { 14.days.from_now + 2.hours }
+    context 'deadline 19 days from now' do
+      let(:visa_sponsorship_application_deadline_at) { 19.days.from_now + 2.hours }
 
-      it 'renders text for 14 days from now' do
+      it 'renders text for 19 days from now' do
         application_choice = create(:application_choice, :unsubmitted, course_option:, application_form:)
         rendered = render_inline(described_class.new(application_choice:))
 
-        expect(rendered).to have_text('Submit this application soon. The deadline for applications that need visa sponsorship is in 14 days')
+        expect(rendered).to have_text('Submit this application soon. The deadline for applications that need visa sponsorship is in 19 days')
       end
     end
 
-    context 'deadline 15 days from now' do
+    context 'deadline 20 days from now' do
       let(:application_form) { create(:application_form, right_to_work_or_study: 'no') }
-      let(:course_option) { create(:course_option, course: create(:course, visa_sponsorship_application_deadline_at: 15.days.from_now + 1.second)) }
+      let(:course_option) { create(:course_option, course: create(:course, visa_sponsorship_application_deadline_at: 20.days.from_now + 1.second)) }
 
       it 'does not render component' do
         application_choice = create(:application_choice, :unsubmitted, course_option:, application_form:)

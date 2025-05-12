@@ -39,20 +39,20 @@ RSpec.describe CandidateInterface::SponsorshipApplicationDeadlines::Applications
       end
     end
 
-    context 'when the deadline is between 2-14 days away' do
-      let(:visa_sponsorship_application_deadline_at) { 14.days.from_now + 2.hours }
+    context 'when the deadline is between 2-19 days away' do
+      let(:visa_sponsorship_application_deadline_at) { 19.days.from_now + 2.hours }
 
       it 'renders the text for one day' do
         rendered = render_inline(described_class.new(application_form:))
 
         expect(rendered).to have_text("Submit your application for #{course_option.course.name_and_code} at #{course_option.course.provider.name} soon")
-        expect(rendered).to have_text('The deadline for applications that need visa sponsorship is in 14 days')
+        expect(rendered).to have_text('The deadline for applications that need visa sponsorship is in 19 days')
         expect(rendered).to have_no_text(course_option_without_deadline.course.name_and_code)
       end
     end
 
-    context 'when the deadline is more than 14 days away' do
-      let(:visa_sponsorship_application_deadline_at) { 15.days.from_now + 2.hours }
+    context 'when the deadline is more than 20 days away' do
+      let(:visa_sponsorship_application_deadline_at) { 20.days.from_now + 2.hours }
 
       it 'does not render the component' do
         rendered = render_inline(described_class.new(application_form:))
@@ -75,14 +75,14 @@ RSpec.describe CandidateInterface::SponsorshipApplicationDeadlines::Applications
   context 'with multiple relevant applications' do
     let(:application_form) { create(:application_form, right_to_work_or_study: 'no') }
 
-    context 'with deadlines of today, 1 day from now, and between 2-14 days' do
+    context 'with deadlines of today, 1 day from now, and between 2-19 days' do
       let(:today) { 3.hours.from_now }
       let(:course_option_with_today) { create(:course_option, course: create(:course, visa_sponsorship_application_deadline_at: today)) }
-      let(:course_option_with_14_days_from_now) { create(:course_option, course: create(:course, visa_sponsorship_application_deadline_at: 14.days.from_now + 2.hours)) }
+      let(:course_option_with_19_days_from_now) { create(:course_option, course: create(:course, visa_sponsorship_application_deadline_at: 19.days.from_now + 2.hours)) }
       let(:course_option_with_one_day_from_now) { create(:course_option, course: create(:course, visa_sponsorship_application_deadline_at: 1.day.from_now + 2.hours)) }
 
       before do
-        [course_option_with_today, course_option_with_14_days_from_now, course_option_with_one_day_from_now].each do |course_option|
+        [course_option_with_today, course_option_with_19_days_from_now, course_option_with_one_day_from_now].each do |course_option|
           create(:application_choice, :unsubmitted, course_option:, application_form:)
         end
       end
@@ -98,7 +98,7 @@ RSpec.describe CandidateInterface::SponsorshipApplicationDeadlines::Applications
           "#{course_option_with_one_day_from_now.course.name_and_code} at #{course_option_with_one_day_from_now.course.provider.name} - deadline in 1 day",
         )
         expect(rendered).to have_text(
-          "#{course_option_with_14_days_from_now.course.name_and_code} at #{course_option_with_14_days_from_now.course.provider.name} - deadline in 14 day",
+          "#{course_option_with_19_days_from_now.course.name_and_code} at #{course_option_with_19_days_from_now.course.provider.name} - deadline in 19 day",
         )
       end
     end
