@@ -55,16 +55,16 @@ module ProviderInterface
     end
 
     def applied_filters
-      if applied_location_search?
-        geocoder_location = Geocoder.search(filter_params[:original_location], components: 'country:UK').first
+      @applied_filters ||= filter_params_with_location
+    end
 
-        return filter_params unless geocoder_location
-
+    def filter_params_with_location
+      if filter_params[:original_location] && location_coordinates.present?
         filter_params.merge!(
           {
             origin: [
-              geocoder_location.latitude,
-              geocoder_location.longitude,
+              location_coordinates&.latitude,
+              location_coordinates&.longitude,
             ],
           },
         )
@@ -73,8 +73,18 @@ module ProviderInterface
       filter_params
     end
 
+    def location_coordinates
+      return unless suggested_location
+
+      Geocoder.search(suggested_location[:place_id], google_place_id: true).first
+    end
+
+    def suggested_location
+      @suggested_location ||= LocationSuggestions.new(filter_params[:original_location]).call.first
+    end
+
     def applied_location_search?
-      filter_params[:original_location].present?
+      filter_params[:origin].present?
     end
 
   private
