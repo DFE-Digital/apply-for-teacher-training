@@ -12,7 +12,11 @@
           <%= @candidate.redacted_full_name_current_cycle %>
           <p class="govuk-body govuk-hint"><%= t('.candidate_id', candidate_id: @candidate.id) %> </p>
         <% end %>
-        <% row.with_action(text: t('.change'), href: provider_interface_candidate_pool_root_path(@candidate)) %>
+        <% row.with_action(
+             text: t('.change'),
+             href: provider_interface_candidate_pool_root_path(@candidate),
+             visually_hidden_text: t('.visually_hidden_change_candidate'),
+           ) %>
       <% end %>
 
       <% summary_list.with_row do |row| %>
@@ -35,6 +39,7 @@
             @candidate,
             @pool_invite.id,
           ),
+          visually_hidden_text: t('.visually_hidden_change_course'),
         ) %>
       <% end %>
     <% end %>
