@@ -15,6 +15,26 @@ RSpec.describe 'Candidate review application when visa deadline has passed' do
     and_i_can_delete_my_application_choice
   end
 
+  scenario 'Candidate has a student visa', time: mid_cycle do
+    given_i_have_a_student_visa
+    given_have_a_draft_application_for_a_course_with_a_visa_sponsorship_application_deadline_in_the_past
+    and_i_am_signed_in
+
+    when_i_view_my_application_choice
+    then_i_see_the_warning_text
+    and_i_can_delete_my_application_choice
+  end
+
+  scenario 'Candidate has a skilled worker visa', time: mid_cycle do
+    given_i_have_a_skilled_worker_visa
+    given_have_a_draft_application_for_a_course_with_a_visa_sponsorship_application_deadline_in_the_past
+    and_i_am_signed_in
+
+    when_i_view_my_application_choice
+    then_i_see_the_warning_text
+    and_i_can_delete_my_application_choice
+  end
+
 private
 
   def given_have_a_draft_application_for_a_course_with_a_visa_sponsorship_application_deadline_in_the_past
@@ -25,6 +45,14 @@ private
 
   def given_i_require_visa_sponsorship
     @application_form = create(:application_form, :completed, :with_degree, right_to_work_or_study: 'no')
+  end
+
+  def given_i_have_a_student_visa
+    @application_form = create(:application_form, :completed, :with_degree, right_to_work_or_study: 'yes', immigration_status: 'student_visa')
+  end
+
+  def given_i_have_a_skilled_worker_visa
+    @application_form = create(:application_form, :completed, :with_degree, right_to_work_or_study: 'yes', immigration_status: 'skilled_worker_visa')
   end
 
   def and_i_am_signed_in
