@@ -5,7 +5,7 @@ class VisaSponsorshipApplicationDeadlinePassedValidator < ActiveModel::EachValid
 
   def validate_each(record, attribute, application_choice)
     return unless FeatureFlag.active?(:early_application_deadlines_for_candidates_with_visa_sponsorship)
-    return unless application_choice.application_form.right_to_work_or_study == 'no'
+    return unless application_choice.application_form.requires_visa_sponsorship?
 
     deadline = application_choice.course.visa_sponsorship_application_deadline_at
     return if deadline.nil? || deadline.after?(Time.zone.now)
