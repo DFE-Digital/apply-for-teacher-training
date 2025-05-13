@@ -109,7 +109,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
     end
 
     it 'renders the names of the providers that have the make_decision permission' do
-      make_decision_row = row_with_key('Make offers and reject applications')
+      make_decision_row = row_with_key('Send offers, invitations and rejections')
       expect(entries_in_row(make_decision_row)).to contain_exactly(training_provider.name, ratifying_provider.name)
     end
 
@@ -125,7 +125,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
 
     context 'when the provider user belongs to the training provider' do
       it 'renders the training provider name first' do
-        make_decision_row = row_with_key('Make offers and reject applications')
+        make_decision_row = row_with_key('Send offers, invitations and rejections')
         expect(entries_in_row(make_decision_row)).to eq([training_provider.name, ratifying_provider.name])
       end
     end
@@ -134,7 +134,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
       let(:provider_user) { build_stubbed(:provider_user, providers: [ratifying_provider]) }
 
       it 'renders the ratifying provider name first' do
-        make_decision_row = row_with_key('Make offers and reject applications')
+        make_decision_row = row_with_key('Send offers, invitations and rejections')
         expect(entries_in_row(make_decision_row)).to eq([ratifying_provider.name, training_provider.name])
       end
     end
@@ -143,7 +143,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
       let(:provider_user) { build_stubbed(:provider_user, providers: [training_provider, ratifying_provider]) }
 
       it 'renders the training provider name first' do
-        make_decision_row = row_with_key('Make offers and reject applications')
+        make_decision_row = row_with_key('Send offers, invitations and rejections')
         expect(entries_in_row(make_decision_row)).to eq([training_provider.name, ratifying_provider.name])
       end
     end
@@ -152,7 +152,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
       let(:provider_relationship_permission) { build_stubbed(:provider_relationship_permissions, :not_set_up_yet) }
 
       it 'displays not set up yet text' do
-        make_decision_row = row_with_key('Make offers and reject applications')
+        make_decision_row = row_with_key('Send offers, invitations and rejections')
         safeguarding_row = row_with_key('View criminal convictions and professional misconduct')
         diversity_row = row_with_key('View sex, disability and ethnicity information')
         expect(entries_in_row(make_decision_row)).to contain_exactly('Neither organisation can do this')

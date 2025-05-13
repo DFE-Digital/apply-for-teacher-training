@@ -41,7 +41,7 @@ RSpec.describe ProviderInterface::UserCardComponent do
         'manage users',
         'manage organisation permissions',
         'manage interviews',
-        'make offers and reject applications',
+        'send offers, invitations and rejections',
         'view criminal convictions and professional misconduct',
         'view sex, disability and ethnicity information',
       ])

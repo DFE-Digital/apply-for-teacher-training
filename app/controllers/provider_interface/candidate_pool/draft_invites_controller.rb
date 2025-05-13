@@ -1,13 +1,20 @@
 module ProviderInterface
   module CandidatePool
     class DraftInvitesController < ProviderInterfaceController
+      before_action :set_policy
+      before_action :redirect_if_candidate_cannot_send_invites
       before_action :set_candidate
 
       def show
-        @pool_invite = PoolInviteForm.build_from_invite(
-          invite:,
-          current_provider_user:,
-        )
+        if @policy.can_view_invite?(invite)
+
+          @pool_invite = PoolInviteForm.build_from_invite(
+            invite:,
+            current_provider_user:,
+          )
+        else
+          redirect_to provider_interface_candidate_pool_candidates_path
+        end
       end
 
       def new
@@ -15,10 +22,14 @@ module ProviderInterface
       end
 
       def edit
-        @pool_invite = PoolInviteForm.build_from_invite(
-          invite:,
-          current_provider_user:,
-        )
+        if @policy.can_edit_invite?(invite)
+          @pool_invite = PoolInviteForm.build_from_invite(
+            invite:,
+            current_provider_user:,
+          )
+        else
+          redirect_to provider_interface_candidate_pool_candidates_path
+        end
       end
 
       def create
@@ -70,6 +81,16 @@ module ProviderInterface
           provider_id: current_provider_user.provider_ids,
           status: :draft,
         )
+      end
+
+      def set_policy
+        @policy = ProviderInterface::Policies::CandidatePoolInvitesPolicy.new(current_provider_user)
+      end
+
+      def redirect_if_candidate_cannot_send_invites
+        unless @policy.can_invite_candidates?
+          redirect_to provider_interface_candidate_pool_candidates_path
+        end
       end
     end
   end

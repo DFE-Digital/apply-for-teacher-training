@@ -94,7 +94,8 @@ RSpec.describe 'Providers invites candidates' do
   end
 
   def and_provider_user_exists
-    provider_user_exists_in_apply_database(provider_code: current_provider.code)
+    provider_user = provider_user_exists_in_apply_database(provider_code: current_provider.code)
+    provider_user.provider_permissions.update_all(make_decisions: true)
   end
 
   def and_provider_has_courses(courses_number)
@@ -169,6 +170,8 @@ RSpec.describe 'Providers invites candidates' do
 
   def then_i_get_an_error(message)
     expect(page).to have_content(message)
+    expect(page).to have_content('There is a problem')
+    expect(page.title).to include('Error:')
   end
 
   def when_i_select_a_course_from_dropdown(course)

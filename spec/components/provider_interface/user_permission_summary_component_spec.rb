@@ -66,7 +66,7 @@ RSpec.describe ProviderInterface::UserPermissionSummaryComponent, type: :control
       end
 
       it 'displays the correct details for Make decisions' do
-        expect(row_text_selector(:make_decisions, render)).to include('Make offers and reject applications')
+        expect(row_text_selector(:make_decisions, render)).to include('Send offers, invitations and rejections')
         expect(row_text_selector(:make_decisions, render)).to include(y_n(permissions.make_decisions))
       end
 

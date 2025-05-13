@@ -16,7 +16,7 @@ RSpec.describe ProviderMailer do
       'Jane Doe added you to Hogwarts University - manage teacher training applications',
       'salutation' => 'Dear Princess Fiona',
       'heading' => 'Jane Doe added you to Hogwarts University. You can now manage their applications.',
-      'make decisions' => 'make offers and reject application',
+      'make decisions' => 'send offers, invitations and rejections',
       'view safeguarding' => 'view criminal convictions and professional misconduct',
       'view diversity' => 'view sex, disability and ethnicity information',
       'dsi info' => 'If you do not have a DfE Sign-in account, you should have received an email with instructions from dfe.signin@education.gov.uk.',

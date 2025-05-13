@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'ProviderInterface::CandidatePool::PublishInvitesController' do
   describe 'POST /provider/find-candidates/:candidate_id/invite/:draft_invite_id/review' do
-    let!(:provider_user) { create(:provider_user, :with_provider, dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
+    let!(:provider_user) { create(:provider_user, :with_provider, :with_make_decisions, dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
     let(:provider) { provider_user.providers.first }
 
     before do

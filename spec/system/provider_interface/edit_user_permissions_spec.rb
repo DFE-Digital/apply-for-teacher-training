@@ -73,7 +73,7 @@ RSpec.describe 'User permissions' do
     expect(page).to have_field('Manage users', checked: true)
     expect(page).to have_field('Manage organisation permissions', checked: false)
     expect(page).to have_field('Manage interviews', checked: false)
-    expect(page).to have_field('Make offers and reject applications', checked: true)
+    expect(page).to have_field('Send offers, invitations and rejections', checked: true)
     expect(page).to have_field('View criminal convictions and professional misconduct', checked: true)
     expect(page).to have_field('View sex, disability and ethnicity information', checked: false)
   end
@@ -92,7 +92,7 @@ RSpec.describe 'User permissions' do
     expect(page).to have_css('.govuk-summary-list__row', text: 'Manage users No')
     expect(page).to have_css('.govuk-summary-list__row', text: 'Manage organisation permissions No')
     expect(page).to have_css('.govuk-summary-list__row', text: 'Manage interviews Yes')
-    expect(page).to have_css('.govuk-summary-list__row', text: 'Make offers and reject applications Yes')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Send offers, invitations and rejections Yes')
     expect(page).to have_css('.govuk-summary-list__row', text: 'View criminal convictions and professional misconduct Yes')
     expect(page).to have_css('.govuk-summary-list__row', text: 'View sex, disability and ethnicity information No')
   end
@@ -115,7 +115,7 @@ RSpec.describe 'User permissions' do
     expect(page).to have_css('.govuk-summary-list__row', text: 'Manage users Yes')
     expect(page).to have_css('.govuk-summary-list__row', text: 'Manage organisation permissions No')
     expect(page).to have_css('.govuk-summary-list__row', text: 'Manage interviews No')
-    expect(page).to have_css('.govuk-summary-list__row', text: 'Make offers and reject applications Yes')
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Send offers, invitations and rejections Yes')
     expect(page).to have_css('.govuk-summary-list__row', text: 'View criminal convictions and professional misconduct Yes')
     expect(page).to have_css('.govuk-summary-list__row', text: 'View sex, disability and ethnicity information Yes')
   end

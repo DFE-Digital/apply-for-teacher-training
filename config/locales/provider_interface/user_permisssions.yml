@@ -1,7 +1,7 @@
 en:
   user_permissions:
     make_decisions:
-      description: Make offers and reject applications
+      description: Send offers, invitations and rejections
     view_safeguarding_information:
       description: View criminal convictions and professional misconduct
     view_diversity_information:

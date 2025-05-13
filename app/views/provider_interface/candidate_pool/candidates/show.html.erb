@@ -7,7 +7,13 @@
 
     <span class="govuk-caption-xl"><%= t('.candidate_number', candidate_id: @candidate.id) %></span>
     <h1 class="govuk-heading-xl"><%= @application_form.redacted_full_name %></h1>
-    <%= govuk_button_to t('.invite'), new_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate), method: :get %>
+    <% if @policy.can_invite_candidates? %>
+      <%= govuk_button_to(
+            t('.invite'),
+            new_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate),
+            method: :get,
+          ) %>
+    <% end %>
 
     <h2 class="govuk-heading-l"><%= t('.right_to_work_and_study') %></h2>
 

@@ -44,7 +44,7 @@ RSpec.describe 'Managing provider-provider permissions via support' do
   end
 
   def then_i_see_an_error
-    expect(page).to have_content 'Select who can make offers and reject applications'
+    expect(page).to have_content 'Select who can send offers, invitations and rejections'
   end
 
   def when_i_set_valid_relationships

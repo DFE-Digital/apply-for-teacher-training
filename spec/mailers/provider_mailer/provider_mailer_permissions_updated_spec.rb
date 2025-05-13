@@ -59,7 +59,7 @@ RSpec.describe ProviderMailer do
         'Your permissions have been updated for Hogwarts University - manage teacher training applications',
         'salutation' => 'Dear Princess Fiona',
         'heading' => 'Your permissions have been updated for Hogwarts University.',
-        'make decisions' => 'make offers and reject application',
+        'make decisions' => 'send offers, invitations and rejections',
         'view safeguarding' => 'view criminal convictions and professional misconduct',
         'link to applications' => 'http://localhost:3000/provider/applications',
         'footer' => 'Get help, report a problem or give feedback',

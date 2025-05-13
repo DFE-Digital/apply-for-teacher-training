@@ -22,7 +22,7 @@ RSpec.describe ProviderInterface::UserPermissionsReviewComponent do
     end
 
     it 'renders Yes in the row for a permission that is in the array' do
-      make_decisions_row = render.css('.govuk-summary-list__row').find { |row| row.text.include? 'Make offers and reject applications' }
+      make_decisions_row = render.css('.govuk-summary-list__row').find { |row| row.text.include? 'Send offers, invitations and rejections' }
       expect(make_decisions_row.css('.govuk-summary-list__value').text.squish).to eq('Yes')
     end
   end

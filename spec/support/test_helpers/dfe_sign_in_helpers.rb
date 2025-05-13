@@ -19,6 +19,7 @@ module DfESignInHelpers
   end
 
   alias and_i_sign_in_to_the_provider_interface provider_signs_in_using_dfe_sign_in
+  alias when_i_sign_in_to_the_provider_interface provider_signs_in_using_dfe_sign_in
 
   def support_user_signs_in_using_dfe_sign_in
     visit support_interface_sign_in_path

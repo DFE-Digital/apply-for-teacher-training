@@ -98,7 +98,7 @@ RSpec.describe 'Provider edits organisation permissions' do
   end
 
   def and_my_organisation_is_listed_as_able_to_make_decisions
-    expect(page).to have_content("Make offers and reject applications #{@ratifying_provider.name} #{@training_provider.name}")
+    expect(page).to have_content("Send offers, invitations and rejections #{@ratifying_provider.name} #{@training_provider.name}")
   end
 
   def and_my_organisation_is_able_to_make_decisions
