@@ -1,5 +1,5 @@
 <% application_choices.each_with_index do |choice, index| %>
-  <%= govuk_summary_card(title: t('.subtitle', counter: index + 1)) do |card| %>
+  <%= govuk_summary_card(title: t('.subtitle', counter: index + 1), heading_level: 3) do |card| %>
     <% card.with_summary_list(
          actions: false,
          rows: application_choice_rows(choice),
