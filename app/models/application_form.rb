@@ -60,6 +60,10 @@ class ApplicationForm < ApplicationRecord
   }
   scope :international, -> { where.not(first_nationality: %w[British Irish]) }
   scope :domestic, -> { where(first_nationality: %w[British Irish]) }
+  scope :requires_visa_sponsorship, lambda {
+    where(right_to_work_or_study: 'no')
+      .or(ApplicationForm.where(right_to_work_or_study: 'yes', immigration_status: VISAS_REQUIRING_SPONSORSHIP))
+  }
 
   REQUIRED_REFERENCE_SELECTIONS = 2
   REQUIRED_REFERENCES = 2
