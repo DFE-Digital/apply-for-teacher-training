@@ -57,7 +57,7 @@ en:
   gcse_edit_enic:
     page_title: Show how your %{subject} qualification compares to a UK one
     apply_enic: Because you gained your qualifications outside of the UK, you should include a statement of comparability from UK European Network of Information Centres (UK ENIC) with your applications.
-    enic_link: Apply for a statement of comparability from UK ENIC (opens in new tab)
+    enic_link: Apply for a statement of comparability from UK ENIC
     obtained: Yes, I have a statement of comparability
     waiting: I'm waiting for it to arrive
     maybe: I will apply for one in the future

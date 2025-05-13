@@ -9,7 +9,13 @@
     <h1 class="govuk-heading-l"><%= t('page_titles.degree_enic') %></h1>
 
     <p class="govuk-body"> <%= t('application_form.degree.enic_statement.apply_enic') %></p>
-    <p class="govuk-body"> <%= govuk_link_to(t('application_form.degree.enic_statement.enic_link'), t('service_name.enic.statement_of_comparability_url')) %></p>
+    <p class="govuk-body">
+      <%= govuk_link_to(
+            t('application_form.degree.enic_statement.enic_link'),
+            t('service_name.enic.statement_of_comparability_url'),
+            new_tab: true,
+          ) %>
+    </p>
     <p class="govuk-body"> <%= t('application_form.degree.enic_statement.percentage_text_html') %></p>
     <p class="govuk-body"> <%= t('application_form.degree.enic_statement.enic_cost') %></p>
 

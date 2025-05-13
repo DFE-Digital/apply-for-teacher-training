@@ -5,7 +5,13 @@
 </h1>
 
 <p class="govuk-body"><%= t('gcse_edit_enic.apply_enic') %></p>
-<p class="govuk-body"> <%= govuk_link_to(t('gcse_edit_enic.enic_link'), t('service_name.enic.statement_of_comparability_url')) %></p>
+<p class="govuk-body">
+  <%= govuk_link_to(
+        t('gcse_edit_enic.enic_link'),
+        t('service_name.enic.statement_of_comparability_url'),
+        new_tab: true,
+      ) %>
+</p>
 <p class="govuk-body"> <%= t('gcse_edit_enic.percentage_text_html') %></p>
 <p class="govuk-body"> <%= t('gcse_edit_enic.enic_cost') %></p>
 
