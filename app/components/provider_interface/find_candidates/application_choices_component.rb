@@ -11,6 +11,7 @@ class ProviderInterface::FindCandidates::ApplicationChoicesComponent < ViewCompo
       location(choice),
       qualification(choice),
       funding_type(choice),
+      study_mode(choice),
       date_submitted(choice),
     ].compact
   end
@@ -51,6 +52,13 @@ private
     {
       key: { text: t('.funding_type') },
       value: { text: choice.course.funding_type.capitalize },
+    }
+  end
+
+  def study_mode(choice)
+    {
+      key: { text: t('.study_mode') },
+      value: { text: choice.course_option.study_mode.humanize.to_s },
     }
   end
 

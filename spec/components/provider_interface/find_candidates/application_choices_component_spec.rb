@@ -43,4 +43,19 @@ RSpec.describe ProviderInterface::FindCandidates::ApplicationChoicesComponent, t
       expect(rendered).to have_css('h3', text: 'Application 2')
     end
   end
+
+  describe 'rendered rows' do
+    let(:component) { described_class.new(application_form: create(:application_form, :completed, submitted_application_choices_count: 1)) }
+
+    it 'renders the course subject' do
+      render_inline(component)
+
+      expect(page).to have_text('Subject')
+      expect(page).to have_text('Location')
+      expect(page).to have_text('Qualification')
+      expect(page).to have_text('Funding type')
+      expect(page).to have_text('Full time or part time')
+      expect(page).to have_text('Date submitted')
+    end
+  end
 end
