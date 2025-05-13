@@ -36,6 +36,33 @@ RSpec.describe 'Providers cannot send invites to candidates' do
     then_i_am_redirected_to_the_find_candidate_page
   end
 
+  scenario 'User permissions change and they cannot make any invites before publishing invite' do
+    given_provider_user_can_make_decisions_for_just_one_of_its_providers
+    when_i_sign_in_to_the_provider_interface
+    and_i_navigate_to_a_candidate
+    and_i_click_the_invite_button
+    and_i_select_a_course
+    and_then_my_permissions_are_updated
+    when_i_try_to_publish_the_invite
+    then_i_am_redirected_to_the_find_candidate_page
+  end
+
+  scenario 'User permissions change but I can still invite to other courses' do
+    given_provider_user_can_make_decisions_for_just_one_of_its_providers
+    when_i_sign_in_to_the_provider_interface
+    and_i_navigate_to_a_candidate
+    and_i_click_the_invite_button
+    and_i_select_a_course
+    and_then_my_permissions_are_updated_so_i_can_make_decisions_for_the_other_provider
+    when_i_try_to_publish_the_invite
+    then_i_see_an_error('Course is not available')
+
+    when_i_select_another_course
+    and_my_permissions_are_updated_again
+    when_i_try_to_publish_the_invite
+    then_i_see_an_error('Course is not available')
+  end
+
 private
 
   def given_i_am_a_provider_user_with_dfe_sign_in_with_many_providers
@@ -101,6 +128,34 @@ private
     click_on 'Invite to apply'
   end
 
+  def and_i_select_a_course
+    choose @can_make_decisions_provider.courses.first.name_code_and_course_provider
+    click_on 'Continue'
+  end
+
+  def when_i_select_another_course
+    choose @cannot_make_decisions_provider.courses.first.name_code_and_course_provider
+    click_on 'Continue'
+  end
+
+  def and_then_my_permissions_are_updated
+    @provider_user.provider_permissions.update_all(make_decisions: false)
+  end
+
+  def and_then_my_permissions_are_updated_so_i_can_make_decisions_for_the_other_provider
+    ProviderPermissions.where(provider: @can_make_decisions_provider, provider_user: @provider_user).update_all(make_decisions: false)
+    ProviderPermissions.where(provider: @cannot_make_decisions_provider, provider_user: @provider_user).update_all(make_decisions: true)
+  end
+
+  def and_my_permissions_are_updated_again
+    ProviderPermissions.where(provider: @can_make_decisions_provider, provider_user: @provider_user).update_all(make_decisions: true)
+    ProviderPermissions.where(provider: @cannot_make_decisions_provider, provider_user: @provider_user).update_all(make_decisions: false)
+  end
+
+  def when_i_try_to_publish_the_invite
+    click_on 'Send invitation'
+  end
+
   def then_i_only_see_courses_that_i_have_permission_to_make_decisions_form
     @can_make_decisions_provider.courses.open.each do |course|
       expect(page).to have_content(course.name_code_and_course_provider)
@@ -109,6 +164,12 @@ private
     @cannot_make_decisions_provider.courses.open.each do |course|
       expect(page).to have_no_content(course.name_code_and_course_provider)
     end
+  end
+
+  def then_i_see_an_error(messsage)
+    expect(page).to have_content 'There is a problem'
+    expect(page).to have_content(messsage).twice
+    expect(page.title).to include 'Error:'
   end
 
   def then_i_do_not_see_the_invite_button

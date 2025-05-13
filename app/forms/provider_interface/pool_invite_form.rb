@@ -30,10 +30,12 @@ module ProviderInterface
       if id.present?
         invite = Pool::Invite.find_by(
           id:,
-          provider_id: providers.pluck(:id),
+          # It is possible that the permissions have changed, so we need to look at all the connected providers,
+          # not just the ones for which the user has permission to update
+          provider_id: current_provider_user.providers.pluck(:id),
         )
 
-        invite.update!(course_id:)
+        invite.update!(course:, provider: course.provider)
         invite
       else
         Pool::Invite.create!(
