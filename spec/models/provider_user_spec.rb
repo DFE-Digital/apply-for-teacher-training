@@ -166,4 +166,17 @@ RSpec.describe ProviderUser do
       expect(loaded_user.impersonator).to eq(support_user)
     end
   end
+
+  describe '#provieders_where_user_can_make_descisions' do
+    it 'only returns providers for where a user has permission to make decisions' do
+      provider_user = create(:provider_user)
+      provider_without_permissions = create(:provider)
+      provider_with_permissions = create(:provider)
+      create(:provider_permissions, provider_user:, provider: provider_without_permissions, make_decisions: false)
+      create(:provider_permissions, provider_user:, provider: provider_with_permissions, make_decisions: true)
+
+      result = provider_user.providers_where_user_can_make_decisions
+      expect(result).to contain_exactly(provider_with_permissions)
+    end
+  end
 end

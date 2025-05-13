@@ -64,4 +64,13 @@ class ProviderUser < ApplicationRecord
   def can_manage_organisations?
     provider_permissions.exists?(manage_organisations: true)
   end
+
+  def providers_where_user_can_make_decisions
+    Provider
+      .joins(:provider_permissions)
+      .where(
+        'provider_permissions.provider_user_id': id,
+        'provider_permissions.make_decisions': true,
+      )
+  end
 end

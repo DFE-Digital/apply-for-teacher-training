@@ -18,9 +18,7 @@ module ProviderInterface
     private
 
       def decision_making_providers
-        @decision_making_providers ||= Provider.joins(:provider_permissions)
-                                                .where('provider_permissions.provider_user_id': provider_user.id,
-                                                       'provider_permissions.make_decisions': true)
+        @decision_making_providers ||= provider_user.providers_where_user_can_make_decisions
       end
     end
   end

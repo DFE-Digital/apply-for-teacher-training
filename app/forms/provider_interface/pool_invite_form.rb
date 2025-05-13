@@ -52,11 +52,7 @@ module ProviderInterface
     end
 
     def providers
-      @providers ||= Provider.joins(:provider_permissions)
-                             .where(
-                               'provider_permissions.provider_user_id': current_provider_user.id,
-                               'provider_permissions.make_decisions': true,
-                             )
+      @providers ||= current_provider_user.providers_where_user_can_make_decisions
     end
 
     def course
