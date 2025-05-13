@@ -83,7 +83,6 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def then_i_am_redirected_to_view_that_candidate
-    save_and_open_page
     expect(page).to have_current_path(provider_interface_candidate_pool_candidate_path(@rejected_candidate), ignore_query: true)
   end
 
