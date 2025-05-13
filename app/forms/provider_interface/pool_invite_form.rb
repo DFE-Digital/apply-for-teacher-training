@@ -30,7 +30,7 @@ module ProviderInterface
       if id.present?
         invite = Pool::Invite.find_by(
           id:,
-          provider_id: current_provider_user.provider_ids,
+          provider_id: providers.pluck(:id),
         )
 
         invite.update!(course_id:)
@@ -46,9 +46,17 @@ module ProviderInterface
     end
 
     def available_courses
-      @available_courses ||= current_provider_user.providers.map do |provider|
+      @available_courses ||= providers.map do |provider|
         GetAvailableCoursesForProvider.new(provider).call
       end.flatten
+    end
+
+    def providers
+      @providers ||= Provider.joins(:provider_permissions)
+                             .where(
+                               'provider_permissions.provider_user_id': current_provider_user.id,
+                               'provider_permissions.make_decisions': true,
+                             )
     end
 
     def course

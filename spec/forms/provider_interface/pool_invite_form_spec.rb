@@ -9,7 +9,7 @@ RSpec.describe ProviderInterface::PoolInviteForm, type: :model do
     )
   end
 
-  let(:current_provider_user) { create(:provider_user, :with_provider) }
+  let(:current_provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
   let(:provider) { current_provider_user.providers.first }
   let(:candidate) { create(:candidate) }
   let(:course) { create(:course, :open, provider:) }
