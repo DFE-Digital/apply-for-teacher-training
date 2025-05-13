@@ -30,13 +30,19 @@ class CandidateInterface::LocationPreferencesForm
     return if invalid?
 
     if location_preference.present?
-      location_preference.update(
-        within:,
-        name: name == location_preference.name ? name : suggested_location[:name],
-        latitude: location_coordinates&.latitude,
-        longitude: location_coordinates&.longitude,
-        provider_id: name == location_preference.name ? location_preference.provider_id : nil,
-      )
+      if name == location_preference.name
+        location_preference.update(
+          within:,
+        )
+      else
+        location_preference.update(
+          within:,
+          name: suggested_location[:name],
+          latitude: location_coordinates&.latitude,
+          longitude: location_coordinates&.longitude,
+          provider_id: name == location_preference.name ? location_preference.provider_id : nil,
+        )
+      end
     else
       preference.location_preferences.create(
         within:,
@@ -67,6 +73,8 @@ private
   end
 
   def location
+    return if location_preference.present? && location_preference.name == name
+
     if location_coordinates.nil?
       errors.add(:name, :invalid_location)
     end

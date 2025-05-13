@@ -13,4 +13,16 @@ FactoryBot.define do
     region { 'north_west' }
     postcode { Faker::Address.postcode }
   end
+
+  trait :with_valid_coordinates do
+    latitude { 51.5245592 }
+    longitude { -0.1340401 } # London, UK
+    postcode { 'WC1E 6AE' }
+  end
+
+  trait :with_invalid_coordinates do
+    latitude { 41.5800945 }
+    longitude { -71.4774291 } # Massachusetts, US
+    postcode { 'Y6W 7XN' }
+  end
 end
