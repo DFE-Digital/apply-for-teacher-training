@@ -28,7 +28,7 @@ RSpec.describe 'Providers invites candidates' do
 
     then_i_am_redirected_to_the_review_page(first_course)
 
-    when_i_click_change_course
+    when_i_click('Change course')
     then_i_am_redirected_to_the_edit_page
 
     when_i_select_a_course(last_course)
@@ -144,12 +144,6 @@ RSpec.describe 'Providers invites candidates' do
       ignore_query: true,
     )
     expect(page).to have_content(course.name_code_and_course_provider)
-  end
-
-  def when_i_click_change_course
-    within '.govuk-summary-list__row:nth-of-type(2)' do
-      click_link_or_button 'Change'
-    end
   end
 
   def then_i_am_redirected_to_the_edit_page

@@ -46,6 +46,8 @@ en:
           candidate: Candidate
           change: Change
           course: Course
+          visually_hidden_change_candidate: candidate
+          visually_hidden_change_course: course
           send_invitation: Send invitation
           candidate_id: Candidate %{candidate_id}
         edit:
