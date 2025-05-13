@@ -96,7 +96,7 @@ en:
         review_label: Do you have a UK ENIC statement of comparability?
         change_action: UK ENIC statement
         apply_enic: Because you gained your qualifications outside of the UK, you should include a statement of comparability from UK European Network of Information Centres (UK ENIC) with your applications.
-        enic_link: Apply for a statement of comparability from UK ENIC (opens in new tab)
+        enic_link: Apply for a statement of comparability from UK ENIC
         obtained: Yes, I have a statement of comparability
         waiting: I'm waiting for it to arrive
         maybe: I will apply for one in the future
