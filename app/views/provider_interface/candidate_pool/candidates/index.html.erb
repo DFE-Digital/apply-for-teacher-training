@@ -5,15 +5,18 @@
 <p class="govuk-body"><%= t('.candidate_information_agreement') %></p>
 <p class="govuk-body"><%= t('.review_candidates') %></p>
 
-<%= render PaginatedFilterComponent.new(filter: @filter, collection: @application_forms) do %>
+<%= render ProviderInterface::FindCandidates::FiltersComponent.new(params:, filter: @filter) do %>
   <% if @application_forms.present? %>
-    <h2 class="govuk-heading-m"><%= t('.candidates_found', count: @pagy.count) %></h2>
+    <h2 class="govuk-heading-m">
+      <%= t('.candidates_found', count: @pagy.count) %>
+    </h2>
+
     <%= govuk_table do |table| %>
       <%= table.with_head do |head| %>
         <%= head.with_row do |row| %>
           <%= row.with_cell(text: t('.name')) %>
           <% if @filter.applied_location_search? %>
-            <%= row.with_cell(text: t('.distance_from', origin: @filter.applied_filters[:original_location]), width: 'govuk-!-width-one-half') %>
+            <%= row.with_cell(text: t('.distance_from', origin: @filter.applied_filters[:location]), width: 'govuk-!-width-one-half') %>
           <% end %>
         <% end %>
       <% end %>

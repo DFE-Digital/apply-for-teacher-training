@@ -8,7 +8,9 @@ module ProviderInterface
         @filter = ProviderInterface::CandidatePoolFilter.new(
           filter_params:,
           current_provider_user:,
+          remove_filter:,
         )
+        @filter.save
 
         @pagy, @application_forms = pagy(
           Pool::Candidates.application_forms_for_provider(
@@ -35,11 +37,13 @@ module ProviderInterface
         redirect_to provider_interface_applications_path if invites.blank?
       end
 
+      def remove_filter
+        params.permit(:remove_filter)
+      end
+
       def filter_params
         params.permit(
-          :within,
-          :original_location,
-          :remove,
+          :location,
           subject: [],
           study_mode: [],
           course_type: [],
