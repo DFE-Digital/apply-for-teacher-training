@@ -47,7 +47,7 @@ Rails.application.configure do
     api_key: ENV.fetch("GOVUK_NOTIFY_API_KEY"),
   }
   config.action_mailer.logger = Logger.new("log/mail.log", formatter: proc { |_, _, _, msg|
-    if(msg =~ /quoted-printable/)
+    if msg.is_a?(String) && msg =~ /quoted-printable/
       message = Mail::Message.new(msg)
       "\nTo: #{message.to}\n\n#{message.decoded}\n\n"
     else

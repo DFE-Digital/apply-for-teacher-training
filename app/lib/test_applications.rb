@@ -70,7 +70,7 @@ private
     # it does not make sense to apply to the same course multiple times
     # in the course of the same application, and it's forbidden in the UI.
     # Throw an exception if we try to do that here.
-    if selected_courses.count < states.count
+    if selected_courses.count < states.uniq.count
       raise NotEnoughCoursesError, "Not enough distinct courses to generate a #{states.count}-course application"
     end
 
