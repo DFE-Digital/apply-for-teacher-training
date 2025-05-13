@@ -170,6 +170,8 @@ RSpec.describe 'Providers invites candidates' do
 
   def then_i_get_an_error(message)
     expect(page).to have_content(message)
+    expect(page).to have_content('There is a problem')
+    expect(page.title).to include('Error:')
   end
 
   def when_i_select_a_course_from_dropdown(course)
