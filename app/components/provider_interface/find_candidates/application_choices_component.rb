@@ -28,7 +28,7 @@ private
   def course_subject(choice)
     {
       key: { text: t('.subject') },
-      value: { text: choice.course.subjects.pluck(:name).join(',') },
+      value: { text: choice.course.subjects.pluck(:name).join(', ') },
     }
   end
 

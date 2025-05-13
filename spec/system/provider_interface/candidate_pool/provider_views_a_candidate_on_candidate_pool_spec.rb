@@ -39,7 +39,12 @@ RSpec.describe 'Providers views candidate pool list' do
       candidate: @rejected_candidate,
       submitted_at: 1.day.ago,
     )
-    create(:application_choice, :rejected, application_form: @rejected_candidate_form)
+    subjects = create_list(:subject, 2)
+    course = create(:course)
+    course.subjects << subjects
+    course_option = create(:course_option, course: course)
+
+    create(:application_choice, :rejected, application_form: @rejected_candidate_form, course_option: course_option)
 
     declined_candidate = create(:candidate)
     create(:candidate_preference, candidate: declined_candidate)
@@ -78,6 +83,7 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def then_i_am_redirected_to_view_that_candidate
+    save_and_open_page
     expect(page).to have_current_path(provider_interface_candidate_pool_candidate_path(@rejected_candidate), ignore_query: true)
   end
 
