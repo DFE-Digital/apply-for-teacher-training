@@ -11,50 +11,9 @@ RSpec.describe RecruitmentCycleTimetable do
     it { is_expected.to validate_presence_of(:find_closes_at) }
     it { is_expected.to validate_uniqueness_of(:recruitment_cycle_year) }
 
-    describe 'validates christmas range' do
-      it 'validates christmas range is within cycle' do
-        timetable = SupportInterface::RecruitmentCycleTimetableGenerator.generate_next_year
-        year = timetable.recruitment_cycle_year
-        timetable.christmas_holiday_range = timetable.find_opens_at - 3.days..Time.zone.local(year, 1, 2)
-
-        expect(timetable.valid?).to be false
-        expect(timetable.errors[:christmas_holiday_range]).to eq ['Enter a Christmas holiday within cycle']
-      end
-
-      it 'validates christmas range includes christmas day' do
-        timetable = SupportInterface::RecruitmentCycleTimetableGenerator.generate_next_year
-        year = timetable.recruitment_cycle_year - 1
-        timetable.christmas_holiday_range = (Time.zone.local(year, 12, 26)...Time.zone.local(year, 12, 29))
-
-        expect(timetable.valid?).to be false
-        expect(timetable.errors[:christmas_holiday_range])
-          .to eq ['Enter a Christmas holiday range that includes Christmas day']
-      end
-    end
-
-    describe 'validates easter range' do
-      it 'validates easter range is within cycle' do
-        # We need one where we know where Easter is
-        timetable = described_class.find_by(recruitment_cycle_year: 2024)
-        timetable.easter_holiday_range = timetable.easter_holiday_range.last..timetable.find_closes_at + 2.days
-
-        expect(timetable.valid?).to be false
-        expect(timetable.errors[:easter_holiday_range]).to eq ['Enter an Easter holiday range within cycle']
-      end
-
-      it 'validates easter range includes Easter Day' do
-        timetable = described_class.find_by(recruitment_cycle_year: 2024)
-        timetable.easter_holiday_range =
-          timetable.easter_holiday_range.last..timetable.easter_holiday_range.last + 10.days
-
-        expect(timetable.valid?).to be false
-        expect(timetable.errors[:easter_holiday_range]).to eq ['Enter an Easter holiday range that includes Easter']
-      end
-    end
-
     describe 'validates sequential order of dates' do
       it 'validates apply opens after find opens' do
-        timetable = SupportInterface::RecruitmentCycleTimetableGenerator.generate_next_year
+        timetable = current_timetable
         timetable.find_opens_at = timetable.apply_opens_at + 1.day
 
         expect(timetable.valid?).to be false
@@ -62,7 +21,7 @@ RSpec.describe RecruitmentCycleTimetable do
       end
 
       it 'validates apply deadline is after apply opens' do
-        timetable = SupportInterface::RecruitmentCycleTimetableGenerator.generate_next_year
+        timetable = current_timetable
         timetable.apply_opens_at = timetable.apply_deadline_at + 1.day
 
         expect(timetable.valid?).to be false
@@ -70,7 +29,7 @@ RSpec.describe RecruitmentCycleTimetable do
       end
 
       it 'validates reject by default is after apply deadline' do
-        timetable = SupportInterface::RecruitmentCycleTimetableGenerator.generate_next_year
+        timetable = current_timetable
         timetable.apply_deadline_at = timetable.reject_by_default_at + 1.day
 
         expect(timetable.valid?).to be false

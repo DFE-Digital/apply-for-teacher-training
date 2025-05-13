@@ -9,8 +9,6 @@ class RecruitmentCycleTimetable < ApplicationRecord
             presence: true
   validates :recruitment_cycle_year, uniqueness: { allow_nil: false }
   validates_with RecruitmentCycleTimetableDateSequenceValidator
-  validate :christmas_holiday_validation
-  validate :easter_holiday_validation
 
   scope :current_and_past, -> { where('recruitment_cycle_year <= ?', RecruitmentCycleTimetable.current_year) }
 
@@ -216,46 +214,5 @@ class RecruitmentCycleTimetable < ApplicationRecord
 
   def show_banners_at
     12.weeks.before apply_deadline_at
-  end
-
-private
-
-  def christmas_holiday_validation
-    return if [christmas_holiday_range, find_opens_at, find_closes_at].any?(&:blank?)
-
-    holidays = Holidays.between(
-      christmas_holiday_range.first,
-      christmas_holiday_range.last, :gb
-    ).map do |holiday|
-      holiday[:name]
-    end
-
-    if !christmas_holiday_range.in? cycle_range
-      errors.add(:christmas_holiday_range, :christmas_holiday_range_should_be_in_cycle)
-    elsif holidays.exclude? 'Christmas Day'
-      errors.add(:christmas_holiday_range, :christmas_holiday_range_should_include_christmas)
-    end
-  end
-
-  def easter_holiday_validation
-    return if [easter_holiday_range, find_opens_at, find_closes_at].any?(&:blank?)
-
-    holidays = Holidays.between(
-      easter_holiday_range.first,
-      easter_holiday_range.last, :gb
-    ).map do |holiday|
-      holiday[:name]
-    end
-
-    if !easter_holiday_range.in? cycle_range
-      errors.add(:easter_holiday_range, :easter_holiday_range_should_be_within_cycle)
-
-    elsif holidays.exclude?('Easter Sunday')
-      errors.add(:easter_holiday_range, :easter_holiday_range_should_include_easter)
-    end
-  end
-
-  def cycle_range
-    find_opens_at..find_closes_at
   end
 end

@@ -40,19 +40,6 @@ RSpec.describe 'RecruitmentCycleTimetables' do
         expect(response).to have_http_status(:ok)
         expect(data['recruitment_cycle_year']).to eq current_year
       end
-
-      it 'returns ranges as array of start and end dates' do
-        get('/publications/recruitment-cycle-timetables/current', params: { format: 'json' })
-        expect(response).to have_http_status(:ok)
-
-        christmas_holiday_range = current_timetable.christmas_holiday_range
-        expect(data['christmas_holiday_range'])
-          .to eq([christmas_holiday_range.first.to_s, christmas_holiday_range.last.to_s])
-
-        easter_holiday_range = current_timetable.easter_holiday_range
-        expect(data['easter_holiday_range'])
-          .to eq([easter_holiday_range.first.to_s, easter_holiday_range.last.to_s])
-      end
     end
 
     context 'invalid year' do
