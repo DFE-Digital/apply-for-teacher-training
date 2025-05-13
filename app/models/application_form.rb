@@ -60,6 +60,10 @@ class ApplicationForm < ApplicationRecord
   }
   scope :international, -> { where.not(first_nationality: %w[British Irish]) }
   scope :domestic, -> { where(first_nationality: %w[British Irish]) }
+  scope :requires_visa_sponsorship, lambda {
+    where(right_to_work_or_study: 'no')
+      .or(ApplicationForm.where(right_to_work_or_study: 'yes', immigration_status: VISAS_REQUIRING_SPONSORSHIP))
+  }
 
   REQUIRED_REFERENCE_SELECTIONS = 2
   REQUIRED_REFERENCES = 2
@@ -99,6 +103,8 @@ class ApplicationForm < ApplicationRecord
   ].freeze
 
   CONTINUOUS_APPLICATIONS_CYCLE_YEAR = 2024
+
+  VISAS_REQUIRING_SPONSORSHIP = %w[student_visa skilled_worker_visa].freeze
 
   def equality_and_diversity_answers_provided?
     EqualityAndDiversity::ValuesChecker.new(application_form: self).check_values
@@ -704,6 +710,11 @@ class ApplicationForm < ApplicationRecord
 
   def can_submit?
     current_cycle? && Time.zone.now.between?(apply_opens_at, apply_deadline_at)
+  end
+
+  def requires_visa_sponsorship?
+    right_to_work_or_study_no? ||
+      (right_to_work_or_study_yes? && immigration_status.in?(VISAS_REQUIRING_SPONSORSHIP))
   end
 
 private

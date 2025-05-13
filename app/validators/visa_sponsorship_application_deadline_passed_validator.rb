@@ -2,6 +2,7 @@ class VisaSponsorshipApplicationDeadlinePassedValidator < ActiveModel::EachValid
   include ActionView::Helpers::UrlHelper
   include GovukLinkHelper
   include GovukVisuallyHiddenHelper
+
   def validate_each(record, attribute, application_choice)
     return unless FeatureFlag.active?(:early_application_deadlines_for_candidates_with_visa_sponsorship)
     return unless application_choice.application_form.right_to_work_or_study == 'no'

@@ -1576,4 +1576,51 @@ RSpec.describe ApplicationForm do
       expect(application_form.applicable_degree_for_adviser).to eq(first_class_domestic_degree)
     end
   end
+
+  describe '.requires_visa_sponsorship' do
+    let!(:skilled_worker) { create(:application_form, right_to_work_or_study: 'yes', immigration_status: 'skilled_worker_visa') }
+    let!(:student) { create(:application_form, right_to_work_or_study: 'yes', immigration_status: 'student_visa') }
+    let!(:no_right_to_work) { create(:application_form, right_to_work_or_study: 'no') }
+
+    let!(:other_visa) { create(:application_form, right_to_work_or_study: 'yes', immigration_status: 'uk_ancestry_visa') }
+
+    subject(:requires_visa_sponsorship_scope) { described_class.requires_visa_sponsorship }
+
+    it 'includes applications that explicitly state they do not have the right to work or study' do
+      expect(requires_visa_sponsorship_scope).to include(no_right_to_work)
+    end
+
+    it 'includes applications that have the right to work or study through student or skilled worker visas' do
+      expect(requires_visa_sponsorship_scope).to include(student)
+      expect(requires_visa_sponsorship_scope).to include(skilled_worker)
+    end
+
+    it 'excludes applications who have other visas' do
+      expect(requires_visa_sponsorship_scope).not_to include(other_visa)
+    end
+  end
+
+  describe '#requires_visa_sponsorship?' do
+    it 'is true if candidates has indicated they require visa sponsorship' do
+      application_form = build_stubbed(:application_form, right_to_work_or_study: 'no')
+
+      expect(application_form.requires_visa_sponsorship?).to be true
+    end
+
+    it 'is true if candidate has a skilled worker or student visa' do
+      student_application_form = build_stubbed(:application_form, right_to_work_or_study: 'yes', immigration_status: 'student_visa')
+      skilled_worker_application_form = build_stubbed(:application_form, right_to_work_or_study: 'yes', immigration_status: 'skilled_worker_visa')
+
+      expect(student_application_form.requires_visa_sponsorship?).to be true
+      expect(skilled_worker_application_form.requires_visa_sponsorship?).to be true
+    end
+
+    it 'is false if candidate has other kind of visa' do
+      possible_statuses = described_class.immigration_statuses.reject { |status| status.in? %w[student_visa skilled_worker_visa] }
+      possible_statuses.each_value do |immigration_status|
+        application_form = build_stubbed(:application_form, right_to_work_or_study: 'yes', immigration_status:)
+        expect(application_form.requires_visa_sponsorship?).to be false
+      end
+    end
+  end
 end

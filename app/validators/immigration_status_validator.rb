@@ -3,8 +3,6 @@ class ImmigrationStatusValidator < ActiveModel::EachValidator
   include GovukLinkHelper
   include GovukVisuallyHiddenHelper
 
-  VISAS_REQUIRING_SPONSORSHIP = %w[student_visa skilled_worker_visa].freeze
-
   def validate_each(record, attribute, application_choice)
     return if did_not_add_nationality_yet?(application_choice) ||
               british_or_irish?(application_choice) ||
@@ -19,8 +17,7 @@ class ImmigrationStatusValidator < ActiveModel::EachValidator
   end
 
   def not_requiring_sponsorship?(application_choice)
-    application_choice.application_form.right_to_work_or_study_yes? &&
-      !application_choice.application_form.immigration_status.in?(VISAS_REQUIRING_SPONSORSHIP)
+    !application_choice.application_form.requires_visa_sponsorship?
   end
 
   def course_can_sponsor_visa?(application_choice)
