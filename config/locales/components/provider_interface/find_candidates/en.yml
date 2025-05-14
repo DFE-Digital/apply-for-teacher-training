@@ -60,6 +60,9 @@ en:
         grade: Grade
         comparability: Comparability
         visually_hidden_enic_text: statement for %{qualification}
+      filters_component:
+        candidate_location_preference: 'Candidate location preferences'
+        town_city_or_postcode: 'Town, city or postcode:'
       other_qualifications_component:
         caption: A levels and other qualifications
         qualification: Type

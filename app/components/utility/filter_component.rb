@@ -8,26 +8,22 @@ class FilterComponent < ViewComponent::Base
     @filter = filter
   end
 
-  def tags_for_active_filter(filter_hash)
-    case filter_hash[:type]
+  def tags_for_active_filter(filter)
+    case filter[:type]
     when :location_search
-      if filter.applied_location_search?
-        [
-          {
-            title: filter_hash[:original_location],
-            hint: filter_hash[:hint],
-            remove_link: location_filter_tag_link,
-          },
-        ]
-      else
-        []
-      end
+      [
+        {
+          title: filter[:original_location],
+          hint: filter[:hint],
+          remove_link: location_filter_tag_link,
+        },
+      ]
     when :search
-      [{ title: filter_hash[:value], remove_link: remove_search_tag_link(filter_hash[:name]) }]
+      [{ title: filter[:value], remove_link: remove_search_tag_link(filter[:name]) }]
     when :checkboxes, :checkbox_filter
-      filter_hash[:options].each_with_object([]) do |option, arr|
+      filter[:options].each_with_object([]) do |option, arr|
         if option[:checked]
-          arr << { title: option[:label], remove_link: remove_checkbox_tag_link(filter_hash[:name], option[:value]) }
+          arr << { title: option[:label], remove_link: remove_checkbox_tag_link(filter[:name], option[:value]) }
         end
       end
     end
@@ -103,6 +99,6 @@ private
   end
 
   def active_location_filter?(filter_hash)
-    filter_hash[:original_location].present? && filter_hash[:origin].present?
+    filter_hash[:original_location].present?
   end
 end

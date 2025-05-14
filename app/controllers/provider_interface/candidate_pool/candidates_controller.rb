@@ -9,11 +9,20 @@ module ProviderInterface
           filter_params:,
           current_provider_user:,
         )
+        @filter_form = ProviderInterface::CandidatePoolFilterForm.new(
+          form_filter_params[:provider_interface_candidate_pool_filter_form],
+        )
+        @filter_form.valid?
 
+        puts "FILTERS"
+        puts "FILTERS"
+        puts "FILTERS"
+        puts "FILTERS"
+        puts @filter_form.applied_filters
         @pagy, @application_forms = pagy(
           Pool::Candidates.application_forms_for_provider(
             providers: current_provider_user.providers,
-            filters: @filter.applied_filters,
+            filters: @filter_form.applied_filters,
           ),
         )
       end
@@ -33,6 +42,18 @@ module ProviderInterface
         invites = CandidatePoolProviderOptIn.find_by(provider_id: current_provider_user.provider_ids)
 
         redirect_to provider_interface_applications_path if invites.blank?
+      end
+
+      def form_filter_params
+        params.permit(
+          provider_interface_candidate_pool_filter_form: [
+            :location,
+            course_ids: [],
+            study_types: [],
+            course_types: [],
+            visa_sponsorships: [],
+          ],
+        )
       end
 
       def filter_params

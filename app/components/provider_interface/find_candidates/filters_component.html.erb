@@ -1,0 +1,97 @@
+<%= form_with model: filter, url: '', method: :get do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <div class='moj-filter-layout'>
+    <div class="moj-filter-layout__filter app-filter">
+      <div class="moj-filter">
+        <div class="moj-filter__header">
+          <div class="moj-filter__header-title">
+            <h2 class="govuk-heading-m">Filter</h2>
+          </div>
+          <div class="moj-filter__header-action">
+          </div>
+        </div>
+
+        <% if filter.applied_filters.present? %>
+          <div class="moj-filter__selected">
+            <div class="moj-filter__selected-heading">
+              <div class="moj-filter__heading-title">
+                <h3 class="govuk-heading-m govuk-!-margin-bottom-1">Selected filters</h3>
+                <p class="govuk-body">
+                <%= govuk_link_to 'Clear filters', provider_interface_candidate_pool_root_path, no_visited_state: true %>
+                </p>
+              </div>
+            </div>
+
+            <%= govuk_link_to(
+              path_to_remove_location,
+              filter.location,
+              class: 'app-checkbox-filter__tag',
+            ) do %>
+              <span class="govuk-visually-hidden">Remove candidate location preference filter</span>
+              <%= filter.location %>
+            <% end %>
+
+            </div>
+          <% end %>
+
+        <div class="moj-filter__content" tabindex="-1">
+          <div class="moj-filter__options">
+            <%= f.govuk_submit 'Apply filters' %>
+
+            <div class="govuk-form-group filter-group">
+              <h3 class="govuk-heading-m">Candidate location preferences</h3>
+              <%= f.govuk_text_field :location, label: { text: 'Town, city or postcode:', class: 'govuk-fieldset__legend govuk-fieldset__legend--s'} %>
+            </div>
+
+            <div class="govuk-form-group filter-group">
+              <h3 class="govuk-heading-m">Candidate course preferences</h3>
+
+              <%= f.govuk_collection_check_boxes(
+                :course_ids,
+                filter.subject_options,
+                :id,
+                :name,
+                legend: nil,
+                small: true,
+              ) %>
+
+              <%= f.govuk_collection_check_boxes(
+                :study_types,
+                filter.study_type_options,
+                :value,
+                :name,
+                legend: { text: 'Study type', size: 's' },
+                small: true,
+              ) %>
+
+              <%= f.govuk_collection_check_boxes(
+                :course_types,
+                filter.course_type_options,
+                :value,
+                :name,
+                legend: { text: 'Course type', size: 's' },
+                small: true,
+              ) %>
+            </div>
+
+            <div class="govuk-form-group filter-group">
+              <h3 class="govuk-heading-m">Candidate's visa requirements</h3>
+              <%= f.govuk_collection_check_boxes(
+                :visa_sponsorships ,
+                filter.visa_sponsorship_options,
+                :value,
+                :name,
+                legend: nil,
+                small: true,
+              ) %>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class='moj-filter-layout__content'>
+    <%= content %>
+  </div>
+<% end %>
