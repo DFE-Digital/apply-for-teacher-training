@@ -22,8 +22,6 @@ module ProviderInterface
               course: invite.course.name_code_and_course_provider,
             )
             redirect_to provider_interface_candidate_pool_root_path
-
-            CandidateMailer.course_invite(invite).deliver_later
           else
             render '/provider_interface/candidate_pool/draft_invites/edit'
           end
