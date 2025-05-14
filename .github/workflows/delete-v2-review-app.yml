@@ -43,7 +43,6 @@ jobs:
           echo "AZURE_RESOURCE_PREFIX=${AZURE_RESOURCE_PREFIX}" >> $GITHUB_ENV
           echo "CONFIG_SHORT=${CONFIG_SHORT}" >> $GITHUB_ENV
           echo "SERVICE_SHORT=${SERVICE_SHORT}" >> $GITHUB_ENV
-          echo "ENVIRONMENT=review"
           echo "DEPLOY_ENV=review-${PR_NUMBER}" >> $GITHUB_ENV
           echo "TF_STATE_FILE=pr-${PR_NUMBER}.tfstate" >> $GITHUB_ENV
 
