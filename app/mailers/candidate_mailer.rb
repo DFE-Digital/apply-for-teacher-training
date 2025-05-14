@@ -535,6 +535,28 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def candidate_invites(pool_invites = [])
+    candidate = pool_invites.first.candidate
+    application_form = candidate.current_cycle_application_form
+    @inviting_providers_count = pool_invites.pluck(:provider_id).uniq.size
+    @invited_courses = pool_invites
+                         .map(&:course)
+                         .sort_by { |course| [course.provider.name, course.name_and_code] }
+
+    @preferences_url = candidate_preferences_link(candidate)
+
+    email_subject = I18n.t!(
+      'candidate_mailer.candidate_invites.subject',
+      count: @inviting_providers_count,
+    )
+
+    email_for_candidate(
+      application_form,
+      subject: email_subject,
+      layout: false,
+    )
+  end
+
 private
 
   def email_for_candidate(application_form, args = {})

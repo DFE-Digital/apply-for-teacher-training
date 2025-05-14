@@ -563,6 +563,82 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.course_invite(pool_invite)
   end
 
+  def candidate_invites_one_provider
+    candidate = FactoryBot.create(:candidate)
+    FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      candidate: candidate,
+      first_name: 'Fred',
+    )
+
+    provider = FactoryBot.create(:provider)
+    course = FactoryBot.create(:course,
+                               provider: provider,
+                               fee_domestic: 9535,
+                               fee_international: 15430)
+
+    invite = FactoryBot.create(
+      :pool_invite,
+      candidate:,
+      provider: provider,
+      course: course,
+    )
+
+    CandidateMailer.candidate_invites([invite])
+  end
+
+  def candidate_invites_one_provider_two_courses
+    candidate = FactoryBot.create(:candidate)
+    FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      candidate: candidate,
+      first_name: 'Fred',
+    )
+
+    provider = FactoryBot.create(:provider)
+    course_1, course_2 = FactoryBot.create_list(:course,
+                                                2,
+                                                provider: provider,
+                                                fee_domestic: 9535,
+                                                fee_international: 15430)
+
+    invite_1 = FactoryBot.create(
+      :pool_invite,
+      candidate:,
+      provider: provider,
+      course: course_1,
+    )
+
+    invite_2 = FactoryBot.create(
+      :pool_invite,
+      candidate:,
+      provider: provider,
+      course: course_2,
+    )
+
+    CandidateMailer.candidate_invites([invite_1, invite_2])
+  end
+
+  def candidate_invites_two_providers
+    candidate = FactoryBot.create(:candidate)
+    FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      candidate: candidate,
+      first_name: 'Fred',
+    )
+
+    pool_invites = FactoryBot.create_list(
+      :pool_invite,
+      2,
+      candidate:,
+    )
+
+    CandidateMailer.candidate_invites(pool_invites)
+  end
+
 private
 
   def candidate
