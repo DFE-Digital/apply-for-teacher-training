@@ -80,6 +80,16 @@ RSpec.describe CandidateInterface::AccountRecoveryForm, type: :model do
 
       expect { current_candidate.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
+
+    context 'when the candidate has signed up for an adviser' do
+      it 'deletes the tta sign up and the candidate' do
+        adviser_sign_up = create(:adviser_sign_up_request, application_form: current_candidate.current_application)
+
+        form.call
+        expect { current_candidate.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { adviser_sign_up.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 
   describe '#requested_new_code?' do
