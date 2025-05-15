@@ -535,8 +535,7 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def candidate_invites(pool_invites = [])
-    candidate = pool_invites.first.candidate
+  def candidate_invites(candidate, pool_invites = [])
     application_form = candidate.current_cycle_application_form
     @inviting_providers_count = pool_invites.pluck(:provider_id).uniq.size
     @invited_courses = pool_invites

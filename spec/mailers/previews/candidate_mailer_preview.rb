@@ -585,7 +585,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       course: course,
     )
 
-    CandidateMailer.candidate_invites([invite])
+    CandidateMailer.candidate_invites(candidate, [invite])
   end
 
   def candidate_invites_one_provider_two_courses
@@ -618,7 +618,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       course: course_2,
     )
 
-    CandidateMailer.candidate_invites([invite_1, invite_2])
+    CandidateMailer.candidate_invites(candidate, [invite_1, invite_2])
   end
 
   def candidate_invites_two_providers
@@ -636,7 +636,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       candidate:,
     )
 
-    CandidateMailer.candidate_invites(pool_invites)
+    CandidateMailer.candidate_invites(candidate, pool_invites)
   end
 
 private
