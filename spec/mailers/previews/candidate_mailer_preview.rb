@@ -646,7 +646,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       :minimum_info,
       candidate: candidate,
       first_name: 'Fred',
-      )
+    )
 
     provider = FactoryBot.create(:provider)
     course_1, course_2 = FactoryBot.create_list(:course,
@@ -660,20 +660,20 @@ class CandidateMailerPreview < ActionMailer::Preview
       candidate:,
       provider: provider,
       course: course_1,
-      )
+    )
 
     provider_1_invite_2 = FactoryBot.create(
       :pool_invite,
       candidate:,
       provider: provider,
       course: course_2,
-      )
+    )
 
     other_invites = FactoryBot.create_list(
       :pool_invite,
       2,
       candidate:,
-      )
+    )
 
     pool_invites = [provider_1_invite_1, provider_1_invite_2] + other_invites
 
