@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_24_133016) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_14_083930) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1072,7 +1072,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_133016) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "adviser_sign_up_requests", "adviser_teaching_subjects", column: "teaching_subject_id"
-  add_foreign_key "adviser_sign_up_requests", "application_forms"
+  add_foreign_key "adviser_sign_up_requests", "application_forms", on_delete: :cascade
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
   add_foreign_key "application_choices", "course_options"
   add_foreign_key "application_feedback", "application_forms", on_delete: :cascade
