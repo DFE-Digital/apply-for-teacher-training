@@ -12,7 +12,7 @@ RSpec.describe CandidateMailer do
           pool_invite_1 = create(:pool_invite, candidate:, provider: create(:provider))
           pool_invite_2 = create(:pool_invite, candidate:, provider: create(:provider))
 
-          email = described_class.candidate_invites([
+          email = described_class.candidate_invites(candidate, [
             pool_invite_1,
             pool_invite_2,
           ])
@@ -29,7 +29,7 @@ RSpec.describe CandidateMailer do
           pool_invite_1 = create(:pool_invite, candidate:, provider:)
           pool_invite_2 = create(:pool_invite, candidate:, provider:)
 
-          email = described_class.candidate_invites([
+          email = described_class.candidate_invites(candidate, [
             pool_invite_1,
             pool_invite_2,
           ])
@@ -47,7 +47,7 @@ RSpec.describe CandidateMailer do
                                  first_name: 'Joe')
       pool_invites = create_list(:pool_invite, 2, candidate:)
 
-      email = described_class.candidate_invites(pool_invites)
+      email = described_class.candidate_invites(candidate, pool_invites)
 
       expect(email.to).to eq(['candidate@email.address'])
       expect(email.body).to have_text('Dear Joe,')
@@ -55,8 +55,6 @@ RSpec.describe CandidateMailer do
       pool_invites.each do |invite|
         expect(email.body).to have_content invite.course.provider.name
         expect(email.body).to have_content invite.course.name_and_code
-        # expect(email.body).to have_content invite.course.start_date.strftime('%-d %B %Y')
-        # expect(email.body).to have_content candidate_interface_course_invite_url(invite)
       end
     end
   end
