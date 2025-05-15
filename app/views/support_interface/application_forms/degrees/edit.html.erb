@@ -1,17 +1,59 @@
-<% content_for :browser_title, title_with_error_prefix('Edit GCSE', @degree_form.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix(t('.page_title', subject: @degree_form.subject.capitalize), @degree_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@degree_form.application_form)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @degree_form, url: support_interface_application_form_update_degree_path do |f| %>
       <%= f.govuk_error_summary %>
+        <h1 class="govuk-heading-l">
+          <%= t('.page_title', subject: @degree_form.subject.capitalize) %>
+        </h1>
 
-      <%= f.govuk_fieldset legend: { text: "Edit #{@degree_form.subject.capitalize} degree details", size: 'l' } do %>
-        <%= f.govuk_text_field :start_year, label: { text: 'Start year', size: 'm' }, maxlength: 4, inputmode: 'numeric' %>
-        <%= f.govuk_text_field :award_year, label: { text: 'Award year', size: 'm' }, maxlength: 4, inputmode: 'numeric' %>
+        <%= f.govuk_text_field :start_year, label: { text: t('.start_year'), size: 'm' }, width: 20, maxlength: 4, inputmode: 'numeric' %>
+        <%= f.govuk_text_field :award_year, label: { text: t('.award_year'), size: 'm' }, width: 20, maxlength: 4, inputmode: 'numeric' %>
+        <% if @degree_form.international %>
+          <%= f.govuk_radio_buttons_fieldset(:has_enic_reference, legend: { text: t('.has_enic_reference'), size: 'm' }) do %>
+          <%= f.govuk_radio_button :has_enic_reference, 'yes', label: { text: 'Yes' } do %>
+            <%= f.govuk_text_field(
+                  :enic_reference,
+                  label: { text: t('.enic_reference'), size: 'm' },
+                  hint: { text: t('.enic_hint') },
+                  width: 20,
+                ) %>
+            <%= f.govuk_radio_buttons_fieldset(
+                  :comparable_uk_degree,
+                  legend: { text: t('.select_the_comparable_uk_degree'), size: 'm' },
+                  hint: { text: t('.comparable_uk_degree_hint') },
+                ) do %>
+              <% @degree_form.comparable_degree_options.each_with_index do |value, index| %>
+                <%= f.govuk_radio_button(
+                      :comparable_uk_degree,
+                      value,
+                      label: { text: t(".comparable_degrees.#{value}") },
+                      link_errors: index.zero?,
+                    ) %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%= f.govuk_radio_button :has_enic_reference, 'no', label: { text: 'No' } do %>
+            <%= f.govuk_radio_buttons_fieldset(
+                  :enic_reason,
+                  legend: { text: t('.select_a_reason') },
+                ) do %>
+              <% @degree_form.enic_reason_options.each_with_index do |value, index| %>
+                <%= f.govuk_radio_button(
+                      :enic_reason,
+                      value,
+                      label: { text: t(".enic_reasons.#{value}") },
+                      link_errors: index.zero?,
+                    ) %>
+              <% end %>
+            <% end %>
+
+          <% end %>
+        <% end %>
       <% end %>
-
-        <%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.edit_address_details_form.audit_comment.label'), size: 'm' }, hint: { text: t('support_interface.edit_address_details_form.audit_comment.hint') } %>
+      <%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.edit_address_details_form.audit_comment.label'), size: 'm' }, hint: { text: t('support_interface.edit_address_details_form.audit_comment.hint') } %>
 
       <%= f.govuk_submit 'Update details' %>
     <% end %>
