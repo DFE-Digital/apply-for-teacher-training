@@ -1,4 +1,9 @@
 en:
+  candidate_interface:
+    english_foreign_language:
+      summary_list_review_component:
+        subtitle: "English as a foreign language assessment"
+        
   activemodel:
     errors:
       models:

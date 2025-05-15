@@ -23,7 +23,7 @@
 
   <% if @application_form.international_applicant? %>
     <% if @application_form.english_proficiency.present? %>
-      <%= render(CandidateInterface::ChooseEflReviewComponent.call(@application_form.english_proficiency)) %>
+      <%= render(CandidateInterface::EnglishForeignLanguage::SummaryListReviewComponent.new(application_form:)) %>
     <% else %>
       <%= render(CandidateInterface::IncompleteSectionComponent.new(section: 'efl', section_path: candidate_interface_english_foreign_language_start_path, error: nil)) %>
     <% end %>
