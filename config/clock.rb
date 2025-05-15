@@ -14,6 +14,10 @@ class Clock
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true)
   end
 
+  every(5.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI', skip_first_run: true) do
+    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true)
+  end
+
   # Hourly jobs
 
   every(1.hour, 'SendFindStartOfCycleProviderEmails', at: '**:05') { StartOfCycleNotificationWorker.perform_async }
