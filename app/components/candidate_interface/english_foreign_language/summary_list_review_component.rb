@@ -6,12 +6,18 @@ class CandidateInterface::EnglishForeignLanguage::SummaryListReviewComponent < V
   end
 
   def efl_rows
-    [
-      assessment_type,
-      assessment_identifier,
-      grade,
-      award_year,
-    ].compact
+    if application_form.english_proficiency.has_qualification?
+      [
+        assessment_type,
+        assessment_identifier,
+        grade,
+        award_year,
+      ].compact
+    else
+      [
+        do_you_have_a_qualification_row,
+      ]
+    end
   end
 
 private
@@ -65,6 +71,26 @@ private
       key: { text: 'Year completed' },
       value: { text: qualification.award_year },
     }
+  end
+
+  def do_you_have_a_qualification_row
+    {
+      key: { text: 'Have you done an English as a foreign language assessment?' },
+      value: summary,
+    }
+  end
+
+  def summary
+    if application_form.english_proficiency.qualification_not_needed?
+      { text: 'No, English is not a foreign language to me' }
+    else
+      content = [
+        tag.p('No, I have not done an English as a foreign language assessment', class: 'govuk-body'),
+        tag.p(application_form.english_proficiency.no_qualification_details, class: 'govuk-body'),
+      ].join.html_safe
+
+      { text: content }
+    end
   end
 
   def qualification
