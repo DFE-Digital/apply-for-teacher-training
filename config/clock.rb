@@ -14,7 +14,7 @@ class Clock
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true)
   end
 
-  every(5.minutes, 'FindACandidate::SendInviteEmailsWorker', skip_first_run: true) do
+  every(30.seconds, 'FindACandidate::SendInviteEmailsWorker', skip_first_run: true) do
     FindACandidate::SendInviteEmailsWorker.perform_async
   end
 
