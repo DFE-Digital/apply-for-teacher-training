@@ -115,9 +115,5 @@ module ProviderInterface
     def confidentiality_value
       reference.confidential ? 'No, this reference is confidential. Do not share it.' : 'Yes, if they request it.'
     end
-
-    def feedback_provided?
-      reference.feedback_provided?
-    end
   end
 end
