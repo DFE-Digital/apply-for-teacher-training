@@ -1,0 +1,4 @@
+en:
+  support_interface:
+    application_summary_component:
+      location: Within %{radius} miles of %{location}
