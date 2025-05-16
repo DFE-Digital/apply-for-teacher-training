@@ -3,36 +3,63 @@ module ProviderInterface
     include ActiveModel::Model
     include ActiveModel::Attributes
 
+    FILTERS = %w[location subject study_mode course_type visa_sponsorship].freeze
+
+    # filter attributes
     attribute :location
-    attribute :course_ids
-    attribute :study_types
-    attribute :course_types
-    attribute :visa_sponsorships
+    attribute :subject
+    attribute :study_mode
+    attribute :course_type
+    attribute :visa_sponsorship
 
-    ## Should this form have a save method?
-    ## Which saves the form to the current provider user?
-    ## This way we can make the form remember the field values?
-
-    # fix the filters
+    attr_reader :filters, :current_provider_user, :remove_filter
 
     validate :location_validity
 
+    def initialize(filter_params:, current_provider_user:, remove_filter:)
+      filter_params.compact_blank!
+      @current_provider_user = current_provider_user
+      @remove_filter = remove_filter
+
+      if filter_params.blank? && remove_filter.blank?
+        super(current_provider_user.find_a_candidate_filters)
+      else
+        super(filter_params)
+      end
+
+      @filters = attributes.compact
+    end
+
     def applied_filters
-      @applied_filters ||=
-        {
-          subject: course_ids, # course_ids should be subjects
-          study_mode: study_types,
-          course_type: course_types,
-          visa_sponsorship: visa_sponsorships, # should we make these match?
-        }.merge!(filter_params_with_location)
+      @applied_filters ||= current_provider_user.find_a_candidate_filters.merge(
+        filter_params_with_location,
+      ).with_indifferent_access
     end
 
     def applied_location_search?
       applied_filters[:origin].present?
     end
 
+    def save
+      if valid? && filters.any?
+        current_provider_user.update!(find_a_candidate_filters: filters)
+      elsif remove_filter && filters.blank?
+        current_provider_user.update!(find_a_candidate_filters: {})
+      end
+    end
+
     def subject_options
-      subjects = Subject.select("name, string_agg(id::text, ',') as ids").group(:name).order(:name)
+      # Need to check why we need to do this subject thing, where we group
+      Subject.select(:id, :name) # .group(:name, :id).order(:name)
+      struct = Struct.new(:id, :name)
+
+      Subject.all.map do |subject|
+        struct.new(
+          id: subject.id.to_s,
+          name: subject.name,
+        )
+      end
+
       # Should we scope to all subjects of the provider?
     end
 
@@ -47,7 +74,7 @@ module ProviderInterface
       end
     end
 
-    def study_type_options
+    def study_mode_options
       study_mode = Struct.new(:value, :name)
 
       CourseOption.study_modes.map do |_, value|

@@ -183,7 +183,7 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def when_i_filter_by_location
-    fill_in('original_location', with: 'Manchester')
+    fill_in('location', with: 'Manchester')
     click_link_or_button('Apply filters')
   end
 

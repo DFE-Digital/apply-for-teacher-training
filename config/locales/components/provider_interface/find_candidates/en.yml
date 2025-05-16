@@ -61,6 +61,18 @@ en:
         comparability: Comparability
         visually_hidden_enic_text: statement for %{qualification}
       filters_component:
+        title: Filter
+        selected_filters: Selected filters
+        clear_filters: Clear filters
+        subject: Subjects previously applied to
+        remove_subject_hint: Remove %{subject} subject filter
+        location: 'Town, city or postcode:'
+        remove_location_hint: Remove candidate location preference filter
+        study_mode: Study type
+        course_type: Course type
+        visa_sponsorship: Candidate’s visa requirements
+
+
         candidate_location_preference: 'Candidate location preferences'
         town_city_or_postcode: 'Town, city or postcode:'
       other_qualifications_component:

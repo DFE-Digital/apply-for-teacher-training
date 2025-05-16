@@ -5,20 +5,17 @@ module ProviderInterface
       before_action :redirect_to_applications_unless_provider_opted_in
 
       def index
-        @filter = ProviderInterface::CandidatePoolFilter.new(
-          filter_params:,
-          current_provider_user:,
-        )
+#        @filter = ProviderInterface::CandidatePoolFilter.new(
+#          filter_params:,
+#          current_provider_user:,
+#        )
         @filter_form = ProviderInterface::CandidatePoolFilterForm.new(
-          form_filter_params[:provider_interface_candidate_pool_filter_form],
+          filter_params: form_filter_params,
+          current_provider_user:,
+          remove_filter:,
         )
-        @filter_form.valid?
+        @filter_form.save
 
-        puts "FILTERS"
-        puts "FILTERS"
-        puts "FILTERS"
-        puts "FILTERS"
-        puts @filter_form.applied_filters
         @pagy, @application_forms = pagy(
           Pool::Candidates.application_forms_for_provider(
             providers: current_provider_user.providers,
@@ -44,15 +41,17 @@ module ProviderInterface
         redirect_to provider_interface_applications_path if invites.blank?
       end
 
+      def remove_filter
+        params.permit(:remove_filter)
+      end
+
       def form_filter_params
         params.permit(
-          provider_interface_candidate_pool_filter_form: [
-            :location,
-            course_ids: [],
-            study_types: [],
-            course_types: [],
-            visa_sponsorships: [],
-          ],
+          :location,
+          subject: [],
+          study_mode: [],
+          course_type: [],
+          visa_sponsorship: [],
         )
       end
 
