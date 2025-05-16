@@ -69,7 +69,6 @@ RSpec.describe 'Docs' do
       candidate_mailer-offer_30_day
       candidate_mailer-offer_40_day
       candidate_mailer-offer_50_day
-      candidate_mailer-course_invite
       candidate_mailer-find_a_candidate_feature_launch_email
       candidate_mailer-candidate_invites
     ]
