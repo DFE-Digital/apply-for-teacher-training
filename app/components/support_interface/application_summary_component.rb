@@ -184,7 +184,7 @@ module SupportInterface
       {
         key: 'Find a Candidate opt-in status',
         value: if candidate.published_opt_in_preferences.present?
-                 'Opted in'
+                 'Currently in the candidate pool'
                elsif candidate.published_preferences.last&.opt_out?
                  'Opted Out'
                else
