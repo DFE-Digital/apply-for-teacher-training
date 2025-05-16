@@ -1,0 +1,26 @@
+en:
+  support_interface:
+    application_forms:
+      degrees:
+        edit:
+          page_title: Edit %{subject} degree details
+          start_year: Start year
+          award_year: Award year
+          enic_reference: UK ENIC reference number
+          enic_hint: For example ‘4000228363’
+          select_the_comparable_uk_degree: Select the comparable UK degree
+          comparable_uk_degree_hint: As shown on the statement
+          has_enic_reference: Does the candidate have an ENIC reference number?
+          comparable_degrees:
+            bachelor_ordinary_degree: Bachelor (Ordinary) degree
+            bachelor_honours_degree: Bachelor (Honours) degree
+            postgraduate_certificate_or_diploma: Postgraduate Certificate / Postgraduate Diploma
+            masters_degree: Master’s degree / Integrated Master’s degree
+            doctor_of_philosophy: Doctor of Philosophy degree
+            post_doctoral_award: Post Doctoral award
+          select_a_reason: Select a reason
+          enic_reasons:
+            waiting: Candidate is waiting for it to arrive
+            maybe: Candidate will apply for one in the future
+            not_needed: Candidate does not need a statement of comparability
+

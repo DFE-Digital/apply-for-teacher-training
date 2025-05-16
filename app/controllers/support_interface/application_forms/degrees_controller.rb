@@ -25,7 +25,18 @@ module SupportInterface
     private
 
       def edit_application_params
-        params.expect(support_interface_application_forms_edit_degree_form: %i[start_year award_year audit_comment])
+        params.expect(
+          support_interface_application_forms_edit_degree_form:
+            %i[
+              start_year
+              award_year
+              has_enic_reference
+              enic_reference
+              comparable_uk_degree
+              enic_reason
+              audit_comment
+            ],
+        )
       end
     end
   end

@@ -261,6 +261,12 @@ en:
               blank: Award year cannot be blank
             start_year:
               blank: Start year cannot be blank
+            enic_reference:
+              blank: Enter an ENIC reference number
+            comparable_uk_degree:
+              blank: Select a comparable UK degree
+            enic_reason:
+              blank: Select a reason for not having an ENIC reference number
             audit_comment:
               blank: You must provide an audit comment
         support_interface/application_forms/edit_reference_feedback_form:

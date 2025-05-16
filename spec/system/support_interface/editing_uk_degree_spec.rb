@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Editing degree' do
   include DfESignInHelpers
 
-  scenario 'Support user edits degree', :with_audited do
+  scenario 'Support user edits uk degree', :with_audited do
     given_i_am_a_support_user
     and_an_application_exists
 
@@ -40,6 +40,8 @@ RSpec.describe 'Editing degree' do
   def then_i_see_a_prepopulated_form
     expect(page).to have_content('Edit Maths degree')
     expect(page).to have_css("input[value='1999']")
+
+    expect(page).to have_no_content 'Does the candidate have an ENIC reference number?'
   end
 
   def when_i_update_the_form

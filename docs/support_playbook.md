@@ -181,34 +181,9 @@ If you are asked to add an ENIC number to a qualification, you should first make
 
 For all international qualifications, you'll have to include an `institution_country`: https://github.com/DFE-Digital/apply-for-teacher-training/blob/78c9421d8582f63cfdec564b5c0677bfd787552c/config/initializers/countries_and_territories.rb
 
-***Degrees***
+***Non UK Degrees***
 
-It is most likely that you will only need to update the `enic_reference` and `comparable_uk_degree`, but you should look at the other relevant fields to make sure they also make sense
-
-Some notes about the required fields:
-
-- `enic_reference` This is a 10 digit number on the ENIC statement of comparability. It's call 'UK ENIC reference' on the statement.
-- `comparable_uk_degree` This is an enum, use one of these valid options https://github.com/DFE-Digital/apply-for-teacher-training/blob/7d61f9887494aae093ced34f587d5870528ba786/app/models/application_qualification.rb
-- `enic_reason` This will probably 'waiting'; should be updated to 'obtained'. See https://github.com/DFE-Digital/apply-for-teacher-training/blob/8fd1a3b8f31e69480927f491d833b39e3ccfb36c/app/models/application_qualification.rb#L63
-
-```ruby
-ApplicationQualification.find(QUALIFICATION_ID).update!(
-  enic_reference:,
-  comparable_uk_degree:,
-  audit_comment: ZENDESK_URL,
-  enic_reason:,
-
-  # Other things to check against the ENIC certificate
-  level: 'degree',
-  institution_name:,
-  institution_country:,
-  qualification_type: 'non_uk',
-  non_uk_qualification_type: nil, # not to be confused with the comparable_uk_degree. This can should be blank for degrees
-  award_year: AWARD_YEAR,
-  )
-````
-
-You may also be asked to remove ENIC / comparable_uk_degree information if the candidate has entered something like, 'awaiting response'. Just set the `enic_reference` and `comparable_uk_degree` to nil.
+Support users can update ENIC reference details on non-uk degrees directly.
 
 ***GCSEs***
 
