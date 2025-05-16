@@ -198,9 +198,16 @@ module SupportInterface
 
       location_preferences = candidate.published_preferences.last.location_preferences
 
+      value =
+        govuk_list do
+          location_preferences.map do |location|
+            tag.li t('.location', radius: location.within, location: location.name)
+          end.join.html_safe
+        end
+
       {
         key: 'Find a Candidate location preferences',
-        value: location_preferences.any? ? location_preferences.map(&:name).to_sentence : 'No location preferences recorded',
+        value: location_preferences.any? ? value : 'No location preferences recorded',
       }
     end
 
