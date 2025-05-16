@@ -21,8 +21,8 @@ RSpec.describe Pool::Invite do
 
   describe '.not_sent_to_candidate' do
     it 'returns invites that have not been sent to the candidate' do
-      not_sent_invite = build(:pool_invite, sent_to_candidate_at: nil)
-      _sent_invite = build(:pool_invite, sent_to_candidate_at: Time.current)
+      not_sent_invite = create(:pool_invite, sent_to_candidate_at: nil)
+      _sent_invite = create(:pool_invite, sent_to_candidate_at: Time.current)
 
       expect(described_class.not_sent_to_candidate).to contain_exactly(not_sent_invite)
     end
