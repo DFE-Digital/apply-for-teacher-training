@@ -112,7 +112,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::SummaryReviewComponen
   end
 
   it 'renders a review summary for a "qualification not needed" statement of english proficiency' do
-    application_form = create(:application_form, first_nationality: 'French')
+    application_form = create(:application_form, first_nationality: 'Polish')
     create(
       :english_proficiency,
       :qualification_not_needed,
