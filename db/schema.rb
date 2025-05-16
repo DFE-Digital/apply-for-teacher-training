@@ -755,6 +755,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_14_083930) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status", default: "draft", null: false
+    t.datetime "sent_to_candidate_at"
     t.index ["candidate_id"], name: "index_pool_invites_on_candidate_id"
     t.index ["course_id"], name: "index_pool_invites_on_course_id"
     t.index ["invited_by_id"], name: "index_pool_invites_on_invited_by_id"
