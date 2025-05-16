@@ -17,7 +17,6 @@ class ApplicationForm < ApplicationRecord
            :before_apply_opens?,
            :cycle_range_name_with_current_indicator,
            :decline_by_default_at,
-           :apply_deadline_at,
            :between_cycles?,
            :next_available_academic_year_range,
            :apply_reopens_at,

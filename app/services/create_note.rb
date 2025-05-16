@@ -1,6 +1,6 @@
 class CreateNote
   attr_accessor :application_choice, :message, :user
-  delegate :errors, :save!, :valid?, to: :note
+  delegate :errors, :valid?, to: :note
 
   def initialize(user:, application_choice:, message:)
     @application_choice = application_choice
