@@ -28,7 +28,7 @@ RSpec.describe 'Editing degree' do
     and_i_click('Update details')
     then_i_see_the_error('Select a reason for not having an ENIC reference number')
 
-    when_i_choose('I will apply for one in the future')
+    when_i_choose('Candidate will apply for one in the future')
     and_i_enter_an_audit_comment
     and_i_click('Update details')
     then_i_see_a_success_message

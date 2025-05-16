@@ -20,7 +20,7 @@ en:
             post_doctoral_award: Post Doctoral award
           select_a_reason: Select a reason
           enic_reasons:
-            waiting: I’m waiting for it to arrive
-            maybe: I will apply for one in the future
-            not_needed: I do not need a statement of comparability
+            waiting: Candidate is waiting for it to arrive
+            maybe: Candidate will apply for one in the future
+            not_needed: Candidate does not need a statement of comparability
 
