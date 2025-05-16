@@ -65,7 +65,7 @@ en:
         selected_filters: Selected filters
         clear_filters: Clear filters
         subject: Subjects previously applied to
-        remove_subject_hint: Remove %{subject} subject filter
+        remove_subject_hint: Remove subject filter
         location: 'Town, city or postcode:'
         remove_location_hint: Remove candidate location preference filter
         study_mode: Study type

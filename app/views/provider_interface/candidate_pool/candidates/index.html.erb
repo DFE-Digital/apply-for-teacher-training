@@ -5,18 +5,18 @@
 <p class="govuk-body"><%= t('.candidate_information_agreement') %></p>
 <p class="govuk-body"><%= t('.review_candidates') %></p>
 
-        <%# render PaginatedFilterComponent.new(filter: @filter, collection: @application_forms) %>
-
-
-<%= render ProviderInterface::FindCandidates::FiltersComponent.new(params:, filter: @filter_form) do %>
+<%= render ProviderInterface::FindCandidates::FiltersComponent.new(params:, filter: @filter) do %>
   <% if @application_forms.present? %>
-    <h2 class="govuk-heading-m"><%= t('.candidates_found', count: @pagy.count) %></h2>
+    <h2 class="govuk-heading-m">
+      <%= t('.candidates_found', count: @pagy.count) %>
+    </h2>
+
     <%= govuk_table do |table| %>
       <%= table.with_head do |head| %>
         <%= head.with_row do |row| %>
           <%= row.with_cell(text: t('.name')) %>
-          <% if @filter_form.applied_location_search? %>
-            <%= row.with_cell(text: t('.distance_from', origin: @filter_form.applied_filters[:original_location]), width: 'govuk-!-width-one-half') %>
+          <% if @filter.applied_location_search? %>
+            <%= row.with_cell(text: t('.distance_from', origin: @filter.applied_filters[:original_location]), width: 'govuk-!-width-one-half') %>
           <% end %>
         <% end %>
       <% end %>
@@ -39,7 +39,7 @@
               <% end %>
             <% end %>
             <%= row.with_cell do %>
-              <% if @filter_form.applied_location_search? %>
+              <% if @filter.applied_location_search? %>
                 <% if application_form.site_distance == -1 && application_form.candidate.preference_opt_in_with_no_location_preferences? %>
                   <%= t('.no_preferences') %>
                 <% else %>

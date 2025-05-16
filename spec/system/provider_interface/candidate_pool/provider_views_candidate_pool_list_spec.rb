@@ -5,12 +5,18 @@ RSpec.describe 'Providers views candidate pool list' do
   include DfESignInHelpers
 
   let(:current_provider) { create(:provider) }
+  let(:client) { instance_double(GoogleMapsAPI::Client) }
+  let(:api_response) { [{ name: 'BN1 1AA', place_id: }] }
+  let(:place_id) { 'test_id' }
 
   before do
     set_rejected_candidate_form
     set_declined_candidate_form
     set_visa_sponsorship_candidate_form
     set_withdrawn_no_longer_want_to_train_form
+
+    allow(GoogleMapsAPI::Client).to receive(:new).and_return(client)
+    allow(client).to receive(:autocomplete).and_return(api_response)
   end
 
   scenario 'View candidates' do
@@ -30,9 +36,34 @@ RSpec.describe 'Providers views candidate pool list' do
     then_i_expect_to_see_filtered_candidates([@visa_sponsorship_form])
     and_i_expect_to_see_the_updated_results_count
 
+    when_i_add_all_remaining_filters
+    the_i_expect_all_the_filter_to_be_applied
+    when_i_remove_some_filters
+    then_i_expect_the_only_the_remaining_filter_to_be_applied
+
+    when_i_visit_applications_page
+    and_i_go_back_to_find_a_candidate
+    then_i_expect_the_only_the_remaining_filter_to_be_applied
+
     when_i_click('Clear filters')
     then_i_expect_to_see_eligible_candidates_order_by_application_form_submitted_at
     and_i_expect_to_see_the_total_results_count
+  end
+
+  context 'with wrong location filter' do
+    let(:place_id) { 'wrong_location' }
+
+    scenario 'Provider inputs a wrong location in the filters' do
+      given_i_am_a_provider_user_with_dfe_sign_in
+      and_provider_user_exists
+      and_provider_is_opted_in_to_candidate_pool
+      and_i_sign_in_to_the_provider_interface
+
+      when_i_visit_the_find_candidates_page
+      when_i_add_a_invalid_location
+
+      then_i_see_an_error
+    end
   end
 
   scenario 'Provider cannot view candidates if not invited' do
@@ -155,6 +186,7 @@ RSpec.describe 'Providers views candidate pool list' do
   def when_i_visit_the_find_candidates_page
     visit provider_interface_candidate_pool_root_path
   end
+  alias_method(:and_i_go_back_to_find_a_candidate, :when_i_visit_the_find_candidates_page)
 
   def then_i_expect_to_see_eligible_candidates_order_by_application_form_submitted_at
     candidates = page.all('.govuk-table__body .govuk-table__row td:first-child').map(&:text)
@@ -188,7 +220,7 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def when_i_filter_by_visa_sponsorship
-    check('visa_sponsorship-required')
+    check('visa-sponsorship-required-field')
     click_link_or_button('Apply filters')
   end
 
@@ -215,5 +247,65 @@ RSpec.describe 'Providers views candidate pool list' do
 
   def and_i_expect_to_see_the_updated_results_count
     expect(page).to have_content('1 candidate found')
+  end
+
+  def when_i_add_all_remaining_filters
+    check("subject-#{Subject.first.id}-field")
+    check("subject-#{Subject.last.id}-field")
+    check('study-mode-full-time-field')
+    check('study-mode-part-time-field')
+    check('course-type-tda-field')
+    check('course-type-he-hes-sd-ss-sc-ssc-ta-field')
+    check('visa-sponsorship-not-required-field')
+    click_link_or_button('Apply filters')
+  end
+
+  def the_i_expect_all_the_filter_to_be_applied
+    within('.moj-filter__selected') do
+      expect(page).to have_link 'Remove candidate location preference filter Manchester'
+      expect(page).to have_link "Remove subject filter #{Subject.first.name}"
+      expect(page).to have_link "Remove subject filter #{Subject.last.name}"
+      expect(page).to have_link 'Full time'
+      expect(page).to have_link 'Part time'
+      expect(page).to have_link 'Undergraduate'
+      expect(page).to have_link 'Postgraduate'
+      expect(page).to have_link 'Needs a visa'
+      expect(page).to have_link 'Does not need a visa'
+    end
+  end
+
+  def when_i_remove_some_filters
+    within('.moj-filter__selected') do
+      click_link_or_button('Remove candidate location preference filter Manchester')
+      click_link_or_button("Remove subject filter #{Subject.last.name}")
+      click_link_or_button('Part time')
+      click_link_or_button('Undergraduate')
+      click_link_or_button('Needs a visa')
+    end
+  end
+
+  def then_i_expect_the_only_the_remaining_filter_to_be_applied
+    filters = page.all('.moj-filter__selected a').map(&:text)
+    expect(filters).to match([
+      'Clear filters',
+      "Remove subject filter #{Subject.first.name}",
+      'Full time',
+      'Postgraduate',
+      'Does not need a visa',
+    ])
+  end
+
+  def when_i_add_a_invalid_location
+    fill_in('location', with: 'wrong location')
+    click_link_or_button('Apply filters')
+  end
+
+  def then_i_see_an_error
+    expect(page).to have_content('There is a problem')
+    expect(page).to have_content('Town, city or postcode must be in the United Kingdom')
+  end
+
+  def when_i_visit_applications_page
+    visit provider_interface_applications_path
   end
 end
