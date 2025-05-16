@@ -197,11 +197,12 @@ module SupportInterface
       return if candidate.published_opt_in_preferences.blank?
 
       location_preferences = candidate.published_preferences.last.location_preferences
+      decorated_preferences = location_preferences.map { |location| LocationPreferenceDecorator.new(location) }
 
       value =
         govuk_list do
-          location_preferences.map do |location|
-            tag.li t('.location', radius: location.within, location: location.name)
+          decorated_preferences.map do |location|
+            tag.li t('.location', radius: location.within, location: location.decorated_name)
           end.join.html_safe
         end
 
