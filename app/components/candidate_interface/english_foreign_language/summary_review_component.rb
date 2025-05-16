@@ -1,4 +1,4 @@
-class CandidateInterface::EnglishForeignLanguage::SummaryListReviewComponent < ViewComponent::Base
+class CandidateInterface::EnglishForeignLanguage::SummaryReviewComponent < ViewComponent::Base
   attr_reader :application_form
 
   def initialize(application_form:)
@@ -24,8 +24,8 @@ private
 
   def assessment_type
     {
-      key: { text: 'Type of assessment' },
-      value: { text: qualification.name },
+      key: t('.type'),
+      value: qualification.name,
     }
   end
 
@@ -35,13 +35,13 @@ private
     case qualification.name
     when 'IELTS'
       {
-        key: { text: 'Test Report Form (TRF) number' },
-        value: { text: qualification.trf_number },
+        key: t('.trf'),
+        value: qualification.trf_number,
       }
     when 'TOEFL'
       {
-        key: { text: 'TOEFL registration number' },
-        value: { text: qualification.registration_number },
+        key: t('.toefl_registration'),
+        value: qualification.registration_number,
       }
     end
   end
@@ -50,46 +50,44 @@ private
     case qualification.name
     when 'IELTS'
       {
-        key: { text: 'Overall band score' },
-        value: { text: qualification.band_score },
+        key: t('.band_score'),
+        value: qualification.band_score,
       }
     when 'TOEFL'
       {
-        key: { text: 'Total score' },
-        value: { text: qualification.total_score },
+        key: t('.total_score'),
+        value: qualification.total_score,
       }
     else
       {
-        key: { text: 'Score or grade' },
-        value: { text: qualification.grade },
+        key: t('.grade'),
+        value: qualification.grade,
       }
     end
   end
 
   def award_year
     {
-      key: { text: 'Year completed' },
-      value: { text: qualification.award_year },
+      key: t('.award_year'),
+      value: qualification.award_year,
     }
   end
 
   def do_you_have_a_qualification_row
     {
-      key: { text: 'Have you done an English as a foreign language assessment?' },
+      key: t('.have_you_done_assessment'),
       value: summary,
     }
   end
 
   def summary
     if application_form.english_proficiency.qualification_not_needed?
-      { text: 'No, English is not a foreign language to me' }
+      t('.not_foreign_language')
     else
-      content = [
-        tag.p('No, I have not done an English as a foreign language assessment', class: 'govuk-body'),
+      [
+        tag.p(t('.no_assessment'), class: 'govuk-body'),
         tag.p(application_form.english_proficiency.no_qualification_details, class: 'govuk-body'),
       ].join.html_safe
-
-      { text: content }
     end
   end
 
