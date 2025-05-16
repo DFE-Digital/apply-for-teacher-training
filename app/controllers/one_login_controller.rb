@@ -6,7 +6,6 @@ class OneLoginController < ApplicationController
 
   def callback
     auth = request.env['omniauth.auth']
-    omniauth_params = request.env['omniauth.params'] || {}
     id_token_hint = auth&.credentials&.id_token
     candidate = OneLoginUser.authenticate_or_create_by(auth)
 
@@ -14,10 +13,10 @@ class OneLoginController < ApplicationController
       candidate:,
       id_token_hint:,
     )
+    parsed_origin_query = CGI.parse(URI.parse(request.env['omniauth.origin'])&.query) || {}
 
-    redirect_to candidate_interface_interstitial_path(
-      path: omniauth_params.fetch('path', nil),
-    )
+    redirect_url = parsed_origin_query.fetch('path', []).join.presence || candidate_interface_interstitial_path
+    redirect_to redirect_url
   rescue StandardError => e
     session_error = SessionError.create!(
       candidate: OneLoginUser.find_candidate(auth),
