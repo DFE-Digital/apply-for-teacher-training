@@ -5,6 +5,12 @@ class CandidateInterface::EnglishForeignLanguage::SummaryReviewComponent < ViewC
     @application_form = application_form
   end
 
+  def call
+    render SummaryCardComponent.new(rows: efl_rows, editable: false) do
+      render SummaryCardHeaderComponent.new(title: t('.subtitle'), heading_level: 3)
+    end
+  end
+
   def efl_rows
     if application_form.english_proficiency.has_qualification?
       [
