@@ -5,12 +5,3 @@ FactoryBot.define do
     dismissed_by factory: %i[provider_user]
   end
 end
-
-FactoryBot.define do
-  factory :pool_invite, class: 'Pool::Invite' do
-    candidate factory: %i[candidate]
-    provider factory: %i[provider]
-    invited_by factory: %i[provider_user]
-    course factory: %i[course]
-  end
-end
