@@ -563,14 +563,6 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.course_invite(pool_invite)
   end
 
-  def find_a_candidate_feature_launch_email
-    application_form = FactoryBot.create(
-      :application_form,
-      :minimum_info,
-    )
-    CandidateMailer.find_a_candidate_feature_launch_email(application_form)
-  end
-
 private
 
   def candidate

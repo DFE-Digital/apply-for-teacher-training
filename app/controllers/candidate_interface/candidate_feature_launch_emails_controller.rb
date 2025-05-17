@@ -1,8 +1,5 @@
 class CandidateInterface::CandidateFeatureLaunchEmailsController < CandidateInterface::CandidateInterfaceController
   def show
-    experiment = FieldTest::Experiment.find('find_a_candidate/candidate_feature_launch_email')
-    experiment.convert(current_candidate, goal: :link_clicked)
-
     redirect_to change_preferences_path
   end
 
