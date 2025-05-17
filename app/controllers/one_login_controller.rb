@@ -15,7 +15,9 @@ class OneLoginController < ApplicationController
     )
     parsed_origin_query = CGI.parse(URI.parse(request.env['omniauth.origin'])&.query) || {}
 
-    redirect_url = parsed_origin_query.fetch('path', []).join.presence || candidate_interface_interstitial_path
+    # TO CHECK: it is path is an array when coming from find -- it has two query parameters. (providerCode and courseCode)
+    # Check if it is an array if it does not have query parameters, or if there is to query paramters in the origin
+    redirect_url = parsed_origin_query.fetch('path', []).first.presence || candidate_interface_interstitial_path
     redirect_to redirect_url
   rescue StandardError => e
     session_error = SessionError.create!(
