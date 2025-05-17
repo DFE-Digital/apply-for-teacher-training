@@ -60,7 +60,6 @@ jobs:
     env:
       DEPLOY_ENV: ${{ inputs.environment || 'production'  }}
       BACKUP_FILE: ${{ inputs.backup-file || 'schedule'  }}
-      EXCLUDE_TABLES: ${{ inputs.exclude-tables }}
 
     steps:
     - uses: actions/checkout@v4
