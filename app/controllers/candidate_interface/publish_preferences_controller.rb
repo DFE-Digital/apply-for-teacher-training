@@ -5,7 +5,7 @@ module CandidateInterface
 
     def show
       @location_preferences = @preference.location_preferences.order(:created_at).map do |location|
-        CandidateInterface::LocationPreferenceDecorator.new(location)
+        LocationPreferenceDecorator.new(location)
       end
     end
 

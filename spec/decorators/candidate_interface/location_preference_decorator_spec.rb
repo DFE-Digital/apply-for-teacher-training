@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::LocationPreferenceDecorator do
+RSpec.describe LocationPreferenceDecorator do
   describe 'decorated_name' do
     context 'when provider is present' do
       it 'returns the provider in the name of the location preference' do
