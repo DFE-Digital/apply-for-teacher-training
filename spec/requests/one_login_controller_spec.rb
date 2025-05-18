@@ -32,6 +32,23 @@ RSpec.describe 'OneLoginController' do
       expect(response).to redirect_to(candidate_interface_interstitial_path)
     end
 
+    context 'when there is a url in the origin' do
+      let(:path) { candidate_interface_apply_from_find_url(providerCode: 'ABC', courseCode: '123') }
+      let(:origin) { candidate_interface_account_path(path:) }
+
+      before do
+        Rails.application.env_config['omniauth.origin'] = origin
+      end
+
+      it 'includes path in redirect' do
+        candidate = create(:candidate)
+        create(:one_login_auth, candidate:, token: '123')
+
+        get auth_one_login_callback_path
+        expect(response).to redirect_to(candidate_interface_interstitial_path(path:))
+      end
+    end
+
     context 'when there is no omniauth_hash' do
       let(:omniauth_hash) { nil }
 
