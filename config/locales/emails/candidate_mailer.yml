@@ -109,6 +109,5 @@ en:
             one: If this course is not in suitable location
             other: If these courses are not in suitable locations
           invite_to_submit:
-            one: "%{provider_name} have viewed your application details and are inviting you to submit an application for"
-#            other: The following providers have viewed your application details and are inviting you to submit applications
-            other: Providers have viewed your application details and are inviting you to submit applications to the following courses
+            one: "%{provider_name} have reviewed your application details and are inviting you to submit an application for"
+            other: The following providers have reviewed your application details and are inviting you to submit applications to their courses
