@@ -14,7 +14,6 @@ FactoryBot.define do
     after(:build) do |audit, evaluator|
       audit.auditable_type = 'ApplicationChoice'
       audit.auditable_id = evaluator.application_choice.id
-      audit.auditable = evaluator.application_choice
       audit.associated = evaluator.application_choice.application_form
       audit.audited_changes = evaluator.changes
     end
