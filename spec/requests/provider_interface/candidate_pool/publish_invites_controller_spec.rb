@@ -44,5 +44,36 @@ RSpec.describe 'ProviderInterface::CandidatePool::PublishInvitesController' do
       expect(response).to redirect_to(provider_interface_candidate_pool_root_path)
       expect(CandidateMailer).to have_received(:candidate_invites).with(candidate, [draft_invite])
     end
+
+    context 'when the grouped_invite_email feature flag is active' do
+      before do
+        FeatureFlag.activate(:grouped_invite_email)
+      end
+
+      it 'does not send the invite email' do
+        candidate = create(:candidate)
+        create(:candidate_preference, candidate:)
+        application_form = create(:application_form, :completed, candidate:)
+        course = create(:course, provider:, exposed_in_find: true)
+        course_option = create(:course_option, course: course)
+        create(:application_choice, :rejected, application_form:, course_option:)
+
+        draft_invite = create(
+          :pool_invite,
+          status: :draft,
+          candidate:,
+          provider:,
+          course: course,
+        )
+
+        post provider_interface_candidate_pool_candidate_draft_invite_publish_invite_path(
+          candidate,
+          draft_invite,
+        )
+
+        expect(response).to redirect_to(provider_interface_candidate_pool_root_path)
+        expect(CandidateMailer).not_to have_received(:candidate_invites).with(candidate, [draft_invite])
+      end
+    end
   end
 end
