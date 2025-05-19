@@ -147,5 +147,12 @@ RSpec.describe ApplicationHelper do
         expect(call).to be false
       end
     end
+
+    context 'when path is a full url with with valid path params' do
+      it 'returns true' do
+        url = candidate_interface_apply_from_find_url(providerCode: 'ABC', courseCode: '123')
+        expect(helper.valid_app_path(url)).to be true
+      end
+    end
   end
 end

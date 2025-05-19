@@ -70,7 +70,7 @@ RSpec.describe 'Candidate signs in' do
   def then_i_am_redirected_to_the_candidate_sign_in_path
     expect(page).to have_current_path(
       candidate_interface_create_account_or_sign_in_path(
-        path: '/candidate/application/details',
+        path: 'http://www.example.com/candidate/application/details',
       ),
     )
   end
