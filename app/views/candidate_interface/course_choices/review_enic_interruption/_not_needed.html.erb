@@ -10,7 +10,10 @@
 
     <div class="govuk-button-group app-course-choice__confirm-submission">
       <%= govuk_button_to(t('review_enic_interruption.not_needed.continue_button_text'), candidate_interface_course_choices_course_review_and_submit_path(@application_choice.id), method: :get) %>
-      <%= govuk_link_to(t('review_enic_interruption.not_needed.save_application_button_text'), candidate_interface_course_choices_course_review_path(@application_choice.id)) %>
+      <%= govuk_link_to(
+            t('review_enic_interruption.not_needed.save_application_button_text'),
+            @continue_without_editing_path,
+          ) %>
     </div>
   </div>
 </div>
