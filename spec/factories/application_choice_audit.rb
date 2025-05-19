@@ -14,6 +14,7 @@ FactoryBot.define do
     after(:build) do |audit, evaluator|
       audit.auditable_type = 'ApplicationChoice'
       audit.auditable_id = evaluator.application_choice.id
+      audit.auditable = evaluator.application_choice
       audit.associated = evaluator.application_choice.application_form
       audit.audited_changes = evaluator.changes
     end
@@ -51,14 +52,10 @@ FactoryBot.define do
     end
 
     trait :with_rejection_by_default_and_feedback do
-      application_choice factory: %i[application_choice rejected_by_default]
+      application_choice factory: %i[application_choice rejected_by_default_with_feedback]
 
       changes do
         { 'reject_by_default_feedback_sent_at' => [nil, Time.zone.now.iso8601] }
-      end
-
-      after(:build) do |audit, _evaluator|
-        audit.auditable.rejected_by_default = true
       end
     end
 

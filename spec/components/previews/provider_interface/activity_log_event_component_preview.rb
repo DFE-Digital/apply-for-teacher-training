@@ -23,7 +23,7 @@ module ProviderInterface
     end
 
     def rejected_by_default_with_feedback
-      @activity_log_event = build_event_for_choice :rejected_by_default_with_feedback
+      @activity_log_event = build_event_for_choice :with_rejection_by_default_and_feedback
       render_component
     end
 
@@ -79,12 +79,8 @@ module ProviderInterface
 
   private
 
-    def build_event_for_choice(*args)
-      choice_args = [:application_choice].concat(args).push(id: ApplicationChoice.all.sample.id)
-      choice = FactoryBot.build(*choice_args)
-
-      audit_args = [:application_choice_audit].concat(args).push(application_choice: choice)
-      audit = FactoryBot.build(*audit_args)
+    def build_event_for_choice(trait)
+      audit = FactoryBot.create(:application_choice_audit, trait)
       ActivityLogEvent.new(audit:)
     end
 
