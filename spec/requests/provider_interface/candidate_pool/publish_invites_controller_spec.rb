@@ -18,6 +18,8 @@ RSpec.describe 'ProviderInterface::CandidatePool::PublishInvitesController' do
         )
       mailer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
       allow(CandidateMailer).to receive(:candidate_invites).and_return(mailer)
+
+      FeatureFlag.deactivate(:grouped_invite_email)
     end
 
     it 'redirects to candidate_interface_interstitial_path' do
