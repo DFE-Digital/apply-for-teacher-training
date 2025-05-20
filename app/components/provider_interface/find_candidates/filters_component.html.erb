@@ -1,0 +1,156 @@
+<%= form_with model: filter, url: '', scope: '', method: :get do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <div class='moj-filter-layout'>
+    <div class="moj-filter-layout__filter app-filter">
+      <div class="moj-filter">
+        <div class="moj-filter__header">
+          <div class="moj-filter__header-title">
+            <h2 class="govuk-heading-m"><%= t('.title') %></h2>
+          </div>
+        </div>
+
+        <div class="moj-filter__content" tabindex="-1">
+          <% if filter.applied_filters.present? %>
+            <div class="moj-filter__selected">
+              <div class="moj-filter__selected-heading">
+                <div class="moj-filter__heading-title">
+                  <h3 class="govuk-heading-m govuk-!-margin-bottom-1">
+                    <%= t('.selected_filters') %>
+                  </h3>
+                  <p class="govuk-body">
+                    <%= govuk_link_to t('.clear_filters'), provider_interface_candidate_pool_root_path(remove_filters: true), no_visited_state: true %>
+                  </p>
+                </div>
+              </div>
+
+              <% filter.applied_filters.except(:origin).each do |name, value| %>
+                <div>
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-0">
+                    <%= t(".#{name}") %>
+                  </legend>
+
+                  <div class="govuk-!-margin-bottom-3">
+                    <% if value.is_a?(Array) %>
+                      <% value.each do |filter_value| %>
+                        <%= govuk_link_to(
+                          path_to_remove_filter(name, filter_value),
+                          filter_value,
+                          class: 'app-checkbox-filter__tag',
+                        ) do %>
+                          <span class="govuk-visually-hidden">
+                            <%= t(".remove_hint_#{name}") %>
+                          </span>
+                          <%= option_name(name, filter_value) %>
+                        <% end %>
+                      <% end %>
+                    <% else %>
+                      <%= govuk_link_to(
+                        path_to_remove_location,
+                        value,
+                        class: 'app-checkbox-filter__tag',
+                      ) do %>
+                        <span class="govuk-visually-hidden">
+                          <%= t('.remove_location_hint') %>
+                        </span>
+                        <%= value %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+
+          <div class="moj-filter__options">
+            <%= f.govuk_submit t('.apply_filters') %>
+
+            <div class="govuk-form-group filter-group">
+              <h3 class="govuk-heading-m">
+                <%= t('.candidate_location_preference') %>
+              </h3>
+
+              <div class="govuk-input__wrapper location-autocomplete"
+                data-controller="location-autocomplete"
+                data-location-autocomplete-path-value="<%= provider_interface_location_suggestions_path %>">
+                <%= f.govuk_text_field(
+                  :location,
+                  data: { location_autocomplete_target: 'input' },
+                  label: { text: t('.location'), class: 'govuk-fieldset__legend govuk-fieldset__legend--s' },
+                ) %>
+              </div>
+            </div>
+
+            <div class="govuk-form-group filter-group">
+              <h3 class="govuk-heading-m">
+                <%= t('.candidate_course_preferences') %>
+              </h3>
+              <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                <%= t('.subjects_applied_to') %>
+              </legend>
+              <div class="govuk-checkboxes__item">
+                <div class="app-checkbox-filter app-checkbox-filter--enhanced" id="subject">
+                  <div class="app-checkbox-filter__container">
+                    <div class="app-checkbox-filter__container-inner">
+                      <%= f.govuk_collection_check_boxes(
+                        :subject,
+                        subject_options,
+                        :value,
+                        :name,
+                        legend: nil,
+                        small: true,
+                        include_hidden: false,
+                      ) %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="govuk-form-group filter-group">
+              <%= f.govuk_collection_check_boxes(
+                :study_mode,
+                study_mode_options,
+                :value,
+                :name,
+                legend: { text: t('.study_mode'), size: 's' },
+                small: true,
+                include_hidden: false,
+              ) %>
+            </div>
+
+            <div class="govuk-form-group filter-group">
+              <%= f.govuk_collection_check_boxes(
+                :course_type,
+                course_type_options,
+                :value,
+                :name,
+                legend: { text: t('.course_type'), size: 's' },
+                small: true,
+                include_hidden: false,
+              ) %>
+            </div>
+
+            <div class="govuk-form-group filter-group">
+              <h3 class="govuk-heading-m">
+                <%= t('.candidate_visa_requirements') %>
+              </h3>
+              <%= f.govuk_collection_check_boxes(
+                :visa_sponsorship,
+                visa_sponsorship_options,
+                :value,
+                :name,
+                legend: nil,
+                small: true,
+                include_hidden: false,
+              ) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='moj-filter-layout__content'>
+      <%= content %>
+    </div>
+  </div>
+<% end %>

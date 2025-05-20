@@ -61,6 +61,25 @@ en:
         grade: Grade
         comparability: Comparability
         visually_hidden_enic_text: statement for %{qualification}
+      filters_component:
+        title: Filter
+        selected_filters: Selected filters
+        clear_filters: Clear filters
+        subject: Subjects previously applied to
+        remove_hint_subject: Remove subject filter
+        remove_hint_study_mode: Remove study type filter
+        remove_hint_course_type: Remove course type filter
+        remove_hint_visa_sponsorship: Remove visa sponsorship filter
+        location: 'Town, city or postcode:'
+        remove_location_hint: Remove candidate location preference filter
+        study_mode: Study type
+        course_type: Course type
+        visa_sponsorship: Candidate’s visa requirements
+        subjects_applied_to: Subjects previously applied to
+        candidate_location_preference: Candidate location preferences
+        candidate_course_preferences: Candidate course preferences
+        candidate_visa_requirements: Candidate’s visa requirements
+        apply_filters: Apply filters
       other_qualifications_component:
         caption: A levels and other qualifications
         qualification: Type
@@ -74,5 +93,10 @@ en:
       efl_qualification_card_component:
         type_of_assessment: Type of assessment
         year_completed: Year completed
-
-
+  activemodel:
+    errors:
+      models:
+        provider_interface/candidate_pool_filter:
+          attributes:
+            location:
+              invalid_location: Town, city or postcode must be in the United Kingdom

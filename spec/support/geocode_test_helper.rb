@@ -13,5 +13,19 @@ module GeocodeTestHelper
         },
       ],
     )
+
+    Geocoder::Lookup::Test.add_stub(
+      'm4_place_id', [
+        {
+          'coordinates' => [53.4874112, -2.2274845],
+          'address' => 'M4 Manchester',
+          'state' => 'England',
+          'country' => 'United Kingdom',
+          'country_code' => 'UK',
+        },
+      ]
+    )
+
+    Geocoder::Lookup::Test.add_stub('wrong_location', [])
   end
 end
