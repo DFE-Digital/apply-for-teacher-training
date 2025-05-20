@@ -7,7 +7,13 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <% if @pool_invite.available_courses.present? %>
-      <%= render 'form', pool_invite: @pool_invite, candidate: @candidate %>
+      <%= render(
+        'form',
+        pool_invite: @pool_invite,
+        candidate: @candidate,
+        url: provider_interface_candidate_pool_candidate_draft_invites_path,
+        method: :post
+      ) %>
     <% else %>
       <p class="govuk-body"><%= t('.no_available_courses') %> </p>
     <% end %>
