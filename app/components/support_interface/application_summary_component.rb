@@ -186,7 +186,7 @@ module SupportInterface
         value: if application_form_in_the_pool?
                  'Currently in the candidate pool'
                elsif candidate.published_opt_in_preferences.present?
-                 'Opted in (not in pool)'
+                 'Opted in (not currently in the candidate pool)'
                elsif candidate.published_preferences.last&.opt_out?
                  'Opted Out'
                else
