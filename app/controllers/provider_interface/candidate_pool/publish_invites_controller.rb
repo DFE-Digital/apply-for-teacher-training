@@ -13,7 +13,13 @@ module ProviderInterface
           )
 
           if @pool_invite.valid?
-            invite.published!
+            ActiveRecord::Base.transaction do
+              invite.published!
+              if FeatureFlag.inactive?(:grouped_invite_email)
+                invite.sent_to_candidate!
+                CandidateMailer.candidate_invites(invite.candidate, [invite]).deliver_later
+              end
+            end
 
             flash[:success] = t(
               '.success',
@@ -22,8 +28,6 @@ module ProviderInterface
               course: invite.course.name_code_and_course_provider,
             )
             redirect_to provider_interface_candidate_pool_root_path
-
-            CandidateMailer.course_invite(invite).deliver_later
           else
             render '/provider_interface/candidate_pool/draft_invites/edit'
           end
