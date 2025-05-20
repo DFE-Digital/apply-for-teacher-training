@@ -10,13 +10,13 @@ module ProviderInterface
     attribute :course_type
     attribute :visa_sponsorship
 
-    attr_reader :filters, :current_provider_user, :remove_filter, :suggested_location
+    attr_reader :filters, :current_provider_user, :remove_filters, :suggested_location
 
     validate :location_validity
 
-    def initialize(filter_params:, current_provider_user:, remove_filter:)
+    def initialize(filter_params:, current_provider_user:, remove_filters:)
       @current_provider_user = current_provider_user
-      @remove_filter = remove_filter
+      @remove_filters = remove_filters
       @suggested_location ||= LocationSuggestions.new(
         filter_params[:location] || current_provider_user.find_a_candidate_filters['location'],
       ).call.first
@@ -41,7 +41,7 @@ module ProviderInterface
     def save
       if valid? && filters.any?
         current_provider_user.update!(find_a_candidate_filters: filters)
-      elsif remove_filter && filters.blank?
+      elsif remove_filters && filters.blank?
         current_provider_user.update!(find_a_candidate_filters: {})
       end
     end
@@ -51,7 +51,7 @@ module ProviderInterface
     def filter_attributes(filter_params)
       filter_params.compact_blank!
 
-      if filter_params.blank? && remove_filter.blank?
+      if filter_params.blank? && remove_filters.blank?
         current_provider_user.find_a_candidate_filters.with_indifferent_access
       else
         if filter_params[:location].present? && suggested_location

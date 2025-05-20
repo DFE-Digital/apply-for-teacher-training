@@ -37,7 +37,7 @@ RSpec.describe 'Providers views candidate pool list' do
     and_i_expect_to_see_the_updated_results_count
 
     when_i_add_all_remaining_filters
-    the_i_expect_all_the_filter_to_be_applied
+    then_i_expect_all_the_filters_to_be_applied
     when_i_remove_some_filters
     then_i_expect_the_only_the_remaining_filter_to_be_applied
 
@@ -220,7 +220,7 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def when_i_filter_by_visa_sponsorship
-    check('visa-sponsorship-required-field')
+    check('Needs a visa')
     click_link_or_button('Apply filters')
   end
 
@@ -258,17 +258,17 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def when_i_add_all_remaining_filters
-    check("subject-#{first_subject.id}-field")
-    check("subject-#{last_subject.id}-field")
-    check('study-mode-full-time-field')
-    check('study-mode-part-time-field')
-    check('course-type-tda-field')
-    check('course-type-he-hes-sd-ss-sc-ssc-ta-field')
-    check('visa-sponsorship-not-required-field')
+    check(first_subject.name)
+    check(last_subject.name)
+    check('Full time')
+    check('Part time')
+    check('Undergraduate')
+    check('Postgraduate')
+    check('Does not need a visa')
     click_link_or_button('Apply filters')
   end
 
-  def the_i_expect_all_the_filter_to_be_applied
+  def then_i_expect_all_the_filters_to_be_applied
     within('.moj-filter__selected') do
       expect(page).to have_link 'Remove candidate location preference filter Manchester'
       expect(page).to have_link "Remove subject filter #{first_subject.name}"
@@ -311,6 +311,7 @@ RSpec.describe 'Providers views candidate pool list' do
   def then_i_see_an_error
     expect(page).to have_content('There is a problem')
     expect(page).to have_content('Town, city or postcode must be in the United Kingdom')
+    expect(page).to have_title('Error: Find candidates - Manage teacher training applications - GOV.UK')
   end
 
   def when_i_visit_applications_page

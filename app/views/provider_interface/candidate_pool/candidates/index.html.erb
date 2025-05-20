@@ -1,4 +1,4 @@
-<% content_for :browser_title, t('.title') %>
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @filter.errors.any?) %>
 <%= render ServiceInformationBanner.new(namespace: :provider) %>
 
 <h1 class="govuk-heading-l"><%= t('.title') %></h1>

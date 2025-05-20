@@ -26,7 +26,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filter: {},
+          remove_filters: {},
         )
 
         expect(filter.valid?).to be false
@@ -46,7 +46,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filter: {},
+          remove_filters: {},
         )
 
         expect(filter.valid?).to be true
@@ -64,7 +64,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
       filter = described_class.new(
         filter_params:,
         current_provider_user:,
-        remove_filter: {},
+        remove_filters: {},
       )
       filter.save
 
@@ -90,7 +90,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params: {},
           current_provider_user:,
-          remove_filter: {},
+          remove_filters: {},
         )
 
         expect(filter.applied_filters).to eq(
@@ -116,7 +116,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filter: {},
+          remove_filters: {},
         )
         filter.save
 
@@ -139,7 +139,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filter: {},
+          remove_filters: {},
         )
         filter.save
 
@@ -161,7 +161,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filter: {},
+          remove_filters: {},
         )
         expect { filter.save }.to change {
           current_provider_user.find_a_candidate_filters
@@ -181,7 +181,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filter: {},
+          remove_filters: {},
         )
 
         expect { filter.save }.not_to change {
@@ -200,7 +200,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params: {},
           current_provider_user:,
-          remove_filter: { remove_filter: true },
+          remove_filters: { remove_filters: true },
         )
 
         expect { filter.save }.to change {
@@ -217,7 +217,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
       filter = described_class.new(
         filter_params:,
         current_provider_user:,
-        remove_filter: {},
+        remove_filters: {},
       )
       filter.save
       filter.applied_filters
@@ -230,7 +230,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
       filter = described_class.new(
         filter_params: {},
         current_provider_user:,
-        remove_filter: {},
+        remove_filters: {},
       )
       filter.save
       filter.applied_filters
