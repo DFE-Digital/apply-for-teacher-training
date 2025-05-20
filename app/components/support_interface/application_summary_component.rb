@@ -184,13 +184,13 @@ module SupportInterface
       {
         key: 'Find a Candidate opt-in status',
         value: if application_form_in_the_pool?
-                 'Currently in the candidate pool'
+                 t('.findable')
                elsif candidate.published_opt_in_preferences.present?
-                 'Opted in (not currently in the candidate pool)'
+                 t('.opted_in')
                elsif candidate.published_preferences.last&.opt_out?
-                 'Opted Out'
+                 t('.opted_out')
                else
-                 'No status recorded'
+                 t('.no_status')
                end,
       }
     end

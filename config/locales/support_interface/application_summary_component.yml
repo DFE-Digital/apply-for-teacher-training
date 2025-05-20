@@ -1,4 +1,8 @@
 en:
   support_interface:
     application_summary_component:
+      findable: Currently findable by providers
+      opted_in: Opted in (not findable)
+      opted_out: Opted Out
+      no_status: No status recorded
       location: Within %{radius} miles of %{location}
