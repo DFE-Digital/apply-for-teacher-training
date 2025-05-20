@@ -1,0 +1,66 @@
+<%= content_for :title, t('.title') %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">
+      <%= t('.what_we_are_working_on') %>
+    </span>
+    <h1 class="govuk-heading-l">
+      <%= t('.find_candidates_product_roadmap') %>
+    </h1>
+    <p class="govuk-body">
+      <%= t('.this_roadmap_shows') %>
+    </p>
+    <p class="govuk-body">
+      <%= t('.some_thing_on_the_roadmap_might_change') %>
+    </p>
+    <p class="govuk-body">
+      <%= t('.last_updated') %>
+    </p>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+    <h2 class="govuk-heading-m">
+      <%= t('.recently_released') %>
+    </h2>
+    <p class="govuk-body">
+      <%= t('.available_to_use_now') %>
+    </p>
+    <%= govuk_list(
+          [
+            t('.launched_opt_in'),
+            t('.launched_test_version'),
+          ],
+          type: :bullet,
+        ) %>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+    <h2 class="govuk-heading-m">
+      <%= t('.working_on_now') %>
+    </h2>
+    <p class="govuk-body">
+      <%= t('.priority_at_the_moment') %>
+    </p>
+    <%= govuk_list(
+          [
+            t('.tailor_invite_emails'),
+            t('.opt_out_reasons'),
+          ],
+          type: :bullet,
+        ) %>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+    <h2 class="govuk-heading-m">
+      <%= t('.exploring') %>
+    </h2>
+    <p class="govuk-body">
+      <%= t('.we_are_doing_research') %>
+    </p>
+    <%= govuk_list(
+          [
+            t('.candidate_experience'),
+            t('.provider_usage'),
+            t('.track_applications'),
+          ],
+          type: :bullet,
+        ) %>
+  </div>
+</div>
