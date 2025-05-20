@@ -18,7 +18,11 @@
     <div class="govuk-button-group app-course-choice__confirm-submission">
       <h2 class="govuk-heading-s"><%= t('review_undergraduate_interruption.would_you_like_to_continue') %></h2>
 
-      <%= govuk_button_to(t('review_undergraduate_interruption.continue'), candidate_interface_course_choices_course_review_and_submit_path(@application_choice.id), method: :get) %>
+      <%= govuk_button_to(
+            t('review_undergraduate_interruption.continue'),
+            @continue_without_editing_path,
+            method: :get,
+          ) %>
 
       <%= govuk_link_to(t('review_undergraduate_interruption.go_to_account'), candidate_interface_details_path) %>
     </div>

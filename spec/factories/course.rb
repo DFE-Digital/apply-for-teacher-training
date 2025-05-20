@@ -75,7 +75,7 @@ FactoryBot.define do
       description { 'Teacher degree apprenticeship with QTS' }
 
       qualifications { %w[qts undergraduate_degree] }
-      program_type { 'teacher_degree_apprenticeship' }
+      program_type { 'TDA' }
       course_length { '4 years' }
     end
 

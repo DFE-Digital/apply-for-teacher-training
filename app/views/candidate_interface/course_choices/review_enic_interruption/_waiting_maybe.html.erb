@@ -11,7 +11,10 @@
 
     <div class="govuk-button-group app-course-choice__confirm-submission">
       <%= govuk_button_to(t('review_enic_interruption.waiting_maybe.enter_enic'), candidate_interface_details_path, method: :get) %>
-      <%= govuk_link_to(t('review_enic_interruption.waiting_maybe.without_entering_enic'), candidate_interface_course_choices_course_review_and_submit_path(@application_choice.id)) %>
+      <%= govuk_link_to(
+            t('review_enic_interruption.waiting_maybe.without_entering_enic'),
+            @continue_without_editing_path,
+          ) %>
     </div>
   </div>
 </div>

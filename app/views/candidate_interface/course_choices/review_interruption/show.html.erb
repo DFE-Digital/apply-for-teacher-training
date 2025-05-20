@@ -19,7 +19,11 @@
 
       <%= govuk_button_to(t('review_interruption.edit_statement_button_text'), candidate_interface_edit_becoming_a_teacher_path, method: :get) %>
 
-      <%= render CandidateInterface::ContinueWithoutEditing.new(current_application:, application_choice: @application_choice) %>
+      <%= govuk_link_to(
+            t('review_interruption.continue_without_editing'),
+            @continue_path,
+          ) %>
+
     </div>
   </div>
 </div>
