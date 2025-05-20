@@ -8,6 +8,7 @@ shared:
     - id
     - pool_status
     - status
+    - opt_out_reason
     - dynamic_location_preferences
     - candidate_id
     - created_at
