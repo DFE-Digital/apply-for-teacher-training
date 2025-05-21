@@ -66,10 +66,6 @@ module CandidateInterface
         preference.published!
         current_candidate.published_preferences.where.not(id: preference.id).destroy_all
       end
-
-      # This will have no effect if the candidate has not been sent the email
-      exp = FieldTest::Experiment.find('find_a_candidate/candidate_feature_launch_email')
-      exp.convert(current_candidate, goal: :opt_out)
     end
   end
 end
