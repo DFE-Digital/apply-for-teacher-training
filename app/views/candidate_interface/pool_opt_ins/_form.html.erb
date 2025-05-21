@@ -3,7 +3,13 @@
 
   <%= f.govuk_radio_buttons_fieldset :pool_status, legend: { text: t('.title'), size: 'l', class: 'govuk-!-margin-bottom-6' }, hint: { text: t('.body'), class: 'radio-buttons-fieldset-hint' } do %>
     <%= f.govuk_radio_button :pool_status, :opt_in, label: { text: 'Yes' }, link_errors: true %>
-    <%= f.govuk_radio_button :pool_status, :opt_out, label: { text: 'No' } %>
+    <%= f.govuk_radio_button :pool_status, :opt_out, label: { text: 'No' } do %>
+      <%= f.govuk_text_area(
+        :opt_out_reason,
+        label: { text: t('.reason_for_opting_out') },
+        max_words: 200,
+      ) %>
+    <% end %>
   <% end %>
 
   <%= f.govuk_submit %>

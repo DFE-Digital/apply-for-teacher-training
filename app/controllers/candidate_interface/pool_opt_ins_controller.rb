@@ -62,7 +62,7 @@ module CandidateInterface
 
     def request_params
       params.fetch(:candidate_interface_pool_opt_ins_form, {}).permit(
-        :pool_status,
+        :pool_status, :opt_out_reason
       )
     end
 
