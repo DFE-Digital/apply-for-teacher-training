@@ -17,6 +17,8 @@ class SupportInterface::Candidates::BulkUnsubscribesController < SupportInterfac
 private
 
   def bulk_unsubscribe_params
-    params.expect(bulk_unsubscribe: [:email_addresses])
+    params.expect(
+      bulk_unsubscribe: %i[email_addresses audit_comment],
+    ).merge(audit_user:)
   end
 end
