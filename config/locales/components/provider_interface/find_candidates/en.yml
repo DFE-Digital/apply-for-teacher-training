@@ -74,11 +74,10 @@ en:
         remove_location_hint: Remove candidate location preference filter
         study_mode: Study type
         course_type: Course type
-        visa_sponsorship: Candidate’s visa requirements
+        visa_sponsorship: Candidate visa requirements
         subjects_applied_to: Subjects previously applied to
         candidate_location_preference: Candidate location preferences
         candidate_course_preferences: Candidate course preferences
-        candidate_visa_requirements: Candidate’s visa requirements
         apply_filters: Apply filters
       other_qualifications_component:
         caption: A levels and other qualifications
