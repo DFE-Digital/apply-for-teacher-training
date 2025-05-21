@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Candidate review application when visa deadline has passed' do
-  before do
-    FeatureFlag.activate(:early_application_deadlines_for_candidates_with_visa_sponsorship)
-  end
-
   scenario 'Candidate with a draft application', time: mid_cycle do
     given_i_require_visa_sponsorship
     given_have_a_draft_application_for_a_course_with_a_visa_sponsorship_application_deadline_in_the_past

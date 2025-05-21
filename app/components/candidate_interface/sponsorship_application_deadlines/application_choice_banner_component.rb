@@ -8,8 +8,7 @@ module CandidateInterface
       end
 
       def render?
-        FeatureFlag.active?(:early_application_deadlines_for_candidates_with_visa_sponsorship) &&
-          application_choice.unsubmitted? &&
+        application_choice.unsubmitted? &&
           application_form.requires_visa_sponsorship? &&
           course.visa_sponsorship_application_deadline_at.present? &&
           course.visa_sponsorship_application_deadline_at.between?(Time.zone.now, 20.days.from_now)
