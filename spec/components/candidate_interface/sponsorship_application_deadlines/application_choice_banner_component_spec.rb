@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::SponsorshipApplicationDeadlines::ApplicationChoiceBannerComponent do
-  before do
-    FeatureFlag.activate(:early_application_deadlines_for_candidates_with_visa_sponsorship)
-  end
-
   context 'unsubmitted choice requires sponsorship and course has deadlines' do
     let(:application_form) { create(:application_form, right_to_work_or_study: 'no') }
     let(:course_option) { create(:course_option, course: create(:course, visa_sponsorship_application_deadline_at:)) }
@@ -97,20 +93,6 @@ RSpec.describe CandidateInterface::SponsorshipApplicationDeadlines::ApplicationC
 
     it 'does not render component' do
       application_choice = create(:application_choice, :awaiting_provider_decision, course_option:, application_form:)
-      rendered = render_inline(described_class.new(application_choice:))
-
-      expect(rendered.text).to eq ''
-    end
-  end
-
-  context 'feature flag is off' do
-    let(:application_form) { create(:application_form, right_to_work_or_study: 'no') }
-    let(:course_option) { create(:course_option, course: create(:course, visa_sponsorship_application_deadline_at: 4.days.from_now)) }
-
-    it 'does not render component' do
-      FeatureFlag.deactivate(:early_application_deadlines_for_candidates_with_visa_sponsorship)
-      application_choice = create(:application_choice, :unsubmitted, course_option:, application_form:)
-
       rendered = render_inline(described_class.new(application_choice:))
 
       expect(rendered.text).to eq ''
