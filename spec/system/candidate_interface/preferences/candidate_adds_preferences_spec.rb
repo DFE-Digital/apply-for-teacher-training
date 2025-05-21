@@ -201,7 +201,7 @@ RSpec.describe 'Candidate adds preferences' do
   def then_i_see_an_error
     expect(page).to have_content 'There is a problem'
     expect(page.title).to include 'Error:'
-    expect(page).to have_content('Enter a reason of 200 words or fewer').twice
+    expect(page).to have_content('Reason for not sharing your application details must be 200 words or less').twice
   end
 
   def when_i_enter_a_reason_with_fewer_words

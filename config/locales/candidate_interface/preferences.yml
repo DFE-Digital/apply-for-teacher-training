@@ -96,7 +96,7 @@ en:
             pool_status:
               blank: Select whether to make your application details visible to other training providers
             opt_out_reason:
-              too_many_words: Enter a reason of %{maximum} words or fewer
+              too_many_words: Reason for not sharing your application details must be %{maximum} words or less
         candidate_interface/location_preferences_form:
           attributes:
             within:
