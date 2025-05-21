@@ -46,8 +46,8 @@ class Pool::Candidates
       .distinct
   end
 
-  def curated_application_forms(application_forms_scope = ApplicationForm.all)
-    current_cycle_forms = application_forms_scope.current_cycle
+  def curated_application_forms(application_forms_scope = ApplicationForm.current_cycle)
+    current_cycle_forms = application_forms_scope
 
     # Subquery: To exclude forms with live applications (eg, being considered by the provider, or recruited / deferred)
     forms_with_live_applications = current_cycle_forms
