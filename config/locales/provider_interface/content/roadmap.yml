@@ -16,16 +16,17 @@ en:
           Launched the candidate opt-in to data sharing flow, including training location preference capture and editing
           functionality in Apply for teacher training.
         launched_test_version: >
-          Launched the test version of the ‘Find Candidates’ feature in Manage teacher training applications, including
+          Launched the test version of the Find candidates feature in Manage teacher training applications, including
           filters to narrow down the list of results and per candidate pages.
         working_on_now: Working on now
-        priority_at_the_moment: These things are our priority at the moment, you should see them in Find a candidate soon.
+        priority_at_the_moment: >
+          These things are our priority at the moment, you should see them in the Find candidates feature soon.
         tailor_invite_emails: Functionality for providers to tailor invite emails.
         opt_out_reasons: Free-text capture of opt-out reasons from candidates.
         exploring: Exploring
         we_are_doing_research: >
-          We are doing research and testing these ideas. Some of them might make it into Find a candidate in future but
-          some might not.
+          We are doing research and testing these ideas. Some of them might make it into the Find candidates feature in
+          future but some might not.
         candidate_experience: Gain further insight on the candidate experience across the opt-in and invite touch-points.
         provider_usage: Gain further insight on provider usage of the test feature to identify priority iterations.
         track_applications: >
