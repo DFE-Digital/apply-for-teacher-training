@@ -46,19 +46,8 @@ class Pool::Candidates
       .distinct
   end
 
-private
-
-  def filtered_application_forms
-    scope = curated_application_forms
-    scope = filter_by_subject(scope)
-    scope = filter_by_study_mode(scope)
-    scope = filter_by_course_type(scope)
-    scope = filter_by_right_to_work_or_study(scope)
-    filter_by_distance(scope)
-  end
-
-  def curated_application_forms
-    current_cycle_forms = ApplicationForm.current_cycle
+  def curated_application_forms(application_forms_scope = ApplicationForm.current_cycle)
+    current_cycle_forms = application_forms_scope
 
     # Subquery: To exclude forms with live applications (eg, being considered by the provider, or recruited / deferred)
     forms_with_live_applications = current_cycle_forms
@@ -91,6 +80,17 @@ private
       .where(id: forms_with_available_slots)
       .where.not(id: forms_with_live_applications.select('application_forms.id'))
       .where.not(id: forms_that_have_been_withdrawn_for_not_wanting_to_train.select('application_forms.id'))
+  end
+
+private
+
+  def filtered_application_forms
+    scope = curated_application_forms
+    scope = filter_by_subject(scope)
+    scope = filter_by_study_mode(scope)
+    scope = filter_by_course_type(scope)
+    scope = filter_by_right_to_work_or_study(scope)
+    filter_by_distance(scope)
   end
 
   def filter_by_distance(application_forms_scope)

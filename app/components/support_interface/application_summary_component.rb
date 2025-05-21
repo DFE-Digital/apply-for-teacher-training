@@ -28,6 +28,8 @@ module SupportInterface
         editable_extension_row,
         one_login_account_row,
         unsubscribed_from_emails,
+        find_a_candidate_state_row,
+        find_a_candidate_location_preferences_row,
       ].compact
     end
 
@@ -176,6 +178,47 @@ module SupportInterface
 
     def subscribed_to_emails?
       candidate.subscribed_to_emails?
+    end
+
+    def find_a_candidate_state_row
+      {
+        key: 'Find a Candidate opt-in status',
+        value: if application_form_in_the_pool?
+                 t('.findable')
+               elsif candidate.published_opt_in_preferences.present?
+                 t('.opted_in')
+               elsif candidate.published_preferences.last&.opt_out?
+                 t('.opted_out')
+               else
+                 t('.no_status')
+               end,
+      }
+    end
+
+    def find_a_candidate_location_preferences_row
+      return if candidate.published_opt_in_preferences.blank?
+
+      location_preferences = candidate.published_opt_in_location_preferences
+      decorated_preferences = location_preferences.map { |location| LocationPreferenceDecorator.new(location) }
+
+      value =
+        govuk_list do
+          decorated_preferences.map do |location|
+            tag.li t('.location', radius: location.within, location: location.decorated_name)
+          end.join.html_safe
+        end
+
+      {
+        key: 'Find a Candidate location preferences',
+        value: location_preferences.any? ? value : 'No location preferences recorded',
+      }
+    end
+
+    def application_form_in_the_pool?
+      return false if candidate.submission_blocked? || candidate.account_locked?
+      return false if candidate.published_opt_in_preferences.blank?
+
+      Pool::Candidates.new(providers: []).curated_application_forms(ApplicationForm.where(id: application_form.id)).present?
     end
 
     attr_reader :application_form
