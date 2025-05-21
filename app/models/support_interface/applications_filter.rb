@@ -36,6 +36,23 @@ module SupportInterface
         application_forms = application_forms.joins(:application_choices).where(application_choices: { status: applied_filters[:status] })
       end
 
+      if applied_filters[:opt_in_status]&.include?('findable')
+        application_forms = Pool::Candidates.new(providers: []).curated_application_forms
+      end
+
+      # Chain these statements to mirror the logic in application_summary_component, i.e. if not findable but opted in, show opted in.
+      if applied_filters[:opt_in_status]&.include?('opt_in')
+        application_forms = application_forms
+          .joins(candidate: :published_preferences)
+          .where(published_preferences: { pool_status: 'opt_in' })
+      end
+
+      if applied_filters[:opt_in_status]&.include?('opt_out')
+        application_forms = application_forms
+          .joins(candidate: :published_preferences)
+          .where(published_preferences: { pool_status: 'opt_out' })
+      end
+
       if applied_filters[:subject].present?
         application_forms = application_forms.joins(courses: :subjects).where(subjects: { name: applied_filters[:subject] })
       end
@@ -71,7 +88,7 @@ module SupportInterface
     end
 
     def filters
-      @filters ||= [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, status_filter, subject_filter, nationality_filter]
+      @filters ||= [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, status_filter, find_a_candidate_opt_in_status_filter, subject_filter, nationality_filter]
     end
 
   private
@@ -127,6 +144,31 @@ module SupportInterface
             value: 'apply_2',
             label: 'Apply 2',
             checked: applied_filters[:phase]&.include?('apply_2'),
+          },
+        ],
+      }
+    end
+
+    def find_a_candidate_opt_in_status_filter
+      {
+        type: :checkboxes,
+        heading: 'Find a Candidate opt-in status',
+        name: 'opt_in_status',
+        options: [
+          {
+            value: 'findable',
+            label: 'Findable by providers',
+            checked: applied_filters[:opt_in_status]&.include?('findable'),
+          },
+          {
+            value: 'opt_in',
+            label: 'Opted in (not findable)',
+            checked: applied_filters[:opt_in_status]&.include?('opt_in'),
+          },
+          {
+            value: 'opt_out',
+            label: 'Opted out',
+            checked: applied_filters[:opt_in_status]&.include?('opt_out'),
           },
         ],
       }
