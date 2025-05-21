@@ -42,7 +42,7 @@ module SupportInterface
         },
         {
           type: :checkboxes,
-          heading: tag.h3('Candidate’s visa requirements', class: 'govuk-heading-m govuk-!-margin-bottom-0'),
+          heading: tag.h3('Candidate visa requirements', class: 'govuk-heading-m govuk-!-margin-bottom-0'),
           name: 'visa_sponsorship',
           options: visa_sponsorship_options,
         },
