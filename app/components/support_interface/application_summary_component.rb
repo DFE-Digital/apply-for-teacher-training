@@ -218,7 +218,7 @@ module SupportInterface
       return false if candidate.submission_blocked? || candidate.account_locked?
       return false if candidate.published_opt_in_preferences.blank?
 
-      Pool::Candidates.new(providers: []).application_forms_in_the_pool.exists?(id: application_form.id)
+      Pool::Candidates.new(providers: []).curated_application_forms(ApplicationForm.where(id: application_form.id)).present?
     end
 
     attr_reader :application_form
