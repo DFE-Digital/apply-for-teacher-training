@@ -118,6 +118,22 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_application_choices
   end
 
+  scenario 'Candidate opts out of find a candidate and gives a reason' do
+    given_i_am_signed_in
+    and_feature_flag_is_enabled
+
+    visit new_candidate_interface_pool_opt_in_path
+    and_i_opt_out_to_find_a_candidate
+    and_i_enter_a_reason_with_too_many_words
+    when_i_click('Continue')
+    then_i_see_an_error
+
+    when_i_enter_a_reason_with_fewer_words
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_application_choices
+  end
+
   def given_i_am_signed_in
     given_i_am_signed_in_with_one_login
     @application = create(
@@ -173,6 +189,26 @@ RSpec.describe 'Candidate adds preferences' do
 
   def and_i_opt_out_to_find_a_candidate
     choose 'No'
+  end
+
+  def and_i_enter_a_reason_with_too_many_words
+    fill_in(
+      'Why do you not want to share your application details with other providers? (Optional)',
+      with: Faker::Lorem.sentence(word_count: 201),
+    )
+  end
+
+  def then_i_see_an_error
+    expect(page).to have_content 'There is a problem'
+    expect(page.title).to include 'Error:'
+    expect(page).to have_content('Enter a reason of 200 words or fewer').twice
+  end
+
+  def when_i_enter_a_reason_with_fewer_words
+    fill_in(
+      'Why do you not want to share your application details with other providers? (Optional)',
+      with: Faker::Lorem.sentence(word_count: 199),
+    )
   end
 
   def when_i_click(button)

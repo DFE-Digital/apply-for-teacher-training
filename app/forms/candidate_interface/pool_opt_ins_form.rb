@@ -3,10 +3,11 @@ module CandidateInterface
     include ActiveModel::Model
     DEFAULT_RADIUS = 10
 
-    attr_accessor :pool_status
+    attr_accessor :pool_status, :opt_out_reason
     attr_reader :current_candidate, :preference
 
     validates :pool_status, presence: true
+    validates :opt_out_reason, word_count: { maximum: 200 }, if: -> { pool_status == 'opt_out' }
 
     def initialize(current_candidate:, preference: nil, params: {})
       @current_candidate = current_candidate
@@ -20,6 +21,7 @@ module CandidateInterface
         preference:,
         params: {
           pool_status: preference.pool_status,
+          opt_out_reason: preference.opt_out_reason,
         },
       )
     end
@@ -27,9 +29,14 @@ module CandidateInterface
     def save
       return if invalid?
 
+      kwargs = {
+        pool_status:,
+        opt_out_reason: pool_status == 'opt_in' ? nil : opt_out_reason,
+      }
+
       if preference.present?
         ActiveRecord::Base.transaction do
-          preference.update!(pool_status: pool_status)
+          preference.update!(**kwargs)
 
           if preference.opt_out?
             preference_opt_out!(preference)
@@ -39,7 +46,7 @@ module CandidateInterface
         end
       else
         ActiveRecord::Base.transaction do
-          @preference = current_candidate.preferences.create(pool_status:)
+          @preference = current_candidate.preferences.create(**kwargs)
 
           if @preference.opt_out?
             preference_opt_out!(@preference)

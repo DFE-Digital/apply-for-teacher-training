@@ -54,6 +54,7 @@ en:
       form:
         title: Do you want to make your application details visible to other training providers?
         body: When you have no applications that are waiting for a decision from a provider, other providers will be able to see your application details and invite you to apply to their courses.
+        reason_for_opting_out: Why do you not want to share your application details with other providers? (Optional)
     location_preferences:
       index:
         title: Location preferences
@@ -94,6 +95,8 @@ en:
           attributes:
             pool_status:
               blank: Select whether to make your application details visible to other training providers
+            opt_out_reason:
+              too_many_words: Enter a reason of %{maximum} words or fewer
         candidate_interface/location_preferences_form:
           attributes:
             within:
