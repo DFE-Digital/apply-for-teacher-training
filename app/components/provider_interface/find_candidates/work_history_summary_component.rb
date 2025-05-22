@@ -19,7 +19,7 @@ class ProviderInterface::FindCandidates::WorkHistorySummaryComponent < ViewCompo
 
   def work_history_text
     if !work_history? && full_time_education?
-      t('.full_time_education')
+      'No, I have always been in full time education'
     else
       work_history? ? 'Yes' : 'No'
     end
