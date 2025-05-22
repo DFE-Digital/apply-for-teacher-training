@@ -14,6 +14,10 @@ class Clock
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true)
   end
 
+  every(15.minutes, 'FindACandidate::PopulatePoolWorker', skip_first_run: true) do
+    FindACandidate::PopulatePoolWorker.perform_async
+  end
+
   # Hourly jobs
 
   every(1.hour, 'SendFindStartOfCycleProviderEmails', at: '**:05') { StartOfCycleNotificationWorker.perform_async }
