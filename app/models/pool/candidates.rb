@@ -85,7 +85,10 @@ class Pool::Candidates
 private
 
   def filtered_application_forms
-    scope = curated_application_forms
+    application_form_ids = PoolEligibleApplicationForm.where('created_at >= ?', Time.zone.today.beginning_of_day).pluck(:application_form_id)
+    eligible_applications = ApplicationForm.current_cycle.where(id: application_form_ids)
+
+    scope = curated_application_forms(eligible_applications)
     scope = filter_by_subject(scope)
     scope = filter_by_study_mode(scope)
     scope = filter_by_course_type(scope)
