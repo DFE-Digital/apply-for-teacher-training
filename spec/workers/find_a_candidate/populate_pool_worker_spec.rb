@@ -31,7 +31,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
       application_form = create(:application_form)
       create(:candidate_pool_application, application_form: application_form)
 
-      pool_candidates_double = instance_double(Pool::Candidates, curated_application_forms: ApplicationForm.where(id: application_form.id))
+      pool_candidates_double = instance_double(Pool::Candidates, curated_application_forms: ApplicationForm.none)
       allow(Pool::Candidates).to receive(:new).and_return(pool_candidates_double)
 
       expect {
