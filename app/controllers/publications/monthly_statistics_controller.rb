@@ -9,7 +9,7 @@ module Publications
     end
 
     def by_month
-      @report = MonthlyStatistics::MonthlyStatisticsReport.current_report_at(month)
+      @report = MonthlyStatistics::MonthlyStatisticsReport.current_published_report_at(month)
       render_report
     end
 
@@ -23,7 +23,7 @@ module Publications
     end
 
     def download
-      @report = MonthlyStatistics::MonthlyStatisticsReport.current_report_at(month)
+      @report = MonthlyStatistics::MonthlyStatisticsReport.current_published_report_at(month)
 
       return render 'errors/not_found', status: :not_found, formats: :html unless csv.exists?
 

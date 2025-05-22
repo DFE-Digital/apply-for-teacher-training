@@ -10,6 +10,28 @@ RSpec.describe Publications::MonthlyStatistics::MonthlyStatisticsReport do
     it { is_expected.to validate_presence_of :month }
   end
 
+  describe 'scopes' do
+    describe '.published' do
+      it 'returns only reports with publication dates in the past' do
+        create(
+          :monthly_statistics_report,
+          :v2,
+          publication_date: 1.day.from_now,
+          generation_date: 1.day.ago,
+        )
+
+        published_report = create(
+          :monthly_statistics_report,
+          :v2,
+          publication_date: 1.day.ago,
+          generation_date: 1.day.ago,
+        )
+
+        expect(described_class.published).to eq [published_report]
+      end
+    end
+  end
+
   describe '#draft?' do
     context 'when report is generated but not published' do
       subject(:report) do
@@ -61,16 +83,17 @@ RSpec.describe Publications::MonthlyStatistics::MonthlyStatisticsReport do
   end
 
   describe '#current_period' do
+    upcoming_publication_date = Date.new(2021, 12, 22)
     let!(:current_report) do
-      create(:monthly_statistics_report, :v1, month: '2021-12')
+      create(:monthly_statistics_report, :v1, month: '2021-12', publication_date: upcoming_publication_date)
     end
     let!(:previous_report) do
-      create(:monthly_statistics_report, :v1, month: '2021-11')
+      create(:monthly_statistics_report, :v1, month: '2021-11', publication_date: upcoming_publication_date - 1.month)
     end
 
     context 'when today is before the publishing date in the current month' do
       it 'returns the previous report' do
-        travel_temporarily_to(Date.new(2021, 12, 21)) do
+        travel_temporarily_to(upcoming_publication_date - 1.day) do
           expect(described_class.current_period).to eq(previous_report)
         end
       end
@@ -85,27 +108,27 @@ RSpec.describe Publications::MonthlyStatistics::MonthlyStatisticsReport do
     end
   end
 
-  describe '.current_report_at' do
+  describe '.current_published_report_at' do
     let!(:report) do
       create(
         :monthly_statistics_report,
         :v2,
         generation_date: Time.zone.local(2023, 11, 20),
-        publication_date: Time.zone.local(2023, 11, 27),
+        publication_date: Time.zone.local(2023, 11, 23),
         month: '2023-11',
       )
     end
 
     context 'when requesting for existing report' do
       it 'returns report for the given month' do
-        expect(described_class.current_report_at(Date.new(2023, 11, 1))).to eq(report)
+        expect(described_class.current_published_report_at(Date.new(2023, 11, 1))).to eq(report)
       end
     end
 
     context 'when requesting for report that does not exist' do
       it 'raises ActiveRecord::RecordNotFound' do
         expect {
-          described_class.current_report_at(Date.new(2023, 10, 1))
+          described_class.current_published_report_at(Date.new(2023, 10, 1))
         }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
