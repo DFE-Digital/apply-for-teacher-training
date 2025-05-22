@@ -7,6 +7,7 @@ RSpec.describe Candidate::PoolEligibleApplicationFormWorker do
     it 'creates PoolEligibleApplicationForm records' do
       rejected_candidate = create(:candidate)
       rejected_candidate_form = create(:application_form, :completed, candidate: rejected_candidate)
+      create(:pool_eligible_application_form, application_form: rejected_candidate_form)
       create(:candidate_preference, candidate: rejected_candidate)
       create(:application_choice, :rejected, application_form: rejected_candidate_form)
 

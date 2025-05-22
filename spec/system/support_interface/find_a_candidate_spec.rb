@@ -44,6 +44,7 @@ RSpec.describe 'Support user views candidate pool list' do
       candidate: declined_candidate,
       submitted_at: Time.zone.today,
     )
+    create(:pool_eligible_application_form, application_form: @declined_candidate_form)
     create(:application_choice, :declined, application_form: @declined_candidate_form)
 
     previous_cycle_form = create(
@@ -68,6 +69,7 @@ RSpec.describe 'Support user views candidate pool list' do
       candidate: rejected_candidate,
       submitted_at: 1.day.ago,
     )
+    create(:pool_eligible_application_form, application_form: @rejected_candidate_form)
     course_option = create(
       :course_option,
       course: create(:course, provider: current_provider),
@@ -91,6 +93,7 @@ RSpec.describe 'Support user views candidate pool list' do
       submitted_at: 6.hours.ago,
       right_to_work_or_study: :no,
     )
+    create(:pool_eligible_application_form, application_form: @visa_sponsorship_form)
     course_option = create(
       :course_option,
       course: create(:course, provider: current_provider),
@@ -112,6 +115,7 @@ RSpec.describe 'Support user views candidate pool list' do
       candidate: no_longer_wants_to_train_candidate,
       submitted_at: 3.hours.ago,
     )
+    create(:pool_eligible_application_form, application_form: @withdrawn_no_longer_wants_to_train_form)
     course_option = create(
       :course_option,
       course: create(:course, provider: current_provider),

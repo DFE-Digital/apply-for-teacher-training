@@ -39,6 +39,7 @@ RSpec.describe 'Providers views candidate pool details' do
       candidate: @rejected_candidate,
       submitted_at: 1.day.ago,
     )
+    create(:pool_eligible_application_form, application_form: @rejected_candidate_form)
     subjects = create_list(:subject, 2)
     course = create(:course)
     course.subjects << subjects
