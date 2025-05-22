@@ -6,18 +6,16 @@ class FindACandidate::PopulatePoolWorker
   def perform
     application_forms_eligible_for_pool = Pool::Candidates.new(providers: [])
                                                           .curated_application_forms
-                                                          .pluck(:id, :candidate_id)
+                                            .select('application_forms.id as application_form_id, application_forms.candidate_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP')
 
-    candidate_application_insert_data = application_forms_eligible_for_pool.map do |application_form_id, candidate_id|
-      {
-        application_form_id: application_form_id,
-        candidate_id: candidate_id,
-      }
-    end
+    insert_all_from_eligible_sql = <<~SQL
+      INSERT INTO candidate_pool_applications (application_form_id, candidate_id, created_at, updated_at)
+      #{application_forms_eligible_for_pool.to_sql}
+    SQL
 
     CandidatePoolApplication.transaction do
       CandidatePoolApplication.delete_all
-      CandidatePoolApplication.insert_all(candidate_application_insert_data)
+      ActiveRecord::Base.connection.execute(insert_all_from_eligible_sql)
     end
   end
 end

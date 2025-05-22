@@ -5,7 +5,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     it 'creates CandidatePoolApplication records' do
       application_form = create(:application_form)
 
-      pool_candidates_double = instance_double(Pool::Candidates, curated_application_forms: [application_form])
+      pool_candidates_double = instance_double(Pool::Candidates, curated_application_forms: ApplicationForm.where(id: application_form.id))
       allow(Pool::Candidates).to receive(:new).and_return(pool_candidates_double)
 
       expect {
@@ -19,7 +19,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
       application_form = create(:application_form)
       create(:candidate_pool_application, application_form: application_form)
 
-      pool_candidates_double = instance_double(Pool::Candidates, curated_application_forms: [application_form])
+      pool_candidates_double = instance_double(Pool::Candidates, curated_application_forms: ApplicationForm.where(id: application_form.id))
       allow(Pool::Candidates).to receive(:new).and_return(pool_candidates_double)
 
       expect {
@@ -31,7 +31,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
       application_form = create(:application_form)
       create(:candidate_pool_application, application_form: application_form)
 
-      pool_candidates_double = instance_double(Pool::Candidates, curated_application_forms: [])
+      pool_candidates_double = instance_double(Pool::Candidates, curated_application_forms: ApplicationForm.where(id: application_form.id))
       allow(Pool::Candidates).to receive(:new).and_return(pool_candidates_double)
 
       expect {
@@ -44,7 +44,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
       new_application_for_pool = create(:application_form)
       create(:candidate_pool_application, application_form: existing_application_in_pool)
 
-      pool_candidates_double = instance_double(Pool::Candidates, curated_application_forms: [new_application_for_pool])
+      pool_candidates_double = instance_double(Pool::Candidates, curated_application_forms: ApplicationForm.where(id: new_application_for_pool.id))
       allow(Pool::Candidates).to receive(:new).and_return(pool_candidates_double)
 
       expect {
