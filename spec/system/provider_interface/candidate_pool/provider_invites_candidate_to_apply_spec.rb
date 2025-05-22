@@ -111,7 +111,6 @@ RSpec.describe 'Providers invites candidates' do
       candidate: @candidate,
       submitted_at: 1.day.ago,
     )
-    create(:pool_eligible_application_form, application_form: rejected_candidate_form)
     create(:application_choice, :rejected, application_form: rejected_candidate_form)
   end
 
