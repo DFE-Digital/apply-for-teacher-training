@@ -37,14 +37,13 @@ module SupportInterface
       end
 
       if applied_filters[:opt_in_status]&.include?('findable')
-        application_forms = Pool::Candidates.new(providers: []).curated_application_forms
+        application_forms = Pool::Candidates.new(providers: []).curated_application_forms.joins(candidate: :published_opt_in_preferences)
+        .where(candidate: { submission_blocked: false, account_locked: false }) # change this to check the new table that will have been produced
       end
 
-      # Chain these statements to mirror the logic in application_summary_component, i.e. if not findable but opted in, show opted in.
       if applied_filters[:opt_in_status]&.include?('opt_in')
         application_forms = application_forms
-          .joins(candidate: :published_preferences)
-          .where(published_preferences: { pool_status: 'opt_in' })
+          .joins(candidate: :published_opt_in_preferences)
       end
 
       if applied_filters[:opt_in_status]&.include?('opt_out')
