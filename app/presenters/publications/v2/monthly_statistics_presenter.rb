@@ -84,10 +84,20 @@ module Publications
         report_timetable.current_year?
       end
 
-      delegate :next_publication_date, to: :MonthlyStatisticsTimetable
-
       def previous_year
         previous_timetable.recruitment_cycle_year
+      end
+
+      def next_publication_date
+        if next_report_to_be_published.present?
+          next_report_to_be_published.publication_date
+        else
+          MonthlyStatisticsTimetable.next_publication_date
+        end
+      end
+
+      def next_report_to_be_published
+        @next_report_to_be_published ||= Publications::MonthlyStatistics::MonthlyStatisticsReport.drafts.order(:publication_date).first
       end
 
       def next_year
