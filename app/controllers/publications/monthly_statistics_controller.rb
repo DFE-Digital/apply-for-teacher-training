@@ -9,7 +9,8 @@ module Publications
     end
 
     def by_month
-      @report = MonthlyStatistics::MonthlyStatisticsReport.current_published_report_at(month)
+      @report = MonthlyStatistics::MonthlyStatisticsReport.find_by!(month:)
+
       render_report
     end
 
@@ -23,7 +24,7 @@ module Publications
     end
 
     def download
-      @report = MonthlyStatistics::MonthlyStatisticsReport.current_published_report_at(month)
+      @report = MonthlyStatistics::MonthlyStatisticsReport.find_by!(month:)
 
       return render 'errors/not_found', status: :not_found, formats: :html unless csv.exists?
 
@@ -58,7 +59,7 @@ module Publications
     end
 
     def month
-      Date.parse("#{params[:month]}-01")
+      params.expect(:month)
     rescue Date::Error
       raise ActiveRecord::RecordNotFound
     end
