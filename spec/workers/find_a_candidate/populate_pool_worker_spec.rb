@@ -4,7 +4,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
   describe '#perform' do
     it 'creates CandidatePoolApplication records' do
       application_form = create(:application_form)
-      stub_curated_application_forms(application_form.id)
+      stub_application_forms_in_the_pool(application_form.id)
 
       expect {
         described_class.new.perform
@@ -16,7 +16,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     it 'does not create duplicate CandidatePoolApplication records' do
       application_form = create(:application_form)
       create(:candidate_pool_application, application_form: application_form)
-      stub_curated_application_forms(application_form.id)
+      stub_application_forms_in_the_pool(application_form.id)
 
       expect {
         described_class.new.perform
@@ -26,7 +26,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     it 'removes existing CandidatePoolApplication records before inserting new ones' do
       application_form = create(:application_form)
       create(:candidate_pool_application, application_form: application_form)
-      stub_curated_application_forms(ApplicationForm.none)
+      stub_application_forms_in_the_pool(ApplicationForm.none)
 
       expect {
         described_class.new.perform
@@ -37,7 +37,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
       existing_application_in_pool = create(:application_form)
       new_application_for_pool = create(:application_form)
       create(:candidate_pool_application, application_form: existing_application_in_pool)
-      stub_curated_application_forms(new_application_for_pool.id)
+      stub_application_forms_in_the_pool(new_application_for_pool.id)
 
       expect {
         described_class.new.perform
@@ -49,8 +49,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
 
 private
 
-  def stub_curated_application_forms(application_form_ids)
-    pool_candidates_double = instance_double(Pool::Candidates, curated_application_forms: ApplicationForm.where(id: application_form_ids))
-    allow(Pool::Candidates).to receive(:new).and_return(pool_candidates_double)
+  def stub_application_forms_in_the_pool(application_form_ids)
+    allow(Pool::Candidates).to receive(:application_forms_in_the_pool).and_return(ApplicationForm.where(id: application_form_ids))
   end
 end
