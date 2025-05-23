@@ -15,17 +15,14 @@ module ProviderInterface
 
         @pagy, @application_forms = pagy(
           Pool::Candidates.application_forms_for_provider(
-            providers: current_provider_user.providers,
             filters: @filter.applied_filters,
           ),
         )
       end
 
       def show
-        @application_form = Pool::Candidates.application_forms_for_provider(
-          providers: current_provider_user.providers,
-        )
-        .find_by(candidate_id: params.expect(:id))
+        @application_form = Pool::Candidates.application_forms_for_provider
+          .find_by(candidate_id: params.expect(:id))
 
         @candidate = @application_form.candidate
       end

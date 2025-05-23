@@ -97,9 +97,7 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
       it 'displays "Currently findable by providers" for the Find a Candidate opt-in status row' do
         candidate = create(:candidate)
         application_form = create(:application_form, candidate:)
-
-        create(:candidate_preference, candidate:)
-        create(:application_choice, status: :withdrawn, application_form:)
+        create(:candidate_pool_application, application_form: application_form)
 
         result = render_inline(described_class.new(application_form:))
 

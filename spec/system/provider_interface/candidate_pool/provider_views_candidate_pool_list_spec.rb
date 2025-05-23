@@ -13,7 +13,6 @@ RSpec.describe 'Providers views candidate pool list' do
     set_rejected_candidate_form
     set_declined_candidate_form
     set_visa_sponsorship_candidate_form
-    set_withdrawn_no_longer_want_to_train_form
 
     allow(GoogleMapsAPI::Client).to receive(:new).and_return(client)
     allow(client).to receive(:autocomplete).and_return(api_response)
@@ -94,6 +93,7 @@ RSpec.describe 'Providers views candidate pool list' do
       candidate: declined_candidate,
       submitted_at: Time.zone.today,
     )
+    create(:candidate_pool_application, application_form: @declined_candidate_form)
     create(:application_choice, :declined, application_form: @declined_candidate_form)
 
     previous_cycle_form = create(
@@ -118,6 +118,7 @@ RSpec.describe 'Providers views candidate pool list' do
       candidate: rejected_candidate,
       submitted_at: 1.day.ago,
     )
+    create(:candidate_pool_application, application_form: @rejected_candidate_form)
     course_option = create(
       :course_option,
       course: create(:course, provider: current_provider),
@@ -141,6 +142,7 @@ RSpec.describe 'Providers views candidate pool list' do
       submitted_at: 6.hours.ago,
       right_to_work_or_study: :no,
     )
+    create(:candidate_pool_application, application_form: @visa_sponsorship_form)
     course_option = create(
       :course_option,
       course: create(:course, provider: current_provider),
@@ -150,32 +152,6 @@ RSpec.describe 'Providers views candidate pool list' do
       :rejected,
       application_form: @visa_sponsorship_form,
       course_option:,
-    )
-  end
-
-  def set_withdrawn_no_longer_want_to_train_form
-    no_longer_wants_to_train_candidate = create(:candidate)
-    create(:candidate_preference, candidate: no_longer_wants_to_train_candidate)
-    @withdrawn_no_longer_wants_to_train_form = create(
-      :application_form,
-      :completed,
-      candidate: no_longer_wants_to_train_candidate,
-      submitted_at: 3.hours.ago,
-    )
-    course_option = create(
-      :course_option,
-      course: create(:course, provider: current_provider),
-    )
-    withdrawn_choice = create(
-      :application_choice,
-      :withdrawn,
-      application_form: @withdrawn_no_longer_wants_to_train_form,
-      course_option:,
-    )
-    create(
-      :withdrawal_reason,
-      application_choice: withdrawn_choice,
-      reason: 'do-not-want-to-train-anymore.personal-circumstances-have-changed',
     )
   end
 
@@ -200,8 +176,6 @@ RSpec.describe 'Providers views candidate pool list' do
     expected_candidates.each do |candidate_text|
       expect(candidates).to have_text(candidate_text)
     end
-
-    expect(page).to have_no_text(candidate_name(@withdrawn_no_longer_wants_to_train_form))
   end
 
   def then_i_am_redirected_to_the_applications_page
