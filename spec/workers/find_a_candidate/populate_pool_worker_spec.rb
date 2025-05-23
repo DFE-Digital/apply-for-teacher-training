@@ -50,6 +50,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
 private
 
   def stub_application_forms_in_the_pool(application_form_ids)
-    allow(Pool::Candidates).to receive(:application_forms_in_the_pool).and_return(ApplicationForm.where(id: application_form_ids))
+    pool_candidates_double = instance_double(Pool::Candidates, application_forms_in_the_pool: ApplicationForm.where(id: application_form_ids))
+    allow(Pool::Candidates).to receive(:new).and_return(pool_candidates_double)
   end
 end
