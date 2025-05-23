@@ -30,6 +30,25 @@ RSpec.describe Publications::MonthlyStatistics::MonthlyStatisticsReport do
         expect(described_class.published).to eq [published_report]
       end
     end
+
+    describe '.drafts' do
+      it 'returns only reports with publication dates in the future' do
+        draft_report = create(
+          :monthly_statistics_report,
+          :v2,
+          publication_date: 1.day.from_now,
+          generation_date: 1.day.ago,
+        )
+
+        create(
+          :monthly_statistics_report,
+          :v2,
+          publication_date: 1.day.ago,
+          generation_date: 1.day.ago,
+        )
+        expect(described_class.drafts).to eq [draft_report]
+      end
+    end
   end
 
   describe '#draft?' do

@@ -43,7 +43,17 @@ module Publications
         next_timetable.recruitment_cycle_year
       end
 
-      delegate :next_publication_date, to: :MonthlyStatisticsTimetable
+      def next_publication_date
+        if next_report_to_be_published.present?
+          next_report_to_be_published.publication_date
+        else
+          MonthlyStatisticsTimetable.next_publication_date
+        end
+      end
+
+      def next_report_to_be_published
+        @next_report_to_be_published ||= Publications::MonthlyStatistics::MonthlyStatisticsReport.drafts.order(:publication_date).first
+      end
 
       def current_reporting_period
         "#{report_timetable.apply_opens_at.to_fs(:govuk_date)} to #{report.generation_date.to_fs(:govuk_date)}"
