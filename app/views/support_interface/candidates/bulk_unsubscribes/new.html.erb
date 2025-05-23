@@ -14,6 +14,10 @@
                             label: { text: 'Email addresses', size: 's' },
                             hint: { text: 'Enter email address to be unsubscribed, use a new line for each email address. You can also copy and paste directly from a spreadsheet.' } %>
 
+      <%= form.govuk_text_field :audit_comment,
+                            label: { text: 'Audit log comment', size: 's' },
+                            hint: { text: 'This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here.' } %>
+
       <%= form.govuk_submit 'Continue' %>
     <% end %>
   </div>

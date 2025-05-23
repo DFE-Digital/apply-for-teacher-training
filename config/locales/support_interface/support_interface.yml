@@ -84,6 +84,12 @@ en:
   activemodel:
     errors:
       models:
+        support_interface/candidates/bulk_unsubscribe_form:
+          attributes:
+            email_addresses:
+              blank: You must provide email addresses
+            audit_comment:
+              blank: You must provide an audit comment
         support_interface/application_forms/course_search_form:
           attributes:
             course_code:
