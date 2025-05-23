@@ -14,7 +14,15 @@
     <% @monthly_statistics_reports.each do |monthly_statistics_report| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
-          <%= govuk_link_to monthly_statistics_report.month_to_date.to_fs(:month_and_year), publications_monthly_report_at_path(monthly_statistics_report.month), target: :blank %>
+          <% if monthly_statistics_report.draft? %>
+            <%= govuk_link_to(
+                  monthly_statistics_report.month_to_date.to_fs(:month_and_year),
+                  support_interface_monthly_statistics_report_path(monthly_statistics_report.id),
+                  target: :blank,
+                ) %>
+          <% else %>
+            <%= govuk_link_to monthly_statistics_report.month_to_date.to_fs(:month_and_year), publications_monthly_report_at_path(monthly_statistics_report.month), target: :blank %>
+          <% end %>
         </td>
         <td class="govuk-table__cell">
           <% if monthly_statistics_report.draft? %>

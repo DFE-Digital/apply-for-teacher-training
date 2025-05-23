@@ -9,7 +9,7 @@ module Publications
     end
 
     def by_month
-      @report = MonthlyStatistics::MonthlyStatisticsReport.find_by!(month:)
+      @report = MonthlyStatistics::MonthlyStatisticsReport.published.find_by!(month:)
 
       render_report
     end
@@ -24,7 +24,7 @@ module Publications
     end
 
     def download
-      @report = MonthlyStatistics::MonthlyStatisticsReport.find_by!(month:)
+      @report = MonthlyStatistics::MonthlyStatisticsReport.published.find_by!(month:)
 
       return render 'errors/not_found', status: :not_found, formats: :html unless csv.exists?
 

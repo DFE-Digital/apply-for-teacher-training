@@ -74,7 +74,7 @@ RSpec.describe 'See monthly statistics in support interface' do
   end
 
   def then_i_see_the_draft_report
-    expect(page).to have_current_path(publications_monthly_report_at_path('2023-11'))
+    expect(page).to have_current_path(support_interface_monthly_statistics_report_path(@november_report))
     expect(page).to have_content('This is currently a draft.')
     expect(page).to have_content('2. Candidate headline statistics')
     expect(page).to have_content('Initial teacher training applications for courses starting in the 2024 to 2025 academic year')

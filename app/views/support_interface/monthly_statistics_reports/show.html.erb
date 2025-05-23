@@ -1,0 +1,5 @@
+<% if @report.v2? %>
+  <%= render 'shared/publications/monthly_statistics/v2' %>
+<% else %>
+  <%= render 'publications/monthly_statistics/v1/show' %>
+<% end %>

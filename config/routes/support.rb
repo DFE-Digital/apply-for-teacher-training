@@ -202,6 +202,7 @@ namespace :support_interface, path: '/support' do
     get '/data-directory/export/:data_export_type/history' => 'data_exports#view_history', as: :view_history
 
     get '/monthly-statistics-reports' => 'monthly_statistics_reports#index', as: :monthly_statistics_reports
+    get '/monthly-statistics-reports/:id' => 'monthly_statistics_reports#show', as: :monthly_statistics_report
 
     get '/validation-errors' => 'validation_errors#index', as: :validation_errors
 
