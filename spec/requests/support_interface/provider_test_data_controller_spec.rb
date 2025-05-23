@@ -30,7 +30,7 @@ RSpec.describe SupportInterface::ProviderTestDataController do
       it 'enqueues a generation test data job' do
         expect(GenerateTestApplicationsForCourses)
           .to have_received(:perform_async)
-          .exactly(100).times
+          .exactly(50).times
       end
     end
 

@@ -2,7 +2,7 @@ module SupportInterface
   class ProviderTestDataController < SupportInterfaceController
     before_action :check_this_is_sandbox
 
-    DEFAULT_APPLICATION_COUNT = 100
+    DEFAULT_APPLICATION_COUNT = 50
     DEFAULT_COURSES_COUNT = 1
 
     def create
