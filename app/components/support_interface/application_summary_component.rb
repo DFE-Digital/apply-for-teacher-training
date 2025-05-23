@@ -215,10 +215,7 @@ module SupportInterface
     end
 
     def application_form_in_the_pool?
-      return false if candidate.submission_blocked? || candidate.account_locked?
-      return false if candidate.published_opt_in_preferences.blank?
-
-      Pool::Candidates.new(providers: []).curated_application_forms(ApplicationForm.where(id: application_form.id)).present?
+      CandidatePoolApplication.where(application_form_id: application_form.id).present?
     end
 
     attr_reader :application_form

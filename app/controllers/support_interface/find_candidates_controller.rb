@@ -7,7 +7,6 @@ module SupportInterface
 
       @pagy, @application_forms = pagy(
         Pool::Candidates.application_forms_for_provider(
-          providers: [],
           filters: @filter.applied_filters,
         ),
       )

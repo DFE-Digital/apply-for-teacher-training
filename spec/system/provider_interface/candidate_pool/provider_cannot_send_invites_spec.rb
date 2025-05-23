@@ -91,7 +91,7 @@ private
       candidate: @candidate,
       submitted_at: 1.day.ago,
     )
-    create(:application_choice, :rejected, application_form: rejected_candidate_form)
+    create(:candidate_pool_application, application_form: rejected_candidate_form)
   end
 
   def given_provider_user_cannot_make_decisions_for_any_of_their_courses

@@ -39,12 +39,7 @@ RSpec.describe 'Providers views candidate pool details' do
       candidate: @rejected_candidate,
       submitted_at: 1.day.ago,
     )
-    subjects = create_list(:subject, 2)
-    course = create(:course)
-    course.subjects << subjects
-    course_option = create(:course_option, course: course)
-
-    create(:application_choice, :rejected, application_form: @rejected_candidate_form, course_option: course_option)
+    create(:candidate_pool_application, application_form: @rejected_candidate_form)
 
     declined_candidate = create(:candidate)
     create(:candidate_preference, candidate: declined_candidate)
@@ -56,9 +51,9 @@ RSpec.describe 'Providers views candidate pool details' do
       candidate: declined_candidate,
       submitted_at: Time.zone.today,
     )
-    create(:application_choice, :declined, application_form: @declined_candidate_form)
+    create(:candidate_pool_application, application_form: @declined_candidate_form)
 
-    previous_cycle_form = create(
+    _previous_cycle_form = create(
       :application_form,
       :completed,
       first_name: 'test',
@@ -67,7 +62,6 @@ RSpec.describe 'Providers views candidate pool details' do
       submitted_at: 1.year.ago,
       candidate: declined_candidate,
     )
-    create(:application_choice, :declined, application_form: previous_cycle_form)
   end
 
   def and_provider_is_opted_in_to_candidate_pool
