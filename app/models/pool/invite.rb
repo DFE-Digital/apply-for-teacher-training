@@ -7,5 +7,15 @@ class Pool::Invite < ApplicationRecord
   enum :status, {
     draft: 'draft',
     published: 'published',
-  }
+  }, default: :draft
+
+  scope :not_sent_to_candidate, -> { where(sent_to_candidate_at: nil) }
+
+  def sent_to_candidate!
+    update!(sent_to_candidate_at: Time.current) if sent_to_candidate_at.blank?
+  end
+
+  def sent_to_candidate?
+    sent_to_candidate_at.present?
+  end
 end

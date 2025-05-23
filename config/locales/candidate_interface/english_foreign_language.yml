@@ -1,4 +1,19 @@
 en:
+  candidate_interface:
+    english_foreign_language:
+      summary_review_component:
+        subtitle: English as a foreign language assessment
+        type: Type of assessment
+        trf: Test Report Form (TRF) number
+        toefl_registration: TOEFL registration number
+        band_score: Overall band score
+        total_score: Total score
+        grade: Score or grade
+        award_year: Year completed
+        have_you_done_assessment: Have you done an English as a foreign language assessment?
+        not_foreign_language: No, English is not a foreign language to me
+        no_assessment: No, I have not done an English as a foreign language assessment
+
   activemodel:
     errors:
       models:

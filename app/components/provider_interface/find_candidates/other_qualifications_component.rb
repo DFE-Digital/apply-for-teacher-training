@@ -29,7 +29,10 @@ class ProviderInterface::FindCandidates::OtherQualificationsComponent < ViewComp
 private
 
   def qualification_type(qualification)
-    qualification.other_uk_qualification_type.presence || qualification.non_uk_qualification_type
+    qualification.other_uk_qualification_type.presence ||
+      qualification.non_uk_qualification_type.presence ||
+      qualification.qualification_type ||
+      ''
   end
 
   def qualification_subject(qualification)
@@ -48,7 +51,7 @@ private
     if qualification.predicted_grade?
       t('.predicted_grade', predicted_grade: qualification.grade)
     else
-      qualification.grade.presence
+      qualification.grade.presence || ''
     end
   end
 

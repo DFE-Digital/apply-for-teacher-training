@@ -14,6 +14,10 @@ class Clock
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true)
   end
 
+  every(15.minutes, 'FindACandidate::PopulatePoolWorker', skip_first_run: true) do
+    FindACandidate::PopulatePoolWorker.perform_async
+  end
+
   # Hourly jobs
 
   every(1.hour, 'SendFindStartOfCycleProviderEmails', at: '**:05') { StartOfCycleNotificationWorker.perform_async }
@@ -27,6 +31,8 @@ class Clock
   every(1.hour, 'Adviser::FetchTeachingSubjectsWorker', at: '**:15') { Adviser::FetchTeachingSubjectsWorker.perform_async }
 
   # Daily jobs
+  every(1.day, 'FindACandidate::SendInviteEmailsWorker', at: '18:00') { FindACandidate::SendInviteEmailsWorker.perform_async }
+
   every(1.day, 'DeleteExpiredSessionsWorker', at: '5:01') { DeleteExpiredSessionsWorker.perform_async }
   every(1.day, 'DeleteAllDrafts', at: '4:01') { DeleteAllDraftsWorker.perform_async }
   every(1.day, 'Chasers::Candidate::OfferWorker', at: '10:30') { Chasers::Candidate::OfferWorker.perform_async }

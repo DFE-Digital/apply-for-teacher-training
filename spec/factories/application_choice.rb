@@ -408,11 +408,11 @@ FactoryBot.define do
       rejection_reasons_type { 'rejection_reason' }
       reject_by_default_feedback_sent_at { (rejected_at || Time.zone.now) + 1.second }
 
-      after(:create) do |_choice, evaluator|
+      after(:create) do |choice, _evaluator|
         create(
           :application_choice_audit,
           :with_rejection_by_default_and_feedback,
-          application_choice: evaluator,
+          application_choice: choice,
         )
       end
     end

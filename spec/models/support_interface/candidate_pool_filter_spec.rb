@@ -60,7 +60,7 @@ RSpec.describe SupportInterface::CandidatePoolFilter do
         },
         {
           type: :checkboxes,
-          heading: '<h3 class="govuk-heading-m govuk-!-margin-bottom-0">Candidate’s visa requirements</h3>',
+          heading: '<h3 class="govuk-heading-m govuk-!-margin-bottom-0">Candidate visa requirements</h3>',
           name: 'visa_sponsorship',
           options: [
             {

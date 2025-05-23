@@ -1,5 +1,11 @@
 ---
 :shared:
+  candidate_pool_applications:
+  - application_form_id
+  - candidate_id
+  - id
+  - created_at
+  - updated_at
   candidate_location_preferences:
   - provider_id
   :candidate_pool_provider_opt_ins:

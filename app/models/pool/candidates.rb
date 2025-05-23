@@ -1,46 +1,24 @@
 class Pool::Candidates
-  LOCATION_RADIUS = 30
-  attr_reader :providers, :filters
+  attr_reader :filters
 
-  def initialize(providers:, filters: {})
-    @providers = providers
+  def initialize(filters: {})
     @filters = filters
   end
 
-  def self.application_forms_for_provider(providers:, filters: {})
-    new(providers:, filters:).application_forms_for_provider
+  def self.application_forms_for_provider(filters: {})
+    new(filters:).application_forms_for_provider
   end
 
   def application_forms_for_provider
-    opted_in_candidates = Candidate.joins(:published_preferences).where(published_preferences: { pool_status: 'opt_in' }).select(:id)
-    dismissed_candidates = Candidate.joins(:pool_dismissals).where(pool_dismissals: { provider: providers }).select(:id)
-
     filtered_application_forms.joins(:candidate)
-      .where(candidate: { submission_blocked: false, account_locked: false })
-      .where(candidate: opted_in_candidates)
-      .where.not(candidate: dismissed_candidates)
       .order(order_by)
       .distinct
-  end
-
-  def self.application_forms_in_the_pool
-    new(providers: []).application_forms_in_the_pool
-  end
-
-  def self.application_forms_eligible_for_pool
-    new(providers: []).application_forms_eligible_for_pool
-  end
-
-  def application_forms_eligible_for_pool
-    filtered_application_forms.joins(:candidate)
-                              .where(candidates: { submission_blocked: false, account_locked: false })
-                              .distinct
   end
 
   def application_forms_in_the_pool
     opted_in_candidates = Candidate.joins(:published_preferences).where(published_preferences: { pool_status: 'opt_in' }).select(:id)
 
-    filtered_application_forms.joins(:candidate)
+    curated_application_forms.joins(:candidate)
       .where(candidate: { submission_blocked: false, account_locked: false })
       .where(candidate: opted_in_candidates)
       .distinct
@@ -49,7 +27,7 @@ class Pool::Candidates
 private
 
   def filtered_application_forms
-    scope = curated_application_forms
+    scope = ApplicationForm.where(id: CandidatePoolApplication.select(:application_form_id))
     scope = filter_by_subject(scope)
     scope = filter_by_study_mode(scope)
     scope = filter_by_course_type(scope)

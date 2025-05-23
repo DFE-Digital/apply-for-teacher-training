@@ -77,5 +77,95 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
         expect(result.css('.govuk-summary-list__value').text).to include('No')
       end
     end
+
+    context 'when the candidate has opted into sharing application details with providers but still has pending decisions' do
+      it 'displays "Opted in (not findable)" for the Find a Candidate opt-in status row' do
+        candidate = create(:candidate)
+        application_form = create(:application_form, candidate:)
+
+        create(:candidate_preference, candidate:)
+        create(:application_choice, status: :awaiting_provider_decision, application_form:)
+
+        result = render_inline(described_class.new(application_form:))
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Find a Candidate opt-in status')
+        expect(result.css('.govuk-summary-list__value').text).to include('Opted in (not findable)')
+      end
+    end
+
+    context 'when the candidate has opted into sharing application details with providers and has no active applications' do
+      it 'displays "Currently findable by providers" for the Find a Candidate opt-in status row' do
+        candidate = create(:candidate)
+        application_form = create(:application_form, candidate:)
+        create(:candidate_pool_application, application_form: application_form)
+
+        result = render_inline(described_class.new(application_form:))
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Find a Candidate opt-in status')
+        expect(result.css('.govuk-summary-list__value').text).to include('Currently findable by providers')
+      end
+    end
+
+    context 'when the candidate has opted out of sharing application details with providers' do
+      it 'displays "Opted out" for the Find a Candidate opt-in status row' do
+        candidate = create(:candidate)
+        application_form = create(:application_form, candidate:)
+
+        create(:candidate_preference, pool_status: 'opt_out', candidate:)
+        create(:application_choice, status: :withdrawn, application_form:)
+
+        result = render_inline(described_class.new(application_form:))
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Find a Candidate opt-in status')
+        expect(result.css('.govuk-summary-list__value').text).to include('Opted out')
+      end
+    end
+
+    context 'when the candidate has not yet submitted a decision for sharing application details with providers' do
+      it 'displays "No status recorded" for the Find a Candidate opt-in status row and the location preferences row does not display' do
+        candidate = create(:candidate)
+        application_form = create(:completed_application_form, candidate:)
+
+        result = render_inline(described_class.new(application_form:))
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Find a Candidate opt-in status')
+        expect(result.css('.govuk-summary-list__value').text).to include('No status recorded')
+
+        expect(result.css('.govuk-summary-list__key').text).not_to include('Find a Candidate location preferences')
+      end
+    end
+
+    context 'when the candidate has published location preferences' do
+      it 'displays the location preferences and selected radius in a list' do
+        candidate = create(:candidate)
+        application_form = create(:application_form, candidate:)
+        candidate_preference = create(:candidate_preference, candidate:)
+
+        create(:application_choice, status: :withdrawn, application_form:)
+        create(:candidate_location_preference, :manchester, candidate_preference:)
+        create(:candidate_location_preference, :liverpool, candidate_preference:)
+
+        result = render_inline(described_class.new(application_form:))
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Find a Candidate location preferences')
+        expect(result.css('.govuk-summary-list__value').text).to include('Within 10.0 miles of Manchester')
+        expect(result.css('.govuk-summary-list__value').text).to include('Within 10.0 miles of Liverpool')
+      end
+    end
+
+    context 'when the candidate is opted in but has no location preferences' do
+      it 'displays "No location preferences recorded"' do
+        candidate = create(:candidate)
+        application_form = create(:application_form, candidate:)
+
+        create(:candidate_preference, candidate:)
+        create(:application_choice, status: :withdrawn, application_form:)
+
+        result = render_inline(described_class.new(application_form:))
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Find a Candidate location preferences')
+        expect(result.css('.govuk-summary-list__value').text).to include('No location preferences recorded')
+      end
+    end
   end
 end

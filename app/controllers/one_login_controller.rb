@@ -6,7 +6,6 @@ class OneLoginController < ApplicationController
 
   def callback
     auth = request.env['omniauth.auth']
-    omniauth_params = request.env['omniauth.params'] || {}
     id_token_hint = auth&.credentials&.id_token
     candidate = OneLoginUser.authenticate_or_create_by(auth)
 
@@ -15,9 +14,7 @@ class OneLoginController < ApplicationController
       id_token_hint:,
     )
 
-    redirect_to candidate_interface_interstitial_path(
-      path: omniauth_params.fetch('path', nil),
-    )
+    redirect_to get_redirect_link(request.env['omniauth.origin'])
   rescue StandardError => e
     session_error = SessionError.create!(
       candidate: OneLoginUser.find_candidate(auth),
@@ -94,6 +91,15 @@ class OneLoginController < ApplicationController
   end
 
 private
+
+  def get_redirect_link(origin)
+    return candidate_interface_interstitial_path if origin.nil?
+
+    uri = URI(origin)
+    path_query = Rack::Utils.parse_nested_query(uri.query).fetch('path', nil)
+
+    candidate_interface_interstitial_path(path: path_query)
+  end
 
   def redirect_to_candidate_sign_in_unless_one_login_enabled
     if FeatureFlag.inactive?(:one_login_candidate_sign_in)

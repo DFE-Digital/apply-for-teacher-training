@@ -19,6 +19,23 @@ RSpec.describe 'Candidate edits published preference' do
     and_the_candidate_preference_id_is_changed
   end
 
+  scenario 'Candidate adds a reason for opting out' do
+    given_i_am_signed_in
+    and_feature_flag_is_enabled
+
+    given_i_am_on_the_application_choices_page
+    when_i_click('Change your sharing and location settings')
+    then_i_am_redirected_to_preference_review_page
+
+    when_i_click_change_share_preference
+    and_i_choose_not_to_share_my_details
+    and_i_add_a_reason_for_opting_out
+
+    when_i_click('Continue')
+    then_i_am_redirected_on_the_application_choices_page
+    and_the_candidate_preference_id_is_changed
+  end
+
   scenario 'Candidate edits location_preferences' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
@@ -82,6 +99,13 @@ RSpec.describe 'Candidate edits published preference' do
 
   def and_i_choose_not_to_share_my_details
     choose 'No'
+  end
+
+  def and_i_add_a_reason_for_opting_out
+    fill_in(
+      'Why do you not want to share your application details with other providers? (Optional)',
+      with: Faker::Lorem.sentence(word_count: 199),
+    )
   end
 
   def then_i_am_redirected_on_the_application_choices_page

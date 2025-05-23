@@ -250,4 +250,22 @@ RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
       it { is_expected.to be_falsey }
     end
   end
+
+  describe '#next_publication_date' do
+    context 'when there is a draft report' do
+      it 'returns the publication date of that report' do
+        publication_date = 1.day.from_now
+        create(:monthly_statistics_report, :v2, publication_date:)
+        expect(presenter.next_publication_date.to_date).to eq publication_date.to_date
+      end
+    end
+
+    context 'when there is no draft report' do
+      it 'returns the projected publication date' do
+        travel_temporarily_to(Date.new(2021, 12, 21)) do
+          expect(presenter.next_publication_date).to eq(Date.new(2021, 12, 27))
+        end
+      end
+    end
+  end
 end

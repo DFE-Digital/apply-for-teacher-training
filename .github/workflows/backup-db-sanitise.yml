@@ -27,7 +27,7 @@ on:
           Comma-separated list of tables to exclude from the backup. (Optional)
         required: false
         type: string
-        default: 'audits blazer_audits blazer_checks blazer_dashboard_queries blazer_dashboards blazer_queries email_clicks emails find_feedback vendor_api_requests sessions session_errors pool_eligible_application_forms'
+        default: 'audits,blazer_audits,blazer_checks,blazer_dashboard_queries,blazer_dashboards,blazer_queries,email_clicks,emails,find_feedback,vendor_api_requests,sessions,session_errors,pool_eligible_application_forms,validation_errors'
 
   schedule:
     - cron: "0 4 * * *" # 04:00 UTC
@@ -36,6 +36,7 @@ env:
   SERVICE_NAME: apply
   SERVICE_SHORT: att
   TF_VARS_PATH: terraform/aks/workspace_variables
+  EXCLUDE_TABLES: ${{ inputs.exclude-tables || 'audits,blazer_audits,blazer_checks,blazer_dashboard_queries,blazer_dashboards,blazer_queries,email_clicks,emails,find_feedback,vendor_api_requests,sessions,session_errors,pool_eligible_application_forms,validation_errors' }}
 
 permissions:
   id-token: write
@@ -59,7 +60,6 @@ jobs:
     env:
       DEPLOY_ENV: ${{ inputs.environment || 'production'  }}
       BACKUP_FILE: ${{ inputs.backup-file || 'schedule'  }}
-      EXCLUDE_TABLES: ${{ inputs.exclude-tables }}
 
     steps:
     - uses: actions/checkout@v4

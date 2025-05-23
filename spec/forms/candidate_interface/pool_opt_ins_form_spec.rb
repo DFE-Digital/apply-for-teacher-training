@@ -35,6 +35,22 @@ module CandidateInterface
           pool_status: 'opt_in',
         )
       end
+
+      it 'builds the form with opt out reason if it exists' do
+        preference.update(pool_status: 'opt_out', opt_out_reason: 'Here is a reason')
+
+        form_object = described_class.build_from_preference(
+          current_candidate:,
+          preference:,
+        )
+
+        expect(form_object).to have_attributes(
+          current_candidate:,
+          preference:,
+          pool_status: 'opt_out',
+          opt_out_reason: 'Here is a reason',
+        )
+      end
     end
 
     describe '#save' do
@@ -51,7 +67,7 @@ module CandidateInterface
         end
       end
 
-      context 'when creating a preference to opt out' do
+      context 'when creating a preference to opt out without a reason' do
         let(:params) { { pool_status: 'opt_out' } }
 
         it 'creates a preference and removes any existing published preferences' do
@@ -65,6 +81,25 @@ module CandidateInterface
 
           preference_record = CandidatePreference.last
           expect(preference_record.pool_status).to eq('opt_out')
+          expect { existing_published_preference.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+
+      context 'when creating a preference to opt out with a reason' do
+        let(:params) { { pool_status: 'opt_out', opt_out_reason: 'I do not want to share my details with other providers' } }
+
+        it 'creates a preference and removes any existing published preferences' do
+          existing_published_preference = create(
+            :candidate_preference,
+            candidate: current_candidate,
+            status: 'published',
+          )
+
+          form.save
+
+          preference_record = CandidatePreference.last
+          expect(preference_record.pool_status).to eq('opt_out')
+          expect(preference_record.opt_out_reason).to eq('I do not want to share my details with other providers')
           expect { existing_published_preference.reload }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end

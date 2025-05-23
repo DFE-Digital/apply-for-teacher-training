@@ -549,26 +549,121 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.apply_to_multiple_courses_after_30_working_days(application_form)
   end
 
-  def course_invite
-    application_form = FactoryBot.create(
+  def candidate_invites_one_provider
+    candidate = FactoryBot.create(:candidate)
+    FactoryBot.create(
       :application_form,
       :minimum_info,
+      candidate: candidate,
       first_name: 'Fred',
     )
-    candidate = FactoryBot.create(:candidate, application_forms: [application_form])
-    pool_invite = FactoryBot.create(
-      :pool_invite, candidate:, course: FactoryBot.build(:course, fee_domestic: 9535, fee_international: 15430)
+
+    provider = FactoryBot.create(:provider)
+    course = FactoryBot.create(:course,
+                               provider: provider,
+                               fee_domestic: 9535,
+                               fee_international: 15430)
+
+    invite = FactoryBot.create(
+      :pool_invite,
+      candidate:,
+      provider: provider,
+      course: course,
     )
 
-    CandidateMailer.course_invite(pool_invite)
+    CandidateMailer.candidate_invites(candidate, [invite])
   end
 
-  def find_a_candidate_feature_launch_email
-    application_form = FactoryBot.create(
+  def candidate_invites_one_provider_two_courses
+    candidate = FactoryBot.create(:candidate)
+    FactoryBot.create(
       :application_form,
       :minimum_info,
+      candidate: candidate,
+      first_name: 'Fred',
     )
-    CandidateMailer.find_a_candidate_feature_launch_email(application_form)
+
+    provider = FactoryBot.create(:provider)
+    course_1, course_2 = FactoryBot.create_list(:course,
+                                                2,
+                                                provider: provider,
+                                                fee_domestic: 9535,
+                                                fee_international: 15430)
+
+    invite_1 = FactoryBot.create(
+      :pool_invite,
+      candidate:,
+      provider: provider,
+      course: course_1,
+    )
+
+    invite_2 = FactoryBot.create(
+      :pool_invite,
+      candidate:,
+      provider: provider,
+      course: course_2,
+    )
+
+    CandidateMailer.candidate_invites(candidate, [invite_1, invite_2])
+  end
+
+  def candidate_invites_two_providers
+    candidate = FactoryBot.create(:candidate)
+    FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      candidate: candidate,
+      first_name: 'Fred',
+    )
+
+    pool_invites = FactoryBot.create_list(
+      :pool_invite,
+      2,
+      candidate:,
+    )
+
+    CandidateMailer.candidate_invites(candidate, pool_invites)
+  end
+
+  def candidate_invites_multiple_providers
+    candidate = FactoryBot.create(:candidate)
+    FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      candidate: candidate,
+      first_name: 'Fred',
+    )
+
+    provider = FactoryBot.create(:provider)
+    course_1, course_2 = FactoryBot.create_list(:course,
+                                                2,
+                                                provider: provider,
+                                                fee_domestic: 9535,
+                                                fee_international: 15430)
+
+    provider_1_invite_1 = FactoryBot.create(
+      :pool_invite,
+      candidate:,
+      provider: provider,
+      course: course_1,
+    )
+
+    provider_1_invite_2 = FactoryBot.create(
+      :pool_invite,
+      candidate:,
+      provider: provider,
+      course: course_2,
+    )
+
+    other_invites = FactoryBot.create_list(
+      :pool_invite,
+      2,
+      candidate:,
+    )
+
+    pool_invites = [provider_1_invite_1, provider_1_invite_2] + other_invites
+
+    CandidateMailer.candidate_invites(candidate, pool_invites)
   end
 
 private
