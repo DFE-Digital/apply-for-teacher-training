@@ -116,7 +116,7 @@ RSpec.describe Pool::Candidates do
     end
   end
 
-  describe '.application_forms_in_the_pool' do
+  describe '#application_forms_in_the_pool' do
     it 'returns application_forms that should be in the candidate pool' do
       rejected_candidate = create(:candidate)
       create(:candidate_preference, candidate: rejected_candidate)
@@ -148,7 +148,7 @@ RSpec.describe Pool::Candidates do
       inactive_candidate_form = create(:application_form, :completed, candidate: inactive_candidate)
       create(:application_choice, :inactive, application_form: inactive_candidate_form)
 
-      application_forms = described_class.application_forms_in_the_pool
+      application_forms = described_class.new.application_forms_in_the_pool
 
       expect(application_forms).to contain_exactly(
         rejected_candidate_form,
@@ -229,7 +229,7 @@ RSpec.describe Pool::Candidates do
         reason: 'do-not-want-to-train-anymore.personal-circumstances-have-changed',
       )
 
-      application_forms = described_class.application_forms_in_the_pool
+      application_forms = described_class.new.application_forms_in_the_pool
 
       expect(application_forms).to be_empty
     end

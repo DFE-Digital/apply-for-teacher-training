@@ -15,10 +15,6 @@ class Pool::Candidates
       .distinct
   end
 
-  def self.application_forms_in_the_pool
-    new.application_forms_in_the_pool
-  end
-
   def application_forms_in_the_pool
     opted_in_candidates = Candidate.joins(:published_preferences).where(published_preferences: { pool_status: 'opt_in' }).select(:id)
 
