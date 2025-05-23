@@ -12,7 +12,7 @@ module "postgres" {
   use_azure                      = var.deploy_azure_backing_services
   azure_enable_monitoring        = var.enable_alerting
   azure_enable_backup_storage    = var.deploy_azure_backing_services
-  server_version                 = "14"
+  server_version                 = "15"
   admin_username                 = local.infra_secrets.POSTGRES_ADMIN_USERNAME
   admin_password                 = local.infra_secrets.POSTGRES_ADMIN_PASSWORD
   azure_sku_name                 = var.postgres_flexible_server_sku
