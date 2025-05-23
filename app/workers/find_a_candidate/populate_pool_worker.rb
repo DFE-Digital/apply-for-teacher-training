@@ -4,7 +4,7 @@ class FindACandidate::PopulatePoolWorker
   sidekiq_options queue: :default
 
   def perform
-    application_forms_eligible_for_pool = Pool::Candidates.new(providers: [])
+    application_forms_eligible_for_pool = Pool::Candidates.application_forms_in_the_pool                                              
                                                           .curated_application_forms
                                             .select('application_forms.id as application_form_id, application_forms.candidate_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP')
 
