@@ -4,12 +4,6 @@ RSpec.describe DetectInvariantsDailyCheck do
   before do
     # or unwanted exceptions will be thrown by this check
     TeacherTrainingPublicAPI::SyncCheck.set_last_sync(Time.zone.now)
-
-    create(
-      :monthly_statistics_report,
-      :v1,
-      generation_date: MonthlyStatisticsTimetable.current_generation_date,
-    )
   end
 
   describe '#perform' do

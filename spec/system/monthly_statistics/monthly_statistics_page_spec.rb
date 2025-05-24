@@ -8,6 +8,7 @@ RSpec.describe 'Monthly statistics page' do
       :v1,
       month: '2023-09',
       generation_date: Time.zone.local(2023, 9, 29),
+      publication_date: Time.zone.local(2023, 9, 29),
     )
   end
 

@@ -5,21 +5,21 @@ class GenerateMonthlyStatistics
 
   def perform
     return false unless HostingEnvironment.production?
-    return false unless MonthlyStatisticsTimetable.generate_monthly_statistics?
+    return false unless monthly_statistics_timetable.generate_today?
 
     Publications::ITTMonthlyReportGenerator.new(
-      generation_date:,
-      publication_date:,
+      generation_date: schedule.generation_date,
+      publication_date: schedule.publication_date,
     ).call
   end
 
 private
 
-  def generation_date
-    MonthlyStatisticsTimetable.current_generation_date
+  def monthly_statistics_timetable
+    @monthly_statistics_timetable ||= Publications::MonthlyStatistics::Timetable.new
   end
 
-  def publication_date
-    MonthlyStatisticsTimetable.current_publication_date
+  def schedule
+    @schedule ||= monthly_statistics_timetable.generation_today_schedule
   end
 end
