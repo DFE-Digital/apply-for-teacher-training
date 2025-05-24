@@ -47,7 +47,7 @@ module Publications
         if next_report_to_be_published.present?
           next_report_to_be_published.publication_date
         else
-          MonthlyStatisticsTimetable.next_publication_date
+          monthly_statistics_timetables.next_publication_date
         end
       end
 
@@ -79,6 +79,10 @@ module Publications
 
       def verbose_cycle_name(year)
         "October #{year - 1} to September #{year}"
+      end
+
+      def monthly_statistics_timetables
+        ::Publications::MonthlyStatistics::Timetable.new
       end
     end
   end

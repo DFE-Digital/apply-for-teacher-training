@@ -113,7 +113,7 @@ RSpec.describe Publications::MonthlyStatistics::MonthlyStatisticsReport do
     context 'when today is before the publishing date in the current month' do
       it 'returns the previous report' do
         travel_temporarily_to(upcoming_publication_date - 1.day) do
-          expect(described_class.current_period).to eq(previous_report)
+          expect(described_class.latest_published_report).to eq(previous_report)
         end
       end
     end
@@ -121,34 +121,8 @@ RSpec.describe Publications::MonthlyStatistics::MonthlyStatisticsReport do
     context 'when today is on or after the publishing date in the current month' do
       it 'returns the previous report' do
         travel_temporarily_to(Time.zone.local(2021, 12, 27, 0, 0, 1)) do
-          expect(described_class.current_period).to eq(current_report)
+          expect(described_class.latest_published_report).to eq(current_report)
         end
-      end
-    end
-  end
-
-  describe '.current_published_report_at' do
-    let!(:report) do
-      create(
-        :monthly_statistics_report,
-        :v2,
-        generation_date: Time.zone.local(2023, 11, 20),
-        publication_date: Time.zone.local(2023, 11, 23),
-        month: '2023-11',
-      )
-    end
-
-    context 'when requesting for existing report' do
-      it 'returns report for the given month' do
-        expect(described_class.current_published_report_at(Date.new(2023, 11, 1))).to eq(report)
-      end
-    end
-
-    context 'when requesting for report that does not exist' do
-      it 'raises ActiveRecord::RecordNotFound' do
-        expect {
-          described_class.current_published_report_at(Date.new(2023, 10, 1))
-        }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
