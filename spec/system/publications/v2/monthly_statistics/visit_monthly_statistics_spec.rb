@@ -3,11 +3,13 @@ require 'rails_helper'
 RSpec.describe 'Visit Monthly statistics V2 page', mid_cycle: false do
   before do
     TestSuiteTimeMachine.travel_permanently_to(2023, 12, 29)
+    generation_date = Time.zone.local(2023, 12, 18)
     create(
       :monthly_statistics_report,
       :v2,
       month: '2023-12',
-      generation_date: Time.zone.local(2023, 12, 18),
+      generation_date:,
+      publication_date: generation_date + 1.day,
     )
   end
 

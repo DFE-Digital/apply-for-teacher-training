@@ -4,7 +4,7 @@ module Publications
     before_action MonthlyStatisticsRedirectFilter, only: %i[latest by_month download by_year]
 
     def latest
-      @report = MonthlyStatistics::MonthlyStatisticsReport.current_period
+      @report = MonthlyStatistics::MonthlyStatisticsReport.latest_published_report
       render_report
     end
 
