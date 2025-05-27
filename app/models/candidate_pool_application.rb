@@ -20,7 +20,7 @@ class CandidatePoolApplication < ApplicationRecord
 
   def self.filter_by_study_mode(scope, filters)
     return scope if filters[:study_mode].blank?
-    return scope if filters[:study_mode].include?('full_time') && filters[:study_mode].include?('part_time')
+    return scope if filters[:study_mode].sort == %w[full_time part_time].sort
 
     attributes = {}
     if filters[:study_mode].include?('full_time')
@@ -36,7 +36,7 @@ class CandidatePoolApplication < ApplicationRecord
 
   def self.filter_by_course_type(scope, filters)
     return scope if filters[:course_type].blank?
-    return scope if filters[:course_type].include?('undergraduate') && filters[:course_type].include?('postgraduate')
+    return scope if filters[:course_type].sort == %w[undergraduate postgraduate].sort
 
     attributes = {}
     if filters[:course_type].include?('undergraduate')
@@ -52,11 +52,17 @@ class CandidatePoolApplication < ApplicationRecord
 
   def self.filter_by_needs_visa(scope, filters)
     return scope if filters[:visa_sponsorship].blank?
-    return scope if filters[:visa_sponsorship].include?('required') && filters[:visa_sponsorship].include?('not required')
+    return scope if filters[:visa_sponsorship].sort == ['required', 'not required'].sort
 
-    scope.where(
-      needs_visa: filters[:visa_sponsorship].include?('required') ||
-        filters[:visa_sponsorship].include?('not required'),
-    )
+    attributes = {}
+    if filters[:visa_sponsorship].include?('required')
+      attributes = { needs_visa: true }
+    end
+
+    if filters[:visa_sponsorship].include?('not required')
+      attributes = { needs_visa: false }
+    end
+
+    scope.where(attributes)
   end
 end

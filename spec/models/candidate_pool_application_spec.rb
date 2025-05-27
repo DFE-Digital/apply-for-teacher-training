@@ -82,7 +82,7 @@ RSpec.describe CandidatePoolApplication do
       )
 
       filters = {
-        visa_sponsorship: 'required',
+        visa_sponsorship: ['required'],
       }
       application_forms = described_class.filtered_application_forms(filters)
 
