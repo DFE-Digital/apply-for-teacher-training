@@ -6,9 +6,9 @@ class FindACandidate::PopulatePoolWorker
   def perform
     application_forms_eligible_for_pool = Pool::Candidates.new.application_forms_in_the_pool
 
-    applications = ApplicationForm
-                     .joins(course_options: { course: :subjects })
-                     .where(id: application_forms_eligible_for_pool.pluck(:id))
+    applications = application_forms_eligible_for_pool
+                     .joins(application_choices: { course_option: { course: :subjects } })
+                     .where.not(application_choices: { status: 'unsubmitted' })
                      .select(
                        'application_forms.id AS application_form_id',
                        'application_forms.candidate_id AS candidate_id',
