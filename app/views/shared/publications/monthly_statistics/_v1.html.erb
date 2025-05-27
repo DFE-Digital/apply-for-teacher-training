@@ -12,6 +12,9 @@
   <div class="metadata-wrapper">
     <div class="govuk-grid-column-two-thirds metadata-column">
       <dl class="gem-c-metadata">
+        <dt class="gem-c-metadata__term">Generated</dt>
+        <dd class="gem-c-metadata__definition"><%= @presenter.generation_date.to_fs(:govuk_date) %></dd>
+
         <dt class="gem-c-metadata__term">Published</dt>
         <dd class="gem-c-metadata__definition"><%= @presenter.publication_date.to_fs(:govuk_date) %></dd>
 

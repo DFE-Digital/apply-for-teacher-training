@@ -22,6 +22,9 @@
   <div class="metadata-wrapper">
     <div class="govuk-grid-column-two-thirds metadata-column">
       <dl class="gem-c-metadata">
+        <dt class="gem-c-metadata__term">Generated</dt>
+        <dd class="gem-c-metadata__definition"><%= @presenter.generation_date.to_fs(:govuk_date) %></dd>
+
         <dt class="gem-c-metadata__term">Published</dt>
         <dd class="gem-c-metadata__definition"><%= @presenter.publication_date.to_fs(:govuk_date) %></dd>
 
@@ -151,7 +154,6 @@
         teacher training is also not included except for TDA. Applications to train to teach in Further Education are
         also not included.</p>
     <% end %>
-    <p class="govuk-body">These statistics collect data up to and including the day before they were published.</p>
     <p class="govuk-body">There will be monthly updates throughout the recruitment cycle.</p>
   </div>
 </div>

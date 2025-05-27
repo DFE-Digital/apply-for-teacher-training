@@ -3,7 +3,7 @@ module Publications
     class MonthlyStatisticsPresenter
       attr_reader :statistics
       attr_accessor :report
-      delegate :publication_date, :month, :draft?, to: :report
+      delegate :publication_date, :generation_date, :month, :draft?, to: :report
 
       def initialize(report)
         @report = report
