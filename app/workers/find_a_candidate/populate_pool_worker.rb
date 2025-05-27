@@ -17,7 +17,7 @@ class FindACandidate::PopulatePoolWorker
                        "BOOL_OR(courses.program_type != 'TDA') AS course_type_postgraduate",
                        "BOOL_OR(courses.program_type = 'TDA') AS course_type_undergraduate",
                        'ARRAY_AGG(DISTINCT subjects.id) AS subject_ids',
-                       "MAX(CASE WHEN application_forms.right_to_work_or_study = 'no' THEN 1 ELSE 0 END) = 1 AS needs_visa",
+                       "MAX(CASE WHEN application_forms.right_to_work_or_study = 'no' OR (application_forms.right_to_work_or_study = 'yes' AND application_forms.immigration_status IN ('student_visa', 'skilled_worker_visa')) THEN 1 ELSE 0 END) = 1 AS needs_visa",
                        'CURRENT_TIMESTAMP as created_at',
                        'CURRENT_TIMESTAMP as updated_at',
                      )

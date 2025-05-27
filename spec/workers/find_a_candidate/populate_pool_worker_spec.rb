@@ -231,7 +231,35 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
       end
     end
 
-    context 'when the application form answered no to right_to_work_or_studies' do
+    context 'when the application form has not answered right_to_work_or_study' do
+      it 'sets needs_visa to false' do
+        application_form = create(:application_form, :completed,
+                                  submitted_application_choices_count: 1,
+                                  right_to_work_or_study: nil)
+        stub_application_forms_in_the_pool(application_form.id)
+
+        described_class.new.perform
+
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.needs_visa).to be false
+      end
+    end
+
+    context 'when the application form answered decide_later to right_to_work_or_study' do
+      it 'sets needs_visa to false' do
+        application_form = create(:application_form, :completed,
+                                  submitted_application_choices_count: 1,
+                                  right_to_work_or_study: :decide_later)
+        stub_application_forms_in_the_pool(application_form.id)
+
+        described_class.new.perform
+
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.needs_visa).to be false
+      end
+    end
+
+    context 'when the application form answered no to right_to_work_or_study' do
       it 'sets needs_visa to true' do
         application_form = create(:application_form, :completed,
                                   submitted_application_choices_count: 1,
@@ -245,31 +273,50 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
       end
     end
 
-    context 'when the application form answered yes to right_to_work_or_studies' do
-      it 'sets needs_visa to false' do
-        application_form = create(:application_form, :completed,
-                                  submitted_application_choices_count: 1,
-                                  right_to_work_or_study: :yes)
-        stub_application_forms_in_the_pool(application_form.id)
+    context 'when the application form answered yes to right_to_work_or_study' do
+      context 'and the immigration status is student_visa' do
+        it 'sets needs_visa to true' do
+          application_form = create(:application_form, :completed,
+                                    submitted_application_choices_count: 1,
+                                    right_to_work_or_study: :yes,
+                                    immigration_status: 'student_visa')
+          stub_application_forms_in_the_pool(application_form.id)
 
-        described_class.new.perform
+          described_class.new.perform
 
-        candidate_pool_application = CandidatePoolApplication.last
-        expect(candidate_pool_application.needs_visa).to be false
+          candidate_pool_application = CandidatePoolApplication.last
+          expect(candidate_pool_application.needs_visa).to be true
+        end
       end
-    end
 
-    context 'when the application form has not answered right_to_work_or_studies' do
-      it 'sets needs_visa to false' do
-        application_form = create(:application_form, :completed,
-                                  submitted_application_choices_count: 1,
-                                  right_to_work_or_study: nil)
-        stub_application_forms_in_the_pool(application_form.id)
+      context 'and the immigration status is skilled_worker_visa' do
+        it 'sets needs_visa to true' do
+          application_form = create(:application_form, :completed,
+                                    submitted_application_choices_count: 1,
+                                    right_to_work_or_study: :yes,
+                                    immigration_status: 'skilled_worker_visa')
+          stub_application_forms_in_the_pool(application_form.id)
 
-        described_class.new.perform
+          described_class.new.perform
 
-        candidate_pool_application = CandidatePoolApplication.last
-        expect(candidate_pool_application.needs_visa).to be false
+          candidate_pool_application = CandidatePoolApplication.last
+          expect(candidate_pool_application.needs_visa).to be true
+        end
+      end
+
+      context 'and the immigration status is any other value' do
+        it 'sets needs_visa to false' do
+          application_form = create(:application_form, :completed,
+                                    submitted_application_choices_count: 1,
+                                    right_to_work_or_study: :yes,
+                                    immigration_status: 'eu_settled')
+          stub_application_forms_in_the_pool(application_form.id)
+
+          described_class.new.perform
+
+          candidate_pool_application = CandidatePoolApplication.last
+          expect(candidate_pool_application.needs_visa).to be false
+        end
       end
     end
   end
