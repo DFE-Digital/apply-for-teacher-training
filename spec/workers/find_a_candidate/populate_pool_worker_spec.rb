@@ -92,6 +92,53 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     end
   end
 
+  context 'when the candidate has applied to a postgraduate course' do
+    it 'sets course_type_postgraduate to true' do
+      application_form = create(:application_form)
+      course_option = create(:course_option, course: create(:course, program_type: 'higher_education_programme'))
+      create(:application_choice, application_form: application_form, course_option: course_option)
+
+      stub_application_forms_in_the_pool(application_form.id)
+
+      described_class.new.perform
+
+      candidate_pool_application = CandidatePoolApplication.last
+      expect(candidate_pool_application.course_type_postgraduate).to be true
+    end
+  end
+
+  context 'when the candidate has applied to an undergraduate course' do
+    it 'sets course_type_undergraduate to true' do
+      application_form = create(:application_form)
+      course_option = create(:course_option, course: create(:course, program_type: 'teacher_degree_apprenticeship'))
+      create(:application_choice, application_form: application_form, course_option: course_option)
+      stub_application_forms_in_the_pool(application_form.id)
+
+      described_class.new.perform
+
+      candidate_pool_application = CandidatePoolApplication.last
+      expect(candidate_pool_application.course_type_undergraduate).to be true
+    end
+  end
+
+  context 'when the candidate has applied to both postgraduate and undergraduate courses' do
+    it 'sets both course_type_postgraduate and course_type_undergraduate to true' do
+      application_form = create(:application_form)
+      postgraduate_course_option = create(:course_option, course: create(:course, program_type: 'higher_education_programme'))
+      undergraduate_course_option = create(:course_option, course: create(:course, program_type: 'teacher_degree_apprenticeship'))
+      create(:application_choice, application_form: application_form, course_option: postgraduate_course_option)
+      create(:application_choice, application_form: application_form, course_option: undergraduate_course_option)
+      stub_application_forms_in_the_pool(application_form.id)
+
+      described_class.new.perform
+
+      candidate_pool_application = CandidatePoolApplication.last
+      expect(candidate_pool_application.course_type_postgraduate).to be true
+      expect(candidate_pool_application.course_type_undergraduate).to be true
+    end
+  end
+
+
 private
 
   def stub_application_forms_in_the_pool(application_form_ids)
