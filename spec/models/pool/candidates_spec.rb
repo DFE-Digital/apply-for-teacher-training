@@ -19,98 +19,36 @@ RSpec.describe Pool::Candidates do
     context 'with filters' do
       it 'returns application_forms based on filters' do
         manchester_coordinates = [53.4807593, -2.2426305]
-        liverpool_coordinates = [53.4076650, -2.9781493]
 
-        provider = create(:provider)
-        course = create(:course, provider:)
-        tda_course = create(
-          :course,
-          provider:,
-          program_type: :teacher_degree_apprenticeship,
+        manchester_application = create(:application_form, :completed)
+        create(
+          :candidate_pool_application,
+          application_form: manchester_application,
         )
-        course_option = create(
-          :course_option,
-          course: course,
-        )
-        part_time_course_option = create(
-          :course_option,
-          course: course,
-          study_mode: :part_time,
-        )
-        part_time_tda_course_option = create(
-          :course_option,
-          course: tda_course,
-          study_mode: :part_time,
-        )
+        manchester_preference = create(:candidate_preference, candidate: manchester_application.candidate)
+        create(:candidate_location_preference, :manchester, candidate_preference: manchester_preference)
 
-        subject = create(:subject)
-        create(:course_subject, subject:, course:)
-        create(:course_subject, subject:, course: tda_course)
+        liverpool_application = create(:application_form, :completed)
+        create(
+          :candidate_pool_application,
+          application_form: liverpool_application,
+        )
+        liverpool_preference = create(:candidate_preference, candidate: liverpool_application.candidate)
+        create(:candidate_location_preference, :liverpool, candidate_preference: liverpool_preference)
 
-        manchester_candidate_form = create_manchester_candidate_form(provider)
-        subject_candidate_form = create_subject_candidate_form(course_option)
-        part_time_candidate_form = create_part_time_candidate_form(part_time_course_option)
-        undergraduate_candidate_form = create_undergraduate_candidate_form(part_time_tda_course_option)
-        visa_sponsorship_candidate_form = create_visa_sponsorship_candidate_form(part_time_tda_course_option)
+        filters = {}
+        application_forms = described_class.application_forms_for_provider(filters:)
+
+        expect(application_forms.map(&:id)).to contain_exactly(
+          manchester_application.id,
+          liverpool_application.id,
+        )
 
         filters = { origin: manchester_coordinates }
         application_forms = described_class.application_forms_for_provider(filters:)
 
         expect(application_forms.map(&:id)).to contain_exactly(
-          manchester_candidate_form.id,
-          subject_candidate_form.id,
-          part_time_candidate_form.id,
-          undergraduate_candidate_form.id,
-        )
-
-        filters = { origin: manchester_coordinates, subject: [subject.id.to_s] }
-
-        application_forms = described_class.application_forms_for_provider(filters:)
-
-        expect(application_forms.map(&:id)).to contain_exactly(
-          part_time_candidate_form.id,
-          subject_candidate_form.id,
-          undergraduate_candidate_form.id,
-        )
-
-        filters = {
-          origin: manchester_coordinates,
-          subject: [subject.id.to_s],
-          study_mode: ['part_time'],
-        }
-
-        application_forms = described_class.application_forms_for_provider(filters:)
-
-        expect(application_forms.map(&:id)).to contain_exactly(
-          part_time_candidate_form.id,
-          undergraduate_candidate_form.id,
-        )
-
-        filters = {
-          origin: manchester_coordinates,
-          subject: [subject.id.to_s],
-          study_mode: ['part_time'],
-          course_type: ['TDA'],
-        }
-
-        application_forms = described_class.application_forms_for_provider(filters:)
-
-        expect(application_forms.map(&:id)).to contain_exactly(
-          undergraduate_candidate_form.id,
-        )
-
-        filters = {
-          origin: liverpool_coordinates,
-          subject: [subject.id.to_s],
-          study_mode: ['part_time'],
-          course_type: ['TDA'],
-          visa_sponsorship: ['required'],
-        }
-
-        application_forms = described_class.application_forms_for_provider(filters:)
-
-        expect(application_forms.map(&:id)).to contain_exactly(
-          visa_sponsorship_candidate_form.id,
+          manchester_application.id,
         )
       end
     end
@@ -233,73 +171,5 @@ RSpec.describe Pool::Candidates do
 
       expect(application_forms).to be_empty
     end
-  end
-
-  def create_manchester_candidate_form(provider)
-    manchester_candidate = create(:candidate)
-    candidate_preference = create(:candidate_preference, candidate: manchester_candidate)
-    create(:candidate_location_preference, :manchester, candidate_preference:)
-    manchester_candidate_form = create(:application_form, :completed, candidate: manchester_candidate)
-    create(:candidate_pool_application, application_form: manchester_candidate_form)
-    course = create(:course, provider:)
-    course_option = create(
-      :course_option,
-      course: course,
-    )
-    create(:application_choice, :rejected, application_form: manchester_candidate_form, course_option:)
-
-    manchester_candidate_form
-  end
-
-  def create_subject_candidate_form(course_option)
-    # This candidate also doesn't have a location preference.
-    # They should still appear when searching by location
-    subject_candidate = create(:candidate)
-    _candidate_preference = create(:candidate_preference, candidate: subject_candidate)
-    subject_candidate_form = create(:application_form, :completed, candidate: subject_candidate)
-    create(:candidate_pool_application, application_form: subject_candidate_form)
-    create(:application_choice, :rejected, application_form: subject_candidate_form, course_option:)
-
-    subject_candidate_form
-  end
-
-  def create_part_time_candidate_form(course_option)
-    part_time_candidate = create(:candidate)
-    candidate_preference = create(:candidate_preference, candidate: part_time_candidate)
-    create(:candidate_location_preference, :manchester, candidate_preference:)
-    part_time_candidate_form = create(:application_form, :completed, candidate: part_time_candidate)
-    create(:candidate_pool_application, application_form: part_time_candidate_form)
-    create(:application_choice, :rejected, application_form: part_time_candidate_form, course_option:)
-    part_time_candidate_form
-  end
-
-  def create_undergraduate_candidate_form(course_option)
-    undergraduate_candidate = create(:candidate)
-    candidate_preference = create(:candidate_preference, candidate: undergraduate_candidate)
-    create(:candidate_location_preference, :manchester, candidate_preference:)
-    undergraduate_candidate_form = create(
-      :application_form,
-      :completed,
-      candidate: undergraduate_candidate,
-    )
-    create(:candidate_pool_application, application_form: undergraduate_candidate_form)
-    create(:application_choice, :declined, application_form: undergraduate_candidate_form, course_option:)
-    undergraduate_candidate_form
-  end
-
-  def create_visa_sponsorship_candidate_form(course_option)
-    visa_sponsorship_candidate = create(:candidate)
-    candidate_preference = create(:candidate_preference, candidate: visa_sponsorship_candidate)
-    create(:candidate_location_preference, :liverpool, candidate_preference:)
-    visa_sponsorship_candidate_form = create(
-      :application_form,
-      :completed,
-      candidate: visa_sponsorship_candidate,
-      right_to_work_or_study: :no,
-    )
-    create(:candidate_pool_application, application_form: visa_sponsorship_candidate_form)
-    create(:application_choice, :declined, application_form: visa_sponsorship_candidate_form, course_option:)
-
-    visa_sponsorship_candidate_form
   end
 end

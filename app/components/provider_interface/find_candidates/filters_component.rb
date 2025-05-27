@@ -70,14 +70,8 @@ module ProviderInterface
         course_type = Struct.new(:value, :name)
 
         %w[undergraduate postgraduate].map do |value|
-          filter_value = if value == 'postgraduate'
-                           Course.program_types.except('teacher_degree_apprenticeship').values.join(',')
-                         else
-                           Course.program_types['teacher_degree_apprenticeship']
-                         end
-
           course_type.new(
-            value: filter_value,
+            value: value,
             name: value.capitalize,
           )
         end
