@@ -18,6 +18,7 @@ module CandidateInterface
           reference.update!(referee_type:, name:)
         else
           application_form.application_references.create!(name:, referee_type:)
+          application_form.update(references_completed: false)
         end
       end
     end
