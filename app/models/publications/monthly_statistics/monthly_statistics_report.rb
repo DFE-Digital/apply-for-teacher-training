@@ -3,8 +3,8 @@ module Publications
     class MonthlyStatisticsReport < ApplicationRecord
       validates :statistics, :generation_date, :publication_date, :month, presence: true
 
-      scope :published, -> { where('publication_date <= ?', Time.zone.now) }
-      scope :drafts, -> { where('publication_date > ?', Time.zone.now) }
+      scope :published, -> { where('publication_date <= ?', Time.zone.today) }
+      scope :drafts, -> { where('publication_date > ?', Time.zone.today) }
 
       def month_to_date
         Date.parse("#{month}-01")

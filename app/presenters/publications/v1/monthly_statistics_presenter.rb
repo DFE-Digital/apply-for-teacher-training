@@ -9,7 +9,7 @@ module Publications
         @report = report
       end
 
-      delegate :publication_date, :statistics, :deferred_application_count, :month, to: :report
+      delegate :publication_date, :generation_date, :statistics, :deferred_application_count, :month, to: :report
 
       def next_cycle_name
         next_timetable.cycle_range_name

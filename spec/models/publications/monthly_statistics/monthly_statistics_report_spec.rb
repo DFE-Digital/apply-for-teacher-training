@@ -23,7 +23,7 @@ RSpec.describe Publications::MonthlyStatistics::MonthlyStatisticsReport do
         published_report = create(
           :monthly_statistics_report,
           :v2,
-          publication_date: 1.day.ago,
+          publication_date: Time.zone.today,
           generation_date: 1.day.ago,
         )
 
@@ -43,7 +43,7 @@ RSpec.describe Publications::MonthlyStatistics::MonthlyStatisticsReport do
         create(
           :monthly_statistics_report,
           :v2,
-          publication_date: 1.day.ago,
+          publication_date: Time.zone.today,
           generation_date: 1.day.ago,
         )
         expect(described_class.drafts).to eq [draft_report]
