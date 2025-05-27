@@ -6,37 +6,42 @@ class FindACandidate::PopulatePoolWorker
   def perform
     application_forms_eligible_for_pool = Pool::Candidates.new.application_forms_in_the_pool
 
-    applications = application_forms_eligible_for_pool.map do |application_form|
-      study_mode_full_time = application_form.course_options.any? { |course_option| course_option.study_mode == 'full_time' }
-      study_mode_part_time = application_form.course_options.any? { |course_option| course_option.study_mode == 'part_time' }
+    applications = ApplicationForm
+                     .joins(course_options: { course: :subjects })
+                     .where(id: application_forms_eligible_for_pool.pluck(:id))
+                     .select(
+                       'application_forms.id AS application_form_id',
+                       'application_forms.candidate_id AS candidate_id',
+                       "BOOL_OR(course_options.study_mode = 'full_time') AS study_mode_full_time",
+                       "BOOL_OR(course_options.study_mode = 'part_time') AS study_mode_part_time",
+                       "BOOL_OR(courses.program_type != 'TDA') AS course_type_postgraduate",
+                       "BOOL_OR(courses.program_type = 'TDA') AS course_type_undergraduate",
+                       'ARRAY_AGG(DISTINCT subjects.id) AS subject_ids',
+                       "MAX(CASE WHEN application_forms.right_to_work_or_study = 'no' THEN 1 ELSE 0 END) = 1 AS needs_visa",
+                       'CURRENT_TIMESTAMP as created_at',
+                       'CURRENT_TIMESTAMP as updated_at',
+                     )
+                     .group(:id)
 
-      undergraduate_program_type = 'teacher_degree_apprenticeship'
-      postgraduate_program_types = Course.program_types.except('teacher_degree_apprenticeship').keys
-
-      course_type_postgraduate = application_form.course_options.any? { |course_option| postgraduate_program_types.include?(course_option.course.program_type) }
-      course_type_undergraduate = application_form.course_options.any? { |course_option| course_option.course.program_type == undergraduate_program_type }
-
-      subject_ids = application_form.courses.flat_map do |course|
-        course.subjects.pluck(:id)
-      end.uniq
-
-      needs_visa = application_form.right_to_work_or_study == 'no'
-
-      {
-        application_form_id: application_form.id,
-        candidate_id: application_form.candidate_id,
-        study_mode_full_time: study_mode_full_time,
-        study_mode_part_time: study_mode_part_time,
-        course_type_postgraduate: course_type_postgraduate,
-        course_type_undergraduate: course_type_undergraduate,
-        subject_ids: subject_ids,
-        needs_visa: needs_visa,
-      }
-    end
+    insert_all_from_eligible_sql = <<~SQL
+      INSERT INTO candidate_pool_applications (
+        application_form_id,
+        candidate_id,
+        study_mode_full_time,
+        study_mode_part_time,
+        course_type_postgraduate,
+        course_type_undergraduate,
+        subject_ids,
+        needs_visa,
+        created_at,
+        updated_at
+      )
+          #{applications.to_sql}
+    SQL
 
     CandidatePoolApplication.transaction do
       CandidatePoolApplication.delete_all
-      CandidatePoolApplication.insert_all!(applications)
+      ActiveRecord::Base.connection.execute(insert_all_from_eligible_sql)
     end
   end
 end

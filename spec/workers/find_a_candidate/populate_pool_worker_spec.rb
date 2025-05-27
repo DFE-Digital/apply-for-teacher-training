@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe FindACandidate::PopulatePoolWorker do
   describe '#perform' do
     it 'creates CandidatePoolApplication records' do
-      application_form = create(:application_form)
+      application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
       stub_application_forms_in_the_pool(application_form.id)
 
       expect {
@@ -14,7 +14,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     end
 
     it 'does not create duplicate CandidatePoolApplication records' do
-      application_form = create(:application_form)
+      application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
       create(:candidate_pool_application, application_form: application_form)
       stub_application_forms_in_the_pool(application_form.id)
 
@@ -24,7 +24,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     end
 
     it 'removes existing CandidatePoolApplication records before inserting new ones' do
-      application_form = create(:application_form)
+      application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
       create(:candidate_pool_application, application_form: application_form)
       stub_application_forms_in_the_pool(ApplicationForm.none)
 
@@ -34,8 +34,8 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     end
 
     it 'removes existing and adds new CandidatePoolApplication records' do
-      existing_application_in_pool = create(:application_form)
-      new_application_for_pool = create(:application_form)
+      existing_application_in_pool = create(:application_form, :completed, submitted_application_choices_count: 1)
+      new_application_for_pool = create(:application_form, :completed, submitted_application_choices_count: 1)
       create(:candidate_pool_application, application_form: existing_application_in_pool)
       stub_application_forms_in_the_pool(new_application_for_pool.id)
 
@@ -172,7 +172,9 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
 
     context 'when the application form answered no to right_to_work_or_studies' do
       it 'sets needs_visa to true' do
-        application_form = create(:application_form, right_to_work_or_study: :no)
+        application_form = create(:application_form, :completed,
+                                  submitted_application_choices_count: 1,
+                                  right_to_work_or_study: :no)
         stub_application_forms_in_the_pool(application_form.id)
 
         described_class.new.perform
@@ -184,7 +186,9 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
 
     context 'when the application form answered yes to right_to_work_or_studies' do
       it 'sets needs_visa to false' do
-        application_form = create(:application_form, right_to_work_or_study: :yes)
+        application_form = create(:application_form, :completed,
+                                  submitted_application_choices_count: 1,
+                                  right_to_work_or_study: :yes)
         stub_application_forms_in_the_pool(application_form.id)
 
         described_class.new.perform
@@ -196,7 +200,9 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
 
     context 'when the application form has not answered right_to_work_or_studies' do
       it 'sets needs_visa to false' do
-        application_form = create(:application_form, right_to_work_or_study: nil)
+        application_form = create(:application_form, :completed,
+                                  submitted_application_choices_count: 1,
+                                  right_to_work_or_study: nil)
         stub_application_forms_in_the_pool(application_form.id)
 
         described_class.new.perform
