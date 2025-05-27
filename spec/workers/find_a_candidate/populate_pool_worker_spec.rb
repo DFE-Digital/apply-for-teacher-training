@@ -45,6 +45,51 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
 
       expect(CandidatePoolApplication.last.application_form).to eq(new_application_for_pool)
     end
+
+    context 'when the candidate has applied to a full-time course' do
+      it 'sets study_mode_full_time to true' do
+        application_form = create(:application_form)
+        course_option = create(:course_option, study_mode: 'full_time')
+        _application_choice = create(:application_choice, application_form: application_form, course_option: course_option)
+        stub_application_forms_in_the_pool(application_form.id)
+
+        described_class.new.perform
+
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.study_mode_full_time).to be true
+      end
+    end
+
+    context 'when the candidate has applied to a part-time course' do
+      it 'sets study_mode_part_time to true' do
+        application_form = create(:application_form)
+        course_option = create(:course_option, study_mode: 'part_time')
+        _application_choice = create(:application_choice, application_form: application_form, course_option: course_option)
+        stub_application_forms_in_the_pool(application_form.id)
+
+        described_class.new.perform
+
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.study_mode_part_time).to be true
+      end
+    end
+
+    context 'when the candidate has applied to both full-time and part-time courses' do
+      it 'sets both study_mode_full_time and study_mode_part_time to true' do
+        application_form = create(:application_form)
+        full_time_course_option = create(:course_option, study_mode: 'full_time')
+        part_time_course_option = create(:course_option, study_mode: 'part_time')
+        _application_choice1 = create(:application_choice, application_form: application_form, course_option: full_time_course_option)
+        _application_choice2 = create(:application_choice, application_form: application_form, course_option: part_time_course_option)
+        stub_application_forms_in_the_pool(application_form.id)
+
+        described_class.new.perform
+
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.study_mode_full_time).to be true
+        expect(candidate_pool_application.study_mode_part_time).to be true
+      end
+    end
   end
 
 private
