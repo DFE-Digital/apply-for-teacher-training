@@ -53,7 +53,12 @@ module CandidateInterface
       end
 
       def set_references
-        @references = current_application.application_references.includes(:application_form)
+        @references = current_application
+                        .application_references.includes(:application_form)
+                        .order(
+                          Arel.sql('CASE WHEN (email_address IS NULL OR relationship IS NULL) THEN 0 ELSE 1 END ASC'),
+                          'created_at DESC',
+                        )
       end
 
       def set_destroy_backlink
