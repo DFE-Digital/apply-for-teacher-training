@@ -15,6 +15,10 @@ class FindACandidate::PopulatePoolWorker
 
       postgraduate = application_form.course_options.any? { |course_option| postgraduate_program_types.include?(course_option.course.program_type) }
       undergraduate = application_form.course_options.any? { |course_option| course_option.course.program_type == undergraduate_program_type }
+      subject_ids = application_form.courses.flat_map do |course|
+        course.subjects.pluck(:id)
+      end.uniq
+
       {
         application_form_id: application_form.id,
         candidate_id: application_form.candidate_id,
@@ -22,6 +26,7 @@ class FindACandidate::PopulatePoolWorker
         study_mode_part_time: part_time,
         course_type_postgraduate: postgraduate,
         course_type_undergraduate: undergraduate,
+        subject_ids: subject_ids,
       }
     end
 
