@@ -90,84 +90,120 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         expect(candidate_pool_application.study_mode_part_time).to be true
       end
     end
-  end
 
-  context 'when the candidate has applied to a postgraduate course' do
-    it 'sets course_type_postgraduate to true' do
-      application_form = create(:application_form)
-      course_option = create(:course_option, course: create(:course, program_type: 'higher_education_programme'))
-      create(:application_choice, application_form: application_form, course_option: course_option)
+    context 'when the candidate has applied to a postgraduate course' do
+      it 'sets course_type_postgraduate to true' do
+        application_form = create(:application_form)
+        course_option = create(:course_option, course: create(:course, program_type: 'higher_education_programme'))
+        create(:application_choice, application_form: application_form, course_option: course_option)
 
-      stub_application_forms_in_the_pool(application_form.id)
+        stub_application_forms_in_the_pool(application_form.id)
 
-      described_class.new.perform
+        described_class.new.perform
 
-      candidate_pool_application = CandidatePoolApplication.last
-      expect(candidate_pool_application.course_type_postgraduate).to be true
-    end
-  end
-
-  context 'when the candidate has applied to an undergraduate course' do
-    it 'sets course_type_undergraduate to true' do
-      application_form = create(:application_form)
-      course_option = create(:course_option, course: create(:course, program_type: 'teacher_degree_apprenticeship'))
-      create(:application_choice, application_form: application_form, course_option: course_option)
-      stub_application_forms_in_the_pool(application_form.id)
-
-      described_class.new.perform
-
-      candidate_pool_application = CandidatePoolApplication.last
-      expect(candidate_pool_application.course_type_undergraduate).to be true
-    end
-  end
-
-  context 'when the candidate has applied to both postgraduate and undergraduate courses' do
-    it 'sets both course_type_postgraduate and course_type_undergraduate to true' do
-      application_form = create(:application_form)
-      postgraduate_course_option = create(:course_option, course: create(:course, program_type: 'higher_education_programme'))
-      undergraduate_course_option = create(:course_option, course: create(:course, program_type: 'teacher_degree_apprenticeship'))
-      create(:application_choice, application_form: application_form, course_option: postgraduate_course_option)
-      create(:application_choice, application_form: application_form, course_option: undergraduate_course_option)
-      stub_application_forms_in_the_pool(application_form.id)
-
-      described_class.new.perform
-
-      candidate_pool_application = CandidatePoolApplication.last
-      expect(candidate_pool_application.course_type_postgraduate).to be true
-      expect(candidate_pool_application.course_type_undergraduate).to be true
-    end
-  end
-
-  context 'populating subject_ids' do
-    it 'sets subject_ids to the subjects of the courses' do
-      application_form = create(:application_form)
-      subject = create(:subject)
-      course_option = create(:course_option, course: create(:course, subjects: [subject]))
-      create(:application_choice, application_form: application_form, course_option: course_option)
-      stub_application_forms_in_the_pool(application_form.id)
-
-      described_class.new.perform
-
-      candidate_pool_application = CandidatePoolApplication.last
-      expect(candidate_pool_application.subject_ids).to eq([subject.id])
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.course_type_postgraduate).to be true
+      end
     end
 
-    it 'sets subject_ids to unique subjects of all courses' do
-      application_form = create(:application_form)
-      subject1 = create(:subject, id: 999991) # id set to ensure we're not picking up some other id
-      subject2 = create(:subject, id: 999992) # id set to ensure we're not picking up some other id
-      course_option1 = create(:course_option, course: create(:course, subjects: [subject1]))
-      course_option2 = create(:course_option, course: create(:course, subjects: [subject2]))
-      course_option3 = create(:course_option, course: create(:course, subjects: [subject1, subject2]))
-      create(:application_choice, application_form: application_form, course_option: course_option1)
-      create(:application_choice, application_form: application_form, course_option: course_option2)
-      create(:application_choice, application_form: application_form, course_option: course_option3)
-      stub_application_forms_in_the_pool(application_form.id)
+    context 'when the candidate has applied to an undergraduate course' do
+      it 'sets course_type_undergraduate to true' do
+        application_form = create(:application_form)
+        course_option = create(:course_option, course: create(:course, program_type: 'teacher_degree_apprenticeship'))
+        create(:application_choice, application_form: application_form, course_option: course_option)
+        stub_application_forms_in_the_pool(application_form.id)
 
-      described_class.new.perform
+        described_class.new.perform
 
-      candidate_pool_application = CandidatePoolApplication.last
-      expect(candidate_pool_application.subject_ids).to contain_exactly(subject1.id, subject2.id)
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.course_type_undergraduate).to be true
+      end
+    end
+
+    context 'when the candidate has applied to both postgraduate and undergraduate courses' do
+      it 'sets both course_type_postgraduate and course_type_undergraduate to true' do
+        application_form = create(:application_form)
+        postgraduate_course_option = create(:course_option, course: create(:course, program_type: 'higher_education_programme'))
+        undergraduate_course_option = create(:course_option, course: create(:course, program_type: 'teacher_degree_apprenticeship'))
+        create(:application_choice, application_form: application_form, course_option: postgraduate_course_option)
+        create(:application_choice, application_form: application_form, course_option: undergraduate_course_option)
+        stub_application_forms_in_the_pool(application_form.id)
+
+        described_class.new.perform
+
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.course_type_postgraduate).to be true
+        expect(candidate_pool_application.course_type_undergraduate).to be true
+      end
+    end
+
+    context 'populating subject_ids' do
+      it 'sets subject_ids to the subjects of the courses' do
+        application_form = create(:application_form)
+        subject = create(:subject)
+        course_option = create(:course_option, course: create(:course, subjects: [subject]))
+        create(:application_choice, application_form: application_form, course_option: course_option)
+        stub_application_forms_in_the_pool(application_form.id)
+
+        described_class.new.perform
+
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.subject_ids).to eq([subject.id])
+      end
+
+      it 'sets subject_ids to unique subjects of all courses' do
+        application_form = create(:application_form)
+        subject1 = create(:subject, id: 999991) # id set to ensure we're not picking up some other id
+        subject2 = create(:subject, id: 999992) # id set to ensure we're not picking up some other id
+        course_option1 = create(:course_option, course: create(:course, subjects: [subject1]))
+        course_option2 = create(:course_option, course: create(:course, subjects: [subject2]))
+        course_option3 = create(:course_option, course: create(:course, subjects: [subject1, subject2]))
+        create(:application_choice, application_form: application_form, course_option: course_option1)
+        create(:application_choice, application_form: application_form, course_option: course_option2)
+        create(:application_choice, application_form: application_form, course_option: course_option3)
+        stub_application_forms_in_the_pool(application_form.id)
+
+        described_class.new.perform
+
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.subject_ids).to contain_exactly(subject1.id, subject2.id)
+      end
+    end
+
+    context 'when the application form answered no to right_to_work_or_studies' do
+      it 'sets needs_visa to true' do
+        application_form = create(:application_form, right_to_work_or_study: :no)
+        stub_application_forms_in_the_pool(application_form.id)
+
+        described_class.new.perform
+
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.needs_visa).to be true
+      end
+    end
+
+    context 'when the application form answered yes to right_to_work_or_studies' do
+      it 'sets needs_visa to false' do
+        application_form = create(:application_form, right_to_work_or_study: :yes)
+        stub_application_forms_in_the_pool(application_form.id)
+
+        described_class.new.perform
+
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.needs_visa).to be false
+      end
+    end
+
+    context 'when the application form has not answered right_to_work_or_studies' do
+      it 'sets needs_visa to false' do
+        application_form = create(:application_form, right_to_work_or_study: nil)
+        stub_application_forms_in_the_pool(application_form.id)
+
+        described_class.new.perform
+
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.needs_visa).to be false
+      end
     end
   end
 

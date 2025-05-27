@@ -19,6 +19,8 @@ class FindACandidate::PopulatePoolWorker
         course.subjects.pluck(:id)
       end.uniq
 
+      needs_visa = application_form.right_to_work_or_study == 'no'
+
       {
         application_form_id: application_form.id,
         candidate_id: application_form.candidate_id,
@@ -27,6 +29,7 @@ class FindACandidate::PopulatePoolWorker
         course_type_postgraduate: postgraduate,
         course_type_undergraduate: undergraduate,
         subject_ids: subject_ids,
+        needs_visa: needs_visa,
       }
     end
 
