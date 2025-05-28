@@ -1,0 +1,7 @@
+en:
+  support_interface:
+    providers:
+      applications:
+        description: This task generates 100 new applications for the current provider, with one course choice per application.
+        generate: Generate test applications
+        cannot_generate: Before we can generate test data, %{provider} needs at least one course published to Sandbox that is open for applications in the current cycle.
