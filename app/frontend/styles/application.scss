@@ -71,6 +71,7 @@ $govuk-new-link-styles: true;
 @import "div";
 @import "previews";
 @import "metadata";
+@import "components/tabs";
 
 // Override utilities
 @import "overrides";
