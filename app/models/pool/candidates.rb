@@ -70,19 +70,25 @@ private
   def filter_by_distance(application_forms_scope)
     return application_forms_scope unless active_location_filter?
 
+    candidate_ids = application_forms_scope.select(:candidate_id)
     origin = filters.fetch(:origin)
 
-    candidate_preferences_anywhere = CandidatePreference.where(pool_status: 'opt_in', status: 'published')
+    candidate_preferences_anywhere = CandidatePreference
+                                       .where(candidate_id: candidate_ids, pool_status: 'opt_in', status: 'published')
                                        .where.missing(:location_preferences)
                                        .select('candidate_preferences.candidate_id as candidate_id', '-1 as distance')
 
     candidate_location_preferences_near_origin = CandidateLocationPreference
                                                    .joins(:candidate_preference)
-                                                   .where(candidate_preferences: { pool_status: 'opt_in', status: 'published' })
+                                                   .where(candidate_preferences: {
+                                                     pool_status: 'opt_in',
+                                                     status: 'published',
+                                                     candidate_id: candidate_ids,
+                                                   })
                                                    .near(origin, :within)
                                                    .select('candidate_preferences.candidate_id as candidate_id')
 
-    candidates_near_origin = Candidate.with(
+    candidates_near_origin = Candidate.where(id: candidate_ids).with(
       candidate_preferences_anywhere: candidate_preferences_anywhere,
       candidate_location_preferences_near_origin: candidate_location_preferences_near_origin,
     )
