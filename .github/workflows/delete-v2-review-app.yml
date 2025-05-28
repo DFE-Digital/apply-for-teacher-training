@@ -63,36 +63,12 @@ jobs:
           storage-account-name: "${{ env.AZURE_RESOURCE_PREFIX }}${{ env.SERVICE_SHORT }}tfstate${{ env.CONFIG_SHORT }}sa"
           tf-state-file: ${{ env.TF_STATE_FILE }}
 
-      - name: Update ${{ env.DEPLOY_ENV }} status
-        if: always() && env.TF_STATE_EXISTS == 'true'
-        id: deactivate-env
-        uses: bobheadxi/deployments@v1
+      - name: Post sticky pull request comment
+        if: env.TF_STATE_EXISTS == 'true'
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
-          env: ${{ env.DEPLOY_ENV }}
-          step: deactivate-env
-          token: ${{ secrets.GITHUB_TOKEN }}
-          desc: The deployment for ${{ env.DEPLOY_ENV }} has been removed.
+          header: review-app-v2
+          message: |
+            ### Review App Deleted
 
-      - uses: actions/github-script@v7
-        name: Remove environment entity
-        if: always() && (steps.deactivate-env.outcome == 'success')
-        with:
-          github-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
-          script: |
-            const environment = process.env.DEPLOY_ENV || ''
-
-            if (environment) {
-              github.rest.repos.deleteAnEnvironment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                environment_name: environment
-              }).then(res => {
-                  console.log(`The environment ${environment} was removed successfully.`)
-              }).catch(err => {
-                  core.setFailed(err.message)
-              })
-            } else {
-              core.setFailed('An environment was not passed for deletion.')
-            }
-        env:
-          DEPLOY_ENV: ${{env.DEPLOY_ENV}}
+            The review app for PR #${{ github.event.pull_request.number }} has been successfully removed.

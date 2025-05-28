@@ -302,15 +302,6 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - name: Start review-${{ github.event.pull_request.number }} Deployment
-        uses: bobheadxi/deployments@v1
-        id: deployment
-        with:
-          env: review-${{ github.event.pull_request.number }}
-          ref: ${{ github.head_ref }}
-          step: start
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -326,17 +317,19 @@ jobs:
           sha: ${{ needs.build.outputs.IMAGE_TAG }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
-      - name: Update review-${{ github.event.pull_request.number }} status
-        if: always()
-        uses: bobheadxi/deployments@v1
+      - name: Post sticky pull request comment
+        if: success()
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
-          env: review-${{ github.event.pull_request.number }}
-          ref: ${{ github.head_ref }}
-          step: finish
-          token: ${{ secrets.GITHUB_TOKEN }}
-          status: ${{ job.status }}
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: ${{ steps.deploy_v2_review.outputs.deploy-url }}
+          header: review-app-v2
+          message: |
+            ### Review App Deployed
+
+            | Environment | URL |
+            | --- | --- |
+            | review-${{ github.event.pull_request.number }} | ${{ steps.deploy_v2_review.outputs.deploy-url }} |
+
+            The review app has been successfully deployed and is ready for testing.
 
   merge-dependabot:
     name: Merge dependabot
