@@ -37,13 +37,13 @@ module SupportInterface
       end
 
       if applied_filters[:opt_in_status]&.include?('findable')
-        application_forms = Pool::Candidates.new(providers: []).curated_application_forms.joins(candidate: :published_opt_in_preferences)
-        .where(candidate: { submission_blocked: false, account_locked: false }) # change this to check the new table that will have been produced
+        application_forms = application_forms.joins(:candidate_pool_application)
       end
 
       if applied_filters[:opt_in_status]&.include?('opt_in')
         application_forms = application_forms
           .joins(candidate: :published_opt_in_preferences)
+          .where.missing(:candidate_pool_application)
       end
 
       if applied_filters[:opt_in_status]&.include?('opt_out')
