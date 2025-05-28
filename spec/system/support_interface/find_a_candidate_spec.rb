@@ -80,7 +80,11 @@ RSpec.describe 'Support user views candidate pool list' do
       submitted_at: 6.hours.ago,
       right_to_work_or_study: :no,
     )
-    create(:candidate_pool_application, application_form: @visa_sponsorship_form)
+    create(
+      :candidate_pool_application,
+      application_form: @visa_sponsorship_form,
+      needs_visa: true,
+    )
   end
 
   def then_i_expect_to_see_eligible_candidates_order_by_application_form_submitted_at

@@ -108,16 +108,10 @@ module SupportInterface
 
     def course_type_options
       %w[undergraduate postgraduate].map do |value|
-        filter_value = if value == 'postgraduate'
-                         Course.program_types.except('teacher_degree_apprenticeship').values.join(',')
-                       else
-                         Course.program_types['teacher_degree_apprenticeship']
-                       end
-
         {
-          value: filter_value,
+          value: value,
           label: value.capitalize,
-          checked: applied_filters[:course_type]&.include?(filter_value),
+          checked: applied_filters[:course_type]&.include?(value),
         }
       end
     end

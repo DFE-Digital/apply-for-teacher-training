@@ -13,6 +13,7 @@ RSpec.describe 'Providers views candidate pool list' do
     set_rejected_candidate_form
     set_declined_candidate_form
     set_visa_sponsorship_candidate_form
+    create_list(:subject, 2)
 
     allow(GoogleMapsAPI::Client).to receive(:new).and_return(client)
     allow(client).to receive(:autocomplete).and_return(api_response)
@@ -94,18 +95,6 @@ RSpec.describe 'Providers views candidate pool list' do
       submitted_at: Time.zone.today,
     )
     create(:candidate_pool_application, application_form: @declined_candidate_form)
-    create(:application_choice, :declined, application_form: @declined_candidate_form)
-
-    previous_cycle_form = create(
-      :application_form,
-      :completed,
-      first_name: 'test',
-      last_name: 'test',
-      recruitment_cycle_year: previous_year,
-      submitted_at: 1.year.ago,
-      candidate: declined_candidate,
-    )
-    create(:application_choice, :declined, application_form: previous_cycle_form)
   end
 
   def set_rejected_candidate_form
@@ -119,16 +108,6 @@ RSpec.describe 'Providers views candidate pool list' do
       submitted_at: 1.day.ago,
     )
     create(:candidate_pool_application, application_form: @rejected_candidate_form)
-    course_option = create(
-      :course_option,
-      course: create(:course, provider: current_provider),
-    )
-    create(
-      :application_choice,
-      :rejected,
-      application_form: @rejected_candidate_form,
-      course_option:,
-    )
   end
 
   def set_visa_sponsorship_candidate_form
@@ -142,16 +121,10 @@ RSpec.describe 'Providers views candidate pool list' do
       submitted_at: 6.hours.ago,
       right_to_work_or_study: :no,
     )
-    create(:candidate_pool_application, application_form: @visa_sponsorship_form)
-    course_option = create(
-      :course_option,
-      course: create(:course, provider: current_provider),
-    )
     create(
-      :application_choice,
-      :rejected,
+      :candidate_pool_application,
       application_form: @visa_sponsorship_form,
-      course_option:,
+      needs_visa: true,
     )
   end
 

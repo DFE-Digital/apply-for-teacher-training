@@ -5,4 +5,90 @@ RSpec.describe CandidatePoolApplication do
     it { is_expected.to belong_to(:application_form) }
     it { is_expected.to belong_to(:candidate) }
   end
+
+  describe '.filtered_application_forms' do
+    it 'returns application_forms based on filters' do
+      subject_candidate_form = create(:application_form, :completed)
+      create(
+        :candidate_pool_application,
+        application_form: subject_candidate_form,
+        candidate: subject_candidate_form.candidate,
+        subject_ids: [1],
+      )
+      part_time_candidate_form = create(:application_form, :completed)
+      create(
+        :candidate_pool_application,
+        application_form: part_time_candidate_form,
+        candidate: part_time_candidate_form.candidate,
+        subject_ids: [1],
+        study_mode_part_time: true,
+      )
+      undergraduate_candidate_form = create(:application_form, :completed)
+      create(
+        :candidate_pool_application,
+        application_form: undergraduate_candidate_form,
+        candidate: undergraduate_candidate_form.candidate,
+        subject_ids: [1],
+        study_mode_part_time: true,
+        course_type_undergraduate: true,
+      )
+      visa_sponsorship_candidate_form = create(:application_form, :completed)
+      create(
+        :candidate_pool_application,
+        application_form: visa_sponsorship_candidate_form,
+        candidate: visa_sponsorship_candidate_form.candidate,
+        needs_visa: true,
+      )
+
+      filters = {}
+      application_forms = described_class.filtered_application_forms(filters)
+
+      expect(application_forms.ids).to contain_exactly(
+        subject_candidate_form.id,
+        part_time_candidate_form.id,
+        undergraduate_candidate_form.id,
+        visa_sponsorship_candidate_form.id,
+      )
+
+      filters = { subject: ['1'] }
+      application_forms = described_class.filtered_application_forms(filters)
+
+      expect(application_forms.ids).to contain_exactly(
+        subject_candidate_form.id,
+        part_time_candidate_form.id,
+        undergraduate_candidate_form.id,
+      )
+
+      filters = {
+        subject: ['1'],
+        study_mode: ['part_time'],
+      }
+      application_forms = described_class.filtered_application_forms(filters)
+
+      expect(application_forms.ids).to contain_exactly(
+        part_time_candidate_form.id,
+        undergraduate_candidate_form.id,
+      )
+
+      filters = {
+        subject: ['1'],
+        study_mode: ['part_time'],
+        course_type: ['undergraduate'],
+      }
+      application_forms = described_class.filtered_application_forms(filters)
+
+      expect(application_forms.ids).to contain_exactly(
+        undergraduate_candidate_form.id,
+      )
+
+      filters = {
+        visa_sponsorship: ['required'],
+      }
+      application_forms = described_class.filtered_application_forms(filters)
+
+      expect(application_forms.ids).to contain_exactly(
+        visa_sponsorship_candidate_form.id,
+      )
+    end
+  end
 end

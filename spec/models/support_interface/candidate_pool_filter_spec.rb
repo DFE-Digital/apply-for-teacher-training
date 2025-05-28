@@ -47,12 +47,12 @@ RSpec.describe SupportInterface::CandidatePoolFilter do
           name: 'course_type',
           options: [
             {
-              value: 'TDA',
+              value: 'undergraduate',
               label: 'Undergraduate',
               checked: nil,
             },
             {
-              value: 'HE,HES,SD,SS,SC,SSC,TA',
+              value: 'postgraduate',
               label: 'Postgraduate',
               checked: nil,
             },
