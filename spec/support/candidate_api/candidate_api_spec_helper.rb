@@ -13,6 +13,10 @@ module CandidateAPISpecHelper
     @candidate_api_token = ServiceAPIUser.candidate_user.create_magic_link_token!
   end
 
+  def teacher_success_api_token
+    @teacher_success_api_token = ServiceAPIUser.teacher_success_user.create_magic_link_token!
+  end
+
   def parsed_response
     JSON.parse(response.body)
   end

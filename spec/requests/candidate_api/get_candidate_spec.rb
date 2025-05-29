@@ -26,6 +26,15 @@ RSpec.describe 'GET /candidate-api/:versions/candidates/:candidate_id' do
         expect(response).to have_http_status(:success)
       end
 
+      it 'allows access to the API for Teacher Success users' do
+        candidate = create(:candidate)
+        candidate_id_param = "C#{candidate.id}"
+
+        get_api_request "/candidate-api/#{version}/candidates/#{candidate_id_param}", token: teacher_success_api_token
+
+        expect(response).to have_http_status(:success)
+      end
+
       it 'conforms to the API spec' do
         candidate = create(:candidate)
         candidate_id_param = "C#{candidate.id}"
