@@ -12,8 +12,6 @@
   - course_type_postgraduate
   - course_type_undergraduate
   - subject_ids
-  candidate_location_preferences:
-  - provider_id
   :candidate_pool_provider_opt_ins:
   - id
   - provider_id
