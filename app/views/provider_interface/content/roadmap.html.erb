@@ -62,5 +62,14 @@
           ],
           type: :bullet,
         ) %>
+    <p class="govuk-body">
+      <%= t(
+            '.if_you_would_like_to_participate_html',
+            link: govuk_link_to(
+              t('.short_form'),
+              t('.research_link'),
+            ),
+          ) %>
+    </p>
   </div>
 </div>
