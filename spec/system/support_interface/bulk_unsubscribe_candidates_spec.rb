@@ -11,7 +11,7 @@ RSpec.describe 'bulk unsubscribe Candidates' do
     when_i_click_continue
     then_i_see_bulk_unsubscribe_form_validation_error
 
-    when_i_enter_the_email_addresses
+    when_i_fill_the_form
     and_i_click_continue
     then_i_can_see_candidates_are_unsubscribed
   end
@@ -40,14 +40,17 @@ private
   alias_method :and_i_click_continue, :when_i_click_continue
 
   def then_i_see_bulk_unsubscribe_form_validation_error
-    expect(page).to have_content("can't be blank")
+    expect(page).to have_content('You must provide email addresses')
+    expect(page).to have_content('You must provide an audit comment')
   end
 
-  def when_i_enter_the_email_addresses
+  def when_i_fill_the_form
     fill_in 'Email addresses', with: '
     candidate_1@email.address
     candidate_3@email.address
     '
+
+    fill_in 'Audit log comment', with: 'Audit log'
   end
 
   def then_i_can_see_candidates_are_unsubscribed
