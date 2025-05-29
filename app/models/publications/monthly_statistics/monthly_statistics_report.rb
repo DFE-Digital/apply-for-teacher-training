@@ -18,34 +18,18 @@ module Publications
         generation_date > RecruitmentCycleTimetable.find_by(recruitment_cycle_year: 2024).find_opens_at
       end
 
-      def self.current_period
-        published.order(publication_date: :asc).last
-      end
-
-      def self.current_published_report_at(date)
-        month = date.strftime('%Y-%m')
-
-        published
-          .where(month:)
-          .order(created_at: :desc)
-          .first!
+      def self.latest_published_report
+        published.order(generation_date: :asc).last!
       end
 
       def self.report_for_latest_in_cycle(recruitment_cycle_year)
-        return current_period if RecruitmentCycleTimetable.current_year == recruitment_cycle_year
+        timetable = RecruitmentCycleTimetable.find_by!(recruitment_cycle_year: recruitment_cycle_year)
 
-        month = latest_month_for(recruitment_cycle_year)
+        report = published.where(generation_date: timetable.find_opens_at..timetable.find_closes_at)
+                          .order(:generation_date)
+                          .last
 
-        if month.present?
-          current_published_report_at(Date.parse("#{month}-01"))
-        else
-          raise ActiveRecord::RecordNotFound
-        end
-      end
-
-      def self.latest_month_for(recruitment_cycle_year)
-        period = RecruitmentCycleTimetable.find_by!(recruitment_cycle_year:)&.apply_deadline_at
-        [period.year, period.month].join('-')
+        report.presence || raise(ActiveRecord::RecordNotFound)
       end
     end
   end

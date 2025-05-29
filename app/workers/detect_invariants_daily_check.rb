@@ -14,16 +14,21 @@ class DetectInvariantsDailyCheck
 
   def detect_if_the_monthly_statistics_has_not_run
     return unless HostingEnvironment.production?
-    return if MonthlyStatisticsTimetable.current_generation_date.after? Time.zone.now
 
-    latest_monthly_report = Publications::MonthlyStatistics::MonthlyStatisticsReport.last
+    latest_past_generation_date = Publications::MonthlyStatistics::Timetable
+                                           .new
+                                           .generated_schedules
+                                           .last
+                                           .generation_date
 
-    return if latest_monthly_report.nil? || latest_monthly_report.generation_date >= MonthlyStatisticsTimetable.current_generation_date
+    report = Publications::MonthlyStatistics::MonthlyStatisticsReport.find_by(
+      generation_date: latest_past_generation_date,
+    )
 
-    latest_month = MonthlyStatisticsTimetable.last_publication_date.strftime('%B')
-
-    message = "The monthly statistics report has not been generated for #{latest_month}"
-    Sentry.capture_exception(MonthlyStatisticsReportHasNotRun.new(message))
+    if report.blank?
+      message = "The monthly statistics report has not been generated for #{latest_past_generation_date.to_date.strftime('%B')}"
+      Sentry.capture_exception(MonthlyStatisticsReportHasNotRun.new(message))
+    end
   end
 
   def detect_applications_with_course_choices_in_previous_cycle
