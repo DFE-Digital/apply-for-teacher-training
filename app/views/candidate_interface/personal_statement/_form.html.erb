@@ -7,13 +7,14 @@
 </h1>
 
 <%= render 'guidance' %>
-
-<% if application_form.eligible_and_unassigned_a_teaching_training_adviser? %>
-  <p class="govuk-body">If you have a bachelor’s degree, you can get support with your personal statement by speaking to our <%= govuk_link_to('teacher training advisers', new_candidate_interface_adviser_sign_ups_path) %>.</p>
-<% elsif application_form.waiting_to_be_assigned_to_an_adviser? || application_form.already_assigned_to_an_adviser? %>
-  <p class="govuk-body">Ask your teacher training adviser for help with your personal statement.</p>
-<% else %>
-  <p class="govuk-body">If you have a bachelor’s degree, you can get support with your personal statement by speaking to our <%= govuk_link_to_with_utm_params('teacher training advisers', t('get_into_teaching.url_get_an_adviser_start'), utm_campaign(params), current_application.phase) %>.</p>
+<% if FeatureFlag.active?(:adviser_sign_up) %>
+  <% if application_form.eligible_and_unassigned_a_teaching_training_adviser? %>
+    <p class="govuk-body">If you have a bachelor’s degree, you can get support with your personal statement by speaking to our <%= govuk_link_to('teacher training advisers', new_candidate_interface_adviser_sign_ups_path) %>.</p>
+  <% elsif application_form.waiting_to_be_assigned_to_an_adviser? || application_form.already_assigned_to_an_adviser? %>
+    <p class="govuk-body">Ask your teacher training adviser for help with your personal statement.</p>
+  <% else %>
+    <p class="govuk-body">If you have a bachelor’s degree, you can get support with your personal statement by speaking to our <%= govuk_link_to_with_utm_params('teacher training advisers', t('get_into_teaching.url_get_an_adviser_start'), utm_campaign(params), current_application.phase) %>.</p>
+  <% end %>
 <% end %>
 
 <%= f.govuk_text_area :becoming_a_teacher, label: { text: 'Your personal statement', size: 'm' }, rows: 25, max_words: 1000 %>

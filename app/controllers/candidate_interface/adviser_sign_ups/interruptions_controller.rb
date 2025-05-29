@@ -1,6 +1,8 @@
 module CandidateInterface
   module AdviserSignUps
     class InterruptionsController < CandidateInterfaceController
+      before_action :render_404_if_adviser_sign_unavailable
+
       def show
         @adviser_interruption_form = CandidateInterface::AdviserInterruptionForm.new({ application_form:, proceed_to_request_adviser: params[:proceed_to_request_adviser] })
       end
@@ -32,6 +34,10 @@ module CandidateInterface
         params
           .fetch(:candidate_interface_adviser_interruption_form, {})
           .permit(:proceed_to_request_adviser)
+      end
+
+      def render_404_if_adviser_sign_unavailable
+        render_404 if FeatureFlag.inactive?(:adviser_sign_up)
       end
     end
   end
