@@ -58,7 +58,9 @@ begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
   logger.fatal e.to_s.strip
+  # rubocop:disable Rails/Exit
   exit 1
+  # rubocop:enable Rails/Exit
 end
 
 Faker::Config.locale = 'en-GB'
