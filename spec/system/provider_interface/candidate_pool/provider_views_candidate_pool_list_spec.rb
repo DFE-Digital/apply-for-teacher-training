@@ -8,12 +8,13 @@ RSpec.describe 'Providers views candidate pool list' do
   let(:client) { instance_double(GoogleMapsAPI::Client) }
   let(:api_response) { [{ name: 'Manchester', place_id: }] }
   let(:place_id) { 'test_id' }
+  let!(:primary_subject) { create(:subject, name: 'Primary') }
+  let!(:maths_subject) { create(:subject, name: 'Maths') }
 
   before do
     set_rejected_candidate_form
     set_declined_candidate_form
     set_visa_sponsorship_candidate_form
-    create_list(:subject, 2)
 
     allow(GoogleMapsAPI::Client).to receive(:new).and_return(client)
     allow(client).to receive(:autocomplete).and_return(api_response)
@@ -196,17 +197,9 @@ RSpec.describe 'Providers views candidate pool list' do
     expect(page).to have_content('1 candidate found')
   end
 
-  def first_subject
-    @first_subject ||= Subject.select("name, string_agg(id::text, ',') as id").group(:name).order(:name).first
-  end
-
-  def last_subject
-    @last_subject ||= Subject.select("name, string_agg(id::text, ',') as id").group(:name).order(:name).last
-  end
-
   def when_i_add_all_remaining_filters
-    check(first_subject.name)
-    check(last_subject.name)
+    check(primary_subject.name)
+    check(maths_subject.name)
     check('Full time')
     check('Part time')
     check('Undergraduate')
@@ -218,8 +211,8 @@ RSpec.describe 'Providers views candidate pool list' do
   def then_i_expect_all_the_filters_to_be_applied
     within('.moj-filter__selected') do
       expect(page).to have_link 'Remove candidate location preference filter Manchester'
-      expect(page).to have_link "Remove subject filter #{first_subject.name}"
-      expect(page).to have_link "Remove subject filter #{last_subject.name}"
+      expect(page).to have_link "Remove subject filter #{primary_subject.name}"
+      expect(page).to have_link "Remove subject filter #{maths_subject.name}"
       expect(page).to have_link 'Remove study type filter Full time'
       expect(page).to have_link 'Remove study type filter Part time'
       expect(page).to have_link 'Remove course type filter Undergraduate'
@@ -232,7 +225,7 @@ RSpec.describe 'Providers views candidate pool list' do
   def when_i_remove_some_filters
     within('.moj-filter__selected') do
       click_link_or_button('Remove candidate location preference filter Manchester')
-      click_link_or_button("Remove subject filter #{last_subject.name}")
+      click_link_or_button("Remove subject filter #{primary_subject.name}")
       click_link_or_button('Part time')
       click_link_or_button('Undergraduate')
       click_link_or_button('Needs a visa')
@@ -243,7 +236,7 @@ RSpec.describe 'Providers views candidate pool list' do
     filters = page.all('.moj-filter__selected a').map(&:text)
     expect(filters).to match([
       'Clear filters',
-      "Remove subject filter #{first_subject.name}",
+      "Remove subject filter #{maths_subject.name}",
       'Remove study type filter Full time',
       'Remove course type filter Postgraduate',
       'Remove visa sponsorship filter Does not need a visa',
