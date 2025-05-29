@@ -3,6 +3,7 @@ module ProviderInterface
     class PublishInvitesController < ProviderInterfaceController
       before_action :set_policy
       before_action :set_candidate
+      before_action :redirect_if_invite_is_not_found
 
       def create
         if @policy.can_invite_candidates?
@@ -53,6 +54,12 @@ module ProviderInterface
           provider_id: current_provider_user.provider_ids,
           status: :draft,
         )
+      end
+
+      def redirect_if_invite_is_not_found
+        if invite.nil?
+          redirect_to provider_interface_candidate_pool_candidate_path(@candidate)
+        end
       end
     end
   end

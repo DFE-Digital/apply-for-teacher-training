@@ -6,6 +6,7 @@ RSpec.describe 'Providers invites candidates' do
 
   let(:current_provider) { create(:provider) }
   let(:first_course) { current_provider.courses.first }
+  let(:second_course) { current_provider.courses.second }
   let(:last_course) { current_provider.courses.last }
 
   scenario 'Invite candidate and edit course' do
@@ -85,6 +86,45 @@ RSpec.describe 'Providers invites candidates' do
 
     then_i_am_redirected_to_the_review_page(last_course)
 
+    when_i_click('Send invitation')
+    then_i_am_on_the_candidate_pool_page(last_course)
+  end
+
+  scenario 'Two provider users working on the same pool_invite' do
+    given_i_am_a_provider_user_with_dfe_sign_in
+    and_provider_user_exists
+    and_provider_has_courses(3)
+    and_there_are_candidates_for_candidate_pool
+    and_provider_is_opted_in_to_candidate_pool
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_visit_the_candidate_pool_show_page
+    when_i_click('Invite to apply')
+
+    when_i_select_a_course(first_course)
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_the_review_page(first_course)
+    when_the_invite_has_been_sent_already(first_course)
+
+    when_i_click('Send invitation')
+    then_i_am_redirected_to_candidate_show_page
+
+    when_i_click('Invite to apply')
+    when_i_select_a_course(second_course)
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_the_review_page(second_course)
+    when_the_invite_has_been_sent_already(second_course)
+
+    when_i_click('Send invitation')
+    then_i_am_redirected_to_candidate_show_page
+
+    when_i_click('Invite to apply')
+    when_i_select_a_course(last_course)
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_the_review_page(last_course)
     when_i_click('Send invitation')
     then_i_am_on_the_candidate_pool_page(last_course)
   end
@@ -180,5 +220,19 @@ RSpec.describe 'Providers invites candidates' do
 
   def when_the_course_becomes_unavailable(course)
     course.update(exposed_in_find: false)
+  end
+
+  def when_the_invite_has_been_sent_already(course)
+    Pool::Invite.find_by(
+      status: :draft,
+      course:,
+    ).published!
+  end
+
+  def then_i_am_redirected_to_candidate_show_page
+    expect(page).to have_current_path(
+      provider_interface_candidate_pool_candidate_path(@candidate),
+      ignore_query: true,
+    )
   end
 end

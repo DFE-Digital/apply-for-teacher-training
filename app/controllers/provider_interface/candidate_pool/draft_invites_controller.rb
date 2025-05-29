@@ -1,9 +1,10 @@
 module ProviderInterface
   module CandidatePool
     class DraftInvitesController < ProviderInterfaceController
+      before_action :set_candidate
+      before_action :redirect_if_invite_is_not_found, only: %i[show edit]
       before_action :set_policy
       before_action :redirect_if_candidate_cannot_send_invites
-      before_action :set_candidate
 
       def show
         if @policy.can_view_invite?(invite)
@@ -89,6 +90,12 @@ module ProviderInterface
       def redirect_if_candidate_cannot_send_invites
         unless @policy.can_invite_candidates?
           redirect_to provider_interface_candidate_pool_candidates_path
+        end
+      end
+
+      def redirect_if_invite_is_not_found
+        if invite.nil?
+          redirect_to provider_interface_candidate_pool_candidate_path(@candidate)
         end
       end
     end
