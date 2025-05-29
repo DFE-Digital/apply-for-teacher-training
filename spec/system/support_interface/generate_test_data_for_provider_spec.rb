@@ -9,6 +9,7 @@ RSpec.describe 'Generate test data for provider via support', :sandbox, sidekiq:
 
     when_i_visit_the_support_provider_applications_page
     then_i_will_not_see_the_generate_test_data_button
+    and_i_see_guidance_text
 
     when_the_provider_has_courses_open
     and_i_visit_the_support_provider_applications_page
@@ -33,6 +34,10 @@ RSpec.describe 'Generate test data for provider via support', :sandbox, sidekiq:
 
   def then_i_will_not_see_the_generate_test_data_button
     expect(page).to have_no_button 'Generate test applications'
+  end
+
+  def and_i_see_guidance_text
+    expect(page).to have_content `Before we can generate test data, #{@provider.name_and_code} needs at least one course published to Sandbox that is open for applications in the current cycle.`
   end
 
   def when_the_provider_has_courses_open
