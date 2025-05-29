@@ -286,7 +286,7 @@ RSpec.describe GetActivityLogEvents, :with_audited do
       end
 
       elapsed_time = Benchmark.measure { service_call }.real
-      puts "GetProviderActivityLogEvents #call completed in #{elapsed_time}s"
+      logger.info "GetProviderActivityLogEvents #call completed in #{elapsed_time}s"
 
       expect(elapsed_time).to be < 0.05
     end

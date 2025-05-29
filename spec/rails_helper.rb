@@ -57,7 +57,7 @@ require 'capybara/rails'
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
-  puts e.to_s.strip
+  logger.fatal e.to_s.strip
   exit 1
 end
 
@@ -162,8 +162,8 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     unless ENV['TEST_ENV_NUMBER']
-      puts "ℹ️  If you change CSS, JS, or Assets - don't forget to run `rake compile_assets` before your test runs"
-      puts "ℹ️  Running tests with all features #{ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on' ? 'ON' : 'OFF'} by default"
+      logger.info "ℹ️  If you change CSS, JS, or Assets - don't forget to run `rake compile_assets` before your test runs"
+      logger.info "ℹ️  Running tests with all features #{ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on' ? 'ON' : 'OFF'} by default"
     end
   end
 
