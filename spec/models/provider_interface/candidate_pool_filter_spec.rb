@@ -236,6 +236,29 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         )
       end
     end
+
+    context 'When we have a db filter that the filter object does not accept' do
+      it 'updates the filter attributes in db' do
+        filter_params = {}
+        filters_in_db = {
+          'location' => 'Manchester',
+          'wrong' => 'wrong_filter',
+        }
+        current_provider_user = create(
+          :provider_user,
+          find_a_candidate_filters: filters_in_db,
+        )
+
+        filter = described_class.new(
+          filter_params:,
+          current_provider_user:,
+          remove_filters: {},
+        )
+        expect { filter.save }.to change {
+          current_provider_user.find_a_candidate_filters
+        }.from(filters_in_db).to({ 'location' => 'Manchester' })
+      end
+    end
   end
 
   describe '#applied_location_search?' do

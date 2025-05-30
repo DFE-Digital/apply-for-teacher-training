@@ -77,7 +77,7 @@ module ProviderInterface
 
       if old_filters.present?
         filters.reject! do |filter_key|
-          !respond_to?("#{filter_key}=") && old_filters.include?(filter_key.to_sym)
+          !self.class.method_defined?("#{filter_key}=") && old_filters.include?(filter_key.to_sym)
         end
       end
 
