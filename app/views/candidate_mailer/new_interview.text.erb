@@ -16,10 +16,12 @@ Contact <%= @provider_name %> if you have any questions. Let them know if you ca
 
 # Prepare for your interview
 
+<% if FeatureFlag.active?(:adviser_sign_up) %>
 Do you have a teacher training adviser yet? They can help you prepare for your interview.
 
 As former teachers, they can also offer insight into teacher training and teaching as a career.
 
 [Get a teacher training adviser](<%= email_link_with_utm_params t('get_into_teaching.url_get_an_adviser_start'), 'new_interview_offered', @application_form.phase %>)
+<% end %>
 
 <%= render 'get_help_teacher_training_adviser' %>

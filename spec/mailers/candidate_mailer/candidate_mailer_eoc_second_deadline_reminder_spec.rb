@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
+  before { FeatureFlag.activate(:adviser_sign_up) }
 
   describe '.eoc_second_deadline_reminder', time: mid_cycle do
     let(:email) { described_class.eoc_second_deadline_reminder(application_form) }
