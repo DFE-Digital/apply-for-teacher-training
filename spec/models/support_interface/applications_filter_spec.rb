@@ -1,13 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationsFilter do
-  let!(:application_choice_with_offer) do
+  let(:application_choice_with_offer) do
     primary = create(:subject, name: 'Primary', code: 'F0')
     course = create(:course, subjects: [primary])
     course_option = create(:course_option, course: course)
 
     create(:application_choice, :offered, :previous_year, course_option: course_option)
   end
+
+  let(:application_form_with_opt_out_status) do
+    candidate = create(:candidate)
+    application_form = create(:completed_application_form, candidate:)
+
+    create(:candidate_preference, pool_status: 'opt_out', status: 'published', candidate:)
+    create(:application_choice, application_form:)
+
+    application_form
+  end
+
   let!(:application_choice_with_interview) { create(:application_choice, :interviewing, application_form: create(:completed_application_form, first_nationality: 'British')) }
   let!(:application_choice_recruited) { create(:application_choice, :recruited) }
   let!(:international_application) { create(:completed_application_form, first_nationality: 'American') }
@@ -146,6 +157,15 @@ RSpec.describe SupportInterface::ApplicationsFilter do
         [international_application],
         params: {
           nationality: ['true'],
+        },
+      )
+    end
+
+    it 'can filter by Find a Candidate opt-in status' do
+      verify_filtered_applications_for_params(
+        [application_form_with_opt_out_status],
+        params: {
+          opt_in_status: ['opt_out'],
         },
       )
     end

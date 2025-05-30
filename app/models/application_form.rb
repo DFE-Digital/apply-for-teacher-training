@@ -37,6 +37,8 @@ class ApplicationForm < ApplicationRecord
   has_many :application_work_history_breaks, as: :breakable
   has_many :emails
 
+  has_one :candidate_pool_application
+
   belongs_to :previous_application_form, class_name: 'ApplicationForm', optional: true, inverse_of: 'subsequent_application_form'
   has_one :subsequent_application_form, class_name: 'ApplicationForm', foreign_key: 'previous_application_form_id', inverse_of: 'previous_application_form'
   has_one :english_proficiency

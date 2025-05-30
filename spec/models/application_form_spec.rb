@@ -7,6 +7,7 @@ RSpec.describe ApplicationForm do
   it { is_expected.to have_one(:subsequent_application_form).class_name('ApplicationForm').with_foreign_key('previous_application_form_id').inverse_of('previous_application_form') }
   it { is_expected.to have_one(:english_proficiency) }
   it { is_expected.to have_one :recruitment_cycle_timetable }
+  it { is_expected.to have_one :candidate_pool_application }
 
   it { is_expected.to have_many(:application_choices) }
   it { is_expected.to have_many(:course_options).through(:application_choices) }
