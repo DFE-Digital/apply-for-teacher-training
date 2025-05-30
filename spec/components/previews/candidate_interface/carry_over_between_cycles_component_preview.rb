@@ -5,7 +5,7 @@ module CandidateInterface
         :application_form,
         recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
       )
-      FactoryBot.create(:application_choice, status: 'cancelled', application_form:)
+      FactoryBot.create(:application_choice, status: 'application_not_sent', application_form:)
       render CarryOverBetweenCyclesComponent.new(application_form:)
     end
 
