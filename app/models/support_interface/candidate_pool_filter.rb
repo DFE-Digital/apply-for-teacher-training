@@ -23,7 +23,7 @@ module SupportInterface
         {
           type: :checkbox_filter,
           heading: 'Subjects previously applied to',
-          name: 'subject',
+          name: 'subject_ids',
           options: subject_options,
           hide_tags: true,
           title: 'Candidate course preferences',
@@ -91,7 +91,7 @@ module SupportInterface
         {
           value: subject.ids,
           label: subject.name.capitalize,
-          checked: applied_filters[:subject]&.include?(subject.ids),
+          checked: applied_filters[:subject_ids]&.include?(subject.ids),
         }
       end
     end

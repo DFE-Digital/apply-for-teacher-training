@@ -13,7 +13,7 @@ module ProviderInterface
 
       def filters
         {
-          subject: {
+          subject_ids: {
             options: subject_options,
           },
           study_mode: {

@@ -208,6 +208,34 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         }.from(filters).to({})
       end
     end
+
+    context 'When filter attributes change' do
+      it 'updates the filter attributes in db' do
+        filter_params = {}
+        filters_in_db = {
+          'location' => 'Manchester',
+          'subject' => [1, 2],
+        }
+        current_provider_user = create(
+          :provider_user,
+          find_a_candidate_filters: filters_in_db,
+        )
+
+        filter = described_class.new(
+          filter_params:,
+          current_provider_user:,
+          remove_filters: {},
+        )
+        expect { filter.save }.to change {
+          current_provider_user.find_a_candidate_filters
+        }.from(filters_in_db).to(
+          {
+            'location' => 'Manchester',
+            'subject_ids' => [1, 2],
+          },
+        )
+      end
+    end
   end
 
   describe '#applied_location_search?' do
