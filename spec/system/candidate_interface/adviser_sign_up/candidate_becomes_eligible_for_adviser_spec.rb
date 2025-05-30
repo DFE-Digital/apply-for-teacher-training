@@ -3,8 +3,9 @@ require 'rails_helper'
 RSpec.describe 'Candidate becomes eligible for an adviser' do
   include CandidateHelper
 
-  it 'displays the adviser sign up CTA when eligible' do
+  it 'displays the adviser sign up CTA when eligible if Feature flag is activated' do
     given_i_am_signed_in_with_one_login
+    and_adviser_sign_up_feature_flag_is_activated
     and_enqueued_jobs_are_not_performed
     and_the_api_call_is_stubbed
     and_analytics_is_enabled
@@ -25,6 +26,10 @@ RSpec.describe 'Candidate becomes eligible for an adviser' do
 
   def and_analytics_is_enabled
     allow(DfE::Analytics).to receive(:enabled?).and_return(true)
+  end
+
+  def and_adviser_sign_up_feature_flag_is_activated
+    FeatureFlag.activate(:adviser_sign_up)
   end
 
   def and_i_visit_the_details_page
