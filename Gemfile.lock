@@ -167,7 +167,7 @@ GEM
       erubi (~> 1.4)
       parser (>= 2.4)
       smart_properties
-    bigdecimal (3.1.9)
+    bigdecimal (3.2.0)
     bindata (2.5.0)
     bindex (0.8.1)
     blazer (3.3.0)
@@ -479,7 +479,7 @@ GEM
       shellany (~> 0.0)
     notifications-ruby-client (5.4.0)
       jwt (>= 1.5, < 3)
-    oj (3.16.10)
+    oj (3.16.11)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
     okcomputer (1.19.0)
