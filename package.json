@@ -12,7 +12,7 @@
     "dfe-autocomplete": "github:DFE-Digital/dfe-autocomplete#8e7389ff62a38bc8880323f6c58eed9c8d10f080",
     "govuk-frontend": "^5.9.0",
     "jquery": "^3.7.1",
-    "postcss": "^8.5.3",
+    "postcss": "^8.5.4",
     "puppeteer": "^24.9.0",
     "stimulus": "^3.2.2"
   },
@@ -22,7 +22,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.5.3",
     "standard": "^17.1.2",
-    "stylelint": "^16.19.1",
+    "stylelint": "^16.20.0",
     "stylelint-config-gds": "^2.0.0",
     "stylelint-config-recess-order": "^6.0.0",
     "stylelint-order": "^6.0.4"
