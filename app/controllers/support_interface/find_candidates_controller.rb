@@ -19,7 +19,7 @@ module SupportInterface
         :within,
         :original_location,
         :remove,
-        subject: [],
+        subject_ids: [],
         study_mode: [],
         course_type: [],
         visa_sponsorship: [],

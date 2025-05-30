@@ -65,8 +65,8 @@ en:
         title: Filter
         selected_filters: Selected filters
         clear_filters: Clear filters
-        subject: Subjects previously applied to
-        remove_hint_subject: Remove subject filter
+        subject_ids: Subjects previously applied to
+        remove_hint_subject_ids: Remove subject filter
         remove_hint_study_mode: Remove study type filter
         remove_hint_course_type: Remove course type filter
         remove_hint_visa_sponsorship: Remove visa sponsorship filter

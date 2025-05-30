@@ -13,9 +13,9 @@ class CandidatePoolApplication < ApplicationRecord
   end
 
   def self.filter_by_subject(scope, filters)
-    return scope if filters[:subject].blank?
+    return scope if filters[:subject_ids].blank?
 
-    scope.where('subject_ids && ARRAY[:subject_ids]::bigint[]', subject_ids: filters[:subject])
+    scope.where('subject_ids && ARRAY[:subject_ids]::bigint[]', subject_ids: filters[:subject_ids])
   end
 
   def self.filter_by_study_mode(scope, filters)
