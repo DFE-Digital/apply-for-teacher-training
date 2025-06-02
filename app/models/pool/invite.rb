@@ -11,6 +11,15 @@ class Pool::Invite < ApplicationRecord
 
   scope :not_sent_to_candidate, -> { where(sent_to_candidate_at: nil) }
 
+  delegate :name, to: :course, prefix: true
+
+  enum :candidate_invite_status, {
+    new: 'new',
+    viewed: 'viewed',
+    rejected: 'rejected',
+    accepted: 'accepted',
+  }, default: :new, prefix: :candidate_invite_status
+
   def sent_to_candidate!
     update!(sent_to_candidate_at: Time.current) if sent_to_candidate_at.blank?
   end

@@ -29,6 +29,14 @@ module CandidateInterface
           preference: application_form.candidate.published_preferences.last,
           application_choice:,
         )
+        pool_invite = Pool::Invite.published.find_by(
+          candidate_id: application_form.candidate_id,
+          course_id: application_choice.course.id,
+        )
+
+        if pool_invite.present? && !pool_invite.candidate_invite_status_rejected?
+          pool_invite.candidate_invite_status_accepted!
+        end
       end
     end
 

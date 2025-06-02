@@ -18,6 +18,10 @@ namespace :candidate_interface, path: '/candidate' do
 
   resources :share_details, only: :index, path: 'share-details'
 
+  resources :pool_invites, only: %i[index show], path: 'invites' do
+    resources :reject_invites, only: %i[new create], path: 'reject'
+  end
+
   resources :pool_opt_ins, only: %i[new create edit update], path: 'preferences-opt-in'
   resources :draft_preferences, only: %i[show update], path: 'preferences' do
     resource :publish_preferences, only: %i[show create], path: 'publish-preferences'

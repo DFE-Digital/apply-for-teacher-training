@@ -1,0 +1,17 @@
+en:
+  candidate_interface:
+    pool_invites:
+      index:
+        course: Course
+        status: Status
+    reject_invites:
+      new:
+        title: Reject invite
+        rejection_reasons: Rejection reasons
+  activemodel:
+    errors:
+      models:
+        candidate_interface/reject_invite_form:
+          attributes:
+            rejection_reason:
+              blank: Provide a rejection reason

@@ -115,6 +115,7 @@ en:
     application_feedback: How can we improve %{section} section?
     application_form: Your application
     application_dashboard: Your application
+    your_invites: Your invites
     offer_dashboard: Your offer
     your_details: Your details
     application_review: Your application to %{provider_name}

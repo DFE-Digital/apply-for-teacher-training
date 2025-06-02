@@ -1,0 +1,20 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @rejection.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_pool_invites_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Reject your <%= @invite.course.name %> invitation</h1>
+
+    <%= form_with model: @rejection, url: candidate_interface_pool_invite_reject_invites_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_text_area(
+        :rejection_reason,
+        label: { text: t('.rejection_reasons') },
+        max_words: 200,
+      ) %>
+
+      <%= f.govuk_submit %>
+    <% end %>
+  </div>
+</div>

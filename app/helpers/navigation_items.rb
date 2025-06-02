@@ -36,6 +36,12 @@ class NavigationItems
             href: candidate_interface_application_choices_path,
             active: current_controller.respond_to?(:choices_controller?) ? current_controller.choices_controller? : false,
           },
+          {
+            text: t('page_titles.your_invites'),
+            href: candidate_interface_pool_invites_path,
+            active: current_controller.respond_to?(:choices_controller?) ? current_controller.choices_controller? : false,
+            # fix this later
+          },
         ]
       end
     end

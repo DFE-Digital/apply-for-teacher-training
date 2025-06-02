@@ -1,0 +1,57 @@
+<%= content_for :title, t('page_titles.your_invites') %>
+
+<%= render ServiceInformationBanner.new(namespace: :candidate) %>
+
+<% if current_candidate.recoverable? %>
+  <%= govuk_notification_banner(title_text: t('account_recovery_banner.title'), success: false) do |nb| %>
+
+    <% nb.with_heading(text: t('account_recovery_banner.header')) %>
+    <div style="display:inline-table">
+      <%= t(
+        'account_recovery_banner.content_html',
+        button_link: render(
+          ButtonToAsLinkComponent.new(
+            name: t('account_recovery_banner.close_this_message'),
+            path: candidate_interface_dismiss_account_recovery_create_path,
+            classes: ['govuk-!-margin-bottom-4'],
+          ),
+        ),
+      ) %>
+    </div>
+
+    <%= govuk_button_to t('account_recovery_banner.get_your_details_back'), new_candidate_interface_account_recovery_request_path, class: 'govuk-!-margin-bottom-0', method: :get %>
+  <% end %>
+<% end %>
+
+<h1 class="govuk-heading-l"><%= t('page_titles.your_invites') %></h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= govuk_table do |table| %>
+      <%= table.with_head do |head| %>
+        <%= head.with_row do |row| %>
+          <%= row.with_cell(text: t('.course')) %>
+          <%= row.with_cell(text: t('.status')) %>
+        <% end %>
+      <% end %>
+
+      <%= table.with_body do |body| %>
+        <% @invites.each do |invite| %>
+          <%= body.with_row do |row| %>
+            <%= row.with_cell do %>
+              <%= govuk_link_to invite.course.name_and_code, candidate_interface_pool_invite_path(invite) %>
+            <% end %>
+
+            <%= row.with_cell(text: invite.candidate_invite_status) %>
+
+            <% unless invite.candidate_invite_status_rejected? || invite.candidate_invite_status_accepted?  %>
+              <%= row.with_cell do %>
+                <%= govuk_link_to 'Reject', new_candidate_interface_pool_invite_reject_invite_path(invite) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
