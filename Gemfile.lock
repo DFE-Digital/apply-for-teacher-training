@@ -157,9 +157,9 @@ GEM
       activesupport (>= 5.2, < 8.2)
     azure-blob (0.5.8)
       rexml
-    base64 (0.2.0)
+    base64 (0.3.0)
     bcrypt (3.1.20)
-    benchmark (0.4.0)
+    benchmark (0.4.1)
     better_html (2.1.1)
       actionview (>= 6.0)
       activesupport (>= 6.0)
@@ -167,7 +167,7 @@ GEM
       erubi (~> 1.4)
       parser (>= 2.4)
       smart_properties
-    bigdecimal (3.2.0)
+    bigdecimal (3.2.1)
     bindata (2.5.0)
     bindex (0.8.1)
     blazer (3.3.0)
@@ -180,7 +180,7 @@ GEM
       racc
     browser (6.2.0)
     builder (3.3.0)
-    bullet (8.0.7)
+    bullet (8.0.8)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     business_time (0.13.0)
