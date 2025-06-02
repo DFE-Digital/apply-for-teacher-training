@@ -19,7 +19,7 @@ RSpec.describe SupportInterface::CandidatePoolFilter do
         {
           type: :checkbox_filter,
           heading: 'Subjects previously applied to',
-          name: 'subject',
+          name: 'subject_ids',
           options: [],
           hide_tags: true,
           title: 'Candidate course preferences',

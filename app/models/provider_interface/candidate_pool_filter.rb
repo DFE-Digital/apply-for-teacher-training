@@ -3,12 +3,20 @@ module ProviderInterface
     include ActiveModel::Model
     include ActiveModel::Attributes
 
-    # filter attributes
-    attribute :location
-    attribute :subject
-    attribute :study_mode
-    attribute :course_type
-    attribute :visa_sponsorship
+    ## Filter attributes
+    ## If you change an attribute add alias to persist the old db saved filters
+    ## Removing or adding one doesn't require aliases
+    ATTRIBUTES = %i[
+      location
+      subject_ids
+      study_mode
+      course_type
+      visa_sponsorship
+    ].freeze
+    ATTRIBUTES.each do |attribute|
+      attribute attribute.to_sym
+    end
+    alias subject= subject_ids=
 
     attr_reader :filters, :current_provider_user, :remove_filters, :suggested_location
 
@@ -52,7 +60,7 @@ module ProviderInterface
       filter_params.compact_blank!
 
       if filter_params.blank? && remove_filters.blank?
-        current_provider_user.find_a_candidate_filters.with_indifferent_access
+        sanitised_db_filters
       else
         if filter_params[:location].present? && suggested_location
           filter_params[:location] = suggested_location&.fetch(:name, nil)
@@ -60,6 +68,20 @@ module ProviderInterface
 
         filter_params
       end
+    end
+
+    def sanitised_db_filters
+      filters = current_provider_user.find_a_candidate_filters.with_indifferent_access
+
+      old_filters = filters.keys.map(&:to_sym) - ATTRIBUTES
+
+      if old_filters.present?
+        filters.reject! do |filter_key|
+          !self.class.method_defined?("#{filter_key}=") && old_filters.include?(filter_key.to_sym)
+        end
+      end
+
+      filters
     end
 
     def filter_params_with_location

@@ -50,7 +50,7 @@ RSpec.describe CandidatePoolApplication do
         visa_sponsorship_candidate_form.id,
       )
 
-      filters = { subject: ['1'] }
+      filters = { subject_ids: ['1'] }
       application_forms = described_class.filtered_application_forms(filters)
 
       expect(application_forms.ids).to contain_exactly(
@@ -60,7 +60,7 @@ RSpec.describe CandidatePoolApplication do
       )
 
       filters = {
-        subject: ['1'],
+        subject_ids: ['1'],
         study_mode: ['part_time'],
       }
       application_forms = described_class.filtered_application_forms(filters)
@@ -71,7 +71,7 @@ RSpec.describe CandidatePoolApplication do
       )
 
       filters = {
-        subject: ['1'],
+        subject_ids: ['1'],
         study_mode: ['part_time'],
         course_type: ['undergraduate'],
       }
