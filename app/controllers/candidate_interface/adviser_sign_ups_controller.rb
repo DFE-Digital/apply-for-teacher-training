@@ -54,8 +54,7 @@ module CandidateInterface
     end
 
     def render_404_unless_available
-      render_404 if FeatureFlag.inactive?(:adviser_sign_up)
-      render_404 unless application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
+      render_404 unless FeatureFlag.active?(:adviser_sign_up) && application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
     end
   end
 end
