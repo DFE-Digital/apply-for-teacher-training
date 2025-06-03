@@ -3,7 +3,7 @@ module CandidateInterface
     before_action :set_invite, only: [:show]
 
     def index
-      @invites = current_candidate.pool_invites.published
+      @invites = current_candidate.pool_invites.published.not_removed.order(:created_at)
     end
 
     def show

@@ -3,17 +3,33 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Reject your <%= @invite.course.name %> invitation</h1>
+    <h1 class="govuk-heading-l">Dismiss your <%= @invite.course.name_and_code %> invitation</h1>
 
     <%= form_with model: @rejection, url: candidate_interface_pool_invite_reject_invites_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_text_area(
-        :rejection_reason,
-        label: { text: t('.rejection_reasons') },
-        max_words: 200,
-      ) %>
-
+      <%= f.govuk_radio_buttons_fieldset(:dismiss_reason, legend: nil) do %>
+        <% @rejection.reason_options.each_with_index do |reason, index| %>
+          <% if reason.id == 'Other' %>
+            <%= f.govuk_radio_button(:dismiss_reason, reason.id, label: { text: reason.name }) do %>
+              <%= f.govuk_text_area(
+                :dismiss_text,
+                label: { text: reason.name, size: 's' },
+                max_words: 200,
+                rows: 5,
+                link_errors: true,
+              ) %>
+            <% end %>
+          <% else %>
+            <%= f.govuk_radio_button(
+              :dismiss_reason,
+              reason.id,
+              label: { text: reason.name },
+              link_errors: index.zero?
+            ) %>
+          <% end %>
+        <% end %>
+      <% end %>
       <%= f.govuk_submit %>
     <% end %>
   </div>

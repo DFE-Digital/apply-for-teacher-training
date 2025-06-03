@@ -8,7 +8,8 @@ module CandidateInterface
     def create
       @rejection = CandidateInterface::RejectInviteForm.new(
         invite:,
-        rejection_reason: reject_params[:rejection_reason],
+        dismiss_reason: reject_params[:dismiss_reason],
+        dismiss_text: reject_params[:dismiss_text],
       )
 
       if @rejection.save
@@ -26,7 +27,12 @@ module CandidateInterface
     end
 
     def reject_params
-      params.expect(candidate_interface_reject_invite_form: [:rejection_reason])
+      params.expect(
+        candidate_interface_reject_invite_form: %i[
+          dismiss_reason
+          dismiss_text
+        ],
+      )
     end
   end
 end

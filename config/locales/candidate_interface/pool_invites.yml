@@ -6,12 +6,12 @@ en:
         status: Status
     reject_invites:
       new:
-        title: Reject invite
-        rejection_reasons: Rejection reasons
+        title: Dismiss invite
+        dismiss_text: Dismiss reasons
   activemodel:
     errors:
       models:
         candidate_interface/reject_invite_form:
           attributes:
-            rejection_reason:
-              blank: Provide a rejection reason
+            dismiss_reason:
+              blank: Provide a dismiss reason

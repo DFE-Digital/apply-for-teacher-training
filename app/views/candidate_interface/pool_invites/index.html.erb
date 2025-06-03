@@ -27,7 +27,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= govuk_table do |table| %>
+    <%= govuk_table(html_attributes: { class: 'app-table__row--no-bottom-border' }) do |table| %>
       <%= table.with_head do |head| %>
         <%= head.with_row do |row| %>
           <%= row.with_cell(text: t('.course')) %>
@@ -44,9 +44,14 @@
 
             <%= row.with_cell(text: invite.candidate_invite_status) %>
 
-            <% unless invite.candidate_invite_status_rejected? || invite.candidate_invite_status_accepted?  %>
+            <% unless invite.candidate_invite_status_dismissed? || invite.candidate_invite_status_accepted?  %>
               <%= row.with_cell do %>
-                <%= govuk_link_to 'Reject', new_candidate_interface_pool_invite_reject_invite_path(invite) %>
+                <%= govuk_link_to 'Dismiss', new_candidate_interface_pool_invite_reject_invite_path(invite) %>
+              <% end %>
+            <% end %>
+            <% if invite.candidate_invite_status_dismissed? %>
+              <%= row.with_cell do %>
+                <%= govuk_link_to 'Remove', new_candidate_interface_pool_invite_remove_invite_path(invite) %>
               <% end %>
             <% end %>
           <% end %>

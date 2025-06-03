@@ -10,15 +10,18 @@ class Pool::Invite < ApplicationRecord
   }, default: :draft
 
   scope :not_sent_to_candidate, -> { where(sent_to_candidate_at: nil) }
+  scope :not_removed, -> { where.not(candidate_invite_status: 'removed') }
 
   delegate :name, to: :course, prefix: true
 
   enum :candidate_invite_status, {
     new: 'new',
     viewed: 'viewed',
-    rejected: 'rejected',
+    dismissed: 'dismissed',
     accepted: 'accepted',
+    removed: 'removed',
   }, default: :new, prefix: :candidate_invite_status
+
 
   def sent_to_candidate!
     update!(sent_to_candidate_at: Time.current) if sent_to_candidate_at.blank?

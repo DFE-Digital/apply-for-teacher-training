@@ -800,7 +800,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_02_133730) do
     t.string "status", default: "draft", null: false
     t.datetime "sent_to_candidate_at"
     t.string "candidate_invite_status", default: "new", null: false
-    t.text "rejection_reason"
+    t.string "dismiss_reason"
+    t.text "dismiss_text"
     t.index ["candidate_id"], name: "index_pool_invites_on_candidate_id"
     t.index ["course_id"], name: "index_pool_invites_on_course_id"
     t.index ["invited_by_id"], name: "index_pool_invites_on_invited_by_id"
