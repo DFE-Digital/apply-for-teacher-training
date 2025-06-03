@@ -72,8 +72,8 @@ ENV ENV="/root/.ashrc"
 COPY --from=gems-node-modules /app /app
 COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
 
-ARG SHA
-ENV SHA=${SHA}
+ARG COMMIT_SHA
+ENV SHA=${COMMIT_SHA}
 RUN echo ${SHA} > public/check
 
 # Use this for development testing
