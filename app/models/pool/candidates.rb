@@ -21,6 +21,13 @@ class Pool::Candidates
       .where.not(candidate: dismissed_candidates)
       .order(order_by)
       .distinct
+      .select(
+        'application_forms.id, ' \
+        'application_forms.candidate_id, ' \
+        'application_forms.first_name, ' \
+        'application_forms.last_name, ' \
+        'application_forms.submitted_at',
+      )
 
     puts "======================== SQL ========================"
     puts "======================== SQL ========================"
