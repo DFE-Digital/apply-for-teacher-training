@@ -15,12 +15,25 @@ class Pool::Candidates
     opted_in_candidates = Candidate.joins(:published_preferences).where(published_preferences: { pool_status: 'opt_in' }).select(:id)
     dismissed_candidates = Candidate.joins(:pool_dismissals).where(pool_dismissals: { provider: providers }).select(:id)
 
-    filtered_application_forms.joins(:candidate)
+    results = filtered_application_forms.joins(:candidate)
       .where(candidate: { submission_blocked: false, account_locked: false })
       .where(candidate: opted_in_candidates)
       .where.not(candidate: dismissed_candidates)
       .order(order_by)
       .distinct
+
+    puts "======================== SQL ========================"
+    puts "======================== SQL ========================"
+    puts "======================== SQL ========================"
+    puts "======================== SQL ========================"
+    puts "======================== SQL ========================"
+    puts "======================== SQL ========================"
+    puts "======================== SQL ========================"
+    puts "======================== SQL ========================"
+    puts "======================== SQL ========================"
+    puts results.to_sql
+
+    results
   end
 
   def self.application_forms_in_the_pool
@@ -63,14 +76,14 @@ private
         status: %i[rejected declined withdrawn conditions_not_met offer_withdrawn inactive],
       })
       .where.not(
-        id: ApplicationForm.joins(:application_choices).where(
+        id: ApplicationForm.current_cycle.joins(:application_choices).where(
           application_choices: {
             status: %i[awaiting_provider_decision interviewing offer pending_conditions recruited offer_deferred],
           },
         ).select(:id),
       )
       .where(
-        id: ApplicationForm.joins(:application_choices)
+        id: ApplicationForm.current_cycle.joins(:application_choices)
             .where(application_choices: { status: ApplicationStateChange::UNSUCCESSFUL_STATES })
             .group(:id)
             # Inactive doesn't count as an unsuccessful state, so need to exclude it when counting
@@ -78,7 +91,7 @@ private
             .select(:id),
       )
       .where.not(
-        id: ApplicationForm.joins(application_choices: :withdrawal_reasons)
+        id: ApplicationForm.current_cycle.joins(application_choices: :withdrawal_reasons)
           .where('withdrawal_reasons.reason ILIKE ?', '%do-not-want-to-train-anymore%')
           .select(:id),
       )
@@ -144,10 +157,10 @@ private
     filter_values = filters[:visa_sponsorship].flat_map do |value|
       if value == 'required'
         # required means no right_to_work_or_study
-        ApplicationForm.right_to_work_or_studies['no']
+        ApplicationForm.current_cycle.right_to_work_or_studies['no']
       else
         # else means all other enums + nil because we don't set this enum in most cases if candidate has right to work
-        ApplicationForm.right_to_work_or_studies.except('no').values << nil
+        ApplicationForm.current_cycle.right_to_work_or_studies.except('no').values << nil
       end
     end
 

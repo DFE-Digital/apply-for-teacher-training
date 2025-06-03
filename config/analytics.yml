@@ -12,6 +12,7 @@ shared:
     - candidate_id
     - created_at
     - updated_at
+    - opt_out_reason
   candidate_location_preferences:
     - id
     - name
@@ -42,6 +43,7 @@ shared:
     - status
     - created_at
     - updated_at
+    - sent_to_candidate_at
   pool_dismissals:
     - id
     - candidate_id
