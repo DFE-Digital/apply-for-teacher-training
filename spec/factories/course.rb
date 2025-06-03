@@ -31,6 +31,10 @@ FactoryBot.define do
       applications_open_from { 2.months.ago }
     end
 
+    trait :closed do
+      application_status { 'closed' }
+    end
+
     trait :with_accredited_provider do
       accredited_provider { create(:provider) }
     end
