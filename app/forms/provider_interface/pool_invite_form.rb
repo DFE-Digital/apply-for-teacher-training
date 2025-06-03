@@ -49,7 +49,7 @@ module ProviderInterface
 
     def available_courses
       @available_courses ||= providers.map do |provider|
-        GetAvailableCoursesForProvider.new(provider).call
+        GetAvailableCoursesForProvider.new(provider).open_courses
       end.flatten
     end
 

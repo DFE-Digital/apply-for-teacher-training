@@ -27,7 +27,7 @@ RSpec.describe 'ProviderInterface::CandidatePool::PublishInvitesController' do
       create(:candidate_preference, candidate:)
       application_form = create(:application_form, :completed, candidate:)
       create(:candidate_pool_application, application_form:)
-      course = create(:course, provider:, exposed_in_find: true)
+      course = create(:course, :open, provider:)
 
       draft_invite = create(
         :pool_invite,
@@ -56,7 +56,7 @@ RSpec.describe 'ProviderInterface::CandidatePool::PublishInvitesController' do
         create(:candidate_preference, candidate:)
         application_form = create(:application_form, :completed, candidate:)
         create(:candidate_pool_application, application_form:)
-        course = create(:course, provider:, exposed_in_find: true)
+        course = create(:course, :open, provider:)
 
         draft_invite = create(
           :pool_invite,
