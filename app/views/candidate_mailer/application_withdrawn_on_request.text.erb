@@ -1,5 +1,12 @@
 Hello <%= @application_form.first_name %>,
+<%= @provider_name %> has withdrawn your application for <%= @course_name_and_code %>.
 
-At your request, <%= @provider_name %> has withdrawn your application for <%= @course_name_and_code %>.
+This may be because:
+
+- you asked them to
+- you have not responded to their attempts to contact you
+- you have not met the conditions of any offer they have made you
+
+If you do not feel your application should have been withdrawn, and you would like to continue the application process, you should contact them directly to discuss whether this is possible.
 
 <%= render 'still_interested_content' %>
