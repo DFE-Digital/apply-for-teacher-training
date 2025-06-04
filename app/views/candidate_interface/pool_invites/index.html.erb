@@ -39,7 +39,7 @@
         <% @invites.each do |invite| %>
           <%= body.with_row do |row| %>
             <%= row.with_cell do %>
-              <%= govuk_link_to invite.course.name_and_code, candidate_interface_pool_invite_path(invite) %>
+              <%= govuk_link_to "#{invite.course.name_and_code} - #{invite.provider.name}", candidate_interface_pool_invite_path(invite) %>
             <% end %>
 
             <%= row.with_cell(text: invite.candidate_invite_status) %>

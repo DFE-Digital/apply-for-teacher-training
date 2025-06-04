@@ -34,7 +34,7 @@ module CandidateInterface
           course_id: application_choice.course.id,
         )
 
-        if pool_invite.present? && !pool_invite.candidate_invite_status_rejected?
+        if pool_invite.present? && (!pool_invite.candidate_invite_status_dismissed? || !pool_invite.candidate_invite_status_removed?)
           pool_invite.candidate_invite_status_accepted!
         end
       end
