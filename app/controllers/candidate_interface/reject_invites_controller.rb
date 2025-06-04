@@ -13,7 +13,7 @@ module CandidateInterface
       )
 
       if @rejection.save
-        flash[:success] = "You have rejected an invite for #{@invite.course.name}"
+        flash[:success] = "You have dismissed an invite for #{@invite.course.name}"
         redirect_to candidate_interface_pool_invites_path
       else
         render :new
