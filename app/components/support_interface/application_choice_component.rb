@@ -13,6 +13,7 @@ module SupportInterface
       [
         application_number_row,
         status_row,
+        withdrawal_reasons_row,
         offer_made_at_row,
         course_candidate_applied_for_row,
         course_offered_by_provider_row,
@@ -43,6 +44,15 @@ module SupportInterface
         key: 'Status',
         value: render(SupportInterface::ApplicationStatusTagComponent.new(application_choice:)),
       }.merge(status_action_link)
+    end
+
+    def withdrawal_reasons_row
+      if application_choice.withdrawn?
+        {
+          key: t('.reasons_for_withdrawal'),
+          value: render(WithdrawalReasonsComponent.new(application_choice:)),
+        }
+      end
     end
 
     def offer_made_at_row

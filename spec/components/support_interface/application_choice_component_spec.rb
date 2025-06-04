@@ -226,6 +226,62 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
       expect(page).to have_no_css '.govuk-summary-list__actions a', text: 'Revert withdrawal'
     end
+
+    context 'withdrawn by provider on behalf of candidate' do
+      let(:withdrawn_choice) do
+        create(:application_choice, :withdrawn, withdrawn_or_declined_for_candidate_by_provider: true, application_form:)
+      end
+
+      it 'renders correct reason' do
+        render_inline(described_class.new(withdrawn_choice))
+        expect(page).to have_text 'Withdrawn by provider on behalf of candidate'
+      end
+    end
+
+    context 'has provided an old reason (before Jan 2025)' do
+      let(:withdrawn_choice) do
+        create(:application_choice, :withdrawn, structured_withdrawal_reasons: %w[applying_to_teacher_training_next_year concerns_about_time_to_train])
+      end
+
+      it 'renders correct reasons' do
+        render_inline(described_class.new(withdrawn_choice))
+
+        expect(page).to have_text 'I have concerns that I will not have time to train'
+        expect(page).to have_text 'I’ve decided to apply for teacher training next year'
+      end
+    end
+
+    context 'no reason given (before Jan 2025)' do
+      let(:withdrawn_choice) do
+        create(:application_choice, :withdrawn, withdrawal_reasons: [])
+      end
+
+      it 'renders no reason given' do
+        render_inline(described_class.new(withdrawn_choice))
+        expect(page).to have_text 'No reason given'
+      end
+    end
+
+    context 'has provided new reasons (after Jan 2025)' do
+      let(:withdrawn_choice) do
+        create(
+          :application_choice,
+          :withdrawn,
+          application_form:,
+          withdrawal_reasons: [
+            build(:withdrawal_reason, :published, reason: 'applying-to-another-provider.personal-circumstances-have-changed.concerns-about-cost-of-doing-course'),
+            build(:withdrawal_reason, :published, reason: 'applying-to-another-provider.other', comment: 'I have other reasons for applying to another provider'),
+          ],
+        )
+      end
+
+      it 'renders the expected reasons' do
+        render_inline(described_class.new(withdrawn_choice))
+
+        expect(page).to have_text 'I am going to apply (or have applied) to a different training provider because my personal circumstances have changed: I have concerns about the cost of doing the course'
+        expect(page).to have_text 'I am going to apply (or have applied) to a different training provider: I have other reasons for applying to another provider'
+      end
+    end
   end
 
   context 'Awaiting provider decision' do
