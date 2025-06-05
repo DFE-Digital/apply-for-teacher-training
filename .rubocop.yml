@@ -104,3 +104,6 @@ Rails/DangerousColumnNames:
   Exclude:
     - 'db/migrate/20191022131332_create_id_on_application_choices.rb'
     - 'db/migrate/20200124114452_add_primary_key_to_provider_users_providers.rb'
+
+Naming/PredicateMethod:
+  Enabled: false
