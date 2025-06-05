@@ -7,7 +7,7 @@ module CandidateInterface
     validates :sex, presence: true
 
     def self.build_from_application(application_form)
-      sex = application_form.equality_and_diversity ? application_form.equality_and_diversity['sex'] : nil
+      sex = application_form.equality_and_diversity.present? ? application_form.equality_and_diversity['sex'] : nil
 
       new(sex:)
     end
