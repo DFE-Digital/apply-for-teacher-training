@@ -45,6 +45,7 @@ shared:
     - created_at
     - updated_at
     - sent_to_candidate_at
+    - recruitment_cycle_year
   pool_dismissals:
     - id
     - candidate_id
