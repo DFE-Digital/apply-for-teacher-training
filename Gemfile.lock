@@ -167,7 +167,7 @@ GEM
       erubi (~> 1.4)
       parser (>= 2.4)
       smart_properties
-    bigdecimal (3.2.1)
+    bigdecimal (3.2.2)
     bindata (2.5.0)
     bindex (0.8.1)
     blazer (3.3.0)
@@ -345,7 +345,7 @@ GEM
       html-attributes-utils (~> 1.0.0, >= 1.0.0)
       pagy (>= 6, < 10)
       view_component (>= 3.18, < 3.22)
-    govuk_design_system_formbuilder (5.9.0)
+    govuk_design_system_formbuilder (5.10.1)
       actionview (>= 6.1)
       activemodel (>= 6.1)
       activesupport (>= 6.1)
@@ -580,7 +580,7 @@ GEM
       activesupport (= 8.0.2)
       bundler (>= 1.15.0)
       railties (= 8.0.2)
-    rails-dom-testing (2.2.0)
+    rails-dom-testing (2.3.0)
       activesupport (>= 5.0.0)
       minitest
       nokogiri (>= 1.6)
@@ -905,7 +905,7 @@ DEPENDENCIES
   get_into_teaching_api_client_faraday!
   google-cloud-bigquery
   govuk-components (~> 5.9.0)
-  govuk_design_system_formbuilder (~> 5.9.0)
+  govuk_design_system_formbuilder (~> 5.10.1)
   govuk_markdown
   grover
   guard-rspec
