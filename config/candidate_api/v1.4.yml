@@ -1,0 +1,602 @@
+---
+openapi: 3.0.0
+info:
+  version: v1.3
+  title: Apply candidate API
+  contact:
+    name: DfE
+    email: becomingateacher@digital.education.gov.uk
+  description: |
+    API for candidates from DfE’s Apply for teacher training service.
+servers:
+- description: Sandbox (test environment)
+  url: https://sandbox.apply-for-teacher-training.service.gov.uk/candidate-api
+- description: Production
+  url: https://www.apply-for-teacher-training.service.gov.uk/candidate-api
+paths:
+  "/candidates":
+    get:
+      summary: Get a list of candidates
+      parameters:
+        - in: query
+          name: updated_since
+          schema:
+            type: string
+            format: date-time
+            example: 2021-05-20T12:34:00Z
+          required: true
+          description: Records updated since this date
+        - in: query
+          name: page
+          schema:
+            type: integer
+            example: 2
+          required: false
+          description: Page number
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            example: 20
+          required: false
+          description: Number of records to return per page
+      responses:
+        '200':
+          description: Candidate data updated since a certain date and time
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CandidateList"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+  "/candidates/{candidate_id}":
+    get:
+      summary: Get a single candidate
+      parameters:
+        - in: path
+          name: candidate_id
+          schema:
+            type: string
+            example: C1234
+          required: true
+          description: The candidate’s id
+      responses:
+        '200':
+          description: Candidate data
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CandidateDetail"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+components:
+  responses:
+    NotFound:
+      description: Record not found
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/NotFoundResponse"
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/UnauthorizedResponse"
+    UnprocessableEntity:
+      description: Returned when the request body was missing data or contained invalid
+        data
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - "$ref": "#/components/schemas/ParameterMissingResponse"
+              - "$ref": "#/components/schemas/ParameterInvalidResponse"
+              - "$ref": "#/components/schemas/PageParameterInvalidResponse"
+              - "$ref": "#/components/schemas/PerPageParameterInvalidResponse"
+  schemas:
+    CandidateList:
+      type: object
+      additionalProperties: false
+      required:
+      - data
+      properties:
+        data:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Candidate"
+    CandidateDetail:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          "$ref": "#/components/schemas/Candidate"
+    Candidate:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id:
+          type: string
+          description: A candidate’s id
+          example: C1234
+        type:
+          type: string
+          description: Type of Apply user
+          example: candidate
+        attributes:
+          "$ref": "#/components/schemas/CandidateAttributes"
+    CandidateAttributes:
+      type: object
+      additionalProperties: false
+      required:
+        - email_address
+        - created_at
+        - updated_at
+        - application_forms
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: Time of candidate creation
+          example: 2021-05-20T12:34:00Z
+        updated_at:
+          type: string
+          format: date-time
+          description: Time of last change
+          example: 2021-05-20T12:34:00Z
+        email_address:
+          type: string
+          description: Candidate email address
+          example: email@example.com
+        application_forms:
+          type: array
+          items:
+            "$ref": "#/components/schemas/ApplicationForm"
+    ApplicationForm:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - created_at
+        - first_name
+        - last_name
+        - application_status
+        - application_phase
+        - recruitment_cycle_year
+        - submitted_at
+      properties:
+        id:
+          type: integer
+          description: The unique ID of the candidates application form
+          example: 10
+        created_at:
+          type: string
+          format: date-time
+          description: The date an application was created
+          example: 2021-05-20T12:34:00Z
+        updated_at:
+          type: string
+          format: date-time
+          description: Time of last change
+          example: 2021-05-20T12:34:00Z
+        first_name:
+          type: string
+          description: The first name of the candidate
+          example: John
+        last_name:
+          type: string
+          description: The last name of the candidate
+          example: Doe
+        application_status:
+          type: string
+          description: The status of the candidates current application form
+          enum:
+            - never_signed_in
+            - unsubmitted_not_started_form
+            - unsubmitted_in_progress
+            - awaiting_provider_decisions
+            - awaiting_candidate_response
+            - recruited
+            - pending_conditions
+            - offer_deferred
+            - ended_without_success
+            - unknown_state
+          example: awaiting_provider_decisions
+        application_phase:
+          type: string
+          description: The phase of the candidates current application. In the first phase, "Apply 1", the
+            candidate can choose up to 4 courses. If all of those choices are rejected,
+            declined, or withdrawn, the user can go into "Apply 2".
+            In "Apply 2", a user can also choose up to 4 courses.
+          enum:
+            - apply_1
+            - apply_2
+          example: apply_1
+        recruitment_cycle_year:
+          type: integer
+          description: The recruitment cycle that the application form was created in
+          example: 2022
+        submitted_at:
+          type: string
+          nullable: true
+          format: date-time
+          description: Time of last change
+          example: 2021-05-20T12:34:00Z
+        application_choices:
+          "$ref": "#/components/schemas/ApplicationChoices"
+        references:
+          "$ref": "#/components/schemas/References"
+        qualifications:
+          "$ref": "#/components/schemas/Qualifications"
+        personal_statement:
+          "$ref": "#/components/schemas/PersonalStatement"
+    ApplicationChoices:
+      type: object
+      additionalProperties: false
+      description: The course choices that the candidate has selected
+      required:
+        - data
+      properties:
+        completed:
+          type: boolean
+          description: Indicates whether the candidate has marked the application choices section complete
+          example: true
+          deprecated: true
+        data:
+          type: array
+          items:
+            "$ref": "#/components/schemas/ApplicationChoice"
+          description: The collection of course choices that the candidate has selected
+    ApplicationChoice:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - created_at
+        - updated_at
+        - sent_to_provider_at
+        - status
+        - provider
+        - course
+      properties:
+        id:
+          type: integer
+          description: The unique ID of the application choice
+          example: 10
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the application choice was created
+          example: 2021-05-20T12:34:00Z
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the application choice was last updated
+          example: 2021-05-20T12:34:00Z
+        sent_to_provider_at:
+          type: string
+          format: date-time
+          description: The date and time the application choice was submitted to the provider
+          example: 2021-05-20T12:34:00Z
+        status:
+          type: string
+          description: The status of the application choice
+          enum:
+            - unsubmitted
+            - cancelled
+            - awaiting_provider_decision
+            - interviewing
+            - offer
+            - pending_conditions
+            - recruited
+            - rejected
+            - application_not_sent
+            - offer_withdrawn
+            - declined
+            - withdrawn
+            - conditions_not_met
+            - offer_deferred
+          example: awaiting_provider_decision
+        course:
+          "$ref": "#/components/schemas/Course"
+        provider:
+          "$ref": "#/components/schemas/Provider"
+        interviews:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Interview"
+    Course:
+      type: object
+      additionalProperties: false
+      required:
+        - uuid
+        - name
+      properties:
+        uuid:
+          type: string
+          description: The universally unique ID of the course
+          example: f2c0ada1-0d99-4574-a950-bf53e176507c
+        name:
+          type: string
+          description: The name of the course
+          example: Mathematics
+        level:
+          type: string
+          description: The level of the course
+          enum:
+              - primary
+              - secondary
+              - further_education
+          example: secondary
+        funding_type:
+          type: string
+          description: The funding type of the course
+          enum:
+            - fee
+            - salaried
+            - apprenticeship
+          example: fee
+        program_type:
+          type: string
+          description: The type of the course programme
+          enum:
+            - higher_education_programme
+            - higher_education_salaried_programme
+            - school_direct_training_programme
+            - school_direct_salaried_training_programme
+            - scitt_programme
+          example: higher_education_salaried_programme
+    Provider:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The name of the provider
+          example: University of West Anglia
+    Interview:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - created_at
+        - updated_at
+        - date_and_time
+      properties:
+        id:
+          type: integer
+          description: The unique ID of the interview
+          example: 10
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the interview was created
+          example: 2021-05-20T12:34:00Z
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the interview was last updated
+          example: 2021-05-20T12:34:00Z
+        date_and_time:
+          type: string
+          format: date-time
+          description: The date and time that the interview is scheduled for
+          example: 2021-05-20T10:00:00Z
+        cancelled_at:
+          type: string
+          format: date-time
+          description: The date and time the interview was cancelled (if applicable)
+          example: 2021-05-20T12:34:00Z
+    References:
+      type: object
+      additionalProperties: false
+      description: The reference requests that the candidate has entered and their completion status
+      required:
+        - completed
+        - data
+      properties:
+        completed:
+          type: boolean
+          description: Indicates whether the candidate has marked the references section complete
+          example: true
+        data:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Reference"
+          description: The collection of reference requests that the candidate has entered
+    Reference:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - feedback_status
+        - referee_type
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: integer
+          description: The unique ID of the reference
+          example: 10
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was created
+          example: 2021-05-20T12:34:00Z
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was last updated
+          example: 2021-05-20T12:34:00Z
+        requested_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was sent to the referee
+          example: 2021-05-20T12:34:00Z
+        feedback_status:
+          type: string
+          description: The status of the reference
+          enum:
+            - cancelled
+            - cancelled_at_end_of_cycle
+            - not_requested_yet
+            - feedback_requested
+            - feedback_provided
+            - feedback_refused
+            - email_bounced
+          example: feedback_requested
+        referee_type:
+          type: string
+          description: The type of referee that the candidate has requested a reference from
+            - academic
+            - professional
+            - school_based
+            - character
+          example: academic
+    Qualifications:
+      type: object
+      additionalProperties: false
+      description: The completion status of the qualifications section
+      required:
+        - completed
+      properties:
+        completed:
+          type: boolean
+          description: Indicates whether the candidate has marked the qualifications section complete
+          example: true
+    PersonalStatement:
+      type: object
+      additionalProperties: false
+      description: completion status of the personal statement section
+      required:
+        - completed
+      properties:
+        completed:
+          type: boolean
+          description: Indicates whether the candidate has marked the personal statement section complete
+          example: true
+    UnauthorizedResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: Unauthorized
+            message: Please provide a valid authentication token
+    NotFoundResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+            - error: NotFound
+              message: Unable to find Candidate
+    ParameterMissingResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: ParameterMissing
+            message: "param is missing or the value is empty or invalid: updated_since"
+    ParameterInvalidResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: ParameterInvalid
+            message: "Parameter is invalid: updated_since"
+    PageParameterInvalidResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: PageParameterInvalid
+            message: "expected 'page' parameter to be between 1 and 1, got 2"
+    PerPageParameterInvalidResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: PerPageParameterInvalid
+            message: "the 'per_page' parameter cannot exceed 500 results per page"
+    Error:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: string
+          description: Name of the current error
+          example: Unauthorized
+        message:
+          type: string
+          description: Description of the current error
+          example: Please provide a valid authentication token
+      required:
+      - error
+      - message
+  securitySchemes:
+    tokenAuth:
+      type: http
+      scheme: bearer
+security:
+- tokenAuth: []
