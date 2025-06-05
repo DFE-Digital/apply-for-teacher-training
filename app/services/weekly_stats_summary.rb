@@ -18,6 +18,7 @@ class WeeklyStatsSummary
       :no_vote: #{pluralize(number_with_delimiter(rejections_issued(current_cycle_period, current_year, domestic)), 'total rejection')} issued | This point last cycle we had #{number_with_delimiter(rejections_issued(previous_cycle_period, previous_year, domestic))}
       :sleeping: #{pluralize(number_with_delimiter(inactive_applications(current_cycle_period, current_year, domestic)), 'application')} turned to inactive
       #{teacher} #{pluralize(number_with_delimiter(candidates_recruited(current_cycle_period, current_year, domestic)), 'total candidate')} recruited | This point last cycle we had #{number_with_delimiter(candidates_recruited(previous_cycle_period, previous_year, domestic))}
+      :incoming_envelope: #{pluralize(number_with_delimiter(sent_invites(current_cycle_period, current_year, domestic)), 'total invite')} sent | This point last cycle we had #{number_with_delimiter(sent_invites(previous_cycle_period, previous_year, domestic))}
 
       *International applications :earth_#{%w[africa americas asia].sample}:*
 
@@ -27,6 +28,7 @@ class WeeklyStatsSummary
       :no_vote: #{pluralize(number_with_delimiter(rejections_issued(current_cycle_period, current_year, international)), 'total rejection')} issued | This point last cycle we had #{number_with_delimiter(rejections_issued(previous_cycle_period, previous_year, international))}
       :sleeping: #{pluralize(number_with_delimiter(inactive_applications(current_cycle_period, current_year, international)), 'application')} turned to inactive
       #{teacher} #{pluralize(number_with_delimiter(candidates_recruited(current_cycle_period, current_year, international)), 'total candidate')} recruited | This point last cycle we had #{number_with_delimiter(candidates_recruited(previous_cycle_period, previous_year, international))}
+      :incoming_envelope: #{pluralize(number_with_delimiter(sent_invites(current_cycle_period, current_year, international)), 'total invite')} sent | This point last cycle we had #{number_with_delimiter(sent_invites(previous_cycle_period, previous_year, international))}
 
 
       _Please note these numbers are as of 11am and are not to be used for reporting purposes_
@@ -61,6 +63,11 @@ class WeeklyStatsSummary
 
   def inactive_applications(period, recruitment_cycle, applications_scope)
     applications_scope.where(application_choices: { inactive_at: period, current_recruitment_cycle_year: recruitment_cycle }).count
+  end
+
+  def sent_invites(period, recruitment_cycle, applications_scope)
+    application_form_candidate_ids = applications_scope.where(application_choices: { current_recruitment_cycle_year: recruitment_cycle }).select(:candidate_id)
+    Pool::Invite.where(candidate_id: application_form_candidate_ids, sent_to_candidate_at: period).count
   end
 
 private
