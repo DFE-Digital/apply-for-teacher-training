@@ -43,6 +43,7 @@ module ProviderInterface
           provider: course&.provider,
           course: course,
           invited_by: current_provider_user,
+          recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
         )
       end
     end
