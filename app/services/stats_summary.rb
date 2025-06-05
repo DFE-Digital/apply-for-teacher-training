@@ -10,21 +10,23 @@ class StatsSummary
 
       *Domestic applications :gb: :flag-ie:*
 
-      :#{mailbox_emoji(applications_submitted(today, domestic))}: #{pluralize(applications_submitted(today, domestic), 'application')} submitted | #{applications_submitted(this_day_last_year, domestic)} last cycle
-      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_made(today, domestic), 'offer')} made | #{offers_made(this_day_last_year, domestic)} last cycle
-      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_accepted(today, domestic), 'offer')} accepted | #{offers_accepted(this_day_last_year, domestic)} last cycle
-      :#{%w[man woman].sample}-gesturing-no: #{pluralize(rejections_issued(today, domestic), 'rejection')} issued | #{rejections_issued(this_day_last_year, domestic)} last cycle
-      :sleeping: #{pluralize(inactive_applications(today, domestic), 'application')} turned to inactive
-      :handshake: #{pluralize(candidates_recruited(today, domestic), 'candidate')} recruited | #{candidates_recruited(this_day_last_year, domestic)} last cycle
+      :#{mailbox_emoji(applications_submitted(today, domestic_application_forms))}: #{pluralize(applications_submitted(today, domestic_application_forms), 'application')} submitted | #{applications_submitted(this_day_last_year, domestic_application_forms)} last cycle
+      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_made(today, domestic_application_forms), 'offer')} made | #{offers_made(this_day_last_year, domestic_application_forms)} last cycle
+      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_accepted(today, domestic_application_forms), 'offer')} accepted | #{offers_accepted(this_day_last_year, domestic_application_forms)} last cycle
+      :#{%w[man woman].sample}-gesturing-no: #{pluralize(rejections_issued(today, domestic_application_forms), 'rejection')} issued | #{rejections_issued(this_day_last_year, domestic_application_forms)} last cycle
+      :sleeping: #{pluralize(inactive_applications(today, domestic_application_forms), 'application')} turned to inactive
+      :handshake: #{pluralize(candidates_recruited(today, domestic_application_forms), 'candidate')} recruited | #{candidates_recruited(this_day_last_year, domestic_application_forms)} last cycle
+      :incoming_envelope: #{pluralize(sent_invites(today, domestic_application_forms), 'invite')} sent | #{sent_invites(this_day_last_year, domestic_application_forms)} last cycle
 
       *International applications :earth_#{%w[africa americas asia].sample}:*
 
-      :#{mailbox_emoji(applications_submitted(today, international))}: #{pluralize(applications_submitted(today, international), 'application')} submitted | #{applications_submitted(this_day_last_year, international)} last cycle
-      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_made(today, international), 'offer')} made | #{offers_made(this_day_last_year, international)} last cycle
-      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_accepted(today, international), 'offer')} accepted | #{offers_accepted(this_day_last_year, international)} last cycle
-      :#{%w[man woman].sample}-gesturing-no: #{pluralize(rejections_issued(today, international), 'rejection')} issued | #{rejections_issued(this_day_last_year, international)} last cycle
-      :sleeping: #{pluralize(inactive_applications(today, international), 'application')} turned to inactive
-      :handshake: #{pluralize(candidates_recruited(today, international), 'candidate')} recruited | #{candidates_recruited(this_day_last_year, international)} last cycle
+      :#{mailbox_emoji(applications_submitted(today, international_application_forms))}: #{pluralize(applications_submitted(today, international_application_forms), 'application')} submitted | #{applications_submitted(this_day_last_year, international_application_forms)} last cycle
+      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_made(today, international_application_forms), 'offer')} made | #{offers_made(this_day_last_year, international_application_forms)} last cycle
+      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_accepted(today, international_application_forms), 'offer')} accepted | #{offers_accepted(this_day_last_year, international_application_forms)} last cycle
+      :#{%w[man woman].sample}-gesturing-no: #{pluralize(rejections_issued(today, international_application_forms), 'rejection')} issued | #{rejections_issued(this_day_last_year, international_application_forms)} last cycle
+      :sleeping: #{pluralize(inactive_applications(today, international_application_forms), 'application')} turned to inactive
+      :handshake: #{pluralize(candidates_recruited(today, international_application_forms), 'candidate')} recruited | #{candidates_recruited(this_day_last_year, international_application_forms)} last cycle
+      :incoming_envelope: #{pluralize(sent_invites(today, international_application_forms), 'invite')} sent | #{sent_invites(this_day_last_year, international_application_forms)} last cycle
 
     MARKDOWN
   end
@@ -57,13 +59,17 @@ class StatsSummary
     applications_scope.where(application_choices: { inactive_at: period }).count
   end
 
+  def sent_invites(period, applications_scope)
+    Pool::Invite.where(candidate_id: applications_scope.select(:candidate_id), sent_to_candidate_at: period).count
+  end
+
 private
 
-  def international
+  def international_application_forms
     ApplicationForm.international.joins(:application_choices)
   end
 
-  def domestic
+  def domestic_application_forms
     ApplicationForm.domestic.joins(:application_choices)
   end
 
