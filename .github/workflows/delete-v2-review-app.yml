@@ -47,6 +47,7 @@ jobs:
           echo "SERVICE_SHORT=${SERVICE_SHORT}" >> $GITHUB_ENV
           echo "DEPLOY_ENV=review-${PR_NUMBER}" >> $GITHUB_ENV
           echo "TF_STATE_FILE=pr-${PR_NUMBER}.tfstate" >> $GITHUB_ENV
+          echo "IMAGE_TAG=ignored" >> $GITHUB_ENV
 
       - name: Delete Review App
         id: delete-review-app
