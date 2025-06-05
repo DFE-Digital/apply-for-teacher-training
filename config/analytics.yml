@@ -45,6 +45,9 @@ shared:
     - created_at
     - updated_at
     - sent_to_candidate_at
+    - candidate_invite_status
+    - dismiss_reason
+    - dismiss_text
   pool_dismissals:
     - id
     - candidate_id

@@ -1,0 +1,14 @@
+<% content_for :browser_title, "Remove #{@invite.course.name_and_code}" %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_pool_invites_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Are you sure you want to remove your <%= @invite.course.name_and_code %> invitation</h1>
+
+      <div class="govuk-button-group app-course-choice__confirm-submission">
+        <%= govuk_button_to "Yes I'm sure -- remove invitation", candidate_interface_pool_invite_remove_invite_index_path, warning: true %>
+
+        <%= govuk_link_to 'Cancel', candidate_interface_pool_invites_path %>
+      </div>
+  </div>
+</div>

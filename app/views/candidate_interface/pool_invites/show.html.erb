@@ -1,0 +1,11 @@
+<%# content_for :title, t('.title') %>
+<% content_for :before_content, govuk_back_link(href: candidate_interface_pool_invites_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    More information about couse <%= govuk_link_to @invite.course_name, @invite.course.find_url %>
+
+
+  </div>
+</div>
