@@ -28,7 +28,7 @@ module HesaDisabilityCollections
       [
         hesa_code,
         original_name,
-        reference_data ? reference_data[:id] : nil,
+        reference_data.present? ? reference_data[:id] : nil,
       ]
     end
   end
