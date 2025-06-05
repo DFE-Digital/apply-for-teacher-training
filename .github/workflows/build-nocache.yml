@@ -5,9 +5,9 @@ on:
   schedule:
     - cron: "30 12 * * 0"
     # Will run once a week on Sunday afternoon
-  push:
-    branches:
-      - add_build_image_gh_wrkflws
+  # push:
+  #   branches:
+  #     - add_build_image_gh_wrkflws
 
 permissions:
   packages: write
@@ -21,32 +21,45 @@ jobs:
       docker-image-tag: ${{ steps.build-image.outputs.tag }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        name: Checkout
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Set Environment variable
-        run: |
-          GIT_REF=${{ github.ref }}
-          echo "GIT_BRANCH=${GIT_REF##*/}" >> $GITHUB_ENV # GIT_BRANCH will be main for refs/heads/main
-          echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
+      # - name: Set Environment variable
+      #   run: |
+      #     GIT_REF=${{ github.ref }}
+      #     echo "GIT_BRANCH=${GIT_REF##*/}" >> $GITHUB_ENV # GIT_BRANCH will be main for refs/heads/main
+      #     echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
 
       - name: Build without cache and push docker image
         id: build-image-gem-node-module
         uses: DFE-Digital/github-actions/build-docker-image@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          context: .
+          context: ""
+          reuse-cache: false
+          max-cache: false
+          target: gems-node-modules
+          docker-repository: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules
+
+      - name: Build Docker Image
+        id: build-image
+        uses: DFE-Digital/github-actions/build-docker-image@build-docker-image-optional-cache-target
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          context: ""
           reuse-cache: false
           snyk-token: ${{ secrets.SNYK_TOKEN }}
-          max-cache: true
+          max-cache: false
+          docker-repository: ghcr.io/dfe-digital/apply-teacher-training
+          no-cache-filters: gems-node-modules
 
-      - name: Notify slack on failure
-        uses: rtCamp/action-slack-notify@master
-        if: ${{ failure() }}
-        with:
-          SLACK_USERNAME: CI Deployment
-          SLACK_COLOR: failure
-          SLACK_ICON_EMOJI: ":github-logo:"
-          SLACK_TITLE: "Build failure"
-          SLACK_MESSAGE: ":alert: Rebuild docker cache failure :sadparrot:"
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      # - name: Notify slack on failure
+      #   uses: rtCamp/action-slack-notify@master
+      #   if: ${{ failure() }}
+      #   with:
+      #     SLACK_USERNAME: CI Deployment
+      #     SLACK_COLOR: failure
+      #     SLACK_ICON_EMOJI: ":github-logo:"
+      #     SLACK_TITLE: "Build failure"
+      #     SLACK_MESSAGE: ":alert: Rebuild docker cache failure :sadparrot:"
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
