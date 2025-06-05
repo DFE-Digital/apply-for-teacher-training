@@ -57,6 +57,7 @@ RSpec.describe ProviderInterface::PoolInviteForm, type: :model do
     context 'when creating an invite' do
       it 'creates an invite' do
         expect { form.save }.to change(Pool::Invite, :count).by(1)
+        expect(Pool::Invite.last.recruitment_cycle_year).to eq current_year
       end
     end
 
