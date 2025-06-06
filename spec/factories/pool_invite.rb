@@ -4,6 +4,7 @@ FactoryBot.define do
     provider factory: %i[provider]
     invited_by factory: %i[provider_user]
     course factory: %i[course]
+    recruitment_cycle_year { CycleTimetableHelper.current_year }
 
     trait :sent_to_candidate do
       sent_to_candidate_at { Time.current }

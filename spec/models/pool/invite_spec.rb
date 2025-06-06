@@ -6,6 +6,7 @@ RSpec.describe Pool::Invite do
     it { is_expected.to belong_to(:provider) }
     it { is_expected.to belong_to(:invited_by).class_name('ProviderUser') }
     it { is_expected.to belong_to(:course) }
+    it { is_expected.to have_one(:recruitment_cycle_timetable) }
   end
 
   describe 'enums' do

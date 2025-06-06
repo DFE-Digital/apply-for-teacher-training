@@ -3,6 +3,7 @@ class Pool::Invite < ApplicationRecord
   belongs_to :provider
   belongs_to :invited_by, class_name: 'ProviderUser'
   belongs_to :course
+  has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
 
   enum :status, {
     draft: 'draft',
