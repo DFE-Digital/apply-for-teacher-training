@@ -42,7 +42,10 @@ module ProviderInterface
 
         if @pool_invite.valid?
           invite = @pool_invite.save
-          redirect_to provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, invite)
+          redirect_to new_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
+            @candidate,
+            invite,
+          )
         else
           render :new
         end

@@ -28,6 +28,7 @@ namespace :provider_interface, path: '/provider' do
   namespace :candidate_pool, path: 'find-candidates' do
     resources :candidates, only: %i[index show], path: '/' do
       resources :draft_invites, path: 'invite' do
+        resource :provider_invite_messages, only: %i[new create edit update], path: 'message'
         resource :publish_invite, only: %i[create], path: 'review'
       end
     end
