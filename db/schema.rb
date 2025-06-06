@@ -773,8 +773,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_06_105446) do
     t.string "status", default: "draft", null: false
     t.datetime "sent_to_candidate_at"
     t.integer "recruitment_cycle_year"
-    t.boolean "invite_message"
-    t.text "message"
+    t.boolean "provider_message"
+    t.text "message_content"
     t.index ["candidate_id"], name: "index_pool_invites_on_candidate_id"
     t.index ["course_id"], name: "index_pool_invites_on_course_id"
     t.index ["invited_by_id"], name: "index_pool_invites_on_invited_by_id"
