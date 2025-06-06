@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
 
+  before { FeatureFlag.activate(:adviser_sign_up) }
+
   describe '.new_interview' do
     let(:application_choice_with_interview) { build_stubbed(:application_choice, course_option:, application_form:) }
     let(:interview) do

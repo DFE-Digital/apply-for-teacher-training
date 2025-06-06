@@ -8,6 +8,7 @@ Courses can fill up quickly, so apply as soon as you are ready.
 
 [Sign in to your account to apply for courses](<%= sign_in_link %>).
 
+<% if FeatureFlag.active?(:adviser_sign_up) %>
 # Get a teacher training adviser
 
 A teacher training adviser can help you write a strong application.
@@ -15,6 +16,7 @@ A teacher training adviser can help you write a strong application.
 [Get a teacher training adviser](<%= email_link_with_utm_params I18n.t('get_into_teaching.url_get_an_adviser_start'), 'new_cycle_has_started', @application_form.phase %>)
 
 All our advisers are experienced former teachers who provide free, one-to-one support and can help you with your personal statement and interview preparation.
+<% end %>
 
 # Get help
 
