@@ -1,22 +1,6 @@
 module CandidateAPI
   module Serializers
     class V12 < V11
-      def serialize(candidates)
-        super.map do |candidate|
-          candidate[:attributes][:application_forms].each do |form|
-            application_form = ApplicationForm.find(form[:id])
-            form.merge!(
-              application_choices: serialize_application_choices(application_form),
-              references: serialize_references(application_form),
-              qualifications: serialize_qualifications(application_form),
-              personal_statement: serialize_personal_statement(application_form),
-            )
-          end
-
-          candidate
-        end
-      end
-
       def index_query(updated_since:)
         Candidate
           .left_outer_joins(application_forms: { application_choices: %i[provider course interviews], application_references: [], application_qualifications: [] })
@@ -51,6 +35,17 @@ module CandidateAPI
             }
           end,
         }
+      end
+
+    private
+
+      def serialize_application_form(application_form)
+        super.merge!(
+          application_choices: serialize_application_choices(application_form),
+          references: serialize_references(application_form),
+          qualifications: serialize_qualifications(application_form),
+          personal_statement: serialize_personal_statement(application_form),
+        )
       end
     end
   end

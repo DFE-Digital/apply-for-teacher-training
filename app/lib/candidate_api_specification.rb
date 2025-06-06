@@ -1,6 +1,6 @@
 class CandidateAPISpecification
-  CURRENT_VERSION = 'v1.2'.freeze
-  VERSIONS = ['v1.1', 'v1.2', 'v1.3'].freeze
+  CURRENT_VERSION = 'v1.4'.freeze
+  VERSIONS = %w[v1.1 v1.2 v1.3 v1.4].freeze
 
   def self.as_yaml(version = CURRENT_VERSION)
     spec(version).to_yaml
