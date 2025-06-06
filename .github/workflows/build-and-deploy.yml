@@ -23,11 +23,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    env:
-      DOCKER_IMAGE: ghcr.io/dfe-digital/apply-teacher-training
-      GEMS_NODE_MODULES_IMAGE: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules
     outputs:
-      IMAGE_TAG: ${{ env.IMAGE_TAG }}
+      IMAGE_TAG: ${{ steps.build-image.outputs.tag }}
       GIT_BRANCH: ${{ env.GIT_BRANCH }}
 
     steps:
@@ -39,7 +36,6 @@ jobs:
         run: |
           GIT_REF=${{ github.ref }}
           echo "GIT_BRANCH=${GIT_REF##*/}" >> $GITHUB_ENV # GIT_BRANCH will be main for refs/heads/main
-          echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
 
       - name: Set docker image tag (pull_request)
         if: github.event_name == 'pull_request'
@@ -47,70 +43,43 @@ jobs:
           # This is the actual PR branch
           GIT_REF=${{ github.head_ref }}
           echo "GIT_BRANCH=${GIT_REF##*/}" >> $GITHUB_ENV
-          echo "IMAGE_TAG=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build gems-node-modules Docker Image
-        uses: docker/build-push-action@v6
+        id: build-image-gem-node-module
+        uses: DFE-Digital/github-actions/build-docker-image@master
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          context: ""
+          reuse-cache: true
+          max-cache: false
           target: gems-node-modules
-          tags: |
-            ${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.IMAGE_TAG }}
-            ${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.GIT_BRANCH }}
-          push: true
-          cache-to: type=inline
-          cache-from: |
-            type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.GIT_BRANCH }}
-            type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:main
+          docker-repository: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules
+          snyk-token: ${{ secrets.SNYK_TOKEN }}
 
       - name: Build Docker Image
-        uses: docker/build-push-action@v6
+        id: build-image
+        uses: DFE-Digital/github-actions/build-docker-image@build-docker-image-optional-cache-target
         with:
-          tags: |
-            ${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
-            ${{ env.DOCKER_IMAGE }}:${{ env.GIT_BRANCH }}
-          push: false
-          load: true
-          cache-to: type=inline
-          cache-from: |
-            type=registry,ref=${{ env.DOCKER_IMAGE }}:main
-            type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
-            type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.GIT_BRANCH }}
-            type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.GIT_BRANCH }}
-            type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:main
-          build-args: |
-            SHA=${{ env.IMAGE_TAG }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          context: ""
+          reuse-cache: true
+          snyk-token: ${{ secrets.SNYK_TOKEN }}
+          max-cache: false
+          docker-repository: ghcr.io/dfe-digital/apply-teacher-training
+          pre-cache: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules
 
-      - name: Run Snyk to check Docker image for vulnerabilities
-        uses: snyk/actions/docker@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          image: ${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
-          args: --file=Dockerfile --severity-threshold=high --exclude-app-vulns
-
-      - name: Push ${{ env.DOCKER_IMAGE }} images
-        run: docker image push --all-tags ${{ env.DOCKER_IMAGE }}
-
-      - name: Notify Slack channel on job failure
-        if: failure() && github.event_name == 'push'
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_USERNAME: CI Deployment
-          SLACK_TITLE: Build failure
-          SLACK_MESSAGE: Build failure on branch ${{env.GIT_BRANCH}}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_COLOR: failure
-          SLACK_FOOTER: Sent from build job in build workflow
+      # - name: Notify Slack channel on job failure
+      #   if: failure() && github.event_name == 'push'
+      #   uses: rtCamp/action-slack-notify@v2
+      #   env:
+      #     SLACK_USERNAME: CI Deployment
+      #     SLACK_TITLE: Build failure
+      #     SLACK_MESSAGE: Build failure on branch ${{env.GIT_BRANCH}}
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      #     SLACK_COLOR: failure
+      #     SLACK_FOOTER: Sent from build job in build workflow
+      #
+      #
 
   lint:
     name: Lint
