@@ -9,61 +9,47 @@ RSpec.describe ProviderInterface::PoolInviteMessageForm, type: :model do
   end
 
   let(:invite) { create(:pool_invite) }
-  let(:invite_message_params) { { invite_message:, message: } }
-  let(:invite_message) { 'true' }
-  let(:message) { 'custom message' }
+  let(:invite_message_params) { { provider_message:, message_content: } }
+  let(:provider_message) { 'true' }
+  let(:message_content) { 'custom message' }
 
   describe '.validations' do
-    it { is_expected.to validate_presence_of(:invite_message) }
+    it { is_expected.to validate_presence_of(:provider_message) }
 
-    context 'invite_message is present but message is not' do
-      let(:message) { nil }
+    context 'provider_message is present but message is not' do
+      let(:message_content) { nil }
 
       it 'returns message error' do
         expect(form.valid?).to be_falsey
-        expect(form.errors[:message]).to eq(['You must enter an invitation message'])
+        expect(form.errors[:message_content]).to eq(['You must enter an invitation message'])
       end
     end
 
     context 'provider_message is too long' do
-      let(:message) { 'message' * 40 }
+      let(:message_content) { 'long message ' * 101 }
 
       it 'returns message error' do
         expect(form.valid?).to be_falsey
-        expect(form.errors[:message]).to eq(['You must enter an invitation message'])
+        expect(form.errors[:message_content]).to eq(['Invitation message must be 200 words or less'])
       end
     end
   end
 
   describe '#save' do
-    context 'when creating an invite' do
-      it 'creates an invite' do
-        expect { form.save }.to change(Pool::Invite, :count).by(1)
+    context 'when provider message is true' do
+      it 'adds message content to invite' do
+        expect { form.save }.to change { invite.provider_message }.from(nil).to(true)
+          .and change { invite.message_content }.from(nil).to(message_content)
       end
     end
 
-    context 'when updating an existing invite' do
-      let(:updated_course) { create(:course, provider:) }
-      let(:existing_invite) { create(:pool_invite, provider:) }
-      let(:pool_invite_form_params) { { id: existing_invite.id, course_id: updated_course.id } }
+    context 'when provider message is false' do
+      let(:provider_message) { 'false' }
 
-      it 'updates the invite' do
-        expect { form.save }.to(
-          change { existing_invite.reload.course_id }.to(updated_course.id),
-        )
+      it 'does not add message content to invite' do
+        expect { form.save }.to change { invite.provider_message }.from(nil).to(false)
+          .and(not_change { invite.message_content })
       end
-    end
-  end
-
-  describe '#available_courses' do
-    it 'returns the available courses for candidate invite' do
-      expect(form.available_courses).to eq([course])
-    end
-  end
-
-  describe '#course' do
-    it 'returns the course passed to the form' do
-      expect(form.course).to eq(course)
     end
   end
 end

@@ -101,8 +101,8 @@ en:
               already_invited: Select a different course. You have invited this person to the selected course already
         provider_interface/pool_invite_message_form:
           attributes:
-            invite_message:
+            provider_message:
               blank: Select if you want to add your own message to the invitation email
-            message:
+            message_content:
               blank: You must enter an invitation message
               too_many_words: Invitation message must be %{maximum} words or less

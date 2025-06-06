@@ -2,7 +2,12 @@
   t('.title', candidate_name: @candidate.redacted_full_name_current_cycle),
   @pool_invite.errors.any?,
 ) %>
-<% content_for :before_content, govuk_back_link_to(edit_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, @pool_invite.invite)) %>
+<% content_for(
+  :before_content,
+  govuk_back_link_to(
+    @back_path || edit_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, @pool_invite.invite)
+  )
+) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

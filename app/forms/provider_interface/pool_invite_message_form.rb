@@ -2,12 +2,12 @@ module ProviderInterface
   class PoolInviteMessageForm
     include ActiveModel::Model
 
-    attr_accessor :invite_message, :message
+    attr_accessor :provider_message, :message_content
     attr_reader :invite
 
-    validates :invite_message, presence: true
-    validates :message, presence: true, if: -> { invite_message == 'true' }
-    validates :message, word_count: { maximum: 200 }, if: -> { invite_message == 'true' }
+    validates :provider_message, presence: true
+    validates :message_content, presence: true, if: -> { provider_message == 'true' }
+    validates :message_content, word_count: { maximum: 200 }, if: -> { provider_message == 'true' }
 
     def initialize(invite: nil, invite_message_params: {})
       @invite = invite
@@ -16,8 +16,8 @@ module ProviderInterface
 
     def save
       invite.update!(
-        invite_message:,
-        message: invite_message == 'false' ? nil : message,
+        provider_message:,
+        message_content: provider_message == 'false' ? nil : message_content,
       )
       invite
     end

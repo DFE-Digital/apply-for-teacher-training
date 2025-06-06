@@ -38,6 +38,7 @@
           href: edit_provider_interface_candidate_pool_candidate_draft_invite_path(
             @candidate,
             @pool_invite.id,
+            return_to: 'review',
           ),
           visually_hidden_text: t('.visually_hidden_change_course'),
         ) %>
@@ -45,13 +46,17 @@
 
       <% summary_list.with_row do |row| %>
         <% row.with_key { t('.invitation_message') } %>
-        <% row.with_value { @invite.invite_message? ? @invite.message : t('.none') } %>
+        <% row.with_value { @invite.provider_message? ? @invite.message_content : t('.none') } %>
         <% row.with_action(
-             text: t('.change'),
-             href: edit_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(@candidate, @pool_invite.id),
-             visually_hidden_text: t('.visually_hidden_change_candidate'),
-             # Change hidden text?
-           ) %>
+          text: t('.change'),
+          href: edit_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
+            @candidate,
+            @pool_invite.id,
+            return_to: 'review',
+          ),
+          visually_hidden_text: t('.visually_hidden_change_candidate'),
+          # Change hidden text?
+        ) %>
       <% end %>
     <% end %>
 
