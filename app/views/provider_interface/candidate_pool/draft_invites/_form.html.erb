@@ -1,4 +1,4 @@
-<%= form_with model: pool_invite, url: provider_interface_candidate_pool_candidate_draft_invites_path do |form| %>
+<%= form_with model: pool_invite, url:, method: do |form| %>
     <%= form.govuk_error_summary %>
 
   <% if pool_invite.id.present? %>
