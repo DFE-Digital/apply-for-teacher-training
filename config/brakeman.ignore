@@ -139,6 +139,29 @@
       "note": ""
     },
     {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "62e26a4d37b84dd77184bc5980c9bc70a9b59f1274745a6f4f2dfe23b7d605ec",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Pool::Invite#find_by`",
+      "file": "app/controllers/provider_interface/candidate_pool/provider_invite_messages_controller.rb",
+      "line": 71,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Pool::Invite.find_by(:id => params.expect(:draft_invite_id), :provider_id => current_provider_user.provider_ids, :status => :draft)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ProviderInterface::CandidatePool::ProviderInviteMessagesController",
+        "method": "invite"
+      },
+      "user_input": "params.expect(:draft_invite_id)",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "Redirect",
       "warning_code": 18,
       "fingerprint": "783f66b9e6119c7b65c794a57f29b291e256d49267c511bff375d031ef83ea96",

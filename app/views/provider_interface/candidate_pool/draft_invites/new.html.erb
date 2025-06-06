@@ -12,9 +12,8 @@
         pool_invite: @pool_invite,
         candidate: @candidate,
         url: provider_interface_candidate_pool_candidate_draft_invites_path,
-        method: :post
-      )
-      %>
+        method: :post,
+      ) %>
     <% else %>
       <p class="govuk-body"><%= t('.no_available_courses') %> </p>
     <% end %>

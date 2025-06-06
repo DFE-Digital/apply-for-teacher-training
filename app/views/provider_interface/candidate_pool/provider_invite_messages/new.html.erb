@@ -1,0 +1,19 @@
+<% content_for :browser_title, title_with_error_prefix(
+  t('.title', candidate_name: @candidate.redacted_full_name_current_cycle),
+  @pool_invite.errors.any?,
+) %>
+<% content_for :before_content, govuk_back_link_to(edit_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, @pool_invite.invite)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render(
+      'form',
+      pool_invite: @pool_invite,
+      url: provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
+        @candidate.id,
+        @pool_invite.invite,
+      ),
+      method: :post,
+    ) %>
+  </div>
+</div>

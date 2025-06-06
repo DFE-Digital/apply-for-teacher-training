@@ -1,0 +1,37 @@
+<%= govuk_details(summary_text: 'View invitation email') do %>
+  <p class="govuk-body">Dear Fred,</p>
+
+  <p class="govuk-body">
+  <%= @course.provider.name %> have reviewed your application details and are inviting you to submit an application for:
+  </p>
+
+  <h3><%= @course.provider.name %> - <%= @course.name_and_code %></h3>
+
+  <%= govuk_list do %>
+    <% if @course.fee_domestic.present? && @course.fee_international.present? %>
+      <%= tag.li "Course fee: #{number_to_currency(@course.fee_domestic)} for UK citizens; #{number_to_currency(@course.fee_international)} for non-UK citizens", class: 'govuk-!-margin-bottom-0' %>
+    <% elsif @course.fee_domestic.present? %>
+      <%= tag.li "Course fee: #{number_to_currency(@course.fee_domestic)} for UK citizens", class: 'govuk-!-margin-bottom-0' %>
+    <% elsif @course.fee_international.present? %>
+      <%= tag.li "Course fee: #{number_to_currency(@course.fee_international)} for non-UK citizens", class: 'govuk-!-margin-bottom-0' %>
+    <% end %>
+    <%= tag.li "Course length: #{DisplayCourseLength.call(course_length: @course.course_length)}", class: 'govuk-!-margin-bottom-0' %>
+    <%= tag.li "Age range: #{@course.age_range}", class: 'govuk-!-margin-bottom-0' %>
+    <%= tag.li "Qualification: #{@course.qualifications_to_s}", class: 'govuk-!-margin-bottom-0' %>
+    <%= tag.li "Start date: #{@course.start_date.to_fs(:short_month_and_year)}", class: 'govuk-!-margin-bottom-0' %>
+  <% end %>
+
+  <p class="govuk-body">
+  <%= govuk_link_to('Review the full course details', @course.find_url) %>
+  </p>
+
+  <p class="govuk-body">
+  If this course is not in suitable location, you can <%= govuk_link_to 'update your preferences', '#' %> to appear in more relevant searches
+  </p>
+
+  <p class="govuk-body">
+  If you do not want to receive invitations like this, you can <%= govuk_link_to 'stop providers from viewing your application details', '#' %>.
+  </p>
+
+  <p class="govuk-body">[Your message goes here]</p>
+<% end %>

@@ -42,6 +42,7 @@ RSpec.describe 'Providers cannot send invites to candidates' do
     and_i_navigate_to_a_candidate
     and_i_click_the_invite_button
     and_i_select_a_course
+    and_i_chose_not_to_add_invitation_message
     and_then_my_permissions_are_updated
     when_i_try_to_publish_the_invite
     then_i_am_redirected_to_the_find_candidate_page
@@ -53,6 +54,7 @@ RSpec.describe 'Providers cannot send invites to candidates' do
     and_i_navigate_to_a_candidate
     and_i_click_the_invite_button
     and_i_select_a_course
+    and_i_chose_not_to_add_invitation_message
     and_then_my_permissions_are_updated_so_i_can_make_decisions_for_the_other_provider
     when_i_try_to_publish_the_invite
     then_i_see_an_error('Course is not available')
@@ -184,5 +186,10 @@ private
   def then_i_am_redirected_to_the_find_candidate_page
     expect(page).to have_content 'Candidates can choose to share their application details.'
     expect(page).to have_no_content 'Select a course to invite C***** C***** to apply to'
+  end
+
+  def and_i_chose_not_to_add_invitation_message
+    choose 'No'
+    click_on 'Continue'
   end
 end
