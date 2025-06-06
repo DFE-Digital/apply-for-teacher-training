@@ -105,3 +105,4 @@ en:
               blank: Select if you want to add your own message to the invitation email
             message:
               blank: You must enter an invitation message
+              too_many_words: Invitation message must be %{maximum} words or less
