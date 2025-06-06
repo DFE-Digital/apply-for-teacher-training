@@ -1,0 +1,20 @@
+<%= form_with model: @pool_invite, url:, method: do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <%= f.govuk_radio_buttons_fieldset :provider_message, legend: { text: t('.title'), size: 'l', class: 'govuk-!-margin-bottom-6' } do %>
+    <%= render 'invitation_email' %>
+
+    <%= f.govuk_radio_button :provider_message, true, label: { text: 'Yes' }, link_errors: true do %>
+      <%= render 'formatting_information' %>
+
+      <%= f.govuk_text_area(
+        :message_content,
+        label: { text: t('.enter_message') },
+        max_words: 200,
+      ) %>
+    <% end %>
+    <%= f.govuk_radio_button :provider_message, false, label: { text: 'No' } %>
+  <% end %>
+
+  <%= f.govuk_submit %>
+<% end %>
