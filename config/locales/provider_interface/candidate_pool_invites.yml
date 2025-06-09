@@ -103,7 +103,7 @@ en:
         provider_interface/pool_invite_message_form:
           attributes:
             provider_message:
-              blank: Select if you want to add your own message to the invitation email
+              inclusion: Select if you want to add your own message to the invitation email
             message_content:
               blank: You must enter an invitation message
               too_many_words: Invitation message must be %{maximum} words or less

@@ -4,17 +4,17 @@ RSpec.describe ProviderInterface::PoolInviteMessageForm, type: :model do
   subject(:form) do
     described_class.new(
       invite:,
-      invite_message_params:,
+      provider_message:,
+      message_content:,
     )
   end
 
   let(:invite) { create(:pool_invite) }
-  let(:invite_message_params) { { provider_message:, message_content: } }
   let(:provider_message) { 'true' }
   let(:message_content) { 'custom message' }
 
   describe '.validations' do
-    it { is_expected.to validate_presence_of(:provider_message) }
+    it { is_expected.to validate_inclusion_of(:provider_message).in_array([true, false]) }
 
     context 'provider_message is present but message is not' do
       let(:message_content) { nil }

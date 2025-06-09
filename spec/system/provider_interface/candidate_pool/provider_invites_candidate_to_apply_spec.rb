@@ -44,7 +44,7 @@ RSpec.describe 'Providers invites candidates' do
     then_i_am_redirected_to_the_review_page(last_course, 'None')
 
     when_i_click('Change invitation message')
-    then_i_am_redirected_to_the_edit_message_page
+    then_i_am_redirected_to_the_edit_message_page_with_return_param
     when_i_choose_yes
     and_i_add_message_content
 
@@ -107,6 +107,9 @@ RSpec.describe 'Providers invites candidates' do
     then_i_get_an_error('Course is not available')
 
     when_i_select_a_course(last_course)
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_the_edit_message_page
     when_i_click('Continue')
 
     then_i_am_redirected_to_the_review_page(last_course)
@@ -282,12 +285,21 @@ RSpec.describe 'Providers invites candidates' do
     )
   end
 
-  def then_i_am_redirected_to_the_edit_message_page
+  def then_i_am_redirected_to_the_edit_message_page_with_return_param
     expect(page).to have_current_path(
       edit_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
         @candidate,
         pool_invite,
         return_to: 'review',
+      ),
+    )
+  end
+
+  def then_i_am_redirected_to_the_edit_message_page
+    expect(page).to have_current_path(
+      edit_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
+        @candidate,
+        pool_invite,
       ),
     )
   end

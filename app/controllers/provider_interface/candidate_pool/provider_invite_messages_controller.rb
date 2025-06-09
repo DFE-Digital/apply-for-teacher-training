@@ -2,7 +2,7 @@ module ProviderInterface
   module CandidatePool
     class ProviderInviteMessagesController < ProviderInterfaceController
       before_action :set_candidate
-      before_action :set_back_path, only: %i[edit]
+      before_action :set_back_path, only: %i[edit update]
 
       def new
         @pool_invite = PoolInviteMessageForm.new(invite:)
@@ -11,8 +11,8 @@ module ProviderInterface
 
       def edit
         @pool_invite = PoolInviteMessageForm.new(
-          invite:,
-          invite_message_params: {
+          {
+            invite:,
             provider_message: invite.provider_message,
             message_content: invite.message_content,
           },
@@ -21,10 +21,7 @@ module ProviderInterface
       end
 
       def create
-        @pool_invite = PoolInviteMessageForm.new(
-          invite:,
-          invite_message_params:,
-        )
+        @pool_invite = PoolInviteMessageForm.new(invite_message_params.merge(invite:))
 
         if @pool_invite.valid?
           @pool_invite.save
@@ -36,17 +33,14 @@ module ProviderInterface
       end
 
       def update
-        @pool_invite = PoolInviteMessageForm.new(
-          invite:,
-          invite_message_params:,
-        )
+        @pool_invite = PoolInviteMessageForm.new(invite_message_params.merge(invite:))
 
         if @pool_invite.valid?
           @pool_invite.save
           redirect_to provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, invite)
         else
           @course = invite.course
-          render :new
+          render :edit
         end
       end
 
@@ -58,7 +52,7 @@ module ProviderInterface
       end
 
       def set_back_path
-        if params[:return_to] == 'review'
+        if return_to_review?
           @back_path = provider_interface_candidate_pool_candidate_draft_invite_path(
             @candidate,
             invite,
@@ -66,17 +60,21 @@ module ProviderInterface
         end
       end
 
+      def return_to_review?
+        params[:return_to] == 'review' ||
+          params.dig(:provider_interface_pool_invite_message_form, :return_to) == 'review'
+      end
+
       def invite
-        @invite ||= Pool::Invite.find_by(
+        @invite ||= current_provider_user.pool_invites.find_by(
           id: params.expect(:draft_invite_id),
-          provider_id: current_provider_user.provider_ids,
           status: :draft,
         )
       end
 
       def invite_message_params
         params.expect(
-          provider_interface_pool_invite_message_form: %i[provider_message message_content],
+          provider_interface_pool_invite_message_form: %i[provider_message message_content return_to],
         )
       end
     end

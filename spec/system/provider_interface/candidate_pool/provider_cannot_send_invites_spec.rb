@@ -60,6 +60,7 @@ RSpec.describe 'Providers cannot send invites to candidates' do
     then_i_see_an_error('Course is not available')
 
     when_i_select_another_course
+    and_i_chose_not_to_add_invitation_message
     and_my_permissions_are_updated_again
     when_i_try_to_publish_the_invite
     then_i_see_an_error('Course is not available')
@@ -191,5 +192,14 @@ private
   def and_i_chose_not_to_add_invitation_message
     choose 'No'
     click_on 'Continue'
+  end
+
+  def then_i_am_redirected_to_message_page
+    expect(page).to have_current_path(
+      new_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
+        @candidate,
+        pool_invite,
+      ),
+    )
   end
 end

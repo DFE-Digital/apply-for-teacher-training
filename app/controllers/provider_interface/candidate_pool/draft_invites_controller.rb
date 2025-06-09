@@ -60,7 +60,10 @@ module ProviderInterface
         )
 
         if @pool_invite.valid? && @pool_invite.save
-          redirect_to @back_path || provider_interface_candidate_pool_candidate_draft_invite_path(@candidate)
+          redirect_to @back_path || edit_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
+            @candidate,
+            invite,
+          )
         else
           render :edit
         end
@@ -75,7 +78,7 @@ module ProviderInterface
 
       def pool_invite_form_params
         params.expect(
-          provider_interface_pool_invite_form: %i[course_id id status],
+          provider_interface_pool_invite_form: %i[course_id id status return_to],
         )
       end
 
@@ -104,12 +107,17 @@ module ProviderInterface
       end
 
       def set_back_path
-        if params[:return_to] == 'review'
+        if return_to_review?
           @back_path = provider_interface_candidate_pool_candidate_draft_invite_path(
             @candidate,
             invite,
           )
         end
+      end
+
+      def return_to_review?
+        params[:return_to] == 'review' ||
+          params.dig(:provider_interface_pool_invite_form, :return_to) == 'review'
       end
     end
   end
