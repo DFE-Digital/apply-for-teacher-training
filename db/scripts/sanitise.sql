@@ -149,10 +149,16 @@ SET
 -- SupportUser
 UPDATE "support_users"
 SET
-    email_address = concat('application_reference_', id, '@example.com'),
+    email_address = concat('support_user_', id, '@example.com'),
     first_name  = 'Support',
     last_name = concat('User', id),
     dfe_sign_in_uid = gen_random_uuid();
+
+-- OneLoginAuth
+UPDATE "one_login_auths"
+SET
+    email_address = concat('one_login_auth_', id, '@example.com'),
+    token = gen_random_uuid();
 
 -- VendorApiUser
 UPDATE "vendor_api_users"
