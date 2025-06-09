@@ -97,14 +97,7 @@ module CandidateAPI
     end
 
     def serializer
-      @serializer ||=
-        if version_param == 'v1.3'
-          CandidateAPI::Serializers::V13.new
-        elsif version_param == 'v1.2'
-          CandidateAPI::Serializers::V12.new
-        else
-          CandidateAPI::Serializers::V11.new
-        end
+      @serializer ||= CandidateAPI::Serializers[version_param].new
     end
 
     def updated_since_params

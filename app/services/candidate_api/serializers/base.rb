@@ -1,5 +1,18 @@
 module CandidateAPI
   module Serializers
+    def self.[](version)
+      case version
+      when 'v1.4'
+        V14
+      when 'v1.3'
+        V13
+      when 'v1.2'
+        V12
+      else
+        V11
+      end
+    end
+
     class Base
       def serialize(candidates)
         candidates.map do |candidate|
@@ -11,23 +24,25 @@ module CandidateAPI
               updated_at: api_updated_at(candidate),
               email_address: candidate.email_address,
               application_forms:
-              candidate.application_forms.sort_by { |form| [form.created_at, form.id] }.map do |application|
-                {
-                  id: application.id,
-                  created_at: application.created_at.iso8601,
-                  updated_at: application.updated_at.iso8601,
-                  application_status: ApplicationFormStateInferrer.new(application).state,
-                  application_phase: application.phase,
-                  recruitment_cycle_year: application.recruitment_cycle_year,
-                  submitted_at: application.submitted_at&.iso8601,
-                }
-              end,
+                candidate.application_forms.sort_by { |form| [form.created_at, form.id] }.map(&method(:serialize_application_form)),
             },
           }
         end
       end
 
     private
+
+      def serialize_application_form(application_form)
+        {
+          id: application_form.id,
+          created_at: application_form.created_at.iso8601,
+          updated_at: application_form.updated_at.iso8601,
+          application_status: ApplicationFormStateInferrer.new(application_form).state,
+          application_phase: application_form.phase,
+          recruitment_cycle_year: application_form.recruitment_cycle_year,
+          submitted_at: application_form.submitted_at&.iso8601,
+        }
+      end
 
       def api_updated_at(candidate)
         [
