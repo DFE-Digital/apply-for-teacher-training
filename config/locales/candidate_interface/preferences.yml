@@ -7,15 +7,19 @@ en:
       show:
         title: Check your application sharing preferences
         share_information: Do you want to make your application details visible to other training providers?
+        where_can_you_train: Where can you train?
+        specific: In specific locations
+        anywhere: Anywhere in England
+        change_training_locations_visually_hidden: where you would like to train
         preferred_locations: Preferred locations
         dynamic_locations: Add new course locations to my preferences when I apply to new courses
         change: Change
         submit: Submit preferences
         location: Within %{radius} miles of %{location}
         no_location_preferences: You have no location preferences
-        change_share_information_hint: Change whether you want to share your application details
-        change_location_preferences_hint: Change your preferred locations
-        change_dynamic_locations_hint: Change updating your locations when you apply to a new course
+        change_share_information_hint: whether you want to share your application details
+        change_location_preferences_hint: your preferred locations
+        change_dynamic_locations_hint: updating your locations when you apply to a new course
     preferences:
       show: Check your application sharing preferences
       share_question: Do you want to share your application details with other training providers?
@@ -27,15 +31,19 @@ en:
       show:
         title: Check your application sharing preferences
         share_information: Do you want to make your application details visible to other training providers?
+        where_can_you_train: Where can you train?
+        specific: In specific locations
+        anywhere: Anywhere in England
+        change_training_locations_visually_hidden: where you would like to train
         preferred_locations: Preferred locations
         dynamic_locations: Add new course locations to my preferences when I apply to new courses
         change: Change
         submit: Submit preferences
         location: Within %{radius} miles of %{location}
         no_location_preferences: You have no location preferences
-        change_share_information_hint: Change whether you want to share your application details
-        change_location_preferences_hint: Change your preferred locations
-        change_dynamic_locations_hint: Change updating your locations when you apply to a new course
+        change_share_information_hint: whether you want to share your application details
+        change_location_preferences_hint: your preferred locations
+        change_dynamic_locations_hint: updating your locations when you apply to a new course
     pool_opt_ins:
       new:
         title: Do you want to make your application details visible to other training providers?
@@ -67,7 +75,6 @@ en:
         remove: Remove
         add_another_location: Add another location
         add_location: Add a location
-        no_location_preferences: You have no location preferences. Providers will assume you can train anywhere in England.
         within: "%{within} miles"
       new:
         title: Add a location
@@ -90,13 +97,17 @@ en:
         candidate_interface/preferences_form:
           attributes:
             base:
-              location_preferences_blank: Add location preferences
+              location_preferences_blank: Add an area you can train in
         candidate_interface/pool_opt_ins_form:
           attributes:
             pool_status:
               blank: Select whether to make your application details visible to other training providers
             opt_out_reason:
               too_many_words: Reason for not sharing your application details must be %{maximum} words or less
+        candidate_interface/training_locations_form:
+          attributes:
+            training_locations:
+              inclusion: Select where you can train
         candidate_interface/location_preferences_form:
           attributes:
             within:

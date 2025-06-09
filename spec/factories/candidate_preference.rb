@@ -4,5 +4,6 @@ FactoryBot.define do
     pool_status { 'opt_in' }
     dynamic_location_preferences { true }
     status { 'published' }
+    training_locations { 'specific' }
   end
 end
