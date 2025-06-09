@@ -25,7 +25,7 @@ module SupportInterface
       end
 
       if applied_filters[:interviews].present?
-        application_forms = application_forms.joins(application_choices: [:interviews]).group('id')
+        application_forms = application_forms.joins(application_choices: [:interviews])
       end
 
       if applied_filters[:year].present?
