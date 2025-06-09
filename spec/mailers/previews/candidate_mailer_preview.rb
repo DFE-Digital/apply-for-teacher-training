@@ -569,6 +569,8 @@ class CandidateMailerPreview < ActionMailer::Preview
       candidate:,
       provider: provider,
       course: course,
+      provider_message: true,
+      message_content: "# Hello\r\n## Please apply to my course\r\n\r\n^ Some content\r\n\r\nByee",
     )
 
     CandidateMailer.candidate_invites(candidate, [invite])
@@ -595,6 +597,8 @@ class CandidateMailerPreview < ActionMailer::Preview
       candidate:,
       provider: provider,
       course: course_1,
+      provider_message: true,
+      message_content: "# Hello\r\n## Please apply to my course\r\n\r\n^ Some content\r\n\r\nByee",
     )
 
     invite_2 = FactoryBot.create(
@@ -602,6 +606,8 @@ class CandidateMailerPreview < ActionMailer::Preview
       candidate:,
       provider: provider,
       course: course_2,
+      provider_message: true,
+      message_content: "# Hello\r\n## Please apply to my course\r\n\r\n^ Some content\r\n\r\nByee",
     )
 
     CandidateMailer.candidate_invites(candidate, [invite_1, invite_2])
@@ -615,14 +621,25 @@ class CandidateMailerPreview < ActionMailer::Preview
       candidate: candidate,
       first_name: 'Fred',
     )
+    provider = FactoryBot.create(:provider)
 
-    pool_invites = FactoryBot.create_list(
+    invite_1 = FactoryBot.create(
       :pool_invite,
-      2,
       candidate:,
+      provider: provider,
+      provider_message: true,
+      message_content: "# Hello\r\n## Please apply to my course\r\n\r\n^ Some content\r\n\r\nByee",
     )
 
-    CandidateMailer.candidate_invites(candidate, pool_invites)
+    invite_2 = FactoryBot.create(
+      :pool_invite,
+      candidate:,
+      provider: provider,
+      provider_message: true,
+      message_content: "# Hello\r\n## Please apply to my course\r\n\r\n^ Some content\r\n\r\nByee",
+    )
+
+    CandidateMailer.candidate_invites(candidate, [invite_1, invite_2])
   end
 
   def candidate_invites_multiple_providers
@@ -646,6 +663,8 @@ class CandidateMailerPreview < ActionMailer::Preview
       candidate:,
       provider: provider,
       course: course_1,
+      provider_message: true,
+      message_content: "# Hello\r\n## Please apply to my course\r\n\r\n^ Some content\r\n\r\nByee",
     )
 
     provider_1_invite_2 = FactoryBot.create(
@@ -653,6 +672,8 @@ class CandidateMailerPreview < ActionMailer::Preview
       candidate:,
       provider: provider,
       course: course_2,
+      provider_message: true,
+      message_content: "# Hello\r\n## Please apply to my course\r\n\r\n^ Some content\r\n\r\nByee",
     )
 
     other_invites = FactoryBot.create_list(
