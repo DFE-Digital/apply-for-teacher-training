@@ -21,7 +21,8 @@ Start date: <%= invite.course.start_date.to_fs(:short_month_and_year) %>
 
 <% if @invites.size > 1 && invite.message_content.present? %>
   <%= invite.message_content %>
-<% end  %>
+<% end %>
+
 <% end %>
 
 
