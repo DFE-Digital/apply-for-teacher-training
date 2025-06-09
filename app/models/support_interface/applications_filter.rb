@@ -25,7 +25,7 @@ module SupportInterface
       end
 
       if applied_filters[:interviews].present?
-        application_forms = application_forms.joins(application_choices: [:interviews]).group('id')
+        application_forms = application_forms.joins(application_choices: [:interviews])
       end
 
       if applied_filters[:year].present?
@@ -75,12 +75,13 @@ module SupportInterface
       pagy(
         application_forms
           .joins(:candidate)
-          .preload(
+          .eager_load(
             :candidate,
             application_choices: { current_course_option: { course: :provider } },
           )
           .distinct
-          .order(updated_at: :desc, id: :desc),
+          .order(updated_at: :desc, id: :desc)
+          .select(:candidate_id, :created_at, :first_name, :id, :last_name, :previous_application_form_id, :recruitment_cycle_year, :support_reference, :updated_at),
         page: applied_filters[:page] || 1,
         limit: PAGY_PER_PAGE,
       )
