@@ -46,7 +46,7 @@
 
       <% summary_list.with_row do |row| %>
         <% row.with_key { t('.invitation_message') } %>
-        <% row.with_value { @invite.provider_message? ? @invite.message_content : t('.none') } %>
+        <% row.with_value { @invite.provider_message? ? simple_format(@invite.message_content) : t('.none') } %>
         <% row.with_action(
           text: t('.change'),
           href: edit_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(

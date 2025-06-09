@@ -19,8 +19,9 @@ Start date: <%= invite.course.start_date.to_fs(:short_month_and_year) %>
 
 [Review the full course details](<%= invite.course.find_url %>)
 
-<% if @invites.size > 1 && invite.message_content.present? %>
-  <%= invite.message_content %>
+<% if invite.message_content.present? %>
+## <%= invite.course.provider.name %> included this message:
+<%= invite.message_content %>
 <% end %>
 
 <% end %>
@@ -29,7 +30,3 @@ Start date: <%= invite.course.start_date.to_fs(:short_month_and_year) %>
 <%= t('.body.locations_not_suitable', count: @invites.size) %>, you can [update your preferences](<%= @preferences_url %>) to appear in more relevant searches.
 
 If you do not want to receive invitations like this, you can [stop providers from viewing your application details](<%= @preferences_url %>).
-
-<% if @invites.size == 1 && @invites.first.message_content.present? %>
-  <%= @invites.first.message_content %>
-<% end  %>
