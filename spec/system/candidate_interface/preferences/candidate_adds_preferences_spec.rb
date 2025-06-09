@@ -25,7 +25,7 @@ RSpec.describe 'Candidate adds preferences' do
 
   after { FeatureFlag.deactivate(:candidate_preferences) }
 
-  scenario 'Candidate opts in to find a candidate' do
+  scenario 'Candidate opts in to find a candidate with specific locations' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
@@ -38,10 +38,21 @@ RSpec.describe 'Candidate adds preferences' do
     and_i_opt_in_to_find_a_candidate
     when_i_click('Continue')
 
+    then_i_am_redirected_to_training_locations
+    when_i_click('Back')
+
+    then_i_am_redirected_to_opt_in_page
+    when_i_click('Continue')
+    and_i_click('Continue')
+    then_i_get_an_error('Select where you can train')
+
+    and_i_select_specific_locations
+    when_i_click('Continue')
+
     then_i_am_redirected_to_location_preferences(location_preferences)
 
     when_i_click('Back')
-    then_i_am_redirected_to_opt_in
+    then_i_am_redirected_to_training_locations
 
     when_i_click('Continue')
     then_i_am_redirected_to_location_preferences(location_preferences)
@@ -71,7 +82,7 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_application_choices_with_success_message
   end
 
-  scenario 'Candidate opts in to find a candidate without any locations' do
+  scenario 'Candidate opts in to find a candidate for anywhere in England' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
@@ -84,13 +95,9 @@ RSpec.describe 'Candidate adds preferences' do
     and_i_opt_in_to_find_a_candidate
     when_i_click('Continue')
 
-    then_i_am_redirected_to_location_preferences(location_preferences)
-
-    when_i_remove_all_locations
-    then_i_am_redirected_to_location_preferences_without_locations
-
-    when_i_check_dynamic_locations
-    when_i_click('Continue')
+    then_i_am_redirected_to_training_locations
+    when_i_select_anywhere
+    and_i_click('Continue')
 
     then_i_am_redirected_to_review_page_without_locations
 
@@ -174,6 +181,8 @@ RSpec.describe 'Candidate adds preferences' do
 
     when_i_opt_in_to_find_a_candidate
     and_i_click('Continue')
+    and_i_select_specific_locations
+    and_i_click('Continue')
     then_i_am_redirected_to_location_preferences(location_preferences)
 
     when_i_check_dynamic_locations
@@ -186,6 +195,14 @@ RSpec.describe 'Candidate adds preferences' do
     choose 'Yes'
   end
   alias_method :when_i_opt_in_to_find_a_candidate, :and_i_opt_in_to_find_a_candidate
+
+  def and_i_select_specific_locations
+    choose 'In specific locations'
+  end
+
+  def when_i_select_anywhere
+    choose 'Anywhere in England'
+  end
 
   def and_i_opt_out_to_find_a_candidate
     choose 'No'
@@ -287,6 +304,8 @@ RSpec.describe 'Candidate adds preferences' do
         label: 'Do you want to make your application details visible to other training providers?',
         value: 'Yes',
       },
+      { label: 'Where can you train?',
+        value: 'In specific locations' },
       {
         label: 'Preferred locations',
         value: locations,
@@ -307,7 +326,7 @@ RSpec.describe 'Candidate adds preferences' do
 
   def then_i_am_redirected_to_review_page_without_locations
     expect(page).to have_content('Check your application sharing preferences')
-    expect(page).to have_content('You have no location preferences')
+    expect(page).to have_content('Anywhere in England')
   end
 
   def and_the_dynamic_locations_is_checked
@@ -371,6 +390,10 @@ RSpec.describe 'Candidate adds preferences' do
     expect(page).to have_content('Do you want to make your application details visible to other training providers?')
   end
 
+  def then_i_am_redirected_to_training_locations
+    expect(page).to have_content 'Where can you train?'
+  end
+
   def when_i_click_change_on_the_last_location
     all('a', text: 'Change').last.click
   end
@@ -396,7 +419,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def and_i_click_the_relevant_change_link
-    click_link('Change Change your preferred locations')
+    click_link('Change your preferred locations')
   end
 
   def when_i_click_on_the_dynamic_location_change_link

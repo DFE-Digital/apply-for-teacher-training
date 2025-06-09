@@ -1,0 +1,24 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @training_locations_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(@back_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+          model: @training_locations_form,
+          url: candidate_interface_draft_preference_training_locations_path(
+            @preference,
+            return_to: params[:return_to],
+          ),
+          method: :post,
+        ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset(:training_locations, legend: { text: t('.title'), size: 'l' }) do %>
+        <%= f.govuk_radio_button :training_locations, :anywhere, label: { text: t('.anywhere') }, link_errors: true %>
+        <%= f.govuk_radio_button :training_locations, :specific, label: { text: t('.specific') } %>
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>

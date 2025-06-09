@@ -1,5 +1,5 @@
 <% content_for :title, t('.title') %>
-<% content_for :before_content, govuk_back_link(href: candidate_interface_draft_preference_location_preferences_path(@preference)) %>
+<% content_for :before_content, govuk_back_link(href: @back_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -17,33 +17,41 @@
       <% end %>
 
       <% summary_list.with_row do |row| %>
-        <% row.with_key { t('.preferred_locations') } %>
-        <% row.with_value do %>
-          <%= govuk_list do %>
-            <% if @location_preferences.blank? %>
-              <p class="govuk-body"><%= t('.no_location_preferences') %> </p>
-            <% else %>
+        <% row.with_key { t('.where_can_you_train') } %>
+        <% row.with_value { t(".#{@preference.training_locations}") } %>
+        <% row.with_action(
+             text: t('.change'),
+             href: new_candidate_interface_draft_preference_training_location_path(@preference, return_to: 'review'),
+             visually_hidden_text: t('.change_training_locations_visually_hidden'),
+           ) %>
+      <% end %>
+
+      <% if @preference.training_locations_specific? %>
+        <% summary_list.with_row do |row| %>
+          <% row.with_key { t('.preferred_locations') } %>
+          <% row.with_value do %>
+            <%= govuk_list do %>
               <% @location_preferences.each do |location| %>
                 <%= tag.li t('.location', radius: location.within, location: location.decorated_name) %>
               <% end %>
             <% end %>
           <% end %>
+          <% row.with_action(
+            text: t('.change'),
+            href: candidate_interface_draft_preference_location_preferences_path(@preference, return_to: 'review'),
+            visually_hidden_text: t('.change_location_preferences_hint'),
+          ) %>
         <% end %>
-        <% row.with_action(
-          text: t('.change'),
-          href: candidate_interface_draft_preference_location_preferences_path(@preference, return_to: 'review'),
-          visually_hidden_text: t('.change_location_preferences_hint'),
-        ) %>
-      <% end %>
 
-      <% summary_list.with_row do |row| %>
-        <% row.with_key { t('.dynamic_locations') } %>
-        <% row.with_value { @preference.dynamic_location_preferences? ? 'Yes' : 'No' } %>
-        <% row.with_action(
-          text: t('.change'),
-          href: candidate_interface_draft_preference_location_preferences_path(@preference, return_to: 'review'),
-          visually_hidden_text: t('.change_dynamic_locations_hint'),
-        ) %>
+        <% summary_list.with_row do |row| %>
+          <% row.with_key { t('.dynamic_locations') } %>
+          <% row.with_value { @preference.dynamic_location_preferences? ? 'Yes' : 'No' } %>
+          <% row.with_action(
+            text: t('.change'),
+            href: candidate_interface_draft_preference_location_preferences_path(@preference, return_to: 'review'),
+            visually_hidden_text: t('.change_dynamic_locations_hint'),
+          ) %>
+        <% end %>
       <% end %>
     <% end %>
 

@@ -7,6 +7,12 @@ module CandidateInterface
       @location_preferences = @preference.location_preferences.order(:created_at).map do |location|
         LocationPreferenceDecorator.new(location)
       end
+
+      @back_path = if @preference.training_locations_anywhere?
+                     new_candidate_interface_draft_preference_training_location_path(@preference)
+                   else
+                     candidate_interface_draft_preference_location_preferences_path(@preference)
+                   end
     end
 
     def update
@@ -15,7 +21,8 @@ module CandidateInterface
         params: request_params,
       )
 
-      if @preference_form.save
+      if @preference_form.valid?
+        @preference_form.save
         redirect_to candidate_interface_draft_preference_path(@preference)
       else
         @location_preferences = @preference.location_preferences

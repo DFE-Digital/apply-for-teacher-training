@@ -54,6 +54,25 @@ RSpec.describe 'Candidate edits published preference' do
     and_the_candidate_preference_id_is_changed
   end
 
+  scenario 'Candidate edits training locations' do
+    given_i_am_signed_in
+    and_feature_flag_is_enabled
+
+    given_i_am_on_the_application_choices_page
+    when_i_click('Change your sharing and location settings')
+    and_i_click('Change where you would like to train')
+    then_i_am_redirected_to_the_training_locations_page
+
+    when_i_select_anywhere_in_england
+    and_i_click('Continue')
+    then_i_am_redirected_to_preference_review_page
+
+    when_i_click('Submit preferences')
+    then_i_am_redirected_on_the_application_choices_page
+    and_the_candidate_preference_id_is_changed
+    and_there_are_no_location_preferences
+  end
+
   def given_i_am_signed_in
     given_i_am_signed_in_with_one_login
     @application = create(
@@ -70,6 +89,7 @@ RSpec.describe 'Candidate edits published preference' do
       :candidate_preference,
       candidate: @current_candidate,
       status: 'published',
+      training_locations: 'specific',
     )
     _location_preferences = create(
       :candidate_location_preference,
@@ -88,9 +108,14 @@ RSpec.describe 'Candidate edits published preference' do
   def when_i_click(button)
     click_link_or_button(button)
   end
+  alias_method :and_i_click, :when_i_click
 
   def then_i_am_redirected_to_preference_review_page
     expect(page).to have_content('Check your application sharing preferences')
+  end
+
+  def then_i_am_redirected_to_the_training_locations_page
+    expect(page).to have_content('Where can you train?')
   end
 
   def when_i_click_change_share_preference
@@ -116,8 +141,16 @@ RSpec.describe 'Candidate edits published preference' do
     @current_candidate.published_preferences.last != @existing_candidate_preference
   end
 
+  def and_there_are_no_location_preferences
+    expect(@current_candidate.published_preferences.last.location_preferences).to eq []
+  end
+
   def when_i_click_dynamic_locations
     all('a', text: 'Change').last.click
+  end
+
+  def when_i_select_anywhere_in_england
+    choose 'Anywhere in England'
   end
 
   def and_i_untick_dynamic_locations

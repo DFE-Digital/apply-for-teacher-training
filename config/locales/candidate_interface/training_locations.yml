@@ -1,0 +1,7 @@
+en:
+  candidate_interface:
+    training_locations:
+      new:
+        title: Where can you train?
+        anywhere: Anywhere in England
+        specific: In specific locations

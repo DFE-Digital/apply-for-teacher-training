@@ -27,7 +27,7 @@ module CandidateInterface
 
       if @preference_form.save
         if @preference_form.preference.opt_in?
-          redirect_to candidate_interface_draft_preference_location_preferences_path(
+          redirect_to new_candidate_interface_draft_preference_training_location_path(
             @preference_form.preference,
           )
         else
@@ -48,7 +48,9 @@ module CandidateInterface
 
       if @preference_form.save
         if @preference.reload.opt_in?
-          redirect_to @back_path || candidate_interface_draft_preference_location_preferences_path(@preference)
+          redirect_to @back_path || new_candidate_interface_draft_preference_training_location_path(
+            @preference_form.preference,
+          )
         else
           flash[:success] = t('.opt_out_message')
           redirect_to candidate_interface_application_choices_path
