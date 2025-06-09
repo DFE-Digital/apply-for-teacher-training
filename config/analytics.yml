@@ -13,6 +13,7 @@ shared:
     - candidate_id
     - created_at
     - updated_at
+    - training_locations
   candidate_location_preferences:
     - id
     - name

@@ -12,6 +12,11 @@ class CandidatePreference < ApplicationRecord
     published: 'published',
   }
 
+  enum :training_locations, {
+    anywhere: 'anywhere',
+    specific: 'specific',
+  }, prefix: true
+
   def create_draft_dup
     dup_record = dup
     dup_record.status = 'draft'
