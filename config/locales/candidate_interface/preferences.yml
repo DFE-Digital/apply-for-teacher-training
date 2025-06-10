@@ -6,12 +6,12 @@ en:
         success_opt_out: You are not sharing your application details with providers you have not applied to
       show:
         title: Check your application sharing preferences
-        share_information: Do you want to make your application details visible to other training providers?
+        share_information: Do you want to be invited to apply to similar courses?
         where_can_you_train: Where can you train?
         specific: In specific locations
         anywhere: Anywhere in England
         change_training_locations_visually_hidden: where you would like to train
-        preferred_locations: Preferred locations
+        preferred_locations: Areas you can train in
         dynamic_locations: Add the locations of courses you apply to
         change: Change
         submit: Submit preferences
@@ -89,9 +89,9 @@ en:
         miles: miles
         enter_distance_in_miles: Enter distance in miles
       show:
-        title: Do you want to remove this location?
-        location: Location
-        remove: Yes, remove location
+        title: Do you want to remove this training area?
+        location: Area
+        remove: Yes, remove training area
   activemodel:
     errors:
       models:
