@@ -4,7 +4,9 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render CandidateInterface::OneLoginPostReleaseSignInBannerComponent.new %>
+    <% if HostingEnvironment.sandbox_mode? %>
+      <%= render SandboxFeatureComponent.new(description: t('.sandbox_guidance_html')) %>
+    <% end %>
 
     <% if FeatureFlag.active?(:one_login_candidate_sign_in) %>
 

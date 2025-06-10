@@ -1,8 +1,0 @@
-en:
-  candidate_interface:
-    one_login_post_release_sign_in_banner_component:
-      title: Important
-      heading: How you sign in has changed
-      text_html:
-        <p class="govuk-body">Sign in using your GOV.UK One Login. If you do not have one you can create one.</p>
-        <p class="govuk-body">If you have signed in to Apply for teacher training before, you should use the same email address to create your GOV.UK One Login.</p>
