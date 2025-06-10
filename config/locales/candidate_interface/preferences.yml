@@ -40,7 +40,7 @@ en:
         change: Change
         submit: Submit preferences
         location: Within %{radius} miles of %{location}
-        no_location_preferences: You have no location preferences
+        no_location_preferences: You have not added any training areas
         change_share_information_hint: whether you want to share your application details
         change_location_preferences_hint: your preferred locations
         change_dynamic_locations_hint: updating your locations when you apply to a new course
@@ -74,16 +74,17 @@ en:
         update_location_preferences: Add the locations of courses you apply to
         remove: Remove
         add_another_location: Add an area
-        add_location: Add a location
+        add_location: Add an area
         within: "%{within} miles"
+        no_location_preferences: You have not added any training areas
       new:
-        title: Add a location
-        submit_text: Add location
+        title: Add an area where you can train
+        submit_text: Add area
       edit:
-        title: Change location preferences
-        submit_text: Update location
+        title: Update the area where you can train
+        submit_text: Update training area
       form:
-        within: Within
+        within: I can travel up to
         name: of city, town or postcode
         miles: miles
         enter_distance_in_miles: Enter distance in miles

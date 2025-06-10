@@ -5,7 +5,7 @@
 
   <%= f.govuk_text_field(
     :within,
-    label: { text: t('.within'), size: 'm' },
+    label: { text: t('.within') },
     hint: { text: t('.enter_distance_in_miles'), hidden: true },
     class: 'govuk-!-width-one-quarter',
     suffix_text: t('.miles'),
@@ -16,7 +16,7 @@
   <div class="location-autocomplete-input">
     <%= f.govuk_text_field(
       :name,
-      label: { text: t('.name'), size: 'm' },
+      label: { text: t('.name') },
       data: {
         controller: 'location-autocomplete',
         location_autocomplete_path_value: candidate_interface_location_suggestions_path,
