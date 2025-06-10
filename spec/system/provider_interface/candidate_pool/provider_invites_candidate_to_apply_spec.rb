@@ -8,8 +8,9 @@ RSpec.describe 'Providers invites candidates' do
   let(:first_course) { current_provider.courses.first }
   let(:second_course) { current_provider.courses.second }
   let(:last_course) { current_provider.courses.last }
+  let(:message_content) { 'message_content' }
 
-  scenario 'Invite candidate and edit course' do
+  scenario 'Invite candidate and edit invite' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_user_exists
     and_provider_has_courses(3)
@@ -27,12 +28,26 @@ RSpec.describe 'Providers invites candidates' do
     when_i_select_a_course(first_course)
     when_i_click('Continue')
 
-    then_i_am_redirected_to_the_review_page(first_course)
+    then_i_am_redirected_to_message_page
+    when_i_click('Continue')
+    then_i_get_an_error('Select if you want to add your own message to the invitation email')
+    when_i_choose_no
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_the_review_page(first_course, 'None')
 
     when_i_click('Change course')
     then_i_am_redirected_to_the_edit_page
 
     when_i_select_a_course(last_course)
+    when_i_click('Continue')
+    then_i_am_redirected_to_the_review_page(last_course, 'None')
+
+    when_i_click('Change invitation message')
+    then_i_am_redirected_to_the_edit_message_page_with_return_param
+    when_i_choose_yes
+    and_i_add_message_content
+
     when_i_click('Continue')
     then_i_am_redirected_to_the_review_page(last_course)
 
@@ -55,6 +70,11 @@ RSpec.describe 'Providers invites candidates' do
     when_i_select_a_course_from_dropdown(first_course)
     when_i_click('Continue')
 
+    then_i_am_redirected_to_message_page
+    when_i_choose_yes
+    and_i_add_message_content
+    when_i_click('Continue')
+
     then_i_am_redirected_to_the_review_page(first_course)
 
     when_i_click('Send invitation')
@@ -75,6 +95,11 @@ RSpec.describe 'Providers invites candidates' do
     when_i_select_a_course(first_course)
     when_i_click('Continue')
 
+    then_i_am_redirected_to_message_page
+    when_i_choose_yes
+    and_i_add_message_content
+    when_i_click('Continue')
+
     then_i_am_redirected_to_the_review_page(first_course)
     when_the_course_becomes_unavailable(first_course)
 
@@ -82,6 +107,9 @@ RSpec.describe 'Providers invites candidates' do
     then_i_get_an_error('Course is not available')
 
     when_i_select_a_course(last_course)
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_the_edit_message_page
     when_i_click('Continue')
 
     then_i_am_redirected_to_the_review_page(last_course)
@@ -104,6 +132,11 @@ RSpec.describe 'Providers invites candidates' do
     when_i_select_a_course(first_course)
     when_i_click('Continue')
 
+    then_i_am_redirected_to_message_page
+    when_i_choose_yes
+    and_i_add_message_content
+    when_i_click('Continue')
+
     then_i_am_redirected_to_the_review_page(first_course)
     when_the_invite_has_been_sent_already(first_course)
 
@@ -114,6 +147,11 @@ RSpec.describe 'Providers invites candidates' do
     when_i_select_a_course(second_course)
     when_i_click('Continue')
 
+    then_i_am_redirected_to_message_page
+    when_i_choose_yes
+    and_i_add_message_content
+    when_i_click('Continue')
+
     then_i_am_redirected_to_the_review_page(second_course)
     when_the_invite_has_been_sent_already(second_course)
 
@@ -122,6 +160,11 @@ RSpec.describe 'Providers invites candidates' do
 
     when_i_click('Invite to apply')
     when_i_select_a_course(last_course)
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_message_page
+    when_i_choose_yes
+    and_i_add_message_content
     when_i_click('Continue')
 
     then_i_am_redirected_to_the_review_page(last_course)
@@ -177,19 +220,16 @@ RSpec.describe 'Providers invites candidates' do
     choose course.name_code_and_course_provider
   end
 
-  def then_i_am_redirected_to_the_review_page(course)
-    pool_invite = Pool::Invite.where(provider_id: current_provider.id).last
-
+  def then_i_am_redirected_to_the_review_page(course, message = message_content)
     expect(page).to have_current_path(
       provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, pool_invite.id),
       ignore_query: true,
     )
     expect(page).to have_content(course.name_code_and_course_provider)
+    expect(page).to have_content(message)
   end
 
   def then_i_am_redirected_to_the_edit_page
-    pool_invite = Pool::Invite.where(provider_id: current_provider.id).last
-
     expect(page).to have_current_path(
       edit_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, pool_invite.id),
       ignore_query: true,
@@ -234,5 +274,49 @@ RSpec.describe 'Providers invites candidates' do
       provider_interface_candidate_pool_candidate_path(@candidate),
       ignore_query: true,
     )
+  end
+
+  def then_i_am_redirected_to_message_page
+    expect(page).to have_current_path(
+      new_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
+        @candidate,
+        pool_invite,
+      ),
+    )
+  end
+
+  def then_i_am_redirected_to_the_edit_message_page_with_return_param
+    expect(page).to have_current_path(
+      edit_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
+        @candidate,
+        pool_invite,
+        return_to: 'review',
+      ),
+    )
+  end
+
+  def then_i_am_redirected_to_the_edit_message_page
+    expect(page).to have_current_path(
+      edit_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
+        @candidate,
+        pool_invite,
+      ),
+    )
+  end
+
+  def pool_invite
+    Pool::Invite.where(provider_id: current_provider.id).last
+  end
+
+  def when_i_choose_yes
+    choose 'Yes'
+  end
+
+  def when_i_choose_no
+    choose 'No'
+  end
+
+  def and_i_add_message_content
+    fill_in 'Enter your invitation message', with: :message_content
   end
 end

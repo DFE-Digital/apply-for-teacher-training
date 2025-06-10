@@ -48,13 +48,46 @@ en:
           course: Course
           visually_hidden_change_candidate: candidate
           visually_hidden_change_course: course
+          visually_hidden_change_invitation_message: invitation message
           send_invitation: Send invitation
           candidate_id: Candidate %{candidate_id}
+          invitation_message: Invitation message
+          none: None
         edit:
           title: Select a course to invite %{candidate_name} to apply to
         form:
           title: Select a course to invite %{candidate_name} to apply to
           continue: Continue
+      provider_invite_messages:
+        new:
+          title: Do you want to add your own message to the invitation email?
+        edit:
+          title: Do you want to add your own message to the invitation email?
+        form:
+          title: Do you want to add your own message to the invitation email?
+          enter_message: Enter your invitation message
+          invitation_email: View invitation email
+        formatting_information:
+          help_with_format: Help formatting your text
+          summary_text: Help formatting your text
+          title: How to format your text
+          create_a_link_heading: How to create a link
+          link_is_made_up_of_two_parts: >
+            Your link is made up of two parts, the link text which is what the reader will see, and the URL which is the
+            address the link will take them to.
+          link_format_warning: If you don't format the links properly, people will not be able to click on them.
+          link_instructions: >
+            Put square brackets [ ] around the link text and round brackets ( ) around the link URL. Make sure there are no
+            spaces between the brackets.
+          link_example_html: "For example: [http://GOV.UK](https://gov.uk/) will show as %{formatted_link}"
+          create_bullet_points_heading: How to create bullet points
+          bullet_point_guidance_html:
+            <li>use asterisks or hyphens to create a bullet point</li>
+            <li>make sure there is one space after the asterisk or hyphen</li>
+            <li>leave one empty line space before the bullet points start and one after</li>
+          for_example: "For example:"
+          list_item_one: "* list item 1"
+          list_item_two: "* list item 2"
       publish_invites:
         create:
           success: You have invited %{candidate} (%{candidate_id}) to apply to %{course}
@@ -67,3 +100,10 @@ en:
               blank: Select a course
               invalid: Course is not available
               already_invited: Select a different course. You have invited this person to the selected course already
+        provider_interface/pool_invite_message_form:
+          attributes:
+            provider_message:
+              inclusion: Select if you want to add your own message to the invitation email
+            message_content:
+              blank: You must enter an invitation message
+              too_many_words: Invitation message must be %{maximum} words or less

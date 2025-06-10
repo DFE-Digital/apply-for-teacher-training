@@ -2,7 +2,7 @@ module ProviderInterface
   class PoolInviteForm
     include ActiveModel::Model
 
-    attr_accessor :id, :course_id
+    attr_accessor :id, :course_id, :return_to
     attr_reader :current_provider_user, :candidate
 
     validates :course_id, presence: true

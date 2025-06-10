@@ -1,0 +1,17 @@
+<%= govuk_details(summary_text: t('.help_with_format')) do %>
+  <h1 class='govuk-heading-m'><%= t('.title') %></h1>
+  <h2 class='govuk-heading-s'><%= t('.create_a_link_heading') %></h2>
+  <p class='govuk-body'><%= t('.link_is_made_up_of_two_parts') %></p>
+  <p class='govuk-body'><%= t('.link_format_warning') %></p>
+  <p class='govuk-body'><%= t('.link_instructions') %></p>
+  <p class='govuk-body'>
+    <%= t('.link_example_html', formatted_link: govuk_link_to('http://GOV.UK', 'http://gov.uk')) %>
+  </p>
+  <h2 class='govuk-heading-s'><%= t('.create_bullet_points_heading') %></h2>
+  <ul class='govuk-list govuk-list--bullet'>
+    <%= t('.bullet_point_guidance_html') %>
+  </ul>
+  <p class='govuk-body'><%= t('.for_example') %></p>
+  <p class='govuk-body'><%= t('.list_item_one') %></p>
+  <p class='govuk-body'><%= t('.list_item_two') %></p>
+<% end %>

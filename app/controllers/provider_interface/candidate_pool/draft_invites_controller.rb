@@ -4,6 +4,7 @@ module ProviderInterface
       before_action :set_candidate
       before_action :redirect_if_invite_is_not_found, only: %i[show edit]
       before_action :set_policy
+      before_action :set_back_path, only: %i[edit update]
       before_action :redirect_if_candidate_cannot_send_invites
 
       def show
@@ -42,7 +43,10 @@ module ProviderInterface
 
         if @pool_invite.valid?
           invite = @pool_invite.save
-          redirect_to provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, invite)
+          redirect_to new_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
+            @candidate,
+            invite,
+          )
         else
           render :new
         end
@@ -56,7 +60,10 @@ module ProviderInterface
         )
 
         if @pool_invite.valid? && @pool_invite.save
-          redirect_to provider_interface_candidate_pool_candidate_draft_invite_path(@candidate)
+          redirect_to @back_path || edit_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
+            @candidate,
+            invite,
+          )
         else
           render :edit
         end
@@ -71,7 +78,7 @@ module ProviderInterface
 
       def pool_invite_form_params
         params.expect(
-          provider_interface_pool_invite_form: %i[course_id id status],
+          provider_interface_pool_invite_form: %i[course_id id status return_to],
         )
       end
 
@@ -97,6 +104,20 @@ module ProviderInterface
         if invite.nil?
           redirect_to provider_interface_candidate_pool_candidate_path(@candidate)
         end
+      end
+
+      def set_back_path
+        if return_to_review?
+          @back_path = provider_interface_candidate_pool_candidate_draft_invite_path(
+            @candidate,
+            invite,
+          )
+        end
+      end
+
+      def return_to_review?
+        params[:return_to] == 'review' ||
+          params.dig(:provider_interface_pool_invite_form, :return_to) == 'review'
       end
     end
   end

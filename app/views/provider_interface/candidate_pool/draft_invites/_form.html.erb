@@ -1,6 +1,7 @@
-<%= form_with model: pool_invite, url: provider_interface_candidate_pool_candidate_draft_invites_path do |form| %>
-    <%= form.govuk_error_summary %>
+<%= form_with model: pool_invite, url:, method: do |form| %>
+  <%= form.govuk_error_summary %>
 
+  <%= form.hidden_field :return_to, value: params[:return_to] || pool_invite.return_to %>
   <% if pool_invite.id.present? %>
     <%= form.hidden_field :id, value: pool_invite.id %>
   <% end %>
