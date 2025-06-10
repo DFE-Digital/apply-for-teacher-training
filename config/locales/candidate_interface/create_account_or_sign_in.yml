@@ -1,4 +1,13 @@
 en:
+  candidate_interface:
+    start_page:
+      create_account_or_sign_in:
+        sandbox_guidance_html: "<ul class='govuk-list govuk-list--bullet'> \
+        <li>Do not use your own personal details or credentials.</li> \
+        <li>Use a professional email address that belongs to you such as forename.surname@yourcompany.com</li> \
+        <li>You can use a + (plus) suffix after the local-part of your professional email address such as forename.surname+test1@yourcompany.com which will still direct any emails to your professional email address.</li> \
+        <li>Avoid using generator tools that create temporary email addresses or phone numbers.</li> \
+        </ul>"
   activemodel:
     errors:
       models:
