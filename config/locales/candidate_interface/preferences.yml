@@ -65,15 +65,15 @@ en:
         reason_for_opting_out: Why do you not want to share your application details with other providers? (Optional)
     location_preferences:
       index:
-        title: Location preferences
-        body: Training providers will use the locations you enter here to search for candidates near their courses. You should add all areas that you can travel to for training.
-        select_locations: Add, change or remove preferred locations
-        location: Location
-        distance_from_location: Distance from location
+        title: Areas you can train in
+        body: Training providers will use the locations you enter here to search for candidates near their courses. You should add all locations that you can train in.
+        select_locations: Add, change or remove areas
+        location: from city, town, or postcode
+        distance_from_location: I can travel up to
         change: Change
         update_location_preferences: Add the locations of courses you apply to
         remove: Remove
-        add_another_location: Add another location
+        add_another_location: Add an area
         add_location: Add a location
         within: "%{within} miles"
       new:
@@ -122,5 +122,3 @@ en:
           attributes:
             dynamic_location_preferences:
               inclusion: Select if you want to add the locations of courses you apply to
-
-

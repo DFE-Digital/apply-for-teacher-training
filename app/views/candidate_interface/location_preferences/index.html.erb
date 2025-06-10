@@ -23,17 +23,17 @@
         <%= govuk_table(html_attributes: { class: 'app-table__row--no-bottom-border' }) do |table| %>
           <% table.with_head do |head| %>
             <% head.with_row do |row| %>
-              <%= row.with_cell(text: t('.location')) %>
               <%= row.with_cell(text: t('.distance_from_location')) %>
+              <%= row.with_cell(text: t('.location')) %>
             <% end %>
           <% end %>
 
           <% table.with_body do |body| %>
             <% @location_preferences.each do |location| %>
               <% body.with_row do |row| %>
-                <%= row.with_cell(text: location.decorated_name) %>
-
                 <%= row.with_cell(text: t('.within', within: location.within)) %>
+
+                <%= row.with_cell(text: location.decorated_name) %>
                 <%= row.with_cell do %>
                   <%= govuk_link_to(
                         t('.change'),
