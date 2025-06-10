@@ -31,8 +31,7 @@ en:
         provider_usage: Gain further insight on provider usage of the test feature to identify priority iterations.
         track_applications: >
           Research has showed us people want a way to track applications. We are trying to find out more detail about
-          how this could work. Research has showed us people want a way to track applications. We are trying to find out
-          more detail about how this could work.
+          how this could work.
         if_you_would_like_to_participate_html: If you would like to take part in research to help shape this service, please complete %{link} and we will be in touch.
         short_form: this short form
         research_link: https://dferesearch.fra1.qualtrics.com/jfe/form/SV_cJbWpDyqZocIbfo
