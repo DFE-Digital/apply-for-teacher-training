@@ -181,3 +181,11 @@ SET
     WHEN message IS NULL THEN NULL
     ELSE generate_lorem_ipsum('short')
     END;
+
+-- PoolInvite
+UPDATE "pool_invites"
+SET
+    message_content = CASE
+    WHEN message_content IS NULL THEN NULL
+    ELSE generate_lorem_ipsum('short')
+    END;
