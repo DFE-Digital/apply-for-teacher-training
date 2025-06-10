@@ -36,7 +36,7 @@ RSpec.describe 'Candidate edits published preference' do
     and_the_candidate_preference_id_is_changed
   end
 
-  scenario 'Candidate edits location_preferences' do
+  scenario 'Candidate edits dynamic location preferences' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
 
@@ -44,8 +44,8 @@ RSpec.describe 'Candidate edits published preference' do
     when_i_click('Change your sharing and location settings')
     then_i_am_redirected_to_preference_review_page
 
-    when_i_click_dynamic_locations
-    and_i_untick_dynamic_locations
+    when_i_navigate_to_dynamic_locations
+    and_i_select_no_dynamic_locations
 
     when_i_click('Continue')
     then_i_am_redirected_to_preference_review_page
@@ -90,6 +90,7 @@ RSpec.describe 'Candidate edits published preference' do
       candidate: @current_candidate,
       status: 'published',
       training_locations: 'specific',
+      dynamic_location_preferences: true,
     )
     _location_preferences = create(
       :candidate_location_preference,
@@ -119,7 +120,7 @@ RSpec.describe 'Candidate edits published preference' do
   end
 
   def when_i_click_change_share_preference
-    first('a', text: 'Change').click
+    click_on 'Change whether you want to share your application details'
   end
 
   def and_i_choose_not_to_share_my_details
@@ -145,15 +146,15 @@ RSpec.describe 'Candidate edits published preference' do
     expect(@current_candidate.published_preferences.last.location_preferences).to eq []
   end
 
-  def when_i_click_dynamic_locations
-    all('a', text: 'Change').last.click
+  def when_i_navigate_to_dynamic_locations
+    click_on 'Change updating your locations when you apply to a new course'
   end
 
   def when_i_select_anywhere_in_england
     choose 'Anywhere in England'
   end
 
-  def and_i_untick_dynamic_locations
-    uncheck 'Add new course locations to my preferences when I apply to new courses'
+  def and_i_select_no_dynamic_locations
+    choose 'No'
   end
 end

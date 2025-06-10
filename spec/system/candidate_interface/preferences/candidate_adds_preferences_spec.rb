@@ -67,12 +67,22 @@ RSpec.describe 'Candidate adds preferences' do
     when_i_click('Update location')
     then_i_am_redirected_to_location_preferences(updated_locations)
 
+    when_i_click('Continue')
+    then_i_am_redirected_to_the_dynamic_locations_page
+
+    when_i_click('Back')
+    then_i_am_redirected_to_location_preferences(updated_locations)
+
+    when_i_click('Continue')
+    and_i_click('Continue')
+    then_i_get_an_error('Select if you want to add the locations of courses you apply to')
+
     when_i_check_dynamic_locations
     when_i_click('Continue')
     then_i_am_redirected_to_review_page
 
     when_i_click('Back')
-    then_i_am_redirected_to_location_preferences(updated_locations)
+    then_i_am_redirected_to_the_dynamic_locations_page
     and_the_dynamic_locations_is_checked
 
     when_i_click('Continue')
@@ -185,6 +195,7 @@ RSpec.describe 'Candidate adds preferences' do
     and_i_click('Continue')
     then_i_am_redirected_to_location_preferences(location_preferences)
 
+    and_i_click('Continue')
     when_i_check_dynamic_locations
     and_i_click('Continue')
     and_i_click('Submit preferences')
@@ -250,6 +261,11 @@ RSpec.describe 'Candidate adds preferences' do
     end
   end
 
+  def then_i_am_redirected_to_the_dynamic_locations_page
+    expect(page).to have_content 'Add the locations of courses you apply to'
+    expect(page.title).to include 'Add the locations of courses you apply to'
+  end
+
   def then_i_am_redirected_to_location_preferences_without_locations
     expect(page).to have_content('Location preferences')
     expect(page).to have_content('You have no location preferences')
@@ -287,7 +303,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def when_i_check_dynamic_locations
-    check 'Add new course locations to my preferences when I apply to new courses'
+    choose 'Yes'
   end
 
   def then_i_am_redirected_to_review_page
@@ -311,7 +327,7 @@ RSpec.describe 'Candidate adds preferences' do
         value: locations,
       },
       {
-        label: 'Add new course locations to my preferences when I apply to new courses',
+        label: 'Add the locations of courses you apply to',
         value: 'Yes',
       },
     ]
@@ -330,7 +346,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def and_the_dynamic_locations_is_checked
-    dynamic_locations = find_by_id('candidate-interface-preferences-form-dynamic-location-preferences-true-field')
+    dynamic_locations = find_by_id('candidate-interface-dynamic-location-preferences-form-dynamic-location-preferences-true-field')
     expect(dynamic_locations).to be_checked
   end
 

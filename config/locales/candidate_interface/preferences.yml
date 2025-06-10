@@ -12,7 +12,7 @@ en:
         anywhere: Anywhere in England
         change_training_locations_visually_hidden: where you would like to train
         preferred_locations: Preferred locations
-        dynamic_locations: Add new course locations to my preferences when I apply to new courses
+        dynamic_locations: Add the locations of courses you apply to
         change: Change
         submit: Submit preferences
         location: Within %{radius} miles of %{location}
@@ -36,7 +36,7 @@ en:
         anywhere: Anywhere in England
         change_training_locations_visually_hidden: where you would like to train
         preferred_locations: Preferred locations
-        dynamic_locations: Add new course locations to my preferences when I apply to new courses
+        dynamic_locations: Add the locations of courses you apply to
         change: Change
         submit: Submit preferences
         location: Within %{radius} miles of %{location}
@@ -71,7 +71,7 @@ en:
         location: Location
         distance_from_location: Distance from location
         change: Change
-        update_location_preferences: Add new course locations to my preferences when I apply to new courses
+        update_location_preferences: Add the locations of courses you apply to
         remove: Remove
         add_another_location: Add another location
         add_location: Add a location
@@ -94,7 +94,7 @@ en:
   activemodel:
     errors:
       models:
-        candidate_interface/preferences_form:
+        candidate_interface/location_preferences_required_form:
           attributes:
             base:
               location_preferences_blank: Add an area you can train in
@@ -118,5 +118,9 @@ en:
               blank: Enter a city, town or postcode
               invalid_location: City, town or postcode must be in the United Kingdom
               too_short: The city, town or postcode must be %{count} characters or more
+        candidate_interface/dynamic_location_preferences_form:
+          attributes:
+            dynamic_location_preferences:
+              inclusion: Select if you want to add the locations of courses you apply to
 
 
