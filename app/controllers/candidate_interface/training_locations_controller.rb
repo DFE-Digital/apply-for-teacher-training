@@ -10,8 +10,7 @@ module CandidateInterface
 
     def create
       @training_locations_form = TrainingLocationsForm.new(
-        { training_locations: form_params[:training_locations] },
-        preference: @preference,
+        { training_locations: form_params[:training_locations] }.merge(preference: @preference),
       )
 
       if @training_locations_form.valid?
