@@ -1,12 +1,14 @@
 <% if show_full_personal_statement? %>
   <%= simple_format(personal_statement, class: 'govuk-body') %>
 <% else %>
-  <span id="app-truncated-personal-statement">
-    <%= simple_format(truncated_personal_statement, class: 'govuk-body') %>
-  </span>
-  <span id="app-remaining-personal-statement" tabindex='-1' class='govuk-visually-hidden'>
-    <%= simple_format(remaining_personal_statement_text, class: 'govuk-body') %>
-  </span>
+  <div class='govuk-!-margin-bottom-4'>
+    <span id="app-truncated-personal-statement">
+      <%= simple_format(truncated_personal_statement, class: 'govuk-body govuk-!-margin-bottom-0 display-inline') %>
+    </span>
+    <span id="app-remaining-personal-statement" tabindex='-1' class='govuk-visually-hidden'>
+      <%= simple_format(remaining_personal_statement_text, class: 'govuk-body display-inline') %>
+    </span>
+  </div>
 
   <%= govuk_link_to(
         t('.read_more'),
@@ -24,3 +26,4 @@
     <%= simple_format(remaining_personal_statement_text, class: 'govuk-body') %>
   </noscript>
 <% end %>
+
