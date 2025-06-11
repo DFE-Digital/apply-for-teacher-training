@@ -36,10 +36,15 @@ RSpec.describe Pool::Candidates do
         liverpool_preference = create(:candidate_preference, candidate: liverpool_application.candidate)
         create(:candidate_location_preference, :liverpool, candidate_preference: liverpool_preference)
 
+        anywhere_application = create(:application_form, :completed)
+        create(:candidate_pool_application, application_form: anywhere_application)
+        create(:candidate_preference, :anywhere_in_england, candidate: anywhere_application.candidate)
+
         filters = {}
         application_forms = described_class.application_forms_for_provider(filters:)
 
         expect(application_forms.map(&:id)).to contain_exactly(
+          anywhere_application.id,
           manchester_application.id,
           liverpool_application.id,
         )
@@ -48,6 +53,7 @@ RSpec.describe Pool::Candidates do
         application_forms = described_class.application_forms_for_provider(filters:)
 
         expect(application_forms.map(&:id)).to contain_exactly(
+          anywhere_application.id,
           manchester_application.id,
         )
       end

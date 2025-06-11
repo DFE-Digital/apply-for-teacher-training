@@ -6,4 +6,13 @@ FactoryBot.define do
     status { 'published' }
     training_locations { 'specific' }
   end
+
+  trait :anywhere_in_england do
+    training_locations { 'anywhere' }
+    dynamic_location_preferences { nil }
+  end
+
+  trait :specific_locations do
+    training_locations { 'specific' }
+  end
 end

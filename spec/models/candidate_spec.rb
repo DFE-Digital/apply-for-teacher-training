@@ -442,31 +442,4 @@ RSpec.describe Candidate do
       expect(candidate.redacted_full_name_current_cycle).to eq('t***** t*****')
     end
   end
-
-  describe '#preference_opt_in_with_no_location_preferences?' do
-    context 'with published_preferences' do
-      it 'returs true if the candidate has no location preferences' do
-        candidate = create(:candidate)
-        create(:candidate_preference, candidate:)
-
-        expect(candidate.preference_opt_in_with_no_location_preferences?).to be true
-      end
-
-      it 'returs false if the candidate has location preferences' do
-        candidate = create(:candidate)
-        candidate_preference = create(:candidate_preference, candidate:)
-        create(:candidate_location_preference, candidate_preference:)
-
-        expect(candidate.preference_opt_in_with_no_location_preferences?).to be false
-      end
-    end
-
-    context 'with no published_preferences' do
-      it 'returs true' do
-        candidate = create(:candidate)
-
-        expect(candidate.preference_opt_in_with_no_location_preferences?).to be true
-      end
-    end
-  end
 end

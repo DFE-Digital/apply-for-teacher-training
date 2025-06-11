@@ -74,8 +74,7 @@ private
     origin = filters.fetch(:origin)
 
     candidate_preferences_anywhere = CandidatePreference
-                                       .where(candidate_id: candidate_ids, pool_status: 'opt_in', status: 'published')
-                                       .where.missing(:location_preferences)
+                                       .where(candidate_id: candidate_ids, pool_status: 'opt_in', status: 'published', training_locations: 'anywhere')
                                        .select('candidate_preferences.candidate_id as candidate_id', '-1 as distance')
 
     candidate_location_preferences_near_origin = CandidateLocationPreference
