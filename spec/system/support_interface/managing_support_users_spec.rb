@@ -50,6 +50,8 @@ RSpec.describe 'Managing support users' do
 
   def and_there_are_other_support_users_in_the_db
     SupportUser.create(email_address: 'isignedinyesterday@msn.com', last_signed_in_at: Time.zone.yesterday, dfe_sign_in_uid: 'Y')
+    SupportUser.find_by(email_address: 'user@apply-support.com')
+          .update!(last_signed_in_at: Time.zone.now.beginning_of_day)
     SupportUser.create(email_address: 'isignedintoday@msn.com', last_signed_in_at: Time.zone.now, dfe_sign_in_uid: 'TD')
     SupportUser.create(email_address: 'isignedintomorrow@msn.com', last_signed_in_at: Time.zone.tomorrow, dfe_sign_in_uid: 'TM')
   end
