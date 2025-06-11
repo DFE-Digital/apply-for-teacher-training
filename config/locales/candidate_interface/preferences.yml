@@ -22,20 +22,20 @@ en:
         change_dynamic_locations_hint: updating your locations when you apply to a new course
     preferences:
       show: Check your application sharing preferences
-      share_question: Do you want to share your application details with other training providers?
-      preferred_locations: Preferred locations
-      update_my_locations: Add new locations to my preferences when I apply to new courses
+      share_question: Do you want to be invited to apply to similar courses?
+      preferred_locations: Areas you can train in
+      update_my_locations: Add the locations of courses you apply to
       change: Change
       submit: Submit preferences
     draft_preferences:
       show:
         title: Check your application sharing preferences
-        share_information: Do you want to make your application details visible to other training providers?
+        share_information: Do you want to be invited to apply to similar courses?
         where_can_you_train: Where can you train?
         specific: In specific locations
         anywhere: Anywhere in England
         change_training_locations_visually_hidden: where you would like to train
-        preferred_locations: Preferred locations
+        preferred_locations: Areas you can train in
         dynamic_locations: Add the locations of courses you apply to
         change: Change
         submit: Submit preferences
@@ -51,8 +51,8 @@ en:
         title: Do you want to make your application details visible to other training providers?
       show:
         title: Check your application sharing preferences
-        share_information: Do you want to share your application details with other training providers?
-        preferred_locations: Preferred locations
+        share_information: Do you want to be invited to apply to similar courses?
+        preferred_locations: Areas you can train in
         change: Change
         submit: Submit preferences
       create:
@@ -73,7 +73,7 @@ en:
         change: Change
         update_location_preferences: Add the locations of courses you apply to
         remove: Remove
-        add_another_location: Add an area
+        add_another_location: Add another area
         add_location: Add an area
         within: "%{within} miles"
         no_location_preferences: You have not added any training areas
@@ -85,7 +85,7 @@ en:
         submit_text: Update training area
       form:
         within: I can travel up to
-        name: of city, town or postcode
+        name: from city, town or postcode
         miles: miles
         enter_distance_in_miles: Enter distance in miles
       show:
@@ -114,7 +114,7 @@ en:
             within:
               blank: Enter a location radius
               greater_than_or_equal_to: The location radius must be 0 miles or more
-              not_a_number: Enter a number for location radius
+              not_a_number: Location radius must be a number
             name:
               blank: Enter a city, town or postcode
               invalid_location: City, town or postcode must be in the United Kingdom
