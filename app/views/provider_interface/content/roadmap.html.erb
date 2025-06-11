@@ -26,8 +26,10 @@
     </p>
     <%= govuk_list(
           [
-            t('.launched_opt_in'),
+            t('.opt_out_reasons'),
             t('.launched_test_version'),
+            t('.tailor_invite_emails'),
+            t('.candidate_location_preferences'),
           ],
           type: :bullet,
         ) %>
@@ -41,8 +43,7 @@
     </p>
     <%= govuk_list(
           [
-            t('.tailor_invite_emails'),
-            t('.opt_out_reasons'),
+            t('.make_it_easier_for_providers'),
           ],
           type: :bullet,
         ) %>
@@ -56,9 +57,9 @@
     </p>
     <%= govuk_list(
           [
-            t('.candidate_experience'),
             t('.provider_usage'),
             t('.track_applications'),
+            t('.candidate_experience'),
           ],
           type: :bullet,
         ) %>
