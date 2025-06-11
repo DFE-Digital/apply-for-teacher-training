@@ -522,8 +522,12 @@ class CandidateMailer < ApplicationMailer
     application_form = candidate.current_cycle_application_form
     @inviting_providers_count = pool_invites.pluck(:provider_id).uniq.size
     @single_provider_name = pool_invites.first.provider.name if @inviting_providers_count == 1
-    @invites = pool_invites.sort_by do |invite|
+    sorted_invites = pool_invites.sort_by do |invite|
       [invite.course.provider.name, invite.course.name_and_code]
+    end
+
+    @invites = sorted_invites.map do |invite|
+      PoolInviteDecorator.new(invite)
     end
 
     @preferences_url = candidate_preferences_link(candidate)

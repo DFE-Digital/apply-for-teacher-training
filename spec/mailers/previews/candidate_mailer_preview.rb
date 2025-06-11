@@ -552,6 +552,11 @@ class CandidateMailerPreview < ActionMailer::Preview
   def candidate_invites_one_provider
     candidate = FactoryBot.create(:candidate)
     FactoryBot.create(
+      :candidate_preference,
+      :opt_in_manchester,
+      candidate:,
+    )
+    FactoryBot.create(
       :application_form,
       :minimum_info,
       candidate: candidate,
@@ -560,6 +565,7 @@ class CandidateMailerPreview < ActionMailer::Preview
 
     provider = FactoryBot.create(:provider)
     course = FactoryBot.create(:course,
+                               :with_manchester_course_site,
                                provider: provider,
                                fee_domestic: 9535,
                                fee_international: 15430)

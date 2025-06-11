@@ -6,6 +6,9 @@ Dear <%= @application_form.first_name %>,
 <% @invites.each do |invite| %>
 ## <%= invite.course.provider.name %> - <%= invite.course.name_and_code %>
 
+<% if invite.closest_location_preference_to_site.present? %>
+Nearest placement school: <%= invite.site_distance %> from <%= invite.closest_location_name %>
+<% end %>
 <% if invite.course.fee_domestic.present? && invite.course.fee_international.present? %>
   <%= "Course fee: #{number_to_currency(invite.course.fee_domestic)} for UK citizens; #{number_to_currency(invite.course.fee_international)} for non-UK citizens" %>
 <% elsif invite.course.fee_domestic.present? %>

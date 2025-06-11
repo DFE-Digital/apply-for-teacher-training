@@ -14,6 +14,12 @@ FactoryBot.define do
     postcode { Faker::Address.postcode }
   end
 
+  trait :university_of_manchester_coordinates do
+    latitude { 53.4669264 }
+    longitude { -2.233578 }
+    postcode { 'M13 9PL' }
+  end
+
   trait :with_valid_coordinates do
     latitude { 51.5245592 }
     longitude { -0.1340401 } # London, UK

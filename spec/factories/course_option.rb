@@ -74,5 +74,15 @@ FactoryBot.define do
         create(:course_option, course: new_course, site: new_site)
       end
     end
+
+    trait :manchester_site do
+      site {
+        create(
+          :site,
+          :university_of_manchester_coordinates,
+          provider: course.provider,
+        )
+      }
+    end
   end
 end

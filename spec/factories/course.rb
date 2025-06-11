@@ -120,6 +120,10 @@ FactoryBot.define do
       course_options { build_list(:course_option, 2, course: instance) }
     end
 
+    trait :with_manchester_course_site do
+      course_options { [create(:course_option, :manchester_site, course: instance)] }
+    end
+
     trait :with_a_course_option do
       course_options { [create(:course_option, course: instance)] }
     end
