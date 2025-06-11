@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::LocationPreferencesRequiredForm, type: :model do
   subject(:form) do
-    described_class.new(preference:)
+    described_class.new({ preference: })
   end
 
   let(:preference) do

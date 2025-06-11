@@ -13,7 +13,7 @@ module CandidateInterface
       ActiveRecord::Base.transaction do
         @preference.published!
         if @preference.training_locations_anywhere?
-          @preference.update(dynamic_location_preferences: false)
+          @preference.update(dynamic_location_preferences: nil)
           @preference.location_preferences.destroy_all
         end
         current_candidate.published_preferences.where.not(id: @preference.id).destroy_all

@@ -5,17 +5,17 @@ module CandidateInterface
     before_action :redirect_to_root_path_if_flag_is_inactive
 
     def new
-      @dynamic_location_preferences_form = DynamicLocationPreferencesForm.build_from_preference(
-        preference: @preference,
+      @dynamic_location_preferences_form = DynamicLocationPreferencesForm.new(
+        {
+          dynamic_location_preferences: @preference.dynamic_location_preferences,
+          preference: @preference,
+        },
       )
     end
 
     def create
       @dynamic_location_preferences_form = DynamicLocationPreferencesForm.new(
-        {
-          dynamic_location_preferences: form_params[:dynamic_location_preferences],
-          preference: @preference,
-        },
+        form_params.merge(preference: @preference),
       )
 
       if @dynamic_location_preferences_form.valid?
