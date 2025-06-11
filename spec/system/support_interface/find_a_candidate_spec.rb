@@ -36,7 +36,7 @@ RSpec.describe 'Support user views candidate pool list' do
 
   def set_declined_candidate_form
     declined_candidate = create(:candidate)
-    create(:candidate_preference, candidate: declined_candidate)
+    create(:candidate_preference, :anywhere_in_england, candidate: declined_candidate)
     @declined_candidate_form = create(
       :application_form,
       :completed,
