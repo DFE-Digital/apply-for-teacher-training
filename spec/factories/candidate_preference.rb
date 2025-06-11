@@ -11,4 +11,8 @@ FactoryBot.define do
     training_locations { 'anywhere' }
     dynamic_location_preferences { nil }
   end
+
+  trait :specific_locations do
+    training_locations { 'specific' }
+  end
 end

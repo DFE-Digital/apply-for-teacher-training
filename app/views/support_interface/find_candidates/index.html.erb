@@ -37,7 +37,7 @@
             <% end %>
             <%= row.with_cell do %>
               <% if @filter.applied_location_search? %>
-                <% if application_form.site_distance == -1 && application_form.candidate.preference_opt_in_with_no_location_preferences? %>
+                <% if application_form.site_distance == -1 %>
                   <%= t('.no_preferences') %>
                 <% else %>
                   <%= t('.miles', count: application_form.site_distance.round(1)) %>
