@@ -11,19 +11,17 @@ module CandidateInterface
       @back_path = if @preference.training_locations_anywhere?
                      new_candidate_interface_draft_preference_training_location_path(@preference)
                    else
-                     candidate_interface_draft_preference_location_preferences_path(@preference)
+                     new_candidate_interface_draft_preference_dynamic_location_preference_path(@preference)
                    end
     end
 
     def update
-      @preference_form = PreferencesForm.new(
+      @preference_form = LocationPreferencesRequiredForm.new(
         preference: @preference,
-        params: request_params,
       )
 
       if @preference_form.valid?
-        @preference_form.save
-        redirect_to candidate_interface_draft_preference_path(@preference)
+        redirect_to redirect_path
       else
         @location_preferences = @preference.location_preferences
         render 'candidate_interface/location_preferences/index'
@@ -31,6 +29,14 @@ module CandidateInterface
     end
 
   private
+
+    def redirect_path
+      if params[:return_to] == 'review'
+        candidate_interface_draft_preference_path(@preference)
+      else
+        new_candidate_interface_draft_preference_dynamic_location_preference_path(@preference)
+      end
+    end
 
     def request_params
       params.fetch(:candidate_interface_preferences_form, {}).permit(

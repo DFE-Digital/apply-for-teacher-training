@@ -8,6 +8,12 @@ class CandidateInterface::ChoicesControllerMatcher
     'candidate_interface/withdrawal_reasons', # Withdrawing the new way
     'candidate_interface/apply_from_find',
     'candidate_interface/share_details',
+    'candidate_interface/pool_opt_ins',
+    'candidate_interface/draft_preferences',
+    'candidate_interface/dynamic_location_preferences',
+    'candidate_interface/training_locations',
+    'candidate_interface/location_preferences',
+    'candidate_interface/publish_preferences',
   ].freeze
 
   def self.choices_controller?(current_application:, controller_path:, request:)

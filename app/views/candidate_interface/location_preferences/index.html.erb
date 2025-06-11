@@ -5,7 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @preference_form,
-      url: candidate_interface_draft_preference_path(@preference.id),
+      url: candidate_interface_draft_preference_path(@preference.id, return_to: params[:return_to]),
       method: :patch,
     ) do |f| %>
       <%= f.govuk_error_summary %>
@@ -14,11 +14,11 @@
       <h2 class="govuk-heading-m"><%= t('.select_locations') %></h2>
 
       <% if @location_preferences.blank? %>
-        <%= govuk_button_link_to(
-          t('.add_location'),
-          new_candidate_interface_draft_preference_location_preference_path(@preference),
-          secondary: true,
-        ) %>
+          <%= govuk_button_link_to(
+            t('.add_location'),
+            new_candidate_interface_draft_preference_location_preference_path(@preference),
+            secondary: true,
+          ) %>
       <% else %>
         <%= govuk_table(html_attributes: { class: 'app-table__row--no-bottom-border' }) do |table| %>
           <% table.with_head do |head| %>
@@ -63,15 +63,7 @@
           <% end %>
         <% end %>
       <% end %>
-
-      <%= f.govuk_check_box(
-        :dynamic_location_preferences,
-        true,
-        multiple: false,
-        label: { text: t('.update_location_preferences') },
-      ) %>
-
-      <%= f.govuk_submit class: 'govuk-!-margin-top-5' %>
+      <div><%= f.govuk_submit %></div>
     <% end %>
   </div>
 </div>

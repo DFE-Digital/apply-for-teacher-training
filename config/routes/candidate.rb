@@ -22,6 +22,7 @@ namespace :candidate_interface, path: '/candidate' do
   resources :draft_preferences, only: %i[show update], path: 'preferences' do
     resources :training_locations, only: %i[new create], path: 'training-locations'
     resources :location_preferences, path: 'location-preferences'
+    resources :dynamic_location_preferences, only: %i[new create], path: 'dynamic-location-preferences'
     resource :publish_preferences, only: %i[show create], path: 'publish-preferences'
   end
   resource :candidate_feature_launch_email, only: :show, path: 'feature-launch-email'

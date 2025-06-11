@@ -48,7 +48,7 @@
           <% row.with_value { @preference.dynamic_location_preferences? ? 'Yes' : 'No' } %>
           <% row.with_action(
             text: t('.change'),
-            href: candidate_interface_draft_preference_location_preferences_path(@preference, return_to: 'review'),
+            href: new_candidate_interface_draft_preference_dynamic_location_preference_path(@preference, return_to: 'review'),
             visually_hidden_text: t('.change_dynamic_locations_hint'),
           ) %>
         <% end %>
