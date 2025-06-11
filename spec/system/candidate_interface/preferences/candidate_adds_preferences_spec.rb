@@ -57,14 +57,14 @@ RSpec.describe 'Candidate adds preferences' do
     when_i_click('Continue')
     then_i_am_redirected_to_location_preferences(location_preferences)
 
-    when_i_click('Add another location')
+    when_i_click('Add another area')
     and_i_input_a_location
-    when_i_click('Add location')
+    when_i_click('Add area')
     then_i_am_redirected_to_location_preferences(new_locations)
 
     when_i_click_change_on_the_last_location
     and_i_edit_a_location
-    when_i_click('Update location')
+    when_i_click('Update training area')
     then_i_am_redirected_to_location_preferences(updated_locations)
 
     when_i_click('Continue')
@@ -251,7 +251,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def then_i_am_redirected_to_location_preferences(location_preferences)
-    expect(page).to have_content('Location preferences')
+    expect(page).to have_content('Areas you can train in')
 
     location_preferences.each_with_index do |location, index|
       within ".govuk-table__body .govuk-table__row:nth-of-type(#{index + 1})" do
@@ -267,13 +267,13 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def then_i_am_redirected_to_location_preferences_without_locations
-    expect(page).to have_content('Location preferences')
+    expect(page).to have_content('Areas you can train in')
     expect(page).to have_content('You have no location preferences')
   end
 
   def then_i_see_my_location_preferences_page
-    expect(page).to have_content('Location preferences')
-    expect(page).to have_content('Training providers will use the locations you enter here to search for candidates near their courses. You should add all areas that you can travel to for training.')
+    expect(page).to have_content('Areas you can train in')
+    expect(page).to have_content('Training providers will use the locations you enter here to search for candidates near their courses. You should add all locations that you can train in.')
   end
 
   def then_i_see_my_location_preferences_page_including_the_dynamic_location
@@ -296,7 +296,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def then_i_am_redirected_to_opt_in
-    expect(page).to have_content('Do you want to make your application details visible to other training providers?')
+    expect(page).to have_content('Do you want to be invited to apply to similar courses?')
 
     yes_option = find_by_id('candidate-interface-pool-opt-ins-form-pool-status-opt-in-field')
     expect(yes_option).to be_checked
@@ -317,13 +317,13 @@ RSpec.describe 'Candidate adds preferences' do
 
     summary_list = [
       {
-        label: 'Do you want to make your application details visible to other training providers?',
+        label: 'Do you want to be invited to apply to similar courses?',
         value: 'Yes',
       },
       { label: 'Where can you train?',
         value: 'In specific locations' },
       {
-        label: 'Preferred locations',
+        label: 'Areas you can train in',
         value: locations,
       },
       {
@@ -383,13 +383,13 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def and_i_input_a_location
-    fill_in('Within', with: new_location[:within])
-    fill_in('of city, town or postcode', with: new_location[:name])
+    fill_in('I can travel up to', with: new_location[:within])
+    fill_in('from city, town or postcode', with: new_location[:name])
   end
 
   def and_i_edit_a_location
-    fill_in('Within', with: updated_location[:within])
-    fill_in('of city, town or postcode', with: updated_location[:name])
+    fill_in('I can travel up to', with: updated_location[:within])
+    fill_in('from city, town or postcode', with: updated_location[:name])
   end
 
   def and_feature_flag_is_enabled
@@ -445,12 +445,12 @@ RSpec.describe 'Candidate adds preferences' do
   def when_i_update_the_radius_only
     when_i_click_on_the_dynamic_location_change_link
     and_i_change_the_distance
-    and_i_click('Update location')
+    and_i_click('Update training area')
     then_i_see_my_location_preferences_page
   end
 
   def and_i_change_the_distance
-    fill_in 'Within', with: '40.0'
+    fill_in 'I can travel up to', with: '40.0'
   end
 
   def then_it_saves_successfully
