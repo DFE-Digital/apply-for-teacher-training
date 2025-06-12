@@ -3,17 +3,20 @@ module SupportInterface
     class DeleteReferenceForm
       include ActiveModel::Model
 
-      attr_accessor :reference, :accept_guidance, :audit_comment_ticket, :application_form
+      attr_accessor :reference,
+                    :accept_guidance,
+                    :audit_comment_ticket,
+                    :actor
 
+      delegate :application_form, to: :reference
+
+      validates :actor, presence: true
       validates :accept_guidance, presence: true
       validates :audit_comment_ticket, presence: true
       validates_with ZendeskUrlValidator
       validates_with SafeChoiceUpdateValidator
 
-      def save(actor:, reference:)
-        @reference = reference
-        @application_form = reference.application_form
-
+      def save
         return false unless valid?
 
         SupportInterface::DeleteReference.new.call!(

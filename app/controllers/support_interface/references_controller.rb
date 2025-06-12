@@ -21,12 +21,15 @@ module SupportInterface
     end
 
     def destroy
-      @form = SupportInterface::ApplicationForms::DeleteReferenceForm.new(reference: @reference)
+      @form = SupportInterface::ApplicationForms::DeleteReferenceForm.new(actor: current_support_user,
+                                                                          reference: @reference)
     end
 
     def confirm_destroy
-      @form = SupportInterface::ApplicationForms::DeleteReferenceForm.new(delete_reference_params)
-      if @form.save(actor: current_support_user, reference: @reference)
+      @form = SupportInterface::ApplicationForms::DeleteReferenceForm.new(delete_reference_params
+                                                                            .merge(actor: current_support_user,
+                                                                                   reference: @reference))
+      if @form.save
         flash[:success] = 'Reference deleted'
         redirect_to support_interface_application_form_path(@reference.application_form)
       else
