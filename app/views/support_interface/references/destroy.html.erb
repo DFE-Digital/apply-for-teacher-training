@@ -27,6 +27,10 @@
         key: 'Reference email address',
         value: @reference.email_address,
       },
+      {
+        key: 'Reference has safeguarding concerns',
+        value: @reference.has_safeguarding_concerns_to_declare? ? "Yes" : 'No concerns.',
+      }
       ])) %>
 
       <%= form_builder.govuk_text_field(
