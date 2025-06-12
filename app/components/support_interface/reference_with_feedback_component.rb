@@ -50,7 +50,6 @@ module SupportInterface
       t('support_interface.confidential_warning')
     end
 
-
   private
 
     def status_row
