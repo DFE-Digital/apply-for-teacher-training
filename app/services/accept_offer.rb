@@ -25,8 +25,6 @@ class AcceptOffer
       ProviderMailer.offer_accepted(provider_user, application_choice).deliver_later
     end
 
-    CandidateMailer.offer_accepted(application_choice).deliver_later
-
     candidate = application_form.candidate
     accepted_invite = candidate.published_pool_invites_current_cycle.find_by(course_id: application_choice.course.id)
 
@@ -36,6 +34,8 @@ class AcceptOffer
         application_form:,
       )
     end
+
+    CandidateMailer.offer_accepted(application_choice).deliver_later
   end
 
 protected
