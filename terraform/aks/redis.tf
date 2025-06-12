@@ -1,4 +1,4 @@
-module "redis-cache" {
+/* module "redis-cache" {
   source = "./vendor/modules/aks//aks/redis"
 
   name                  = "cache"
@@ -44,3 +44,4 @@ module "redis-queue" {
   azure_sku_name = var.redis_queue_sku_name
   server_version = var.redis_server_version
 }
+ */
