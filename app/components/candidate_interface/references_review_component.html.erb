@@ -11,7 +11,7 @@
     <%= render(SummaryCardHeaderComponent.new(title: reference.name, heading_level: @heading_level)) do %>
       <div class="app-summary-card__actions">
         <ul class="app-summary-card__actions-list">
-          <% if deletable?(reference) && reference_editable?(reference) %>
+          <% if deletable? && reference_editable?(reference) %>
             <li class="app-summary-card__actions-list-item">
               <%= govuk_link_to confirm_destroy_path(reference), class: 'govuk-!-font-weight-bold' do %>
                 <%= t('application_form.references.delete_reference.action') %>

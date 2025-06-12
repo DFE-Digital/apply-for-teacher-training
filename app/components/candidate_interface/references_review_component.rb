@@ -58,10 +58,8 @@ module CandidateInterface
       %w[Status]
     end
 
-    def deletable?(reference)
-      policy = ReferenceActionsPolicy.new(reference)
-
-      policy.editable? && policy.request_can_be_deleted?
+    def deletable?
+      @editable && @deletable
     end
 
   private
