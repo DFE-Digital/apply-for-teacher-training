@@ -13,6 +13,7 @@ module SupportInterface
       validates :actor, presence: true
       validates :accept_guidance, presence: true
       validates :audit_comment_ticket, presence: true
+      validate :reference_has_no_safeguarding_concern
       validates_with ZendeskUrlValidator
       validates_with SafeChoiceUpdateValidator
 
@@ -24,6 +25,14 @@ module SupportInterface
           reference:,
           zendesk_url: audit_comment_ticket,
         )
+      end
+
+    private
+
+      def reference_has_no_safeguarding_concern
+        if reference.has_safeguarding_concerns_to_declare?
+          errors.add(:reference, 'Cannot delete reference with a safeguarding concern')
+        end
       end
     end
   end

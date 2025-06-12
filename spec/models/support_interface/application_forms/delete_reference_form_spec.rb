@@ -7,6 +7,14 @@ RSpec.describe SupportInterface::ApplicationForms::DeleteReferenceForm do
     it { is_expected.to validate_presence_of(:actor) }
     it { is_expected.to validate_presence_of(:accept_guidance) }
     it { is_expected.to validate_presence_of(:audit_comment_ticket) }
+
+    it 'is not valid if the reference has a safeguarding concern' do
+      reference = build(:reference, :has_safeguarding_concerns_to_declare)
+      form = described_class.new(reference:)
+
+      expect(form).not_to be_valid
+      expect(form.errors[:reference]).to include('Cannot delete reference with a safeguarding concern')
+    end
   end
 
   describe '#save' do
