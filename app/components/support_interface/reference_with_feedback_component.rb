@@ -11,6 +11,7 @@ module SupportInterface
              :relationship_confirmation,
              :relationship_correction,
              :referee_type,
+             :safeguarding_concerns_status,
              to: :reference
 
     def initialize(reference:, reference_number:, editable:)
@@ -28,6 +29,7 @@ module SupportInterface
         email_address_row,
         relationship_row,
         feedback_row,
+        safeguarding_row,
         confidentiality_row,
         date_rows,
         sign_in_as_referee_row,
@@ -47,6 +49,7 @@ module SupportInterface
 
       t('support_interface.confidential_warning')
     end
+
 
   private
 
@@ -203,6 +206,13 @@ module SupportInterface
           visually_hidden_text: 'reference',
         },
       )
+    end
+
+    def safeguarding_row
+      {
+        key: 'Safeguarding concerns',
+        value: safeguarding_concerns_status&.humanize || 'No value',
+      }
     end
 
     def consent_row
