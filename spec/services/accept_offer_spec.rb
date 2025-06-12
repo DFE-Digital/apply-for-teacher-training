@@ -141,4 +141,47 @@ RSpec.describe AcceptOffer do
       expect(ActionMailer::Base.deliveries.first.subject).to match(/You have accepted/)
     end
   end
+
+  describe 'slack notifications' do
+    context 'when offer comes from invite' do
+      it 'sends a slack notification' do
+        allow(SupportInterface::Candidates::AcceptedInviteSlackNotification).to receive(:call)
+
+        application_choice = create(:application_choice, :offered)
+        application_form = application_choice.application_form
+        invite = create(
+          :pool_invite,
+          status: 'published',
+          provider: application_choice.provider,
+          candidate: application_form.candidate,
+          course: application_choice.course,
+        )
+
+        described_class.new(application_choice:).save!
+
+        expect(SupportInterface::Candidates::AcceptedInviteSlackNotification).to have_received(:call)
+          .with(invite:, application_form:)
+      end
+    end
+
+    context 'when offer does not comes from invite' do
+      it 'does not sends a slack notification' do
+        allow(SupportInterface::Candidates::AcceptedInviteSlackNotification).to receive(:call)
+
+        application_choice = create(:application_choice, :offered)
+        application_form = application_choice.application_form
+        invite = create(
+          :pool_invite,
+          status: 'published',
+          provider: application_choice.provider,
+          candidate: application_form.candidate,
+        )
+
+        described_class.new(application_choice:).save!
+
+        expect(SupportInterface::Candidates::AcceptedInviteSlackNotification).not_to have_received(:call)
+          .with(invite:, application_form:)
+      end
+    end
+  end
 end

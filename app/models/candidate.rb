@@ -27,6 +27,13 @@ class Candidate < ApplicationRecord
 
   has_many :pool_dismissals, dependent: :destroy, class_name: 'Pool::Dismissal'
   has_many :pool_invites, dependent: :destroy, class_name: 'Pool::Invite'
+  has_many :published_pool_invites, -> { published }, dependent: :destroy, class_name: 'Pool::Invite'
+  has_many(
+    :published_pool_invites_current_cycle,
+    -> { where(status: 'published', recruitment_cycle_year: RecruitmentCycleTimetable.current_year) },
+    dependent: :destroy,
+    class_name: 'Pool::Invite',
+  )
   has_many :preferences, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :published_preferences, -> { where(status: 'published') }, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :published_opt_in_preferences, -> { where(status: 'published', pool_status: :opt_in) }, dependent: :destroy, class_name: 'CandidatePreference'
