@@ -2,9 +2,9 @@ name: Build No Cache
 
 on:
   workflow_dispatch:
-
   schedule:
-    - cron: '0 13 * * 0'
+    - cron: "30 12 * * 0"
+    # Will run once a week on Sunday afternoon
 
 permissions:
   packages: write
@@ -12,78 +12,48 @@ permissions:
   id-token: write
   pull-requests: write
 
-jobs:
-  build:
-    name: build
-    runs-on: ubuntu-latest
-    env:
-      DOCKER_IMAGE: ghcr.io/dfe-digital/apply-teacher-training
-      GEMS_NODE_MODULES_IMAGE: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules
-    outputs:
-      IMAGE_TAG: ${{ env.IMAGE_TAG }}
-      GIT_BRANCH: ${{ env.GIT_BRANCH }}
+env:
+  DOCKER_IMAGE: ghcr.io/dfe-digital/apply-teacher-training
+  GEMS_NODE_MODULES_IMAGE: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules
 
+jobs:
+  build-no-cache:
+    outputs:
+      docker-image-tag: ${{ steps.build-image.outputs.tag }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set Environment variable
-        run: |
-          GIT_REF=${{ github.ref }}
-          echo "GIT_BRANCH=${GIT_REF##*/}" >> $GITHUB_ENV # GIT_BRANCH will be main for refs/heads/main
-          echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+      - name: Build without cache and push docker image
+        id: build-image-gem-node-module
+        uses: DFE-Digital/github-actions/build-docker-image@master
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build gems-node-modules Docker Image
-        uses: docker/build-push-action@v6
-        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          context: ""
+          reuse-cache: false
+          max-cache: false
           target: gems-node-modules
-          tags: |
-            ${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.IMAGE_TAG }}
-            ${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.GIT_BRANCH }}
-          push: true
-          cache-to: type=inline
+          docker-repository: ${{ env.GEMS_NODE_MODULES_IMAGE }}
 
       - name: Build Docker Image
-        uses: docker/build-push-action@v6
+        id: build-image
+        uses: DFE-Digital/github-actions/build-docker-image@master
         with:
-          tags: |
-            ${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
-            ${{ env.DOCKER_IMAGE }}:${{ env.GIT_BRANCH }}
-          push: false
-          load: true
-          cache-to: type=inline
-          build-args: |
-            SHA=${{ env.IMAGE_TAG }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          context: ""
+          reuse-cache: false
+          snyk-token: ${{ secrets.SNYK_TOKEN }}
+          max-cache: false
+          docker-repository: ${{ env.DOCKER_IMAGE }}
 
-      - name: Run Snyk to check Docker image for vulnerabilities
-        uses: snyk/actions/docker@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Notify slack on failure
+        uses: rtCamp/action-slack-notify@master
+        if: ${{ failure() }}
         with:
-          image: ${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
-          args: --file=Dockerfile --exclude-app-vulns
-
-      - name: Push ${{ env.DOCKER_IMAGE }} images
-        if: ${{ success() }}
-        run: docker image push --all-tags ${{ env.DOCKER_IMAGE }}
-
-      - name: Notify Slack channel on job failure
-        if: failure()
-        uses: rtCamp/action-slack-notify@v2
-        env:
           SLACK_USERNAME: CI Deployment
-          SLACK_TITLE: Build failure on weekly rebuild cache workflow
-          SLACK_MESSAGE: ':alert: Build failure :sadparrot:'
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_COLOR: failure
-          SLACK_FOOTER: Sent from build job in Apply build-nocache workflow
+          SLACK_ICON_EMOJI: ":github-logo:"
+          SLACK_TITLE: "Build failure"
+          SLACK_MESSAGE: ":alert: Rebuild docker cache failure :sadparrot:"
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
