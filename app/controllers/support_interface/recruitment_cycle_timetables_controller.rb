@@ -25,8 +25,7 @@ module SupportInterface
     end
 
     def reset
-      # Reseeding is temporary. Will sync using the json endpoint in future PR, trello card: https://trello.com/c/MMmEL3HE
-      DataMigrations::AddAllRecruitmentCycleTimetablesToDatabase.new.change
+      ProductionRecruitmentCycleTimetablesAPI::SyncTimetablesWithProduction.new.call
       flash[:success] = I18n.t('support_interface.recruitment_cycle_timetables.reset.success_message')
       redirect_to support_interface_recruitment_cycle_timetables_path
     end
