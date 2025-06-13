@@ -6,6 +6,7 @@ RSpec.describe CandidateMailer do
   before do
     magic_link_stubbing(candidate)
     email_log_interceptor_stubbing
+    FeatureFlag.activate(:adviser_sign_up)
   end
 
   describe '.application_rejected' do

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
+  before { FeatureFlag.activate(:adviser_sign_up) }
 
   describe '.nudge_unsubmitted_with_incomplete_references' do
     context 'when the references section has not been completed' do
