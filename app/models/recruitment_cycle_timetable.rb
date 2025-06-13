@@ -15,7 +15,7 @@ class RecruitmentCycleTimetable < ApplicationRecord
   scope :current_and_past, -> { where('recruitment_cycle_year <= ?', RecruitmentCycleTimetable.current_year) }
 
   def self.find_timetable_by_datetime(datetime)
-    where('find_opens_at < ?', datetime).last
+    where('find_opens_at < ?', datetime).order(:recruitment_cycle_year).last
   end
 
   def self.find_cycle_week_by_datetime(datetime)

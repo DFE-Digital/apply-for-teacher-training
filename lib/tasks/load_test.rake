@@ -27,7 +27,7 @@ namespace :load_test do
 
     Rails.logger.info 'Syncing provider and course data from TTAPI...'
 
-    DataMigrations::AddAllRecruitmentCycleTimetablesToDatabase.new.change if RecruitmentCycleTimetable.none?
+    ProductionRecruitmentCycleTimetablesAPI::SyncTimetablesWithProduction.new.call if RecruitmentCycleTimetable.none?
 
     provider_codes.each do |code|
       provider_from_api = TeacherTrainingPublicAPI::Provider

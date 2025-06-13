@@ -1,10 +1,8 @@
 module CycleTimetableHelper
 module_function
 
-  require_relative 'seed_recruitment_cycle_timetables'
-
   def seed_timetables
-    SeedRecruitmentCycleTimetables.call
+    SeedTimetablesService.seed_from_csv
   end
 
   def current_year
