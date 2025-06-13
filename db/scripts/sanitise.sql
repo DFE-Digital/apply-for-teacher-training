@@ -144,6 +144,10 @@ SET
         WHEN feedback IS NULL THEN NULL
         ELSE generate_lorem_ipsum('short')
         END,
+    safeguarding_concerns = CASE
+        WHEN safeguarding_concerns IS NULL THEN NULL
+        ELSE generate_lorem_ipsum('short')
+        END,
     name = concat('Application Reference_', id);
 
 -- SupportUser
