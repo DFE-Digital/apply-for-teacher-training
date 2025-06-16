@@ -19,7 +19,7 @@
 <% if @application_choice.accepted_choice? %>
   <%= render(
         ProviderInterface::ReferencesSummaryMessage.new(@references, @application_choice.application_form.full_name),
-        ) %>
+      ) %>
 
   <% if @references.feedback_provided.present? %>
     <h3 class="govuk-heading-m">Received references</h3>
