@@ -1,6 +1,6 @@
 module ProviderInterface
   class ReferenceWithFeedbackComponent < ViewComponent::Base
-    attr_accessor :reference, :index, :application_choice
+    attr_accessor :reference, :application_choice
     delegate :feedback,
              :feedback_provided?,
              :duplicate?,
@@ -12,9 +12,8 @@ module ProviderInterface
              :safeguarding_concerns_status,
              to: :reference
 
-    def initialize(reference:, index:, application_choice:)
+    def initialize(reference:, application_choice:)
       @reference = reference
-      @index = index
       @application_choice = application_choice
     end
 

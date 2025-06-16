@@ -1,6 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :component do
+  it 'renders the row information' do
+    reference = build(:reference, feedback: 'A valuable unit of work', feedback_status: 'feedback_provided')
+    application_choice = build(:application_choice, :with_completed_application_form, :recruited)
+
+    render_inline(described_class.new(
+                    reference:,
+                    application_choice:,
+                  ))
+
+    expect(page).to have_text("Name#{reference.name}")
+    expect(page).to have_text("Email address#{reference.email_address}")
+    expect(page).to have_text("How the candidate knows them and how long for#{reference.relationship} This was confirmed by #{reference.name}.")
+    expect(page).to have_text('Concerns about the candidate working with childrenNo concerns.')
+    expect(page).to have_text("Reference#{reference.feedback}")
+    expect(page).to have_text('Can this reference be shared with the candidate?Yes, if they request it.')
+  end
+
   describe '#rows' do
     let(:feedback) { 'A valuable unit of work' }
     let(:reference) { build(:reference, feedback:, feedback_status: 'feedback_provided') }
@@ -9,7 +26,6 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :compone
     subject(:component) do
       described_class.new(
         reference:,
-        index: 0,
         application_choice:,
       )
     end
@@ -162,7 +178,6 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :compone
         subject(:component) do
           described_class.new(
             reference:,
-            index: 0,
             application_choice:,
           )
         end
