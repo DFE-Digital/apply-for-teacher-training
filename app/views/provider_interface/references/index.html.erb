@@ -25,7 +25,7 @@
     </div>
   </div>
 
-  <%= render 'references', references: @references, application_choice: @application_choice %>
+  <%= render partial: 'provider_interface/references/reference', collection: @references, as: :reference, locals: { application_choice: @application_choice } %>
 
 <% else %>
   <%= render(
@@ -34,11 +34,11 @@
 
   <% if @references.feedback_provided.present? %>
     <h3 class="govuk-heading-m">Received references</h3>
-    <%= render 'references', references: @references.feedback_provided, application_choice: @application_choice %>
+    <%= render partial: 'provider_interface/references/reference', collection: @references.feedback_provided, as: :reference, locals: { application_choice: @application_choice } %>
   <% end %>
 
   <% if @references.feedback_requested.present? %>
     <h3 class="govuk-heading-m">Requested references</h3>
-    <%= render 'references', references: @references.feedback_requested, application_choice: @application_choice %>
+    <%= render partial: 'provider_interface/references/reference', collection: @references.feedback_requested, as: :reference, locals: { application_choice: @application_choice } %>
   <% end %>
 <% end %>
