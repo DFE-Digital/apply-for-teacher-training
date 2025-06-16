@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
   describe '#rows' do
     let(:feedback) { 'A valuable unit of work' }
     let(:reference) { build(:reference, feedback:, feedback_status: 'feedback_provided') }
-    let(:application_choice) { build(:application_choice, :with_completed_application_form, :offered) }
+    let(:application_choice) { build(:application_choice, :with_completed_application_form, :recruited) }
 
     subject(:component) do
       described_class.new(
@@ -133,9 +133,9 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
       { application_choice_status: :awaiting_provider_decision, feedback_and_safeguarding_displayed: false },
       { application_choice_status: :inactive, feedback_and_safeguarding_displayed: false },
       { application_choice_status: :interviewing, feedback_and_safeguarding_displayed: false },
-      { application_choice_status: :offer, feedback_and_safeguarding_displayed: true }, # The Candidate has not accepted the Offer
-      { application_choice_status: :declined, feedback_and_safeguarding_displayed: true }, # Offer has been declined by the Candidate
-      { application_choice_status: :offer_withdrawn, feedback_and_safeguarding_displayed: true }, # This can only happen before the Candidate Accepts and offer
+      { application_choice_status: :offer, feedback_and_safeguarding_displayed: false }, # The Candidate has not accepted the Offer
+      { application_choice_status: :declined, feedback_and_safeguarding_displayed: false }, # Offer has been declined by the Candidate
+      { application_choice_status: :offer_withdrawn, feedback_and_safeguarding_displayed: false }, # This can only happen before the Candidate Accepts and offer
       { application_choice_status: :pending_conditions, feedback_and_safeguarding_displayed: true },
       { application_choice_status: :offer_deferred, feedback_and_safeguarding_displayed: true },
       { application_choice_status: :recruited, feedback_and_safeguarding_displayed: true },

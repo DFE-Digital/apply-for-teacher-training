@@ -19,17 +19,14 @@ module ProviderInterface
     end
 
     def rows
-      base_rows = [
+      [
         name_row,
         email_address_row,
         relationship_row,
         safeguarding_row,
         feedback_row,
+        confidentiality_row,
       ].compact
-
-      base_rows += [confidentiality_row] if feedback_provided?
-
-      base_rows
     end
 
   private
@@ -56,7 +53,7 @@ module ProviderInterface
     end
 
     def safeguarding_row
-      return if application_choice.pre_offer? || reference_not_provided?
+      return unless application_choice.accepted_choice? && feedback_provided?
 
       {
         key: 'Concerns about the candidate working with children',
@@ -65,7 +62,7 @@ module ProviderInterface
     end
 
     def feedback_row
-      return if application_choice.pre_offer? || feedback.nil?
+      return unless application_choice.accepted_choice? && feedback.present?
 
       {
         key: duplicate? ? 'Does the candidate have the potential to teach?' : 'Reference',
@@ -74,9 +71,11 @@ module ProviderInterface
     end
 
     def confidentiality_row
+      return unless feedback_provided?
+
       {
         key: 'Can this reference be shared with the candidate?',
-        value: confidentiality_value,
+        value: reference.confidential ? 'No, this reference is confidential. Do not share it.' : 'Yes, if they request it.',
       }
     end
 
@@ -106,14 +105,6 @@ module ProviderInterface
       else
         relationship
       end
-    end
-
-    def reference_not_provided?
-      !feedback_provided?
-    end
-
-    def confidentiality_value
-      reference.confidential ? 'No, this reference is confidential. Do not share it.' : 'Yes, if they request it.'
     end
   end
 end
