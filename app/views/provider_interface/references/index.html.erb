@@ -16,21 +16,10 @@
   ) %>
 </p>
 
-<% if @application_choice.pre_offer? || @application_choice.offer? %>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <p class="govuk-body">
-        References will be requested when the candidate accepts an offer. Do not contact these people before then without permission from the candidate.
-      </p>
-    </div>
-  </div>
-
-  <%= render partial: 'provider_interface/references/reference', collection: @references, as: :reference, locals: { application_choice: @application_choice } %>
-
-<% else %>
+<% if @application_choice.accepted_choice? %>
   <%= render(
-    ProviderInterface::ReferencesSummaryMessage.new(@references, @application_choice.application_form.full_name),
-  ) %>
+        ProviderInterface::ReferencesSummaryMessage.new(@references, @application_choice.application_form.full_name),
+        ) %>
 
   <% if @references.feedback_provided.present? %>
     <h3 class="govuk-heading-m">Received references</h3>
@@ -41,4 +30,14 @@
     <h3 class="govuk-heading-m">Requested references</h3>
     <%= render partial: 'provider_interface/references/reference', collection: @references.feedback_requested, as: :reference, locals: { application_choice: @application_choice } %>
   <% end %>
+<% else %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <p class="govuk-body">
+        References will be requested when the candidate accepts an offer. Do not contact these people before then without permission from the candidate.
+      </p>
+    </div>
+  </div>
+
+  <%= render partial: 'provider_interface/references/reference', collection: @references, as: :reference, locals: { application_choice: @application_choice } %>
 <% end %>

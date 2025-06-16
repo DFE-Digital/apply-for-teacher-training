@@ -11,6 +11,7 @@ module ProviderInterface
              :safeguarding_concerns,
              :safeguarding_concerns_status,
              to: :reference
+    delegate :accepted_choice?, to: :application_choice
 
     def initialize(reference:, application_choice:)
       @reference = reference
@@ -52,7 +53,7 @@ module ProviderInterface
     end
 
     def safeguarding_row
-      return unless application_choice.accepted_choice? && feedback_provided?
+      return unless accepted_choice? && feedback_provided?
 
       {
         key: 'Concerns about the candidate working with children',
@@ -61,7 +62,7 @@ module ProviderInterface
     end
 
     def feedback_row
-      return unless application_choice.accepted_choice? && feedback.present?
+      return unless accepted_choice? && feedback.present?
 
       {
         key: duplicate? ? 'Does the candidate have the potential to teach?' : 'Reference',
