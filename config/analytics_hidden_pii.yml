@@ -12,6 +12,11 @@ shared:
     - email_address
   provider_users:
     - dfe_sign_in_uid
+    - email_address
+    - first_name
+    - last_name
+  providers:
+    - email_address
   validation_errors:
     - user_id
   emails:
