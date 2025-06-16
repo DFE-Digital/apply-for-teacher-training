@@ -6,8 +6,6 @@ module SupportInterface
 
     def candidate_flow; end
 
-    def when_emails_are_sent; end
-
     def qualifications; end
 
     def mailer_previews
