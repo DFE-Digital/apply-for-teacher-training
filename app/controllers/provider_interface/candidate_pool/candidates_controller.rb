@@ -23,8 +23,9 @@ module ProviderInterface
       def show
         @application_form = Pool::Candidates.application_forms_for_provider
           .find_by(candidate_id: params.expect(:id))
+        @candidate = @application_form&.candidate
 
-        @candidate = @application_form.candidate
+        redirect_to provider_interface_candidate_pool_root_path if @application_form.blank? || @candidate.blank?
       end
 
     private

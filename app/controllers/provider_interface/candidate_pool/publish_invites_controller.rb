@@ -45,7 +45,9 @@ module ProviderInterface
 
       def set_candidate
         @candidate ||= Pool::Candidates.application_forms_for_provider
-         .find_by(candidate_id: params.expect(:candidate_id)).candidate
+         .find_by(candidate_id: params.expect(:candidate_id))&.candidate
+
+        redirect_to provider_interface_candidate_pool_root_path if @candidate.blank?
       end
 
       def invite
