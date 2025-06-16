@@ -127,5 +127,84 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
         end
       end
     end
+
+    [
+      { application_choice_status: :unsubmitted, feedback_and_safeguarding_displayed: false },
+      { application_choice_status: :awaiting_provider_decision, feedback_and_safeguarding_displayed: false },
+      { application_choice_status: :inactive, feedback_and_safeguarding_displayed: false },
+      { application_choice_status: :interviewing, feedback_and_safeguarding_displayed: false },
+      { application_choice_status: :offer, feedback_and_safeguarding_displayed: true }, # The Candidate has not accepted the Offer
+      { application_choice_status: :declined, feedback_and_safeguarding_displayed: true }, # Offer has been declined by the Candidate
+      { application_choice_status: :offer_withdrawn, feedback_and_safeguarding_displayed: true }, # This can only happen before the Candidate Accepts and offer
+      { application_choice_status: :pending_conditions, feedback_and_safeguarding_displayed: true },
+      { application_choice_status: :offer_deferred, feedback_and_safeguarding_displayed: true },
+      { application_choice_status: :recruited, feedback_and_safeguarding_displayed: true },
+      { application_choice_status: :conditions_not_met, feedback_and_safeguarding_displayed: true },
+      { application_choice_status: :rejected, feedback_and_safeguarding_displayed: false },
+      { application_choice_status: :withdrawn, feedback_and_safeguarding_displayed: false },
+      { application_choice_status: :cancelled, feedback_and_safeguarding_displayed: false },
+      { application_choice_status: :application_not_sent, feedback_and_safeguarding_displayed: false },
+    ].each do |test_case|
+      context "when the Application is in the #{test_case[:application_choice_status]} state" do
+        let(:application_choice) {
+          build(:application_choice,
+                :with_completed_application_form,
+                status: test_case[:application_choice_status])
+        }
+        let(:reference) {
+          build(:reference,
+                feedback: 'A valuable unit of work',
+                feedback_status: 'feedback_provided',
+                safeguarding_concerns_status: :has_safeguarding_concerns_to_declare,
+                safeguarding_concerns: 'Has a history of being a big bad wolf')
+        }
+
+        subject(:component) do
+          described_class.new(
+            reference:,
+            index: 0,
+            application_choice:,
+          )
+        end
+
+        if test_case[:feedback_and_safeguarding_displayed]
+          it 'contains a concern on safeguarding' do
+            expect(component.rows).to include(
+              {
+                key: 'Concerns about the candidate working with children',
+                value: 'Has a history of being a big bad wolf',
+              },
+            )
+          end
+
+          it 'contains the feedback row with the feedback details' do
+            expect(component.rows).to include(
+              {
+                key: 'Reference',
+                value: 'A valuable unit of work',
+              },
+            )
+          end
+        else
+          it 'contains no concern on safeguarding' do
+            expect(component.rows).not_to include(
+              {
+                key: 'Concerns about the candidate working with children',
+                value: 'Has a history of being a big bad wolf',
+              },
+            )
+          end
+
+          it 'does not contain the feedback row' do
+            expect(component.rows).not_to include(
+              {
+                key: 'Reference',
+                value: 'A valuable unit of work',
+              },
+            )
+          end
+        end
+      end
+    end
   end
 end
