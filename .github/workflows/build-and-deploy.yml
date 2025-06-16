@@ -92,12 +92,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [rubocop, erblint, brakeman, yarn_lint]
+        tests: [rubocop, erb_lint, brakeman, yarn_lint]
         include:
           - tests: rubocop
             command: bundle exec rubocop --format clang --parallel
-          - tests: erblint
-            command: bundle exec rake erblint
+          - tests: erb_lint
+            command: bundle exec rake erb_lint
           - tests: brakeman
             command: bundle exec rake brakeman
           - tests: yarn_lint
