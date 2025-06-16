@@ -170,12 +170,8 @@
   :provider_user_notifications:
   - chase_provider_decision
   :provider_users:
-  - email_address
-  - first_name
-  - last_name
   - find_a_candidate_filters
   :providers:
-  - email_address
   - phone_number
   :one_login_auths:
   - token

@@ -467,6 +467,9 @@ shared:
     - id
     - last_signed_in_at
     - updated_at
+    - email_address
+    - first_name
+    - last_name
   provider_users_providers:
     - created_at
     - id
@@ -492,6 +495,7 @@ shared:
     - updated_at
     - vendor_id
     - selectable_school
+    - email_address
   reference_tokens:
     - application_reference_id
     - created_at
