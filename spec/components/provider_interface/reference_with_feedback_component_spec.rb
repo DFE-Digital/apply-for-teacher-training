@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :component do
+RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :component do
   describe '#rows' do
     let(:feedback) { 'A valuable unit of work' }
     let(:reference) { build(:reference, feedback:, feedback_status: 'feedback_provided') }
