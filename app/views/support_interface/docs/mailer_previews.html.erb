@@ -1,10 +1,29 @@
-<%= render 'docs_navigation', title: 'Mailer previews' %>
+<%= render 'docs_navigation', title: t('.title') %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<% @previews.each do |preview| %>
-  <h2 class="govuk-heading-m"><%= preview.preview_name.titleize %></h2>
-  <ul class="govuk-list govuk-list--bullet">
-  <% preview.emails.each do |email| %>
-    <li><%= govuk_link_to email, url_for(controller: 'rails/mailers', action: 'preview', path: "#{preview.preview_name}/#{email}") %></li>
-  <% end %>
-  </ul>
-<% end %>
+    <% @previews.each do |preview| %>
+      <%= govuk_table do |table| %>
+        <%= table.with_caption(size: 'm', text: preview.preview_name.titleize) %>
+        <%= table.with_head do |head| %>
+          <%= head.with_row do |row| %>
+            <%= row.with_cell(text: t('.preview')) %>
+            <%= row.with_cell(text: t('.description')) %>
+          <% end %>
+        <% end %>
+        <%= table.with_body do |body| %>
+          <% preview.emails.each do |email| %>
+            <%= body.with_row do |row| %>
+              <%= row.with_cell do %>
+                <%= govuk_link_to email.gsub('_', ' '), url_for(controller: 'rails/mailers', action: 'preview', path: "#{preview.preview_name}/#{email}") %>
+              <% end %>
+              <%= row.with_cell do %>
+                  <%= t(".email_descriptions.#{email}") %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
