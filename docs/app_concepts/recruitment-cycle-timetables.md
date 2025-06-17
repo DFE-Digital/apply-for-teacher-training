@@ -26,5 +26,5 @@ ProductionRecruitmentCycleTimetablesAPI::SyncTimetablesWithProduction.new.call
 
 So that the test data is also using up-to-date recruitment cycle dates, the following should be run locally and a PR opened to capture changes to the CSV
 ```ruby
-SeedTimetablesService.seed_from_csv
+ProductionRecruitmentCycleTimetablesAPI::RefreshSeedData.new.call
 ```
