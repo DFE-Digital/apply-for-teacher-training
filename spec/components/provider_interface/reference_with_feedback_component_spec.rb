@@ -18,6 +18,37 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :compone
     expect(page).to have_text('Can this reference be shared with the candidate?Yes, if they request it.')
   end
 
+  describe '#warning_text' do
+    it 'returns nil when the reference is not confidential' do
+      reference = build(:reference, confidential: false, feedback_status: 'feedback_provided')
+      application_choice = build(:application_choice)
+
+      component = described_class.new(reference:, application_choice:)
+
+      expect(component.warning_text).to be_nil
+    end
+
+    it 'returns nil when the reference feedback has not been provided' do
+      reference = build(:reference, confidential: true, feedback_status: 'feedback_requested')
+      application_choice = build(:application_choice)
+
+      component = described_class.new(reference:, application_choice:)
+
+      expect(component.warning_text).to be_nil
+    end
+
+    it 'returns a warning message when the reference is confidential and feedback has been provided' do
+      reference = build(:reference,
+                        confidential: true,
+                        feedback_status: 'feedback_provided')
+      application_choice = build(:application_choice)
+
+      component = described_class.new(reference:, application_choice:)
+
+      expect(component.warning_text).to eq('Confidential do not share with the candidate')
+    end
+  end
+
   describe '#rows' do
     let(:feedback) { 'A valuable unit of work' }
     let(:reference) { build(:reference, feedback:, feedback_status: 'feedback_provided') }

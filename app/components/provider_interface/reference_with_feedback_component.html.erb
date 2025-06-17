@@ -1,6 +1,7 @@
 <%= render(SummaryCardComponent.new(
   rows: rows,
-  editable: false, warning_text: reference&.confidential == true && reference&.feedback_provided? && t('provider_interface.references.confidential_warning')
+  editable: false,
+  warning_text: warning_text,
 )) do %>
   <%= render SummaryCardHeaderComponent.new(title: t(reference.referee_type, scope: 'provider_interface.references.card_title', name: reference.name), heading_level: 3) %>
 <% end %>
