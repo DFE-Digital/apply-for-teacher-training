@@ -40,21 +40,21 @@ module ProviderInterface
 
     def name_row
       {
-        key: 'Name',
+        key: I18n.t('provider_interface.references.name_row.key'),
         value: name,
       }
     end
 
     def email_address_row
       {
-        key: 'Email address',
+        key: I18n.t('provider_interface.references.email_address_row.key'),
         value: email_address,
       }
     end
 
     def relationship_row
       {
-        key: 'How the candidate knows them and how long for',
+        key: I18n.t('provider_interface.references.relationship_row.key'),
         value: relationship_value,
       }
     end
@@ -63,8 +63,8 @@ module ProviderInterface
       return unless accepted_choice? && feedback_provided?
 
       {
-        key: 'Concerns about the candidate working with children',
-        value: reference.has_safeguarding_concerns_to_declare? ? safeguarding_concerns : 'No concerns.',
+        key: I18n.t('provider_interface.references.safeguarding_row.key'),
+        value: reference.has_safeguarding_concerns_to_declare? ? safeguarding_concerns : I18n.t('provider_interface.references.safeguarding_row.value.no_concern'),
       }
     end
 
@@ -72,7 +72,7 @@ module ProviderInterface
       return unless accepted_choice? && feedback.present?
 
       {
-        key: duplicate? ? 'Does the candidate have the potential to teach?' : 'Reference',
+        key: duplicate? ? I18n.t('provider_interface.references.feedback_row.duplicate.key') : I18n.t('provider_interface.references.feedback_row.key'),
         value: feedback,
       }
     end
@@ -81,8 +81,8 @@ module ProviderInterface
       return unless feedback_provided?
 
       {
-        key: 'Can this reference be shared with the candidate?',
-        value: reference.confidential ? 'No, this reference is confidential. Do not share it.' : 'Yes, if they request it.',
+        key: I18n.t('provider_interface.references.confidentiality_row.key'),
+        value: I18n.t(confidential?, scope: 'provider_interface.references.confidentiality_row.value'),
       }
     end
 

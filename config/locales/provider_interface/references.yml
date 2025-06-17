@@ -19,3 +19,26 @@ en:
         one: The candidate has received 1 reference
         other: The candidate has received %{count} references
       confidential_warning: Confidential do not share with the candidate
+      page_title: References
+      feedback_provided_title: Received references
+      feedback_requested_title: Requested references
+      visibility_explanation: References will be requested when the candidate accepts an offer. Do not contact these people before then without permission from the candidate.
+      name_row:
+        key: Name
+      email_address_row:
+        key: Email address
+      relationship_row:
+        key: How the candidate knows them and how long for
+      safeguarding_row:
+        key: Concerns about the candidate working with children
+        value:
+          no_concern: No concerns.
+      feedback_row:
+        duplicate:
+          key: Does the candidate have the potential to teach?
+        key: Reference
+      confidentiality_row:
+        key: Can this reference be shared with the candidate?
+        value:
+         'true': No, this reference is confidential. Do not share it.
+         'false': Yes, if they request it.
