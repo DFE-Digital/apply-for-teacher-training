@@ -47,7 +47,7 @@ lint-ruby: ## Run Rubocop
 
 .PHONY: lint-erb
 lint-erb: ## Run the ERB linter
-	docker-compose run --rm web /bin/sh -c "bundle exec rake erblint"
+	docker-compose run --rm web /bin/sh -c "bundle exec rake erb_lint"
 
 .PHONY: brakeman
 brakeman: ## Run Brakeman tests
