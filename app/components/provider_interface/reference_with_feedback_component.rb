@@ -10,12 +10,19 @@ module ProviderInterface
              :relationship_correction,
              :safeguarding_concerns,
              :safeguarding_concerns_status,
+             :confidential?,
              to: :reference
     delegate :accepted_choice?, to: :application_choice
 
     def initialize(reference:, application_choice:)
       @reference = reference
       @application_choice = application_choice
+    end
+
+    def warning_text
+      return unless confidential? && feedback_provided?
+
+      I18n.t('provider_interface.references.confidential_warning')
     end
 
     def rows
