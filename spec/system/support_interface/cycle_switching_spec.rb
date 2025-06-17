@@ -3,6 +3,17 @@ require 'rails_helper'
 RSpec.describe 'Cycle switching' do
   include DfESignInHelpers
 
+  let(:body) { Pathname.new(Rails.root.join('spec/examples/production_recruitment_cycle_timetables_api/fetch_all_recruitment_cycles.json')) }
+
+  before do
+    stub_request(:get, ProductionRecruitmentCycleTimetablesAPI::Client::BASE_URL)
+      .to_return(
+        status: 200,
+        body: body.read,
+        headers: { 'Content-Type' => 'application/json' },
+      )
+  end
+
   scenario 'Support user switches cycle schedule' do
     given_it_is_before_the_apply_deadline
     given_i_am_signed_in_as_a_support_user

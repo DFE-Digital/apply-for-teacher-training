@@ -23,7 +23,7 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
   )
 
   puts 'Creating all RecruitmentCycleTimetables'
-  DataMigrations::AddAllRecruitmentCycleTimetablesToDatabase.new.change
+  ProductionRecruitmentCycleTimetablesAPI::SyncTimetablesWithProduction.new.call
 
   puts 'Creating various provider users...'
   CreateExampleProviderUsersWithPermissions.call
@@ -66,7 +66,7 @@ desc 'Sync some pilot-enabled providers'
 task sync_dev_providers: :environment do
   puts 'Syncing data from TTAPI...'
 
-  DataMigrations::AddAllRecruitmentCycleTimetablesToDatabase.new.change if RecruitmentCycleTimetable.none?
+  ProductionRecruitmentCycleTimetablesAPI::SyncTimetablesWithProduction.new.call if RecruitmentCycleTimetable.none?
 
   provider_codes = %w[U80 24J 24P D39 S72 1ZW 1N1 Y50 L34 D86 K60 H72 W53 1TZ]
   provider_codes.each do |code|
