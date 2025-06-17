@@ -35,8 +35,6 @@ en:
           Our email requesting a reference did not reach %{referee_name}.
 
           We emailed the referee using this address: %{referee_email}
-    feedback_received_for_application_rejected_by_default:
-      subject: "Feedback on your application for %{provider_name}"
     application_rejected:
       subject: Update on your application
     application_withdrawn_on_request:

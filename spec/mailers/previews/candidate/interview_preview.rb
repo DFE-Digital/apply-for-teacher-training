@@ -1,4 +1,4 @@
-class Candidate::InterviewPreviews < ActionMailer::Preview
+class Candidate::InterviewPreview < ActionMailer::Preview
   def new_interview
     application_choice = FactoryBot.build_stubbed(:application_choice, :interviewing)
     interview = FactoryBot.build_stubbed(:interview, provider: application_choice.current_course_option.course.provider)

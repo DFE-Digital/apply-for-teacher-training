@@ -7,10 +7,6 @@ class Candidate::ReferencesPreview < ActionMailer::Preview
     CandidateMailer.chase_reference_again(reference)
   end
 
-  def new_referee_request
-    CandidateMailer.new_referee_request(reference, reason: :not_responded)
-  end
-
   def new_referee_request_with_refused
     CandidateMailer.new_referee_request(reference, reason: :refused)
   end
@@ -26,49 +22,6 @@ class Candidate::ReferencesPreview < ActionMailer::Preview
   def reference_received_after_recruitment
     reference_at_offer.application_form.application_choices.first.update!(status: :recruited)
     CandidateMailer.reference_received(reference)
-  end
-
-  def two_references_received
-    application_form_with_provided_references = FactoryBot.build_stubbed(
-      :application_form,
-      application_references: [
-        FactoryBot.build_stubbed(:reference, feedback_status: :feedback_provided),
-        FactoryBot.build_stubbed(:reference, feedback_status: :feedback_provided),
-      ],
-    )
-
-    new_reference = FactoryBot.build_stubbed(:reference, application_form: application_form_with_provided_references)
-
-    CandidateMailer.reference_received(new_reference)
-  end
-
-  def three_or_more_references_received
-    application_form_with_provided_references = FactoryBot.build_stubbed(
-      :application_form,
-      application_references: [
-        FactoryBot.build_stubbed(:reference, feedback_status: :feedback_provided),
-        FactoryBot.build_stubbed(:reference, feedback_status: :feedback_provided),
-        FactoryBot.build_stubbed(:reference, feedback_status: :feedback_provided),
-      ],
-    )
-
-    new_reference = FactoryBot.build_stubbed(:reference, application_form: application_form_with_provided_references)
-
-    CandidateMailer.reference_received(new_reference)
-  end
-
-  def reference_received_after_selection
-    application_form_with_selected_references = FactoryBot.build_stubbed(
-      :application_form,
-      application_references: [
-        FactoryBot.build_stubbed(:reference, selected: true, feedback_status: :feedback_provided),
-        FactoryBot.build_stubbed(:reference, selected: true, feedback_status: :feedback_provided),
-      ],
-    )
-
-    new_reference = FactoryBot.build_stubbed(:reference, application_form: application_form_with_selected_references)
-
-    CandidateMailer.reference_received(new_reference)
   end
 
 private

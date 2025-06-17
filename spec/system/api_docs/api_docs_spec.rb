@@ -32,9 +32,6 @@ RSpec.describe 'API docs' do
 
     click_link_or_button 'Lifecycle'
     expect(page).to have_content 'Application lifecycle'
-
-    click_link_or_button 'When emails are sent'
-    expect(page).to have_content 'we send these notifications'
   end
 
   def when_i_enter_an_incorrect_api_version_in_the_url

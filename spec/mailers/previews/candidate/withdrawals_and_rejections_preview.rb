@@ -61,32 +61,6 @@ class Candidate::WithdrawalsAndRejectionsPreview < ActionMailer::Preview
     CandidateMailer.conditions_not_met(application_choice)
   end
 
-  def feedback_received_for_application_rejected_by_default
-    application_choice =
-      FactoryBot.build(
-        :application_choice,
-        :with_structured_rejection_reasons,
-        application_form:,
-        course_option:,
-      )
-    show_apply_again_guidance = false
-
-    CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice, show_apply_again_guidance)
-  end
-
-  def feedback_received_for_application_rejected_by_default_apply_again
-    application_choice =
-      FactoryBot.build(
-        :application_choice,
-        :with_structured_rejection_reasons,
-        application_form:,
-        course_option:,
-      )
-    show_apply_again_guidance = true
-
-    CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice, show_apply_again_guidance)
-  end
-
   def withdraw_last_application_choice
     application_form = FactoryBot.build_stubbed(
       :application_form,
