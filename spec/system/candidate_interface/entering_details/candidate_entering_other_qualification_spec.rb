@@ -99,6 +99,19 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
     then_i_see_the_your_details_page
   end
 
+  scenario 'Candidate changes a non-uk qualification to other uk qualification' do
+    given_i_am_signed_in_with_one_login
+    and_i_visit_the_site
+    and_i_already_have_a_non_uk_qualification_saved
+
+    when_i_visit_a_levels_and_other_qualifications
+    and_i_click_change_qualification_type
+    and_i_change_it_to_scottish_advanced_higher
+    and_i_click_continue
+    and_i_click_save_and_continue
+    then_i_see_the_revised_qualification_with_institution_country_set_to_gb
+  end
+
   def and_i_visit_the_site
     visit candidate_interface_details_path
   end
@@ -377,5 +390,33 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
     within '.govuk-heading-xl' do
       expect(page).to have_content 'Your details'
     end
+  end
+
+  def and_i_already_have_a_non_uk_qualification_saved
+    application_form = current_candidate.current_application
+    application_form.application_qualifications << create(:other_qualification, :non_uk, institution_country: 'ES', non_uk_qualification_type: 'Titulo de bachiller')
+    application_form.save
+  end
+
+  def when_i_visit_a_levels_and_other_qualifications
+    visit candidate_interface_review_other_qualifications_path
+  end
+
+  def and_i_click_change_qualification_type
+    click_link_or_button 'Change qualification for Titulo de bachiller'
+  end
+
+  def and_i_change_it_to_scottish_advanced_higher
+    choose 'Other UK qualification'
+    fill_in 'Qualification name', with: 'Scottish Advanced Higher', match: :first
+  end
+
+  def and_i_click_save_and_continue
+    click_link_or_button 'Save and continue'
+  end
+
+  def then_i_see_the_revised_qualification_with_institution_country_set_to_gb
+    expect(page).to have_content 'Scottish Advanced Higher'
+    expect(page).to have_content 'GB'
   end
 end

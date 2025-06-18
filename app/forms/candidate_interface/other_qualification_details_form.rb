@@ -154,7 +154,7 @@ module CandidateInterface
       {
         qualification_type:,
         subject:,
-        institution_country:,
+        institution_country: qualification_type == OtherQualificationTypeForm::NON_UK_TYPE ? institution_country : 'GB',
         predicted_grade:,
         grade: grade.presence,
         other_uk_qualification_type:,
