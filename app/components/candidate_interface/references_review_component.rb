@@ -69,9 +69,7 @@ module CandidateInterface
     end
 
     def name_row(reference)
-      policy = ReferenceActionsPolicy.new(reference)
-
-      action = if policy.editable?
+      action = if reference_editable?(reference)
                  {
                    action: {
                      href: reference_edit_name_path(
@@ -101,9 +99,7 @@ module CandidateInterface
         step: reference_workflow_step,
       )
 
-      policy = ReferenceActionsPolicy.new(reference)
-
-      action = if policy.editable?
+      action = if reference_editable?(reference)
                  {
                    action: {
                      href: edit_email_path,
@@ -134,9 +130,8 @@ module CandidateInterface
         return_to: return_to_params,
         step: reference_workflow_step,
       )
-      policy = ReferenceActionsPolicy.new(reference)
 
-      action = if policy.editable?
+      action = if reference_editable?(reference)
                  {
                    action: {
                      href: edit_relationship_path,
@@ -161,10 +156,8 @@ module CandidateInterface
     end
 
     def reference_type_row(reference)
-      policy = ReferenceActionsPolicy.new(reference)
-
       if reference.referee_type?
-        action = if policy.editable?
+        action = if reference_editable?(reference)
                    {
                      action: {
                        href: reference_edit_type_path(
@@ -221,7 +214,7 @@ module CandidateInterface
     end
 
     def reference_editable?(reference)
-      !reference.duplicate?
+      !reference.duplicate? && reference.not_requested_yet?
     end
 
     def confirm_destroy_path(reference)
