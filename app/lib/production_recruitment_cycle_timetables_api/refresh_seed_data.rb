@@ -4,6 +4,10 @@ module ProductionRecruitmentCycleTimetablesAPI
       timetables = client.fetch_all_recruitment_cycles.fetch('data')
       headers = timetables.first.keys
 
+      %w[christmas_holiday_range easter_holiday_range].each do |attribute|
+        headers.delete(attribute)
+      end
+
       CSV.open('config/initializers/cycle_timetables.csv', 'w', headers: true) do |csv|
         csv << headers
         timetables.each do |timetable|

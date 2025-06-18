@@ -21,8 +21,6 @@ class SeedTimetablesService
           reject_by_default_at: timetable['reject_by_default_at'],
           decline_by_default_at: timetable['decline_by_default_at'],
           find_closes_at: timetable['find_closes_at'],
-          christmas_holiday_range: parse_holiday_range(timetable['christmas_holiday_range']),
-          easter_holiday_range: parse_holiday_range(timetable['easter_holiday_range']),
           updated_at: timetable['updated_at'],
         )
       end
