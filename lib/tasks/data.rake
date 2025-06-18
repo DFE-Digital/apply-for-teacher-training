@@ -9,7 +9,6 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::RemoveUnlockApplicationForEditingFeatureFlag',
   'DataMigrations::RemoveShowReferenceConfidentialityStatusFeatureFlag',
   'DataMigrations::AddRecruitmentCycleYearToPerformanceReports',
-  'DataMigrations::AddAllRecruitmentCycleTimetablesToDatabase',
   'DataMigrations::RemoveOneLoginPreReleaseBannersFeatureFlag',
   'DataMigrations::RemoveNewWithdrawalReasonsFeatureFlag',
   'DataMigrations::RemoveUnusedFeatureFlags',
