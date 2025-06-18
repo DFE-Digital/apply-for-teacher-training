@@ -608,8 +608,6 @@ shared:
     - reject_by_default_at
     - decline_by_default_at
     - find_closes_at
-    - christmas_holiday_range
-    - easter_holiday_range
     - recruitment_cycle_year
     - created_at
     - updated_at
