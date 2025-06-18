@@ -1,0 +1,114 @@
+en:
+  support_interface:
+    docs:
+      mailer_previews:
+        title: Mailer previews
+        preview: Preview name
+        description: Description
+        email_descriptions:
+          candidate_authentication_mailer:
+            duplicate_match_email: When a candidate tries to create more than 1 account to apply for teacher training using the same email address or personal details. Their accounts are locked
+            sign_in_email: Authentication link sent when a candidate signs into the service. (Inactive)
+            sign_up_email: Sent when a candidate creates an account for the first time. (Inactive)
+            sign_in_email_without_account_email: Sent when a candidate tries to sign in with an email address that does not exist in our database. (Inactive)
+          candidate_application_unsubmitted:
+            nudge_unsubmitted: All sections of an application are complete but it has not been submitted after 7 days.
+            nudge_unsubmitted_with_incomplete_courses: An application is complete apart from the course choices but it has not been submitted after 7 days.
+            nudge_unsubmitted_with_incomplete_personal_statement: An application is complete apart from the personal statement but it has not been submitted after 7 days.
+            nudge_unsubmitted_with_incomplete_references: An application is complete apart from the references but it has not been submitted after 7 days.
+          candidate_application_submitted:
+            application_choice_submitted: A candidate has submitted an application to a course.
+            apply_to_another_course_after_30_working_days: The candidate has not had a response to an application for 30 working days (status changed to inactive). This email nudges them to apply elsewhere.
+            apply_to_multiple_courses_after_30_working_days: The candidate has not had a response to more than 1 application for 30 working days (status changed to inactive). This email nudges them to apply elsewhere.
+            change_course: The training provider has changed any details about the course a candidate has applied to.
+          candidate_offers:
+            changed_offer: The training provider has changed any details about a conditional offer made to a candidate.
+            changed_unconditional_offer: The training provider has changed from a conditional offer to an unconditional offer OR the training provider has changed any details about an unconditional offer made to a candidate. Because there are no conditions in the offer, no conditions will be rendered in this email. Other information about the offer that changes such as the course code, will change.
+            conditions_met: The conditions made as part of an offer have been met
+            conditions_met_with_pending_ske_conditions: The conditions made as part of an offer have been met with the exception of subject knowledge enhancement (SKE) conditions.
+            conditions_statuses_changed: An update on the status of each condition set as part of an offer. Conditions are met, pending or unmet.
+            decline_last_application_choice: A candidate has declined the offer to train to teach made by a training provider
+            deferred_offer: A training provider is deferring the offer they have made to the candidate until a future recruitment cycle
+            deferred_offer_reminder: A reminder to the candidate that the offer that was deferred in the past will be confirmed soon.
+            new_offer_made: A training provider has made an offer to a candidate to join their course.
+            offer_10_day: When a candidate has received an offer to train to teach but has not responded for 10 days.
+            offer_20_day: When a candidate has received an offer to train to teach but has not responded for 20 days.
+            offer_30_day: When a candidate has received an offer to train to teach but has not responded for 30 days.
+            offer_40_day: When a candidate has received an offer to train to teach but has not responded for 40 days.
+            offer_50_day: When a candidate has received an offer to train to teach but has not responded for 50 days.
+            offer_accepted: When a candidate accepts an offer to train to teach and the offer has conditions.
+            offer_withdrawn: A provider has withdrawn an offer to train to teach.
+            reinstated_offer_with_conditions: An offer that has been previously deferred by the provider is reinstated with conditions.
+            reinstated_offer_without_conditions: An offer that has been previously deferred by the provider is reinstated without conditions.
+            unconditional_offer_accepted: When a candidate accepts an offer to train to teach and the offer has no conditions.
+          candidate_references:
+            chase_reference: If a referee that a candidate has selected does not submit a reference in 9 days.
+            chase_reference_again: If a referee that a candidate has selected does not submit a reference in 30 days.
+            new_referee_request_with_email_bounced: If the reference request could not be sent to the referee the candidate is prompted to re-request the reference or select a new referee.
+            new_referee_request_with_refused: If a chosen referee declines the request to provide a reference, the candidate is prompted to select another referee.
+            reference_received: A referee has submitted a reference and the training provider has received it.
+            reference_received_after_recruitment: A referee has submitted a reference and the training provider has received it after the candidate has been recruited.
+          candidate_withdrawals_and_rejections:
+            application_rejected: An application has been rejected by the provider. Contains bespoke rejection advice depending on the reason given.
+            application_rejected_international_unverified: An application from an international candidate has been rejected because the provider is unable to verify their qualifications.
+            application_rejected_via_api: An application has been rejected by a provider who uses the api to manage applications.
+            application_withdrawn_on_request: The provider has withdrawn the application because the candidate has asked them to (or sometimes because they have not responded). This is the only way to end an application post-offer (can't reject) so is used for that purpose too.
+            conditions_not_met: An application is rejected because the candidate has not met the conditions of the offer.
+            withdraw_last_application_choice: A candidate has withdrawn their last application choice, they are encouraged to submit more applications.
+          candidate_end_of_cycle:
+            application_deadline_has_passed: The cycle has closed and candidates can no longer submit applications.
+            eoc_first_deadline_reminder: The end of the recruitment cycle is 2 months away.
+            eoc_first_deadline_reminder_with_no_first_name: The end of the recruitment cycle is 2 months away and we do not know the name of the candidate to personalise the email.
+            eoc_second_deadline_reminder: The end of the recruitment cycle is 1 month away.
+            eoc_second_deadline_reminder_with_no_first_name: The end of the recruitment cycle is 1 month away and we do not know the name of the candidate to personalise the email.
+            find_has_opened: Candidates can now search for training courses on Find teacher training courses.
+            find_has_opened_no_name: Candidates can now search for training courses on Find teacher training courses but we don't know the name of the candidate to personalise the email.
+            new_cycle_has_started: Candidates can now submit applications for teacher training in the latest recruitment cycle.
+            reject_by_default_explainer: Applications that have not received a response by the end of the cycle are rejected by default.
+            respond_to_offer_before_deadline: A candidate has an offer to train to teach that they have not responded to, they are encouraged to respond before the end of the cycle. Sent 2 weeks before the reject by default date before the end of the cycle.
+          candidate_interview:
+            interview_cancelled: A scheduled interview has been cancelled.
+            interview_updated: Details about a scheduled interview have been changed.
+            interview_updated_course_changed: The subject the candidate is interviewing for has been changed.
+            new_interview: A training provider has scheduled an interview with a candidate.
+          candidate_find_a_candidate:
+            candidate_invites_one_provider: Find a candidate invitation email from a single provider.
+            candidate_invites_multiple_providers: Find a candidate invitation email when more than 1 providers want to invite a single candidate to apply. (Inactive)
+            candidate_invites_one_provider_two_courses: Find a candidate invitation email from a single provider, inviting the candidate to 2 different courses. (Inactive)
+            candidate_invites_two_providers: Find a candidate invitation email when 2 providers want to invite the same candidate to different courses. (Inactive)
+          provider_mailer:
+            application_submitted: Missing description
+            application_submitted_with_safeguarding_issues: Missing description
+            application_withdrawn_no_interviews: Missing description
+            application_withdrawn_with_interviews: Missing description
+            apply_service_is_now_open: Missing description
+            declined: Missing description
+            declined_by_default: Missing description
+            find_service_is_now_open: Missing description
+            organisation_permissions_set_up: Missing description
+            organisation_permissions_updated: Missing description
+            permissions_granted: Missing description
+            permissions_granted_by_support: Missing description
+            permissions_removed: Missing description
+            permissions_removed_by_support: Missing description
+            permissions_updated: Missing description
+            permissions_updated__all_permissions_removed: Missing description
+            permissions_updated_by_support: Missing description
+            respond_to_applications_before_reject_by_default_date: Missing description
+            set_up_organisation_permissions_single_provider_multiple_relationships: Missing description
+            set_up_organisation_permissions_single_provider_one_relationship: Missing description
+            confirm_sign_in: Missing description
+            fallback_sign_in_email: DFE fallback sign in (Inactive)
+            offer_accepted: Missing description
+            reference_received: Missing description
+            set_up_organisation_permissions: Missing description
+            unconditional_offer_accepted: When a candidate accepts an offer to train to teach and the offer has no conditions.
+          referee_mailer:
+            reference_cancelled_email: Missing description
+            reference_confirmation_email: Missing description
+            reference_request_chaser_email: Missing description
+            reference_request_email: Missing description
+            reference_request_chase_again_email: Missing description
+          support_mailer:
+            confirm_sign_in: Missing description
+            fallback_sign_in_email: DFE fallback sign in (Inactive)

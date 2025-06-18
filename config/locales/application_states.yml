@@ -417,13 +417,6 @@ en:
         - provider_mailer-application_withdrawn
         - candidate_mailer-application_withdrawn_on_request
 
-    rejected-give_feedback_for_application_rejected_by_default:
-      name: Provider gives feedback for application rejected by default
-      by: provider
-      description: Provider may give feedback only once for each RBD-ed application
-      emails:
-        - candidate_mailer-feedback_received_for_application_rejected_by_default
-
     rejected-make_offer:
       name: Provider makes offer
       by: provider

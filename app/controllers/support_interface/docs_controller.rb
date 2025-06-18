@@ -6,13 +6,23 @@ module SupportInterface
 
     def candidate_flow; end
 
-    def when_emails_are_sent; end
-
     def qualifications; end
 
     def mailer_previews
-      @previews = ActionMailer::Preview.all
-      @page_title = 'Mailer Previews'
+      all_mailer_previews = ActionMailer::Preview.all
+      candidate_mailers = [
+        Candidate::AuthenticationMailerPreview,
+        Candidate::ApplicationUnsubmittedPreview,
+        Candidate::ApplicationSubmittedPreview,
+        Candidate::InterviewPreview,
+        Candidate::OffersPreview,
+        Candidate::ReferencesPreview,
+        Candidate::WithdrawalsAndRejectionsPreview,
+        Candidate::EndOfCyclePreview,
+        Candidate::FindACandidatePreview,
+      ].filter { |mailer_preview| all_mailer_previews.include? mailer_preview }
+      # This is to preserve the order of the candidate mailers - we want them to reflect the stages of the cycle
+      @previews = (candidate_mailers + all_mailer_previews).uniq
     end
 
     def component_previews

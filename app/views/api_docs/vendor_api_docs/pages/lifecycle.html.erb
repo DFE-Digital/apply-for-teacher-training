@@ -4,7 +4,6 @@
 
 <%= render TabNavigationComponent.new(items: [
   { name: 'Application lifecycle', url: api_docs_lifecycle_path, current: true },
-  { name: 'When emails are sent', url: api_docs_when_emails_are_sent_path },
 ]) %>
 
 <%= render StateDiagramComponent.new(machine: ApplicationStateChange, ignore_states: %i[inactive]) %>

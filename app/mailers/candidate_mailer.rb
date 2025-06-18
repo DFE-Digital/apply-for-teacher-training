@@ -96,17 +96,6 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(@application_form)
   end
 
-  def feedback_received_for_application_rejected_by_default(application_choice, show_apply_again_guidance)
-    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
-    @course = @application_choice.current_course_option.course
-    @show_apply_again_guidance = show_apply_again_guidance
-
-    email_for_candidate(
-      @application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.feedback_received_for_application_rejected_by_default.subject', provider_name: @course.provider.name),
-    )
-  end
-
   def new_offer_made(application_choice)
     @application_choice = application_choice
     @course = @application_choice.current_course_option.course
@@ -119,8 +108,6 @@ class CandidateMailer < ApplicationMailer
 
   def reference_received(reference)
     @reference = reference
-    @selected_references = reference.application_form.application_references.creation_order.select(&:selected)
-    @provided_references = reference.application_form.application_references.creation_order.select(&:feedback_provided?)
 
     email_for_candidate(
       reference.application_form,
