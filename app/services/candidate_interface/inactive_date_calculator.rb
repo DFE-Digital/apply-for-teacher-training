@@ -7,14 +7,10 @@ module CandidateInterface
     end
 
     def inactive_date
-      if HostingEnvironment.sandbox_mode?
-        STANDARD_DAYS_UNTIL_INACTIVE.business_days.after(@effective_date).end_of_day
-      else
-        [
-          STANDARD_DAYS_UNTIL_INACTIVE.business_days.after(@effective_date).end_of_day,
-          reject_by_default_date,
-        ].min
-      end.end_of_day
+      [
+        STANDARD_DAYS_UNTIL_INACTIVE.business_days.after(@effective_date).end_of_day,
+        reject_by_default_date,
+      ].min
     end
 
     def inactive_days

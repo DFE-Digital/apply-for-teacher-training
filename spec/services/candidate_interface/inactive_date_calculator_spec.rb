@@ -24,18 +24,5 @@ RSpec.describe CandidateInterface::InactiveDateCalculator do
         end
       end
     end
-
-    # we’re going to keep Sandbox open while Apply is closed irl, but we don’t want
-    # to set short inactive dates due to the proximity of the deadline when
-    # we're using the cycle switcher
-    specify 'proximity to the deadline is ignored on Sandbox', :sandbox do
-      submitted = '20 Sept 2023 0:00:00 AM BST'
-      correct_rbd = '1 Nov 2023 23:59:59 PM GMT'
-
-      travel_temporarily_to(Time.zone.parse(submitted)) do
-        expect(calculator.inactive_date).to be_within(1.second).of(Time.zone.parse(correct_rbd))
-        expect(calculator.inactive_days).to eq 30
-      end
-    end
   end
 end
