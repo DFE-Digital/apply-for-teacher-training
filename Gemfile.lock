@@ -230,7 +230,7 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    diff-lcs (1.6.1)
+    diff-lcs (1.6.2)
     discard (1.4.0)
       activerecord (>= 4.2, < 9.0)
     docile (1.4.0)
@@ -506,7 +506,7 @@ GEM
       validate_email
       validate_url
       webfinger (~> 1.2)
-    optimist (3.2.0)
+    optimist (3.2.1)
     orm_adapter (0.5.0)
     os (1.1.4)
     ostruct (0.6.1)
@@ -775,7 +775,7 @@ GEM
       activemodel (>= 3.0, < 9.0)
     strong_migrations (2.3.0)
       activerecord (>= 7)
-    super_diff (0.15.0)
+    super_diff (0.16.0)
       attr_extras (>= 6.2.4)
       diff-lcs
       patience_diff
