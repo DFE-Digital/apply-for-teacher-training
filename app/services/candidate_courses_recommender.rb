@@ -41,14 +41,11 @@ private
     params = {}
 
     params[:can_sponsor_visa] = can_sponsor_visa
-    # May need to be converted to use the API
-    params[:degree_required] = degree_required
-    params[:funding_type] = funding_type
-    params[:study_type] = study_type
-    # May need to be converted to use the API
+    params[:minimum_degree_required] = minimum_degree_required
+    params[:funding] = funding_type
+    params[:study_types] = study_type
     params[:subjects] = subjects
-    # May need to be converted to use the API
-    params.merge!(location_params)
+    params[:location] = locatable&.postcode
 
     params.compact_blank
   end
@@ -66,7 +63,7 @@ private
     requires_visa.to_s # 'true' or 'false'
   end
 
-  def degree_required
+  def minimum_degree_required
     return unless candidate.application_forms
                            .where(recruitment_cycle_year: current_year)
                            .exists?(degrees_completed: true)
@@ -76,7 +73,7 @@ private
                                        .where(application_form: { recruitment_cycle_year: current_year })
                                        .pluck(:grade)
 
-    return 'not_required' if candidate_degree_grades.empty?
+    return 'no_degree_required' if candidate_degree_grades.empty?
 
     # What Course degree entry requirements can the Candidate meet?
     return 'show_all_courses' if candidate_degree_grades.include?('First-class honours')
@@ -96,7 +93,7 @@ private
                            .exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
 
     # What Course funding types has the Candidate applied for?
-    funding_types = candidate.application_choices
+    candidate.application_choices
                       .joins(:application_form)
                       .where(application_form: { recruitment_cycle_year: current_year })
                              .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
@@ -105,9 +102,6 @@ private
                              .compact_blank
                              .uniq
                              .sort
-
-    # salary,apprenticeship,fee
-    funding_types.join(',')
   end
 
   def study_type
@@ -118,7 +112,7 @@ private
                            .exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
 
     # What Course study types has the Candidate applied for?
-    study_modes = candidate.application_choices
+    candidate.application_choices
                            .joins(:application_form)
                            .where(application_form: { recruitment_cycle_year: current_year })
                            .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
@@ -127,8 +121,6 @@ private
                            .compact_blank
                            .uniq
                            .sort
-    # full_time,part_time
-    study_modes.join(',')
   end
 
   def subjects
@@ -149,19 +141,5 @@ private
       .compact_blank
       .uniq
       .sort
-  end
-
-  def location_params
-    location_params = {
-      l: 1,
-      lq: locatable&.postcode,
-      latitude: locatable&.latitude,
-      longitude: locatable&.longitude,
-      radius: '10',
-      sortby: 'distance',
-    }
-    return {} unless location_params.values.all?(&:present?)
-
-    location_params
   end
 end
