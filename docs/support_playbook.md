@@ -48,6 +48,17 @@ If the request is from a referee (eg—an accidental refusal), use the “Undo r
 
 Candidates can cancel and reinstate references themselves, so this shouldn't typically be something the support dev handles.
 
+### Candidate cannot apply because of reference section incomplete
+
+There's an edge case where a candidate requests a new reference after they accept their offer, on the offer dashboard.
+If they withdraw after doing this. Their reference section would be incomplete and they would not be able to submit new applications.
+
+Please add your support ticket to this [ticket](https://trello.com/c/rIaPQ8C6/1039-bug-candidates-that-request-a-new-reference-on-their-offer-dashboard-and-withdraw-cannot-apply-again) and run this to fix it.
+
+```ruby
+ApplicationForm.find(id).update(references_completed: true, audit_comment: ZENDESK_URL)
+```
+
 ## Unlock Application Form Sections for Candidate Editing
 
 Occasionally, there might be a request to unlock certain sections of an application form, allowing the candidate to make edits. Ensure you receive confirmation from the policy team before proceeding.
