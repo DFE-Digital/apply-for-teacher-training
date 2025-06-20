@@ -193,6 +193,14 @@ RSpec.describe FilterApplicationChoicesForProviders do
         result = described_class.call(application_choices:, filters: { invited_only: ['invited_only'] })
         expect(result).to eq([application_choice])
       end
+
+      it 'does not include candidates who have been invited to other providers' do
+        course_for_invite = create(:course)
+        create(:pool_invite, :sent_to_candidate, candidate:, course: course_for_invite, provider: course_for_invite.provider)
+
+        result = described_class.call(application_choices:, filters: { invited_only: ['invited_only'] })
+        expect(result).to eq([])
+      end
     end
   end
 end
