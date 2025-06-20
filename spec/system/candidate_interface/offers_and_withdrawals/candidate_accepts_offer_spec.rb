@@ -128,6 +128,8 @@ RSpec.describe 'Candidate accepts an offer' do
       recruitment_cycle_year: 2024,
     )
 
+    @application_form.application_references.update_all(feedback_status: 'not_requested_yet')
+
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
     other_course_option = course_option_for_provider_code(provider_code: 'DEF')
 

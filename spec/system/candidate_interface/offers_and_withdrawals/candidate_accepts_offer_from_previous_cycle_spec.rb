@@ -129,6 +129,8 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
       support_reference: '123A',
     )
 
+    @application_form.application_references.update_all(feedback_status: 'not_requested_yet')
+
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
     other_course_option = course_option_for_provider_code(provider_code: 'DEF')
 
