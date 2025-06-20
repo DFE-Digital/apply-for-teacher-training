@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_06_150424) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_18_133512) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -890,8 +890,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_06_150424) do
     t.datetime "reject_by_default_at"
     t.datetime "decline_by_default_at"
     t.datetime "find_closes_at"
-    t.daterange "christmas_holiday_range"
-    t.daterange "easter_holiday_range"
     t.integer "recruitment_cycle_year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
