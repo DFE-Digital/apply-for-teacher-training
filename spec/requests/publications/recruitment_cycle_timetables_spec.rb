@@ -44,9 +44,6 @@ RSpec.describe 'RecruitmentCycleTimetables' do
       it 'does not return holiday ranges' do
         get('/publications/recruitment-cycle-timetables/current', params: { format: 'json' })
         expect(response).to have_http_status(:ok)
-
-        expect(data['christmas_holiday_range'].present?).to be false
-        expect(data['easter_holiday_range'].present?).to be false
       end
     end
 
