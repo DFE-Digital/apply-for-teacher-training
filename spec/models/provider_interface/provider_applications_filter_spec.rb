@@ -46,7 +46,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
         end
 
         it 'does not include the Locations filter' do
-          expected_number_of_filters = 7
+          expected_number_of_filters = 8
           recruitment_cycle_index = 1
           providers_array_index = 3
           number_of_courses = 2
@@ -67,7 +67,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
         end
 
         it 'does not include the Providers filter' do
-          expected_number_of_filters = 7
+          expected_number_of_filters = 8
 
           expect(filter.filters.size).to eq(expected_number_of_filters)
           expect(headings).not_to include('Provider')
@@ -75,7 +75,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       end
 
       it 'does include the course type filter' do
-        expect(filter.filters.size).to be(7)
+        expect(filter.filters.size).to be(8)
         expect(headings).to include('Course type')
       end
     end
@@ -93,11 +93,11 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
           relevant_provider_labels = [provider1.sites.first.name_and_code, provider1.sites.last.name_and_code]
 
           expect(headings).to include("Locations for #{provider1.name}")
-          expect(relevant_provider_name_and_code).to include(filter.filters[6][:options][0][:value])
-          expect(relevant_provider_name_and_code).to include(filter.filters[6][:options][1][:value])
+          expect(relevant_provider_name_and_code).to include(filter.filters[7][:options][0][:value])
+          expect(relevant_provider_name_and_code).to include(filter.filters[7][:options][1][:value])
 
-          expect(relevant_provider_labels).to include(filter.filters[6][:options][0][:label])
-          expect(relevant_provider_labels).to include(filter.filters[6][:options][1][:label])
+          expect(relevant_provider_labels).to include(filter.filters[7][:options][0][:label])
+          expect(relevant_provider_labels).to include(filter.filters[7][:options][1][:label])
         end
       end
 
@@ -115,8 +115,8 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
           old_site_label = old_site.name_and_code
 
           expect(headings).to include("Locations for #{provider1.name}")
-          expect(old_site_name_and_code).not_to include(filter.filters[6][:options][0][:value])
-          expect(old_site_label).not_to include(filter.filters[6][:options][0][:label])
+          expect(old_site_name_and_code).not_to include(filter.filters[7][:options][0][:value])
+          expect(old_site_label).not_to include(filter.filters[7][:options][0][:label])
         end
       end
     end
@@ -135,11 +135,11 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
 
         expect(headings).to include("Locations for #{provider1.name}")
 
-        expect(relevant_provider_name_and_code).to include(filter.filters[7][:options][0][:value])
-        expect(relevant_provider_name_and_code).to include(filter.filters[7][:options][1][:value])
+        expect(relevant_provider_name_and_code).to include(filter.filters[8][:options][0][:value])
+        expect(relevant_provider_name_and_code).to include(filter.filters[8][:options][1][:value])
 
-        expect(relevant_provider_labels).to include(filter.filters[7][:options][0][:label])
-        expect(relevant_provider_labels).to include(filter.filters[7][:options][1][:label])
+        expect(relevant_provider_labels).to include(filter.filters[8][:options][0][:label])
+        expect(relevant_provider_labels).to include(filter.filters[8][:options][1][:label])
       end
     end
 

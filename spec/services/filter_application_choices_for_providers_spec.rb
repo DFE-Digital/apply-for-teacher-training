@@ -162,5 +162,45 @@ RSpec.describe FilterApplicationChoicesForProviders do
 
       expect(result).to eq([application_choices.last])
     end
+
+    context 'filter by invites' do
+      let(:application_form) { ApplicationForm.find_by(support_reference: 'XY6789') }
+      let(:candidate) { application_form.candidate }
+      let(:application_choice) { application_choices.find_by(application_form:) }
+      let(:course) { application_choice.current_course }
+
+      before { application_choices }
+
+      it 'returns invited candidate' do
+        create(:pool_invite, :sent_to_candidate, candidate:, course:, provider: course.provider)
+
+        result = described_class.call(application_choices:, filters: { invited_only: ['invited_only'] })
+        expect(result).to eq([application_choice])
+      end
+
+      it 'returns nothing when invite is not within years visible to providers' do
+        recruitment_cycle_year = RecruitmentCycleTimetable.years_visible_to_providers.min - 1
+        create(:pool_invite, :sent_to_candidate, candidate:, course:, provider: course.provider, recruitment_cycle_year:)
+
+        result = described_class.call(application_choices:, filters: { invited_only: ['invited_only'] })
+        expect(result).to eq([])
+      end
+
+      it 'when candidate has been invited to same provider, different course, returns invited candidate' do
+        course_for_invite = create(:course, provider: course.provider)
+        create(:pool_invite, :sent_to_candidate, candidate:, course: course_for_invite, provider: course_for_invite.provider)
+
+        result = described_class.call(application_choices:, filters: { invited_only: ['invited_only'] })
+        expect(result).to eq([application_choice])
+      end
+
+      it 'does not include candidates who have been invited to other providers' do
+        course_for_invite = create(:course)
+        create(:pool_invite, :sent_to_candidate, candidate:, course: course_for_invite, provider: course_for_invite.provider)
+
+        result = described_class.call(application_choices:, filters: { invited_only: ['invited_only'] })
+        expect(result).to eq([])
+      end
+    end
   end
 end

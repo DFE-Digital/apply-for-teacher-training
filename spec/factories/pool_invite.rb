@@ -8,6 +8,7 @@ FactoryBot.define do
 
     trait :sent_to_candidate do
       sent_to_candidate_at { Time.current }
+      published
     end
 
     trait :not_sent_to_candidate do

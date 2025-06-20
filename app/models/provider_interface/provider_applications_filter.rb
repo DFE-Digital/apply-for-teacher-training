@@ -23,7 +23,7 @@ module ProviderInterface
     end
 
     def filters
-      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter << subject_filter << study_modes_filter << course_type_filter).concat(provider_locations_filters).compact
+      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter << subject_filter << study_modes_filter << course_type_filter << invited_candidates_filter).concat(provider_locations_filters).compact
     end
 
     def filtered?
@@ -47,7 +47,7 @@ module ProviderInterface
   private
 
     def parse_params(params)
-      compact_params(params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: [], subject: [], study_mode: [], course_type: []).to_h)
+      compact_params(params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: [], subject: [], study_mode: [], course_type: [], invited_only: []).to_h)
     end
 
     def save_filter_state!
@@ -123,6 +123,21 @@ module ProviderInterface
             value: TEACHER_DEGREE_APPRENTICESHIP_PARAM_NAME,
             label: I18n.t('provider_interface.filters.course_type.teacher_degree_apprenticeship'),
             checked: applied_filters[:course_type]&.include?(TEACHER_DEGREE_APPRENTICESHIP_PARAM_NAME),
+          },
+        ],
+      }
+    end
+
+    def invited_candidates_filter
+      {
+        type: :checkboxes,
+        heading: I18n.t('provider_interface.filters.invited_candidates.heading'),
+        name: 'invited_only',
+        options: [
+          {
+            value: 'invited_only',
+            label: I18n.t('provider_interface.filters.invited_candidates.invited_only'),
+            checked: applied_filters[:invited_only]&.include?('invited_only'),
           },
         ],
       }
