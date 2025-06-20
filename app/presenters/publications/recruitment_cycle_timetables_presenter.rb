@@ -7,7 +7,7 @@ module Publications
     def call
       @timetables.map do |timetable|
         attributes = timetable.attributes
-        %w[id created_at christmas_holiday_range easter_holiday_range].each do |attribute|
+        %w[id created_at].each do |attribute|
           attributes.delete(attribute)
         end
 
