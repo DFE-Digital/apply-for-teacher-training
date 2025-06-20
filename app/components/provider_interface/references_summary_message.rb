@@ -9,6 +9,10 @@ module ProviderInterface
       @full_name = full_name
     end
 
+    def call
+      content_tag :p, message, class: 'govuk-body'
+    end
+
     def message
       if feedback_provided.blank?
         "#{I18n.t('provider_interface.references.requested_message', count: feedback_requested.count)}."

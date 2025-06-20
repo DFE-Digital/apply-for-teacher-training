@@ -1,109 +1,255 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
+RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :component do
+  it 'renders the row information' do
+    reference = build(:reference, feedback: 'A valuable unit of work', feedback_status: 'feedback_provided')
+    application_choice = build(:application_choice, :with_completed_application_form, :recruited)
+
+    render_inline(described_class.new(
+                    reference:,
+                    application_choice:,
+                  ))
+
+    expect(page).to have_text("Name#{reference.name}")
+    expect(page).to have_text("Email address#{reference.email_address}")
+    expect(page).to have_text("How the candidate knows them and how long for#{reference.relationship} This was confirmed by #{reference.name}.")
+    expect(page).to have_text('Concerns about the candidate working with childrenNo concerns.')
+    expect(page).to have_text("Reference#{reference.feedback}")
+    expect(page).to have_text('Can this reference be shared with the candidate?Yes, if they request it.')
+  end
+
+  describe '#warning_text' do
+    it 'returns nil when the reference is not confidential' do
+      reference = build(:reference, confidential: false, feedback_status: 'feedback_provided')
+      application_choice = build(:application_choice)
+
+      component = described_class.new(reference:, application_choice:)
+
+      expect(component.warning_text).to be_nil
+    end
+
+    it 'returns nil when the reference feedback has not been provided' do
+      reference = build(:reference, confidential: true, feedback_status: 'feedback_requested')
+      application_choice = build(:application_choice)
+
+      component = described_class.new(reference:, application_choice:)
+
+      expect(component.warning_text).to be_nil
+    end
+
+    it 'returns a warning message when the reference is confidential and feedback has been provided' do
+      reference = build(:reference,
+                        confidential: true,
+                        feedback_status: 'feedback_provided')
+      application_choice = build(:application_choice)
+
+      component = described_class.new(reference:, application_choice:)
+
+      expect(component.warning_text).to eq('Confidential do not share with the candidate')
+    end
+  end
+
   describe '#rows' do
     let(:feedback) { 'A valuable unit of work' }
-    let(:reference) { build(:reference, feedback:) }
+    let(:reference) { build(:reference, feedback:, feedback_status: 'feedback_provided') }
+    let(:application_choice) { build(:application_choice, :with_completed_application_form, :recruited) }
 
-    subject(:component) { described_class.new(reference:, index: 0) }
+    subject(:component) do
+      described_class.new(
+        reference:,
+        application_choice:,
+      )
+    end
 
     it 'contains a name row' do
-      row = component.rows.first
-      expect(row[:key]).to eq('Name')
-      expect(row[:value]).to eq(reference.name)
+      expect(component.rows).to include(
+        { key: 'Name', value: reference.name },
+      )
     end
 
     it 'contains an email address row' do
-      row = component.rows.second
-      expect(row[:key]).to eq('Email address')
-      expect(row[:value]).to include(reference.email_address)
-    end
-
-    it 'contains a type of reference row' do
-      row = component.rows.third
-      expect(row[:key]).to eq('Type of reference')
-      expect(row[:value]).to include(reference.referee_type.capitalize.dasherize)
-    end
-
-    context 'referee_type is nil' do
-      let(:reference) { build(:reference, feedback:, referee_type: nil) }
-
-      it 'renders without raisin an error' do
-        row = component.rows.third
-        expect(row[:key]).to eq('Type of reference')
-        expect(row[:value]).to eq('')
-      end
+      expect(component.rows).to include(
+        { key: 'Email address', value: reference.email_address },
+      )
     end
 
     it 'contains a relationship row' do
-      row = component.rows.fourth
-      expect(row[:key]).to eq('Relationship between candidate and referee')
-      expect(row[:value]).to eq(reference.relationship)
+      expect(component.rows).to include(
+        {
+          key: 'How the candidate knows them and how long for',
+          value: "#{reference.relationship}\n\nThis was confirmed by #{reference.name}.",
+        },
+      )
     end
 
-    context 'referee relationship confirmation' do
-      it 'contains a confirmation row' do
-        expect(component.rows.fifth[:key]).to eq('Relationship confirmed by referee?')
-      end
+    it 'contains a correction as the row value when corrected' do
+      reference.relationship_correction = 'This is not correct'
 
-      it 'affirms the referee relationship when uncorrected' do
-        expect(component.rows.fifth[:value]).to eq('Yes')
-      end
-
-      it 'contains a correction as the row value when corrected' do
-        reference.relationship_correction = 'This is not correct'
-
-        expect(component.rows.fifth[:value]).to eq('No')
-
-        correction_row = component.rows[5]
-
-        expect(correction_row[:key]).to eq('Relationship amended by referee')
-        expect(correction_row[:value]).to eq('This is not correct')
-      end
+      expect(component.rows).to include(
+        {
+          key: 'How the candidate knows them and how long for',
+          value: "The candidate said:\n#{reference.relationship}\n\n#{reference.name} said:\n#{reference.relationship_correction}",
+        },
+      )
     end
 
     context 'safeguarding' do
-      let(:safeguarding_row) { component.rows[5] }
-      let(:safeguarding_concerns_row) { component.rows[6] }
-
-      it 'contains a safeguarding row' do
-        expect(safeguarding_row[:key]).to eq(
-          'Does the referee know of any reason why this candidate should not work with children?',
+      it 'contains no concern on safeguarding' do
+        expect(component.rows).to include(
+          {
+            key: 'Concerns about the candidate working with children',
+            value: 'No concerns.',
+          },
         )
-      end
-
-      it 'affirms safeguarding when no safeguarding concerns are present' do
-        expect(safeguarding_row[:value]).to eq('No')
       end
 
       it 'contains safeguarding concerns where present' do
         reference.safeguarding_concerns = 'Is a big bad wolf, has posed as elderly grandparent.'
         reference.safeguarding_concerns_status = :has_safeguarding_concerns_to_declare
-        expect(safeguarding_row[:value]).to eq('Yes')
 
-        expect(safeguarding_concerns_row[:key]).to eq(
-          'Reasons given by referee why this candidate should not work with children',
+        expect(component.rows).to include(
+          {
+            key: 'Concerns about the candidate working with children',
+            value: reference.safeguarding_concerns,
+          },
         )
-        expect(safeguarding_concerns_row[:value]).to eq(reference.safeguarding_concerns)
-      end
-
-      it 'does not contain safeguarding concerns when nil' do
-        expect(safeguarding_concerns_row[:key]).to eq('Reference')
       end
     end
 
     context 'feedback' do
       it 'contains a feedback row' do
-        row = component.rows.last
+        row = component.rows[4]
         expect(row[:key]).to eq('Reference')
         expect(row[:value]).to eq(reference.feedback)
       end
 
-      it 'contains a feedback row with "Not answered" when feedback is nil' do
+      it 'changes field name when carried over reference' do
+        reference.duplicate = true
+
+        row = component.rows[4]
+        expect(row[:key]).to eq('Does the candidate have the potential to teach?')
+        expect(row[:value]).to eq(reference.feedback)
+      end
+
+      it 'does not contain a feedback row when feedback when there is not an offer' do
         reference.feedback = nil
         row = component.rows.last
-        expect(row[:key]).to eq('Reference')
-        expect(row[:value]).to eq('Not answered')
+        expect(row[:key]).not_to eq('Reference')
+      end
+    end
+
+    context 'confidentiality' do
+      it 'contains a confidentiality row explaining that the reference is confidential' do
+        reference.confidential = true
+
+        expect(component.rows).to include(
+          {
+            key: 'Can this reference be shared with the candidate?',
+            value: 'No, this reference is confidential. Do not share it.',
+          },
+        )
+      end
+
+      it 'contains a confidentiality row explaining that the reference is not confidential' do
+        reference.confidential = false
+
+        expect(component.rows).to include(
+          {
+            key: 'Can this reference be shared with the candidate?',
+            value: 'Yes, if they request it.',
+          },
+        )
+      end
+
+      context 'when feedback has not been provided' do
+        let(:reference) { build(:reference, feedback:, feedback_status: 'feedback_requested') }
+
+        it 'does not contain a confidentiality row' do
+          expect(component.rows).not_to include(
+            {
+              key: 'Can this reference be shared with the candidate?',
+              value: 'No, this reference is confidential. Do not share it.',
+            },
+          )
+        end
+      end
+    end
+
+    [
+      { application_choice_status: :unsubmitted, feedback_and_safeguarding_displayed: false },
+      { application_choice_status: :awaiting_provider_decision, feedback_and_safeguarding_displayed: false },
+      { application_choice_status: :inactive, feedback_and_safeguarding_displayed: false },
+      { application_choice_status: :interviewing, feedback_and_safeguarding_displayed: false },
+      { application_choice_status: :offer, feedback_and_safeguarding_displayed: false }, # The Candidate has not accepted the Offer
+      { application_choice_status: :declined, feedback_and_safeguarding_displayed: false }, # Offer has been declined by the Candidate
+      { application_choice_status: :offer_withdrawn, feedback_and_safeguarding_displayed: false }, # This can only happen before the Candidate Accepts and offer
+      { application_choice_status: :pending_conditions, feedback_and_safeguarding_displayed: true },
+      { application_choice_status: :offer_deferred, feedback_and_safeguarding_displayed: true },
+      { application_choice_status: :recruited, feedback_and_safeguarding_displayed: true },
+      { application_choice_status: :conditions_not_met, feedback_and_safeguarding_displayed: true },
+      { application_choice_status: :rejected, feedback_and_safeguarding_displayed: false },
+      { application_choice_status: :withdrawn, feedback_and_safeguarding_displayed: false },
+      { application_choice_status: :cancelled, feedback_and_safeguarding_displayed: false },
+      { application_choice_status: :application_not_sent, feedback_and_safeguarding_displayed: false },
+    ].each do |test_case|
+      context "when the Application is in the #{test_case[:application_choice_status]} state" do
+        let(:application_choice) {
+          build(:application_choice,
+                :with_completed_application_form,
+                status: test_case[:application_choice_status])
+        }
+        let(:reference) {
+          build(:reference,
+                feedback: 'A valuable unit of work',
+                feedback_status: 'feedback_provided',
+                safeguarding_concerns_status: :has_safeguarding_concerns_to_declare,
+                safeguarding_concerns: 'Has a history of being a big bad wolf')
+        }
+
+        subject(:component) do
+          described_class.new(
+            reference:,
+            application_choice:,
+          )
+        end
+
+        if test_case[:feedback_and_safeguarding_displayed]
+          it 'contains a concern on safeguarding' do
+            expect(component.rows).to include(
+              {
+                key: 'Concerns about the candidate working with children',
+                value: 'Has a history of being a big bad wolf',
+              },
+            )
+          end
+
+          it 'contains the feedback row with the feedback details' do
+            expect(component.rows).to include(
+              {
+                key: 'Reference',
+                value: 'A valuable unit of work',
+              },
+            )
+          end
+        else
+          it 'contains no concern on safeguarding' do
+            expect(component.rows).not_to include(
+              {
+                key: 'Concerns about the candidate working with children',
+                value: 'Has a history of being a big bad wolf',
+              },
+            )
+          end
+
+          it 'does not contain the feedback row' do
+            expect(component.rows).not_to include(
+              {
+                key: 'Reference',
+                value: 'A valuable unit of work',
+              },
+            )
+          end
+        end
       end
     end
   end
