@@ -32,6 +32,17 @@ class FilterApplicationChoicesForProviders
       end
     end
 
+    def invited_candidates(application_choices, invited_only, years)
+      return application_choices if invited_only.blank?
+
+      invites = Pool::Invite.published.where(
+        provider_id: application_choices.pluck(:provider_ids).flatten.uniq,
+        recruitment_cycle_year: years.presence || RecruitmentCycleTimetable.years_visible_to_providers,
+      )
+
+      application_choices.where('candidate.id': invites.pluck(:candidate_id))
+    end
+
     def recruitment_cycle_year(application_choices, years)
       return application_choices if years.blank?
 
@@ -108,6 +119,7 @@ class FilterApplicationChoicesForProviders
 
     def create_filter_query(application_choices, filters)
       filtered_application_choices = search(application_choices, filters[:candidate_name])
+      filtered_application_choices = invited_candidates(filtered_application_choices, filters[:invited_only], filters[:recruitment_cycle_year])
       filtered_application_choices = recruitment_cycle_year(filtered_application_choices, filters[:recruitment_cycle_year])
       filtered_application_choices = provider(filtered_application_choices, filters[:provider])
       filtered_application_choices = accredited_provider(filtered_application_choices, filters[:accredited_provider])

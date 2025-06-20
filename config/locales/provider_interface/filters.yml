@@ -6,4 +6,6 @@ en:
         heading: 'Course type'
         postgraduate: 'Postgraduate courses'
         teacher_degree_apprenticeship: 'Undergraduate courses'
-
+      invited_candidates:
+        heading: Invited candidates
+        invited_only: Only show candidates who have been invited to apply
