@@ -15,9 +15,10 @@ RSpec.describe SupportInterface::Candidates::AcceptedInviteSlackNotification do
         application_form:,
       )
 
-      message = "Candidate ID <#{support_interface_application_form_url(application_form)}|#{application_form.candidate_id}> has just been recruited by " \
+      message = "Candidate ID <#{support_interface_application_form_url(application_form)}|#{application_form.candidate_id}> " \
+                'has just been recruited following an invitation from ' \
                 "<#{support_interface_provider_url(invite.provider)}|#{invite.provider.name}> " \
-                "for <#{support_interface_course_url(invite.course)}|#{invite.course.name}> :clapclap-e:\n"
+                "to <#{support_interface_course_url(invite.course)}|#{invite.course.name}> :clapclap-e:\n"
 
       expect(SlackNotificationWorker).to have_received(:perform_async).with(
         message,
