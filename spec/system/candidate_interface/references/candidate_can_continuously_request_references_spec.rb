@@ -34,7 +34,6 @@ RSpec.describe 'References' do
   def then_i_still_have_a_reference_request_outstanding
     visit candidate_interface_references_review_path
     expect(page).to have_content('has already given a reference', count: 2)
-    expect(page).to have_content('Change reference type for', count: 1)
   end
 
   def and_i_can_add_more_reference_requests

@@ -69,9 +69,7 @@ module CandidateInterface
     end
 
     def name_row(reference)
-      action = if reference.feedback_provided?
-                 {}
-               else
+      action = if reference_editable?(reference)
                  {
                    action: {
                      href: reference_edit_name_path(
@@ -83,6 +81,8 @@ module CandidateInterface
                      visually_hidden_text: "name for #{reference.name}",
                    },
                  }
+               else
+                 {}
                end
 
       {
@@ -98,15 +98,16 @@ module CandidateInterface
         return_to: return_to_params,
         step: reference_workflow_step,
       )
-      action = if reference.feedback_provided?
-                 {}
-               else
+
+      action = if reference_editable?(reference)
                  {
                    action: {
                      href: edit_email_path,
                      visually_hidden_text: "email address for #{reference.name}",
                    },
                  }
+               else
+                 {}
                end
 
       if reference.email_address?
@@ -129,15 +130,16 @@ module CandidateInterface
         return_to: return_to_params,
         step: reference_workflow_step,
       )
-      action = if reference.feedback_provided?
-                 {}
-               else
+
+      action = if reference_editable?(reference)
                  {
                    action: {
                      href: edit_relationship_path,
                      visually_hidden_text: "relationship for #{reference.name}",
                    },
                  }
+               else
+                 {}
                end
 
       if reference.relationship?
@@ -155,9 +157,7 @@ module CandidateInterface
 
     def reference_type_row(reference)
       if reference.referee_type?
-        action = if reference.feedback_provided?
-                   {}
-                 else
+        action = if reference_editable?(reference)
                    {
                      action: {
                        href: reference_edit_type_path(
@@ -169,6 +169,8 @@ module CandidateInterface
                        visually_hidden_text: "reference type for #{reference.name}",
                      },
                    }
+                 else
+                   {}
                  end
 
         {
@@ -212,7 +214,7 @@ module CandidateInterface
     end
 
     def reference_editable?(reference)
-      !reference.duplicate?
+      !reference.duplicate? && reference.not_requested_yet?
     end
 
     def confirm_destroy_path(reference)
