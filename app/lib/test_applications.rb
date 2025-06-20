@@ -257,6 +257,7 @@ private
       safeguarding_concerns: ['', Faker::Lorem.sentence].sample,
       safeguarding_concerns_status: reference.safeguarding_concerns.blank? ? :no_safeguarding_concerns_to_declare : :has_safeguarding_concerns_to_declare,
       feedback: 'You are awesome',
+      confidential: [true, true, false].sample,
     )
 
     SubmitReference.new(
