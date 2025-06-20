@@ -25,7 +25,14 @@ module ProviderInterface
           .find_by(candidate_id: params.expect(:id))
         @candidate = @application_form&.candidate
 
-        redirect_to provider_interface_candidate_pool_root_path if @application_form.blank? || @candidate.blank?
+        if @application_form.blank? || @candidate.blank?
+          redirect_to provider_interface_candidate_pool_root_path
+        else
+          current_provider_user.pool_views.find_or_create_by(
+            application_form_id: @application_form.id,
+            recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+          )
+        end
       end
 
     private

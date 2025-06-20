@@ -11,7 +11,8 @@ en:
             one: "%{count} candidate found"
             other: "%{count} candidates found"
           name: Name
-          distance_from: Distance from %{origin}
+          status: Status
+          distance: Distance
           no_degree: No degree
           miles:
             zero: "%{count} miles"
