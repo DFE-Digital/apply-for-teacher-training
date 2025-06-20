@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_18_133512) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_19_135853) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -794,6 +794,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_18_133512) do
     t.index ["provider_user_id"], name: "index_provider_agreements_on_provider_user_id"
   end
 
+  create_table "provider_pool_actions", force: :cascade do |t|
+    t.string "status"
+    t.bigint "application_form_id", null: false
+    t.bigint "actioned_by_id", null: false
+    t.integer "recruitment_cycle_year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["actioned_by_id"], name: "index_provider_pool_actions_on_actioned_by_id"
+    t.index ["application_form_id"], name: "index_provider_pool_actions_on_application_form_id"
+  end
+
   create_table "provider_recruitment_performance_reports", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.json "statistics"
@@ -1128,6 +1139,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_18_133512) do
   add_foreign_key "pool_invites", "providers", on_delete: :cascade
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
+  add_foreign_key "provider_pool_actions", "application_forms", on_delete: :cascade
+  add_foreign_key "provider_pool_actions", "provider_users", column: "actioned_by_id", on_delete: :cascade
   add_foreign_key "provider_recruitment_performance_reports", "providers"
   add_foreign_key "provider_relationship_permissions", "providers", column: "ratifying_provider_id"
   add_foreign_key "provider_relationship_permissions", "providers", column: "training_provider_id"

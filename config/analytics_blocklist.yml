@@ -1,6 +1,14 @@
 ---
 :shared:
-  candidate_pool_applications:
+  :provider_pool_actions:
+  - id
+  - status
+  - application_form_id
+  - actioned_by_id
+  - recruitment_cycle_year
+  - created_at
+  - updated_at
+  :candidate_pool_applications:
   - application_form_id
   - candidate_id
   - id
