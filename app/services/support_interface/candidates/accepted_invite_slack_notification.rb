@@ -25,9 +25,10 @@ module SupportInterface
 
     def message
       <<~MARKDOWN
-        Candidate ID <#{support_interface_application_form_url(application_form)}|#{application_form.candidate_id}> has just been recruited by \
+        Candidate ID <#{support_interface_application_form_url(application_form)}|#{application_form.candidate_id}> \
+        has just been recruited following an invitation from \
         <#{support_interface_provider_url(invite.provider)}|#{invite.provider.name}> \
-        for <#{support_interface_course_url(invite.course)}|#{invite.course.name}> :clapclap-e:
+        to <#{support_interface_course_url(invite.course)}|#{invite.course.name}> :clapclap-e:
       MARKDOWN
     end
   end
