@@ -24,7 +24,27 @@ private
   end
 
   def recommended?
-    query_parameters.values.any?(&:present?)
+    query_parameters.values.any?(&:present?) && courses_available_at_url?
+  end
+
+  def courses_available_at_url?
+    @courses_available_at_url ||= begin
+      # Make get request to find_url_with_query_params using Faraday
+      response = Faraday.get(find_url_with_query_params)
+      return false unless response.success?
+
+      # Use Nokogiri to look for the H1 tag with the text "7,536 courses found"
+      doc = Nokogiri::HTML(response.body)
+      header_text = doc.at_css('h1')&.text
+      return false unless header_text
+
+      # Parse the count out of the H1 tag
+      count, *_parts = header_text.split
+
+      count.to_i.positive?
+    rescue StandardError
+      false
+    end
   end
 
   def find_url_with_query_params

@@ -2,6 +2,10 @@ require 'rails_helper'
 
 RSpec.describe CandidateCoursesRecommender do
   describe '.recommended_courses_url' do
+    before do
+      stubbed_html_with_one_course
+    end
+
     it 'returns nil when there is no recommendations' do
       candidate = create(:candidate)
 
@@ -449,5 +453,82 @@ RSpec.describe CandidateCoursesRecommender do
         expect(query_parameters['location']).to eq('SW1A 1AA')
       end
     end
+
+    context 'number of courses found on the Find service' do
+      it 'returns nil when there are no courses found' do
+        stubbed_html_with_no_courses
+
+        candidate = create(:candidate)
+        _application_form = create(:application_form, candidate:, degrees_completed: true)
+
+        recommended_courses_url = described_class.new(
+          candidate:,
+        ).recommended_courses_url
+
+        expect(recommended_courses_url).to be_nil
+      end
+
+      it 'returns a URL when the there is one course found' do
+        stubbed_html_with_one_course
+
+        candidate = create(:candidate)
+        _application_form = create(:application_form, candidate:, degrees_completed: true)
+
+        recommended_courses_url = described_class.new(
+          candidate:,
+        ).recommended_courses_url
+
+        expect(recommended_courses_url).not_to be_nil
+      end
+
+      it 'returns a URL when there are multiple courses found' do
+        stubbed_html_with_courses
+
+        candidate = create(:candidate)
+        _application_form = create(:application_form, candidate:, degrees_completed: true)
+
+        recommended_courses_url = described_class.new(
+          candidate:,
+        ).recommended_courses_url
+
+        expect(recommended_courses_url).not_to be_nil
+      end
+    end
+  end
+
+private
+
+  def stubbed_html_with_no_courses
+    stubbed_request_with_body('No courses found')
+  end
+
+  def stubbed_html_with_one_course
+    stubbed_request_with_body('1 course found')
+  end
+
+  def stubbed_html_with_courses
+    stubbed_request_with_body('7,536 courses found')
+  end
+
+  def stubbed_request_with_body(course_count_text)
+    uri = URI.join(I18n.t('find_teacher_training.production_url'), 'results')
+
+    body = body_for_stub_with_text(course_count_text)
+
+    stub_request(:get, uri)
+      .with(query: hash_including({}))
+      .to_return(body: body)
+  end
+
+  def body_for_stub_with_text(course_count_text)
+    <<-HTML
+         <html>
+        <body>
+          <h1 class="govuk-heading-xl">
+              #{course_count_text}
+          </h1>
+        </body>
+        </html>
+    HTML
   end
 end
