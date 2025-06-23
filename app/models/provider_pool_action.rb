@@ -2,6 +2,8 @@ class ProviderPoolAction < ApplicationRecord
   belongs_to :application_form
   belongs_to :provider_user, foreign_key: :actioned_by_id
 
+  scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
+
   enum :status, {
     viewed: 'viewed',
   }, prefix: true

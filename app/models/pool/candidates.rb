@@ -11,6 +11,22 @@ class Pool::Candidates
     new(filters:, provider_user:).application_forms_for_provider
   end
 
+  def application_forms_not_seen_by_provider_user(provider_user)
+    form_ids = provider_user.pool_views.current_cycle.select(:application_form_id)
+    candidate_ids = Pool::Invite.published.where(
+      provider_id: provider_user.provider_ids,
+      recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+    ).select(:candidate_id)
+    # We need to remove pool_views and invites, not just views
+
+
+    filtered_application_forms.joins(:candidate)
+      .where.not(id: form_ids)
+      .where.not(candidate_id: candidate_ids)
+      .order(order_by)
+      .distinct
+  end
+
   def application_forms_for_provider
     filtered_application_forms.joins(:candidate)
       .includes(:candidate)
