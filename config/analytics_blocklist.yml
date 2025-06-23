@@ -275,3 +275,11 @@
   - unsubscribed_from_emails
   - submission_blocked
   - account_locked
+  :provider_user_filters:
+  - id
+  - provider_user_id
+  - path
+  - pagination_page
+  - filters
+  - created_at
+  - updated_at

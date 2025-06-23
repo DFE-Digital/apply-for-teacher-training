@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_19_135853) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_23_104053) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -833,6 +833,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_19_135853) do
     t.index ["training_provider_id", "ratifying_provider_id"], name: "index_relationships_on_training_and_ratifying_provider_ids", unique: true
   end
 
+  create_table "provider_user_filters", force: :cascade do |t|
+    t.bigint "provider_user_id", null: false
+    t.string "path", null: false
+    t.integer "pagination_page"
+    t.jsonb "filters", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider_user_id"], name: "index_provider_user_filters_on_provider_user_id"
+  end
+
   create_table "provider_user_notifications", force: :cascade do |t|
     t.bigint "provider_user_id", null: false
     t.boolean "application_received", default: true, null: false
@@ -1144,6 +1154,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_19_135853) do
   add_foreign_key "provider_recruitment_performance_reports", "providers"
   add_foreign_key "provider_relationship_permissions", "providers", column: "ratifying_provider_id"
   add_foreign_key "provider_relationship_permissions", "providers", column: "training_provider_id"
+  add_foreign_key "provider_user_filters", "provider_users", on_delete: :cascade
   add_foreign_key "provider_user_notifications", "provider_users", on_delete: :cascade
   add_foreign_key "reference_tokens", "references", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
