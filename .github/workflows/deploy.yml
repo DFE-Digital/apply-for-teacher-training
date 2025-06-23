@@ -1,5 +1,5 @@
-name: Deploy v2
-concurrency: build_and_deploy_v2_${{ github.ref_name }} # ensures that the job waits for any deployments triggered by the build workflow to finish
+name: Deploy
+concurrency: build_and_deploy_${{ github.ref_name }} # ensures that the job waits for any deployments triggered by the build workflow to finish
 
 on:
   workflow_dispatch:
@@ -27,14 +27,14 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: ${{ github.event.inputs.environment }}
-      url: ${{ steps.deploy_app_v2.outputs.deploy-url }}
+      url: ${{ steps.deploy_app.outputs.deploy-url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Deploy App to ${{ github.event.inputs.environment }}
-        id: deploy_app_v2
-        uses: ./.github/actions/deploy_v2/
+        id: deploy_app
+        uses: ./.github/actions/deploy/
         with:
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}

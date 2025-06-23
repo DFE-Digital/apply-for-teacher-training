@@ -1,4 +1,4 @@
-name: Delete v2 Review App
+name: Delete Review App
 
 on:
   pull_request:
@@ -17,7 +17,7 @@ jobs:
     name: Delete Review App ${{ github.event.pull_request.number }}
     concurrency: deploy_review_${{ github.event.pull_request.number }}
     environment: review
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'deploy_v2') || contains(github.event.pull_request.labels.*.name, 'dependencies') || github.event_name == 'workflow_dispatch' }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'deploy_review_app') || contains(github.event.pull_request.labels.*.name, 'dependencies') || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -68,7 +68,7 @@ jobs:
         if: env.TF_STATE_EXISTS == 'true'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          header: review-app-v2
+          header: review-app
           message: |
             ### Review App Deleted
 

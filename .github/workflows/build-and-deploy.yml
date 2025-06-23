@@ -263,10 +263,10 @@ jobs:
             const script = require('/home/runner/work/apply-for-teacher-training/apply-for-teacher-training/.github/scripts/comment_on_flakey_specs.js')
             script({github, context})
 
-  deploy-v2-review-app:
-    name: Deployment To Review v2
-    concurrency: deploy_v2_review_${{ github.event.pull_request.number }}
-    if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy_v2') }}
+  deploy-review-app:
+    name: Deployment To Review
+    concurrency: deploy_review_${{ github.event.pull_request.number }}
+    if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy_review_app') }}
     environment:
       name: review
     needs: [build]
@@ -275,9 +275,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy App to Review v2
-        id: deploy_v2_review
-        uses: ./.github/actions/deploy_v2/
+      - name: Deploy App to Review
+        id: deploy_review
+        uses: ./.github/actions/deploy/
         with:
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -291,20 +291,20 @@ jobs:
         if: success()
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          header: review-app-v2
+          header: review-app
           message: |
             ### Review App Deployed
 
             | Environment | URL |
             | --- | --- |
-            | review-${{ github.event.pull_request.number }} | ${{ steps.deploy_v2_review.outputs.deploy-url }} |
+            | review-${{ github.event.pull_request.number }} | ${{ steps.deploy_review.outputs.deploy-url }} |
 
             The review app has been successfully deployed and is ready for testing.
 
   merge-dependabot:
     name: Merge dependabot
     if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'dependencies') }}
-    needs: [lint, test, deploy-v2-review-app, report-flakey-specs]
+    needs: [lint, test, deploy-review-app, report-flakey-specs]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -319,11 +319,11 @@ jobs:
           merge-method: merge
 
   deploy-aks-before-production:
-    name: Parallel deployment before production v2
+    name: Parallel deployment before production
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: ${{ matrix.environment }}
-      url: ${{ steps.deploy_app_before_production_v2.outputs.deploy-url }}
+      url: ${{ steps.deploy_app_before_production.outputs.deploy-url }}
     needs: [lint, test]
     runs-on: ubuntu-latest
     strategy:
@@ -334,9 +334,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy App to ${{ matrix.environment }} v2
-        id: deploy_app_before_production_v2
-        uses: ./.github/actions/deploy_v2/
+      - name: Deploy App to ${{ matrix.environment }}
+        id: deploy_app_before_production
+        uses: ./.github/actions/deploy/
         with:
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -346,20 +346,20 @@ jobs:
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
   deploy-aks-production:
-    name: Production deployment v2
+    name: Production deployment
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: production
-      url: ${{ steps.deploy_app_v2.outputs.deploy-url }}
+      url: ${{ steps.deploy_app.outputs.deploy-url }}
     needs: [deploy-aks-before-production]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy App to production v2
-        id: deploy_app_v2
-        uses: ./.github/actions/deploy_v2/
+      - name: Deploy App to production
+        id: deploy_app
+        uses: ./.github/actions/deploy/
         with:
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -370,20 +370,20 @@ jobs:
 
   # TODO Update needs to deploy-aks-production when production is deployed
   deploy-aks-after-production:
-    name: Sandbox deployment v2
+    name: Sandbox deployment
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: sandbox
-      url: ${{ steps.deploy_app_after_production_v2.outputs.deploy-url }}
+      url: ${{ steps.deploy_app_after_production.outputs.deploy-url }}
     needs: [deploy-aks-production]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy App to sandbox v2
-        id: deploy_app_after_production_v2
-        uses: ./.github/actions/deploy_v2/
+      - name: Deploy App to sandbox
+        id: deploy_app_after_production
+        uses: ./.github/actions/deploy/
         with:
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}

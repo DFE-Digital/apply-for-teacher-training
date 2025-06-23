@@ -1,4 +1,4 @@
-name: deploy_v2
+name: deploy
 description: Deploys application to AKS
 
 inputs:
