@@ -99,3 +99,7 @@ en:
           attributes:
             location:
               invalid_location: Town, city or postcode must be in the United Kingdom
+        provider_interface/not_seen_candidates_filter:
+          attributes:
+            location:
+              invalid_location: Town, city or postcode must be in the United Kingdom

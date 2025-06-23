@@ -5,6 +5,7 @@ class ProviderUser < ApplicationRecord
   has_many :providers, through: :provider_permissions
   has_many :notes, dependent: :destroy
   has_many :pool_invites, class_name: 'Pool::Invite', foreign_key: 'invited_by_id'
+  has_many :filters, class_name: 'ProviderUserFilter'
   has_many :pool_views, -> { status_viewed }, class_name: 'ProviderPoolAction', foreign_key: 'actioned_by_id'
   has_one :notification_preferences, class_name: 'ProviderUserNotificationPreferences'
   attr_accessor :impersonator
@@ -74,5 +75,11 @@ class ProviderUser < ApplicationRecord
         'provider_permissions.provider_user_id': id,
         'provider_permissions.make_decisions': true,
       )
+  end
+
+  def up_to_date_find_candidate_filters
+    @up_to_date_find_candidate_filters = filters.where(
+      path: %w[find_candidates_all find_candidates_not_seen],
+    ).order('updated_at desc').first
   end
 end

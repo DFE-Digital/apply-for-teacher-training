@@ -19,7 +19,6 @@ class Pool::Candidates
     ).select(:candidate_id)
     # We need to remove pool_views and invites, not just views
 
-
     filtered_application_forms.joins(:candidate)
       .where.not(id: form_ids)
       .where.not(candidate_id: candidate_ids)
