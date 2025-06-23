@@ -54,7 +54,7 @@ RSpec.describe CandidateCoursesRecommender do
       end
     end
 
-    describe "the 'degree_required' parameter" do
+    describe "the 'minimum_degree_required' parameter" do
       context 'when the Candidate has not completed their Degree details' do
         it 'does not recommend courses' do
           degrees_completed = false
@@ -69,7 +69,7 @@ RSpec.describe CandidateCoursesRecommender do
       end
 
       context 'when the Candidate does not have a degree' do
-        it "sets the 'degree_required' parameter to 'not_required'" do
+        it "sets the 'degree_required' parameter to 'no_degree_required'" do
           degrees_completed = true
 
           candidate = create(:candidate)
@@ -78,12 +78,12 @@ RSpec.describe CandidateCoursesRecommender do
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
 
-          expect(query_parameters['degree_required']).to eq('not_required')
+          expect(query_parameters['minimum_degree_required']).to eq('no_degree_required')
         end
       end
 
       context 'when the Candidate does have a degree' do
-        it "sets the 'degree_required' parameter to 'show_all_courses'" do
+        it "sets the 'minimum_degree_required' parameter to 'show_all_courses'" do
           degrees_completed = true
           degree_qualifications = build_list(:degree_qualification, 1, grade: 'some grade')
 
@@ -93,12 +93,12 @@ RSpec.describe CandidateCoursesRecommender do
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
 
-          expect(query_parameters['degree_required']).to eq('show_all_courses')
+          expect(query_parameters['minimum_degree_required']).to eq('show_all_courses')
         end
       end
 
       context "when the Candidate has a 'Third-class honours' Degree" do
-        it "sets the 'degree_required' parameter to 'third_class'" do
+        it "sets the 'minimum_degree_required' parameter to 'third_class'" do
           degrees_completed = true
           degree_qualifications = build_list(:degree_qualification, 1, grade: 'Third-class honours')
 
@@ -108,12 +108,12 @@ RSpec.describe CandidateCoursesRecommender do
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
 
-          expect(query_parameters['degree_required']).to eq('third_class')
+          expect(query_parameters['minimum_degree_required']).to eq('third_class')
         end
       end
 
       context "when the Candidate has a 'Lower second-class honours (2:2)' Degree" do
-        it "sets the 'degree_required' parameter to 'two_two'" do
+        it "sets the 'minimum_degree_required' parameter to 'two_two'" do
           degrees_completed = true
           degree_qualifications = build_list(:degree_qualification, 1, grade: 'Lower second-class honours (2:2)')
 
@@ -123,12 +123,12 @@ RSpec.describe CandidateCoursesRecommender do
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
 
-          expect(query_parameters['degree_required']).to eq('two_two')
+          expect(query_parameters['minimum_degree_required']).to eq('two_two')
         end
       end
 
       context "when the Candidate has a 'First-class honours' Degree" do
-        it "sets the 'degree_required' parameter to 'show_all_courses'" do
+        it "sets the 'minimum_degree_required' parameter to 'show_all_courses'" do
           degrees_completed = true
           degree_qualifications = build_list(:degree_qualification, 1, grade: 'First-class honours')
 
@@ -138,12 +138,12 @@ RSpec.describe CandidateCoursesRecommender do
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
 
-          expect(query_parameters['degree_required']).to eq('show_all_courses')
+          expect(query_parameters['minimum_degree_required']).to eq('show_all_courses')
         end
       end
 
       context "when the Candidate has a 'First-class honours' Degree and a 'Third-class honours' Degree" do
-        it "sets the 'degree_required' parameter to 'show_all_courses'" do
+        it "sets the 'minimum_degree_required' parameter to 'show_all_courses'" do
           degrees_completed = true
           degree_qualifications = [
             build(:degree_qualification, grade: 'Third-class honours'),
@@ -156,12 +156,12 @@ RSpec.describe CandidateCoursesRecommender do
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
 
-          expect(query_parameters['degree_required']).to eq('show_all_courses')
+          expect(query_parameters['minimum_degree_required']).to eq('show_all_courses')
         end
       end
     end
 
-    describe "the 'funding_type' parameter" do
+    describe "the 'funding[]' parameter" do
       context 'when the Candidate has not submitted any Application Choices' do
         it 'does not recommend courses' do
           candidate = create(:candidate)
@@ -175,7 +175,7 @@ RSpec.describe CandidateCoursesRecommender do
       end
 
       context 'when the Candidate has submitted any Application Choice to a fee funded Course' do
-        it "sets the 'funding_type' parameter to 'fee" do
+        it "sets the 'funding[]' parameter to 'fee" do
           course = create(:course, funding_type: 'fee')
           course_option = create(:course_option, course:)
           candidate = create(:candidate)
@@ -185,12 +185,12 @@ RSpec.describe CandidateCoursesRecommender do
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
 
-          expect(query_parameters['funding_type']).to eq('fee')
+          expect(query_parameters['funding[]']).to eq('fee')
         end
       end
 
       context 'when the Candidate has submitted several Application Choices' do
-        it "sets the 'funding_type' parameter to include all funding types that have been applied to" do
+        it "sets the 'funding[]' parameter to an array of all funding types that have been applied to" do
           fee_course_option = create(:course_option, course: build(:course, funding_type: 'fee'))
           salary_course_option = create(:course_option, course: build(:course, funding_type: 'salary'))
           apprenticeship_course_option = create(:course_option, course: build(:course, funding_type: 'apprenticeship'))
@@ -205,12 +205,12 @@ RSpec.describe CandidateCoursesRecommender do
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
 
-          expect(query_parameters['funding_type']).to eq('apprenticeship,fee,salary')
+          expect(query_parameters['funding[]']).to contain_exactly('apprenticeship', 'fee', 'salary')
         end
       end
     end
 
-    describe "the 'study_type' parameter" do
+    describe "the 'study_types[]' parameter" do
       context 'when the Candidate has not submitted any Application Choices' do
         it 'does not recommend courses' do
           candidate = create(:candidate)
@@ -224,7 +224,7 @@ RSpec.describe CandidateCoursesRecommender do
       end
 
       context 'when the Candidate has submitted any Application Choice to a Full Time Course' do
-        it "sets the 'study_type' parameter to 'full_time" do
+        it "sets the 'study_types[]' parameter to 'full_time" do
           course_option = create(:course_option, study_mode: :full_time)
           candidate = create(:candidate)
           application_form = create(:application_form, candidate: candidate, application_choices: [])
@@ -233,12 +233,12 @@ RSpec.describe CandidateCoursesRecommender do
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
 
-          expect(query_parameters['study_type']).to eq('full_time')
+          expect(query_parameters['study_types[]']).to eq('full_time')
         end
       end
 
       context 'when the Candidate has submitted several Application Choices' do
-        it "sets the 'study_type' parameter to a combination of all study modes" do
+        it "sets the 'study_types[]' parameter to an array of all study modes" do
           full_time_course_option = create(:course_option, study_mode: :full_time)
           part_time_course_option = create(:course_option, study_mode: :part_time)
           other_full_time_course_option = create(:course_option, study_mode: :full_time)
@@ -253,12 +253,12 @@ RSpec.describe CandidateCoursesRecommender do
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
 
-          expect(query_parameters['study_type']).to eq('full_time,part_time')
+          expect(query_parameters['study_types[]']).to contain_exactly('full_time', 'part_time')
         end
       end
     end
 
-    describe "the 'subjects' parameter" do
+    describe "the 'subjects[]' parameter" do
       context 'when the Candidate has not submitted any Application Choices' do
         it 'does not recommend courses' do
           candidate = create(:candidate)
@@ -272,7 +272,7 @@ RSpec.describe CandidateCoursesRecommender do
       end
 
       context "when the Candidate has submitted any Application Choice to an 'A1' Course" do
-        it "sets the 'subjects' parameter to 'A1" do
+        it "sets the 'subjects[]' parameter to 'A1" do
           course = create(:course, subjects: [create(:subject, code: 'A1')])
           course_option = create(:course_option, course: course)
 
@@ -288,7 +288,7 @@ RSpec.describe CandidateCoursesRecommender do
       end
 
       context 'when the Candidate has submitted several Application Choices' do
-        it "sets the 'subjects' parameter to a combination of all Subject codes" do
+        it "sets the 'subjects[]' parameter to an array of all Subject codes" do
           a1_subject = create(:subject, code: 'A1')
           b2_subject = create(:subject, code: 'B2')
           c1_subject = create(:subject, code: 'C1')
@@ -311,12 +311,12 @@ RSpec.describe CandidateCoursesRecommender do
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
 
-          expect(query_parameters['subjects[]']).to eq(%w[A1 B2 C1])
+          expect(query_parameters['subjects[]']).to contain_exactly('A1', 'B2', 'C1')
         end
       end
     end
 
-    describe "the 'radius', 'latitude' and 'longitude' parameters" do
+    describe "the 'location' parameter" do
       context 'when a Locatable is not specified' do
         it 'does not recommend courses' do
           candidate = create(:candidate)
@@ -329,27 +329,13 @@ RSpec.describe CandidateCoursesRecommender do
 
       context 'when a Locatable is specified' do
         it 'sets the parameters to the Locatable values' do
-          locatable = instance_double(Provider, latitude: 51.5074, longitude: 0.1278, postcode: 'SW1A 1AA')
+          locatable = instance_double(Provider, postcode: 'SW1A 1AA')
           candidate = create(:candidate)
 
           uri = URI(described_class.recommended_courses_url(candidate:, locatable: locatable))
           query_parameters = Rack::Utils.parse_query(uri.query)
 
-          expect(query_parameters['radius']).to eq('10')
-          expect(query_parameters['sortby']).to eq('distance')
-          expect(query_parameters['latitude']).to eq('51.5074')
-          expect(query_parameters['longitude']).to eq('0.1278')
-        end
-      end
-
-      context "when the Locatable doesn't have all the location data" do
-        it 'does not set the any of the parameters' do
-          locatable = instance_double(Provider, latitude: nil, longitude: 0.1278, postcode: 'SW1A 1AA')
-          candidate = create(:candidate)
-
-          recommended_courses_url = described_class.recommended_courses_url(candidate:, locatable: locatable)
-
-          expect(recommended_courses_url).to be_nil
+          expect(query_parameters['location']).to eq('SW1A 1AA')
         end
       end
     end
@@ -371,23 +357,18 @@ RSpec.describe CandidateCoursesRecommender do
         uri = URI(described_class.recommended_courses_url(candidate:))
         query_parameters = Rack::Utils.parse_query(uri.query)
 
-        expect(query_parameters['study_type']).to eq('full_time')
-
         expect(query_parameters).not_to have_key('can_sponsor_visa')
-        expect(query_parameters).not_to have_key('degree_required')
-        expect(query_parameters).not_to have_key('radius')
-        expect(query_parameters).not_to have_key('latitude')
-        expect(query_parameters).not_to have_key('longitude')
-        expect(query_parameters).not_to have_key('sortby')
-
-        expect(query_parameters).to have_key('funding_type') # mystery guest from the Course on the Application Choice
+        expect(query_parameters).not_to have_key('minimum_degree_required')
+        expect(query_parameters).to have_key('funding[]') # mystery guest from the Course on the Application Choice
+        expect(query_parameters['study_types[]']).to eq('full_time')
         expect(query_parameters).to have_key('subjects[]') # mystery guest from the Course on the Application Choice
+        expect(query_parameters).not_to have_key('location')
       end
 
       it 'sets the parameters to the correct values with a locatable' do
         right_to_work_or_study = 'no'
         personal_details_completed = false
-        locatable = instance_double(Provider, latitude: 51.5074, longitude: 0.1278, postcode: 'SW1A 1AA')
+        locatable = instance_double(Provider,  postcode: 'SW1A 1AA')
         course_option = create(:course_option, study_mode: :full_time)
 
         candidate = create(:candidate)
@@ -401,17 +382,12 @@ RSpec.describe CandidateCoursesRecommender do
         uri = URI(described_class.recommended_courses_url(candidate:, locatable:))
         query_parameters = Rack::Utils.parse_query(uri.query)
 
-        expect(query_parameters['radius']).to eq('10')
-        expect(query_parameters['latitude']).to eq('51.5074')
-        expect(query_parameters['longitude']).to eq('0.1278')
-        expect(query_parameters['sortby']).to eq('distance')
-        expect(query_parameters['study_type']).to eq('full_time')
-
         expect(query_parameters).not_to have_key('can_sponsor_visa')
-        expect(query_parameters).not_to have_key('degree_required')
-
-        expect(query_parameters).to have_key('funding_type') # mystery guest from the Course on the Application Choice
+        expect(query_parameters).not_to have_key('minimum_degree_required')
+        expect(query_parameters).to have_key('funding[]') # mystery guest from the Course on the Application Choice
+        expect(query_parameters['study_types[]']).to eq('full_time')
         expect(query_parameters).to have_key('subjects[]') # mystery guest from the Course on the Application Choice
+        expect(query_parameters['location']).to eq('SW1A 1AA')
       end
     end
   end
