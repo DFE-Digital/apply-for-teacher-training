@@ -1,32 +1,38 @@
 module ProviderInterface
   class ReferenceWithFeedbackComponent < ViewComponent::Base
+    attr_accessor :reference, :application_choice
     delegate :feedback,
+             :feedback_provided?,
+             :duplicate?,
              :name,
              :email_address,
-             :referee_type,
              :relationship,
-             :relationship_confirmation,
              :relationship_correction,
              :safeguarding_concerns,
              :safeguarding_concerns_status,
+             :confidential?,
              to: :reference
+    delegate :accepted_choice?, to: :application_choice
 
-    def initialize(reference:, index:)
+    def initialize(reference:, application_choice:)
       @reference = reference
-      @ordinal = TextOrdinalizer.call(index + 1)
+      @application_choice = application_choice
+    end
+
+    def warning_text
+      return unless confidential? && feedback_provided?
+
+      I18n.t('provider_interface.references.confidential_warning')
     end
 
     def rows
       [
         name_row,
         email_address_row,
-        reference_type_row,
         relationship_row,
-        relationship_confirmation_row,
-        relationship_correction_row,
         safeguarding_row,
-        safeguarding_concerns_row,
         feedback_row,
+        confidentiality_row,
       ].compact
     end
 
@@ -34,71 +40,78 @@ module ProviderInterface
 
     def name_row
       {
-        key: 'Name',
+        key: I18n.t('provider_interface.references.name_row.key'),
         value: name,
       }
     end
 
     def email_address_row
       {
-        key: 'Email address',
-        value: govuk_mail_to(email_address, email_address),
-      }
-    end
-
-    def reference_type_row
-      {
-        key: 'Type of reference',
-        value: referee_type ? referee_type.capitalize.dasherize : '',
+        key: I18n.t('provider_interface.references.email_address_row.key'),
+        value: email_address,
       }
     end
 
     def relationship_row
       {
-        key: 'Relationship between candidate and referee',
-        value: relationship,
-      }
-    end
-
-    def relationship_confirmation_row
-      {
-        key: 'Relationship confirmed by referee?',
-        value: relationship_correction.present? ? 'No' : 'Yes',
-      }
-    end
-
-    def relationship_correction_row
-      return if relationship_correction.blank?
-
-      {
-        key: 'Relationship amended by referee',
-        value: relationship_correction,
+        key: I18n.t('provider_interface.references.relationship_row.key'),
+        value: relationship_value,
       }
     end
 
     def safeguarding_row
-      {
-        key: 'Does the referee know of any reason why this candidate should not work with children?',
-        value: reference.has_safeguarding_concerns_to_declare? ? 'Yes' : 'No',
-      }
-    end
-
-    def safeguarding_concerns_row
-      return nil unless reference.has_safeguarding_concerns_to_declare?
+      return unless accepted_choice? && feedback_provided?
 
       {
-        key: 'Reasons given by referee why this candidate should not work with children',
-        value: safeguarding_concerns,
+        key: I18n.t('provider_interface.references.safeguarding_row.key'),
+        value: reference.has_safeguarding_concerns_to_declare? ? safeguarding_concerns : I18n.t('provider_interface.references.safeguarding_row.value.no_concern'),
       }
     end
 
     def feedback_row
+      return unless accepted_choice? && feedback.present?
+
       {
-        key: 'Reference',
-        value: feedback.nil? ? 'Not answered' : feedback,
+        key: duplicate? ? I18n.t('provider_interface.references.feedback_row.duplicate.key') : I18n.t('provider_interface.references.feedback_row.key'),
+        value: feedback,
       }
     end
 
-    attr_reader :reference
+    def confidentiality_row
+      return unless feedback_provided?
+
+      {
+        key: I18n.t('provider_interface.references.confidentiality_row.key'),
+        value: I18n.t(confidential?, scope: 'provider_interface.references.confidentiality_row.value'),
+      }
+    end
+
+    def relationship_value
+      if relationship_correction.present?
+        [
+          [
+            I18n.t('provider_interface.references.candidate_has_said'),
+            relationship,
+          ].join("\n"),
+          [
+            I18n.t(
+              'provider_interface.references.referee_has_said',
+              name: name,
+            ),
+            relationship_correction,
+          ].join("\n"),
+        ].join("\n\n")
+      elsif feedback_provided? && relationship_correction.blank?
+        [
+          relationship,
+          I18n.t(
+            'provider_interface.references.confirmed_by',
+            name: name,
+          ),
+        ].join("\n\n")
+      else
+        relationship
+      end
+    end
   end
 end

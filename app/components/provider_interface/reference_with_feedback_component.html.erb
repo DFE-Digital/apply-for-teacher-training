@@ -1,4 +1,7 @@
-<h3 class="govuk-heading-m govuk-!-margin-top-8"><%= "#{@ordinal.capitalize} referee" %></h3>
-<div data-qa="reference">
-  <%= render SummaryListComponent.new(rows: rows) %>
-</div>
+<%= render(SummaryCardComponent.new(
+  rows: rows,
+  editable: false,
+  warning_text: warning_text,
+)) do %>
+  <%= render SummaryCardHeaderComponent.new(title: t(reference.referee_type, scope: 'provider_interface.references.card_title', name: reference.name), heading_level: 3) %>
+<% end %>
