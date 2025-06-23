@@ -26,12 +26,15 @@ namespace :provider_interface, path: '/provider' do
   get '/applications' => 'application_choices#index'
 
   namespace :candidate_pool, path: 'find-candidates' do
+    resources :not_seen, only: %i[index], path: '/not-seen'
+
     resources :candidates, only: %i[index show], path: '/' do
       resources :draft_invites, path: 'invite' do
         resource :provider_invite_messages, only: %i[new create edit update], path: 'message'
         resource :publish_invite, only: %i[create], path: 'review'
       end
     end
+
     root to: 'candidates#index'
   end
 
