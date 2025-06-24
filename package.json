@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-optional-chaining": "^7.27.1",
-    "jest": "^30.0.1",
+    "jest": "^30.0.2",
     "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.6.0",
     "standard": "^17.1.2",
