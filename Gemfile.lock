@@ -773,8 +773,8 @@ GEM
     stringio (3.1.7)
     strip_attributes (2.0.0)
       activemodel (>= 3.0, < 9.0)
-    strong_migrations (2.3.0)
-      activerecord (>= 7)
+    strong_migrations (2.4.0)
+      activerecord (>= 7.1)
     super_diff (0.16.0)
       attr_extras (>= 6.2.4)
       diff-lcs
