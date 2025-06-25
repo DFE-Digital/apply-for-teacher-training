@@ -1,0 +1,34 @@
+<%= govuk_table do |table| %>
+  <%= table.with_caption(text: t('.table_caption'), html_attributes: { class: 'govuk-visually-hidden' }) %>
+  <%= table.with_head do |head| %>
+    <%= head.with_row do |row| %>
+      <%= row.with_cell(text: t('.candidate')) %>
+      <%= row.with_cell(text: t('.course')) %>
+      <%= row.with_cell(text: t('.status')) %>
+    <% end %>
+  <% end %>
+
+  <%= table.with_body do |body| %>
+    <% @candidate_invites.each do |candidate_id, invites| %>
+      <% invites.each_with_index do |invite, index| %>
+
+        <%= body.with_row do |row| %>
+          <%= row.with_cell(**html_options(invites.count, index)) do %>
+            <% if index.zero? %>
+              <%= candidate_link(candidate_id) %>
+              <span class="govuk-body govuk-hint">(<%= candidate_id %>)</span>
+            <% else %>
+              <%= visually_hidden_name(candidate_id) %>
+            <% end %>
+          <% end %>
+          <%= row.with_cell(**html_options(invites.count, index)) do %>
+            <%= course_name(invite) %>
+          <% end %>
+          <%= row.with_cell(**html_options(invites.count, index)) do %>
+            <%= status(invite) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

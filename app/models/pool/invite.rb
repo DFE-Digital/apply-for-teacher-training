@@ -11,6 +11,9 @@ class Pool::Invite < ApplicationRecord
   }, default: :draft
 
   scope :not_sent_to_candidate, -> { where(sent_to_candidate_at: nil) }
+  scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
+  scope :with_matching_application_choices, -> { where(matching_application_choices_exists_sql) }
+  scope :without_matching_application_choices, -> { where("NOT #{matching_application_choices_exists_sql}") }
 
   def sent_to_candidate!
     update!(sent_to_candidate_at: Time.current) if sent_to_candidate_at.blank?
@@ -18,5 +21,45 @@ class Pool::Invite < ApplicationRecord
 
   def sent_to_candidate?
     sent_to_candidate_at.present?
+  end
+
+  def application_choice_with_course_match_visible_to_provider
+    # If you are using this method when iterating over lots of records, make sure to eager load first.
+    # Otherwise, you'll have an expensive N + 1 problem.
+    # eg
+    # .includes(candidate: {
+    #   application_forms: {
+    #     application_choices: [
+    #       { original_course_option: :course },
+    #       { current_course_option: :course },
+    #     ],
+    #   },
+    # })
+    @course_match ||= application_form.application_choices.visible_to_provider.find do |choice|
+      choice.current_course_option&.course_id == course_id ||
+        choice.original_course_option&.course_id == course_id
+    end
+  end
+
+  def application_form
+    candidate.application_forms.find_by(recruitment_cycle_year:)
+  end
+
+  def self.matching_application_choices_exists_sql
+    <<~SQL.squish
+      EXISTS (
+        SELECT 1 FROM application_choices
+        INNER JOIN application_forms ON application_forms.id = application_choices.application_form_id
+        INNER JOIN candidates ON candidates.id = application_forms.candidate_id
+        LEFT JOIN course_options original_options ON original_options.id = application_choices.original_course_option_id
+        LEFT JOIN courses original_courses ON original_courses.id = original_options.course_id
+        LEFT JOIN course_options current_options ON current_options.id = application_choices.current_course_option_id
+        LEFT JOIN courses current_courses ON current_courses.id = current_options.course_id
+        WHERE candidates.id = pool_invites.candidate_id
+          AND application_forms.recruitment_cycle_year = pool_invites.recruitment_cycle_year
+          AND application_choices.status IN (#{ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.map { |s| ActiveRecord::Base.connection.quote(s.to_s) }.join(',')})
+          AND (original_courses.id = pool_invites.course_id OR current_courses.id = pool_invites.course_id)
+      )
+    SQL
   end
 end

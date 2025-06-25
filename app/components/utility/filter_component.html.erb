@@ -102,6 +102,11 @@
                 </fieldset>
               </div>
             <% end %>
+            <% if @filter.show_bottom_button? %>
+              <div class="govuk-!-padding-top-2">
+                <%= submit_tag 'Apply filters', class: 'govuk-button' %>
+              </div>
+            <% end %>
           </form>
         </div>
       </div>

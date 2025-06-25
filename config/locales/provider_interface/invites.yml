@@ -1,0 +1,14 @@
+en:
+  provider_interface:
+    candidate_pool:
+      invites:
+        index:
+          title: Invited candidates
+          candidates_invited:
+            zero: No candidates invited
+            one: "%{count} candidate invited"
+            other: "%{count} candidates invited"
+          no_candidates: No invitations have been sent this recruitment cycle
+          application_received: Application received
+          invited: Invited
+

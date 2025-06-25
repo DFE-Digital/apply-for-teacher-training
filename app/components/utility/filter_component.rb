@@ -92,6 +92,14 @@ class FilterComponent < ViewComponent::Base
     end
   end
 
+  def show_bottom_button?
+    if @filter.respond_to?(:show_bottom_button?)
+      @filter.show_bottom_button?
+    else
+      false
+    end
+  end
+
 private
 
   def to_query(params)

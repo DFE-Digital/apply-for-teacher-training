@@ -5,6 +5,8 @@
 <p class="govuk-body"><%= t('.candidate_information_agreement') %></p>
 <p class="govuk-body"><%= t('.review_candidates') %></p>
 
+<%= render ProviderInterface::FindCandidates::NavigationComponent.new(:all) %>
+
 <%= render ProviderInterface::FindCandidates::FiltersComponent.new(params:, filter: @filter) do %>
   <% if @application_forms.present? %>
     <h2 class="govuk-heading-m">
