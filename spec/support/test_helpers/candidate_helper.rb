@@ -771,9 +771,9 @@ module CandidateHelper
     link_text = "Change #{row_description}"
     matches = page.all('.govuk-summary-list__actions').select { |row| row.has_link?(link_text) }
 
-    raise "No link was found for 'Change #{row_description}'.\nContent of the page:\n\n #{page.text}" if matches.count.zero?
+    raise "No link was found for 'Change #{row_description}'.\nContent of the page:\n\n #{page.text}" if matches.none?
 
-    if matches.count > 1 && first == false
+    if matches.many? && first == false
       raise "More than one '#{link_text}' link found. Use 'within' to scope this action to a more specific node in the document."
     else
       matches.pop.click_link_or_button(link_text)

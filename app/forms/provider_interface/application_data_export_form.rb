@@ -49,7 +49,7 @@ module ProviderInterface
     end
 
     def actor_has_more_than_one_provider?
-      providers_that_actor_belongs_to.count > 1
+      providers_that_actor_belongs_to.many?
     end
 
   private

@@ -20,7 +20,7 @@ module DataMigrations
     end
 
     def records
-      Course.current_cycle.where(uuid: deleted_courses_uuids).select { |record| record.application_choices.count.zero? }
+      Course.current_cycle.where(uuid: deleted_courses_uuids).select { |record| record.application_choices.none? }
     end
 
     def deleted_courses_uuids

@@ -63,7 +63,7 @@ module ProviderInterface
     end
 
     def multiple_application_providers?
-      @_multiple_application_providers ||= application_providers.count > 1
+      @_multiple_application_providers ||= application_providers.many?
     end
 
   private

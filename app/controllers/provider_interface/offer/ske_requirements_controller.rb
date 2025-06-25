@@ -73,14 +73,14 @@ module ProviderInterface
 
       def no_options_selected?
         if language_ske?
-          selected_options.count.zero?
+          selected_options.none?
         else
           offer_wizard_params[:ske_required].blank?
         end
       end
 
       def no_and_languages_selected?
-        selected_options.count > 1 && selected_options.include?('no')
+        selected_options.many? && selected_options.include?('no')
       end
 
       def graduation_cutoff_date

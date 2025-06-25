@@ -73,7 +73,7 @@ class GetCourseOptionFromCodes
 
     possible_course_options = record.course.course_options.selectable.where(course_option_attrs)
 
-    if possible_course_options.count == 1
+    if possible_course_options.one?
       record.course_option ||= possible_course_options.first
     else
       record.errors.add(attr, build_course_option_error_message(record, possible_course_options.count))
@@ -97,7 +97,7 @@ class GetCourseOptionFromCodes
       .for_recruitment_cycle_years([current_year])
       .where(code: value)
 
-    if sites.count > 1
+    if sites.many?
       record.errors.add(
         attr,
         I18n.t("#{LOCALE_PREFIX}.site_code.multiple", code: value, provider: record.provider.code),

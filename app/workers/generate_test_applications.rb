@@ -171,7 +171,7 @@ private
       .with_course_options
       .in_cycle(recruitment_cycle_year)
 
-    if courses.count.zero?
+    if courses.none?
       common_used_provider_code = '1TZ'
       provider = Provider.find_by(code: common_used_provider_code) ||
                  Provider.all.sample(10).sample ||

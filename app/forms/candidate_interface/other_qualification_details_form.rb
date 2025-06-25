@@ -186,7 +186,7 @@ module CandidateInterface
 
     def award_year_before_training_starts
       return if award_year.to_i.zero?
-      return if award_year.to_i.in?(100.years.ago.year..recruitment_cycle_year + 1)
+      return if award_year.to_i.in?(100.years.ago.year..(recruitment_cycle_year + 1))
 
       errors.add(:award_year, :in)
     end

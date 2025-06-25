@@ -14,7 +14,7 @@ module CandidateInterface
     end
 
     def multiple_applications?
-      statuses.count > 1
+      statuses.many?
     end
 
     def multiple_offers_but_awaiting_decisions?
@@ -57,7 +57,7 @@ module CandidateInterface
     end
 
     def multiple_choices_with_status?(status)
-      statuses.select { |s| s == status }.count > 1
+      statuses.many? { |s| s == status }
     end
 
     def successful?
