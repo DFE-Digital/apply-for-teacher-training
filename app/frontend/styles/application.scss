@@ -3,7 +3,7 @@
 }
 
 @function frontend-image-url($filename) {
-  @return url("~assets/images/" + $filename);
+  @return url("~assets/rebrand/images/" + $filename);
 }
 
 // app colours that don't appear in govuk-frontend
