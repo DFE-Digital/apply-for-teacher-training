@@ -6,10 +6,6 @@ FactoryBot.define do
     course factory: %i[course]
     recruitment_cycle_year { CycleTimetableHelper.current_year }
 
-    trait :published do
-      status { 'published' }
-    end
-
     trait :sent_to_candidate do
       sent_to_candidate_at { Time.current }
       published

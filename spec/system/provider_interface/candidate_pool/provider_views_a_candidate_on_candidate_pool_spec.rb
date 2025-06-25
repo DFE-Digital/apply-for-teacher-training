@@ -14,17 +14,10 @@ RSpec.describe 'Providers views candidate pool details' do
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_find_candidates_page
-    then_i_see_the_rejected_candidate_as('New')
     and_i_click_on_a_candidate
 
     then_i_am_redirected_to_view_that_candidate
     and_i_can_view_their_details
-    when_i_click('Back')
-
-    then_i_am_redirected_to_find_a_candidate
-    then_i_see_the_rejected_candidate_as('Viewed')
-    when_the_rejected_candidate_exits_and_enters_the_pool_again
-    then_i_see_the_rejected_candidate_as('Viewed')
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -79,12 +72,6 @@ RSpec.describe 'Providers views candidate pool details' do
     visit provider_interface_candidate_pool_root_path
   end
 
-  def then_i_see_the_rejected_candidate_as(status)
-    within("#candidate_#{@rejected_candidate.id}") do
-      expect(page).to have_content status
-    end
-  end
-
   def and_i_click_on_a_candidate
     click_on @rejected_candidate.redacted_full_name_current_cycle
   end
@@ -104,18 +91,5 @@ RSpec.describe 'Providers views candidate pool details' do
     expect(page).to have_content('Qualifications')
     expect(page).to have_content('A levels and other qualifications')
     expect(page).to have_content('Criminal record and professional misconduct')
-  end
-
-  def when_i_click(button)
-    click_link_or_button(button)
-  end
-
-  def then_i_am_redirected_to_find_a_candidate
-    expect(page).to have_current_path(provider_interface_candidate_pool_root_path)
-  end
-
-  def when_the_rejected_candidate_exits_and_enters_the_pool_again
-    CandidatePoolApplication.find_by(application_form: @rejected_candidate_form).delete
-    create(:candidate_pool_application, application_form: @rejected_candidate_form)
   end
 end
