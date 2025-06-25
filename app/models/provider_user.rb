@@ -88,4 +88,8 @@ class ProviderUser < ApplicationRecord
   def find_candidates_all_filter
     filters.find_candidates_all.last
   end
+
+  def find_candidates_not_seen_filter
+    filters.find_candidates_not_seen.last
+  end
 end
