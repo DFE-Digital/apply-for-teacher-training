@@ -342,7 +342,7 @@ GEM
       multi_json (~> 1.11)
       os (>= 0.9, < 2.0)
       signet (>= 0.16, < 2.a)
-    govuk-components (5.10.2b1)
+    govuk-components (5.11.0)
       html-attributes-utils (~> 1.0.0, >= 1.0.0)
       pagy (>= 6, < 10)
       view_component (>= 3.18, < 3.24)
@@ -905,7 +905,7 @@ DEPENDENCIES
   geocoder
   get_into_teaching_api_client_faraday!
   google-cloud-bigquery
-  govuk-components (~> 5.10.2b1)
+  govuk-components (~> 5.11)
   govuk_design_system_formbuilder (~> 5.10.1)
   govuk_markdown
   grover
