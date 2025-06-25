@@ -23,7 +23,7 @@ class ProviderInterface::FindCandidates::CandidateInvitedBannerComponent < ViewC
   end
 
   def show_candidate_invited_banner?
-    invite.present?
+    invite.present? && invite.status == 'published'
   end
 
 private
