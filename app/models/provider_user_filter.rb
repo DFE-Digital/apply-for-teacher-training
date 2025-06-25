@@ -1,3 +1,8 @@
 class ProviderUserFilter < ApplicationRecord
   belongs_to :provider_user
+
+  enum :path, {
+    find_candidates_all: 'find_candidates_all',
+    find_candidates_not_seen: 'find_candidates_not_seen',
+  }
 end
