@@ -79,12 +79,12 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
 
     context 'when current_provider_user has filters saved' do
       it 'returns the current_provider_user filters' do
-        current_provider_user = create(
-          :provider_user,
-          find_a_candidate_filters: {
-            location: 'Manchester',
-            visa_sponsorship: ['required'],
-          },
+        current_provider_user = create(:provider_user)
+        create(
+          :provider_user_filter,
+          :find_candidates_all,
+          provider_user: current_provider_user,
+          filters: { location: 'Manchester', visa_sponsorship: ['required'] },
         )
 
         filter = described_class.new(
@@ -164,8 +164,8 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           remove_filters: {},
         )
         expect { filter.save }.to change {
-          current_provider_user.find_a_candidate_filters
-        }.from({}).to(filter_params.with_indifferent_access)
+          current_provider_user.find_candidates_all_filter&.filters
+        }.from(nil).to(filter_params.with_indifferent_access)
       end
     end
 
@@ -193,9 +193,13 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
     context 'When filters are cleared' do
       it 'saves an empty hash on the current_provider_user' do
         filters = { 'location' => 'Manchester' }
-        current_provider_user = create(
-          :provider_user,
-          find_a_candidate_filters: filters,
+        current_provider_user = create(:provider_user)
+
+        create(
+          :provider_user_filter,
+          :find_candidates_all,
+          provider_user: current_provider_user,
+          filters:,
         )
         filter = described_class.new(
           filter_params: {},
@@ -204,7 +208,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         )
 
         expect { filter.save }.to change {
-          current_provider_user.find_a_candidate_filters
+          current_provider_user.find_candidates_all_filter.filters
         }.from(filters).to({})
       end
     end
@@ -216,9 +220,12 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           'location' => 'Manchester',
           'subject' => [1, 2],
         }
-        current_provider_user = create(
-          :provider_user,
-          find_a_candidate_filters: filters_in_db,
+        current_provider_user = create(:provider_user)
+        create(
+          :provider_user_filter,
+          :find_candidates_all,
+          provider_user: current_provider_user,
+          filters: filters_in_db,
         )
 
         filter = described_class.new(
@@ -227,7 +234,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           remove_filters: {},
         )
         expect { filter.save }.to change {
-          current_provider_user.find_a_candidate_filters
+          current_provider_user.find_candidates_all_filter.filters
         }.from(filters_in_db).to(
           {
             'location' => 'Manchester',
@@ -244,9 +251,12 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           'location' => 'Manchester',
           'wrong' => 'wrong_filter',
         }
-        current_provider_user = create(
-          :provider_user,
-          find_a_candidate_filters: filters_in_db,
+        current_provider_user = create(:provider_user)
+        create(
+          :provider_user_filter,
+          :find_candidates_all,
+          provider_user: current_provider_user,
+          filters: filters_in_db,
         )
 
         filter = described_class.new(
@@ -255,7 +265,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           remove_filters: {},
         )
         expect { filter.save }.to change {
-          current_provider_user.find_a_candidate_filters
+          current_provider_user.find_candidates_all_filter.filters
         }.from(filters_in_db).to({ 'location' => 'Manchester' })
       end
     end
