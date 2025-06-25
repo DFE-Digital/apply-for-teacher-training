@@ -1,3 +1,5 @@
 en:
-  heading: The deadline for applying to courses starting in %{academic_year} is %{deadline_time} on %{deadline_date}
-  text: Courses may fill up before then. Check course availability with the provider.
+  candidate_interface:
+    deadline_banner_component:
+      heading: The deadline for applying to courses starting in %{academic_year} is %{deadline_time} on %{deadline_date}
+      text: Courses may fill up before then. Check course availability with the provider.

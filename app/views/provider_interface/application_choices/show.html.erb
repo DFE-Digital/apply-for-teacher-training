@@ -16,6 +16,8 @@
 
 <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice, options: @status_box_options) unless @offer_present || @application_choice.rejected? %>
 
+<%= render ProviderInterface::FindCandidates::CandidateInvitedBannerComponent.new(application_form: @application_choice.application_form, current_provider_user:) %>
+
 <h2 class="govuk-heading-l govuk-!-margin-bottom">Application</h2>
 
 <p class="govuk-body govuk-!-display-none-print govuk-!-width-two-thirds"><%= @application_choice.application_form.full_name %> will be able to edit some sections of their application. You will get a notification if they add any new information.</p>
