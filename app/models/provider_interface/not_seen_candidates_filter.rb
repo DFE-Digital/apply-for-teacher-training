@@ -23,10 +23,11 @@ module ProviderInterface
 
     validate :location_validity
 
+    # When viewing a candidate profile we need the back button to redirect to the correct tab
+
     def initialize(filter_params:, current_provider_user:, remove_filters:)
       @current_provider_user = current_provider_user
-      @provider_user_filter = current_provider_user.up_to_date_find_candidate_filters ||
-                              current_provider_user.filters.find_candidates_not_seen.new
+      @provider_user_filter = build_provider_user_filter
       @remove_filters = remove_filters
       @suggested_location ||= LocationSuggestions.new(
         filter_params[:location] || @provider_user_filter.filters['location'],
@@ -113,6 +114,26 @@ module ProviderInterface
     def location_validity
       if location.present? && location_coordinates.nil?
         errors.add(:location, :invalid_location)
+      end
+    end
+
+    def build_provider_user_filter
+      up_to_date_filter = current_provider_user.up_to_date_find_candidate_filters
+
+      if up_to_date_filter.nil?
+        return current_provider_user.filters.find_candidates_not_seen.new
+      end
+
+      if up_to_date_filter.find_candidates_not_seen?
+        return up_to_date_filter
+      end
+
+      if up_to_date_filter.find_candidates_all?
+        filter_record = current_provider_user.filters.find_candidates_not_seen.last ||
+                        current_provider_user.filters.find_candidates_not_seen.new
+
+        filter_record.filters = up_to_date_filter.filters
+        filter_record
       end
     end
   end
