@@ -32,5 +32,16 @@ RSpec.describe ProviderInterface::FindCandidates::CandidateInvitedBannerComponen
         expect(result.to_html).to be_blank
       end
     end
+
+    context 'when the invite has a status of draft' do
+      let(:current_provider_user) { create(:provider_user, providers: [provider]) }
+
+      it 'does not render the banner' do
+        pool_invite.update(status: 'draft')
+        result = render_inline(described_class.new(application_form:, current_provider_user:))
+
+        expect(result.to_html).to be_blank
+      end
+    end
   end
 end
