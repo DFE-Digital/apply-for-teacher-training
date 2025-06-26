@@ -1,6 +1,6 @@
 class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent < ViewComponent::Base
-  delegate :provider, to: :invite
   delegate :course, to: :invite
+  delegate :provider, to: :invite
 
   def initialize(application_form:, current_provider_user:, show_provider_name:)
     @application_form = application_form
@@ -11,7 +11,11 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
   # Displays if the candidate has already been invited to any of the providers they have access to
   # We want to display a different banner (linking to the application) if the application_received_for_this_course? condition is true
   def render?
-    invite.present? && !application_received_for_this_course?
+    invites.one? && !application_received_for_this_course?
+  end
+
+  def invite
+    invites.first
   end
 
   def heading
@@ -35,12 +39,11 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
 
 private
 
-  def invite
-    @invite ||= Pool::Invite.find_by(
+  def invites
+    @invites ||= Pool::Invite.published.where(
       provider_id: @current_provider_user.provider_ids,
       candidate_id: @application_form.candidate_id,
-      status: :published,
-    )
+    ).includes(:course, :provider)
   end
 
   def application_received_for_this_course?
