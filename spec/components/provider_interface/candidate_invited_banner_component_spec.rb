@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::FindCandidates::CandidateInvitedBannerComponent, type: :component do
+RSpec.describe ProviderInterface::CandidateInvitedBannerComponent, type: :component do
   describe '#render' do
     let(:candidate) { create(:candidate) }
     let(:application_form) do
