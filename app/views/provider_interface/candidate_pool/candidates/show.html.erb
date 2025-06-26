@@ -15,6 +15,9 @@
           ) %>
     <% end %>
 
+    <% more_than_one_provider = current_provider_user.providers.count > 1 %>
+    <%= render ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent.new(application_form: @application_form, current_provider_user:, show_provider_name: more_than_one_provider) %>
+
     <h2 class="govuk-heading-l"><%= t('.right_to_work_and_study') %></h2>
 
     <%= render ProviderInterface::FindCandidates::RightToWorkComponent.new(application_form: @application_form) %>
