@@ -8,8 +8,10 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
     @show_provider_name = show_provider_name
   end
 
+  # Displays if the candidate has already been invited to any of the providers they have access to
+  # We want to display a different banner (linking to the application) if the application_received_for_this_course? condition is true
   def render?
-    invite.present?
+    invite.present? && !application_received_for_this_course?
   end
 
   def heading
@@ -39,5 +41,11 @@ private
       candidate_id: @application_form.candidate_id,
       status: :published,
     )
+  end
+
+  def application_received_for_this_course?
+    @application_form.application_choices.any? do |choice|
+      choice.course.code == course.code
+    end
   end
 end
