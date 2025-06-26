@@ -1,0 +1,5 @@
+en:
+  provider_interface:
+    candidate_invited_banner_component:
+      heading: This candidate was invited to %{subject} at %{inviting_organisation}
+      text: This candidate was invited to %{subject} at %{inviting_organisation} on %{date}. They have not applied yet.
