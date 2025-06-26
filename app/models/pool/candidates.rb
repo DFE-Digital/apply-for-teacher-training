@@ -13,8 +13,10 @@ class Pool::Candidates
 
   def application_forms_for_provider
     filtered_application_forms.joins(:candidate)
-      .order(order_by)
+      .includes(:candidate)
+      .preload(:degree_qualifications_order_award_year_desc)
       .distinct
+      .order(order_by)
   end
 
   def application_forms_in_the_pool

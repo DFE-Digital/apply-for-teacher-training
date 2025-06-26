@@ -28,8 +28,8 @@
             <%= row.with_cell do %>
             <%= govuk_link_to application_form.redacted_full_name, provider_interface_candidate_pool_candidate_path(application_form.candidate) %>
             <span class="govuk-body govuk-hint">(<%= application_form.candidate_id %>)</span>
-              <% if application_form.application_qualifications.degrees.present? %>
-                <% application_form.application_qualifications.degrees.order(award_year: :desc).each do |degree| %>
+              <% if application_form.degree_qualifications_order_award_year_desc.present? %>
+                <% application_form.degree_qualifications_order_award_year_desc.each do |degree| %>
                   <% decorated_degree = ApplicationQualificationDecorator.new(degree) %>
                   <p class="govuk-body app-qualification__value--caption govuk-!-margin-bottom-1">
                     <%= decorated_degree.formatted_degree_and_grade %>

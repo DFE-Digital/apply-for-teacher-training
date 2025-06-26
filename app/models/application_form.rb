@@ -33,6 +33,12 @@ class ApplicationForm < ApplicationRecord
   has_many :application_volunteering_experiences, as: :experienceable
   has_many :application_qualifications
   has_many :degree_qualifications, -> { degrees }, class_name: 'ApplicationQualification'
+  has_many(
+    :degree_qualifications_order_award_year_desc,
+    -> { degrees.order(award_year: :desc) },
+    class_name: 'ApplicationQualification',
+  )
+
   has_many :application_references
   has_many :application_work_history_breaks, as: :breakable
   has_many :emails
