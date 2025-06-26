@@ -15,15 +15,16 @@
       <%= table.with_head do |head| %>
         <%= head.with_row do |row| %>
           <%= row.with_cell(text: t('.name')) %>
+          <%= row.with_cell(text: t('.status')) %>
           <% if @filter.applied_location_search? %>
-            <%= row.with_cell(text: t('.distance_from', origin: @filter.applied_filters[:location]), width: 'govuk-!-width-one-half') %>
+            <%= row.with_cell(text: t('.distance')) %>
           <% end %>
         <% end %>
       <% end %>
 
       <%= table.with_body do |body| %>
         <% @application_forms.each do |application_form| %>
-          <%= body.with_row do |row| %>
+          <%= body.with_row(html_attributes: { id: "candidate_#{application_form.candidate_id}" }) do |row| %>
             <%= row.with_cell do %>
             <%= govuk_link_to application_form.redacted_full_name, provider_interface_candidate_pool_candidate_path(application_form.candidate) %>
             <span class="govuk-body govuk-hint">(<%= application_form.candidate_id %>)</span>
@@ -38,6 +39,7 @@
                 <p class="govuk-body app-qualification__value--caption govuk-!-margin-bottom-1"><%= t('.no_degree') %></p>
               <% end %>
             <% end %>
+            <%= row.with_cell(text: candidate_status(application_form:)) %>
             <%= row.with_cell do %>
               <% if @filter.applied_location_search? %>
                 <% if application_form.site_distance == -1 %>
