@@ -81,7 +81,7 @@ class ProviderUser < ApplicationRecord
     # can we use .last here?
     # does .last look at updated_at?
     @up_to_date_find_candidate_filters = filters.where(
-      path: %w[find_candidates_all find_candidates_not_seen],
+      kind: %w[find_candidates_all find_candidates_not_seen],
     ).order('updated_at desc').first
   end
 

@@ -3,7 +3,7 @@ en:
     candidate_pool:
       not_seen:
         index:
-          title: Not seen candidates
+          title: New candidates
           no_candidates: No candidates
           candidate_information_agreement: Candidates can choose to share their application details.
           hint: These are the candidates you have not reviewed yet.
@@ -57,24 +57,6 @@ en:
           personal_statement_title: Personal statement
           safeguarding_title: Criminal record and professional misconduct
           application_choices_title: Applications submitted
-      not_seen:
-        index:
-          title: Find candidates
-          no_candidates: No candidates
-          candidate_information_agreement: Candidates can choose to share their application details.
-          review_candidates: When they have no open applications, you can review their details and decide whether to invite them to apply.
-          candidates_found:
-            one: "%{count} candidate found"
-            other: "%{count} candidates found"
-          name: Name
-          status: Status
-          distance: Distance
-          no_degree: No degree
-          miles:
-            zero: "%{count} miles"
-            one: "%{count} miles"
-            other: "%{count} miles"
-          no_preferences: Open to courses anywhere
       draft_invites:
         new:
           title: Select a course to invite %{candidate_name} to apply to
