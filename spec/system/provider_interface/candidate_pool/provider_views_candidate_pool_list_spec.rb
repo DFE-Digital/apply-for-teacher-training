@@ -164,12 +164,12 @@ RSpec.describe 'Providers views candidate pool list' do
 
   def when_i_filter_by_location
     fill_in('location', with: 'Manchester')
-    click_link_or_button('Apply filters')
+    first('.govuk-button', text: 'Apply filters').click
   end
 
   def when_i_filter_by_visa_sponsorship
     check('Needs a visa')
-    click_link_or_button('Apply filters')
+    first('.govuk-button', text: 'Apply filters').click
   end
 
   def then_i_expect_to_see_filtered_candidates(application_forms)
@@ -205,7 +205,7 @@ RSpec.describe 'Providers views candidate pool list' do
     check('Undergraduate')
     check('Postgraduate')
     check('Does not need a visa')
-    click_link_or_button('Apply filters')
+    first('.govuk-button', text: 'Apply filters').click
   end
 
   def then_i_expect_all_the_filters_to_be_applied
@@ -245,13 +245,13 @@ RSpec.describe 'Providers views candidate pool list' do
 
   def when_i_add_a_invalid_location
     fill_in('location', with: 'wrong location')
-    click_link_or_button('Apply filters')
+    first('.govuk-button', text: 'Apply filters').click
   end
 
   def then_i_see_an_error
     expect(page).to have_content('There is a problem')
     expect(page).to have_content('Town, city or postcode must be in the United Kingdom')
-    expect(page).to have_title('Error: Find candidates - Manage teacher training applications - GOV.UK')
+    expect(page).to have_title('Error: Find candidates - All candidates - Manage teacher training applications - GOV.UK')
   end
 
   def when_i_visit_applications_page
