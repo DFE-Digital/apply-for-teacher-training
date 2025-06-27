@@ -1,18 +1,22 @@
 class Pool::Candidates
-  attr_reader :filters
+  attr_reader :filters, :provider_user, :current_cycle
 
-  def initialize(filters: {})
+  def initialize(filters: {}, provider_user: nil)
     @filters = filters
+    @provider_user = provider_user
+    @current_cycle = RecruitmentCycleTimetable.current_year
   end
 
-  def self.application_forms_for_provider(filters: {})
-    new(filters:).application_forms_for_provider
+  def self.application_forms_for_provider(filters: {}, provider_user: nil)
+    new(filters:, provider_user:).application_forms_for_provider
   end
 
   def application_forms_for_provider
     filtered_application_forms.joins(:candidate)
-      .order(order_by)
+      .includes(:candidate)
+      .preload(:degree_qualifications_order_award_year_desc)
       .distinct
+      .order(order_by)
   end
 
   def application_forms_in_the_pool
@@ -28,7 +32,27 @@ private
 
   def filtered_application_forms
     scope = CandidatePoolApplication.filtered_application_forms(filters)
-    filter_by_distance(scope)
+    scope = filter_by_distance(scope)
+
+    if provider_user
+      viewed_candidates = ProviderPoolAction.where(
+        status: 'viewed',
+        recruitment_cycle_year: current_cycle,
+        actioned_by_id: provider_user.id,
+      ).select('application_form_id, TRUE AS viewed')
+
+      invited_candidates = Pool::Invite.published.where(
+        provider_id: provider_user.provider_ids,
+        recruitment_cycle_year: current_cycle,
+      ).select('candidate_id, TRUE AS invited')
+
+      scope = scope.with(viewed_candidates:, invited_candidates:)
+        .joins('LEFT JOIN viewed_candidates on viewed_candidates.application_form_id = application_forms.id')
+        .joins('LEFT JOIN invited_candidates on invited_candidates.candidate_id = application_forms.candidate_id')
+        .select('application_forms.*, COALESCE(viewed_candidates.viewed, FALSE) AS viewed, COALESCE(invited_candidates.invited, FALSE) AS invited')
+    end
+
+    scope
   end
 
   def curated_application_forms
