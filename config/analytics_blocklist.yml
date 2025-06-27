@@ -278,7 +278,7 @@
   :provider_user_filters:
   - id
   - provider_user_id
-  - path
+  - kind
   - pagination_page
   - filters
   - created_at
