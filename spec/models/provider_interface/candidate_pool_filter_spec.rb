@@ -330,7 +330,6 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         end
       end
     end
-
   end
 
   describe '#applied_location_search?' do
