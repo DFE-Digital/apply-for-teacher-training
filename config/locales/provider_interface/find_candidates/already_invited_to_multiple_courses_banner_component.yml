@@ -7,3 +7,4 @@ en:
         text_with_application: "%{course} on %{date}. %{link}"
         text_with_provider: "%{course} at %{provider} on %{date}. They have not applied yet."
         text_without_provider: "%{course} on %{date}. They have not applied yet."
+        view_application: View application
