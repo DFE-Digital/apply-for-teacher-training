@@ -1,0 +1,10 @@
+en:
+  provider_interface:
+    find_candidates:
+      invited_candidates_table_component:
+        candidate: Candidate
+        course: Course
+        status: Status
+        application_received: Application received
+        table_caption: Candidate invites
+        invited: Invited

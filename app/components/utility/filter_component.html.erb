@@ -102,6 +102,9 @@
                 </fieldset>
               </div>
             <% end %>
+            <% if show_bottom_button? %>
+              <div><%= submit_tag 'Apply filters', class: 'govuk-button' %></div>
+            <% end %>
           </form>
         </div>
       </div>
