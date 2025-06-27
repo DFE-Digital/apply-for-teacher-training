@@ -46,6 +46,7 @@ private
     params[:study_types] = study_type
     params[:subjects] = subjects
     params[:location] = locatable&.postcode
+    params[:excluded_courses] = excluded_courses
 
     params.compact_blank
   end
@@ -141,5 +142,27 @@ private
       .compact_blank
       .uniq
       .sort
+  end
+
+  def excluded_courses
+    # Does the Candidate have any submitted Applications?
+    return unless candidate.application_choices
+                           .joins(:application_form)
+                           .where(application_form: { recruitment_cycle_year: current_year })
+                           .exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+
+    # What Courses has the Candidate applied for?
+    # course codes & provider codes
+    candidate.application_choices
+                       .joins(:application_form)
+                       .where(application_form: { recruitment_cycle_year: current_year })
+                       .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+                       .joins(course_option: { course: :provider })
+                       .pluck('course.code', 'provider.code')
+                       .compact_blank
+                       .uniq
+                       .sort
+                       .map.with_index { |(course_code, provider_code), index| [index, { course_code: course_code, provider_code: provider_code }] }
+             .to_h
   end
 end
