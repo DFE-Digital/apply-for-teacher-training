@@ -8,10 +8,8 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
     @show_provider_name = show_provider_name
   end
 
-  # Displays if the candidate has already been invited to any of the providers they have access to
-  # We want to display a different banner (linking to the application) if the application_received_for_this_course? condition is true
   def render?
-    invites.one? && !application_received_for_this_course?
+    invites.one?
   end
 
   def invite
@@ -26,15 +24,28 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
   end
 
   def text
-    key = @show_provider_name ? 'text_with_provider' : 'text_without_provider'
-    I18n.t("provider_interface.find_candidates.already_invited_candidate_banner_component.#{key}",
-           subject: course.name_and_code,
-           provider: provider.name,
-           date: date)
+    if matching_application_choice
+      I18n.t(
+        'provider_interface.find_candidates.already_invited_candidate_banner_component.text_with_application',
+        link: view_application_link,
+      ).html_safe
+    else
+      key = @show_provider_name ? 'text_with_provider' : 'text_without_provider'
+      I18n.t(
+        "provider_interface.find_candidates.already_invited_candidate_banner_component.#{key}",
+        subject: course.name_and_code,
+        provider: provider.name,
+        date: date,
+      )
+    end
   end
 
   def date
     invite.created_at.to_fs(:govuk_date)
+  end
+
+  def view_application_link
+    govuk_link_to('View application', provider_interface_application_choice_path(matching_application_choice))
   end
 
 private
@@ -46,8 +57,8 @@ private
     ).includes(:course, :provider)
   end
 
-  def application_received_for_this_course?
-    @application_form.application_choices.any? do |choice|
+  def matching_application_choice
+    @application_form.application_choices.find do |choice|
       choice.course.code == course.code
     end
   end

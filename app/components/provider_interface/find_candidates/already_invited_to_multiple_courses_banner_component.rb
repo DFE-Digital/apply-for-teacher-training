@@ -6,7 +6,7 @@ class ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCoursesBannerCo
   end
 
   def render?
-    invites.size > 1 && !application_received_for_any_invited_course?
+    invites.size > 1
   end
 
   def heading
@@ -14,15 +14,25 @@ class ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCoursesBannerCo
   end
 
   def invite_details
-    key = @show_provider_name ? 'text_with_provider' : 'text_without_provider'
-
     invites.map do |invite|
-      I18n.t(
-        "provider_interface.find_candidates.already_invited_to_multiple_courses_banner_component.#{key}",
-        course: invite.course.name_and_code,
-        provider: invite.provider.name,
-        date: invite.created_at.to_fs(:govuk_date),
-      )
+      if matching_application_choice(invite)
+        I18n.t(
+          'provider_interface.find_candidates.already_invited_to_multiple_courses_banner_component.text_with_application',
+          course: invite.course.name_and_code,
+          provider: invite.provider.name,
+          date: invite.created_at.to_fs(:govuk_date),
+          link: view_application_link(invite),
+        ).html_safe
+      else
+        key = @show_provider_name ? 'text_with_provider' : 'text_without_provider'
+
+        I18n.t(
+          "provider_interface.find_candidates.already_invited_to_multiple_courses_banner_component.#{key}",
+          course: invite.course.name_and_code,
+          provider: invite.provider.name,
+          date: invite.created_at.to_fs(:govuk_date),
+        )
+      end
     end
   end
 
@@ -35,10 +45,16 @@ private
     ).includes(:course, :provider)
   end
 
-  def application_received_for_any_invited_course?
-    invited_course_codes = invites.map { |invite| invite.course.code }.compact.uniq
-    @application_form.application_choices.any? do |choice|
-      invited_course_codes.include?(choice.course.code)
+  def matching_application_choice(invite)
+    @application_form.application_choices.find do |choice|
+      choice.course.code == invite.course.code
     end
+  end
+
+  def view_application_link(invite)
+    choice = matching_application_choice(invite)
+    return unless choice
+
+    govuk_link_to('View application', provider_interface_application_choice_path(choice))
   end
 end
