@@ -21,7 +21,7 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
   end
 
   def text
-    if decision_pending_application_choice(invite)
+    if matching_application_choice(invite)
       I18n.t(
         'provider_interface.find_candidates.already_invited_candidate_banner_component.text_with_application',
         link: view_application_link(invite),
@@ -50,24 +50,16 @@ private
         candidate_id: @application_form.candidate_id,
       )
       .includes(:course, :provider)
-      .reject do |invite|
-        matching_application_choice(invite)&.application_unsuccessful?
-      end
   end
 
   def matching_application_choice(invite)
     @application_form.application_choices
-      .find { |choice| choice.course.code == invite.course.code }
-  end
-
-  def decision_pending_application_choice(invite)
-    @application_form.application_choices
-      .decision_pending
+      .visible_to_provider
       .find { |choice| choice.course.code == invite.course.code }
   end
 
   def view_application_link(invite)
-    choice = decision_pending_application_choice(invite)
+    choice = matching_application_choice(invite)
     return unless choice
 
     govuk_link_to(
