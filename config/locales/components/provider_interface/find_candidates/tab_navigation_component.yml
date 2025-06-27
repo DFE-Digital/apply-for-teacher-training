@@ -1,0 +1,7 @@
+en:
+  provider_interface:
+    find_candidates:
+      tab_navigation_component:
+        all: All candidates
+        new: New
+        invited: Invited
