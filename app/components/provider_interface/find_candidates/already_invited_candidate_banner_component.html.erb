@@ -1,0 +1,4 @@
+<%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
+  <% notification_banner.with_heading(text: heading) %>
+  <p class="govuk-body"><%= text %></p>
+<% end %>
