@@ -197,7 +197,7 @@ module ProviderInterface
           years_visible_to_provider,
         ).uniq { |site| [site.code, site.name] }
 
-        next unless uniq_provider_sites.count > 1
+        next unless uniq_provider_sites.many?
 
         {
           type: :checkboxes,

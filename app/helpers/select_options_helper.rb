@@ -27,7 +27,7 @@ module SelectOptionsHelper
   end
 
   def select_course_options_with_provider_name(courses)
-    multiple_providers = current_provider_user.providers.count > 1
+    multiple_providers = current_provider_user.providers.many?
 
     course_options = courses.map do |course|
       if multiple_providers
@@ -43,7 +43,7 @@ module SelectOptionsHelper
   end
 
   def collection_course_options_with_provider_name
-    if current_provider_user.providers.count > 1
+    if current_provider_user.providers.many?
       :name_code_and_course_provider
     else
       :name_and_code

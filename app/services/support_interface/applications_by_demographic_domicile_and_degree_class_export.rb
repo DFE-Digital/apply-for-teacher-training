@@ -49,7 +49,7 @@ module SupportInterface
     def transform_disability_value(disability)
       unescaped_array = Array.class_eval(disability)
 
-      if unescaped_array.count > 1
+      if unescaped_array.many?
         'Two or more impairments and/or disabling medical conditions'
       else
         unescaped_array[0]

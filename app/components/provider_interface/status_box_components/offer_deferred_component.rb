@@ -64,8 +64,9 @@ module ProviderInterface
                      when :course then available_courses
                      when :study_mode then available_study_modes
                      when :course_option then available_course_options
+                     else CourseOption.none
                      end
-        collection.count > 1 if collection
+        collection.many?
       end
     end
   end

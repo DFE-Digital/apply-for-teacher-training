@@ -36,7 +36,7 @@ module CandidateInterface
     end
 
     def requested_new_code?
-      current_candidate.account_recovery_request.codes.not_expired.count > 1
+      current_candidate.account_recovery_request.codes.not_expired.many?
     end
 
   private
