@@ -340,6 +340,61 @@ RSpec.describe CandidateCoursesRecommender do
       end
     end
 
+    describe 'the excluded_courses[] parameter' do
+      context 'when the Candidate has not submitted any Application Choices' do
+        it 'does not recommend courses' do
+          candidate = create(:candidate)
+          application_form = create(:application_form, candidate: candidate)
+          _application_choices = create_list(:application_choice, 1, :unsubmitted, application_form:)
+
+          recommended_courses_url = described_class.recommended_courses_url(candidate:)
+
+          expect(recommended_courses_url).to be_nil
+        end
+      end
+
+      context 'when the Candidate has submitted any Application Choice to Course C12' do
+        it "sets the 'excluded_courses[]' parameter to include 'C12'" do
+          course = create(:course, code: 'C12', provider: create(:provider, code: 'ABC'))
+          course_option = create(:course_option, course: course)
+
+          candidate = create(:candidate)
+          application_form = create(:application_form, candidate: candidate, application_choices: [])
+          _application_choices = create_list(:application_choice, 1, :awaiting_provider_decision, application_form:, course_option:)
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['excluded_courses[0][course_code]']).to eq('C12')
+          expect(query_parameters['excluded_courses[0][provider_code]']).to eq('ABC')
+        end
+      end
+
+      context 'when the Candidate has submitted more than one Application Choice to many courses' do
+        it "sets the 'excluded_courses[]' parameter to include all course codes" do
+          course_1 = create(:course, code: 'C12', provider: create(:provider, code: 'ABC'))
+          course_option_1 = create(:course_option, course: course_1)
+
+          course_2 = create(:course, code: 'X98', provider: create(:provider, code: 'XYZ'))
+          course_option_2 = create(:course_option, course: course_2)
+
+          candidate = create(:candidate)
+          application_form = create(:application_form, candidate: candidate, application_choices: [])
+          _application_choice_1 = create(:application_choice, :awaiting_provider_decision, application_form:, course_option: course_option_1)
+          _application_choice_2 = create(:application_choice, :awaiting_provider_decision, application_form:, course_option: course_option_2)
+
+          uri = URI(described_class.recommended_courses_url(candidate:))
+          query_parameters = Rack::Utils.parse_query(uri.query)
+
+          expect(query_parameters['excluded_courses[0][course_code]']).to eq('C12')
+          expect(query_parameters['excluded_courses[0][provider_code]']).to eq('ABC')
+
+          expect(query_parameters['excluded_courses[1][course_code]']).to eq('X98')
+          expect(query_parameters['excluded_courses[1][provider_code]']).to eq('XYZ')
+        end
+      end
+    end
+
     context 'a mixture of scenarios' do
       it 'sets the parameters to the correct values' do
         right_to_work_or_study = 'no'
@@ -361,6 +416,8 @@ RSpec.describe CandidateCoursesRecommender do
         expect(query_parameters).not_to have_key('minimum_degree_required')
         expect(query_parameters).to have_key('funding[]') # mystery guest from the Course on the Application Choice
         expect(query_parameters['study_types[]']).to eq('full_time')
+        expect(query_parameters).to have_key('excluded_courses[0][provider_code]') # mystery guest from the Course on the Application Choice
+        expect(query_parameters).to have_key('excluded_courses[0][course_code]') # mystery guest from the Course on the Application Choice
         expect(query_parameters).to have_key('subjects[]') # mystery guest from the Course on the Application Choice
         expect(query_parameters).not_to have_key('location')
       end
@@ -387,6 +444,8 @@ RSpec.describe CandidateCoursesRecommender do
         expect(query_parameters).to have_key('funding[]') # mystery guest from the Course on the Application Choice
         expect(query_parameters['study_types[]']).to eq('full_time')
         expect(query_parameters).to have_key('subjects[]') # mystery guest from the Course on the Application Choice
+        expect(query_parameters).to have_key('excluded_courses[0][provider_code]') # mystery guest from the Course on the Application Choice
+        expect(query_parameters).to have_key('excluded_courses[0][course_code]') # mystery guest from the Course on the Application Choice
         expect(query_parameters['location']).to eq('SW1A 1AA')
       end
     end
