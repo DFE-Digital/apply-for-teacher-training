@@ -1,5 +1,5 @@
 module ProviderInterface
-  class CandidatePoolFilter
+  class NotSeenCandidatesFilter
     include ActiveModel::Model
     include ActiveModel::Attributes
 
@@ -22,6 +22,8 @@ module ProviderInterface
                 :provider_user_filter
 
     validate :location_validity
+
+    # When viewing a candidate profile we need the back button to redirect to the correct tab
 
     def initialize(filter_params:, current_provider_user:, remove_filters:)
       @current_provider_user = current_provider_user
@@ -50,9 +52,9 @@ module ProviderInterface
 
     def save
       if valid? && filters.any?
-        provider_user_filter.update(filters:, kind: 'find_candidates_all', updated_at: Time.zone.now)
+        provider_user_filter.update(filters:, kind: 'find_candidates_not_seen', updated_at: Time.zone.now)
       elsif remove_filters && filters.blank?
-        provider_user_filter.update(filters: {}, kind: 'find_candidates_all', updated_at: Time.zone.now)
+        provider_user_filter.update(filters: {}, kind: 'find_candidates_not_seen', updated_at: Time.zone.now)
       end
     end
 
@@ -119,16 +121,16 @@ module ProviderInterface
       up_to_date_filter = current_provider_user.up_to_date_find_candidate_filters
 
       if up_to_date_filter.nil?
-        return current_provider_user.filters.find_candidates_all.new
-      end
-
-      if up_to_date_filter.find_candidates_all?
-        return up_to_date_filter
+        return current_provider_user.filters.find_candidates_not_seen.new
       end
 
       if up_to_date_filter.find_candidates_not_seen?
-        filter_record = current_provider_user.filters.find_candidates_all.last ||
-                        current_provider_user.filters.find_candidates_all.new
+        return up_to_date_filter
+      end
+
+      if up_to_date_filter.find_candidates_all?
+        filter_record = current_provider_user.filters.find_candidates_not_seen.last ||
+                        current_provider_user.filters.find_candidates_not_seen.new
 
         filter_record.filters = up_to_date_filter.filters
         filter_record

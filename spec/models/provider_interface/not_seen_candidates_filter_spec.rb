@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::CandidatePoolFilter do
+RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
   include Rails.application.routes.url_helpers
 
   let(:client) { instance_double(GoogleMapsAPI::Client) }
@@ -82,7 +82,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         current_provider_user = create(:provider_user)
         create(
           :provider_user_filter,
-          :find_candidates_all,
+          :find_candidates_not_seen,
           provider_user: current_provider_user,
           filters: { location: 'Manchester', visa_sponsorship: ['required'] },
         )
@@ -164,7 +164,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           remove_filters: {},
         )
         expect { filter.save }.to change {
-          current_provider_user.find_candidates_all_filter&.filters
+          current_provider_user.find_candidates_not_seen_filter&.filters
         }.from(nil).to(filter_params.with_indifferent_access)
       end
     end
@@ -197,7 +197,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
 
         create(
           :provider_user_filter,
-          :find_candidates_all,
+          :find_candidates_not_seen,
           provider_user: current_provider_user,
           filters:,
         )
@@ -208,7 +208,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         )
 
         expect { filter.save }.to change {
-          current_provider_user.find_candidates_all_filter.filters
+          current_provider_user.find_candidates_not_seen_filter.filters
         }.from(filters).to({})
       end
     end
@@ -223,7 +223,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         current_provider_user = create(:provider_user)
         create(
           :provider_user_filter,
-          :find_candidates_all,
+          :find_candidates_not_seen,
           provider_user: current_provider_user,
           filters: filters_in_db,
         )
@@ -234,7 +234,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           remove_filters: {},
         )
         expect { filter.save }.to change {
-          current_provider_user.find_candidates_all_filter.filters
+          current_provider_user.find_candidates_not_seen_filter.filters
         }.from(filters_in_db).to(
           {
             'location' => 'Manchester',
@@ -254,7 +254,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         current_provider_user = create(:provider_user)
         create(
           :provider_user_filter,
-          :find_candidates_all,
+          :find_candidates_not_seen,
           provider_user: current_provider_user,
           filters: filters_in_db,
         )
@@ -265,25 +265,25 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           remove_filters: {},
         )
         expect { filter.save }.to change {
-          current_provider_user.find_candidates_all_filter.filters
+          current_provider_user.find_candidates_not_seen_filter.filters
         }.from(filters_in_db).to({ 'location' => 'Manchester' })
       end
     end
 
-    context 'when the not_seen filters have been updated' do
+    context 'when the all candidates filters have been updated' do
       it 'saves the filters set in the not_seen view' do
         current_provider_user = create(:provider_user)
-        all_view_filters = create(
+        not_seen_view_filters = create(
           :provider_user_filter,
-          :find_candidates_all,
+          :find_candidates_not_seen,
           provider_user: current_provider_user,
           filters: { location: 'Manchester' },
           updated_at: 1.day.ago,
         ).filters
 
-        not_seen_view_filters = create(
+        all_view_filters = create(
           :provider_user_filter,
-          :find_candidates_not_seen,
+          :find_candidates_all,
           provider_user: current_provider_user,
           filters: { location: 'Manchester', visa_sponsorship: ['required'] },
         ).filters
@@ -294,24 +294,24 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           remove_filters: {},
         )
         expect { filter.save }.to change {
-          current_provider_user.find_candidates_all_filter&.filters
-        }.from(all_view_filters).to(not_seen_view_filters)
+          current_provider_user.find_candidates_not_seen_filter&.filters
+        }.from(not_seen_view_filters).to(all_view_filters)
       end
 
       context 'when filter params are present' do
-        it 'does not saves the filters set in the not_seen view, params take prioritised' do
+        it 'does not saves the filters set in the all candidates view, params take prioritised' do
           current_provider_user = create(:provider_user)
-          all_view_filters = create(
+          not_seen_view_filters = create(
             :provider_user_filter,
-            :find_candidates_all,
+            :find_candidates_not_seen,
             provider_user: current_provider_user,
             filters: { location: 'Manchester' },
             updated_at: 1.day.ago,
           ).filters
 
-          _not_seen_view_filters = create(
+          _all_view_filters = create(
             :provider_user_filter,
-            :find_candidates_not_seen,
+            :find_candidates_all,
             provider_user: current_provider_user,
             filters: { location: 'Manchester', visa_sponsorship: ['required'] },
           ).filters
@@ -325,8 +325,8 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           )
 
           expect { filter.save }.to change {
-            current_provider_user.find_candidates_all_filter&.filters
-          }.from(all_view_filters).to(filter_params)
+            current_provider_user.find_candidates_not_seen_filter&.filters
+          }.from(not_seen_view_filters).to(filter_params)
         end
       end
     end
