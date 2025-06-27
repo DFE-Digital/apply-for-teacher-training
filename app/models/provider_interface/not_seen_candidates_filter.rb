@@ -52,9 +52,9 @@ module ProviderInterface
 
     def save
       if valid? && filters.any?
-        provider_user_filter.update(filters:, kind: 'find_candidates_not_seen')
+        provider_user_filter.update(filters:, kind: 'find_candidates_not_seen', updated_at: Time.zone.now)
       elsif remove_filters && filters.blank?
-        provider_user_filter.update(filters: {}, kind: 'find_candidates_not_seen')
+        provider_user_filter.update(filters: {}, kind: 'find_candidates_not_seen', updated_at: Time.zone.now)
       end
     end
 
