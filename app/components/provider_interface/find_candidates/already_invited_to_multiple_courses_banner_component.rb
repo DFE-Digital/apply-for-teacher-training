@@ -46,9 +46,9 @@ private
   end
 
   def matching_application_choice(invite)
-    @application_form.application_choices.find do |choice|
-      choice.course.code == invite.course.code
-    end
+    @application_form.application_choices
+      .visible_to_provider
+      .find { |choice| choice.course.code == invite.course.code }
   end
 
   def view_application_link(invite)
