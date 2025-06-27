@@ -7,7 +7,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `Pool::Invite#find_by`",
       "file": "app/controllers/provider_interface/candidate_pool/draft_invites_controller.rb",
-      "line": 69,
+      "line": 89,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "Pool::Invite.find_by(:id => params.expect(:id), :provider_id => current_provider_user.provider_ids, :status => :draft)",
       "render_path": null,
@@ -20,6 +20,29 @@
       "confidence": "Weak",
       "cwe_id": [
         285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "15f710315a21e2505363b193eff131cc225bdb6680b57d58e46068f2ad3ef08b",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/pool/invite.rb",
+      "line": 16,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where(\"NOT #{matching_application_choices_exists_sql}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Pool::Invite",
+        "method": "without_matching_application_choices"
+      },
+      "user_input": "matching_application_choices_exists_sql",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
       ],
       "note": ""
     },
@@ -145,7 +168,7 @@
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/one_login_controller.rb",
-      "line": 70,
+      "line": 67,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(logout_one_login((Current.session.id_token_hint or SessionError.find_by(:id => session[:session_error_id]).id_token_hint)), :allow_other_host => true)",
       "render_path": null,
@@ -237,7 +260,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `Pool::Invite#find_by`",
       "file": "app/controllers/provider_interface/candidate_pool/publish_invites_controller.rb",
-      "line": 39,
+      "line": 55,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "Pool::Invite.find_by(:id => params.expect(:draft_invite_id), :provider_id => current_provider_user.provider_ids, :status => :draft)",
       "render_path": null,
