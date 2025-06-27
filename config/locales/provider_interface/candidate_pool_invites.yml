@@ -1,12 +1,15 @@
 en:
   provider_interface:
     candidate_pool:
-      candidates:
-        index:
+      shared:
+        find_candidates_heading:
           title: Find candidates
-          no_candidates: No candidates
           candidate_information_agreement: Candidates can choose to share their application details.
           review_candidates: When they have no open applications, you can review their details and decide whether to invite them to apply.
+      candidates:
+        index:
+          title: Find candidates - All candidates
+          no_candidates: No candidates
           candidates_found:
             one: "%{count} candidate found"
             other: "%{count} candidates found"

@@ -1,13 +1,11 @@
 <% content_for :browser_title, title_with_error_prefix(t('.title'), @filter.errors.any?) %>
 <%= render ServiceInformationBanner.new(namespace: :provider) %>
 
-<h1 class="govuk-heading-l"><%= t('.title') %></h1>
-<p class="govuk-body"><%= t('.candidate_information_agreement') %></p>
-<p class="govuk-body"><%= t('.review_candidates') %></p>
+<%= render 'provider_interface/candidate_pool/shared/find_candidates_heading', selected_tab: :all %>
 
 <%= render ProviderInterface::FindCandidates::FiltersComponent.new(params:, filter: @filter) do %>
   <% if @application_forms.present? %>
-    <h2 class="govuk-heading-m">
+    <h2 class="govuk-heading-l">
       <%= t('.candidates_found', count: @pagy.count) %>
     </h2>
 
