@@ -55,6 +55,8 @@ private
     choice = matching_application_choice(invite)
     return unless choice
 
-    govuk_link_to('View application', provider_interface_application_choice_path(choice))
+    govuk_link_to(I18n.t(
+                    'provider_interface.find_candidates.already_invited_to_multiple_courses_banner_component.view_application',
+                  ), provider_interface_application_choice_path(choice))
   end
 end
