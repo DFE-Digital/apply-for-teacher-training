@@ -11,10 +11,10 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/dfe-autocomplete.git
-  revision: c31601c145381accab91a6b6983b16de7ddada56
-  tag: v0.1.0
+  revision: 966efa70f058585fdbc91e7217d678092db62303
+  tag: v0.2.1
   specs:
-    dfe-autocomplete (0.1.0)
+    dfe-autocomplete (0.2.1)
       actionview (>= 7.0.2.3)
       activemodel (>= 7.0.2.3)
       govuk-components
@@ -460,7 +460,7 @@ GEM
     multipart-post (2.4.1)
     mutex_m (0.3.0)
     nenv (0.3.0)
-    net-imap (0.5.7)
+    net-imap (0.5.9)
       date
       net-protocol
     net-pop (0.1.2)
@@ -833,7 +833,7 @@ GEM
       semantic_range (>= 2.3.0)
     webrick (1.9.1)
     websocket (1.2.11)
-    websocket-driver (0.7.7)
+    websocket-driver (0.8.0)
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
