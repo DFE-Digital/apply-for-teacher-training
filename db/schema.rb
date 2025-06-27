@@ -803,7 +803,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_27_102530) do
     t.datetime "updated_at", null: false
     t.index ["actioned_by_id"], name: "index_provider_pool_actions_on_actioned_by_id"
     t.index ["application_form_id"], name: "index_provider_pool_actions_on_application_form_id"
-    t.index ["recruitment_cycle_year", "status"], name: "idx_on_recruitment_cycle_year_status_01d5131ed5"
     t.index ["status", "recruitment_cycle_year", "actioned_by_id"], name: "idx_on_status_recruitment_cycle_year_actioned_by_id_3a3a559a16"
   end
 
