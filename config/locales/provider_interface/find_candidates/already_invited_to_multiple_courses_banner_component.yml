@@ -4,5 +4,6 @@ en:
       already_invited_to_multiple_courses_banner_component:
         heading: This candidate was invited to apply
         intro: "This candidate was invited to:"
+        text_with_application: "%{course} on %{date}. %{link}"
         text_with_provider: "%{course} at %{provider} on %{date}. They have not applied yet."
         text_without_provider: "%{course} on %{date}. They have not applied yet."
