@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_27_102530) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_27_111652) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -836,11 +836,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_27_102530) do
 
   create_table "provider_user_filters", force: :cascade do |t|
     t.bigint "provider_user_id", null: false
-    t.string "path", null: false
+    t.string "kind", null: false
     t.integer "pagination_page"
     t.jsonb "filters", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["kind"], name: "index_provider_user_filters_on_kind"
     t.index ["provider_user_id"], name: "index_provider_user_filters_on_provider_user_id"
   end
 
