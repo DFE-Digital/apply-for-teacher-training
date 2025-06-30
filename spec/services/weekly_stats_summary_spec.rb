@@ -12,8 +12,8 @@ RSpec.describe WeeklyStatsSummary do
     inactive_domestic_choice = create(:application_choice, :inactive, application_form: create(:application_form, :minimum_info))
     inactive_international_choice = create(:application_choice, :inactive, application_form: create(:application_form, first_nationality: 'Vatican citizen'))
 
-    create_list(:pool_invite, 2, :sent_to_candidate, candidate: inactive_domestic_choice.candidate)
-    create_list(:pool_invite, 1, :sent_to_candidate, candidate: inactive_international_choice.candidate)
+    create_list(:pool_invite, 2, :sent_to_candidate, application_form: inactive_domestic_choice.application_form)
+    create_list(:pool_invite, 1, :sent_to_candidate, application_form: inactive_international_choice.application_form)
 
     travel_temporarily_to(this_day_last_cycle) do
       last_cycle_international_form = create(:application_form, :submitted, first_nationality: 'Vatican citizen')
@@ -23,8 +23,8 @@ RSpec.describe WeeklyStatsSummary do
       create(:application_choice, :rejected, application_form: last_cycle_domestic_form)
       create(:application_choice, :rejected)
 
-      create_list(:pool_invite, 3, :sent_to_candidate, candidate: last_cycle_international_form.candidate)
-      create_list(:pool_invite, 2, :sent_to_candidate, candidate: last_cycle_domestic_form.candidate)
+      create_list(:pool_invite, 3, :sent_to_candidate, application_form: last_cycle_international_form)
+      create_list(:pool_invite, 2, :sent_to_candidate, application_form: last_cycle_domestic_form)
     end
 
     advance_time_by(1.hour)
