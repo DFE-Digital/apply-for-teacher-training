@@ -49,6 +49,7 @@ shared:
     - recruitment_cycle_year
     - provider_message
     - message_content
+    - application_form_id
   pool_dismissals:
     - id
     - candidate_id
