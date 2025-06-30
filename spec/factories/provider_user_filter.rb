@@ -1,6 +1,9 @@
 FactoryBot.define do
   factory :provider_user_filter do
     provider_user { build(:provider_user) }
-    path { Rails.application.routes.url_helpers.provider_interface_candidate_pool_invites_path }
+
+    trait :find_candidates_invited do
+      kind { 'find_candidates_invited' }
+    end
   end
 end
