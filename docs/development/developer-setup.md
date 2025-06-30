@@ -78,13 +78,13 @@ You may occasionally want to use data as close to production data as possible, f
 ### 1. Downloading the sanitised data
 
 - Login to azure and request a PIM (speak to infra or a fellow developer for instructions on how to do this)
-- Once the PIM is approved, you can download the file via the azure interface by navigating Storage accounts -> `s189p01attdbbkppdsa` -> Containers (or Blob Containers) -> database-backup -> `att_backup_sanitised.sql.gz` (Warning: these instructions are true at the time of writing, but azure may change the way their interface is laid out and you might have to do some digging)
+- Once the PIM is approved, you can download the file via the azure interface by navigating Storage accounts -> `s189p01attdbbkppdsa` -> Containers (or Blob Containers) -> database-backup -> `att_backup_sanitised_yyyy-mm-dd.sql.gz` (Warning: these instructions are true at the time of writing, but azure may change the way their interface is laid out and you might have to do some digging)
 - Unzip the file, delete the zip file
 
 ### 2. Replacing your database
 
 - run `bin/rails db:drop` and `bin/rails db:create`; do not run migrations
-- run `psql bat_apply_development < ~/Downloads/att_backup_sanitised.sql` (or wherever your downloads end up)
+- run `psql bat_apply_development < ~/Downloads/att_backup_sanitised_yyyy-mm-dd.sql` (or wherever your downloads end up)
 - make sure you delete the sql file
 
 ### 3. Creating a dev-support user
