@@ -11,15 +11,16 @@ RSpec.describe ProviderInterface::PoolInviteForm, type: :model do
 
   let(:current_provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
   let(:provider) { current_provider_user.providers.first }
-  let(:candidate) { create(:candidate) }
+  let(:application_form) { create(:application_form) }
+  let(:candidate) { application_form.candidate }
   let(:course) { create(:course, :open, provider:) }
   let(:pool_invite_form_params) { { course_id: course.id } }
 
   describe '.validations' do
     it { is_expected.to validate_presence_of(:course_id) }
 
-    context 'when a course becomes unavilable' do
-      it 'returns course unavilable error' do
+    context 'when a course becomes unavailable' do
+      it 'returns course unavailable error' do
         course.update(exposed_in_find: false)
 
         expect(form.valid?).to be_falsey
@@ -28,7 +29,7 @@ RSpec.describe ProviderInterface::PoolInviteForm, type: :model do
     end
 
     context 'when the candidate has been invited to the course already' do
-      it 'returns course unavilable error' do
+      it 'returns course unavailable error' do
         _existing_invite = create(:pool_invite, candidate:, status: :published, course:)
 
         expect(form.valid?).to be_falsey
@@ -58,6 +59,7 @@ RSpec.describe ProviderInterface::PoolInviteForm, type: :model do
       it 'creates an invite' do
         expect { form.save }.to change(Pool::Invite, :count).by(1)
         expect(Pool::Invite.last.recruitment_cycle_year).to eq current_year
+        expect(Pool::Invite.last.application_form).to eq application_form
       end
     end
 

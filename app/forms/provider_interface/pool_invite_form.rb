@@ -40,6 +40,7 @@ module ProviderInterface
       else
         Pool::Invite.create!(
           candidate: candidate,
+          application_form: candidate.current_application,
           provider: course&.provider,
           course: course,
           invited_by: current_provider_user,
