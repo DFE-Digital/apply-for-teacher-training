@@ -83,14 +83,4 @@ RSpec.describe Pool::Invite do
       expect(invite).not_to be_sent_to_candidate
     end
   end
-
-  describe '#application_choice_with_course_match_visible_to_provider' do
-    it 'returns the application choice where the course option course matches the course_id' do
-      unmatched_choice = create(:application_choice, :awaiting_provider_decision)
-      matched_choice = create(:application_choice, :awaiting_provider_decision, application_form: unmatched_choice.application_form)
-      invite = create(:pool_invite, :sent_to_candidate, course: matched_choice.course, application_form: unmatched_choice.application_form)
-
-      expect(invite.application_choice_with_course_match_visible_to_provider).to eq matched_choice
-    end
-  end
 end

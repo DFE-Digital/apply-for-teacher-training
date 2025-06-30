@@ -18,14 +18,13 @@ class ProviderInterface::FindCandidates::InvitedCandidatesTableComponent < ViewC
   end
 
   def status(invite)
-    matching_choice = invite.application_choice_with_course_match_visible_to_provider
-    if matching_choice.present?
+    if invite.matching_choice_id.nil?
+      govuk_tag(text: t('.invited'), colour: 'yellow')
+    else
       govuk_link_to(
         t('.application_received'),
-        provider_interface_application_choice_path(matching_choice),
+        provider_interface_application_choice_path(application_choice_id: invite.matching_choice_id),
       )
-    else
-      govuk_tag(text: t('.invited'), colour: 'yellow')
     end
   end
 
@@ -49,8 +48,6 @@ private
   end
 
   def visible_application_for_invite?(invites)
-    invites.any? do |invite|
-      invite.application_choice_with_course_match_visible_to_provider.present?
-    end
+    invites.any? { |invite| invite.matching_choice_id.present? }
   end
 end

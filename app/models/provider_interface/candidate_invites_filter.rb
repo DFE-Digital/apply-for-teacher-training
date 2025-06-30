@@ -100,10 +100,9 @@ module ProviderInterface
                          .published
                          .current_cycle
                          .where(provider: @provider_user.providers)
+                         .includes(:course)
                          .order(created_at: :desc)
-                         .includes(:course, application_form: {
-                           application_choices: %i[original_course_option current_course_option],
-                         })
+                         .select("pool_invites.*, (#{matching_choice_sql}) AS matching_choice_id")
     end
 
     def kind
@@ -111,11 +110,33 @@ module ProviderInterface
     end
 
     def status_filter
-      @provider_user_filter.filters.fetch('status', [])
+      @status_filter ||=  @provider_user_filter.filters.fetch('status', [])
     end
 
     def courses_filter
-      @provider_user_filter.filters.fetch('courses', [])
+      @courses_filter ||= @provider_user_filter.filters.fetch('courses', [])
+    end
+
+    def matching_choice_sql
+      visible_states = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER
+                           .map { |s| ActiveRecord::Base.connection.quote(s.to_s) }
+                           .join(', ')
+
+      <<~SQL.squish
+        (
+          SELECT application_choices.id
+          FROM application_choices
+          WHERE application_choices.application_form_id = pool_invites.application_form_id
+            AND application_choices.status IN (#{visible_states})
+            AND (
+              (SELECT course_id FROM course_options WHERE id = application_choices.original_course_option_id) = pool_invites.course_id OR
+              (SELECT course_id FROM course_options WHERE id = application_choices.current_course_option_id) = pool_invites.course_id OR
+              (SELECT course_id FROM course_options WHERE id = application_choices.course_option_id) = pool_invites.course_id
+            )
+          ORDER BY application_choices.id ASC
+          LIMIT 1
+        )
+      SQL
     end
   end
 end
