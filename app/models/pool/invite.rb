@@ -5,6 +5,7 @@ class Pool::Invite < ApplicationRecord
   belongs_to :invited_by, class_name: 'ProviderUser'
   belongs_to :course
   has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
+  has_many :application_choices, through: :application_form
 
   enum :status, {
     draft: 'draft',
@@ -12,6 +13,9 @@ class Pool::Invite < ApplicationRecord
   }, default: :draft
 
   scope :not_sent_to_candidate, -> { where(sent_to_candidate_at: nil) }
+  scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
+  scope :with_matching_application_choices, -> { where(matching_application_choices_exists_sql) }
+  scope :without_matching_application_choices, -> { where.not(matching_application_choices_exists_sql) }
 
   def sent_to_candidate!
     update!(sent_to_candidate_at: Time.current) if sent_to_candidate_at.blank?
@@ -19,5 +23,24 @@ class Pool::Invite < ApplicationRecord
 
   def sent_to_candidate?
     sent_to_candidate_at.present?
+  end
+
+  def self.matching_application_choices_exists_sql
+    visible_states = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER
+                       .map { |app_state| ActiveRecord::Base.connection.quote(app_state.to_s) }
+                       .join(', ')
+
+    <<~SQL.squish
+      EXISTS (
+        SELECT 1 FROM application_choices
+        WHERE application_choices.application_form_id = pool_invites.application_form_id
+          AND application_choices.status IN (#{visible_states})
+          AND (
+            (SELECT course_id FROM course_options WHERE id = application_choices.original_course_option_id) = pool_invites.course_id OR
+            (SELECT course_id FROM course_options WHERE id = application_choices.current_course_option_id) = pool_invites.course_id OR
+            (SELECT course_id FROM course_options WHERE id = application_choices.course_option_id) = pool_invites.course_id
+          )
+      )
+    SQL
   end
 end

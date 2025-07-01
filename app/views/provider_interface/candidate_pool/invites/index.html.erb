@@ -1,0 +1,19 @@
+<% content_for :browser_title, t('.title') %>
+
+<%= render 'provider_interface/candidate_pool/shared/find_candidates_heading', selected_tab: :invited %>
+
+<%= render PaginatedFilterComponent.new(filter: @filter, collection: @candidate_invites) do %>
+  <% if @candidate_invites.any? %>
+    <h2 class="govuk-heading-l">
+      <%= t('.candidates_invited', count: @filter.candidate_count) %>
+    </h2>
+
+    <%= render ProviderInterface::FindCandidates::InvitedCandidatesTableComponent.new(@candidate_invites) %>
+
+    <%= govuk_pagination(pagy: @pagy) %>
+  <% else %>
+    <p class="govuk-body">
+      <%= t('.no_candidates') %>
+    </p>
+  <% end %>
+<% end %>

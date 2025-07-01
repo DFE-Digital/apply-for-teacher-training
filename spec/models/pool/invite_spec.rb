@@ -10,6 +10,28 @@ RSpec.describe Pool::Invite do
     it { is_expected.to have_one(:recruitment_cycle_timetable) }
   end
 
+  describe 'scopes' do
+    describe 'with_matching_application_choices' do
+      it 'returns invites where there is a matching course on a submitted application choice' do
+        matched_choice = create(:application_choice, :awaiting_provider_decision)
+        invite_with_matched_choice = create(:pool_invite, :sent_to_candidate, application_form: matched_choice.application_form, course: matched_choice.course)
+        create(:pool_invite, :sent_to_candidate)
+
+        expect(described_class.with_matching_application_choices).to contain_exactly(invite_with_matched_choice)
+      end
+    end
+
+    describe 'without matching_application_choices' do
+      it 'returns invites where there is NO matching course on a submitted application choice' do
+        matched_choice = create(:application_choice, :awaiting_provider_decision)
+        create(:pool_invite, :sent_to_candidate, application_form: matched_choice.application_form, course: matched_choice.course)
+        invite_without_matched_choice = create(:pool_invite, :sent_to_candidate)
+
+        expect(described_class.without_matching_application_choices).to contain_exactly(invite_without_matched_choice)
+      end
+    end
+  end
+
   describe 'enums' do
     subject(:invite) { build(:pool_invite) }
 

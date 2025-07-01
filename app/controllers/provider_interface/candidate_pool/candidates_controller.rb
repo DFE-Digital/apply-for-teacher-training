@@ -25,6 +25,11 @@ module ProviderInterface
         @application_form = Pool::Candidates.application_forms_for_provider
           .find_by(candidate_id: params.expect(:id))
         @candidate = @application_form&.candidate
+        @back_link = if params[:return_to] == 'invited'
+                       provider_interface_candidate_pool_invites_path
+                     else
+                       provider_interface_candidate_pool_root_path
+                     end
 
         if @application_form.blank? || @candidate.blank?
           redirect_to provider_interface_candidate_pool_root_path

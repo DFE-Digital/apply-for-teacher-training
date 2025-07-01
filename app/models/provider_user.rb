@@ -6,6 +6,7 @@ class ProviderUser < ApplicationRecord
   has_many :notes, dependent: :destroy
   has_many :pool_invites, class_name: 'Pool::Invite', foreign_key: 'invited_by_id'
   has_many :pool_views, -> { status_viewed }, class_name: 'ProviderPoolAction', foreign_key: 'actioned_by_id'
+  has_many :provider_user_filters
   has_one :notification_preferences, class_name: 'ProviderUserNotificationPreferences'
   attr_accessor :impersonator
 
