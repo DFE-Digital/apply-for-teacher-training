@@ -1,6 +1,7 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
   'DataMigrations::BackfillApplicationFormOnPoolInvites',
+  'DataMigrations::MigrateFacFiltersToProviderUserFilters',
   'DataMigrations::BackfillTrainingLocationsOnCandidatePreferences',
   'DataMigrations::BackfillRecruitmentCycleYearOnPoolInvites',
   'DataMigrations::DeleteSandboxOneLoginAccounts',
