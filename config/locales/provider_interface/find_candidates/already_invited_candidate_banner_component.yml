@@ -3,10 +3,10 @@ en:
     find_candidates:
       already_invited_candidate_banner_component:
         heading:
-          one: This candidate was invited to %{subject}.
-          other: This candidate was invited to %{subject} at %{provider}.
+          one: This candidate was invited to %{subject}
+          other: This candidate was invited to %{subject} at %{provider}
         text:
           one: This candidate was invited to %{subject} on %{date}. They have not applied yet.
           other: This candidate was invited to %{subject} at %{provider} on %{date}. They have not applied yet.
-        text_with_application: The candidate has submitted an application. %{link}
+        text_with_application: This candidate has submitted an application. %{link}
         view_application: View application

@@ -54,7 +54,7 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerC
                                  current_provider_user:,
                                ))
 
-        expect(result.text).to include('The candidate has submitted an application.')
+        expect(result.text).to include('This candidate has submitted an application')
         expect(result).to have_link('View application', href: "/provider/applications/#{application_choice.id}")
       end
     end
