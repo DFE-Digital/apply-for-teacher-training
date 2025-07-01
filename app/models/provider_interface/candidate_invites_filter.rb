@@ -102,7 +102,7 @@ module ProviderInterface
                          .where(provider: @provider_user.providers)
                          .includes(:course)
                          .order(created_at: :desc)
-                         .select("pool_invites.*, (#{matching_choice_sql}) AS matching_choice_id")
+                         .select(matching_choice_sql)
     end
 
     def kind
@@ -123,6 +123,7 @@ module ProviderInterface
                            .join(', ')
 
       <<~SQL.squish
+        pool_invites.*,
         (
           SELECT application_choices.id
           FROM application_choices
@@ -135,7 +136,7 @@ module ProviderInterface
             )
           ORDER BY application_choices.id ASC
           LIMIT 1
-        )
+        ) AS matching_choice_id
       SQL
     end
   end
