@@ -3,5 +3,5 @@ en:
     find_candidates:
       tab_navigation_component:
         all: All candidates
-        new: New
+        not_seen: New
         invited: Invited

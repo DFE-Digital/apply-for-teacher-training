@@ -4,6 +4,7 @@ module ProviderInterface
       include Pagy::Backend
       before_action :redirect_to_applications_unless_provider_opted_in
       before_action :set_policy
+      before_action :set_back_link, only: [:show]
 
       def index
         @filter = ProviderInterface::CandidatePoolFilter.new(
@@ -17,6 +18,7 @@ module ProviderInterface
           Pool::Candidates.application_forms_for_provider(
             filters: @filter.applied_filters,
             provider_user: current_provider_user,
+            with_statuses: true,
           ),
         )
       end
@@ -25,11 +27,6 @@ module ProviderInterface
         @application_form = Pool::Candidates.application_forms_for_provider
           .find_by(candidate_id: params.expect(:id))
         @candidate = @application_form&.candidate
-        @back_link = if params[:return_to] == 'invited'
-                       provider_interface_candidate_pool_invites_path
-                     else
-                       provider_interface_candidate_pool_root_path
-                     end
 
         if @application_form.blank? || @candidate.blank?
           redirect_to provider_interface_candidate_pool_root_path
@@ -65,6 +62,16 @@ module ProviderInterface
           course_type: [],
           visa_sponsorship: [],
         )
+      end
+
+      def set_back_link
+        @back_link ||= if params[:return_to] == 'not_seen'
+                         provider_interface_candidate_pool_not_seen_index_path
+                       elsif params[:return_to] == 'invited'
+                         provider_interface_candidate_pool_invites_path
+                       else
+                         provider_interface_candidate_pool_root_path
+                       end
       end
     end
   end

@@ -1,14 +1,34 @@
 class Pool::Candidates
-  attr_reader :filters, :provider_user, :current_cycle
+  attr_reader :filters, :provider_user, :with_statuses, :current_cycle
 
-  def initialize(filters: {}, provider_user: nil)
+  def initialize(filters: {}, provider_user: nil, with_statuses: false)
     @filters = filters
     @provider_user = provider_user
+    @with_statuses = with_statuses
     @current_cycle = RecruitmentCycleTimetable.current_year
   end
 
-  def self.application_forms_for_provider(filters: {}, provider_user: nil)
-    new(filters:, provider_user:).application_forms_for_provider
+  def self.application_forms_for_provider(filters: {}, provider_user: nil, with_statuses: false)
+    new(filters:, provider_user:, with_statuses:).application_forms_for_provider
+  end
+
+  def application_forms_not_seen_by_provider_user(provider_user)
+    viewed_application_form_ids = provider_user.pool_views
+      .where(recruitment_cycle_year: current_cycle)
+      .select(:application_form_id)
+
+    invited_application_form_ids = Pool::Invite.published.where(
+      provider_id: provider_user.provider_ids,
+      recruitment_cycle_year: current_cycle,
+    ).select(:application_form_id)
+
+    filtered_application_forms.joins(:candidate)
+      .where.not(id: viewed_application_form_ids)
+      .where.not(id: invited_application_form_ids)
+      .includes(:candidate)
+      .preload(:degree_qualifications_order_award_year_desc)
+      .distinct
+      .order(order_by)
   end
 
   def application_forms_for_provider
@@ -34,7 +54,7 @@ private
     scope = CandidatePoolApplication.filtered_application_forms(filters)
     scope = filter_by_distance(scope)
 
-    if provider_user
+    if with_statuses
       viewed_candidates = ProviderPoolAction.where(
         status: 'viewed',
         recruitment_cycle_year: current_cycle,

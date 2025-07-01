@@ -1,13 +1,15 @@
 <% content_for :browser_title, title_with_error_prefix(t('.title'), @filter.errors.any?) %>
 <%= render ServiceInformationBanner.new(namespace: :provider) %>
 
-<%= render 'provider_interface/candidate_pool/shared/find_candidates_heading', selected_tab: :all %>
+<%= render 'provider_interface/candidate_pool/shared/find_candidates_heading', selected_tab: :not_seen %>
 
 <%= render ProviderInterface::FindCandidates::FiltersComponent.new(params:, filter: @filter) do %>
   <% if @application_forms.present? %>
     <h2 class="govuk-heading-l">
       <%= t('.candidates_found', count: @pagy.count) %>
     </h2>
+
+    <h3 class="govuk-heading-s govuk-hint"><%= t('.hint') %></h3>
 
     <%= govuk_table do |table| %>
       <%= table.with_head do |head| %>
@@ -26,7 +28,7 @@
             <%= row.with_cell do %>
               <%= govuk_link_to(
                 application_form.redacted_full_name,
-                provider_interface_candidate_pool_candidate_path(application_form.candidate, return_to: 'all'),
+                provider_interface_candidate_pool_candidate_path(application_form.candidate, return_to: 'not_seen'),
               ) %>
               <span class="govuk-body govuk-hint">(<%= application_form.candidate_id %>)</span>
               <% if application_form.degree_qualifications_order_award_year_desc.present? %>
@@ -40,7 +42,7 @@
                 <p class="govuk-body app-qualification__value--caption govuk-!-margin-bottom-1"><%= t('.no_degree') %></p>
               <% end %>
             <% end %>
-            <%= row.with_cell(text: candidate_status(application_form:)) %>
+            <%= row.with_cell(text: govuk_tag(text: 'New')) %>
             <%= row.with_cell do %>
               <% if @filter.applied_location_search? %>
                 <% if application_form.site_distance == -1 %>

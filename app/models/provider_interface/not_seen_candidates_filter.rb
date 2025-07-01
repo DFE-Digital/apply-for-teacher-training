@@ -1,5 +1,5 @@
 module ProviderInterface
-  class CandidatePoolFilter
+  class NotSeenCandidatesFilter
     include ActiveModel::Model
     include ActiveModel::Attributes
 
@@ -22,6 +22,8 @@ module ProviderInterface
                 :provider_user_filter
 
     validate :location_validity
+
+    # When viewing a candidate profile we need the back button to redirect to the correct tab
 
     def initialize(filter_params:, current_provider_user:, remove_filters:)
       @current_provider_user = current_provider_user
@@ -122,13 +124,13 @@ module ProviderInterface
     end
 
     def build_provider_user_filter
-      current_provider_user.up_to_date_find_a_candidate_all_filter ||
-        current_provider_user.build_up_to_date_find_a_candidate_all_filter
+      current_provider_user.up_to_date_find_a_candidate_not_seen_filter ||
+        current_provider_user.build_up_to_date_find_a_candidate_not_seen_filter
     end
 
     def sister_filter
-      current_provider_user.up_to_date_find_a_candidate_not_seen_filter ||
-        current_provider_user.build_up_to_date_find_a_candidate_not_seen_filter
+      current_provider_user.up_to_date_find_a_candidate_all_filter ||
+        current_provider_user.build_up_to_date_find_a_candidate_all_filter
     end
   end
 end
