@@ -170,6 +170,8 @@ module SupportInterface
 
       key = 'Recommended courses'
       recommended_courses_url = CandidateCoursesRecommender.recommended_courses_url(candidate: application_choice.candidate, locatable: application_choice.provider).presence
+      return unless recommended_courses_url
+
       value = govuk_link_to(recommended_courses_url, class: 'govuk-link govuk-link--no-visited-state', target: '_blank', rel: 'noopener') do
         "Recommended courses (based on #{application_choice.provider.name} location)"
       end
