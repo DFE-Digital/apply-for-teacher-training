@@ -155,7 +155,7 @@ GEM
     audited (5.8.0)
       activerecord (>= 5.2, < 8.2)
       activesupport (>= 5.2, < 8.2)
-    azure-blob (0.5.9)
+    azure-blob (0.5.9.1)
       rexml
     base64 (0.3.0)
     bcrypt (3.1.20)
