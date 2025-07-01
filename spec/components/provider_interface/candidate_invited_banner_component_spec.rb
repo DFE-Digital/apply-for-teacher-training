@@ -8,11 +8,23 @@ RSpec.describe ProviderInterface::CandidateInvitedBannerComponent, type: :compon
     end
     let(:pool_invite) { create(:pool_invite, :published, candidate:) }
     let(:provider) { pool_invite.provider }
+    let(:provider2) { create(:provider) }
     let(:course) { Course.find(pool_invite.course_id) }
     let(:date) { pool_invite.created_at.to_fs(:govuk_date) }
 
     context 'when a published pool invite exists with the current provider' do
       let(:current_provider_user) { create(:provider_user, providers: [provider]) }
+
+      it 'renders the banner' do
+        result = render_inline(described_class.new(application_form:, current_provider_user:))
+
+        expect(result.text).to include('Important')
+        expect(result.text).to include("This candidate was invited to #{course.name_and_code} on #{date}")
+      end
+    end
+
+    context 'when a published pool invite exists with the current provider with provider_name' do
+      let(:current_provider_user) { create(:provider_user, providers: [provider, provider2]) }
 
       it 'renders the banner' do
         result = render_inline(described_class.new(application_form:, current_provider_user:))

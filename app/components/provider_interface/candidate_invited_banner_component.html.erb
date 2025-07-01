@@ -1,4 +1,4 @@
 <%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
-  <% notification_banner.with_heading(text: t('.heading', subject: course.name, inviting_organisation:)) %>
-  <p class="govuk-body"><%= t('.text', subject: course.name_and_code, inviting_organisation:, date:) %></p>
+  <% notification_banner.with_heading(text: t('.heading', subject: course.name, inviting_organisation:, count: @current_provider_user.providers.count)) %>
+  <p class="govuk-body"><%= t('.text', subject: course.name_and_code, inviting_organisation:, date:, count: @current_provider_user.providers.count) %></p>
 <% end %>
