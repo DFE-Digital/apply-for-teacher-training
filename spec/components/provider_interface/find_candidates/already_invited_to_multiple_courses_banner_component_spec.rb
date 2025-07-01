@@ -5,6 +5,7 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCourse
     let(:candidate) { create(:candidate) }
     let(:application_form) { create(:application_form, candidate:, submitted_at: 1.day.ago) }
     let(:provider) { create(:provider) }
+    let(:provider2) { create(:provider) }
     let(:current_provider_user) { create(:provider_user, providers: [provider]) }
 
     let!(:invite1) do
@@ -23,12 +24,32 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCourse
         result = render_inline(described_class.new(
                                  application_form:,
                                  current_provider_user:,
-                                 show_provider_name: false,
                                ))
 
         expect(result.text).to include('This candidate was invited to apply')
         expect(result.text).to include(course1.name_and_code)
         expect(result.text).to include(course2.name_and_code)
+      end
+    end
+
+    context 'when multiple invites exist and the provider user has access to more than one provider' do
+      let(:current_provider_user) { create(:provider_user, providers: [provider, provider2]) }
+
+      let(:course1) { create(:course, provider:) }
+      let(:course2) { create(:course, provider: provider2) }
+
+      let!(:invite1) { create(:pool_invite, :published, candidate:, provider:, course: course1, created_at: 2.days.ago) }
+      let!(:invite2) { create(:pool_invite, :published, candidate:, provider: provider2, course: course2, created_at: 1.day.ago) }
+
+      it 'renders the banner with both course names and the provider name' do
+        result = render_inline(described_class.new(
+                                 application_form:,
+                                 current_provider_user:,
+                               ))
+
+        expect(result.text).to include('This candidate was invited to apply')
+        expect(result.text).to include("#{course1.name_and_code} at #{course1.provider.name}")
+        expect(result.text).to include("#{course2.name_and_code} at #{course2.provider.name}")
       end
     end
 
@@ -39,41 +60,14 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCourse
         result = render_inline(described_class.new(
                                  application_form:,
                                  current_provider_user:,
-                                 show_provider_name: true,
                                ))
 
         expect(result.text).to be_blank
       end
     end
 
-    context 'when show_provider_name is false' do
-      it 'renders invite details without provider name' do
-        result = render_inline(described_class.new(
-                                 application_form:,
-                                 current_provider_user:,
-                                 show_provider_name: false,
-                               ))
-
-        expect(result.text).to include(course1.name_and_code)
-        expect(result.text).not_to include(provider.name)
-      end
-    end
-
-    context 'when show_provider_name is true' do
-      it 'renders invite details with provider name' do
-        result = render_inline(described_class.new(
-                                 application_form:,
-                                 current_provider_user:,
-                                 show_provider_name: true,
-                               ))
-
-        expect(result.text).to include(provider.name)
-        expect(result.text).to include(course1.name_and_code)
-      end
-    end
-
     context 'when an invite matches an application choice' do
-      before do
+      let!(:application_choice) do
         create(
           :application_choice,
           application_form: application_form,
@@ -86,11 +80,10 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCourse
         result = render_inline(described_class.new(
                                  application_form:,
                                  current_provider_user:,
-                                 show_provider_name: true,
                                ))
 
         expect(result.text).to include(course1.name_and_code)
-        expect(result.text).to include('View application')
+        expect(result).to have_link('View application', href: "/provider/applications/#{application_choice.id}")
       end
     end
 
@@ -102,7 +95,6 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCourse
         result = render_inline(described_class.new(
                                  application_form:,
                                  current_provider_user:,
-                                 show_provider_name: true,
                                ))
 
         expect(result.text).to be_blank

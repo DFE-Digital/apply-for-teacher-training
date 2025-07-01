@@ -1,8 +1,7 @@
 class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent < ViewComponent::Base
-  def initialize(application_form:, current_provider_user:, show_provider_name:)
+  def initialize(application_form:, current_provider_user:)
     @application_form = application_form
     @current_provider_user = current_provider_user
-    @show_provider_name = show_provider_name
   end
 
   def render?
@@ -13,13 +12,6 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
     invites.first
   end
 
-  def heading
-    key = @show_provider_name ? 'heading_with_provider' : 'heading_without_provider'
-    I18n.t("provider_interface.find_candidates.already_invited_candidate_banner_component.#{key}",
-           subject: invite.course.name,
-           provider: invite.provider.name)
-  end
-
   def text
     if matching_application_choice(invite)
       I18n.t(
@@ -27,12 +19,12 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
         link: view_application_link(invite),
       ).html_safe
     else
-      key = @show_provider_name ? 'text_with_provider' : 'text_without_provider'
       I18n.t(
-        "provider_interface.find_candidates.already_invited_candidate_banner_component.#{key}",
+        'provider_interface.find_candidates.already_invited_candidate_banner_component.text',
         subject: invite.course.name_and_code,
         provider: invite.provider.name,
         date: date,
+        count: @current_provider_user.providers.count,
       )
     end
   end

@@ -2,9 +2,11 @@ en:
   provider_interface:
     find_candidates:
       already_invited_candidate_banner_component:
-        heading_with_provider: This candidate was invited to %{subject} at %{provider}.
-        heading_without_provider: This candidate was invited to %{subject}.
+        heading:
+          one: This candidate was invited to %{subject}.
+          other: This candidate was invited to %{subject} at %{provider}.
+        text:
+          one: This candidate was invited to %{subject} on %{date}. They have not applied yet.
+          other: This candidate was invited to %{subject} at %{provider} on %{date}. They have not applied yet.
         text_with_application: The candidate has submitted an application. %{link}
-        text_with_provider: This candidate was invited to %{subject} at %{provider} on %{date}. They have not applied yet.
-        text_without_provider: This candidate was invited to %{subject} on %{date}. They have not applied yet.
         view_application: View application
