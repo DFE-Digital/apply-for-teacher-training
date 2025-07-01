@@ -5,5 +5,5 @@ en:
         one: This candidate was invited to %{subject}
         other: This candidate was invited to %{subject} at %{inviting_organisation}
       text:
-        one: This candidate was invited to %{subject} on %{date}. They have not applied yet.
-        other: This candidate was invited to %{subject} at %{inviting_organisation} on %{date}. They have not applied yet.
+        one: This candidate was invited to %{subject} on %{date}.
+        other: This candidate was invited to %{subject} at %{inviting_organisation} on %{date}.
