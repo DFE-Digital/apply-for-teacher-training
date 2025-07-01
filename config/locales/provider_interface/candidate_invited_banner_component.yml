@@ -1,0 +1,9 @@
+en:
+  provider_interface:
+    candidate_invited_banner_component:
+      heading:
+        one: This candidate was invited to %{subject}
+        other: This candidate was invited to %{subject} at %{inviting_organisation}
+      text:
+        one: This candidate was invited to %{subject} on %{date}.
+        other: This candidate was invited to %{subject} at %{inviting_organisation} on %{date}.

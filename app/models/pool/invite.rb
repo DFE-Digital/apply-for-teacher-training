@@ -7,6 +7,8 @@ class Pool::Invite < ApplicationRecord
   has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
   has_many :application_choices, through: :application_form
 
+  delegate :name, to: :provider, prefix: true
+
   enum :status, {
     draft: 'draft',
     published: 'published',
