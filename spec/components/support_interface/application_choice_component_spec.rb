@@ -3,6 +3,13 @@ require 'rails_helper'
 RSpec.describe SupportInterface::ApplicationChoiceComponent do
   include Rails.application.routes.url_helpers
 
+  before do
+    uri = URI.join(I18n.t('find_teacher_training.production_url'), 'results')
+    stub_request(:get, uri)
+      .with(query: hash_including({}))
+      .to_return(body: nil)
+  end
+
   context 'Declined offer' do
     let(:declined_offer) do
       create(:application_choice, :with_completed_application_form, :declined)
@@ -481,6 +488,23 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   end
 
   context 'recommended courses row' do
+    before do
+      body_html = <<-HTML
+         <html>
+        <body>
+          <h1 class="govuk-heading-xl">
+              1 course found
+          </h1>
+        </body>
+        </html>
+      HTML
+
+      uri = URI.join(I18n.t('find_teacher_training.production_url'), 'results')
+      stub_request(:get, uri)
+        .with(query: hash_including({}))
+        .to_return(body: body_html)
+    end
+
     it 'does not render the recommended courses row if the application choice has not been submitted' do
       application_choice = create(
         :application_choice,
