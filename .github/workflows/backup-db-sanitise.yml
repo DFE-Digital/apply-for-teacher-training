@@ -89,6 +89,7 @@ jobs:
           BACKUP_FILE=${BACKUP_FILE}
         fi
         echo "BACKUP_FILE=${BACKUP_FILE}_exclude" >> $GITHUB_ENV
+        echo "TODAY=${TODAY}" >> $GITHUB_ENV
 
     - name: Backup ${{ env.DEPLOY_ENV }} postgres
       uses: DFE-Digital/github-actions/backup-postgres@master
@@ -139,7 +140,7 @@ jobs:
         createdb ${DATABASE_NAME} && gzip -d --to-stdout ${{ env.BACKUP_FILE }}.sql.gz | psql -d ${DATABASE_NAME}
         rm ${{ env.BACKUP_FILE }}.sql.gz
         psql -d ${DATABASE_NAME} -f db/scripts/sanitise.sql
-        pg_dump --encoding utf8 --compress=1 --clean --no-owner --if-exists -d ${DATABASE_NAME} -f att_backup_sanitised.sql.gz
+        pg_dump --encoding utf8 --compress=1 --clean --no-owner --if-exists -d ${DATABASE_NAME} -f att_backup_sanitised_${{ env.TODAY }}.sql.gz
       env:
         DATABASE_NAME: apply_manage_itt
         PGUSER: postgres
@@ -154,6 +155,6 @@ jobs:
         echo "::add-mask::$STORAGE_CONN_STR"
         echo "STORAGE_CONN_STR=$STORAGE_CONN_STR" >> $GITHUB_ENV
         az storage blob upload --container-name database-backup \
-        --file att_backup_sanitised.sql.gz --name att_backup_sanitised.sql.gz --overwrite \
+        --file att_backup_sanitised_${{ env.TODAY }}.sql.gz --name att_backup_sanitised_${{ env.TODAY }}.sql.gz \
         --connection-string '${{ env.STORAGE_CONN_STR }}'
-        rm att_backup_sanitised.sql.gz
+        rm att_backup_sanitised_${{ env.TODAY }}.sql.gz
