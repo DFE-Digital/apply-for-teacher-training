@@ -100,7 +100,7 @@ module ProviderInterface
                          .published
                          .current_cycle
                          .where(provider: @provider_user.providers)
-                         .includes(:course)
+                         .includes(:course, :application_form)
                          .order(created_at: :desc)
                          .select(matching_choice_sql)
     end
