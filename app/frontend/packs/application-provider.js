@@ -13,7 +13,6 @@ import LocationAutocompleteController from './controllers/location_autocomplete_
 import showMoreShowLess from './components/show-more-show-less'
 import personalStatementToggle from './components/toggle_personal_statement'
 
-
 require.context('govuk-frontend/dist/govuk/assets')
 
 window.Stimulus = Application.start()
