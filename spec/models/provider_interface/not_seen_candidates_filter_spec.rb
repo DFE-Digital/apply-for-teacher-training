@@ -164,10 +164,10 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
           remove_filters: {},
         )
         expect { filter.save }.to change {
-          current_provider_user.up_to_date_find_a_candidate_not_seen_filter&.filters
+          current_provider_user.find_a_candidate_not_seen_filter&.filters
         }.from({}).to(filter_params.with_indifferent_access)
         .and change {
-          current_provider_user.up_to_date_find_a_candidate_all_filter&.filters
+          current_provider_user.find_a_candidate_all_filter&.filters
         }.from(nil).to(filter_params.with_indifferent_access)
       end
     end
@@ -191,7 +191,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
           current_provider_user.find_a_candidate_filters
         }.from({})
         expect { filter.save }.not_to change {
-          current_provider_user.up_to_date_find_a_candidate_all_filter&.filters
+          current_provider_user.find_a_candidate_all_filter&.filters
         }.from(nil)
       end
     end
@@ -214,10 +214,10 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
         )
 
         expect { filter.save }.to change {
-          current_provider_user.up_to_date_find_a_candidate_not_seen_filter.filters
+          current_provider_user.find_a_candidate_not_seen_filter.filters
         }.from(filters).to({})
         .and change {
-          current_provider_user.up_to_date_find_a_candidate_all_filter&.filters
+          current_provider_user.find_a_candidate_all_filter&.filters
         }.from(nil).to({})
       end
     end
@@ -243,7 +243,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
           remove_filters: {},
         )
         expect { filter.save }.to change {
-          current_provider_user.up_to_date_find_a_candidate_not_seen_filter.filters
+          current_provider_user.find_a_candidate_not_seen_filter.filters
         }.from(filters_in_db).to(
           {
             'location' => 'Manchester',
@@ -274,7 +274,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
           remove_filters: {},
         )
         expect { filter.save }.to change {
-          current_provider_user.up_to_date_find_a_candidate_not_seen_filter.filters
+          current_provider_user.find_a_candidate_not_seen_filter.filters
         }.from(filters_in_db).to({ 'location' => 'Manchester' })
       end
     end

@@ -10,7 +10,6 @@ en:
         index:
           title: Find candidates - Invited
           heading: Find candidates
-          table_caption: Find candidates
           candidates_invited:
             zero: No candidates invited
             one: "%{count} candidate invited"

@@ -78,11 +78,7 @@ module ProviderInterface
       end
 
       def path_to_clear_filters
-        if filter.is_a?(ProviderInterface::NotSeenCandidatesFilter)
-          provider_interface_candidate_pool_not_seen_index_path(remove_filters: true)
-        else
-          provider_interface_candidate_pool_root_path(remove_filters: true)
-        end
+        '?remove_filters=true'
       end
 
     private
