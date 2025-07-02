@@ -319,6 +319,52 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         end
       end
     end
+
+    context 'rejected_provider_ids' do
+      it 'sets to [] when there are no rejections' do
+        application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
+        stub_application_forms_in_the_pool(application_form.id)
+
+        expect(application_form.application_choices.rejected).to eq []
+
+        described_class.new.perform
+
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.rejected_provider_ids).to eq []
+      end
+
+      it 'does not include provider ids from choices with other statuses' do
+        application_form = create(:application_form, :completed)
+        rejected_choice = create(:application_choice, :rejected, application_form:)
+        another_reject_choice = create(:application_choice, :rejected, application_form:)
+        create(:application_choice, :withdrawn, application_form:)
+        create(:application_choice, :awaiting_provider_decision, application_form:)
+        stub_application_forms_in_the_pool(application_form.id)
+
+        described_class.new.perform
+
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.rejected_provider_ids)
+          .to contain_exactly(rejected_choice.course.provider_id, another_reject_choice.course.provider.id)
+      end
+
+      it 'only collects uniq provider ids' do
+        provider = create(:provider)
+        first_rejected_course = create(:course, provider:)
+        second_rejected_course = create(:course, provider:)
+
+        application_form = create(:application_form, :completed)
+        create(:application_choice, :rejected, application_form:, course_option: build(:course_option, course: first_rejected_course))
+        create(:application_choice, :rejected, application_form:, course_option: build(:course_option, course: second_rejected_course))
+
+        stub_application_forms_in_the_pool(application_form.id)
+
+        described_class.new.perform
+
+        candidate_pool_application = CandidatePoolApplication.last
+        expect(candidate_pool_application.rejected_provider_ids).to eq([provider.id])
+      end
+    end
   end
 
 private
