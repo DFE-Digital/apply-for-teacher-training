@@ -53,26 +53,27 @@ private
   def filtered_application_forms
     scope = CandidatePoolApplication.filtered_application_forms(filters)
     scope = filter_by_distance(scope)
+    calculate_statuses(scope)
+  end
 
-    if with_statuses
-      viewed_candidates = ProviderPoolAction.where(
-        status: 'viewed',
-        recruitment_cycle_year: current_cycle,
-        actioned_by_id: provider_user.id,
-      ).select('application_form_id, TRUE AS viewed')
+  def calculate_statuses(scope)
+    return scope unless with_statuses && provider_user
 
-      invited_candidates = Pool::Invite.published.where(
-        provider_id: provider_user.provider_ids,
-        recruitment_cycle_year: current_cycle,
-      ).select('candidate_id, TRUE AS invited')
+    viewed_candidates = ProviderPoolAction.where(
+      status: 'viewed',
+      recruitment_cycle_year: current_cycle,
+      actioned_by_id: provider_user.id,
+    ).select('application_form_id, TRUE AS viewed')
 
-      scope = scope.with(viewed_candidates:, invited_candidates:)
-        .joins('LEFT JOIN viewed_candidates on viewed_candidates.application_form_id = application_forms.id')
-        .joins('LEFT JOIN invited_candidates on invited_candidates.candidate_id = application_forms.candidate_id')
-        .select('application_forms.*, COALESCE(viewed_candidates.viewed, FALSE) AS viewed, COALESCE(invited_candidates.invited, FALSE) AS invited')
-    end
+    invited_candidates = Pool::Invite.published.where(
+      provider_id: provider_user.provider_ids,
+      recruitment_cycle_year: current_cycle,
+    ).select('candidate_id, TRUE AS invited')
 
-    scope
+    scope.with(viewed_candidates:, invited_candidates:)
+      .joins('LEFT JOIN viewed_candidates on viewed_candidates.application_form_id = application_forms.id')
+      .joins('LEFT JOIN invited_candidates on invited_candidates.candidate_id = application_forms.candidate_id')
+      .select('application_forms.*, COALESCE(viewed_candidates.viewed, FALSE) AS viewed, COALESCE(invited_candidates.invited, FALSE) AS invited')
   end
 
   def curated_application_forms

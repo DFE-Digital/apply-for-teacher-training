@@ -13,9 +13,9 @@
 
     <%= govuk_table do |table| %>
       <%= table.with_head do |head| %>
+        <%= table.with_caption(text: t('.table_caption'), html_attributes: { class: 'govuk-visually-hidden' }) %>
         <%= head.with_row do |row| %>
-          <%= row.with_cell(text: t('.name')) %>
-          <%= row.with_cell(text: t('.status')) %>
+          <%= row.with_cell(text: t('.candidate')) %>
           <% if @filter.applied_location_search? %>
             <%= row.with_cell(text: t('.distance')) %>
           <% end %>
@@ -42,7 +42,6 @@
                 <p class="govuk-body app-qualification__value--caption govuk-!-margin-bottom-1"><%= t('.no_degree') %></p>
               <% end %>
             <% end %>
-            <%= row.with_cell(text: govuk_tag(text: 'New')) %>
             <%= row.with_cell do %>
               <% if @filter.applied_location_search? %>
                 <% if application_form.site_distance == -1 %>

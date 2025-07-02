@@ -136,7 +136,7 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   end
 
   def then_i_see_not_seen_candidates
-    expect(page).to have_content('1 candidate found')
+    expect(page).to have_content('1 new candidate found')
     candidates = page.all('.govuk-table__body .govuk-table__row td:first-child').map(&:text)
 
     expected_candidates = [candidate_name(@not_seen_application_form)]

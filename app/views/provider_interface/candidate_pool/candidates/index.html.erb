@@ -11,8 +11,9 @@
 
     <%= govuk_table do |table| %>
       <%= table.with_head do |head| %>
+        <%= table.with_caption(text: t('.table_caption'), html_attributes: { class: 'govuk-visually-hidden' }) %>
         <%= head.with_row do |row| %>
-          <%= row.with_cell(text: t('.name')) %>
+          <%= row.with_cell(text: t('.candidate')) %>
           <%= row.with_cell(text: t('.status')) %>
           <% if @filter.applied_location_search? %>
             <%= row.with_cell(text: t('.distance')) %>
