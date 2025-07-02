@@ -1,7 +1,7 @@
 <% if show_full_personal_statement? %>
   <%= simple_format(personal_statement, class: 'govuk-body') %>
 <% else %>
-  <div id="app-truncated-personal-statement" class="govuk-body">
+  <div id="app-truncated-personal-statement" class="govuk-visually-hidden govuk-body">
     <%= simple_format(truncated_personal_statement) %>
   </div>
 
@@ -12,7 +12,7 @@
   <%= govuk_link_to(
         t('.read_more'),
         '#',
-        class: 'govuk-body app-show-more-toggle',
+        class: 'govuk-body app-show-more-toggle govuk-visually-hidden',
         data: { action: 'toggle-personal-statement' },
       ) %>
 
