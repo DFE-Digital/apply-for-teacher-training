@@ -20,6 +20,7 @@
   - course_type_postgraduate
   - course_type_undergraduate
   - subject_ids
+  - rejected_provider_ids
   :candidate_pool_provider_opt_ins:
   - id
   - provider_id
