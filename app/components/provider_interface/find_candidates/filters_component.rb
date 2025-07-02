@@ -77,6 +77,10 @@ module ProviderInterface
         end
       end
 
+      def path_to_clear_filters
+        '?remove_filters=true'
+      end
+
     private
 
       def path_to_remove_location

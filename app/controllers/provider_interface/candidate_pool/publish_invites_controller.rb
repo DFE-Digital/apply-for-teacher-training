@@ -28,12 +28,12 @@ module ProviderInterface
               candidate_id: invite.candidate_id,
               course: invite.course.name_code_and_course_provider,
             )
-            redirect_to provider_interface_candidate_pool_root_path
+            redirect_to tab_user_came_from
           else
             render '/provider_interface/candidate_pool/draft_invites/edit'
           end
         else
-          redirect_to provider_interface_candidate_pool_candidates_path
+          redirect_to tab_user_came_from
         end
       end
 
@@ -61,6 +61,18 @@ module ProviderInterface
       def redirect_if_invite_is_not_found
         if invite.nil?
           redirect_to provider_interface_candidate_pool_candidate_path(@candidate)
+        end
+      end
+
+      def tab_user_came_from
+        last_filter = current_provider_user.find_candidate_filters
+
+        return provider_interface_candidate_pool_root_path if last_filter.nil?
+
+        if last_filter.find_candidates_not_seen?
+          provider_interface_candidate_pool_not_seen_index_path
+        else
+          provider_interface_candidate_pool_root_path
         end
       end
     end

@@ -18,15 +18,17 @@ module ProviderInterface
     end
     alias subject= subject_ids=
 
-    attr_reader :filters, :current_provider_user, :remove_filters, :suggested_location
+    attr_reader :filters, :current_provider_user, :remove_filters, :suggested_location,
+                :provider_user_filter
 
     validate :location_validity
 
     def initialize(filter_params:, current_provider_user:, remove_filters:)
       @current_provider_user = current_provider_user
+      @provider_user_filter = build_provider_user_filter
       @remove_filters = remove_filters
       @suggested_location ||= LocationSuggestions.new(
-        filter_params[:location] || current_provider_user.find_a_candidate_filters['location'],
+        filter_params[:location] || @provider_user_filter.filters['location'],
       ).call.first
 
       super(filter_attributes(filter_params))
@@ -37,7 +39,7 @@ module ProviderInterface
     def applied_filters
       return {} if invalid?
 
-      @applied_filters ||= current_provider_user.find_a_candidate_filters.merge(
+      @applied_filters ||= provider_user_filter.filters.merge(
         filter_params_with_location,
       ).with_indifferent_access
     end
@@ -48,9 +50,15 @@ module ProviderInterface
 
     def save
       if valid? && filters.any?
-        current_provider_user.update!(find_a_candidate_filters: filters)
+        ActiveRecord::Base.transaction do
+          provider_user_filter.update(filters:, updated_at: Time.zone.now)
+          sister_filter.update(filters:, updated_at: 2.seconds.ago)
+        end
       elsif remove_filters && filters.blank?
-        current_provider_user.update!(find_a_candidate_filters: {})
+        ActiveRecord::Base.transaction do
+          provider_user_filter.update(filters: {}, updated_at: Time.zone.now)
+          sister_filter.update(filters: {}, updated_at: 2.seconds.ago)
+        end
       end
     end
 
@@ -71,7 +79,7 @@ module ProviderInterface
     end
 
     def sanitised_db_filters
-      filters = current_provider_user.find_a_candidate_filters.with_indifferent_access
+      filters = @provider_user_filter.filters.with_indifferent_access
 
       old_filters = filters.keys.map(&:to_sym) - ATTRIBUTES
 
@@ -111,6 +119,16 @@ module ProviderInterface
       if location.present? && location_coordinates.nil?
         errors.add(:location, :invalid_location)
       end
+    end
+
+    def build_provider_user_filter
+      current_provider_user.find_a_candidate_all_filter ||
+        current_provider_user.build_find_a_candidate_all_filter
+    end
+
+    def sister_filter
+      current_provider_user.find_a_candidate_not_seen_filter ||
+        current_provider_user.build_find_a_candidate_not_seen_filter
     end
   end
 end

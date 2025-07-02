@@ -17,14 +17,33 @@ en:
           no_candidates: There are no invited candidates that match your filters
           application_received: Application received
           invited: Invited
+      not_seen:
+        index:
+          title: Find candidates - New
+          no_candidates: No candidates
+          table_caption: Find candidates
+          candidate_information_agreement: Candidates can choose to share their application details.
+          hint: These are the candidates that you have not reviewed yet.
+          candidates_found:
+            one: "%{count} new candidate found"
+            other: "%{count} new candidates found"
+          candidate: Candidate
+          distance: Distance
+          no_degree: No degree
+          miles:
+            zero: "%{count} miles"
+            one: "%{count} miles"
+            other: "%{count} miles"
+          no_preferences: Open to courses anywhere
       candidates:
         index:
           title: Find candidates - All candidates
           no_candidates: No candidates
+          table_caption: Find candidates
           candidates_found:
             one: "%{count} candidate found"
             other: "%{count} candidates found"
-          name: Name
+          candidate: Candidate
           status: Status
           distance: Distance
           no_degree: No degree

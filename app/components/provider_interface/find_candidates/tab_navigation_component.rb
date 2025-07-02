@@ -4,7 +4,7 @@ class ProviderInterface::FindCandidates::TabNavigationComponent < ViewComponent:
   end
 
   def items
-    [all_candidates, invited]
+    [all_candidates, not_seen_candidates_item, invited]
   end
 
   def all_candidates
@@ -20,6 +20,14 @@ class ProviderInterface::FindCandidates::TabNavigationComponent < ViewComponent:
       current: @selected_tab == :invited,
       name: t('.invited'),
       url: provider_interface_candidate_pool_invites_path,
+    }
+  end
+
+  def not_seen_candidates_item
+    {
+      current: @selected_tab == :not_seen,
+      name: t('.not_seen'),
+      url: provider_interface_candidate_pool_not_seen_index_path,
     }
   end
 
