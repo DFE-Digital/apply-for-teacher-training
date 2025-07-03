@@ -89,6 +89,21 @@ RSpec.describe CandidatePoolApplication do
       expect(application_forms.ids).to contain_exactly(
         visa_sponsorship_candidate_form.id,
       )
+
+      provider_user = create(:provider_user, :with_two_providers)
+      form_rejected_by_both_providers = create(:application_form)
+      form_rejected_by_one_provider = create(:application_form)
+      form_rejected_by_another_provider = create(:application_form)
+
+      create(:candidate_pool_application, application_form: form_rejected_by_both_providers, rejected_provider_ids: provider_user.provider_ids)
+      create(:candidate_pool_application, application_form: form_rejected_by_one_provider, rejected_provider_ids: [provider_user.providers.first.id])
+      create(:candidate_pool_application, application_form: form_rejected_by_another_provider, rejected_provider_ids: [create(:provider).id])
+
+      application_forms = described_class.filtered_application_forms({}, provider_user)
+
+      expect(application_forms.ids).to include(form_rejected_by_one_provider.id)
+      expect(application_forms.ids).to include(form_rejected_by_another_provider.id)
+      expect(application_forms.ids).not_to include(form_rejected_by_both_providers.id)
     end
   end
 end
