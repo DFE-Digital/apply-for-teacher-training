@@ -7,5 +7,5 @@ en:
         text:
           one: "%{course} on %{date}. They have not applied yet."
           other: "%{course} at %{provider} on %{date}. They have not applied yet."
-        text_with_application: "%{course} on %{date}. %{link}"
+        text_with_application_html: "%{course} on %{date}. %{link}"
         view_application: View application

@@ -14,12 +14,12 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
 
   def text
     if invite.matching_application_choice
-      I18n.t(
-        'provider_interface.find_candidates.already_invited_candidate_banner_component.text_with_application',
+      t(
+        'provider_interface.find_candidates.already_invited_candidate_banner_component.text_with_application_html',
         link: view_application_link(invite),
-      ).html_safe
+      )
     else
-      I18n.t(
+      t(
         'provider_interface.find_candidates.already_invited_candidate_banner_component.text',
         subject: invite.course.name_and_code,
         provider: invite.provider.name,
@@ -49,7 +49,7 @@ private
     return unless choice
 
     govuk_link_to(
-      I18n.t('provider_interface.find_candidates.already_invited_candidate_banner_component.view_application'),
+      t('provider_interface.find_candidates.already_invited_candidate_banner_component.view_application'),
       provider_interface_application_choice_path(choice),
     )
   end
