@@ -17,7 +17,7 @@ class CandidatePoolApplication < ApplicationRecord
     return scope if provider_user.blank?
 
     provider_ids = provider_user.providers.ids
-    rejected_application_ids = where('rejected_provider_ids @> ARRAY[?]::bigint[]', Array.wrap(provider_ids)).pluck(:application_form_id)
+    rejected_application_ids = where('rejected_provider_ids @> ARRAY[?]::bigint[]', Array.wrap(provider_ids)).select(:application_form_id)
 
     scope.where.not(application_form_id: rejected_application_ids)
   end

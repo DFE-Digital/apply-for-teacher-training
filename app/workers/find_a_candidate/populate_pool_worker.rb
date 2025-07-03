@@ -7,7 +7,7 @@ class FindACandidate::PopulatePoolWorker
     application_forms_eligible_for_pool = Pool::Candidates.new.application_forms_in_the_pool
 
     applications = application_forms_eligible_for_pool
-                     .joins(application_choices: { course_option: { course: %i[subjects provider] } })
+                     .joins(application_choices: { course_option: { course: :subjects } })
                      .where.not(application_choices: { status: 'unsubmitted' })
                      .select(
                        'application_forms.id AS application_form_id',
@@ -17,7 +17,7 @@ class FindACandidate::PopulatePoolWorker
                        "BOOL_OR(courses.program_type != 'TDA') AS course_type_postgraduate",
                        "BOOL_OR(courses.program_type = 'TDA') AS course_type_undergraduate",
                        'ARRAY_AGG(DISTINCT subjects.id) AS subject_ids',
-                       "COALESCE(ARRAY_AGG(DISTINCT providers.id) FILTER (WHERE application_choices.status = 'rejected'), '{}') AS rejected_provider_ids",
+                       "COALESCE(ARRAY_AGG(DISTINCT courses.provider_id) FILTER (WHERE application_choices.status = 'rejected'), '{}') AS rejected_provider_ids",
                        "MAX(CASE WHEN application_forms.right_to_work_or_study = 'no' OR (application_forms.right_to_work_or_study = 'yes' AND application_forms.immigration_status IN ('student_visa', 'skilled_worker_visa')) THEN 1 ELSE 0 END) = 1 AS needs_visa",
                        'CURRENT_TIMESTAMP as created_at',
                        'CURRENT_TIMESTAMP as updated_at',
