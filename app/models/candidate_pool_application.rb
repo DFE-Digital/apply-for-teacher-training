@@ -2,14 +2,24 @@ class CandidatePoolApplication < ApplicationRecord
   belongs_to :application_form
   belongs_to :candidate
 
-  def self.filtered_application_forms(filters)
+  def self.filtered_application_forms(filters, provider_user = nil)
     scope = CandidatePoolApplication.all
+    scope = remove_application_forms_rejected_by_providers(scope, provider_user)
     scope = filter_by_subject(scope, filters)
     scope = filter_by_study_mode(scope, filters)
     scope = filter_by_course_type(scope, filters)
     scope = filter_by_needs_visa(scope, filters)
 
     ApplicationForm.where(id: scope.select(:application_form_id))
+  end
+
+  def self.remove_application_forms_rejected_by_providers(scope, provider_user)
+    return scope if provider_user.blank?
+
+    provider_ids = provider_user.providers.ids
+    rejected_application_ids = where('rejected_provider_ids @> ARRAY[?]::bigint[]', Array.wrap(provider_ids)).pluck(:application_form_id)
+
+    scope.where.not(application_form_id: rejected_application_ids)
   end
 
   def self.filter_by_subject(scope, filters)

@@ -87,7 +87,7 @@ class Pool::Candidates
 private
 
   def filtered_application_forms
-    scope = CandidatePoolApplication.filtered_application_forms(filters)
+    scope = CandidatePoolApplication.filtered_application_forms(filters, provider_user)
     scope = filter_by_distance(scope)
     calculate_statuses(scope)
   end
