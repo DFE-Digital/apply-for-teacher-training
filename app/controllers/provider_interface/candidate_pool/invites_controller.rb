@@ -20,9 +20,8 @@ module ProviderInterface
         @invite = Pool::Invite
                     .published
                     .current_cycle
-                    .published
                     .where(provider: current_provider_user.providers)
-                    .find(params[:id])
+                    .find_by(id: params[:id])
 
         redirect_to provider_interface_candidate_pool_invites_path if @invite.nil?
       end
