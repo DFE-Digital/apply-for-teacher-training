@@ -27,18 +27,21 @@ module ProviderInterface
   private
 
     def use_filter_with_new_params
-      @provider_user.provider_user_filters.find_or_create_by(kind:).tap do |user_filter|
+      @provider_user.provider_user_filters.find_or_initialize_by(kind:).tap do |user_filter|
         user_filter.update!(
           filters: {
             courses: @filter_params.fetch('courses', []).compact_blank.map(&:to_i),
             status: @filter_params.fetch('status', []).compact_blank,
           }.compact_blank,
+          updated_at: Time.zone.now,
         )
       end
     end
 
     def use_existing_filter
-      @provider_user.provider_user_filters.find_or_initialize_by(kind:)
+      filter = @provider_user.provider_user_filters.find_or_create_by(kind:)
+      filter.touch
+      filter
     end
 
     def course_filter_options

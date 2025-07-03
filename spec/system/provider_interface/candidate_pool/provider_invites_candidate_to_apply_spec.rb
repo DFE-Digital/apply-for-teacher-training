@@ -81,6 +81,33 @@ RSpec.describe 'Providers invites candidates' do
     then_i_am_on_the_candidate_pool_not_seen_page(first_course)
   end
 
+  scenario 'Redirect to invited tab after inviting candidate' do
+    given_i_am_a_provider_user_with_dfe_sign_in
+    and_provider_user_exists
+    and_provider_has_courses(3)
+    and_there_are_candidates_for_candidate_pool
+    and_provider_has_invites
+    and_provider_is_opted_in_to_candidate_pool
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_visit_the_find_candidates_invited_page
+    when_i_click(@candidate.redacted_full_name_current_cycle)
+    when_i_click('Invite to apply')
+
+    then_i_am_redirected_to_the_new_invite_form
+    when_i_select_a_course(last_course)
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_message_page
+    when_i_choose_no
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_the_review_page(last_course, 'None')
+
+    when_i_click('Send invitation')
+    then_i_am_on_the_candidate_pool_invited_page(last_course)
+  end
+
   scenario 'Invite candidate to apply for a provider with over 20 courses' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_user_exists
@@ -248,7 +275,7 @@ RSpec.describe 'Providers invites candidates' do
 
   def then_i_am_redirected_to_the_review_page(course, message = message_content)
     expect(page).to have_current_path(
-      provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, pool_invite.id),
+      provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, draft_pool_invite.id),
       ignore_query: true,
     )
     expect(page).to have_content(course.name_code_and_course_provider)
@@ -257,7 +284,7 @@ RSpec.describe 'Providers invites candidates' do
 
   def then_i_am_redirected_to_the_edit_page
     expect(page).to have_current_path(
-      edit_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, pool_invite.id),
+      edit_provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, draft_pool_invite.id),
       ignore_query: true,
     )
   end
@@ -277,6 +304,18 @@ RSpec.describe 'Providers invites candidates' do
   def then_i_am_on_the_candidate_pool_not_seen_page(course)
     expect(page).to have_current_path(
       provider_interface_candidate_pool_not_seen_index_path,
+      ignore_query: true,
+    )
+
+    expect(page).to have_content(
+      "You have invited #{@candidate.redacted_full_name_current_cycle} (#{@candidate.id}) " \
+      "to apply to #{course.name_code_and_course_provider}",
+    )
+  end
+
+  def then_i_am_on_the_candidate_pool_invited_page(course)
+    expect(page).to have_current_path(
+      provider_interface_candidate_pool_invites_path,
       ignore_query: true,
     )
 
@@ -318,7 +357,7 @@ RSpec.describe 'Providers invites candidates' do
     expect(page).to have_current_path(
       new_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
         @candidate,
-        pool_invite,
+        draft_pool_invite,
       ),
     )
   end
@@ -327,7 +366,7 @@ RSpec.describe 'Providers invites candidates' do
     expect(page).to have_current_path(
       edit_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
         @candidate,
-        pool_invite,
+        draft_pool_invite,
         return_to: 'review',
       ),
     )
@@ -337,13 +376,13 @@ RSpec.describe 'Providers invites candidates' do
     expect(page).to have_current_path(
       edit_provider_interface_candidate_pool_candidate_draft_invite_provider_invite_messages_path(
         @candidate,
-        pool_invite,
+        draft_pool_invite,
       ),
     )
   end
 
-  def pool_invite
-    Pool::Invite.where(provider_id: current_provider.id).last
+  def draft_pool_invite
+    Pool::Invite.draft.where(provider_id: current_provider.id).last
   end
 
   def when_i_choose_yes
@@ -360,5 +399,21 @@ RSpec.describe 'Providers invites candidates' do
 
   def when_i_visit_the_find_candidates_not_seen_page
     visit provider_interface_candidate_pool_not_seen_index_path
+  end
+
+  def when_i_visit_the_find_candidates_invited_page
+    visit provider_interface_candidate_pool_invites_path
+  end
+
+  def and_provider_has_invites
+    create(
+      :pool_invite,
+      candidate: @candidate,
+      provider: current_provider,
+      course: first_course,
+      status: 'published',
+      application_form: @candidate.current_cycle_application_form,
+      invited_by: current_provider.provider_users.last,
+    )
   end
 end

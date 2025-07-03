@@ -80,9 +80,9 @@ class ProviderUser < ApplicationRecord
       )
   end
 
-  def find_candidate_filters
+  def last_find_candidate_filter
     @find_candidate_filters = provider_user_filters.where(
-      kind: %w[find_candidates_all find_candidates_not_seen],
+      kind: %w[find_candidates_all find_candidates_not_seen find_candidates_invited],
     ).order('updated_at desc').first
   end
 end
