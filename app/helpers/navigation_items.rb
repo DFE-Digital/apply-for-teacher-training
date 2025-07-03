@@ -76,11 +76,6 @@ class NavigationItems
             href: support_interface_docs_path,
             active: active?(current_controller, %w[docs]),
           },
-          {
-            text: 'Find a candidate',
-            href: support_interface_find_candidates_path,
-            active: active?(current_controller, %w[find_candidates]),
-          },
         ]
       else
         []

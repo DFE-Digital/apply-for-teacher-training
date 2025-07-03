@@ -101,8 +101,6 @@ namespace :support_interface, path: '/support' do
 
   get '/candidates' => 'candidates#index'
 
-  resources :find_candidates, only: %i[index], path: 'find-a-candidate'
-
   resources :location_suggestions, only: :index, path: 'location-suggestions'
 
   scope path: '/candidates' do
