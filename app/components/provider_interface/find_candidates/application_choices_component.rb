@@ -71,7 +71,7 @@ private
 
     {
       key: { text: t('.withdrawal_reason') },
-      value: { text: render(SupportInterface::WithdrawalReasonsComponent.new(application_choice: choice)) },
+      value: { text: render(WithdrawalReasons::WithdrawalReasonsComponent.new(application_choice: choice)) },
     }
   end
 

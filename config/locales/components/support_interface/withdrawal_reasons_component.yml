@@ -1,41 +1,42 @@
 en:
-  support_interface:
-    withdrawal_reasons_component:
-      withdrawn_by_provider_on_behalf_of_candidate: Withdrawn by provider on behalf of candidate
-      no_reason_given: No reason given
-      reasons:
-        applying_to_another_provider:
-          accepted_another_offer: "I am going to apply (or have applied) to a different training provider: I have accepted another offer"
-          seen_a_course_that_suits_me_better: "I am going to apply (or have applied) to a different training provider: I have seen a course that suits me better"
-          provider_has_not_replied_to_me: "I am going to apply (or have applied) to a different training provider: The training provider has not replied to me"
-          location_is_too_far_away: "I am going to apply (or have applied) to a different training provider: The location I’m expected to train at is too far away"
-          personal_circumstances_have_changed:
-            concerns_about_cost_of_doing_course: "I am going to apply (or have applied) to a different training provider because my personal circumstances have changed: I have concerns about the cost of doing the course"
-            concerns_about_having_enough_time_to_train: "I am going to apply (or have applied) to a different training provider, personal circumstances have changed: I have concerns that I will not have time to train"
-            concerns_about_training_with_a_disability_or_health_condition: "I am going to apply (or have applied) to a different training provider because my personal circumstances have changed: I have concerns about training with a disability or health condition"
-            other: "I am going to apply (or have applied) to a different training provider because my personal circumstances have changed: %{comment}"
-          course_no_longer_available: "I am going to apply (or have applied) to a different training provider: The course is not available anymore"
-          other: "I am going to apply (or have applied) to a different training provider: %{comment}"
-        change_or_update_application_with_this_provider:
-          update_my_application_correct_an_error_or_add_information: "I am going to change or update my application with this training provider: I want to update my application, for example correct an error or add information"
-          change_study_pattern: "I am going to change or update my application with this training provider: I want to change my study pattern, for example from full time to part time"
-          apply_for_a_different_subject_with_the_same_provider: "I am going to change or update my application with this training provider: I want to apply for a different subject with the same provider"
-          other: "I am going to change or update my application with this training provider: %{comment}"
-        apply_in_the_future:
-          personal_circumstances_have_changed:
-            concerns_about_cost_of_doing_course: "I plan to apply for teacher training in the future because my personal circumstances have changed: I have concerns about the cost of doing the course"
-            concerns_about_having_enough_time_to_train: "I plan to apply for teacher training in the future because my personal circumstances have changed: I have concerns that I will not have time to train "
-            concerns_about_training_with_a_disability_or_health_condition: "I plan to apply for teacher training in the future because my personal circumstances have changed: I have concerns about training with a disability or health condition "
-            other: "I plan to apply for teacher training in the future because my personal circumstances have changed: %{comment}"
-          gain_more_experience: "I plan to apply for teacher training in the future: I want to get more experience before I apply again"
-          improve_qualifications: "I plan to apply for teacher training in the future: I want to improve my qualifications before I apply again"
-          other: "I plan to apply for teacher training in the future: %{comment}"
-        do_not_want_to_train_anymore:
-          personal_circumstances_have_changed:
-            concerns_about_cost_of_doing_course: "I do not want to train to teach anymore because my personal circumstances have changed: I have concerns about the cost of doing the course"
-            concerns_about_having_enough_time_to_train: "I do not want to train to teach anymore because my personal circumstances have changed: I have concerns that I will not have time to train"
-            concerns_about_training_with_a_disability_or_health_condition: "I do not want to train to teach anymore because my personal circumstances have changed: I have concerns about training with a disability or health condition"
-            other: "I do not want to train to teach anymore because my personal circumstances have changed: %{comment}"
-          another_career_path_or_accepted_a_job_offer: "I do not want to train to teach anymore: I have decided on another career path or I have accepted a job offer"
-          other: "I do not want to train to teach anymore: %{comment}"
-        other: "Other: %{comment}"
+  shared:
+    withdrawal_reasons:
+      withdrawal_reasons_component:
+        withdrawn_by_provider_on_behalf_of_candidate: Withdrawn by provider on behalf of candidate
+        no_reason_given: No reason given
+        reasons:
+          applying_to_another_provider:
+            accepted_another_offer: "I am going to apply (or have applied) to a different training provider: I have accepted another offer"
+            seen_a_course_that_suits_me_better: "I am going to apply (or have applied) to a different training provider: I have seen a course that suits me better"
+            provider_has_not_replied_to_me: "I am going to apply (or have applied) to a different training provider: The training provider has not replied to me"
+            location_is_too_far_away: "I am going to apply (or have applied) to a different training provider: The location I’m expected to train at is too far away"
+            personal_circumstances_have_changed:
+              concerns_about_cost_of_doing_course: "I am going to apply (or have applied) to a different training provider because my personal circumstances have changed: I have concerns about the cost of doing the course"
+              concerns_about_having_enough_time_to_train: "I am going to apply (or have applied) to a different training provider, personal circumstances have changed: I have concerns that I will not have time to train"
+              concerns_about_training_with_a_disability_or_health_condition: "I am going to apply (or have applied) to a different training provider because my personal circumstances have changed: I have concerns about training with a disability or health condition"
+              other: "I am going to apply (or have applied) to a different training provider because my personal circumstances have changed: %{comment}"
+            course_no_longer_available: "I am going to apply (or have applied) to a different training provider: The course is not available anymore"
+            other: "I am going to apply (or have applied) to a different training provider: %{comment}"
+          change_or_update_application_with_this_provider:
+            update_my_application_correct_an_error_or_add_information: "I am going to change or update my application with this training provider: I want to update my application, for example correct an error or add information"
+            change_study_pattern: "I am going to change or update my application with this training provider: I want to change my study pattern, for example from full time to part time"
+            apply_for_a_different_subject_with_the_same_provider: "I am going to change or update my application with this training provider: I want to apply for a different subject with the same provider"
+            other: "I am going to change or update my application with this training provider: %{comment}"
+          apply_in_the_future:
+            personal_circumstances_have_changed:
+              concerns_about_cost_of_doing_course: "I plan to apply for teacher training in the future because my personal circumstances have changed: I have concerns about the cost of doing the course"
+              concerns_about_having_enough_time_to_train: "I plan to apply for teacher training in the future because my personal circumstances have changed: I have concerns that I will not have time to train "
+              concerns_about_training_with_a_disability_or_health_condition: "I plan to apply for teacher training in the future because my personal circumstances have changed: I have concerns about training with a disability or health condition "
+              other: "I plan to apply for teacher training in the future because my personal circumstances have changed: %{comment}"
+            gain_more_experience: "I plan to apply for teacher training in the future: I want to get more experience before I apply again"
+            improve_qualifications: "I plan to apply for teacher training in the future: I want to improve my qualifications before I apply again"
+            other: "I plan to apply for teacher training in the future: %{comment}"
+          do_not_want_to_train_anymore:
+            personal_circumstances_have_changed:
+              concerns_about_cost_of_doing_course: "I do not want to train to teach anymore because my personal circumstances have changed: I have concerns about the cost of doing the course"
+              concerns_about_having_enough_time_to_train: "I do not want to train to teach anymore because my personal circumstances have changed: I have concerns that I will not have time to train"
+              concerns_about_training_with_a_disability_or_health_condition: "I do not want to train to teach anymore because my personal circumstances have changed: I have concerns about training with a disability or health condition"
+              other: "I do not want to train to teach anymore because my personal circumstances have changed: %{comment}"
+            another_career_path_or_accepted_a_job_offer: "I do not want to train to teach anymore: I have decided on another career path or I have accepted a job offer"
+            other: "I do not want to train to teach anymore: %{comment}"
+          other: "Other: %{comment}"
