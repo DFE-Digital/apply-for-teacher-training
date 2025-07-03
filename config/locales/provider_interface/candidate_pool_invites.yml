@@ -75,7 +75,7 @@ en:
           no_other_qualifications: No A levels or other qualifications
           english_as_a_foreign_language: English as a foreign language
           work_history_and_unpaid_experience: Work history and unpaid experience
-          candidate_number: Candidate %{candidate_id}
+          candidate_number: "Candidate number:  %{candidate_id}"
           personal_statement: Personal statement
           personal_statement_caption: Most recent
           personal_statement_title: Personal statement

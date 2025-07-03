@@ -112,7 +112,7 @@ private
   def then_i_see_their_pool_profile
     candidate_id = invite_with_candidate_in_pool.candidate_id
     expect(page).to have_title 'Candidate details'
-    expect(page).to have_content "Candidate #{candidate_id}"
+    expect(page).to have_content "Candidate number: #{candidate_id}"
   end
 
   def when_i_click_back
