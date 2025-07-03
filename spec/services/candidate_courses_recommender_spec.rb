@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateCoursesRecommender do
   describe '.recommended_courses_url' do
     it 'returns nil when there is no recommendations' do
-      candidate = build(:candidate)
+      candidate = create(:candidate)
 
       expect(described_class.recommended_courses_url(candidate:)).to be_nil
     end
