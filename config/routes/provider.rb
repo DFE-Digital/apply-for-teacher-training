@@ -29,6 +29,7 @@ namespace :provider_interface, path: '/provider' do
     resources :not_seen, only: %i[index], path: 'not-seen'
     resources :invites, only: %i[index show], path: 'invited'
     resources :candidates, only: %i[index show], path: '/' do
+      resource :shares, only: %i[show], path: 'share'
       resources :draft_invites, path: 'invite' do
         resource :provider_invite_messages, only: %i[new create edit update], path: 'message'
         resource :publish_invite, only: %i[create], path: 'review'

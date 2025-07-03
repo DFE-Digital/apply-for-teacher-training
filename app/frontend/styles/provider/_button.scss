@@ -39,3 +39,7 @@ $app-button-inverted-hover-background-colour: govuk-tint(
   border-color: $govuk-focus-colour;
   box-shadow: inset 0 0 0 2px $govuk-focus-colour;
 }
+
+.hidden {
+  display: none;
+}
