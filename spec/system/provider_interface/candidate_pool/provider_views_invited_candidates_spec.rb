@@ -48,6 +48,12 @@ RSpec.describe 'Invited candidate list' do
 
     when_i_click_back
     then_i_see_a_list_of_invited_candidates
+
+    when_i_click_on_candidate_not_in_the_pool
+    then_i_see_the_not_in_pool_page
+
+    when_i_click_back
+    then_i_see_a_list_of_invited_candidates
   end
 
   scenario 'Provider user with existing filters views list of candidates' do
@@ -89,6 +95,18 @@ private
   def when_i_click_on_candidate_in_the_pool
     redacted_name = invite_with_candidate_in_pool.candidate.current_application.redacted_full_name
     click_on redacted_name
+  end
+
+  def when_i_click_on_candidate_not_in_the_pool
+    redacted_name = invite_with_opted_out_candidate.candidate.current_application.redacted_full_name
+    click_on redacted_name
+  end
+
+  def then_i_see_the_not_in_pool_page
+    candidate_id = invite_with_opted_out_candidate.candidate_id
+    expect(page).to have_title 'Candidate details no longer available'
+    expect(page).to have_content "Candidate number: #{candidate_id}"
+    expect(page).to have_content 'You cannot see this candidate’s profile information.'
   end
 
   def then_i_see_their_pool_profile

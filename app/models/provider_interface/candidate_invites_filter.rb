@@ -1,6 +1,6 @@
 module ProviderInterface
   class CandidateInvitesFilter
-    def initialize(filter_params:, provider_user:)
+    def initialize(provider_user:, filter_params: {})
       @filter_params = filter_params
       @provider_user = provider_user
     end
@@ -10,6 +10,16 @@ module ProviderInterface
 
       invites = filter_by_course(all_invites)
       filter_by_status(invites)
+    end
+
+    def all_invites
+      @all_invites ||= Pool::Invite
+                         .published
+                         .current_cycle
+                         .where(provider: @provider_user.providers)
+                         .includes(:course, :application_form)
+                         .order(created_at: :desc)
+                         .select(matching_choice_sql)
     end
 
     def filters
@@ -93,16 +103,6 @@ module ProviderInterface
       elsif status_filter.include?('application_received')
         invites.with_matching_application_choices
       end
-    end
-
-    def all_invites
-      @all_invites ||= Pool::Invite
-                         .published
-                         .current_cycle
-                         .where(provider: @provider_user.providers)
-                         .includes(:course, :application_form)
-                         .order(created_at: :desc)
-                         .select(matching_choice_sql)
     end
 
     def kind
