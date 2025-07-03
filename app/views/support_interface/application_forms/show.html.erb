@@ -5,17 +5,9 @@
 <%= render SupportInterface::ApplicationSummaryComponent.new(application_form: @application_form) %>
 
 <div class="govuk-button-group">
-  <% if (recommended_courses_url = CandidateCoursesRecommender.recommended_courses_url(candidate: @application_form.candidate, locatable: @application_form).presence) %>
-    <div>
-      <%= govuk_link_to 'Recommended Courses (based on Candidate location)', recommended_courses_url, class: 'govuk-link govuk-link--no-visited-state', target: '_blank', rel: 'noopener' %>
-    </div>
-  <% end %>
-
-  <% if (recommended_courses_url = CandidateCoursesRecommender.recommended_courses_url(candidate: @application_form.candidate).presence) %>
-    <div>
-      <%= govuk_link_to 'Recommended Courses (without a location)', recommended_courses_url, class: 'govuk-link govuk-link--no-visited-state', target: '_blank', rel: 'noopener' %>
-    </div>
-  <% end %>
+  <div>
+    <%= govuk_link_to 'Recommended Courses (based on Candidate location)', support_interface_candidate_course_recommendation_path(@application_form.candidate), class: 'govuk-link govuk-link--no-visited-state' %>
+  </div>
 </div>
 
 <div class="govuk-button-group">
