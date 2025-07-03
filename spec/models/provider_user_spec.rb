@@ -179,4 +179,87 @@ RSpec.describe ProviderUser do
       expect(result).to contain_exactly(provider_with_permissions)
     end
   end
+
+  describe '#last_find_candidate_filter' do
+    context 'when find_a_candidate_all filter is most up to date' do
+      it 'returns the most up to date find a candidate filter' do
+        provider_user = create(:provider_user)
+        all_filter = create(
+          :provider_user_filter,
+          kind: 'find_candidates_all',
+          provider_user:,
+        )
+
+        create(
+          :provider_user_filter,
+          kind: 'find_candidates_not_seen',
+          provider_user:,
+          updated_at: 2.days.ago,
+        )
+
+        create(
+          :provider_user_filter,
+          kind: 'find_candidates_invited',
+          provider_user:,
+          updated_at: 2.days.ago,
+        )
+
+        expect(provider_user.last_find_candidate_filter).to eq(all_filter)
+      end
+    end
+
+    context 'when find_a_candidate_not_seen filter is most up to date' do
+      it 'returns the most up to date find a candidate filter' do
+        provider_user = create(:provider_user)
+        create(
+          :provider_user_filter,
+          kind: 'find_candidates_all',
+          provider_user:,
+          updated_at: 2.days.ago,
+        )
+
+        not_seen_filter = create(
+          :provider_user_filter,
+          kind: 'find_candidates_not_seen',
+          provider_user:,
+        )
+
+        create(
+          :provider_user_filter,
+          kind: 'find_candidates_invited',
+          provider_user:,
+          updated_at: 2.days.ago,
+        )
+
+        expect(provider_user.last_find_candidate_filter).to eq(not_seen_filter)
+      end
+    end
+
+    context 'when find_a_candidate_invited filter is most up to date' do
+      it 'returns the most up to date find a candidate filter' do
+        provider_user = create(:provider_user)
+        create(
+          :provider_user_filter,
+          kind: 'find_candidates_all',
+          provider_user:,
+          updated_at: 2.days.ago,
+        )
+
+        create(
+          :provider_user_filter,
+          kind: 'find_candidates_not_seen',
+          provider_user:,
+          updated_at: 2.days.ago,
+        )
+
+        invited_filter = create(
+          :provider_user_filter,
+          kind: 'find_candidates_invited',
+          provider_user:,
+        )
+
+        expect(provider_user.last_find_candidate_filter).to eq(invited_filter)
+      end
+    end
+  end
 end

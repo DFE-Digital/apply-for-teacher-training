@@ -65,12 +65,14 @@ module ProviderInterface
       end
 
       def tab_user_came_from
-        last_filter = current_provider_user.find_candidate_filters
+        last_filter = current_provider_user.last_find_candidate_filter
 
         return provider_interface_candidate_pool_root_path if last_filter.nil?
 
         if last_filter.find_candidates_not_seen?
           provider_interface_candidate_pool_not_seen_index_path
+        elsif last_filter.find_candidates_invited?
+          provider_interface_candidate_pool_invites_path
         else
           provider_interface_candidate_pool_root_path
         end
