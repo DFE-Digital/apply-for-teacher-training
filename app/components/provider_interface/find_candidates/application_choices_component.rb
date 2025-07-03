@@ -51,9 +51,11 @@ private
   end
 
   def course_subject(choice)
+    subject_names = choice.course.subjects.pluck(:name).to_sentence
+
     {
       key: { text: t('.subject') },
-      value: { text: choice.course.subjects.pluck(:name).to_sentence },
+      value: { text: provider_user.providers.include?(choice.provider) ? "#{subject_names} (#{choice.course.code})" : subject_names },
     }
   end
 
@@ -80,7 +82,7 @@ private
 
     {
       key: { text: t('.rejection_reason') },
-      value: { text: render(RejectionReasons::RejectionReasonsComponent.new(application_choice: choice)) },
+      value: { text: render(RejectionReasons::TextComponent.new(application_choice: choice)) },
     }
   end
 
