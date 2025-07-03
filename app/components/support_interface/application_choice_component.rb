@@ -50,7 +50,7 @@ module SupportInterface
       if application_choice.withdrawn?
         {
           key: t('.reasons_for_withdrawal'),
-          value: render(WithdrawalReasonsComponent.new(application_choice:)),
+          value: render(WithdrawalReasons::WithdrawalReasonsComponent.new(application_choice:)),
         }
       end
     end
