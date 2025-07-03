@@ -64,7 +64,7 @@ jobs:
         echo "NEW_DB_SERVER=${NEW_DB_SERVER}" >> $GITHUB_ENV
 
     - name: Restore ${{ inputs.environment }} postgres
-      uses: DFE-Digital/github-actions/ptr-postgres@master
+      uses: DFE-Digital/github-actions/restore-deleted-postgres@2367-recover-deleted-postgres-workflow
       with:
         resource-group: ${{ env.RESOURCE_GROUP_NAME }}
         source-server: ${{ env.DB_SERVER }}
