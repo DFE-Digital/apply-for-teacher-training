@@ -1,4 +1,4 @@
-class RejectionReasons::TextComponent < ViewComponent::Base
+class RejectionReasons::FormattedTextComponent < ViewComponent::Base
   include ViewHelper
 
   def initialize(application_choice:)
@@ -20,12 +20,18 @@ private
 
     return [] if reasons.blank?
 
-    reasons.map do |reason|
+    formatted_reasons = []
+
+    reasons.each do |reason|
+      # Output [category] - [reason]
+      formatted_reasons << reason.label
+
+      # Output freetext details on a separate line within quotes, if present
       if reason.details&.text.present?
-        "#{reason.label}: #{reason.details.text}"
-      else
-        reason.label
+        formatted_reasons << %("#{reason.details.text}")
       end
     end
+
+    formatted_reasons
   end
 end

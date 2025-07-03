@@ -2,7 +2,7 @@
 <% content_for :before_content, govuk_back_link_to(@back_link) %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-column-three-quarters">
     <%= render ServiceInformationBanner.new(namespace: :provider) %>
 
     <span class="govuk-caption-xl"><%= t('.candidate_number', candidate_id: @candidate.id) %></span>
@@ -25,6 +25,11 @@
         method: :get,
       ) %>
     </div>
+
+    <%= render(ProviderInterface::FindCandidates::PreviouslySubmittedAnApplicationBannerComponent.new(
+      application_form: @application_form,
+      current_provider_user:,
+    )) %>
 
     <%= render(ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent.new(
       application_form: @application_form,

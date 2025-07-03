@@ -1,4 +1,4 @@
-class WithdrawalReasons::WithdrawalReasonsComponent < ViewComponent::Base
+class SupportInterface::WithdrawalReasonsComponent < ViewComponent::Base
   OLD_REASONS_PATH = 'config/withdrawal_reasons.yml'.freeze
 
   def initialize(application_choice:)
