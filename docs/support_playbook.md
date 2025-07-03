@@ -17,6 +17,7 @@
 15. [Candidate email address](#switch-email-addresses)
 16. [Updating applications in old recruitment cycles](#old-recruitment-cycles)
 17. [Slowness of service](#slowness-of-service)
+18. [Changing application course to another provider](#changing-course-to-another-provider)
 
 ## Support Trello board
 
@@ -814,4 +815,46 @@ Replace `<pid>` with the process ID of the query you want to cancel
 
 ```sql
 SELECT pg_cancel_backend(<pid>);
+```
+
+## Changing application course to another provider
+### Interviewing State
+
+If the application choice is in the `interviewing` state, you need to make sure that the Providers know that we will have to cancel any existing interviews and revert the ApplicationChoice to `awaiting_provider_decision` before we can change the course.
+
+```ruby
+zendesk_url = ''
+application_choice_id = 123456
+new_provider_code = ''
+new_course_code = ''
+new_course_recruitment_cycle_year = 2025
+new_site_code = ''
+new_study_mode = '' # part_time or full_time
+
+
+application_choice = ApplicationChoice.find(application_choice_id)
+
+CancelUpcomingInterviews.new(
+  actor: application_choice.candidate,
+  application_choice:,
+  cancellation_reason: "Course changed to another provider."
+).call!
+
+ApplicationStateChange.new(application_choice).cancel_interview!
+
+new_course_option = CourseOption.joins(course: :provider, site: :provider).find_by(
+  study_mode: new_study_mode,
+  courses: { providers: { code: new_provider_code },
+             code: new_course_code,
+             recruitment_cycle_year: new_course_recruitment_cycle_year
+  },
+  sites: { providers: { code: new_provider_code }, code: new_site_code }
+)
+
+application_choice.update_course_option_and_associated_fields!(
+  new_course_option,
+  audit_comment: zendesk_url,
+  other_fields: {
+    personal_statement: application_choice.personal_statement,
+  })
 ```
