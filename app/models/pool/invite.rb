@@ -27,10 +27,10 @@ class Pool::Invite < ApplicationRecord
     sent_to_candidate_at.present?
   end
 
-  def matching_application_choice(form)
-    form.application_choices
+  def matching_application_choice
+    application_form.application_choices
       .visible_to_provider
-      .find { |choice| choice.course.code == course.code }
+      .find { |choice| choice.course == course }
   end
 
   def self.matching_application_choices_exists_sql

@@ -8,8 +8,8 @@ class ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCoursesBannerCo
     course1 = Course.find_or_create_by!(code: 'COURSE1', provider:)
     course2 = Course.find_or_create_by!(code: 'COURSE2', provider:)
 
-    FactoryBot.create(:pool_invite, :published, candidate:, provider:, course: course1)
-    FactoryBot.create(:pool_invite, :published, candidate:, provider:, course: course2)
+    FactoryBot.create(:pool_invite, :published, candidate:, application_form:, provider:, course: course1)
+    FactoryBot.create(:pool_invite, :published, candidate:, application_form:, provider:, course: course2)
 
     current_provider_user = FactoryBot.create(:provider_user, providers: [provider, provider2])
 
@@ -28,8 +28,8 @@ class ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCoursesBannerCo
     course3 = Course.find_by(code: 'COURSE3', provider:) || FactoryBot.create(:course, code: 'COURSE3', provider:)
     course4 = Course.find_by(code: 'COURSE4', provider:) || FactoryBot.create(:course, code: 'COURSE4', provider:)
 
-    FactoryBot.create(:pool_invite, :published, candidate:, provider:, course: course3)
-    FactoryBot.create(:pool_invite, :published, candidate:, provider:, course: course4)
+    FactoryBot.create(:pool_invite, :published, candidate:, application_form:, provider:, course: course3)
+    FactoryBot.create(:pool_invite, :published, candidate:, application_form:, provider:, course: course4)
 
     current_provider_user = FactoryBot.create(:provider_user, providers: [provider])
 
@@ -48,8 +48,8 @@ class ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCoursesBannerCo
     course5 = Course.find_by(code: 'COURSE5', provider:) || FactoryBot.create(:course, code: 'COURSE5', provider:)
     course6 = Course.find_by(code: 'COURSE6', provider:) || FactoryBot.create(:course, code: 'COURSE6', provider:)
 
-    FactoryBot.create(:pool_invite, :published, candidate:, provider:, course: course5)
-    FactoryBot.create(:pool_invite, :published, candidate:, provider:, course: course6)
+    FactoryBot.create(:pool_invite, :published, candidate:, application_form:, provider:, course: course5)
+    FactoryBot.create(:pool_invite, :published, candidate:, application_form:, provider:, course: course6)
 
     FactoryBot.create(
       :application_choice,

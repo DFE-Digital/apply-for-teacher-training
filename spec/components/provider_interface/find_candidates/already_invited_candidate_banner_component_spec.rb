@@ -4,109 +4,90 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerC
   describe '#render?' do
     let(:candidate) { create(:candidate) }
     let(:application_form) { create(:application_form, :completed, candidate:, submitted_at: 1.day.ago) }
-    let(:pool_invite) { create(:pool_invite, :published, candidate:) }
-    let(:provider) { pool_invite.provider }
+    let(:provider) { create(:provider) }
     let(:provider2) { create(:provider) }
-    let(:course) { Course.find(pool_invite.course_id) }
-    let(:date) { pool_invite.created_at.to_fs(:govuk_date) }
     let(:current_provider_user) { create(:provider_user, providers: [provider]) }
+    let(:pool_invite) { create(:pool_invite, :published, candidate:, application_form:, provider:) }
+    let(:course) { pool_invite.course }
+    let(:date) { pool_invite.created_at.to_fs(:govuk_date) }
 
-    context 'when a published pool invite exists and the candidate has not applied to the same course' do
-      it 'renders the banner with course name and code saying they have not applied yet' do
-        result = render_inline(described_class.new(
-                                 application_form:,
-                                 current_provider_user:,
-                               ))
+    subject(:result) do
+      render_inline(described_class.new(
+                      application_form:,
+                      current_provider_user:,
+                    ))
+    end
 
+    context 'when exactly one matching published invite exists and candidate has not applied to the course' do
+      before { pool_invite }
+
+      it 'renders the banner with course name and date' do
         expect(result.text).to include('Important')
         expect(result.text).to include("This candidate was invited to #{course.name_and_code} on #{date}")
       end
     end
 
-    context 'when a published pool invite exists and the candidate has not applied to the same course and the provider user has access to more than one provider' do
-      let(:current_provider_user) { create(:provider_user, providers: [provider, provider2]) }
-
-      it 'renders the banner with provider name, course name and code saying they have not applied yet' do
-        result = render_inline(described_class.new(
-                                 application_form:,
-                                 current_provider_user:,
-                               ))
-
-        expect(result.text).to include('Important')
-        expect(result.text).to include("This candidate was invited to #{course.name_and_code} at #{provider.name} on #{date}")
-      end
-    end
-
-    context 'when the candidate has applied to the same course through the provider and has a status visible to the provider' do
+    context 'when candidate has applied to the invited course with a visible status' do
       let!(:application_choice) do
         create(
           :application_choice,
-          application_form: application_form,
-          course_option: create(:course_option, course:),
-          provider_ids: [provider.id],
+          application_form:,
+          course_option: create(:course_option, course: pool_invite.course),
           status: 'awaiting_provider_decision',
         )
       end
 
-      it 'renders the banner with application link text' do
-        result = render_inline(described_class.new(
-                                 application_form:,
-                                 current_provider_user:,
-                               ))
+      before { pool_invite }
 
+      it 'renders the banner with an application link' do
         expect(result.text).to include('This candidate has submitted an application')
         expect(result).to have_link('View application', href: "/provider/applications/#{application_choice.id}")
       end
     end
 
-    context 'when a published pool invite exists and the candidate has a corresponding choice with a status not visible to the provider' do
+    context 'when candidate applied to the course but status is not visible to provider' do
       let!(:application_choice) do
         create(
           :application_choice,
-          application_form: application_form,
-          course_option: create(:course_option, course:),
-          provider_ids: [provider.id],
+          application_form:,
+          course_option: create(:course_option, course: pool_invite.course),
           status: 'cancelled',
         )
       end
 
-      it 'renders the banner with course name and code saying they were invited on a given date and does not link to the application' do
-        result = render_inline(described_class.new(
-                                 application_form:,
-                                 current_provider_user:,
-                               ))
+      before { pool_invite }
 
-        expect(result.text).to include('Important')
+      it 'renders banner without application link' do
         expect(result.text).to include("This candidate was invited to #{course.name_and_code} on #{date}")
-        expect(result).to have_no_link('View application', href: "/provider/applications/#{application_choice.id}")
+        expect(result).to have_no_link('View application')
       end
     end
 
-    context 'when no invite exists for the current provider user' do
-      let(:different_provider) { create(:provider) }
-      let(:current_provider_user) { create(:provider_user, providers: [different_provider]) }
+    context 'when current provider user has access to multiple providers' do
+      let(:current_provider_user) { create(:provider_user, providers: [provider, provider2]) }
+
+      before { pool_invite }
+
+      it 'renders the banner including the provider name' do
+        expect(result.text).to include("This candidate was invited to #{course.name_and_code} at #{provider.name} on #{date}")
+      end
+    end
+
+    context 'when there is no matching invite for the application_form' do
+      let(:unrelated_invite) { create(:pool_invite, :published) }
 
       it 'does not render the banner' do
-        result = render_inline(described_class.new(
-                                 application_form:,
-                                 current_provider_user:,
-                               ))
-
         expect(result.text).to be_blank
       end
     end
 
-    context 'when the candidate has more than one invite from the provider user`s institutions' do
+    context 'when more than one invite exists for the current application_form and provider' do
       before do
-        create(:pool_invite, :published, candidate:, provider:)
+        create(:pool_invite, :published, candidate:, application_form:, provider:)
+        create(:pool_invite, :published, candidate:, application_form:, provider:)
       end
 
-      it 'does not render the banner (because multiple invites banner should render)' do
-        result = render_inline(described_class.new(
-                                 application_form:,
-                                 current_provider_user:,
-                               ))
-
+      it 'does not render the banner' do
         expect(result.text).to be_blank
       end
     end

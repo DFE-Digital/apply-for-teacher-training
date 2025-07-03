@@ -10,7 +10,7 @@ class ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCoursesBannerCo
 
   def invite_details
     invites.map do |invite|
-      if invite.matching_application_choice(@application_form)
+      if invite.matching_application_choice
         I18n.t(
           'provider_interface.find_candidates.already_invited_to_multiple_courses_banner_component.text_with_application',
           course: invite.course.name_and_code,
@@ -35,12 +35,12 @@ private
   def invites
     @invites ||= Pool::Invite.published.where(
       provider_id: @current_provider_user.provider_ids,
-      candidate_id: @application_form.candidate_id,
+      application_form: @application_form,
     ).includes(:course, :provider)
   end
 
   def view_application_link(invite)
-    choice = invite.matching_application_choice(@application_form)
+    choice = invite.matching_application_choice
     return unless choice
 
     govuk_link_to(I18n.t(

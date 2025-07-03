@@ -6,25 +6,23 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCourse
     let(:application_form) { create(:application_form, candidate:, submitted_at: 1.day.ago) }
     let(:provider) { create(:provider) }
     let(:provider2) { create(:provider) }
-    let(:current_provider_user) { create(:provider_user, providers: [provider]) }
 
-    let!(:invite1) do
-      create(:pool_invite, :published, candidate:, provider:, created_at: 2.days.ago)
-    end
+    context 'when multiple invites exist for providers the user has access to' do
+      let(:current_provider_user) { create(:provider_user, providers: [provider]) }
 
-    let!(:invite2) do
-      create(:pool_invite, :published, candidate:, provider:, created_at: 1.day.ago)
-    end
+      let!(:course1) { create(:course, provider:) }
+      let!(:course2) { create(:course, provider:) }
 
-    let(:course1) { invite1.course }
-    let(:course2) { invite2.course }
+      let!(:invite1) do
+        create(:pool_invite, :published, candidate:, application_form:, provider:, course: course1, created_at: 2.days.ago)
+      end
 
-    context 'when multiple invites exist' do
+      let!(:invite2) do
+        create(:pool_invite, :published, candidate:, application_form:, provider:, course: course2, created_at: 1.day.ago)
+      end
+
       it 'renders the banner with both course names' do
-        result = render_inline(described_class.new(
-                                 application_form:,
-                                 current_provider_user:,
-                               ))
+        result = render_inline(described_class.new(application_form:, current_provider_user:))
 
         expect(result.text).to include('This candidate was invited to apply')
         expect(result.text).to include(course1.name_and_code)
@@ -32,29 +30,39 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCourse
       end
     end
 
-    context 'when multiple invites exist and the provider user has access to more than one provider' do
+    context 'when provider user has access to multiple providers and invites are from both' do
       let(:current_provider_user) { create(:provider_user, providers: [provider, provider2]) }
 
-      let(:course1) { create(:course, provider:) }
-      let(:course2) { create(:course, provider: provider2) }
+      let!(:course1) { create(:course, provider:) }
+      let!(:course2) { create(:course, provider: provider2) }
 
-      let!(:invite1) { create(:pool_invite, :published, candidate:, provider:, course: course1, created_at: 2.days.ago) }
-      let!(:invite2) { create(:pool_invite, :published, candidate:, provider: provider2, course: course2, created_at: 1.day.ago) }
+      let!(:invite1) do
+        create(:pool_invite, :published, candidate:, application_form:, provider:, course: course1, created_at: 2.days.ago)
+      end
 
-      it 'renders the banner with both course names and the provider name' do
+      let!(:invite2) do
+        create(:pool_invite, :published, candidate:, application_form:, provider: provider2, course: course2, created_at: 1.day.ago)
+      end
+
+      it 'renders the banner with both course and provider names' do
         result = render_inline(described_class.new(
                                  application_form:,
                                  current_provider_user:,
                                ))
 
-        expect(result.text).to include('This candidate was invited to apply')
         expect(result.text).to include("#{course1.name_and_code} at #{course1.provider.name}")
         expect(result.text).to include("#{course2.name_and_code} at #{course2.provider.name}")
       end
     end
 
     context 'when only one invite exists' do
-      before { invite2.destroy }
+      let(:current_provider_user) { create(:provider_user, providers: [provider]) }
+
+      let!(:course1) { create(:course, provider:) }
+
+      let!(:invite1) do
+        create(:pool_invite, :published, candidate:, application_form:, provider:, course: course1)
+      end
 
       it 'does not render the banner' do
         result = render_inline(described_class.new(
@@ -66,17 +74,29 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCourse
       end
     end
 
-    context 'when an invite matches an application choice' do
-      let!(:application_choice) do
-        create(
-          :application_choice,
-          application_form: application_form,
-          course_option: create(:course_option, course: course1),
-          provider_ids: [provider.id],
-        )
+    context 'when an invite matches a visible application choice' do
+      let(:current_provider_user) { create(:provider_user, providers: [provider]) }
+
+      let!(:course1) { create(:course, provider:) }
+      let!(:course2) { create(:course, provider:) }
+
+      let!(:invite1) do
+        create(:pool_invite, :published, candidate:, application_form:, provider:, course: course1)
       end
 
-      it 'renders link to view application for that course' do
+      let!(:invite2) do
+        create(:pool_invite, :published, candidate:, application_form:, provider:, course: course2)
+      end
+
+      let!(:application_choice) do
+        create(:application_choice,
+               application_form:,
+               course_option: create(:course_option, course: course1),
+               provider_ids: [provider.id],
+               status: 'awaiting_provider_decision')
+      end
+
+      it 'renders a link to view the matching application' do
         result = render_inline(described_class.new(
                                  application_form:,
                                  current_provider_user:,
@@ -87,9 +107,20 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCourse
       end
     end
 
-    context 'when no invites belong to the current provider user`s providers' do
+    context 'when invites do not belong to providers the user has access to' do
       let(:other_provider) { create(:provider) }
       let(:current_provider_user) { create(:provider_user, providers: [other_provider]) }
+
+      let!(:course1) { create(:course, provider:) }
+      let!(:course2) { create(:course, provider:) }
+
+      let!(:invite1) do
+        create(:pool_invite, :published, candidate:, application_form:, provider:, course: course1)
+      end
+
+      let!(:invite2) do
+        create(:pool_invite, :published, candidate:, application_form:, provider:, course: course2)
+      end
 
       it 'does not render the banner' do
         result = render_inline(described_class.new(

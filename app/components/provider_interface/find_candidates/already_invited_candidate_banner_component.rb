@@ -13,7 +13,7 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
   end
 
   def text
-    if invite.matching_application_choice(@application_form)
+    if invite.matching_application_choice
       I18n.t(
         'provider_interface.find_candidates.already_invited_candidate_banner_component.text_with_application',
         link: view_application_link(invite),
@@ -39,13 +39,13 @@ private
     @invites ||= Pool::Invite.published
       .where(
         provider_id: @current_provider_user.provider_ids,
-        candidate_id: @application_form.candidate_id,
+        application_form: @application_form,
       )
       .includes(:course, :provider)
   end
 
   def view_application_link(invite)
-    choice = invite.matching_application_choice(@application_form)
+    choice = invite.matching_application_choice
     return unless choice
 
     govuk_link_to(
