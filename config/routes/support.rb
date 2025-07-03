@@ -100,6 +100,10 @@ namespace :support_interface, path: '/support' do
   get '/application-choices/:application_choice_id/make-unconditional' => 'application_choice_conditions#confirm_make_unconditional', as: :confirm_make_application_choice_unconditional
   put '/application-choices/:application_choice_id/make-unconditional' => 'application_choice_conditions#make_unconditional', as: :make_application_choice_unconditional
 
+  resources :application_forms, only: [], path: 'application-forms' do
+    resource :course_recommendation, path: 'course-recommendation', only: %i[show], module: :application_forms
+  end
+
   resources :application_choices, only: [], path: 'application-choices' do
     resource :course_recommendation, path: 'course-recommendation', only: %i[show], module: :application_choices
   end
@@ -119,10 +123,6 @@ namespace :support_interface, path: '/support' do
     post '/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
     get '/status' => 'candidates#edit_candidate_account_status', as: :edit_candidate_account_status
     patch '/status' => 'candidates#update_candidate_account_status', as: :update_candidate_account_status
-  end
-
-  resources :candidates, only: [], path: 'candidates' do
-    resource :course_recommendation, path: 'course-recommendation', only: %i[show], module: :candidates
   end
 
   scope path: '/references/:reference_id' do

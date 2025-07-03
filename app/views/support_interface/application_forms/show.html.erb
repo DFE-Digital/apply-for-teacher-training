@@ -6,7 +6,11 @@
 
 <div class="govuk-button-group">
   <div>
-    <%= govuk_link_to 'Recommended Courses (based on Candidate location)', support_interface_candidate_course_recommendation_path(@application_form.candidate), class: 'govuk-link govuk-link--no-visited-state' %>
+    <%= govuk_link_to 'Recommended Courses (based on Candidate location)',
+                      support_interface_application_form_course_recommendation_path(@application_form),
+                      class: 'govuk-link govuk-link--no-visited-state',
+                      target: '_blank',
+                      rel: 'noopener' %>
   </div>
 </div>
 
