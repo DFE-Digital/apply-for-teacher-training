@@ -153,10 +153,7 @@ private
 
     # What Courses has the Candidate applied for?
     # course codes & provider codes
-    candidate.application_choices
-                       .joins(:application_form)
-                       .where(application_form: { recruitment_cycle_year: current_year })
-                       .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+    candidate.current_application.application_choices.visible_to_provider
                        .joins(course_option: { course: :provider })
                        .pluck('course.code', 'provider.code')
                        .compact_blank
