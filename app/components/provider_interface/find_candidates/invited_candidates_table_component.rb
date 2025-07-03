@@ -5,13 +5,17 @@ class ProviderInterface::FindCandidates::InvitedCandidatesTableComponent < ViewC
 
   def candidate_link(candidate_id)
     invites = @candidate_invites[candidate_id]
+    first_invite = invites.first
     if visible_application_for_invite?(invites)
-      invites.first.application_form.full_name
+      first_invite.application_form.full_name
     elsif candidate_not_in_pool?(candidate_id)
-      invites.first.application_form.redacted_full_name
+      govuk_link_to(
+        first_invite.application_form.redacted_full_name,
+        provider_interface_candidate_pool_invite_path(first_invite.id),
+      )
     else
       govuk_link_to(
-        invites.first.application_form.redacted_full_name,
+        first_invite.application_form.redacted_full_name,
         provider_interface_candidate_pool_candidate_path(candidate_id, return_to: 'invited'),
       )
     end

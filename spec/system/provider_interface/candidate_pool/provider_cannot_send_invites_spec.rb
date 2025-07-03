@@ -176,7 +176,7 @@ private
   end
 
   def then_i_do_not_see_the_invite_button
-    expect(page).to have_content "Candidate #{@candidate.id}"
+    expect(page).to have_content "Candidate number: #{@candidate.id}"
     expect(page).to have_no_content 'Invite to apply'
   end
 

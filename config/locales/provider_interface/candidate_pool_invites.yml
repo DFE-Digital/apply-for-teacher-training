@@ -17,6 +17,16 @@ en:
           no_candidates: There are no invited candidates that match your filters
           application_received: Application received
           invited: Invited
+        show:
+          title: Candidate details no longer available
+          back: Back
+          caption: "Candidate number: %{candidate_id}"
+          you_cannot_see: You cannot see this candidate’s profile information.
+          this_could_be_because: "This could be because:"
+          they_have_submitted_an_application: they have submitted an application to another training provider
+          they_have_chosen_not_to_continue: they have chosen not to continue appearing in Find candidates searches
+          because_you_have_invited_them: Because you have invited them, they could still submit an application to your course.
+          button_link: Return to invited candidates
       not_seen:
         index:
           title: Find candidates - New
@@ -65,7 +75,7 @@ en:
           no_other_qualifications: No A levels or other qualifications
           english_as_a_foreign_language: English as a foreign language
           work_history_and_unpaid_experience: Work history and unpaid experience
-          candidate_number: Candidate %{candidate_id}
+          candidate_number: "Candidate number:  %{candidate_id}"
           personal_statement: Personal statement
           personal_statement_caption: Most recent
           personal_statement_title: Personal statement

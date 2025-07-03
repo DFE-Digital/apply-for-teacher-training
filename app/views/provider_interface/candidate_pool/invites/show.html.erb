@@ -1,0 +1,36 @@
+<% content_for :browser_title, t('.title') %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_candidate_pool_invites_path, t('.back')) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-xl">
+      <%= t('.caption', candidate_id: @invite.candidate_id) %>
+    </span>
+    <h1 class="govuk-heading-xl">
+      <%= @invite.application_form.redacted_full_name %>
+    </h1>
+
+    <p class="govuk-body">
+      <%= t('.you_cannot_see') %>
+    </p>
+    <p class="govuk-body">
+      <%= t('.this_could_be_because') %>
+    </p>
+    <%= govuk_list(
+          [
+            t('.they_have_submitted_an_application'),
+            t('.they_have_chosen_not_to_continue'),
+          ],
+          type: :bullet,
+        ) %>
+
+    <p class="govuk-body">
+      <%= t('.because_you_have_invited_them') %>
+    </p>
+
+    <div class="govuk-!-padding-top-5">
+      <%= govuk_button_link_to(t('.button_link'), provider_interface_candidate_pool_invites_path, secondary: true) %>
+    </div>
+  </div>
+</div>
