@@ -9,12 +9,12 @@
     <h1 class="govuk-heading-xl"><%= @application_form.redacted_full_name %></h1>
 
     <p class='govuk-body'><%= t('.copy_and_paste_message') %></p>
-    <p class='govuk-body govuk-!-font-weight-bold'><%= @back_link %></p>
+    <p class='govuk-body govuk-!-font-weight-bold'><%= @candidate_profile_link %></p>
 
-    <div class='govuk-button-group' data-controller='copy-to-clipboard' data-copy-to-clipboard-text-value="<%= @back_link %>">
+    <div class='govuk-button-group' data-controller='copy-to-clipboard' data-copy-to-clipboard-text-value="<%= @candidate_profile_link %>">
       <%= govuk_button_to(
         t('.copy'),
-        class: 'hidden',
+        class: 'govuk-visually-hidden',
         data: {
           action: 'click->copy-to-clipboard#call',
           copy_to_clipboard_target: 'button',

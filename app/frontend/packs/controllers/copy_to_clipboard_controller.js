@@ -6,7 +6,7 @@ export default class extends Controller {
 
   connect () {
     // Feature works only for javascript enabled users
-    this.buttonTarget.style.display = 'inline'
+    this.buttonTarget.classList.remove('govuk-visually-hidden')
   }
 
   call (event) {

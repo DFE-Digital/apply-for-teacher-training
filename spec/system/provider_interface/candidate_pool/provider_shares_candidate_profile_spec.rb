@@ -19,7 +19,7 @@ RSpec.describe 'Provider shares candiate profile' do
 
     when_i_click('Share this candidate’s profile')
     then_i_am_redirected_to_the_share_page
-    when_i_click('Copy to clipboard')
+    when_i_click('Copy link to clipboard')
     then_i_can_see_success_message
   end
 
@@ -71,7 +71,7 @@ RSpec.describe 'Provider shares candiate profile' do
     host = Capybara.current_session.server.host
     port = Capybara.current_session.server.port
     expect(page).to have_content(
-      "http://#{host}:#{port}#{provider_interface_candidate_pool_candidate_path(@rejected_candidate, return_to: 'all')}",
+      "http://#{host}:#{port}#{provider_interface_candidate_pool_candidate_path(@rejected_candidate)}",
     )
   end
 

@@ -5,7 +5,9 @@ module ProviderInterface
       before_action :set_candidate
       before_action :set_back_link
 
-      def show; end
+      def show
+        @candidate_profile_link = provider_interface_candidate_pool_candidate_url(@candidate)
+      end
 
     private
 
