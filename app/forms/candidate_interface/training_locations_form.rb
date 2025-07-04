@@ -22,7 +22,11 @@ module CandidateInterface
     end
 
     def next_step_path
-      if preference.training_locations_anywhere?
+      ## test this properly
+
+      if preference.applied_only_to_salaried_courses? && preference.training_locations_anywhere?
+        new_candidate_interface_draft_preference_course_type_preference_path(preference)
+      elsif preference.training_locations_anywhere?
         candidate_interface_draft_preference_path(preference)
       elsif preference.training_locations_specific?
         candidate_interface_draft_preference_location_preferences_path(preference)

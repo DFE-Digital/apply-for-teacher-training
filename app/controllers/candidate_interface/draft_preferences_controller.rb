@@ -8,11 +8,8 @@ module CandidateInterface
         LocationPreferenceDecorator.new(location)
       end
 
-      @back_path = if @preference.training_locations_anywhere?
-                     new_candidate_interface_draft_preference_training_location_path(@preference)
-                   else
-                     new_candidate_interface_draft_preference_dynamic_location_preference_path(@preference)
-                   end
+      @back_path = LocationPreferencesRequiredForm.new(preference: @preference)
+        .back_path
     end
 
     def update

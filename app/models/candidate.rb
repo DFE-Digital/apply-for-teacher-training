@@ -153,6 +153,12 @@ class Candidate < ApplicationRecord
     application_forms.current_cycle.last
   end
 
+  def applied_only_to_salaried_courses?
+    current_cycle_application_form.courses.all? do |course|
+      course.salary? || course.apprenticeship?
+    end
+  end
+
 private
 
   def downcase_email

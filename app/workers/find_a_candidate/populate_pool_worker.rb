@@ -4,6 +4,8 @@ class FindACandidate::PopulatePoolWorker
   sidekiq_options queue: :default
 
   def perform
+    # UPDATE THIS TO INCLUDE COURSE TYPE
+    # either from preferences or from the applied courses
     application_forms_eligible_for_pool = Pool::Candidates.new.application_forms_in_the_pool
 
     applications = application_forms_eligible_for_pool
