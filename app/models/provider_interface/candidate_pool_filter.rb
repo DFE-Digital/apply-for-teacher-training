@@ -8,6 +8,7 @@ module ProviderInterface
     ## Removing or adding one doesn't require aliases
     ATTRIBUTES = %i[
       location
+      candidate_id
       subject_ids
       study_mode
       course_type

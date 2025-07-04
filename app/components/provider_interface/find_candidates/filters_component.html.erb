@@ -11,7 +11,7 @@
         </div>
 
         <div class="moj-filter__content" tabindex="-1">
-          <% if filter.applied_filters.present? %>
+          <% if filter.applied_filters.except(:candidate_id).present? %>
             <div class="moj-filter__selected">
               <div class="moj-filter__selected-heading">
                 <div class="moj-filter__heading-title">
@@ -24,7 +24,7 @@
                 </div>
               </div>
 
-              <% filter.applied_filters.except(:origin).each do |name, value| %>
+              <% filter.applied_filters.except(:origin, :candidate_id).each do |name, value| %>
                 <div>
                   <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-0">
                     <%= t(".#{name}") %>
@@ -78,6 +78,7 @@
                   data: { location_autocomplete_target: 'input' },
                   label: { text: t('.location'), class: 'govuk-fieldset__legend govuk-fieldset__legend--s' },
                 ) %>
+                <%= govuk_link_to t('.clear_search'), path_to_clear_filters, no_visited_state: true %>
               </div>
             </div>
 
@@ -153,6 +154,28 @@
       </div>
     </div>
     <div class='moj-filter-layout__content'>
+      <div class='app-search'>
+        <div class="app-input-button-wrapper">
+        <%= f.govuk_text_field(
+              :candidate_id,
+              label: { text: t('.search_by_candidate_number'), class: 'govuk-label app-search__label govuk-label--m' },
+              inputmode: 'numeric',
+              autocomplete: 'off',
+              class: 'govuk-input app-search__input',
+            ) %>
+          <%= f.govuk_submit(t('.search'), class: 'govuk-button app-search__button') %>
+        </div>
+      </div>
+      <% if filter.applied_filters[:candidate_id].present? %>
+        <p class="govuk-body">
+          <%= govuk_link_to(
+                t('.clear_search'),
+                path_to_remove_candidate_id_filter,
+                no_visited_state: true,
+              ) %>
+        </p>
+      <% end %>
+
       <%= content %>
     </div>
   </div>

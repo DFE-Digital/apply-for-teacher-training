@@ -79,6 +79,9 @@ en:
         candidate_location_preference: Candidate location preferences
         candidate_course_preferences: Candidate course preferences
         apply_filters: Apply filters
+        search_by_candidate_number: Search by candidate number
+        clear_search: Clear search
+        search: Search
       other_qualifications_component:
         caption: A levels and other qualifications
         qualification: Type
