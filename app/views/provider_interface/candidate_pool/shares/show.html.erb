@@ -1,0 +1,31 @@
+<% content_for :browser_title, t('.title') %>
+<% content_for :before_content, govuk_back_link_to(@back_link) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render ServiceInformationBanner.new(namespace: :provider) %>
+
+    <span class="govuk-caption-xl"><%= t('.candidate_number', candidate_id: @candidate.id) %></span>
+    <h1 class="govuk-heading-xl"><%= @application_form.redacted_full_name %></h1>
+
+    <p class='govuk-body'><%= t('.copy_and_paste_message') %></p>
+    <p class='govuk-body govuk-!-font-weight-bold'><%= @candidate_profile_link %></p>
+
+    <div class='govuk-button-group' data-controller='copy-to-clipboard' data-copy-to-clipboard-text-value="<%= @candidate_profile_link %>">
+      <%= govuk_button_to(
+        t('.copy'),
+        class: 'govuk-visually-hidden',
+        data: {
+          action: 'click->copy-to-clipboard#call',
+          copy_to_clipboard_target: 'button',
+        },
+        secondary: true,
+        method: :get,
+      ) %>
+
+      <p class='govuk-body align-self-center color-green' data-copy-to-clipboard-target='successTag' hidden>
+        <%= t('.copy_success') %>
+      </p>
+    </div>
+  </div>
+</div>

@@ -65,6 +65,7 @@ en:
         show:
           title: Candidate details
           invite: Invite to apply
+          share: Share this candidate’s profile
           right_to_work_and_study: Right to work or study in the UK
           qualifications: Qualifications
           degree:
@@ -81,6 +82,13 @@ en:
           personal_statement_title: Personal statement
           safeguarding_title: Criminal record and professional misconduct
           application_choices_title: Applications submitted
+      shares:
+        show:
+          title: Share candidate
+          copy: Copy link to clipboard
+          copy_success: Link copied to clipboard
+          candidate_number: "Candidate number:  %{candidate_id}"
+          copy_and_paste_message: Copy and paste this link to share this candidate’s profile with colleagues.
       draft_invites:
         new:
           title: Select a course to invite %{candidate_name} to apply to

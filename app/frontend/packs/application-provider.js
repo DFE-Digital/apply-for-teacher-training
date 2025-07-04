@@ -10,12 +10,14 @@ import 'accessible-autocomplete/dist/accessible-autocomplete.min.css'
 // stimulus
 import { Application } from '@hotwired/stimulus'
 import LocationAutocompleteController from './controllers/location_autocomplete_controller'
+import CopyToClipboardController from './controllers/copy_to_clipboard_controller.js'
 import showMoreShowLess from './components/show-more-show-less'
 
 require.context('govuk-frontend/dist/govuk/assets')
 
 window.Stimulus = Application.start()
 window.Stimulus.register('location-autocomplete', LocationAutocompleteController)
+window.Stimulus.register('copy-to-clipboard', CopyToClipboardController)
 
 govUKFrontendInitAll()
 initWarnOnUnsavedChanges()
