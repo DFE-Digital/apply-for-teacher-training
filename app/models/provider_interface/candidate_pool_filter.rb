@@ -23,6 +23,7 @@ module ProviderInterface
                 :provider_user_filter
 
     validate :location_validity
+    validates :candidate_id, numericality: { only_integer: true, allow_nil: true }
 
     def initialize(filter_params:, current_provider_user:, remove_filters:)
       @current_provider_user = current_provider_user
@@ -60,6 +61,16 @@ module ProviderInterface
           provider_user_filter.update(filters: {}, updated_at: Time.zone.now)
           sister_filter.update(filters: {}, updated_at: 2.seconds.ago)
         end
+      end
+    end
+
+    def no_results_message
+      if applied_filters.keys == ['candidate_id']
+        I18n.t('provider_interface.candidate_pool.no_candidate_with_id')
+      elsif applied_filters.keys.include?('candidate_id')
+        I18n.t('provider_interface.candidate_pool.no_candidates_with_id_and_other_filters')
+      else
+        I18n.t('provider_interface.candidate_pool.no_candidates')
       end
     end
 

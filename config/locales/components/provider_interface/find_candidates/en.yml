@@ -102,6 +102,9 @@ en:
           attributes:
             location:
               invalid_location: Town, city or postcode must be in the United Kingdom
+            candidate_id:
+              not_a_number: Candidate number can only contain numbers 0 to 9
+              not_an_integer: Candidate number can only contain numbers 0 to 9
         provider_interface/not_seen_candidates_filter:
           attributes:
             location:
