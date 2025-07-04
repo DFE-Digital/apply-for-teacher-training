@@ -1,6 +1,9 @@
 en:
   provider_interface:
     candidate_pool:
+      no_candidates: No candidates
+      no_candidates_with_id_and_other_filters: There are no candidates that match that candidate number with the filters you have chosen. Remove some of your filters and try again.
+      no_candidate_with_id: There are no candidates that match that candidate number. Check the candidate number and try again.
       shared:
         find_candidates_heading:
           title: Find candidates
@@ -48,7 +51,6 @@ en:
       candidates:
         index:
           title: Find candidates - All candidates
-          no_candidates: No candidates
           table_caption: Find candidates
           candidates_found:
             one: "%{count} candidate found"

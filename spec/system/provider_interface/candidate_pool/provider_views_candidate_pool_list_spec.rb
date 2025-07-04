@@ -49,6 +49,13 @@ RSpec.describe 'Providers views candidate pool list' do
     when_i_click('Clear filters')
     then_i_expect_to_see_eligible_candidates_order_by_application_form_submitted_at
     and_i_expect_to_see_the_total_results_count
+
+    when_i_search_for_valid_candidate_number
+    then_i_see_the_candidate
+
+    when_i_clear_candidate_number_search
+    then_i_expect_to_see_eligible_candidates_order_by_application_form_submitted_at
+    and_i_expect_to_see_the_total_results_count
   end
 
   context 'with wrong location filter' do
@@ -256,5 +263,21 @@ RSpec.describe 'Providers views candidate pool list' do
 
   def when_i_visit_applications_page
     visit provider_interface_applications_path
+  end
+
+  def when_i_search_for_valid_candidate_number
+    fill_in('Search by candidate number', with: @declined_candidate_form.candidate_id)
+    click_on 'Search'
+  end
+
+  def then_i_see_the_candidate
+    expect(page).to have_content '1 candidate found'
+    expect(page).to have_content "#{@declined_candidate_form.redacted_full_name} (#{@declined_candidate_form.candidate_id})"
+  end
+
+  def when_i_clear_candidate_number_search
+    within('.moj-filter-layout__content') do
+      click_on 'Clear search'
+    end
   end
 end
