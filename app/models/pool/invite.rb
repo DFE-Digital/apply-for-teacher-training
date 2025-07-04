@@ -27,6 +27,12 @@ class Pool::Invite < ApplicationRecord
     sent_to_candidate_at.present?
   end
 
+  def matching_application_choice
+    application_form.application_choices
+      .visible_to_provider
+      .find { |choice| choice.course == course }
+  end
+
   def self.matching_application_choices_exists_sql
     visible_states = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER
                        .map { |app_state| ActiveRecord::Base.connection.quote(app_state.to_s) }

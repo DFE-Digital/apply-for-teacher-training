@@ -1,0 +1,9 @@
+<%= govuk_notification_banner(title_text: t('notification_banner.important')) do |banner| %>
+  <% banner.with_heading(text: t('.heading')) %>
+  <p class="govuk-body"><%= t('provider_interface.find_candidates.already_invited_to_multiple_courses_banner_component.intro') %></p>
+  <ul class="govuk-list govuk-list--bullet">
+    <% invite_details.each do |invite_text| %>
+      <li><%= invite_text %></li>
+    <% end %>
+  </ul>
+<% end %>
