@@ -3,34 +3,41 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::CandidateInvitedBannerComponent, type: :component do
   describe '#render' do
     let(:candidate) { create(:candidate) }
-    let(:application_form) do
-      create(:application_form, :completed, candidate:, submitted_at: 1.day.ago)
+    let(:provider) { create(:provider) }
+    let(:course) { create(:course, provider:) }
+    let(:course_option) { create(:course_option, course:) }
+    let(:other_course_option) { create(:course_option) }
+    let(:application_form) { create(:application_form, :completed, candidate:, submitted_at: 1.day.ago) }
+    let(:application_choice) do
+      create(
+        :application_choice,
+        application_form:,
+        course_option:,
+        status: 'awaiting_provider_decision',
+      )
     end
-    let(:pool_invite) { create(:pool_invite, :published, candidate:) }
-    let(:provider) { pool_invite.provider }
-    let(:provider2) { create(:provider) }
-    let(:course) { Course.find(pool_invite.course_id) }
+    let!(:pool_invite) { create(:pool_invite, :published, candidate:, application_form:, course:) }
     let(:date) { pool_invite.created_at.to_fs(:govuk_date) }
 
-    context 'when a published pool invite exists with the current provider' do
+    context 'when the provider user`s invite course and the application_choice course match' do
       let(:current_provider_user) { create(:provider_user, providers: [provider]) }
 
       it 'renders the banner' do
-        result = render_inline(described_class.new(application_form:, current_provider_user:))
+        result = render_inline(described_class.new(application_choice:, current_provider_user:))
 
-        expect(result.text).to include('Important')
         expect(result.text).to include("This candidate was invited to #{course.name_and_code} on #{date}")
       end
     end
 
-    context 'when a published pool invite exists with the current provider with provider_name' do
-      let(:current_provider_user) { create(:provider_user, providers: [provider, provider2]) }
+    context 'when the provider user`s invite course and the application_choice course do not match' do
+      let(:current_provider_user) { create(:provider_user, providers: [provider]) }
 
-      it 'renders the banner' do
-        result = render_inline(described_class.new(application_form:, current_provider_user:))
+      it 'does not render the banner' do
+        application_choice.update(course_option: other_course_option)
 
-        expect(result.text).to include('Important')
-        expect(result.text).to include("This candidate was invited to #{course.name_and_code} at #{provider.name} on #{date}")
+        result = render_inline(described_class.new(application_choice:, current_provider_user:))
+
+        expect(result.text).to be_empty
       end
     end
 
@@ -39,7 +46,7 @@ RSpec.describe ProviderInterface::CandidateInvitedBannerComponent, type: :compon
       let(:current_provider_user) { create(:provider_user, providers: [different_provider]) }
 
       it 'does not render the banner' do
-        result = render_inline(described_class.new(application_form:, current_provider_user:))
+        result = render_inline(described_class.new(application_choice:, current_provider_user:))
 
         expect(result.to_html).to be_blank
       end
@@ -50,7 +57,7 @@ RSpec.describe ProviderInterface::CandidateInvitedBannerComponent, type: :compon
 
       it 'does not render the banner' do
         pool_invite.update(status: 'draft')
-        result = render_inline(described_class.new(application_form:, current_provider_user:))
+        result = render_inline(described_class.new(application_choice:, current_provider_user:))
 
         expect(result.to_html).to be_blank
       end
