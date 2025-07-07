@@ -92,6 +92,10 @@ class Candidate < ApplicationRecord
      .or(where(id: safeguarding_on_references.select('candidates.id')))
   end
 
+  def self.without_safeguarding_concerns
+    where.not(id: with_safeguarding_concerns)
+  end
+
   def current_application
     application_form = application_forms.order(:created_at, :id).last
     application_form || if RecruitmentCycleTimetable.current_timetable.after_apply_deadline?

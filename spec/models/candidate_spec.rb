@@ -189,6 +189,30 @@ RSpec.describe Candidate do
     end
   end
 
+  describe '.without_safeguarding_concerns' do
+    it 'returns candidates without safeguarding concerns declared on their Application Form or References' do
+      candidate_with_safeguarding_concerns_on_application = create(:candidate)
+      _application_form_with_safeguarding_concerns = create(:application_form,
+                                                            candidate: candidate_with_safeguarding_concerns_on_application,
+                                                            safeguarding_issues_status: :has_safeguarding_issues_to_declare)
+
+      candidate_with_safeguarding_concerns_on_reference = create(:candidate)
+      application_form_with_reference = create(:application_form,
+                                               candidate: candidate_with_safeguarding_concerns_on_reference,
+                                               safeguarding_issues_status: :no_safeguarding_issues_to_declare)
+      _reference_with_safeguarding_concerns = create(:reference,
+                                                     application_form: application_form_with_reference,
+                                                     safeguarding_concerns_status: :has_safeguarding_concerns_to_declare)
+
+      candidate_without_safeguarding_concerns = create(:candidate)
+      _application_form_without_safeguarding_concerns = create(:application_form,
+                                                               candidate: candidate_without_safeguarding_concerns,
+                                                               safeguarding_issues_status: :no_safeguarding_issues_to_declare)
+
+      expect(described_class.without_safeguarding_concerns).to contain_exactly(candidate_without_safeguarding_concerns)
+    end
+  end
+
   describe '#current_application' do
     let(:candidate) { create(:candidate) }
 
