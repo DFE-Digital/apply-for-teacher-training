@@ -35,7 +35,7 @@ private
   end
 
   def create_recommended_courses_url
-    find_url_with_query_params if recommended?
+    find_url_with_query_params_and_utm if recommended?
   end
 
   def current_year
@@ -66,9 +66,20 @@ private
     end
   end
 
-  def find_url_with_query_params
-    uri = URI("#{find_url}results")
-    uri.query = query_parameters.to_query
+  def find_url_with_query_params_and_utm
+    utm_params = {
+      utm_source: :apply,
+      utm_medium: :courses_recommender,
+    }
+
+    find_url_with_query_params(utm_params)
+  end
+
+  def find_url_with_query_params(additional_params = {})
+    uri = URI.join(find_url, 'results')
+    uri.query = query_parameters
+                  .with_defaults(additional_params)
+                  .to_query
     uri.to_s
   end
 
