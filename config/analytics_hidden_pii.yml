@@ -26,3 +26,6 @@ shared:
     - email_address
   candidate_preferences:
     - candidate_id
+  pool_invites:
+    - application_form_id
+    - candidate_id
