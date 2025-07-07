@@ -6,10 +6,19 @@ RSpec.describe CandidateCoursesRecommender do
       stubbed_html_with_one_course
     end
 
-    it 'returns nil when there is no recommendations' do
+    it 'returns falsey when there is no recommendations' do
       candidate = create(:candidate)
 
-      expect(described_class.recommended_courses_url(candidate:)).to be_nil
+      expect(described_class.recommended_courses_url(candidate:)).to be_falsey
+    end
+
+    it 'returns falsey when the candidate has safeguarding concerns' do
+      candidate = create(:candidate)
+      _application_form = create(:application_form, candidate:, right_to_work_or_study: 'yes', personal_details_completed: true)
+
+      allow(candidate).to receive(:safeguarding_concerns?).and_return(true)
+
+      expect(described_class.recommended_courses_url(candidate:)).to be_falsey
     end
 
     describe "the 'can_sponsor_visa' parameter" do
@@ -23,7 +32,7 @@ RSpec.describe CandidateCoursesRecommender do
 
           recommended_courses_url = described_class.recommended_courses_url(candidate:)
 
-          expect(recommended_courses_url).to be_nil
+          expect(recommended_courses_url).to be_falsey
         end
       end
 
@@ -68,7 +77,7 @@ RSpec.describe CandidateCoursesRecommender do
 
           recommended_courses_url = described_class.recommended_courses_url(candidate:)
 
-          expect(recommended_courses_url).to be_nil
+          expect(recommended_courses_url).to be_falsey
         end
       end
 
@@ -174,7 +183,7 @@ RSpec.describe CandidateCoursesRecommender do
 
           recommended_courses_url = described_class.recommended_courses_url(candidate:)
 
-          expect(recommended_courses_url).to be_nil
+          expect(recommended_courses_url).to be_falsey
         end
       end
 
@@ -223,7 +232,7 @@ RSpec.describe CandidateCoursesRecommender do
 
           recommended_courses_url = described_class.recommended_courses_url(candidate:)
 
-          expect(recommended_courses_url).to be_nil
+          expect(recommended_courses_url).to be_falsey
         end
       end
 
@@ -271,7 +280,7 @@ RSpec.describe CandidateCoursesRecommender do
 
           recommended_courses_url = described_class.recommended_courses_url(candidate:)
 
-          expect(recommended_courses_url).to be_nil
+          expect(recommended_courses_url).to be_falsey
         end
       end
 
@@ -327,7 +336,7 @@ RSpec.describe CandidateCoursesRecommender do
 
           recommended_courses_url = described_class.recommended_courses_url(candidate:)
 
-          expect(recommended_courses_url).to be_nil
+          expect(recommended_courses_url).to be_falsey
         end
       end
 
@@ -353,7 +362,7 @@ RSpec.describe CandidateCoursesRecommender do
 
           recommended_courses_url = described_class.recommended_courses_url(candidate:)
 
-          expect(recommended_courses_url).to be_nil
+          expect(recommended_courses_url).to be_falsey
         end
       end
 
@@ -455,7 +464,7 @@ RSpec.describe CandidateCoursesRecommender do
     end
 
     context 'number of courses found on the Find service' do
-      it 'returns nil when there are no courses found' do
+      it 'returns falsey when there are no courses found' do
         stubbed_html_with_no_courses
 
         candidate = create(:candidate)
@@ -465,7 +474,7 @@ RSpec.describe CandidateCoursesRecommender do
           candidate:,
         ).recommended_courses_url
 
-        expect(recommended_courses_url).to be_nil
+        expect(recommended_courses_url).to be_falsey
       end
 
       it 'returns a URL when the there is one course found' do
@@ -478,7 +487,7 @@ RSpec.describe CandidateCoursesRecommender do
           candidate:,
         ).recommended_courses_url
 
-        expect(recommended_courses_url).not_to be_nil
+        expect(recommended_courses_url).not_to be_falsey
       end
 
       it 'returns a URL when there are multiple courses found' do
@@ -491,7 +500,7 @@ RSpec.describe CandidateCoursesRecommender do
           candidate:,
         ).recommended_courses_url
 
-        expect(recommended_courses_url).not_to be_nil
+        expect(recommended_courses_url).not_to be_falsey
       end
     end
   end
