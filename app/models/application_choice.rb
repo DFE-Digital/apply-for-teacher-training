@@ -110,6 +110,10 @@ class ApplicationChoice < ApplicationRecord
     ApplicationStateChange::IN_PROGRESS_STATES.include? status.to_sym
   end
 
+  def self.in_progress
+    where(status: ApplicationStateChange::IN_PROGRESS_STATES)
+  end
+
   def application_unsuccessful?
     ApplicationStateChange::UNSUCCESSFUL_STATES.include? status.to_sym
   end

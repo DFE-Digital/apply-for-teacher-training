@@ -125,6 +125,86 @@ RSpec.describe ApplicationChoice do
     end
   end
 
+  describe '.in_progress' do
+    it 'returns nothing when there are no in progress choices' do
+      create(:application_choice, :rejected)
+
+      expect(described_class.in_progress).to be_empty
+    end
+
+    it 'returns all in progress statuses' do
+      # state: in_progress?
+      application_choice_expectations = [
+        {
+          application_choice: create(:application_choice, status: :withdrawn),
+          expected_to_be_in_progress: false,
+        },
+        {
+          application_choice: create(:application_choice, status: :unsubmitted),
+          expected_to_be_in_progress: false,
+        },
+        {
+          application_choice: create(:application_choice, status: :awaiting_provider_decision),
+          expected_to_be_in_progress: true,
+        },
+        {
+          application_choice: create(:application_choice, status: :inactive),
+          expected_to_be_in_progress: false,
+        },
+        {
+          application_choice: create(:application_choice, status: :interviewing),
+          expected_to_be_in_progress: true,
+        },
+        {
+          application_choice: create(:application_choice, status: :rejected),
+          expected_to_be_in_progress: false,
+        },
+        {
+          application_choice: create(:application_choice, status: :application_not_sent),
+          expected_to_be_in_progress: false,
+        },
+        {
+          application_choice: create(:application_choice, status: :offer),
+          expected_to_be_in_progress: true,
+        },
+        {
+          application_choice: create(:application_choice, status: :offer_withdrawn),
+          expected_to_be_in_progress: false,
+        },
+        {
+          application_choice: create(:application_choice, status: :declined),
+          expected_to_be_in_progress: false,
+        },
+        {
+          application_choice: create(:application_choice, status: :pending_conditions),
+          expected_to_be_in_progress: true,
+        },
+        {
+          application_choice: create(:application_choice, status: :conditions_not_met),
+          expected_to_be_in_progress: false,
+        },
+        {
+          application_choice: create(:application_choice, status: :recruited),
+          expected_to_be_in_progress: true,
+        },
+        {
+          application_choice: create(:application_choice, status: :cancelled),
+          expected_to_be_in_progress: false,
+        },
+        {
+          application_choice: create(:application_choice, status: :offer_deferred),
+          expected_to_be_in_progress: true,
+        },
+      ]
+
+      expected_application_choices = application_choice_expectations
+                                       .select { |application_choice_expectation| application_choice_expectation.fetch(:expected_to_be_in_progress) }
+                                       .map { |application_choice_expectation| application_choice_expectation.fetch(:application_choice) }
+
+      expect(described_class.in_progress).to match_array(expected_application_choices)
+    end
+  end
+
   describe '#decision_pending?' do
     it 'returns false for choices in states not requiring provider action' do
       (ApplicationStateChange.valid_states - ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES).each do |state|
