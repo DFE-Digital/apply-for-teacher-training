@@ -96,6 +96,14 @@ class Candidate < ApplicationRecord
     where.not(id: with_safeguarding_concerns)
   end
 
+  def safeguarding_concerns?
+    @has_safeguarding_concerns ||= begin
+      application_forms_with_safeguarding_concerns = application_forms.exists?(safeguarding_issues_status: :has_safeguarding_issues_to_declare)
+      application_references_with_safeguarding_concerns = application_references.exists?(safeguarding_concerns_status: :has_safeguarding_concerns_to_declare)
+      application_forms_with_safeguarding_concerns || application_references_with_safeguarding_concerns
+    end
+  end
+
   def current_application
     application_form = application_forms.order(:created_at, :id).last
     application_form || if RecruitmentCycleTimetable.current_timetable.after_apply_deadline?

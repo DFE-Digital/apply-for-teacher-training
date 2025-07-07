@@ -213,6 +213,38 @@ RSpec.describe Candidate do
     end
   end
 
+  describe '#safeguarding_concerns?' do
+    it 'returns true if the candidate has safeguarding concerns declared on their Application Form' do
+      candidate = create(:candidate)
+      application_form = create(:application_form, candidate:, safeguarding_issues_status: :has_safeguarding_issues_to_declare)
+      _reference = create(:reference, application_form:, safeguarding_concerns_status: :no_safeguarding_concerns_to_declare)
+
+      expect(candidate.safeguarding_concerns?).to be true
+    end
+
+    it 'returns true if the candidate has safeguarding concerns declared on their References' do
+      candidate = create(:candidate)
+      application_form = create(:application_form, candidate:, safeguarding_issues_status: :no_safeguarding_issues_to_declare)
+      _reference = create(:reference, application_form:, safeguarding_concerns_status: :has_safeguarding_concerns_to_declare)
+
+      expect(candidate.safeguarding_concerns?).to be true
+    end
+
+    it 'returns false if the candidate has no safeguarding concerns declared on their Application Form or References' do
+      candidate = create(:candidate)
+      application_form = create(:application_form, candidate:, safeguarding_issues_status: :no_safeguarding_issues_to_declare)
+      _reference = create(:reference, application_form:, safeguarding_concerns_status: :no_safeguarding_concerns_to_declare)
+
+      expect(candidate.safeguarding_concerns?).to be false
+    end
+
+    it 'returns false if the candidate has no Application Forms or References' do
+      candidate = create(:candidate)
+
+      expect(candidate.safeguarding_concerns?).to be false
+    end
+  end
+
   describe '#current_application' do
     let(:candidate) { create(:candidate) }
 
