@@ -5,11 +5,11 @@
 
 <%= render ProviderInterface::FindCandidates::FiltersComponent.new(params:, filter: @filter) do %>
   <% if @application_forms.present? %>
-    <h2 class="govuk-heading-l">
+    <h2 class="govuk-heading-l govuk-!-margin-top-6 govuk-!-margin-bottom-3">
       <%= t('.candidates_found', count: @pagy.count) %>
     </h2>
 
-    <h3 class="govuk-heading-s govuk-hint"><%= t('.hint') %></h3>
+    <p class="govuk-body govuk-hint"><%= t('.hint') %></p>
 
     <%= govuk_table do |table| %>
       <%= table.with_head do |head| %>
@@ -58,6 +58,6 @@
 
     <%= govuk_pagination(pagy: @pagy) %>
   <% else %>
-    <p class="govuk-body"><%= t('.no_candidates') %></p>
+    <p class="govuk-body"><%= @filter.no_results_message %></p>
   <% end %>
 <% end %>

@@ -27,6 +27,8 @@ module ProviderInterface
       def filter_params
         params.permit(
           :location,
+          :candidate_id,
+          :candidate_search,
           subject_ids: [],
           study_mode: [],
           course_type: [],

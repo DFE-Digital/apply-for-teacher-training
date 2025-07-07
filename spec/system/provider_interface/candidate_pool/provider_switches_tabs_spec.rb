@@ -23,15 +23,21 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
     when_i_click_on_new_tab
     then_i_see_not_seen_candidates
     then_i_expect_the_study_mode_filter_to_be_applied
+
+    when_search_for_a_candidate_number
+    then_i_see_the_not_seen_candidate_only
+
     when_i_click_on_candidate(@not_seen_application_form)
     when_i_click_on('Back')
     then_i_expect_the_study_mode_filter_to_be_applied
+    and_the_candidate_number_search_to_be_applied
     and_i_there_are_no_not_seen_candidates
     when_i_apply_course_type_filters
 
     when_i_click_on_all_tab
-    then_i_see_all_candidates
+    then_i_see_the_not_seen_candidate
     and_i_see_all_applied_filters
+    and_the_candidate_number_search_to_be_applied
   end
 
   def set_viewed_application_form
@@ -129,6 +135,11 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
     end
   end
 
+  def and_the_candidate_number_search_to_be_applied
+    candidate_number_input = find_field('Search by candidate number')
+    expect(candidate_number_input.value).to eq @not_seen_application_form.candidate_id.to_s
+  end
+
   def when_i_click_on_new_tab
     within '.app-tab-navigation' do
       click_link_or_button 'New'
@@ -155,7 +166,7 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   end
 
   def and_i_there_are_no_not_seen_candidates
-    expect(page).to have_content('No candidates')
+    expect(page).to have_content('There are no candidates that match that candidate number with the filters you have chosen. Remove some of your filters and try again.')
   end
 
   def when_i_apply_course_type_filters
@@ -170,6 +181,21 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
     within '.app-tab-navigation' do
       click_link_or_button 'All candidates'
     end
+  end
+
+  def when_search_for_a_candidate_number
+    fill_in('Search by candidate number', with: @not_seen_application_form.candidate_id)
+    click_on 'Search'
+  end
+
+  def then_i_see_the_not_seen_candidate_only
+    expect(page).to have_content '1 new candidate found'
+    expect(page).to have_content "#{@not_seen_application_form.redacted_full_name} (#{@not_seen_application_form.candidate_id})"
+  end
+
+  def then_i_see_the_not_seen_candidate
+    expect(page).to have_content '1 candidate found'
+    expect(page).to have_content "#{@not_seen_application_form.redacted_full_name} (#{@not_seen_application_form.candidate_id})"
   end
 
   def and_i_see_all_applied_filters

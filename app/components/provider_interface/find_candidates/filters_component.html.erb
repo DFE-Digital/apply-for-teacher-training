@@ -1,17 +1,19 @@
 <%= form_with model: filter, url: '', scope: '', method: :get do |f| %>
   <%= f.govuk_error_summary %>
+<% end %>
 
-  <div class='moj-filter-layout'>
-    <div class="moj-filter-layout__filter app-filter">
-      <div class="moj-filter">
-        <div class="moj-filter__header">
-          <div class="moj-filter__header-title">
-            <h2 class="govuk-heading-m"><%= t('.title') %></h2>
-          </div>
+<div class='moj-filter-layout'>
+  <div class="moj-filter-layout__filter app-filter">
+    <div class="moj-filter">
+      <div class="moj-filter__header">
+        <div class="moj-filter__header-title">
+          <h2 class="govuk-heading-m"><%= t('.title') %></h2>
         </div>
+      </div>
 
-        <div class="moj-filter__content" tabindex="-1">
-          <% if filter.applied_filters.present? %>
+      <div class="moj-filter__content" tabindex="-1">
+        <%= form_with model: filter, url: '', scope: '', method: :get do |f| %>
+          <% if filter.applied_filters.except(:candidate_id, :candidate_search).present? %>
             <div class="moj-filter__selected">
               <div class="moj-filter__selected-heading">
                 <div class="moj-filter__heading-title">
@@ -24,7 +26,7 @@
                 </div>
               </div>
 
-              <% filter.applied_filters.except(:origin).each do |name, value| %>
+              <% filter.applied_filters.except(:origin, :candidate_search, :candidate_id).each do |name, value| %>
                 <div>
                   <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-0">
                     <%= t(".#{name}") %>
@@ -34,10 +36,10 @@
                     <% if value.is_a?(Array) %>
                       <% value.each do |filter_value| %>
                         <%= govuk_link_to(
-                          path_to_remove_filter(name, filter_value),
-                          filter_value,
-                          class: 'app-checkbox-filter__tag',
-                        ) do %>
+                              path_to_remove_filter(name, filter_value),
+                              filter_value,
+                              class: 'app-checkbox-filter__tag',
+                            ) do %>
                           <span class="govuk-visually-hidden">
                             <%= t(".remove_hint_#{name}") %>
                           </span>
@@ -46,13 +48,13 @@
                       <% end %>
                     <% else %>
                       <%= govuk_link_to(
-                        path_to_remove_location,
-                        value,
-                        class: 'app-checkbox-filter__tag',
-                      ) do %>
-                        <span class="govuk-visually-hidden">
-                          <%= t('.remove_location_hint') %>
-                        </span>
+                            path_to_remove_location,
+                            value,
+                            class: 'app-checkbox-filter__tag',
+                          ) do %>
+                          <span class="govuk-visually-hidden">
+                            <%= t('.remove_location_hint') %>
+                          </span>
                         <%= value %>
                       <% end %>
                     <% end %>
@@ -64,6 +66,7 @@
 
           <div class="moj-filter__options">
             <%= f.govuk_submit t('.apply_filters') %>
+            <%= hidden_field_tag(:candidate_id, filter.applied_filters[:candidate_id]) %>
 
             <div class="govuk-form-group filter-group">
               <h3 class="govuk-heading-m">
@@ -74,10 +77,10 @@
                 data-controller="location-autocomplete"
                 data-location-autocomplete-path-value="<%= provider_interface_location_suggestions_path %>">
                 <%= f.govuk_text_field(
-                  :location,
-                  data: { location_autocomplete_target: 'input' },
-                  label: { text: t('.location'), class: 'govuk-fieldset__legend govuk-fieldset__legend--s' },
-                ) %>
+                      :location,
+                      data: { location_autocomplete_target: 'input' },
+                      label: { text: t('.location'), class: 'govuk-fieldset__legend govuk-fieldset__legend--s' },
+                    ) %>
               </div>
             </div>
 
@@ -93,14 +96,14 @@
                   <div class="app-checkbox-filter__container">
                     <div class="app-checkbox-filter__container-inner">
                       <%= f.govuk_collection_check_boxes(
-                        :subject_ids,
-                        subject_options,
-                        :value,
-                        :name,
-                        legend: nil,
-                        small: true,
-                        include_hidden: false,
-                      ) %>
+                            :subject_ids,
+                            subject_options,
+                            :value,
+                            :name,
+                            legend: nil,
+                            small: true,
+                            include_hidden: false,
+                          ) %>
                     </div>
                   </div>
                 </div>
@@ -109,26 +112,26 @@
 
             <div class="govuk-form-group filter-group">
               <%= f.govuk_collection_check_boxes(
-                :study_mode,
-                study_mode_options,
-                :value,
-                :name,
-                legend: { text: t('.study_mode'), size: 's' },
-                small: true,
-                include_hidden: false,
-              ) %>
+                    :study_mode,
+                    study_mode_options,
+                    :value,
+                    :name,
+                    legend: { text: t('.study_mode'), size: 's' },
+                    small: true,
+                    include_hidden: false,
+                  ) %>
             </div>
 
             <div class="govuk-form-group filter-group">
               <%= f.govuk_collection_check_boxes(
-                :course_type,
-                course_type_options,
-                :value,
-                :name,
-                legend: { text: t('.course_type'), size: 's' },
-                small: true,
-                include_hidden: false,
-              ) %>
+                    :course_type,
+                    course_type_options,
+                    :value,
+                    :name,
+                    legend: { text: t('.course_type'), size: 's' },
+                    small: true,
+                    include_hidden: false,
+                  ) %>
             </div>
 
             <div class="govuk-form-group filter-group">
@@ -136,24 +139,56 @@
                 <%= t('.visa_sponsorship') %>
               </h3>
               <%= f.govuk_collection_check_boxes(
-                :visa_sponsorship,
-                visa_sponsorship_options,
-                :value,
-                :name,
-                legend: nil,
-                small: true,
-                include_hidden: false,
-              ) %>
+                    :visa_sponsorship,
+                    visa_sponsorship_options,
+                    :value,
+                    :name,
+                    legend: nil,
+                    small: true,
+                    include_hidden: false,
+                  ) %>
             </div>
             <div>
               <%= f.govuk_submit(t('.apply_filters'), class: 'govuk-!-margin-bottom-0') %>
             </div>
           </div>
-        </div>
+        <% end %>
       </div>
     </div>
-    <div class='moj-filter-layout__content'>
-      <%= content %>
-    </div>
   </div>
-<% end %>
+  <div class='moj-filter-layout__content'>
+      <div class='app-search'>
+        <%= form_with model: filter, url: '', scope: '', method: :get do |f| %>
+          <%= hidden_field_tag 'candidate_search', 'true' %>
+          <% filter.applied_filters.each do |name, value| %>
+            <% if value.is_a?(Array) %>
+              <% value.each do |v| %>
+                <%= hidden_field_tag "#{name}[]", v %>
+              <% end %>
+            <% else %>
+              <%= hidden_field_tag name, value %>
+            <% end %>
+          <% end %>
+          <%= f.govuk_text_field(
+                :candidate_id,
+                label: { text: t('.search_by_candidate_number'), class: 'govuk-label app-search__label govuk-label--m' },
+                inputmode: 'numeric',
+                autocomplete: 'off',
+                class: 'govuk-input app-search__input',
+              ) %>
+          <%= f.govuk_submit(t('.search'), class: 'govuk-button app-search__button') %>
+        </div>
+      <% if filter.applied_filters[:candidate_id].present? %>
+        <p class="govuk-body">
+          <%= govuk_link_to(
+                t('.clear_search'),
+                path_to_remove_candidate_id_filter,
+                no_visited_state: true,
+              ) %>
+        </p>
+      <% end %>
+    <% end %>
+
+    <%= content %>
+  </div>
+</div>
