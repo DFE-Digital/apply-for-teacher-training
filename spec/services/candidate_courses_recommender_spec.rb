@@ -21,6 +21,14 @@ RSpec.describe CandidateCoursesRecommender do
       expect(described_class.recommended_courses_url(candidate:)).to be_falsey
     end
 
+    it 'returns falsey when the candidate has application choices that are in progress' do
+      candidate = create(:candidate)
+      application_form = create(:application_form, candidate:, right_to_work_or_study: 'yes', personal_details_completed: true)
+      _in_progress_application_choice = create(:application_choice, :awaiting_provider_decision, application_form:)
+
+      expect(described_class.recommended_courses_url(candidate:)).to be_falsey
+    end
+
     describe "the 'can_sponsor_visa' parameter" do
       context 'when the Candidate has not completed their Personal Details' do
         it 'does not recommend courses' do
@@ -193,7 +201,7 @@ RSpec.describe CandidateCoursesRecommender do
           course_option = create(:course_option, course:)
           candidate = create(:candidate)
           application_form = create(:application_form, candidate: candidate, application_choices: [])
-          _application_choices = create_list(:application_choice, 1, :awaiting_provider_decision, application_form:, course_option:)
+          _application_choices = create_list(:application_choice, 1, :rejected, application_form:, course_option:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -210,9 +218,9 @@ RSpec.describe CandidateCoursesRecommender do
           candidate = create(:candidate)
           application_form = create(:application_form, candidate: candidate, application_choices: [])
           _application_choices = [
-            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: fee_course_option),
-            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: salary_course_option),
-            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: apprenticeship_course_option),
+            create(:application_choice, :rejected, application_form:, course_option: fee_course_option),
+            create(:application_choice, :rejected, application_form:, course_option: salary_course_option),
+            create(:application_choice, :rejected, application_form:, course_option: apprenticeship_course_option),
           ]
 
           uri = URI(described_class.recommended_courses_url(candidate:))
@@ -241,7 +249,7 @@ RSpec.describe CandidateCoursesRecommender do
           course_option = create(:course_option, study_mode: :full_time)
           candidate = create(:candidate)
           application_form = create(:application_form, candidate: candidate, application_choices: [])
-          _application_choices = create_list(:application_choice, 1, :awaiting_provider_decision, application_form:, course_option:)
+          _application_choices = create_list(:application_choice, 1, :rejected, application_form:, course_option:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -258,9 +266,9 @@ RSpec.describe CandidateCoursesRecommender do
           candidate = create(:candidate)
           application_form = create(:application_form, candidate: candidate, application_choices: [])
           _application_choices = [
-            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: full_time_course_option),
-            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: part_time_course_option),
-            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: other_full_time_course_option),
+            create(:application_choice, :rejected, application_form:, course_option: full_time_course_option),
+            create(:application_choice, :rejected, application_form:, course_option: part_time_course_option),
+            create(:application_choice, :rejected, application_form:, course_option: other_full_time_course_option),
           ]
 
           uri = URI(described_class.recommended_courses_url(candidate:))
@@ -291,7 +299,7 @@ RSpec.describe CandidateCoursesRecommender do
 
           candidate = create(:candidate)
           application_form = create(:application_form, candidate: candidate, application_choices: [])
-          _application_choices = create_list(:application_choice, 1, :awaiting_provider_decision, application_form:, course_option:)
+          _application_choices = create_list(:application_choice, 1, :rejected, application_form:, course_option:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -316,9 +324,9 @@ RSpec.describe CandidateCoursesRecommender do
           candidate = create(:candidate)
           application_form = create(:application_form, candidate: candidate, application_choices: [])
           _application_choices = [
-            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: a1_subject_course_option),
-            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: b2_subject_course_option),
-            create(:application_choice, :awaiting_provider_decision, application_form:, course_option: mixed_subject_course_option),
+            create(:application_choice, :rejected, application_form:, course_option: a1_subject_course_option),
+            create(:application_choice, :rejected, application_form:, course_option: b2_subject_course_option),
+            create(:application_choice, :rejected, application_form:, course_option: mixed_subject_course_option),
           ]
 
           uri = URI(described_class.recommended_courses_url(candidate:))
@@ -373,7 +381,7 @@ RSpec.describe CandidateCoursesRecommender do
 
           candidate = create(:candidate)
           application_form = create(:application_form, candidate: candidate, application_choices: [])
-          _application_choices = create_list(:application_choice, 1, :awaiting_provider_decision, application_form:, course_option:)
+          _application_choices = create_list(:application_choice, 1, :rejected, application_form:, course_option:)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -393,8 +401,8 @@ RSpec.describe CandidateCoursesRecommender do
 
           candidate = create(:candidate)
           application_form = create(:application_form, candidate: candidate, application_choices: [])
-          _application_choice_1 = create(:application_choice, :awaiting_provider_decision, application_form:, course_option: course_option_1)
-          _application_choice_2 = create(:application_choice, :awaiting_provider_decision, application_form:, course_option: course_option_2)
+          _application_choice_1 = create(:application_choice, :rejected, application_form:, course_option: course_option_1)
+          _application_choice_2 = create(:application_choice, :rejected, application_form:, course_option: course_option_2)
 
           uri = URI(described_class.recommended_courses_url(candidate:))
           query_parameters = Rack::Utils.parse_query(uri.query)
@@ -420,7 +428,7 @@ RSpec.describe CandidateCoursesRecommender do
                                   candidate:,
                                   right_to_work_or_study:,
                                   personal_details_completed:)
-        _application_choices = create(:application_choice, :awaiting_provider_decision, application_form:, course_option:)
+        _application_choices = create(:application_choice, :rejected, application_form:, course_option:)
 
         uri = URI(described_class.recommended_courses_url(candidate:))
         query_parameters = Rack::Utils.parse_query(uri.query)
@@ -447,7 +455,7 @@ RSpec.describe CandidateCoursesRecommender do
                                   candidate:,
                                   right_to_work_or_study:,
                                   personal_details_completed:)
-        _application_choices = create(:application_choice, :awaiting_provider_decision, application_form:, course_option:)
+        _application_choices = create(:application_choice, :rejected, application_form:, course_option:)
 
         uri = URI(described_class.recommended_courses_url(candidate:, locatable:))
         query_parameters = Rack::Utils.parse_query(uri.query)

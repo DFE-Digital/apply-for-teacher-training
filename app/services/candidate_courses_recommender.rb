@@ -20,12 +20,18 @@ private
   attr_reader :candidate, :locatable
 
   def candidate_suitable_for_recommendation?
-    # Candidate does not have any safeguarding concerns on their applications
-    # Candidate does not have any safeguarding concerns on their references
-    !candidate.safeguarding_concerns?
+    conditions = [
+      # Candidate does not have any safeguarding concerns on their applications
+      # Candidate does not have any safeguarding concerns on their references
+      !candidate.safeguarding_concerns?,
 
-    # Candidate does not have any active applications
-    # Candidate does not already have QTS
+      # Candidate does not have any active applications
+      candidate.current_application.application_choices.in_progress.none?,
+
+      # Candidate does not already have QTS
+    ]
+
+    conditions.all?
   end
 
   def create_recommended_courses_url
