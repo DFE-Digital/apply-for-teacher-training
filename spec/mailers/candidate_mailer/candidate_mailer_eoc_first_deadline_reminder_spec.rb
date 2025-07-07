@@ -20,7 +20,7 @@ RSpec.describe CandidateMailer do
 
       it 'renders the correct dates' do
         expect(email.body).to include("as soon as you can to get on a course starting in the #{current_timetable.academic_year_range_name} academic year.")
-        expect(email.body).to include("The deadline to submit your application is 6pm on #{current_timetable.apply_deadline_at.to_fs(:govuk_date)}")
+        expect(email.body).to include("The deadline to submit your application is 6pm UK time on #{current_timetable.apply_deadline_at.to_fs(:govuk_date)}")
       end
 
       it 'renders adviser sign up text if not already assigned' do

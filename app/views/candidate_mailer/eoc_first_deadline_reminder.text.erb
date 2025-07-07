@@ -4,13 +4,15 @@ Dear <%= @application_form.first_name %>
 
 [Submit your application for teacher training](<%= application_choices_link %>) as soon as you can to get on a course starting in the <%= @application_form.academic_year_range_name %> academic year.
 
-<%= "The deadline to submit your application is #{@application_form.apply_deadline_at.to_fs(:govuk_time)} on #{@application_form.apply_deadline_at.to_fs(:govuk_date)} but courses may fill up before then." %>
+<%= "The deadline to submit your application is #{@application_form.apply_deadline_at.to_fs(:govuk_time)} on #{@application_form.apply_deadline_at.to_fs(:govuk_date)} but courses may fill up before then." %> Courses that offer visa sponsorship may already be closed for this cycle.
 
 Courses fill up quickly at this time of year.
 
 <%= render 'gain_insights_into_life_as_a_teacher' %>
 
 # Get help
+
+Read about [what to include in your application](<%= email_link_with_utm_params I18n.t('get_into_teaching.url_teacher_training_application'), 'eoc_deadline_reminder', @application_form.phase %>) on the Get Into Teaching website.
 
 If you have questions about your application, you can [get in touch with us on the phone or through live chat](<%= email_link_with_utm_params I18n.t('get_into_teaching.url_online_chat'), 'eoc_deadline_reminder', @application_form.phase %>).
 
