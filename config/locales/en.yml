@@ -48,7 +48,7 @@ en:
     url_return_to_teaching: https://teaching-vacancies.service.gov.uk/jobseeker-guides/return-to-teaching-in-england/return-to-teaching/
   get_into_teaching:
     tel: 0800 389 2500
-    opening_times: "Monday to Friday, 8:30am to 5:30pm (except public\u00A0holidays)"
+    opening_times: "Monday to Friday, 8:30am to 5:30pm UK time (except public\u00A0holidays)"
     url: https://getintoteaching.education.gov.uk
     url_applying: https://getintoteaching.education.gov.uk/steps-to-become-a-teacher#step-5
     url_apply_personal_statement: https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/teacher-training-personal-statement

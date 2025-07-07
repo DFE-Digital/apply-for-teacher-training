@@ -204,7 +204,7 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
 
     it 'shows the duration since submitted' do
       travel_temporarily_to('1 January 2024') do
-        expect(result.text).to include('Application submitted25 December 2023 at 12am (midnight) (7 days ago)')
+        expect(result.text).to include('Application submitted25 December 2023 at 12am (midnight) UK time (7 days ago)')
       end
     end
 
