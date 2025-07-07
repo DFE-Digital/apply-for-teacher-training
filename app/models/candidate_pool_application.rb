@@ -4,6 +4,7 @@ class CandidatePoolApplication < ApplicationRecord
 
   def self.filtered_application_forms(filters, provider_user = nil)
     scope = CandidatePoolApplication.all
+    scope = filter_by_candidate_id(scope, filters)
     scope = remove_application_forms_rejected_by_providers(scope, provider_user)
     scope = filter_by_subject(scope, filters)
     scope = filter_by_study_mode(scope, filters)
@@ -20,6 +21,12 @@ class CandidatePoolApplication < ApplicationRecord
     rejected_application_ids = where('rejected_provider_ids @> ARRAY[?]::bigint[]', Array.wrap(provider_ids)).select(:application_form_id)
 
     scope.where.not(application_form_id: rejected_application_ids)
+  end
+
+  def self.filter_by_candidate_id(scope, filters)
+    return scope if filters[:candidate_id].blank?
+
+    scope.where(candidate_id: filters[:candidate_id])
   end
 
   def self.filter_by_subject(scope, filters)

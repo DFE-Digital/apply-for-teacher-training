@@ -79,6 +79,9 @@ en:
         candidate_location_preference: Candidate location preferences
         candidate_course_preferences: Candidate course preferences
         apply_filters: Apply filters
+        search_by_candidate_number: Search by candidate number
+        clear_search: Clear search
+        search: Search
       other_qualifications_component:
         caption: A levels and other qualifications
         qualification: Type
@@ -99,6 +102,10 @@ en:
           attributes:
             location:
               invalid_location: Town, city or postcode must be in the United Kingdom
+            candidate_id:
+              not_a_number: Candidate number can only contain numbers 0 to 9
+              not_an_integer: Candidate number can only contain numbers 0 to 9
+              blank: Enter a candidate number to search
         provider_interface/not_seen_candidates_filter:
           attributes:
             location:
