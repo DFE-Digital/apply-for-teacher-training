@@ -66,6 +66,10 @@ module ProviderInterface
       end
     end
 
+    def save_pagination(pagination_page)
+      provider_user_filter.update(pagination_page:)
+    end
+
     def no_results_message
       if applied_filters.keys == ['candidate_id']
         I18n.t('provider_interface.candidate_pool.no_candidate_with_id')

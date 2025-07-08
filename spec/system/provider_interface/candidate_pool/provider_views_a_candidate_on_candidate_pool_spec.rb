@@ -27,6 +27,17 @@ RSpec.describe 'Providers views candidate pool details' do
     then_i_see_the_rejected_candidate_as('Viewed')
   end
 
+  scenario 'Viewing a page out of range' do
+    given_i_am_a_provider_user_with_dfe_sign_in
+    and_provider_user_exists
+    and_there_are_candidates_for_candidate_pool
+    and_provider_is_opted_in_to_candidate_pool
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_visit_the_find_candidates_page_with_bad_pagination
+    and_i_see_candidates_in_the_pool
+  end
+
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
   end
@@ -79,6 +90,14 @@ RSpec.describe 'Providers views candidate pool details' do
     visit provider_interface_candidate_pool_root_path
   end
 
+  def when_i_visit_the_find_candidates_page_with_bad_pagination
+    visit provider_interface_candidate_pool_root_path(page: 10)
+  end
+
+  def and_i_see_candidates_in_the_pool
+    expect(page).to have_content '2 candidates found'
+  end
+
   def then_i_see_the_rejected_candidate_as(status)
     within("#candidate_#{@rejected_candidate.id}") do
       expect(page).to have_content status
@@ -111,7 +130,7 @@ RSpec.describe 'Providers views candidate pool details' do
   end
 
   def then_i_am_redirected_to_find_a_candidate
-    expect(page).to have_current_path(provider_interface_candidate_pool_root_path)
+    expect(page).to have_current_path(provider_interface_candidate_pool_root_path(page: 1))
   end
 
   def when_the_rejected_candidate_exits_and_enters_the_pool_again

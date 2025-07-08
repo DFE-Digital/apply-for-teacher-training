@@ -68,6 +68,7 @@ module ProviderInterface
         last_filter = current_provider_user.last_find_candidate_filter
 
         return provider_interface_candidate_pool_root_path if last_filter.nil?
+
         page = last_filter.pagination_page || 1
 
         if last_filter.find_candidates_not_seen?

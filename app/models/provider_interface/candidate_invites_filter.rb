@@ -24,6 +24,10 @@ module ProviderInterface
       true
     end
 
+    def save_pagination(pagination_page)
+      @provider_user_filter.update(pagination_page:)
+    end
+
   private
 
     def use_filter_with_new_params

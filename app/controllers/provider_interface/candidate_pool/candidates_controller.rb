@@ -20,7 +20,14 @@ module ProviderInterface
             provider_user: current_provider_user,
             with_statuses: true,
           ),
+          overflow: :last_page,
         )
+
+        if @pagy.overflow?
+          @filter.save_pagination(@pagy.last)
+        else
+          @filter.save_pagination(@pagy.page)
+        end
       end
 
       def show
@@ -68,9 +75,14 @@ module ProviderInterface
 
       def set_back_link
         @back_link ||= if params[:return_to] == 'not_seen'
-                         provider_interface_candidate_pool_not_seen_index_path
+                         page = current_provider_user.find_a_candidate_not_seen_filter&.pagination_page
+                         provider_interface_candidate_pool_not_seen_index_path(page:)
                        elsif params[:return_to] == 'invited'
-                         provider_interface_candidate_pool_invites_path
+                         page = current_provider_user.find_candidates_invited_filter&.pagination_page
+                         provider_interface_candidate_pool_invites_path(page:)
+                       elsif params[:return_to] == 'all'
+                         page = current_provider_user.find_a_candidate_all_filter&.pagination_page
+                         provider_interface_candidate_pool_root_path(page:)
                        else
                          provider_interface_candidate_pool_root_path
                        end
