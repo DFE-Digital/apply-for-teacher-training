@@ -17,6 +17,13 @@ class CandidatePreference < ApplicationRecord
     specific: 'specific',
   }, prefix: true
 
+  enum :funding_type, {
+    fee: 'fee',
+    salary: 'salary',
+  }, prefix: true
+
+  delegate :applied_only_to_salaried_courses?, to: :candidate
+
   def create_draft_dup
     dup_record = dup
     dup_record.status = 'draft'

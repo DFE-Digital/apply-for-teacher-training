@@ -533,4 +533,63 @@ RSpec.describe Candidate do
       expect(candidate.redacted_full_name_current_cycle).to eq('t***** t*****')
     end
   end
+
+  describe '#applied_only_to_salaried_courses?' do
+    it 'returns true if applied only to salary or apprenticeship course' do
+      application_form = create(
+        :application_form,
+        :completed,
+      )
+      salary_course = create(:course, funding_type: 'salary')
+      create(
+        :application_choice,
+        :awaiting_provider_decision,
+        application_form:,
+        course_option: create(:course_option, course: salary_course),
+      )
+      apprenticeship_course = create(:course, funding_type: 'apprenticeship')
+      create(
+        :application_choice,
+        :awaiting_provider_decision,
+        application_form:,
+        course_option: create(:course_option, course: apprenticeship_course),
+      )
+
+      candidate = application_form.candidate
+
+      expect(candidate.applied_only_to_salaried_courses?).to be(true)
+    end
+
+    it 'returns false if appliedto salary, apprenticeship and fee course' do
+      application_form = create(
+        :application_form,
+        :completed,
+      )
+      salary_course = create(:course, funding_type: 'salary')
+      create(
+        :application_choice,
+        :awaiting_provider_decision,
+        application_form:,
+        course_option: create(:course_option, course: salary_course),
+      )
+      apprenticeship_course = create(:course, funding_type: 'apprenticeship')
+      create(
+        :application_choice,
+        :awaiting_provider_decision,
+        application_form:,
+        course_option: create(:course_option, course: apprenticeship_course),
+      )
+      fee_course = create(:course, funding_type: 'fee')
+      create(
+        :application_choice,
+        :awaiting_provider_decision,
+        application_form:,
+        course_option: create(:course_option, course: fee_course),
+      )
+
+      candidate = application_form.candidate
+
+      expect(candidate.applied_only_to_salaried_courses?).to be(false)
+    end
+  end
 end
