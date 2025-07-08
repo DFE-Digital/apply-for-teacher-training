@@ -1,0 +1,70 @@
+name:  Recover deleted postgres database server
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to restore
+        required: true
+        default: qa
+        type: choice
+        options:
+        - qa
+        - staging
+        - sandbox
+        - production
+      confirm-production:
+        description: Must be set to true if restoring production
+        required: true
+        default: 'false'
+        type: choice
+        options:
+        - 'false'
+        - 'true'
+      restore-time:
+        description: Restore point in time in UTC. e.g. 2024-07-24T06:00:00. This is required and should be at least 10 minutes after the server was deleted.
+        type: string
+        required: true
+      deleted-server:
+        description: This should be the name of the deleted postgres server. ex. s189t01-att-qa-psql
+        required: true
+        type: string
+
+env:
+  SERVICE_SHORT: att
+  TF_VARS_PATH: terraform/aks/workspace_variables
+
+permissions:
+  id-token: write
+
+jobs:
+  recover-deleted-postgres:
+    name: Recover Deleted Postgres
+    if: ${{ inputs.environment != 'production' || (inputs.environment == 'production' && github.event.inputs.confirm-production == 'true' )  }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    concurrency: deploy_${{ inputs.environment }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set environment variables
+      run: |
+        source global_config/${{ inputs.environment }}.sh
+        tf_vars_file=${TF_VARS_PATH}/${{ inputs.environment }}.tfvars.json
+        echo "CLUSTER=$(jq -r '.cluster' ${tf_vars_file})" >> $GITHUB_ENV
+        echo "RESOURCE_GROUP_NAME=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-rg" >> $GITHUB_ENV
+
+        DELETED_DB_SERVER="${{ inputs.deleted-server }}"
+        echo "DELETED_DB_SERVER=${DELETED_DB_SERVER}" >> $GITHUB_ENV
+
+    - name: Recover deleted postgres for ${{ inputs.environment }} environment
+      uses: DFE-Digital/github-actions/restore-deleted-postgres@master
+      with:
+        resource-group: ${{ env.RESOURCE_GROUP_NAME }}
+        deleted-server: ${{ env.DELETED_DB_SERVER }}
+        restore-time: ${{ inputs.restore-time }}
+        cluster: ${{ env.CLUSTER }}
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
