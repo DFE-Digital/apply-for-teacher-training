@@ -70,10 +70,12 @@ en:
         remove_hint_study_mode: Remove study type filter
         remove_hint_course_type: Remove course type filter
         remove_hint_visa_sponsorship: Remove visa sponsorship filter
+        remove_hint_fee_funding_type: Remove funding type filter
         location: 'Town, city or postcode:'
         remove_location_hint: Remove candidate location preference filter
         study_mode: Study type
         course_type: Course type
+        fee_funding_type: Funding type
         visa_sponsorship: Candidate visa requirements
         subjects_applied_to: Subjects previously applied to
         candidate_location_preference: Candidate location preferences

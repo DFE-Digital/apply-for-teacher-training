@@ -61,6 +61,7 @@ module ProviderInterface
           study_mode: [],
           course_type: [],
           visa_sponsorship: [],
+          fee_funding_type: [],
         )
       end
 

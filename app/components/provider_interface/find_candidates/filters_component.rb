@@ -22,6 +22,9 @@ module ProviderInterface
           course_type: {
             options: course_type_options,
           },
+          fee_funding_type: {
+            options: funding_type_options,
+          },
           visa_sponsorship: {
             options: visa_sponsorship_options,
           },
@@ -64,6 +67,17 @@ module ProviderInterface
             name: value.split('_').join(' ').capitalize,
           )
         end
+      end
+
+      def funding_type_options
+        funding_type = Struct.new(:value, :name)
+
+        [
+          funding_type.new(
+            value: 'fee_funded',
+            name: 'fee-funded only'.capitalize,
+          ),
+        ]
       end
 
       def course_type_options

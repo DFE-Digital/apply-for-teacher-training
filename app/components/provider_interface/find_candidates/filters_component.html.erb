@@ -132,6 +132,18 @@
             </div>
 
             <div class="govuk-form-group filter-group">
+              <%= f.govuk_collection_check_boxes(
+                :fee_funding_type,
+                funding_type_options,
+                :value,
+                :name,
+                legend: { text: t('.fee_funding_type'), size: 's' },
+                small: true,
+                include_hidden: false,
+              ) %>
+            </div>
+
+            <div class="govuk-form-group filter-group">
               <h3 class="govuk-heading-m">
                 <%= t('.visa_sponsorship') %>
               </h3>
