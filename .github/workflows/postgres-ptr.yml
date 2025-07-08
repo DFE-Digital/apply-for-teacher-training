@@ -25,7 +25,7 @@ on:
         description: Restore point in time in UTC. e.g. 2024-07-24T06:00:00. This is required and should be at least 10 minutes after the server was deleted.
         type: string
         required: true
-      deleted-db-server:
+      deleted-server:
         description: This should be the name of the deleted postgres server.
         required: true
         type: string
@@ -55,7 +55,7 @@ jobs:
         echo "CLUSTER=$(jq -r '.cluster' ${tf_vars_file})" >> $GITHUB_ENV
         echo "RESOURCE_GROUP_NAME=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-rg" >> $GITHUB_ENV
 
-        DELETED_DB_SERVER="${{ inputs.deleted-db-server }}"
+        DELETED_DB_SERVER="${{ inputs.deleted-server }}"
         echo "DELETED_DB_SERVER=${DELETED_DB_SERVER}" >> $GITHUB_ENV
 
     - name: Recover deleted postgres for ${{ inputs.environment }} environment
