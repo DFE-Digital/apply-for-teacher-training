@@ -15,10 +15,7 @@ class ProviderInterface::FindCandidates::PersonalStatementComponent < ViewCompon
   end
 
   def truncated_personal_statement
-    personal_statement.truncate_words(
-      MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT,
-      omission: ' ',
-    )
+    personal_statement.truncate_words(MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT)
   end
 
   def remaining_personal_statement_text
