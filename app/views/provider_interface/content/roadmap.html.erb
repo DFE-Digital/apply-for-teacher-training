@@ -1,76 +1,78 @@
-<%= content_for :title, t('.title') %>
+<%= content_for :title, 'Find candidates product roadmap' %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <span class="govuk-caption-l">
-      <%= t('.what_we_are_working_on') %>
+       What we’re working on
     </span>
     <h1 class="govuk-heading-l">
-      <%= t('.find_candidates_product_roadmap') %>
+      Find candidates product roadmap
     </h1>
     <p class="govuk-body">
-      <%= t('.this_roadmap_shows') %>
+      This roadmap shows what we’re working on and planning to do.
     </p>
     <p class="govuk-body">
-      <%= t('.some_thing_on_the_roadmap_might_change') %>
+      Some things on the roadmap might change – the purpose is to tell you what’s coming up and help you plan how this feature might be used within the wider recruitment process.
     </p>
     <p class="govuk-body">
-      <%= t('.last_updated') %>
+      Last updated: 7 July 2025
     </p>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
     <h2 class="govuk-heading-m">
-      <%= t('.recently_released') %>
+      Recently released
     </h2>
     <p class="govuk-body">
-      <%= t('.available_to_use_now') %>
+      These are features or functionality that are available to use now.
     </p>
     <%= govuk_list(
           [
-            t('.opt_out_reasons'),
-            t('.launched_test_version'),
-            t('.tailor_invite_emails'),
-            t('.candidate_location_preferences'),
-          ],
-          type: :bullet,
-        ) %>
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
-    <h2 class="govuk-heading-m">
-      <%= t('.working_on_now') %>
-    </h2>
-    <p class="govuk-body">
-      <%= t('.priority_at_the_moment') %>
-    </p>
-    <%= govuk_list(
-          [
-            t('.make_it_easier_for_providers'),
-          ],
-          type: :bullet,
-        ) %>
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
-    <h2 class="govuk-heading-m">
-      <%= t('.exploring') %>
-    </h2>
-    <p class="govuk-body">
-      <%= t('.we_are_doing_research') %>
-    </p>
-    <%= govuk_list(
-          [
-            t('.provider_usage'),
-            t('.track_applications'),
-            t('.candidate_experience'),
-          ],
-          type: :bullet,
-        ) %>
-    <p class="govuk-body">
-      <%= t(
-            '.if_you_would_like_to_participate_html',
-            link: govuk_link_to(
-              t('.short_form'),
-              t('.research_link'),
+            govuk_link_to(
+              'Functionality for providers to personalise invitation emails to candidates.',
+              t('.design_histories.email_personalisation_url'),
             ),
-          ) %>
+            "#{govuk_link_to(
+              'Candidate location preference flow iterations',
+              t('.design_histories.candidate_location_preferences_url'),
+            )} to support international candidates, use of the location radius and use of automatic location updates.".html_safe,
+            "#{govuk_link_to(
+              'Candidate statuses, additional tabs and invitation banners',
+              t('.design_histories.find_candidate_statuses_url'),
+            )} to make it easier for providers to distinguish, separate or sort between candidates they have not viewed, already viewed and invited (and progressed to applied).".html_safe,
+            'Removing previously rejected candidates from the list if rejected by all providers a user has access to.',
+            'Search by candidate number, share candidate profiles with colleagues.',
+          ],
+          type: :bullet,
+        ) %>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+    <h2 class="govuk-heading-m">
+      Working on now
+    </h2>
+    <p class="govuk-body">
+      These things are our priority at the moment. You should see them in the Find candidates feature soon.
     </p>
+    <%= govuk_list(
+          [
+            'Provider navigation improvements to the personal statement ‘read more’ link.',
+            'Candidate course funding type preference capture.',
+            'For multi-organisation provider users, showing links in the candidate profiles to previous applications to their organisations.',
+          ],
+          type: :bullet,
+        ) %>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+    <h2 class="govuk-heading-m">
+      Exploring
+    </h2>
+    <p class="govuk-body">
+      We are doing research and testing these ideas. Some of them might make it into Find candidates in future but some might not.
+    </p>
+    <%= govuk_list(
+          [
+            'How might we identify and intervene if a candidate is disengaged from the invitation process.',
+            'Analysis of the makeup and movement of candidates likely to meet the list criteria in the early stages of the recruitment cycle. How might we ensure the list is suitable for provider view and usage.',
+          ],
+          type: :bullet,
+        ) %>
   </div>
 </div>

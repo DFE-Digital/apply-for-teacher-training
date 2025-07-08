@@ -2,39 +2,7 @@ en:
   provider_interface:
     content:
       roadmap:
-        title: Find candidates product roadmap
-        what_we_are_working_on: What we’re working on
-        find_candidates_product_roadmap: Find candidates product roadmap
-        this_roadmap_shows: This roadmap shows what we’re working on and planning to do.
-        some_thing_on_the_roadmap_might_change: >
-          Some things on the roadmap might change – the purpose is to tell you what’s coming up and help providers
-          plan how this feature might be used within the wider recruitment process.
-        last_updated: "Last updated: 11 June 2025"
-        recently_released: Recently released
-        available_to_use_now: These are features or functionality that are available to use now.
-        opt_out_reasons: Free-text capture of opt-out reasons from candidates.
-        launched_test_version: >
-          Launched the test version of the Find candidates feature in Manage teacher training applications, including
-          filters to narrow down the list of results.
-        tailor_invite_emails: Functionality for providers to personalise invitation emails to candidates.
-        candidate_location_preferences: >
-          Candidate location preference flow iterations to support international candidates, use of the location radius
-          and use of automatic location updates.
-        working_on_now: Working on now
-        priority_at_the_moment: >
-          These things are our priority at the moment. You should see them in the Find candidates feature soon.
-        make_it_easier_for_providers: >
-          Improvements to make it easier for providers to distinguish, separate or sort between candidates they have not
-          viewed, already viewed, invited (and progressed to applied) and previously rejected.
-        exploring: Exploring
-        we_are_doing_research: >
-          We are doing research and testing these ideas. Some of them might make it into the Find candidates feature in
-          the future but some might not.
-        provider_usage: Gain further insight on provider usage of the test feature to identify priority iterations.
-        track_applications: >
-          Research has showed us people want a way to track invites through to applications. We are trying to find out
-          more detail about how this could work.
-        candidate_experience: Candidate ‘how does application sharing work’ content iterations to make the process clearer.
-        if_you_would_like_to_participate_html: If you would like to take part in research to help shape this service, please complete %{link} and we will be in touch.
-        short_form: this short form
-        research_link: https://dferesearch.fra1.qualtrics.com/jfe/form/SV_cJbWpDyqZocIbfo
+        design_histories:
+          email_personalisation_url: https://becoming-a-teacher.design-history.education.gov.uk/manage-teacher-training-applications/email-personalisation/
+          candidate_location_preferences_url: https://becoming-a-teacher.design-history.education.gov.uk/apply-for-teacher-training/changes-to-the-location-preferences-flow/
+          find_candidate_statuses_url: https://becoming-a-teacher.design-history.education.gov.uk/manage-teacher-training-applications/find-candidates-statuses/
