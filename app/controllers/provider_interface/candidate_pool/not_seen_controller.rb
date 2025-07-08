@@ -40,6 +40,7 @@ module ProviderInterface
           study_mode: [],
           course_type: [],
           visa_sponsorship: [],
+          funding_type: [],
         )
       end
     end

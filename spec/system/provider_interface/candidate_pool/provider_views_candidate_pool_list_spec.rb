@@ -33,6 +33,10 @@ RSpec.describe 'Providers views candidate pool list' do
 
     when_i_filter_by_location
     then_i_expect_to_see_filtered_candidates([@declined_candidate_form, @rejected_candidate_form, @visa_sponsorship_form])
+
+    when_i_filter_by_fee_funding_type
+    then_i_expect_to_see_filtered_candidates([@declined_candidate_form, @visa_sponsorship_form])
+
     when_i_filter_by_visa_sponsorship
     then_i_expect_to_see_filtered_candidates([@visa_sponsorship_form])
     and_i_expect_to_see_the_updated_results_count
@@ -102,7 +106,11 @@ RSpec.describe 'Providers views candidate pool list' do
       candidate: declined_candidate,
       submitted_at: Time.zone.today,
     )
-    create(:candidate_pool_application, application_form: @declined_candidate_form)
+    create(
+      :candidate_pool_application,
+      application_form: @declined_candidate_form,
+      course_funding_type_fee: true,
+    )
   end
 
   def set_rejected_candidate_form
@@ -133,6 +141,7 @@ RSpec.describe 'Providers views candidate pool list' do
       :candidate_pool_application,
       application_form: @visa_sponsorship_form,
       needs_visa: true,
+      course_funding_type_fee: true,
     )
   end
 
@@ -247,6 +256,7 @@ RSpec.describe 'Providers views candidate pool list' do
       'Remove study type filter Full time',
       'Remove course type filter Postgraduate',
       'Remove visa sponsorship filter Does not need a visa',
+      'Remove funding type filter Fee-funded only',
     ])
   end
 
@@ -279,5 +289,10 @@ RSpec.describe 'Providers views candidate pool list' do
     within('.moj-filter-layout__content') do
       click_on 'Clear search'
     end
+  end
+
+  def when_i_filter_by_fee_funding_type
+    check('Fee-funded only')
+    first('.govuk-button', text: 'Apply filters').click
   end
 end
