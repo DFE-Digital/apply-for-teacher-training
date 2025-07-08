@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_02_072640) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_04_145611) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -434,6 +434,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_02_072640) do
     t.boolean "course_type_undergraduate", default: false, null: false
     t.bigint "subject_ids", default: [], null: false, array: true
     t.bigint "rejected_provider_ids", default: [], null: false, array: true
+    t.boolean "fee_funding_type"
     t.index ["application_form_id"], name: "index_candidate_pool_applications_on_application_form_id"
     t.index ["candidate_id"], name: "index_candidate_pool_applications_on_candidate_id"
   end
@@ -454,6 +455,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_02_072640) do
     t.datetime "updated_at", null: false
     t.text "opt_out_reason"
     t.string "training_locations"
+    t.string "course_type"
     t.index ["candidate_id"], name: "index_candidate_preferences_on_candidate_id"
   end
 
@@ -1130,9 +1132,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_02_072640) do
   add_foreign_key "candidate_pool_applications", "candidates", on_delete: :cascade
   add_foreign_key "candidate_pool_provider_opt_ins", "providers", on_delete: :cascade
   add_foreign_key "candidate_preferences", "candidates", on_delete: :cascade
-  add_foreign_key "candidates", "fraud_matches"
+  add_foreign_key "candidates", "fraud_matches", validate: false
   add_foreign_key "course_options", "courses", on_delete: :cascade
-  add_foreign_key "course_options", "sites", on_delete: :cascade
+  add_foreign_key "course_options", "sites", on_delete: :cascade, validate: false
   add_foreign_key "course_subjects", "courses"
   add_foreign_key "course_subjects", "subjects"
   add_foreign_key "courses", "providers"

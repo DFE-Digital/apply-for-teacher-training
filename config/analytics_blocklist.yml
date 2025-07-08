@@ -21,6 +21,7 @@
   - course_type_undergraduate
   - subject_ids
   - rejected_provider_ids
+  - fee_funding_type
   :candidate_pool_provider_opt_ins:
   - id
   - provider_id
