@@ -154,7 +154,7 @@ RSpec.describe Candidate do
     end
   end
 
-  describe 'Safeguarding methods' do
+  describe 'Candidates::Safeguarding' do
     describe '.with_safeguarding_concerns' do
       it 'includes candidates with safeguarding concerns declared on their Application Form' do
         candidate_with_safeguarding_concerns = create(:candidate)

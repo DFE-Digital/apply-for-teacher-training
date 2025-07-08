@@ -1,6 +1,7 @@
 class Candidate < ApplicationRecord
   include Chased
   include AuthenticatedUsingMagicLinks
+  include Candidates::Safeguarding
 
   generates_token_for :unsubscribe_link
 
