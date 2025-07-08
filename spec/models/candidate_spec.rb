@@ -245,6 +245,23 @@ RSpec.describe Candidate do
     end
   end
 
+  describe '#application_choices_rejected_with_already_qualified?' do
+    it 'returns false' do
+      candidate = create(:candidate)
+
+      expect(candidate.application_choices_rejected_with_already_qualified?).to be false
+    end
+
+    it 'returns true if the candidate has been rejected due to already qualified' do
+      structured_rejection_reasons_with_already_qualified = { selected_reasons: [{ id: 'qualifications', label: 'Qualifications', selected_reasons: [{ id: 'already_qualified', label: 'Already has a teaching qualification', details: { id: 'already_qualified_details', text: 'Was previously a teacher' } }] }] }
+      candidate = create(:candidate)
+      application_form_with_already_qualified_rejection = create(:application_form, candidate: candidate, right_to_work_or_study: 'yes', personal_details_completed: true)
+      _application_choice_with_already_qualified_rejection = create(:application_choice, application_form: application_form_with_already_qualified_rejection, status: :rejected, structured_rejection_reasons: structured_rejection_reasons_with_already_qualified)
+
+      expect(candidate.application_choices_rejected_with_already_qualified?).to be true
+    end
+  end
+
   describe '#current_application' do
     let(:candidate) { create(:candidate) }
 

@@ -29,6 +29,15 @@ RSpec.describe CandidateCoursesRecommender do
       expect(described_class.recommended_courses_url(candidate:)).to be_falsey
     end
 
+    it 'returns false when the candidate has been rejected for already being a qualified teacher' do
+      structured_rejection_reasons_with_already_qualified = { selected_reasons: [{ id: 'qualifications', label: 'Qualifications', selected_reasons: [{ id: 'already_qualified', label: 'Already has a teaching qualification', details: { id: 'already_qualified_details', text: 'Was previously a teacher' } }] }] }
+      candidate_with_already_qualified_rejection = create(:candidate)
+      application_form_with_already_qualified_rejection = create(:application_form, candidate: candidate_with_already_qualified_rejection, right_to_work_or_study: 'yes', personal_details_completed: true)
+      _application_choice_with_already_qualified_rejection = create(:application_choice, application_form: application_form_with_already_qualified_rejection, status: :rejected, structured_rejection_reasons: structured_rejection_reasons_with_already_qualified)
+
+      expect(described_class.recommended_courses_url(candidate: candidate_with_already_qualified_rejection)).to be_falsey
+    end
+
     describe "the 'can_sponsor_visa' parameter" do
       context 'when the Candidate has not completed their Personal Details' do
         it 'does not recommend courses' do
