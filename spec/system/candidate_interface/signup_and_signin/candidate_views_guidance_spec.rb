@@ -24,11 +24,11 @@ RSpec.describe 'Candidate visits the sign-in page and views guidance' do
 
   def and_i_can_see_the_correct_dates
     expect(page).to have_content('The application process for courses starting in September 2024')
-    expect(page).to have_content('3 October 2023 at 9am')
+    expect(page).to have_content('3 October 2023 at 9am UK time')
     expect(page).to have_content('Start finding postgraduate teacher training courses')
-    expect(page).to have_content('10 October 2023 at 9am Start applying to courses.')
-    expect(page).to have_content('17 September 2024 at 6pmThe last day to submit any applications.')
-    expect(page).to have_content('25 September 2024 at 11:59pm')
+    expect(page).to have_content('10 October 2023 at 9am UK time Start applying to courses.')
+    expect(page).to have_content('17 September 2024 at 6pm UK timeThe last day to submit any applications.')
+    expect(page).to have_content('25 September 2024 at 11:59pm UK time')
     expect(page).to have_content('The last day for training providers to make a decision on all applications for courses starting in September 2024')
   end
 end

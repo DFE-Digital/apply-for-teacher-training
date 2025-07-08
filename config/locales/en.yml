@@ -48,7 +48,7 @@ en:
     url_return_to_teaching: https://teaching-vacancies.service.gov.uk/jobseeker-guides/return-to-teaching-in-england/return-to-teaching/
   get_into_teaching:
     tel: 0800 389 2500
-    opening_times: "Monday to Friday, 8:30am to 5:30pm (except public\u00A0holidays)"
+    opening_times: "Monday to Friday, 8:30am to 5:30pm UK time (except public\u00A0holidays)"
     url: https://getintoteaching.education.gov.uk
     url_applying: https://getintoteaching.education.gov.uk/steps-to-become-a-teacher#step-5
     url_apply_personal_statement: https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/teacher-training-personal-statement
@@ -76,6 +76,7 @@ en:
     url_teacher_degree_apprenticeship: https://getintoteaching.education.gov.uk/train-to-be-a-teacher/teacher-degree-apprenticeships
     url_assessment_only_route_to_qts: https://getintoteaching.education.gov.uk/train-to-be-a-teacher/assessment-only-route-to-qts
     url_teach_in_england_if_you_trained_overseas: https://getintoteaching.education.gov.uk/non-uk-teachers/teach-in-england-if-you-trained-overseas
+    url_teacher_training_application: https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/teacher-training-application
   train_to_teach_in_england:
     url: https://www.gov.uk/government/publications/train-to-teach-in-england-non-uk-applicants/train-to-teach-in-england-non-uk-applicants#visas-and-immigration
   register_of_sponsor_licences:

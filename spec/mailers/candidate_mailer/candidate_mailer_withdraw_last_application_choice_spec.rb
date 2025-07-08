@@ -36,7 +36,7 @@ RSpec.describe CandidateMailer do
           'You have withdrawn your application',
           'heading' => 'Hello Fred',
           'still interested' => 'You can apply again for courses starting in the 2025 to 2026 academic year.',
-          'when to apply again' => 'submit from 9am on 8 October 2024',
+          'when to apply again' => 'submit from 9am UK time on 8 October 2024',
         )
       end
 
@@ -46,7 +46,7 @@ RSpec.describe CandidateMailer do
           'You have withdrawn your application',
           'heading' => 'Hello Fred',
           'still interested' => 'You can apply again for courses starting in the 2025 to 2026 academic year.',
-          'when to apply again' => 'submit from 9am on 8 October 2024',
+          'when to apply again' => 'submit from 9am UK time on 8 October 2024',
         )
       end
     end

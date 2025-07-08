@@ -23,12 +23,7 @@ Time::DATE_FORMATS[:govuk_date_and_time] = lambda do |time|
              '%e %B %Y at %l:%M%P'
            end
 
-  time.strftime(format).squish
-end
-
-Time::DATE_FORMATS[:govuk_time_and_date] = lambda do |time|
-  format = '%-l%P on %-e %B %Y'
-  time.strftime(format)
+  "#{time.strftime(format).squish} UK time"
 end
 
 Time::DATE_FORMATS[:govuk_time] = lambda do |time|
@@ -42,5 +37,5 @@ Time::DATE_FORMATS[:govuk_time] = lambda do |time|
              '%l:%M%P'
            end
 
-  time.strftime(format).squish
+  "#{time.strftime(format).squish} UK time"
 end
