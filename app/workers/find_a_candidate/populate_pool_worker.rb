@@ -8,6 +8,7 @@ class FindACandidate::PopulatePoolWorker
 
     applications = application_forms_eligible_for_pool
                      .joins(application_choices: { course_option: { course: :subjects } })
+                     .joins(candidate: :published_opt_in_preferences)
                      .where.not(application_choices: { status: 'unsubmitted' })
                      .select(
                        'application_forms.id AS application_form_id',
@@ -21,6 +22,17 @@ class FindACandidate::PopulatePoolWorker
                        "MAX(CASE WHEN application_forms.right_to_work_or_study = 'no' OR (application_forms.right_to_work_or_study = 'yes' AND application_forms.immigration_status IN ('student_visa', 'skilled_worker_visa')) THEN 1 ELSE 0 END) = 1 AS needs_visa",
                        'CURRENT_TIMESTAMP as created_at',
                        'CURRENT_TIMESTAMP as updated_at',
+                       "MAX(CASE WHEN candidate_preferences.funding_type = 'fee'
+                          OR EXISTS (
+                               SELECT 1
+                               FROM   application_forms
+                               WHERE  courses.funding_type = 'fee'
+                               AND    (candidate_preferences.funding_type = 'fee'
+                                       OR candidate_preferences.funding_type IS NULL)
+                          )
+                         THEN 1
+                         ELSE 0
+                       END) = 1 AS course_funding_type_fee",
                      )
                      .group(:id)
 
@@ -36,9 +48,10 @@ class FindACandidate::PopulatePoolWorker
         rejected_provider_ids,
         needs_visa,
         created_at,
-        updated_at
+        updated_at,
+        course_funding_type_fee
       )
-          #{applications.to_sql}
+      #{applications.to_sql}
     SQL
 
     CandidatePoolApplication.transaction do
