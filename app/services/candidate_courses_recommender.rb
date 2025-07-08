@@ -12,12 +12,31 @@ class CandidateCoursesRecommender
   end
 
   def recommended_courses_url
-    find_url_with_query_params if recommended?
+    candidate_suitable_for_recommendation? && create_recommended_courses_url
   end
 
 private
 
   attr_reader :candidate, :locatable
+
+  def candidate_suitable_for_recommendation?
+    conditions = [
+      # Candidate does not have any safeguarding concerns on their applications
+      # Candidate does not have any safeguarding concerns on their references
+      !candidate.safeguarding_concerns?,
+
+      # Candidate does not have any active applications
+      candidate.current_application.application_choices.in_progress.none?,
+
+      # Candidate does not already have QTS
+    ]
+
+    conditions.all?
+  end
+
+  def create_recommended_courses_url
+    find_url_with_query_params if recommended?
+  end
 
   def current_year
     @current_year ||= RecruitmentCycleTimetable.current_year

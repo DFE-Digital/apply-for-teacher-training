@@ -154,6 +154,97 @@ RSpec.describe Candidate do
     end
   end
 
+  describe '.with_safeguarding_concerns' do
+    it 'returns candidates with safeguarding concerns declared on their Application Form' do
+      candidate_with_safeguarding_concerns = create(:candidate)
+      _application_form_with_safeguarding_concerns = create(:application_form,
+                                                            candidate: candidate_with_safeguarding_concerns,
+                                                            safeguarding_issues_status: :has_safeguarding_issues_to_declare)
+      candidate_without_safeguarding_concerns = create(:candidate)
+      _application_form_without_safeguarding_concerns = create(:application_form,
+                                                               candidate: candidate_without_safeguarding_concerns,
+                                                               safeguarding_issues_status: :no_safeguarding_issues_to_declare)
+
+      expect(described_class.with_safeguarding_concerns).to contain_exactly(candidate_with_safeguarding_concerns)
+    end
+
+    it 'returns candidates with safeguarding concerns declared on their References' do
+      candidate_with_safeguarding_concerns = create(:candidate)
+      application_form = create(:application_form,
+                                candidate: candidate_with_safeguarding_concerns,
+                                safeguarding_issues_status: :no_safeguarding_issues_to_declare)
+      _reference_with_safeguarding_concerns = create(:reference,
+                                                     application_form: application_form,
+                                                     safeguarding_concerns_status: :has_safeguarding_concerns_to_declare)
+
+      candidate_without_safeguarding_concerns = create(:candidate)
+      application_form_without_safeguarding_concerns = create(:application_form,
+                                                              candidate: candidate_without_safeguarding_concerns,
+                                                              safeguarding_issues_status: :no_safeguarding_issues_to_declare)
+      _reference_without_safeguarding_concerns = create(:reference,
+                                                        application_form: application_form_without_safeguarding_concerns,
+                                                        safeguarding_concerns_status: :no_safeguarding_concerns_to_declare)
+
+      expect(described_class.with_safeguarding_concerns).to contain_exactly(candidate_with_safeguarding_concerns)
+    end
+  end
+
+  describe '.without_safeguarding_concerns' do
+    it 'returns candidates without safeguarding concerns declared on their Application Form or References' do
+      candidate_with_safeguarding_concerns_on_application = create(:candidate)
+      _application_form_with_safeguarding_concerns = create(:application_form,
+                                                            candidate: candidate_with_safeguarding_concerns_on_application,
+                                                            safeguarding_issues_status: :has_safeguarding_issues_to_declare)
+
+      candidate_with_safeguarding_concerns_on_reference = create(:candidate)
+      application_form_with_reference = create(:application_form,
+                                               candidate: candidate_with_safeguarding_concerns_on_reference,
+                                               safeguarding_issues_status: :no_safeguarding_issues_to_declare)
+      _reference_with_safeguarding_concerns = create(:reference,
+                                                     application_form: application_form_with_reference,
+                                                     safeguarding_concerns_status: :has_safeguarding_concerns_to_declare)
+
+      candidate_without_safeguarding_concerns = create(:candidate)
+      _application_form_without_safeguarding_concerns = create(:application_form,
+                                                               candidate: candidate_without_safeguarding_concerns,
+                                                               safeguarding_issues_status: :no_safeguarding_issues_to_declare)
+
+      expect(described_class.without_safeguarding_concerns).to contain_exactly(candidate_without_safeguarding_concerns)
+    end
+  end
+
+  describe '#safeguarding_concerns?' do
+    it 'returns true if the candidate has safeguarding concerns declared on their Application Form' do
+      candidate = create(:candidate)
+      application_form = create(:application_form, candidate:, safeguarding_issues_status: :has_safeguarding_issues_to_declare)
+      _reference = create(:reference, application_form:, safeguarding_concerns_status: :no_safeguarding_concerns_to_declare)
+
+      expect(candidate.safeguarding_concerns?).to be true
+    end
+
+    it 'returns true if the candidate has safeguarding concerns declared on their References' do
+      candidate = create(:candidate)
+      application_form = create(:application_form, candidate:, safeguarding_issues_status: :no_safeguarding_issues_to_declare)
+      _reference = create(:reference, application_form:, safeguarding_concerns_status: :has_safeguarding_concerns_to_declare)
+
+      expect(candidate.safeguarding_concerns?).to be true
+    end
+
+    it 'returns false if the candidate has no safeguarding concerns declared on their Application Form or References' do
+      candidate = create(:candidate)
+      application_form = create(:application_form, candidate:, safeguarding_issues_status: :no_safeguarding_issues_to_declare)
+      _reference = create(:reference, application_form:, safeguarding_concerns_status: :no_safeguarding_concerns_to_declare)
+
+      expect(candidate.safeguarding_concerns?).to be false
+    end
+
+    it 'returns false if the candidate has no Application Forms or References' do
+      candidate = create(:candidate)
+
+      expect(candidate.safeguarding_concerns?).to be false
+    end
+  end
+
   describe '#current_application' do
     let(:candidate) { create(:candidate) }
 
