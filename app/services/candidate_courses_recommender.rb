@@ -23,6 +23,7 @@ private
     conditions = [
       # Candidate does not have any safeguarding concerns on their applications
       # Candidate does not have any safeguarding concerns on their references
+      # Candidate does not have any safeguarding concerns on their rejection reasons
       !candidate.safeguarding_concerns?,
 
       # Candidate does not have any active applications
