@@ -416,6 +416,27 @@ RSpec.describe CandidateCoursesRecommender do
       end
     end
 
+    describe 'UTM parameters' do
+      it 'adds UTM parameters to the URL' do
+        right_to_work_or_study = 'no'
+        personal_details_completed = false
+
+        candidate = create(:candidate)
+        application_form = create(:application_form,
+                                  application_choices: [],
+                                  candidate:,
+                                  right_to_work_or_study:,
+                                  personal_details_completed:)
+        _application_choices = create(:application_choice, :rejected, application_form:)
+
+        uri = URI(described_class.recommended_courses_url(candidate:))
+        query_parameters = Rack::Utils.parse_query(uri.query)
+
+        expect(query_parameters['utm_source']).to eq('apply')
+        expect(query_parameters['utm_medium']).to eq('courses_recommender')
+      end
+    end
+
     context 'a mixture of scenarios' do
       it 'sets the parameters to the correct values' do
         right_to_work_or_study = 'no'
