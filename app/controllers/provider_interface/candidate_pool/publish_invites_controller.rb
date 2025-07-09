@@ -14,11 +14,7 @@ module ProviderInterface
           )
 
           if @pool_invite.valid?
-            ActiveRecord::Base.transaction do
-              invite.published!
-                invite.sent_to_candidate!
-                CandidateMailer.candidate_invite(invite).deliver_later
-            end
+            invite.publish_and_send_to_candidate!
 
             flash[:success] = t(
               '.success',

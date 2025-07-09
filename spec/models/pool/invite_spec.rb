@@ -52,6 +52,37 @@ RSpec.describe Pool::Invite do
     end
   end
 
+  describe '#publish_and_send_to_candidate!' do
+    it 'publishes the invite, marks it as sent to candidate, and sends an email' do
+      allow(CandidateMailer).to receive(:candidate_invite).and_call_original
+      invite = build(:pool_invite, sent_to_candidate_at: nil)
+
+      expect {
+        invite.publish_and_send_to_candidate!
+      }.to change { invite.status }.from('draft').to('published')
+                                   .and change { invite.sent_to_candidate_at }.from(nil).to(be_within(1.second).of(Time.current))
+
+      expect(CandidateMailer).to have_received(:candidate_invite).with(invite)
+    end
+
+    it 'does not change sent_to_candidate_at if already set' do
+      invite = build(:pool_invite, sent_to_candidate_at: Time.current)
+
+      expect {
+        invite.publish_and_send_to_candidate!
+      }.not_to(change { invite.sent_to_candidate_at })
+    end
+
+    it 'does not send an email if already sent' do
+      allow(CandidateMailer).to receive(:candidate_invite).and_call_original
+      invite = build(:pool_invite, sent_to_candidate_at: Time.current)
+
+      invite.publish_and_send_to_candidate!
+
+      expect(CandidateMailer).not_to have_received(:candidate_invite)
+    end
+  end
+
   describe '#sent_to_candidate!' do
     it 'updates sent_to_candidate_at to current time' do
       invite = build(:pool_invite, sent_to_candidate_at: nil)
