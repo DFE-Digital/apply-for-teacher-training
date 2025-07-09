@@ -3,6 +3,28 @@ en:
     find_candidates:
       right_to_work_component:
         visa_sponsorship: Visa sponsorship
+        required: Required
+        not_required: Not required
+        unknown: Unknown
+        visa_or_immigration_status: Visa or immigration status
+        eu_settled: EU settled status
+        eu_pre_settled: EU pre-settled status
+        indefinite_leave_to_remain_in_the_uk: Indefinite leave to remain in the UK
+        student_visa: Student visa
+        graduate_visa: Graduate visa
+        skilled_worker_visa: Skilled Worker visa
+        dependent_on_partners_or_parents_visa: Dependent on partner’s or parent’s visa
+        family_visa: Family visa
+        british_national_overseas_visa: British National (Overseas) visa
+        uk_ancestry_visa: UK Ancestry visa
+        high_potential_individual_visa: High Potential Individual visa
+        youth_mobility_scheme: Youth Mobility Scheme
+        india_young_professionals_scheme_visa: India Young Professionals Scheme visa
+        ukraine_family_scheme_or_ukraine_sponsorship_scheme_visa: Ukraine Family Scheme or Ukraine Sponsorship Scheme visa
+        afghan_citizens_resettlement_scheme_or_afghan_relocations_and_assistance_policy: Afghan Citizens Resettlement Scheme (ACRS) or Afghan Relocations and Assistance Policy (ARAP)
+        refugee_status: Refugee status
+        other: Other
+        british_or_irish: British or Irish citizen
       application_choices_component:
         subtitle: Application %{counter}
         subject: Subject

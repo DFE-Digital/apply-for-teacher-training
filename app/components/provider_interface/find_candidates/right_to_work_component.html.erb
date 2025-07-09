@@ -3,4 +3,10 @@
     <% row.with_key { t('.visa_sponsorship') } %>
     <% row.with_value { visa_sponsorship_value } %>
   <% end %>
+  <% unless application_form.requires_visa_sponsorship? %>
+    <% summary_list.with_row do|row| %>
+      <% row.with_key { t('.visa_or_immigration_status') } %>
+      <% row.with_value { visa_status_value } %>
+    <% end %>
+  <% end %>
 <% end %>
