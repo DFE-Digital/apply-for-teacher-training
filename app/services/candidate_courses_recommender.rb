@@ -29,6 +29,7 @@ private
       candidate.current_application.application_choices.in_progress.none?,
 
       # Candidate does not already have QTS
+      !candidate.application_choices_rejected_with_already_qualified?,
     ]
 
     conditions.all?

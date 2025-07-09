@@ -81,6 +81,14 @@ class Candidate < ApplicationRecord
     end
   end
 
+  def application_choices_rejected_with_already_qualified?
+    application_choices.where(
+      <<~SQL,
+        application_choices.structured_rejection_reasons->'selected_reasons' @> '[{"id":"qualifications", "selected_reasons": [{"id": "already_qualified"}]}]'::jsonb
+      SQL
+    ).exists?
+  end
+
   def self.with_safeguarding_concerns
     safeguarding_on_application_forms = joins(:application_forms).where(application_forms: { safeguarding_issues_status: :has_safeguarding_issues_to_declare })
     safeguarding_on_references = joins(application_forms: :application_references).where(application_references: { safeguarding_concerns_status: :has_safeguarding_concerns_to_declare })
