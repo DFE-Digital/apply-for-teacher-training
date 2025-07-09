@@ -5,7 +5,7 @@ module CookiePreferenceConcerns
     session[:display_cookie_consent_confirmation] = true
 
     flash[:success] = 'Your cookie preferences have been updated.'
-    redirect_back(fallback_location: cookie_page_path)
+    redirect_to session[:previous_referer].presence || root_path
   end
 
   def hide_confirmation
