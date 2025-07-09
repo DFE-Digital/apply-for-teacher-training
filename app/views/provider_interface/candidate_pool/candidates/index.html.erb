@@ -8,6 +8,9 @@
     <h2 class="govuk-heading-l govuk-!-margin-top-6 govuk-!-margin-bottom-3">
       <%= t('.candidates_found', count: @pagy.count) %>
     </h2>
+    <p class="govuk-body">
+      <%= t('.results_are_based_on_past_applications') %>
+    </p>
 
     <%= govuk_table do |table| %>
       <%= table.with_head do |head| %>
