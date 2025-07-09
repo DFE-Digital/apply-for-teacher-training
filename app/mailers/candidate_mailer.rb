@@ -505,7 +505,7 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def candidate_invites(candidate, pool_invite)
+  def candidate_invite(candidate, pool_invite)
     application_form = candidate.current_cycle_application_form
     @inviting_providers_count = 1
     @single_provider_name = pool_invite.provider.name

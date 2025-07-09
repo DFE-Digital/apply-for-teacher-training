@@ -17,7 +17,7 @@ module ProviderInterface
             ActiveRecord::Base.transaction do
               invite.published!
                 invite.sent_to_candidate!
-                CandidateMailer.candidate_invites(invite.candidate, [invite]).deliver_later
+                CandidateMailer.candidate_invite(invite.candidate, invite).deliver_later
             end
 
             flash[:success] = t(

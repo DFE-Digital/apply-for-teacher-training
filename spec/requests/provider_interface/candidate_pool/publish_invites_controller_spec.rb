@@ -17,7 +17,7 @@ RSpec.describe 'ProviderInterface::CandidatePool::PublishInvitesController' do
 
         )
       mailer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-      allow(CandidateMailer).to receive(:candidate_invites).and_return(mailer)
+      allow(CandidateMailer).to receive(:candidate_invite).and_return(mailer)
     end
 
     it 'redirects to candidate_interface_interstitial_path' do
@@ -41,7 +41,7 @@ RSpec.describe 'ProviderInterface::CandidatePool::PublishInvitesController' do
       )
 
       expect(response).to redirect_to(provider_interface_candidate_pool_root_path)
-      expect(CandidateMailer).to have_received(:candidate_invites).with(candidate, [draft_invite])
+      expect(CandidateMailer).to have_received(:candidate_invite).with(candidate, draft_invite)
     end
   end
 end
