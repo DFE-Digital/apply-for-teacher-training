@@ -8,13 +8,13 @@ RSpec.describe CandidateMailer do
       context 'when there is only one provider' do
         it 'reflects the number of providers' do
           candidate = create(:candidate, email_address: 'candidate@email.address')
-          _application_form = create(:application_form,
-                                     :minimum_info,
-                                     candidate:,
-                                     first_name: 'Joe')
-          pool_invite = create(:pool_invite, candidate:)
+          application_form = create(:application_form,
+                                    :minimum_info,
+                                    candidate:,
+                                    first_name: 'Joe')
+          pool_invite = create(:pool_invite, candidate:, application_form:)
 
-          email = described_class.candidate_invite(candidate, pool_invite)
+          email = described_class.candidate_invite(pool_invite)
 
           expect(email.to).to eq(['candidate@email.address'])
           expect(email.subject).to include('A provider has invited you to apply for teacher training')

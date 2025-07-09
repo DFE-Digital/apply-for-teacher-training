@@ -31,8 +31,9 @@ RSpec.describe 'ProviderInterface::CandidatePool::PublishInvitesController' do
         :pool_invite,
         status: :draft,
         candidate:,
+        application_form:,
         provider:,
-        course: course,
+        course:,
       )
 
       post provider_interface_candidate_pool_candidate_draft_invite_publish_invite_path(
@@ -41,7 +42,7 @@ RSpec.describe 'ProviderInterface::CandidatePool::PublishInvitesController' do
       )
 
       expect(response).to redirect_to(provider_interface_candidate_pool_root_path)
-      expect(CandidateMailer).to have_received(:candidate_invite).with(candidate, draft_invite)
+      expect(CandidateMailer).to have_received(:candidate_invite).with(draft_invite)
     end
   end
 end

@@ -1,7 +1,7 @@
 class Candidate::FindACandidatePreview < ActionMailer::Preview
   def candidate_invite
     candidate = FactoryBot.create(:candidate)
-    FactoryBot.create(
+    application_form = FactoryBot.create(
       :application_form,
       :minimum_info,
       candidate: candidate,
@@ -17,12 +17,13 @@ class Candidate::FindACandidatePreview < ActionMailer::Preview
     invite = FactoryBot.create(
       :pool_invite,
       candidate:,
-      provider: provider,
-      course: course,
+      application_form:,
+      provider:,
+      course:,
       provider_message: true,
       message_content: "# Hello\r\n## Please apply to my course\r\n\r\n^ Some content\r\n\r\nByee",
     )
 
-    CandidateMailer.candidate_invite(candidate, invite)
+    CandidateMailer.candidate_invite(invite)
   end
 end

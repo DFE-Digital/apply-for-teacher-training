@@ -505,17 +505,14 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def candidate_invite(candidate, pool_invite)
-    application_form = candidate.current_cycle_application_form
-    @invite = pool_invite
-
-    @preferences_url = candidate_preferences_link(candidate)
-
-    email_subject = I18n.t!('candidate_mailer.candidate_invite.subject')
+  def candidate_invite(pool_invite)
+    @pool_invite = pool_invite
+    @preferences_url = candidate_preferences_link(pool_invite.candidate)
+    application_form = pool_invite.application_form
 
     email_for_candidate(
       application_form,
-      subject: email_subject,
+      subject: I18n.t!('candidate_mailer.candidate_invite.subject'),
       layout: false,
     )
   end
