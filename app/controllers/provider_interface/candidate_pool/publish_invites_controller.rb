@@ -69,12 +69,14 @@ module ProviderInterface
 
         return provider_interface_candidate_pool_root_path if last_filter.nil?
 
+        page = last_filter.pagination_page || 1
+
         if last_filter.find_candidates_not_seen?
-          provider_interface_candidate_pool_not_seen_index_path
+          provider_interface_candidate_pool_not_seen_index_path(page:)
         elsif last_filter.find_candidates_invited?
-          provider_interface_candidate_pool_invites_path
+          provider_interface_candidate_pool_invites_path(page:)
         else
-          provider_interface_candidate_pool_root_path
+          provider_interface_candidate_pool_root_path(page:)
         end
       end
     end

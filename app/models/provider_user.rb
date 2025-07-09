@@ -7,6 +7,7 @@ class ProviderUser < ApplicationRecord
   has_many :pool_invites, class_name: 'Pool::Invite', foreign_key: 'invited_by_id'
   has_one :find_a_candidate_all_filter, -> { find_candidates_all.order('updated_at desc') }, class_name: 'ProviderUserFilter'
   has_one :find_a_candidate_not_seen_filter, -> { find_candidates_not_seen.order('updated_at desc') }, class_name: 'ProviderUserFilter'
+  has_one :find_candidates_invited_filter, -> { find_candidates_invited.order('updated_at desc') }, class_name: 'ProviderUserFilter'
 
   has_many :pool_views, -> { status_viewed }, class_name: 'ProviderPoolAction', foreign_key: 'actioned_by_id'
   has_many :provider_user_filters

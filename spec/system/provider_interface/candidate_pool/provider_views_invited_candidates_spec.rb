@@ -48,12 +48,14 @@ RSpec.describe 'Invited candidate list' do
 
     when_i_click_back
     then_i_see_a_list_of_invited_candidates
+    and_the_path_has_pagination
 
     when_i_click_on_candidate_not_in_the_pool
     then_i_see_the_not_in_pool_page
 
     when_i_click_back
     then_i_see_a_list_of_invited_candidates
+    and_the_path_has_pagination
   end
 
   scenario 'Provider user with existing filters views list of candidates' do
@@ -65,6 +67,16 @@ RSpec.describe 'Invited candidate list' do
 
     when_i_visit_the_invited_candidates_page
     then_i_see_a_list_of_filtered_candidates
+  end
+
+  scenario 'Visiting a page that is out of range' do
+    given_i_am_a_provider_user_with_dfe_sign_in
+    and_provider_user_exists
+    and_provider_is_opted_in_to_candidate_pool
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_visit_the_invited_candidates_page_with_bad_pagination
+    then_i_see_a_list_of_invited_candidates
   end
 
 private
@@ -90,6 +102,10 @@ private
     expect(page).to have_title 'Find candidates - Invited'
     expect(page).to have_content 'Find candidates'
     expect(page).to have_content '3 candidates invited'
+  end
+
+  def and_the_path_has_pagination
+    expect(page).to have_current_path(provider_interface_candidate_pool_invites_path(page: 1))
   end
 
   def when_i_click_on_candidate_in_the_pool
@@ -130,6 +146,10 @@ private
 
   def then_i_see_a_list_of_filtered_candidates
     expect(page).to have_content '1 candidate invited'
+  end
+
+  def when_i_visit_the_invited_candidates_page_with_bad_pagination
+    visit provider_interface_candidate_pool_invites_path(page: 10)
   end
 
   def and_i_can_view_the_application

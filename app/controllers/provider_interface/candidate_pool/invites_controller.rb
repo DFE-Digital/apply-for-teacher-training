@@ -5,11 +5,18 @@ module ProviderInterface
       before_action :redirect_to_applications_unless_provider_opted_in
       before_action :set_invite, only: :show
       before_action :redirect_if_candidate_in_pool, only: :show
+      before_action :set_back_link, only: :show
 
       def index
         @filter = CandidateInvitesFilter.new(filter_params:, provider_user: current_provider_user)
 
-        @pagy, @candidate_invites = pagy(@filter.applied_filters)
+        @pagy, @candidate_invites = pagy(@filter.applied_filters, overflow: :last_page)
+
+        if @pagy.overflow?
+          @filter.save_pagination(@pagy.last)
+        else
+          @filter.save_pagination(@pagy.page)
+        end
       end
 
       def show; end
@@ -24,6 +31,11 @@ module ProviderInterface
                     .find_by(id: params[:id])
 
         redirect_to provider_interface_candidate_pool_invites_path if @invite.nil?
+      end
+
+      def set_back_link
+        page = current_provider_user.find_candidates_invited_filter&.pagination_page || 1
+        @back_link = provider_interface_candidate_pool_invites_path(page:)
       end
 
       def redirect_if_candidate_in_pool

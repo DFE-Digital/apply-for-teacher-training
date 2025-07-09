@@ -15,7 +15,14 @@ module ProviderInterface
           Pool::Candidates.new(filters: @filter.applied_filters).application_forms_not_seen_by_provider_user(
             current_provider_user,
           ),
+          overflow: :last_page,
         )
+
+        if @pagy.overflow?
+          @filter.save_pagination(@pagy.last)
+        else
+          @filter.save_pagination(@pagy.page)
+        end
       end
 
     private
