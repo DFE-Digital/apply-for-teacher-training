@@ -1,5 +1,5 @@
 class Candidate::FindACandidatePreview < ActionMailer::Preview
-  def candidate_invites_one_provider
+  def candidate_invite
     candidate = FactoryBot.create(:candidate)
     FactoryBot.create(
       :application_form,

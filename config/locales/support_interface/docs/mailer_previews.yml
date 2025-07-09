@@ -72,10 +72,7 @@ en:
             interview_updated_course_changed: The subject the candidate is interviewing for has been changed.
             new_interview: A training provider has scheduled an interview with a candidate.
           candidate_find_a_candidate:
-            candidate_invites_one_provider: Find a candidate invitation email from a single provider.
-            candidate_invites_multiple_providers: Find a candidate invitation email when more than 1 providers want to invite a single candidate to apply. (Inactive)
-            candidate_invites_one_provider_two_courses: Find a candidate invitation email from a single provider, inviting the candidate to 2 different courses. (Inactive)
-            candidate_invites_two_providers: Find a candidate invitation email when 2 providers want to invite the same candidate to different courses. (Inactive)
+            candidate_invite: Find a candidate invitation email.
           provider_mailer:
             application_submitted: Missing description
             application_submitted_with_safeguarding_issues: Missing description
