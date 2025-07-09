@@ -507,16 +507,11 @@ class CandidateMailer < ApplicationMailer
 
   def candidate_invite(candidate, pool_invite)
     application_form = candidate.current_cycle_application_form
-    @inviting_providers_count = 1
-    @single_provider_name = pool_invite.provider.name
     @invite = pool_invite
 
     @preferences_url = candidate_preferences_link(candidate)
 
-    email_subject = I18n.t!(
-      'candidate_mailer.candidate_invites.subject',
-      count: @inviting_providers_count,
-    )
+    email_subject = I18n.t!('candidate_mailer.candidate_invite.subject')
 
     email_for_candidate(
       application_form,

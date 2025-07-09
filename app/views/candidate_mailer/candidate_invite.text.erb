@@ -1,7 +1,7 @@
 <%# If you update this, please update the preview template for provider invite message as well %>
 Dear <%= @application_form.first_name %>,
 
-<%= t('.body.invite_to_submit', count: @inviting_providers_count, provider_name: @single_provider_name) %>:
+<%= t('.body.invite_to_submit', provider_name: @invite.course.provider.name) %>:
 
 ## <%= @invite.course.provider.name %> - <%= @invite.course.name_and_code %>
 
@@ -25,6 +25,6 @@ Start date: <%= @invite.course.start_date.to_fs(:short_month_and_year) %>
 <% end %>
 
 
-<%= t('.body.locations_not_suitable', count: 1) %>, you can [update your preferences](<%= @preferences_url %>) to appear in more relevant searches.
+<%= t('.body.locations_not_suitable') %>, you can [update your preferences](<%= @preferences_url %>) to appear in more relevant searches.
 
 If you do not want to receive invitations like this, you can [stop providers from viewing your application details](<%= @preferences_url %>).
