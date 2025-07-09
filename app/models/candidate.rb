@@ -1,6 +1,7 @@
 class Candidate < ApplicationRecord
   include Chased
   include AuthenticatedUsingMagicLinks
+  include Candidates::Safeguarding
 
   generates_token_for :unsubscribe_link
 
@@ -87,29 +88,6 @@ class Candidate < ApplicationRecord
         application_choices.structured_rejection_reasons->'selected_reasons' @> '[{"id":"qualifications", "selected_reasons": [{"id": "already_qualified"}]}]'::jsonb
       SQL
     ).exists?
-  end
-
-  def self.with_safeguarding_concerns
-    safeguarding_on_application_forms = joins(:application_forms).where(application_forms: { safeguarding_issues_status: :has_safeguarding_issues_to_declare })
-    safeguarding_on_references = joins(application_forms: :application_references).where(application_references: { safeguarding_concerns_status: :has_safeguarding_concerns_to_declare })
-
-    with(
-      safeguarding_on_application_forms: safeguarding_on_application_forms,
-      safeguarding_on_references: safeguarding_on_references,
-    ).where(id: safeguarding_on_application_forms.select('candidates.id'))
-     .or(where(id: safeguarding_on_references.select('candidates.id')))
-  end
-
-  def self.without_safeguarding_concerns
-    where.not(id: with_safeguarding_concerns)
-  end
-
-  def safeguarding_concerns?
-    @has_safeguarding_concerns ||= begin
-      application_forms_with_safeguarding_concerns = application_forms.exists?(safeguarding_issues_status: :has_safeguarding_issues_to_declare)
-      application_references_with_safeguarding_concerns = application_references.exists?(safeguarding_concerns_status: :has_safeguarding_concerns_to_declare)
-      application_forms_with_safeguarding_concerns || application_references_with_safeguarding_concerns
-    end
   end
 
   def current_application
