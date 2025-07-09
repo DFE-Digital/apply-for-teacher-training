@@ -76,7 +76,9 @@ class CheckboxSearchFilter {
     const visibleCheckboxes = [].filter.call(this.checkboxes, (el) => this.isCheckboxInView(el))
 
     // add an extra checkbox, if the label of the first is too long it collapses onto itself
-    visibleCheckboxes.push(this.checkboxes[visibleCheckboxes.length - 1])
+    if (visibleCheckboxes.length > 0) {
+      visibleCheckboxes.push(this.checkboxes[visibleCheckboxes.length - 1])
+    }
     return visibleCheckboxes
   }
 
@@ -146,9 +148,11 @@ class CheckboxSearchFilter {
 
     // Resize to cut last item cleanly in half
     const visibleCheckboxes = this.getVisibleCheckboxes()
-    const lastVisibleCheckbox = visibleCheckboxes[visibleCheckboxes.length - 1]
-    const position = lastVisibleCheckbox.parentNode.offsetTop // parent element is relative
-    this.setContainerHeight(position + (lastVisibleCheckbox.height / 1.5))
+    if (visibleCheckboxes.length > 0) {
+      const lastVisibleCheckbox = visibleCheckboxes[visibleCheckboxes.length - 1]
+      const position = lastVisibleCheckbox.parentNode.offsetTop // parent element is relative
+      this.setContainerHeight(position + (lastVisibleCheckbox.height / 1.5))
+    }
   }
 
   setupStatusBox () {
