@@ -109,5 +109,11 @@
       </h2>
       <%= render ProviderInterface::FindCandidates::ApplicationChoicesComponent.new(application_form: @application_form) %>
     </section>
+    <section class="app-section" id="location-preferences">
+      <h2 class="govuk-heading-l">
+        <%= t('.location_preferences_title') %>
+      </h2>
+      <%= render ProviderInterface::FindCandidates::LocationPreferencesComponent.new(application_form: @application_form) %>
+    </section>
   </div>
 </div>

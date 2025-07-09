@@ -1,0 +1,6 @@
+<p class="govuk-body">
+  <%= preferences_text %>
+</p>
+<% if location_preferences.present? %>
+  <%= govuk_list(location_preferences, type: :bullet) %>
+<% end %>
