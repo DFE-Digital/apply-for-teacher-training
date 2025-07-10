@@ -17,6 +17,8 @@ module CandidateInterface
         preference.update!(training_locations:)
         if preference.reload.training_locations_specific? && preference.location_preferences.empty?
           LocationPreferences.add_default_location_preferences(preference:)
+        elsif preference.training_locations_anywhere? && preference.location_preferences.present?
+          preference.location_preferences.destroy_all
         end
       end
     end
