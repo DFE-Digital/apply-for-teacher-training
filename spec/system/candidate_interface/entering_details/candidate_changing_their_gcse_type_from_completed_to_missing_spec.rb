@@ -23,6 +23,10 @@ RSpec.describe 'Candidate changing their GCSE type' do
     when_i_change_my_qualification_type
     and_i_select_i_do_not_have_a_gcse_in_maths_option
     and_i_click_save_and_continue
+    then_i_see_the_not_yet_completed_question
+
+    when_i_select_yes_and_add_details
+    and_i_click_save_and_continue
     then_i_see_the_review_page_with_updated_details
 
     when_i_change_my_qualification_type
@@ -86,10 +90,17 @@ RSpec.describe 'Candidate changing their GCSE type' do
       expect(page).to have_content 'What type of maths qualification do you have?'
       expect(page).to have_content 'I don’t have a maths qualification yet'
       expect(page).to have_content 'Are you currently studying for this qualification?'
-      expect(page).to have_content 'Select if you are currently studying for this qualification'
-      expect(page).to have_content 'Other evidence I have the skills required (optional)'
-      expect(page).to have_content 'Enter other evidence'
+      expect(page).to have_content 'Here are the details'
     end
+  end
+
+  def then_i_see_the_not_yet_completed_question
+    expect(page).to have_content 'Are you currently studying for a GCSE in maths, or equivalent?'
+  end
+
+  def when_i_select_yes_and_add_details
+    choose 'Yes'
+    fill_in 'Details of the qualification you are studying for', with: 'Here are the details'
   end
 
   def then_i_see_the_review_page_with_empty_details
