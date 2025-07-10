@@ -20,7 +20,7 @@ module CandidateInterface
 
       if @dynamic_location_preferences_form.valid?
         @dynamic_location_preferences_form.save
-        redirect_to @dynamic_location_preferences_form.next_path(return_to: params[:return_to])
+        redirect_to candidate_interface_draft_preference_path(@preference)
       else
         set_back_path
         render :new

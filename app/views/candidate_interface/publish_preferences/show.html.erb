@@ -21,7 +21,7 @@
         <% row.with_value { t(".#{@preference.training_locations}") } %>
         <% row.with_action(
            text: t('.change'),
-           href: new_candidate_interface_draft_preference_training_location_path(@preference, return_to: 'review'),
+           href: new_candidate_interface_draft_preference_training_location_path(@preference),
            visually_hidden_text: t('.change_training_locations_visually_hidden'),
          ) %>
       <% end %>
@@ -51,34 +51,6 @@
             href: new_candidate_interface_draft_preference_dynamic_location_preference_path(@preference, return_to: 'review'),
             visually_hidden_text: t('.change_dynamic_locations_hint'),
           ) %>
-        <% end %>
-      <% end %>
-
-      <% if @preference.funding_type.present? %>
-        <% summary_list.with_row do |row| %>
-          <% row.with_key { t('.funding_type') } %>
-          <% row.with_value { @preference.funding_type == 'fee' ? 'Yes' : 'No' } %>
-          <% row.with_action(
-            text: t('.change'),
-            href: new_candidate_interface_draft_preference_funding_type_preference_path(
-              @preference,
-              return_to: 'review',
-            ),
-            visually_hidden_text: t('.change_funding_type'),
-          ) %>
-        <% end %>
-      <% elsif @preference.applied_only_to_salaried_courses? %>
-        <% summary_list.with_row do |row| %>
-          <% row.with_key { t('.funding_type') } %>
-          <% row.with_value do %>
-            <%= govuk_link_to(
-              t('.select_funding_type'),
-              new_candidate_interface_draft_preference_funding_type_preference_path(
-                @preference,
-                return_to: 'review',
-              ),
-            ) %>
-          <% end %>
         <% end %>
       <% end %>
     <% end %>

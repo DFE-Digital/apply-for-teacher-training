@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Candidate edits published preference' do
   after { FeatureFlag.deactivate(:candidate_preferences) }
 
-  let(:provider) { create(:provider) }
-
   scenario 'Candidate edits share preferences' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
@@ -75,59 +73,17 @@ RSpec.describe 'Candidate edits published preference' do
     and_there_are_no_location_preferences
   end
 
-  scenario 'Candidate edits funding_type' do
-    given_i_am_signed_in(funding_type: 'salary')
-    and_feature_flag_is_enabled
-
-    given_i_am_on_the_application_choices_page
-    when_i_click('Change your sharing and location settings')
-    and_i_click('Change whether you would consider fee-funded courses')
-    then_i_am_redirected_to_fee_funding_page
-    and_the_funding_type_is_checked
-
-    when_i_check_no_only_salary_courses
-    and_i_click('Continue')
-    then_i_am_redirected_to_preference_review_page
-
-    when_i_click('Submit preferences')
-    then_i_am_redirected_on_the_application_choices_page
-    and_the_candidate_preference_id_is_changed
-    and_only_interested_in_salary_courses
-  end
-
-  scenario 'Candidate edits funding_type without setting it in the first place' do
-    given_i_am_signed_in(funding_type: 'salary')
-    and_candidate_preference_funding_type_is_nil
-    and_feature_flag_is_enabled
-
-    given_i_am_on_the_application_choices_page
-    when_i_click('Change your sharing and location settings')
-    and_i_click('Select whether you would consider fee-funded courses')
-    then_i_am_redirected_to_fee_funding_page
-
-    when_i_check_no_only_salary_courses
-    and_i_click('Continue')
-    then_i_am_redirected_to_preference_review_page
-
-    when_i_click('Submit preferences')
-    then_i_am_redirected_on_the_application_choices_page
-    and_the_candidate_preference_id_is_changed
-    and_only_interested_in_salary_courses
-  end
-
-  def given_i_am_signed_in(funding_type: 'fee')
+  def given_i_am_signed_in
     given_i_am_signed_in_with_one_login
     @application = create(
       :application_form,
       :completed,
       candidate: @current_candidate,
     )
-    course = create(:course, provider:, funding_type:)
     @choice = create(
       :application_choice,
       :awaiting_provider_decision,
       application_form: @application,
-      course_option: create(:course_option, course:),
     )
     @existing_candidate_preference = create(
       :candidate_preference,
@@ -191,7 +147,7 @@ RSpec.describe 'Candidate edits published preference' do
   end
 
   def when_i_navigate_to_dynamic_locations
-    click_on 'Change your locations when you apply to a new course'
+    click_on 'Change updating your locations when you apply to a new course'
   end
 
   def when_i_select_anywhere_in_england
@@ -200,26 +156,5 @@ RSpec.describe 'Candidate edits published preference' do
 
   def and_i_select_no_dynamic_locations
     choose 'No'
-  end
-
-  def then_i_am_redirected_to_fee_funding_page
-    expect(page).to have_content('Would you consider fee-funded courses?')
-  end
-
-  def and_the_funding_type_is_checked
-    funding_type = find_by_id('candidate-interface-funding-type-preference-form-funding-type-fee-field')
-    expect(funding_type).to be_checked
-  end
-
-  def when_i_check_no_only_salary_courses
-    choose 'No, I am only interested in salaried or apprenticeship routes into teaching'
-  end
-
-  def and_only_interested_in_salary_courses
-    @current_candidate.published_preferences.last.funding_type == 'salary'
-  end
-
-  def and_candidate_preference_funding_type_is_nil
-    @existing_candidate_preference.update(funding_type: nil)
   end
 end

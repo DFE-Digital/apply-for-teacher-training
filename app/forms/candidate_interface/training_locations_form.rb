@@ -21,14 +21,8 @@ module CandidateInterface
       end
     end
 
-    def next_step_path(return_to: nil)
-      if return_to == 'review' && preference.training_locations_anywhere?
-        return candidate_interface_draft_preference_path(preference)
-      end
-
-      if preference.applied_only_to_salaried_courses? && preference.training_locations_anywhere?
-        new_candidate_interface_draft_preference_funding_type_preference_path(preference)
-      elsif preference.training_locations_anywhere?
+    def next_step_path
+      if preference.training_locations_anywhere?
         candidate_interface_draft_preference_path(preference)
       elsif preference.training_locations_specific?
         candidate_interface_draft_preference_location_preferences_path(preference)

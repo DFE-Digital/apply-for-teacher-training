@@ -5,7 +5,6 @@ FactoryBot.define do
     dynamic_location_preferences { true }
     status { 'published' }
     training_locations { 'specific' }
-    funding_type { 'fee' }
   end
 
   trait :anywhere_in_england do

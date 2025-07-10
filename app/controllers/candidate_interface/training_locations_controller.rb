@@ -15,7 +15,7 @@ module CandidateInterface
 
       if @training_locations_form.valid?
         @training_locations_form.save!
-        redirect_to @training_locations_form.next_step_path(return_to: params[:return_to])
+        redirect_to @training_locations_form.next_step_path
       else
         set_submit_path
         render :new
