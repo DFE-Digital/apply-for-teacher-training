@@ -29,10 +29,22 @@ RSpec.describe CandidateInterface::LocationPreferencesRequiredForm, type: :model
       end
     end
 
+    context 'when candidate applied only to salaried courses' do
+      it 'sets the back path to funding type' do
+        allow(preference).to receive(:applied_only_to_salaried_courses?).and_return(true)
+
+        expect(form.back_path).to eq(
+          new_candidate_interface_draft_preference_funding_type_preference_path(preference),
+        )
+      end
+    end
+
     context 'when training_locations is anywhere' do
       let(:funding_type) { nil }
 
       it 'sets the back path to training_locations' do
+        allow(preference).to receive(:applied_only_to_salaried_courses?).and_return(false)
+
         expect(form.back_path).to eq(
           new_candidate_interface_draft_preference_training_location_path(preference),
         )
@@ -44,6 +56,8 @@ RSpec.describe CandidateInterface::LocationPreferencesRequiredForm, type: :model
       let(:training_locations) { 'specific' }
 
       it 'sets the back path to dynamic locations' do
+        allow(preference).to receive(:applied_only_to_salaried_courses?).and_return(false)
+
         expect(form.back_path).to eq(
           new_candidate_interface_draft_preference_dynamic_location_preference_path(preference),
         )

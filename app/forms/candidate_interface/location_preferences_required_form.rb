@@ -13,7 +13,7 @@ class CandidateInterface::LocationPreferencesRequiredForm
   end
 
   def back_path
-    if preference.funding_type.present?
+    if preference.funding_type.present? || preference.applied_only_to_salaried_courses?
       new_candidate_interface_draft_preference_funding_type_preference_path(preference)
     elsif preference.training_locations_anywhere?
       new_candidate_interface_draft_preference_training_location_path(preference)
