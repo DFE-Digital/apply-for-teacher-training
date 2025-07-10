@@ -4,10 +4,10 @@ class ProviderInterface::FindCandidates::LocationPreferencesComponent < ViewComp
   end
 
   def preferences_text
-    if location_preferences.empty?
-      t('.will_train_anywhere')
-    else
+    if published_preference&.training_locations_specific? && location_preferences.present?
       t('.specific_locations')
+    else
+      t('.will_train_anywhere')
     end
   end
 
@@ -17,5 +17,9 @@ private
     @location_preferences ||= @candidate.published_location_preferences.order(:created_at).map do |location|
       t('.location', radius: location.within, location: location.name)
     end
+  end
+
+  def published_preference
+    @published_preference ||= @candidate.published_preferences.last
   end
 end
