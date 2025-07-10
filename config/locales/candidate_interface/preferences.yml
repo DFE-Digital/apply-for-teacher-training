@@ -105,7 +105,7 @@ en:
         funding_information_html: Find out more about funding your training and the %{link}
         fee: Yes, I would apply to a fee-funded course
         salary: No, I am only interested in salaried or apprenticeship routes into teaching
-        link: https://getintoteaching.education.gov.uk/funding-and-support scholarships and bursaries that are available (opens in new tab)
+        funding_information: scholarships and bursaries that are available
   activemodel:
     errors:
       models:
