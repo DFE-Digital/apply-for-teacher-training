@@ -79,12 +79,58 @@ RSpec.describe 'Candidate adds preferences' do
 
     when_i_check_dynamic_locations
     when_i_click('Continue')
-    then_i_am_redirected_to_review_page
+    then_i_am_redirected_funding_type_page
 
     when_i_click('Back')
     then_i_am_redirected_to_the_dynamic_locations_page
     and_the_dynamic_locations_is_checked
+    when_i_click('Continue')
 
+    then_i_am_redirected_funding_type_page
+    when_i_click('Continue')
+    then_i_get_an_error('Select if you would consider a fee-funded course')
+
+    when_i_check_yes_fee_funding_courses
+    when_i_click('Continue')
+    then_i_am_redirected_to_review_page
+
+    when_i_click('Back')
+    then_i_am_redirected_funding_type_page
+    and_the_funding_type_is_checked
+    when_i_click('Continue')
+
+    when_i_click('Submit preferences')
+    then_i_am_redirected_to_application_choices_with_success_message
+  end
+
+  scenario 'Candidate opts in to find a candidate with specific locations and applied to fee funded courses' do
+    given_i_am_signed_in(funding_type: 'fee')
+    and_feature_flag_is_enabled
+    given_i_am_on_the_share_details_page
+
+    when_i_click('Change your sharing and location settings')
+    then_i_am_redirected_to_opt_in_page
+    and_i_opt_in_to_find_a_candidate
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_training_locations
+    and_i_select_specific_locations
+    when_i_click('Continue')
+    then_i_am_redirected_to_location_preferences(location_preferences)
+
+    when_i_click('Add another area')
+    and_i_input_a_location
+    when_i_click('Add area')
+    then_i_am_redirected_to_location_preferences(new_locations)
+
+    when_i_click_change_on_the_last_location
+    and_i_edit_a_location
+    when_i_click('Update training area')
+    then_i_am_redirected_to_location_preferences(updated_locations)
+    when_i_click('Continue')
+    then_i_am_redirected_to_the_dynamic_locations_page
+
+    when_i_check_dynamic_locations
     when_i_click('Continue')
     then_i_am_redirected_to_review_page
 
@@ -108,7 +154,32 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_training_locations
     when_i_select_anywhere
     and_i_click('Continue')
+    then_i_am_redirected_funding_type_page
 
+    when_i_check_yes_fee_funding_courses
+    when_i_click('Continue')
+    then_i_am_redirected_to_review_page_without_locations
+
+    when_i_click('Submit preferences')
+    then_i_am_redirected_to_application_choices_with_success_message
+  end
+
+  scenario 'Candidate opts in to find a candidate for anywhere in England and applied to fee funded courses' do
+    given_i_am_signed_in(funding_type: 'fee')
+    and_feature_flag_is_enabled
+    given_i_am_on_the_share_details_page
+
+    when_i_click('Change your sharing and location settings')
+    then_i_am_redirected_to_opt_in_page
+    when_i_click('Continue')
+    then_i_get_an_error('Select whether to make your application details visible to other training providers')
+
+    and_i_opt_in_to_find_a_candidate
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_training_locations
+    when_i_select_anywhere
+    and_i_click('Continue')
     then_i_am_redirected_to_review_page_without_locations
 
     when_i_click('Submit preferences')
@@ -151,7 +222,7 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_application_choices
   end
 
-  def given_i_am_signed_in
+  def given_i_am_signed_in(funding_type: 'salary')
     given_i_am_signed_in_with_one_login
     @application = create(
       :application_form,
@@ -166,7 +237,7 @@ RSpec.describe 'Candidate adds preferences' do
       longitude: -2.2426305,
       provider:,
     )
-    course = create(:course, provider:)
+    course = create(:course, provider:, funding_type:)
     course_option = create(
       :course_option,
       site:,
@@ -198,6 +269,8 @@ RSpec.describe 'Candidate adds preferences' do
     and_i_click('Continue')
     when_i_check_dynamic_locations
     and_i_click('Continue')
+    when_i_check_yes_fee_funding_courses
+    when_i_click('Continue')
     and_i_click('Submit preferences')
     then_i_am_redirected_to_application_choices_with_success_message
   end
@@ -455,5 +528,18 @@ RSpec.describe 'Candidate adds preferences' do
 
   def then_it_saves_successfully
     and_the_distance_is_updated
+  end
+
+  def then_i_am_redirected_funding_type_page
+    expect(page).to have_content('Would you consider fee-funded courses?')
+  end
+
+  def when_i_check_yes_fee_funding_courses
+    choose 'Yes, I would apply to a fee-funded course'
+  end
+
+  def and_the_funding_type_is_checked
+    funding_type = find_by_id('candidate-interface-funding-type-preference-form-funding-type-fee-field')
+    expect(funding_type).to be_checked
   end
 end

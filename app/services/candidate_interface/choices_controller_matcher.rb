@@ -14,6 +14,7 @@ class CandidateInterface::ChoicesControllerMatcher
     'candidate_interface/training_locations',
     'candidate_interface/location_preferences',
     'candidate_interface/publish_preferences',
+    'candidate_interface/funding_type',
   ].freeze
 
   def self.choices_controller?(current_application:, controller_path:, request:)

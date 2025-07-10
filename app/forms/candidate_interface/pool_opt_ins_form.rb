@@ -33,6 +33,7 @@ module CandidateInterface
         pool_status:,
         opt_out_reason: pool_status == 'opt_in' ? nil : opt_out_reason,
         training_locations: pool_status == 'opt_out' ? nil : preference&.training_locations,
+        funding_type: pool_status == 'opt_out' ? nil : preference&.funding_type,
       }
 
       if preference.present?

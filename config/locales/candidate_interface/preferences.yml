@@ -19,7 +19,10 @@ en:
         no_location_preferences: You have no location preferences
         change_share_information_hint: whether you want to share your application details
         change_location_preferences_hint: your preferred locations
-        change_dynamic_locations_hint: updating your locations when you apply to a new course
+        change_dynamic_locations_hint: your locations when you apply to a new course
+        select_funding_type: Select whether you would consider fee-funded courses
+        funding_type: Would you consider fee-funded courses?
+        change_funding_type: whether you would consider fee-funded courses
     preferences:
       show: Check your application sharing preferences
       share_question: Do you want to be invited to apply to similar courses?
@@ -43,7 +46,10 @@ en:
         no_location_preferences: You have not added any training areas
         change_share_information_hint: whether you want to share your application details
         change_location_preferences_hint: your preferred locations
-        change_dynamic_locations_hint: updating your locations when you apply to a new course
+        change_dynamic_locations_hint: your locations when you apply to a new course
+        funding_type: Would you consider fee-funded courses?
+        change_funding_type: whether you would consider fee-funded courses
+        select_funding_type: Select whether you would consider fee-funded courses
     pool_opt_ins:
       new:
         title: Do you want to make your application details visible to other training providers?
@@ -92,6 +98,14 @@ en:
         title: Do you want to remove this training area?
         location: Area
         remove: Yes, remove training area
+    funding_type_preferences:
+      new:
+        title: Would you consider fee-funded courses?
+        warning: Salaried courses are in high demand and fill up quickly. You are unlikely to be invited to apply to a salaried course.
+        funding_information_html: Find out more about funding your training and the %{link}
+        fee: Yes, I would apply to a fee-funded course
+        salary: No, I am only interested in salaried or apprenticeship routes into teaching
+        funding_information: scholarships and bursaries that are available
   activemodel:
     errors:
       models:
@@ -123,3 +137,7 @@ en:
           attributes:
             dynamic_location_preferences:
               inclusion: Select if you want to add the locations of courses you apply to
+        candidate_interface/funding_type_preference_form:
+          attributes:
+            funding_type:
+              inclusion: Select if you would consider a fee-funded course
