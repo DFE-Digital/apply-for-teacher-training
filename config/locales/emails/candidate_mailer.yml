@@ -98,14 +98,8 @@ en:
         subject: Make your applications details visible to more training providers
       invitation:
         subject: A new way to apply for initial teacher training courses
-    candidate_invites:
-        subject:
-          one: "A provider has invited you to apply for teacher training"
-          other: "%{count} providers have invited you to apply for teacher training"
+    candidate_invite:
+        subject: A provider has invited you to apply for teacher training
         body:
-          locations_not_suitable:
-            one: If this course is not in suitable location
-            other: If these courses are not in suitable locations
-          invite_to_submit:
-            one: "%{provider_name} have reviewed your application details and are inviting you to submit an application for"
-            other: The following providers have reviewed your application details and are inviting you to submit applications to their courses
+          locations_not_suitable: If this course is not in suitable location
+          invite_to_submit: "%{provider_name} have reviewed your application details and are inviting you to submit an application for"

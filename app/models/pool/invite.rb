@@ -19,6 +19,16 @@ class Pool::Invite < ApplicationRecord
   scope :with_matching_application_choices, -> { where(matching_application_choices_exists_sql) }
   scope :without_matching_application_choices, -> { where.not(matching_application_choices_exists_sql) }
 
+  def publish_and_send_to_candidate!
+    ActiveRecord::Base.transaction do
+      published!
+      return if sent_to_candidate?
+
+      sent_to_candidate!
+      CandidateMailer.candidate_invite(self).deliver_later
+    end
+  end
+
   def sent_to_candidate!
     update!(sent_to_candidate_at: Time.current) if sent_to_candidate_at.blank?
   end

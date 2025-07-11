@@ -14,13 +14,7 @@ module ProviderInterface
           )
 
           if @pool_invite.valid?
-            ActiveRecord::Base.transaction do
-              invite.published!
-              if FeatureFlag.inactive?(:grouped_invite_email)
-                invite.sent_to_candidate!
-                CandidateMailer.candidate_invites(invite.candidate, [invite]).deliver_later
-              end
-            end
+            invite.publish_and_send_to_candidate!
 
             flash[:success] = t(
               '.success',
