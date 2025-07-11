@@ -13,8 +13,7 @@ module CandidateInterface
       any_offer_accepted? ||
         all_applications_unsubmitted? ||
         editable_section? ||
-        granted_editable_extension? ||
-        incomplete_references_section?
+        granted_editable_extension?
     end
 
     def can_delete?
@@ -65,12 +64,6 @@ module CandidateInterface
           controller_match
         end
       end
-    end
-
-    def incomplete_references_section?
-      return false unless @controller_path.classify == 'CandidateInterface::References::Review'
-
-      !current_application.references_completed?
     end
 
     def section_match_with_controller(section)

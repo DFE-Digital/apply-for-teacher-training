@@ -1,6 +1,6 @@
 class DeleteReference
   def call(reference:)
-    raise 'Application has been sent to providers' if reference.application_form.submitted?
+    raise 'Application has been sent to providers' unless reference.not_requested_yet?
     raise 'Reference cannot be deleted because it is from a previous application' if reference.duplicate?
 
     if reference.selected

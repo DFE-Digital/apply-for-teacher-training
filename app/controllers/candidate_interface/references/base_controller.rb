@@ -1,7 +1,6 @@
 module CandidateInterface
   module References
     class BaseController < SectionController
-      skip_before_action :verify_edit_authorized_section # We always let people edit incomplete references
       before_action :render_application_feedback_component, :set_reference, :set_edit_backlink
       rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
