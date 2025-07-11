@@ -26,6 +26,6 @@
   </ul>
 <% end %>
 
-<% if @section_policy.can_edit? %>
+<% if @section_policy.can_edit? && !current_application.submitted_applications? %>
   <%= govuk_button_link_to t('application_form.references.add_reference', count: current_application.application_references.count), candidate_interface_references_type_path, **options_for_add_reference_link %>
 <% end %>

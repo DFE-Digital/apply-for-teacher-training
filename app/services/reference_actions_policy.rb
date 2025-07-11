@@ -4,7 +4,7 @@ class ReferenceActionsPolicy
   end
 
   def editable?
-    reference.not_requested_yet? && needs_more_references?
+    reference.not_requested_yet?
   end
 
   def can_be_destroyed?
