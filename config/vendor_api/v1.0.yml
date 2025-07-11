@@ -1151,7 +1151,8 @@ components:
         sex:
           type: string
           nullable: true
-          description: The candidate’s sex as a [1-digit HESA code for Sex](https://www.hesa.ac.uk/collection/c19053/e/sexid)
+          # check register api as well
+          description: The candidate’s sex as a [1-digit HESA code for Sex](https://www.hesa.ac.uk/collection/c24053/e/sexid)
           example: "1"
           enum:
           - "1"
@@ -1162,7 +1163,7 @@ components:
           type: array
           items:
             type: string
-          description: The candidate’s disabilities as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
+          description: The candidate’s disabilities as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c24053/e/disable)
           example:
             - "00"
             - "51"
@@ -1180,7 +1181,7 @@ components:
         ethnicity:
           type: string
           nullable: true
-          description: The candidate’s ethnicity as [a 2-digit HESA code for Ethnicity](https://www.hesa.ac.uk/collection/c19053/e/ethnic)
+          description: The candidate’s ethnicity as [a 2-digit HESA code for Ethnicity](https://www.hesa.ac.uk/collection/c24053/e/ETHNIC)
           example: "10"
           enum:
           - "10"
