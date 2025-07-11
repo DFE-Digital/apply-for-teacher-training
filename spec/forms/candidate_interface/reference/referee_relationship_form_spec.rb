@@ -34,5 +34,20 @@ RSpec.describe CandidateInterface::Reference::RefereeRelationshipForm, type: :mo
         expect(application_reference.relationship).to eq('No comment.')
       end
     end
+
+    context 'when application form is in a successful state' do
+      it 'marks the section as complete' do
+        application_form = application_reference.application_form
+        create(:application_choice, :offered, application_form:)
+
+        application_form.update(references_completed: false)
+
+        form = described_class.new(relationship: 'No comment.')
+        form.save(application_reference)
+
+        expect(application_reference.relationship).to eq('No comment.')
+        expect(application_form.reload.references_completed).to be true
+      end
+    end
   end
 end
