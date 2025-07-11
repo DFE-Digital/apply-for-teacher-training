@@ -10,6 +10,7 @@ class CandidatePoolApplication < ApplicationRecord
     scope = filter_by_study_mode(scope, filters)
     scope = filter_by_course_type(scope, filters)
     scope = filter_by_needs_visa(scope, filters)
+    scope = filter_by_funding_type(scope, filters)
 
     ApplicationForm.where(id: scope.select(:application_form_id))
   end
@@ -81,5 +82,13 @@ class CandidatePoolApplication < ApplicationRecord
     end
 
     scope.where(attributes)
+  end
+
+  def self.filter_by_funding_type(scope, filters)
+    return scope if filters[:funding_type].blank?
+
+    if filters[:funding_type].include?('fee')
+      scope.where(course_funding_type_fee: true)
+    end
   end
 end

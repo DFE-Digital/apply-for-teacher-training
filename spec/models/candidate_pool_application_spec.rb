@@ -14,6 +14,7 @@ RSpec.describe CandidatePoolApplication do
         application_form: subject_candidate_form,
         candidate: subject_candidate_form.candidate,
         subject_ids: [1],
+        course_funding_type_fee: true,
       )
       part_time_candidate_form = create(:application_form, :completed)
       create(
@@ -22,6 +23,7 @@ RSpec.describe CandidatePoolApplication do
         candidate: part_time_candidate_form.candidate,
         subject_ids: [1],
         study_mode_part_time: true,
+        course_funding_type_fee: false,
       )
       undergraduate_candidate_form = create(:application_form, :completed)
       create(
@@ -31,6 +33,7 @@ RSpec.describe CandidatePoolApplication do
         subject_ids: [1],
         study_mode_part_time: true,
         course_type_undergraduate: true,
+        course_funding_type_fee: false,
       )
       visa_sponsorship_candidate_form = create(:application_form, :completed)
       create(
@@ -38,6 +41,7 @@ RSpec.describe CandidatePoolApplication do
         application_form: visa_sponsorship_candidate_form,
         candidate: visa_sponsorship_candidate_form.candidate,
         needs_visa: true,
+        course_funding_type_fee: false,
       )
 
       filters = {}
@@ -79,6 +83,15 @@ RSpec.describe CandidatePoolApplication do
 
       expect(application_forms.ids).to contain_exactly(
         undergraduate_candidate_form.id,
+      )
+
+      filters = {
+        funding_type: ['fee'],
+      }
+      application_forms = described_class.filtered_application_forms(filters)
+
+      expect(application_forms.ids).to contain_exactly(
+        subject_candidate_form.id,
       )
 
       filters = {
