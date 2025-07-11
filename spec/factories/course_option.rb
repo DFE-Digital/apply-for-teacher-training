@@ -14,6 +14,10 @@ FactoryBot.define do
       course { association :course, :open, recruitment_cycle_year: }
     end
 
+    trait :fee do
+      course { association :course, :open, funding_type: 'fee', recruitment_cycle_year: }
+    end
+
     trait :tda do
       course { association :course, :open, :teacher_degree_apprenticeship, recruitment_cycle_year: }
     end
