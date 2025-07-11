@@ -15,7 +15,7 @@
 
       <%= f.govuk_radio_buttons_fieldset(:training_locations, legend: { text: t('.title'), size: 'l' }) do %>
         <%= f.govuk_radio_button :training_locations, :anywhere, label: { text: t('.anywhere') }, link_errors: true %>
-        <%= f.govuk_radio_button :training_locations, :specific, label: { text: t('.specific') } %>
+        <%= f.govuk_radio_button :training_locations, :specific, label: { text: t('.specific') }, hint: { text: t('.specific_locations_hint') } %>
       <% end %>
 
       <%= f.govuk_submit t('continue') %>
