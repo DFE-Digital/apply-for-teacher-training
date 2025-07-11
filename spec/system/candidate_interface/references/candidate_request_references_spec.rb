@@ -22,6 +22,7 @@ RSpec.describe 'New References', :with_audited do
     and_the_back_link_point_to_the_add_type_page
     and_i_fill_in_the_reference_name
     and_i_click_save_and_continue
+    and_the_references_section_is_marked_as_incomplete
     and_i_am_on_add_email_address_page
     and_the_back_link_point_to_the_add_name_page
     and_i_click_save_and_continue
@@ -50,6 +51,7 @@ RSpec.describe 'New References', :with_audited do
     when_i_click_to_change_the_reference_relationship
     and_i_change_the_reference_relationship
     and_i_am_on_check_your_answers
+    and_the_references_section_is_marked_as_complete
     and_i_click_to_request_the_reference
     then_the_reference_be_requested
     and_i_click_cancel_request_from_the_list_page
@@ -90,6 +92,14 @@ RSpec.describe 'New References', :with_audited do
 
   def and_i_click_save_and_continue
     click_link_or_button 'Save and continue'
+  end
+
+  def and_the_references_section_is_marked_as_complete
+    expect(@application_form.reload.references_completed?).to be true
+  end
+
+  def and_the_references_section_is_marked_as_incomplete
+    expect(@application_form.reload.references_completed?).to be false
   end
 
   def then_the_back_link_point_to_the_offer_dashboard_page
