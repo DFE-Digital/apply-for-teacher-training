@@ -165,7 +165,7 @@ components:
         ethnicity:
           type: string
           nullable: true
-          description: The candidate’s ethnicity as [a 3-digit HESA code for Ethnicity](https://www.hesa.ac.uk/collection/c22053/e/ethnic)
+          description: The candidate’s ethnicity as [a 3-digit HESA code for Ethnicity](https://www.hesa.ac.uk/collection/c24053/e/ETHNIC)
           example: "180"
           enum:
             - "180"
