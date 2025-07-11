@@ -14,6 +14,15 @@ RSpec.describe DeleteReference do
   let(:reference) { create(:reference, :feedback_provided, application_form: completed_application_form) }
 
   describe '#call' do
+    it 'allows reference to be deleted if the contact details are incomplete' do
+      application_choice = completed_application_form.application_choices.first
+      CandidateInterface::SubmitApplicationChoice.new(application_choice).call
+      reference.update(name: nil)
+      described_class.new.call(reference:)
+
+      expect { reference.reload }.to raise_error(ActiveRecord::RecordNotFound, /Couldn't find ApplicationReference with/)
+    end
+
     it 'raises error if application has been submitted to providers' do
       application_choice = completed_application_form.application_choices.first
       CandidateInterface::SubmitApplicationChoice.new(application_choice).call

@@ -199,4 +199,22 @@ RSpec.describe ApplicationReference do
       expect(reference.confidential).to be_nil
     end
   end
+
+  describe '.complete_contact_details?' do
+    it 'returns false if any of the email address, name, or relationship is blank' do
+      no_name = create(:reference, :not_requested_yet, name: nil)
+      expect(no_name.complete_contact_details?).to be false
+
+      no_email = create(:reference, :not_requested_yet, email_address: nil)
+      expect(no_email.complete_contact_details?).to be false
+
+      no_relationship = create(:reference, :not_requested_yet, relationship: nil)
+      expect(no_relationship.complete_contact_details?).to be false
+    end
+
+    it 'returns true if email address, name and relationship are all present' do
+      complete = create(:reference, :not_requested_yet)
+      expect(complete.complete_contact_details?).to be true
+    end
+  end
 end
