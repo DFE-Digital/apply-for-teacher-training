@@ -1,5 +1,7 @@
 <%= content_for :title, t('page_titles.your_applications') %>
 <%= render ServiceInformationBanner.new(namespace: :candidate) %>
+<%= render CandidateInterface::DeadlineBannerComponent.new(application_form: current_application, flash_empty: flash.empty?) %>
+<%= render CandidateInterface::SponsorshipApplicationDeadlines::ApplicationsDashboardBannerComponent.new(application_form: current_application) %>
 
 <% if current_candidate.recoverable? %>
   <%= govuk_notification_banner(title_text: t('account_recovery_banner.title'), success: false) do |nb| %>
@@ -24,7 +26,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-  <%= render CandidateInterface::SponsorshipApplicationDeadlines::ApplicationsDashboardBannerComponent.new(application_form: current_application) %>
   <% if current_application.after_apply_deadline? %>
 <!--      It is after the deadline, but candidate has inflight applications (eg, awaiting decision) -->
     <%= render CandidateInterface::AfterDeadlineContentComponent.new(application_form: current_application) %>
