@@ -26,7 +26,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: true,
         )
 
         expect(filter.valid?).to be false
@@ -46,7 +46,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: true,
         )
 
         expect(filter.valid?).to be true
@@ -64,7 +64,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
       filter = described_class.new(
         filter_params:,
         current_provider_user:,
-        remove_filters: {},
+        apply_filters: true,
       )
       filter.save
 
@@ -90,7 +90,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
         filter = described_class.new(
           filter_params: {},
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: false,
         )
 
         expect(filter.applied_filters).to eq(
@@ -116,7 +116,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: true,
         )
         filter.save
 
@@ -139,7 +139,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: true,
         )
         filter.save
 
@@ -161,7 +161,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: true,
         )
         expect { filter.save }.to change {
           current_provider_user.find_a_candidate_not_seen_filter&.filters
@@ -184,7 +184,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: true,
         )
 
         expect { filter.save }.not_to change {
@@ -210,7 +210,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
         filter = described_class.new(
           filter_params: {},
           current_provider_user:,
-          remove_filters: { remove_filters: true },
+          apply_filters: true,
         )
 
         expect { filter.save }.to change {
@@ -222,7 +222,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
       end
     end
 
-    context 'When filter attributes change' do
+    context 'When filter attributes change to empty (ie unticking the last option)' do
       it 'updates the filter attributes in db' do
         filter_params = {}
         filters_in_db = {
@@ -240,20 +240,15 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: true,
         )
         expect { filter.save }.to change {
           current_provider_user.find_a_candidate_not_seen_filter.filters
-        }.from(filters_in_db).to(
-          {
-            'location' => 'Manchester',
-            'subject_ids' => [1, 2],
-          },
-        )
+        }.from(filters_in_db).to({})
       end
     end
 
-    context 'When we have a db filter that the filter object does not accept' do
+    context 'When we have a db filter that the filter object does not accept (ie, landing on the page without clicking the Apply Filter button)' do
       it 'updates the filter attributes in db' do
         filter_params = {}
         filters_in_db = {
@@ -271,7 +266,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: false,
         )
         expect { filter.save }.to change {
           current_provider_user.find_a_candidate_not_seen_filter.filters
@@ -287,7 +282,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
       filter = described_class.new(
         filter_params:,
         current_provider_user:,
-        remove_filters: {},
+        apply_filters: true,
       )
       filter.save
       filter.applied_filters
@@ -300,7 +295,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
       filter = described_class.new(
         filter_params: {},
         current_provider_user:,
-        remove_filters: {},
+        apply_filters: true,
       )
       filter.save
       filter.applied_filters

@@ -21,17 +21,17 @@ module ProviderInterface
     end
     alias subject= subject_ids=
 
-    attr_reader :filters, :current_provider_user, :remove_filters, :suggested_location,
-                :provider_user_filter
+    attr_reader :filters, :current_provider_user, :suggested_location,
+                :provider_user_filter, :apply_filters
 
     validate :location_validity
     validates :candidate_id, numericality: { only_integer: true, allow_nil: true }
     validate :candidate_presence_on_search
 
-    def initialize(filter_params:, current_provider_user:, remove_filters:)
+    def initialize(filter_params:, current_provider_user:, apply_filters:)
       @current_provider_user = current_provider_user
       @provider_user_filter = build_provider_user_filter
-      @remove_filters = remove_filters
+      @apply_filters = apply_filters
       @suggested_location ||= LocationSuggestions.new(
         filter_params[:location] || @provider_user_filter.filters['location'],
       ).call.first
@@ -54,15 +54,10 @@ module ProviderInterface
     end
 
     def save
-      if valid? && filters.any?
+      if valid? && apply_filters
         ActiveRecord::Base.transaction do
           provider_user_filter.update(filters:, updated_at: Time.zone.now)
           sister_filter.update(filters:, updated_at: 2.seconds.ago)
-        end
-      elsif remove_filters && filters.blank?
-        ActiveRecord::Base.transaction do
-          provider_user_filter.update(filters: {}, updated_at: Time.zone.now)
-          sister_filter.update(filters: {}, updated_at: 2.seconds.ago)
         end
       end
     end
@@ -86,14 +81,14 @@ module ProviderInterface
     def filter_attributes(filter_params)
       filter_params.compact_blank!
 
-      if filter_params.blank? && remove_filters.blank?
-        sanitised_db_filters
-      else
+      if apply_filters
         if filter_params[:location].present? && suggested_location
           filter_params[:location] = suggested_location&.fetch(:name, nil)
         end
 
         filter_params
+      else
+        sanitised_db_filters
       end
     end
 
@@ -106,6 +101,7 @@ module ProviderInterface
         filters.reject! do |filter_key|
           !self.class.method_defined?("#{filter_key}=") && old_filters.include?(filter_key.to_sym)
         end
+        @apply_filters = true
       end
 
       filters

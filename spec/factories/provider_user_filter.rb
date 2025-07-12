@@ -5,5 +5,9 @@ FactoryBot.define do
     trait :find_candidates_invited do
       kind { 'find_candidates_invited' }
     end
+
+    trait :find_candidates_all do
+      kind { 'find_candidates_all' }
+    end
   end
 end
