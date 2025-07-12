@@ -250,14 +250,14 @@ RSpec.describe 'Providers views candidate pool list' do
 
   def then_i_expect_the_only_the_remaining_filter_to_be_applied
     filters = page.all('.moj-filter__selected a').map(&:text)
-    expect(filters).to match([
+    expect(filters).to contain_exactly(
       'Clear filters',
       "Remove subject filter #{maths_subject.name}",
       'Remove study type filter Full time',
       'Remove course type filter Postgraduate',
       'Remove visa sponsorship filter Does not need a visa',
       'Remove funding type filter Fee-funded only',
-    ])
+    )
   end
 
   def when_i_add_a_invalid_location

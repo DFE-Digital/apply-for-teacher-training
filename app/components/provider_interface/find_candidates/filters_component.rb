@@ -92,7 +92,7 @@ module ProviderInterface
       end
 
       def path_to_clear_filters
-        '?remove_filters=true'
+        '?apply_filters=true'
       end
 
     private
@@ -101,7 +101,7 @@ module ProviderInterface
         applied_filters = filter.applied_filters.clone
         applied_filters.delete(:location)
         applied_filters.delete(:origin)
-        applied_filters[:remove_filters] = true
+        applied_filters[:apply_filters] = true
 
         to_query(applied_filters)
       end
@@ -109,7 +109,7 @@ module ProviderInterface
       def path_to_remove_filter(filter_name, filter_value)
         applied_filters = filter.applied_filters.clone.with_indifferent_access
         applied_filters[filter_name] = applied_filters[filter_name].reject { |val| val == filter_value }
-        applied_filters[:remove_filters] = true
+        applied_filters[:apply_filters] = true
 
         to_query(applied_filters)
       end
@@ -118,7 +118,7 @@ module ProviderInterface
         applied_filters = filter.applied_filters.clone.with_indifferent_access
         applied_filters.delete(:candidate_id)
         applied_filters.delete(:candidate_search)
-        applied_filters[:remove_filters] = true
+        applied_filters[:apply_filters] = true
 
         to_query(applied_filters)
       end

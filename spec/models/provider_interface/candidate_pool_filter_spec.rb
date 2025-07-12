@@ -26,7 +26,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: true,
         )
 
         expect(filter.valid?).to be false
@@ -46,7 +46,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: false,
         )
 
         expect(filter.valid?).to be true
@@ -64,7 +64,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
       filter = described_class.new(
         filter_params:,
         current_provider_user:,
-        remove_filters: {},
+        apply_filters: true,
       )
       filter.save
 
@@ -90,7 +90,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params: {},
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: false,
         )
 
         expect(filter.applied_filters).to eq(
@@ -116,7 +116,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: true,
         )
         filter.save
 
@@ -139,7 +139,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: true,
         )
         filter.save
 
@@ -151,6 +151,21 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
   end
 
   describe '#save' do
+    context 'when filter_params are empty and applied filters is true' do
+      it 'saves the empty params' do
+        existing_filter = create(:provider_user_filter, :find_candidates_all, filters: { visa_sponsorship: ['required'] })
+        current_provider_user = existing_filter.provider_user
+        filter = described_class.new(
+          filter_params: {},
+          current_provider_user:,
+          apply_filters: true,
+        )
+
+        filter.save
+        expect(existing_filter.reload.filters).to eq({})
+      end
+    end
+
     context 'When valid' do
       it 'saves the filters on the current_provider_user' do
         filter_params = {
@@ -161,7 +176,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: true,
         )
 
         expect { filter.save }.to change {
@@ -185,7 +200,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: false,
         )
 
         expect { filter.save }.not_to change {
@@ -212,7 +227,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params: {},
           current_provider_user:,
-          remove_filters: { remove_filters: true },
+          apply_filters: true,
         )
 
         expect { filter.save }.to change {
@@ -242,7 +257,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: false,
         )
         expect { filter.save }.to change {
           current_provider_user.find_a_candidate_all_filter.filters
@@ -273,7 +288,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         filter = described_class.new(
           filter_params:,
           current_provider_user:,
-          remove_filters: {},
+          apply_filters: false,
         )
         expect { filter.save }.to change {
           current_provider_user.find_a_candidate_all_filter.filters
@@ -289,7 +304,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
       filter = described_class.new(
         filter_params:,
         current_provider_user:,
-        remove_filters: {},
+        apply_filters: true,
       )
       filter.save
       filter.applied_filters
@@ -302,7 +317,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
       filter = described_class.new(
         filter_params: {},
         current_provider_user:,
-        remove_filters: {},
+        apply_filters: true,
       )
       filter.save
       filter.applied_filters
