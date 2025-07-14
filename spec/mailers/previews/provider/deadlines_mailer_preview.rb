@@ -4,7 +4,6 @@ class Provider::DeadlinesMailerPreview < ActionMailer::Preview
     ProviderMailer.find_service_is_now_open(provider_user)
   end
 
-
   def apply_service_is_now_open
     provider_user = FactoryBot.create(:provider_user)
     ProviderMailer.apply_service_is_now_open(provider_user)

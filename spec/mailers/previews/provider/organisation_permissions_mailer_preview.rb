@@ -12,7 +12,7 @@ class Provider::OrganisationPermissionsMailerPreview < ActionMailer::Preview
       training_provider_can_view_safeguarding_information: false,
       ratifying_provider_can_view_safeguarding_information: true,
       ratifying_provider_can_view_diversity_information: true,
-      )
+    )
     ProviderMailer.organisation_permissions_set_up(provider_user, ratifying_provider, permissions)
   end
 
@@ -28,7 +28,7 @@ class Provider::OrganisationPermissionsMailerPreview < ActionMailer::Preview
       ratifying_provider_can_make_decisions: true,
       training_provider_can_make_decisions: false,
       ratifying_provider_can_view_safeguarding_information: true,
-      )
+    )
     ProviderMailer.organisation_permissions_updated(provider_user, ratifying_provider, permissions)
   end
 
