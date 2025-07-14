@@ -26,6 +26,7 @@ module SupportInterface
         Provider::DeadlinesMailerPreview,
         Provider::ReferencesMailerPreview,
         Referee::ReferencesMailerPreview,
+        Support::AuthenticationMailerPreview,
       ]
       # This is to preserve the order of the candidate mailers - we want them to reflect the stages of the cycle
       @previews = (candidate_mailers + all_mailer_previews).uniq

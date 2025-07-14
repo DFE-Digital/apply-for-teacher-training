@@ -43,6 +43,9 @@ en:
             reference_request_chase_again_email: Received by a referee who has not provided a reference after 30 days.
             reference_confirmation_email: Sent when a referee submits a reference.
             reference_cancelled_email: Sent when a candidate cancels a request for a reference.
+          support_authentication_mailer:
+            confirm_sign_in: Sent when a support user signs into their account from a different device, browser or after their cookies have been cleared to confirm that it was the account holder accessing the account.
+            fallback_sign_in_email: Sent when a support user is unable to sign into their account with DfE sign in
           candidate_authentication_mailer:
             duplicate_match_email: When a candidate tries to create more than 1 account to apply for teacher training using the same email address or personal details. Their accounts are locked
             sign_in_email: Authentication link sent when a candidate signs into the service. (Inactive)

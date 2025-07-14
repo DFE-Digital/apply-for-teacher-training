@@ -1,4 +1,4 @@
-class SupportMailerPreview < ActionMailer::Preview
+class Support::AuthenticationMailerPreview < ActionMailer::Preview
   def confirm_sign_in
     SupportMailer.confirm_sign_in(
       FactoryBot.build_stubbed(:support_user),
