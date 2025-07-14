@@ -16,6 +16,7 @@ class ApplicationChoice < ApplicationRecord
   has_one :accredited_provider, through: :course, class_name: 'Provider'
 
   belongs_to :original_course_option, class_name: 'CourseOption', optional: true
+  has_one :original_course, through: :original_course_option, source: :course
 
   belongs_to :current_course_option, class_name: 'CourseOption'
   has_one :current_site, through: :current_course_option, source: :site

@@ -11,9 +11,9 @@ RSpec.describe ProviderInterface::CandidateInvitedBannerComponent, type: :compon
     let(:application_choice) do
       create(
         :application_choice,
+        :awaiting_provider_decision,
         application_form:,
         course_option:,
-        status: 'awaiting_provider_decision',
       )
     end
     let!(:pool_invite) { create(:pool_invite, :published, candidate:, application_form:, course:) }
@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::CandidateInvitedBannerComponent, type: :compon
       let(:current_provider_user) { create(:provider_user, providers: [provider]) }
 
       it 'does not render the banner' do
-        application_choice.update(course_option: other_course_option)
+        application_choice = create(:application_choice, course_option: other_course_option)
 
         result = render_inline(described_class.new(application_choice:, current_provider_user:))
 

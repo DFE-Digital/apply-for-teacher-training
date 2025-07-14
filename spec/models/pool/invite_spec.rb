@@ -114,4 +114,50 @@ RSpec.describe Pool::Invite do
       expect(invite).not_to be_sent_to_candidate
     end
   end
+
+  describe '.matching_application_choice' do
+    it 'when the application choice has not been submitted' do
+      application_choice = create(:application_choice, :unsubmitted)
+      invite = create(:pool_invite, course: application_choice.course, application_form: application_choice.application_form)
+      expect(invite.matching_application_choice).to be_nil
+    end
+
+    it 'where the original course has not changed' do
+      application_choice = create(:application_choice, :awaiting_provider_decision)
+      create(:application_choice, application_form: application_choice.application_form)
+      invite = create(:pool_invite, course: application_choice.course, application_form: application_choice.application_form)
+      expect(invite.matching_application_choice).to eq application_choice
+    end
+
+    it 'when the course choice has changed to the invite course' do
+      application_choice = create(:application_choice, :awaiting_provider_decision)
+      new_course_option = create(:course_option, course: build(:course, provider: application_choice.provider))
+      application_choice.update_course_option_and_associated_fields!(
+        new_course_option,
+        other_fields: {
+          course_option: new_course_option,
+          course_changed_at: Time.zone.now,
+        },
+      )
+
+      invite = create(:pool_invite, course: new_course_option.course, application_form: application_choice.application_form)
+      expect(invite.matching_application_choice).to eq application_choice
+    end
+
+    it 'when the course choice has changed from the invite course' do
+      application_choice = create(:application_choice, :awaiting_provider_decision)
+      original_course = application_choice.course
+      new_course_option = create(:course_option, course: build(:course, provider: application_choice.provider))
+      application_choice.update_course_option_and_associated_fields!(
+        new_course_option,
+        other_fields: {
+          course_option: new_course_option,
+          course_changed_at: Time.zone.now,
+        },
+      )
+
+      invite = create(:pool_invite, course: original_course, application_form: application_choice.application_form)
+      expect(invite.matching_application_choice).to eq application_choice
+    end
+  end
 end
