@@ -10,7 +10,7 @@ module ProviderInterface
         @filter = ProviderInterface::CandidatePoolFilter.new(
           filter_params:,
           current_provider_user:,
-          remove_filters:,
+          apply_filters: apply_filters.present?,
         )
         @filter.save
 
@@ -57,8 +57,8 @@ module ProviderInterface
         redirect_to provider_interface_applications_path if invites.blank?
       end
 
-      def remove_filters
-        params.permit(:remove_filters)
+      def apply_filters
+        params.permit(:apply_filters)
       end
 
       def filter_params

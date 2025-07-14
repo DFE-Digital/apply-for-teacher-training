@@ -67,6 +67,7 @@
           <div class="moj-filter__options">
             <%= f.govuk_submit t('.apply_filters') %>
             <%= hidden_field_tag(:candidate_id, filter.applied_filters[:candidate_id]) %>
+            <%= hidden_field_tag 'apply_filters', 'true' %>
 
             <div class="govuk-form-group filter-group">
               <h3 class="govuk-heading-m">
@@ -172,6 +173,7 @@
       <div class='app-search'>
         <%= form_with model: filter, url: '', scope: '', method: :get do |f| %>
           <%= hidden_field_tag 'candidate_search', 'true' %>
+          <%= hidden_field_tag 'apply_filters', 'true' %>
           <% filter.applied_filters.each do |name, value| %>
             <% if value.is_a?(Array) %>
               <% value.each do |v| %>

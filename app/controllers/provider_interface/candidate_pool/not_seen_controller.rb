@@ -7,7 +7,7 @@ module ProviderInterface
         @filter = ProviderInterface::NotSeenCandidatesFilter.new(
           filter_params:,
           current_provider_user:,
-          remove_filters:,
+          apply_filters: apply_filters.present?,
         )
         @filter.save
 
@@ -27,8 +27,8 @@ module ProviderInterface
 
     private
 
-      def remove_filters
-        params.permit(:remove_filters)
+      def apply_filters
+        params.permit(:apply_filters)
       end
 
       def filter_params
