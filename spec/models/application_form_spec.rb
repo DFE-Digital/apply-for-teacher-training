@@ -1624,4 +1624,25 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#already_applied_course_ids' do
+    it 'returns course ids for submitted applications' do
+      original_course_option = create(:course_option)
+      changed_to_course_option = create(:course_option, course: build(:course, provider: original_course_option.provider))
+      some_other_course_option = create(:course_option)
+      course_option_for_draft = create(:course_option)
+
+      application_form = create(:application_form)
+      create(:application_choice, :unsubmitted, course_option: course_option_for_draft, application_form:)
+      create(:application_choice, :interviewing, course_option: some_other_course_option, application_form:)
+      changed_application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option, application_form:)
+      changed_application_choice.update_course_option_and_associated_fields!(changed_to_course_option)
+
+      expect(application_form.already_applied_course_ids).to contain_exactly(
+        original_course_option.course.id,
+        changed_to_course_option.course.id,
+        some_other_course_option.course.id,
+      )
+    end
+  end
 end
