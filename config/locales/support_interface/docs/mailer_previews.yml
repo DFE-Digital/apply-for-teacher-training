@@ -6,6 +6,22 @@ en:
         preview: Preview name
         description: Description
         email_descriptions:
+          provider_authentication_mailer:
+            confirm_sign_in: Sent when a provider user signs into their account from a different device, browser or after their cookies have been cleared to confirm that it was the account holder accessing the account.
+            fallback_sign_in_email: Sent when DfE Sign-in is not working and provider users need to access their profiles using a one-time link.
+          provider_organisation_permissions_mailer:
+            organisation_permissions_set_up: Sent to someone with the user permissions "manage_users" to let them know that either they, or someone else has set up permissions for another user.
+            organisation_permissions_updated: Sent to someone with the user permissions "manage_users" to let them know that either they, or someone else has updated permissions for another user.
+            permissions_granted: Sent when someone receives permissions to manage applications for an organisation.
+            permissions_granted_by_support: Sent when the support team give someone permissions to manage applications for an organisation.
+            permissions_removed: Sent when someone has their permissions removed and can no longer manage applications for an organisation.
+            permissions_removed_by_support: Sent when someone has their permissions removed by the support team and can no longer manage applications for an organisation.
+            permissions_updated: Sent when any user permissions are changed.
+            permissions_updated__all_permissions_removed: Sent when user permissions are removed and the user can no longer manage applications on behalf of an organisation.
+            permissions_updated_by_support: Sent when any user permissions are changed by the support team.
+            set_up_organisation_permissions: Sent to all provider users when a new relationship between providers is created and initial organisation permissions need to be set up. This version is for multiple providers with multiple new relationships.
+            set_up_organisation_permissions_single_provider_one_relationship: Sent to all provider users when a new relationship between providers is created and initial organisation permissions need to be set up. This version is for a single provider with multiple new relationships.
+            set_up_organisation_permissions_single_provider_multiple_relationships: Sent to all provider users when a new relationship between providers is created and initial organisation permissions need to be set up. This version is for a single provider with a single new relationship.
           candidate_authentication_mailer:
             duplicate_match_email: When a candidate tries to create more than 1 account to apply for teacher training using the same email address or personal details. Their accounts are locked
             sign_in_email: Authentication link sent when a candidate signs into the service. (Inactive)

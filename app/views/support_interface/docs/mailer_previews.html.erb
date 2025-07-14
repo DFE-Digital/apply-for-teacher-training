@@ -15,6 +15,7 @@
           <% preview.emails.each do |email| %>
             <%= body.with_row do |row| %>
               <%= row.with_cell do %>
+<!--                TODO: Change to humanize-->
                 <%= govuk_link_to email.gsub('_', ' '), url_for(controller: 'rails/mailers', action: 'preview', path: "#{preview.preview_name}/#{email}") %>
               <% end %>
               <%= row.with_cell do %>
