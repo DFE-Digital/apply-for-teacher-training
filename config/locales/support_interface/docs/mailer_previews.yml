@@ -22,6 +22,15 @@ en:
             set_up_organisation_permissions: Sent to all provider users when a new relationship between providers is created and initial organisation permissions need to be set up. This version is for multiple providers with multiple new relationships.
             set_up_organisation_permissions_single_provider_one_relationship: Sent to all provider users when a new relationship between providers is created and initial organisation permissions need to be set up. This version is for a single provider with multiple new relationships.
             set_up_organisation_permissions_single_provider_multiple_relationships: Sent to all provider users when a new relationship between providers is created and initial organisation permissions need to be set up. This version is for a single provider with a single new relationship.
+          provider_applications_mailer:
+            application_submitted: Sent when a candidate submits an application to a course.
+            application_submitted_with_safeguarding_issues: Sent when a candidate submits an application to a course and they have included information about criminal convictions or professional misconduct.
+            application_withdrawn_no_interviews: Sent when a candidate withdraws their application for a course before an interview has been scheduled.
+            application_withdrawn_with_interviews: Sent when a candidate withdraws their application for a course after an interview has been scheduled.
+            unconditional_offer_accepted: Sent when a candidate accepts an offer to train to teach and there are no conditions attached to the offer.
+            declined: Sent when a candidate declines an offer to train to teach.
+            declined_by_default: Sent when a candidate does not respond to an offer to train to teach for 10 days and their offer is declined by default.
+            offer_accepted: Sent when a candidate accepts an offer to train to teach and there are conditions attached to the offer.
           candidate_authentication_mailer:
             duplicate_match_email: When a candidate tries to create more than 1 account to apply for teacher training using the same email address or personal details. Their accounts are locked
             sign_in_email: Authentication link sent when a candidate signs into the service. (Inactive)

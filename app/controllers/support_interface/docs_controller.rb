@@ -22,6 +22,7 @@ module SupportInterface
         Candidate::FindACandidatePreview,
         Provider::AuthenticationMailerPreview,
         Provider::OrganisationPermissionsMailerPreview,
+        Provider::ApplicationsMailerPreview,
       ].filter { |mailer_preview| all_mailer_previews.include? mailer_preview }
       # This is to preserve the order of the candidate mailers - we want them to reflect the stages of the cycle
       @previews = (candidate_mailers + all_mailer_previews).uniq
