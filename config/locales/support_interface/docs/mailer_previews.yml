@@ -31,6 +31,12 @@ en:
             declined: Sent when a candidate declines an offer to train to teach.
             declined_by_default: Sent when a candidate does not respond to an offer to train to teach for 10 days and their offer is declined by default.
             offer_accepted: Sent when a candidate accepts an offer to train to teach and there are conditions attached to the offer.
+          provider_deadlines_mailer:
+            find_service_is_now_open: Candidates can now search for teacher training courses on Find teacher training applications.
+            apply_service_is_now_open: Candidates can now apply for teacher training courses on Apply for teacher training courses.
+            respond_to_applications_before_reject_by_default_date: The deadline to respond to applications a provider has received is approaching. Any applications that they do not respond to will be rejected by default on this date.
+          provider_references_mailer:
+            reference_received: A referee has provided a reference for a candidate who has accepted an offer to train to teach with you.
           candidate_authentication_mailer:
             duplicate_match_email: When a candidate tries to create more than 1 account to apply for teacher training using the same email address or personal details. Their accounts are locked
             sign_in_email: Authentication link sent when a candidate signs into the service. (Inactive)

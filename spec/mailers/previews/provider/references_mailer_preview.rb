@@ -1,5 +1,11 @@
-class ProviderMailerPreview < ActionMailer::Preview
-  private
+class Provider::ReferencesMailerPreview < ActionMailer::Preview
+  def reference_received
+    reference = FactoryBot.create(:reference, :feedback_provided)
+    course = FactoryBot.build_stubbed(:course, provider:)
+    ProviderMailer.reference_received(reference:, application_choice:, provider_user:, course:)
+  end
+
+private
 
   def provider
     @provider ||= FactoryBot.create(:provider)
