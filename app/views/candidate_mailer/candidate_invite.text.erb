@@ -1,0 +1,30 @@
+<%# If you update this, please update the preview template for provider invite message as well %>
+Dear <%= @application_form.first_name %>,
+
+<%= t('.body.invite_to_submit', provider_name: @pool_invite.course.provider.name) %>:
+
+## <%= @pool_invite.course.provider.name %> - <%= @pool_invite.course.name_and_code %>
+
+<% if @pool_invite.course.fee_domestic.present? && @pool_invite.course.fee_international.present? %>
+  <%= "Course fee: #{number_to_currency(@pool_invite.course.fee_domestic)} for UK citizens; #{number_to_currency(@pool_invite.course.fee_international)} for non-UK citizens" %>
+<% elsif @pool_invite.course.fee_domestic.present? %>
+  <%= "Course fee: #{number_to_currency(@pool_invite.course.fee_domestic)} for UK citizens" %>
+<% elsif @pool_invite.course.fee_international.present? %>
+  <%= "Course fee: #{number_to_currency(@pool_invite.course.fee_international)} for non-UK citizens" %>
+<% end %>
+Course length: <%= DisplayCourseLength.call(course_length: @pool_invite.course.course_length) %>
+Age range: <%= @pool_invite.course.age_range %>
+Qualification: <%= @pool_invite.course.qualifications_to_s %>
+Start date: <%= @pool_invite.course.start_date.to_fs(:short_month_and_year) %>
+
+[Review the full course details](<%= @pool_invite.course.find_url %>)
+
+<% if @pool_invite.message_content.present? %>
+## <%= @pool_invite.course.provider.name %> included this message:
+<%= @pool_invite.message_content %>
+<% end %>
+
+
+<%= t('.body.locations_not_suitable') %>, you can [update your preferences](<%= @preferences_url %>) to appear in more relevant searches.
+
+If you do not want to receive invitations like this, you can [stop providers from viewing your application details](<%= @preferences_url %>).

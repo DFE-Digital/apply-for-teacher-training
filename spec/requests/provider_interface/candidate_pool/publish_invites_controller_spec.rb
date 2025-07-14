@@ -17,9 +17,7 @@ RSpec.describe 'ProviderInterface::CandidatePool::PublishInvitesController' do
 
         )
       mailer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-      allow(CandidateMailer).to receive(:candidate_invites).and_return(mailer)
-
-      FeatureFlag.deactivate(:grouped_invite_email)
+      allow(CandidateMailer).to receive(:candidate_invite).and_return(mailer)
     end
 
     it 'redirects to candidate_interface_interstitial_path' do
@@ -33,8 +31,9 @@ RSpec.describe 'ProviderInterface::CandidatePool::PublishInvitesController' do
         :pool_invite,
         status: :draft,
         candidate:,
+        application_form:,
         provider:,
-        course: course,
+        course:,
       )
 
       post provider_interface_candidate_pool_candidate_draft_invite_publish_invite_path(
@@ -43,37 +42,7 @@ RSpec.describe 'ProviderInterface::CandidatePool::PublishInvitesController' do
       )
 
       expect(response).to redirect_to(provider_interface_candidate_pool_root_path)
-      expect(CandidateMailer).to have_received(:candidate_invites).with(candidate, [draft_invite])
-    end
-
-    context 'when the grouped_invite_email feature flag is active' do
-      before do
-        FeatureFlag.activate(:grouped_invite_email)
-      end
-
-      it 'does not send the invite email' do
-        candidate = create(:candidate)
-        create(:candidate_preference, candidate:)
-        application_form = create(:application_form, :completed, candidate:)
-        create(:candidate_pool_application, application_form:)
-        course = create(:course, :open, provider:)
-
-        draft_invite = create(
-          :pool_invite,
-          status: :draft,
-          candidate:,
-          provider:,
-          course: course,
-        )
-
-        post provider_interface_candidate_pool_candidate_draft_invite_publish_invite_path(
-          candidate,
-          draft_invite,
-        )
-
-        expect(response).to redirect_to(provider_interface_candidate_pool_root_path)
-        expect(CandidateMailer).not_to have_received(:candidate_invites).with(candidate, [draft_invite])
-      end
+      expect(CandidateMailer).to have_received(:candidate_invite).with(draft_invite)
     end
   end
 end
