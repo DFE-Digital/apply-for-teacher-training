@@ -40,7 +40,7 @@ class Pool::Invite < ApplicationRecord
   def matching_application_choice
     application_form.application_choices
       .visible_to_provider
-      .find { |choice| choice.course == course }
+      .find { |choice| [choice.course, choice.original_course, choice.current_course].any? { |c| c == course } }
   end
 
   def self.matching_application_choices_exists_sql
