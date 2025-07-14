@@ -142,4 +142,8 @@ class ApplicationReference < ApplicationRecord
       status: GetRefereesToChase::APPLICATION_STATUSES,
     ).first&.provider&.name
   end
+
+  def complete_contact_details?
+    [email_address, name, relationship].all?(&:present?)
+  end
 end

@@ -117,6 +117,7 @@ module ApplyForPostgraduateTeacherTraining
       efl
       work_history
       volunteering
+      references
     ]
     config.x.sections.editable_window_days = 5
   end
