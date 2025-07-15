@@ -101,8 +101,8 @@ en:
             eoc_first_deadline_reminder_with_no_first_name: The end of the recruitment cycle is 2 months away and we do not know the name of the candidate to personalise the email.
             eoc_second_deadline_reminder: The end of the recruitment cycle is 1 month away.
             eoc_second_deadline_reminder_with_no_first_name: The end of the recruitment cycle is 1 month away and we do not know the name of the candidate to personalise the email.
-            find_has_opened: Candidates can now search for training courses on Find teacher training courses.
-            find_has_opened_no_name: Candidates can now search for training courses on Find teacher training courses but we don't know the name of the candidate to personalise the email.
+            find_has_opened: Candidates can now search for teacher training courses on Find teacher training courses.
+            find_has_opened_no_name: Candidates can now search for teacher training courses on Find teacher training courses but we don't know the name of the candidate to personalise the email.
             new_cycle_has_started: Candidates can now submit applications for teacher training in the latest recruitment cycle.
             reject_by_default_explainer: Applications that have not received a response by the end of the cycle are rejected by default.
             respond_to_offer_before_deadline: A candidate has an offer to train to teach that they have not responded to, they are encouraged to respond before the end of the cycle. Sent 2 weeks before the reject by default date before the end of the cycle.
