@@ -74,6 +74,7 @@ en:
     offer_withdrawn: Offer withdrawn
     unsubmitted: Not submitted yet
     withdrawn: Application withdrawn
+    withdrawn_application_choice: "Withdrawn"
     conditions_not_met: Conditions not met
     offer_deferred: Deferred
   transient_application_states:

@@ -14,21 +14,25 @@ class WithdrawalReasons::FormattedTextComponent < ViewComponent::Base
 private
 
   def reasons
-    @application_choice.published_withdrawal_reasons.map do |reason|
+    @application_choice.published_withdrawal_reasons.flat_map do |reason|
       reason_key = reason.reason
       comment = reason.comment
 
-      parts = reason_key.downcase.split('.').map { |p| p.tr('-', '_') }
+      normalized_reason_key = reason_key.tr('-', '_')
 
-      # Separate the last part as the specific reason
-      reason_label = parts.last.humanize
-      category_label = parts.first.humanize
+      key = "withdrawal_reasons.formatted_text_component.reasons.#{normalized_reason_key}"
 
-      # Final formatted string
-      label = "#{category_label} - #{reason_label}"
+      translation = t(key, default: nil, comment: comment)
 
-      # Return reason + optional quoted comment as two separate lines
-      [label, (comment.present? ? %("#{comment}") : nil)]
-    end.flatten.compact
+      if translation
+        [translation, (comment.present? ? %("#{comment}") : nil)]
+      else
+        parts = normalized_reason_key.downcase.split('.')
+        category_label = parts.first.humanize
+        reason_label = parts.last.humanize
+        fallback = "#{category_label} - #{reason_label}"
+        [fallback, (comment.present? ? %("#{comment}") : nil)]
+      end
+    end.compact
   end
 end
