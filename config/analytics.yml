@@ -51,6 +51,8 @@ shared:
     - provider_message
     - message_content
     - application_form_id
+    - application_choice_id
+    - candidate_decision
   pool_dismissals:
     - id
     - candidate_id
