@@ -36,6 +36,23 @@ RSpec.describe ProviderInterface::PoolInviteForm, type: :model do
         expect(form.errors[:course_id]).to eq(['Select a different course. You have invited this person to the selected course already'])
       end
     end
+
+    context 'when the candidate has applied to the course already' do
+      it 'raises an error' do
+        _application_choice = create(:application_choice, :awaiting_provider_decision, course_option: build(:course_option, course:), application_form: candidate.current_application)
+        expect(form.valid?).to be_falsey
+        expect(form.errors[:course_id]).to eq(['Select a different course. The candidate has already applied to the selected course'])
+      end
+    end
+
+    context 'when the course has changed on an application form to match the selected course' do
+      it 'raises an error' do
+        application_choice = create(:application_choice, :awaiting_provider_decision, application_form: candidate.current_application)
+        application_choice.update_course_option_and_associated_fields!(create(:course_option, course:))
+        expect(form.valid?).to be_falsey
+        expect(form.errors[:course_id]).to eq(['Select a different course. The candidate has already applied to the selected course'])
+      end
+    end
   end
 
   describe '.build_from_invite' do

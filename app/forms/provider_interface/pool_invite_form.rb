@@ -8,6 +8,7 @@ module ProviderInterface
     validates :course_id, presence: true
     validate :course_is_open if -> { course.present? }
     validate :already_invited_to_course if -> { course.present? }
+    validate :already_applied_to_course if -> { course.present? }
 
     def initialize(current_provider_user:, candidate: nil, pool_invite_form_params: {})
       @current_provider_user = current_provider_user
@@ -75,6 +76,10 @@ module ProviderInterface
     def already_invited_to_course
       existing_invite = Pool::Invite.published.find_by(course_id:, candidate_id: candidate.id).present?
       errors.add(:course_id, :already_invited) if existing_invite
+    end
+
+    def already_applied_to_course
+      errors.add(:course_id, :already_applied) if course_id.to_i.in? candidate.current_application.already_applied_course_ids
     end
   end
 end

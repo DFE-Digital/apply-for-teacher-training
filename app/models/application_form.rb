@@ -724,6 +724,20 @@ class ApplicationForm < ApplicationRecord
       (right_to_work_or_study_yes? && immigration_status.in?(VISAS_REQUIRING_SPONSORSHIP))
   end
 
+  def already_applied_course_ids
+    return [] if application_choices.blank?
+
+    application_choices.visible_to_provider
+                       .joins(:course_option, :current_course_option)
+                       .left_joins(:original_course_option)
+                       .select(
+                         'application_choices.id',
+                         'course_options.course_id AS course_id',
+                         'current_course_options_application_choices.course_id AS current_course_id',
+                         'original_course_options_application_choices.course_id AS original_course_id',
+                       ).flat_map { |ac| [ac.course_id, ac.current_course_id, ac.original_course_id] }.compact.uniq
+  end
+
 private
 
   def geocode_address_and_update_region_if_required

@@ -157,6 +157,7 @@ en:
               blank: Select a course
               invalid: Course is not available
               already_invited: Select a different course. You have invited this person to the selected course already
+              already_applied: Select a different course. The candidate has already applied to the selected course
         provider_interface/pool_invite_message_form:
           attributes:
             provider_message:
