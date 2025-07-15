@@ -29,6 +29,14 @@ module CandidateInterface
           preference: application_form.candidate.published_preferences.last,
           application_choice:,
         )
+
+        invite = application_form.invites.find_by(course_id: application_choice.course.id)
+        if invite.present?
+          invite.update(
+            application_choice_id: application_choice.id,
+            candidate_decision: 'applied',
+          )
+        end
       end
     end
 
