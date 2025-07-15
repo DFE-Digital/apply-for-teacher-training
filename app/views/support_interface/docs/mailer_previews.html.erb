@@ -15,8 +15,7 @@
           <% preview.emails.each do |email| %>
             <%= body.with_row do |row| %>
               <%= row.with_cell do %>
-<!--                TODO: Change to humanize-->
-                <%= govuk_link_to email.gsub('_', ' '), url_for(controller: 'rails/mailers', action: 'preview', path: "#{preview.preview_name}/#{email}") %>
+                <%= govuk_link_to email.humanize, url_for(controller: 'rails/mailers', action: 'preview', path: "#{preview.preview_name}/#{email}") %>
               <% end %>
               <%= row.with_cell do %>
                   <%= t(".email_descriptions.#{preview.preview_name.gsub('/', '_')}.#{email}") %>
