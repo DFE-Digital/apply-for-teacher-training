@@ -45,6 +45,7 @@ private
     @associated_application_choices_this_cycle ||=
       @application_form
       .application_choices
+      .visible_to_provider
       .joins(course: :provider)
       .where(courses: { provider_id: @current_provider_user.providers.pluck(:id) })
   end
@@ -52,6 +53,7 @@ private
   def associated_application_choices_in_a_previous_cycle
     @associated_application_choices_in_a_previous_cycle ||=
       ApplicationChoice
+        .visible_to_provider
         .joins(:application_form, course: :provider)
         .where(application_forms: { candidate_id: candidate.id })
         .where(courses: { provider_id: @current_provider_user.providers.pluck(:id) })

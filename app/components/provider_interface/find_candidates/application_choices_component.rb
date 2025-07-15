@@ -73,8 +73,7 @@ private
 
     {
       key: { text: t('.withdrawal_reason') },
-      value: { text: 'tbc' },
-      # value: { text: render(WithdrawalReasons::FormattedTextComponent.new(application_choice: choice)) },
+      value: { text: render(WithdrawalReasons::FormattedTextComponent.new(application_choice: choice)) },
     }
   end
 

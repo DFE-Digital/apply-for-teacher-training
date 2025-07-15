@@ -11,16 +11,24 @@ class WithdrawalReasons::FormattedTextComponent < ViewComponent::Base
     govuk_list(reasons)
   end
 
-# private
+private
 
-  # def reasons
-  #   @application_choice.published_withdrawal_reasons.map do |reason|
-  #     reason.reason (translated)
+  def reasons
+    @application_choice.published_withdrawal_reasons.map do |reason|
+      reason_key = reason.reason
+      comment = reason.comment
 
-  #     if reason ends with .other comment also needs to be appended
+      parts = reason_key.downcase.split('.').map { |p| p.tr('-', '_') }
 
-  #     .flatten
-  #   end
-  #  end
-  # put yml file in same path in config - matching file structure
+      # Separate the last part as the specific reason
+      reason_label = parts.last.humanize
+      category_label = parts.first.humanize
+
+      # Final formatted string
+      label = "#{category_label} - #{reason_label}"
+
+      # Return reason + optional quoted comment as two separate lines
+      [label, (comment.present? ? %("#{comment}") : nil)]
+    end.flatten.compact
+  end
 end
