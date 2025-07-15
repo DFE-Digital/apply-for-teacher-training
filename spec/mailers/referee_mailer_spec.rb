@@ -16,7 +16,7 @@ RSpec.describe RefereeMailer do
     allow(reference).to receive(:refresh_feedback_token!).and_return('raw_token')
   end
 
-  it_behaves_like 'mailer previews', RefereeMailerPreview
+  it_behaves_like 'mailer previews', Referee::ReferencesMailerPreview
 
   describe 'Send request reference email' do
     let(:email) { mailer.reference_request_email(reference) }

@@ -6,6 +6,46 @@ en:
         preview: Preview name
         description: Description
         email_descriptions:
+          provider_authentication_mailer:
+            confirm_sign_in: Sent when a provider user signs into their account from a different device, browser or after their cookies have been cleared to confirm that it was the account holder accessing the account.
+            fallback_sign_in_email: Sent when DfE Sign-in is not working and provider users need to access their profiles using a one-time link.
+          provider_organisation_permissions_mailer:
+            organisation_permissions_set_up: Sent to someone with the user permissions "manage_users" to let them know that either they, or someone else has set up permissions for another user.
+            organisation_permissions_updated: Sent to someone with the user permissions "manage_users" to let them know that either they, or someone else has updated permissions for another user.
+            permissions_granted: Sent when someone receives permissions to manage applications for an organisation.
+            permissions_granted_by_support: Sent when the support team give someone permissions to manage applications for an organisation.
+            permissions_removed: Sent when someone has their permissions removed and can no longer manage applications for an organisation.
+            permissions_removed_by_support: Sent when someone has their permissions removed by the support team and can no longer manage applications for an organisation.
+            permissions_updated: Sent when any user permissions are changed.
+            permissions_updated__all_permissions_removed: Sent when user permissions are removed and the user can no longer manage applications on behalf of an organisation.
+            permissions_updated_by_support: Sent when any user permissions are changed by the support team.
+            set_up_organisation_permissions: Sent to all provider users when a new relationship between providers is created and initial organisation permissions need to be set up. This version is for multiple providers with multiple new relationships.
+            set_up_organisation_permissions_single_provider_one_relationship: Sent to all provider users when a new relationship between providers is created and initial organisation permissions need to be set up. This version is for a single provider with multiple new relationships.
+            set_up_organisation_permissions_single_provider_multiple_relationships: Sent to all provider users when a new relationship between providers is created and initial organisation permissions need to be set up. This version is for a single provider with a single new relationship.
+          provider_applications_mailer:
+            application_submitted: Sent when a candidate submits an application to a course.
+            application_submitted_with_safeguarding_issues: Sent when a candidate submits an application to a course and they have included information about criminal convictions or professional misconduct.
+            application_withdrawn_no_interviews: Sent when a candidate withdraws their application for a course before an interview has been scheduled.
+            application_withdrawn_with_interviews: Sent when a candidate withdraws their application for a course after an interview has been scheduled.
+            unconditional_offer_accepted: Sent when a candidate accepts an offer to train to teach and there are no conditions attached to the offer.
+            declined: Sent when a candidate declines an offer to train to teach.
+            declined_by_default: Sent when a candidate does not respond to an offer to train to teach for 10 days and their offer is declined by default.
+            offer_accepted: Sent when a candidate accepts an offer to train to teach and there are conditions attached to the offer.
+          provider_deadlines_mailer:
+            find_service_is_now_open: Candidates can now search for teacher training courses on Find teacher training applications.
+            apply_service_is_now_open: Candidates can now apply for teacher training courses on Apply for teacher training courses.
+            respond_to_applications_before_reject_by_default_date: The deadline to respond to applications a provider has received is approaching. Any applications that they do not respond to will be rejected by default on this date.
+          provider_references_mailer:
+            reference_received: A referee has provided a reference for a candidate who has accepted an offer to train to teach with you.
+          referee_references_mailer:
+            reference_request_email: Received by someone who a candidate has requested a reference from.
+            reference_request_chaser_email: Received by a referee who has not provided a reference after 9 days.
+            reference_request_chase_again_email: Received by a referee who has not provided a reference after 30 days.
+            reference_confirmation_email: Sent when a referee submits a reference.
+            reference_cancelled_email: Sent when a candidate cancels a request for a reference.
+          support_authentication_mailer:
+            confirm_sign_in: Sent when a support user signs into their account from a different device, browser or after their cookies have been cleared to confirm that it was the account holder accessing the account.
+            fallback_sign_in_email: Sent when a support user is unable to sign into their account with DfE sign in
           candidate_authentication_mailer:
             duplicate_match_email: When a candidate tries to create more than 1 account to apply for teacher training using the same email address or personal details. Their accounts are locked
             sign_in_email: Authentication link sent when a candidate signs into the service. (Inactive)

@@ -9,8 +9,7 @@ module SupportInterface
     def qualifications; end
 
     def mailer_previews
-      all_mailer_previews = ActionMailer::Preview.all
-      candidate_mailers = [
+      @previews = [
         Candidate::AuthenticationMailerPreview,
         Candidate::ApplicationUnsubmittedPreview,
         Candidate::ApplicationSubmittedPreview,
@@ -20,9 +19,14 @@ module SupportInterface
         Candidate::WithdrawalsAndRejectionsPreview,
         Candidate::EndOfCyclePreview,
         Candidate::FindACandidatePreview,
-      ].filter { |mailer_preview| all_mailer_previews.include? mailer_preview }
-      # This is to preserve the order of the candidate mailers - we want them to reflect the stages of the cycle
-      @previews = (candidate_mailers + all_mailer_previews).uniq
+        Provider::AuthenticationMailerPreview,
+        Provider::OrganisationPermissionsMailerPreview,
+        Provider::ApplicationsMailerPreview,
+        Provider::DeadlinesMailerPreview,
+        Provider::ReferencesMailerPreview,
+        Referee::ReferencesMailerPreview,
+        Support::AuthenticationMailerPreview,
+      ].uniq
     end
 
     def component_previews
