@@ -30,6 +30,7 @@ module CandidateInterface
       return if invalid?
 
       kwargs = {
+        application_form: @current_candidate.current_application,
         pool_status:,
         opt_out_reason: pool_status == 'opt_in' ? nil : opt_out_reason,
         training_locations: pool_status == 'opt_out' ? nil : preference&.training_locations,
