@@ -1,7 +1,57 @@
 require 'rails_helper'
 
 RSpec.describe FindACandidate::PopulatePoolWorker do
-  describe '#perform' do
+  describe '#peform after the apply deadline,', time: after_apply_deadline do
+    it 'does not create any CandidatePoolApplication records' do
+      application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
+      create(
+        :candidate_preference,
+        candidate: application_form.candidate,
+      )
+      stub_application_forms_in_the_pool(application_form.id)
+
+      expect {
+        described_class.new.perform
+      }.not_to(change { CandidatePoolApplication.count })
+
+      expect(CandidatePoolApplication.count).to eq(0)
+    end
+
+    it 'deletes all records if any exists' do
+      create(:candidate_pool_application)
+
+      expect {
+        described_class.new.perform
+      }.to change { CandidatePoolApplication.count }.from(1).to(0)
+    end
+  end
+
+  describe '#peform before apply opens,', time: before_apply_opens do
+    it 'does not create any CandidatePoolApplication records' do
+      application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
+      create(
+        :candidate_preference,
+        candidate: application_form.candidate,
+      )
+      stub_application_forms_in_the_pool(application_form.id)
+
+      expect {
+        described_class.new.perform
+      }.not_to(change { CandidatePoolApplication.count })
+
+      expect(CandidatePoolApplication.count).to eq(0)
+    end
+
+    it 'deletes all records if any exists' do
+      create(:candidate_pool_application)
+
+      expect {
+        described_class.new.perform
+      }.to change { CandidatePoolApplication.count }.from(1).to(0)
+    end
+  end
+
+  describe '#perform before the apply deadline', time: mid_cycle do
     it 'creates CandidatePoolApplication records' do
       application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
       create(
