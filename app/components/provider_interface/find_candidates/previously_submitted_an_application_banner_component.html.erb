@@ -11,7 +11,9 @@
     <% choices_within_year.each do |row| %>
       <p class="govuk-body">
         <%= row[:text] %>
-        <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: row[:application_choice]) %>
+        <span class="govuk-!-margin-left-1 govuk-!-margin-top-2" style="display: inline-block;">
+          <%= render ProviderInterface::WithdrawnTagOverrideComponent.new(application_choice: row[:application_choice]) %>
+        </span>
       </p>
     <% end %>
   <% end %>

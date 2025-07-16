@@ -38,7 +38,7 @@ RSpec.describe ProviderInterface::FindCandidates::PreviouslySubmittedAnApplicati
         expect(result.text).to include('Received')
         expect(result.text).to include('2023 to 2024 recruitment cycle:')
         expect(result.text).to include(last_cycle_application_form.application_choices.first.course.name_and_code)
-        expect(result.text).to include('Application withdrawn')
+        expect(result.text).to include('Withdrawn')
       end
     end
 
@@ -73,7 +73,7 @@ RSpec.describe ProviderInterface::FindCandidates::PreviouslySubmittedAnApplicati
         expect(result.text).to include('This candidate has submitted an application to you or a partner before')
         expect(result.text).to include('2023 to 2024 recruitment cycle:')
         expect(result.text).to include(last_cycle_application_form.application_choices.first.course.name_and_code)
-        expect(result.text).to include('Application withdrawn')
+        expect(result.text).to include('Withdrawn')
         expect(result.text).not_to include('Received')
       end
     end
@@ -87,7 +87,7 @@ RSpec.describe ProviderInterface::FindCandidates::PreviouslySubmittedAnApplicati
         expect(result.text).to include(course.name_and_code)
         expect(result.text).to include('Received')
         expect(result.text).not_to include('2023 to 2024 recruitment cycle:')
-        expect(result.text).not_to include('Application withdrawn')
+        expect(result.text).not_to include('Withdrawn')
       end
     end
   end
