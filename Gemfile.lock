@@ -750,6 +750,9 @@ GEM
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
+    simplecov-cobertura (3.0.0)
+      rexml
+      simplecov (~> 0.19)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
     skylight (6.0.4)
@@ -960,6 +963,7 @@ DEPENDENCIES
   shoulda-matchers (~> 6.5)
   sidekiq (< 7)
   simplecov
+  simplecov-cobertura
   skylight
   sprockets-rails
   strip_attributes
