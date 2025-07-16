@@ -95,7 +95,7 @@ jobs:
         tests: [rubocop, erb_lint, brakeman, yarn_lint]
         include:
           - tests: rubocop
-            command: bundle exec rubocop --format clang --parallel
+            command: bundle exec rake rubocop -- --format clang --parallel
           - tests: erb_lint
             command: bundle exec rake erb_lint
           - tests: brakeman
