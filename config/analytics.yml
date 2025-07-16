@@ -15,6 +15,7 @@ shared:
     - updated_at
     - training_locations
     - funding_type
+    - application_form_id
   candidate_location_preferences:
     - id
     - name
