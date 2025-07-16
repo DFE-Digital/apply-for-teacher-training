@@ -456,6 +456,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_15_095513) do
     t.text "opt_out_reason"
     t.string "training_locations"
     t.string "funding_type"
+    t.bigint "application_form_id"
+    t.index ["application_form_id"], name: "index_candidate_preferences_on_application_form_id"
     t.index ["candidate_id"], name: "index_candidate_preferences_on_candidate_id"
   end
 
