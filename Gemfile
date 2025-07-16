@@ -174,7 +174,6 @@ group :test do
   gem 'ruby-jmeter'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 6.5'
-  gem 'simplecov-cobertura', require: false
   gem 'simplecov', require: false
   gem 'super_diff'
   gem 'test_suite_time_machine', '~> 2.0'

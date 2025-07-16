@@ -20,10 +20,8 @@ Bundler.require(:test)
 
 if ENV['CI'] || ENV.fetch('COVERAGE', 'true') == 'true'
   require 'simplecov'
-  require 'simplecov-cobertura'
   SimpleCov.formatters = [
     SimpleCov::Formatter::HTMLFormatter,
-    SimpleCov::Formatter::CoberturaFormatter,
   ]
 
   # Give each coverage object a unique ID based on the matrix name and number from parallel tests
