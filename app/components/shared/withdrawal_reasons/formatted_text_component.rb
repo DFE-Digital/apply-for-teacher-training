@@ -19,13 +19,20 @@ private
       comment = reason.comment
 
       normalized_reason_key = reason_key.tr('-', '_')
+
       key = "withdrawal_reasons.formatted_text_component.reasons.#{normalized_reason_key}"
 
-      translation = t(key, default: nil, comment:)
+      translation = t(key, default: nil, comment: comment)
 
-      next unless translation
-
-      [translation, (comment.present? ? %("#{comment}") : nil)]
+      if translation
+        [translation, (comment.present? ? %("#{comment}") : nil)]
+      else
+        parts = normalized_reason_key.downcase.split('.')
+        category_label = parts.first.humanize
+        reason_label = parts.last.humanize
+        fallback = "#{category_label} - #{reason_label}"
+        [fallback, (comment.present? ? %("#{comment}") : nil)]
+      end
     end.compact
   end
 end
