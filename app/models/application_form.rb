@@ -39,6 +39,9 @@ class ApplicationForm < ApplicationRecord
     class_name: 'ApplicationQualification',
   )
 
+  has_many :preferences, dependent: :destroy, class_name: 'CandidatePreference'
+  has_many :published_preferences, -> { where(status: 'published') }, dependent: :destroy, class_name: 'CandidatePreference'
+
   has_many :application_references
   has_many :application_work_history_breaks, as: :breakable
   has_many :emails
