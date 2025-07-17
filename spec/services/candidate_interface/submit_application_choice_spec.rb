@@ -142,6 +142,38 @@ module CandidateInterface
             application_choice:,
           )
         end
+
+        context 'when invite exists' do
+          it 'saves the application_choice on the invite' do
+            invite = create(
+              :pool_invite,
+              course: application_choice.course,
+              status: 'published',
+              application_form: application_choice.application_form,
+              candidate: application_choice.application_form.candidate,
+            )
+
+            submit_application
+
+            expect(invite.reload.application_choice_id).to eq(application_choice.id)
+            expect(invite.reload.candidate_decision).to eq('applied')
+          end
+        end
+
+        context 'when invite does not exists' do
+          it 'does not saves the application_choice on the invite' do
+            invite = create(
+              :pool_invite,
+              course: application_choice.course,
+              status: 'published',
+            )
+
+            submit_application
+
+            expect(invite.reload.application_choice_id).to be_nil
+            expect(invite.reload.candidate_decision).to eq('not_responded')
+          end
+        end
       end
     end
   end

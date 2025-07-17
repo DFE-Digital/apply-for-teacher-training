@@ -14,6 +14,11 @@ class Pool::Invite < ApplicationRecord
     published: 'published',
   }, default: :draft
 
+  enum :candidate_decision, {
+    not_responded: 'not_responded',
+    applied: 'applied',
+  }, default: :not_responded
+
   scope :not_sent_to_candidate, -> { where(sent_to_candidate_at: nil) }
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
   scope :with_matching_application_choices, -> { where(matching_application_choices_exists_sql) }
