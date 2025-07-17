@@ -28,6 +28,7 @@ class GenerateCandidatePoolData
         status: 'published',
         dynamic_location_preferences: true,
         candidate_id: form.candidate_id,
+        application_form_id: form.id,
         training_locations: rand(100) < 20 ? 'anywhere' : 'specific', # 20% anywhere
       }
     end
