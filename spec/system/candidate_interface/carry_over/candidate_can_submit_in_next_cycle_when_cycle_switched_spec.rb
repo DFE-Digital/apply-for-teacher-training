@@ -191,6 +191,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
     click_on 'Continue'
     choose 'No'
     click_on 'Continue'
+    click_on 'Your applications'
 
     expect(page).to have_content('You can add 3 more applications')
   end
