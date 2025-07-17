@@ -53,6 +53,7 @@ module_function
     timetable = get_timetable(year)
     timetable.find_opens_at + 1.day
   end
+  alias before_apply_opens after_find_opens
 
   def after_find_closes(year = nil)
     timetable = get_timetable(year)
