@@ -51,7 +51,7 @@ class ApplicationForm < ApplicationRecord
 
   has_many :application_feedback
 
-  has_many :invites, -> { published }, class_name: 'Pool::Invite'
+  has_many :published_invites, -> { published }, class_name: 'Pool::Invite'
 
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
   scope :unsubmitted, -> { where(submitted_at: nil) }
