@@ -57,9 +57,9 @@ RSpec.describe DuplicateApplication do
   end
 
   context 'when a candidate has a published opt out preference' do
-    it 'copies the preference to the new application form' do
+    it 'does not duplicate the preference' do
       create(:candidate_preference, :published, :opt_out, application_form: @original_application_form)
-      expect(duplicate_application_form.preferences.first).to have_attributes(status: 'draft', pool_status: 'opt_out')
+      expect(duplicate_application_form.preferences.empty?).to be true
     end
   end
 

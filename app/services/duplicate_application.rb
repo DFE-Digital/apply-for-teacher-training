@@ -94,7 +94,7 @@ class DuplicateApplication
       end
 
       original_candidate_preference = original_application_form.published_preferences.last
-      if original_candidate_preference.present?
+      if original_candidate_preference.present? && original_candidate_preference.opt_in?
         new_candidate_preference = new_application_form.preferences.create!(
           **original_candidate_preference.attributes.except(*IGNORED_ATTRIBUTES),
           status: 'draft',
