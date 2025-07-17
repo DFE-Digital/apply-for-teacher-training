@@ -63,6 +63,7 @@ module CandidateInterface
 
           preference_record = CandidatePreference.last
           expect(preference_record.pool_status).to eq('opt_in')
+          expect(preference_record.application_form).to eq(current_candidate.current_application)
           expect(LocationPreferences).to have_received(:add_default_location_preferences)
         end
       end
