@@ -46,7 +46,7 @@ RSpec.describe Pool::Invite do
     }
   end
 
-  describe 'decline reason scopes' do
+  describe '.draft_decline_reasons' do
     let(:invite) { create(:pool_invite) }
 
     it 'returns only draft decline reasons' do
@@ -55,6 +55,10 @@ RSpec.describe Pool::Invite do
 
       expect(invite.draft_decline_reasons).to contain_exactly(draft_reason)
     end
+  end
+
+  describe '.published_decline_reasons' do
+    let(:invite) { create(:pool_invite) }
 
     it 'returns only published decline reasons' do
       published_reason = create(:pool_decline_reason, :published, invite: invite)
