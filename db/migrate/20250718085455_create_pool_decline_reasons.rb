@@ -1,6 +1,6 @@
-class CreateInviteDeclineReasons < ActiveRecord::Migration[7.0]
+class CreatePoolDeclineReasons < ActiveRecord::Migration[7.0]
   def change
-    create_table :invite_decline_reasons do |t|
+    create_table :pool_decline_reasons do |t|
       t.string :reason
       t.text :comment
       t.string :status, default: 'draft'
@@ -9,6 +9,6 @@ class CreateInviteDeclineReasons < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_index :invite_decline_reasons, :reason, name: 'index_decline_reasons_on_reason'
+    add_index :pool_decline_reasons, :reason, name: 'index_pool_decline_reasons_on_reason'
   end
 end

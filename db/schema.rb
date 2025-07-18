@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_18_074243) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_18_085455) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -686,17 +686,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_18_074243) do
     t.index ["provider_id"], name: "index_interviews_on_provider_id"
   end
 
-  create_table "invite_decline_reasons", force: :cascade do |t|
-    t.string "reason"
-    t.text "comment"
-    t.string "status", default: "draft"
-    t.bigint "invite_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["invite_id"], name: "index_invite_decline_reasons_on_invite_id"
-    t.index ["reason"], name: "index_decline_reasons_on_reason"
-  end
-
   create_table "monthly_statistics_reports", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -760,6 +749,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_18_074243) do
     t.integer "award_year", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "pool_decline_reasons", force: :cascade do |t|
+    t.string "reason"
+    t.text "comment"
+    t.string "status", default: "draft"
+    t.bigint "invite_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invite_id"], name: "index_pool_decline_reasons_on_invite_id"
+    t.index ["reason"], name: "index_pool_decline_reasons_on_reason"
   end
 
   create_table "pool_dismissals", force: :cascade do |t|
@@ -1158,11 +1158,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_18_074243) do
   add_foreign_key "emails", "application_forms", on_delete: :cascade
   add_foreign_key "interviews", "application_choices", on_delete: :cascade
   add_foreign_key "interviews", "providers", on_delete: :cascade
-  add_foreign_key "invite_decline_reasons", "pool_invites", column: "invite_id"
   add_foreign_key "notes", "application_choices", on_delete: :cascade
   add_foreign_key "offer_conditions", "offers", on_delete: :cascade
   add_foreign_key "offers", "application_choices", on_delete: :cascade
   add_foreign_key "one_login_auths", "candidates", on_delete: :cascade
+  add_foreign_key "pool_decline_reasons", "pool_invites", column: "invite_id"
   add_foreign_key "pool_dismissals", "candidates", on_delete: :cascade
   add_foreign_key "pool_dismissals", "provider_users", column: "dismissed_by_id"
   add_foreign_key "pool_dismissals", "providers", on_delete: :cascade
