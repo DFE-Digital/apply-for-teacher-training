@@ -264,7 +264,17 @@ class ApplicationChoice < ApplicationRecord
     assign_attributes(attrs) # provider_ids_for_access needs this to be set beforehand
     self.provider_ids = provider_ids_for_access
 
-    update!(attrs)
+    invite = application_form.published_invites.find_by(course_id: new_course_option.course_id, application_choice_id: nil)
+
+    ActiveRecord::Base.transaction do
+      if invite.present?
+        invite.update(
+          application_choice_id: id,
+          candidate_decision: 'applied',
+        )
+      end
+      update!(attrs)
+    end
   end
 
   def provider_ids_for_access

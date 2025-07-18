@@ -580,6 +580,50 @@ RSpec.describe ApplicationChoice do
           .to change(application_choice, :provider_ids).to(expected_ids)
       end
     end
+
+    context 'when application_form has invites' do
+      it 'updates the invite with the application choice if courses match' do
+        invite = create(
+          :pool_invite,
+          course: course_option.course,
+          status: 'published',
+          application_form: application_choice.application_form,
+          candidate: application_choice.application_form.candidate,
+        )
+        application_choice.update_course_option_and_associated_fields!(course_option)
+
+        expect(invite.reload.application_choice_id).to eq(application_choice.id)
+        expect(invite.reload.candidate_decision).to eq('applied')
+      end
+
+      it 'does not updates the invite with the application choice if does not courses match' do
+        invite = create(
+          :pool_invite,
+          status: 'published',
+          application_form: application_choice.application_form,
+          candidate: application_choice.application_form.candidate,
+        )
+        application_choice.update_course_option_and_associated_fields!(course_option)
+
+        expect(invite.reload.application_choice_id).to be_nil
+        expect(invite.reload.candidate_decision).to eq('not_responded')
+      end
+
+      it 'does not updates the invite with the application choice the invite is has an application_choice already' do
+        invite = create(
+          :pool_invite,
+          :with_application_choice,
+          course: course_option.course,
+          status: 'published',
+          application_form: application_choice.application_form,
+          candidate: application_choice.application_form.candidate,
+        )
+
+        application_choice.update_course_option_and_associated_fields!(course_option)
+
+        expect(invite.reload.application_choice_id).to eq(invite.application_choice_id)
+      end
+    end
   end
 
   describe '#provider_ids_for_access' do

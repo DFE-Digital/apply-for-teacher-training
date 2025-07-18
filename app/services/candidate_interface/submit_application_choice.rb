@@ -30,7 +30,7 @@ module CandidateInterface
           application_choice:,
         )
 
-        invite = application_form.invites.find_by(course_id: application_choice.course.id)
+        invite = application_form.published_invites.find_by(course_id: application_choice.course.id)
         if invite.present?
           invite.update(
             application_choice_id: application_choice.id,
