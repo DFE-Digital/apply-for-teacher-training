@@ -30,7 +30,7 @@ RSpec.describe 'Candidate adds preferences' do
     and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
 
-    when_i_click('Change your sharing and location settings')
+    when_i_click('Update your preferences')
     then_i_am_redirected_to_opt_in_page
     when_i_click('Continue')
     then_i_get_an_error('Select whether to make your application details visible to other training providers')
@@ -100,7 +100,7 @@ RSpec.describe 'Candidate adds preferences' do
     when_i_click('Continue')
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_to_application_choices_with_success_message
+    then_i_am_redirected_to_invites_path_with_success_message
   end
 
   scenario 'Candidate opts in to find a candidate with specific locations and applied to fee funded courses' do
@@ -108,7 +108,7 @@ RSpec.describe 'Candidate adds preferences' do
     and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
 
-    when_i_click('Change your sharing and location settings')
+    when_i_click('Update your preferences')
     then_i_am_redirected_to_opt_in_page
     and_i_opt_in_to_find_a_candidate
     when_i_click('Continue')
@@ -135,7 +135,7 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_review_page
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_to_application_choices_with_success_message
+    then_i_am_redirected_to_invites_path_with_success_message
   end
 
   scenario 'Candidate opts in to find a candidate for anywhere in England' do
@@ -143,7 +143,7 @@ RSpec.describe 'Candidate adds preferences' do
     and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
 
-    when_i_click('Change your sharing and location settings')
+    when_i_click('Update your preferences')
     then_i_am_redirected_to_opt_in_page
     when_i_click('Continue')
     then_i_get_an_error('Select whether to make your application details visible to other training providers')
@@ -161,7 +161,7 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_review_page_without_locations
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_to_application_choices_with_success_message
+    then_i_am_redirected_to_invites_path_with_success_message
   end
 
   scenario 'Candidate opts in to find a candidate for anywhere in England and applied to fee funded courses' do
@@ -169,7 +169,7 @@ RSpec.describe 'Candidate adds preferences' do
     and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
 
-    when_i_click('Change your sharing and location settings')
+    when_i_click('Update your preferences')
     then_i_am_redirected_to_opt_in_page
     when_i_click('Continue')
     then_i_get_an_error('Select whether to make your application details visible to other training providers')
@@ -183,7 +183,7 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_review_page_without_locations
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_to_application_choices_with_success_message
+    then_i_am_redirected_to_invites_path_with_success_message
   end
 
   scenario 'Candidate edits radius on a dynamic location with invalid site data' do
@@ -203,7 +203,7 @@ RSpec.describe 'Candidate adds preferences' do
     and_i_opt_out_to_find_a_candidate
     when_i_click('Continue')
 
-    then_i_am_redirected_to_application_choices
+    then_i_am_redirected_to_invites
   end
 
   scenario 'Candidate opts out of find a candidate and gives a reason' do
@@ -219,7 +219,7 @@ RSpec.describe 'Candidate adds preferences' do
     when_i_enter_a_reason_with_fewer_words
     when_i_click('Continue')
 
-    then_i_am_redirected_to_application_choices
+    then_i_am_redirected_to_invites
   end
 
   def given_i_am_signed_in(funding_type: 'salary')
@@ -257,7 +257,7 @@ RSpec.describe 'Candidate adds preferences' do
     and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
 
-    when_i_click('Change your sharing and location settings')
+    when_i_click('Update your preferences')
     then_i_am_redirected_to_opt_in_page
 
     when_i_opt_in_to_find_a_candidate
@@ -272,7 +272,7 @@ RSpec.describe 'Candidate adds preferences' do
     when_i_check_yes_fee_funding_courses
     when_i_click('Continue')
     and_i_click('Submit preferences')
-    then_i_am_redirected_to_application_choices_with_success_message
+    then_i_am_redirected_to_invites_path_with_success_message
   end
 
   def and_i_opt_in_to_find_a_candidate
@@ -318,7 +318,8 @@ RSpec.describe 'Candidate adds preferences' do
   alias_method :and_i_click, :when_i_click
 
   def and_i_navigate_to_update_my_preferences
-    when_i_click('Change your sharing and location settings')
+    visit candidate_interface_invites_path
+    when_i_click('Update your preferences')
     and_i_click_the_relevant_change_link
     then_i_see_my_location_preferences_page_including_the_dynamic_location
   end
@@ -363,8 +364,8 @@ RSpec.describe 'Candidate adds preferences' do
     end
   end
 
-  def then_i_am_redirected_to_application_choices
-    expect(page).to have_current_path(candidate_interface_application_choices_path)
+  def then_i_am_redirected_to_invites
+    expect(page).to have_current_path(candidate_interface_invites_path)
     expect(page).to have_content('You are not sharing your application details with providers you have not applied to')
   end
 
@@ -423,12 +424,12 @@ RSpec.describe 'Candidate adds preferences' do
     expect(dynamic_locations).to be_checked
   end
 
-  def then_i_am_redirected_to_application_choices
-    expect(page).to have_current_path(candidate_interface_application_choices_path)
+  def then_i_am_redirected_to_invites
+    expect(page).to have_current_path(candidate_interface_invites_path)
   end
 
-  def then_i_am_redirected_to_application_choices_with_success_message
-    expect(page).to have_current_path(candidate_interface_application_choices_path)
+  def then_i_am_redirected_to_invites_path_with_success_message
+    expect(page).to have_current_path(candidate_interface_invites_path)
     expect(page).to have_content('You are sharing your application details with providers you have not applied to')
   end
 
@@ -488,9 +489,14 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def and_i_have_a_location_preference_with_invalid_site_data_from_a_dynamic_location
+    visit candidate_interface_application_choices_path
     when_i_click('Add application')
     and_i_complete_the_flow_for_adding_a_choice_with_invalid_coordinates
     then_i_am_redirected_to_application_choices
+  end
+
+  def then_i_am_redirected_to_application_choices
+    expect(page).to have_current_path(candidate_interface_application_choices_path)
   end
 
   def and_i_complete_the_flow_for_adding_a_choice_with_invalid_coordinates

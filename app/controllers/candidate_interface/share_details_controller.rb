@@ -4,6 +4,11 @@ module CandidateInterface
 
     def index
       @submit_application = params[:submit_application] == 'true'
+      @back_path = if @submit_application
+                     candidate_interface_application_choices_path
+                   else
+                     candidate_interface_invites_path
+                   end
     end
 
   private

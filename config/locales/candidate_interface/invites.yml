@@ -1,0 +1,6 @@
+en:
+  candidate_interface:
+    invites:
+      index:
+        your_invitations: Your invitations
+        no_invitations: You have no invitations

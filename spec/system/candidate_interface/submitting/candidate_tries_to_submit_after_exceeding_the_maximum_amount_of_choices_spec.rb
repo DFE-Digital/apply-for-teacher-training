@@ -16,7 +16,7 @@ RSpec.describe 'Candidate submits an application up to 4 choices' do
     given_i_have_a_draft_application
     when_i_submit_a_new_application
     then_i_can_see_my_application_has_been_successfully_submitted
-    when_i_click('Back to your applications')
+    when_i_click('Back')
     and_i_am_unable_to_add_any_further_choices
   end
 

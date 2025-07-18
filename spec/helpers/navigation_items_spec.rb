@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe NavigationItems do
+  before { FeatureFlag.activate(:candidate_preferences) }
+  after { FeatureFlag.deactivate(:candidate_preferences) }
+
   let(:current_application) { current_candidate.current_application }
 
   describe '.candidate_primary_navigation' do
@@ -54,7 +57,7 @@ RSpec.describe NavigationItems do
 
     context 'when application_choice is unsubmitted and the controller is not a choices controller', time: mid_cycle do
       let(:current_candidate) { create(:candidate, application_forms: [create(:application_form, application_choices: build_list(:application_choice, 1, :unsubmitted))]) }
-      let(:current_controller) { instance_double(CandidateInterface::CandidateInterfaceController, choices_controller?: false) }
+      let(:current_controller) { instance_double(CandidateInterface::CandidateInterfaceController, choices_controller?: false, invites_controller?: false) }
 
       it 'contains the "Your details" and "Your applications" navigation items, with "Your details" in the active state' do
         expect(navigation_items).to contain_exactly(
@@ -86,6 +89,31 @@ RSpec.describe NavigationItems do
           {
             text: 'Your applications',
             href: candidate_interface_application_choices_path,
+            active: true,
+          },
+        )
+      end
+    end
+
+    context 'when application_choice is submitted and the controller is invites controller', time: mid_cycle do
+      let(:current_candidate) { create(:candidate, application_forms: [create(:application_form, :completed, submitted_application_choices_count: 1)]) }
+      let(:current_controller) { instance_double(CandidateInterface::CandidateInterfaceController, choices_controller?: false, invites_controller?: true) }
+
+      it 'contains the "Your details" and "Your applications" navigation items, with "Your applications" in the active state' do
+        expect(navigation_items).to contain_exactly(
+          {
+            text: 'Your details',
+            href: candidate_interface_details_path,
+            active: false,
+          },
+          {
+            text: 'Your applications',
+            href: candidate_interface_application_choices_path,
+            active: false,
+          },
+          {
+            text: 'Application sharing',
+            href: candidate_interface_invites_path,
             active: true,
           },
         )

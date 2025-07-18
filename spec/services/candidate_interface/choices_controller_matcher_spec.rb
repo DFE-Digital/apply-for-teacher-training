@@ -58,4 +58,36 @@ RSpec.describe CandidateInterface::ChoicesControllerMatcher, type: :model do
       it { is_expected.to be_truthy }
     end
   end
+
+  describe '.invites_controller?' do
+    subject {
+      described_class.invites_controller?(
+        controller_path:,
+        request:,
+      )
+    }
+
+    let(:controller_path) { '' }
+    let(:request) { instance_double(ActionDispatch::Request, referer: nil) }
+
+    it { is_expected.to be_falsey }
+
+    [
+      'candidate_interface/share_details',
+      'candidate_interface/pool_opt_ins',
+      'candidate_interface/draft_preferences',
+      'candidate_interface/dynamic_location_preferences',
+      'candidate_interface/training_locations',
+      'candidate_interface/location_preferences',
+      'candidate_interface/publish_preferences',
+      'candidate_interface/funding_type',
+      'candidate_interface/invites',
+    ].each do |controller_path_under_test|
+      context "when controller path is '#{controller_path_under_test}'" do
+        let(:controller_path) { controller_path_under_test }
+
+        it { is_expected.to be_truthy }
+      end
+    end
+  end
 end
