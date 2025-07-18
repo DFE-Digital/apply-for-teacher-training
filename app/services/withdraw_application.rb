@@ -20,7 +20,11 @@ class WithdrawApplication
     ).call!
 
     if application_choice.application_form.ended_without_success?
-      CandidateMailer.withdraw_last_application_choice(application_choice.application_form).deliver_later
+      recommended_courses_url = CandidateCoursesRecommender.recommended_courses_url(
+        candidate: application_choice.candidate,
+        locatable: application_choice.course.provider,
+      )
+      CandidateMailer.withdraw_last_application_choice(application_choice.application_form, recommended_courses_url).deliver_later
     end
 
     send_email_notification_to_provider_users
