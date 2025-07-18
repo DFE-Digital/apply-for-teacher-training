@@ -10,11 +10,17 @@ All you need to do is:
 
 If now’s the right time for you, you can still apply for teacher training again this year.
 
+<% if @course_recommendation_url %>
+Based on the details in your previous application, you could be suitable for other teacher training courses.
+
+[View similar courses and apply](<%= @course_recommendation_url %>)
+<% else %>
 All you need to do is:
 
 - check your details are still correct
 - make sure you are happy with your personal statement
 - find a course and submit another application
+<% end %>
 <% end %>
 
 [Try the realistic job preview tool](<%= candidate_realistic_job_preview_link(@application_form.candidate) %>) to get insights into life in the classroom. Respond to video scenarios and get instant feedback on your suitability for a career in teaching.

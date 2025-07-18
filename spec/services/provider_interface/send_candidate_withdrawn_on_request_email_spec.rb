@@ -2,40 +2,37 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::SendCandidateWithdrawnOnRequestEmail do
   describe '#call' do
-    let(:mailer) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
-
-    it 'calls CandidateMailer.application_withdrawn_on_request when all applications are withdrawn' do
-      allow(CandidateMailer).to receive(:application_withdrawn_on_request).and_return(mailer)
-
-      described_class.new(application_choice: create(:application_choice, :withdrawn)).call
-
-      expect(CandidateMailer).to have_received(:application_withdrawn_on_request)
+    before do
+      allow(CandidateCoursesRecommender).to receive(:recommended_courses_url)
+                                              .and_return(recommended_courses_url)
+      allow(CandidateMailer).to receive(:application_withdrawn_on_request).and_return(
+        instance_double(ActionMailer::MessageDelivery, deliver_later: true),
+      )
     end
 
-    it 'calls CandidateMailer.application_withdrawn_on_request when all applications are awaiting decision' do
-      allow(CandidateMailer).to receive(:application_withdrawn_on_request).and_return(mailer)
+    let(:recommended_courses_url) { nil }
 
-      described_class.new(application_choice: create(:application_choice, :awaiting_provider_decision)).call
+    it 'the application_withdrawn_on_request email is sent to the candidate' do
+      application_choice = create(:application_choice)
+      described_class.new(application_choice:).call
 
       expect(CandidateMailer).to have_received(:application_withdrawn_on_request)
+                                   .with(application_choice, nil)
     end
 
-    it 'calls CandidateMailer.application_withdrawn_on_request when all applications have offers' do
-      allow(CandidateMailer).to receive(:application_withdrawn_on_request).and_return(mailer)
+    context 'when a course recommendation url can be generated' do
+      let(:recommended_courses_url) { 'https://find-teacher-training-courses.service.gov.uk/results' }
 
-      described_class.new(application_choice: create(:application_choice, :offered)).call
+      it 'includes the course recommendation URL in the email' do
+        application_choice = create(:application_choice)
+        described_class.new(application_choice:).call
 
-      expect(CandidateMailer).to have_received(:application_withdrawn_on_request)
-    end
-
-    it 'calls CandidateMailer.application_withdrawn_on_request when one application has an offer and another is awaiting decision' do
-      allow(CandidateMailer).to receive(:application_withdrawn_on_request).and_return(mailer)
-      offered = create(:application_choice, :offered)
-      create(:application_choice, :awaiting_provider_decision, application_form: offered.application_form)
-
-      described_class.new(application_choice: offered).call
-
-      expect(CandidateMailer).to have_received(:application_withdrawn_on_request)
+        expect(CandidateMailer).to have_received(:application_withdrawn_on_request)
+                                     .with(
+                                       application_choice,
+                                       'https://find-teacher-training-courses.service.gov.uk/results',
+                                     )
+      end
     end
   end
 end
