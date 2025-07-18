@@ -47,7 +47,7 @@ RSpec.describe WorkloadIdentityFederation::AzureAccessToken do
 
     it 'raises an AzureAPIError' do
       expect { client.call }.to raise_error(WorkloadIdentityFederation::AzureAPIError)
-        .with_message("\r\n\tstatus:\t400\r\n\tbody:\t{\"error\"=>\"unsupported_grant_type\", \"error_description\"=>\"AADSTS70003: The app requested an unsupported grant type ...\", \"error_codes\"=>[70003], \"timestamp\"=>\"2024-03-18 19:55:40Z\", \"trace_id\"=>\"0e58a943-a980-6d7e-89ba-c9740c572100\", \"correlation_id\"=>\"84f1c2d2-5288-4879-a038-429c31193c9c\"}")
+        .with_message("\r\n\tstatus:\t400\r\n\tbody:\t{\"error\" => \"unsupported_grant_type\", \"error_description\" => \"AADSTS70003: The app requested an unsupported grant type ...\", \"error_codes\" => [70003], \"timestamp\" => \"2024-03-18 19:55:40Z\", \"trace_id\" => \"0e58a943-a980-6d7e-89ba-c9740c572100\", \"correlation_id\" => \"84f1c2d2-5288-4879-a038-429c31193c9c\"}")
     end
   end
 end

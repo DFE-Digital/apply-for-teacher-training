@@ -61,7 +61,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           form.save
 
           expect(Rails.logger).to have_received(:info).with(
-            'Validation error: {:field=>"single_award_grade", :error_messages=>"Enter a real single award grade", :value=>"XYZ"}',
+            'Validation error: {field: "single_award_grade", error_messages: "Enter a real single award grade", value: "XYZ"}',
           )
         end
       end
@@ -113,7 +113,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           form.save
 
           expect(Rails.logger).to have_received(:info).with(
-            'Validation error: {:field=>"double_award_grade", :error_messages=>"Enter a real double award grade", :value=>"XYZ"}',
+            'Validation error: {field: "double_award_grade", error_messages: "Enter a real double award grade", value: "XYZ"}',
           )
         end
       end

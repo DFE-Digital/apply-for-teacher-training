@@ -21,7 +21,8 @@ RSpec.describe SupportInterface::AuditTrailItemComponent::AuditTrailChange do
   end
 
   it 'renders an update with hash values' do
-    expect(change(values: [{ 'fox' => 'in socks' }, { 'cat' => 'in hat' }]).formatted_values).to include('{"fox"=>"in socks"} → {"cat"=>"in hat"}')
+    expect(change(values: [{ 'fox' => 'in socks' }, { 'cat' => 'in hat' }]).formatted_values)
+      .to include('{"fox" => "in socks"} → {"cat" => "in hat"}')
   end
 
   it 'renders an update with an integer value' do
@@ -29,17 +30,17 @@ RSpec.describe SupportInterface::AuditTrailItemComponent::AuditTrailChange do
   end
 
   it 'renders a create with a hash value' do
-    expect(change(values: { 'fox' => 'in socks' }).formatted_values).to eq('{"fox"=>"in socks"}')
+    expect(change(values: { 'fox' => 'in socks' }).formatted_values).to eq('{"fox" => "in socks"}')
   end
 
   describe 'redaction' do
     it 'redacts sensitive information on creates' do
-      expect(change(values: { 'sex' => 'male' }).formatted_values).to eq('{"sex"=>"[REDACTED]"}')
+      expect(change(values: { 'sex' => 'male' }).formatted_values).to eq('{"sex" => "[REDACTED]"}')
     end
 
     it 'redacts sensitive information on updates' do
       expect(change(values: [{ 'sex' => 'male' }, { 'sex' => 'male', 'disabilities' => [] }]).formatted_values)
-        .to include('{"sex"=>"[REDACTED]"} → {"sex"=>"[REDACTED]", "disabilities"=>"[REDACTED]"}')
+        .to include('{"sex" => "[REDACTED]"} → {"sex" => "[REDACTED]", "disabilities" => "[REDACTED]"}')
     end
 
     it 'redacts top level keys as well as nested hashes' do
@@ -49,7 +50,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent::AuditTrailChange do
 
     it 'redacts HESA codes for sensitive information' do
       expect(change(values: [{ 'hesa_sex' => 2 }, { 'hesa_sex' => 2, 'hesa_ethnicity' => 32 }]).formatted_values)
-        .to include('{"hesa_sex"=>"[REDACTED]"} → {"hesa_sex"=>"[REDACTED]", "hesa_ethnicity"=>"[REDACTED]"}')
+        .to include('{"hesa_sex" => "[REDACTED]"} → {"hesa_sex" => "[REDACTED]", "hesa_ethnicity" => "[REDACTED]"}')
     end
   end
 end

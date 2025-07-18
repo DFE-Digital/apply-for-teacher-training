@@ -49,7 +49,7 @@ RSpec.describe CandidateInterface::MathsGcseGradeForm, type: :model do
         form.save(gcse)
 
         expect(Rails.logger).to have_received(:info).with(
-          'Validation error: {:field=>"grade", :error_messages=>"Enter a real grade", :value=>"XYZ"}',
+          'Validation error: {field: "grade", error_messages: "Enter a real grade", value: "XYZ"}',
         )
       end
     end

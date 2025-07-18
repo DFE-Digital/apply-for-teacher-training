@@ -55,7 +55,7 @@ RSpec.describe WorkloadIdentityFederation::GoogleTokenExchange do
     end
 
     it 'raises an STSAPIError' do
-      expect { client.call }.to raise_error(WorkloadIdentityFederation::STSAPIError).with_message("\r\n\tstatus:\t400\r\n\tbody:\t{\"error\"=>\"invalid_grant\", \"error_description\"=>\"Unable to parse the ID Token.\"}")
+      expect { client.call }.to raise_error(WorkloadIdentityFederation::STSAPIError).with_message("\r\n\tstatus:\t400\r\n\tbody:\t{\"error\" => \"invalid_grant\", \"error_description\" => \"Unable to parse the ID Token.\"}")
     end
   end
 end
