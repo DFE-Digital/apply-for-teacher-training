@@ -81,18 +81,21 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def application_rejected(application_choice)
+  def application_rejected(application_choice, course_recommendation_url = nil)
     @course = application_choice.current_course_option.course
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+    @course_recommendation_url = course_recommendation_url
 
     email_for_candidate(application_choice.application_form)
   end
 
-  def application_withdrawn_on_request(application_choice)
+  def application_withdrawn_on_request(application_choice, course_recommendation_url = nil)
     @course = application_choice.current_course_option.course
     @provider_name = @course.provider.name
     @course_name_and_code = application_choice.current_course_option.course.name_and_code
     @application_form = application_choice.application_form
+    @course_recommendation_url = course_recommendation_url
+
     email_for_candidate(@application_form)
   end
 
@@ -276,10 +279,11 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def withdraw_last_application_choice(application_form)
+  def withdraw_last_application_choice(application_form, course_recommendation_url = nil)
     @withdrawn_courses = application_form.application_choices.select(&:withdrawn?)
     @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.current_course_option.course.name_and_code} at #{application_choice.current_course_option.course.provider.name}" }
     @rejected_course_choices_count = application_form.application_choices.select(&:rejected?).count
+    @course_recommendation_url = course_recommendation_url
 
     email_for_candidate(
       application_form,
@@ -287,10 +291,11 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def decline_last_application_choice(application_choice)
+  def decline_last_application_choice(application_choice, course_recommendation_url = nil)
     @declined_course = application_choice
     @declined_course_name = "#{application_choice.current_course_option.course.name_and_code} at #{application_choice.current_course_option.course.provider.name}"
     @rejected_course_choices_count = application_choice.self_and_siblings.select(&:rejected?).count
+    @course_recommendation_url = course_recommendation_url
 
     email_for_candidate(
       application_choice.application_form,
@@ -298,10 +303,11 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def offer_withdrawn(application_choice)
+  def offer_withdrawn(application_choice, course_recommendation_url = nil)
     @course_name_and_code = application_choice.current_course_option.course.name_and_code
     @provider_name = application_choice.current_course_option.provider.name
     @withdrawal_reason = application_choice.offer_withdrawal_reason
+    @course_recommendation_url = course_recommendation_url
 
     email_for_candidate(
       application_choice.application_form,

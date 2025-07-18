@@ -11,7 +11,11 @@ class DeclineOffer
     )
 
     if @application_choice.application_form.ended_without_success?
-      CandidateMailer.decline_last_application_choice(@application_choice).deliver_later
+      recommended_courses_url = CandidateCoursesRecommender.recommended_courses_url(
+        candidate: @application_choice.candidate,
+        locatable: @application_choice.course.provider,
+      )
+      CandidateMailer.decline_last_application_choice(@application_choice, recommended_courses_url).deliver_later
     end
 
     NotificationsList.for(@application_choice, event: :declined, include_ratifying_provider: true).each do |provider_user|
