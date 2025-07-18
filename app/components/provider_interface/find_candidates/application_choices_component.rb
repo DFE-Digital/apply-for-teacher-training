@@ -1,13 +1,19 @@
 class ProviderInterface::FindCandidates::ApplicationChoicesComponent < ViewComponent::Base
-  attr_reader :application_form
+  attr_reader :application_form, :provider_user
 
-  def initialize(application_form:)
+  def initialize(application_form:, provider_user:)
     @application_form = application_form
+    @provider_user = provider_user
   end
 
   def application_choice_rows(choice)
     [
+      provider(choice),
+      application_number(choice),
       course_subject(choice),
+      status(choice),
+      withdrawal_reason(choice),
+      rejection_reason(choice),
       location(choice),
       qualification(choice),
       funding_type(choice),
@@ -26,10 +32,57 @@ class ProviderInterface::FindCandidates::ApplicationChoicesComponent < ViewCompo
 
 private
 
+  def provider(choice)
+    return unless provider_user.providers.include?(choice.provider)
+
+    {
+      key: { text: t('.provider') },
+      value: { text: choice.provider.name },
+    }
+  end
+
+  def application_number(choice)
+    return unless provider_user.providers.include?(choice.provider)
+
+    {
+      key: { text: t('.application_number') },
+      value: { text: govuk_link_to(choice.id, provider_interface_application_choice_path(choice)) },
+    }
+  end
+
   def course_subject(choice)
+    subject_names = choice.course.subjects.pluck(:name).to_sentence
+
     {
       key: { text: t('.subject') },
-      value: { text: choice.course.subjects.pluck(:name).to_sentence },
+      value: { text: provider_user.providers.include?(choice.provider) ? "#{subject_names} (#{choice.course.code})" : subject_names },
+    }
+  end
+
+  def status(choice)
+    return unless provider_user.providers.include?(choice.provider)
+
+    {
+      key: { text: t('.status') },
+      value: { text: render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: choice)) },
+    }
+  end
+
+  def withdrawal_reason(choice)
+    return unless provider_user.providers.include?(choice.provider) && choice.withdrawn?
+
+    {
+      key: { text: t('.withdrawal_reason') },
+      value: { text: render(WithdrawalReasons::FormattedTextComponent.new(application_choice: choice)) },
+    }
+  end
+
+  def rejection_reason(choice)
+    return unless provider_user.providers.include?(choice.provider) && choice.rejected?
+
+    {
+      key: { text: t('.rejection_reason') },
+      value: { text: render(RejectionReasons::FormattedTextComponent.new(application_choice: choice)) },
     }
   end
 

@@ -32,7 +32,12 @@ en:
         british_or_irish: British or Irish citizen
       application_choices_component:
         subtitle: Application %{counter}
+        provider: Provider
+        application_number: Application number
         subject: Subject
+        status: Status
+        withdrawal_reason: Withdrawal reason
+        rejection_reason: Rejection reason
         location: Location
         qualification: Qualification
         funding_type: Funding type

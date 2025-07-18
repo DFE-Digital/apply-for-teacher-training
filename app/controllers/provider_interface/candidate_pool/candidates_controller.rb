@@ -33,6 +33,7 @@ module ProviderInterface
       def show
         @application_form = Pool::Candidates.application_forms_for_provider
           .find_by(candidate_id: params.expect(:id))
+        # TODO: Check that this will scope to current_academic_year in future
         @candidate = @application_form&.candidate
 
         if @application_form.blank? || @candidate.blank?
