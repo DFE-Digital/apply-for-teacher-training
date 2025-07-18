@@ -419,4 +419,43 @@ RSpec.describe CandidateMailer do
       expect(email.body).to have_content 'Learn more about teacher training advisers'
     end
   end
+
+  describe 'Course Recommendations URL' do
+    let(:application_choice) { create(:application_choice, :rejected) }
+
+    context 'when a URL is not provided' do
+      subject(:email) { described_class.application_rejected(application_choice) }
+
+      it 'does not include the URL in the email body' do
+        expect(email.body).to have_no_content 'Based on the details in your previous application, you could be suitable for other teacher training courses.'
+        expect(email.body).to have_no_content 'View similar courses and apply'
+        expect(email.body).to have_no_content 'https://find-teacher-training-courses.service.gov.uk/results'
+        expect(email.body).to have_no_content 'You should not submit another application to a course you have already unsuccessfully applied to'
+      end
+    end
+
+    context 'when a URL is provided' do
+      subject(:email) { described_class.application_rejected(application_choice, 'https://find-teacher-training-courses.service.gov.uk/results') }
+
+      it 'includes the provided URL and content in the email body' do
+        expect(email.body).to have_content 'Based on the details in your previous application, you could be suitable for other teacher training courses.'
+        expect(email.body).to have_content 'View similar courses and apply'
+        expect(email.body).to have_content 'https://find-teacher-training-courses.service.gov.uk/results'
+        expect(email.body).to have_content 'You should not submit another application to a course you have already unsuccessfully applied to'
+      end
+
+      context 'between cycles' do
+        before do
+          allow(RecruitmentCycleTimetable).to receive(:currently_between_cycles?).and_return(true)
+        end
+
+        it 'does not include the URL and content in the email body' do
+          expect(email.body).to have_no_content 'Based on the details in your previous application, you could be suitable for other teacher training courses.'
+          expect(email.body).to have_no_content 'View similar courses and apply'
+          expect(email.body).to have_no_content 'https://find-teacher-training-courses.service.gov.uk/results'
+          expect(email.body).to have_no_content 'You should not submit another application to a course you have already unsuccessfully applied to'
+        end
+      end
+    end
+  end
 end

@@ -81,9 +81,10 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def application_rejected(application_choice)
+  def application_rejected(application_choice, course_recommendation_url = nil)
     @course = application_choice.current_course_option.course
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+    @course_recommendation_url = course_recommendation_url
 
     email_for_candidate(application_choice.application_form)
   end
