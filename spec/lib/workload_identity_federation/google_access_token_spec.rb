@@ -44,7 +44,7 @@ RSpec.describe WorkloadIdentityFederation::GoogleAccessToken do
     end
 
     it 'raises a GoogleAPIError' do
-      expect { client.call }.to raise_error(WorkloadIdentityFederation::GoogleAPIError).with_message("\r\n\tstatus:\t401\r\n\tbody:\t{\"error\"=>{\"code\"=>401, \"message\"=>\"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.\", \"status\"=>\"UNAUTHENTICATED\", \"details\"=>[{\"@type\"=>\"type.googleapis.com/google.rpc.ErrorInfo\", \"reason\"=>\"ACCESS_TOKEN_TYPE_UNSUPPORTED\", \"metadata\"=>{\"service\"=>\"iamcredentials.googleapis.com\", \"method\"=>\"google.iam.credentials.v1.IAMCredentials.GenerateAccessToken\"}}]}}")
+      expect { client.call }.to raise_error(WorkloadIdentityFederation::GoogleAPIError).with_message("\r\n\tstatus:\t401\r\n\tbody:\t{\"error\" => {\"code\" => 401, \"message\" => \"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.\", \"status\" => \"UNAUTHENTICATED\", \"details\" => [{\"@type\" => \"type.googleapis.com/google.rpc.ErrorInfo\", \"reason\" => \"ACCESS_TOKEN_TYPE_UNSUPPORTED\", \"metadata\" => {\"service\" => \"iamcredentials.googleapis.com\", \"method\" => \"google.iam.credentials.v1.IAMCredentials.GenerateAccessToken\"}}]}}")
     end
   end
 end
