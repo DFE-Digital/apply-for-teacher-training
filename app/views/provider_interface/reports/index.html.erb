@@ -21,7 +21,7 @@
       <% end %>
     <% end %>
 
-    <% @providers.select { _1.performance_reports.any? }.each do |provider| %>
+    <% @providers.select { it.performance_reports.any? }.each do |provider| %>
       <% if @providers.many? %>
         <h3 class="govuk-heading-s"><%= provider.name %></h3>
       <% end %>
