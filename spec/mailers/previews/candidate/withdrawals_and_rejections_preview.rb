@@ -11,6 +11,32 @@ class Candidate::WithdrawalsAndRejectionsPreview < ActionMailer::Preview
     CandidateMailer.application_rejected(application_choice)
   end
 
+  def application_rejected_with_course_recommendation
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      status: :rejected,
+      structured_rejection_reasons: {
+        selected_reasons: [
+          { id: 'teaching_knowledge', label: 'Teaching knowledge, ability and interview performance',
+            selected_reasons: [
+              { id: 'subject_knowledge', label: 'Subject knowledge',
+                details: {
+                  id: 'subject_knowledge_details',
+                  text: 'You did need to improve your knowledge of the subject',
+                } },
+              { id: 'teaching_knowledge_other', label: 'Other',
+                details: {
+                  id: 'teaching_knowledge_other_details',
+                  text: 'You did not demonstrate enough knowledge about teaching in the UK.',
+                } },
+            ] },
+        ],
+      },
+      rejection_reasons_type: :rejection_reasons,
+    )
+    CandidateMailer.application_rejected(application_choice, 'https://find-teacher-training-courses.service.gov.uk/results')
+  end
+
   def application_rejected_international_unverified
     application_choice = FactoryBot.create(
       :application_choice,
