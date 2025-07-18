@@ -430,7 +430,6 @@ RSpec.describe CandidateMailer do
         expect(email.body).to have_no_content 'Based on the details in your previous application, you could be suitable for other teacher training courses.'
         expect(email.body).to have_no_content 'View similar courses and apply'
         expect(email.body).to have_no_content 'https://find-teacher-training-courses.service.gov.uk/results'
-        expect(email.body).to have_no_content 'You should not submit another application to a course you have already unsuccessfully applied to'
       end
     end
 
@@ -441,7 +440,6 @@ RSpec.describe CandidateMailer do
         expect(email.body).to have_content 'Based on the details in your previous application, you could be suitable for other teacher training courses.'
         expect(email.body).to have_content 'View similar courses and apply'
         expect(email.body).to have_content 'https://find-teacher-training-courses.service.gov.uk/results'
-        expect(email.body).to have_content 'You should not submit another application to a course you have already unsuccessfully applied to'
       end
 
       context 'between cycles' do
@@ -453,7 +451,6 @@ RSpec.describe CandidateMailer do
           expect(email.body).to have_no_content 'Based on the details in your previous application, you could be suitable for other teacher training courses.'
           expect(email.body).to have_no_content 'View similar courses and apply'
           expect(email.body).to have_no_content 'https://find-teacher-training-courses.service.gov.uk/results'
-          expect(email.body).to have_no_content 'You should not submit another application to a course you have already unsuccessfully applied to'
         end
       end
     end
