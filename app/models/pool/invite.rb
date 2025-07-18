@@ -9,6 +9,7 @@ class Pool::Invite < ApplicationRecord
   has_many :application_choices, through: :application_form
 
   delegate :name, to: :provider, prefix: true
+  delegate :name_code_and_study_mode, to: :course, prefix: true
 
   enum :status, {
     draft: 'draft',

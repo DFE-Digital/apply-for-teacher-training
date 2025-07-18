@@ -1,0 +1,45 @@
+<% content_for :title, t('page_titles.application_sharing') %>
+
+<%= render CandidateInterface::DeadlineBannerComponent.new(application_form: current_application, flash_empty: flash.empty?) %>
+<%= render CandidateInterface::ReopenBannerComponent.new(flash_empty: flash.empty?) %>
+
+<%= render ServiceInformationBanner.new(namespace: :candidate) %>
+
+<% if current_candidate.recoverable? %>
+  <%= govuk_notification_banner(title_text: t('account_recovery_banner.title'), success: false) do |nb| %>
+
+    <% nb.with_heading(text: t('account_recovery_banner.header')) %>
+    <div style="display:inline-table">
+      <%= t(
+            'account_recovery_banner.content_html',
+            button_link: render(
+              ButtonToAsLinkComponent.new(
+                name: t('account_recovery_banner.close_this_message'),
+                path: candidate_interface_dismiss_account_recovery_create_path,
+                classes: ['govuk-!-margin-bottom-4'],
+              ),
+            ),
+          ) %>
+    </div>
+
+    <%= govuk_button_to t('account_recovery_banner.get_your_details_back'), new_candidate_interface_account_recovery_request_path, class: 'govuk-!-margin-bottom-0', method: :get %>
+  <% end %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.application_sharing') %>
+    </h1>
+
+    <h2 class="govuk-heading-m"><%= t('.your_invitations') %></h2>
+
+    <% if @invites.present? %>
+      <%= render CandidateInterface::InvitesComponent.new(application_form: current_application, invites: @invites) %>
+    <% else %>
+      <p class='govuk-body'><%= t('.no_invitations') %></p>
+    <% end %>
+  </div>
+
+  <%= render CandidateInterface::ManagePreferencesComponent.new(current_candidate:, application_form: current_application) %>
+</div>
