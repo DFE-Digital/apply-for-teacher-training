@@ -15,9 +15,5 @@ FactoryBot.define do
     trait :not_sent_to_candidate do
       sent_to_candidate_at { nil }
     end
-
-    trait :with_application_choice do
-      application_choice { create(:application_choice, application_form:) }
-    end
   end
 end
