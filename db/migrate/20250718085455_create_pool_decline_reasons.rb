@@ -4,7 +4,7 @@ class CreatePoolDeclineReasons < ActiveRecord::Migration[7.0]
       t.string :reason
       t.text :comment
       t.string :status, default: 'draft'
-      t.references :invite, null: false, foreign_key: { to_table: :pool_invites }
+      t.references :invite, null: false, foreign_key: { to_table: :pool_invites, on_delete: :cascade }
 
       t.timestamps
     end
