@@ -279,10 +279,11 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def withdraw_last_application_choice(application_form)
+  def withdraw_last_application_choice(application_form, course_recommendation_url = nil)
     @withdrawn_courses = application_form.application_choices.select(&:withdrawn?)
     @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.current_course_option.course.name_and_code} at #{application_choice.current_course_option.course.provider.name}" }
     @rejected_course_choices_count = application_form.application_choices.select(&:rejected?).count
+    @course_recommendation_url = course_recommendation_url
 
     email_for_candidate(
       application_form,
