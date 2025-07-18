@@ -17,7 +17,7 @@ FactoryBot.define do
     end
 
     trait :with_application_choice do
-      application_choice { create(:application_choice, application_form:) }
+      application_choice { create(:application_choice, course:, application_form:) }
     end
   end
 end
