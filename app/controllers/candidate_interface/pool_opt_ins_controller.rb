@@ -5,7 +5,18 @@ module CandidateInterface
     before_action :redirect_to_root_path_if_flag_is_inactive
 
     def new
-      @preference_form = PoolOptInsForm.new(current_candidate:)
+      @preference_form = PoolOptInsForm.build_new_from_application_form(application_form: current_application)
+      @create_path_options = if @preference_form.preference.present?
+                               {
+                                 url: candidate_interface_pool_opt_in_path(@preference_form.preference),
+                                 method: :patch,
+                               }
+                             else
+                               {
+                                 url: candidate_interface_pool_opt_ins_path,
+                                 method: :post,
+                               }
+                             end
     end
 
     def edit

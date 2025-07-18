@@ -3,6 +3,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render 'form', preference_form: @preference_form, url: candidate_interface_pool_opt_ins_path, method: :post %>
+    <%= render 'form', preference_form: @preference_form, **@create_path_options %>
   </div>
 </div>
