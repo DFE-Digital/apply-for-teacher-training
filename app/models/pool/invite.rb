@@ -7,6 +7,10 @@ class Pool::Invite < ApplicationRecord
   has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
   has_many :application_choices, through: :application_form
 
+  has_many :decline_reasons, class_name: 'InviteDeclineReason', dependent: :destroy
+  has_many :draft_decline_reasons, -> { draft }, class_name: 'InviteDeclineReason', dependent: :destroy
+  has_many :published_decline_reasons, -> { published }, class_name: 'InviteDeclineReason', dependent: :destroy
+
   delegate :name, to: :provider, prefix: true
 
   enum :status, {
