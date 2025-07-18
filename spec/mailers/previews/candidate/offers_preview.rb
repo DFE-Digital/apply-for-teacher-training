@@ -55,6 +55,16 @@ class Candidate::OffersPreview < ActionMailer::Preview
     CandidateMailer.offer_withdrawn(application_choice)
   end
 
+  def offer_withdrawn_with_course_recommendation
+    candidate = FactoryBot.build_stubbed(:candidate)
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      offer_withdrawal_reason: Faker::Lorem.sentence,
+      application_form: FactoryBot.build_stubbed(:application_form, first_name: 'Geoff', candidate:),
+    )
+    CandidateMailer.offer_withdrawn(application_choice, 'https://www.find-postgraduate-teacher-training.service.gov.uk/results')
+  end
+
   def offer_accepted
     application_form_with_name = FactoryBot.build_stubbed(
       :application_form,
@@ -189,6 +199,19 @@ class Candidate::OffersPreview < ActionMailer::Preview
     )
 
     CandidateMailer.decline_last_application_choice(application_form.application_choices.first)
+  end
+
+  def decline_last_application_choice_with_course_recommendation
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Harry',
+      application_choices: [
+        FactoryBot.build_stubbed(:application_choice, status: 'declined', course_option:),
+      ],
+      candidate:,
+    )
+
+    CandidateMailer.decline_last_application_choice(application_form.application_choices.first, 'https://www.find-postgraduate-teacher-training.service.gov.uk/results')
   end
 
 private
