@@ -32,7 +32,7 @@ paths:
           schema:
             type: string
         - name: for_ratified_courses
-          description: Generate applications for courses your organisation awards Qualified Teacher Status (QTS) for but does not run. For example, your organisation may be a Higher Education Institution ratifying School Direct courses. Please specify 'true', for example for_ratified_courses=true
+          description: Generate applications for courses your organisation gives Qualified Teacher Status (QTS) for but does not run. For example, your organisation may be a Higher Education Institution ratifying School Direct courses. Please specify 'true', for example for_ratified_courses=true
           in: query
           schema:
             type: string
