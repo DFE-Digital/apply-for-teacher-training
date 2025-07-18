@@ -1,7 +1,6 @@
 module CandidateInterface
   class PoolOptInsForm
     include ActiveModel::Model
-    DEFAULT_RADIUS = 10
 
     attr_accessor :pool_status, :opt_out_reason
     attr_reader :current_candidate, :preference
