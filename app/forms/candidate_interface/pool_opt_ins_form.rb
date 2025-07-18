@@ -14,15 +14,6 @@ module CandidateInterface
       super(params)
     end
 
-    def self.build_new_from_application_form(application_form:)
-      preference = application_form.duplicated_preferences.first
-      if preference.present?
-        build_from_preference(current_candidate: application_form.candidate, preference:)
-      else
-        new(current_candidate: application_form.candidate)
-      end
-    end
-
     def self.build_from_preference(current_candidate:, preference:)
       new(
         current_candidate:,
