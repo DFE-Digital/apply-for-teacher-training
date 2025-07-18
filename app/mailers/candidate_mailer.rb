@@ -89,11 +89,13 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(application_choice.application_form)
   end
 
-  def application_withdrawn_on_request(application_choice)
+  def application_withdrawn_on_request(application_choice, course_recommendation_url = nil)
     @course = application_choice.current_course_option.course
     @provider_name = @course.provider.name
     @course_name_and_code = application_choice.current_course_option.course.name_and_code
     @application_form = application_choice.application_form
+    @course_recommendation_url = course_recommendation_url
+
     email_for_candidate(@application_form)
   end
 
