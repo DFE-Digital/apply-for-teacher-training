@@ -79,6 +79,11 @@ class ProviderAuthorisation
     errors.blank?
   end
 
+  def can_manage_api_tokens?(provider)
+    user_level_can?(permission: :set_up_interviews, provider:) &&
+      user_level_can?(permission: :make_decisions, provider:)
+  end
+
   def can_manage_organisations_for_at_least_one_provider?
     providers_that_actor_can_manage_organisations_for.any?
   end

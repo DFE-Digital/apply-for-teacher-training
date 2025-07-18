@@ -76,5 +76,11 @@ FactoryBot.define do
         user.notification_preferences.update_all_preferences(true)
       end
     end
+
+    trait :with_manage_api_tokens do
+      after(:create) do |user, _evaluator|
+        user.provider_permissions.update_all(make_decisions: true, set_up_interviews: true)
+      end
+    end
   end
 end

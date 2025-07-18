@@ -10,5 +10,9 @@ FactoryBot.define do
         hashed_token
       end
     end
+
+    trait :with_last_used_at do
+      last_used_at { 2.days.ago }
+    end
   end
 end

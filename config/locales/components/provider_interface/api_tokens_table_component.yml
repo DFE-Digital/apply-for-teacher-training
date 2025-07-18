@@ -1,0 +1,10 @@
+en:
+  provider_interface:
+    api_tokens_table_component:
+      caption: API tokens
+      id: ID
+      last_used_at: Last used
+      not_used: Never
+      created_at: Created at
+      created_by: Created by
+      default_user: DFE support user
