@@ -56,6 +56,48 @@ RSpec.describe DuplicateApplication do
     end
   end
 
+  context 'when a candidate has a published opt out preference' do
+    it 'does not duplicate the preference' do
+      create(:candidate_preference, :published, :opt_out, application_form: @original_application_form)
+      expect(duplicate_application_form.preferences.empty?).to be true
+    end
+  end
+
+  context 'when a candidate has a a published opt in preference for anywhere in england' do
+    it 'duplicates the preference' do
+      create(:candidate_preference, :published, :anywhere_in_england, application_form: @original_application_form)
+      expect(duplicate_application_form.preferences.first)
+        .to have_attributes(
+          status: 'duplicated',
+          pool_status: 'opt_in',
+          training_locations: 'anywhere',
+        )
+    end
+  end
+
+  context 'when a candidate has a published opt in preferences with specific locations' do
+    it 'duplicates the preferences and the locations' do
+      candidate_preference = create(:candidate_preference, :published, :specific_locations, application_form: @original_application_form)
+      create(:candidate_location_preference, :manchester, candidate_preference:)
+      create(:candidate_location_preference, :liverpool, candidate_preference:)
+      form = duplicate_application_form
+      expect(form.preferences.first)
+        .to have_attributes(
+          status: 'duplicated',
+          pool_status: 'opt_in',
+          training_locations: 'specific',
+        )
+
+      expect(form.preferences.first.location_preferences.pluck(:name)).to contain_exactly('Manchester', 'Liverpool')
+    end
+  end
+
+  context 'when a candidate does not have a published pool opt in or opt out preference' do
+    it 'does not create a draft preference' do
+      expect(duplicate_application_form.preferences.count).to eq 0
+    end
+  end
+
   context 'when candidates does not have degrees' do
     it 'does not set university degree' do
       expect(duplicate_application_form.university_degree).to be_nil

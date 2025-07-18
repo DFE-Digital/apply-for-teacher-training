@@ -11,6 +11,7 @@ class CandidatePreference < ApplicationRecord
   enum :status, {
     draft: 'draft',
     published: 'published',
+    duplicated: 'duplicated',
   }
 
   enum :training_locations, {
