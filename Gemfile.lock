@@ -405,7 +405,7 @@ GEM
       aes_key_wrap
       bindata
       httpclient
-    json-schema (5.1.1)
+    json-schema (5.2.1)
       addressable (~> 2.8)
       bigdecimal (~> 3.1)
     json_api_client (1.23.0)
