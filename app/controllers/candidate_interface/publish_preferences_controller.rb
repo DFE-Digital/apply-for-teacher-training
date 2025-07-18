@@ -17,6 +17,7 @@ module CandidateInterface
           @preference.location_preferences.destroy_all
         end
         current_candidate.published_preferences.where.not(id: @preference.id).destroy_all
+        current_candidate.duplicated_preferences.where.not(id: @preference.id).destroy_all
       end
 
       flash[:success] = if @preference.opt_in?

@@ -1,5 +1,6 @@
 module CandidateInterface
   class PoolOptInsController < CandidateInterfaceController
+    before_action :redirect_to_review_for_duplicate_preferences, only: :new
     before_action :set_preference, only: %i[edit update]
     before_action :set_back_path, only: %i[edit update]
     before_action :redirect_to_root_path_if_flag_is_inactive
@@ -73,6 +74,13 @@ module CandidateInterface
 
       if @preference.blank?
         redirect_to candidate_interface_invites_path
+      end
+    end
+
+    def redirect_to_review_for_duplicate_preferences
+      preference = current_application.duplicated_preferences.first
+      if preference.present?
+        redirect_to candidate_interface_draft_preference_path(preference)
       end
     end
 
