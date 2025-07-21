@@ -31,7 +31,7 @@ RSpec.describe CandidateInterface::ShareDetailsComponent, type: :component do
           render_inline(described_class.new(candidate))
 
           expect(page).to have_link(
-            'Change your sharing and location settings',
+            'Update your preferences',
             href: candidate_interface_draft_preference_publish_preferences_path(preference),
           )
         end
@@ -49,7 +49,7 @@ RSpec.describe CandidateInterface::ShareDetailsComponent, type: :component do
           render_inline(described_class.new(candidate))
 
           expect(page).to have_link(
-            'Change your sharing and location settings',
+            'Update your preferences',
             href: new_candidate_interface_pool_opt_in_path,
           )
         end
@@ -68,7 +68,7 @@ RSpec.describe CandidateInterface::ShareDetailsComponent, type: :component do
           render_inline(described_class.new(candidate))
 
           expect(page).to have_link(
-            'Change your sharing and location settings',
+            'Update your preferences',
             href: edit_candidate_interface_pool_opt_in_path(preference),
           )
         end

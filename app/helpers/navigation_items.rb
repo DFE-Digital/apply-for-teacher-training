@@ -25,11 +25,11 @@ class NavigationItems
           },
         ]
       else
-        [
+        items = [
           {
             text: t('page_titles.your_details'),
             href: candidate_interface_details_path,
-            active: current_controller.respond_to?(:choices_controller?) ? !current_controller.choices_controller? : false,
+            active: current_controller.respond_to?(:choices_controller?) ? not_choices_controller(current_controller) : false,
           },
           {
             text: t('page_titles.your_applications'),
@@ -37,6 +37,16 @@ class NavigationItems
             active: current_controller.respond_to?(:choices_controller?) ? current_controller.choices_controller? : false,
           },
         ]
+
+        if FeatureFlag.active?(:candidate_preferences) && current_candidate.current_application.submitted_applications?
+          items << {
+            text: t('page_titles.application_sharing'),
+            href: candidate_interface_invites_path,
+            active: current_controller.respond_to?(:invites_controller?) ? current_controller.invites_controller? : false,
+          }
+        end
+
+        items
       end
     end
 
@@ -242,6 +252,10 @@ class NavigationItems
           <circle cx=\"11\" cy=\"11\" r=\"10\" stroke=\"white\" stroke-width=\"2\" data-darkreader-inline-stroke=\"\" style=\"--darkreader-inline-stroke: #e8e6e3;\"></circle>
         </svg>
       </span><span class=\"govuk-visually-hidden\">Currently impersonating:</span>"
+    end
+
+    def not_choices_controller(current_controller)
+      !current_controller.choices_controller? && !current_controller.invites_controller?
     end
   end
 end

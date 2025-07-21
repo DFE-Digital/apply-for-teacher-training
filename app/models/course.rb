@@ -87,6 +87,10 @@ class Course < ApplicationRecord
     "#{name} (#{code})"
   end
 
+  def name_code_and_study_mode
+    "#{name} (#{code}) - #{study_mode.capitalize.split('_').join(' ')}"
+  end
+
   def name_code_and_description
     "#{name} (#{code}) – #{description_to_s}"
   end

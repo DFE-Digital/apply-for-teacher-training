@@ -7,6 +7,9 @@ class CandidateInterface::ChoicesControllerMatcher
     'candidate_interface/decisions', # withdrawing from a course offer, the old way
     'candidate_interface/withdrawal_reasons', # Withdrawing the new way
     'candidate_interface/apply_from_find',
+  ].freeze
+
+  INVITES_CONTROLLER_PATHS = [
     'candidate_interface/share_details',
     'candidate_interface/pool_opt_ins',
     'candidate_interface/draft_preferences',
@@ -15,6 +18,7 @@ class CandidateInterface::ChoicesControllerMatcher
     'candidate_interface/location_preferences',
     'candidate_interface/publish_preferences',
     'candidate_interface/funding_type',
+    'candidate_interface/invites',
   ].freeze
 
   def self.choices_controller?(current_application:, controller_path:, request:)
@@ -23,6 +27,13 @@ class CandidateInterface::ChoicesControllerMatcher
     choices_controllers = Regexp.compile(APPLICATION_CHOICE_CONTROLLER_PATHS.join('|'))
 
     controller_path.match?(choices_controllers) ||
+      (controller_path.match?('candidate_interface/guidance') && request.referer&.match?('choices'))
+  end
+
+  def self.invites_controller?(controller_path:, request:)
+    invites_controllers = Regexp.compile(INVITES_CONTROLLER_PATHS.join('|'))
+
+    controller_path.match?(invites_controllers) ||
       (controller_path.match?('candidate_interface/guidance') && request.referer&.match?('choices'))
   end
 end

@@ -32,7 +32,7 @@ module CandidateInterface
           )
         else
           flash[:success] = t('.opt_out_message')
-          redirect_to candidate_interface_application_choices_path
+          redirect_to candidate_interface_invites_path
         end
       else
         render :new
@@ -53,7 +53,7 @@ module CandidateInterface
           )
         else
           flash[:success] = t('.opt_out_message')
-          redirect_to candidate_interface_application_choices_path
+          redirect_to candidate_interface_invites_path
         end
       else
         render :edit
@@ -72,7 +72,7 @@ module CandidateInterface
       @preference = current_candidate.preferences.find_by(id: params[:id])
 
       if @preference.blank?
-        redirect_to candidate_interface_application_choices_path
+        redirect_to candidate_interface_invites_path
       end
     end
 

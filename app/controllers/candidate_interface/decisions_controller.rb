@@ -8,6 +8,11 @@ module CandidateInterface
     def offer
       @respond_to_offer = CandidateInterface::RespondToOfferForm.new
       @offer_count = @application_choice.self_and_siblings.offer.count
+      @back_link = if params['return_to'] == 'invites'
+                     candidate_interface_invites_path
+                   else
+                     candidate_interface_application_choices_path
+                   end
     end
 
     def respond_to_offer

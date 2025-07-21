@@ -9,15 +9,15 @@ RSpec.describe 'Candidate edits published preference' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
 
-    given_i_am_on_the_application_choices_page
-    when_i_click('Change your sharing and location settings')
+    given_i_am_on_the_invites_page
+    when_i_click('Update your preferences')
     then_i_am_redirected_to_preference_review_page
 
     when_i_click_change_share_preference
     and_i_choose_not_to_share_my_details
 
     when_i_click('Continue')
-    then_i_am_redirected_on_the_application_choices_page
+    then_i_am_redirected_on_the_invites_path
     and_the_candidate_preference_id_is_changed
   end
 
@@ -25,8 +25,8 @@ RSpec.describe 'Candidate edits published preference' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
 
-    given_i_am_on_the_application_choices_page
-    when_i_click('Change your sharing and location settings')
+    given_i_am_on_the_invites_page
+    when_i_click('Update your preferences')
     then_i_am_redirected_to_preference_review_page
 
     when_i_click_change_share_preference
@@ -34,7 +34,7 @@ RSpec.describe 'Candidate edits published preference' do
     and_i_add_a_reason_for_opting_out
 
     when_i_click('Continue')
-    then_i_am_redirected_on_the_application_choices_page
+    then_i_am_redirected_on_the_invites_path
     and_the_candidate_preference_id_is_changed
   end
 
@@ -42,8 +42,8 @@ RSpec.describe 'Candidate edits published preference' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
 
-    given_i_am_on_the_application_choices_page
-    when_i_click('Change your sharing and location settings')
+    given_i_am_on_the_invites_page
+    when_i_click('Update your preferences')
     then_i_am_redirected_to_preference_review_page
 
     when_i_navigate_to_dynamic_locations
@@ -52,7 +52,7 @@ RSpec.describe 'Candidate edits published preference' do
     when_i_click('Continue')
     then_i_am_redirected_to_preference_review_page
     when_i_click('Submit preferences')
-    then_i_am_redirected_on_the_application_choices_page
+    then_i_am_redirected_on_the_invites_path
     and_the_candidate_preference_id_is_changed
   end
 
@@ -60,8 +60,8 @@ RSpec.describe 'Candidate edits published preference' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
 
-    given_i_am_on_the_application_choices_page
-    when_i_click('Change your sharing and location settings')
+    given_i_am_on_the_invites_page
+    when_i_click('Update your preferences')
     and_i_click('Change where you would like to train')
     then_i_am_redirected_to_the_training_locations_page
 
@@ -70,7 +70,7 @@ RSpec.describe 'Candidate edits published preference' do
     then_i_am_redirected_to_preference_review_page
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_on_the_application_choices_page
+    then_i_am_redirected_on_the_invites_path
     and_the_candidate_preference_id_is_changed
     and_there_are_no_location_preferences
   end
@@ -79,8 +79,8 @@ RSpec.describe 'Candidate edits published preference' do
     given_i_am_signed_in(funding_type: 'salary')
     and_feature_flag_is_enabled
 
-    given_i_am_on_the_application_choices_page
-    when_i_click('Change your sharing and location settings')
+    given_i_am_on_the_invites_page
+    when_i_click('Update your preferences')
     and_i_click('Change whether you would consider fee-funded courses')
     then_i_am_redirected_to_fee_funding_page
     and_the_funding_type_is_checked
@@ -90,7 +90,7 @@ RSpec.describe 'Candidate edits published preference' do
     then_i_am_redirected_to_preference_review_page
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_on_the_application_choices_page
+    then_i_am_redirected_on_the_invites_path
     and_the_candidate_preference_id_is_changed
     and_only_interested_in_salary_courses
   end
@@ -100,8 +100,8 @@ RSpec.describe 'Candidate edits published preference' do
     and_candidate_preference_funding_type_is_nil
     and_feature_flag_is_enabled
 
-    given_i_am_on_the_application_choices_page
-    when_i_click('Change your sharing and location settings')
+    given_i_am_on_the_invites_page
+    when_i_click('Update your preferences')
     and_i_click('Select whether you would consider fee-funded courses')
     then_i_am_redirected_to_fee_funding_page
 
@@ -110,7 +110,7 @@ RSpec.describe 'Candidate edits published preference' do
     then_i_am_redirected_to_preference_review_page
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_on_the_application_choices_page
+    then_i_am_redirected_on_the_invites_path
     and_the_candidate_preference_id_is_changed
     and_only_interested_in_salary_courses
   end
@@ -146,8 +146,8 @@ RSpec.describe 'Candidate edits published preference' do
     FeatureFlag.activate(:candidate_preferences)
   end
 
-  def given_i_am_on_the_application_choices_page
-    visit candidate_interface_application_choices_path
+  def given_i_am_on_the_invites_page
+    visit candidate_interface_invites_path
   end
 
   def when_i_click(button)
@@ -178,8 +178,8 @@ RSpec.describe 'Candidate edits published preference' do
     )
   end
 
-  def then_i_am_redirected_on_the_application_choices_page
-    expect(page).to have_current_path(candidate_interface_application_choices_path)
+  def then_i_am_redirected_on_the_invites_path
+    expect(page).to have_current_path(candidate_interface_invites_path)
   end
 
   def and_the_candidate_preference_id_is_changed

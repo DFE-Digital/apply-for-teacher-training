@@ -44,6 +44,10 @@ module CandidateInterface
       ChoicesControllerMatcher.choices_controller?(current_application: current_application, controller_path: controller_path, request: request)
     end
 
+    def invites_controller?
+      ChoicesControllerMatcher.invites_controller?(controller_path: controller_path, request: request)
+    end
+
     def back_link_text
       if any_offers_accepted_or_deferred_or_recruited?
         'Back to your offer'
