@@ -58,7 +58,10 @@ RSpec.describe 'Canddiate views their invites' do
       )
       expect(page).to have_link(
         'View application',
-        href: candidate_interface_course_choices_course_review_path(@applied_invite.application_choice),
+        href: candidate_interface_course_choices_course_review_path(
+          @applied_invite.application_choice,
+          return_to: 'invites',
+        ),
       )
       expect(page).to have_content('Applied')
     end

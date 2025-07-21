@@ -12,7 +12,7 @@
             <%= govuk_tag text: invite.candidate_decision.capitalize, colour: 'green' %>
           </div>
           <div>
-            <%= govuk_link_to t('.view_application'), candidate_interface_course_choices_course_review_path(invite.application_choice) %>
+            <%= govuk_link_to t('.view_application'), application_choice_link(invite) %>
           </div>
         <% else %>
           <%= govuk_link_to t('.view_course'), invite.course.find_url %>
