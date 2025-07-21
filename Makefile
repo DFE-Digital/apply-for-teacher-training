@@ -6,6 +6,7 @@ INTEGRATION_TEST_PATTERN=spec/{system,requests}/**/*_spec.rb
 COVERAGE_RESULT_PATH=/app/coverage
 SERVICE_SHORT=att
 SERVICE_NAME=apply
+#test
 
 define copy_to_host
 	## Obtains the results folder from within the stopped container and copies it to the local file system on the agent.
