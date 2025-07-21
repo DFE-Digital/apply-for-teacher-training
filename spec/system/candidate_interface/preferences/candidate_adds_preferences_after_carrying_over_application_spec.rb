@@ -12,7 +12,7 @@ RSpec.describe 'Candidate adds preferences' do
     given_i_have_a_duplicate_preference_form
     given_i_am_on_the_share_details_page
 
-    when_i_click('Change your sharing and location settings')
+    when_i_click('Update your preferences')
     then_i_am_redirected_to_review_page
     when_i_click('Submit preferences')
     then_i_am_redirected_to_application_choices_with_success_message
@@ -89,7 +89,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def then_i_am_redirected_to_application_choices_with_success_message
-    expect(page).to have_current_path(candidate_interface_application_choices_path)
+    expect(page).to have_current_path(candidate_interface_invites_path)
     expect(page).to have_content('You are sharing your application details with providers you have not applied to')
   end
 
