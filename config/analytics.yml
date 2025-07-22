@@ -54,7 +54,7 @@ shared:
     - application_form_id
     - application_choice_id
     - candidate_decision
-  :pool_decline_reasons:
+  pool_invite_decline_reasons:
     - id
     - reason
     - comment

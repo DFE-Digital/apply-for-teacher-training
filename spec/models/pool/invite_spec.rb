@@ -8,9 +8,9 @@ RSpec.describe Pool::Invite do
     it { is_expected.to belong_to(:invited_by).class_name('ProviderUser') }
     it { is_expected.to belong_to(:course) }
     it { is_expected.to have_one(:recruitment_cycle_timetable) }
-    it { is_expected.to have_many(:decline_reasons).class_name('Pool::DeclineReason').dependent(:destroy) }
-    it { is_expected.to have_many(:draft_decline_reasons).class_name('Pool::DeclineReason').dependent(:destroy) }
-    it { is_expected.to have_many(:published_decline_reasons).class_name('Pool::DeclineReason').dependent(:destroy) }
+    it { is_expected.to have_many(:invite_decline_reasons).class_name('Pool::InviteDeclineReason').dependent(:destroy) }
+    it { is_expected.to have_many(:draft_invite_decline_reasons).class_name('Pool::InviteDeclineReason').dependent(:destroy) }
+    it { is_expected.to have_many(:published_invite_decline_reasons).class_name('Pool::InviteDeclineReason').dependent(:destroy) }
   end
 
   describe 'scopes' do
@@ -46,25 +46,25 @@ RSpec.describe Pool::Invite do
     }
   end
 
-  describe '.draft_decline_reasons' do
+  describe '.draft_invite_decline_reasons' do
     let(:invite) { create(:pool_invite) }
 
     it 'returns only draft decline reasons' do
-      draft_reason = create(:pool_decline_reason, :draft, invite: invite)
-      create(:pool_decline_reason, :published, invite: invite)
+      draft_reason = create(:pool_invite_decline_reason, :draft, invite: invite)
+      create(:pool_invite_decline_reason, :published, invite: invite)
 
-      expect(invite.draft_decline_reasons).to contain_exactly(draft_reason)
+      expect(invite.draft_invite_decline_reasons).to contain_exactly(draft_reason)
     end
   end
 
-  describe '.published_decline_reasons' do
+  describe '.published_invite_decline_reasons' do
     let(:invite) { create(:pool_invite) }
 
     it 'returns only published decline reasons' do
-      published_reason = create(:pool_decline_reason, :published, invite: invite)
-      create(:pool_decline_reason, :draft, invite: invite)
+      published_reason = create(:pool_invite_decline_reason, :published, invite: invite)
+      create(:pool_invite_decline_reason, :draft, invite: invite)
 
-      expect(invite.published_decline_reasons).to contain_exactly(published_reason)
+      expect(invite.published_invite_decline_reasons).to contain_exactly(published_reason)
     end
   end
 

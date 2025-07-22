@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Pool::DeclineReason do
+RSpec.describe Pool::InviteDeclineReason do
   subject(:decline_reason) { described_class.new }
 
   describe 'associations' do

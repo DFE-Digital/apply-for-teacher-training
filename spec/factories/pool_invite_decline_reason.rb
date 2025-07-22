@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :pool_decline_reason, class: 'Pool::DeclineReason' do
+  factory :pool_invite_decline_reason, class: 'Pool::InviteDeclineReason' do
     reason { 'Example reason' }
     comment { 'Optional comment' }
     status { 'draft' }

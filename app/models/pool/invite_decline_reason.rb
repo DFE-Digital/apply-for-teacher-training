@@ -1,4 +1,4 @@
-class Pool::DeclineReason < ApplicationRecord
+class Pool::InviteDeclineReason < ApplicationRecord
   belongs_to :invite, class_name: 'Pool::Invite'
 
   enum :status, {
