@@ -8,8 +8,11 @@ module CandidateInterface
         LocationPreferenceDecorator.new(location)
       end
 
-      @back_path = LocationPreferencesRequiredForm.new(preference: @preference)
-        .back_path
+      @back_path = if params[:return_to] == 'application-sharing'
+                     candidate_interface_invites_path
+                   else
+                     LocationPreferencesRequiredForm.new(preference: @preference).back_path
+                   end
     end
 
     def update

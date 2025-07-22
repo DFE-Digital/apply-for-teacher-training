@@ -78,9 +78,9 @@ module CandidateInterface
     end
 
     def redirect_to_review_for_duplicate_preferences
-      preference = current_application.duplicated_preferences.first
+      preference = current_application.duplicated_preferences.last
       if preference.present?
-        redirect_to candidate_interface_draft_preference_path(preference)
+        redirect_to candidate_interface_draft_preference_path(preference, return_to: 'application-sharing')
       end
     end
 
