@@ -4,3 +4,23 @@ en:
       index:
         your_invitations: Your invitations
         no_invitations: You have no invitations
+      show:
+        title: Invite from %{provider} - Application sharing
+        heading: Your invitation from %{provider}
+        provider_message: "%{provider} included this message:"
+        course: Course
+        fee: Course fee
+        uk_fee_details: "%{uk_fee} for UK citizens"
+        both_fee_details_html: "%{uk_fee} for UK citizens <br> %{non_uk_fee} for non-UK citizens"
+        length: Course length
+        length_details: "%{length} - %{mode}"
+        age: Age range
+        age_details: "%{range} %{level}"
+        qualification: Qualification
+        start_date: Start date
+        view_course: View full course details
+        apply_legend: Do you want to apply for this course?
+        submit_text: Continue
+        accept: Yes I want to submit an application to this course
+        decline: No I am not interested in this course
+        decline_caption: You can still apply for this course later if you change your mind

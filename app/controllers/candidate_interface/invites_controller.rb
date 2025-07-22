@@ -7,6 +7,10 @@ module CandidateInterface
       @invites = current_application.published_invites.includes(:application_choice)
     end
 
+    def show
+      @invite = Pool::Invite.find(params[:id])
+    end
+
     def redirect_if_feature_off_and_no_submitted_application
       unless FeatureFlag.active?(:candidate_preferences) && current_application.submitted_applications?
         redirect_to root_path

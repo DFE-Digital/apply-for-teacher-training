@@ -499,6 +499,10 @@ RSpec.describe 'Candidate adds preferences' do
     expect(page).to have_current_path(candidate_interface_application_choices_path)
   end
 
+  def then_i_am_redirected_to_application_choices
+    expect(page).to have_current_path(candidate_interface_application_choices_path)
+  end
+
   def and_i_complete_the_flow_for_adding_a_choice_with_invalid_coordinates
     choose 'Yes, I know where I want to apply'
     click_link_or_button('Continue')
