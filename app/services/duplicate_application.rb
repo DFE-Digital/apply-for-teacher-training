@@ -92,6 +92,21 @@ class DuplicateApplication
           w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
         )
       end
+
+      original_candidate_preference = original_application_form.published_preferences.last
+      if original_candidate_preference.present? && original_candidate_preference.opt_in?
+        new_candidate_preference = new_application_form.preferences.create!(
+          **original_candidate_preference.attributes.except(*IGNORED_ATTRIBUTES),
+          status: 'duplicated',
+        )
+        if original_candidate_preference.training_locations_specific?
+          original_candidate_preference.location_preferences.each do |location_preference|
+            new_candidate_preference.location_preferences.create!(
+              location_preference.attributes.except(*IGNORED_ATTRIBUTES),
+            )
+          end
+        end
+      end
     end
   end
 

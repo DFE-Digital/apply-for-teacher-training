@@ -1,6 +1,7 @@
 en:
   provider_interface:
     candidate_pool:
+      no_candidates_between_cycles:
       no_candidates: No candidates
       no_candidates_with_id_and_other_filters: There are no candidates that match that candidate number with the filters you have chosen. Remove some of your filters and try again.
       no_candidate_with_id: There are no candidates that match that candidate number. Check the candidate number and try again.

@@ -61,6 +61,8 @@
 
     <%= govuk_pagination(pagy: @pagy) %>
   <% else %>
-    <p class="govuk-body"><%= @filter.no_results_message %></p>
+    <p class="govuk-body">
+      <%= @filter.no_results_message %>
+    </p>
   <% end %>
 <% end %>

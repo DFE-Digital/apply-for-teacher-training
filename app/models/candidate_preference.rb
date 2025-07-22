@@ -1,6 +1,6 @@
 class CandidatePreference < ApplicationRecord
   belongs_to :candidate
-  belongs_to :application_form, optional: true
+  belongs_to :application_form
   has_many :location_preferences, dependent: :destroy, class_name: 'CandidateLocationPreference'
 
   enum :pool_status, {
@@ -11,6 +11,7 @@ class CandidatePreference < ApplicationRecord
   enum :status, {
     draft: 'draft',
     published: 'published',
+    duplicated: 'duplicated',
   }
 
   enum :training_locations, {

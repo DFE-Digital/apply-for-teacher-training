@@ -32,6 +32,7 @@ en:
       submit: Submit preferences
     draft_preferences:
       show:
+        duplicated_preference_explanation: These preferences are based on your settings from the last recruitment cycle.
         title: Check your application sharing preferences
         share_information: Do you want to be invited to apply to similar courses?
         where_can_you_train: Where can you train?
