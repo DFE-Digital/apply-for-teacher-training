@@ -11,7 +11,11 @@ module SupportInterface
         @right_to_work_or_study_form = ImmigrationRightToWorkForm.new(right_to_work_params)
 
         if @right_to_work_or_study_form.save(@application_form)
-          redirect_to support_interface_application_form_path(@application_form)
+          if @application_form.immigration_status.nil? && @right_to_work_or_study_form.right_to_work_or_study == 'yes'
+            redirect_to support_interface_application_form_edit_immigration_status_path(@application_form)
+          else
+            redirect_to support_interface_application_form_path(@application_form)
+          end
         else
           render :edit
         end

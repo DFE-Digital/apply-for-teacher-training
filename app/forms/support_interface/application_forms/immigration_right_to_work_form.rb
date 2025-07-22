@@ -22,6 +22,7 @@ module SupportInterface
         application_form.update(
           right_to_work_or_study:,
           right_to_work_or_study_details: set_right_to_work_or_study_details,
+          immigration_status: immigration_status_value(application_form),
           audit_comment:,
         )
       end
@@ -34,6 +35,10 @@ module SupportInterface
 
       def set_right_to_work_or_study_details
         right_to_work_or_study? ? right_to_work_or_study_details : nil
+      end
+
+      def immigration_status_value(application_form)
+        right_to_work_or_study? ? application_form.immigration_status : nil
       end
     end
   end
