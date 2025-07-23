@@ -91,7 +91,7 @@ module SupportInterface
 
       if oct_first.monday?
         oct_first
-      elsif oct_first.tuesday? || oct_first.wednesday?
+      elsif oct_first.tuesday? || oct_first.wednesday? || oct_first.thursday?
         oct_first - 1.day
       else
         oct_first.next_occurring(:monday)
