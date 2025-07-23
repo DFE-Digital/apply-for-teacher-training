@@ -16,6 +16,7 @@ namespace :candidate_interface, path: '/candidate' do
 
   resources :account_recovery_requests, only: %i[new create], path: 'account-recovery-requests'
   resources :invites, only: %i[index show], path: 'application-sharing'
+  patch 'application-sharing/:id/response' => 'invites#update', as: :update_invite_response
 
   resources :share_details, only: :index, path: 'share-details'
 
