@@ -16,22 +16,26 @@ class RejectionReasons::FormattedTextComponent < ViewComponent::Base
 private
 
   def reasons
-    reasons = ::RejectionReasons.new(@application_choice.structured_rejection_reasons).selected_reasons
+    reasons_data = @application_choice.structured_rejection_reasons['selected_reasons'] || []
+    format_reasons(reasons_data)
+  end
 
-    return [] if reasons.blank?
-
-    formatted_reasons = []
+  def format_reasons(reasons, parent_label = nil)
+    formatted = []
 
     reasons.each do |reason|
-      # Output [category] - [reason]
-      formatted_reasons << reason.label
+      current_label = parent_label ? "#{parent_label} - #{reason['label']}" : reason['label']
 
-      # Output freetext details on a separate line within quotes, if present
-      if reason.details&.text.present?
-        formatted_reasons << %("#{reason.details.text}")
+      if reason['selected_reasons'].present?
+        formatted.concat(format_reasons(reason['selected_reasons'], current_label))
+      else
+        formatted << current_label
+        if reason.dig('details', 'text').present?
+          formatted << %("#{reason['details']['text']}")
+        end
       end
     end
 
-    formatted_reasons
+    formatted
   end
 end

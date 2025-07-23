@@ -47,6 +47,7 @@ private
       .visible_to_provider
       .joins(course: :provider)
       .where(courses: { provider_id: @current_provider_user.providers.pluck(:id) })
+      .includes(:published_withdrawal_reasons, :course_option, :course, :provider)
   end
 
   def associated_application_choices_in_a_previous_cycle

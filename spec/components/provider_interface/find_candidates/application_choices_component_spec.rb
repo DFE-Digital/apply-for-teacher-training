@@ -86,4 +86,110 @@ RSpec.describe ProviderInterface::FindCandidates::ApplicationChoicesComponent, t
       expect(page).to have_text('Withdrawal reason')
     end
   end
+
+  context 'when the application choice is withdrawn with published withdrawal reasons' do
+    let(:course) { create(:course, provider:) }
+    let(:course_option) { create(:course_option, course:) }
+    let(:provider_user) { create(:provider_user, providers: [provider]) }
+
+    let!(:published_reason_1) do
+      create(:withdrawal_reason,
+             status: 'published',
+             reason: 'applying_to_another_provider.personal_circumstances_have_changed.other',
+             comment: 'My circumstances changed')
+    end
+
+    let!(:published_reason_2) do
+      create(:withdrawal_reason,
+             status: 'published',
+             reason: 'do_not_want_to_train_anymore.another_career_path_or_accepted_a_job_offer')
+    end
+
+    let!(:application_choice) do
+      create(
+        :application_choice,
+        :withdrawn,
+        course_option:,
+        application_form: create(:application_form),
+        published_withdrawal_reasons: [published_reason_1, published_reason_2],
+      )
+    end
+
+    it 'renders the nested withdrawal reason labels with comment interpolation and plain labels' do
+      render_inline(described_class.new(application_form: application_choice.application_form, provider_user: provider_user))
+
+      expect(page).to have_text('I am going to apply (or have applied) to a different training provider because my personal circumstances have changed')
+      expect(page).to have_text('I do not want to train to teach anymore - I have decided on another career path or I have accepted a job offer')
+      expect(page).to have_text(%("My circumstances changed"))
+    end
+  end
+
+  context 'when the application choice is withdrawn with an old structured withdrawal reason' do
+    let(:course) { create(:course, provider:) }
+    let(:course_option) { create(:course_option, course:) }
+    let!(:application_choice) do
+      create(:application_choice,
+             :withdrawn,
+             course_option:,
+             application_form:,
+             structured_withdrawal_reasons: ['applying_to_different_course_same_provider'])
+    end
+
+    it 'renders the old model withdrawal reason label' do
+      render_inline(described_class.new(application_form:, provider_user:))
+
+      expect(page).to have_text('I’m going to apply (or have applied) to a different course at the same training provider')
+    end
+  end
+
+  context 'when the application choice is withdrawn with no reason' do
+    let(:course) { create(:course, provider:) }
+    let(:course_option) { create(:course_option, course:) }
+    let!(:application_choice) do
+      create(:application_choice,
+             :withdrawn,
+             course_option:,
+             application_form:)
+    end
+
+    it 'renders the old model withdrawal reason label' do
+      render_inline(described_class.new(application_form:, provider_user:))
+
+      expect(page).to have_text('No reason given')
+    end
+  end
+
+  context 'when the application choice is rejected with a nested reason and a comment' do
+    let(:course) { create(:course, provider:) }
+    let(:course_option) { create(:course_option, course:) }
+
+    let!(:application_choice) do
+      create(:application_choice,
+             :rejected,
+             course_option:,
+             application_form:,
+             structured_rejection_reasons: {
+               selected_reasons: [
+                 {
+                   id: 'personal_statement',
+                   label: 'Personal statement',
+                   selected_reasons: [
+                     {
+                       id: 'quality_of_writing',
+                       label: 'Quality of writing',
+                       details: { text: 'Too many grammar mistakes' },
+                     },
+                   ],
+                 },
+               ],
+             })
+    end
+
+    it 'renders the category and reason label combined, with comment below' do
+      render_inline(described_class.new(application_form:, provider_user:))
+
+      expect(page).to have_text('Personal statement - Quality of writing')
+      expect(page).to have_text('"Too many grammar mistakes"')
+    end
+  end
 end
