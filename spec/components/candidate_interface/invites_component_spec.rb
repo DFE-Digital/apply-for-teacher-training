@@ -12,7 +12,6 @@ RSpec.describe CandidateInterface::InvitesComponent do
         )
 
         component = described_class.new(
-          application_form: invite.application_form,
           invites: [invite],
         )
         render_inline(component)
@@ -30,7 +29,6 @@ RSpec.describe CandidateInterface::InvitesComponent do
       it 'returns the review path' do
         invite = create(:pool_invite, :with_application_choice)
         component = described_class.new(
-          application_form: invite.application_form,
           invites: [invite],
         )
         render_inline(component)
@@ -40,6 +38,108 @@ RSpec.describe CandidateInterface::InvitesComponent do
             invite.application_choice,
             return_to: 'invites',
           ),
+        )
+      end
+    end
+  end
+
+  describe '#hint_text' do
+    it 'returns no invites message when no invites' do
+      component = described_class.new(invites: [])
+      render_inline(component)
+
+      expect(component.hint_text).to eq('You have no previous invitations')
+    end
+
+    it 'returns invites message when there are invites' do
+      component = described_class.new(invites: [create(:pool_invite)])
+      render_inline(component)
+
+      expect(component.hint_text).to eq('You can still submit and application to courses you have declined.')
+    end
+  end
+
+  describe '#status_tag' do
+    context 'with applied invite' do
+      it 'returns the green status tag' do
+        invite = create(
+          :pool_invite,
+          application_choice: create(:application_choice, :offered),
+          candidate_decision: 'applied',
+        )
+        component = described_class.new(invites: [invite])
+        render_inline(component)
+
+        expect(component.status_tag(invite)).to eq(
+          '<strong class="govuk-tag govuk-tag--green">Applied</strong>',
+        )
+      end
+    end
+
+    context 'when invite declined' do
+      it 'returns no invites message when no invites' do
+        invite = create(
+          :pool_invite,
+          candidate_decision: 'declined',
+        )
+        component = described_class.new(invites: [invite])
+        render_inline(component)
+
+        expect(component.status_tag(invite)).to eq(
+          '<strong class="govuk-tag govuk-tag--red">Declined</strong>',
+        )
+      end
+    end
+
+    context 'when course invite is closed' do
+      it 'returns no invites message when no invites' do
+        invite = create(
+          :pool_invite,
+          course_open: false,
+        )
+        component = described_class.new(invites: [invite])
+        render_inline(component)
+
+        expect(component.status_tag(invite)).to eq(
+          '<strong class="govuk-tag govuk-tag--grey">Closed</strong>',
+        )
+      end
+    end
+  end
+
+  describe '#action-link' do
+    context 'with applied invite' do
+      it 'returns the applied action_link' do
+        choice = create(:application_choice, :offered)
+        invite = create(
+          :pool_invite,
+          application_choice: choice,
+          candidate_decision: 'applied',
+        )
+        component = described_class.new(invites: [invite])
+        render_inline(component)
+
+        expect(rendered_content).to have_link(
+          'View application',
+          href: candidate_interface_offer_path(
+            invite.application_choice,
+            return_to: 'invites',
+          ),
+        )
+      end
+    end
+
+    context 'anything else' do
+      it 'returns the applied action_link' do
+        invite = create(
+          :pool_invite,
+        )
+        component = described_class.new(invites: [invite])
+        render_inline(component)
+
+        expect(rendered_content).to have_link(
+          'View course',
+          href: invite.course.find_url,
         )
       end
     end

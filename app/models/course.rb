@@ -5,6 +5,7 @@ class Course < ApplicationRecord
   has_many :sites, through: :course_options
   has_many :course_subjects
   has_many :subjects, through: :course_subjects
+  has_many :published_invites, -> { published }, class_name: 'Pool::Invite'
   has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
   delegate :next_year?, to: :recruitment_cycle_timetable
 

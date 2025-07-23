@@ -4,7 +4,9 @@ module CandidateInterface
     before_action :redirect_if_feature_off_and_no_submitted_application
 
     def index
-      @invites = current_application.published_invites.includes(:application_choice)
+      @not_responded_invites = current_application.published_invites.not_responded_course_open
+      @invites = current_application.published_invites.actioned_by_candidate_or_course_closed
+        .includes(:provider, :application_choice, course: :provider)
     end
 
     def show
