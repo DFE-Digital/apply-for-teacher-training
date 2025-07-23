@@ -22,6 +22,7 @@ module TeacherTrainingPublicAPI
         course = create_or_update_course(course_from_api)
         if course.present?
           update_sites(course.id, course_from_api.application_status)
+          course.published_invites.update_all(course_open: course.open?)
         end
       end
     rescue JsonApiClient::Errors::ApiError

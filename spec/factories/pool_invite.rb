@@ -7,6 +7,7 @@ FactoryBot.define do
     invited_by factory: %i[provider_user]
     recruitment_cycle_year { application_form.recruitment_cycle_year }
     candidate_decision { 'not_responded' }
+    course_open { true }
 
     trait :sent_to_candidate do
       sent_to_candidate_at { Time.current }
