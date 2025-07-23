@@ -12,15 +12,14 @@ RSpec.describe ProviderInterface::FindCandidates::PreviouslySubmittedAnApplicati
 
     context 'when the candidate has associated applications in the current cycle and a previous cycle' do
       let!(:last_cycle_application_form) do
-        previous_year = CycleTimetableHelper.previous_year
         form = create(
           :application_form,
           :completed,
           recruitment_cycle_year: previous_year,
-          submitted_at: CycleTimetableHelper.mid_cycle(previous_year),
+          submitted_at: mid_cycle(previous_year),
           candidate:,
-          created_at: CycleTimetableHelper.mid_cycle(previous_year),
-          updated_at: CycleTimetableHelper.mid_cycle(previous_year),
+          created_at: mid_cycle(previous_year),
+          updated_at: mid_cycle(previous_year),
         )
         previous_course = create(:course, provider:)
         course_option_2 = create(:course_option, course: previous_course)
@@ -36,7 +35,7 @@ RSpec.describe ProviderInterface::FindCandidates::PreviouslySubmittedAnApplicati
         expect(result.text).to include('This candidate has submitted an application to you or a partner before')
         expect(result.text).to include(course.name_and_code)
         expect(result.text).to include('Received')
-        expect(result.text).to include('2023 to 2024 recruitment cycle:')
+        expect(result.text).to include(previous_timetable.cycle_range_name.to_s)
         expect(result.text).to include(last_cycle_application_form.application_choices.first.course.name_and_code)
         expect(result.text).to include('Withdrawn')
       end
@@ -44,15 +43,14 @@ RSpec.describe ProviderInterface::FindCandidates::PreviouslySubmittedAnApplicati
 
     context 'when the candidate has associated applications only in a previous cycle' do
       let!(:last_cycle_application_form) do
-        previous_year = CycleTimetableHelper.previous_year
         form = create(
           :application_form,
           :completed,
           recruitment_cycle_year: previous_year,
-          submitted_at: CycleTimetableHelper.mid_cycle(previous_year),
+          submitted_at: mid_cycle(previous_year),
           candidate:,
-          created_at: CycleTimetableHelper.mid_cycle(previous_year),
-          updated_at: CycleTimetableHelper.mid_cycle(previous_year),
+          created_at: mid_cycle(previous_year),
+          updated_at: mid_cycle(previous_year),
         )
         previous_course = create(:course, provider:)
         course_option_2 = create(:course_option, course: previous_course)
@@ -71,7 +69,7 @@ RSpec.describe ProviderInterface::FindCandidates::PreviouslySubmittedAnApplicati
 
         expect(result.text).to include('Important')
         expect(result.text).to include('This candidate has submitted an application to you or a partner before')
-        expect(result.text).to include('2023 to 2024 recruitment cycle:')
+        expect(result.text).to include(previous_timetable.cycle_range_name.to_s)
         expect(result.text).to include(last_cycle_application_form.application_choices.first.course.name_and_code)
         expect(result.text).to include('Withdrawn')
         expect(result.text).not_to include('Received')
@@ -86,7 +84,7 @@ RSpec.describe ProviderInterface::FindCandidates::PreviouslySubmittedAnApplicati
         expect(result.text).to include('This candidate has submitted an application to you or a partner before')
         expect(result.text).to include(course.name_and_code)
         expect(result.text).to include('Received')
-        expect(result.text).not_to include('2023 to 2024 recruitment cycle:')
+        expect(result.text).not_to include(previous_timetable.cycle_range_name.to_s)
         expect(result.text).not_to include('Withdrawn')
       end
     end

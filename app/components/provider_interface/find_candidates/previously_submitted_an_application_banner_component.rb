@@ -12,7 +12,6 @@ class ProviderInterface::FindCandidates::PreviouslySubmittedAnApplicationBannerC
     rows_by_year = {}
 
     # Current cycle rows
-    current_year = RecruitmentCycleTimetable.current_year
     rows_by_year[current_year] = associated_application_choices_this_cycle.map { |choice| build_row(choice) }
 
     # Previous cycle rows
@@ -57,13 +56,17 @@ private
         .joins(:application_form, course: :provider)
         .where(application_forms: { candidate_id: candidate.id })
         .where(courses: { provider_id: @current_provider_user.providers.pluck(:id) })
-        .where.not(application_forms: { recruitment_cycle_year: RecruitmentCycleTimetable.current_year })
+        .where.not(application_forms: { recruitment_cycle_year: current_year })
   end
 
   def associated_application_choices_previous_cycles_by_year
     associated_application_choices_in_a_previous_cycle.group_by do |choice|
       choice.application_form.recruitment_cycle_year
     end
+  end
+
+  def current_year
+    @current_year ||= RecruitmentCycleTimetable.current_year
   end
 
   def candidate
