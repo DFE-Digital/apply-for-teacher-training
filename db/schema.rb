@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_15_095513) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_22_121740) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -769,6 +769,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_15_095513) do
     t.index ["application_form_id"], name: "index_pool_eligible_application_forms_on_application_form_id"
   end
 
+  create_table "pool_invite_decline_reasons", force: :cascade do |t|
+    t.string "reason"
+    t.text "comment"
+    t.string "status", default: "draft"
+    t.bigint "invite_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invite_id"], name: "index_pool_invite_decline_reasons_on_invite_id"
+    t.index ["reason"], name: "index_pool_invite_decline_reasons_on_reason"
+  end
+
   create_table "pool_invites", force: :cascade do |t|
     t.bigint "candidate_id", null: false
     t.bigint "provider_id", null: false
@@ -1155,6 +1166,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_15_095513) do
   add_foreign_key "pool_dismissals", "provider_users", column: "dismissed_by_id"
   add_foreign_key "pool_dismissals", "providers", on_delete: :cascade
   add_foreign_key "pool_eligible_application_forms", "application_forms", on_delete: :cascade
+  add_foreign_key "pool_invite_decline_reasons", "pool_invites", column: "invite_id", on_delete: :cascade
   add_foreign_key "pool_invites", "candidates", on_delete: :cascade
   add_foreign_key "pool_invites", "courses", on_delete: :cascade
   add_foreign_key "pool_invites", "provider_users", column: "invited_by_id"

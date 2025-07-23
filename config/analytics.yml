@@ -54,6 +54,14 @@ shared:
     - application_form_id
     - application_choice_id
     - candidate_decision
+  pool_invite_decline_reasons:
+    - id
+    - reason
+    - comment
+    - status
+    - invite_id
+    - created_at
+    - updated_at
   pool_dismissals:
     - id
     - candidate_id
