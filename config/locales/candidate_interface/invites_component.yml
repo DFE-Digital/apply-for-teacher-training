@@ -3,4 +3,4 @@ en:
     invites_component:
       title_html: "<p class='govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold'>%{provider_name}</p>"
       view_application: View application
-      view_course: View course
+      view_invite: View invite

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Canddiate views their invites' do
+RSpec.describe 'Candidate views their invites' do
   include CandidateHelper
 
   before { FeatureFlag.activate(:candidate_preferences) }
@@ -10,6 +10,18 @@ RSpec.describe 'Canddiate views their invites' do
     given_i_am_signed_in
     and_i_am_on_the_application_choices_page
     when_i_click('Application sharing')
+    then_i_can_see_my_invites
+
+    when_i_click('View application')
+    then_i_see_my_application
+
+    when_i_click('Back')
+    then_i_can_see_my_invites
+
+    when_i_click('View invite')
+    then_i_see_the_invite
+
+    when_i_click('Back')
     then_i_can_see_my_invites
   end
 
@@ -47,8 +59,8 @@ RSpec.describe 'Canddiate views their invites' do
         "#{@invite.provider_name} #{@invite.course_name_code_and_study_mode}",
       )
       expect(page).to have_link(
-        'View course',
-        href: @invite.course.find_url,
+        'View invite',
+        href: candidate_interface_invite_path(@invite),
       )
     end
 
@@ -65,6 +77,14 @@ RSpec.describe 'Canddiate views their invites' do
       )
       expect(page).to have_content('Applied')
     end
+  end
+
+  def then_i_see_the_invite
+    expect(page).to have_content "Your invitation from #{@invite.course.provider.name}"
+  end
+
+  def then_i_see_my_application
+    expect(page).to have_content "Your application to #{@applied_invite.application_choice.provider.name}"
   end
 
   def and_i_am_on_the_application_choices_page
