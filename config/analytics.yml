@@ -54,7 +54,7 @@ shared:
     - application_form_id
     - application_choice_id
     - candidate_decision
-    - course_closed
+    - course_open
   pool_invite_decline_reasons:
     - id
     - reason
