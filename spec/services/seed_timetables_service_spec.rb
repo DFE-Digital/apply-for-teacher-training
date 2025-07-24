@@ -10,7 +10,7 @@ RSpec.describe SeedTimetablesService do
 
       described_class.new(csv_input).call
 
-      expect(RecruitmentCycleTimetable.count).to eq 9
+      expect(RecruitmentCycleTimetable.count).to eq 10
     end
   end
 
