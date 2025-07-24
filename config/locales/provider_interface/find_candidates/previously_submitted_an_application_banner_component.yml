@@ -1,0 +1,7 @@
+en:
+  provider_interface:
+    find_candidates:
+      previously_submitted_an_application_banner_component:
+        heading: This candidate has submitted an application to you or a partner before
+        text: "%{course} at %{provider}"
+        recruitment_cycle_label: "%{from} to %{to} recruitment cycle:"
