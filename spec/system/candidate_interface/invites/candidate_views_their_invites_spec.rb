@@ -80,7 +80,7 @@ RSpec.describe 'Candidate views their invites' do
   end
 
   def then_i_see_the_invite
-    expect(page).to have_content "Your invitation from #{@invite.course.provider.name}"
+    expect(page).to have_content "Your invite from #{@invite.course.provider.name}"
   end
 
   def then_i_see_my_application

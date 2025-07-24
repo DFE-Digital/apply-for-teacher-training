@@ -2,11 +2,11 @@ en:
   candidate_interface:
     invites:
       index:
-        your_invitations: Your invitations
-        no_invitations: You have no invitations
+        your_invitations: Your invites
+        no_invitations: You have no invites
       show:
         title: Invite from %{provider} - Application sharing
-        heading: Your invitation from %{provider}
+        heading: Your invite from %{provider}
         provider_message: "%{provider} included this message:"
         course: Course
         fee: Course fee
