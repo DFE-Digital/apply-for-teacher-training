@@ -1,7 +1,12 @@
+<% content_for :title, t('.title', provider: @invite.provider_name) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_invites_path) %>
+
 <%= form_with(model: @fac_invite_response_form, url: candidate_interface_update_invite_response_path(@invite), method: :patch) do |f| %>
   <%= f.govuk_error_summary %>
 
-  <h1 class="govuk-heading-l govuk-!-margin-bottom-8"><%= t('.heading', provider: @invite.provider_name) %></h1>
+  <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l govuk-!-margin-bottom-8"><%= t('.heading', provider: @invite.provider_name) %></h1>
 
   <% if @invite.provider_message? %>
     <h2 class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-2"><%= t('.provider_message', provider: @invite.provider_name) %></h2>
@@ -45,13 +50,15 @@
 
   <p class="govuk-body"><%= govuk_link_to(t('.view_course'), @invite.course.find_url, new_tab: true) %></p>
 
-<%= f.govuk_radio_buttons_fieldset :apply_for_this_course,
-                                   legend: { text: t('.apply_legend'), size: 'm' },
-                                   link_errors: true do %>
-  <%= f.govuk_radio_button :apply_for_this_course, 'yes', label: { text: t('.accept') } %>
-  <%= f.govuk_radio_button :apply_for_this_course, 'no', label: { text: t('.decline') }, hint: { text: t('.decline_caption') } %>
-<% end %>
+    <%= f.govuk_radio_buttons_fieldset :apply_for_this_course,
+                                      legend: { text: t('.apply_legend'), size: 'm' },
+                                      link_errors: true do %>
+      <%= f.govuk_radio_button :apply_for_this_course, 'yes', label: { text: t('.accept') } %>
+      <%= f.govuk_radio_button :apply_for_this_course, 'no', label: { text: t('.decline') }, hint: { text: t('.decline_caption') } %>
+    <% end %>
 
 
-  <%= f.govuk_submit t('.submit_text') %>
-<% end %>
+      <%= f.govuk_submit t('.submit_text') %>
+    <% end %>
+    </div>
+  </div>

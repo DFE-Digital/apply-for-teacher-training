@@ -1,0 +1,7 @@
+<% content_for :title, t('.title', provider: @invite.provider_name) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_invites_path) %>
+
+  <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= t('.heading', course: @invite.course.name_and_code) %></h1>
+      <p class="govuk-body"><%= t('.deadline_passed') %></p>
