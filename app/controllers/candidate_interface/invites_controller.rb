@@ -27,11 +27,28 @@ module CandidateInterface
           application_choice = @fac_invite_response_form.application_choice
           redirect_to candidate_interface_course_choices_course_review_path(application_choice.id)
         else
-          redirect_to_candidate_root
+          redirect_to decline_candidate_interface_invite_path
         end
       else
         track_validation_error(@fac_invite_response_form)
         render :show
+      end
+    end
+
+    def decline
+      @invite = Pool::Invite.find(params[:id])
+      @fac_invite_decline_reason_form = CandidateInterface::FacInviteDeclineReasonsForm.new
+    end
+
+    def update_reason
+      @invite = Pool::Invite.find(params[:id])
+      @fac_invite_decline_reason_form = CandidateInterface::FacInviteDeclineReasonsForm.new(fac_invite_decline_reason_form_params)
+
+      if @fac_invite_decline_reason_form.save(@invite)
+        flash[:success] = t('candidate_interface.invites.update_reason.success', course: @invite.course.name_and_code, provider: @invite.provider_name)
+        redirect_to candidate_interface_invites_path
+      else
+        render :decline
       end
     end
 
@@ -45,6 +62,10 @@ module CandidateInterface
 
     def fac_invite_response_form_params
       params.fetch(:candidate_interface_fac_invite_response_form, {}).permit(:apply_for_this_course)
+    end
+
+    def fac_invite_decline_reason_form_params
+      params.fetch(:candidate_interface_fac_invite_decline_reasons_form, {}).permit(:comment, reasons: [])
     end
   end
 end

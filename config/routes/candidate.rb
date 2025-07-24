@@ -15,8 +15,13 @@ namespace :candidate_interface, path: '/candidate' do
   end
 
   resources :account_recovery_requests, only: %i[new create], path: 'account-recovery-requests'
-  resources :invites, only: %i[index show], path: 'application-sharing'
+  resources :invites, only: %i[index show], path: 'application-sharing' do
+    member do
+      get 'decline'
+    end
+  end
   patch 'application-sharing/:id/response' => 'invites#update', as: :update_invite_response
+  patch 'application-sharing/:id/decline' => 'invites#update_reason', as: :update_decline_reason
 
   resources :share_details, only: :index, path: 'share-details'
 
