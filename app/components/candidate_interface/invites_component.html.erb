@@ -7,7 +7,7 @@
       ) %>
 
       <%= item.with_status do %>
-        <% if invite.applied? %>
+        <% if invite.applied? && invite.application_choice.present? %>
           <div class="govuk-!-margin-bottom-1">
             <%= govuk_tag text: invite.candidate_decision.capitalize, colour: 'green' %>
           </div>
