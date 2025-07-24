@@ -28,12 +28,13 @@ private
         normalized_reason_key = reason_key.tr('-', '_')
         key = "withdrawal_reasons.formatted_text_component.reasons.#{normalized_reason_key}"
 
-        translation = t(key, default: nil, comment: comment)
-
+        translation = t(key, default: nil)
         next unless translation
 
-        [translation, (comment.present? ? %("#{comment}") : nil)]
-      end.compact
+        result = [translation]
+        result << %("#{comment}") if comment.present?
+        result
+      end
     # Old reason model for backward compatibility
     elsif @application_choice.structured_withdrawal_reasons.present?
       @application_choice.structured_withdrawal_reasons.map do |reason_id|
