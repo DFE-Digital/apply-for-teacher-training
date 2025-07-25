@@ -10,15 +10,24 @@ module ProviderInterface
     end
 
     def new
-      @api_token = @provider.vendor_api_tokens.new
+      @api_token = APITokenForm.new(provider: @provider)
     end
 
     def create
-      @unhashed_token = VendorAPIToken.create_with_random_token!(provider: @provider)
-      render :show
+      @api_token = APITokenForm.new(description_param, provider: @provider)
+      if @api_token.valid?
+        @unhashed_token = @api_token.save!
+        render :show
+      else
+        render :new
+      end
     end
 
   private
+
+    def description_param
+      params.expect(provider_interface_api_token_form: :description)
+    end
 
     def redirect_if_feature_flag_inactive
       if FeatureFlag.inactive?(:api_token_management)
@@ -33,7 +42,7 @@ module ProviderInterface
     end
 
     def set_provider
-      @provider = current_provider_user.providers.find(params[:organisation_id])
+      @provider = current_provider_user.providers.find(params.expect(:organisation_id))
     end
   end
 end

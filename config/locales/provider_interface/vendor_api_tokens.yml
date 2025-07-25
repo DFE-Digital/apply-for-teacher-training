@@ -1,0 +1,8 @@
+en:
+  activemodel:
+    errors:
+      models:
+        provider_interface/api_token_form:
+          attributes:
+            description:
+              blank: Add a brief description for the new token
