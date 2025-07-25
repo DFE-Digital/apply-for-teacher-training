@@ -1,6 +1,7 @@
 module CandidateInterface
   class CourseReviewComponent < CourseChoicesReviewComponent
     include CourseFeeRowHelper
+
     attr_reader :application_choice
 
     def initialize(application_choice:)

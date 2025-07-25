@@ -13,6 +13,7 @@ module TeacherTrainingPublicAPI
     attr_reader :provider, :course
 
     include Sidekiq::Worker
+
     sidekiq_options retry: 3, queue: :low_priority
 
     def perform(provider_id, recruitment_cycle_year, course_id, course_status_from_api, incremental_sync = true)

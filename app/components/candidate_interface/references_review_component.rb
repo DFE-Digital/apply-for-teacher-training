@@ -1,6 +1,7 @@
 module CandidateInterface
   class ReferencesReviewComponent < ViewComponent::Base
     include ReferencesPathHelper
+
     attr_reader :references, :editable
 
     def initialize(application_form:, references:, application_choice: nil, editable: true, heading_level: 2, return_to_application_review: false, missing_error: false, deletable: true)

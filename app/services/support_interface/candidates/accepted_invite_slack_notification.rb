@@ -1,6 +1,7 @@
 module SupportInterface
   class Candidates::AcceptedInviteSlackNotification
     include Rails.application.routes.url_helpers
+
     attr_reader :invite, :application_form
 
     def initialize(invite:, application_form:)

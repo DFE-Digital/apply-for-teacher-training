@@ -1,6 +1,7 @@
 module ProviderInterface
   class ConditionsFormComponent < ViewComponent::Base
     include CheckboxOptionsHelper
+
     attr_reader :form_object, :application_choice, :form_method, :form_caption, :form_heading
 
     def initialize(form_object:, application_choice:, form_method:, form_caption:, form_heading:)

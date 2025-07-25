@@ -2,6 +2,7 @@ module ProviderInterface
   module StatusBoxComponents
     class WithdrawnComponent < ViewComponent::Base
       include ViewHelper
+
       attr_reader :application_choice
 
       def initialize(application_choice:, options: {})

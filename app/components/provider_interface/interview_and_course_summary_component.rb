@@ -1,6 +1,7 @@
 module ProviderInterface
   class InterviewAndCourseSummaryComponent < ViewComponent::Base
     include ViewHelper
+
     attr_reader :interview, :user_can_change_interview, :application_choice
 
     def initialize(interview:, user_can_change_interview:)

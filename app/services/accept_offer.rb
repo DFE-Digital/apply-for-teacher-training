@@ -1,5 +1,6 @@
 class AcceptOffer
   include ActiveModel::Model
+
   attr_accessor :application_choice
 
   validate :references_completed

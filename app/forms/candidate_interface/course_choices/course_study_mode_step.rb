@@ -2,6 +2,7 @@ module CandidateInterface
   module CourseChoices
     class CourseStudyModeStep < DfE::Wizard::Step
       include CandidateInterface::Concerns::CourseSelectionStepHelper
+
       attr_accessor :provider_id, :course_id, :study_mode
 
       validates :study_mode, presence: true

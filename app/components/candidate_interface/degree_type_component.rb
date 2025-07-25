@@ -1,5 +1,6 @@
 class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
   include ViewHelper
+
   attr_reader :type, :wizard
 
   DEGREE_TYPES = {

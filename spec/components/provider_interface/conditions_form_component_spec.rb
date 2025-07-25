@@ -5,6 +5,7 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
   let(:form_object_class) do
     Class.new do
       include ActiveModel::Model
+
       attr_accessor :standard_conditions, :further_condition_models, :max_number_of_further_conditions
 
       alias_method :max_number_of_further_conditions?, :max_number_of_further_conditions

@@ -7,6 +7,7 @@ RSpec.describe ContactDetailsAPIData do
   let(:contact_details_data_class) do
     Class.new do
       include ContactDetailsAPIData
+
       attr_accessor :application_choice, :application_form
 
       def initialize(application_choice)

@@ -7,6 +7,7 @@ RSpec.describe CourseAPIData do
   let(:course_data_class) do
     Class.new do
       include CourseAPIData
+
       attr_accessor :application_choice, :application_form
 
       def initialize(application_choice)

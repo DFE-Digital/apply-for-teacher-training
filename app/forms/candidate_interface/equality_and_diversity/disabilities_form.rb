@@ -1,6 +1,7 @@
 module CandidateInterface
   class EqualityAndDiversity::DisabilitiesForm
     include ActiveModel::Model
+
     OTHER = 'Another disability, health condition or impairment affecting daily life'.freeze
     OPT_OUT = 'Prefer not to say'.freeze
     NONE = 'I do not have any of these disabilities or health conditions'.freeze

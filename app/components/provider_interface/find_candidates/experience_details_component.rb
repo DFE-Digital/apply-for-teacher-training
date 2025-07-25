@@ -1,6 +1,7 @@
 class ProviderInterface::FindCandidates::ExperienceDetailsComponent < ViewComponent::Base
   attr_accessor :application_form
   include ViewHelper
+
   def initialize(application_form)
     @application_form = application_form
   end

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Publications::ITTMonthlyReportGenerator do
   include DfE::Bigquery::TestHelper
+
   let(:cycle_week) { 7 }
   let(:candidate_headline_statistics) do
     {

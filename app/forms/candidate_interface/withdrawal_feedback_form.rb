@@ -1,6 +1,7 @@
 module CandidateInterface
   class WithdrawalFeedbackForm
     include ActiveModel::Model
+
     CONFIG_PATH = 'config/withdrawal_reasons.yml'.freeze
 
     attr_accessor :selected_reasons, :explanation

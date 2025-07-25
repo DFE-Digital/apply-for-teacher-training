@@ -1,6 +1,7 @@
 module RefereeInterface
   class ReferenceController < ActionController::Base
     include RequestQueryParams
+
     before_action :set_user_context
     before_action :check_referee_has_valid_token
     before_action :set_token_param

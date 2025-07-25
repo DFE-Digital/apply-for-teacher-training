@@ -4,6 +4,7 @@ RSpec.describe 'Provider makes an offer on undergraduate applications' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
   include OfferStepsHelper
+
   let(:provider) { @provider }
   let(:ratifying_provider) { @provider }
   let(:provider_user) { @provider_user }

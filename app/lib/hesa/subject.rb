@@ -1,6 +1,7 @@
 module Hesa
   class Subject
     include ActiveModel::Model
+
     attr_accessor :id, :name, :suggestion_synonyms, :match_synonyms, :hecos_code, :dttp_id, :subject_ids, :comment
     alias hesa_code= hecos_code=
     alias hesa_code hecos_code

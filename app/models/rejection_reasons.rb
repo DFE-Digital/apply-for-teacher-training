@@ -5,6 +5,7 @@
 #
 class RejectionReasons
   include ActiveModel::Model
+
   CONFIG_PATH = 'config/rejection_reasons.yml'.freeze
   TRANSLATION_KEY_PREFIX = 'activemodel.errors.models.provider_interface/rejections_wizard.attributes'.freeze
 

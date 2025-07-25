@@ -8,6 +8,7 @@ RSpec.describe QualificationAPIData do
   let(:qualification_class) do
     Class.new do
       include QualificationAPIData
+
       attr_accessor :application_choice, :application_form
 
       def initialize(application_choice)

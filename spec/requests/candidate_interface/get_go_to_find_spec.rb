@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'GET course_choices/go_to_find' do
   include Devise::Test::IntegrationHelpers
+
   let(:candidate) { create(:candidate) }
 
   before do

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Block submission from blocked candidates' do
   include Devise::Test::IntegrationHelpers
+
   let(:application_form) { create(:application_form, :completed, :with_degree, submitted_at: nil, candidate:) }
   let(:choice) { create(:application_choice, :unsubmitted, application_form:) }
 

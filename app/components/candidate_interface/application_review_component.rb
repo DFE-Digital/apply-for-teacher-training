@@ -1,6 +1,7 @@
 module CandidateInterface
   class ApplicationReviewComponent < ViewComponent::Base
     include CourseFeeRowHelper
+
     attr_reader :application_choice
     delegate :interviewing?,
              :unsubmitted?,

@@ -1,6 +1,7 @@
 module SupportInterface
   class VendorAPIRequestDetailsComponent < SummaryListComponent
     include ViewHelper
+
     attr_reader :vendor_api_request
 
     def initialize(vendor_api_request)

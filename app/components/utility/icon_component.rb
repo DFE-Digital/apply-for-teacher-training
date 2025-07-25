@@ -1,5 +1,6 @@
 class IconComponent < ViewComponent::Base
   include ViewHelper
+
   attr_reader :type
 
   def initialize(type:)

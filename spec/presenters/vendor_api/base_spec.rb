@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe VendorAPI::Base do
   include APITest
+
   before do
     stub_const('VendorAPI::VERSION', '1.2')
     stub_const('VendorAPI::VERSIONS', { '1.0' => [APITest::FirstTestVersionChange],

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Redirects when reviewing before submission' do
   include Devise::Test::IntegrationHelpers
+
   let(:candidate) { create(:candidate) }
 
   before do

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate submits application with feedback form previously completed' do
   include CandidateHelper
+
   before do
     FeatureFlag.activate(:candidate_preferences)
   end

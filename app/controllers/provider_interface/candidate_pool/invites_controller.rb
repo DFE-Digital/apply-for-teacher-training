@@ -2,6 +2,7 @@ module ProviderInterface
   module CandidatePool
     class InvitesController < ProviderInterfaceController
       include Pagy::Backend
+
       before_action :redirect_to_applications_unless_provider_opted_in
       before_action :set_invite, only: :show
       before_action :redirect_if_candidate_in_pool, only: :show

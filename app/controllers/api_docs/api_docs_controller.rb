@@ -1,6 +1,7 @@
 module APIDocs
   class APIDocsController < ActionController::Base
     include RequestQueryParams
+
     layout 'application'
 
   private

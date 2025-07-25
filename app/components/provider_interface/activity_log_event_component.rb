@@ -1,6 +1,7 @@
 module ProviderInterface
   class ActivityLogEventComponent < ViewComponent::Base
     include ViewHelper
+
     attr_reader :event, :application_choice
     delegate :changes, to: :event
 
