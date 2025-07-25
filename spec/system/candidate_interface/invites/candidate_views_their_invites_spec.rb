@@ -36,12 +36,14 @@ RSpec.describe 'Candidate views their invites' do
     @invite = create(
       :pool_invite,
       application_form:,
+      course: create(:course, :open),
       status: 'published',
     )
 
     @applied_invite = create(
       :pool_invite,
       :with_application_choice,
+      course: create(:course, :open),
       application_form:,
       status: 'published',
     )
