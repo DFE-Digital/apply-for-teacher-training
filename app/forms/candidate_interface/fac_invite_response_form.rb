@@ -22,6 +22,11 @@ module CandidateInterface
         course_option_id: course_option.id,
         application_form_id: application_form.id,
       )
+
+      invite.update!(
+        candidate_decision: 'applied',
+        application_choice_id: @application_choice.id,
+      )
     end
 
     def accepted_invite?

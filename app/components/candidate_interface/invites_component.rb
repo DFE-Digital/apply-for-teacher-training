@@ -4,7 +4,7 @@ module CandidateInterface
 
     def initialize(application_form:, invites:)
       @application_form = application_form
-      @invites = invites
+      @invites = invites.select { |invite| invite.course.open? || !invite.course.not_available? }
     end
 
     def application_choice_link(invite)

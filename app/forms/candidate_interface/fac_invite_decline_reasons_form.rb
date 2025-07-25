@@ -30,6 +30,7 @@ module CandidateInterface
           )
         end
       end
+      invite.update(candidate_decision: 'declined')
     end
 
   private
