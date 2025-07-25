@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_25_092232) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_25_123145) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1100,6 +1100,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_25_092232) do
     t.datetime "updated_at", null: false
     t.bigint "provider_id", null: false
     t.datetime "last_used_at", precision: nil
+    t.string "description"
     t.index ["hashed_token"], name: "index_vendor_api_tokens_on_hashed_token", unique: true
     t.index ["provider_id"], name: "index_vendor_api_tokens_on_provider_id"
   end
