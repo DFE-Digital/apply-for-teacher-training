@@ -79,7 +79,7 @@ FactoryBot.define do
 
     trait :with_manage_api_tokens do
       after(:create) do |user, _evaluator|
-        user.provider_permissions.update_all(make_decisions: true, set_up_interviews: true)
+        user.provider_permissions.update_all(manage_api_tokens: true)
       end
     end
   end
