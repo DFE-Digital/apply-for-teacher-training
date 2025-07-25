@@ -9,7 +9,7 @@ module CandidateInterface
     end
 
     def show
-      if !@invite.course.open? || @invite.course.not_available?
+      if !@invite.course.open?
         redirect_to course_unavailable_candidate_interface_invite_path(@invite)
         return
       end
