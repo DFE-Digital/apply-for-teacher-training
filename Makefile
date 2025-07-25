@@ -189,6 +189,7 @@ deploy-init: vendor-modules set-azure-account
 	$(if $(IMAGE_TAG), , $(error Missing environment variable "IMAGE_TAG"))
 	$(eval export TF_VAR_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
+
 	terraform -chdir=terraform/$(PLATFORM) init -reconfigure -upgrade -backend-config=./workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
 	$(eval export TF_VAR_service_name=${SERVICE_NAME})
 
