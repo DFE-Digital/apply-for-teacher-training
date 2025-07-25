@@ -4,6 +4,8 @@ RSpec.describe 'Organisation users', :with_audited do
   include DfESignInHelpers
   include Rails.application.routes.url_helpers
 
+  before { FeatureFlag.activate(:api_token_management) }
+
   scenario 'viewing and adding api tokens' do
     given_i_am_a_provider_user_signed_in_with_permissions_to_manage_tokens
 
