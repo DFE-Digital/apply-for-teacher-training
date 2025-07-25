@@ -23,7 +23,9 @@
     <% if @can_manage_tokens %>
       <%= govuk_button_link_to t('.add_token'), new_provider_interface_organisation_settings_organisation_api_token_path(@provider) %>
     <% end %>
+  </div>
 
+  <div class="govuk-grid-column-full">
     <% if @api_tokens.none? %>
       <p class="govuk-body"><%= t('.no_tokens') %></p>
     <% else %>

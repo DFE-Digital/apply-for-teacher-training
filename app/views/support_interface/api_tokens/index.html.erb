@@ -29,6 +29,9 @@
         <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Vendor</th>
         <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Last used at</th>
         <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Created at</th>
+        <% if FeatureFlag.active?(:api_token_management) %>
+          <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Description</th>
+        <% end %>
         <th scope='col' class='govuk-table__header'>Actions</th>
       </tr>
     </thead>
@@ -41,6 +44,9 @@
         <td class='govuk-table__cell'><%= token.provider.vendor_name %></td>
         <td class='govuk-table__cell'><%= token.last_used_at ? token.last_used_at.to_fs(:govuk_date_and_time) : 'Never' %></td>
         <td class='govuk-table__cell'><%= token.created_at.to_fs(:govuk_date_and_time) %></td>
+        <% if FeatureFlag.active?(:api_token_management) %>
+          <td class='govuk-table__cell'><%= token.description.presence || 'None' %></td>
+        <% end %>
         <td class='govuk-table__cell'>
           <%= govuk_button_link_to 'Revoke', confirm_revocation_support_interface_api_token_path(token), warning: true %>
         </td>
