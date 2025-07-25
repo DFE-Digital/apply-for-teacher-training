@@ -22,6 +22,10 @@ RSpec.describe 'Organisation users', :with_audited do
     when_i_click_on('Add token')
     and_i_click_on('Generate')
 
+    then_i_see_the_error('Add a brief description for the new token')
+    when_i_add_a_description
+    and_i_click_on('Generate')
+
     then_i_see_the_token
     when_i_click_on('Back')
     then_i_see_my_new_token_in_the_list
@@ -92,6 +96,7 @@ private
       expect(page).to have_content 'Never'
       expect(page).to have_content token.created_at.to_fs(:govuk_date_and_time)
       expect(page).to have_content @provider_user.email_address
+      expect(page).to have_content 'Token for vendor integration test'
     end
   end
 
@@ -101,6 +106,7 @@ private
       expect(page).to have_content token.last_used_at.to_fs(:govuk_date_and_time)
       expect(page).to have_content token.created_at.to_fs(:govuk_date_and_time)
       expect(page).to have_content @provider_user.email_address
+      expect(page).to have_content 'Token for vendor integration test'
     end
   end
 
@@ -110,15 +116,12 @@ private
       expect(page).to have_content token.last_used_at.to_fs(:govuk_date_and_time)
       expect(page).to have_content token.created_at.to_fs(:govuk_date_and_time)
       expect(page).to have_content 'DFE support user'
+      expect(page).to have_content 'None'
     end
   end
 
   def and_i_do_not_see_the_add_button
     expect(page).to have_no_button 'Add token'
-  end
-
-  def then_i_see_success_message
-    expect(page).to have_content 'API token deleted'
   end
 
   def given_the_token_has_been_used
@@ -131,22 +134,25 @@ private
     visit url
   end
 
-  def then_i_see_the_warning_page
-    token = VendorAPIToken.last
-    expect(page).to have_content 'Are you sure you want to revoke this token?'
-    expect(page).to have_content "The token was last used on #{token.last_used_at.to_fs(:govuk_date_and_time)}"
-    expect(page).to have_content 'If you delete, any integrations that are still using this token will fail. Only delete if you are confident it is no longer in use.'
-  end
-
   def and_link_to_api_docs
     expect(page).to have_link('Apply API (test)', href: api_docs_home_path)
   end
 
   def then_i_see_the_create_token_page
-    expect(page).to have_content "Clicking continue will create a token for #{@provider.name}. It will be visible until you navigate away from the page."
+    expect(page).to have_content "Clicking generate will create a token for #{@provider.name}. It will be visible until you navigate away from the page."
   end
 
   def then_i_see_the_token
     expect(page).to have_text('New API token generated')
+  end
+
+  def then_i_see_the_error(text)
+    expect(page.title).to include 'Error:'
+    expect(page).to have_content 'There is a problem'
+    expect(page).to have_content(text).twice
+  end
+
+  def when_i_add_a_description
+    fill_in 'Description', with: 'Token for vendor integration test'
   end
 end

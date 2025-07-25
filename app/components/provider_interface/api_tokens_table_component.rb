@@ -14,16 +14,18 @@ module ProviderInterface
         t('.last_used_at'),
         t('.created_at'),
         t('.created_by'),
+        t('.description'),
       ]
     end
 
     def rows
       api_tokens.map do |token|
         [
-          token.id.to_s,
+          "##{token.id}",
           last_used_at_cell(token),
           created_at_cell(token),
           created_by_cell(token),
+          description_cell(token),
         ]
       end
     end
@@ -44,6 +46,10 @@ module ProviderInterface
       else
         t('.default_user')
       end
+    end
+
+    def description_cell(token)
+      token.description.presence || t('.no_description')
     end
 
     def call
