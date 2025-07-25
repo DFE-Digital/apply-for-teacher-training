@@ -597,6 +597,7 @@ shared:
     - updated_at
     - provider_id
     - last_used_at
+    - description
   vendor_api_requests:
     - id
     - request_path
