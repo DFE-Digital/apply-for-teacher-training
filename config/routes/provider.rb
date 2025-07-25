@@ -184,6 +184,8 @@ namespace :provider_interface, path: '/provider' do
         end
       end
 
+      resources :api_tokens, path: 'api-tokens', only: %i[index new create]
+
       namespace :user_invitation, path: 'user' do
         resource :personal_details, path: '', only: %i[new create]
         resource :permissions, only: %i[new create]

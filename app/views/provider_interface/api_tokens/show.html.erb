@@ -1,0 +1,15 @@
+<% content_for :browser_title, t('.title', provider_name: @provider.name) %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_organisation_settings_organisation_api_tokens_path(@provider)) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <% if @unhashed_token.present? %>
+      <%= govuk_panel(title_text: t('.new_api_token_generated')) do %>
+        <%= t('.your_token_is_html', token: @unhashed_token) %>
+      <% end %>
+      <p class="govuk-body">
+        <%= t('.note_this_down_and_keep_safe') %>
+      </p>
+    <% end %>
+  </div>
+</div>

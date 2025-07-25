@@ -28,6 +28,7 @@ class FeatureFlag
   TEMPORARY_FEATURE_FLAGS = [
     [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],
     [:candidate_preferences, 'Allow candidates to add their preferences for providers to find them', 'Apply team'],
+    [:api_token_management, 'Allow provider users to manage their own api tokens', 'Apply team'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

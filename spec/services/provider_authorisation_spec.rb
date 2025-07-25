@@ -46,6 +46,25 @@ RSpec.describe ProviderAuthorisation do
     end
   end
 
+  describe '#can_manage_api_tokens?' do
+    let(:provider_for_no_permission) { create(:provider) }
+    let(:provider_for_with_permission) { create(:provider) }
+    let(:provider_user) { create(:provider_user) }
+
+    before do
+      create(:provider_permissions, manage_api_tokens: true, provider_user:, provider: provider_for_with_permission)
+      create(:provider_permissions, manage_api_tokens: false, provider_user:, provider: provider_for_no_permission)
+    end
+
+    it 'returns false if does not have permission for the provider given' do
+      expect(described_class.new(actor: provider_user).can_manage_api_tokens?(provider_for_no_permission)).to be false
+    end
+
+    it 'returns true if does have permission for the provider given' do
+      expect(described_class.new(actor: provider_user).can_manage_api_tokens?(provider_for_with_permission)).to be true
+    end
+  end
+
   describe '#can_make_decisions?' do
     let(:training_provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
     let(:training_provider) { training_provider_user.providers.first }

@@ -1,0 +1,24 @@
+<% content_for :browser_title, t('.title', provider_name: @provider.name) %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_organisation_settings_organisation_api_tokens_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @api_token, url: provider_interface_organisation_settings_organisation_api_tokens_path(@provider), method: :post do |form| %>
+      <h1 class="govuk-heading-l"><%= t('.heading', provider_name: @provider.name) %></h1>
+      <p class="govuk-body">
+        <%= govuk_link_to(
+              t(
+                '.apply_api',
+                environment: HostingEnvironment.environment_name,
+              ),
+              api_docs_home_path,
+            ) %>
+      </p>
+      <p class="govuk-body">
+        <%= t('.create_token', provider_name: @provider.name) %>
+      </p>
+
+      <%= form.govuk_submit t('.generate') %>
+    <% end %>
+  </div>
+</div>
