@@ -20,7 +20,7 @@ RSpec.describe 'Organisation users', :with_audited do
     then_i_see_the_no_tokens_message
 
     when_i_click_on('Add token')
-    and_i_click_on('Continue')
+    and_i_click_on('Generate')
 
     then_i_see_the_token
     when_i_click_on('Back')

@@ -12,7 +12,7 @@ en:
         title: Create an API token for %{provider_name}
         heading: Create an API token
         create_token: Clicking continue will create a token for %{provider_name}. It will be visible until you navigate away from the page.
-        continue: Continue
+        generate: Generate
         cancel: Cancel
         apply_api: Apply API documentation (%{environment})
       show:
