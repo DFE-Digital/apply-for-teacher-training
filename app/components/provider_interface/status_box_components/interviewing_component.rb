@@ -2,6 +2,7 @@ module ProviderInterface
   module StatusBoxComponents
     class InterviewingComponent < ViewComponent::Base
       include ViewHelper
+
       attr_reader :application_choice
 
       def initialize(application_choice:, options: {})

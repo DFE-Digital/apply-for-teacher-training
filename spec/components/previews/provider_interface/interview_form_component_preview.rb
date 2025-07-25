@@ -4,6 +4,7 @@ module ProviderInterface
 
     class FormModel
       include ActiveModel::Model
+
       attr_accessor :time, :date, :location, :additional_details, :provider_id
 
       def model_name

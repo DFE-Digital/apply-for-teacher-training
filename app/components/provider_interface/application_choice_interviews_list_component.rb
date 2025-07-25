@@ -1,6 +1,7 @@
 module ProviderInterface
   class ApplicationChoiceInterviewsListComponent < ViewComponent::Base
     include ViewHelper
+
     attr_reader :application_choice, :user_can_create_or_change_interviews
 
     def initialize(application_choice:, user_can_create_or_change_interviews:)

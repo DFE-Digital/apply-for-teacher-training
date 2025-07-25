@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'After sign in redirects' do
   include Devise::Test::IntegrationHelpers
+
   let(:candidate) { create(:candidate, course_from_find:) }
   let(:application_form) { create(:application_form, :completed, candidate:) }
   let(:course_from_find) { create(:course) }

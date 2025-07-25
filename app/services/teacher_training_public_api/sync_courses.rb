@@ -3,6 +3,7 @@ module TeacherTrainingPublicAPI
     attr_reader :provider, :run_in_background, :incremental_sync, :recruitment_cycle_year
 
     include Sidekiq::Worker
+
     sidekiq_options retry: 3, queue: :low_priority
 
     API_COURSE_DRAFT_STATES = %w[rolled_over draft].freeze

@@ -1,6 +1,7 @@
 module CandidateInterface
   class OfferReviewComponent < SummaryListComponent
     include ApplicationHelper
+
     def initialize(course_choice:)
       @course_choice = course_choice
     end

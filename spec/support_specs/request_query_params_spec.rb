@@ -2,6 +2,7 @@ require 'rails_helper'
 
 class DummyController < ApplicationController
   include RequestQueryParams
+
   attr_accessor :request
   def initialize
     @request = Struct.new(:query_parameters, :path_parameters).new({}, {})

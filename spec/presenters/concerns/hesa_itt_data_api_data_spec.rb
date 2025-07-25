@@ -6,6 +6,7 @@ RSpec.describe HesaIttDataAPIData do
   let(:hesa_itt_data_class) do
     Class.new do
       include HesaIttDataAPIData
+
       attr_accessor :application_choice, :application_form
 
       def initialize(application_choice)

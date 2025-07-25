@@ -1,6 +1,7 @@
 module CandidateInterface
   class Gcse::TypeController < Gcse::BaseController
     include Gcse::ResolveGcseEditPathConcern
+
     before_action :redirect_to_application_form_if_current_qualification_missing, only: %i[edit update]
 
     def new

@@ -7,6 +7,7 @@ RSpec.describe WorkExperienceAPIData do
   let(:work_experience_class) do
     Class.new do
       include WorkExperienceAPIData
+
       attr_accessor :application_choice, :application_form, :active_version
 
       def initialize(application_choice, active_version)

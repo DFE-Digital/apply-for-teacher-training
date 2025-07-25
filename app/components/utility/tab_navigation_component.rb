@@ -1,5 +1,6 @@
 class TabNavigationComponent < ViewComponent::Base
   include ViewHelper
+
   attr_reader :items
 
   def initialize(items:)

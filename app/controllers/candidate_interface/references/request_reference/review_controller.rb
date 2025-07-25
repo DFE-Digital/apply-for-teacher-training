@@ -2,6 +2,7 @@ module CandidateInterface
   module References
     class RequestReference::ReviewController < ReviewController
       include RequestReferenceOfferDashboard
+
       before_action :set_reference, :set_policy
       before_action :verify_reference_can_be_requested, only: %i[request_feedback]
 

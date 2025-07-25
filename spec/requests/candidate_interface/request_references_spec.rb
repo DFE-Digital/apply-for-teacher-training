@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate Interface - Request references' do
   include Devise::Test::IntegrationHelpers
+
   let(:candidate) { create(:candidate) }
 
   before do

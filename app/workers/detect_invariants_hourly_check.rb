@@ -1,6 +1,7 @@
 # Detect state that *should* be impossible in the system and report them to Sentry
 class DetectInvariantsHourlyCheck
   include Sidekiq::Worker
+
   SIDEKIQ_QUEUE_NAMES = %w[low_priority default mailers big_query].freeze
   SIDEKIQ_LATENCY_THRESHOLD = 120
 

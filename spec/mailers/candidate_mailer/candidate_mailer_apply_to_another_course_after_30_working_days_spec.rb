@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
+
   describe '.apply_to_another_course_after_30_working_days' do
     let(:application_form) do
       create(

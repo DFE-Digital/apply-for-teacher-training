@@ -1,5 +1,6 @@
 class ProviderUserNotificationPreferencesComponent < ViewComponent::Base
   include ViewHelper
+
   attr_reader :notification_preferences, :form_path
 
   def initialize(notification_preferences, form_path:)

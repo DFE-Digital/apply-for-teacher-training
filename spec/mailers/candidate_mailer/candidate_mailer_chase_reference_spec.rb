@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
+
   let(:email) { described_class.chase_reference(referee) }
 
   describe '.chase_reference' do

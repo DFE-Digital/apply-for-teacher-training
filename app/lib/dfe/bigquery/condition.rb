@@ -2,6 +2,7 @@ module DfE
   module Bigquery
     class Condition
       include ActiveModel::Model
+
       attr_writer :value
       attr_accessor :column
 

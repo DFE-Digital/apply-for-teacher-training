@@ -1,5 +1,6 @@
 class RequestReference
   include ActiveModel::Model
+
   attr_accessor :reference
 
   validate :reference_complete_information

@@ -1,6 +1,7 @@
 module SupportInterface
   class CandidateAccountStatusComponent < ViewComponent::Base
     include ViewHelper
+
     attr_reader :candidate_account_status
     delegate :candidate, :status, to: :candidate_account_status
 

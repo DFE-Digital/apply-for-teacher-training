@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderMailer do
   include TestHelpers::MailerSetupHelper
+
   let(:email) { described_class.declined(provider_user, application_choices.first) }
 
   describe '.declined' do

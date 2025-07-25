@@ -1,5 +1,6 @@
 class DeleteAuditsWorker
   include Sidekiq::Worker
+
   sidekiq_options queue: :low_priority
 
   def perform(audit_ids)

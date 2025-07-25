@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Invited candidate list' do
   include DfESignInHelpers
+
   let(:submitted_application_choice) { create(:application_choice, :awaiting_provider_decision) }
   let(:current_provider) { submitted_application_choice.provider }
 

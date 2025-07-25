@@ -5,6 +5,7 @@ module SupportInterface
     NON_UK_QUALIFICATION_TYPE = 'non_uk'.freeze
     MISSING_QUALIFICATION_TYPE = 'missing'.freeze
     include ActiveModel::Model
+
     attr_accessor :qualification,
                   :application_form,
                   :qualification_type,

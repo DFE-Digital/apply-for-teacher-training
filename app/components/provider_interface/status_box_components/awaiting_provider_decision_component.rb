@@ -2,6 +2,7 @@ module ProviderInterface
   module StatusBoxComponents
     class AwaitingProviderDecisionComponent < ViewComponent::Base
       include ViewHelper
+
       attr_reader :application_choice
 
       def initialize(application_choice:, options: {})

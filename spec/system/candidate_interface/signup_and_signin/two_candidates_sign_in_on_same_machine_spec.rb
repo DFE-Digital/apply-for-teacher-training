@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate account' do
   include SignInHelper
+
   scenario 'Two candidates on the same machine sign in one after the other' do
     stub_const('TestUser', Struct.new(:name, :email))
 

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Submit to continuous apps' do
   include Devise::Test::IntegrationHelpers
+
   let(:choice) { create(:application_choice, :unsubmitted, application_form:) }
   let(:candidate) { application_form.candidate }
 

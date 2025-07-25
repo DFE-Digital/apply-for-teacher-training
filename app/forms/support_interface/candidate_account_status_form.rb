@@ -1,6 +1,7 @@
 module SupportInterface
   class CandidateAccountStatusForm
     include ActiveModel::Model
+
     attr_accessor :candidate
     attr_writer :status
 

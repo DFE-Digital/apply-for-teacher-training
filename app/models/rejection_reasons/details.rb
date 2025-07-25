@@ -1,6 +1,7 @@
 class RejectionReasons
   class Details
     include ActiveModel::Model
+
     MAX_WORDS = 200
 
     attr_accessor :id, :label, :text, :optional, :visually_hidden

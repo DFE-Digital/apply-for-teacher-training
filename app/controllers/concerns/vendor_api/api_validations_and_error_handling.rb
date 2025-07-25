@@ -1,6 +1,7 @@
 module VendorAPI
   module APIValidationsAndErrorHandling
     extend ActiveSupport::Concern
+
     NOT_FOUND_MODEL_MAPPINGS = {
       'ApplicationChoice' => 'Application',
     }.freeze
