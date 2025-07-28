@@ -15,7 +15,7 @@ module ProviderInterface
 
     def create
       @api_token = APITokenForm.new(api_token_params.merge(provider: @provider))
-      if @unhashed_token = @api_token.save!
+      if (@unhashed_token = @api_token.save!)
         render :show
       else
         render :new, status: :unprocessable_entity
