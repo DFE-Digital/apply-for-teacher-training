@@ -27,14 +27,14 @@
     <h3 class="govuk-heading-m">
       <%= t('provider_interface.references.feedback_provided_title') %>
     </h3>
-    <%= render partial: 'provider_interface/references/reference', collection: @references.feedback_provided, as: :reference, locals: { application_choice: @application_choice } %>
+    <%= render(ProviderInterface::ReferenceWithFeedbackComponent.with_collection(@references.feedback_provided, application_choice: @application_choice)) %>
   <% end %>
 
   <% if @references.feedback_requested.present? %>
     <h3 class="govuk-heading-m">
       <%= t('provider_interface.references.feedback_requested_title') %>
     </h3>
-    <%= render partial: 'provider_interface/references/reference', collection: @references.feedback_requested, as: :reference, locals: { application_choice: @application_choice } %>
+    <%= render(ProviderInterface::ReferenceWithFeedbackComponent.with_collection(@references.feedback_requested, application_choice: @application_choice)) %>
   <% end %>
 <% else %>
   <div class="govuk-grid-row">
@@ -45,5 +45,5 @@
     </div>
   </div>
 
-  <%= render partial: 'provider_interface/references/reference', collection: @references, as: :reference, locals: { application_choice: @application_choice } %>
+  <%= render(ProviderInterface::ReferenceWithFeedbackComponent.with_collection(@references, application_choice: @application_choice)) %>
 <% end %>

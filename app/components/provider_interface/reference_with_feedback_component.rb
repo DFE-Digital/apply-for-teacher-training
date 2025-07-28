@@ -14,6 +14,8 @@ module ProviderInterface
              to: :reference
     delegate :accepted_choice?, to: :application_choice
 
+    with_collection_parameter :reference
+
     def initialize(reference:, application_choice:)
       @reference = reference
       @application_choice = application_choice
