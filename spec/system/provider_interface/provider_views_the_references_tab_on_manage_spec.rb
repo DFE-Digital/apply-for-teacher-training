@@ -23,7 +23,7 @@ RSpec.describe 'Provider views an application in new cycle' do
 
     when_the_candidate_accepts_an_offer
     and_i_revisit_references
-    then_i_see_the_reference_received_section
+    then_i_see_the_reference_requested_section
 
     when_the_candidate_receives_a_reference
     and_i_revisit_references
@@ -93,11 +93,11 @@ RSpec.describe 'Provider views an application in new cycle' do
     click_link_or_button 'References'
   end
 
-  def then_i_see_the_reference_received_section
+  def then_i_see_the_reference_requested_section
     expect(page).to have_no_content pre_offer_message
     expect(page).to have_content 'Requested references'
     expect(page).to have_content 'The candidate has requested 2 references.'
-    expect(page).to have_content @my_provider_choice.application_form.application_references.creation_order.first.feedback
+    expect(page).to have_no_content @my_provider_choice.application_form.application_references.creation_order.first.feedback
   end
 
   def then_i_see_the_reference_feedback
