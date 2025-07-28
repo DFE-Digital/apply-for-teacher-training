@@ -14,19 +14,18 @@ module ProviderInterface
     end
 
     def create
-      @api_token = APITokenForm.new(description_param, provider: @provider)
-      if @api_token.valid?
-        @unhashed_token = @api_token.save!
+      @api_token = APITokenForm.new(api_token_params.merge(provider: @provider))
+      if @unhashed_token = @api_token.save!
         render :show
       else
-        render :new
+        render :new, status: :unprocessable_entity
       end
     end
 
   private
 
-    def description_param
-      params.expect(provider_interface_api_token_form: :description)
+    def api_token_params
+      params.expect(provider_interface_api_token_form: [:description])
     end
 
     def redirect_if_feature_flag_inactive

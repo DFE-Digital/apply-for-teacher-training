@@ -4,18 +4,15 @@ module ProviderInterface
     include ActiveModel::Attributes
 
     attribute :description
+    attribute :provider
 
     validates :description, presence: true
-
-    def initialize(attributes = {}, provider:)
-      @provider = provider
-      super(attributes)
-    end
+    validates :provider, presence: true
 
     def save!
       return false unless valid?
 
-      VendorAPIToken.create_with_random_token!({ description: }, provider: @provider)
+      VendorAPIToken.create_with_random_token!(provider:, description:)
     end
   end
 end
