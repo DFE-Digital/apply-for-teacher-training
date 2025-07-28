@@ -12,7 +12,7 @@ module CandidateInterface
     end
 
     def applied!
-      clean_up_orphan_invites
+      clean_up_disconnected_invites
 
       invite = application_form.published_invites.find_by(
         course_id: application_choice.current_course.id,
@@ -29,7 +29,7 @@ module CandidateInterface
 
   private
 
-    def clean_up_orphan_invites
+    def clean_up_disconnected_invites
       # When a candidate creates a draft choice for invited course and changes course to a non invited course
       # We then need to remove the link between the choice and the invite
       if application_choice.current_course == application_choice.original_course
