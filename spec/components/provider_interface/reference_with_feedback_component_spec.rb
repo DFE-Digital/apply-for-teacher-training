@@ -135,7 +135,7 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :compone
         # The Referee has started the reference but has not submitted the reference yet
         let(:reference) { build(:reference, feedback: 'A valuable unit of work', feedback_status: 'feedback_requested') }
 
-        it 'does not contain a confidentiality row' do
+        it 'does not contain a feedback row' do
           expect(component.rows).not_to include(
             {
               key: 'Reference',
