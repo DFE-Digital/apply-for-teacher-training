@@ -35,6 +35,8 @@ class ApplicationChoice < ApplicationRecord
   has_many :volunteering_experiences, as: :experienceable, class_name: 'ApplicationVolunteeringExperience'
   has_many :work_history_breaks, as: :breakable, class_name: 'ApplicationWorkHistoryBreak'
 
+  has_many :published_invites, -> { published }, class_name: 'Pool::Invite'
+
   validates_with ReapplyValidator, reappliable: true
 
   has_associated_audits
@@ -264,16 +266,15 @@ class ApplicationChoice < ApplicationRecord
     assign_attributes(attrs) # provider_ids_for_access needs this to be set beforehand
     self.provider_ids = provider_ids_for_access
 
-    invite = application_form.published_invites.find_by(course_id: new_course_option.course_id, application_choice_id: nil)
-
     ActiveRecord::Base.transaction do
-      if invite.present?
-        invite.update(
-          application_choice_id: id,
-          candidate_decision: 'applied',
-        )
-      end
       update!(attrs)
+
+      CandidateInterface::InviteApplication.applied!(
+        application_form:,
+        application_choice: self,
+      )
+
+      true
     end
   end
 
