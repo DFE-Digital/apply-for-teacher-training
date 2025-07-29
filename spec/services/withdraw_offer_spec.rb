@@ -1,16 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe WithdrawOffer do
-  before do
-    allow(CandidateMailer).to receive(:offer_withdrawn).and_return(
-      instance_double(ActionMailer::MessageDelivery, deliver_later: true),
-    )
-    allow(CandidateCoursesRecommender).to receive(:recommended_courses_url)
-                                            .and_return(recommended_courses_url)
-  end
-
-  let(:recommended_courses_url) { nil }
-
   describe '#save!' do
     it 'changes the state of the application_choice to "rejected" given a valid reason' do
       application_choice = create(:application_choice, status: :offer)
@@ -54,36 +44,20 @@ RSpec.describe WithdrawOffer do
       expect(application_choice.reload.status).to eq 'offer'
     end
 
-    it 'sends an email to the candidate' do
+    it 'sends an email to the candidate', :sidekiq do
       application_choice = create(:application_choice, status: :offer)
       withdrawal_reason = 'We messed up big time'
 
-      described_class.new(
-        actor: create(:support_user),
-        application_choice:,
-        offer_withdrawal_reason: withdrawal_reason,
-      ).save
-
-      expect(CandidateMailer).to have_received(:offer_withdrawn)
-                                   .with(application_choice, nil)
-    end
-
-    context 'with a course recommendation url' do
-      let(:recommended_courses_url) { 'https://www.find-postgraduate-teacher-training.service.gov.uk/results' }
-
-      it 'sends an email to the candidate with a recommendation url' do
-        application_choice = create(:application_choice, status: :offer)
-        withdrawal_reason = 'We messed up big time'
-
+      expect {
         described_class.new(
           actor: create(:support_user),
           application_choice:,
           offer_withdrawal_reason: withdrawal_reason,
         ).save
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
 
-        expect(CandidateMailer).to have_received(:offer_withdrawn)
-                                     .with(application_choice, 'https://www.find-postgraduate-teacher-training.service.gov.uk/results')
-      end
+      expect(ActionMailer::Base.deliveries.first.to).to eq [application_choice.application_form.candidate.email_address]
+      expect(ActionMailer::Base.deliveries.first.subject).to match(/Offer withdrawn by/)
     end
   end
 end
