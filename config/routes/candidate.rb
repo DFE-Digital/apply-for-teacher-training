@@ -19,7 +19,7 @@ namespace :candidate_interface, path: '/candidate' do
   resources :invites, only: %i[index show], path: 'application-sharing' do
     member do
       patch 'response', to: 'invites#update', as: :update_response
-      get 'course_unavailable'
+      get 'course-unavailable'
       get 'decline', to: 'decline_reasons#show', as: :decline
       patch 'decline', to: 'decline_reasons#update'
     end
