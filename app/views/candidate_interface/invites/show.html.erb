@@ -1,4 +1,4 @@
-<% content_for :title, t('.title', provider: @invite.provider_name) %>
+<% content_for :title, title_with_error_prefix(t('.title', provider: @invite.provider_name), @fac_invite_response_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_invites_path) %>
 
 <%= form_with(model: @fac_invite_response_form, url: candidate_interface_update_invite_response_path(@invite), method: :patch) do |f| %>

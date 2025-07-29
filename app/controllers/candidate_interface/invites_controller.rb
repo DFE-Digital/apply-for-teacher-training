@@ -9,9 +9,8 @@ module CandidateInterface
     end
 
     def show
-      if !@invite.course.open?
+      if !@invite.course_open?
         redirect_to course_unavailable_candidate_interface_invite_path(@invite)
-        return
       end
 
       @fac_invite_response_form = CandidateInterface::FacInviteResponseForm.new(
@@ -45,13 +44,15 @@ module CandidateInterface
     def update_reason
       @fac_invite_decline_reason_form = CandidateInterface::FacInviteDeclineReasonsForm.new(fac_invite_decline_reason_form_params)
 
-      if @fac_invite_decline_reason_form.save(@invite)
+      if @fac_invite_decline_reason_form.valid?
+        @fac_invite_decline_reason_form.save(@invite)
         flash[:success] = [t('.header', course: @invite.course.name_and_code,
                                         provider: @invite.provider_name),
                            t('.body', link: view_context.govuk_link_to('apply to this course', candidate_interface_course_choices_course_confirm_selection_path(@invite.course)))]
 
         redirect_to candidate_interface_invites_path
       else
+        track_validation_error(@fac_invite_decline_reason_form)
         render :decline
       end
     end

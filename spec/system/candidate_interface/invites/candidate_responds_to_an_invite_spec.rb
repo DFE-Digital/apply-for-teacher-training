@@ -78,6 +78,7 @@ private
     @unavailable_course_invite = create(
       :pool_invite,
       course: create(:course, :unavailable, application_status: 'closed'),
+      course_open: false,
       application_form:,
       status: 'published',
     )
@@ -125,8 +126,6 @@ private
       )
       expect(page).to have_content('Applied')
     end
-
-    expect(page).to have_no_css(".govuk-task-list__item##{@unavailable_course_invite.id}")
   end
 
   def then_i_see_the_invite

@@ -2,21 +2,17 @@ module CandidateInterface
   class InvitesComponent < ViewComponent::Base
     attr_reader :invites
 
+<<<<<<< HEAD
     def initialize(invites:)
+=======
+    def initialize(application_form:, invites:)
+      @application_form = application_form
+>>>>>>> de0bdb48b0 (Address review comments)
       @invites = invites
     end
 
     def application_choice_link(invite)
       application_choice = invite.application_choice
-
-      if application_choice.nil?
-        # I have added this to reset the invite status to not_responded if the draft was deleted following accepting the invite
-        invite.update!(
-          candidate_decision: 'not_responded',
-          application_choice_id: nil,
-        )
-        return nil
-      end
 
       if application_choice.offer?
         candidate_interface_offer_path(application_choice, return_to: 'invites')

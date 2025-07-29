@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-      <%= form_with(model: @adviser_interruption_form, url: candidate_interface_update_adviser_sign_ups_interruption_response_path(@adviser_interruption_form.application_form.id), method: :post) do |f| %>
+      <%= form_with(model: @adviser_interruption_form, url: candidate_interface_update_adviser_sign_ups_interruption_response_path(@adviser_interruption_form.application_form.id), method: :patch) do |f| %>
         <%= f.govuk_error_summary %>
 
         <div class="app-grid-column--grey">

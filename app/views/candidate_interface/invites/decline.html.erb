@@ -1,3 +1,6 @@
+<% content_for :title, title_with_error_prefix(t('.title', provider: @invite.provider_name), @fac_invite_decline_reason_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_invite_path(@invite)) %>
+
 <%= form_with(model: @fac_invite_decline_reason_form, url: candidate_interface_update_decline_reason_path(@invite), method: :patch) do |f| %>
   <%= f.govuk_error_summary %>
 
