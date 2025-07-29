@@ -7,16 +7,12 @@
       ) %>
 
       <%= item.with_status do %>
-        <% if invite.applied? && invite.application_choice.present? %>
-          <div class="govuk-!-margin-bottom-1">
-            <%= govuk_tag text: invite.candidate_decision.capitalize, colour: 'green' %>
-          </div>
-          <div>
-            <%= govuk_link_to t('.view_application'), application_choice_link(invite) %>
-          </div>
-        <% else %>
-          <%= govuk_link_to t('.view_invite'), candidate_interface_invite_path(invite) %>
-        <% end %>
+        <div class="govuk-!-margin-bottom-1">
+          <%= status_tag(invite) %>
+        </div>
+        <div>
+          <%= action_link(invite) %>
+        </div>
       <% end %>
     <% end %>
   <% end %>

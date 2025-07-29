@@ -35,7 +35,7 @@
     <h2 class="govuk-heading-m"><%= t('.your_invitations') %></h2>
 
     <% if @invites.present? %>
-      <%= render CandidateInterface::InvitesComponent.new(application_form: current_application, invites: @invites) %>
+      <%= render CandidateInterface::InvitesComponent.new(invites: @invites) %>
     <% else %>
       <p class='govuk-body'><%= t('.no_invitations') %></p>
     <% end %>

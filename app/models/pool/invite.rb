@@ -23,6 +23,7 @@ class Pool::Invite < ApplicationRecord
   enum :candidate_decision, {
     not_responded: 'not_responded',
     applied: 'applied',
+    declined: 'declined',
   }, default: :not_responded
 
   scope :not_sent_to_candidate, -> { where(sent_to_candidate_at: nil) }
@@ -46,6 +47,10 @@ class Pool::Invite < ApplicationRecord
 
   def sent_to_candidate?
     sent_to_candidate_at.present?
+  end
+
+  def course_closed?
+    !course_open?
   end
 
   def matching_application_choice
