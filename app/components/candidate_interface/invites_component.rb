@@ -2,12 +2,7 @@ module CandidateInterface
   class InvitesComponent < ViewComponent::Base
     attr_reader :invites
 
-<<<<<<< HEAD
     def initialize(invites:)
-=======
-    def initialize(application_form:, invites:)
-      @application_form = application_form
->>>>>>> de0bdb48b0 (Address review comments)
       @invites = invites
     end
 

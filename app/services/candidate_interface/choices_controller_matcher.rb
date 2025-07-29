@@ -19,6 +19,7 @@ class CandidateInterface::ChoicesControllerMatcher
     'candidate_interface/publish_preferences',
     'candidate_interface/funding_type',
     'candidate_interface/invites',
+    'candidate_interface/decline_reasons',
   ].freeze
 
   def self.choices_controller?(current_application:, controller_path:, request:)

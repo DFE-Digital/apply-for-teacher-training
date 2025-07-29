@@ -16,15 +16,16 @@ namespace :candidate_interface, path: '/candidate' do
 
   resources :account_recovery_requests, only: %i[new create], path: 'account-recovery-requests'
 
-  patch 'application-sharing/:id/response' => 'invites#update', as: :update_invite_response
-  patch 'application-sharing/:id/decline' => 'invites#update_reason', as: :update_decline_reason
-
   resources :invites, only: %i[index show], path: 'application-sharing' do
     member do
-      get 'decline'
+      patch 'response', to: 'invites#update', as: :update_response
       get 'course_unavailable'
+      get 'decline', to: 'decline_reasons#show', as: :decline
+      patch 'decline', to: 'decline_reasons#update'
     end
   end
+
+  resources :decline_reasons, only: %i[show], path: 'application-sharing'
 
   resources :share_details, only: :index, path: 'share-details'
 

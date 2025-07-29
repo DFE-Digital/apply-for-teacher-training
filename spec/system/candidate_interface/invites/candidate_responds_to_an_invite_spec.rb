@@ -203,8 +203,8 @@ private
         "#{@invite.provider_name} #{@invite.course_name_code_and_study_mode}",
       )
       expect(page).to have_link(
-        'View invite', # to be updated
-        href: candidate_interface_invite_path(@invite),
+        'View course',
+        href: @invite.course.find_url,
       )
     end
   end
