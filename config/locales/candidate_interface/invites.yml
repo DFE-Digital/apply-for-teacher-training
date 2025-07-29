@@ -4,7 +4,7 @@ en:
       index:
         your_invitations: Your invites
         no_invitations: You have no invites
-      show:
+      edit:
         title: Invite from %{provider} - Application sharing
         heading: Your invite from %{provider}
         provider_message: "%{provider} included this message:"
@@ -30,4 +30,4 @@ en:
       course_unavailable:
         title: Invite from %{provider} - Course unavailable - Application sharing
         heading: "%{course} has closed"
-        deadline_passed: The deadline for this course has closed and you cannot apply to it.
+        deadline_passed: The deadline for this course has passed and you cannot apply to it.

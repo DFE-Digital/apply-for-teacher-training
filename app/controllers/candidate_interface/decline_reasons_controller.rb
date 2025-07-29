@@ -1,12 +1,12 @@
 module CandidateInterface
   class DeclineReasonsController < CandidateInterfaceController
-    before_action :set_invite, only: %i[show update]
+    before_action :set_invite, only: %i[new create]
 
-    def show
+    def new
       @fac_invite_decline_reason_form = CandidateInterface::FacInviteDeclineReasonsForm.new
     end
 
-    def update
+    def create
       @fac_invite_decline_reason_form = CandidateInterface::FacInviteDeclineReasonsForm.new(fac_invite_decline_reason_form_params)
 
       if @fac_invite_decline_reason_form.valid?
@@ -18,7 +18,7 @@ module CandidateInterface
         redirect_to candidate_interface_invites_path
       else
         track_validation_error(@fac_invite_decline_reason_form)
-        render :show
+        render :new
       end
     end
 

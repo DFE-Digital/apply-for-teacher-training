@@ -2,13 +2,13 @@ module CandidateInterface
   class InvitesController < CandidateInterfaceController
     before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
     before_action :redirect_if_feature_off_and_no_submitted_application
-    before_action :set_invite, only: %i[show update course_unavailable]
+    before_action :set_invite, only: %i[edit update course_unavailable]
 
     def index
       @invites = current_application.published_invites.includes(:application_choice).order(sent_to_candidate_at: :desc)
     end
 
-    def show
+    def edit
       if !@invite.course_open?
         redirect_to course_unavailable_candidate_interface_invite_path(@invite)
       end
@@ -33,7 +33,7 @@ module CandidateInterface
         end
       else
         track_validation_error(@fac_invite_response_form)
-        render :show
+        render :edit
       end
     end
 

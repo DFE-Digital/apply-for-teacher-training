@@ -109,7 +109,7 @@ private
       )
       expect(page).to have_link(
         'View invite',
-        href: candidate_interface_invite_path(@invite),
+        href: edit_candidate_interface_invite_path(@invite),
       )
     end
 
@@ -147,7 +147,7 @@ private
   end
 
   def and_i_click_an_old_invite_link_for_an_unavailable_course
-    visit candidate_interface_invite_path(@unavailable_course_invite)
+    visit edit_candidate_interface_invite_path(@unavailable_course_invite)
   end
 
   def then_i_see_the_course_unavailable_page

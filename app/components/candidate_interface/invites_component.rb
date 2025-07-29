@@ -32,7 +32,7 @@ module CandidateInterface
       elsif invite.declined? || !invite.course_open?
         govuk_link_to t('.view_course'), invite.course.find_url
       else
-        govuk_link_to t('.view_invite'), candidate_interface_invite_path(invite)
+        govuk_link_to t('.view_invite'), edit_candidate_interface_invite_path(invite)
       end
     end
   end
