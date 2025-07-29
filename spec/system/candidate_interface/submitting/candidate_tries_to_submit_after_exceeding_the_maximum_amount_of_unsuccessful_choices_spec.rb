@@ -74,7 +74,8 @@ RSpec.describe 'Candidate submits the application' do
 
   def then_i_am_unable_to_add_any_further_choices
     visit current_path
-    expect(page).to have_content "You cannot submit any more applications because you have #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS} unsuccessful applications."
+    expect(page).to have_content 'You cannot submit any more applications this year'
+    expect(page).to have_content 'This is because you have a total of 15 applications that have been either:'
   end
 
   def when_i_click(button)

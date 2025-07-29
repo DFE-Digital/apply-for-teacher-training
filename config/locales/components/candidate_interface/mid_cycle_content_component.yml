@@ -1,8 +1,7 @@
 en:
   mid_cycle_content_component:
     title: Your applications
-    you_cannot_submit_more: >
-      You cannot submit any more applications because you have %{max_number_of_applications} unsuccessful applications.
+    you_cannot_submit_more: You cannot submit any more applications this year
     you_will_be_able_to_apply_again: >
       You will be able to apply again in %{apply_reopens_date} when applications open for courses starting in September %{next_year}
     email_for_help_html: Email %{email_address} if you need help with your applications.
@@ -12,11 +11,12 @@ en:
     courses_fill_up_quickly: Courses can fill up quickly, so you should apply as soon as you are ready rather than putting it off.
     read_how_the_application_process_works: Read how the application process works
     add_application: Add application
-    you_cannot_add_any_more_applications: You cannot add any more applications.
-    you_can_add_more_applications_if: "You can add more applications if:"
-    one_becomes_unsuccessful: one of your submitted applications becomes unsuccessful
-    withdraw_or_remove: you withdraw or remove an application
+    you_cannot_add_any_more_applications: You cannot submit any more applications at the moment.
+    you_can_add_more_applications_if: "You can submit another application if one of your applications is either:"
     once_you_have_reached_the_limit: >
-      Once you have a total of %{max_number_of_applications} unsuccessful or withdrawn applications, you will not be
-      able to apply for any more courses until %{next_year}.
-
+      Once you have a total of %{max_number_of_applications} applications that are in one of the states described above, you will not be able to submit any more applications until %{next_year}.
+    rejected_by_provider: rejected by the training provider,
+    withdrawn_by_provider: 'withdrawn by you or the provider'
+    inactive_html: 'submitted over 30 working days ago and still waiting for a response <br> or:'
+    declined_offer: 'you declined the offer'
+    conditions_not_met: 'you did not meet the conditions of an offer'
