@@ -20,13 +20,11 @@ module CandidateInterface
           invite.invite_decline_reasons.create!(
             reason: reason,
             comment: comment.strip,
-            status: :draft,
           )
         else
           invite.invite_decline_reasons.create!(
             reason: reason,
             comment: nil,
-            status: :draft,
           )
         end
       end

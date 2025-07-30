@@ -25,7 +25,7 @@ module CandidateInterface
   private
 
     def set_invite
-      @invite = Pool::Invite.find(params[:id])
+      @invite = Pool::Invite.find(params[:invite_id])
     end
 
     def fac_invite_decline_reason_form_params

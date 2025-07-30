@@ -62,7 +62,7 @@ RSpec.describe 'Candidate views their invites' do
       )
       expect(page).to have_link(
         'View invite',
-        href: candidate_interface_invite_path(@invite),
+        href: edit_candidate_interface_invite_path(@invite),
       )
     end
 
