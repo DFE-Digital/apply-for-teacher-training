@@ -13,7 +13,7 @@ en:
           no_longer_interested: I no longer want to train to teach
           other: Another reason
         details: Details (optional)
-        submit: Continue
+        submit: Save
       create:
         header: You have declined %{course} at %{provider}
         body: If you have changed your mind you can still %{link}

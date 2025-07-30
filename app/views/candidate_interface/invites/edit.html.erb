@@ -11,7 +11,7 @@
   <% if @invite.provider_message? %>
     <h2 class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-2"><%= t('.provider_message', provider: @invite.provider_name) %></h2>
     <div class="govuk-inset-text govuk-!-margin-top-0">
-      <p class="govuk-body"><%= @invite.message_content %></p>
+      <p class="govuk-body"><%= markdown(@invite.message_content) %></p>
     </div>
   <% end %>
 
@@ -48,10 +48,10 @@
     <% end %>
   </div>
 
-  <p class="govuk-body"><%= govuk_link_to(t('.view_course'), @invite.course.find_url, new_tab: true) %></p>
+  <p class="govuk-body govuk-!-margin-bottom-6"><%= govuk_link_to(t('.view_course'), @invite.course.find_url, new_tab: true) %></p>
 
     <%= f.govuk_radio_buttons_fieldset :apply_for_this_course,
-                                      legend: { text: t('.apply_legend'), size: 'm' },
+                                      legend: { text: t('.apply_legend'), size: 'l' },
                                       link_errors: true do %>
       <%= f.govuk_radio_button :apply_for_this_course, 'yes', label: { text: t('.accept') } %>
       <%= f.govuk_radio_button :apply_for_this_course, 'no', label: { text: t('.decline') }, hint: { text: t('.decline_caption') } %>

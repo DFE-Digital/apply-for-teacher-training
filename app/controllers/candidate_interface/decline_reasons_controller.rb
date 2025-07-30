@@ -13,7 +13,9 @@ module CandidateInterface
         @fac_invite_decline_reason_form.save(@invite)
         flash[:success] = [t('.header', course: @invite.course.name_and_code,
                                         provider: @invite.provider_name),
-                           t('.body', link: view_context.govuk_link_to('apply to this course', candidate_interface_course_choices_course_confirm_selection_path(@invite.course)))]
+                           t('.body', link: view_context.govuk_link_to('apply to this course',
+                                                                       candidate_interface_course_choices_course_confirm_selection_path(@invite.course),
+                                                                       class: 'govuk-notification-banner__link'))]
 
         redirect_to candidate_interface_invites_path
       else

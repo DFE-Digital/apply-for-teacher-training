@@ -39,13 +39,13 @@ RSpec.describe 'Candidate responds to an invite' do
     and_i_click('Continue')
     then_i_see_the_decline_reasons_page
 
-    when_i_click('Continue')
+    when_i_click('Save')
     then_i_see_an_error_message_to_select_a_reason
 
     when_i_select_a_reason
     and_i_select_another_reason
     and_i_add_some_free_text
-    and_i_click('Continue')
+    and_i_click('Save')
     then_i_return_to_the_invites_index
     and_i_see_a_flash_message
   end
@@ -137,7 +137,7 @@ private
   end
 
   def when_i_select_yes_i_want_to_submit_an_application
-    choose 'Yes I want to submit an application to this course'
+    choose 'Yes, I want to submit an application to this course'
   end
 
   def when_i_click_view_invite_for(invite)
@@ -177,7 +177,7 @@ private
   end
 
   def when_i_select_no_i_am_not_interested_in_this_course
-    choose 'No I am not interested in this course'
+    choose 'No, I am not interested in this course'
   end
 
   def then_i_see_the_decline_reasons_page

@@ -25,6 +25,8 @@ module CandidateInterface
           application_form_id: application_form.id,
         )
 
+        # don't update the invite
+
         invite.update!(
           candidate_decision: 'applied',
           application_choice_id: @application_choice.id,
