@@ -27,7 +27,7 @@ module CandidateInterface
       if @fac_invite_response_form.valid?
         if @fac_invite_response_form.accepted_invite?
           @fac_invite_response_form.save
-          redirect_to candidate_interface_course_choices_course_review_path(@invite.application_choice.id)
+          redirect_to candidate_interface_course_choices_course_review_path(@invite.application_choice.id, return_to: 'edit_invite')
         else
           redirect_to new_candidate_interface_invite_decline_reason_path(@invite)
         end
