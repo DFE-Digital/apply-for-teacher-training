@@ -4,7 +4,7 @@ module CandidateInterface
     before_action :redirect_if_feature_off_and_no_submitted_application
 
     def index
-      @invites = current_application.published_invites.includes(:application_choice)
+      @invites = current_application.published_invites.includes(:application_choice).order(sent_to_candidate_at: :desc)
     end
 
     def show
