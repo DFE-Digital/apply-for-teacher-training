@@ -11,6 +11,7 @@ class Pool::Invite < ApplicationRecord
   has_many :invite_decline_reasons, class_name: 'Pool::InviteDeclineReason', dependent: :destroy
   has_many :draft_invite_decline_reasons, -> { draft }, class_name: 'Pool::InviteDeclineReason', dependent: :destroy
   has_many :published_invite_decline_reasons, -> { published }, class_name: 'Pool::InviteDeclineReason', dependent: :destroy
+  accepts_nested_attributes_for :invite_decline_reasons, allow_destroy: true, reject_if: :all_blank
 
   delegate :name, to: :provider, prefix: true
   delegate :name_code_and_study_mode, to: :course, prefix: true

@@ -18,7 +18,7 @@ namespace :candidate_interface, path: '/candidate' do
 
   resources :invites, only: %i[index edit update], path: 'application-sharing' do
     resources :decline_reasons, only: %i[new create], path: 'decline'
-    get 'course-unavailable', on: :member
+    resource :course_unavailable, only: %i[show], path: 'course-unavailable', controller: 'course_unavailable'
   end
 
   resources :share_details, only: :index, path: 'share-details'

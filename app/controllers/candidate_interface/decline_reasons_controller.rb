@@ -20,14 +20,14 @@ module CandidateInterface
         redirect_to candidate_interface_invites_path
       else
         track_validation_error(@fac_invite_decline_reason_form)
-        render :new
+        render :new, status: :unprocessable_entity
       end
     end
 
   private
 
     def set_invite
-      @invite = Pool::Invite.find(params[:invite_id])
+      @invite = Pool::Invite.find(params.expect(:invite_id))
     end
 
     def fac_invite_decline_reason_form_params

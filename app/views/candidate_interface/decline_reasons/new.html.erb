@@ -11,7 +11,7 @@
       </h1>
 
       <%= f.govuk_check_boxes_fieldset(:reasons, legend: nil) do %>
-        <%= f.govuk_check_box(:reasons, 'location_not_convenient', label: { text: t('.reasons.location_not_convenient') }) %>
+        <%= f.govuk_check_box(:reasons, 'location_not_convenient', label: { text: t('.reasons.location_not_convenient') }, link_errors: true) %>
         <%= f.govuk_check_box(:reasons, 'wrong_subject', label: { text: t('.reasons.wrong_subject') }) %>
         <%= f.govuk_check_box(:reasons, 'only_salaried', label: { text: t('.reasons.only_salaried') }) %>
         <%= f.govuk_check_box(:reasons, 'provider_not_right', label: { text: t('.reasons.provider_not_right') }) %>

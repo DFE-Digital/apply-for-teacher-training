@@ -27,7 +27,3 @@ en:
       update_reason:
         header: You have declined %{course} at %{provider}
         body: If you have changed your mind you can still %{link}
-      course_unavailable:
-        title: Invite from %{provider} - Course unavailable - Application sharing
-        heading: "%{course} has closed"
-        deadline_passed: The deadline for this course has passed and you cannot apply to it.

@@ -2,50 +2,41 @@ module CandidateInterface
   class InvitesController < CandidateInterfaceController
     before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
     before_action :redirect_if_feature_off_and_no_submitted_application
-    before_action :set_invite, only: %i[edit update course_unavailable]
+    before_action :set_invite, only: %i[edit update]
 
     def index
       @invites = current_application.published_invites.includes(:application_choice).order(sent_to_candidate_at: :desc)
     end
 
     def edit
-      if !@invite.course_open?
-        redirect_to course_unavailable_candidate_interface_invite_path(@invite)
+      if @invite.course_closed?
+        redirect_to candidate_interface_invite_course_unavailable_path(@invite)
       end
 
-      @fac_invite_response_form = CandidateInterface::FacInviteResponseForm.new(
-        application_form: current_application,
-        invite: @invite,
-      )
+      @fac_invite_response_form = CandidateInterface::FacInviteResponseForm.new(invite: @invite)
     end
 
     def update
-      @fac_invite_response_form ||= CandidateInterface::FacInviteResponseForm.new(fac_invite_response_form_params.merge(
-                                                                                    application_form: current_application,
-                                                                                    invite: @invite,
-                                                                                  ))
-      if @fac_invite_response_form.valid?
+      @fac_invite_response_form ||= CandidateInterface::FacInviteResponseForm.new(invite_response_form_params.merge(invite: @invite))
+      if @fac_invite_response_form.save
         if @fac_invite_response_form.accepted_invite?
-          @fac_invite_response_form.save
           redirect_to candidate_interface_course_choices_course_confirm_selection_path(@invite.course)
         else
           redirect_to new_candidate_interface_invite_decline_reason_path(@invite)
         end
       else
         track_validation_error(@fac_invite_response_form)
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
     end
-
-    def course_unavailable; end
 
   private
 
     def set_invite
-      @invite = Pool::Invite.find(params[:id])
+      @invite = Pool::Invite.find(params.expect(:id))
     end
 
-    def fac_invite_response_form_params
+    def invite_response_form_params
       params.fetch(:candidate_interface_fac_invite_response_form, {}).permit(:apply_for_this_course)
     end
 
