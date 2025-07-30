@@ -1,6 +1,6 @@
 module "statuscake" {
   source = "../modules/statuscake"
 
-  api_token = local.infra_secrets.STATUSCAKE_PASSWORD
+  api_token = data.azurerm_key_vault_secret.statuscake_password.value
   alerts    = var.statuscake_alerts
 }

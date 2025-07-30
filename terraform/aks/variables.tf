@@ -7,8 +7,6 @@ variable "docker_image" {}
 
 # Key Vault variables
 variable "key_vault_name" {}
-variable "key_vault_infra_secret_name" {}
-variable "key_vault_app_secret_name" {}
 
 variable "gov_uk_host_names" {
   default = []
@@ -107,8 +105,6 @@ locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.app_environment
 
   exp_storage_account_name = var.exp_storage_account_name != null ? var.exp_storage_account_name : var.data_exports_storage_account_name
-
-  infra_secrets = yamldecode(data.azurerm_key_vault_secret.infra_secrets.value)
 
   app_env_values_from_yaml = try(yamldecode(file("${path.module}/workspace-variables/${var.app_environment}_app_env.yml")), {})
 
