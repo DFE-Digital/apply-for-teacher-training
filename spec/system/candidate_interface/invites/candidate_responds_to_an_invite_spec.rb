@@ -6,7 +6,7 @@ RSpec.describe 'Candidate responds to an invite' do
   before { FeatureFlag.activate(:candidate_preferences) }
   after { FeatureFlag.deactivate(:candidate_preferences) }
 
-  scenario 'Candidate accepts an invite and creates a draft application' do
+  scenario 'Candidate accepts an invite and begins confirm selection wizard' do
     given_i_am_signed_in
     and_i_am_on_the_application_choices_page
     when_i_click('Application sharing')
@@ -19,6 +19,10 @@ RSpec.describe 'Candidate responds to an invite' do
     then_i_see_an_error_message_to_select_a_response
 
     when_i_select_yes_i_want_to_submit_an_application
+    and_i_click('Continue')
+    then_i_see_the_confirm_selection_wizard_start_page
+
+    when_i_select_yes
     and_i_click('Continue')
     then_i_see_a_new_draft_application_form_for_the_course
 
@@ -154,28 +158,6 @@ private
     expect(page).to have_content "#{@unavailable_course_invite.course.name_and_code} has closed"
   end
 
-  def then_i_see_a_new_draft_application_form_for_the_course
-    @invite.reload
-    expect(page).to have_content "Your application to #{@invite.application_choice.provider.name}"
-    expect(page).to have_content @invite.application_choice.course.name_and_code.to_s
-    expect(page).to have_content 'Draft'
-  end
-
-  def then_i_see_the_invites_index_page_with_a_link_to_my_application
-    @invite.reload
-    expect(page).to have_content('Application sharing')
-
-    within ".govuk-task-list__item##{@invite.id}" do
-      expect(page).to have_content(
-        "#{@invite.provider_name} #{@invite.course_name_code_and_study_mode}",
-      )
-      expect(page).to have_link(
-        'View application',
-        href: candidate_interface_course_choices_course_review_path(@invite.application_choice, return_to: 'invites'),
-      )
-    end
-  end
-
   def when_i_select_no_i_am_not_interested_in_this_course
     choose 'No, I am not interested in this course'
   end
@@ -221,5 +203,37 @@ private
 
   def then_i_see_an_error_message_to_select_a_reason
     expect(page).to have_content 'Select at least one reason why you are not interested in this course'
+  end
+
+  def then_i_see_the_confirm_selection_wizard_start_page
+    expect(page).to have_content 'You selected a course'
+    expect(page).to have_content @invite.provider.name.to_s
+    expect(page).to have_content @invite.course.name_and_code.to_s
+  end
+
+  def then_i_see_a_new_draft_application_form_for_the_course
+    @invite.reload
+    expect(page).to have_content "Your application to #{@invite.application_choice.provider.name}"
+    expect(page).to have_content @invite.application_choice.course.name_and_code.to_s
+    expect(page).to have_content 'Draft'
+  end
+
+  def when_i_select_yes
+    choose 'Yes'
+  end
+
+  def then_i_see_the_invites_index_page_with_a_link_to_my_application
+    @invite.reload
+    expect(page).to have_content('Application sharing')
+
+    within ".govuk-task-list__item##{@invite.id}" do
+      expect(page).to have_content(
+        "#{@invite.provider_name} #{@invite.course_name_code_and_study_mode}",
+      )
+      expect(page).to have_link(
+        'View application',
+        href: candidate_interface_course_choices_course_review_path(@invite.application_choice, return_to: 'invites'),
+      )
+    end
   end
 end
