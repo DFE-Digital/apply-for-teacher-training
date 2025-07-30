@@ -11,24 +11,27 @@ module CandidateInterface
     def save(invite)
       return false unless valid?
 
-      reasons.each do |reason|
-        next if reason.blank?
+      ActiveRecord::Base.transaction do
+        reasons.each do |reason|
+          next if reason.blank?
 
-        if reason == 'other'
-          next if comment.blank?
+          if reason == 'other'
+            next if comment.blank?
 
-          invite.invite_decline_reasons.create!(
-            reason: reason,
-            comment: comment.strip,
-          )
-        else
-          invite.invite_decline_reasons.create!(
-            reason: reason,
-            comment: nil,
-          )
+            invite.invite_decline_reasons.create!(
+              reason: reason,
+              comment: comment.strip,
+            )
+          else
+            invite.invite_decline_reasons.create!(
+              reason: reason,
+              comment: nil,
+            )
+          end
         end
+
+        invite.update!(candidate_decision: 'declined')
       end
-      invite.update(candidate_decision: 'declined')
     end
 
   private

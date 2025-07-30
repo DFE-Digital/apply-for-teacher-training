@@ -10,7 +10,7 @@ module CandidateInterface
 
     def edit
       if !@invite.course_open?
-        redirect_to candidate_interface_invite_course_unavailable_path(@invite)
+        redirect_to course_unavailable_candidate_interface_invite_path(@invite)
       end
 
       @fac_invite_response_form = CandidateInterface::FacInviteResponseForm.new(
