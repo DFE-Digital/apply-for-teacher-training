@@ -464,6 +464,7 @@ en:
           attributes:
             apply_for_this_course:
               blank: Select whether you want to apply to this course or not
+              duplicate_course: You already have an open application for this course
         candidate_interface/fac_invite_decline_reasons_form:
           attributes:
             reasons:

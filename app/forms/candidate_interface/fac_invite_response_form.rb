@@ -10,6 +10,7 @@ module CandidateInterface
     attribute :apply_for_this_course, :string
 
     validates :apply_for_this_course, presence: true
+    validate :cannot_already_have_an_open_application_to_course, if: :accepted_invite?
 
     def save
       return false if invalid?
@@ -33,6 +34,21 @@ module CandidateInterface
 
     def accepted_invite?
       apply_for_this_course.to_s.strip.downcase == 'yes'
+    end
+
+  private
+
+    def cannot_already_have_an_open_application_to_course
+      return if application_form.blank? || invite.blank?
+
+      open_application_exists = application_form.application_choices.any? do |choice|
+        choice.course_option.course_id == invite.course_id &&
+          ApplicationStateChange::UNSUCCESSFUL_STATES.exclude?(choice.status.to_sym)
+      end
+
+      if open_application_exists
+        errors.add(:apply_for_this_course, :duplicate_course)
+      end
     end
   end
 end
