@@ -32,13 +32,13 @@
       <%= t('page_titles.application_sharing') %>
     </h1>
 
-    <h2 class="govuk-heading-m"><%= t('.your_invitations') %></h2>
+    <div class='govuk-!-margin-bottom-9'>
+      <%= render CandidateInterface::NotRespondedInvitesComponent.new(invites: @not_responded_invites) %>
+    </div>
 
-    <% if @invites.present? %>
+    <div>
       <%= render CandidateInterface::InvitesComponent.new(invites: @invites) %>
-    <% else %>
-      <p class='govuk-body'><%= t('.no_invitations') %></p>
-    <% end %>
+    </div>
   </div>
 
   <%= render CandidateInterface::ManagePreferencesComponent.new(current_candidate:, application_form: current_application) %>

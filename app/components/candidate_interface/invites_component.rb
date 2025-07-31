@@ -24,13 +24,19 @@ module CandidateInterface
       end
     end
 
+    def hint_text
+      if invites.blank?
+        t('.no_invites')
+      else
+        t('.previous_invitations_hint')
+      end
+    end
+
     def action_link(invite)
       if invite.applied? && invite.application_choice.present?
         govuk_link_to t('.view_application'), application_choice_link(invite)
-      elsif invite.declined? || !invite.course_open?
-        govuk_link_to t('.view_course'), invite.course.find_url
       else
-        govuk_link_to t('.view_invite'), edit_candidate_interface_invite_path(invite)
+        govuk_link_to t('.view_course'), invite.course.find_url
       end
     end
   end

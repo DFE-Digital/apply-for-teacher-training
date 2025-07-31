@@ -5,7 +5,11 @@ module CandidateInterface
     before_action :set_invite, only: %i[edit update]
 
     def index
-      @invites = current_application.published_invites.includes(:application_choice).order(sent_to_candidate_at: :desc)
+      @not_responded_invites = current_application.published_invites.not_responded_course_open
+        .order(sent_to_candidate_at: :desc)
+      @invites = current_application.published_invites.actioned_by_candidate_or_course_closed
+        .includes(:provider, :application_choice, course: :provider)
+        .order(sent_to_candidate_at: :desc)
     end
 
     def edit

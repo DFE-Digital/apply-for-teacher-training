@@ -27,6 +27,12 @@ class Pool::Invite < ApplicationRecord
     declined: 'declined',
   }, default: :not_responded
 
+  scope :not_responded_course_open, -> { not_responded.where(course_open: true) }
+  scope :actioned_by_candidate_or_course_closed, lambda {
+    where(candidate_decision: %w[applied declined])
+    .or(where(course_open: false))
+  }
+
   scope :not_sent_to_candidate, -> { where(sent_to_candidate_at: nil) }
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
   scope :with_matching_application_choices, -> { where(matching_application_choices_exists_sql) }

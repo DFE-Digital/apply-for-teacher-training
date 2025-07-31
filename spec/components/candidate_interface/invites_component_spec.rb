@@ -39,6 +39,22 @@ RSpec.describe CandidateInterface::InvitesComponent do
     end
   end
 
+  describe '#hint_text' do
+    it 'returns no invites message when no invites' do
+      component = described_class.new(invites: [])
+      render_inline(component)
+
+      expect(component.hint_text).to eq('You have no previous invitations')
+    end
+
+    it 'returns invites message when there are invites' do
+      component = described_class.new(invites: [create(:pool_invite)])
+      render_inline(component)
+
+      expect(component.hint_text).to eq('You can still submit an application to open courses you have declined.')
+    end
+  end
+
   describe '#status_tag' do
     context 'with applied invite' do
       it 'returns the green status tag' do
@@ -131,19 +147,6 @@ RSpec.describe CandidateInterface::InvitesComponent do
         expect(rendered_content).to have_link(
           'View course',
           href: invite.course.find_url,
-        )
-      end
-    end
-
-    context 'anything else' do
-      it 'returns the invite show page action_link' do
-        invite = create(:pool_invite)
-        component = described_class.new(invites: [invite])
-        render_inline(component)
-
-        expect(rendered_content).to have_link(
-          'View invite',
-          href: edit_candidate_interface_invite_path(invite),
         )
       end
     end
