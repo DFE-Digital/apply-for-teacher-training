@@ -99,6 +99,10 @@
   margin-bottom: 5px;
 }
 
+.app-timeline__log-card__note--title a {
+  color: #1d70b8;
+}
+
 .app-timeline__log-card__note--content {
   @include govuk-font($size: 19);
   margin-bottom: 20px;
