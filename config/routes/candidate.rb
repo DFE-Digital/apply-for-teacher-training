@@ -15,7 +15,11 @@ namespace :candidate_interface, path: '/candidate' do
   end
 
   resources :account_recovery_requests, only: %i[new create], path: 'account-recovery-requests'
-  resources :invites, only: %i[index show], path: 'application-sharing'
+
+  resources :invites, only: %i[index edit update], path: 'application-sharing' do
+    resources :decline_reasons, only: %i[new create], path: 'decline'
+    resource :course_unavailable, only: %i[show], path: 'course-unavailable', controller: 'course_unavailable'
+  end
 
   resources :share_details, only: :index, path: 'share-details'
 

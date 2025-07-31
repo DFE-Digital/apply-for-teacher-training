@@ -143,7 +143,7 @@ RSpec.describe CandidateInterface::InvitesComponent do
 
         expect(rendered_content).to have_link(
           'View invite',
-          href: candidate_interface_invite_path(invite),
+          href: edit_candidate_interface_invite_path(invite),
         )
       end
     end

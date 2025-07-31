@@ -460,6 +460,15 @@ en:
           attributes:
             prefill:
               blank: Select how you want to start a new application
+        candidate_interface/fac_invite_response_form:
+          attributes:
+            apply_for_this_course:
+              blank: Select whether you want to apply to this course or not
+              duplicate_course: You already have an open application for this course
+        candidate_interface/fac_invite_decline_reasons_form:
+          attributes:
+            reasons:
+              blank: Select at least one reason why you are not interested in this course
         provider_interface/pick_response_form:
           attributes:
             decision:

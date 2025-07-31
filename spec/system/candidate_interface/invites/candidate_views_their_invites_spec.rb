@@ -36,12 +36,14 @@ RSpec.describe 'Candidate views their invites' do
     @invite = create(
       :pool_invite,
       application_form:,
+      course: create(:course, :open),
       status: 'published',
     )
 
     @applied_invite = create(
       :pool_invite,
       :with_application_choice,
+      course: create(:course, :open),
       application_form:,
       status: 'published',
     )
@@ -60,7 +62,7 @@ RSpec.describe 'Candidate views their invites' do
       )
       expect(page).to have_link(
         'View invite',
-        href: candidate_interface_invite_path(@invite),
+        href: edit_candidate_interface_invite_path(@invite),
       )
     end
 

@@ -4,7 +4,7 @@ en:
       index:
         your_invitations: Your invites
         no_invitations: You have no invites
-      show:
+      edit:
         title: Invite from %{provider} - Application sharing
         heading: Your invite from %{provider}
         provider_message: "%{provider} included this message:"
@@ -21,6 +21,9 @@ en:
         view_course: View full course details
         apply_legend: Do you want to apply for this course?
         submit_text: Continue
-        accept: Yes I want to submit an application to this course
-        decline: No I am not interested in this course
+        accept: Yes, I want to submit an application to this course
+        decline: No, I am not interested in this course
         decline_caption: You can still apply for this course later if you change your mind
+      update_reason:
+        header: You have declined %{course} at %{provider}
+        body: If you have changed your mind you can still %{link}

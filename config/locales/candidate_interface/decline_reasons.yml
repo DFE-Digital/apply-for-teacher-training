@@ -1,0 +1,19 @@
+en:
+  candidate_interface:
+    decline_reasons:
+      new:
+        title: Invite from %{provider} - Decline invite - Application sharing
+        heading: Why are you not interested in this course invitation?
+        reasons:
+          location_not_convenient: The course location is not convenient for me
+          wrong_subject: I do not want to train to teach this subject
+          only_salaried: I am only interested in salaried or apprenticeship courses
+          provider_not_right: This course training provider is not right for me
+          needs_visa: I need visa sponsorship
+          no_longer_interested: I no longer want to train to teach
+          other: Another reason
+        details: Details (optional)
+        submit: Save
+      create:
+        header: You have declined %{course} at %{provider}
+        body: If you have changed your mind you can still %{link}

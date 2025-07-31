@@ -1,0 +1,29 @@
+<% content_for :title, title_with_error_prefix(t('.title', provider: @invite.provider_name), @fac_invite_decline_reason_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(edit_candidate_interface_invite_path(@invite)) %>
+
+<%= form_with(model: @fac_invite_decline_reason_form, url: candidate_interface_invite_decline_reasons_path(@invite), method: :post) do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l govuk-!-margin-bottom-4">
+        <%= t('.heading', provider: @invite.provider_name) %>
+      </h1>
+
+      <%= f.govuk_check_boxes_fieldset(:reasons, legend: nil) do %>
+        <%= f.govuk_check_box(:reasons, 'location_not_convenient', label: { text: t('.reasons.location_not_convenient') }, link_errors: true) %>
+        <%= f.govuk_check_box(:reasons, 'wrong_subject', label: { text: t('.reasons.wrong_subject') }) %>
+        <%= f.govuk_check_box(:reasons, 'only_salaried', label: { text: t('.reasons.only_salaried') }) %>
+        <%= f.govuk_check_box(:reasons, 'provider_not_right', label: { text: t('.reasons.provider_not_right') }) %>
+        <%= f.govuk_check_box(:reasons, 'needs_visa', label: { text: t('.reasons.needs_visa') }) %>
+        <%= f.govuk_check_box(:reasons, 'no_longer_interested', label: { text: t('.reasons.no_longer_interested') }) %>
+
+        <%= f.govuk_check_box(:reasons, 'other', label: { text: t('.reasons.other') }) do %>
+          <%= f.govuk_text_area(:comment, label: { text: t('.details') }, rows: 6) %>
+        <% end %>
+      <% end %>
+
+      <%= f.govuk_submit t('.submit') %>
+    </div>
+  </div>
+<% end %>
