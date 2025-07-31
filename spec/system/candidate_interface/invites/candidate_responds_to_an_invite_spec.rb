@@ -112,7 +112,7 @@ private
         "#{@invite.provider_name} #{@invite.course_name_code_and_study_mode}",
       )
       expect(page).to have_link(
-        'View invite',
+        'View and respond',
         href: edit_candidate_interface_invite_path(@invite),
       )
     end
@@ -146,7 +146,7 @@ private
 
   def when_i_click_view_invite_for(invite)
     within ".govuk-task-list__item##{invite.id}" do
-      click_link 'View invite'
+      click_link 'View and respond'
     end
   end
 

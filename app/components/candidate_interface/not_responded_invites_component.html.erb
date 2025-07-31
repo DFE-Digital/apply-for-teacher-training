@@ -1,7 +1,7 @@
-<h2 class="govuk-heading-m govuk-!-margin-bottom-2"><%= t('.previous_invitations') %></h2>
+<h2 class="govuk-heading-m govuk-!-margin-bottom-2"><%= t('.awaiting_response') %></h2>
 <p class="govuk-hint govuk-!-margin-top-0"><%= hint_text %></p>
 
-<%= govuk_task_list(id_prefix: 'invites', html_attributes: { class: 'govuk-task-list__row--no-bottom-border' }) do |task_list| %>
+<%= govuk_task_list(id_prefix: 'not-responded-invites', html_attributes: { class: 'govuk-task-list__row--no-bottom-border' }) do |task_list| %>
   <% invites.each do |invite| %>
     <%= task_list.with_item(html_attributes: { id: invite.id }) do |item| %>
       <%= item.with_title(
@@ -11,12 +11,7 @@
       ) %>
 
       <%= item.with_status(html_attributes: { class: 'govuk-grid-column-one-third govuk-!-padding-0' }) do %>
-        <div class="govuk-!-margin-bottom-1">
-          <%= status_tag(invite) %>
-        </div>
-        <div>
-          <%= action_link(invite) %>
-        </div>
+        <%= govuk_link_to t('.view_and_respond'), edit_candidate_interface_invite_path(invite) %>
       <% end %>
     <% end %>
   <% end %>

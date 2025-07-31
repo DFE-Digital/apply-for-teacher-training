@@ -1,0 +1,8 @@
+en:
+  candidate_interface:
+    not_responded_invites_component:
+      title_html: "<p class='govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold'>%{provider_name}</p>"
+      view_and_respond: View and respond
+      awaiting_response: Invitations awaiting your response
+      awaiting_response_hint: You should respond to each invitation to apply that you receive.
+      no_invites: You have no invitations that you need to respond to at the moment.
