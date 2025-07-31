@@ -5,8 +5,8 @@ did not respond by their deadline of <%= @application_choice.rejected_at.to_fs(:
 
 They’ve now given you the following feedback:
 
-<%= render 'reasons_for_rejection_intro' %>
-<%= render 'reasons_for_rejection' %>
+<%= render 'candidate_mailer/application_rejected/reasons_for_rejection_intro' %>
+<%= render 'candidate_mailer/application_rejected/reasons_for_rejection' %>
 
 <% if @show_apply_again_guidance %>
   If this was useful, [use your feedback to strengthen your application and apply again](<%= application_choices_link %>).
