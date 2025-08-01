@@ -26,4 +26,25 @@ class Candidate::FindACandidatePreview < ActionMailer::Preview
 
     CandidateMailer.candidate_invite(invite)
   end
+
+  def invites_chaser
+    application_form = FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      first_name: 'Fred',
+    )
+
+    invite = FactoryBot.create(
+      :pool_invite,
+      :sent_to_candidate,
+      application_form:,
+    )
+    second_invite = FactoryBot.create(
+      :pool_invite,
+      :sent_to_candidate,
+      application_form:,
+    )
+
+    CandidateMailer.invites_chaser([invite, second_invite])
+  end
 end
