@@ -52,19 +52,58 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
   end
 
   describe '#perform before the apply deadline', time: mid_cycle do
-    it 'creates CandidatePoolApplication records' do
-      application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
-      create(
-        :candidate_preference,
-        candidate: application_form.candidate,
-      )
-      stub_application_forms_in_the_pool(application_form.id)
+    context 'without pool_invites' do
+      it 'creates CandidatePoolApplication records' do
+        application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
+        create(
+          :candidate_preference,
+          candidate: application_form.candidate,
+        )
+        stub_application_forms_in_the_pool(application_form.id)
 
-      expect {
-        described_class.new.perform
-      }.to change { CandidatePoolApplication.count }.from(0).to(1)
+        expect {
+          described_class.new.perform
+        }.to change { CandidatePoolApplication.count }.from(0).to(1)
 
-      expect(CandidatePoolApplication.last.application_form).to eq(application_form)
+        expect(CandidatePoolApplication.last.application_form).to eq(application_form)
+      end
+    end
+
+    context 'with 1 not_responded pool_invite' do
+      it 'creates CandidatePoolApplication records' do
+        application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
+        create(
+          :candidate_preference,
+          candidate: application_form.candidate,
+        )
+        create(:pool_invite, :sent_to_candidate, application_form:)
+
+        stub_application_forms_in_the_pool(application_form.id)
+
+        expect {
+          described_class.new.perform
+        }.to change { CandidatePoolApplication.count }.from(0).to(1)
+
+        expect(CandidatePoolApplication.last.application_form).to eq(application_form)
+      end
+    end
+
+    context 'with 2 not_responded pool_invite' do
+      it 'does not create CandidatePoolApplication records' do
+        application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
+        create(
+          :candidate_preference,
+          candidate: application_form.candidate,
+        )
+        create(:pool_invite, :sent_to_candidate, application_form:)
+        create(:pool_invite, :sent_to_candidate, application_form:)
+
+        stub_application_forms_in_the_pool(application_form.id)
+
+        expect {
+          described_class.new.perform
+        }.not_to(change { CandidatePoolApplication.count })
+      end
     end
 
     it 'does not create duplicate CandidatePoolApplication records' do
