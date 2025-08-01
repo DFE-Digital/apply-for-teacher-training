@@ -27,6 +27,7 @@ en:
           caption: "Candidate number: %{candidate_id}"
           you_cannot_see: You cannot see this candidate’s profile information.
           this_could_be_because: "This could be because:"
+          hidden_criteria: we have hidden them from search results because they have not responded to invitation emails
           they_have_submitted_an_application: they have submitted an application to another training provider
           they_have_chosen_not_to_continue: they have chosen not to continue appearing in Find candidates searches
           because_you_have_invited_them: Because you have invited them, they could still submit an application to your course.
