@@ -1,0 +1,16 @@
+<%# If you update this, please update the preview template for provider invite message as well %>
+Dear <%= @application_form.first_name %>,
+
+You have received invitations from training providers to apply to courses:
+
+<% @invites.each do |invite| %>
+  [<%= invite.course_name %>](<%= invite.url %>) received at <%= invite.sent_time %> on date <%= invite.sent_date %>
+<% end %>
+
+Because you have not responded to these invitations, we have hidden you from search results.
+
+## Any applications you have already submitted or that you go on to submit yourself are not affected.
+
+[Sign in to Apply for teacher training to review and respond to your invites](<%= @invites_url %>)
+
+You can either decline an invitation to a course or submit an application.  

@@ -20,6 +20,7 @@ class Clock
 
   # Hourly jobs
 
+  every(1.hour, 'FindACandidate::PoolInviteChaserWorker', at: '**:35', skip_first_run: true) { FindACandidate::PoolInviteChaserWorker.perform_async }
   every(1.hour, 'SendFindStartOfCycleProviderEmails', at: '**:05') { StartOfCycleNotificationWorker.perform_async }
   every(1.hour, 'ProcessStaleApplications', at: '**:10') do
     ProcessStaleApplicationsWorker.perform_async

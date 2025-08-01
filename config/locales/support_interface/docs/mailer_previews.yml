@@ -113,6 +113,7 @@ en:
             new_interview: A training provider has scheduled an interview with a candidate.
           candidate_find_a_candidate:
             candidate_invite: Find a candidate invitation email.
+            invites_chaser: Chaser email for candidates to respond to their invites if they are out of the pool because they didn't respond
           provider_mailer:
             application_submitted: Missing description
             application_submitted_with_safeguarding_issues: Missing description

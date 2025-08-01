@@ -1,6 +1,8 @@
 class Pool::Invite < ApplicationRecord
   NUMBER_OF_INVITES_TO_REMOVE_FROM_POOL = 2
 
+  include Chased
+
   belongs_to :candidate
   belongs_to :application_form
   belongs_to :application_choice, optional: true
@@ -17,6 +19,7 @@ class Pool::Invite < ApplicationRecord
 
   delegate :name, to: :provider, prefix: true
   delegate :name_code_and_study_mode, to: :course, prefix: true
+  delegate :name_and_code, to: :course, prefix: true
 
   enum :status, {
     draft: 'draft',
