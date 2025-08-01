@@ -17,14 +17,11 @@ Age range: <%= @pool_invite.course.age_range %>
 Qualification: <%= @pool_invite.course.qualifications_to_s %>
 Start date: <%= @pool_invite.course.start_date.to_fs(:short_month_and_year) %>
 
-[Review the full course details](<%= @pool_invite.course.find_url %>)
+[Review and respond to this invitation](<%= @invite_url %>)
 
 <% if @pool_invite.message_content.present? %>
 ## <%= @pool_invite.course.provider.name %> included this message:
 <%= @pool_invite.message_content %>
 <% end %>
 
-
-<%= t('.body.locations_not_suitable') %>, you can [update your preferences](<%= @preferences_url %>) to appear in more relevant searches.
-
-If you do not want to receive invitations like this, you can [stop providers from viewing your application details](<%= @preferences_url %>).
+<%= t('.body.you_are_receiving') %> [You can change your preferences](<%= @preferences_url %>).
