@@ -2,7 +2,7 @@
   <p class="govuk-body">Dear first name,</p>
 
   <p class="govuk-body">
-  <%= @course.provider.name %> have reviewed your application details and are inviting you to submit an application for:
+  <%= @course.provider.name %> has reviewed your application details and would like you to submit an application to:
   </p>
 
   <h3><%= @course.provider.name %> - <%= @course.name_and_code %></h3>
@@ -22,7 +22,7 @@
   <% end %>
 
   <p class="govuk-body">
-  <%= govuk_link_to('Review the full course details', @course.find_url) %>
+  <%= govuk_link_to('Review and respond to this invitation', '#') %>
   </p>
 
   <p class="govuk-body govuk-!-margin-bottom-0"><%= @course.provider.name %> included this message:</p>
