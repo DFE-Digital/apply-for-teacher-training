@@ -1,0 +1,11 @@
+<%= govuk_notification_banner(title_text: 'Important') do %>
+  <p class='govuk-body'><%= banner_text %></p>
+
+  <%= govuk_list type: list_type do %>
+    <% invites.each do |invite| %>
+      <%= tag.li do %>
+        <%= govuk_link_to("#{invite.course.name_and_code} at #{invite.provider_name}", edit_candidate_interface_invite_path(invite)) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
