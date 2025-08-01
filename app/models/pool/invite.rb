@@ -1,4 +1,6 @@
 class Pool::Invite < ApplicationRecord
+  NUMBER_OF_INVITES_TO_REMOVE_FROM_POOL = 2
+
   belongs_to :candidate
   belongs_to :application_form
   belongs_to :application_choice, optional: true
