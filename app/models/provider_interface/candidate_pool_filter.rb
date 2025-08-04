@@ -62,7 +62,10 @@ module ProviderInterface
           sister_filter.update(filters:, updated_at: 2.seconds.ago)
         end
       else
-        provider_user_filter.save(updated_at: Time.zone.now)
+        ActiveRecord::Base.transaction do
+          provider_user_filter.update(updated_at: Time.zone.now)
+          sister_filter.update(updated_at: 2.seconds.ago)
+        end
       end
     end
 
