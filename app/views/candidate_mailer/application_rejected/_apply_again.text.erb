@@ -1,0 +1,17 @@
+<% if RecruitmentCycleTimetable.currently_between_cycles? %>
+# You can apply again from <%= I18n.l(RecruitmentCycleTimetable.current_timetable.apply_reopens_at.to_date, format: :long) %>
+
+Lots of people are successful when they apply again.
+<% else %>
+# You can apply again
+
+This year, more people than ever are choosing to apply again.
+
+<% if @course_recommendation_url %>
+Based on the details in your previous application, you could be suitable for other teacher training courses.
+
+[View similar courses and apply](<%= @course_recommendation_url %>)
+<% end %>
+<% end %>
+
+[Sign in to apply again](<%= application_choices_link %>).

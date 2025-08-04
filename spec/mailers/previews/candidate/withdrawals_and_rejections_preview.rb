@@ -11,6 +11,32 @@ class Candidate::WithdrawalsAndRejectionsPreview < ActionMailer::Preview
     CandidateMailer.application_rejected(application_choice)
   end
 
+  def application_rejected_with_course_recommendation
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      status: :rejected,
+      structured_rejection_reasons: {
+        selected_reasons: [
+          { id: 'teaching_knowledge', label: 'Teaching knowledge, ability and interview performance',
+            selected_reasons: [
+              { id: 'subject_knowledge', label: 'Subject knowledge',
+                details: {
+                  id: 'subject_knowledge_details',
+                  text: 'You did need to improve your knowledge of the subject',
+                } },
+              { id: 'teaching_knowledge_other', label: 'Other',
+                details: {
+                  id: 'teaching_knowledge_other_details',
+                  text: 'You did not demonstrate enough knowledge about teaching in the UK.',
+                } },
+            ] },
+        ],
+      },
+      rejection_reasons_type: :rejection_reasons,
+    )
+    CandidateMailer.application_rejected(application_choice, 'https://find-teacher-training-courses.service.gov.uk/results')
+  end
+
   def application_rejected_international_unverified
     application_choice = FactoryBot.create(
       :application_choice,
@@ -53,6 +79,27 @@ class Candidate::WithdrawalsAndRejectionsPreview < ActionMailer::Preview
     CandidateMailer.application_withdrawn_on_request(application_choice)
   end
 
+  def application_withdrawn_on_request_with_course_recommendation
+    application_form_with_provided_references = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Fred',
+      application_references: [
+        FactoryBot.build_stubbed(:reference, feedback_status: :feedback_requested),
+        FactoryBot.build_stubbed(:reference, feedback_status: :feedback_requested),
+      ],
+    )
+
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      application_form: application_form_with_provided_references,
+      course_option:,
+      status: :withdrawn,
+      withdrawn_at: Time.zone.now,
+    )
+
+    CandidateMailer.application_withdrawn_on_request(application_choice, 'https://find-teacher-training-courses.service.gov.uk/results')
+  end
+
   def conditions_not_met
     application_choice = application_choice_with_offer.tap do |choice|
       choice.offer.conditions.first.status = :unmet
@@ -75,6 +122,22 @@ class Candidate::WithdrawalsAndRejectionsPreview < ActionMailer::Preview
       candidate:,
     )
     CandidateMailer.withdraw_last_application_choice(application_form)
+  end
+
+  def withdraw_last_application_choice_with_course_recommendation
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Harry',
+      application_choices: [
+        FactoryBot.build_stubbed(:application_choice, status: 'withdrawn', course_option:),
+      ],
+      application_references: [
+        reference_feedback_requested,
+        reference_feedback_requested,
+      ],
+      candidate:,
+    )
+    CandidateMailer.withdraw_last_application_choice(application_form, 'https://find-teacher-training-courses.service.gov.uk/results')
   end
 
 private
