@@ -54,11 +54,15 @@ module ProviderInterface
     end
 
     def save
-      if valid? && apply_filters
+      return false unless valid?
+
+      if apply_filters
         ActiveRecord::Base.transaction do
           provider_user_filter.update(filters:, updated_at: Time.zone.now)
           sister_filter.update(filters:, updated_at: 2.seconds.ago)
         end
+      else
+        provider_user_filter.save(updated_at: Time.zone.now)
       end
     end
 
