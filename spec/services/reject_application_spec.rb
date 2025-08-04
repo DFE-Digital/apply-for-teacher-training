@@ -65,13 +65,11 @@ RSpec.describe RejectApplication do
     end
 
     it 'emails the candidate' do
-      email_service = instance_double(SendCandidateRejectionEmail, call: true)
-      allow(SendCandidateRejectionEmail).to receive(:new).and_return(email_service)
+      allow(CandidateMailers::SendRejectionEmailWorker).to receive(:perform_async).and_return(true)
 
       service.save
 
-      expect(SendCandidateRejectionEmail).to have_received(:new).with(application_choice:)
-      expect(email_service).to have_received(:call)
+      expect(CandidateMailers::SendRejectionEmailWorker).to have_received(:perform_async).with(application_choice.id)
     end
 
     it 'returns true if the call was successful' do
