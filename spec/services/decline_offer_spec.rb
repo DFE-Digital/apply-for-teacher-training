@@ -30,4 +30,24 @@ RSpec.describe DeclineOffer do
     expect(training_provider_email.rails_mail_template).to eq('declined')
     expect(ratifying_provider_email.rails_mail_template).to eq('declined')
   end
+
+  it 'sends a notification email to the candidate if the application is the last one' do
+    allow(CandidateMailers::SendDeclinedLastApplicationChoiceEmailWorker).to receive(:perform_async).and_return(true)
+    application_choice = create(:application_choice, status: :offer)
+
+    described_class.new(application_choice:).save!
+
+    expect(CandidateMailers::SendDeclinedLastApplicationChoiceEmailWorker).to have_received(:perform_async).with(application_choice.id)
+  end
+
+  it 'does not send a notification email to the candidate if the application is not the last one' do
+    allow(CandidateMailers::SendDeclinedLastApplicationChoiceEmailWorker).to receive(:perform_async).and_return(true)
+    application_form = create(:completed_application_form)
+    application_choice = create(:application_choice, status: :offer, application_form:)
+    _other_application_choice = create(:application_choice, status: :offer, application_form:)
+
+    described_class.new(application_choice:).save!
+
+    expect(CandidateMailers::SendDeclinedLastApplicationChoiceEmailWorker).not_to have_received(:perform_async)
+  end
 end
