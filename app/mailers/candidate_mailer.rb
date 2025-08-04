@@ -510,7 +510,7 @@ class CandidateMailer < ApplicationMailer
     @preferences_url = candidate_preferences_link(pool_invite.candidate)
     @invite_url = edit_candidate_interface_invite_url(pool_invite)
     @application_form = pool_invite.application_form
-    @not_responded_invites = @application_form.not_responded_published_invites.count
+    @not_responded_invites_count = @application_form.not_responded_published_invites.count
 
     email_for_candidate(
       @application_form,

@@ -1,0 +1,5 @@
+en:
+  candidate_interface:
+    invite_reminder_banner_component:
+      important: Important
+      content: You have invitations that are awaiting a response. You cannot receive further invitations to courses until you respond to them.

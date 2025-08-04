@@ -6,6 +6,6 @@ class CandidateInterface::InviteReminderBannerComponent < ViewComponent::Base
   end
 
   def render?
-    invites.not_responded.count >= 2
+    invites.not_responded.count >= Pool::Invite::NUMBER_OF_INVITES_TO_REMOVE_FROM_POOL
   end
 end

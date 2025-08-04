@@ -11,9 +11,9 @@ class CandidateInterface::ApplicationsInviteReminderBannerComponent < ViewCompon
 
   def banner_text
     if invites.not_responded.many?
-      'Respond to these invitations. You will not receive new invitations until you respond.'
+      t('.many_invites_content')
     else
-      'Respond to this invitation to continue receiving invitations to apply to courses.'
+      t('.one_invite_content')
     end
   end
 

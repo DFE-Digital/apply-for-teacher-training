@@ -17,8 +17,8 @@ Age range: <%= @pool_invite.course.age_range %>
 Qualification: <%= @pool_invite.course.qualifications_to_s %>
 Start date: <%= @pool_invite.course.start_date.to_fs(:short_month_and_year) %>
 
-<% if @not_responded_invites >= 2 %>
-This is the <%= TextOrdinalizer.call(@not_responded_invites) %> invitation to apply you have received. If you do not respond you will not receive any more invitations in future.
+<% if @not_responded_invites_count >= Pool::Invite::NUMBER_OF_INVITES_TO_REMOVE_FROM_POOL %>
+This is the <%= TextOrdinalizer.call(@not_responded_invites_count) %> invitation to apply you have received. If you do not respond you will not receive any more invitations in future.
 <% end %>
 
 [Review and respond to this invitation](<%= @invite_url %>)
