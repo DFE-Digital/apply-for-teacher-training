@@ -103,3 +103,5 @@ en:
         body:
           invite_to_submit: "%{provider_name} has reviewed your application details and would like you to submit an application to"
           you_are_receiving: "You are receiving this email because you chose to share your application details with training providers."
+    invites_chaser:
+      subject: 'Reminder: respond to your course invitations'

@@ -533,7 +533,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       @application_form,
-      subject: I18n.t!('candidate_mailer.candidate_invite.subject'),
+      subject: I18n.t!('candidate_mailer.invites_chaser.subject'),
       layout: false,
     )
   end

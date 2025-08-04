@@ -4,7 +4,7 @@ Dear <%= @application_form.first_name %>,
 You have received invitations from training providers to apply to courses:
 
 <% @invites.each do |invite| %>
-  [<%= invite.course_name %>](<%= invite.url %>) received at <%= invite.sent_time %> on date <%= invite.sent_date %>
+  [<%= invite.course_name %>](<%= invite.url %>) received at <%= invite.sent_time %> on <%= invite.sent_date %>
 <% end %>
 
 Because you have not responded to these invitations, we have hidden you from search results.
