@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "withdrawing an application at the candidate's request", type: :feature do
+RSpec.describe "withdrawing an application at the candidate's request" do
   include DfESignInHelpers
   include CourseOptionHelpers
 
