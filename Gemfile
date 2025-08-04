@@ -61,7 +61,7 @@ gem 'oj'
 # This gem adds support for sequences in the schema.rb
 gem 'ar-sequence'
 
-gem 'active_hash', '~> 3.3.1'
+gem 'active_hash', '~> 4.0.0'
 
 # Allows the use of common table expressions / WITH statements
 # in active record queries; may eventually be merged into Rails
