@@ -12,6 +12,7 @@ class FindACandidate::PopulatePoolWorker
       applications = application_forms_eligible_for_pool
                        .joins(application_choices: { course_option: { course: :subjects } })
                        .joins(candidate: :published_opt_in_preferences)
+                       .left_joins(:not_responded_published_invites)
                        .where.not(application_choices: { status: 'unsubmitted' })
                        .select(
                          'application_forms.id AS application_form_id',
@@ -38,6 +39,7 @@ class FindACandidate::PopulatePoolWorker
                        END) = 1 AS course_funding_type_fee",
                        )
                        .group(:id)
+                       .having("COUNT(DISTINCT pool_invites.id) < #{Pool::Invite::NUMBER_OF_INVITES_TO_REMOVE_FROM_POOL}")
 
       insert_all_from_eligible_sql = <<~SQL
         INSERT INTO candidate_pool_applications (

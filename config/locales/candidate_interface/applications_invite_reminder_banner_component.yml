@@ -1,0 +1,5 @@
+en:
+  candidate_interface:
+    applications_invite_reminder_banner_component:
+      many_invites_content: Respond to these invitations. You will not receive new invitations until you respond.
+      one_invite_content: Respond to this invitation to continue receiving invitations to apply to courses.
