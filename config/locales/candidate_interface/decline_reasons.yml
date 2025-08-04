@@ -16,4 +16,3 @@ en:
         submit: Save
       create:
         header: You have declined %{course} at %{provider}
-        body: If you have changed your mind you can still %{link}
