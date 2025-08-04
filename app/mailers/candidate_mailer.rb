@@ -508,6 +508,7 @@ class CandidateMailer < ApplicationMailer
   def candidate_invite(pool_invite)
     @pool_invite = pool_invite
     @preferences_url = candidate_preferences_link(pool_invite.candidate)
+    @invite_url = edit_candidate_interface_invite_url(pool_invite)
     application_form = pool_invite.application_form
 
     email_for_candidate(
