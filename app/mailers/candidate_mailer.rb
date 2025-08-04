@@ -509,10 +509,15 @@ class CandidateMailer < ApplicationMailer
     @pool_invite = pool_invite
     @preferences_url = candidate_preferences_link(pool_invite.candidate)
     @invite_url = edit_candidate_interface_invite_url(pool_invite)
-    application_form = pool_invite.application_form
+    @application_form = pool_invite.application_form
+    @not_responded_invites = @application_form.not_responded_published_invites.count
 
     email_for_candidate(
-      application_form,
+      @application_form,
+      subject: I18n.t!('candidate_mailer.candidate_invite.subject'),
+      layout: false,
+    )
+  end
 
   def invites_chaser(invites)
     @invites = invites.map do |invite|

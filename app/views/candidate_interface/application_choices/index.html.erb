@@ -24,6 +24,8 @@
   <% end %>
 <% end %>
 
+<%= render CandidateInterface::ApplicationsInviteReminderBannerComponent.new(invites: current_application.not_responded_published_invites) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
   <% if current_application.after_apply_deadline? %>

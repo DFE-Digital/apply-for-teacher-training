@@ -4,6 +4,7 @@
 <%= render CandidateInterface::ReopenBannerComponent.new(flash_empty: flash.empty?) %>
 
 <%= render ServiceInformationBanner.new(namespace: :candidate) %>
+<%= render CandidateInterface::InviteReminderBannerComponent.new(invites: @not_responded_invites) %>
 
 <% if current_candidate.recoverable? %>
   <%= govuk_notification_banner(title_text: t('account_recovery_banner.title'), success: false) do |nb| %>
