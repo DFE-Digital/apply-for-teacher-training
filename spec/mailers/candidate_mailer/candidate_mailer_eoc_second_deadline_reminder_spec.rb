@@ -11,7 +11,7 @@ RSpec.describe CandidateMailer do
       "Submit your teacher training application before #{I18n.l(current_timetable.apply_deadline_at.to_date, format: :no_year)}",
       'heading' => 'Dear Fred',
       'cycle_details' => "you’ll be able to apply for courses starting in the #{current_timetable.academic_year_range_name} academic year.",
-      'details' => "You must submit your application by #{I18n.l(current_timetable.apply_deadline_at.to_date, format: :no_year)} if you want to start teacher training this year.",
+      'details' => "You must submit your application by #{current_timetable.apply_deadline_at.to_fs(:govuk_time)} on #{current_timetable.apply_deadline_at.to_fs(:day_and_month)} if you want to start teacher training this year.",
       'realistic job preview heading' => 'Gain insights into life as a teacher',
       'realistic job preview' => 'Try the realistic job preview tool',
       'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,

@@ -10,7 +10,7 @@ RSpec.describe ProviderMailer do
       'Candidates can now find courses - manage teacher training applications',
       'salutation' => 'Dear Johny English',
       'main paragraph' => "Candidates can now find your courses for the #{current_timetable.cycle_range_name} recruitment cycle.",
-      'Opening date paragraph' => "They’ll be able to apply on #{current_timetable.apply_opens_at.to_fs(:govuk_date)} at 9am.",
+      'Opening date paragraph' => "They’ll be able to apply from #{current_timetable.apply_opens_at.to_fs(:govuk_date)} at 9am UK time.",
     )
   end
 end

@@ -2,7 +2,7 @@
   <%= t('carried_over_content_component.title') %>
 </h1>
 <p class="govuk-body">
-  <%= t('carried_over_content_component.deadline_has_passed', academic_year:) %>
+  <%= t('carried_over_content_component.deadline_has_passed', academic_year:, course_start_date:) %>
 </p>
 <% if after_find_opens? %>
   <h2 class="govuk-heading-m">

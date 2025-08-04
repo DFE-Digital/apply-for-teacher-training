@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::CarryOverBetweenCyclesComponent do
       expect(result).to have_content("You will be able to apply for these courses from #{apply_reopens_date}.")
       expect(result).to have_button('Update your details')
 
-      expect(result).to have_no_content('This means the status of some of your applications might have changed automatically. Please contact the provider for more information about your application.')
+      expect(result).to have_no_content('The status of some of your applications might have changed automatically. Contact the provider if you have questions about your application.')
     end
   end
 
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::CarryOverBetweenCyclesComponent do
       expect(result).to have_content("You will be able to apply for these courses from #{apply_reopens_date}.")
       expect(result).to have_button('Update your details')
 
-      expect(result).to have_content('This means the status of some of your applications might have changed automatically. Please contact the provider for more information about your application.')
+      expect(result).to have_content('The status of some of your applications might have changed automatically. Contact the provider if you have questions about your application.')
     end
   end
 end

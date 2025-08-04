@@ -10,8 +10,16 @@ module CandidateInterface
       @application_form.recruitment_cycle_timetable.academic_year_range_name
     end
 
+    def application_form_start_month_year
+      @application_form.recruitment_cycle_timetable.apply_deadline_at.to_fs(:month_and_year)
+    end
+
     def next_academic_cycle
       next_timetable.academic_year_range_name
+    end
+
+    def next_start_month
+      next_timetable.apply_deadline_at.to_fs(:month_and_year)
     end
 
     def application_choices
@@ -23,7 +31,7 @@ module CandidateInterface
     end
 
     def apply_reopens_date
-      next_timetable.apply_opens_at.to_date
+      next_timetable.apply_opens_at
     end
 
   private

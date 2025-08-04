@@ -13,7 +13,11 @@ module CandidateInterface
     end
 
     def apply_opens_date
-      timetable.apply_opens_at.to_date.to_fs(:day_and_month)
+      timetable.apply_opens_at.to_fs(:govuk_date_time_time_first)
+    end
+
+    def course_start_date
+      timetable.course_start_date.to_fs(:month_and_year)
     end
 
     def after_find_opens?
