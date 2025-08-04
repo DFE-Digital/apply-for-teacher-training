@@ -89,4 +89,16 @@ class Pool::Invite < ApplicationRecord
       )
     SQL
   end
+
+  def decline_reasons_include_only_salaried?
+    published_invite_decline_reasons.any?(&:reason_only_salaried?)
+  end
+
+  def decline_reasons_include_location_not_convenient?
+    published_invite_decline_reasons.any?(&:reason_location_not_convenient?)
+  end
+
+  def decline_reasons_include_no_longer_interested?
+    published_invite_decline_reasons.any?(&:reason_no_longer_interested?)
+  end
 end
