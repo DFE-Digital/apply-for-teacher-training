@@ -23,6 +23,16 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent 
       expect(component.change_preferences_text_component).to be_nil
     end
 
+    context 'when decline reasons include no longer interested' do
+      it 'returns NoLongerInterestedComponent' do
+        invite = build_stubbed(:pool_invite, invite_decline_reasons: [build_stubbed(:pool_invite_decline_reason, reason: 'no_longer_interested')])
+
+        component = described_class.new(invite:)
+
+        expect(component.change_preferences_text_component).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlash::NoLongerInterestedComponent)
+      end
+    end
+
     context 'when decline reasons include only salaried and location not convenient' do
       it 'returns UpdateLocationAndFundingPreferencesComponent' do
         invite = build_stubbed(:pool_invite, invite_decline_reasons: [

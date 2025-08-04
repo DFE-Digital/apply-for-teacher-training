@@ -18,6 +18,21 @@ class CandidateInterface::Invites::DeclineReasonsSuccessFlashComponentPreview < 
     }))
   end
 
+  def no_longer_interested
+    invite = FactoryBot.build_stubbed(:pool_invite)
+
+    component_html = render_inline(CandidateInterface::Invites::DeclineReasonsSuccessFlash::NoLongerInterestedComponent.new(invite:)).to_s
+
+    render(::FlashMessageComponent.new(flash: {
+      success: [
+        I18n.t('candidate_interface.decline_reasons.create.header',
+               course: invite.course.name_and_code,
+               provider: invite.provider_name),
+        component_html,
+      ],
+    }))
+  end
+
   def update_location_and_funding_preferences
     invite = FactoryBot.build_stubbed(:pool_invite)
 
