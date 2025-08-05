@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::QualificationsComponent, type: :component do
+  include Rails.application.routes.url_helpers
+
+  let(:application_choice) { nil }
   let(:application_form) { create(:application_form, :completed, :with_bachelor_degree) }
   let(:component) do
     described_class.new(
@@ -23,7 +26,7 @@ RSpec.describe ProviderInterface::QualificationsComponent, type: :component do
     end
 
     it 'does not include change links' do
-      expect(result.text).not_to include('Change')
+      expect(result).to have_no_link('Change', href: support_interface_application_form_edit_degree_path(application_form, application_form.application_qualifications.degrees.first))
     end
   end
 
@@ -35,12 +38,8 @@ RSpec.describe ProviderInterface::QualificationsComponent, type: :component do
       expect(result.text).to include(I18n.t('provider_interface.degree.teacher_degree_apprenticeship_message'))
     end
 
-    it 'does not include HESA codes' do
-      expect(result.text).not_to include('HESA codes')
-    end
-
-    it 'does not include change links' do
-      expect(result.text).not_to include('Change')
+    it 'does not render degree information' do
+      expect(result.text).not_to include(application_form.application_qualifications.degrees.first.subject)
     end
   end
 end
