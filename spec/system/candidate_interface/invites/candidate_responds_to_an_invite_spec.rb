@@ -128,7 +128,7 @@ private
           return_to: 'invites',
         ),
       )
-      expect(page).to have_content('Applied')
+      expect(page).to have_content('Accepted')
     end
   end
 

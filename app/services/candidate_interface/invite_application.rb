@@ -7,11 +7,11 @@ module CandidateInterface
       @application_choice = application_choice
     end
 
-    def self.applied!(application_form:, application_choice:)
-      new(application_form:, application_choice:).applied!
+    def self.accepted!(application_form:, application_choice:)
+      new(application_form:, application_choice:).accepted!
     end
 
-    def applied!
+    def accepted!
       clean_up_disconnected_invites
 
       invite = application_form.published_invites.find_by(
@@ -22,7 +22,7 @@ module CandidateInterface
       if invite.present? && application_choice.persisted?
         invite.update!(
           application_choice_id: application_choice.id,
-          candidate_decision: 'applied',
+          candidate_decision: 'accepted',
         )
       end
     end

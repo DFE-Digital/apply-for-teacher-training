@@ -18,13 +18,13 @@ RSpec.describe CandidateInterface::InviteApplication do
     )
   }
 
-  describe '.applied' do
-    context 'when applied to invited course' do
+  describe '.accepted' do
+    context 'when accepted invited course' do
       it 'saves applied state on invite' do
-        described_class.applied!(application_form:, application_choice:)
+        described_class.accepted!(application_form:, application_choice:)
 
         expect(invite.reload.application_choice_id).to eq(application_choice.id)
-        expect(invite.reload.applied?).to be(true)
+        expect(invite.reload.accepted?).to be(true)
       end
     end
 
@@ -35,15 +35,15 @@ RSpec.describe CandidateInterface::InviteApplication do
           :sent_to_candidate,
           application_form:,
           application_choice:,
-          candidate_decision: 'applied',
+          candidate_decision: 'accepted',
         )
       }
 
       it 'removes the link between the choice and the invite' do
-        described_class.applied!(application_form:, application_choice:)
+        described_class.accepted!(application_form:, application_choice:)
 
         expect(invite.reload.application_choice_id).to be_nil
-        expect(invite.reload.applied?).to be(false)
+        expect(invite.reload.accepted?).to be(false)
       end
     end
 
@@ -66,15 +66,15 @@ RSpec.describe CandidateInterface::InviteApplication do
           application_form:,
           application_choice:,
           course: original_course,
-          candidate_decision: 'applied',
+          candidate_decision: 'accepted',
         )
       }
 
       it 'removes the link between the choice and the invite' do
-        described_class.applied!(application_form:, application_choice:)
+        described_class.accepted!(application_form:, application_choice:)
 
         expect(invite.reload.application_choice_id).to eq(application_choice.id)
-        expect(invite.reload.applied?).to be(true)
+        expect(invite.reload.accepted?).to be(true)
       end
     end
   end

@@ -20,7 +20,7 @@ FactoryBot.define do
 
     trait :with_application_choice do
       application_choice { create(:application_choice, :awaiting_provider_decision, course:, application_form:) }
-      candidate_decision { 'applied' }
+      candidate_decision { 'accepted' }
     end
   end
 end

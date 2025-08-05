@@ -91,7 +91,7 @@ RSpec.describe 'Candidate views their invites' do
           return_to: 'invites',
         ),
       )
-      expect(page).to have_content('Applied')
+      expect(page).to have_content('Accepted')
     end
 
     within ".govuk-task-list__item##{@declined_invite.id}" do

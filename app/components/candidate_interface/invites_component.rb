@@ -15,7 +15,7 @@ module CandidateInterface
     end
 
     def status_tag(invite)
-      if invite.applied? && invite.application_choice.present?
+      if invite.accepted? && invite.application_choice.present?
         govuk_tag text: invite.candidate_decision.capitalize, colour: 'green'
       elsif invite.declined?
         govuk_tag text: invite.candidate_decision.capitalize, colour: 'red'
@@ -33,7 +33,7 @@ module CandidateInterface
     end
 
     def action_link(invite)
-      if invite.applied? && invite.application_choice.present?
+      if invite.accepted? && invite.application_choice.present?
         govuk_link_to t('.view_application'), application_choice_link(invite)
       else
         govuk_link_to t('.view_course'), invite.course.find_url

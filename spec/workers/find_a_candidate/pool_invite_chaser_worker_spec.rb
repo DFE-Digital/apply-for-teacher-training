@@ -136,13 +136,13 @@ module FindACandidate
           create(
             :pool_invite,
             application_form:,
-            candidate_decision: 'applied',
+            candidate_decision: 'accepted',
             sent_to_candidate_at: 25.hours.ago,
           )
           create(
             :pool_invite,
             application_form:,
-            candidate_decision: 'applied',
+            candidate_decision: 'accepted',
             sent_to_candidate_at: 25.hours.ago,
           )
           allow(SendChaserWorker).to receive(:perform_async)
