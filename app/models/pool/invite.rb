@@ -29,6 +29,7 @@ class Pool::Invite < ApplicationRecord
   enum :candidate_decision, {
     not_responded: 'not_responded',
     applied: 'applied',
+    accepted: 'accepted',
     declined: 'declined',
   }, default: :not_responded
 
