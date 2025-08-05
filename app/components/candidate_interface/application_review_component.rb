@@ -147,6 +147,13 @@ module CandidateInterface
       ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES.include?(@application_choice.status.to_sym)
     end
 
+    def show_holiday_response_delay_warning?
+      unless @application_choice.unsubmitted?
+        @application_choice.inactive_calculation_impacted_by_christmas_holidays? ||
+          @application_choice.response_time_possibly_impacted_by_easter_holidays?
+      end
+    end
+
     def show_withdraw?
       ApplicationStateChange.new(@application_choice).can_withdraw?
     end
