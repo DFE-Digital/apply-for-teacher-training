@@ -9,7 +9,7 @@ Congratulations! You have an offer from <%= @provider_name %> to study <%= @cour
 <% end %>
 
 <% if @show_deadline_reminder %>
-  If you want to accept this offer, you must do so by <%= I18n.l(@application_form.decline_by_default_at.to_date, format: :no_year) %>. If you have not responded by then, the offer will be automatically declined on your behalf.
+  If you want to accept this offer, you must do so by <%=@application_form.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time) %>. If you have not responded by then, the offer will be automatically declined on your behalf.
 <% end %>
 
 You will have to pass essential checks before you can start your training.

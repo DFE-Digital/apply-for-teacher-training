@@ -1,7 +1,7 @@
 en:
   carried_over_content_component:
     title: The application deadline has passed
-    deadline_has_passed: The application deadline has passed for courses starting in the %{academic_year} academic year.
+    deadline_has_passed: The application deadline has passed for courses starting in the %{academic_year} academic year. You can no longer apply to courses starting in %{course_start_date}
     what_happens_next: What happens next?
     you_can_prepare: >
       You can prepare applications for courses starting in the %{next_academic_year} academic year. You will be able to
