@@ -23,9 +23,9 @@
     <div class="app-timeline">
       <div class="app-timeline__item">
         <div class="app-timeline__header">
-          <h3 class="app-timeline__title">
+          <h2 class="app-timeline__title">
             <%= @current_timetable.find_opens_at.to_fs(:govuk_date_and_time) %>
-          </h3>
+          </h2>
         </div>
 
         <div class="app-timeline__description">
@@ -41,9 +41,9 @@
 
       <div class="app-timeline__item">
         <div class="app-timeline__header">
-          <h3 class="app-timeline__title">
+          <h2 class="app-timeline__title">
             <%= @current_timetable.apply_opens_at.to_fs(:govuk_date_and_time) %>
-          </h3>
+          </h2>
         </div>
 
         <div class="app-timeline__description">
@@ -67,9 +67,9 @@
 
       <div class="app-timeline__item">
         <div class="app-timeline__header">
-          <h3 class="app-timeline__title">
+          <h2 class="app-timeline__title">
             <%= @current_timetable.apply_deadline_at.to_fs(:govuk_date_and_time) %>
-          </h3>
+          </h2>
         </div>
 
         <div class="app-timeline__description">
@@ -85,9 +85,9 @@
 
       <div class="app-timeline__item">
         <div class="app-timeline__header">
-          <h3 class="app-timeline__title">
+          <h2 class="app-timeline__title">
             <%= @current_timetable.reject_by_default_at.to_fs(:govuk_date_and_time) %>
-          </h3>
+          </h2>
         </div>
 
         <div class="app-timeline__description">
