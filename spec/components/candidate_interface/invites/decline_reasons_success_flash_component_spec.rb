@@ -4,8 +4,9 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent 
   include Rails.application.routes.url_helpers
 
   it 'renders the component with the invite' do
+    candidate = build_stubbed(:candidate)
     course = build_stubbed(:course)
-    invite = build_stubbed(:pool_invite, course:)
+    invite = build_stubbed(:pool_invite, candidate:, course:)
 
     result = render_inline(described_class.new(invite:))
 
@@ -13,21 +14,56 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent 
     expect(result).to have_link('apply to this course', href: candidate_interface_course_choices_course_confirm_selection_path(course))
   end
 
-  context 'when the invite has been declined with a only_salaried reason' do
-    it 'renders with the change funding preferences message' do
-      candidate = create(:candidate)
-      application_form = create(:application_form, candidate:)
-      invite = create(:pool_invite, application_form: application_form)
+  describe '#change_preferences_text' do
+    it 'returns nil when no decline reasons are present' do
+      invite = build_stubbed(:pool_invite, published_invite_decline_reasons: [])
 
-      allow(invite).to receive(:decline_reasons_include_only_salaried?).and_return(true)
+      component = described_class.new(invite:)
 
-      result = render_inline(described_class.new(invite:))
+      expect(component.change_preferences_text).to be_nil
+    end
 
-      expect(result).to have_text('Change your funding preferences to receive invitations to more relevant courses')
-      expect(result).to have_link('Change your funding preferences', href: candidate_interface_candidate_preferences_path(candidate))
+    context 'when decline reasons include no longer interested' do
+      it 'returns NoLongerInterestedComponent' do
+        invite = build_stubbed(:pool_invite, published_invite_decline_reasons: [build_stubbed(:pool_invite_decline_reason, reason: 'no_longer_interested')])
 
-      expect(result).to have_text('If you have changed your mind you can still apply to this course')
-      expect(result).to have_link('apply to this course', href: candidate_interface_course_choices_course_confirm_selection_path(invite.course))
+        component = described_class.new(invite:)
+
+        expect(component.change_preferences_text).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent::NoLongerInterestedComponent)
+      end
+    end
+
+    context 'when decline reasons include only salaried and location not convenient' do
+      it 'returns UpdateLocationAndFundingPreferencesComponent' do
+        invite = build_stubbed(:pool_invite, published_invite_decline_reasons: [
+          build_stubbed(:pool_invite_decline_reason, reason: 'only_salaried'),
+          build_stubbed(:pool_invite_decline_reason, reason: 'location_not_convenient'),
+        ])
+
+        component = described_class.new(invite:)
+
+        expect(component.change_preferences_text).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent::UpdateLocationAndFundingPreferencesComponent)
+      end
+    end
+
+    context 'when decline reasons include only salaried' do
+      it 'returns ChangeFundingPreferencesComponent' do
+        invite = build_stubbed(:pool_invite, published_invite_decline_reasons: [build_stubbed(:pool_invite_decline_reason, reason: 'only_salaried')])
+
+        component = described_class.new(invite:)
+
+        expect(component.change_preferences_text).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent::ChangeFundingPreferencesComponent)
+      end
+    end
+
+    context 'when decline reasons include location not convenient' do
+      it 'returns ChangeLocationPreferencesComponent' do
+        invite = build_stubbed(:pool_invite, published_invite_decline_reasons: [build_stubbed(:pool_invite_decline_reason, reason: 'location_not_convenient')])
+
+        component = described_class.new(invite:)
+
+        expect(component.change_preferences_text).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent::ChangeLocationPreferencesComponent)
+      end
     end
   end
 end
