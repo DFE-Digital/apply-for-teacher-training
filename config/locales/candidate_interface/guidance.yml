@@ -1,0 +1,24 @@
+en:
+  candidate_interface:
+    guidance:
+      index:
+        heading: The application process for courses starting in September %{this_cycle}
+        you_can_start_applying: For courses starting in September %{this_cycle}, you can start applying a year before they start in October %{last_cycle}.
+        duration: Most teacher training courses are one year and start in September when the academic year in England starts. Part time courses are usually 2 years.
+        find_courses_html: "Start %{link} you might want to apply to."
+        start_applying: |
+          Start applying to courses. You can apply to %{max_courses} courses, they can fill up quickly so you should apply as soon as you can.
+
+          Providers can close courses to new applications when they fill up.
+
+          You can withdraw an application at any time and apply to a different course if you want to.
+
+          If training providers do not respond to an application within 30 working days, you will be able to apply to another course while you wait for a response. We will tell you if the provider has not responded in time. Around the Easter and Christmas breaks, providers can take longer to respond to applications.
+
+          You will get an email if you receive an offer from a training provider.
+        if_unsuccessful_html: If your applications are unsuccessful you can %{link} with other training providers. They can search a list of available candidates and invite you to apply if you meet their criteria.
+        last_day_to_submit: |
+          The last day that you can submit most applications. Some providers will close their courses before this date.
+
+          Courses which sponsor visas can close earlier so that there is time to process the paperwork needed for visa sponsored course places.
+        last_day_to_decide: The last day for training providers to make a decision on all applications for courses starting in September %{this_cycle}.

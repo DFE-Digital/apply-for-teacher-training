@@ -1,5 +1,6 @@
 module CandidateInterface
   class GuidanceController < CandidateInterfaceController
+    skip_before_action :require_authentication
     skip_before_action :authenticate_candidate!
     before_action :set_back_link
 
