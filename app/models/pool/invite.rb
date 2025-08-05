@@ -28,14 +28,13 @@ class Pool::Invite < ApplicationRecord
 
   enum :candidate_decision, {
     not_responded: 'not_responded',
-    applied: 'applied',
     accepted: 'accepted',
     declined: 'declined',
   }, default: :not_responded
 
   scope :not_responded_course_open, -> { not_responded.where(course_open: true) }
   scope :actioned_by_candidate_or_course_closed, lambda {
-    where(candidate_decision: %w[applied accepted declined])
+    where(candidate_decision: %w[accepted declined])
     .or(where(course_open: false))
   }
 
