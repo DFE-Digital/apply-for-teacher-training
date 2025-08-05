@@ -44,20 +44,18 @@ RSpec.describe WithdrawOffer do
       expect(application_choice.reload.status).to eq 'offer'
     end
 
-    it 'sends an email to the candidate', :sidekiq do
+    it 'sends an email to the candidate' do
+      allow(CandidateMailers::SendWithdrawnOfferEmailWorker).to receive(:perform_async).and_return(true)
       application_choice = create(:application_choice, status: :offer)
       withdrawal_reason = 'We messed up big time'
 
-      expect {
-        described_class.new(
-          actor: create(:support_user),
-          application_choice:,
-          offer_withdrawal_reason: withdrawal_reason,
-        ).save
-      }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      described_class.new(
+        actor: create(:support_user),
+        application_choice:,
+        offer_withdrawal_reason: withdrawal_reason,
+      ).save
 
-      expect(ActionMailer::Base.deliveries.first.to).to eq [application_choice.application_form.candidate.email_address]
-      expect(ActionMailer::Base.deliveries.first.subject).to match(/Offer withdrawn by/)
+      expect(CandidateMailers::SendWithdrawnOfferEmailWorker).to have_received(:perform_async).with(application_choice.id)
     end
   end
 end

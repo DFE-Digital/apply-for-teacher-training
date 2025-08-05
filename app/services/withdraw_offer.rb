@@ -27,7 +27,7 @@ class WithdrawOffer
         )
       end
 
-      CandidateMailer.offer_withdrawn(@application_choice).deliver_later
+      CandidateMailers::SendWithdrawnOfferEmailWorker.perform_async(@application_choice.id)
 
       true
     end
