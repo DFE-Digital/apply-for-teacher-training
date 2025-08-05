@@ -7,6 +7,16 @@ devise_scope :candidate do
   get '/candidate/sign-out', to: 'devise/sessions#destroy', as: :candidate_interface_sign_out
 end
 
+direct :candidate_interface_candidate_preferences do |candidate|
+  if candidate.published_preferences.last&.opt_out?
+    edit_candidate_interface_pool_opt_in_path(candidate.published_preferences.last)
+  elsif candidate.published_preferences.blank?
+    new_candidate_interface_pool_opt_in_path
+  else
+    candidate_interface_draft_preference_publish_preferences_path(candidate.published_preferences.last)
+  end
+end
+
 namespace :candidate_interface, path: '/candidate' do
   if HostingEnvironment.production?
     get '/' => redirect(GOVUK_APPLY_START_PAGE_URL)

@@ -18,5 +18,6 @@ private
 
   attr_reader :invite
 
-  delegate :course, to: :invite
+  delegate :candidate, :course, to: :invite
+  delegate :decline_reasons_include_only_salaried?, to: :invite, prefix: true
 end
