@@ -35,7 +35,7 @@ class Pool::Invite < ApplicationRecord
 
   scope :not_responded_course_open, -> { not_responded.where(course_open: true) }
   scope :actioned_by_candidate_or_course_closed, lambda {
-    where(candidate_decision: %w[applied declined])
+    where(candidate_decision: %w[applied accepted declined])
     .or(where(course_open: false))
   }
 

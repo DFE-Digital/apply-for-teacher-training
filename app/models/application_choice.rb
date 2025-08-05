@@ -269,7 +269,7 @@ class ApplicationChoice < ApplicationRecord
     ActiveRecord::Base.transaction do
       update!(attrs)
 
-      CandidateInterface::InviteApplication.applied!(
+      CandidateInterface::InviteApplication.accepted!(
         application_form:,
         application_choice: self,
       )

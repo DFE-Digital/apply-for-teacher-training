@@ -56,18 +56,18 @@ RSpec.describe CandidateInterface::InvitesComponent do
   end
 
   describe '#status_tag' do
-    context 'with applied invite' do
+    context 'with accepted invite' do
       it 'returns the green status tag' do
         invite = create(
           :pool_invite,
           application_choice: create(:application_choice, :offered),
-          candidate_decision: 'applied',
+          candidate_decision: 'accepted',
         )
         component = described_class.new(invites: [invite])
         render_inline(component)
 
         expect(component.status_tag(invite)).to eq(
-          '<strong class="govuk-tag govuk-tag--green">Applied</strong>',
+          '<strong class="govuk-tag govuk-tag--green">Accepted</strong>',
         )
       end
     end
@@ -110,7 +110,7 @@ RSpec.describe CandidateInterface::InvitesComponent do
         invite = create(
           :pool_invite,
           application_choice: choice,
-          candidate_decision: 'applied',
+          candidate_decision: 'accepted',
         )
         component = described_class.new(invites: [invite])
         render_inline(component)

@@ -593,7 +593,7 @@ RSpec.describe ApplicationChoice do
         application_choice.update_course_option_and_associated_fields!(course_option)
 
         expect(invite.reload.application_choice_id).to eq(application_choice.id)
-        expect(invite.reload.candidate_decision).to eq('applied')
+        expect(invite.reload.candidate_decision).to eq('accepted')
       end
 
       it 'does not updates the invite with the application choice if does not courses match' do

@@ -58,8 +58,8 @@ RSpec.describe FindACandidate::SendChaserWorker do
 
     context 'without chasers but invites responded' do
       it 'does not creates chasers' do
-        invite_1 = create(:pool_invite, candidate_decision: 'applied')
-        invite_2 = create(:pool_invite, candidate_decision: 'applied')
+        invite_1 = create(:pool_invite, candidate_decision: 'accepted')
+        invite_2 = create(:pool_invite, candidate_decision: 'accepted')
 
         expect {
           described_class.new.perform([invite_1.id, invite_2.id])
