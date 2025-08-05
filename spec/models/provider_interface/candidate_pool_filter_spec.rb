@@ -209,7 +209,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
 
         expect { filter.save }.not_to change {
           current_provider_user.find_a_candidate_not_seen_filter&.filters
-        }.from(nil)
+        }.from({})
       end
     end
 
