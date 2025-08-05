@@ -18,5 +18,7 @@ en:
     rejected_by_provider: rejected by the training provider,
     withdrawn_by_provider: 'withdrawn by you or the provider'
     inactive_html: 'submitted over 30 working days ago and still waiting for a response <br> or:'
+    inactive_with_response_time_warning_html: 'submitted over 30 working days ago and still waiting for a response -around the Easter and Christmas breaks it can take longer for training providers to respond to applications.  <br> or:'
     declined_offer: 'you declined the offer'
     conditions_not_met: 'you did not meet the conditions of an offer'
+    christmas_warning: If training providers do not respond to you within 30 working days, you will be able to apply to another course while you wait for a response. We do not count the days between Christmas day and New Years day as working days.

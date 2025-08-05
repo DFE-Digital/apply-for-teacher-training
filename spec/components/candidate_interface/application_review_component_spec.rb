@@ -315,9 +315,23 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
         allow(component).to receive(:can_add_more_choices?).and_return(false)
       end
 
-      it 'show what happens next information' do
-        expect(result.text).to include('What happens next',
-                                       'The provider will review your application and let you know when they have made a decision. In the meantime, you can:')
+      it 'show what happens next information when it is not a holiday' do
+        application_choice.update(sent_to_provider_at: DateTime.new(current_year, 1, 20))
+        expect(result.text).to include(
+          'What happens next',
+          'The provider will review your application and let you know when they have made a decision.',
+          'In the meantime, you can:',
+        )
+      end
+
+      it 'show what happens next information when it is a holiday' do
+        application_choice.update(sent_to_provider_at: DateTime.new(current_year, 1, 1))
+        expect(result.text).to include(
+          'What happens next',
+          'The provider will review your application and let you know when they have made a decision.',
+          'Around the Easter and Christmas breaks, some providers could take longer to respond to applications.',
+          'In the meantime, you can:',
+        )
       end
 
       it 'does not hint to add more choices' do

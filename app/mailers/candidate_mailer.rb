@@ -5,6 +5,8 @@ class CandidateMailer < ApplicationMailer
   def application_choice_submitted(application_choice)
     @application_choice = application_choice
 
+    @holiday_response_time_indicator = CandidateInterface::HolidayResponseTimeIndicator.new(application_choice:)
+
     email_for_candidate(
       application_choice.application_form,
     )
@@ -478,6 +480,10 @@ class CandidateMailer < ApplicationMailer
 
     return unless @application_choice
 
+    @show_holiday_response_time_text = CandidateInterface::HolidayResponseTimeIndicator.new(
+      application_choice: @application_choice,
+    ).holiday_response_time_delay_possible?
+
     course = @application_choice.current_course_option.course
     @provider_name = course.provider.name
     @course_name_and_code = course.name_and_code
@@ -494,6 +500,10 @@ class CandidateMailer < ApplicationMailer
     application_choices = application_form.application_choices.inactive_past_day
 
     return unless application_choices.many?
+
+    @show_holiday_response_time_text = application_choices.any? do |application_choice|
+      CandidateInterface::HolidayResponseTimeIndicator.new(application_choice:).holiday_response_time_delay_possible?
+    end
 
     @applications = application_choices.map do |application_choice|
       {

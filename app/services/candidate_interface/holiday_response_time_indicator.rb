@@ -1,6 +1,7 @@
 module CandidateInterface
   class HolidayResponseTimeIndicator
     attr_reader :application_choice
+
     def initialize(application_choice:)
       @application_choice = application_choice
     end
@@ -17,6 +18,10 @@ module CandidateInterface
         30.business_days.before(end_of_christmas_holiday),
         end_of_christmas_holiday,
       )
+    end
+
+    def holiday_response_time_delay_possible?
+      christmas_response_time_delay_possible? || easter_response_time_delay_possible?
     end
 
   private
@@ -36,7 +41,7 @@ module CandidateInterface
     end
 
     def year
-      @year ||= application_choice.recruitment_cycle
+      @year ||= application_choice.application_form.recruitment_cycle_year
     end
   end
 end

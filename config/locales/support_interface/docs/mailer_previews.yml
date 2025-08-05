@@ -58,8 +58,12 @@ en:
             nudge_unsubmitted_with_incomplete_references: An application is complete apart from the references but it has not been submitted after 7 days.
           candidate_application_submitted:
             application_choice_submitted: A candidate has submitted an application to a course.
+            application_choice_submitted_with_christmas_delay_warning: A candidate has submitted an application during the Christmas holiday period.
+            application_choice_submitted_with_easter_delay_warning: A candidate has submitted an application during the Easter holiday period.
             apply_to_another_course_after_30_working_days: The candidate has not had a response to an application for 30 working days (status changed to inactive). This email nudges them to apply elsewhere.
+            apply_to_another_course_after_30_working_days_with_holiday_warning: The candidate has not had a response and their application was submitted during the holidays.
             apply_to_multiple_courses_after_30_working_days: The candidate has not had a response to more than 1 application for 30 working days (status changed to inactive). This email nudges them to apply elsewhere.
+            apply_to_multiple_courses_after_30_working_days_with_holiday_response_time_warning: The candidate has not had a response and their application was submitted during the Christmas holiday period.
             change_course: The training provider has changed any details about the course a candidate has applied to.
           candidate_offers:
             changed_offer: The training provider has changed any details about a conditional offer made to a candidate.

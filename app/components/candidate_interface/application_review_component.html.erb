@@ -2,6 +2,8 @@
   <%= govuk_warning_text(text: "Application submitted #{time_ago_in_words(application_choice.sent_to_provider_at)} ago. You can #{govuk_link_to('add an application', candidate_interface_course_choices_do_you_know_the_course_path)} for a different training provider while you wait for a decision on this application.".html_safe) %>
 <% end %>
 
+<%= holiday_response_time_warning_text %>
+
 <%= render SummaryListComponent.new(rows: rows) %>
 
 <% if show_what_happens_next? %>
@@ -17,7 +19,14 @@
     <p class="govuk-body">Congratulations on being invited for an interview! This is an important stage in successfully getting a place on a teacher training course.</p>
     <p class="govuk-body">Learn more about what to expect and <%= govuk_link_to 'how to prepare for an interview', t('get_into_teaching.url_teacher_training_interview'), target: '_blank' %>.</p>
   <% elsif application_choice.inactive? %>
-    <p class="govuk-body">The provider will review your application and let you know when they have made a decision. In the meantime, you can:</p>
+
+    <p class="govuk-body">
+      The provider will review your application and let you know when they have made a decision.
+      <% if show_easter_or_christmas_delay_text? %>
+        Around the Easter and Christmas breaks, some providers could take longer to respond to applications.
+      <% end %>
+      In the meantime, you can:
+    </p>
     <ul class="govuk-list govuk-list--bullet">
       <% if can_add_more_choices? %>
         <li><%= govuk_link_to 'submit another application', candidate_interface_course_choices_do_you_know_the_course_path %> while you wait for a decision on this one</li>

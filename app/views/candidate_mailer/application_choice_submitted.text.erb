@@ -6,4 +6,12 @@ You have submitted an application for <%= @application_choice.course_option.cour
 
 Your training provider will contact you if they would like to organise an interview.
 
+<% if @holiday_response_time_indicator.christmas_response_time_delay_possible? %>
+  We do not count the days between Christmas day and New Years day as working days, so it could take providers longer to respond to your application at the moment.
+<% end %>
+
+<% if @holiday_response_time_indicator.easter_response_time_delay_possible? %>
+  Around the Easter holidays it can take longer for training providers to respond to applications.
+<% end %>
+
 <%= render 'get_help_teacher_training_adviser' %>
