@@ -24,6 +24,7 @@ RSpec.describe Wizard do
     let(:wizard) do
       Class.new do
         include Wizard
+
         attr_accessor :checking_answers
 
         def initialize_extra(_attrs)
@@ -42,6 +43,7 @@ RSpec.describe Wizard do
     let(:wizard) do
       Class.new do
         include Wizard
+
         attr_accessor :value1, :value2
 
         def sanitize_attrs(attrs)

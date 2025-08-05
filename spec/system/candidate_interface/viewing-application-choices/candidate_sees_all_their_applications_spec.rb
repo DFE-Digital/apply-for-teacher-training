@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Candidates sees all their applications' do
   include CandidateHelper
+
   before do
     create_and_sign_in_candidate
     @application_form = create(:application_form, candidate: current_candidate)

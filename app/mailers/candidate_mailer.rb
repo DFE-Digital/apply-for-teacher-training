@@ -81,18 +81,21 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def application_rejected(application_choice)
+  def application_rejected(application_choice, course_recommendation_url = nil)
     @course = application_choice.current_course_option.course
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+    @course_recommendation_url = course_recommendation_url
 
     email_for_candidate(application_choice.application_form)
   end
 
-  def application_withdrawn_on_request(application_choice)
+  def application_withdrawn_on_request(application_choice, course_recommendation_url = nil)
     @course = application_choice.current_course_option.course
     @provider_name = @course.provider.name
     @course_name_and_code = application_choice.current_course_option.course.name_and_code
     @application_form = application_choice.application_form
+    @course_recommendation_url = course_recommendation_url
+
     email_for_candidate(@application_form)
   end
 
@@ -276,10 +279,11 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def withdraw_last_application_choice(application_form)
+  def withdraw_last_application_choice(application_form, course_recommendation_url = nil)
     @withdrawn_courses = application_form.application_choices.select(&:withdrawn?)
     @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.current_course_option.course.name_and_code} at #{application_choice.current_course_option.course.provider.name}" }
     @rejected_course_choices_count = application_form.application_choices.select(&:rejected?).count
+    @course_recommendation_url = course_recommendation_url
 
     email_for_candidate(
       application_form,
@@ -287,10 +291,11 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def decline_last_application_choice(application_choice)
+  def decline_last_application_choice(application_choice, course_recommendation_url = nil)
     @declined_course = application_choice
     @declined_course_name = "#{application_choice.current_course_option.course.name_and_code} at #{application_choice.current_course_option.course.provider.name}"
     @rejected_course_choices_count = application_choice.self_and_siblings.select(&:rejected?).count
+    @course_recommendation_url = course_recommendation_url
 
     email_for_candidate(
       application_choice.application_form,
@@ -298,10 +303,11 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def offer_withdrawn(application_choice)
+  def offer_withdrawn(application_choice, course_recommendation_url = nil)
     @course_name_and_code = application_choice.current_course_option.course.name_and_code
     @provider_name = application_choice.current_course_option.provider.name
     @withdrawal_reason = application_choice.offer_withdrawal_reason
+    @course_recommendation_url = course_recommendation_url
 
     email_for_candidate(
       application_choice.application_form,
@@ -363,7 +369,8 @@ class CandidateMailer < ApplicationMailer
 
     @this_academic_year = timetable.previously_closed_academic_year_range
     @next_academic_year = timetable.next_available_academic_year_range
-    @apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date)
+    @apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
+    @course_start_month_year = timetable.course_start_date.to_fs(:month_and_year)
 
     email_for_candidate(
       application_form,
@@ -373,11 +380,11 @@ class CandidateMailer < ApplicationMailer
 
   def respond_to_offer_before_deadline(application_form)
     timetable = application_form.recruitment_cycle_timetable
-    @decline_by_default_deadline = timetable.decline_by_default_at.to_fs(:govuk_date)
+    @decline_by_default_deadline = timetable.decline_by_default_at.to_fs(:govuk_date_time_time_first)
 
     @this_academic_year = timetable.previously_closed_academic_year_range
     @next_academic_year = timetable.next_available_academic_year_range
-    @apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date)
+    @apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
     email_for_candidate(
       application_form,
       subject: I18n.t!(
@@ -391,7 +398,7 @@ class CandidateMailer < ApplicationMailer
     timetable = application_form.recruitment_cycle_timetable
     @this_academic_year = timetable.previously_closed_academic_year_range
     @next_academic_year = timetable.next_available_academic_year_range
-    @apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date)
+    @apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
 
     email_for_candidate(
       application_form,
@@ -402,7 +409,7 @@ class CandidateMailer < ApplicationMailer
   def find_has_opened(application_form)
     timetable = RecruitmentCycleTimetable.current_timetable
     @academic_year = timetable.academic_year_range_name
-    @apply_opens = timetable.apply_opens_at.to_fs(:govuk_date)
+    @apply_opens = timetable.apply_opens_at.to_fs(:govuk_date_time_time_first)
 
     email_for_candidate(
       application_form,
@@ -508,11 +515,32 @@ class CandidateMailer < ApplicationMailer
   def candidate_invite(pool_invite)
     @pool_invite = pool_invite
     @preferences_url = candidate_preferences_link(pool_invite.candidate)
-    application_form = pool_invite.application_form
+    @invite_url = edit_candidate_interface_invite_url(pool_invite)
+    @application_form = pool_invite.application_form
+    @not_responded_invites_count = @application_form.not_responded_published_invites.count
 
     email_for_candidate(
-      application_form,
+      @application_form,
       subject: I18n.t!('candidate_mailer.candidate_invite.subject'),
+      layout: false,
+    )
+  end
+
+  def invites_chaser(invites)
+    @invites = invites.map do |invite|
+      Struct.new(:course_name, :url, :sent_time, :sent_date).new(
+        course_name: invite.course_name_and_code,
+        url: edit_candidate_interface_invite_url(id: invite.id),
+        sent_time: invite.sent_to_candidate_at.to_fs(:govuk_time),
+        sent_date: invite.sent_to_candidate_at.to_fs(:govuk_date),
+      )
+    end
+    @invites_url = candidate_interface_invites_url
+    @application_form = invites.first.application_form
+
+    email_for_candidate(
+      @application_form,
+      subject: I18n.t!('candidate_mailer.invites_chaser.subject'),
       layout: false,
     )
   end

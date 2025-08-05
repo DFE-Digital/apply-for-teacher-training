@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Cycle redirects' do
   include Devise::Test::IntegrationHelpers
+
   let(:candidate) { create(:candidate) }
   let(:continuous_applications_routes) do
     [

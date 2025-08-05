@@ -1,6 +1,7 @@
 module CandidateInterface
   class SignUpForm
     include ActiveModel::Model
+
     attr_accessor :email_address, :candidate, :course_from_find_id
 
     validates :email_address, presence: true

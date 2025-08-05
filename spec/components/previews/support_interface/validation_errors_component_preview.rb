@@ -1,6 +1,7 @@
 module SupportInterface
   class ValidationErrorsComponentPreview < ViewComponent::Preview
     include SelectOptionsHelper
+
     def validation_error_list
       distinct_errors_with_counts = ValidationError.apply.list_of_distinct_errors_with_count
       grouped_counts = ValidationError.apply.group(:form_object).count

@@ -13,9 +13,8 @@
     <p class="govuk-body">
       Some things on the roadmap might change – the purpose is to tell you what’s coming up and help you plan how this feature might be used within the wider recruitment process.
     </p>
-    <p class="govuk-body">
-      Last updated: 7 July 2025
-    </p>
+    <%= govuk_inset_text(text: 'Last updated: 24 July 2025') %>
+
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
     <h2 class="govuk-heading-m">
@@ -26,20 +25,27 @@
     </p>
     <%= govuk_list(
           [
+            'To help you find candidates in the list more easily, you can now search the list by candidate number. ',
+            'Provider navigation improvements to the personal statement ‘read more’ link and share candidate profiles with colleagues.',
+            "New information displayed on candidate profiles: \
+            #{
+              govuk_list(
+                [
+                  'the locations that a candidate has stated they can train in – these power the location search you use',
+                  'visa sponsorship information',
+                ],
+                type: :bullet,
+              )
+            }".html_safe,
             govuk_link_to(
-              'Functionality for providers to personalise invitation emails to candidates.',
-              t('.design_histories.email_personalisation_url'),
+              'Candidate course funding type preference capture.',
+              t('.design_histories.find_candidate_funding_type_url'),
             ),
-            "#{govuk_link_to(
-              'Candidate location preference flow iterations',
-              t('.design_histories.candidate_location_preferences_url'),
-            )} to support international candidates, use of the location radius and use of automatic location updates.".html_safe,
+            'Candidates carrying over applications into the new cycle re-confirm opt-in, location and funding type preferences. (This will take affect from 17 September 2025)',
             "#{govuk_link_to(
               'Candidate statuses, additional tabs and invitation banners',
               t('.design_histories.find_candidate_statuses_url'),
             )} to make it easier for providers to distinguish, separate or sort between candidates they have not viewed, already viewed and invited (and progressed to applied).".html_safe,
-            'Removing previously rejected candidates from the list if rejected by all providers a user has access to.',
-            'Search by candidate number, share candidate profiles with colleagues.',
           ],
           type: :bullet,
         ) %>
@@ -53,9 +59,9 @@
     </p>
     <%= govuk_list(
           [
-            'Provider navigation improvements to the personal statement ‘read more’ link.',
-            'Candidate course funding type preference capture.',
-            'For multi-organisation provider users, showing links in the candidate profiles to previous applications to their organisations.',
+            'Hiding the list when there are no candidates to invite as the recruitment cycle changes over.',
+            'Capturing candidate invitation responses to understand candidate intentions towards reapplication.',
+            'Limiting the number of open invites per candidate to avoid you wasting time inviting candidates who do not respond.',
           ],
           type: :bullet,
         ) %>
@@ -69,8 +75,8 @@
     </p>
     <%= govuk_list(
           [
-            'How might we identify and intervene if a candidate is disengaged from the invitation process.',
-            'Analysis of the makeup and movement of candidates likely to meet the list criteria in the early stages of the recruitment cycle. How might we ensure the list is suitable for provider view and usage.',
+            'Candidate understanding of the opt-in and preference setting process.',
+            'Preparing to monitoring user behaviour in the new recruitment cycle.',
           ],
           type: :bullet,
         ) %>

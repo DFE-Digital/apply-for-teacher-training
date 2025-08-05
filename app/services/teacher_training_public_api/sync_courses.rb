@@ -3,6 +3,7 @@ module TeacherTrainingPublicAPI
     attr_reader :provider, :run_in_background, :incremental_sync, :recruitment_cycle_year
 
     include Sidekiq::Worker
+
     sidekiq_options retry: 3, queue: :low_priority
 
     API_COURSE_DRAFT_STATES = %w[rolled_over draft].freeze
@@ -22,6 +23,7 @@ module TeacherTrainingPublicAPI
         course = create_or_update_course(course_from_api)
         if course.present?
           update_sites(course.id, course_from_api.application_status)
+          course.published_invites.update_all(course_open: course.open?)
         end
       end
     rescue JsonApiClient::Errors::ApiError

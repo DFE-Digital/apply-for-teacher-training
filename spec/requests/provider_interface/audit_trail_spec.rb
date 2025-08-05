@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Provider interface - audit trail', :with_audited do
   include CourseOptionHelpers
+
   # include Devise::Test::IntegrationHelpers
 
   it 'creates audit records attributed to the authenticated provider' do

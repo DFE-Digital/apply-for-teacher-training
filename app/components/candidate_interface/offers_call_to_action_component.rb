@@ -1,6 +1,7 @@
 module CandidateInterface
   class OffersCallToActionComponent < ViewComponent::Base
     include ViewHelper
+
     attr_reader :application_form
 
     def initialize(application_form:)

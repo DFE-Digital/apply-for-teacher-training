@@ -101,5 +101,7 @@ en:
     candidate_invite:
         subject: A provider has invited you to apply for teacher training
         body:
-          locations_not_suitable: If this course is not in suitable location
-          invite_to_submit: "%{provider_name} have reviewed your application details and are inviting you to submit an application for"
+          invite_to_submit: "%{provider_name} has reviewed your application details and would like you to submit an application to"
+          you_are_receiving: "You are receiving this email because you chose to share your application details with training providers."
+    invites_chaser:
+      subject: 'Reminder: respond to your course invitations'

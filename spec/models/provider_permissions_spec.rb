@@ -10,6 +10,15 @@ RSpec.describe ProviderPermissions do
         expect(described_class.set_up_interviews).to match_array(interview_permissions)
       end
     end
+
+    describe '#manage_api_tokens' do
+      it 'returns all permissions where "manage_api_tokens" is set to true' do
+        with_permission = create(:provider_permissions, manage_api_tokens: true)
+        create(:provider_permissions, manage_api_tokens: false)
+
+        expect(described_class.manage_api_tokens).to contain_exactly(with_permission)
+      end
+    end
   end
 
   describe '.possible_permissions' do

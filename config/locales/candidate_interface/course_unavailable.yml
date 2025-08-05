@@ -1,0 +1,8 @@
+en:
+  candidate_interface:
+    course_unavailable:
+      show:
+        course_unavailable:
+        title: Invite from %{provider} - Course unavailable - Application sharing
+        heading: "%{course} has closed"
+        deadline_passed: The deadline for this course has passed and you cannot apply to it.

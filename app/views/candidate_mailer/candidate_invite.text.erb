@@ -17,14 +17,15 @@ Age range: <%= @pool_invite.course.age_range %>
 Qualification: <%= @pool_invite.course.qualifications_to_s %>
 Start date: <%= @pool_invite.course.start_date.to_fs(:short_month_and_year) %>
 
-[Review the full course details](<%= @pool_invite.course.find_url %>)
+<% if @not_responded_invites_count >= Pool::Invite::NUMBER_OF_INVITES_TO_REMOVE_FROM_POOL %>
+This is the <%= TextOrdinalizer.call(@not_responded_invites_count) %> invitation to apply you have received. If you do not respond you will not receive any more invitations in future.
+<% end %>
+
+[Review and respond to this invitation](<%= @invite_url %>)
 
 <% if @pool_invite.message_content.present? %>
 ## <%= @pool_invite.course.provider.name %> included this message:
 <%= @pool_invite.message_content %>
 <% end %>
 
-
-<%= t('.body.locations_not_suitable') %>, you can [update your preferences](<%= @preferences_url %>) to appear in more relevant searches.
-
-If you do not want to receive invitations like this, you can [stop providers from viewing your application details](<%= @preferences_url %>).
+<%= t('.body.you_are_receiving') %> [You can change your preferences](<%= @preferences_url %>).

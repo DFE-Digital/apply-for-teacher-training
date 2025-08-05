@@ -6,6 +6,7 @@ RSpec.describe CandidateAPIData do
   let(:candidate_class) do
     Class.new do
       include CandidateAPIData
+
       attr_accessor :application_choice, :application_form
 
       def initialize(application_choice)

@@ -2,6 +2,7 @@ module ProviderInterface
   module CandidatePool
     class CandidatesController < ProviderInterfaceController
       include Pagy::Backend
+
       before_action :redirect_to_applications_unless_provider_opted_in
       before_action :set_policy
       before_action :set_back_link, only: [:show]

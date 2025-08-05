@@ -1,5 +1,6 @@
 class CandidateInterface::DegreeGradeComponent < ViewComponent::Base
   include ViewHelper
+
   attr_reader :model
 
   UK_BACHELORS_DEGREE_GRADES = [

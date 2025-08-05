@@ -9,6 +9,7 @@ RSpec.describe ProviderInterface::InterviewFormComponent do
   let(:form_object_class) do
     Class.new do
       include ActiveModel::Model
+
       attr_accessor :time, :date, :location, :additional_details, :provider_id
     end
   end

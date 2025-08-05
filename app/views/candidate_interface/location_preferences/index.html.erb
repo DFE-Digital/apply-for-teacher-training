@@ -54,7 +54,7 @@
             <% end %>
 
             <% body.with_row do |row| %>
-              <%= row.with_cell do %>
+              <%= row.with_cell(colspan: 4) do %>
                 <%= govuk_button_link_to(
                   t('.add_another_location'),
                   new_candidate_interface_draft_preference_location_preference_path(@preference),

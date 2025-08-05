@@ -4,6 +4,7 @@
 <%= render CandidateInterface::ReopenBannerComponent.new(flash_empty: flash.empty?) %>
 
 <%= render ServiceInformationBanner.new(namespace: :candidate) %>
+<%= render CandidateInterface::InviteReminderBannerComponent.new(invites: @not_responded_invites) %>
 
 <% if current_candidate.recoverable? %>
   <%= govuk_notification_banner(title_text: t('account_recovery_banner.title'), success: false) do |nb| %>
@@ -32,13 +33,13 @@
       <%= t('page_titles.application_sharing') %>
     </h1>
 
-    <h2 class="govuk-heading-m"><%= t('.your_invitations') %></h2>
+    <div class='govuk-!-margin-bottom-9'>
+      <%= render CandidateInterface::NotRespondedInvitesComponent.new(invites: @not_responded_invites) %>
+    </div>
 
-    <% if @invites.present? %>
-      <%= render CandidateInterface::InvitesComponent.new(application_form: current_application, invites: @invites) %>
-    <% else %>
-      <p class='govuk-body'><%= t('.no_invitations') %></p>
-    <% end %>
+    <div>
+      <%= render CandidateInterface::InvitesComponent.new(invites: @invites) %>
+    </div>
   </div>
 
   <%= render CandidateInterface::ManagePreferencesComponent.new(current_candidate:, application_form: current_application) %>

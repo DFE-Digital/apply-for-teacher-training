@@ -1,6 +1,7 @@
 module SupportInterface
   class ConfirmEnvironment
     include ActiveModel::Model
+
     attr_accessor :from, :environment
 
     validate :correct_environment

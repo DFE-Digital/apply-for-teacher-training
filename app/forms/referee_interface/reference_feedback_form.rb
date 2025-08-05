@@ -1,6 +1,7 @@
 module RefereeInterface
   class ReferenceFeedbackForm
     include ActiveModel::Validations
+
     attr_reader :reference, :feedback
     validates :feedback, presence: true, word_count: { maximum: 500 }
     delegate :application_form, to: :reference

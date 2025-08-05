@@ -496,6 +496,7 @@ shared:
     - updated_at
     - view_diversity_information
     - view_safeguarding_information
+    - manage_api_tokens
   providers:
     - code
     - created_at
@@ -596,6 +597,7 @@ shared:
     - updated_at
     - provider_id
     - last_used_at
+    - description
   vendor_api_requests:
     - id
     - request_path

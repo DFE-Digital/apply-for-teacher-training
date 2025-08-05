@@ -1,22 +1,22 @@
-<%= govuk_task_list(id_prefix: 'invites') do |task_list| %>
+<h2 class="govuk-heading-m govuk-!-margin-bottom-2"><%= t('.previous_invitations') %></h2>
+<p class="govuk-hint govuk-!-margin-top-0"><%= hint_text %></p>
+
+<%= govuk_task_list(id_prefix: 'invites', html_attributes: { class: 'govuk-task-list__row--no-bottom-border' }) do |task_list| %>
   <% invites.each do |invite| %>
     <%= task_list.with_item(html_attributes: { id: invite.id }) do |item| %>
       <%= item.with_title(
         text: t('.title_html', provider_name: invite.provider_name),
         hint: invite.course_name_code_and_study_mode,
+        html_attributes: { class: 'govuk-grid-column-two-thirds govuk-!-padding-0' },
       ) %>
 
-      <%= item.with_status do %>
-        <% if invite.applied? %>
-          <div class="govuk-!-margin-bottom-1">
-            <%= govuk_tag text: invite.candidate_decision.capitalize, colour: 'green' %>
-          </div>
-          <div>
-            <%= govuk_link_to t('.view_application'), application_choice_link(invite) %>
-          </div>
-        <% else %>
-          <%= govuk_link_to t('.view_invite'), candidate_interface_invite_path(invite) %>
-        <% end %>
+      <%= item.with_status(html_attributes: { class: 'govuk-grid-column-one-third govuk-!-padding-0' }) do %>
+        <div class="govuk-!-margin-bottom-1">
+          <%= status_tag(invite) %>
+        </div>
+        <div>
+          <%= action_link(invite) %>
+        </div>
       <% end %>
     <% end %>
   <% end %>

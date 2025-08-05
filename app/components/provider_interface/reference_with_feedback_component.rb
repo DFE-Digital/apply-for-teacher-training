@@ -14,13 +14,15 @@ module ProviderInterface
              to: :reference
     delegate :accepted_choice?, to: :application_choice
 
+    with_collection_parameter :reference
+
     def initialize(reference:, application_choice:)
       @reference = reference
       @application_choice = application_choice
     end
 
     def warning_text
-      return unless confidential? && feedback_provided?
+      return unless display_referee_input? && confidential?
 
       I18n.t('provider_interface.references.confidential_warning')
     end
@@ -37,6 +39,10 @@ module ProviderInterface
     end
 
   private
+
+    def display_referee_input?
+      accepted_choice? && feedback_provided?
+    end
 
     def name_row
       {
@@ -60,7 +66,7 @@ module ProviderInterface
     end
 
     def safeguarding_row
-      return unless accepted_choice? && feedback_provided?
+      return unless display_referee_input?
 
       {
         key: I18n.t('provider_interface.references.safeguarding_row.key'),
@@ -69,7 +75,7 @@ module ProviderInterface
     end
 
     def feedback_row
-      return unless accepted_choice? && feedback.present?
+      return unless display_referee_input?
 
       {
         key: duplicate? ? I18n.t('provider_interface.references.feedback_row.duplicate.key') : I18n.t('provider_interface.references.feedback_row.key'),
@@ -78,7 +84,7 @@ module ProviderInterface
     end
 
     def confidentiality_row
-      return unless feedback_provided?
+      return unless display_referee_input?
 
       {
         key: I18n.t('provider_interface.references.confidentiality_row.key'),
@@ -87,6 +93,8 @@ module ProviderInterface
     end
 
     def relationship_value
+      return relationship unless display_referee_input?
+
       if relationship_correction.present?
         [
           [
@@ -101,7 +109,7 @@ module ProviderInterface
             relationship_correction,
           ].join("\n"),
         ].join("\n\n")
-      elsif feedback_provided? && relationship_correction.blank?
+      else
         [
           relationship,
           I18n.t(
@@ -109,8 +117,6 @@ module ProviderInterface
             name: name,
           ),
         ].join("\n\n")
-      else
-        relationship
       end
     end
   end

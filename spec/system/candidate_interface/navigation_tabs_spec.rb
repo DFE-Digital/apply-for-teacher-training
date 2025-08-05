@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Primary Navigation' do
   include CandidateHelper
+
   scenario 'highlights the primary navigation for pre continuous applications' do
     given_i_am_signed_in_with_one_login
 

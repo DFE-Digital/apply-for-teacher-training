@@ -68,6 +68,7 @@ en:
             conditions_met_with_pending_ske_conditions: The conditions made as part of an offer have been met with the exception of subject knowledge enhancement (SKE) conditions.
             conditions_statuses_changed: An update on the status of each condition set as part of an offer. Conditions are met, pending or unmet.
             decline_last_application_choice: A candidate has declined the offer to train to teach made by a training provider
+            decline_last_application_choice_with_course_recommendation: A candidate has declined the offer to train to teach made by a training provider and there is a link to other courses that have been recommended to them.
             deferred_offer: A training provider is deferring the offer they have made to the candidate until a future recruitment cycle
             deferred_offer_reminder: A reminder to the candidate that the offer that was deferred in the past will be confirmed soon.
             new_offer_made: A training provider has made an offer to a candidate to join their course.
@@ -78,6 +79,7 @@ en:
             offer_50_day: When a candidate has received an offer to train to teach but has not responded for 50 days.
             offer_accepted: When a candidate accepts an offer to train to teach and the offer has conditions.
             offer_withdrawn: A provider has withdrawn an offer to train to teach.
+            offer_withdrawn_with_course_recommendation: A provider has withdrawn an offer to train to teach and there is a link to other courses that have been recommended to them.
             reinstated_offer_with_conditions: An offer that has been previously deferred by the provider is reinstated with conditions.
             reinstated_offer_without_conditions: An offer that has been previously deferred by the provider is reinstated without conditions.
             unconditional_offer_accepted: When a candidate accepts an offer to train to teach and the offer has no conditions.
@@ -90,11 +92,14 @@ en:
             reference_received_after_recruitment: A referee has submitted a reference and the training provider has received it after the candidate has been recruited.
           candidate_withdrawals_and_rejections:
             application_rejected: An application has been rejected by the provider. Contains bespoke rejection advice depending on the reason given.
+            application_rejected_with_course_recommendation: An application has been rejected by the provider. Contains bespoke rejection advice depending on the reason given and there is a link to other courses that have been recommended to them..
             application_rejected_international_unverified: An application from an international candidate has been rejected because the provider is unable to verify their qualifications.
             application_rejected_via_api: An application has been rejected by a provider who uses the api to manage applications.
             application_withdrawn_on_request: The provider has withdrawn the application because the candidate has asked them to (or sometimes because they have not responded). This is the only way to end an application post-offer (can't reject) so is used for that purpose too.
+            application_withdrawn_on_request_with_course_recommendation: The provider has withdrawn the application because the candidate has asked them to (or sometimes because they have not responded). This is the only way to end an application post-offer (can't reject) so is used for that purpose too and there is a link to other courses that have been recommended to them..
             conditions_not_met: An application is rejected because the candidate has not met the conditions of the offer.
             withdraw_last_application_choice: A candidate has withdrawn their last application choice, they are encouraged to submit more applications.
+            withdraw_last_application_choice_with_course_recommendation: A candidate has withdrawn their last application choice, they are encouraged to submit more applications and there is a link to other courses that have been recommended to them..
           candidate_end_of_cycle:
             application_deadline_has_passed: The cycle has closed and candidates can no longer submit applications.
             eoc_first_deadline_reminder: The end of the recruitment cycle is 2 months away.
@@ -113,6 +118,8 @@ en:
             new_interview: A training provider has scheduled an interview with a candidate.
           candidate_find_a_candidate:
             candidate_invite: Find a candidate invitation email.
+            candidate_invite_limit_reached: Find a candidate invitation email when candidate reaches the maximum invites allowed.
+            invites_chaser: Chaser email for candidates to respond to their invites if they are out of the pool because they didn't respond
           provider_mailer:
             application_submitted: Missing description
             application_submitted_with_safeguarding_issues: Missing description

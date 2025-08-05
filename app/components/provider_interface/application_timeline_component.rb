@@ -2,6 +2,7 @@ module ProviderInterface
   class ApplicationTimelineComponent < ViewComponent::Base
     include ViewHelper
     include AuditHelper
+
     attr_reader :application_choice
 
     def initialize(application_choice:)

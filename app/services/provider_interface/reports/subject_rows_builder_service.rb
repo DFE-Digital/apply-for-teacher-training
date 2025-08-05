@@ -88,6 +88,7 @@ module ProviderInterface
 
     class SubjectRow
       include ActiveModel::Model
+
       attr_accessor :title,
                     :level,
                     :this_cycle,

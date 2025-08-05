@@ -2,7 +2,7 @@
 Dear <%= @application_form.first_name %>
 <% end %>
 
-<%= "You must submit your application by #{l(@timetable.apply_deadline_at.to_date, format: :no_year)} if you want to start teacher training this year." %>
+<%= "You must submit your application by #{@timetable.apply_deadline_at.to_fs(:govuk_time_first_no_year_date_time)} if you want to start teacher training this year." %>
 
 [Sign in to your account to submit your application](<%= application_choices_link %>).
 

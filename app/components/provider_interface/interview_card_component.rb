@@ -1,6 +1,7 @@
 module ProviderInterface
   class InterviewCardComponent < ViewComponent::Base
     include ViewHelper
+
     attr_reader :interview, :application_choice
 
     def initialize(interview:)

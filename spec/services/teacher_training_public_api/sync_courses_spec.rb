@@ -85,5 +85,47 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
         expect { perform_job }.not_to change(Course, :count)
       end
     end
+
+    context 'when the open course exists and has been closed' do
+      let(:uuid) { SecureRandom.uuid }
+      let!(:course) { create(:course, :open, provider: provider, uuid: uuid) }
+      let!(:invite) { create(:pool_invite, :sent_to_candidate, course:, provider:) }
+      let(:stubbed_attributes) {
+        [
+          {
+            accredited_body_code: nil,
+            uuid: uuid,
+            application_status: 'closed',
+          },
+        ]
+      }
+
+      it 'updates the course to closed including the invite' do
+        expect { perform_job }.not_to change(Course, :count)
+        expect(course.reload.open?).to be(false)
+        expect(invite.reload.course_open).to be(false)
+      end
+    end
+
+    context 'when the closed course exists and has been open' do
+      let(:uuid) { SecureRandom.uuid }
+      let!(:course) { create(:course, :closed, provider: provider, uuid: uuid) }
+      let!(:invite) { create(:pool_invite, :sent_to_candidate, course:, provider:, course_open: false) }
+      let(:stubbed_attributes) {
+        [
+          {
+            accredited_body_code: nil,
+            uuid: uuid,
+            application_status: 'open',
+          },
+        ]
+      }
+
+      it 'updates the course to open including the invite' do
+        expect { perform_job }.not_to change(Course, :count)
+        expect(course.reload.open?).to be(true)
+        expect(invite.reload.course_open).to be(true)
+      end
+    end
   end
 end

@@ -1,6 +1,7 @@
 module Hesa
   class Institution
     include ActiveModel::Model
+
     attr_accessor :id, :name, :hesa_code, :suggestion_synonyms, :match_synonyms, :dttp_id, :ukprn, :comment, :closed, :has_never_awarded_degrees, :institution_groups, :postcode
     alias hesa_itt_code= hesa_code=
 

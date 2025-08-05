@@ -19,3 +19,9 @@
 .govuk-list--bullet > li {
   margin-bottom: govuk-spacing(1);
 }
+
+.govuk-task-list__row--no-bottom-border {
+  .govuk-task-list__item:last-of-type {
+    border-bottom: 0;
+  }
+}

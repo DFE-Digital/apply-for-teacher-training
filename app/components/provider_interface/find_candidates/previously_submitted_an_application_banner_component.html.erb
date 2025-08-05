@@ -1,0 +1,20 @@
+<%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
+  <% notification_banner.with_heading(text: t('.heading')) %>
+
+  <% rows.each do |year, choices_within_year| %>
+    <% if year != RecruitmentCycleTimetable.current_year %>
+      <p class="govuk-body govuk-!-font-weight-bold">
+        <%= t('provider_interface.find_candidates.previously_submitted_an_application_banner_component.recruitment_cycle_label', from: year - 1, to: year) %>
+      </p>
+    <% end %>
+
+    <% choices_within_year.each do |row| %>
+      <p class="govuk-body">
+        <%= row[:text] %>
+        <span class="govuk-!-margin-left-1 govuk-!-margin-top-2" style="display: inline-block;">
+          <%= render ProviderInterface::WithdrawnTagOverrideComponent.new(application_choice: row[:application_choice]) %>
+        </span>
+      </p>
+    <% end %>
+  <% end %>
+<% end %>

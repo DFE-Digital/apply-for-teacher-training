@@ -39,3 +39,23 @@ Time::DATE_FORMATS[:govuk_time] = lambda do |time|
 
   "#{time.strftime(format).squish} UK time"
 end
+
+Time::DATE_FORMATS[:govuk_time_first_no_year_date_time] = lambda do |time|
+  "#{time.to_fs(:govuk_time)} on #{time.to_fs(:day_and_month)}"
+end
+
+Date::DATE_FORMATS[:govuk_time_first_no_year_date_time] = lambda do |time|
+  "#{time.to_fs(:govuk_time)} on #{time.to_fs(:day_and_month)}"
+end
+
+Time::DATE_FORMATS[:govuk_time_first_no_year_date_time] = lambda do |time|
+  "#{time.to_fs(:govuk_time)} on #{time.to_fs(:day_and_month)}"
+end
+
+Date::DATE_FORMATS[:govuk_date_time_time_first] = lambda do |time|
+  "#{time.to_fs(:govuk_time)} on #{time.to_fs(:govuk_date)}"
+end
+
+Time::DATE_FORMATS[:govuk_date_time_time_first] = lambda do |time|
+  "#{time.to_fs(:govuk_time)} on #{time.to_fs(:govuk_date)}"
+end

@@ -3,6 +3,7 @@ class Adviser::Constants
 
   class << self
     extend Forwardable
+
     def_delegator :constants, :dig, :fetch
 
   private

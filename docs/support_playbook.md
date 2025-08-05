@@ -858,3 +858,24 @@ application_choice.update_course_option_and_associated_fields!(
     personal_statement: application_choice.personal_statement,
   })
 ```
+
+# Adding a new recruitment cycle
+In July or August of each year, we need to confirm with policy the dates for the cycle after next (because it is about to become the _next_ cycle).
+And we need to generate another draft cycle (3 cycles from now) because we need to have 2 cycles ahead for the test suite to pass.
+
+## First update in production
+Assuming you don't have to make any manual changes:
+Login into the rails console in production.
+Run `SupportInterface::RecruitmentCycleTimetableGenerator.generate_next_year` This will generate the next cycle in the sequence. So if 2028 is the latest cycle in the database, this command will generate 2029.
+Check that the cycle is as you expect it https://www.apply-for-teacher-training.service.gov.uk/publications/recruitment-cycle-timetables
+
+## Next update the timetables in qa and sandbox
+Note: Do not do this if the timetables in these apps have been changed for testing end of cycle / start of cycle
+- go to [qa](https://qa.apply-for-teacher-training.service.gov.uk/support/settings/recruitment-cycle-timetable) AND [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk/support/settings/recruitment-cycle-timetable)
+- Click Sync cycle timetables with production
+- Check that they timetables now match production [qa](https://qa.apply-for-teacher-training.service.gov.uk/publications/recruitment-cycle-timetables) and [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk/publications/recruitment-cycle-timetables)
+
+## Finally update the seed data for dev, test and review
+Create a branch locally
+Run `ProductionRecruitmentCycleTimetablesAPI.RefreshSeedData.new.call` -- This updates the csv which is used to seed timetables in review apps, tests, and development
+

@@ -21,7 +21,7 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :compone
   describe '#warning_text' do
     it 'returns nil when the reference is not confidential' do
       reference = build(:reference, confidential: false, feedback_status: 'feedback_provided')
-      application_choice = build(:application_choice)
+      application_choice = build(:application_choice, :with_completed_application_form, :recruited)
 
       component = described_class.new(reference:, application_choice:)
 
@@ -30,7 +30,7 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :compone
 
     it 'returns nil when the reference feedback has not been provided' do
       reference = build(:reference, confidential: true, feedback_status: 'feedback_requested')
-      application_choice = build(:application_choice)
+      application_choice = build(:application_choice, :with_completed_application_form, :recruited)
 
       component = described_class.new(reference:, application_choice:)
 
@@ -41,7 +41,7 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :compone
       reference = build(:reference,
                         confidential: true,
                         feedback_status: 'feedback_provided')
-      application_choice = build(:application_choice)
+      application_choice = build(:application_choice, :with_completed_application_form, :recruited)
 
       component = described_class.new(reference:, application_choice:)
 
@@ -131,10 +131,18 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :compone
         expect(row[:value]).to eq(reference.feedback)
       end
 
-      it 'does not contain a feedback row when feedback when there is not an offer' do
-        reference.feedback = nil
-        row = component.rows.last
-        expect(row[:key]).not_to eq('Reference')
+      context 'when feedback has not been provided' do
+        # The Referee has started the reference but has not submitted the reference yet
+        let(:reference) { build(:reference, feedback: 'A valuable unit of work', feedback_status: 'feedback_requested') }
+
+        it 'does not contain a feedback row' do
+          expect(component.rows).not_to include(
+            {
+              key: 'Reference',
+              value: 'A valuable unit of work',
+            },
+          )
+        end
       end
     end
 

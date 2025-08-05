@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Cycle switching errors' do
   include DfESignInHelpers
+
   let(:timetable) { current_timetable }
 
   scenario 'adding invalid dates' do

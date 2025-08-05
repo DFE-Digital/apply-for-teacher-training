@@ -1,6 +1,7 @@
 module RefereeInterface
   class ReferenceRelationshipForm
     include ActiveModel::Model
+
     attr_accessor :relationship_confirmation, :relationship_correction, :candidate
 
     validates :relationship_confirmation, presence: true

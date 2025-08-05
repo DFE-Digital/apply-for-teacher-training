@@ -7,6 +7,7 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   before do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_is_opted_in_to_candidate_pool
+    and_provider_has_open_course
     set_viewed_application_form
     set_not_seen_application_form
     set_invited_application_form
@@ -38,6 +39,37 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
     then_i_see_the_not_seen_candidate
     and_i_see_all_applied_filters
     and_the_candidate_number_search_to_be_applied
+  end
+
+  scenario 'redirected to the correct tab after sending invitation' do
+    when_i_sign_in_to_the_provider_interface
+    when_i_visit_the_find_candidates_page
+    when_i_visit_the_invited_candidates_tab
+    and_i_visit_the_all_candidates_tab
+    and_i_invite_a_candidate
+    then_i_am_redirect_to_the_all_candidates_tab
+  end
+
+  def when_i_visit_the_invited_candidates_tab
+    click_on 'Invited'
+  end
+
+  def and_i_visit_the_all_candidates_tab
+    click_on 'All candidates'
+  end
+
+  def and_i_invite_a_candidate
+    click_on @viewed_application_form.redacted_full_name
+    click_on 'Invite to apply'
+    choose @course.name_and_code
+    click_on 'Continue'
+    choose 'No'
+    click_on 'Continue'
+    click_on 'Send invitation'
+  end
+
+  def then_i_am_redirect_to_the_all_candidates_tab
+    expect(page).to have_current_path provider_interface_candidate_pool_candidates_path, ignore_query: true
   end
 
   def set_viewed_application_form
@@ -91,12 +123,17 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
       email_address: @provider_user.email_address,
       dfe_sign_in_uid: @provider_user.dfe_sign_in_uid,
     )
+    @provider_user.provider_permissions.update_all(make_decisions: true)
   end
 
   def and_provider_is_opted_in_to_candidate_pool
     @provider_user.providers.each do |provider|
       create(:candidate_pool_provider_opt_in, provider:)
     end
+  end
+
+  def and_provider_has_open_course
+    @course = create(:course, :open, provider: @provider_user.providers.first)
   end
 
   def when_i_visit_the_find_candidates_page

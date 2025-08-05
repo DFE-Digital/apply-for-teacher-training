@@ -2,6 +2,7 @@ module Publications
   class ITTMonthlyReportGenerator
     include MonthlyStatistics::ReportSections
     include MonthlyStatistics::DescribeQueries
+
     SECTIONS = %i[
       candidate_headline_statistics
       candidate_age_group

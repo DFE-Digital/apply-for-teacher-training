@@ -14,7 +14,7 @@ RSpec.describe 'Sync sites' do
     and_sync_provider_from_find_is_called
     then_the_course_option_for_that_site_is_deleted
 
-    given_that_the_course_on_TTAPI_with_multiple_sites
+    given_that_the_course_on_ttapi_with_multiple_sites
     and_sync_provider_from_find_has_been_called
 
     when_find_says_that_a_site_is_no_longer_listed_for_that_course
@@ -48,7 +48,7 @@ RSpec.describe 'Sync sites' do
       course_code: 'ABC1',
     )
   end
-  alias_method :given_that_the_course_on_TTAPI_with_multiple_sites, :and_that_course_on_ttapi_has_multiple_sites
+  alias_method :given_that_the_course_on_ttapi_with_multiple_sites, :and_that_course_on_ttapi_has_multiple_sites
 
   def when_sync_provider_is_called
     TeacherTrainingPublicAPI::SyncSites.new.perform(

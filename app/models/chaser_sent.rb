@@ -33,6 +33,11 @@ class ChaserSent < ApplicationRecord
     find_a_candidate_feature_launch: 'find_a_candidate_feature_launch',
 
     ######################################
+    ####  Pool Invite   ####
+    ######################################
+    pool_invite: 'pool_invite',
+
+    ######################################
     ####          References          ####
     ######################################
 

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Marking section as complete or incomplete' do
   include CandidateHelper
+
   before do
     values_checker = instance_double(EqualityAndDiversity::ValuesChecker)
     allow(EqualityAndDiversity::ValuesChecker).to receive(:new).and_return(values_checker)

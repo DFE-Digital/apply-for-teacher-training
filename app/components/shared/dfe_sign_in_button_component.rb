@@ -1,5 +1,6 @@
 class DfESignInButtonComponent < ViewComponent::Base
   include ViewHelper
+
   attr_accessor :bypass
 
   def initialize(bypass:)

@@ -1,6 +1,7 @@
 module CandidateInterface
   class CompleteSectionComponent < ViewComponent::Base
     include ViewHelper
+
     attr_reader :section_policy, :form, :hint_text, :section_review
 
     def initialize(section_policy:, form:, section_review: false, hint_text: false)

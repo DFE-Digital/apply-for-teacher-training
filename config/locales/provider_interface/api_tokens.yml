@@ -1,0 +1,24 @@
+en:
+  provider_interface:
+    api_tokens:
+      index:
+        title: API tokens for %{provider_name}
+        add_token: Add token
+        no_tokens: There are no API tokens for this organisation
+        api_tokens: API tokens
+        apply_api: Apply API (%{environment})
+        what_tokens_are_for_html: These tokens are for vendor or in-house integrations with the %{link}.
+      new:
+        title: Create an API token for %{provider_name}
+        heading: Create an API token
+        create_token: Clicking generate will create a token for %{provider_name}. It will be visible until you navigate away from the page.
+        generate: Generate
+        cancel: Cancel
+        apply_api: Apply API documentation (%{environment})
+        token_description: Description
+        description_hint: "Example: Integration with 3rd party recruitment software"
+      show:
+        title: API token for %{provider_name}
+        new_api_token_generated: New API token generated
+        your_token_is_html: Your token is <br><code>%{token}</code>
+        note_this_down_and_keep_safe: Note down this code and keep it safe. You will not be able to retreive it once you leave this page.

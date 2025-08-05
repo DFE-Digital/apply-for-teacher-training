@@ -1,4 +1,8 @@
 class Pool::Invite < ApplicationRecord
+  NUMBER_OF_INVITES_TO_REMOVE_FROM_POOL = 2
+
+  include Chased
+
   belongs_to :candidate
   belongs_to :application_form
   belongs_to :application_choice, optional: true
@@ -11,9 +15,11 @@ class Pool::Invite < ApplicationRecord
   has_many :invite_decline_reasons, class_name: 'Pool::InviteDeclineReason', dependent: :destroy
   has_many :draft_invite_decline_reasons, -> { draft }, class_name: 'Pool::InviteDeclineReason', dependent: :destroy
   has_many :published_invite_decline_reasons, -> { published }, class_name: 'Pool::InviteDeclineReason', dependent: :destroy
+  accepts_nested_attributes_for :invite_decline_reasons, allow_destroy: true, reject_if: :all_blank
 
   delegate :name, to: :provider, prefix: true
   delegate :name_code_and_study_mode, to: :course, prefix: true
+  delegate :name_and_code, to: :course, prefix: true
 
   enum :status, {
     draft: 'draft',
@@ -23,7 +29,14 @@ class Pool::Invite < ApplicationRecord
   enum :candidate_decision, {
     not_responded: 'not_responded',
     applied: 'applied',
+    declined: 'declined',
   }, default: :not_responded
+
+  scope :not_responded_course_open, -> { not_responded.where(course_open: true) }
+  scope :actioned_by_candidate_or_course_closed, lambda {
+    where(candidate_decision: %w[applied declined])
+    .or(where(course_open: false))
+  }
 
   scope :not_sent_to_candidate, -> { where(sent_to_candidate_at: nil) }
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
@@ -46,6 +59,10 @@ class Pool::Invite < ApplicationRecord
 
   def sent_to_candidate?
     sent_to_candidate_at.present?
+  end
+
+  def course_closed?
+    !course_open?
   end
 
   def matching_application_choice

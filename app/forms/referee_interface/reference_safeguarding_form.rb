@@ -1,6 +1,7 @@
 module RefereeInterface
   class ReferenceSafeguardingForm
     include ActiveModel::Model
+
     attr_accessor :any_safeguarding_concerns, :safeguarding_concerns, :candidate
 
     validate :presence_of_any_safeguarding_concerns

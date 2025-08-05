@@ -3,6 +3,7 @@ require 'rails_helper'
 # TODO: create and complete action
 RSpec.describe 'CandidateInterface::PersonalStatementController' do
   include Devise::Test::IntegrationHelpers
+
   let(:candidate) { create(:candidate) }
   let!(:application_form) { create(:application_form, candidate: candidate) }
   let(:params) do

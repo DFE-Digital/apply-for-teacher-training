@@ -2,7 +2,18 @@
   <%= t('mid_cycle_content_component.title') %>
 </h1>
 <% if application_form_presenter.application_limit_reached? %>
-  <p class="govuk-body"><%= t('mid_cycle_content_component.you_cannot_submit_more', max_number_of_applications:) %></p>
+  <%= govuk_warning_text(text: t('mid_cycle_content_component.you_cannot_submit_more')) %>
+  <p class="govuk-body">This is because you have a total of 15 applications that have been either:</p>
+  <%= govuk_list(
+    [
+      t('mid_cycle_content_component.rejected_by_provider'),
+      t('mid_cycle_content_component.withdrawn_by_provider'),
+      t('mid_cycle_content_component.inactive_html'),
+      t('mid_cycle_content_component.declined_offer'),
+      t('mid_cycle_content_component.conditions_not_met'),
+    ],
+    type: :bullet,
+  ) %>
   <p class="govuk-body"><%= t('mid_cycle_content_component.you_will_be_able_to_apply_again', apply_reopens_date:, next_year:) %></p>
   <p class="govuk-body"><%= t('mid_cycle_content_component.email_for_help_html', email_address: govuk_mail_to(t('mid_cycle_content_component.becoming_a_teacher_email'))) %></p>
 <% elsif application_form_presenter.can_add_more_choices? %>
@@ -14,12 +25,20 @@
   </p>
   <%= govuk_button_link_to t('mid_cycle_content_component.add_application'), candidate_interface_course_choices_do_you_know_the_course_path %>
 <% else %>
-  <p class="govuk-body"><%= t('mid_cycle_content_component.you_cannot_add_any_more_applications') %></p>
+  <p class="govuk-body">You have 4 applications in progress.</p>
+  <%= govuk_warning_text(text: t('mid_cycle_content_component.you_cannot_add_any_more_applications')) %>
   <p class="govuk-body"><%= t('mid_cycle_content_component.you_can_add_more_applications_if') %></p>
-  <ul class="govuk-list govuk-list--bullet">
-    <li><%= t('mid_cycle_content_component.one_becomes_unsuccessful') %></li>
-    <li><%= t('mid_cycle_content_component.withdraw_or_remove') %></li>
-  </ul>
+
+  <%= govuk_list(
+    [
+      t('mid_cycle_content_component.rejected_by_provider'),
+      t('mid_cycle_content_component.withdrawn_by_provider'),
+      t('mid_cycle_content_component.inactive_html'),
+      t('mid_cycle_content_component.declined_offer'),
+      t('mid_cycle_content_component.conditions_not_met'),
+    ],
+    type: :bullet,
+  ) %>
   <p class="govuk-body"><%= t('mid_cycle_content_component.once_you_have_reached_the_limit', max_number_of_applications:, next_year:) %></p>
   <p class="govuk-body">
     <%= govuk_link_to t('mid_cycle_content_component.read_how_the_application_process_works'), candidate_interface_guidance_path %>.

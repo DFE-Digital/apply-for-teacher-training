@@ -10,6 +10,8 @@ class RecruitmentCycleTimetable < ApplicationRecord
   validates :recruitment_cycle_year, uniqueness: { allow_nil: false }
   validates_with RecruitmentCycleTimetableDateSequenceValidator
 
+  alias_attribute :course_start_date, :apply_deadline_at
+
   scope :current_and_past, -> { where('recruitment_cycle_year <= ?', RecruitmentCycleTimetable.current_year) }
 
   def self.find_timetable_by_datetime(datetime)

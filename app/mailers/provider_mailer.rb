@@ -216,7 +216,7 @@ class ProviderMailer < ApplicationMailer
   def find_service_is_now_open(provider_user)
     @provider_user = provider_user
     @recruitment_cycle = current_timetable.cycle_range_name
-    @apply_opens = current_timetable.apply_opens_at.to_fs(:govuk_date)
+    @apply_opens = current_timetable.apply_opens_at.to_fs(:govuk_date_and_time)
 
     provider_notify_email(
       to: @provider_user.email_address,

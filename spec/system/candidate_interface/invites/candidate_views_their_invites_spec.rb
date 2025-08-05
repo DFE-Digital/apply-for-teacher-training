@@ -18,7 +18,7 @@ RSpec.describe 'Candidate views their invites' do
     when_i_click('Back')
     then_i_can_see_my_invites
 
-    when_i_click('View invite')
+    when_i_click('View and respond')
     then_i_see_the_invite
 
     when_i_click('Back')
@@ -36,12 +36,28 @@ RSpec.describe 'Candidate views their invites' do
     @invite = create(
       :pool_invite,
       application_form:,
+      course: create(:course, :open),
       status: 'published',
     )
 
     @applied_invite = create(
       :pool_invite,
       :with_application_choice,
+      course: create(:course, :open),
+      application_form:,
+      status: 'published',
+    )
+
+    @declined_invite = create(
+      :pool_invite,
+      candidate_decision: 'declined',
+      application_form:,
+      status: 'published',
+    )
+
+    @course_closed_invite = create(
+      :pool_invite,
+      course_open: false,
       application_form:,
       status: 'published',
     )
@@ -59,8 +75,8 @@ RSpec.describe 'Candidate views their invites' do
         "#{@invite.provider_name} #{@invite.course_name_code_and_study_mode}",
       )
       expect(page).to have_link(
-        'View invite',
-        href: candidate_interface_invite_path(@invite),
+        'View and respond',
+        href: edit_candidate_interface_invite_path(@invite),
       )
     end
 
@@ -77,10 +93,32 @@ RSpec.describe 'Candidate views their invites' do
       )
       expect(page).to have_content('Applied')
     end
+
+    within ".govuk-task-list__item##{@declined_invite.id}" do
+      expect(page).to have_content(
+        "#{@declined_invite.provider_name} #{@declined_invite.course_name_code_and_study_mode}",
+      )
+      expect(page).to have_link(
+        'View course',
+        href: @declined_invite.course.find_url,
+      )
+      expect(page).to have_content('Declined')
+    end
+
+    within ".govuk-task-list__item##{@course_closed_invite.id}" do
+      expect(page).to have_content(
+        "#{@course_closed_invite.provider_name} #{@course_closed_invite.course_name_code_and_study_mode}",
+      )
+      expect(page).to have_link(
+        'View course',
+        href: @course_closed_invite.course.find_url,
+      )
+      expect(page).to have_content('Closed')
+    end
   end
 
   def then_i_see_the_invite
-    expect(page).to have_content "Your invitation from #{@invite.course.provider.name}"
+    expect(page).to have_content "Your invite from #{@invite.course.provider.name}"
   end
 
   def then_i_see_my_application
