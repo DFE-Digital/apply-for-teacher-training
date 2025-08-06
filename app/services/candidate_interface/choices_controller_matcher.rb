@@ -35,6 +35,6 @@ class CandidateInterface::ChoicesControllerMatcher
     invites_controllers = Regexp.compile(INVITES_CONTROLLER_PATHS.join('|'))
 
     controller_path.match?(invites_controllers) ||
-      (controller_path.match?('candidate_interface/guidance') && request.referer&.match?('choices'))
+      (controller_path.match?('candidate_interface/guidance') && request.referer&.match?('share-details'))
   end
 end
