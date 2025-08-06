@@ -119,4 +119,36 @@ RSpec.describe CandidatePoolApplication do
       expect(application_forms.ids).not_to include(form_rejected_by_both_providers.id)
     end
   end
+
+  describe '.closed?' do
+    context 'after apply deadline', time: after_apply_deadline do
+      it 'returns true' do
+        expect(described_class.closed?).to be(true)
+      end
+    end
+
+    context 'before apply opens', time: before_apply_opens do
+      it 'returns true' do
+        expect(described_class.closed?).to be(true)
+      end
+    end
+
+    context 'before candidate_pool opens', time: DateTime.new(Time.zone.now.year, 11, 20) do
+      it 'returns true' do
+        expect(described_class.closed?).to be(true)
+      end
+    end
+
+    context 'after candidate_pool opens', time: DateTime.new(Time.zone.now.year, 11, 21) do
+      it 'returns false' do
+        expect(described_class.closed?).to be(false)
+      end
+    end
+  end
+
+  describe '.open_at' do
+    it 'returns when the candidate pool opens' do
+      expect(described_class.open_at).to eq(DateTime.new(Time.zone.now.year, 11, 20))
+    end
+  end
 end

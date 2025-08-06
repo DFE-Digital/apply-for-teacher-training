@@ -91,4 +91,22 @@ class CandidatePoolApplication < ApplicationRecord
       scope.where(course_funding_type_fee: true)
     end
   end
+
+  def self.closed?
+    timetable = RecruitmentCycleTimetable.current_timetable
+    return true if timetable.between_cycles?
+
+    now = Time.zone.now
+    cycle_start = DateTime.new(
+      now.year,
+      timetable.apply_opens_at.month,
+      timetable.apply_opens_at.day,
+    )
+
+    now.between?(cycle_start, open_at)
+  end
+
+  def self.open_at
+    DateTime.new(Time.zone.now.year, 11, 20)
+  end
 end

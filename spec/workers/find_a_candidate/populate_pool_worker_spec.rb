@@ -51,7 +51,32 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     end
   end
 
-  describe '#perform before the apply deadline', time: mid_cycle do
+  describe '#peform after apply opens but before candidate pool opens', time: RecruitmentCycleTimetable.current_timetable.apply_opens_at + 1.day do
+    it 'does not create any CandidatePoolApplication records' do
+      application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
+      create(
+        :candidate_preference,
+        candidate: application_form.candidate,
+      )
+      stub_application_forms_in_the_pool(application_form.id)
+
+      expect {
+        described_class.new.perform
+      }.not_to(change { CandidatePoolApplication.count })
+
+      expect(CandidatePoolApplication.count).to eq(0)
+    end
+
+    it 'deletes all records if any exists' do
+      create(:candidate_pool_application)
+
+      expect {
+        described_class.new.perform
+      }.to change { CandidatePoolApplication.count }.from(1).to(0)
+    end
+  end
+
+  describe '#perform before the apply deadline', time: CandidatePoolApplication.open_at + 1.day do
     context 'without pool_invites' do
       it 'creates CandidatePoolApplication records' do
         application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
