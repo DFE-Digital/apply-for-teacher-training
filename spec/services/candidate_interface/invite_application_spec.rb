@@ -78,4 +78,31 @@ RSpec.describe CandidateInterface::InviteApplication do
       end
     end
   end
+
+  describe '.accept_and_link_to_choice!' do
+    it 'accepts the invite and links the invite to a choice' do
+      described_class.accept_and_link_to_choice!(application_choice:, invite:)
+
+      expect(invite.reload.application_choice_id).to eq(application_choice.id)
+      expect(invite.reload.accepted?).to be(true)
+    end
+  end
+
+  describe '.unlink_invites_from_choice!' do
+    let!(:invite) {
+      create(
+        :pool_invite,
+        :sent_to_candidate,
+        application_form:,
+        application_choice:,
+      )
+    }
+
+    it 'removed chice from invite and sets it to not_responded' do
+      described_class.unlink_invites_from_choice(application_choice:)
+
+      expect(invite.reload.application_choice_id).to be_nil
+      expect(invite.reload.not_responded?).to be(true)
+    end
+  end
 end
