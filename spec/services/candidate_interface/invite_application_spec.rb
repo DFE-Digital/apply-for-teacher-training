@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::InviteApplication do
   describe '.accepted' do
     context 'when accepted invited course' do
       it 'saves applied state on invite' do
-        described_class.accepted!(application_form:, application_choice:)
+        described_class.accepted!(application_choice:)
 
         expect(invite.reload.application_choice_id).to eq(application_choice.id)
         expect(invite.reload.accepted?).to be(true)
@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::InviteApplication do
       }
 
       it 'removes the link between the choice and the invite' do
-        described_class.accepted!(application_form:, application_choice:)
+        described_class.accepted!(application_choice:)
 
         expect(invite.reload.application_choice_id).to be_nil
         expect(invite.reload.accepted?).to be(false)
@@ -71,11 +71,38 @@ RSpec.describe CandidateInterface::InviteApplication do
       }
 
       it 'removes the link between the choice and the invite' do
-        described_class.accepted!(application_form:, application_choice:)
+        described_class.accepted!(application_choice:)
 
         expect(invite.reload.application_choice_id).to eq(application_choice.id)
         expect(invite.reload.accepted?).to be(true)
       end
+    end
+  end
+
+  describe '.accept_and_link_to_choice!' do
+    it 'accepts the invite and links the invite to a choice' do
+      described_class.accept_and_link_to_choice!(application_choice:, invite:)
+
+      expect(invite.reload.application_choice_id).to eq(application_choice.id)
+      expect(invite.reload.accepted?).to be(true)
+    end
+  end
+
+  describe '.unlink_invites_from_choice!' do
+    let!(:invite) {
+      create(
+        :pool_invite,
+        :sent_to_candidate,
+        application_form:,
+        application_choice:,
+      )
+    }
+
+    it 'removed chice from invite and sets it to not_responded' do
+      described_class.unlink_invites_from_choice(application_choice:)
+
+      expect(invite.reload.application_choice_id).to be_nil
+      expect(invite.reload.not_responded?).to be(true)
     end
   end
 end

@@ -6,7 +6,14 @@ module CandidateInterface
 
       def show
         @application_choice = current_application.application_choices.find(params[:application_choice_id])
-        @back_link = if params['return_to'] == 'invites'
+
+        if params['return_to'] == 'invite'
+          invite = application_choice.published_invites.last
+        end
+
+        @back_link = if invite.present?
+                       edit_candidate_interface_invite_path(invite)
+                     elsif params['return_to'] == 'invites'
                        candidate_interface_invites_path
                      else
                        candidate_interface_application_choices_path

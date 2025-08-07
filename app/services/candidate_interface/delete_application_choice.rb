@@ -8,10 +8,7 @@ module CandidateInterface
       application_form = @application_choice.application_form
 
       ActiveRecord::Base.transaction do
-        @application_choice.published_invites.update_all(
-          application_choice_id: nil,
-          candidate_decision: 'not_responded',
-        )
+        CandidateInterface::InviteApplication.unlink_invites_from_choice(application_choice: @application_choice)
 
         @application_choice.destroy!
       end

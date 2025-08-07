@@ -23,11 +23,7 @@ module CandidateInterface
     def update
       @fac_invite_response_form ||= CandidateInterface::FacInviteResponseForm.new(invite_response_form_params.merge(invite: @invite))
       if @fac_invite_response_form.save
-        if @fac_invite_response_form.accepted_invite?
-          redirect_to candidate_interface_course_choices_course_confirm_selection_path(@invite.course)
-        else
-          redirect_to new_candidate_interface_invite_decline_reason_path(@invite)
-        end
+        redirect_to @fac_invite_response_form.path_to_redirect
       else
         track_validation_error(@fac_invite_response_form)
         render :edit, status: :unprocessable_entity
