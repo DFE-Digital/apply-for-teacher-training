@@ -13,11 +13,13 @@ module CandidateInterface
     def christmas_response_time_warning_text
       if christmas_applications?
         govuk_warning_text(text: t('mid_cycle_content_component.christmas_warning'))
+      elsif easter_applications?
+        govuk_warning_text(text: t('mid_cycle_content_component.easter_warning'))
       end
     end
 
     def inactive_bullet
-      if christmas_applications?
+      if christmas_or_easter_delay_applications?
         t('mid_cycle_content_component.inactive_with_response_time_warning_html')
       else
         t('mid_cycle_content_component.inactive_html')
@@ -28,6 +30,16 @@ module CandidateInterface
       @christmas_applications ||= application_form.application_choices.awaiting_provider_decision.any? do |application_choice|
         CandidateInterface::HolidayResponseTimeIndicator.new(application_choice:).christmas_response_time_delay_possible?
       end
+    end
+
+    def easter_applications?
+      @easter_applications ||= application_form.application_choices.awaiting_provider_decision.any? do |application_choice|
+        CandidateInterface::HolidayResponseTimeIndicator.new(application_choice:).easter_response_time_delay_possible?
+      end
+    end
+
+    def christmas_or_easter_delay_applications?
+      christmas_applications? || easter_applications?
     end
 
     def max_number_of_applications
