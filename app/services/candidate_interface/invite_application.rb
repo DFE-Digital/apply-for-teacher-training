@@ -2,14 +2,14 @@ module CandidateInterface
   class InviteApplication
     attr_reader :application_form, :application_choice
 
-    def initialize(application_choice:, application_form: nil, invite: nil)
-      @application_form = application_form
+    def initialize(application_choice:, invite: nil)
+      @application_form = application_choice.application_form
       @application_choice = application_choice
       @invite = invite
     end
 
-    def self.accepted!(application_form:, application_choice:)
-      new(application_form:, application_choice:).accepted!
+    def self.accepted!(application_choice:)
+      new(application_choice:).accepted!
     end
 
     def accepted!
