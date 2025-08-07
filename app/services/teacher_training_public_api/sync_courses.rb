@@ -72,7 +72,7 @@ module TeacherTrainingPublicAPI
       course.accept_science_gcse_equivalency = course_from_api.accept_science_gcse_equivalency
       course.additional_gcse_equivalencies = course_from_api.additional_gcse_equivalencies
       course.age_range = age_range_in_years(course_from_api)
-      course.applications_open_from = course_from_api.applications_open_from
+      course.applications_open_from = course_from_api.applications_open_from.presence || timetable.find_opens_at
       course.application_status = course_from_api.application_status
       course.can_sponsor_skilled_worker_visa = course_from_api.can_sponsor_skilled_worker_visa
       course.can_sponsor_student_visa = course_from_api.can_sponsor_student_visa
@@ -149,6 +149,10 @@ module TeacherTrainingPublicAPI
       accredited_provider.save!
 
       accredited_provider
+    end
+
+    def timetable
+      @timetable ||= RecruitmentCycleTimetable.find_by(recruitment_cycle_year:)
     end
   end
 end

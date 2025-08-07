@@ -9,12 +9,22 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
       described_class.new.perform(provider.id,
                                   current_year)
     end
-    let(:stubbed_attributes) { [{ accredited_body_code: nil, state: stubbed_api_course_state, visa_sponsorship_application_deadline_at: stubbed_sponsorship_application_deadline_at }] }
+    let(:stubbed_attributes) { [{ accredited_body_code: nil, state: stubbed_api_course_state, visa_sponsorship_application_deadline_at: stubbed_sponsorship_application_deadline_at, applications_open_from: stubbed_applications_open_from }] }
     let(:stubbed_sponsorship_application_deadline_at) { nil }
+    let(:stubbed_applications_open_from) { nil }
 
     before do
       stub_teacher_training_api_courses(provider_code: provider.code, specified_attributes: stubbed_attributes)
       allow(TeacherTrainingPublicAPI::SyncSites).to receive(:perform_async).and_return(true)
+    end
+
+    context 'when the API course does not have a application_open_from date' do
+      let(:stubbed_api_course_state) { 'published' }
+
+      it 'uses the find opens date' do
+        perform_job
+        expect(provider.courses.last.applications_open_from).to eq current_timetable.find_opens_at
+      end
     end
 
     context 'when the API course has a published state' do
