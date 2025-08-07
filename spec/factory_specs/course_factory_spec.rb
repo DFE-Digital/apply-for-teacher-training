@@ -20,7 +20,7 @@ RSpec.describe 'Course factory' do
     end
 
     field :age_range, type: String
-    field :applications_open_from, value: current_timetable.apply_opens_at
+    field :applications_open_from, value: current_timetable.find_opens_at
     field :code, type: String
     field :course_length, value: 'OneYear'
     field :description, type: String
