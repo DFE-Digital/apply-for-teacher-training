@@ -28,7 +28,7 @@ FactoryBot.define do
     trait :open do
       application_status { 'open' }
       exposed_in_find { true }
-      applications_open_from { 2.months.ago }
+      recruitment_cycle_year { CycleTimetableHelper.current_year }
     end
 
     trait :closed do

@@ -7,7 +7,7 @@ class Course < ApplicationRecord
   has_many :course_subjects
   has_many :subjects, through: :course_subjects
   has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
-  delegate :next_year?, to: :recruitment_cycle_timetable
+  delegate :next_year?, :find_opens_at, to: :recruitment_cycle_timetable
 
   belongs_to :accredited_provider, class_name: 'Provider', optional: true
 
@@ -15,8 +15,8 @@ class Course < ApplicationRecord
   validates :code, uniqueness: { scope: %i[recruitment_cycle_year provider_id] }
 
   scope :exposed_in_find, -> { where(exposed_in_find: true) }
-  scope :open_for_applications, -> { where('courses.applications_open_from <= ?', Time.zone.today) }
-  scope :open, -> { application_status_open.exposed_in_find.where('courses.applications_open_from <= ?', Time.zone.today) }
+  scope :open_for_applications, -> { current_cycle }
+  scope :open, -> { application_status_open.exposed_in_find.current_cycle }
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
   scope :previous_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.previous_year) }
   scope :in_cycle, ->(year) { where(recruitment_cycle_year: year) }
@@ -141,12 +141,13 @@ class Course < ApplicationRecord
   end
 
   def open?
-    applications_open_from.present? && applications_open_from <= Time.zone.today && exposed_in_find && application_status_open?
+    open_for_applications? && exposed_in_find && application_status_open?
   end
 
   def open_for_applications?
-    applications_open_from <= Time.zone.today
+    recruitment_cycle_timetable.current_year?
   end
+  alias in_current_recruitment_cycle? open_for_applications?
 
   def find_url
     url = if HostingEnvironment.sandbox_mode?
@@ -239,9 +240,5 @@ private
       application_choices.touch_all
       ApplicationForm.where(application_choices:).touch_all
     end
-  end
-
-  def in_current_recruitment_cycle?
-    recruitment_cycle_timetable.current_year?
   end
 end
