@@ -147,6 +147,20 @@ module CandidateInterface
       ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES.include?(@application_choice.status.to_sym)
     end
 
+    def holiday_response_time_warning_text
+      return unless application_choice.unsubmitted?
+
+      if holiday_response_time_indicator.christmas_response_time_delay_possible?
+        govuk_warning_text(text: t('.christmas_warning'))
+      elsif holiday_response_time_indicator.easter_response_time_delay_possible?
+        govuk_warning_text(text: t('.easter_warning'))
+      end
+    end
+
+    def show_easter_or_christmas_delay_text?
+      holiday_response_time_indicator.holiday_response_time_delay_possible?
+    end
+
     def show_withdraw?
       ApplicationStateChange.new(@application_choice).can_withdraw?
     end
@@ -168,6 +182,10 @@ module CandidateInterface
 
     def provider
       application_choice.current_provider
+    end
+
+    def holiday_response_time_indicator
+      @holiday_response_time_indicator ||= CandidateInterface::HolidayResponseTimeIndicator.new(application_choice:)
     end
   end
 end

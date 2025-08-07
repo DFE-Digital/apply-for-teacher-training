@@ -11,6 +11,50 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
     CandidateMailer.application_choice_submitted(application_choice)
   end
 
+  def application_choice_submitted_with_christmas_delay_warning
+    application_form = FactoryBot.build_stubbed(
+      :completed_application_form,
+      candidate:,
+      support_reference: 'ABCDEF',
+      application_choices: [],
+    )
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      :awaiting_provider_decision,
+      course_option:,
+      application_form:,
+      sent_to_provider_at: DateTime.new(RecruitmentCycleTimetable.current_year, 1, 1),
+    )
+
+    CandidateMailer.application_choice_submitted(application_choice)
+  end
+
+  def application_choice_submitted_with_easter_delay_warning
+    application_form = FactoryBot.build_stubbed(
+      :completed_application_form,
+      candidate:,
+      support_reference: 'ABCDEF',
+      application_choices: [],
+    )
+
+    year = RecruitmentCycleTimetable.current_year
+    good_friday = Holidays.between(Time.zone.local(year, 1, 1), Time.zone.local(year, 6, 1), :gb_eng, :observed).find do |h|
+      h[:name] == 'Good Friday'
+    end[:date]
+
+    sent_to_provider_at = 2.business_days.before(good_friday)
+
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      :awaiting_provider_decision,
+      course_option:,
+      application_form:,
+      sent_to_provider_at:,
+    )
+
+    CandidateMailer.application_choice_submitted(application_choice)
+  end
+
   def change_course
     application_choice = FactoryBot.build_stubbed(:application_choice, :awaiting_provider_decision,
                                                   course_option:,
@@ -35,6 +79,23 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
     CandidateMailer.apply_to_another_course_after_30_working_days(application_form)
   end
 
+  def apply_to_another_course_after_30_working_days_with_holiday_warning
+    application_form = FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      first_name: 'Fred',
+      application_choices: [
+        FactoryBot.create(
+          :application_choice,
+          :inactive,
+          sent_to_provider_at: DateTime.new(RecruitmentCycleTimetable.current_year, 1, 1),
+        ),
+      ],
+    )
+
+    CandidateMailer.apply_to_another_course_after_30_working_days(application_form)
+  end
+
   def apply_to_multiple_courses_after_30_working_days
     application_form = FactoryBot.create(
       :application_form,
@@ -44,6 +105,22 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
         :application_choice,
         2,
         :inactive,
+      ),
+    )
+
+    CandidateMailer.apply_to_multiple_courses_after_30_working_days(application_form)
+  end
+
+  def apply_to_multiple_courses_after_30_working_days_with_holiday_response_time_warning
+    application_form = FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      first_name: 'Fred',
+      application_choices: FactoryBot.create_list(
+        :application_choice,
+        2,
+        :inactive,
+        sent_to_provider_at: DateTime.new(RecruitmentCycleTimetable.current_year, 1, 1),
       ),
     )
 

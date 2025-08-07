@@ -14,7 +14,7 @@ RSpec.describe 'User visits the sign-in page and views guidance' do
   def then_i_can_see_the_correct_dates
     expect(page).to have_content('The application process for courses starting in September 2025')
     expect(page).to have_content('1 October 2024 at 9am UK time')
-    expect(page).to have_content('Start finding postgraduate teacher training courses')
+    expect(page).to have_content('Start finding teacher training courses')
     expect(page).to have_content('8 October 2024 at 9am UK time')
     expect(page).to have_content('16 September 2025 at 6pm UK time')
     expect(page).to have_content('24 September 2025 at 11:59pm UK time')
