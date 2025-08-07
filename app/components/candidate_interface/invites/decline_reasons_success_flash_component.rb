@@ -6,8 +6,8 @@ class CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent < ViewCom
   end
 
   def call
-    if change_preferences_text
-      render change_preferences_text
+    if change_preferences_text_component
+      render change_preferences_text_component
     else
       tag.div do
         tag.p do
@@ -18,7 +18,7 @@ class CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent < ViewCom
     end
   end
 
-  def change_preferences_text
+  def change_preferences_text_component
     if invite_decline_reasons_include_no_longer_interested?
       NoLongerInterestedComponent.new(invite: invite)
     elsif invite_decline_reasons_include_only_salaried? && invite_decline_reasons_include_location_not_convenient?

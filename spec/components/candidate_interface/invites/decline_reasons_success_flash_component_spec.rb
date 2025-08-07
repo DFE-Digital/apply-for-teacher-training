@@ -14,13 +14,13 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent 
     expect(result).to have_link('apply to this course', href: candidate_interface_course_choices_course_confirm_selection_path(course))
   end
 
-  describe '#change_preferences_text' do
+  describe '#change_preferences_text_component' do
     it 'returns nil when no decline reasons are present' do
       invite = build_stubbed(:pool_invite, published_invite_decline_reasons: [])
 
       component = described_class.new(invite:)
 
-      expect(component.change_preferences_text).to be_nil
+      expect(component.change_preferences_text_component).to be_nil
     end
 
     context 'when decline reasons include no longer interested' do
@@ -29,7 +29,7 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent 
 
         component = described_class.new(invite:)
 
-        expect(component.change_preferences_text).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent::NoLongerInterestedComponent)
+        expect(component.change_preferences_text_component).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent::NoLongerInterestedComponent)
       end
     end
 
@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent 
 
         component = described_class.new(invite:)
 
-        expect(component.change_preferences_text).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent::UpdateLocationAndFundingPreferencesComponent)
+        expect(component.change_preferences_text_component).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent::UpdateLocationAndFundingPreferencesComponent)
       end
     end
 
@@ -52,7 +52,7 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent 
 
         component = described_class.new(invite:)
 
-        expect(component.change_preferences_text).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent::ChangeFundingPreferencesComponent)
+        expect(component.change_preferences_text_component).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent::ChangeFundingPreferencesComponent)
       end
     end
 
@@ -62,7 +62,7 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent 
 
         component = described_class.new(invite:)
 
-        expect(component.change_preferences_text).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent::ChangeLocationPreferencesComponent)
+        expect(component.change_preferences_text_component).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent::ChangeLocationPreferencesComponent)
       end
     end
   end
