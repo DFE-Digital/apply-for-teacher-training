@@ -12,7 +12,7 @@ class CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent < ViewCom
       tag.div do
         tag.p do
           concat 'If you have changed your mind you can still '
-          concat govuk_link_to('apply to this course', href: candidate_interface_course_choices_course_confirm_selection_path(course), class: 'govuk-notification-banner__link')
+          concat govuk_link_to('apply to this course', candidate_interface_course_choices_course_confirm_selection_path(course), class: 'govuk-notification-banner__link')
         end
       end
     end
@@ -51,7 +51,7 @@ private
       tag.div do
         concat(
           tag.p do
-            concat tag.a('Update your location and funding preferences', href: candidate_interface_candidate_preferences_path(candidate), class: 'govuk-notification-banner__link')
+            concat govuk_link_to('Update your location and funding preferences', candidate_interface_candidate_preferences_path(candidate), class: 'govuk-notification-banner__link')
             concat ' to receive invitations to more relevant courses'
           end,
         )
@@ -59,7 +59,7 @@ private
         concat(
           tag.p do
             concat 'If you have changed your mind you can still '
-            concat tag.a('apply to this course', href: candidate_interface_course_choices_course_confirm_selection_path(course), class: 'govuk-notification-banner__link')
+            concat govuk_link_to('apply to this course', candidate_interface_course_choices_course_confirm_selection_path(course), class: 'govuk-notification-banner__link')
           end,
         )
       end
@@ -71,7 +71,7 @@ private
       tag.div do
         concat(
           tag.p do
-            concat tag.a('Change your funding preferences', href: candidate_interface_candidate_preferences_path(candidate), class: 'govuk-notification-banner__link')
+            concat govuk_link_to('Change your funding preferences', candidate_interface_candidate_preferences_path(candidate), class: 'govuk-notification-banner__link')
             concat ' to receive invitations to more relevant courses'
           end,
         )
@@ -79,7 +79,7 @@ private
         concat(
           tag.p do
             concat 'If you have changed your mind you can still '
-            concat tag.a('apply to this course', href: candidate_interface_course_choices_course_confirm_selection_path(course), class: 'govuk-notification-banner__link')
+            concat govuk_link_to('apply to this course', candidate_interface_course_choices_course_confirm_selection_path(course), class: 'govuk-notification-banner__link')
           end,
         )
       end
