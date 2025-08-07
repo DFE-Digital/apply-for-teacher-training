@@ -91,4 +91,17 @@ class CandidatePoolApplication < ApplicationRecord
       scope.where(course_funding_type_fee: true)
     end
   end
+
+  def self.closed?
+    timetable = RecruitmentCycleTimetable.current_timetable
+    timetable.after_apply_deadline? || Time.zone.now.before?(open_at)
+  end
+
+  def self.open_at
+    timetable = RecruitmentCycleTimetable.current_timetable
+
+    CandidateInterface::InactiveDateCalculator.new(
+      effective_date: timetable.apply_opens_at,
+    ).inactive_date
+  end
 end

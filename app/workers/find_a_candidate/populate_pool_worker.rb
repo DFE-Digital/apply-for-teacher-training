@@ -4,7 +4,7 @@ class FindACandidate::PopulatePoolWorker
   sidekiq_options queue: :default
 
   def perform
-    if RecruitmentCycleTimetable.current_timetable.between_cycles?
+    if CandidatePoolApplication.closed?
       CandidatePoolApplication.delete_all
     else
       application_forms_eligible_for_pool = Pool::Candidates.new.application_forms_in_the_pool
