@@ -94,19 +94,14 @@ class CandidatePoolApplication < ApplicationRecord
 
   def self.closed?
     timetable = RecruitmentCycleTimetable.current_timetable
-    return true if timetable.between_cycles?
-
-    now = Time.zone.now
-    cycle_start = DateTime.new(
-      now.year,
-      timetable.apply_opens_at.month,
-      timetable.apply_opens_at.day,
-    )
-
-    now.between?(cycle_start, open_at)
+    timetable.after_apply_deadline? || Time.zone.now.before?(open_at)
   end
 
   def self.open_at
-    DateTime.new(Time.zone.now.year, 11, 20)
+    timetable = RecruitmentCycleTimetable.current_timetable
+
+    CandidateInterface::InactiveDateCalculator.new(
+      effective_date: timetable.apply_opens_at,
+    ).inactive_date
   end
 end

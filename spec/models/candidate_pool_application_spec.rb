@@ -133,13 +133,13 @@ RSpec.describe CandidatePoolApplication do
       end
     end
 
-    context 'before candidate_pool opens', time: DateTime.new(Time.zone.now.year, 11, 20) do
+    context 'before candidate_pool opens', time: described_class.open_at - 1.day do
       it 'returns true' do
         expect(described_class.closed?).to be(true)
       end
     end
 
-    context 'after candidate_pool opens', time: DateTime.new(Time.zone.now.year, 11, 21) do
+    context 'after candidate_pool opens', time: described_class.open_at + 1.day do
       it 'returns false' do
         expect(described_class.closed?).to be(false)
       end
@@ -148,7 +148,9 @@ RSpec.describe CandidatePoolApplication do
 
   describe '.open_at' do
     it 'returns when the candidate pool opens' do
-      expect(described_class.open_at).to eq(DateTime.new(Time.zone.now.year, 11, 20))
+      expect(described_class.open_at).to eq(
+        DateTime.new(RecruitmentCycleTimetable.previous_year, 11, 19).end_of_day,
+      )
     end
   end
 end
