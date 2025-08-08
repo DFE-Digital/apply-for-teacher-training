@@ -1,0 +1,12 @@
+<div>
+  <p>
+    <%= link_to('Change your location preferences', candidate_interface_candidate_preferences_review_path, class: 'govuk-notification-banner__link') %>
+    to receive invitations to more relevant courses
+  </p>
+
+  <p>
+    If you have changed your mind you can still
+    <%= link_to('apply to this course', candidate_interface_course_choices_course_confirm_selection_path(course), class: 'govuk-notification-banner__link') %>
+  </p>
+</div>
+
