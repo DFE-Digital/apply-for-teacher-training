@@ -66,4 +66,44 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent 
       end
     end
   end
+
+  describe '#candidate_interface_candidate_preferences_review_path' do
+    context 'the candidate has no published preferences' do
+      it 'returns the new_candidate_interface_pool_opt_in_path' do
+        candidate = create(:candidate, published_preferences: [])
+        invite = create(:pool_invite, candidate: candidate)
+
+        component = described_class.new(invite:)
+        render_inline(component) # needed to access the helper methods
+
+        expect(component.candidate_interface_candidate_preferences_review_path).to eq(new_candidate_interface_pool_opt_in_path)
+      end
+    end
+
+    context 'the candidate has published preference with opt-out' do
+      it 'edit_candidate_interface_pool_opt_in_path(current_candidate.published_preferences.last)' do
+        preference = build(:candidate_preference, :opt_out)
+        candidate = create(:candidate, published_preferences: [preference])
+        invite = create(:pool_invite, candidate: candidate)
+
+        component = described_class.new(invite:)
+        render_inline(component) # needed to access the helper methods
+
+        expect(component.candidate_interface_candidate_preferences_review_path).to eq(edit_candidate_interface_pool_opt_in_path(preference))
+      end
+    end
+
+    context 'the candidate has published preferences opt-in' do
+      it 'candidate_interface_draft_preference_publish_preferences_path(current_candidate.published_preferences.last)' do
+        preference = build(:candidate_preference, :opt_in)
+        candidate = create(:candidate, published_preferences: [preference])
+        invite = create(:pool_invite, candidate: candidate)
+
+        component = described_class.new(invite:)
+        render_inline(component) # needed to access the helper methods
+
+        expect(component.candidate_interface_candidate_preferences_review_path).to eq(candidate_interface_draft_preference_publish_preferences_path(preference))
+      end
+    end
+  end
 end

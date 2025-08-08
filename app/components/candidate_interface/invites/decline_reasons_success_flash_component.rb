@@ -30,6 +30,14 @@ class CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent < ViewCom
     end
   end
 
+  def candidate_interface_candidate_preferences_review_path
+    return new_candidate_interface_pool_opt_in_path unless candidate.published_preference
+
+    return candidate_interface_draft_preference_publish_preferences_path(candidate.published_preference) if candidate.published_preference_opt_in?
+
+    edit_candidate_interface_pool_opt_in_path(candidate.published_preference)
+  end
+
 private
 
   attr_reader :invite
