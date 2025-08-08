@@ -59,7 +59,7 @@ private
       tag.div do
         concat(
           tag.p do
-            concat govuk_link_to('Update your location and funding preferences', candidate_interface_candidate_preferences_path(candidate), class: 'govuk-notification-banner__link')
+            concat govuk_link_to('Update your location and funding preferences', candidate_interface_candidate_preferences_review_path, class: 'govuk-notification-banner__link')
             concat ' to receive invitations to more relevant courses'
           end,
         )
@@ -79,7 +79,7 @@ private
       tag.div do
         concat(
           tag.p do
-            concat govuk_link_to('Change your funding preferences', candidate_interface_candidate_preferences_path(candidate), class: 'govuk-notification-banner__link')
+            concat govuk_link_to('Change your funding preferences', candidate_interface_candidate_preferences_review_path, class: 'govuk-notification-banner__link')
             concat ' to receive invitations to more relevant courses'
           end,
         )
@@ -99,7 +99,7 @@ private
       tag.div do
         concat(
           tag.p do
-            concat tag.a('Change your location preferences', href: candidate_interface_candidate_preferences_path(candidate), class: 'govuk-notification-banner__link')
+            concat tag.a('Change your location preferences', href: candidate_interface_candidate_preferences_review_path, class: 'govuk-notification-banner__link')
             concat ' to receive invitations to more relevant courses'
           end,
         )

@@ -8,10 +8,11 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent:
     course = build_stubbed(:course)
     invite = build_stubbed(:pool_invite, candidate:, course:)
 
-    result = render_inline(described_class.new(invite:))
+    component = described_class.new(invite:)
+    result = render_inline(component)
 
     expect(result).to have_text('Update your location and funding preferences to receive invitations to more relevant courses')
-    expect(result).to have_link('Update your location and funding preferences', href: candidate_interface_candidate_preferences_path(candidate))
+    expect(result).to have_link('Update your location and funding preferences', href: component.candidate_interface_candidate_preferences_review_path)
 
     expect(result).to have_text('If you have changed your mind you can still apply to this course')
     expect(result).to have_link('apply to this course', href: candidate_interface_course_choices_course_confirm_selection_path(course))
