@@ -219,35 +219,12 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
         end
       end
 
-      context 'when apply is open but course not open for applications' do
-        it 'adds error to application choice' do
-          application_choice.course.update(applications_open_from: 1.day.from_now)
-
-          expect(application_choice_submission).not_to be_valid
-          expect(application_choice_submission.errors[:application_choice]).to include(
-            "This course is not yet open to applications. You will be able to submit your application on #{1.day.from_now.to_fs(:govuk_date)}.",
-          )
-        end
-      end
-
       context 'when apply is closed and course open for applications same day' do
         it 'adds error to application choice', time: after_find_opens do
           apply_opens_date = current_timetable.apply_opens_at.to_fs(:govuk_date)
           expect(application_choice_submission).not_to be_valid
           expect(application_choice_submission.errors[:application_choice]).to include(
             "This course is not yet open to applications. You will be able to submit your application on #{apply_opens_date}.",
-          )
-        end
-      end
-
-      context 'when apply is open and course open for applications next day' do
-        let(:applications_open_from) { 1.day.from_now }
-        let(:course) { create(:course, :with_course_options, level: 'secondary', applications_open_from:) }
-
-        it 'adds error to application choice' do
-          expect(application_choice_submission).not_to be_valid
-          expect(application_choice_submission.errors[:application_choice]).to include(
-            "This course is not yet open to applications. You will be able to submit your application on #{course.applications_open_from.to_fs(:govuk_date)}.",
           )
         end
       end

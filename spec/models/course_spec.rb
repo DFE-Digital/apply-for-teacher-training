@@ -22,16 +22,16 @@ RSpec.describe Course do
       end
     end
 
-    context 'when applications_open_from is nil' do
-      let(:course) { create(:course, :open, applications_open_from: nil) }
+    context 'when course is in previous cycle is nil' do
+      let(:course) { create(:course, :open, recruitment_cycle_year: previous_year) }
 
       it 'returns false' do
         expect(course.open?).to be false
       end
     end
 
-    context 'when applications_open_from is in the future' do
-      let(:course) { create(:course, :open, applications_open_from: 1.day.from_now) }
+    context 'when course is in future cycle' do
+      let(:course) { create(:course, :open, recruitment_cycle_year: next_year) }
 
       it 'returns false' do
         expect(course).not_to be_open
@@ -72,8 +72,8 @@ RSpec.describe Course do
       end
     end
 
-    context 'when course is due to open tomorrow' do
-      let(:course) { create(:course, :open, applications_open_from: 1.day.from_now) }
+    context 'when course is in future cycle' do
+      let(:course) { create(:course, :open, recruitment_cycle_year: next_year) }
 
       it 'does not return the course' do
         expect(described_class.open).not_to include(course)

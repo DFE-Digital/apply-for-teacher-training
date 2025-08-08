@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
       provider = create(:provider, name: 'School with courses')
 
       create(:course, :open, exposed_in_find: false, name: 'Course not shown in Find', provider:)
-      create(:course, exposed_in_find: true, name: 'Course that is not accepting applications', applications_open_from: Time.zone.tomorrow, provider:, code: 'BBBB')
+      create(:course, exposed_in_find: true, name: 'Course that is not accepting applications', provider:, code: 'BBBB')
       create(:course, :open, name: 'Course you can apply to', provider:, code: 'CCCC')
       create(:course, :open, name: 'Course from another cycle', provider:, recruitment_cycle_year: 2021)
       create(:course, :open, name: 'Course from other provider')
