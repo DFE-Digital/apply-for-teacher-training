@@ -5,6 +5,10 @@ module CandidateInterface
     before_action :set_back_path
 
     def new
+      if @preference.published?
+        @preference = @preference.create_draft_dup
+      end
+
       @funding_type_preference_form = FundingTypePreferenceForm.new(
         {
           funding_type: @preference.funding_type,
