@@ -19,8 +19,7 @@ module CandidateInterface
         preference: @preference,
       )
 
-      if @funding_type_preference_form.valid?
-        @funding_type_preference_form.save!
+      if @funding_type_preference_form.save!
         redirect_to candidate_interface_draft_preference_path(@preference)
       else
         render :new

@@ -123,7 +123,7 @@ en:
 
     application_not_sent:
       name: Reject at the end of the cycle
-      description: Application choices that are awaiting references are automatically rejected at the end of the cycle.
+      description: Application choices that are awaiting provider decision are automatically rejected at the end of the cycle.
 
     awaiting_provider_decision:
       name: Awaiting provider decision
