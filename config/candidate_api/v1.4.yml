@@ -290,6 +290,11 @@ components:
           format: date-time
           description: The date and time the application choice was submitted to the provider
           example: 2021-05-20T12:34:00Z
+        accepted_at:
+          type: string
+          format: date-time
+          description: The date and time the offer on the application choice was accepted
+          example: 2021-05-20T12:34:00Z
         status:
           type: string
           description: The status of the application choice

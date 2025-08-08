@@ -20,7 +20,7 @@ RSpec.describe 'GET /candidate-api/v1.4/candidates' do
                                                           level: 'secondary',
                                                           funding_type: 'fee',
                                                           program_type: 'higher_education_salaried_programme'))
-    application_choice = create(:application_choice, :awaiting_provider_decision, application_form:, course_option: course_option)
+    application_choice = create(:application_choice, :accepted, application_form:, course_option: course_option)
 
     get_api_request "#{root_path}?updated_since=#{CGI.escape(1.day.ago.iso8601)}", token: candidate_api_token
 
@@ -33,6 +33,7 @@ RSpec.describe 'GET /candidate-api/v1.4/candidates' do
     expect(application_forms_from_response_data.dig(0, 'last_name')).to eq('Doe')
 
     expect(application_forms_from_response_data.dig(0, 'application_choices', 'data', 0, 'id')).to eq(application_choice.id)
+    expect(application_forms_from_response_data.dig(0, 'application_choices', 'data', 0, 'accepted_at')).to eq(application_choice.accepted_at.iso8601)
     expect(application_forms_from_response_data.dig(0, 'application_choices', 'data', 0, 'course', 'level')).to eq('secondary')
     expect(application_forms_from_response_data.dig(0, 'application_choices', 'data', 0, 'course', 'funding_type')).to eq('fee')
     expect(application_forms_from_response_data.dig(0, 'application_choices', 'data', 0, 'course', 'program_type')).to eq('higher_education_salaried_programme')
