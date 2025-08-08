@@ -1,5 +1,4 @@
-name: Enable maintenance
-
+name: Maintenance V2 (Centralized)
 on:
   workflow_dispatch:
     inputs:
@@ -7,46 +6,46 @@ on:
         required: true
         type: choice
         options:
-        - qa
+        - development
+        - test
         - production
-
-permissions:
-  id-token: write
-  packages: write
+      mode:
+        required: true
+        type: choice
+        options:
+        - enable
+        - disable
 
 jobs:
-  enable-maintenance:
-    name: Enable maintenance app
+  set-maintenance-mode:
+    name: Set maintenance mode (centralized)
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
-
+    
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Build and push docker image
-      id: build-image
-      uses: DFE-Digital/github-actions/build-docker-image@master
+    
+    - name: Enable or disable maintenance mode
+      uses: DFE-Digital/github-actions/maintenance@2392-spike-centralise-maintenance-page
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        dockerfile-path: maintenance_page/Dockerfile
-        docker-repository: ghcr.io/dfe-digital/apply-teacher-training-maintenance
-        context: maintenance_page
-
-    - uses: azure/login@v2
-      with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-    - name: Set ARM and kubelogin environment
-      uses: DFE-Digital/github-actions/set-kubelogin-environment@master
-      with:
+        # Azure authentication
         azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-    - name: Deploy maintenance app
-      run: make ci ${{ inputs.environment }} maintenance-fail-over
-      env:
-        MAINTENANCE_IMAGE_TAG: ${{steps.build-image.outputs.tag}}
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        
+        # Core configuration
+        environment: ${{ inputs.environment }}
+        mode: ${{ inputs.mode }}
+        docker-repository: ghcr.io/dfe-digital/apply-for-teacher-training-maintenance
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        
+        # Service customization
+        service-name: "Apply for teacher training"
+        maintenance-message: "We are currently carrying out essential maintenance. Please try again later."
+        contact-email: "becomingateacher@digital.education.gov.uk"
+        # estimated-return-time: "15:00"  # Optional - uncomment if needed
+        # status-page-url: "https://status.example.com"  # Optional
+        
+        # Use your spike branch for templates
+        template-ref: "2392-spike-centralise-maintenance-page"
