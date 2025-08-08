@@ -16,10 +16,12 @@ RSpec.describe Candidate do
     it { is_expected.to have_many(:published_preferences).conditions(status: 'published').dependent(:destroy) }
     it { is_expected.to have_one(:one_login_auth).dependent(:destroy) }
     it { is_expected.to have_one(:account_recovery_request).dependent(:destroy) }
+    it { is_expected.to have_one(:published_preference).conditions(status: 'published').order(id: :desc).dependent(:destroy).class_name('CandidatePreference') }
   end
 
   describe 'delegations' do
     it { is_expected.to delegate_method(:previous_account_email_address).to(:account_recovery_request).allow_nil }
+    it { is_expected.to delegate_method(:opt_in?).to(:published_preference).with_prefix.allow_nil }
   end
 
   describe 'a valid candidate' do
