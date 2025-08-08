@@ -36,6 +36,7 @@ class Candidate < ApplicationRecord
     class_name: 'Pool::Invite',
   )
   has_many :preferences, dependent: :destroy, class_name: 'CandidatePreference'
+  has_one :published_preference, -> { published.order(id: :desc) }, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :published_preferences, -> { where(status: 'published') }, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :duplicated_preferences, -> { where(status: 'duplicated') }, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :published_opt_in_preferences, -> { where(status: 'published', pool_status: :opt_in) }, dependent: :destroy, class_name: 'CandidatePreference'
@@ -61,6 +62,7 @@ class Candidate < ApplicationRecord
   end
 
   delegate :previous_account_email_address, to: :account_recovery_request, allow_nil: true
+  delegate :opt_in?, to: :published_preference, prefix: true, allow_nil: true
 
   def redacted_full_name_current_cycle
     application_forms.current_cycle.last.redacted_full_name
