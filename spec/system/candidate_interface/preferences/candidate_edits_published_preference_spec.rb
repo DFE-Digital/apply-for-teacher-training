@@ -183,7 +183,7 @@ RSpec.describe 'Candidate edits published preference' do
   end
 
   def and_the_candidate_preference_id_is_changed
-    @current_candidate.published_preferences.last != @existing_candidate_preference
+    expect(@current_candidate.published_preferences.last).not_to eq(@existing_candidate_preference)
   end
 
   def and_there_are_no_location_preferences

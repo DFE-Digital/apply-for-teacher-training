@@ -5,6 +5,10 @@ module CandidateInterface
     before_action :set_submit_path, only: :new
 
     def new
+      if @preference.published?
+        @preference = @preference.create_draft_dup
+      end
+
       @training_locations_form = TrainingLocationsForm.build_from_preference(@preference)
     end
 
