@@ -5,6 +5,10 @@ module CandidateInterface
     before_action :redirect_to_root_path_if_flag_is_inactive
 
     def new
+      if @preference.published?
+        @preference = @preference.create_draft_dup
+      end
+
       @dynamic_location_preferences_form = DynamicLocationPreferencesForm.new(
         {
           dynamic_location_preferences: @preference.dynamic_location_preferences,
