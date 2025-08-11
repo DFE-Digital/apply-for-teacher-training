@@ -27,7 +27,7 @@ class ReasonsForRejectionCountQuery
       .where("jsonb_typeof(sub_reason.value) = 'object'")
       .where(current_recruitment_cycle_year: recruitment_cycle_year)
       .group('reason, time_period')
-      .order('total DESC')
+      .order(total: :desc)
 
     rows = query.map do |row|
       {
@@ -58,7 +58,7 @@ class ReasonsForRejectionCountQuery
       .where("jsonb_typeof(selected_reasons.value) = 'array'")
       .where(current_recruitment_cycle_year: recruitment_cycle_year)
       .group('reason, sub_reason, time_period')
-      .order('total DESC')
+      .order(total: :desc)
 
     rows = query.map do |row|
       {

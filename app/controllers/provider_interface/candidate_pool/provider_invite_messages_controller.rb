@@ -68,10 +68,14 @@ module ProviderInterface
       end
 
       def invite
-        @invite ||= current_provider_user.pool_invites.find_by(
-          id: params.expect(:draft_invite_id),
-          status: :draft,
-        )
+        if instance_variable_defined?(:@invite)
+          @invite
+        else
+          @invite = current_provider_user.pool_invites.find_by(
+            id: params.expect(:draft_invite_id),
+            status: :draft,
+          )
+        end
       end
 
       def invite_message_params

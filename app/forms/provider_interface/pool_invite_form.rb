@@ -61,10 +61,14 @@ module ProviderInterface
     end
 
     def course
-      @course ||= Course.find_by(
-        id: course_id,
-        provider_id: current_provider_user.provider_ids,
-      )
+      if instance_variable_defined?(:@course)
+        @course
+      else
+        @course = Course.find_by(
+          id: course_id,
+          provider_id: current_provider_user.provider_ids,
+        )
+      end
     end
 
   private

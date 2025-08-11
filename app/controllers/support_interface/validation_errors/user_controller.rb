@@ -4,7 +4,7 @@ module SupportInterface
       PAGY_PER_PAGE = 30
 
       def index
-        @grouped_counts = validation_error_scope.group(:form_object).order('count_all DESC').count
+        @grouped_counts = validation_error_scope.group(:form_object).order(count_all: :desc).count
         @list_of_distinct_errors_with_counts = validation_error_scope.list_of_distinct_errors_with_count
       end
 

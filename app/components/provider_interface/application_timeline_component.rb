@@ -63,7 +63,7 @@ module ProviderInterface
 
     def note_events
       if application_choice.notes.present?
-        application_choice.notes.order('created_at').map do |note|
+        application_choice.notes.order(:created_at).map do |note|
           Event.new(
             'Note added',
             actor_for(note),

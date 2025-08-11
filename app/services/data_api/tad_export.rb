@@ -51,7 +51,7 @@ module DataAPI
         )
         .where('candidates.hide_in_reporting' => false)
         .where.not(submitted_at: nil)
-        .order('submitted_at asc')
+        .order(:submitted_at)
     end
   end
 end

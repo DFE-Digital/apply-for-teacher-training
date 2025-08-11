@@ -46,7 +46,11 @@ module CandidateInterface
     end
 
     def provider
-      @_provider ||= Provider.find_by(code: params[:providerCode])
+      if instance_variable_defined?(:@_provider)
+        @_provider
+      else
+        @_provider = Provider.find_by(code: params[:providerCode])
+      end
     end
   end
 end

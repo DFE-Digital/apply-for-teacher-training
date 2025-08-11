@@ -36,7 +36,7 @@
       <% end %>
 
       <% if @application_data_export_form.actor_has_more_than_one_provider? %>
-        <%= f.govuk_collection_check_boxes :provider_ids, @application_data_export_form.providers_that_actor_belongs_to.order('name ASC'), ->(p) { p.id.to_s }, :name, legend: { text: 'Organisation', size: 'm' } %>
+        <%= f.govuk_collection_check_boxes :provider_ids, @application_data_export_form.providers_that_actor_belongs_to.order(:name), ->(p) { p.id.to_s }, :name, legend: { text: 'Organisation', size: 'm' } %>
       <% end %>
 
       <%= f.govuk_submit 'Export application data (CSV)' %>

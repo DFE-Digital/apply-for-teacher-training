@@ -26,7 +26,7 @@ module SupportInterface
     def show
       @candidate = Candidate.find(params[:candidate_id])
       @candidate_account_status = SupportInterface::CandidateAccountStatusForm.new(candidate: @candidate)
-      @application_forms = @candidate.application_forms.order('updated_at desc')
+      @application_forms = @candidate.application_forms.order(updated_at: :desc)
     end
 
     def hide_in_reporting

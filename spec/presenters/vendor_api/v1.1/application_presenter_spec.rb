@@ -106,7 +106,7 @@ RSpec.describe 'ApplicationPresenter' do
     end
 
     it 'sorts interviews in descending updated_at order' do
-      ordered = application_choice.interviews.order('updated_at DESC').all
+      ordered = application_choice.interviews.order(updated_at: :desc).all
       expected = ordered.map(&:id)
 
       observed = attributes[:interviews].map { |interview| interview[:id].to_i }
