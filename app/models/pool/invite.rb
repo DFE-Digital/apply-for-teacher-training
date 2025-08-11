@@ -24,6 +24,7 @@ class Pool::Invite < ApplicationRecord
   enum :status, {
     draft: 'draft',
     published: 'published',
+    cancelled: 'cancelled',
   }, default: :draft
 
   enum :candidate_decision, {
@@ -33,6 +34,14 @@ class Pool::Invite < ApplicationRecord
   }, default: :not_responded
 
   scope :not_responded_course_open, -> { not_responded.where(course_open: true) }
+
+  scope :unactionable_by_candidate, lambda {
+    where(status: 'published')
+      .where(candidate_decision: %w[accepted declined])
+      .or(where(course_open: false))
+    .or(where(status: 'cancelled'))
+  }
+
   scope :actioned_by_candidate_or_course_closed, lambda {
     where(candidate_decision: %w[accepted declined])
     .or(where(course_open: false))

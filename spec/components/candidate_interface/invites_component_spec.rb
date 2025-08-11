@@ -101,6 +101,18 @@ RSpec.describe CandidateInterface::InvitesComponent do
         )
       end
     end
+
+    context 'invite is cancelled' do
+      it 'returns cancel status tag' do
+        invite = create(:pool_invite, status: 'cancelled')
+        component = described_class.new(invites: [invite])
+        render_inline(component)
+
+        expect(component.status_tag(invite)).to eq(
+          '<strong class="govuk-tag govuk-tag--grey">Closed</strong>',
+        )
+      end
+    end
   end
 
   describe '#action-link' do
