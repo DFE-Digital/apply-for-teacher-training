@@ -1,4 +1,4 @@
-RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent::NoLongerInterestedComponent do
+RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlash::NoLongerInterestedComponent do
   it 'renders the no longer interested message' do
     result = render_inline(described_class.new(invite: build_stubbed(:pool_invite)))
 

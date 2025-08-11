@@ -1,8 +1,10 @@
 <div>
+  <% if render_change_preferences? %>
   <p>
     <%= govuk_link_to('Change your funding preferences', candidate_interface_candidate_preferences_review_path, class: 'govuk-notification-banner__link') %>
     to receive invitations to more relevant courses
   </p>
+  <% end %>
 
   <p>
     If you have changed your mind you can still
