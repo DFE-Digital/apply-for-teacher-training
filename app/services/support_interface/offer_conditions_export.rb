@@ -66,7 +66,7 @@ module SupportInterface
     def relevant_choices
       ApplicationChoice
         .where.not(offered_at: nil)
-        .order('offered_at asc')
+        .order(:offered_at)
     end
   end
 end

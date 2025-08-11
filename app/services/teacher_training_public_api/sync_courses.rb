@@ -152,7 +152,11 @@ module TeacherTrainingPublicAPI
     end
 
     def timetable
-      @timetable ||= RecruitmentCycleTimetable.find_by(recruitment_cycle_year:)
+      if instance_variable_defined?(:@timetable)
+        @timetable
+      else
+        @timetable = RecruitmentCycleTimetable.find_by(recruitment_cycle_year:)
+      end
     end
   end
 end

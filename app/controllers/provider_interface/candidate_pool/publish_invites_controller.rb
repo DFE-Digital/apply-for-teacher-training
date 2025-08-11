@@ -45,11 +45,15 @@ module ProviderInterface
       end
 
       def invite
-        @invite ||= Pool::Invite.find_by(
-          id: params.expect(:draft_invite_id),
-          provider_id: current_provider_user.provider_ids,
-          status: :draft,
-        )
+        if instance_variable_defined?(:@invite)
+          @invite
+        else
+          @invite = Pool::Invite.find_by(
+            id: params.expect(:draft_invite_id),
+            provider_id: current_provider_user.provider_ids,
+            status: :draft,
+          )
+        end
       end
 
       def redirect_if_invite_is_not_found

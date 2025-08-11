@@ -45,7 +45,11 @@ module CandidateInterface
     end
 
     def provider
-      @_provider ||= Provider.find_by(code: @provider_code)
+      if instance_variable_defined?(:@_provider)
+        @_provider
+      else
+        @_provider = Provider.find_by(code: @provider_code)
+      end
     end
 
     def fetch_course_from_api

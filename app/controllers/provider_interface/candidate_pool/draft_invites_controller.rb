@@ -85,11 +85,15 @@ module ProviderInterface
       end
 
       def invite
-        @invite ||= Pool::Invite.find_by(
-          id: params.expect(:id),
-          provider_id: current_provider_user.provider_ids,
-          status: :draft,
-        )
+        if instance_variable_defined?(:@invite)
+          @invite
+        else
+          @invite = Pool::Invite.find_by(
+            id: params.expect(:id),
+            provider_id: current_provider_user.provider_ids,
+            status: :draft,
+          )
+        end
       end
 
       def set_policy

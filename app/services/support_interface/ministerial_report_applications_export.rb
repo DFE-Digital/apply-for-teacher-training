@@ -116,7 +116,7 @@ module SupportInterface
         .where.not(application_form: { submitted_at: nil })
         .where.not(candidates: { hide_in_reporting: true })
         .group('application_choices.id, application_choices.status, application_form.id, application_form.phase, courses.name, courses.level, a2_latest_application_forms.candidate_id')
-        .order('subject_names, subject_codes')
+        .order(:subject_names, :subject_codes)
     end
 
     def current_recruitment_cycle_year

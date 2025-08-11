@@ -207,6 +207,10 @@ private
   end
 
   def dev_support_user
-    @dev_support_user ||= ProviderUser.find_by(dfe_sign_in_uid: 'dev-support')
+    if instance_variable_defined?(:@dev_support_user)
+      @dev_support_user
+    else
+      @dev_support_user = ProviderUser.find_by(dfe_sign_in_uid: 'dev-support')
+    end
   end
 end

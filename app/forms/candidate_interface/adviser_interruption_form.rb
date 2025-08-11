@@ -33,7 +33,7 @@ module CandidateInterface
     end
 
     def recent_degree_subject
-      application_form.application_qualifications.degrees.order('award_year').last.subject.titleize
+      application_form.application_qualifications.degrees.order(:award_year).last.subject.titleize
     end
 
   private

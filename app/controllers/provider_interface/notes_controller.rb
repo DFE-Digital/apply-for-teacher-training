@@ -3,7 +3,7 @@ module ProviderInterface
     before_action :set_application_choice, :set_workflow_flags, :redirect_if_application_changed_provider
 
     def index
-      @notes = @application_choice.notes.order('created_at DESC')
+      @notes = @application_choice.notes.order(created_at: :desc)
     end
 
     def show

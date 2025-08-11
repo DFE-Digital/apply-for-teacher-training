@@ -158,7 +158,7 @@ module SupportInterface
     def interviews_row
       return if application_choice.interviews.blank?
 
-      interview_blocks = application_choice.interviews.order('created_at').map do |interview|
+      interview_blocks = application_choice.interviews.order(:created_at).map do |interview|
         render(SupportInterface::InterviewDetailsComponent.new(interview:))
       end
 

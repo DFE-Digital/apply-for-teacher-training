@@ -4,7 +4,7 @@ module SupportInterface
       PAGY_PER_PAGE = 30
 
       def index
-        @grouped_counts = VendorAPIRequest.unprocessable_entities.group(:request_path).order('count_all DESC').count
+        @grouped_counts = VendorAPIRequest.unprocessable_entities.group(:request_path).order(count_all: :desc).count
         @list_of_distinct_errors_with_counts = VendorAPIRequest.list_of_distinct_errors_with_count
       end
 
@@ -12,7 +12,7 @@ module SupportInterface
         @vendor_api_requests = VendorAPIRequest
           .search_validation_errors(params)
           .includes('provider')
-          .order('created_at DESC')
+          .order(created_at: :desc)
 
         @pagy, @vendor_api_requests = pagy(@vendor_api_requests, limit: PAGY_PER_PAGE)
       end

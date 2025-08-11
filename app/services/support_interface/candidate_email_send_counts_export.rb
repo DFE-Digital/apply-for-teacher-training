@@ -20,7 +20,7 @@ module SupportInterface
           'mail_template, COUNT(mail_template) AS send_count, COUNT(DISTINCT "to") AS unique_recipients, MAX(created_at) AS last_sent_at, mailer',
         )
         .group('mail_template, mailer')
-        .order('mail_template ASC')
+        .order(:mail_template)
     end
   end
 end
