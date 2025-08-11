@@ -8,7 +8,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
                       name: 'My course',
                       code: 'ABC',
                       level: 'secondary',
-                      recruitment_cycle_year: 2020)
+                      recruitment_cycle_year: current_year)
 
       course_option = create(:course_option, course:)
       provider = course_option.course.provider
@@ -21,7 +21,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       ).to_h
 
       expect(fields['Course']).to eq('My course (ABC)')
-      expect(fields['Cycle']).to eq('2020')
+      expect(fields['Cycle']).to eq(current_year.to_s)
       expect(fields['Status'].strip).to eq('Open')
       expect(fields).not_to have_key('Accredited body')
     end
@@ -104,10 +104,11 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
         it { is_expected.to match(/Closed by provider/) }
       end
 
-      context 'course is not open yet' do
+      context 'course has an applications_open_from date in the future' do
         let(:course) { create(:course, :open, applications_open_from: 1.day.from_now) }
 
-        it { is_expected.to match(/Unpublished/) }
+        # We ignore applications_open_from now, it wasn't used, almost all providers just used the find_opens_at date.)
+        it { is_expected.to match(/Open/) }
       end
 
       context 'course is next recruitment cycle' do

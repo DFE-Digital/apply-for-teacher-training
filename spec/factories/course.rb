@@ -10,7 +10,7 @@ FactoryBot.define do
     qualifications { %w[qts pgce] }
     course_length { 'OneYear' }
     start_date { Faker::Date.between(from: 1.month.from_now, to: 1.year.from_now) }
-    applications_open_from { CycleTimetableHelper.current_timetable.apply_opens_at }
+    applications_open_from { CycleTimetableHelper.current_timetable.find_opens_at }
     age_range { '4 to 8' }
     withdrawn { false }
     program_type { 'scitt_programme' }
@@ -28,7 +28,7 @@ FactoryBot.define do
     trait :open do
       application_status { 'open' }
       exposed_in_find { true }
-      applications_open_from { 2.months.ago }
+      recruitment_cycle_year { CycleTimetableHelper.current_year }
     end
 
     trait :closed do
