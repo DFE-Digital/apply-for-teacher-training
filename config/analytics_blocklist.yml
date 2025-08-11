@@ -1,5 +1,28 @@
 ---
 :shared:
+  :emails:
+  - application_form_id
+  - created_at
+  - delivery_status
+  - id
+  - mail_template
+  - mailer
+  - notify_reference
+  - to
+  - body
+  - subject
+  - updated_at
+  :vendor_api_requests:
+  - id
+  - request_path
+  - request_method
+  - status_code
+  - request_headers
+  - request_body
+  - response_body
+  - provider_id
+  - response_headers
+  - created_at
   :provider_pool_actions:
   - id
   - status
@@ -163,8 +186,6 @@
   - updated_at
   :vendor_api_tokens:
   - hashed_token
-  :vendor_api_requests:
-  - request_body
   :validation_errors:
   - details
   :support_users:
@@ -198,9 +219,6 @@
   - updated_at
   :english_proficiencies:
   - no_qualification_details
-  :emails:
-  - to
-  - body
   :fraud_matches:
   - id
   - candidate_last_contacted_at

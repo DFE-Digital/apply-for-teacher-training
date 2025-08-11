@@ -355,16 +355,6 @@ shared:
     - fee_domestic
     - salary_details
     - visa_sponsorship_application_deadline_at
-  emails:
-    - application_form_id
-    - created_at
-    - delivery_status
-    - id
-    - mail_template
-    - mailer
-    - notify_reference
-    - subject
-    - updated_at
   email_clicks:
     - id
     - email_id
@@ -598,16 +588,6 @@ shared:
     - provider_id
     - last_used_at
     - description
-  vendor_api_requests:
-    - id
-    - request_path
-    - request_method
-    - status_code
-    - request_headers
-    - response_body
-    - provider_id
-    - response_headers
-    - created_at
   :withdrawal_reasons:
     - id
     - reason
