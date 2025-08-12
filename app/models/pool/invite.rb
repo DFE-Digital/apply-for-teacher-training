@@ -13,7 +13,9 @@ class Pool::Invite < ApplicationRecord
   has_many :application_choices, through: :application_form
 
   has_many :invite_decline_reasons, class_name: 'Pool::InviteDeclineReason', dependent: :destroy
+  # @deprecated The status of an invite is never changed from draft. Will be removed in https://trello.com/c/F3Rvo1XB
   has_many :draft_invite_decline_reasons, -> { draft }, class_name: 'Pool::InviteDeclineReason', dependent: :destroy
+  # @deprecated The status of an invite is never changed from draft. Will be removed in https://trello.com/c/F3Rvo1XB
   has_many :published_invite_decline_reasons, -> { published }, class_name: 'Pool::InviteDeclineReason', dependent: :destroy
   accepts_nested_attributes_for :invite_decline_reasons, allow_destroy: true, reject_if: :all_blank
 
@@ -21,6 +23,7 @@ class Pool::Invite < ApplicationRecord
   delegate :name_code_and_study_mode, to: :course, prefix: true
   delegate :name_and_code, to: :course, prefix: true
 
+  # @deprecated The status of an invite is never changed from draft. Will be removed in https://trello.com/c/F3Rvo1XB
   enum :status, {
     draft: 'draft',
     published: 'published',
@@ -91,14 +94,14 @@ class Pool::Invite < ApplicationRecord
   end
 
   def decline_reasons_include_only_salaried?
-    published_invite_decline_reasons.any?(&:reason_only_salaried?)
+    invite_decline_reasons.any?(&:reason_only_salaried?)
   end
 
   def decline_reasons_include_location_not_convenient?
-    published_invite_decline_reasons.any?(&:reason_location_not_convenient?)
+    invite_decline_reasons.any?(&:reason_location_not_convenient?)
   end
 
   def decline_reasons_include_no_longer_interested?
-    published_invite_decline_reasons.any?(&:reason_no_longer_interested?)
+    invite_decline_reasons.any?(&:reason_no_longer_interested?)
   end
 end

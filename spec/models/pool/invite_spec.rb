@@ -188,20 +188,23 @@ RSpec.describe Pool::Invite do
 
   describe '#decline_reasons_include_only_salaried?' do
     it 'returns false when no decline reasons exist' do
-      invite = build(:pool_invite)
+      invite = build_stubbed(:pool_invite)
+
       expect(invite.decline_reasons_include_only_salaried?).to be false
     end
 
-    it 'returns false when no published decline reasons exist' do
-      invite = create(:pool_invite)
-      create(:pool_invite_decline_reason, :draft, invite: invite)
+    it 'returns true when a draft decline reason is only_salaried' do
+      invite = build_stubbed(:pool_invite, invite_decline_reasons: [
+        build_stubbed(:pool_invite_decline_reason, :draft, reason: 'only_salaried'),
+      ])
 
-      expect(invite.decline_reasons_include_only_salaried?).to be false
+      expect(invite.decline_reasons_include_only_salaried?).to be true
     end
 
     it 'returns true when a published decline reason is only_salaried' do
-      invite = create(:pool_invite)
-      create(:pool_invite_decline_reason, :published, reason: 'only_salaried', invite: invite)
+      invite = build_stubbed(:pool_invite, invite_decline_reasons: [
+        build_stubbed(:pool_invite_decline_reason, :published, reason: 'only_salaried'),
+      ])
 
       expect(invite.decline_reasons_include_only_salaried?).to be true
     end
@@ -209,20 +212,23 @@ RSpec.describe Pool::Invite do
 
   describe '#decline_reasons_include_location_not_convenient?' do
     it 'returns false when no decline reasons exist' do
-      invite = build(:pool_invite)
+      invite = build_stubbed(:pool_invite)
+
       expect(invite.decline_reasons_include_location_not_convenient?).to be false
     end
 
-    it 'returns false when no published decline reasons exist' do
-      invite = create(:pool_invite)
-      create(:pool_invite_decline_reason, :draft, invite: invite)
+    it 'returns true when a draft decline reason is location_not_convenient' do
+      invite = build_stubbed(:pool_invite, invite_decline_reasons: [
+        build_stubbed(:pool_invite_decline_reason, :draft, reason: 'location_not_convenient'),
+      ])
 
-      expect(invite.decline_reasons_include_location_not_convenient?).to be false
+      expect(invite.decline_reasons_include_location_not_convenient?).to be true
     end
 
     it 'returns true when a published decline reason is location_not_convenient' do
-      invite = create(:pool_invite)
-      create(:pool_invite_decline_reason, :published, reason: 'location_not_convenient', invite: invite)
+      invite = build_stubbed(:pool_invite, invite_decline_reasons: [
+        build_stubbed(:pool_invite_decline_reason, :published, reason: 'location_not_convenient'),
+      ])
 
       expect(invite.decline_reasons_include_location_not_convenient?).to be true
     end
@@ -230,20 +236,23 @@ RSpec.describe Pool::Invite do
 
   describe '#decline_reasons_include_no_longer_interested?' do
     it 'returns false when no decline reasons exist' do
-      invite = build(:pool_invite)
+      invite = build_stubbed(:pool_invite)
+
       expect(invite.decline_reasons_include_no_longer_interested?).to be false
     end
 
-    it 'returns false when no published decline reasons exist' do
-      invite = create(:pool_invite)
-      create(:pool_invite_decline_reason, :draft, invite: invite)
+    it 'returns true when a draft decline reason is no_longer_interested' do
+      invite = build_stubbed(:pool_invite, invite_decline_reasons: [
+        build_stubbed(:pool_invite_decline_reason, :draft, reason: 'no_longer_interested'),
+      ])
 
-      expect(invite.decline_reasons_include_no_longer_interested?).to be false
+      expect(invite.decline_reasons_include_no_longer_interested?).to be true
     end
 
     it 'returns true when a published decline reason is no_longer_interested' do
-      invite = create(:pool_invite)
-      create(:pool_invite_decline_reason, :published, reason: 'no_longer_interested', invite: invite)
+      invite = build_stubbed(:pool_invite, invite_decline_reasons: [
+        build_stubbed(:pool_invite_decline_reason, :published, reason: 'no_longer_interested'),
+      ])
 
       expect(invite.decline_reasons_include_no_longer_interested?).to be true
     end
