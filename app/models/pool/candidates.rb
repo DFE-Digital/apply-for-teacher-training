@@ -63,6 +63,11 @@ class Pool::Candidates
                              .joins(application_choices: :withdrawal_reasons)
                              .where('withdrawal_reasons.reason ILIKE ?', '%do-not-want-to-train-anymore%')
 
+    # Subquery: To exclude forms where the candidates have declined an invitation because they do not want to train
+    forms_that_have_declined_invites_for_not_wanting_to_train = current_cycle_forms
+                                                                .joins(published_invites: :invite_decline_reasons)
+                                                                .where('pool_invite_decline_reasons.reason ILIKE ?', '%no_longer_interested%')
+
     # Subquery: To include only those forms who have not used all their application slows
     forms_with_available_slots = current_cycle_forms
                          .joins(:application_choices)
@@ -82,6 +87,7 @@ class Pool::Candidates
       .where(id: forms_with_available_slots)
       .where.not(id: forms_with_live_applications.select('application_forms.id'))
       .where.not(id: forms_that_have_been_withdrawn_for_not_wanting_to_train.select('application_forms.id'))
+      .where.not(id: forms_that_have_declined_invites_for_not_wanting_to_train.select('application_forms.id'))
   end
 
 private
