@@ -2,7 +2,7 @@
   <div class="govuk-grid-column-two-thirds">
   <% content_for :title, title_with_error_prefix(t('page_titles.degree_country'), @wizard.errors.any?) %>
 
-  <% content_for :before_content, govuk_back_link_to(candidate_interface_degree_university_degree_path) %>
+  <% content_for :before_content, govuk_back_link_to(@wizard.country_back_link) %>
 
   <%= form_with model: @wizard, url: candidate_interface_degree_country_path do |f| %>
     <%= f.govuk_error_summary %>

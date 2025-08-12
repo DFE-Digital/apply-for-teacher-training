@@ -2,6 +2,7 @@ class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
   include ViewHelper
 
   attr_reader :type, :wizard
+  delegate :structured_degree_data?, to: :wizard
 
   DEGREE_TYPES = {
     'Foundation degree' => %w[
@@ -84,5 +85,9 @@ class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
       'Master’s degree' => :master,
       'Doctorate (PhD)' => :doctor,
     }[type]
+  end
+
+  def show_structured_degree_types?
+    structured_degree_data?
   end
 end
