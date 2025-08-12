@@ -19,9 +19,7 @@ class CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent < ViewCom
   end
 
   def change_preferences_text_component
-    if invite_decline_reasons_include_no_longer_interested?
-      CandidateInterface::Invites::DeclineReasonsSuccessFlash::NoLongerInterestedComponent.new(invite: invite)
-    elsif invite_decline_reasons_include_only_salaried? && invite_decline_reasons_include_location_not_convenient?
+    if invite_decline_reasons_include_only_salaried? && invite_decline_reasons_include_location_not_convenient?
       CandidateInterface::Invites::DeclineReasonsSuccessFlash::UpdateLocationAndFundingPreferencesComponent.new(invite: invite)
     elsif invite_decline_reasons_include_only_salaried?
       CandidateInterface::Invites::DeclineReasonsSuccessFlash::ChangeFundingPreferencesComponent.new(invite: invite)
