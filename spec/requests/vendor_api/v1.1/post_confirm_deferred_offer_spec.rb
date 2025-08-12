@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm-deferred-offer' do
   include VendorAPISpecHelpers
+  include ActiveSupport::Testing::TimeHelpers
 
   let(:application_trait) { :offer_deferred }
   let(:request_body) { { data: { conditions_met: false } } }
@@ -219,7 +220,14 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
     end
   end
 
+  # rubocop:disable all
   context 'when valid optional course attributes are provided along with any ISO8601 start date' do
+    around do |example|
+      travel_to(Time.zone.local(2025, 7, 1)) do
+        example.run
+      end
+    end
+
     let(:new_course) do
       create(:course,
              :available_in_current_and_next_year,
@@ -255,6 +263,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
       expect(parsed_response['data']['attributes']['status']).to eq('pending_conditions')
     end
   end
+  # rubocop:enable all
 
   context 'when only recruitment_cycle_year and course_code valid optional course attributes are given' do
     let(:new_course) do
