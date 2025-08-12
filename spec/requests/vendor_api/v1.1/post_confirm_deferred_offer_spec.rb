@@ -155,4 +155,139 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
       end
     end
   end
+
+  context 'when valid optional course attributes are provided' do
+    let(:new_course) do
+      create(:course,
+             :available_in_current_and_next_year,
+             provider: currently_authenticated_provider)
+    end
+    let(:new_course_option) do
+      create(:course_option,
+             :available_in_current_and_next_year,
+             course: new_course)
+    end
+    let(:request_body) do
+      {
+        data: {
+          conditions_met: false,
+          course: {
+            recruitment_cycle_year: new_course.recruitment_cycle_year,
+            provider_code: new_course.provider.code,
+            course_code: new_course.code,
+            site_code: new_course_option.site.code,
+            study_mode: new_course_option.study_mode,
+          },
+        },
+      }
+    end
+
+    it 'confirms the deferral using the new course details' do
+      post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body
+
+      expect(response).to have_http_status(:ok)
+      expect(application_choice.reload.current_course_option).to eq(new_course_option)
+      expect(parsed_response['data']['attributes']['status']).to eq('pending_conditions')
+    end
+  end
+
+  context 'when invalid optional course attributes are provided but the course cannot be found' do
+    let(:request_body) do
+      {
+        data: {
+          conditions_met: true,
+          course: {
+            recruitment_cycle_year: 2099,
+            provider_code: 'X00',
+            course_code: 'NONE',
+            site_code: 'NONE',
+            study_mode: 'full_time',
+          },
+        },
+      }
+    end
+
+    it 'returns a NotFoundResponse with an appropriate error message' do
+      post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body
+
+      expect(response).to have_http_status(:not_found)
+      expect(parsed_response).to contain_schema_with_error(
+        'NotFoundResponse',
+        'Unable to find CourseOptions',
+        '1.1',
+      )
+    end
+  end
+
+  context 'when valid optional course attributes are provided along with any ISO8601 start date' do
+    let(:new_course) do
+      create(:course,
+             :available_in_current_and_next_year,
+             provider: currently_authenticated_provider)
+    end
+    let(:new_course_option) do
+      create(:course_option,
+             :available_in_current_and_next_year,
+             course: new_course)
+    end
+    let(:request_body) do
+      {
+        data: {
+          conditions_met: false,
+          course: {
+            recruitment_cycle_year: new_course.recruitment_cycle_year,
+            provider_code: new_course.provider.code,
+            course_code: new_course.code,
+            site_code: new_course_option.site.code,
+            study_mode: new_course_option.study_mode,
+            start_date: '2005-09',
+          },
+        },
+      }
+    end
+
+    it 'still confirms the deferral using the new course details' do
+      post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body
+
+      expect(response).to have_http_status(:ok)
+      expect(application_choice.reload.current_course_option).to eq(new_course_option)
+      expect(new_course_option.course.start_date.year).to eq(2026)
+      expect(parsed_response['data']['attributes']['status']).to eq('pending_conditions')
+    end
+  end
+
+  context 'when only recruitment_cycle_year and course_code valid optional course attributes are given' do
+    let(:new_course) do
+      create(:course,
+             :available_in_current_and_next_year,
+             provider: currently_authenticated_provider)
+    end
+    let(:new_course_option) do
+      create(:course_option,
+             :available_in_current_and_next_year,
+             course: new_course)
+    end
+    let(:request_body) do
+      {
+        data: {
+          conditions_met: false,
+          course: {
+            recruitment_cycle_year: new_course.recruitment_cycle_year,
+            course_code: new_course.code,
+          },
+        },
+      }
+    end
+
+    it 'returns a NotFoundResponse' do
+      post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body
+
+      expect(response).to have_http_status(:not_found)
+      expect(parsed_response).to contain_schema_with_error(
+        'NotFoundResponse',
+        'Unable to find CourseOptions',
+        '1.1',
+      )
+    end
+  end
 end
