@@ -1,0 +1,34 @@
+en:
+  candidate_interface:
+    degree_type_component:
+      foundation: Foundation degree
+      bachelor: Bachelor’s degree
+      master: Master’s degree
+      doctor: Doctorate (PhD)
+      degree_type: Degree type
+      title:
+        foundation: What type of foundation degree is it?
+        bachelor: What type of bachelor’s degree is it?
+        master: What type of master’s degree is it?
+        doctor: What type of doctorate is it?
+        other: What type of degree is it?
+      label:
+        other:
+          foundation: Another foundation degree type
+          bachelor: Another bachelor’s degree type
+          master: Another master’s degree type
+          doctor: Another doctorate type
+          other: Another degree type
+        type_of_level:
+          foundation: What type of foundation degree is it?
+          bachelor: What type of bachelor’s degree is it?
+          master: What type of master’s degree is it?
+          doctor: What type of doctorate is it?
+          other: What type of degree is it?
+      hint:
+        other:
+          foundation: For example, Foundation of Engineering (FdEng)
+          bachelor: For example, Bachelor of Engineering (BEng)
+          master: For example, Master of Engineering (MEng)
+          doctor: For example, Doctor of Science (DSc)
+          other: For example, Bachelor’s degree, Bachelor of Arts, Diplôme, Licenciatura

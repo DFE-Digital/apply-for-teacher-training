@@ -10,11 +10,11 @@ module CandidateInterface
 
       def destroy
         current_degree.destroy!
-        @wizard = DegreeWizard.new(degree_store)
+        @form = BaseForm.new(degree_store)
 
         if current_application.application_qualifications.degrees.blank?
           current_application.update!(degrees_completed: nil)
-          @wizard.clear_state!
+          @form.clear_state!
 
           return redirect_to candidate_interface_details_path
         end

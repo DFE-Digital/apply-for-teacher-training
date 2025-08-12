@@ -327,43 +327,42 @@ namespace :candidate_interface, path: '/candidate' do
 
     scope '/degrees' do
       constraints ValidDegreeStep do
-        get '/country' => 'degrees/degree#new_country', as: :degree_country
-        post '/country' => 'degrees/degree#update_country'
-
         get '/do-you-have-a-degree' => 'degrees/university_degree#new', as: :degree_university_degree
         post '/do-you-have-a-degree' => 'degrees/university_degree#update'
+        get '/edit/:id/:step' => 'degrees/base#edit', as: :degree_edit
 
-        get '/edit/:id/:step' => 'degrees/degree#edit', as: :degree_edit
+        get '/country' => 'degrees/countries#new', as: :degree_country
+        post '/country' => 'degrees/countries#update'
 
-        get '/level' => 'degrees/degree#new_degree_level', as: :degree_degree_level
-        post '/level' => 'degrees/degree#update_degree_level'
+        get '/level' => 'degrees/levels#new', as: :degree_degree_level
+        post '/level' => 'degrees/levels#update'
 
-        get '/subject' => 'degrees/degree#new_subject', as: :degree_subject
-        post '/subject' => 'degrees/degree#update_subject'
+        get '/types' => 'degrees/degree_types#new', as: :degree_type
+        post '/types' => 'degrees/degree_types#update'
 
-        get '/grade' => 'degrees/degree#new_grade', as: :degree_grade
-        post '/grade' => 'degrees/degree#update_grade'
+        get '/subject' => 'degrees/subjects#new', as: :degree_subject
+        post '/subject' => 'degrees/subjects#update'
 
-        get '/start-year' => 'degrees/degree#new_start_year', as: :degree_start_year
-        post '/start-year' => 'degrees/degree#update_start_year'
+        get '/university' => 'degrees/universities#new', as: :degree_university
+        post '/university' => 'degrees/universities#update'
 
-        get '/graduation-year' => 'degrees/degree#new_award_year', as: :degree_award_year
-        post '/graduation-year' => 'degrees/degree#update_award_year'
+        get  '/completed' => 'degrees/completed#new', as: :degree_completed
+        post '/completed' => 'degrees/completed#update'
 
-        get '/enic' => 'degrees/degree#new_enic', as: :degree_enic
-        post '/enic' => 'degrees/degree#update_enic'
+        get '/grade' => 'degrees/grades#new', as: :degree_grade
+        post '/grade' => 'degrees/grades#update'
 
-        get '/enic-reference' => 'degrees/degree#new_enic_reference', as: :degree_enic_reference
-        post '/enic-reference' => 'degrees/degree#update_enic_reference'
+        get '/start-year' => 'degrees/start_years#new', as: :degree_start_year
+        post '/start-year' => 'degrees/start_years#update'
 
-        get '/types' => 'degrees/degree#new_type', as: :degree_type
-        post '/types' => 'degrees/degree#update_type'
+        get '/graduation-year' => 'degrees/award_years#new', as: :degree_award_year
+        post '/graduation-year' => 'degrees/award_years#update'
 
-        get '/university' => 'degrees/degree#new_university', as: :degree_university
-        post '/university' => 'degrees/degree#update_university'
+        get '/enic' => 'degrees/enic_reasons#new', as: :degree_enic
+        post '/enic' => 'degrees/enic_reasons#update'
 
-        get  '/completed' => 'degrees/degree#new_completed', as: :degree_completed
-        post '/completed' => 'degrees/degree#update_completed'
+        get '/enic-reference' => 'degrees/enic_references#new', as: :degree_enic_reference
+        post '/enic-reference' => 'degrees/enic_references#update'
       end
 
       get '/review' => 'degrees/review#show', as: :degree_review

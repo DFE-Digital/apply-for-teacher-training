@@ -1,0 +1,30 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% content_for :title, title_with_error_prefix(t('page_titles.degree_level'), @form.errors.any?) %>
+    <% content_for :before_content, govuk_back_link_to(@form.back_link) %>
+
+    <%= form_with(
+          model: @form,
+          url: candidate_interface_degree_degree_level_path,
+          scope: :candidate_interface_degree_form,
+          method: :post,
+        ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset :degree_level, legend: { text: 'What type of degree is it?', tag: 'h1', size: 'l' } do %>
+        <% @form.degree_level_options.each_with_index do |level, index| %>
+          <% if level ==  'other' %>
+            <%= f.govuk_radio_divider %>
+
+            <%= f.govuk_radio_button :degree_level, level, label: { text: t(".label.#{level}") } do %>
+              <%= f.govuk_text_field :equivalent_level, label: { text: t('.label.equivalent_level') } %>
+            <% end %>
+          <% else %>
+            <%= f.govuk_radio_button :degree_level, level, label: { text: t(".label.#{level}") }, hint: -> { tag.span(t('.hint.bachelor')) if level == 'bachelor' }, link_errors: index.zero? %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= f.govuk_submit t('save_and_continue') %>
+    <% end %>
+  </div>
+</div>
