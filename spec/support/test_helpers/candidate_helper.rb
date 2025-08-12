@@ -515,7 +515,7 @@ module CandidateHelper
 
   def candidate_fills_in_their_degree
     and_the_candidate_add_the_degree(
-      degree_level: 'Bachelor degree',
+      degree_level: 'Bachelor’s degree',
       degree_type: 'Bachelor of Arts',
       degree_subject: 'Aerospace engineering',
       university: 'ThinkSpace Education',
@@ -543,13 +543,13 @@ module CandidateHelper
     choose degree_level
     click_link_or_button t('save_and_continue')
 
-    select degree_subject, from: 'What subject is your degree?'
-    click_link_or_button t('save_and_continue')
-
     choose degree_type
     click_link_or_button t('save_and_continue')
 
-    select university, from: 'candidate_interface_degree_wizard[university]'
+    select degree_subject, from: 'What subject is your degree?'
+    click_link_or_button t('save_and_continue')
+
+    select university, from: 'candidate_interface_degree_form[university]'
     click_link_or_button t('save_and_continue')
 
     choose 'Yes'

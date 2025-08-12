@@ -97,7 +97,7 @@ RSpec.describe 'Entering an international degree' do
   end
 
   def when_i_fill_in_the_type
-    choose 'Bachelor degree'
+    choose 'Bachelor’s degree'
   end
 
   def then_i_can_see_the_subject_page
@@ -113,7 +113,7 @@ RSpec.describe 'Entering an international degree' do
   end
 
   def when_i_fill_in_the_type_of_degree
-    fill_in 'candidate_interface_degree_wizard[international_type]', with: 'Diplôme'
+    fill_in 'candidate_interface_degree_form[type]', with: 'Diplôme'
   end
 
   def then_i_can_see_the_university_page
@@ -121,7 +121,7 @@ RSpec.describe 'Entering an international degree' do
   end
 
   def when_i_fill_in_the_university
-    fill_in 'candidate_interface_degree_wizard[university]', with: 'University of Paris'
+    fill_in 'candidate_interface_degree_form[university]', with: 'University of Paris'
   end
 
   def then_i_can_see_the_completion_page

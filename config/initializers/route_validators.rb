@@ -14,7 +14,7 @@ end
 class ValidDegreeStep
   def self.matches?(request)
     request.params['step'].blank? ||
-      CandidateInterface::DegreeWizard::VALID_STEPS.include?(request.params['step'])
+      ::CandidateInterface::Degrees::BaseForm::VALID_STEPS.include?(request.params['step'])
   end
 end
 

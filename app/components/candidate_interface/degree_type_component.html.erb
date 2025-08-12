@@ -1,32 +1,36 @@
-<% content_for :title, title_with_error_prefix(@wizard.uk? ? t('page_titles.degree_type_uk', type: dynamic_types) : t('page_titles.degree_type_international'), @wizard.errors.any?) %>
-<%= form_with model: @wizard, url: candidate_interface_degree_type_path do |form| %>
-  <%= form.govuk_error_summary %>
-  <% if @wizard.uk? %>
-    <%= form.govuk_radio_buttons_fieldset :type, legend: { text: "What type of #{dynamic_types} is it?", tag: 'h1', size: 'l' } do %>
+<% if structured_degree_data? %>
+  <% content_for :title, title_with_error_prefix(t(".title.#{@model.degree_level}"), @model.errors.any?) %>
 
-      <% find_degree_type_options.each_with_index do |type, index| %>
-        <%= form.govuk_radio_button :type, type[:name], label: { text: name_and_abbr(type) }, link_errors: index.zero? %>
-      <% end %>
+  <%= form_with model: @model, url: candidate_interface_degree_type_path, scope: :candidate_interface_degree_form do |form| %>
+  <%= form.govuk_error_summary %>
+  <%= form.govuk_radio_buttons_fieldset :type, legend: { text: t(".label.type_of_level.#{@model.degree_level}"), tag: 'h1', size: 'l' } do %>
+    <% find_degree_type_options.each_with_index do |type, index| %>
+      <%= form.govuk_radio_button :type, type[:name], label: { text: name_and_abbr(type) }, link_errors: index.zero? %>
+    <% end %>
 
       <%= form.govuk_radio_divider %>
 
-      <%= form.govuk_radio_button :type, "Another #{dynamic_types} type", label: { text: "Another #{dynamic_types} type" } do %>
+      <%= form.govuk_radio_button :type, 'other', label: { text: t(".label.other.#{@model.degree_level}") } do %>
         <%= render DfE::Autocomplete::View.new(
           form,
           attribute_name: :other_type,
           form_field: form.govuk_select(
           :other_type,
-          options_for_select(dfe_autocomplete_options(choose_degree_types(map_options), synonyms_fields: [:abbreviation], append: :abbreviation), form.object.other_type),
-          label: { text: 'Degree type', size: 'm' },
-          hint: { text: "For example, #{map_hint}" },
+          options_for_select(dfe_autocomplete_options(choose_degree_types(degree_level.to_sym), synonyms_fields: [:abbreviation], append: :abbreviation), form.object.other_type),
+          label: { text: t('.degree_type') },
+          hint: { text: t(".hint.other.#{@model.degree_level}") },
         ),
         ) %>
       <% end %>
     <% end %>
-  <% else %>
-    <%= form.govuk_fieldset legend: { text: t('page_titles.degree_type_international'), size: 'l' } do %>
-      <%= form.govuk_text_field :international_type, hint: { text: t('application_form.degree.international_qualification_type.hint_text') }, label: -> {} %>
-    <% end %>
-  <% end %>
     <%= form.govuk_submit t('save_and_continue') %>
+  <% end %>
+  <% else %>
+    <% content_for :title, title_with_error_prefix(t('.title.other'), @model.errors.any?) %>
+
+    <%= form_with model: @model, url: candidate_interface_degree_type_path, scope: :candidate_interface_degree_form do |form| %>
+      <%= form.govuk_error_summary %>
+      <%= form.govuk_text_field :type, hint: { text: t('.hint.other.other') }, label: { text: t('.label.type_of_level.other'), tag: 'h1', size: 'l' } %>
+      <%= form.govuk_submit t('save_and_continue') %>
+  <% end %>
 <% end %>

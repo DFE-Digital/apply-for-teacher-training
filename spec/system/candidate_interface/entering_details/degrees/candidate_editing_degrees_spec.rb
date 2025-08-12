@@ -75,6 +75,7 @@ RSpec.describe 'Editing a degree' do
     create(:application_qualification,
            level: 'degree',
            qualification_type: 'Bachelor of Arts',
+           qualification_level: 'bachelor',
            start_year: '2006',
            award_year: '2009',
            predicted_grade: false,
@@ -137,15 +138,15 @@ RSpec.describe 'Editing a degree' do
   end
 
   def then_i_see_my_chosen_undergraduate_degree_type
-    expect(page.find_field('Bachelor degree')).to be_checked
+    expect(page.find_field('Bachelor’s degree')).to be_checked
   end
 
   def then_i_see_my_undergraduate_degree_start_year_filled_in
-    expect(page).to have_css("input[name='candidate_interface_degree_wizard[start_year]'][value='2006']")
+    expect(page).to have_css("input[name='candidate_interface_degree_form[start_year]'][value='2006']")
   end
 
   def then_i_see_my_undergraduate_degree_award_year_filled_in
-    expect(page).to have_css("input[name='candidate_interface_degree_wizard[award_year]'][value='2009']")
+    expect(page).to have_css("input[name='candidate_interface_degree_form[award_year]'][value='2009']")
   end
 
   def then_i_see_my_undergraduate_degree_subject_filled_in
@@ -157,7 +158,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def then_i_see_my_undergraduate_degree_institution_filled_in
-    expect(selected_option_for_field('candidate_interface_degree_wizard[university]')).to eq('University of Cambridge')
+    expect(selected_option_for_field('candidate_interface_degree_form[university]')).to eq('University of Cambridge')
   end
 
   def then_i_see_my_undergraduate_degree_grade_filled_in
@@ -187,11 +188,11 @@ RSpec.describe 'Editing a degree' do
   end
 
   def when_i_change_my_undergraduate_degree_subject
-    select 'Computer games', from: 'candidate_interface_degree_wizard[subject]'
+    select 'Computer games', from: 'candidate_interface_degree_form[subject]'
   end
 
   def when_i_change_my_undergraduate_degree_institution
-    select 'University of Oxford', from: 'candidate_interface_degree_wizard[university]'
+    select 'University of Oxford', from: 'candidate_interface_degree_form[university]'
   end
 
   def when_i_change_my_undergraduate_degree_grade
@@ -241,7 +242,7 @@ RSpec.describe 'Editing a degree' do
 
   def then_i_can_check_my_undergraduate_degree_type_has_been_cleared
     expect(page).to have_content('What type of degree is it?')
-    expect(page.find_field('candidate-interface-degree-wizard-international-type-field').value).to be_nil
+    expect(page.find_field('candidate-interface-degree-form-type-field').value).to be_nil
   end
 
   def and_i_click_on_continue

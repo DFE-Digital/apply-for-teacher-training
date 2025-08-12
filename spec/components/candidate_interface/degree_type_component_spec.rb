@@ -2,36 +2,18 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::DegreeTypeComponent, type: :component do
   describe 'uk degree' do
-    let(:degree_params) { { uk_or_non_uk: 'uk', degree_level: 'Bachelor degree' } }
-    let(:wizard) { CandidateInterface::DegreeWizard.new(store, degree_params) }
+    let(:degree_params) { { uk_or_non_uk: 'uk', degree_level: 'bachelor' } }
+    let(:wizard) { CandidateInterface::Degrees::TypeForm.new(store, degree_params) }
     let(:store) { instance_double(WizardStateStores::RedisStore) }
 
     before { allow(store).to receive(:read) }
 
-    subject(:component) { described_class.new(type: wizard) }
+    subject(:component) { described_class.new(model: wizard) }
 
     describe '#find_degree_type_options' do
-      it 'returns array of record objects of bachelor degrees' do
+      it 'returns array of record objects of bachelors degrees' do
         expect(component.find_degree_type_options).to include({ name: 'Bachelor of Arts', abbreviation: 'BA' })
         expect(component.find_degree_type_options).not_to include({ name: 'Master of Arts', abbreviation: 'MA' })
-      end
-    end
-
-    describe '#dynamic_types' do
-      context 'degree type with degree suffix' do
-        it 'returns the degree level' do
-          expect(component.dynamic_types).to eq('bachelor degree')
-          expect(component.dynamic_types).not_to eq('master’s degree')
-        end
-      end
-
-      context 'doctorate (phd) degree type' do
-        let(:degree_params) { { uk_or_non_uk: 'uk', degree_level: 'Doctorate (PhD)' } }
-
-        it 'returns the degree level' do
-          expect(component.dynamic_types).to eq('doctorate')
-          expect(component.dynamic_types).not_to eq('master’s degree')
-        end
       end
     end
 
@@ -49,7 +31,7 @@ RSpec.describe CandidateInterface::DegreeTypeComponent, type: :component do
               name: 'Foundation of Sciences',
               abbreviation: 'FdSs',
             }],
-            'Bachelor degree' => [{
+            'Bachelor’s degree' => [{
               name: 'Bachelor of Arts',
               abbreviation: 'BA',
             }, {
@@ -106,13 +88,6 @@ RSpec.describe CandidateInterface::DegreeTypeComponent, type: :component do
       end
     end
 
-    describe '#map_hint' do
-      it 'renders the correct hint' do
-        expect(component.map_hint).to eq('Bachelor of Engineering (BEng)')
-        expect(component.map_hint).not_to eq('Master of Engineering (MEng)')
-      end
-    end
-
     it 'renders radio button options' do
       result = render_inline(component)
 
@@ -123,17 +98,17 @@ RSpec.describe CandidateInterface::DegreeTypeComponent, type: :component do
 
   describe 'non_uk degree' do
     let(:degree_params) { { uk_or_non_uk: 'non_uk' } }
-    let(:wizard) { CandidateInterface::DegreeWizard.new(store, degree_params) }
+    let(:wizard) { CandidateInterface::Degrees::BaseForm.new(store, degree_params) }
     let(:store) { instance_double(WizardStateStores::RedisStore) }
 
     before { allow(store).to receive(:read) }
 
-    subject(:component) { described_class.new(type: wizard) }
+    subject(:component) { described_class.new(model: wizard) }
 
     it 'renders text field with correct hint' do
       result = render_inline(component)
 
-      expect(result.css('.govuk-fieldset__legend').text).to eq 'What type of degree is it?'
+      expect(result.css('.govuk-label').text).to eq 'What type of degree is it?'
       expect(result.css('.govuk-hint').text).to eq t('application_form.degree.international_qualification_type.hint_text')
     end
   end

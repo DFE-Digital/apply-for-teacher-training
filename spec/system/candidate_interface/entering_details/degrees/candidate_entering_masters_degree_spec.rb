@@ -46,7 +46,7 @@ RSpec.describe 'Entering a Masters degree' do
   end
 
   def when_i_fill_in_the_type
-    choose 'Bachelor degree'
+    choose 'Bachelor’s degree'
   end
 
   def then_i_can_see_the_level_page
@@ -78,7 +78,7 @@ RSpec.describe 'Entering a Masters degree' do
   end
 
   def when_i_fill_in_the_university
-    select 'University of Cambridge', from: 'candidate_interface_degree_wizard[university]'
+    select 'University of Cambridge', from: 'candidate_interface_degree_form[university]'
   end
 
   def then_i_can_see_the_completion_page

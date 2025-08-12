@@ -17,7 +17,9 @@ module SelectOptionsHelper
   def select_degree_country_options
     [
       Option.new('', ''),
-    ] + COUNTRIES_AND_TERRITORIES.except('GB').map { |iso3166, country| Option.new(iso3166, country) }
+    ] + COUNTRIES_AND_TERRITORIES.except('GB')
+                                 .sort_by { |_iso3166, country| country }
+                                 .map { |iso3166, country| Option.new(iso3166, country) }
   end
 
   def select_course_options(courses)

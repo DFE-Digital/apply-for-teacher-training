@@ -1,0 +1,11 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% content_for :title, title_with_error_prefix(t('application_form.degree.award_year.label', did_or_will: (@form.completed? ? 'did' : 'will').to_s), @form.errors.any?) %>
+    <% content_for :before_content, govuk_back_link_to(@form.back_link) %>
+    <%= form_with model: @form, url: candidate_interface_degree_award_year_path, scope: :candidate_interface_degree_form do |f| %>
+      <%= f.govuk_error_summary %>
+      <%= f.govuk_text_field :award_year, label: { text: t('application_form.degree.award_year.label', did_or_will: (@form.completed? ? 'did' : 'will').to_s), tag: 'h1', size: 'l' }, hint: { text: t('application_form.degree.award_year.hint') }, width: 4, maxlength: 4, inputmode: 'numeric' %>
+      <%= f.govuk_submit t('save_and_continue') %>
+    <% end %>
+  </div>
+</div>
