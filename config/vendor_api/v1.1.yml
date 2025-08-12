@@ -134,8 +134,9 @@ paths:
       summary: Confirm a deferred offer
       description: |
         Confirms a deferred offer from the previous cycle to the current one.
-        This call only succeeds if the same course, location and study_mode combination
+        Without the optional course parameters, this call only succeeds if the same course, location and study_mode combination
         is available in the current recruitment cycle, otherwise it will return a 422.
+        If valid course parameters are provided, the call will succeed with updated course details.
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -661,6 +662,8 @@ components:
           type: boolean
           description: Determines the status of the confirmed deferred application (recruited vs. pending_conditions)
           example: true
+        course:
+          "$ref": "#/components/schemas/Course"
     Links:
       type: object
       description: Links to navigate through the paginated results
