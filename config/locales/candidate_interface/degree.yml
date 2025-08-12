@@ -69,6 +69,9 @@ en:
         other:
           conditional:
             label: Enter your degree grade
+          compatible_international_label: My university used a different classification system
+          compatible_international_conditional:
+            label: Enter a degree classification, for example ‘3.6’, ‘B’, ‘75%’,
       completion_status:
         change_action: completion status
         review_label: Have you completed this degree?
@@ -121,7 +124,9 @@ en:
           doctor_of_philosophy: Doctor of Philosophy degree
           post_doctoral_award: Post Doctoral award
       level:
-        bachelor_degree: Sometimes referred to as an ‘undergraduate’ or ‘first’ degree, this is the minimum level required to be eligible for teacher training.
+        hint:
+          bachelor_degree: Sometimes referred to as an ‘undergraduate’ or ‘first’ degree, this is the minimum level required to be eligible for teacher training.
+          other: For example, a diploma, foundation, master’s or doctorate
   activemodel:
     errors:
       models:

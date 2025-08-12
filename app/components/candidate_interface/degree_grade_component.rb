@@ -2,6 +2,7 @@ class CandidateInterface::DegreeGradeComponent < ViewComponent::Base
   include ViewHelper
 
   attr_reader :model
+  delegate :uk?, :country_with_compatible_degrees?, :bachelors?, :masters?, to: :model
 
   UK_BACHELORS_DEGREE_GRADES = [
     'First-class honours',
@@ -41,14 +42,26 @@ class CandidateInterface::DegreeGradeComponent < ViewComponent::Base
   end
 
   def specific_grade_options?
-    model.masters? || model.bachelors?
+    masters? || bachelors?
   end
 
-  def grades
+  def show_uk_grades?
+    uk? && specific_grade_options?
+  end
+
+  def show_compatible_country_grades?
+    country_with_compatible_degrees? && bachelors?
+  end
+
+  def uk_grades
     if model.masters?
       UK_MASTERS_DEGREE_GRADES
     else
       UK_BACHELORS_DEGREE_GRADES
     end
+  end
+
+  def compatible_international_grades
+    UK_BACHELORS_DEGREE_GRADES
   end
 end

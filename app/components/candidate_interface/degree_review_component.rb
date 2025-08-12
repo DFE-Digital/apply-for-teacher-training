@@ -78,11 +78,16 @@ module CandidateInterface
     end
 
     def degree_type_row(degree)
+      change_path = if uk?(degree) || international_structured_degree_data?(degree)
+                      'degree_level'
+                    else
+                      'type'
+                    end
       {
         key: t('application_form.degree.qualification_type.review_label'),
         value: formatted_degree_type(degree) || degree.qualification_type,
         action: {
-          href: candidate_interface_degree_edit_path(degree.id, (degree.international? ? :type : :degree_level).to_s),
+          href: candidate_interface_degree_edit_path(degree.id, change_path),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.qualification.change_action')),
         },
         html_attributes: {
@@ -94,7 +99,7 @@ module CandidateInterface
     end
 
     def type_of_uk_degree(degree)
-      return if degree.international == true
+      return unless uk? || international_structured_degree_data?
       return if formatted_degree_type(degree).nil?
 
       {
@@ -233,7 +238,7 @@ module CandidateInterface
     end
 
     def grade_row(degree)
-      return nil if doctorate?(degree) && !degree.international?
+      return nil if doctorate?(degree) && uk?(degree)
 
       {
         key: degree.completed? ? t('application_form.degree.grade.review_label') : t('application_form.degree.grade.review_label_predicted'),
@@ -303,6 +308,14 @@ module CandidateInterface
 
     def return_to_params
       { 'return-to' => 'application-review' } if @return_to_application_review
+    end
+
+    def international_structured_degree_data?(degree)
+      degree.international_bachelors_degree_compatible_with_uk?
+    end
+
+    def uk?(degree)
+      !degree.international?
     end
   end
 end

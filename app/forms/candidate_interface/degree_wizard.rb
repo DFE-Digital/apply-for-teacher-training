@@ -52,9 +52,8 @@ module CandidateInterface
     validates :degree_level, presence: true, on: :degree_level
     validates :equivalent_level, presence: true, length: { maximum: 255 }, if: :other_qualification?, on: :degree_level
     validates :subject, presence: true, length: { maximum: 255 }, on: :subject
-    validates :type, presence: true, if: :uk?, on: :type
-    validates :international_type, presence: true, length: { maximum: 255 }, if: :international?, on: :type
-    validates :other_type, presence: true, length: { maximum: 255 }, if: %i[uk? other_type_selected], on: :type
+    validates :type, presence: true, length: { maximum: 255 }, on: :type
+    validates :other_type, presence: true, length: { maximum: 255 }, if: %i[other_type_selected], on: :type
     validates :university, presence: true, on: :university
     validates :completed, presence: true, on: :completed
     validate(on: :grade) do |wizard|
@@ -80,6 +79,14 @@ module CandidateInterface
     validate :award_year_in_future_when_degree_completed, on: :award_year
     validate :award_year_in_past_when_degree_incomplete, on: :award_year
     validate :award_year_after_teacher_training_starts, on: :award_year
+
+    def structured_degree_data?
+      uk? || (country_with_compatible_degrees? && bachelors?)
+    end
+
+    def unstructured_degree_data?
+      !structured_degree_data?
+    end
 
     def subject
       @subject_raw || @subject
@@ -129,6 +136,10 @@ module CandidateInterface
       existing_degree.institution_country != country
     end
 
+    def country_back_link
+      reviewing? ? back_to_review : Rails.application.routes.url_helpers.candidate_interface_degree_university_degree_path
+    end
+
     def degree_level_back_link
       if reviewing_and_unchanged_country?
         back_to_review
@@ -140,20 +151,22 @@ module CandidateInterface
     def subject_back_link
       if reviewing_and_unchanged_country?
         back_to_review
-      elsif international?
-        Rails.application.routes.url_helpers.candidate_interface_degree_type_path
-      else
+      elsif structured_degree_data?
         Rails.application.routes.url_helpers.candidate_interface_degree_degree_level_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_degree_type_path
       end
     end
 
     def types_page_back_link
       if reviewing_and_from_wizard_page
-        if international?
-          Rails.application.routes.url_helpers.candidate_interface_degree_country_path
-        else
+        if uk? || country_with_compatible_degrees?
           Rails.application.routes.url_helpers.candidate_interface_degree_degree_level_path
+        else
+          Rails.application.routes.url_helpers.candidate_interface_degree_country_path
         end
+      elsif !reviewing? && country_with_compatible_degrees?
+        Rails.application.routes.url_helpers.candidate_interface_degree_degree_level_path
       elsif !reviewing? && international?
         Rails.application.routes.url_helpers.candidate_interface_degree_country_path
       elsif !reviewing? || (reviewing? && country_changed?)
@@ -217,9 +230,8 @@ module CandidateInterface
         application_form_id: application_qualification.application_form_id,
         degree_level: map_to_degree_level(application_qualification),
         equivalent_level: map_to_equivalent_level(application_qualification),
-        type: uk_type(application_qualification) || another_degree_type_option(application_qualification),
-        international_type: international_qualification_type(application_qualification),
-        other_type: uk_other_type(application_qualification),
+        type: get_degree_type(application_qualification),
+        other_type: get_other_type(application_qualification),
         grade: uk_grade(application_qualification) || international_grade(application_qualification),
         other_grade: uk_other_grade(application_qualification) || international_other_grade(application_qualification),
         completed: map_completed(application_qualification),
@@ -247,52 +259,32 @@ module CandidateInterface
     end
 
     def attributes_for_persistence
-      if uk?
-        {
-          application_form_id:,
-          level: 'degree',
-          international: false,
-          institution_country: country,
-          qualification_type: qualification_type_attributes,
-          qualification_type_hesa_code: hesa_type_code,
-          qualification_level:,
-          qualification_level_uuid:,
-          degree_type_uuid:,
-          institution_name: university,
-          institution_hesa_code: hesa_institution_code,
-          degree_institution_uuid:,
-          subject:,
-          subject_hesa_code: hesa_subject_code,
-          degree_subject_uuid:,
-          grade: grade_attributes,
-          grade_hesa_code: hesa_grade_code,
-          degree_grade_uuid:,
-          predicted_grade:,
-          start_year:,
-          award_year:,
-          enic_reference: nil,
-          enic_reason: nil,
-          comparable_uk_degree: nil,
-        }
-      else
-        {
-          application_form_id:,
-          level: 'degree',
-          international: true,
-          institution_country: country,
-          qualification_type: international_type,
-          institution_name: university,
-          subject:,
-          degree_subject_uuid:,
-          predicted_grade:,
-          grade: other_grade || map_value_for_no_submitted_international_grade(grade),
-          start_year:,
-          award_year:,
-          enic_reference: predicted_grade ? nil : enic_reference,
-          enic_reason:,
-          comparable_uk_degree: predicted_grade ? nil : comparable_uk_degree,
-        }
-      end
+      {
+        application_form_id:,
+        level: 'degree',
+        international: !uk?,
+        institution_country: country,
+        qualification_type: qualification_type_attributes,
+        qualification_type_hesa_code: structured_degree_data? ? hesa_type_code : nil,
+        qualification_level: structured_degree_data? ? qualification_level : nil,
+        qualification_level_uuid: structured_degree_data? ? qualification_level_uuid : nil,
+        degree_type_uuid: structured_degree_data? ? degree_type_uuid : nil,
+        institution_name: university,
+        institution_hesa_code: hesa_institution_code,
+        degree_institution_uuid:,
+        subject:,
+        subject_hesa_code: structured_degree_data? ? hesa_subject_code : nil,
+        degree_subject_uuid:,
+        grade: structured_degree_data? ? grade_attributes : (other_grade || map_value_for_no_submitted_international_grade(grade)),
+        grade_hesa_code: structured_degree_data? ? hesa_grade_code : nil,
+        degree_grade_uuid: structured_degree_data? ? degree_grade_uuid : nil,
+        predicted_grade:,
+        start_year:,
+        award_year:,
+        enic_reference: predicted_grade || uk? ? nil : enic_reference,
+        enic_reason:,
+        comparable_uk_degree: predicted_grade || uk? ? nil : comparable_uk_degree,
+      }
     end
 
     def sanitize_attrs(attrs)
@@ -363,6 +355,18 @@ module CandidateInterface
 
     def uk?
       uk_or_non_uk == 'uk'
+    end
+
+    def country_with_compatible_degrees?
+      country.present? and country.in? ApplicationQualification::COUNTRIES_WITH_COMPATIBLE_DEGREES.keys
+    end
+
+    def degree_level_options
+      if country_with_compatible_degrees?
+        ['Bachelor degree', OTHER].freeze
+      else
+        DEGREE_LEVEL
+      end
     end
 
     def other_qualification?
@@ -473,29 +477,40 @@ module CandidateInterface
     def international_steps(step)
       case step
       when :country
-        return :type if country.present?
-      when :completed
-        return :start_year if phd?
-      when :award_year
-        return :enic if completed?
-      when :enic
-        return :enic_reference if enic_reason == HAS_STATEMENT
-      end
-
-      case step
-      when :type, :degree_level
+        # if it's one of the special countries, we ask degree level
+        if country_with_compatible_degrees?
+          :degree_level
+        else
+          :type
+        end
+      when :degree_level
+        :type
+      when :type
         :subject
       when :subject
         :university
       when :university
         :completed
       when :completed
-        :grade
+        # Skip grade if phd
+        phd? ? :start_year : :grade
       when :grade
         :start_year
       when :start_year
         :award_year
-      when :award_year, :enic, :enic_reference
+      when :award_year
+        if completed?
+          :enic
+        else
+          :review
+        end
+      when :enic
+        if enic_reason == HAS_STATEMENT
+          :enic_reference
+        else
+          :review
+        end
+      when :enic_reference
         :review
       else
         handle_invalid_step
@@ -580,22 +595,24 @@ module CandidateInterface
 
     private_class_method :map_completed
 
-    def self.uk_type(application_qualification)
-      return if application_qualification.international
-
-      application_qualification.qualification_type if select_specific_uk_degree_type(application_qualification).present?
+    def self.get_degree_type(application_qualification)
+      if select_specific_uk_degree_type(application_qualification) || application_qualification.international
+        application_qualification.qualification_type
+      else
+        level = application_qualification.qualification_level || Hesa::DegreeType.find_by_name(application_qualification.qualification_type)&.level
+        "Another #{QUALIFICATION_LEVEL_MAP_OPTIONS[level]} type"
+      end
     end
 
-    private_class_method :uk_type
+    private_class_method :get_degree_type
 
-    def self.uk_other_type(application_qualification)
-      return if application_qualification.international
-      return if map_to_equivalent_level(application_qualification).present?
-
-      application_qualification.qualification_type if select_specific_uk_degree_type(application_qualification).blank?
+    def self.get_other_type(application_qualification)
+      if select_specific_uk_degree_type(application_qualification).blank?
+        application_qualification.qualification_type
+      end
     end
 
-    private_class_method :uk_other_type
+    private_class_method :get_other_type
 
     def self.select_specific_uk_degree_type(application_qualification)
       CandidateInterface::DegreeTypeComponent.degree_types.values.flatten.select { |degree| degree[:name].include?(application_qualification.qualification_type) }
@@ -637,7 +654,6 @@ module CandidateInterface
     private_class_method :select_uk_degree_level
 
     def self.map_to_degree_level(application_qualification)
-      return if application_qualification.international
       return QUALIFICATION_LEVEL[application_qualification.qualification_level] if application_qualification.qualification_level
       return 'Level 6 Diploma' if application_qualification.qualification_type == 'Level 6 Diploma'
 
@@ -691,8 +707,6 @@ module CandidateInterface
     private_class_method :map_to_uk_grade?
 
     def self.uk_grade(application_qualification)
-      return if application_qualification.international
-
       if map_to_uk_grade?(application_qualification)
         application_qualification.grade
       else
@@ -713,7 +727,9 @@ module CandidateInterface
     private_class_method :international_grade
 
     def sanitize_uk_or_non_uk(attrs)
-      if last_saved_state['uk_or_non_uk'] != attrs[:uk_or_non_uk] && attrs[:current_step] == :country
+      return unless attrs[:current_step] == :country
+
+      if last_saved_state['uk_or_non_uk'] != attrs[:uk_or_non_uk]
         attrs.merge!(degree_level: nil, equivalent_level: nil, type: nil, other_type: nil, subject: nil, completed: nil,
                      university: nil, start_year: nil, award_year: nil, international_type: nil, grade: nil,
                      other_grade: nil, enic_reason: nil, enic_reference: nil, comparable_uk_degree: nil)
@@ -722,26 +738,34 @@ module CandidateInterface
     end
 
     def sanitize_degree_level(attrs)
-      if attrs[:degree_level] != 'Another qualification equivalent to a degree' && attrs[:current_step] == :degree_level
+      return unless attrs[:current_step] == :degree_level
+
+      if attrs[:degree_level] != 'Another qualification equivalent to a degree'
         attrs[:equivalent_level] = nil
       end
     end
 
     def sanitize_grade(attrs)
-      if [YES, OTHER].exclude?(attrs[:grade]) && attrs[:current_step] == :grade
+      return unless attrs[:current_step] == :grade
+
+      if [YES, OTHER].exclude?(attrs[:grade])
         attrs[:other_grade] = nil
       end
     end
 
     def sanitize_type(attrs)
-      if attrs[:type] != "Another #{dynamic_type(last_saved_state[:degree_level])} type" && attrs[:current_step] == :type
+      return unless attrs[:current_step] == :type
+
+      if attrs[:type] != "Another #{dynamic_type(last_saved_state[:degree_level])} type"
         attrs[:other_type] = nil
         attrs[:other_type_raw] = nil
       end
     end
 
     def sanitize_enic(attrs)
-      if attrs[:enic_reason] != HAS_STATEMENT && attrs[:current_step] == :enic
+      return unless attrs[:current_step] == :enic
+
+      if attrs[:enic_reason] != HAS_STATEMENT
         attrs[:enic_reference] = nil
         attrs[:comparable_uk_degree] = nil
       end
