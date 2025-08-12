@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent < ViewComponent::Base
   def initialize(invite:)
     @invite = invite

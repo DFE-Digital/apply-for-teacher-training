@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CandidateInterface::Invites::DeclineReasonsSuccessFlash::UpdateLocationAndFundingPreferencesComponent < CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent
   def update_preferences_text
     render_change_funding_preferences? ? 'Update your location and funding preferences' : 'Update your location preferences'
