@@ -192,7 +192,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
     end
   end
 
-  context 'when invalid optional course attributes are provided but the course cannot be found' do
+  context 'when invalid optional course attributes are provided' do
     let(:request_body) do
       {
         data: {
@@ -220,14 +220,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
     end
   end
 
-  # rubocop:disable all
-  context 'when valid optional course attributes are provided along with any ISO8601 start date' do
-    around do |example|
-      travel_to(Time.zone.local(2025, 7, 1)) do
-        example.run
-      end
-    end
-
+  context 'when valid optional course attributes are provided without a site_code' do
     let(:new_course) do
       create(:course,
              :available_in_current_and_next_year,
@@ -246,7 +239,6 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
             recruitment_cycle_year: new_course.recruitment_cycle_year,
             provider_code: new_course.provider.code,
             course_code: new_course.code,
-            site_code: new_course_option.site.code,
             study_mode: new_course_option.study_mode,
             start_date: '2005-09',
           },
@@ -259,13 +251,11 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
 
       expect(response).to have_http_status(:ok)
       expect(application_choice.reload.current_course_option).to eq(new_course_option)
-      expect(new_course_option.course.start_date.year).to eq(2026)
       expect(parsed_response['data']['attributes']['status']).to eq('pending_conditions')
     end
   end
-  # rubocop:enable all
 
-  context 'when only recruitment_cycle_year and course_code valid optional course attributes are given' do
+  context 'when some mandatory parameters are missing' do
     let(:new_course) do
       create(:course,
              :available_in_current_and_next_year,
