@@ -3,15 +3,6 @@ module VendorAPI
     include ApplicationDataConcerns
 
     def create
-      course_data = confirm_deferred_offer_params[:course]
-
-      course_option =
-        if course_data.present?
-          CourseOption.find_through_api(course_data)
-        else
-          application_choice.current_course_option.in_next_cycle
-        end
-
       ConfirmDeferredOffer.new(actor: audit_user,
                                application_choice:,
                                course_option:,
@@ -21,6 +12,18 @@ module VendorAPI
     end
 
   private
+
+    def course_option
+      if course_data.present?
+        CourseOption.find_through_api(course_data)
+      else
+        application_choice.current_course_option.in_next_cycle
+      end
+    end
+
+    def course_data
+      confirm_deferred_offer_params[:course]
+    end
 
     def conditions_met
       confirm_deferred_offer_params[:conditions_met]
