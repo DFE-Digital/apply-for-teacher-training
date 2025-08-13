@@ -22,7 +22,9 @@ class ProviderInterface::FindCandidates::InvitedCandidatesTableComponent < ViewC
   end
 
   def status(invite)
-    if invite.matching_choice_id.nil?
+    if invite.declined?
+      govuk_tag(text: t('.declined'), colour: 'orange')
+    elsif invite.matching_choice_id.nil?
       govuk_tag(text: t('.invited'), colour: 'yellow')
     else
       govuk_link_to(
