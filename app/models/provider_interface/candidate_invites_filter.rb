@@ -83,7 +83,7 @@ module ProviderInterface
     end
 
     def possible_statuses
-      %w[application_received invited].sort
+      %w[application_received invited declined].sort
     end
 
     def filter_by_course(invites)
@@ -99,6 +99,8 @@ module ProviderInterface
         invites.without_matching_application_choices
       elsif status_filter.include?('application_received')
         invites.with_matching_application_choices
+      elsif status_filter.include?('declined')
+        invites.where(candidate_decision: :declined)
       end
     end
 
