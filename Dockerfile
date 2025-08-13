@@ -6,11 +6,14 @@ FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
-    libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 yaml-dev libxslt graphviz chromium gcompat \
+    libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 yaml-dev libxslt graphviz chromium chromium-chromedriver gcompat \
     'aom>=3.9.1-r0'
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
+
+# Create non-root user and group with specific UIDs/GIDs (to match production stage)
+RUN addgroup -S appgroup -g 20001 && adduser -S appuser -G appgroup -u 10001
 
 ENV RAILS_ENV=production \
     GOVUK_NOTIFY_API_KEY=TestKey \
@@ -59,10 +62,13 @@ ENV LANG=en_GB.UTF-8 \
 
 RUN apk -U upgrade && \
     apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz \
-    ttf-dejavu ttf-droid ttf-liberation libx11 openssl nodejs chromium gcompat \
+    ttf-dejavu ttf-droid ttf-liberation libx11 openssl nodejs chromium chromium-chromedriver gcompat \
     'aom>=3.9.1-r0' && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
+
+# Create non-root user and group with specific UIDs/GIDs
+RUN addgroup -S appgroup -g 20001 && adduser -S appuser -G appgroup -u 10001
 
 WORKDIR /app
 
@@ -75,6 +81,12 @@ COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 RUN echo ${SHA} > public/check
+
+# Change ownership only for directories that need write access
+RUN mkdir -p /app/tmp /app/log && chown -R appuser:appgroup /app/tmp /app/log /app/public/
+
+# Switch to non-root user
+USER 10001
 
 # Use this for development testing
 # CMD bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0
