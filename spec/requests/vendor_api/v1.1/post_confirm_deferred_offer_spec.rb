@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm-deferred-offer' do
   include VendorAPISpecHelpers
-  include ActiveSupport::Testing::TimeHelpers
 
   let(:application_trait) { :offer_deferred }
   let(:request_body) { { data: { conditions_met: false } } }
