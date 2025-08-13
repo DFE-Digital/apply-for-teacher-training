@@ -78,6 +78,29 @@ class CourseOption < ApplicationRecord
     study_mode == 'part_time'
   end
 
+  def self.find_through_api(course_data)
+    criteria = {
+      study_mode: course_data[:study_mode],
+      courses: {
+        providers: { code: course_data[:provider_code] },
+        code: course_data[:course_code],
+        recruitment_cycle_year: course_data[:recruitment_cycle_year],
+      },
+    }
+
+    if course_data[:site_code].present?
+      criteria[:sites] = {
+        providers: { code: course_data[:provider_code] },
+        code: course_data[:site_code],
+      }
+    end
+
+    CourseOption
+      .joins(course: :provider)
+      .joins(site: :provider)
+      .find_by!(criteria)
+  end
+
 private
 
   def equivalent_site_for_years(years)
