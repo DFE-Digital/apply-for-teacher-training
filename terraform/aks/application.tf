@@ -43,6 +43,7 @@ module "web_application" {
 
   send_traffic_to_maintenance_page = var.send_traffic_to_maintenance_page
   enable_prometheus_monitoring     = var.enable_prometheus_monitoring
+  run_as_non_root                  = true
 }
 
 module "main_worker" {
@@ -65,6 +66,7 @@ module "main_worker" {
   enable_gcp_wif               = true
   enable_prometheus_monitoring = var.enable_prometheus_monitoring
   enable_logit                 = var.enable_logit
+  run_as_non_root              = true
 }
 
 module "secondary_worker" {
@@ -87,6 +89,7 @@ module "secondary_worker" {
   enable_gcp_wif               = true
   enable_prometheus_monitoring = var.enable_prometheus_monitoring
   enable_logit                 = var.enable_logit
+  run_as_non_root              = true
 }
 
 module "clock_worker" {
@@ -107,4 +110,5 @@ module "clock_worker" {
   command                    = ["bundle", "exec", "clockwork", "config/clock.rb"]
   probe_command              = ["pgrep", "-f", "clockwork"]
   enable_logit               = var.enable_logit
+  run_as_non_root            = true
 }
