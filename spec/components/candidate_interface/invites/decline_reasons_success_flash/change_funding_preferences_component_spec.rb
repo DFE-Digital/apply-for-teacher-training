@@ -4,9 +4,9 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlash::ChangeFu
   include Rails.application.routes.url_helpers
 
   it 'does not render with the change funding preferences message' do
-    candidate = build_stubbed(:candidate)
+    application_form = build_stubbed(:application_form)
     course = build_stubbed(:course)
-    invite = build_stubbed(:pool_invite, candidate:, course:)
+    invite = build_stubbed(:pool_invite, application_form:, course:)
 
     component = described_class.new(invite:)
     result = render_inline(component)
@@ -20,9 +20,9 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlash::ChangeFu
 
   context 'when the candidate has opted in and has set a funding type' do
     it 'renders the change funding preferences message' do
-      candidate = build_stubbed(:candidate, published_preference: build_stubbed(:candidate_preference, pool_status: :opt_in, funding_type: 'salary'))
+      application_form = build_stubbed(:application_form, published_preference: build_stubbed(:candidate_preference, pool_status: :opt_in, funding_type: 'salary'))
       course = build_stubbed(:course)
-      invite = build_stubbed(:pool_invite, candidate:, course:)
+      invite = build_stubbed(:pool_invite, application_form:, course:)
 
       component = described_class.new(invite:)
       result = render_inline(component)

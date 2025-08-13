@@ -27,18 +27,18 @@ class CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent < ViewCom
   end
 
   def candidate_interface_candidate_preferences_review_path
-    return new_candidate_interface_pool_opt_in_path unless candidate.published_preference
+    return new_candidate_interface_pool_opt_in_path unless application_form.published_preference
 
-    return candidate_interface_draft_preference_publish_preferences_path(candidate.published_preference) if candidate.published_preference_opt_in?
+    return candidate_interface_draft_preference_publish_preferences_path(application_form.published_preference) if application_form.published_preference_opt_in?
 
-    edit_candidate_interface_pool_opt_in_path(candidate.published_preference)
+    edit_candidate_interface_pool_opt_in_path(application_form.published_preference)
   end
 
 private
 
   attr_reader :invite
 
-  delegate :candidate, :course, to: :invite
+  delegate :candidate, :course, :application_form, to: :invite
   delegate :decline_reasons_include_only_salaried?,
            :decline_reasons_include_location_not_convenient?,
            :decline_reasons_include_no_longer_interested?,

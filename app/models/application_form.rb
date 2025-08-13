@@ -40,8 +40,11 @@ class ApplicationForm < ApplicationRecord
   )
 
   has_many :preferences, dependent: :destroy, class_name: 'CandidatePreference'
+  has_one :published_preference, -> { published.order(id: :desc) }, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :published_preferences, -> { where(status: 'published') }, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :duplicated_preferences, -> { where(status: 'duplicated') }, dependent: :destroy, class_name: 'CandidatePreference'
+
+  delegate :opt_in?, to: :published_preference, prefix: true, allow_nil: true
 
   has_many :application_references
   has_many :application_work_history_breaks, as: :breakable
@@ -743,6 +746,10 @@ class ApplicationForm < ApplicationRecord
                          'current_course_options_application_choices.course_id AS current_course_id',
                          'original_course_options_application_choices.course_id AS original_course_id',
                        ).flat_map { |ac| [ac.course_id, ac.current_course_id, ac.original_course_id] }.compact.uniq
+  end
+
+  def applied_only_to_salaried_courses?
+    courses.all? { |course| course.salary? || course.apprenticeship? }
   end
 
 private

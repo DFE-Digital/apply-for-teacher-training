@@ -4,9 +4,8 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlash::ChangeLo
   include Rails.application.routes.url_helpers
 
   it 'renders with the change location preferences message' do
-    candidate = build_stubbed(:candidate)
     course = build_stubbed(:course)
-    invite = build_stubbed(:pool_invite, candidate:, course:)
+    invite = build_stubbed(:pool_invite, course:)
 
     component = described_class.new(invite:)
     result = render_inline(component)
