@@ -27,7 +27,7 @@ module VendorAPI
     end
 
     def confirm_deferred_offer_params
-      params.require(:data).permit(
+      permitted = params.require(:data).permit(
         :conditions_met,
         course: %i[
           recruitment_cycle_year
@@ -37,9 +37,10 @@ module VendorAPI
           study_mode
           start_date
         ],
-      ).tap do |data|
-        data.require(:conditions_met)
-      end
+      )
+
+      permitted.require(:conditions_met)
+      permitted
     end
   end
 end
