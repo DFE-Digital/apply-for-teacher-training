@@ -82,9 +82,8 @@ ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 RUN echo ${SHA} > public/check
 
-# Change ownership only for directories that need write access
-RUN mkdir -p /app/tmp /app/log /app/coverage /app/storage && \
-    chown -R appuser:appgroup /app/tmp /app/log /app/public/ /app/coverage /app/storage
+# Change ownership of entire app directory for write access
+RUN chown -R appuser:appgroup /app
 
 # Switch to non-root user
 USER 10001
