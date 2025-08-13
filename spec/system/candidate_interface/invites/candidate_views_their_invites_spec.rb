@@ -6,6 +6,12 @@ RSpec.describe 'Candidate views their invites' do
   before { FeatureFlag.activate(:candidate_preferences) }
   after { FeatureFlag.deactivate(:candidate_preferences) }
 
+  scenario 'after apply deadline', time: after_apply_deadline do
+    given_i_am_signed_in_without_in_flight_applications
+    when_i_go_to_application_sharing
+    then_i_am_redirected_to_the_carry_over_page
+  end
+
   scenario 'list invites' do
     given_i_am_signed_in
     and_i_am_on_the_application_choices_page
@@ -127,5 +133,19 @@ RSpec.describe 'Candidate views their invites' do
 
   def and_i_am_on_the_application_choices_page
     visit candidate_interface_application_choices_path
+  end
+
+  def given_i_am_signed_in_without_in_flight_applications
+    given_i_am_signed_in_with_one_login
+
+    create(:application_form, :completed, candidate: @current_candidate)
+  end
+
+  def when_i_go_to_application_sharing
+    visit candidate_interface_invites_path
+  end
+
+  def then_i_am_redirected_to_the_carry_over_page
+    expect(page).to have_current_path candidate_interface_start_carry_over_path
   end
 end

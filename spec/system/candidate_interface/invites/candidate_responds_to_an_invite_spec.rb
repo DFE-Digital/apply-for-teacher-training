@@ -6,6 +6,12 @@ RSpec.describe 'Candidate responds to an invite' do
   before { FeatureFlag.activate(:candidate_preferences) }
   after { FeatureFlag.deactivate(:candidate_preferences) }
 
+  scenario 'After apply deadline', time: after_apply_deadline do
+    given_i_am_signed_in_without_in_flight_applications
+    when_i_go_to_respond_to_invite
+    then_i_am_redirected_to_the_carry_over_page
+  end
+
   scenario 'Candidate accepts an invite and begins confirm selection wizard' do
     given_i_am_signed_in
     and_i_am_on_the_application_choices_page
@@ -52,6 +58,12 @@ RSpec.describe 'Candidate responds to an invite' do
     and_i_click('Save')
     then_i_return_to_the_invites_index
     and_i_see_a_flash_message
+  end
+
+  scenario 'Candidate clicks an email invite link for a closed course after apply deadline', time: after_apply_deadline do
+    given_i_am_signed_in_without_in_flight_applications
+    and_i_click_an_old_invite_link_for_an_unavailable_course
+    then_i_am_redirected_to_the_carry_over_page
   end
 
   scenario 'Candidate clicks an email invite link for a closed course' do
@@ -235,5 +247,32 @@ private
         href: candidate_interface_course_choices_course_review_path(@invite.application_choice, return_to: 'invites'),
       )
     end
+  end
+
+  def given_i_am_signed_in_without_in_flight_applications
+    given_i_am_signed_in_with_one_login
+
+    application_form = create(:application_form, :completed, candidate: @current_candidate)
+
+    @invite = create(
+      :pool_invite,
+      :sent_to_candidate,
+      application_form:,
+    )
+    @unavailable_course_invite = create(
+      :pool_invite,
+      course: create(:course, :unavailable, application_status: 'closed'),
+      course_open: false,
+      application_form:,
+      status: 'published',
+    )
+  end
+
+  def when_i_go_to_respond_to_invite
+    visit edit_candidate_interface_invite_path(@invite)
+  end
+
+  def then_i_am_redirected_to_the_carry_over_page
+    expect(page).to have_current_path candidate_interface_start_carry_over_path
   end
 end
