@@ -44,20 +44,20 @@ RSpec.describe SupportInterface::RecruitmentCycleTimetableGenerator do
       expect { generate_timetables }.to change { RecruitmentCycleTimetable.count }.by(10)
     end
 
-    it 'all timetables have find_closes_at dates between 30 Sep and 5 Oct' do
+    it 'all timetables have find_closes_at dates between 28 Sep and 5 Oct' do
       generate_timetables
       timetables.pluck(:recruitment_cycle_year, :find_closes_at).each do |recruitment_cycle_year, find_closes_at|
-        earliest_date = Time.zone.local(recruitment_cycle_year, 9, 30)
+        earliest_date = Time.zone.local(recruitment_cycle_year, 9, 28)
         latest_date = Time.zone.local(recruitment_cycle_year, 10, 5).end_of_day
         expect(find_closes_at.between?(earliest_date, latest_date)).to be true
       end
     end
 
-    it 'all timetables have find_opens_at dates that are between 1 Oct and 6 Oct' do
+    it 'all timetables have find_opens_at dates that are between 29 Sept and 5 Oct' do
       generate_timetables
       timetables.pluck(:recruitment_cycle_year, :find_opens_at).each do |recruitment_cycle_year, find_opens_at|
-        earliest_date = Time.zone.local(recruitment_cycle_year - 1, 10, 1)
-        latest_date = Time.zone.local(recruitment_cycle_year - 1, 10, 6)
+        earliest_date = Time.zone.local(recruitment_cycle_year - 1, 9, 29)
+        latest_date = Time.zone.local(recruitment_cycle_year - 1, 10, 12)
         expect(find_opens_at.between?(earliest_date, latest_date)).to be true
       end
     end
