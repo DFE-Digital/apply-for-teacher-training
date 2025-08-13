@@ -135,9 +135,9 @@ paths:
       description: |
         Confirms a deferred offer from a previous cycle to the current one.
 
-        If valid course parameters are provided, the call will succeed with updated course details.
+        If you provide the optional Course object, the call will succeed with updated course details.
 
-        Without optional course parameters, it succeeds only if the same course, location and study_mode combination is available in the current recruitment cycle. Otherwise it will return a 422.
+        If you do not provide the optional Course object, the call will succeed only if the same course, location and study_mode combination is available in the current recruitment cycle. Otherwise it will return a 422.
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
