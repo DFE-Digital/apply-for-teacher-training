@@ -206,7 +206,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'level step' do
-      let(:degree_params) { { current_step: :degree_level } }
+      let(:degree_params) { { current_step: :degree_level, uk_or_non_uk: 'uk' } }
 
       it 'redirects to the subject page' do
         expect(wizard.next_step).to be(:subject)
@@ -438,7 +438,9 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
   end
 
-  context 'validations' do
+  context 'UK validations' do
+    let(:degree_params) { { uk_or_non_uk: 'uk', degree_level: 'Jedi Knight' } }
+
     it { is_expected.to validate_presence_of(:uk_or_non_uk).on(:country) }
     it { is_expected.to validate_presence_of(:subject).on(:subject) }
     it { is_expected.to validate_length_of(:subject).is_at_most(255).on(:subject) }
@@ -446,12 +448,15 @@ RSpec.describe CandidateInterface::DegreeWizard do
     it { is_expected.to validate_presence_of(:completed).on(:completed) }
     it { is_expected.to validate_presence_of(:start_year).on(:start_year) }
     it { is_expected.to validate_presence_of(:award_year).on(:award_year) }
+    it { is_expected.to validate_presence_of(:type).on(:type) }
+    it { is_expected.to validate_length_of(:type).is_at_most(255).on(:type) }
 
     context 'Non-UK validations' do
-      let(:degree_params) { { uk_or_non_uk: 'non_uk', grade: 'Yes', enic_reason: 'obtained' } }
+      let(:degree_params) { { uk_or_non_uk: 'non_uk', grade: 'Yes', enic_reason: 'obtained', country: 'USA', degree_level: 'Jedi Knight' } }
 
       it { is_expected.to validate_presence_of(:country).on(:country) }
-      it { is_expected.to validate_presence_of(:international_type).on(:type) }
+      it { is_expected.to validate_presence_of(:type).on(:type) }
+      it { is_expected.to validate_length_of(:type).is_at_most(255).on(:type) }
       it { is_expected.to validate_presence_of(:other_grade).on(:grade) }
       it { is_expected.to validate_length_of(:other_grade).is_at_most(255).on(:grade) }
       it { is_expected.to validate_presence_of(:enic_reason).on(:enic) }
@@ -601,7 +606,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
           application_form_id: 1,
           uk_or_non_uk: 'non_uk',
           subject: 'History',
-          international_type: 'Doctor of Philosophy',
+          type: 'Doctor of Philosophy',
           university: 'Purdue University',
           country: 'USA',
           grade: 'No',
@@ -642,7 +647,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
           application_form_id: 1,
           uk_or_non_uk: 'non_uk',
           subject: 'History',
-          international_type: 'Diplôme',
+          type: 'Diplôme',
           university: 'Aix-Marseille University',
           country: 'FR',
           other_grade: '94%',
@@ -960,7 +965,6 @@ RSpec.describe CandidateInterface::DegreeWizard do
             degree_level: 'Bachelor degree',
             equivalent_level: nil,
             type: application_qualification.qualification_type,
-            international_type: nil,
             other_type: nil,
             grade: application_qualification.grade,
             other_grade: nil,
@@ -987,7 +991,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
           expect(wizard.degree_level).to eq('Bachelor degree')
           expect(wizard.equivalent_level).to be_nil
           expect(wizard.type).to eq('Another bachelor degree type')
-          expect(wizard.international_type).to be_nil
+          expect(wizard.type).to be_nil
           expect(wizard.other_type).to eq('Bachelor of Technology')
         end
       end
@@ -1001,7 +1005,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
           expect(wizard.degree_level).to eq('Master’s degree')
           expect(wizard.equivalent_level).to be_nil
           expect(wizard.type).to eq('Another master’s degree type')
-          expect(wizard.international_type).to be_nil
+          expect(wizard.type).to be_nil
           expect(wizard.other_type).to eq('Master of Business Administration')
         end
       end
@@ -1016,7 +1020,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
           expect(wizard.degree_level).to eq('Master’s degree')
           expect(wizard.equivalent_level).to be_nil
           expect(wizard.type).to eq('Another master’s degree type')
-          expect(wizard.international_type).to be_nil
+          expect(wizard.type).to be_nil
           expect(wizard.other_type).to eq('Master of Jedi')
         end
       end
@@ -1030,7 +1034,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
           expect(wizard.degree_level).to eq('Another qualification equivalent to a degree')
           expect(wizard.equivalent_level).to eq('A different degree')
           expect(wizard.type).to be_nil
-          expect(wizard.international_type).to be_nil
+          expect(wizard.type).to be_nil
           expect(wizard.other_type).to be_nil
         end
       end
@@ -1043,7 +1047,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
         it 'rehydrates the degree wizard' do
           expect(wizard.degree_level).to eq('Another qualification equivalent to a degree')
           expect(wizard.equivalent_level).to eq('Diploma of life')
-          expect(wizard.international_type).to be_nil
+          expect(wizard.type).to be_nil
           expect(wizard.other_type).to be_nil
         end
       end
@@ -1057,7 +1061,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
         it 'rehydrates the degree wizard' do
           expect(wizard.degree_level).to eq('Bachelor degree')
           expect(wizard.equivalent_level).to be_nil
-          expect(wizard.international_type).to be_nil
+          expect(wizard.type).to be_nil
           expect(wizard.other_type).to eq('Level 6 diploma')
         end
       end
@@ -1077,10 +1081,9 @@ RSpec.describe CandidateInterface::DegreeWizard do
             application_form_id: application_qualification.application_form.id,
             degree_level: nil,
             equivalent_level: nil,
-            type: nil,
-            international_type: application_qualification.qualification_type,
+            type: application_qualification.qualification_type,
             other_type: nil,
-            grade: 'Yes',
+            grade: 'Other',
             other_grade: application_qualification.grade,
             completed: 'Yes',
             subject: application_qualification.subject,
@@ -1141,7 +1144,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
 
     context 'creates new international degree only if most fields are not blank' do
       let(:degree_params) {
-        { id: nil, uk_or_non_uk: 'non_uk', subject: 'History', start_year: '2007', award_year: '2011', international_type: 'Bachelor of Arts',
+        { id: nil, uk_or_non_uk: 'non_uk', subject: 'History', start_year: '2007', award_year: '2011', type: 'Bachelor of Arts',
           university: 'University of Paris', other_grade: '94%', application_form_id: application_form.id }
       }
 

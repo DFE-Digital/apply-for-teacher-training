@@ -18,7 +18,7 @@ module CandidateInterface
       def new_country
         degree_attrs = { application_form_id: current_application.id }
         degree_attrs[:id] = params[:id] if params.key?(:id)
-        @wizard = DegreeWizard.new(degree_store, degree_attrs)
+        @wizard = Degrees::CountryWizard.new(degree_store, degree_attrs)
 
         if params[:context] == 'new_degree'
           @wizard.uk_or_non_uk = nil
@@ -55,6 +55,10 @@ module CandidateInterface
 
       %i[country degree_level subject type university completed grade start_year enic enic_reference].each do |step|
         define_method("update_#{step}") { update(step) }
+      end
+
+      def update_country
+        @wizard = Degrees::CountryWizard.new(degree_store, country_params)
       end
 
       def update_award_year
@@ -100,6 +104,12 @@ module CandidateInterface
         else
           {}
         end
+      end
+
+      def country_params
+        return {} if params[:candidate_interface_degrees_country_wizard].blank?
+
+        strip_whitespace(params.expect(candidate_interface_degrees_country_wizard: %i[uk_or_non_uk country]))
       end
     end
   end

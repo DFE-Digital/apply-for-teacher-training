@@ -99,7 +99,7 @@ module CandidateInterface
     end
 
     def type_of_uk_degree(degree)
-      return unless uk? || international_structured_degree_data?
+      return unless uk?(degree) || international_structured_degree_data?(degree)
       return if formatted_degree_type(degree).nil?
 
       {
@@ -285,7 +285,7 @@ module CandidateInterface
       return if degree.qualification_type.nil?
 
       if degree.qualification_level.present?
-        DegreeWizard::QUALIFICATION_LEVEL[degree.qualification_level]
+        Degrees::DegreeWizard::QUALIFICATION_LEVEL[degree.qualification_level]
       else
         reference_data = DfE::ReferenceData::Degrees::TYPES.some_by_field(:name).keys.select { |type| degree.qualification_type.downcase == type.downcase }
         degree.qualification_type.split.first if reference_data.present?
