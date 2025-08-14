@@ -1,5 +1,6 @@
 module CandidateInterface
   class DeclineReasonsController < CandidateInterfaceController
+    before_action CarryOverFilter
     before_action :set_invite, only: %i[new create]
 
     def new

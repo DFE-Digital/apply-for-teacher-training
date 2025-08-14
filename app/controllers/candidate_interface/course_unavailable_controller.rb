@@ -1,5 +1,6 @@
 module CandidateInterface
   class CourseUnavailableController < CandidateInterfaceController
+    before_action CarryOverFilter
     before_action :set_invite
 
     def show; end
