@@ -18,6 +18,14 @@ class ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCoursesBannerCo
           date: invite.created_at.to_fs(:govuk_date),
           link: view_application_link(invite),
         )
+      elsif invite.declined?
+        t(
+          'provider_interface.find_candidates.already_invited_to_multiple_courses_banner_component.declined_text',
+          course: invite.course.name_and_code,
+          provider: invite.provider.name,
+          date: invite.created_at.to_fs(:govuk_date),
+          count: @current_provider_user.providers.count,
+        )
       else
         t(
           'provider_interface.find_candidates.already_invited_to_multiple_courses_banner_component.text',

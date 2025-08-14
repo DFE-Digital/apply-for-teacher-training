@@ -9,3 +9,6 @@ en:
           other: "%{course} at %{provider} on %{date}. They have not applied yet."
         text_with_application_html: "%{course} on %{date}. %{link}"
         view_application: View application
+        declined_text:
+          one: "%{course} on %{date}. They declined the invitation."
+          other: "%{course} at %{provider} on %{date}. They declined the invitation."
