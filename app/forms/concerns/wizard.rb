@@ -12,8 +12,11 @@ module Wizard
     def initialize(state_store, attrs = {})
       @state_store = state_store
       attrs = sanitize_attrs(attrs)
+      debugger
       state = sanitize_last_saved_state(last_saved_state, attrs)
+      debugger
       super(state.deep_merge(attrs))
+      debugger
 
       initialize_extra(attrs)
       setup_path_history(attrs)
@@ -39,6 +42,7 @@ module Wizard
 private
 
   def last_saved_state
+    debugger
     saved_state = state_store.read
     saved_state ? JSON.parse(saved_state).with_indifferent_access : {}
   end

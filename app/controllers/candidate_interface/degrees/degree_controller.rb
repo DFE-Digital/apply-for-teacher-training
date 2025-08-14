@@ -18,6 +18,7 @@ module CandidateInterface
       def new_country
         degree_attrs = { application_form_id: current_application.id }
         degree_attrs[:id] = params[:id] if params.key?(:id)
+        debugger
         @wizard = Degrees::CountryWizard.new(degree_store, degree_attrs)
 
         if params[:context] == 'new_degree'
