@@ -5,8 +5,8 @@ en:
         heading: This candidate was invited to apply
         intro: "This candidate was invited to:"
         text:
-          one: "%{course} on %{date}. They have not applied yet."
-          other: "%{course} at %{provider} on %{date}. They have not applied yet."
+          one: "%{course} on %{date}. They have not responded yet."
+          other: "%{course} at %{provider} on %{date}. They have not responded yet."
         text_with_application_html: "%{course} on %{date}. %{link}"
         view_application: View application
         declined_text:
