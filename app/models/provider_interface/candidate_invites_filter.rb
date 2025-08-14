@@ -95,13 +95,13 @@ module ProviderInterface
     def filter_by_status(invites)
       return invites if status_filter.blank? || status_filter.sort == possible_statuses
 
-      if status_filter.include?('invited')
-        invites.without_matching_application_choices
-      elsif status_filter.include?('application_received')
-        invites.with_matching_application_choices
-      elsif status_filter.include?('declined')
-        invites.where(candidate_decision: :declined)
-      end
+      conditions = []
+
+      conditions << invites.without_matching_application_choices.where.not(candidate_decision: :declined) if status_filter.include?('invited')
+      conditions << invites.with_matching_application_choices if status_filter.include?('application_received')
+      conditions << invites.where(candidate_decision: :declined) if status_filter.include?('declined')
+
+      conditions.reduce(:or)
     end
 
     def all_invites
