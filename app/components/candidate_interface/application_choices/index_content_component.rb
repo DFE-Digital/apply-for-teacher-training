@@ -8,6 +8,17 @@ class CandidateInterface::ApplicationChoices::IndexContentComponent < ViewCompon
   end
 
   def content_component
+    if application_form.carry_over? # must be after_apply_deadline?
+      if RecruitmentCycleTimetable.currently_between_cycles?
+        # The candidate can carry over an application
+        return CandidateInterface::CarryOverBetweenCyclesComponent.new(application_form: application_form)
+      end
+
+      # The candidate can carry over an application
+      # We're probably in the next cycle at this point
+      return CandidateInterface::CarryOverMidCycleComponent.new(application_form: application_form)
+    end
+
     if application_form.after_apply_deadline?
       # It is after the deadline, but candidate has inflight applications (eg, awaiting decision)
       return CandidateInterface::AfterDeadlineContentComponent.new(application_form: application_form)
