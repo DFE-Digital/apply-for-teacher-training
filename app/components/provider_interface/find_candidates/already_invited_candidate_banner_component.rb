@@ -14,7 +14,7 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
 
   def heading
     if invite.declined?
-      t('provider_interface.find_candidates.already_invited_candidate_banner_component.declined_heading', subject: invite.course.name_and_code)
+      t('provider_interface.find_candidates.already_invited_candidate_banner_component.declined_heading', subject: invite.course.name_and_code, provider: invite.provider.name, count: @current_provider_user.providers.count)
     else
       t('provider_interface.find_candidates.already_invited_candidate_banner_component.heading', subject: invite.course.name, provider: invite.provider.name, count: @current_provider_user.providers.count)
     end
@@ -27,8 +27,9 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
         link: view_application_link(invite),
       )
     elsif invite.declined?
-      t('provider_interface.find_candidates.already_invited_candidate_banner_component.declined_text',
-        reason: format_decline_reason(invite.invite_decline_reasons.first.reason))
+      t('provider_interface.find_candidates.already_invited_candidate_banner_component.declined_text_html',
+        reason: format_decline_reasons(invite.invite_decline_reasons),
+        count: invite.invite_decline_reasons.size)
     else
       t(
         'provider_interface.find_candidates.already_invited_candidate_banner_component.text',
@@ -46,14 +47,18 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
 
 private
 
-  def format_decline_reason(reason_key)
-    reason_text = I18n.t("candidate_interface.decline_reasons.new.reasons.#{reason_key}")
+  def format_decline_reasons(reason_keys)
+    return '' if reason_keys.blank?
 
-    unless reason_text.start_with?('I')
-      reason_text = reason_text.sub(/\A\p{L}/, &:downcase)
+    if reason_keys.size == 1
+      I18n.t("candidate_interface.decline_reasons.new.reasons.#{reason_keys.first.reason}")
+    else
+      tag.ul do
+        reason_keys.map do |key|
+          tag.li(I18n.t("candidate_interface.decline_reasons.new.reasons.#{key.reason}"))
+        end.join.html_safe
+      end
     end
-
-    reason_text
   end
 
   def invites

@@ -5,10 +5,14 @@ en:
         heading:
           one: This candidate was invited to %{subject}
           other: This candidate was invited to %{subject} at %{provider}
-        declined_heading: This candidate does not want to apply for %{subject}
+        declined_heading:
+          one: This candidate does not want to apply for %{subject}
+          other: This candidate does not want to apply for %{subject} at %{provider}
         text:
           one: This candidate was invited to %{subject} on %{date}. They have not applied yet.
           other: This candidate was invited to %{subject} at %{provider} on %{date}. They have not applied yet.
         text_with_application_html: This candidate has submitted an application. %{link}
-        declined_text: "They selected the reason: %{reason}"
+        declined_text_html:
+          one: "They selected the reason: %{reason}"
+          other: "They selected the following reasons: %{reason}"
         view_application: View application
