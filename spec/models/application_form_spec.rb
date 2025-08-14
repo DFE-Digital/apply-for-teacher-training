@@ -21,6 +21,23 @@ RSpec.describe ApplicationForm do
   it { is_expected.to have_many(:application_work_history_breaks) }
   it { is_expected.to have_many(:emails) }
   it { is_expected.to have_many(:application_feedback) }
+  it { is_expected.to have_one(:published_preference).conditions(status: 'published').order(id: :desc).dependent(:destroy).class_name('CandidatePreference') }
+
+  describe 'delegations' do
+    it { is_expected.to delegate_method(:apply_deadline_at).to(:recruitment_cycle_timetable) }
+    it { is_expected.to delegate_method(:apply_opens_at).to(:recruitment_cycle_timetable) }
+    it { is_expected.to delegate_method(:find_opens_at).to(:recruitment_cycle_timetable) }
+    it { is_expected.to delegate_method(:after_apply_deadline?).to(:recruitment_cycle_timetable) }
+    it { is_expected.to delegate_method(:before_apply_opens?).to(:recruitment_cycle_timetable) }
+    it { is_expected.to delegate_method(:cycle_range_name_with_current_indicator).to(:recruitment_cycle_timetable) }
+    it { is_expected.to delegate_method(:decline_by_default_at).to(:recruitment_cycle_timetable) }
+    it { is_expected.to delegate_method(:between_cycles?).to(:recruitment_cycle_timetable) }
+    it { is_expected.to delegate_method(:next_available_academic_year_range).to(:recruitment_cycle_timetable) }
+    it { is_expected.to delegate_method(:apply_reopens_at).to(:recruitment_cycle_timetable) }
+    it { is_expected.to delegate_method(:academic_year_range_name).to(:recruitment_cycle_timetable) }
+    it { is_expected.to delegate_method(:current_year?).to(:recruitment_cycle_timetable) }
+    it { is_expected.to delegate_method(:opt_in?).to(:published_preference).with_prefix.allow_nil }
+  end
 
   describe '#cannot_add_more_choices?' do
     let(:application_form) { create(:application_form) }
@@ -1643,6 +1660,61 @@ RSpec.describe ApplicationForm do
         changed_to_course_option.course.id,
         some_other_course_option.course.id,
       )
+    end
+  end
+
+  describe '#applied_only_to_salaried_courses?' do
+    it 'returns true if applied only to salary or apprenticeship course' do
+      application_form = create(
+        :application_form,
+        :completed,
+      )
+      salary_course = create(:course, funding_type: 'salary')
+      create(
+        :application_choice,
+        :awaiting_provider_decision,
+        application_form:,
+        course_option: create(:course_option, course: salary_course),
+      )
+      apprenticeship_course = create(:course, funding_type: 'apprenticeship')
+      create(
+        :application_choice,
+        :awaiting_provider_decision,
+        application_form:,
+        course_option: create(:course_option, course: apprenticeship_course),
+      )
+
+      expect(application_form.applied_only_to_salaried_courses?).to be(true)
+    end
+
+    it 'returns false if appliedto salary, apprenticeship and fee course' do
+      application_form = create(
+        :application_form,
+        :completed,
+      )
+      salary_course = create(:course, funding_type: 'salary')
+      create(
+        :application_choice,
+        :awaiting_provider_decision,
+        application_form:,
+        course_option: create(:course_option, course: salary_course),
+      )
+      apprenticeship_course = create(:course, funding_type: 'apprenticeship')
+      create(
+        :application_choice,
+        :awaiting_provider_decision,
+        application_form:,
+        course_option: create(:course_option, course: apprenticeship_course),
+      )
+      fee_course = create(:course, funding_type: 'fee')
+      create(
+        :application_choice,
+        :awaiting_provider_decision,
+        application_form:,
+        course_option: create(:course_option, course: fee_course),
+      )
+
+      expect(application_form.applied_only_to_salaried_courses?).to be(false)
     end
   end
 end

@@ -1,0 +1,2 @@
+class CandidateInterface::Invites::DeclineReasonsSuccessFlash::ChangeLocationPreferencesComponent < CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent
+end
