@@ -2,7 +2,7 @@
   "name": "apply-for-teacher-training",
   "private": true,
   "engines": {
-    "node": "20.x",
+    "node": "22.x",
     "yarn": "^1.22.0"
   },
   "dependencies": {
