@@ -43,7 +43,7 @@ jobs:
     concurrency: deploy_${{ inputs.environment }}
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       name: Checkout
 
     - name: Set environment variables
