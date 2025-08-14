@@ -10,6 +10,7 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerC
     let(:pool_invite) { create(:pool_invite, :published, candidate:, application_form:, provider:) }
     let(:course) { pool_invite.course }
     let(:date) { pool_invite.created_at.to_fs(:govuk_date) }
+    let(:declined_invite) { create(:pool_invite, :published, candidate:, application_form:, provider:, candidate_decision: 'declined') }
 
     subject(:result) do
       render_inline(described_class.new(
@@ -89,6 +90,17 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerC
 
       it 'does not render the banner' do
         expect(result.text).to be_blank
+      end
+    end
+
+    context 'when the candidate has declined the invite' do
+      before do
+        create(:pool_invite_decline_reason, invite_id: declined_invite.id, reason: 'provider_not_right')
+      end
+
+      it 'renders the declined header and text' do
+        expect(result.text).to include(`This candidate does not want to apply for #{declined_invite.course.name_and_code}`)
+        expect(result.text).to include('They selected the reason: this course training provider is not right for me')
       end
     end
   end
