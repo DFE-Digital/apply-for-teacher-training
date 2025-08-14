@@ -15,6 +15,17 @@ RSpec.describe 'Invited candidate list' do
     )
   end
 
+  let(:declined_invite) do
+    create(
+      :pool_invite,
+      :sent_to_candidate,
+      candidate_decision: 'declined',
+      course: create(:course),
+      application_form: create(:application_form),
+      provider: current_provider,
+    )
+  end
+
   let(:rejected_application_choice_for_opt_out) { create(:application_choice, :rejected) }
   let(:opted_out_preference) { create(:candidate_preference, pool_status: 'opt_out', candidate: rejected_application_choice_for_opt_out.application_form.candidate) }
   let(:invite_with_opted_out_candidate) { create(:pool_invite, :sent_to_candidate, course: build(:course, provider: current_provider), application_form: rejected_application_choice_for_opt_out.application_form) }
@@ -29,6 +40,7 @@ RSpec.describe 'Invited candidate list' do
     opted_in_preference
     invite_with_application
     invite_with_opted_out_candidate
+    declined_invite
     invite_with_candidate_in_pool
     second_invite_with_candidate_in_pool
 
@@ -102,7 +114,7 @@ private
   def then_i_see_a_list_of_invited_candidates
     expect(page).to have_title 'Find candidates - Invited'
     expect(page).to have_content 'Find candidates'
-    expect(page).to have_content '3 candidates invited'
+    expect(page).to have_content '4 candidates invited'
   end
 
   def and_the_path_has_pagination
@@ -141,12 +153,12 @@ private
       :provider_user_filter,
       :find_candidates_invited,
       provider_user: ProviderUser.find_by(email_address: 'email@provider.ac.uk'),
-      filters: { status: ['application_received'] },
+      filters: { status: %w[application_received declined] },
     )
   end
 
   def then_i_see_a_list_of_filtered_candidates
-    expect(page).to have_content '1 candidate invited'
+    expect(page).to have_content '2 candidates invited'
   end
 
   def when_i_visit_the_invited_candidates_page_with_bad_pagination
