@@ -57,7 +57,6 @@ class ApplicationForm < ApplicationRecord
 
   has_many :published_invites, -> { published }, class_name: 'Pool::Invite'
   has_many :not_responded_published_invites, -> { published.not_responded.where(course_open: true) }, class_name: 'Pool::Invite'
-  has_many :unactionable_invites, -> { unactionable_by_candidate }, class_name: 'Pool::Invite'
 
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
   scope :unsubmitted, -> { where(submitted_at: nil) }

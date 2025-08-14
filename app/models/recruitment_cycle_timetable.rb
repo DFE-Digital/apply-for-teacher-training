@@ -190,6 +190,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
     Time.zone.now.before? apply_opens_at
   end
 
+  def apply_open?
+    after_apply_opens? && !after_apply_deadline?
+  end
+
   def after_find_opens?
     Time.zone.now.after? find_opens_at
   end

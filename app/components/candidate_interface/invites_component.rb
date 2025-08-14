@@ -19,7 +19,7 @@ module CandidateInterface
         govuk_tag text: invite.candidate_decision.capitalize, colour: 'green'
       elsif invite.declined?
         govuk_tag text: invite.candidate_decision.capitalize, colour: 'red'
-      elsif invite.course_closed? || invite.cancelled?
+      elsif invite.course_closed?
         govuk_tag text: t('.closed'), colour: 'grey'
       end
     end

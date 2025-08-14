@@ -33,20 +33,6 @@ RSpec.describe Pool::Invite do
         expect(described_class.without_matching_application_choices).to contain_exactly(invite_without_matched_choice)
       end
     end
-
-    describe 'unactionable_by_candidate' do
-      it 'returns invites that cannot be actioned by candidate' do
-        accepted = create(:pool_invite, :sent_to_candidate, candidate_decision: 'accepted')
-        declined = create(:pool_invite, :sent_to_candidate, candidate_decision: 'declined')
-        course_closed = create(:pool_invite, :sent_to_candidate, course_open: false)
-        cancelled = create(:pool_invite, status: 'cancelled')
-        _not_responded = create(:pool_invite, :sent_to_candidate)
-
-        expect(described_class.unactionable_by_candidate.ids).to contain_exactly(
-          accepted.id, declined.id, course_closed.id, cancelled.id
-        )
-      end
-    end
   end
 
   describe 'enums' do
@@ -54,7 +40,7 @@ RSpec.describe Pool::Invite do
 
     it {
       expect(invite).to define_enum_for(:status)
-                          .with_values(draft: 'draft', published: 'published', cancelled: 'cancelled')
+                          .with_values(draft: 'draft', published: 'published')
                           .with_default(:draft)
                           .backed_by_column_of_type(:string)
     }

@@ -200,6 +200,29 @@ RSpec.describe RecruitmentCycleTimetable do
     end
   end
 
+  describe '#apply_open?' do
+    context 'mid cycle', time: before_apply_deadline do
+      it 'returns true' do
+        timetable = described_class.current_timetable
+        expect(timetable.apply_open?).to be true
+      end
+    end
+
+    context 'before apply opens', time: after_find_opens do
+      it 'returns false' do
+        timetable = described_class.current_timetable
+        expect(timetable.apply_open?).to be false
+      end
+    end
+
+    context 'after the apply deadline', time: after_apply_deadline do
+      it 'returns false' do
+        timetable = described_class.current_timetable
+        expect(timetable.apply_open?).to be false
+      end
+    end
+  end
+
   describe '#cycle_range_name' do
     it 'returns a string describing the recruitment cycle year range' do
       timetable = described_class.find_by(recruitment_cycle_year: 2024)
