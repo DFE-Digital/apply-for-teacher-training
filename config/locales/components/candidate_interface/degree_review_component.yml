@@ -1,0 +1,9 @@
+en:
+  candidate_interface:
+    degree_review_component:
+      foundation: Foundation degree
+      bachelor: Bachelor degree
+      master: Master’s degree
+      doctor: Doctorate (PhD)
+      "Level 6 Diploma": Level 6 Diploma
+      other: Another qualification equivalent to a degree

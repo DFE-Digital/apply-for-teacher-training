@@ -141,11 +141,11 @@ RSpec.describe 'Editing a degree' do
   end
 
   def then_i_see_my_undergraduate_degree_start_year_filled_in
-    expect(page).to have_css("input[name='candidate_interface_degree_wizard[start_year]'][value='2006']")
+    expect(page).to have_css("input[name='candidate_interface_degree_form[start_year]'][value='2006']")
   end
 
   def then_i_see_my_undergraduate_degree_award_year_filled_in
-    expect(page).to have_css("input[name='candidate_interface_degree_wizard[award_year]'][value='2009']")
+    expect(page).to have_css("input[name='candidate_interface_degree_form[award_year]'][value='2009']")
   end
 
   def then_i_see_my_undergraduate_degree_subject_filled_in
@@ -157,7 +157,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def then_i_see_my_undergraduate_degree_institution_filled_in
-    expect(selected_option_for_field('candidate_interface_degree_wizard[university]')).to eq('University of Cambridge')
+    expect(selected_option_for_field('candidate_interface_degree_form[university]')).to eq('University of Cambridge')
   end
 
   def then_i_see_my_undergraduate_degree_grade_filled_in
@@ -187,11 +187,11 @@ RSpec.describe 'Editing a degree' do
   end
 
   def when_i_change_my_undergraduate_degree_subject
-    select 'Computer games', from: 'candidate_interface_degree_wizard[subject]'
+    select 'Computer games', from: 'candidate_interface_degree_form[subject]'
   end
 
   def when_i_change_my_undergraduate_degree_institution
-    select 'University of Oxford', from: 'candidate_interface_degree_wizard[university]'
+    select 'University of Oxford', from: 'candidate_interface_degree_form[university]'
   end
 
   def when_i_change_my_undergraduate_degree_grade

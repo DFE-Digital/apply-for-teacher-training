@@ -1,5 +1,6 @@
 class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
   include ViewHelper
+  include Rails.application.routes.url_helpers
 
   attr_reader :type, :wizard
   delegate :structured_degree_data?, to: :wizard
@@ -10,7 +11,7 @@ class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
       2b5b8af4-cade-421b-9e3d-026f71f143b7
       a02be347-1d5b-485a-a845-40c2d4b6ee8f
     ],
-    'Bachelor degree' => %w[
+    'Bachelor’s degree' => %w[
       db695652-c197-e711-80d8-005056ac45bb
       f7695652-c197-e711-80d8-005056ac45bb
       1b6a5652-c197-e711-80d8-005056ac45bb
@@ -35,7 +36,13 @@ class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
   end
 
   def find_degree_type_options
-    self.class.degree_types[type]
+    name = {
+      foundation: 'Foundation degree',
+      bachelor: 'Bachelor’s degree',
+      master: 'Master’s degree',
+      doctor: 'Doctorate (PhD)',
+    }[type.to_sym]
+    self.class.degree_types[name]
   end
 
   def self.reference_data(uuid)
@@ -51,12 +58,6 @@ class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
     end
   end
 
-  def dynamic_types
-    return CandidateInterface::DegreeWizard::DOCTORATE if type == CandidateInterface::DegreeWizard::DOCTORATE_LEVEL
-
-    type.downcase
-  end
-
   def self.degree_types
     hash = {}
     DEGREE_TYPES.each do |key, uuid_ary|
@@ -67,24 +68,6 @@ class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
 
   def choose_degree_types(level)
     Hesa::DegreeType.where(level:)
-  end
-
-  def map_hint
-    {
-      'Foundation degree' => 'Foundation of Engineering (FdEng)',
-      'Bachelor degree' => 'Bachelor of Engineering (BEng)',
-      'Master’s degree' => 'Master of Engineering (MEng)',
-      'Doctorate (PhD)' => 'Doctor of Science (DSc)',
-    }[type]
-  end
-
-  def map_options
-    {
-      'Foundation degree' => :foundation,
-      'Bachelor degree' => :bachelor,
-      'Master’s degree' => :master,
-      'Doctorate (PhD)' => :doctor,
-    }[type]
   end
 
   def show_structured_degree_types?

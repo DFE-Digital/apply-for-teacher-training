@@ -3,6 +3,8 @@ module CandidateInterface
     include ViewHelper
     include EnicReasonTranslationHelper
 
+    DOCTORATE = 'doctorate'.freeze
+
     def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, return_to_application_review: false, deletable: true)
       @application_form = application_form
       @degrees = application_form.application_qualifications.degrees.order(id: :desc)
@@ -99,7 +101,7 @@ module CandidateInterface
     end
 
     def type_of_uk_degree(degree)
-      return unless uk? || international_structured_degree_data?
+      return unless uk?(degree) || international_structured_degree_data?(degree)
       return if formatted_degree_type(degree).nil?
 
       {
@@ -285,7 +287,7 @@ module CandidateInterface
       return if degree.qualification_type.nil?
 
       if degree.qualification_level.present?
-        DegreeWizard::QUALIFICATION_LEVEL[degree.qualification_level]
+        t(".#{degree.qualification_level}")
       else
         reference_data = DfE::ReferenceData::Degrees::TYPES.some_by_field(:name).keys.select { |type| degree.qualification_type.downcase == type.downcase }
         degree.qualification_type.split.first if reference_data.present?
@@ -293,9 +295,9 @@ module CandidateInterface
     end
 
     def append_degree(degree)
-      return DegreeWizard::DOCTORATE.downcase if doctorate?(degree)
-
-      if degree.qualification_level.present?
+      if doctorate?(degree)
+        DOCTORATE
+      elsif degree.qualification_level.present?
         formatted_degree_type(degree).to_s.downcase
       else
         "#{formatted_degree_type(degree)} degree"

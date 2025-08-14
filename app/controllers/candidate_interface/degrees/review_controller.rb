@@ -6,7 +6,7 @@ module CandidateInterface
       def show
         @application_form = current_application
         @section_complete_form = SectionCompleteForm.new(completed: current_application.degrees_completed)
-        @wizard = DegreeWizard.new(degree_store)
+        @wizard = BaseForm.new(degree_store)
         @wizard.save_state!
       end
 

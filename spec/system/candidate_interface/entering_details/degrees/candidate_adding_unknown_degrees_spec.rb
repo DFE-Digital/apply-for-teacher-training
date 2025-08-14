@@ -91,7 +91,7 @@ RSpec.describe 'Adding an unknown degree', :js do
   end
 
   def when_i_fill_in_the_subject_with_a_custom_subject_that_has_an_incorrect_auto_suggestion
-    @input = find('input[name="candidate_interface_degree_wizard[subject_raw]"]')
+    @input = find('input[name="candidate_interface_degree_form[subject_raw]"]')
     @input.native.send_keys('History of Art and History')
     find_by_id('main-content').click
   end
@@ -140,7 +140,7 @@ RSpec.describe 'Adding an unknown degree', :js do
   def when_i_fill_in_the_subject
     fill_in 'What subject is your degree?', with: 'History'
     # Triggering the autocomplete
-    find('input[name="candidate_interface_degree_wizard[subject_raw]"]').native.send_keys(:return)
+    find('input[name="candidate_interface_degree_form[subject_raw]"]').native.send_keys(:return)
   end
 
   def then_i_can_see_the_type_page
@@ -151,7 +151,7 @@ RSpec.describe 'Adding an unknown degree', :js do
     choose 'Another bachelor degree type', visible: false
     fill_in 'Degree type', with: 'Jedi Knight'
     # Triggering the autocomplete
-    find('input[name="candidate_interface_degree_wizard[other_type_raw]"]').native.send_keys(:return)
+    find('input[name="candidate_interface_degree_form[other_type_raw]"]').native.send_keys(:return)
   end
 
   def then_i_can_see_the_university_page
@@ -159,9 +159,9 @@ RSpec.describe 'Adding an unknown degree', :js do
   end
 
   def when_i_fill_in_the_university
-    fill_in 'candidate_interface_degree_wizard[university_raw]', with: 'University of Cambridge'
+    fill_in 'candidate_interface_degree_form[university_raw]', with: 'University of Cambridge'
     # Triggering the autocomplete
-    find('input[name="candidate_interface_degree_wizard[university_raw]"]').native.send_keys(:return)
+    find('input[name="candidate_interface_degree_form[university_raw]"]').native.send_keys(:return)
   end
 
   def then_i_can_see_the_completion_page

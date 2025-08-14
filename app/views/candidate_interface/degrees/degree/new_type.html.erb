@@ -1,6 +1,0 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-  <% content_for :before_content, govuk_back_link_to(@wizard.types_page_back_link) %>
-    <%= render CandidateInterface::DegreeTypeComponent.new(type: @wizard) %>
-  </div>
-</div>
