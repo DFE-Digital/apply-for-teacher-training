@@ -18,7 +18,6 @@ module CandidateInterface
       def new_country
         degree_attrs = { application_form_id: current_application.id }
         degree_attrs[:id] = params[:id] if params.key?(:id)
-        debugger
         @wizard = Degrees::CountryWizard.new(degree_store, degree_attrs)
 
         if params[:context] == 'new_degree'
@@ -31,7 +30,14 @@ module CandidateInterface
         end
       end
 
-      alias new_degree_level new
+      def new_degree_level
+        degree_attrs = { application_form_id: current_application.id }
+        degree_attrs[:id] = params[:id] if params.key?(:id)
+        @wizard = Degrees::LevelWizard.new(degree_store, degree_attrs)
+        @wizard.referer = request.referer
+        @wizard.save_state!
+      end
+
       alias new_subject new
       alias new_type new
       alias new_university new
@@ -54,12 +60,29 @@ module CandidateInterface
         end
       end
 
-      %i[country degree_level subject type university completed grade start_year enic enic_reference].each do |step|
+      %i[subject type university completed grade start_year enic enic_reference].each do |step|
         define_method("update_#{step}") { update(step) }
       end
 
       def update_country
         @wizard = Degrees::CountryWizard.new(degree_store, country_params)
+
+        if @wizard.valid?
+          @wizard.save_state!
+          next_step!
+        else
+          render 'new_country'
+        end
+      end
+
+      def update_degree_level
+        @wizard = Degrees::LevelWizard.new(degree_store, level_params)
+        if @wizard.valid?
+          @wizard.save_state!
+          next_step!
+        else
+          render 'new_degree_level'
+        end
       end
 
       def update_award_year
@@ -108,9 +131,17 @@ module CandidateInterface
       end
 
       def country_params
-        return {} if params[:candidate_interface_degrees_country_wizard].blank?
+        return {} if params[:candidate_interface_degree_wizard].blank?
 
-        strip_whitespace(params.expect(candidate_interface_degrees_country_wizard: %i[uk_or_non_uk country]))
+        set_country_for_uk
+
+        strip_whitespace(params.expect(candidate_interface_degree_wizard: %i[uk_or_non_uk country]))
+      end
+
+      def level_params
+        return {} if params[:candidate_interface_degree_wizard].blank?
+
+        strip_whitespace(params.expect(candidate_interface_degree_wizard: %i[degree_level equivalent_level]))
       end
     end
   end

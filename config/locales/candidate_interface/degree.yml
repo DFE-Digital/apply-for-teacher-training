@@ -134,12 +134,14 @@ en:
           attributes:
             university_degree_status:
               blank: "Select whether you have a university degree"
-        candidate_interface/degree_wizard:
+        candidate_interface/degrees/country_wizard:
           attributes:
             uk_or_non_uk:
               blank: Select if the degree was from the United Kingdom or another country
             country:
               blank: Select which country the degree was from
+        candidate_interface/degrees/degree_wizard:
+          attributes:
             degree_level:
               blank: Select your degree type
             equivalent_level:

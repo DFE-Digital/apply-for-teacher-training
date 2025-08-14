@@ -7,14 +7,6 @@ module CandidateInterface::Degrees
 
     VALID_STEPS = %w[country subject grade type enic enic_reference degree_level completed university award_year start_year].freeze
 
-    DEGREE_LEVEL = [
-      'Foundation degree',
-      'Bachelor degree',
-      'Master’s degree',
-      'Doctorate (PhD)',
-      'Level 6 Diploma',
-    ].freeze
-
     DOCTORATE = 'doctorate'.freeze
     DOCTORATE_LEVEL = 'Doctorate (PhD)'.freeze
     YES = 'Yes'.freeze
@@ -49,8 +41,6 @@ module CandidateInterface::Degrees
 
     validates :uk_or_non_uk, presence: true, on: :country
     validates :country, presence: true, if: :international?, on: :country
-    validates :degree_level, presence: true, on: :degree_level
-    validates :equivalent_level, presence: true, length: { maximum: 255 }, if: :other_qualification?, on: :degree_level
     validates :subject, presence: true, length: { maximum: 255 }, on: :subject
     validates :type, presence: true, length: { maximum: 255 }, on: :type
     validates :other_type, presence: true, length: { maximum: 255 }, if: %i[other_type_selected], on: :type
@@ -134,14 +124,6 @@ module CandidateInterface::Degrees
 
     def country_changed?
       existing_degree.institution_country != country
-    end
-
-    def degree_level_back_link
-      if reviewing_and_unchanged_country?
-        back_to_review
-      else
-        paths.candidate_interface_degree_country_path
-      end
     end
 
     def subject_back_link
@@ -284,7 +266,7 @@ module CandidateInterface::Degrees
     end
 
     def sanitize_attrs(attrs)
-      sanitize_uk_or_non_uk(attrs)
+      # sanitize_uk_or_non_uk(attrs)
       sanitize_type(attrs)
       sanitize_degree_level(attrs)
       sanitize_grade(attrs)
@@ -363,10 +345,6 @@ module CandidateInterface::Degrees
       else
         DEGREE_LEVEL
       end
-    end
-
-    def other_qualification?
-      degree_level == 'Another qualification equivalent to a degree'
     end
 
     def degree_has_type?
@@ -722,17 +700,6 @@ module CandidateInterface::Degrees
     end
 
     private_class_method :international_grade
-
-    def sanitize_uk_or_non_uk(attrs)
-      return unless attrs[:current_step] == :country
-
-      if last_saved_state['uk_or_non_uk'] != attrs[:uk_or_non_uk]
-        attrs.merge!(degree_level: nil, equivalent_level: nil, type: nil, other_type: nil, subject: nil, completed: nil,
-                     university: nil, start_year: nil, award_year: nil, grade: nil,
-                     other_grade: nil, enic_reason: nil, enic_reference: nil, comparable_uk_degree: nil)
-
-      end
-    end
 
     def sanitize_degree_level(attrs)
       return unless attrs[:current_step] == :degree_level
