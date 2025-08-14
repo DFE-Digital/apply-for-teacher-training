@@ -33,10 +33,12 @@ class CandidateInterface::Invites::DeclineReasonsSuccessFlashComponentPreview < 
     }))
   end
 
-  def update_location_and_funding_preferences
-    invite = FactoryBot.build_stubbed(:pool_invite)
+  def change_location_and_funding_preferences
+    preference = FactoryBot.build_stubbed(:candidate_preference, pool_status: :opt_in, funding_type: 'salary')
+    application_form = FactoryBot.build_stubbed(:application_form, published_preference: preference)
+    invite = FactoryBot.build_stubbed(:pool_invite, application_form: application_form)
 
-    component_html = render_inline(CandidateInterface::Invites::DeclineReasonsSuccessFlash::UpdateLocationAndFundingPreferencesComponent.new(invite:)).to_s
+    component_html = render_inline(CandidateInterface::Invites::DeclineReasonsSuccessFlash::ChangeLocationAndFundingPreferencesComponent.new(invite:)).to_s
 
     render(::FlashMessageComponent.new(flash: {
       success: [

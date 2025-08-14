@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent 
 
         component = described_class.new(invite:)
 
-        expect(component.change_preferences_text_component).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlash::UpdateLocationAndFundingPreferencesComponent)
+        expect(component.change_preferences_text_component).to be_a(CandidateInterface::Invites::DeclineReasonsSuccessFlash::ChangeLocationAndFundingPreferencesComponent)
       end
     end
 
