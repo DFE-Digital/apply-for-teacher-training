@@ -48,16 +48,36 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
 private
 
   def format_decline_reasons(reason_keys)
-    return '' if reason_keys.blank?
-
     if reason_keys.size == 1
-      I18n.t("candidate_interface.decline_reasons.new.reasons.#{reason_keys.first.reason}")
+      format_single_reason(reason_keys.first)
     else
-      tag.ul do
-        reason_keys.map do |key|
-          tag.li(I18n.t("candidate_interface.decline_reasons.new.reasons.#{key.reason}"))
-        end.join.html_safe
-      end
+      format_reason_list(reason_keys)
+    end
+  end
+
+  def format_single_reason(reason)
+    reason_text = I18n.t("candidate_interface.decline_reasons.new.reasons.#{reason.reason}")
+
+    if reason.reason == 'other' && reason.comment.present?
+      reason_text += " - \"#{reason.comment}\""
+    end
+
+    unless reason_text.start_with?('I')
+      reason_text = reason_text.sub(/\A\p{L}/, &:downcase)
+    end
+
+    reason_text
+  end
+
+  def format_reason_list(reasons)
+    tag.ul do
+      reasons.map do |reason|
+        text = I18n.t("candidate_interface.decline_reasons.new.reasons.#{reason.reason}")
+        if reason.reason == 'other' && reason.comment.present?
+          text += " - \"#{reason.comment}\""
+        end
+        tag.li(text)
+      end.join.html_safe
     end
   end
 

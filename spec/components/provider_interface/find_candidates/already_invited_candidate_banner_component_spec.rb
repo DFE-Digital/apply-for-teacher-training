@@ -99,8 +99,35 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerC
       end
 
       it 'renders the declined header and text' do
-        expect(result.text).to include(`This candidate does not want to apply for #{declined_invite.course.name_and_code}`)
+        expect(result.text).to include("This candidate does not want to apply for #{declined_invite.course.name_and_code}")
         expect(result.text).to include('They selected the reason: this course training provider is not right for me')
+      end
+    end
+
+    context 'when the candidate has declined the invite with "another reason" and a comment' do
+      before do
+        create(:pool_invite_decline_reason,
+               invite_id: declined_invite.id,
+               reason: 'other',
+               comment: 'I have decided to pursue another course')
+      end
+
+      it 'renders the reason with the comment in quotes' do
+        expect(result.text).to include("This candidate does not want to apply for #{declined_invite.course.name_and_code}")
+        expect(result.text).to include('They selected the reason: another reason - "I have decided to pursue another course"')
+      end
+    end
+
+    context 'when the candidate has declined the invite with "another reason" and no comment' do
+      before do
+        create(:pool_invite_decline_reason,
+               invite_id: declined_invite.id,
+               reason: 'other')
+      end
+
+      it 'renders only the reason' do
+        expect(result.text).to include("This candidate does not want to apply for #{declined_invite.course.name_and_code}")
+        expect(result.text).to include('They selected the reason: another reason')
       end
     end
   end
