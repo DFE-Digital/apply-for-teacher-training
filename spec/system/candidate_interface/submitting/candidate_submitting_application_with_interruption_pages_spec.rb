@@ -150,7 +150,7 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
     )
     @course = create(:course, :open, name: 'Primary', code: '2XT2', provider: @provider)
     @course_option = create(:course_option, site:, course: @course)
-    @current_candidate.application_forms << create(:application_form, completed_section_trait, :with_degree, becoming_a_teacher: Faker::Lorem.words(number: personal_statement_words))
+    create(:application_form, completed_section_trait, :with_degree, candidate: @current_candidate, becoming_a_teacher: Faker::Lorem.words(number: personal_statement_words))
     @application_choice = create(:application_choice, :unsubmitted, course_option: @course_option, application_form: @current_candidate.current_application)
   end
 
