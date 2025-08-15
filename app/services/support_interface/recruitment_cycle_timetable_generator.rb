@@ -87,14 +87,16 @@ module SupportInterface
     end
 
     def generate_find_closes_at(recruitment_cycle_year)
+      # Find should always open on the closest Tues to 1st Oct
+      # And because find opens depends on find closes, find_closes_at should be closest Monday to 1st Oct
       oct_first = Time.zone.local(recruitment_cycle_year, 10, 1, 23, 59, 59)
 
       if oct_first.monday?
         oct_first
-      elsif oct_first.tuesday? || oct_first.wednesday? || oct_first.thursday?
-        oct_first - 1.day
-      else
+      elsif oct_first.friday? || oct_first.on_weekend?
         oct_first.next_occurring(:monday)
+      else
+        oct_first.prev_occurring(:monday)
       end
     end
 
