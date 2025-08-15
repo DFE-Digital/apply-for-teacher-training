@@ -155,4 +155,127 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
       end
     end
   end
+
+  context 'when valid optional course attributes are provided' do
+    let(:new_course) do
+      create(:course,
+             :available_in_current_and_next_year,
+             provider: currently_authenticated_provider)
+    end
+    let(:new_course_option) do
+      create(:course_option,
+             :available_in_current_and_next_year,
+             course: new_course)
+    end
+    let(:request_body) do
+      {
+        data: {
+          conditions_met: false,
+          course: {
+            recruitment_cycle_year: new_course.recruitment_cycle_year,
+            provider_code: new_course.provider.code,
+            course_code: new_course.code,
+            site_code: new_course_option.site.code,
+            study_mode: new_course_option.study_mode,
+          },
+        },
+      }
+    end
+
+    it 'confirms the deferral using the new course details' do
+      post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body
+
+      expect(response).to have_http_status(:ok)
+      expect(application_choice.reload.current_course_option).to eq(new_course_option)
+      expect(parsed_response['data']['attributes']['status']).to eq('pending_conditions')
+    end
+  end
+
+  context 'when invalid optional course attributes are provided' do
+    let(:request_body) do
+      {
+        data: {
+          conditions_met: true,
+          course: {
+            recruitment_cycle_year: 2099,
+            provider_code: 'X00',
+            course_code: 'NONE',
+            site_code: 'NONE',
+            study_mode: 'full_time',
+          },
+        },
+      }
+    end
+
+    it 'returns an UnprocessableEntity response' do
+      post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
+  context 'when valid optional course attributes are provided without a site_code' do
+    let(:new_course) do
+      create(:course,
+             :available_in_current_and_next_year,
+             provider: currently_authenticated_provider)
+    end
+    let(:new_course_option) do
+      create(:course_option,
+             :available_in_current_and_next_year,
+             course: new_course)
+    end
+    let(:request_body) do
+      {
+        data: {
+          conditions_met: false,
+          course: {
+            recruitment_cycle_year: new_course.recruitment_cycle_year,
+            provider_code: new_course.provider.code,
+            course_code: new_course.code,
+            study_mode: new_course_option.study_mode,
+            start_date: '2005-09',
+          },
+        },
+      }
+    end
+
+    it 'still confirms the deferral using the new course details' do
+      post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body
+
+      expect(response).to have_http_status(:ok)
+      expect(application_choice.reload.current_course_option).to eq(new_course_option)
+      expect(parsed_response['data']['attributes']['status']).to eq('pending_conditions')
+    end
+  end
+
+  context 'when some mandatory parameters are missing' do
+    let(:new_course) do
+      create(:course,
+             :available_in_current_and_next_year,
+             provider: currently_authenticated_provider)
+    end
+    let(:new_course_option) do
+      create(:course_option,
+             :available_in_current_and_next_year,
+             course: new_course)
+    end
+    let(:request_body) do
+      {
+        data: {
+          conditions_met: false,
+          course: {
+            recruitment_cycle_year: new_course.recruitment_cycle_year,
+            course_code: new_course.code,
+          },
+        },
+      }
+    end
+
+    it 'returns an Unprocessable Entity response' do
+      post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
 end
