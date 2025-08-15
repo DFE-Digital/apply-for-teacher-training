@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get '/auth/one-login-developer/callback' => 'one_login#bypass_callback'
   get '/auth/one-login/sign-out', to: 'one_login#sign_out'
   get '/auth/one-login/sign-out-complete', to: 'one_login#sign_out_complete'
+  post '/auth/one-login/backchannel-logout', to: 'one_login#backchannel_signout'
   get '/auth/failure', to: 'one_login#failure'
 
   direct :find do
