@@ -15,7 +15,13 @@ module VendorAPI
 
     def course_option
       if course_data.present?
-        CourseOption.find_through_api(course_data)
+        GetCourseOptionFromCodes.new(
+          provider_code: course_data[:provider_code],
+          course_code: course_data[:course_code],
+          study_mode: course_data[:study_mode],
+          site_code: course_data[:site_code],
+          recruitment_cycle_year: course_data[:recruitment_cycle_year],
+        ).call
       else
         application_choice.current_course_option.in_next_cycle
       end

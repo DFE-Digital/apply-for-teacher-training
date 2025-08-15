@@ -186,40 +186,4 @@ RSpec.describe CourseOption do
       expect(course_option_current_cycle.in_next_cycle).to eq(course_option_next_cycle)
     end
   end
-
-  describe '.find_through_api' do
-    let(:provider) { create(:provider, code: 'ABC') }
-    let(:site) { create(:site, provider:, code: 'S1') }
-    let(:course) { create(:course, provider:, code: 'C1', recruitment_cycle_year: 2025) }
-    let!(:course_option) { create(:course_option, course:, site:, study_mode: 'full_time') }
-
-    let(:data) do
-      {
-        provider_code: provider.code,
-        course_code: course.code,
-        recruitment_cycle_year: course.recruitment_cycle_year,
-        study_mode: 'full_time',
-      }
-    end
-
-    context 'when site_code is provided' do
-      it 'finds the matching course option' do
-        course_data = data.merge(site_code: site.code)
-        result = described_class.find_through_api(course_data)
-        expect(result).to eq(course_option)
-      end
-
-      it 'raises ActiveRecord::RecordNotFound if no match' do
-        course_data = data.merge(site_code: 'NONE')
-        expect { described_class.find_through_api(course_data) }.to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
-
-    context 'when site_code is not provided' do
-      it 'finds the matching course option' do
-        result = described_class.find_through_api(data)
-        expect(result).to eq(course_option)
-      end
-    end
-  end
 end
