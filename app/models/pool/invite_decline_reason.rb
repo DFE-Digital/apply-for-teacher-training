@@ -1,6 +1,7 @@
 class Pool::InviteDeclineReason < ApplicationRecord
   belongs_to :invite, class_name: 'Pool::Invite'
 
+  # @deprecated The status of an invite decline reason is never changed from draft. Will be removed in https://trello.com/c/F3Rvo1XB
   enum :status, {
     draft: 'draft',
     published: 'published',

@@ -13,9 +13,9 @@ class Pool::Invite < ApplicationRecord
   has_many :application_choices, through: :application_form
 
   has_many :invite_decline_reasons, class_name: 'Pool::InviteDeclineReason', dependent: :destroy
-  # @deprecated The status of an invite is never changed from draft. Will be removed in https://trello.com/c/F3Rvo1XB
+  # @deprecated The status of an invite reason is never changed from draft. Will be removed in https://trello.com/c/F3Rvo1XB
   has_many :draft_invite_decline_reasons, -> { draft }, class_name: 'Pool::InviteDeclineReason', dependent: :destroy
-  # @deprecated The status of an invite is never changed from draft. Will be removed in https://trello.com/c/F3Rvo1XB
+  # @deprecated The status of an invite reason is never changed from draft. Will be removed in https://trello.com/c/F3Rvo1XB
   has_many :published_invite_decline_reasons, -> { published }, class_name: 'Pool::InviteDeclineReason', dependent: :destroy
   accepts_nested_attributes_for :invite_decline_reasons, allow_destroy: true, reject_if: :all_blank
 
@@ -23,7 +23,6 @@ class Pool::Invite < ApplicationRecord
   delegate :name_code_and_study_mode, to: :course, prefix: true
   delegate :name_and_code, to: :course, prefix: true
 
-  # @deprecated The status of an invite is never changed from draft. Will be removed in https://trello.com/c/F3Rvo1XB
   enum :status, {
     draft: 'draft',
     published: 'published',

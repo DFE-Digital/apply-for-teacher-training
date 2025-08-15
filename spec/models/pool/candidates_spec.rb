@@ -173,6 +173,15 @@ RSpec.describe Pool::Candidates do
         reason: 'do-not-want-to-train-anymore.personal-circumstances-have-changed',
       )
 
+      application_form_declined_invites_no_longer_wants_to_train = create(:application_form, :completed)
+      create(:candidate_preference, application_form: application_form_declined_invites_no_longer_wants_to_train)
+      create(:application_choice, :rejected, application_form: application_form_declined_invites_no_longer_wants_to_train)
+      pool_invite_declined_invites_no_longer_wants_to_train = create(:pool_invite,
+                                                                     :sent_to_candidate,
+                                                                     application_form: application_form_declined_invites_no_longer_wants_to_train,
+                                                                     candidate_decision: :declined)
+      create(:pool_invite_decline_reason, invite: pool_invite_declined_invites_no_longer_wants_to_train, reason: 'no_longer_interested')
+
       application_forms = described_class.new.application_forms_in_the_pool
 
       expect(application_forms).to be_empty
