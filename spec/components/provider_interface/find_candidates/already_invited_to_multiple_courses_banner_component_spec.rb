@@ -131,5 +131,30 @@ RSpec.describe ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCourse
         expect(result.text).to be_blank
       end
     end
+
+    context 'when an invite has been declined' do
+      let(:current_provider_user) { create(:provider_user, providers: [provider]) }
+
+      let!(:course1) { create(:course, provider:) }
+      let!(:course2) { create(:course, provider:) }
+
+      let!(:invite1) do
+        create(:pool_invite, :published, candidate:, application_form:, provider:, course: course1, candidate_decision: 'declined')
+      end
+
+      let!(:invite2) do
+        create(:pool_invite, :published, candidate:, application_form:, provider:, course: course2)
+      end
+
+      it 'states that the candidate declined' do
+        result = render_inline(described_class.new(
+                                 application_form:,
+                                 current_provider_user:,
+                               ))
+
+        expect(result.text).to include('They declined the invitation')
+        expect(result.text).to include(course1.name_and_code)
+      end
+    end
   end
 end
