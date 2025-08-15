@@ -85,6 +85,17 @@ class OneLoginController < ApplicationController
     end
   end
 
+  def backchannel_signout
+    Rails.logger.info 'BACKCHANNEL'
+    Rails.logger.info 'BACKCHANNEL'
+    Rails.logger.info 'BACKCHANNEL'
+    Rails.logger.info 'BACKCHANNEL'
+    Rails.logger.info 'BACKCHANNEL'
+    Rails.logger.info 'BACKCHANNEL'
+    Rails.logger.info 'BACKCHANNEL'
+    Rails.logger.info 'BACKCHANNEL'
+  end
+
   def failure
     terminate_session
     redirect_to root_path
