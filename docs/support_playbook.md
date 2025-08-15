@@ -878,7 +878,7 @@ Note: Do not do this if the timetables in these apps have been changed for testi
 
 ### Finally update the seed data for dev, test and review
 Create a branch locally
-Run `ProductionRecruitmentCycleTimetablesAPI.RefreshSeedData.new.call` -- This updates the csv which is used to seed timetables in review apps, tests, and development
+Run `ProductionRecruitmentCycleTimetablesAPI::RefreshSeedData.new.call` -- This updates the csv which is used to seed timetables in review apps, tests, and development
 
 ## Generating Vendor API Tokens
 
