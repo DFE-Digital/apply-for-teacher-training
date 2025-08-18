@@ -4,7 +4,6 @@ module CandidateInterface
 
     def start
       @application_form = current_application
-      render 'candidate_interface/carry_over/not_submitted/start'
     end
 
     def create
