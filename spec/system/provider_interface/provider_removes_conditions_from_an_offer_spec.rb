@@ -108,6 +108,7 @@ RSpec.describe 'Remove offer conditions' do
 
   def when_i_send_the_new_offer
     click_link_or_button 'Send new offer'
+    expect(page).to have_current_path provider_interface_application_choice_offer_path(@application_choice)
   end
 
   def then_the_candidate_has_the_new_conditions
