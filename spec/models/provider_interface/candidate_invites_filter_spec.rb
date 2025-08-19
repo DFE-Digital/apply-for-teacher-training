@@ -10,6 +10,7 @@ RSpec.describe ProviderInterface::CandidateInvitesFilter do
       :sent_to_candidate,
       course: application_choice.course,
       application_form: application_choice.application_form,
+      candidate_decision: 'accepted',
     )
   end
 
@@ -22,6 +23,8 @@ RSpec.describe ProviderInterface::CandidateInvitesFilter do
   let(:invite_with_candidate_in_pool) { create(:pool_invite, :sent_to_candidate, application_form: opt_in_form, course: build(:course, provider:)) }
   let(:second_invite_with_candidate_in_pool) { create(:pool_invite, :sent_to_candidate, application_form: opt_in_form, course: build(:course, provider:)) }
 
+  let(:declined_invite) { create(:pool_invite, :sent_to_candidate, application_form: opt_in_form, course: build(:course, provider:), candidate_decision: 'declined') }
+
   let(:provider_user) { create(:provider_user, provider_ids: [provider.id]) }
 
   before do
@@ -29,6 +32,7 @@ RSpec.describe ProviderInterface::CandidateInvitesFilter do
     invite_with_opted_out_candidate
     invite_with_candidate_in_pool
     second_invite_with_candidate_in_pool
+    declined_invite
 
     FindACandidate::PopulatePoolWorker.new.perform
   end
@@ -42,6 +46,7 @@ RSpec.describe ProviderInterface::CandidateInvitesFilter do
           invite_with_opted_out_candidate,
           invite_with_candidate_in_pool,
           second_invite_with_candidate_in_pool,
+          declined_invite,
         )
       expect(filter.candidate_count).to eq 3
     end
@@ -73,6 +78,71 @@ RSpec.describe ProviderInterface::CandidateInvitesFilter do
 
       expect(filter.candidate_count).to eq 2
       expect(user_filter.reload.filters).to match({ 'status' => ['invited'] })
+    end
+  end
+
+  context 'user applies the "Invited" filter' do
+    it 'returns candidates with invites with a status of "Invited"' do
+      user_filter = create(:provider_user_filter, :find_candidates_invited, provider_user:, filters: { status: ['invited'] })
+      filter = described_class.new(filter_params: {}, provider_user:)
+
+      expect(filter.applied_filters)
+        .to contain_exactly(
+          invite_with_opted_out_candidate,
+          invite_with_candidate_in_pool,
+          second_invite_with_candidate_in_pool,
+        )
+
+      expect(filter.candidate_count).to eq 2
+      expect(user_filter.reload.filters).to match({ 'status' => ['invited'] })
+    end
+  end
+
+  context 'user applies the "Invite declined" filter' do
+    it 'returns candidates with invites with a status of "Application declined"' do
+      user_filter = create(:provider_user_filter, :find_candidates_invited, provider_user:, filters: { status: ['declined'] })
+      filter = described_class.new(filter_params: {}, provider_user:)
+
+      expect(filter.applied_filters)
+        .to contain_exactly(
+          declined_invite,
+        )
+
+      expect(filter.candidate_count).to eq 1
+      expect(user_filter.reload.filters).to match({ 'status' => ['declined'] })
+    end
+  end
+
+  context 'user applies the "Application received" filter' do
+    it 'returns candidates with invites with a status of "Application received"' do
+      user_filter = create(:provider_user_filter, :find_candidates_invited, provider_user:, filters: { status: ['application_received'] })
+      filter = described_class.new(filter_params: {}, provider_user:)
+
+      expect(filter.applied_filters)
+        .to contain_exactly(
+          invite_with_application,
+        )
+
+      expect(filter.candidate_count).to eq 1
+      expect(user_filter.reload.filters).to match({ 'status' => ['application_received'] })
+    end
+  end
+
+  context 'user applies the "Invited" and "Application received" filters' do
+    it 'returns candidates with invites with a status of "Application received" and "Invited"' do
+      user_filter = create(:provider_user_filter, :find_candidates_invited, provider_user:, filters: { status: %w[application_received invited] })
+      filter = described_class.new(filter_params: {}, provider_user:)
+
+      expect(filter.applied_filters)
+        .to contain_exactly(
+          invite_with_application,
+          invite_with_opted_out_candidate,
+          invite_with_candidate_in_pool,
+          second_invite_with_candidate_in_pool,
+        )
+
+      expect(filter.candidate_count).to eq 3
+      expect(user_filter.reload.filters).to match({ 'status' => %w[application_received invited] })
     end
   end
 end

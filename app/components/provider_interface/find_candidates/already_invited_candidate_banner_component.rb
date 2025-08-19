@@ -62,8 +62,8 @@ private
       reason_text += " - \"#{reason.comment}\""
     end
 
-    unless reason_text.start_with?('I')
-      reason_text = reason_text.sub(/\A\p{L}/, &:downcase)
+    unless reason_text.start_with?('I ')
+      reason_text[0] = reason_text[0].downcase
     end
 
     reason_text

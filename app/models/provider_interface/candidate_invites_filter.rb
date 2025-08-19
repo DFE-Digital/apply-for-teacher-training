@@ -97,9 +97,9 @@ module ProviderInterface
 
       conditions = []
 
-      conditions << invites.without_matching_application_choices.where.not(candidate_decision: :declined) if status_filter.include?('invited')
+      conditions << invites.published.not_responded if status_filter.include?('invited')
       conditions << invites.with_matching_application_choices if status_filter.include?('application_received')
-      conditions << invites.where(candidate_decision: :declined) if status_filter.include?('declined')
+      conditions << invites.published.declined if status_filter.include?('declined')
 
       conditions.reduce(:or)
     end
