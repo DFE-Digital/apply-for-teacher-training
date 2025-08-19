@@ -172,7 +172,6 @@ group :test do
   gem 'launchy'
   gem 'rspec_junit_formatter'
   gem 'rspec-retry', git: 'https://github.com/DFE-Digital/rspec-retry.git', branch: 'main'
-  gem 'ruby-jmeter'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 6.5'
   gem 'simplecov-cobertura', require: false

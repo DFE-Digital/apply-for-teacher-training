@@ -109,9 +109,6 @@ pt_review: test-cluster
 	$(eval export TF_VAR_namespace=$(NAMESPACE))
 	$(if $(FD), $(eval export TF_VAR_gov_uk_host_names=["$(PR_NUMBER).apply-for-teacher-training.service.gov.uk","$(PR_NUMBER).apply-for-teacher-training.education.gov.uk"]))
 
-loadtest: test-cluster
-	$(eval include global_config/loadtest.sh)
-
 qa: test-cluster
 	$(eval include global_config/qa.sh)
 

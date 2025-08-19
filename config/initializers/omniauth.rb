@@ -29,13 +29,13 @@ options = {
 # it cannot just be a local function as other parts of the codebase depend on it
 module ::DfESignIn
   def self.bypass?
-    (HostingEnvironment.review? || HostingEnvironment.loadtest? || Rails.env.development?) && ENV['BYPASS_DFE_SIGN_IN'] == 'true'
+    (HostingEnvironment.review? || Rails.env.development?) && ENV['BYPASS_DFE_SIGN_IN'] == 'true'
   end
 end
 
 module ::OneLogin
   def self.bypass?
-    HostingEnvironment.review? || HostingEnvironment.loadtest? || Rails.env.development?
+    HostingEnvironment.review? || Rails.env.development?
   end
 end
 

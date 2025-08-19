@@ -35,12 +35,8 @@ module CandidateInterface
 
   private
 
-    def redirect_after_signup(candidate, magic_link_token)
-      if candidate.load_tester?
-        redirect_to candidate_interface_authenticate_url(token: magic_link_token)
-      else
-        redirect_to candidate_interface_check_email_sign_up_path
-      end
+    def redirect_after_signup(*, **)
+      redirect_to candidate_interface_check_email_sign_up_path
     end
 
     def external_sign_up_forbidden?
