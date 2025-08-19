@@ -1,0 +1,4 @@
+<%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
+  <% notification_banner.with_heading(text: t('.heading', deadline_date: reject_by_default_deadline[:day_and_month])) %>
+  <p class="govuk-body"><%= t('.text', deadline_time: reject_by_default_deadline[:time], deadline_date: reject_by_default_deadline[:full_date]) %></p>
+<% end %>
