@@ -35,7 +35,7 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponent 
         'provider_interface.find_candidates.already_invited_candidate_banner_component.text',
         subject: invite.course.name_and_code,
         provider: invite.provider.name,
-        date: date,
+        date:,
         count: @current_provider_user.providers.count,
       )
     end
@@ -62,7 +62,7 @@ private
       reason_text += " - \"#{reason.comment}\""
     end
 
-    unless reason_text.start_with?('I ')
+    unless reason_text.start_with?('I ') # Start with lowercase unless pronoun 'I'
       reason_text[0] = reason_text[0].downcase
     end
 

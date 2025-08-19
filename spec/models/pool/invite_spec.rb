@@ -35,6 +35,17 @@ RSpec.describe Pool::Invite do
     end
   end
 
+  describe 'acceptable' do
+    it 'returns invites that have been accepted or not_responded' do
+      accepted_invite = create(:pool_invite, :sent_to_candidate, candidate_decision: 'accepted')
+      not_responded_invite = create(:pool_invite, :sent_to_candidate, candidate_decision: 'not_responded')
+      declined_invite = create(:pool_invite, :sent_to_candidate, candidate_decision: 'declined')
+
+      expect(described_class.acceptable).to contain_exactly(accepted_invite, not_responded_invite)
+      expect(described_class.acceptable).not_to contain_exactly(accepted_invite, not_responded_invite, declined_invite)
+    end
+  end
+
   describe 'enums' do
     subject(:invite) { build(:pool_invite) }
 
