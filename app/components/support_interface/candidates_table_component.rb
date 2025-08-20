@@ -13,7 +13,6 @@ module SupportInterface
           candidate_flow_application_state: state(candidate),
           candidate_link: govuk_link_to(candidate.email_address, support_interface_candidate_path(candidate)),
           updated_at: candidate.updated_at&.to_fs(:govuk_date_and_time),
-          apply_again: false,
         }
       end
     end

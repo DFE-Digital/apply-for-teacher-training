@@ -80,7 +80,7 @@ class OfferValidations
     end
 
     if application_choice.candidate.current_application_choices.exclude?(application_choice)
-      errors.add(:base, :only_latest_application_rejection_can_be_reverted_on_apply_2)
+      errors.add(:base, :only_latest_application_rejection_can_be_reverted)
     end
   end
 

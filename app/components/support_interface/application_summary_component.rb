@@ -43,9 +43,7 @@ module SupportInterface
     end
 
     def recruitment_cycle_year_with_context
-      if application_form.apply_2?
-        "#{application_form.recruitment_cycle_year}, apply again"
-      elsif application_form.candidate_has_previously_applied?
+      if application_form.candidate_has_previously_applied?
         "#{application_form.recruitment_cycle_year}, carried over"
       else
         application_form.recruitment_cycle_year

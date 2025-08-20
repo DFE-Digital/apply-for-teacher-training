@@ -124,7 +124,7 @@ en:
               different_ratifying_provider: The offered course's ratifying provider must be the same as the one originally requested
               other_offer_already_accepted: You cannot make an offer because the candidate has already accepted one
               application_rejected_by_default: You cannot make an offer because the application has been automatically rejected
-              only_latest_application_rejection_can_be_reverted_on_apply_2: You cannot make an offer because you can only do so for the most recent application
+              only_latest_application_rejection_can_be_reverted: You cannot make an offer because you can only do so for the most recent application
         provider_interface/recruit_with_pending_conditions_form:
           attributes:
             confirmation:

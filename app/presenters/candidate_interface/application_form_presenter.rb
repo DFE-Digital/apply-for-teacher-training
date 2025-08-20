@@ -4,8 +4,7 @@ module CandidateInterface
 
     attr_reader :application_form
 
-    delegate :apply_2?,
-             :cache_key_with_version,
+    delegate :cache_key_with_version,
              :candidate_has_previously_applied?,
              :can_add_more_choices?,
              :can_add_course_choice?,

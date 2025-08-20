@@ -12,7 +12,7 @@
       <% table_rows.each do |table_row| %>
         <tr class="govuk-table__row" data-qa="candidate-<%= table_row[:candidate_id] %>">
           <td class="govuk-table__cell">
-            <%= table_row[:candidate_link] %> <%= table_row[:apply_again] ? '(Apply again)' : '' %>
+            <%= table_row[:candidate_link] %>
           </td>
           <td class="govuk-table__cell"><%= t "candidate_flow_application_states.#{table_row[:candidate_flow_application_state]}.name" %></td>
           <td class="govuk-table__cell"><%= table_row[:updated_at] %></td>

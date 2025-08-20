@@ -3,7 +3,7 @@ module CandidateInterface
     def self.call
       references = ApplicationReference
                     .joins(:application_form)
-                    .where('phase = ? AND feedback_status = ? AND feedback_provided_at is NULL', 'apply_2', 'feedback_provided')
+                    .where('feedback_status = ? AND feedback_provided_at is NULL', 'feedback_provided')
       references.find_each do |reference|
         duplicate_references = ApplicationReference
         .feedback_provided

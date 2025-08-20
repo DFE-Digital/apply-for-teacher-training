@@ -47,7 +47,6 @@ class CandidateFlow
     end
 
     state :ended_without_success do
-      event :start_apply_again, transitions_to: :unsubmitted_in_progress
     end
 
     state :pending_conditions do
