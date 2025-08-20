@@ -25,12 +25,12 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
       previous_application_form1 = create(:application_form)
       choice1 = create(:application_choice, :with_old_structured_rejection_reasons, application_form: previous_application_form1)
       choice2 = create(:application_choice, :with_old_structured_rejection_reasons, application_form: previous_application_form1)
-      previous_application_form2 = apply_again!(previous_application_form1)
+      previous_application_form2 = duplicate_application!(previous_application_form1)
       choice3 = create(:application_choice, :with_old_structured_rejection_reasons, application_form: previous_application_form2)
       %w[Bad Good Amazing].zip([choice1, choice2, choice3]).each do |feedback, choice|
         choice.update!(structured_rejection_reasons: choice.structured_rejection_reasons.merge(quality_of_application_personal_statement_what_to_improve: feedback))
       end
-      current_application_form = apply_again!(previous_application_form2)
+      current_application_form = duplicate_application!(previous_application_form2)
 
       history_items = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
 
@@ -44,7 +44,7 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
     context 'for current rejection reasons' do
       let(:previous_application_form) { create(:application_form) }
       let!(:application_choice1) { create(:application_choice, :with_structured_rejection_reasons, application_form: previous_application_form, structured_rejection_reasons: rejection_reasons) }
-      let(:current_application_form) { apply_again!(previous_application_form) }
+      let(:current_application_form) { duplicate_application!(previous_application_form) }
       let!(:application_choice2) { create(:application_choice, :with_structured_rejection_reasons, application_form: current_application_form) }
 
       context 'when no reasons for section selected' do
@@ -139,7 +139,7 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
       choice = create(:application_choice, :with_old_structured_rejection_reasons, application_form: previous_application_form)
       create(:application_choice, structured_rejection_reasons: { 'safeguarding_y_n' => 'No' }, application_form: previous_application_form)
       create(:application_choice, application_form: previous_application_form)
-      current_application_form = apply_again!(previous_application_form)
+      current_application_form = duplicate_application!(previous_application_form)
 
       history_items = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
 
@@ -151,7 +151,7 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
     context 'for vendor_api rejection reasons' do
       let(:previous_application_form) { create(:application_form) }
       let!(:application_choice1) { create(:application_choice, :with_vendor_api_rejection_reasons, application_form: previous_application_form, structured_rejection_reasons: rejection_reasons) }
-      let(:current_application_form) { apply_again!(previous_application_form) }
+      let(:current_application_form) { duplicate_application!(previous_application_form) }
       let!(:application_choice2) { create(:application_choice, :with_vendor_api_rejection_reasons, application_form: current_application_form) }
 
       context 'when no reasons for section selected' do
@@ -195,7 +195,7 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
 
   private
 
-    def apply_again!(application_form)
+    def duplicate_application!(application_form)
       DuplicateApplication.new(application_form).duplicate
     end
   end

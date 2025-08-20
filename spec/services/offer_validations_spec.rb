@@ -148,20 +148,20 @@ RSpec.describe OfferValidations, type: :model do
         end
       end
 
-      context 'when a provider attempts to revert a rejection on an application that is not the last one on apply_2' do
+      context 'when a provider attempts to revert a rejection on an application that is not the last one' do
         let(:candidate) { create(:candidate) }
         let(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option, created_at: 1.day.ago) }
         let(:other_application_choice) { build(:application_choice, :awaiting_provider_decision) }
         let!(:application_form) { create(:application_form, application_choices: [application_choice], created_at: 1.day.ago, candidate:) }
         let!(:other_application_form) { create(:application_form, application_choices: [other_application_choice], candidate:) }
 
-        it 'adds an :only_latest_application_rejection_can_be_reverted_on_apply_2 error' do
+        it 'adds an :only_latest_application_rejection_can_be_reverted error' do
           expect(offer).not_to be_valid
           expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because you can only do so for the most recent application')
         end
       end
 
-      context 'when a provider attempts to revert an apply_1 rejection but there is an application in apply_2' do
+      context 'when a provider attempts to revert a rejection but there is a newer application' do
         let(:candidate) { create(:candidate) }
         let(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option) }
         let!(:other_application_choice) { build(:application_choice, :awaiting_provider_decision) }
@@ -169,13 +169,13 @@ RSpec.describe OfferValidations, type: :model do
         let!(:application_form_apply_1) { create(:application_form, application_choices: [application_choice], candidate:) }
         let!(:application_form_apply_2) { create(:application_form, application_choices: [other_application_choice], candidate:) }
 
-        it 'adds an :only_latest_application_rejection_can_be_reverted_on_apply_2 error' do
+        it 'adds an :only_latest_application_rejection_can_be_reverted error' do
           expect(offer).not_to be_valid
           expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because you can only do so for the most recent application')
         end
       end
 
-      context 'when a provider attempts to revert an apply_2 rejection but there is an application in apply_1' do
+      context 'when a provider attempts to revert a rejection and there is an older application' do
         let(:candidate) { create(:candidate) }
         let(:other_application_choice) { build(:application_choice, :rejected) }
         let!(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option) }
@@ -188,7 +188,7 @@ RSpec.describe OfferValidations, type: :model do
         end
       end
 
-      context 'when a provider attempts to revert an apply_2 rejection and there are multiple applications in apply 2' do
+      context 'when a provider attempts to revert a rejection and there are multiple applications' do
         let(:candidate) { create(:candidate) }
         let(:apply_1_application_choice) { build(:application_choice, :rejected, created_at: 1.week.ago) }
         let(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option, created_at: 1.day.ago) }
@@ -202,7 +202,7 @@ RSpec.describe OfferValidations, type: :model do
         end
       end
 
-      context 'when a provider attempts to revert an apply_2 rejection but other offers have already been accepted' do
+      context 'when a provider attempts to revert a rejection but other offers have already been accepted' do
         let(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option) }
         let(:other_application_choice) { build(:application_choice, :recruited) }
         let!(:application_form) { create(:application_form, application_choices: [application_choice, other_application_choice]) }
