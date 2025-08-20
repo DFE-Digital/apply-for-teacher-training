@@ -40,8 +40,6 @@ class Pool::Invite < ApplicationRecord
     .or(where(course_open: false))
   }
 
-  scope :acceptable, -> { where(candidate_decision: %w[accepted not_responded]) }
-
   scope :not_sent_to_candidate, -> { where(sent_to_candidate_at: nil) }
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
   scope :with_matching_application_choices, -> { where(matching_application_choices_exists_sql) }

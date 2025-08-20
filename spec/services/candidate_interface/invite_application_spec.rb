@@ -77,17 +77,6 @@ RSpec.describe CandidateInterface::InviteApplication do
         expect(invite.reload.accepted?).to be(true)
       end
     end
-
-    context 'when an invite has been declined and a matching application choice is later identified' do
-      it 'does not update to accepted' do
-        invite.update(candidate_decision: 'declined')
-
-        described_class.accepted!(application_choice:)
-
-        expect(invite.reload.application_choice_id).to be_nil
-        expect(invite.reload.accepted?).to be(false)
-      end
-    end
   end
 
   describe '.accept_and_link_to_choice!' do

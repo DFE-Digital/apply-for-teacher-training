@@ -15,7 +15,7 @@ module CandidateInterface
     def accepted!
       clean_up_disconnected_invites
 
-      invite = application_form.published_invites.acceptable.find_by(
+      invite = application_form.published_invites.find_by(
         course_id: application_choice.current_course.id,
         application_choice_id: nil,
       )
