@@ -8,11 +8,7 @@ RSpec.describe CandidateInterface::CarryOverMidCycleComponent do
     expect(result.text).to include('Continue your application')
   end
 
-  context 'after the new recruitment cycle begins year' do
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(current_timetable.apply_opens_at)
-    end
-
+  context 'after the new recruitment cycle begins year', time: mid_cycle do
     it 'renders the correct academic years' do
       application_year = current_year - 1
       application_form = build(:completed_application_form, recruitment_cycle_year: application_year)

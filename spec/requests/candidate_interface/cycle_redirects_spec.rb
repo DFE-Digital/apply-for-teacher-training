@@ -3,12 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Cycle redirects' do
   include Devise::Test::IntegrationHelpers
 
-  top_level_application_routes = %w[
-    candidate_interface_details_path
-    candidate_interface_application_choices_path
-  ]
-
-  section_routes = [
+  all_routes = [
+    'candidate_interface_details_path',
     'candidate_interface_contact_information_review_path',
     ['candidate_interface_gcse_review_path', { subject: 'english' }],
     ['candidate_interface_gcse_review_path', { subject: 'maths' }],
@@ -21,9 +17,7 @@ RSpec.describe 'Cycle redirects' do
     'candidate_interface_review_safeguarding_path',
     'candidate_interface_becoming_a_teacher_show_path',
     'candidate_interface_interview_preferences_show_path',
-  ]
-
-  all_routes = top_level_application_routes.concat(section_routes).map { |path| Array.wrap(path) }
+  ].map { |path| Array.wrap(path) }
 
   let(:candidate) { create(:candidate) }
   let(:carry_over) { false }
@@ -43,13 +37,13 @@ RSpec.describe 'Cycle redirects' do
     all_routes.each do |path|
       it "does not redirect #{path.join(' - ')} to the start-carry-over path" do
         get public_send(*path)
-        expect(response).not_to redirect_to(candidate_interface_start_carry_over_path)
+        expect(response).not_to redirect_to(candidate_interface_application_choices_path)
       end
     end
 
-    it 'redirects start-carry-over path to the application details path' do
+    it 'redirects start-carry-over path to the application choices path' do
       get candidate_interface_start_carry_over_path
-      expect(response).to redirect_to(candidate_interface_details_path)
+      expect(response).to redirect_to(candidate_interface_application_choices_path)
     end
   end
 
@@ -59,13 +53,13 @@ RSpec.describe 'Cycle redirects' do
     all_routes.each do |path|
       it "redirects #{path.join(' - ')} to the start-carry-over path" do
         get public_send(*path)
-        expect(response).to redirect_to(candidate_interface_start_carry_over_path)
+        expect(response).to redirect_to(candidate_interface_application_choices_path)
       end
     end
 
-    it 'does not redirect the start-carry-over path to the application details path' do
+    it 'redirects start-carry-over path to the application choices path' do
       get candidate_interface_start_carry_over_path
-      expect(response).not_to redirect_to(candidate_interface_details_path)
+      expect(response).to redirect_to(candidate_interface_application_choices_path)
     end
   end
 end

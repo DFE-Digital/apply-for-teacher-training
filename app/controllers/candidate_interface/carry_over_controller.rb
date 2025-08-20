@@ -3,7 +3,7 @@ module CandidateInterface
     before_action AlreadyCarriedOverFilter
 
     def start
-      @application_form = current_application
+      redirect_to candidate_interface_application_choices_path
     end
 
     def create
