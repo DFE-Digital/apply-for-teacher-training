@@ -427,34 +427,7 @@ RSpec.describe Candidate do
     end
   end
 
-  describe '#in_apply_2?' do
-    subject(:candidate) { build(:candidate) }
 
-    let!(:application_form) { create(:application_form, candidate:) }
-
-    context 'when the candidate has no applications in apply again' do
-      it 'returns false' do
-        expect(candidate.in_apply_2?).to be false
-      end
-    end
-
-    context 'when the candidate has applications in apply again' do
-      let!(:application_form) { create(:application_form, candidate:, phase: 'apply_2') }
-
-      it 'returns true' do
-        expect(candidate.in_apply_2?).to be true
-      end
-    end
-
-    context 'when the candidate has applications in apply again in previous cycle' do
-      let!(:application_form_previous_year) { create(:application_form, candidate:, phase: 'apply_2', recruitment_cycle_year: previous_year) }
-      let!(:application_form) { create(:application_form, candidate:) }
-
-      it 'returns true' do
-        expect(candidate.in_apply_2?).to be false
-      end
-    end
-  end
 
   describe '#load_tester?' do
     context 'environment is production' do

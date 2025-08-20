@@ -152,8 +152,8 @@ RSpec.describe OfferValidations, type: :model do
         let(:candidate) { create(:candidate) }
         let(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option, created_at: 1.day.ago) }
         let(:other_application_choice) { build(:application_choice, :awaiting_provider_decision) }
-        let!(:application_form) { create(:application_form, phase: 'apply_2', application_choices: [application_choice], created_at: 1.day.ago, candidate:) }
-        let!(:other_application_form) { create(:application_form, phase: 'apply_2', application_choices: [other_application_choice], candidate:) }
+        let!(:application_form) { create(:application_form, application_choices: [application_choice], created_at: 1.day.ago, candidate:) }
+        let!(:other_application_form) { create(:application_form, application_choices: [other_application_choice], candidate:) }
 
         it 'adds an :only_latest_application_rejection_can_be_reverted_on_apply_2 error' do
           expect(offer).not_to be_valid
@@ -167,7 +167,7 @@ RSpec.describe OfferValidations, type: :model do
         let!(:other_application_choice) { build(:application_choice, :awaiting_provider_decision) }
 
         let!(:application_form_apply_1) { create(:application_form, application_choices: [application_choice], candidate:) }
-        let!(:application_form_apply_2) { create(:application_form, phase: 'apply_2', application_choices: [other_application_choice], candidate:) }
+        let!(:application_form_apply_2) { create(:application_form, application_choices: [other_application_choice], candidate:) }
 
         it 'adds an :only_latest_application_rejection_can_be_reverted_on_apply_2 error' do
           expect(offer).not_to be_valid
@@ -181,7 +181,7 @@ RSpec.describe OfferValidations, type: :model do
         let!(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option) }
 
         let!(:application_form_apply_1) { create(:application_form, application_choices: [other_application_choice], candidate:) }
-        let!(:application_form_apply_2) { create(:application_form, phase: 'apply_2', application_choices: [application_choice], candidate:) }
+        let!(:application_form_apply_2) { create(:application_form, application_choices: [application_choice], candidate:) }
 
         it 'is valid' do
           expect(offer).to be_valid
@@ -195,7 +195,7 @@ RSpec.describe OfferValidations, type: :model do
         let(:other_application_choice) { build(:application_choice, :rejected) }
 
         let!(:application_form_apply_1) { create(:application_form, application_choices: [apply_1_application_choice], candidate:, created_at: 1.week.ago) }
-        let!(:application_form_apply_2) { create(:application_form, phase: 'apply_2', application_choices: [application_choice, other_application_choice], candidate:) }
+        let!(:application_form_apply_2) { create(:application_form, application_choices: [application_choice, other_application_choice], candidate:) }
 
         it 'is valid' do
           expect(offer).to be_valid
@@ -205,7 +205,7 @@ RSpec.describe OfferValidations, type: :model do
       context 'when a provider attempts to revert an apply_2 rejection but other offers have already been accepted' do
         let(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option) }
         let(:other_application_choice) { build(:application_choice, :recruited) }
-        let!(:application_form) { create(:application_form, phase: 'apply_2', application_choices: [application_choice, other_application_choice]) }
+        let!(:application_form) { create(:application_form, application_choices: [application_choice, other_application_choice]) }
 
         it 'adds an :other_offer_already_accepted error' do
           expect(offer).not_to be_valid

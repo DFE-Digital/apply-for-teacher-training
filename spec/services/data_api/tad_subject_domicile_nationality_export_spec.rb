@@ -79,7 +79,6 @@ RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
         application_choice_attrs: [
           { status: :rejected, subjects: ['Mathematics'] },
         ],
-        phase: 'apply_2',
         previous_application_form: apply_1_application_form,
       )
       create_application(
@@ -88,7 +87,6 @@ RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
         application_choice_attrs: [
           { status: :offer, subjects: ['Mathematics'] },
         ],
-        phase: 'apply_2',
         previous_application_form: first_apply_2_application_form,
       )
 

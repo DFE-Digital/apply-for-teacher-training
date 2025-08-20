@@ -4,7 +4,7 @@ RSpec.describe 'Vendor reverts a rejection' do
   include CandidateHelper
 
   scenario 'A vendor reverts a rejection' do
-    given_a_candidate_has_multiple_rejected_application_and_is_in_apply_2
+    given_a_candidate_has_multiple_rejected_applications
     when_i_try_to_revert_the_rejection_on(@initial_application_choice)
     then_i_can_see_a_validation_error
 
@@ -12,10 +12,10 @@ RSpec.describe 'Vendor reverts a rejection' do
     then_i_can_see_the_offer_was_made_successfully
   end
 
-  def given_a_candidate_has_multiple_rejected_application_and_is_in_apply_2
+  def given_a_candidate_has_multiple_rejected_applications
     @initial_application_choice = create(:application_choice, :with_completed_application_form, :rejected)
     @most_recent_application_choice = build(:application_choice, :rejected, course_option: @initial_application_choice.course_option)
-    create(:completed_application_form, phase: 'apply_2', candidate: @initial_application_choice.candidate, application_choices: [@most_recent_application_choice])
+    create(:completed_application_form, candidate: @initial_application_choice.candidate, application_choices: [@most_recent_application_choice])
     @provider = @initial_application_choice.provider
   end
 

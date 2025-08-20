@@ -121,11 +121,7 @@ private
     expect(page).to have_current_path candidate_interface_start_carry_over_path
   end
 
-  def and_i_have_submitted_apply_again_course_choices
-    application_form = current_candidate.application_forms.find_by(phase: 'apply_2')
-    create(:application_choice, :awaiting_provider_decision, application_form:)
-    application_form.update!(submitted_at: Time.zone.now, becoming_a_teacher_completed: true)
-  end
+
 
   def when_i_carry_over
     click_link_or_button 'Update your details'

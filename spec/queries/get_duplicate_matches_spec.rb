@@ -178,8 +178,8 @@ RSpec.describe GetDuplicateMatches do
         carry_over_form = application_form(candidate_1, phase: 'apply_1', submitted_at: 1.year.ago)
         application_form(candidate_1, previous_application_form: carry_over_form, phase: 'apply_1')
 
-        apply_again_form = application_form(candidate_2, phase: 'apply_2', submitted_at: 1.year.ago)
-        application_form(candidate_2, previous_application_form: apply_again_form, phase: 'apply_2')
+        previous_form = application_form(candidate_2, phase: 'apply_1', submitted_at: 1.year.ago)
+        application_form(candidate_2, previous_application_form: previous_form, phase: 'apply_1')
       end
 
       it 'returns all duplicates' do

@@ -54,8 +54,8 @@ RSpec.describe DataMigrations::SetMissingSectionCompletedAtTimestamps do
     end
   end
 
-  context 'when the form is apply-again' do
-    let(:traits) { [:apply_again] }
+  context 'when the form has a previous application' do
+    let(:traits) { [:carry_over] }
     let(:attrs) { { personal_details_completed: true } }
 
     it 'sets the timestamps' do
