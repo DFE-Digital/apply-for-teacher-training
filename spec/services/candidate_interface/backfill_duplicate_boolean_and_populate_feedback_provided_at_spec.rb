@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::BackfillDuplicateBooleanAndPopulateFeedbackPr
       feedback_provided_at = Time.zone.local(2020, 6, 1, 11, 10, 0)
       apply_1_application_form1 = create(:application_form, phase: :apply_1)
       apply1_application_form2 = create(:application_form, phase: :apply_1)
-      apply_again_application_form = create(:application_form, candidate: apply_1_application_form1.candidate)
+      other_application_form = create(:application_form, candidate: apply_1_application_form1.candidate)
       reference = create(
         :reference,
         :feedback_provided,
@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::BackfillDuplicateBooleanAndPopulateFeedbackPr
         name: reference.name,
         email_address: reference.email_address,
         feedback: reference.feedback,
-        application_form: apply_again_application_form,
+        application_form: other_application_form,
       )
 
       duplicate_reference_with_different_candidate = create(

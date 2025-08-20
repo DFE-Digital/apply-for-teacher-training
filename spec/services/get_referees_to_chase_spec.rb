@@ -43,20 +43,20 @@ RSpec.describe GetRefereesToChase do
         application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
         create(:reference, :feedback_requested, application_form: application_form, requested_at: current_timetable.apply_deadline_at - 7.days)
 
-        application_form_apply_again = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
-        create(:application_choice, :accepted, application_form: application_form_apply_again)
-        first_reference_apply_again = create(:reference, :feedback_requested, application_form: application_form_apply_again, requested_at: 8.days.ago)
-        second_reference_apply_again = create(:reference, :feedback_requested, application_form: application_form_apply_again, requested_at: 8.days.ago)
+        application_form_2023 = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
+        create(:application_choice, :accepted, application_form: application_form_2023)
+        first_reference_2023 = create(:reference, :feedback_requested, application_form: application_form_2023, requested_at: 8.days.ago)
+        second_reference_2023 = create(:reference, :feedback_requested, application_form: application_form_2023, requested_at: 8.days.ago)
 
         application_form_next_cycle =  create(:application_form, :minimum_info, recruitment_cycle_year: 2024)
         create(:reference, :feedback_requested, application_form: application_form_next_cycle, requested_at: current_timetable.apply_deadline_at - 7.days)
 
         references = described_class.new(
           chase_referee_by: 7.days.before(Time.zone.now),
-          rejected_chased_ids: [second_reference_apply_again.id],
+          rejected_chased_ids: [second_reference_2023.id],
         ).call
 
-        expect(references).to contain_exactly(first_reference_apply_again)
+        expect(references).to contain_exactly(first_reference_2023)
       end
     end
 
@@ -65,9 +65,9 @@ RSpec.describe GetRefereesToChase do
         old_application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
         create(:reference, :feedback_requested, application_form: old_application_form, requested_at: current_timetable.find_opens_at - 7.days)
 
-        old_application_form_apply_again = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
-        create(:application_choice, :accepted, application_form: old_application_form_apply_again)
-        create(:reference, :feedback_requested, application_form: old_application_form_apply_again, requested_at: current_timetable.find_opens_at - 7.days)
+        old_application_form_2023 = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
+        create(:application_choice, :accepted, application_form: old_application_form_2023)
+        create(:reference, :feedback_requested, application_form: old_application_form_2023, requested_at: current_timetable.find_opens_at - 7.days)
 
         application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2024)
         create(:application_choice, :accepted, application_form:)

@@ -73,7 +73,7 @@ RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
           { status: :withdrawn, subjects: ['Mathematics'] },
         ],
       )
-      first_apply_2_application_form = create_application(
+      second_application_form = create_application(
         nationality: 'French',
         domicile: 'GB',
         application_choice_attrs: [
@@ -87,7 +87,7 @@ RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
         application_choice_attrs: [
           { status: :offer, subjects: ['Mathematics'] },
         ],
-        previous_application_form: first_apply_2_application_form,
+        previous_application_form: second_application_form,
       )
 
       result = described_class.new.data_for_export
