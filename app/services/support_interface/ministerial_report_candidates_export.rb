@@ -18,13 +18,10 @@ module SupportInterface
       subject_report = initialize_subject_report
 
       application_forms.find_each do |application|
-        latest_apply_again_application = viable_apply_2_applications(application).last
-
-        # We use original application to select determine subjects and
-        # combination of original application and latest apply again
-        # application (if there is one).
+        # We use the original application to determine subjects and states
+        # Note: With continuous applications, we no longer differentiate by phase
         subjects = determine_subjects(application)
-        states = determine_states([application, latest_apply_again_application].compact)
+        states = determine_states([application])
 
         if candidate_has_no_dominant_subject?(subjects)
           states.each do |state|
@@ -72,12 +69,7 @@ module SupportInterface
       end
     end
 
-    def viable_apply_2_applications(application)
-      application.candidate.application_forms
-        .reject { |application_form| application_form == application }
-        .select { |application_form| application_form.apply_2? && application_form.submitted? }
-        .sort_by(&:id)
-    end
+
 
     def add_row_values(hash, subject, state)
       hash[:stem][state] += 1 if MinisterialReport::STEM_SUBJECTS.include? subject

@@ -34,8 +34,6 @@ module SupportInterface
     end
 
     def add_choice_to_report(choice, report, subject_ids_report)
-      return report if choice.phase == 'apply_2' && !choice.is_latest_a2_app
-
       subject_names_and_codes = choice.subject_names.zip(choice.subject_codes)
       subject = MinisterialReport.determine_dominant_subject_for_report(choice.course_name, choice.course_level, subject_names_and_codes.to_h)
       mapped = MinisterialReport::TAD_STATUS_PRECEDENCE[choice.status.to_sym].presence || []
@@ -100,22 +98,13 @@ module SupportInterface
 
     def choices_with_courses_and_subjects
       ApplicationChoice
-        .select('application_choices.id as id, application_choices.status as status, application_form.id as application_form_id, application_form.phase as phase, courses.name as course_name, courses.level as course_level, ARRAY_AGG(subjects.name ORDER BY subjects.id) as subject_names, ARRAY_AGG(subjects.code ORDER BY subjects.id) as subject_codes, (CASE WHEN a2_latest_application_forms.candidate_id IS NOT NULL THEN true ELSE false END) AS is_latest_a2_app')
+        .select('application_choices.id as id, application_choices.status as status, application_form.id as application_form_id, application_form.phase as phase, courses.name as course_name, courses.level as course_level, ARRAY_AGG(subjects.name ORDER BY subjects.id) as subject_names, ARRAY_AGG(subjects.code ORDER BY subjects.id) as subject_codes')
         .joins(application_form: :candidate)
         .joins(current_course_option: { course: :subjects })
-        .joins(
-          "LEFT JOIN (SELECT candidate_id, MAX(created_at) as created
-          FROM application_forms
-          WHERE phase = 'apply_2'
-            AND submitted_at IS NOT NULL
-          GROUP BY candidate_id) a2_latest_application_forms
-            ON application_form.created_at = a2_latest_application_forms.created
-            AND application_form.candidate_id = a2_latest_application_forms.candidate_id",
-        )
         .where(current_recruitment_cycle_year:)
         .where.not(application_form: { submitted_at: nil })
         .where.not(candidates: { hide_in_reporting: true })
-        .group('application_choices.id, application_choices.status, application_form.id, application_form.phase, courses.name, courses.level, a2_latest_application_forms.candidate_id')
+        .group('application_choices.id, application_choices.status, application_form.id, application_form.phase, courses.name, courses.level')
         .order(:subject_names, :subject_codes)
     end
 

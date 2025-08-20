@@ -140,11 +140,6 @@ module SupportInterface
             label: 'Apply 1',
             checked: applied_filters[:phase]&.include?('apply_1'),
           },
-          {
-            value: 'apply_2',
-            label: 'Apply 2',
-            checked: applied_filters[:phase]&.include?('apply_2'),
-          },
         ],
       }
     end

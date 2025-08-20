@@ -249,22 +249,7 @@ module CandidateHelper
     create(:course_option, site:, course: @course)
   end
 
-  def candidate_fills_in_apply_again_course_choice
-    visit candidate_interface_application_choices_path
-    click_link_or_button 'Add application'
 
-    choose 'Yes, I know where I want to apply'
-    click_link_or_button t('continue')
-
-    select 'Gorse SCITT (1N1)'
-    click_link_or_button t('continue')
-
-    choose 'Primary (2XT2)'
-    click_link_or_button t('continue')
-
-    choose t('application_form.completed_radio')
-    click_link_or_button t('continue')
-  end
 
   def candidate_does_not_have_a_degree
     @application.application_qualifications.degrees.delete_all
@@ -292,38 +277,7 @@ module CandidateHelper
     click_link_or_button 'Confirm and submit application'
   end
 
-  def candidate_fills_in_apply_again_with_four_course_choices
-    choose 'Yes, I know where I want to apply'
-    click_link_or_button t('continue')
-    select 'Gorse SCITT (1N1)'
-    click_link_or_button t('continue')
-    choose 'Primary (2XT2)'
-    click_link_or_button t('continue')
 
-    click_link_or_button 'Add another course'
-    choose 'Yes, I know where I want to apply'
-    click_link_or_button t('continue')
-    select 'Gorse SCITT (1N1)'
-    click_link_or_button t('continue')
-    choose 'Drama (2397)'
-    click_link_or_button t('continue')
-
-    click_link_or_button 'Add another course'
-    choose 'Yes, I know where I want to apply'
-    click_link_or_button t('continue')
-    select 'Gorse SCITT (1N1)'
-    click_link_or_button t('continue')
-    choose 'English (6Z9H)'
-    click_link_or_button t('continue')
-
-    click_link_or_button 'Add another course'
-    choose 'Yes, I know where I want to apply'
-    click_link_or_button t('continue')
-    select 'Gorse SCITT (1N1)'
-    click_link_or_button t('continue')
-    choose 'Biology (2392)'
-    click_link_or_button t('continue')
-  end
 
   def candidate_fills_in_personal_details(international: false)
     scope = 'application_form.personal_details'

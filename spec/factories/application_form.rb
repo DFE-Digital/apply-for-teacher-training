@@ -407,26 +407,7 @@ FactoryBot.define do
       end
     end
 
-    trait :apply_again do
-      completed
-      created_at { CycleTimetableHelper.before_apply_deadline }
-      updated_at { CycleTimetableHelper.before_apply_deadline }
-      recruitment_cycle_year { CycleTimetableHelper.current_year }
-      phase { 'apply_2' }
 
-      previous_application_form do
-        association(
-          :completed_application_form,
-          recruitment_cycle_year:,
-          submitted_at: submitted_at - 10.days,
-          first_name:,
-          last_name:,
-          candidate:,
-          created_at: CycleTimetableHelper.mid_cycle,
-          updated_at: CycleTimetableHelper.mid_cycle,
-        )
-      end
-    end
 
     factory :completed_application_form do
       completed

@@ -112,9 +112,7 @@ class Candidate < ApplicationRecord
     "C#{id}"
   end
 
-  def in_apply_2?
-    application_forms.current_cycle.exists?(phase: 'apply_2')
-  end
+
 
   def load_tester?
     email_address.ends_with?('@loadtest.example.com') && !HostingEnvironment.production?

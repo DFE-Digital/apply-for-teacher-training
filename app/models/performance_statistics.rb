@@ -105,9 +105,7 @@ class PerformanceStatistics
     total_form_count(except: UNSUBMITTED_STATUSES)
   end
 
-  def apply_again_submitted_count
-    total_form_count(except: UNSUBMITTED_STATUSES, phase: :apply_2)
-  end
+
 
   def unsubmitted_application_form_status_total_counts
     application_form_status_total_counts(only: UNSUBMITTED_STATUSES)
@@ -137,9 +135,7 @@ class PerformanceStatistics
     application_form_status_total_counts(only: ACCEPTED_STATUSES)
   end
 
-  def apply_again_accepted_offer_count
-    total_form_count(only: %i[pending_conditions recruited offer_deferred], phase: :apply_2)
-  end
+
 
   def rejected_by_default_count
     @rejected_by_default_count ||= begin

@@ -104,7 +104,5 @@ private
       .intersect?(ApplicationStateChange::ACCEPTED_STATES - [:conditions_not_met])
   end
 
-  def candidate_in_apply_2?
-    application_choice.candidate.in_apply_2?
-  end
+
 end

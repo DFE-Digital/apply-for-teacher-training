@@ -584,7 +584,9 @@ class ApplicationForm < ApplicationRecord
   end
 
   def reviewable?(section)
-    apply_2? && previous_application_rejection_reason(section).present?
+    # In continuous applications, reviewable sections are determined by having previous rejection reasons
+    # rather than being in a specific phase
+    previous_application_rejection_reason(section).present?
   end
 
   def self.with_unsafe_application_choice_touches
