@@ -152,5 +152,4 @@ RSpec.describe 'Candidate views their invites' do
       expect(page).to have_button 'Update your details'
     end
   end
-
 end
