@@ -14,7 +14,7 @@
   <%= f.govuk_radio_divider %>
 
   <%= f.govuk_radio_button :qualification_type, :non_uk, label: { text: t('application_form.gcse.qualification_types.non_uk') } do %>
-    <%= f.govuk_text_field :non_uk_qualification_type, label: { text: t('application_form.gcse.non_uk.label'), size: 's' }, hint: { text: t("application_form.gcse.non_uk.hint_text#{@subject == 'english' ? '_english' : ''}") } %>
+    <%= f.govuk_text_field :non_uk_qualification_type, label: { text: t('application_form.gcse.non_uk.label'), size: 's' }, hint: { text: t("application_form.gcse.non_uk.hint_text#{'_english' if @subject == 'english'}") } %>
   <% end %>
 
   <%= f.govuk_radio_divider %>
