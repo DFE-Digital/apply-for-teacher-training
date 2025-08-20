@@ -26,11 +26,11 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
         )
     end
 
-    context 'when pre continuous applications' do
+    context 'when the application form is from a previous cycle' do
       let(:application_choice) do
         create(:application_choice,
                :rejected,
-               application_form: create(:application_form, :completed, :pre_continuous_applications),
+               application_form: create(:application_form, :completed, :previous_cycle),
                course_option:)
       end
 
@@ -39,7 +39,7 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
         expect(response).to have_http_status :found
 
         get candidate_interface_application_choices_path
-        expect(response.redirect_url).to eq candidate_interface_start_carry_over_url
+        expect(response).to have_http_status :ok
       end
     end
 

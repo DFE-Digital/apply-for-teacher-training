@@ -10,7 +10,6 @@ RSpec.describe 'Carry over after rejecting offer', time: CycleTimetableHelper.mi
     then_i_see_both_offers
     and_i_am_not_on_the_carry_over_page
 
-    and_i_cannot_navigate_to_the_carry_over_page
     and_i_can_navigate_to_the_application_choices_page
 
     when_i_decline_the_first_offer
@@ -18,12 +17,11 @@ RSpec.describe 'Carry over after rejecting offer', time: CycleTimetableHelper.mi
     and_i_am_not_on_the_carry_over_page
     and_i_see_one_offer_and_one_declined_application
 
-    and_i_cannot_navigate_to_the_carry_over_page
     and_i_can_navigate_to_the_application_choices_page
 
     when_i_decline_the_remaining_offer
     then_the_second_offer_is_declined
-    then_i_am_on_the_carry_over_page
+    then_i_see_the_carry_over_content
     and_i_am_able_to_carry_over_my_application
   end
 
@@ -69,11 +67,6 @@ private
     expect(page).to have_content 'Your applications'
   end
 
-  def and_i_cannot_navigate_to_the_carry_over_page
-    visit candidate_interface_start_carry_over_path
-    expect(page).to have_current_path candidate_interface_details_path
-  end
-
   def and_i_can_navigate_to_the_application_choices_page
     visit candidate_interface_application_choices_path
     expect(page).to have_current_path candidate_interface_application_choices_path
@@ -100,9 +93,10 @@ private
     click_on 'Yes I’m sure – decline this offer'
   end
 
-  def then_i_am_on_the_carry_over_page
-    expect(page).to have_current_path candidate_interface_start_carry_over_path
+  def then_i_see_the_carry_over_content
+    expect(page).to have_current_path candidate_interface_application_choices_path
     expect(page).to have_content 'The application deadline has passed'
+    expect(page).to have_button 'Update your details'
   end
 
   def and_i_am_able_to_carry_over_my_application

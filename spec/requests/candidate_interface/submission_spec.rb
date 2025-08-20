@@ -26,7 +26,7 @@ RSpec.describe 'Submit to continuous apps' do
       expect(choice.reload).to be_awaiting_provider_decision
     end
 
-    context 'when canddiate preferences FeatureFlag is off' do
+    context 'when candidate preferences FeatureFlag is off' do
       before do
         FeatureFlag.deactivate(:candidate_preferences)
         post candidate_interface_course_choices_submit_course_choice_path(choice.id)
@@ -42,12 +42,13 @@ RSpec.describe 'Submit to continuous apps' do
 
   context 'when old cycles trying to cheat and submit into the new cycle' do
     let(:application_form) do
-      create(:application_form, :completed, :with_degree, submitted_at: nil, recruitment_cycle_year: previous_year)
+      create(:application_form, :previous_cycle, :completed, :with_degree, submitted_at: nil)
     end
 
-    it 'be successful' do
+    it 'redirects to the application choices path' do
       post candidate_interface_course_choices_submit_course_choice_path(choice.id)
-      expect(response).to redirect_to(candidate_interface_start_carry_over_path)
+
+      expect(response).to redirect_to(candidate_interface_application_choices_path)
     end
 
     it 'does not change choice status' do

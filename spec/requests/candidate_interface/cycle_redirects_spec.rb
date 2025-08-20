@@ -40,11 +40,6 @@ RSpec.describe 'Cycle redirects' do
         expect(response).not_to redirect_to(candidate_interface_application_choices_path)
       end
     end
-
-    it 'redirects start-carry-over path to the application choices path' do
-      get candidate_interface_start_carry_over_path
-      expect(response).to redirect_to(candidate_interface_application_choices_path)
-    end
   end
 
   context 'when application is able to carry over', time: mid_cycle do
@@ -55,11 +50,6 @@ RSpec.describe 'Cycle redirects' do
         get public_send(*path)
         expect(response).to redirect_to(candidate_interface_application_choices_path)
       end
-    end
-
-    it 'redirects start-carry-over path to the application choices path' do
-      get candidate_interface_start_carry_over_path
-      expect(response).to redirect_to(candidate_interface_application_choices_path)
     end
   end
 end

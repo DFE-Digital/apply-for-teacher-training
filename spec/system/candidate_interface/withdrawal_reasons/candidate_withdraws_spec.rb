@@ -32,7 +32,7 @@ RSpec.describe 'A candidate withdraws their application', :bullet do
     and_i_click_the_withdraw_link_on_my_first_choice
     and_i_select_some_reasons_and_confirm
 
-    then_i_see_the_carry_over_page
+    then_i_see_the_carry_over_content
     and_i_can_carry_over_my_application
   end
 
@@ -107,8 +107,12 @@ RSpec.describe 'A candidate withdraws their application', :bullet do
     expect(current_email.subject).to have_content "#{@application_choice.application_form.full_name} withdrew their application"
   end
 
-  def then_i_see_the_carry_over_page
-    expect(page).to have_current_path candidate_interface_start_carry_over_path
+  def then_i_see_the_carry_over_content
+    expect(page).to have_current_path candidate_interface_application_choices_path
+
+    within 'form.button_to[action="/candidate/application/carry-over"]' do
+      expect(page).to have_button 'Update your details'
+    end
   end
 
   def and_i_can_carry_over_my_application

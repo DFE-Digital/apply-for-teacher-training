@@ -1,5 +1,0 @@
-<% if RecruitmentCycleTimetable.currently_between_cycles? %>
-  <%= render(CandidateInterface::CarryOverBetweenCyclesComponent.new(application_form: @application_form)) %>
-<% else %>
-  <%= render(CandidateInterface::CarryOverMidCycleComponent.new(application_form: @application_form)) %>
-<% end %>

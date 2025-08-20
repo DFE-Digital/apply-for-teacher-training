@@ -118,7 +118,11 @@ private
   alias_method :and_i_sign_in, :when_i_sign_in
 
   def then_i_am_asked_to_carry_over
-    expect(page).to have_current_path candidate_interface_start_carry_over_path
+    expect(page).to have_current_path candidate_interface_application_choices_path
+
+    within 'form.button_to[action="/candidate/application/carry-over"]' do
+      expect(page).to have_button 'Update your details'
+    end
   end
 
   def and_i_have_submitted_apply_again_course_choices

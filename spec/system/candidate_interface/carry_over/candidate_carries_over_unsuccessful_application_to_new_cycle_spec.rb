@@ -12,7 +12,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   scenario 'a candidate who was unsuccessful from years ago can carry over mid cycle' do
     given_i_applied_two_years_ago
     when_i_sign_in
-    then_i_am_on_the_carry_over_page_mid_cycle
+    then_i_can_see_the_carry_over_content_for_mid_cycle
     and_i_can_view_my_unsuccessful_application
 
     when_i_click_back
@@ -24,7 +24,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     given_i_applied_two_years_ago
     and_the_apply_deadline_passes
     when_i_sign_in
-    then_i_am_on_the_carry_over_page_between_cycles
+    then_i_can_see_the_carry_over_content_for_between_cycles
     and_i_can_view_my_unsuccessful_application
 
     when_i_click_back
@@ -36,7 +36,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     given_i_have_an_application_with_a_rejection
     and_the_apply_deadline_passes
     when_i_sign_in
-    then_i_am_on_the_carry_over_page_between_cycles
+    then_i_can_see_the_carry_over_content_for_between_cycles
 
     and_i_carry_over_my_application_between_cycles
     then_i_can_edit_my_details
@@ -46,7 +46,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     given_i_have_an_application_with_a_rejection
     and_the_next_cycle_opens
     when_i_sign_in
-    then_i_am_on_the_carry_over_page_mid_cycle
+    then_i_can_see_the_carry_over_content_for_mid_cycle
     and_i_can_view_my_unsuccessful_application
 
     when_i_click_back
@@ -122,14 +122,22 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     expect(page).to have_content "You can apply for courses starting in the #{current_timetable.academic_year_range_name} academic year instead."
   end
 
-  def then_i_am_on_the_carry_over_page_mid_cycle
-    expect(page).to have_current_path candidate_interface_start_carry_over_path
+  def then_i_can_see_the_carry_over_content_for_mid_cycle
+    expect(page).to have_current_path candidate_interface_application_choices_path
     expect(page).to have_content 'Continue your application'
+
+    within 'form.button_to[action="/candidate/application/carry-over"]' do
+      expect(page).to have_button 'Continue'
+    end
   end
 
-  def then_i_am_on_the_carry_over_page_between_cycles
-    expect(page).to have_current_path candidate_interface_start_carry_over_path
+  def then_i_can_see_the_carry_over_content_for_between_cycles
+    expect(page).to have_current_path candidate_interface_application_choices_path
     expect(page).to have_content 'The application deadline has passed'
+
+    within 'form.button_to[action="/candidate/application/carry-over"]' do
+      expect(page).to have_button 'Update your details'
+    end
   end
 
   def and_i_can_view_my_unsuccessful_application

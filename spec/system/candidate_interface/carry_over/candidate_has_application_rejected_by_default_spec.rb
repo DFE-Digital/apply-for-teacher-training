@@ -18,9 +18,6 @@ RSpec.describe 'Candidate has an application where provider does not make a deci
       then_i_see_my_application_is_awaiting_provider_decision
       then_i_cannot_carry_over_my_application
 
-      when_i_visit_the_start_carry_over_page_directly
-      then_i_am_redirected_to_details_page
-
       when_the_reject_by_default_deadline_has_passed
       and_i_sign_in
       then_i_see_my_application_is_now_unsuccessful
@@ -37,9 +34,6 @@ RSpec.describe 'Candidate has an application where provider does not make a deci
       then_i_see_my_application_is_inactive
       then_i_cannot_carry_over_my_application
 
-      when_i_visit_the_start_carry_over_page_directly
-      then_i_am_redirected_to_details_page
-
       when_the_reject_by_default_deadline_has_passed
       and_i_sign_in
       then_i_see_my_application_is_now_unsuccessful
@@ -55,9 +49,6 @@ RSpec.describe 'Candidate has an application where provider does not make a deci
       and_i_navigate_to_my_applications
       then_i_see_my_application_is_interviewing
       then_i_cannot_carry_over_my_application
-
-      when_i_visit_the_start_carry_over_page_directly
-      then_i_am_redirected_to_details_page
 
       when_the_reject_by_default_deadline_has_passed
       and_i_sign_in
@@ -122,14 +113,6 @@ private
     )
   end
   alias_method :and_i_cannot_carry_over_my_application, :then_i_cannot_carry_over_my_application
-
-  def when_i_visit_the_start_carry_over_page_directly
-    visit candidate_interface_start_carry_over_path
-  end
-
-  def then_i_am_redirected_to_details_page
-    expect(page).to have_current_path candidate_interface_details_path
-  end
 
   def and_i_can_carry_over_my_application
     click_on 'Update your details'
