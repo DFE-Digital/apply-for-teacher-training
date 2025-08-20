@@ -16,6 +16,14 @@ module CandidateInterface
       next_timetable.apply_opens_at.to_fs(:day_and_month)
     end
 
+    def decline_by_default_date
+      timetable.decline_by_default_at
+    end
+
+    def show_decline_by_default_text?
+      Time.zone.now.between?(timetable.apply_deadline_at, timetable.decline_by_default_at) && @application_form.offered?
+    end
+
   private
 
     def timetable
