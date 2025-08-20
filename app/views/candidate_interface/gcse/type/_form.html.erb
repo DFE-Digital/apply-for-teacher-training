@@ -1,21 +1,20 @@
 <%= f.govuk_error_summary %>
 
 <%= f.govuk_radio_buttons_fieldset :qualification_type,
-  legend: { text: t("gcse_edit_type.page_titles.#{@subject}"), tag: 'h1', size: 'l' },
-  hint: { text: @subject == 'english' ? 'This should not be a qualification showing you speak English as a foreign language.' : '' } do %>
+  legend: { text: t("gcse_edit_type.page_titles.#{@subject}"), tag: 'h1', size: 'l' } do %>
 
   <% select_gcse_qualification_type_standard_options.each_with_index do |option, i| %>
     <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label }, link_errors: i.zero? %>
   <% end %>
 
   <%= f.govuk_radio_button :qualification_type, :other_uk, label: { text: t('application_form.gcse.qualification_types.other_uk') } do %>
-    <% f.govuk_text_field :other_uk_qualification_type, label: { text: t('application_form.gcse.other_uk.label'), size: 's' } %>
+    <%= f.govuk_text_field :other_uk_qualification_type, label: { text: t('application_form.gcse.other_uk.label'), size: 's' } %>
   <% end %>
 
   <%= f.govuk_radio_divider %>
 
   <%= f.govuk_radio_button :qualification_type, :non_uk, label: { text: t('application_form.gcse.qualification_types.non_uk') } do %>
-    <% f.govuk_text_field :non_uk_qualification_type, label: { text: t('application_form.gcse.non_uk.label'), size: 's' }, hint: { text: t('application_form.gcse.non_uk.hint_text') } %>
+    <%= f.govuk_text_field :non_uk_qualification_type, label: { text: t('application_form.gcse.non_uk.label'), size: 's' }, hint: { text: t("application_form.gcse.non_uk.hint_text#{@subject == 'english' ? '_english' : ''}") } %>
   <% end %>
 
   <%= f.govuk_radio_divider %>
