@@ -1,5 +1,5 @@
 en:
   provider_interface:
     reject_by_default_banner_component:
-      heading: Make decisions on all received applications before %{deadline_date}
-      text: All applications that you have not made a decision on will be rejected automatically at %{deadline_time} on %{deadline_date}.
+      heading: Make decisions on all received applications before %{deadline}
+      text: All applications that you have not made a decision on will be rejected automatically at %{deadline}.
