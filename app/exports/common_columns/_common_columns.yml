@@ -25,10 +25,9 @@ application_choice_id:
 phase:
   type: string
   description: |
-    The phase of this application. In the first phase, "Apply 1", the
-    candidate can choose up to 4 courses. If all of those choices are rejected,
-    declined, or withdrawn, the user can go into "Apply 2".
-    In "Apply 2", a user can also choose up to 4 courses.
+    The phase of this application. Historically, applications were categorized into
+    "Apply 1" and "Apply 2" phases, but with continuous applications, this is no longer
+    actively used. All new applications are now "Apply 1".
   enum:
     - apply_1
     - apply_2
@@ -107,7 +106,8 @@ first_application:
 
 apply_again:
   type: integer
-  description: The total number of apply again applications for the status
+  description: Legacy field for apply again applications. No longer actively populated in continuous applications.
+  deprecated: true
 
 total:
   type: integer

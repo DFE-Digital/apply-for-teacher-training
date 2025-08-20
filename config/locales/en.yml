@@ -96,7 +96,6 @@ en:
   tell_employee_about_criminal_record:
     url: https://www.gov.uk/exoffenders-and-employment
   realistic_job_previews:
-    url_apply_again: https://teacherselect.qualtrics.com/jfe/form/SV_4VHMkFk6TeonVeS
   course_types:
     undergraduate: undergraduate
     postgraduate: postgraduate
@@ -351,7 +350,7 @@ en:
       withdrawal_report: Withdrawals
       withdrawal_reports: Withdrawal reports
       withdrawal_reasons_report: Withdrawal reasons
-    start_apply_again: Do you want to apply again?
+
     start_carry_over: Continue your application
     start_carry_over_between_cycles: The application deadline has passed
     pick_choice_to_replace: Some of your choices are not available anymore

@@ -84,12 +84,6 @@ en:
         audit_comment: Withdrawn on behalf of the candidate
 
   performance_dashboard_other_metrics:
-    apply_again_submitted:
-      name: Apply again submitted
-      description: The candidate has applied again and submitted an application.
-    apply_again_accepted_offer:
-      name: Apply again offers accepted
-      description: The candidate has applied again and accepted an offer.
     percentage_of_providers_onboarded:
       name: Providers onboarded
       description: The percentage of providers that have one or more courses available on Apply.
@@ -595,11 +589,6 @@ en:
       name: Provider defers offer
       by: provider
       description: ""
-
-    ended_without_success-start_apply_again:
-      name: Apply again
-      by: candidate
-      description: Candidates can go into a second phase where they apply again, and choose up to 4 courses at a time.
 
     offer_deferred-reinstate_conditions_met:
       name: Provider reinstates deferred offer and conditions are still valid

@@ -448,10 +448,9 @@ components:
         phase:
           type: string
           description: |
-            The phase of this application. In the first phase, "Apply 1", the
-            candidate can choose up to 4 courses. If all of those choices are rejected,
-            declined, or withdrawn, the user can go into "Apply 2".
-            In "Apply 2", a user can also choose up to 4 courses.
+            The phase of this application. Historically, applications were 
+            categorized into "Apply 1" and "Apply 2" phases. With continuous applications, 
+            "Apply 2" is now legacy and all new applications are "Apply 1".
           enum:
           - apply_1
           - apply_2
