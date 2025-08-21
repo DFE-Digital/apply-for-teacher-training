@@ -42,7 +42,7 @@ RSpec.describe 'Submit to continuous apps' do
 
   context 'when old cycles trying to cheat and submit into the new cycle' do
     let(:application_form) do
-      create(:application_form, :previous_cycle, :completed, :with_degree, submitted_at: nil)
+      create(:application_form, :completed, :previous_cycle, :with_degree, submitted_at: nil)
     end
 
     it 'redirects to the application choices path' do
