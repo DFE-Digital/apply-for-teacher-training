@@ -72,3 +72,9 @@
     color: $govuk-link-hover-colour;
   }
 }
+
+.app-application-item__status_tag {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
