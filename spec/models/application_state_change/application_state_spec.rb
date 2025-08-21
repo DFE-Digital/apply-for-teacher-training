@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationStateChange do
+RSpec.describe ApplicationStateChange::ApplicationState do
   describe '.all' do
     it 'returns all application states with their attributes' do
       states = described_class.all
@@ -14,7 +14,7 @@ RSpec.describe ApplicationStateChange do
         :conditions_not_met, :recruited, :cancelled, :offer_deferred
       )
 
-      expect(states).to all(be_a(ApplicationStateChange::ApplicationState))
+      expect(states).to all(be_a(described_class))
     end
   end
 
@@ -23,7 +23,7 @@ RSpec.describe ApplicationStateChange do
       state = described_class.find(:withdrawn)
 
       expect(state.id).to eq(:withdrawn)
-      expect(state).to be_a(ApplicationStateChange::ApplicationState)
+      expect(state).to be_a(described_class)
     end
 
     it 'returns nil form unknown ids' do
@@ -39,7 +39,7 @@ RSpec.describe ApplicationStateChange do
 
       expect(states.size).to eq(2)
       expect(states.map(&:id)).to contain_exactly(:withdrawn, :unsubmitted)
-      expect(states).to all(be_a(ApplicationStateChange::ApplicationState))
+      expect(states).to all(be_a(described_class))
     end
 
     it 'returns an empty array for unknown ids' do
