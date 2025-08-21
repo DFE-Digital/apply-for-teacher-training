@@ -4,6 +4,11 @@
 <p class="govuk-body">
   <%= t('after_deadline_content_component.deadline_has_passed', academic_year:) %>
 </p>
+<% if show_decline_by_default_text? %>
+  <p class="govuk-body">
+    <%= t('after_deadline_content_component.respond_to_offers', decline_by_default_date: decline_by_default_date.to_fs(:govuk_date_time_time_first)) %>
+  </p>
+<% end %>
 <p class="govuk-body">
   <%= t('after_deadline_content_component.apply_opens', apply_opens_date:, next_academic_year:) %>
 </p>
