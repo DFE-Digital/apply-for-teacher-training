@@ -353,6 +353,30 @@ RSpec.describe ApplicationStateChange do
     end
   end
 
+  describe 'states make sense' do
+    it 'ensures that no state is both terminal and in progress' do
+      skip 'Recruited is both terminal and in progress, so this test is not valid'
+      terminal_states = described_class.terminal.map(&:id)
+      in_progress_states = described_class.in_progress.map(&:id)
+
+      expect(terminal_states & in_progress_states).to be_empty
+    end
+
+    it 'ensures that no state is both successful and unsuccessful' do
+      successful_states = described_class.successful.map(&:id)
+      unsuccessful_states = described_class.unsuccessful.map(&:id)
+
+      expect(successful_states & unsuccessful_states).to be_empty
+    end
+
+    it 'ensures that no state is both pending provider decision and not visible to provider' do
+      pending_provider_decision_states = described_class.pending_provider_decision.map(&:id)
+      not_visible_to_provider_states = described_class.not_visible_to_provider.map(&:id)
+
+      expect(pending_provider_decision_states & not_visible_to_provider_states).to be_empty
+    end
+  end
+
   describe 'awaiting_provider_decision state' do
     subject { described_class.find(:awaiting_provider_decision) }
 
