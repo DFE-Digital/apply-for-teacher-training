@@ -50,6 +50,8 @@ class ApplicationStateChange
     alias_method :reapply?, :reapply
     alias_method :terminal?, :terminal
     alias_method :in_progress?, :in_progress
+
+    delegate :to_s, to: :id
   end
 
   def self.all
