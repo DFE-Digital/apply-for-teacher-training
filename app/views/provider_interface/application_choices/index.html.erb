@@ -2,6 +2,8 @@
 
 <%= render ServiceInformationBanner.new(namespace: :provider) %>
 
+<%= render ProviderInterface::RejectByDefaultBannerComponent.new %>
+
 <h1 class="govuk-heading-l">Applications (<%= @pagy.count %>)</h1>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @application_choices) do %>
