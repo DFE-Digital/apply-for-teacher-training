@@ -215,7 +215,7 @@ class ApplicationQualification < ApplicationRecord
   end
 
   def international_bachelors_degree_compatible_with_uk?
-    qualification_type_hesa_code.in?(Hesa::DegreeType.bachelor_hesa_codes) &&
+    qualification_type == 'bachelors' &&
       institution_country.in?(COUNTRIES_WITH_COMPATIBLE_DEGREES.keys)
   end
 

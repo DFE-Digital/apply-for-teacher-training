@@ -14,12 +14,12 @@ module CandidateInterface
     end
 
     def back_link
-      if !reviewing? && (country_with_compatible_degrees? || uk?)
-        paths.candidate_interface_degree_degree_level_path
-      elsif !reviewing? && international?
-        paths.candidate_interface_degree_country_path
-      else
+      if reviewing_and_unchanged_country?
         paths.candidate_interface_degree_review_path
+      elsif country_with_compatible_degrees? || uk?
+        paths.candidate_interface_degree_degree_level_path
+      else
+        paths.candidate_interface_degree_country_path
       end
     end
 

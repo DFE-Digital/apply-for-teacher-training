@@ -330,7 +330,7 @@ namespace :candidate_interface, path: '/candidate' do
       constraints ValidDegreeStep do
         get '/do-you-have-a-degree' => 'degrees/university_degree#new', as: :degree_university_degree
         post '/do-you-have-a-degree' => 'degrees/university_degree#update'
-        get '/edit/:id/:step' => 'degrees/degree#edit', as: :degree_edit
+        get '/edit/:id/:step' => 'degrees/base#edit', as: :degree_edit
 
         get '/country' => 'degrees/countries#new', as: :degree_country
         post '/country' => 'degrees/countries#update'

@@ -350,4 +350,26 @@ RSpec.describe ApplicationQualification do
       expect(build(:gcse_qualification, grade: '3-3').failed_required_gcse?).to be true
     end
   end
+
+  describe '#international_bachelors_degree_compatible_with_uk?' do
+    it 'returns true if bachelors from a compatible country' do
+      degree = build(:degree_qualification, institution_country: described_class::COUNTRIES_WITH_COMPATIBLE_DEGREES.keys.sample, qualification_type: 'bachelors')
+      expect(degree.international_bachelors_degree_compatible_with_uk?).to be true
+    end
+
+    it 'returns false if not bachelors' do
+      degree = build(:degree_qualification, institution_country: described_class::COUNTRIES_WITH_COMPATIBLE_DEGREES.keys.sample, qualification_type: 'masters')
+      expect(degree.international_bachelors_degree_compatible_with_uk?).to be false
+    end
+
+    it 'returns false if not from compatible international country' do
+      degree = build(:degree_qualification, institution_country: 'AU', qualification_type: 'bachelors')
+      expect(degree.international_bachelors_degree_compatible_with_uk?).to be false
+    end
+
+    it 'returns false if from uk' do
+      degree = build(:degree_qualification, institution_country: 'GB', qualification_type: 'bachelors')
+      expect(degree.international_bachelors_degree_compatible_with_uk?).to be false
+    end
+  end
 end
