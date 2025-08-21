@@ -83,7 +83,7 @@ module ProviderInterface
     end
 
     def possible_statuses
-      %w[application_received invited].sort
+      %w[application_received invited declined].sort
     end
 
     def filter_by_course(invites)
@@ -95,11 +95,13 @@ module ProviderInterface
     def filter_by_status(invites)
       return invites if status_filter.blank? || status_filter.sort == possible_statuses
 
-      if status_filter.include?('invited')
-        invites.without_matching_application_choices
-      elsif status_filter.include?('application_received')
-        invites.with_matching_application_choices
-      end
+      conditions = []
+
+      conditions << invites.published.not_responded if status_filter.include?('invited')
+      conditions << invites.with_matching_application_choices if status_filter.include?('application_received')
+      conditions << invites.published.declined if status_filter.include?('declined')
+
+      conditions.reduce(:or)
     end
 
     def all_invites

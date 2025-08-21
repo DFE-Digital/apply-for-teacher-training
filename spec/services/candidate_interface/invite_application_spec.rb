@@ -98,7 +98,7 @@ RSpec.describe CandidateInterface::InviteApplication do
       )
     }
 
-    it 'removed chice from invite and sets it to not_responded' do
+    it 'removed choice from invite and sets it to not_responded' do
       described_class.unlink_invites_from_choice(application_choice:)
 
       expect(invite.reload.application_choice_id).to be_nil
