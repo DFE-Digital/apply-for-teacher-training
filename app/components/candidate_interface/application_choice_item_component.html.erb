@@ -1,8 +1,16 @@
 <div class="app-application-item">
   <%= govuk_link_to view_application_path do %>
     <div class="app-application-item__body">
-      <div class="app-application-item__status_tag">
-        <%= render(CandidateInterface::ApplicationStatusTagComponent.new(application_choice:, display_info_text: false)) %>
+      <div class="app-application-item__status govuk-!-margin-bottom-0">
+        <div class="app-application-item__status_tag">
+          <%= render(CandidateInterface::ApplicationStatusTagComponent.new(application_choice:, display_info_text: false)) %>
+        </div>
+
+        <% if show_decline_by_default_text? %>
+          <p class="govuk-body-s app-course-choice__deadline-reminder govuk-!-margin-top-1">
+            <%= t('.respond_before', time: decline_by_default_date.to_fs(:govuk_time), day_and_month: decline_by_default_date.to_fs(:day_and_month)) %>
+          </p>
+        <% end %>
       </div>
       <div class="app-application-item__details">
         <div class="app-application-item__provider_id">

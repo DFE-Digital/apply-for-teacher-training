@@ -40,4 +40,18 @@ class CandidateInterface::ApplicationChoiceItemComponent < ViewComponent::Base
       candidate_interface_course_choices_course_review_path(application_choice.id)
     end
   end
+
+  def show_decline_by_default_text?
+    application_choice.offer? && Time.zone.now.between?(timetable.apply_deadline_at, timetable.decline_by_default_at)
+  end
+
+  def decline_by_default_date
+    timetable.decline_by_default_at
+  end
+
+private
+
+  def timetable
+    @timetable ||= RecruitmentCycleTimetable.current_timetable
+  end
 end
