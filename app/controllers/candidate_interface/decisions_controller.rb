@@ -8,6 +8,7 @@ module CandidateInterface
     def offer
       @respond_to_offer = CandidateInterface::RespondToOfferForm.new
       @offer_count = @application_choice.self_and_siblings.offer.count
+      @decline_by_default_date = current_timetable.decline_by_default_at
       @back_link = if params['return_to'] == 'invites'
                      candidate_interface_invites_path
                    else

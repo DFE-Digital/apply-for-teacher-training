@@ -30,7 +30,7 @@
   &__provider_id .govuk-body-s {
     margin-bottom: 0;
     margin-left: govuk-spacing(1);
-
+    
     color: $govuk-secondary-text-colour;
   }
 
@@ -39,6 +39,12 @@
   }
 
   &__status_tag {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
     margin-bottom: govuk-spacing(2);
   }
 }
@@ -59,7 +65,7 @@
     margin-bottom: 0;
 
     &__status_tag {
-      margin-bottom: govuk-spacing(0);
+      margin-bottom: 0;
     }
   }
 
@@ -71,10 +77,4 @@
   &:hover .govuk-heading-s {
     color: $govuk-link-hover-colour;
   }
-}
-
-.app-application-item__status_tag {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
 }

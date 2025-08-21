@@ -5,116 +5,129 @@ RSpec.describe 'Candidate accepts an offer' do
   include CandidateHelper
 
   scenario 'Candidate views an offer and accepts' do
-    given_i_am_signed_in_with_one_login
-    and_i_have_2_offers_on_my_choices
-    and_1_choice_that_is_awaiting_provider_decision
+    travel_temporarily_to(apply_deadline_date - 2.days) do
+      given_i_am_signed_in_with_one_login
+      and_i_have_2_offers_on_my_choices
+      and_1_choice_that_is_awaiting_provider_decision
 
-    when_i_visit_my_applications
-    and_i_click_to_view_my_application
-    then_i_see_the_offer
-    and_i_am_told_my_other_offer_will_be_automatically_declined
+      when_i_visit_my_applications
+      and_i_click_to_view_my_application
+      then_i_see_the_offer
+      and_i_am_told_my_other_offer_will_be_automatically_declined
 
-    when_i_continue_without_selecting_a_response
-    then_i_see_and_error_message
+      when_i_continue_without_selecting_a_response
+      then_i_see_and_error_message
 
-    when_i_accept_one_offer
+      when_i_accept_one_offer
 
-    then_i_see_my_references
+      then_i_see_my_references
 
-    and_i_delete_one_of_my_references
-    and_i_confirm_the_acceptance
+      and_i_delete_one_of_my_references
+      and_i_confirm_the_acceptance
 
-    then_i_see_an_error_message
+      then_i_see_an_error_message
 
-    when_i_add_another_reference
-    then_i_be_on_accept_offer_page
+      when_i_add_another_reference
+      then_i_be_on_accept_offer_page
 
-    when_i_click_to_change_the_reference_name
-    then_the_back_link_point_to_the_accept_offer_page
+      when_i_click_to_change_the_reference_name
+      then_the_back_link_point_to_the_accept_offer_page
 
-    when_i_change_the_reference_name
-    then_i_be_on_accept_offer_page
-    and_i_see_the_new_reference_name
+      when_i_change_the_reference_name
+      then_i_be_on_accept_offer_page
+      and_i_see_the_new_reference_name
 
-    when_i_click_to_change_the_reference_type
-    then_the_back_link_point_to_the_accept_offer_page
+      when_i_click_to_change_the_reference_type
+      then_the_back_link_point_to_the_accept_offer_page
 
-    when_i_change_the_reference_type
-    then_i_be_on_accept_offer_page
-    and_i_see_the_new_reference_type
+      when_i_change_the_reference_type
+      then_i_be_on_accept_offer_page
+      and_i_see_the_new_reference_type
 
-    when_i_click_to_change_the_reference_email_address
-    then_the_back_link_point_to_the_accept_offer_page
+      when_i_click_to_change_the_reference_email_address
+      then_the_back_link_point_to_the_accept_offer_page
 
-    when_i_change_the_reference_email_address
-    then_i_be_on_accept_offer_page
-    and_i_see_the_new_reference_email_address
+      when_i_change_the_reference_email_address
+      then_i_be_on_accept_offer_page
+      and_i_see_the_new_reference_email_address
 
-    when_i_click_to_change_the_reference_relationship
-    then_the_back_link_point_to_the_accept_offer_page
+      when_i_click_to_change_the_reference_relationship
+      then_the_back_link_point_to_the_accept_offer_page
 
-    when_i_change_the_reference_relationship
-    then_i_be_on_accept_offer_page
-    and_i_see_the_new_reference_relationship
+      when_i_change_the_reference_relationship
+      then_i_be_on_accept_offer_page
+      and_i_see_the_new_reference_relationship
 
-    when_i_click_to_add_another_reference
-    and_i_add_a_reference_type
-    and_i_add_a_reference_name
-    and_i_add_a_reference_email_address
+      when_i_click_to_add_another_reference
+      and_i_add_a_reference_type
+      and_i_add_a_reference_name
+      and_i_add_a_reference_email_address
 
-    and_i_click_back
-    and_i_be_on_add_email_address_page
+      and_i_click_back
+      and_i_be_on_add_email_address_page
 
-    and_i_click_back
-    and_i_be_on_the_existing_add_name_page
+      and_i_click_back
+      and_i_be_on_the_existing_add_name_page
 
-    and_i_click_back
-    and_i_be_on_the_existing_add_type_page
+      and_i_click_back
+      and_i_be_on_the_existing_add_type_page
 
-    and_i_click_back
-    then_i_be_on_accept_offer_page
+      and_i_click_back
+      then_i_be_on_accept_offer_page
 
-    and_i_confirm_the_acceptance
-    then_i_see_an_error_message_about_incomplete_reference
+      and_i_confirm_the_acceptance
+      then_i_see_an_error_message_about_incomplete_reference
 
-    when_i_add_reference_relationship
-    then_i_be_on_accept_offer_page
-    and_i_see_your_application_menu_item_as_active
+      when_i_add_reference_relationship
+      then_i_be_on_accept_offer_page
+      and_i_see_your_application_menu_item_as_active
 
-    and_i_confirm_the_acceptance
-    then_i_see_a_flash_message_telling_me_i_have_accepted_the_offer
-    and_i_see_your_offer_menu_item_as_active
-    and_i_see_that_i_accepted_the_offer
-    and_i_see_that_i_declined_the_other_offer
-    and_i_see_that_i_withdrawn_from_the_third_choice
-    and_the_provider_has_received_an_email
-    and_the_candidate_has_received_an_email
+      and_i_confirm_the_acceptance
+      then_i_see_a_flash_message_telling_me_i_have_accepted_the_offer
+      and_i_see_your_offer_menu_item_as_active
+      and_i_see_that_i_accepted_the_offer
+      and_i_see_that_i_declined_the_other_offer
+      and_i_see_that_i_withdrawn_from_the_third_choice
+      and_the_provider_has_received_an_email
+      and_the_candidate_has_received_an_email
 
-    when_i_visit_the_offer_page_of_the_declined_offer
-    then_i_see_the_page_not_found
+      when_i_visit_the_offer_page_of_the_declined_offer
+      then_i_see_the_page_not_found
 
-    when_i_visit_the_accept_page_of_the_declined_offer
-    then_i_see_the_page_not_found
+      when_i_visit_the_accept_page_of_the_declined_offer
+      then_i_see_the_page_not_found
 
-    when_i_visit_the_decline_page_of_the_accepted_offer
-    then_i_see_the_page_not_found
-    when_the_provider_marks_my_application_as_recruited
-    and_i_view_my_application
-    then_i_see_the_new_dashboard_content
+      when_i_visit_the_decline_page_of_the_accepted_offer
+      then_i_see_the_page_not_found
+      when_the_provider_marks_my_application_as_recruited
+      and_i_view_my_application
+      then_i_see_the_new_dashboard_content
 
-    when_i_click_to_view_my_application
-    then_i_see_the_course_with_an_accepted_offer
-    and_i_dont_see_the_course_without_an_offer
+      when_i_click_to_view_my_application
+      then_i_see_the_course_with_an_accepted_offer
+      and_i_dont_see_the_course_without_an_offer
 
-    when_i_click_back
-    then_i_see_the_new_dashboard_content
+      when_i_click_back
+      then_i_see_the_new_dashboard_content
 
-    when_i_click_to_withdraw_my_application
-    and_i_click_back
-    then_i_see_the_new_dashboard_content
+      when_i_click_to_withdraw_my_application
+      and_i_click_back
+      then_i_see_the_new_dashboard_content
 
-    when_i_try_to_visit_the_course_selection
-    then_i_be_redirected_to_the_offer_dashboard
+      when_i_try_to_visit_the_course_selection
+      then_i_be_redirected_to_the_offer_dashboard
+    end
+  end
+
+  scenario 'Candidate views an offer between Apply deadline and decline by default date' do
+    travel_temporarily_to(decline_by_default_date - 2.days) do
+      given_i_am_signed_in_with_one_login
+      and_i_have_2_offers_on_my_choices
+
+      when_i_visit_my_applications
+      and_i_click_to_view_my_application
+      then_i_see_the_offer_with_the_deadline_warning_text
+    end
   end
 
   def and_i_have_2_offers_on_my_choices
@@ -166,6 +179,14 @@ RSpec.describe 'Candidate accepts an offer' do
     provider = @course_option.course.provider.name
     expect(page).to have_content(provider)
     expect(page).to have_content(t('page_titles.decisions.offer'))
+    expect(page).to have_no_content("Respond before #{decline_by_default_date.to_fs(:govuk_time_first_no_year_date_time)}")
+  end
+
+  def then_i_see_the_offer_with_the_deadline_warning_text
+    provider = @course_option.course.provider.name
+    expect(page).to have_content(provider)
+    expect(page).to have_content(t('page_titles.decisions.offer'))
+    expect(page).to have_content("Respond before #{decline_by_default_date.to_fs(:govuk_time_first_no_year_date_time)}")
   end
 
   def and_i_am_told_my_other_offer_will_be_automatically_declined
@@ -521,5 +542,17 @@ RSpec.describe 'Candidate accepts an offer' do
 
   def then_i_be_redirected_to_the_offer_dashboard
     expect(page).to have_current_path(candidate_interface_application_offer_dashboard_path)
+  end
+
+  def decline_by_default_date
+    timetable.decline_by_default_at
+  end
+
+  def apply_deadline_date
+    timetable.apply_deadline_at
+  end
+
+  def timetable
+    @timetable ||= RecruitmentCycleTimetable.current_timetable
   end
 end
