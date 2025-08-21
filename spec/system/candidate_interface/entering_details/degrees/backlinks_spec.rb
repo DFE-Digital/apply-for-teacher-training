@@ -141,11 +141,11 @@ RSpec.describe 'Degrees' do
   end
 
   def and_i_fill_the_type_of_degree
-    fill_in 'candidate_interface_degree_wizard[international_type]', with: 'Bachelor'
+    fill_in 'candidate_interface_degree_form[international_type]', with: 'Bachelor'
   end
 
   def and_i_fill_in_a_subject
-    select 'History', from: 'candidate_interface_degree_wizard[subject]'
+    select 'History', from: 'candidate_interface_degree_form[subject]'
   end
 
   def then_i_am_taken_back_to_the_subject_page

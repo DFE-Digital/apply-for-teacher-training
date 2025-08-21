@@ -69,8 +69,9 @@ private
   end
 
   def find_uk_bachelor_degrees(application_choice)
+    possible_institution_countries = [nil, 'GB'] + ApplicationQualification::COUNTRIES_WITH_COMPATIBLE_DEGREES.keys
     application_choice.application_form.application_qualifications
-      .where(level: 'degree', other_uk_qualification_type: nil, institution_country: [nil, 'GB'])
+      .where(level: 'degree', other_uk_qualification_type: nil, institution_country: possible_institution_countries)
       .where(qualification_type_hesa_code: Hesa::DegreeType.bachelor_hesa_codes)
   end
 end

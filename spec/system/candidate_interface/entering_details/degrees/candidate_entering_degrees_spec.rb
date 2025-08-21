@@ -125,7 +125,7 @@ RSpec.describe 'Entering a degree' do
   end
 
   def when_i_fill_in_the_university
-    select 'University of Cambridge', from: 'candidate_interface_degree_wizard[university]'
+    select 'University of Cambridge', from: 'candidate_interface_degree_form[university]'
   end
 
   def then_i_can_see_the_completion_page

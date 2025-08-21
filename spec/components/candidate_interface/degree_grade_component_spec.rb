@@ -15,7 +15,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
             degree_level: 'Bachelor degree',
             type: 'Bachelor of Engineering',
           }
-          model = CandidateInterface::DegreeWizard.new(store, degree_params)
+          model = CandidateInterface::Degrees::BaseForm.new(store, degree_params)
           render_inline(described_class.new(model:))
           expect(page).to have_css(
             '.govuk-fieldset__legend', text: 'What grade is your degree?'
@@ -29,7 +29,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
             degree_level: 'Bachelor degree',
             type: 'Bachelor of Engineering',
           }
-          model = CandidateInterface::DegreeWizard.new(store, degree_params)
+          model = CandidateInterface::Degrees::BaseForm.new(store, degree_params)
           render_inline(described_class.new(model:))
 
           expect(page).to have_css(
@@ -46,7 +46,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
             degree_level: 'Foundation degree',
             type: 'Foundation of Sciences',
           }
-          model = CandidateInterface::DegreeWizard.new(store, degree_params)
+          model = CandidateInterface::Degrees::BaseForm.new(store, degree_params)
           render_inline(described_class.new(model:))
 
           expect(page).to have_css(
@@ -61,7 +61,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
             degree_level: 'Foundation degree',
             type: 'Foundation of Sciences',
           }
-          model = CandidateInterface::DegreeWizard.new(store, degree_params)
+          model = CandidateInterface::Degrees::BaseForm.new(store, degree_params)
           render_inline(described_class.new(model:))
 
           expect(page).to have_css(
@@ -74,7 +74,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
     context 'when uk_or_non_uk is non_uk' do
       it 'degree is completed' do
         degree_params = { uk_or_non_uk: 'non_uk', completed: 'Yes' }
-        model = CandidateInterface::DegreeWizard.new(store, degree_params)
+        model = CandidateInterface::Degrees::BaseForm.new(store, degree_params)
         render_inline(described_class.new(model:))
 
         expect(page).to have_css(
@@ -84,7 +84,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
 
       it 'degree is not completed' do
         degree_params = { uk_or_non_uk: 'non_uk', completed: 'No' }
-        model = CandidateInterface::DegreeWizard.new(store, degree_params)
+        model = CandidateInterface::Degrees::BaseForm.new(store, degree_params)
         render_inline(described_class.new(model:))
 
         expect(page).to have_css(
@@ -99,7 +99,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
 
     context 'degree is non_uk' do
       it 'degree is completed' do
-        model = CandidateInterface::DegreeWizard.new(store, degree_params.merge({ completed: 'Yes' }))
+        model = CandidateInterface::Degrees::BaseForm.new(store, degree_params.merge({ completed: 'Yes' }))
         render_inline(described_class.new(model:))
 
         expect(page).to have_css(
@@ -108,7 +108,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
       end
 
       it 'degree is not completed' do
-        model = CandidateInterface::DegreeWizard.new(store, degree_params.merge({ completed: 'No' }))
+        model = CandidateInterface::Degrees::BaseForm.new(store, degree_params.merge({ completed: 'No' }))
         render_inline(described_class.new(model:))
 
         expect(page).to have_css(
@@ -123,7 +123,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
 
     context 'when degree is non_uk' do
       it 'renders a hint if degree is not complete' do
-        model = CandidateInterface::DegreeWizard.new(store, degree_params.merge({ completed: 'No' }))
+        model = CandidateInterface::Degrees::BaseForm.new(store, degree_params.merge({ completed: 'No' }))
         render_inline(described_class.new(model:))
 
         expect(page).to have_css(
@@ -132,7 +132,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
       end
 
       it 'does not render a hint if degree is complete' do
-        model = CandidateInterface::DegreeWizard.new(store, degree_params.merge({ completed: 'Yes' }))
+        model = CandidateInterface::Degrees::BaseForm.new(store, degree_params.merge({ completed: 'Yes' }))
         render_inline(described_class.new(model:))
 
         expect(page).to have_no_css('.govuk-hint')
@@ -143,10 +143,10 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
   describe 'rendered component' do
     context 'uk' do
       let(:degree_params) { { uk_or_non_uk: 'uk', degree_level: degree_level } }
-      let(:model) { CandidateInterface::DegreeWizard.new(store, degree_params) }
+      let(:model) { CandidateInterface::Degrees::BaseForm.new(store, degree_params) }
 
       context 'undergraduate degree' do
-        let(:degree_level) { CandidateInterface::DegreeWizard::QUALIFICATION_LEVEL['bachelor'] }
+        let(:degree_level) { CandidateInterface::Degrees::BaseForm::QUALIFICATION_LEVEL['bachelor'] }
 
         it 'renders grade choices for uk undergraduate degree' do
           result = render_inline(described_class.new(model:))
@@ -157,7 +157,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
       end
 
       context 'masters degree' do
-        let(:degree_level) { CandidateInterface::DegreeWizard::QUALIFICATION_LEVEL['master'] }
+        let(:degree_level) { CandidateInterface::Degrees::BaseForm::QUALIFICATION_LEVEL['master'] }
 
         it 'renders grade choices for uk masters degree' do
           result = render_inline(described_class.new(model:))
@@ -170,7 +170,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
 
     context 'non_uk' do
       let(:degree_params) { { uk_or_non_uk: 'non_uk' } }
-      let(:model) { CandidateInterface::DegreeWizard.new(store, degree_params) }
+      let(:model) { CandidateInterface::Degrees::BaseForm.new(store, degree_params) }
 
       it 'renders options for non_uk degree' do
         result = render_inline(described_class.new(model:))

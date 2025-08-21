@@ -543,13 +543,13 @@ module CandidateHelper
     choose degree_level
     click_link_or_button t('save_and_continue')
 
-    select degree_subject, from: 'What subject is your degree?'
-    click_link_or_button t('save_and_continue')
-
     choose degree_type
     click_link_or_button t('save_and_continue')
 
-    select university, from: 'candidate_interface_degree_wizard[university]'
+    select degree_subject, from: 'What subject is your degree?'
+    click_link_or_button t('save_and_continue')
+
+    select university, from: 'candidate_interface_degree_form[university]'
     click_link_or_button t('save_and_continue')
 
     choose 'Yes'

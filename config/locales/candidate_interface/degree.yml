@@ -1,6 +1,25 @@
 en:
   candidate_interface:
     degrees:
+      levels:
+        new_degree_level_uk:
+          label:
+            foundation: Foundation degree
+            bachelor: Bachelor degree
+            master: Master’s degree
+            doctor: Doctorate (PhD)
+            "Level 6 Diploma": Level 6 Diploma
+            other: Another qualification equivalent to a degree
+            equivalent_level: Qualification type
+          hint:
+            bachelor: Sometimes referred to as an ‘undergraduate’ or ‘first’ degree, this is the minimum level required to be eligible for teacher training.
+        new_degree_level_compatible_country:
+          label:
+            bachelor: Bachelor degree
+            other: Other
+          hint:
+            bachelor: Sometimes referred to as an ‘undergraduate’ or ‘first’ degree, this is the minimum level required to be eligible for teacher training.
+            other: For example, a diploma, foundation, master’s or doctorate
       university_degree:
         new:
           teacher_degree_apprenticeship: teacher degree apprenticeship (TDA)
@@ -69,6 +88,9 @@ en:
         other:
           conditional:
             label: Enter your degree grade
+          compatible_international_label: My university used a different classification system
+          compatible_international_conditional:
+            label: Enter a degree classification, for example ‘3.6’, ‘B’, ‘75%’,
       completion_status:
         change_action: completion status
         review_label: Have you completed this degree?
@@ -120,8 +142,6 @@ en:
           masters_degree: Master’s degree / Integrated Master’s degree
           doctor_of_philosophy: Doctor of Philosophy degree
           post_doctoral_award: Post Doctoral award
-      level:
-        bachelor_degree: Sometimes referred to as an ‘undergraduate’ or ‘first’ degree, this is the minimum level required to be eligible for teacher training.
   activemodel:
     errors:
       models:
@@ -129,7 +149,7 @@ en:
           attributes:
             university_degree_status:
               blank: "Select whether you have a university degree"
-        candidate_interface/degree_wizard:
+        candidate_interface/degrees/base_form:
           attributes:
             uk_or_non_uk:
               blank: Select if the degree was from the United Kingdom or another country

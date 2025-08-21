@@ -5,7 +5,7 @@ FactoryBot.define do
     qualification_type do
       case level
       when 'degree'
-        CandidateInterface::DegreeWizard::QUALIFICATION_LEVEL.keys.sample
+        CandidateInterface::Degrees::BaseForm::QUALIFICATION_LEVEL.keys.sample
       when 'gcse'
         CandidateInterface::OtherQualificationTypeForm::GCSE_TYPE
       when 'other'
