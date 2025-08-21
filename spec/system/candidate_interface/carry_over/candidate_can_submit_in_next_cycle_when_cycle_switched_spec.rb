@@ -109,9 +109,14 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
     expect(page).to have_no_link('Check and submit your application')
   end
 
-  def and_i_can_see_the_carry_over_content
-    expect(page).to have_title 'Continue your application'
+  def then_i_see_the_carry_over_content
+    expect(page).to have_current_path candidate_interface_application_choices_path
+
+    within 'form.button_to[action="/candidate/application/carry-over"]' do
+      expect(page).to have_button 'Continue'
+    end
   end
+  alias_method :and_i_can_see_the_carry_over_content, :then_i_see_the_carry_over_content
 
   def when_i_click_on_continue
     click_link_or_button 'Continue'

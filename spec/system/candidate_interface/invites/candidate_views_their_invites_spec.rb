@@ -9,7 +9,7 @@ RSpec.describe 'Candidate views their invites' do
   scenario 'after apply deadline', time: after_apply_deadline do
     given_i_am_signed_in_without_in_flight_applications
     when_i_go_to_application_sharing
-    then_i_am_shown_the_carry_over_content
+    then_i_see_the_carry_over_content
   end
 
   scenario 'list invites' do
@@ -145,7 +145,7 @@ RSpec.describe 'Candidate views their invites' do
     visit candidate_interface_invites_path
   end
 
-  def then_i_am_shown_the_carry_over_content
+  def then_i_see_the_carry_over_content
     expect(page).to have_current_path candidate_interface_application_choices_path
 
     within 'form.button_to[action="/candidate/application/carry-over"]' do

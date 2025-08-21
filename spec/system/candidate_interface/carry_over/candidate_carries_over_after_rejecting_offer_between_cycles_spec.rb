@@ -95,8 +95,10 @@ private
 
   def then_i_see_the_carry_over_content
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_content 'The application deadline has passed'
-    expect(page).to have_button 'Update your details'
+
+    within 'form.button_to[action="/candidate/application/carry-over"]' do
+      expect(page).to have_button 'Update your details'
+    end
   end
 
   def and_i_am_able_to_carry_over_my_application

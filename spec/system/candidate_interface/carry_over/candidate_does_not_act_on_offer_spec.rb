@@ -25,7 +25,7 @@ RSpec.describe 'Candidate does not act on offer between cycles' do
     when_the_decline_by_default_date_has_passed
     and_i_sign_in
     and_i_navigate_to_my_applications
-    then_i_am_able_to_start_carry_over
+    then_i_see_the_carry_over_content
     then_i_see_my_declined_application
     and_i_can_carry_over_my_application
   end
@@ -88,7 +88,7 @@ private
     click_on 'Your applications'
   end
 
-  def then_i_am_able_to_start_carry_over
+  def then_i_see_the_carry_over_content
     expect(page).to have_current_path candidate_interface_application_choices_path
 
     within 'form.button_to[action="/candidate/application/carry-over"]' do
