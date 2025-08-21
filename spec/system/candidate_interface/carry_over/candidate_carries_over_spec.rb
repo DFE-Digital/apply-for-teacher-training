@@ -12,7 +12,7 @@ RSpec.describe 'Carry over unsubmitted applications', :sidekiq do
     and_today_is_after_apply_deadline
 
     when_i_sign_in
-    then_i_am_asked_to_carry_over
+    then_i_see_the_carry_over_content
 
     when_i_carry_over
     then_i_am_redirected_to_continuous_application_details_page
@@ -34,7 +34,7 @@ RSpec.describe 'Carry over unsubmitted applications', :sidekiq do
     and_today_is_after_find_reopens
 
     when_i_sign_in
-    then_i_am_asked_to_carry_over
+    then_i_see_the_carry_over_content
 
     when_i_carry_over
     then_i_am_redirected_to_continuous_application_details_page
@@ -49,7 +49,7 @@ RSpec.describe 'Carry over unsubmitted applications', :sidekiq do
     and_today_is_after_find_reopens
 
     when_i_sign_in
-    then_i_am_asked_to_carry_over
+    then_i_see_the_carry_over_content
 
     when_i_carry_over
     then_i_am_redirected_to_continuous_application_details_page
@@ -117,8 +117,12 @@ private
   end
   alias_method :and_i_sign_in, :when_i_sign_in
 
-  def then_i_am_asked_to_carry_over
-    expect(page).to have_current_path candidate_interface_start_carry_over_path
+  def then_i_see_the_carry_over_content
+    expect(page).to have_current_path candidate_interface_application_choices_path
+
+    within 'form.button_to[action="/candidate/application/carry-over"]' do
+      expect(page).to have_button 'Update your details'
+    end
   end
 
   def and_i_have_submitted_apply_again_course_choices

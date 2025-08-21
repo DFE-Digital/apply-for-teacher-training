@@ -12,7 +12,7 @@ RSpec.describe 'Views offer and withdraws before carrying over', time: CycleTime
     and_i_can_view_the_application
 
     when_i_withdraw_my_application
-    then_i_see_the_carry_over_page
+    then_i_see_the_carry_over_content
     and_my_application_is_withdrawn
 
     and_i_can_carry_over_my_application
@@ -67,8 +67,12 @@ private
     click_on 'Yes I’m sure – withdraw this application'
   end
 
-  def then_i_see_the_carry_over_page
-    expect(page).to have_current_path candidate_interface_start_carry_over_path
+  def then_i_see_the_carry_over_content
+    expect(page).to have_current_path candidate_interface_application_choices_path
+
+    within 'form.button_to[action="/candidate/application/carry-over"]' do
+      expect(page).to have_button 'Update your details'
+    end
   end
 
   def and_my_application_is_withdrawn

@@ -16,23 +16,17 @@ RSpec.describe 'Candidate does not act on offer between cycles' do
     then_i_cannot_carry_over_my_application
     and_i_see_offer
 
-    when_i_visit_the_start_carry_over_page_directly
-    then_i_am_redirected_to_details_page
-
     when_the_reject_by_default_deadline_has_passed
     and_i_sign_in
     and_i_navigate_to_my_applications
     then_i_see_the_offer
     and_i_cannot_carry_over_my_application
 
-    when_i_visit_the_start_carry_over_page_directly
-    then_i_am_redirected_to_details_page
-
     when_the_decline_by_default_date_has_passed
     and_i_sign_in
     and_i_navigate_to_my_applications
-    then_i_am_redirected_to_start_carry_over
-    then_i_see_my_declined_application_on_the_carry_over_page
+    then_i_see_the_carry_over_content
+    then_i_see_my_declined_application
     and_i_can_carry_over_my_application
   end
 
@@ -44,12 +38,9 @@ RSpec.describe 'Candidate does not act on offer between cycles' do
     then_i_see_the_offer_and_unsuccessful_applications
     and_i_cannot_carry_over_my_application
 
-    when_i_visit_the_start_carry_over_page_directly
-    then_i_am_redirected_to_details_page
-
     when_the_decline_by_default_date_has_passed
     and_i_sign_in
-    then_i_see_my_declined_application_on_the_carry_over_page
+    then_i_see_my_declined_application
     and_i_see_unsuccessful_application_choices
     and_i_can_carry_over_my_application
   end
@@ -62,7 +53,7 @@ RSpec.describe 'Candidate does not act on offer between cycles' do
 
     when_then_new_cycle_start
     and_i_sign_in
-    then_i_see_my_declined_application_on_the_carry_over_page
+    then_i_see_my_declined_application
     and_i_can_carry_over_my_application
   end
 
@@ -97,8 +88,12 @@ private
     click_on 'Your applications'
   end
 
-  def then_i_am_redirected_to_start_carry_over
-    expect(page).to have_current_path candidate_interface_start_carry_over_path
+  def then_i_see_the_carry_over_content
+    expect(page).to have_current_path candidate_interface_application_choices_path
+
+    within 'form.button_to[action="/candidate/application/carry-over"]' do
+      expect(page).to have_button 'Update your details'
+    end
   end
 
   def then_i_see_the_offer
@@ -139,8 +134,7 @@ private
     advance_time_to(after_find_opens(next_year))
   end
 
-  def then_i_see_my_declined_application_on_the_carry_over_page
-    expect(page).to have_current_path candidate_interface_start_carry_over_path
+  def then_i_see_my_declined_application
     expect(page).to have_content 'The application deadline has passed'
     expect(page).to have_content 'Declined'
   end
@@ -159,12 +153,4 @@ private
     )
   end
   alias_method :and_i_cannot_carry_over_my_application, :then_i_cannot_carry_over_my_application
-
-  def when_i_visit_the_start_carry_over_page_directly
-    visit candidate_interface_start_carry_over_path
-  end
-
-  def then_i_am_redirected_to_details_page
-    expect(page).to have_current_path candidate_interface_details_path
-  end
 end

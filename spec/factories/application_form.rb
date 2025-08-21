@@ -385,6 +385,10 @@ FactoryBot.define do
       recruitment_cycle_year { 2023 }
     end
 
+    trait :previous_cycle do
+      recruitment_cycle_year { CycleTimetableHelper.previous_year }
+    end
+
     trait :carry_over do
       completed
       recruitment_cycle_year { CycleTimetableHelper.current_year }

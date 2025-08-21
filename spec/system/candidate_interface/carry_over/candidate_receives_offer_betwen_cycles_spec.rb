@@ -28,9 +28,6 @@ RSpec.describe 'Candidate receives an offer between cycles' do
     and_i_navigate_to_my_application_choices
     then_i_can_navigate_to_the_offer
     and_i_can_accept_the_offer
-
-    when_i_visit_the_start_carry_over_page_directly
-    then_i_am_redirected_to_my_accepted_offer
   end
 
 private
@@ -79,16 +76,12 @@ private
   end
 
   def and_i_can_carry_over_my_application
-    expect(page).to have_current_path candidate_interface_start_carry_over_path
-    click_on 'Update your details'
+    expect(page).to have_current_path candidate_interface_application_choices_path
+
+    within 'form.button_to[action="/candidate/application/carry-over"]' do
+      click_on 'Update your details'
+    end
+
     expect(page).to have_current_path candidate_interface_details_path
-  end
-
-  def when_i_visit_the_start_carry_over_page_directly
-    visit candidate_interface_start_carry_over_path
-  end
-
-  def then_i_am_redirected_to_my_accepted_offer
-    expect(page).to have_current_path candidate_interface_application_offer_dashboard_path
   end
 end
