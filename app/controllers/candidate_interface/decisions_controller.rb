@@ -74,7 +74,7 @@ module CandidateInterface
     end
 
     def show_decline_by_default_warning?
-      Time.zone.now.between?(timetable.apply_deadline_at, timetable.decline_by_default_at)
+      @decline_by_default_date.present? && Time.zone.now.between?(timetable.apply_deadline_at, timetable.decline_by_default_at)
     end
     helper_method :show_decline_by_default_warning?
 
