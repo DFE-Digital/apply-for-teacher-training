@@ -83,6 +83,29 @@ namespace :provider_interface, path: '/provider' do
     get '/offer/defer' => 'decisions#new_defer_offer', as: :application_choice_new_defer_offer
     post '/offer/defer' => 'decisions#defer_offer', as: :application_choice_defer_offer
 
+    namespace :deferred_offer, path: 'deferred-offer' do
+      # Routes for the course selection step
+      # get '/course', to: 'courses#edit'
+      # post '/course', to: 'courses#update'
+
+      # Routes for the location selection step
+      # get '/location', to: 'location#edit'
+      # post '/location', to: 'location#update'
+
+      # Routes for the study mode selection step
+      # get '/study-mode', to: 'study_mode#edit'
+      # post '/study-mode', to: 'study_mode#update'
+
+      # Routes for the check your answers step
+      resource :check, only: :show
+
+      # Routes for the conditions step
+      # get '/conditions', to: 'conditions#edit'
+
+      # Routes for the final submission to confirm the deferral
+      # resource :confirm, only: :create, controller: :confirm
+    end
+
     resource :decision, only: %i[new create], as: :application_choice_decision
 
     resource :offers, only: %i[new edit create show update], as: :application_choice_offer
