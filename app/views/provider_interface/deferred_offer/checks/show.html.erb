@@ -1,0 +1,77 @@
+<% content_for :title, 'Check offered course details' %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@deferred_offer.application_choice)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-xl govuk-caption">
+        <%= @deferred_offer.application_choice.application_form.full_name %>
+      </span>
+      Check offered course details
+    </h1>
+
+    <%= govuk_summary_list do |summary_list| %>
+      <% summary_list.with_row(html_attributes: { id: :check_provider }) do |row| %>
+        <% row.with_key { 'Provider' } %>
+        <% row.with_value do %>
+          <p class='govuk-body'>
+            <%= @deferred_offer.course.provider.name_and_code %>
+          </p>
+        <% end %>
+      <% end %>
+
+      <% summary_list.with_row(html_attributes: { id: :check_course }) do |row| %>
+        <% row.with_key { 'Course' } %>
+        <% row.with_value do %>
+          <p class='govuk-body'>
+            <%= @deferred_offer.course.name_and_code %>
+          </p>
+        <% end %>
+        <% row.with_action(
+             text: 'Change',
+             href: '#',
+             visually_hidden_text: 'course',
+           ) %>
+      <% end %>
+
+      <% summary_list.with_row(html_attributes: { id: :check_study_mode }) do |row| %>
+        <% row.with_key { 'Full time or part time' } %>
+        <% row.with_value do %>
+          <p class='govuk-body'>
+            <%= @deferred_offer.study_mode.humanize %>
+          </p>
+        <% end %>
+        <% row.with_action(
+             text: 'Change',
+             href: '#',
+             visually_hidden_text: 'full time or part time',
+           ) %>
+      <% end %>
+
+      <% summary_list.with_row(html_attributes: { id: :check_location }) do |row| %>
+        <% row.with_key { 'Location' } %>
+        <% row.with_value do %>
+          <p class='govuk-body'>
+            <%= @deferred_offer.location.name_and_address %>
+          </p>
+        <% end %>
+        <% row.with_action(
+             text: 'Change',
+             href: '#',
+             visually_hidden_text: 'location',
+           ) %>
+      <% end %>
+    <% end %>
+
+    <h2 class="govuk-heading-l">Conditions of offer</h2>
+
+    <div id="check_conditions">
+      <%= render ProviderInterface::ConditionsListComponent.new(@deferred_offer.conditions) %>
+    </div>
+
+    <%= govuk_button_to(
+          'Continue',
+          provider_interface_application_choice_path(@deferred_offer.application_choice),
+        ) %>
+  </div>
+</div>
