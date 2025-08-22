@@ -42,6 +42,7 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth_openid_connect'
 gem 'omniauth-rails_csrf_protection'
+gem 'omniauth_govuk_one_login', path: '/home/catalin/work/omniauth-govuk-one-login', tag: 'v1.5.0'
 
 gem 'workflow'
 gem 'audited'
