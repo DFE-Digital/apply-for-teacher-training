@@ -1,7 +1,7 @@
 <% if conditions.any? %>
-  <dl class="govuk-summary-list app-conditions-list govuk-!-margin-bottom-0">
+  <dl class="govuk-summary-list">
     <% conditions.each_with_index do |condition, index| %>
-      <div class="govuk-summary-list__row<%= ' govuk-summary-list__row--no-border' if index == conditions.length - 1 %>">
+      <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
           <%= condition.text %>
           <% if condition.is_a?(ReferenceCondition) && condition.description.present? %>
