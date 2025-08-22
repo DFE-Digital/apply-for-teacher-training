@@ -1,6 +1,5 @@
 OmniAuth.config.logger = Rails.logger
 require 'omniauth/strategies/one_login_developer'
-require 'omniauth/one_login_setup'
 
 dfe_sign_in_identifier = ENV['DFE_SIGN_IN_CLIENT_ID']
 dfe_sign_in_secret = ENV['DFE_SIGN_IN_SECRET']
@@ -59,7 +58,25 @@ if OneLogin.bypass?
              uid_field: :uid
   end
 else
-  Rails.application.config.middleware.use OmniAuth::Builder do |builder|
-    OneLoginSetup.configure(builder)
+  private_key_pem = ENV.fetch('GOVUK_ONE_LOGIN_PRIVATE_KEY', '')
+  begin
+    private_key_pem = private_key_pem.gsub('\n', "\n")
+    private_key = OpenSSL::PKey::RSA.new(private_key_pem)
+  rescue OpenSSL::PKey::RSAError => e
+    Rails.logger.warn "GOVUK ONE LOGIN PRIVATE error, is the key present? #{e.message}"
+    Sentry.capture_exception(e)
+  end
+
+  application_url = HostingEnvironment.application_url
+
+  Rails.application.config.middleware.use OmniAuth::Builder do
+    provider :govuk_one_login, {
+      name: :'one-login',
+      client_id: ENV.fetch('GOVUK_ONE_LOGIN_CLIENT_ID', ''),
+      idp_base_url: ENV.fetch('GOVUK_ONE_LOGIN_ISSUER_URL', ''),
+      private_key:,
+      redirect_uri: "#{application_url}/auth/one-login/callback",
+      signing_algorithm: 'RS256',
+    }
   end
 end
