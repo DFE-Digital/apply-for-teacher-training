@@ -8,6 +8,14 @@ module CandidateInterface
       timetable.relative_previous_timetable.academic_year_range_name
     end
 
+    def find_opens_date
+      timetable.find_opens_at.to_fs(:govuk_date_time_time_first)
+    end
+
+    def after_find_opens?
+      Time.zone.now.after? timetable.find_opens_at
+    end
+
     def next_academic_year
       timetable.academic_year_range_name
     end
@@ -16,16 +24,8 @@ module CandidateInterface
       timetable.apply_opens_at.to_fs(:govuk_date_time_time_first)
     end
 
-    def course_start_date
-      timetable.course_start_date.to_fs(:month_and_year)
-    end
-
-    def after_find_opens?
-      Time.zone.now.after? timetable.find_opens_at
-    end
-
     def timetable
-      @timetable ||= @application_form.recruitment_cycle_timetable
+      @timetable ||= RecruitmentCycleTimetable.next_timetable
     end
   end
 end

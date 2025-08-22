@@ -6,4 +6,8 @@
   <p class="govuk-body">
     <%= t('reopen_banner_component.when_apply_opens', apply_opens_date:, next_academic_year:) %>
   </p>
+
+  Application cycle: <%= @timetable.recruitment_cycle_year %>
+
+  Real Time cycle: <%= current_timetable.recruitment_cycle_year %>
 <% end %>
