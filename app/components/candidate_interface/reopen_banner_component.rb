@@ -1,8 +1,9 @@
 class CandidateInterface::ReopenBannerComponent < ViewComponent::Base
   attr_accessor :flash_empty
 
-  def initialize(flash_empty:)
+  def initialize(flash_empty:, application_form:)
     @flash_empty = flash_empty
+    @timetable = application_form.recruitment_cycle_timetable
   end
 
   def render?
@@ -12,11 +13,11 @@ class CandidateInterface::ReopenBannerComponent < ViewComponent::Base
 private
 
   def show_apply_reopen_banner?
-    current_timetable.between_cycles?
+    @timetable.after_apply_deadline?
   end
 
   def academic_year
-    current_timetable.previously_closed_academic_year_range
+    @timetable.previously_closed_academic_year_range
   end
 
   def next_academic_year
