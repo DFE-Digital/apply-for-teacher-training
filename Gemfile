@@ -42,6 +42,7 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth_openid_connect'
 gem 'omniauth-rails_csrf_protection'
+gem 'omniauth_govuk_one_login', '~> 1.5.1', github: 'DFE-Digital/omniauth-govuk-one-login', branch: 'configure_signing_algorithm'
 
 gem 'workflow'
 gem 'audited'
