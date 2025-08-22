@@ -4,13 +4,13 @@ RSpec.describe 'OneLoginController' do
   before do
     FeatureFlag.activate(:one_login_candidate_sign_in)
     OmniAuth.config.test_mode = true
-    OmniAuth.config.mock_auth[:one_login] = omniauth_hash
+    OmniAuth.config.mock_auth[:'one-login'] = omniauth_hash
   end
 
   let(:omniauth_hash) do
     OmniAuth::AuthHash.new(
       {
-        provider: 'one_login',
+        provider: :govuk_one_login,
         uid: '123',
         info: {
           email: 'test@email.com',

@@ -3,6 +3,7 @@ class OneLoginController < ApplicationController
 
   before_action :redirect_to_candidate_sign_in_unless_one_login_enabled
   skip_before_action :require_authentication
+  skip_before_action :verify_authenticity_token, only: %i[backchannel_logout]
 
   def callback
     auth = request.env['omniauth.auth']
@@ -83,6 +84,22 @@ class OneLoginController < ApplicationController
     else
       redirect_to candidate_interface_create_account_or_sign_in_path
     end
+  end
+
+  def backchannel_logout
+    return head :bad_request if params[:logout_token].blank?
+
+    token = OmniAuth::GovukOneLogin::BackchannelLogoutUtility.new(
+      client_id: ENV.fetch('GOVUK_ONE_LOGIN_CLIENT_ID'),
+      idp_base_url: ENV.fetch('GOVUK_ONE_LOGIN_ISSUER_URL'),
+    ).get_sub(logout_token: params[:logout_token])
+
+    return head :bad_request if token.blank?
+
+    one_login_auth = OneLoginAuth.find_by!(token:)
+    one_login_auth.candidate.sessions.delete_all
+
+    head :ok
   end
 
   def failure
