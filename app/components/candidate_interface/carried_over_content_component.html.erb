@@ -1,8 +1,12 @@
 <h1 class="govuk-heading-l">
-  <%= t('carried_over_content_component.title') %>
+  <%#= t('carried_over_content_component.title') %>
+  You cannot submit applications at the moment
 </h1>
 <p class="govuk-body">
-  <%= t('carried_over_content_component.deadline_has_passed', academic_year:, course_start_date:) %>
+  <%#= t('carried_over_content_component.deadline_has_passed', academic_year:, course_start_date:) %>
+
+  <!--# Realtime dates-->
+  You can view and choose courses from <%= find_opens_date %>.
 </p>
 <% if after_find_opens? %>
   <h2 class="govuk-heading-m">
@@ -14,6 +18,8 @@
   <%= govuk_button_link_to t('carried_over_content_component.add_application_choice'), candidate_interface_course_choices_do_you_know_the_course_path %>
 <% else %>
   <p class="govuk-body">
-    <%= t('carried_over_content_component.apply_opens', apply_opens_date:, next_academic_year:) %>
+    <%#= t('carried_over_content_component.apply_opens', apply_opens_date:, next_academic_year:) %>
+    <!--# Realtime dates-->
+    You will be able to submit applications for the <%= next_academic_year %> recruitment cycle from <%= apply_opens_date %>.
   </p>
 <% end %>
