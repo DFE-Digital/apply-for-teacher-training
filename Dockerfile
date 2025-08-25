@@ -82,11 +82,19 @@ ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 RUN echo ${SHA} > public/check
 
-# Change ownership of entire app directory for write access
-RUN chown -R appuser:appgroup /app
+# Create writable directories for Chrome
+RUN mkdir -p /app/tmp /home/appuser && \
+    chmod 755 /app/tmp
+
+# Change ownership of app directory and home directory for write access
+RUN chown -R appuser:appgroup /app && \
+    chown -R appuser:appgroup /home/appuser
 
 # Switch to non-root user
 USER 10001
+
+# Set HOME environment variable for the non-root user
+ENV HOME=/home/appuser
 
 # Use this for development testing
 # CMD bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0
