@@ -11,6 +11,20 @@ options = Selenium::WebDriver::Chrome::Options.new.tap do |opts|
   opts.add_argument('--disable-dev-shm-usage')
   opts.add_argument('--disable-gpu')
   opts.add_argument('--window-size=1400,1400')
+  # Additional options for non-root user in containerized environments
+  opts.add_argument('--disable-setuid-sandbox')
+  opts.add_argument('--disable-extensions')
+  opts.add_argument('--disable-background-timer-throttling')
+  opts.add_argument('--disable-backgrounding-occluded-windows')
+  opts.add_argument('--disable-renderer-backgrounding')
+  opts.add_argument('--disable-features=TranslateUI')
+  opts.add_argument('--disable-ipc-flooding-protection')
+  # Ensure Chrome can start without requiring elevated privileges
+  opts.add_argument('--user-data-dir=/tmp/chrome-user-data')
+  opts.add_argument('--data-path=/tmp/chrome-data-path')
+  opts.add_argument('--homedir=/tmp')
+  # Help with DevToolsActivePort file issue
+  opts.add_argument('--remote-debugging-port=9222')
 end
 
 Capybara.register_driver :chrome do |app|
