@@ -1,57 +1,37 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ReopenBannerComponent do
-  describe '#render' do
-    context 'before find reopens', time: after_apply_deadline do
-      it 'renders the banner for an app with the correct details' do
-        result = render_inline(described_class.new(flash_empty: true))
+  let(:application_form) { build_stubbed(:application_form, recruitment_cycle_year: 2025) }
+  let(:after_apply_deadline) { true }
+  let(:flash_empty) { true }
 
-        apply_opens_date = current_timetable.apply_reopens_at.to_fs(:govuk_date)
-        academic_year = current_timetable.academic_year_range_name
-        next_academic_year = next_timetable.academic_year_range_name
+  before do
+    allow(application_form).to receive(:after_apply_deadline?).and_return(after_apply_deadline)
+  end
 
-        expect(result).to have_content 'The application deadline has passed'
-        expect(result).to have_content(
-          "The application deadline has passed for courses starting in the #{academic_year} academic year.",
-        )
-        expect(result)
-          .to have_content(
-            "From #{apply_opens_date} you will be able to apply for courses starting in the #{next_academic_year} academic year.",
-          )
-      end
+  subject(:rendered_component) { render_inline(described_class.new(flash_empty: flash_empty, application_form: application_form)) }
 
-      it 'renders nothing if the flash contains something' do
-        result = render_inline(described_class.new(flash_empty: false))
+  context 'after the apply deadline and the flash is empty' do
+    it { is_expected.to have_content('The application deadline has passed') }
+    it { is_expected.to have_content('The application deadline has passed for courses starting in the 2025 to 2026 academic year.') }
+    it { is_expected.to have_content('From 9am UK time on 7 October 2025 you will be able to apply for courses starting in the 2025 to 2026 academic year.') }
+  end
 
-        expect(result.text).to be_blank
-      end
-    end
+  context 'before the apply deadline and flash is empty' do
+    let(:after_apply_deadline) { false }
+    let(:flash_empty) { true }
 
-    context 'after find opens', time: after_find_opens do
-      it 'renders the banner for with the correct details' do
-        result = render_inline(described_class.new(flash_empty: true))
+    subject { rendered_component.text }
 
-        apply_opens_date = current_timetable.apply_opens_at.to_fs(:govuk_date)
-        previous_academic_year = previous_timetable.academic_year_range_name
-        current_academic_year = current_timetable.academic_year_range_name
+    it { is_expected.to be_blank }
+  end
 
-        expect(result).to have_content 'The application deadline has passed'
-        expect(result).to have_content(
-          "The application deadline has passed for courses starting in the #{previous_academic_year} academic year.",
-        )
-        expect(result)
-          .to have_content(
-            "From #{apply_opens_date} you will be able to apply for courses starting in the #{current_academic_year} academic year.",
-          )
-      end
-    end
+  context 'before the apply deadline and flash is not empty' do
+    let(:after_apply_deadline) { false }
+    let(:flash_empty) { false }
 
-    context 'after apply opens', time: after_apply_reopens do
-      it 'does not render when we are not between cycles' do
-        result = render_inline(described_class.new(flash_empty: true))
+    subject { rendered_component.text }
 
-        expect(result.text).to be_blank
-      end
-    end
+    it { is_expected.to be_blank }
   end
 end

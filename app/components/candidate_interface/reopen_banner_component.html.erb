@@ -1,13 +1,9 @@
 <%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
   <% notification_banner.with_heading(text: t('reopen_banner_component.heading')) %>
   <p class="govuk-body">
-    <%= t('reopen_banner_component.deadline_has_passed', academic_year:) %>
+    <%= t('reopen_banner_component.deadline_has_passed', academic_year: academic_year_range_name) %>
   </p>
   <p class="govuk-body">
-    <%= t('reopen_banner_component.when_apply_opens', apply_opens_date:, next_academic_year:) %>
+    <%= t('reopen_banner_component.when_apply_opens', apply_opens_date: date_and_time_next_apply_opens, next_academic_year: next_academic_year_range_name) %>
   </p>
-
-  Application cycle: <%= @timetable.recruitment_cycle_year %>
-
-  Real Time cycle: <%= current_timetable.recruitment_cycle_year %>
 <% end %>
