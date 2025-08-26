@@ -130,7 +130,7 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
 
     expected_conditions << 'References'
 
-    within('.app-conditions-list') do
+    within('#offer-conditions-list') do
       expect(all('.govuk-summary-list__row > .govuk-summary-list__key').map(&:text)).to eq expected_conditions
     end
   end
