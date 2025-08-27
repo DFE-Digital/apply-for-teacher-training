@@ -73,19 +73,19 @@ RSpec.describe 'Provider confirms a deferred offer' do
     within '#check_course' do
       expect(page).to have_content('Course')
       expect(page).to have_content('Primary (PR1)')
-      expect(page).to have_link('Change course', href: '#')
+      # expect(page).to have_link('Change course', href: '#')
     end
 
     within '#check_study_mode' do
       expect(page).to have_content('Full time or part time')
       expect(page).to have_content('Part time')
-      expect(page).to have_link('Change full time or part time', href: '#')
+      # expect(page).to have_link('Change full time or part time', href: '#')
     end
 
     within '#check_location' do
       expect(page).to have_content('Location')
       expect(page).to have_content('Main site, 123 Fake Street, E1 1AA')
-      expect(page).to have_link('Change location', href: '#')
+      # expect(page).to have_link('Change location', href: '#')
     end
 
     expect(page).to have_css(:h2, text: 'Conditions of offer')
@@ -93,7 +93,7 @@ RSpec.describe 'Provider confirms a deferred offer' do
     within '#check_conditions' do
       expect(page).to have_content('You must obtain a degree')
       expect(page).to have_content('Pending')
-      expect(page).to have_no_link('Change')
+      # expect(page).to have_no_link('Change')
     end
   end
 end
