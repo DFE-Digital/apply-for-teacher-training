@@ -14,16 +14,16 @@ RSpec.describe 'After sign in redirects' do
   context 'when course from find is not present', time: mid_cycle do
     let(:candidate) { create(:candidate, course_from_find: nil) }
 
-    context 'when application is pre continuous applications' do
-      let!(:application_form) { create(:application_form, :completed, :pre_continuous_applications, candidate: candidate) }
+    context 'when application is in the previous cycle' do
+      let!(:application_form) { create(:application_form, :completed, :previous_cycle, candidate: candidate) }
 
       it 'redirects to start carry over' do
         get candidate_interface_interstitial_path
-        expect(response).to redirect_to(candidate_interface_start_carry_over_path)
+        expect(response).to redirect_to(candidate_interface_application_choices_path)
       end
     end
 
-    context 'when application is continuous applications' do
+    context 'when application is in the current cycle' do
       let!(:application_form) { create(:application_form, :minimum_info, submitted_at: nil, candidate: candidate) }
 
       it 'redirects to application details path' do
@@ -55,15 +55,6 @@ RSpec.describe 'After sign in redirects' do
         follow_redirect!
         expect(response).to redirect_to(candidate_interface_application_offer_dashboard_path)
       end
-    end
-  end
-
-  context 'when application submitted and non continuous applications' do
-    let!(:application_form) { create(:application_form, :completed, :pre_continuous_applications, candidate: candidate) }
-
-    it 'redirects to application complete path' do
-      get candidate_interface_interstitial_path
-      expect(response).to redirect_to(candidate_interface_start_carry_over_path)
     end
   end
 

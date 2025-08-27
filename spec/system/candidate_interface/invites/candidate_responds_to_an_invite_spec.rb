@@ -9,7 +9,7 @@ RSpec.describe 'Candidate responds to an invite' do
   scenario 'After apply deadline', time: after_apply_deadline do
     given_i_am_signed_in_without_in_flight_applications
     when_i_go_to_respond_to_invite
-    then_i_am_redirected_to_the_carry_over_page
+    then_i_see_the_carry_over_content
   end
 
   scenario 'Candidate accepts an invite and begins confirm selection wizard' do
@@ -63,7 +63,7 @@ RSpec.describe 'Candidate responds to an invite' do
   scenario 'Candidate clicks an email invite link for a closed course after apply deadline', time: after_apply_deadline do
     given_i_am_signed_in_without_in_flight_applications
     and_i_click_an_old_invite_link_for_an_unavailable_course
-    then_i_am_redirected_to_the_carry_over_page
+    then_i_see_the_carry_over_content
   end
 
   scenario 'Candidate clicks an email invite link for a closed course' do
@@ -272,7 +272,11 @@ private
     visit edit_candidate_interface_invite_path(@invite)
   end
 
-  def then_i_am_redirected_to_the_carry_over_page
-    expect(page).to have_current_path candidate_interface_start_carry_over_path
+  def then_i_see_the_carry_over_content
+    expect(page).to have_current_path candidate_interface_application_choices_path
+
+    within 'form.button_to[action="/candidate/application/carry-over"]' do
+      expect(page).to have_button 'Update your details'
+    end
   end
 end

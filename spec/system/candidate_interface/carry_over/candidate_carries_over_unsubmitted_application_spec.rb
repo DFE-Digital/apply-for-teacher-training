@@ -9,7 +9,7 @@ RSpec.describe 'Carry over unsubmitted application' do
 
     when_the_apply_deadline_passes
     and_i_sign_in_again
-    and_i_have_to_carry_my_application_over
+    and_i_carry_over_my_application
     then_i_see_the_references_section
     and_references_is_marked_as_incomplete
 
@@ -39,9 +39,12 @@ RSpec.describe 'Carry over unsubmitted application' do
     given_i_am_signed_in_with_one_login
   end
 
-  def and_i_have_to_carry_my_application_over
-    expect(page).to have_current_path candidate_interface_start_carry_over_path
-    click_link_or_button 'Update your details'
+  def and_i_carry_over_my_application
+    expect(page).to have_current_path candidate_interface_application_choices_path
+
+    within 'form.button_to[action="/candidate/application/carry-over"]' do
+      click_link_or_button 'Update your details'
+    end
   end
 
   def then_i_see_the_references_section

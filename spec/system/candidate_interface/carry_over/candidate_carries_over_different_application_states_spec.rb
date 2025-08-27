@@ -15,7 +15,7 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
     given_i_have_an_empty_submitted_application_from_last_cycle
     and_i_am_signed_in_as_a_candidate
     and_i_visit_the_application_dashboard
-    then_i_am_on_the_pages_that_is_possible_to_carry_over_an_application
+    then_i_see_the_carry_over_content
   end
 
   scenario 'Candidate carries over empty application to new cycle through the carry over interstitial' do
@@ -171,13 +171,15 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
   def then_i_am_ask_to_apply_for_courses_into_the_new_recruitment_cycle
     expect(page).to have_content("courses starting in the #{@previous_year} to #{@current_year} academic year, which have now closed.")
     expect(page).to have_content("apply for courses starting in the #{@current_year} to #{@next_year} academic year instead.")
-    then_i_am_on_the_pages_that_is_possible_to_carry_over_an_application
+    then_i_see_the_carry_over_content
   end
 
-  def then_i_am_on_the_pages_that_is_possible_to_carry_over_an_application
-    # rubocop:disable Capybara/CurrentPathExpectation
-    expect(page.current_path).to eq(candidate_interface_start_carry_over_path)
-    # rubocop:enable Capybara/CurrentPathExpectation
+  def then_i_see_the_carry_over_content
+    expect(page).to have_current_path candidate_interface_application_choices_path
+
+    within 'form.button_to[action="/candidate/application/carry-over"]' do
+      expect(page).to have_button 'Continue'
+    end
   end
 
   def when_i_carry_over
