@@ -1,10 +1,6 @@
 en:
   carried_over_content_component:
-    title: The application deadline has passed
-    deadline_has_passed: The application deadline has passed for courses starting in the %{academic_year} academic year. You can no longer apply to courses starting in %{course_start_date}
-    what_happens_next: What happens next?
-    you_can_prepare: >
-      You can prepare applications for courses starting in the %{next_academic_year} academic year. You will be able to
-      apply for these courses from %{apply_opens_date}.
+    title: You cannot submit applications at the moment
+    view_courses: You can view and choose courses from %{date_and_time_find_opens}
+    apply_opens: You will be able to submit applications for the %{application_form_academic_year_range_name} recruitment cycle from %{date_and_time_apply_opens}.
     add_application_choice: Choose a course
-    apply_opens: From %{apply_opens_date} you will be able to apply for courses starting in the %{next_academic_year} academic year.
