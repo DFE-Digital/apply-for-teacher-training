@@ -69,7 +69,7 @@
       <%= render ProviderInterface::ConditionsListComponent.new(@deferred_offer.conditions) %>
     </div>
 
-    <%= govuk_button_to(
+    <%= govuk_button_link_to(
           'Continue',
           provider_interface_application_choice_path(@deferred_offer.application_choice),
         ) %>
