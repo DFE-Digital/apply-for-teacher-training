@@ -14,6 +14,7 @@ class ApplicationForm < ApplicationRecord
            :apply_opens_at,
            :find_opens_at,
            :after_apply_deadline?,
+           :after_find_opens?,
            :before_apply_opens?,
            :cycle_range_name_with_current_indicator,
            :decline_by_default_at,

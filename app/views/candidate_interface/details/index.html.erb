@@ -1,7 +1,7 @@
 <% content_for :title, t('page_titles.your_details') %>
 
 <%= render CandidateInterface::DeadlineBannerComponent.new(application_form: @application_form_presenter.application_form, flash_empty: flash.empty?) %>
-<%= render CandidateInterface::ReopenBannerComponent.new(flash_empty: flash.empty?) %>
+<%= render CandidateInterface::ReopenBannerComponent.new(application_form: @application_form_presenter.application_form, flash_empty: flash.empty?) %>
 
 <%= render ServiceInformationBanner.new(namespace: :candidate) %>
 

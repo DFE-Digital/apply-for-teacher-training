@@ -1,31 +1,21 @@
 module CandidateInterface
   class CarriedOverContentComponent < ViewComponent::Base
+    delegate :after_find_opens?,
+             :academic_year_range_name,
+             :apply_opens_at,
+             :find_opens_at,
+             to: :@application_form, prefix: :application_form
+
     def initialize(application_form:)
       @application_form = application_form
     end
 
-    def academic_year
-      timetable.relative_previous_timetable.academic_year_range_name
+    def date_and_time_find_opens
+      application_form_find_opens_at.to_fs(:govuk_date_time_time_first)
     end
 
-    def next_academic_year
-      timetable.academic_year_range_name
-    end
-
-    def apply_opens_date
-      timetable.apply_opens_at.to_fs(:govuk_date_time_time_first)
-    end
-
-    def course_start_date
-      timetable.course_start_date.to_fs(:month_and_year)
-    end
-
-    def after_find_opens?
-      Time.zone.now.after? timetable.find_opens_at
-    end
-
-    def timetable
-      @timetable ||= @application_form.recruitment_cycle_timetable
+    def date_and_time_apply_opens
+      application_form_apply_opens_at.to_fs(:govuk_date_time_time_first)
     end
   end
 end
