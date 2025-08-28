@@ -378,8 +378,6 @@ GEM
       csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
-    httpclient (2.9.0)
-      mutex_m
     humanize (3.1.0)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
@@ -450,7 +448,6 @@ GEM
     multi_json (1.17.0)
     multi_xml (0.6.0)
     multipart-post (2.4.1)
-    mutex_m (0.3.0)
     nenv (0.3.0)
     net-http (0.6.0)
       uri
@@ -769,7 +766,7 @@ GEM
     stoplight (3.0.2)
       redlock (~> 1.0)
     stringio (3.1.7)
-    strip_attributes (2.0.0)
+    strip_attributes (2.0.1)
       activemodel (>= 3.0, < 9.0)
     strong_migrations (2.5.0)
       activerecord (>= 7.1)
