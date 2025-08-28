@@ -10,7 +10,7 @@ en:
         label: Decline offer
     offer:
       respond_before: |
-        Respond before %{date}
+        Respond before %{date}.
         This offer will be rejected automatically after then.
     accept_offer:
       references_description: When you accept your offer, we’ll send emails to the people you said could give you references.

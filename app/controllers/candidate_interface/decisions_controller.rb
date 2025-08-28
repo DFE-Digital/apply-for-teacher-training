@@ -8,7 +8,7 @@ module CandidateInterface
     def offer
       @respond_to_offer = CandidateInterface::RespondToOfferForm.new
       @offer_count = @application_choice.self_and_siblings.offer.count
-      @decline_by_default_date = timetable.decline_by_default_at
+      @decline_by_default_date = current_timetable.decline_by_default_at
       @back_link = if params['return_to'] == 'invites'
                      candidate_interface_invites_path
                    else
@@ -71,15 +71,6 @@ module CandidateInterface
       unless ApplicationStateChange.new(@application_choice).can_decline?
         render_404
       end
-    end
-
-    def show_decline_by_default_warning?
-      @decline_by_default_date.present? && Time.zone.now.between?(timetable.apply_deadline_at, timetable.decline_by_default_at)
-    end
-    helper_method :show_decline_by_default_warning?
-
-    def timetable
-      @timetable ||= RecruitmentCycleTimetable.current_timetable
     end
 
     def course_choice_rows

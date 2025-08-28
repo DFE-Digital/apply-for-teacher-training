@@ -17,7 +17,7 @@ module CandidateInterface
     end
 
     def show_decline_by_default_text?
-      Time.zone.now.between?(timetable.apply_deadline_at, decline_by_default_date) && @application_form.offered?
+      timetable.between_apply_deadline_and_decline_by_default? && @application_form.offered?
     end
 
     def decline_by_default_date
