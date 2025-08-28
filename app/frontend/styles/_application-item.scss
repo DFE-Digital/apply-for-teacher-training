@@ -30,7 +30,7 @@
   &__provider_id .govuk-body-s {
     margin-bottom: 0;
     margin-left: govuk-spacing(1);
-    
+
     color: $govuk-secondary-text-colour;
   }
 
@@ -39,13 +39,11 @@
   }
 
   &__status_tag {
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: flex-end;
+    display: block;
 
     margin-bottom: govuk-spacing(2);
+
+    text-align: right;
   }
 }
 

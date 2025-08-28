@@ -56,14 +56,12 @@ RSpec.describe CandidateInterface::ApplicationChoices::IndexContentComponent do
           before_apply_opens?: false,
         )
 
-        decline_by_default_date = application_form.decline_by_default_at
-
-        travel_temporarily_to(decline_by_default_date + 2.days) do
+        travel_temporarily_to(application_form.decline_by_default_at + 2.days) do
           component = described_class.new(application_form:)
           render_inline(component)
 
           expect(component.content_component).to be_a(CandidateInterface::AfterDeadlineContentComponent)
-          expect(rendered_content).not_to include("You have until #{decline_by_default_date.to_fs(:govuk_date_time_time_first)} to respond to your offers. After this time they will be rejected.")
+          expect(rendered_content).not_to include("You have until #{application_form.decline_by_default_at.to_fs(:govuk_date_time_time_first)} to respond to your offers. After this time they will be rejected.")
         end
       end
     end
@@ -73,9 +71,7 @@ RSpec.describe CandidateInterface::ApplicationChoices::IndexContentComponent do
         application_form = create(:application_form)
         create(:application_choice, :offered, application_form:)
 
-        decline_by_default_date = application_form.decline_by_default_at
-
-        travel_temporarily_to(decline_by_default_date - 2.days) do
+        travel_temporarily_to(application_form.decline_by_default_at - 2.days) do
           allow(application_form).to receive_messages(
             carry_over?: false,
             after_apply_deadline?: true,
@@ -87,7 +83,7 @@ RSpec.describe CandidateInterface::ApplicationChoices::IndexContentComponent do
           render_inline(component)
 
           expect(component.content_component).to be_a(CandidateInterface::AfterDeadlineContentComponent)
-          expect(rendered_content).to include("You have until #{decline_by_default_date.to_fs(:govuk_date_time_time_first)} to respond to your offers. After this time they will be rejected.")
+          expect(rendered_content).to include("You have until #{application_form.decline_by_default_at.to_fs(:govuk_date_time_time_first)} to respond to your offers. After this time they will be rejected.")
         end
       end
     end

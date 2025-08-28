@@ -43,12 +43,12 @@ class CandidateInterface::ApplicationChoiceItemComponent < ViewComponent::Base
   end
 
   def show_decline_by_default_text?
-    application_choice.offer? && Time.zone.now.between?(timetable.apply_deadline_at, decline_by_default_at)
+    application_choice.offer? && timetable.between_apply_deadline_and_decline_by_default?
   end
 
 private
 
   def timetable
-    @timetable ||= RecruitmentCycleTimetable.current_timetable
+    @timetable ||= application_choice.application_form.recruitment_cycle_timetable
   end
 end
