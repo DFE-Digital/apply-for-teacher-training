@@ -8,7 +8,7 @@
 
         <% if show_decline_by_default_text? %>
           <p class="govuk-body app-course-choice__deadline-reminder govuk-!-margin-top-1">
-            <%= t('.respond_before', date: decline_by_default_date.to_fs(:govuk_time_first_no_year_date_time)) %>
+            <%= t('.respond_before', date: decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)) %>
           </p>
         <% end %>
       </div>
