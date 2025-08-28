@@ -63,7 +63,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceItemComponent do
       decline_by_default_date = RecruitmentCycleTimetable.current_timetable.decline_by_default_at
 
       travel_temporarily_to(decline_by_default_date + 2.days) do
-        expect(rendered.text).not_to include("Respond before #{decline_by_default_date.to_fs(:govuk_time)} on #{decline_by_default_date.to_fs(:day_and_month)}")
+        expect(rendered.text).not_to include("Respond before #{decline_by_default_date.to_fs(:govuk_time_first_no_year_date_time)}")
       end
     end
   end

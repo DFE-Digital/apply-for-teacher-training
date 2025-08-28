@@ -179,14 +179,14 @@ RSpec.describe 'Candidate accepts an offer' do
     provider = @course_option.course.provider.name
     expect(page).to have_content(provider)
     expect(page).to have_content(t('page_titles.decisions.offer'))
-    expect(page).to have_no_content("Respond before #{decline_by_default_date.to_fs(:govuk_time)} on #{decline_by_default_date.to_fs(:day_and_month)}")
+    expect(page).to have_no_content("Respond before #{decline_by_default_date.to_fs(:govuk_time_first_no_year_date_time)}")
   end
 
   def then_i_see_the_offer_with_the_deadline_warning_text
     provider = @course_option.course.provider.name
     expect(page).to have_content(provider)
     expect(page).to have_content(t('page_titles.decisions.offer'))
-    expect(page).to have_content("Respond before #{decline_by_default_date.to_fs(:govuk_time)} on #{decline_by_default_date.to_fs(:day_and_month)}")
+    expect(page).to have_content("Respond before #{decline_by_default_date.to_fs(:govuk_time_first_no_year_date_time)}")
   end
 
   def and_i_am_told_my_other_offer_will_be_automatically_declined

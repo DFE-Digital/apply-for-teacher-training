@@ -15,8 +15,7 @@
 
       <% if show_decline_by_default_warning? %>
         <%= govuk_warning_text do %>
-          <%= t('decisions.offer.respond_before', time: @decline_by_default_date.to_fs(:govuk_time),
-                                                  day_and_month: @decline_by_default_date.to_fs(:day_and_month)).strip.gsub("\n", '<br>').html_safe %>
+          <%= t('decisions.offer.respond_before', date: @decline_by_default_date.to_fs(:govuk_time_first_no_year_date_time)).strip.gsub("\n", '<br>').html_safe %>
         <% end %>
       <% end %>
 
