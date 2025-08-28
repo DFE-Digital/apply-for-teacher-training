@@ -5,7 +5,7 @@ RSpec.describe 'Candidate accepts an offer' do
   include CandidateHelper
 
   scenario 'Candidate views an offer and accepts' do
-    travel_temporarily_to(apply_deadline_date - 2.days) do
+    travel_temporarily_to(current_timetable.apply_deadline_at - 2.days) do
       given_i_am_signed_in_with_one_login
       and_i_have_2_offers_on_my_choices
       and_1_choice_that_is_awaiting_provider_decision
@@ -120,7 +120,7 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   scenario 'Candidate views an offer between Apply deadline and decline by default date' do
-    travel_temporarily_to(decline_by_default_date - 2.days) do
+    travel_temporarily_to(current_timetable.decline_by_default_at - 2.days) do
       given_i_am_signed_in_with_one_login
       and_i_have_2_offers_on_my_choices
 
@@ -179,14 +179,14 @@ RSpec.describe 'Candidate accepts an offer' do
     provider = @course_option.course.provider.name
     expect(page).to have_content(provider)
     expect(page).to have_content(t('page_titles.decisions.offer'))
-    expect(page).to have_no_content("Respond before #{decline_by_default_date.to_fs(:govuk_time_first_no_year_date_time)}")
+    expect(page).to have_no_content("Respond before #{current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}")
   end
 
   def then_i_see_the_offer_with_the_deadline_warning_text
     provider = @course_option.course.provider.name
     expect(page).to have_content(provider)
     expect(page).to have_content(t('page_titles.decisions.offer'))
-    expect(page).to have_content("Respond before #{decline_by_default_date.to_fs(:govuk_time_first_no_year_date_time)}")
+    expect(page).to have_content("Respond before #{current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}")
   end
 
   def and_i_am_told_my_other_offer_will_be_automatically_declined
@@ -542,17 +542,5 @@ RSpec.describe 'Candidate accepts an offer' do
 
   def then_i_be_redirected_to_the_offer_dashboard
     expect(page).to have_current_path(candidate_interface_application_offer_dashboard_path)
-  end
-
-  def decline_by_default_date
-    timetable.decline_by_default_at
-  end
-
-  def apply_deadline_date
-    timetable.apply_deadline_at
-  end
-
-  def timetable
-    @timetable ||= RecruitmentCycleTimetable.current_timetable
   end
 end

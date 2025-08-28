@@ -48,10 +48,8 @@ RSpec.describe CandidateInterface::ApplicationChoiceItemComponent do
     let(:application_choice) { create(:application_choice, :offered) }
 
     it 'displays the response deadline reminder text' do
-      decline_by_default_date = RecruitmentCycleTimetable.current_timetable.decline_by_default_at
-
-      travel_temporarily_to(decline_by_default_date - 2.days) do
-        expect(rendered.text).to include("Respond before #{decline_by_default_date.to_fs(:govuk_time)} on #{decline_by_default_date.to_fs(:day_and_month)}")
+      travel_temporarily_to(current_timetable.decline_by_default_at - 2.days) do
+        expect(rendered.text).to include("Respond before #{current_timetable.decline_by_default_at.to_fs(:govuk_time)} on #{current_timetable.decline_by_default_at.to_fs(:day_and_month)}")
       end
     end
   end
@@ -60,10 +58,8 @@ RSpec.describe CandidateInterface::ApplicationChoiceItemComponent do
     let(:application_choice) { create(:application_choice, :offered) }
 
     it 'does not display the response deadline reminder text' do
-      decline_by_default_date = RecruitmentCycleTimetable.current_timetable.decline_by_default_at
-
-      travel_temporarily_to(decline_by_default_date + 2.days) do
-        expect(rendered.text).not_to include("Respond before #{decline_by_default_date.to_fs(:govuk_time_first_no_year_date_time)}")
+      travel_temporarily_to(current_timetable.decline_by_default_at + 2.days) do
+        expect(rendered.text).not_to include("Respond before #{current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}")
       end
     end
   end

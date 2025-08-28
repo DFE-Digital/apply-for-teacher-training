@@ -1,5 +1,7 @@
 module CandidateInterface
   class AfterDeadlineContentComponent < ViewComponent::Base
+    delegate :decline_by_default_at, to: :timetable
+
     def initialize(application_form:)
       @application_form = application_form
     end
@@ -18,10 +20,6 @@ module CandidateInterface
 
     def show_decline_by_default_text?
       timetable.between_apply_deadline_and_decline_by_default? && @application_form.offered?
-    end
-
-    def decline_by_default_date
-      timetable.decline_by_default_at
     end
 
   private

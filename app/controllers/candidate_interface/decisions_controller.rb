@@ -23,6 +23,7 @@ module CandidateInterface
 
       if @respond_to_offer.invalid?
         @offer_count = @application_choice.self_and_siblings.offer.count
+        @decline_by_default_date = current_timetable.decline_by_default_at
         render :offer
       elsif @respond_to_offer.decline?
         redirect_to candidate_interface_decline_offer_path(@application_choice)
