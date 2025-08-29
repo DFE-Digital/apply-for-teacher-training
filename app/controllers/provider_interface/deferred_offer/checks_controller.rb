@@ -4,7 +4,7 @@ module ProviderInterface
       def show
         application_choice = GetApplicationChoicesForProviders.call(
           providers: current_provider_user.providers,
-        ).find(params[:application_choice_id])
+        ).find(params.require(:application_choice_id))
 
         offer = application_choice.offer
 
