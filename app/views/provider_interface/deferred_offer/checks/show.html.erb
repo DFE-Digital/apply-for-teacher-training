@@ -1,4 +1,4 @@
-<% content_for :title, 'Check offered course details' %>
+<% content_for :title, t('provider_interface.deferred_offer.checks.show.page_title') %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@deferred_offer.application_choice)) %>
 
 <div class="govuk-grid-row">
@@ -7,12 +7,12 @@
       <span class="govuk-caption-xl govuk-caption">
         <%= @deferred_offer.application_choice.application_form.full_name %>
       </span>
-      Check offered course details
+      <%= t('provider_interface.deferred_offer.checks.show.page_title') %>
     </h1>
 
     <%= govuk_summary_list do |summary_list| %>
       <% summary_list.with_row(html_attributes: { id: :check_provider }) do |row| %>
-        <% row.with_key { 'Provider' } %>
+        <% row.with_key { t('provider_interface.deferred_offer.checks.show.summary_keys.provider') } %>
         <% row.with_value do %>
           <p class='govuk-body'>
             <%= @deferred_offer.course.provider.name_and_code %>
@@ -21,7 +21,7 @@
       <% end %>
 
       <% summary_list.with_row(html_attributes: { id: :check_course }) do |row| %>
-        <% row.with_key { 'Course' } %>
+        <% row.with_key { t('provider_interface.deferred_offer.checks.show.summary_keys.course') } %>
         <% row.with_value do %>
           <p class='govuk-body'>
             <%= @deferred_offer.course.name_and_code %>
@@ -35,7 +35,7 @@
       <% end %>
 
       <% summary_list.with_row(html_attributes: { id: :check_study_mode }) do |row| %>
-        <% row.with_key { 'Full time or part time' } %>
+        <% row.with_key { t('provider_interface.deferred_offer.checks.show.summary_keys.study_mode') } %>
         <% row.with_value do %>
           <p class='govuk-body'>
             <%= @deferred_offer.study_mode.humanize %>
@@ -49,7 +49,7 @@
       <% end %>
 
       <% summary_list.with_row(html_attributes: { id: :check_location }) do |row| %>
-        <% row.with_key { 'Location' } %>
+        <% row.with_key { t('provider_interface.deferred_offer.checks.show.summary_keys.location') } %>
         <% row.with_value do %>
           <p class='govuk-body'>
             <%= @deferred_offer.location.name_and_address %>
@@ -63,7 +63,7 @@
       <% end %>
     <% end %>
 
-    <h2 class="govuk-heading-l">Conditions of offer</h2>
+    <h2 class="govuk-heading-l"><%= t('provider_interface.deferred_offer.checks.show.headers.conditions') %></h2>
 
     <div id="check_conditions">
       <%= render ProviderInterface::ConditionsListComponent.new(@deferred_offer.conditions) %>
