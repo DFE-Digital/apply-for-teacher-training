@@ -15,6 +15,7 @@
 
   &__details, &__status {
     display: grid;
+
     gap: govuk-spacing(1);
   }
 
@@ -56,13 +57,15 @@
 
 .app-application-item__body {
   display: grid;
-  align-items: start;
+
   gap: govuk-spacing(2);
+  align-items: start;
 
   padding: govuk-spacing(4) 0;
 
   @include govuk-media-query($from: tablet) {
     display: flex;
+
     justify-content: space-between;
 
     padding-left: govuk-spacing(2);
@@ -80,6 +83,7 @@
 }
 
 .app-application-item__status_warning {
-  text-wrap: pretty;
   color: $govuk-error-colour;
+
+  text-wrap: pretty;
 }
