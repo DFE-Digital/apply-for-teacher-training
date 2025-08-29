@@ -4,13 +4,13 @@ RSpec.describe 'OneLoginController' do
   before do
     FeatureFlag.activate(:one_login_candidate_sign_in)
     OmniAuth.config.test_mode = true
-    OmniAuth.config.mock_auth[:one_login] = omniauth_hash
+    OmniAuth.config.mock_auth[:'one-login'] = omniauth_hash
   end
 
   let(:omniauth_hash) do
     OmniAuth::AuthHash.new(
       {
-        provider: 'one_login',
+        provider: :govuk_one_login,
         uid: '123',
         info: {
           email: 'test@email.com',
@@ -210,6 +210,59 @@ RSpec.describe 'OneLoginController' do
         expect(response).to redirect_to(
           candidate_interface_create_account_or_sign_in_path,
         )
+      end
+    end
+  end
+
+  describe 'POST /auth/one-login/backchannel-logout' do
+    before do
+      @utility = instance_double(OmniAuth::GovukOneLogin::BackchannelLogoutUtility)
+      allow(OmniAuth::GovukOneLogin::BackchannelLogoutUtility).to receive(:new).and_return(@utility)
+    end
+
+    context 'with valid request' do
+      it 'deletes the session of the candidate' do
+        candidate = create(:candidate)
+        token = '123'
+        create(:one_login_auth, candidate:, token:)
+        create(:session, candidate:)
+        allow(@utility).to receive(:get_sub).with(logout_token: anything).and_return(token)
+
+        expect {
+          post auth_one_login_backchannel_logout_path, params: { logout_token: token }
+        }.to change { Session.count }.from(1).to(0)
+
+        expect(@utility).to have_received(:get_sub)
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context 'with invalid request' do
+      it 'returns bad request if logout_token is blank' do
+        candidate = create(:candidate)
+        token = '123'
+        create(:one_login_auth, candidate:, token:)
+        create(:session, candidate:)
+
+        expect {
+          post auth_one_login_backchannel_logout_path
+        }.not_to(change { Session.count })
+
+        expect(response).to have_http_status(:bad_request)
+      end
+
+      it 'returns bad request if sub not found' do
+        candidate = create(:candidate)
+        token = '123'
+        create(:one_login_auth, candidate:, token:)
+        create(:session, candidate:)
+        allow(@utility).to receive(:get_sub).with(logout_token: anything).and_return(nil)
+
+        expect {
+          post auth_one_login_backchannel_logout_path
+        }.not_to(change { Session.count })
+
+        expect(response).to have_http_status(:bad_request)
       end
     end
   end
