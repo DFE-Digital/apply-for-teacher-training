@@ -13,6 +13,12 @@
     text-wrap: balance;
   }
 
+  &__details, &__status {
+    display: grid;
+
+    gap: govuk-spacing(1);
+  }
+
   &__details .govuk-body-s {
     margin-bottom: 0;
   }
@@ -27,6 +33,10 @@
     }
   }
 
+  &__course_detail {
+    text-wrap: pretty;
+  }
+
   &__provider_id .govuk-body-s {
     margin-bottom: 0;
     margin-left: govuk-spacing(1);
@@ -38,29 +48,28 @@
     color: govuk-color("mid-grey");
   }
 
-  &__status_tag {
-    margin-bottom: govuk-spacing(2);
+  &__status {
+    @include govuk-media-query($from: tablet) {
+      text-align: end;
+    }
   }
 }
 
 .app-application-item__body {
-  display: flex;
+  display: grid;
 
-  flex-direction: column;
-
-  justify-content: space-between;
+  gap: govuk-spacing(2);
+  align-items: start;
 
   padding: govuk-spacing(4) 0;
 
   @include govuk-media-query($from: tablet) {
-    flex-direction: row-reverse;
+    display: flex;
+
+    justify-content: space-between;
 
     padding-left: govuk-spacing(2);
     margin-bottom: 0;
-
-    &__status_tag {
-      margin-bottom: govuk-spacing(0);
-    }
   }
 
   // https://github.com/alphagov/govuk-frontend/blob/v5.0.0/packages/govuk-frontend/src/govuk/components/task-list/_index.scss#L4
@@ -71,4 +80,10 @@
   &:hover .govuk-heading-s {
     color: $govuk-link-hover-colour;
   }
+}
+
+.app-application-item__status_warning {
+  color: $govuk-error-colour;
+
+  text-wrap: pretty;
 }

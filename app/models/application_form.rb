@@ -417,6 +417,10 @@ class ApplicationForm < ApplicationRecord
     application_choices.recruited.any?
   end
 
+  def offered?
+    application_choices.offer.any?
+  end
+
   def successful?
     application_choices.present? &&
       application_choices.map(&:status).map(&:to_sym).any? { |status| ApplicationStateChange::SUCCESSFUL_STATES.include?(status) }

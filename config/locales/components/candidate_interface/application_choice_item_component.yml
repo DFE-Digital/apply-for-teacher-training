@@ -1,0 +1,4 @@
+en:
+  candidate_interface:
+    application_choice_item_component:
+      respond_before: Respond before %{date}

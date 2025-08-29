@@ -17,6 +17,18 @@ class CandidateInterface::ApplicationChoiceItemComponentPreview < ViewComponent:
     render_component(:offer)
   end
 
+  class CandidateInterface::ApplicationChoiceItemOfferWithDeadlineComponent < CandidateInterface::ApplicationChoiceItemComponent
+    def show_decline_by_default_text?
+      true
+    end
+  end
+
+  def offer_upcoming_deadline
+    choice = ApplicationChoice.where(status: :offer).last
+
+    render(CandidateInterface::ApplicationChoiceItemOfferWithDeadlineComponent.new(application_choice: choice))
+  end
+
   def pending_conditions
     render_component(:pending_conditions)
   end
