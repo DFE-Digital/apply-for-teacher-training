@@ -76,4 +76,30 @@ RSpec.describe Offer do
       end
     end
   end
+
+  describe '#all_conditions_met?' do
+    it 'returns true if all conditions are met' do
+      offer = create(:offer, conditions: [
+        build(:text_condition, :met),
+        build(:ske_condition, :met),
+      ])
+
+      expect(offer.all_conditions_met?).to be true
+    end
+
+    it 'returns false if any condition is not met' do
+      offer = create(:offer, conditions: [
+        build(:text_condition, :met),
+        build(:ske_condition, :pending),
+      ])
+
+      expect(offer.all_conditions_met?).to be false
+    end
+
+    it 'returns false if there are no conditions' do
+      offer = create(:offer)
+
+      expect(offer.all_conditions_met?).to be false
+    end
+  end
 end
