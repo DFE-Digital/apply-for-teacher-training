@@ -72,7 +72,7 @@ en:
               blank: Enter the subject
               too_long: Subject must be %{count} characters or fewer
             institution_name:
-              blank: Enter the institution where you studied
+              blank: Enter the university that awarded your degree
               too_long: The institution where you studied must be %{count} characters or fewer
             institution_country:
               blank: Enter the country or territory you studied in

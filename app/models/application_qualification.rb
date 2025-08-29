@@ -46,6 +46,22 @@ class ApplicationQualification < ApplicationRecord
     ENGLISH,
     MATHS,
   ].freeze
+
+  COUNTRIES_WITH_COMPATIBLE_DEGREES = COUNTRIES_AND_TERRITORIES.filter do |_abbreviation, country_name|
+    country_name.in? [
+      'Nigeria',
+      'Ghana',
+      'Kenya',
+      'Ireland',
+      'Zimbabwe',
+      'Sri Lanka',
+      'Hong Kong',
+      'Uganda',
+      'Mauritius',
+      'Lesotho',
+    ]
+  end.freeze
+
   MAX_QUALIFICATION_TYPE_LENGTH = 256
 
   MAX_QUALIFICATION_GRADE_LENGTH = 256
@@ -196,6 +212,11 @@ class ApplicationQualification < ApplicationRecord
     gcse? &&
       qualification_type.to_s.downcase == 'gcse' &&
       REQUIRED_GCSE_SUBJECTS.include?(subject)
+  end
+
+  def international_bachelors_degree_compatible_with_uk?
+    qualification_type == 'bachelors' &&
+      institution_country.in?(COUNTRIES_WITH_COMPATIBLE_DEGREES.keys)
   end
 
 private

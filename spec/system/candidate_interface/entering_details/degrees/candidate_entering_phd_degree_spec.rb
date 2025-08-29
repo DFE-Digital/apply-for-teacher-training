@@ -19,14 +19,14 @@ RSpec.describe 'Entering a PhD' do
     when_i_choose_the_phd_level
     and_i_click_on_save_and_continue
 
-    # Add subject
-    then_i_can_see_the_subject_page
-    when_i_fill_in_the_subject
-    and_i_click_on_save_and_continue
-
     # Add degree type
     then_i_can_see_the_type_page
     when_i_choose_the_type_of_degree
+    and_i_click_on_save_and_continue
+
+    # Add subject
+    then_i_can_see_the_subject_page
+    when_i_fill_in_the_subject
     and_i_click_on_save_and_continue
 
     # Add university
@@ -116,7 +116,7 @@ RSpec.describe 'Entering a PhD' do
   end
 
   def when_i_fill_in_the_university
-    select 'University of Cambridge', from: 'candidate_interface_degree_wizard[university]'
+    select 'University of Cambridge', from: 'candidate_interface_degree_form[university]'
   end
 
   def then_i_can_see_the_completion_page

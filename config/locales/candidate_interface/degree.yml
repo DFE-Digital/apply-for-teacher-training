@@ -1,6 +1,25 @@
 en:
   candidate_interface:
     degrees:
+      levels:
+        new_degree_level_uk:
+          label:
+            foundation: Foundation degree
+            bachelor: Bachelor’s degree
+            master: Master’s degree
+            doctor: Doctorate (PhD)
+            "Level 6 Diploma": Level 6 Diploma
+            other: Another qualification equivalent to a degree
+            equivalent_level: Qualification type
+          hint:
+            bachelor: Sometimes referred to as an ‘undergraduate’ or ‘first’ degree, this is the minimum level required to be eligible for teacher training.
+        new_degree_level_compatible_country:
+          label:
+            bachelor: Bachelor’s degree
+            other: Other
+          hint:
+            bachelor: Sometimes referred to as an ‘undergraduate’ or ‘first’ degree, this is the minimum level required to be eligible for teacher training.
+            other: For example, a diploma, foundation, master’s or doctorate
       university_degree:
         new:
           teacher_degree_apprenticeship: teacher degree apprenticeship (TDA)
@@ -32,7 +51,7 @@ en:
         review_label: Type of %{degree}
         change_action: type of %{degree}
       international_qualification_type:
-        hint_text: For example, Bachelor degree, Bachelor of Arts, Diplôme, Licenciatura
+        hint_text: For example, Bachelor’s degree, Bachelor of Arts, Diplôme, Licenciatura
       subject:
         label: What subject is your degree?
         review_label: Subject
@@ -69,6 +88,9 @@ en:
         other:
           conditional:
             label: Enter your degree grade
+          compatible_international_label: My university used a different classification system
+          compatible_international_conditional:
+            label: Enter a degree classification, for example ‘3.6’, ‘B’, ‘75%’,
       completion_status:
         change_action: completion status
         review_label: Have you completed this degree?
@@ -120,8 +142,6 @@ en:
           masters_degree: Master’s degree / Integrated Master’s degree
           doctor_of_philosophy: Doctor of Philosophy degree
           post_doctoral_award: Post Doctoral award
-      level:
-        bachelor_degree: Sometimes referred to as an ‘undergraduate’ or ‘first’ degree, this is the minimum level required to be eligible for teacher training.
   activemodel:
     errors:
       models:
@@ -129,7 +149,7 @@ en:
           attributes:
             university_degree_status:
               blank: "Select whether you have a university degree"
-        candidate_interface/degree_wizard:
+        candidate_interface/degrees/base_form:
           attributes:
             uk_or_non_uk:
               blank: Select if the degree was from the United Kingdom or another country
@@ -142,11 +162,9 @@ en:
               too_long: Your qualification must be %{count} characters or fewer
             subject:
               blank: Enter your degree subject
-              subject: Your degree subject must be %{count} characters or fewer
+              too_long: Your degree subject must be %{count} characters or fewer
             type:
               blank: Select your degree type
-            international_type:
-              blank: Enter your degree type
               too_long: Your degree type must be %{count} characters or fewer
             other_type:
               blank: Enter another degree type
@@ -154,7 +172,7 @@ en:
             completed:
               blank: Select whether you have completed your degree
             university:
-              blank: Enter the institution where you studied
+              blank: Enter the university that awarded your degree
             grade:
               blank: Select your degree grade
             do_you_have_a_grade:

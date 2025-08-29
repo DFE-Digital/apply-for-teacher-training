@@ -1,0 +1,5 @@
+<% if @form.country_with_compatible_degrees? %>
+  <%= render 'new_degree_level_compatible_country' %>
+<% elsif @form.uk? %>
+  <%= render 'new_degree_level_uk' %>
+<% end %>

@@ -44,8 +44,6 @@ RSpec.describe 'Degrees' do
     and_i_click_the_back_link
     then_i_am_taken_back_to_the_country_page
     and_i_click_the_back_link
-    then_i_am_taken_back_to_the_university_degree_page
-    and_i_click_the_back_link
     then_i_am_taken_back_to_the_degree_review_page
 
     given_that_i_have_a_completed_international_degree
@@ -69,13 +67,14 @@ RSpec.describe 'Degrees' do
     @application_form = create(:application_form, candidate: @current_candidate)
     create(:application_qualification,
            level: 'degree',
+           qualification_level: 'bachelor',
            qualification_type: 'Bachelor of Arts',
            start_year: '2006',
            award_year: '2009',
            predicted_grade: false,
            subject: 'Computer Science',
            institution_name: 'University of Cambridge',
-           institution_country: nil,
+           institution_country: 'GB',
            grade: 'A',
            application_form: @application_form)
     @application_form.update!(degrees_completed: true)
@@ -108,7 +107,7 @@ RSpec.describe 'Degrees' do
   end
 
   def then_i_am_taken_to_the_specific_degree_type_page
-    expect(page).to have_content 'What type of bachelor degree is it?'
+    expect(page).to have_content 'What type of bachelor’s degree is it?'
   end
 
   def when_i_click_to_change_my_undergraduate_degree_type
@@ -141,11 +140,11 @@ RSpec.describe 'Degrees' do
   end
 
   def and_i_fill_the_type_of_degree
-    fill_in 'candidate_interface_degree_wizard[international_type]', with: 'Bachelor'
+    fill_in 'What type of degree is it?', with: 'Bachelor'
   end
 
   def and_i_fill_in_a_subject
-    select 'History', from: 'candidate_interface_degree_wizard[subject]'
+    select 'History', from: 'What subject is your degree?'
   end
 
   def then_i_am_taken_back_to_the_subject_page
