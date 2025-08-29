@@ -1,0 +1,13 @@
+en:
+  provider_interface:
+    deferred_offer:
+      checks:
+        show:
+          page_title: Check offered course details
+          summary_keys:
+            provider: Provider
+            course: Course
+            study_mode: Full time or part time
+            location: Location
+          headers:
+            conditions: Conditions of offer
