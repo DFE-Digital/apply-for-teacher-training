@@ -30,6 +30,9 @@ class Clock
   every(1.hour, 'UpdateDuplicateMatchesWorker', at: '**:25') { UpdateDuplicateMatchesWorker.perform_async('notify_slack_at' => 13) }
   every(1.hour, 'DetectInvariantsHourlyCheck', at: '**:30') { DetectInvariantsHourlyCheck.perform_async }
   every(1.hour, 'Adviser::FetchTeachingSubjectsWorker', at: '**:15') { Adviser::FetchTeachingSubjectsWorker.perform_async }
+  every(1.hour, 'EndOfCycle::NextYearIncrementalSync', at: '**:14', skip_first_run: true) do
+    EndOfCycle::NextYearIncrementalSync.perform_async
+  end
 
   # Daily jobs
   every(1.day, 'DeleteExpiredSessionsWorker', at: '5:01') { DeleteExpiredSessionsWorker.perform_async }
@@ -53,7 +56,6 @@ class Clock
   every(1.day, 'EndOfCycle:SendRejectByDefaultExplainerToCandidatesWorker', at: '09:01') { EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesWorker.new.perform }
   every(1.day, 'Candidate::PoolEligibleApplicationFormWorker', at: '09:02') { Candidate::PoolEligibleApplicationFormWorker.new.perform }
 
-  every(1.day, 'TriggerFullSyncIfFindClosed', at: '00:05') { TeacherTrainingPublicAPI::TriggerFullSyncIfFindClosed.call }
   every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_async }
   every(1.day, 'SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker.perform_async }
   every(1.day, 'SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker.perform_async }
@@ -74,6 +76,8 @@ class Clock
   every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: 'Saturday 00:59') do
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false)
   end
+
+  every(7.days, 'EndOfCycle::NextYearFullSync', at: 'Friday 00:05') { EndOfCycle::NextYearFullSync.perform_async }
 
   every(7.days, 'TADSubjectDomicileNationalityExport', at: 'Sunday 23:59') do
     DataAPI::TADSubjectDomicileNationalityExport.run_weekly
