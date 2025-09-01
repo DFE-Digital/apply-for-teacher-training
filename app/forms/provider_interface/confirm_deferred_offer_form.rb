@@ -9,6 +9,7 @@ class ProviderInterface::ConfirmDeferredOfferForm
 
   attribute :conditions, readonly: true
   attribute :application_choice, readonly: true
+  attribute :offer_conditions_status, readonly: true
 
   def course
     Course.find_by(id: course_id)

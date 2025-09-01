@@ -100,7 +100,7 @@ namespace :provider_interface, path: '/provider' do
       resource :check, only: :show
 
       # Routes for the conditions step
-      # get '/conditions', to: 'conditions#edit'
+      get '/conditions', to: 'conditions#edit'
 
       # Routes for the final submission to confirm the deferral
       # resource :confirm, only: :create, controller: :confirm

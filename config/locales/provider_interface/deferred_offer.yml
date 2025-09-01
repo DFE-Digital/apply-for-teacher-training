@@ -11,3 +11,19 @@ en:
             location: Location
           headers:
             conditions: Conditions of offer
+      conditions:
+        edit:
+          page_title: Confirm status of conditions
+          conditions_status:
+            fieldset_legend:
+              met: Has the candidate still met all of the conditions?
+              pending: Has the candidate met all of the conditions?
+            labels:
+              met:
+                met: Yes, all conditions are still met
+                pending: Yes, all conditions are met
+              pending:
+                met: No, one or more conditions are pending
+                pending: No, one or more conditions are still pending
+          submit: "Confirm deferred offer"
+

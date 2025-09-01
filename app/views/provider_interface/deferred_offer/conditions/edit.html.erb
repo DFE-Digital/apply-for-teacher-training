@@ -1,0 +1,39 @@
+<% content_for :browser_title, title_with_error_prefix(t('provider_interface.deferred_offer.conditions.edit.page_title'), @deferred_offer.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_deferred_offer_check_path(@deferred_offer.application_choice)) %>
+
+<%= form_with model: @deferred_offer, url: provider_interface_deferred_offer_conditions_path, method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= @deferred_offer.application_choice.application_form.full_name %></span>
+        <%= t('provider_interface.deferred_offer.conditions.edit.page_title') %>
+      </h1>
+
+      <div class="app-offer-panel">
+        <%= render ProviderInterface::ConditionsComponent.new(application_choice: @deferred_offer.application_choice) %>
+      </div>
+
+      <%= f.govuk_radio_buttons_fieldset :conditions_status,
+                                         legend: {
+                                           text: t(@deferred_offer.offer_conditions_status, scope: 'provider_interface.deferred_offer.conditions.edit.conditions_status.fieldset_legend'),
+                                           size: 'm'
+                                         } do %>
+        <%= f.govuk_radio_button :conditions_status, :met,
+                                 label: {
+                                   text: t(@deferred_offer.offer_conditions_status, scope: 'provider_interface.deferred_offer.conditions.edit.conditions_status.labels.met')
+                                 },
+                                 link_errors: true %>
+
+        <%= f.govuk_radio_button :conditions_status, :pending,
+                                 label: {
+                                   text: t(@deferred_offer.offer_conditions_status, scope: 'provider_interface.deferred_offer.conditions.edit.conditions_status.labels.pending')
+                                 } %>
+      <% end %>
+
+      <%#= f.govuk_submit t('provider_interface.deferred_offer.conditions.edit.submit') %>
+      <%= govuk_button_link_to t('provider_interface.deferred_offer.conditions.edit.submit'), provider_interface_application_choice_path(@deferred_offer.application_choice) %>
+    </div>
+  </div>
+<% end %>

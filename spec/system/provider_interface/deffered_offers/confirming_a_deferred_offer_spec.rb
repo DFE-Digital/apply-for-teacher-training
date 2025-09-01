@@ -12,7 +12,14 @@ RSpec.describe 'Provider confirms a deferred offer' do
     when_i_visit_a_application_with_status_offer_deferred_from_previous_cycle
     and_i_click_confirm_deferred_offer
 
+    # Check
     then_i_can_see_the_details_of_the_deferred_offer
+    click_on "Continue"
+
+    # Conditions
+    then_i_can_see_the_conditions_page
+    and_i_choose_conditions_met
+    click_on "Confirm deferred offer"
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -95,5 +102,18 @@ RSpec.describe 'Provider confirms a deferred offer' do
       expect(page).to have_content('Pending')
       # expect(page).to have_no_link('Change')
     end
+  end
+
+  def then_i_can_see_the_conditions_page
+    expect(page).to have_current_path(provider_interface_deferred_offer_conditions_path(@deferred_application_choice))
+
+    expect(page).to have_css(:h1, text: 'John Doe')
+    expect(page).to have_css(:h1, text: 'Confirm status of conditions')
+
+    expect(page).to have_css('fieldset > legend', text: 'Has the candidate met all of the conditions?')
+  end
+
+  def and_i_choose_conditions_met
+    choose 'Yes, all conditions are met'
   end
 end
