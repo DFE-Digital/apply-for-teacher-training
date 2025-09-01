@@ -33,7 +33,7 @@ class CandidateInterface::DegreeRequiredComponent < ViewComponent::Base
   def initialize(application_choice)
     @application_choice = application_choice
     @course_degree_requirements = application_choice.current_course.degree_grade
-    @uk_bachelor_degrees = find_uk_bachelor_degrees(application_choice)
+    @uk_bachelor_degrees = find_uk_and_compatible_bachelor_degrees(application_choice)
   end
 
   def candidate_degree_grade_below_required_grade?
@@ -68,9 +68,10 @@ private
       .where(qualification_type_hesa_code: Hesa::DegreeType.master_hesa_codes).any?
   end
 
-  def find_uk_bachelor_degrees(application_choice)
+  def find_uk_and_compatible_bachelor_degrees(application_choice)
+    possible_institution_countries = [nil, 'GB'] + ApplicationQualification::COUNTRIES_WITH_COMPATIBLE_DEGREES.keys
     application_choice.application_form.application_qualifications
-      .where(level: 'degree', other_uk_qualification_type: nil, institution_country: [nil, 'GB'])
+      .where(level: 'degree', other_uk_qualification_type: nil, institution_country: possible_institution_countries)
       .where(qualification_type_hesa_code: Hesa::DegreeType.bachelor_hesa_codes)
   end
 end

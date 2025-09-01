@@ -1,0 +1,7 @@
+en:
+  candidate_interface:
+    degree_review_component:
+      foundation: Foundation degree
+      bachelor: Bachelor’s degree
+      master: Master’s degree
+      doctor: Doctorate (PhD)

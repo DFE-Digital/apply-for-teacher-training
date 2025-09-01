@@ -84,7 +84,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def when_i_fill_in_the_type
-    choose 'Bachelor degree'
+    choose 'Bachelor’s degree'
   end
 
   def when_i_fill_in_the_subject
@@ -92,11 +92,11 @@ RSpec.describe 'Editing a degree' do
   end
 
   def when_i_fill_in_the_type_of_degree
-    fill_in 'candidate_interface_degree_wizard[international_type]', with: 'Diplôme'
+    fill_in 'candidate_interface_degree_form[type]', with: 'Diplôme'
   end
 
   def when_i_fill_in_the_university
-    fill_in 'candidate_interface_degree_wizard[university]', with: 'University of Paris'
+    fill_in 'candidate_interface_degree_form[university]', with: 'University of Paris'
   end
 
   def and_i_fill_in_the_grade
@@ -134,7 +134,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def and_i_update_the_international_degrees_degree_type
-    fill_in 'candidate_interface_degree_wizard[international_type]', with: 'Bachelor degree'
+    fill_in 'candidate_interface_degree_form[type]', with: 'Bachelor’s degree'
   end
 
   def then_i_can_check_my_undergraduate_degree

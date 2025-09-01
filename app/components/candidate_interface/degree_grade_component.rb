@@ -1,35 +1,32 @@
 class CandidateInterface::DegreeGradeComponent < ViewComponent::Base
   include ViewHelper
+  include CandidateInterface::Degrees::FormConstants
 
   attr_reader :model
-
-  UK_BACHELORS_DEGREE_GRADES = [
-    'First-class honours',
-    'Upper second-class honours (2:1)',
-    'Lower second-class honours (2:2)',
-    'Third-class honours',
-    'Pass',
-    'Other',
-  ].freeze
-
-  UK_MASTERS_DEGREE_GRADES = %w[Distinction Merit Pass Other].freeze
+  delegate :uk?, :country_with_compatible_degrees?, :specified_grades?, :bachelors?, :masters?, :completed?, to: :model
 
   def initialize(model:)
     @model = model
   end
 
   def legend_helper
-    if model.uk? && model.specified_grades?
-      t('application_form.degree.grade.legend.uk', complete: (model.completed? ? 'is your degree' : 'do you expect to get').to_s)
-    elsif model.uk? && !model.specified_grades?
-      t('application_form.degree.grade.legend.uk_with_optional_grade', complete: (model.completed? ? 'Did' : 'Will').to_s)
+    if show_uk_grades? || show_compatible_country_grades?
+      t('application_form.degree.grade.legend.uk', complete: (completed? ? 'is your degree' : 'do you expect to get').to_s)
+    elsif model.uk?
+      t('application_form.degree.grade.legend.uk_with_optional_grade', complete: (completed? ? 'Did' : 'Will').to_s)
     else
-      t('application_form.degree.grade.legend.non_uk', complete: (model.completed? ? 'Did' : 'Will').to_s)
+      t('application_form.degree.grade.legend.non_uk', complete: (completed? ? 'Did' : 'Will').to_s)
+    end
+  end
+
+  def hint
+    if show_compatible_country_grades?
+      { text: t('.international_hint') }
     end
   end
 
   def label_helper
-    if model.completed?
+    if completed?
       t('application_form.degree.grade.label.completed')
     else
       t('application_form.degree.grade.label.not_completed')
@@ -37,18 +34,26 @@ class CandidateInterface::DegreeGradeComponent < ViewComponent::Base
   end
 
   def hint_helper
-    t('application_form.degree.grade.hint.not_completed') unless model.completed?
+    t('application_form.degree.grade.hint.not_completed') unless completed?
   end
 
-  def specific_grade_options?
-    model.masters? || model.bachelors?
+  def show_uk_grades?
+    uk? && specified_grades?
   end
 
-  def grades
-    if model.masters?
+  def show_compatible_country_grades?
+    country_with_compatible_degrees? && bachelors?
+  end
+
+  def uk_grades
+    if masters?
       UK_MASTERS_DEGREE_GRADES
-    else
+    elsif bachelors?
       UK_BACHELORS_DEGREE_GRADES
     end
+  end
+
+  def compatible_international_grades
+    UK_BACHELORS_DEGREE_GRADES
   end
 end

@@ -1,6 +1,0 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= content_for :before_content, govuk_back_link_to(@wizard.reviewing_and_unchanged_country? ? @wizard.back_to_review : candidate_interface_degree_completed_path) %>
-    <%= render CandidateInterface::DegreeGradeComponent.new(model: @wizard) %>
-  </div>
-</div>

@@ -80,7 +80,7 @@ RSpec.describe 'Deleting and replacing a degree' do
   end
 
   def when_i_fill_in_the_university
-    select 'University of Cambridge', from: 'candidate_interface_degree_wizard[university]'
+    select 'University of Cambridge', from: 'candidate_interface_degree_form[university]'
   end
 
   def when_i_choose_whether_degree_is_completed
@@ -113,11 +113,11 @@ RSpec.describe 'Deleting and replacing a degree' do
     and_i_click_on_save_and_continue
     choose 'Doctorate (PhD)'
     and_i_click_on_save_and_continue
-    select 'Philosophy', from: 'What subject is your degree?'
-    and_i_click_on_save_and_continue
     choose 'Doctor of Philosophy (DPhil)'
     and_i_click_on_save_and_continue
-    select 'University of Oxford', from: 'candidate_interface_degree_wizard[university]'
+    select 'Philosophy', from: 'What subject is your degree?'
+    and_i_click_on_save_and_continue
+    select 'University of Oxford', from: 'candidate_interface_degree_form[university]'
     and_i_click_on_save_and_continue
     when_i_choose_whether_degree_is_completed
     and_i_click_on_save_and_continue
@@ -146,10 +146,10 @@ RSpec.describe 'Deleting and replacing a degree' do
     when_i_choose_the_level
     and_i_click_on_save_and_continue
 
-    when_i_fill_in_the_subject
+    when_i_choose_the_type_of_degree
     and_i_click_on_save_and_continue
 
-    when_i_choose_the_type_of_degree
+    when_i_fill_in_the_subject
     and_i_click_on_save_and_continue
 
     when_i_fill_in_the_university

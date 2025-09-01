@@ -73,12 +73,12 @@ private
   end
 
   def and_i_fill_in_the_type_of_degree
-    fill_in 'candidate_interface_degree_wizard[international_type]', with: 'Doctorate of Philosophy'
+    fill_in 'candidate_interface_degree_form[type]', with: 'Doctorate of Philosophy'
     and_i_click_on_save_and_continue
   end
 
   def and_i_fill_in_the_university
-    fill_in 'candidate_interface_degree_wizard[university]', with: 'Purdue University'
+    fill_in 'candidate_interface_degree_form[university]', with: 'Purdue University'
     and_i_click_on_save_and_continue
   end
 

@@ -1,0 +1,27 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+  <% content_for :title, title_with_error_prefix(t('page_titles.degree_university'), @form.errors.any?) %>
+  <% content_for :before_content, govuk_back_link_to(@form.back_link) %>
+  <%= form_with model: @form, url: candidate_interface_degree_university_path, scope: :candidate_interface_degree_form do |f| %>
+    <%= f.govuk_error_summary %>
+      <% if @form.uk? %>
+        <%= render DfE::Autocomplete::View.new(
+          f,
+          attribute_name: :university,
+          form_field: f.govuk_select(
+          :university,
+          options_for_select(
+            dfe_autocomplete_options(@form.institutions, synonyms_fields: %i[suggestion_synonyms match_synonyms]),
+            f.object.university,
+          ),
+          label: { text: t('page_titles.degree_university'), tag: 'h1', size: 'l' },
+          hint: { text: t('application_form.degree.university.hint') },
+        ),
+        ) %>
+      <% else %>
+        <%= f.govuk_text_field :university, label: { text: t('page_titles.degree_university'), tag: 'h1', size: 'l' } %>
+      <% end %>
+    <%= f.govuk_submit t('save_and_continue') %>
+  <% end %>
+  </div>
+</div>

@@ -79,7 +79,7 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
       component = render_inline(described_class.new(application_form:))
       expect(component).to summarise(
         key: t('application_form.degree.qualification_type.review_label'),
-        value: 'Bachelor degree',
+        value: 'Bachelor’s degree',
         action: {
           text: "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
           href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :degree_level),
@@ -234,17 +234,17 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
     it 'renders component with correct values for a uk degree with equivalent bachelor degree' do
       component = render_inline(described_class.new(application_form:))
       expect(component).to summarise(
-        key: 'Type of bachelor degree',
+        key: 'Type of bachelor’s degree',
         value: 'Bachelor of Arts in Architecture',
         action: {
-          text: "Change #{t('application_form.degree.type_of_degree.change_action', degree: 'bachelor degree')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+          text: "Change #{t('application_form.degree.type_of_degree.change_action', degree: 'bachelor’s degree')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
           href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :type),
         },
       )
 
       expect(component).to summarise(
         key: 'Degree type',
-        value: 'Bachelor degree',
+        value: 'Bachelor’s degree',
         action: {
           text: "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
           href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :degree_level),
@@ -655,7 +655,7 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
     it 'does not render a uk degree type row' do
       component = render_inline(described_class.new(application_form:))
       expect(component).not_to summarise(
-        key: t('application_form.degree.type_of_degree.review_label', degree: 'Bachelor degree'),
+        key: t('application_form.degree.type_of_degree.review_label', degree: 'Bachelor’s degree'),
         value: 'Bachelor of Hogwarts Studies',
         action: {
           text: "Change #{t('application_form.degree.type_of_degree.change_action')} for Bachelor of Hogwarts Studies, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",

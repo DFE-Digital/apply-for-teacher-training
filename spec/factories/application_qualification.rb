@@ -5,7 +5,7 @@ FactoryBot.define do
     qualification_type do
       case level
       when 'degree'
-        CandidateInterface::DegreeWizard::QUALIFICATION_LEVEL.keys.sample
+        CandidateInterface::Degrees::BaseForm::QUALIFICATION_LEVEL.keys.sample
       when 'gcse'
         CandidateInterface::OtherQualificationTypeForm::GCSE_TYPE
       when 'other'
@@ -104,6 +104,7 @@ FactoryBot.define do
       start_year { Faker::Date.between(from: 5.years.ago, to: 3.years.ago).year }
       award_year { Faker::Date.between(from: 2.years.ago, to: 1.year.ago).year }
       international { false }
+      institution_country { 'GB' }
       predicted_grade { true }
 
       after(:build) do |degree, _evaluator|
@@ -124,6 +125,7 @@ FactoryBot.define do
       end
 
       trait :bachelor do
+        qualification_level { 'bachelor' }
         qualification_type { Hesa::DegreeType.where(level: :bachelor).first.name }
       end
     end

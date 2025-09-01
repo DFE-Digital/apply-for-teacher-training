@@ -157,16 +157,16 @@ RSpec.describe 'Entering a degree' do
     choose 'United Kingdom'
     and_i_click_save_and_continue
 
-    choose 'Bachelor degree'
-    and_i_click_save_and_continue
-
-    select 'Astronomy', from: 'What subject is your degree?'
+    choose 'Bachelor’s degree'
     and_i_click_save_and_continue
 
     choose 'Bachelor of Science (BSc)'
     and_i_click_save_and_continue
 
-    select 'London School of Science and Technology', from: 'candidate_interface_degree_wizard[university]'
+    select 'Astronomy', from: 'What subject is your degree?'
+    and_i_click_save_and_continue
+
+    select 'London School of Science and Technology', from: 'candidate_interface_degree_form[university]'
     and_i_click_save_and_continue
 
     choose 'Yes'
