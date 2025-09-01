@@ -7,26 +7,22 @@ module EndOfCycle
       @timetable = timetable || RecruitmentCycleTimetable.current_timetable
     end
 
-    def run_reject_by_default?
-      current_time.between?(reject_by_default_at, reject_by_default_at + 1.day)
+    def run_cancel_unsubmitted_applications?
+      current_time.between?(apply_deadline_at, reject_by_default_at)
     end
 
-    def cancel_unsubmitted_applications?
-      current_date == apply_deadline_at.to_date
+    def run_reject_by_default?
+      current_time.between?(reject_by_default_at, decline_by_default_at)
     end
 
     def run_decline_by_default?
-      current_date.between?(decline_by_default_at, find_closes_at)
+      current_time.between?(decline_by_default_at, find_closes_at)
     end
 
   private
 
     def current_time
       Time.zone.now
-    end
-
-    def current_date
-      Time.zone.now.to_date
     end
   end
 end

@@ -67,7 +67,7 @@ class Clock
   # Reject any application choices that are still awaiting provider decision (interviewing, inactive, and awaiting decision)
   every(1.day, 'EndOfCycle::RejectByDefaultWorker', at: '00:01') { EndOfCycle::RejectByDefaultWorker.perform_async }
   # Decline any offers that are awaiting candidate decision
-  every(1.day, 'EndOfCycle::DeclineByDefaultWorker', at: '01:01') { EndOfCycle::DeclineByDefaultWorker.perform_async }
+  every(1.day, 'EndOfCycle::DeclineByDefaultWorker', at: '00:01') { EndOfCycle::DeclineByDefaultWorker.perform_async }
 
   # Daily jobs - mon-thurs only
   every(1.day, 'SendStatsSummaryToSlack', at: '17:00', if: ->(period) { period.wday.between?(1, 4) }) { SendStatsSummaryToSlack.new.perform }

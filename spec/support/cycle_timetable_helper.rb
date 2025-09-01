@@ -98,6 +98,11 @@ module_function
     timetable.reject_by_default_at + 1.day
   end
 
+  def after_decline_by_default(year = nil)
+    timetable = get_timetable(year)
+    timetable.decline_by_default_at + 1.day
+  end
+
   def reject_by_default_run_date(year = nil)
     timetable = get_timetable(year)
     timetable.reject_by_default_at + 1.second
