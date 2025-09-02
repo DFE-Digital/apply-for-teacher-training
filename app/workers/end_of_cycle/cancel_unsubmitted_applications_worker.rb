@@ -5,7 +5,7 @@ module EndOfCycle
     BATCH_SIZE = 200
 
     def perform(force = false)
-      return unless EndOfCycle::JobTimetabler.new.cancel_unsubmitted_applications? || force
+      return unless EndOfCycle::JobTimetabler.new.run_cancel_unsubmitted_applications? || force
 
       BatchDelivery.new(relation:, stagger_over: 2.hours, batch_size: BATCH_SIZE).each do |batch_time, applications|
         CancelUnsubmittedApplicationsSecondaryWorker.perform_at(batch_time, applications.pluck(:id))

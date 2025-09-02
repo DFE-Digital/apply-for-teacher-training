@@ -94,7 +94,7 @@ RSpec.describe EndOfCycle::CancelUnsubmittedApplicationsWorker do
           end
         end
 
-        context 'between cycles, but not on cancel date', time: after_apply_deadline(year) do
+        context 'between cycles, after decline by default date', time: after_decline_by_default(year) do
           it 'does not cancel any applications' do
             create_test_applications
 
