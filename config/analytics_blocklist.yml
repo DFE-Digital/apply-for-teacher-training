@@ -303,3 +303,13 @@
   - filters
   - created_at
   - updated_at
+  :deferred_offer_confirmations:
+  - id
+  - provider_user_id
+  - offer_id
+  - course_id
+  - site_id
+  - study_mode
+  - conditions_status
+  - created_at
+  - updated_at

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_25_123145) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_02_104318) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -579,6 +579,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_25_123145) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["service_name", "timestamp"], name: "index_data_migrations_on_service_name_and_timestamp", unique: true
+  end
+
+  create_table "deferred_offer_confirmations", force: :cascade do |t|
+    t.bigint "provider_user_id", null: false
+    t.bigint "offer_id", null: false
+    t.bigint "course_id"
+    t.bigint "site_id"
+    t.string "study_mode"
+    t.string "conditions_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_deferred_offer_confirmations_on_course_id"
+    t.index ["offer_id"], name: "index_deferred_offer_confirmations_on_offer_id"
+    t.index ["provider_user_id"], name: "index_deferred_offer_confirmations_on_provider_user_id"
+    t.index ["site_id"], name: "index_deferred_offer_confirmations_on_site_id"
   end
 
   create_table "email_clicks", force: :cascade do |t|
@@ -1157,6 +1172,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_25_123145) do
   add_foreign_key "course_subjects", "courses"
   add_foreign_key "course_subjects", "subjects"
   add_foreign_key "courses", "providers"
+  add_foreign_key "deferred_offer_confirmations", "courses"
+  add_foreign_key "deferred_offer_confirmations", "offers"
+  add_foreign_key "deferred_offer_confirmations", "provider_users"
+  add_foreign_key "deferred_offer_confirmations", "sites"
   add_foreign_key "email_clicks", "emails", on_delete: :cascade
   add_foreign_key "emails", "application_forms", on_delete: :cascade
   add_foreign_key "interviews", "application_choices", on_delete: :cascade
