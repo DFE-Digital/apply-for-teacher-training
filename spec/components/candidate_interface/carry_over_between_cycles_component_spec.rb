@@ -13,7 +13,7 @@ RSpec.describe CandidateInterface::CarryOverBetweenCyclesComponent do
       next_academic_year = timetable.next_available_academic_year_range
       expect(result).to have_content("You can update your details to get ready to apply for courses starting in the #{next_academic_year} academic year.")
 
-      apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date)
+      apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
       expect(result).to have_content("You will be able to apply for these courses from #{apply_reopens_date}.")
       expect(result).to have_button('Update your details')
 

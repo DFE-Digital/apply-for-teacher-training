@@ -20,7 +20,7 @@
   <%= t(
         '.application_process_description',
         next_academic_year: next_academic_cycle,
-        apply_reopens_date: apply_reopens_date.to_fs(:govuk_date),
+        apply_reopens_date: apply_reopens_date.to_fs(:govuk_date_time_time_first),
       ) %>
 </p>
 <%= govuk_button_to t('.button_update_your_details'), candidate_interface_carry_over_path %>
