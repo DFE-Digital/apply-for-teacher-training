@@ -1185,6 +1185,17 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#offered?' do
+    context 'when a candidate has at least one choice in offer state' do
+      it 'returns true' do
+        offered_application_choice = create(:application_choice, :offered)
+        other_choice = create(:application_choice, :awaiting_provider_decision)
+        application_form = create(:completed_application_form, application_choices: [offered_application_choice, other_choice])
+        expect(application_form).to be_offered
+      end
+    end
+  end
+
   describe '#ask_about_free_school_meals?' do
     context 'when a candidate is British and born on or after 1 September 1964' do
       it 'returns true' do

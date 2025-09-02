@@ -4,6 +4,7 @@ class CandidateInterface::ApplicationChoiceItemComponent < ViewComponent::Base
   end
   attr_reader :application_choice
   delegate :status, :school_placement_auto_selected, to: :application_choice
+  delegate :decline_by_default_at, to: :timetable
 
   def provider_name
     application_choice.current_course.provider.name
@@ -39,5 +40,15 @@ class CandidateInterface::ApplicationChoiceItemComponent < ViewComponent::Base
     else
       candidate_interface_course_choices_course_review_path(application_choice.id)
     end
+  end
+
+  def show_decline_by_default_text?
+    application_choice.offer? && timetable.between_apply_deadline_and_decline_by_default?
+  end
+
+private
+
+  def timetable
+    @timetable ||= application_choice.application_form.recruitment_cycle_timetable
   end
 end

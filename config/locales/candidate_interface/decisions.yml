@@ -8,6 +8,10 @@ en:
         label: Accept offer
       decline:
         label: Decline offer
+    offer:
+      respond_before_html: |
+        Respond before %{date}. <br>
+        This offer will be rejected automatically after then.
     accept_offer:
       references_description: When you accept your offer, we’ll send emails to the people you said could give you references.
       reference_confidentiality: They can decide whether you will be able to see their reference or if it is confidential.

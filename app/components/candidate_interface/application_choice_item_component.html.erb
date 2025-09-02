@@ -1,9 +1,6 @@
 <div class="app-application-item">
   <%= govuk_link_to view_application_path do %>
     <div class="app-application-item__body">
-      <div class="app-application-item__status_tag">
-        <%= render(CandidateInterface::ApplicationStatusTagComponent.new(application_choice:, display_info_text: false)) %>
-      </div>
       <div class="app-application-item__details">
         <div class="app-application-item__provider_id">
           <h2 class="govuk-heading-s">
@@ -11,7 +8,19 @@
           </h2>
           <p class="govuk-body-s"><%= application_id %></p>
         </div>
-        <p class="govuk-body-s"><%= course_option_summary %></p>
+        <p class="govuk-body-s app-application-item__course_detail"><%= course_option_summary %></p>
+      </div>
+
+      <div class="app-application-item__status govuk-task-list__link">
+        <div>
+          <%= render(CandidateInterface::ApplicationStatusTagComponent.new(application_choice:, display_info_text: false)) %>
+        </div>
+
+        <% if show_decline_by_default_text? %>
+          <p class="app-application-item__status_warning govuk-body-s govuk-!-margin-bottom-0">
+            <%= t('candidate_interface.application_choice_item_component.respond_before', date: decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)) %>
+          </p>
+        <% end %>
       </div>
     </div>
   <% end %>

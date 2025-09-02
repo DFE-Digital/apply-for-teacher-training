@@ -202,6 +202,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
     before_apply_opens? || after_apply_deadline?
   end
 
+  def between_apply_deadline_and_decline_by_default?
+    Time.zone.now.between?(apply_deadline_at, decline_by_default_at)
+  end
+
   def approaching_apply_deadline?
     Time.zone.now.after? show_banners_at
   end

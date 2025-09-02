@@ -43,4 +43,24 @@ RSpec.describe CandidateInterface::ApplicationChoiceItemComponent do
       expect(rendered.text).not_to include(application_choice.site.name)
     end
   end
+
+  context 'when the choice is in offer state and the date is between the Apply deadline and the Decline by default date' do
+    let(:application_choice) { create(:application_choice, :offered) }
+
+    it 'displays the response deadline reminder text' do
+      travel_temporarily_to(current_timetable.decline_by_default_at - 2.days) do
+        expect(rendered.text).to include("Respond before #{current_timetable.decline_by_default_at.to_fs(:govuk_time)} on #{current_timetable.decline_by_default_at.to_fs(:day_and_month)}")
+      end
+    end
+  end
+
+  context 'when the choice is in offer state and the date is not in the relevant period' do
+    let(:application_choice) { create(:application_choice, :offered) }
+
+    it 'does not display the response deadline reminder text' do
+      travel_temporarily_to(current_timetable.decline_by_default_at + 2.days) do
+        expect(rendered.text).not_to include("Respond before #{current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}")
+      end
+    end
+  end
 end

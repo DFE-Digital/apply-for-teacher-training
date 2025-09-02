@@ -56,9 +56,35 @@ RSpec.describe CandidateInterface::ApplicationChoices::IndexContentComponent do
           before_apply_opens?: false,
         )
 
-        component = described_class.new(application_form:)
+        travel_temporarily_to(application_form.decline_by_default_at + 2.days) do
+          component = described_class.new(application_form:)
+          render_inline(component)
 
-        expect(component.content_component).to be_a(CandidateInterface::AfterDeadlineContentComponent)
+          expect(component.content_component).to be_a(CandidateInterface::AfterDeadlineContentComponent)
+          expect(rendered_content).not_to include("You have until #{application_form.decline_by_default_at.to_fs(:govuk_date_time_time_first)} to respond to your offers. After this time they will be rejected.")
+        end
+      end
+    end
+
+    context 'when the application form is after the apply deadline and before the decline by default date' do
+      it 'the AfterDeadlineContentComponent includes the decline by default reminder content' do
+        application_form = create(:application_form)
+        create(:application_choice, :offered, application_form:)
+
+        travel_temporarily_to(application_form.decline_by_default_at - 2.days) do
+          allow(application_form).to receive_messages(
+            carry_over?: false,
+            after_apply_deadline?: true,
+            before_apply_opens?: false,
+          )
+
+          component = described_class.new(application_form:)
+
+          render_inline(component)
+
+          expect(component.content_component).to be_a(CandidateInterface::AfterDeadlineContentComponent)
+          expect(rendered_content).to include("You have until #{application_form.decline_by_default_at.to_fs(:govuk_date_time_time_first)} to respond to your offers. After this time they will be rejected.")
+        end
       end
     end
 
