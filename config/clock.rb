@@ -64,6 +64,7 @@ class Clock
   # End of cycle application choice status jobs
   # Changes unsubmitted application choices to 'application_not_sent'
   every(1.day, 'EndOfCycle::CancelUnsubmittedApplicationsWorker', at: '18:01') { EndOfCycle::CancelUnsubmittedApplicationsWorker.perform_async }
+  every(1.day, 'EndOfCycle::CloseCoursesOnInvites', at: '18:01') { EndOfCycle::CloseCoursesOnInvites.perform_async }
   # Reject any application choices that are still awaiting provider decision (interviewing, inactive, and awaiting decision)
   every(1.day, 'EndOfCycle::RejectByDefaultWorker', at: '00:01') { EndOfCycle::RejectByDefaultWorker.perform_async }
   # Decline any offers that are awaiting candidate decision
