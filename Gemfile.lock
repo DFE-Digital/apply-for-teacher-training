@@ -57,16 +57,6 @@ GIT
       get_into_teaching_api_client
 
 GIT
-  remote: https://github.com/DFE-Digital/omniauth-govuk-one-login.git
-  revision: aff1a0e5eac9cb9bfdd2215f8da4ac77f390d1d7
-  tag: v1.5.1
-  specs:
-    omniauth_govuk_one_login (1.5.1)
-      faraday (~> 2.13)
-      jwt (~> 2.10)
-      omniauth (~> 2.1)
-
-GIT
   remote: https://github.com/DFE-Digital/rspec-retry.git
   revision: 306b42b8d5853303982e1a165e82d04744c20ea3
   branch: main
@@ -928,7 +918,6 @@ DEPENDENCIES
   okcomputer
   omniauth
   omniauth-rails_csrf_protection
-  omniauth_govuk_one_login!
   omniauth_openid_connect
   openapi3_parser (= 0.10.1)
   pagy
