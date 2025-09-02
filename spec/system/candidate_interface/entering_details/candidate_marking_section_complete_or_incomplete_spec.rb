@@ -57,6 +57,10 @@ RSpec.describe 'Marking section as complete or incomplete' do
     when_i_visit_the_details_page
     then_i_see_the_complete_details_text
 
+    when_i_dont_have_any_application_choices
+    and_i_visit_the_details_page
+    then_i_see_the_complete_details_text_for_application_without_choices
+
     when_i_mark_a_section_as_incomplete
     then_i_dont_see_the_complete_details_text
 
@@ -157,23 +161,32 @@ RSpec.describe 'Marking section as complete or incomplete' do
   def when_i_visit_the_details_page
     visit candidate_interface_details_path
   end
+  alias_method :and_i_visit_the_details_page, :when_i_visit_the_details_page
 
   def then_i_see_the_complete_details_text
     expect(page).to have_text('You can add your applications.')
     expect(page).to have_text('You have completed your details')
+    expect(page).to have_text('You can apply to courses now.')
+  end
+
+  def then_i_see_the_complete_details_text_for_application_without_choices
     expect(page).to have_text('You can now start applying to courses.')
   end
 
   def then_i_dont_see_the_complete_details_text
     expect(page).to have_no_text('You can add your applications.')
     expect(page).to have_no_text('You have completed your details')
-    expect(page).to have_no_text('You can now start applying to courses.')
+    expect(page).to have_no_text('You can apply to courses now.')
   end
 
   def when_i_add_the_maximum_number_of_choices
     (ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES - 1).times do
       create(:application_choice, :unsubmitted, application_form: @application_form)
     end
+  end
+
+  def when_i_dont_have_any_application_choices
+    @application_form.application_choices.map(&:delete)
   end
 
   def and_i_mark_the_section_as_incomplete(section_name)
