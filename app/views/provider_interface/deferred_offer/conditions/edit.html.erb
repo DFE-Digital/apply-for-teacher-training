@@ -1,7 +1,7 @@
 <% content_for :browser_title, title_with_error_prefix(t('provider_interface.deferred_offer.conditions.edit.page_title'), @deferred_offer.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_deferred_offer_check_path(@deferred_offer.application_choice)) %>
 
-<%= form_with model: @deferred_offer, url: provider_interface_deferred_offer_conditions_path, method: :patch do |f| %>
+<%= form_with model: @deferred_offer, url: provider_interface_deferred_offer_conditions_path, method: :post do |f| %>
   <%= f.govuk_error_summary %>
 
   <div class="govuk-grid-row">
@@ -31,9 +31,11 @@
                                    text: t(@deferred_offer.offer_conditions_status, scope: 'provider_interface.deferred_offer.conditions.edit.conditions_status.labels.pending')
                                  } %>
       <% end %>
+      
+      <%= @deferred_offer.course_option_in_new_cycle? %>
 
-      <%#= f.govuk_submit t('provider_interface.deferred_offer.conditions.edit.submit') %>
-      <%= govuk_button_link_to t('provider_interface.deferred_offer.conditions.edit.submit'), provider_interface_application_choice_path(@deferred_offer.application_choice) %>
+      <%= f.govuk_submit t('provider_interface.deferred_offer.conditions.edit.submit') %>
+      <%#= govuk_button_link_to t('provider_interface.deferred_offer.conditions.edit.submit'), provider_interface_application_choice_path(@deferred_offer.application_choice) %>
     </div>
   </div>
 <% end %>
