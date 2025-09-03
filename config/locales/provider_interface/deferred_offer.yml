@@ -15,3 +15,10 @@ en:
         edit:
           page_title: Change course
           submit: Continue
+  activerecord:
+    errors:
+      models:
+        deferred_offer_confirmation/course_form:
+          attributes:
+            course_id:
+              blank: Select a course
