@@ -33,7 +33,7 @@ module TeacherTrainingPublicAPI
 
       api_sites_and_study_modes.each do |api_site, study_mode|
         site = create_or_update_site(api_site)
-        create_or_update_course_option(site, study_mode)
+        create_or_update_course_option(site, study_mode) if site.present?
       end
 
       # 2. Disable or delete CourseOptions that exist in Apply but are not
@@ -50,6 +50,10 @@ module TeacherTrainingPublicAPI
 
       site&.save!
       site
+    rescue StandardError => e
+      message = "SyncSites error, provider_id =  #{provider.id}, api_site_uuid = #{api_site.uuid} api_site_name = #{api_site.name}"
+      Sentry.capture_exception(e, message:)
+      nil
     end
 
     def create_or_update_course_option(site, study_mode)
