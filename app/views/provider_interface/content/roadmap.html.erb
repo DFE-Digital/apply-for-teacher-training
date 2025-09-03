@@ -11,9 +11,9 @@
       This roadmap shows what we’re working on and planning to do.
     </p>
     <p class="govuk-body">
-      Some things on the roadmap might change – the purpose is to tell you what’s coming up and help you plan how this feature might be used within the wider recruitment process.
+      Some things on the roadmap might change - the purpose is to tell you what's coming up and help providers plan how this feature might be used within the wider recruitment process.
     </p>
-    <%= govuk_inset_text(text: 'Last updated: 24 July 2025') %>
+    <%= govuk_inset_text(text: 'Last updated: 3 September 2025') %>
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
@@ -21,13 +21,13 @@
       Recently released
     </h2>
     <p class="govuk-body">
-      These are features or functionality that are available to use now.
+      These are features or functionality that are available to use now:
     </p>
     <%= govuk_list(
           [
-            'To help you find candidates in the list more easily, you can now search the list by candidate number. ',
-            'Provider navigation improvements to the personal statement ‘read more’ link and share candidate profiles with colleagues.',
-            "New information displayed on candidate profiles: \
+            'to help you find candidates in the list more easily, you can now search the list by candidate number',
+            'provider navigation improvements to the personal statement ‘read more’ link',
+            "new information displayed on candidate profiles: \
             #{
               govuk_list(
                 [
@@ -38,45 +38,49 @@
               )
             }".html_safe,
             govuk_link_to(
-              'Candidate course funding type preference capture.',
+              'candidate course funding type preference capture',
               t('.design_histories.find_candidate_funding_type_url'),
             ),
-            'Candidates carrying over applications into the new cycle re-confirm opt-in, location and funding type preferences. (This will take affect from 17 September 2025)',
             "#{govuk_link_to(
-              'Candidate statuses, additional tabs and invitation banners',
+              'candidate statuses, additional tabs and invitation banners',
               t('.design_histories.find_candidate_statuses_url'),
-            )} to make it easier for providers to distinguish, separate or sort between candidates they have not viewed, already viewed and invited (and progressed to applied).".html_safe,
+            )} to make it easier for providers to distinguish, separate or sort between candidates they have not viewed, already viewed and invited (and progressed to applied)".html_safe,
+            'capturing candidate invitation responses to understand candidate intentions towards reapplication',
+            'limiting the number of open invites per candidate to avoid you wasting time inviting candidates who do not respond',
           ],
           type: :bullet,
         ) %>
+
+    <p class="govuk-body">
+      Will take effect from September 17:
+    </p>
+    <%= govuk_list(
+      [
+        'when the cycle changes over you will not be able to see any candidates in the list. This is because they will not yet have any applications that are unsuccessful until 20 November',
+        'candidates will be asked to re-confirm their preferences including opt-in, location and funding type when they carry over applications into the new cycle',
+      ],
+      type: :bullet,
+    ) %>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
     <h2 class="govuk-heading-m">
       Working on now
     </h2>
     <p class="govuk-body">
-      These things are our priority at the moment. You should see them in the Find candidates feature soon.
+      We have pivoted our focus to prepare for the end of cycle and other areas of the service.
     </p>
-    <%= govuk_list(
-          [
-            'Hiding the list when there are no candidates to invite as the recruitment cycle changes over.',
-            'Capturing candidate invitation responses to understand candidate intentions towards reapplication.',
-            'Limiting the number of open invites per candidate to avoid you wasting time inviting candidates who do not respond.',
-          ],
-          type: :bullet,
-        ) %>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
     <h2 class="govuk-heading-m">
       Exploring
     </h2>
     <p class="govuk-body">
-      We are doing research and testing these ideas. Some of them might make it into Find candidates in future but some might not.
+      We are doing research and testing these ideas. Some of them might make it into Find candidates in future but some might not:
     </p>
     <%= govuk_list(
           [
-            'Candidate understanding of the opt-in and preference setting process.',
-            'Preparing to monitoring user behaviour in the new recruitment cycle.',
+            'candidate understanding of the opt-in, preference setting and invitation content',
+            'preparing to monitoring user behaviour in the new recruitment cycle to inform future iterations',
           ],
           type: :bullet,
         ) %>
