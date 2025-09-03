@@ -11,3 +11,7 @@ en:
             location: Location
           headers:
             conditions: Conditions of offer
+      courses:
+        edit:
+          page_title: Change course
+          submit: Continue

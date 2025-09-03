@@ -13,6 +13,11 @@ RSpec.describe 'Provider confirms a deferred offer' do
     and_i_click_confirm_deferred_offer
 
     then_i_can_see_the_details_of_the_deferred_offer
+
+    # Changing the course
+    when_i_click_change_course
+    and_i_select_a_different_course
+    then_i_can_see_the_updated_course_on_the_check_page
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -24,23 +29,26 @@ RSpec.describe 'Provider confirms a deferred offer' do
   end
 
   def and_applications_with_status_offer_deferred_exist
-    @course = create(:course, :open, :previous_year, provider: @provider, name: 'Primary', code: 'PR1')
+    @deferred_course = create(:course, :open, :previous_year, provider: @provider, name: 'Primary', code: 'PR1')
     @site = create(:site,
                    provider: @provider,
                    name: 'Main site',
                    address_line1: '123 Fake Street',
                    address_line2: nil, address_line3: nil, address_line4: nil,
                    postcode: 'E1 1AA')
-    @course_option = create(:course_option,
-                            course: @course,
-                            study_mode: 'part_time',
-                            site: @site)
+    @deferred_course_option = create(:course_option,
+                                     course: @deferred_course,
+                                     study_mode: 'part_time',
+                                     site: @site)
+
+    @course = create(:course, :open, provider: @provider, name: 'Secondary', code: 'SC1')
+    @course_option = create(:course_option, course: @course, study_mode: 'full_time', site: @site)
 
     @deferred_application_choice = create(
       :application_choice,
       :previous_year,
       :offer_deferred,
-      course_option: @course_option,
+      course_option: @deferred_course_option,
       form_options: {
         first_name: 'John',
         last_name: 'Doe',
@@ -73,7 +81,7 @@ RSpec.describe 'Provider confirms a deferred offer' do
     within '#check_course' do
       expect(page).to have_content('Course')
       expect(page).to have_content('Primary (PR1)')
-      # expect(page).to have_link('Change course', href: '#')
+      expect(page).to have_link('Change course', href: provider_interface_deferred_offer_course_path(@deferred_application_choice))
     end
 
     within '#check_study_mode' do
@@ -94,6 +102,25 @@ RSpec.describe 'Provider confirms a deferred offer' do
       expect(page).to have_content('You must obtain a degree')
       expect(page).to have_content('Pending')
       # expect(page).to have_no_link('Change')
+    end
+  end
+
+  def when_i_click_change_course
+    within '#check_course' do
+      click_on 'Change course'
+    end
+  end
+
+  def and_i_select_a_different_course
+    choose 'Secondary (SC1)'
+    click_on 'Continue'
+  end
+
+  def then_i_can_see_the_updated_course_on_the_check_page
+    within '#check_course' do
+      expect(page).to have_content('Course')
+      expect(page).to have_content('Secondary (SC1)')
+      expect(page).to have_link('Change course', href: provider_interface_deferred_offer_course_path(@deferred_application_choice))
     end
   end
 end
