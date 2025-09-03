@@ -25,11 +25,13 @@
         <% row.with_value do %>
           <%= @deferred_offer.course_name_and_code.presence || govuk_link_to('Select a course', provider_interface_deferred_offer_course_path(@deferred_offer.application_choice)) %>
         <% end %>
-        <% row.with_action(
-             text: 'Change',
-             href: provider_interface_deferred_offer_course_path(@deferred_offer.application_choice),
-             visually_hidden_text: 'course',
-        ) if @deferred_offer.course_name_and_code.present? %>
+        <% if @deferred_offer.course_name_and_code.present?
+             row.with_action(
+               text: 'Change',
+               href: provider_interface_deferred_offer_course_path(@deferred_offer.application_choice),
+               visually_hidden_text: 'course',
+             )
+           end %>
       <% end %>
 
       <% summary_list.with_row(html_attributes: { id: :check_study_mode }) do |row| %>
