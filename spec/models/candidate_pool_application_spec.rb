@@ -148,9 +148,7 @@ RSpec.describe CandidatePoolApplication do
 
   describe '.open_at' do
     it 'returns when the candidate pool opens' do
-      expect(described_class.open_at).to eq(
-        DateTime.new(RecruitmentCycleTimetable.previous_year, 11, 19).end_of_day,
-      )
+      expect(described_class.open_at).to eq(30.business_days.after(current_timetable.apply_opens_at).end_of_day)
     end
   end
 end

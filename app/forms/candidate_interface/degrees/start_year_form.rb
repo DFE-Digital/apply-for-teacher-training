@@ -9,7 +9,7 @@ module CandidateInterface
     end
 
     def start_year_in_future_when_degree_completed
-      errors.add(:start_year, :in_the_future) if completed? && start_year.present? && start_year.to_i >= RecruitmentCycleTimetable.next_year
+      errors.add(:start_year, :in_the_future) if completed? && start_year.present? && start_year.to_i >= Time.zone.now.year
     end
 
     def next_step

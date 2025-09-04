@@ -117,7 +117,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
       end
     end
 
-    context 'when the closed course exists and has been open' do
+    context 'when the closed course exists and has been open', time: mid_cycle do
       let(:uuid) { SecureRandom.uuid }
       let!(:course) { create(:course, :closed, provider: provider, uuid: uuid) }
       let!(:invite) { create(:pool_invite, :sent_to_candidate, course:, provider:, course_open: false) }
