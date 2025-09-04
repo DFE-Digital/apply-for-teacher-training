@@ -6,7 +6,7 @@
     <%= form_with model: @course_form, url: provider_interface_deferred_offer_course_path(@course_form.application_choice), method: :post do |form| %>
       <%= form.govuk_error_summary %>
 
-      <% if @course_form.courses_for_select.count < 20 %>
+      <% if @course_form.courses_for_select.count > 20 %>
         <%= form.govuk_collection_select(
               :course_id,
               @course_form.courses_for_select,

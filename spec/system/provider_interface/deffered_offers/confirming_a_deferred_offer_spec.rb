@@ -112,7 +112,7 @@ RSpec.describe 'Provider confirms a deferred offer' do
   end
 
   def and_i_select_a_different_course
-    choose 'Secondary (SC1)'
+    choose 'Secondary (SC1) – Provider Deferring'
     click_on 'Continue'
   end
 
