@@ -94,7 +94,8 @@ module SupportInterface
   private
 
     def year_filter
-      cycle_options = RecruitmentCycleYearsPresenter.call(with_current_indicator: true).map do |year, label|
+      end_year = current_timetable.after_apply_deadline? ? current_timetable.relative_next_year : current_timetable.recruitment_cycle_year
+      cycle_options = RecruitmentCycleYearsPresenter.call(end_year:, with_current_indicator: true).map do |year, label|
         {
           value: year,
           label:,
@@ -298,6 +299,10 @@ module SupportInterface
           },
         ],
       }
+    end
+
+    def current_timetable
+      @current_timetable ||= RecruitmentCycleTimetable.current_timetable
     end
   end
 end
