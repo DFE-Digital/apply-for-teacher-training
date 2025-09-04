@@ -9,7 +9,7 @@ RSpec.describe ServiceInformationBanner do
 
   context 'in the provider namespace' do
     it 'renders the banner' do
-      expect(result.text).to include('Manage service')
+      expect(result.text).to include('this service')
     end
 
     context 'when the hosting environment is sandbox' do
