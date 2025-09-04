@@ -85,8 +85,8 @@ namespace :provider_interface, path: '/provider' do
 
     namespace :deferred_offer, path: 'deferred-offer' do
       # Routes for the course selection step
-      # get '/course', to: 'courses#edit'
-      # post '/course', to: 'courses#update'
+      get '/course', to: 'courses#edit'
+      post '/course', to: 'courses#update'
 
       # Routes for the location selection step
       # get '/location', to: 'location#edit'

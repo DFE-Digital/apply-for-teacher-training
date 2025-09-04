@@ -1,0 +1,34 @@
+<% content_for :browser_title, title_with_error_prefix(t('.page_title'), @course_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_deferred_offer_check_path(@course_form.application_choice)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @course_form, url: provider_interface_deferred_offer_course_path(@course_form.application_choice), method: :post do |form| %>
+      <%= form.govuk_error_summary %>
+
+      <% if @course_form.courses_for_select.count > 20 %>
+        <%= form.govuk_collection_select(
+              :course_id,
+              @course_form.courses_for_select,
+              :id,
+              collection_course_options_with_provider_name,
+              label: { text: t('.page_title'), size: 'xl' },
+              caption: { text: @course_form.application_choice.application_form.full_name, size: 'xl' },
+            ) %>
+      <% else %>
+        <%= form.govuk_collection_radio_buttons(
+              :course_id,
+              @course_form.courses_for_select,
+              :id,
+              collection_course_options_with_provider_name,
+              :description,
+              bold_labels: false,
+              legend: { text: t('.page_title'), size: 'xl' },
+              caption: { text: @course_form.application_choice.application_form.full_name, size: 'xl' },
+            ) %>
+      <% end %>
+
+      <%= form.govuk_submit t('.submit') %>
+    <% end %>
+  </div>
+</div>
