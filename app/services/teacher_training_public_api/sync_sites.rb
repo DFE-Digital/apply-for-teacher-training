@@ -50,10 +50,9 @@ module TeacherTrainingPublicAPI
 
       site&.save!
       site
-    rescue StandardError => e
-      message = "SyncSites error, provider_id =  #{provider.id}, api_site_uuid = #{api_site.uuid} api_site_name = #{api_site.name}"
-      Sentry.capture_exception(e, message:)
-      nil
+    rescue ArgumentError
+      Sentry.capture_message("SyncSites error, provider_id =  #{provider.id}, api_site_uuid = #{api_site.uuid} api_site_name = #{api_site.name}")
+      site
     end
 
     def create_or_update_course_option(site, study_mode)
