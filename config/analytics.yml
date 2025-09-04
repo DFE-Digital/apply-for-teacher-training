@@ -554,8 +554,6 @@ shared:
     - address_line3
     - address_line4
     - postcode
-    - latitude
-    - longitude
     - region
     - created_at
     - updated_at

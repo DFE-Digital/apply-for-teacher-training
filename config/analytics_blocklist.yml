@@ -313,3 +313,6 @@
   - conditions_status
   - created_at
   - updated_at
+  :sites:
+  - latitude
+  - longitude
