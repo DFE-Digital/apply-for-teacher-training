@@ -22,6 +22,10 @@
         t('continue'),
         OneLogin.bypass? ? '/auth/one-login-developer' : "/auth/one-login?path=#{@referer_path}",
       ) %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to t('govuk.read_application_process_guidance'), candidate_interface_guidance_path %>.
+      </p>
     <% else %>
      <%= form_with(
         model: @create_account_or_sign_in_form,
