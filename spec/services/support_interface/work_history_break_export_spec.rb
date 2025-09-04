@@ -118,7 +118,7 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
                start_date: Date.new(2000, 1, 1),
                end_date: nil)
 
-        expected_number_of_months = (((Time.zone.now - Time.zone.local(2000, 1, 1, 0, 0, 0))) / ActiveSupport::Duration::SECONDS_PER_MONTH).round
+        expected_number_of_months = ((Time.zone.now - Time.zone.local(2000, 1, 1, 0, 0, 0)) / ActiveSupport::Duration::SECONDS_PER_MONTH).round
         data = described_class.new.data_for_export[0]
         expect(data[:total_time_in_employment]).to eq(expected_number_of_months)
       end
