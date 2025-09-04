@@ -10,6 +10,21 @@ class DeferredOfferConfirmation < ApplicationRecord
     end
   end
 
+  class StudyModeForm < DeferredOfferConfirmation
+    SelectOption = Data.define(:id, :name)
+
+    validates :study_mode, presence: true
+
+    enum :study_mode, { full_time: 'full_time', part_time: 'part_time' },
+         validate: { allow_nil: false },
+         instance_methods: false,
+         scopes: false
+
+    def study_modes_for_select
+      StudyModeForm.study_modes.map { |id, value| SelectOption.new(id: id, name: value.humanize) }
+    end
+  end
+
   belongs_to :provider_user
   belongs_to :offer
   belongs_to :course, optional: true
