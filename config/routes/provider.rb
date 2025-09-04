@@ -93,8 +93,8 @@ namespace :provider_interface, path: '/provider' do
       # post '/location', to: 'location#update'
 
       # Routes for the study mode selection step
-      # get '/study-mode', to: 'study_mode#edit'
-      # post '/study-mode', to: 'study_mode#update'
+      get '/study-mode', to: 'study_mode#edit'
+      post '/study-mode', to: 'study_mode#update'
 
       # Routes for the check your answers step
       resource :check, only: :show

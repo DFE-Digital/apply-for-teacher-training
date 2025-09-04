@@ -18,6 +18,11 @@ RSpec.describe 'Provider confirms a deferred offer' do
     when_i_click_change_course
     and_i_select_a_different_course
     then_i_can_see_the_updated_course_on_the_check_page
+
+    # Selecting study mode
+    when_i_click_select_full_time_or_part_time
+    and_i_select_a_different_study_mode
+    then_i_can_see_the_updated_study_mode_on_the_check_page
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -87,7 +92,7 @@ RSpec.describe 'Provider confirms a deferred offer' do
     within '#check_study_mode' do
       expect(page).to have_content('Full time or part time')
       expect(page).to have_content('Part time')
-      # expect(page).to have_link('Change full time or part time', href: '#')
+      expect(page).to have_link('Change full time or part time', href: provider_interface_deferred_offer_study_mode_path(@deferred_application_choice))
     end
 
     within '#check_location' do
@@ -121,6 +126,25 @@ RSpec.describe 'Provider confirms a deferred offer' do
       expect(page).to have_content('Course')
       expect(page).to have_content('Secondary (SC1)')
       expect(page).to have_link('Change course', href: provider_interface_deferred_offer_course_path(@deferred_application_choice))
+    end
+  end
+
+  def when_i_click_select_full_time_or_part_time
+    within '#check_study_mode' do
+      click_on 'Select full time or part time'
+    end
+  end
+
+  def and_i_select_a_different_study_mode
+    choose 'Full time'
+    click_on 'Change study type'
+  end
+
+  def then_i_can_see_the_updated_study_mode_on_the_check_page
+    within '#check_study_mode' do
+      expect(page).to have_content('Full time or part time')
+      expect(page).to have_content('Full time')
+      expect(page).to have_link('Change full time or part time', href: provider_interface_deferred_offer_study_mode_path(@deferred_application_choice))
     end
   end
 end
