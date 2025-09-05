@@ -30,7 +30,7 @@ private
   end
 
   def application_choice
-    GetApplicationChoicesForProviders.call(
+    @application_choice ||= GetApplicationChoicesForProviders.call(
       providers: current_provider_user.providers,
     ).find(params.require(:application_choice_id))
   end
