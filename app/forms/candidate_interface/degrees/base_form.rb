@@ -61,7 +61,7 @@ module CandidateInterface
         institution_name: university_raw || university,
         institution_hesa_code: hesa_institution_code,
         degree_institution_uuid:,
-        subject:,
+        subject: subject_raw || subject,
         subject_hesa_code: structured_degree_data? ? hesa_subject_code : nil,
         degree_subject_uuid:,
         grade: structured_degree_data? ? grade_attributes : (other_grade || map_value_for_no_submitted_international_grade(grade)),
