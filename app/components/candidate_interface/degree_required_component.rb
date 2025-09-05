@@ -1,4 +1,4 @@
-class CandidateInterface::DegreeRequiredComponent < ViewComponent::Base
+class CandidateInterface::DegreeRequiredComponent < ApplicationComponent
   CANDIDATE_GRADES = {
     'First class honours' => 4,
     'First-class honours' => 4,

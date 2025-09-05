@@ -1,4 +1,4 @@
-class PhaseBannerComponent < ViewComponent::Base
+class PhaseBannerComponent < ApplicationComponent
   include ApplicationHelper
 
   DEFAULT_FEEDBACK_LINK = 'mailto:becomingateacher@digital.education.gov.uk?subject=Feedback%20about%20Apply%20for%20teacher%20training'.freeze

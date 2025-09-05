@@ -1,5 +1,5 @@
 module CandidateInterface
-  class PersonalDetailsReviewComponent < ViewComponent::Base
+  class PersonalDetailsReviewComponent < ApplicationComponent
     def initialize(application_form:, editable: true, missing_error: false, return_to_application_review: false)
       @application_form = application_form
       @personal_details_form = CandidateInterface::PersonalDetailsForm.build_from_application(

@@ -1,5 +1,5 @@
 module SupportInterface
-  class ProvidersNavigationComponent < ViewComponent::Base
+  class ProvidersNavigationComponent < ApplicationComponent
     include ViewHelper
 
   private

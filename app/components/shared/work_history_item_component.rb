@@ -1,5 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
-class WorkHistoryItemComponent < ViewComponent::Base
+class WorkHistoryItemComponent < ApplicationComponent
   include ViewHelper
 
   def initialize(item:)

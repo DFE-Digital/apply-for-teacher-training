@@ -1,5 +1,5 @@
 module CandidateInterface
-  class AfterDeadlineContentComponent < ViewComponent::Base
+  class AfterDeadlineContentComponent < ApplicationComponent
     delegate :decline_by_default_at, to: :timetable
 
     def initialize(application_form:)

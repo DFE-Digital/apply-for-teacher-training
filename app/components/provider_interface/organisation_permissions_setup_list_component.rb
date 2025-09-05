@@ -1,5 +1,5 @@
 module ProviderInterface
-  class OrganisationPermissionsSetupListComponent < ViewComponent::Base
+  class OrganisationPermissionsSetupListComponent < ApplicationComponent
     attr_reader :grouped_provider_names, :continue_button_path
 
     def initialize(grouped_provider_names:, continue_button_path:)

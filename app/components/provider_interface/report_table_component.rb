@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ReportTableComponent < ViewComponent::Base
+  class ReportTableComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :headers, :rows, :show_footer, :exclude_from_footer, :bold_row_headers

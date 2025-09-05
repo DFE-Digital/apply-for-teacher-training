@@ -1,5 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
-class QualificationsTableComponent < ViewComponent::Base
+class QualificationsTableComponent < ApplicationComponent
   attr_reader :qualifications, :header, :subheader, :editable
 
   def initialize(qualifications:, header:, subheader:, editable: false)

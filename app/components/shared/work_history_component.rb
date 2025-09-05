@@ -1,5 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
-class WorkHistoryComponent < ViewComponent::Base
+class WorkHistoryComponent < ApplicationComponent
   def initialize(application_form:)
     @application_form = application_form
     @work_history_with_breaks ||= WorkHistoryWithBreaks.new(application_form)

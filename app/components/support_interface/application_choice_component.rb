@@ -1,5 +1,5 @@
 module SupportInterface
-  class ApplicationChoiceComponent < ViewComponent::Base
+  class ApplicationChoiceComponent < ApplicationComponent
     include ViewHelper
     include APIDocsHelper
 

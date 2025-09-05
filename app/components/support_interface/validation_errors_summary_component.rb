@@ -1,5 +1,5 @@
 module SupportInterface
-  class ValidationErrorsSummaryComponent < ViewComponent::Base
+  class ValidationErrorsSummaryComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :validation_error_summary, :scoped_error_object, :source_name, :error_source, :select_sort_options

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class OtherQualificationsReviewComponent < ViewComponent::Base
+  class OtherQualificationsReviewComponent < ApplicationComponent
     include ViewHelper
 
     def initialize(application_form:, editable: true, heading_level: 2, missing_error: false, submitting_application: false, return_to_application_review: false, deletable: true)

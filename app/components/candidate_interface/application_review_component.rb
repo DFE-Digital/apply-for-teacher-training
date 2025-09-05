@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ApplicationReviewComponent < ViewComponent::Base
+  class ApplicationReviewComponent < ApplicationComponent
     include CourseFeeRowHelper
 
     attr_reader :application_choice

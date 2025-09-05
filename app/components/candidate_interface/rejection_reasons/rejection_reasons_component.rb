@@ -1,6 +1,6 @@
 module CandidateInterface
   module RejectionReasons
-    class RejectionReasonsComponent < ViewComponent::Base
+    class RejectionReasonsComponent < ApplicationComponent
       include ViewHelper
 
       attr_reader :application_choice

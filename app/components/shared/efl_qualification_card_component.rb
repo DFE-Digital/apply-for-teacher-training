@@ -1,5 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
-class EflQualificationCardComponent < ViewComponent::Base
+class EflQualificationCardComponent < ApplicationComponent
   attr_reader :application_form
 
   def initialize(application_form)

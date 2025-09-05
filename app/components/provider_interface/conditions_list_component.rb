@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ConditionsListComponent < ViewComponent::Base
+  class ConditionsListComponent < ApplicationComponent
     attr_reader :conditions
 
     def initialize(conditions)

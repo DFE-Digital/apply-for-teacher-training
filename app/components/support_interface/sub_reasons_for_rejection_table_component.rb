@@ -1,5 +1,5 @@
 module SupportInterface
-  class SubReasonsForRejectionTableComponent < ViewComponent::Base
+  class SubReasonsForRejectionTableComponent < ApplicationComponent
     include ViewHelper
 
     attr_accessor :reason, :sub_reasons, :total_all_time, :total_this_month, :total_for_reason_all_time,

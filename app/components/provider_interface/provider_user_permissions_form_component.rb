@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ProviderUserPermissionsFormComponent < ViewComponent::Base
+  class ProviderUserPermissionsFormComponent < ApplicationComponent
     attr_reader :form_model, :provider, :form_path, :form_method, :user_name
 
     def initialize(form_model:, provider:, form_path:, form_method:, user_name: nil)

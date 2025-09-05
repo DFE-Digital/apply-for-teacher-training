@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ConditionsComponent < ViewComponent::Base
+  class ConditionsComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :application_choice

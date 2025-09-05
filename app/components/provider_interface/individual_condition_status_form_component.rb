@@ -1,5 +1,5 @@
 module ProviderInterface
-  class IndividualConditionStatusFormComponent < ViewComponent::Base
+  class IndividualConditionStatusFormComponent < ApplicationComponent
     attr_reader :form_object, :application_choice
 
     def initialize(form_object:, application_choice:)

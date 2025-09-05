@@ -1,5 +1,5 @@
 module CandidateInterface
-  class PreviousApplicationsComponent < ViewComponent::Base
+  class PreviousApplicationsComponent < ApplicationComponent
     include ViewHelper
 
     def initialize(candidate:)

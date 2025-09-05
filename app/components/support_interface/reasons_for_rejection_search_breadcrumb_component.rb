@@ -1,5 +1,5 @@
 module SupportInterface
-  class ReasonsForRejectionSearchBreadcrumbComponent < ViewComponent::Base
+  class ReasonsForRejectionSearchBreadcrumbComponent < ApplicationComponent
     include ViewHelper
 
     def initialize(search_attribute:, search_value:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)

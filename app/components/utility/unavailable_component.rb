@@ -1,4 +1,4 @@
-class UnavailableComponent < ViewComponent::Base
+class UnavailableComponent < ApplicationComponent
   def initialize(title:, reason: nil, lead_in: nil, alternatives: [])
     @title = title
     @reason = reason

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class EqualityAndDiversityReviewComponent < ViewComponent::Base
+  class EqualityAndDiversityReviewComponent < ApplicationComponent
     def initialize(application_form:, editable: true, missing_error: false, submitting_application: false, return_to_application_review: false)
       @application_form = application_form
       @editable = editable

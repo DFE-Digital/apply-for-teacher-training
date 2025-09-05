@@ -1,4 +1,4 @@
-class CandidateInterface::ApplicationChoices::IndexContentComponent < ViewComponent::Base
+class CandidateInterface::ApplicationChoices::IndexContentComponent < ApplicationComponent
   def initialize(application_form:)
     @application_form = application_form
   end

@@ -1,6 +1,6 @@
 # NOTE: This component is used by both provider and support UIs
 module RestructuredWorkHistory
-  class ReviewComponent < ViewComponent::Base
+  class ReviewComponent < ApplicationComponent
     def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, return_to_application_review: false, deletable: true)
       @application_form = application_form
       @editable = editable

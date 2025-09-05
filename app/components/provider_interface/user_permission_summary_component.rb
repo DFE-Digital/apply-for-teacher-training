@@ -1,5 +1,5 @@
 module ProviderInterface
-  class UserPermissionSummaryComponent < ViewComponent::Base
+  class UserPermissionSummaryComponent < ApplicationComponent
     attr_reader :provider_user, :provider, :editable
 
     def initialize(provider_user:, provider:, editable: false)

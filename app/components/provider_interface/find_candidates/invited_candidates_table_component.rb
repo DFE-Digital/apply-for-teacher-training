@@ -1,4 +1,4 @@
-class ProviderInterface::FindCandidates::InvitedCandidatesTableComponent < ViewComponent::Base
+class ProviderInterface::FindCandidates::InvitedCandidatesTableComponent < ApplicationComponent
   def initialize(candidate_invites)
     @candidate_invites = candidate_invites&.group_by(&:candidate_id)
   end

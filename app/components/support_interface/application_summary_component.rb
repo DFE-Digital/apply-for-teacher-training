@@ -1,5 +1,5 @@
 module SupportInterface
-  class ApplicationSummaryComponent < ViewComponent::Base
+  class ApplicationSummaryComponent < ApplicationComponent
     include ViewHelper
     include GeocodeHelper
 

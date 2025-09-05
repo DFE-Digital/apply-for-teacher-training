@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class DeclinedComponent < ViewComponent::Base
+    class DeclinedComponent < ApplicationComponent
       include ViewHelper
       include StatusBoxComponents::CourseRows
 

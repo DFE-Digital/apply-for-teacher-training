@@ -1,4 +1,4 @@
-class PrimaryNavigationComponent < ViewComponent::Base
+class PrimaryNavigationComponent < ApplicationComponent
   include ViewHelper
 
   attr_reader :items

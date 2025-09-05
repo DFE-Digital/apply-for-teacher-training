@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ApplicationRejectionFeedbackComponent < ViewComponent::Base
+  class ApplicationRejectionFeedbackComponent < ApplicationComponent
     attr_reader :application_choice
 
     def initialize(application_choice:)

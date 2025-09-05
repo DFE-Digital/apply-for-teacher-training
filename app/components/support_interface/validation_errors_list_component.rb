@@ -1,5 +1,5 @@
 module SupportInterface
-  class ValidationErrorsListComponent < ViewComponent::Base
+  class ValidationErrorsListComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :distinct_errors_with_counts, :grouped_counts, :scoped_error_object, :source_name, :grouped_counts_label

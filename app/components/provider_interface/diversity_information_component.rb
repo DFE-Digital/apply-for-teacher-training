@@ -1,5 +1,5 @@
 module ProviderInterface
-  class DiversityInformationComponent < ViewComponent::Base
+  class DiversityInformationComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :application_choice, :current_provider_user

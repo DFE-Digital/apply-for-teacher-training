@@ -1,5 +1,5 @@
 module SupportInterface
-  class AuditTrailComponent < ViewComponent::Base
+  class AuditTrailComponent < ApplicationComponent
     include Pagy::Backend
     include ViewHelper
 

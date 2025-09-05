@@ -1,4 +1,4 @@
-class TabNavigationComponent < ViewComponent::Base
+class TabNavigationComponent < ApplicationComponent
   include ViewHelper
 
   attr_reader :items

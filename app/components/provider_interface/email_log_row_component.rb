@@ -1,5 +1,5 @@
 module ProviderInterface
-  class EmailLogRowComponent < ViewComponent::Base
+  class EmailLogRowComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :email

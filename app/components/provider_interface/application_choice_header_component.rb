@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ApplicationChoiceHeaderComponent < ViewComponent::Base
+  class ApplicationChoiceHeaderComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :application_choice, :provider_can_respond, :provider_can_set_up_interviews, :course_associated_with_user_providers
