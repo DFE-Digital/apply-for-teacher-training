@@ -14,6 +14,11 @@ namespace :candidate_interface, path: '/candidate' do
     get '/' => redirect('/')
   end
 
+  namespace :previous_teacher_training, path: 'previous-teacher-training' do
+    resource :start, only: %i[new create], controller: 'start', path: ''
+    resource :names, only: %i[new create], path: 'provider-name'
+  end
+
   resources :account_recovery_requests, only: %i[new create], path: 'account-recovery-requests'
 
   resources :invites, only: %i[index edit update], path: 'application-sharing' do

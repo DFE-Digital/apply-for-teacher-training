@@ -1,0 +1,9 @@
+en:
+  candidate_interface:
+    previous_teacher_training:
+      start:
+        new:
+          title: Have you started a teacher training course before?
+        form:
+          title: Have you started a teacher training course before?
+          body: Training providers need to find out more about any previous teacher training courses that you have been on. This is for safeguarding reasons.

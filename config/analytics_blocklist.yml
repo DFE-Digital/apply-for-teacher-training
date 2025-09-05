@@ -1,5 +1,14 @@
 ---
 :shared:
+  :previous_teacher_training_forms:
+  - id
+  - application_form_id
+  - provider_name
+  - started_at
+  - ended_at
+  - details
+  - created_at
+  - updated_at
   :emails:
   - application_form_id
   - created_at

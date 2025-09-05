@@ -1,4 +1,13 @@
 shared:
+  previous_teacher_trainings:
+    - id
+    - application_form_id
+    - provider_name
+    - started_at
+    - ended_at
+    - details
+    - created_at
+    - updated_at
   pool_eligible_application_forms:
     - id
     - application_form_id

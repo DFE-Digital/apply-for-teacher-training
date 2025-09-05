@@ -1,0 +1,10 @@
+<%= form_with model: form, url:, method: do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <%= f.govuk_radio_buttons_fieldset(:choice, legend: { text: t('.title'), size: 'l', class: 'govuk-!-margin-bottom-6' }, hint: { text: t('.body'), class: 'radio-buttons-fieldset-hint' }) do %>
+    <%= f.govuk_radio_button :choice, :yes, label: { text: 'Yes' }, link_errors: true %>
+    <%= f.govuk_radio_button :choice, :no, label: { text: 'No' } %>
+  <% end %>
+
+  <%= f.govuk_submit %>
+<% end %>
