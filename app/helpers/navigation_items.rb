@@ -131,6 +131,7 @@ class NavigationItems
               references
               courses
               study_modes
+              provider_interface/deferred_offer
             ],
           ),
         }
@@ -225,7 +226,14 @@ class NavigationItems
   private
 
     def active?(current_controller, active_controllers)
-      current_controller.controller_name.in?(Array.wrap(active_controllers))
+      active_controller_names = Array.wrap(active_controllers)
+      current_controller_path = current_controller.controller_path
+      current_controller_name = current_controller.controller_name
+
+      matching_name = current_controller_name.in?(active_controller_names)
+      matching_path = active_controller_names.any? { |controller_name| current_controller_path.include?(controller_name) }
+
+      matching_name || matching_path
     end
 
     def active_action?(current_controller, active_action)
