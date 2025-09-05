@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe GenerateCandidatePoolData do
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(
+      31.business_days.after(current_timetable.apply_opens_at),
+    )
+  end
+
   describe '.call' do
     it 'populated the candidate pool with dummy data' do
       rejected_application_form = create(:application_form, :completed)

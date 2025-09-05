@@ -17,7 +17,7 @@ RSpec.describe ChaserSent do
     end
 
     context 'apply' do
-      it 'returns records created this cycle' do
+      it 'returns records created this cycle', time: mid_cycle do
         this_year = create(:chaser_sent)
 
         travel_temporarily_to(previous_timetable.find_opens_at) do

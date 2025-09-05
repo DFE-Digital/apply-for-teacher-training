@@ -19,7 +19,7 @@ RSpec.describe ProductionRecruitmentCycleTimetablesAPI::SyncTimetablesWithProduc
 
     sync_timetables
 
-    expect(RecruitmentCycleTimetable.count).to eq 9
+    expect(RecruitmentCycleTimetable.count).to eq 10
   end
 
   it 'updates altered timetables to match production' do

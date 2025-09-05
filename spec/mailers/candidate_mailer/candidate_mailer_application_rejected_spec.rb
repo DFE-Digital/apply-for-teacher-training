@@ -420,7 +420,7 @@ RSpec.describe CandidateMailer do
     end
   end
 
-  describe 'Course Recommendations URL' do
+  describe 'Course Recommendations URL', time: mid_cycle do
     let(:application_choice) { create(:application_choice, :rejected) }
 
     context 'when a URL is not provided' do
