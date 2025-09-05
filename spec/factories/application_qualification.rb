@@ -126,7 +126,10 @@ FactoryBot.define do
 
       trait :bachelor do
         qualification_level { 'bachelor' }
-        qualification_type { Hesa::DegreeType.where(level: :bachelor).first.name }
+        qualification_type {
+          ['Bachelor of Arts', 'Bachelor of Engineering', 'Bachelor of Science', '
+Bachelor of Education'].sample
+        }
       end
     end
 
