@@ -1,3 +1,7 @@
+// You can now use the Stimulus controller to add autocompletes to any select field
+// by adding `data-controller="autocomplete"`
+// see `app/frontend/packs/controllers/autocomplete_controller.js`
+
 const countryAutocompleteInputs = {
   inputIds: [
     'candidate-interface-contact-details-form-country-field',
