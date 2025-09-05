@@ -1,5 +1,5 @@
 module CandidateInterface
-  class EditableSectionWarning < ViewComponent::Base
+  class EditableSectionWarning < ApplicationComponent
     attr_accessor :section_policy, :current_application
 
     def initialize(current_application:, section_policy:)

@@ -1,5 +1,5 @@
 module SupportInterface
-  class ApplicationCardComponent < ViewComponent::Base
+  class ApplicationCardComponent < ApplicationComponent
     include ViewHelper
 
     attr_accessor :application_form, :updated_at, :support_reference

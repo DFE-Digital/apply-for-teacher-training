@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ApplicationsLeftMessageComponent < ViewComponent::Base
+  class ApplicationsLeftMessageComponent < ApplicationComponent
     attr_reader :application_form
 
     delegate :submitted?,

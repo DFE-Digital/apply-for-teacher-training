@@ -1,5 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
-class DegreeQualificationCardsComponent < ViewComponent::Base
+class DegreeQualificationCardsComponent < ApplicationComponent
   include ViewHelper
 
   attr_reader :degrees, :application_choice_state, :show_hesa_codes

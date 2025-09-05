@@ -1,4 +1,4 @@
-class ProviderInterface::FindCandidates::ExperienceDetailsComponent < ViewComponent::Base
+class ProviderInterface::FindCandidates::ExperienceDetailsComponent < ApplicationComponent
   attr_accessor :application_form
   include ViewHelper
 

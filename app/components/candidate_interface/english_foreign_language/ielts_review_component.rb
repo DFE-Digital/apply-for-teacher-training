@@ -1,6 +1,6 @@
 module CandidateInterface
   module EnglishForeignLanguage
-    class IeltsReviewComponent < ViewComponent::Base
+    class IeltsReviewComponent < ApplicationComponent
       include EflReviewHelper
 
       attr_reader :ielts_qualification, :return_to_application_review

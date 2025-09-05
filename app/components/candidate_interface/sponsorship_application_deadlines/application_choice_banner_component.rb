@@ -1,6 +1,6 @@
 module CandidateInterface
   module SponsorshipApplicationDeadlines
-    class ApplicationChoiceBannerComponent < ViewComponent::Base
+    class ApplicationChoiceBannerComponent < ApplicationComponent
       attr_reader :application_choice
 
       def initialize(application_choice:)

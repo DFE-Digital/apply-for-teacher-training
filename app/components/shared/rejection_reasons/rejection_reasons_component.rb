@@ -2,7 +2,7 @@
 # This component class supports the rendering of rejection reasons from the current iteration of structured rejection reasons.
 # See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/app_concepts/reasons-for-rejection.md
 #
-class RejectionReasons::RejectionReasonsComponent < ViewComponent::Base
+class RejectionReasons::RejectionReasonsComponent < ApplicationComponent
   include ViewHelper
 
   attr_reader :application_choice, :editable

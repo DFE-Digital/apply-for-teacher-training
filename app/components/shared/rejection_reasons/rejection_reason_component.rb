@@ -1,7 +1,7 @@
 ##
 # This component class supports the rendering of a single rejection reason predating structured reasons.
 #
-class RejectionReasons::RejectionReasonComponent < ViewComponent::Base
+class RejectionReasons::RejectionReasonComponent < ApplicationComponent
   attr_reader :application_choice
 
   def initialize(application_choice:)

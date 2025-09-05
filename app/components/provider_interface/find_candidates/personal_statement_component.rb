@@ -1,4 +1,4 @@
-class ProviderInterface::FindCandidates::PersonalStatementComponent < ViewComponent::Base
+class ProviderInterface::FindCandidates::PersonalStatementComponent < ApplicationComponent
   MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT = 100
   include ViewHelper
 

@@ -1,5 +1,5 @@
 module APIDocs
-  class APIReferenceComponent < ViewComponent::Base
+  class APIReferenceComponent < ApplicationComponent
     def initialize(api_reference)
       @api_reference = api_reference
     end

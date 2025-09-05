@@ -1,5 +1,5 @@
 module ProviderInterface
-  class SkeConditionsComponent < ViewComponent::Base
+  class SkeConditionsComponent < ApplicationComponent
     attr_reader :application_choice, :course, :ske_condition, :editable, :ske_condition_presenter
     delegate :reason, :length, to: :ske_condition
 

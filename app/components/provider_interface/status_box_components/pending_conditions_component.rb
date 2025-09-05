@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class PendingConditionsComponent < ViewComponent::Base
+    class PendingConditionsComponent < ApplicationComponent
       include ViewHelper
       include StatusBoxComponents::CourseRows
 

@@ -1,6 +1,6 @@
 module ProviderInterface
   module RecruitmentPerformanceReport
-    class ProportionCandidatesWithOffersTableComponent < ViewComponent::Base
+    class ProportionCandidatesWithOffersTableComponent < ApplicationComponent
       BIG_QUERY_COLUMN_NAMES_MAPPING = {
         this_cycle: 'offer_rate_to_date',
         last_cycle: 'offer_rate_to_same_date_previous_cycle',

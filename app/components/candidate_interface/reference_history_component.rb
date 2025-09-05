@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ReferenceHistoryComponent < ViewComponent::Base
+  class ReferenceHistoryComponent < ApplicationComponent
     attr_reader :reference
     delegate :application_form, to: :reference
     delegate :application_choices, to: :application_form

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ApplicationDashboardCourseChoicesComponent < ViewComponent::Base
+  class ApplicationDashboardCourseChoicesComponent < ApplicationComponent
     include ViewHelper
     include CourseChoicesRowHelper
 

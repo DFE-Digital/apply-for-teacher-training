@@ -1,4 +1,4 @@
-class CandidateInterface::ReferenceStatusesComponent < ViewComponent::Base
+class CandidateInterface::ReferenceStatusesComponent < ApplicationComponent
   include ViewHelper
 
   attr_reader :reference

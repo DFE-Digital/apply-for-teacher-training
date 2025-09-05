@@ -3,7 +3,7 @@
 # See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/app_concepts/reasons-for-rejection.md
 #
 module CandidateInterface
-  class RejectionsComponent < ViewComponent::Base
+  class RejectionsComponent < ApplicationComponent
     attr_reader :application_choice, :render_link_to_find_when_rejected_on_qualifications
 
     def initialize(application_choice:, render_link_to_find_when_rejected_on_qualifications: false, feedback_button: false)

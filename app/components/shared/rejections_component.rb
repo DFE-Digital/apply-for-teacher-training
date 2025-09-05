@@ -2,7 +2,7 @@
 # This component class supports the rendering of all the various formats of reasons for rejection.
 # See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/app_concepts/reasons-for-rejection.md
 #
-class RejectionsComponent < ViewComponent::Base
+class RejectionsComponent < ApplicationComponent
   attr_reader :application_choice
 
   def initialize(application_choice:)

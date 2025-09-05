@@ -1,5 +1,5 @@
 module SupportInterface
-  class ConditionsComponent < ViewComponent::Base
+  class ConditionsComponent < ApplicationComponent
     attr_accessor :conditions, :application_choice
 
     def initialize(conditions:, application_choice:)

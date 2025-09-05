@@ -1,5 +1,5 @@
 module SupportInterface
-  class PermissionsListReviewComponent < ViewComponent::Base
+  class PermissionsListReviewComponent < ApplicationComponent
     attr_reader :permissions
 
     def initialize(permissions)

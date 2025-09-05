@@ -1,4 +1,4 @@
-class ProviderInterface::FindCandidates::ApplicationChoicesComponent < ViewComponent::Base
+class ProviderInterface::FindCandidates::ApplicationChoicesComponent < ApplicationComponent
   attr_reader :application_form, :provider_user
 
   def initialize(application_form:, provider_user:)

@@ -1,6 +1,6 @@
 # NOTE: This component is used by both provider and support UIs
 module RestructuredWorkHistory
-  class JobComponent < ViewComponent::Base
+  class JobComponent < ApplicationComponent
     include ViewHelper
 
     def initialize(work_experience:, editable: true, return_to_application_review: false, deletable: true)
