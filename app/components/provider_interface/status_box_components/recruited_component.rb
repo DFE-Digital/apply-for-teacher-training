@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class RecruitedComponent < ViewComponent::Base
+    class RecruitedComponent < ApplicationComponent
       include ViewHelper
       include StatusBoxComponents::CourseRows
 

@@ -1,5 +1,5 @@
 module ProviderInterface
-  class LocationPresentationComponent < ViewComponent::Base
+  class LocationPresentationComponent < ApplicationComponent
     attr_reader :application_choice
 
     def initialize(application_choice:)

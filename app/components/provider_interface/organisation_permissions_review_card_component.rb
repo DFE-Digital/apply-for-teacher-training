@@ -1,5 +1,5 @@
 module ProviderInterface
-  class OrganisationPermissionsReviewCardComponent < ViewComponent::Base
+  class OrganisationPermissionsReviewCardComponent < ApplicationComponent
     attr_reader :presenter, :provider_relationship_permission, :summary_card_heading_level, :change_path
 
     def initialize(provider_user:, provider_relationship_permission:, main_provider: nil, summary_card_heading_level: 2, change_path: nil)

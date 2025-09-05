@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ReferencesReviewComponent < ViewComponent::Base
+  class ReferencesReviewComponent < ApplicationComponent
     include ReferencesPathHelper
 
     attr_reader :references, :editable

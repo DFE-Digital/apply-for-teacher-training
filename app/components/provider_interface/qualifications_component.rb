@@ -1,4 +1,4 @@
-class ProviderInterface::QualificationsComponent < ViewComponent::Base
+class ProviderInterface::QualificationsComponent < ApplicationComponent
   attr_reader :application_form, :application_choice_state
 
   def initialize(application_form:, application_choice:)

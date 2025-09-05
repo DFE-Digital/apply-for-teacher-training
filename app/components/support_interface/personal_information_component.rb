@@ -1,5 +1,5 @@
 module SupportInterface
-  class PersonalInformationComponent < ViewComponent::Base
+  class PersonalInformationComponent < ApplicationComponent
     include CandidateDetailsHelper
 
     MISSING = '<em>Not provided</em>'.html_safe

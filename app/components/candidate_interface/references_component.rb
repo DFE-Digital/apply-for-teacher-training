@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ReferencesComponent < ViewComponent::Base
+  class ReferencesComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :application_form, :reference_condition

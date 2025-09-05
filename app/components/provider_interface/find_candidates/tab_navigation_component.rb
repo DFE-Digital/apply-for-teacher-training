@@ -1,4 +1,4 @@
-class ProviderInterface::FindCandidates::TabNavigationComponent < ViewComponent::Base
+class ProviderInterface::FindCandidates::TabNavigationComponent < ApplicationComponent
   def initialize(selected_tab)
     @selected_tab = selected_tab
   end

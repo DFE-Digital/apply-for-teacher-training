@@ -1,5 +1,5 @@
 module CandidateInterface
-  class CompleteSectionComponent < ViewComponent::Base
+  class CompleteSectionComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :section_policy, :form, :hint_text, :section_review

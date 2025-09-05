@@ -1,5 +1,5 @@
 module ProviderInterface
-  class SkeLengthComponent < ViewComponent::Base
+  class SkeLengthComponent < ApplicationComponent
     attr_reader :form, :offer_wizard
 
     SkeLength = Struct.new(:value, :label, keyword_init: true)

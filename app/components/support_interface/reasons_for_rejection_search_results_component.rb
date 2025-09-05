@@ -1,5 +1,5 @@
 module SupportInterface
-  class ReasonsForRejectionSearchResultsComponent < ViewComponent::Base
+  class ReasonsForRejectionSearchResultsComponent < ApplicationComponent
     include ViewHelper
 
     def initialize(search_attribute:, search_value:, application_choices:)

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ApplicationReviewAndSubmitComponent < ViewComponent::Base
+  class ApplicationReviewAndSubmitComponent < ApplicationComponent
     include ApplicationHelper
 
     attr_reader :application_choice, :application_choice_submission

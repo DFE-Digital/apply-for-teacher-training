@@ -1,5 +1,5 @@
 module CandidateInterface
-  class RejectionReasons::RejectionFeedbackSurveyComponent < ViewComponent::Base
+  class RejectionReasons::RejectionFeedbackSurveyComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :application_choice

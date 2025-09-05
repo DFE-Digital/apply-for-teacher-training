@@ -1,5 +1,5 @@
 module APIDocs
-  class SchemaComponent < ViewComponent::Base
+  class SchemaComponent < ApplicationComponent
     include MarkdownHelper
 
     attr_reader :schema

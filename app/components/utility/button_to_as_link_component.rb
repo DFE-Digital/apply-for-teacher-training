@@ -1,4 +1,4 @@
-class ButtonToAsLinkComponent < ViewComponent::Base
+class ButtonToAsLinkComponent < ApplicationComponent
   def initialize(name:, path:, classes: [])
     @name = name
     @path = path

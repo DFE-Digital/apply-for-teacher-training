@@ -1,4 +1,4 @@
-class CandidateInterface::ReopenBannerComponent < ViewComponent::Base
+class CandidateInterface::ReopenBannerComponent < ApplicationComponent
   attr_accessor :flash_empty
 
   delegate :after_apply_deadline?,

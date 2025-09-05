@@ -1,5 +1,5 @@
 module ProviderInterface
-  class APITokensTableComponent < ViewComponent::Base
+  class APITokensTableComponent < ApplicationComponent
     include Rails.application.routes.url_helpers
 
     attr_reader :api_tokens, :can_manage_tokens

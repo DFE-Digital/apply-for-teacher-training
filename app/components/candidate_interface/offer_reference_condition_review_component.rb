@@ -1,5 +1,5 @@
 module CandidateInterface
-  class OfferReferenceConditionReviewComponent < ViewComponent::Base
+  class OfferReferenceConditionReviewComponent < ApplicationComponent
     attr_accessor :reference_condition
 
     def initialize(reference_condition:)

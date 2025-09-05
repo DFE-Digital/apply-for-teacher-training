@@ -1,6 +1,6 @@
 module CandidateInterface
   module EnglishForeignLanguage
-    class OtherEflQualificationReviewComponent < ViewComponent::Base
+    class OtherEflQualificationReviewComponent < ApplicationComponent
       include EflReviewHelper
 
       attr_reader :other_qualification, :return_to_application_review

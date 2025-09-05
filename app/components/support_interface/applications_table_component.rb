@@ -1,5 +1,5 @@
 module SupportInterface
-  class ApplicationsTableComponent < ViewComponent::Base
+  class ApplicationsTableComponent < ApplicationComponent
     attr_reader :application_forms
     include ViewHelper
 

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class VolunteeringReviewComponent < ViewComponent::Base
+  class VolunteeringReviewComponent < ApplicationComponent
     include ViewHelper
     include UtmLinkHelper
     include DateValidationHelper

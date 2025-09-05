@@ -1,4 +1,4 @@
-class CandidateInterface::ShareDetailsComponent < ViewComponent::Base
+class CandidateInterface::ShareDetailsComponent < ApplicationComponent
   attr_reader :current_candidate, :submit_application
 
   def initialize(current_candidate, submit_application: false)

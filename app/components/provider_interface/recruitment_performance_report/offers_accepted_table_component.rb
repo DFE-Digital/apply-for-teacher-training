@@ -1,6 +1,6 @@
 module ProviderInterface
   module RecruitmentPerformanceReport
-    class OffersAcceptedTableComponent < ViewComponent::Base
+    class OffersAcceptedTableComponent < ApplicationComponent
       BIG_QUERY_COLUMN_NAMES_MAPPING = {
         this_cycle: 'number_of_candidates_accepted_to_date',
         last_cycle: 'number_of_candidates_accepted_to_same_date_previous_cycle',

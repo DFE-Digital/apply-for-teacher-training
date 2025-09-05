@@ -1,5 +1,5 @@
 module ProviderInterface
-  class EditResponseOptionsComponent < ViewComponent::Base
+  class EditResponseOptionsComponent < ApplicationComponent
     attr_accessor :form
 
     def initialize(form:)

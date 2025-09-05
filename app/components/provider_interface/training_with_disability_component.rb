@@ -1,5 +1,5 @@
 module ProviderInterface
-  class TrainingWithDisabilityComponent < ViewComponent::Base
+  class TrainingWithDisabilityComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :application_form

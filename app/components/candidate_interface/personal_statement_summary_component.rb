@@ -1,5 +1,5 @@
 module CandidateInterface
-  class PersonalStatementSummaryComponent < ViewComponent::Base
+  class PersonalStatementSummaryComponent < ApplicationComponent
     MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT = 40
     attr_reader :application_choice
     delegate :unsubmitted?,

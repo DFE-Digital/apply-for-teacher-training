@@ -1,5 +1,5 @@
 module SupportInterface
-  class FeatureAuditTrailComponent < ViewComponent::Base
+  class FeatureAuditTrailComponent < ApplicationComponent
     include ViewHelper
 
     ACTIVE_LABEL = 'Active'.freeze

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ApplicationChoiceListComponent < ViewComponent::Base
+  class ApplicationChoiceListComponent < ApplicationComponent
     attr_reader :application_form, :application_choices
 
     ALL_APPLICATIONS_TAB = 'all'.freeze

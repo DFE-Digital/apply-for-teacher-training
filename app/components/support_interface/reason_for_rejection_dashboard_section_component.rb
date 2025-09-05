@@ -1,5 +1,5 @@
 module SupportInterface
-  class ReasonForRejectionDashboardSectionComponent < ViewComponent::Base
+  class ReasonForRejectionDashboardSectionComponent < ApplicationComponent
     include ViewHelper
 
     def initialize(heading:, rejection_reasons:, total_rejection_count:, total_rejection_count_this_month:,

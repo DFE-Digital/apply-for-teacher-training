@@ -1,4 +1,4 @@
-class FlashMessageComponent < ViewComponent::Base
+class FlashMessageComponent < ApplicationComponent
   ALLOWED_PRIMARY_KEYS = %i[info warning success].freeze
 
   def initialize(flash:)

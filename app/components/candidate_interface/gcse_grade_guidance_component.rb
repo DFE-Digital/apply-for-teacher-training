@@ -1,5 +1,5 @@
 module CandidateInterface
-  class GcseGradeGuidanceComponent < ViewComponent::Base
+  class GcseGradeGuidanceComponent < ApplicationComponent
     def initialize(subject, qualification_type)
       @subject = subject
       @qualification_type = qualification_type

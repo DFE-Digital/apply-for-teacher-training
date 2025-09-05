@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class ConditionsNotMetComponent < ViewComponent::Base
+    class ConditionsNotMetComponent < ApplicationComponent
       include ViewHelper
       include StatusBoxComponents::CourseRows
 

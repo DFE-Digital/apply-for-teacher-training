@@ -1,5 +1,5 @@
 module SupportInterface
-  class ProviderTypeTagComponent < ViewComponent::Base
+  class ProviderTypeTagComponent < ApplicationComponent
     PROVIDER_TYPES = {
       'lead_school' => { text: 'School Direct', colour: 'green' },
       'scitt' => { text: 'SCITT', colour: 'yellow' },

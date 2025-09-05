@@ -1,6 +1,6 @@
 module CandidateInterface
   module SponsorshipApplicationDeadlines
-    class ApplicationsDashboardBannerComponent < ViewComponent::Base
+    class ApplicationsDashboardBannerComponent < ApplicationComponent
       attr_reader :application_form
       def initialize(application_form:)
         @application_form = application_form

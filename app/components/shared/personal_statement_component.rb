@@ -1,5 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
-class PersonalStatementComponent < ViewComponent::Base
+class PersonalStatementComponent < ApplicationComponent
   include ViewHelper
 
   delegate :becoming_a_teacher,

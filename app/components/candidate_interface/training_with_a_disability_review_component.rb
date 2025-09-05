@@ -1,5 +1,5 @@
 module CandidateInterface
-  class TrainingWithADisabilityReviewComponent < ViewComponent::Base
+  class TrainingWithADisabilityReviewComponent < ApplicationComponent
     def initialize(application_form:, editable: true, missing_error: false, submitting_application: false, return_to_application_review: false)
       @application_form = application_form
       @training_with_a_disability_form = CandidateInterface::TrainingWithADisabilityForm.build_from_application(

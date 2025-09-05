@@ -1,6 +1,6 @@
 module ProviderInterface
   module FindCandidates
-    class FiltersComponent < ViewComponent::Base
+    class FiltersComponent < ApplicationComponent
       include Rails.application.routes.url_helpers
 
       attr_accessor :params

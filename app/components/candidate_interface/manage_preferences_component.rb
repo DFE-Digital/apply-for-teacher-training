@@ -1,4 +1,4 @@
-class CandidateInterface::ManagePreferencesComponent < ViewComponent::Base
+class CandidateInterface::ManagePreferencesComponent < ApplicationComponent
   attr_reader :current_candidate, :application_form
 
   def initialize(current_candidate:, application_form:)

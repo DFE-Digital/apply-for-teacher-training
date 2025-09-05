@@ -1,5 +1,5 @@
 module CandidateInterface
-  class InterviewSummaryComponent < ViewComponent::Base
+  class InterviewSummaryComponent < ApplicationComponent
     attr_reader :interview
 
     def initialize(interview:)

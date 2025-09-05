@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ApplicationCourseSummaryComponent < ViewComponent::Base
+  class ApplicationCourseSummaryComponent < ApplicationComponent
     include QualificationValueHelper
 
     attr_reader :course_option, :provider_name, :course_name_and_code,

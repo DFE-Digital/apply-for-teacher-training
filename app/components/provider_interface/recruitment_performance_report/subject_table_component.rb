@@ -1,6 +1,6 @@
 module ProviderInterface
   module RecruitmentPerformanceReport
-    class SubjectTableComponent < ViewComponent::Base
+    class SubjectTableComponent < ApplicationComponent
       attr_reader :provider, :table_caption, :summary_row, :subject_rows
       def initialize(provider, table_caption:, summary_row:, subject_rows:)
         @provider = provider

@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ApplicationOfferWithdrawnFeedbackComponent < ViewComponent::Base
+  class ApplicationOfferWithdrawnFeedbackComponent < ApplicationComponent
     attr_reader :application_choice
 
     def initialize(application_choice:)

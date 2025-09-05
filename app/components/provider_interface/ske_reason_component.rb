@@ -1,5 +1,5 @@
 module ProviderInterface
-  class SkeReasonComponent < ViewComponent::Base
+  class SkeReasonComponent < ApplicationComponent
     attr_reader :application_choice, :offer_wizard, :form, :key
 
     SkeReason = Struct.new(:id, :name, keyword_init: true)

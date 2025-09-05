@@ -1,5 +1,5 @@
 module SupportInterface
-  class AuditTrailItemComponent < ViewComponent::Base
+  class AuditTrailItemComponent < ApplicationComponent
     include ViewHelper
 
     def initialize(audit:)

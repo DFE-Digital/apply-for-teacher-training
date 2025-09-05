@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ApplicationStatusTagComponent < ViewComponent::Base
+  class ApplicationStatusTagComponent < ApplicationComponent
     delegate :status, to: :application_choice
 
     def initialize(application_choice:)

@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ProviderPartnerPermissionBreakdownComponent < ViewComponent::Base
+  class ProviderPartnerPermissionBreakdownComponent < ApplicationComponent
     attr_reader :provider, :permission
 
     def initialize(provider:, permission:)

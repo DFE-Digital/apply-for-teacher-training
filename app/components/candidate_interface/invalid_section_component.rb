@@ -1,5 +1,5 @@
 module CandidateInterface
-  class InvalidSectionComponent < ViewComponent::Base
+  class InvalidSectionComponent < ApplicationComponent
     include ViewHelper
 
     def before_render

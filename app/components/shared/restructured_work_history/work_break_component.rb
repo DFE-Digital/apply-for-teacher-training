@@ -1,6 +1,6 @@
 # NOTE: This component is used by both provider and support UIs
 module RestructuredWorkHistory
-  class WorkBreakComponent < ViewComponent::Base
+  class WorkBreakComponent < ApplicationComponent
     include ViewHelper
 
     def initialize(work_break:, editable: true, return_to_application_review: false, deletable: true)

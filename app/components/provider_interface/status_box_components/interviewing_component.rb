@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class InterviewingComponent < ViewComponent::Base
+    class InterviewingComponent < ApplicationComponent
       include ViewHelper
 
       attr_reader :application_choice

@@ -1,6 +1,6 @@
 # NOTE: This component is used by both provider and support UIs
 module RestructuredWorkHistory
-  class GapComponent < ViewComponent::Base
+  class GapComponent < ApplicationComponent
     include ViewHelper
 
     def initialize(break_period:, return_to_application_review: false)

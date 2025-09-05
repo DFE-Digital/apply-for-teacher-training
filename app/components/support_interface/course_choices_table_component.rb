@@ -1,5 +1,5 @@
 module SupportInterface
-  class CourseChoicesTableComponent < ViewComponent::Base
+  class CourseChoicesTableComponent < ApplicationComponent
     include ViewHelper
 
     def initialize(course_options:)
