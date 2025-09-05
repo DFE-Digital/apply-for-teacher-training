@@ -37,15 +37,15 @@
       <% summary_list.with_row(html_attributes: { id: :check_study_mode }) do |row| %>
         <% row.with_key { t('provider_interface.deferred_offer.checks.show.summary_keys.study_mode') } %>
         <% row.with_value do %>
-          <p class='govuk-body'>
-            <%= @deferred_offer.study_mode_humanized %>
-          </p>
+          <%= @deferred_offer.study_mode_humanized.presence || govuk_link_to('Select full time or part time', provider_interface_deferred_offer_study_mode_path(@deferred_offer.application_choice)) %>
         <% end %>
-        <%# row.with_action(
-             text: 'Change',
-             href: '#',
-             visually_hidden_text: 'full time or part time',
-           ) %>
+        <% if @deferred_offer.study_mode.present?
+             row.with_action(
+               text: 'Change',
+               href: provider_interface_deferred_offer_study_mode_path(@deferred_offer.application_choice),
+               visually_hidden_text: 'full time or part time',
+             )
+           end %>
       <% end %>
 
       <% summary_list.with_row(html_attributes: { id: :check_location }) do |row| %>
