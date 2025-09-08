@@ -9,11 +9,13 @@
       <% if @course_form.courses_for_select.count > 20 %>
         <%= form.govuk_collection_select(
               :course_id,
-              @course_form.courses_for_select,
+              select_course_options_with_provider_name(@course_form.courses_for_select),
               :id,
-              collection_course_options_with_provider_name,
+              :name,
               label: { text: t('.page_title'), size: 'xl' },
               caption: { text: @course_form.application_choice.application_form.full_name, size: 'xl' },
+              data: { controller: 'autocomplete' },
+              options: { selected: nil },
             ) %>
       <% else %>
         <%= form.govuk_collection_radio_buttons(
