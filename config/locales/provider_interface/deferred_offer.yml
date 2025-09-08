@@ -15,6 +15,12 @@ en:
         edit:
           page_title: Change course
           submit: Continue
+      study_mode:
+        edit:
+          page_title: Change study type
+          study_mode:
+            fieldset_hint: You should confirm a place for this candidate on the original course that they accepted an offer for. If you cannot do this you must discuss the change with the candidate before you confirm their deferred offer.
+          submit: Change study type
   activerecord:
     errors:
       models:
@@ -22,3 +28,7 @@ en:
           attributes:
             course_id:
               blank: Select a course
+        deferred_offer_confirmation/study_mode_form:
+          attributes:
+            study_mode:
+              blank: Select a study type
