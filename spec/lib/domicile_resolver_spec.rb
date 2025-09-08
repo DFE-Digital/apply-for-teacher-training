@@ -8,6 +8,15 @@ RSpec.describe DomicileResolver do
     expect(hesa_code_for_postcode(nil)).to eq('ZZ')
   end
 
+  it 'returns ZZ if legacy iso code does not have an updated code mapping' do
+    expect(hesa_code_for_country('AS')).to eq('ZZ')
+  end
+
+  it 'returns hesa code if mapped code available in legacy code if available' do
+    expect(hesa_code_for_country('AE-AJ')).to eq 'AE'
+    expect(hesa_code_for_country('XA')).to eq 'XC'
+  end
+
   describe 'for international addresses' do
     hesa_remaps = {
       'XX' => { country_code: 'AQ', country_name: 'Antarctica' },
@@ -82,6 +91,12 @@ RSpec.describe DomicileResolver do
     it 'returns countries for HESA codes which match ISO-3166-2 codes' do
       COUNTRIES_AND_TERRITORIES.except(*%w[AQ CY XK]).each do |iso_code, country_name|
         expect(described_class.country_for_hesa_code(iso_code)).to eq(country_name)
+      end
+    end
+
+    describe 'for legacy country code data' do
+      it 'returns nil' do
+        expect(described_class.country_for_hesa_code('TW')).to be_nil
       end
     end
   end

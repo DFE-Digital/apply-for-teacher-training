@@ -114,7 +114,7 @@ module VendorAPI
     end
 
     def domicile
-      return 'ZZ' if application_form.domicile.size > 2
+      return 'ZZ' if (application_form.country.presence&.size || 0) > 2
 
       application_form.domicile
     end

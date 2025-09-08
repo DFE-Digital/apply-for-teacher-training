@@ -37,7 +37,7 @@ class GcseQualificationCardsComponent < ViewComponent::Base
   end
 
   def institution_country(qualification)
-    COUNTRIES_AND_TERRITORIES[qualification.institution_country]
+    CountryFinder.find_name_from_iso_code(qualification.institution_country)
   end
 
   def presentable_qualification_type(qualification)

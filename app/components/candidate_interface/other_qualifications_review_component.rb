@@ -121,7 +121,7 @@ module CandidateInterface
 
     def country_value(qualification)
       if non_uk_qualification?(qualification) && qualification.institution_country.present?
-        COUNTRIES_AND_TERRITORIES[qualification.institution_country].to_s
+        CountryFinder.find_name_from_iso_code(qualification.institution_country).to_s
       else
         rows_value(qualification.institution_country)
       end

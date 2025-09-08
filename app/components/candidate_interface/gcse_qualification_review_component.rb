@@ -254,7 +254,7 @@ module CandidateInterface
 
     def country_value
       if application_qualification.institution_country
-        COUNTRIES_AND_TERRITORIES[application_qualification.institution_country]
+        CountryFinder.find_name_from_iso_code(application_qualification.institution_country)
       else
         govuk_link_to("Enter the country or territory where you studied for your #{subject} qualification", candidate_interface_gcse_details_edit_institution_country_path(change_path_params))
       end

@@ -8,7 +8,7 @@ class QualificationRowComponent < ViewComponent::Base
   end
 
   def country
-    international? ? COUNTRIES_AND_TERRITORIES[qualification.institution_country] : 'United Kingdom'
+    international? ? CountryFinder.find_name_from_iso_code(qualification.institution_country) : 'United Kingdom'
   end
 
 private

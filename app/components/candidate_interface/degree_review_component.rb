@@ -64,7 +64,7 @@ module CandidateInterface
     def country_row(degree)
       {
         key: t('application_form.degree.institution_country.review_label'),
-        value: COUNTRIES_AND_TERRITORIES[degree.institution_country],
+        value: CountryFinder.find_name_from_iso_code(degree.institution_country),
         action: {
           href: candidate_interface_degree_edit_path(degree.id, :country),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.institution_country.change_action')),

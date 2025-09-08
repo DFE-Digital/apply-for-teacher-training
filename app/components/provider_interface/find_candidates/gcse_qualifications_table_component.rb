@@ -59,7 +59,7 @@ class ProviderInterface::FindCandidates::GcseQualificationsTableComponent < View
 
   def country(qualification)
     if qualification.non_uk_qualification_type.present?
-      COUNTRIES_AND_TERRITORIES[qualification.institution_country]
+      CountryFinder.find_name_from_iso_code(qualification.institution_country)
     else
       t('.united_kingdom')
     end
