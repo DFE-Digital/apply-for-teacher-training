@@ -52,7 +52,7 @@
         <% row.with_key { t('provider_interface.deferred_offer.checks.show.summary_keys.location') } %>
         <% row.with_value do %>
           <p class='govuk-body'>
-            <%= @deferred_offer.location_name_and_address || govuk_link_to('Select location', provider_interface_deferred_offer_location_path(@deferred_offer.application_choice))  %>
+            <%= @deferred_offer.location_name_and_address || govuk_link_to('Select location', provider_interface_deferred_offer_location_path(@deferred_offer.application_choice)) %>
           </p>
         <% end %>
         <% if @deferred_offer.location.present?
@@ -60,7 +60,7 @@
                text: 'Change',
                href: provider_interface_deferred_offer_location_path(@deferred_offer.application_choice),
                visually_hidden_text: 'location',
-               )
+             )
            end %>
       <% end %>
     <% end %>

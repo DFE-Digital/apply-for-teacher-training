@@ -36,9 +36,25 @@ class DeferredOfferConfirmation < ApplicationRecord
   class LocationForm < DeferredOfferConfirmation
     validates :site_id, presence: true
 
+    SelectOption = Data.define(:id, :name)
+
     def locations_for_select
-      offer.provider.sites
-           .order(:name)
+      provider_sites = offer.provider.sites.order(:name)
+
+      if provider_sites.count > 20
+        provider_sites.map { |site| formatted_site(site) }
+      else
+        provider_sites
+      end
+    end
+
+  private
+
+    def formatted_site(site)
+      SelectOption.new(
+        id: site.id,
+        name: "#{site.name} - #{site.full_address}",
+      )
     end
   end
 
