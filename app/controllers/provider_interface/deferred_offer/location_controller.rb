@@ -3,14 +3,14 @@ class ProviderInterface::DeferredOffer::LocationController < ProviderInterface::
     @location_form = DeferredOfferConfirmation::LocationForm.find_or_initialize_by(
       provider_user: current_provider_user,
       offer: offer,
-      )
+    )
   end
 
   def update
     @location_form = DeferredOfferConfirmation::LocationForm.find_or_initialize_by(
       provider_user: current_provider_user,
       offer: offer,
-      )
+    )
 
     if @location_form.update(location_form_params)
       redirect_to provider_interface_deferred_offer_check_path(application_choice)
@@ -19,7 +19,7 @@ class ProviderInterface::DeferredOffer::LocationController < ProviderInterface::
     end
   end
 
-  private
+private
 
   def location_form_params
     params.expect(deferred_offer_confirmation_location_form: [:site_id])
@@ -32,6 +32,6 @@ class ProviderInterface::DeferredOffer::LocationController < ProviderInterface::
   def application_choice
     @application_choice ||= GetApplicationChoicesForProviders.call(
       providers: current_provider_user.providers,
-      ).find(params.require(:application_choice_id))
+    ).find(params.require(:application_choice_id))
   end
 end

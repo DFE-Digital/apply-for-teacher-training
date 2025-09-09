@@ -183,7 +183,6 @@ RSpec.describe 'Provider confirms a deferred offer' do
       expect(page).to have_content('Other site, 567 Really Fake Lane, F2 2BB')
       expect(page).to have_link('Change location', href: provider_interface_deferred_offer_location_path(@deferred_application_choice))
     end
-
   end
 
   def then_i_can_see_the_conditions_page
