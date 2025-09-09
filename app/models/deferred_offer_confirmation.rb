@@ -33,6 +33,15 @@ class DeferredOfferConfirmation < ApplicationRecord
     end
   end
 
+  class LocationForm < DeferredOfferConfirmation
+    validates :site_id, presence: true
+
+    def locations_for_select
+      offer.provider.sites
+           .order(:name)
+    end
+  end
+
   belongs_to :provider_user
   belongs_to :offer
   belongs_to :course, optional: true
