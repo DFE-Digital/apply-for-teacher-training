@@ -21,6 +21,24 @@ en:
           study_mode:
             fieldset_hint: You should confirm a place for this candidate on the original course that they accepted an offer for. If you cannot do this you must discuss the change with the candidate before you confirm their deferred offer.
           submit: Change study type
+      conditions:
+        show:
+          page_title: Confirm status of conditions
+          conditions_status:
+            fieldset_legend:
+              met: Has the candidate still met all of the conditions?
+              pending: Has the candidate met all of the conditions?
+            labels:
+              met:
+                met: Yes, all conditions are still met
+                pending: Yes, all conditions are met
+              pending:
+                met: No, one or more conditions are pending
+                pending: No, one or more conditions are still pending
+          submit: "Confirm deferred offer"
+          next_steps:
+            email_candidate: We will email the candidate to let them know that this offer has been confirmed. We will also tell them about any changes that have been made to the offer or conditions.
+            unsatisfactory: If the offer is not satisfactory they will contact you to discuss it.
   activerecord:
     errors:
       models:
@@ -32,3 +50,7 @@ en:
           attributes:
             study_mode:
               blank: Select a study type
+        deferred_offer_confirmation/conditions_form:
+          attributes:
+            condition_status:
+              blank: Select whether the candidate has met all of the conditions

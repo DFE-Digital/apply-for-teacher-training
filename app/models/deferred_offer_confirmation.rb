@@ -10,6 +10,14 @@ class DeferredOfferConfirmation < ApplicationRecord
     end
   end
 
+  class ConditionsForm < DeferredOfferConfirmation
+    validates :conditions_status, presence: true
+
+    def offer_conditions_status
+      offer&.all_conditions_met? ? :met : :pending
+    end
+  end
+
   class StudyModeForm < DeferredOfferConfirmation
     SelectOption = Data.define(:id, :name)
 
