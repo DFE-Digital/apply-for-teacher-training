@@ -97,8 +97,8 @@ namespace :provider_interface, path: '/provider' do
       post '/study-mode', to: 'study_mode#update'
 
       # Routes for the conditions step
-      get '/conditions', to: 'conditions#show'
-      post '/conditions', to: 'conditions#create'
+      get '/conditions', to: 'conditions#edit'
+      post '/conditions', to: 'conditions#update'
 
       # Routes for the check your answers step
       resource :check, only: :show
