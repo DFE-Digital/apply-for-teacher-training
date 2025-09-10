@@ -46,6 +46,7 @@ variable "clock_worker_replicas" { default = 1 }
 variable "postgres_flexible_server_sku" { default = "B_Standard_B1ms" }
 variable "postgres_flexible_server_storage_mb" { default = 32768 }
 variable "postgres_enable_high_availability" { default = false }
+variable "postgres_server_version" { default = "14" }
 variable "redis_cache_capacity" { default = 1 }
 variable "redis_cache_family" { default = "C" }
 variable "redis_cache_sku_name" { default = "Standard" }

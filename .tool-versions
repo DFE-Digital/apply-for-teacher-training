@@ -6,7 +6,7 @@ jq 1.6
 make 4.2.1
 terraform 1.7.4
 redis 7.0.12
-postgres 14.7
+postgres 16.10
 kubelogin 0.1.0
 kubectl 1.29.1
 caddy 2.7.6
