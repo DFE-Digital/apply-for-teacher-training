@@ -11,6 +11,8 @@ options = Selenium::WebDriver::Chrome::Options.new.tap do |opts|
   opts.add_argument('--disable-dev-shm-usage')
   opts.add_argument('--disable-gpu')
   opts.add_argument('--window-size=1400,1400')
+  # Required for non-root user in containers
+  opts.add_argument('--disable-setuid-sandbox')
 end
 
 Capybara.register_driver :chrome do |app|
