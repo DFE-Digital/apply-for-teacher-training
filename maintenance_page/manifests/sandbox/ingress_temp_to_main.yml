@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apply-temp.teacherservices.cloud
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: apply-temp.teacherservices.cloud
+    http:
+      paths:
+      - pathType: ImplementationSpecific
+        backend:
+          service:
+            name: apply-sandbox
+            port:
+              number: 80
