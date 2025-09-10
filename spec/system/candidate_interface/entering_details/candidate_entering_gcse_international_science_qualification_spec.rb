@@ -57,7 +57,7 @@ RSpec.describe 'Candidate entering GCSE Science details' do
   end
 
   def and_i_select_the_country_i_studied_in
-    select 'Abu Dhabi'
+    select 'Niger'
   end
 
   def then_i_see_the_add_enic_reference_page
@@ -99,7 +99,7 @@ RSpec.describe 'Candidate entering GCSE Science details' do
     expect(page).to have_content 'Science GCSE or equivalent'
 
     expect(page).to have_content 'Diploma'
-    expect(page).to have_content 'Abu Dhabi'
+    expect(page).to have_content 'Niger'
     expect(page).to have_content '12345'
     expect(page).to have_content 'GCSE (grades A*-C / 9-4)'
     expect(page).to have_content 'A'

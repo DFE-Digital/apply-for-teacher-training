@@ -481,7 +481,7 @@ class ApplicationForm < ApplicationRecord
         address_line2,
         address_line3,
         address_line4,
-        COUNTRIES_AND_TERRITORIES[country],
+        CountryFinder.find_name_from_iso_code(country),
       ].compact_blank
     else
       [

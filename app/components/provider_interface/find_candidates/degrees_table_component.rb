@@ -34,7 +34,7 @@ class ProviderInterface::FindCandidates::DegreesTableComponent < ViewComponent::
 
   def issued_by(degree)
     if degree.international?
-      "#{degree.institution_name}, #{COUNTRIES_AND_TERRITORIES[degree.institution_country]}"
+      "#{degree.institution_name}, #{CountryFinder.find_name_from_iso_code(degree.institution_country)}"
     else
       degree.institution_name
     end

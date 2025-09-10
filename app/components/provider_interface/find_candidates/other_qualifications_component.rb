@@ -41,7 +41,7 @@ private
 
   def country(qualification)
     if qualification.international? || qualification.non_uk_qualification_type?
-      COUNTRIES_AND_TERRITORIES[qualification.institution_country]
+      CountryFinder.find_name_from_iso_code(qualification.institution_country)
     else
       t('.united_kingdom')
     end

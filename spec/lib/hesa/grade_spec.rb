@@ -5,7 +5,7 @@ RSpec.describe Hesa::Grade do
     it 'returns a list of HESA grade structs' do
       grades = described_class.all
 
-      expect(grades.size).to eq 15
+      expect(grades.size).to eq 16
       pass = grades.find { |s| s.hesa_code == '14' }
       expect(pass.hesa_code).to eq '14'
       expect(pass.description).to eq 'Pass'
@@ -71,7 +71,7 @@ RSpec.describe Hesa::Grade do
     it 'returns grades with the "other" visual grouping' do
       other_grades = described_class.other_grouping
 
-      expect(other_grades.size).to eq 6
+      expect(other_grades.size).to eq 7
       unclassified = other_grades.third
       expect(unclassified.description).to eq 'Unclassified'
       expect(unclassified.visual_grouping).to eq :other
