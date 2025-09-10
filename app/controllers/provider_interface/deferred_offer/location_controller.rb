@@ -22,7 +22,7 @@ class ProviderInterface::DeferredOffer::LocationController < ProviderInterface::
 private
 
   def location_form_params
-    params.expect(deferred_offer_confirmation_location_form: [:site_id])
+    params.expect(deferred_offer_confirmation_location_form: %i[site_id site_id_raw])
   end
 
   def offer

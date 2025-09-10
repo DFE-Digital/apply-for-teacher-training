@@ -35,14 +35,15 @@ class DeferredOfferConfirmation < ApplicationRecord
 
   class LocationForm < DeferredOfferConfirmation
     validates :site_id, presence: true
+    validate :no_raw_input
 
-    SelectOption = Data.define(:id, :name)
+    attr_accessor :site_id_raw
 
     def locations_for_select
       provider_sites = offer.provider.sites.order(:name)
 
       if provider_sites.count > 20
-        provider_sites.map { |site| formatted_site(site) }
+        provider_sites.map { |site| ["#{site.name} - #{site.full_address}", site.id] }.unshift([nil, nil])
       else
         provider_sites
       end
@@ -50,11 +51,14 @@ class DeferredOfferConfirmation < ApplicationRecord
 
   private
 
-    def formatted_site(site)
-      SelectOption.new(
-        id: site.id,
-        name: "#{site.name} - #{site.full_address}",
-      )
+    def no_raw_input
+      return if locations_for_select.count <= 20
+      return if site_id.blank?
+      return if locations_for_select.any? do |name, id|
+        site_id_raw == name && id == site_id.to_i
+      end
+
+      errors.add(:site_id, :blank)
     end
   end
 
