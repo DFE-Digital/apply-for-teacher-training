@@ -24,7 +24,7 @@
     "standard": "^17.1.2",
     "stylelint": "^16.24.0",
     "stylelint-config-gds": "^2.0.0",
-    "stylelint-config-recess-order": "^6.1.0",
+    "stylelint-config-recess-order": "^7.3.0",
     "stylelint-order": "^6.0.4"
   },
   "scripts": {

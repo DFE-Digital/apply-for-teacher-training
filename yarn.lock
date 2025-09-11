@@ -9574,12 +9574,10 @@ stylelint-config-gds@^2.0.0:
     stylelint-config-standard "^36.0.0"
     stylelint-config-standard-scss "^13.0.0"
 
-stylelint-config-recess-order@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/stylelint-config-recess-order/-/stylelint-config-recess-order-6.1.0.tgz#b211f1a2262bd81adb6505dd191926b3283b6578"
-  integrity sha512-0rGZgJQjUKqv1PXZnRJxr13f3hb3i2snx2nIL6luDWUf4nD3BAweB8noS7jdfBQ56HQG3RKSF0a+MAHfBGFxgw==
-  dependencies:
-    stylelint-order "^6.0.4"
+stylelint-config-recess-order@^7.3.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/stylelint-config-recess-order/-/stylelint-config-recess-order-7.3.0.tgz#0f29306e4ab667cc80a6e6490f9b010a3a14b16a"
+  integrity sha512-1LZhQi/D6OljSLRKejMEzbZA8h0AKkJH7p2y+eValc9ltWRGVznjnZsNLVCOwYpKk7GlYMLNVYTc9WpA0W3TYQ==
 
 stylelint-config-recommended-scss@^14.0.0:
   version "14.0.0"
