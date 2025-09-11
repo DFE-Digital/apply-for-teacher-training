@@ -6,7 +6,7 @@
     "yarn": "^1.22.0"
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^3.6.2",
+    "@ministryofjustice/frontend": "^5.1.5",
     "@rails/webpacker": "^5.4.4",
     "accessible-autocomplete": "^3.0.1",
     "dfe-autocomplete": "github:DFE-Digital/dfe-autocomplete#8e7389ff62a38bc8880323f6c58eed9c8d10f080",
