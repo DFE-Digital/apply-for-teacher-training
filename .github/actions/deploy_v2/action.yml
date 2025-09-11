@@ -60,8 +60,6 @@ runs:
 
         echo "TERRAFORM_VERSION=$terraform_version" >> $GITHUB_ENV
         echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
-        echo "KEY_VAULT_APP_SECRET_NAME=$(jq -r '.key_vault_app_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
-        echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
       env:
         DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:{0}', inputs.sha) }}
 
@@ -75,14 +73,6 @@ runs:
         client-id: ${{ inputs.azure-client-id }}
         tenant-id: ${{ inputs.azure-tenant-id }}
         subscription-id: ${{ inputs.azure-subscription-id }}
-
-    - name: Validate Azure Key Vault secrets
-      uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
-      with:
-        KEY_VAULT: ${{ env.KEY_VAULT_NAME }}
-        SECRETS: |
-          ${{ env.KEY_VAULT_APP_SECRET_NAME }}
-          ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
 
     - uses: DFE-Digital/github-actions/set-kubelogin-environment@master
       with:
@@ -102,12 +92,14 @@ runs:
       with:
         bundler-cache: true
 
-    - uses: DFE-Digital/keyvault-yaml-secret@v1
+    - name: Fetch secrets from key vault
+      uses: azure/CLI@v2
       id: get_smoke_test_secrets
       with:
-        keyvault: ${{ env.KEY_VAULT_NAME }}
-        secret: APPLY-CYPRESS-SECRETS
-        key: CANDIDATE_TEST_EMAIL
+        inlineScript: |
+          CANDIDATE_TEST_EMAIL=$(az keyvault secret show --name "CANDIDATE-TEST-EMAIL" --vault-name "${{ env.KEY_VAULT_NAME }}" --query "value" -o tsv)
+          echo "::add-mask::$CANDIDATE_TEST_EMAIL"
+          echo "CANDIDATE_TEST_EMAIL=$CANDIDATE_TEST_EMAIL" >> $GITHUB_OUTPUT
 
     - name: Run smoke tests
       shell: bash
