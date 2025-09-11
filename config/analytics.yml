@@ -1,4 +1,16 @@
 shared:
+  previous_teacher_trainings:
+    - id
+    - application_form_id
+    - provider_id
+    - status
+    - choice
+    - provider_name
+    - started_at
+    - ended_at
+    - details
+    - created_at
+    - updated_at
   pool_eligible_application_forms:
     - id
     - application_form_id
@@ -249,6 +261,8 @@ shared:
     - work_history_completed_at
     - equality_and_diversity_completed
     - equality_and_diversity_completed_at
+    - previous_teacher_training_completed
+    - previous_teacher_training_completed_at
   application_qualifications:
     - application_form_id
     - award_year
