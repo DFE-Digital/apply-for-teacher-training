@@ -61,8 +61,8 @@ module ApplyForPostgraduateTeacherTraining
     config.action_mailer.preview_paths = [Rails.root.join("spec/mailers/previews")]
     config.action_mailer.show_previews = show_previews
 
-    config.view_component.preview_paths = [Rails.root.join("spec/components/previews")]
-    config.view_component.show_previews = show_previews
+    config.view_component.previews.paths = [Rails.root.join("spec/components/previews")]
+    config.view_component.previews.enabled = show_previews
 
     config.time_zone = "London"
 
