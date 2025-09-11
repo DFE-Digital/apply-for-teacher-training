@@ -227,7 +227,7 @@ GEM
     commonmarker (2.3.1)
       rb_sys (~> 0.9)
     concurrent-ruby (1.3.5)
-    connection_pool (2.5.3)
+    connection_pool (2.5.4)
     crack (1.0.0)
       bigdecimal
       rexml
@@ -730,14 +730,14 @@ GEM
     semantic_logger (4.17.0)
       concurrent-ruby (~> 1.0)
     semantic_range (3.0.0)
-    sentry-rails (5.26.0)
+    sentry-rails (5.27.0)
       railties (>= 5.0)
-      sentry-ruby (~> 5.26.0)
-    sentry-ruby (5.26.0)
+      sentry-ruby (~> 5.27.0)
+    sentry-ruby (5.27.0)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.26.0)
-      sentry-ruby (~> 5.26.0)
+    sentry-sidekiq (5.27.0)
+      sentry-ruby (~> 5.27.0)
       sidekiq (>= 3.0)
     shellany (0.0.1)
     shoulda-matchers (6.5.0)
