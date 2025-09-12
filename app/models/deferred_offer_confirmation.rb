@@ -73,7 +73,7 @@ class DeferredOfferConfirmation < ApplicationRecord
   private
 
     def no_raw_input
-      return if locations_for_select.count <= 20
+      return if site_id_raw.nil?
       return if site_id.blank?
       return if locations_for_select.any? do |name, id|
         site_id_raw == name && id == site_id.to_i
