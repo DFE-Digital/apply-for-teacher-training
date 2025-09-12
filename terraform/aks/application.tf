@@ -19,7 +19,6 @@ module "application_configuration" {
     AZURE_STORAGE_CONTAINER    = local.azure_storage_container
   }
 
-  secret_yaml_key = var.key_vault_app_secret_name
 }
 
 module "web_application" {

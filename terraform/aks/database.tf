@@ -13,8 +13,8 @@ module "postgres" {
   azure_enable_monitoring        = var.enable_alerting
   azure_enable_backup_storage    = var.deploy_azure_backing_services
   server_version                 = var.postgres_server_version
-  admin_username                 = local.infra_secrets.POSTGRES_ADMIN_USERNAME
-  admin_password                 = local.infra_secrets.POSTGRES_ADMIN_PASSWORD
+  admin_username                 = data.azurerm_key_vault_secret.postgres_admin_username.value
+  admin_password                 = data.azurerm_key_vault_secret.postgres_admin_password.value
   azure_sku_name                 = var.postgres_flexible_server_sku
   azure_storage_mb               = var.postgres_flexible_server_storage_mb
   azure_enable_high_availability = var.postgres_enable_high_availability
