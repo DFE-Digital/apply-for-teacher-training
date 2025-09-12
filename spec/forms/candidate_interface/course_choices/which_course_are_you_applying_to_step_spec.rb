@@ -69,6 +69,40 @@ RSpec.describe CandidateInterface::CourseChoices::WhichCourseAreYouApplyingToSte
         end
       end
     end
+
+    context 'raw data is blank' do
+      let(:step_params) do
+        ActionController::Parameters.new(
+          {
+            which_course_are_you_applying_to: {
+              course_id: course.id, provider_id: provider.id, course_id_raw: ''
+            },
+          },
+        )
+      end
+
+      it 'is invalid' do
+        expect(wizard.current_step.valid?).to be false
+        expect(wizard.current_step.errors[:course_id]).to eq ['Select a course']
+      end
+    end
+
+    context 'when raw data is a mismatch' do
+      let(:step_params) do
+        ActionController::Parameters.new(
+          {
+            which_course_are_you_applying_to: {
+              course_id: course.id, provider_id: provider.id, course_id_raw: 'something else'
+            },
+          },
+        )
+      end
+
+      it 'is invalid' do
+        expect(wizard.current_step.valid?).to be false
+        expect(wizard.current_step.errors[:course_id]).to eq ['Select a course']
+      end
+    end
   end
 
   context 'validates reapplication of course_choice' do

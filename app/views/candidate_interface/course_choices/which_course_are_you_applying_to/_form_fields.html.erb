@@ -8,13 +8,16 @@
 <% end %>
 
 <% if @wizard.current_step.available_courses.count > 20 %>
-  <%= f.govuk_collection_select(
-    :course_id,
-    select_course_options(@wizard.current_step.dropdown_available_courses),
-    :id,
-    :name,
-    label: { text: t('page_titles.which_course'), size: 'xl', tag: 'h1' },
-    options: { selected: nil },
+  <%= render DfE::Autocomplete::View.new(
+    f,
+    attribute_name: :course_id,
+    form_field:
+      f.govuk_select(
+        :course_id,
+        options_for_select(@wizard.current_step.select_course_options, @wizard.current_step.course_id),
+        data: { controller: 'autocomplete' },
+        label: { text: t('page_titles.which_course'), size: 'xl', tag: 'h1' },
+      ),
   ) %>
 <% else %>
   <%= f.govuk_radio_buttons_fieldset :course_id, legend: { size: 'xl', text: t('page_titles.which_course'), tag: 'h1' } do %>

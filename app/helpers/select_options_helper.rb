@@ -22,12 +22,6 @@ module SelectOptionsHelper
                                  .map { |iso3166, country| Option.new(iso3166, country) }
   end
 
-  def select_course_options(courses)
-    [
-      Option.new('', t('activemodel.errors.models.candidate_interface/pick_course_form.attributes.course_id.blank')),
-    ] + courses.map { |course| Option.new(course.id, course.name) }
-  end
-
   def select_course_options_with_provider_name(courses)
     multiple_providers = current_provider_user.providers.many?
 
@@ -50,12 +44,6 @@ module SelectOptionsHelper
     else
       :name_and_code
     end
-  end
-
-  def select_provider_options(providers)
-    [
-      Option.new('', t('activemodel.errors.models.candidate_interface/pick_provider_form.attributes.provider_id.blank')),
-    ] + providers.map { |provider| Option.new(provider.id, "#{provider.name} (#{provider.code})") }
   end
 
   def select_sort_options

@@ -2,24 +2,22 @@ module CandidateInterface
   module CourseChoices
     class CourseSiteStep < DfE::Wizard::Step
       include CandidateInterface::Concerns::CourseSelectionStepHelper
+      include CandidateInterface::Concerns::FreeTextInputHelper
 
       attr_accessor :provider_id, :course_id, :study_mode, :course_option_id, :course_option_id_raw
       validates :course_option_id, presence: true
-      validate :no_raw_input
+      validate :no_free_text_input
+
+      alias_attribute :value, :course_option_id
+      alias_attribute :raw_input, :course_option_id_raw
+      alias_attribute :valid_options, :site_options_for_select
 
       def self.permitted_params
         %i[provider_id course_id study_mode course_option_id course_option_id_raw]
       end
 
-      def no_raw_input
-        return if course_options.size < 20
-        return if course_option_id.blank?
-
-        return if site_options_for_select.any? do |name, id|
-          course_option_id_raw == name && id == course_option_id.to_i
-        end
-
-        errors.add(:course_option_id, :blank)
+      def no_free_text_input
+        errors.add(:course_option_id, :blank) if invalid_raw_data?
       end
 
       def course_options
@@ -56,11 +54,7 @@ module CandidateInterface
       end
 
       def previous_step_path_arguments
-        if multiple_study_modes?
-          { provider_id:, course_id: }
-        else
-          { provider_id: }
-        end
+        { provider_id:, course_id: }
       end
 
       def next_step
