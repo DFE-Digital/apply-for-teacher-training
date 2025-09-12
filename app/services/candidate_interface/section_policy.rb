@@ -10,6 +10,7 @@ module CandidateInterface
     end
 
     def can_edit?
+      # Stop going to previous_teacher_training
       any_offer_accepted? ||
         all_applications_unsubmitted? ||
         editable_section? ||

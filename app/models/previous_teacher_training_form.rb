@@ -1,32 +1,12 @@
-class PreviousTeacherTraining < ApplicationRecord
+class PreviousTeacherTrainingForm < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   belongs_to :application_form
 
-  enum :started, {
+  enum :choice, {
     yes: 'yes',
     no: 'no',
-  }
-
-  enum :status, {
-    draft: 'draft',
-    published: 'published',
-  }, default: 'draft'
-
-  def build_review_form
-    ActiveRecord::Base.transaction do
-      # Create record without callbacks
-      result = PreviousTeacherTraining::Review.insert({
-        application_form_id: application_form.id,
-        choice:,
-        provider_name:,
-        started_at:,
-        ended_at:,
-        details:,
-      })
-      PreviousTeacherTraining::Review.find(result.first.fetch('id'))
-    end
-  end
+  }, prefix: true
 
   def reviewable?
     return true if choice_yes? && [provider_name, started_at, details].all?(&:present?)
@@ -35,13 +15,13 @@ class PreviousTeacherTraining < ApplicationRecord
     false
   end
 
-  class Start < PreviousTeacherTraining
+  class Start < PreviousTeacherTrainingForm
     Choice = Data.define(:value, :name)
 
     validates :choice, presence: true
 
     def choices_to_select
-      PreviousTeacherTraining.choices.map do |_, value|
+      PreviousTeacherTrainingForm.choices.map do |_, value|
         Choice.new(value: value, name: value.capitalize)
       end
     end
@@ -65,7 +45,7 @@ class PreviousTeacherTraining < ApplicationRecord
     end
   end
 
-  class Name < PreviousTeacherTraining
+  class Name < PreviousTeacherTrainingForm
     validates :provider_name, presence: true
 
     def providers
@@ -73,7 +53,7 @@ class PreviousTeacherTraining < ApplicationRecord
     end
   end
 
-  class Dates < PreviousTeacherTraining
+  class Dates < PreviousTeacherTrainingForm
     include DateValidationHelper
 
     attr_accessor :start_date_day, :start_date_month, :start_date_year,
@@ -107,11 +87,11 @@ class PreviousTeacherTraining < ApplicationRecord
     end
   end
 
-  class Details < PreviousTeacherTraining
+  class Details < PreviousTeacherTrainingForm
     validates :details, presence: true, word_count: { maximum: 500 }
   end
 
-  class Review < PreviousTeacherTraining
+  class Review < PreviousTeacherTrainingForm
     attr_accessor :completed
 
     validates :completed, presence: true
@@ -130,7 +110,15 @@ class PreviousTeacherTraining < ApplicationRecord
       return false if invalid?
 
       ActiveRecord::Base.transaction do
-        published!
+        PreviousTeacherTraining.destroy_all
+        PreviousTeacherTraining.create!(
+          choice:,
+          application_form:,
+          provider_name:,
+          started_at:,
+          ended_at:,
+          details:,
+        )
         application_form.update(previous_teacher_training_completed: completed)
         # test if this returns error on create!
         delete
