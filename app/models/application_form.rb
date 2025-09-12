@@ -52,6 +52,8 @@ class ApplicationForm < ApplicationRecord
   has_many :emails
 
   has_one :candidate_pool_application
+  has_one :published_previous_teacher_training, -> { published.order(created_at: :desc) }, dependent: :destroy
+  has_one :previous_teacher_training, -> { order(created_at: :desc) }, dependent: :destroy
 
   belongs_to :previous_application_form, class_name: 'ApplicationForm', optional: true, inverse_of: 'subsequent_application_form'
   has_one :subsequent_application_form, class_name: 'ApplicationForm', foreign_key: 'previous_application_form_id', inverse_of: 'previous_application_form'
@@ -118,6 +120,7 @@ class ApplicationForm < ApplicationRecord
     volunteering
     work_history
     equality_and_diversity
+    previous_teacher_training
   ].freeze
 
   CONTINUOUS_APPLICATIONS_CYCLE_YEAR = 2024

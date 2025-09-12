@@ -1,0 +1,79 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(application_form_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @form, url: candidate_interface_previous_teacher_training_review_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl"><%= t('.title') %></h1>
+
+      <% if @form.choice_yes? %>
+        <%= govuk_inset_text(
+          text: t(
+            '.qts_guidance_html',
+            return_to_teaching: govuk_link_to('return to teaching', t('teaching_vacancies.url_return_to_teaching'), new_tab: true),
+            apply_for_qts: govuk_link_to('apply for QTS in England', t('apply_for_qts.url_home'), new_tab: true),
+          )
+        ) %>
+      <% end %>
+
+      <%= govuk_summary_list do |summary_list| %>
+        <% summary_list.with_row do |row| %>
+          <% row.with_key { t('.started_teacher_training') } %>
+          <% row.with_value { @form.choice.capitalize } %>
+          <% if @section_policy.can_edit? %>
+            <% row.with_action(
+              text: t('.change'),
+              href: new_candidate_interface_previous_teacher_training_start_path(return_to: 'review'),
+              visually_hidden_text: t('.change_started_teacher_training'),
+            ) %>
+          <% end %>
+        <% end %>
+
+        <% if @form.choice_yes? %>
+          <% summary_list.with_row do |row| %>
+            <% row.with_key { t('.provider_name') } %>
+            <% row.with_value { @form.provider_name } %>
+            <% if @section_policy.can_edit? %>
+              <% row.with_action(
+                text: t('.change'),
+                href: edit_candidate_interface_previous_teacher_training_names_path(return_to: 'review'),
+                visually_hidden_text: t('.change_provider_name'),
+              ) %>
+            <% end %>
+          <% end %>
+
+          <% summary_list.with_row do |row| %>
+            <% row.with_key { t('.training_dates') } %>
+            <% row.with_value { @form.formatted_dates } %>
+            <% if @section_policy.can_edit? %>
+              <% row.with_action(
+                text: t('.change'),
+                href: edit_candidate_interface_previous_teacher_training_dates_path(return_to: 'review'),
+                visually_hidden_text: t('.change_training_dates'),
+              ) %>
+            <% end %>
+          <% end %>
+
+          <% summary_list.with_row do |row| %>
+            <% row.with_key { t('.details') } %>
+            <% row.with_value { simple_format(@form.details) } %> <%# format? %>
+            <% if @section_policy.can_edit? %>
+              <% row.with_action(
+                text: t('.change'),
+                href: edit_candidate_interface_previous_teacher_training_details_path(return_to: 'review'),
+                visually_hidden_text: t('.change_details'),
+              ) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= render(CandidateInterface::CompleteSectionComponent.new(
+        section_policy: @section_policy,
+        form: f,
+      )) %>
+    <% end %>
+  </div>
+</div>

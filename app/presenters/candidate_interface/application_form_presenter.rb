@@ -1,5 +1,7 @@
 module CandidateInterface
   class ApplicationFormPresenter
+    include Rails.application.routes.url_helpers
+
     ErrorMessage = Struct.new(:message, :anchor)
 
     attr_reader :application_form
@@ -305,6 +307,21 @@ module CandidateInterface
 
     def safeguarding_completed?
       application_form.safeguarding_issues_completed
+    end
+
+    def previous_teacher_training_completed?
+      application_form.previous_teacher_training_completed
+    end
+
+    def path_to_previous_teacher_training
+      # reviewable = application_form.previous_teacher_training.present? ||
+      #              application_form.previous_teacher_training_form&.reviewable?
+
+      if application_form.previous_teacher_training&.reviewable?
+        candidate_interface_previous_teacher_training_review_path
+      else
+        new_candidate_interface_previous_teacher_training_start_path
+      end
     end
 
     def equality_and_diversity_completed?
