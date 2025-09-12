@@ -256,7 +256,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_102132) do
     t.jsonb "editable_sections"
     t.boolean "university_degree"
     t.boolean "adviser_interruption_response"
-    t.boolean "previous_teacher_training_completed"
     t.datetime "previous_teacher_training_completed_at"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["recruitment_cycle_year"], name: "index_application_forms_on_recruitment_cycle_year"
@@ -826,7 +825,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_102132) do
     t.bigint "application_form_id", null: false
     t.bigint "provider_id"
     t.string "status", default: "draft", null: false
-    t.string "choice"
+    t.string "started"
     t.string "provider_name"
     t.datetime "started_at"
     t.datetime "ended_at"

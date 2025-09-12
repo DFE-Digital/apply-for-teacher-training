@@ -4,7 +4,7 @@ shared:
     - application_form_id
     - provider_id
     - status
-    - choice
+    - started
     - provider_name
     - started_at
     - ended_at
@@ -261,7 +261,6 @@ shared:
     - work_history_completed_at
     - equality_and_diversity_completed
     - equality_and_diversity_completed_at
-    - previous_teacher_training_completed
     - previous_teacher_training_completed_at
   application_qualifications:
     - application_form_id
